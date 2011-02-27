@@ -1,8 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <tscorewidget.h>
-#include <QtGui>
+#include "tscorewidget.h"
+//#include <QtGui>
 
 
 class MainWindow : public QMainWindow

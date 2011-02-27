@@ -1,4 +1,4 @@
-#include <tglobals.h>
+#include "tglobals.h"
 //#include <iostream>
 
 Tglobals::Tglobals() {

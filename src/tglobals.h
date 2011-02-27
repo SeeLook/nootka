@@ -22,7 +22,7 @@
 #define TGLOBALS_H
 
 #include <QString>
-#include <tnote.h>
+#include "tnote.h"
 
 
 class Tglobals
