@@ -1,11 +1,8 @@
-#include <QtGui/QApplication>
-#include "nutoukmainwindow.h"
+#include <QtCore/QCoreApplication>
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    NutoukMainWindow w;
-    w.show();
+    QCoreApplication a(argc, argv);
 
     return a.exec();
 }
