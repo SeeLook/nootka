@@ -1,6 +1,8 @@
 set(nootka_SRCS
     main.cpp
     mainwindow.cpp
+    tglobals.cpp
+    tscorewidget.cpp
 )
 
 qt4_wrap_cpp(nootka_SRCS mainwindow.h)

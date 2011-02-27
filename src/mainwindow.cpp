@@ -1,10 +1,10 @@
-#include <QtGui>
-#include "nutoukmainwindow.h"
+//#include <QtGui>
+#include "mainwindow.h"
 #include "tglobals.h"
 
 Tglobals *gl = new Tglobals();
 
-NutoukMainWindow::NutoukMainWindow(QWidget *parent)
+MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     statusBar()->showMessage(tr("Nootka ") + gl->version);
@@ -24,19 +24,19 @@ NutoukMainWindow::NutoukMainWindow(QWidget *parent)
 
 }
 
-NutoukMainWindow::~NutoukMainWindow()
+MainWindow::~MainWindow()
 {
     delete gl;
 }
 
-void NutoukMainWindow::createMenus() {
+void MainWindow::createMenus() {
     m_scoreMenu = menuBar()->addMenu(tr("score"));
     m_scoreMenu->addAction(showOherNotesAct);
     m_scoreMenu->addAction(useDblAccidAct);
 
 }
 
-void NutoukMainWindow::createActions() {
+void MainWindow::createActions() {
     showOherNotesAct = new QAction(tr("show enharmonic notes"),this);
     showOherNotesAct->setStatusTip(tr("Shows another enharmonic variants of a note"));
     useDblAccidAct= new QAction(tr("use double accidentals"),this);
@@ -53,6 +53,6 @@ void NutoukMainWindow::createActions() {
 
 //##########        SLOTS       ###############
 
-void NutoukMainWindow::whenEnableDblAccStateChanged(bool isEnabled) {
+void MainWindow::whenEnableDblAccStateChanged(bool isEnabled) {
     useDblAccidAct->setChecked(isEnabled);
 }

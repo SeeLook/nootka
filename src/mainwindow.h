@@ -1,17 +1,17 @@
-#ifndef NUTOUKMAINWINDOW_H
-#define NUTOUKMAINWINDOW_H
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
-//#include <QtGui/QMainWindow>
-//#include <tscorewidgetsimple.h>
 #include <tscorewidget.h>
+#include <QtGui>
 
-class NutoukMainWindow : public QMainWindow
+
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    NutoukMainWindow(QWidget *parent = 0);
-    ~NutoukMainWindow();
+    MainWindow(QWidget *parent = 0);
+    ~MainWindow();
 
 
 public slots:
@@ -27,4 +27,4 @@ private:
 
 };
 
-#endif // NUTOUKMAINWINDOW_H
+#endif // MAINWINDOW_H
