@@ -1,10 +1,10 @@
 #include <QtGui/QApplication>
-#include "nutoukmainwindow.h"
+#include "mainwindow.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    NutoukMainWindow w;
+    MainWindow w;
     w.show();
 
     return a.exec();

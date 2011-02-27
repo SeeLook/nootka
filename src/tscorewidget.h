@@ -21,7 +21,7 @@
 #ifndef TSCOREWIDGET_H
 #define TSCOREWIDGET_H
 
-#include <tscorewidgetsimple.h>
+#include "tscorewidgetsimple.h"
 
 class QAction;
 class QMenu;
