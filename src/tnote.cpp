@@ -359,7 +359,7 @@ QString Tnote::getName(EnameStyle nameStyle, bool showOctave)
             nuta = nuta + signsAcid[m_accid+2];
             break;
     }
-    if (showOctave) nuta = nuta + QString("%1").arg(m_octave);
+    if (showOctave) nuta = nuta + QString("%1").arg((int)m_octave);
     return nuta;
 }
 

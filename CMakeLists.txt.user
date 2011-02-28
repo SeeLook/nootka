@@ -47,13 +47,13 @@
    <valuemap key="ProjectExplorer.Target.RunConfiguration.0" type="QVariantMap">
     <valuelist key="ProjectExplorer.CustomExecutableRunConfiguration.Arguments" type="QVariantList"/>
     <value key="ProjectExplorer.CustomExecutableRunConfiguration.BaseEnvironmentBase" type="int">2</value>
-    <value key="ProjectExplorer.CustomExecutableRunConfiguration.Executable" type="QString"></value>
+    <value key="ProjectExplorer.CustomExecutableRunConfiguration.Executable" type="QString">/home/tomek/DEVELOP/nootka-build/nootka</value>
     <value key="ProjectExplorer.CustomExecutableRunConfiguration.UseTerminal" type="bool">false</value>
     <valuelist key="ProjectExplorer.CustomExecutableRunConfiguration.UserEnvironmentChanges" type="QVariantList"/>
-    <value key="ProjectExplorer.CustomExecutableRunConfiguration.UserName" type="QString"></value>
-    <value key="ProjectExplorer.CustomExecutableRunConfiguration.UserSetName" type="bool">false</value>
+    <value key="ProjectExplorer.CustomExecutableRunConfiguration.UserName" type="QString">nootka</value>
+    <value key="ProjectExplorer.CustomExecutableRunConfiguration.UserSetName" type="bool">true</value>
     <value key="ProjectExplorer.CustomExecutableRunConfiguration.WorkingDirectory" type="QString">$BUILDDIR</value>
-    <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString">Własny plik wykonywalny</value>
+    <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString">nootka</value>
     <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">ProjectExplorer.CustomExecutableRunConfiguration</value>
    </valuemap>
    <valuemap key="ProjectExplorer.Target.RunConfiguration.1" type="QVariantMap">
