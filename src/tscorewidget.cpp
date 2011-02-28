@@ -94,22 +94,26 @@ void TscoreWidget::whenNoteWasChanged(int index, Tnote note) {
     std::cout << note.getName(gl->nameStyleInKeySign,true).toStdString() << "\n";
     if (gl->showEnharmNotes) {
         TnotesList enharmList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
-        QList<Tnote>::iterator it = enharmList.begin();
-        ++it; //move one position, cause first is the main note
-        if (it != enharmList.end()) {
-            setNote(1,*(it));
-//            std::cout << get .getName(gl->nameStyleInKeySign,true).toStdString() << "\n";
-        }
-//        else
-//            hide
-        if (gl->doubleAccidentalsEnabled) {
-            ++it;
-            if (it != enharmList.end()) {
-                setNote(2,*(it));
-//                std::cout << *(it).getName(gl->nameStyleInKeySign,true).toStdString() << "\n";
-            }
-//            else hide
-        }
+        if (enharmList.size() ==1 )
+            setNote(1,enharmList[0]);
+        if (enharmList.size() == 2)
+            setNote(2,enharmList[1]);
+//        QList<Tnote>::iterator it = enharmList.begin();
+//        ++it; //move one position, cause first is the main note
+//        if (it != enharmList.end()) {
+//            setNote(1,*(it));
+////            std::cout << get .getName(gl->nameStyleInKeySign,true).toStdString() << "\n";
+//        }
+////        else
+////            hide
+//        if (gl->doubleAccidentalsEnabled) {
+//            ++it;
+//            if (it != enharmList.end()) {
+//                setNote(2,*(it));
+////                std::cout << *(it).getName(gl->nameStyleInKeySign,true).toStdString() << "\n";
+//            }
+////            else hide
+//        }
     }
 
 }

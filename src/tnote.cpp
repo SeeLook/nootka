@@ -289,6 +289,7 @@ TnotesList Tnote::getTheSameNotes( bool enableDbAccids ) {
     }
     else cnt = 2;
     for( int m=0; m < cnt; m++)	{
+//        std::cout << m << notes[m].getName(Tnote::e_deutsch_His,true).toStdString() << "\n";
         for( int n=cnt; n > m; n--) {
             if ((notes[m].number() != 0) && (notes[n].number() != 0) )
                 if(notes[m].compareNotes(notes[n])) notes[n].setNumber(0);
@@ -300,7 +301,7 @@ TnotesList Tnote::getTheSameNotes( bool enableDbAccids ) {
         if ( !(*m).number() ) notes.erase(m);
     }
     notes.erase(notes.begin());
-    std::cout << "size: " << notes.size() << "\n";
+//    std::cout << "size: " << notes.size() << "\n";
     return notes;
 
 }
