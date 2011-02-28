@@ -104,7 +104,7 @@ void setNumber(char nr) {m_number = nr; }
 void setAccidental(Tnote::Eacidentals acc) { m_accid = acc; }
 void setOctave(char oct) { m_octave = oct; }
 
-bool operator==( const Tnote &N2 );
+bool operator==(Tnote N2);
 
 //void convToSharp ();
 //void convToFlat ();
