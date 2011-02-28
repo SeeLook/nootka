@@ -94,10 +94,13 @@ void TscoreWidget::whenNoteWasChanged(int index, Tnote note) {
     std::cout << note.getName(gl->nameStyleInKeySign,true).toStdString() << "\n";
     if (gl->showEnharmNotes) {
         TnotesList enharmList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
-        if (enharmList.size() ==1 )
-            setNote(1,enharmList[0]);
-        if (enharmList.size() == 2)
-            setNote(2,enharmList[1]);
+        for (int i=0; i<enharmList.size(); i++) {
+            std::cout << enharmList[i].getName(gl->nameStyleInKeySign,true).toStdString() << " x\n";
+            if (i == 0 )
+                setNote(1,enharmList[0]);
+            if (i == 1)
+                setNote(2,enharmList[1]);
+        }
 //        QList<Tnote>::iterator it = enharmList.begin();
 //        ++it; //move one position, cause first is the main note
 //        if (it != enharmList.end()) {
