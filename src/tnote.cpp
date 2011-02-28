@@ -164,6 +164,7 @@ Tnote Tnote::showWithFlat() {
                 //and for E simply convert to Fb
                 outputNote.setAccidental(Tnote::e_Flat);
             }
+        std::cout << "flat " << outputNote.getName(Tnote::e_deutsch_His,true).toStdString() << "\n";
         return outputNote;
     }
     else
@@ -184,6 +185,7 @@ Tnote Tnote::showWithSharp() {
                     outputNote.setAccidental(Tnote::e_Sharp);
                 }
         }
+        std::cout << "sharp " << outputNote.getName(Tnote::e_deutsch_His,true).toStdString() << "\n";
         return outputNote;
         }
     else return Tnote(number(),octave(),accidental());
@@ -209,6 +211,7 @@ Tnote Tnote::showWithDoubleSharp() {
                 }
         }
         return outputNote;
+        std::cout << "dbl# " << outputNote.getName(Tnote::e_deutsch_His,true).toStdString() << "\n";
     } else
         return Tnote(number(),octave(),accidental());
 }
@@ -256,6 +259,7 @@ Tnote Tnote::showWithDoubleFlat() {
                                         outputNote = outputNote.showWithFlat();
                                 }
                 }
+            std::cout << "dblb " << outputNote.getName(Tnote::e_deutsch_His,true).toStdString() << "\n";
             return outputNote;
         }
         else return Tnote(number(),octave(),accidental());
@@ -308,6 +312,7 @@ TnotesList Tnote::getTheSameNotes( bool enableDbAccids ) {
 
 QString Tnote::getName(EnameStyle nameStyle, bool showOctave)
 {
+  if (number()) {
     QString nuta;
     switch (nameStyle) {
       case e_italiano_Si:
@@ -364,6 +369,8 @@ QString Tnote::getName(EnameStyle nameStyle, bool showOctave)
     }
     if (showOctave) nuta = nuta + QString("%1").arg((int)m_octave);
     return nuta;
+  }
+  else return "";
 }
 
 QString Tnote::getName(Tnote eNote, EnameStyle nameStyle, bool showOctave) {
