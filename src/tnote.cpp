@@ -22,7 +22,7 @@
 
 //#include <sstream>
 //#include <string>
-//#include <iostream>
+#include <iostream>
 
 // int operator ==( const Tnote & N1, const Tnote & N2 )
 // {
@@ -300,7 +300,9 @@ TnotesList Tnote::getTheSameNotes( bool enableDbAccids ) {
         if ( !(*m).number() ) notes.erase(m);
     }
     notes.erase(notes.begin());
+    std::cout << "size: " << notes.size() << "\n";
     return notes;
+
 }
 
 QString Tnote::getName(EnameStyle nameStyle, bool showOctave)

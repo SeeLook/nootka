@@ -23,7 +23,7 @@ TscoreWidgetSimple::TscoreWidgetSimple(unsigned char _notesCount, QWidget *paren
 
     for (int i=0; i<_notesCount; i++) {
         noteViews << new TnoteView(i,this);
-        m_notes.push_back(Tnote());
+        m_notes << Tnote();
     }
     keySignView = 0;
 
