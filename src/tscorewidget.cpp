@@ -93,6 +93,7 @@ void TscoreWidget::whenNoteWasChanged(int index, Tnote note) {
     //We are sure that index is 0, cause others are disabled :-)
     if (gl->showEnharmNotes) {
 //        TnotesList enharmList =
+        std::cout << note.getName(gl->nameStyleInKeySign,true).toStdString() << "\n";
     }
 
 }
