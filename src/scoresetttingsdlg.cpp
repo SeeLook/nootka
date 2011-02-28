@@ -21,7 +21,7 @@ const QString TnotationRadioGroup::strEnglishExampl = "(C# ,Db ,Bb)";
 const QString TnotationRadioGroup::strNederExampl = "(Cis, Des, Bes)";
 
 
-TnotationRadioGroup::TnotationRadioGroup( Tnote::Enotation _notation, QWidget * parent )
+TnotationRadioGroup::TnotationRadioGroup( Tnote::EnameStyle _notation, QWidget * parent )
         : QGroupBox(parent)
 {
     notation = _notation;
