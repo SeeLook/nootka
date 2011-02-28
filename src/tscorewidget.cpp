@@ -91,9 +91,25 @@ void TscoreWidget::enableKeySigNameSlot(bool isEnabled) {
 
 void TscoreWidget::whenNoteWasChanged(int index, Tnote note) {
     //We are sure that index is 0, cause others are disabled :-)
+    std::cout << note.getName(gl->nameStyleInKeySign,true).toStdString() << "\n";
     if (gl->showEnharmNotes) {
-//        TnotesList enharmList =
-        std::cout << note.getName(gl->nameStyleInKeySign,true).toStdString() << "\n";
+        TnotesList enharmList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
+        QList<Tnote>::iterator it = enharmList.begin();
+        ++it; //move one position, cause first is the main note
+        if (it != enharmList.end()) {
+            setNote(1,*(it));
+//            std::cout << get .getName(gl->nameStyleInKeySign,true).toStdString() << "\n";
+        }
+//        else
+//            hide
+        if (gl->doubleAccidentalsEnabled) {
+            ++it;
+            if (it != enharmList.end()) {
+                setNote(2,*(it));
+//                std::cout << *(it).getName(gl->nameStyleInKeySign,true).toStdString() << "\n";
+            }
+//            else hide
+        }
     }
 
 }
