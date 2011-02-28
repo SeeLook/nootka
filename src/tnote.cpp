@@ -138,7 +138,7 @@ short Tnote::getChromaticNrOfNote( )
         case 6: a = 10; break;	// A
         case 7: a = 12; break;	// H
     }
-    return a + (Tnote::octave()-1)*12 + Tnote::accidental();
+    return a + (octave()-1)*12 + accidental();
 }
 
 
@@ -210,8 +210,8 @@ Tnote Tnote::showWithDoubleSharp() {
                     outputNote.setNumber(outputNote.number()-1);
                 }
         }
-        return outputNote;
         std::cout << "dbl# " << outputNote.getName(Tnote::e_deutsch_His,true).toStdString() << "\n";
+        return outputNote;
     } else
         return Tnote(number(),octave(),accidental());
 }
