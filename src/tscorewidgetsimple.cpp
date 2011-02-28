@@ -214,6 +214,6 @@ void TscoreWidgetSimple::refreshKeySignNameStyle() {
 }
 
 void TscoreWidgetSimple::setNote(int index, Tnote note) {
-    int notePos = 27 - (note.octave*7 + note.note);
-    noteViews[index]->setNote(notePos, note.acidental);
+    int notePos = 27 - (note.octave()*7 + note.number());
+    noteViews[index]->setNote(notePos, note.accidental());
 }

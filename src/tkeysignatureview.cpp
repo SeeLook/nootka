@@ -142,10 +142,10 @@ void TkeySignatureView::setNameStyle() {
     Tnote someNote;
     for (int i=0; i<15; i++) {
         someNote = Tnote(majorKeySignatures[i][0],0,majorKeySignatures[i][1]);
-        majorKeysNames[i] = QString::fromStdString((someNote.getName(gl->nameStyleInKeySign,false)));
+        majorKeysNames[i] = (someNote.getName(gl->nameStyleInKeySign,false));
         if (gl->majKeyNameSufix != "") majorKeysNames[i] += "-" + gl->majKeyNameSufix;
         someNote = Tnote(minorKeySignatures[i][0],0,minorKeySignatures[i][1]);
-        minorKeysNames[i] = QString::fromStdString(someNote.getName(gl->nameStyleInKeySign,false)).toLower();
+        minorKeysNames[i] = QString(someNote.getName(gl->nameStyleInKeySign,false)).toLower();
         if (gl->minKeyNameSufix != "") minorKeysNames[i] += "-" + gl->minKeyNameSufix;
     setKeySignature(m_keySignature);
     }

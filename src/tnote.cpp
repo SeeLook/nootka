@@ -152,12 +152,12 @@ Tnote Tnote::showWithFlat() {
         Tnote outputNote = Tnote::showAsNatural();
 // Tnote::showAsNatural() allways returns notes with sharps or neutral, and never returns H# or E#, but C or F,
         if (outputNote.accidental() == Tnote::e_Sharp)	{
-            outputNote.setNumber(outputNote.number()++);
+            outputNote.setNumber(outputNote.number()+1);
             outputNote.setAccidental(Tnote::e_Flat);
         } else //so only for H changed to Cb we have to increment octave,
             if (outputNote.number() == 7 || outputNote.number() == 3) {
                 if (outputNote.number() == 7) {
-                    outputNote.setOctave(outputNote.octave()++);
+                    outputNote.setOctave(outputNote.octave()+1);
                     outputNote.setNumber(1);
                 }
                 if (outputNote.number() == 3) outputNote.setNumber(4);
@@ -179,7 +179,7 @@ Tnote Tnote::showWithSharp() {
                 outputNote.setAccidental(Tnote::e_Sharp);
             } else
                 if (outputNote.number() == 1) {
-                    outputNote.setOctave(outputNote.octave()--);
+                    outputNote.setOctave(outputNote.octave()-1);
                     outputNote.setNumber(7);
                     outputNote.setAccidental(Tnote::e_Sharp);
                 }
@@ -201,11 +201,11 @@ Tnote Tnote::showWithDoubleSharp() {
                 if (outputNote.number() == 1) {
                     outputNote.setAccidental(Tnote::e_Sharp);
                     outputNote.setNumber(7);
-                    outputNote.setOctave(outputNote.octave()--);
+                    outputNote.setOctave(outputNote.octave()-1);
                 }
                 else {
                     outputNote.setAccidental(Tnote::e_DoubleSharp);
-                    outputNote.setNumber(outputNote.number()--);
+                    outputNote.setNumber(outputNote.number()-1);
                 }
         }
         return outputNote;
@@ -225,7 +225,7 @@ Tnote Tnote::showWithDoubleFlat() {
                 } else {
                     outputNote.setAccidental(Tnote::e_DoubleFlat);
                     outputNote.setNumber(1);
-                    outputNote.setOctave(outputNote.octave()++);
+                    outputNote.setOctave(outputNote.octave()+1);
                   }
                 } else {
                     outputNote = outputNote.showAsNatural();
@@ -237,10 +237,10 @@ Tnote Tnote::showWithDoubleFlat() {
                             if (outputNote.number() == 7) {
                                 outputNote.setAccidental(Tnote::e_Flat);
                                 outputNote.setNumber(1);
-                                outputNote.setOctave(outputNote.octave()++);
+                                outputNote.setOctave(outputNote.octave()+1);
                             } else {
                                 outputNote.setAccidental(Tnote::e_DoubleFlat);
-                                outputNote.setNumber(outputNote.number()++);
+                                outputNote.setNumber(outputNote.number()+1);
                               }
                         } else
                             if (outputNote.accidental() == Tnote::e_Sharp) {
@@ -251,7 +251,7 @@ Tnote Tnote::showWithDoubleFlat() {
                                     if (outputNote.number() == 6) {
                                         outputNote.setAccidental(Tnote::e_DoubleFlat);
                                         outputNote.setNumber(1);
-                                        outputNote.setOctave(outputNote.octave()++);
+                                        outputNote.setOctave(outputNote.octave()+1);
                                     } else
                                         outputNote = outputNote.showWithFlat();
                                 }
@@ -279,7 +279,7 @@ TnotesList Tnote::getTheSameNotes( bool enableDbAccids ) {
     notes << (Tnote(m_number, m_octave, m_accid));
     if (notes[0].accidental() != Tnote::e_Natural) notes << (notes[0].showAsNatural());
     if (notes[0].accidental() != Tnote::e_Sharp) notes << (notes[0].showWithSharp());
-    if (notes[0].accidental() != Tnote::e_Flat) notes << (notesL[0].showWithFlat());
+    if (notes[0].accidental() != Tnote::e_Flat) notes << (notes[0].showWithFlat());
     if (enableDbAccids)	{
         if (notes[0].accidental() != Tnote::e_DoubleSharp)
             notes << (notes[0].showWithDoubleSharp());
@@ -294,7 +294,7 @@ TnotesList Tnote::getTheSameNotes( bool enableDbAccids ) {
                 if(notes[m].compareNotes(notes[n])) notes[n].setNumber(0);
         }
     }
-    QList::iterator m = notes.end();
+    QList<Tnote>::iterator m = notes.end();
     while( m != notes.begin() ) {
         --m;
         if ( !(*m).number() ) notes.erase(m);
@@ -370,9 +370,9 @@ QString Tnote::getName(Tnote eNote, EnameStyle nameStyle, bool showOctave) {
     return getName(nameStyle,showOctave);
 }
 
-bool Tnote::operator ==( const Tnote & N2 )
+bool Tnote::operator ==(Tnote N2)
 {
-        return ( m_number == N2.number() && m_octave == N2.octave() && m_accid == N2.acidental());
+    return ( m_number == N2.number() && m_octave == N2.octave() && m_accid == N2.accidental());
 }
 
 
