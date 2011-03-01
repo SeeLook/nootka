@@ -23,7 +23,7 @@ TscoreWidgetSimple::TscoreWidgetSimple(unsigned char _notesCount, QWidget *paren
 
     for (int i=0; i<_notesCount; i++) {
         noteViews << new TnoteView(i,this);
-        m_notes.push_back(Tnote());
+        m_notes << Tnote();
     }
     keySignView = 0;
 
@@ -214,11 +214,6 @@ void TscoreWidgetSimple::refreshKeySignNameStyle() {
 }
 
 void TscoreWidgetSimple::setNote(int index, Tnote note) {
-    int notePos = 26 - (note.octave*7 + note.note);
-    noteViews[index]->setNote(notePos, note.acidental);
-}
-
-void TscoreWidgetSimple::hideNote(int index) {
-    noteViews[index]->hideNote();
-    m_notes[index] = Tnote(0,0,0);
+    int notePos = 26 - (note.octave()*7 + note.number());
+    noteViews[index]->setNote(notePos, note.accidental());
 }

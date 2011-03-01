@@ -41,7 +41,7 @@ public:
     bool keySignatureEnabled;
     bool showEnharmNotes; // default true
     bool showKeySignName; // default true
-    Tnote::Enotation nameStyleInKeySign;
+    Tnote::EnameStyle nameStyleInKeySign;
         /** Convention is:
         * if keyNameSuffix == " " constructor of Tglobals sets its default and
         * constructor of TkeySignatureView sets translateable value "major" and "minor"

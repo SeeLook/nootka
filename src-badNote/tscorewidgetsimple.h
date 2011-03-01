@@ -63,7 +63,6 @@ public:
             else return false;}
     void setEnableKeySign(bool isEnabled);
     void setNote(int index, Tnote note);
-    void hideNote(int index);
 
 
 signals:

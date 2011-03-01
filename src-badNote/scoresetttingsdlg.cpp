@@ -21,7 +21,7 @@ const QString TnotationRadioGroup::strEnglishExampl = "(C# ,Db ,Bb)";
 const QString TnotationRadioGroup::strNederExampl = "(Cis, Des, Bes)";
 
 
-TnotationRadioGroup::TnotationRadioGroup( Tnote::Enotation _notation, QWidget * parent )
+TnotationRadioGroup::TnotationRadioGroup( Tnote::EnameStyle _notation, QWidget * parent )
         : QGroupBox(parent)
 {
     notation = _notation;
@@ -62,7 +62,7 @@ TnotationRadioGroup::~ TnotationRadioGroup()
 }
 
 
-Tnote::Enotation TnotationRadioGroup::getNameStyle() {
+Tnote::EnameStyle TnotationRadioGroup::getNameStyle() {
     if (norskButt->isChecked()) return Tnote::e_norsk_Hb;
     else
         if (deutschButt->isChecked()) return Tnote::e_deutsch_His;
@@ -200,29 +200,29 @@ void ScoreSettingsDlg::minorExtensionChanged() {
     minExampl->setText(getMinorExample(m_workStyle));
 }
 
-QString ScoreSettingsDlg::getMajorExample(Tnote::Enotation nameStyle) {
+QString ScoreSettingsDlg::getMajorExample(Tnote::EnameStyle nameStyle) {
     Tnote noteE = Tnote(3,0,0);
     Tnote noteBflat = Tnote(7,0,-1);
     QString S;
     if (majEdit->text().isEmpty()) S = "";
       else S = "-"+majEdit->text();
-      return forExample + "<br><b>" + QString::fromStdString(noteE.getName(nameStyle,false)) + S +
-              "<br>" + QString::fromStdString(noteBflat.getName(nameStyle,false)) + S + "</b>";
+      return forExample + "<br><b>" + noteE.getName(nameStyle,false) + S +
+              "<br>" + noteBflat.getName(nameStyle,false) + S + "</b>";
 }
 
-QString ScoreSettingsDlg::getMinorExample(Tnote::Enotation nameStyle) {
+QString ScoreSettingsDlg::getMinorExample(Tnote::EnameStyle nameStyle) {
     Tnote noteCsharp = Tnote(1,0,1);
     Tnote noteG = Tnote(5,0,0);
     QString S;
     if (minEdit->text().isEmpty()) S = "";
       else S = "-"+minEdit->text();
       return forExample + "<br><b>" +
-              QString::fromStdString(noteCsharp.getName(nameStyle,false)).toLower()+ S + "<br>" +
-              QString::fromStdString(noteG.getName(nameStyle,false)).toLower() + S + "</b>";
+              QString(noteCsharp.getName(nameStyle,false)).toLower()+ S + "<br>" +
+              QString(noteG.getName(nameStyle,false)).toLower() + S + "</b>";
 }
 
 
-void ScoreSettingsDlg::nameStyleWasChanged(Tnote::Enotation nameStyle) {
+void ScoreSettingsDlg::nameStyleWasChanged(Tnote::EnameStyle nameStyle) {
     m_workStyle = nameStyle;
     majExampl->setText(getMajorExample(m_workStyle));
     minExampl->setText(getMinorExample(m_workStyle));

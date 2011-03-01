@@ -16,10 +16,10 @@ class TnotationRadioGroup: public QGroupBox
 {
         Q_OBJECT
 public:
-        TnotationRadioGroup(Tnote::Enotation _notation, QWidget *parent = 0);
+        TnotationRadioGroup(Tnote::EnameStyle _notation, QWidget *parent = 0);
         ~TnotationRadioGroup();
 
-        Tnote::Enotation notation;
+        Tnote::EnameStyle notation;
 
         static const QString strNorsk;
         static const QString strItal;
@@ -32,10 +32,10 @@ public:
         static const QString strEnglishExampl;
         static const QString strNederExampl;
 
-        Tnote::Enotation getNameStyle();
+        Tnote::EnameStyle getNameStyle();
 
 signals:
-        void noteNameStyleWasChanged (Tnote::Enotation);
+        void noteNameStyleWasChanged (Tnote::EnameStyle);
 
 public slots:
         void noteNameStyleWasClicked();
@@ -73,14 +73,14 @@ public:
     static const QString forExample;
     static const QString showKeySigName;
 
-    QString getMajorExample(Tnote::Enotation nameStyle);
-    QString getMinorExample(Tnote::Enotation nameStyle);
+    QString getMajorExample(Tnote::EnameStyle nameStyle);
+    QString getMinorExample(Tnote::EnameStyle nameStyle);
 
 signals:
 
 public slots:
     void enableKeySignGroup(bool enable);
-    void nameStyleWasChanged(Tnote::Enotation nameStyle);
+    void nameStyleWasChanged(Tnote::EnameStyle nameStyle);
     void majorExtensionChanged();
     void minorExtensionChanged();
     void saveSettings();
@@ -93,7 +93,7 @@ private:
     TnotationRadioGroup *nameStyleGr;
     EnharmAndDblAccChBox *enhAndDblAcc;
     QPushButton *cancelBut, *okBut;
-    Tnote::Enotation m_workStyle;
+    Tnote::EnameStyle m_workStyle;
 
 
 };

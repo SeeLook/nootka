@@ -50,6 +50,8 @@ TnoteView::TnoteView(int _index, TscoreWidgetSimple * parent) :
 
     m_mainNote = new QGraphicsEllipseItem();
     m_mainNote->hide();
+    m_mainNote->setPen(QPen(m_mainColor));
+    m_mainNote->setBrush(QBrush(m_mainColor,Qt::SolidPattern));
     m_scene->addItem(m_mainNote);
 
     m_workNote = new QGraphicsEllipseItem();
@@ -59,13 +61,13 @@ TnoteView::TnoteView(int _index, TscoreWidgetSimple * parent) :
     m_scene->addItem(m_workNote);
 
     m_mainAccid = new QGraphicsSimpleTextItem();
+    m_mainAccid->setBrush(QBrush(m_mainColor));
     m_scene->addItem(m_mainAccid);
     m_workAccid = new QGraphicsSimpleTextItem();
     m_workAccid->setBrush(QBrush(m_workColor));
     m_scene->addItem(m_workAccid);
     m_workAccid->hide();
 
-    setColor(m_mainColor);
     m_accInKeyPtr = parent->accInKeyArr;
     m_dblAccFusePtr = &parent->dblAccidFuse;
     m_curentAccid = 0;
@@ -215,23 +217,5 @@ void TnoteView::setNote(int notePos, char accNr) {
     m_mainPosY = notePos;
     m_accidental = accNr;
     moveNote(notePos);
-    setAccidText(accNr);
-}
-
-void TnoteView::hideNote() {
-    m_mainNote->hide();
-    m_mainAccid->hide();
-    for (int i=0; i < 7; i++)	{
-        m_mainUpLines[i]->hide();
-    }
-    for (int i=0; i < 5; i++)	{
-        m_mainDownLines[i]->hide();
-    }
-}
-
-void TnoteView::setColor(QColor color) {
-    m_mainColor = color;
-    m_mainNote->setPen(QPen(m_mainColor));
-    m_mainNote->setBrush(QBrush(m_mainColor,Qt::SolidPattern));
-    m_mainAccid->setBrush(QBrush(m_mainColor));
+    setAccidText(accNr);    
 }

@@ -30,8 +30,6 @@ public:
     int index() { return m_index; }
     void setAmbitus(int min, int max);
     void setNote(int notePos, char accNr);
-    void hideNote();
-    void setColor(QColor color);
 
 
         /** This return value of @li -2 is bb @li 1 is #
