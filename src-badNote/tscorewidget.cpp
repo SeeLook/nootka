@@ -36,9 +36,7 @@ TscoreWidget::TscoreWidget(unsigned char _notesCount, QWidget *parent) :
 
     noteViews[0]->setStatusTip(tr("Click to sellect a note, use mouse wheel to change accidentals. Right click for more"));
     noteViews[1]->setDisabled(true);
-    noteViews[1]->setColor(palette().button().color());
     noteViews[2]->setDisabled(true);
-    noteViews[2]->setColor(palette().button().color());
 
     contextMenu = new QMenu(this);
 
@@ -48,6 +46,10 @@ TscoreWidget::TscoreWidget(unsigned char _notesCount, QWidget *parent) :
     createActions();
 
     connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
+
+    setNote(0,Tnote(1,0,0));
+    setNote(1,Tnote(2,1,-2));
+    setNote(2,Tnote(5,1,1));
 }
 
 void TscoreWidget::createActions() {
@@ -93,16 +95,31 @@ void TscoreWidget::enableKeySigNameSlot(bool isEnabled) {
 
 void TscoreWidget::whenNoteWasChanged(int index, Tnote note) {
     //We are sure that index is 0, cause others are disabled :-)
+    std::cout << note.getName(gl->nameStyleInKeySign,true).toStdString() << "\n";
     if (gl->showEnharmNotes) {
         TnotesList enharmList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
-        if (enharmList.size())
-          for (int i = 1; i<enharmList.size(); i++) {
-            if (i == 1) {
+        for (int i=1; i<enharmList.size(); i++) {
+            if (i == 1 )
                 setNote(1,enharmList[1]);
-                if (enharmList.size() == 1)
-                    hideNote(2);
-            }
-            if (i == 2) setNote(2,enharmList[2]);
-          }
+            if (i == 2)
+                setNote(2,enharmList[2]);
+        }
+//        QList<Tnote>::iterator it = enharmList.begin();
+//        ++it; //move one position, cause first is the main note
+//        if (it != enharmList.end()) {
+//            setNote(1,*(it));
+////            std::cout << get .getName(gl->nameStyleInKeySign,true).toStdString() << "\n";
+//        }
+////        else
+////            hide
+//        if (gl->doubleAccidentalsEnabled) {
+//            ++it;
+//            if (it != enharmList.end()) {
+//                setNote(2,*(it));
+////                std::cout << *(it).getName(gl->nameStyleInKeySign,true).toStdString() << "\n";
+//            }
+////            else hide
+//        }
     }
+
 }
