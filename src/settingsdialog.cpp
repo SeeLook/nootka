@@ -1,4 +1,4 @@
-#include "scoresetttingsdlg.h"
+#include "settingsdialog.h"
 #include "tglobals.h"
 #include <QVBoxLayout>
 

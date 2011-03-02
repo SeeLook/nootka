@@ -185,7 +185,10 @@ void TnoteView::moveNote(int pos) {
     } 
     else
         m_mainAccid->setText(getAccid(m_accidental));
-    if (!m_mainNote->isVisible()) m_mainNote->show();
+    if (!m_mainNote->isVisible()) {
+        m_mainNote->show();
+        m_mainAccid->show();
+    }
 
     for (int i=0; i < 7; i++)	{
         if (pos < (2*(i+1)))

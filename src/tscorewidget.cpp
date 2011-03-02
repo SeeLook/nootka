@@ -21,7 +21,7 @@
 
 #include "tscorewidget.h"
 #include "tnoteview.h"
-#include "scoresetttingsdlg.h"
+//#include "scoresetttingsdlg.h"
 #include "tglobals.h"
 #include <QMenu>
 
@@ -36,73 +36,95 @@ TscoreWidget::TscoreWidget(unsigned char _notesCount, QWidget *parent) :
 
     noteViews[0]->setStatusTip(tr("Click to sellect a note, use mouse wheel to change accidentals. Right click for more"));
     noteViews[1]->setDisabled(true);
-    noteViews[1]->setColor(palette().button().color());
+    noteViews[1]->setColor(Qt::darkGray);
     noteViews[2]->setDisabled(true);
-    noteViews[2]->setColor(palette().button().color());
+    noteViews[2]->setColor(Qt::darkGray);
 
-    contextMenu = new QMenu(this);
+//    contextMenu = new QMenu(this);
 
     setEnabledDblAccid(gl->doubleAccidentalsEnabled);
     setEnableKeySign(gl->keySignatureEnabled);
 
-    createActions();
+//    createActions();
 
     connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
 }
 
-void TscoreWidget::createActions() {
-    keySigNameAct = new QAction(ScoreSettingsDlg::showKeySigName,this);
-    keySigNameAct->setCheckable(true);
-    keySigNameAct->setChecked(gl->showKeySignName);
-    connect(keySigNameAct, SIGNAL(triggered(bool)), this, SLOT(enableKeySigNameSlot(bool)));
-
-    scoreSettAct = new QAction(tr("score settings"),this);
-    connect(scoreSettAct, SIGNAL(triggered()), this, SLOT(createScoreSettingsDialog()));
-}
-
-void TscoreWidget::contextMenuEvent(QContextMenuEvent *event) {
-    if (gl->keySignatureEnabled)
-        contextMenu->addAction(keySigNameAct);
-    else contextMenu->removeAction(keySigNameAct);
-    contextMenu->addAction(scoreSettAct);
-    contextMenu->exec(event->globalPos());
-
-}
-
-void TscoreWidget::createScoreSettingsDialog() {
-
-    ScoreSettingsDlg *scoreSettDlg = new ScoreSettingsDlg();
-    if (scoreSettDlg->exec() == QDialog::Accepted) {
-        keySigNameAct->setChecked(gl->showKeySignName);
-        enableDblAccidsSlot(gl->doubleAccidentalsEnabled);
-        emit enableDblAccWasChanged(gl->doubleAccidentalsEnabled);
-        setEnableKeySign(gl->keySignatureEnabled);
-        if (gl->keySignatureEnabled) refreshKeySignNameStyle();
-    }
-}
-
-void TscoreWidget::enableDblAccidsSlot(bool isEnabled) {
-    setEnabledDblAccid(isEnabled);
-    gl->doubleAccidentalsEnabled = isEnabled;
-}
-
-void TscoreWidget::enableKeySigNameSlot(bool isEnabled) {
-    gl->showKeySignName = isEnabled;
-    refreshKeySignNameStyle();
-}
 
 void TscoreWidget::whenNoteWasChanged(int index, Tnote note) {
     //We are sure that index is 0, cause others are disabled :-)
     if (gl->showEnharmNotes) {
         TnotesList enharmList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
-        if (enharmList.size())
-          for (int i = 1; i<enharmList.size(); i++) {
-            if (i == 1) {
-                setNote(1,enharmList[1]);
-                if (enharmList.size() == 1)
-                    hideNote(2);
-            }
-            if (i == 2) setNote(2,enharmList[2]);
-          }
+        TnotesList::iterator it = enharmList.begin();
+        ++it;
+        if (it != enharmList.end())
+            setNote(1,*(it));
+        else
+            hideNote(1);
+        if (gl->doubleAccidentalsEnabled) {
+            ++it;
+            if (it != enharmList.end())
+                setNote(2,*(it));
+            else
+                hideNote(2);
+        }
+//        if (enharmList.size())
+//          for (int i = 1; i<enharmList.size(); i++) {
+//            if (i == 1) {
+//                setNote(1,enharmList[1]);
+//                if (enharmList.size() == 1)
+//                    hideNote(2);
+//            }
+//            if (i == 2) setNote(2,enharmList[2]);
+//          }
     }
 }
+
+void TscoreWidget::setEnableEnharmNotes(bool isEnabled) {
+    if (!isEnabled) {
+        noteViews[1]->hideNote();
+        noteViews[2]->hideNote();
+    }
+}
+
+//void TscoreWidget::contextMenuEvent(QContextMenuEvent *event) {
+//    if (gl->keySignatureEnabled)
+//        contextMenu->addAction(keySigNameAct);
+//    else contextMenu->removeAction(keySigNameAct);
+//    contextMenu->addAction(scoreSettAct);
+//    contextMenu->exec(event->globalPos());
+
+//}
+
+//void TscoreWidget::createActions() {
+//    keySigNameAct = new QAction(ScoreSettingsDlg::showKeySigName,this);
+//    keySigNameAct->setCheckable(true);
+//    keySigNameAct->setChecked(gl->showKeySignName);
+//    connect(keySigNameAct, SIGNAL(triggered(bool)), this, SLOT(enableKeySigNameSlot(bool)));
+
+//    scoreSettAct = new QAction(tr("score settings"),this);
+//    connect(scoreSettAct, SIGNAL(triggered()), this, SLOT(createScoreSettingsDialog()));
+//}
+
+
+//void TscoreWidget::createScoreSettingsDialog() {
+
+//    ScoreSettingsDlg *scoreSettDlg = new ScoreSettingsDlg();
+//    if (scoreSettDlg->exec() == QDialog::Accepted) {
+//        keySigNameAct->setChecked(gl->showKeySignName);
+//        enableDblAccidsSlot(gl->doubleAccidentalsEnabled);
+//        emit enableDblAccWasChanged(gl->doubleAccidentalsEnabled);
+//        setEnableKeySign(gl->keySignatureEnabled);
+//        if (gl->keySignatureEnabled) refreshKeySignNameStyle();
+//    }
+//}
+
+//void TscoreWidget::enableDblAccidsSlot(bool isEnabled) {
+//    setEnabledDblAccid(isEnabled);
+//    gl->doubleAccidentalsEnabled = isEnabled;
+//}
+
+//void TscoreWidget::enableKeySigNameSlot(bool isEnabled) {
+//    gl->showKeySignName = isEnabled;
+//    refreshKeySignNameStyle();
+//}

@@ -35,11 +35,10 @@ public:
 
     QString version;
 
-    bool doubleAccidentalsEnabled; //default true
+//score widget settings
         /** if true shows other similar (enharmonic) notes on the staff:
         * for C# - Db, for G - Fx and Abb. In Tnotename widget also. */
     bool keySignatureEnabled;
-    bool showEnharmNotes; // default true
     bool showKeySignName; // default true
     Tnote::Enotation nameStyleInKeySign;
         /** Convention is:
@@ -50,7 +49,12 @@ public:
         * If keyNameSuffix has some text -  is translated by user himself */
     QString majKeyNameSufix;
     QString minKeyNameSufix;
+//common with score widget and note name
+    bool doubleAccidentalsEnabled; //default true
+    bool showEnharmNotes; // default true
 
+//note name settings
+    Tnote::Enotation nameStyleInNoteName;
 
 };
 #endif // TGLOBALS_H

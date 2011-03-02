@@ -1,5 +1,5 @@
-#ifndef SCORESETTTINGSDLG_H
-#define SCORESETTTINGSDLG_H
+#ifndef SETTINGSDIALOG_H
+#define SETTINGSDIALOG_H
 
 //#include <QDialog>
 //#include <QButtonGroup>
@@ -100,4 +100,4 @@ private:
 
 
 
-#endif // SCORESETTTINGSDLG_H
+#endif // SETTINGSDIALOG_H

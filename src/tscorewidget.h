@@ -33,8 +33,9 @@ class TscoreWidget : public TscoreWidgetSimple
 public:
     explicit TscoreWidget(unsigned char _notesCount =1, QWidget* parent = 0);
 
-    QAction *scoreSettAct, *keySigNameAct;
-    QMenu *contextMenu;
+//    QAction *scoreSettAct, *keySigNameAct;
+//    QMenu *contextMenu;
+    void setEnableEnharmNotes(bool isEnabled);
 
 signals:
         /** This signal is emited to inform main window and his @param useDblAccidAct
@@ -42,18 +43,18 @@ signals:
     void enableDblAccWasChanged(bool isEnabled);
 
 public slots:
-    void enableDblAccidsSlot(bool isEnabled);
-    void enableKeySigNameSlot(bool isEnabled);
+//    void enableDblAccidsSlot(bool isEnabled);
+//    void enableKeySigNameSlot(bool isEnabled);
     void whenNoteWasChanged(int index, Tnote note);
 
 protected:
-    void contextMenuEvent(QContextMenuEvent *);
+//    void contextMenuEvent(QContextMenuEvent *);
 
-    void createActions();
+//    void createActions();
 
 protected slots:
 
-    void createScoreSettingsDialog();
+//    void createScoreSettingsDialog();
 
 
 private:
