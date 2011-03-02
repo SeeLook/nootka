@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "tscorewidget.h"
+#include "tnotename.h"
 //#include <QtGui>
 
 
@@ -15,14 +16,22 @@ public:
 
 
 public slots:
-    void whenEnableDblAccStateChanged(bool isEnabled);
+//    void whenEnableDblAccStateChanged(bool isEnabled);
+    void createSettingsDialog();
+
+protected:
+    void resizeEvent(QResizeEvent *);
 
 private:
     TscoreWidget *m_score;
-    QMenu *m_actMenu, *m_scoreMenu;
-    QAction *showOherNotesAct, *useDblAccidAct;
+    TnoteName *m_noteName;
+//    QMenu *m_actMenu, *m_scoreMenu;
+//    QAction *showOherNotesAct, *useDblAccidAct;
+    QAction *settingsAct;
+    QToolBar *nootBar;
 
-    void createMenus();
+//    void createMenus();
+    void createToolBar();
     void createActions();
 
 };

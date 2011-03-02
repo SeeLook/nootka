@@ -9,25 +9,26 @@ add_definitions(${QT_DEFINITIONS})
 SET( NOOTKA_SRCS
   ./src/main.cpp
   ./src/mainwindow.cpp
-  ./src/scoresetttingsdlg.cpp
+  ./src/settingsdialog.cpp
   ./src/tglobals.cpp
   ./src/tkeysignatureview.cpp
   ./src/tnote.cpp
   ./src/tnoteview.cpp
   ./src/tscorewidget.cpp
   ./src/tscorewidgetsimple.cpp
+  ./src/tnotename.cpp
   )
   
 SET( NOOTKA_MOC_SRCS
   ./src/mainwindow.h
-  ./src/scoresetttingsdlg.h
+  ./src/settingsdialog.h
   ./src/tglobals.h
   ./src/tkeysignatureview.h
   ./src/tnote.h
   ./src/tnoteview.h
   ./src/tscorewidget.h
   ./src/tscorewidgetsimple.h
-       
+  ./src/tnotename.h
   )
 
 SET( NOOTKA_RCCS
