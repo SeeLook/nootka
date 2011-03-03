@@ -31,7 +31,7 @@ TnoteName::TnoteName(QWidget *parent) :
     noteLay->addStretch(1);
     mainLay->addLayout(noteLay);
 
-    QVBoxLayout *accLay = new QVBoxLayout;
+    QHBoxLayout *accLay = new QHBoxLayout;
     accLay->addStretch(1);
     dblFlatButt = new QPushButton(this);
     dblFlatButt->setIcon(QIcon(":/picts/dblflat.svg"));
@@ -67,4 +67,32 @@ void TnoteName::setNoteNamesOnButt(Tnote::Enotation nameStyle) {
 void TnoteName::resizeEvent(QResizeEvent *) {
     nameLabel->setFixedSize(width(),height()/2-5);
     nameLabel->setFont(QFont(nameLabel->font().family(),nameLabel->height()/3.5,50));
+}
+
+void TnoteName::setNoteName(char noteNr, char octNr, char accNr) {
+
+}
+
+void TnoteName::setNoteName(Tnote note) {
+
+}
+
+void TnoteName::setNoteName(TnotesList notes) {
+
+}
+
+void TnoteName::setEnableDoubleAccidentals(bool isEnabled) {
+
+}
+
+void TnoteName::noteWasChanged(int noteNr) {
+
+}
+
+void TnoteName::accidWasChanged() {
+
+}
+
+void TnoteName::octaveWasChanged(int octNr) {
+
 }
