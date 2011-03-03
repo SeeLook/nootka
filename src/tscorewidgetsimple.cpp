@@ -92,7 +92,6 @@ void TscoreWidgetSimple::resizeEvent(QResizeEvent *) {
 
 void TscoreWidgetSimple::resize() {
     coeff = geometry().height() / _C;
-    setMinimumWidth((m_notes.size()*7+20)*coeff+54);
     int shift = 6;
     if (keySignView) {
         keySignView->setGeometry(5*coeff,0,8*coeff,height());

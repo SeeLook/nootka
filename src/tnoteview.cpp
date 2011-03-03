@@ -33,7 +33,6 @@ TnoteView::TnoteView(int _index, TscoreWidgetSimple * parent) :
 
         m_mainUpLines[i] = new QGraphicsLineItem();
         m_mainUpLines[i]->hide();
-        m_mainUpLines[i]->setPen(QPen(m_mainColor));
         m_scene->addItem(m_mainUpLines[i]);
         if (i < 5) {
             m_downLines[i] = new QGraphicsLineItem();
@@ -43,7 +42,6 @@ TnoteView::TnoteView(int _index, TscoreWidgetSimple * parent) :
 
             m_mainDownLines[i] = new QGraphicsLineItem();
             m_mainDownLines[i]->hide();
-            m_mainDownLines[i]->setPen(QPen(m_mainColor));
             m_scene->addItem(m_mainDownLines[i]);
         }
     }
@@ -237,4 +235,8 @@ void TnoteView::setColor(QColor color) {
     m_mainNote->setPen(QPen(m_mainColor));
     m_mainNote->setBrush(QBrush(m_mainColor,Qt::SolidPattern));
     m_mainAccid->setBrush(QBrush(m_mainColor));
+    for (int i=0; i<7; i++) {
+        m_mainUpLines[i]->setPen(QPen(color));
+        if (i < 5) m_mainDownLines[i]->setPen(QPen(color));
+    }
 }

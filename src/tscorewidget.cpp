@@ -35,10 +35,16 @@ TscoreWidget::TscoreWidget(unsigned char _notesCount, QWidget *parent) :
 
 
     noteViews[0]->setStatusTip(tr("Click to sellect a note, use mouse wheel to change accidentals. Right click for more"));
+
+    QColor hi;
+    if (gl->enharmNotesColor == -1) { // enharmonic notes will have inverted highlight color
+        hi = palette().highlight().color();
+        hi.setRgb(qRgb(255-hi.red(),255-hi.green(),255-hi.blue()));
+    } else hi = gl->enharmNotesColor;
     noteViews[1]->setDisabled(true);
-    noteViews[1]->setColor(Qt::darkGray);
+    noteViews[1]->setColor(hi);
     noteViews[2]->setDisabled(true);
-    noteViews[2]->setColor(Qt::darkGray);
+    noteViews[2]->setColor(hi);
 
 //    contextMenu = new QMenu(this);
 
