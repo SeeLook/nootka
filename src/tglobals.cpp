@@ -1,4 +1,5 @@
 #include "tglobals.h"
+#include <QColor>
 //#include <iostream>
 
 Tglobals::Tglobals() {
@@ -12,12 +13,14 @@ Tglobals::Tglobals() {
     majKeyNameSufix = " " ; //like 'major' or 'dur'
     minKeyNameSufix = " " ; //like 'minor' or 'moll'
 
-//common with score widget and note name
+//common for score widget and note name
     doubleAccidentalsEnabled = true;
     showEnharmNotes = true;
+    enharmNotesColor = -1;
+
 
 //note name settings
-    nameStyleInNoteName = Tnote::e_deutsch_His;
+    NnameStyleInNoteName = Tnote::e_deutsch_His;
 
 }
 

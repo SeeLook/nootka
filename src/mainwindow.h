@@ -3,6 +3,7 @@
 
 #include "tscorewidget.h"
 #include "tnotename.h"
+#include "tfingerboard.h"
 //#include <QtGui>
 
 
@@ -25,6 +26,8 @@ protected:
 private:
     TscoreWidget *m_score;
     TnoteName *m_noteName;
+    TfingerBoard *m_guitar;
+
 //    QMenu *m_actMenu, *m_scoreMenu;
 //    QAction *showOherNotesAct, *useDblAccidAct;
     QAction *settingsAct;

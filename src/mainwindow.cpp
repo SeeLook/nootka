@@ -14,16 +14,24 @@ MainWindow::MainWindow(QWidget *parent)
     QWidget *widget = new QWidget(this);
     m_score = new TscoreWidget(3,widget);
     m_noteName = new TnoteName(widget);
+    m_guitar = new TfingerBoard(widget);
     setMinimumSize(640,480);
     setCentralWidget(widget);
 
     createActions();
-//    createMenus();
     createToolBar();
+
+    QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *scoreAndNameLay = new QHBoxLayout;
     scoreAndNameLay->addWidget(m_score);
-    scoreAndNameLay->addWidget(m_noteName);
-    widget->setLayout(scoreAndNameLay);
+    scoreAndNameLay->addStretch(1);
+    QVBoxLayout *nameLay = new QVBoxLayout;
+    nameLay->addWidget(m_noteName);
+    nameLay->addStretch(1);
+    scoreAndNameLay->addLayout(nameLay);
+    mainLay->addLayout(scoreAndNameLay);
+    mainLay->addWidget(m_guitar);
+    widget->setLayout(mainLay);
 
 
 
@@ -47,8 +55,9 @@ void MainWindow::createToolBar() {
 }
 
 void MainWindow::resizeEvent(QResizeEvent *) {
-//    m_score->setFixedWidth(width()/2);
-    m_score->setFixedHeight(2*height()/3);
+    m_score->setFixedWidth(centralWidget()->width()/2);
+//    m_score->setFixedHeight(2*height()/3);
+    m_guitar->setFixedHeight(centralWidget()->height()/3);
 //    m_noteName->setFixedWidth(width()/2);
 }
 
@@ -64,27 +73,3 @@ void MainWindow::createSettingsDialog() {
     }
 
 }
-
-//void MainWindow::whenEnableDblAccStateChanged(bool isEnabled) {
-//    useDblAccidAct->setChecked(isEnabled);
-//}
-
-//void MainWindow::createMenus() {
-//    m_scoreMenu = menuBar()->addMenu(tr("score"));
-//    m_scoreMenu->addAction(showOherNotesAct);
-//    m_scoreMenu->addAction(useDblAccidAct);
-
-//}
-//void MainWindow::createActions() {
-//    showOherNotesAct = new QAction(tr("show enharmonic notes"),this);
-//    showOherNotesAct->setStatusTip(tr("Shows another enharmonic variants of a note"));
-//    useDblAccidAct= new QAction(tr("use double accidentals"),this);
-//    useDblAccidAct->setCheckable(true);
-//    useDblAccidAct->setChecked(gl->doubleAccidentalsEnabled);
-//    //    useDblaccidAct->setStatusTip(tr(""));
-//    connect(useDblAccidAct, SIGNAL(triggered(bool)), m_score, SLOT(enableDblAccidsSlot(bool)));
-//    m_score->contextMenu->addAction(showOherNotesAct);
-//    m_score->contextMenu->addAction(useDblAccidAct);
-//    connect(m_score, SIGNAL(enableDblAccWasChanged(bool)), this, SLOT(whenEnableDblAccStateChanged(bool)));
-
-//}

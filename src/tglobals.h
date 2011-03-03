@@ -22,6 +22,7 @@
 #define TGLOBALS_H
 
 #include <QString>
+#include <QColor>
 #include "tnote.h"
 
 
@@ -34,7 +35,9 @@ public:
     ~Tglobals();
 
     QString version;
-
+        /** Let's have a convention:
+        * globals settings for TnoteName will started from 'N' letter
+        * and for guitar (TfingerBoard) from 'G' letter*/
 //score widget settings
         /** if true shows other similar (enharmonic) notes on the staff:
         * for C# - Db, for G - Fx and Abb. In Tnotename widget also. */
@@ -52,9 +55,13 @@ public:
 //common with score widget and note name
     bool doubleAccidentalsEnabled; //default true
     bool showEnharmNotes; // default true
+        /** On the begining it is -1 and then it is set in TscoreWidget constructor
+        * as inversion of highlite color from palette() and put to TnoteName,
+        * otherwise is taken from saved settings. */
+    QColor enharmNotesColor;
 
 //note name settings
-    Tnote::Enotation nameStyleInNoteName;
+    Tnote::Enotation NnameStyleInNoteName;
 
 };
 #endif // TGLOBALS_H
