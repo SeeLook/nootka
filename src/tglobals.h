@@ -56,12 +56,14 @@ public:
     bool doubleAccidentalsEnabled; //default true
     bool showEnharmNotes; // default true
         /** On the begining it is -1 and then it is set in TscoreWidget constructor
-        * as inversion of highlite color from palette() and put to TnoteName,
+        * as inversion of highlight color from palette() and put to TnoteName,
         * otherwise is taken from saved settings. */
     QColor enharmNotesColor;
 
 //note name settings
     Tnote::Enotation NnameStyleInNoteName;
+    bool NoctaveInNoteNameFormat; //default true
+    bool NoctaveNameInNoteName; //default true
 
 };
 #endif // TGLOBALS_H

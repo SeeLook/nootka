@@ -45,7 +45,7 @@ MainWindow::~MainWindow()
 void MainWindow::createActions() {
     settingsAct = new QAction(tr("settings"),this);
     settingsAct->setStatusTip(tr("Application preferences"));
-    settingsAct->setIcon(QIcon(":/picts/settings.svg"));
+    settingsAct->setIcon(QIcon(":/picts/systemsettings.svg"));
     connect(settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
 }
 
