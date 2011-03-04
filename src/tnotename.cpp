@@ -78,7 +78,7 @@ TnoteName::TnoteName(QWidget *parent) :
     octLay1->addWidget(octaveButtons[4]);
     octLay1->addStretch(1);
 
-    octLay2->addStretch(1);
+    octLay2->addStretch(2);
     octLay2->addWidget(octaveButtons[1]);
     octLay2->addStretch(1);
     octLay2->addWidget(octaveButtons[3]);
