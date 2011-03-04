@@ -6,5 +6,6 @@
         <file>picts/dblsharp.svg</file>
         <file>picts/dblflat.svg</file>
         <file>picts/settings.svg</file>
+        <file>picts/systemsettings.svg</file>
     </qresource>
 </RCC>

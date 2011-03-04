@@ -38,6 +38,7 @@ private:
     TnotesList m_notes;
     void resizeEvent(QResizeEvent *);
     void setNoteName(char noteNr, char octNr, char accNr);
+    void setNameText();
 
 private slots:
     void noteWasChanged(int noteNr);

@@ -1,6 +1,5 @@
 #include "tglobals.h"
 #include <QColor>
-//#include <iostream>
 
 Tglobals::Tglobals() {
 
@@ -21,9 +20,10 @@ Tglobals::Tglobals() {
 
 //note name settings
     NnameStyleInNoteName = Tnote::e_deutsch_His;
+    NoctaveInNoteNameFormat = true;
+    NoctaveNameInNoteName = true;
 
 }
 
 Tglobals::~Tglobals() {
-//    std::cout << "Saving settings not implemented yet" << std::endl;
 }

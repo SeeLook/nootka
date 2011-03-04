@@ -12,48 +12,73 @@ const QString TnoteName::octaves[6] = {tr("Contra"),tr("Great"),tr("Small"),
 TnoteName::TnoteName(QWidget *parent) :
     QWidget(parent)
 {
+    setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
+
+// NAME LABEL
     QVBoxLayout *mainLay = new QVBoxLayout();
     mainLay->setAlignment(Qt::AlignCenter);
 
-    nameLabel = new QLabel("NUTA",this);
+    nameLabel = new QLabel("Note name",this);
     nameLabel->setAlignment(Qt::AlignCenter);
+    nameLabel->setStyleSheet(QString("background: %1").arg(palette().base().color().name()));
 
     mainLay->addWidget(nameLabel);
-
+// BUTTONS WITH NOTES TOOLBAR
     QHBoxLayout *noteLay = new QHBoxLayout();
     noteLay->addStretch(1);
     noteGroup =new QButtonGroup(this);
     for (int i=0; i<7; i++) {
         noteButtons[i] = new QPushButton(this);
+        noteButtons[i]->setCheckable(true);
         noteLay->addWidget(noteButtons[i]);
         noteGroup->addButton(noteButtons[i]);
     }
     noteLay->addStretch(1);
     mainLay->addLayout(noteLay);
-
+    connect(noteGroup, SIGNAL(buttonClicked(int)), this, SLOT(noteWasChanged(int)));
+// ACCID BUTTONS TOOOLBAR
     QHBoxLayout *accLay = new QHBoxLayout;
     accLay->addStretch(1);
     dblFlatButt = new QPushButton(this);
     dblFlatButt->setIcon(QIcon(":/picts/dblflat.svg"));
     dblFlatButt->setCheckable(true);
     accLay->addWidget(dblFlatButt);
+    connect(dblFlatButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     flatButt = new QPushButton(this);
     flatButt->setIcon(QIcon(":/picts/flat.svg"));
     flatButt->setCheckable(true);
     accLay->addWidget(flatButt);
+    connect(flatButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     sharpButt = new QPushButton(this);
     sharpButt->setIcon(QIcon(":/picts/sharp.svg"));
     sharpButt->setCheckable(true);
     accLay->addWidget(sharpButt);
+    connect(sharpButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     dblSharpButt = new QPushButton(this);
     dblSharpButt->setIcon(QIcon(":/picts/dblsharp.svg"));
     dblSharpButt->setCheckable(true);
     accLay->addWidget(dblSharpButt);
+    connect(dblSharpButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     accLay->addStretch(1);
     mainLay->addLayout(accLay);
+// OCTAVE BUTTONS TOOLBAR
+    QHBoxLayout * octLay = new QHBoxLayout;
+    octLay->addStretch(1);
+    octaveGroup = new QButtonGroup(this);
+    for (int i=0; i<6; i++) {
+        octaveButtons[i] = new QPushButton(octaves[i],this);
+        octaveButtons[i]->setCheckable(true);
+        octLay->addWidget(octaveButtons[i]);
+        octaveGroup->addButton(octaveButtons[i]);
+    }
+    octLay->addStretch(1);
+    mainLay->addLayout(octLay);
+    connect(octaveGroup, SIGNAL(buttonClicked(int)), this, SLOT(octaveWasChanged(int)));
+
     setLayout(mainLay);
 
     setNoteNamesOnButt(gl->NnameStyleInNoteName);
+    for (int i=0; i<3; i++) m_notes.push_back(Tnote());
 
 
 }
@@ -86,13 +111,44 @@ void TnoteName::setEnableDoubleAccidentals(bool isEnabled) {
 }
 
 void TnoteName::noteWasChanged(int noteNr) {
+    setNoteName(noteNr+1, m_notes[0].octave, m_notes[0].acidental);
 
 }
 
 void TnoteName::accidWasChanged() {
-
+    char ac;
+    if (sender() == dblFlatButt) {
+        flatButt->setChecked(false);
+        sharpButt->setChecked(false);
+        dblSharpButt->setChecked(false);
+        if (dblFlatButt->isChecked()) ac = -2;
+        else ac = 0;
+    } else {
+        if (sender() == flatButt) {
+            dblFlatButt->setChecked(false);
+            sharpButt->setChecked(false);
+            dblSharpButt->setChecked(false);
+            if (flatButt->isChecked()) ac = -1;
+            else ac = 0;
+    } else {
+        if (sender() == sharpButt) {
+            flatButt->setChecked(false);
+            dblFlatButt->setChecked(false);
+            dblSharpButt->setChecked(false);
+            if (sharpButt->isChecked()) ac = 1;
+            else ac = 0;
+        } else {
+            flatButt->setChecked(false);
+            sharpButt->setChecked(false);
+            dblFlatButt->setChecked(false);
+            if (dblSharpButt->isChecked()) ac = 2;
+            else ac = 0;
+          }
+      }
+    }
+    setNoteName(m_notes[0].note, m_notes[0].octave, ac);
 }
 
 void TnoteName::octaveWasChanged(int octNr) {
-
+    setNoteName(m_notes[0].note, octNr-3, m_notes[0].acidental);
 }

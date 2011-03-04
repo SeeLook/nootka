@@ -48,6 +48,7 @@ TkeySignatureView::TkeySignatureView(TscoreWidgetSimple *parent, char _keySign) 
 //    m_accidentals[0]->setText(QString(QChar(0xe11a)));
 
     m_keyNameText = new QGraphicsSimpleTextItem();
+    m_keyNameText->setBrush(QBrush(palette().text().color()));
     m_scene->addItem(m_keyNameText);
 
     m_accInKeyPtr = parent->accInKeyArr;
@@ -79,7 +80,7 @@ void TkeySignatureView::resize(int co) {
         m_accidentals[i]->setPos(i*m_coeff+1,
                     m_posOfAccid[std::abs(base-i)]*m_coeff-m_accTextOffset);
     }
-    m_keyNameText->setPos(1,10*m_coeff);
+    m_keyNameText->setPos(1,9*m_coeff);
 
 }
 
