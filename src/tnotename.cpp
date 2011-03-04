@@ -62,17 +62,31 @@ TnoteName::TnoteName(QWidget *parent) :
     accLay->addStretch(1);
     mainLay->addLayout(accLay);
 // OCTAVE BUTTONS TOOLBAR
-    QHBoxLayout * octLay = new QHBoxLayout;
-    octLay->addStretch(1);
+    QHBoxLayout * octLay1 = new QHBoxLayout;
+    QHBoxLayout * octLay2 = new QHBoxLayout;
     octaveGroup = new QButtonGroup(this);
     for (int i=0; i<6; i++) {
         octaveButtons[i] = new QPushButton(octaves[i],this);
         octaveButtons[i]->setCheckable(true);
-        octLay->addWidget(octaveButtons[i]);
+//        octLay->addWidget(octaveButtons[i]);
         octaveGroup->addButton(octaveButtons[i]);
     }
-    octLay->addStretch(1);
-    mainLay->addLayout(octLay);
+    octLay1->addWidget(octaveButtons[0]);
+    octLay1->addStretch(1);
+    octLay1->addWidget(octaveButtons[2]);
+    octLay1->addStretch(1);
+    octLay1->addWidget(octaveButtons[4]);
+    octLay1->addStretch(1);
+
+    octLay2->addStretch(1);
+    octLay2->addWidget(octaveButtons[1]);
+    octLay2->addStretch(1);
+    octLay2->addWidget(octaveButtons[3]);
+    octLay2->addStretch(1);
+    octLay2->addWidget(octaveButtons[5]);
+
+    mainLay->addLayout(octLay1);
+    mainLay->addLayout(octLay2);
     connect(octaveGroup, SIGNAL(buttonClicked(int)), this, SLOT(octaveWasChanged(int)));
 
     setLayout(mainLay);
