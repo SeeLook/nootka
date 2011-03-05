@@ -63,7 +63,10 @@ public:
             else return false;}
     void setEnableKeySign(bool isEnabled);
     void setNote(int index, Tnote note);
-    void hideNote(int index);
+        /** It returns @p note with hope that index poits existed Tnote element*/
+    Tnote getNote(int index) { return m_notes[index]; }
+        /** It hides pionted note and sets to Tnote(0,0,0)*/
+    void clearNote(int index);
 
 
 signals:
@@ -80,9 +83,9 @@ protected:
 
     void setButtons(QPushButton *button);
                 /** This array keeps accid for every note in key signature.
-                    * @li 1 is sharp : keyAcidsArr[0] = 1  -> C# in key signature.
-                    * @li -1 is flat : keyAcidsArr[7] = -1 -> Hb in key signature.
-                    * @li 0 in none */
+                 * @li 1 is sharp : keyAcidsArr[0] = 1  -> C# in key signature.
+                 * @li -1 is flat : keyAcidsArr[7] = -1 -> Hb in key signature.
+                 * @li 0 in none */
     char accInKeyArr[7];
     char dblAccidFuse;
 
@@ -99,7 +102,6 @@ private:
     void resize();
 
     QPushButton *m_sharpBut, *m_flatBut, *m_dblSharpBut, *m_dblFlatBut;
-//    Tnote m_note;
     TnotesList m_notes;
 
 

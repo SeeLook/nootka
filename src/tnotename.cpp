@@ -138,8 +138,8 @@ void TnoteName::setNameText() {
 void TnoteName::setNoteName(Tnote note) {
     if (note.note) {
         m_notes[0] = note;
-        setButtons();
-    }
+        setButtons(note);
+    } else m_notes[0] = Tnote(0,0,0);
     setNameText();
 }
 
@@ -158,7 +158,6 @@ void TnoteName::setEnableDoubleAccidentals(bool isEnabled) {
 
 void TnoteName::noteWasChanged(int noteNr) {
     setNoteName(noteNr+1, m_notes[0].octave, m_notes[0].acidental);
-
 }
 
 void TnoteName::accidWasChanged() {
@@ -216,7 +215,7 @@ QString TnoteName::noteToRichText(Tnote note) {
     return nameTxt;
 }
 
-void TnoteName::setButtons() {
+void TnoteName::setButtons(Tnote note) {
     noteButtons[note.note-1]->setChecked(true);
 
     dblFlatButt->setChecked(false);

@@ -21,7 +21,7 @@ public slots:
 //    void whenEnableDblAccStateChanged(bool isEnabled);
     void createSettingsDialog();
 
-    void noteWasClicked(Tnote note);
+    void noteWasClicked(int index, Tnote note);
 
 protected:
     void resizeEvent(QResizeEvent *);
