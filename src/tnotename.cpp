@@ -1,6 +1,7 @@
 #include "tnotename.h"
 #include "tglobals.h"
 #include <QtGui>
+#include <iostream>
 
 extern Tglobals *gl;
 
@@ -32,7 +33,7 @@ TnoteName::TnoteName(QWidget *parent) :
         noteButtons[i] = new QPushButton(this);
         noteButtons[i]->setCheckable(true);
         noteLay->addWidget(noteButtons[i]);
-        noteGroup->addButton(noteButtons[i]);
+        noteGroup->addButton(noteButtons[i],i);
     }
     noteLay->addStretch(1);
     mainLay->addLayout(noteLay);
@@ -71,7 +72,7 @@ TnoteName::TnoteName(QWidget *parent) :
         octaveButtons[i]->setToolTip(octavesFull[i]);
         octaveButtons[i]->setCheckable(true);
         octLay->addWidget(octaveButtons[i]);
-        octaveGroup->addButton(octaveButtons[i]);
+        octaveGroup->addButton(octaveButtons[i],i);
     }
     octLay->addStretch(1);
     mainLay->addLayout(octLay);
@@ -99,7 +100,11 @@ void TnoteName::paintEvent(QPaintEvent *) {
 
 // private setNoteName method
 void TnoteName::setNoteName(char noteNr, char octNr, char accNr) {
+//    std::cout << "note: " << (int)noteNr
+//            << " octave: " << (int)octNr
+//            << " accid: " << (int)accNr << "\n";
     if (noteNr) {
+
         m_notes[0] = Tnote(noteNr,octNr,accNr);
         setNameText();
     }
@@ -162,7 +167,7 @@ void TnoteName::accidWasChanged() {
 }
 
 void TnoteName::octaveWasChanged(int octNr) {
-    setNoteName(m_notes[0].note, octNr-3, m_notes[0].acidental);
+    setNoteName(m_notes[0].note, octNr-2, m_notes[0].acidental);
 }
 
 QString TnoteName::noteToRichText(Tnote note) {
