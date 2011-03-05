@@ -15,6 +15,7 @@ public:
     explicit TnoteName(QWidget *parent = 0);
 
     static const QString octaves[6];
+    static const QString octavesFull[6];
 
     void setNoteNamesOnButt(Tnote::Enotation nameStyle);
     void setEnableDoubleAccidentals(bool isEnabled);
@@ -36,9 +37,11 @@ private:
     QButtonGroup *noteGroup, *octaveGroup;
 
     TnotesList m_notes;
-    void resizeEvent(QResizeEvent *);
+    void paintEvent(QPaintEvent *);
     void setNoteName(char noteNr, char octNr, char accNr);
     void setNameText();
+    QString noteToRichText(Tnote note);
+    void setButtons();
 
 private slots:
     void noteWasChanged(int noteNr);
