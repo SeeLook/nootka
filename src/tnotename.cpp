@@ -6,7 +6,8 @@ extern Tglobals *gl;
 
 /**static*/
 const QString TnoteName::octaves[6] = {tr("Contra"),tr("Great"),tr("Small"),
-                tr("One-line"),tr("Two-line"),tr("Three-line") };
+                tr("1-line"),tr("2-line"),tr("3-line") };
+const QString TnoteName::octavesFull[6] = {tr("Contra octave"), tr("Great octave"), tr("Small octave"), tr("One-line octave"), tr("Two-line octave"),tr("Three-line octave") };
 
 
 TnoteName::TnoteName(QWidget *parent) :
@@ -62,36 +63,24 @@ TnoteName::TnoteName(QWidget *parent) :
     accLay->addStretch(1);
     mainLay->addLayout(accLay);
 // OCTAVE BUTTONS TOOLBAR
-    QHBoxLayout * octLay1 = new QHBoxLayout;
-    QHBoxLayout * octLay2 = new QHBoxLayout;
+    QHBoxLayout * octLay = new QHBoxLayout;
+    octLay->addStretch(1);
     octaveGroup = new QButtonGroup(this);
     for (int i=0; i<6; i++) {
         octaveButtons[i] = new QPushButton(octaves[i],this);
+        octaveButtons[i]->setToolTip(octavesFull[i]);
         octaveButtons[i]->setCheckable(true);
-//        octLay->addWidget(octaveButtons[i]);
+        octLay->addWidget(octaveButtons[i]);
         octaveGroup->addButton(octaveButtons[i]);
     }
-    octLay1->addWidget(octaveButtons[0]);
-    octLay1->addStretch(1);
-    octLay1->addWidget(octaveButtons[2]);
-    octLay1->addStretch(1);
-    octLay1->addWidget(octaveButtons[4]);
-    octLay1->addStretch(1);
-
-    octLay2->addStretch(2);
-    octLay2->addWidget(octaveButtons[1]);
-    octLay2->addStretch(1);
-    octLay2->addWidget(octaveButtons[3]);
-    octLay2->addStretch(1);
-    octLay2->addWidget(octaveButtons[5]);
-
-    mainLay->addLayout(octLay1);
-    mainLay->addLayout(octLay2);
+    octLay->addStretch(1);
+    mainLay->addLayout(octLay);
     connect(octaveGroup, SIGNAL(buttonClicked(int)), this, SLOT(octaveWasChanged(int)));
 
     setLayout(mainLay);
 
     setNoteNamesOnButt(gl->NnameStyleInNoteName);
+    octaveButtons[2]->setChecked(true);
     for (int i=0; i<3; i++) m_notes.push_back(Tnote());
 
 
@@ -103,15 +92,20 @@ void TnoteName::setNoteNamesOnButt(Tnote::Enotation nameStyle) {
     }
 }
 
-void TnoteName::resizeEvent(QResizeEvent *) {
+void TnoteName::paintEvent(QPaintEvent *) {
     nameLabel->setFixedSize(width(),height()/2-5);
     nameLabel->setFont(QFont(nameLabel->font().family(),nameLabel->height()/3.5,50));
 }
 
+// private setNoteName method
 void TnoteName::setNoteName(char noteNr, char octNr, char accNr) {
-
+    if (noteNr) {
+        m_notes[0] = tnote(noteNr,octNr,accNr);
+        setNameText();
+    }
 }
 
+// public setNoteName methods
 void TnoteName::setNoteName(Tnote note) {
 
 }
@@ -166,3 +160,14 @@ void TnoteName::accidWasChanged() {
 void TnoteName::octaveWasChanged(int octNr) {
     setNoteName(m_notes[0].note, octNr-3, m_notes[0].acidental);
 }
+
+QString TnoteName::noteToRichText(Tnote note) {
+    return QString::fromStdString(note.getName(gl->NnameStyleInNoteName,false));
+}
+
+void TnoteName::setButtons() {
+
+
+
+}
+
