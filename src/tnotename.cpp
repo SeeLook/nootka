@@ -100,18 +100,36 @@ void TnoteName::paintEvent(QPaintEvent *) {
 
 // private setNoteName method
 void TnoteName::setNoteName(char noteNr, char octNr, char accNr) {
-//    std::cout << "note: " << (int)noteNr
-//            << " octave: " << (int)octNr
-//            << " accid: " << (int)accNr << "\n";
     if (noteNr) {
-
         m_notes[0] = Tnote(noteNr,octNr,accNr);
+        if (gl->showEnharmNotes) {
+            TnotesList enharmList = m_notes[0].getTheSameNotes(gl->doubleAccidentalsEnabled);
+            TnotesList::iterator it = enharmList.begin();
+            ++it;
+            if (it != enharmList.end())
+                m_notes[1] = *(it);
+            else m_notes[1] = Tnote();
+            ++it;
+            if (it != enharmList.end())
+                m_notes[2] = *(it);
+            else m_notes[2] = Tnote();
+        }
+//        std::cout << m_notes[0].getName() << "\t" << m_notes[1].getName() << "\t"
+//                << m_notes[2].getName() << "\n";
         setNameText();
+//        emit
     }
 }
 
 void TnoteName::setNameText() {
-    nameLabel->setText(noteToRichText(m_notes[0]));
+    QString txt = noteToRichText(m_notes[0]);
+    if (m_notes[1].note) {
+        txt = txt + QString("  <span style=\"font-size: %1px; color: %2\">(").arg(nameLabel->font().pointSize()-2).arg(gl->enharmNotesColor.name()) + noteToRichText(m_notes[1]);
+        if (m_notes[2].note)
+            txt = txt + "  " + noteToRichText(m_notes[2]);
+        txt = txt + ")</span>";
+    }
+    nameLabel->setText(txt);
 }
 
 // public setNoteName methods
@@ -171,7 +189,20 @@ void TnoteName::octaveWasChanged(int octNr) {
 }
 
 QString TnoteName::noteToRichText(Tnote note) {
-    return QString::fromStdString(note.getName(gl->NnameStyleInNoteName,false));
+    QString nameTxt = QString::fromStdString(note.getName(gl->NnameStyleInNoteName,false));
+    nameTxt = nameTxt.toLower();
+    if (gl->NoctaveInNoteNameFormat) {
+        if (note.octave < 0) { //first letter capitalize
+         QString l1 = nameTxt.mid(0,1).toUpper();
+         nameTxt.replace(0,1,l1);
+         if (note.octave == -2) {
+             nameTxt = "<u>"+nameTxt+"</u>";
+         }
+        }
+        if (note.octave > 0)
+            nameTxt = nameTxt + QString("<sup>%1</sup>").arg((int)note.octave);
+    }
+    return nameTxt;
 }
 
 void TnoteName::setButtons() {
@@ -180,3 +211,6 @@ void TnoteName::setButtons() {
 
 }
 
+//    std::cout << "note: " << (int)noteNr
+//            << " octave: " << (int)octNr
+//            << " accid: " << (int)accNr << "\n";
