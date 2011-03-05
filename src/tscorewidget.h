@@ -40,7 +40,7 @@ public:
 signals:
         /** This signal is emited to inform main window and his @param useDblAccidAct
         * to change its isChecked() state */
-    void enableDblAccWasChanged(bool isEnabled);
+//    void enableDblAccWasChanged(bool isEnabled);
 
 public slots:
 //    void enableDblAccidsSlot(bool isEnabled);
@@ -52,12 +52,8 @@ protected:
 
 //    void createActions();
 
-protected slots:
-
-//    void createScoreSettingsDialog();
 
 
-private:
 
 };
 

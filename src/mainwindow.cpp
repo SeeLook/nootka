@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
     mainLay->addWidget(m_guitar);
     widget->setLayout(mainLay);
 
-
+    connect(m_score, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(noteWasClicked(Tnote)));
 
 }
 
@@ -72,4 +72,12 @@ void MainWindow::createSettingsDialog() {
         if (gl->keySignatureEnabled) m_score->refreshKeySignNameStyle();
     }
 
+}
+
+void MainWindow::noteWasClicked(Tnote note) {
+    if (gl->showEnharmNotes){
+    TnotesList noteList;
+    noteList.push_back(note);
+    noteList.push_back(m_score->noteViews[1]->get);
+    }
 }

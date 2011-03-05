@@ -122,23 +122,34 @@ void TnoteName::setNoteName(char noteNr, char octNr, char accNr) {
 }
 
 void TnoteName::setNameText() {
-    QString txt = noteToRichText(m_notes[0]);
-    if (m_notes[1].note) {
-        txt = txt + QString("  <span style=\"font-size: %1px; color: %2\">(").arg(nameLabel->font().pointSize()-2).arg(gl->enharmNotesColor.name()) + noteToRichText(m_notes[1]);
-        if (m_notes[2].note)
-            txt = txt + "  " + noteToRichText(m_notes[2]);
-        txt = txt + ")</span>";
-    }
-    nameLabel->setText(txt);
+    if (m_notes[0].note) {
+        QString txt = noteToRichText(m_notes[0]);
+        if (m_notes[1].note) {
+            txt = txt + QString("  <span style=\"font-size: %1px; color: %2\">(").arg(nameLabel->font().pointSize()-2).arg(gl->enharmNotesColor.name()) + noteToRichText(m_notes[1]);
+            if (m_notes[2].note)
+                txt = txt + "  " + noteToRichText(m_notes[2]);
+            txt = txt + ")</span>";
+        }
+        nameLabel->setText(txt);
+    } else nameLabel->setText("");;
 }
 
 // public setNoteName methods
 void TnoteName::setNoteName(Tnote note) {
-
+    if (note.note) {
+        m_notes[0] = note;
+        setButtons();
+    }
+    setNameText();
 }
 
 void TnoteName::setNoteName(TnotesList notes) {
-
+    TnotesList::iterator it = notes.begin();
+    ++it;
+    m_notes[1] = *(it);
+    ++it;
+    m_notes[2] = *(it);
+    setNoteName(notes[0]);
 }
 
 void TnoteName::setEnableDoubleAccidentals(bool isEnabled) {
@@ -206,9 +217,18 @@ QString TnoteName::noteToRichText(Tnote note) {
 }
 
 void TnoteName::setButtons() {
+    noteButtons[note.note-1]->setChecked(true);
 
-
-
+    dblFlatButt->setChecked(false);
+    flatButt->setChecked(false);
+    sharpButt->setChecked(false);
+    dblSharpButt->setChecked(false);
+    switch (note.acidental) {
+    case -2 : dblFlatButt->setChecked(true); break;
+    case -1 : flatButt->setChecked(true); break;
+    case 1 : sharpButt->setChecked(true); break;
+    case 2 : dblSharpButt->setChecked(true); break;
+    }
 }
 
 //    std::cout << "note: " << (int)noteNr

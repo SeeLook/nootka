@@ -4,6 +4,7 @@
 #include "tscorewidget.h"
 #include "tnotename.h"
 #include "tfingerboard.h"
+#include "tnote.h"
 //#include <QtGui>
 
 
@@ -19,6 +20,8 @@ public:
 public slots:
 //    void whenEnableDblAccStateChanged(bool isEnabled);
     void createSettingsDialog();
+
+    void noteWasClicked(Tnote note);
 
 protected:
     void resizeEvent(QResizeEvent *);

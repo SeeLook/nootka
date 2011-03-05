@@ -75,15 +75,6 @@ void TscoreWidget::whenNoteWasChanged(int index, Tnote note) {
             else
                 hideNote(2);
         }
-//        if (enharmList.size())
-//          for (int i = 1; i<enharmList.size(); i++) {
-//            if (i == 1) {
-//                setNote(1,enharmList[1]);
-//                if (enharmList.size() == 1)
-//                    hideNote(2);
-//            }
-//            if (i == 2) setNote(2,enharmList[2]);
-//          }
     }
 }
 
