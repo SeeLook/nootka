@@ -215,11 +215,15 @@ void TscoreWidgetSimple::refreshKeySignNameStyle() {
 }
 
 void TscoreWidgetSimple::setNote(int index, Tnote note) {
-    int notePos = 26 - (note.octave*7 + note.note);
-    noteViews[index]->setNote(notePos, note.acidental);
+    m_notes[index] = note;
+    if (note.note) {
+        int notePos = 26 - (note.octave*7 + note.note);
+        noteViews[index]->setNote(notePos, note.acidental);
+    } else
+        clearNote(index);
 }
 
-void TscoreWidgetSimple::hideNote(int index) {
+void TscoreWidgetSimple::clearNote(int index) {
     noteViews[index]->hideNote();
     m_notes[index] = Tnote(0,0,0);
 }

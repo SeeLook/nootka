@@ -47,12 +47,8 @@ TscoreWidget::TscoreWidget(unsigned char _notesCount, QWidget *parent) :
     noteViews[2]->setDisabled(true);
     noteViews[2]->setColor(gl->enharmNotesColor);
 
-//    contextMenu = new QMenu(this);
-
     setEnabledDblAccid(gl->doubleAccidentalsEnabled);
     setEnableKeySign(gl->keySignatureEnabled);
-
-//    createActions();
 
     connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
 }
@@ -67,15 +63,16 @@ void TscoreWidget::whenNoteWasChanged(int index, Tnote note) {
         if (it != enharmList.end())
             setNote(1,*(it));
         else
-            hideNote(1);
+            clearNote(1);
         if (gl->doubleAccidentalsEnabled) {
             ++it;
             if (it != enharmList.end())
                 setNote(2,*(it));
             else
-                hideNote(2);
+                clearNote(2);
         }
     }
+    emit noteChanged(index, note);
 }
 
 void TscoreWidget::setEnableEnharmNotes(bool isEnabled) {

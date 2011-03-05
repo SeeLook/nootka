@@ -1,7 +1,7 @@
 #include "settingsdialog.h"
 #include "mainwindow.h"
 #include "tglobals.h"
-
+#include <iostream>
 
 Tglobals *gl = new Tglobals();
 
@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
     mainLay->addWidget(m_guitar);
     widget->setLayout(mainLay);
 
-    connect(m_score, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(noteWasClicked(Tnote)));
+    connect(m_score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
 
 }
 
@@ -74,10 +74,13 @@ void MainWindow::createSettingsDialog() {
 
 }
 
-void MainWindow::noteWasClicked(Tnote note) {
+void MainWindow::noteWasClicked(int index, Tnote note) {
     if (gl->showEnharmNotes){
-    TnotesList noteList;
-    noteList.push_back(note);
-    noteList.push_back(m_score->noteViews[1]->get);
-    }
+        TnotesList noteList;
+        noteList.push_back(note);
+        noteList.push_back(m_score->getNote(1));
+        noteList.push_back(m_score->getNote(2));
+        m_noteName->setNoteName(noteList);
+    } else
+        m_noteName->setNoteName(note);
 }

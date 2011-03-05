@@ -41,7 +41,7 @@ private:
     void setNoteName(char noteNr, char octNr, char accNr);
     void setNameText();
     QString noteToRichText(Tnote note);
-    void setButtons();
+    void setButtons(Tnote note);
 
 private slots:
     void noteWasChanged(int noteNr);
