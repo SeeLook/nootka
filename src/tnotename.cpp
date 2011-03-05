@@ -100,9 +100,13 @@ void TnoteName::paintEvent(QPaintEvent *) {
 // private setNoteName method
 void TnoteName::setNoteName(char noteNr, char octNr, char accNr) {
     if (noteNr) {
-        m_notes[0] = tnote(noteNr,octNr,accNr);
+        m_notes[0] = Tnote(noteNr,octNr,accNr);
         setNameText();
     }
+}
+
+void TnoteName::setNameText() {
+    nameLabel->setText(noteToRichText(m_notes[0]));
 }
 
 // public setNoteName methods
