@@ -110,13 +110,13 @@ void TnoteView::resize(int co) {
 }
 
 void TnoteView::mouseMoveEvent(QMouseEvent * event) {
-    if ( (event->x() > 2) && (event->x() < 5*m_coeff)
-        && (event->y() > m_ambitMax*m_coeff) && (event->y() < m_ambitMin*m_coeff) ) {
+    if (
+            (event->x() > 2) && (event->x() < 5*m_coeff) &&
+        (event->y() > m_ambitMax*m_coeff) && (event->y() < m_ambitMin*m_coeff) ) {
         int a = event->y()/m_coeff;
         if (m_workPosY != a) {
             m_workPosY = a;
             m_workNote->setPos(2.5*m_coeff,m_workPosY*m_coeff+1);
-//            m_workAccid->setPos(1,((qreal)(m_workPosY-accidTextOffset))*m_coeff-1);
             m_workAccid->setPos(1,(m_workPosY+1)*m_coeff-m_accTextOffset);
 
             for (int i=0; i < 7; i++)	{
@@ -136,18 +136,12 @@ void TnoteView::mouseMoveEvent(QMouseEvent * event) {
             }
        }
     }
-    else {
-        m_workNote->hide();
-        m_workAccid->hide();
-        for (int i=0; i < 7; i++) m_upLines[i]->hide();
-        for (int i=0; i < 5; i++) m_downLines[i]->hide();
-
-        m_workPosY = 0;
-    }
+    else
+        hideWorkNote();
 }
 
 void TnoteView::mousePressEvent(QMouseEvent * event) {
-    if (event->button() == Qt::LeftButton) {
+    if (event->button() == Qt::LeftButton && m_workPosY) {
         m_mainPosY = m_workPosY;
         m_accidental = m_curentAccid;
         moveNote(m_mainPosY);
@@ -239,4 +233,21 @@ void TnoteView::setColor(QColor color) {
         m_mainUpLines[i]->setPen(QPen(color));
         if (i < 5) m_mainDownLines[i]->setPen(QPen(color));
     }
+}
+
+//bool TnoteView::event(QEvent *event) {
+//    if (event->type() == QEvent::Leave) {
+//        hideWorkNote();
+//        std::cout << "kuku\n";
+//        return true;
+//    }
+//    return QWidget::event(event);
+//}
+
+void TnoteView::hideWorkNote() {
+    m_workNote->hide();
+    m_workAccid->hide();
+    for (int i=0; i < 7; i++) m_upLines[i]->hide();
+    for (int i=0; i < 5; i++) m_downLines[i]->hide();
+    m_workPosY = 0;
 }
