@@ -54,8 +54,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void wheelEvent(QWheelEvent *event);
-    void event(QEvent *event);
-//    void m_scene->wheelEvent(QGraphicsSceneWheelEvent *event);
+//    bool event(QEvent *event);
 
     void resize(int co);
         /** This method is used by TscoreWidgetSimple when buttons with accidetals
@@ -86,6 +85,7 @@ private:
     char *m_dblAccFusePtr;
         /** Returns QString with accidental symbol*/
     QString getAccid(int accNr);
+    void hideWorkNote();
 
 };
 

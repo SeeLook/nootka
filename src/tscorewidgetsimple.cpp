@@ -108,7 +108,7 @@ void TscoreWidgetSimple::resize() {
 
 void TscoreWidgetSimple::setButtons(QPushButton *button) {
     button->setFixedSize(40,40);
-    button->setIconSize(QSize(34,34));
+    button->setIconSize(QSize(28,28));
     button->setCheckable(true);
 }
 
