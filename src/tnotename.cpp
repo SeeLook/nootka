@@ -20,7 +20,7 @@ TnoteName::TnoteName(QWidget *parent) :
     QVBoxLayout *mainLay = new QVBoxLayout();
     mainLay->setAlignment(Qt::AlignCenter);
 
-    nameLabel = new QLabel("Note name",this);
+    nameLabel = new QLabel("Nootka",this);
     nameLabel->setAlignment(Qt::AlignCenter);
     nameLabel->setStyleSheet(QString("background: %1").arg(palette().base().color().name()));
 
@@ -94,8 +94,9 @@ void TnoteName::setNoteNamesOnButt(Tnote::Enotation nameStyle) {
 }
 
 void TnoteName::paintEvent(QPaintEvent *) {
-    nameLabel->setFixedSize(width(),height()/2-5);
-    nameLabel->setFont(QFont(nameLabel->font().family(),nameLabel->height()/3.5,50));
+//    nameLabel->setFixedSize(width(),height()/2-5);
+    nameLabel->setFont(QFont(nameLabel->font().family(),nameLabel->height()/2.5,50));
+    nameLabel->setFixedHeight(height()/2-5);
 }
 
 // private setNoteName method
@@ -114,10 +115,8 @@ void TnoteName::setNoteName(char noteNr, char octNr, char accNr) {
                 m_notes[2] = *(it);
             else m_notes[2] = Tnote();
         }
-//        std::cout << m_notes[0].getName() << "\t" << m_notes[1].getName() << "\t"
-//                << m_notes[2].getName() << "\n";
         setNameText();
-//        emit
+        emit noteNameWasChanged(m_notes[0]);
     }
 }
 

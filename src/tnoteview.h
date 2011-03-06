@@ -54,6 +54,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void wheelEvent(QWheelEvent *event);
+    void event(QEvent *event);
 //    void m_scene->wheelEvent(QGraphicsSceneWheelEvent *event);
 
     void resize(int co);

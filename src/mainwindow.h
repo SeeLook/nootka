@@ -22,6 +22,7 @@ public slots:
     void createSettingsDialog();
 
     void noteWasClicked(int index, Tnote note);
+    void noteNameWasChanged(Tnote note);
 
 protected:
     void resizeEvent(QResizeEvent *);
