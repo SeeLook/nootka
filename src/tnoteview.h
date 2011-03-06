@@ -54,7 +54,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void wheelEvent(QWheelEvent *event);
-//    bool event(QEvent *event);
+    bool event(QEvent *event);
 
     void resize(int co);
         /** This method is used by TscoreWidgetSimple when buttons with accidetals
