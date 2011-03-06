@@ -90,7 +90,6 @@ void TnoteView::resize(int co) {
             m_mainDownLines[i]->setLine((qreal)2*m_coeff,(qreal)m_coeff*2*(i+13),(qreal)width(),(qreal)m_coeff*2*(i+13));
         }
     }
-    if (m_mainNote->isVisible() && m_mainPosY) moveNote(m_mainPosY);
 
     qreal fontFactor = 3.6;
     QFont font(QFont("Emmentaler"));
@@ -105,19 +104,18 @@ void TnoteView::resize(int co) {
     m_accTextOffset = m_workAccid->boundingRect().height()/2;
     if (reset) m_workAccid->setText("");
 
-
-
+    if (m_mainNote->isVisible() && m_mainPosY) moveNote(m_mainPosY);
 }
 
 void TnoteView::mouseMoveEvent(QMouseEvent * event) {
     if (
-            (event->x() > 2) && (event->x() < 5*m_coeff) &&
+//            (event->x() > 2) && (event->x() < 5*m_coeff) &&
         (event->y() > m_ambitMax*m_coeff) && (event->y() < m_ambitMin*m_coeff) ) {
         int a = event->y()/m_coeff;
         if (m_workPosY != a) {
             m_workPosY = a;
             m_workNote->setPos(2.5*m_coeff,m_workPosY*m_coeff+1);
-            m_workAccid->setPos(1,(m_workPosY+1)*m_coeff-m_accTextOffset);
+            m_workAccid->setPos(5,(m_workPosY+1)*m_coeff-m_accTextOffset);
 
             for (int i=0; i < 7; i++)	{
                 if (m_workPosY < (2*(i+1)))
@@ -167,7 +165,7 @@ void TnoteView::wheelEvent(QWheelEvent * event) {
 void TnoteView::moveNote(int pos) {
     m_mainNote->setPos(2.5*m_coeff,pos*m_coeff+1);
 //    m_mainAccid->setPos(1,(pos-accidTextOffset)*m_coeff);
-    m_mainAccid->setPos(1,(pos+1)*m_coeff-m_accTextOffset);
+    m_mainAccid->setPos(5,(pos+1)*m_coeff-m_accTextOffset);
     if (*(m_accInKeyPtr+(39-pos)%7)) {
       if ( m_accidental == 0 ) m_mainAccid->setText(getAccid(3));
       else
@@ -235,14 +233,12 @@ void TnoteView::setColor(QColor color) {
     }
 }
 
-//bool TnoteView::event(QEvent *event) {
-//    if (event->type() == QEvent::Leave) {
-//        hideWorkNote();
-//        std::cout << "kuku\n";
-//        return true;
-//    }
-//    return QWidget::event(event);
-//}
+bool TnoteView::event(QEvent *event) {
+    if (event->type() == QEvent::Leave)
+        hideWorkNote();
+    return QGraphicsView::event(event);
+}
+
 
 void TnoteView::hideWorkNote() {
     m_workNote->hide();

@@ -99,7 +99,7 @@ void TscoreWidgetSimple::resize() {
         shift = 14;
     }
     for (int i=0; i<noteViews.size(); i++) {
-        noteViews[i]->setGeometry((shift+i*7)*coeff,0,6*coeff,height());
+        noteViews[i]->setGeometry((shift+i*6)*coeff,0,6*coeff,height());
         noteViews[i]->resize(coeff);
     }
 
