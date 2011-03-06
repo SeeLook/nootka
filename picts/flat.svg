@@ -7,38 +7,12 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="1.6518611"
-   height="4.4073057"
-   id="svg5221"
    version="1.1"
-   inkscape:version="0.48.0 r9654"
-   sodipodi:docname="Nowy dokument 8">
+   width="3"
+   height="5.5"
+   id="svg5221">
   <defs
      id="defs5223" />
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="5.6"
-     inkscape:cx="27.913221"
-     inkscape:cy="-4.9025213"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     fit-margin-top="0"
-     fit-margin-left="0"
-     fit-margin-right="0"
-     fit-margin-bottom="0"
-     inkscape:window-width="580"
-     inkscape:window-height="456"
-     inkscape:window-x="1012"
-     inkscape:window-y="713"
-     inkscape:window-maximized="0" />
   <metadata
      id="metadata5226">
     <rdf:RDF>
@@ -52,19 +26,16 @@
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(-102.03121,-501.5871)">
+     transform="translate(-102.03121,-500.49441)"
+     id="layer1">
     <g
-       transform="matrix(1.757299,0,0,1.757299,102.27723,504.71509)"
+       transform="matrix(1.757299,0,0,1.757299,102.9513,504.16875)"
        id="g1830">
       <g
-         style="font-size:4px;fill:currentColor;font-family:Emmentaler"
-         id="text1832">
+         id="text1832"
+         style="font-size:4px;fill:currentColor;font-family:Emmentaler">
         <path
-           d="m 0.148,-0.12 c 0.004,-0.13599986 0.0680001,-0.272 0.188,-0.272 0.10799989,0 0.156,0.12000012 0.156,0.244 0,0.21599978 -0.17200016,0.38400015 -0.332,0.536 -0.012,-0.0799999 -0.02,-0.16400008 -0.02,-0.248 l 0,-0.04 0.008,-0.22 m -0.224,0.696 c 0,0.0799999 0.05200008,0.152 0.128,0.152 C 0.17199988,0.728 0.20400008,0.57999992 0.284,0.5 0.49999978,0.29200021 0.8,0.1239997 0.8,-0.176 c 0,-0.21999978 -0.1040002,-0.432 -0.3,-0.432 -0.15199985,0 -0.2960001,0.0680001 -0.396,0.184 L 0.14,-1.744 C 0.09600004,-1.768 0.04799995,-1.78 0,-1.78 c -0.04799995,0 -0.09600004,0.012 -0.14,0.036 l 0.064,2.32"
-           style=""
+           d="m 0.148,-0.12 c 0.004,-0.13599986 0.0680001,-0.272 0.188,-0.272 0.10799989,0 0.156,0.12000012 0.156,0.244 0,0.21599978 -0.17200016,0.38400015 -0.332,0.536 C 0.148,0.3080001 0.14,0.22399992 0.14,0.14 l 0,-0.04 0.008,-0.22 m -0.224,0.696 c 0,0.0799999 0.05200008,0.152 0.128,0.152 C 0.17199988,0.728 0.20400008,0.57999992 0.284,0.5 0.49999978,0.29200021 0.8,0.1239997 0.8,-0.176 c 0,-0.21999978 -0.1040002,-0.432 -0.3,-0.432 -0.15199985,0 -0.2960001,0.0680001 -0.396,0.184 L 0.14,-1.744 C 0.09600004,-1.768 0.04799995,-1.78 0,-1.78 c -0.04799995,0 -0.09600004,0.012 -0.14,0.036 l 0.064,2.32"
            id="path5241" />
       </g>
     </g>
