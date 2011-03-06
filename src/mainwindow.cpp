@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     widget->setLayout(mainLay);
 
     connect(m_score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
+    connect(m_noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
 
 }
 
@@ -83,4 +84,12 @@ void MainWindow::noteWasClicked(int index, Tnote note) {
         m_noteName->setNoteName(noteList);
     } else
         m_noteName->setNoteName(note);
+}
+
+void MainWindow::noteNameWasChanged(Tnote note) {
+    m_score->setNote(0, note);
+    if (gl->showEnharmNotes) {
+        m_score->setNote(1, m_noteName->getNoteName(1));
+        m_score->setNote(2, m_noteName->getNoteName(2));
+    }
 }

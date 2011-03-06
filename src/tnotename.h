@@ -26,6 +26,7 @@ public:
 //    void setButtonsWithOctaves
 
 signals:
+    void noteNameWasChanged(Tnote note);
 
 public slots:
 
