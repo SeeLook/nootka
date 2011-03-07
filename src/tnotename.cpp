@@ -22,7 +22,7 @@ TnoteName::TnoteName(QWidget *parent) :
 
     nameLabel = new QLabel("Nootka",this);
     nameLabel->setAlignment(Qt::AlignCenter);
-    nameLabel->setStyleSheet(QString("background: %1").arg(palette().base().color().name()));
+//    nameLabel->setStyleSheet(QString("background: %1").arg(palette().base().color().name()));
 
     mainLay->addWidget(nameLabel);
 // BUTTONS WITH NOTES TOOLBAR
@@ -94,9 +94,14 @@ void TnoteName::setNoteNamesOnButt(Tnote::Enotation nameStyle) {
 }
 
 void TnoteName::paintEvent(QPaintEvent *) {
-//    nameLabel->setFixedSize(width(),height()/2-5);
-    nameLabel->setFont(QFont(nameLabel->font().family(),nameLabel->height()/2.5,50));
-    nameLabel->setFixedHeight(height()/2-5);
+    resize();
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setWindow(0,0,nameLabel->width(),nameLabel->height());
+    painter.setPen(QPen(palette().foreground().color()));
+    painter.setBrush(QBrush(palette().base().color(),Qt::SolidPattern));
+    painter.drawRoundedRect(1,1,nameLabel->width()-2,nameLabel->height()-2,5,5);
+
 }
 
 // private setNoteName method
@@ -151,8 +156,16 @@ void TnoteName::setNoteName(TnotesList notes) {
     setNoteName(notes[0]);
 }
 
-void TnoteName::setEnableDoubleAccidentals(bool isEnabled) {
-
+void TnoteName::setEnabledDblAccid(bool isEnabled) {
+    if (isEnabled) {
+        dblFlatButt->show();
+        dblSharpButt->show();
+    } else {
+        dblFlatButt->hide();
+        dblSharpButt->hide();
+        m_notes[2] = Tnote(0,0,0);
+        setNameText();
+    }
 }
 
 void TnoteName::noteWasChanged(int noteNr) {
@@ -227,6 +240,19 @@ void TnoteName::setButtons(Tnote note) {
     case 1 : sharpButt->setChecked(true); break;
     case 2 : dblSharpButt->setChecked(true); break;
     }
+}
+
+void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
+    if (!isEnabled) {
+        m_notes[1] = Tnote(0,0,0);
+        m_notes[2] = Tnote(0,0,0);
+        setNameText();
+    }
+}
+
+void TnoteName::resize() {
+    nameLabel->setFont(QFont(nameLabel->font().family(),nameLabel->height()/2.5,50));
+    nameLabel->setFixedHeight(height()/2-5);
 }
 
 //    std::cout << "note: " << (int)noteNr

@@ -57,9 +57,8 @@ void MainWindow::createToolBar() {
 
 void MainWindow::resizeEvent(QResizeEvent *) {
     m_score->setFixedWidth(centralWidget()->width()/2);
-//    m_score->setFixedHeight(2*height()/3);
     m_guitar->setFixedHeight(centralWidget()->height()/3);
-//    m_noteName->setFixedWidth(width()/2);
+    m_noteName->resize();
 }
 
 //##########        SLOTS       ###############
@@ -68,8 +67,11 @@ void MainWindow::createSettingsDialog() {
     ScoreSettingsDlg *scoreSettDlg = new ScoreSettingsDlg();
     if (scoreSettDlg->exec() == QDialog::Accepted) {
         m_score->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
+        m_noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
         m_score->setEnableKeySign(gl->keySignatureEnabled);
+        if (!gl->doubleAccidentalsEnabled) m_score->clearNote(2);
         m_score->setEnableEnharmNotes(gl->showEnharmNotes);
+        m_noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
         if (gl->keySignatureEnabled) m_score->refreshKeySignNameStyle();
     }
 
