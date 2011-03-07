@@ -23,6 +23,7 @@ TnoteName::TnoteName(QWidget *parent) :
     nameLabel = new QLabel("Nootka",this);
     nameLabel->setAlignment(Qt::AlignCenter);
 //    nameLabel->setStyleSheet(QString("background: %1").arg(palette().base().color().name()));
+//    nameLabel->setStyleSheet("background: transparent");
 
     mainLay->addWidget(nameLabel);
 // BUTTONS WITH NOTES TOOLBAR
@@ -97,10 +98,10 @@ void TnoteName::paintEvent(QPaintEvent *) {
     resize();
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.setWindow(0,0,nameLabel->width(),nameLabel->height());
+    painter.setWindow(0,0,width(),height());
     painter.setPen(QPen(palette().foreground().color()));
     painter.setBrush(QBrush(palette().base().color(),Qt::SolidPattern));
-    painter.drawRoundedRect(1,1,nameLabel->width()-2,nameLabel->height()-2,5,5);
+    painter.drawRoundedRect(1,1,nameLabel->width()-2,nameLabel->height()-2,10,10);
 
 }
 
