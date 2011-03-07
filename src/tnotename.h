@@ -18,11 +18,13 @@ public:
     static const QString octavesFull[6];
 
     void setNoteNamesOnButt(Tnote::Enotation nameStyle);
-    void setEnableDoubleAccidentals(bool isEnabled);
+    void setEnabledDblAccid(bool isEnabled);
+    void setEnabledEnharmNotes(bool isEnabled);
     void setNoteName(Tnote note);
     void setNoteName(TnotesList notes);
     Tnote getNoteName() {return m_notes[0]; }
     Tnote getNoteName(int index) {return m_notes[index]; }
+    void resize();
 //    void setButtonsWithOctaves
 
 signals:

@@ -77,8 +77,10 @@ void TscoreWidget::whenNoteWasChanged(int index, Tnote note) {
 
 void TscoreWidget::setEnableEnharmNotes(bool isEnabled) {
     if (!isEnabled) {
-        noteViews[1]->hideNote();
-        noteViews[2]->hideNote();
+//        noteViews[1]->hideNote();
+        clearNote(1);
+        clearNote(2);
+//        noteViews[2]->hideNote();
     }
 }
 
