@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     statusBar()->showMessage(tr("Nootka ") + gl->version);
 
+    setWindowIcon(QIcon(":/picts/nootka.svg"));
+
 //    m_actMenu = menuBar()->addMenu(tr("actions"));
     QWidget *widget = new QWidget(this);
     m_score = new TscoreWidget(3,widget);
