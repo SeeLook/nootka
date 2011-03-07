@@ -22,7 +22,8 @@ TnoteView::TnoteView(int _index, TscoreWidgetSimple * parent) :
     setScene(m_scene);
 
     m_workColor = palette().highlight().color();
-    m_workColor.setAlpha(150);
+    m_workColor.setRgb(qRgb(255-m_workColor.red(),255-m_workColor.green(),255-m_workColor.blue()));
+    m_workColor.setAlpha(200);
     m_mainColor = palette().windowText().color();
 
     for (int i=0; i<7; i++) {
@@ -90,8 +91,7 @@ void TnoteView::resize(int co) {
             m_mainDownLines[i]->setLine((qreal)2*m_coeff,(qreal)m_coeff*2*(i+13),(qreal)width(),(qreal)m_coeff*2*(i+13));
         }
     }
-
-    qreal fontFactor = 3.6;
+    qreal fontFactor = 3.7;
     QFont font(QFont("Emmentaler"));
     font.setPointSizeF(fontFactor*m_coeff);
     m_workAccid->setFont(font);
@@ -101,7 +101,7 @@ void TnoteView::resize(int co) {
         m_workAccid->setText(QString(QChar(0xe11a)));
         reset = true;
     }
-    m_accTextOffset = m_workAccid->boundingRect().height()/2;
+    m_accTextOffset = m_workAccid->boundingRect().height()/2 - 1;
     if (reset) m_workAccid->setText("");
 
     if (m_mainNote->isVisible() && m_mainPosY) moveNote(m_mainPosY);
@@ -164,7 +164,6 @@ void TnoteView::wheelEvent(QWheelEvent * event) {
 
 void TnoteView::moveNote(int pos) {
     m_mainNote->setPos(2.5*m_coeff,pos*m_coeff+1);
-//    m_mainAccid->setPos(1,(pos-accidTextOffset)*m_coeff);
     m_mainAccid->setPos(5,(pos+1)*m_coeff-m_accTextOffset);
     if (*(m_accInKeyPtr+(39-pos)%7)) {
       if ( m_accidental == 0 ) m_mainAccid->setText(getAccid(3));
