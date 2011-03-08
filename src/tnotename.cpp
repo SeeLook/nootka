@@ -107,8 +107,8 @@ void TnoteName::paintEvent(QPaintEvent *) {
 
 // private setNoteName method
 void TnoteName::setNoteName(char noteNr, char octNr, char accNr) {
+    m_notes[0] = Tnote(noteNr,octNr,accNr);
     if (noteNr) {
-        m_notes[0] = Tnote(noteNr,octNr,accNr);
         if (gl->showEnharmNotes) {
             TnotesList enharmList = m_notes[0].getTheSameNotes(gl->doubleAccidentalsEnabled);
             TnotesList::iterator it = enharmList.begin();

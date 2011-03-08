@@ -64,11 +64,11 @@ private:
 
 
 
-class ScoreSettingsDlg : public QDialog
+class ScoreSettings : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ScoreSettingsDlg(QWidget *parent = 0);
+    explicit ScoreSettings(QWidget *parent = 0);
 
     static const QString forExample;
     static const QString showKeySigName;
@@ -91,13 +91,31 @@ private:
     QLabel *majExtLab, *minExtLab, *majExampl, *minExampl;
     QLineEdit *majEdit, *minEdit;
     TnotationRadioGroup *nameStyleGr;
-    EnharmAndDblAccChBox *enhAndDblAcc;
-    QPushButton *cancelBut, *okBut;
     Tnote::Enotation m_workStyle;
 
 
 };
 
 
+
+
+class SettingsDialog : public QDialog
+{
+    Q_OBJECT
+public:
+    explicit SettingsDialog(QWidget *parent = 0);
+
+public slots:
+    void saveSettings();
+
+private:
+    QListWidget *navList;
+    QStackedLayout *stackLayout;
+    QPushButton *cancelBut, *okBut;
+
+    EnharmAndDblAccChBox *m_globalSett;
+    ScoreSettings *m_scoreSett;
+
+};
 
 #endif // SETTINGSDIALOG_H

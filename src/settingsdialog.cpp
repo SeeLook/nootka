@@ -103,13 +103,13 @@ bool EnharmAndDblAccChBox::isEnableOtherEnharmNotes() {
 }
 
 
-//############# ScoreSetttingsDlg IMPLEMENTATION ##################
+//############# ScoreSetttings IMPLEMENTATION ##################
 /*static*/
-const QString ScoreSettingsDlg::forExample = tr("for example");
-const QString ScoreSettingsDlg::showKeySigName = tr("show names of key signature");
+const QString ScoreSettings::forExample = tr("for example");
+const QString ScoreSettings::showKeySigName = tr("show names of key signature");
 
-ScoreSettingsDlg::ScoreSettingsDlg(QWidget *parent) :
-    QDialog(parent)
+ScoreSettings::ScoreSettings(QWidget *parent) :
+    QWidget(parent)
 {
 
     m_workStyle = gl->nameStyleInKeySign;
@@ -162,8 +162,98 @@ ScoreSettingsDlg::ScoreSettingsDlg(QWidget *parent) :
     enablKeyNameGr->setLayout(nameLay);
     mainLay->addWidget(enablKeyNameGr);
 
-    enhAndDblAcc = new EnharmAndDblAccChBox(gl->showEnharmNotes,gl->doubleAccidentalsEnabled,this);
-    mainLay->addWidget(enhAndDblAcc);
+    setLayout(mainLay);
+
+    connect(enablKeySignCh, SIGNAL(toggled(bool)), this, SLOT(enableKeySignGroup(bool)));
+    connect(nameStyleGr, SIGNAL(noteNameStyleWasChanged(Tnote::Enotation)), this, SLOT(nameStyleWasChanged(Tnote::Enotation)));
+    connect(majEdit ,SIGNAL(textChanged(QString)), this, SLOT(majorExtensionChanged()));
+    connect(minEdit ,SIGNAL(textChanged(QString)), this, SLOT(minorExtensionChanged()));
+//    connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
+    majExampl->setText(getMajorExample(m_workStyle));
+    minExampl->setText(getMinorExample(m_workStyle));
+}
+
+void ScoreSettings::enableKeySignGroup(bool enable) {
+    enablKeyNameGr->setDisabled(!enable);
+}
+
+void ScoreSettings::majorExtensionChanged() {
+    majExampl->setText(getMajorExample(m_workStyle));
+}
+
+void ScoreSettings::minorExtensionChanged() {
+    minExampl->setText(getMinorExample(m_workStyle));
+}
+
+QString ScoreSettings::getMajorExample(Tnote::Enotation nameStyle) {
+    Tnote noteE = Tnote(3,0,0);
+    Tnote noteBflat = Tnote(7,0,-1);
+    QString S;
+    if (majEdit->text().isEmpty()) S = "";
+      else S = "-"+majEdit->text();
+      return forExample + "<br><b>" + QString::fromStdString(noteE.getName(nameStyle,false)) + S +
+              "<br>" + QString::fromStdString(noteBflat.getName(nameStyle,false)) + S + "</b>";
+}
+
+QString ScoreSettings::getMinorExample(Tnote::Enotation nameStyle) {
+    Tnote noteCsharp = Tnote(1,0,1);
+    Tnote noteG = Tnote(5,0,0);
+    QString S;
+    if (minEdit->text().isEmpty()) S = "";
+      else S = "-"+minEdit->text();
+      return forExample + "<br><b>" +
+              QString::fromStdString(noteCsharp.getName(nameStyle,false)).toLower()+ S + "<br>" +
+              QString::fromStdString(noteG.getName(nameStyle,false)).toLower() + S + "</b>";
+}
+
+
+void ScoreSettings::nameStyleWasChanged(Tnote::Enotation nameStyle) {
+    m_workStyle = nameStyle;
+    majExampl->setText(getMajorExample(m_workStyle));
+    minExampl->setText(getMinorExample(m_workStyle));
+}
+
+void ScoreSettings::saveSettings() {
+    gl->keySignatureEnabled = enablKeySignCh->isChecked();
+    if (gl->keySignatureEnabled) { //changed only if key signature is enabled
+        gl->majKeyNameSufix = majEdit->text();
+        gl->minKeyNameSufix = minEdit->text();
+        gl->nameStyleInKeySign = nameStyleGr->getNameStyle();
+        gl->showKeySignName = enablKeyNameGr->isChecked();
+    }
+}
+
+//############# SettingsDialog IMPLEMENTATION ##################
+SettingsDialog::SettingsDialog(QWidget *parent) :
+        QDialog(parent)
+{
+    setWindowTitle("Nootka - "+tr("programs settings"));
+
+    QVBoxLayout *mainLay = new QVBoxLayout;
+    QHBoxLayout *contLay = new QHBoxLayout;
+    navList = new QListWidget(this);
+    navList->setIconSize(QSize(64,64));
+    navList->setFixedWidth(130);
+    navList->addItem(tr("Global"));
+    navList->item(0)->setIcon(QIcon(":/picts/global.png"));
+//    navList->item(0)->setSizeHint(QSize(70,120));
+//    navList->item(0)->setTextAlignment(Qt::AlignHCenter);
+    navList->addItem(tr("Score"));
+    navList->item(1)->setIcon(QIcon(":/picts/scoreSettings.svg"));
+    navList->addItem(tr("Note names"));
+    navList->item(2)->setIcon(QIcon(":/picts/nameSettings.svg"));
+    contLay->addWidget(navList);
+
+    m_globalSett = new EnharmAndDblAccChBox(gl->showEnharmNotes, gl->doubleAccidentalsEnabled);
+    m_scoreSett = new ScoreSettings();
+
+
+    stackLayout = new QStackedLayout;
+    stackLayout->addWidget(m_globalSett);
+    stackLayout->addWidget(m_scoreSett);
+    contLay->addLayout(stackLayout);
+
+    mainLay->addLayout(contLay);
 
     QHBoxLayout *butLay = new QHBoxLayout();
     okBut = new QPushButton(tr("OK"),this);
@@ -177,65 +267,16 @@ ScoreSettingsDlg::ScoreSettingsDlg(QWidget *parent) :
 
     setLayout(mainLay);
 
+    connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
+    connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
     connect(cancelBut, SIGNAL(clicked()), this, SLOT(reject()));
     connect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
-    connect(enablKeySignCh, SIGNAL(toggled(bool)), this, SLOT(enableKeySignGroup(bool)));
-    connect(nameStyleGr, SIGNAL(noteNameStyleWasChanged(Tnote::Enotation)), this, SLOT(nameStyleWasChanged(Tnote::Enotation)));
-    connect(majEdit ,SIGNAL(textChanged(QString)), this, SLOT(majorExtensionChanged()));
-    connect(minEdit ,SIGNAL(textChanged(QString)), this, SLOT(minorExtensionChanged()));
-    connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
-    majExampl->setText(getMajorExample(m_workStyle));
-    minExampl->setText(getMinorExample(m_workStyle));
+
+    navList->setCurrentRow(0);
 }
 
-void ScoreSettingsDlg::enableKeySignGroup(bool enable) {
-    enablKeyNameGr->setDisabled(!enable);
-}
-
-void ScoreSettingsDlg::majorExtensionChanged() {
-    majExampl->setText(getMajorExample(m_workStyle));
-}
-
-void ScoreSettingsDlg::minorExtensionChanged() {
-    minExampl->setText(getMinorExample(m_workStyle));
-}
-
-QString ScoreSettingsDlg::getMajorExample(Tnote::Enotation nameStyle) {
-    Tnote noteE = Tnote(3,0,0);
-    Tnote noteBflat = Tnote(7,0,-1);
-    QString S;
-    if (majEdit->text().isEmpty()) S = "";
-      else S = "-"+majEdit->text();
-      return forExample + "<br><b>" + QString::fromStdString(noteE.getName(nameStyle,false)) + S +
-              "<br>" + QString::fromStdString(noteBflat.getName(nameStyle,false)) + S + "</b>";
-}
-
-QString ScoreSettingsDlg::getMinorExample(Tnote::Enotation nameStyle) {
-    Tnote noteCsharp = Tnote(1,0,1);
-    Tnote noteG = Tnote(5,0,0);
-    QString S;
-    if (minEdit->text().isEmpty()) S = "";
-      else S = "-"+minEdit->text();
-      return forExample + "<br><b>" +
-              QString::fromStdString(noteCsharp.getName(nameStyle,false)).toLower()+ S + "<br>" +
-              QString::fromStdString(noteG.getName(nameStyle,false)).toLower() + S + "</b>";
-}
-
-
-void ScoreSettingsDlg::nameStyleWasChanged(Tnote::Enotation nameStyle) {
-    m_workStyle = nameStyle;
-    majExampl->setText(getMajorExample(m_workStyle));
-    minExampl->setText(getMinorExample(m_workStyle));
-}
-
-void ScoreSettingsDlg::saveSettings() {
-    gl->doubleAccidentalsEnabled = enhAndDblAcc->isEnableDblAccid();
-    gl->showEnharmNotes = enhAndDblAcc->isEnableOtherEnharmNotes();
-    gl->keySignatureEnabled = enablKeySignCh->isChecked();
-    if (gl->keySignatureEnabled) { //changed onli if key signature is enabled
-        gl->majKeyNameSufix = majEdit->text();
-        gl->minKeyNameSufix = minEdit->text();
-        gl->nameStyleInKeySign = nameStyleGr->getNameStyle();
-        gl->showKeySignName = enablKeyNameGr->isChecked();
-    }
+void SettingsDialog::saveSettings() {
+    m_scoreSett->saveSettings();
+    //    gl->doubleAccidentalsEnabled = enhAndDblAcc->isEnableDblAccid();
+    //    gl->showEnharmNotes = enhAndDblAcc->isEnableOtherEnharmNotes();
 }
