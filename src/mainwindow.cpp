@@ -66,8 +66,8 @@ void MainWindow::resizeEvent(QResizeEvent *) {
 //##########        SLOTS       ###############
 
 void MainWindow::createSettingsDialog() {
-    ScoreSettingsDlg *scoreSettDlg = new ScoreSettingsDlg();
-    if (scoreSettDlg->exec() == QDialog::Accepted) {
+    SettingsDialog *settings = new SettingsDialog;
+    if (settings->exec() == QDialog::Accepted) {
         m_score->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
         m_noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
         m_score->setEnableKeySign(gl->keySignatureEnabled);
