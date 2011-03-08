@@ -8,7 +8,7 @@
         <file>picts/systemsettings.svg</file>
         <file>picts/nootka.svg</file>
         <file>picts/scoreSettings.svg</file>
-        <file>picts/global.png</file>
         <file>picts/nameSettings.svg</file>
+        <file>picts/global.svg</file>
     </qresource>
 </RCC>

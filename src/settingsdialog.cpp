@@ -235,7 +235,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     navList->setIconSize(QSize(64,64));
     navList->setFixedWidth(130);
     navList->addItem(tr("Global"));
-    navList->item(0)->setIcon(QIcon(":/picts/global.png"));
+    navList->item(0)->setIcon(QIcon(":/picts/global.svg"));
 //    navList->item(0)->setSizeHint(QSize(70,120));
 //    navList->item(0)->setTextAlignment(Qt::AlignHCenter);
     navList->addItem(tr("Score"));
