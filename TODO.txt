@@ -1,0 +1,2 @@
+- background to icons
+- use enableDblAcc in TscoreWidgetSimple to avoid waste hiding or showing dbl accid buttons

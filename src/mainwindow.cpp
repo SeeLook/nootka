@@ -75,6 +75,8 @@ void MainWindow::createSettingsDialog() {
         m_score->setEnableEnharmNotes(gl->showEnharmNotes);
         m_noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
         if (gl->keySignatureEnabled) m_score->refreshKeySignNameStyle();
+        m_noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
+        noteWasClicked(0,m_noteName->getNoteName(0));//refresh name
     }
 
 }
