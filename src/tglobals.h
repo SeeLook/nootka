@@ -63,7 +63,7 @@ public:
 //note name settings
     Tnote::Enotation NnameStyleInNoteName;
     bool NoctaveInNoteNameFormat; //default true
-    bool NoctaveNameInNoteName; //default true
+//    bool NoctaveNameInNoteName; //default true
 
 };
 #endif // TGLOBALS_H

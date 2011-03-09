@@ -50,14 +50,13 @@ private:
 
 };
 
-class EnharmAndDblAccChBox : public QWidget
+class GlobalSettings : public QWidget
 {
     Q_OBJECT
 public:
-    explicit EnharmAndDblAccChBox(bool otherEnharm, bool dblAcc, QWidget *parent = 0);
-    inline bool isEnableDblAccid();
-    inline bool isEnableOtherEnharmNotes();
+    explicit GlobalSettings(QWidget *parent = 0);
 
+    void saveSettings();
 private:
     QCheckBox *otherEnharmChBox, *dblAccChBox;
 };
@@ -97,6 +96,18 @@ private:
 };
 
 
+class NameSettings : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit NameSettings(QWidget *parent = 0);
+
+    void saveSettings();
+
+private:
+    TnotationRadioGroup *nameStyleGr;
+    QCheckBox *octInNameCh;
+};
 
 
 class SettingsDialog : public QDialog
@@ -113,8 +124,9 @@ private:
     QStackedLayout *stackLayout;
     QPushButton *cancelBut, *okBut;
 
-    EnharmAndDblAccChBox *m_globalSett;
+    GlobalSettings *m_globalSett;
     ScoreSettings *m_scoreSett;
+    NameSettings *m_nameSett;
 
 };
 

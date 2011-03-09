@@ -81,27 +81,48 @@ void TnotationRadioGroup::noteNameStyleWasClicked() {
 
 //############# EnharmAndDblAccChBox IMPLEMENTATION ##################
 
-EnharmAndDblAccChBox::EnharmAndDblAccChBox(bool otherEnharm, bool dblAcc, QWidget *parent) :
+GlobalSettings::GlobalSettings(QWidget *parent) :
         QWidget(parent)
 {
     QVBoxLayout *lay = new QVBoxLayout();
+    lay->setAlignment(Qt::AlignCenter);
     otherEnharmChBox = new QCheckBox(tr("show other enharmonics variants of note"),this);
-    otherEnharmChBox->setChecked(otherEnharm);
+    otherEnharmChBox->setToolTip(tr("Shows enharmonical variants of note.\n F.e.: E note is also Fb (F flat) and Dx (D with double sharp."));
+    otherEnharmChBox->setChecked(gl->showEnharmNotes);
     lay->addWidget(otherEnharmChBox);
     dblAccChBox = new QCheckBox(tr("use double accidentals"),this);
-    dblAccChBox->setChecked(dblAcc);
+    dblAccChBox->setChecked(gl->doubleAccidentalsEnabled);
     lay->addWidget(dblAccChBox);
+    lay->addStretch(1);
     setLayout(lay);
 }
 
-bool EnharmAndDblAccChBox::isEnableDblAccid() {
-    return dblAccChBox->isChecked();
+void GlobalSettings::saveSettings() {
+   gl->doubleAccidentalsEnabled = dblAccChBox->isChecked();
+   gl->showEnharmNotes = otherEnharmChBox->isChecked();
 }
 
-bool EnharmAndDblAccChBox::isEnableOtherEnharmNotes() {
-    return otherEnharmChBox->isChecked();
+//############# NameSettings IMPLEMENTATION ##################
+
+NameSettings::NameSettings(QWidget *parent) :
+        QWidget(parent)
+{
+    QVBoxLayout *mainLay = new QVBoxLayout;
+    mainLay->setAlignment(Qt::AlignCenter);
+    nameStyleGr = new TnotationRadioGroup(gl->NnameStyleInNoteName, this);
+    mainLay->addWidget(nameStyleGr);
+    octInNameCh = new QCheckBox(tr("show octave in note name"),this);
+    mainLay->addWidget(octInNameCh);
+    octInNameCh->setToolTip(tr("Shows formated note name. For small octave - the name is small letter,\n for great octave - the name starts with capital letter,\n for one-line, digit \"1\" is added, and so on." ));
+    octInNameCh->setChecked(gl->NoctaveInNoteNameFormat);
+    mainLay->addStretch(1);
+    setLayout(mainLay);
 }
 
+void NameSettings::saveSettings() {
+    gl->NnameStyleInNoteName = nameStyleGr->getNameStyle();
+    gl->NoctaveInNoteNameFormat = octInNameCh->isChecked();
+}
 
 //############# ScoreSetttings IMPLEMENTATION ##################
 /*static*/
@@ -168,7 +189,6 @@ ScoreSettings::ScoreSettings(QWidget *parent) :
     connect(nameStyleGr, SIGNAL(noteNameStyleWasChanged(Tnote::Enotation)), this, SLOT(nameStyleWasChanged(Tnote::Enotation)));
     connect(majEdit ,SIGNAL(textChanged(QString)), this, SLOT(majorExtensionChanged()));
     connect(minEdit ,SIGNAL(textChanged(QString)), this, SLOT(minorExtensionChanged()));
-//    connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
     majExampl->setText(getMajorExample(m_workStyle));
     minExampl->setText(getMinorExample(m_workStyle));
 }
@@ -227,30 +247,32 @@ void ScoreSettings::saveSettings() {
 SettingsDialog::SettingsDialog(QWidget *parent) :
         QDialog(parent)
 {
-    setWindowTitle("Nootka - "+tr("programs settings"));
+    setWindowTitle("Nootka - "+tr("application's settings"));
 
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *contLay = new QHBoxLayout;
     navList = new QListWidget(this);
     navList->setIconSize(QSize(64,64));
-    navList->setFixedWidth(130);
+    navList->setFixedWidth(110);
+    navList->setViewMode(QListView::IconMode);
+    navList->setFlow(QListView::TopToBottom);
+    navList->setWrapping(false);
     navList->addItem(tr("Global"));
     navList->item(0)->setIcon(QIcon(":/picts/global.svg"));
-//    navList->item(0)->setSizeHint(QSize(70,120));
-//    navList->item(0)->setTextAlignment(Qt::AlignHCenter);
     navList->addItem(tr("Score"));
     navList->item(1)->setIcon(QIcon(":/picts/scoreSettings.svg"));
     navList->addItem(tr("Note names"));
     navList->item(2)->setIcon(QIcon(":/picts/nameSettings.svg"));
     contLay->addWidget(navList);
 
-    m_globalSett = new EnharmAndDblAccChBox(gl->showEnharmNotes, gl->doubleAccidentalsEnabled);
+    m_globalSett = new GlobalSettings();
     m_scoreSett = new ScoreSettings();
-
+    m_nameSett = new NameSettings();
 
     stackLayout = new QStackedLayout;
     stackLayout->addWidget(m_globalSett);
     stackLayout->addWidget(m_scoreSett);
+    stackLayout->addWidget(m_nameSett);
     contLay->addLayout(stackLayout);
 
     mainLay->addLayout(contLay);
@@ -277,6 +299,6 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
 void SettingsDialog::saveSettings() {
     m_scoreSett->saveSettings();
-    //    gl->doubleAccidentalsEnabled = enhAndDblAcc->isEnableDblAccid();
-    //    gl->showEnharmNotes = enhAndDblAcc->isEnableOtherEnharmNotes();
+    m_globalSett->saveSettings();
+    m_nameSett->saveSettings();
 }
