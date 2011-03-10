@@ -16,7 +16,7 @@ signals:
 public slots:
 
 protected:
-    QMatrix matrix;
+//    QMatrix matrix;
     void paintEvent(QPaintEvent *);
 
 private:
