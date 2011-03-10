@@ -10,5 +10,6 @@
         <file>picts/scoreSettings.svg</file>
         <file>picts/nameSettings.svg</file>
         <file>picts/global.svg</file>
+        <file>picts/body.png</file>
     </qresource>
 </RCC>

@@ -1,2 +1,12 @@
-- background to icons
-- use enableDblAcc in TscoreWidgetSimple to avoid waste hiding or showing dbl accid buttons
+TNOTE
+    - see in cpp file
+
+TKEYSIGNATUREVIEW
+    - key sign name font size above staff has to be reduced if is no enought space (system font is too big)
+
+SETTINGS DIALOG
+    - background to icons
+    - align all to center
+
+TSCOREWIDGETSIMPLE
+    - use enableDblAcc in TscoreWidgetSimple to avoid waste hiding or showing dbl accid buttons
