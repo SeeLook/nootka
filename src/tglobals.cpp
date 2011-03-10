@@ -23,6 +23,13 @@ Tglobals::Tglobals() {
     NoctaveInNoteNameFormat = true;
 //    NoctaveNameInNoteName = true;
 
+// guitar settings
+   GfretsNumber = 19;
+   GisRightHanded = true;
+   GshowOtherPos = true;
+   GfingerColor = -1;
+
+
 }
 
 Tglobals::~Tglobals() {

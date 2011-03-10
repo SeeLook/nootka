@@ -65,5 +65,14 @@ public:
     bool NoctaveInNoteNameFormat; //default true
 //    bool NoctaveNameInNoteName; //default true
 
+// guitar settings
+    unsigned char GfretsNumber; //default 19
+    bool GisRightHanded; //default true
+        /** Shows other posibilities of note (sound) on the fretboard */
+    bool GshowOtherPos; //default true
+    QColor GfingerColor; // rules the same like in enharmNotesColor
+
+
+
 };
 #endif // TGLOBALS_H
