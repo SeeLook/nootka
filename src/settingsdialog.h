@@ -110,6 +110,19 @@ private:
 };
 
 
+class GuitarSettings : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit GuitarSettings(QWidget *parent = 0);
+
+    void saveSettings();
+
+private:
+    QCheckBox *righthandCh;
+    QSpinBox *fretsNrSpin;
+};
+
 class SettingsDialog : public QDialog
 {
     Q_OBJECT
@@ -127,6 +140,7 @@ private:
     GlobalSettings *m_globalSett;
     ScoreSettings *m_scoreSett;
     NameSettings *m_nameSett;
+    GuitarSettings *m_guitarSett;
 
 };
 

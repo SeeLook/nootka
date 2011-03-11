@@ -77,6 +77,7 @@ void MainWindow::createSettingsDialog() {
         if (gl->keySignatureEnabled) m_score->refreshKeySignNameStyle();
         m_noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
         noteWasClicked(0,m_noteName->getNoteName(0));//refresh name
+        m_guitar->settingsWasChanged();//refresh guitar
     }
 
 }

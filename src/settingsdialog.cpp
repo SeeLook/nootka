@@ -78,8 +78,31 @@ void TnotationRadioGroup::noteNameStyleWasClicked() {
    emit noteNameStyleWasChanged(getNameStyle());
 }
 
+//############# GuitarSettings IMPLEMENTATION ##################
 
-//############# EnharmAndDblAccChBox IMPLEMENTATION ##################
+GuitarSettings::GuitarSettings(QWidget *parent) :
+        QWidget(parent)
+{
+    QVBoxLayout *mainLay = new QVBoxLayout;
+    mainLay->setAlignment(Qt::AlignCenter);
+    righthandCh = new QCheckBox(tr("for right-handed"),this);
+    righthandCh->setChecked(gl->GisRightHanded);
+    mainLay->addWidget(righthandCh);
+    fretsNrSpin = new QSpinBox(this);
+    fretsNrSpin->setValue(gl->GfretsNumber);
+    fretsNrSpin->setMaximum(24);
+    fretsNrSpin->setMinimum(15);
+    mainLay->addWidget(fretsNrSpin);
+    mainLay->addStretch(1);
+    setLayout(mainLay);
+}
+
+void GuitarSettings::saveSettings() {
+    gl->GisRightHanded = righthandCh->isChecked();
+    gl->GfretsNumber = fretsNrSpin->value();
+}
+
+//############# GlobalSettings IMPLEMENTATION ##################
 
 GlobalSettings::GlobalSettings(QWidget *parent) :
         QWidget(parent)
@@ -263,16 +286,20 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     navList->item(1)->setIcon(QIcon(":/picts/scoreSettings.svg"));
     navList->addItem(tr("Note names"));
     navList->item(2)->setIcon(QIcon(":/picts/nameSettings.svg"));
+    navList->addItem(tr("Guitar"));
+    navList->item(3)->setIcon(QIcon(":/picts/guitarSettings.png"));
     contLay->addWidget(navList);
 
     m_globalSett = new GlobalSettings();
     m_scoreSett = new ScoreSettings();
     m_nameSett = new NameSettings();
+    m_guitarSett = new GuitarSettings();
 
     stackLayout = new QStackedLayout;
     stackLayout->addWidget(m_globalSett);
     stackLayout->addWidget(m_scoreSett);
     stackLayout->addWidget(m_nameSett);
+    stackLayout->addWidget(m_guitarSett);
     contLay->addLayout(stackLayout);
 
     mainLay->addLayout(contLay);
@@ -301,4 +328,5 @@ void SettingsDialog::saveSettings() {
     m_scoreSett->saveSettings();
     m_globalSett->saveSettings();
     m_nameSett->saveSettings();
+    m_guitarSett->saveSettings();
 }

@@ -4,9 +4,17 @@ TNOTE
 TKEYSIGNATUREVIEW
     - key sign name font size above staff has to be reduced if is no enought space (system font is too big)
 
+TNOTEVIEW
+    - when it is resizing accidental symbols leave trash on screen
+    - taxt antialiasing for accids
+
 SETTINGS DIALOG
     - background to icons
     - align all to center
 
 TSCOREWIDGETSIMPLE
     - use enableDblAcc in TscoreWidgetSimple to avoid waste hiding or showing dbl accid buttons
+
+TNOTENAME
+    - adjust rectiangle under the name label
+    - paly with accidentals symbol (<sub><bold>, etc...), especiali in solmization style
