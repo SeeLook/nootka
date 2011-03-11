@@ -40,10 +40,11 @@ void TfingerBoard::paintEvent(QPaintEvent *) {
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setRenderHint(QPainter::TextAntialiasing, true);
     painter.setWindow(0,0,width(),height());
-//    matrix.reset();
+    matrix.reset();
     if (!gl->GisRightHanded) {
-        painter.translate(width(),0);
-        painter.scale(-1,1);
+        matrix.translate(width(),0);
+        matrix.scale(-1,1);
+        painter.setMatrix(matrix);
     }
 
   // Guitar body
@@ -65,12 +66,32 @@ void TfingerBoard::paintEvent(QPaintEvent *) {
     painter.drawPolygon(a);
     painter.setBrush(QBrush(QPixmap(":/picts/fingbg.png")));
     painter.drawRect(fbRect);
-//               5,Xstart+2,Ystart-betweenStrings/3,
-//    Xstart+fbLehgth+betweenStrings/3,Ystart-betweenStrings/3,
-//    Xstart+fbLehgth+betweenStrings/3,height()-Ystart-betweenStrings/3,
-//    Xstart+fbLehgth,height()-Ystart,
-//    Xstart,height()-Ystart); fbPainter.setBrush(QBrush(QColor(0,0,0),QPixmap("/home/tomek/DEVELOP/Kdevelop/nutouk/pixmaps/fingbg.png")));
-////                fbPainter.drawRect(Xstart,Ystart,fbLehgth,height()-2*Ystart);//AND ORDINARY FINGERBOARD
+  // FRETS
+   // zero fret (upper bridge or HUESO)
+    painter.setPen(QPen(QColor("#FFFBF0"),4,Qt::SolidLine)); //#FFFBF0 cream color for hueso
+    painter.setBrush(QBrush(QColor("#FFFBF0"),Qt::SolidPattern));
+    painter.drawRect(fbRect.x()-6,fbRect.y()+6,5,fbRect.height());
+    painter.setPen(QPen(QColor("#FFFBF0"),1,Qt::SolidLine));
+    a.setPoints(4, fbRect.x()-8, fbRect.y()+2, fbRect.x()-1, fbRect.y()+2,
+               fbRect.x()+strGap/3-1, fbRect.y()-strGap/3,
+               fbRect.x()+strGap/3-8, fbRect.y()-strGap/3);
+    painter.drawPolygon(a);
+ // others frets
+    painter.setPen(QPen(QColor("#C0C0C0"),4,Qt::SolidLine)); //#C0C0C0 gray color of frets
+        //white color for circles marking 5,7,9... frets
+    painter.setBrush(QBrush(Qt::white, Qt::SolidPattern));
+    for (int i=0; i<gl->GfretsNumber; i++) {
+        painter.drawLine(fretsPos[i], fbRect.y()+2, fretsPos[i], height()-fbRect.y()-1);
+        if ( i==4 || i==6 || i==8 || i==11 || i==14 || i==16)	{
+            painter.setPen(QPen(Qt::black,0,Qt::NoPen));
+            painter.drawEllipse(fretsPos[i]-4-(fretsPos[i]-fretsPos[i-1])/2,
+                                fbRect.y()+strGap*3-2,8,8);
+            //                            fbPainter.drawEllipse(fretsPos[i]-4-(fretsPos[i]-fretsPos[i-1])/2,Ystart+betweenStrings*3-2,8,8);
+            painter.setPen(QPen(QColor("#C0C0C0"),4,Qt::SolidLine)); // restore frets' color
+        }
+    }
+
+
 
 
 

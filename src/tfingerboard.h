@@ -9,14 +9,14 @@ class TfingerBoard : public QWidget
 public:
     explicit TfingerBoard(QWidget *parent = 0);
 
-
+    void settingsWasChanged() { repaint(); }
 
 signals:
 
 public slots:
 
 protected:
-//    QMatrix matrix;
+    QMatrix matrix;
     void paintEvent(QPaintEvent *);
 
 private:
