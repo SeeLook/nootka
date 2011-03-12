@@ -228,9 +228,8 @@ QString TnoteName::noteToRichText(Tnote note) {
         if (note.octave < 0) { //first letter capitalize
          QString l1 = nameTxt.mid(0,1).toUpper();
          nameTxt.replace(0,1,l1);
-         if (note.octave == -2) {
+         if (note.octave == -2)
              nameTxt = "<u>"+nameTxt+"</u>";
-         }
         }
         if (note.octave > 0)
             nameTxt = nameTxt + QString("<sup>%1</sup>").arg((int)note.octave);
