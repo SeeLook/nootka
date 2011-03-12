@@ -212,7 +212,15 @@ void TnoteName::octaveWasChanged(int octNr) {
 }
 
 QString TnoteName::noteToRichText(Tnote note) {
-    QString nameTxt = QString::fromStdString(note.getName(gl->NnameStyleInNoteName,false));
+    QString nameTxt;
+    if (gl->NnameStyleInNoteName == Tnote::e_deutsch_His ||
+        gl->NnameStyleInNoteName == Tnote::e_nederl_Bis)
+            nameTxt = QString::fromStdString(note.getName(gl->NnameStyleInNoteName,false));
+    else {
+        Tnote N = Tnote(note.note,0,0);
+        nameTxt = QString::fromStdString(N.getName(gl->NnameStyleInNoteName,false));
+        nameTxt = nameTxt+"<b><sub></sub></b>";
+    }
     nameTxt = nameTxt.toLower();
     if (gl->NoctaveInNoteNameFormat) {
         if (note.octave < 0) { //first letter capitalize
