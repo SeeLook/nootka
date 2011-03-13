@@ -6,15 +6,14 @@ TKEYSIGNATUREVIEW
 
 TNOTEVIEW
     - when it is resizing accidental symbols leave trash on screen
-    - taxt antialiasing for accids
 
 SETTINGS DIALOG
     - background to icons
     - align all to center
+    - some strange window during creation a dialog window
 
 TSCOREWIDGETSIMPLE
     - use enableDblAcc in TscoreWidgetSimple to avoid waste hiding or showing dbl accid buttons
 
 TNOTENAME
-    - adjust rectiangle under the name label
-    - paly with accidentals symbol (<sub><bold>, etc...), especiali in solmization style
+    - resolve problem with resizeing and layout
