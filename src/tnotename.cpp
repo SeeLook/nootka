@@ -26,6 +26,7 @@ TnoteName::TnoteName(QWidget *parent) :
 //    nameLabel->setStyleSheet("background: transparent");
 
     mainLay->addWidget(nameLabel);
+    mainLay->addSpacing(1);
 // BUTTONS WITH NOTES TOOLBAR
     QHBoxLayout *noteLay = new QHBoxLayout();
     noteLay->addStretch(1);
@@ -101,8 +102,8 @@ void TnoteName::paintEvent(QPaintEvent *) {
     painter.setWindow(0,0,width(),height());
     painter.setPen(QPen(palette().foreground().color()));
     painter.setBrush(QBrush(palette().base().color(),Qt::SolidPattern));
-    painter.drawRoundedRect(1,1,nameLabel->width()-2,nameLabel->height()-2,10,10);
-
+    painter.drawRoundedRect(nameLabel->geometry().left(),nameLabel->geometry().top()
+                            ,nameLabel->width()-2,nameLabel->height()-2,10,10);
 }
 
 // private setNoteName method
@@ -228,8 +229,8 @@ QString TnoteName::noteToRichText(Tnote note) {
         if (note.octave < 0) { //first letter capitalize
          QString l1 = nameTxt.mid(0,1).toUpper();
          nameTxt.replace(0,1,l1);
-         if (note.octave == -2)
-             nameTxt = "<u>"+nameTxt+"</u>";
+         if (note.octave < -1)
+             nameTxt = nameTxt + QString("<sub>%1</sub>").arg(int(note.octave*(-1)-1));
         }
         if (note.octave > 0)
             nameTxt = nameTxt + QString("<sup>%1</sup>").arg((int)note.octave);

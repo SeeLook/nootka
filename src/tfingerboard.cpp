@@ -30,7 +30,7 @@ void TfingerBoard::paintEvent(QPaintEvent *) {
     fbRect = QRect(10, height()/8, (6*width())/7, height()-height()/4);
     fretWidth = ((fbRect.width() + ((gl->GfretsNumber / 2)*(gl->GfretsNumber / 2 +1))
                   + gl->GfretsNumber / 4) / (gl->GfretsNumber+1)) +1;
-    strGap = (height() - 2*fbRect.x()) / 6;
+    strGap = (height()-2*fbRect.y()) / 6;
     fretsPos[0] = fbRect.x() + fretWidth;
     for (int i=2; i<gl->GfretsNumber+1; i++)
         fretsPos[i-1] = fretsPos[i-2]+(fretWidth-(i/2));
@@ -50,7 +50,8 @@ void TfingerBoard::paintEvent(QPaintEvent *) {
   // Guitar body
     painter.setPen(QPen(QColor("#ECC93E")));
     painter.setBrush(QBrush(QPixmap(":/picts/body.png")));
-    painter.drawRect(fbRect.x()+fretWidth*12, 0, width()-fbRect.x()+fretWidth*12-37, height());
+//    painter.drawRect(fbRect.x()+fretWidth*12, 0, width()-fbRect.x()+fretWidth*12-37, height());
+    painter.drawRect(fretsPos[11], 0, width()-fretsPos[11]-37, height());
     painter.setPen(QPen(Qt::red,10,Qt::SolidLine));
     painter.setBrush(QBrush(QColor("#404040"),Qt::SolidPattern));
     painter.drawEllipse(lastFret,0-fbRect.y(),height()+2*fbRect.y(),height()+2*fbRect.y());
@@ -90,8 +91,71 @@ void TfingerBoard::paintEvent(QPaintEvent *) {
             painter.setPen(QPen(QColor("#C0C0C0"),4,Qt::SolidLine)); // restore frets' color
         }
     }
+  // STRINGS
+    QFont strFont = font();
+    strFont.setPixelSize((int)qreal(0.75*strGap));//setting font for digits
+    painter.setFont(strFont);
+    QColor strColor;
+    int strWidth; //width of the string depends on its number
+    painter.setBrush(QBrush(Qt::NoBrush));
+    for (int i=0; i<6; i++) {
+        if (i < 2) {
+            strColor = Qt::white;
+            strColor.setAlpha(175);
+            strWidth = 1;
+        } else
+            if (i==2) {
+                strColor = Qt::white;
+                strColor.setAlpha(125);
+                strWidth = 2;
+            } else
+                if ( (i==3) || (i==4) ) {
+                    strColor = QColor("#C29432"); //#C29432 gold color for bass strings
+                    strColor.setAlpha(255);
+                    strWidth = 2;
+                } else {
+                    strColor = QColor("#C29432");
+                    strWidth = 3;
+                }
+//     drawing main strings
+        painter.setPen(QPen(strColor,strWidth,Qt::SolidLine));
+        painter.drawLine(1, fbRect.y()+strGap/2+i*strGap,
+                         width()-1-strGap, fbRect.y()+strGap/2+i*strGap);
 
+    //     markStrings[i]->setPoints(1,Ystart+betweenStrings/2+i*betweenStrings,
+    //                                                    width()-1-
+    //        betweenStrings,Ystart+betweenStrings/2+i*betweenStrings);
+  // drawing digits of strings in circles
+        painter.setPen(QPen(strColor,1,Qt::SolidLine));
+        int wd40;
+        if (!gl->GisRightHanded) {
+            painter.scale (-1,1);
+            painter.translate(-width(),0);
+            wd40 = 1;
+        }else
+            wd40 = width()-1-strGap;
+        painter.drawEllipse(wd40, fbRect.y()+i*strGap, strGap-1, strGap-1);
+        painter.setPen(QPen(Qt::green,1,Qt::SolidLine));// in green color
+        if (gl->GisRightHanded)
+            painter.drawText(width()-((int)qreal(strGap*0.75)),
+                             fbRect.y()+(int)qreal(strGap*(0.75+i)), QString::number(i+1));
+          else {
+              painter.drawText((int)qreal(strGap*0.28),
+                               fbRect.y()+(int)qreal(strGap*(0.75+i)), QString::number(i+1));
+              painter.translate(width(),0);
+              painter.scale (-1,1);
+          }
+  // shadow of the strings
+          painter.setPen(QPen(Qt::black,strWidth,Qt::SolidLine));
+          painter.drawLine(fbRect.x()+1, fbRect.y()+strGap/2+i*strGap+3+strWidth,
+                           fbRect.x()+fbRect.width()-1, fbRect.y()+strGap/2+i*strGap+3+strWidth);
+          painter.setPen(QPen(Qt::black,1,Qt::SolidLine)); //on the fingerboard
+          painter.drawLine(fbRect.x()-8, fbRect.y()+strGap/2+i*strGap-2,
+                           fbRect.x(), fbRect.y()+strGap/2+i*strGap-2);
+          painter.drawLine(fbRect.x()-8, fbRect.y()+strGap/2+i*strGap+strWidth-1,
+                           fbRect.x()-1, fbRect.y()+strGap/2+i*strGap+strWidth-1);
 
+    }
 
 
 
