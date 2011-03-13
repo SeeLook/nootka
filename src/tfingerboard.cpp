@@ -8,24 +8,37 @@ extern Tglobals *gl;
 TfingerBoard::TfingerBoard(QWidget *parent) :
     QWidget(parent)
 {
-//    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//    setRenderHint(QPainter::Antialiasing, true);
     setMouseTracking(true);
-//    setFrameShape(QFrame::NoFrame);
-//    setStyleSheet(("background: transparent"));
+
 
     if (gl->GfingerColor == -1) {
         gl->GfingerColor = palette().highlight().color();
         gl->GfingerColor.setAlpha(175);
     }
 
+    m_scene = new QGraphicsScene();
+    m_view = new QGraphicsView(m_scene,this);
+    m_view->setRenderHint(QPainter::Antialiasing, true);
+    m_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_view->setFrameShape(QFrame::NoFrame);
+    m_view->setStyleSheet(("background: transparent"));
 
+
+    m_workFinger = new QGraphicsEllipseItem();
+    m_workFinger->hide();
+    m_scene->addItem(m_workFinger);
+
+    m_curStr = 7; // none
+    m_curFret = 99; // none
 
 
 }
 
 void TfingerBoard::paintEvent(QPaintEvent *) {
+    m_view->setGeometry(geometry());
+    m_scene->setSceneRect(geometry());
+
   // Prepare variables
     fbRect = QRect(10, height()/8, (6*width())/7, height()-height()/4);
     fretWidth = ((fbRect.width() + ((gl->GfretsNumber / 2)*(gl->GfretsNumber / 2 +1))
@@ -156,8 +169,32 @@ void TfingerBoard::paintEvent(QPaintEvent *) {
                            fbRect.x()-1, fbRect.y()+strGap/2+i*strGap+strWidth-1);
 
     }
+    m_workFinger->setRect(0,0, fretWidth/2, (int)qreal(0.66*strGap));
+//    fingers[i]->setSize(fretWidth/2,(int)round(0.66*betweenStrings));
 
+}
 
+void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
+    if ( (event->x() >= fbRect.y()) && (event->y() <= (height()-fbRect.y()-4)) ) {
+        int tx, ty;
+        matrix.map(event->x(), event->y(), &tx, &ty);
+        m_strNr = (ty-fbRect.y())/strGap;
+//        if ( (/*event->x()*/ tx < Xstart) || (/*event->x()*/tx > lastFret)
+//                                || (event->state() == Qt::MidButton) ) fretNr = 0;
+//                        else	{
+//                                for (int i=0; i<(fretCount);i++) {
+//                                        if (/*event->x()*/tx <= fretsPos[i]) {
+//                                                fretNr = i+1;
+//                                                break;
+//                                        }
+//                                }
+//                        }
+
+    } else
+        m_strNr = 7;
+    if (m_curStr != m_strNr) {
+
+    }
 
 
 
