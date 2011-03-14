@@ -1,32 +1,43 @@
 #include "tfingerboard.h"
 #include "tglobals.h"
 #include <QtGui>
+#include <QDebug>
 
 
 extern Tglobals *gl;
 
 TfingerBoard::TfingerBoard(QWidget *parent) :
-    QWidget(parent)
+    QGraphicsView(parent)
 {
     setMouseTracking(true);
 
 
     if (gl->GfingerColor == -1) {
         gl->GfingerColor = palette().highlight().color();
+        gl->GfingerColor.setRgb(qRgb(255-gl->GfingerColor.red(),255-gl->GfingerColor.green(),
+                                     255-gl->GfingerColor.blue()));
         gl->GfingerColor.setAlpha(175);
     }
 
     m_scene = new QGraphicsScene();
-    m_view = new QGraphicsView(m_scene,this);
-    m_view->setRenderHint(QPainter::Antialiasing, true);
-    m_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_view->setFrameShape(QFrame::NoFrame);
-    m_view->setStyleSheet(("background: transparent"));
+//    m_view = new QGraphicsView(m_scene,this);
+    setScene(m_scene);
+    setRenderHint(QPainter::Antialiasing, true);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setFrameShape(QFrame::NoFrame);
+//    setStyleSheet(("background: transparent"));
 
+    for (int i=0; i<6; i++) {
+        m_workStrings[i] = new QGraphicsLineItem();
+        m_workStrings[i]->hide();
+        m_scene->addItem(m_workStrings[i]);
+    }
 
     m_workFinger = new QGraphicsEllipseItem();
     m_workFinger->hide();
+    m_workFinger->setPen(QPen(gl->GfingerColor));
+    m_workFinger->setBrush(QBrush(gl->GfingerColor,Qt::SolidPattern));
     m_scene->addItem(m_workFinger);
 
     m_curStr = 7; // none
@@ -36,8 +47,8 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
 }
 
 void TfingerBoard::paintEvent(QPaintEvent *) {
-    m_view->setGeometry(geometry());
-    m_scene->setSceneRect(geometry());
+//    m_view->setGeometry(0,0,width(),height());
+    m_scene->setSceneRect(0,0,width(),height());
 
   // Prepare variables
     fbRect = QRect(10, height()/8, (6*width())/7, height()-height()/4);
@@ -134,6 +145,9 @@ void TfingerBoard::paintEvent(QPaintEvent *) {
         painter.setPen(QPen(strColor,strWidth,Qt::SolidLine));
         painter.drawLine(1, fbRect.y()+strGap/2+i*strGap,
                          width()-1-strGap, fbRect.y()+strGap/2+i*strGap);
+        m_workStrings[i]->setPen(QPen(gl->GfingerColor,strWidth,Qt::SolidLine));
+        m_workStrings[i]->setLine(1, fbRect.y()+strGap/2+i*strGap,
+                                  width()-1-strGap, fbRect.y()+strGap/2+i*strGap);
 
     //     markStrings[i]->setPoints(1,Ystart+betweenStrings/2+i*betweenStrings,
     //                                                    width()-1-
@@ -175,27 +189,40 @@ void TfingerBoard::paintEvent(QPaintEvent *) {
 }
 
 void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
-    if ( (event->x() >= fbRect.y()) && (event->y() <= (height()-fbRect.y()-4)) ) {
+    int strNr = 7, fretNr = 99;
+    if ( (event->y() >= fbRect.y()) && (event->y() <= (height()-fbRect.y()-4)) ) {
+        qDebug()<<"kuku";
         int tx, ty;
         matrix.map(event->x(), event->y(), &tx, &ty);
-        m_strNr = (ty-fbRect.y())/strGap;
-//        if ( (/*event->x()*/ tx < Xstart) || (/*event->x()*/tx > lastFret)
-//                                || (event->state() == Qt::MidButton) ) fretNr = 0;
-//                        else	{
-//                                for (int i=0; i<(fretCount);i++) {
-//                                        if (/*event->x()*/tx <= fretsPos[i]) {
-//                                                fretNr = i+1;
-//                                                break;
-//                                        }
-//                                }
-//                        }
-
-    } else
-        m_strNr = 7;
-    if (m_curStr != m_strNr) {
-
+        strNr = (ty-fbRect.y())/strGap;
+        if (tx < fbRect.x() || tx > lastFret /*or some mouse button*/ )
+            fretNr = 0;
+        else {
+            for (int i=0; i<gl->GfretsNumber; i++) {
+                if (tx <= fretsPos[i]) {
+                    fretNr = i+1;
+                    break;
+                }
+            }
+        }
     }
 
+    qDebug() << strNr << " " << fretNr;
+    qDebug() << m_curStr << " cur: " << m_curFret;
+    if (m_curStr != strNr || m_curFret != fretNr) {
 
+        if ( fretNr > 0 && fretNr < 99) { // show finger
+            m_workFinger->setPos(fretsPos[fretNr-1]-fretWidth/4-4,
+                                 fbRect.y()+strGap*strNr+strGap/2);
+            if (!m_workFinger->isVisible())
+                m_workFinger->show();
+        } else { // show string line
 
+            m_workFinger->hide();
+            if (m_curStr != 7) m_workStrings[m_curStr]->hide();
+            if (strNr != 7) m_workStrings[strNr]->show();
+        }
+        m_curStr = strNr;
+        m_curFret = fretNr;
+    }
 }
