@@ -7,7 +7,7 @@
 extern Tglobals *gl;
 
 TfingerBoard::TfingerBoard(QWidget *parent) :
-    QWidget(parent)
+    QGraphicsView(parent)
 {
     if (gl->GfingerColor == -1) {
         gl->GfingerColor = palette().highlight().color();
@@ -17,16 +17,13 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     }
 
     m_scene = new QGraphicsScene();
-    m_view = new QGraphicsView(m_scene,this);
-    m_view->setScene(m_scene);
-    m_view->setRenderHint(QPainter::Antialiasing, true);
-    m_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_view->setFrameShape(QFrame::NoFrame);
-    m_view->setStyleSheet(("background: transparent"));
-    m_view->setMouseTracking(false);
-    m_view->installEventFilter(this);
-    m_scene->installEventFilter(this);
+//    m_view = new QGraphicsView(m_scene,this);
+    setScene(m_scene);
+    setRenderHint(QPainter::Antialiasing, true);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setFrameShape(QFrame::NoFrame);
+//    setStyleSheet(("background: transparent"));
 
 
     setMouseTracking(true);
@@ -63,6 +60,11 @@ void TfingerBoard::paintEvent(QPaintEvent *) {
         fretsPos[i-1] = fretsPos[i-2]+(fretWidth-(i/2));
     lastFret = fretsPos[gl->GfretsNumber-1];
   // Let's paint
+//    QPixmap pixmap();
+//    pixmap.
+//        fbPixmap.resize(size());
+//        fbPixmap.fill(this,this->rect().topLeft());
+//        QPainter fbPainter(&fbPixmap,this);
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setRenderHint(QPainter::TextAntialiasing, true);
@@ -230,9 +232,3 @@ void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
     }
 }
 
-bool TfingerBoard::eventFilter(QObject *target, QEvent *event) {
-//    if ( event->type() == QEvent::Move)
-        qDebug()<< event->type();
-
-    return QWidget::eventFilter(target,event);
-}
