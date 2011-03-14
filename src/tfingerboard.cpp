@@ -25,6 +25,9 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     m_view->setFrameShape(QFrame::NoFrame);
     m_view->setStyleSheet(("background: transparent"));
     m_view->setMouseTracking(false);
+    m_view->installEventFilter(this);
+    m_scene->installEventFilter(this);
+
 
     setMouseTracking(true);
 
@@ -47,7 +50,7 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
 }
 
 void TfingerBoard::paintEvent(QPaintEvent *) {
-    m_view->setGeometry(0,0,width(),height());
+//    m_view->setGeometry(0,0,width(),height());
     m_scene->setSceneRect(0,0,width(),height());
 
   // Prepare variables
@@ -227,4 +230,9 @@ void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
     }
 }
 
+bool TfingerBoard::eventFilter(QObject *target, QEvent *event) {
+//    if ( event->type() == QEvent::Move)
+        qDebug()<< event->type();
 
+    return QWidget::eventFilter(target,event);
+}
