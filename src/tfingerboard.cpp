@@ -7,30 +7,32 @@
 extern Tglobals *gl;
 
 TfingerBoard::TfingerBoard(QWidget *parent) :
-    QGraphicsView(parent)
+    QWidget(parent)
 {
     if (gl->GfingerColor == -1) {
         gl->GfingerColor = palette().highlight().color();
         gl->GfingerColor.setRgb(qRgb(255-gl->GfingerColor.red(),255-gl->GfingerColor.green(),
                                      255-gl->GfingerColor.blue()));
-        gl->GfingerColor.setAlpha(175);
+        gl->GfingerColor.setAlpha(150);
     }
 
     m_scene = new QGraphicsScene();
-//    m_view = new QGraphicsView(m_scene,this);
-    setScene(m_scene);
-    setRenderHint(QPainter::Antialiasing, true);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setFrameShape(QFrame::NoFrame);
-//    setStyleSheet(("background: transparent"));
+    m_view = new QGraphicsView(m_scene,this);
+    m_view->setScene(m_scene);
+    m_view->setRenderHint(QPainter::Antialiasing, true);
+    m_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_view->setFrameShape(QFrame::NoFrame);
+    m_view->setStyleSheet(("background: transparent"));
+//    m_view->show();
+    m_view->setMouseTracking(false);
 
 
     setMouseTracking(true);
 
     for (int i=0; i<6; i++) {
         m_workStrings[i] = new QGraphicsLineItem();
-        m_workStrings[i]->hide();
+//        m_workStrings[i]->hide();
         m_scene->addItem(m_workStrings[i]);
     }
 
@@ -47,7 +49,7 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
 }
 
 void TfingerBoard::paintEvent(QPaintEvent *) {
-//    m_view->setGeometry(0,0,width(),height());
+    m_view->setGeometry(0,0,width(),height());
     m_scene->setSceneRect(0,0,width(),height());
 
   // Prepare variables

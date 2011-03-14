@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QGraphicsView>
 
-class TfingerBoard : public QGraphicsView
+class TfingerBoard : public QWidget
 {
     Q_OBJECT
 public:
@@ -41,7 +41,7 @@ private:
         /** @param fretsPos  stores X positions of frets in global widget coordinates */
     short fretsPos[24];
 
-//    QGraphicsView *m_view;
+    QGraphicsView *m_view;
     QGraphicsScene *m_scene;
     QGraphicsEllipseItem *m_workFinger;
     int m_strNr, m_fretNr, m_curStr, m_curFret;
