@@ -4,23 +4,28 @@
 #include <QWidget>
 #include <QGraphicsView>
 
-class TfingerBoard : public QWidget
+
+class TfingerBoard : public QGraphicsView
 {
     Q_OBJECT
 public:
     explicit TfingerBoard(QWidget *parent = 0);
 
-    void settingsWasChanged() { repaint(); }
+    void settingsWasChanged() { paint(); }
+//    void resize();
 
 signals:
 
 public slots:
 
 protected:
+
+    void paint();
+
     QMatrix matrix;
-    void paintEvent(QPaintEvent *);
-    void mouseMoveEvent(QMouseEvent *event);
-//    bool eventFilter(QObject *, QEvent *);
+    void resizeEvent(QResizeEvent *);
+    void mouseMoveEvent(QMouseEvent *);
+protected slots:
 
 private:
     // I HAVE TOO SHORT HANDS TO PLAY WITH 'm_' BEFORE EACH PRIVATE VARIABLE :((((
@@ -41,7 +46,8 @@ private:
         /** @param fretsPos  stores X positions of frets in global widget coordinates */
     short fretsPos[24];
 
-    QGraphicsView *m_view;
+//    QGraphicsView *m_view;
+//    TkindView *m_view;
     QGraphicsScene *m_scene;
     QGraphicsEllipseItem *m_workFinger;
     int m_strNr, m_fretNr, m_curStr, m_curFret;

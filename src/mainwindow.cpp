@@ -60,6 +60,7 @@ void MainWindow::createToolBar() {
 void MainWindow::resizeEvent(QResizeEvent *) {
     m_score->setFixedWidth(centralWidget()->width()/2);
     m_guitar->setFixedHeight(centralWidget()->height()/3);
+//    m_guitar->resize();
 //    m_guitar->setFixedWidth(centralWidget()->width());
     m_noteName->resize();
 }
