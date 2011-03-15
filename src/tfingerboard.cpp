@@ -7,7 +7,7 @@
 extern Tglobals *gl;
 
 TfingerBoard::TfingerBoard(QWidget *parent) :
-    QWidget(parent)
+    QGraphicsView(parent)
 {
     if (gl->GfingerColor == -1) {
         gl->GfingerColor = palette().highlight().color();
@@ -17,22 +17,18 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     }
 
     m_scene = new QGraphicsScene();
-    m_view = new QGraphicsView(m_scene,this);
-    m_view->setScene(m_scene);
-    m_view->setRenderHint(QPainter::Antialiasing, true);
-    m_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_view->setFrameShape(QFrame::NoFrame);
-    m_view->setStyleSheet(("background: transparent"));
-//    m_view->show();
-    m_view->setMouseTracking(false);
 
-
+    setRenderHint(QPainter::Antialiasing, true);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setFrameShape(QFrame::NoFrame);
+    setStyleSheet(("background: transparent"));
+    setScene(m_scene);
     setMouseTracking(true);
 
     for (int i=0; i<6; i++) {
         m_workStrings[i] = new QGraphicsLineItem();
-//        m_workStrings[i]->hide();
+        m_workStrings[i]->hide();
         m_scene->addItem(m_workStrings[i]);
     }
 
@@ -48,11 +44,13 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
 
 }
 
-void TfingerBoard::paintEvent(QPaintEvent *) {
-    m_view->setGeometry(0,0,width(),height());
+void TfingerBoard::resizeEvent(QResizeEvent *){
     m_scene->setSceneRect(0,0,width(),height());
+    paint();
 
-  // Prepare variables
+}
+
+void TfingerBoard::paint() {
     fbRect = QRect(10, height()/8, (6*width())/7, height()-height()/4);
     fretWidth = ((fbRect.width() + ((gl->GfretsNumber / 2)*(gl->GfretsNumber / 2 +1))
                   + gl->GfretsNumber / 4) / (gl->GfretsNumber+1)) +1;
@@ -62,12 +60,10 @@ void TfingerBoard::paintEvent(QPaintEvent *) {
         fretsPos[i-1] = fretsPos[i-2]+(fretWidth-(i/2));
     lastFret = fretsPos[gl->GfretsNumber-1];
   // Let's paint
-//    QPixmap pixmap();
-//    pixmap.
-//        fbPixmap.resize(size());
-//        fbPixmap.fill(this,this->rect().topLeft());
-//        QPainter fbPainter(&fbPixmap,this);
-    QPainter painter(this);
+    QPixmap pixmap(size());
+    pixmap.fill(QColor(palette().background().color()));
+
+    QPainter painter(&pixmap);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setRenderHint(QPainter::TextAntialiasing, true);
     painter.setWindow(0,0,width(),height());
@@ -77,11 +73,9 @@ void TfingerBoard::paintEvent(QPaintEvent *) {
         matrix.scale(-1,1);
         painter.setMatrix(matrix);
     }
-
   // Guitar body
     painter.setPen(QPen(QColor("#ECC93E")));
     painter.setBrush(QBrush(QPixmap(":/picts/body.png")));
-//    painter.drawRect(fbRect.x()+fretWidth*12, 0, width()-fbRect.x()+fretWidth*12-37, height());
     painter.drawRect(fretsPos[11], 0, width()-fretsPos[11]-37, height());
     painter.setPen(QPen(Qt::red,10,Qt::SolidLine));
     painter.setBrush(QBrush(QColor("#404040"),Qt::SolidPattern));
@@ -153,12 +147,8 @@ void TfingerBoard::paintEvent(QPaintEvent *) {
         painter.drawLine(1, fbRect.y()+strGap/2+i*strGap,
                          width()-1-strGap, fbRect.y()+strGap/2+i*strGap);
         m_workStrings[i]->setPen(QPen(gl->GfingerColor,strWidth,Qt::SolidLine));
-        m_workStrings[i]->setLine(1, fbRect.y()+strGap/2+i*strGap,
-                                  width()-1-strGap, fbRect.y()+strGap/2+i*strGap);
-
-    //     markStrings[i]->setPoints(1,Ystart+betweenStrings/2+i*betweenStrings,
-    //                                                    width()-1-
-    //        betweenStrings,Ystart+betweenStrings/2+i*betweenStrings);
+        m_workStrings[i]->setLine(matrix.map(QLineF(1, fbRect.y()+strGap/2+i*strGap,
+                                  width()-1-strGap, fbRect.y()+strGap/2+i*strGap)));
   // drawing digits of strings in circles
         painter.setPen(QPen(strColor,1,Qt::SolidLine));
         int wd40;
@@ -190,15 +180,15 @@ void TfingerBoard::paintEvent(QPaintEvent *) {
                            fbRect.x()-1, fbRect.y()+strGap/2+i*strGap+strWidth-1);
 
     }
-    m_workFinger->setRect(0,0, fretWidth/2, (int)qreal(0.66*strGap));
+    m_workFinger->setRect(0,0, fretWidth/1.5, qreal(0.66*strGap));
 //    fingers[i]->setSize(fretWidth/2,(int)round(0.66*betweenStrings));
+    m_scene->setBackgroundBrush(QBrush(pixmap));
 
 }
 
 void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
     int strNr = 7, fretNr = 99;
     if ( (event->y() >= fbRect.y()) && (event->y() <= (height()-fbRect.y()-4)) ) {
-        qDebug()<<"kuku";
         int tx, ty;
         matrix.map(event->x(), event->y(), &tx, &ty);
         strNr = (ty-fbRect.y())/strGap;
@@ -213,18 +203,14 @@ void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
             }
         }
     }
-
-    qDebug() << strNr << " " << fretNr;
-    qDebug() << m_curStr << " cur: " << m_curFret;
     if (m_curStr != strNr || m_curFret != fretNr) {
-
         if ( fretNr > 0 && fretNr < 99) { // show finger
-            m_workFinger->setPos(fretsPos[fretNr-1]-fretWidth/4-4,
-                                 fbRect.y()+strGap*strNr+strGap/2);
+            m_workFinger->setPos(matrix.map(QPointF(fretsPos[fretNr-1]-fretWidth/1.3-2,
+                                 fbRect.y()+strGap*strNr+strGap/4)));
             if (!m_workFinger->isVisible())
                 m_workFinger->show();
+            if (m_curStr != 7) m_workStrings[m_curStr]->hide();
         } else { // show string line
-
             m_workFinger->hide();
             if (m_curStr != 7) m_workStrings[m_curStr]->hide();
             if (strNr != 7) m_workStrings[strNr]->show();
