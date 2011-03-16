@@ -25,9 +25,9 @@ Ttune::Ttune( const QString _name, Tnote S1, Tnote S2, Tnote S3, Tnote S4, Tnote
         m_S[0] = S1;
         m_S[1] = S2;
         m_S[2] = S3;
-        m_S[4] = S4;
+        m_S[3] = S4;
+        m_S[4] = S5;
         m_S[5] = S6;
-        m_S[6] = S6;
 }
 
 
