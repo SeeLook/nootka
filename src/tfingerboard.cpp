@@ -13,8 +13,11 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
         gl->GfingerColor = palette().highlight().color();
         gl->GfingerColor.setRgb(qRgb(255-gl->GfingerColor.red(),255-gl->GfingerColor.green(),
                                      255-gl->GfingerColor.blue()));
-        gl->GfingerColor.setAlpha(150);
+        gl->GfingerColor.setAlpha(200);
     }
+    if (gl->Gtune.name == "")
+        gl->Gtune = Ttune(tr("Standard E A D G B E "), Tnote(3,1,0), Tnote(7,0,0),
+                          Tnote(5,0,0), Tnote(2,0,0), Tnote(6,-1,0),Tnote(3,-1,0));
 
     m_scene = new QGraphicsScene();
 
@@ -27,6 +30,16 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     setMouseTracking(true);
 
     for (int i=0; i<6; i++) {
+        m_strings[i] = new QGraphicsLineItem();
+        m_strings[i]->hide();
+        m_scene->addItem(m_strings[i]);
+
+        m_fingers[i] = new QGraphicsEllipseItem();
+        m_fingers[i]->hide();
+        m_fingers[i]->setPen(QPen(palette().highlight().color()));
+        m_fingers[i]->setBrush(QBrush(palette().highlight().color(),Qt::SolidPattern));
+        m_scene->addItem(m_fingers[i]);
+
         m_workStrings[i] = new QGraphicsLineItem();
         m_workStrings[i]->hide();
         m_scene->addItem(m_workStrings[i]);
@@ -118,7 +131,7 @@ void TfingerBoard::paint() {
     }
   // STRINGS
     QFont strFont = font();
-    strFont.setPixelSize((int)qreal(0.75*strGap));//setting font for digits
+    strFont.setPixelSize((int)qRound(0.75*strGap));//setting font for digits
     painter.setFont(strFont);
     QColor strColor;
     int strWidth; //width of the string depends on its number
@@ -148,6 +161,9 @@ void TfingerBoard::paint() {
                          width()-1-strGap, fbRect.y()+strGap/2+i*strGap);
         m_workStrings[i]->setPen(QPen(gl->GfingerColor,strWidth,Qt::SolidLine));
         m_workStrings[i]->setLine(matrix.map(QLineF(1, fbRect.y()+strGap/2+i*strGap,
+                                  width()-1-strGap, fbRect.y()+strGap/2+i*strGap)));
+        m_strings[i]->setPen(QPen(palette().highlight().color(),strWidth,Qt::SolidLine));
+        m_strings[i]->setLine(matrix.map(QLineF(1, fbRect.y()+strGap/2+i*strGap,
                                   width()-1-strGap, fbRect.y()+strGap/2+i*strGap)));
   // drawing digits of strings in circles
         painter.setPen(QPen(strColor,1,Qt::SolidLine));
@@ -180,8 +196,9 @@ void TfingerBoard::paint() {
                            fbRect.x()-1, fbRect.y()+strGap/2+i*strGap+strWidth-1);
 
     }
-    m_workFinger->setRect(0,0, fretWidth/1.5, qreal(0.66*strGap));
-//    fingers[i]->setSize(fretWidth/2,(int)round(0.66*betweenStrings));
+    m_workFinger->setRect(0,0, fretWidth/1.6, qRound(0.7*strGap));
+    for (int i=0; i<6; i++)
+        m_fingers[i]->setRect(0,0, fretWidth/1.6, qRound(0.7*strGap));
     m_scene->setBackgroundBrush(QBrush(pixmap));
 
 }
@@ -205,8 +222,10 @@ void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
     }
     if (m_curStr != strNr || m_curFret != fretNr) {
         if ( fretNr > 0 && fretNr < 99) { // show finger
-            m_workFinger->setPos(matrix.map(QPointF(fretsPos[fretNr-1]-fretWidth/1.3-2,
-                                 fbRect.y()+strGap*strNr+strGap/4)));
+            int off = qRound(fretWidth/1.5);
+            if (matrix.dx()) off = 4;
+            m_workFinger->setPos(matrix.map(QPoint(fretsPos[fretNr-1]-off,
+                                 fbRect.y()+strGap*strNr+strGap/5)));
             if (!m_workFinger->isVisible())
                 m_workFinger->show();
             if (m_curStr != 7) m_workStrings[m_curStr]->hide();
@@ -220,3 +239,11 @@ void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
     }
 }
 
+void TfingerBoard::mousePressEvent(QMouseEvent *) {
+    qDebug() << QString::fromStdString(posToNote(m_curStr,m_curFret).getName(gl->nameStyleInKeySign));
+
+}
+
+Tnote TfingerBoard::posToNote(int str, int fret) {
+    return Tnote(gl->Gtune[str+1].getChromaticNrOfNote()+fret);
+}

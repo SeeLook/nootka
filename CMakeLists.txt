@@ -18,6 +18,7 @@ SET( NOOTKA_SRCS
   ./src/tscorewidgetsimple.cpp
   ./src/tnotename.cpp
   ./src/tfingerboard.cpp
+  ./src/ttune.cpp
   )
   
 SET( NOOTKA_MOC_SRCS
@@ -31,6 +32,7 @@ SET( NOOTKA_MOC_SRCS
   ./src/tscorewidgetsimple.h
   ./src/tnotename.h
   ./src/tfingerboard.h
+  ./src/ttune.h
   )
 
 SET( NOOTKA_RCCS

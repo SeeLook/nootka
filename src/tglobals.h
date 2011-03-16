@@ -24,6 +24,7 @@
 #include <QString>
 #include <QColor>
 #include "tnote.h"
+#include "ttune.h"
 
 
 class Tglobals
@@ -71,7 +72,9 @@ public:
         /** Shows other posibilities of note (sound) on the fretboard */
     bool GshowOtherPos; //default true
     QColor GfingerColor; // rules the same like in enharmNotesColor
-
+        /** If empty TfingerBoard constructor set it to standard tune,
+        * otherwise user tune is loaded*/
+    Ttune Gtune; // default empty
 
 
 };
