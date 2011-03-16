@@ -28,6 +28,7 @@ Tglobals::Tglobals() {
    GisRightHanded = true;
    GshowOtherPos = true;
    GfingerColor = -1;
+   Gtune = Ttune();
 
 
 }

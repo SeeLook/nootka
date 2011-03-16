@@ -17,3 +17,7 @@ TSCOREWIDGETSIMPLE
 
 TNOTENAME
     - resolve problem with resizeing and layout
+
+TFINGERBOARD
+    - crash after resizing
+    - adjust fingers in lefthanded mode

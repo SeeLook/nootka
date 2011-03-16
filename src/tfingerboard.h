@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QGraphicsView>
+#include "tnote.h"
 
 
 class TfingerBoard : public QGraphicsView
@@ -15,16 +16,19 @@ public:
 //    void resize();
 
 signals:
+    void guitarClicked(Tnote note);
 
 public slots:
 
 protected:
 
     void paint();
+    Tnote posToNote(int str, int fret);
 
     QMatrix matrix;
     void resizeEvent(QResizeEvent *);
     void mouseMoveEvent(QMouseEvent *);
+    void mousePressEvent(QMouseEvent *);
 protected slots:
 
 private:
@@ -42,16 +46,16 @@ private:
     short curStr, curFret;
         /** In those variables are strored previous nubers of strings and frets.
           *This values are needed to hide (or remove) provious preview on the guitar */
-    short prevStr[6], prevFret[6];
+//    short prevStr[6], prevFret[6];
         /** @param fretsPos  stores X positions of frets in global widget coordinates */
     short fretsPos[24];
 
 //    QGraphicsView *m_view;
 //    TkindView *m_view;
     QGraphicsScene *m_scene;
-    QGraphicsEllipseItem *m_workFinger;
+    QGraphicsEllipseItem *m_workFinger, *m_fingers[6];
     int m_strNr, m_fretNr, m_curStr, m_curFret;
-    QGraphicsLineItem *m_workStrings[6];
+    QGraphicsLineItem *m_workStrings[6], *m_strings[6];
 
     /** */
     /** */
