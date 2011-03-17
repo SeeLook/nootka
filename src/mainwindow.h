@@ -23,7 +23,7 @@ public slots:
 
     void noteWasClicked(int index, Tnote note);
     void noteNameWasChanged(Tnote note);
-//    void guitarWasClicked()
+    void guitarWasClicked(Tnote note);
 
 protected:
     void resizeEvent(QResizeEvent *);
