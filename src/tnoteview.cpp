@@ -15,8 +15,8 @@ TnoteView::TnoteView(int _index, TscoreWidgetSimple * parent) :
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFrameShape(QFrame::NoFrame);
     setStyleSheet(("background: transparent"));
-    setRenderHint(QPainter::Antialiasing, true);
-    setRenderHint(QPainter::TextAntialiasing, true);
+    setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
+//    setRenderHint(QPainter::TextAntialiasing, true);
     setMouseTracking(true);
 
     m_scene = new QGraphicsScene();
