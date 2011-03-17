@@ -24,7 +24,7 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
 
     m_scene = new QGraphicsScene();
 
-    setRenderHint(QPainter::Antialiasing, true);
+    setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFrameShape(QFrame::NoFrame);
