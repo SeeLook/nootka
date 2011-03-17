@@ -37,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(m_score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
     connect(m_noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
+    connect(m_guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
 
 }
 
@@ -93,6 +94,7 @@ void MainWindow::noteWasClicked(int index, Tnote note) {
         m_noteName->setNoteName(noteList);
     } else
         m_noteName->setNoteName(note);
+    m_guitar->setFinger(note);
 }
 
 void MainWindow::noteNameWasChanged(Tnote note) {
@@ -101,4 +103,17 @@ void MainWindow::noteNameWasChanged(Tnote note) {
         m_score->setNote(1, m_noteName->getNoteName(1));
         m_score->setNote(2, m_noteName->getNoteName(2));
     }
+    m_guitar->setFinger(note);
+}
+
+void MainWindow::guitarWasClicked(Tnote note) {
+    if (gl->showEnharmNotes) {
+        TnotesList noteList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
+        m_noteName->setNoteName(noteList);
+        m_score->setNote(1, m_noteName->getNoteName(1));
+        m_score->setNote(2, m_noteName->getNoteName(2));
+    } else
+        m_noteName->setNoteName(note);
+    m_score->setNote(0, note);
+
 }
