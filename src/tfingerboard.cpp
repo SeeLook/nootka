@@ -5,6 +5,10 @@
 
 
 extern Tglobals *gl;
+/*static*/
+const Ttune TfingerBoard::stdTune = Ttune(tr("Standard E A D G B E "), Tnote(3,1,0), Tnote(7,0,0),
+                                          Tnote(5,0,0), Tnote(2,0,0), Tnote(6,-1,0),Tnote(3,-1,0));
+
 
 TfingerBoard::TfingerBoard(QWidget *parent) :
     QGraphicsView(parent)
@@ -16,8 +20,7 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
         gl->GfingerColor.setAlpha(200);
     }
     if (gl->Gtune.name == "")
-        gl->Gtune = Ttune(tr("Standard E A D G B E "), Tnote(3,1,0), Tnote(7,0,0),
-                          Tnote(5,0,0), Tnote(2,0,0), Tnote(6,-1,0),Tnote(3,-1,0));
+        gl->Gtune = stdTune;
 
     m_scene = new QGraphicsScene();
 
@@ -159,7 +162,7 @@ void TfingerBoard::paint() {
         painter.setPen(QPen(strColor,strWidth,Qt::SolidLine));
         painter.drawLine(1, fbRect.y()+strGap/2+i*strGap,
                          width()-1-strGap, fbRect.y()+strGap/2+i*strGap);
-        m_workStrings[i]->setPen(QPen(gl->GfingerColor,strWidth,Qt::SolidLine));
+        m_workStrings[i]->setPen(QPen(gl->GfingerColor,strWidth+2,Qt::SolidLine));
         m_workStrings[i]->setLine(matrix.map(QLineF(1, fbRect.y()+strGap/2+i*strGap,
                                   width()-1-strGap, fbRect.y()+strGap/2+i*strGap)));
         m_strings[i]->setPen(QPen(palette().highlight().color(),strWidth,Qt::SolidLine));
@@ -196,7 +199,7 @@ void TfingerBoard::paint() {
                            fbRect.x()-1, fbRect.y()+strGap/2+i*strGap+strWidth-1);
 
     }
-    m_workFinger->setRect(0,0, fretWidth/1.6, qRound(0.7*strGap));
+    m_workFinger->setRect(0,0, fretWidth/1.6, qRound(0.6*strGap));
     for (int i=0; i<6; i++)
         m_fingers[i]->setRect(0,0, fretWidth/1.6, qRound(0.7*strGap));
     m_scene->setBackgroundBrush(QBrush(pixmap));
@@ -240,10 +243,38 @@ void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
 }
 
 void TfingerBoard::mousePressEvent(QMouseEvent *) {
-    qDebug() << QString::fromStdString(posToNote(m_curStr,m_curFret).getName(gl->nameStyleInKeySign));
-
+//    qDebug() << QString::fromStdString(posToNote(m_curStr,m_curFret).getName(gl->nameStyleInKeySign));
+    Tnote aNote = posToNote(m_curStr,m_curFret);
+    setFinger(aNote);
+    emit guitarClicked(aNote);
 }
 
 Tnote TfingerBoard::posToNote(int str, int fret) {
     return Tnote(gl->Gtune[str+1].getChromaticNrOfNote()+fret);
+}
+
+bool TfingerBoard::setFinger(Tnote note, int realStr) {
+        bool doShow = true;
+        for(int i=0; i<6; i++) { // looking for pos to show
+            int diff = note.getChromaticNrOfNote() - gl->Gtune[i+1].getChromaticNrOfNote();
+            if ( doShow && diff >= 0 && diff <=gl->GfretsNumber) { // found
+                if (diff == 0) { // open string
+                    m_fingers[i]->hide();
+                    m_strings[i]->show();
+                } else { // some fret
+                    m_strings[i]->hide();
+                    int off = qRound(fretWidth/1.5);
+                    if (matrix.dx()) off = 4;
+                    m_fingers[i]->setPos(matrix.map(QPoint(fretsPos[diff-1]-off,
+                                         fbRect.y()+strGap*i+strGap/5)));
+                    m_fingers[i]->show();
+                }
+                if (!gl->GshowOtherPos || i==realStr-1) {
+                    doShow = false;
+                }
+            } else { // not found on this string or no need to show
+                m_fingers[i]->hide();
+                m_strings[i]->hide();
+            }
+        }
 }
