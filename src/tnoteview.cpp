@@ -208,7 +208,7 @@ void TnoteView::setNote(int notePos, char accNr) {
     m_mainPosY = notePos;
     m_accidental = accNr;
     moveNote(notePos);
-    setAccidText(accNr);
+//    setAccidText(accNr);
 }
 
 void TnoteView::hideNote() {

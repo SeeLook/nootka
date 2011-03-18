@@ -87,6 +87,7 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     mainLay->setAlignment(Qt::AlignCenter);
 
     QHBoxLayout *upLay = new QHBoxLayout;
+    QGroupBox *tuneGr = new QGroupBox(tr("Tune of guitar"));
     QVBoxLayout *tuneLay = new QVBoxLayout;
     tuneLay->setAlignment(Qt::AlignCenter);
     tuneCombo = new QComboBox(this);
@@ -99,8 +100,10 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     tuneView->setNote(3,gl->Gtune[3]);
     tuneView->setNote(4,gl->Gtune[2]);
     tuneView->setNote(5,gl->Gtune[1]);
+    tuneView->setFixedWidth(240);
     tuneCombo->addItem(gl->Gtune.name);
-    upLay->addLayout(tuneLay);
+    tuneGr->setLayout(tuneLay);
+    upLay->addWidget(tuneGr);
 
     QVBoxLayout *hfLay = new QVBoxLayout;
     hfLay->addStretch(1);
