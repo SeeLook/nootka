@@ -19,7 +19,7 @@ TscoreWidgetSimple::TscoreWidgetSimple(unsigned char _notesCount, QWidget *paren
     QWidget(parent)
 {
     setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
-    setMinimumHeight(72);
+    setMinimumHeight(144);
 //    updateCoefficients();
 
     for (int i=0; i<_notesCount; i++) {
@@ -54,7 +54,7 @@ TscoreWidgetSimple::TscoreWidgetSimple(unsigned char _notesCount, QWidget *paren
     setLayout(mainLay);
 
 //    m_note = Tnote();
-
+    for (int i=0; i<7; i++) accInKeyArr[i]=0;
     setEnabledDblAccid(false);
 
     connect(m_dblSharpBut,SIGNAL(clicked()),this,SLOT(onAcidButtonPressed()));

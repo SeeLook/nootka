@@ -15,7 +15,6 @@ public:
 
     void settingsWasChanged() { paint(); }
 
-    static const Ttune stdTune;
         /** It paints fingerprint on the fretboard in place where note is.
         * If globals GshowOtherPos is true all possibilities are shown.
         * If @param realStr is set is shown only on pointed string (of any).

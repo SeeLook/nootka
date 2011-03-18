@@ -1,11 +1,10 @@
 #ifndef SETTINGSDIALOG_H
 #define SETTINGSDIALOG_H
 
-//#include <QDialog>
-//#include <QButtonGroup>
-//#include <QRadioButton>
 #include <QtGui>
 #include "tnote.h"
+#include "tscorewidgetsimple.h"
+
 
 
 
@@ -109,7 +108,7 @@ private:
     QCheckBox *octInNameCh;
 };
 
-
+//##############################################################
 class GuitarSettings : public QWidget
 {
     Q_OBJECT
@@ -119,10 +118,14 @@ public:
     void saveSettings();
 
 private:
-    QCheckBox *righthandCh;
+    TscoreWidgetSimple *tuneView;
+    QCheckBox *righthandCh, *morePosCh;
+    QRadioButton *prefFlatBut, *prefSharpBut;
     QSpinBox *fretsNrSpin;
+    QComboBox *tuneCombo;
 };
 
+//##############################################################
 class SettingsDialog : public QDialog
 {
     Q_OBJECT

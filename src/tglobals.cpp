@@ -11,6 +11,7 @@ Tglobals::Tglobals() {
     nameStyleInKeySign = Tnote::e_deutsch_His;
     majKeyNameSufix = " " ; //like 'major' or 'dur'
     minKeyNameSufix = " " ; //like 'minor' or 'moll'
+    pointerColor = -1;
 
 //common for score widget and note name
     doubleAccidentalsEnabled = true;
@@ -28,7 +29,9 @@ Tglobals::Tglobals() {
    GisRightHanded = true;
    GshowOtherPos = true;
    GfingerColor = -1;
+   GselectedColor = -1;
    Gtune = Ttune();
+   GpreferFlats = false;
 
 
 }

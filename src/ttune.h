@@ -23,7 +23,7 @@
 #include "tnote.h"
 #include <QString>
 
-/**It stores six notes in Tnote objects, which can be set
+/** It stores six notes in Tnote objects, which can be set
  * in constructor, or get by overloaded [] operator.
  * @short This class describes a tune of the guitar
  * @author Tomasz Bojczuk <tomaszbojczuk@gmail.com> */
@@ -42,6 +42,8 @@ public:
             /** Overloaded operator [] allows to use statment
             * @li Ttune your_variable[number of a string]
             * @p stringNr is real string number (1 to 6) */
+    static const Ttune stdTune;
+
     Tnote &operator[] (unsigned char stringNr) { return m_S[stringNr-1]; }
 
     bool operator==( Ttune &T2)	{
