@@ -85,15 +85,41 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
     mainLay->setAlignment(Qt::AlignCenter);
-    righthandCh = new QCheckBox(tr("for right-handed"),this);
+
+    QHBoxLayout *upLay = new QHBoxLayout;
+    QVBoxLayout *tuneLay = new QVBoxLayout;
+    tuneLay->setAlignment(Qt::AlignCenter);
+    tuneCombo = new QComboBox(this);
+    tuneLay->addWidget(tuneCombo);
+    tuneView = new TscoreWidgetSimple(6,this);
+    tuneLay->addWidget(tuneView);
+    tuneView->setNote(0,gl->Gtune[6]);
+    tuneView->setNote(1,gl->Gtune[5]);
+    tuneView->setNote(2,gl->Gtune[4]);
+    tuneView->setNote(3,gl->Gtune[3]);
+    tuneView->setNote(4,gl->Gtune[2]);
+    tuneView->setNote(5,gl->Gtune[1]);
+    tuneCombo->addItem(gl->Gtune.name);
+    upLay->addLayout(tuneLay);
+
+    QVBoxLayout *hfLay = new QVBoxLayout;
+    hfLay->addStretch(1);
+    righthandCh = new QCheckBox(tr("guitar for right-handed"),this);
     righthandCh->setChecked(gl->GisRightHanded);
-    mainLay->addWidget(righthandCh);
+    hfLay->addWidget(righthandCh);
+    hfLay->addStretch(1);
+    QLabel *fretLab = new QLabel(tr("number of frets:"),this);
+    hfLay->addWidget(fretLab);
     fretsNrSpin = new QSpinBox(this);
     fretsNrSpin->setValue(gl->GfretsNumber);
     fretsNrSpin->setMaximum(24);
     fretsNrSpin->setMinimum(15);
-    mainLay->addWidget(fretsNrSpin);
-    mainLay->addStretch(1);
+    hfLay->addWidget(fretsNrSpin);
+    hfLay->addStretch(1);
+    upLay->addSpacing(8);
+    upLay->addLayout(hfLay);
+
+    mainLay->addLayout(upLay);
     setLayout(mainLay);
 }
 

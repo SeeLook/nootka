@@ -18,6 +18,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "ttune.h"
+#include <QObject>
+
+/*static*/
+const Ttune Ttune::stdTune = Ttune(QObject::tr("Standard E A D G B E "), Tnote(3,1,0), Tnote(7,0,0),
+                                          Tnote(5,0,0), Tnote(2,0,0), Tnote(6,-1,0),Tnote(3,-1,0));
 
 Ttune::Ttune( const QString _name, Tnote S1, Tnote S2, Tnote S3, Tnote S4, Tnote S5, Tnote S6 )
 {

@@ -5,9 +5,6 @@
 
 
 extern Tglobals *gl;
-/*static*/
-const Ttune TfingerBoard::stdTune = Ttune(tr("Standard E A D G B E "), Tnote(3,1,0), Tnote(7,0,0),
-                                          Tnote(5,0,0), Tnote(2,0,0), Tnote(6,-1,0),Tnote(3,-1,0));
 
 
 TfingerBoard::TfingerBoard(QWidget *parent) :
@@ -20,7 +17,7 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
         gl->GfingerColor.setAlpha(200);
     }
     if (gl->Gtune.name == "")
-        gl->Gtune = stdTune;
+        gl->Gtune = Ttune::stdTune;
 
     m_scene = new QGraphicsScene();
 
@@ -243,7 +240,6 @@ void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
 }
 
 void TfingerBoard::mousePressEvent(QMouseEvent *) {
-//    qDebug() << QString::fromStdString(posToNote(m_curStr,m_curFret).getName(gl->nameStyleInKeySign));
     Tnote aNote = posToNote(m_curStr,m_curFret);
     setFinger(aNote);
     emit guitarClicked(aNote);

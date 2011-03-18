@@ -53,6 +53,8 @@ public:
         * If keyNameSuffix has some text -  is translated by user himself */
     QString majKeyNameSufix;
     QString minKeyNameSufix;
+    QColor pointerColor;
+
 //common with score widget and note name
     bool doubleAccidentalsEnabled; //default true
     bool showEnharmNotes; // default true
@@ -60,6 +62,7 @@ public:
         * as inversion of highlight color from palette() and put to TnoteName,
         * otherwise is taken from saved settings. */
     QColor enharmNotesColor;
+
 
 //note name settings
     Tnote::Enotation NnameStyleInNoteName;
@@ -72,9 +75,13 @@ public:
         /** Shows other posibilities of note (sound) on the fretboard */
     bool GshowOtherPos; //default true
     QColor GfingerColor; // rules the same like in enharmNotesColor
+    QColor GselectedColor;
         /** If empty TfingerBoard constructor set it to standard tune,
         * otherwise user tune is loaded*/
     Ttune Gtune; // default empty
+        /** It says witch accidentals are prafered while user clicks guitar
+        * and note is calculated. Default are sharps*/
+    bool GpreferFlats; // default false
 
 
 };
