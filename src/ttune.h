@@ -43,6 +43,7 @@ public:
             * @li Ttune your_variable[number of a string]
             * @p stringNr is real string number (1 to 6) */
     static const Ttune stdTune;
+    static const Ttune tunes[4];
 
     Tnote &operator[] (unsigned char stringNr) { return m_S[stringNr-1]; }
 

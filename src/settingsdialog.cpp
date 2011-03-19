@@ -87,25 +87,24 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     mainLay->setAlignment(Qt::AlignCenter);
 
     QHBoxLayout *upLay = new QHBoxLayout;
-    QGroupBox *tuneGr = new QGroupBox(tr("Tune of guitar"));
+    QGroupBox *tuneGr = new QGroupBox(tr("Tune of the guitar"));
     QVBoxLayout *tuneLay = new QVBoxLayout;
     tuneLay->setAlignment(Qt::AlignCenter);
     tuneCombo = new QComboBox(this);
     tuneLay->addWidget(tuneCombo);
     tuneView = new TscoreWidgetSimple(6,this);
     tuneLay->addWidget(tuneView);
-    tuneView->setNote(0,gl->Gtune[6]);
-    tuneView->setNote(1,gl->Gtune[5]);
-    tuneView->setNote(2,gl->Gtune[4]);
-    tuneView->setNote(3,gl->Gtune[3]);
-    tuneView->setNote(4,gl->Gtune[2]);
-    tuneView->setNote(5,gl->Gtune[1]);
     tuneView->setFixedWidth(240);
+    setTune(gl->Gtune);
     tuneCombo->addItem(gl->Gtune.name);
+    for (int i=0; i<4; i++) {
+        tuneCombo->addItem(Ttune::tunes[i].name);
+    }
     tuneGr->setLayout(tuneLay);
     upLay->addWidget(tuneGr);
 
     QVBoxLayout *hfLay = new QVBoxLayout;
+    QGroupBox *hfGr = new QGroupBox;
     hfLay->addStretch(1);
     righthandCh = new QCheckBox(tr("guitar for right-handed"),this);
     righthandCh->setChecked(gl->GisRightHanded);
@@ -119,11 +118,36 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     fretsNrSpin->setMinimum(15);
     hfLay->addWidget(fretsNrSpin);
     hfLay->addStretch(1);
-    upLay->addSpacing(8);
-    upLay->addLayout(hfLay);
+    upLay->addSpacing(3);
+    hfGr->setLayout(hfLay);
+    upLay->addWidget(hfGr);
 
     mainLay->addLayout(upLay);
+
+    QHBoxLayout *downLay = new QHBoxLayout;
+    QVBoxLayout *prefLay = new QVBoxLayout;
+    QGroupBox *prefBox = new QGroupBox(tr("prefered accidentals:"),this);
+    prefSharpBut = new QRadioButton(tr("# - sharps"),this);
+    prefFlatBut = new  QRadioButton(tr("b - flats"),this);
+    QButtonGroup *prefGr = new QButtonGroup(this);
+    prefGr->addButton(prefSharpBut);
+    prefGr->addButton(prefFlatBut);
+    prefLay->addWidget(prefSharpBut);
+    prefLay->addWidget(prefFlatBut);
+    prefBox->setLayout(prefLay);
+    downLay->addWidget(prefBox);
+
+    morePosCh = new QCheckBox(tr("show all possibilities of a note"),this);
+    downLay->addWidget(morePosCh);
+
+    mainLay->addLayout(downLay);
+
     setLayout(mainLay);
+}
+
+void GuitarSettings::setTune(Ttune tune) {
+    for (int i=0; i<6; i++)
+        tuneView->setNote(i,tune[6-i]);
 }
 
 void GuitarSettings::saveSettings() {

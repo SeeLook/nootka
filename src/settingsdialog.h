@@ -3,6 +3,7 @@
 
 #include <QtGui>
 #include "tnote.h"
+#include "ttune.h"
 #include "tscorewidgetsimple.h"
 
 
@@ -118,6 +119,8 @@ public:
     void saveSettings();
 
 private:
+    void setTune (Ttune tune);
+
     TscoreWidgetSimple *tuneView;
     QCheckBox *righthandCh, *morePosCh;
     QRadioButton *prefFlatBut, *prefSharpBut;
