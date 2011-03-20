@@ -19,7 +19,7 @@ TscoreWidgetSimple::TscoreWidgetSimple(unsigned char _notesCount, QWidget *paren
     QWidget(parent)
 {
     setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
-    setMinimumHeight(144);
+    setMinimumHeight(180);
 //    updateCoefficients();
 
     for (int i=0; i<_notesCount; i++) {
@@ -53,9 +53,9 @@ TscoreWidgetSimple::TscoreWidgetSimple(unsigned char _notesCount, QWidget *paren
     mainLay->setAlignment(Qt::AlignRight);
     setLayout(mainLay);
 
-//    m_note = Tnote();
     for (int i=0; i<7; i++) accInKeyArr[i]=0;
     setEnabledDblAccid(false);
+    resize();
 
     connect(m_dblSharpBut,SIGNAL(clicked()),this,SLOT(onAcidButtonPressed()));
     connect(m_sharpBut,SIGNAL(clicked()),this,SLOT(onAcidButtonPressed()));
@@ -82,11 +82,9 @@ void TscoreWidgetSimple::paintEvent(QPaintEvent *) {
 
     QSvgRenderer svgrendr(QString(":/picts/clef.svg"));
     svgrendr.render(&painter,QRectF(1,12*coeff,coeff*5,coeff*18));
-
     }
 
 void TscoreWidgetSimple::resizeEvent(QResizeEvent *) {
-
     resize();
 }
 

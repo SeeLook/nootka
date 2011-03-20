@@ -1,5 +1,6 @@
 #include "settingsdialog.h"
 #include "tglobals.h"
+#include "tnoteview.h"
 #include <QVBoxLayout>
 
 #include <iostream>
@@ -94,12 +95,13 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     tuneLay->addWidget(tuneCombo);
     tuneView = new TscoreWidgetSimple(6,this);
     tuneLay->addWidget(tuneView);
-    tuneView->setFixedWidth(240);
+    tuneView->setFixedWidth(280);
     setTune(gl->Gtune);
     tuneCombo->addItem(gl->Gtune.name);
     for (int i=0; i<4; i++) {
         tuneCombo->addItem(Ttune::tunes[i].name);
     }
+    tuneCombo->addItem(tr("Custom tune"));
     tuneGr->setLayout(tuneLay);
     upLay->addWidget(tuneGr);
 
@@ -127,6 +129,7 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     QHBoxLayout *downLay = new QHBoxLayout;
     QVBoxLayout *prefLay = new QVBoxLayout;
     QGroupBox *prefBox = new QGroupBox(tr("prefered accidentals:"),this);
+    prefBox->setStatusTip(tr("Choose which accidentals will be shown."));
     prefSharpBut = new QRadioButton(tr("# - sharps"),this);
     prefFlatBut = new  QRadioButton(tr("b - flats"),this);
     QButtonGroup *prefGr = new QButtonGroup(this);
@@ -135,24 +138,51 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     prefLay->addWidget(prefSharpBut);
     prefLay->addWidget(prefFlatBut);
     prefBox->setLayout(prefLay);
+    if (gl->GpreferFlats) prefFlatBut->setChecked(true);
+    else
+        prefSharpBut->setChecked(true);
     downLay->addWidget(prefBox);
 
     morePosCh = new QCheckBox(tr("show all possibilities of a note"),this);
     downLay->addWidget(morePosCh);
+    morePosCh->setChecked(gl->GshowOtherPos);
 
     mainLay->addLayout(downLay);
 
     setLayout(mainLay);
+
+    connect(tuneCombo, SIGNAL(activated(int)), this, SLOT(tuneSelected(int)));
+    connect(tuneView, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(userTune(int,Tnote)));
 }
 
 void GuitarSettings::setTune(Ttune tune) {
-    for (int i=0; i<6; i++)
+    for (int i=0; i<6; i++) {
         tuneView->setNote(i,tune[6-i]);
+        tuneView->noteViews[i]->setString(6-i);
+    }
+}
+
+void GuitarSettings::tuneSelected(int tuneId) {
+    if (tuneId == 0)
+        setTune(Ttune::stdTune);
+    else
+        if (tuneId != tuneCombo->count()-1) //the last is custom
+        setTune(Ttune::tunes[tuneId-1]);
+}
+
+void GuitarSettings::userTune(int, Tnote) {
+    tuneCombo->setCurrentIndex(tuneCombo->count()-1);
 }
 
 void GuitarSettings::saveSettings() {
     gl->GisRightHanded = righthandCh->isChecked();
     gl->GfretsNumber = fretsNrSpin->value();
+    gl->Gtune = Ttune(tuneCombo->currentText(), tuneView->getNote(5), tuneView->getNote(4),
+                      tuneView->getNote(3), tuneView->getNote(2), tuneView->getNote(1),
+                      tuneView->getNote(0));
+    gl->GshowOtherPos = morePosCh->isChecked();
+    if (prefFlatBut->isChecked()) gl->GpreferFlats = true;
+    else gl->GpreferFlats = false;
 }
 
 //############# GlobalSettings IMPLEMENTATION ##################
@@ -163,7 +193,7 @@ GlobalSettings::GlobalSettings(QWidget *parent) :
     QVBoxLayout *lay = new QVBoxLayout();
     lay->setAlignment(Qt::AlignCenter);
     otherEnharmChBox = new QCheckBox(tr("show other enharmonics variants of note"),this);
-    otherEnharmChBox->setToolTip(tr("Shows enharmonical variants of note.\n F.e.: E note is also Fb (F flat) and Dx (D with double sharp."));
+    otherEnharmChBox->setStatusTip(tr("Shows enharmonical variants of note.\n F.e.: E note is also Fb (F flat) and Dx (D with double sharp."));
     otherEnharmChBox->setChecked(gl->showEnharmNotes);
     lay->addWidget(otherEnharmChBox);
     dblAccChBox = new QCheckBox(tr("use double accidentals"),this);
@@ -189,7 +219,7 @@ NameSettings::NameSettings(QWidget *parent) :
     mainLay->addWidget(nameStyleGr);
     octInNameCh = new QCheckBox(tr("show octave in note name"),this);
     mainLay->addWidget(octInNameCh);
-    octInNameCh->setToolTip(tr("Shows formated note name. For small octave - the name is small letter,\n for great octave - the name starts with capital letter,\n for one-line, digit \"1\" is added, and so on." ));
+    octInNameCh->setStatusTip(tr("Shows formated note name. For small octave - the name is small letter,\n for great octave - the name starts with capital letter,\n for one-line, digit \"1\" is added, and so on." ));
     octInNameCh->setChecked(gl->NoctaveInNoteNameFormat);
     mainLay->addStretch(1);
     setLayout(mainLay);
@@ -348,21 +378,29 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     m_nameSett = new NameSettings();
     m_guitarSett = new GuitarSettings();
 
+    QVBoxLayout *aLay = new QVBoxLayout;
     stackLayout = new QStackedLayout;
     stackLayout->addWidget(m_globalSett);
     stackLayout->addWidget(m_scoreSett);
     stackLayout->addWidget(m_nameSett);
     stackLayout->addWidget(m_guitarSett);
-    contLay->addLayout(stackLayout);
+    aLay->addLayout(stackLayout);
+
+    hint = new QTextEdit(this);
+    aLay->addWidget(hint);
+    hint->setFixedHeight(60);
+    hint->setReadOnly(true);
+    contLay->addLayout(aLay);
 
     mainLay->addLayout(contLay);
 
+
     QHBoxLayout *butLay = new QHBoxLayout();
-    okBut = new QPushButton(tr("OK"),this);
+    okBut = new QPushButton(tr("Accept"),this);
     butLay->addStretch(1);
     butLay->addWidget(okBut);
     butLay->addStretch(1);
-    cancelBut = new QPushButton(tr("cancel"),this);
+    cancelBut = new QPushButton(tr("Discard"),this);
     butLay->addWidget(cancelBut);
     butLay->addStretch(1);
     mainLay->addLayout(butLay);
@@ -382,4 +420,12 @@ void SettingsDialog::saveSettings() {
     m_globalSett->saveSettings();
     m_nameSett->saveSettings();
     m_guitarSett->saveSettings();
+}
+
+bool SettingsDialog::event(QEvent *event) {
+    if (event->type() == QEvent::StatusTip) {
+        QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
+        hint->setText(se->tip());
+    }
+    return QDialog::event(event);
 }

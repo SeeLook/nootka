@@ -2,9 +2,6 @@
 #define TNOTEVIEW_H
 
 #include <QGraphicsView>
-//#include <tscorewidgetsimple.h>
-
-
 
 
 class QGraphicsEllipseItem;
@@ -30,6 +27,10 @@ public:
     int index() { return m_index; }
     void setAmbitus(int min, int max);
     void setNote(int notePos, char accNr);
+        /** It paints string number symbol.
+        * Automaticaly determines above or below staff.*/
+    void setString(int realNr);
+    void removeString();
     void hideNote();
     void setColor(QColor color);
 
@@ -67,6 +68,8 @@ private:
     QGraphicsEllipseItem *m_workNote, *m_mainNote;
     QGraphicsLineItem *m_upLines[7], *m_mainUpLines[7], *m_mainDownLines[5], *m_downLines[5];
     QGraphicsSimpleTextItem *m_workAccid, *m_mainAccid;
+    QGraphicsSimpleTextItem *m_strNr;
+    QGraphicsEllipseItem *m_strEl;
     QColor m_workColor, m_mainColor;
     int m_workPosY, m_mainPosY;
     int m_coeff;
@@ -86,6 +89,7 @@ private:
         /** Returns QString with accidental symbol*/
     QString getAccid(int accNr);
     void hideWorkNote();
+    void setStringPos();
 
 };
 

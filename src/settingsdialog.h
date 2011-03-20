@@ -126,6 +126,9 @@ private:
     QRadioButton *prefFlatBut, *prefSharpBut;
     QSpinBox *fretsNrSpin;
     QComboBox *tuneCombo;
+private slots:
+    void tuneSelected(int tuneId);
+    void userTune(int, Tnote);
 };
 
 //##############################################################
@@ -138,10 +141,14 @@ public:
 public slots:
     void saveSettings();
 
+protected:
+    bool event(QEvent *event);
+
 private:
     QListWidget *navList;
     QStackedLayout *stackLayout;
     QPushButton *cancelBut, *okBut;
+    QTextEdit *hint;
 
     GlobalSettings *m_globalSett;
     ScoreSettings *m_scoreSett;

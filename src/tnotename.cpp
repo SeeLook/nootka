@@ -14,7 +14,7 @@ const QString TnoteName::octavesFull[6] = {tr("Contra octave"), tr("Great octave
 TnoteName::TnoteName(QWidget *parent) :
     QWidget(parent)
 {
-    setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
+//    setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
 
 // NAME LABEL
     QVBoxLayout *mainLay = new QVBoxLayout();

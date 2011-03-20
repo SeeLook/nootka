@@ -3,8 +3,7 @@
 #include <QGraphicsEllipseItem>
 #include <QGraphicsScene>
 #include <QGraphicsLineItem>
-
-#include <iostream>
+#include <QDebug>
 
 
 TnoteView::TnoteView(int _index, TscoreWidgetSimple * parent) :
@@ -65,6 +64,7 @@ TnoteView::TnoteView(int _index, TscoreWidgetSimple * parent) :
     m_scene->addItem(m_workAccid);
     m_workAccid->hide();
 
+    m_strNr = 0;
     setColor(m_mainColor);
     m_accInKeyPtr = parent->accInKeyArr;
     m_dblAccFusePtr = &parent->dblAccidFuse;
@@ -110,7 +110,6 @@ void TnoteView::resize(int co) {
 
 void TnoteView::mouseMoveEvent(QMouseEvent * event) {
     if (
-//            (event->x() > 2) && (event->x() < 5*m_coeff) &&
         (event->y() > m_ambitMax*m_coeff) && (event->y() < m_ambitMin*m_coeff) ) {
         int a = event->y()/m_coeff;
         if (m_workPosY != a) {
@@ -179,7 +178,7 @@ void TnoteView::moveNote(int pos) {
         m_mainNote->show();
         m_mainAccid->show();
     }
-
+    setStringPos();
     for (int i=0; i < 7; i++)	{
         if (pos < (2*(i+1)))
             m_mainUpLines[i]->show();
@@ -231,6 +230,7 @@ void TnoteView::setColor(QColor color) {
         m_mainUpLines[i]->setPen(QPen(color));
         if (i < 5) m_mainDownLines[i]->setPen(QPen(color));
     }
+    //set color also for string nr if exists
 }
 
 bool TnoteView::event(QEvent *event) {
@@ -246,4 +246,40 @@ void TnoteView::hideWorkNote() {
     for (int i=0; i < 7; i++) m_upLines[i]->hide();
     for (int i=0; i < 5; i++) m_downLines[i]->hide();
     m_workPosY = 0;
+}
+
+void TnoteView::setString(int realNr) {
+    if (!m_strNr) {
+        m_strNr = new QGraphicsSimpleTextItem();
+        m_strNr->setFont(m_mainAccid->font());
+        m_strNr->setBrush(QBrush(m_mainColor));
+        m_scene->addItem(m_strNr);
+        m_strNr->setZValue(-1);
+
+        m_strEl = new QGraphicsEllipseItem();
+        m_strEl->setBrush(QBrush(Qt::NoBrush));
+        m_strEl->setPen(QPen(m_mainColor, 2, Qt::SolidLine));
+        m_scene->addItem(m_strEl);
+        m_strEl->setRect(0, 0, 5*m_coeff, 5*m_coeff);
+        m_strEl->setZValue(-1);
+    }
+    m_strNr->setText(QString("%1").arg(realNr));
+    setStringPos();
+}
+
+void TnoteView::setStringPos() {
+    if (m_strNr) {
+        int yy = 26*m_coeff;
+        if (m_mainPosY > 20) yy = 10*m_coeff;
+        m_strNr->setPos(1.8*m_coeff,yy-3*m_coeff);
+        m_strEl->setPos(m_coeff/2,yy);
+    }
+}
+
+void TnoteView::removeString() {
+    if (m_strNr) {
+        delete m_strNr;
+        delete m_strEl;
+        m_strNr = 0;
+    }
 }
