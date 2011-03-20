@@ -148,7 +148,7 @@ private:
     QListWidget *navList;
     QStackedLayout *stackLayout;
     QPushButton *cancelBut, *okBut;
-    QTextEdit *hint;
+    QLabel *hint;
 
     GlobalSettings *m_globalSett;
     ScoreSettings *m_scoreSett;
