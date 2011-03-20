@@ -27,6 +27,7 @@ TnotationRadioGroup::TnotationRadioGroup( Tnote::Enotation _notation, QWidget * 
 {
     notation = _notation;
     setTitle(tr("Naming style"));
+    setStatusTip(tr("Naming style of a note. The main difference is 7-th note.<br>Is it B and B flat, or H and B."));
     norskButt = new QRadioButton(strNorsk+" "+strNorskExampl ,this);
     italianoButt = new QRadioButton(strItal+" "+strItalExampl,this);
     deutschButt = new QRadioButton(strDeutsch+" "+strDeutschExampl,this);
@@ -88,7 +89,8 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     mainLay->setAlignment(Qt::AlignCenter);
 
     QHBoxLayout *upLay = new QHBoxLayout;
-    QGroupBox *tuneGr = new QGroupBox(tr("Tune of the guitar"));
+    QGroupBox *tuneGr = new QGroupBox(tr("tune of the guitar"));
+    tuneGr->setStatusTip(tr("Select apropirate tune from list or prepare own tune."));
     QVBoxLayout *tuneLay = new QVBoxLayout;
     tuneLay->setAlignment(Qt::AlignCenter);
     tuneCombo = new QComboBox(this);
@@ -110,6 +112,7 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     hfLay->addStretch(1);
     righthandCh = new QCheckBox(tr("guitar for right-handed"),this);
     righthandCh->setChecked(gl->GisRightHanded);
+    righthandCh->setStatusTip(tr("Uncheck this if you are lefthanded<br>and your gitar has changed strings order"));
     hfLay->addWidget(righthandCh);
     hfLay->addStretch(1);
     QLabel *fretLab = new QLabel(tr("number of frets:"),this);
@@ -129,7 +132,7 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     QHBoxLayout *downLay = new QHBoxLayout;
     QVBoxLayout *prefLay = new QVBoxLayout;
     QGroupBox *prefBox = new QGroupBox(tr("prefered accidentals:"),this);
-    prefBox->setStatusTip(tr("Choose which accidentals will be shown."));
+    prefBox->setStatusTip(tr("Choose which accidentals will be shown in score."));
     prefSharpBut = new QRadioButton(tr("# - sharps"),this);
     prefFlatBut = new  QRadioButton(tr("b - flats"),this);
     QButtonGroup *prefGr = new QButtonGroup(this);
@@ -144,6 +147,7 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     downLay->addWidget(prefBox);
 
     morePosCh = new QCheckBox(tr("show all possibilities of a note"),this);
+    morePosCh->setStatusTip(tr("As you know, the same note can be played in few places on fingerboard.<br>If checked it shows them all."));
     downLay->addWidget(morePosCh);
     morePosCh->setChecked(gl->GshowOtherPos);
 
@@ -193,10 +197,11 @@ GlobalSettings::GlobalSettings(QWidget *parent) :
     QVBoxLayout *lay = new QVBoxLayout();
     lay->setAlignment(Qt::AlignCenter);
     otherEnharmChBox = new QCheckBox(tr("show other enharmonics variants of note"),this);
-    otherEnharmChBox->setStatusTip(tr("Shows enharmonical variants of note.\n F.e.: E note is also Fb (F flat) and Dx (D with double sharp."));
+    otherEnharmChBox->setStatusTip(tr("Shows enharmonical variants of note.<br>F.e.: E note is also Fb (F flat) and Dx (D with double sharp."));
     otherEnharmChBox->setChecked(gl->showEnharmNotes);
     lay->addWidget(otherEnharmChBox);
     dblAccChBox = new QCheckBox(tr("use double accidentals"),this);
+    dblAccChBox->setStatusTip(tr("If checked, you can use double sharps and double flats."));
     dblAccChBox->setChecked(gl->doubleAccidentalsEnabled);
     lay->addWidget(dblAccChBox);
     lay->addStretch(1);
@@ -219,7 +224,7 @@ NameSettings::NameSettings(QWidget *parent) :
     mainLay->addWidget(nameStyleGr);
     octInNameCh = new QCheckBox(tr("show octave in note name"),this);
     mainLay->addWidget(octInNameCh);
-    octInNameCh->setStatusTip(tr("Shows formated note name. For small octave - the name is small letter,\n for great octave - the name starts with capital letter,\n for one-line, digit \"1\" is added, and so on." ));
+    octInNameCh->setStatusTip(tr("Shows formated note name. For small octave - the name is small letter,<br>for great octave - the name starts with capital letter,<br>for one-line, digit <sup>1</sup> is added, and so on." ));
     octInNameCh->setChecked(gl->NoctaveInNoteNameFormat);
     mainLay->addStretch(1);
     setLayout(mainLay);
@@ -386,10 +391,13 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     stackLayout->addWidget(m_guitarSett);
     aLay->addLayout(stackLayout);
 
-    hint = new QTextEdit(this);
-    aLay->addWidget(hint);
-    hint->setFixedHeight(60);
-    hint->setReadOnly(true);
+    QGroupBox *hGr = new QGroupBox(this);
+    QVBoxLayout *hLay = new QVBoxLayout;
+    hint = new QLabel(this);
+    hLay->addWidget(hint);
+    hGr->setLayout(hLay);
+    aLay->addWidget(hGr);
+    hint->setFixedHeight(70);
     contLay->addLayout(aLay);
 
     mainLay->addLayout(contLay);
@@ -425,7 +433,7 @@ void SettingsDialog::saveSettings() {
 bool SettingsDialog::event(QEvent *event) {
     if (event->type() == QEvent::StatusTip) {
         QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
-        hint->setText(se->tip());
+        hint->setText("<center>"+se->tip()+"</center>");
     }
     return QDialog::event(event);
 }
