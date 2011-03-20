@@ -241,6 +241,7 @@ void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
 
 void TfingerBoard::mousePressEvent(QMouseEvent *) {
     Tnote aNote = posToNote(m_curStr,m_curFret);
+    if (gl->GpreferFlats) aNote = aNote.showWithFlat();
     setFinger(aNote);
     emit guitarClicked(aNote);
 }
