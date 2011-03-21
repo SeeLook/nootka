@@ -1,10 +1,10 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk   *
- *   tomaszbojczuk@gmail.com   *
+ *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
+ *   tomaszbojczuk@gmail.com   						   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
+ *   the Free Software Foundation; either version 3 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
@@ -12,10 +12,8 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ *  You should have received a copy of the GNU General Public License	   *
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
 #ifndef TSCOREWIDGETSIMPLE_H
@@ -67,6 +65,10 @@ public:
     Tnote getNote(int index) { return m_notes[index]; }
         /** It hides pionted note and sets to Tnote(0,0,0)*/
     void clearNote(int index);
+        /** Sets the lowest and the highest note in all TnoteViews instances.*/
+    void setAmbitus(Tnote lo, Tnote hi);
+        /** The same but for @param index TnoteView.*/
+    void setAmbitus(Tnote lo, Tnote hi, int index);
 
 
 signals:
@@ -98,8 +100,10 @@ protected slots:
     void onKeySignatureChanged();
 
 private:
-    /** Refreshs state of ScoreCanvWidth and coeff, after resizing */
+        /** Refreshs state of ScoreCanvWidth and coeff, after resizing */
     void resize();
+        /** Returns Y position of note in TnoteView "unuts". */
+    int getNotePos(Tnote note);
 
     QPushButton *m_sharpBut, *m_flatBut, *m_dblSharpBut, *m_dblFlatBut;
     TnotesList m_notes;
