@@ -19,7 +19,7 @@
 #include "settingsdialog.h"
 #include "mainwindow.h"
 #include "tglobals.h"
-#include <iostream>
+#include <QDebug>
 
 Tglobals *gl = new Tglobals();
 
@@ -127,6 +127,8 @@ void MainWindow::noteNameWasChanged(Tnote note) {
 void MainWindow::guitarWasClicked(Tnote note) {
     if (gl->showEnharmNotes) {
         TnotesList noteList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
+//        for (int i=0; i<noteList.size(); i++)
+//            qDebug() << QString::fromStdString(noteList[i].getName());
         m_noteName->setNoteName(noteList);
         m_score->setNote(1, m_noteName->getNoteName(1));
         m_score->setNote(2, m_noteName->getNoteName(2));

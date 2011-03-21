@@ -13,7 +13,7 @@ class TfingerBoard : public QGraphicsView
 public:
     explicit TfingerBoard(QWidget *parent = 0);
 
-    void settingsWasChanged() { paint(); }
+    void settingsWasChanged();
 
         /** It paints fingerprint on the fretboard in place where note is.
         * If globals GshowOtherPos is true all possibilities are shown.
@@ -59,12 +59,12 @@ private:
         /** @param fretsPos  stores X positions of frets in global widget coordinates */
     short fretsPos[24];
 
-//    QGraphicsView *m_view;
-//    TkindView *m_view;
     QGraphicsScene *m_scene;
     QGraphicsEllipseItem *m_workFinger, *m_fingers[6];
     int m_strNr, m_fretNr, m_curStr, m_curFret;
     QGraphicsLineItem *m_workStrings[6], *m_strings[6];
+        /** Keeps selected note*/
+    Tnote m_selNote;
 
     /** */
     /** */

@@ -170,9 +170,13 @@ void TnoteName::setNoteName(Tnote note) {
 void TnoteName::setNoteName(TnotesList notes) {
     TnotesList::iterator it = notes.begin();
     ++it;
-    m_notes[1] = *(it);
+    if (it != notes.end())
+        m_notes[1] = *(it);
+    else m_notes[1] = Tnote(0,0,0);
     ++it;
-    m_notes[2] = *(it);
+    if (it != notes.end())
+        m_notes[2] = *(it);
+    else m_notes[2] = Tnote(0,0,0);
     setNoteName(notes[0]);
 }
 

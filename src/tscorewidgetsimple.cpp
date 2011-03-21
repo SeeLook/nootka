@@ -1,13 +1,28 @@
+/***************************************************************************
+ *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
+ *   tomaszbojczuk@gmail.com   						   *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *  You should have received a copy of the GNU General Public License	   *
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
+ ***************************************************************************/
+
 #include "tscorewidgetsimple.h"
 #include <QPainter>
 #include <QtSvg/QSvgRenderer>
 #include "tnoteview.h"
 #include "tkeysignatureview.h"
 #include "tglobals.h"
-
-
-#include <iostream>
-
+#include <QDebug>
 
 extern Tglobals *gl;
 
@@ -215,8 +230,7 @@ void TscoreWidgetSimple::refreshKeySignNameStyle() {
 void TscoreWidgetSimple::setNote(int index, Tnote note) {
     m_notes[index] = note;
     if (note.note) {
-        int notePos = 26 - (note.octave*7 + note.note);
-        noteViews[index]->setNote(notePos, note.acidental);
+        noteViews[index]->setNote(getNotePos(note), note.acidental);
     } else
         clearNote(index);
 }
@@ -224,4 +238,18 @@ void TscoreWidgetSimple::setNote(int index, Tnote note) {
 void TscoreWidgetSimple::clearNote(int index) {
     noteViews[index]->hideNote();
     m_notes[index] = Tnote(0,0,0);
+}
+
+void TscoreWidgetSimple::setAmbitus(Tnote lo, Tnote hi, int index) {
+    noteViews[index]->setAmbitus(getNotePos(lo)+1,getNotePos(hi));
+}
+
+void TscoreWidgetSimple::setAmbitus(Tnote lo, Tnote hi) {
+    for (int i=0; i<noteViews.size(); i++)
+        setAmbitus(lo,hi,i);
+}
+
+int TscoreWidgetSimple::getNotePos(Tnote note) {
+    int np = 26 - (note.octave*7 + note.note);
+    return np;
 }

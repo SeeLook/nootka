@@ -116,6 +116,7 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     tuneView = new TscoreWidgetSimple(6,this);
     tuneLay->addWidget(tuneView);
     tuneView->setFixedWidth(280);
+    tuneView->setAmbitus(Tnote(6,-2,0),Tnote(5,3,0));
     setTune(gl->Gtune);
     tuneCombo->addItem(gl->Gtune.name);
     for (int i=0; i<4; i++) {
@@ -165,7 +166,7 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     downLay->addWidget(prefBox);
 
     morePosCh = new QCheckBox(tr("show all possibilities of a note"),this);
-    morePosCh->setStatusTip(tr("As you know, the same note can be played in few places on fingerboard.<br>If checked it shows them all."));
+    morePosCh->setStatusTip(tr("As you know, the same note can be played in few places on a fingerboard.<br>If checked it shows them all."));
     downLay->addWidget(morePosCh);
     morePosCh->setChecked(gl->GshowOtherPos);
 
@@ -377,6 +378,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
         QDialog(parent)
 {
     setWindowTitle("Nootka - "+tr("application's settings"));
+    setWindowFlags(Qt::Dialog);
 
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *contLay = new QHBoxLayout;
@@ -387,13 +389,17 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     navList->setFlow(QListView::TopToBottom);
     navList->setWrapping(false);
     navList->addItem(tr("Global"));
-    navList->item(0)->setIcon(QIcon(":/picts/global.svg"));
+//    navList->item(0)->setIcon(QIcon(":/picts/global.svg"));
+    navList->item(0)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Score"));
-    navList->item(1)->setIcon(QIcon(":/picts/scoreSettings.svg"));
+//    navList->item(1)->setIcon(QIcon(":/picts/scoreSettings.svg"));
+    navList->item(1)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Note names"));
-    navList->item(2)->setIcon(QIcon(":/picts/nameSettings.svg"));
+//    navList->item(2)->setIcon(QIcon(":/picts/nameSettings.svg"));
+    navList->item(2)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Guitar"));
-    navList->item(3)->setIcon(QIcon(":/picts/guitarSettings.png"));
+//    navList->item(3)->setIcon(QIcon(":/picts/guitarSettings.png"));
+    navList->item(3)->setTextAlignment(Qt::AlignCenter);
     contLay->addWidget(navList);
 
     m_globalSett = new GlobalSettings();

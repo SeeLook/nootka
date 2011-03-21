@@ -7,11 +7,7 @@
         <file>picts/dblflat.svg</file>
         <file>picts/systemsettings.svg</file>
         <file>picts/nootka.svg</file>
-        <file>picts/scoreSettings.svg</file>
-        <file>picts/nameSettings.svg</file>
-        <file>picts/global.svg</file>
         <file>picts/body.png</file>
         <file>picts/fingbg.png</file>
-        <file>picts/guitarSettings.png</file>
     </qresource>
 </RCC>

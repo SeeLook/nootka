@@ -34,8 +34,6 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
                                      255-gl->GfingerColor.blue()));
         gl->GfingerColor.setAlpha(200);
     }
-    if (gl->Gtune.name == "")
-        gl->Gtune = Ttune::stdTune;
 
     m_scene = new QGraphicsScene();
 
@@ -46,6 +44,7 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     setStyleSheet(("background: transparent"));
     setScene(m_scene);
     setMouseTracking(true);
+    setStatusTip(tr("Select string or finger and click to see it in score."));
 
     for (int i=0; i<6; i++) {
         m_strings[i] = new QGraphicsLineItem();
@@ -71,6 +70,7 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
 
     m_curStr = 7; // none
     m_curFret = 99; // none
+    m_selNote = Tnote(0,0,0);
 
 
 }
@@ -143,7 +143,6 @@ void TfingerBoard::paint() {
             painter.setPen(QPen(Qt::black,0,Qt::NoPen));
             painter.drawEllipse(fretsPos[i]-4-(fretsPos[i]-fretsPos[i-1])/2,
                                 fbRect.y()+strGap*3-2,8,8);
-            //                            fbPainter.drawEllipse(fretsPos[i]-4-(fretsPos[i]-fretsPos[i-1])/2,Ystart+betweenStrings*3-2,8,8);
             painter.setPen(QPen(QColor("#C0C0C0"),4,Qt::SolidLine)); // restore frets' color
         }
     }
@@ -258,10 +257,12 @@ void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
 }
 
 void TfingerBoard::mousePressEvent(QMouseEvent *) {
-    Tnote aNote = posToNote(m_curStr,m_curFret);
-    if (gl->GpreferFlats) aNote = aNote.showWithFlat();
-    setFinger(aNote);
-    emit guitarClicked(aNote);
+    m_selNote = posToNote(m_curStr,m_curFret);
+    if (gl->GpreferFlats)
+        if (m_selNote.note != 3 && m_selNote.note != 7) // eliminate Fb from E and Cb from B
+            m_selNote = m_selNote.showWithFlat();
+    setFinger(m_selNote);
+    emit guitarClicked(m_selNote);
 }
 
 Tnote TfingerBoard::posToNote(int str, int fret) {
@@ -292,4 +293,9 @@ bool TfingerBoard::setFinger(Tnote note, int realStr) {
                 m_strings[i]->hide();
             }
         }
+}
+
+void TfingerBoard::settingsWasChanged() {
+    paint();
+    setFinger(m_selNote);
 }
