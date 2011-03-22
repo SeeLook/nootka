@@ -147,6 +147,8 @@ void TnoteName::setNoteName(char noteNr, char octNr, char accNr) {
 
 void TnoteName::setNameText() {
     if (m_notes[0].note) {
+        if (m_notes[0].getChromaticNrOfNote() >= gl->Gtune[6].getChromaticNrOfNote() &&
+            m_notes[0].getChromaticNrOfNote() <= gl->Gtune[1].getChromaticNrOfNote() + gl->GfretsNumber) {
         QString txt = noteToRichText(m_notes[0]);
         if (m_notes[1].note) {
             txt = txt + QString("  <span style=\"font-size: %1px; color: %2\">(").arg(nameLabel->font().pointSize()-2).arg(gl->enharmNotesColor.name()) + noteToRichText(m_notes[1]);
@@ -155,6 +157,9 @@ void TnoteName::setNameText() {
             txt = txt + ")</span>";
         }
         nameLabel->setText(txt);
+      } else
+          nameLabel->setText("<span style=\"font-size: 16px; color: #ff0000;\">" +
+                             tr("The note is beyound<br>scale of the guitar") + "</span>");
     } else nameLabel->setText("");;
 }
 

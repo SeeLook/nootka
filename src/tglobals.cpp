@@ -30,7 +30,7 @@ Tglobals::Tglobals() {
    GshowOtherPos = true;
    GfingerColor = -1;
    GselectedColor = -1;
-   Gtune = Ttune();
+   Gtune = Ttune::stdTune;
    GpreferFlats = false;
 
 
