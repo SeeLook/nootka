@@ -42,8 +42,6 @@ TscoreWidget::TscoreWidget(unsigned char _notesCount, QWidget *parent) :
     setEnabledDblAccid(gl->doubleAccidentalsEnabled);
     setEnableKeySign(gl->keySignatureEnabled);
 
-    if (gl->Gtune.name == "")
-        gl->Gtune = Ttune::stdTune;
     setAmbitus(Tnote(gl->Gtune[6].getChromaticNrOfNote()-1),
                Tnote(gl->Gtune[1].getChromaticNrOfNote()+gl->GfretsNumber+1));
 

@@ -213,10 +213,11 @@ void TfingerBoard::paint() {
                            fbRect.x()-1, fbRect.y()+strGap/2+i*strGap+strWidth-1);
 
     }
-    m_workFinger->setRect(0,0, fretWidth/1.6, qRound(0.6*strGap));
+    m_workFinger->setRect(0,0, fretWidth/1.7, qRound(0.6*strGap));
     for (int i=0; i<6; i++)
         m_fingers[i]->setRect(0,0, fretWidth/1.6, qRound(0.7*strGap));
     m_scene->setBackgroundBrush(QBrush(pixmap));
+    setFinger(m_selNote);
 
 }
 
@@ -239,10 +240,10 @@ void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
     }
     if (m_curStr != strNr || m_curFret != fretNr) {
         if ( fretNr > 0 && fretNr < 99) { // show finger
-            int off = qRound(fretWidth/1.5);
+            int off = qRound(fretWidth/1.55);
             if (matrix.dx()) off = 4;
             m_workFinger->setPos(matrix.map(QPoint(fretsPos[fretNr-1]-off,
-                                 fbRect.y()+strGap*strNr+strGap/5)));
+                                 fbRect.y()+qRound(strGap*(strNr+0.2)))));
             if (!m_workFinger->isVisible())
                 m_workFinger->show();
             if (m_curStr != 7) m_workStrings[m_curStr]->hide();
@@ -270,10 +271,11 @@ Tnote TfingerBoard::posToNote(int str, int fret) {
 }
 
 bool TfingerBoard::setFinger(Tnote note, int realStr) {
+    if (note.note) {
         bool doShow = true;
         for(int i=0; i<6; i++) { // looking for pos to show
             int diff = note.getChromaticNrOfNote() - gl->Gtune[i+1].getChromaticNrOfNote();
-            if ( doShow && diff >= 0 && diff <=gl->GfretsNumber) { // found
+            if ( doShow && diff >= 0 && diff <= gl->GfretsNumber) { // found
                 if (diff == 0) { // open string
                     m_fingers[i]->hide();
                     m_strings[i]->show();
@@ -293,6 +295,8 @@ bool TfingerBoard::setFinger(Tnote note, int realStr) {
                 m_strings[i]->hide();
             }
         }
+        m_selNote = note;
+    }
 }
 
 void TfingerBoard::settingsWasChanged() {
