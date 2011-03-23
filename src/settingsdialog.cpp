@@ -116,7 +116,7 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     tuneView = new TscoreWidgetSimple(6,this);
     tuneLay->addWidget(tuneView);
     tuneView->setFixedWidth(280);
-    tuneView->setAmbitus(Tnote(6,-2,0),Tnote(5,3,0));
+    tuneView->setAmbitus(Tnote(6,-2,0),Tnote(6,1,0));
     setTune(gl->Gtune);
     tuneCombo->addItem(gl->Gtune.name);
     for (int i=0; i<4; i++) {

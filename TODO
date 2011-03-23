@@ -17,6 +17,7 @@ TSCOREWIDGETSIMPLE
 
 TNOTENAME
     - resolve problem with resizeing and layout
+    - add  changes for octave buttons when note is changed
 
 TFINGERBOARD
     - crash after resizing

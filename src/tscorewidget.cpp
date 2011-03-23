@@ -42,8 +42,8 @@ TscoreWidget::TscoreWidget(unsigned char _notesCount, QWidget *parent) :
     setEnabledDblAccid(gl->doubleAccidentalsEnabled);
     setEnableKeySign(gl->keySignatureEnabled);
 
-    setAmbitus(Tnote(gl->Gtune[6].getChromaticNrOfNote()-1),
-               Tnote(gl->Gtune[1].getChromaticNrOfNote()+gl->GfretsNumber+1));
+    setAmbitus(Tnote(gl->Gtune.lowest().getChromaticNrOfNote()-1),
+               Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber+1));
 
     connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
 }
@@ -72,11 +72,24 @@ void TscoreWidget::whenNoteWasChanged(int index, Tnote note) {
 
 void TscoreWidget::setEnableEnharmNotes(bool isEnabled) {
     if (!isEnabled) {
-//        noteViews[1]->hideNote();
         clearNote(1);
         clearNote(2);
-//        noteViews[2]->hideNote();
     }
+}
+
+void TscoreWidget::paintEvent(QPaintEvent *event) {
+    TscoreWidgetSimple::paintEvent(event);
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setWindow(0,0,width(),height());
+
+    painter.setPen(QPen(palette().foreground().color()));
+////    painter.setBrush(QBrush(palette().base().color(),Qt::SolidPattern));
+    painter.drawText(10, 31*coeff,"6 = D");
+    painter.drawEllipse(7, 29*coeff,
+                        qRound(painter.font().pointSize()*1.5),
+                        qRound(painter.font().pointSize()*1.5));
+//    painter.drawRoundedRect(3, 30*coeff, 6*coeff,6*coeff,5,5);
 }
 
 //void TscoreWidget::contextMenuEvent(QContextMenuEvent *event) {
