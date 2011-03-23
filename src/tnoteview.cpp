@@ -221,10 +221,12 @@ void TnoteView::setAccidText(int accNr) {
 }
 
 void TnoteView::setNote(int notePos, char accNr) {
-    m_mainPosY = notePos;
-    m_accidental = accNr;
-    moveNote(notePos);
-//    setAccidText(accNr);
+    if (notePos <= m_ambitMin && notePos >= m_ambitMax) {
+        m_mainPosY = notePos;
+        m_accidental = accNr;
+        moveNote(notePos);
+    } else
+        hideNote();
 }
 
 void TnoteView::hideNote() {

@@ -103,7 +103,8 @@ TnoteName::TnoteName(QWidget *parent) :
     setNoteNamesOnButt(gl->NnameStyleInNoteName);
     octaveButtons[2]->setChecked(true);
     for (int i=0; i<3; i++) m_notes.push_back(Tnote());
-
+    setAmbitus(gl->Gtune.lowest(),
+               Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber));
 
 }
 
@@ -147,8 +148,8 @@ void TnoteName::setNoteName(char noteNr, char octNr, char accNr) {
 
 void TnoteName::setNameText() {
     if (m_notes[0].note) {
-        if (m_notes[0].getChromaticNrOfNote() >= gl->Gtune[6].getChromaticNrOfNote() &&
-            m_notes[0].getChromaticNrOfNote() <= gl->Gtune[1].getChromaticNrOfNote() + gl->GfretsNumber) {
+        if (m_notes[0].getChromaticNrOfNote() >= m_ambitMin &&
+            m_notes[0].getChromaticNrOfNote() <= m_ambitMax) {
         QString txt = noteToRichText(m_notes[0]);
         if (m_notes[1].note) {
             txt = txt + QString("  <span style=\"font-size: %1px; color: %2\">(").arg(nameLabel->font().pointSize()-2).arg(gl->enharmNotesColor.name()) + noteToRichText(m_notes[1]);
@@ -293,6 +294,8 @@ void TnoteName::resize() {
     nameLabel->setFixedHeight(height()/2-5);
 }
 
-//    std::cout << "note: " << (int)noteNr
-//            << " octave: " << (int)octNr
-//            << " accid: " << (int)accNr << "\n";
+void TnoteName::setAmbitus(Tnote lo, Tnote hi) {
+    m_ambitMin = lo.getChromaticNrOfNote();
+    m_ambitMax = hi.getChromaticNrOfNote();
+}
+

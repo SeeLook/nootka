@@ -97,6 +97,10 @@ void MainWindow::createSettingsDialog() {
         m_noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
         if (gl->keySignatureEnabled) m_score->refreshKeySignNameStyle();
         m_noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
+        m_noteName->setAmbitus(gl->Gtune.lowest(),
+                               Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber));
+        m_score->setAmbitus(gl->Gtune.lowest(),
+                            Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber));
         noteWasClicked(0,m_noteName->getNoteName(0));//refresh name
         m_guitar->settingsWasChanged();//refresh guitar
     }
