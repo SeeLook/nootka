@@ -19,6 +19,7 @@ SET( NOOTKA_SRCS
   ./src/tnotename.cpp
   ./src/tfingerboard.cpp
   ./src/ttune.cpp
+  ./src/tfingerpos.h
   )
   
 SET( NOOTKA_MOC_SRCS
@@ -33,6 +34,7 @@ SET( NOOTKA_MOC_SRCS
   ./src/tnotename.h
   ./src/tfingerboard.h
   ./src/ttune.h
+  ./src/tfingerpos.h
   )
 
 SET( NOOTKA_RCCS

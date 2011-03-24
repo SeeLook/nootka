@@ -85,11 +85,24 @@ void TscoreWidget::paintEvent(QPaintEvent *event) {
 
     painter.setPen(QPen(palette().foreground().color()));
 ////    painter.setBrush(QBrush(palette().base().color(),Qt::SolidPattern));
-    painter.drawText(10, 31*coeff,"6 = D");
-    painter.drawEllipse(7, 29*coeff,
-                        qRound(painter.font().pointSize()*1.5),
-                        qRound(painter.font().pointSize()*1.5));
-//    painter.drawRoundedRect(3, 30*coeff, 6*coeff,6*coeff,5,5);
+    QFont f = painter.font();
+    f.setPixelSize(qRound(1.5*coeff));
+    painter.setFont(f);
+    paintScord(painter, QPointF(10,29*coeff),6,Tnote(3,0,-1));
+//    painter.drawText(10, 31*coeff,"6 = D");
+//    painter.drawEllipse(7, 29*coeff,
+//                        qRound(painter.font().pointSize()*1.5),
+//                        qRound(painter.font().pointSize()*1.5));
+
+}
+
+void TscoreWidget::paintScord(QPainter &p, QPointF off, int str, Tnote n) {
+    QString S = "";
+    if (n.note)
+        S = " = " + QString::fromStdString(n.getName(gl->NnameStyleInNoteName,false));
+    p.drawText(QRectF(off.x(), off.y(), coeff*10, coeff*1.5), Qt::AlignLeft,
+               QString("%1").arg(str) + S);
+    p.drawEllipse(QPointF(off.x()+coeff*0.75, off.y()+coeff*0.75),coeff*0.8,coeff*0.8);
 }
 
 //void TscoreWidget::contextMenuEvent(QContextMenuEvent *event) {
