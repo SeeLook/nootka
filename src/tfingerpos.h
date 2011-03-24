@@ -16,34 +16,32 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TSCOREWIDGET_H
-#define TSCOREWIDGET_H
 
-#include "tscorewidgetsimple.h"
+#ifndef TFINGERPOS_H
+#define TFINGERPOS_H
 
-class QAction;
-class QMenu;
-class Tnote;
 
-class TscoreWidget : public TscoreWidgetSimple
+/**
+*  @short A class describes finger's position on the fingerboard.
+*  @author Tomasz Bojczuk <tomaszbojczuk@gmail.com>
+*/
+
+class TfingerPos
 {
-    Q_OBJECT
 public:
-    explicit TscoreWidget(unsigned char _notesCount =1, QWidget* parent = 0);
+    TfingerPos(unsigned char realStr, unsigned char fret) {
+        setPos(realStr, fret);
+    }
 
-    void setEnableEnharmNotes(bool isEnabled);
+    unsigned char str() { return (m_pos / 40) +1; }
+    unsigned char fret() { return m_pos % 40; }
 
-signals:
-    void noteChanged(int index, Tnote note);
+    void setPos(unsigned char realStr, unsigned char fret) {
+        m_pos = (realStr-1)*40 + fret;
+    }
 
-public slots:
-    void whenNoteWasChanged(int index, Tnote note);
-
-protected:
-    void paintEvent(QPaintEvent *event);
-    void paintScord(QPainter &p, QPointF off, int str, Tnote n = Tnote(0,0,0));
-
-
+private:
+    unsigned char m_pos;
 };
 
-#endif // TSCOREWIDGET_H
+#endif // TFINGERPOS_H

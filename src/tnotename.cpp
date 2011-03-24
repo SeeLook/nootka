@@ -159,8 +159,8 @@ void TnoteName::setNameText() {
         }
         nameLabel->setText(txt);
       } else
-          nameLabel->setText("<span style=\"font-size: 16px; color: #ff0000;\">" +
-                             tr("The note is beyound<br>scale of the guitar") + "</span>");
+          nameLabel->setText("<span style=\"font-size: 16px; color: #ff0000;\"><b>" +
+                             tr("The note is beyond<br>scale of the guitar") + "</b></span>");
     } else nameLabel->setText("");;
 }
 
