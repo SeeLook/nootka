@@ -78,31 +78,34 @@ void TscoreWidget::setEnableEnharmNotes(bool isEnabled) {
 }
 
 void TscoreWidget::paintEvent(QPaintEvent *event) {
-    TscoreWidgetSimple::paintEvent(event);
+  TscoreWidgetSimple::paintEvent(event);
+  if (gl->Gtune != Ttune::stdTune) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setWindow(0,0,width(),height());
 
     painter.setPen(QPen(palette().foreground().color()));
-////    painter.setBrush(QBrush(palette().base().color(),Qt::SolidPattern));
     QFont f = painter.font();
-    f.setPixelSize(qRound(1.5*coeff));
+    f.setPixelSize(qRound(1.2*coeff));
     painter.setFont(f);
-    paintScord(painter, QPointF(10,29*coeff),6,Tnote(3,0,-1));
-//    painter.drawText(10, 31*coeff,"6 = D");
-//    painter.drawEllipse(7, 29*coeff,
-//                        qRound(painter.font().pointSize()*1.5),
-//                        qRound(painter.font().pointSize()*1.5));
-
+    Ttune sT = Ttune::stdTune;
+    int o = 0;
+    for (int i=1; i<7; i++) {
+        if ( gl->Gtune[i] != sT[i]) {
+            paintScord(painter, QPointF(15,29*coeff+1.5*o*coeff),i,gl->Gtune[i]);
+            o++;
+        }
+    }
+  }
 }
 
 void TscoreWidget::paintScord(QPainter &p, QPointF off, int str, Tnote n) {
     QString S = "";
     if (n.note)
-        S = " = " + QString::fromStdString(n.getName(gl->NnameStyleInNoteName,false));
-    p.drawText(QRectF(off.x(), off.y(), coeff*10, coeff*1.5), Qt::AlignLeft,
+        S = "  = " + QString::fromStdString(n.getName(gl->NnameStyleInNoteName,false));
+    p.drawText(QRectF(off.x(), off.y(), coeff*10, coeff*1.2), Qt::AlignLeft,
                QString("%1").arg(str) + S);
-    p.drawEllipse(QPointF(off.x()+coeff*0.75, off.y()+coeff*0.75),coeff*0.8,coeff*0.8);
+    p.drawEllipse(QPointF(off.x()+coeff*0.3, off.y()+coeff*0.7),coeff*0.65,coeff*0.65);
 }
 
 //void TscoreWidget::contextMenuEvent(QContextMenuEvent *event) {

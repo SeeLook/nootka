@@ -105,6 +105,7 @@ Tnote (short chromaticNrOfNote);
 //--Functions--
 
 bool operator==( const Tnote &N2 );
+bool operator!=( const Tnote &N2 );
 
 void convToSharp ();
 void convToFlat ();

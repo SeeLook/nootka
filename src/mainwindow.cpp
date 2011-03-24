@@ -101,6 +101,7 @@ void MainWindow::createSettingsDialog() {
                                Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber));
         m_score->setAmbitus(gl->Gtune.lowest(),
                             Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber));
+        m_score->repaint();
         noteWasClicked(0,m_noteName->getNoteName(0));//refresh name
         m_guitar->settingsWasChanged();//refresh guitar
     }
