@@ -85,27 +85,45 @@ void TscoreWidget::paintEvent(QPaintEvent *event) {
     painter.setWindow(0,0,width(),height());
 
     painter.setPen(QPen(palette().foreground().color()));
-    QFont f = painter.font();
-    f.setPixelSize(qRound(1.2*coeff));
+//    I HATE THIS PART... BUT IT WORKS
+    QFont f = QFont("Arial");
+    f.setPixelSize(11);
     painter.setFont(f);
     Ttune sT = Ttune::stdTune;
-    int o = 0;
+    int nL = 0;
     for (int i=1; i<7; i++) {
-        if ( gl->Gtune[i] != sT[i]) {
-            paintScord(painter, QPointF(15,29*coeff+1.5*o*coeff),i,gl->Gtune[i]);
-            o++;
+        if ( gl->Gtune[i] != sT[i])
+            nL++;
+    }
+    int xOffBase = coeff;
+    if (nL>3) xOffBase = 0;
+    int xOff = xOffBase;
+    int yOff = -1;
+    int c = 0;
+    for (int i=1; i<7; i++) {
+      if ( gl->Gtune[i] != sT[i]) {
+        if ( nL>3 && c%2 == 1 ) {
+            xOff = 45;
+        } else {
+            yOff++;
+            xOff = xOffBase;
         }
+        c++;
+        paintScord(painter, QPointF(5+xOff,29*coeff+17*yOff),i,gl->Gtune[i]);
+      }
     }
   }
 }
 
 void TscoreWidget::paintScord(QPainter &p, QPointF off, int str, Tnote n) {
+    int fa =15;
     QString S = "";
     if (n.note)
-        S = "  = " + QString::fromStdString(n.getName(gl->NnameStyleInNoteName,false));
-    p.drawText(QRectF(off.x(), off.y(), coeff*10, coeff*1.2), Qt::AlignLeft,
-               QString("%1").arg(str) + S);
-    p.drawEllipse(QPointF(off.x()+coeff*0.3, off.y()+coeff*0.7),coeff*0.65,coeff*0.65);
+        S = " =" + QString::fromStdString(n.getName(gl->NnameStyleInNoteName,false));
+    p.drawText(QRectF(off.x(), off.y(), fa, fa), Qt::AlignCenter,
+               QString("%1").arg(str));
+    p.drawText(QRectF(off.x()+fa, off.y(), coeff*5, fa),Qt::AlignLeft,S);
+    p.drawEllipse(off.x(), off.y(),fa,fa);
 }
 
 //void TscoreWidget::contextMenuEvent(QContextMenuEvent *event) {
