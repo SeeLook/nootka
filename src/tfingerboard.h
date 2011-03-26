@@ -5,6 +5,7 @@
 #include <QGraphicsView>
 #include "tnote.h"
 #include "ttune.h"
+#include "tfingerpos.h"
 
 
 class TfingerBoard : public QGraphicsView
@@ -13,7 +14,7 @@ class TfingerBoard : public QGraphicsView
 public:
     explicit TfingerBoard(QWidget *parent = 0);
 
-    void settingsWasChanged();
+    void acceptSettings();
 
         /** It paints fingerprint on the fretboard in place where note is.
         * If globals GshowOtherPos is true all possibilities are shown.
@@ -55,7 +56,7 @@ private:
           *This values are needed to hide (or remove) provious preview on the guitar */
 //    short prevStr[6], prevFret[6];
         /** It keeps position of selected fingerprint. x() is string and y() is fret.*/
-    QPoint m_fingerPos;
+    TfingerPos m_fingerPos;
         /** @param fretsPos  stores X positions of frets in global widget coordinates */
     short fretsPos[24];
 

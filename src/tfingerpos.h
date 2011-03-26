@@ -29,6 +29,7 @@
 class TfingerPos
 {
 public:
+    TfingerPos() { m_pos = 0; }
     TfingerPos(unsigned char realStr, unsigned char fret) {
         setPos(realStr, fret);
     }

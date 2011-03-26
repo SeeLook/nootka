@@ -89,21 +89,22 @@ void MainWindow::resizeEvent(QResizeEvent *) {
 void MainWindow::createSettingsDialog() {
     SettingsDialog *settings = new SettingsDialog;
     if (settings->exec() == QDialog::Accepted) {
-        m_score->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
+//        m_score->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
+        m_score->acceptSettings();
         m_noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
-        m_score->setEnableKeySign(gl->keySignatureEnabled);
-        if (!gl->doubleAccidentalsEnabled) m_score->clearNote(2);
-        m_score->setEnableEnharmNotes(gl->showEnharmNotes);
+//        m_score->setEnableKeySign(gl->keySignatureEnabled);
+//        if (!gl->doubleAccidentalsEnabled) m_score->clearNote(2);
+//        m_score->setEnableEnharmNotes(gl->showEnharmNotes);
         m_noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
-        if (gl->keySignatureEnabled) m_score->refreshKeySignNameStyle();
+//        if (gl->keySignatureEnabled) m_score->refreshKeySignNameStyle();
         m_noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
         m_noteName->setAmbitus(gl->Gtune.lowest(),
                                Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber));
-        m_score->setAmbitus(gl->Gtune.lowest(),
-                            Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber));
-        m_score->repaint();
+//        m_score->setAmbitus(gl->Gtune.lowest(),
+//                            Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber));
+//        m_score->repaint();
         noteWasClicked(0,m_noteName->getNoteName(0));//refresh name
-        m_guitar->settingsWasChanged();//refresh guitar
+        m_guitar->acceptSettings();;//refresh guitar
     }
 
 }

@@ -69,6 +69,9 @@ public:
     void setAmbitus(Tnote lo, Tnote hi);
         /** The same but for @param index TnoteView.*/
     void setAmbitus(Tnote lo, Tnote hi, int index);
+        /** Keeps true when TscoreWidgetSimple has scordature.
+        * Resize() uses it to calculate offset. */
+    void setHasScord(bool has) { m_hasScord = has; }
 
 
 signals:
@@ -107,6 +110,7 @@ private:
 
     QPushButton *m_sharpBut, *m_flatBut, *m_dblSharpBut, *m_dblFlatBut;
     TnotesList m_notes;
+    bool m_hasScord;
 
 
 };

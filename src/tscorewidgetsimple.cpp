@@ -70,6 +70,7 @@ TscoreWidgetSimple::TscoreWidgetSimple(unsigned char _notesCount, QWidget *paren
 
     for (int i=0; i<7; i++) accInKeyArr[i]=0;
     setEnabledDblAccid(false);
+    setHasScord(false);
     resize();
 
     connect(m_dblSharpBut,SIGNAL(clicked()),this,SLOT(onAcidButtonPressed()));
@@ -105,14 +106,16 @@ void TscoreWidgetSimple::resizeEvent(QResizeEvent *) {
 
 void TscoreWidgetSimple::resize() {
     coeff = geometry().height() / _C;
-    int shift = 6;
+    int shift = 6*coeff;
+    if (m_hasScord)
+        if (shift < 85) shift = 85;
     if (keySignView) {
         keySignView->setGeometry(5*coeff,0,8*coeff,height());
         keySignView->resize(coeff);
-        shift = 14;
+        shift = 14*coeff;
     }
     for (int i=0; i<noteViews.size(); i++) {
-        noteViews[i]->setGeometry((shift+i*6)*coeff,0,6*coeff,height());
+        noteViews[i]->setGeometry(shift+(i*6)*coeff,0,6*coeff,height());
         noteViews[i]->resize(coeff);
     }
 
@@ -213,9 +216,8 @@ void TscoreWidgetSimple::setEnableKeySign(bool isEnabled) {
             keySignView = 0;
         }
         for (int i=0; i<7; i++) accInKeyArr[i]=0;
-        resize();
     }
-
+    resize();
 }
 
 char TscoreWidgetSimple::keySignature() {

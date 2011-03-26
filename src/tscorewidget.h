@@ -32,6 +32,7 @@ public:
     explicit TscoreWidget(unsigned char _notesCount =1, QWidget* parent = 0);
 
     void setEnableEnharmNotes(bool isEnabled);
+    void acceptSettings();
 
 signals:
     void noteChanged(int index, Tnote note);
@@ -41,7 +42,6 @@ public slots:
 
 protected:
     void paintEvent(QPaintEvent *event);
-    void paintScord(QPainter &p, QPointF off, int str, Tnote n = Tnote(0,0,0));
 
 
 };
