@@ -83,9 +83,9 @@ void TscoreWidget::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setWindow(0,0,width(),height());
-
     painter.setPen(QPen(palette().foreground().color()));
 //    I HATE THIS PART... BUT IT WORKS
+    /** @todo Its size has to depends on @param coeff */
     QFont f = QFont("Arial");
     f.setPixelSize(11);
     painter.setFont(f);
@@ -109,21 +109,31 @@ void TscoreWidget::paintEvent(QPaintEvent *event) {
             xOff = xOffBase;
         }
         c++;
-        paintScord(painter, QPointF(5+xOff,29*coeff+17*yOff),i,gl->Gtune[i]);
+//        paintScord(painter, QPointF(5+xOff,29*coeff+17*yOff),i,gl->Gtune[i]);
+        int fa =15;
+        painter.drawText(QRectF(5+xOff,29*coeff+17*yOff, fa, fa), Qt::AlignCenter,
+               QString("%1").arg(i));
+        painter.drawText(QRectF(5+xOff+fa, 29*coeff+17*yOff, 60, fa),Qt::AlignLeft,
+             " =" + QString::fromStdString(gl->Gtune[i].getName(gl->NnameStyleInNoteName,false)));
+        painter.drawEllipse(5+xOff,29*coeff+17*yOff,fa,fa);
       }
     }
   }
 }
 
-void TscoreWidget::paintScord(QPainter &p, QPointF off, int str, Tnote n) {
-    int fa =15;
-    QString S = "";
-    if (n.note)
-        S = " =" + QString::fromStdString(n.getName(gl->NnameStyleInNoteName,false));
-    p.drawText(QRectF(off.x(), off.y(), fa, fa), Qt::AlignCenter,
-               QString("%1").arg(str));
-    p.drawText(QRectF(off.x()+fa, off.y(), coeff*5, fa),Qt::AlignLeft,S);
-    p.drawEllipse(off.x(), off.y(),fa,fa);
+void TscoreWidget::acceptSettings() {
+    setEnabledDblAccid(gl->doubleAccidentalsEnabled);
+    if (gl->Gtune != Ttune::stdTune)
+        setHasScord(true);
+    else // resizing is done in setEnableKeySign() method;
+        setHasScord(false);
+    setEnableKeySign(gl->keySignatureEnabled);
+    if (!gl->doubleAccidentalsEnabled) clearNote(2);
+    setEnableEnharmNotes(gl->showEnharmNotes);
+    if (gl->keySignatureEnabled) refreshKeySignNameStyle();
+    setAmbitus(gl->Gtune.lowest(),
+                        Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber));
+    repaint();
 }
 
 //void TscoreWidget::contextMenuEvent(QContextMenuEvent *event) {

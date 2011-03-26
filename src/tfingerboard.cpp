@@ -299,7 +299,7 @@ bool TfingerBoard::setFinger(Tnote note, int realStr) {
     }
 }
 
-void TfingerBoard::settingsWasChanged() {
+void TfingerBoard::acceptSettings() {
     paint();
     setFinger(m_selNote);
 }
