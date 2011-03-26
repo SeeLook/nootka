@@ -25,16 +25,16 @@ SET( NOOTKA_SRCS
 SET( NOOTKA_MOC_SRCS
   ./src/mainwindow.h
   ./src/settingsdialog.h
-  ./src/tglobals.h
+  #./src/tglobals.h
   ./src/tkeysignatureview.h
-  ./src/tnote.h
+  #./src/tnote.h
   ./src/tnoteview.h
   ./src/tscorewidget.h
   ./src/tscorewidgetsimple.h
   ./src/tnotename.h
   ./src/tfingerboard.h
-  ./src/ttune.h
-  ./src/tfingerpos.h
+  #./src/ttune.h
+  #./src/tfingerpos.h
   )
 
 SET( NOOTKA_RCCS
