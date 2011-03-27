@@ -118,11 +118,20 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     tuneView->setFixedWidth(280);
     tuneView->setAmbitus(Tnote(6,-2,0),Tnote(6,1,0));
     setTune(gl->Gtune);
-    tuneCombo->addItem(gl->Gtune.name);
+    tuneCombo->addItem(Ttune::stdTune.name);
+    Ttune sT = Ttune::stdTune;
+    if (gl->Gtune == sT)
+        tuneCombo->setCurrentIndex(0);
     for (int i=0; i<4; i++) {
         tuneCombo->addItem(Ttune::tunes[i].name);
+        sT = Ttune::tunes[i];
+        if (gl->Gtune == sT)
+            tuneCombo->setCurrentIndex(i+1);
     }
-    tuneCombo->addItem(tr("Custom tune"));
+    QString S = tr("Custom tune");
+    tuneCombo->addItem(S);
+    if (gl->Gtune.name == S)
+        tuneCombo->setCurrentIndex(5);
     tuneGr->setLayout(tuneLay);
     upLay->addWidget(tuneGr);
 

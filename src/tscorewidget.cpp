@@ -131,9 +131,10 @@ void TscoreWidget::acceptSettings() {
     if (!gl->doubleAccidentalsEnabled) clearNote(2);
     setEnableEnharmNotes(gl->showEnharmNotes);
     if (gl->keySignatureEnabled) refreshKeySignNameStyle();
-    setAmbitus(gl->Gtune.lowest(),
-                        Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber));
-    repaint();
+    setAmbitus(Tnote(gl->Gtune.lowest().getChromaticNrOfNote()-1),
+               Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber+1));
+//    repaint();
+    update();
 }
 
 //void TscoreWidget::contextMenuEvent(QContextMenuEvent *event) {
