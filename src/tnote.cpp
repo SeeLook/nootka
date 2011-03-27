@@ -339,12 +339,12 @@ std::string Tnote::getName( Tnote eNote, Enotation notation, bool showOctave )
 	return getName(notation,showOctave);
 }
 
-bool Tnote::operator ==( const Tnote & N2 )
+bool Tnote::operator ==( const Tnote N2 )
 {
         return ( note == N2.note && octave == N2.octave && acidental == N2.acidental);
 }
 
-bool Tnote::operator !=( const Tnote & N2 )
+bool Tnote::operator !=( const Tnote N2 )
 {
     return ( note != N2.note || octave != N2.octave || acidental != N2.acidental);
 }

@@ -119,13 +119,11 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     tuneView->setAmbitus(Tnote(6,-2,0),Tnote(6,1,0));
     setTune(gl->Gtune);
     tuneCombo->addItem(Ttune::stdTune.name);
-    Ttune sT = Ttune::stdTune;
-    if (gl->Gtune == sT)
+    if (gl->Gtune == Ttune::stdTune)
         tuneCombo->setCurrentIndex(0);
     for (int i=0; i<4; i++) {
         tuneCombo->addItem(Ttune::tunes[i].name);
-        sT = Ttune::tunes[i];
-        if (gl->Gtune == sT)
+        if (gl->Gtune == Ttune::tunes[i])
             tuneCombo->setCurrentIndex(i+1);
     }
     QString S = tr("Custom tune");

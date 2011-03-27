@@ -48,7 +48,7 @@ public:
     Tnote lowest();
 
     Tnote &operator[] (unsigned char stringNr) { return m_S[stringNr-1]; }
-    bool operator==(Ttune &T2) {
+    bool operator==(Ttune T2) {
         return ( m_S[0]==T2[1] && m_S[1]==T2[2] && m_S[2]==T2[3] &&
                  m_S[3]==T2[4] && m_S[4]==T2[5] && m_S[5]==T2[6] );
     }
