@@ -93,7 +93,7 @@ Tnote::Tnote (short chromaticNrOfNote)
 	case 11: note = 6; acidental = 1; break;
 	case 12: note = 7; acidental = 0; break;
    }	
-   octave = ((chromaticNrOfNote+143) / 12 - 11) ;
+   octave = ((chromaticNrOfNote+143) / 12 - 12) ;
 }
 
 
@@ -117,15 +117,6 @@ std::string Tnote::printNote ( bool showOctave)
    return nuta;
 }
 
-
-/**
- * One thing is strange
- * /code
- * return a + (Tnote::octave-1)*12 + Tnote::acidental;
- * /endcode
- * We subtract 1 for octave number because it is for guitar notation
- * @todo Remove this strangeness to TscoreWidget class, witch have to support tke clefs
- */
 short Tnote::getChromaticNrOfNote( )
 {
 	char a;
@@ -138,7 +129,7 @@ short Tnote::getChromaticNrOfNote( )
 		case 6: a = 10; break;	// A
 		case 7: a = 12; break;	// H
 	}
-	return a + (Tnote::octave-1)*12 + Tnote::acidental;
+    return a + (Tnote::octave)*12 + Tnote::acidental;
 }
 
 
@@ -201,7 +192,6 @@ Tnote Tnote::showWithDoubleSharp( )
 	else return Tnote(note,octave,acidental);
 }
 
-/** @todo Where is ceses from b and feses from es ???? */
 Tnote Tnote::showWithDoubleFlat( )
 {
 	if (acidental != Tnote::e_DoubleFlat)	{

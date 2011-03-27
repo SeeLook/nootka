@@ -21,6 +21,9 @@ SET( NOOTKA_SRCS
   ./src/ttune.cpp
   ./src/tfingerpos.h
   )
+#SET( NOOTKA_HEADERS
+#    ./src/tfingerpos.h
+#)
   
 SET( NOOTKA_MOC_SRCS
   ./src/mainwindow.h
@@ -60,7 +63,11 @@ ADD_EXECUTABLE( nootka
         ${NOOTKA_SRCS}
         ${NOOTKA_MOCS}
         ${NOOTKA_RCC_SRCS} )
-TARGET_LINK_LIBRARIES(nootka ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTSVG_LIBRARY})
+TARGET_LINK_LIBRARIES(nootka
+        ${QT_QTCORE_LIBRARY}
+        ${QT_QTGUI_LIBRARY}
+        ${QT_QTSVG_LIBRARY}
+)
   
 
 
