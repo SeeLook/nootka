@@ -101,7 +101,7 @@ void TscoreWidget::paintEvent(QPaintEvent *event) {
     int yOff = -1;
     int c = 0;
     for (int i=1; i<7; i++) {
-      if ( gl->Gtune[i] != sT[i]) {
+        if ( gl->Gtune[i] != sT[i]) {
         if ( nL>3 && c%2 == 1 ) {
             xOff = 45;
         } else {
@@ -109,7 +109,6 @@ void TscoreWidget::paintEvent(QPaintEvent *event) {
             xOff = xOffBase;
         }
         c++;
-//        paintScord(painter, QPointF(5+xOff,29*coeff+17*yOff),i,gl->Gtune[i]);
         int fa =15;
         painter.drawText(QRectF(5+xOff,29*coeff+17*yOff, fa, fa), Qt::AlignCenter,
                QString("%1").arg(i));

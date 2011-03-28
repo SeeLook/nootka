@@ -78,6 +78,7 @@ void MainWindow::createToolBar() {
 
 void MainWindow::resizeEvent(QResizeEvent *) {
     m_score->setFixedWidth(centralWidget()->width()/2);
+//    m_noteName->setFixedHeight((centralWidget()->height()/9)*4);
     m_guitar->setFixedHeight(centralWidget()->height()/3);
 //    m_guitar->resize();
 //    m_guitar->setFixedWidth(centralWidget()->width());
@@ -89,24 +90,15 @@ void MainWindow::resizeEvent(QResizeEvent *) {
 void MainWindow::createSettingsDialog() {
     SettingsDialog *settings = new SettingsDialog;
     if (settings->exec() == QDialog::Accepted) {
-//        m_score->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
         m_score->acceptSettings();
         m_noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
-//        m_score->setEnableKeySign(gl->keySignatureEnabled);
-//        if (!gl->doubleAccidentalsEnabled) m_score->clearNote(2);
-//        m_score->setEnableEnharmNotes(gl->showEnharmNotes);
         m_noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
-//        if (gl->keySignatureEnabled) m_score->refreshKeySignNameStyle();
         m_noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
         m_noteName->setAmbitus(gl->Gtune.lowest(),
                                Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber));
-//        m_score->setAmbitus(gl->Gtune.lowest(),
-//                            Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber));
-//        m_score->repaint();
         noteWasClicked(0,m_noteName->getNoteName(0));//refresh name
         m_guitar->acceptSettings();;//refresh guitar
     }
-
 }
 
 void MainWindow::noteWasClicked(int index, Tnote note) {

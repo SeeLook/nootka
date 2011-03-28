@@ -303,3 +303,13 @@ void TfingerBoard::acceptSettings() {
     paint();
     setFinger(m_selNote);
 }
+
+bool TfingerBoard::event(QEvent *event) {
+    if (event->type() == QEvent::Leave) {
+        if (m_curStr != 7) m_workStrings[m_curStr]->hide();
+        m_curStr = 7;
+        m_workFinger->hide();
+        m_curFret = 99;
+    }
+    return QGraphicsView::event(event);
+}

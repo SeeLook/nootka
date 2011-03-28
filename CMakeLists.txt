@@ -28,16 +28,12 @@ SET( NOOTKA_SRCS
 SET( NOOTKA_MOC_SRCS
   ./src/mainwindow.h
   ./src/settingsdialog.h
-  #./src/tglobals.h
   ./src/tkeysignatureview.h
-  #./src/tnote.h
   ./src/tnoteview.h
   ./src/tscorewidget.h
   ./src/tscorewidgetsimple.h
   ./src/tnotename.h
   ./src/tfingerboard.h
-  #./src/ttune.h
-  #./src/tfingerpos.h
   )
 
 SET( NOOTKA_RCCS
@@ -46,7 +42,7 @@ SET( NOOTKA_RCCS
   
   # enable warnings
 #ADD_DEFINITIONS( -Wall )
-SET( QT_USE_QTSVG TRUE )
+#SET( QT_USE_QTSVG TRUE )
 #
 QT4_WRAP_CPP( NOOTKA_MOCS ${NOOTKA_MOC_SRCS} )
 
@@ -66,7 +62,7 @@ ADD_EXECUTABLE( nootka
 TARGET_LINK_LIBRARIES(nootka
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
-        ${QT_QTSVG_LIBRARY}
+ #       ${QT_QTSVG_LIBRARY}
 )
   
 

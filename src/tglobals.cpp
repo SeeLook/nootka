@@ -3,7 +3,7 @@
 
 Tglobals::Tglobals() {
 
-    version = "0.3 alpha";
+    version = "0.5 alpha";
 
 //score widget settings
     keySignatureEnabled = true;

@@ -58,7 +58,7 @@ public:
     }
 
 private:
-            /** Array of Tnote that represents six strings*/
+            /** Array of Tnotes that represents six strings */
         Tnote m_S[6];
 };
 

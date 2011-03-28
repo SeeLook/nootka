@@ -18,7 +18,7 @@
 
 #include "tscorewidgetsimple.h"
 #include <QPainter>
-#include <QtSvg/QSvgRenderer>
+//#include <QtSvg/QSvgRenderer>
 #include "tnoteview.h"
 #include "tkeysignatureview.h"
 #include "tglobals.h"
@@ -95,10 +95,17 @@ void TscoreWidgetSimple::paintEvent(QPaintEvent *) {
     painter.setPen(QPen(Qt::black));
     for (int i=16; i < 26; i += 2)
         painter.drawLine(5,(i*coeff),width()-55,(i*coeff));
+    painter.setFont(QFont("Emmentaler",coeff*5));
+    painter.drawText(QRect(1,qRound(12.6*coeff),coeff*5,coeff*18),Qt::AlignLeft,QString(QChar(0xe1a7)));
 
+/**
     QSvgRenderer svgrendr(QString(":/picts/clef.svg"));
     svgrendr.render(&painter,QRectF(1,12*coeff,coeff*5,coeff*18));
-    }
+
+    Is nice to have svg support but only for this cleff it has no sence
+    untill I'll prepare class for manage svg-s and use it for accidentals and so on
+ */
+}
 
 void TscoreWidgetSimple::resizeEvent(QResizeEvent *) {
     resize();

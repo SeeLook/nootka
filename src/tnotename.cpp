@@ -32,16 +32,13 @@ const QString TnoteName::octavesFull[6] = {tr("Contra octave"), tr("Great octave
 TnoteName::TnoteName(QWidget *parent) :
     QWidget(parent)
 {
-//    setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
-
 // NAME LABEL
     QVBoxLayout *mainLay = new QVBoxLayout();
     mainLay->setAlignment(Qt::AlignCenter);
 
-    nameLabel = new QLabel("Nootka",this);
+    nameLabel = new QLabel("<b><span style=\"font-size: 20px; color: green;\">Nootka " +
+                           gl->version + "</span></b>",this);
     nameLabel->setAlignment(Qt::AlignCenter);
-//    nameLabel->setStyleSheet(QString("background: %1").arg(palette().base().color().name()));
-//    nameLabel->setStyleSheet("background: transparent");
 
     mainLay->addWidget(nameLabel);
     mainLay->addSpacing(1);
@@ -279,6 +276,8 @@ void TnoteName::setButtons(Tnote note) {
     case 1 : sharpButt->setChecked(true); break;
     case 2 : dblSharpButt->setChecked(true); break;
     }
+    if (note.octave >= -2 && note.octave <= 3)
+        octaveButtons[note.octave+2]->setChecked(true);
 }
 
 void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
