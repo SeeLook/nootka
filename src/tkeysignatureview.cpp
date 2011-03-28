@@ -81,6 +81,18 @@ void TkeySignatureView::resize(int co) {
                     m_posOfAccid[std::abs(base-i)]*m_coeff-m_accTextOffset);
     }
     m_keyNameText->setPos(1,9*m_coeff);
+    // All calculation below is to have enought space for key name
+    m_keyNameText->setFont(this->font());
+    m_keyNameText->hide();
+    QString S = m_keyNameText->text();
+    m_keyNameText->setText("Cis-mminorr");//simple text to determine max width
+    while (m_keyNameText->boundingRect().width()>width()) {
+        QFont f = m_keyNameText->font();
+        f.setPointSize(f.pointSize()-1);
+        m_keyNameText->setFont(f);
+    }
+    m_keyNameText->setText(S);
+    m_keyNameText->show();
 
 }
 

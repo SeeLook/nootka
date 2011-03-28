@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>picts/clef.svg</file>
         <file>picts/sharp.svg</file>
         <file>picts/flat.svg</file>
         <file>picts/dblsharp.svg</file>
