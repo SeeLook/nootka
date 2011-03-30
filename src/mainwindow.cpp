@@ -57,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
     connect(m_guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
 
-//    aboutSlot();
+
 
 }
 
@@ -74,6 +74,7 @@ void MainWindow::createActions() {
 
     aboutAct = new QAction(tr("about"),this);
     aboutAct->setStatusTip(tr("About Nootka"));
+//    aboutAct->setIcon(QIcon());
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(aboutSlot()));
 }
 
@@ -97,7 +98,7 @@ void MainWindow::resizeEvent(QResizeEvent *) {
 //##########        SLOTS       ###############
 
 void MainWindow::createSettingsDialog() {
-    SettingsDialog *settings = new SettingsDialog(this, Qt::Dialog);
+    SettingsDialog *settings = new SettingsDialog;
     if (settings->exec() == QDialog::Accepted) {
         m_score->acceptSettings();
         m_noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
@@ -112,7 +113,7 @@ void MainWindow::createSettingsDialog() {
 
 void MainWindow::aboutSlot() {
     QMessageBox msg;
-    msg.setText("Nootka " + gl->version + tr("<p>This is developers preview of Nootka. It works quitely stable, but has less functioinality yet.</p><p>See a <a href src=\"nootka.sourceforge.net\">program site</a> for more details, road map and furter relaces.</p><p>with respects<br>Author</p>"));
+    msg.setText("<center><b>Nootka " + gl->version + tr("</b></center><p>This is developers preview of Nootka. It works quitely stable, but has less functioinality yet.</p><p>See a <a href=\"http://nootka.sourceforge.net\">program site</a> for more details and furter relaces.</p><p>Any bugs, sugestions, translations and so on, report to: <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><p/><p style=\"text-align: right;\">with respects<br>Author</p>"));
     msg.exec();
 }
 
