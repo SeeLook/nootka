@@ -385,7 +385,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
         QDialog(parent)
 {
     setWindowTitle("Nootka - "+tr("application's settings"));
-//    setWindowFlags(Qt::Dialog);
+    setWindowFlags(Qt::Dialog | Qt::Window);
 
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *contLay = new QHBoxLayout;
@@ -452,6 +452,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     connect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
 
     navList->setCurrentRow(0);
+
 }
 
 void SettingsDialog::saveSettings() {
