@@ -38,6 +38,7 @@ public:
 public slots:
 //    void whenEnableDblAccStateChanged(bool isEnabled);
     void createSettingsDialog();
+    void aboutSlot();
 
     void noteWasClicked(int index, Tnote note);
     void noteNameWasChanged(Tnote note);
@@ -53,7 +54,7 @@ private:
 
 //    QMenu *m_actMenu, *m_scoreMenu;
 //    QAction *showOherNotesAct, *useDblAccidAct;
-    QAction *settingsAct;
+    QAction *settingsAct, *aboutAct;
     QToolBar *nootBar;
 
 //    void createMenus();
