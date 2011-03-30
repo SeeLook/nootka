@@ -57,6 +57,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
     connect(m_guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
 
+//    aboutSlot();
+
 }
 
 MainWindow::~MainWindow()
@@ -69,11 +71,18 @@ void MainWindow::createActions() {
     settingsAct->setStatusTip(tr("Application preferences"));
     settingsAct->setIcon(QIcon(":/picts/systemsettings.svg"));
     connect(settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
+
+    aboutAct = new QAction(tr("about"),this);
+    aboutAct->setStatusTip(tr("About Nootka"));
+    connect(aboutAct, SIGNAL(triggered()), this, SLOT(aboutSlot()));
 }
 
 void MainWindow::createToolBar() {
     nootBar = addToolBar(tr("main toolbar"));
     nootBar->addAction(settingsAct);
+    nootBar->addAction(aboutAct);
+
+    nootBar->setMovable(false);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *) {
@@ -88,7 +97,7 @@ void MainWindow::resizeEvent(QResizeEvent *) {
 //##########        SLOTS       ###############
 
 void MainWindow::createSettingsDialog() {
-    SettingsDialog *settings = new SettingsDialog;
+    SettingsDialog *settings = new SettingsDialog(this, Qt::Dialog);
     if (settings->exec() == QDialog::Accepted) {
         m_score->acceptSettings();
         m_noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
@@ -99,6 +108,12 @@ void MainWindow::createSettingsDialog() {
         noteWasClicked(0,m_noteName->getNoteName(0));//refresh name
         m_guitar->acceptSettings();;//refresh guitar
     }
+}
+
+void MainWindow::aboutSlot() {
+    QMessageBox msg;
+    msg.setText("Nootka " + gl->version + tr("<p>This is developers preview of Nootka. It works quitely stable, but has less functioinality yet.</p><p>See a <a href src=\"nootka.sourceforge.net\">program site</a> for more details, road map and furter relaces.</p><p>with respects<br>Author</p>"));
+    msg.exec();
 }
 
 void MainWindow::noteWasClicked(int index, Tnote note) {

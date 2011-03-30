@@ -385,7 +385,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
         QDialog(parent)
 {
     setWindowTitle("Nootka - "+tr("application's settings"));
-    setWindowFlags(Qt::Dialog);
+//    setWindowFlags(Qt::Dialog);
 
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *contLay = new QHBoxLayout;
