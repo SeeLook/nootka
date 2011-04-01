@@ -69,12 +69,12 @@ MainWindow::~MainWindow()
 void MainWindow::createActions() {
     settingsAct = new QAction(tr("settings"),this);
     settingsAct->setStatusTip(tr("Application preferences"));
-    settingsAct->setIcon(QIcon(":/picts/systemsettings.svg"));
+    settingsAct->setIcon(QIcon(":/picts/systemsettings.png"));
     connect(settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
 
     aboutAct = new QAction(tr("about"),this);
     aboutAct->setStatusTip(tr("About Nootka"));
-//    aboutAct->setIcon(QIcon());
+    aboutAct->setIcon(QIcon(":/picts/about.png"));
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(aboutSlot()));
 }
 
