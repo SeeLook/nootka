@@ -223,7 +223,7 @@ GlobalSettings::GlobalSettings(QWidget *parent) :
     QVBoxLayout *lay = new QVBoxLayout();
     lay->setAlignment(Qt::AlignCenter);
     otherEnharmChBox = new QCheckBox(tr("show other enharmonics variants of note"),this);
-    otherEnharmChBox->setStatusTip(tr("Shows enharmonical variants of note.<br>F.e.: E note is also Fb (F flat) and Dx (D with double sharp."));
+    otherEnharmChBox->setStatusTip(tr("Shows enharmonical variants of note.<br>F.e.: E note is also Fb (F flat) and Dx (D with double sharp)."));
     otherEnharmChBox->setChecked(gl->showEnharmNotes);
     lay->addWidget(otherEnharmChBox);
     dblAccChBox = new QCheckBox(tr("use double accidentals"),this);
