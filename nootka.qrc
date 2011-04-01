@@ -4,9 +4,14 @@
         <file>picts/flat.svg</file>
         <file>picts/dblsharp.svg</file>
         <file>picts/dblflat.svg</file>
-        <file>picts/systemsettings.svg</file>
         <file>picts/nootka.svg</file>
         <file>picts/body.png</file>
         <file>picts/fingbg.png</file>
+        <file>picts/about.png</file>
+        <file>picts/global.png</file>
+        <file>picts/systemsettings.png</file>
+        <file>picts/scoreSettings.png</file>
+        <file>picts/nameSettings.png</file>
+        <file>picts/guitarSettings.png</file>
     </qresource>
 </RCC>
