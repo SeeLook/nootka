@@ -23,6 +23,20 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
+
+    QFontDatabase fd;
+    QStringList fl = QStringList(fd.families(QFontDatabase::Any));
+    if (! fl.contains("Emmentaler")) {
+        int nr[8] =  {11,13,14,16,18,20,23,26};
+        for (int i=0; i<8; i++)
+            fd.addApplicationFont(QString(":/fonts/emmentaler-%1.otf").arg(nr[i]));
+//        QMessageBox msg;
+//        msg.setText(QT_TR_NOOP("<em>Emmentaler</em> fonts were not found. Please, install them manually first.<br>You can find them either in installatiin package or under address"));
+//        msg.exec();
+//        return 111;
+    }
+
+
     w.show();
 
     return a.exec();
