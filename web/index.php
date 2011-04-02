@@ -20,6 +20,18 @@
             default: $Lang = "en";
 	}
      }
+     
+     if ( isset($_GET["C"]) ) {
+        switch ($_GET["C"]) {
+            case 'about':
+            case 'scr':
+              $Contain = $_GET["C"];
+              break;
+            default:
+                $Contain = 'about';
+        }
+    } else
+      $Contain = 'about';
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<? print $Lang ?>" lang="<? print $Lang ?>">
@@ -29,23 +41,29 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="KEYWORDS" content="" />
   <meta http-equiv="Content-Language" content="<? print "$Lang"; ?>" />
-    <meta name="author" content="Tomasz Bojczuk" />
-    <meta http-equiv="Reply-to" content="seelook@gmail.com" />
-    <meta name="robots" content="all" />
+  <meta name="author" content="Tomasz Bojczuk" />
+  <meta http-equiv="Reply-to" content="seelook@gmail.com" />
+  <meta name="robots" content="all" />
+  <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
 </head>
+
 <body>
   <div id="menu">
-    <a href="">About</a>
-    <a href="">News</a>
-    <a href="">Screenshots</a>
-    <a href="">Downloads</a>
+    <a href="index.php?C=about">About</a><br />
+    <a href="">News</a><br />
+    <a href="index.php?C=scr">Screenshots</a><br />
+    <a href="">Downloads</a><br />
   </div>
   <div id="main">
     <div id="head">
+      <img style="width: 100%; height: 40px;" src="" alt="uncommited image" />
     </div>
     <div id="news">
     </div>
     <div id="cont">
+      <br /><br />
+      <? include($Contain.".php") ?>
+      <br /><br />
     </div>
   </div>
 
