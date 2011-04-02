@@ -13,5 +13,13 @@
         <file>picts/scoreSettings.png</file>
         <file>picts/nameSettings.png</file>
         <file>picts/guitarSettings.png</file>
+        <file>fonts/emmentaler-11.otf</file>
+        <file>fonts/emmentaler-13.otf</file>
+        <file>fonts/emmentaler-14.otf</file>
+        <file>fonts/emmentaler-16.otf</file>
+        <file>fonts/emmentaler-18.otf</file>
+        <file>fonts/emmentaler-20.otf</file>
+        <file>fonts/emmentaler-23.otf</file>
+        <file>fonts/emmentaler-26.otf</file>
     </qresource>
 </RCC>
