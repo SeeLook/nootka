@@ -25,6 +25,7 @@
         switch ($_GET["C"]) {
             case 'about':
             case 'scr':
+            case 'down':
               $Contain = $_GET["C"];
               break;
             default:
@@ -52,13 +53,18 @@
     <a href="index.php?C=about">About</a><br />
     <a href="">News</a><br />
     <a href="index.php?C=scr">Screenshots</a><br />
-    <a href="">Downloads</a><br />
+    <a href="index.php?C=down">Downloads</a><br />
+    <a href="https://sourceforge.net/projects/nootka/">Sourceforge</a>
   </div>
   <div id="main">
     <div id="head">
-      <img style="width: 100%; height: 40px;" src="" alt="uncommited image" />
+<!--       <img style="width: 100%; height: 40px;" src="" alt="uncommited image" /> -->
+      Nootka<br />
+      <span style="font-size: 50%;">...to play from scores</span>
     </div>
+    <br />
     <div id="news">
+      03.04.2011 - First public release is done.
     </div>
     <div id="cont">
       <br /><br />

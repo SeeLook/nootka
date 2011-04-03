@@ -1,2 +1,1 @@
-About<br />
-Comming soon<br />
+Nootka is open-source application to help with learning classical score notation. Mostly it is for guitarists, but it has some features which can be helpful for others.

@@ -2,9 +2,8 @@ TNOTEVIEW
     - when it is resizing accidental symbols leave trash on screen
 
 SETTINGS DIALOG
-    - background to icons
-    - align all to center
     - some strange window during creation a dialog window
+    - disable maximize button on titlebar
 
 TSCOREWIDGETSIMPLE
     - use enableDblAcc in TscoreWidgetSimple to avoid waste hiding or showing dbl accid buttons
