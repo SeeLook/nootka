@@ -44,7 +44,7 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     setStyleSheet(("background: transparent"));
     setScene(m_scene);
     setMouseTracking(true);
-    setStatusTip(tr("Select string or finger and click to see it in score."));
+    setStatusTip(tr("Select string or finger and click to see it in the score."));
 
     for (int i=0; i<6; i++) {
         m_strings[i] = new QGraphicsLineItem();
@@ -213,7 +213,8 @@ void TfingerBoard::paint() {
                            fbRect.x()-1, fbRect.y()+strGap/2+i*strGap+strWidth-1);
 
     }
-    m_workFinger->setRect(0,0, fretWidth/1.7, qRound(0.6*strGap));
+//    m_workFinger->setRect(0,0, fretWidth/1.7, qRound(0.6*strGap));
+    m_workFinger->setRect(0,0, fretWidth/1.6, qRound(0.7*strGap));
     for (int i=0; i<6; i++)
         m_fingers[i]->setRect(0,0, fretWidth/1.6, qRound(0.7*strGap));
     m_scene->setBackgroundBrush(QBrush(pixmap));
@@ -240,7 +241,8 @@ void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
     }
     if (m_curStr != strNr || m_curFret != fretNr) {
         if ( fretNr > 0 && fretNr < 99) { // show finger
-            int off = qRound(fretWidth/1.55);
+//            int off = qRound(fretWidth/1.55);
+            int off = qRound(fretWidth/1.5);
             if (matrix.dx()) off = 4;
             m_workFinger->setPos(matrix.map(QPoint(fretsPos[fretNr-1]-off,
                                  fbRect.y()+qRound(strGap*(strNr+0.2)))));

@@ -28,12 +28,14 @@ int main(int argc, char *argv[])
     QStringList fl = QStringList(fd.families(QFontDatabase::Any));
     if (! fl.contains("Emmentaler")) {
         int nr[8] =  {11,13,14,16,18,20,23,26};
-        for (int i=0; i<8; i++)
-            fd.addApplicationFont(QString(":/fonts/emmentaler-%1.otf").arg(nr[i]));
-//        QMessageBox msg;
-//        msg.setText(QT_TR_NOOP("<em>Emmentaler</em> fonts were not found. Please, install them manually first.<br>You can find them either in installatiin package or under address"));
-//        msg.exec();
-//        return 111;
+        for (int i=0; i<8; i++) {
+            int id;
+            id = fd.addApplicationFont(QString(":/fonts/emmentaler-%1.otf").arg(nr[i]));
+            if (id == -1) {
+                QMessageBox::warning(0,"",QT_TR_NOOP("<center><b>\"Emmentaler\"</b> fonts were not found.<br> Please, install them manually first.<br>You can find them either in installation package or Nootka download page:<br> <a href=\"https://code.google.com/p/nootka/downloads/list\">https://code.google.com/p/nootka/downloads/list</a></center>"));
+                return 111;
+            }
+        }
     }
 
 
