@@ -44,8 +44,8 @@ TnotationRadioGroup::TnotationRadioGroup( Tnote::Enotation _notation, QWidget * 
         : QGroupBox(parent)
 {
     notation = _notation;
-    setTitle(tr("Naming style"));
-    setStatusTip(tr("Naming style of a note. The main difference is 7-th note.<br>Is it B and B flat, or H and B."));
+    setTitle(tr("Nameing style"));
+    setStatusTip(tr("Nameing style of a note. The main difference is 7-th note.<br>Is it B and B flat, or H and B ?"));
     norskButt = new QRadioButton(strNorsk+" "+strNorskExampl ,this);
     italianoButt = new QRadioButton(strItal+" "+strItalExampl,this);
     deutschButt = new QRadioButton(strDeutsch+" "+strDeutschExampl,this);
@@ -401,7 +401,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     navList->addItem(tr("Score"));
     navList->item(1)->setIcon(QIcon(":/picts/scoreSettings.png"));
     navList->item(1)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(tr("Note names"));
+    navList->addItem(tr("Names","name-calling"));
     navList->item(2)->setIcon(QIcon(":/picts/nameSettings.png"));
     navList->item(2)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Guitar"));
