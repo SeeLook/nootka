@@ -284,7 +284,7 @@ ScoreSettings::ScoreSettings(QWidget *parent) :
     nameStyleGr = new TnotationRadioGroup(gl->nameStyleInKeySign,this);
     nameLay->addWidget(nameStyleGr);
 
-    nameExtGr = new QGroupBox(tr("Naming extension"));
+    nameExtGr = new QGroupBox(tr("Nameing extension"));
 
     QVBoxLayout *majLay = new QVBoxLayout();
     majExtLab = new QLabel(tr("in major keys:"),this);

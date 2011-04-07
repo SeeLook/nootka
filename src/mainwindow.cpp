@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *scoreAndNameLay = new QHBoxLayout;
     scoreAndNameLay->addWidget(m_score);
-    scoreAndNameLay->addStretch(1);
+//    scoreAndNameLay->addStretch(1);
     QVBoxLayout *nameLay = new QVBoxLayout;
     nameLay->addWidget(m_noteName);
     nameLay->addStretch(1);
