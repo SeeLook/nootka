@@ -4,6 +4,7 @@
 Tglobals::Tglobals() {
 
     version = "0.5 alpha";
+    path = ""; // Is declared in MainWindow
 
 //score widget settings
     keySignatureEnabled = true;

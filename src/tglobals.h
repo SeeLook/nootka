@@ -35,6 +35,7 @@ public:
     Tglobals();
     ~Tglobals();
 
+    QString path;
     QString version;
         /** Let's have a convention:
         * globals settings for TnoteName will started from 'N' letter
