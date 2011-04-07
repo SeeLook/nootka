@@ -66,7 +66,19 @@ TARGET_LINK_LIBRARIES(nootka
 )
   
 
+#INSTALLATION
+INSTALL(TARGETS nootka DESTINATION bin)
+INSTALL(DIRECTORY picts DESTINATION share/nootka)
+INSTALL(DIRECTORY fonts DESTINATION share/nootka)
 
+# uninstall target
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+    IMMEDIATE @ONLY)
+
+add_custom_target(uninstall
+    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
 
 # add_subdirectory(src)
 # add_subdirectory(picts)

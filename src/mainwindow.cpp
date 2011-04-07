@@ -26,9 +26,14 @@ Tglobals *gl = new Tglobals();
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    statusBar()->showMessage(tr("Nootka ") + gl->version);
+    QDir d = QDir(QApplication::applicationDirPath());
+    d.cdUp();
+    gl->path = d.path()+"/share/nootka/"; //Linux
 
-    setWindowIcon(QIcon(":/picts/nootka.svg"));
+
+    statusBar()->showMessage("Nootka " + gl->version);
+
+    setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
 
 //    m_actMenu = menuBar()->addMenu(tr("actions"));
     QWidget *widget = new QWidget(this);
