@@ -26,9 +26,8 @@ Tglobals *gl = new Tglobals();
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    QDir d = QDir(QApplication::applicationDirPath());
-    d.cdUp();
-    gl->path = d.path()+"/share/nootka/"; //Linux
+
+    gl->path = Tglobals::getInstPath();
 
 
     statusBar()->showMessage("Nootka " + gl->version);

@@ -35,6 +35,10 @@ public:
     Tglobals();
     ~Tglobals();
 
+        /** This method return application install path.
+        * Under Windows is empty,
+        * in Linux is usually /usr/bin or /usr/local/bin */
+    static QString getInstPath();
     QString path;
     QString version;
         /** Let's have a convention:
