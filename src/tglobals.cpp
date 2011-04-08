@@ -1,5 +1,18 @@
 #include "tglobals.h"
-#include <QColor>
+#include "QApplication"
+#include "QDir"
+
+
+/*static*/
+QString Tglobals::getInstPath() {
+    QString p = "";
+#if defined(Q_OS_LINUX)
+    QDir d = QDir(QApplication::applicationDirPath());
+    d.cdUp();
+    p = d.path()+"/share/nootka/"; //Linux
+#endif
+    return p;
+}
 
 Tglobals::Tglobals() {
 
