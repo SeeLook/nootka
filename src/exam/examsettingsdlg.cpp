@@ -16,52 +16,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
 
-#include "tscorewidget.h"
-#include "tnotename.h"
-#include "tfingerboard.h"
-#include "tnote.h"
-//#include <QtGui>
+#include "examsettingsdlg.h"
 
-
-class MainWindow : public QMainWindow
+examSettingsDlg::examSettingsDlg(QWidget *parent) :
+    TsettingsDialogBase(parent)
 {
-    Q_OBJECT
+    navList->addItem(tr("Levels"));
+    navList->addItem(tr("Range"));
 
-public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-
-
-public slots:
-//    void whenEnableDblAccStateChanged(bool isEnabled);
-    void createSettingsDialog();
-    void createExamSettingsDlg();
-    void aboutSlot();
-
-    void noteWasClicked(int index, Tnote note);
-    void noteNameWasChanged(Tnote note);
-    void guitarWasClicked(Tnote note);
-
-protected:
-    void resizeEvent(QResizeEvent *);
-
-private:
-    TscoreWidget *m_score;
-    TnoteName *m_noteName;
-    TfingerBoard *m_guitar;
-
-//    QMenu *m_actMenu, *m_scoreMenu;
-//    QAction *showOherNotesAct, *useDblAccidAct;
-    QAction *settingsAct, *examSetAct, *aboutAct;
-    QToolBar *nootBar;
-
-//    void createMenus();
-    void createToolBar();
-    void createActions();
-
-};
-
-#endif // MAINWINDOW_H
+    navList->setCurrentRow(0);
+}

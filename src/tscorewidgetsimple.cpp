@@ -22,7 +22,7 @@
 #include "tnoteview.h"
 #include "tkeysignatureview.h"
 #include "tglobals.h"
-#include <QDebug>
+//#include <QDebug>
 
 extern Tglobals *gl;
 
@@ -35,7 +35,6 @@ TscoreWidgetSimple::TscoreWidgetSimple(unsigned char _notesCount, QWidget *paren
 {
     setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     setMinimumHeight(180);
-//    updateCoefficients();
 
     for (int i=0; i<_notesCount; i++) {
         noteViews << new TnoteView(i,this);
@@ -44,16 +43,16 @@ TscoreWidgetSimple::TscoreWidgetSimple(unsigned char _notesCount, QWidget *paren
     keySignView = 0;
 
     m_dblSharpBut = new QPushButton(this);
-    m_dblSharpBut->setIcon(QIcon(":/picts/dblsharp.svg"));
+    m_dblSharpBut->setIcon(QIcon(gl->path+"picts/dblsharp.svg"));
     setButtons(m_dblSharpBut);
     m_sharpBut = new QPushButton(this);
-    m_sharpBut->setIcon(QIcon(":/picts/sharp.svg"));
+    m_sharpBut->setIcon(QIcon(gl->path+"picts/sharp.svg"));
     setButtons(m_sharpBut);
     m_flatBut = new QPushButton(this);
-    m_flatBut->setIcon(QIcon(":/picts/flat.svg"));
+    m_flatBut->setIcon(QIcon(gl->path+"picts/flat.svg"));
     setButtons(m_flatBut);
     m_dblFlatBut = new QPushButton(this);
-    m_dblFlatBut->setIcon(QIcon(":/picts/dblflat.svg"));
+    m_dblFlatBut->setIcon(QIcon(gl->path+"picts/dblflat.svg"));
     setButtons(m_dblFlatBut);
     QVBoxLayout *butLay = new QVBoxLayout;
     butLay->addStretch(1);
@@ -99,7 +98,7 @@ void TscoreWidgetSimple::paintEvent(QPaintEvent *) {
     painter.drawText(QRect(1,qRound(12.6*coeff),coeff*5,coeff*18),Qt::AlignLeft,QString(QChar(0xe1a7)));
 
 /**
-    QSvgRenderer svgrendr(QString(":/picts/clef.svg"));
+    QSvgRenderer svgrendr(QString(gl->path+"picts/clef.svg"));
     svgrendr.render(&painter,QRectF(1,12*coeff,coeff*5,coeff*18));
 
     Is nice to have svg support but only for this cleff it has no sence

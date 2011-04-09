@@ -10,6 +10,7 @@ SET( NOOTKA_SRCS
   ./src/main.cpp
   ./src/mainwindow.cpp
   ./src/settingsdialog.cpp
+  ./src/tsettingsdialogbase.cpp
   ./src/tglobals.cpp
   ./src/tkeysignatureview.cpp
   ./src/tnote.cpp
@@ -20,6 +21,8 @@ SET( NOOTKA_SRCS
   ./src/tfingerboard.cpp
   ./src/ttune.cpp
   ./src/tfingerpos.h
+
+  ./src/exam/examsettingsdlg.cpp
   )
 #SET( NOOTKA_HEADERS
 #    ./src/tfingerpos.h
@@ -28,17 +31,20 @@ SET( NOOTKA_SRCS
 SET( NOOTKA_MOC_SRCS
   ./src/mainwindow.h
   ./src/settingsdialog.h
+  ./src/tsettingsdialogbase.h
   ./src/tkeysignatureview.h
   ./src/tnoteview.h
   ./src/tscorewidget.h
   ./src/tscorewidgetsimple.h
   ./src/tnotename.h
   ./src/tfingerboard.h
+
+  ./src/exam/examsettingsdlg.h
   )
 
-SET( NOOTKA_RCCS
-     nootka.qrc
-)
+#SET( NOOTKA_RCCS
+#     nootka.qrc
+#)
   
   # enable warnings
 #ADD_DEFINITIONS( -Wall )
@@ -46,15 +52,13 @@ SET( NOOTKA_RCCS
 #
 QT4_WRAP_CPP( NOOTKA_MOCS ${NOOTKA_MOC_SRCS} )
 
-QT4_ADD_RESOURCES( NOOTKA_RCC_SRCS ${NOOTKA_RCCS} )
+#QT4_ADD_RESOURCES( NOOTKA_RCC_SRCS ${NOOTKA_RCCS} )
   
 
 #   QT4_WRAP_UI( SAMPLE_UI_HDRS ${SAMPLE_UIS} )
 
 ADD_DEFINITIONS(-DQT_NO_DEBUG)
 
-
-#ADD_EXECUTABLE( nootka ${NOOTKA_SRCS} ${NOOTKA_MOC_SRCS} ${NOOTKA_RC_SRCS}}
 ADD_EXECUTABLE( nootka
         ${NOOTKA_SRCS}
         ${NOOTKA_MOCS}
@@ -67,6 +71,7 @@ TARGET_LINK_LIBRARIES(nootka
   
 
 #INSTALLATION
+IF (UNIX AND NOT APPLE)
 INSTALL(TARGETS nootka DESTINATION bin)
 INSTALL(DIRECTORY picts DESTINATION share/nootka)
 INSTALL(DIRECTORY fonts DESTINATION share/nootka)
@@ -79,6 +84,6 @@ configure_file(
 
 add_custom_target(uninstall
     COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
-
+ENDIF (UNIX AND NOT APPLE)
 # add_subdirectory(src)
 # add_subdirectory(picts)

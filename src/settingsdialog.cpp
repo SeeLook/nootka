@@ -21,7 +21,6 @@
 #include "tnoteview.h"
 #include <QVBoxLayout>
 
-#include <iostream>
 
 
 extern Tglobals *gl;
@@ -108,7 +107,7 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
 
     QHBoxLayout *upLay = new QHBoxLayout;
     QGroupBox *tuneGr = new QGroupBox(tr("tune of the guitar"));
-    tuneGr->setStatusTip(tr("Select appropirate tune from list or prepare own tune."));
+    tuneGr->setStatusTip(tr("Select appropirate tune from list or prepare your own."));
     QVBoxLayout *tuneLay = new QVBoxLayout;
     tuneLay->setAlignment(Qt::AlignCenter);
     tuneCombo = new QComboBox(this);
@@ -173,7 +172,7 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     downLay->addWidget(prefBox);
 
     morePosCh = new QCheckBox(tr("show all possibilities of a note"),this);
-    morePosCh->setStatusTip(tr("As you know, the same note can be played in few places on a fingerboard.<br>If checked it shows them all."));
+    morePosCh->setStatusTip(tr("As you know, the same note can be played in few places on a fingerboard.<br>If checked all of them are showed."));
     downLay->addWidget(morePosCh);
     morePosCh->setChecked(gl->GshowOtherPos);
 
@@ -382,74 +381,35 @@ void ScoreSettings::saveSettings() {
 
 //############# SettingsDialog IMPLEMENTATION ##################
 SettingsDialog::SettingsDialog(QWidget *parent) :
-        QDialog(parent)
+        TsettingsDialogBase(parent)
 {
     setWindowTitle("Nootka - "+tr("application's settings"));
-    setWindowFlags(Qt::Dialog | Qt::Window);
 
-    QVBoxLayout *mainLay = new QVBoxLayout;
-    QHBoxLayout *contLay = new QHBoxLayout;
-    navList = new QListWidget(this);
-    navList->setIconSize(QSize(80,80));
-    navList->setFixedWidth(100);
-    navList->setViewMode(QListView::IconMode);
-    navList->setFlow(QListView::TopToBottom);
-//    navList->setWrapping(false);
-    navList->addItem(tr("Global"));
-    navList->item(0)->setIcon(QIcon(":/picts/global.png"));
+    navList->addItem(tr("Common"));
+    navList->item(0)->setIcon(QIcon(gl->path+"picts/global.png"));
     navList->item(0)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Score"));
-    navList->item(1)->setIcon(QIcon(":/picts/scoreSettings.png"));
+    navList->item(1)->setIcon(QIcon(gl->path+"picts/scoreSettings.png"));
     navList->item(1)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Names","name-calling"));
-    navList->item(2)->setIcon(QIcon(":/picts/nameSettings.png"));
+    navList->item(2)->setIcon(QIcon(gl->path+"picts/nameSettings.png"));
     navList->item(2)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Guitar"));
-    navList->item(3)->setIcon(QIcon(":/picts/guitarSettings.png"));
+    navList->item(3)->setIcon(QIcon(gl->path+"picts/guitarSettings.png"));
     navList->item(3)->setTextAlignment(Qt::AlignCenter);
-    contLay->addWidget(navList);
 
     m_globalSett = new GlobalSettings();
     m_scoreSett = new ScoreSettings();
     m_nameSett = new NameSettings();
     m_guitarSett = new GuitarSettings();
 
-    QVBoxLayout *aLay = new QVBoxLayout;
-    stackLayout = new QStackedLayout;
     stackLayout->addWidget(m_globalSett);
     stackLayout->addWidget(m_scoreSett);
     stackLayout->addWidget(m_nameSett);
     stackLayout->addWidget(m_guitarSett);
-    aLay->addLayout(stackLayout);
-
-    QGroupBox *hGr = new QGroupBox(this);
-    QVBoxLayout *hLay = new QVBoxLayout;
-    hint = new QLabel(this);
-    hLay->addWidget(hint);
-    hGr->setLayout(hLay);
-    aLay->addWidget(hGr);
-    hint->setFixedHeight(70);
-    contLay->addLayout(aLay);
-
-    mainLay->addLayout(contLay);
-
-
-    QHBoxLayout *butLay = new QHBoxLayout();
-    okBut = new QPushButton(tr("Accept"),this);
-    butLay->addStretch(1);
-    butLay->addWidget(okBut);
-    butLay->addStretch(1);
-    cancelBut = new QPushButton(tr("Discard"),this);
-    butLay->addWidget(cancelBut);
-    butLay->addStretch(1);
-    mainLay->addLayout(butLay);
-
-    setLayout(mainLay);
 
     connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
     connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
-    connect(cancelBut, SIGNAL(clicked()), this, SLOT(reject()));
-    connect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
 
     navList->setCurrentRow(0);
 
@@ -462,10 +422,10 @@ void SettingsDialog::saveSettings() {
     m_guitarSett->saveSettings();
 }
 
-bool SettingsDialog::event(QEvent *event) {
-    if (event->type() == QEvent::StatusTip) {
-        QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
-        hint->setText("<center>"+se->tip()+"</center>");
-    }
-    return QDialog::event(event);
-}
+//bool SettingsDialog::event(QEvent *event) {
+//    if (event->type() == QEvent::StatusTip) {
+//        QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
+//        hint->setText("<center>"+se->tip()+"</center>");
+//    }
+//    return QDialog::event(event);
+//}

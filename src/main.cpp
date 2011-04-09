@@ -19,6 +19,7 @@
 #include <QtGui/QApplication>
 #include "mainwindow.h"
 #include "tglobals.h"
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {

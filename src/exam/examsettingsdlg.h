@@ -16,52 +16,24 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
 
-#include "tscorewidget.h"
-#include "tnotename.h"
-#include "tfingerboard.h"
-#include "tnote.h"
-//#include <QtGui>
+#ifndef EXAMSETTINGSDLG_H
+#define EXAMSETTINGSDLG_H
 
+#include "../tsettingsdialogbase.h"
 
-class MainWindow : public QMainWindow
+class examSettingsDlg : public TsettingsDialogBase
 {
     Q_OBJECT
-
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    explicit examSettingsDlg(QWidget *parent = 0);
 
+signals:
 
 public slots:
-//    void whenEnableDblAccStateChanged(bool isEnabled);
-    void createSettingsDialog();
-    void createExamSettingsDlg();
-    void aboutSlot();
-
-    void noteWasClicked(int index, Tnote note);
-    void noteNameWasChanged(Tnote note);
-    void guitarWasClicked(Tnote note);
-
-protected:
-    void resizeEvent(QResizeEvent *);
 
 private:
-    TscoreWidget *m_score;
-    TnoteName *m_noteName;
-    TfingerBoard *m_guitar;
-
-//    QMenu *m_actMenu, *m_scoreMenu;
-//    QAction *showOherNotesAct, *useDblAccidAct;
-    QAction *settingsAct, *examSetAct, *aboutAct;
-    QToolBar *nootBar;
-
-//    void createMenus();
-    void createToolBar();
-    void createActions();
 
 };
 
-#endif // MAINWINDOW_H
+#endif // EXAMSETTINGSDLG_H
