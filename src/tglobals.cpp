@@ -17,7 +17,7 @@ QString Tglobals::getInstPath() {
 Tglobals::Tglobals() {
 
     version = "0.5 alpha";
-    path = ""; // Is declared in MainWindow
+    path = getInstPath();
 
 //score widget settings
     keySignatureEnabled = true;

@@ -19,7 +19,7 @@
 #include "tfingerboard.h"
 #include "tglobals.h"
 #include <QtGui>
-#include <QDebug>
+//#include <QDebug>
 
 
 extern Tglobals *gl;
@@ -106,7 +106,7 @@ void TfingerBoard::paint() {
     }
   // Guitar body
     painter.setPen(QPen(QColor("#ECC93E")));
-    painter.setBrush(QBrush(QPixmap(":/picts/body.png")));
+    painter.setBrush(QBrush(QPixmap(gl->path+"picts/body.png")));
     painter.drawRect(fretsPos[11], 0, width()-fretsPos[11]-37, height());
     painter.setPen(QPen(Qt::red,10,Qt::SolidLine));
     painter.setBrush(QBrush(QColor("#404040"),Qt::SolidPattern));
@@ -121,7 +121,7 @@ void TfingerBoard::paint() {
                 fbRect.x()+fbRect.width(), height()-fbRect.y(),
                 fbRect.x(), height()-fbRect.y());
     painter.drawPolygon(a);
-    painter.setBrush(QBrush(QPixmap(":/picts/fingbg.png")));
+    painter.setBrush(QBrush(QPixmap(gl->path+"picts/fingbg.png")));
     painter.drawRect(fbRect);
   // FRETS
    // zero fret (upper bridge or HUESO)

@@ -23,6 +23,7 @@
 #include "tnote.h"
 #include "ttune.h"
 #include "tscorewidgetsimple.h"
+#include  "tsettingsdialogbase.h"
 
 
 
@@ -150,7 +151,7 @@ private slots:
 };
 
 //##############################################################
-class SettingsDialog : public QDialog
+class SettingsDialog : public TsettingsDialogBase
 {
     Q_OBJECT
 public:
@@ -159,14 +160,14 @@ public:
 public slots:
     void saveSettings();
 
-protected:
-    bool event(QEvent *event);
+//protected:
+//    bool event(QEvent *event);
 
 private:
-    QListWidget *navList;
-    QStackedLayout *stackLayout;
-    QPushButton *cancelBut, *okBut;
-    QLabel *hint;
+//    QListWidget *navList;
+//    QStackedLayout *stackLayout;
+//    QPushButton *cancelBut, *okBut;
+//    QLabel *hint;
 
     GlobalSettings *m_globalSett;
     ScoreSettings *m_scoreSett;

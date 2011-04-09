@@ -21,7 +21,7 @@
 #include <QGraphicsEllipseItem>
 #include <QGraphicsScene>
 #include <QGraphicsLineItem>
-#include <QDebug>
+//#include <QDebug>
 
 
 TnoteView::TnoteView(int _index, TscoreWidgetSimple * parent) :
@@ -33,7 +33,6 @@ TnoteView::TnoteView(int _index, TscoreWidgetSimple * parent) :
     setFrameShape(QFrame::NoFrame);
     setStyleSheet(("background: transparent"));
     setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
-//    setRenderHint(QPainter::TextAntialiasing, true);
     setMouseTracking(true);
 
     m_scene = new QGraphicsScene();

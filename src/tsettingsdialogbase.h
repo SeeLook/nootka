@@ -16,52 +16,31 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
 
-#include "tscorewidget.h"
-#include "tnotename.h"
-#include "tfingerboard.h"
-#include "tnote.h"
-//#include <QtGui>
+#ifndef TSETTINGSDIALOGBASE_H
+#define TSETTINGSDIALOGBASE_H
 
+#include <QtGui>
 
-class MainWindow : public QMainWindow
+class TsettingsDialogBase : public QDialog
 {
     Q_OBJECT
-
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    explicit TsettingsDialogBase(QWidget *parent = 0);
 
+signals:
 
 public slots:
-//    void whenEnableDblAccStateChanged(bool isEnabled);
-    void createSettingsDialog();
-    void createExamSettingsDlg();
-    void aboutSlot();
-
-    void noteWasClicked(int index, Tnote note);
-    void noteNameWasChanged(Tnote note);
-    void guitarWasClicked(Tnote note);
 
 protected:
-    void resizeEvent(QResizeEvent *);
+    bool event(QEvent *event);
 
-private:
-    TscoreWidget *m_score;
-    TnoteName *m_noteName;
-    TfingerBoard *m_guitar;
+    QListWidget *navList;
+    QStackedLayout *stackLayout;
+    QPushButton *cancelBut, *okBut;
+    QLabel *hint;
 
-//    QMenu *m_actMenu, *m_scoreMenu;
-//    QAction *showOherNotesAct, *useDblAccidAct;
-    QAction *settingsAct, *examSetAct, *aboutAct;
-    QToolBar *nootBar;
-
-//    void createMenus();
-    void createToolBar();
-    void createActions();
 
 };
 
-#endif // MAINWINDOW_H
+#endif // TSETTINGSDIALOGBASE_H

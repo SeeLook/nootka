@@ -19,6 +19,7 @@
 #include "settingsdialog.h"
 #include "mainwindow.h"
 #include "tglobals.h"
+#include "exam/examsettingsdlg.h"
 #include <QDebug>
 
 Tglobals *gl = new Tglobals();
@@ -27,14 +28,11 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
 
-    gl->path = Tglobals::getInstPath();
-
 
     statusBar()->showMessage("Nootka " + gl->version);
 
     setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
 
-//    m_actMenu = menuBar()->addMenu(tr("actions"));
     QWidget *widget = new QWidget(this);
     m_score = new TscoreWidget(3,widget);
     m_noteName = new TnoteName(widget);
@@ -71,20 +69,26 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::createActions() {
-    settingsAct = new QAction(tr("settings"),this);
+    settingsAct = new QAction(tr("Settings"),this);
     settingsAct->setStatusTip(tr("Application preferences"));
-    settingsAct->setIcon(QIcon(":/picts/systemsettings.png"));
+    settingsAct->setIcon(QIcon(gl->path+"picts/systemsettings.png"));
     connect(settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
+
+    examSetAct = new QAction(tr("Exams settings"),this);
+    examSetAct->setStatusTip(tr("Settings for exam's levels"));
+    examSetAct->setIcon(QIcon(gl->path+"picts/examSettings.png"));
+    connect(examSetAct, SIGNAL(triggered()), this, SLOT(createExamSettingsDlg()));
 
     aboutAct = new QAction(tr("about"),this);
     aboutAct->setStatusTip(tr("About Nootka"));
-    aboutAct->setIcon(QIcon(":/picts/about.png"));
+    aboutAct->setIcon(QIcon(gl->path+"picts/about.png"));
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(aboutSlot()));
 }
 
 void MainWindow::createToolBar() {
     nootBar = addToolBar(tr("main toolbar"));
     nootBar->addAction(settingsAct);
+    nootBar->addAction(examSetAct);
     nootBar->addAction(aboutAct);
 
     nootBar->setMovable(false);
@@ -113,6 +117,11 @@ void MainWindow::createSettingsDialog() {
         noteWasClicked(0,m_noteName->getNoteName(0));//refresh name
         m_guitar->acceptSettings();;//refresh guitar
     }
+}
+
+void MainWindow::createExamSettingsDlg() {
+    examSettingsDlg *examSettDlg = new examSettingsDlg;
+    examSettDlg->exec();
 }
 
 void MainWindow::aboutSlot() {
@@ -145,8 +154,6 @@ void MainWindow::noteNameWasChanged(Tnote note) {
 void MainWindow::guitarWasClicked(Tnote note) {
     if (gl->showEnharmNotes) {
         TnotesList noteList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
-//        for (int i=0; i<noteList.size(); i++)
-//            qDebug() << QString::fromStdString(noteList[i].getName());
         m_noteName->setNoteName(noteList);
         m_score->setNote(1, m_noteName->getNoteName(1));
         m_score->setNote(2, m_noteName->getNoteName(2));
