@@ -25,7 +25,8 @@
        y2="-3911.718"
        x2="153.38451"
        y1="-4290.7427"
-       x1="199.01956" />
+       x1="199.01956"
+       gradientTransform="matrix(1,0,0,0.66239093,0,-1361.2967)" />
     <filter
        id="filter8049"
        color-interpolation-filters="sRGB">
@@ -66,7 +67,8 @@
        y2="-3588.9753"
        x2="259.94357"
        y1="-4123.2041"
-       x1="12.549004" />
+       x1="12.549004"
+       gradientTransform="matrix(1,0,0,0.66239093,0,-1361.2967)" />
     <filter
        id="filter7509"
        color-interpolation-filters="sRGB">
@@ -86,7 +88,7 @@
          id="stop3208-4" />
     </linearGradient>
     <radialGradient
-       gradientTransform="matrix(1.4292849,0.37707179,-0.36599902,1.3873139,-2119.542,-642.83527)"
+       gradientTransform="matrix(1.4292849,0.24976894,-0.36599902,0.91894415,-2119.542,-1787.1049)"
        gradientUnits="userSpaceOnUse"
        xlink:href="#linearGradient3204-3"
        id="radialGradient9075"
@@ -561,10 +563,10 @@
   </defs>
   <sodipodi:namedview
      id="base"
-     pagecolor="#ffffff"
+     pagecolor="#978a8a"
      bordercolor="#666666"
      borderopacity="1.0"
-     inkscape:pageopacity="0.0"
+     inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:zoom="0.49497475"
      inkscape:cx="631.82981"
@@ -580,7 +582,9 @@
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
-     fit-margin-bottom="0" />
+     fit-margin-bottom="0"
+     inkscape:showpageshadow="true"
+     borderlayer="false" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -598,8 +602,75 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-52.489955,-257.45591)">
+    <rect
+       style="fill:#ececec;fill-opacity:1;stroke:none"
+       id="rect3236"
+       width="639.35706"
+       height="567.70575"
+       x="50.46962"
+       y="257.60037"
+       ry="73.445946" />
     <g
-       transform="matrix(0.6916445,0,0,0.6916445,258.12205,3061.2573)"
+       id="g4345"
+       transform="matrix(22.837827,0,0,33.232183,80.777028,188.9771)">
+      <g
+         id="g867"
+         transform="matrix(0.31002331,0,0,2.2844887,0.08375204,13.810804)">
+        <line
+           style="stroke:currentColor;stroke-width:0.25815895;stroke-linecap:round;stroke-linejoin:round"
+           id="line869"
+           y2="0"
+           x2="80.938499"
+           y1="0"
+           x1="0.042417582" />
+      </g>
+      <g
+         id="g871"
+         transform="matrix(0.31002331,0,0,2.2844887,0.08375204,11.526315)">
+        <line
+           style="stroke:currentColor;stroke-width:0.25815895;stroke-linecap:round;stroke-linejoin:round"
+           id="line873"
+           y2="0"
+           x2="80.938499"
+           y1="0"
+           x1="0.042417582" />
+      </g>
+      <g
+         id="g875"
+         transform="matrix(0.31002331,0,0,2.2844887,0.08375204,9.2418271)">
+        <line
+           style="stroke:currentColor;stroke-width:0.25815895;stroke-linecap:round;stroke-linejoin:round"
+           id="line877"
+           y2="0"
+           x2="80.938499"
+           y1="0"
+           x1="0.042417582" />
+      </g>
+      <g
+         id="g879"
+         transform="matrix(0.31002331,0,0,2.2844887,0.08375204,6.9573391)">
+        <line
+           style="stroke:currentColor;stroke-width:0.25815895;stroke-linecap:round;stroke-linejoin:round"
+           id="line881"
+           y2="0"
+           x2="80.938499"
+           y1="0"
+           x1="0.042417582" />
+      </g>
+      <g
+         id="g883"
+         transform="matrix(0.31002331,0,0,2.2844887,0.08375204,4.6728501)">
+        <line
+           style="stroke:currentColor;stroke-width:0.25815895;stroke-linecap:round;stroke-linejoin:round"
+           id="line885"
+           y2="0"
+           x2="80.938499"
+           y1="0"
+           x1="0.042417582" />
+      </g>
+    </g>
+    <g
+       transform="matrix(0.6916445,0,0,1.0441636,258.12205,4482.6737)"
        id="g9067">
       <path
          inkscape:connector-curvature="0"
