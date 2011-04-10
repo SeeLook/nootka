@@ -17,24 +17,28 @@
  ***************************************************************************/
 
 
-#ifndef EXAMSETTINGSDLG_H
-#define EXAMSETTINGSDLG_H
+#ifndef LEVELSETTINGS_H
+#define LEVELSETTINGS_H
 
-#include "../tsettingsdialogbase.h"
-#include "levelsettings.h"
+#include <QtGui>
+#include "tlevelsummarywdg.h"
 
-class examSettingsDlg : public TsettingsDialogBase
+
+class levelSettings : public QWidget
 {
     Q_OBJECT
 public:
-    explicit examSettingsDlg(QWidget *parent = 0);
+    explicit levelSettings(QWidget *parent = 0);
 
 signals:
 
 public slots:
 
 private:
-    levelSettings *levelSett;
+    QPushButton *saveBut, *loadBut;
+    QListWidget *levelsList;
+    TlevelSummaryWdg *summWdg;
+
 };
 
-#endif // EXAMSETTINGSDLG_H
+#endif // LEVELSETTINGS_H

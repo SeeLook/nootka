@@ -25,5 +25,9 @@ examSettingsDlg::examSettingsDlg(QWidget *parent) :
     navList->addItem(tr("Levels"));
     navList->addItem(tr("Range"));
 
+    levelSett = new levelSettings();
+
+    stackLayout->addWidget(levelSett);
+
     navList->setCurrentRow(0);
 }

@@ -17,24 +17,35 @@
  ***************************************************************************/
 
 
-#ifndef EXAMSETTINGSDLG_H
-#define EXAMSETTINGSDLG_H
-
-#include "../tsettingsdialogbase.h"
 #include "levelsettings.h"
 
-class examSettingsDlg : public TsettingsDialogBase
+levelSettings::levelSettings(QWidget *parent) :
+    QWidget(parent)
 {
-    Q_OBJECT
-public:
-    explicit examSettingsDlg(QWidget *parent = 0);
+    QHBoxLayout *mainLay = new QHBoxLayout;
 
-signals:
+    QVBoxLayout *levLay = new QVBoxLayout;
+    QLabel *levLab = new QLabel(tr("Levels:"),this);
+    levLay->addWidget(levLab);
+    levelsList = new QListWidget(this);
+    levLay->addWidget(levelsList);
+    levLay->addStretch(1);
 
-public slots:
+    QHBoxLayout *butLay = new QHBoxLayout;
+    saveBut = new QPushButton(tr("Save"),this);
+    butLay->addWidget(saveBut);
+    loadBut = new QPushButton(tr("Load"),this);
+    butLay->addWidget(loadBut);
+    levLay->addLayout(butLay);
+    levLay->addStretch(1);
 
-private:
-    levelSettings *levelSett;
-};
 
-#endif // EXAMSETTINGSDLG_H
+    mainLay->addLayout(levLay);
+
+    summWdg = new TlevelSummaryWdg(this);
+    mainLay->addWidget(summWdg);
+
+    setLayout(mainLay);
+
+
+}
