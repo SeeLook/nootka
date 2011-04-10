@@ -17,24 +17,17 @@
  ***************************************************************************/
 
 
-#ifndef EXAMSETTINGSDLG_H
-#define EXAMSETTINGSDLG_H
+#include "tlevelsummarywdg.h"
 
-#include "../tsettingsdialogbase.h"
-#include "levelsettings.h"
-
-class examSettingsDlg : public TsettingsDialogBase
+TlevelSummaryWdg::TlevelSummaryWdg(QWidget *parent) :
+    QWidget(parent)
 {
-    Q_OBJECT
-public:
-    explicit examSettingsDlg(QWidget *parent = 0);
+    QVBoxLayout *mainLay = new QVBoxLayout;
+    QLabel *headLab = new QLabel(tr("Level summary:"),this);
+    mainLay->addWidget(headLab);
+    summLab = new QLabel(this);
+    mainLay->addWidget(summLab);
+    setLayout(mainLay);
 
-signals:
-
-public slots:
-
-private:
-    levelSettings *levelSett;
-};
-
-#endif // EXAMSETTINGSDLG_H
+    summLab->setText("Here will be<br>exam's level summary.");
+}

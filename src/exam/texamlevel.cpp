@@ -17,24 +17,8 @@
  ***************************************************************************/
 
 
-#ifndef EXAMSETTINGSDLG_H
-#define EXAMSETTINGSDLG_H
+#include "texamlevel.h"
 
-#include "../tsettingsdialogbase.h"
-#include "levelsettings.h"
-
-class examSettingsDlg : public TsettingsDialogBase
+TexamLevel::TexamLevel()
 {
-    Q_OBJECT
-public:
-    explicit examSettingsDlg(QWidget *parent = 0);
-
-signals:
-
-public slots:
-
-private:
-    levelSettings *levelSett;
-};
-
-#endif // EXAMSETTINGSDLG_H
+}
