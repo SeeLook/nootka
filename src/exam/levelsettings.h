@@ -23,7 +23,8 @@
 #include <QtGui>
 #include "tlevelsummarywdg.h"
 
-
+    /** This widget contain general level settings and belongs to
+    @class examsettings dialog.*/
 class levelSettings : public QWidget
 {
     Q_OBJECT

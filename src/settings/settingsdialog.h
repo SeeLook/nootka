@@ -20,10 +20,10 @@
 #define SETTINGSDIALOG_H
 
 #include <QtGui>
-#include "tnote.h"
-#include "ttune.h"
-#include "tscorewidgetsimple.h"
-#include  "tsettingsdialogbase.h"
+#include "../tnote.h"
+#include "../ttune.h"
+#include "../tscorewidgetsimple.h"
+#include "../tsettingsdialogbase.h"
 
 
 
