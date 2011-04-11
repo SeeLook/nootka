@@ -2,7 +2,6 @@ TNOTEVIEW
     - when it is resizing accidental symbols leave trash on screen
 
 SETTINGS DIALOG
-    - some strange window during creation a dialog window
     - disable maximize button on titlebar
 
 TSCOREWIDGETSIMPLE
