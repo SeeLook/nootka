@@ -20,6 +20,7 @@
 #ifndef TEXAMLEVEL_H
 #define TEXAMLEVEL_H
 
+    /** This class describes exam's level.*/
 class TexamLevel
 {
 public:

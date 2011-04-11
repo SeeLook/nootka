@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "settingsdialog.h"
+#include "settings/settingsdialog.h"
 #include "mainwindow.h"
 #include "tglobals.h"
 #include "exam/examsettingsdlg.h"

@@ -6,10 +6,11 @@ add_definitions(${QT_DEFINITIONS})
 
 #include_directories(${QT_INCLUDES})
 
+# add_subdirectory(src)
+
 SET( NOOTKA_SRCS
   ./src/main.cpp
   ./src/mainwindow.cpp
-  ./src/settingsdialog.cpp
   ./src/tsettingsdialogbase.cpp
   ./src/tglobals.cpp
   ./src/tkeysignatureview.cpp
@@ -21,7 +22,9 @@ SET( NOOTKA_SRCS
   ./src/tfingerboard.cpp
   ./src/ttune.cpp
   ./src/tfingerpos.h
-
+###### Settings
+  ./src/settings/settingsdialog.cpp
+###### Exam
   ./src/exam/examsettingsdlg.cpp
   ./src/exam/texamlevel.cpp
   ./src/exam/levelsettings.cpp
@@ -33,7 +36,6 @@ SET( NOOTKA_SRCS
   
 SET( NOOTKA_MOC_SRCS
   ./src/mainwindow.h
-  ./src/settingsdialog.h
   ./src/tsettingsdialogbase.h
   ./src/tkeysignatureview.h
   ./src/tnoteview.h
@@ -41,7 +43,9 @@ SET( NOOTKA_MOC_SRCS
   ./src/tscorewidgetsimple.h
   ./src/tnotename.h
   ./src/tfingerboard.h
-
+###### Settings
+  ./src/settings/settingsdialog.h
+###### Exam
   ./src/exam/examsettingsdlg.h
   ./src/exam/levelsettings.h
   ./src/exam/tlevelsummarywdg.h
@@ -92,5 +96,4 @@ IF (UNIX AND NOT APPLE)
 ENDIF (UNIX AND NOT APPLE)
 
 
-# add_subdirectory(src)
 # add_subdirectory(picts)

@@ -27,6 +27,7 @@ TlevelSummaryWdg::TlevelSummaryWdg(QWidget *parent) :
     mainLay->addWidget(headLab);
     summLab = new QLabel(this);
     mainLay->addWidget(summLab);
+    mainLay->addStretch(1);
     setLayout(mainLay);
 
     summLab->setText("Here will be<br>exam's level summary.");

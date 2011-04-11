@@ -23,6 +23,7 @@
 #include "../tsettingsdialogbase.h"
 #include "levelsettings.h"
 
+    /** This is dialog box with all settings for exams */
 class examSettingsDlg : public TsettingsDialogBase
 {
     Q_OBJECT

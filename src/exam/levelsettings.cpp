@@ -35,6 +35,7 @@ levelSettings::levelSettings(QWidget *parent) :
     saveBut = new QPushButton(tr("Save"),this);
     butLay->addWidget(saveBut);
     loadBut = new QPushButton(tr("Load"),this);
+    loadBut->setStatusTip(tr("Load exam's level from file"));
     butLay->addWidget(loadBut);
     levLay->addLayout(butLay);
     levLay->addStretch(1);
