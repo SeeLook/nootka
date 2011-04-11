@@ -17,21 +17,45 @@
  ***************************************************************************/
 
 
-#include "examsettingsdlg.h"
+#ifndef QUESTIONSSETTINGS_H
+#define QUESTIONSSETTINGS_H
 
-examSettingsDlg::examSettingsDlg(QWidget *parent) :
-    TsettingsDialogBase(parent)
+#include <QtGui>
+
+class questionsSettings : public QWidget
 {
-    navList->addItem(tr("Levels"));
-    navList->addItem(tr("Questions"));
+    Q_OBJECT
+public:
+    explicit questionsSettings(QWidget *parent = 0);
 
-    levelSett = new levelSettings();
-    questSett = new questionsSettings();
 
-    stackLayout->addWidget(levelSett);
-    stackLayout->addWidget(questSett);
 
-    connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
+signals:
 
-    navList->setCurrentRow(0);
-}
+public slots:
+
+private:
+    QToolBox *questAsToolBox;
+
+
+};
+
+
+
+class TasNoteWdg : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit TasNoteWdg(QWidget *parent = 0);
+};
+
+
+
+class TasNameWdg : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit TasNameWdg(QWidget *parent = 0);
+};
+
+#endif // QUESTIONSSETTINGS_H

@@ -17,21 +17,39 @@
  ***************************************************************************/
 
 
-#include "examsettingsdlg.h"
+#include "questionssettings.h"
 
-examSettingsDlg::examSettingsDlg(QWidget *parent) :
-    TsettingsDialogBase(parent)
+questionsSettings::questionsSettings(QWidget *parent) :
+    QWidget(parent)
 {
-    navList->addItem(tr("Levels"));
-    navList->addItem(tr("Questions"));
+    questAsToolBox = new QToolBox(this);
+    QVBoxLayout *mainLay = new QVBoxLayout;
+    QLabel *headLab = new QLabel(tr("Questions & answers"),this);
+    mainLay->addWidget(headLab, 0, Qt::AlignCenter);
+    mainLay->addWidget(questAsToolBox);
+    setLayout(mainLay);
 
-    levelSett = new levelSettings();
-    questSett = new questionsSettings();
+    TasNoteWdg *asNoteWdg = new TasNoteWdg();
+    TasNameWdg *asNameWdg = new TasNameWdg();
 
-    stackLayout->addWidget(levelSett);
-    stackLayout->addWidget(questSett);
+    questAsToolBox->addItem(asNoteWdg, tr("as a note in score"));
+    questAsToolBox->addItem(asNameWdg, tr("as a note's name"));
 
-    connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
+}
 
-    navList->setCurrentRow(0);
+
+//################################################################
+
+TasNoteWdg::TasNoteWdg(QWidget *parent) :
+    QWidget(parent)
+{
+
+}
+
+
+
+TasNameWdg::TasNameWdg(QWidget *parent) :
+    QWidget(parent)
+{
+
 }

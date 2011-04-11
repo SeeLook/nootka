@@ -22,6 +22,7 @@
 
 #include "../tsettingsdialogbase.h"
 #include "levelsettings.h"
+#include "questionssettings.h"
 
     /** This is dialog box with all settings for exams */
 class examSettingsDlg : public TsettingsDialogBase
@@ -36,6 +37,8 @@ public slots:
 
 private:
     levelSettings *levelSett;
+    questionsSettings *questSett;
+
 };
 
 #endif // EXAMSETTINGSDLG_H

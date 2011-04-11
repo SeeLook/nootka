@@ -28,6 +28,7 @@ SET( NOOTKA_SRCS
   ./src/exam/examsettingsdlg.cpp
   ./src/exam/texamlevel.cpp
   ./src/exam/levelsettings.cpp
+  ./src/exam/questionssettings.cpp
   ./src/exam/tlevelsummarywdg.cpp
   )
 #SET( NOOTKA_HEADERS
@@ -48,6 +49,7 @@ SET( NOOTKA_MOC_SRCS
 ###### Exam
   ./src/exam/examsettingsdlg.h
   ./src/exam/levelsettings.h
+  ./src/exam/questionssettings.h
   ./src/exam/tlevelsummarywdg.h
   )
 
@@ -71,7 +73,8 @@ ADD_DEFINITIONS(-DQT_NO_DEBUG)
 ADD_EXECUTABLE( nootka
         ${NOOTKA_SRCS}
         ${NOOTKA_MOCS}
-        ${NOOTKA_RCC_SRCS} )
+#        ${NOOTKA_RCC_SRCS}
+)
 TARGET_LINK_LIBRARIES(nootka
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
