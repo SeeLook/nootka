@@ -17,30 +17,28 @@
  ***************************************************************************/
 
 
-#ifndef EXAMSETTINGSDLG_H
-#define EXAMSETTINGSDLG_H
+#ifndef RANGESETTINGS_H
+#define RANGESETTINGS_H
 
-#include "../tsettingsdialogbase.h"
-#include "levelsettings.h"
-#include "questionssettings.h"
-#include "rangesettings.h"
+#include <QWidget>
+#include "../tscorewidgetsimple.h"
 
-    /** This is dialog box with all settings for exams */
-class examSettingsDlg : public TsettingsDialogBase
+class rangeSettings : public QWidget
 {
     Q_OBJECT
 public:
-    explicit examSettingsDlg(QWidget *parent = 0);
+    explicit rangeSettings(QWidget *parent = 0);
 
 signals:
 
 public slots:
 
 private:
-    levelSettings *levelSett;
-    questionsSettings *questSett;
-    rangeSettings *rangeSett;
+    TscoreWidgetSimple *scoreRang;
+    QSpinBox *fromSpinB, *toSpinB;
+    QPushButton *stringBut[6];
+    QCheckBox *highetsStrChBox, *currKeySignChBox;
 
 };
 
-#endif // EXAMSETTINGSDLG_H
+#endif // RANGESETTINGS_H

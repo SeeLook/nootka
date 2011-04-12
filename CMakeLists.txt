@@ -30,6 +30,7 @@ SET( NOOTKA_SRCS
   ./src/exam/levelsettings.cpp
   ./src/exam/questionssettings.cpp
   ./src/exam/tlevelsummarywdg.cpp
+  ./src/exam/rangesettings.cpp
   )
 #SET( NOOTKA_HEADERS
 #    ./src/tfingerpos.h
@@ -51,6 +52,7 @@ SET( NOOTKA_MOC_SRCS
   ./src/exam/levelsettings.h
   ./src/exam/questionssettings.h
   ./src/exam/tlevelsummarywdg.h
+  ./src/exam/rangesettings.h
   )
 
 #SET( NOOTKA_RCCS

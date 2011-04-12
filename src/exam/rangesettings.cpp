@@ -17,30 +17,24 @@
  ***************************************************************************/
 
 
-#ifndef EXAMSETTINGSDLG_H
-#define EXAMSETTINGSDLG_H
-
-#include "../tsettingsdialogbase.h"
-#include "levelsettings.h"
-#include "questionssettings.h"
 #include "rangesettings.h"
 
-    /** This is dialog box with all settings for exams */
-class examSettingsDlg : public TsettingsDialogBase
+rangeSettings::rangeSettings(QWidget *parent) :
+    QWidget(parent)
 {
-    Q_OBJECT
-public:
-    explicit examSettingsDlg(QWidget *parent = 0);
+    QVBoxLayout *mainLay = new QVBoxLayout;
 
-signals:
+    QHBoxLayout *allLay = new QHBoxLayout;
 
-public slots:
+    QVBoxLayout *scoreLay = new QVBoxLayout;
+    scoreRang = new TscoreWidgetSimple(2, this);
+    QLabel *notesRangLab = new QLabel(tr("Range of the notes:"),this);
+    scoreLay->addWidget(notesRangLab);
+    scoreLay->addWidget(scoreRang);
 
-private:
-    levelSettings *levelSett;
-    questionsSettings *questSett;
-    rangeSettings *rangeSett;
+    allLay->addLayout(scoreLay);
 
-};
+    mainLay->addLayout(allLay);
 
-#endif // EXAMSETTINGSDLG_H
+    setLayout(mainLay);
+}
