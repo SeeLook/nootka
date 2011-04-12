@@ -24,12 +24,15 @@ examSettingsDlg::examSettingsDlg(QWidget *parent) :
 {
     navList->addItem(tr("Levels"));
     navList->addItem(tr("Questions"));
+    navList->addItem(tr("Range"));
 
     levelSett = new levelSettings();
     questSett = new questionsSettings();
+    rangeSett = new rangeSettings();
 
     stackLayout->addWidget(levelSett);
     stackLayout->addWidget(questSett);
+    stackLayout->addWidget(rangeSett);
 
     connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
 
