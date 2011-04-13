@@ -1,3 +1,5 @@
+############################################
+
 INCLUDE_DIRECTORIES (. exam score settings )
 
 SET( NOOTKA_SRCS
