@@ -28,6 +28,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
 
     QVBoxLayout *scoreLay = new QVBoxLayout;
     scoreRang = new TscoreWidgetSimple(2, this);
+    scoreRang->setFixedWidth(160);
     QGroupBox *notesRangGr = new QGroupBox(tr("Notes' range:"),this);
     scoreLay->addWidget(scoreRang);
     notesRangGr->setLayout(scoreLay);
@@ -43,6 +44,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
     toSpinB = new QSpinBox(this);
     fretLay->addWidget(fromLab);
     fretLay->addWidget(fromSpinB);
+    fretLay->addStretch(1);
     fretLay->addWidget(toLab);
     fretLay->addWidget(toSpinB);
     fretGr->setLayout(fretLay);
