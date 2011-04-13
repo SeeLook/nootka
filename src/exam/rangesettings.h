@@ -37,7 +37,7 @@ private:
     TscoreWidgetSimple *scoreRang;
     QSpinBox *fromSpinB, *toSpinB;
     QPushButton *stringBut[6];
-    QCheckBox *highetsStrChBox, *currKeySignChBox;
+    QCheckBox *hiStrOnlyChBox, *currKeySignChBox;
 
 };
 

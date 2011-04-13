@@ -28,13 +28,51 @@ rangeSettings::rangeSettings(QWidget *parent) :
 
     QVBoxLayout *scoreLay = new QVBoxLayout;
     scoreRang = new TscoreWidgetSimple(2, this);
-    QLabel *notesRangLab = new QLabel(tr("Range of the notes:"),this);
-    scoreLay->addWidget(notesRangLab);
+    QGroupBox *notesRangGr = new QGroupBox(tr("Notes' range:"),this);
     scoreLay->addWidget(scoreRang);
+    notesRangGr->setLayout(scoreLay);
 
-    allLay->addLayout(scoreLay);
+    allLay->addWidget(notesRangGr);
+
+    QVBoxLayout *guitLay = new QVBoxLayout;
+    QGroupBox *fretGr = new QGroupBox(tr("frets' range:"),this);
+    QHBoxLayout *fretLay = new QHBoxLayout;
+    QLabel *fromLab = new QLabel(tr("from"),this);
+    fromSpinB = new QSpinBox(this);
+    QLabel *toLab = new QLabel(tr("to"),this);
+    toSpinB = new QSpinBox(this);
+    fretLay->addWidget(fromLab);
+    fretLay->addWidget(fromSpinB);
+    fretLay->addWidget(toLab);
+    fretLay->addWidget(toSpinB);
+    fretGr->setLayout(fretLay);
+    guitLay->addWidget(fretGr);
+    guitLay->addStretch(1);
+
+    QGroupBox *stringsGr = new QGroupBox(tr("avaiable strings:"),this);
+    QGridLayout *strLay = new QGridLayout;
+    for (int i=0; i<6; i++) {
+        stringBut[i] = new QPushButton(QString("%1").arg(i+1),this);
+        stringBut[i]->setCheckable(true);
+        if (i<3)
+            strLay->addWidget(stringBut[i],1,i+1,0);
+        else
+            strLay->addWidget(stringBut[i],2,i-2,0);
+    }
+    stringsGr->setLayout(strLay);
+    guitLay->addWidget(stringsGr);
+    guitLay->addStretch(1);
+
+    allLay->addLayout(guitLay);
 
     mainLay->addLayout(allLay);
+    mainLay->addStretch(1);
+
+    hiStrOnlyChBox = new QCheckBox(tr("notes on the highest string only"),this);
+    hiStrOnlyChBox->setStatusTip(tr("If checked, only simple possibility of a note are required.<br>- without variants of a note on another strings."));
+    mainLay->addWidget(hiStrOnlyChBox);
+    currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);
+    mainLay->addWidget(currKeySignChBox);
 
     setLayout(mainLay);
 }
