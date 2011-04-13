@@ -1,3 +1,4 @@
+INCLUDE_DIRECTORIES (. exam settings )
 
 SET( NOOTKA_SRCS
   main.cpp
