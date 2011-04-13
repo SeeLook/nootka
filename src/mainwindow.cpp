@@ -19,7 +19,7 @@
 #include "settings/settingsdialog.h"
 #include "mainwindow.h"
 #include "tglobals.h"
-#include "exam/examsettingsdlg.h"
+#include "examsettingsdlg.h"
 #include <QDebug>
 
 Tglobals *gl = new Tglobals();
