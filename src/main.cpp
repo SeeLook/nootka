@@ -18,8 +18,8 @@
 
 #include <QtGui/QApplication>
 #include "mainwindow.h"
-#include "tglobals.h"
-#include <QDebug>
+//#include "tglobals.h"
+//#include <QDebug>
 
 int main(int argc, char *argv[])
 {
@@ -30,7 +30,8 @@ int main(int argc, char *argv[])
     QStringList fl = QStringList(fd.families(QFontDatabase::Any));
     if (! fl.contains("Emmentaler")) {
         int nr[8] =  {11,13,14,16,18,20,23,26};
-        QString pth = Tglobals::getInstPath();
+//        QString pth = Tglobals::getInstPath();
+        QString pth = qApp->applicationDirPath();
         for (int i=0; i<8; i++) {
             int id;
             id = fd.addApplicationFont(QString(pth+"fonts/emmentaler-%1.otf").arg(nr[i]));

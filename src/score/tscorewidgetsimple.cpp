@@ -96,7 +96,7 @@ void TscoreWidgetSimple::paintEvent(QPaintEvent *) {
         painter.drawLine(5,(i*coeff),width()-55,(i*coeff));
     painter.setFont(QFont("Emmentaler",coeff*5));
     painter.drawText(QRect(1,qRound(12.6*coeff),coeff*5,coeff*18),Qt::AlignLeft,QString(QChar(0xe1a7)));
-    painter.setFont(QFont("Emmentaler",coeff*2));
+    painter.setFont(QFont("Emmentaler", qRound(coeff*1.5)));
     painter.drawText(QRect(1,qRound(26*coeff),coeff*5,coeff*5),Qt::AlignCenter,"8");
 
 /**

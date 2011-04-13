@@ -7,7 +7,8 @@
 QString Tglobals::getInstPath() {
     QString p = "";
 #if defined(Q_OS_LINUX)
-    QDir d = QDir(QApplication::applicationDirPath());
+//    QDir d = QDir(QApplication::applicationDirPath());
+    QDir d = QDir(qApp->applicationDirPath());
     d.cdUp();
     p = d.path()+"/share/nootka/"; //Linux
 #endif
