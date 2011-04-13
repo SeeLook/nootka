@@ -21,7 +21,7 @@
 #define RANGESETTINGS_H
 
 #include <QWidget>
-#include "../tscorewidgetsimple.h"
+#include "tscorewidgetsimple.h"
 
 class rangeSettings : public QWidget
 {

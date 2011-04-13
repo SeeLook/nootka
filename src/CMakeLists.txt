@@ -1,21 +1,22 @@
-INCLUDE_DIRECTORIES (. exam settings )
+INCLUDE_DIRECTORIES (. exam score settings )
 
 SET( NOOTKA_SRCS
   main.cpp
   mainwindow.cpp
-  tsettingsdialogbase.cpp
   tglobals.cpp
-  tkeysignatureview.cpp
   tnote.cpp
-  tnoteview.cpp
-  tscorewidget.cpp
-  tscorewidgetsimple.cpp
   tnotename.cpp
   tfingerboard.cpp
   ttune.cpp
   tfingerpos.h
+###### Score
+  score/tnoteview.cpp
+  score/tscorewidget.cpp
+  score/tscorewidgetsimple.cpp
+  score/tkeysignatureview.cpp
 ###### Settings
   settings/settingsdialog.cpp
+  settings/tsettingsdialogbase.cpp
 ###### Exam
   exam/examsettingsdlg.cpp
   exam/texamlevel.cpp
@@ -30,15 +31,17 @@ SET( NOOTKA_SRCS
   
 SET( NOOTKA_MOC_SRCS
   mainwindow.h
-  tsettingsdialogbase.h
-  tkeysignatureview.h
-  tnoteview.h
-  tscorewidget.h
-  tscorewidgetsimple.h
   tnotename.h
   tfingerboard.h
+###### Score
+  score/tnoteview.h
+  score/tscorewidget.h
+  score/tscorewidgetsimple.h
+  score/tkeysignatureview.h
+  score/tkeysignatureview.h
 ###### Settings
   settings/settingsdialog.h
+  settings/tsettingsdialogbase.h
 ###### Exam
   exam/examsettingsdlg.h
   exam/levelsettings.h

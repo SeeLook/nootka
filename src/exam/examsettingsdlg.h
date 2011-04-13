@@ -20,7 +20,7 @@
 #ifndef EXAMSETTINGSDLG_H
 #define EXAMSETTINGSDLG_H
 
-#include "../tsettingsdialogbase.h"
+#include "tsettingsdialogbase.h"
 #include "levelsettings.h"
 #include "questionssettings.h"
 #include "rangesettings.h"
