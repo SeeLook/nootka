@@ -17,49 +17,27 @@
  ***************************************************************************/
 
 
-#ifndef QUESTIONSSETTINGS_H
-#define QUESTIONSSETTINGS_H
+#ifndef TQUESTIONASWDG_H
+#define TQUESTIONASWDG_H
 
 #include <QtGui>
-#include "tquestionaswdg.h"
 
-class questionsSettings : public QWidget
+class TquestionAsWdg : public QGroupBox
 {
     Q_OBJECT
 public:
-    explicit questionsSettings(QWidget *parent = 0);
+    explicit TquestionAsWdg(QWidget *parent = 0);
 
-
+    static QString questionTxt, questionsTxt, answerTxt, answersTxt;
+    static QString asNoteTxt, asNameTxt, asFretPosTxt, asSoundTxt;
 
 signals:
 
 public slots:
 
 private:
-    QToolBox *questAsToolBox;
-
+    QCheckBox *asNoteChB, *asNameChB, *asFretPosChB, *asSoundChB;
 
 };
 
-
-
-class TasNoteWdg : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit TasNoteWdg(QWidget *parent = 0);
-
-private:
-    TquestionAsWdg *asNoteGr;
-};
-
-
-
-class TasNameWdg : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit TasNameWdg(QWidget *parent = 0);
-};
-
-#endif // QUESTIONSSETTINGS_H
+#endif // TQUESTIONASWDG_H

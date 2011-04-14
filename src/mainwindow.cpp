@@ -20,7 +20,7 @@
 #include "mainwindow.h"
 #include "tglobals.h"
 #include "examsettingsdlg.h"
-#include <QDebug>
+//#include <QDebug>
 
 Tglobals *gl = new Tglobals();
 
@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
 
+    gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
 
     statusBar()->showMessage("Nootka " + gl->version);
 

@@ -4,11 +4,10 @@
 
 
 /*static*/
-QString Tglobals::getInstPath() {
+QString Tglobals::getInstPath(QString appInstPath) {
     QString p = "";
 #if defined(Q_OS_LINUX)
-//    QDir d = QDir(QApplication::applicationDirPath());
-    QDir d = QDir(qApp->applicationDirPath());
+    QDir d = QDir(appInstPath);
     d.cdUp();
     p = d.path()+"/share/nootka/"; //Linux
 #endif
@@ -18,7 +17,7 @@ QString Tglobals::getInstPath() {
 Tglobals::Tglobals() {
 
     version = "0.5 alpha";
-    path = getInstPath();
+//    path ; Is declared in mainWindow constructor
 
 //score widget settings
     keySignatureEnabled = true;
@@ -32,6 +31,8 @@ Tglobals::Tglobals() {
     doubleAccidentalsEnabled = true;
     showEnharmNotes = true;
     enharmNotesColor = -1;
+    seventhIs_B = true;
+
 
 
 //note name settings

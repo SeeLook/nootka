@@ -38,9 +38,11 @@ public:
         /** This method return application install path.
         * Under Windows is empty,
         * in Linux is usually /usr/bin or /usr/local/bin */
-    static QString getInstPath();
+    static QString getInstPath(QString appInstPath);
     QString path;
     QString version;
+
+
         /** Let's have a convention:
         * globals settings for TnoteName will started from 'N' letter
         * and for guitar (TfingerBoard) from 'G' letter*/
@@ -67,6 +69,8 @@ public:
         * as inversion of highlight color from palette() and put to TnoteName,
         * otherwise is taken from saved settings. */
     QColor enharmNotesColor;
+        /** To determine notes' names */
+    bool seventhIs_B; //default true
 
 
 //note name settings
