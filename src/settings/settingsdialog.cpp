@@ -107,7 +107,7 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
 
     QHBoxLayout *upLay = new QHBoxLayout;
     QGroupBox *tuneGr = new QGroupBox(tr("tune of the guitar"));
-    tuneGr->setStatusTip(tr("Select appropirate tune from list or prepare your own."));
+    tuneGr->setStatusTip(tr("Select appropirate tune from the list or prepare your own."));
     QVBoxLayout *tuneLay = new QVBoxLayout;
     tuneLay->setAlignment(Qt::AlignCenter);
     tuneCombo = new QComboBox(this);
@@ -137,7 +137,7 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     hfLay->addStretch(1);
     righthandCh = new QCheckBox(tr("guitar for right-handed"),this);
     righthandCh->setChecked(gl->GisRightHanded);
-    righthandCh->setStatusTip(tr("Uncheck this if you are lefthanded<br>and your gitar has changed strings order"));
+    righthandCh->setStatusTip(tr("Uncheck this if you are lefthanded<br>and your gitar has changed strings' order"));
     hfLay->addWidget(righthandCh);
     hfLay->addStretch(1);
     QLabel *fretLab = new QLabel(tr("number of frets:"),this);
@@ -157,7 +157,7 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     QHBoxLayout *downLay = new QHBoxLayout;
     QVBoxLayout *prefLay = new QVBoxLayout;
     QGroupBox *prefBox = new QGroupBox(tr("prefered accidentals:"),this);
-    prefBox->setStatusTip(tr("Choose which accidentals will be shown in score."));
+    prefBox->setStatusTip(tr("Choose which accidentals will be shown in the score."));
     prefSharpBut = new QRadioButton(tr("# - sharps"),this);
     prefFlatBut = new  QRadioButton(tr("b - flats"),this);
     QButtonGroup *prefGr = new QButtonGroup(this);
@@ -172,7 +172,7 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     downLay->addWidget(prefBox);
 
     morePosCh = new QCheckBox(tr("show all possibilities of a note"),this);
-    morePosCh->setStatusTip(tr("As you know, the same note can be played in few places on a fingerboard.<br>If checked all of them are showed."));
+    morePosCh->setStatusTip(tr("As you know, the same note can be played in few places on a fingerboard.<br>If checked, all of them are showed."));
     downLay->addWidget(morePosCh);
     morePosCh->setChecked(gl->GshowOtherPos);
 
@@ -221,8 +221,8 @@ GlobalSettings::GlobalSettings(QWidget *parent) :
 {
     QVBoxLayout *lay = new QVBoxLayout();
     lay->setAlignment(Qt::AlignCenter);
-    otherEnharmChBox = new QCheckBox(tr("show other enharmonics variants of note"),this);
-    otherEnharmChBox->setStatusTip(tr("Shows enharmonical variants of note.<br>F.e.: E note is also Fb (F flat) and Dx (D with double sharp)."));
+    otherEnharmChBox = new QCheckBox(tr("show other enharmonics variants of a note"),this);
+    otherEnharmChBox->setStatusTip(tr("Shows enharmonical variants of a note.<br>F.e.: E note is also Fb (F flat) and Dx (D with double sharp)."));
     otherEnharmChBox->setChecked(gl->showEnharmNotes);
     lay->addWidget(otherEnharmChBox);
     dblAccChBox = new QCheckBox(tr("use double accidentals"),this);
@@ -247,9 +247,9 @@ NameSettings::NameSettings(QWidget *parent) :
     mainLay->setAlignment(Qt::AlignCenter);
     nameStyleGr = new TnotationRadioGroup(gl->NnameStyleInNoteName, this);
     mainLay->addWidget(nameStyleGr);
-    octInNameCh = new QCheckBox(tr("show octave in note name"),this);
+    octInNameCh = new QCheckBox(tr("show octave in the note's name"),this);
     mainLay->addWidget(octInNameCh);
-    octInNameCh->setStatusTip(tr("Shows formated note name. For small octave - the name is small letter,<br>for great octave - the name starts with capital letter,<br>for one-line, digit <sup>1</sup> is added, and so on." ));
+    octInNameCh->setStatusTip(tr("Shows formated note's name. For small octave - the name is small letter,<br>for great octave - the name starts with a capital letter,<br>for one-line, digit <sup>1</sup> is added, and so on." ));
     octInNameCh->setChecked(gl->NoctaveInNoteNameFormat);
     mainLay->addStretch(1);
     setLayout(mainLay);
@@ -286,7 +286,7 @@ ScoreSettings::ScoreSettings(QWidget *parent) :
     nameExtGr = new QGroupBox(tr("Nameing extension"));
 
     QVBoxLayout *majLay = new QVBoxLayout();
-    majExtLab = new QLabel(tr("in major keys:"),this);
+    majExtLab = new QLabel(tr("in the major keys:"),this);
     majLay->addWidget(majExtLab,0,Qt::AlignCenter);
     majEdit = new QLineEdit(gl->majKeyNameSufix,this);
     majEdit->setMaxLength(10);
@@ -298,7 +298,7 @@ ScoreSettings::ScoreSettings(QWidget *parent) :
     majLay->addStretch(1);
 
     QVBoxLayout *minLay = new QVBoxLayout();
-    minExtLab = new QLabel(tr("in minor keys:"));
+    minExtLab = new QLabel(tr("in the minor keys:"));
     minLay->addWidget(minExtLab,0,Qt::AlignCenter);
     minEdit = new QLineEdit(gl->minKeyNameSufix,this);
     minEdit->setMaxLength(10);
