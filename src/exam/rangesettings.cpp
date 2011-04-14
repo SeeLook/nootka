@@ -71,7 +71,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
     mainLay->addStretch(1);
 
     hiStrOnlyChBox = new QCheckBox(tr("notes on the highest string only"),this);
-    hiStrOnlyChBox->setStatusTip(tr("If checked, only simple possibility of a note are required.<br>- without variants of a note on another strings."));
+    hiStrOnlyChBox->setStatusTip(tr("If checked, only simple possibility of a note are required<br>- without other variants of a note on another strings."));
     mainLay->addWidget(hiStrOnlyChBox);
     currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);
     mainLay->addWidget(currKeySignChBox);
