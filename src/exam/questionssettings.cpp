@@ -24,7 +24,7 @@ questionsSettings::questionsSettings(QWidget *parent) :
 {
     questAsToolBox = new QToolBox(this);
     QVBoxLayout *mainLay = new QVBoxLayout;
-    QLabel *headLab = new QLabel(tr("Questions & answers"),this);
+    QLabel *headLab = new QLabel(TquestionAsWdg::questionsTxt, this);
     mainLay->addWidget(headLab, 0, Qt::AlignCenter);
     mainLay->addWidget(questAsToolBox);
     setLayout(mainLay);
@@ -32,8 +32,8 @@ questionsSettings::questionsSettings(QWidget *parent) :
     TasNoteWdg *asNoteWdg = new TasNoteWdg();
     TasNameWdg *asNameWdg = new TasNameWdg();
 
-    questAsToolBox->addItem(asNoteWdg, tr("as a note in score"));
-    questAsToolBox->addItem(asNameWdg, tr("as a note's name"));
+    questAsToolBox->addItem(asNoteWdg, TquestionAsWdg::asNoteTxt);
+    questAsToolBox->addItem(asNameWdg, TquestionAsWdg::asNameTxt);
 
 }
 
@@ -43,7 +43,11 @@ questionsSettings::questionsSettings(QWidget *parent) :
 TasNoteWdg::TasNoteWdg(QWidget *parent) :
     QWidget(parent)
 {
-
+    QHBoxLayout *mainLay = new QHBoxLayout;
+    asNoteGr = new TquestionAsWdg(this);
+    mainLay->addWidget(asNoteGr);
+    mainLay->addStretch(1);
+    setLayout(mainLay);
 }
 
 

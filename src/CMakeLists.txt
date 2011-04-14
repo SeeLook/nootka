@@ -26,6 +26,7 @@ SET( NOOTKA_SRCS
   exam/questionssettings.cpp
   exam/tlevelsummarywdg.cpp
   exam/rangesettings.cpp
+  exam/tquestionaswdg.cpp
   )
 #SET( NOOTKA_HEADERS
 #    tfingerpos.h
@@ -50,6 +51,7 @@ SET( NOOTKA_MOC_SRCS
   exam/questionssettings.h
   exam/tlevelsummarywdg.h
   exam/rangesettings.h
+  exam/tquestionaswdg.h
   )
 
 QT4_WRAP_CPP( NOOTKA_MOCS ${NOOTKA_MOC_SRCS} )

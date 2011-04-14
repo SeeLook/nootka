@@ -17,49 +17,35 @@
  ***************************************************************************/
 
 
-#ifndef QUESTIONSSETTINGS_H
-#define QUESTIONSSETTINGS_H
-
-#include <QtGui>
 #include "tquestionaswdg.h"
 
-class questionsSettings : public QWidget
+/*static*/
+QString TquestionAsWdg::asNoteTxt = tr("as note in the score");
+QString TquestionAsWdg::asNameTxt = tr("as note's name");
+QString TquestionAsWdg::asFretPosTxt = tr("as position on the fingerboard");
+QString TquestionAsWdg::asSoundTxt = tr("as played sound");
+QString TquestionAsWdg::questionTxt = tr("question");
+QString TquestionAsWdg::questionsTxt = tr("questions");
+QString TquestionAsWdg::answerTxt = tr("answer");
+QString TquestionAsWdg::answersTxt = tr("answers");
+
+
+TquestionAsWdg::TquestionAsWdg(QWidget *parent) :
+    QGroupBox(parent)
 {
-    Q_OBJECT
-public:
-    explicit questionsSettings(QWidget *parent = 0);
+    QVBoxLayout *mainLay = new QVBoxLayout;
+    QLabel *answersLab = new QLabel(answersTxt+":",this);
+    mainLay->addWidget(answersLab,0,Qt::AlignCenter);
+    asNoteChB = new QCheckBox(asNoteTxt,this);
+    mainLay->addWidget(asNoteChB);
+    asNameChB = new QCheckBox(asNameTxt,this);
+    mainLay->addWidget(asNameChB);
+    asFretPosChB = new QCheckBox(asFretPosTxt,this);
+    mainLay->addWidget(asFretPosChB);
+    asSoundChB = new QCheckBox(asSoundTxt,this);
+    asSoundChB->setDisabled(true);
+    asSoundChB->setStatusTip(tr("not implemented yet"));
+    mainLay->addWidget(asSoundChB);
+    setLayout(mainLay);
 
-
-
-signals:
-
-public slots:
-
-private:
-    QToolBox *questAsToolBox;
-
-
-};
-
-
-
-class TasNoteWdg : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit TasNoteWdg(QWidget *parent = 0);
-
-private:
-    TquestionAsWdg *asNoteGr;
-};
-
-
-
-class TasNameWdg : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit TasNameWdg(QWidget *parent = 0);
-};
-
-#endif // QUESTIONSSETTINGS_H
+}
