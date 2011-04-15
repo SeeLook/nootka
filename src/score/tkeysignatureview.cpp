@@ -4,17 +4,14 @@
 #include <cstdlib>
 
 
-#include <iostream>
-
-//const qreal accidTextOffset = 6.8;
-
-
 extern Tglobals *gl;
 
 /*static*/
 char TkeySignatureView::majorKeySignatures[15][2] = { {1,-1},{5,-1},{2,-1},{6,-1},{3,-1},
                 {7,-1},{4,0},{1,0},{5,0},{2,0},{6,0},{3,0},{7,0},{4,1},{1,1} };
 char TkeySignatureView::minorKeySignatures[15][2] = { {6,-1},{3,-1},{7,-1},{4,0},{1,0},{5,0},{2,0},{6,0},{3,0},{7,0},{4,1},{1,1},{5,1},{2,1},{6,1} };
+QString TkeySignatureView::majorKeysNames[15] = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
+QString TkeySignatureView::minorKeysNames[15] = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
 
 
 TkeySignatureView::TkeySignatureView(TscoreWidgetSimple *parent, char _keySign) :
@@ -26,7 +23,7 @@ TkeySignatureView::TkeySignatureView(TscoreWidgetSimple *parent, char _keySign) 
     setStyleSheet(("background: transparent"));
     setRenderHint(QPainter::Antialiasing, true);
     setMouseTracking(true);
-    setStatusTip(tr("Use mouse wheel to change key signature"));
+    setStatusTip(tr("Use mouse wheel to change a key signature"));
 
     m_scene = new QGraphicsScene();
     setScene(m_scene);

@@ -36,8 +36,8 @@ public:
             /** The same like above, but for minor keys */
     static char minorKeySignatures[15][2];
             /** Arrays with string of names of major and minor keys.*/
-    /*static*/ QString majorKeysNames[15];
-    /*static*/ QString minorKeysNames[15];
+    static QString majorKeysNames[15];
+    static QString minorKeysNames[15];
             /** It sets fuses to block mouse wheel event and stop adding more flats or sharps*/
     void setKeysFuse(char flatFuse, char sharpFuse);
 

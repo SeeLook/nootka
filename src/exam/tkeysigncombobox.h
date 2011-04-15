@@ -17,59 +17,24 @@
  ***************************************************************************/
 
 
-#ifndef QUESTIONSSETTINGS_H
-#define QUESTIONSSETTINGS_H
+#ifndef TKEYSIGNCOMBOBOX_H
+#define TKEYSIGNCOMBOBOX_H
 
-#include <QtGui>
-#include "tquestionaswdg.h"
-#include "tkeysigncombobox.h"
+#include <QComboBox>
 
-class questionsSettings : public QWidget
+class TkeySignComboBox : public QComboBox
 {
     Q_OBJECT
 public:
-    explicit questionsSettings(QWidget *parent = 0);
-
-
+    explicit TkeySignComboBox(QWidget *parent = 0, bool isMinor = false);
 
 signals:
 
 public slots:
 
 private:
-    QToolBox *questAsToolBox;
-
+    bool m_isMinor;
 
 };
 
-
-
-class TasNoteWdg : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit TasNoteWdg(QWidget *parent = 0);
-
-private:
-    TquestionAsWdg *asNoteGr;
-    QGroupBox *accidGr, *keySignGr;
-    QRadioButton *singleKeyRadio, *rangeKeysRadio;
-    QRadioButton *majorOnlyRadio, *minorOnlyRadio, *bothKeysRadio;
-    QButtonGroup *rangeButGr, *modeButGr;
-    QCheckBox *sharpsChB, *flatsChB, *doubleAccChB;
-    TkeySignComboBox *fromKeyCombo, *toKeyCombo;
-};
-
-
-
-class TasNameWdg : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit TasNameWdg(QWidget *parent = 0);
-
-private:
-    TquestionAsWdg *asNameGr;
-};
-
-#endif // QUESTIONSSETTINGS_H
+#endif // TKEYSIGNCOMBOBOX_H

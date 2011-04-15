@@ -85,18 +85,18 @@ TscoreWidgetSimple::TscoreWidgetSimple(unsigned char _notesCount, QWidget *paren
 
 void TscoreWidgetSimple::paintEvent(QPaintEvent *) {
     QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
     painter.setWindow(0,0,width(),height());
 
     painter.setPen(QPen(palette().foreground().color()));
     painter.setBrush(QBrush(palette().base().color(),Qt::SolidPattern));
     painter.drawRoundedRect(1,1,width()-50,height()-2,coeff,coeff);
-//    painter.setPen(QPen(Qt::black));
+
     for (int i=16; i < 26; i += 2)
         painter.drawLine(5,(i*coeff),width()-55,(i*coeff));
-    painter.setFont(QFont("Emmentaler",coeff*5));
+    painter.setFont(QFont("Emmentaler",coeff*5,QFont::Normal));
     painter.drawText(QRect(1,qRound(12.6*coeff),coeff*5,coeff*18),Qt::AlignLeft,QString(QChar(0xe1a7)));
-    painter.setFont(QFont("Emmentaler", qRound(coeff*1.5)));
+    painter.setFont(QFont("Emmentaler", qRound(coeff*1.5),QFont::Normal));
     painter.drawText(QRect(1,qRound(26*coeff),coeff*5,coeff*5),Qt::AlignCenter,"8");
 
 /**

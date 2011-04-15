@@ -38,22 +38,83 @@ questionsSettings::questionsSettings(QWidget *parent) :
 }
 
 
-//################################################################
+//############################# AS NOTE IN SCORE ###################################
 
 TasNoteWdg::TasNoteWdg(QWidget *parent) :
     QWidget(parent)
 {
-    QHBoxLayout *mainLay = new QHBoxLayout;
+    QVBoxLayout *mainLay = new QVBoxLayout;
+
+    QHBoxLayout *upperLay = new QHBoxLayout;
     asNoteGr = new TquestionAsWdg(this);
-    mainLay->addWidget(asNoteGr);
-    mainLay->addStretch(1);
+    upperLay->addWidget(asNoteGr);
+
+    QVBoxLayout *accLay = new QVBoxLayout;
+    sharpsChB = new QCheckBox(tr("sharps"),this);
+    flatsChB = new QCheckBox(tr("flats"),this);
+    doubleAccChB = new QCheckBox(tr("double accidentals"),this);
+    accLay->addWidget(sharpsChB);
+    accLay->addWidget(flatsChB);
+    accLay->addWidget(doubleAccChB);
+    accidGr = new QGroupBox(tr("accidentals"),this);
+    accidGr->setCheckable(true);
+    accidGr->setLayout(accLay);
+    upperLay->addWidget(accidGr);
+
+    mainLay->addLayout(upperLay);
+
+    QHBoxLayout *keyLay = new QHBoxLayout;
+    keySignGr = new QGroupBox(tr("use keys singature"),this);
+    keySignGr->setCheckable(true);
+
+    QVBoxLayout *rangeLay = new QVBoxLayout;
+    singleKeyRadio = new QRadioButton(tr("single key"),this);
+    rangeKeysRadio = new QRadioButton(tr("range of keys"),this);
+    rangeButGr = new QButtonGroup(this);
+    rangeButGr->addButton(singleKeyRadio);
+    rangeButGr->addButton(rangeKeysRadio);
+    rangeLay->addWidget(singleKeyRadio);
+    rangeLay->addWidget(rangeKeysRadio);
+    QHBoxLayout *comboLay = new QHBoxLayout;
+    fromKeyCombo = new TkeySignComboBox(this,false);
+    toKeyCombo = new TkeySignComboBox(this,false);
+    comboLay->addWidget(fromKeyCombo);
+    comboLay->addStretch(1);
+    comboLay->addWidget(toKeyCombo);
+    rangeLay->addLayout(comboLay);
+    keyLay->addLayout(rangeLay);
+    keyLay->addStretch(1);
+
+    QVBoxLayout *modeLay = new QVBoxLayout;
+    majorOnlyRadio = new QRadioButton(tr("major keys only"),this);
+    minorOnlyRadio = new QRadioButton(tr("minor keys only"),this);
+    bothKeysRadio = new QRadioButton(tr("major and minor"),this);
+    modeButGr = new QButtonGroup(this);
+    modeButGr->addButton(majorOnlyRadio);
+    modeButGr->addButton(minorOnlyRadio);
+    modeButGr->addButton(bothKeysRadio);
+    modeLay->addWidget(majorOnlyRadio);
+    modeLay->addWidget(minorOnlyRadio);
+    modeLay->addWidget(bothKeysRadio);
+    keyLay->addLayout(modeLay);
+
+    keySignGr->setLayout(keyLay);
+
+    mainLay->addWidget(keySignGr);
+
+
+
     setLayout(mainLay);
 }
 
-
+//############################# AS NOTE'S NAME  ###################################
 
 TasNameWdg::TasNameWdg(QWidget *parent) :
     QWidget(parent)
 {
+    QVBoxLayout *mainLay = new QVBoxLayout;
+    asNameGr = new TquestionAsWdg(this);
+    mainLay->addWidget(asNameGr);
 
+    setLayout(mainLay);
 }

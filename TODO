@@ -13,3 +13,6 @@ TNOTENAME
 TFINGERBOARD
     - crash after resizing
     - adjust fingers in lefthanded mode
+
+TKEYSIGNATUREVIEW
+    - keys names are static strings, but they are declared only when TkeySignatureView object exist. Make order with this.

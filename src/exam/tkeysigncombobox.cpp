@@ -17,59 +17,18 @@
  ***************************************************************************/
 
 
-#ifndef QUESTIONSSETTINGS_H
-#define QUESTIONSSETTINGS_H
-
-#include <QtGui>
-#include "tquestionaswdg.h"
 #include "tkeysigncombobox.h"
+#include "tkeysignatureview.h"
 
-class questionsSettings : public QWidget
+TkeySignComboBox::TkeySignComboBox(QWidget *parent, bool isMinor) :
+    QComboBox(parent)
 {
-    Q_OBJECT
-public:
-    explicit questionsSettings(QWidget *parent = 0);
-
-
-
-signals:
-
-public slots:
-
-private:
-    QToolBox *questAsToolBox;
-
-
-};
-
-
-
-class TasNoteWdg : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit TasNoteWdg(QWidget *parent = 0);
-
-private:
-    TquestionAsWdg *asNoteGr;
-    QGroupBox *accidGr, *keySignGr;
-    QRadioButton *singleKeyRadio, *rangeKeysRadio;
-    QRadioButton *majorOnlyRadio, *minorOnlyRadio, *bothKeysRadio;
-    QButtonGroup *rangeButGr, *modeButGr;
-    QCheckBox *sharpsChB, *flatsChB, *doubleAccChB;
-    TkeySignComboBox *fromKeyCombo, *toKeyCombo;
-};
-
-
-
-class TasNameWdg : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit TasNameWdg(QWidget *parent = 0);
-
-private:
-    TquestionAsWdg *asNameGr;
-};
-
-#endif // QUESTIONSSETTINGS_H
+    m_isMinor = isMinor;
+    setMaxVisibleItems(5);
+    for (int i=0; i<15; i++) {
+        if (m_isMinor)
+            addItem(TkeySignatureView::minorKeysNames[i]);
+        else
+            addItem(TkeySignatureView::majorKeysNames[i]);
+    }
+}
