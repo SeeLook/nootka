@@ -24,50 +24,8 @@
 #include "ttune.h"
 #include "tscorewidgetsimple.h"
 #include "tsettingsdialogbase.h"
+#include "namesettings.h"
 
-
-
-
-/**
-@author Tomasz Bojczuk
-*/
-class TnotationRadioGroup: public QGroupBox
-{
-        Q_OBJECT
-public:
-        TnotationRadioGroup(Tnote::Enotation _notation, QWidget *parent = 0);
-        ~TnotationRadioGroup();
-
-        Tnote::Enotation notation;
-
-        static const QString strNorsk;
-        static const QString strItal;
-        static const QString strDeutsch;
-        static const QString strEnglish;
-        static const QString strNeder;
-        static const QString strNorskExampl;
-        static const QString strItalExampl;
-        static const QString strDeutschExampl;
-        static const QString strEnglishExampl;
-        static const QString strNederExampl;
-
-        Tnote::Enotation getNameStyle();
-
-signals:
-        void noteNameStyleWasChanged (Tnote::Enotation);
-
-public slots:
-        void noteNameStyleWasClicked();
-
-private:
-        QRadioButton *norskButt;
-        QRadioButton *deutschButt;
-        QRadioButton *italianoButt;
-        QRadioButton *englishButt;
-        QRadioButton *nederlButt;
-        QButtonGroup *buttonGroup;
-
-};
 
 class GlobalSettings : public QWidget
 {
@@ -115,19 +73,6 @@ private:
 };
 
 
-class NameSettings : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit NameSettings(QWidget *parent = 0);
-
-    void saveSettings();
-
-private:
-    TnotationRadioGroup *nameStyleGr;
-    QCheckBox *octInNameCh;
-};
-
 //##############################################################
 class GuitarSettings : public QWidget
 {
@@ -160,14 +105,7 @@ public:
 public slots:
     void saveSettings();
 
-//protected:
-//    bool event(QEvent *event);
-
 private:
-//    QListWidget *navList;
-//    QStackedLayout *stackLayout;
-//    QPushButton *cancelBut, *okBut;
-//    QLabel *hint;
 
     GlobalSettings *m_globalSett;
     ScoreSettings *m_scoreSett;

@@ -25,77 +25,7 @@
 
 extern Tglobals *gl;
 
-//############# TnotationRadioGroup IMPLEMENTATION ##################
-/*static*/
-const QString TnotationRadioGroup::strNeder = tr("Dutch");	//nederlands in Lilypond
-const QString TnotationRadioGroup::strNorsk = tr("Scandinavian");//norsk in Lilypond
-const QString TnotationRadioGroup::strItal = tr("Italian");
-const QString TnotationRadioGroup::strEnglish = tr("English");
-const QString TnotationRadioGroup::strDeutsch = tr("German");
-const QString TnotationRadioGroup::strNorskExampl = "(C# ,Db Hb)";
-const QString TnotationRadioGroup::strItalExampl = "(Do# ,Reb)";
-const QString TnotationRadioGroup::strDeutschExampl = "(Cis , Des ,B)";
-const QString TnotationRadioGroup::strEnglishExampl = "(C# ,Db ,Bb)";
-const QString TnotationRadioGroup::strNederExampl = "(Cis, Des, Bes)";
 
-
-TnotationRadioGroup::TnotationRadioGroup( Tnote::Enotation _notation, QWidget * parent )
-        : QGroupBox(parent)
-{
-    notation = _notation;
-    setTitle(tr("Nameing style"));
-    setStatusTip(tr("Nameing style of a note. The main difference is 7-th note.<br>Is it B and B flat, or H and B ?"));
-    norskButt = new QRadioButton(strNorsk+" "+strNorskExampl ,this);
-    italianoButt = new QRadioButton(strItal+" "+strItalExampl,this);
-    deutschButt = new QRadioButton(strDeutsch+" "+strDeutschExampl,this);
-    englishButt = new QRadioButton(strEnglish+" "+strEnglishExampl,this);
-    nederlButt = new QRadioButton(strNeder+" "+strNederExampl,this);
-    QVBoxLayout *lay = new QVBoxLayout(this);
-    lay->addWidget(norskButt);
-    lay->addWidget(italianoButt);
-    lay->addWidget(deutschButt);
-    lay->addWidget(englishButt);
-    lay->addWidget(nederlButt);
-    setLayout(lay);
-
-    buttonGroup = new QButtonGroup(this);
-    buttonGroup->addButton(norskButt);
-    buttonGroup->addButton(italianoButt);
-    buttonGroup->addButton(deutschButt);
-    buttonGroup->addButton(englishButt);
-    buttonGroup->addButton(nederlButt);
-
-    connect (buttonGroup, SIGNAL(buttonClicked(int)) ,this, SLOT(noteNameStyleWasClicked()) );
-        // 			RESTORING SETTINGS
-    switch (notation)	{
-        case Tnote::e_norsk_Hb : norskButt->setChecked(true); break;
-        case Tnote::e_deutsch_His : deutschButt->setChecked(true); break;
-        case Tnote::e_italiano_Si : italianoButt->setChecked(true); break;
-        case Tnote::e_english_Bb : englishButt->setChecked(true); break;
-        case Tnote::e_nederl_Bis : nederlButt->setChecked(true); break;
-    }
-}
-
-TnotationRadioGroup::~ TnotationRadioGroup()
-{
-}
-
-
-Tnote::Enotation TnotationRadioGroup::getNameStyle() {
-    if (norskButt->isChecked()) return Tnote::e_norsk_Hb;
-    else
-        if (deutschButt->isChecked()) return Tnote::e_deutsch_His;
-        else
-            if (italianoButt->isChecked()) return Tnote::e_italiano_Si;
-            else
-                if (englishButt->isChecked()) return Tnote::e_english_Bb;
-                else
-                    return Tnote::e_nederl_Bis;
-}
-
-void TnotationRadioGroup::noteNameStyleWasClicked() {
-   emit noteNameStyleWasChanged(getNameStyle());
-}
 
 //############# GuitarSettings IMPLEMENTATION ##################
 
@@ -238,27 +168,6 @@ void GlobalSettings::saveSettings() {
    gl->showEnharmNotes = otherEnharmChBox->isChecked();
 }
 
-//############# NameSettings IMPLEMENTATION ##################
-
-NameSettings::NameSettings(QWidget *parent) :
-        QWidget(parent)
-{
-    QVBoxLayout *mainLay = new QVBoxLayout;
-    mainLay->setAlignment(Qt::AlignCenter);
-    nameStyleGr = new TnotationRadioGroup(gl->NnameStyleInNoteName, this);
-    mainLay->addWidget(nameStyleGr);
-    octInNameCh = new QCheckBox(tr("show octave in the note's name"),this);
-    mainLay->addWidget(octInNameCh);
-    octInNameCh->setStatusTip(tr("Shows formated note's name. For small octave - the name is small letter,<br>for great octave - the name starts with a capital letter,<br>for one-line, digit <sup>1</sup> is added, and so on." ));
-    octInNameCh->setChecked(gl->NoctaveInNoteNameFormat);
-    mainLay->addStretch(1);
-    setLayout(mainLay);
-}
-
-void NameSettings::saveSettings() {
-    gl->NnameStyleInNoteName = nameStyleGr->getNameStyle();
-    gl->NoctaveInNoteNameFormat = octInNameCh->isChecked();
-}
 
 //############# ScoreSetttings IMPLEMENTATION ##################
 /*static*/
