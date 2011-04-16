@@ -19,6 +19,8 @@ SET( NOOTKA_SRCS
 ###### Settings
   settings/settingsdialog.cpp
   settings/tsettingsdialogbase.cpp
+  settings/namesettings.cpp
+  settings/tnotationradiogroup.cpp
 ###### Exam
   exam/examsettingsdlg.cpp
   exam/texamlevel.cpp
@@ -46,6 +48,8 @@ SET( NOOTKA_MOC_SRCS
 ###### Settings
   settings/settingsdialog.h
   settings/tsettingsdialogbase.h
+  settings/namesettings.h
+  settings/tnotationradiogroup.h
 ###### Exam
   exam/examsettingsdlg.h
   exam/levelsettings.h
