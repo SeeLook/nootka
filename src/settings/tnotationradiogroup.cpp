@@ -51,6 +51,7 @@ TnotationRadioGroup::TnotationRadioGroup( Tnote::Enotation _notation, QWidget * 
     lay->addWidget(deutschButt);
     lay->addWidget(englishButt);
     lay->addWidget(nederlButt);
+    lay->addStretch(1);
     setLayout(lay);
 
     seventhNoteWasChanged(gl->seventhIs_B);

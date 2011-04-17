@@ -17,58 +17,45 @@
  ***************************************************************************/
 
 
-#ifndef QUESTIONSSETTINGS_H
-#define QUESTIONSSETTINGS_H
+#ifndef SCORESETTINGS_H
+#define SCORESETTINGS_H
 
 #include <QtGui>
-#include "tquestionaswdg.h"
-#include "tkeysigncombobox.h"
+#include "tnotationradiogroup.h"
+#include "tnote.h"
 
-class questionsSettings : public QWidget
+class ScoreSettings : public QWidget
 {
     Q_OBJECT
 public:
-    explicit questionsSettings(QWidget *parent = 0);
+    explicit ScoreSettings(QWidget *parent = 0);
 
+    static const QString forExample;
+    static const QString showKeySigName;
 
+    QString getMajorExample(Tnote::Enotation nameStyle);
+    QString getMinorExample(Tnote::Enotation nameStyle);
 
 signals:
 
 public slots:
+    void enableKeySignGroup(bool enable);
+    void nameStyleWasChanged(Tnote::Enotation nameStyle);
+    void majorExtensionChanged();
+    void minorExtensionChanged();
+    void saveSettings();
+    void seventhIsBChanged(bool isB);
 
 private:
-    QToolBox *questAsToolBox;
+    QCheckBox *enablKeySignCh;
+    QGroupBox *enablKeyNameGr, *nameExtGr;
+    QLabel *majExtLab, *minExtLab, *majExampl, *minExampl;
+    QLineEdit *majEdit, *minEdit;
+    TnotationRadioGroup *nameStyleGr;
+    Tnote::Enotation m_workStyle;
 
 
 };
 
 
-
-class TasNoteWdg : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit TasNoteWdg(QWidget *parent = 0);
-
-private:
-    TquestionAsWdg *asNoteGr;
-    QGroupBox *accidGr, *keySignGr;
-    QRadioButton *singleKeyRadio, *rangeKeysRadio;
-    QButtonGroup *rangeButGr;
-    QCheckBox *sharpsChB, *flatsChB, *doubleAccChB;
-    TkeySignComboBox *fromKeyCombo, *toKeyCombo;
-};
-
-
-
-class TasNameWdg : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit TasNameWdg(QWidget *parent = 0);
-
-private:
-    TquestionAsWdg *asNameGr;
-};
-
-#endif // QUESTIONSSETTINGS_H
+#endif // SCORESETTINGS_H

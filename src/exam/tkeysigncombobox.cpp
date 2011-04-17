@@ -18,17 +18,21 @@
 
 
 #include "tkeysigncombobox.h"
-#include "tkeysignatureview.h"
+#include "tkeysignature.h"
+#include "tglobals.h"
 
-TkeySignComboBox::TkeySignComboBox(QWidget *parent, bool isMinor) :
+extern Tglobals *gl;
+
+TkeySignComboBox::TkeySignComboBox(QWidget *parent) :
     QComboBox(parent)
 {
-    m_isMinor = isMinor;
-    setMaxVisibleItems(5);
+    if (TkeySignature::majorNames[0] == "")
+        TkeySignature::setNameStyle(
+                gl->nameStyleInKeySign, gl->majKeyNameSufix, gl->minKeyNameSufix);
     for (int i=0; i<15; i++) {
-        if (m_isMinor)
-            addItem(TkeySignatureView::minorKeysNames[i]);
-        else
-            addItem(TkeySignatureView::majorKeysNames[i]);
+        QString S;
+        if (i<7) S = QString("(%1b) ").arg(7-i);
+        if (i>7) S = QString("(%1#) ").arg(i-7);
+        addItem(S + TkeySignature::majorNames[i] + " / " + TkeySignature::minorNames[i]);
     }
 }

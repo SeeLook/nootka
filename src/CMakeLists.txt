@@ -16,11 +16,13 @@ SET( NOOTKA_SRCS
   score/tscorewidget.cpp
   score/tscorewidgetsimple.cpp
   score/tkeysignatureview.cpp
+  score/tkeysignature.cpp
 ###### Settings
   settings/settingsdialog.cpp
   settings/tsettingsdialogbase.cpp
   settings/namesettings.cpp
   settings/tnotationradiogroup.cpp
+  settings/scoresettings.cpp
 ###### Exam
   exam/examsettingsdlg.cpp
   exam/texamlevel.cpp
@@ -50,6 +52,7 @@ SET( NOOTKA_MOC_SRCS
   settings/tsettingsdialogbase.h
   settings/namesettings.h
   settings/tnotationradiogroup.h
+  settings/scoresettings.h
 ###### Exam
   exam/examsettingsdlg.h
   exam/levelsettings.h

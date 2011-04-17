@@ -19,7 +19,6 @@
 #include "settingsdialog.h"
 #include "tglobals.h"
 #include "tnoteview.h"
-#include <QVBoxLayout>
 
 
 
@@ -169,124 +168,6 @@ void GlobalSettings::saveSettings() {
 }
 
 
-//############# ScoreSetttings IMPLEMENTATION ##################
-/*static*/
-const QString ScoreSettings::forExample = tr("for example");
-const QString ScoreSettings::showKeySigName = tr("show names of key signature");
-
-ScoreSettings::ScoreSettings(QWidget *parent) :
-    QWidget(parent)
-{
-
-    m_workStyle = gl->nameStyleInKeySign;
-    QVBoxLayout *mainLay = new QVBoxLayout();
-    enablKeySignCh = new QCheckBox(tr("enable key signature"),this);
-    enablKeySignCh->setChecked(gl->keySignatureEnabled);
-    mainLay->addWidget(enablKeySignCh);
-    QHBoxLayout *nameLay = new QHBoxLayout();
-    enablKeyNameGr = new QGroupBox(showKeySigName,this);
-    enablKeyNameGr->setCheckable(true);
-    enablKeyNameGr->setChecked(gl->showKeySignName);
-    enablKeyNameGr->setDisabled(!gl->keySignatureEnabled);
-
-    nameStyleGr = new TnotationRadioGroup(gl->nameStyleInKeySign,this);
-    nameLay->addWidget(nameStyleGr);
-
-    nameExtGr = new QGroupBox(tr("Nameing extension"));
-
-    QVBoxLayout *majLay = new QVBoxLayout();
-    majExtLab = new QLabel(tr("in the major keys:"),this);
-    majLay->addWidget(majExtLab,0,Qt::AlignCenter);
-    majEdit = new QLineEdit(gl->majKeyNameSufix,this);
-    majEdit->setMaxLength(10);
-    majEdit->setAlignment(Qt::AlignCenter);
-    majLay->addWidget(majEdit,0,Qt::AlignCenter);
-    majExampl = new QLabel(this);
-    majExampl->setAlignment(Qt::AlignCenter);
-    majLay->addWidget(majExampl,0,Qt::AlignCenter);
-    majLay->addStretch(1);
-
-    QVBoxLayout *minLay = new QVBoxLayout();
-    minExtLab = new QLabel(tr("in the minor keys:"));
-    minLay->addWidget(minExtLab,0,Qt::AlignCenter);
-    minEdit = new QLineEdit(gl->minKeyNameSufix,this);
-    minEdit->setMaxLength(10);
-    minEdit->setAlignment(Qt::AlignCenter);
-    minLay->addWidget(minEdit,0,Qt::AlignCenter);
-    minExampl = new QLabel(this);
-    minExampl->setAlignment(Qt::AlignCenter);
-    minLay->addWidget(minExampl,0,Qt::AlignCenter);
-    minLay->addStretch(1);
-
-    QHBoxLayout *nameExtLay = new QHBoxLayout();
-    nameExtLay->addLayout(majLay);
-    nameExtLay->addLayout(minLay);
-    nameExtGr->setLayout(nameExtLay);
-
-    nameLay->addWidget(nameExtGr);
-
-    enablKeyNameGr->setLayout(nameLay);
-    mainLay->addWidget(enablKeyNameGr);
-
-    setLayout(mainLay);
-
-    connect(enablKeySignCh, SIGNAL(toggled(bool)), this, SLOT(enableKeySignGroup(bool)));
-    connect(nameStyleGr, SIGNAL(noteNameStyleWasChanged(Tnote::Enotation)), this, SLOT(nameStyleWasChanged(Tnote::Enotation)));
-    connect(majEdit ,SIGNAL(textChanged(QString)), this, SLOT(majorExtensionChanged()));
-    connect(minEdit ,SIGNAL(textChanged(QString)), this, SLOT(minorExtensionChanged()));
-    majExampl->setText(getMajorExample(m_workStyle));
-    minExampl->setText(getMinorExample(m_workStyle));
-}
-
-void ScoreSettings::enableKeySignGroup(bool enable) {
-    enablKeyNameGr->setDisabled(!enable);
-}
-
-void ScoreSettings::majorExtensionChanged() {
-    majExampl->setText(getMajorExample(m_workStyle));
-}
-
-void ScoreSettings::minorExtensionChanged() {
-    minExampl->setText(getMinorExample(m_workStyle));
-}
-
-QString ScoreSettings::getMajorExample(Tnote::Enotation nameStyle) {
-    Tnote noteE = Tnote(3,0,0);
-    Tnote noteBflat = Tnote(7,0,-1);
-    QString S;
-    if (majEdit->text().isEmpty()) S = "";
-      else S = "-"+majEdit->text();
-      return forExample + "<br><b>" + QString::fromStdString(noteE.getName(nameStyle,false)) + S +
-              "<br>" + QString::fromStdString(noteBflat.getName(nameStyle,false)) + S + "</b>";
-}
-
-QString ScoreSettings::getMinorExample(Tnote::Enotation nameStyle) {
-    Tnote noteCsharp = Tnote(1,0,1);
-    Tnote noteG = Tnote(5,0,0);
-    QString S;
-    if (minEdit->text().isEmpty()) S = "";
-      else S = "-"+minEdit->text();
-      return forExample + "<br><b>" +
-              QString::fromStdString(noteCsharp.getName(nameStyle,false)).toLower()+ S + "<br>" +
-              QString::fromStdString(noteG.getName(nameStyle,false)).toLower() + S + "</b>";
-}
-
-
-void ScoreSettings::nameStyleWasChanged(Tnote::Enotation nameStyle) {
-    m_workStyle = nameStyle;
-    majExampl->setText(getMajorExample(m_workStyle));
-    minExampl->setText(getMinorExample(m_workStyle));
-}
-
-void ScoreSettings::saveSettings() {
-    gl->keySignatureEnabled = enablKeySignCh->isChecked();
-    if (gl->keySignatureEnabled) { //changed only if key signature is enabled
-        gl->majKeyNameSufix = majEdit->text();
-        gl->minKeyNameSufix = minEdit->text();
-        gl->nameStyleInKeySign = nameStyleGr->getNameStyle();
-        gl->showKeySignName = enablKeyNameGr->isChecked();
-    }
-}
 
 //############# SettingsDialog IMPLEMENTATION ##################
 SettingsDialog::SettingsDialog(QWidget *parent) :
@@ -319,6 +200,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
     connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
+    connect(m_nameSett, SIGNAL(seventhIsBChanged(bool)), m_scoreSett, SLOT(seventhIsBChanged(bool)));
 
     navList->setCurrentRow(0);
 
@@ -331,10 +213,4 @@ void SettingsDialog::saveSettings() {
     m_guitarSett->saveSettings();
 }
 
-//bool SettingsDialog::event(QEvent *event) {
-//    if (event->type() == QEvent::StatusTip) {
-//        QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
-//        hint->setText("<center>"+se->tip()+"</center>");
-//    }
-//    return QDialog::event(event);
-//}
+

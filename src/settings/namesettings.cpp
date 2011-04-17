@@ -37,11 +37,11 @@ NameSettings::NameSettings(QWidget *parent) :
     bLay->setAlignment(Qt::AlignCenter);
     QButtonGroup *bButtGr = new QButtonGroup(this);
     isBRadio = new QRadioButton(tr("B"),this);
-    isBRadio->setStatusTip(tr("7-th note is B and with flat is Bb or bes or bs"));
+    isBRadio->setStatusTip(tr("7-th note is <b>B</b> and with flat is <b>Bb</b> or bes or <b>bs</b>"));
     bLay->addWidget(isBRadio);
     bButtGr->addButton(isBRadio);
     isHRadio = new QRadioButton(tr("H"),this);
-    isHRadio->setStatusTip(tr("7-th note is H and with flat is Hb or B"));
+    isHRadio->setStatusTip(tr("7-th note is <b>H</b> and with flat is <b>Hb</b> or <b>B</b>"));
     bLay->addWidget(isHRadio);
     bLay->addStretch(1);
     bButtGr->addButton(isHRadio);
@@ -52,6 +52,9 @@ NameSettings::NameSettings(QWidget *parent) :
     else isHRadio->setChecked(true);
 
     mainLay->addLayout(nLay);
+    mainLay->addStretch(1);
+
+    /** @todo example label with all scale*/
 
     octInNameCh = new QCheckBox(tr("show octave in the note's name"),this);
     mainLay->addWidget(octInNameCh);
