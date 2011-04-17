@@ -22,7 +22,7 @@ Tglobals::Tglobals() {
 //score widget settings
     keySignatureEnabled = true;
     showKeySignName = true;
-    nameStyleInKeySign = Tnote::e_deutsch_His;
+    nameStyleInKeySign = Tnote::e_english_Bb;
     majKeyNameSufix = " " ; //like 'major' or 'dur'
     minKeyNameSufix = " " ; //like 'minor' or 'moll'
     pointerColor = -1;
