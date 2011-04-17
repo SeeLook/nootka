@@ -35,7 +35,7 @@ NameSettings::NameSettings(QWidget *parent) :
     QGroupBox *bGr = new QGroupBox(tr("7-th note is:"),this);
     QVBoxLayout *bLay = new QVBoxLayout;
     bLay->setAlignment(Qt::AlignCenter);
-    QButtonGroup *bButtGr = new QButtonGroup;
+    QButtonGroup *bButtGr = new QButtonGroup(this);
     isBRadio = new QRadioButton(tr("B"),this);
     isBRadio->setStatusTip(tr("7-th note is B and with flat is Bb or bes or bs"));
     bLay->addWidget(isBRadio);
@@ -59,10 +59,24 @@ NameSettings::NameSettings(QWidget *parent) :
     octInNameCh->setChecked(gl->NoctaveInNoteNameFormat);
     mainLay->addStretch(1);
     setLayout(mainLay);
+
+    connect(bButtGr, SIGNAL(buttonClicked(int)), this, SLOT(seventhNoteWasChanged()));
 }
 
 void NameSettings::saveSettings() {
     gl->NnameStyleInNoteName = nameStyleGr->getNameStyle();
     gl->NoctaveInNoteNameFormat = octInNameCh->isChecked();
+    if (isBRadio->isChecked()) gl->seventhIs_B = true;
+    else gl->seventhIs_B = false;
+}
+
+void NameSettings::seventhNoteWasChanged() {
+    if (isBRadio->isChecked()) {
+        nameStyleGr->seventhNoteWasChanged(true);
+        emit seventhIsBChanged(true);
+    } else {
+        nameStyleGr->seventhNoteWasChanged(false);
+        emit seventhIsBChanged(false);
+    }
 
 }

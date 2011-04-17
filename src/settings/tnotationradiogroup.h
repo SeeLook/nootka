@@ -53,6 +53,7 @@ signals:
 
 public slots:
         void noteNameStyleWasClicked();
+        void seventhNoteWasChanged(bool isB);
 
 private:
         QRadioButton *norskButt;

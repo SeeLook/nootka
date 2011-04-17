@@ -53,17 +53,7 @@ TnotationRadioGroup::TnotationRadioGroup( Tnote::Enotation _notation, QWidget * 
     lay->addWidget(nederlButt);
     setLayout(lay);
 
-    if (gl->seventhIs_B) {
-        norskButt->setDisabled(true);
-        deutschButt->setDisabled(true);
-        englishButt->setDisabled(false);
-        nederlButt->setDisabled(false);
-    } else {
-        norskButt->setDisabled(false);
-        deutschButt->setDisabled(false);
-        englishButt->setDisabled(true);
-        nederlButt->setDisabled(true);
-    }
+    seventhNoteWasChanged(gl->seventhIs_B);
 
     buttonGroup = new QButtonGroup(this);
     buttonGroup->addButton(norskButt);
@@ -100,3 +90,25 @@ Tnote::Enotation TnotationRadioGroup::getNameStyle() {
 void TnotationRadioGroup::noteNameStyleWasClicked() {
    emit noteNameStyleWasChanged(getNameStyle());
 }
+
+void TnotationRadioGroup::seventhNoteWasChanged(bool isB) {
+    if (isB) {
+        norskButt->setDisabled(true);
+        deutschButt->setDisabled(true);
+        englishButt->setDisabled(false);
+        nederlButt->setDisabled(false);
+        if (deutschButt->isChecked()) nederlButt->setChecked(true);
+        if (norskButt->isChecked()) englishButt->setChecked(true);
+    } else {
+        norskButt->setDisabled(false);
+        deutschButt->setDisabled(false);
+        englishButt->setDisabled(true);
+        nederlButt->setDisabled(true);
+        if (nederlButt->isChecked()) deutschButt->setChecked(true);
+        if (englishButt->isChecked()) norskButt->setChecked(true);
+    }
+
+
+}
+
+

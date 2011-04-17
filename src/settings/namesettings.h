@@ -31,6 +31,14 @@ public:
 
     void saveSettings();
 
+signals:
+    void seventhIsBChanged(bool isB);
+
+protected slots:
+    void seventhNoteWasChanged();
+
+
+
 private:
     TnotationRadioGroup *nameStyleGr;
     QCheckBox *octInNameCh;
