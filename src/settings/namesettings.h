@@ -33,6 +33,7 @@ public:
 
 private:
     TnotationRadioGroup *nameStyleGr;
-    QCheckBox *octInNameCh, *sevenNoteChB;
+    QCheckBox *octInNameCh;
+    QRadioButton *isBRadio, *isHRadio;
 };
 #endif // NAMESETTINGS_H

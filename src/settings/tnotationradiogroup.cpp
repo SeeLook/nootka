@@ -18,17 +18,20 @@
 
 
 #include "tnotationradiogroup.h"
+#include "tglobals.h"
+
+extern Tglobals *gl;
 
 const QString TnotationRadioGroup::strNeder = tr("Dutch");	//nederlands in Lilypond
 const QString TnotationRadioGroup::strNorsk = tr("Scandinavian");//norsk in Lilypond
 const QString TnotationRadioGroup::strItal = tr("Italian");
 const QString TnotationRadioGroup::strEnglish = tr("English");
 const QString TnotationRadioGroup::strDeutsch = tr("German");
-const QString TnotationRadioGroup::strNorskExampl = "(C# ,Db Hb)";
-const QString TnotationRadioGroup::strItalExampl = "(Do# ,Reb)";
-const QString TnotationRadioGroup::strDeutschExampl = "(Cis , Des ,B)";
-const QString TnotationRadioGroup::strEnglishExampl = "(C# ,Db ,Bb)";
-const QString TnotationRadioGroup::strNederExampl = "(Cis, Des, Bes)";
+const QString TnotationRadioGroup::strNorskExampl = "(C, C#, Db ... Hb, H)";
+const QString TnotationRadioGroup::strItalExampl = "(Do, Do#, Reb ... Sib, Si)";
+const QString TnotationRadioGroup::strDeutschExampl = "(C, Cis, Des ... B, H)";
+const QString TnotationRadioGroup::strEnglishExampl = "(C, C#, Db ... Bb, B)";
+const QString TnotationRadioGroup::strNederExampl = "(C, Cis, Des ... Bes, B)";
 
 
 TnotationRadioGroup::TnotationRadioGroup( Tnote::Enotation _notation, QWidget * parent )
@@ -49,6 +52,18 @@ TnotationRadioGroup::TnotationRadioGroup( Tnote::Enotation _notation, QWidget * 
     lay->addWidget(englishButt);
     lay->addWidget(nederlButt);
     setLayout(lay);
+
+    if (gl->seventhIs_B) {
+        norskButt->setDisabled(true);
+        deutschButt->setDisabled(true);
+        englishButt->setDisabled(false);
+        nederlButt->setDisabled(false);
+    } else {
+        norskButt->setDisabled(false);
+        deutschButt->setDisabled(false);
+        englishButt->setDisabled(true);
+        nederlButt->setDisabled(true);
+    }
 
     buttonGroup = new QButtonGroup(this);
     buttonGroup->addButton(norskButt);
