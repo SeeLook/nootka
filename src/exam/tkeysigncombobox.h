@@ -26,14 +26,10 @@ class TkeySignComboBox : public QComboBox
 {
     Q_OBJECT
 public:
-    explicit TkeySignComboBox(QWidget *parent = 0, bool isMinor = false);
+//    explicit TkeySignComboBox(QWidget *parent = 0, bool isMinor = false);
+    explicit TkeySignComboBox(QWidget *parent = 0);
 
-signals:
 
-public slots:
-
-private:
-    bool m_isMinor;
 
 };
 

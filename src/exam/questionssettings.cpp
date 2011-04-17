@@ -76,27 +76,15 @@ TasNoteWdg::TasNoteWdg(QWidget *parent) :
     rangeLay->addWidget(singleKeyRadio);
     rangeLay->addWidget(rangeKeysRadio);
     QHBoxLayout *comboLay = new QHBoxLayout;
-    fromKeyCombo = new TkeySignComboBox(this,false);
-    toKeyCombo = new TkeySignComboBox(this,false);
+    fromKeyCombo = new TkeySignComboBox(this);
+    toKeyCombo = new TkeySignComboBox(this);
     comboLay->addWidget(fromKeyCombo);
-    comboLay->addStretch(1);
+    QLabel *ll = new QLabel(" <b>-</b> ", this);
+    comboLay->addWidget(ll);
     comboLay->addWidget(toKeyCombo);
     rangeLay->addLayout(comboLay);
     keyLay->addLayout(rangeLay);
     keyLay->addStretch(1);
-
-    QVBoxLayout *modeLay = new QVBoxLayout;
-    majorOnlyRadio = new QRadioButton(tr("major keys only"),this);
-    minorOnlyRadio = new QRadioButton(tr("minor keys only"),this);
-    bothKeysRadio = new QRadioButton(tr("major and minor"),this);
-    modeButGr = new QButtonGroup(this);
-    modeButGr->addButton(majorOnlyRadio);
-    modeButGr->addButton(minorOnlyRadio);
-    modeButGr->addButton(bothKeysRadio);
-    modeLay->addWidget(majorOnlyRadio);
-    modeLay->addWidget(minorOnlyRadio);
-    modeLay->addWidget(bothKeysRadio);
-    keyLay->addLayout(modeLay);
 
     keySignGr->setLayout(keyLay);
 
