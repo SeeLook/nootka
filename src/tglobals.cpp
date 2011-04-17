@@ -36,7 +36,7 @@ Tglobals::Tglobals() {
 
 
 //note name settings
-    NnameStyleInNoteName = Tnote::e_deutsch_His;
+    NnameStyleInNoteName = Tnote::e_english_Bb;
     NoctaveInNoteNameFormat = true;
 //    NoctaveNameInNoteName = true;
 
