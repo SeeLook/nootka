@@ -27,11 +27,32 @@ NameSettings::NameSettings(QWidget *parent) :
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
     mainLay->setAlignment(Qt::AlignCenter);
+    QHBoxLayout *nLay = new QHBoxLayout;
     nameStyleGr = new TnotationRadioGroup(gl->NnameStyleInNoteName, this);
-    mainLay->addWidget(nameStyleGr);
-    sevenNoteChB = new QCheckBox(tr("seventh note is B"),this);
-    mainLay->addWidget(sevenNoteChB);
-    sevenNoteChB->setChecked(gl->seventhIs_B);
+    nLay->addWidget(nameStyleGr);
+    nLay->addSpacing(5);
+
+    QGroupBox *bGr = new QGroupBox(tr("7-th note is:"),this);
+    QVBoxLayout *bLay = new QVBoxLayout;
+    bLay->setAlignment(Qt::AlignCenter);
+    QButtonGroup *bButtGr = new QButtonGroup;
+    isBRadio = new QRadioButton(tr("B"),this);
+    isBRadio->setStatusTip(tr("7-th note is B and with flat is Bb or bes or bs"));
+    bLay->addWidget(isBRadio);
+    bButtGr->addButton(isBRadio);
+    isHRadio = new QRadioButton(tr("H"),this);
+    isHRadio->setStatusTip(tr("7-th note is H and with flat is Hb or B"));
+    bLay->addWidget(isHRadio);
+    bLay->addStretch(1);
+    bButtGr->addButton(isHRadio);
+    bGr->setLayout(bLay);
+    nLay->addWidget(bGr);
+
+    if (gl->seventhIs_B) isBRadio->setChecked(true);
+    else isHRadio->setChecked(true);
+
+    mainLay->addLayout(nLay);
+
     octInNameCh = new QCheckBox(tr("show octave in the note's name"),this);
     mainLay->addWidget(octInNameCh);
     octInNameCh->setStatusTip(tr("Shows formated note's name. For small octave - the name is small letter,<br>for great octave - the name starts with a capital letter,<br>for one-line, digit <sup>1</sup> is added, and so on." ));
@@ -43,5 +64,5 @@ NameSettings::NameSettings(QWidget *parent) :
 void NameSettings::saveSettings() {
     gl->NnameStyleInNoteName = nameStyleGr->getNameStyle();
     gl->NoctaveInNoteNameFormat = octInNameCh->isChecked();
-    gl->seventhIs_B = sevenNoteChB->isChecked();
+
 }
