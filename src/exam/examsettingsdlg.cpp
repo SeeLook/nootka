@@ -23,6 +23,8 @@ examSettingsDlg::examSettingsDlg(QWidget *parent) :
     TsettingsDialogBase(parent)
 {
     navList->addItem(tr("Levels"));
+    navList->item(0)->setIcon(QIcon(gl->path+"picts/global.png"));
+    navList->item(0)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Questions"));
     navList->addItem(tr("Range"));
 

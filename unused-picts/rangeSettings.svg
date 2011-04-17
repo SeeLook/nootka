@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="36.923378"
+   height="34.242474"
+   id="svg3262"
+   version="1.1"
+   inkscape:version="0.48.0 r9654"
+   sodipodi:docname="rangeSettings.svg"
+   inkscape:export-filename="/home/tom/DEVELOP/QT4/nootka/picts/rangeSettings.png"
+   inkscape:export-xdpi="389.99683"
+   inkscape:export-ydpi="389.99683">
+  <defs
+     id="defs3264">
+    <filter
+       id="filter4748"
+       inkscape:label="Drop shadow"
+       width="1.5"
+       height="1.5"
+       x="-0.25"
+       y="-0.25"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur4750"
+         in="SourceAlpha"
+         stdDeviation="1"
+         result="blur" />
+      <feColorMatrix
+         id="feColorMatrix4752"
+         result="bluralpha"
+         type="matrix"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.7 0 " />
+      <feOffset
+         id="feOffset4754"
+         in="bluralpha"
+         dx="1"
+         dy="1"
+         result="offsetBlur" />
+      <feMerge
+         id="feMerge4756">
+        <feMergeNode
+           id="feMergeNode4758"
+           in="offsetBlur" />
+        <feMergeNode
+           id="feMergeNode4760"
+           in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       id="filter4748-4"
+       inkscape:label="Drop shadow"
+       width="1.5"
+       height="1.5"
+       x="-0.25"
+       y="-0.25"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur4750-5"
+         in="SourceAlpha"
+         stdDeviation="1"
+         result="blur" />
+      <feColorMatrix
+         id="feColorMatrix4752-2"
+         result="bluralpha"
+         type="matrix"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.7 0 " />
+      <feOffset
+         id="feOffset4754-5"
+         in="bluralpha"
+         dx="1"
+         dy="1"
+         result="offsetBlur" />
+      <feMerge
+         id="feMerge4756-4">
+        <feMergeNode
+           id="feMergeNode4758-7"
+           in="offsetBlur" />
+        <feMergeNode
+           id="feMergeNode4760-4"
+           in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       id="filter4748-3"
+       inkscape:label="Drop shadow"
+       width="1.5"
+       height="1.5"
+       x="-0.25"
+       y="-0.25"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur4750-0"
+         in="SourceAlpha"
+         stdDeviation="1"
+         result="blur" />
+      <feColorMatrix
+         id="feColorMatrix4752-7"
+         result="bluralpha"
+         type="matrix"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.7 0 " />
+      <feOffset
+         id="feOffset4754-8"
+         in="bluralpha"
+         dx="1"
+         dy="1"
+         result="offsetBlur" />
+      <feMerge
+         id="feMerge4756-6">
+        <feMergeNode
+           id="feMergeNode4758-8"
+           in="offsetBlur" />
+        <feMergeNode
+           id="feMergeNode4760-8"
+           in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter
+       inkscape:collect="always"
+       id="filter4413">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.2040107"
+         id="feGaussianBlur4415" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.6"
+     inkscape:cx="34.02019"
+     inkscape:cy="8.8121309"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="856"
+     inkscape:window-height="763"
+     inkscape:window-x="159"
+     inkscape:window-y="210"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata3267">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-520.68619,-413.02269)">
+    <rect
+       style="fill:#ffffff;fill-opacity:1;filter:url(#filter4748)"
+       id="rect3894"
+       width="24.615585"
+       height="22.828316"
+       x="144.83507"
+       y="326.66232"
+       ry="2.6451859" />
+    <rect
+       style="fill:#ffffff;fill-opacity:1;filter:url(#filter4748-4)"
+       id="rect3894-4"
+       width="24.615585"
+       height="22.828316"
+       x="833.40649"
+       y="292.37659"
+       ry="2.6451859" />
+    <rect
+       style="fill:#ffffff;fill-opacity:1;filter:url(#filter4748-3)"
+       id="rect3894-43"
+       width="24.615585"
+       height="22.828316"
+       x="526.84009"
+       y="418.72977"
+       ry="2.6451859" />
+    <g
+       transform="matrix(0.79574161,0,0,1,529.55918,422.21976)"
+       id="g4345">
+      <g
+         transform="matrix(0.31002331,0,0,2.2844887,0.08375204,13.810804)"
+         id="g867">
+        <line
+           x1="0.042417582"
+           y1="0"
+           x2="80.938499"
+           y2="0"
+           id="line869"
+           style="stroke:currentColor;stroke-width:0.25815895;stroke-linecap:round;stroke-linejoin:round" />
+      </g>
+      <g
+         transform="matrix(0.31002331,0,0,2.2844887,0.08375204,11.526315)"
+         id="g871">
+        <line
+           x1="0.042417582"
+           y1="0"
+           x2="80.938499"
+           y2="0"
+           id="line873"
+           style="stroke:currentColor;stroke-width:0.25815895;stroke-linecap:round;stroke-linejoin:round" />
+      </g>
+      <g
+         transform="matrix(0.31002331,0,0,2.2844887,0.08375204,9.2418271)"
+         id="g875">
+        <line
+           x1="0.042417582"
+           y1="0"
+           x2="80.938499"
+           y2="0"
+           id="line877"
+           style="stroke:currentColor;stroke-width:0.25815895;stroke-linecap:round;stroke-linejoin:round" />
+      </g>
+      <g
+         transform="matrix(0.31002331,0,0,2.2844887,0.08375204,6.9573391)"
+         id="g879">
+        <line
+           x1="0.042417582"
+           y1="0"
+           x2="80.938499"
+           y2="0"
+           id="line881"
+           style="stroke:currentColor;stroke-width:0.25815895;stroke-linecap:round;stroke-linejoin:round" />
+      </g>
+      <g
+         transform="matrix(0.31002331,0,0,2.2844887,0.08375204,4.6728501)"
+         id="g883">
+        <line
+           x1="0.042417582"
+           y1="0"
+           x2="80.938499"
+           y2="0"
+           id="line885"
+           style="stroke:currentColor;stroke-width:0.25815895;stroke-linecap:round;stroke-linejoin:round" />
+      </g>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:18.00580597px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:feta14;-inkscape-font-specification:feta14 Medium"
+       x="649.29376"
+       y="356.42618"
+       id="text3606"
+       sodipodi:linespacing="125%"
+       transform="scale(0.81465574,1.2275124)"><tspan
+         sodipodi:role="line"
+         id="tspan3608"
+         x="649.29376"
+         y="356.42618"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FL Jazzowy 1;-inkscape-font-specification:'FL Jazzowy 1,'">[</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:10px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:feta14;-inkscape-font-specification:feta14 Medium"
+       x="26.011429"
+       y="22.37318"
+       id="text4485"
+       sodipodi:linespacing="125%"
+       transform="translate(520.68619,413.02269)"><tspan
+         sodipodi:role="line"
+         id="tspan4487"></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:18.00580597px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:feta14;-inkscape-font-specification:feta14 Medium"
+       x="668.13184"
+       y="356.64777"
+       id="text3606-8"
+       sodipodi:linespacing="125%"
+       transform="scale(0.81465573,1.2275124)"><tspan
+         sodipodi:role="line"
+         id="tspan3608-4"
+         x="668.13184"
+         y="356.64777"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FL Jazzowy 1;-inkscape-font-specification:'FL Jazzowy 1,'">]</tspan></text>
+    <g
+       transform="matrix(2.2844887,0,0,2.2844887,534.91204,437.34329)"
+       id="g947-3">
+      <g
+         id="text949-8"
+         style="font-size:4px;fill:currentColor;font-family:Emmentaler">
+        <path
+           d="M 0.808,-0.576 C 0.42000039,-0.576 0,-0.24399962 0,0.14 c 0,0.25999974 0.21200029,0.436 0.5,0.436 0.38799961,0 0.808,-0.33200038 0.808,-0.716 0,-0.25999974 -0.2120003,-0.436 -0.5,-0.436"
+           id="path5416"
+           inkscape:connector-curvature="0" />
+      </g>
+    </g>
+    <g
+       transform="matrix(2.2844887,0,0,2.2844887,540.97785,425.56873)"
+       id="g947-3-7">
+      <g
+         id="text949-8-7"
+         style="font-size:4px;fill:currentColor;font-family:Emmentaler">
+        <path
+           d="M 0.808,-0.576 C 0.42000039,-0.576 0,-0.24399962 0,0.14 c 0,0.25999974 0.21200029,0.436 0.5,0.436 0.38799961,0 0.808,-0.33200038 0.808,-0.716 0,-0.25999974 -0.2120003,-0.436 -0.5,-0.436"
+           id="path5416-1"
+           inkscape:connector-curvature="0" />
+      </g>
+    </g>
+  </g>
+</svg>
