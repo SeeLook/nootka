@@ -22,7 +22,8 @@
 TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     QDialog(parent)
 {
-    setWindowFlags(Qt::Dialog | Qt::Window);
+//    setWindowFlags(Qt::Dialog | Qt::Window);
+    setWindowFlags(Qt::Dialog);
 
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *contLay = new QHBoxLayout;

@@ -46,6 +46,18 @@ TquestionAsWdg::TquestionAsWdg(QWidget *parent) :
     asSoundChB->setDisabled(true);
     asSoundChB->setStatusTip(tr("not implemented yet"));
     mainLay->addWidget(asSoundChB);
+    mainLay->addStretch(1);
     setLayout(mainLay);
 
+    setCheckable(true);
+
+    connect(asNoteChB, SIGNAL(clicked()), this, SLOT(buttonClicked()));
+    connect(asNameChB, SIGNAL(clicked()), this, SLOT(buttonClicked()));
+    connect(asFretPosChB, SIGNAL(clicked()), this, SLOT(buttonClicked()));
+    connect(asSoundChB, SIGNAL(clicked()), this, SLOT(buttonClicked()));
+
+}
+
+void TquestionAsWdg::buttonClicked() {
+    emit answerStateChenged();
 }
