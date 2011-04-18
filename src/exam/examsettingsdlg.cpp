@@ -25,6 +25,8 @@ extern Tglobals *gl;
 examSettingsDlg::examSettingsDlg(QWidget *parent) :
     TsettingsDialogBase(parent)
 {
+    setWindowTitle("Nootka - "+tr("exam's levels' settings"));
+
     navList->addItem(tr("Levels"));
     navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
     navList->item(0)->setTextAlignment(Qt::AlignCenter);

@@ -18,6 +18,9 @@
 
 
 #include "rangesettings.h"
+#include "tglobals.h"
+
+extern Tglobals *gl;
 
 rangeSettings::rangeSettings(QWidget *parent) :
     QWidget(parent)
@@ -29,6 +32,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
     QVBoxLayout *scoreLay = new QVBoxLayout;
     scoreRang = new TscoreWidgetSimple(2, this);
     scoreRang->setFixedWidth(160);
+    scoreRang->setStatusTip(tr("If selected notes are either the lowest or the highest<br>possible sounds in the current guitar tune,<br>they are automatically adjusted to another tune."));
     QGroupBox *notesRangGr = new QGroupBox(tr("Notes' range:"),this);
     scoreLay->addWidget(scoreRang);
     notesRangGr->setLayout(scoreLay);
@@ -37,11 +41,14 @@ rangeSettings::rangeSettings(QWidget *parent) :
 
     QVBoxLayout *guitLay = new QVBoxLayout;
     QGroupBox *fretGr = new QGroupBox(tr("frets' range:"),this);
+    fretGr->setStatusTip(tr("If selected fret is the highest, it is automatically<br>changed to the highest possible fret<br>for any frets number in a guitar."));
     QHBoxLayout *fretLay = new QHBoxLayout;
     QLabel *fromLab = new QLabel(tr("from"),this);
     fromSpinB = new QSpinBox(this);
+    fromSpinB->setMaximum(gl->GfretsNumber);
     QLabel *toLab = new QLabel(tr("to"),this);
     toSpinB = new QSpinBox(this);
+    toSpinB->setMaximum(gl->GfretsNumber);
     fretLay->addWidget(fromLab);
     fretLay->addWidget(fromSpinB);
     fretLay->addStretch(1);
@@ -52,10 +59,12 @@ rangeSettings::rangeSettings(QWidget *parent) :
     guitLay->addStretch(1);
 
     QGroupBox *stringsGr = new QGroupBox(tr("avaiable strings:"),this);
+    stringsGr->setStatusTip(tr("uncheck strings if You want to skip them<br>in an exam."));
     QGridLayout *strLay = new QGridLayout;
     for (int i=0; i<6; i++) {
         stringBut[i] = new QPushButton(QString("%1").arg(i+1),this);
         stringBut[i]->setCheckable(true);
+        connect(stringBut[i], SIGNAL(clicked()), this, SLOT(stringSelected()));
         if (i<3)
             strLay->addWidget(stringBut[i],1,i+1,0);
         else
@@ -70,11 +79,18 @@ rangeSettings::rangeSettings(QWidget *parent) :
     mainLay->addLayout(allLay);
     mainLay->addStretch(1);
 
-    hiStrOnlyChBox = new QCheckBox(tr("notes on the highest string only"),this);
-    hiStrOnlyChBox->setStatusTip(tr("If checked, only simple possibility of a note are required<br>- without other variants of a note on another strings."));
+    hiStrOnlyChBox = new QCheckBox(tr("notes in the lowest position only"),this);
+    hiStrOnlyChBox->setStatusTip(tr("If checked, only simple possibility of a note are required,<br>otherwise all possible positions of the note are taken."));
     mainLay->addWidget(hiStrOnlyChBox);
     currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);
     mainLay->addWidget(currKeySignChBox);
 
     setLayout(mainLay);
+}
+
+void rangeSettings::stringSelected() {
+    if ( !stringBut[0]->isChecked() && !stringBut[1]->isChecked()
+        && !stringBut[2]->isChecked() && !stringBut[3]->isChecked()
+        && !stringBut[4]->isChecked() && !stringBut[5]->isChecked() )
+        stringBut[0]->setChecked(true);
 }

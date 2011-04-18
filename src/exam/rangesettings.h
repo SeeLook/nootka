@@ -39,6 +39,9 @@ private:
     QPushButton *stringBut[6];
     QCheckBox *hiStrOnlyChBox, *currKeySignChBox;
 
+private slots:
+    void stringSelected();
+
 };
 
 #endif // RANGESETTINGS_H

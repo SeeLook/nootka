@@ -24,16 +24,18 @@ questionsSettings::questionsSettings(QWidget *parent) :
 {
     questAsToolBox = new QToolBox(this);
     QVBoxLayout *mainLay = new QVBoxLayout;
-    QLabel *headLab = new QLabel(TquestionAsWdg::questionsTxt, this);
+    QLabel *headLab = new QLabel("<b>"+QString(TquestionAsWdg::questionsTxt).toUpper() + "</b>", this);
     mainLay->addWidget(headLab, 0, Qt::AlignCenter);
     mainLay->addWidget(questAsToolBox);
     setLayout(mainLay);
 
     TasNoteWdg *asNoteWdg = new TasNoteWdg();
     TasNameWdg *asNameWdg = new TasNameWdg();
+    TasFretPosWdg *asFretPosWdg = new TasFretPosWdg();
 
     questAsToolBox->addItem(asNoteWdg, TquestionAsWdg::asNoteTxt);
     questAsToolBox->addItem(asNameWdg, TquestionAsWdg::asNameTxt);
+    questAsToolBox->addItem(asFretPosWdg, TquestionAsWdg::asFretPosTxt);
 
 }
 
@@ -44,6 +46,7 @@ TasNoteWdg::TasNoteWdg(QWidget *parent) :
     QWidget(parent)
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
+    mainLay->setAlignment(Qt::AlignCenter);
 
     QHBoxLayout *upperLay = new QHBoxLayout;
     asNoteGr = new TquestionAsWdg(this);
@@ -56,6 +59,7 @@ TasNoteWdg::TasNoteWdg(QWidget *parent) :
     accLay->addWidget(sharpsChB);
     accLay->addWidget(flatsChB);
     accLay->addWidget(doubleAccChB);
+    accLay->addStretch(1);
     accidGr = new QGroupBox(tr("accidentals"),this);
     accidGr->setCheckable(true);
     accidGr->setLayout(accLay);
@@ -68,32 +72,51 @@ TasNoteWdg::TasNoteWdg(QWidget *parent) :
     keySignGr->setCheckable(true);
 
     QVBoxLayout *rangeLay = new QVBoxLayout;
+    rangeLay->setAlignment(Qt::AlignCenter);
     singleKeyRadio = new QRadioButton(tr("single key"),this);
+    singleKeyRadio->setStatusTip(tr("only one, selected key signature<br>for whole exam."));
     rangeKeysRadio = new QRadioButton(tr("range of keys"),this);
+    rangeKeysRadio->setStatusTip(tr("random key signature from selecteed range."));
     rangeButGr = new QButtonGroup(this);
     rangeButGr->addButton(singleKeyRadio);
     rangeButGr->addButton(rangeKeysRadio);
-    rangeLay->addWidget(singleKeyRadio);
-    rangeLay->addWidget(rangeKeysRadio);
+    rangeLay->addWidget(singleKeyRadio,0,Qt::AlignCenter);
+    rangeLay->addWidget(rangeKeysRadio,0,Qt::AlignCenter);
     QHBoxLayout *comboLay = new QHBoxLayout;
     fromKeyCombo = new TkeySignComboBox(this);
     toKeyCombo = new TkeySignComboBox(this);
     comboLay->addWidget(fromKeyCombo);
-    QLabel *ll = new QLabel(" <b>-</b> ", this);
+    QLabel *ll = new QLabel(" to ", this);
     comboLay->addWidget(ll);
     comboLay->addWidget(toKeyCombo);
     rangeLay->addLayout(comboLay);
+    rangeLay->addStretch(1);
+    keyInAnswerChB = new QCheckBox(tr("select a key signature manually"),this);
+    keyInAnswerChB->setStatusTip(tr("if checked, user have to select a key signature,<br>otherwise it is shown by application."));
+    rangeLay->addWidget(keyInAnswerChB,0,Qt::AlignCenter);
     keyLay->addLayout(rangeLay);
     keyLay->addStretch(1);
+
 
     keySignGr->setLayout(keyLay);
 
     mainLay->addWidget(keySignGr);
 
-
+    forceAccChB = new QCheckBox(tr("force useing appropirate accidental"),this);
+    forceAccChB->setStatusTip(tr("if checked, is possible to select a note<br>with given accidental only."));
+    mainLay->addWidget(forceAccChB);
 
     setLayout(mainLay);
+
+    connect(rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));
 }
+
+void TasNoteWdg::keyRangeChanged() {
+    if (singleKeyRadio->isChecked())
+        toKeyCombo->setDisabled(true);
+    else toKeyCombo->setDisabled(false);
+}
+
 
 //############################# AS NOTE'S NAME  ###################################
 
@@ -102,7 +125,41 @@ TasNameWdg::TasNameWdg(QWidget *parent) :
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
     asNameGr = new TquestionAsWdg(this);
-    mainLay->addWidget(asNameGr);
+    mainLay->addWidget(asNameGr,1,Qt::AlignCenter);
+
+    octaveRequiredChB = new QCheckBox(tr("require octave"),this);
+    octaveRequiredChB->setStatusTip(tr("if checked, selecting of valid octave is required"));
+    mainLay->addWidget(octaveRequiredChB,0,Qt::AlignCenter);
+    styleRequiredChB = new QCheckBox(tr("use different nameing style"),this);
+    styleRequiredChB->setStatusTip(tr("if checked, nameing style is switched between C D E and Do Re Mi.<br>It have to be checked if note's name is a question and an answer."));
+    mainLay->addWidget(styleRequiredChB,0,Qt::AlignCenter);
+    mainLay->addStretch(1);
+
+    setLayout(mainLay);
+
+    connect(asNameGr, SIGNAL(toggled(bool)), this, SLOT(disableStyleChBox()));
+    connect(asNameGr, SIGNAL(answerStateChenged()), this, SLOT(disableStyleChBox()));
+
+}
+
+void TasNameWdg::disableStyleChBox() {
+    if (asNameGr->answerAsName() && asNameGr->isChecked()) {
+        styleRequiredChB->setChecked(true);
+        styleRequiredChB->setDisabled(true);
+    }
+    else styleRequiredChB->setDisabled(false);
+}
+
+//############################# AS POSITION ON FINGEROARD ############################
+
+TasFretPosWdg::TasFretPosWdg(QWidget *parent) :
+        QWidget(parent)
+{
+    QVBoxLayout *mainLay = new QVBoxLayout;
+    asPosGr = new TquestionAsWdg(this);
+    mainLay->addStretch(1);
+    mainLay->addWidget(asPosGr,1,Qt::AlignCenter);
+    mainLay->addStretch(1);
 
     setLayout(mainLay);
 }

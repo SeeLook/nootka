@@ -30,12 +30,6 @@ class questionsSettings : public QWidget
 public:
     explicit questionsSettings(QWidget *parent = 0);
 
-
-
-signals:
-
-public slots:
-
 private:
     QToolBox *questAsToolBox;
 
@@ -57,6 +51,12 @@ private:
     QButtonGroup *rangeButGr;
     QCheckBox *sharpsChB, *flatsChB, *doubleAccChB;
     TkeySignComboBox *fromKeyCombo, *toKeyCombo;
+    QCheckBox *keyInAnswerChB, *forceAccChB;
+
+private slots:
+        /** is called when radio button are checked
+        * to enable/disable second TkeySignComboBox. */
+    void keyRangeChanged();
 };
 
 
@@ -69,6 +69,25 @@ public:
 
 private:
     TquestionAsWdg *asNameGr;
+    QCheckBox *octaveRequiredChB, *styleRequiredChB;
+
+private slots:
+        /** Is called to block styleRequiredChB when note name is
+        * either question and answer.*/
+    void disableStyleChBox();
+};
+
+
+
+class TasFretPosWdg : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit TasFretPosWdg(QWidget *parent = 0);
+
+private:
+    TquestionAsWdg *asPosGr;
+
 };
 
 #endif // QUESTIONSSETTINGS_H

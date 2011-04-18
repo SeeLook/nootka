@@ -31,12 +31,21 @@ public:
     static QString questionTxt, questionsTxt, answerTxt, answersTxt;
     static QString asNoteTxt, asNameTxt, asFretPosTxt, asSoundTxt;
 
-signals:
+    bool answerAsNote() { return asNoteChB->isChecked(); }
+    bool answerAsName() { return asNameChB->isChecked(); }
+    bool answerAsPos() { return asFretPosChB->isChecked(); }
+    bool answerAsSound() { return asSoundChB->isChecked(); }
 
-public slots:
+signals:
+        /** This signal is emited when any QCheckBox changes his state. */
+    void answerStateChenged();
+
 
 private:
     QCheckBox *asNoteChB, *asNameChB, *asFretPosChB, *asSoundChB;
+
+private slots:
+    void buttonClicked();
 
 };
 
