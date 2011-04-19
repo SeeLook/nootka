@@ -84,6 +84,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
     mainLay->addWidget(hiStrOnlyChBox);
     currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);
     mainLay->addWidget(currKeySignChBox);
+    mainLay->addStretch(1);
 
     setLayout(mainLay);
 }
