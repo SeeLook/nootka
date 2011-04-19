@@ -112,9 +112,14 @@ TasNoteWdg::TasNoteWdg(QWidget *parent) :
 }
 
 void TasNoteWdg::keyRangeChanged() {
-    if (singleKeyRadio->isChecked())
+    if (singleKeyRadio->isChecked()) {
         toKeyCombo->setDisabled(true);
-    else toKeyCombo->setDisabled(false);
+        keyInAnswerChB->setDisabled(true);
+    }
+    else {
+        toKeyCombo->setDisabled(false);
+        keyInAnswerChB->setDisabled(false);
+    }
 }
 
 
