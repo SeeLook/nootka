@@ -60,7 +60,7 @@ TexamLevel::TexamLevel()
    onlyCurrKey = false;
 }
 
-QDataStream TexamLevel::operator <<(QDataStream &out) {
+QDataStream& TexamLevel::operator <<(QDataStream &out) {
     out << name << desc;
     out << questionAs;
     out << answersAs[0] << answersAs[1] << answersAs[2] << answersAs[3];
@@ -81,7 +81,7 @@ QDataStream TexamLevel::operator <<(QDataStream &out) {
     return out;
 }
 
-QDataStream TexamLevel::operator >>(QDataStream &in) {
+QDataStream& TexamLevel::operator >>(QDataStream &in) {
     in >> name >> desc;
     in >> questionAs;
     in >> answersAs[0] >> answersAs[1] >> answersAs[2] >> answersAs[3];
