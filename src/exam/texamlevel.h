@@ -56,8 +56,8 @@ public:
     bool onlyLowPos;
     bool onlyCurrKey;
 
-    QDataStream &operator << (QDataStream &out);
-    QDataStream &operator >> (QDataStream &in);
+    QDataStream &operator<< (QDataStream &out);
+    QDataStream &operator>> (QDataStream &in);
 
 };
 
