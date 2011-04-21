@@ -17,48 +17,27 @@
  ***************************************************************************/
 
 
-#ifndef TEXAMLEVEL_H
-#define TEXAMLEVEL_H
-
 #include "tqatype.h"
-#include "tnote.h"
-#include <QString>
-#include <QDataStream>
 
-    /** This class describes exam's level.*/
-class TexamLevel
+TQAtype::TQAtype()
 {
-public:
-        /** default constructor creates "complex" level*/
-    TexamLevel();
+    TQAtype(false, false, false, false);
+}
 
-  // level paramrters
-    QString name;
-    QString desc; /** description */
-    TQAtype questionAs;
-    TQAtype answersAs[4];
-  // QUESTIONS - as note
-    bool withSharps, withFlats, withDblAcc;
-    bool useKeySign;
-    bool isSingleKey;
-    char loKey, hiKey; /** range of key signature */
-    bool manualKey; /** manually selecting key in answers */
-    bool forceAccids;
-  // QUESTIONS - as name
-    bool requireOctave;
-    bool requireStyle;
-  // RANGE
-    Tnote loNote, hiNote;
-    bool isNoteLo, isNoteHi;
-    char loFret, hiFret;
-    bool isFretHi;
-    bool usedStrings[6];
-    bool onlyLowPos;
-    bool onlyCurrKey;
+TQAtype::TQAtype(bool _asNote, bool _asName, bool _asFretPos, bool _asSound)
+{
+    m_typeArr[0] = _asNote;
+    m_typeArr[1] = _asName;
+    m_typeArr[2] = _asFretPos;
+    m_typeArr[3] = _asSound;
+}
 
-    QDataStream &operator << (QDataStream &out);
-    QDataStream &operator >> (QDataStream &in);
+QDataStream TQAtype::operator << (QDataStream &out) {
+    out << isNote() << isName() << isFret() << isSound();
+    return out;
+}
 
-};
-
-#endif // TEXAMLEVEL_H
+QDataStream TQAtype::operator >>(QDataStream &in) {
+    in >> m_typeArr[0] >> m_typeArr[1] >> m_typeArr[2] >> m_typeArr[3];
+    return in;
+}

@@ -32,6 +32,7 @@ SET( NOOTKA_SRCS
   exam/rangesettings.cpp
   exam/tquestionaswdg.cpp
   exam/tkeysigncombobox.cpp
+  exam/tqatype.cpp
   )
 #SET( NOOTKA_HEADERS
 #    tfingerpos.h

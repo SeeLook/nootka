@@ -26,6 +26,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
     QWidget(parent)
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
+    mainLay->setAlignment(Qt::AlignCenter);
 
     QHBoxLayout *allLay = new QHBoxLayout;
 
