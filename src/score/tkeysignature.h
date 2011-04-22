@@ -50,8 +50,14 @@ public:
     static QString getMajorName(char key) { return majorNames[key+7]; }
     static QString getMinorName(char key) { return minorNames[key+7]; }
 
+    char getKey() { return m_key; }
+
 private:
     char m_key;
 };
+
+QDataStream &operator<< (QDataStream &out, TkeySignature &key);
+QDataStream &operator>> (QDataStream &in, TkeySignature &key);
+
 
 #endif // TKEYSIGNATURE_H

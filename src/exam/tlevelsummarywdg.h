@@ -30,6 +30,8 @@ public:
 //    explicit TlevelSummaryWdg(TexamLevel *level, QWidget *parent = 0);
     explicit TlevelSummaryWdg(QWidget *parent = 0);
 
+    void setLevel(const TexamLevel &lev);
+
 signals:
 
 public slots:

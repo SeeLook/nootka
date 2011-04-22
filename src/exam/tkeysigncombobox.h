@@ -21,6 +21,7 @@
 #define TKEYSIGNCOMBOBOX_H
 
 #include <QComboBox>
+#include "tkeysignature.h"
 
 class TkeySignComboBox : public QComboBox
 {
@@ -29,7 +30,7 @@ public:
 //    explicit TkeySignComboBox(QWidget *parent = 0, bool isMinor = false);
     explicit TkeySignComboBox(QWidget *parent = 0);
 
-
+    void setKeySignature(TkeySignature key);
 
 };
 

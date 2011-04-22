@@ -21,6 +21,8 @@
 #define TQUESTIONASWDG_H
 
 #include <QtGui>
+#include "tqatype.h"
+
 
 class TquestionAsWdg : public QGroupBox
 {
@@ -35,6 +37,8 @@ public:
     bool answerAsName() { return asNameChB->isChecked(); }
     bool answerAsPos() { return asFretPosChB->isChecked(); }
     bool answerAsSound() { return asSoundChB->isChecked(); }
+
+    void setAnswers(TQAtype types);
 
 signals:
         /** This signal is emited when any QCheckBox changes his state. */

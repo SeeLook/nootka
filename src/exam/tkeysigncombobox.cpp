@@ -18,7 +18,6 @@
 
 
 #include "tkeysigncombobox.h"
-#include "tkeysignature.h"
 #include "tglobals.h"
 
 extern Tglobals *gl;
@@ -35,4 +34,8 @@ TkeySignComboBox::TkeySignComboBox(QWidget *parent) :
         if (i>7) S = QString("(%1#) ").arg(i-7);
         addItem(S + TkeySignature::majorNames[i] + " / " + TkeySignature::minorNames[i]);
     }
+}
+
+void TkeySignComboBox::setKeySignature(TkeySignature key) {
+    setCurrentIndex(key.getKey()+7);
 }

@@ -26,8 +26,8 @@ extern Tglobals *gl;
 TexamLevel::TexamLevel()
 {
   // level paramrters
-   name = "complex";
-   desc = "All possible options turned on";
+   name = QT_TR_NOOP("complex");
+   desc = QT_TR_NOOP("All possible options turned on");
    questionAs = TQAtype(true, true, true, false);
    answersAs[0] = TQAtype(true, true, true, false);
    answersAs[1] = TQAtype(true, true, true, false);
@@ -60,44 +60,59 @@ TexamLevel::TexamLevel()
    onlyCurrKey = false;
 }
 
-QDataStream& TexamLevel::operator <<(QDataStream &out) {
-    out << name << desc;
-    out << questionAs;
-    out << answersAs[0] << answersAs[1] << answersAs[2] << answersAs[3];
-    out << withSharps << withFlats << withDblAcc;
-    out << useKeySign << isSingleKey;
-    out << (qint8)loKey << (qint8)hiKey;
-    out << manualKey << forceAccids;
-    out <<  requireOctave << requireStyle;
+QDataStream &operator << (QDataStream &out, TexamLevel &lev) {
+    out << lev.name << lev.desc;
+    out << lev.questionAs;
+    out << lev.answersAs[0] << lev.answersAs[1] << lev.answersAs[2] << lev.answersAs[3];
+    out << lev.withSharps << lev.withFlats << lev.withDblAcc;
+    out << lev.useKeySign << lev.isSingleKey;
+    out << lev.loKey << lev.hiKey;
+    out << lev.manualKey << lev.forceAccids;
+    out <<  lev.requireOctave << lev.requireStyle;
 // RANGE
-    out << (qint8)loNote.note << (qint8)loNote.octave << (qint8)loNote.acidental;
-    out << (qint8)hiNote.note << (qint8)hiNote.octave << (qint8)hiNote.acidental;
-    out << isNoteLo << isNoteHi;
-    out << (qint8)loFret << (qint8)hiFret;
-    out << isFretHi;
-    out << usedStrings[0] << usedStrings[1] << usedStrings[2] << usedStrings[3] <<
-            usedStrings[4] <<  usedStrings[5];
-    out << onlyLowPos << onlyCurrKey;
+    out << (qint8)lev.loNote.note << (qint8)lev.loNote.octave << (qint8)lev.loNote.acidental;
+    out << (qint8)lev.hiNote.note << (qint8)lev.hiNote.octave << (qint8)lev.hiNote.acidental;
+    out << lev.isNoteLo << lev.isNoteHi;
+    out << (qint8)lev.loFret << (qint8)lev.hiFret;
+    out << lev.isFretHi;
+    out << lev.usedStrings[0] << lev.usedStrings[1] << lev.usedStrings[2]
+            << lev.usedStrings[3] << lev.usedStrings[4] <<  lev.usedStrings[5];
+    out << lev.onlyLowPos << lev.onlyCurrKey;
     return out;
 }
 
-QDataStream& TexamLevel::operator >>(QDataStream &in) {
-    in >> name >> desc;
-    in >> questionAs;
-    in >> answersAs[0] >> answersAs[1] >> answersAs[2] >> answersAs[3];
-    in >> withSharps >> withFlats >> withDblAcc;
-    in >> useKeySign >> isSingleKey;
-    in >> (char)loKey >> (char)hiKey;
-    in >> manualKey >> forceAccids;
-    in >>  requireOctave >> requireStyle;
+
+    /** @todo check all no-bool values to avoid corrupted files*/
+QDataStream &operator >>(QDataStream &in, TexamLevel &lev) {
+    in >> lev.name >> lev.desc;
+    in >> lev.questionAs;
+    in >> lev.answersAs[0] >> lev.answersAs[1] >> lev.answersAs[2] >> lev.answersAs[3];
+    in >> lev.withSharps >> lev.withFlats >> lev.withDblAcc;
+    in >> lev.useKeySign >> lev.isSingleKey;
+//    TkeySignature loK, hiK;
+    in >> lev.loKey >> lev.hiKey;
+//    lev.loKey = char(lo);
+//    lev.hiKey = char(hi);
+    in >> lev.manualKey >> lev.forceAccids;
+    in >>  lev.requireOctave >> lev.requireStyle;
 // RANGE
-    in >> (char)loNote.note >> (char)loNote.octave >> (char)loNote.acidental;
-    in >> (char)hiNote.note >> (char)hiNote.octave >> (char)hiNote.acidental;
-    in >> isNoteLo >> isNoteHi;
-    in >> (char)loFret >> (char)hiFret;
-    in >> isFretHi;
-    in >> usedStrings[0] >> usedStrings[1] >> usedStrings[2] >> usedStrings[3] >>
-            usedStrings[4] >>  usedStrings[5];
-    in >> onlyLowPos >> onlyCurrKey;
+    qint8 nnote, ooctave, aaccid;
+    in >> nnote >> ooctave >> aaccid; // loNote
+    lev.loNote.note = char(nnote);
+    lev.loNote.octave = char(ooctave);
+    lev.loNote.acidental = char(aaccid);
+    in >> nnote >> ooctave >> aaccid;
+    lev.hiNote.note = char(nnote);
+    lev.hiNote.octave = char(ooctave);
+    lev.hiNote.acidental = char(aaccid);
+    in >> lev.isNoteLo >> lev.isNoteHi;
+    qint8 lo,hi;
+    in >> lo >> hi;
+    lev.loFret = char(lo);
+    lev.hiFret = char(hi);
+    in >> lev.isFretHi;
+    in >> lev.usedStrings[0] >> lev.usedStrings[1] >> lev.usedStrings[2]
+            >> lev.usedStrings[3] >> lev.usedStrings[4] >>  lev.usedStrings[5];
+    in >> lev.onlyLowPos >> lev.onlyCurrKey;
     return in;
 }

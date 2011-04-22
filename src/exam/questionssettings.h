@@ -23,19 +23,7 @@
 #include <QtGui>
 #include "tquestionaswdg.h"
 #include "tkeysigncombobox.h"
-
-class questionsSettings : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit questionsSettings(QWidget *parent = 0);
-
-private:
-    QToolBox *questAsToolBox;
-
-
-};
-
+#include "texamlevel.h"
 
 
 class TasNoteWdg : public QWidget
@@ -43,6 +31,8 @@ class TasNoteWdg : public QWidget
     Q_OBJECT
 public:
     explicit TasNoteWdg(QWidget *parent = 0);
+
+    void loadLevel(TexamLevel level);
 
 private:
     TquestionAsWdg *asNoteGr;
@@ -67,6 +57,8 @@ class TasNameWdg : public QWidget
 public:
     explicit TasNameWdg(QWidget *parent = 0);
 
+    void loadLevel(TexamLevel level);
+
 private:
     TquestionAsWdg *asNameGr;
     QCheckBox *octaveRequiredChB, *styleRequiredChB;
@@ -85,9 +77,30 @@ class TasFretPosWdg : public QWidget
 public:
     explicit TasFretPosWdg(QWidget *parent = 0);
 
+    void loadLevel(TexamLevel level);
+
 private:
     TquestionAsWdg *asPosGr;
 
 };
+
+class questionsSettings : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit questionsSettings(QWidget *parent = 0);
+
+    void loadLevel(TexamLevel level);
+
+private:
+    QToolBox *questAsToolBox;
+    TasNoteWdg *asNoteWdg;
+    TasNameWdg *asNameWdg;
+    TasFretPosWdg *asFretPosWdg;
+
+
+};
+
+
 
 #endif // QUESTIONSSETTINGS_H

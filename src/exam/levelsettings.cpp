@@ -28,6 +28,8 @@ levelSettings::levelSettings(QWidget *parent) :
     QLabel *levLab = new QLabel(tr("Levels:"),this);
     levLay->addWidget(levLab);
     levelsList = new QListWidget(this);
+    levelsList->setMouseTracking(true);
+    levelsList->setFixedWidth(200);
     levLay->addWidget(levelsList);
     levLay->addStretch(1);
 
@@ -48,5 +50,22 @@ levelSettings::levelSettings(QWidget *parent) :
 
     setLayout(mainLay);
 
+    findLevels();
 
+    connect(levelsList, SIGNAL(currentRowChanged(int)), this, SLOT(levelSelected(int)));
+
+
+}
+
+void levelSettings::findLevels() {
+    TexamLevel lev = TexamLevel();
+    // from constructor
+    levelsList->addItem(lev.name);
+    levelsList->item(0)->setStatusTip(lev.desc);
+    levList << lev;
+}
+
+void levelSettings::levelSelected(int id) {
+    summWdg->setLevel(levList[id]);
+    emit levelChanged(levList[id]);
 }

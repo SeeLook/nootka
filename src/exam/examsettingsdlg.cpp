@@ -48,4 +48,10 @@ examSettingsDlg::examSettingsDlg(QWidget *parent) :
     connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
 
     navList->setCurrentRow(0);
+
+    connect(levelSett, SIGNAL(levelChanged(TexamLevel)), this, SLOT(levelWasSelected(TexamLevel)));
+}
+
+void examSettingsDlg::levelWasSelected(TexamLevel level) {
+    questSett->loadLevel(level);
 }

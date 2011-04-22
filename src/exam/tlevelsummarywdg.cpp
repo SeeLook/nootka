@@ -32,3 +32,7 @@ TlevelSummaryWdg::TlevelSummaryWdg(QWidget *parent) :
 
     summLab->setText("Here will be<br>exam's level summary.");
 }
+
+void TlevelSummaryWdg::setLevel(const TexamLevel &lev) {
+    summLab->setText(lev.name);
+}
