@@ -68,3 +68,15 @@ TkeySignature::TkeySignature(char key)
     m_key = key;
 }
 
+QDataStream &operator <<(QDataStream &out, TkeySignature &key) {
+    out << (qint8)key.getKey();
+    return out;
+}
+
+QDataStream &operator >>(QDataStream &in, TkeySignature &key) {
+//    qint8 k;
+    in >> key;
+//    key = TkeySignature(char(k));
+    return in;
+
+}

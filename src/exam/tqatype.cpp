@@ -32,12 +32,14 @@ TQAtype::TQAtype(bool _asNote, bool _asName, bool _asFretPos, bool _asSound)
     m_typeArr[3] = _asSound;
 }
 
-QDataStream TQAtype::operator << (QDataStream &out) {
-    out << isNote() << isName() << isFret() << isSound();
+QDataStream &operator << (QDataStream &out,TQAtype &qatype) {
+    out << qatype.isNote() << qatype.isName() << qatype.isFret() << qatype.isSound();
     return out;
 }
 
-QDataStream TQAtype::operator >>(QDataStream &in) {
-    in >> m_typeArr[0] >> m_typeArr[1] >> m_typeArr[2] >> m_typeArr[3];
+QDataStream &operator >> (QDataStream &in, TQAtype &qatype) {
+    bool b[4];
+    in >> b[0] >> b[1] >> b[2] >> b[3];
+    qatype = TQAtype(b[0], b[1], b[2], b[3]);
     return in;
 }

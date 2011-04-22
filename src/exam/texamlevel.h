@@ -22,6 +22,7 @@
 
 #include "tqatype.h"
 #include "tnote.h"
+#include "tkeysignature.h"
 #include <QString>
 #include <QDataStream>
 
@@ -41,7 +42,7 @@ public:
     bool withSharps, withFlats, withDblAcc;
     bool useKeySign;
     bool isSingleKey;
-    char loKey, hiKey; /** range of key signature */
+    TkeySignature loKey, hiKey; /** range of key signature */
     bool manualKey; /** manually selecting key in answers */
     bool forceAccids;
   // QUESTIONS - as name
@@ -56,9 +57,9 @@ public:
     bool onlyLowPos;
     bool onlyCurrKey;
 
-    QDataStream &operator<< (QDataStream &out);
-    QDataStream &operator>> (QDataStream &in);
-
 };
+
+QDataStream &operator<< (QDataStream &out, TexamLevel &lev);
+QDataStream &operator>> (QDataStream &in, TexamLevel &lev);
 
 #endif // TEXAMLEVEL_H

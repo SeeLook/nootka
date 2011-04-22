@@ -24,6 +24,7 @@
 #include "levelsettings.h"
 #include "questionssettings.h"
 #include "rangesettings.h"
+#include "texamlevel.h"
 
     /** This is dialog box with all settings for exams */
 class examSettingsDlg : public TsettingsDialogBase
@@ -40,6 +41,9 @@ private:
     levelSettings *levelSett;
     questionsSettings *questSett;
     rangeSettings *rangeSett;
+
+private slots:
+    void levelWasSelected(TexamLevel level);
 
 };
 

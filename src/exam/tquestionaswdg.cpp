@@ -61,3 +61,10 @@ TquestionAsWdg::TquestionAsWdg(QWidget *parent) :
 void TquestionAsWdg::buttonClicked() {
     emit answerStateChenged();
 }
+
+void TquestionAsWdg::setAnswers(TQAtype types) {
+    asNoteChB->setChecked(types.isNote());
+    asNameChB->setChecked(types.isName());
+    asFretPosChB->setChecked(types.isFret());
+    asSoundChB->setChecked(types.isSound());
+}

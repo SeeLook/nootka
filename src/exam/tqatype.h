@@ -39,12 +39,13 @@ public:
     bool isFret() { return m_typeArr[2]; }
     bool isSound() { return m_typeArr[3]; }
 
-    QDataStream &operator << (QDataStream &out);
-    QDataStream &operator >> (QDataStream &in);
-
 private:
     bool m_typeArr[4];
 
 };
+
+QDataStream &operator << (QDataStream &out, TQAtype &qatype);
+QDataStream &operator >> (QDataStream &in, TQAtype &qatype);
+
 
 #endif // TQATYPE_H

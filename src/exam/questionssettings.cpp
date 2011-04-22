@@ -29,9 +29,9 @@ questionsSettings::questionsSettings(QWidget *parent) :
     mainLay->addWidget(questAsToolBox);
     setLayout(mainLay);
 
-    TasNoteWdg *asNoteWdg = new TasNoteWdg();
-    TasNameWdg *asNameWdg = new TasNameWdg();
-    TasFretPosWdg *asFretPosWdg = new TasFretPosWdg();
+    asNoteWdg = new TasNoteWdg();
+    asNameWdg = new TasNameWdg();
+    asFretPosWdg = new TasFretPosWdg();
 
     questAsToolBox->addItem(asNoteWdg, TquestionAsWdg::asNoteTxt);
     questAsToolBox->addItem(asNameWdg, TquestionAsWdg::asNameTxt);
@@ -39,6 +39,11 @@ questionsSettings::questionsSettings(QWidget *parent) :
 
 }
 
+void questionsSettings::loadLevel(TexamLevel level) {
+    asNoteWdg->loadLevel(level);
+    asNameWdg->loadLevel(level);
+    asFretPosWdg->loadLevel(level);
+}
 
 //############################# AS NOTE IN SCORE ###################################
 
@@ -122,6 +127,22 @@ void TasNoteWdg::keyRangeChanged() {
     }
 }
 
+void TasNoteWdg::loadLevel(TexamLevel level) {
+    asNoteGr->setChecked(level.questionAs.isNote());
+    asNoteGr->setAnswers(level.answersAs[0]);
+    sharpsChB->setChecked(level.withSharps);
+    flatsChB->setChecked(level.withFlats);
+    doubleAccChB->setChecked(level.withDblAcc);
+    keySignGr->setChecked(level.useKeySign);
+    if (level.isSingleKey)
+        singleKeyRadio->setChecked(true);
+    else
+        rangeKeysRadio->setChecked(true);
+    fromKeyCombo->setKeySignature(level.loKey);
+    toKeyCombo->setKeySignature(level.hiKey);
+    keyInAnswerChB->setChecked(level.manualKey);
+    forceAccChB->setChecked(level.forceAccids);
+}
 
 //############################# AS NOTE'S NAME  ###################################
 
@@ -155,6 +176,10 @@ void TasNameWdg::disableStyleChBox() {
     else styleRequiredChB->setDisabled(false);
 }
 
+void TasNameWdg::loadLevel(TexamLevel level) {
+
+}
+
 //############################# AS POSITION ON FINGEROARD ############################
 
 TasFretPosWdg::TasFretPosWdg(QWidget *parent) :
@@ -167,4 +192,8 @@ TasFretPosWdg::TasFretPosWdg(QWidget *parent) :
     mainLay->addStretch(1);
 
     setLayout(mainLay);
+}
+
+void TasFretPosWdg::loadLevel(TexamLevel level) {
+
 }
