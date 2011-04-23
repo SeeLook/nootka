@@ -28,7 +28,7 @@ SET( NOOTKA_SRCS
   exam/texamlevel.cpp
   exam/levelsettings.cpp
   exam/questionssettings.cpp
-  exam/tlevelsummarywdg.cpp
+  exam/tlevelselector.cpp
   exam/rangesettings.cpp
   exam/tquestionaswdg.cpp
   exam/tkeysigncombobox.cpp
@@ -58,7 +58,7 @@ SET( NOOTKA_MOC_SRCS
   exam/examsettingsdlg.h
   exam/levelsettings.h
   exam/questionssettings.h
-  exam/tlevelsummarywdg.h
+  exam/tlevelselector.h
   exam/rangesettings.h
   exam/tquestionaswdg.h
   exam/tkeysigncombobox.h

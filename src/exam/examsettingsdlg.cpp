@@ -21,6 +21,7 @@
 #include "tglobals.h"
 
 extern Tglobals *gl;
+bool isNotSaved = false;
 
 examSettingsDlg::examSettingsDlg(QWidget *parent) :
     TsettingsDialogBase(parent)
@@ -49,9 +50,20 @@ examSettingsDlg::examSettingsDlg(QWidget *parent) :
 
     navList->setCurrentRow(0);
 
-    connect(levelSett, SIGNAL(levelChanged(TexamLevel)), this, SLOT(levelWasSelected(TexamLevel)));
+    connect(levelSett->levelSelector, SIGNAL(levelChanged(TexamLevel)), this, SLOT(levelWasSelected(TexamLevel))); // to load level to widgets
+    connect(rangeSett, SIGNAL(rangeChanged()), this, SLOT(levelNotSaved()));
 }
 
 void examSettingsDlg::levelWasSelected(TexamLevel level) {
+    if (isNotSaved) {
+        navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
+        QMessageBox::warning(this, "", "not saved", QMessageBox::Save, QMessageBox::Cancel);
+        isNotSaved = false;
+    }
     questSett->loadLevel(level);
+    rangeSett->loadLevel(level);
+}
+
+void examSettingsDlg::levelNotSaved() {
+    navList->item(0)->setIcon(QIcon(gl->path+"picts/save.png"));
 }

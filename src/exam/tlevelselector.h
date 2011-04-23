@@ -17,11 +17,14 @@
  ***************************************************************************/
 
 
-#ifndef TLEVELSUMMARYWDG_H
-#define TLEVELSUMMARYWDG_H
+#ifndef TLEVELSELECTOR_H
+#define TLEVELSELECTOR_H
 
 #include <QtGui>
 #include "texamlevel.h"
+
+
+//#######################################################################
 
 class TlevelSummaryWdg : public QWidget
 {
@@ -32,8 +35,6 @@ public:
 
     void setLevel(const TexamLevel &lev);
 
-signals:
-
 public slots:
 
 private:
@@ -41,4 +42,32 @@ private:
 
 };
 
-#endif // TLEVELSUMMARYWDG_H
+
+class TlevelSelector : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit TlevelSelector(QWidget *parent = 0);
+        /** It's looking for levels:
+        * 1. in TexamLevel constructor
+        * 2. In default install dir
+        * 3. In last used files */
+    void findLevels();
+
+    void setLevel(const TexamLevel &lev);
+
+public slots:
+    void levelSelected(int id);
+
+signals:
+    void levelChanged(TexamLevel level);
+
+private:
+    QListWidget *levelsList;
+    QList <TexamLevel> levList;
+    TlevelSummaryWdg *summWdg;
+
+};
+
+
+#endif // TLEVELSELECTOR_H

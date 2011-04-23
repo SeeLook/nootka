@@ -19,8 +19,10 @@
 
 #include "rangesettings.h"
 #include "tglobals.h"
+#include "examsettingsdlg.h"
 
 extern Tglobals *gl;
+extern bool isNotSaved;
 
 rangeSettings::rangeSettings(QWidget *parent) :
     QWidget(parent)
@@ -66,6 +68,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
         stringBut[i] = new QPushButton(QString("%1").arg(i+1),this);
         stringBut[i]->setCheckable(true);
         connect(stringBut[i], SIGNAL(clicked()), this, SLOT(stringSelected()));
+        connect(stringBut[i], SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
         if (i<3)
             strLay->addWidget(stringBut[i],1,i+1,0);
         else
@@ -80,14 +83,20 @@ rangeSettings::rangeSettings(QWidget *parent) :
     mainLay->addLayout(allLay);
     mainLay->addStretch(1);
 
-    hiStrOnlyChBox = new QCheckBox(tr("notes in the lowest position only"),this);
-    hiStrOnlyChBox->setStatusTip(tr("If checked, only simple possibility of a note are required,<br>otherwise all possible positions of the note are taken."));
-    mainLay->addWidget(hiStrOnlyChBox);
+    lowPosOnlyChBox = new QCheckBox(tr("notes in the lowest position only"),this);
+    lowPosOnlyChBox->setStatusTip(tr("If checked, only simple possibility of a note are required,<br>otherwise all possible positions of the note are taken."));
+    mainLay->addWidget(lowPosOnlyChBox, 0, Qt::AlignCenter);
     currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);
-    mainLay->addWidget(currKeySignChBox);
+    mainLay->addWidget(currKeySignChBox, 0, Qt::AlignCenter);
     mainLay->addStretch(1);
 
     setLayout(mainLay);
+
+    connect (scoreRang, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenParamsChanged()));
+    connect (fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
+    connect (toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
+    connect (lowPosOnlyChBox, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+    connect (currKeySignChBox, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 }
 
 void rangeSettings::stringSelected() {
@@ -95,4 +104,22 @@ void rangeSettings::stringSelected() {
         && !stringBut[2]->isChecked() && !stringBut[3]->isChecked()
         && !stringBut[4]->isChecked() && !stringBut[5]->isChecked() )
         stringBut[0]->setChecked(true);
+}
+
+void rangeSettings::loadLevel(TexamLevel level) {
+    scoreRang->setNote(0, level.loNote);
+    scoreRang->setNote(1, level.hiNote);
+    fromSpinB->setValue(level.loFret);
+    toSpinB->setValue(level.hiFret);
+    for (int i=0; i<6; i++)
+        stringBut[i]->setChecked(level.usedStrings[i]);
+    lowPosOnlyChBox->setChecked(level.onlyLowPos);
+    currKeySignChBox->setChecked(level.onlyCurrKey);
+}
+
+void rangeSettings::whenParamsChanged() {
+    if (!isNotSaved) {
+        isNotSaved = true;
+        emit rangeChanged();
+    }
 }

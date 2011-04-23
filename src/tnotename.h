@@ -44,6 +44,7 @@ public:
     Tnote getNoteName(int index) {return m_notes[index]; }
     void resize();
     void setAmbitus(Tnote lo, Tnote hi);
+    static QString noteToRichText(Tnote note);
 //    void setButtonsWithOctaves
 
 signals:
@@ -63,7 +64,6 @@ private:
     void paintEvent(QPaintEvent *);
     void setNoteName(char noteNr, char octNr, char accNr);
     void setNameText();
-    QString noteToRichText(Tnote note);
     void setButtons(Tnote note);
 
 private slots:
