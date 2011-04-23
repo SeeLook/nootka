@@ -21,12 +21,13 @@
 #include "tglobals.h"
 
 extern Tglobals *gl;
-bool isNotSaved = false;
+bool isNotSaved;
 
 examSettingsDlg::examSettingsDlg(QWidget *parent) :
     TsettingsDialogBase(parent)
 {
-    setWindowTitle("Nootka - "+tr("exam's levels' settings"));
+    isNotSaved = false;
+    setWindowTitle(tr("exam's settings"));
 
     navList->addItem(tr("Levels"));
     navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
@@ -56,9 +57,9 @@ examSettingsDlg::examSettingsDlg(QWidget *parent) :
 
 void examSettingsDlg::levelWasSelected(TexamLevel level) {
     if (isNotSaved) {
-        navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
         QMessageBox::warning(this, "", "not saved", QMessageBox::Save, QMessageBox::Cancel);
         isNotSaved = false;
+        navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
     }
     questSett->loadLevel(level);
     rangeSett->loadLevel(level);
