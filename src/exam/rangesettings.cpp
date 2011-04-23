@@ -107,6 +107,8 @@ void rangeSettings::stringSelected() {
 }
 
 void rangeSettings::loadLevel(TexamLevel level) {
+    disconnect (fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
+    disconnect (toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
     scoreRang->setNote(0, level.loNote);
     scoreRang->setNote(1, level.hiNote);
     fromSpinB->setValue(level.loFret);
@@ -115,6 +117,8 @@ void rangeSettings::loadLevel(TexamLevel level) {
         stringBut[i]->setChecked(level.usedStrings[i]);
     lowPosOnlyChBox->setChecked(level.onlyLowPos);
     currKeySignChBox->setChecked(level.onlyCurrKey);
+    connect (fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
+    connect (toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
 }
 
 void rangeSettings::whenParamsChanged() {
