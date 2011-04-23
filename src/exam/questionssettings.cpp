@@ -55,6 +55,7 @@ TasNoteWdg::TasNoteWdg(QWidget *parent) :
 
     QHBoxLayout *upperLay = new QHBoxLayout;
     asNoteGr = new TquestionAsWdg(this);
+    asNoteGr->setTitle(TquestionAsWdg::questionTxt + " - " + TquestionAsWdg::asNoteTxt);
     upperLay->addWidget(asNoteGr);
 
     QVBoxLayout *accLay = new QVBoxLayout;
@@ -91,7 +92,7 @@ TasNoteWdg::TasNoteWdg(QWidget *parent) :
     fromKeyCombo = new TkeySignComboBox(this);
     toKeyCombo = new TkeySignComboBox(this);
     comboLay->addWidget(fromKeyCombo);
-    QLabel *ll = new QLabel(" to ", this);
+    QLabel *ll = new QLabel(" - ", this);
     comboLay->addWidget(ll);
     comboLay->addWidget(toKeyCombo);
     rangeLay->addLayout(comboLay);
@@ -129,7 +130,11 @@ void TasNoteWdg::keyRangeChanged() {
 
 void TasNoteWdg::loadLevel(TexamLevel level) {
     asNoteGr->setChecked(level.questionAs.isNote());
-    asNoteGr->setAnswers(level.answersAs[0]);
+    asNoteGr->setAnswers(level.answersAs[TQAtype::e_asNote]);
+    if (level.withSharps || level.withFlats || level.withDblAcc)
+        accidGr->setChecked(true);
+    else
+        accidGr->setChecked(false);
     sharpsChB->setChecked(level.withSharps);
     flatsChB->setChecked(level.withFlats);
     doubleAccChB->setChecked(level.withDblAcc);
@@ -142,6 +147,7 @@ void TasNoteWdg::loadLevel(TexamLevel level) {
     toKeyCombo->setKeySignature(level.hiKey);
     keyInAnswerChB->setChecked(level.manualKey);
     forceAccChB->setChecked(level.forceAccids);
+    keyRangeChanged();
 }
 
 //############################# AS NOTE'S NAME  ###################################
@@ -151,6 +157,7 @@ TasNameWdg::TasNameWdg(QWidget *parent) :
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
     asNameGr = new TquestionAsWdg(this);
+    asNameGr->setTitle(TquestionAsWdg::questionTxt + " - " + TquestionAsWdg::asNameTxt);
     mainLay->addWidget(asNameGr,1,Qt::AlignCenter);
 
     octaveRequiredChB = new QCheckBox(tr("require octave"),this);
@@ -177,7 +184,11 @@ void TasNameWdg::disableStyleChBox() {
 }
 
 void TasNameWdg::loadLevel(TexamLevel level) {
-
+    asNameGr->setChecked(level.questionAs.isName());
+    asNameGr->setAnswers(level.answersAs[TQAtype::e_asName]);
+    octaveRequiredChB->setChecked(level.requireOctave);
+    styleRequiredChB->setChecked(level.requireStyle);
+    disableStyleChBox();
 }
 
 //############################# AS POSITION ON FINGEROARD ############################
@@ -187,6 +198,7 @@ TasFretPosWdg::TasFretPosWdg(QWidget *parent) :
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
     asPosGr = new TquestionAsWdg(this);
+    asPosGr->setTitle(TquestionAsWdg::questionTxt + " - " + TquestionAsWdg::asFretPosTxt);
     mainLay->addStretch(1);
     mainLay->addWidget(asPosGr,1,Qt::AlignCenter);
     mainLay->addStretch(1);
@@ -195,5 +207,6 @@ TasFretPosWdg::TasFretPosWdg(QWidget *parent) :
 }
 
 void TasFretPosWdg::loadLevel(TexamLevel level) {
-
+    asPosGr->setChecked(level.questionAs.isFret());
+    asPosGr->setAnswers(level.answersAs[TQAtype::e_asFretPos]);
 }

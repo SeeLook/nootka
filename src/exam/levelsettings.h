@@ -21,7 +21,7 @@
 #define LEVELSETTINGS_H
 
 #include <QtGui>
-#include "tlevelsummarywdg.h"
+#include "tlevelselector.h"
 #include "texamlevel.h"
 
     /** This widget contain general level settings and belongs to
@@ -31,23 +31,14 @@ class levelSettings : public QWidget
     Q_OBJECT
 public:
     explicit levelSettings(QWidget *parent = 0);
-        /** It's looking for levels:
-        * 1. in TexamLevel constructor
-        * 2. In default install dir
-        * 3. In last used files */
-    void findLevels();
+
+    TlevelSelector *levelSelector;
 
 signals:
-    void levelChanged(TexamLevel level);
-
-public slots:
-    void levelSelected(int id);
 
 private:
     QPushButton *saveBut, *loadBut;
-    QListWidget *levelsList;
-    TlevelSummaryWdg *summWdg;
-    QList <TexamLevel> levList;
+
 
 };
 

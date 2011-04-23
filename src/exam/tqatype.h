@@ -28,7 +28,7 @@ public:
     TQAtype();
     TQAtype(bool _asNote, bool _asName, bool _asFretPos, bool _asSound);
 
-    enum type { asNote = 0, asName = 1, asFretPos = 2, asSound = 3};
+    enum type { e_asNote = 0, e_asName = 1, e_asFretPos = 2, e_asSound = 3};
 
     void setAsNote(bool isNote) {m_typeArr[0] = isNote; }
     void setAsName(bool isName) {m_typeArr[1] = isName; }

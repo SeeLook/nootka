@@ -74,9 +74,7 @@ QDataStream &operator <<(QDataStream &out, TkeySignature &key) {
 }
 
 QDataStream &operator >>(QDataStream &in, TkeySignature &key) {
-//    qint8 k;
     in >> key;
-//    key = TkeySignature(char(k));
     return in;
 
 }

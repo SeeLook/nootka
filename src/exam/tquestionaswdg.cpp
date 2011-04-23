@@ -33,6 +33,7 @@ QString TquestionAsWdg::answersTxt = tr("answers");
 TquestionAsWdg::TquestionAsWdg(QWidget *parent) :
     QGroupBox(parent)
 {
+    setStatusTip(tr("select answers for question as mentioned."));
     QVBoxLayout *mainLay = new QVBoxLayout;
     QLabel *answersLab = new QLabel(answersTxt+":",this);
     mainLay->addWidget(answersLab,0,Qt::AlignCenter);

@@ -22,6 +22,7 @@
 
 #include <QWidget>
 #include "tscorewidgetsimple.h"
+#include "texamlevel.h"
 
 class rangeSettings : public QWidget
 {
@@ -29,7 +30,10 @@ class rangeSettings : public QWidget
 public:
     explicit rangeSettings(QWidget *parent = 0);
 
+    void loadLevel(TexamLevel level);
+
 signals:
+    void rangeChanged();
 
 public slots:
 
@@ -37,10 +41,11 @@ private:
     TscoreWidgetSimple *scoreRang;
     QSpinBox *fromSpinB, *toSpinB;
     QPushButton *stringBut[6];
-    QCheckBox *hiStrOnlyChBox, *currKeySignChBox;
+    QCheckBox *lowPosOnlyChBox, *currKeySignChBox;
 
 private slots:
     void stringSelected();
+    void whenParamsChanged();
 
 };
 
