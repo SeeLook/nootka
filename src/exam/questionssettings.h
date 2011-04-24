@@ -34,6 +34,10 @@ public:
 
     void loadLevel(TexamLevel level);
 
+signals:
+    void asNoteChanged();
+
+
 private:
     TquestionAsWdg *asNoteGr;
     QGroupBox *accidGr, *keySignGr;
@@ -47,6 +51,9 @@ private slots:
         /** is called when radio button are checked
         * to enable/disable second TkeySignComboBox. */
     void keyRangeChanged();
+        /** Is called when user changes any parameter.
+            It emits asNoteChanged() signal. */
+    void whenParamsChanged();
 };
 
 
@@ -59,14 +66,21 @@ public:
 
     void loadLevel(TexamLevel level);
 
+signals:
+    void asNameChanged();
+
 private:
     TquestionAsWdg *asNameGr;
     QCheckBox *octaveRequiredChB, *styleRequiredChB;
 
 private slots:
         /** Is called to block styleRequiredChB when note name is
-        * either question and answer.*/
+            either question and answer.*/
     void disableStyleChBox();
+        /** Is called when user changes any parameter.
+            It emits asNameChanged signal. */
+    void whenParamsChanged();
+
 };
 
 
@@ -79,8 +93,16 @@ public:
 
     void loadLevel(TexamLevel level);
 
+signals:
+    void asFretPosChanged();
+
 private:
     TquestionAsWdg *asPosGr;
+
+private slots:
+        /** Is called when user changes any parameter.
+            It emits asNameChanged signal. */
+    void whenParamsChanged();
 
 };
 
@@ -92,15 +114,18 @@ public:
 
     void loadLevel(TexamLevel level);
 
+signals:
+    void questSettChanged();
+
 private:
     QToolBox *questAsToolBox;
     TasNoteWdg *asNoteWdg;
     TasNameWdg *asNameWdg;
     TasFretPosWdg *asFretPosWdg;
 
+private slots:
+    void whenParamsChanged();
 
 };
-
-
 
 #endif // QUESTIONSSETTINGS_H

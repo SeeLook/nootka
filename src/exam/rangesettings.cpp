@@ -87,6 +87,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
     lowPosOnlyChBox->setStatusTip(tr("If checked, only simple possibility of a note are required,<br>otherwise all possible positions of the note are taken."));
     mainLay->addWidget(lowPosOnlyChBox, 0, Qt::AlignCenter);
     currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);
+    currKeySignChBox->setStatusTip(tr("only notes from current key signaature are taken."));
     mainLay->addWidget(currKeySignChBox, 0, Qt::AlignCenter);
     mainLay->addStretch(1);
 
