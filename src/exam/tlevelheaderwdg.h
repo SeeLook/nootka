@@ -17,43 +17,21 @@
  ***************************************************************************/
 
 
-#ifndef EXAMSETTINGSDLG_H
-#define EXAMSETTINGSDLG_H
+#ifndef TLEVELHEADERWDG_H
+#define TLEVELHEADERWDG_H
 
-#include "tsettingsdialogbase.h"
-#include "levelsettings.h"
-#include "questionssettings.h"
-#include "rangesettings.h"
-#include "texamlevel.h"
+#include <QtGui>
 
-    /** A dialog box with all settings for exams */
-class examSettingsDlg : public TsettingsDialogBase
+class TlevelHeaderWdg : public QWidget
 {
     Q_OBJECT
 public:
-    explicit examSettingsDlg(QWidget *parent = 0);
-
-    static QString examSettTxt;
-
-signals:
-
-public slots:
+    explicit TlevelHeaderWdg(QString &lName, QString &lDesc, QWidget *parent = 0);
 
 private:
-    levelSettings *levelSett;
-    questionsSettings *questSett;
-    rangeSettings *rangeSett;
-
-    void saveLevel();
-
-private slots:
-        /** This slot is called when user is chooseing exam's level.
-            It loads level's parameters to questSett and rangeSett.    */
-    void levelWasSelected(TexamLevel level);
-        /** Is called when user changes level or want to close dialog window
-            without saveing changed level*/
-    void levelNotSaved();
+    QLineEdit *nameEd;
+    QTextEdit *descEd;
 
 };
 
-#endif // EXAMSETTINGSDLG_H
+#endif // TLEVELHEADERWDG_H

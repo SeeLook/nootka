@@ -19,6 +19,8 @@
 
 #include "questionssettings.h"
 
+extern bool isNotSaved;
+
 questionsSettings::questionsSettings(QWidget *parent) :
     QWidget(parent)
 {
@@ -37,6 +39,10 @@ questionsSettings::questionsSettings(QWidget *parent) :
     questAsToolBox->addItem(asNameWdg, TquestionAsWdg::asNameTxt);
     questAsToolBox->addItem(asFretPosWdg, TquestionAsWdg::asFretPosTxt);
 
+    connect(asNoteWdg, SIGNAL(asNoteChanged()), this, SLOT(whenParamsChanged()));
+    connect(asNameWdg, SIGNAL(asNameChanged()), this, SLOT(whenParamsChanged()));
+    connect(asFretPosWdg, SIGNAL(asFretPosChanged()), this, SLOT(whenParamsChanged()));
+
 }
 
 void questionsSettings::loadLevel(TexamLevel level) {
@@ -45,7 +51,12 @@ void questionsSettings::loadLevel(TexamLevel level) {
     asFretPosWdg->loadLevel(level);
 }
 
-//############################# AS NOTE IN SCORE ###################################
+void questionsSettings::whenParamsChanged() {
+    emit questSettChanged();
+}
+
+
+//############################# AS NOTE IN A SCORE ###################################
 
 TasNoteWdg::TasNoteWdg(QWidget *parent) :
     QWidget(parent)
@@ -115,6 +126,20 @@ TasNoteWdg::TasNoteWdg(QWidget *parent) :
     setLayout(mainLay);
 
     connect(rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));
+
+    connect(asNoteGr, SIGNAL(answerStateChenged()), this, SLOT(whenParamsChanged()));
+    connect(accidGr, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+    connect(sharpsChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+    connect(flatsChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+    connect(doubleAccChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+    connect(keySignGr, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+    connect(singleKeyRadio, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+    connect(rangeKeysRadio, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+    connect(fromKeyCombo, SIGNAL(activated(int)), this, SLOT(whenParamsChanged()));
+    connect(toKeyCombo, SIGNAL(activated(int)), this, SLOT(whenParamsChanged()));
+    connect(keyInAnswerChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+    connect(forceAccChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+
 }
 
 void TasNoteWdg::keyRangeChanged() {
@@ -150,6 +175,15 @@ void TasNoteWdg::loadLevel(TexamLevel level) {
     keyRangeChanged();
 }
 
+void TasNoteWdg::whenParamsChanged() {
+    if (!isNotSaved) {
+        isNotSaved = true;
+        emit asNoteChanged();
+    }
+}
+
+
+
 //############################# AS NOTE'S NAME  ###################################
 
 TasNameWdg::TasNameWdg(QWidget *parent) :
@@ -173,6 +207,11 @@ TasNameWdg::TasNameWdg(QWidget *parent) :
     connect(asNameGr, SIGNAL(toggled(bool)), this, SLOT(disableStyleChBox()));
     connect(asNameGr, SIGNAL(answerStateChenged()), this, SLOT(disableStyleChBox()));
 
+    connect(asNameGr, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+    connect(asNameGr, SIGNAL(answerStateChenged()), this, SLOT(whenParamsChanged()));
+    connect(octaveRequiredChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+    connect(styleRequiredChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+
 }
 
 void TasNameWdg::disableStyleChBox() {
@@ -191,6 +230,15 @@ void TasNameWdg::loadLevel(TexamLevel level) {
     disableStyleChBox();
 }
 
+void TasNameWdg::whenParamsChanged() {
+    if (!isNotSaved) {
+        isNotSaved = true;
+        emit asNameChanged();
+    }
+}
+
+
+
 //############################# AS POSITION ON FINGEROARD ############################
 
 TasFretPosWdg::TasFretPosWdg(QWidget *parent) :
@@ -204,9 +252,21 @@ TasFretPosWdg::TasFretPosWdg(QWidget *parent) :
     mainLay->addStretch(1);
 
     setLayout(mainLay);
+
+    connect(asPosGr, SIGNAL(answerStateChenged()), this, SLOT(whenParamsChanged()));
+    connect(asPosGr, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 }
 
 void TasFretPosWdg::loadLevel(TexamLevel level) {
     asPosGr->setChecked(level.questionAs.isFret());
     asPosGr->setAnswers(level.answersAs[TQAtype::e_asFretPos]);
 }
+
+void TasFretPosWdg::whenParamsChanged() {
+    if (!isNotSaved) {
+        isNotSaved = true;
+        emit asFretPosChanged();
+    }
+}
+
+

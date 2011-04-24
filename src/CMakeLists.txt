@@ -33,6 +33,7 @@ SET( NOOTKA_SRCS
   exam/tquestionaswdg.cpp
   exam/tkeysigncombobox.cpp
   exam/tqatype.cpp
+  exam/tlevelheaderwdg.cpp
   )
 #SET( NOOTKA_HEADERS
 #    tfingerpos.h
@@ -62,6 +63,7 @@ SET( NOOTKA_MOC_SRCS
   exam/rangesettings.h
   exam/tquestionaswdg.h
   exam/tkeysigncombobox.h
+  exam/tlevelheaderwdg.h
   )
 
 QT4_WRAP_CPP( NOOTKA_MOCS ${NOOTKA_MOC_SRCS} )

@@ -17,43 +17,19 @@
  ***************************************************************************/
 
 
-#ifndef EXAMSETTINGSDLG_H
-#define EXAMSETTINGSDLG_H
+#include "tlevelheaderwdg.h"
 
-#include "tsettingsdialogbase.h"
-#include "levelsettings.h"
-#include "questionssettings.h"
-#include "rangesettings.h"
-#include "texamlevel.h"
-
-    /** A dialog box with all settings for exams */
-class examSettingsDlg : public TsettingsDialogBase
+TlevelHeaderWdg::TlevelHeaderWdg(QString &lName, QString &lDesc, QWidget *parent) :
+    QWidget(parent)
 {
-    Q_OBJECT
-public:
-    explicit examSettingsDlg(QWidget *parent = 0);
-
-    static QString examSettTxt;
-
-signals:
-
-public slots:
-
-private:
-    levelSettings *levelSett;
-    questionsSettings *questSett;
-    rangeSettings *rangeSett;
-
-    void saveLevel();
-
-private slots:
-        /** This slot is called when user is chooseing exam's level.
-            It loads level's parameters to questSett and rangeSett.    */
-    void levelWasSelected(TexamLevel level);
-        /** Is called when user changes level or want to close dialog window
-            without saveing changed level*/
-    void levelNotSaved();
-
-};
-
-#endif // EXAMSETTINGSDLG_H
+    QVBoxLayout *mainLay = new QVBoxLayout;
+    QLabel *nameLab = new QLabel(tr("Level's name:"),this);
+    mainLay->addWidget(nameLab);
+    nameEd = new QLineEdit(this);
+    nameEd->setMaxLength(20);
+    mainLay->addWidget(nameEd);
+    QLabel *descLab = new QLabel(tr("Level's description:"),this);
+    mainLay->addWidget(descLab);
+    descEd = new QTextEdit(this);
+    mainLay->addWidget(descEd);
+}

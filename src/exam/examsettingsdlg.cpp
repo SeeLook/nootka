@@ -23,11 +23,14 @@
 extern Tglobals *gl;
 bool isNotSaved;
 
+/*static*/
+QString examSettingsDlg::examSettTxt = tr("exam's settings");
+
 examSettingsDlg::examSettingsDlg(QWidget *parent) :
     TsettingsDialogBase(parent)
 {
     isNotSaved = false;
-    setWindowTitle(tr("exam's settings"));
+    setWindowTitle(examSettTxt);
 
     navList->addItem(tr("Levels"));
     navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
@@ -53,18 +56,26 @@ examSettingsDlg::examSettingsDlg(QWidget *parent) :
 
     connect(levelSett->levelSelector, SIGNAL(levelChanged(TexamLevel)), this, SLOT(levelWasSelected(TexamLevel))); // to load level to widgets
     connect(rangeSett, SIGNAL(rangeChanged()), this, SLOT(levelNotSaved()));
+    connect(questSett, SIGNAL(questSettChanged()), this, SLOT(levelNotSaved()));
 }
 
 void examSettingsDlg::levelWasSelected(TexamLevel level) {
-    if (isNotSaved) {
-        QMessageBox::warning(this, "", "not saved", QMessageBox::Save, QMessageBox::Cancel);
-        isNotSaved = false;
-        navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
-    }
+    if (isNotSaved)
+        saveLevel();
     questSett->loadLevel(level);
     rangeSett->loadLevel(level);
 }
 
 void examSettingsDlg::levelNotSaved() {
-    navList->item(0)->setIcon(QIcon(gl->path+"picts/save.png"));
+    navList->item(0)->setIcon(QIcon(gl->path+"picts/notSaved.png"));
+    setWindowTitle(examSettTxt + " (level not saved !!)");
+}
+
+void examSettingsDlg::saveLevel() {
+    if ( QMessageBox::question(this, "", tr("Exam's level was changed\nand not saved !!"), QMessageBox::Save, QMessageBox::Cancel) == QMessageBox::Save ) {
+
+    }
+    isNotSaved = false;
+    navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
+    setWindowTitle(examSettTxt);
 }
