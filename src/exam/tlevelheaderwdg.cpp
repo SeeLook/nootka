@@ -22,7 +22,7 @@
 TlevelHeaderWdg::TlevelHeaderWdg(QWidget *parent) :
     QDialog(parent)
 {
-//    setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint);
+    setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowSystemMenuHint);
     QVBoxLayout *mainLay = new QVBoxLayout;
     QLabel *nameLab = new QLabel(tr("Level's name:"),this);
     mainLay->addWidget(nameLab);

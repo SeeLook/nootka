@@ -20,10 +20,10 @@
 #include "tsettingsdialogbase.h"
 
 TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
-    QDialog(parent)
+        QDialog(parent,Qt::CustomizeWindowHint | Qt::WindowSystemMenuHint)
 {
 //    setWindowFlags(Qt::Dialog | Qt::Window);
-    setWindowFlags(Qt::Dialog);
+//    setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint);
 
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *contLay = new QHBoxLayout;
