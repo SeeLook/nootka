@@ -133,6 +133,7 @@ TasNoteWdg::TasNoteWdg(QWidget *parent) :
     connect(rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));
 
     connect(asNoteGr, SIGNAL(answerStateChenged()), this, SLOT(whenParamsChanged()));
+    connect(asNoteGr, SIGNAL(toggled(bool)), this, SLOT(whenParamsChanged()));
     connect(accidGr, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
     connect(sharpsChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
     connect(flatsChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));

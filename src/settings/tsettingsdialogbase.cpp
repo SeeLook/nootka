@@ -46,6 +46,7 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     hGr->setLayout(hLay);
     aLay->addWidget(hGr);
     hint->setFixedHeight(70);
+    hint->setWordWrap(true);
     contLay->addLayout(aLay);
 
     mainLay->addLayout(contLay);

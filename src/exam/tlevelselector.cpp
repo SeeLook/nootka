@@ -86,6 +86,7 @@ void TlevelSummaryWdg::setLevel(const TexamLevel &lev) {
     S += "<tr><td>" + tr("note's range: ") + "</td>";
     S += "<td>" + TnoteName::noteToRichText(lev.loNote) + " - "
          + TnoteName::noteToRichText(lev.hiNote) + "</td>";
+
     S += "</table></center>";
     summLab->setText(S);
 }
