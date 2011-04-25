@@ -31,6 +31,7 @@ TlevelHeaderWdg::TlevelHeaderWdg(QWidget *parent) :
     QLabel *descLab = new QLabel(tr("Level's description:"),this);
     mainLay->addWidget(descLab);
     descEd = new QTextEdit(this);
+    descEd->setAcceptRichText(false);
     mainLay->addWidget(descEd);
     okBut = new QPushButton(tr("OK"),this);
     mainLay->addWidget(okBut,1,Qt::AlignCenter);

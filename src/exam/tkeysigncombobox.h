@@ -31,6 +31,7 @@ public:
     explicit TkeySignComboBox(QWidget *parent = 0);
 
     void setKeySignature(TkeySignature key);
+    TkeySignature getKeySignature() { return char(currentIndex() -7); }
 
 };
 

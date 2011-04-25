@@ -127,3 +127,27 @@ void rangeSettings::whenParamsChanged() {
         emit rangeChanged();
     }
 }
+
+void rangeSettings::saveLevel(TexamLevel &level) {
+    if (scoreRang->getNote(0).getChromaticNrOfNote() <=
+        scoreRang->getNote(0).getChromaticNrOfNote()) {
+            level.loNote = scoreRang->getNote(0);
+            level.hiNote = scoreRang->getNote(1);
+        }
+    else {
+        level.loNote = scoreRang->getNote(1);
+        level.hiNote = scoreRang->getNote(0);
+    }
+    if (fromSpinB->value() <= toSpinB->value()) {
+        level.loFret = fromSpinB->value();
+        level.hiFret = toSpinB->value();
+    }
+    else {
+        level.loFret = toSpinB->value();
+        level.hiFret = fromSpinB->value();
+    }
+    for (int i=0; i<6; i++)
+        level.usedStrings[i] = stringBut[i]->isChecked();
+    level.onlyLowPos = lowPosOnlyChBox->isChecked();
+    level.onlyCurrKey = currKeySignChBox->isChecked();
+}
