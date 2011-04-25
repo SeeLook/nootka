@@ -31,6 +31,7 @@ public:
     explicit rangeSettings(QWidget *parent = 0);
 
     void loadLevel(TexamLevel level);
+    void saveLevel(TexamLevel &level);
 
 signals:
     void rangeChanged();

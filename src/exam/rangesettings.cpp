@@ -19,7 +19,6 @@
 
 #include "rangesettings.h"
 #include "tglobals.h"
-#include "examsettingsdlg.h"
 
 extern Tglobals *gl;
 extern bool isNotSaved;

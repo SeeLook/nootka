@@ -53,11 +53,14 @@ void TlevelSelector::levelSelected(int id) {
 void TlevelSelector::findLevels() {
     TexamLevel lev = TexamLevel();
     // from constructor
+    addLevel(lev);
+}
+
+void TlevelSelector::addLevel(const TexamLevel &lev) {
     levelsList->addItem(lev.name);
     levelsList->item(0)->setStatusTip(lev.desc);
     levList << lev;
 }
-
 
 
 //#########################  TlevelSummaryWdg ################################################

@@ -33,6 +33,7 @@ public:
     explicit TasNoteWdg(QWidget *parent = 0);
 
     void loadLevel(TexamLevel level);
+    void saveLevel(TexamLevel &level);
 
 signals:
     void asNoteChanged();
@@ -65,6 +66,7 @@ public:
     explicit TasNameWdg(QWidget *parent = 0);
 
     void loadLevel(TexamLevel level);
+    void saveLevel(TexamLevel &level);
 
 signals:
     void asNameChanged();
@@ -92,6 +94,7 @@ public:
     explicit TasFretPosWdg(QWidget *parent = 0);
 
     void loadLevel(TexamLevel level);
+    void saveLevel(TexamLevel &level);
 
 signals:
     void asFretPosChanged();
@@ -113,6 +116,7 @@ public:
     explicit questionsSettings(QWidget *parent = 0);
 
     void loadLevel(TexamLevel level);
+    void saveLevel(TexamLevel &level);
 
 signals:
     void questSettChanged();

@@ -19,6 +19,8 @@
 
 #include "examsettingsdlg.h"
 #include "tglobals.h"
+#include "tlevelheaderwdg.h"
+//#include <QDebug>
 
 extern Tglobals *gl;
 bool isNotSaved;
@@ -57,6 +59,8 @@ examSettingsDlg::examSettingsDlg(QWidget *parent) :
     connect(levelSett->levelSelector, SIGNAL(levelChanged(TexamLevel)), this, SLOT(levelWasSelected(TexamLevel))); // to load level to widgets
     connect(rangeSett, SIGNAL(rangeChanged()), this, SLOT(levelNotSaved()));
     connect(questSett, SIGNAL(questSettChanged()), this, SLOT(levelNotSaved()));
+    connect(levelSett->saveBut, SIGNAL(clicked()), this, SLOT(saveToFile()));
+
 }
 
 void examSettingsDlg::levelWasSelected(TexamLevel level) {
@@ -73,9 +77,16 @@ void examSettingsDlg::levelNotSaved() {
 
 void examSettingsDlg::saveLevel() {
     if ( QMessageBox::question(this, "", tr("Exam's level was changed\nand not saved !!"), QMessageBox::Save, QMessageBox::Cancel) == QMessageBox::Save ) {
+//        saveToFile();
 
     }
     isNotSaved = false;
     navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
     setWindowTitle(examSettTxt);
+}
+
+void examSettingsDlg::saveToFile() {
+    TlevelHeaderWdg *saveDlg = new TlevelHeaderWdg;
+    QStringList nameList = saveDlg->getLevelName();
+
 }
