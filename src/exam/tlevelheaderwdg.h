@@ -38,6 +38,9 @@ private:
     QTextEdit *descEd;
     QPushButton *okBut;
 
+private slots:
+    void onTextChanged();
+
 };
 
 #endif // TLEVELHEADERWDG_H

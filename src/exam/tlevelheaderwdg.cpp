@@ -22,28 +22,38 @@
 TlevelHeaderWdg::TlevelHeaderWdg(QWidget *parent) :
     QDialog(parent)
 {
+//    setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint);
     QVBoxLayout *mainLay = new QVBoxLayout;
     QLabel *nameLab = new QLabel(tr("Level's name:"),this);
     mainLay->addWidget(nameLab);
     nameEd = new QLineEdit(this);
     nameEd->setMaxLength(20);
+    nameEd->setText(tr("new level"));
     mainLay->addWidget(nameEd);
     QLabel *descLab = new QLabel(tr("Level's description:"),this);
     mainLay->addWidget(descLab);
     descEd = new QTextEdit(this);
-    descEd->setAcceptRichText(false);
+//    descEd->setAcceptRichText(false);
+    descEd->setLineWrapMode(QTextEdit::FixedColumnWidth);
+    descEd->setLineWrapColumnOrWidth(30);
     mainLay->addWidget(descEd);
     okBut = new QPushButton(tr("OK"),this);
     mainLay->addWidget(okBut,1,Qt::AlignCenter);
 
     setLayout(mainLay);
 
+    connect(descEd, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
     connect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
 }
 
 QStringList TlevelHeaderWdg::getLevelName() {
     exec();
     QStringList list;
-    list << nameEd->text() << descEd->toPlainText();
+    list << nameEd->text() << descEd->toHtml();
     return list;
+}
+
+void TlevelHeaderWdg::onTextChanged() {
+    if (descEd->toPlainText().length() > 90 )
+        descEd->setPlainText(descEd->toPlainText().right(90));
 }

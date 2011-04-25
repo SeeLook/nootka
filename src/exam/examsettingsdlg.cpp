@@ -86,7 +86,8 @@ void examSettingsDlg::saveLevel() {
 }
 
 void examSettingsDlg::saveToFile() {
-    TlevelHeaderWdg *saveDlg = new TlevelHeaderWdg;
+    TlevelHeaderWdg *saveDlg = new TlevelHeaderWdg(this);
+    saveDlg->setWindowFlags(Qt::Tool);
     QStringList nameList = saveDlg->getLevelName();
     TexamLevel newLevel;
     newLevel.name = nameList[0];
