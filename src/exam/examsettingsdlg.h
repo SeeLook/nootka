@@ -53,6 +53,7 @@ private slots:
         /** Is called when user changes level or want to close dialog window
             without saveing changed level*/
     void levelNotSaved();
+    void saveToFile();
 
 };
 

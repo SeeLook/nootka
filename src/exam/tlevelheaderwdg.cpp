@@ -19,8 +19,8 @@
 
 #include "tlevelheaderwdg.h"
 
-TlevelHeaderWdg::TlevelHeaderWdg(QString &lName, QString &lDesc, QWidget *parent) :
-    QWidget(parent)
+TlevelHeaderWdg::TlevelHeaderWdg(QWidget *parent) :
+    QDialog(parent)
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
     QLabel *nameLab = new QLabel(tr("Level's name:"),this);
@@ -32,4 +32,17 @@ TlevelHeaderWdg::TlevelHeaderWdg(QString &lName, QString &lDesc, QWidget *parent
     mainLay->addWidget(descLab);
     descEd = new QTextEdit(this);
     mainLay->addWidget(descEd);
+    okBut = new QPushButton(tr("OK"),this);
+    mainLay->addWidget(okBut,1,Qt::AlignCenter);
+
+    setLayout(mainLay);
+
+    connect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
+}
+
+QStringList TlevelHeaderWdg::getLevelName() {
+    exec();
+    QStringList list;
+    list << nameEd->text() << descEd->toPlainText();
+    return list;
 }

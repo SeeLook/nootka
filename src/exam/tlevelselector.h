@@ -24,8 +24,6 @@
 #include "texamlevel.h"
 
 
-//#######################################################################
-
 class TlevelSummaryWdg : public QWidget
 {
     Q_OBJECT
@@ -42,6 +40,7 @@ private:
 
 };
 
+//#######################################################################
 
 class TlevelSelector : public QWidget
 {
@@ -54,7 +53,8 @@ public:
         * 3. In last used files */
     void findLevels();
 
-    void setLevel(const TexamLevel &lev);
+    void addLevel(const TexamLevel &lev);
+
 
 public slots:
     void levelSelected(int id);

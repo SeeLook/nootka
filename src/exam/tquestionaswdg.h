@@ -39,6 +39,7 @@ public:
     bool answerAsSound() { return asSoundChB->isChecked(); }
 
     void setAnswers(TQAtype types);
+    TQAtype getAnswers();
 
 signals:
         /** This signal is emited when any QCheckBox changes his state. */

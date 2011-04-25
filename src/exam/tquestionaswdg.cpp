@@ -69,3 +69,11 @@ void TquestionAsWdg::setAnswers(TQAtype types) {
     asFretPosChB->setChecked(types.isFret());
     asSoundChB->setChecked(types.isSound());
 }
+
+TQAtype TquestionAsWdg::getAnswers() {
+    TQAtype t;
+    t.setAsNote(asNoteChB->isChecked());
+    t.setAsName(asNameChB->isChecked());
+    t.setAsFret(asFretPosChB->isChecked());
+    t.setAsSound(asSoundChB->isChecked());
+}

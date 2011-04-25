@@ -33,11 +33,14 @@ public:
     explicit levelSettings(QWidget *parent = 0);
 
     TlevelSelector *levelSelector;
+    QPushButton *saveBut, *loadBut;
 
 signals:
 
 private:
-    QPushButton *saveBut, *loadBut;
+
+
+private slots:
 
 
 };

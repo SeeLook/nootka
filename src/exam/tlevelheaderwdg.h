@@ -22,15 +22,21 @@
 
 #include <QtGui>
 
-class TlevelHeaderWdg : public QWidget
+
+    /** This is dialog with level's name and desciption.*/
+class TlevelHeaderWdg : public QDialog
 {
     Q_OBJECT
 public:
-    explicit TlevelHeaderWdg(QString &lName, QString &lDesc, QWidget *parent = 0);
+    explicit TlevelHeaderWdg(QWidget *parent = 0);
+        /** It is called instead exec() and returns list with:
+         name - at [0] and description - at [1] */
+    QStringList getLevelName();
 
 private:
     QLineEdit *nameEd;
     QTextEdit *descEd;
+    QPushButton *okBut;
 
 };
 

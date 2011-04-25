@@ -269,4 +269,7 @@ void TasFretPosWdg::whenParamsChanged() {
     }
 }
 
-
+void TasFretPosWdg::saveLevel(TexamLevel &level) {
+    level.questionAs.setAsFret(asPosGr->isChecked());
+    level.answersAs[TQAtype::e_asFretPos] = asPosGr->getAnswers();
+}
