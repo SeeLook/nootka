@@ -55,6 +55,11 @@ void questionsSettings::whenParamsChanged() {
     emit questSettChanged();
 }
 
+void questionsSettings::saveLevel(TexamLevel &level) {
+    asNoteWdg->saveLevel(level);
+    asNameWdg->saveLevel(level);
+    asFretPosWdg->saveLevel(level);
+}
 
 //############################# AS NOTE IN A SCORE ###################################
 
@@ -182,6 +187,22 @@ void TasNoteWdg::whenParamsChanged() {
     }
 }
 
+void TasNoteWdg::saveLevel(TexamLevel &level) {
+    level.questionAs.setAsNote(asNoteGr->isChecked());
+    level.answersAs[TQAtype::e_asNote] = asNoteGr->getAnswers();
+    level.withSharps = sharpsChB->isChecked();
+    level.withFlats = flatsChB->isChecked();
+    level.withDblAcc = doubleAccChB->isChecked();
+    level.useKeySign = keySignGr->isChecked();
+    if (singleKeyRadio->isChecked())
+        level.isSingleKey = true;
+    else
+        level.isSingleKey = false;
+    level.loKey = fromKeyCombo->getKeySignature();
+    level.hiKey = toKeyCombo->getKeySignature();
+    level.manualKey = keyInAnswerChB->isChecked();
+    level.forceAccids = forceAccChB->isChecked();
+}
 
 
 //############################# AS NOTE'S NAME  ###################################
@@ -235,6 +256,13 @@ void TasNameWdg::whenParamsChanged() {
         isNotSaved = true;
         emit asNameChanged();
     }
+}
+
+void TasNameWdg::saveLevel(TexamLevel &level) {
+    level.questionAs.setAsName(asNameGr->isChecked());
+    level.answersAs[TQAtype::e_asName] = asNameGr->getAnswers();
+    level.requireOctave = octaveRequiredChB->isChecked();
+    level.requireStyle = styleRequiredChB->isChecked();
 }
 
 

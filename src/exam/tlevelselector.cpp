@@ -58,8 +58,8 @@ void TlevelSelector::findLevels() {
 
 void TlevelSelector::addLevel(const TexamLevel &lev) {
     levelsList->addItem(lev.name);
-    levelsList->item(0)->setStatusTip(lev.desc);
     levList << lev;
+    levelsList->item(levList.size()-1)->setStatusTip(lev.desc);
 }
 
 

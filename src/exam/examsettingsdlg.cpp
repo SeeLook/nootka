@@ -77,16 +77,25 @@ void examSettingsDlg::levelNotSaved() {
 
 void examSettingsDlg::saveLevel() {
     if ( QMessageBox::question(this, "", tr("Exam's level was changed\nand not saved !!"), QMessageBox::Save, QMessageBox::Cancel) == QMessageBox::Save ) {
-//        saveToFile();
+        saveToFile();
 
     }
-    isNotSaved = false;
-    navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
-    setWindowTitle(examSettTxt);
+//    isNotSaved = false;
+//    navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
+//    setWindowTitle(examSettTxt);
 }
 
 void examSettingsDlg::saveToFile() {
     TlevelHeaderWdg *saveDlg = new TlevelHeaderWdg;
     QStringList nameList = saveDlg->getLevelName();
+    TexamLevel newLevel;
+    newLevel.name = nameList[0];
+    newLevel.desc = nameList[1];
+    questSett->saveLevel(newLevel);
+    rangeSett->saveLevel(newLevel);
 
+    levelSett->levelSelector->addLevel(newLevel);
+    isNotSaved = false;
+    navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
+    setWindowTitle(examSettTxt);
 }
