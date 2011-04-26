@@ -16,3 +16,5 @@ TFINGERBOARD
 
 TKEYSIGNATUREVIEW
     - keys names are static strings, but they are declared only when TkeySignatureView object exist. Make order with this.
+
+TKEYSIGNATURE
