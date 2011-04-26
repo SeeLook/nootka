@@ -27,6 +27,7 @@ bool isNotSaved;
 
 /*static*/
 QString examSettingsDlg::examSettTxt = tr("exam's settings");
+QString examSettingsDlg::levelFilterTxt = tr("Levels (*.nlv)");
 
 examSettingsDlg::examSettingsDlg(QWidget *parent) :
     TsettingsDialogBase(parent)
@@ -60,6 +61,7 @@ examSettingsDlg::examSettingsDlg(QWidget *parent) :
     connect(rangeSett, SIGNAL(rangeChanged()), this, SLOT(levelNotSaved()));
     connect(questSett, SIGNAL(questSettChanged()), this, SLOT(levelNotSaved()));
     connect(levelSett->saveBut, SIGNAL(clicked()), this, SLOT(saveToFile()));
+    connect(levelSett->loadBut, SIGNAL(clicked()), this, SLOT(loadFromFile()));
 
 }
 
@@ -78,11 +80,8 @@ void examSettingsDlg::levelNotSaved() {
 void examSettingsDlg::saveLevel() {
     if ( QMessageBox::question(this, "", tr("Exam's level was changed\nand not saved !!"), QMessageBox::Save, QMessageBox::Cancel) == QMessageBox::Save ) {
         saveToFile();
-
     }
-//    isNotSaved = false;
-//    navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
-//    setWindowTitle(examSettTxt);
+    levelSaved();
 }
 
 void examSettingsDlg::saveToFile() {
@@ -93,9 +92,46 @@ void examSettingsDlg::saveToFile() {
     newLevel.desc = nameList[1];
     questSett->saveLevel(newLevel);
     rangeSett->saveLevel(newLevel);
+  // Saving to file
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save exam's level"), QDir::homePath(), levelFilterTxt);
+    QFile file(fileName);
+    if (file.open(QIODevice::WriteOnly)) {
+        QDataStream out(&file);
+        out.setVersion(QDataStream::Qt_4_7);
+        out << quint32(0x95121701) << newLevel;
+    }
+    else
+        QMessageBox::critical(this, "", tr("Cannot open file for writing\n%1").arg(qPrintable(file.errorString())));
 
     levelSett->levelSelector->addLevel(newLevel);
+    levelSaved();
+}
+
+void examSettingsDlg::levelSaved() {
     isNotSaved = false;
     navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
     setWindowTitle(examSettTxt);
+}
+
+void examSettingsDlg::loadFromFile() {
+    if (isNotSaved)
+        saveLevel();
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Load exam's level"),
+                                                    QDir::homePath(), levelFilterTxt);
+   QFile file(fileName);
+   if (file.open(QIODevice::ReadOnly)) {
+        QDataStream in(&file);
+        in.setVersion(QDataStream::Qt_4_7);
+        quint32 lv; //level template version
+        in >> lv;
+        if (lv != 0x95121701) {
+            QMessageBox::critical(this, "", tr("File: %1 \n is not Nootka level file !!!").arg(fileName));
+            return;
+        }
+        TexamLevel level;
+        in >> level;
+        levelSett->levelSelector->addLevel(level);
+
+   } else
+       QMessageBox::critical(this, "", tr("Cannot open file for reading\n%1 ").arg(qPrintable(file.errorString())));
 }

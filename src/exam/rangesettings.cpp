@@ -86,7 +86,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
     lowPosOnlyChBox->setStatusTip(tr("If checked, only simple possibility of a note are required,<br>otherwise all possible positions of the note are taken."));
     mainLay->addWidget(lowPosOnlyChBox, 0, Qt::AlignCenter);
     currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);
-    currKeySignChBox->setStatusTip(tr("only notes from current key signaature are taken."));
+    currKeySignChBox->setStatusTip(tr("Only notes from current key signaature are taken.<br>If key signature is disabled no accidentals are used."));
     mainLay->addWidget(currKeySignChBox, 0, Qt::AlignCenter);
     mainLay->addStretch(1);
 
@@ -150,4 +150,6 @@ void rangeSettings::saveLevel(TexamLevel &level) {
         level.usedStrings[i] = stringBut[i]->isChecked();
     level.onlyLowPos = lowPosOnlyChBox->isChecked();
     level.onlyCurrKey = currKeySignChBox->isChecked();
+    /** Maybe there is sence to check - is key signature enabled, and if not
+        set all accidentals to false...*/
 }

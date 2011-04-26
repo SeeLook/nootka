@@ -30,7 +30,7 @@ class TkeySignature
 {
 public:
     TkeySignature();
-    TkeySignature(char key);
+    TkeySignature(char keyS);
         /** Lists of keys names*/
     static QString majorNames[15], minorNames[15];
         /** Array with definitions of each scale.

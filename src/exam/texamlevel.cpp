@@ -19,6 +19,7 @@
 
 #include "texamlevel.h"
 #include "tglobals.h"
+#include <QDebug>
 
 extern Tglobals *gl;
 
@@ -66,7 +67,7 @@ QDataStream &operator << (QDataStream &out, TexamLevel &lev) {
     out << lev.answersAs[0] << lev.answersAs[1] << lev.answersAs[2] << lev.answersAs[3];
     out << lev.withSharps << lev.withFlats << lev.withDblAcc;
     out << lev.useKeySign << lev.isSingleKey;
-    out << lev.loKey << lev.hiKey;
+    out << (qint8)lev.loKey.getKey() << (qint8)lev.hiKey.getKey();
     out << lev.manualKey << lev.forceAccids;
     out <<  lev.requireOctave << lev.requireStyle;
 // RANGE
@@ -85,14 +86,20 @@ QDataStream &operator << (QDataStream &out, TexamLevel &lev) {
     /** @todo check all no-bool values to avoid corrupted files*/
 QDataStream &operator >>(QDataStream &in, TexamLevel &lev) {
     in >> lev.name >> lev.desc;
+//    qDebug() << lev.name << " " << lev.desc;
     in >> lev.questionAs;
+//    qDebug() << lev.questionAs.isName();
     in >> lev.answersAs[0] >> lev.answersAs[1] >> lev.answersAs[2] >> lev.answersAs[3];
+//    qDebug() << lev.answersAs[2].isName();
     in >> lev.withSharps >> lev.withFlats >> lev.withDblAcc;
+//    qDebug() << lev.withSharps << " " << lev.withFlats << " " << lev.withDblAcc;
     in >> lev.useKeySign >> lev.isSingleKey;
-//    TkeySignature loK, hiK;
-    in >> lev.loKey >> lev.hiKey;
-//    lev.loKey = char(lo);
-//    lev.hiKey = char(hi);
+//    qDebug() << lev.useKeySign << " " << lev.isSingleKey;
+    qint8 loK, hiK;
+    in >> loK >> hiK;
+//    qDebug() << lev.loKey.getKey() << " " << lev.hiKey.getKey();
+    lev.loKey = TkeySignature(char(loK));
+    lev.hiKey = TkeySignature(char(hiK));
     in >> lev.manualKey >> lev.forceAccids;
     in >>  lev.requireOctave >> lev.requireStyle;
 // RANGE

@@ -34,6 +34,7 @@ public:
 
     TlevelSelector *levelSelector;
     QPushButton *saveBut, *loadBut;
+    static QString saveLevelTxt, loadLevelTxt;
 
 signals:
 
