@@ -33,7 +33,7 @@ class examSettingsDlg : public TsettingsDialogBase
 public:
     explicit examSettingsDlg(QWidget *parent = 0);
 
-    static QString examSettTxt;
+    static QString examSettTxt, levelFilterTxt;
 
 signals:
 
@@ -54,6 +54,10 @@ private slots:
             without saveing changed level*/
     void levelNotSaved();
     void saveToFile();
+        /** This method restored levelSettings tab icon and
+            @param isNotSaved value to @p false and window title.*/
+    void levelSaved();
+    void loadFromFile();
 
 };
 

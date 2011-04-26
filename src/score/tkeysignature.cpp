@@ -18,6 +18,7 @@
 
 
 #include "tkeysignature.h"
+//#include <QDebug>
 
 /*static*/
 const char TkeySignature::scalesDefArr[15][7] = {
@@ -63,18 +64,20 @@ TkeySignature::TkeySignature()
     m_key = 0;
 }
 
-TkeySignature::TkeySignature(char key)
+TkeySignature::TkeySignature(char keyS)
 {
-    m_key = key;
+    m_key = keyS;
 }
 
-QDataStream &operator <<(QDataStream &out, TkeySignature &key) {
-    out << (qint8)key.getKey();
+QDataStream &operator << (QDataStream &out, TkeySignature &key) {
+    out << qint8(key.getKey());
     return out;
 }
 
-QDataStream &operator >>(QDataStream &in, TkeySignature &key) {
-    in >> key;
+QDataStream &operator >> (QDataStream &in, TkeySignature &key) {
+//    qint8 ky;
+//    in >> ky;
+//    key = TkeySignature(char(ky));
     return in;
 
 }

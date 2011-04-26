@@ -199,8 +199,18 @@ void TasNoteWdg::saveLevel(TexamLevel &level) {
         level.isSingleKey = true;
     else
         level.isSingleKey = false;
-    level.loKey = fromKeyCombo->getKeySignature();
-    level.hiKey = toKeyCombo->getKeySignature();
+    if (fromKeyCombo->getKeySignature().getKey() < toKeyCombo->getKeySignature().getKey()) {
+        level.loKey = fromKeyCombo->getKeySignature();
+        level.hiKey = toKeyCombo->getKeySignature();
+    } else
+        if (fromKeyCombo->getKeySignature().getKey() > toKeyCombo->getKeySignature().getKey()) {
+            level.loKey = toKeyCombo->getKeySignature();
+            level.hiKey = fromKeyCombo->getKeySignature();
+        } else { // == means only one key is selected
+            level.isSingleKey = true;
+            level.loKey = fromKeyCombo->getKeySignature();
+            level.hiKey = toKeyCombo->getKeySignature();
+        }
     level.manualKey = keyInAnswerChB->isChecked();
     level.forceAccids = forceAccChB->isChecked();
 }
