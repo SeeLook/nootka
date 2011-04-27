@@ -19,6 +19,9 @@
 
 #include "tlevelselector.h"
 #include "tnotename.h"
+#include "tglobals.h"
+
+extern Tglobals *gl;
 
 TlevelSelector::TlevelSelector(QWidget *parent) :
     QWidget(parent)
@@ -65,28 +68,44 @@ void TlevelSelector::addLevel(const TexamLevel &lev) {
 
 //#########################  TlevelSummaryWdg ################################################
 
+/*static*/
+QString TlevelSummaryWdg::notesRangeTxt = tr("notes' range:");
+QString TlevelSummaryWdg::fretsRangeTxt = tr("frets' range:");
+
 TlevelSummaryWdg::TlevelSummaryWdg(QWidget *parent) :
     QWidget(parent)
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
     QLabel *headLab = new QLabel(tr("Level summary:"),this);
     mainLay->addWidget(headLab);
-    summLab = new QLabel(this);
+    summLab = new QLabel(tr("\n no level selected"), this);
     mainLay->addWidget(summLab);
     mainLay->addStretch(1);
     setLayout(mainLay);
 
-    summLab->setText("Here will be<br>exam's level summary.");
 }
 
 void TlevelSummaryWdg::setLevel(const TexamLevel &lev) {
     QString S;
-    S = "<center><b>" + lev.name + "</b>";
+    TexamLevel tl = lev;
+    S = "<center><b>" + tl.name + "</b>";
     S += "<table>";
-    S += "<tr><td>" + tr("note's range: ") + "</td>";
-    S += "<td>" + TnoteName::noteToRichText(lev.loNote) + " - "
-         + TnoteName::noteToRichText(lev.hiNote) + "</td>";
-
+    S += "<tr><td>" + notesRangeTxt + " </td>";
+    S += "<td>" + TnoteName::noteToRichText(tl.loNote) + " - "
+         + TnoteName::noteToRichText(tl.hiNote) + "</td></tr>";
+    if (tl.questionAs.isFret() || tl.answersAs[0].isFret()
+        || tl.answersAs[1].isFret() || tl.answersAs[2].isFret()
+        || tl.answersAs[3].isFret()) { // level uses guitar
+        S += "<tr><td>" + fretsRangeTxt + " </td>";
+        S += QString("<td>%1 - %2").arg(int(lev.loFret)).arg(int(lev.hiFret)) + "</td></tr>";
+    }
+    if (tl.useKeySign) {
+        S += "<tr><td>" + tr("key signature:") + "</td>";
+        S += "<td>" + tl.loKey.getMajorName().remove("-"+gl->majKeyNameSufix);
+        if (!tl.isSingleKey)
+            S += " - " + tl.hiKey.getMajorName().remove("-"+gl->majKeyNameSufix);
+        S += "</td></tr>";
+    }
     S += "</table></center>";
     summLab->setText(S);
 }

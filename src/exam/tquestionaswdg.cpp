@@ -76,4 +76,5 @@ TQAtype TquestionAsWdg::getAnswers() {
     t.setAsName(asNameChB->isChecked());
     t.setAsFret(asFretPosChB->isChecked());
     t.setAsSound(asSoundChB->isChecked());
+    return t;
 }

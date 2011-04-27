@@ -49,6 +49,8 @@ public:
 
     static QString getMajorName(char key) { return majorNames[key+7]; }
     static QString getMinorName(char key) { return minorNames[key+7]; }
+    QString getMajorName() { return majorNames[m_key+7]; }
+    QString getMinorName() { return minorNames[m_key+7]; }
 
     char getKey() { return m_key; }
 

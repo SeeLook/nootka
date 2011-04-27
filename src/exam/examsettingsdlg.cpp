@@ -93,7 +93,7 @@ void examSettingsDlg::saveToFile() {
     questSett->saveLevel(newLevel);
     rangeSett->saveLevel(newLevel);
   // Saving to file
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save exam's level"), QDir::homePath(), levelFilterTxt);
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save exam's level"), QDir::toNativeSeparators(QDir::homePath()+"/"+newLevel.name), levelFilterTxt);
     QFile file(fileName);
     if (file.open(QIODevice::WriteOnly)) {
         QDataStream out(&file);

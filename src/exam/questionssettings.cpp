@@ -160,6 +160,7 @@ void TasNoteWdg::keyRangeChanged() {
 }
 
 void TasNoteWdg::loadLevel(TexamLevel level) {
+    disconnect(rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));
     asNoteGr->setChecked(level.questionAs.isNote());
     asNoteGr->setAnswers(level.answersAs[TQAtype::e_asNote]);
     if (level.withSharps || level.withFlats || level.withDblAcc)
@@ -179,6 +180,7 @@ void TasNoteWdg::loadLevel(TexamLevel level) {
     keyInAnswerChB->setChecked(level.manualKey);
     forceAccChB->setChecked(level.forceAccids);
     keyRangeChanged();
+    connect(rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));
 }
 
 void TasNoteWdg::whenParamsChanged() {

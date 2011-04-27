@@ -19,6 +19,7 @@
 
 #include "rangesettings.h"
 #include "tglobals.h"
+#include "tlevelselector.h"
 
 extern Tglobals *gl;
 extern bool isNotSaved;
@@ -35,14 +36,16 @@ rangeSettings::rangeSettings(QWidget *parent) :
     scoreRang = new TscoreWidgetSimple(2, this);
     scoreRang->setFixedWidth(160);
     scoreRang->setStatusTip(tr("If selected notes are either the lowest or the highest<br>possible sounds in the current guitar tune,<br>they are automatically adjusted to another tune."));
-    QGroupBox *notesRangGr = new QGroupBox(tr("Notes' range:"),this);
+    scoreRang->setAmbitus(Tnote(gl->Gtune.lowest().getChromaticNrOfNote()),
+               Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber));
+    QGroupBox *notesRangGr = new QGroupBox(TlevelSummaryWdg::notesRangeTxt, this);
     scoreLay->addWidget(scoreRang);
     notesRangGr->setLayout(scoreLay);
 
     allLay->addWidget(notesRangGr);
 
     QVBoxLayout *guitLay = new QVBoxLayout;
-    QGroupBox *fretGr = new QGroupBox(tr("frets' range:"),this);
+    QGroupBox *fretGr = new QGroupBox(TlevelSummaryWdg::fretsRangeTxt, this);
     fretGr->setStatusTip(tr("If selected fret is the highest, it is automatically<br>changed to the highest possible fret<br>for any frets number in a guitar."));
     QHBoxLayout *fretLay = new QHBoxLayout;
     QLabel *fromLab = new QLabel(tr("from"),this);

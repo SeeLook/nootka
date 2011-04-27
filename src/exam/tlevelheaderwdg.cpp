@@ -36,7 +36,7 @@ TlevelHeaderWdg::TlevelHeaderWdg(QWidget *parent) :
 //    descEd->setAcceptRichText(false);
     descEd->setFixedHeight(70);
     descEd->setLineWrapMode(QTextEdit::FixedColumnWidth);
-    descEd->setLineWrapColumnOrWidth(30);
+    descEd->setLineWrapColumnOrWidth(35);
     mainLay->addWidget(descEd);
     okBut = new QPushButton(tr("OK"),this);
     mainLay->addWidget(okBut,1,Qt::AlignCenter);
