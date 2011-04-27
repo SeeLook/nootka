@@ -31,6 +31,8 @@ public:
 //    explicit TlevelSummaryWdg(TexamLevel *level, QWidget *parent = 0);
     explicit TlevelSummaryWdg(QWidget *parent = 0);
 
+    static QString notesRangeTxt, fretsRangeTxt;
+
     void setLevel(const TexamLevel &lev);
 
 public slots:

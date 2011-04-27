@@ -18,3 +18,7 @@ TKEYSIGNATUREVIEW
     - keys names are static strings, but they are declared only when TkeySignatureView object exist. Make order with this.
 
 TKEYSIGNATURE
+
+!!!!! LEVELS
+    - ajust level loaded from files or settings to current tune and frets number
+        (in TexamLevel)

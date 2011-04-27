@@ -28,7 +28,7 @@ TexamLevel::TexamLevel()
 {
   // level paramrters
    name = QT_TR_NOOP("master of masters");
-   desc = QT_TR_NOOP("All possible options turned on");
+   desc = QT_TR_NOOP("All possible options are turned on");
    questionAs = TQAtype(true, true, true, false);
    answersAs[0] = TQAtype(true, true, true, false);
    answersAs[1] = TQAtype(true, true, true, false);

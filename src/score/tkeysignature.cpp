@@ -66,7 +66,10 @@ TkeySignature::TkeySignature()
 
 TkeySignature::TkeySignature(char keyS)
 {
-    m_key = keyS;
+    if (keyS > -8 && keyS <8)
+        m_key = keyS;
+    else
+        m_key = 0;
 }
 
 QDataStream &operator << (QDataStream &out, TkeySignature &key) {
