@@ -37,7 +37,7 @@ TexamLevel::TexamLevel()
   // QUESTIONS - as note
    withSharps = true;
    withFlats = true;
-   withDblAcc = true;
+   withDblAcc = gl->doubleAccidentalsEnabled;
    useKeySign = true;
    isSingleKey  = false;
    loKey = -7;

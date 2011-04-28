@@ -43,7 +43,7 @@ public:
 
 signals:
         /** This signal is emited when any QCheckBox changes his state. */
-    void answerStateChenged();
+    void answerStateChanged();
 
 
 private:
@@ -51,6 +51,7 @@ private:
 
 private slots:
     void buttonClicked();
+    void groupChecked();
 
 };
 
