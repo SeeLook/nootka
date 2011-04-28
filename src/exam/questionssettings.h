@@ -55,6 +55,10 @@ private slots:
         /** Is called when user changes any parameter.
             It emits asNoteChanged() signal. */
     void whenParamsChanged();
+        /** It is called when user changes TkeySignComboBox-es
+        * and goal is to check sharps or flats, otherwiese exam level
+        * has no sense.*/
+    void keySignChanged();
 };
 
 

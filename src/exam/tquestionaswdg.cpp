@@ -57,10 +57,31 @@ TquestionAsWdg::TquestionAsWdg(QWidget *parent) :
     connect(asFretPosChB, SIGNAL(clicked()), this, SLOT(buttonClicked()));
     connect(asSoundChB, SIGNAL(clicked()), this, SLOT(buttonClicked()));
 
+    connect(this, SIGNAL(clicked()), this, SLOT(groupChecked()));
+
 }
 
 void TquestionAsWdg::buttonClicked() {
-    emit answerStateChenged();
+    if (!asNoteChB->isChecked() && !asNameChB->isChecked() && !asFretPosChB->isChecked()
+        && !asSoundChB->isChecked())
+        setChecked(false);
+    emit answerStateChanged();
+}
+
+
+
+void TquestionAsWdg::groupChecked() {
+    if (isChecked()) {
+        asNoteChB->setChecked(true);
+        asNameChB->setChecked(true);
+        asFretPosChB->setChecked(true);
+//        asSoundChB->setChecked(true);
+    } else {
+        asNoteChB->setChecked(false);
+        asNameChB->setChecked(false);
+        asFretPosChB->setChecked(false);
+//        asSoundChB->setChecked(false);
+    }
 }
 
 void TquestionAsWdg::setAnswers(TQAtype types) {
