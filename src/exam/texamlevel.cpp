@@ -67,7 +67,7 @@ QDataStream &operator << (QDataStream &out, TexamLevel &lev) {
     out << lev.answersAs[0] << lev.answersAs[1] << lev.answersAs[2] << lev.answersAs[3];
     out << lev.withSharps << lev.withFlats << lev.withDblAcc;
     out << lev.useKeySign << lev.isSingleKey;
-    out << (qint8)lev.loKey.getKey() << (qint8)lev.hiKey.getKey();
+    out << (qint8)lev.loKey.value() << (qint8)lev.hiKey.value();
     out << lev.manualKey << lev.forceAccids;
     out <<  lev.requireOctave << lev.requireStyle;
 // RANGE

@@ -72,8 +72,21 @@ TkeySignature::TkeySignature(char keyS)
         m_key = 0;
 }
 
+QString TkeySignature::accidNumber(bool inHtml) {
+    QString a = "";
+    if (m_key < 0) a = "b";
+    if (m_key > 0) a = "#";
+    QString S = QString("%1").arg(int(qAbs(m_key)));
+    if (inHtml)
+        S += "<sub><i>";
+    S += a;
+    if (inHtml)
+        S += "</i></sub>";
+    return S;
+}
+
 QDataStream &operator << (QDataStream &out, TkeySignature &key) {
-    out << qint8(key.getKey());
+    out << qint8(key.value());
     return out;
 }
 

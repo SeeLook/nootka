@@ -28,14 +28,16 @@ TkeySignComboBox::TkeySignComboBox(QWidget *parent) :
     if (TkeySignature::majorNames[0] == "")
         TkeySignature::setNameStyle(
                 gl->nameStyleInKeySign, gl->majKeyNameSufix, gl->minKeyNameSufix);
-    for (int i=0; i<15; i++) {
-        QString S;
-        if (i<7) S = QString("(%1b) ").arg(7-i);
-        if (i>7) S = QString("(%1#) ").arg(i-7);
-        addItem(S + TkeySignature::majorNames[i] + " / " + TkeySignature::minorNames[i]);
+    for (int i=-7; i<8; i++) {
+//        QString S;
+//        if (i<7) S = QString("(%1b) ").arg(7-i);
+//        if (i>7) S = QString("(%1#) ").arg(i-7);
+        TkeySignature k = TkeySignature(i);
+        addItem("(" + k.accidNumber() + ") " + TkeySignature::majorNames[i+7] + " / "
+                + TkeySignature::minorNames[i+7]);
     }
 }
 
 void TkeySignComboBox::setKeySignature(TkeySignature key) {
-    setCurrentIndex(key.getKey()+7);
+    setCurrentIndex(key.value()+7);
 }
