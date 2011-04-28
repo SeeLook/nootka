@@ -75,17 +75,16 @@ TasNoteWdg::TasNoteWdg(QWidget *parent) :
     upperLay->addWidget(asNoteGr);
 
     QVBoxLayout *accLay = new QVBoxLayout;
-    sharpsChB = new QCheckBox(tr("sharps")+" <i>#</i>",this);
-    sharpsChB->setStatusTip(tr("It have to be checked, if keys with sharps are used."));
-    flatsChB = new QCheckBox(tr("flats")+" <i>b</i>",this);
-    flatsChB->setStatusTip(tr("It have to be checked, if keys with flats are used."));
-    doubleAccChB = new QCheckBox(tr("double accidentals")+" <i>x bb</i>",this);
+    sharpsChB = new QCheckBox(tr("# - sharps"),this);
+    sharpsChB->setStatusTip(tr("Sharps will be uesd in exam's questions and answers.<br>It has to be checked, if keys with sharps are used."));
+    flatsChB = new QCheckBox(tr("b - flats"),this);
+    flatsChB->setStatusTip(tr("Flats will be uesd in exam's questions and answers.<br>It has to be checked, if keys with flats are used."));
+    doubleAccChB = new QCheckBox(tr("x, bb - double accidentals"),this);
     accLay->addWidget(sharpsChB);
     accLay->addWidget(flatsChB);
     accLay->addWidget(doubleAccChB);
     accLay->addStretch(1);
     accidGr = new QGroupBox(tr("accidentals"),this);
-//    accidGr->setCheckable(true);
     accidGr->setLayout(accLay);
     upperLay->addWidget(accidGr);
 
@@ -118,7 +117,7 @@ TasNoteWdg::TasNoteWdg(QWidget *parent) :
     rangeLay->addLayout(comboLay);
     rangeLay->addStretch(1);
     keyInAnswerChB = new QCheckBox(tr("select a key signature manually"),this);
-    keyInAnswerChB->setStatusTip(tr("if checked, user have to select a key signature,<br>otherwise it is shown by application."));
+    keyInAnswerChB->setStatusTip(tr("if checked, in exam user have to select a key signature,<br>otherwise it is shown by application."));
     rangeLay->addWidget(keyInAnswerChB,0,Qt::AlignCenter);
     keyLay->addLayout(rangeLay);
     keyLay->addStretch(1);
@@ -135,14 +134,15 @@ TasNoteWdg::TasNoteWdg(QWidget *parent) :
     setLayout(mainLay);
 
     connect(rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));
+    
     connect(fromKeyCombo, SIGNAL(activated(int)), this, SLOT(keySignChanged()));
     connect(toKeyCombo, SIGNAL(activated(int)), this, SLOT(keySignChanged()));
     connect(sharpsChB, SIGNAL(clicked()), this, SLOT(keySignChanged()));
     connect(flatsChB, SIGNAL(clicked()), this, SLOT(keySignChanged()));
+    connect(keySignGr, SIGNAL(clicked()), this, SLOT(keySignChanged()));
 
     connect(asNoteGr, SIGNAL(answerStateChanged()), this, SLOT(whenParamsChanged()));
     connect(asNoteGr, SIGNAL(toggled(bool)), this, SLOT(whenParamsChanged()));
-//    connect(accidGr, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
     connect(sharpsChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
     connect(flatsChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
     connect(doubleAccChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
@@ -171,10 +171,6 @@ void TasNoteWdg::loadLevel(TexamLevel level) {
     disconnect(rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));
     asNoteGr->setChecked(level.questionAs.isNote());
     asNoteGr->setAnswers(level.answersAs[TQAtype::e_asNote]);
-//    if (level.withSharps || level.withFlats || level.withDblAcc)
-//        accidGr->setChecked(true);
-//    else
-//        accidGr->setChecked(false);
     sharpsChB->setChecked(level.withSharps);
     flatsChB->setChecked(level.withFlats);
     doubleAccChB->setChecked(level.withDblAcc);
@@ -226,13 +222,21 @@ void TasNoteWdg::saveLevel(TexamLevel &level) {
 }
 
 void TasNoteWdg::keySignChanged() {
-    if (fromKeyCombo->getKeySignature().getKey() < 0 ||
-        toKeyCombo->getKeySignature().getKey() < 0)
-            flatsChB->setChecked(true);
-    if (fromKeyCombo->getKeySignature().getKey() > 0 ||
-        toKeyCombo->getKeySignature().getKey() > 0)
-            flatsChB->setChecked(true);
-            sharpsChB->setChecked(true);
+    if (keySignGr->isChecked()) {
+      if (rangeKeysRadio->isChecked()) {
+	if (fromKeyCombo->getKeySignature().getKey() < 0 ||
+	    toKeyCombo->getKeySignature().getKey() < 0)
+		flatsChB->setChecked(true);
+	if (fromKeyCombo->getKeySignature().getKey() > 0 ||
+	    toKeyCombo->getKeySignature().getKey() > 0)
+		sharpsChB->setChecked(true);
+      } else {
+	if (fromKeyCombo->getKeySignature().getKey() < 0)
+		flatsChB->setChecked(true);
+	if (fromKeyCombo->getKeySignature().getKey() > 0)
+		sharpsChB->setChecked(true);
+      }
+    }
 }
 
 //############################# AS NOTE'S NAME  ###################################
@@ -255,7 +259,7 @@ TasNameWdg::TasNameWdg(QWidget *parent) :
 
     setLayout(mainLay);
 
-    connect(asNameGr, SIGNAL(toggled(bool)), this, SLOT(disableStyleChBox()));
+    connect(asNameGr, SIGNAL(clicked()), this, SLOT(disableStyleChBox()));
     connect(asNameGr, SIGNAL(answerStateChanged()), this, SLOT(disableStyleChBox()));
 
     connect(asNameGr, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));

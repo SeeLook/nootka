@@ -20,7 +20,7 @@
 #include "tsettingsdialogbase.h"
 
 TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
-        QDialog(parent,Qt::CustomizeWindowHint | Qt::WindowSystemMenuHint)
+        QDialog(parent,Qt::CustomizeWindowHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint)
 {
 //    setWindowFlags(Qt::Dialog | Qt::Window);
 //    setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint);
