@@ -52,7 +52,9 @@ public:
     QString getMajorName() { return majorNames[m_key+7]; }
     QString getMinorName() { return minorNames[m_key+7]; }
 
-    char getKey() { return m_key; }
+    QString accidNumber(bool inHtml = false);
+
+    char value() { return m_key; }
 
 private:
     char m_key;

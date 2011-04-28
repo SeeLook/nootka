@@ -101,9 +101,11 @@ void TlevelSummaryWdg::setLevel(const TexamLevel &lev) {
     }
     if (tl.useKeySign) {
         S += "<tr><td>" + tr("key signature:") + "</td>";
-        S += "<td>" + tl.loKey.getMajorName().remove("-"+gl->majKeyNameSufix);
+//        S += "<td>" + tl.loKey.getMajorName().remove("-"+gl->majKeyNameSufix);
+        S += "<td>" + tl.loKey.accidNumber(true);
         if (!tl.isSingleKey)
-            S += " - " + tl.hiKey.getMajorName().remove("-"+gl->majKeyNameSufix);
+//            S += " - " + tl.hiKey.getMajorName().remove("-"+gl->majKeyNameSufix);
+            S += " - " + tl.hiKey.accidNumber(true);
         S += "</td></tr>";
     }
     S += "</table></center>";

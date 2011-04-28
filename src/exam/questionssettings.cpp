@@ -85,6 +85,7 @@ TasNoteWdg::TasNoteWdg(QWidget *parent) :
     accLay->addWidget(doubleAccChB);
     accLay->addStretch(1);
     accidGr = new QGroupBox(tr("accidentals"),this);
+    accidGr->setStatusTip(tr("Accidentals used in exam."));
     accidGr->setLayout(accLay);
     upperLay->addWidget(accidGr);
 
@@ -158,6 +159,7 @@ TasNoteWdg::TasNoteWdg(QWidget *parent) :
 
 void TasNoteWdg::keyRangeChanged() {
     if (singleKeyRadio->isChecked()) {
+        toKeyCombo->setKeySignature(TkeySignature(0));
         toKeyCombo->setDisabled(true);
         keyInAnswerChB->setDisabled(true);
     }
@@ -205,11 +207,11 @@ void TasNoteWdg::saveLevel(TexamLevel &level) {
         level.isSingleKey = true;
     else
         level.isSingleKey = false;
-    if (fromKeyCombo->getKeySignature().getKey() < toKeyCombo->getKeySignature().getKey()) {
+    if (fromKeyCombo->getKeySignature().value() < toKeyCombo->getKeySignature().value()) {
         level.loKey = fromKeyCombo->getKeySignature();
         level.hiKey = toKeyCombo->getKeySignature();
     } else
-        if (fromKeyCombo->getKeySignature().getKey() > toKeyCombo->getKeySignature().getKey()) {
+        if (fromKeyCombo->getKeySignature().value() > toKeyCombo->getKeySignature().value()) {
             level.loKey = toKeyCombo->getKeySignature();
             level.hiKey = fromKeyCombo->getKeySignature();
         } else { // == means only one key is selected
@@ -223,20 +225,27 @@ void TasNoteWdg::saveLevel(TexamLevel &level) {
 
 void TasNoteWdg::keySignChanged() {
     if (keySignGr->isChecked()) {
-      if (rangeKeysRadio->isChecked()) {
-	if (fromKeyCombo->getKeySignature().getKey() < 0 ||
-	    toKeyCombo->getKeySignature().getKey() < 0)
-		flatsChB->setChecked(true);
-	if (fromKeyCombo->getKeySignature().getKey() > 0 ||
-	    toKeyCombo->getKeySignature().getKey() > 0)
-		sharpsChB->setChecked(true);
-      } else {
-	if (fromKeyCombo->getKeySignature().getKey() < 0)
-		flatsChB->setChecked(true);
-	if (fromKeyCombo->getKeySignature().getKey() > 0)
-		sharpsChB->setChecked(true);
-      }
+//      if (rangeKeysRadio->isChecked()) {
+        if (fromKeyCombo->getKeySignature().value() < 0 ||
+            toKeyCombo->getKeySignature().value() < 0) {
+            flatsChB->setChecked(true);
+            flatsChB->setDisabled(true);
+        }
+        if (fromKeyCombo->getKeySignature().value() > 0 ||
+            toKeyCombo->getKeySignature().value() > 0) {
+            sharpsChB->setChecked(true);
+            sharpsChB->setDisabled(true);
+        }
+        if (fromKeyCombo->getKeySignature().value() == 0 &&
+            toKeyCombo->getKeySignature().value() == 0) {
+            flatsChB->setDisabled(false);
+            sharpsChB->setDisabled(false);
+        }
+    } else {
+        flatsChB->setDisabled(false);
+        sharpsChB->setDisabled(false);
     }
+//    }
 }
 
 //############################# AS NOTE'S NAME  ###################################
