@@ -104,6 +104,7 @@ void examSettingsDlg::saveToFile() {
         QMessageBox::critical(this, "", tr("Cannot open file for writing\n%1").arg(qPrintable(file.errorString())));
 
     levelSett->levelSelector->addLevel(newLevel);
+    levelSett->levelSelector->selectLevel(); // select the last
     levelSaved();
 }
 
@@ -131,6 +132,7 @@ void examSettingsDlg::loadFromFile() {
         TexamLevel level;
         in >> level;
         levelSett->levelSelector->addLevel(level);
+        levelSett->levelSelector->selectLevel(); // select the last
 
    } else
        QMessageBox::critical(this, "", tr("Cannot open file for reading\n%1 ").arg(qPrintable(file.errorString())));

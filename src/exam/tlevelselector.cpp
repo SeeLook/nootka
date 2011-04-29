@@ -65,6 +65,14 @@ void TlevelSelector::addLevel(const TexamLevel &lev) {
     levelsList->item(levList.size()-1)->setStatusTip(lev.desc);
 }
 
+void TlevelSelector::selectLevel(int id) {
+    if (id >= 0 && id < levelsList->count())
+        levelsList->setCurrentRow(id);
+}
+
+void TlevelSelector::selectLevel() {
+    levelsList->setCurrentRow(levelsList->count()-1);
+}
 
 //#########################  TlevelSummaryWdg ################################################
 
@@ -85,11 +93,10 @@ TlevelSummaryWdg::TlevelSummaryWdg(QWidget *parent) :
 
 }
 
-void TlevelSummaryWdg::setLevel(const TexamLevel &lev) {
+void TlevelSummaryWdg::setLevel(TexamLevel tl) {
     QString S;
-    TexamLevel tl = lev;
     S = "<center><b>" + tl.name + "</b>";
-    S += "<table>";
+    S += "<table border=\"1\">";
     S += "<tr><td>" + notesRangeTxt + " </td>";
     S += "<td>" + TnoteName::noteToRichText(tl.loNote) + " - "
          + TnoteName::noteToRichText(tl.hiNote) + "</td></tr>";
@@ -97,17 +104,27 @@ void TlevelSummaryWdg::setLevel(const TexamLevel &lev) {
         || tl.answersAs[1].isFret() || tl.answersAs[2].isFret()
         || tl.answersAs[3].isFret()) { // level uses guitar
         S += "<tr><td>" + fretsRangeTxt + " </td>";
-        S += QString("<td>%1 - %2").arg(int(lev.loFret)).arg(int(lev.hiFret)) + "</td></tr>";
+        S += QString("<td>%1 - %2").arg(int(tl.loFret)).arg(int(tl.hiFret)) + "</td></tr>";
     }
     if (tl.useKeySign) {
-        S += "<tr><td>" + tr("key signature:") + "</td>";
-//        S += "<td>" + tl.loKey.getMajorName().remove("-"+gl->majKeyNameSufix);
-        S += "<td>" + tl.loKey.accidNumber(true);
-        if (!tl.isSingleKey)
-//            S += " - " + tl.hiKey.getMajorName().remove("-"+gl->majKeyNameSufix);
-            S += " - " + tl.hiKey.accidNumber(true);
+        S += "<tr><td>" + tr("key signature:") + " </td><td>";
+        S += tl.loKey.getMajorName().remove("-"+gl->majKeyNameSufix);
+        S += " (" + tl.loKey.accidNumber(true) +")";
+        if (!tl.isSingleKey) {
+            S += " - " + tl.hiKey.getMajorName().remove("-"+gl->majKeyNameSufix);
+            S += " (" + tl.hiKey.accidNumber(true) + ")";
+        }
         S += "</td></tr>";
     }
+    S += "<tr><td>" + tr("accidentals:") + " </td><td>";
+    if (!tl.withSharps && !tl.withFlats && !tl.withDblAcc)
+        S += tr("none");
+    else {
+        if (tl.withSharps) S += " <i>#</i>";
+        if (tl.withFlats) S += " <i>b</i>";
+        if (tl.withDblAcc) S += " <i>x bb</i>";
+    }
+    S += "</td></tr>";
     S += "</table></center>";
     summLab->setText(S);
 }

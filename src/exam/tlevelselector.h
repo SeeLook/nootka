@@ -33,7 +33,7 @@ public:
 
     static QString notesRangeTxt, fretsRangeTxt;
 
-    void setLevel(const TexamLevel &lev);
+    void setLevel(TexamLevel tl);
 
 public slots:
 
@@ -56,6 +56,9 @@ public:
     void findLevels();
 
     void addLevel(const TexamLevel &lev);
+    void selectLevel(int id);
+
+    void selectLevel();
 
 
 public slots:

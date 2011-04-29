@@ -19,7 +19,8 @@
 
 #include "texamlevel.h"
 #include "tglobals.h"
-#include <QDebug>
+#include <QMessageBox>
+//#include <QDebug>
 
 extern Tglobals *gl;
 
@@ -83,21 +84,23 @@ QDataStream &operator << (QDataStream &out, TexamLevel &lev) {
 }
 
 
-    /** @todo check all no-bool values to avoid corrupted files*/
 QDataStream &operator >>(QDataStream &in, TexamLevel &lev) {
+    bool isCorupted = false;
     in >> lev.name >> lev.desc;
-//    qDebug() << lev.name << " " << lev.desc;
     in >> lev.questionAs;
-//    qDebug() << lev.questionAs.isName();
     in >> lev.answersAs[0] >> lev.answersAs[1] >> lev.answersAs[2] >> lev.answersAs[3];
-//    qDebug() << lev.answersAs[2].isName();
     in >> lev.withSharps >> lev.withFlats >> lev.withDblAcc;
-//    qDebug() << lev.withSharps << " " << lev.withFlats << " " << lev.withDblAcc;
     in >> lev.useKeySign >> lev.isSingleKey;
-//    qDebug() << lev.useKeySign << " " << lev.isSingleKey;
     qint8 loK, hiK;
     in >> loK >> hiK;
-//    qDebug() << lev.loKey.getKey() << " " << lev.hiKey.getKey();
+    if (loK < -7 || loK > 7) {
+        loK = 0;
+        isCorupted = true;
+    }
+    if (hiK < -7 || hiK > 7) {
+        hiK = 0;
+        isCorupted = true;
+    }
     lev.loKey = TkeySignature(char(loK));
     lev.hiKey = TkeySignature(char(hiK));
     in >> lev.manualKey >> lev.forceAccids;
@@ -105,21 +108,39 @@ QDataStream &operator >>(QDataStream &in, TexamLevel &lev) {
 // RANGE
     qint8 nnote, ooctave, aaccid;
     in >> nnote >> ooctave >> aaccid; // loNote
+    if (nnote < 1 || nnote > 8 || aaccid < -2 || aaccid > 2) {
+        nnote = 1; aaccid = 0; ooctave = 0;
+        isCorupted = true;
+    }
     lev.loNote.note = char(nnote);
     lev.loNote.octave = char(ooctave);
     lev.loNote.acidental = char(aaccid);
     in >> nnote >> ooctave >> aaccid;
+    if (nnote < 1 || nnote > 8 || aaccid < -2 || aaccid > 2) {
+        nnote = 1; aaccid = 0; ooctave = 0;
+        isCorupted = true;
+    }
     lev.hiNote.note = char(nnote);
     lev.hiNote.octave = char(ooctave);
     lev.hiNote.acidental = char(aaccid);
     in >> lev.isNoteLo >> lev.isNoteHi;
     qint8 lo,hi;
     in >> lo >> hi;
+    if (lo < 0 || lo > 24) { // max frets number
+        lo = 0;
+        isCorupted = true;
+    }
+    if (hi < 0 || hi > 24) { // max frets number
+        hi = gl->GfretsNumber;
+        isCorupted = true;
+    }
     lev.loFret = char(lo);
     lev.hiFret = char(hi);
     in >> lev.isFretHi;
     in >> lev.usedStrings[0] >> lev.usedStrings[1] >> lev.usedStrings[2]
             >> lev.usedStrings[3] >> lev.usedStrings[4] >>  lev.usedStrings[5];
     in >> lev.onlyLowPos >> lev.onlyCurrKey;
+    if (isCorupted)
+        QMessageBox::warning(0, "", QT_TR_NOOP("Level file was corrupted and repaired !!\nCheck please, are its parameters such as You expected."));
     return in;
 }
