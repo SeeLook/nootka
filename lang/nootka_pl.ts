@@ -19,17 +19,17 @@
     <message>
         <location filename="../src/exam/examsettingsdlg.cpp" line="38"/>
         <source>Levels</source>
-        <translation type="unfinished"></translation>
+        <translation>Poziomy</translation>
     </message>
     <message>
         <location filename="../src/exam/examsettingsdlg.cpp" line="41"/>
         <source>Questions</source>
-        <translation type="unfinished"></translation>
+        <translation>Pytania</translation>
     </message>
     <message>
         <location filename="../src/exam/examsettingsdlg.cpp" line="44"/>
         <source>Range</source>
-        <translation type="unfinished"></translation>
+        <translation>Zakres</translation>
     </message>
     <message>
         <location filename="../src/exam/examsettingsdlg.cpp" line="81"/>
@@ -40,7 +40,7 @@ and not saved !!</source>
     <message>
         <location filename="../src/exam/examsettingsdlg.cpp" line="96"/>
         <source>Save exam&apos;s level</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz poziom </translation>
     </message>
     <message>
         <location filename="../src/exam/examsettingsdlg.cpp" line="104"/>
