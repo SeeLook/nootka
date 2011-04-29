@@ -158,15 +158,18 @@ TasNoteWdg::TasNoteWdg(QWidget *parent) :
 }
 
 void TasNoteWdg::keyRangeChanged() {
-    if (singleKeyRadio->isChecked()) {
-        toKeyCombo->setKeySignature(TkeySignature(0));
-        toKeyCombo->setDisabled(true);
-        keyInAnswerChB->setDisabled(true);
+    if (keySignGr->isChecked()) {
+        if (singleKeyRadio->isChecked()) {
+            toKeyCombo->setKeySignature(TkeySignature(0));
+            toKeyCombo->setDisabled(true);
+            keyInAnswerChB->setDisabled(true);
+        }
+        else {
+            toKeyCombo->setDisabled(false);
+            keyInAnswerChB->setDisabled(false);
+        }
     }
-    else {
-        toKeyCombo->setDisabled(false);
-        keyInAnswerChB->setDisabled(false);
-    }
+    keySignChanged();
 }
 
 void TasNoteWdg::loadLevel(TexamLevel level) {
@@ -186,6 +189,7 @@ void TasNoteWdg::loadLevel(TexamLevel level) {
     keyInAnswerChB->setChecked(level.manualKey);
     forceAccChB->setChecked(level.forceAccids);
     keyRangeChanged();
+//    keySignChanged();
     connect(rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));
 }
 
@@ -225,7 +229,7 @@ void TasNoteWdg::saveLevel(TexamLevel &level) {
 
 void TasNoteWdg::keySignChanged() {
     if (keySignGr->isChecked()) {
-//      if (rangeKeysRadio->isChecked()) {
+      if (rangeKeysRadio->isChecked()) {
         if (fromKeyCombo->getKeySignature().value() < 0 ||
             toKeyCombo->getKeySignature().value() < 0) {
             flatsChB->setChecked(true);
@@ -241,11 +245,26 @@ void TasNoteWdg::keySignChanged() {
             flatsChB->setDisabled(false);
             sharpsChB->setDisabled(false);
         }
+      } else {
+          if (fromKeyCombo->getKeySignature().value() < 0) {
+            flatsChB->setChecked(true);
+            flatsChB->setDisabled(true);
+            sharpsChB->setDisabled(false);
+        } else
+            if (fromKeyCombo->getKeySignature().value() > 0) {
+                sharpsChB->setChecked(true);
+                sharpsChB->setDisabled(true);
+                flatsChB->setDisabled(false);
+            } else {
+                flatsChB->setDisabled(false);
+                sharpsChB->setDisabled(false);
+            }
+        }
     } else {
         flatsChB->setDisabled(false);
         sharpsChB->setDisabled(false);
     }
-//    }
+
 }
 
 //############################# AS NOTE'S NAME  ###################################
