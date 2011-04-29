@@ -26,8 +26,8 @@ extern Tglobals *gl;
 bool isNotSaved;
 
 /*static*/
-QString examSettingsDlg::examSettTxt = tr("exam's settings");
-QString examSettingsDlg::levelFilterTxt = tr("Levels (*.nlv)");
+QString examSettingsDlg::examSettTxt = QObject::tr("exam's settings");
+QString examSettingsDlg::levelFilterTxt = QObject::tr("Levels (*.nlv)");
 
 examSettingsDlg::examSettingsDlg(QWidget *parent) :
     TsettingsDialogBase(parent)
