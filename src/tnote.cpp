@@ -349,10 +349,22 @@ bool Tnote::operator !=( const Tnote N2 )
     return ( note != N2.note || octave != N2.octave || acidental != N2.acidental);
 }
 
-QDataStream &operator << (QDataStream &out, Tnote &n) {
-  
+bool getNoteFromStream(QDataStream &in, Tnote &n) {
+    bool ok = true;
+    qint8 nn, oo, aa;
+    in >> nn >> oo >> aa;
+    if (nn < 1 || nn > 8 || aa < -2 || aa > 2) {
+        nn = 1; aa = 0; oo = 0;
+        ok = false;
+    }
+    n = Tnote(nn, oo, aa);
+    return ok;
 }
 
-QDataStream &operator>> (QDataStream &in, Tnote &n) {
-  
+QDataStream &operator << (QDataStream &out, Tnote &n) {
+    out << (qint8)n.note << (qint8)n.octave << (qint8)n.acidental;
 }
+
+//QDataStream &operator>> (QDataStream &in, Tnote &n) {
+  
+//}

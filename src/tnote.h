@@ -151,9 +151,13 @@ short getChromaticNrOfNote ();
 protected:
 
 };
+    /** This function is substitute of >> operator for @class Tnote.
+    * It checks is Tnote valid, and return @value bool about it. */
+bool getNoteFromStream(QDataStream &in, Tnote &n);
 
 QDataStream &operator<< (QDataStream &out, Tnote &n);
-QDataStream &operator>> (QDataStream &in, Tnote &n);
+
+//QDataStream &operator>> (QDataStream &in, Tnote &n);
 
 
 #endif
