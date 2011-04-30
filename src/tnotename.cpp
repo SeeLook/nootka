@@ -32,6 +32,8 @@ const QString TnoteName::octavesFull[6] = {tr("Contra octave"), tr("Great octave
 TnoteName::TnoteName(QWidget *parent) :
     QWidget(parent)
 {
+    setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
+    
 // NAME LABEL
     QVBoxLayout *mainLay = new QVBoxLayout();
     mainLay->setAlignment(Qt::AlignCenter);
@@ -237,6 +239,7 @@ void TnoteName::octaveWasChanged(int octNr) {
     setNoteName(m_notes[0].note, octNr-2, m_notes[0].acidental);
 }
 
+/*static*/
 QString TnoteName::noteToRichText(Tnote note) {
     QString nameTxt = QString::fromStdString(note.getName(gl->NnameStyleInNoteName,false));
     if (gl->NnameStyleInNoteName == Tnote::e_italiano_Si ||
