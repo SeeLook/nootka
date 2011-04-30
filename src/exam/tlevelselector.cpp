@@ -108,10 +108,10 @@ void TlevelSummaryWdg::setLevel(TexamLevel tl) {
     }
     if (tl.useKeySign) {
         S += "<tr><td>" + tr("key signature:") + " </td><td>";
-        S += tl.loKey.getMajorName().remove("-"+gl->majKeyNameSufix);
+        S += tl.loKey.getMajorName().remove("-"+gl->SmajKeyNameSufix);
         S += " (" + tl.loKey.accidNumber(true) +")";
         if (!tl.isSingleKey) {
-            S += " - " + tl.hiKey.getMajorName().remove("-"+gl->majKeyNameSufix);
+            S += " - " + tl.hiKey.getMajorName().remove("-"+gl->SmajKeyNameSufix);
             S += " (" + tl.hiKey.accidNumber(true) + ")";
         }
         S += "</td></tr>";

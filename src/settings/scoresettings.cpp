@@ -31,18 +31,18 @@ ScoreSettings::ScoreSettings(QWidget *parent) :
     QWidget(parent)
 {
 
-    m_workStyle = gl->nameStyleInKeySign;
+    m_workStyle = gl->SnameStyleInKeySign;
     QVBoxLayout *mainLay = new QVBoxLayout();
     enablKeySignCh = new QCheckBox(tr("enable key signature"),this);
-    enablKeySignCh->setChecked(gl->keySignatureEnabled);
+    enablKeySignCh->setChecked(gl->SkeySignatureEnabled);
     mainLay->addWidget(enablKeySignCh);
     QHBoxLayout *nameLay = new QHBoxLayout();
     enablKeyNameGr = new QGroupBox(showKeySigName,this);
     enablKeyNameGr->setCheckable(true);
-    enablKeyNameGr->setChecked(gl->showKeySignName);
-    enablKeyNameGr->setDisabled(!gl->keySignatureEnabled);
+    enablKeyNameGr->setChecked(gl->SshowKeySignName);
+    enablKeyNameGr->setDisabled(!gl->SkeySignatureEnabled);
 
-    nameStyleGr = new TnotationRadioGroup(gl->nameStyleInKeySign,this);
+    nameStyleGr = new TnotationRadioGroup(gl->SnameStyleInKeySign,this);
     nameLay->addWidget(nameStyleGr);
 
     nameExtGr = new QGroupBox(tr("Nameing extension"));
@@ -50,7 +50,7 @@ ScoreSettings::ScoreSettings(QWidget *parent) :
     QVBoxLayout *majLay = new QVBoxLayout();
     majExtLab = new QLabel(tr("in the major keys:"),this);
     majLay->addWidget(majExtLab,0,Qt::AlignCenter);
-    majEdit = new QLineEdit(gl->majKeyNameSufix,this);
+    majEdit = new QLineEdit(gl->SmajKeyNameSufix,this);
     majEdit->setMaxLength(10);
     majEdit->setAlignment(Qt::AlignCenter);
     majLay->addWidget(majEdit,0,Qt::AlignCenter);
@@ -62,7 +62,7 @@ ScoreSettings::ScoreSettings(QWidget *parent) :
     QVBoxLayout *minLay = new QVBoxLayout();
     minExtLab = new QLabel(tr("in the minor keys:"));
     minLay->addWidget(minExtLab,0,Qt::AlignCenter);
-    minEdit = new QLineEdit(gl->minKeyNameSufix,this);
+    minEdit = new QLineEdit(gl->SminKeyNameSufix,this);
     minEdit->setMaxLength(10);
     minEdit->setAlignment(Qt::AlignCenter);
     minLay->addWidget(minEdit,0,Qt::AlignCenter);
@@ -84,7 +84,7 @@ ScoreSettings::ScoreSettings(QWidget *parent) :
     setLayout(mainLay);
 
     connect(enablKeySignCh, SIGNAL(toggled(bool)), this, SLOT(enableKeySignGroup(bool)));
-    connect(nameStyleGr, SIGNAL(noteNameStyleWasChanged(Tnote::Enotation)), this, SLOT(nameStyleWasChanged(Tnote::Enotation)));
+    connect(nameStyleGr, SIGNAL(noteNameStyleWasChanged(Tnote::EnameStyle)), this, SLOT(nameStyleWasChanged(Tnote::EnameStyle)));
     connect(majEdit ,SIGNAL(textChanged(QString)), this, SLOT(majorExtensionChanged()));
     connect(minEdit ,SIGNAL(textChanged(QString)), this, SLOT(minorExtensionChanged()));
     majExampl->setText(getMajorExample(m_workStyle));
@@ -103,7 +103,7 @@ void ScoreSettings::minorExtensionChanged() {
     minExampl->setText(getMinorExample(m_workStyle));
 }
 
-QString ScoreSettings::getMajorExample(Tnote::Enotation nameStyle) {
+QString ScoreSettings::getMajorExample(Tnote::EnameStyle nameStyle) {
     Tnote noteE = Tnote(3,0,0);
     Tnote noteBflat = Tnote(7,0,-1);
     QString S;
@@ -113,7 +113,7 @@ QString ScoreSettings::getMajorExample(Tnote::Enotation nameStyle) {
               "<br>" + QString::fromStdString(noteBflat.getName(nameStyle,false)) + S + "</b>";
 }
 
-QString ScoreSettings::getMinorExample(Tnote::Enotation nameStyle) {
+QString ScoreSettings::getMinorExample(Tnote::EnameStyle nameStyle) {
     Tnote noteCsharp = Tnote(1,0,1);
     Tnote noteG = Tnote(5,0,0);
     QString S;
@@ -125,7 +125,7 @@ QString ScoreSettings::getMinorExample(Tnote::Enotation nameStyle) {
 }
 
 
-void ScoreSettings::nameStyleWasChanged(Tnote::Enotation nameStyle) {
+void ScoreSettings::nameStyleWasChanged(Tnote::EnameStyle nameStyle) {
     m_workStyle = nameStyle;
     majExampl->setText(getMajorExample(m_workStyle));
     minExampl->setText(getMinorExample(m_workStyle));
@@ -133,14 +133,14 @@ void ScoreSettings::nameStyleWasChanged(Tnote::Enotation nameStyle) {
 
 /** @todo make order with keys*/
 void ScoreSettings::saveSettings() {
-    gl->keySignatureEnabled = enablKeySignCh->isChecked();
-    if (gl->keySignatureEnabled) { //changed only if key signature is enabled
-        gl->majKeyNameSufix = majEdit->text();
-        gl->minKeyNameSufix = minEdit->text();
-        gl->nameStyleInKeySign = nameStyleGr->getNameStyle();
-        gl->showKeySignName = enablKeyNameGr->isChecked();
+    gl->SkeySignatureEnabled = enablKeySignCh->isChecked();
+    if (gl->SkeySignatureEnabled) { //changed only if key signature is enabled
+        gl->SmajKeyNameSufix = majEdit->text();
+        gl->SminKeyNameSufix = minEdit->text();
+        gl->SnameStyleInKeySign = nameStyleGr->getNameStyle();
+        gl->SshowKeySignName = enablKeyNameGr->isChecked();
         TkeySignature::setNameStyle(
-                gl->nameStyleInKeySign, gl->majKeyNameSufix, gl->minKeyNameSufix);
+                gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
     }
 }
 

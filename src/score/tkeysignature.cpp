@@ -45,7 +45,7 @@ const char TkeySignature::minorKeys[15] = { 5, 2, 6, 3, 0, 4, 1, 5, 2, 6, 3, 0, 
 QString TkeySignature::majorNames[15] = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
 QString TkeySignature::minorNames[15] = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
 
-void TkeySignature::setNameStyle(Tnote::Enotation style, QString majSuf, QString minSuf) {
+void TkeySignature::setNameStyle(Tnote::EnameStyle style, QString majSuf, QString minSuf) {
     Tnote n;
     for (int i=0; i<15; i++) {
         n = Tnote(majorKeys[i]+1, 0, scalesDefArr[i][majorKeys[i]]);

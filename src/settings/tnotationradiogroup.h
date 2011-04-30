@@ -30,10 +30,10 @@ class TnotationRadioGroup: public QGroupBox
 {
         Q_OBJECT
 public:
-        explicit TnotationRadioGroup(Tnote::Enotation _notation, QWidget *parent = 0);
+        explicit TnotationRadioGroup(Tnote::EnameStyle _notation, QWidget *parent = 0);
 
 
-        Tnote::Enotation notation;
+        Tnote::EnameStyle notation;
 
         static const QString strNorsk;
         static const QString strItal;
@@ -46,10 +46,10 @@ public:
         static const QString strEnglishExampl;
         static const QString strNederExampl;
 
-        Tnote::Enotation getNameStyle();
+        Tnote::EnameStyle getNameStyle();
 
 signals:
-        void noteNameStyleWasChanged (Tnote::Enotation);
+        void noteNameStyleWasChanged (Tnote::EnameStyle);
 
 public slots:
         void noteNameStyleWasClicked();

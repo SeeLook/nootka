@@ -20,12 +20,12 @@ Tglobals::Tglobals() {
 //    path ; Is declared in mainWindow constructor
 
 //score widget settings
-    keySignatureEnabled = true;
-    showKeySignName = true;
-    nameStyleInKeySign = Tnote::e_english_Bb;
-    majKeyNameSufix = " " ; //like 'major' or 'dur'
-    minKeyNameSufix = " " ; //like 'minor' or 'moll'
-    pointerColor = -1;
+    SkeySignatureEnabled = true;
+    SshowKeySignName = true;
+    SnameStyleInKeySign = Tnote::e_english_Bb;
+    SmajKeyNameSufix = " " ; //like 'major' or 'dur'
+    SminKeyNameSufix = " " ; //like 'minor' or 'moll'
+    SpointerColor = -1;
 
 //common for score widget and note name
     doubleAccidentalsEnabled = true;

@@ -22,6 +22,7 @@
 
 #include <string>
 #include <vector>
+#include <QDataStream>
 
 class Tnote;
 
@@ -50,7 +51,7 @@ const std::string signsAcid[5] = {"bb","b","","#","x",};
 class Tnote
 {
 public:
-/** Enum type Enotation describes the styles of notation:
+/** Enum type EnameStyle describes the styles of notation:
 		* @li e_italiano_Si - for classical Do Re Mi ...
 		* @li e_norsk_Hb - for letters with signs f.e. C# Cx or Cb    !! THIS IS DEFAULT !!
                 * @li e_deutsch_His - for letters with names f.e. Cis Cizis or Ces H and B
@@ -58,7 +59,7 @@ public:
 		* @li e_english_Bb like @p e_norsk_Hb but with B and Bb (B flat)
                 * @li e_nederl_Bis like @p e_deutsch_His but with B ens Bes
 		*/
-enum Enotation {e_norsk_Hb = 0, e_deutsch_His, e_italiano_Si, e_english_Bb, e_nederl_Bis};
+enum EnameStyle {e_norsk_Hb = 0, e_deutsch_His, e_italiano_Si, e_english_Bb, e_nederl_Bis};
 
 /** Eacidentals enum type describes all signs which can be before note in score.
 * It can be: @li e_None = 3 @li e_Sharp = 1 @li e_DoubleSharp=2
@@ -138,8 +139,8 @@ short compareNotes(Tnote otherNote, short ignoreOctave = 0);
       */
 std::string printNote ( bool showOctave = 1);
 
-	std::string getName (Enotation notation = e_norsk_Hb, bool showOctave = 1);
-	std::string getName (Tnote eNote, Enotation notation = e_norsk_Hb, bool showOctave = 1);
+	std::string getName (EnameStyle notation = e_norsk_Hb, bool showOctave = 1);
+	std::string getName (Tnote eNote, EnameStyle notation = e_norsk_Hb, bool showOctave = 1);
 
 	 /**
 	  *  Return @param chromaticNrOfNote 
@@ -151,7 +152,8 @@ protected:
 
 };
 
-//int operator==(const Tnote &N1, const Tnote &N2);
+QDataStream &operator<< (QDataStream &out, Tnote &n);
+QDataStream &operator>> (QDataStream &in, Tnote &n);
 
 
 #endif

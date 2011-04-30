@@ -105,7 +105,7 @@ TnoteName::TnoteName(QWidget *parent) :
 
 }
 
-void TnoteName::setNoteNamesOnButt(Tnote::Enotation nameStyle) {
+void TnoteName::setNoteNamesOnButt(Tnote::EnameStyle nameStyle) {
     for (int i=0; i<7; i++) {
         noteButtons[i]->setText(QString::fromStdString(Tnote(i+1,0,0).getName(nameStyle,false)));
     }
