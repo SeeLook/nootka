@@ -33,7 +33,7 @@ const char _C = 36;
 TscoreWidgetSimple::TscoreWidgetSimple(unsigned char _notesCount, QWidget *parent):
     QWidget(parent)
 {
-    setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Ignored);
     setMinimumHeight(180);
 
     for (int i=0; i<_notesCount; i++) {

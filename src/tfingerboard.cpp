@@ -45,6 +45,7 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     setScene(m_scene);
     setMouseTracking(true);
     setStatusTip(tr("Select string or finger and click to see it in the score."));
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     for (int i=0; i<6; i++) {
         m_strings[i] = new QGraphicsLineItem();
