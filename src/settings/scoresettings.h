@@ -33,14 +33,14 @@ public:
     static const QString forExample;
     static const QString showKeySigName;
 
-    QString getMajorExample(Tnote::Enotation nameStyle);
-    QString getMinorExample(Tnote::Enotation nameStyle);
+    QString getMajorExample(Tnote::EnameStyle nameStyle);
+    QString getMinorExample(Tnote::EnameStyle nameStyle);
 
 signals:
 
 public slots:
     void enableKeySignGroup(bool enable);
-    void nameStyleWasChanged(Tnote::Enotation nameStyle);
+    void nameStyleWasChanged(Tnote::EnameStyle nameStyle);
     void majorExtensionChanged();
     void minorExtensionChanged();
     void saveSettings();
@@ -52,7 +52,7 @@ private:
     QLabel *majExtLab, *minExtLab, *majExampl, *minExampl;
     QLineEdit *majEdit, *minEdit;
     TnotationRadioGroup *nameStyleGr;
-    Tnote::Enotation m_workStyle;
+    Tnote::EnameStyle m_workStyle;
 
 
 };

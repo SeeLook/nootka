@@ -77,7 +77,7 @@ void TkeySignatureView::resize(int co) {
         m_accidentals[i]->setPos(i*m_coeff+1,
                     m_posOfAccid[std::abs(base-i)]*m_coeff-m_accTextOffset);
     }
-    if (gl->showKeySignName) {
+    if (gl->SshowKeySignName) {
         m_keyNameText->setPos(1,9*m_coeff);
         // All calculation below is to have enought space for key name
         m_keyNameText->setFont(this->font());
@@ -133,7 +133,7 @@ void TkeySignatureView::wheelEvent(QWheelEvent * event) {
                 }
             *(m_accInKeyPtr+(26-m_posOfAccid[std::abs(base-std::abs(prevKey))-1])%7) = 0;
         }
-        if (gl->showKeySignName)
+        if (gl->SshowKeySignName)
             m_keyNameText->setText(majorKeysNames[m_keySignature+7]+"\n" + minorKeysNames[m_keySignature+7]);
         emit keySignWasChanged();
 
@@ -143,25 +143,25 @@ void TkeySignatureView::wheelEvent(QWheelEvent * event) {
 
 void TkeySignatureView::setKeySignature(char keySign) {
     m_keySignature = keySign;
-    if (gl->showKeySignName)
+    if (gl->SshowKeySignName)
         m_keyNameText->setText(majorKeysNames[m_keySignature+7]+"\n" + minorKeysNames[m_keySignature+7]);
 
 }
 
 void TkeySignatureView::setNameStyle() {
-    if (gl->majKeyNameSufix == " ") gl->majKeyNameSufix = tr("major");
-    if (gl->minKeyNameSufix == " ") gl->minKeyNameSufix = tr("minor");
+    if (gl->SmajKeyNameSufix == " ") gl->SmajKeyNameSufix = tr("major");
+    if (gl->SminKeyNameSufix == " ") gl->SminKeyNameSufix = tr("minor");
     Tnote someNote;
     for (int i=0; i<15; i++) {
         someNote = Tnote(majorKeySignatures[i][0],0,majorKeySignatures[i][1]);
-        majorKeysNames[i] = QString::fromStdString((someNote.getName(gl->nameStyleInKeySign,false)));
-        if (gl->majKeyNameSufix != "") majorKeysNames[i] += "-" + gl->majKeyNameSufix;
+        majorKeysNames[i] = QString::fromStdString((someNote.getName(gl->SnameStyleInKeySign,false)));
+        if (gl->SmajKeyNameSufix != "") majorKeysNames[i] += "-" + gl->SmajKeyNameSufix;
         someNote = Tnote(minorKeySignatures[i][0],0,minorKeySignatures[i][1]);
-        minorKeysNames[i] = QString::fromStdString(someNote.getName(gl->nameStyleInKeySign,false)).toLower();
-        if (gl->minKeyNameSufix != "") minorKeysNames[i] += "-" + gl->minKeyNameSufix;
+        minorKeysNames[i] = QString::fromStdString(someNote.getName(gl->SnameStyleInKeySign,false)).toLower();
+        if (gl->SminKeyNameSufix != "") minorKeysNames[i] += "-" + gl->SminKeyNameSufix;
     setKeySignature(m_keySignature);
     }
-    if (gl->showKeySignName) m_keyNameText->show();
+    if (gl->SshowKeySignName) m_keyNameText->show();
     else m_keyNameText->hide();
 }
 

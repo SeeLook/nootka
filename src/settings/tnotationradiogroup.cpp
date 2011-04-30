@@ -34,7 +34,7 @@ const QString TnotationRadioGroup::strEnglishExampl = "(C, C#, Db ... Bb, B)";
 const QString TnotationRadioGroup::strNederExampl = "(C, Cis, Des ... Bes, B)";
 
 
-TnotationRadioGroup::TnotationRadioGroup( Tnote::Enotation _notation, QWidget * parent )
+TnotationRadioGroup::TnotationRadioGroup( Tnote::EnameStyle _notation, QWidget * parent )
         : QGroupBox(parent)
 {
     notation = _notation;
@@ -76,7 +76,7 @@ TnotationRadioGroup::TnotationRadioGroup( Tnote::Enotation _notation, QWidget * 
 
 
 
-Tnote::Enotation TnotationRadioGroup::getNameStyle() {
+Tnote::EnameStyle TnotationRadioGroup::getNameStyle() {
     if (norskButt->isChecked()) return Tnote::e_norsk_Hb;
     else
         if (deutschButt->isChecked()) return Tnote::e_deutsch_His;

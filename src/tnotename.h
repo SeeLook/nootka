@@ -35,7 +35,7 @@ public:
     static const QString octaves[6];
     static const QString octavesFull[6];
 
-    void setNoteNamesOnButt(Tnote::Enotation nameStyle);
+    void setNoteNamesOnButt(Tnote::EnameStyle nameStyle);
     void setEnabledDblAccid(bool isEnabled);
     void setEnabledEnharmNotes(bool isEnabled);
     void setNoteName(Tnote note);

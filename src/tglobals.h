@@ -44,23 +44,24 @@ public:
 
 
         /** Let's have a convention:
-        * globals settings for TnoteName will started from 'N' letter
-        * and for guitar (TfingerBoard) from 'G' letter*/
+        * globals settings for @class TnoteName will started from 'N' letter
+	* for @class TscoreWidget and @class TscoreWidgetSimple
+        * and for guitar (@class TfingerBoard) from 'G' letter*/
 //score widget settings
         /** if true shows other similar (enharmonic) notes on the staff:
         * for C# - Db, for G - Fx and Abb. In Tnotename widget also. */
-    bool keySignatureEnabled;
-    bool showKeySignName; // default true
-    Tnote::Enotation nameStyleInKeySign;
+    bool SkeySignatureEnabled;
+    bool SshowKeySignName; // default true
+    Tnote::EnameStyle SnameStyleInKeySign;
         /** Convention is:
         * if keyNameSuffix == " " constructor of Tglobals sets its default and
         * constructor of TkeySignatureView sets translateable value "major" and "minor"
         * otherwise it is overvrites by loading settings
         * if keyNameSuffix == "" user prefers without suffix.
         * If keyNameSuffix has some text -  is translated by user himself */
-    QString majKeyNameSufix;
-    QString minKeyNameSufix;
-    QColor pointerColor;
+    QString SmajKeyNameSufix;
+    QString SminKeyNameSufix;
+    QColor SpointerColor;
 
 //common with score widget and note name
     bool doubleAccidentalsEnabled; //default true
@@ -74,7 +75,7 @@ public:
 
 
 //note name settings
-    Tnote::Enotation NnameStyleInNoteName;
+    Tnote::EnameStyle NnameStyleInNoteName;
     bool NoctaveInNoteNameFormat; //default true
 //    bool NoctaveNameInNoteName; //default true
 

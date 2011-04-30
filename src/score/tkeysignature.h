@@ -45,13 +45,16 @@ public:
         /** This method fulfills majorNames and minorNames arrays
         * appropirate keys names depends on nameing style
         * and suffixes.*/
-    static void setNameStyle(Tnote::Enotation style, QString majSuf = "", QString minSuf = "");
+    static void setNameStyle(Tnote::EnameStyle style, QString majSuf = "", QString minSuf = "");
 
     static QString getMajorName(char key) { return majorNames[key+7]; }
     static QString getMinorName(char key) { return minorNames[key+7]; }
     QString getMajorName() { return majorNames[m_key+7]; }
     QString getMinorName() { return minorNames[m_key+7]; }
-
+	/** Return QString with accidentals number and their symbol.
+	 * f.e.: 7# for @param m_key = 7 (Cis-major).
+	 * @param inHtml points when HTML syntax is used. If true # and b symbols
+	 * are formated to better view. */
     QString accidNumber(bool inHtml = false);
 
     char value() { return m_key; }

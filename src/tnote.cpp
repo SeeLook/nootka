@@ -270,7 +270,7 @@ TnotesList Tnote::getTheSameNotes( bool enableDbAccids )
 	return notesL;
 }
 
-std::string Tnote::getName( Enotation notation, bool showOctave )
+std::string Tnote::getName( EnameStyle notation, bool showOctave )
 {
 	std::string nuta;
 	switch (notation) {
@@ -331,7 +331,7 @@ std::string Tnote::getName( Enotation notation, bool showOctave )
 	return nuta;
 }
 
-std::string Tnote::getName( Tnote eNote, Enotation notation, bool showOctave )
+std::string Tnote::getName( Tnote eNote, EnameStyle notation, bool showOctave )
 {
 	note = eNote.note;
 	acidental = eNote.acidental;
@@ -349,5 +349,10 @@ bool Tnote::operator !=( const Tnote N2 )
     return ( note != N2.note || octave != N2.octave || acidental != N2.acidental);
 }
 
+QDataStream &operator << (QDataStream &out, Tnote &n) {
+  
+}
 
-
+QDataStream &operator>> (QDataStream &in, Tnote &n) {
+  
+}
