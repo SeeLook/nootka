@@ -234,7 +234,7 @@ char TscoreWidgetSimple::keySignature() {
 }
 
 void TscoreWidgetSimple::refreshKeySignNameStyle() {
-    if (keySignView) keySignView->setNameStyle();
+    if (keySignView) keySignView->showKeyName();
 }
 
 void TscoreWidgetSimple::setNote(int index, Tnote note) {

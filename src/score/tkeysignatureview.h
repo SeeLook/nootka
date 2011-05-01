@@ -27,11 +27,15 @@ class TscoreWidgetSimple;
 class QGraphicsScene;
 class QGraphicsSimpleTextItem;
 
-/** User can change key signature by mouse wheel moving, and TKeySignView generated keySignWasChanged
-* signal with @p char keySign information.
-@author Tomasz Bojczuk  <tomaszbojczuk@gmail.com>
-* @short This class represents the field between clef and notes with key signature acidentals.
-*/
+    /** @short This class represents the field between clef
+    * and notes with key signature acidentals.
+    *
+    * User can change key signature by mouse wheel moving,
+    * and @class TKeySignView generated keySignWasChanged
+    * signal with @p char keySign information.
+    @author Tomasz Bojczuk  <tomaszbojczuk@gmail.com>
+    *
+    */
 class TkeySignatureView : public QGraphicsView
 {
     friend class TscoreWidgetSimple;
@@ -44,18 +48,8 @@ public:
           * @param parent its parent (have to be TscoreWidget class)
           *        */
     explicit TkeySignatureView(TscoreWidgetSimple *parent = 0, char _keySign = 0);
-    ~TkeySignatureView();
 
     char keySignature() { return m_keySignature; }
-            /** Keeps two values of char with data of all major key signatures.
-            * majorKeySignatures[0] has values for Ces-maj (1,-1) 1 is C note
-            * and -1 is flat. */
-    static char majorKeySignatures[15][2];
-            /** The same like above, but for minor keys */
-    static char minorKeySignatures[15][2];
-            /** Arrays with string of names of major and minor keys.*/
-    static QString majorKeysNames[15];
-    static QString minorKeysNames[15];
             /** It sets fuses to block mouse wheel event and stop adding more flats or sharps*/
     void setKeysFuse(char flatFuse, char sharpFuse);
 
@@ -76,9 +70,8 @@ protected:
              /** @class TscoreWidgetSimple as a parent has to take care about resizing process
              * so it calls this function in his resizeEvent and put @param coeff parameter */
     void resize(int co);
-        /** setNotation() method prepeares two arrays of QString with names of
-        * key signatures (major and minor) in user preferes notation */
-    void setNameStyle();
+        /** It shows or hides key signature name depend on global settings.*/
+    void showKeyName();
 
 
 
