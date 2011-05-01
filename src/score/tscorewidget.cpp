@@ -19,7 +19,7 @@
 #include "tscorewidget.h"
 #include "tnoteview.h"
 #include "tglobals.h"
-#include <QDebug>
+//#include <QDebug>
 
 
 extern Tglobals *gl;

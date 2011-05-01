@@ -1,5 +1,6 @@
 #include "tglobals.h"
-#include "QApplication"
+#include "tkeysignature.h"
+//#include "QApplication"
 #include "QDir"
 
 
@@ -16,16 +17,18 @@ QString Tglobals::getInstPath(QString appInstPath) {
 
 Tglobals::Tglobals() {
 
-    version = "0.5 alpha";
+    version = "0.6 beta";
 //    path ; Is declared in mainWindow constructor
 
 //score widget settings
     SkeySignatureEnabled = true;
     SshowKeySignName = true;
     SnameStyleInKeySign = Tnote::e_english_Bb;
-    SmajKeyNameSufix = " " ; //like 'major' or 'dur'
-    SminKeyNameSufix = " " ; //like 'minor' or 'moll'
+    SmajKeyNameSufix = QObject::tr("major");
+    SminKeyNameSufix = QObject::tr("minor");
     SpointerColor = -1;
+
+    TkeySignature::setNameStyle(SnameStyleInKeySign, SmajKeyNameSufix, SminKeyNameSufix);
 
 //common for score widget and note name
     doubleAccidentalsEnabled = true;

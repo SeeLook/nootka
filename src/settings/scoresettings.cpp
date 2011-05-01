@@ -23,9 +23,10 @@
 
 extern Tglobals *gl;
 
+
 /*static*/
-const QString ScoreSettings::forExample = tr("for example");
-const QString ScoreSettings::showKeySigName = tr("show names of key signature");
+const QString ScoreSettings::forExample = QObject::tr("for example");
+const QString ScoreSettings::showKeySigName = QObject::tr("show names of key signature");
 
 ScoreSettings::ScoreSettings(QWidget *parent) :
     QWidget(parent)
@@ -146,6 +147,7 @@ void ScoreSettings::saveSettings() {
 
 void ScoreSettings::seventhIsBChanged(bool isB) {
     nameStyleGr->seventhNoteWasChanged(isB);
+    nameStyleWasChanged(nameStyleGr->getNameStyle());
 }
 
 

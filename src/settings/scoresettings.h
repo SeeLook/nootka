@@ -20,7 +20,6 @@
 #ifndef SCORESETTINGS_H
 #define SCORESETTINGS_H
 
-#include <QtGui>
 #include "tnotationradiogroup.h"
 #include "tnote.h"
 
