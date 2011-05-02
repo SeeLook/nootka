@@ -86,8 +86,9 @@ rangeSettings::rangeSettings(QWidget *parent) :
     mainLay->addStretch(1);
 
     lowPosOnlyChBox = new QCheckBox(tr("notes in the lowest position only"),this);
-    lowPosOnlyChBox->setStatusTip(tr("If checked, only simple possibility of a note are required,<br>otherwise all possible positions of the note are taken."));
+    lowPosOnlyChBox->setStatusTip(tr("If checked, only simple possibility of a note are required,<br>otherwise all possible positions of the note are taken.<br>To use this, all strings have to be available !!"));
     mainLay->addWidget(lowPosOnlyChBox, 0, Qt::AlignCenter);
+    mainLay->addStretch(1);
     currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);
     currKeySignChBox->setStatusTip(tr("Only notes from current key signaature are taken.<br>If key signature is disabled no accidentals are used."));
     mainLay->addWidget(currKeySignChBox, 0, Qt::AlignCenter);
@@ -107,6 +108,14 @@ void rangeSettings::stringSelected() {
         && !stringBut[2]->isChecked() && !stringBut[3]->isChecked()
         && !stringBut[4]->isChecked() && !stringBut[5]->isChecked() )
         stringBut[0]->setChecked(true);
+    if ( !stringBut[0]->isChecked() || !stringBut[1]->isChecked()
+        || !stringBut[2]->isChecked() || !stringBut[3]->isChecked()
+        || !stringBut[4]->isChecked() || !stringBut[5]->isChecked() ) {
+	lowPosOnlyChBox->setDisabled(true);
+	lowPosOnlyChBox->setChecked(false);
+    }
+    else
+	lowPosOnlyChBox->setDisabled(false);
 }
 
 void rangeSettings::loadLevel(TexamLevel level) {
@@ -120,6 +129,7 @@ void rangeSettings::loadLevel(TexamLevel level) {
         stringBut[i]->setChecked(level.usedStrings[i]);
     lowPosOnlyChBox->setChecked(level.onlyLowPos);
     currKeySignChBox->setChecked(level.onlyCurrKey);
+    stringSelected();
     connect (fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
     connect (toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
 }
