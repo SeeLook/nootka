@@ -16,52 +16,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
 
-#include "tscorewidget.h"
-#include "tnotename.h"
-#include "tfingerboard.h"
-#include "tnote.h"
+#ifndef TEXAMEXECUTOR_H
+#define TEXAMEXECUTOR_H
+
 #include "texamlevel.h"
-//#include <QtGui>
 
-
-class MainWindow : public QMainWindow
+class TexamExecutor
 {
-    Q_OBJECT
-
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-
-
-public slots:
-    void createSettingsDialog();
-    void createExamSettingsDlg();
-    void startExamSlot();
-    void aboutSlot();
-
-    void noteWasClicked(int index, Tnote note);
-    void noteNameWasChanged(Tnote note);
-    void guitarWasClicked(Tnote note);
-
-protected:
-    void resizeEvent(QResizeEvent *);
-
-private:
-    TscoreWidget *m_score;
-    TnoteName *m_noteName;
-    TfingerBoard *m_guitar;
-
-//    TexamLevel m_level;
-
-    QAction *settingsAct, *examSetAct, *startAct, *aboutAct;
-    QToolBar *nootBar;
-
-    void createToolBar();
-    void createActions();
-
+    TexamExecutor(TexamLevel level);
 };
 
-#endif // MAINWINDOW_H
+#endif // TEXAMEXECUTOR_H

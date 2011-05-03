@@ -33,7 +33,7 @@ class examSettingsDlg : public TsettingsDialogBase
 public:
     explicit examSettingsDlg(QWidget *parent = 0);
 
-    static QString examSettTxt, levelFilterTxt;
+    static QString examSettTxt;
 
 signals:
 
@@ -45,6 +45,7 @@ private:
     rangeSettings *rangeSett;
 
     void saveLevel();
+    TexamLevel *m_exL;
 
 private slots:
         /** This slot is called when user is chooseing exam's level.
@@ -58,6 +59,7 @@ private slots:
             @param isNotSaved value to @p false and window title.*/
     void levelSaved();
     void loadFromFile();
+    void acceptLevel();
 
 };
 

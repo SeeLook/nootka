@@ -20,9 +20,11 @@
 #include "mainwindow.h"
 #include "tglobals.h"
 #include "examsettingsdlg.h"
+#include "texamexecutor.h"
 //#include <QDebug>
 
 Tglobals *gl = new Tglobals();
+TexamLevel mainLevel;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -80,6 +82,11 @@ void MainWindow::createActions() {
     examSetAct->setIcon(QIcon(gl->path+"picts/examSettings.png"));
     connect(examSetAct, SIGNAL(triggered()), this, SLOT(createExamSettingsDlg()));
 
+    startAct = new QAction(tr("Start exam"),this);
+    startAct->setStatusTip(startAct->text());
+    startAct->setIcon(QIcon(gl->path+"picts/startExam.png"));
+    connect(startAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
+
     aboutAct = new QAction(tr("about"),this);
     aboutAct->setStatusTip(tr("About Nootka"));
     aboutAct->setIcon(QIcon(gl->path+"picts/about.png"));
@@ -90,6 +97,7 @@ void MainWindow::createToolBar() {
     nootBar = addToolBar(tr("main toolbar"));
     nootBar->addAction(settingsAct);
     nootBar->addAction(examSetAct);
+    nootBar->addAction(startAct);
     nootBar->addAction(aboutAct);
 
     nootBar->setMovable(false);
@@ -123,6 +131,10 @@ void MainWindow::createSettingsDialog() {
 void MainWindow::createExamSettingsDlg() {
     examSettingsDlg *examSettDlg = new examSettingsDlg;
     examSettDlg->exec();
+}
+
+void MainWindow::startExamSlot() {
+    TexamExecutor ex(mainLevel);
 }
 
 void MainWindow::aboutSlot() {

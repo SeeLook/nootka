@@ -19,10 +19,6 @@
 
 #include "levelsettings.h"
 
-/*static*/
-QString levelSettings::saveLevelTxt = tr("Save level's settings to file");
-QString levelSettings::loadLevelTxt = tr("Load exam's level from file");
-
 levelSettings::levelSettings(QWidget *parent) :
     QWidget(parent)
 {
@@ -30,17 +26,15 @@ levelSettings::levelSettings(QWidget *parent) :
 
     levelSelector = new TlevelSelector(this);
     mainLay->addWidget(levelSelector);
+    mainLay->addStretch(1);
 
     QHBoxLayout *butLay = new QHBoxLayout;
     saveBut = new QPushButton(tr("Save"),this);
-    saveBut->setStatusTip(saveLevelTxt);
+    saveBut->setStatusTip(tr("Save level's settings to file"));
     butLay->addWidget(saveBut);
-    loadBut = new QPushButton(tr("Load"),this);
-    loadBut->setStatusTip(loadLevelTxt);
-    butLay->addWidget(loadBut);
 
     mainLay->addLayout(butLay);
+    mainLay->addStretch(1);
 
     setLayout(mainLay);
-
 }

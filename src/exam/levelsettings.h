@@ -20,7 +20,7 @@
 #ifndef LEVELSETTINGS_H
 #define LEVELSETTINGS_H
 
-#include <QtGui>
+#include <QWidget>
 #include "tlevelselector.h"
 #include "texamlevel.h"
 
@@ -33,16 +33,7 @@ public:
     explicit levelSettings(QWidget *parent = 0);
 
     TlevelSelector *levelSelector;
-    QPushButton *saveBut, *loadBut;
-    static QString saveLevelTxt, loadLevelTxt;
-
-signals:
-
-private:
-
-
-private slots:
-
+    QPushButton *saveBut;
 
 };
 
