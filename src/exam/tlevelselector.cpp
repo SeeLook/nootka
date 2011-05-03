@@ -23,6 +23,10 @@
 
 extern Tglobals *gl;
 
+/*static*/
+const qint32 TlevelSelector::levelVersion = 0x95121701;
+QString TlevelSelector::levelFilterTxt = QObject::tr("Levels (*.nlv)");
+
 TlevelSelector::TlevelSelector(QWidget *parent) :
     QWidget(parent)
 {
@@ -35,6 +39,10 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
     levelsList->setMouseTracking(true);
     levelsList->setFixedWidth(200);
     levLay->addWidget(levelsList);
+    loadBut = new QPushButton(tr("Load"), this);
+    loadBut->setStatusTip(tr("Load exam's level from file"));
+    levLay->addStretch(1);
+    levLay->addWidget(loadBut);
 
     mainLay->addLayout(levLay);
 
@@ -46,6 +54,7 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
     findLevels();
 
     connect(levelsList, SIGNAL(currentRowChanged(int)), this, SLOT(levelSelected(int)));
+    connect(loadBut, SIGNAL(clicked()), this, SLOT(m_loadFromFile()));
 }
 
 void TlevelSelector::levelSelected(int id) {
@@ -73,6 +82,37 @@ void TlevelSelector::selectLevel(int id) {
 void TlevelSelector::selectLevel() {
     levelsList->setCurrentRow(levelsList->count()-1);
 }
+
+void TlevelSelector::m_loadFromFile() {
+    emit levelToLoad();
+}
+
+void TlevelSelector::loadFromFile() {
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Load exam's level"),
+                                                     QDir::homePath(), levelFilterTxt);
+    QFile file(fileName);
+    if (file.open(QIODevice::ReadOnly)) {
+         QDataStream in(&file);
+         in.setVersion(QDataStream::Qt_4_7);
+         quint32 lv; //level template version
+         in >> lv;
+         if (lv != levelVersion) {
+             QMessageBox::critical(this, "", tr("File: %1 \n is not Nootka level file !!!").arg(fileName));
+             return;
+         }
+         TexamLevel level;
+         in >> level;
+         addLevel(level);
+         selectLevel(); // select the last
+
+    } else
+        QMessageBox::critical(this, "", tr("Cannot open file for reading\n%1 ").arg(qPrintable(file.errorString())));
+}
+
+TexamLevel TlevelSelector::getSelectedLevel() {
+    return levList[levelsList->currentRow()];
+}
+
 
 //#########################  TlevelSummaryWdg ################################################
 
@@ -128,3 +168,4 @@ void TlevelSummaryWdg::setLevel(TexamLevel tl) {
     S += "</table></center>";
     summLab->setText(S);
 }
+

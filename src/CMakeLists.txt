@@ -34,6 +34,7 @@ SET( NOOTKA_SRCS
   exam/tkeysigncombobox.cpp
   exam/tqatype.cpp
   exam/tlevelheaderwdg.cpp
+  exam/texamexecutor.cpp
   )
 #SET( NOOTKA_HEADERS
 #    tfingerpos.h
@@ -64,6 +65,7 @@ SET( NOOTKA_MOC_SRCS
   exam/tquestionaswdg.h
   exam/tkeysigncombobox.h
   exam/tlevelheaderwdg.h
+#  exam/texamexecutor.h
   )
 
 QT4_WRAP_CPP( NOOTKA_MOCS ${NOOTKA_MOC_SRCS} )

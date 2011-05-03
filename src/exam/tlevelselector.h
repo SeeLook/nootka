@@ -52,25 +52,42 @@ public:
         /** It's looking for levels:
         * 1. in TexamLevel constructor
         * 2. In default install dir
-        * 3. In last used files */
+        * 3. In latest used files */
     void findLevels();
+        /** Magic number in level file to identify it.*/
+    static const qint32 levelVersion;
+    static QString levelFilterTxt;
 
+        /** Adds level @param lev to list.*/
     void addLevel(const TexamLevel &lev);
+        /** Selects @param id level on the list,
+        * and shows its summary.*/
     void selectLevel(int id);
-
+        /** Selects the latest level*/
     void selectLevel();
+        /** Returns current level*/
+    TexamLevel getSelectedLevel();
 
 
 public slots:
     void levelSelected(int id);
+        /** This is public method to be called externally,
+        * because @class TlevelSelector doesn't call it itself
+        * after "Load" button pressed, just emits @param levelToLoad() signal. */
+    void loadFromFile();
 
 signals:
     void levelChanged(TexamLevel level);
+    void levelToLoad();
 
 private:
     QListWidget *levelsList;
     QList <TexamLevel> levList;
     TlevelSummaryWdg *summWdg;
+    QPushButton *loadBut;
+
+private slots:
+    void m_loadFromFile();
 
 };
 

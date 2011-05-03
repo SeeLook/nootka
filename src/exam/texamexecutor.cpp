@@ -16,52 +16,33 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
 
-#include "tscorewidget.h"
-#include "tnotename.h"
-#include "tfingerboard.h"
-#include "tnote.h"
-#include "texamlevel.h"
-//#include <QtGui>
+#include "texamexecutor.h"
+#include "tglobals.h"
+//#include <QDebug>
 
+extern Tglobals *gl;
 
-class MainWindow : public QMainWindow
+TexamExecutor::TexamExecutor(TexamLevel level)
 {
-    Q_OBJECT
+    char strOrder[6] = { 0,1,2,3,4,5};
+    char openStr[6];
+    for (int i=0; i<6; i++)
+        openStr[i] = gl->Gtune[i+1].getChromaticNrOfNote();
 
-public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    int i = 1;
+    while (i < 6) {
+        for (int j=i; j > 0 && openStr[strOrder[j-1]] > openStr[strOrder[j]]; j--) {
+            char tmp = strOrder[j];
+            strOrder[j] = strOrder[j-1];
+            strOrder[j-1] = tmp;
+        }
+        i++;
+    }
 
+    char ord[6];
+    for (int i=0; i<6; i++) {
+       ord[i] = strOrder[5-i];
+    }
 
-public slots:
-    void createSettingsDialog();
-    void createExamSettingsDlg();
-    void startExamSlot();
-    void aboutSlot();
-
-    void noteWasClicked(int index, Tnote note);
-    void noteNameWasChanged(Tnote note);
-    void guitarWasClicked(Tnote note);
-
-protected:
-    void resizeEvent(QResizeEvent *);
-
-private:
-    TscoreWidget *m_score;
-    TnoteName *m_noteName;
-    TfingerBoard *m_guitar;
-
-//    TexamLevel m_level;
-
-    QAction *settingsAct, *examSetAct, *startAct, *aboutAct;
-    QToolBar *nootBar;
-
-    void createToolBar();
-    void createActions();
-
-};
-
-#endif // MAINWINDOW_H
+}
