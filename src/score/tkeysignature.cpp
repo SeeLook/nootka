@@ -90,10 +90,20 @@ QDataStream &operator << (QDataStream &out, TkeySignature &key) {
     return out;
 }
 
-QDataStream &operator >> (QDataStream &in, TkeySignature &key) {
+bool getKeyFromStream(QDataStream &in, TkeySignature &k) {
+    bool ok = true;
+    qint8 kk;
+    in >> kk;
+    if (kk < -7 || kk > 7) {
+        kk = 0; ok = false;
+    }
+    k = TkeySignature(char(kk));
+    return ok;
+}
+
+//QDataStream &operator >> (QDataStream &in, TkeySignature &key) {
 //    qint8 ky;
 //    in >> ky;
 //    key = TkeySignature(char(ky));
-    return in;
-
-}
+//    return in;
+//}

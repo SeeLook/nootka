@@ -1,6 +1,6 @@
-#############################################
+##############################################
 
-INCLUDE_DIRECTORIES (. exam score settings )
+INCLUDE_DIRECTORIES (. exam level score settings )
 
 SET( NOOTKA_SRCS
   main.cpp
@@ -23,19 +23,22 @@ SET( NOOTKA_SRCS
   settings/namesettings.cpp
   settings/tnotationradiogroup.cpp
   settings/scoresettings.cpp
+###### Level
+  level/examsettingsdlg.cpp
+  level/texamlevel.cpp
+  level/levelsettings.cpp
+  level/questionssettings.cpp
+  level/tlevelselector.cpp
+  level/rangesettings.cpp
+  level/tquestionaswdg.cpp
+  level/tkeysigncombobox.cpp
+  level/tlevelheaderwdg.cpp
 ###### Exam
-  exam/examsettingsdlg.cpp
-  exam/texamlevel.cpp
-  exam/levelsettings.cpp
-  exam/questionssettings.cpp
-  exam/tlevelselector.cpp
-  exam/rangesettings.cpp
-  exam/tquestionaswdg.cpp
-  exam/tkeysigncombobox.cpp
   exam/tqatype.cpp
-  exam/tlevelheaderwdg.cpp
   exam/texamexecutor.cpp
+  exam/tstartexamdlg.cpp
   )
+
 #SET( NOOTKA_HEADERS
 #    tfingerpos.h
 #)
@@ -56,15 +59,17 @@ SET( NOOTKA_MOC_SRCS
   settings/namesettings.h
   settings/tnotationradiogroup.h
   settings/scoresettings.h
+###### Level
+  level/examsettingsdlg.h
+  level/levelsettings.h
+  level/questionssettings.h
+  level/tlevelselector.h
+  level/rangesettings.h
+  level/tquestionaswdg.h
+  level/tkeysigncombobox.h
+  level/tlevelheaderwdg.h
 ###### Exam
-  exam/examsettingsdlg.h
-  exam/levelsettings.h
-  exam/questionssettings.h
-  exam/tlevelselector.h
-  exam/rangesettings.h
-  exam/tquestionaswdg.h
-  exam/tkeysigncombobox.h
-  exam/tlevelheaderwdg.h
+  exam/tstartexamdlg.h
 #  exam/texamexecutor.h
   )
 

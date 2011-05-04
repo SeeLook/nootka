@@ -24,9 +24,9 @@
 extern Tglobals *gl;
 
 /**static*/
-const QString TnoteName::octaves[6] = {tr("Contra"),tr("Great"),tr("Small"),
-                tr("1-line"),tr("2-line"),tr("3-line") };
-const QString TnoteName::octavesFull[6] = {tr("Contra octave"), tr("Great octave"), tr("Small octave"), tr("One-line octave"), tr("Two-line octave"),tr("Three-line octave") };
+const QString TnoteName::octaves[6] = {QObject::tr("Contra"),QObject::tr("Great"),QObject::tr("Small"),
+               QObject::tr("1-line"),QObject::tr("2-line"),QObject::tr("3-line") };
+const QString TnoteName::octavesFull[6] = {QObject::tr("Contra octave"),QObject::tr("Great octave"),QObject::tr("Small octave"),QObject::tr("One-line octave"),QObject::tr("Two-line octave"),QObject::tr("Three-line octave") };
 
 
 TnoteName::TnoteName(QWidget *parent) :

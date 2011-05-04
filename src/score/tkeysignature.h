@@ -64,7 +64,10 @@ private:
 };
 
 QDataStream &operator<< (QDataStream &out, TkeySignature &key);
-QDataStream &operator>> (QDataStream &in, TkeySignature &key);
+//QDataStream &operator>> (QDataStream &in, TkeySignature &key);
+    /** This function is substitute of >> operator for @class TkeySignature.
+    * It checks is Tnote valid, and return @value bool about it. */
+bool getKeyFromStream(QDataStream &in, TkeySignature &k);
 
 
 #endif // TKEYSIGNATURE_H

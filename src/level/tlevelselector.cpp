@@ -101,7 +101,9 @@ void TlevelSelector::loadFromFile() {
              return;
          }
          TexamLevel level;
-         in >> level;
+         if (!getLevelFromStream(in, level))
+//         in >> level;
+             QMessageBox::warning(0, "", tr("Level file was corrupted and repaired !!\nCheck please, are its parameters such as You expected."));
          addLevel(level);
          selectLevel(); // select the last
 

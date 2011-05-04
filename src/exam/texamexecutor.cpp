@@ -25,6 +25,12 @@ extern Tglobals *gl;
 
 TexamExecutor::TexamExecutor(TexamLevel level)
 {
+
+
+    createQuestionsList();
+}
+
+void TexamExecutor::createQuestionsList() {
     char strOrder[6] = { 0,1,2,3,4,5};
     char openStr[6];
     for (int i=0; i<6; i++)
@@ -44,5 +50,4 @@ TexamExecutor::TexamExecutor(TexamLevel level)
     for (int i=0; i<6; i++) {
        ord[i] = strOrder[5-i];
     }
-
 }

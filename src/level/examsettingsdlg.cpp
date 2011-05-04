@@ -104,6 +104,7 @@ void examSettingsDlg::saveToFile() {
     }
     else
         QMessageBox::critical(this, "", tr("Cannot open file for writing\n%1").arg(qPrintable(file.errorString())));
+    isNotSaved = false;
 
     levelSett->levelSelector->addLevel(newLevel);
     levelSett->levelSelector->selectLevel(); // select the last
