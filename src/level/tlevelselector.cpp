@@ -119,8 +119,8 @@ TexamLevel TlevelSelector::getSelectedLevel() {
 //#########################  TlevelSummaryWdg ################################################
 
 /*static*/
-QString TlevelSummaryWdg::notesRangeTxt = tr("notes' range:");
-QString TlevelSummaryWdg::fretsRangeTxt = tr("frets' range:");
+QString TlevelSummaryWdg::notesRangeTxt = QObject:: tr("notes' range:");
+QString TlevelSummaryWdg::fretsRangeTxt = QObject::tr("frets' range:");
 
 TlevelSummaryWdg::TlevelSummaryWdg(QWidget *parent) :
     QWidget(parent)
