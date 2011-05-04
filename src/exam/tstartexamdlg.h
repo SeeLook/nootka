@@ -17,18 +17,36 @@
  ***************************************************************************/
 
 
-#ifndef TEXAMEXECUTOR_H
-#define TEXAMEXECUTOR_H
+#ifndef TSTARTEXAMDLG_H
+#define TSTARTEXAMDLG_H
 
-#include "texamlevel.h"
+#include <QtGui>
 
-class TexamExecutor
+class TstartExamDlg : public QDialog
 {
+    Q_OBJECT
 public:
-    TexamExecutor(TexamLevel level);
+    explicit TstartExamDlg(QWidget *parent = 0);
+
+        /** Describes actions commited by user.
+        * @param e_none - dialog discarded,
+        * @param e_continue - exam to continue,
+        * @param e_newLevel - new level selected.*/
+    enum Eactions { e_none, e_continue, e_newLevel };
+        /** This method calls dialog window,
+        * takes txt reference and puts there eighter user name
+        * or exam file path, depends on returned @param Eactions. */
+    Eactions showDialog(QString &txt);
+
+
+signals:
+
+public slots:
 
 private:
-    void createQuestionsList();
+    QRadioButton *contRadio, levelRadio;
+    QGroupBox *examGr, levelGr;
+
 };
 
-#endif // TEXAMEXECUTOR_H
+#endif // TSTARTEXAMDLG_H

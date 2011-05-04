@@ -20,14 +20,14 @@
 #include "tquestionaswdg.h"
 
 /*static*/
-QString TquestionAsWdg::asNoteTxt = tr("as note in the score");
-QString TquestionAsWdg::asNameTxt = tr("as note's name");
-QString TquestionAsWdg::asFretPosTxt = tr("as position on the fingerboard");
-QString TquestionAsWdg::asSoundTxt = tr("as played sound");
-QString TquestionAsWdg::questionTxt = tr("question");
-QString TquestionAsWdg::questionsTxt = tr("questions");
-QString TquestionAsWdg::answerTxt = tr("answer");
-QString TquestionAsWdg::answersTxt = tr("answers");
+QString TquestionAsWdg::asNoteTxt =QObject::tr("as note in the score");
+QString TquestionAsWdg::asNameTxt =QObject::tr("as note's name");
+QString TquestionAsWdg::asFretPosTxt =QObject::tr("as position on the fingerboard");
+QString TquestionAsWdg::asSoundTxt =QObject::tr("as played sound");
+QString TquestionAsWdg::questionTxt =QObject::tr("question");
+QString TquestionAsWdg::questionsTxt =QObject::tr("questions");
+QString TquestionAsWdg::answerTxt =QObject::tr("answer");
+QString TquestionAsWdg::answersTxt =QObject::tr("answers");
 
 
 TquestionAsWdg::TquestionAsWdg(QWidget *parent) :

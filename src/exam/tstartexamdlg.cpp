@@ -17,49 +17,9 @@
  ***************************************************************************/
 
 
-#ifndef TEXAMLEVEL_H
-#define TEXAMLEVEL_H
+#include "tstartexamdlg.h"
 
-#include "tqatype.h"
-#include "tnote.h"
-#include "tkeysignature.h"
-#include <QString>
-#include <QDataStream>
-
-    /** This class describes exam's level.*/
-class TexamLevel
+TstartExamDlg::TstartExamDlg(QWidget *parent) :
+    QDialog(parent)
 {
-public:
-        /** default constructor creates "complex" level*/
-    TexamLevel();
-
-  // level paramrters
-    QString name;
-    QString desc; /** description */
-    TQAtype questionAs;
-    TQAtype answersAs[4];
-  // QUESTIONS - as note
-    bool withSharps, withFlats, withDblAcc;
-    bool useKeySign;
-    bool isSingleKey;
-    TkeySignature loKey, hiKey; /** range of key signature */
-    bool manualKey; /** manually selecting key in answers */
-    bool forceAccids;
-  // QUESTIONS - as name
-    bool requireOctave;
-    bool requireStyle;
-  // RANGE
-    Tnote loNote, hiNote;
-    bool isNoteLo, isNoteHi;
-    char loFret, hiFret;
-    bool isFretHi;
-    bool usedStrings[6];
-    bool onlyLowPos;
-    bool onlyCurrKey;
-
-};
-
-QDataStream &operator<< (QDataStream &out, TexamLevel &lev);
-QDataStream &operator>> (QDataStream &in, TexamLevel &lev);
-
-#endif // TEXAMLEVEL_H
+}

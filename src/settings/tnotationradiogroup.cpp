@@ -22,11 +22,11 @@
 
 extern Tglobals *gl;
 
-const QString TnotationRadioGroup::strNeder = tr("Dutch");	//nederlands in Lilypond
-const QString TnotationRadioGroup::strNorsk = tr("Scandinavian");//norsk in Lilypond
-const QString TnotationRadioGroup::strItal = tr("Italian");
-const QString TnotationRadioGroup::strEnglish = tr("English");
-const QString TnotationRadioGroup::strDeutsch = tr("German");
+const QString TnotationRadioGroup::strNeder =QObject::tr("Dutch");	//nederlands in Lilypond
+const QString TnotationRadioGroup::strNorsk =QObject::tr("Scandinavian");//norsk in Lilypond
+const QString TnotationRadioGroup::strItal =QObject::tr("Italian");
+const QString TnotationRadioGroup::strEnglish =QObject::tr("English");
+const QString TnotationRadioGroup::strDeutsch =QObject::tr("German");
 const QString TnotationRadioGroup::strNorskExampl = "(C, C#, Db ... Hb, H)";
 const QString TnotationRadioGroup::strItalExampl = "(Do, Do#, Reb ... Sib, Si)";
 const QString TnotationRadioGroup::strDeutschExampl = "(C, Cis, Des ... B, H)";

@@ -19,17 +19,14 @@
 
 #include "texamlevel.h"
 #include "tglobals.h"
-#include <QMessageBox>
-//#include <QDebug>
 
 extern Tglobals *gl;
-
 
 TexamLevel::TexamLevel()
 {
   // level paramrters
-   name = QT_TR_NOOP("master of masters");
-   desc = QT_TR_NOOP("All possible options are turned on");
+   name = QObject::tr("master of masters");
+   desc = QObject::tr("All possible options are turned on");
    questionAs = TQAtype(true, true, true, false);
    answersAs[0] = TQAtype(true, true, true, false);
    answersAs[1] = TQAtype(true, true, true, false);
@@ -68,12 +65,11 @@ QDataStream &operator << (QDataStream &out, TexamLevel &lev) {
     out << lev.answersAs[0] << lev.answersAs[1] << lev.answersAs[2] << lev.answersAs[3];
     out << lev.withSharps << lev.withFlats << lev.withDblAcc;
     out << lev.useKeySign << lev.isSingleKey;
-    out << (qint8)lev.loKey.value() << (qint8)lev.hiKey.value();
+    out << lev.loKey << lev.hiKey;
     out << lev.manualKey << lev.forceAccids;
     out <<  lev.requireOctave << lev.requireStyle;
 // RANGE
-    out << (qint8)lev.loNote.note << (qint8)lev.loNote.octave << (qint8)lev.loNote.acidental;
-    out << (qint8)lev.hiNote.note << (qint8)lev.hiNote.octave << (qint8)lev.hiNote.acidental;
+    out << lev.loNote << lev.hiNote;
     out << lev.isNoteLo << lev.isNoteHi;
     out << (qint8)lev.loFret << (qint8)lev.hiFret;
     out << lev.isFretHi;
@@ -84,55 +80,31 @@ QDataStream &operator << (QDataStream &out, TexamLevel &lev) {
 }
 
 
-QDataStream &operator >>(QDataStream &in, TexamLevel &lev) {
-    bool isCorupted = false;
+//QDataStream &operator >>(QDataStream &in, TexamLevel &lev) {
+bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
+    bool ok = true;
     in >> lev.name >> lev.desc;
     in >> lev.questionAs;
     in >> lev.answersAs[0] >> lev.answersAs[1] >> lev.answersAs[2] >> lev.answersAs[3];
     in >> lev.withSharps >> lev.withFlats >> lev.withDblAcc;
     in >> lev.useKeySign >> lev.isSingleKey;
-    qint8 loK, hiK;
-    in >> loK >> hiK;
-    if (loK < -7 || loK > 7) {
-        loK = 0;
-        isCorupted = true;
-    }
-    if (hiK < -7 || hiK > 7) {
-        hiK = 0;
-        isCorupted = true;
-    }
-    lev.loKey = TkeySignature(char(loK));
-    lev.hiKey = TkeySignature(char(hiK));
+    ok = getKeyFromStream(in, lev.loKey);
+    ok = getKeyFromStream(in, lev.hiKey);
     in >> lev.manualKey >> lev.forceAccids;
     in >>  lev.requireOctave >> lev.requireStyle;
 // RANGE
-    qint8 nnote, ooctave, aaccid;
-    in >> nnote >> ooctave >> aaccid; // loNote
-    if (nnote < 1 || nnote > 8 || aaccid < -2 || aaccid > 2) {
-        nnote = 1; aaccid = 0; ooctave = 0;
-        isCorupted = true;
-    }
-    lev.loNote.note = char(nnote);
-    lev.loNote.octave = char(ooctave);
-    lev.loNote.acidental = char(aaccid);
-    in >> nnote >> ooctave >> aaccid;
-    if (nnote < 1 || nnote > 8 || aaccid < -2 || aaccid > 2) {
-        nnote = 1; aaccid = 0; ooctave = 0;
-        isCorupted = true;
-    }
-    lev.hiNote.note = char(nnote);
-    lev.hiNote.octave = char(ooctave);
-    lev.hiNote.acidental = char(aaccid);
+    ok = getNoteFromStream(in, lev.loNote);
+    ok = getNoteFromStream(in, lev.hiNote);
     in >> lev.isNoteLo >> lev.isNoteHi;
     qint8 lo,hi;
     in >> lo >> hi;
     if (lo < 0 || lo > 24) { // max frets number
         lo = 0;
-        isCorupted = true;
+        ok = false;
     }
     if (hi < 0 || hi > 24) { // max frets number
         hi = gl->GfretsNumber;
-        isCorupted = true;
+        ok = false;
     }
     lev.loFret = char(lo);
     lev.hiFret = char(hi);
@@ -140,7 +112,5 @@ QDataStream &operator >>(QDataStream &in, TexamLevel &lev) {
     in >> lev.usedStrings[0] >> lev.usedStrings[1] >> lev.usedStrings[2]
             >> lev.usedStrings[3] >> lev.usedStrings[4] >>  lev.usedStrings[5];
     in >> lev.onlyLowPos >> lev.onlyCurrKey;
-    if (isCorupted)
-        QMessageBox::warning(0, "", QT_TR_NOOP("Level file was corrupted and repaired !!\nCheck please, are its parameters such as You expected."));
-    return in;
+    return ok;
 }
