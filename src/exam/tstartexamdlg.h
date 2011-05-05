@@ -22,6 +22,8 @@
 
 #include <QtGui>
 
+class TlevelSelector;
+
 class TstartExamDlg : public QDialog
 {
     Q_OBJECT
@@ -44,9 +46,16 @@ signals:
 public slots:
 
 private:
-    QRadioButton *contRadio, levelRadio;
-    QGroupBox *examGr, levelGr;
+    bool event(QEvent *event);
 
+
+    QRadioButton *contRadio, *levelRadio;
+    QGroupBox *examGr, *levelGr;
+    TlevelSelector *levelsView;
+    QLineEdit *nameEdit;
+    QPushButton *createBut, *loadExamBut, *startBut, *cancelBut;
+    QLabel *hint;
+    QComboBox *examCombo;
 };
 
 #endif // TSTARTEXAMDLG_H

@@ -104,7 +104,7 @@ void MainWindow::createToolBar() {
 }
 
 void MainWindow::resizeEvent(QResizeEvent *) {
-    nootBar->setIconSize(QSize((qreal(22/480.0)*centralWidget()->height()), (qreal(22/480.0)*centralWidget()->height())));
+    nootBar->setIconSize(QSize(height()/21, height()/21));
     m_score->setFixedWidth(centralWidget()->width()/2);
 //    m_noteName->setFixedHeight((centralWidget()->height()/9)*4);
     m_guitar->setFixedHeight(centralWidget()->height()/3);
