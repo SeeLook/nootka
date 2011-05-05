@@ -19,6 +19,7 @@
 
 #include "texamexecutor.h"
 #include "tglobals.h"
+#include "tstartexamdlg.h"
 //#include <QDebug>
 
 extern Tglobals *gl;
@@ -26,9 +27,13 @@ extern Tglobals *gl;
 TexamExecutor::TexamExecutor(TexamLevel level)
 {
 
+    TstartExamDlg *startDlg = new TstartExamDlg;
+    QString actTxt;
+    TstartExamDlg::Eactions userAct = startDlg->showDialog(actTxt);
 
     createQuestionsList();
 }
+
 
 void TexamExecutor::createQuestionsList() {
     char strOrder[6] = { 0,1,2,3,4,5};
