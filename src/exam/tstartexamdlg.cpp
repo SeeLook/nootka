@@ -25,33 +25,39 @@ TstartExamDlg::TstartExamDlg(QWidget *parent) :
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
 
-    QVBoxLayout *levLay = new QVBoxLayout;
     levelRadio = new QRadioButton(tr("start new exam"), this);
-    levLay->addWidget(levelRadio);
+    mainLay->addWidget(levelRadio);
+
+    QVBoxLayout *levLay = new QVBoxLayout;
     QHBoxLayout *nameLay = new QHBoxLayout;
     QLabel *nameLab = new QLabel(tr("student's name:"), this);
     nameLay->addWidget(nameLab);
     nameEdit = new QLineEdit(this);
     nameEdit->setMaxLength(20);
+    nameEdit->setStatusTip(tr("Enter your name or nick."));
     nameLay->addWidget(nameEdit);
     levLay->addLayout(nameLay);
     levelsView = new TlevelSelector(this);
     levLay->addWidget(levelsView);
     createBut = new QPushButton(tr("create new level"),this);
-    levLay->addWidget(createBut);
+    createBut->setStatusTip(tr("Dialog window for creating new level<br>will be opened."));
+    levLay->addWidget(createBut, 1, Qt::AlignCenter);
     levelGr = new QGroupBox(this);
+    levelGr->setStatusTip(tr("Select a level suitable for You<br>or create new one."));
     levelGr->setLayout(levLay);
 
     mainLay->addWidget(levelGr);
 
-    QVBoxLayout *exLay = new QVBoxLayout;
     contRadio = new QRadioButton(tr("continue exam"), this);
-    exLay->addWidget(contRadio);
+    mainLay->addWidget(contRadio);
+
+    QVBoxLayout *exLay = new QVBoxLayout;
     examCombo = new QComboBox(this);
     exLay->addWidget(examCombo);
     loadExamBut = new QPushButton(tr("load exam from file"), this);
-    exLay->addWidget(loadExamBut);
+    exLay->addWidget(loadExamBut, 1, Qt::AlignCenter);
     examGr = new QGroupBox(this);
+    examGr->setStatusTip(tr("Select previous exam, or get it from file."));
     examGr->setLayout(exLay);
 
     mainLay->addWidget(examGr);
@@ -68,6 +74,7 @@ TstartExamDlg::TstartExamDlg(QWidget *parent) :
 
     QHBoxLayout *butLay = new QHBoxLayout;
     startBut = new QPushButton(tr("Start"), this);
+    startBut->setStatusTip(tr("Start or continue exam."));
     butLay->addWidget(startBut);
     cancelBut = new QPushButton(tr("Discard"), this);
     butLay->addWidget(cancelBut);
@@ -75,6 +82,16 @@ TstartExamDlg::TstartExamDlg(QWidget *parent) :
     mainLay->addLayout(butLay);
     setLayout(mainLay);
 
+    QButtonGroup *radioGr = new QButtonGroup(this);
+    radioGr->addButton(levelRadio);
+    radioGr->addButton(contRadio);
+    levelRadio->setChecked(true);
+    levelOrExamChanged();
+
+    connect(radioGr, SIGNAL(buttonClicked(int)), this, SLOT(levelOrExamChanged()));
+    connect(levelsView, SIGNAL(levelToLoad()), this, SLOT(levelToLoad()));
+    connect(startBut, SIGNAL(clicked()), this, SLOT(accept()));
+    connect(cancelBut, SIGNAL(clicked()), this, SLOT(reject()));
 
 }
 
@@ -82,6 +99,21 @@ TstartExamDlg::Eactions TstartExamDlg::showDialog(QString &txt) {
     exec();
 
     return e_none;
+}
+
+void TstartExamDlg::levelOrExamChanged() {
+    if (levelRadio->isChecked()) {
+        levelGr->setDisabled(false);
+        examGr->setDisabled(true);
+    } else {
+        levelGr->setDisabled(true);
+        examGr->setDisabled(false);
+    }
+
+}
+
+void TstartExamDlg::levelToLoad() {
+    levelsView->loadFromFile();
 }
 
 bool TstartExamDlg::event(QEvent *event) {

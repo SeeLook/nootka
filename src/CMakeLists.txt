@@ -37,6 +37,7 @@ SET( NOOTKA_SRCS
   exam/tqatype.cpp
   exam/texamexecutor.cpp
   exam/tstartexamdlg.cpp
+  exam/tqaunit.cpp
   )
 
 #SET( NOOTKA_HEADERS

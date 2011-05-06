@@ -51,16 +51,23 @@ public:
     static QString getMinorName(char key) { return minorNames[key+7]; }
     QString getMajorName() { return majorNames[m_key+7]; }
     QString getMinorName() { return minorNames[m_key+7]; }
-	/** Return QString with accidentals number and their symbol.
-	 * f.e.: 7# for @param m_key = 7 (Cis-major).
-	 * @param inHtml points when HTML syntax is used. If true # and b symbols
-	 * are formated to better view. */
+        /** Return QString with accidentals number and their symbol.
+         * f.e.: 7# for @param m_key = 7 (Cis-major).
+         * @param inHtml points when HTML syntax is used. If true # and b symbols
+         * are formated to better view. */
     QString accidNumber(bool inHtml = false);
+        /** Checks is given @class Tnote @param n in given @class TkeySignature @param k.
+        * In the method it checks all posibilities of the note n (flats, sharps, natural,
+        * and returns eighter founded note or Tnote(0,0,0) if didn't find.*/
+    static Tnote inKey(TkeySignature k, Tnote n);
+    Tnote inKey(Tnote n);
 
     char value() { return m_key; }
 
 private:
     char m_key;
+        /** Common part for static and no static inKey() methods.*/
+    static Tnote m_inKey(char val, Tnote n);
 };
 
 QDataStream &operator<< (QDataStream &out, TkeySignature &key);

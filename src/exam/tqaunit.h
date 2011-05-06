@@ -17,49 +17,36 @@
  ***************************************************************************/
 
 
-#ifndef TSTARTEXAMDLG_H
-#define TSTARTEXAMDLG_H
+#ifndef TQAUNIT_H
+#define TQAUNIT_H
+#include "tfingerpos.h"
+#include "tnote.h"
+#include "tqatype.h"
+#include "tkeysignature.h"
 
-#include <QtGui>
 
-class TlevelSelector;
-
-class TstartExamDlg : public QDialog
+    /** This class describes single question and given answer.*/
+class TQAunit
 {
-    Q_OBJECT
 public:
-    explicit TstartExamDlg(QWidget *parent = 0);
+    TQAunit();
 
-        /** Describes actions commited by user.
-        * @param e_none - dialog discarded,
-        * @param e_continue - exam to continue,
-        * @param e_newLevel - new level selected.*/
-    enum Eactions { e_none, e_continue, e_newLevel };
-        /** This method calls dialog window,
-        * takes txt reference and puts there eighter user name
-        * or exam file path, depends on returned @param Eactions. */
-    Eactions showDialog(QString &txt);
+    struct TQAgroup {
+        TfingerPos pos;
+        Tnote note;
+    };
 
+    enum Emistake { e_ok, e_badNote, e_badOctave, e_badAccid, e_badPos, e_badKey,
+                e_badStyle };
 
-signals:
-
-public slots:
-
-private:
-    bool event(QEvent *event);
-
-
-    QRadioButton *contRadio, *levelRadio;
-    QGroupBox *examGr, *levelGr;
-    TlevelSelector *levelsView;
-    QLineEdit *nameEdit;
-    QPushButton *createBut, *loadExamBut, *startBut, *cancelBut;
-    QLabel *hint;
-    QComboBox *examCombo;
-
-private slots:
-    void levelOrExamChanged();
-    void levelToLoad();
+    TQAgroup qa;
+    TQAtype::Etype questionAs;
+    TQAtype::Etype answerAs;
+    Tnote::EnameStyle style;
+    TkeySignature key;
+    Emistake correct;
+    quint16 time;
+    // pos and note as answers
 };
 
-#endif // TSTARTEXAMDLG_H
+#endif // TQAUNIT_H

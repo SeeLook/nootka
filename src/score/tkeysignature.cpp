@@ -57,6 +57,28 @@ void TkeySignature::setNameStyle(Tnote::EnameStyle style, QString majSuf, QStrin
     }
 }
 
+Tnote TkeySignature::inKey(TkeySignature k, Tnote n) {
+    return m_inKey(k.value(), n);
+}
+
+/*private static*/
+Tnote TkeySignature::m_inKey(char val, Tnote n) {
+    val = val+7;
+    if (scalesDefArr[val][n.note-1] == n.acidental)
+        return n;
+    Tnote tmpN = n.showWithFlat();
+    if (scalesDefArr[val][tmpN.note-1] == tmpN.acidental)
+        return tmpN;
+    tmpN = n.showWithSharp();
+    if (scalesDefArr[val][tmpN.note-1] == tmpN.acidental)
+        return tmpN;
+    tmpN = n.showAsNatural();
+    if (scalesDefArr[val][tmpN.note-1] == tmpN.acidental)
+        return tmpN;
+
+    return Tnote(0,0,0);
+}
+
 /*end satic */
 
 TkeySignature::TkeySignature()
@@ -84,6 +106,11 @@ QString TkeySignature::accidNumber(bool inHtml) {
         S += "</i></sub>";
     return S;
 }
+
+Tnote TkeySignature::inKey(Tnote n) {
+    return m_inKey(value(), n);
+}
+
 
 QDataStream &operator << (QDataStream &out, TkeySignature &key) {
     out << qint8(key.value());
