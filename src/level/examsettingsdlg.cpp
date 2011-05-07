@@ -23,7 +23,6 @@
 //#include <QDebug>
 
 extern Tglobals *gl;
-extern TexamLevel mainLevel;
 bool isNotSaved;
 
 /*static*/
@@ -63,7 +62,7 @@ examSettingsDlg::examSettingsDlg(QWidget *parent) :
     connect(questSett, SIGNAL(questSettChanged()), this, SLOT(levelNotSaved()));
     connect(levelSett->saveBut, SIGNAL(clicked()), this, SLOT(saveToFile()));
     connect(levelSett->levelSelector, SIGNAL(levelToLoad()), this, SLOT(loadFromFile()));
-    connect(this, SIGNAL(accepted()), this, SLOT(acceptLevel()));
+//    connect(this, SIGNAL(accepted()), this, SLOT(acceptLevel()));
 
 }
 
@@ -124,5 +123,5 @@ void examSettingsDlg::loadFromFile() {
 }
 
 void examSettingsDlg::acceptLevel() {
-    mainLevel = levelSett->levelSelector->getSelectedLevel();
+//    mainLevel = levelSett->levelSelector->getSelectedLevel();
 }

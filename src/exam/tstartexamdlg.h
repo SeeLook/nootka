@@ -23,6 +23,7 @@
 #include <QtGui>
 
 class TlevelSelector;
+class TexamLevel;
 
 class TstartExamDlg : public QDialog
 {
@@ -37,8 +38,9 @@ public:
     enum Eactions { e_none, e_continue, e_newLevel };
         /** This method calls dialog window,
         * takes txt reference and puts there eighter user name
-        * or exam file path, depends on returned @param Eactions. */
-    Eactions showDialog(QString &txt);
+        * or exam file path, depends on returned @param Eactions,
+        * and returns secected level. */
+    Eactions showDialog(QString &txt, TexamLevel &lev);
 
 
 signals:
