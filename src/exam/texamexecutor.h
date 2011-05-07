@@ -21,14 +21,20 @@
 #define TEXAMEXECUTOR_H
 
 #include "texamlevel.h"
+#include "tqaunit.h"
+#include <QList>
 
 class TexamExecutor
 {
 public:
-    TexamExecutor(TexamLevel level);
+    TexamExecutor();
 
 private:
     void createQuestionsList();
+
+
+    TexamLevel m_level;
+    QList<TQAunit::TQAgroup> m_questList;
 };
 
 #endif // TEXAMEXECUTOR_H

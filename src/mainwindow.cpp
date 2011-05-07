@@ -24,7 +24,6 @@
 //#include <QDebug>
 
 Tglobals *gl = new Tglobals();
-TexamLevel mainLevel;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -135,7 +134,7 @@ void MainWindow::createExamSettingsDlg() {
 }
 
 void MainWindow::startExamSlot() {
-    TexamExecutor ex(mainLevel);
+    TexamExecutor ex = TexamExecutor();
 }
 
 void MainWindow::aboutSlot() {

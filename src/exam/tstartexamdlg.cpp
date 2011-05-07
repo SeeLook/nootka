@@ -95,10 +95,15 @@ TstartExamDlg::TstartExamDlg(QWidget *parent) :
 
 }
 
-TstartExamDlg::Eactions TstartExamDlg::showDialog(QString &txt) {
+TstartExamDlg::Eactions TstartExamDlg::showDialog(QString &txt, TexamLevel &lev) {
     exec();
-
-    return e_none;
+    if (levelRadio->isChecked()) {
+        txt = nameEdit->text();
+        lev = levelsView->getSelectedLevel();
+        return e_newLevel;
+    }
+    else
+        return e_none;
 }
 
 void TstartExamDlg::levelOrExamChanged() {
