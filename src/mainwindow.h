@@ -59,7 +59,6 @@ private:
     QAction *settingsAct, *examSetAct, *startAct, *aboutAct;
     QToolBar *nootBar;
 
-    void createToolBar();
     void createActions();
 
 };
