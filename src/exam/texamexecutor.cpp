@@ -45,60 +45,58 @@ void TexamExecutor::createQuestionsList() {
     for (int i=0; i<6; i++)
         openStr[i] = gl->Gtune[i+1].getChromaticNrOfNote();
 
-    int i = 1;
-    while (i < 6) {
-        for (int j=i; j > 0 && openStr[strOrder[j-1]] > openStr[strOrder[j]]; j--) {
+    int i = 4;
+    while (i > -1) {
+        for (int j=i; j < 5 && openStr[strOrder[j]] < openStr[strOrder[j+1]]; j++) {
             char tmp = strOrder[j];
-            strOrder[j] = strOrder[j-1];
-            strOrder[j-1] = tmp;
+            strOrder[j] = strOrder[j+1];
+            strOrder[j+1] = tmp;
         }
-        i++;
+        i--;
     }
 
-    char ord[6];
-    for (int i=0; i<6; i++) {
-       ord[i] = strOrder[5-i];
-    } // array done
-    char realStr[6];
-    for (int i=0; i<6; i++) realStr[strOrder[i]] = i;
+  // array done
 
-    for (int i=0; i<6; i++) qDebug() << i << ": " << (int)openStr[i];
+//    for (int i=0; i<6; i++) qDebug() << i << ": " << (int)openStr[strOrder[i]]
+//            << " : " << (int)strOrder[i];
 
   // 2. searching all frets range string by string
     for(int s = 0; s < 6; s++) {
-        if (m_level.usedStrings[s])
+        if (m_level.usedStrings[strOrder[s]])// check string by strOrder
             for (int f = m_level.loFret; f <= m_level.hiFret; f++) {
-            Tnote n = Tnote(gl->Gtune[s+1].getChromaticNrOfNote() + f);
+            Tnote n = Tnote(gl->Gtune[strOrder[s]+1].getChromaticNrOfNote() + f);
             if (n.getChromaticNrOfNote() >= m_level.loNote.getChromaticNrOfNote() &&
                 n.getChromaticNrOfNote() <= m_level.hiNote.getChromaticNrOfNote()) {
                 bool hope = true; // we stil have hope that note is for exam
                 if (m_level.onlyLowPos) {
-                    if (strOrder[s] > 0) {
+                    if (s > 0) {
                        // we check when level has only lowest positions
                        // is it realy lowest pos
-                       // when is 0 - it is the higest sting
-                        qDebug() << s;
-                       char upS = realStr[strOrder[s]-1];
-                       char diff = openStr[s] - openStr[upS];
-                       if( (f-diff) > 0 && (f-diff) >= m_level.loFret &&
-                           (f-diff) <= m_level.hiFret)
-                           hope = true;
-                       else
+                       // when is 0 - it is the highest sting
+                       char diff = openStr[strOrder[s-1]] - openStr[s];
+                       if( (f-diff) >= m_level.loFret && (f-diff) <= m_level.hiFret)
                            hope = false;
+                       else
+                           hope = true;
                     }
                 }
-                if (hope && m_level.useKeySign) {
+                if (hope && m_level.useKeySign && m_level.onlyCurrKey) {
                   hope = false;
-                  for (int k = m_level.loKey.value(); k <= m_level.hiKey.value(); k++) {
-                    if (TkeySignature::inKey(TkeySignature(k), n).note != 0) {
+                  if (m_level.isSingleKey) {
+                    if(m_level.loKey.inKey(n).note != 0)
                         hope = true;
-                        break;
+                    } else {
+                        for (int k = m_level.loKey.value(); k <= m_level.hiKey.value(); k++) {
+                          if (TkeySignature::inKey(TkeySignature(k), n).note != 0) {
+                            hope = true;
+                            break;
+                          }
+                        }
                     }
-                  }
                 }
                 if (hope) {
                     TQAunit::TQAgroup g;
-                    g.note = n; g.pos = TfingerPos(s+1, f);
+                    g.note = n; g.pos = TfingerPos(strOrder[s]+1, f);
                     m_questList << g;
                 }
             }
@@ -106,7 +104,7 @@ void TexamExecutor::createQuestionsList() {
     }
 
     for (int i = 0; i < m_questList.size(); i++)
-        qDebug() << i << ".) str: " << (int)m_questList[i].pos.str() << " fret: "
+        qDebug() << i << (int)m_questList[i].pos.str() << "f"
                 << (int)m_questList[i].pos.fret() << " note: "
                 << QString::fromStdString(m_questList[i].note.getName());
 }

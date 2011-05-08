@@ -207,21 +207,25 @@ void TasNoteWdg::saveLevel(TexamLevel &level) {
     level.withFlats = flatsChB->isChecked();
     level.withDblAcc = doubleAccChB->isChecked();
     level.useKeySign = keySignGr->isChecked();
-    if (singleKeyRadio->isChecked())
+    if (singleKeyRadio->isChecked()) {
         level.isSingleKey = true;
-    else
-        level.isSingleKey = false;
-    if (fromKeyCombo->getKeySignature().value() < toKeyCombo->getKeySignature().value()) {
         level.loKey = fromKeyCombo->getKeySignature();
         level.hiKey = toKeyCombo->getKeySignature();
-    } else
-        if (fromKeyCombo->getKeySignature().value() > toKeyCombo->getKeySignature().value()) {
+    }
+    else {
+        level.isSingleKey = false;
+        if (fromKeyCombo->getKeySignature().value() < toKeyCombo->getKeySignature().value()) {
+            level.loKey = fromKeyCombo->getKeySignature();
+            level.hiKey = toKeyCombo->getKeySignature();
+        } else
+          if (fromKeyCombo->getKeySignature().value() > toKeyCombo->getKeySignature().value()) {
             level.loKey = toKeyCombo->getKeySignature();
             level.hiKey = fromKeyCombo->getKeySignature();
-        } else { // == means only one key is selected
+          } else { // == means only one key is selected
             level.isSingleKey = true;
             level.loKey = fromKeyCombo->getKeySignature();
             level.hiKey = toKeyCombo->getKeySignature();
+            }
         }
     level.manualKey = keyInAnswerChB->isChecked();
     level.forceAccids = forceAccChB->isChecked();
