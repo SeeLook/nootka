@@ -32,7 +32,8 @@ TexamExecutor::TexamExecutor()
     TstartExamDlg::Eactions userAct = startDlg->showDialog(actTxt, m_level);
     if (userAct == TstartExamDlg::e_newLevel) {
         qDebug() << "Level: " << m_level.name;
-    }
+    } else 
+      return;
 
     createQuestionsList();
 }
