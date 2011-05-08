@@ -36,26 +36,41 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
 
     QWidget *widget = new QWidget(this);
+    QVBoxLayout *mainLay = new QVBoxLayout;
+    QHBoxLayout *scoreAndNameLay = new QHBoxLayout;
+    QVBoxLayout *scoreLay = new QVBoxLayout;
+    nootBar = new QToolBar(tr("main toolbar"),widget);
+    scoreLay->addWidget(nootBar);
     m_score = new TscoreWidget(3,widget);
+    scoreLay->addWidget(m_score);
+    scoreAndNameLay->addLayout(scoreLay);
+
+    QVBoxLayout *nameLay = new QVBoxLayout;
+    QGroupBox *statGr = new QGroupBox(widget);
+    QVBoxLayout *statLay = new QVBoxLayout;
+    QLabel *statLab = new QLabel("<center><span style=\"font-size: 20px\">Status<br>text</span></center>", widget);
+    statLab->setFixedHeight(50);
+    statLay->addWidget(statLab);
+    statGr->setLayout(statLay);
+    nameLay->addWidget(statGr);
+    nameLay->addStretch(1);
     m_noteName = new TnoteName(widget);
+    nameLay->addWidget(m_noteName);
+    scoreAndNameLay->addLayout(nameLay);
+    mainLay->addLayout(scoreAndNameLay);
+
     m_guitar = new TfingerBoard(widget);
-    setMinimumSize(640,480);
+    mainLay->addWidget(m_guitar);
+    setMinimumSize(640,480);    
+    widget->setLayout(mainLay);
     setCentralWidget(widget);
 
     createActions();
-    createToolBar();
 
-    QVBoxLayout *mainLay = new QVBoxLayout;
-    QHBoxLayout *scoreAndNameLay = new QHBoxLayout;
-    scoreAndNameLay->addWidget(m_score);
 //    scoreAndNameLay->addStretch(1);
-    QVBoxLayout *nameLay = new QVBoxLayout;
-    nameLay->addWidget(m_noteName);
-    nameLay->addStretch(1);
-    scoreAndNameLay->addLayout(nameLay);
-    mainLay->addLayout(scoreAndNameLay);
-    mainLay->addWidget(m_guitar);
-    widget->setLayout(mainLay);
+
+
+
 
     connect(m_score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
     connect(m_noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
@@ -90,10 +105,7 @@ void MainWindow::createActions() {
     aboutAct->setStatusTip(tr("About Nootka"));
     aboutAct->setIcon(QIcon(gl->path+"picts/about.png"));
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(aboutSlot()));
-}
 
-void MainWindow::createToolBar() {
-    nootBar = addToolBar(tr("main toolbar"));
     nootBar->addAction(settingsAct);
     nootBar->addAction(examSetAct);
     nootBar->addAction(startAct);
@@ -101,6 +113,8 @@ void MainWindow::createToolBar() {
 
     nootBar->setMovable(false);
 }
+
+
 
 void MainWindow::resizeEvent(QResizeEvent *) {
     nootBar->setIconSize(QSize(height()/21, height()/21));
