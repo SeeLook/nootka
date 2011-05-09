@@ -16,55 +16,43 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
 
-#include "tscorewidget.h"
-#include "tnotename.h"
-#include "tfingerboard.h"
-#include "tnote.h"
-#include "texamlevel.h"
 #include "texamview.h"
-//#include <QtGui>
+#include <QtGui>
 
-
-class MainWindow : public QMainWindow
+TexamView::TexamView(QWidget *parent) :
+    QWidget(parent)
 {
-    Q_OBJECT
+    QHBoxLayout *mainLay = new QHBoxLayout;
 
-public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    QVBoxLayout *okMistLay = new QVBoxLayout;
+    m_corrLab = new QLabel("OK: 12", this);
+    m_corrLab->setToolTip(tr("correct answers' count"));
+    okMistLay->addWidget(m_corrLab);
+    m_mistLab = new QLabel("B: 12", this);
+    okMistLay->addWidget(m_mistLab);
+    mainLay->addLayout(okMistLay);
 
+    m_effLab = new QLabel("<b>100%</b>", this);
+    mainLay->addWidget(m_effLab);
+    m_averTime = new QLCDNumber(4, this);
+    m_averTime->setFixedHeight(25);
+    m_averTime->setToolTip(tr("average time of reaction"));
+    mainLay->addWidget(m_averTime);
+    m_averTime->display(0.1);
+    m_averTime->setSmallDecimalPoint(true);
+    m_reactTime = new QLCDNumber(4, this);
+    m_reactTime->setFixedHeight(25);
+    m_reactTime->setToolTip(tr("time of reaction"));
+    mainLay->addWidget(m_reactTime);
+    m_reactTime->display(12.5);
+    m_reactTime->setSmallDecimalPoint(true);
+    m_totalTime = new QLCDNumber(7, this);
+    m_totalTime->setFixedHeight(25);
+    mainLay->addWidget(m_totalTime);
+    m_totalTime->display("1:23:15");
+    m_totalTime->setSmallDecimalPoint(true);
 
-public slots:
-    void createSettingsDialog();
-    void createExamSettingsDlg();
-    void startExamSlot();
-    void aboutSlot();
+    setLayout(mainLay);
 
-    void noteWasClicked(int index, Tnote note);
-    void noteNameWasChanged(Tnote note);
-    void guitarWasClicked(Tnote note);
-
-protected:
-    void resizeEvent(QResizeEvent *);
-    bool event(QEvent *event);
-
-private:
-    TscoreWidget *m_score;
-    TnoteName *m_noteName;
-    TfingerBoard *m_guitar;
-    TexamView *m_examView;
-    QLabel *m_statLab;
-
-//    TexamLevel m_level;
-
-    QAction *settingsAct, *examSetAct, *startAct, *aboutAct;
-    QToolBar *nootBar;
-
-    void createActions();
-
-};
-
-#endif // MAINWINDOW_H
+}

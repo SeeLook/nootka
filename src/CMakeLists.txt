@@ -38,6 +38,7 @@ SET( NOOTKA_SRCS
   exam/texamexecutor.cpp
   exam/tstartexamdlg.cpp
   exam/tqaunit.cpp
+  exam/texamview.cpp
   )
 
 #SET( NOOTKA_HEADERS
@@ -71,6 +72,7 @@ SET( NOOTKA_MOC_SRCS
   level/tlevelheaderwdg.h
 ###### Exam
   exam/tstartexamdlg.h
+  exam/texamview.h
 #  exam/texamexecutor.h
   )
 

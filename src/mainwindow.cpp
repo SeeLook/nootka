@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "settings/settingsdialog.h"
+#include "settingsdialog.h"
 #include "mainwindow.h"
 #include "tglobals.h"
 #include "examsettingsdlg.h"
@@ -25,13 +25,16 @@
 
 Tglobals *gl = new Tglobals();
 
+QString hintText;
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
 
     gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
 
-    statusBar()->showMessage("Nootka " + gl->version);
+//    statusBar()->showMessage("Nootka " + gl->version);
+    hintText = "<center><b>Welcome !!</b></center>";
 
     setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
 
@@ -48,11 +51,17 @@ MainWindow::MainWindow(QWidget *parent)
     QVBoxLayout *nameLay = new QVBoxLayout;
     QGroupBox *statGr = new QGroupBox(widget);
     QVBoxLayout *statLay = new QVBoxLayout;
-    QLabel *statLab = new QLabel("<center><span style=\"font-size: 20px\">Status<br>text</span></center>", widget);
-    statLab->setFixedHeight(50);
-    statLay->addWidget(statLab);
+    m_statLab = new QLabel(hintText, widget);
+    m_statLab->setWordWrap(true);
+    m_statLab->setFixedHeight(50);
+    statLay->addWidget(m_statLab);
     statGr->setLayout(statLay);
     nameLay->addWidget(statGr);
+//    nameLay->addLayout(statLay);
+    nameLay->addStretch(1);
+    m_examView = new TexamView(this);
+    nameLay->addWidget(m_examView);
+
     nameLay->addStretch(1);
     m_noteName = new TnoteName(widget);
     nameLay->addWidget(m_noteName);
@@ -188,4 +197,15 @@ void MainWindow::guitarWasClicked(Tnote note) {
         m_noteName->setNoteName(note);
     m_score->setNote(0, note);
 
+}
+
+bool MainWindow::event(QEvent *event) {
+    if (event->type() == QEvent::StatusTip) {
+        QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
+        if (se->tip() == "")
+            m_statLab->setText(hintText);
+        else
+            m_statLab->setText("<center>"+se->tip()+"</center>");
+    }
+    return QMainWindow::event(event);
 }
