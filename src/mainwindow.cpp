@@ -127,7 +127,7 @@ void MainWindow::createActions() {
 
 void MainWindow::resizeEvent(QResizeEvent *) {
     nootBar->setIconSize(QSize(height()/21, height()/21));
-    m_score->setFixedWidth(centralWidget()->width()/2);
+    m_score->setFixedWidth((centralWidget()->width()/13)*6);
 //    m_noteName->setFixedHeight((centralWidget()->height()/9)*4);
     m_guitar->setFixedHeight(centralWidget()->height()/3);
 //    m_guitar->resize();
@@ -138,7 +138,7 @@ void MainWindow::resizeEvent(QResizeEvent *) {
 //##########        SLOTS       ###############
 
 void MainWindow::createSettingsDialog() {
-    SettingsDialog *settings = new SettingsDialog;
+    SettingsDialog *settings = new SettingsDialog(this);
     if (settings->exec() == QDialog::Accepted) {
         m_score->acceptSettings();
         m_noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
@@ -152,7 +152,7 @@ void MainWindow::createSettingsDialog() {
 }
 
 void MainWindow::createExamSettingsDlg() {
-    examSettingsDlg *examSettDlg = new examSettingsDlg;
+    examSettingsDlg *examSettDlg = new examSettingsDlg(this);
     examSettDlg->exec();
 }
 
