@@ -16,55 +16,34 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
 
-#include "tscorewidget.h"
-#include "tnotename.h"
-#include "tfingerboard.h"
-#include "tnote.h"
-#include "texamlevel.h"
-#include "texamview.h"
-//#include <QtGui>
+#ifndef TEXAMVIEW_H
+#define TEXAMVIEW_H
+
+#include <QWidget>
 
 
-class MainWindow : public QMainWindow
+class QLCDNumber;
+class QLabel;
+
+    /** A @class TexamView represents status of exam.
+    * It displays times and numbers of valid/invalid questions.
+    */
+class TexamView : public QWidget
 {
     Q_OBJECT
-
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    explicit TexamView(QWidget *parent = 0);
 
+signals:
 
 public slots:
-    void createSettingsDialog();
-    void createExamSettingsDlg();
-    void startExamSlot();
-    void aboutSlot();
-
-    void noteWasClicked(int index, Tnote note);
-    void noteNameWasChanged(Tnote note);
-    void guitarWasClicked(Tnote note);
-
-protected:
-    void resizeEvent(QResizeEvent *);
-    bool event(QEvent *event);
 
 private:
-    TscoreWidget *m_score;
-    TnoteName *m_noteName;
-    TfingerBoard *m_guitar;
-    TexamView *m_examView;
-    QLabel *m_statLab;
 
-//    TexamLevel m_level;
-
-    QAction *settingsAct, *examSetAct, *startAct, *aboutAct;
-    QToolBar *nootBar;
-
-    void createActions();
+    QLCDNumber *m_averTime, *m_reactTime, *m_totalTime;
+    QLabel *m_mistLab, *m_corrLab, *m_effLab;
 
 };
 
-#endif // MAINWINDOW_H
+#endif // TEXAMVIEW_H
