@@ -79,7 +79,7 @@ void TexamExecutor::createQuestionsList() {
                        // we have to check when note is on the lowest positions
                        // is it realy lowest pos
                        // when strOrder[s] is 0 - it is the highest sting
-                       char diff = openStr[strOrder[s-1]] - openStr[s];
+                       char diff = openStr[strOrder[s-1]] - openStr[strOrder[s]];
                        if( (f-diff) >= m_level.loFret && (f-diff) <= m_level.hiFret) {
                            hope = false; //There is the same note on highest string
                            qDebug() << (int)s << (int)diff << (int)f-diff << "bad";
