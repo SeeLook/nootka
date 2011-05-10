@@ -20,21 +20,15 @@
 #include "mainwindow.h"
 #include "tglobals.h"
 #include "examsettingsdlg.h"
-#include "texamexecutor.h"
 //#include <QDebug>
 
 Tglobals *gl = new Tglobals();
-
-QString hintText;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
 
     gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
-
-//    statusBar()->showMessage("Nootka " + gl->version);
-    hintText = "<center><b>Welcome !!</b></center>";
 
     setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
 
@@ -44,14 +38,14 @@ MainWindow::MainWindow(QWidget *parent)
     QVBoxLayout *scoreLay = new QVBoxLayout;
     nootBar = new QToolBar(tr("main toolbar"),widget);
     scoreLay->addWidget(nootBar);
-    m_score = new TscoreWidget(3,widget);
-    scoreLay->addWidget(m_score);
+    score = new TscoreWidget(3,widget);
+    scoreLay->addWidget(score);
     scoreAndNameLay->addLayout(scoreLay);
 
     QVBoxLayout *nameLay = new QVBoxLayout;
     QGroupBox *statGr = new QGroupBox(widget);
     QVBoxLayout *statLay = new QVBoxLayout;
-    m_statLab = new QLabel(hintText, widget);
+    m_statLab = new QLabel(widget);
     m_statLab->setWordWrap(true);
     m_statLab->setFixedHeight(50);
     statLay->addWidget(m_statLab);
@@ -59,31 +53,29 @@ MainWindow::MainWindow(QWidget *parent)
     nameLay->addWidget(statGr);
 //    nameLay->addLayout(statLay);
     nameLay->addStretch(1);
-    m_examView = new TexamView(this);
-    nameLay->addWidget(m_examView);
+    examResults = new TexamView(this);
+    nameLay->addWidget(examResults);
 
     nameLay->addStretch(1);
-    m_noteName = new TnoteName(widget);
-    nameLay->addWidget(m_noteName);
+    noteName = new TnoteName(widget);
+    nameLay->addWidget(noteName);
     scoreAndNameLay->addLayout(nameLay);
     mainLay->addLayout(scoreAndNameLay);
 
-    m_guitar = new TfingerBoard(widget);
-    mainLay->addWidget(m_guitar);
+    guitar = new TfingerBoard(widget);
+    mainLay->addWidget(guitar);
     setMinimumSize(640,480);    
     widget->setLayout(mainLay);
     setCentralWidget(widget);
 
+    m_statusText = "";
+
     createActions();
 
-//    scoreAndNameLay->addStretch(1);
 
-
-
-
-    connect(m_score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
-    connect(m_noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
-    connect(m_guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
+    connect(score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
+    connect(noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
+    connect(guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
 
 
 
@@ -100,15 +92,15 @@ void MainWindow::createActions() {
     settingsAct->setIcon(QIcon(gl->path+"picts/systemsettings.png"));
     connect(settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
 
-    examSetAct = new QAction(tr("Exams settings"),this);
-    examSetAct->setStatusTip(tr("Settings for exam's levels"));
-    examSetAct->setIcon(QIcon(gl->path+"picts/examSettings.png"));
-    connect(examSetAct, SIGNAL(triggered()), this, SLOT(createExamSettingsDlg()));
+    levelCreatorAct = new QAction(tr("Levels' creator"),this);
+    levelCreatorAct->setStatusTip(levelCreatorAct->text());
+    levelCreatorAct->setIcon(QIcon(gl->path+"picts/examSettings.png"));
+    connect(levelCreatorAct, SIGNAL(triggered()), this, SLOT(createExamSettingsDlg()));
 
-    startAct = new QAction(tr("Start exam"),this);
-    startAct->setStatusTip(startAct->text());
-    startAct->setIcon(QIcon(gl->path+"picts/startExam.png"));
-    connect(startAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
+    startExamAct = new QAction(tr("Start exam"),this);
+    startExamAct->setStatusTip(startExamAct->text());
+    startExamAct->setIcon(QIcon(gl->path+"picts/startExam.png"));
+    connect(startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
 
     aboutAct = new QAction(tr("about"),this);
     aboutAct->setStatusTip(tr("About Nootka"));
@@ -116,8 +108,8 @@ void MainWindow::createActions() {
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(aboutSlot()));
 
     nootBar->addAction(settingsAct);
-    nootBar->addAction(examSetAct);
-    nootBar->addAction(startAct);
+    nootBar->addAction(levelCreatorAct);
+    nootBar->addAction(startExamAct);
     nootBar->addAction(aboutAct);
 
     nootBar->setMovable(false);
@@ -127,12 +119,17 @@ void MainWindow::createActions() {
 
 void MainWindow::resizeEvent(QResizeEvent *) {
     nootBar->setIconSize(QSize(height()/21, height()/21));
-    m_score->setFixedWidth((centralWidget()->width()/13)*6);
-//    m_noteName->setFixedHeight((centralWidget()->height()/9)*4);
-    m_guitar->setFixedHeight(centralWidget()->height()/3);
-//    m_guitar->resize();
-//    m_guitar->setFixedWidth(centralWidget()->width());
-    m_noteName->resize();
+    score->setFixedWidth((centralWidget()->width()/13)*6);
+//    noteName->setFixedHeight((centralWidget()->height()/9)*4);
+    guitar->setFixedHeight(centralWidget()->height()/3);
+//    guitar->resize();
+//    guitar->setFixedWidth(centralWidget()->width());
+    noteName->resize();
+}
+
+void MainWindow::setStatusMessage(QString msg) {
+    m_statLab->setText("<center>" + msg + "</center>");
+    m_statusText = msg;
 }
 
 //##########        SLOTS       ###############
@@ -140,14 +137,14 @@ void MainWindow::resizeEvent(QResizeEvent *) {
 void MainWindow::createSettingsDialog() {
     SettingsDialog *settings = new SettingsDialog(this);
     if (settings->exec() == QDialog::Accepted) {
-        m_score->acceptSettings();
-        m_noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
-        m_noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
-        m_noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
-        m_noteName->setAmbitus(gl->Gtune.lowest(),
+        score->acceptSettings();
+        noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
+        noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
+        noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
+        noteName->setAmbitus(gl->Gtune.lowest(),
                                Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber));
-        noteWasClicked(0,m_noteName->getNoteName(0));//refresh name
-        m_guitar->acceptSettings();;//refresh guitar
+        noteWasClicked(0,noteName->getNoteName(0));//refresh name
+        guitar->acceptSettings();;//refresh guitar
     }
 }
 
@@ -157,45 +154,45 @@ void MainWindow::createExamSettingsDlg() {
 }
 
 void MainWindow::startExamSlot() {
-    TexamExecutor ex = TexamExecutor();
+    TexamExecutor *ex = new TexamExecutor(this);
 }
 
 void MainWindow::aboutSlot() {
-    QMessageBox msg;
-    msg.setText("<center><b>Nootka " + gl->version + tr("</b></center><p>This is developers preview of Nootka. It works quitely stable, but has less functioinality yet.</p><p>See a <a href=\"http://nootka.sourceforge.net\">program site</a> for more details and furter relaces.</p><p>Any bugs, sugestions, translations and so on, report to: <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><p/><p style=\"text-align: right;\">with respects<br>Author</p>"));
-    msg.exec();
+    QMessageBox *msg = new QMessageBox(this);
+    msg->setText("<center><b>Nootka " + gl->version + tr("</b></center><p>This is developers preview of Nootka. It works quitely stable, but has less functioinality yet.</p><p>See a <a href=\"http://nootka.sourceforge.net\">program site</a> for more details and furter relaces.</p><p>Any bugs, sugestions, translations and so on, report to: <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><p/><p style=\"text-align: right;\">with respects<br>Author</p>"));
+    msg->exec();
 }
 
 void MainWindow::noteWasClicked(int index, Tnote note) {
     if (gl->showEnharmNotes){
         TnotesList noteList;
         noteList.push_back(note);
-        noteList.push_back(m_score->getNote(1));
-        noteList.push_back(m_score->getNote(2));
-        m_noteName->setNoteName(noteList);
+        noteList.push_back(score->getNote(1));
+        noteList.push_back(score->getNote(2));
+        noteName->setNoteName(noteList);
     } else
-        m_noteName->setNoteName(note);
-    m_guitar->setFinger(note);
+        noteName->setNoteName(note);
+    guitar->setFinger(note);
 }
 
 void MainWindow::noteNameWasChanged(Tnote note) {
-    m_score->setNote(0, note);
+    score->setNote(0, note);
     if (gl->showEnharmNotes) {
-        m_score->setNote(1, m_noteName->getNoteName(1));
-        m_score->setNote(2, m_noteName->getNoteName(2));
+        score->setNote(1, noteName->getNoteName(1));
+        score->setNote(2, noteName->getNoteName(2));
     }
-    m_guitar->setFinger(note);
+    guitar->setFinger(note);
 }
 
 void MainWindow::guitarWasClicked(Tnote note) {
     if (gl->showEnharmNotes) {
         TnotesList noteList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
-        m_noteName->setNoteName(noteList);
-        m_score->setNote(1, m_noteName->getNoteName(1));
-        m_score->setNote(2, m_noteName->getNoteName(2));
+        noteName->setNoteName(noteList);
+        score->setNote(1, noteName->getNoteName(1));
+        score->setNote(2, noteName->getNoteName(2));
     } else
-        m_noteName->setNoteName(note);
-    m_score->setNote(0, note);
+        noteName->setNoteName(note);
+    score->setNote(0, note);
 
 }
 
@@ -203,7 +200,7 @@ bool MainWindow::event(QEvent *event) {
     if (event->type() == QEvent::StatusTip) {
         QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
         if (se->tip() == "")
-            m_statLab->setText(hintText);
+            m_statLab->setText("<center>" + m_statusText + "</center>");
         else
             m_statLab->setText("<center>"+se->tip()+"</center>");
     }

@@ -73,7 +73,7 @@ SET( NOOTKA_MOC_SRCS
 ###### Exam
   exam/tstartexamdlg.h
   exam/texamview.h
-#  exam/texamexecutor.h
+  exam/texamexecutor.h
   )
 
 QT4_WRAP_CPP( NOOTKA_MOCS ${NOOTKA_MOC_SRCS} )

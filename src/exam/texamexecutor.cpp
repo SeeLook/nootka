@@ -20,21 +20,25 @@
 #include "texamexecutor.h"
 #include "tglobals.h"
 #include "tstartexamdlg.h"
+#include "mainwindow.h"
 #include <QDebug>
 
 extern Tglobals *gl;
 
-TexamExecutor::TexamExecutor()
+TexamExecutor::TexamExecutor(MainWindow *mainW)
 {
+    mW = mainW;
 
     TstartExamDlg *startDlg = new TstartExamDlg;
     QString actTxt;
     TstartExamDlg::Eactions userAct = startDlg->showDialog(actTxt, m_level);
     if (userAct == TstartExamDlg::e_newLevel) {
         qDebug() << "Level: " << m_level.name;
+
     } else 
       return;
 
+//    prepareToExam();
     createQuestionsList();
 }
 
@@ -56,29 +60,34 @@ void TexamExecutor::createQuestionsList() {
         i--;
     }
 
-  // array done
+  // array done, stored in strOrder[6]
 
-//    for (int i=0; i<6; i++) qDebug() << i << ": " << (int)openStr[strOrder[i]]
-//            << " : " << (int)strOrder[i];
+    for (int i=0; i<6; i++) qDebug() << i << ": " << (int)openStr[strOrder[i]]
+            << " : " << (int)strOrder[i];
 
-  // 2. searching all frets range string by string
+  // 2. searching all frets in range, string by string
     for(int s = 0; s < 6; s++) {
         if (m_level.usedStrings[strOrder[s]])// check string by strOrder
             for (int f = m_level.loFret; f <= m_level.hiFret; f++) {
             Tnote n = Tnote(gl->Gtune[strOrder[s]+1].getChromaticNrOfNote() + f);
             if (n.getChromaticNrOfNote() >= m_level.loNote.getChromaticNrOfNote() &&
                 n.getChromaticNrOfNote() <= m_level.hiNote.getChromaticNrOfNote()) {
-                bool hope = true; // we stil have hope that note is for exam
+                bool hope = true; // we stil have hope that note is for an exam
                 if (m_level.onlyLowPos) {
                     if (s > 0) {
-                       // we check when level has only lowest positions
+//                    if (strOrder[s] > 0) {
+                       // we have to check when note is on the lowest positions
                        // is it realy lowest pos
-                       // when is 0 - it is the highest sting
+                       // when strOrder[s] is 0 - it is the highest sting
                        char diff = openStr[strOrder[s-1]] - openStr[s];
-                       if( (f-diff) >= m_level.loFret && (f-diff) <= m_level.hiFret)
-                           hope = false;
-                       else
+                       if( (f-diff) >= m_level.loFret && (f-diff) <= m_level.hiFret) {
+                           hope = false; //There is the same note on highest string
+                           qDebug() << (int)s << (int)diff << (int)f-diff << "bad";
+                       }
+                       else {
                            hope = true;
+                           qDebug() << (int)strOrder[s] << (int)diff << (int)f-diff << "ok";
+                       }
                     }
                 }
                 if (hope && m_level.useKeySign && m_level.onlyCurrKey) {
@@ -110,5 +119,25 @@ void TexamExecutor::createQuestionsList() {
                 << QString::fromStdString(m_questList[i].note.getName());
 }
 
+void TexamExecutor::prepareToExam() {
+    mW->setStatusMessage("exam started on level:<br><b>" + m_level.name + "</b>");
+    mW->settingsAct->setDisabled(true);
+    mW->levelCreatorAct->setDisabled(true);
+    mW->startExamAct->setDisabled(true);
 
+    disconnect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
+    disconnect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
+    disconnect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
 
+}
+
+void TexamExecutor::restoreAfterExam() {
+    mW->settingsAct->setDisabled(false);
+    mW->levelCreatorAct->setDisabled(false);
+    mW->startExamAct->setDisabled(false);
+
+    connect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
+    connect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
+    connect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
+
+}

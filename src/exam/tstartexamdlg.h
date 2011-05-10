@@ -62,6 +62,7 @@ private:
 private slots:
     void levelOrExamChanged();
     void levelToLoad();
+    void startAccepted();
 };
 
 #endif // TSTARTEXAMDLG_H
