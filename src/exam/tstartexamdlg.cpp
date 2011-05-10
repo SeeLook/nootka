@@ -90,19 +90,22 @@ TstartExamDlg::TstartExamDlg(QWidget *parent) :
 
     connect(radioGr, SIGNAL(buttonClicked(int)), this, SLOT(levelOrExamChanged()));
     connect(levelsView, SIGNAL(levelToLoad()), this, SLOT(levelToLoad()));
-    connect(startBut, SIGNAL(clicked()), this, SLOT(accept()));
+    connect(startBut, SIGNAL(clicked()), this, SLOT(startAccepted()));
     connect(cancelBut, SIGNAL(clicked()), this, SLOT(reject()));
 
 }
 
 TstartExamDlg::Eactions TstartExamDlg::showDialog(QString &txt, TexamLevel &lev) {
     exec();
-    if (levelRadio->isChecked()) {
-        txt = nameEdit->text();
-        lev = levelsView->getSelectedLevel();
-        return e_newLevel;
-    }
-    else
+    if (result() == QDialog::Accepted) {
+        if (levelRadio->isChecked()) {
+            txt = nameEdit->text();
+            lev = levelsView->getSelectedLevel();
+            return e_newLevel;
+        }
+        else
+            return e_continue;
+    } else
         return e_none;
 }
 
@@ -128,3 +131,16 @@ bool TstartExamDlg::event(QEvent *event) {
     }
     return QDialog::event(event);
 }
+
+void TstartExamDlg::startAccepted() {
+    if (levelRadio->isChecked()) {
+        TexamLevel l = levelsView->getSelectedLevel();
+        if (l.name == "") {
+            QMessageBox::warning(this, "", tr("Any level was not selected !!"));
+            return;
+        } else
+            accept();
+    }
+}
+
+

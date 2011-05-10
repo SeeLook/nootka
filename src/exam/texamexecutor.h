@@ -22,15 +22,27 @@
 
 #include "texamlevel.h"
 #include "tqaunit.h"
+//#include "mainwindow.h"
+//#include <QtGui>
 #include <QList>
 
-class TexamExecutor
+class MainWindow;
+
+    /** This class manages of exam executing*/
+class TexamExecutor : public QObject
 {
+    Q_OBJECT
+
 public:
-    TexamExecutor();
+    explicit TexamExecutor(MainWindow *mainW);
+
+protected:
+    MainWindow *mW;
 
 private:
     void createQuestionsList();
+    void prepareToExam();
+    void restoreAfterExam();
 
 
     TexamLevel m_level;

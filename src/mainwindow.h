@@ -25,17 +25,20 @@
 #include "tnote.h"
 #include "texamlevel.h"
 #include "texamview.h"
-//#include <QtGui>
+#include "texamexecutor.h"
 
 
 class MainWindow : public QMainWindow
 {
+    friend class TexamExecutor;
+
     Q_OBJECT
 
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void setStatusMessage(QString msg);
 
 public slots:
     void createSettingsDialog();
@@ -48,19 +51,21 @@ public slots:
     void guitarWasClicked(Tnote note);
 
 protected:
+    TscoreWidget *score;
+    TnoteName *noteName;
+    TfingerBoard *guitar;
+    TexamView *examResults;
+
+    QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct;
+
     void resizeEvent(QResizeEvent *);
     bool event(QEvent *event);
 
 private:
-    TscoreWidget *m_score;
-    TnoteName *m_noteName;
-    TfingerBoard *m_guitar;
-    TexamView *m_examView;
+
     QLabel *m_statLab;
+    QString m_statusText;
 
-//    TexamLevel m_level;
-
-    QAction *settingsAct, *examSetAct, *startAct, *aboutAct;
     QToolBar *nootBar;
 
     void createActions();

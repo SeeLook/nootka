@@ -112,7 +112,12 @@ void TlevelSelector::loadFromFile() {
 }
 
 TexamLevel TlevelSelector::getSelectedLevel() {
-    return levList[levelsList->currentRow()];
+    if (levelsList->currentRow() == -1 ) {
+        TexamLevel l = TexamLevel();
+        l.name = ""; l.desc = "";
+        return l;
+    } else
+        return levList[levelsList->currentRow()];
 }
 
 
