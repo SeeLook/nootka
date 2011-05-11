@@ -30,6 +30,24 @@ TQAtype::TQAtype(bool _asNote, bool _asName, bool _asFretPos, bool _asSound)
     m_typeArr[1] = _asName;
     m_typeArr[2] = _asFretPos;
     m_typeArr[3] = _asSound;
+    m_index = 0;
+}
+
+TQAtype::Etype TQAtype::next() {
+    do {
+        m_index++;
+        if (m_index == 4) m_index = 0;
+    } while (!m_typeArr[m_index]);
+//    switch (m_index) {
+//    case 0 : return e_asNote;
+//    case 1 :
+//    }
+    return (Etype)m_index;
+}
+
+TQAtype::Etype TQAtype::randNext() {
+    m_index = (qrand() % 4) - 1;
+    next();
 }
 
 QDataStream &operator << (QDataStream &out,TQAtype &qatype) {

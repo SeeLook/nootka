@@ -87,22 +87,22 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::createActions() {
-    settingsAct = new QAction(tr("Settings"),this);
+    settingsAct = new QAction(tr("Settings"), this);
     settingsAct->setStatusTip(tr("Application preferences"));
     settingsAct->setIcon(QIcon(gl->path+"picts/systemsettings.png"));
     connect(settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
 
-    levelCreatorAct = new QAction(tr("Levels' creator"),this);
+    levelCreatorAct = new QAction(tr("Levels' creator"), this);
     levelCreatorAct->setStatusTip(levelCreatorAct->text());
     levelCreatorAct->setIcon(QIcon(gl->path+"picts/examSettings.png"));
     connect(levelCreatorAct, SIGNAL(triggered()), this, SLOT(createExamSettingsDlg()));
 
-    startExamAct = new QAction(tr("Start exam"),this);
+    startExamAct = new QAction(tr("Start exam"), this);
     startExamAct->setStatusTip(startExamAct->text());
-    startExamAct->setIcon(QIcon(gl->path+"picts/startExam.png"));
+    startExamAct->setIcon(QIcon(gl->path+"picts/startExam.svg"));
     connect(startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
 
-    aboutAct = new QAction(tr("about"),this);
+    aboutAct = new QAction(tr("about"), this);
     aboutAct->setStatusTip(tr("About Nootka"));
     aboutAct->setIcon(QIcon(gl->path+"picts/about.png"));
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(aboutSlot()));
