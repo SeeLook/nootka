@@ -37,17 +37,13 @@ TQAtype::Etype TQAtype::next() {
     do {
         m_index++;
         if (m_index == 4) m_index = 0;
-    } while (!m_typeArr[m_index]);
-//    switch (m_index) {
-//    case 0 : return e_asNote;
-//    case 1 :
-//    }
+    } while ( !m_typeArr[m_index] );
     return (Etype)m_index;
 }
 
 TQAtype::Etype TQAtype::randNext() {
     m_index = (qrand() % 4) - 1;
-    next();
+    return next();
 }
 
 QDataStream &operator << (QDataStream &out,TQAtype &qatype) {
