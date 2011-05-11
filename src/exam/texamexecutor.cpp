@@ -96,11 +96,11 @@ void TexamExecutor::createQuestionsList() {
                        char diff = openStr[strOrder[s-1]] - openStr[strOrder[s]];
                        if( (f-diff) >= m_level.loFret && (f-diff) <= m_level.hiFret) {
                            hope = false; //There is the same note on highest string
-                           qDebug() << (int)s << (int)diff << (int)f-diff << "bad";
+//                           qDebug() << (int)s << (int)diff << (int)f-diff << "bad";
                        }
                        else {
                            hope = true;
-                           qDebug() << (int)strOrder[s] << (int)diff << (int)f-diff << "ok";
+//                           qDebug() << (int)strOrder[s] << (int)diff << (int)f-diff << "ok";
                        }
                     }
                 }
@@ -147,7 +147,7 @@ void TexamExecutor::askQuestion() {
                 curQ.key = m_level.loKey;
                 tmpNote = m_level.loKey.inKey(curQ.qa.note);
             } else {
-                curQ.key = TkeySignature(qrand() % (m_level.hiKey.value() - m_level.loKey.value()));
+                curQ.key = TkeySignature((qrand() % (m_level.hiKey.value() - m_level.loKey.value()))-7);
                 if (m_level.onlyCurrKey) {
                     int keyRangeWidth = m_level.hiKey.value() - m_level.loKey.value();
                     int patience = 0;
@@ -166,12 +166,13 @@ void TexamExecutor::askQuestion() {
                     }
                 }
             }
+            curQ.qa.note = tmpNote;
         }
         if ( !m_level.onlyCurrKey)
             curQ.qa.note = determineAccid(curQ.qa.note);
     }
-    qDebug() << QString::fromStdString(curQ.qa.note.getName()) << (int)curQ.questionAs
-            << (int)curQ.answerAs;
+    qDebug() << QString::fromStdString(curQ.qa.note.getName()) << "Q" << (int)curQ.questionAs
+            << "A" << (int)curQ.answerAs << curQ.key.getMajorName();
 }
 
 Tnote TexamExecutor::determineAccid(Tnote n) {
