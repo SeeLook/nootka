@@ -147,7 +147,7 @@ void TexamExecutor::askQuestion() {
                 curQ.key = m_level.loKey;
                 tmpNote = m_level.loKey.inKey(curQ.qa.note);
             } else {
-                curQ.key = TkeySignature((qrand() % (m_level.hiKey.value() - m_level.loKey.value()))-7);
+                curQ.key = TkeySignature((qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1))-7);
                 if (m_level.onlyCurrKey) {
                     int keyRangeWidth = m_level.hiKey.value() - m_level.loKey.value();
                     int patience = 0;
