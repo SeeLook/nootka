@@ -20,7 +20,7 @@
 #include "examsettingsdlg.h"
 #include "tglobals.h"
 #include "tlevelheaderwdg.h"
-//#include <QDebug>
+#include <QDebug>
 
 extern Tglobals *gl;
 bool isNotSaved;
