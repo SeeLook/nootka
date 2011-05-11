@@ -21,7 +21,10 @@
 #define TQATYPE_H
 
 #include <QDataStream>
-    /** Question-Answer type*/
+    /** Question-Answer type. It keeps array of four bool elements
+    * whitch say is apropopirate type enabled or not.
+    * Also it randomize possible type by calling @param randNext(),
+    * or returns next possible type by calling next().*/
 class TQAtype
 {
 public:
@@ -39,8 +42,12 @@ public:
     bool isFret() { return m_typeArr[2]; }
     bool isSound() { return m_typeArr[3]; }
 
+    Etype next();
+    Etype randNext();
+
 private:
     bool m_typeArr[4];
+    char m_index;
 
 };
 

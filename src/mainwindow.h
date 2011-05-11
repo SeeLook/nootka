@@ -56,6 +56,7 @@ protected:
     TfingerBoard *guitar;
     TexamView *examResults;
 
+    QToolBar *nootBar;
     QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct;
 
     void resizeEvent(QResizeEvent *);
@@ -66,7 +67,6 @@ private:
     QLabel *m_statLab;
     QString m_statusText;
 
-    QToolBar *nootBar;
 
     void createActions();
 

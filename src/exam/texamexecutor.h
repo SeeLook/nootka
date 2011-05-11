@@ -22,11 +22,11 @@
 
 #include "texamlevel.h"
 #include "tqaunit.h"
-//#include "mainwindow.h"
 //#include <QtGui>
 #include <QList>
 
 class MainWindow;
+class QAction;
 
     /** This class manages of exam executing*/
 class TexamExecutor : public QObject
@@ -38,15 +38,30 @@ public:
 
 protected:
     MainWindow *mW;
+    QAction *nextQuestAct;
+
+protected slots:
+    void askQuestion();
 
 private:
     void createQuestionsList();
+    Tnote determineAccid(Tnote n);
+    void CheckAnswer();
+
     void prepareToExam();
     void restoreAfterExam();
 
 
+
     TexamLevel m_level;
     QList<TQAunit::TQAgroup> m_questList;
+    QList<TQAunit> m_answList;
+//    TQAunit m_curQ;
+        /** Previous accidentals used*/
+    Tnote::Eacidentals m_prevAccid;
+        /** intervals between asking about double accidentals.
+        * By default every forth question is with double adccid.*/
+    int m_dblAccidsCntr;
 };
 
 #endif // TEXAMEXECUTOR_H
