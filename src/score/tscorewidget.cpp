@@ -19,6 +19,7 @@
 #include "tscorewidget.h"
 #include "tnoteview.h"
 #include "tglobals.h"
+#include "tkeysignature.h"
 //#include <QDebug>
 
 
@@ -135,3 +136,11 @@ void TscoreWidget::acceptSettings() {
     update();
 }
 
+void TscoreWidget::askQuestion(Tnote note) {
+    setNote(1, note);
+}
+
+void TscoreWidget::askQuestion(Tnote note, TkeySignature key) {
+    setKeySignature(key);
+    askQuestion(note);
+}

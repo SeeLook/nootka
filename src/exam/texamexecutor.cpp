@@ -51,7 +51,6 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     nextQuestAct->setStatusTip(nextQuestAct->text());
     nextQuestAct->setIcon(QIcon(gl->path+"picts/nextQuest.png"));
     connect(nextQuestAct, SIGNAL(triggered()), this, SLOT(askQuestion()));
-    mW->nootBar->addSeparator();
     mW->nootBar->addAction(nextQuestAct);
 
 }
@@ -135,7 +134,7 @@ void TexamExecutor::createQuestionsList() {
 }
 
 void TexamExecutor::askQuestion() {
-    TQAunit curQ = TQAunit();
+    TQAunit curQ = TQAunit(); // current question
     curQ.qa = m_questList[qrand() % m_questList.size()];
     curQ.questionAs = m_level.questionAs.next();
     curQ.answerAs = m_level.answersAs[curQ.questionAs].next();
@@ -143,14 +142,14 @@ void TexamExecutor::askQuestion() {
     if (curQ.questionAs == TQAtype::e_asNote || curQ.answerAs == TQAtype::e_asNote) {
         if (m_level.useKeySign) {
             Tnote tmpNote = curQ.qa.note;
-            if (m_level.isSingleKey) {
+            if (m_level.isSingleKey) { //for single key
                 curQ.key = m_level.loKey;
                 tmpNote = m_level.loKey.inKey(curQ.qa.note);
-            } else {
+            } else { // for multi keys
                 curQ.key = TkeySignature((qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1))-7);
-                if (m_level.onlyCurrKey) {
+                if (m_level.onlyCurrKey) { // if hote is in current key only
                     int keyRangeWidth = m_level.hiKey.value() - m_level.loKey.value();
-                    int patience = 0;
+                    int patience = 0; // we are lookimg for suitable key
                     char keyOff = curQ.key.value() - m_level.loKey.value();
                     tmpNote = curQ.key.inKey(curQ.qa.note);
                     while(tmpNote.note == 0 && patience < keyRangeWidth) {
@@ -168,15 +167,53 @@ void TexamExecutor::askQuestion() {
             }
             curQ.qa.note = tmpNote;
         }
-        if ( !m_level.onlyCurrKey)
+        if ( !m_level.onlyCurrKey) // if keyy dosen't determine accidentals, we do this
             curQ.qa.note = determineAccid(curQ.qa.note);
     }
-    qDebug() << QString::fromStdString(curQ.qa.note.getName()) << "Q" << (int)curQ.questionAs
-            << "A" << (int)curQ.answerAs << curQ.key.getMajorName();
+//    qDebug() << QString::fromStdString(curQ.qa.note.getName()) << "Q" << (int)curQ.questionAs
+//            << "A" << (int)curQ.answerAs << curQ.key.getMajorName();
+    if (curQ.questionAs == TQAtype::e_asNote) {
+        if (m_level.useKeySign)
+            mW->score->askQuestion(curQ.qa.note, curQ.key);
+        else mW->score->askQuestion(curQ.qa.note);
+    }
+
+    if (curQ.questionAs == TQAtype::e_asName) {
+        mW->noteName->askQuestion(curQ.qa.note);
+    }
+
+    if (curQ.questionAs == TQAtype::e_asFretPos) {
+        mW->guitar->setFinger(curQ.qa.note, curQ.qa.pos.str());
+    }
+
+
 }
 
 Tnote TexamExecutor::determineAccid(Tnote n) {
-    return n;
+    Tnote nA = n;
+    if (m_level.withSharps || m_level.withFlats || m_level.withDblAcc) {
+        if (m_level.withDblAcc) {
+            m_dblAccidsCntr++;
+            if (m_dblAccidsCntr == 4) { //double accid note occurs every 4-th question
+                if ( (qrand() % 2) ) // randomize dblSharp or dblFlat
+                    nA = n.showWithDoubleSharp();
+                else
+                    nA = n.showWithDoubleFlat();
+                if (nA == n) // dbl accids are not possible
+                    m_dblAccidsCntr--;
+                else
+                    m_dblAccidsCntr = 0;
+            }
+        } else
+            if (m_prevAccid != Tnote::e_Flat && m_level.withFlats) {
+                nA = n.showWithFlat();
+        } else
+            if (m_prevAccid != Tnote::e_Sharp && m_level.withSharps) {
+            nA = n.showWithSharp();
+        }
+    }
+    m_prevAccid = (Tnote::Eacidentals)nA.acidental;
+    return nA;
 }
 
 void TexamExecutor::CheckAnswer() {

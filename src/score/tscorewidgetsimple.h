@@ -27,6 +27,7 @@ class QPaintEvent;
 class TnoteView;
 class TkeySignatureView;
 class Tnote;
+class TkeySignature;
 
 
 /** Creates widget with score, and buttons to add/remove accids.
@@ -47,8 +48,8 @@ public:
           * @li 0 - C-maj (a-min)
           * @li 1 - G-maj and so on up to 7 (for Cis-maj)
           * @li -1 - F-maj (d-min) and so on down to -7 (for Ges-maj)    */
-    char keySignature();
-    void setKeySignature(char keySign);
+    TkeySignature keySignature();
+    void setKeySignature(TkeySignature keySign);
 
     QList <TnoteView*> noteViews;
     TkeySignatureView *keySignView;

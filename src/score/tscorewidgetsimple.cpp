@@ -21,6 +21,7 @@
 //#include <QtSvg/QSvgRenderer>
 #include "tnoteview.h"
 #include "tkeysignatureview.h"
+#include "tkeysignature.h"
 #include "tglobals.h"
 //#include <QDebug>
 
@@ -228,9 +229,9 @@ void TscoreWidgetSimple::setEnableKeySign(bool isEnabled) {
     resize();
 }
 
-char TscoreWidgetSimple::keySignature() {
-    if (keySignView) return keySignView->keySignature();
-    else return 0;
+TkeySignature TscoreWidgetSimple::keySignature() {
+    if (keySignView) return TkeySignature(keySignView->keySignature());
+    else return TkeySignature(); // default is C-major
 }
 
 void TscoreWidgetSimple::refreshKeySignNameStyle() {
@@ -262,4 +263,8 @@ void TscoreWidgetSimple::setAmbitus(Tnote lo, Tnote hi) {
 int TscoreWidgetSimple::getNotePos(Tnote note) {
     int np = 26 - (note.octave*7 + note.note);
     return np;
+}
+
+void TscoreWidgetSimple::setKeySignature(TkeySignature keySign) {
+    keySignView->setKeySignature(keySign.value());
 }

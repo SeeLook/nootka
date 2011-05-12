@@ -24,6 +24,7 @@
 class QAction;
 class QMenu;
 class Tnote;
+class TkeySignature;
 
 class TscoreWidget : public TscoreWidgetSimple
 {
@@ -33,6 +34,8 @@ public:
 
     void setEnableEnharmNotes(bool isEnabled);
     void acceptSettings();
+    void askQuestion(Tnote note);
+    void askQuestion(Tnote note, TkeySignature key);
 
 signals:
     void noteChanged(int index, Tnote note);
