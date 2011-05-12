@@ -301,3 +301,7 @@ void TnoteName::setAmbitus(Tnote lo, Tnote hi) {
     m_ambitMax = hi.getChromaticNrOfNote();
 }
 
+void TnoteName::askQuestion(Tnote note) {
+    setNoteName(note);
+    nameLabel->setText(nameLabel->text() + " <span style=\"color: red\">?</span>");
+}

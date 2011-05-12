@@ -109,8 +109,9 @@ void MainWindow::createActions() {
 
     nootBar->addAction(settingsAct);
     nootBar->addAction(levelCreatorAct);
-    nootBar->addAction(startExamAct);
     nootBar->addAction(aboutAct);
+    nootBar->addSeparator();
+    nootBar->addAction(startExamAct);
 
     nootBar->setMovable(false);
 }
