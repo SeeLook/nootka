@@ -292,6 +292,7 @@ bool TfingerBoard::setFinger(Tnote note, int realStr) {
                 }
                 if (!gl->GshowOtherPos || i==realStr-1) {
                     doShow = false;
+                    /** @todo This is something wrong. It dosen't work with given string  */
                 }
             } else { // not found on this string or no need to show
                 m_fingers[i]->hide();
@@ -299,6 +300,28 @@ bool TfingerBoard::setFinger(Tnote note, int realStr) {
             }
         }
         m_selNote = note;
+    }
+}
+
+void TfingerBoard::setFinger(TfingerPos pos) {
+    for(int i=0; i<6; i++) {
+        if (i != pos.str()-1) { //hide
+            m_fingers[i]->hide();
+            m_strings[i]->hide();
+        }
+        else { //show
+            if (pos.fret()) { // some fret
+                int off = qRound(fretWidth/1.5);
+                if (matrix.dx()) off = 4;
+                m_fingers[i]->setPos(matrix.map(QPoint(fretsPos[pos.fret()-1]-off,
+                                     fbRect.y()+strGap*i+strGap/5)));
+                m_fingers[i]->show();
+            }
+            else { // open string
+                m_fingers[i]->hide();
+                m_strings[i]->show();
+            }
+        }
     }
 }
 

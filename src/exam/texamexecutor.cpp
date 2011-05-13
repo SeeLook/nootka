@@ -170,12 +170,14 @@ void TexamExecutor::askQuestion() {
         if ( !m_level.onlyCurrKey) // if keyy dosen't determine accidentals, we do this
             curQ.qa.note = determineAccid(curQ.qa.note);
     }
-//    qDebug() << QString::fromStdString(curQ.qa.note.getName()) << "Q" << (int)curQ.questionAs
-//            << "A" << (int)curQ.answerAs << curQ.key.getMajorName();
+    qDebug() << QString::fromStdString(curQ.qa.note.getName()) << "Q" << (int)curQ.questionAs
+            << "A" << (int)curQ.answerAs << curQ.key.getMajorName()
+            << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
     if (curQ.questionAs == TQAtype::e_asNote) {
         if (m_level.useKeySign)
             mW->score->askQuestion(curQ.qa.note, curQ.key);
         else mW->score->askQuestion(curQ.qa.note);
+//        if (curQ.answerAs == TQAtype::e_asFretPos && !m_level.onlyLowPos) // string number
     }
 
     if (curQ.questionAs == TQAtype::e_asName) {
@@ -183,7 +185,7 @@ void TexamExecutor::askQuestion() {
     }
 
     if (curQ.questionAs == TQAtype::e_asFretPos) {
-        mW->guitar->setFinger(curQ.qa.note, curQ.qa.pos.str());
+        mW->guitar->setFinger(curQ.qa.pos);
     }
 
 
