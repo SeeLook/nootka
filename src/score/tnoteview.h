@@ -57,6 +57,8 @@ public:
          * @li etc... */
     int accidental() {return m_accidental;}
     int notePos() { return m_mainPosY; }
+        /** Returns QString with accidental symbol*/
+    static QString getAccid(int accNr);
 
 signals:
         /** This sigmal is emited when user moves the mouse wheel.
@@ -104,8 +106,6 @@ private:
     int m_accTextOffset;
         /** It is @p 2 if double accidentals are enabled and @p 1 if not*/
     char *m_dblAccFusePtr;
-        /** Returns QString with accidental symbol*/
-    QString getAccid(int accNr);
     void hideWorkNote();
     void setStringPos();
 

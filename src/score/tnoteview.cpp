@@ -207,6 +207,7 @@ void TnoteView::moveNote(int pos) {
     }
 }
 
+/*static*/
 QString TnoteView::getAccid(int accNr) {
     const int accCharTable[6] = { 0xe123, 0xe11a, 0x20, 0xe10e, 0xe125, 0xe116 };
     QString str = QString(QChar(accCharTable[accNr+2]));
