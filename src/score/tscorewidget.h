@@ -34,8 +34,8 @@ public:
 
     void setEnableEnharmNotes(bool isEnabled);
     void acceptSettings();
-    void askQuestion(Tnote note);
-    void askQuestion(Tnote note, TkeySignature key);
+    void askQuestion(Tnote note, char realStr = 0);
+    void askQuestion(Tnote note, TkeySignature key, char realStr = 0);
 
 signals:
     void noteChanged(int index, Tnote note);
