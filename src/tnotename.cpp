@@ -96,7 +96,12 @@ TnoteName::TnoteName(QWidget *parent) :
     octLay->addStretch(1);
     mainLay->addLayout(octLay);
     connect(octaveGroup, SIGNAL(buttonClicked(int)), this, SLOT(octaveWasChanged(int)));
-
+    
+//     QVBoxLayout *lay = new QVBoxLayout;
+//     QGroupBox *mainGr = new QGroupBox(this);
+//     mainGr->setLayout(mainLay);
+//     lay->addWidget(mainGr);
+//     setLayout(lay);
     setLayout(mainLay);
 
     setNoteNamesOnButt(gl->NnameStyleInNoteName);
