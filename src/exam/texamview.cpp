@@ -24,7 +24,7 @@ TexamView::TexamView(QWidget *parent) :
     QWidget(parent)
 {
     QHBoxLayout *mainLay = new QHBoxLayout;
-    QGroupBox *mainGr = new QGroupBox(this);
+//     QGroupBox *mainGr = new QGroupBox(this);
 
     QVBoxLayout *okMistLay = new QVBoxLayout;
     m_corrLab = new QLabel("12", this);
@@ -57,10 +57,11 @@ TexamView::TexamView(QWidget *parent) :
     m_totalTime->display("1:23:15");
     m_totalTime->setSmallDecimalPoint(true);
 
-    mainGr->setLayout(mainLay);
-    QHBoxLayout *lay = new QHBoxLayout;
-    lay->addWidget(mainGr);
-    setLayout(lay);
+//     mainGr->setLayout(mainLay);
+//     QHBoxLayout *lay = new QHBoxLayout;
+//     lay->addWidget(mainGr);
+//     setLayout(lay);
+    setLayout(mainLay);
     
 
 }
