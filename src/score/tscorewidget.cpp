@@ -136,11 +136,13 @@ void TscoreWidget::acceptSettings() {
     update();
 }
 
-void TscoreWidget::askQuestion(Tnote note) {
+void TscoreWidget::askQuestion(Tnote note, char realStr) {
     setNote(1, note);
+    if (realStr) 
+      noteViews[1]->setString(realStr);
 }
 
-void TscoreWidget::askQuestion(Tnote note, TkeySignature key) {
+void TscoreWidget::askQuestion(Tnote note, TkeySignature key, char realStr) {
     setKeySignature(key);
-    askQuestion(note);
+    askQuestion(note, realStr);
 }

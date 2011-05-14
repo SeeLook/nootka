@@ -29,7 +29,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
 {
     mW = mainW;
 
-    TstartExamDlg *startDlg = new TstartExamDlg;
+    TstartExamDlg *startDlg = new TstartExamDlg(mW);
     QString actTxt;
     TstartExamDlg::Eactions userAct = startDlg->showDialog(actTxt, m_level);
     if (userAct == TstartExamDlg::e_newLevel) {
@@ -173,11 +173,16 @@ void TexamExecutor::askQuestion() {
     qDebug() << QString::fromStdString(curQ.qa.note.getName()) << "Q" << (int)curQ.questionAs
             << "A" << (int)curQ.answerAs << curQ.key.getMajorName()
             << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
+	    
+  // ASKING QUESIONS	    
     if (curQ.questionAs == TQAtype::e_asNote) {
+      char strNr = 0;
+      if ( curQ.answerAs == TQAtype::e_asFretPos && !m_level.onlyLowPos )
+	  strNr = curQ.qa.pos.str();
         if (m_level.useKeySign)
-            mW->score->askQuestion(curQ.qa.note, curQ.key);
-        else mW->score->askQuestion(curQ.qa.note);
-//        if (curQ.answerAs == TQAtype::e_asFretPos && !m_level.onlyLowPos) // string number
+            mW->score->askQuestion(curQ.qa.note, curQ.key, strNr);
+        else mW->score->askQuestion(curQ.qa.note, strNr);
+
     }
 
     if (curQ.questionAs == TQAtype::e_asName) {

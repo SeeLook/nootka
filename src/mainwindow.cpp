@@ -99,7 +99,7 @@ void MainWindow::createActions() {
 
     startExamAct = new QAction(tr("Start exam"), this);
     startExamAct->setStatusTip(startExamAct->text());
-    startExamAct->setIcon(QIcon(gl->path+"picts/startExam.svg"));
+    startExamAct->setIcon(QIcon(gl->path+"picts/startExam.png"));
     connect(startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
 
     aboutAct = new QAction(tr("about"), this);
