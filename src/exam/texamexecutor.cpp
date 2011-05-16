@@ -252,7 +252,7 @@ void TexamExecutor::prepareToExam() {
     mW->setStatusMessage("exam started on level:<br><b>" + m_level.name + "</b>");
     mW->settingsAct->setDisabled(true);
     mW->levelCreatorAct->setDisabled(true);
-    mW->startExamAct->setIcon(QIcon(gl->path+"picts/stopExam.svg"));
+    mW->startExamAct->setIcon(QIcon(gl->path+"picts/stopExam.png"));
     mW->startExamAct->setStatusTip(tr("stop the exam"));
     mW->startExamAct->setDisabled(true);
 
