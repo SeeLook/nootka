@@ -20,6 +20,7 @@
 #include "texamexecutor.h"
 #include "tglobals.h"
 #include "tstartexamdlg.h"
+#include "tquestionaswdg.h"
 #include "mainwindow.h"
 #include <QDebug>
 
@@ -38,7 +39,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     } else 
       return;
 
-//    prepareToExam();
+    prepareToExam();
     createQuestionsList();
 
     m_prevAccid = Tnote::e_Natural;
@@ -167,18 +168,22 @@ void TexamExecutor::askQuestion() {
             }
             curQ.qa.note = tmpNote;
         }
-        if ( !m_level.onlyCurrKey) // if keyy dosen't determine accidentals, we do this
+        if ( !m_level.onlyCurrKey) // if key dosen't determine accidentals, we do this
             curQ.qa.note = determineAccid(curQ.qa.note);
     }
     qDebug() << QString::fromStdString(curQ.qa.note.getName()) << "Q" << (int)curQ.questionAs
             << "A" << (int)curQ.answerAs << curQ.key.getMajorName()
             << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
+    m_answList << curQ;
+
 	    
-  // ASKING QUESIONS	    
+  // ASKING QUESIONS
+    QString questText;
     if (curQ.questionAs == TQAtype::e_asNote) {
-      char strNr = 0;
-      if ( curQ.answerAs == TQAtype::e_asFretPos && !m_level.onlyLowPos )
-	  strNr = curQ.qa.pos.str();
+        questText = tr("Point given note ");
+        char strNr = 0;
+        if ( curQ.answerAs == TQAtype::e_asFretPos && !m_level.onlyLowPos )
+            strNr = curQ.qa.pos.str();
         if (m_level.useKeySign)
             mW->score->askQuestion(curQ.qa.note, curQ.key, strNr);
         else mW->score->askQuestion(curQ.qa.note, strNr);
@@ -187,12 +192,28 @@ void TexamExecutor::askQuestion() {
 
     if (curQ.questionAs == TQAtype::e_asName) {
         mW->noteName->askQuestion(curQ.qa.note);
+        questText = tr("Point given note name ");
     }
 
     if (curQ.questionAs == TQAtype::e_asFretPos) {
         mW->guitar->setFinger(curQ.qa.pos);
+        questText = tr("Point given position ");
     }
 
+// PREPARING ANSWERS
+    if (curQ.answerAs == TQAtype::e_asNote) {
+        questText += TquestionAsWdg::asNoteTxt;
+    }
+
+    if (curQ.answerAs == TQAtype::e_asName) {
+        questText += TquestionAsWdg::asNameTxt;
+    }
+
+    if (curQ.answerAs == TQAtype::e_asFretPos) {
+        questText += TquestionAsWdg::asFretPosTxt;
+    }
+
+    mW->setStatusMessage(questText);
 
 }
 
@@ -231,11 +252,16 @@ void TexamExecutor::prepareToExam() {
     mW->setStatusMessage("exam started on level:<br><b>" + m_level.name + "</b>");
     mW->settingsAct->setDisabled(true);
     mW->levelCreatorAct->setDisabled(true);
+    mW->startExamAct->setIcon(QIcon(gl->path+"picts/stopExam.svg"));
+    mW->startExamAct->setStatusTip(tr("stop the exam"));
     mW->startExamAct->setDisabled(true);
 
     disconnect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
     disconnect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     disconnect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
+
+
+
 
 }
 
