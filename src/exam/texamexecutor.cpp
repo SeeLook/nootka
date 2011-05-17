@@ -260,7 +260,10 @@ void TexamExecutor::prepareToExam() {
     disconnect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     disconnect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
 
-
+    // store gl->showEnharmNotes
+    mW->score->clearScore();
+    mW->noteName->setNoteName(Tnote(0,0,0));
+    
 
 
 }
@@ -273,5 +276,7 @@ void TexamExecutor::restoreAfterExam() {
     connect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
     connect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     connect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
+    
+    mW->score->setEnableEnharmNotes(gl->showEnharmNotes);
 
 }
