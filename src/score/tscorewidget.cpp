@@ -146,3 +146,11 @@ void TscoreWidget::askQuestion(Tnote note, TkeySignature key, char realStr) {
     setKeySignature(key);
     askQuestion(note, realStr);
 }
+
+void TscoreWidget::clearScore()
+{
+  clearNote(0);
+  clearNote(1);
+  clearNote(2); // also hide question mark when will be implemented
+}
+

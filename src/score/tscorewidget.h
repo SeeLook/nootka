@@ -36,6 +36,7 @@ public:
     void acceptSettings();
     void askQuestion(Tnote note, char realStr = 0);
     void askQuestion(Tnote note, TkeySignature key, char realStr = 0);
+    void clearScore();
 
 signals:
     void noteChanged(int index, Tnote note);
