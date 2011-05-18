@@ -171,20 +171,21 @@ void TexamExecutor::askQuestion() {
         if ( !m_level.onlyCurrKey) // if key dosen't determine accidentals, we do this
             curQ.qa.note = determineAccid(curQ.qa.note);
     }
-    qDebug() << QString::fromStdString(curQ.qa.note.getName()) << "Q" << (int)curQ.questionAs
-            << "A" << (int)curQ.answerAs << curQ.key.getMajorName()
-            << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
+//    qDebug() << QString::fromStdString(curQ.qa.note.getName()) << "Q" << (int)curQ.questionAs
+//            << "A" << (int)curQ.answerAs << curQ.key.getMajorName()
+//            << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
     m_answList << curQ;
 
 	    
   // ASKING QUESIONS
-    QString questText;
+    QString questText = QString("<b>%1. </b>").arg(m_answList.size()); //question number
     if (curQ.questionAs == TQAtype::e_asNote) {
-        questText = tr("Point given note ");
+        questText += tr("Point given note ");
         char strNr = 0;
         if ( curQ.answerAs == TQAtype::e_asFretPos && !m_level.onlyLowPos )
-            strNr = curQ.qa.pos.str();
-        if (m_level.useKeySign)
+            strNr = curQ.qa.pos.str(); //show string nr or not
+        if (m_level.useKeySign && curQ.answerAs != TQAtype::e_asNote)
+            // when answer is also asNote we determine key in preparing answer
             mW->score->askQuestion(curQ.qa.note, curQ.key, strNr);
         else mW->score->askQuestion(curQ.qa.note, strNr);
 
@@ -192,17 +193,37 @@ void TexamExecutor::askQuestion() {
 
     if (curQ.questionAs == TQAtype::e_asName) {
         mW->noteName->askQuestion(curQ.qa.note);
-        questText = tr("Point given note name ");
+        questText += tr("Point given note name ");
     }
 
     if (curQ.questionAs == TQAtype::e_asFretPos) {
         mW->guitar->setFinger(curQ.qa.pos);
-        questText = tr("Point given position ");
+        questText += tr("Point given position ");
     }
 
 // PREPARING ANSWERS
     if (curQ.answerAs == TQAtype::e_asNote) {
         questText += TquestionAsWdg::asNoteTxt;
+        if (m_level.useKeySign) {
+            if (m_level.manualKey) { // user have to manually secect a key
+                mW->score->setKeySignature( // we randomize some key to cover this expected
+                        (qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1))-7);
+                QString keyTxt;
+                if (qrand() % 2) // we randomize: ask for minor or major key
+                    keyTxt = curQ.key.getMajorName();
+                else
+                    keyTxt = curQ.key.getMinorName();
+                questText += tr(" <u>in %1 key</u>", "in key signature").arg(keyTxt);
+
+            } else {
+                mW->score->setKeySignature(curQ.key);
+            }
+        }
+        if (m_level.forceAccids && curQ.questionAs != TQAtype::e_asName) {
+            if (curQ.questionAs != TQAtype::e_asNote)
+                m_answList[m_answList.size()-1].note2 = determineAccid(curQ.qa.note);
+            // force accidental in TscoreWidgetSimple
+        }
     }
 
     if (curQ.answerAs == TQAtype::e_asName) {
@@ -255,14 +276,18 @@ void TexamExecutor::prepareToExam() {
     mW->startExamAct->setIcon(QIcon(gl->path+"picts/stopExam.png"));
     mW->startExamAct->setStatusTip(tr("stop the exam"));
     mW->startExamAct->setDisabled(true);
+    mW->noteName->setNameDisabled(true);
 
     disconnect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
     disconnect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     disconnect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
+    mW->score->isExamExecuting(true);
 
-    // store gl->showEnharmNotes
+  // clearing all views/widgets
+    /** @todo hide key signature name */
     mW->score->clearScore();
     mW->noteName->setNoteName(Tnote(0,0,0));
+    mW->guitar->setFinger(Tnote(0,0,0));
     
 
 
@@ -272,10 +297,12 @@ void TexamExecutor::restoreAfterExam() {
     mW->settingsAct->setDisabled(false);
     mW->levelCreatorAct->setDisabled(false);
     mW->startExamAct->setDisabled(false);
+    mW->noteName->setNameDisabled(false);
 
     connect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
     connect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     connect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
+    mW->score->isExamExecuting(false);
     
     mW->score->setEnableEnharmNotes(gl->showEnharmNotes);
 
