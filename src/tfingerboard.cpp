@@ -300,6 +300,11 @@ bool TfingerBoard::setFinger(Tnote note, int realStr) {
             }
         }
         m_selNote = note;
+    } else {
+        for (int i=0; i<6; i++) {
+            m_fingers[i]->hide();
+            m_strings[i]->hide();
+        }
     }
 }
 

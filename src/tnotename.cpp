@@ -310,3 +310,26 @@ void TnoteName::askQuestion(Tnote note) {
     setNoteName(note);
     nameLabel->setText(nameLabel->text() + " <span style=\"color: red\">?</span>");
 }
+
+void TnoteName::setNameDisabled(bool isDisabled) {
+    if (isDisabled) {
+        for (int i=0; i<7; i++)
+            noteButtons[i]->setDisabled(true);
+        for (int i=0; i<6; i++)
+            octaveButtons[i]->setDisabled(true);
+        dblFlatButt->setDisabled(true);
+        flatButt->setDisabled(true);
+        sharpButt->setDisabled(true);
+        dblSharpButt->setDisabled(true);
+    } else {
+        for (int i=0; i<7; i++)
+            noteButtons[i]->setDisabled(false);
+        for (int i=0; i<6; i++)
+            octaveButtons[i]->setDisabled(false);
+        dblFlatButt->setDisabled(false);
+        flatButt->setDisabled(false);
+        sharpButt->setDisabled(false);
+        dblSharpButt->setDisabled(false);
+
+    }
+}

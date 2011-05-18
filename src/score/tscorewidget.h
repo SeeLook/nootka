@@ -37,6 +37,10 @@ public:
     void askQuestion(Tnote note, char realStr = 0);
     void askQuestion(Tnote note, TkeySignature key, char realStr = 0);
     void clearScore();
+        /** Connects or disconnects reactions for clicking a note
+        * and showing enharmonics notes depends on is exam executing (disconnect)
+        * or not (connect).*/
+    void isExamExecuting(bool isIt);
 
 signals:
     void noteChanged(int index, Tnote note);

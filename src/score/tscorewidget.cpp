@@ -46,7 +46,7 @@ TscoreWidget::TscoreWidget(unsigned char _notesCount, QWidget *parent) :
     setAmbitus(Tnote(gl->Gtune.lowest().getChromaticNrOfNote()-1),
                Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber+1));
 
-    connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
+    isExamExecuting(false);
 }
 
 
@@ -154,3 +154,9 @@ void TscoreWidget::clearScore()
   clearNote(2); // also hide question mark when will be implemented
 }
 
+void TscoreWidget::isExamExecuting(bool isIt) {
+    if (isIt)
+        disconnect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
+    else
+        connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
+}
