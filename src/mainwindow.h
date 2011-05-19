@@ -38,6 +38,7 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void setStatusMessage(QString msg, int time);
     void setStatusMessage(QString msg);
 
 public slots:
@@ -49,6 +50,7 @@ public slots:
     void noteWasClicked(int index, Tnote note);
     void noteNameWasChanged(Tnote note);
     void guitarWasClicked(Tnote note);
+
 
 protected:
     TscoreWidget *score;
@@ -62,10 +64,13 @@ protected:
     void resizeEvent(QResizeEvent *);
     bool event(QEvent *event);
 
+protected slots:
+    void restoreMessage();
+
 private:
 
     QLabel *m_statLab;
-    QString m_statusText;
+    QString m_statusText, m_prevMsg;
 
 
     void createActions();

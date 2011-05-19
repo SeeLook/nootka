@@ -25,6 +25,7 @@
 #include <QDebug>
 
 extern Tglobals *gl;
+QColor EquestionColor = QColor("red");
 
 TexamExecutor::TexamExecutor(MainWindow *mainW)
 {
@@ -53,6 +54,12 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     nextQuestAct->setIcon(QIcon(gl->path+"picts/nextQuest.png"));
     connect(nextQuestAct, SIGNAL(triggered()), this, SLOT(askQuestion()));
     mW->nootBar->addAction(nextQuestAct);
+
+    checkAct = new QAction(tr("check answer"), this);
+    checkAct->setStatusTip(checkAct->text());
+    checkAct->setIcon(QIcon(gl->path+"picts/check.png"));
+    // shortcuts
+    connect(checkAct, SIGNAL(triggered()), this, SLOT(checkAnswer()));
 
 }
 
@@ -135,6 +142,9 @@ void TexamExecutor::createQuestionsList() {
 }
 
 void TexamExecutor::askQuestion() {
+    clearWidgets();
+    mW->setStatusMessage("");
+
     TQAunit curQ = TQAunit(); // current question
     curQ.qa = m_questList[qrand() % m_questList.size()];
     curQ.questionAs = m_level.questionAs.next();
@@ -185,7 +195,7 @@ void TexamExecutor::askQuestion() {
         if ( curQ.answerAs == TQAtype::e_asFretPos && !m_level.onlyLowPos )
             strNr = curQ.qa.pos.str(); //show string nr or not
         if (m_level.useKeySign && curQ.answerAs != TQAtype::e_asNote)
-            // when answer is also asNote we determine key in preparing answer
+            // when answer is also asNote we determine key in preparing answer part
             mW->score->askQuestion(curQ.qa.note, curQ.key, strNr);
         else mW->score->askQuestion(curQ.qa.note, strNr);
 
@@ -206,39 +216,62 @@ void TexamExecutor::askQuestion() {
         questText += TquestionAsWdg::asNoteTxt;
         if (m_level.useKeySign) {
             if (m_level.manualKey) { // user have to manually secect a key
-                mW->score->setKeySignature( // we randomize some key to cover this expected
+                mW->score->setKeySignature( // we randomize some key to cover this expected one
                         (qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1))-7);
                 QString keyTxt;
-                if (qrand() % 2) // we randomize: ask for minor or major key
+                if (qrand() % 2) // we randomize: ask for minor or major key ?
                     keyTxt = curQ.key.getMajorName();
                 else
                     keyTxt = curQ.key.getMinorName();
-                questText += tr(" <u>in %1 key</u>", "in key signature").arg(keyTxt);
+                questText += tr(" <b>in %1 key.</b>", "in key signature").arg(keyTxt);
 
             } else {
                 mW->score->setKeySignature(curQ.key);
             }
         }
-        if (m_level.forceAccids && curQ.questionAs != TQAtype::e_asName) {
-            if (curQ.questionAs != TQAtype::e_asNote)
-                m_answList[m_answList.size()-1].note2 = determineAccid(curQ.qa.note);
-            // force accidental in TscoreWidgetSimple
+//        if (m_level.forceAccids && curQ.questionAs != TQAtype::e_asName) {
+        if (m_level.forceAccids) {
+            Tnote::Eacidentals ac;
+            if (curQ.questionAs == TQAtype::e_asNote) {// note has to be another than question
+                m_note2 = determineAccid(curQ.qa.note); // m_note2 is expected note
+                if (m_note2 == curQ.qa.note) {
+                    qDebug() << "Blind question";
+//                    askQuestion();
+                }
+                ac = (Tnote::Eacidentals)m_note2.acidental;
+            } else {
+                ac = (Tnote::Eacidentals)curQ.qa.note.acidental;
+            }
+            questText += QString(" <span style=\"color: %1\">").arg(gl->SpointerColor.name());
+            if (ac) questText += tr("Use %1").arg(QString::fromStdString(signsAcid[ac+2]));
+            else questText += tr(" Don't use accidentals!");
+            questText +=  "</span>";
         }
+        mW->score->unLockScore();
     }
 
     if (curQ.answerAs == TQAtype::e_asName) {
         questText += TquestionAsWdg::asNameTxt;
+
+        mW->noteName->setNameDisabled(false);
     }
 
     if (curQ.answerAs == TQAtype::e_asFretPos) {
         questText += TquestionAsWdg::asFretPosTxt;
+
+        mW->guitar->setDisabled(false);
     }
 
     mW->setStatusMessage(questText);
 
+    mW->nootBar->removeAction(nextQuestAct);
+    mW->nootBar->addAction(checkAct);
+
 }
 
 Tnote TexamExecutor::determineAccid(Tnote n) {
+    /** @todo More smart algoritm also for enharmonics notes when both
+    quesion and answer are note or both are name*/
     Tnote nA = n;
     if (m_level.withSharps || m_level.withFlats || m_level.withDblAcc) {
         if (m_level.withDblAcc) {
@@ -265,31 +298,38 @@ Tnote TexamExecutor::determineAccid(Tnote n) {
     return nA;
 }
 
-void TexamExecutor::CheckAnswer() {
+void TexamExecutor::checkAnswer(){
+    mW->nootBar->removeAction(checkAct);
+    mW->nootBar->addAction(nextQuestAct);
+    mW->setStatusMessage("You did it !!");
+
+    disableWidgets();
 
 }
 
 void TexamExecutor::prepareToExam() {
     mW->setStatusMessage("exam started on level:<br><b>" + m_level.name + "</b>");
+
     mW->settingsAct->setDisabled(true);
     mW->levelCreatorAct->setDisabled(true);
     mW->startExamAct->setIcon(QIcon(gl->path+"picts/stopExam.png"));
     mW->startExamAct->setStatusTip(tr("stop the exam"));
     mW->startExamAct->setDisabled(true);
-    mW->noteName->setNameDisabled(true);
+
+    disableWidgets();
 
     disconnect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
     disconnect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     disconnect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
-    mW->score->isExamExecuting(true);
 
+    /** @todo store globals
+        - hide key signature name
+        - alternative positions on the guitar
+        - enharmonics note names */
   // clearing all views/widgets
-    /** @todo hide key signature name */
-    mW->score->clearScore();
-    mW->noteName->setNoteName(Tnote(0,0,0));
-    mW->guitar->setFinger(Tnote(0,0,0));
-    
+    clearWidgets();
 
+    mW->setStatusMessage("click next for next", 5000);
 
 }
 
@@ -303,7 +343,20 @@ void TexamExecutor::restoreAfterExam() {
     connect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     connect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
     mW->score->isExamExecuting(false);
+    mW->score->unLockScore();
     
-    mW->score->setEnableEnharmNotes(gl->showEnharmNotes);
 
+}
+
+void TexamExecutor::disableWidgets() {
+    mW->noteName->setNameDisabled(true);
+    mW->score->isExamExecuting(true);
+    mW->score->setScoreDisabled(true);
+    mW->guitar->setDisabled(true);
+}
+
+void TexamExecutor::clearWidgets() {
+    mW->score->clearScore();
+    mW->noteName->setNoteName(Tnote(0,0,0));
+    mW->guitar->setFinger(Tnote(0,0,0));
 }

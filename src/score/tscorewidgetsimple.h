@@ -73,6 +73,9 @@ public:
         /** Keeps true when TscoreWidgetSimple has scordature.
         * Resize() uses it to calculate offset. */
     void setHasScord(bool has) { m_hasScord = has; }
+        /** It disables accids buttons and locks editing,
+        * but dasn't make score gray like standard setDisabled() method. */
+    void setScoreDisabled(bool disabled);
 
 
 signals:
