@@ -173,7 +173,11 @@ void TnoteName::setNoteName(Tnote note) {
     if (note.note) {
         m_notes[0] = note;
         setButtons(note);
-    } else m_notes[0] = Tnote(0,0,0);
+    } else {
+        m_notes[0] = Tnote(0,0,0);
+        m_notes[1] = Tnote(0,0,0);
+        m_notes[2] = Tnote(0,0,0);
+    }
     setNameText();
 }
 

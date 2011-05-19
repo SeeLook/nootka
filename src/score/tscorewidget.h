@@ -41,6 +41,9 @@ public:
         * and showing enharmonics notes depends on is exam executing (disconnect)
         * or not (connect).*/
     void isExamExecuting(bool isIt);
+        /** Internally it calls setScoreDisabled(false) to unlock
+        * and locks unused noteViews (1 & 2) again. */
+    void unLockScore();
 
 signals:
     void noteChanged(int index, Tnote note);

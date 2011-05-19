@@ -151,6 +151,7 @@ void TscoreWidget::clearScore()
 {
   clearNote(0);
   clearNote(1);
+  noteViews[1]->removeString(); // so far string number to remove occur only on this view
   clearNote(2); // also hide question mark when will be implemented
 }
 
@@ -160,3 +161,11 @@ void TscoreWidget::isExamExecuting(bool isIt) {
     else
         connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
 }
+
+void TscoreWidget::unLockScore() {
+    setScoreDisabled(false);
+    noteViews[1]->setDisabled(true);
+    noteViews[2]->setDisabled(true);
+}
+
+

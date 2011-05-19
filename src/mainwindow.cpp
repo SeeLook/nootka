@@ -133,6 +133,12 @@ void MainWindow::setStatusMessage(QString msg) {
     m_statusText = msg;
 }
 
+void MainWindow::setStatusMessage(QString msg, int time) {
+    m_prevMsg = m_statusText;
+    m_statLab->setText("<center>" + msg + "</center>");
+    QTimer::singleShot(time, this, SLOT(restoreMessage()));
+}
+
 //##########        SLOTS       ###############
 
 void MainWindow::createSettingsDialog() {
@@ -206,4 +212,9 @@ bool MainWindow::event(QEvent *event) {
             m_statLab->setText("<center>"+se->tip()+"</center>");
     }
     return QMainWindow::event(event);
+}
+
+void MainWindow::restoreMessage() {
+    setStatusMessage(m_prevMsg);
+    m_prevMsg = "";
 }

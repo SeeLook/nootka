@@ -46,7 +46,7 @@ public:
     TkeySignature key;
     Emistake correct;
     quint16 time;
-    Tnote note2; // second note for case when question and answer are notes in a score.
+//    Tnote note2; // second note for case when question and answer are notes in a score.
     // pos and note as answers
 };
 

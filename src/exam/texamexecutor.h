@@ -38,18 +38,21 @@ public:
 
 protected:
     MainWindow *mW;
-    QAction *nextQuestAct;
+    QAction *nextQuestAct, *checkAct;
 
 protected slots:
     void askQuestion();
+    void checkAnswer();
 
 private:
     void createQuestionsList();
     Tnote determineAccid(Tnote n);
-    void CheckAnswer();
 
     void prepareToExam();
     void restoreAfterExam();
+        /** Disables score, noteName and guitar*/
+    void disableWidgets();
+    void clearWidgets();
 
 
 
@@ -62,6 +65,8 @@ private:
         /** intervals between asking about double accidentals.
         * By default every forth question is with double adccid.*/
     int m_dblAccidsCntr;
+    Tnote m_note2;
+
 };
 
 #endif // TEXAMEXECUTOR_H
