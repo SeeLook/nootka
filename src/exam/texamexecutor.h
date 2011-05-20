@@ -43,6 +43,7 @@ protected:
 protected slots:
     void askQuestion();
     void checkAnswer();
+    void stopExamSlot();
 
 private:
     void createQuestionsList();
@@ -53,6 +54,7 @@ private:
         /** Disables score, noteName and guitar*/
     void disableWidgets();
     void clearWidgets();
+    QString getTextHowAccid(Tnote::Eacidentals accid);
 
 
 
@@ -66,6 +68,10 @@ private:
         * By default every forth question is with double adccid.*/
     int m_dblAccidsCntr;
     Tnote m_note2;
+        /** to switch nameing style between "do re mi" and "c d e"
+        * when question and answer are note name.*/
+    bool m_isSolfege;
+    Tnote::EnameStyle m_prevStyle;
 
 };
 

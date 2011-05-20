@@ -69,6 +69,7 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(widget);
 
     m_statusText = "";
+    m_prevBg = -1;
 
     createActions();
 
@@ -129,14 +130,28 @@ void MainWindow::resizeEvent(QResizeEvent *) {
 }
 
 void MainWindow::setStatusMessage(QString msg) {
-    m_statLab->setText("<center>" + msg + "</center>");
+    if (!m_lockStat)
+        m_statLab->setText("<center>" + msg + "</center>");
+    else
+        m_prevMsg = msg;
     m_statusText = msg;
 }
 
 void MainWindow::setStatusMessage(QString msg, int time) {
     m_prevMsg = m_statusText;
     m_statLab->setText("<center>" + msg + "</center>");
+    m_lockStat = true;
     QTimer::singleShot(time, this, SLOT(restoreMessage()));
+}
+
+void MainWindow::setMessageBg(QColor bg) {
+    if (bg == -1)
+        m_statLab->setStyleSheet("background: transparent");
+    else {
+        m_statLab->setStyleSheet(
+            QString("background: rgba(%1, %2, %3, 20)").arg(bg.red()).arg(bg.green()).arg(bg.blue()));
+        m_prevBg = bg;
+    }
 }
 
 //##########        SLOTS       ###############
@@ -204,17 +219,21 @@ void MainWindow::guitarWasClicked(Tnote note) {
 }
 
 bool MainWindow::event(QEvent *event) {
-    if (event->type() == QEvent::StatusTip) {
+    if (event->type() == QEvent::StatusTip && !m_lockStat) {
         QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
-        if (se->tip() == "")
+        if (se->tip() == "") {
+            setMessageBg(m_prevBg);
             m_statLab->setText("<center>" + m_statusText + "</center>");
-        else
+        } else {
+            setMessageBg(-1);
             m_statLab->setText("<center>"+se->tip()+"</center>");
+        }
     }
     return QMainWindow::event(event);
 }
 
 void MainWindow::restoreMessage() {
+    m_lockStat = false;
     setStatusMessage(m_prevMsg);
     m_prevMsg = "";
 }
