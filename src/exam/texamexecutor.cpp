@@ -25,7 +25,10 @@
 #include <QDebug>
 
 extern Tglobals *gl;
+/** @todo move those variables to @class Tglobals */
 QColor EquestionColor = QColor("red");
+QColor EanswerColor = QColor("green");
+
 
 TexamExecutor::TexamExecutor(MainWindow *mainW)
 {
@@ -42,6 +45,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
 
     prepareToExam();
     createQuestionsList();
+    m_isSolfege = false;
 
     m_prevAccid = Tnote::e_Natural;
     m_dblAccidsCntr = 0;
@@ -144,6 +148,8 @@ void TexamExecutor::createQuestionsList() {
 void TexamExecutor::askQuestion() {
     clearWidgets();
     mW->setStatusMessage("");
+    mW->startExamAct->setDisabled(true);
+    mW->setMessageBg(EquestionColor);
 
     TQAunit curQ = TQAunit(); // current question
     curQ.qa = m_questList[qrand() % m_questList.size()];
@@ -242,16 +248,46 @@ void TexamExecutor::askQuestion() {
             } else {
                 ac = (Tnote::Eacidentals)curQ.qa.note.acidental;
             }
-            questText += QString(" <span style=\"color: %1\">").arg(gl->SpointerColor.name());
-            if (ac) questText += tr("Use %1").arg(QString::fromStdString(signsAcid[ac+2]));
-            else questText += tr(" Don't use accidentals!");
-            questText +=  "</span>";
+            questText += getTextHowAccid(ac);
         }
         mW->score->unLockScore();
     }
 
     if (curQ.answerAs == TQAtype::e_asName) {
         questText += TquestionAsWdg::asNameTxt;
+        if (curQ.questionAs == TQAtype::e_asName) {
+            Tnote::EnameStyle m_prevStyle = gl->NnameStyleInNoteName;
+            if (m_isSolfege) {
+                m_isSolfege = false;
+                if (qrand() % 2) { // full name like cis, gisis
+                    if (gl->seventhIs_B) {
+                        mW->noteName->setNoteNamesOnButt(Tnote::e_nederl_Bis);
+                        gl->NnameStyleInNoteName = Tnote::e_nederl_Bis;
+                    } else {
+                        mW->noteName->setNoteNamesOnButt(Tnote::e_deutsch_His);
+                        gl->NnameStyleInNoteName = Tnote::e_deutsch_His;
+                    }
+                } else { // name and sign like c#, gx
+                    if (gl->seventhIs_B) {
+                        mW->noteName->setNoteNamesOnButt(Tnote::e_english_Bb);
+                        gl->NnameStyleInNoteName = Tnote::e_english_Bb;
+                    } else {
+                        mW->noteName->setNoteNamesOnButt(Tnote::e_norsk_Hb);
+                        gl->NnameStyleInNoteName = Tnote::e_norsk_Hb;
+                    }
+                }
+            } else {
+                m_isSolfege = true;
+                mW->noteName->setNoteNamesOnButt(Tnote::e_italiano_Si);
+                gl->NnameStyleInNoteName = Tnote::e_italiano_Si;
+            }
+            m_note2 = determineAccid(curQ.qa.note); // force other name of note
+            // else blind question
+            questText = QString("<b>%1. </b>").arg(m_answList.size()) +
+                        tr("Give name of <span style=\"color: %1\">").arg(EquestionColor.name()) +
+                        QString::fromStdString(curQ.qa.note.getName(m_prevStyle, false)) + ". " +
+                        getTextHowAccid((Tnote::Eacidentals)m_note2.acidental);
+        }
 
         mW->noteName->setNameDisabled(false);
     }
@@ -301,9 +337,16 @@ Tnote TexamExecutor::determineAccid(Tnote n) {
 void TexamExecutor::checkAnswer(){
     mW->nootBar->removeAction(checkAct);
     mW->nootBar->addAction(nextQuestAct);
+    mW->setMessageBg(EanswerColor);
+    mW->startExamAct->setDisabled(false);
+
+
     mW->setStatusMessage("You did it !!");
 
     disableWidgets();
+
+    // if answer and question are note name - restore naming style for user prefered
+    // from
 
 }
 
@@ -321,11 +364,15 @@ void TexamExecutor::prepareToExam() {
     disconnect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
     disconnect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     disconnect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
+    disconnect(mW->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
+    connect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
 
     /** @todo store globals
         - hide key signature name
         - alternative positions on the guitar
-        - enharmonics note names */
+        - enharmonics note names
+        - nameing style
+    */
   // clearing all views/widgets
     clearWidgets();
 
@@ -342,6 +389,8 @@ void TexamExecutor::restoreAfterExam() {
     connect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
     connect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     connect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
+    disconnect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
+    connect(mW->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
     mW->score->isExamExecuting(false);
     mW->score->unLockScore();
     
@@ -359,4 +408,20 @@ void TexamExecutor::clearWidgets() {
     mW->score->clearScore();
     mW->noteName->setNoteName(Tnote(0,0,0));
     mW->guitar->setFinger(Tnote(0,0,0));
+}
+
+void TexamExecutor::stopExamSlot() {
+//    mW->setMessageBg();
+    mW->setStatusMessage("so a pity");
+
+    restoreAfterExam();
+}
+
+QString TexamExecutor::getTextHowAccid(Tnote::Eacidentals accid) {
+    QString S = QString(" <span style=\"color: %1\">").arg(gl->GfingerColor.name());
+    if (accid) S += tr("Use %1").arg(QString::fromStdString(signsAcid[accid + 2]));
+    else S += tr(" Don't use accidentals!");
+    S +=  "</span>";
+    return S;
+
 }

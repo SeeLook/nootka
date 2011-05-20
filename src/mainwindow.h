@@ -40,6 +40,7 @@ public:
 
     void setStatusMessage(QString msg, int time);
     void setStatusMessage(QString msg);
+    void setMessageBg (QColor bg);
 
 public slots:
     void createSettingsDialog();
@@ -71,6 +72,10 @@ private:
 
     QLabel *m_statLab;
     QString m_statusText, m_prevMsg;
+        /** Keeps true when statusMesage is locked by temporary message
+        * and stops any status messages in this time.*/
+    bool m_lockStat;
+    QColor m_prevBg;
 
 
     void createActions();

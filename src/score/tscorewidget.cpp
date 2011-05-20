@@ -153,6 +153,7 @@ void TscoreWidget::clearScore()
   clearNote(1);
   noteViews[1]->removeString(); // so far string number to remove occur only on this view
   clearNote(2); // also hide question mark when will be implemented
+  setKeySignature(TkeySignature());
 }
 
 void TscoreWidget::isExamExecuting(bool isIt) {

@@ -266,7 +266,8 @@ int TscoreWidgetSimple::getNotePos(Tnote note) {
 }
 
 void TscoreWidgetSimple::setKeySignature(TkeySignature keySign) {
-    keySignView->setKeySignature(keySign.value());
+    if (keySignView)
+        keySignView->setKeySignature(keySign.value());
 }
 
 void TscoreWidgetSimple::setScoreDisabled(bool disabled) {
@@ -277,6 +278,8 @@ void TscoreWidgetSimple::setScoreDisabled(bool disabled) {
         m_dblFlatBut->setDisabled(true);
         for (int i=0; i<noteViews.size(); i++)
             noteViews[i]->setDisabled(true);
+        if (keySignView)
+            keySignView->setDisabled(true);
     } else {
         m_sharpBut->setDisabled(false);
         m_flatBut->setDisabled(false);
@@ -284,6 +287,8 @@ void TscoreWidgetSimple::setScoreDisabled(bool disabled) {
         m_dblFlatBut->setDisabled(false);
         for (int i=0; i<noteViews.size(); i++)
             noteViews[i]->setDisabled(false);
+        if (keySignView)
+            keySignView->setDisabled(false);
     }
 }
 
