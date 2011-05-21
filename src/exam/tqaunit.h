@@ -36,8 +36,15 @@ public:
         Tnote note;
     };
 
-    enum Emistake { e_ok, e_badNote, e_badOctave, e_badAccid, e_badPos, e_badKey,
-                e_badStyle };
+    enum Emistake { e_correct = 0,
+		    e_wrongAccid = 1, //ocurs during enharmonic conversion
+		    e_wrongKey = 2,
+		    e_wrongOctave = 4,
+		    e_wrongStyle = 8, //for further releases when typeing of note name will be implemented
+		    e_wrongPos = 16, // when sound is correct but in wrong position
+                
+		    e_wrongNote = 64 // the highest crime  
+    };
 
     TQAgroup qa;
     TQAtype::Etype questionAs;
@@ -48,6 +55,16 @@ public:
     quint16 time;
 //    Tnote note2; // second note for case when question and answer are notes in a score.
     // pos and note as answers
+    
+    bool correct() { return correct == 0; }
+    bool wrongAccid() { return correct & 1; }
+    bool wrongKey() { return correct & 2;}
+    bool wrongOctave() { return correct & 4; }
+    bool wrongStyle() { return correct & 8; }
+    bool wrongPos() { return correct & 16; } 
+    bool wrongNote() {return correct & 64; }
+    
+    
 };
 
 #endif // TQAUNIT_H
