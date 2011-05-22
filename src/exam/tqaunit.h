@@ -56,7 +56,7 @@ public:
 //    Tnote note2; // second note for case when question and answer are notes in a score.
     // pos and note as answers
     
-    bool correct() { return correct == 0; }
+    bool isCorrect() { return correct == 0; }
     bool wrongAccid() { return correct & 1; }
     bool wrongKey() { return correct & 2;}
     bool wrongOctave() { return correct & 4; }

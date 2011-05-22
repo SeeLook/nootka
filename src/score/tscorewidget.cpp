@@ -147,8 +147,7 @@ void TscoreWidget::askQuestion(Tnote note, TkeySignature key, char realStr) {
     askQuestion(note, realStr);
 }
 
-void TscoreWidget::clearScore()
-{
+void TscoreWidget::clearScore() {
   clearNote(0);
   clearNote(1);
   noteViews[1]->removeString(); // so far string number to remove occur only on this view
