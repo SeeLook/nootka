@@ -39,6 +39,7 @@ public:
         * Under Windows is empty,
         * in Linux is usually /usr/bin or /usr/local/bin */
     static QString getInstPath(QString appInstPath);
+    static QString getBGcolorText(QColor C);
     QString path;
     QString version;
 
@@ -93,6 +94,10 @@ public:
         * and note is calculated. Default are sharps*/
     bool GpreferFlats; // default false
 
+// Egazm settings
+    QColor EquestionColor;
+    QColor EanswerColor;
+    bool EautoNextQuest;
 
 };
 #endif // TGLOBALS_H

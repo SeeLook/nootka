@@ -3,15 +3,6 @@
 //#include "QApplication"
 #include "QDir"
 
-  /** @todo It have to be static method of @class Tglobals.
-  */
-QString getBGcolorText(QColor C) {
-  if ( C != -1)
-    return QString(
-      "background: rgba(%1, %2, %3, %4)").arg(C.red()).arg(C.green()).arg(C.blue()).arg(C.alpha());
-  else
-    return QString("background: transparent");
-}
 
 
 /*static*/
@@ -24,6 +15,15 @@ QString Tglobals::getInstPath(QString appInstPath) {
 #endif
     return p;
 }
+
+QString Tglobals::getBGcolorText(QColor C) {
+  if ( C != -1)
+    return QString(
+      "background: rgba(%1, %2, %3, %4)").arg(C.red()).arg(C.green()).arg(C.blue()).arg(C.alpha());
+  else
+    return QString("background: transparent");
+}
+
 
 Tglobals::Tglobals() {
 
@@ -61,6 +61,13 @@ Tglobals::Tglobals() {
    GselectedColor = -1;
    Gtune = Ttune::stdTune;
    GpreferFlats = false;
+   
+// Egazm settings
+    EquestionColor = QColor("red");
+    EquestionColor.setAlpha(40);
+    EanswerColor = QColor("green");
+    EanswerColor.setAlpha(40);
+    EautoNextQuest = false;
 
 
 }
