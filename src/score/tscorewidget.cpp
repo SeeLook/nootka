@@ -24,9 +24,6 @@
 //#include <QDebug>
 
 
-QColor EquestionColor = QColor(QRgb(255,0,0,20));
-QColor EanswerColor = QColor(QRgb(0,255,0,20));
-
 extern Tglobals *gl;
 
 TscoreWidget::TscoreWidget(unsigned char _notesCount, QWidget *parent) :
@@ -142,22 +139,28 @@ void TscoreWidget::acceptSettings() {
 
 void TscoreWidget::askQuestion(Tnote note, char realStr) {
     setNote(1, note);
+    noteViews[1]->setStyleSheet(gl->getBGcolorText(gl->EquestionColor));
     if (realStr) 
       noteViews[1]->setString(realStr);
 }
 
 void TscoreWidget::askQuestion(Tnote note, TkeySignature key, char realStr) {
     setKeySignature(key);
-    keySignView->setStyleSheet(getBGcolorText(EquestionColor));
+    keySignView->setStyleSheet(gl->getBGcolorText(gl->EquestionColor));
     askQuestion(note, realStr);
 }
 
 void TscoreWidget::clearScore() {
   clearNote(0);
+  noteViews[0]->setStyleSheet(gl->getBGcolorText(-1));
   clearNote(1);
+  noteViews[1]->setStyleSheet(gl->getBGcolorText(-1));
   noteViews[1]->removeString(); // so far string number to remove occur only on this view
   clearNote(2); // also hide question mark when will be implemented
-  setKeySignature(TkeySignature());
+  if (keySignView) {
+      setKeySignature(TkeySignature());
+      keySignView->setStyleSheet(gl->getBGcolorText(-1));
+  }
 }
 
 void TscoreWidget::isExamExecuting(bool isIt) {

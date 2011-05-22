@@ -25,9 +25,6 @@
 #include <QDebug>
 
 extern Tglobals *gl;
-/** @todo move those variables to @class Tglobals */
-QColor EquestionColor = QColor(QRgb(255,0,0,20));
-QColor EanswerColor = QColor(QRgb(0,255,0,20));
 
 
 TexamExecutor::TexamExecutor(MainWindow *mainW)
@@ -149,7 +146,7 @@ void TexamExecutor::askQuestion() {
     clearWidgets();
     mW->setStatusMessage("");
     mW->startExamAct->setDisabled(true);
-    mW->setMessageBg(EquestionColor);
+    mW->setMessageBg(gl->EquestionColor);
 
     TQAunit curQ = TQAunit(); // current question
     curQ.qa = m_questList[qrand() % m_questList.size()];
@@ -284,7 +281,7 @@ void TexamExecutor::askQuestion() {
             m_note2 = determineAccid(curQ.qa.note); // force other name of note
             // else blind question
             questText = QString("<b>%1. </b>").arg(m_answList.size()) +
-                        tr("Give name of <span style=\"color: %1\">").arg(EquestionColor.name()) +
+                        tr("Give name of <span style=\"color: %1\">").arg(gl->EquestionColor.name()) +
                         QString::fromStdString(curQ.qa.note.getName(m_prevStyle, false)) + ". " +
                         getTextHowAccid((Tnote::Eacidentals)m_note2.acidental);
         }
@@ -337,7 +334,7 @@ Tnote TexamExecutor::determineAccid(Tnote n) {
 void TexamExecutor::checkAnswer(){
     mW->nootBar->removeAction(checkAct);
     mW->nootBar->addAction(nextQuestAct);
-    mW->setMessageBg(EanswerColor);
+    mW->setMessageBg(gl->EanswerColor);
     mW->startExamAct->setDisabled(false);
 
 
