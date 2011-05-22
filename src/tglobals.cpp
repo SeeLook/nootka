@@ -3,6 +3,16 @@
 //#include "QApplication"
 #include "QDir"
 
+  /** @todo It have to be static method of @class Tglobals.
+  */
+QString getBGcolorText(QColor C) {
+  if ( C != -1)
+    return QString(
+      "background: rgba(%1, %2, %3, %4)").arg(C.red()).arg(C.green()).arg(C.blue()).arg(C.alpha());
+  else
+    return QString("background: transparent");
+}
+
 
 /*static*/
 QString Tglobals::getInstPath(QString appInstPath) {
