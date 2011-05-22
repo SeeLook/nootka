@@ -26,8 +26,8 @@
 
 extern Tglobals *gl;
 /** @todo move those variables to @class Tglobals */
-QColor EquestionColor = QColor("red");
-QColor EanswerColor = QColor("green");
+QColor EquestionColor = QColor(QRgb(255,0,0,20));
+QColor EanswerColor = QColor(QRgb(0,255,0,20));
 
 
 TexamExecutor::TexamExecutor(MainWindow *mainW)

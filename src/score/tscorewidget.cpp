@@ -18,10 +18,14 @@
 
 #include "tscorewidget.h"
 #include "tnoteview.h"
+#include "tkeysignatureview.h"
 #include "tglobals.h"
 #include "tkeysignature.h"
 //#include <QDebug>
 
+
+QColor EquestionColor = QColor(QRgb(255,0,0,20));
+QColor EanswerColor = QColor(QRgb(0,255,0,20));
 
 extern Tglobals *gl;
 
@@ -144,6 +148,7 @@ void TscoreWidget::askQuestion(Tnote note, char realStr) {
 
 void TscoreWidget::askQuestion(Tnote note, TkeySignature key, char realStr) {
     setKeySignature(key);
+    keySignView->setStyleSheet(getBGcolorText(EquestionColor));
     askQuestion(note, realStr);
 }
 
