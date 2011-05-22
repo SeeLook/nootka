@@ -24,32 +24,34 @@ TexamView::TexamView(QWidget *parent) :
     QWidget(parent)
 {
     setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Expanding);
-  /* HORIZONTAL LAYOUT
+  // /* HORIZONTAL LAYOUT
     QHBoxLayout *mainLay = new QHBoxLayout;
 //     QGroupBox *mainGr = new QGroupBox(this);
 
 
     QVBoxLayout *okMistLay = new QVBoxLayout;
+    okMistLay->addStretch(1);
     m_corrLab = new QLabel("12", this);
     okMistLay->addWidget(m_corrLab, 0, Qt::AlignRight);
     m_mistLab = new QLabel("12", this);
     okMistLay->addWidget(m_mistLab, 0, Qt::AlignRight);
+    okMistLay->addStretch(1);
     mainLay->addLayout(okMistLay);
 
     m_effLab = new QLabel("<b>100%</b>", this);
     mainLay->addWidget(m_effLab, 0, Qt::AlignCenter);
     m_averTime = new QLCDNumber(4, this);
-    m_averTime->setFixedHeight(25);
+    m_averTime->setFixedHeight(20);
     mainLay->addWidget(m_averTime);
     m_reactTime = new QLCDNumber(4, this);
-    m_reactTime->setFixedHeight(25);
+    m_reactTime->setFixedHeight(20);
     mainLay->addWidget(m_reactTime);
     m_totalTime = new QLCDNumber(7, this);
-    m_totalTime->setFixedHeight(25);
+    m_totalTime->setFixedHeight(20);
     mainLay->addWidget(m_totalTime);
-*/
 
-  /* VERTICAL LAYOUT */
+
+  /* VERTICAL LAYOUT
     QVBoxLayout *mainLay = new QVBoxLayout;
 //    QGroupBox *mainGr = new QGroupBox(this);
 
@@ -74,7 +76,7 @@ TexamView::TexamView(QWidget *parent) :
     m_mistLab = new QLabel("12", this);
     okMistLay->addWidget(m_mistLab, 0, Qt::AlignCenter);
     mainLay->addLayout(okMistLay);
-
+*/
 
 //    mainGr->setLayout(mainLay);
 //    QHBoxLayout *lay = new QHBoxLayout;

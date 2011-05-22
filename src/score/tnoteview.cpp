@@ -238,6 +238,8 @@ void TnoteView::hideNote() {
     for (int i=0; i < 5; i++)	{
         m_mainDownLines[i]->hide();
     }
+    m_mainPosY = 0;
+    m_accidental = 0;
 }
 
 void TnoteView::setColor(QColor color) {

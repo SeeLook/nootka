@@ -376,7 +376,7 @@ void TexamExecutor::prepareToExam() {
   // clearing all views/widgets
     clearWidgets();
 
-    mW->setStatusMessage("click next for next", 5000);
+    mW->setStatusMessage("click next for next", 2000);
 
 }
 

@@ -45,21 +45,21 @@ MainWindow::MainWindow(QWidget *parent)
     QVBoxLayout *nameLay = new QVBoxLayout;
     QGroupBox *statGr = new QGroupBox(widget);
     QVBoxLayout *statLay = new QVBoxLayout;
-    QHBoxLayout *statResultLay = new QHBoxLayout;
+//    QHBoxLayout *statResultLay = new QHBoxLayout;
     m_statLab = new QLabel(widget);
     m_statLab->setWordWrap(true);
 //    m_statLab->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-//    m_statLab->setFixedHeight(50);
+    m_statLab->setFixedHeight(50);
     statLay->addWidget(m_statLab);
     statGr->setLayout(statLay);
-//    nameLay->addWidget(statGr);
-    statResultLay->addWidget(statGr);
+    nameLay->addWidget(statGr);
+//    statResultLay->addWidget(statGr);
 //    nameLay->addLayout(statLay);
 //    nameLay->addStretch(1);
     examResults = new TexamView(widget);
-//    nameLay->addWidget(examResults);
-    statResultLay->addWidget(examResults);
-    nameLay->addLayout(statResultLay);
+    nameLay->addWidget(examResults);
+//    statResultLay->addWidget(examResults);
+//    nameLay->addLayout(statResultLay);
 
 //    nameLay->addStretch(1);
     noteName = new TnoteName(widget);
@@ -133,6 +133,7 @@ void MainWindow::resizeEvent(QResizeEvent *) {
 //    guitar->resize();
 //    guitar->setFixedWidth(centralWidget()->width());
     noteName->resize();
+    noteName->update();
 }
 
 void MainWindow::setStatusMessage(QString msg) {
