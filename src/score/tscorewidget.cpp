@@ -139,27 +139,27 @@ void TscoreWidget::acceptSettings() {
 
 void TscoreWidget::askQuestion(Tnote note, char realStr) {
     setNote(1, note);
-    noteViews[1]->setStyleSheet(gl->getBGcolorText(gl->EquestionColor));
+    setNoteViewBg(1, gl->EquestionColor);
     if (realStr) 
       noteViews[1]->setString(realStr);
 }
 
 void TscoreWidget::askQuestion(Tnote note, TkeySignature key, char realStr) {
     setKeySignature(key);
-    keySignView->setStyleSheet(gl->getBGcolorText(gl->EquestionColor));
+    setKeyViewBg(gl->EquestionColor);
     askQuestion(note, realStr);
 }
 
 void TscoreWidget::clearScore() {
   clearNote(0);
-  noteViews[0]->setStyleSheet(gl->getBGcolorText(-1));
+  setNoteViewBg(0, -1);;
   clearNote(1);
-  noteViews[1]->setStyleSheet(gl->getBGcolorText(-1));
+  setNoteViewBg(1, -1);
   noteViews[1]->removeString(); // so far string number to remove occur only on this view
   clearNote(2); // also hide question mark when will be implemented
   if (keySignView) {
       setKeySignature(TkeySignature());
-      keySignView->setStyleSheet(gl->getBGcolorText(-1));
+      setKeyViewBg(-1);;
   }
 }
 
@@ -174,6 +174,15 @@ void TscoreWidget::unLockScore() {
     setScoreDisabled(false);
     noteViews[1]->setDisabled(true);
     noteViews[2]->setDisabled(true);
+}
+
+void TscoreWidget::setKeyViewBg(QColor C) {
+    if (keySignView)
+      keySignView->setStyleSheet(gl->getBGcolorText(C));
+}
+
+void TscoreWidget::setNoteViewBg(int id, QColor C) {
+    noteViews[id]->setStyleSheet(gl->getBGcolorText(C));
 }
 
 

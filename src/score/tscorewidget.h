@@ -44,6 +44,8 @@ public:
         /** Internally it calls setScoreDisabled(false) to unlock
         * and locks unused noteViews (1 & 2) again. */
     void unLockScore();
+    void setKeyViewBg(QColor C);
+    void setNoteViewBg(int id, QColor C);
 
 signals:
     void noteChanged(int index, Tnote note);
