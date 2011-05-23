@@ -18,7 +18,10 @@
 
 
 #include "texamview.h"
+#include "tglobals.h"
 #include <QtGui>
+
+extern Tglobals *gl;
 
 TexamView::TexamView(QWidget *parent) :
     QWidget(parent)
@@ -29,17 +32,20 @@ TexamView::TexamView(QWidget *parent) :
 //     QGroupBox *mainGr = new QGroupBox(this);
 
 
-    QVBoxLayout *okMistLay = new QVBoxLayout;
-    okMistLay->addStretch(1);
-    m_corrLab = new QLabel("12", this);
+//     QVBoxLayout *okMistLay = new QVBoxLayout;
+    QHBoxLayout *okMistLay = new QHBoxLayout;
+//     okMistLay->addStretch(1);
+    m_corrLab = new QLabel("100", this);
     okMistLay->addWidget(m_corrLab, 0, Qt::AlignRight);
-    m_mistLab = new QLabel("12", this);
+    m_mistLab = new QLabel("100", this);
     okMistLay->addWidget(m_mistLab, 0, Qt::AlignRight);
-    okMistLay->addStretch(1);
+//     okMistLay->addStretch(1);
     mainLay->addLayout(okMistLay);
 
+    mainLay->addStretch(1);
     m_effLab = new QLabel("<b>100%</b>", this);
     mainLay->addWidget(m_effLab, 0, Qt::AlignCenter);
+    mainLay->addStretch(1);
     m_averTime = new QLCDNumber(4, this);
     m_averTime->setFixedHeight(20);
     mainLay->addWidget(m_averTime);
@@ -85,7 +91,9 @@ TexamView::TexamView(QWidget *parent) :
     setLayout(mainLay);
 
     m_corrLab->setToolTip(tr("correct answers' count"));
+    m_corrLab->setStyleSheet(gl->getBGcolorText(gl->EanswerColor));
     m_mistLab->setToolTip(tr("mistakes' count"));
+    m_mistLab->setStyleSheet(gl->getBGcolorText(gl->EquestionColor));
     m_effLab->setToolTip(tr("effectiveness"));
     m_averTime->setToolTip(tr("average reaction's time"));
     m_averTime->display(0.1);

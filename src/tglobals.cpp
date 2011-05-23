@@ -62,7 +62,7 @@ Tglobals::Tglobals() {
    Gtune = Ttune::stdTune;
    GpreferFlats = false;
    
-// Egazm settings
+// Exam settings
     EquestionColor = QColor("red");
     EquestionColor.setAlpha(40);
     EanswerColor = QColor("green");

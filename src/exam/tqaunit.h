@@ -51,18 +51,18 @@ public:
     TQAtype::Etype answerAs;
     Tnote::EnameStyle style;
     TkeySignature key;
-    Emistake correct;
+    Emistake valid;
     quint16 time;
 //    Tnote note2; // second note for case when question and answer are notes in a score.
     // pos and note as answers
     
-    bool isCorrect() { return correct == 0; }
-    bool wrongAccid() { return correct & 1; }
-    bool wrongKey() { return correct & 2;}
-    bool wrongOctave() { return correct & 4; }
-    bool wrongStyle() { return correct & 8; }
-    bool wrongPos() { return correct & 16; } 
-    bool wrongNote() {return correct & 64; }
+    bool correct() { return valid == 0; }
+    bool wrongAccid() { return valid & 1; }
+    bool wrongKey() { return valid & 2;}
+    bool wrongOctave() { return valid & 4; }
+    bool wrongStyle() { return valid & 8; }
+    bool wrongPos() { return valid & 16; } 
+    bool wrongNote() {return valid & 64; }
     
     
 };

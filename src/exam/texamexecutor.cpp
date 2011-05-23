@@ -221,6 +221,7 @@ void TexamExecutor::askQuestion() {
             if (m_level.manualKey) { // user have to manually secect a key
                 mW->score->setKeySignature( // we randomize some key to cover this expected one
                         (qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1))-7);
+		mW->score->setKeyViewBg(gl->EanswerColor);
                 QString keyTxt;
                 if (qrand() % 2) // we randomize: ask for minor or major key ?
                     keyTxt = curQ.key.getMajorName();
@@ -230,6 +231,7 @@ void TexamExecutor::askQuestion() {
 
             } else {
                 mW->score->setKeySignature(curQ.key);
+		mW->score->setKeyViewBg(gl->EquestionColor);
             }
         }
 //        if (m_level.forceAccids && curQ.questionAs != TQAtype::e_asName) {
@@ -248,6 +250,7 @@ void TexamExecutor::askQuestion() {
             questText += getTextHowAccid(ac);
         }
         mW->score->unLockScore();
+	mW->score->setNoteViewBg(0, gl->EanswerColor);
     }
 
     if (curQ.answerAs == TQAtype::e_asName) {

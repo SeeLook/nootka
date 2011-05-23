@@ -94,9 +94,11 @@ public:
         * and note is calculated. Default are sharps*/
     bool GpreferFlats; // default false
 
-// Egazm settings
+// Exam settings
     QColor EquestionColor;
     QColor EanswerColor;
+	/** Next quetion in en exam is given automatically after
+	 * correct answer */
     bool EautoNextQuest;
 
 };
