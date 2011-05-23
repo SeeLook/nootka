@@ -284,8 +284,9 @@ void TexamExecutor::askQuestion() {
             m_note2 = determineAccid(curQ.qa.note); // force other name of note
             // else blind question
             questText = QString("<b>%1. </b>").arg(m_answList.size()) +
-                        tr("Give name of <span style=\"color: %1\">").arg(gl->EquestionColor.name()) +
-                        QString::fromStdString(curQ.qa.note.getName(m_prevStyle, false)) + ". " +
+                        tr("Give name of <span style=\"color: %1; font-size: %2px;\">").arg(
+                                gl->EquestionColor.name()).arg(20) +
+                        QString::fromStdString(curQ.qa.note.getName(m_prevStyle, false)) + ". </span>" +
                         getTextHowAccid((Tnote::Eacidentals)m_note2.acidental);
         }
 
