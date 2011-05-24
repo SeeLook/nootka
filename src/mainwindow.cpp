@@ -49,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_statLab = new QLabel(widget);
     m_statLab->setWordWrap(true);
 //    m_statLab->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-    m_statLab->setFixedHeight(45);
+    m_statLab->setFixedHeight(50);
     statLay->addWidget(m_statLab);
     statGr->setLayout(statLay);
     nameLay->addWidget(statGr);

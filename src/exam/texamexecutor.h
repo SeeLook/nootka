@@ -36,6 +36,13 @@ class TexamExecutor : public QObject
 public:
     explicit TexamExecutor(MainWindow *mainW);
 
+    struct TglStore {
+        bool showEnharmNotes;
+        bool showKeySignName;
+        bool showOtherPos;
+        Tnote::EnameStyle nameStyleInNoteName;
+    };
+
 protected:
     MainWindow *mW;
     QAction *nextQuestAct, *checkAct;
@@ -48,6 +55,8 @@ protected slots:
 private:
     void createQuestionsList();
     Tnote determineAccid(Tnote n);
+        /** */
+    Tnote forceEnharmAccid(Tnote n);
 
     void prepareToExam();
     void restoreAfterExam();
@@ -72,6 +81,7 @@ private:
         * when question and answer are note name.*/
     bool m_isSolfege;
     Tnote::EnameStyle m_prevStyle;
+    TglStore m_glStore;
 
 };
 
