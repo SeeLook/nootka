@@ -30,7 +30,7 @@ TexamLevel::TexamLevel()
    questionAs = TQAtype(true, true, true, false);
    answersAs[0] = TQAtype(true, true, true, false);
    answersAs[1] = TQAtype(true, true, true, false);
-   answersAs[2] = TQAtype(true, true, true, false);
+   answersAs[2] = TQAtype(true, true, false, false);
    answersAs[3] = TQAtype(true, true, true, false);
   // QUESTIONS - as note
    withSharps = true;

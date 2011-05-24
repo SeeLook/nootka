@@ -97,9 +97,12 @@ public:
 // Exam settings
     QColor EquestionColor;
     QColor EanswerColor;
-	/** Next quetion in en exam is given automatically after
-	 * correct answer */
+        /** Next quetion in en exam is given automatically after
+         * correct answer */
     bool EautoNextQuest;
+        /** If EautoNextQuest is true incorrect questions are asked
+        * untill correct answer will be given. */
+    bool ErepeatIncorrect;
 
 };
 #endif // TGLOBALS_H

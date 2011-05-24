@@ -238,7 +238,7 @@ void TexamExecutor::askQuestion() {
         if (m_level.forceAccids) {
             Tnote::Eacidentals ac;
             if (curQ.questionAs == TQAtype::e_asNote) {// note has to be another than question
-                m_note2 = determineAccid(curQ.qa.note); // m_note2 is expected note
+                m_note2 = forceEnharmAccid(curQ.qa.note); // m_note2 is expected note
                 if (m_note2 == curQ.qa.note) {
                     qDebug() << "Blind question";
 //                    askQuestion();
@@ -256,7 +256,7 @@ void TexamExecutor::askQuestion() {
     if (curQ.answerAs == TQAtype::e_asName) {
         questText += TquestionAsWdg::asNameTxt;
         if (curQ.questionAs == TQAtype::e_asName) {
-            Tnote::EnameStyle m_prevStyle = gl->NnameStyleInNoteName;
+            m_prevStyle = gl->NnameStyleInNoteName;
             if (m_isSolfege) {
                 m_isSolfege = false;
                 if (qrand() % 2) { // full name like cis, gisis
@@ -281,12 +281,13 @@ void TexamExecutor::askQuestion() {
                 mW->noteName->setNoteNamesOnButt(Tnote::e_italiano_Si);
                 gl->NnameStyleInNoteName = Tnote::e_italiano_Si;
             }
-            m_note2 = determineAccid(curQ.qa.note); // force other name of note
+            m_note2 = forceEnharmAccid(curQ.qa.note); // force other name of note
             // else blind question
+            /** @todo change and restore style if needed */
             questText = QString("<b>%1. </b>").arg(m_answList.size()) +
                         tr("Give name of <span style=\"color: %1; font-size: %2px;\">").arg(
                                 gl->EquestionColor.name()).arg(20) +
-                        QString::fromStdString(curQ.qa.note.getName(m_prevStyle, false)) + ". </span>" +
+                        TnoteName::noteToRichText(curQ.qa.note) + ". </span>" +
                         getTextHowAccid((Tnote::Eacidentals)m_note2.acidental);
         }
 
@@ -307,8 +308,6 @@ void TexamExecutor::askQuestion() {
 }
 
 Tnote TexamExecutor::determineAccid(Tnote n) {
-    /** @todo More smart algoritm also for enharmonics notes when both
-    quesion and answer are note or both are name*/
     Tnote nA = n;
     if (m_level.withSharps || m_level.withFlats || m_level.withDblAcc) {
         if (m_level.withDblAcc) {
@@ -335,19 +334,82 @@ Tnote TexamExecutor::determineAccid(Tnote n) {
     return nA;
 }
 
+Tnote TexamExecutor::forceEnharmAccid(Tnote n) {
+    Tnote nX;
+    char acc = m_prevAccid;
+    int cnt;
+    do {
+        acc++;
+        if (acc > 2) acc = -2;
+
+        if (acc == Tnote::e_DoubleFlat && m_level.withDblAcc)
+            nX = n.showWithDoubleFlat();
+        if (acc == Tnote::e_Flat && m_level.withFlats)
+            nX = n.showWithFlat();
+        if (acc == Tnote::e_Natural)
+            nX = n.showAsNatural();
+        if (acc == Tnote::e_Sharp && m_level.withSharps)
+            nX = n.showWithSharp();
+        if (acc == Tnote::e_DoubleSharp && m_level.withDblAcc)
+            nX = n.showWithDoubleSharp();
+        cnt++;
+    } while (n == nX || cnt < 6);
+    m_prevAccid = (Tnote::Eacidentals)acc;
+    return nX;
+}
+
 void TexamExecutor::checkAnswer(){
     mW->nootBar->removeAction(checkAct);
     mW->nootBar->addAction(nextQuestAct);
     mW->setMessageBg(gl->EanswerColor);
     mW->startExamAct->setDisabled(false);
 
+// Let's check
+    TQAunit curQ = m_answList[m_answList.size() - 1];
+    curQ.valid = TQAunit::e_correct;
 
-    mW->setStatusMessage("You did it !!");
+    if (curQ.answerAs == TQAtype::e_asNote) {
+        if (m_level.manualKey) {
+            if (mW->score->keySignature().value() != curQ.key.value())
+                curQ.valid = TQAunit::e_wrongKey;
+        }
+        Tnote ntc = curQ.qa.note; // note to compare
+        if (curQ.questionAs == TQAtype::e_asNote)
+            ntc = m_note2;
+        if (m_level.forceAccids) {
+            if (mW->score->getNote(0) != ntc) {
+                if (mW->score->getNote(0).showAsNatural() == ntc.showAsNatural())
+                    curQ.valid = TQAunit::Emistake(curQ.valid + TQAunit::e_wrongAccid);
+                else
+                    curQ.valid = TQAunit::Emistake(curQ.valid + TQAunit::e_wrongNote);
+            }
+        } else { // no accid discrimination
+            if (ntc.showAsNatural() != mW->score->getNote(0).showAsNatural())
+                curQ.valid = TQAunit::Emistake(curQ.valid + TQAunit::e_wrongNote);
+        }
+    }
+
+    QString answTxt;
+    if (curQ.correct()) { // CORRECT
+        answTxt = QString("<span style=\"color: %1;\">").arg(gl->EanswerColor.name());
+        answTxt += tr("Perfectly correct !!");
+    } else { // WRONG
+        answTxt = QString("<span style=\"color: %1;\">").arg(gl->EquestionColor.name());
+        if (curQ.wrongNote())
+            answTxt += tr("Wrong note.");
+        if (curQ.wrongKey())
+            answTxt += tr(" Wrong key signature.");
+        if (curQ.wrongAccid())
+            answTxt += tr(" Wrong accidental.");
+    }
+    answTxt += "</span>";
+    mW->setStatusMessage(answTxt);
 
     disableWidgets();
+//    mW->setStatusMessage("click next for next questtion<br>or press space bar", 2000);
 
-    // if answer and question are note name - restore naming style for user prefered
-    // from
+    gl->NnameStyleInNoteName = m_prevStyle;
+    mW->noteName->setNoteNamesOnButt(m_prevStyle);
 
 }
 
@@ -369,19 +431,36 @@ void TexamExecutor::prepareToExam() {
     connect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
 
     /** @todo store globals
-        - hide key signature name
-        - alternative positions on the guitar
-        - enharmonics note names
-        - nameing style
+
     */
+    m_glStore.nameStyleInNoteName = gl->NnameStyleInNoteName;
+    m_glStore.showEnharmNotes = gl->showEnharmNotes;
+    m_glStore.showKeySignName = gl->SshowKeySignName;
+    m_glStore.showOtherPos = gl->GshowOtherPos;
+
+    gl->showEnharmNotes = false;
+    gl->SshowKeySignName = false;
+    gl->GshowOtherPos = false;
+    mW->score->acceptSettings();
+    mW->noteName->setEnabledEnharmNotes(false);
+    mW->guitar->acceptSettings();
   // clearing all views/widgets
     clearWidgets();
 
-    mW->setStatusMessage("click next for next", 2000);
+//    mW->setStatusMessage("click next for next", 2000);
 
 }
 
 void TexamExecutor::restoreAfterExam() {
+    gl->NnameStyleInNoteName = m_glStore.nameStyleInNoteName;
+    gl->showEnharmNotes = m_glStore.showEnharmNotes;
+    gl->SshowKeySignName = m_glStore.showKeySignName;
+    gl->GshowOtherPos = m_glStore.showOtherPos;
+
+    mW->score->acceptSettings();
+    mW->noteName->setEnabledEnharmNotes(false);
+    mW->guitar->acceptSettings();
+
     mW->settingsAct->setDisabled(false);
     mW->levelCreatorAct->setDisabled(false);
     mW->startExamAct->setDisabled(false);

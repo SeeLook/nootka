@@ -48,6 +48,7 @@ Tglobals::Tglobals() {
 
 
 
+
 //note name settings
     NnameStyleInNoteName = Tnote::e_english_Bb;
     NoctaveInNoteNameFormat = true;
@@ -68,7 +69,7 @@ Tglobals::Tglobals() {
     EanswerColor = QColor("green");
     EanswerColor.setAlpha(40);
     EautoNextQuest = false;
-
+    ErepeatIncorrect = true;
 
 }
 
