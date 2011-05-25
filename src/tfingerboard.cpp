@@ -265,7 +265,10 @@ void TfingerBoard::mousePressEvent(QMouseEvent *) {
     if (gl->GpreferFlats)
         if (m_selNote.note != 3 && m_selNote.note != 7) // eliminate Fb from E and Cb from B
             m_selNote = m_selNote.showWithFlat();
-    setFinger(m_selNote);
+    if (gl->GshowOtherPos)
+        setFinger(m_selNote);
+    else
+        setFinger(TfingerPos(m_curStr+1, m_curFret));
     emit guitarClicked(m_selNote);
 }
 

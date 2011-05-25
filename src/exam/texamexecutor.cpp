@@ -248,6 +248,8 @@ void TexamExecutor::askQuestion() {
                 ac = (Tnote::Eacidentals)curQ.qa.note.acidental;
             }
             questText += getTextHowAccid(ac);
+            mW->score->forceAccidental(ac);
+//            /** @todo force accid in score */
         }
         mW->score->unLockScore();
 	mW->score->setNoteViewBg(0, gl->EanswerColor);
@@ -257,38 +259,33 @@ void TexamExecutor::askQuestion() {
         questText += TquestionAsWdg::asNameTxt;
         if (curQ.questionAs == TQAtype::e_asName) {
             m_prevStyle = gl->NnameStyleInNoteName;
+            Tnote::EnameStyle tmpStyle = m_prevStyle;
             if (m_isSolfege) {
                 m_isSolfege = false;
                 if (qrand() % 2) { // full name like cis, gisis
-                    if (gl->seventhIs_B) {
-                        mW->noteName->setNoteNamesOnButt(Tnote::e_nederl_Bis);
-                        gl->NnameStyleInNoteName = Tnote::e_nederl_Bis;
-                    } else {
-                        mW->noteName->setNoteNamesOnButt(Tnote::e_deutsch_His);
-                        gl->NnameStyleInNoteName = Tnote::e_deutsch_His;
-                    }
+                    if (gl->seventhIs_B) tmpStyle = Tnote::e_nederl_Bis;
+                    else tmpStyle = Tnote::e_deutsch_His;
                 } else { // name and sign like c#, gx
-                    if (gl->seventhIs_B) {
-                        mW->noteName->setNoteNamesOnButt(Tnote::e_english_Bb);
-                        gl->NnameStyleInNoteName = Tnote::e_english_Bb;
-                    } else {
-                        mW->noteName->setNoteNamesOnButt(Tnote::e_norsk_Hb);
-                        gl->NnameStyleInNoteName = Tnote::e_norsk_Hb;
-                    }
+                    if (gl->seventhIs_B) tmpStyle = Tnote::e_english_Bb;
+                    else tmpStyle = Tnote::e_norsk_Hb;
                 }
             } else {
                 m_isSolfege = true;
-                mW->noteName->setNoteNamesOnButt(Tnote::e_italiano_Si);
-                gl->NnameStyleInNoteName = Tnote::e_italiano_Si;
+                tmpStyle = Tnote::e_italiano_Si;
             }
             m_note2 = forceEnharmAccid(curQ.qa.note); // force other name of note
-            // else blind question
+            if (m_note2 == curQ.qa.note) {
+                qDebug() << "Blind question";
+//                    askQuestion();
+            }
             /** @todo change and restore style if needed */
             questText = QString("<b>%1. </b>").arg(m_answList.size()) +
                         tr("Give name of <span style=\"color: %1; font-size: %2px;\">").arg(
                                 gl->EquestionColor.name()).arg(20) +
                         TnoteName::noteToRichText(curQ.qa.note) + ". </span>" +
                         getTextHowAccid((Tnote::Eacidentals)m_note2.acidental);
+            mW->noteName->setNoteNamesOnButt(tmpStyle);
+            gl->NnameStyleInNoteName = tmpStyle;
         }
 
         mW->noteName->setNameDisabled(false);
@@ -366,12 +363,11 @@ void TexamExecutor::checkAnswer(){
 
 // Let's check
     TQAunit curQ = m_answList[m_answList.size() - 1];
-    curQ.valid = TQAunit::e_correct;
 
     if (curQ.answerAs == TQAtype::e_asNote) {
         if (m_level.manualKey) {
             if (mW->score->keySignature().value() != curQ.key.value())
-                curQ.valid = TQAunit::e_wrongKey;
+                curQ.setMistake(TQAunit::e_wrongKey);
         }
         Tnote ntc = curQ.qa.note; // note to compare
         if (curQ.questionAs == TQAtype::e_asNote)
@@ -379,20 +375,20 @@ void TexamExecutor::checkAnswer(){
         if (m_level.forceAccids) {
             if (mW->score->getNote(0) != ntc) {
                 if (mW->score->getNote(0).showAsNatural() == ntc.showAsNatural())
-                    curQ.valid = TQAunit::Emistake(curQ.valid + TQAunit::e_wrongAccid);
+                    curQ.setMistake(TQAunit::e_wrongAccid);
                 else
-                    curQ.valid = TQAunit::Emistake(curQ.valid + TQAunit::e_wrongNote);
+                    curQ.setMistake(TQAunit::e_wrongNote);
             }
         } else { // no accid discrimination
             if (ntc.showAsNatural() != mW->score->getNote(0).showAsNatural())
-                curQ.valid = TQAunit::Emistake(curQ.valid + TQAunit::e_wrongNote);
+                curQ.setMistake(TQAunit::e_wrongNote);
         }
     }
 
     QString answTxt;
     if (curQ.correct()) { // CORRECT
         answTxt = QString("<span style=\"color: %1;\">").arg(gl->EanswerColor.name());
-        answTxt += tr("Perfectly correct !!");
+        answTxt += tr("Exelent !!");
     } else { // WRONG
         answTxt = QString("<span style=\"color: %1;\">").arg(gl->EquestionColor.name());
         if (curQ.wrongNote())

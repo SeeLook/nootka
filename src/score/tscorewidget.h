@@ -46,6 +46,8 @@ public:
     void unLockScore();
     void setKeyViewBg(QColor C);
     void setNoteViewBg(int id, QColor C);
+        /** Sets given accidental*/
+    void forceAccidental(Tnote::Eacidentals accid);
 
 signals:
     void noteChanged(int index, Tnote note);

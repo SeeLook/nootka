@@ -23,4 +23,18 @@ TQAunit::TQAunit()
 {
     qa.pos = TfingerPos();
     qa.note = Tnote(0,0,0);
+    m_valid = 0; // correct a priori
+}
+
+void TQAunit::setMistake(Emistake mis) {
+    switch (mis) {
+    case e_correct : m_valid = 0; break;
+    case e_wrongAccid : m_valid |= 1; break;
+    case e_wrongKey : m_valid |= 2; break;
+    case e_wrongOctave : m_valid |= 4; break;
+    case e_wrongStyle : m_valid |= 8; break;
+    case e_wrongPos : m_valid |= 16; break;
+//    case e_wrong???? : m_valid |= 32; break;
+    case e_wrongNote : m_valid |= 64; break;
+    }
 }
