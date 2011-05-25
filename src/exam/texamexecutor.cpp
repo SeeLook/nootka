@@ -249,15 +249,15 @@ void TexamExecutor::askQuestion() {
             }
             questText += getTextHowAccid(ac);
             mW->score->forceAccidental(ac);
-//            /** @todo force accid in score */
         }
         mW->score->unLockScore();
-	mW->score->setNoteViewBg(0, gl->EanswerColor);
+        mW->score->setNoteViewBg(0, gl->EanswerColor);
     }
 
     if (curQ.answerAs == TQAtype::e_asName) {
         questText += TquestionAsWdg::asNameTxt;
         if (curQ.questionAs == TQAtype::e_asName) {
+//            qDebug() << "as name as name";
             m_prevStyle = gl->NnameStyleInNoteName;
             Tnote::EnameStyle tmpStyle = m_prevStyle;
             if (m_isSolfege) {
