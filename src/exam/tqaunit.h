@@ -46,25 +46,30 @@ public:
 		    e_wrongNote = 64 // the highest crime  
     };
 
+    void setMistake(Emistake mis);
+
     TQAgroup qa;
     TQAtype::Etype questionAs;
     TQAtype::Etype answerAs;
     Tnote::EnameStyle style;
     TkeySignature key;
-    Emistake valid;
+//    quint8 m_valid; private
     quint16 time;
 //    Tnote note2; // second note for case when question and answer are notes in a score.
     // pos and note as answers
     
-    bool correct() { return valid == 0; }
-    bool wrongAccid() { return valid & 1; }
-    bool wrongKey() { return valid & 2;}
-    bool wrongOctave() { return valid & 4; }
-    bool wrongStyle() { return valid & 8; }
-    bool wrongPos() { return valid & 16; } 
-    bool wrongNote() {return valid & 64; }
+    bool correct() { return m_valid == 0; }
+    bool wrongAccid() { return m_valid & 1; }
+    bool wrongKey() { return m_valid & 2;}
+    bool wrongOctave() { return m_valid & 4; }
+    bool wrongStyle() { return m_valid & 8; }
+    bool wrongPos() { return m_valid & 16; }
+
+    bool wrongNote() {return m_valid & 64; }
     
-    
+private:
+    quint8 m_valid;
+
 };
 
 #endif // TQAUNIT_H

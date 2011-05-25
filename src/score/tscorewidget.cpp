@@ -185,4 +185,6 @@ void TscoreWidget::setNoteViewBg(int id, QColor C) {
     noteViews[id]->setStyleSheet(gl->getBGcolorText(C));
 }
 
-
+void TscoreWidget::forceAccidental(Tnote::Eacidentals accid) {
+    changeAccidButtonsState(accid);
+}
