@@ -301,7 +301,7 @@ void TexamExecutor::askQuestion() {
 
     mW->nootBar->removeAction(nextQuestAct);
     mW->nootBar->addAction(checkAct);
-
+    mW->examResults->startQuestion();
 }
 
 Tnote TexamExecutor::determineAccid(Tnote n) {
@@ -356,6 +356,7 @@ Tnote TexamExecutor::forceEnharmAccid(Tnote n) {
 }
 
 void TexamExecutor::checkAnswer(){
+    mW->examResults->stopQuestion();
     mW->nootBar->removeAction(checkAct);
     mW->nootBar->addAction(nextQuestAct);
     mW->setMessageBg(gl->EanswerColor);
@@ -381,6 +382,23 @@ void TexamExecutor::checkAnswer(){
             }
         } else { // no accid discrimination
             if (ntc.showAsNatural() != mW->score->getNote(0).showAsNatural())
+                curQ.setMistake(TQAunit::e_wrongNote);
+        }
+    }
+    /** @todo check octave */
+    if (curQ.answerAs == TQAtype::e_asName) {
+        Tnote ntc = curQ.qa.note; // note to compare
+        if (curQ.questionAs == TQAtype::e_asName)
+            ntc = m_note2;
+        if (m_level.forceAccids) {
+            if (mW->noteName->getNoteName() != ntc) {
+                if (mW->noteName->getNoteName().showAsNatural() == ntc.showAsNatural())
+                    curQ.setMistake(TQAunit::e_wrongAccid);
+                else
+                    curQ.setMistake(TQAunit::e_wrongNote);
+            }
+        } else { // no accid discrimination
+            if (ntc.showAsNatural() != mW->noteName->getNoteName().showAsNatural())
                 curQ.setMistake(TQAunit::e_wrongNote);
         }
     }
@@ -482,7 +500,7 @@ void TexamExecutor::disableWidgets() {
 
 void TexamExecutor::clearWidgets() {
     mW->score->clearScore();
-    mW->noteName->setNoteName(Tnote(0,0,0));
+    mW->noteName->clearNoteName();
     mW->guitar->setFinger(Tnote(0,0,0));
 }
 
