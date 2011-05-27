@@ -35,9 +35,9 @@ TexamView::TexamView(QWidget *parent) :
 //     QVBoxLayout *okMistLay = new QVBoxLayout;
     QHBoxLayout *okMistLay = new QHBoxLayout;
 //     okMistLay->addStretch(1);
-    m_corrLab = new QLabel("100", this);
+    m_corrLab = new QLabel("0", this);
     okMistLay->addWidget(m_corrLab, 0, Qt::AlignRight);
-    m_mistLab = new QLabel("100", this);
+    m_mistLab = new QLabel("0", this);
     okMistLay->addWidget(m_mistLab, 0, Qt::AlignRight);
 //     okMistLay->addStretch(1);
     mainLay->addLayout(okMistLay);
@@ -49,9 +49,12 @@ TexamView::TexamView(QWidget *parent) :
     m_averTime = new QLCDNumber(4, this);
     m_averTime->setFixedHeight(20);
     mainLay->addWidget(m_averTime);
-    m_reactTimeLCD = new QLCDNumber(4, this);
-    m_reactTimeLCD->setFixedHeight(20);
-    mainLay->addWidget(m_reactTimeLCD);
+    mainLay->addStretch(1);
+//     m_reactTimeLCD = new QLCDNumber(4, this);
+    m_reactTimeLab = new QLabel(this);
+    m_reactTimeLab->setFixedHeight(20);
+    mainLay->addWidget(m_reactTimeLab);
+    mainLay->addStretch(1);
     m_totalTime = new QLCDNumber(7, this);
     m_totalTime->setFixedHeight(20);
     mainLay->addWidget(m_totalTime);
@@ -98,9 +101,10 @@ TexamView::TexamView(QWidget *parent) :
     m_averTime->setToolTip(tr("average reaction's time"));
     m_averTime->display(0.1);
     m_averTime->setSmallDecimalPoint(true);
-    m_reactTimeLCD->setToolTip(tr("reaction's time"));
-    m_reactTimeLCD->display("0'0");
-    m_reactTimeLCD->setSmallDecimalPoint(true);
+    m_reactTimeLab->setToolTip(tr("reaction's time"));
+//     m_reactTimeLab->display("0'0");
+    m_reactTimeLab->setText("0'0");
+//     m_reactTimeLCD->setSmallDecimalPoint(true);
     m_totalTime->setToolTip(tr("total exam's time"));
     m_totalTime->display("1:23:15");
     m_totalTime->setSmallDecimalPoint(true);
@@ -112,5 +116,6 @@ void TexamView::startQuestion() {
 
 void TexamView::stopQuestion() {
     int t = m_reactTime.elapsed();
-    m_reactTimeLCD->display(QString("%1'%2").arg(t/1000).arg((t/100)%10));
+//     m_reactTimeLCD->display(QString("%1'%2").arg(t/1000).arg((t/100)%10));
+    m_reactTimeLab->setText(QString("%1'%2").arg(t/1000).arg((t/100)%10));
 }
