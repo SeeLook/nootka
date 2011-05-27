@@ -45,7 +45,8 @@ public slots:
 
 private:
 
-    QLCDNumber *m_averTime, *m_reactTimeLCD, *m_totalTime;
+    QLCDNumber *m_averTime, /**m_reactTimeLCD,*/ *m_totalTime;
+    QLabel *m_reactTimeLab;
     QLabel *m_mistLab, *m_corrLab, *m_effLab;
     QTime m_reactTime;
 
