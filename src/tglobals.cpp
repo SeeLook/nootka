@@ -19,9 +19,9 @@ QString Tglobals::getInstPath(QString appInstPath) {
 QString Tglobals::getBGcolorText(QColor C) {
   if ( C != -1)
     return QString(
-      "background: rgba(%1, %2, %3, %4)").arg(C.red()).arg(C.green()).arg(C.blue()).arg(C.alpha());
+      "background-color: rgba(%1, %2, %3, %4); ").arg(C.red()).arg(C.green()).arg(C.blue()).arg(C.alpha());
   else
-    return QString("background: transparent");
+    return QString("background-color: transparent; ");
 }
 
 

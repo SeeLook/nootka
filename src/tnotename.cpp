@@ -19,9 +19,10 @@
 #include "tnotename.h"
 #include "tglobals.h"
 #include <QtGui>
-#include <iostream>
+//#include <iostream>
 
 extern Tglobals *gl;
+QString styleTxt = "border: 1px solid palette(Text); border-radius: 10px";
 
 /**static*/
 const QString TnoteName::octaves[6] = {QObject::tr("Contra"),QObject::tr("Great"),QObject::tr("Small"),
@@ -41,6 +42,7 @@ TnoteName::TnoteName(QWidget *parent) :
     nameLabel = new QLabel("<b><span style=\"font-size: 20px; color: green;\">Nootka " +
                            gl->version + "</span></b>",this);
     nameLabel->setAlignment(Qt::AlignCenter);
+    nameLabel->setStyleSheet("background-color: palette(Base); " + styleTxt);
 
     mainLay->addWidget(nameLabel);
     mainLay->addSpacing(1);
@@ -120,13 +122,13 @@ void TnoteName::setNoteNamesOnButt(Tnote::EnameStyle nameStyle) {
 
 void TnoteName::paintEvent(QPaintEvent *) {
     resize();
-    QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.setWindow(0,0,width(),height());
-    painter.setPen(QPen(palette().foreground().color()));
-    painter.setBrush(QBrush(palette().base().color(),Qt::SolidPattern));
-    painter.drawRoundedRect(nameLabel->geometry().left(),nameLabel->geometry().top()
-                            ,nameLabel->width()-2,nameLabel->height()-2,10,10);
+//    QPainter painter(this);
+//    painter.setRenderHint(QPainter::Antialiasing, true);
+//    painter.setWindow(0,0,width(),height());
+//    painter.setPen(QPen(palette().foreground().color()));
+//    painter.setBrush(QBrush(palette().base().color(),Qt::SolidPattern));
+//    painter.drawRoundedRect(nameLabel->geometry().left(),nameLabel->geometry().top()
+//                            ,nameLabel->width()-2,nameLabel->height()-2,10,10);
 }
 
 // private setNoteName method
@@ -278,10 +280,7 @@ QString TnoteName::noteToRichText(Tnote note) {
 void TnoteName::setButtons(Tnote note) {
     noteButtons[note.note-1]->setChecked(true);
 
-    dblFlatButt->setChecked(false);
-    flatButt->setChecked(false);
-    sharpButt->setChecked(false);
-    dblSharpButt->setChecked(false);
+    uncheckAccidButtons();
     switch (note.acidental) {
     case -2 : dblFlatButt->setChecked(true); break;
     case -1 : flatButt->setChecked(true); break;
@@ -301,8 +300,9 @@ void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
 }
 
 void TnoteName::resize() {
-    nameLabel->setFont(QFont(nameLabel->font().family(),nameLabel->height()/2.5,50));
     nameLabel->setFixedHeight(height()/2-5);
+    nameLabel->setFont(QFont(nameLabel->font().family(),nameLabel->height()/2.5,50));
+
 }
 
 void TnoteName::setAmbitus(Tnote lo, Tnote hi) {
@@ -312,11 +312,15 @@ void TnoteName::setAmbitus(Tnote lo, Tnote hi) {
 
 void TnoteName::askQuestion(Tnote note) {
     setNoteName(note);
-    nameLabel->setText(nameLabel->text() + " <span style=\"color: red\">?</span>");
+    nameLabel->setText(nameLabel->text() +
+                       QString(" <span style=\"color: %1\">?</span>").arg(gl->EquestionColor.name()));
+    nameLabel->setStyleSheet(gl->getBGcolorText(gl->EquestionColor) + styleTxt);
+    uncheckAllButtons();
 }
 
 void TnoteName::setNameDisabled(bool isDisabled) {
     if (isDisabled) {
+        uncheckAllButtons();
         for (int i=0; i<7; i++)
             noteButtons[i]->setDisabled(true);
         for (int i=0; i<6; i++)
@@ -336,4 +340,28 @@ void TnoteName::setNameDisabled(bool isDisabled) {
         dblSharpButt->setDisabled(false);
 
     }
+}
+
+void TnoteName::uncheckAccidButtons() {
+    dblFlatButt->setChecked(false);
+    flatButt->setChecked(false);
+    sharpButt->setChecked(false);
+    dblSharpButt->setChecked(false);
+}
+
+void TnoteName::clearNoteName() {
+    setNoteName(Tnote());
+    nameLabel->setStyleSheet("background-color: palette(Base); " + styleTxt);
+}
+
+void TnoteName::uncheckAllButtons() {
+    uncheckAccidButtons();
+    noteGroup->setExclusive(false);
+    octaveGroup->setExclusive(false);
+    for (int i = 0; i < 7; i++)
+        noteButtons[i]->setChecked(false);
+    for (int i = 0; i < 6; i++)
+        octaveButtons[i]->setChecked(false);
+    noteGroup->setExclusive(true);
+    octaveGroup->setExclusive(true);
 }

@@ -21,10 +21,12 @@
 #define TEXAMVIEW_H
 
 #include <QWidget>
+#include <QTime>
 
 
 class QLCDNumber;
 class QLabel;
+class QTime;
 
     /** A @class TexamView represents status of exam.
     * It displays times and numbers of valid/invalid questions.
@@ -34,6 +36,8 @@ class TexamView : public QWidget
     Q_OBJECT
 public:
     explicit TexamView(QWidget *parent = 0);
+    void startQuestion();
+    void stopQuestion();
 
 signals:
 
@@ -41,8 +45,9 @@ public slots:
 
 private:
 
-    QLCDNumber *m_averTime, *m_reactTime, *m_totalTime;
+    QLCDNumber *m_averTime, *m_reactTimeLCD, *m_totalTime;
     QLabel *m_mistLab, *m_corrLab, *m_effLab;
+    QTime m_reactTime;
 
 };
 

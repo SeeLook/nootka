@@ -47,6 +47,7 @@ public:
     static QString noteToRichText(Tnote note);
     void askQuestion(Tnote note);
     void setNameDisabled(bool isDisabled);
+    void clearNoteName();
 //    void setButtonsWithOctaves
 
 signals:
@@ -67,6 +68,8 @@ private:
     void setNoteName(char noteNr, char octNr, char accNr);
     void setNameText();
     void setButtons(Tnote note);
+    void uncheckAccidButtons();
+    void  uncheckAllButtons();
 
 private slots:
     void noteWasChanged(int noteNr);

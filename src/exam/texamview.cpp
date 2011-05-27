@@ -49,9 +49,9 @@ TexamView::TexamView(QWidget *parent) :
     m_averTime = new QLCDNumber(4, this);
     m_averTime->setFixedHeight(20);
     mainLay->addWidget(m_averTime);
-    m_reactTime = new QLCDNumber(4, this);
-    m_reactTime->setFixedHeight(20);
-    mainLay->addWidget(m_reactTime);
+    m_reactTimeLCD = new QLCDNumber(4, this);
+    m_reactTimeLCD->setFixedHeight(20);
+    mainLay->addWidget(m_reactTimeLCD);
     m_totalTime = new QLCDNumber(7, this);
     m_totalTime->setFixedHeight(20);
     mainLay->addWidget(m_totalTime);
@@ -65,9 +65,9 @@ TexamView::TexamView(QWidget *parent) :
 //    m_totalTime->setFixedHeight(20);
     mainLay->addWidget(m_totalTime);
 
-    m_reactTime = new QLCDNumber(4, this);
-//    m_reactTime->setFixedHeight(20);
-    mainLay->addWidget(m_reactTime);
+    m_reactTimeLCD = new QLCDNumber(4, this);
+//    m_reactTimeLCD->setFixedHeight(20);
+    mainLay->addWidget(m_reactTimeLCD);
 
     m_averTime = new QLCDNumber(4, this);
 //    m_averTime->setFixedHeight(20);
@@ -98,10 +98,19 @@ TexamView::TexamView(QWidget *parent) :
     m_averTime->setToolTip(tr("average reaction's time"));
     m_averTime->display(0.1);
     m_averTime->setSmallDecimalPoint(true);
-    m_reactTime->setToolTip(tr("reaction's time"));
-    m_reactTime->display(12.5);
-    m_reactTime->setSmallDecimalPoint(true);
+    m_reactTimeLCD->setToolTip(tr("reaction's time"));
+    m_reactTimeLCD->display("0'0");
+    m_reactTimeLCD->setSmallDecimalPoint(true);
     m_totalTime->setToolTip(tr("total exam's time"));
     m_totalTime->display("1:23:15");
     m_totalTime->setSmallDecimalPoint(true);
+}
+
+void TexamView::startQuestion() {
+    m_reactTime.start();
+}
+
+void TexamView::stopQuestion() {
+    int t = m_reactTime.elapsed();
+    m_reactTimeLCD->display(QString("%1'%2").arg(t/1000).arg((t/100)%10));
 }
