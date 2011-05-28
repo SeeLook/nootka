@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "tnotename.h"
+#include "tnoteview.h"
 #include "tglobals.h"
 #include <QtGui>
 //#include <iostream>
@@ -62,23 +63,24 @@ TnoteName::TnoteName(QWidget *parent) :
 // ACCID BUTTONS TOOOLBAR
     QHBoxLayout *accLay = new QHBoxLayout;
     accLay->addStretch(1);
-    dblFlatButt = new QPushButton(this);
-    dblFlatButt->setIcon(QIcon(gl->path+"picts/dblflat.svg"));
+    dblFlatButt = new QPushButton(TnoteView::getAccid(-2), this);
+    dblFlatButt->setFont(QFont("Emmentaler"));
+//     dblFlatButt->setIcon(QIcon(gl->path+"picts/dblflat.svg"));
     dblFlatButt->setCheckable(true);
     accLay->addWidget(dblFlatButt);
     connect(dblFlatButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
-    flatButt = new QPushButton(this);
-    flatButt->setIcon(QIcon(gl->path+"picts/flat.svg"));
+    flatButt = new QPushButton(TnoteView::getAccid(-1), this);
+//     flatButt->setIcon(QIcon(gl->path+"picts/flat.svg"));
     flatButt->setCheckable(true);
     accLay->addWidget(flatButt);
     connect(flatButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
-    sharpButt = new QPushButton(this);
-    sharpButt->setIcon(QIcon(gl->path+"picts/sharp.svg"));
+    sharpButt = new QPushButton(TnoteView::getAccid(1), this);
+//     sharpButt->setIcon(QIcon(gl->path+"picts/sharp.svg"));
     sharpButt->setCheckable(true);
     accLay->addWidget(sharpButt);
     connect(sharpButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
-    dblSharpButt = new QPushButton(this);
-    dblSharpButt->setIcon(QIcon(gl->path+"picts/dblsharp.svg"));
+    dblSharpButt = new QPushButton(TnoteView::getAccid(2), this);
+//     dblSharpButt->setIcon(QIcon(gl->path+"picts/dblsharp.svg"));
     dblSharpButt->setCheckable(true);
     accLay->addWidget(dblSharpButt);
     connect(dblSharpButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
