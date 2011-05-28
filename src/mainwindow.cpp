@@ -55,16 +55,16 @@ MainWindow::MainWindow(QWidget *parent)
     nameLay->addWidget(statGr);
 //    statResultLay->addWidget(statGr);
 //    nameLay->addLayout(statLay);
-//    nameLay->addStretch(1);
+    nameLay->addStretch(1);
     examResults = new TexamView(widget);
     nameLay->addWidget(examResults);
 //    statResultLay->addWidget(examResults);
 //    nameLay->addLayout(statResultLay);
 
-//    nameLay->addStretch(1);
+    nameLay->addStretch(1);
     noteName = new TnoteName(widget);
     nameLay->addWidget(noteName);
-//    nameLay->addStretch(1);
+    nameLay->addStretch(1);
     scoreAndNameLay->addLayout(nameLay);
     mainLay->addLayout(scoreAndNameLay);
 

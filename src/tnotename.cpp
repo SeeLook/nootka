@@ -122,13 +122,6 @@ void TnoteName::setNoteNamesOnButt(Tnote::EnameStyle nameStyle) {
 
 void TnoteName::paintEvent(QPaintEvent *) {
     resize();
-//    QPainter painter(this);
-//    painter.setRenderHint(QPainter::Antialiasing, true);
-//    painter.setWindow(0,0,width(),height());
-//    painter.setPen(QPen(palette().foreground().color()));
-//    painter.setBrush(QBrush(palette().base().color(),Qt::SolidPattern));
-//    painter.drawRoundedRect(nameLabel->geometry().left(),nameLabel->geometry().top()
-//                            ,nameLabel->width()-2,nameLabel->height()-2,10,10);
 }
 
 // private setNoteName method
@@ -170,7 +163,7 @@ void TnoteName::setNameText() {
     } else nameLabel->setText("");;
 }
 
-// public setNoteName methods
+/** public setNoteName methods */
 void TnoteName::setNoteName(Tnote note) {
     if (note.note) {
         m_notes[0] = note;
@@ -300,8 +293,8 @@ void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
 }
 
 void TnoteName::resize() {
-    nameLabel->setFixedHeight(height()/2-5);
-    nameLabel->setFont(QFont(nameLabel->font().family(),nameLabel->height()/2.5,50));
+    nameLabel->setFixedHeight((height()/5)*2);
+    nameLabel->setFont(QFont(nameLabel->font().family(),height()/5,50));
 
 }
 
