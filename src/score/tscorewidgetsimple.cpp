@@ -43,23 +43,23 @@ TscoreWidgetSimple::TscoreWidgetSimple(unsigned char _notesCount, QWidget *paren
     }
     keySignView = 0;
 
-    m_dblSharpBut = new QPushButton(this);
-    m_dblSharpBut->setIcon(QIcon(gl->path+"picts/dblsharp.svg"));
+    m_dblSharpBut = new QPushButton(TnoteView::getAccid(2), this);
+//     m_dblSharpBut->setIcon(QIcon(gl->path+"picts/dblsharp.svg"));
     setButtons(m_dblSharpBut);
-    m_sharpBut = new QPushButton(this);
-    m_sharpBut->setIcon(QIcon(gl->path+"picts/sharp.svg"));
+    m_sharpBut = new QPushButton(TnoteView::getAccid(1), this);
+//     m_sharpBut->setIcon(QIcon(gl->path+"picts/sharp.svg"));
     setButtons(m_sharpBut);
-    m_flatBut = new QPushButton(this);
-    m_flatBut->setIcon(QIcon(gl->path+"picts/flat.svg"));
+    m_flatBut = new QPushButton(TnoteView::getAccid(-1), this);
+//     m_flatBut->setIcon(QIcon(gl->path+"picts/flat.svg"));
     setButtons(m_flatBut);
-    m_dblFlatBut = new QPushButton(this);
-    m_dblFlatBut->setIcon(QIcon(gl->path+"picts/dblflat.svg"));
+    m_dblFlatBut = new QPushButton(TnoteView::getAccid(-2), this);
+//     m_dblFlatBut->setIcon(QIcon(gl->path+"picts/dblflat.svg"));
     setButtons(m_dblFlatBut);
     QVBoxLayout *butLay = new QVBoxLayout;
     butLay->addStretch(1);
     butLay->addWidget(m_dblSharpBut);
     butLay->addWidget(m_sharpBut);
-    butLay->addSpacing(5);;;
+    butLay->addSpacing(5);
     butLay->addWidget(m_flatBut);
     butLay->addWidget(m_dblFlatBut);
     butLay->addStretch(1);
@@ -132,8 +132,10 @@ void TscoreWidgetSimple::resize() {
 
 
 void TscoreWidgetSimple::setButtons(QPushButton *button) {
-    button->setFixedSize(40,40);
-    button->setIconSize(QSize(28,28));
+    button->setFixedSize(40,45);
+//     button->setFixedWidth(40);
+    button->setFont(QFont("Emmentaler", 25, QFont::Normal));
+//     button->setIconSize(QSize(28,28));
     button->setCheckable(true);
 }
 

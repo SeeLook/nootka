@@ -34,7 +34,7 @@ TexamView::TexamView(QWidget *parent) :
     QHBoxLayout *okMistLay = new QHBoxLayout;
     m_corrLab = new QLabel("0", this);
     okMistLay->addWidget(m_corrLab, 0, Qt::AlignRight);
-    okMistLay->addStretch(1);
+    okMistLay->addSpacing(10);
     m_mistLab = new QLabel("0", this);
     okMistLay->addWidget(m_mistLab, 0, Qt::AlignRight);
 //     okMistLay->addStretch(1);
