@@ -24,7 +24,7 @@
 #include <QTime>
 
 
-class QLCDNumber;
+//class QLCDNumber;
 class QLabel;
 class QTime;
 
@@ -45,8 +45,8 @@ public slots:
 
 private:
 
-    QLCDNumber *m_averTime, /**m_reactTimeLCD,*/ *m_totalTime;
-    QLabel *m_reactTimeLab;
+//    QLCDNumber *m_averTime, /**m_reactTimeLCD,*/ *m_totalTime;
+    QLabel *m_reactTimeLab, *m_averTimeLab, *m_totalTimeLab;
     QLabel *m_mistLab, *m_corrLab, *m_effLab;
     QTime m_reactTime;
 
