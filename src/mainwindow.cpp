@@ -130,7 +130,7 @@ void MainWindow::resizeEvent(QResizeEvent *) {
     score->setFixedWidth((centralWidget()->width()/13)*6);
     m_statLab->setFixedHeight(height()/10);
     guitar->setFixedHeight(centralWidget()->height()/3);
-    noteName->setFixedHeight(qRound(height() * 0.4));
+    noteName->setFixedHeight(qRound(height() * 0.55));
 }
 
 void MainWindow::setStatusMessage(QString msg) {

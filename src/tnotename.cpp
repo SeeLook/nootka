@@ -305,8 +305,8 @@ void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
 }
 
 void TnoteName::resize() {
-    nameLabel->setFixedHeight((height()/3));
-    nameLabel->setFont(QFont(nameLabel->font().family(),height()/6,50));
+    nameLabel->setFixedHeight((height()/4));
+    nameLabel->setFont(QFont(nameLabel->font().family(),nameLabel->height()/2,50));
     setNameText();
 }
 
