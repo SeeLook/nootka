@@ -106,20 +106,22 @@ TnoteName::TnoteName(QWidget *parent) :
     }
     octLay->addStretch(1);
     mainLay->addLayout(octLay);
+    mainLay->addStretch(1);
     connect(octaveGroup, SIGNAL(buttonClicked(int)), this, SLOT(octaveWasChanged(int)));
     
-//     QVBoxLayout *lay = new QVBoxLayout;
-//     QGroupBox *mainGr = new QGroupBox(this);
-//     mainGr->setLayout(mainLay);
-//     lay->addWidget(mainGr);
-//     setLayout(lay);
-    setLayout(mainLay);
+     QVBoxLayout *lay = new QVBoxLayout;
+     QGroupBox *mainGr = new QGroupBox(this);
+     mainGr->setLayout(mainLay);
+     lay->addWidget(mainGr);
+     setLayout(lay);
+//    setLayout(mainLay);
 
     setNoteNamesOnButt(gl->NnameStyleInNoteName);
     octaveButtons[2]->setChecked(true);
     for (int i=0; i<3; i++) m_notes.push_back(Tnote());
     setAmbitus(gl->Gtune.lowest(),
                Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber));
+    resize();
 
 }
 
@@ -127,6 +129,7 @@ void TnoteName::setNoteNamesOnButt(Tnote::EnameStyle nameStyle) {
     for (int i=0; i<7; i++) {
         noteButtons[i]->setText(QString::fromStdString(Tnote(i+1,0,0).getName(nameStyle,false)));
     }
+    qDebug() << (int)nameStyle;
 }
 
 void TnoteName::paintEvent(QPaintEvent *) {
@@ -302,9 +305,9 @@ void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
 }
 
 void TnoteName::resize() {
-    nameLabel->setFixedHeight((height()/5)*2);
-    nameLabel->setFont(QFont(nameLabel->font().family(),height()/5,50));
-
+    nameLabel->setFixedHeight((height()/3));
+    nameLabel->setFont(QFont(nameLabel->font().family(),height()/6,50));
+    setNameText();
 }
 
 void TnoteName::setAmbitus(Tnote lo, Tnote hi) {

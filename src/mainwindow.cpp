@@ -49,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_statLab = new QLabel(widget);
     m_statLab->setWordWrap(true);
 //    m_statLab->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-    m_statLab->setFixedHeight(50);
+//    m_statLab->setFixedHeight(50);
     statLay->addWidget(m_statLab);
     statGr->setLayout(statLay);
     nameLay->addWidget(statGr);
@@ -64,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent)
     nameLay->addStretch(1);
     noteName = new TnoteName(widget);
     nameLay->addWidget(noteName);
-    nameLay->addStretch(1);
+//    nameLay->addStretch(1);
     scoreAndNameLay->addLayout(nameLay);
     mainLay->addLayout(scoreAndNameLay);
 
@@ -128,12 +128,9 @@ void MainWindow::createActions() {
 void MainWindow::resizeEvent(QResizeEvent *) {
     nootBar->setIconSize(QSize(height()/21, height()/21));
     score->setFixedWidth((centralWidget()->width()/13)*6);
-//    noteName->setFixedHeight((centralWidget()->height()/9)*4);
+    m_statLab->setFixedHeight(height()/10);
     guitar->setFixedHeight(centralWidget()->height()/3);
-//    guitar->resize();
-//    guitar->setFixedWidth(centralWidget()->width());
-    noteName->resize();
-    noteName->update();
+    noteName->setFixedHeight(qRound(height() * 0.4));
 }
 
 void MainWindow::setStatusMessage(QString msg) {
