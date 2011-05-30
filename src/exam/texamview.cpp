@@ -88,11 +88,19 @@ TexamView::TexamView(QWidget *parent) :
 
 }
 
-void TexamView::startQuestion() {
+void TexamView::questionStart() {
     m_reactTime.start();
 }
 
-void TexamView::stopQuestion() {
-    int t = qRound(m_reactTime.elapsed() / 100);
+quint16 TexamView::questionStop() {
+    quint16 t = qRound(m_reactTime.elapsed() / 100);
     m_reactTimeLab->setText(QString("%1").arg((qreal)t/10));
+    return t;
+}
+
+void TexamView::startExam(QTime total, int questNumber, int averTime, int mistakes) {
+    m_questNr = questNumber;
+    m_totalTime  = total;
+    m_averTime = averTime;
+    m_mistakes = mistakes;
 }

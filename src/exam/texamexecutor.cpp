@@ -301,7 +301,7 @@ void TexamExecutor::askQuestion() {
 
     mW->nootBar->removeAction(nextQuestAct);
     mW->nootBar->addAction(checkAct);
-    mW->examResults->startQuestion();
+    mW->examResults->questionStart();
 }
 
 Tnote TexamExecutor::determineAccid(Tnote n) {
@@ -356,14 +356,14 @@ Tnote TexamExecutor::forceEnharmAccid(Tnote n) {
 }
 
 void TexamExecutor::checkAnswer(){
-    mW->examResults->stopQuestion();
+    TQAunit curQ = m_answList[m_answList.size() - 1];
+    curQ.time = mW->examResults->questionStop();
     mW->nootBar->removeAction(checkAct);
     mW->nootBar->addAction(nextQuestAct);
     mW->setMessageBg(gl->EanswerColor);
     mW->startExamAct->setDisabled(false);
 
 // Let's check
-    TQAunit curQ = m_answList[m_answList.size() - 1];
 
     if (curQ.answerAs == TQAtype::e_asNote) {
         if (m_level.manualKey) {
