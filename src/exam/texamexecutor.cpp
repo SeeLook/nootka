@@ -401,6 +401,8 @@ void TexamExecutor::checkAnswer(){
             if (ntc.showAsNatural() != mW->noteName->getNoteName().showAsNatural())
                 curQ.setMistake(TQAunit::e_wrongNote);
         }
+        gl->NnameStyleInNoteName = m_prevStyle;
+	mW->noteName->setNoteNamesOnButt(m_prevStyle);
     }
 
     QString answTxt;
@@ -418,13 +420,14 @@ void TexamExecutor::checkAnswer(){
     }
     answTxt += "</span>";
     mW->setStatusMessage(answTxt);
+    mW->examResults->setAnswer(curQ.correct());
 
     disableWidgets();
 //    mW->setStatusMessage("click next for next questtion<br>or press space bar", 2000);
+//     gl->NnameStyleInNoteName = m_prevStyle;
+//     mW->noteName->setNoteNamesOnButt(m_prevStyle);
 
-    gl->NnameStyleInNoteName = m_prevStyle;
-    mW->noteName->setNoteNamesOnButt(m_prevStyle);
-
+    
 }
 
 void TexamExecutor::prepareToExam() {
@@ -447,6 +450,7 @@ void TexamExecutor::prepareToExam() {
     /** @todo store globals
 
     */
+    m_prevStyle = gl->NnameStyleInNoteName;
     m_glStore.nameStyleInNoteName = gl->NnameStyleInNoteName;
     m_glStore.showEnharmNotes = gl->showEnharmNotes;
     m_glStore.showKeySignName = gl->SshowKeySignName;

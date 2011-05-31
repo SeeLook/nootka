@@ -40,8 +40,9 @@ public:
     void startExam( QTime total, int questNumber = 0,int averTime = 0, int mistakes = 0);
     void questionStart();
     quint16 questionStop();
+    void setAnswer(bool wasCorrect);
 
-    int getAverageTime() { return m_averTime; }
+    int getAverageTime() { return qRound(m_averTime); }
     QTime getTotalTime() {return m_totalTime; }
 
 signals:
@@ -54,7 +55,8 @@ private:
     QLabel *m_reactTimeLab, *m_averTimeLab, *m_totalTimeLab;
     QLabel *m_mistLab, *m_corrLab, *m_effLab;
     QTime m_reactTime;
-    int m_averTime, m_questNr, m_mistakes;
+    int m_questNr, m_mistakes;
+    qreal m_averTime;
     QTime m_totalTime;
 
 };

@@ -85,16 +85,21 @@ TexamView::TexamView(QWidget *parent) :
     m_averTimeLab->setToolTip(tr("average reaction's time [in seconds]"));
     m_reactTimeLab->setToolTip(tr("reaction's time [in seconds]"));
     m_totalTimeLab->setToolTip(tr("total exam's time"));
+    
+    startExam(QTime(0,0));
 
 }
 
 void TexamView::questionStart() {
     m_reactTime.start();
+    m_questNr++;
 }
 
 quint16 TexamView::questionStop() {
     quint16 t = qRound(m_reactTime.elapsed() / 100);
     m_reactTimeLab->setText(QString("%1").arg((qreal)t/10));
+    m_averTime = (m_averTime * (m_questNr-1) + t) / m_questNr;
+    m_averTimeLab->setText(QString("%1").arg((qreal)qRound(m_averTime)/10));
     return t;
 }
 
@@ -103,4 +108,16 @@ void TexamView::startExam(QTime total, int questNumber, int averTime, int mistak
     m_totalTime  = total;
     m_averTime = averTime;
     m_mistakes = mistakes;
+    /** @todo load initial values to widgets */
 }
+
+void TexamView::setAnswer(bool wasCorrect) {
+    if (!wasCorrect) {
+      m_mistakes++;
+    }
+    m_mistLab->setText(QString("%1").arg(m_mistakes));
+    m_corrLab->setText(QString("%1").arg(m_questNr - m_mistakes));
+    qreal eff = (((qreal)m_questNr - (qreal)m_mistakes) / (qreal)m_questNr) * 100;
+    m_effLab->setText(QString("%1 %").arg(qRound(eff)));
+}
+

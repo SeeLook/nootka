@@ -129,7 +129,6 @@ void TnoteName::setNoteNamesOnButt(Tnote::EnameStyle nameStyle) {
     for (int i=0; i<7; i++) {
         noteButtons[i]->setText(QString::fromStdString(Tnote(i+1,0,0).getName(nameStyle,false)));
     }
-    qDebug() << (int)nameStyle;
 }
 
 void TnoteName::paintEvent(QPaintEvent *) {
@@ -305,8 +304,8 @@ void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
 }
 
 void TnoteName::resize() {
-    nameLabel->setFixedHeight((height()/4));
-    nameLabel->setFont(QFont(nameLabel->font().family(),nameLabel->height()/2,50));
+    nameLabel->setFixedHeight((height()/5));
+    nameLabel->setFont(QFont(nameLabel->font().family(), qRound(nameLabel->height() * 0.6), 50));
     setNameText();
 }
 

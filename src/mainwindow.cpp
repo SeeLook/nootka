@@ -55,13 +55,13 @@ MainWindow::MainWindow(QWidget *parent)
     nameLay->addWidget(statGr);
 //    statResultLay->addWidget(statGr);
 //    nameLay->addLayout(statLay);
-    nameLay->addStretch(1);
+//     nameLay->addStretch(1);
     examResults = new TexamView(widget);
     nameLay->addWidget(examResults);
 //    statResultLay->addWidget(examResults);
 //    nameLay->addLayout(statResultLay);
 
-    nameLay->addStretch(1);
+//     nameLay->addStretch(1);
     noteName = new TnoteName(widget);
     nameLay->addWidget(noteName);
 //    nameLay->addStretch(1);
@@ -130,7 +130,7 @@ void MainWindow::resizeEvent(QResizeEvent *) {
     score->setFixedWidth((centralWidget()->width()/13)*6);
     m_statLab->setFixedHeight(height()/10);
     guitar->setFixedHeight(centralWidget()->height()/3);
-    noteName->setFixedHeight(qRound(height() * 0.55));
+    noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(height() * 0.6)));
 }
 
 void MainWindow::setStatusMessage(QString msg) {
