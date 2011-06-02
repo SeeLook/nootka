@@ -44,8 +44,10 @@ TscoreWidget::TscoreWidget(unsigned char _notesCount, QWidget *parent) :
     setEnabledDblAccid(gl->doubleAccidentalsEnabled);
     setEnableKeySign(gl->SkeySignatureEnabled);
 
-    setAmbitus(Tnote(gl->Gtune.lowest().getChromaticNrOfNote()-1),
-               Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber+1));
+//    setAmbitus(Tnote(gl->Gtune.lowest().getChromaticNrOfNote()-1),
+//               Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber+1));
+    setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()-1),
+               Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber+1));
 
     isExamExecuting(false);
 }
@@ -81,7 +83,7 @@ void TscoreWidget::setEnableEnharmNotes(bool isEnabled) {
 
 void TscoreWidget::paintEvent(QPaintEvent *event) {
   TscoreWidgetSimple::paintEvent(event);
-  if (gl->Gtune != Ttune::stdTune) {
+  if (gl->Gtune() != Ttune::stdTune) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setWindow(0,0,width(),height());
@@ -94,7 +96,7 @@ void TscoreWidget::paintEvent(QPaintEvent *event) {
     Ttune sT = Ttune::stdTune;
     int nL = 0;
     for (int i=1; i<7; i++) {
-        if ( gl->Gtune[i] != sT[i])
+        if ( gl->Gtune()[i] != sT[i])
             nL++;
     }
     int xOffBase = coeff;
@@ -103,7 +105,7 @@ void TscoreWidget::paintEvent(QPaintEvent *event) {
     int yOff = -1;
     int c = 0;
     for (int i=1; i<7; i++) {
-        if ( gl->Gtune[i] != sT[i]) {
+        if ( gl->Gtune()[i] != sT[i]) {
         if ( nL>3 && c%2 == 1 ) {
             xOff = 45;
         } else {
@@ -115,7 +117,7 @@ void TscoreWidget::paintEvent(QPaintEvent *event) {
         painter.drawText(QRectF(5+xOff,29*coeff+17*yOff, fa, fa), Qt::AlignCenter,
                QString("%1").arg(i));
         painter.drawText(QRectF(5+xOff+fa, 29*coeff+17*yOff, 60, fa),Qt::AlignLeft,
-             " =" + QString::fromStdString(gl->Gtune[i].getName(gl->NnameStyleInNoteName,false)));
+             " =" + QString::fromStdString(gl->Gtune()[i].getName(gl->NnameStyleInNoteName,false)));
         painter.drawEllipse(5+xOff,29*coeff+17*yOff,fa,fa);
       }
     }
@@ -124,7 +126,7 @@ void TscoreWidget::paintEvent(QPaintEvent *event) {
 
 void TscoreWidget::acceptSettings() {
     setEnabledDblAccid(gl->doubleAccidentalsEnabled);
-    if (gl->Gtune != Ttune::stdTune)
+    if (gl->Gtune() != Ttune::stdTune)
         setHasScord(true);
     else // resizing is done in setEnableKeySign() method;
         setHasScord(false);
@@ -132,8 +134,10 @@ void TscoreWidget::acceptSettings() {
     if (!gl->doubleAccidentalsEnabled) clearNote(2);
     setEnableEnharmNotes(gl->showEnharmNotes);
     if (gl->SkeySignatureEnabled) refreshKeySignNameStyle();
-    setAmbitus(Tnote(gl->Gtune.lowest().getChromaticNrOfNote()-1),
-               Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber+1));
+//    setAmbitus(Tnote(gl->Gtune.lowest().getChromaticNrOfNote()-1),
+//               Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber+1));
+    setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()-1),
+               Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber+1));
     update();
 }
 

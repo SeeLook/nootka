@@ -66,49 +66,32 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
 
 
 void TexamExecutor::createQuestionsList() {
-  // 1. creating array with guitar strings in order of their height
-    char strOrder[6] = { 0,1,2,3,4,5};
     char openStr[6];
     for (int i=0; i<6; i++)
-        openStr[i] = gl->Gtune[i+1].getChromaticNrOfNote();
+        openStr[i] = gl->Gtune()[i+1].getChromaticNrOfNote();
 
-    int i = 4;
-    while (i > -1) {
-        for (int j=i; j < 5 && openStr[strOrder[j]] < openStr[strOrder[j+1]]; j++) {
-            char tmp = strOrder[j];
-            strOrder[j] = strOrder[j+1];
-            strOrder[j+1] = tmp;
-        }
-        i--;
-    }
-
-  // array done, stored in strOrder[6]
 
 //    for (int i=0; i<6; i++) qDebug() << i << ": " << (int)openStr[strOrder[i]]
 //            << " : " << (int)strOrder[i];
-
-  // 2. searching all frets in range, string by string
+// 1. searching all frets in range, string by string
     for(int s = 0; s < 6; s++) {
-        if (m_level.usedStrings[strOrder[s]])// check string by strOrder
+        if (m_level.usedStrings[gl->strOrder(s)])// check string by strOrder
             for (int f = m_level.loFret; f <= m_level.hiFret; f++) {
-            Tnote n = Tnote(gl->Gtune[strOrder[s]+1].getChromaticNrOfNote() + f);
+                Tnote n = Tnote(gl->Gtune()[gl->strOrder(s)+1].getChromaticNrOfNote() + f);
             if (n.getChromaticNrOfNote() >= m_level.loNote.getChromaticNrOfNote() &&
                 n.getChromaticNrOfNote() <= m_level.hiNote.getChromaticNrOfNote()) {
                 bool hope = true; // we stil have hope that note is for an exam
                 if (m_level.onlyLowPos) {
                     if (s > 0) {
-//                    if (strOrder[s] > 0) {
                        // we have to check when note is on the lowest positions
                        // is it realy lowest pos
                        // when strOrder[s] is 0 - it is the highest sting
-                       char diff = openStr[strOrder[s-1]] - openStr[strOrder[s]];
+                        char diff = openStr[gl->strOrder(s-1)] - openStr[gl->strOrder(s)];
                        if( (f-diff) >= m_level.loFret && (f-diff) <= m_level.hiFret) {
                            hope = false; //There is the same note on highest string
-//                           qDebug() << (int)s << (int)diff << (int)f-diff << "bad";
                        }
                        else {
                            hope = true;
-//                           qDebug() << (int)strOrder[s] << (int)diff << (int)f-diff << "ok";
                        }
                     }
                 }
@@ -128,7 +111,7 @@ void TexamExecutor::createQuestionsList() {
                 }
                 if (hope) {
                     TQAunit::TQAgroup g;
-                    g.note = n; g.pos = TfingerPos(strOrder[s]+1, f);
+                    g.note = n; g.pos = TfingerPos(gl->strOrder(s)+1, f);
                     m_questList << g;
                 }
             }
@@ -483,6 +466,7 @@ void TexamExecutor::restoreAfterExam() {
     mW->levelCreatorAct->setDisabled(false);
     mW->startExamAct->setDisabled(false);
     mW->noteName->setNameDisabled(false);
+    mW->guitar->setDisabled(false);
 
     connect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
     connect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));

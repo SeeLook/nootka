@@ -40,15 +40,19 @@ public:
         * in Linux is usually /usr/bin or /usr/local/bin */
     static QString getInstPath(QString appInstPath);
     static QString getBGcolorText(QColor C);
+    static QColor invertColor(QColor C);
     QString path;
     QString version;
-
+        /** If @param true, hints of widgets are shown*/
+    bool hintsEnabled;
 
         /** Let's have a convention:
         * globals settings for @class TnoteName will started from 'N' letter
-	* for @class TscoreWidget and @class TscoreWidgetSimple
+        * for @class TscoreWidget and @class TscoreWidgetSimple
         * and for guitar (@class TfingerBoard) from 'G' letter*/
-//score widget settings
+
+
+//============ score widget settings =============================================================
         /** if true shows other similar (enharmonic) notes on the staff:
         * for C# - Db, for G - Fx and Abb. In Tnotename widget also. */
     bool SkeySignatureEnabled;
@@ -64,7 +68,7 @@ public:
     QString SminKeyNameSufix;
     QColor SpointerColor;
 
-//common with score widget and note name
+//============= common with score widget and note name ==========================================
     bool doubleAccidentalsEnabled; //default true
     bool showEnharmNotes; // default true
         /** On the begining it is -1 and then it is set in TscoreWidget constructor
@@ -75,21 +79,30 @@ public:
     bool seventhIs_B; //default true
 
 
-//note name settings
+//======== note name settings ===================================================================
     Tnote::EnameStyle NnameStyleInNoteName;
     bool NoctaveInNoteNameFormat; //default true
 //    bool NoctaveNameInNoteName; //default true
 
-// guitar settings
+//============ guitar settings =============================================================
     unsigned char GfretsNumber; //default 19
     bool GisRightHanded; //default true
         /** Shows other posibilities of note (sound) on the fretboard */
     bool GshowOtherPos; //default true
     QColor GfingerColor; // rules the same like in enharmNotesColor
     QColor GselectedColor;
-        /** If empty TfingerBoard constructor set it to standard tune,
-        * otherwise user tune is loaded*/
-    Ttune Gtune; // default empty
+//--- A Few variables and methods about tune -----
+    //    Ttune Gtune; // default empty
+    Ttune Gtune() { return m_tune; }
+    void setTune(Ttune t);
+        /** It returns real string number (0 - 5) when @param strNr
+        * is sorted number from highest (0) to lowest (5) */
+    char strOrder(char strNr) { return m_order[strNr]; }
+        /** Returns the highest (usually first - 0) and
+        * the lowest (usually last - 5) guitar strings. */
+    Tnote hiString() { return m_tune[m_order[0] + 1]; }
+    Tnote loString() { return m_tune[m_order[5] + 1]; }
+//---------------------------------
         /** It says witch accidentals are prafered while user clicks guitar
         * and note is calculated. Default are sharps*/
     bool GpreferFlats; // default false
@@ -103,6 +116,14 @@ public:
         /** If EautoNextQuest is true incorrect questions are asked
         * untill correct answer will be given. */
     bool ErepeatIncorrect;
+
+
+
+private:
+  //--- for tune part ----------------
+    Ttune m_tune;
+        /** Strings' order is determined in @param setTune() method */
+    char m_order[6];
 
 };
 #endif // TGLOBALS_H

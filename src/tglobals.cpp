@@ -24,11 +24,18 @@ QString Tglobals::getBGcolorText(QColor C) {
     return QString("background-color: transparent; ");
 }
 
+QColor Tglobals::invertColor(QColor C) {
+    /** @todo */
+}
+
+/*end static*/
+
 
 Tglobals::Tglobals() {
 
     version = "0.6 beta";
 //    path ; Is declared in mainWindow constructor
+    hintsEnabled = true;
 
 //score widget settings
     SkeySignatureEnabled = true;
@@ -60,7 +67,8 @@ Tglobals::Tglobals() {
    GshowOtherPos = true;
    GfingerColor = -1;
    GselectedColor = -1;
-   Gtune = Ttune::stdTune;
+//   Gtune = Ttune::stdTune;
+   setTune(Ttune::stdTune);
    GpreferFlats = false;
    
 // Exam settings
@@ -75,3 +83,24 @@ Tglobals::Tglobals() {
 
 Tglobals::~Tglobals() {
 }
+
+void Tglobals::setTune(Ttune t) {
+    m_tune = t;
+// creating array with guitar strings in order of their height
+    char openStr[6];
+    for (int i=0; i<6; i++) {
+        m_order[i] = i;
+        openStr[i] = m_tune[i+1].getChromaticNrOfNote();
+    }
+      int i = 4;
+      while (i > -1) {
+          for (int j=i; j < 5 && openStr[m_order[j]] < openStr[m_order[j+1]]; j++) {
+              char tmp = m_order[j];
+              m_order[j] = m_order[j+1];
+              m_order[j+1] = tmp;
+          }
+          i--;
+      }
+}
+
+

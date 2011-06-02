@@ -119,8 +119,10 @@ TnoteName::TnoteName(QWidget *parent) :
     setNoteNamesOnButt(gl->NnameStyleInNoteName);
     octaveButtons[2]->setChecked(true);
     for (int i=0; i<3; i++) m_notes.push_back(Tnote());
-    setAmbitus(gl->Gtune.lowest(),
-               Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber));
+//    setAmbitus(gl->Gtune.lowest(),
+//               Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber));
+    setAmbitus(gl->loString(),
+               Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
     resize();
 
 }

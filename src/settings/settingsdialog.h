@@ -36,7 +36,7 @@ public:
 
     void saveSettings();
 private:
-    QCheckBox *otherEnharmChBox, *dblAccChBox;
+    QCheckBox *otherEnharmChBox, *dblAccChBox, *hintsEnabledChBox;
 };
 
 
