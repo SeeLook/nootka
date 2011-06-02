@@ -72,6 +72,7 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     m_curStr = 7; // none
     m_curFret = 99; // none
     m_selNote = Tnote(0,0,0);
+    m_questFinger = 0;
 
 
 }
@@ -242,11 +243,7 @@ void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
     }
     if (m_curStr != strNr || m_curFret != fretNr) {
         if ( fretNr > 0 && fretNr < 99) { // show finger
-//            int off = qRound(fretWidth/1.55);
-            int off = qRound(fretWidth/1.5);
-            if (matrix.dx()) off = 4;
-            m_workFinger->setPos(matrix.map(QPoint(fretsPos[fretNr-1]-off,
-                                 fbRect.y()+qRound(strGap*(strNr+0.2)))));
+            paintFinger(m_workFinger, strNr, fretNr);
             if (!m_workFinger->isVisible())
                 m_workFinger->show();
             if (m_curStr != 7) m_workStrings[m_curStr]->hide();
@@ -276,30 +273,26 @@ Tnote TfingerBoard::posToNote(int str, int fret) {
     return Tnote(gl->Gtune()[str+1].getChromaticNrOfNote()+fret);
 }
 
-bool TfingerBoard::setFinger(Tnote note, int realStr) {
+void TfingerBoard::setFinger(Tnote note) {
     if (note.note) {
         bool doShow = true;
         for(int i=0; i<6; i++) { // looking for pos to show
-            int diff = note.getChromaticNrOfNote() - gl->Gtune()[i+1].getChromaticNrOfNote();
+            int diff = note.getChromaticNrOfNote() - gl->Gtune()[gl->strOrder(i)+1].getChromaticNrOfNote();
             if ( doShow && diff >= 0 && diff <= gl->GfretsNumber) { // found
                 if (diff == 0) { // open string
-                    m_fingers[i]->hide();
-                    m_strings[i]->show();
+                    m_fingers[gl->strOrder(i)]->hide();
+                    m_strings[gl->strOrder(i)]->show();
                 } else { // some fret
-                    m_strings[i]->hide();
-                    int off = qRound(fretWidth/1.5);
-                    if (matrix.dx()) off = 4;
-                    m_fingers[i]->setPos(matrix.map(QPoint(fretsPos[diff-1]-off,
-                                         fbRect.y()+strGap*i+strGap/5)));
-                    m_fingers[i]->show();
+                    m_strings[gl->strOrder(i)]->hide();
+                    paintFinger(m_fingers[gl->strOrder(i)], gl->strOrder(i), diff);
+                    m_fingers[gl->strOrder(i)]->show();
                 }
-                if (!gl->GshowOtherPos || i==realStr-1) {
+                if (!gl->GshowOtherPos) {
                     doShow = false;
-                    /** @todo This is something wrong. It dosen't work with given string  */
                 }
             } else { // not found on this string or no need to show
-                m_fingers[i]->hide();
-                m_strings[i]->hide();
+                m_fingers[gl->strOrder(i)]->hide();
+                m_strings[gl->strOrder(i)]->hide();
             }
         }
         m_selNote = note;
@@ -319,10 +312,7 @@ void TfingerBoard::setFinger(TfingerPos pos) {
         }
         else { //show
             if (pos.fret()) { // some fret
-                int off = qRound(fretWidth/1.5);
-                if (matrix.dx()) off = 4;
-                m_fingers[i]->setPos(matrix.map(QPoint(fretsPos[pos.fret()-1]-off,
-                                     fbRect.y()+strGap*i+strGap/5)));
+                paintFinger(m_fingers[i], i, pos.fret());
                 m_fingers[i]->show();
             }
             else { // open string
@@ -336,6 +326,21 @@ void TfingerBoard::setFinger(TfingerPos pos) {
 void TfingerBoard::acceptSettings() {
     paint();
     setFinger(m_selNote);
+}
+
+void TfingerBoard::paintFinger(QGraphicsEllipseItem *f, char strNr, char fretNr) {
+    int off = qRound(fretWidth/1.5);
+    if (matrix.dx()) off = 4;
+    f->setPos(matrix.map(QPoint(fretsPos[fretNr-1]-off,
+                         fbRect.y() + strGap*strNr + strGap/5)));
+}
+
+void TfingerBoard::askQuestion(TfingerPos pos) {
+
+}
+
+void TfingerBoard::clearFingerBoard() {
+
 }
 
 bool TfingerBoard::event(QEvent *event) {

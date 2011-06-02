@@ -271,11 +271,18 @@ void TexamExecutor::askQuestion() {
             gl->NnameStyleInNoteName = tmpStyle;
         }
 
+        if (curQ.questionAs == TQAtype::e_asFretPos) {
+            if (m_level.forceAccids) {
+                questText += getTextHowAccid((Tnote::Eacidentals)curQ.qa.note.acidental);
+            }
+        }
         mW->noteName->setNameDisabled(false);
     }
 
     if (curQ.answerAs == TQAtype::e_asFretPos) {
         questText += TquestionAsWdg::asFretPosTxt;
+        if (curQ.questionAs == TQAtype::e_asName)
+            questText += "<b>" + tr(" on (%1) string.").arg((int)curQ.qa.pos.str()) + "</b>";
 
         mW->guitar->setDisabled(false);
     }
