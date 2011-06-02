@@ -20,9 +20,12 @@ public:
         * If globals GshowOtherPos is true all possibilities are shown.
         * If @param realStr is set is shown only on pointed string (if any).
         * It returns true if something is shown.*/
-    bool setFinger(Tnote note, int realStr = 7);
+    void setFinger(Tnote note);
     void setFinger(TfingerPos pos);
-//    void resize();
+        /** Returns selected finger position */
+    TfingerPos getfingerPos() { return m_fingerPos; }
+    void askQuestion(TfingerPos pos);
+    void clearFingerBoard();
 
 signals:
     void guitarClicked(Tnote note);
@@ -54,20 +57,19 @@ private:
     short lastFret;
         /** Actual position of cursor over the guitar in strings/frets coordinates */
     short curStr, curFret;
-        /** In those variables are strored previous nubers of strings and frets.
-          *This values are needed to hide (or remove) provious preview on the guitar */
-//    short prevStr[6], prevFret[6];
-        /** It keeps position of selected fingerprint. x() is string and y() is fret.*/
+        /** It keeps position of selected fingerprint.*/
     TfingerPos m_fingerPos;
         /** @param fretsPos  stores X positions of frets in global widget coordinates */
     short fretsPos[24];
 
     QGraphicsScene *m_scene;
-    QGraphicsEllipseItem *m_workFinger, *m_fingers[6];
+    QGraphicsEllipseItem *m_workFinger, *m_fingers[6], *m_questFinger;
     int m_strNr, m_fretNr, m_curStr, m_curFret;
     QGraphicsLineItem *m_workStrings[6], *m_strings[6];
         /** Keeps selected note*/
     Tnote m_selNote;
+
+    void paintFinger(QGraphicsEllipseItem *f, char strNr, char fretNr);
 
     /** */
     /** */
