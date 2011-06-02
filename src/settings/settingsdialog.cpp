@@ -45,18 +45,18 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     tuneLay->addWidget(tuneView);
     tuneView->setFixedWidth(280);
     tuneView->setAmbitus(Tnote(6,-2,0),Tnote(6,1,0));
-    setTune(gl->Gtune);
+    setTune(gl->Gtune());
     tuneCombo->addItem(Ttune::stdTune.name);
-    if (gl->Gtune == Ttune::stdTune)
+    if (gl->Gtune() == Ttune::stdTune)
         tuneCombo->setCurrentIndex(0);
     for (int i=0; i<4; i++) {
         tuneCombo->addItem(Ttune::tunes[i].name);
-        if (gl->Gtune == Ttune::tunes[i])
+        if (gl->Gtune() == Ttune::tunes[i])
             tuneCombo->setCurrentIndex(i+1);
     }
     QString S = tr("Custom tune");
     tuneCombo->addItem(S);
-    if (gl->Gtune.name == S)
+    if (gl->Gtune().name == S)
         tuneCombo->setCurrentIndex(5);
     tuneGr->setLayout(tuneLay);
     upLay->addWidget(tuneGr);
@@ -135,9 +135,10 @@ void GuitarSettings::userTune(int, Tnote) {
 void GuitarSettings::saveSettings() {
     gl->GisRightHanded = righthandCh->isChecked();
     gl->GfretsNumber = fretsNrSpin->value();
-    gl->Gtune = Ttune(tuneCombo->currentText(), tuneView->getNote(5), tuneView->getNote(4),
-                      tuneView->getNote(3), tuneView->getNote(2), tuneView->getNote(1),
-                      tuneView->getNote(0));
+//    gl->Gtune = Ttune(tuneCombo->currentText(), tuneView->getNote(5), tuneView->getNote(4),
+//                      tuneView->getNote(3), tuneView->getNote(2), tuneView->getNote(1),
+//                      tuneView->getNote(0));
+    gl->setTune(Ttune(tuneCombo->currentText(), tuneView->getNote(5), tuneView->getNote(4),          tuneView->getNote(3), tuneView->getNote(2), tuneView->getNote(1), tuneView->getNote(0)));
     gl->GshowOtherPos = morePosCh->isChecked();
     if (prefFlatBut->isChecked()) gl->GpreferFlats = true;
     else gl->GpreferFlats = false;
@@ -159,12 +160,18 @@ GlobalSettings::GlobalSettings(QWidget *parent) :
     dblAccChBox->setChecked(gl->doubleAccidentalsEnabled);
     lay->addWidget(dblAccChBox);
     lay->addStretch(1);
+    hintsEnabledChBox = new QCheckBox(tr("show hints"), this);
+    hintsEnabledChBox->setChecked(gl->hintsEnabled);
+    hintsEnabledChBox->setStatusTip(tr("Show descriptions of interface's elements."));
+    lay->addWidget(hintsEnabledChBox);
+    lay->addStretch(1);
     setLayout(lay);
 }
 
 void GlobalSettings::saveSettings() {
    gl->doubleAccidentalsEnabled = dblAccChBox->isChecked();
    gl->showEnharmNotes = otherEnharmChBox->isChecked();
+   gl->hintsEnabled = hintsEnabledChBox->isChecked();
 }
 
 

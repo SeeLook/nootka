@@ -273,14 +273,14 @@ void TfingerBoard::mousePressEvent(QMouseEvent *) {
 }
 
 Tnote TfingerBoard::posToNote(int str, int fret) {
-    return Tnote(gl->Gtune[str+1].getChromaticNrOfNote()+fret);
+    return Tnote(gl->Gtune()[str+1].getChromaticNrOfNote()+fret);
 }
 
 bool TfingerBoard::setFinger(Tnote note, int realStr) {
     if (note.note) {
         bool doShow = true;
         for(int i=0; i<6; i++) { // looking for pos to show
-            int diff = note.getChromaticNrOfNote() - gl->Gtune[i+1].getChromaticNrOfNote();
+            int diff = note.getChromaticNrOfNote() - gl->Gtune()[i+1].getChromaticNrOfNote();
             if ( doShow && diff >= 0 && diff <= gl->GfretsNumber) { // found
                 if (diff == 0) { // open string
                     m_fingers[i]->hide();

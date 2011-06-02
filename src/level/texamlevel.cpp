@@ -46,8 +46,10 @@ TexamLevel::TexamLevel()
    requireOctave = true;
    requireStyle = true;
   // RANGE
-   loNote = gl->Gtune.lowest();
-   hiNote = Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber);
+//   loNote = gl->Gtune.lowest();
+   loNote = gl->loString();
+//   hiNote = Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber);
+   hiNote = Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber);
    isNoteLo = true;
    isNoteHi = true;
    loFret = 0;

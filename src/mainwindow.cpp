@@ -167,8 +167,10 @@ void MainWindow::createSettingsDialog() {
         noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
         noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
         noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
-        noteName->setAmbitus(gl->Gtune.lowest(),
-                               Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber));
+//        noteName->setAmbitus(gl->Gtune.lowest(),
+//                               Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber));
+        noteName->setAmbitus(gl->loString(),
+                               Tnote(gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber));
         noteWasClicked(0,noteName->getNoteName(0));//refresh name
         guitar->acceptSettings();;//refresh guitar
     }
@@ -223,7 +225,7 @@ void MainWindow::guitarWasClicked(Tnote note) {
 }
 
 bool MainWindow::event(QEvent *event) {
-    if (event->type() == QEvent::StatusTip && !m_lockStat) {
+    if (gl->hintsEnabled && event->type() == QEvent::StatusTip && !m_lockStat) {
         QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
         if (se->tip() == "") {
             setMessageBg(m_prevBg);
