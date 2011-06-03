@@ -41,6 +41,9 @@ public:
         m_pos = (realStr-1)*40 + fret;
     }
 
+    bool operator==( TfingerPos f2) { return str() == f2.str() && fret() == f2.fret(); }
+    bool operator!=( TfingerPos f2) { return str() != f2.str() || fret() != f2.fret(); }
+
 private:
     unsigned char m_pos;
 };

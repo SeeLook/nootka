@@ -35,7 +35,6 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     QString actTxt;
     TstartExamDlg::Eactions userAct = startDlg->showDialog(actTxt, m_level);
     if (userAct == TstartExamDlg::e_newLevel) {
-//        qDebug() << "Level: " << m_level.name;
 
     } else 
       return;
@@ -193,7 +192,7 @@ void TexamExecutor::askQuestion() {
     }
 
     if (curQ.questionAs == TQAtype::e_asFretPos) {
-        mW->guitar->setFinger(curQ.qa.pos);
+        mW->guitar->askQuestion(curQ.qa.pos);
         questText += tr("Point given position ");
     }
 
@@ -395,6 +394,11 @@ void TexamExecutor::checkAnswer(){
 	mW->noteName->setNoteNamesOnButt(m_prevStyle);
     }
 
+    if (curQ.answerAs == TQAtype::e_asFretPos) {
+        if (curQ.qa.pos != mW->guitar->getfingerPos())
+            curQ.setMistake(TQAunit::e_wrongPos);
+    }
+
     QString answTxt;
     if (curQ.correct()) { // CORRECT
         answTxt = QString("<span style=\"color: %1;\">").arg(gl->EanswerColor.name());
@@ -407,6 +411,8 @@ void TexamExecutor::checkAnswer(){
             answTxt += tr(" Wrong key signature.");
         if (curQ.wrongAccid())
             answTxt += tr(" Wrong accidental.");
+        if (curQ.wrongPos())
+            answTxt += tr(" Wrong position.");
     }
     answTxt += "</span>";
     mW->setStatusMessage(answTxt);
@@ -496,7 +502,7 @@ void TexamExecutor::disableWidgets() {
 void TexamExecutor::clearWidgets() {
     mW->score->clearScore();
     mW->noteName->clearNoteName();
-    mW->guitar->setFinger(Tnote(0,0,0));
+    mW->guitar->clearFingerBoard();
 }
 
 void TexamExecutor::stopExamSlot() {

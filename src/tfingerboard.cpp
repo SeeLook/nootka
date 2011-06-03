@@ -73,14 +73,13 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     m_curFret = 99; // none
     m_selNote = Tnote(0,0,0);
     m_questFinger = 0;
-
+    m_questString = 0;
 
 }
 
 void TfingerBoard::resizeEvent(QResizeEvent *){
     m_scene->setSceneRect(0,0,width(),height());
     paint();
-
 }
 
 void TfingerBoard::paint() {
@@ -259,6 +258,7 @@ void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
 
 void TfingerBoard::mousePressEvent(QMouseEvent *) {
     m_selNote = posToNote(m_curStr,m_curFret);
+    m_fingerPos = TfingerPos(m_curStr+1, m_curFret);
     if (gl->GpreferFlats)
         if (m_selNote.note != 3 && m_selNote.note != 7) // eliminate Fb from E and Cb from B
             m_selNote = m_selNote.showWithFlat();
@@ -336,11 +336,39 @@ void TfingerBoard::paintFinger(QGraphicsEllipseItem *f, char strNr, char fretNr)
 }
 
 void TfingerBoard::askQuestion(TfingerPos pos) {
-
+    QColor qC = gl->EquestionColor;
+    qC.setAlpha(200); //it is too much opaque
+    if (pos.fret()) { // some fret
+        if (!m_questFinger) {
+            m_questFinger = new QGraphicsEllipseItem();
+            m_questFinger->setPen(QPen(qC));
+            m_questFinger->setBrush(QBrush(qC, Qt::SolidPattern));
+            m_scene->addItem(m_questFinger);
+            m_questFinger->setRect(0,0, fretWidth/1.6, qRound(0.7*strGap));
+            paintFinger(m_questFinger, pos.str()-1, pos.fret());
+        }
+    } else { // open strring
+        if (!m_questString) {
+            m_questString = new QGraphicsLineItem();
+            m_questString->setPen(QPen(qC, m_strings[pos.str()-1]->pen().width(),
+                                       Qt::SolidLine));
+            m_scene->addItem(m_questString);
+            m_questString->setLine(matrix.map(QLineF(1, fbRect.y()+strGap/2 + (pos.str()-1)*strGap,
+                                      width()-1-strGap, fbRect.y()+strGap/2 + (pos.str()-1)*strGap)));
+        }
+    }
 }
 
 void TfingerBoard::clearFingerBoard() {
-
+    if (m_questFinger) {
+        delete m_questFinger;
+        m_questFinger = 0;
+    }
+    if (m_questString) {
+        delete m_questString;
+        m_questString = 0;
+    }
+    setFinger(Tnote(0,0,0));
 }
 
 bool TfingerBoard::event(QEvent *event) {

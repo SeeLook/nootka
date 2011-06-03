@@ -35,7 +35,7 @@ Tglobals::Tglobals() {
 
     version = "0.6 beta";
 //    path ; Is declared in mainWindow constructor
-    hintsEnabled = true;
+    hintsEnabled = false;
 
 //score widget settings
     SkeySignatureEnabled = true;
