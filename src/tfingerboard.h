@@ -42,7 +42,6 @@ protected:
     void mouseMoveEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *);
     bool event(QEvent *event);
-protected slots:
 
 private:
     // I HAVE TOO SHORT HANDS TO PLAY WITH 'm_' BEFORE EACH PRIVATE VARIABLE :((((
@@ -65,7 +64,7 @@ private:
     QGraphicsScene *m_scene;
     QGraphicsEllipseItem *m_workFinger, *m_fingers[6], *m_questFinger;
     int m_strNr, m_fretNr, m_curStr, m_curFret;
-    QGraphicsLineItem *m_workStrings[6], *m_strings[6];
+    QGraphicsLineItem *m_workStrings[6], *m_strings[6], *m_questString;
         /** Keeps selected note*/
     Tnote m_selNote;
 

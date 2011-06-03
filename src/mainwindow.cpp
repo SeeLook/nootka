@@ -152,8 +152,7 @@ void MainWindow::setMessageBg(QColor bg) {
     if (bg == -1)
         m_statLab->setStyleSheet("background: transparent");
     else {
-        m_statLab->setStyleSheet(
-            QString("background: rgba(%1, %2, %3, 20)").arg(bg.red()).arg(bg.green()).arg(bg.blue()));
+        m_statLab->setStyleSheet(gl->getBGcolorText(bg));
         m_prevBg = bg;
     }
 }

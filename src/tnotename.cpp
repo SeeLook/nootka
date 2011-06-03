@@ -363,11 +363,11 @@ void TnoteName::clearNoteName() {
 void TnoteName::uncheckAllButtons() {
     uncheckAccidButtons();
     noteGroup->setExclusive(false);
-    octaveGroup->setExclusive(false);
+//    octaveGroup->setExclusive(false);
     for (int i = 0; i < 7; i++)
         noteButtons[i]->setChecked(false);
-    for (int i = 0; i < 6; i++)
-        octaveButtons[i]->setChecked(false);
+//    for (int i = 0; i < 6; i++)
+//        octaveButtons[i]->setChecked(false);
     noteGroup->setExclusive(true);
-    octaveGroup->setExclusive(true);
+//    octaveGroup->setExclusive(true);
 }
