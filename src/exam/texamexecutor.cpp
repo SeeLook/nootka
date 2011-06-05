@@ -22,6 +22,7 @@
 #include "tstartexamdlg.h"
 #include "tquestionaswdg.h"
 #include "mainwindow.h"
+#include "tstatementview.h"
 #include <QDebug>
 
 extern Tglobals *gl;
@@ -39,6 +40,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     } else 
       return;
 
+    m_answSumm = 0;
     prepareToExam();
     createQuestionsList();
     m_isSolfege = false;
@@ -124,11 +126,20 @@ void TexamExecutor::createQuestionsList() {
 //                << QString::fromStdString(m_questList[i].note.getName());
 }
 
+
+
 void TexamExecutor::askQuestion() {
+    gl->NnameStyleInNoteName = m_prevStyle;
+    mW->noteName->setNoteNamesOnButt(m_prevStyle);
+    if (m_answSumm)
+        delete m_answSumm;
     clearWidgets();
     mW->setStatusMessage("");
     mW->startExamAct->setDisabled(true);
     mW->setMessageBg(gl->EquestionColor);
+    m_answRequire.octave = true;
+    m_answRequire.accid = true;
+    m_answRequire.key = false;
 
     TQAunit curQ = TQAunit(); // current question
     curQ.qa = m_questList[qrand() % m_questList.size()];
@@ -166,9 +177,6 @@ void TexamExecutor::askQuestion() {
         if ( !m_level.onlyCurrKey) // if key dosen't determine accidentals, we do this
             curQ.qa.note = determineAccid(curQ.qa.note);
     }
-//    qDebug() << QString::fromStdString(curQ.qa.note.getName()) << "Q" << (int)curQ.questionAs
-//            << "A" << (int)curQ.answerAs << curQ.key.getMajorName()
-//            << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
     m_answList << curQ;
 
 	    
@@ -186,6 +194,7 @@ void TexamExecutor::askQuestion() {
 
     }
 
+//    if (curQ.questionAs == TQAtype::e_asName && curQ.answerAs != TQAtype::e_asName) {
     if (curQ.questionAs == TQAtype::e_asName) {
         mW->noteName->askQuestion(curQ.qa.note);
         questText += tr("Point given note name ");
@@ -210,27 +219,23 @@ void TexamExecutor::askQuestion() {
                 else
                     keyTxt = curQ.key.getMinorName();
                 questText += tr(" <b>in %1 key.</b>", "in key signature").arg(keyTxt);
+                m_answRequire.key = true;
 
             } else {
                 mW->score->setKeySignature(curQ.key);
 		mW->score->setKeyViewBg(gl->EquestionColor);
             }
         }
-//        if (m_level.forceAccids && curQ.questionAs != TQAtype::e_asName) {
-        if (m_level.forceAccids) {
-            Tnote::Eacidentals ac;
-            if (curQ.questionAs == TQAtype::e_asNote) {// note has to be another than question
-                m_note2 = forceEnharmAccid(curQ.qa.note); // m_note2 is expected note
-                if (m_note2 == curQ.qa.note) {
-                    qDebug() << "Blind question";
-//                    askQuestion();
-                }
-                ac = (Tnote::Eacidentals)m_note2.acidental;
-            } else {
-                ac = (Tnote::Eacidentals)curQ.qa.note.acidental;
+        if (curQ.questionAs == TQAtype::e_asNote) {// note has to be another than question
+            m_note2 = forceEnharmAccid(curQ.qa.note); // m_note2 is expected note
+            if (m_note2 == curQ.qa.note) {
+                qDebug() << "Blind question";
+                //                    askQuestion();
             }
-            questText += getTextHowAccid(ac);
-            mW->score->forceAccidental(ac);
+        }
+        if (curQ.questionAs == TQAtype::e_asNote || curQ.questionAs == TQAtype::e_asFretPos) {
+            questText += getTextHowAccid((Tnote::Eacidentals)m_note2.acidental);
+            mW->score->forceAccidental((Tnote::Eacidentals)m_note2.acidental);
         }
         mW->score->unLockScore();
         mW->score->setNoteViewBg(0, gl->EanswerColor);
@@ -239,7 +244,6 @@ void TexamExecutor::askQuestion() {
     if (curQ.answerAs == TQAtype::e_asName) {
         questText += TquestionAsWdg::asNameTxt;
         if (curQ.questionAs == TQAtype::e_asName) {
-//            qDebug() << "as name as name";
             m_prevStyle = gl->NnameStyleInNoteName;
             Tnote::EnameStyle tmpStyle = m_prevStyle;
             if (m_isSolfege) {
@@ -256,10 +260,6 @@ void TexamExecutor::askQuestion() {
                 tmpStyle = Tnote::e_italiano_Si;
             }
             m_note2 = forceEnharmAccid(curQ.qa.note); // force other name of note
-            if (m_note2 == curQ.qa.note) {
-                qDebug() << "Blind question";
-//                    askQuestion();
-            }
             /** @todo change and restore style if needed */
             questText = QString("<b>%1. </b>").arg(m_answList.size()) +
                         tr("Give name of <span style=\"color: %1; font-size: %2px;\">").arg(
@@ -269,6 +269,7 @@ void TexamExecutor::askQuestion() {
             mW->noteName->setNoteNamesOnButt(tmpStyle);
             gl->NnameStyleInNoteName = tmpStyle;
         }
+        if (!m_level.requireOctave) m_answRequire.octave = false;
 
         if (curQ.questionAs == TQAtype::e_asFretPos) {
             if (m_level.forceAccids) {
@@ -291,6 +292,10 @@ void TexamExecutor::askQuestion() {
     mW->nootBar->removeAction(nextQuestAct);
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
+
+        qDebug() << QString::fromStdString(curQ.qa.note.getName()) << "Q" << (int)curQ.questionAs
+                << "A" << (int)curQ.answerAs << curQ.key.getMajorName()
+                << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
 }
 
 Tnote TexamExecutor::determineAccid(Tnote n) {
@@ -353,50 +358,55 @@ void TexamExecutor::checkAnswer(){
     mW->startExamAct->setDisabled(false);
 
 // Let's check
-
+    Tnote exN, retN; // example note & returned note
+    // First we determine what have to be checked
+    exN = curQ.qa.note;
     if (curQ.answerAs == TQAtype::e_asNote) {
         if (m_level.manualKey) {
             if (mW->score->keySignature().value() != curQ.key.value())
                 curQ.setMistake(TQAunit::e_wrongKey);
         }
-        Tnote ntc = curQ.qa.note; // note to compare
         if (curQ.questionAs == TQAtype::e_asNote)
-            ntc = m_note2;
-        if (m_level.forceAccids) {
-            if (mW->score->getNote(0) != ntc) {
-                if (mW->score->getNote(0).showAsNatural() == ntc.showAsNatural())
-                    curQ.setMistake(TQAunit::e_wrongAccid);
-                else
-                    curQ.setMistake(TQAunit::e_wrongNote);
-            }
-        } else { // no accid discrimination
-            if (ntc.showAsNatural() != mW->score->getNote(0).showAsNatural())
-                curQ.setMistake(TQAunit::e_wrongNote);
-        }
+            exN = m_note2;
+        retN = mW->score->getNote(0);
     }
-    /** @todo check octave */
+
     if (curQ.answerAs == TQAtype::e_asName) {
-        Tnote ntc = curQ.qa.note; // note to compare
         if (curQ.questionAs == TQAtype::e_asName)
-            ntc = m_note2;
-        if (m_level.forceAccids) {
-            if (mW->noteName->getNoteName() != ntc) {
-                if (mW->noteName->getNoteName().showAsNatural() == ntc.showAsNatural())
-                    curQ.setMistake(TQAunit::e_wrongAccid);
-                else
-                    curQ.setMistake(TQAunit::e_wrongNote);
-            }
-        } else { // no accid discrimination
-            if (ntc.showAsNatural() != mW->noteName->getNoteName().showAsNatural())
-                curQ.setMistake(TQAunit::e_wrongNote);
-        }
-        gl->NnameStyleInNoteName = m_prevStyle;
-	mW->noteName->setNoteNamesOnButt(m_prevStyle);
+            exN = m_note2;
+        retN = mW->noteName->getNoteName();
     }
 
     if (curQ.answerAs == TQAtype::e_asFretPos) {
         if (curQ.qa.pos != mW->guitar->getfingerPos())
             curQ.setMistake(TQAunit::e_wrongPos);
+    } else { // we check are the notes the same
+        qDebug() << QString::fromStdString(exN.getName()) << QString::fromStdString(retN.getName());
+        if (exN != retN) {
+            if (m_answRequire.octave) {
+                Tnote nE = exN.showAsNatural();
+                Tnote nR = retN.showAsNatural();
+                if (nE.note == nR.note && nE.acidental == nR.acidental) {
+                    if (nE.octave != nR.octave)
+                        curQ.setMistake(TQAunit::e_wrongOctave);
+                } else
+                    curQ.setMistake(TQAunit::e_wrongNote);
+            }
+            if (!curQ.wrongNote()) { // There is stil something to check
+                exN.octave = 1;
+                retN.octave = 1;//octaves are checed so we are reseting them
+                if (exN != retN) {// if they are equal it means that only octaves were wrong
+                    if (m_answRequire.accid) {
+                        if(exN.showAsNatural() == retN.showAsNatural())
+                            curQ.setMistake(TQAunit::e_wrongAccid);
+                        else
+                            curQ.setMistake(TQAunit::e_wrongNote);
+                    } else
+                        if (exN.showAsNatural() != retN.showAsNatural())
+                            curQ.setMistake(TQAunit::e_wrongNote);
+                }
+            }
+        }
     }
 
     QString answTxt;
@@ -413,8 +423,13 @@ void TexamExecutor::checkAnswer(){
             answTxt += tr(" Wrong accidental.");
         if (curQ.wrongPos())
             answTxt += tr(" Wrong position.");
+        if (curQ.wrongOctave())
+            answTxt += tr(" Wrong octave.");
     }
     answTxt += "</span>";
+//    m_answSumm = new TstatementView(mW);
+//    m_answSumm->answerSumm(curQ);
+
     mW->setStatusMessage(answTxt);
     mW->examResults->setAnswer(curQ.correct());
 

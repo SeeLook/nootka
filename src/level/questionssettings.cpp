@@ -129,10 +129,6 @@ TasNoteWdg::TasNoteWdg(QWidget *parent) :
 
     mainLay->addWidget(keySignGr);
 
-    forceAccChB = new QCheckBox(tr("force useing appropirate accidental"),this);
-    forceAccChB->setStatusTip(tr("if checked, is possible to select a note<br>with given accidental only."));
-    mainLay->addWidget(forceAccChB);
-
     setLayout(mainLay);
 
     connect(rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));
@@ -154,7 +150,6 @@ TasNoteWdg::TasNoteWdg(QWidget *parent) :
     connect(fromKeyCombo, SIGNAL(activated(int)), this, SLOT(whenParamsChanged()));
     connect(toKeyCombo, SIGNAL(activated(int)), this, SLOT(whenParamsChanged()));
     connect(keyInAnswerChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
-    connect(forceAccChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 
 }
 
@@ -188,7 +183,6 @@ void TasNoteWdg::loadLevel(TexamLevel level) {
     fromKeyCombo->setKeySignature(level.loKey);
     toKeyCombo->setKeySignature(level.hiKey);
     keyInAnswerChB->setChecked(level.manualKey);
-    forceAccChB->setChecked(level.forceAccids);
     keyRangeChanged();
 //    keySignChanged();
     connect(rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));
@@ -229,7 +223,6 @@ void TasNoteWdg::saveLevel(TexamLevel &level) {
             }
         }
     level.manualKey = keyInAnswerChB->isChecked();
-    level.forceAccids = forceAccChB->isChecked();
 }
 
 void TasNoteWdg::keySignChanged() {
@@ -346,15 +339,22 @@ TasFretPosWdg::TasFretPosWdg(QWidget *parent) :
     mainLay->addWidget(asPosGr,1,Qt::AlignCenter);
     mainLay->addStretch(1);
 
+    forceAccChB = new QCheckBox(tr("force useing appropirate accidental"),this);
+    forceAccChB->setStatusTip(tr("if checked, is possible to select a note<br>with given accidental only."));
+    mainLay->addWidget(forceAccChB);
+    mainLay->addStretch(1);
+
     setLayout(mainLay);
 
     connect(asPosGr, SIGNAL(answerStateChanged()), this, SLOT(whenParamsChanged()));
     connect(asPosGr, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+    connect(forceAccChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 }
 
 void TasFretPosWdg::loadLevel(TexamLevel level) {
     asPosGr->setChecked(level.questionAs.isFret());
     asPosGr->setAnswers(level.answersAs[TQAtype::e_asFretPos]);
+    forceAccChB->setChecked(level.forceAccids);
 }
 
 void TasFretPosWdg::whenParamsChanged() {
@@ -367,4 +367,5 @@ void TasFretPosWdg::whenParamsChanged() {
 void TasFretPosWdg::saveLevel(TexamLevel &level) {
     level.questionAs.setAsFret(asPosGr->isChecked());
     level.answersAs[TQAtype::e_asFretPos] = asPosGr->getAnswers();
+    level.forceAccids = forceAccChB->isChecked();
 }

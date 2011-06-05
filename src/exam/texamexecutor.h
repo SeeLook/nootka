@@ -22,11 +22,12 @@
 
 #include "texamlevel.h"
 #include "tqaunit.h"
-//#include <QtGui>
+//#include "tstatementview.h"
 #include <QList>
 
 class MainWindow;
 class QAction;
+class TstatementView;
 
     /** This class manages of exam executing*/
 class TexamExecutor : public QObject
@@ -41,6 +42,11 @@ public:
         bool showKeySignName;
         bool showOtherPos;
         Tnote::EnameStyle nameStyleInNoteName;
+    };
+    struct TanswerRequire {
+        bool octave;
+        bool accid;
+        bool key;
     };
 
 protected:
@@ -82,6 +88,8 @@ private:
     bool m_isSolfege;
     Tnote::EnameStyle m_prevStyle;
     TglStore m_glStore;
+    TanswerRequire m_answRequire;
+    TstatementView *m_answSumm;
 
 };
 
