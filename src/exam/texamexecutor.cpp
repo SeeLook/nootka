@@ -411,7 +411,7 @@ void TexamExecutor::checkAnswer(){
 
     QString answTxt;
     if (curQ.correct()) { // CORRECT
-        answTxt = QString("<span style=\"color: %1;\">").arg(gl->EanswerColor.name());
+        answTxt = QString("<center><span style=\"color: %1;\">").arg(gl->EanswerColor.name());
         answTxt += tr("Exelent !!");
     } else { // WRONG
         answTxt = QString("<span style=\"color: %1;\">").arg(gl->EquestionColor.name());
@@ -424,14 +424,16 @@ void TexamExecutor::checkAnswer(){
         if (curQ.wrongPos())
             answTxt += tr(" Wrong position.");
         if (curQ.wrongOctave())
-            answTxt += tr(" Wrong octave.");
+            answTxt += tr("<br>Wrong octave.");
     }
-    answTxt += "</span>";
+    answTxt += "</span><br>";
+    answTxt += tr("Click <img src=\"%1\" style=\"width: %2px;\"> or press space for next question.</center>").arg(gl->path+"picts/nextQuest.png").arg(22);
 //    m_answSumm = new TstatementView(mW);
 //    m_answSumm->answerSumm(curQ);
 
 //     mW->setStatusMessage(answTxt);
-    QWhatsThis::showText(QPoint(mW->pos().x() + mW->centralWidget()->width()/2, mW->pos().y() + mW->centralWidget()->height()/7),
+    QWhatsThis::showText(QPoint(mW->pos().x() + qRound(mW->centralWidget()->width()*0.7),
+                                mW->pos().y() + mW->centralWidget()->height()/2),
 			 answTxt);
     mW->examResults->setAnswer(curQ.correct());
 
