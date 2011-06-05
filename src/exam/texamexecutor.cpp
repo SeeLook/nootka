@@ -430,7 +430,9 @@ void TexamExecutor::checkAnswer(){
 //    m_answSumm = new TstatementView(mW);
 //    m_answSumm->answerSumm(curQ);
 
-    mW->setStatusMessage(answTxt);
+//     mW->setStatusMessage(answTxt);
+    QWhatsThis::showText(QPoint(mW->pos().x() + mW->centralWidget()->width()/2, mW->pos().y() + mW->centralWidget()->height()/7),
+			 answTxt);
     mW->examResults->setAnswer(curQ.correct());
 
     disableWidgets();
