@@ -39,6 +39,7 @@ SET( NOOTKA_SRCS
   exam/tstartexamdlg.cpp
   exam/tqaunit.cpp
   exam/texamview.cpp
+  exam/tstatementview.cpp
   )
 
 #SET( NOOTKA_HEADERS
@@ -74,6 +75,7 @@ SET( NOOTKA_MOC_SRCS
   exam/tstartexamdlg.h
   exam/texamview.h
   exam/texamexecutor.h
+  exam/tstatementview.h
   )
 
 QT4_WRAP_CPP( NOOTKA_MOCS ${NOOTKA_MOC_SRCS} )

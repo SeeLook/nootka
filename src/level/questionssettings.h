@@ -46,7 +46,7 @@ private:
     QButtonGroup *rangeButGr;
     QCheckBox *sharpsChB, *flatsChB, *doubleAccChB;
     TkeySignComboBox *fromKeyCombo, *toKeyCombo;
-    QCheckBox *keyInAnswerChB, *forceAccChB;
+    QCheckBox *keyInAnswerChB;
 
 private slots:
         /** is called when radio button are checked
@@ -105,6 +105,7 @@ signals:
 
 private:
     TquestionAsWdg *asPosGr;
+    QCheckBox *forceAccChB;
 
 private slots:
         /** Is called when user changes any parameter.
