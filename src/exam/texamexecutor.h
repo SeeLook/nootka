@@ -22,7 +22,6 @@
 
 #include "texamlevel.h"
 #include "tqaunit.h"
-//#include "tstatementview.h"
 #include <QList>
 
 class MainWindow;
@@ -89,7 +88,6 @@ private:
     Tnote::EnameStyle m_prevStyle;
     TglStore m_glStore;
     TanswerRequire m_answRequire;
-    TstatementView *m_answSumm;
 
 };
 

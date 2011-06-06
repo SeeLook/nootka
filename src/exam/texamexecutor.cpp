@@ -22,7 +22,6 @@
 #include "tstartexamdlg.h"
 #include "tquestionaswdg.h"
 #include "mainwindow.h"
-#include "tstatementview.h"
 #include <QDebug>
 
 extern Tglobals *gl;
@@ -40,7 +39,6 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     } else 
       return;
 
-    m_answSumm = 0;
     prepareToExam();
     createQuestionsList();
     m_isSolfege = false;
@@ -54,6 +52,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     nextQuestAct = new QAction(tr("next question"), this);
     nextQuestAct->setStatusTip(nextQuestAct->text());
     nextQuestAct->setIcon(QIcon(gl->path+"picts/nextQuest.png"));
+    nextQuestAct->setShortcut(QKeySequence(Qt::Key_Space));
     connect(nextQuestAct, SIGNAL(triggered()), this, SLOT(askQuestion()));
     mW->nootBar->addAction(nextQuestAct);
 
@@ -131,8 +130,7 @@ void TexamExecutor::createQuestionsList() {
 void TexamExecutor::askQuestion() {
     gl->NnameStyleInNoteName = m_prevStyle;
     mW->noteName->setNoteNamesOnButt(m_prevStyle);
-    if (m_answSumm)
-        delete m_answSumm;
+
     clearWidgets();
     mW->setStatusMessage("");
     mW->startExamAct->setDisabled(true);
@@ -233,9 +231,13 @@ void TexamExecutor::askQuestion() {
                 //                    askQuestion();
             }
         }
-        if (curQ.questionAs == TQAtype::e_asNote || curQ.questionAs == TQAtype::e_asFretPos) {
+        if (curQ.questionAs == TQAtype::e_asNote) {
             questText += getTextHowAccid((Tnote::Eacidentals)m_note2.acidental);
             mW->score->forceAccidental((Tnote::Eacidentals)m_note2.acidental);
+        }
+        if (curQ.questionAs == TQAtype::e_asFretPos) {
+            questText += getTextHowAccid((Tnote::Eacidentals)curQ.qa.note.acidental);
+            mW->score->forceAccidental((Tnote::Eacidentals)curQ.qa.note.acidental);
         }
         mW->score->unLockScore();
         mW->score->setNoteViewBg(0, gl->EanswerColor);
@@ -293,9 +295,9 @@ void TexamExecutor::askQuestion() {
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
 
-        qDebug() << QString::fromStdString(curQ.qa.note.getName()) << "Q" << (int)curQ.questionAs
-                << "A" << (int)curQ.answerAs << curQ.key.getMajorName()
-                << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
+//   qDebug() << QString::fromStdString(curQ.qa.note.getName()) << "Q" << (int)curQ.questionAs
+//            << "A" << (int)curQ.answerAs << curQ.key.getMajorName()
+//            << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
 }
 
 Tnote TexamExecutor::determineAccid(Tnote n) {
@@ -381,7 +383,7 @@ void TexamExecutor::checkAnswer(){
         if (curQ.qa.pos != mW->guitar->getfingerPos())
             curQ.setMistake(TQAunit::e_wrongPos);
     } else { // we check are the notes the same
-        qDebug() << QString::fromStdString(exN.getName()) << QString::fromStdString(retN.getName());
+//        qDebug() << QString::fromStdString(exN.getName()) << QString::fromStdString(retN.getName());
         if (exN != retN) {
             if (m_answRequire.octave) {
                 Tnote nE = exN.showAsNatural();
@@ -411,10 +413,10 @@ void TexamExecutor::checkAnswer(){
 
     QString answTxt;
     if (curQ.correct()) { // CORRECT
-        answTxt = QString("<center><span style=\"color: %1;\">").arg(gl->EanswerColor.name());
+        answTxt = QString("<center><span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EanswerColor.name()).arg(20).arg(gl->getBGcolorText(gl->EanswerColor));
         answTxt += tr("Exelent !!");
     } else { // WRONG
-        answTxt = QString("<span style=\"color: %1;\">").arg(gl->EquestionColor.name());
+        answTxt = QString("<center><span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EquestionColor.name()).arg(20).arg(gl->getBGcolorText(gl->EquestionColor));
         if (curQ.wrongNote())
             answTxt += tr("Wrong note.");
         if (curQ.wrongKey())
@@ -426,21 +428,15 @@ void TexamExecutor::checkAnswer(){
         if (curQ.wrongOctave())
             answTxt += tr("<br>Wrong octave.");
     }
-    answTxt += "</span><br>";
-    answTxt += tr("Click <img src=\"%1\" style=\"width: %2px;\"> or press space for next question.</center>").arg(gl->path+"picts/nextQuest.png").arg(22);
-//    m_answSumm = new TstatementView(mW);
-//    m_answSumm->answerSumm(curQ);
+    answTxt += "</span><br><br>";
+    answTxt += tr("Click <img src=\"%1\"> buton<br>or press space for next question.</center>").arg(gl->path+"picts/next-icon.png");
 
-//     mW->setStatusMessage(answTxt);
-    QWhatsThis::showText(QPoint(mW->pos().x() + qRound(mW->centralWidget()->width()*0.7),
-                                mW->pos().y() + mW->centralWidget()->height()/2),
+    QWhatsThis::showText(QPoint(mW->pos().x() + qRound(mW->centralWidget()->width()*0.75),
+                                mW->pos().y() + qRound(mW->centralWidget()->height()*0.4)),
 			 answTxt);
     mW->examResults->setAnswer(curQ.correct());
 
     disableWidgets();
-//    mW->setStatusMessage("click next for next questtion<br>or press space bar", 2000);
-//     gl->NnameStyleInNoteName = m_prevStyle;
-//     mW->noteName->setNoteNamesOnButt(m_prevStyle);
 
     
 }
@@ -532,7 +528,7 @@ void TexamExecutor::stopExamSlot() {
 }
 
 QString TexamExecutor::getTextHowAccid(Tnote::Eacidentals accid) {
-    QString S = QString(" <span style=\"color: %1\">").arg(gl->GfingerColor.name());
+    QString S = QString("<br><span style=\"color: %1\">").arg(gl->GfingerColor.name());
     if (accid) S += tr("Use %1").arg(QString::fromStdString(signsAcid[accid + 2]));
     else S += tr(" Don't use accidentals!");
     S +=  "</span>";

@@ -35,6 +35,7 @@ void TQAunit::setMistake(Emistake mis) {
     case e_wrongStyle : m_valid |= 8; break;
     case e_wrongPos : m_valid |= 16; break;
 //    case e_wrong???? : m_valid |= 32; break;
-    case e_wrongNote : m_valid |= 64; break;
+    case e_wrongNote : m_valid = 64; break; // If this kind of mistake is commited
+        //  all above has no sence so = instead |= is correct
     }
 }
