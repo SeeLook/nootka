@@ -218,6 +218,13 @@ void TfingerBoard::paint() {
     m_workFinger->setRect(0,0, fretWidth/1.6, qRound(0.7*strGap));
     for (int i=0; i<6; i++)
         m_fingers[i]->setRect(0,0, fretWidth/1.6, qRound(0.7*strGap));
+
+    if (m_questFinger) {
+        m_questFinger->setRect(0,0, fretWidth/1.6, qRound(0.7*strGap));
+        paintFinger(m_questFinger, m_questPos.str()-1, m_questPos.fret());
+    }
+    if (m_questString)
+        m_questString->setLine(m_strings[m_questPos.str()-1]->line());
     m_scene->setBackgroundBrush(QBrush(pixmap));
     setFinger(m_selNote);
 
@@ -336,6 +343,7 @@ void TfingerBoard::paintFinger(QGraphicsEllipseItem *f, char strNr, char fretNr)
 }
 
 void TfingerBoard::askQuestion(TfingerPos pos) {
+    m_questPos = pos;
     QColor qC = gl->EquestionColor;
     qC.setAlpha(200); //it is too much opaque
     if (pos.fret()) { // some fret
@@ -353,8 +361,9 @@ void TfingerBoard::askQuestion(TfingerPos pos) {
             m_questString->setPen(QPen(qC, m_strings[pos.str()-1]->pen().width(),
                                        Qt::SolidLine));
             m_scene->addItem(m_questString);
-            m_questString->setLine(matrix.map(QLineF(1, fbRect.y()+strGap/2 + (pos.str()-1)*strGap,
-                                      width()-1-strGap, fbRect.y()+strGap/2 + (pos.str()-1)*strGap)));
+            m_questString->setLine(m_strings[pos.str()-1]->line());
+//            m_questString->setLine(matrix.map(QLineF(1, fbRect.y()+strGap/2 + (pos.str()-1)*strGap,
+//                                      width()-1-strGap, fbRect.y()+strGap/2 + (pos.str()-1)*strGap)));
         }
     }
 }

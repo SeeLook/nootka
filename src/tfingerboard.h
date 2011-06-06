@@ -67,6 +67,9 @@ private:
     QGraphicsLineItem *m_workStrings[6], *m_strings[6], *m_questString;
         /** Keeps selected note*/
     Tnote m_selNote;
+        /** Position from a question - is needed to calculate size of questioned finger
+        * or string if naughty user changes window size. */
+    TfingerPos m_questPos;
 
     void paintFinger(QGraphicsEllipseItem *f, char strNr, char fretNr);
 
