@@ -129,9 +129,9 @@ void MainWindow::createActions() {
 void MainWindow::resizeEvent(QResizeEvent *) {
     nootBar->setIconSize(QSize(height()/21, height()/21));
     score->setFixedWidth((centralWidget()->width()/13)*6);
-    m_statLab->setFixedHeight(height()/10);
+    m_statLab->setFixedHeight(height()/9);
     QFont f = m_statLab->font();
-    f.setPixelSize(m_statLab->height()/3);
+    f.setPixelSize(m_statLab->height()/4);
     m_statLab->setFont(f);
     guitar->setFixedHeight(centralWidget()->height()/3);
     noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(height() * 0.6)));
