@@ -178,6 +178,7 @@ void TnoteName::setNameText() {
 
 /** public setNoteName methods */
 void TnoteName::setNoteName(Tnote note) {
+    qDebug() << "set noteName: " << (int)note.note;
     if (note.note) {
         m_notes[0] = note;
         setButtons(note);
@@ -316,11 +317,17 @@ void TnoteName::setAmbitus(Tnote lo, Tnote hi) {
     m_ambitMax = hi.getChromaticNrOfNote();
 }
 
-void TnoteName::askQuestion(Tnote note) {
+void TnoteName::askQuestion(Tnote note, bool isAnswer) {
+//    qDebug() << "asking " << (int)note.note;
     setNoteName(note);
+//    m_notes[0] = Tnote(0,0,0); // Reset, otherwise getNoteName() returns it
+    QColor C = gl->EquestionColor;
+    if (isAnswer) C = gl->EanswerColor;
     nameLabel->setText(nameLabel->text() +
-                       QString(" <span style=\"color: %1\">?</span>").arg(gl->EquestionColor.name()));
-    nameLabel->setStyleSheet(gl->getBGcolorText(gl->EquestionColor) + styleTxt);
+                       QString(" <span style=\"color: %1\">?</span>").arg(C.name()));
+//    nameLabel->setText(noteToRichText(note) +
+//                       QString(" <span style=\"color: %1\">?</span>").arg(C.name()));
+    nameLabel->setStyleSheet(gl->getBGcolorText(C) + styleTxt);
     uncheckAllButtons();
 }
 
