@@ -110,8 +110,8 @@ void MainWindow::createActions() {
     connect(startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
 
     aboutAct = new QAction(tr("about"), this);
-//    aboutAct->setStatusTip(tr("About Nootka"));
-    aboutAct->setMenuRole(QAction::AboutRole);
+    aboutAct->setStatusTip(tr("About Nootka"));
+//    aboutAct->setMenuRole(QAction::AboutRole);
     aboutAct->setIcon(QIcon(gl->path+"picts/about.png"));
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(aboutSlot()));
 

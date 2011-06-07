@@ -249,6 +249,7 @@ void TexamExecutor::askQuestion() {
     if (curQ.answerAs == TQAtype::e_asName) {
         questText += TquestionAsWdg::asNameTxt;
         if (curQ.questionAs == TQAtype::e_asName) {
+            qDebug() << "as name";
             m_prevStyle = gl->NnameStyleInNoteName;
             Tnote::EnameStyle tmpStyle = m_prevStyle;
             if (m_isSolfege) {
@@ -268,7 +269,7 @@ void TexamExecutor::askQuestion() {
             /** @todo change and restore style if needed */
             questText = QString("<b>%1. </b>").arg(m_answList.size()) +
                         tr("Give name of <span style=\"color: %1; font-size: %2px;\">").arg(
-                                gl->EquestionColor.name()).arg(mW->getFontSize()*1.5) +
+                                gl->EquestionColor.name()).arg(mW->getFontSize()*2) +
                         TnoteName::noteToRichText(curQ.qa.note) + ". </span>" +
                         getTextHowAccid((Tnote::Eacidentals)m_note2.acidental);
             mW->noteName->setNoteNamesOnButt(tmpStyle);
