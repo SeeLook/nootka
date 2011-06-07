@@ -41,6 +41,10 @@ public:
     void setStatusMessage(QString msg, int time);
     void setStatusMessage(QString msg);
     void setMessageBg (QColor bg);
+        /**  Returns font size used in status message label in pixels.
+        * Its size depends on whole window size and is used for fonts' sizes
+        * of others widgets. */
+    int getFontSize() {return m_statFontSize; }
 
 public slots:
     void createSettingsDialog();
@@ -76,6 +80,7 @@ private:
         * and stops any status messages in this time.*/
     bool m_lockStat;
     QColor m_prevBg;
+    int m_statFontSize;
 
 
     void createActions();

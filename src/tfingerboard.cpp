@@ -181,8 +181,7 @@ void TfingerBoard::paint() {
         m_workStrings[i]->setLine(matrix.map(QLineF(1, fbRect.y()+strGap/2+i*strGap,
                                   width()-1-strGap, fbRect.y()+strGap/2+i*strGap)));
         m_strings[i]->setPen(QPen(palette().highlight().color(),strWidth,Qt::SolidLine));
-        m_strings[i]->setLine(matrix.map(QLineF(1, fbRect.y()+strGap/2+i*strGap,
-                                  width()-1-strGap, fbRect.y()+strGap/2+i*strGap)));
+        m_strings[i]->setLine(m_workStrings[i]->line());
   // drawing digits of strings in circles
         painter.setPen(QPen(strColor,1,Qt::SolidLine));
         int wd40;
@@ -217,10 +216,10 @@ void TfingerBoard::paint() {
 //    m_workFinger->setRect(0,0, fretWidth/1.7, qRound(0.6*strGap));
     m_workFinger->setRect(0,0, fretWidth/1.6, qRound(0.7*strGap));
     for (int i=0; i<6; i++)
-        m_fingers[i]->setRect(0,0, fretWidth/1.6, qRound(0.7*strGap));
+        m_fingers[i]->setRect(m_workFinger->rect());
 
     if (m_questFinger) {
-        m_questFinger->setRect(0,0, fretWidth/1.6, qRound(0.7*strGap));
+        m_questFinger->setRect(m_workFinger->rect());
         paintFinger(m_questFinger, m_questPos.str()-1, m_questPos.fret());
     }
     if (m_questString)
