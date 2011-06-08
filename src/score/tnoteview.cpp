@@ -108,7 +108,7 @@ void TnoteView::resize(int co) {
             m_mainDownLines[i]->setLine((qreal)2*m_coeff,(qreal)m_coeff*2*(i+13),(qreal)width(),(qreal)m_coeff*2*(i+13));
         }
     }
-    qreal fontFactor = 3.7;
+    qreal fontFactor = 4;
     QFont font(QFont("Emmentaler"));
     font.setPointSizeF(fontFactor*m_coeff);
     m_workAccid->setFont(font);
@@ -118,7 +118,7 @@ void TnoteView::resize(int co) {
         m_workAccid->setText(QString(QChar(0xe11a)));
         reset = true;
     }
-    m_accTextOffset = m_workAccid->boundingRect().height()/2 - 1;
+    m_accTextOffset = m_workAccid->boundingRect().height()/2 - qRound(m_coeff * 0.5);
     if (reset) m_workAccid->setText("");
 
     if (m_mainNote->isVisible() && m_mainPosY) moveNote(m_mainPosY);

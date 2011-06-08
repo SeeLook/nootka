@@ -71,14 +71,14 @@ TkeySignatureView::TkeySignatureView(TscoreWidgetSimple *parent, char _keySign) 
 void TkeySignatureView::resize(int co) {
     m_coeff = co;
     m_scene->setSceneRect(0,0,8*m_coeff,height());
-    const qreal fontFactor = 3.5;
+    const qreal fontFactor = 4;
     QFont font(QFont("Emmentaler"));
     font.setPointSizeF(fontFactor*m_coeff);
     int base;
     if (m_accidentals[0]->text() == "")
         m_accidentals[0]->setText(QString(QChar(0xe11a)));
     m_accidentals[0]->setFont(font);
-    m_accTextOffset = m_accidentals[0]->boundingRect().height()/2-m_coeff/5;
+    m_accTextOffset = m_accidentals[0]->boundingRect().height()/2 - qRound(m_coeff * 1.5);
     if (m_keySignature >= 0) base = 0;
     else base = 6;
     for (int i=0; i<7; i++) {
@@ -92,8 +92,8 @@ void TkeySignatureView::resize(int co) {
         m_keyNameText->setFont(this->font());
         m_keyNameText->hide();
         QString S = m_keyNameText->text();
-        m_keyNameText->setText("Cis-mminorr");//simple text to determine max width
-        while (m_keyNameText->boundingRect().width()>width()) {
+        m_keyNameText->setText("Cis-minor");//simple text to determine max width
+        while (m_keyNameText->boundingRect().width() > width()) {
             QFont f = m_keyNameText->font();
             f.setPointSize(f.pointSize()-1);
             m_keyNameText->setFont(f);
