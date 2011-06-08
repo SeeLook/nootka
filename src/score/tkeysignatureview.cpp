@@ -78,7 +78,7 @@ void TkeySignatureView::resize(int co) {
     if (m_accidentals[0]->text() == "")
         m_accidentals[0]->setText(QString(QChar(0xe11a)));
     m_accidentals[0]->setFont(font);
-    m_accTextOffset = m_accidentals[0]->boundingRect().height()/2 - qRound(m_coeff * 1.5);
+    m_accTextOffset = m_accidentals[0]->boundingRect().height()/2 - qRound(m_coeff * 0.5);
     if (m_keySignature >= 0) base = 0;
     else base = 6;
     for (int i=0; i<7; i++) {

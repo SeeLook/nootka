@@ -45,8 +45,10 @@ TnoteName::TnoteName(QWidget *parent) :
     nameLabel->setAlignment(Qt::AlignCenter);
     nameLabel->setStyleSheet("background-color: palette(Base); " + styleTxt);
 
+    mainLay->addStretch(1);
     mainLay->addWidget(nameLabel);
-    mainLay->addSpacing(1);
+//     mainLay->addSpacing(1);
+    mainLay->addStretch(1);
 // BUTTONS WITH NOTES TOOLBAR
     QHBoxLayout *noteLay = new QHBoxLayout();
     noteLay->addStretch(1);
@@ -170,6 +172,7 @@ void TnoteName::setNameText() {
             txt = txt + ")</span>";
         }
         nameLabel->setText(txt);
+	qDebug() << txt;
       } else
           nameLabel->setText("<span style=\"font-size: 16px; color: #ff0000;\"><b>" +
                              tr("The note is beyond<br>scale of the guitar") + "</b></span>");
@@ -307,9 +310,9 @@ void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
 }
 
 void TnoteName::resize() {
-    nameLabel->setFixedHeight((height()/5));
+    nameLabel->setFixedHeight(qRound(height() * 0.3));
     nameLabel->setFont(QFont(nameLabel->font().family(), qRound(nameLabel->height() * 0.55), 50));
-    setNameText();
+//     setNameText();
 }
 
 void TnoteName::setAmbitus(Tnote lo, Tnote hi) {
@@ -324,7 +327,8 @@ void TnoteName::askQuestion(Tnote note, bool isAnswer) {
     QColor C = gl->EquestionColor;
     if (isAnswer) C = gl->EanswerColor;
     nameLabel->setText(nameLabel->text() +
-                       QString(" <span style=\"color: %1\">?</span>").arg(C.name()));
+                       QString(" <span style=\"color: %1\">?</span>").arg(gl->EquestionColor.name()));
+//     qDebug() << nameLabel->text();
 //    nameLabel->setText(noteToRichText(note) +
 //                       QString(" <span style=\"color: %1\">?</span>").arg(C.name()));
     nameLabel->setStyleSheet(gl->getBGcolorText(C) + styleTxt);

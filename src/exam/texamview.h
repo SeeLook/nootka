@@ -41,6 +41,7 @@ public:
     void questionStart();
     quint16 questionStop();
     void setAnswer(bool wasCorrect);
+    void setFontSize(int s);
 
     int getAverageTime() { return qRound(m_averTime); }
     QTime getTotalTime() {return m_totalTime; }
