@@ -49,16 +49,17 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     for (int i = 0; i < 4; i++)
         m_level.answersAs[i].randNext();
 
-    nextQuestAct = new QAction(tr("next question"), this);
+    nextQuestAct = new QAction(tr("next question (space)"), this);
     nextQuestAct->setStatusTip(nextQuestAct->text());
     nextQuestAct->setIcon(QIcon(gl->path+"picts/nextQuest.png"));
     nextQuestAct->setShortcut(QKeySequence(Qt::Key_Space));
     connect(nextQuestAct, SIGNAL(triggered()), this, SLOT(askQuestion()));
     mW->nootBar->addAction(nextQuestAct);
 
-    checkAct = new QAction(tr("check answer"), this);
+    checkAct = new QAction(tr("check answer (enter)"), this);
     checkAct->setStatusTip(checkAct->text());
     checkAct->setIcon(QIcon(gl->path+"picts/check.png"));
+    checkAct->setShortcut(QKeySequence(Qt::Key_Return));
     // shortcuts
     connect(checkAct, SIGNAL(triggered()), this, SLOT(checkAnswer()));
 
@@ -435,11 +436,13 @@ void TexamExecutor::checkAnswer(){
         if (curQ.wrongOctave())
             answTxt += tr("<br>Wrong octave.");
     }
-    answTxt += "</span><br><br><hr>";
-    answTxt += tr("Click <img src=\"%1\"> buton<br>or press space for next question.</center>").arg(gl->path+"picts/next-icon.png");
+    answTxt += "</span><br>";
+    if (gl->hintsEnabled)
+	answTxt += tr("<hr>Click <img src=\"%1\"> buton<br>or press space for next question.").arg(gl->path+"picts/next-icon.png");
+    answTxt += "</center>";
 
     QWhatsThis::showText(QPoint(mW->pos().x() + qRound(mW->centralWidget()->width()*0.75),
-                                mW->pos().y() + qRound(mW->centralWidget()->height()*0.45)),
+                                mW->pos().y() + qRound(mW->centralWidget()->height()*0.5)),
 			 answTxt);
     mW->examResults->setAnswer(curQ.correct());
 

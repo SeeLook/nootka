@@ -121,3 +121,13 @@ void TexamView::setAnswer(bool wasCorrect) {
     m_effLab->setText(QString("%1 %").arg(qRound(eff)));
 }
 
+void TexamView::setFontSize(int s) {
+  QFont f = m_reactTimeLab->font();
+  f.setPixelSize(s);
+  m_reactTimeLab->setFont(f);
+  m_averTimeLab->setFont(f);
+  m_totalTimeLab->setFont(f);
+  m_mistLab->setFont(f);
+  m_corrLab->setFont(f);
+  m_effLab->setFont(f);
+}
