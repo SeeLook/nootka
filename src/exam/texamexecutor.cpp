@@ -35,6 +35,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     QString actTxt;
     TstartExamDlg::Eactions userAct = startDlg->showDialog(actTxt, m_level);
     if (userAct == TstartExamDlg::e_newLevel) {
+	mW->examResults->startExam(QTime(0,0));
 
     } else 
       return;
@@ -197,7 +198,7 @@ void TexamExecutor::askQuestion() {
     if (curQ.questionAs == TQAtype::e_asName) {
         mW->noteName->askQuestion(curQ.qa.note, (curQ.answerAs == TQAtype::e_asName) );
         questText += tr("Point given note name ");
-        qDebug() << "name asked";
+//         qDebug() << "name asked";
     }
 
     if (curQ.questionAs == TQAtype::e_asFretPos) {
@@ -250,7 +251,7 @@ void TexamExecutor::askQuestion() {
     if (curQ.answerAs == TQAtype::e_asName) {
         questText += TquestionAsWdg::asNameTxt;
         if (curQ.questionAs == TQAtype::e_asName) {
-            qDebug() << "as name";
+//             qDebug() << "as name";
             m_prevStyle = gl->NnameStyleInNoteName;
             Tnote::EnameStyle tmpStyle = m_prevStyle;
             if (m_isSolfege) {
@@ -300,9 +301,9 @@ void TexamExecutor::askQuestion() {
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
 
-   qDebug() << QString::fromStdString(curQ.qa.note.getName()) << "Q" << (int)curQ.questionAs
-            << "A" << (int)curQ.answerAs << curQ.key.getMajorName()
-            << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
+//    qDebug() << QString::fromStdString(curQ.qa.note.getName()) << "Q" << (int)curQ.questionAs
+//             << "A" << (int)curQ.answerAs << curQ.key.getMajorName()
+//             << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
 }
 
 Tnote TexamExecutor::determineAccid(Tnote n) {
@@ -389,7 +390,7 @@ void TexamExecutor::checkAnswer(){
             curQ.setMistake(TQAunit::e_wrongPos);
     } else { // we check are the notes the same
       if (retN.note) {
-        qDebug() << QString::fromStdString(exN.getName()) << QString::fromStdString(retN.getName());
+//         qDebug() << QString::fromStdString(exN.getName()) << QString::fromStdString(retN.getName());
         if (exN != retN) {
             if (m_answRequire.octave) {
                 Tnote nE = exN.showAsNatural();
@@ -533,6 +534,7 @@ void TexamExecutor::clearWidgets() {
 void TexamExecutor::stopExamSlot() {
 //    mW->setMessageBg();
     mW->setStatusMessage("so a pity");
+    clearWidgets();
 
     restoreAfterExam();
 }

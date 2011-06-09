@@ -67,7 +67,7 @@ TexamView::TexamView(QWidget *parent) :
     mainLay->addWidget(reactGr);
     mainLay->addStretch(1);
 
-    m_totalTimeLab = new QLabel("0:00", this);
+    m_totalTimeLab = new QLabel("0:00:00", this);
     QVBoxLayout *totalLay = new QVBoxLayout;
     totalLay->addWidget(m_totalTimeLab);
     QGroupBox *totalGr = new QGroupBox(this);
@@ -84,11 +84,14 @@ TexamView::TexamView(QWidget *parent) :
     m_effLab->setToolTip(tr("effectiveness"));
     m_averTimeLab->setToolTip(tr("average reaction's time [in seconds]"));
     m_reactTimeLab->setToolTip(tr("reaction's time [in seconds]"));
+    m_reactTimeLab->setAlignment(Qt::AlignCenter);
     m_totalTimeLab->setToolTip(tr("total exam's time"));
+    m_totalTimeLab->setAlignment(Qt::AlignCenter);
     
     m_reactTimer = new QTimer(this);
     connect(m_reactTimer, SIGNAL(timeout()), this, SLOT(countReactTime()));
 
+    m_totalTime.start();
     startExam(QTime(0,0));
 
 }
@@ -96,13 +99,13 @@ TexamView::TexamView(QWidget *parent) :
 void TexamView::questionStart() {
     m_reactTime.start();
     m_questNr++;
-    m_reactTimer->start(1000);
+//     /*m_reactTimer->start(1000);*/
 }
 
 quint16 TexamView::questionStop() {
     quint16 t = qRound(m_reactTime.elapsed() / 100);
     m_reactTimer->stop();
-    m_reactTimeLab->setText(QString("%1").arg((qreal)t/10));
+    m_reactTimeLab->setText(QString("%1").arg((qreal)t/10, 0, 'f', 1, '0'));
     m_averTime = (m_averTime * (m_questNr-1) + t) / m_questNr;
     m_averTimeLab->setText(QString("%1").arg((qreal)qRound(m_averTime)/10));
     return t;
@@ -110,10 +113,11 @@ quint16 TexamView::questionStop() {
 
 void TexamView::startExam(QTime total, int questNumber, int averTime, int mistakes) {
     m_questNr = questNumber;
-    m_totalTime  = total;
+//     m_totalTime = QTime(total);
     m_averTime = averTime;
     m_mistakes = mistakes;
     /** @todo load initial values to widgets */
+    m_totalTime.start();
 }
 
 void TexamView::setAnswer(bool wasCorrect) {
@@ -135,8 +139,12 @@ void TexamView::setFontSize(int s) {
   m_mistLab->setFont(f);
   m_corrLab->setFont(f);
   m_effLab->setFont(f);
+  m_reactTimeLab->setFixedWidth(s * 4);
+  m_totalTimeLab->setFixedWidth(s * 4);
 }
 
 void TexamView::countReactTime() {
-    m_reactTimeLab->setText(QString("%1").arg(m_reactTime.elapsed() / 1000, 0, 'g', 1));
+    m_reactTimeLab->setText(QString("%1").arg(m_reactTime.elapsed() / 1000, 0, 'f', 1, '0'));
+//     m_totalTimeLab->setText(m_totalTime.toString("hh:mm:ss"));
+    m_totalTimeLab->setText(QString("%1:%2:%3").arg(m_totalTime.elapsed()/3600000).arg((m_totalTime.elapsed()%36000000)/60000, 2, 'f', 0, '0').arg((m_totalTime.elapsed()%60000)/1000, 2, 'f', 0, '0'));
 }
