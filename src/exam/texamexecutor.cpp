@@ -274,6 +274,7 @@ void TexamExecutor::askQuestion() {
                                 gl->EquestionColor.name()).arg(mW->getFontSize()*2) +
                         TnoteName::noteToRichText(curQ.qa.note) + ". </span>" +
                         getTextHowAccid((Tnote::Eacidentals)m_note2.acidental);
+            mW->noteName->askQuestion(curQ.qa.note, true, (Tnote::Eacidentals)m_note2.acidental );
             mW->noteName->setNoteNamesOnButt(tmpStyle);
             gl->NnameStyleInNoteName = tmpStyle;
         }

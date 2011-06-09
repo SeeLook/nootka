@@ -318,15 +318,20 @@ void TnoteName::setAmbitus(Tnote lo, Tnote hi) {
     m_ambitMax = hi.getChromaticNrOfNote();
 }
 
-void TnoteName::askQuestion(Tnote note, bool isAnswer) {
+void TnoteName::askQuestion(Tnote note, bool isAnswer, Tnote::Eacidentals useAcc) {
     setNoteName(note);
-//    m_notes[0] = Tnote(0,0,0); // Reset, otherwise getNoteName() returns it
     QColor C = gl->EquestionColor;
-    if (isAnswer) C = gl->EanswerColor;
+    QString accTxt = "";
+    if (isAnswer) {
+        C = gl->EanswerColor;
+        if (useAcc)
+            accTxt = QString(" <sub><i><span style=\"color: %1;\">(%2)</span></i></sub>").arg(gl->GfingerColor.name()).arg(QString::fromStdString(signsAcid[useAcc + 2]));
+    }
     nameLabel->setText(nameLabel->text() +
-                       QString(" <span style=\"color: %1\">?</span>").arg(gl->EquestionColor.name()));
+                       QString(" <span style=\"color: %1\">?</span>").arg(gl->EquestionColor.name()) + accTxt);
     nameLabel->setStyleSheet(gl->getBGcolorText(C) + styleTxt);
     uncheckAllButtons();
+    m_notes[0] = Tnote(0,0,0); // Reset, otherwise getNoteName() returns it
 }
 
 void TnoteName::setNameDisabled(bool isDisabled) {

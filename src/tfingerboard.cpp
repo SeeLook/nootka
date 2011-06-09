@@ -361,8 +361,6 @@ void TfingerBoard::askQuestion(TfingerPos pos) {
                                        Qt::SolidLine));
             m_scene->addItem(m_questString);
             m_questString->setLine(m_strings[pos.str()-1]->line());
-//            m_questString->setLine(matrix.map(QLineF(1, fbRect.y()+strGap/2 + (pos.str()-1)*strGap,
-//                                      width()-1-strGap, fbRect.y()+strGap/2 + (pos.str()-1)*strGap)));
         }
     }
 }

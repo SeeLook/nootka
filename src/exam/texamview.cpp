@@ -97,15 +97,16 @@ TexamView::TexamView(QWidget *parent) :
 }
 
 void TexamView::questionStart() {
+    countReactTime();
     m_reactTime.start();
     m_questNr++;
-//     /*m_reactTimer->start(1000);*/
+    m_reactTimer->start(1000);
 }
 
 quint16 TexamView::questionStop() {
     quint16 t = qRound(m_reactTime.elapsed() / 100);
     m_reactTimer->stop();
-    m_reactTimeLab->setText(QString("%1").arg((qreal)t/10, 0, 'f', 1, '0'));
+    m_reactTimeLab->setText(QString("%1").arg((qreal)t/10, 0, 'f', 1));
     m_averTime = (m_averTime * (m_questNr-1) + t) / m_questNr;
     m_averTimeLab->setText(QString("%1").arg((qreal)qRound(m_averTime)/10));
     return t;
@@ -145,6 +146,7 @@ void TexamView::setFontSize(int s) {
 
 void TexamView::countReactTime() {
     m_reactTimeLab->setText(QString("%1").arg(m_reactTime.elapsed() / 1000, 0, 'f', 1, '0'));
+//    m_totalTime.elapsed();
 //     m_totalTimeLab->setText(m_totalTime.toString("hh:mm:ss"));
-    m_totalTimeLab->setText(QString("%1:%2:%3").arg(m_totalTime.elapsed()/3600000).arg((m_totalTime.elapsed()%36000000)/60000, 2, 'f', 0, '0').arg((m_totalTime.elapsed()%60000)/1000, 2, 'f', 0, '0'));
+//    m_totalTimeLab->setText(QString("%1:%2:%3").arg(m_totalTime.elapsed()/3600000).arg((m_totalTime.elapsed()%36000000)/60000, 2, 'f', 0, '0').arg((m_totalTime.elapsed()%60000)/1000, 2, 'f', 0, '0'));
 }
