@@ -86,6 +86,9 @@ TexamView::TexamView(QWidget *parent) :
     m_reactTimeLab->setToolTip(tr("reaction's time [in seconds]"));
     m_totalTimeLab->setToolTip(tr("total exam's time"));
     
+    m_reactTimer = new QTimer(this);
+    connect(m_reactTimer, SIGNAL(timeout()), this, SLOT(countReactTime()));
+
     startExam(QTime(0,0));
 
 }
@@ -93,10 +96,12 @@ TexamView::TexamView(QWidget *parent) :
 void TexamView::questionStart() {
     m_reactTime.start();
     m_questNr++;
+    m_reactTimer->start(1000);
 }
 
 quint16 TexamView::questionStop() {
     quint16 t = qRound(m_reactTime.elapsed() / 100);
+    m_reactTimer->stop();
     m_reactTimeLab->setText(QString("%1").arg((qreal)t/10));
     m_averTime = (m_averTime * (m_questNr-1) + t) / m_questNr;
     m_averTimeLab->setText(QString("%1").arg((qreal)qRound(m_averTime)/10));
@@ -130,4 +135,8 @@ void TexamView::setFontSize(int s) {
   m_mistLab->setFont(f);
   m_corrLab->setFont(f);
   m_effLab->setFont(f);
+}
+
+void TexamView::countReactTime() {
+    m_reactTimeLab->setText(QString("%1").arg(m_reactTime.elapsed() / 1000, 0, 'g', 1));
 }
