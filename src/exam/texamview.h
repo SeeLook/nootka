@@ -22,11 +22,13 @@
 
 #include <QWidget>
 #include <QTime>
+#include <QTimer>
 
 
 //class QLCDNumber;
 class QLabel;
 class QTime;
+class QTimer;
 
     /** A @class TexamView represents status of exam.
     * It displays times and numbers of valid/invalid questions.
@@ -58,7 +60,11 @@ private:
     QTime m_reactTime;
     int m_questNr, m_mistakes;
     qreal m_averTime;
+    QTimer *m_reactTimer;
     QTime m_totalTime;
+
+private slots:
+    void countReactTime();
 
 };
 
