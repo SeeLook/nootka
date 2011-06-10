@@ -318,20 +318,24 @@ void TnoteName::setAmbitus(Tnote lo, Tnote hi) {
     m_ambitMax = hi.getChromaticNrOfNote();
 }
 
-void TnoteName::askQuestion(Tnote note, bool isAnswer, Tnote::Eacidentals useAcc) {
+//void TnoteName::askQuestion(Tnote note, bool isAnswer, Tnote::Eacidentals useAcc) {
+void TnoteName::askQuestion(Tnote note) {
     setNoteName(note);
-    QColor C = gl->EquestionColor;
-    QString accTxt = "";
-    if (isAnswer) {
-        C = gl->EanswerColor;
-        if (useAcc)
-            accTxt = QString(" <sub><i><span style=\"color: %1;\">(%2)</span></i></sub>").arg(gl->GfingerColor.name()).arg(QString::fromStdString(signsAcid[useAcc + 2]));
-    }
     nameLabel->setText(nameLabel->text() +
-                       QString(" <span style=\"color: %1\">?</span>").arg(gl->EquestionColor.name()) + accTxt);
-    nameLabel->setStyleSheet(gl->getBGcolorText(C) + styleTxt);
-    uncheckAllButtons();
+                       QString(" <span style=\"color: %1\">?</span>").arg(gl->EquestionColor.name()));
+    nameLabel->setStyleSheet(gl->getBGcolorText(gl->EquestionColor) + styleTxt);
+    uncheckAllButtons();    
+}
+
+void TnoteName::prepAnswer(Tnote backNote, char strNr) {
+    nameLabel->setStyleSheet(gl->getBGcolorText(gl->EanswerColor) + styleTxt);
+    if (backNote.acidental) {
+        QString accTxt = QString(" <sub><i><span style=\"color: %1;\">(%2)</span></i></sub>").arg(gl->GfingerColor.name()).arg(QString::fromStdString(signsAcid[backNote.acidental + 2]));
+        nameLabel->setText(nameLabel->text() + accTxt);
+    }
+    setNameDisabled(false);
     m_notes[0] = Tnote(0,0,0); // Reset, otherwise getNoteName() returns it
+    /** @todo prepare octave button*/
 }
 
 void TnoteName::setNameDisabled(bool isDisabled) {
@@ -345,6 +349,7 @@ void TnoteName::setNameDisabled(bool isDisabled) {
         flatButt->setDisabled(true);
         sharpButt->setDisabled(true);
         dblSharpButt->setDisabled(true);
+//        nameLabel->setStyleSheet(gl->getBGcolorText(-1) + styleTxt);
     } else {
         for (int i=0; i<7; i++)
             noteButtons[i]->setDisabled(false);
@@ -354,7 +359,7 @@ void TnoteName::setNameDisabled(bool isDisabled) {
         flatButt->setDisabled(false);
         sharpButt->setDisabled(false);
         dblSharpButt->setDisabled(false);
-
+//        nameLabel->setStyleSheet("background-color: palette(Base); " + styleTxt);
     }
 }
 

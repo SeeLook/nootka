@@ -165,6 +165,7 @@ void TscoreWidget::clearScore() {
       setKeySignature(TkeySignature());
       setKeyViewBg(-1);;
   }
+  changeAccidButtonsState(0); // reset buttons with accidentals
 }
 
 void TscoreWidget::isExamExecuting(bool isIt) {

@@ -35,7 +35,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     QString actTxt;
     TstartExamDlg::Eactions userAct = startDlg->showDialog(actTxt, m_level);
     if (userAct == TstartExamDlg::e_newLevel) {
-	mW->examResults->startExam(QTime(0,0));
+//        mW->examResults->startExam(QTime(0,0));
 
     } else 
       return;
@@ -71,7 +71,6 @@ void TexamExecutor::createQuestionsList() {
     char openStr[6];
     for (int i=0; i<6; i++)
         openStr[i] = gl->Gtune()[i+1].getChromaticNrOfNote();
-
 
 //    for (int i=0; i<6; i++) qDebug() << i << ": " << (int)openStr[strOrder[i]]
 //            << " : " << (int)strOrder[i];
@@ -140,6 +139,7 @@ void TexamExecutor::askQuestion() {
     m_answRequire.octave = true;
     m_answRequire.accid = true;
     m_answRequire.key = false;
+    m_note2 = Tnote(0,0,0);
 
     TQAunit curQ = TQAunit(); // current question
     curQ.qa = m_questList[qrand() % m_questList.size()];
@@ -153,7 +153,9 @@ void TexamExecutor::askQuestion() {
                 curQ.key = m_level.loKey;
                 tmpNote = m_level.loKey.inKey(curQ.qa.note);
             } else { // for multi keys
-                curQ.key = TkeySignature((qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1))-7);
+//             curQ.key = TkeySignature((qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1))-7);
+                curQ.key = TkeySignature((qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) +
+                                         m_level.loKey.value());
                 if (m_level.onlyCurrKey) { // if hote is in current key only
                     int keyRangeWidth = m_level.hiKey.value() - m_level.loKey.value();
                     int patience = 0; // we are lookimg for suitable key
@@ -179,7 +181,10 @@ void TexamExecutor::askQuestion() {
     }
     m_answList << curQ;
 
-	    
+    qDebug() << QString::fromStdString(curQ.qa.note.getName()) << "Q" << (int)curQ.questionAs
+            << "A" << (int)curQ.answerAs << curQ.key.getMajorName()
+            << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
+
   // ASKING QUESIONS
     QString questText = QString("<b>%1. </b>").arg(m_answList.size()); //question number
     if (curQ.questionAs == TQAtype::e_asNote) {
@@ -191,12 +196,10 @@ void TexamExecutor::askQuestion() {
             // when answer is also asNote we determine key in preparing answer part
             mW->score->askQuestion(curQ.qa.note, curQ.key, strNr);
         else mW->score->askQuestion(curQ.qa.note, strNr);
-
     }
-
 //    if (curQ.questionAs == TQAtype::e_asName && curQ.answerAs != TQAtype::e_asName) {
     if (curQ.questionAs == TQAtype::e_asName) {
-        mW->noteName->askQuestion(curQ.qa.note, (curQ.answerAs == TQAtype::e_asName) );
+        mW->noteName->askQuestion(curQ.qa.note);
         questText += tr("Point given note name ");
 //         qDebug() << "name asked";
     }
@@ -212,10 +215,11 @@ void TexamExecutor::askQuestion() {
         if (m_level.useKeySign) {
             if (m_level.manualKey) { // user have to manually secect a key
                 mW->score->setKeySignature( // we randomize some key to cover this expected one
-                        (qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1))-7);
-		mW->score->setKeyViewBg(gl->EanswerColor);
+                        (qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) +
+                        m_level.loKey.value());
+                mW->score->setKeyViewBg(gl->EanswerColor);
                 QString keyTxt;
-                if (qrand() % 2) // we randomize: ask for minor or major key ?
+                if (qrand() % 2) // randomize: ask for minor or major key ?
                     keyTxt = curQ.key.getMajorName();
                 else
                     keyTxt = curQ.key.getMinorName();
@@ -224,7 +228,7 @@ void TexamExecutor::askQuestion() {
 
             } else {
                 mW->score->setKeySignature(curQ.key);
-		mW->score->setKeyViewBg(gl->EquestionColor);
+                mW->score->setKeyViewBg(gl->EquestionColor);
             }
         }
         if (curQ.questionAs == TQAtype::e_asNote) {// note has to be another than question
@@ -236,10 +240,6 @@ void TexamExecutor::askQuestion() {
             questText += getTextHowAccid((Tnote::Eacidentals)m_note2.acidental);
             mW->score->forceAccidental((Tnote::Eacidentals)m_note2.acidental);
         }
-//        if (curQ.questionAs == TQAtype::e_asNote) {
-//            questText += getTextHowAccid((Tnote::Eacidentals)m_note2.acidental);
-//            mW->score->forceAccidental((Tnote::Eacidentals)m_note2.acidental);
-//        }
         if (curQ.questionAs == TQAtype::e_asFretPos) {
             questText += getTextHowAccid((Tnote::Eacidentals)curQ.qa.note.acidental);
             mW->score->forceAccidental((Tnote::Eacidentals)curQ.qa.note.acidental);
@@ -274,7 +274,6 @@ void TexamExecutor::askQuestion() {
                                 gl->EquestionColor.name()).arg(mW->getFontSize()*2) +
                         TnoteName::noteToRichText(curQ.qa.note) + ". </span>" +
                         getTextHowAccid((Tnote::Eacidentals)m_note2.acidental);
-            mW->noteName->askQuestion(curQ.qa.note, true, (Tnote::Eacidentals)m_note2.acidental );
             mW->noteName->setNoteNamesOnButt(tmpStyle);
             gl->NnameStyleInNoteName = tmpStyle;
         }
@@ -285,7 +284,8 @@ void TexamExecutor::askQuestion() {
                 questText += getTextHowAccid((Tnote::Eacidentals)curQ.qa.note.acidental);
             }
         }
-        mW->noteName->setNameDisabled(false);
+        mW->noteName->prepAnswer(m_note2);
+//        mW->noteName->setNameDisabled(false);
     }
 
     if (curQ.answerAs == TQAtype::e_asFretPos) {
@@ -302,9 +302,7 @@ void TexamExecutor::askQuestion() {
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
 
-//    qDebug() << QString::fromStdString(curQ.qa.note.getName()) << "Q" << (int)curQ.questionAs
-//             << "A" << (int)curQ.answerAs << curQ.key.getMajorName()
-//             << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
+
 }
 
 Tnote TexamExecutor::determineAccid(Tnote n) {
