@@ -1,0 +1,87 @@
+SplineFontDB: 3.0
+FontName: nootka
+FullName: nootka
+FamilyName: nootka
+Weight: Medium
+Copyright: Created by SeeLook with FontForge 2.0 (http://fontforge.sf.net) with Emmentaler font from LilyPond project
+UComments: "2011-6-11: Created." 
+Version: 001.000
+ItalicAngle: 0
+UnderlinePosition: -100
+UnderlineWidth: 50
+Ascent: 800
+Descent: 200
+LayerCount: 2
+Layer: 0 0 "Warstwa t+AUIA-a"  1
+Layer: 1 0 "Plan pierwszy"  0
+NeedsXUIDChange: 1
+XUID: [1021 905 4475020 6351159]
+OS2Version: 0
+OS2_WeightWidthSlopeOnly: 0
+OS2_UseTypoMetrics: 1
+CreationTime: 1307821124
+ModificationTime: 1307822871
+OS2TypoAscent: 0
+OS2TypoAOffset: 1
+OS2TypoDescent: 0
+OS2TypoDOffset: 1
+OS2TypoLinegap: 0
+OS2WinAscent: 0
+OS2WinAOffset: 1
+OS2WinDescent: 0
+OS2WinDOffset: 1
+HheadAscent: 0
+HheadAOffset: 1
+HheadDescent: 0
+HheadDOffset: 1
+OS2Vendor: 'PfEd'
+DEI: 91125
+LangName: 1033 
+Encoding: ISO8859-1
+UnicodeInterp: none
+NameList: Adobe Glyph List
+DisplaySize: -24
+AntiAlias: 1
+FitToEm: 1
+WinInfo: 0 21 4
+BeginChars: 256 1
+
+StartChar: one
+Encoding: 49 49 0
+Width: 1000
+VWidth: -200
+Flags: HO
+LayerCount: 2
+Fore
+SplineSet
+797.757 298.867 m 0
+ 797.755 133.882 663.853 -0.0185547 498.867 -0.0185547 c 0
+ 333.88 -0.0185547 199.978 133.884 199.978 298.871 c 0
+ 199.978 463.858 333.88 597.762 498.867 597.762 c 4
+ 663.289 597.762 797.191 464.318 797.756 299.897 c 4
+506.252 482.997 m 0
+ 488.788 482.997 471.324 496.664 462.213 496.664 c 0
+ 459.936 496.664 457.657 495.904 456.898 493.627 c 2
+ 358.95 303.805 l 2
+ 357.432 301.526 357.432 299.249 357.432 296.971 c 0
+ 357.432 289.378 365.024 284.062 371.857 284.062 c 0
+ 376.414 284.062 380.21 285.581 383.247 290.896 c 2
+ 433.36 387.326 l 2
+ 434.879 391.123 437.916 392.642 441.712 392.642 c 0
+ 448.546 392.642 456.898 386.566 456.898 375.178 c 2
+ 456.898 211.931 l 2
+ 456.898 172.447 433.36 136.002 396.155 136.002 c 0
+ 388.562 136.002 384.766 129.928 384.766 124.612 c 0
+ 384.766 119.297 388.562 113.982 396.155 113.982 c 0
+ 433.359 113.982 469.047 124.612 506.252 124.612 c 0
+ 543.457 124.612 579.902 113.982 617.107 113.982 c 0
+ 624.701 113.982 627.738 119.297 627.738 124.612 c 0
+ 627.738 129.928 624.701 136.002 617.107 136.002 c 0
+ 579.902 136.002 555.605 172.447 555.605 211.931 c 2
+ 555.605 478.44 l 2
+ 555.605 487.553 549.531 494.386 543.457 494.386 c 0
+ 538.142 494.386 522.956 482.996 506.251 482.996 c 0
+EndSplineSet
+EndChar
+EndChars
+EndSplineFont
