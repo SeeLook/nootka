@@ -81,7 +81,8 @@ private:
     bool m_lockStat;
     QColor m_prevBg;
     int m_statFontSize;
-
+    QVBoxLayout *nameLay;
+    QWidget *widget;
 
     void createActions();
 

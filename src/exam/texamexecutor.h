@@ -50,7 +50,7 @@ public:
 
 protected:
     MainWindow *mW;
-    QAction *nextQuestAct, *checkAct;
+    QAction *nextQuestAct, *prevQuestAct, *checkAct;
 
 protected slots:
     void askQuestion();

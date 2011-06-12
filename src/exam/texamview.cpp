@@ -83,47 +83,48 @@ TexamView::TexamView(QWidget *parent) :
     m_mistLab->setStyleSheet(gl->getBGcolorText(gl->EquestionColor));
     m_effLab->setToolTip(tr("effectiveness"));
     m_averTimeLab->setToolTip(tr("average reaction's time [in seconds]"));
+    m_averTimeLab->setAlignment(Qt::AlignCenter);
     m_reactTimeLab->setToolTip(tr("reaction's time [in seconds]"));
     m_reactTimeLab->setAlignment(Qt::AlignCenter);
     m_totalTimeLab->setToolTip(tr("total exam's time"));
     m_totalTimeLab->setAlignment(Qt::AlignCenter);
     
-    m_reactTimer = new QTimer(this);
-    connect(m_reactTimer, SIGNAL(timeout()), this, SLOT(countReactTime()));
-
-    m_totalTime.start();
-    startExam(QTime(0,0));
+    m_timer = new QTimer(this);
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(countTime()));
 
 }
 
 void TexamView::questionStart() {
-    countReactTime();
     m_reactTime.start();
+    m_showReact = true;
     m_questNr++;
-    m_reactTimer->start(1000);
+    countTime();
 }
 
 quint16 TexamView::questionStop() {
+    m_showReact = false;
     quint16 t = qRound(m_reactTime.elapsed() / 100);
-    m_reactTimer->stop();
     m_reactTimeLab->setText(QString("%1").arg((qreal)t/10, 0, 'f', 1));
     m_averTime = (m_averTime * (m_questNr-1) + t) / m_questNr;
     m_averTimeLab->setText(QString("%1").arg((qreal)qRound(m_averTime)/10));
     return t;
 }
 
-void TexamView::startExam(QTime total, int questNumber, int averTime, int mistakes) {
+void TexamView::startExam(int passTimeInSec, int questNumber, int averTime, int mistakes) {
     m_questNr = questNumber;
-//     m_totalTime = QTime(total);
+    m_totalTime = QTime(passTimeInSec / 3600, (passTimeInSec % 3600) / 60, passTimeInSec % 60);
+//    qDebug() << m_totalTime.toString("hh:mm:ss") ;
     m_averTime = averTime;
     m_mistakes = mistakes;
     /** @todo load initial values to widgets */
+    m_showReact = false;
     m_totalTime.start();
+    m_timer->start(1000);
 }
 
 void TexamView::setAnswer(bool wasCorrect) {
     if (!wasCorrect) {
-      m_mistakes++;
+        m_mistakes++;
     }
     m_mistLab->setText(QString("%1").arg(m_mistakes));
     m_corrLab->setText(QString("%1").arg(m_questNr - m_mistakes));
@@ -132,21 +133,23 @@ void TexamView::setAnswer(bool wasCorrect) {
 }
 
 void TexamView::setFontSize(int s) {
-  QFont f = m_reactTimeLab->font();
-  f.setPixelSize(s);
-  m_reactTimeLab->setFont(f);
-  m_averTimeLab->setFont(f);
-  m_totalTimeLab->setFont(f);
-  m_mistLab->setFont(f);
-  m_corrLab->setFont(f);
-  m_effLab->setFont(f);
-  m_reactTimeLab->setFixedWidth(s * 4);
-  m_totalTimeLab->setFixedWidth(s * 4);
+    QFont f = m_reactTimeLab->font();
+    f.setPixelSize(s);
+    m_reactTimeLab->setFont(f);
+    m_averTimeLab->setFont(f);
+    m_totalTimeLab->setFont(f);
+    m_mistLab->setFont(f);
+    m_corrLab->setFont(f);
+    m_effLab->setFont(f);
+    m_reactTimeLab->setFixedWidth(s * 3);
+    m_averTimeLab->setFixedWidth(s * 3);
+    m_totalTimeLab->setFixedWidth(s * 4);
 }
 
-void TexamView::countReactTime() {
-    m_reactTimeLab->setText(QString("%1").arg(m_reactTime.elapsed() / 1000, 0, 'f', 1, '0'));
-//    m_totalTime.elapsed();
-//     m_totalTimeLab->setText(m_totalTime.toString("hh:mm:ss"));
-//    m_totalTimeLab->setText(QString("%1:%2:%3").arg(m_totalTime.elapsed()/3600000).arg((m_totalTime.elapsed()%36000000)/60000, 2, 'f', 0, '0').arg((m_totalTime.elapsed()%60000)/1000, 2, 'f', 0, '0'));
+void TexamView::countTime() {
+    if (m_showReact)
+        m_reactTimeLab->setText(QString("%1").arg(m_reactTime.elapsed() / 1000, 0, 'f', 1, '0'));
+    int t = m_totalTime.elapsed();
+//    m_totalTimeLab->setText(m_totalTime.toString("hh:mm:ss"));
+    m_totalTimeLab->setText(QString("%1:%2:%3").arg(t/3600000).arg((t%36000000)/60000, 2, 'f', 0, '0').arg((t%60000)/1000, 2, 'f', 0, '0'));
 }

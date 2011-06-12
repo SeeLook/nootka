@@ -35,7 +35,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     QString actTxt;
     TstartExamDlg::Eactions userAct = startDlg->showDialog(actTxt, m_level);
     if (userAct == TstartExamDlg::e_newLevel) {
-//        mW->examResults->startExam(QTime(0,0));
+        mW->examResults->startExam(3689);
 
     } else 
       return;
@@ -56,6 +56,11 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     nextQuestAct->setShortcut(QKeySequence(Qt::Key_Space));
     connect(nextQuestAct, SIGNAL(triggered()), this, SLOT(askQuestion()));
     mW->nootBar->addAction(nextQuestAct);
+
+    prevQuestAct = new QAction(tr("repeat prevoius question (backspace)"), this);
+    prevQuestAct->setStatusTip(prevQuestAct->text());
+    prevQuestAct->setIcon(QIcon(gl->path+"picts/prevQuest.png"));
+    nextQuestAct->setShortcut(QKeySequence(Qt::Key_Backspace));
 
     checkAct = new QAction(tr("check answer (enter)"), this);
     checkAct->setStatusTip(checkAct->text());
@@ -153,7 +158,6 @@ void TexamExecutor::askQuestion() {
                 curQ.key = m_level.loKey;
                 tmpNote = m_level.loKey.inKey(curQ.qa.note);
             } else { // for multi keys
-//             curQ.key = TkeySignature((qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1))-7);
                 curQ.key = TkeySignature((qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) +
                                          m_level.loKey.value());
                 if (m_level.onlyCurrKey) { // if hote is in current key only
@@ -268,7 +272,6 @@ void TexamExecutor::askQuestion() {
                 tmpStyle = Tnote::e_italiano_Si;
             }
             m_note2 = forceEnharmAccid(curQ.qa.note); // force other name of note
-            /** @todo change and restore style if needed */
             questText = QString("<b>%1. </b>").arg(m_answList.size()) +
                         tr("Give name of <span style=\"color: %1; font-size: %2px;\">").arg(
                                 gl->EquestionColor.name()).arg(mW->getFontSize()*2) +
@@ -285,7 +288,6 @@ void TexamExecutor::askQuestion() {
             }
         }
         mW->noteName->prepAnswer(m_note2);
-//        mW->noteName->setNameDisabled(false);
     }
 
     if (curQ.answerAs == TQAtype::e_asFretPos) {
@@ -293,12 +295,14 @@ void TexamExecutor::askQuestion() {
         if (curQ.questionAs == TQAtype::e_asName)
             questText += "<b>" + tr(" on (%1) string.").arg((int)curQ.qa.pos.str()) + "</b>";
 
-        mW->guitar->setDisabled(false);
+//        mW->guitar->setDisabled(false);
+        mW->guitar->setMouseTracking(true);
     }
 
     mW->setStatusMessage(questText);
 
     mW->nootBar->removeAction(nextQuestAct);
+    mW->nootBar->removeAction(prevQuestAct);
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
 
@@ -360,7 +364,6 @@ void TexamExecutor::checkAnswer(){
     TQAunit curQ = m_answList[m_answList.size() - 1];
     curQ.time = mW->examResults->questionStop();
     mW->nootBar->removeAction(checkAct);
-    mW->nootBar->addAction(nextQuestAct);
 //    mW->setMessageBg(gl->EanswerColor);
     mW->startExamAct->setDisabled(false);
 
@@ -437,14 +440,19 @@ void TexamExecutor::checkAnswer(){
             answTxt += tr("<br>Wrong octave.");
     }
     answTxt += "</span><br>";
-    if (gl->hintsEnabled)
-	answTxt += tr("<hr>Click <img src=\"%1\"> buton<br>or press space for next question.").arg(gl->path+"picts/next-icon.png");
+    if (gl->hintsEnabled) {
+        answTxt += tr("<hr>Click <img src=\"%1\"> buton<br>or press <b>space</b> for next question.").arg(gl->path+"picts/next-icon.png");
+        if (!curQ.correct())
+            answTxt += tr("<br>Click <img src=\"%1\"> buton<br>or press <b>backspace</b> to correct question.").arg(gl->path+"picts/prev-icon.png");
+    }
     answTxt += "</center>";
-
     QWhatsThis::showText(QPoint(mW->pos().x() + qRound(mW->centralWidget()->width()*0.75),
-                                mW->pos().y() + qRound(mW->centralWidget()->height()*0.5)),
+                                mW->pos().y() + qRound(mW->centralWidget()->height()*0.47)),
 			 answTxt);
     mW->examResults->setAnswer(curQ.correct());
+    if (!curQ.correct())
+        mW->nootBar->addAction(prevQuestAct);
+    mW->nootBar->addAction(nextQuestAct);
 
     disableWidgets();
 
@@ -521,7 +529,8 @@ void TexamExecutor::disableWidgets() {
     mW->noteName->setNameDisabled(true);
     mW->score->isExamExecuting(true);
     mW->score->setScoreDisabled(true);
-    mW->guitar->setDisabled(true);
+//    mW->guitar->setDisabled(true);
+    mW->guitar->setMouseTracking(false);
 }
 
 void TexamExecutor::clearWidgets() {
@@ -533,6 +542,7 @@ void TexamExecutor::clearWidgets() {
 void TexamExecutor::stopExamSlot() {
 //    mW->setMessageBg();
     mW->setStatusMessage("so a pity");
+    mW->examResults->stopExam();
     clearWidgets();
 
     restoreAfterExam();
