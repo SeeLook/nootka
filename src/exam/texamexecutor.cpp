@@ -60,7 +60,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     prevQuestAct = new QAction(tr("repeat prevoius question (backspace)"), this);
     prevQuestAct->setStatusTip(prevQuestAct->text());
     prevQuestAct->setIcon(QIcon(gl->path+"picts/prevQuest.png"));
-    nextQuestAct->setShortcut(QKeySequence(Qt::Key_Backspace));
+    prevQuestAct->setShortcut(QKeySequence(Qt::Key_Backspace));
+    connect(prevQuestAct, SIGNAL(triggered()), this, SLOT(repeatQuestion()));
 
     checkAct = new QAction(tr("check answer (enter)"), this);
     checkAct->setStatusTip(checkAct->text());
@@ -183,14 +184,13 @@ void TexamExecutor::askQuestion() {
         if ( !m_level.onlyCurrKey) // if key dosen't determine accidentals, we do this
             curQ.qa.note = determineAccid(curQ.qa.note);
     }
-    m_answList << curQ;
 
     qDebug() << QString::fromStdString(curQ.qa.note.getName()) << "Q" << (int)curQ.questionAs
             << "A" << (int)curQ.answerAs << curQ.key.getMajorName()
             << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
 
   // ASKING QUESIONS
-    QString questText = QString("<b>%1. </b>").arg(m_answList.size()); //question number
+    QString questText = QString("<b>%1. </b>").arg(m_answList.size()+1); //question number
     if (curQ.questionAs == TQAtype::e_asNote) {
         questText += tr("Point given note ");
         char strNr = 0;
@@ -272,7 +272,7 @@ void TexamExecutor::askQuestion() {
                 tmpStyle = Tnote::e_italiano_Si;
             }
             m_note2 = forceEnharmAccid(curQ.qa.note); // force other name of note
-            questText = QString("<b>%1. </b>").arg(m_answList.size()) +
+            questText = QString("<b>%1. </b>").arg(m_answList.size()+1) +
                         tr("Give name of <span style=\"color: %1; font-size: %2px;\">").arg(
                                 gl->EquestionColor.name()).arg(mW->getFontSize()*2) +
                         TnoteName::noteToRichText(curQ.qa.note) + ". </span>" +
@@ -298,14 +298,13 @@ void TexamExecutor::askQuestion() {
 //        mW->guitar->setDisabled(false);
         mW->guitar->setMouseTracking(true);
     }
-
+    m_answList << curQ;
     mW->setStatusMessage(questText);
 
     mW->nootBar->removeAction(nextQuestAct);
     mW->nootBar->removeAction(prevQuestAct);
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
-
 
 }
 
@@ -392,7 +391,7 @@ void TexamExecutor::checkAnswer(){
             curQ.setMistake(TQAunit::e_wrongPos);
     } else { // we check are the notes the same
       if (retN.note) {
-//         qDebug() << QString::fromStdString(exN.getName()) << QString::fromStdString(retN.getName());
+         qDebug() << QString::fromStdString(exN.getName()) << QString::fromStdString(retN.getName());
         if (exN != retN) {
             if (m_answRequire.octave) {
                 Tnote nE = exN.showAsNatural();
@@ -453,10 +452,27 @@ void TexamExecutor::checkAnswer(){
     if (!curQ.correct())
         mW->nootBar->addAction(prevQuestAct);
     mW->nootBar->addAction(nextQuestAct);
-
+    m_answList[m_answList.size()-1] = curQ;
     disableWidgets();
+}
 
-    
+void TexamExecutor::repeatQuestion() {
+    TQAunit curQ = m_answList[m_answList.size() - 1];
+    curQ.setMistake(TQAunit::e_correct);
+    if (curQ.answerAs == TQAtype::e_asNote)
+        mW->score->unLockScore();
+    if (curQ.answerAs == TQAtype::e_asName)
+        mW->noteName->setNameDisabled(false);
+    if (curQ.answerAs == TQAtype::e_asFretPos)
+        mW->guitar->setMouseTracking(true);
+
+    m_answList << curQ;
+
+    mW->startExamAct->setDisabled(true);
+    mW->nootBar->removeAction(nextQuestAct);
+    mW->nootBar->removeAction(prevQuestAct);
+    mW->nootBar->addAction(checkAct);
+    mW->examResults->questionStart();
 }
 
 void TexamExecutor::prepareToExam() {

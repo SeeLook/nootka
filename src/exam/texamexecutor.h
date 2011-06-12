@@ -56,6 +56,7 @@ protected slots:
     void askQuestion();
     void checkAnswer();
     void stopExamSlot();
+    void repeatQuestion();
 
 private:
     void createQuestionsList();
