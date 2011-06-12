@@ -39,20 +39,22 @@ class TexamView : public QWidget
 public:
     explicit TexamView(QWidget *parent = 0);
 
-    void startExam( QTime total, int questNumber = 0,int averTime = 0, int mistakes = 0);
+    void startExam( int passTimeInSec = 0, int questNumber = 0,int averTime = 0, int mistakes = 0);
     void questionStart();
     quint16 questionStop();
     void setAnswer(bool wasCorrect);
     void setFontSize(int s);
 
+    void stopExam() { m_timer->stop(); }
     int getAverageTime() { return qRound(m_averTime); }
-    QTime getTotalTime() {return m_totalTime; }
+    int getTotalTime() {return m_totalTime.hour() * 3600 + m_totalTime.minute() *60 + m_totalTime.second(); }
 
 signals:
 
 public slots:
 
 private:
+    bool m_showReact;
 
 //    QLCDNumber *m_averTime, /**m_reactTimeLCD,*/ *m_totalTime;
     QLabel *m_reactTimeLab, *m_averTimeLab, *m_totalTimeLab;
@@ -60,11 +62,11 @@ private:
     QTime m_reactTime;
     int m_questNr, m_mistakes;
     qreal m_averTime;
-    QTimer *m_reactTimer;
+    QTimer *m_timer;
     QTime m_totalTime;
 
 private slots:
-    void countReactTime();
+    void countTime();
 
 };
 
