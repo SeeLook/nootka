@@ -363,7 +363,6 @@ void TexamExecutor::checkAnswer(){
     TQAunit curQ = m_answList[m_answList.size() - 1];
     curQ.time = mW->examResults->questionStop();
     mW->nootBar->removeAction(checkAct);
-//    mW->setMessageBg(gl->EanswerColor);
     mW->startExamAct->setDisabled(false);
 
 // Let's check
@@ -391,7 +390,7 @@ void TexamExecutor::checkAnswer(){
             curQ.setMistake(TQAunit::e_wrongPos);
     } else { // we check are the notes the same
       if (retN.note) {
-         qDebug() << QString::fromStdString(exN.getName()) << QString::fromStdString(retN.getName());
+//         qDebug() << QString::fromStdString(exN.getName()) << QString::fromStdString(retN.getName());
         if (exN != retN) {
             if (m_answRequire.octave) {
                 Tnote nE = exN.showAsNatural();
@@ -458,6 +457,9 @@ void TexamExecutor::checkAnswer(){
 
 void TexamExecutor::repeatQuestion() {
     TQAunit curQ = m_answList[m_answList.size() - 1];
+    QString m = mW->statusMessage();
+    m.replace(0, m.indexOf("</b>"), QString("<b>%1.").arg(m_answList.size()+1));
+    mW->setStatusMessage(m);
     curQ.setMistake(TQAunit::e_correct);
     if (curQ.answerAs == TQAtype::e_asNote)
         mW->score->unLockScore();
