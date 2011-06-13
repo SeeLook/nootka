@@ -74,6 +74,7 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     m_selNote = Tnote(0,0,0);
     m_questFinger = 0;
     m_questString = 0;
+    m_questMark = 0;
 
 }
 
@@ -224,6 +225,7 @@ void TfingerBoard::paint() {
     }
     if (m_questString)
         m_questString->setLine(m_strings[m_questPos.str()-1]->line());
+    if (m_questMark) paintQuestMark();
     m_scene->setBackgroundBrush(QBrush(pixmap));
     setFinger(m_selNote);
 
@@ -301,13 +303,13 @@ void TfingerBoard::setFinger(Tnote note) {
                 m_strings[gl->strOrder(i)]->hide();
             }
         }
-        m_selNote = note;
     } else {
         for (int i=0; i<6; i++) {
             m_fingers[i]->hide();
             m_strings[i]->hide();
         }
     }
+    m_selNote = note;
 }
 
 void TfingerBoard::setFinger(TfingerPos pos) {
@@ -363,6 +365,34 @@ void TfingerBoard::askQuestion(TfingerPos pos) {
             m_questString->setLine(m_strings[pos.str()-1]->line());
         }
     }
+    paintQuestMark();
+}
+
+void TfingerBoard::paintQuestMark() {
+    if (!m_questMark) {
+        QColor qC = gl->EquestionColor;
+        qC.setAlpha(200); //it is too much opaque
+        m_questMark = new QGraphicsSimpleTextItem();
+        m_questMark->setBrush(QBrush(qC));
+        m_scene->addItem(m_questMark);
+        m_questMark->setText("?");
+    }
+    QFont f = font();
+    f.setPixelSize(3*strGap);
+    m_questMark->setFont(f);
+    int off = -1;
+    if (matrix.dx()) off = -2;
+    if (m_questPos.fret())
+        m_questMark->setPos(matrix.map(QPoint(fretsPos[m_questPos.fret() + off],
+                                              (m_questPos.str()-1)*strGap )));
+    else {
+        if (m_questPos.str() < 4)
+            m_questMark->setPos(matrix.map(QPoint(lastFret + fretWidth,
+                                                  (m_questPos.str())*strGap)));
+        else
+            m_questMark->setPos(matrix.map(QPoint(lastFret + fretWidth,
+                                                  (m_questPos.str()-2)*strGap - strGap/2)));
+    }
 }
 
 void TfingerBoard::clearFingerBoard() {
@@ -373,6 +403,10 @@ void TfingerBoard::clearFingerBoard() {
     if (m_questString) {
         delete m_questString;
         m_questString = 0;
+    }
+    if (m_questMark) {
+        delete m_questMark;
+        m_questMark = 0;
     }
     setFinger(Tnote(0,0,0));
 }
