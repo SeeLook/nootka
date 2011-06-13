@@ -45,6 +45,7 @@ public:
         * Its size depends on whole window size and is used for fonts' sizes
         * of others widgets. */
     int getFontSize() {return m_statFontSize; }
+    QString statusMessage() { return m_statusText; }
 
 public slots:
     void createSettingsDialog();
