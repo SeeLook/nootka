@@ -59,9 +59,9 @@ MainWindow::MainWindow(QWidget *parent)
 //    statResultLay->addWidget(statGr);
 //    nameLay->addLayout(statLay);
 //     nameLay->addStretch(1);
-//    examResults = new TexamView(widget);
-    examResults = 0;
-//    nameLay->addWidget(examResults);
+    examResults = new TexamView(widget);
+//    examResults = 0;
+    nameLay->addWidget(examResults);
 //    statResultLay->addWidget(examResults);
 //    nameLay->addLayout(statResultLay);
 
@@ -138,13 +138,13 @@ void MainWindow::resizeEvent(QResizeEvent *) {
     f.setPixelSize(m_statFontSize);
     m_statLab->setFont(f);
     guitar->setFixedHeight(centralWidget()->height()/3);
-    if (examResults) {
+//    if (examResults) {
         examResults->setFixedHeight(height() / 8);
         examResults->setFontSize(m_statFontSize);
-    }
-     noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(height() * 0.4)));
-//    noteName->setGeometry (examResults->pos().x(), guitar->pos().y() - qRound(height() * 0.75),
-//			   centralWidget()->width()- score->width() -2, qRound(height() * 0.7));
+//    }
+//     noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(height() * 0.4)));
+    noteName->setGeometry (examResults->pos().x(), guitar->pos().y() - qRound(height() * 0.75),
+               centralWidget()->width()- score->width() -2, qRound(height() * 0.7));
 }
 
 void MainWindow::setStatusMessage(QString msg) {
@@ -195,8 +195,8 @@ void MainWindow::createExamSettingsDlg() {
 }
 
 void MainWindow::startExamSlot() {
-    examResults = new TexamView(widget);
-    nameLay->insertWidget(1, examResults);
+//    examResults = new TexamView(widget);
+//    nameLay->insertWidget(1, examResults);
     TexamExecutor *ex = new TexamExecutor(this);
 }
 
