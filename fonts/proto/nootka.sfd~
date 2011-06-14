@@ -21,7 +21,7 @@ OS2Version: 0
 OS2_WeightWidthSlopeOnly: 0
 OS2_UseTypoMetrics: 1
 CreationTime: 1307821124
-ModificationTime: 1307955232
+ModificationTime: 1308044472
 OS2TypoAscent: 0
 OS2TypoAOffset: 1
 OS2TypoDescent: 0
@@ -35,6 +35,7 @@ HheadAscent: 0
 HheadAOffset: 1
 HheadDescent: 0
 HheadDOffset: 1
+OS2Vendor: 'PfEd'
 DEI: 91125
 LangName: 1033 
 Encoding: ISO8859-1
@@ -43,7 +44,7 @@ NameList: Adobe Glyph List
 DisplaySize: -24
 AntiAlias: 1
 FitToEm: 1
-WinInfo: 0 21 4
+WinInfo: 42 21 4
 BeginChars: 256 7
 
 StartChar: one
@@ -95,7 +96,7 @@ SplineSet
  887.679 277.292 887.679 277.325 887.68 277.346 c 0
  886.942 491.426 713.492 664.201 499.98 664.201 c 0
 EndSplineSet
-Validated: 524291
+Validated: 3
 EndChar
 
 StartChar: numbersign
@@ -153,7 +154,7 @@ SplineSet
  543.05 235.8 l 5
  543.05 365.4 l 5
 EndSplineSet
-Validated: 524289
+Validated: 1
 EndChar
 
 StartChar: two
@@ -202,7 +203,7 @@ SplineSet
  322.4 45.5996 356 70.7998 390.8 70.7998 c 0
  454.4 70.7998 450.8 -12 564.8 -12 c 0
 EndSplineSet
-Validated: 524291
+Validated: 3
 EndChar
 
 StartChar: three
@@ -257,7 +258,7 @@ SplineSet
  620 -12 719.6 44.4004 719.6 157.2 c 0
  719.6 273.6 628.4 261.6 628.4 307.2 c 0
 EndSplineSet
-Validated: 524291
+Validated: 3
 EndChar
 
 StartChar: four
@@ -315,6 +316,7 @@ SplineSet
  590.396 588 553.27 570.036 504.168 570.036 c 0
  461.054 570.036 411.952 588 408.359 588 c 0
 EndSplineSet
+Validated: 3
 EndChar
 
 StartChar: five
@@ -365,6 +367,7 @@ SplineSet
  678 572 597.6 555.2 514.8 555.2 c 0
  424.8 555.2 352.8 572 348 572 c 0
 EndSplineSet
+Validated: 3
 EndChar
 
 StartChar: six
@@ -401,18 +404,18 @@ SplineSet
  578 22.7998 578 82.7998 578 159.6 c 4
  578 236.4 578 296.4 512 296.4 c 4
 455.6 314.4 m 0
- 454.4 345.6 453.2 378 453.2 408 c 0
- 453.2 488.4 465.2 553.2 537.2 553.2 c 0
- 572 553.2 609.2 541.2 609.2 510 c 0
- 609.2 484.8 567.2 482.4 567.2 457.2 c 0
- 567.2 418.8 598.4 387.6 636.8 387.6 c 0
- 675.2 387.6 706.4 418.8 706.4 457.2 c 0
- 706.4 537.6 624.8 588 537.2 588 c 0
- 393.2 588 300.8 442.8 300.8 288 c 0
- 300.8 136.8 375.2 -12 512 -12 c 0
- 636.8 -12 723.2 43.2002 723.2 159.6 c 0
- 723.2 276 636.8 331.2 512 331.2 c 0
- 491.6 331.2 473.6 322.8 455.6 314.4 c 0
+ 473.6 322.8 491.6 331.2 512 331.2 c 0
+ 636.8 331.2 723.2 276 723.2 159.6 c 0
+ 723.2 43.2002 636.8 -12 512 -12 c 0
+ 375.2 -12 300.8 136.8 300.8 288 c 0
+ 300.8 442.8 393.2 588 537.2 588 c 0
+ 624.8 588 706.4 537.6 706.4 457.2 c 0
+ 706.4 418.8 675.2 387.6 636.8 387.6 c 0
+ 598.4 387.6 567.2 418.8 567.2 457.2 c 0
+ 567.2 482.4 609.2 484.8 609.2 510 c 0
+ 609.2 541.2 572 553.2 537.2 553.2 c 0
+ 465.2 553.2 453.2 488.4 453.2 408 c 0
+ 453.2 378 454.4 345.6 455.6 314.4 c 0
 EndSplineSet
 EndChar
 EndChars
