@@ -293,9 +293,8 @@ void TexamExecutor::askQuestion() {
     if (curQ.answerAs == TQAtype::e_asFretPos) {
         questText += TquestionAsWdg::asFretPosTxt;
         if (curQ.questionAs == TQAtype::e_asName)
-            questText += "<b>" + tr(" on (%1) string.").arg((int)curQ.qa.pos.str()) + "</b>";
+            questText += "<b>" + tr(" on <span style=\"font-family: nootka; font-size:%1px;\">%2</span> string.").arg(qRound(mW->getFontSize()*1.5)).arg((int)curQ.qa.pos.str()) + "</b>";
 
-//        mW->guitar->setDisabled(false);
         mW->guitar->setMouseTracking(true);
     }
     m_answList << curQ;
@@ -310,6 +309,7 @@ void TexamExecutor::askQuestion() {
 
 Tnote TexamExecutor::determineAccid(Tnote n) {
     Tnote nA = n;
+    bool notFound = true;
     if (m_level.withSharps || m_level.withFlats || m_level.withDblAcc) {
         if (m_level.withDblAcc) {
             m_dblAccidsCntr++;
@@ -320,14 +320,17 @@ Tnote TexamExecutor::determineAccid(Tnote n) {
                     nA = n.showWithDoubleFlat();
                 if (nA == n) // dbl accids are not possible
                     m_dblAccidsCntr--;
-                else
+                else {
                     m_dblAccidsCntr = 0;
+                    notFound = false;
+                }
             }
-        } else
-            if (m_prevAccid != Tnote::e_Flat && m_level.withFlats) {
-                nA = n.showWithFlat();
-        } else
-            if (m_prevAccid != Tnote::e_Sharp && m_level.withSharps) {
+        }
+        if (notFound && m_prevAccid != Tnote::e_Flat && m_level.withFlats) {
+            nA = n.showWithFlat();
+            notFound = false;
+        }
+        if (m_prevAccid != Tnote::e_Sharp && m_level.withSharps) {
             nA = n.showWithSharp();
         }
     }
@@ -364,7 +367,6 @@ void TexamExecutor::checkAnswer(){
     curQ.time = mW->examResults->questionStop();
     mW->nootBar->removeAction(checkAct);
     mW->startExamAct->setDisabled(false);
-
 // Let's check
     Tnote exN, retN; // example note & returned note
     // First we determine what have to be checked
@@ -390,7 +392,6 @@ void TexamExecutor::checkAnswer(){
             curQ.setMistake(TQAunit::e_wrongPos);
     } else { // we check are the notes the same
       if (retN.note) {
-//         qDebug() << QString::fromStdString(exN.getName()) << QString::fromStdString(retN.getName());
         if (exN != retN) {
             if (m_answRequire.octave) {
                 Tnote nE = exN.showAsNatural();
