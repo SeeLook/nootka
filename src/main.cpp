@@ -32,13 +32,14 @@ int main(int argc, char *argv[])
         QString pth = Tglobals::getInstPath(qApp->applicationDirPath());
         for (int i=0; i<8; i++) {
             int id;
-            id = fd.addApplicationFont(QString(pth+"fonts/emmentaler-%1.otf").arg(nr[i]));
+            id = fd.addApplicationFont(QString(pth + "fonts/emmentaler-%1.otf").arg(nr[i]));
             if (id == -1) {
                 QMessageBox::critical(0, "", QCoreApplication::translate("main", "<center><b>\"Emmentaler\"</b> fonts were not found.<br> Please, install them manually first.<br>You can find them either in installation package or Nootka download page:<br> <a href=\"https://code.google.com/p/nootka/downloads/list\">https://code.google.com/p/nootka/downloads/lis t</a></center>"));
                 return 111;
             }
         }
     }
+    fd.addApplicationFont(Tglobals::getInstPath(qApp->applicationDirPath()) + "fonts/nootka.ttf");
 
     w.show();
 

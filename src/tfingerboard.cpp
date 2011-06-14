@@ -265,16 +265,22 @@ void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
 }
 
 void TfingerBoard::mousePressEvent(QMouseEvent *) {
-    m_selNote = posToNote(m_curStr,m_curFret);
-    m_fingerPos = TfingerPos(m_curStr+1, m_curFret);
-    if (gl->GpreferFlats)
-        if (m_selNote.note != 3 && m_selNote.note != 7) // eliminate Fb from E and Cb from B
-            m_selNote = m_selNote.showWithFlat();
-    if (gl->GshowOtherPos)
+    qDebug() << (int)m_curFret << (int)m_curStr;
+    if (m_curFret != 99 && m_curStr != 7) {
+        m_selNote = posToNote(m_curStr,m_curFret);
+        m_fingerPos = TfingerPos(m_curStr+1, m_curFret);
+        if (gl->GpreferFlats)
+            if (m_selNote.note != 3 && m_selNote.note != 7) // eliminate Fb from E and Cb from B
+                m_selNote = m_selNote.showWithFlat();
+        if (gl->GshowOtherPos)
+            setFinger(m_selNote);
+        else
+            setFinger(TfingerPos(m_curStr+1, m_curFret));
+        emit guitarClicked(m_selNote);
+    } else {
+        m_selNote = Tnote(0,0,0);
         setFinger(m_selNote);
-    else
-        setFinger(TfingerPos(m_curStr+1, m_curFret));
-    emit guitarClicked(m_selNote);
+    }
 }
 
 Tnote TfingerBoard::posToNote(int str, int fret) {

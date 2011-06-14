@@ -72,6 +72,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
     for (int i=0; i<6; i++) {
         stringBut[i] = new QPushButton(QString("%1").arg(i+1),this);
         stringBut[i]->setCheckable(true);
+        stringBut[i]->setFont(QFont("nootka", 20, QFont::Normal));
         connect(stringBut[i], SIGNAL(clicked()), this, SLOT(stringSelected()));
         connect(stringBut[i], SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
         if (i<3)
