@@ -203,9 +203,11 @@ void TexamExecutor::askQuestion() {
     }
 //    if (curQ.questionAs == TQAtype::e_asName && curQ.answerAs != TQAtype::e_asName) {
     if (curQ.questionAs == TQAtype::e_asName) {
-        mW->noteName->askQuestion(curQ.qa.note);
+        if (curQ.answerAs == TQAtype::e_asFretPos && m_level.showStrNr)
+            mW->noteName->askQuestion(curQ.qa.note, curQ.qa.pos.str());
+        else
+            mW->noteName->askQuestion(curQ.qa.note);
         questText += tr("Point given note name ");
-//         qDebug() << "name asked";
     }
 
     if (curQ.questionAs == TQAtype::e_asFretPos) {
@@ -292,7 +294,7 @@ void TexamExecutor::askQuestion() {
 
     if (curQ.answerAs == TQAtype::e_asFretPos) {
         questText += TquestionAsWdg::asFretPosTxt;
-        if (curQ.questionAs == TQAtype::e_asName)
+        if (curQ.questionAs == TQAtype::e_asName && m_level.showStrNr)
             questText += "<b>" + tr(" on <span style=\"font-family: nootka; font-size:%1px;\">%2</span> string.").arg(qRound(mW->getFontSize()*1.5)).arg((int)curQ.qa.pos.str()) + "</b>";
 
         mW->guitar->setMouseTracking(true);

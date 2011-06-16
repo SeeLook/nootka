@@ -41,13 +41,14 @@ public:
     void setAnswers(TQAtype types);
     TQAtype getAnswers();
 
+    QCheckBox *asNoteChB, *asNameChB, *asFretPosChB, *asSoundChB;
+
 signals:
         /** This signal is emited when any QCheckBox changes his state. */
     void answerStateChanged();
 
 
 private:
-    QCheckBox *asNoteChB, *asNameChB, *asFretPosChB, *asSoundChB;
 
 private slots:
     void buttonClicked();

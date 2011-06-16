@@ -45,10 +45,11 @@ TexamLevel::TexamLevel()
   // QUESTIONS - as name
    requireOctave = true;
    requireStyle = true;
+ // ANSWERS - as position on fingerboard
+   showStrNr = true;
   // RANGE
 //   loNote = gl->Gtune.lowest();
    loNote = gl->loString();
-//   hiNote = Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber);
    hiNote = Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber);
    isNoteLo = true;
    isNoteHi = true;

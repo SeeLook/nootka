@@ -105,7 +105,7 @@ signals:
 
 private:
     TquestionAsWdg *asPosGr;
-    QCheckBox *forceAccChB;
+    QCheckBox *forceAccChB, *showStrNrChB;
 
 private slots:
         /** Is called when user changes any parameter.
