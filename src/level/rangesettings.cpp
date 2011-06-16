@@ -37,8 +37,6 @@ rangeSettings::rangeSettings(QWidget *parent) :
     scoreRang = new TscoreWidgetSimple(2, this);
     scoreRang->setFixedWidth(160);
     scoreRang->setStatusTip(tr("If selected notes are either the lowest or the highest<br>possible sounds in the current guitar tune,<br>they are automatically adjusted to another tune."));
-//    scoreRang->setAmbitus(Tnote(gl->Gtune().lowest().getChromaticNrOfNote()),
-//               Tnote(gl->Gtune().highest().getChromaticNrOfNote()+gl->GfretsNumber));
     scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()),
                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
     QGroupBox *notesRangGr = new QGroupBox(TlevelSummaryWdg::notesRangeTxt, this);
@@ -72,7 +70,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
     for (int i=0; i<6; i++) {
         stringBut[i] = new QPushButton(QString("%1").arg(i+1),this);
         stringBut[i]->setCheckable(true);
-        stringBut[i]->setFont(QFont("nootka", 20, QFont::Normal));
+        stringBut[i]->setFont(QFont("nootka", qRound(font().pointSize()*1.5), QFont::Normal));
         connect(stringBut[i], SIGNAL(clicked()), this, SLOT(stringSelected()));
         connect(stringBut[i], SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
         if (i<3)
@@ -94,7 +92,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
     mainLay->addWidget(lowPosOnlyChBox, 0, Qt::AlignCenter);
     mainLay->addStretch(1);
     currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);
-    currKeySignChBox->setStatusTip(tr("Only notes from current key signaature are taken.<br>If key signature is disabled no accidentals are used."));
+    currKeySignChBox->setStatusTip(tr("Only notes from current key signaature are taken.<br>If key signature is disabled accidentals are not used."));
     mainLay->addWidget(currKeySignChBox, 0, Qt::AlignCenter);
     mainLay->addStretch(1);
 

@@ -48,6 +48,8 @@ public:
   // QUESTIONS - as name
     bool requireOctave;
     bool requireStyle;
+  // ANSWERS - as position on fingerboard
+    bool showStrNr; /** Shows a string number in questions*/
   // RANGE
     Tnote loNote, hiNote;
     bool isNoteLo, isNoteHi;

@@ -315,15 +315,17 @@ void TnoteName::setAmbitus(Tnote lo, Tnote hi) {
     m_ambitMax = hi.getChromaticNrOfNote();
 }
 
-void TnoteName::askQuestion(Tnote note) {
+void TnoteName::askQuestion(Tnote note, char strNr) {
     setNoteName(note);
+    QString sN = "";
+    if (strNr) sN = QString("  %1").arg((int)strNr);
     nameLabel->setText(nameLabel->text() +
-                       QString(" <span style=\"color: %1\">?</span>").arg(gl->EquestionColor.name()));
+                       QString(" <span style=\"color: %1; font-family: nootka;\">?%2</span>").arg(gl->EquestionColor.name()).arg(sN));
     nameLabel->setStyleSheet(gl->getBGcolorText(gl->EquestionColor) + styleTxt);
     uncheckAllButtons();    
 }
 
-void TnoteName::prepAnswer(Tnote backNote, char strNr) {
+void TnoteName::prepAnswer(Tnote backNote) {
     nameLabel->setStyleSheet(gl->getBGcolorText(gl->EanswerColor) + styleTxt);
     if (backNote.acidental) {
         QString accTxt = QString(" <sub><i><span style=\"color: %1;\">(%2)</span></i></sub>").arg(gl->GfingerColor.name()).arg(QString::fromStdString(signsAcid[backNote.acidental + 2]));

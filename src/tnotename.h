@@ -45,8 +45,8 @@ public:
     void resize();
     void setAmbitus(Tnote lo, Tnote hi);
     static QString noteToRichText(Tnote note);
-    void askQuestion(Tnote note);
-    void prepAnswer(Tnote backNote = Tnote(0,0,0), char strNr = 0);
+    void askQuestion(Tnote note, char strNr = 0);
+    void prepAnswer(Tnote backNote = Tnote(0,0,0));
     void setNameDisabled(bool isDisabled);
     void clearNoteName();
 //    void setButtonsWithOctaves

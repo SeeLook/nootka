@@ -338,10 +338,17 @@ TasFretPosWdg::TasFretPosWdg(QWidget *parent) :
     mainLay->addStretch(1);
     mainLay->addWidget(asPosGr,1,Qt::AlignCenter);
     mainLay->addStretch(1);
+    asPosGr->asFretPosChB->setDisabled(true);
+    asPosGr->asFretPosChB->setStatusTip(asPosGr->asSoundChB->statusTip());// not implemented
 
     forceAccChB = new QCheckBox(tr("force useing appropirate accidental"),this);
     forceAccChB->setStatusTip(tr("if checked, is possible to select a note<br>with given accidental only."));
     mainLay->addWidget(forceAccChB);
+
+    mainLay->addStretch(1);
+    showStrNrChB = new QCheckBox(tr("show string number in questions"), this);
+    showStrNrChB->setStatusTip(tr("Shows on which string an answer has to be given.<br>Be careful when it is needed and when it has no sense"));
+    mainLay->addWidget(showStrNrChB);
     mainLay->addStretch(1);
 
     setLayout(mainLay);
@@ -349,12 +356,14 @@ TasFretPosWdg::TasFretPosWdg(QWidget *parent) :
     connect(asPosGr, SIGNAL(answerStateChanged()), this, SLOT(whenParamsChanged()));
     connect(asPosGr, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
     connect(forceAccChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+    connect(showStrNrChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 }
 
 void TasFretPosWdg::loadLevel(TexamLevel level) {
     asPosGr->setChecked(level.questionAs.isFret());
     asPosGr->setAnswers(level.answersAs[TQAtype::e_asFretPos]);
     forceAccChB->setChecked(level.forceAccids);
+    showStrNrChB->setChecked(level.showStrNr);
 }
 
 void TasFretPosWdg::whenParamsChanged() {
@@ -368,4 +377,5 @@ void TasFretPosWdg::saveLevel(TexamLevel &level) {
     level.questionAs.setAsFret(asPosGr->isChecked());
     level.answersAs[TQAtype::e_asFretPos] = asPosGr->getAnswers();
     level.forceAccids = forceAccChB->isChecked();
+    level.showStrNr = showStrNrChB->isChecked();
 }

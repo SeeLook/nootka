@@ -279,7 +279,7 @@ void TfingerBoard::mousePressEvent(QMouseEvent *) {
         emit guitarClicked(m_selNote);
     } else {
         m_selNote = Tnote(0,0,0);
-        setFinger(m_selNote);
+//        setFinger(m_selNote);
     }
 }
 
@@ -383,8 +383,7 @@ void TfingerBoard::paintQuestMark() {
         m_scene->addItem(m_questMark);
         m_questMark->setText("?");
     }
-    QFont f = font();
-    f.setPixelSize(3*strGap);
+    QFont f = QFont("nootka", 2*strGap, QFont::Normal);
     m_questMark->setFont(f);
     int off = -1;
     if (matrix.dx()) off = -2;
