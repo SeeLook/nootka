@@ -72,18 +72,18 @@ void TkeySignatureView::resize(int co) {
     m_coeff = co;
     m_scene->setSceneRect(0,0,8*m_coeff,height());
     const qreal fontFactor = 4;
-    QFont font(QFont("Emmentaler"));
+    QFont font(QFont("nootka"));
     font.setPointSizeF(fontFactor*m_coeff);
     int base;
     if (m_accidentals[0]->text() == "")
         m_accidentals[0]->setText(QString(QChar(0xe11a)));
     m_accidentals[0]->setFont(font);
-    m_accTextOffset = m_accidentals[0]->boundingRect().height()/2 - qRound(m_coeff * 0.5);
+    m_accTextOffset = m_accidentals[0]->boundingRect().height()/2 /*- qRound(m_coeff * 0.5)*/;
     if (m_keySignature >= 0) base = 0;
     else base = 6;
     for (int i=0; i<7; i++) {
         m_accidentals[i]->setFont(font);
-        m_accidentals[i]->setPos(i*m_coeff+1,
+        m_accidentals[i]->setPos(i*m_coeff-1,
                     m_posOfAccid[qAbs(base-i)]*m_coeff-m_accTextOffset);
     }
     if (gl->SshowKeySignName) {

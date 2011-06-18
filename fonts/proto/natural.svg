@@ -14,7 +14,7 @@
    height="1000"
    id="svg2"
    inkscape:version="0.48.1 r9760"
-   sodipodi:docname="sharp.svg">
+   sodipodi:docname="natural.svg">
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -30,7 +30,7 @@
      showgrid="false"
      inkscape:zoom="0.67396115"
      inkscape:cx="676.25254"
-     inkscape:cy="438.43672"
+     inkscape:cy="541.488"
      inkscape:window-x="-8"
      inkscape:window-y="-3"
      inkscape:window-maximized="1"
@@ -43,8 +43,8 @@
        id="guide5187" />
     <sodipodi:guide
        orientation="0,1"
-       position="-83.090843,500.02882"
-       id="guide2996" />
+       position="195.85699,500.02882"
+       id="guide3022" />
   </sodipodi:namedview>
   <defs
      id="defs4" />
@@ -84,12 +84,12 @@
        y="-718.55737" /></text>
   <g
      style="font-size:600px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Emmentaler;-inkscape-font-specification:Emmentaler"
-     id="text5216"
-     transform="translate(-484.21084,17.83401)">
+     id="text5305"
+     transform="translate(-454.94125,124.6651)">
     <path
-       d="m 780.89563,519.16599 0,-144 30,-12 c 12.99999,-5 22,-19.00002 22,-33 l 0,-42 c 0,-19.99998 -17.00002,-36 -36,-36 -6.99999,0 -11.00001,2 -16,4 l 0,-124 c 0,-13.99999 -11.00001,-25 -25,-25 -13.99999,0 -26,11.00001 -26,25 l 0,145 -69,29 0,-124 c 0,-13.99999 -12.00001,-26 -26,-26 -13.99999,0 -25,12.00001 -25,26 l 0,144 -30,13 c -12.99999,4.99999 -22,19.00001 -22,33 l 0,41 c 0,19.99998 17.00002,36 36,36 6.99999,0 11,-2.00001 16,-4 l 0,144 -30,12 c -12.99999,4.99999 -22,19.00001 -22,33 l 0,42 c 0,19.99998 17.00002,36 36,36 6.99999,0 11,-2.00001 16,-4 l 0,124 c 0,13.99998 11.00001,25 25,25 13.99999,0 26,-11.00002 26,-25 l 0,-145 69,-29 0,124 c 0,13.99998 12.00001,26 26,26 13.99999,0 25,-12.00002 25,-26 l 0,-144 30,-13 c 12.99999,-5 22,-19.00002 22,-33 l 0,-41 c 0,-19.99998 -17.00002,-36 -36,-36 -6.99999,0 -11.00001,2 -16,4 m -51,-123 0,144 -69,28 0,-144 69,-28"
+       d="m 625.62604,0.3348999 11,548.0000001 c 0,10.99999 10.00001,20 21,20 2,0 4,0 6,-1 l 92,-27 -4,210 c 9.99999,5.99999 20.00001,8 31,8 10.99999,0 21.00001,-2.00001 31,-8 l -10,-548 c 0,-10.99999 -10.00001,-20 -21,-20 -2,0 -4,0 -6,1 l -92,27 4,-210.0000001 c -9.99999,-5.999994 -20.00001,-8 -31,-8 -10.99999,0 -22.00001,2.000006 -32,8 m 131,458.0000001 -77,23 3,-189 78,-23 -4,189"
        style="font-size:1000px"
-       id="path5221"
+       id="path5372"
        inkscape:connector-curvature="0" />
   </g>
 </svg>
