@@ -109,7 +109,7 @@ void TnoteView::resize(int co) {
         }
     }
     qreal fontFactor = 4;
-    QFont font(QFont("Emmentaler"));
+    QFont font(QFont("nootka"));
     font.setPointSizeF(fontFactor*m_coeff);
     m_workAccid->setFont(font);
     m_mainAccid->setFont(font);
@@ -118,7 +118,7 @@ void TnoteView::resize(int co) {
         m_workAccid->setText(QString(QChar(0xe11a)));
         reset = true;
     }
-    m_accTextOffset = m_workAccid->boundingRect().height()/2 - qRound(m_coeff * 0.5);
+    m_accTextOffset = m_workAccid->boundingRect().height()/2 /*- qRound(m_coeff * 0.5)*/;
     if (reset) m_workAccid->setText("");
 
     if (m_mainNote->isVisible() && m_mainPosY) moveNote(m_mainPosY);
@@ -131,7 +131,7 @@ void TnoteView::mouseMoveEvent(QMouseEvent * event) {
         if (m_workPosY != a) {
             m_workPosY = a;
             m_workNote->setPos(2.5*m_coeff,m_workPosY*m_coeff+1);
-            m_workAccid->setPos(5,(m_workPosY+1)*m_coeff-m_accTextOffset);
+            m_workAccid->setPos(0, (m_workPosY+1)*m_coeff-m_accTextOffset);
 
             for (int i=0; i < 7; i++)	{
                 if (m_workPosY < (2*(i+1)))
@@ -179,8 +179,8 @@ void TnoteView::wheelEvent(QWheelEvent * event) {
 }
 
 void TnoteView::moveNote(int pos) {
-    m_mainNote->setPos(2.5*m_coeff,pos*m_coeff+1);
-    m_mainAccid->setPos(5,(pos+1)*m_coeff-m_accTextOffset);
+    m_mainNote->setPos(2.5*m_coeff, pos*m_coeff+1);
+    m_mainAccid->setPos(0, (pos+1)*m_coeff-m_accTextOffset);
     if (*(m_accInKeyPtr+(39-pos)%7)) {
       if ( m_accidental == 0 ) m_mainAccid->setText(getAccid(3));
       else
