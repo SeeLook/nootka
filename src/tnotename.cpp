@@ -44,6 +44,7 @@ TnoteName::TnoteName(QWidget *parent) :
                            gl->version + "</span></b>",this);
     nameLabel->setAlignment(Qt::AlignCenter);
     nameLabel->setStyleSheet("background-color: palette(Base); " + styleTxt);
+    resize();
 
     mainLay->addStretch(1);
     mainLay->addWidget(nameLabel);
