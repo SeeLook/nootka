@@ -79,7 +79,7 @@ void TquestionAsWdg::groupChecked() {
     } else {
         asNoteChB->setChecked(false);
         asNameChB->setChecked(false);
-        asFretPosChB->setChecked(false);
+//        asFretPosChB->setChecked(false);
 //        asSoundChB->setChecked(false);
     }
 }

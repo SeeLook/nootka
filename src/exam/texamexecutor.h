@@ -41,6 +41,8 @@ public:
         bool showKeySignName;
         bool showOtherPos;
         Tnote::EnameStyle nameStyleInNoteName;
+        bool useDblAccids;
+        bool useKeySign;
     };
     struct TanswerRequire {
         bool octave;

@@ -265,7 +265,6 @@ void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
 }
 
 void TfingerBoard::mousePressEvent(QMouseEvent *) {
-    qDebug() << (int)m_curFret << (int)m_curStr;
     if (m_curFret != 99 && m_curStr != 7) {
         m_selNote = posToNote(m_curStr,m_curFret);
         m_fingerPos = TfingerPos(m_curStr+1, m_curFret);
