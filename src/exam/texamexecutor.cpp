@@ -135,6 +135,7 @@ void TexamExecutor::createQuestionsList() {
 
 
 void TexamExecutor::askQuestion() {
+    qDebug() << "start asking:";
     gl->NnameStyleInNoteName = m_prevStyle;
     mW->noteName->setNoteNamesOnButt(m_prevStyle);
 
@@ -146,6 +147,7 @@ void TexamExecutor::askQuestion() {
     m_answRequire.accid = true;
     m_answRequire.key = false;
     m_note2 = Tnote(0,0,0);
+    qDebug() << "widget clear";
 
     TQAunit curQ = TQAunit(); // current question
     curQ.qa = m_questList[qrand() % m_questList.size()];
@@ -194,7 +196,7 @@ void TexamExecutor::askQuestion() {
     if (curQ.questionAs == TQAtype::e_asNote) {
         questText += tr("Point given note ");
         char strNr = 0;
-        if ( curQ.answerAs == TQAtype::e_asFretPos && !m_level.onlyLowPos )
+        if ( curQ.answerAs == TQAtype::e_asFretPos && !m_level.onlyLowPos && m_level.showStrNr)
             strNr = curQ.qa.pos.str(); //show string nr or not
         if (m_level.useKeySign && curQ.answerAs != TQAtype::e_asNote)
             // when answer is also asNote we determine key in preparing answer part
@@ -257,7 +259,7 @@ void TexamExecutor::askQuestion() {
     if (curQ.answerAs == TQAtype::e_asName) {
         questText += TquestionAsWdg::asNameTxt;
         if (curQ.questionAs == TQAtype::e_asName) {
-//             qDebug() << "as name";
+             qDebug() << "as name";
             m_prevStyle = gl->NnameStyleInNoteName;
             Tnote::EnameStyle tmpStyle = m_prevStyle;
             if (m_isSolfege) {
@@ -361,7 +363,10 @@ Tnote TexamExecutor::forceEnharmAccid(Tnote n) {
         cnt++;
     } while (n == nX || cnt < 6);
     m_prevAccid = (Tnote::Eacidentals)acc;
-    return nX;
+//    qDebug() << QString::fromStdString(n.getName()) << QString::fromStdString(nX.getName());
+    if (nX.note)
+        return nX;
+    else return n;
 }
 
 void TexamExecutor::checkAnswer(){
@@ -388,7 +393,7 @@ void TexamExecutor::checkAnswer(){
             exN = m_note2;
         retN = mW->noteName->getNoteName();
     }
-
+qDebug() << QString::fromStdString(exN.getName()) << QString::fromStdString(retN.getName());
     if (curQ.answerAs == TQAtype::e_asFretPos) {
         if (curQ.qa.pos != mW->guitar->getfingerPos())
             curQ.setMistake(TQAunit::e_wrongPos);

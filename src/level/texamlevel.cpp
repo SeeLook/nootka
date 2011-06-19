@@ -78,7 +78,7 @@ QDataStream &operator << (QDataStream &out, TexamLevel &lev) {
     out << lev.isFretHi;
     out << lev.usedStrings[0] << lev.usedStrings[1] << lev.usedStrings[2]
             << lev.usedStrings[3] << lev.usedStrings[4] <<  lev.usedStrings[5];
-    out << lev.onlyLowPos << lev.onlyCurrKey;
+    out << lev.onlyLowPos << lev.onlyCurrKey << lev.showStrNr;
     return out;
 }
 
@@ -114,6 +114,6 @@ bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
     in >> lev.isFretHi;
     in >> lev.usedStrings[0] >> lev.usedStrings[1] >> lev.usedStrings[2]
             >> lev.usedStrings[3] >> lev.usedStrings[4] >>  lev.usedStrings[5];
-    in >> lev.onlyLowPos >> lev.onlyCurrKey;
+    in >> lev.onlyLowPos >> lev.onlyCurrKey >> lev.showStrNr;
     return ok;
 }
