@@ -101,8 +101,10 @@ void TnoteView::resize(int co) {
     m_workNote->setRect(0,0,m_coeff*3,m_coeff*2-2);
     m_mainNote->setRect(0,0,m_coeff*3,m_coeff*2-2);
     for (int i=0; i<7; i++) {
-        m_upLines[i]->setLine((qreal)2*m_coeff,(qreal)m_coeff*2*(i+1),(qreal)width(),(qreal)m_coeff*2*(i+1));
-        m_mainUpLines[i]->setLine((qreal)2*m_coeff,(qreal)m_coeff*2*(i+1),(qreal)width(),(qreal)m_coeff*2*(i+1));
+        m_upLines[i]->setLine((qreal)2*m_coeff,(qreal)m_coeff*2*(i+1),
+                              (qreal)width(),(qreal)m_coeff*2*(i+1));
+        m_mainUpLines[i]->setLine((qreal)2*m_coeff,(qreal)m_coeff*2*(i+1),
+                                  (qreal)width(),(qreal)m_coeff*2*(i+1));
         if (i < 5) {
             m_downLines[i]->setLine((qreal)2*m_coeff,(qreal)m_coeff*2*(i+13),(qreal)width(),(qreal)m_coeff*2*(i+13));
             m_mainDownLines[i]->setLine((qreal)2*m_coeff,(qreal)m_coeff*2*(i+13),(qreal)width(),(qreal)m_coeff*2*(i+13));
@@ -118,7 +120,7 @@ void TnoteView::resize(int co) {
         m_workAccid->setText(QString(QChar(0xe11a)));
         reset = true;
     }
-    m_accTextOffset = m_workAccid->boundingRect().height()/2 /*- qRound(m_coeff * 0.5)*/;
+    m_accTextOffset = m_workAccid->boundingRect().height()/2 - qRound(m_coeff * 0.2);
     if (reset) m_workAccid->setText("");
 
     if (m_mainNote->isVisible() && m_mainPosY) moveNote(m_mainPosY);
@@ -277,12 +279,12 @@ void TnoteView::setString(int realNr) {
         m_scene->addItem(m_strNr);
         m_strNr->setZValue(-1);
 
-        m_strEl = new QGraphicsEllipseItem();
-        m_strEl->setBrush(QBrush(Qt::NoBrush));
-        m_strEl->setPen(QPen(m_mainColor, 2, Qt::SolidLine));
-        m_scene->addItem(m_strEl);
-        m_strEl->setRect(0, 0, 5*m_coeff, 5*m_coeff);
-        m_strEl->setZValue(-1);
+//        m_strEl = new QGraphicsEllipseItem();
+//        m_strEl->setBrush(QBrush(Qt::NoBrush));
+//        m_strEl->setPen(QPen(m_mainColor, 2, Qt::SolidLine));
+//        m_scene->addItem(m_strEl);
+//        m_strEl->setRect(0, 0, 5*m_coeff, 5*m_coeff);
+//        m_strEl->setZValue(-1);
     }
     m_strNr->setText(QString("%1").arg(realNr));
     setStringPos();
@@ -292,15 +294,15 @@ void TnoteView::setStringPos() {
     if (m_strNr) {
         int yy = 26*m_coeff;
         if (m_mainPosY > 20) yy = 10*m_coeff;
-        m_strNr->setPos(1.8*m_coeff,yy-3*m_coeff);
-        m_strEl->setPos(m_coeff/2,yy);
+        m_strNr->setPos(0.2*m_coeff, yy-3*m_coeff);
+//        m_strEl->setPos(m_coeff/2,yy);
     }
 }
 
 void TnoteView::removeString() {
     if (m_strNr) {
         delete m_strNr;
-        delete m_strEl;
+//        delete m_strEl;
         m_strNr = 0;
     }
 }

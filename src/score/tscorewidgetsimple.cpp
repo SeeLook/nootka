@@ -44,16 +44,12 @@ TscoreWidgetSimple::TscoreWidgetSimple(unsigned char _notesCount, QWidget *paren
     keySignView = 0;
 
     m_dblSharpBut = new QPushButton(TnoteView::getAccid(2), this);
-//     m_dblSharpBut->setIcon(QIcon(gl->path+"picts/dblsharp.svg"));
     setButtons(m_dblSharpBut);
     m_sharpBut = new QPushButton(TnoteView::getAccid(1), this);
-//     m_sharpBut->setIcon(QIcon(gl->path+"picts/sharp.svg"));
     setButtons(m_sharpBut);
     m_flatBut = new QPushButton(TnoteView::getAccid(-1), this);
-//     m_flatBut->setIcon(QIcon(gl->path+"picts/flat.svg"));
     setButtons(m_flatBut);
     m_dblFlatBut = new QPushButton(TnoteView::getAccid(-2), this);
-//     m_dblFlatBut->setIcon(QIcon(gl->path+"picts/dblflat.svg"));
     setButtons(m_dblFlatBut);
     QVBoxLayout *butLay = new QVBoxLayout;
     butLay->addStretch(1);
@@ -95,19 +91,8 @@ void TscoreWidgetSimple::paintEvent(QPaintEvent *) {
 
     for (int i=16; i < 26; i += 2)
         painter.drawLine(5,(i*coeff),width()-55,(i*coeff));
-//    painter.setFont(QFont("Emmentaler",coeff*6,QFont::Normal));
-//    painter.drawText(QRect(1, qRound(11.2*coeff), coeff*6,coeff*18), Qt::AlignLeft, QString(QChar(0xe1a9)));
-//    painter.setFont(QFont("Emmentaler", qRound(coeff*1.5),QFont::Normal));
-//    painter.drawText(QRect(1,qRound(26*coeff), coeff*5,coeff*5), Qt::AlignCenter, "8");
     painter.setFont(QFont("nootka",coeff*12.5,QFont::Normal));
     painter.drawText(QRect(1, qRound(12.2*coeff), coeff*6,coeff*18), Qt::AlignLeft, QString(QChar(0xe1a7)));
-/**
-    QSvgRenderer svgrendr(QString(gl->path+"picts/clef.svg"));
-    svgrendr.render(&painter,QRectF(1,12*coeff,coeff*5,coeff*18));
-
-    Is nice to have svg support but only for this cleff it has no sence
-    untill I'll prepare class for manage svg-s and use it for accidentals and so on
- */
 }
 
 void TscoreWidgetSimple::resizeEvent(QResizeEvent *) {
@@ -120,7 +105,7 @@ void TscoreWidgetSimple::resize() {
     if (m_hasScord)
         if (shift < 85) shift = 85;
     if (keySignView) {
-        keySignView->setGeometry(6*coeff, 0, 8*coeff, height());
+        keySignView->setGeometry(5*coeff, 0, 8*coeff, height());
         keySignView->resize(coeff);
         shift = 14*coeff;
     }

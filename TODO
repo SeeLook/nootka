@@ -1,5 +1,5 @@
 TNOTEVIEW
-    - when it is resizing accidental symbols leave trash on screen
+
 
 SETTINGS DIALOG
     - disable maximize button on titlebar
@@ -11,14 +11,15 @@ TNOTENAME
     - resolve problem with resizeing and layout
 
 TFINGERBOARD
-    - crash after resizing
+
     - adjust fingers in lefthanded mode
 
 TKEYSIGNATUREVIEW
-    - keys names are static strings, but they are declared only when TkeySignatureView object exist. Make order with this.
+
 
 TKEYSIGNATURE
 
 !!!!! LEVELS
     - ajust level loaded from files or settings to current tune and frets number
         (in TexamLevel)
+    - when notes of range are with # or b appropirate accidentals have to be used in level

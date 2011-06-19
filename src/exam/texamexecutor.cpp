@@ -185,9 +185,9 @@ void TexamExecutor::askQuestion() {
             curQ.qa.note = determineAccid(curQ.qa.note);
     }
 
-    qDebug() << QString::fromStdString(curQ.qa.note.getName()) << "Q" << (int)curQ.questionAs
-            << "A" << (int)curQ.answerAs << curQ.key.getMajorName()
-            << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
+//    qDebug() << QString::fromStdString(curQ.qa.note.getName()) << "Q" << (int)curQ.questionAs
+//            << "A" << (int)curQ.answerAs << curQ.key.getMajorName()
+//            << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
 
   // ASKING QUESIONS
     QString questText = QString("<b>%1. </b>").arg(m_answList.size()+1); //question number
@@ -201,7 +201,7 @@ void TexamExecutor::askQuestion() {
             mW->score->askQuestion(curQ.qa.note, curQ.key, strNr);
         else mW->score->askQuestion(curQ.qa.note, strNr);
     }
-//    if (curQ.questionAs == TQAtype::e_asName && curQ.answerAs != TQAtype::e_asName) {
+
     if (curQ.questionAs == TQAtype::e_asName) {
         if (curQ.answerAs == TQAtype::e_asFretPos && m_level.showStrNr)
             mW->noteName->askQuestion(curQ.qa.note, curQ.qa.pos.str());
@@ -505,10 +505,15 @@ void TexamExecutor::prepareToExam() {
     m_glStore.showEnharmNotes = gl->showEnharmNotes;
     m_glStore.showKeySignName = gl->SshowKeySignName;
     m_glStore.showOtherPos = gl->GshowOtherPos;
+    m_glStore.useDblAccids = gl->doubleAccidentalsEnabled;
+    m_glStore.useKeySign = gl->SkeySignatureEnabled;
 
     gl->showEnharmNotes = false;
     gl->SshowKeySignName = false;
     gl->GshowOtherPos = false;
+    gl->doubleAccidentalsEnabled = m_level.withDblAcc;
+    gl->SkeySignatureEnabled = m_level.useKeySign;
+
     mW->score->acceptSettings();
     mW->noteName->setEnabledEnharmNotes(false);
     mW->guitar->acceptSettings();
@@ -524,6 +529,8 @@ void TexamExecutor::restoreAfterExam() {
     gl->showEnharmNotes = m_glStore.showEnharmNotes;
     gl->SshowKeySignName = m_glStore.showKeySignName;
     gl->GshowOtherPos = m_glStore.showOtherPos;
+    gl->doubleAccidentalsEnabled  = m_glStore.useDblAccids;
+    gl->SkeySignatureEnabled = m_glStore.useKeySign;
 
     mW->score->acceptSettings();
     mW->noteName->setEnabledEnharmNotes(false);
@@ -550,7 +557,6 @@ void TexamExecutor::disableWidgets() {
     mW->noteName->setNameDisabled(true);
     mW->score->isExamExecuting(true);
     mW->score->setScoreDisabled(true);
-//    mW->guitar->setDisabled(true);
     mW->guitar->setMouseTracking(false);
 }
 
@@ -561,7 +567,6 @@ void TexamExecutor::clearWidgets() {
 }
 
 void TexamExecutor::stopExamSlot() {
-//    mW->setMessageBg();
     mW->setStatusMessage("so a pity");
     mW->examResults->stopExam();
     clearWidgets();
