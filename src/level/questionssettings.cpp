@@ -347,7 +347,7 @@ TasFretPosWdg::TasFretPosWdg(QWidget *parent) :
 
     mainLay->addStretch(1);
     showStrNrChB = new QCheckBox(tr("show string number in questions"), this);
-    showStrNrChB->setStatusTip(tr("Shows on which string an answer has to be given.<br>Be careful when it is needed and when it has no sense"));
+    showStrNrChB->setStatusTip(tr("Shows on which string an answer has to be given.<br>Be careful, when it is needed and when it has no sense"));
     mainLay->addWidget(showStrNrChB);
     mainLay->addStretch(1);
 
