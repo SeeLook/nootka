@@ -147,7 +147,6 @@ void TexamExecutor::askQuestion() {
     m_answRequire.accid = true;
     m_answRequire.key = false;
     m_note2 = Tnote(0,0,0);
-    qDebug() << "widget clear";
 
     TQAunit curQ = TQAunit(); // current question
     curQ.qa = m_questList[qrand() % m_questList.size()];
@@ -155,7 +154,9 @@ void TexamExecutor::askQuestion() {
     curQ.answerAs = m_level.answersAs[curQ.questionAs].next();
 
     if (curQ.questionAs == TQAtype::e_asNote || curQ.answerAs == TQAtype::e_asNote) {
+      qDebug() << "as note";
         if (m_level.useKeySign) {
+	    qDebug() << "use key signature";
             Tnote tmpNote = curQ.qa.note;
             if (m_level.isSingleKey) { //for single key
                 curQ.key = m_level.loKey;
@@ -193,6 +194,7 @@ void TexamExecutor::askQuestion() {
 
   // ASKING QUESIONS
     QString questText = QString("<b>%1. </b>").arg(m_answList.size()+1); //question number
+    qDebug() << "asking";
     if (curQ.questionAs == TQAtype::e_asNote) {
         questText += tr("Point given note ");
         char strNr = 0;
