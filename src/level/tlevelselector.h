@@ -43,6 +43,9 @@ private:
 };
 
 //#######################################################################
+        /** Returns list of predefined levels. */
+    QList<TexamLevel> getExampleLevels();
+//#######################################################################
 
 class TlevelSelector : public QWidget
 {

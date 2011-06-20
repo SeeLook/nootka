@@ -117,9 +117,13 @@ void TexamExecutor::createQuestionsList() {
                     }
                 }
                 if (hope) {
-                    TQAunit::TQAgroup g;
-                    g.note = n; g.pos = TfingerPos(gl->strOrder(s)+1, f);
-                    m_questList << g;
+                    if (n.acidental && (!m_level.withFlats && !m_level.withSharps))
+                        continue;
+                    else {
+                        TQAunit::TQAgroup g;
+                        g.note = n; g.pos = TfingerPos(gl->strOrder(s)+1, f);
+                        m_questList << g;
+                    }
                 }
             }
         }

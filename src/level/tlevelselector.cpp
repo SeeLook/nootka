@@ -23,6 +23,55 @@
 
 extern Tglobals *gl;
 
+QList<TexamLevel> getExampleLevels() {
+    QList<TexamLevel> llist;
+    TexamLevel l = TexamLevel();
+
+    l.name = QObject::tr("open strings");
+    l.desc = QObject::tr("The simplest. No key signatures, no double accidentals.<br>Automatically adjusted to current tune.");
+    l.answersAs[0] = TQAtype(false, true, true, false);
+    l.answersAs[1] = TQAtype(true, false, true, false);
+    l.withSharps = false;
+    l.withFlats = false;
+    l.withDblAcc = false;
+    l.useKeySign = false;
+    l.loKey = 0;
+    l.hiKey = 0;
+    l.forceAccids = false;
+    l.requireOctave = false;
+    l.requireStyle = false;
+    l.showStrNr = false;
+    l.hiNote = Tnote(gl->hiString().getChromaticNrOfNote()); //loNote is lowest by constructor
+    l.isNoteHi = false;
+    l.hiFret = 0;// loFret is 0 by constuctor
+    l.isFretHi = false;
+    llist << l;
+
+    l.name = QObject::tr("C-major scale");
+    l.desc = QObject::tr("In first position. No accidentals.<br>Octave required.");
+    l.answersAs[0] = TQAtype(false, true, true, false);
+    l.answersAs[1] = TQAtype(true, false, true, false);
+    l.withSharps = false;
+    l.withFlats = false;
+    l.withDblAcc = false;
+    l.useKeySign = false;
+    l.loKey = 0;
+    l.hiKey = 0;
+    l.forceAccids = false;
+    l.requireOctave = true;
+    l.requireStyle = false;
+    l.showStrNr = false;
+    l.loNote = Tnote(1,0,0);
+    l.isNoteLo = false;
+    l.hiNote = Tnote(1,1,0);
+    l.isNoteHi = false;
+    l.hiFret = 3;// loFret is 0 by constuctor
+    l.isFretHi = false;
+    llist << l;
+
+    return llist;
+}
+
 /*static*/
 const qint32 TlevelSelector::levelVersion = 0x95121701;
 QString TlevelSelector::levelFilterTxt = QObject::tr("Levels (*.nlv)");
@@ -66,6 +115,10 @@ void TlevelSelector::findLevels() {
     TexamLevel lev = TexamLevel();
     // from constructor
     addLevel(lev);
+    // from predefined list
+    QList<TexamLevel> llist = getExampleLevels();
+    for (int i = 0; i < llist.size(); i++)
+        addLevel(llist[i]);
 }
 
 void TlevelSelector::addLevel(const TexamLevel &lev) {
