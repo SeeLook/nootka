@@ -104,7 +104,7 @@ void MainWindow::createActions() {
 
     levelCreatorAct = new QAction(tr("Levels' creator"), this);
     levelCreatorAct->setStatusTip(levelCreatorAct->text());
-    levelCreatorAct->setIcon(QIcon(gl->path+"picts/examSettings.png"));
+    levelCreatorAct->setIcon(QIcon(gl->path+"picts/levelCreator.png"));
     connect(levelCreatorAct, SIGNAL(triggered()), this, SLOT(createExamSettingsDlg()));
 
     startExamAct = new QAction(tr("Start exam"), this);

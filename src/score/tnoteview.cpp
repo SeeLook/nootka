@@ -278,13 +278,6 @@ void TnoteView::setString(int realNr) {
         m_strNr->setBrush(QBrush(m_mainColor));
         m_scene->addItem(m_strNr);
         m_strNr->setZValue(-1);
-
-//        m_strEl = new QGraphicsEllipseItem();
-//        m_strEl->setBrush(QBrush(Qt::NoBrush));
-//        m_strEl->setPen(QPen(m_mainColor, 2, Qt::SolidLine));
-//        m_scene->addItem(m_strEl);
-//        m_strEl->setRect(0, 0, 5*m_coeff, 5*m_coeff);
-//        m_strEl->setZValue(-1);
     }
     m_strNr->setText(QString("%1").arg(realNr));
     setStringPos();
@@ -292,7 +285,7 @@ void TnoteView::setString(int realNr) {
 
 void TnoteView::setStringPos() {
     if (m_strNr) {
-        int yy = 26*m_coeff;
+        int yy = 28*m_coeff;
         if (m_mainPosY > 20) yy = 10*m_coeff;
         m_strNr->setPos(0.2*m_coeff, yy-3*m_coeff);
 //        m_strEl->setPos(m_coeff/2,yy);
