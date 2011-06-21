@@ -33,7 +33,7 @@ TkeySignatureView::TkeySignatureView(TscoreWidgetSimple *parent, char _keySign) 
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFrameShape(QFrame::NoFrame);
     setStyleSheet(("background: transparent"));
-    setRenderHint(QPainter::Antialiasing, true);
+    setRenderHint(QPainter::TextAntialiasing, true);
     setMouseTracking(true);
     setStatusTip(tr("Use mouse wheel to change a key signature"));
 

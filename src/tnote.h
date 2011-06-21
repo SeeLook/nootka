@@ -157,7 +157,7 @@ bool getNoteFromStream(QDataStream &in, Tnote &n);
 
 QDataStream &operator<< (QDataStream &out, Tnote &n);
 
-//QDataStream &operator>> (QDataStream &in, Tnote &n);
+QDataStream &operator>> (QDataStream &in, Tnote &n);
 
 
 #endif

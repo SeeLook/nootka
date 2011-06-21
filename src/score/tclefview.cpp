@@ -16,21 +16,32 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include <QtGui/QApplication>
-#include "mainwindow.h"
-#include "tglobals.h"
 
-int main(int argc, char *argv[])
+#include "tclefview.h"
+
+TclefView::TclefView(TscoreWidgetSimple *parent) :
+    QGraphicsView(parent)
 {
-    QApplication a(argc, argv);
-    MainWindow w;
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setFrameShape(QFrame::NoFrame);
+    setStyleSheet(("background: transparent"));
+    setRenderHint(QPainter::TextAntialiasing, true);
 
-    QFontDatabase fd;
-    if (fd.addApplicationFont(Tglobals::getInstPath(qApp->applicationDirPath()) + "fonts/nootka.ttf") == -1) {
-        QMessageBox::critical(0, "", QCoreApplication::translate("main", "<center>Can not load a font.<br>Try to install nootka.ttf manually.</center>"));
-        return 111;
-    }
+    m_scene = new QGraphicsScene();
+    setScene(m_scene);
 
-    w.show();
-    return a.exec();
+    m_clefText = new QGraphicsSimpleTextItem();
+    m_clefText->setBrush(QBrush(palette().text().color()));
+    m_scene->addItem(m_clefText);
+    m_clefText->setText(QString(QChar(0xe1a7)));
+
+    show();
+}
+
+void TclefView::resize(int co) {
+    m_scene->setSceneRect(0, 0, width(), height());
+    QFont font(QFont("nootka", co*12.5, QFont::Normal));
+    m_clefText->setFont(font);
+    m_clefText->setPos(1, qRound(11.2*co));
 }

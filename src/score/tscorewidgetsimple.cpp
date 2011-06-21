@@ -18,7 +18,7 @@
 
 #include "tscorewidgetsimple.h"
 #include <QPainter>
-//#include <QtSvg/QSvgRenderer>
+#include "tclefview.h"
 #include "tnoteview.h"
 #include "tkeysignatureview.h"
 #include "tkeysignature.h"
@@ -36,6 +36,8 @@ TscoreWidgetSimple::TscoreWidgetSimple(unsigned char _notesCount, QWidget *paren
 {
     setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Ignored);
     setMinimumHeight(180);
+
+    m_clef = new TclefView(this);
 
     for (int i=0; i<_notesCount; i++) {
         noteViews << new TnoteView(i,this);
@@ -91,8 +93,8 @@ void TscoreWidgetSimple::paintEvent(QPaintEvent *) {
 
     for (int i=16; i < 26; i += 2)
         painter.drawLine(5,(i*coeff),width()-55,(i*coeff));
-    painter.setFont(QFont("nootka",coeff*12.5,QFont::Normal));
-    painter.drawText(QRect(1, qRound(12.2*coeff), coeff*6,coeff*18), Qt::AlignLeft, QString(QChar(0xe1a7)));
+//    painter.setFont(QFont("nootka",coeff*12.5,QFont::Normal));
+//    painter.drawText(QRect(1, qRound(12.2*coeff), coeff*6,coeff*18), Qt::AlignLeft, QString(QChar(0xe1a7)));
 }
 
 void TscoreWidgetSimple::resizeEvent(QResizeEvent *) {
@@ -101,6 +103,8 @@ void TscoreWidgetSimple::resizeEvent(QResizeEvent *) {
 
 void TscoreWidgetSimple::resize() {
     coeff = geometry().height() / _C;
+    m_clef->setGeometry(1, 0, 5.5*coeff, height());
+    m_clef->resize(coeff);
     int shift = 6*coeff;
     if (m_hasScord)
         if (shift < 85) shift = 85;

@@ -365,6 +365,10 @@ QDataStream &operator << (QDataStream &out, Tnote &n) {
     out << (qint8)n.note << (qint8)n.octave << (qint8)n.acidental;
 }
 
-//QDataStream &operator>> (QDataStream &in, Tnote &n) {
-  
-//}
+QDataStream &operator>> (QDataStream &in, Tnote &n) {
+    qint8 no, nn, oo, aa;
+    in >> no >> aa;
+    oo = no / 8;
+    nn = no % 8;
+    n = Tnote(nn, oo, aa);
+}
