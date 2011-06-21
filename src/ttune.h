@@ -34,7 +34,6 @@ public:
     Ttune(const QString _name = "", Tnote S1 = Tnote(0,0,0) , Tnote S2 = Tnote(0,0,0),
                     Tnote S3 = Tnote(0,0,0), Tnote S4 = Tnote(0,0,0), Tnote S5 = Tnote(0,0,0), Tnote S6 = Tnote(0,0,0));
 
-    ~Ttune();
                 /** It is a name of the tune*/
     QString name;
             /** Overloaded operator [] allows to use statment
@@ -44,8 +43,8 @@ public:
     static const Ttune tunes[4];
         /** This methods return highest and lowest note in the tune.
         * It is nessesery for tunes without string order f.e "Neshvile". */
-    Tnote highest();
-    Tnote lowest();
+//    Tnote highest();
+//    Tnote lowest();
 
     Tnote &operator[] (unsigned char stringNr) { return m_S[stringNr-1]; }
     bool operator==(Ttune T2) {
@@ -61,5 +60,8 @@ private:
             /** Array of Tnotes that represents six strings */
         Tnote m_S[6];
 };
+
+QDataStream &operator<< (QDataStream &out, Ttune &t);
+QDataStream &operator>> (QDataStream &in, Ttune &t);
 
 #endif

@@ -16,21 +16,41 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include <QtGui/QApplication>
-#include "mainwindow.h"
-#include "tglobals.h"
 
-int main(int argc, char *argv[])
+#ifndef TCLEFVIEW_H
+#define TCLEFVIEW_H
+
+#include <QGraphicsView>
+#include "tscorewidgetsimple.h"
+
+class QGraphicsScene;
+class QGraphicsSimpleTextItem;
+    /** @short This class represents clef on the score
+    *
+    * @author Tomasz Bojczuk  <tomaszbojczuk@gmail.com>
+    */
+class TclefView : public QGraphicsView
 {
-    QApplication a(argc, argv);
-    MainWindow w;
+    friend class TscoreWidgetSimple;
 
-    QFontDatabase fd;
-    if (fd.addApplicationFont(Tglobals::getInstPath(qApp->applicationDirPath()) + "fonts/nootka.ttf") == -1) {
-        QMessageBox::critical(0, "", QCoreApplication::translate("main", "<center>Can not load a font.<br>Try to install nootka.ttf manually.</center>"));
-        return 111;
-    }
+    Q_OBJECT
+public:
+    explicit TclefView(TscoreWidgetSimple *parent = 0);
 
-    w.show();
-    return a.exec();
-}
+signals:
+
+public slots:
+
+protected:
+        /** @class TscoreWidgetSimple as a parent has to take care about resizing process
+        * so it calls this function in his resizeEvent and put @param coeff parameter */
+    void resize(int co);
+
+private:
+    QGraphicsScene *m_scene;
+    QGraphicsSimpleTextItem *m_clefText;
+//    int m_coeff;
+
+};
+
+#endif // TCLEFVIEW_H

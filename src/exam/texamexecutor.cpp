@@ -139,7 +139,7 @@ void TexamExecutor::createQuestionsList() {
 
 
 void TexamExecutor::askQuestion() {
-    qDebug() << "start asking:";
+//    qDebug() << "start asking:";
     gl->NnameStyleInNoteName = m_prevStyle;
     mW->noteName->setNoteNamesOnButt(m_prevStyle);
 
@@ -158,9 +158,9 @@ void TexamExecutor::askQuestion() {
     curQ.answerAs = m_level.answersAs[curQ.questionAs].next();
 
     if (curQ.questionAs == TQAtype::e_asNote || curQ.answerAs == TQAtype::e_asNote) {
-      qDebug() << "as note";
+//      qDebug() << "as note";
         if (m_level.useKeySign) {
-	    qDebug() << "use key signature";
+//	    qDebug() << "use key signature";
             Tnote tmpNote = curQ.qa.note;
             if (m_level.isSingleKey) { //for single key
                 curQ.key = m_level.loKey;
@@ -198,7 +198,7 @@ void TexamExecutor::askQuestion() {
 
   // ASKING QUESIONS
     QString questText = QString("<b>%1. </b>").arg(m_answList.size()+1); //question number
-    qDebug() << "asking";
+//    qDebug() << "asking";
     if (curQ.questionAs == TQAtype::e_asNote) {
         questText += tr("Point given note ");
         char strNr = 0;
@@ -265,7 +265,7 @@ void TexamExecutor::askQuestion() {
     if (curQ.answerAs == TQAtype::e_asName) {
         questText += TquestionAsWdg::asNameTxt;
         if (curQ.questionAs == TQAtype::e_asName) {
-             qDebug() << "as name";
+//             qDebug() << "as name";
             m_prevStyle = gl->NnameStyleInNoteName;
             Tnote::EnameStyle tmpStyle = m_prevStyle;
             if (m_isSolfege) {
@@ -399,7 +399,7 @@ void TexamExecutor::checkAnswer(){
             exN = m_note2;
         retN = mW->noteName->getNoteName();
     }
-qDebug() << QString::fromStdString(exN.getName()) << QString::fromStdString(retN.getName());
+//qDebug() << QString::fromStdString(exN.getName()) << QString::fromStdString(retN.getName());
     if (curQ.answerAs == TQAtype::e_asFretPos) {
         if (curQ.qa.pos != mW->guitar->getfingerPos())
             curQ.setMistake(TQAunit::e_wrongPos);
@@ -578,6 +578,7 @@ void TexamExecutor::clearWidgets() {
 }
 
 void TexamExecutor::stopExamSlot() {
+    mW->setMessageBg(-1);
     mW->setStatusMessage("so a pity");
     mW->examResults->stopExam();
     clearWidgets();

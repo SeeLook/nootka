@@ -28,6 +28,7 @@ class TnoteView;
 class TkeySignatureView;
 class Tnote;
 class TkeySignature;
+class TclefView;
 
 
 /** Creates widget with score, and buttons to add/remove accids.
@@ -115,6 +116,7 @@ private:
     QPushButton *m_sharpBut, *m_flatBut, *m_dblSharpBut, *m_dblFlatBut;
     TnotesList m_notes;
     bool m_hasScord;
+    TclefView *m_clef;
 
 
 };

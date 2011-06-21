@@ -42,23 +42,35 @@ Ttune::Ttune( const QString _name, Tnote S1, Tnote S2, Tnote S3, Tnote S4, Tnote
         m_S[5] = S6;
 }
 
-Ttune::~Ttune()
-{
+
+//Tnote Ttune::highest() {
+//    Tnote hi = m_S[0];
+//    for (int i=1; i<6; i++)
+//        if (m_S[i].getChromaticNrOfNote() > hi.getChromaticNrOfNote() )
+//            hi = m_S[i].getChromaticNrOfNote();
+//    return hi;
+//}
+
+//Tnote Ttune::lowest() {
+//    Tnote lo = m_S[5];
+//    for (int i=4; i>=0; i--)
+//        if (m_S[i].getChromaticNrOfNote() < lo.getChromaticNrOfNote())
+//            lo = m_S[i].getChromaticNrOfNote();
+//    return lo;
+//}
+
+QDataStream &operator<< (QDataStream &out, Ttune &t) {
+    out << t.name;
+    for (int i=1; i < 7; i++)
+        out << t[i];
 }
 
-Tnote Ttune::highest() {
-    Tnote hi = m_S[0];
-    for (int i=1; i<6; i++)
-        if (m_S[i].getChromaticNrOfNote() > hi.getChromaticNrOfNote() )
-            hi = m_S[i].getChromaticNrOfNote();
-    return hi;
-}
-
-Tnote Ttune::lowest() {
-    Tnote lo = m_S[5];
-    for (int i=4; i>=0; i--)
-        if (m_S[i].getChromaticNrOfNote() < lo.getChromaticNrOfNote())
-            lo = m_S[i].getChromaticNrOfNote();
-    return lo;
+QDataStream &operator>> (QDataStream &in, Ttune &t) {
+    QString n;
+    in >> n;
+    Tnote str[6];
+    for (int i=0; i < 6; i++)
+        in >> str[i];
+    t = Ttune(n, str[0], str[1], str[2], str[3], str[4], str[5]);
 }
 

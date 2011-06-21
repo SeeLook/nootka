@@ -17,6 +17,7 @@ SET( NOOTKA_SRCS
   score/tscorewidgetsimple.cpp
   score/tkeysignatureview.cpp
   score/tkeysignature.cpp
+  score/tclefview.cpp
 ###### Settings
   settings/settingsdialog.cpp
   settings/tsettingsdialogbase.cpp
@@ -56,6 +57,7 @@ SET( NOOTKA_MOC_SRCS
   score/tscorewidgetsimple.h
   score/tkeysignatureview.h
   score/tkeysignatureview.h
+  score/tclefview.h
 ###### Settings
   settings/settingsdialog.h
   settings/tsettingsdialogbase.h
