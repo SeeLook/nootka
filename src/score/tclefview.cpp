@@ -41,7 +41,9 @@ TclefView::TclefView(TscoreWidgetSimple *parent) :
 
 void TclefView::resize(int co) {
     m_scene->setSceneRect(0, 0, width(), height());
-    QFont font(QFont("nootka", co*12.5, QFont::Normal));
+//     QFont font(QFont("nootka", co*12.5, QFont::Normal));
+    QFont font(QFont("nootka"));
+    font.setPointSizeF(co*14);
     m_clefText->setFont(font);
     m_clefText->setPos(1, qRound(11.2*co));
 }
