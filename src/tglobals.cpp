@@ -98,7 +98,9 @@ Tglobals::Tglobals() {
 	    GselectedColor = sett.value("selectedColor").value<QColor>();
 	else
 	    GselectedColor = -1;
-
+//    Q_DECLARE_METATYPE(Ttune)
+    qRegisterMetaType<Ttune>("Ttune");
+    qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
    setTune(Ttune::stdTune);
       GpreferFlats = sett.value("flatsPrefered", false).toBool(); //false;	
     sett.endGroup();
@@ -171,6 +173,13 @@ void Tglobals::storeSettings() {
 	sett.setValue("fingerColor", GfingerColor);
 	sett.setValue("selectedColor", GselectedColor);
 // 	sett.setValue(""); //tune
+//    QVariant var = settings.value("Ttune");
+//    if (var.isValid()) {
+//        Ttune tt = var.value<Ttune>();
+
+//    } else {
+        sett.setValue("tune", qVariantFromValue(Gtune()));
+//    }
 	sett.setValue("flatsPrefered", GpreferFlats);
     sett.endGroup();
 }

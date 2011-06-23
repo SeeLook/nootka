@@ -20,6 +20,7 @@
 
 #include "tnote.h"
 #include <QString>
+#include <QMetaType>
 
 /** It stores six notes in Tnote objects, which can be set
  * in constructor, or get by overloaded [] operator.
@@ -33,7 +34,7 @@ public:
 
     Ttune(const QString _name = "", Tnote S1 = Tnote(0,0,0) , Tnote S2 = Tnote(0,0,0),
                     Tnote S3 = Tnote(0,0,0), Tnote S4 = Tnote(0,0,0), Tnote S5 = Tnote(0,0,0), Tnote S6 = Tnote(0,0,0));
-
+    ~Ttune();
                 /** It is a name of the tune*/
     QString name;
             /** Overloaded operator [] allows to use statment
@@ -43,9 +44,8 @@ public:
     static const Ttune tunes[4];
         /** This methods return highest and lowest note in the tune.
         * It is nessesery for tunes without string order f.e "Neshvile". */
-//    Tnote highest();
-//    Tnote lowest();
 
+//    const Tnote &operator[] (unsigned char stringNr) const { return m_S[stringNr-1]; }
     Tnote &operator[] (unsigned char stringNr) { return m_S[stringNr-1]; }
     bool operator==(Ttune T2) {
         return ( m_S[0]==T2[1] && m_S[1]==T2[2] && m_S[2]==T2[3] &&
@@ -60,7 +60,10 @@ private:
             /** Array of Tnotes that represents six strings */
         Tnote m_S[6];
 };
+Q_DECLARE_METATYPE(Ttune)
 
+
+QDataStream &operator<< (QDataStream &out, const Ttune &t);
 QDataStream &operator<< (QDataStream &out, Ttune &t);
 QDataStream &operator>> (QDataStream &in, Ttune &t);
 
