@@ -98,11 +98,14 @@ Tglobals::Tglobals() {
 	    GselectedColor = sett.value("selectedColor").value<QColor>();
 	else
 	    GselectedColor = -1;
-//    Q_DECLARE_METATYPE(Ttune)
+
     qRegisterMetaType<Ttune>("Ttune");
     qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
-   setTune(Ttune::stdTune);
-      GpreferFlats = sett.value("flatsPrefered", false).toBool(); //false;	
+	QVariant tun = sett.value("tune");
+	if (tun.isValid())
+	    setTune(tun.value<Ttune>());
+	else setTune(Ttune::stdTune);
+	GpreferFlats = sett.value("flatsPrefered", false).toBool(); //false;	
     sett.endGroup();
 
    
