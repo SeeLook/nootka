@@ -56,11 +56,6 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <path
-     style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;stroke:none;stroke-width:10;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
-     d="M 499.98051,124 C 278.99015,124 100,303.27397 100,523.98157 100,744.68916 278.99015,924 499.98051,924 c 220.99035,0 400.019,-179.31084 400.019,-400.01843 a 6.1606777,5.9000231 0 0 0 -0.0385,-0.58994 6.1606777,5.9000231 0 0 0 0,-0.0368 6.1606777,5.9000231 0 0 0 0.0385,-0.73743 C 899.24131,302.44807 720.4332,124 499.98051,124 z m 0,11.79887 c 213.5113,0 386.96164,172.77504 387.69888,386.85533 a 6.1606777,5.9000231 0 0 0 0.0385,0.73743 6.1606777,5.9000231 0 0 0 -0.0385,0.58994 c 0,214.60485 -173.66559,388.21956 -387.69888,388.21956 -214.0333,0 -387.66038,-173.61471 -387.66038,-388.21956 0,-214.60487 173.62708,-388.1827 387.66038,-388.1827 z"
-     id="path2997"
-     inkscape:connector-curvature="0" />
   <g
      style="font-size:1200px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Emmentaler;-inkscape-font-specification:Emmentaler"
      id="text3032">
@@ -69,4 +64,9 @@
        style=""
        id="path2986" />
   </g>
+  <path
+     style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;stroke:none;stroke-width:20;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+     d="m 899.92876,523.98619 c 0,-220.89046 -179.23879,-400.0555 -399.92819,-400.0555 -220.68941,0 -399.9282,179.16504 -399.9282,400.0555 0,220.89045 179.23879,400.08863 399.9282,400.08863 220.6894,0 399.92819,-179.19818 399.92819,-400.08863 z m -20.95751,0 c 0,209.29452 -169.47509,378.88311 -378.97068,378.88311 -209.4956,0 -378.97069,-169.58859 -378.97069,-378.88311 0,-209.29453 169.47509,-378.84998 378.97069,-378.84998 209.49559,0 378.97068,169.55545 378.97068,378.84998 z"
+     id="path2985"
+     inkscape:connector-curvature="0" />
 </svg>

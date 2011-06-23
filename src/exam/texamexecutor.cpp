@@ -579,7 +579,8 @@ void TexamExecutor::clearWidgets() {
 
 void TexamExecutor::stopExamSlot() {
     mW->setMessageBg(-1);
-    mW->setStatusMessage("so a pity");
+    mW->setStatusMessage("");
+    mW->setStatusMessage("so a pity", 5000);
     mW->examResults->stopExam();
     clearWidgets();
 
