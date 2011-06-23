@@ -42,8 +42,7 @@ public:
             * @p stringNr is real string number (1 to 6) */
     static const Ttune stdTune;
     static const Ttune tunes[4];
-        /** This methods return highest and lowest note in the tune.
-        * It is nessesery for tunes without string order f.e "Neshvile". */
+    friend QDataStream &operator<< (QDataStream &out, const Ttune &t);
 
 //    const Tnote &operator[] (unsigned char stringNr) const { return m_S[stringNr-1]; }
     Tnote &operator[] (unsigned char stringNr) { return m_S[stringNr-1]; }
@@ -56,7 +55,7 @@ public:
                 m_S[3]!=T2[4] || m_S[4]!=T2[5] || m_S[5]!=T2[6] );
     }
 
-private:
+protected:
             /** Array of Tnotes that represents six strings */
         Tnote m_S[6];
 };
@@ -64,7 +63,7 @@ Q_DECLARE_METATYPE(Ttune)
 
 
 QDataStream &operator<< (QDataStream &out, const Ttune &t);
-QDataStream &operator<< (QDataStream &out, Ttune &t);
+// QDataStream &operator<< (QDataStream &out, Ttune &t);
 QDataStream &operator>> (QDataStream &in, Ttune &t);
 
 #endif
