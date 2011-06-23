@@ -39,8 +39,15 @@ public:
         * Under Windows is empty,
         * in Linux is usually /usr/bin or /usr/local/bin */
     static QString getInstPath(QString appInstPath);
+
+        /** Returns string with given color in HTML/CSS style.
+        * It is needed in setStyleSheet method for Qwidget style*/
     static QString getBGcolorText(QColor C);
+
     static QColor invertColor(QColor C);
+
+    void storeSettings();
+
     QString path;
     QString version;
         /** If @param true, hints of widgets are shown*/
@@ -107,7 +114,7 @@ public:
         * and note is calculated. Default are sharps*/
     bool GpreferFlats; // default false
 
-// Exam settings
+//============ Exam settings ===========================================================
     QColor EquestionColor;
     QColor EanswerColor;
         /** Next quetion in en exam is given automatically after
