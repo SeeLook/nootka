@@ -43,8 +43,8 @@ public:
     static const Ttune stdTune;
     static const Ttune tunes[4];
     friend QDataStream &operator<< (QDataStream &out, const Ttune &t);
+    friend QDataStream &operator>> (QDataStream &in, Ttune &t);
 
-//    const Tnote &operator[] (unsigned char stringNr) const { return m_S[stringNr-1]; }
     Tnote &operator[] (unsigned char stringNr) { return m_S[stringNr-1]; }
     bool operator==(Ttune T2) {
         return ( m_S[0]==T2[1] && m_S[1]==T2[2] && m_S[2]==T2[3] &&
@@ -63,7 +63,6 @@ Q_DECLARE_METATYPE(Ttune)
 
 
 QDataStream &operator<< (QDataStream &out, const Ttune &t);
-// QDataStream &operator<< (QDataStream &out, Ttune &t);
 QDataStream &operator>> (QDataStream &in, Ttune &t);
 
 #endif

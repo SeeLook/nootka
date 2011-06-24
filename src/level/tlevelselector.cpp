@@ -113,12 +113,28 @@ void TlevelSelector::levelSelected(int id) {
 
 void TlevelSelector::findLevels() {
     TexamLevel lev = TexamLevel();
-    // from constructor
+  // from constructor
     addLevel(lev);
-    // from predefined list
+  // from predefined list
     QList<TexamLevel> llist = getExampleLevels();
     for (int i = 0; i < llist.size(); i++)
         addLevel(llist[i]);
+  // from setting file - recent load/saved levels
+    QSettings sett;
+    QStringList recentLevels = sett.value("recentLevels").toStringList();
+    for (int i = recentLevels.size()-1; i >= 0; i--) {
+        QFile file(recentLevels[i]);
+        if (file.exists()) {
+            TexamLevel level = getLevelFromFile(file);
+            if (level.name != "")
+                addLevel(level);
+            else
+                recentLevels.removeAt(i);
+        }
+        else
+            recentLevels.removeAt(i);
+    }
+
 }
 
 void TlevelSelector::addLevel(const TexamLevel &lev) {
@@ -144,24 +160,31 @@ void TlevelSelector::loadFromFile() {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load exam's level"),
                                                      QDir::homePath(), levelFilterTxt);
     QFile file(fileName);
+    TexamLevel level = getLevelFromFile(file);
+    if (level.name != "") {
+        addLevel(level);
+        selectLevel(); // select the last
+        updateRecentLevels(fileName);
+    }
+}
+
+TexamLevel TlevelSelector::getLevelFromFile(QFile &file) {
+    TexamLevel level;
+    level.name = "";
     if (file.open(QIODevice::ReadOnly)) {
          QDataStream in(&file);
          in.setVersion(QDataStream::Qt_4_7);
          quint32 lv; //level template version
          in >> lv;
          if (lv != levelVersion) {
-             QMessageBox::critical(this, "", tr("File: %1 \n is not Nootka level file !!!").arg(fileName));
-             return;
+             QMessageBox::critical(this, "", tr("File: %1 \n is not Nootka level file !!!").arg(file.fileName()));
+             return level;
          }
-         TexamLevel level;
          if (!getLevelFromStream(in, level))
-//         in >> level;
-             QMessageBox::warning(0, "", tr("Level file was corrupted and repaired !!\nCheck please, are its parameters such as You expected."));
-         addLevel(level);
-         selectLevel(); // select the last
-
+             QMessageBox::warning(0, "", tr("Level file\n %1 \n was corrupted and repaired !!\nCheck please, are its parameters such as expected.").arg(file.fileName()));
     } else
-        QMessageBox::critical(this, "", tr("Cannot open file for reading\n%1 ").arg(qPrintable(file.errorString())));
+        QMessageBox::critical(this, "", tr("Cannot open file\n %1 \n for reading\n%2 ").arg(file.fileName()).arg(qPrintable(file.errorString())));
+    return level;
 }
 
 TexamLevel TlevelSelector::getSelectedLevel() {
@@ -173,6 +196,13 @@ TexamLevel TlevelSelector::getSelectedLevel() {
         return levList[levelsList->currentRow()];
 }
 
+void TlevelSelector::updateRecentLevels(QString levelFile) {
+    QSettings sett;
+    QStringList recentLevels = sett.value("recentLevels").toStringList();
+    recentLevels.removeAll(levelFile);
+    recentLevels.prepend(levelFile);
+    sett.setValue("recentLevels", recentLevels);
+}
 
 //#########################  TlevelSummaryWdg ################################################
 
@@ -187,6 +217,7 @@ TlevelSummaryWdg::TlevelSummaryWdg(QWidget *parent) :
     QLabel *headLab = new QLabel(tr("Level summary:"),this);
     mainLay->addWidget(headLab);
     summLab = new QLabel(tr("\n no level selected"), this);
+    summLab->setFixedWidth(300);
     mainLay->addWidget(summLab);
     mainLay->addStretch(1);
     setLayout(mainLay);
