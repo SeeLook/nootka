@@ -1,9 +1,27 @@
+/***************************************************************************
+ *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
+ *   tomaszbojczuk@gmail.com   						   *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *  You should have received a copy of the GNU General Public License	   *
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
+ ***************************************************************************/
+
 #include "tglobals.h"
 #include "tkeysignature.h"
 #include <QDir>
 #include <QSettings>
 #include <QCoreApplication>
-#include <QDebug>
+//#include <QDebug>
 
 
 
@@ -39,8 +57,11 @@ Tglobals::Tglobals() {
 
     version = "0.6 beta";
 //    path ; Is declared in mainWindow constructor
-qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
-    qMetaTypeId<Ttune>();
+
+    qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
+//    qMetaTypeId<Ttune>();
+    //     qRegisterMetaType<Ttune>("Ttune");
+
     QCoreApplication::setOrganizationName("Nootka");
     QCoreApplication::setOrganizationDomain("nootka.sf.net");
     QCoreApplication::setApplicationName("Nootka");
@@ -72,55 +93,59 @@ qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
 //common for score widget and note name
     sett.beginGroup("common");
         doubleAccidentalsEnabled = sett.value("doubleAccidentals", true).toBool(); //true;
-	showEnharmNotes = sett.value("showEnaharmonicNotes", true).toBool(); //true;
-	if (sett.contains("enharmonicNotesColor"))
-	    enharmNotesColor = sett.value("enharmonicNotesColor").value<QColor>(); //-1;
-	else
-	    enharmNotesColor = -1;
-	seventhIs_B = sett.value("is7thNote_B", true).toBool(); //true;
+        showEnharmNotes = sett.value("showEnaharmonicNotes", true).toBool(); //true;
+        if (sett.contains("enharmonicNotesColor"))
+            enharmNotesColor = sett.value("enharmonicNotesColor").value<QColor>(); //-1;
+        else
+            enharmNotesColor = -1;
+        seventhIs_B = sett.value("is7thNote_B", true).toBool(); //true;
     sett.endGroup();
     
 //note name settings    
     sett.beginGroup("noteName");
-	NnameStyleInNoteName = Tnote::EnameStyle(sett.value("nameStyle", (int)Tnote::e_english_Bb).toInt());
-	NoctaveInNoteNameFormat = sett.value("octaveInName", true).toBool();
+        NnameStyleInNoteName = Tnote::EnameStyle(sett.value("nameStyle", (int)Tnote::e_english_Bb).toInt());
+        NoctaveInNoteNameFormat = sett.value("octaveInName", true).toBool();
 	//    NoctaveNameInNoteName = true;
     sett.endGroup();
 
 // guitar settings
     sett.beginGroup("guitar");
-	GfretsNumber = sett.value("fretNumber", 19).toInt();
-	GisRightHanded = sett.value("rightHanded", true).toBool(); //true;
-	GshowOtherPos = sett.value("showOtherPos", true).toBool(); //true;
-	if (sett.contains("fingerColor"))
-	    GfingerColor = sett.value("fingerColor").value<QColor>();
-	else
-	    GfingerColor = -1;
-	if (sett.contains("selectedColor"))
-	    GselectedColor = sett.value("selectedColor").value<QColor>();
-	else
-	    GselectedColor = -1;
-
-//     qRegisterMetaType<Ttune>("Ttune");
-    
-	QVariant tun;
-	tun.setValue(sett.value("tune", qVariantFromValue(Ttune::stdTune)));
-// 	qDebug() << tun;
-	if (tun.isValid())
-	    setTune(tun.value<Ttune>());
-	else setTune(Ttune::stdTune);
-// 	setTune(sett.value("tune").value<Ttune>());
-	GpreferFlats = sett.value("flatsPrefered", false).toBool(); //false;	
+        GfretsNumber = sett.value("fretNumber", 19).toInt();
+        GisRightHanded = sett.value("rightHanded", true).toBool(); //true;
+        GshowOtherPos = sett.value("showOtherPos", true).toBool(); //true;
+        if (sett.contains("fingerColor"))
+            GfingerColor = sett.value("fingerColor").value<QColor>();
+        else
+            GfingerColor = -1;
+        if (sett.contains("selectedColor"))
+            GselectedColor = sett.value("selectedColor").value<QColor>();
+        else
+            GselectedColor = -1;
+        QVariant tun = sett.value("tune");
+        if (tun.isValid())
+            setTune(tun.value<Ttune>());
+        else setTune(Ttune::stdTune);
+        GpreferFlats = sett.value("flatsPrefered", false).toBool(); //false;
     sett.endGroup();
 
    
 // Exam settings
-    EquestionColor = QColor("red");
-    EquestionColor.setAlpha(40);
-    EanswerColor = QColor("green");
-    EanswerColor.setAlpha(40);
-    EautoNextQuest = false;
-    ErepeatIncorrect = true;
+    sett.beginGroup("exam");
+        if (sett.contains("questionColor"))
+            EquestionColor = sett.value("questionColor").value<QColor>();
+        else {
+               EquestionColor = QColor("red");
+               EquestionColor.setAlpha(40);
+           }
+        if (sett.contains("answerColor"))
+            EanswerColor = sett.value("answerColor").value<QColor>();
+        else {
+                EanswerColor = QColor("green");
+               EanswerColor.setAlpha(40);
+           }
+        EautoNextQuest = sett.value("autoNextQuest", false).toBool(); //false;
+        ErepeatIncorrect = sett.value("repeatIncorrect", true).toBool(); //true;
+    sett.endGroup();
 
 }
 
@@ -149,7 +174,7 @@ void Tglobals::setTune(Ttune t) {
 
 void Tglobals::storeSettings() {
     QSettings sett;
-#if defined(Q_OS_WIN32) // I hate mess in Win registry
+#if defined(Q_OS_WIN32) // I hate mess in Windows registry
     sett = QSettings(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
 #endif
     sett.beginGroup("common");
@@ -170,21 +195,24 @@ void Tglobals::storeSettings() {
     sett.endGroup();
   
     sett.beginGroup("noteName");
-	sett.setValue("nameStyle", (int)NnameStyleInNoteName);
-	sett.setValue("octaveInName", NoctaveInNoteNameFormat);
+        sett.setValue("nameStyle", (int)NnameStyleInNoteName);
+        sett.setValue("octaveInName", NoctaveInNoteNameFormat);
     sett.endGroup();
     
     sett.beginGroup("guitar");
-	sett.setValue("fretNumber", (int)GfretsNumber);
-	sett.setValue("rightHanded", GisRightHanded);
-	sett.setValue("showOtherPos", GshowOtherPos);
-	sett.setValue("fingerColor", GfingerColor);
-	sett.setValue("selectedColor", GselectedColor);
-// 	QVariant *v = new QVariant();
-// 	v->setValue<Ttune>(Gtune());
+        sett.setValue("fretNumber", (int)GfretsNumber);
+        sett.setValue("rightHanded", GisRightHanded);
+        sett.setValue("showOtherPos", GshowOtherPos);
+        sett.setValue("fingerColor", GfingerColor);
+        sett.setValue("selectedColor", GselectedColor);
         sett.setValue("tune", qVariantFromValue(Gtune()));
-// 	sett.setValue("tune", v);
-//    }
-	sett.setValue("flatsPrefered", GpreferFlats);
+        sett.setValue("flatsPrefered", GpreferFlats);
+    sett.endGroup();
+
+    sett.beginGroup("exam");
+        sett.setValue("questionColor", EquestionColor);
+        sett.setValue("answerColor", EanswerColor);
+        sett.setValue("autoNextQuest", EautoNextQuest);
+        sett.setValue("repeatIncorrect", ErepeatIncorrect);
     sett.endGroup();
 }

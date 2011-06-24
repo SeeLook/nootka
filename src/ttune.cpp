@@ -1,10 +1,10 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Tomasz Bojczuk   *
+ *   Copyright (C) 2006-2011 by Tomasz Bojczuk   *
  *   tomaszbojczuk@gmail.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
+ *   the Free Software Foundation; either version 3 of the License, or     *
  *   (at your option) any later version.                                   *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
@@ -12,16 +12,11 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ *  You should have received a copy of the GNU General Public License	   *
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 #include "ttune.h"
-//#include <QObject>
 #include <QDebug>
-// Q_DECLARE_METATYPE(Ttune)
-
 
 
 /*static*/
@@ -48,23 +43,16 @@ Ttune::Ttune( const QString _name, Tnote S1, Tnote S2, Tnote S3, Tnote S4, Tnote
 Ttune::~Ttune() {}
 
 QDataStream &operator<< (QDataStream &out, const Ttune &t) {
-// QDataStream &operator<< (QDataStream &out, Ttune &t) {
     out << t.name;
     for (int i=0; i < 6; i++)
       out << t.m_S[i];
-//         out << t[i];
-//       qDebug() << t.name;
     return out;
 }
 
 QDataStream &operator>> (QDataStream &in, Ttune &t) {
-    QString n;
-    in >> n;
-    Tnote str[6];
+    in >> t.name;
     for (int i=0; i < 6; i++)
-        in >> str[i];
-    t = Ttune(n, str[0], str[1], str[2], str[3], str[4], str[5]);
-//     qDebug() << n << QString::fromStdString(str[0].getName());
+        in >> t.m_S[i];
     return in;
 }
 

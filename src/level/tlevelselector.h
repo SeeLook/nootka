@@ -70,6 +70,7 @@ public:
     void selectLevel();
         /** Returns current level*/
     TexamLevel getSelectedLevel();
+    void updateRecentLevels(QString levelFile);
 
 
 public slots:
@@ -88,6 +89,7 @@ private:
     QList <TexamLevel> levList;
     TlevelSummaryWdg *summWdg;
     QPushButton *loadBut;
+    TexamLevel getLevelFromFile(QFile &file);
 
 private slots:
     void m_loadFromFile();
