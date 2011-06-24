@@ -363,7 +363,7 @@ bool getNoteFromStream(QDataStream &in, Tnote &n) {
 
 QDataStream &operator << (QDataStream &out, const Tnote &n) {
     out << (qint8)n.note << (qint8)n.octave << (qint8)n.acidental;
-    std::cout << Tnote(n).getName() << "\n";
+//     std::cout << Tnote(n).getName() << "\n";
     return out;
 }
 
@@ -373,6 +373,6 @@ QDataStream &operator>> (QDataStream &in, Tnote &n) {
     oo = no / 8;
     nn = no % 8;
     n = Tnote(nn, oo, aa);
-    std::cout << n.getName() << "\n";
+//     std::cout << n.getName() << "\n";
     return in;
 }
