@@ -3,6 +3,7 @@
 #include <QDir>
 #include <QSettings>
 #include <QCoreApplication>
+#include <QDebug>
 
 
 
@@ -38,7 +39,8 @@ Tglobals::Tglobals() {
 
     version = "0.6 beta";
 //    path ; Is declared in mainWindow constructor
-
+qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
+    qMetaTypeId<Ttune>();
     QCoreApplication::setOrganizationName("Nootka");
     QCoreApplication::setOrganizationDomain("nootka.sf.net");
     QCoreApplication::setApplicationName("Nootka");
@@ -99,12 +101,15 @@ Tglobals::Tglobals() {
 	else
 	    GselectedColor = -1;
 
-    qRegisterMetaType<Ttune>("Ttune");
-    qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
-	QVariant tun = sett.value("tune");
+//     qRegisterMetaType<Ttune>("Ttune");
+    
+	QVariant tun;
+	tun.setValue(sett.value("tune", qVariantFromValue(Ttune::stdTune)));
+// 	qDebug() << tun;
 	if (tun.isValid())
 	    setTune(tun.value<Ttune>());
 	else setTune(Ttune::stdTune);
+// 	setTune(sett.value("tune").value<Ttune>());
 	GpreferFlats = sett.value("flatsPrefered", false).toBool(); //false;	
     sett.endGroup();
 
@@ -175,13 +180,10 @@ void Tglobals::storeSettings() {
 	sett.setValue("showOtherPos", GshowOtherPos);
 	sett.setValue("fingerColor", GfingerColor);
 	sett.setValue("selectedColor", GselectedColor);
-// 	sett.setValue(""); //tune
-//    QVariant var = settings.value("Ttune");
-//    if (var.isValid()) {
-//        Ttune tt = var.value<Ttune>();
-
-//    } else {
+// 	QVariant *v = new QVariant();
+// 	v->setValue<Ttune>(Gtune());
         sett.setValue("tune", qVariantFromValue(Gtune()));
+// 	sett.setValue("tune", v);
 //    }
 	sett.setValue("flatsPrefered", GpreferFlats);
     sett.endGroup();

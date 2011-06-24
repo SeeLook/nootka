@@ -20,6 +20,7 @@
 #include "ttune.h"
 //#include <QObject>
 #include <QDebug>
+// Q_DECLARE_METATYPE(Ttune)
 
 
 
@@ -52,7 +53,7 @@ QDataStream &operator<< (QDataStream &out, const Ttune &t) {
     for (int i=0; i < 6; i++)
       out << t.m_S[i];
 //         out << t[i];
-      qDebug() << t.name;
+//       qDebug() << t.name;
     return out;
 }
 
@@ -63,7 +64,7 @@ QDataStream &operator>> (QDataStream &in, Ttune &t) {
     for (int i=0; i < 6; i++)
         in >> str[i];
     t = Ttune(n, str[0], str[1], str[2], str[3], str[4], str[5]);
-    qDebug() << n << QString::fromStdString(str[0].getName());
+//     qDebug() << n << QString::fromStdString(str[0].getName());
     return in;
 }
 
