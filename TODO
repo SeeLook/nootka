@@ -26,3 +26,6 @@ TKEYSIGNATURE
         (in TexamLevel)
     - when notes of range are with # or b appropirate accidentals have to be used in level
     - make use with isfretHi, isNoteLo and so on..
+
+
+When app is closed during exam, exept warring about saving exam, restore global settings

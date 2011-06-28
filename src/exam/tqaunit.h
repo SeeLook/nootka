@@ -25,11 +25,13 @@
 #include "tkeysignature.h"
 
 
-    /** This class describes single question and given answer.*/
+    /** This class describes single question and given answer.
+    * @author Tomasz Bojczuk <tomaszbojczuk@gmail.com> */
 class TQAunit
 {
 public:
     TQAunit();
+    ~TQAunit();
 
     struct TQAgroup {
         TfingerPos pos;
@@ -53,10 +55,12 @@ public:
     TQAtype::Etype answerAs;
     Tnote::EnameStyle style;
     TkeySignature key;
-//    quint8 m_valid; private
     quint16 time;
-//    Tnote note2; // second note for case when question and answer are notes in a score.
-    // pos and note as answers
+    TQAgroup qa_2; // espected answers when question and answer are the same
+
+    friend QDataStream &operator<< (QDataStream &out, TQAunit &qaUnit);
+//    friend QDataStream &operator>> (QDataStream &in, TQAunit &qaUnit);
+    friend bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit);
     
     bool correct() { return m_valid == 0; }
     bool wrongAccid() { return m_valid & 1; }
@@ -67,9 +71,13 @@ public:
 
     bool wrongNote() {return m_valid & 64; }
     
-private:
+protected:
     quint8 m_valid;
 
 };
+
+QDataStream &operator<< (QDataStream &out, TQAunit &qaUnit);
+//QDataStream &operator>> (QDataStream &in, TQAunit &qaUnit);
+bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit);
 
 #endif // TQAUNIT_H
