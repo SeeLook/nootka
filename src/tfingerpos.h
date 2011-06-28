@@ -20,6 +20,8 @@
 #ifndef TFINGERPOS_H
 #define TFINGERPOS_H
 
+#include <QDataStream>
+
 
 /**
 *  @short A class describes finger's position on the fingerboard.
@@ -34,18 +36,32 @@ public:
         setPos(realStr, fret);
     }
 
-    unsigned char str() { return (m_pos / 40) +1; }
-    unsigned char fret() { return m_pos % 40; }
+    quint8 str() { return (m_pos / 40) +1; }
+    quint8 fret() { return m_pos % 40; }
 
     void setPos(unsigned char realStr, unsigned char fret) {
         m_pos = (realStr-1)*40 + fret;
     }
 
-    bool operator==( TfingerPos f2) { return str() == f2.str() && fret() == f2.fret(); }
-    bool operator!=( TfingerPos f2) { return str() != f2.str() || fret() != f2.fret(); }
+//    bool operator==( TfingerPos f2) { return str() == f2.str() && fret() == f2.fret(); }
+    bool operator==( TfingerPos f2) { return m_pos == f2.m_pos; }
+//    bool operator!=( TfingerPos f2) { return str() != f2.str() || fret() != f2.fret(); }
+    bool operator!=( TfingerPos f2) { return m_pos != f2.m_pos; }
 
-private:
-    unsigned char m_pos;
+    friend QDataStream &operator<< (QDataStream &out, const TfingerPos &fPos) {
+        out << fPos.m_pos;
+        return out;
+    }
+
+    friend QDataStream &operator>> (QDataStream &in, TfingerPos &fPos) {
+        in >> fPos.m_pos;
+        return in;
+    }
+
+protected:
+    quint8 m_pos;
 };
+
+
 
 #endif // TFINGERPOS_H

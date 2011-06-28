@@ -65,9 +65,11 @@ Tglobals::Tglobals() {
     QCoreApplication::setOrganizationName("Nootka");
     QCoreApplication::setOrganizationDomain("nootka.sf.net");
     QCoreApplication::setApplicationName("Nootka");
-    QSettings sett;
+
 #if defined(Q_OS_WIN32) // I hate mess in Win registry
-    sett = QSettings(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
+    QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
+#else
+    QSettings sett;
 #endif
 
     sett.beginGroup("common");
@@ -173,9 +175,10 @@ void Tglobals::setTune(Ttune t) {
 }
 
 void Tglobals::storeSettings() {
-    QSettings sett;
 #if defined(Q_OS_WIN32) // I hate mess in Windows registry
-    sett = QSettings(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
+    QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
+#else
+    QSettings sett;
 #endif
     sett.beginGroup("common");
         sett.setValue("enableHints", hintsEnabled);
