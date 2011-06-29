@@ -76,6 +76,7 @@ private:
 
 
     TexamLevel m_level;
+    QString m_userName;
     QList<TQAunit::TQAgroup> m_questList;
     QList<TQAunit> m_answList;
 //    TQAunit m_curQ;

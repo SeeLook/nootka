@@ -20,6 +20,10 @@
 #include "tstartexamdlg.h"
 #include "tlevelselector.h"
 
+/*static*/
+const QString TstartExamDlg::examFilterTxt = QObject::tr("Exams' results (*.noo)");
+
+
 TstartExamDlg::TstartExamDlg(QWidget *parent) :
     QDialog(parent)
 {
@@ -39,9 +43,9 @@ TstartExamDlg::TstartExamDlg(QWidget *parent) :
     levLay->addLayout(nameLay);
     levelsView = new TlevelSelector(this);
     levLay->addWidget(levelsView);
-    createBut = new QPushButton(tr("create new level"),this);
-    createBut->setStatusTip(tr("Dialog window for creating new level<br>will be opened."));
-    levLay->addWidget(createBut, 1, Qt::AlignCenter);
+//    createBut = new QPushButton(tr("create new level"),this);
+//    createBut->setStatusTip(tr("Dialog window for creating new level<br>will be opened."));
+//    levLay->addWidget(createBut, 1, Qt::AlignCenter);
     levelGr = new QGroupBox(this);
     levelGr->setStatusTip(tr("Select a level suitable for You<br>or create new one."));
     levelGr->setLayout(levLay);
@@ -133,13 +137,18 @@ bool TstartExamDlg::event(QEvent *event) {
 }
 
 void TstartExamDlg::startAccepted() {
-    if (levelRadio->isChecked()) {
+    if (levelRadio->isChecked()) {// new exam on selsected level
         TexamLevel l = levelsView->getSelectedLevel();
-        if (l.name == "") {
+        if (l.name == "") { // nothing selected
             QMessageBox::warning(this, "", tr("Any level was not selected !!"));
             return;
-        } else
+        } else {
+            if (nameEdit->text() == "") {
+                QMessageBox::warning(this, "", tr("Give some user name !!"));
+                return;
+            }
             accept();
+        }
     }
 }
 

@@ -41,6 +41,8 @@ public:
         * or exam file path, depends on returned @param Eactions,
         * and returns secected level. */
     Eactions showDialog(QString &txt, TexamLevel &lev);
+        /** exam file extension and its description */
+    static const QString examFilterTxt;
 
 
 signals:
@@ -55,13 +57,14 @@ private:
     QGroupBox *examGr, *levelGr;
     TlevelSelector *levelsView;
     QLineEdit *nameEdit;
-    QPushButton *createBut, *loadExamBut, *startBut, *cancelBut;
+    QPushButton /**createBut,*/ *loadExamBut, *startBut, *cancelBut;
     QLabel *hint;
     QComboBox *examCombo;
 
 private slots:
     void levelOrExamChanged();
     void levelToLoad();
+        /** occurs when user click Accept button*/
     void startAccepted();
 };
 
