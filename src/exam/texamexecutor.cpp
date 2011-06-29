@@ -32,13 +32,16 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     mW = mainW;
 
     TstartExamDlg *startDlg = new TstartExamDlg(mW);
-    QString actTxt;
-    TstartExamDlg::Eactions userAct = startDlg->showDialog(actTxt, m_level);
+    TstartExamDlg::Eactions userAct = startDlg->showDialog(m_userName, m_level);
+    delete startDlg;
     if (userAct == TstartExamDlg::e_newLevel) {
-        mW->examResults->startExam(3689);
+        mW->examResults->startExam();
 
     } else 
-      return;
+        if (userAct == TstartExamDlg::e_continue) {
+            mW->examResults->startExam(3689);
+    } else
+        return;
 
     prepareToExam();
     createQuestionsList();
@@ -492,6 +495,7 @@ void TexamExecutor::repeatQuestion() {
 }
 
 void TexamExecutor::prepareToExam() {
+    mW->setWindowTitle(tr("EXAM!!") + " " + m_userName + " - " + m_level.name);
     mW->setStatusMessage("exam started on level:<br><b>" + m_level.name + "</b>");
 
     mW->settingsAct->setDisabled(true);
@@ -536,6 +540,7 @@ void TexamExecutor::prepareToExam() {
 }
 
 void TexamExecutor::restoreAfterExam() {
+    mW->setWindowTitle(qApp->applicationName());
     gl->NnameStyleInNoteName = m_glStore.nameStyleInNoteName;
     gl->showEnharmNotes = m_glStore.showEnharmNotes;
     gl->SshowKeySignName = m_glStore.showKeySignName;
@@ -578,10 +583,12 @@ void TexamExecutor::clearWidgets() {
 }
 
 void TexamExecutor::stopExamSlot() {
+    QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam's results as:"), QDir::toNativeSeparators(QDir::homePath()+"/"+m_userName+"-"+m_level.name), TstartExamDlg::examFilterTxt);
+    mW->examResults->stopExam();
     mW->setMessageBg(-1);
     mW->setStatusMessage("");
     mW->setStatusMessage("so a pity", 5000);
-    mW->examResults->stopExam();
+
     clearWidgets();
 
     restoreAfterExam();
