@@ -49,6 +49,8 @@ public:
         bool accid;
         bool key;
     };
+        /** Magic number in exam file to identify it.*/
+    static const qint32 examVersion;
 
 protected:
     MainWindow *mW;
