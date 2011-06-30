@@ -614,7 +614,7 @@ void TexamExecutor::stopExamSlot() {
         sett.setValue("recentExams", recentExams);
 
     } else /** @todo the same message is in examSettingsDlg - do it common !!!*/
-        QMessageBox::critical(this, "", tr("Cannot open file for writing\n%1").arg(qPrintable(file.errorString())));
+        QMessageBox::critical(mW, "", tr("Cannot open file for writing\n%1").arg(qPrintable(file.errorString())));
 
 
 
