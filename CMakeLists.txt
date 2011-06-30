@@ -1,5 +1,6 @@
 project(nootka)
 cmake_minimum_required(VERSION 2.8)
+SET(CMAKE_BUILD_TYPE Release)
 find_package(Qt4 REQUIRED)
 INCLUDE( ${QT_USE_FILE} )
 add_definitions(${QT_DEFINITIONS})
