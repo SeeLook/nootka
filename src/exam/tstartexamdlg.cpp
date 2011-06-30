@@ -92,6 +92,17 @@ TstartExamDlg::TstartExamDlg(QWidget *parent) :
     levelRadio->setChecked(true);
     levelOrExamChanged();
 
+#if defined(Q_OS_WIN32) // I hate mess in Win registry
+    QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
+#else
+    QSettings sett;
+#endif
+    QStringList recentExams = sett.value("recentExams").toStringList();
+    for (int i = 0; i < recentExams.size(); i++) {
+        examCombo->addItem(recentExams[i]);
+
+    }
+
     connect(radioGr, SIGNAL(buttonClicked(int)), this, SLOT(levelOrExamChanged()));
     connect(levelsView, SIGNAL(levelToLoad()), this, SLOT(levelToLoad()));
     connect(startBut, SIGNAL(clicked()), this, SLOT(startAccepted()));

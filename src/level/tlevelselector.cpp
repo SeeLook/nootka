@@ -120,7 +120,11 @@ void TlevelSelector::findLevels() {
     for (int i = 0; i < llist.size(); i++)
         addLevel(llist[i]);
   // from setting file - recent load/saved levels
+#if defined(Q_OS_WIN32) // I hate mess in Win registry
+    QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
+#else
     QSettings sett;
+#endif
     QStringList recentLevels = sett.value("recentLevels").toStringList();
     for (int i = recentLevels.size()-1; i >= 0; i--) {
         QFile file(recentLevels[i]);
@@ -197,7 +201,11 @@ TexamLevel TlevelSelector::getSelectedLevel() {
 }
 
 void TlevelSelector::updateRecentLevels(QString levelFile) {
+#if defined(Q_OS_WIN32) // I hate mess in Win registry
+    QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
+#else
     QSettings sett;
+#endif
     QStringList recentLevels = sett.value("recentLevels").toStringList();
     recentLevels.removeAll(levelFile);
     recentLevels.prepend(levelFile);

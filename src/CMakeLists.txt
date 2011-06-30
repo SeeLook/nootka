@@ -1,6 +1,6 @@
 ################################################
 
-INCLUDE_DIRECTORIES (. exam level score settings )
+INCLUDE_DIRECTORIES (. exam info level score settings )
 
 SET( NOOTKA_SRCS
   main.cpp
@@ -40,7 +40,8 @@ SET( NOOTKA_SRCS
   exam/tstartexamdlg.cpp
   exam/tqaunit.cpp
   exam/texamview.cpp
-
+###### Info
+  info/taboutnootka.cpp
   )
 
 #SET( NOOTKA_HEADERS
@@ -77,6 +78,8 @@ SET( NOOTKA_MOC_SRCS
   exam/tstartexamdlg.h
   exam/texamview.h
   exam/texamexecutor.h
+###### Info
+  info/taboutnootka.h
   )
 
 QT4_WRAP_CPP( NOOTKA_MOCS ${NOOTKA_MOC_SRCS} )

@@ -583,8 +583,18 @@ void TexamExecutor::clearWidgets() {
 }
 
 void TexamExecutor::stopExamSlot() {
-    QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam's results as:"), QDir::toNativeSeparators(QDir::homePath()+"/"+m_userName+"-"+m_level.name), TstartExamDlg::examFilterTxt);
     mW->examResults->stopExam();
+    QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam's results as:"), QDir::toNativeSeparators(QDir::homePath()+"/"+m_userName+"-"+m_level.name), TstartExamDlg::examFilterTxt);
+#if defined(Q_OS_WIN32) // I hate mess in Win registry
+    QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
+#else
+    QSettings sett;
+#endif
+    QStringList recentExams = sett.value("recentExams").toStringList();
+    recentExams.prepend(fileName);
+    sett.setValue("recentExams", recentExams);
+
+
     mW->setMessageBg(-1);
     mW->setStatusMessage("");
     mW->setStatusMessage("so a pity", 5000);
