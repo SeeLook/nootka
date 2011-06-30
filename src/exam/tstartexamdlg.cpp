@@ -61,7 +61,7 @@ TstartExamDlg::TstartExamDlg(QWidget *parent) :
     loadExamBut = new QPushButton(tr("load exam from file"), this);
     exLay->addWidget(loadExamBut, 1, Qt::AlignCenter);
     examGr = new QGroupBox(this);
-    examGr->setStatusTip(tr("Select previous exam, or get it from file."));
+    examGr->setStatusTip(tr("Select previous exam, or get it from a file."));
     examGr->setLayout(exLay);
 
     mainLay->addWidget(examGr);
@@ -99,7 +99,8 @@ TstartExamDlg::TstartExamDlg(QWidget *parent) :
 #endif
     QStringList recentExams = sett.value("recentExams").toStringList();
     for (int i = 0; i < recentExams.size(); i++) {
-        examCombo->addItem(recentExams[i]);
+        QFileInfo fi(recentExams[i]);
+        examCombo->addItem(fi.fileName());
 
     }
 
