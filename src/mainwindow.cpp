@@ -20,6 +20,7 @@
 #include "mainwindow.h"
 #include "tglobals.h"
 #include "examsettingsdlg.h"
+#include "taboutnootka.h"
 //#include <QDebug>
 
 Tglobals *gl = new Tglobals();
@@ -187,6 +188,7 @@ void MainWindow::createSettingsDialog() {
         noteWasClicked(0,noteName->getNoteName(0));//refresh name
         guitar->acceptSettings();;//refresh guitar
     }
+    /** @todo delete */
 }
 
 void MainWindow::createExamSettingsDlg() {
@@ -201,9 +203,11 @@ void MainWindow::startExamSlot() {
 }
 
 void MainWindow::aboutSlot() {
-    QMessageBox *msg = new QMessageBox(this);
-    msg->setText("<center><b>Nootka " + gl->version + tr("</b></center><p>This is developers preview of Nootka. It works quitely stable, but has less functioinality yet.</p><p>See a <a href=\"http://nootka.sourceforge.net\">program site</a> for more details and furter relaces.</p><p>Any bugs, sugestions, translations and so on, report to: <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><p/><p style=\"text-align: right;\">with respects<br>Author</p>"));
-    msg->exec();
+    TaboutNootka *ab = new TaboutNootka(this);
+    ab->exec();
+    delete ab;
+//    msg->setText("<center><b>Nootka " + gl->version + tr("</b></center><p>This is developers preview of Nootka. It works quitely stable, but has less functioinality yet.</p><p>See a <a href=\"http://nootka.sourceforge.net\">program site</a> for more details and furter relaces.</p><p>Any bugs, sugestions, translations and so on, report to: <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><p/><p style=\"text-align: right;\">with respects<br>Author</p>"));
+
 }
 
 void MainWindow::noteWasClicked(int index, Tnote note) {
