@@ -26,6 +26,8 @@
 
 extern Tglobals *gl;
 
+/*static*/
+const qint32 TexamExecutor::examVersion = 0x95121702;
 
 TexamExecutor::TexamExecutor(MainWindow *mainW)
 {
@@ -584,15 +586,36 @@ void TexamExecutor::clearWidgets() {
 
 void TexamExecutor::stopExamSlot() {
     mW->examResults->stopExam();
+
     QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam's results as:"), QDir::toNativeSeparators(QDir::homePath()+"/"+m_userName+"-"+m_level.name), TstartExamDlg::examFilterTxt);
-#if defined(Q_OS_WIN32) // I hate mess in Win registry
-    QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
+
+    QFile file(fileName);
+    if (file.open(QIODevice::WriteOnly)) {
+        QDataStream out(&file);
+        out.setVersion(QDataStream::Qt_4_7);
+        out << examVersion;
+        out << m_userName << m_level << gl->Gtune();
+        out << mW->examResults->getTotalTime(); // elapsed exam time
+        // data for file preview
+        out << (quint16)m_answList.size(); // number of questions
+        out << mW->examResults->getAverageTime(); // average time of answer
+        out << mW->examResults->getMistakesNumber(); // number of mistakes
+        // that's all
+        for (int i = 0; i < m_answList.size(); i++)
+            out << m_answList[i]; // and obviously answers
+
+#if defined(Q_OS_WIN32)
+        QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
 #else
-    QSettings sett;
+        QSettings sett;
 #endif
-    QStringList recentExams = sett.value("recentExams").toStringList();
-    recentExams.prepend(fileName);
-    sett.setValue("recentExams", recentExams);
+        QStringList recentExams = sett.value("recentExams").toStringList();
+        recentExams.prepend(fileName);
+        sett.setValue("recentExams", recentExams);
+
+    } else /** @todo the same message is in examSettingsDlg - do it common !!!*/
+        QMessageBox::critical(this, "", tr("Cannot open file for writing\n%1").arg(qPrintable(file.errorString())));
+
 
 
     mW->setMessageBg(-1);

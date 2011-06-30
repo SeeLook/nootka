@@ -46,8 +46,10 @@ public:
     void setFontSize(int s);
 
     void stopExam() { m_timer->stop(); }
-    int getAverageTime() { return qRound(m_averTime); }
-    int getTotalTime() {return m_totalTime.hour() * 3600 + m_totalTime.minute() *60 + m_totalTime.second(); }
+        /** This method returns rounded average time. It is only for exam preview.*/
+    quint16 getAverageTime() { return qRound(m_averTime); }
+    quint32 getTotalTime() {return m_totalTime.hour() * 3600 + m_totalTime.minute() *60 + m_totalTime.second(); }
+    quint16 getMistakesNumber() {return m_mistakes; }
 
 signals:
 
