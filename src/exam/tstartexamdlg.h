@@ -60,6 +60,7 @@ private:
     QPushButton /**createBut,*/ *loadExamBut, *startBut, *cancelBut;
     QLabel *hint;
     QComboBox *examCombo;
+    QStringList recentExams;
 
 private slots:
     void levelOrExamChanged();

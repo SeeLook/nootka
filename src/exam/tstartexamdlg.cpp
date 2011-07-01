@@ -97,10 +97,12 @@ TstartExamDlg::TstartExamDlg(QWidget *parent) :
 #else
     QSettings sett;
 #endif
-    QStringList recentExams = sett.value("recentExams").toStringList();
+    recentExams = sett.value("recentExams").toStringList();
     for (int i = 0; i < recentExams.size(); i++) {
         QFileInfo fi(recentExams[i]);
-        examCombo->addItem(fi.fileName());
+//        if (fi.exists())
+            examCombo->addItem(fi.fileName());
+//        else remove from recentExams list
 
     }
 
@@ -119,8 +121,10 @@ TstartExamDlg::Eactions TstartExamDlg::showDialog(QString &txt, TexamLevel &lev)
             lev = levelsView->getSelectedLevel();
             return e_newLevel;
         }
-        else
+        else {
+            txt = recentExams[examCombo->currentIndex()];
             return e_continue;
+        }
     } else
         return e_none;
 }
@@ -156,11 +160,13 @@ void TstartExamDlg::startAccepted() {
             return;
         } else {
             if (nameEdit->text() == "") {
-                QMessageBox::warning(this, "", tr("Give some user name !!"));
+                QMessageBox::warning(this, "", tr("Give any user name !!"));
                 return;
             }
             accept();
         }
+    } else { // exam to continue
+        accept();
     }
 }
 
