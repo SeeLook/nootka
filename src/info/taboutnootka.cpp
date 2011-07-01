@@ -26,16 +26,22 @@ extern Tglobals *gl;
 TaboutNootka::TaboutNootka(QWidget *parent) :
     QDialog(parent)
 {
-    QHBoxLayout *mainLay = new QHBoxLayout;
+    QVBoxLayout *mainLay = new QVBoxLayout;
+    QHBoxLayout *abLay = new QHBoxLayout;
     navList = new QListWidget(this);
     navList->setIconSize(QSize(80,80));
     navList->setFixedWidth(100);
     navList->setViewMode(QListView::IconMode);
     navList->setFlow(QListView::TopToBottom);
-    mainLay->addWidget(navList);
+    abLay->addWidget(navList);
 
     stackLayout = new QStackedLayout;
-    mainLay->addLayout(stackLayout);
+    abLay->addLayout(stackLayout);
+
+    mainLay->addLayout(abLay);
+
+    okBut = new QPushButton("OK", this);
+    mainLay->addWidget(okBut, 1, Qt::AlignCenter);
 
     setLayout(mainLay);
 
@@ -49,6 +55,8 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     Tabout *m_about = new Tabout();
 
     stackLayout->addWidget(m_about);
+
+    connect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
 }
 
 //######################### About ##########################################
@@ -56,8 +64,9 @@ Tabout::Tabout(QWidget *parent) :
         QWidget(parent)
 {
     QVBoxLayout *lay = new QVBoxLayout;
-    m_aboutLab = new QLabel("<center><b>Nootka " + gl->version + tr("</b></center><p>This is developers preview of Nootka. It works quite stable, but has less functioinality yet.</p><p>See a <a href=\"http://nootka.sourceforge.net\">program site</a> for more details and furter relaces.</p><p>Any bugs, sugestions, translations and so on, report to: <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><p/><p style=\"text-align: right;\">with respects<br>Author</p>"), this);
+    m_aboutLab = new QLabel("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b><br>Nootka " + gl->version + "<br></b></p></center>" + tr("<p> Welcome on the board.<br> Nootka is open source application to help You learning (and teaching also) classical score notation. It is specially dedicated for guitarists but others can find something usable as well.<br>This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features. Inspite of that You are welcome to try it !!</p><p>See a <a href=\"http://nootka.sourceforge.net\">program site</a> for more details and further releaces.</p><p>Any bugs, sugestions, translations and so on, report to: <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><p/><p>with respects<br>Author</p>"), this);
     m_aboutLab->setWordWrap(true);
+    m_aboutLab->setOpenExternalLinks(true);
     lay->addWidget(m_aboutLab);
 
     setLayout(lay);

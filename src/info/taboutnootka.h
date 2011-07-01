@@ -38,7 +38,7 @@ public slots:
 private:
     QListWidget *navList;
     QStackedLayout *stackLayout;
-    QPushButton *cancelBut, *okBut;
+    QPushButton *okBut;
 
 };
 
