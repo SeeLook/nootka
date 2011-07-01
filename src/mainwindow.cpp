@@ -80,6 +80,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_statusText = "";
     m_prevBg = -1;
+    m_lockStat = false;
 
     createActions();
 

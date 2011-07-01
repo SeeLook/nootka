@@ -44,7 +44,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     } else 
         if (userAct == TstartExamDlg::e_continue) {
             QFile file(resultText);
-            unsigned int totalTime, questNr, mistNr, averTime = 0;
+            quint32 totalTime;
+            quint16 questNr, mistNr, tmpAverTime, averTime = 0;
             if (file.open(QIODevice::ReadOnly)) {
                  QDataStream in(&file);
                  in.setVersion(QDataStream::Qt_4_7);
@@ -59,7 +60,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
                  in >> tmpTune;
 //                 qDebug() >> tmpTune.name;
                  in >> totalTime;
-                 unsigned int tmpAverTime; //those vars can be used to validation
+//                 quint16 tmpAverTime; //those vars can be used to validation
                  in >> questNr >> tmpAverTime>> mistNr;
                  while (!in.atEnd()) {
                      TQAunit qaUnit; /** @todo do something with corrupted answers*/
@@ -67,7 +68,6 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
                      m_answList << qaUnit;
                      averTime += qaUnit.time;
                  }
-                 qDebug() << totalTime << questNr << mistNr;
              } // no else untill file was checked by TstartExamDlg
             mW->examResults->startExam(totalTime, m_answList.size(), averTime/m_answList.size(), mistNr);
     } else
@@ -625,12 +625,12 @@ void TexamExecutor::stopExamSlot() {
         out.setVersion(QDataStream::Qt_4_7);
         out << examVersion;
         out << m_userName << m_level << gl->Gtune();
-        out << mW->examResults->getTotalTime(); // elapsed exam time
+        out << mW->examResults->getTotalTime(); // elapsed exam time (quint32)
         // data for file preview
         out << (quint16)m_answList.size(); // number of questions
-        out << mW->examResults->getAverageTime(); // average time of answer
+        out << mW->examResults->getAverageTime(); // average time of answer (quint16)
         // that's all
-        out << mW->examResults->getMistakesNumber(); // number of mistakes
+        out << mW->examResults->getMistakesNumber(); // number of mistakes (quint16)
         for (int i = 0; i < m_answList.size(); i++)
             out << m_answList[i]; // and obviously answers
 
