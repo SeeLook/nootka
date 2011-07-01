@@ -47,9 +47,10 @@ public:
 
     void stopExam() { m_timer->stop(); }
         /** This method returns rounded average time. It is only for exam preview.*/
-    quint16 getAverageTime() { return qRound(m_averTime); }
-    quint32 getTotalTime() {return m_totalTime.hour() * 3600 + m_totalTime.minute() *60 + m_totalTime.second(); }
-    quint16 getMistakesNumber() {return m_mistakes; }
+    quint16 getAverageTime() { return (quint16)qRound(m_averTime); }
+    quint32 getTotalTime() {return m_totElapsedTime + quint32(m_totalTime.hour() * 3600 +
+                                   m_totalTime.minute() *60 + m_totalTime.second()); }
+    quint16 getMistakesNumber() {return (quint16)m_mistakes; }
 
 signals:
 
@@ -62,7 +63,7 @@ private:
     QLabel *m_reactTimeLab, *m_averTimeLab, *m_totalTimeLab;
     QLabel *m_mistLab, *m_corrLab, *m_effLab;
     QTime m_reactTime;
-    int m_questNr, m_mistakes;
+    int m_questNr, m_mistakes, m_totElapsedTime;
     qreal m_averTime;
     QTimer *m_timer;
     QTime m_totalTime;

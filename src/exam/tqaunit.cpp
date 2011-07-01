@@ -23,7 +23,10 @@ TQAunit::TQAunit()
 {
     qa.pos = TfingerPos();
     qa.note = Tnote(0,0,0);
+    style = Tnote::e_italiano_Si;
     m_valid = 0; // correct a priori
+    qa_2.note = Tnote(0,0,0);
+    qa_2.pos = TfingerPos();
 }
 
 TQAunit::~TQAunit() {}
@@ -61,7 +64,7 @@ bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit) {
     ok = getNoteFromStream(in, qaUnit.qa.note);
     in >> qaUnit.qa.pos;
     qint8 qu, an;
-    in >> qu, an;
+    in >> qu >> an;
     qaUnit.questionAs = (TQAtype::Etype)qu;
     qaUnit.answerAs = (TQAtype::Etype)an;
     qint8 st;
