@@ -181,7 +181,8 @@ TexamLevel TlevelSelector::getLevelFromFile(QFile &file) {
          quint32 lv; //level template version
          in >> lv;
          if (lv != levelVersion) {
-             QMessageBox::critical(this, "", tr("File: %1 \n is not Nootka level file !!!").arg(file.fileName()));
+             QMessageBox::critical(this, "",
+                         tr("File: %1 \n is not Nootka level file !!!").arg(file.fileName()));
              return level;
          }
          if (!getLevelFromStream(in, level))

@@ -34,14 +34,42 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     mW = mainW;
 
     TstartExamDlg *startDlg = new TstartExamDlg(mW);
-    TstartExamDlg::Eactions userAct = startDlg->showDialog(m_userName, m_level);
+    QString resultText;
+    TstartExamDlg::Eactions userAct = startDlg->showDialog(resultText, m_level);
     delete startDlg;
     if (userAct == TstartExamDlg::e_newLevel) {
+        m_userName = resultText;
         mW->examResults->startExam();
 
     } else 
         if (userAct == TstartExamDlg::e_continue) {
-            mW->examResults->startExam(3689);
+            QFile file(resultText);
+            unsigned int totalTime, questNr, mistNr, averTime = 0;
+            if (file.open(QIODevice::ReadOnly)) {
+                 QDataStream in(&file);
+                 in.setVersion(QDataStream::Qt_4_7);
+                 quint32 ev; //exam template version
+                 in >> ev;
+                 if (ev != examVersion) {
+                    // maybe better to check this in TstartExamDlg
+                 }
+                 in >> m_userName;
+                 getLevelFromStream(in, m_level);
+                 Ttune tmpTune;
+                 in >> tmpTune;
+//                 qDebug() >> tmpTune.name;
+                 in >> totalTime;
+                 unsigned int tmpAverTime; //those vars can be used to validation
+                 in >> questNr >> tmpAverTime>> mistNr;
+                 while (!in.atEnd()) {
+                     TQAunit qaUnit; /** @todo do something with corrupted answers*/
+                     getTQAunitFromStream(in, qaUnit);
+                     m_answList << qaUnit;
+                     averTime += qaUnit.time;
+                 }
+                 qDebug() << totalTime << questNr << mistNr;
+             } // no else untill file was checked by TstartExamDlg
+            mW->examResults->startExam(totalTime, m_answList.size(), averTime/m_answList.size(), mistNr);
     } else
         return;
 
@@ -587,7 +615,9 @@ void TexamExecutor::clearWidgets() {
 void TexamExecutor::stopExamSlot() {
     mW->examResults->stopExam();
 
-    QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam's results as:"), QDir::toNativeSeparators(QDir::homePath()+"/"+m_userName+"-"+m_level.name), TstartExamDlg::examFilterTxt);
+    QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam's results as:"),
+                               QDir::toNativeSeparators(QDir::homePath()+"/"+m_userName+"-"+m_level.name),
+                               TstartExamDlg::examFilterTxt);
 
     QFile file(fileName);
     if (file.open(QIODevice::WriteOnly)) {
@@ -599,8 +629,8 @@ void TexamExecutor::stopExamSlot() {
         // data for file preview
         out << (quint16)m_answList.size(); // number of questions
         out << mW->examResults->getAverageTime(); // average time of answer
-        out << mW->examResults->getMistakesNumber(); // number of mistakes
         // that's all
+        out << mW->examResults->getMistakesNumber(); // number of mistakes
         for (int i = 0; i < m_answList.size(); i++)
             out << m_answList[i]; // and obviously answers
 
