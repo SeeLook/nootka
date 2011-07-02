@@ -1,0 +1,18 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Comment=Exam's results of Nootka
+Exec=nootka
+Icon=nootka-exam
+Name=Nootka exam
+MimeType=application/x-nootka-exam;
+Categories=Qt;KDE;Office;
+X-DBUS-StartupType=Unique
+GenericName=
+NoDisplay=false
+Path[$e]=
+StartupNotify=true
+Terminal=0
+TerminalOptions=
+Type=Application
+X-KDE-SubstituteUID=false
+X-KDE-Username=

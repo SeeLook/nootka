@@ -55,7 +55,7 @@ QColor Tglobals::invertColor(QColor C) {
 
 Tglobals::Tglobals() {
 
-    version = "0.6 beta";
+    version = "0.7 beta 1";
 //    path ; Is declared in mainWindow constructor
 
     qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
