@@ -14,7 +14,7 @@
    height="565.8299"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.0 r9654"
+   inkscape:version="0.48.1 r9760"
    sodipodi:docname="nootka.svg">
   <defs
      id="defs4">
@@ -563,7 +563,7 @@
   </defs>
   <sodipodi:namedview
      id="base"
-     pagecolor="#978a8a"
+     pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
      inkscape:pageopacity="1"
@@ -574,11 +574,11 @@
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="829"
-     inkscape:window-height="690"
-     inkscape:window-x="239"
-     inkscape:window-y="252"
-     inkscape:window-maximized="0"
+     inkscape:window-width="1600"
+     inkscape:window-height="1176"
+     inkscape:window-x="-2"
+     inkscape:window-y="-3"
+     inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
