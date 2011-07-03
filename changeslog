@@ -1,3 +1,9 @@
 0.6
+    - Levels creator dialog
   Under the hood
     - all resources moved out of executable file
+
+0.7
+    - storing user settings
+    - executing exams
+
