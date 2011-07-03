@@ -37,6 +37,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     QString resultText;
     TstartExamDlg::Eactions userAct = startDlg->showDialog(resultText, m_level);
     delete startDlg;
+    m_glStore.tune = gl->Gtune();
     if (userAct == TstartExamDlg::e_newLevel) {
         m_userName = resultText;
         mW->examResults->startExam();
@@ -58,9 +59,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
                  getLevelFromStream(in, m_level);
                  Ttune tmpTune;
                  in >> tmpTune;
-//                 qDebug() >> tmpTune.name;
                  in >> totalTime;
-//                 quint16 tmpAverTime; //those vars can be used to validation
                  in >> questNr >> tmpAverTime>> mistNr;
                  while (!in.atEnd()) {
                      TQAunit qaUnit; /** @todo do something with corrupted answers*/
@@ -69,9 +68,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
                      averTime += qaUnit.time;
                  }
                  if (tmpTune != gl->Gtune() ) {
-                     m_glStore.tune = gl->Gtune();
                      gl->setTune(tmpTune);
-                     QMessageBox::critical(mW, "", tr("Tune of guitar was chenged in this exam !!. Now it is:<br><b>%1</b>").arg(gl->Gtune().name));
+                     QMessageBox::critical(mW, "", tr("Tune of guitar was changed in this exam !!. Now it is:<br><b>%1</b>").arg(gl->Gtune().name));
                  }
              } // no else untill file was checked by TstartExamDlg
             mW->examResults->startExam(totalTime, m_answList.size(), averTime/m_answList.size(), mistNr);
