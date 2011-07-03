@@ -57,8 +57,15 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 
 
     Tabout *m_about = new Tabout();
-    QLabel *authorsLab = new QLabel(("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b><br>Authors<br></b></p></center><br><br>Tomasz Bojczuk<br><a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a><br><br><br><br><br><br><br><br>"));
+    QWidget *wi = new QWidget();
+    QVBoxLayout *wiLLay = new QVBoxLayout;
+    QLabel *authorsLab = new QLabel(("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b><br>Authors<br></b></p></center><br><br>Tomasz Bojczuk<br><a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a>"));
     authorsLab->setOpenExternalLinks(true);
+    wiLLay->addWidget(authorsLab);
+    wiLLay->addStretch(1);
+    wi->setLayout(wiLLay);
+
+
     QTextEdit *licenseTxt = new QTextEdit();
     QFile file(gl->path + "LICENSE");
         if(file.open(QFile::ReadOnly | QFile::Text))
@@ -69,8 +76,8 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 
 
     stackLayout->addWidget(m_about);
-    stackLayout->addWidget(authorsLab);
-    stackLayout->itemAt(1)->setAlignment(Qt::AlignTop);
+
+    stackLayout->addWidget(wi);
     stackLayout->addWidget(licenseTxt);
 
     connect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
