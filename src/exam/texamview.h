@@ -51,6 +51,7 @@ public:
     quint32 getTotalTime() {return m_totElapsedTime + quint32(m_totalTime.hour() * 3600 +
                                    m_totalTime.minute() *60 + m_totalTime.second()); }
     quint16 getMistakesNumber() {return (quint16)m_mistakes; }
+    void clearResults();
 
 signals:
 

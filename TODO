@@ -1,3 +1,6 @@
+TGLOBALS
+    - setTune param can be reference: setTune (Ttune &t)
+
 TNOTEVIEW
     - resize a string number if exist
 

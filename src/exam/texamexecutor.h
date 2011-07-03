@@ -22,11 +22,11 @@
 
 #include "texamlevel.h"
 #include "tqaunit.h"
+#include "ttune.h"
 #include <QList>
 
 class MainWindow;
 class QAction;
-class TstatementView;
 
     /** This class manages of exam executing*/
 class TexamExecutor : public QObject
@@ -43,6 +43,7 @@ public:
         Tnote::EnameStyle nameStyleInNoteName;
         bool useDblAccids;
         bool useKeySign;
+        Ttune tune;
     };
     struct TanswerRequire {
         bool octave;

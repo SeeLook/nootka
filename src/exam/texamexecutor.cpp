@@ -68,6 +68,11 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
                      m_answList << qaUnit;
                      averTime += qaUnit.time;
                  }
+                 if (tmpTune != gl->Gtune() ) {
+                     m_glStore.tune = gl->Gtune();
+                     gl->setTune(tmpTune);
+                     QMessageBox::critical(mW, "", tr("Tune of guitar was chenged in this exam !!. Now it is:<br><b>%1</b>").arg(gl->Gtune().name));
+                 }
              } // no else untill file was checked by TstartExamDlg
             mW->examResults->startExam(totalTime, m_answList.size(), averTime/m_answList.size(), mistNr);
     } else
@@ -571,12 +576,16 @@ void TexamExecutor::prepareToExam() {
 
 void TexamExecutor::restoreAfterExam() {
     mW->setWindowTitle(qApp->applicationName());
+    mW->nootBar->removeAction(nextQuestAct);
+    mW->examResults->clearResults();
+
     gl->NnameStyleInNoteName = m_glStore.nameStyleInNoteName;
     gl->showEnharmNotes = m_glStore.showEnharmNotes;
     gl->SshowKeySignName = m_glStore.showKeySignName;
     gl->GshowOtherPos = m_glStore.showOtherPos;
     gl->doubleAccidentalsEnabled  = m_glStore.useDblAccids;
     gl->SkeySignatureEnabled = m_glStore.useKeySign;
+    gl->setTune(m_glStore.tune);
 
     mW->score->acceptSettings();
     mW->noteName->setEnabledEnharmNotes(false);
@@ -586,7 +595,7 @@ void TexamExecutor::restoreAfterExam() {
     mW->levelCreatorAct->setDisabled(false);
     mW->startExamAct->setDisabled(false);
     mW->noteName->setNameDisabled(false);
-    mW->guitar->setDisabled(false);
+    mW->guitar->setMouseTracking(true);
 
     connect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
     connect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
@@ -596,7 +605,6 @@ void TexamExecutor::restoreAfterExam() {
     mW->score->isExamExecuting(false);
     mW->score->unLockScore();
     
-
 }
 
 void TexamExecutor::disableWidgets() {
@@ -640,6 +648,7 @@ void TexamExecutor::stopExamSlot() {
         QSettings sett;
 #endif
         QStringList recentExams = sett.value("recentExams").toStringList();
+        recentExams.removeAll(fileName);
         recentExams.prepend(fileName);
         sett.setValue("recentExams", recentExams);
 
