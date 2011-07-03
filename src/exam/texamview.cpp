@@ -32,10 +32,10 @@ TexamView::TexamView(QWidget *parent) :
 
     mainLay->addStretch(1);
     QHBoxLayout *okMistLay = new QHBoxLayout;
-    m_corrLab = new QLabel("0", this);
+    m_corrLab = new QLabel(this);
     okMistLay->addWidget(m_corrLab, 0, Qt::AlignRight);
     okMistLay->addSpacing(10);
-    m_mistLab = new QLabel("0", this);
+    m_mistLab = new QLabel(this);
     okMistLay->addWidget(m_mistLab, 0, Qt::AlignRight);
 //     okMistLay->addStretch(1);
     QGroupBox *okGr = new QGroupBox(this);
@@ -43,7 +43,7 @@ TexamView::TexamView(QWidget *parent) :
     mainLay->addWidget(okGr);
     mainLay->addStretch(1);
 
-    m_effLab = new QLabel("<b>100%</b>", this);
+    m_effLab = new QLabel(this);
     QVBoxLayout *effLay = new QVBoxLayout;
     effLay->addWidget(m_effLab, 0, Qt::AlignCenter);
     QGroupBox *effGr = new QGroupBox(this);
@@ -51,7 +51,7 @@ TexamView::TexamView(QWidget *parent) :
     mainLay->addWidget(effGr);
     mainLay->addStretch(1);
 
-    m_averTimeLab = new QLabel("0.0", this);
+    m_averTimeLab = new QLabel(this);
     QVBoxLayout *averLay = new QVBoxLayout;
     averLay->addWidget(m_averTimeLab);
     QGroupBox *averGr = new QGroupBox(this);
@@ -59,7 +59,7 @@ TexamView::TexamView(QWidget *parent) :
     mainLay->addWidget(averGr);
     mainLay->addStretch(1);
 
-    m_reactTimeLab = new QLabel("0.0", this);
+    m_reactTimeLab = new QLabel(this);
     QVBoxLayout *reactLay = new QVBoxLayout;
     reactLay->addWidget(m_reactTimeLab);
     QGroupBox *reactGr = new QGroupBox(this);
@@ -67,7 +67,7 @@ TexamView::TexamView(QWidget *parent) :
     mainLay->addWidget(reactGr);
     mainLay->addStretch(1);
 
-    m_totalTimeLab = new QLabel("0:00:00", this);
+    m_totalTimeLab = new QLabel(this);
     QVBoxLayout *totalLay = new QVBoxLayout;
     totalLay->addWidget(m_totalTimeLab);
     QGroupBox *totalGr = new QGroupBox(this);
@@ -76,6 +76,8 @@ TexamView::TexamView(QWidget *parent) :
     mainLay->addStretch(1);
 
     setLayout(mainLay);
+
+    clearResults();
 
     m_corrLab->setToolTip(tr("correct answers' count"));
     m_corrLab->setStyleSheet(gl->getBGcolorText(gl->EanswerColor));
@@ -131,7 +133,7 @@ void TexamView::setAnswer(bool wasCorrect) {
     m_mistLab->setText(QString("%1").arg(m_mistakes));
     m_corrLab->setText(QString("%1").arg(m_questNr - m_mistakes));
     qreal eff = (((qreal)m_questNr - (qreal)m_mistakes) / (qreal)m_questNr) * 100;
-    m_effLab->setText(QString("%1 %").arg(qRound(eff)));
+    m_effLab->setText(QString("<b>%1 %</b>").arg(qRound(eff)));
 }
 
 void TexamView::setFontSize(int s) {
@@ -154,4 +156,14 @@ void TexamView::countTime() {
     int t = m_totElapsedTime + m_totalTime.elapsed();
 //    m_totalTimeLab->setText(m_totalTime.toString("hh:mm:ss"));
     m_totalTimeLab->setText(QString("%1:%2:%3").arg(t/3600000).arg((t%36000000)/60000, 2, 'f', 0, '0').arg((t%60000)/1000, 2, 'f', 0, '0'));
+}
+
+void TexamView::clearResults() {
+    m_corrLab->setText("0");
+    m_mistLab->setText("0");
+    m_effLab->setText("<b>100%</b>");
+    m_averTimeLab->setText("0.0");
+    m_reactTimeLab->setText("0.0");
+    m_totalTimeLab->setText("0:00:00");
+
 }

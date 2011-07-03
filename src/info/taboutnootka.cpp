@@ -58,19 +58,19 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 
     Tabout *m_about = new Tabout();
     QLabel *authorsLab = new QLabel(("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b><br>Authors<br></b></p></center><br><br>Tomasz Bojczuk<br><a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a><br><br><br><br><br><br><br><br>"));
+    authorsLab->setOpenExternalLinks(true);
     QTextEdit *licenseTxt = new QTextEdit();
     QFile file(gl->path + "LICENSE");
         if(file.open(QFile::ReadOnly | QFile::Text))
         {
 	      QTextStream in(&file);
-	      
 	      licenseTxt->setPlainText(in.readAll());
-        }
-        
+        }        
 
 
     stackLayout->addWidget(m_about);
     stackLayout->addWidget(authorsLab);
+    stackLayout->itemAt(1)->setAlignment(Qt::AlignTop);
     stackLayout->addWidget(licenseTxt);
 
     connect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
@@ -82,7 +82,7 @@ Tabout::Tabout(QWidget *parent) :
         QWidget(parent)
 {
     QVBoxLayout *lay = new QVBoxLayout;
-    m_aboutLab = new QLabel("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b><br>Nootka " + gl->version + "<br></b></p></center><br>" + tr("<p> Welcome on the board.<br> Nootka is open source application to help You learning (and teaching also) classical score notation. It is specially dedicated for guitarists but others can find something usable as well.<br>This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features. Inspite of that You are welcome to try it !!</p><p>See a <a href=\"http://nootka.sourceforge.net\">program site</a> for more details and further releaces.</p><p>Any bugs, sugestions, translations and so on, report to: <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><p/><p>with respects<br>Author</p><br><br>"), this);
+    m_aboutLab = new QLabel(QString("<center><img src=\"%1\"><br><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>Nootka " + gl->version + "</b></p></center>").arg(gl->path+"picts/logo.png") + tr("<p> Welcome on the board.<br> Nootka is open source application to help You learning (and teaching also) classical score notation. It is specially dedicated for guitarists but others can find something usable as well.<br>This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features. Inspite of that You are welcome to try it !!</p><p>See a <a href=\"http://nootka.sourceforge.net\">program site</a> for more details and further releaces.</p><p>Any bugs, sugestions, translations and so on, report to: <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><p/><p>with respects<br>Author</p><br>"), this);
     m_aboutLab->setWordWrap(true);
     m_aboutLab->setOpenExternalLinks(true);
     lay->addWidget(m_aboutLab);
