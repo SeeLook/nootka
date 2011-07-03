@@ -271,6 +271,10 @@ TnotesList Tnote::getTheSameNotes( bool enableDbAccids )
 std::string Tnote::getName( EnameStyle notation, bool showOctave )
 {
 	std::string nuta;
+    if (note < 1 || note > 7) {
+        std::cout << "Oops !! getName() with note=0\n";
+        return "none";
+    }
 	switch (notation) {
       case e_italiano_Si:
 		nuta = Solmization[note-1]+signsAcid[acidental+2];
