@@ -47,16 +47,17 @@ MainWindow::MainWindow(QWidget *parent)
 
 //    QVBoxLayout *nameLay = new QVBoxLayout;
     nameLay = new QVBoxLayout;
-    QGroupBox *statGr = new QGroupBox(widget);
-    QVBoxLayout *statLay = new QVBoxLayout;
+//     QGroupBox *statGr = new QGroupBox(widget);
+//     QVBoxLayout *statLay = new QVBoxLayout;
 //    QHBoxLayout *statResultLay = new QHBoxLayout;
     m_statLab = new QLabel(widget);
     m_statLab->setWordWrap(true);
 //    m_statLab->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
 //    m_statLab->setFixedHeight(50);
-    statLay->addWidget(m_statLab);
-    statGr->setLayout(statLay);
-    nameLay->addWidget(statGr);
+//     statLay->addWidget(m_statLab);
+//     statGr->setLayout(statLay);
+//     nameLay->addWidget(statGr);
+    nameLay->addWidget(m_statLab);
 //    statResultLay->addWidget(statGr);
 //    nameLay->addLayout(statLay);
 //     nameLay->addStretch(1);
@@ -144,9 +145,9 @@ void MainWindow::resizeEvent(QResizeEvent *) {
         examResults->setFixedHeight(height() / 8);
         examResults->setFontSize(m_statFontSize);
 //    }
-//     noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(height() * 0.4)));
-    noteName->setGeometry (examResults->pos().x(), guitar->pos().y() - qRound(height() * 0.75),
-               centralWidget()->width()- score->width() -2, qRound(height() * 0.7));
+    noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(height() * 0.4)));
+//     noteName->setGeometry (examResults->pos().x(), guitar->pos().y() - qRound(height() * 0.75),
+//                centralWidget()->width()- score->width() -2, qRound(height() * 0.7));
 }
 
 void MainWindow::setStatusMessage(QString msg) {
@@ -207,8 +208,6 @@ void MainWindow::aboutSlot() {
     TaboutNootka *ab = new TaboutNootka(this);
     ab->exec();
     delete ab;
-//    msg->setText("<center><b>Nootka " + gl->version + tr("</b></center><p>This is developers preview of Nootka. It works quitely stable, but has less functioinality yet.</p><p>See a <a href=\"http://nootka.sourceforge.net\">program site</a> for more details and furter relaces.</p><p>Any bugs, sugestions, translations and so on, report to: <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><p/><p style=\"text-align: right;\">with respects<br>Author</p>"));
-
 }
 
 void MainWindow::noteWasClicked(int index, Tnote note) {
