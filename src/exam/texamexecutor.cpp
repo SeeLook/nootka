@@ -69,7 +69,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
                  }
                  if (tmpTune != gl->Gtune() ) {
                      gl->setTune(tmpTune);
-                     QMessageBox::critical(mW, "", tr("Tune of guitar was changed in this exam !!. Now it is:<br><b>%1</b>").arg(gl->Gtune().name));
+                     QMessageBox::critical(mW, "", tr("Tune of guitar was changed in this exam !!.<br>Now it is:<br><b>%1</b>").arg(gl->Gtune().name));
                  }
              } // no else untill file was checked by TstartExamDlg
             mW->examResults->startExam(totalTime, m_answList.size(), averTime/m_answList.size(), mistNr);
