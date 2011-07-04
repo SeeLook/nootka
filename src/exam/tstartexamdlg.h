@@ -67,6 +67,7 @@ private slots:
     void levelToLoad();
         /** occurs when user click Accept button*/
     void startAccepted();
+    void loadExam();
 };
 
 #endif // TSTARTEXAMDLG_H

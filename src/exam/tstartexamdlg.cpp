@@ -98,18 +98,21 @@ TstartExamDlg::TstartExamDlg(QWidget *parent) :
     QSettings sett;
 #endif
     recentExams = sett.value("recentExams").toStringList();
-    for (int i = 0; i < recentExams.size(); i++) {
+    for (int i = recentExams.size()-1; i >= 0; i--) {
         QFileInfo fi(recentExams[i]);
-//        if (fi.exists())
+        if (fi.exists())
             examCombo->addItem(fi.fileName());
-//        else remove from recentExams list
-
+        else
+            recentExams.removeAt(i);
     }
+    if (recentExams.size())
+        sett.setValue("recentExams", recentExams);
 
     connect(radioGr, SIGNAL(buttonClicked(int)), this, SLOT(levelOrExamChanged()));
     connect(levelsView, SIGNAL(levelToLoad()), this, SLOT(levelToLoad()));
     connect(startBut, SIGNAL(clicked()), this, SLOT(startAccepted()));
     connect(cancelBut, SIGNAL(clicked()), this, SLOT(reject()));
+    connect(loadExamBut, SIGNAL(clicked()), this, SLOT(loadExam()));
 
 }
 
@@ -166,8 +169,17 @@ void TstartExamDlg::startAccepted() {
             accept();
         }
     } else { // exam to continue
-        accept();
+        if (examCombo->currentText() != "")
+            accept();
+        else
+            QMessageBox::warning(this, "", tr("Any exam wasn't selected !!"));
     }
 }
 
-
+void TstartExamDlg::loadExam() {
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Load an exam's' file"),
+                               QDir::homePath(), examFilterTxt);
+    examCombo->insertItem(0, fileName);
+    recentExams.prepend(fileName);
+    accept();
+}
