@@ -32,6 +32,7 @@ const qint32 TexamExecutor::examVersion = 0x95121702;
 TexamExecutor::TexamExecutor(MainWindow *mainW)
 {
     mW = mainW;
+    m_examFile = "";
 
     TstartExamDlg *startDlg = new TstartExamDlg(mW);
     QString resultText;
@@ -53,7 +54,10 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
                  quint32 ev; //exam template version
                  in >> ev;
                  if (ev != examVersion) {
-                    // maybe better to check this in TstartExamDlg
+                     QMessageBox::critical(mW, "",
+                                 tr("File: %1 \n is not valid exam file !!!").arg(file.fileName()));
+                     mW->clearAfterExam();
+                     return;
                  }
                  in >> m_userName;
                  getLevelFromStream(in, m_level);
@@ -67,14 +71,22 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
                      m_answList << qaUnit;
                      averTime += qaUnit.time;
                  }
+                 m_examFile = resultText;
                  if (tmpTune != gl->Gtune() ) {
                      gl->setTune(tmpTune);
                      QMessageBox::critical(mW, "", tr("Tune of guitar was changed in this exam !!.<br>Now it is:<br><b>%1</b>").arg(gl->Gtune().name));
                  }
-             } // no else untill file was checked by TstartExamDlg
+             } else {
+                 QMessageBox::critical(mW, "", tr("Cannot open file\n %1 \n for reading\n%2 ").arg(file.fileName()).arg(qPrintable(file.errorString())));
+                 /** @todo the same text is in TlevelSelector. make it common */
+                 mW->clearAfterExam();
+                 return;
+             }
             mW->examResults->startExam(totalTime, m_answList.size(), averTime/m_answList.size(), mistNr);
-    } else
+    } else {
+        mW->clearAfterExam();
         return;
+    }
 
     prepareToExam();
     createQuestionsList();
@@ -114,8 +126,6 @@ void TexamExecutor::createQuestionsList() {
     for (int i=0; i<6; i++)
         openStr[i] = gl->Gtune()[i+1].getChromaticNrOfNote();
 
-//    for (int i=0; i<6; i++) qDebug() << i << ": " << (int)openStr[strOrder[i]]
-//            << " : " << (int)strOrder[i];
 // 1. searching all frets in range, string by string
     for(int s = 0; s < 6; s++) {
         if (m_level.usedStrings[gl->strOrder(s)])// check string by strOrder
@@ -495,7 +505,7 @@ void TexamExecutor::checkAnswer(){
     }
     answTxt += "</center>";
     QWhatsThis::showText(QPoint(mW->pos().x() + qRound(mW->centralWidget()->width()*0.75),
-                                mW->pos().y() + qRound(mW->centralWidget()->height()*0.47)),
+                                mW->pos().y() + qRound(mW->centralWidget()->height()*0.5)),
 			 answTxt);
     mW->examResults->setAnswer(curQ.correct());
     if (!curQ.correct())
@@ -534,7 +544,8 @@ void TexamExecutor::prepareToExam() {
     mW->settingsAct->setDisabled(true);
     mW->levelCreatorAct->setDisabled(true);
     mW->startExamAct->setIcon(QIcon(gl->path+"picts/stopExam.png"));
-    mW->startExamAct->setStatusTip(tr("stop the exam"));
+    mW->startExamAct->setText(tr("stop the exam"));
+    mW->startExamAct->setStatusTip(mW->startExamAct->text());
     mW->startExamAct->setDisabled(true);
 
     disableWidgets();
@@ -602,6 +613,7 @@ void TexamExecutor::restoreAfterExam() {
     connect(mW->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
     mW->score->isExamExecuting(false);
     mW->score->unLockScore();
+    mW->clearAfterExam();
     
 }
 
@@ -620,12 +632,12 @@ void TexamExecutor::clearWidgets() {
 
 void TexamExecutor::stopExamSlot() {
     mW->examResults->stopExam();
-
-    QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam's results as:"),
+    if (m_examFile == "")
+        m_examFile = QFileDialog::getSaveFileName(mW, tr("Save exam's results as:"),
                                QDir::toNativeSeparators(QDir::homePath()+"/"+m_userName+"-"+m_level.name),
                                TstartExamDlg::examFilterTxt);
 
-    QFile file(fileName);
+    QFile file(m_examFile);
     if (file.open(QIODevice::WriteOnly)) {
         QDataStream out(&file);
         out.setVersion(QDataStream::Qt_4_7);
@@ -646,8 +658,8 @@ void TexamExecutor::stopExamSlot() {
         QSettings sett;
 #endif
         QStringList recentExams = sett.value("recentExams").toStringList();
-        recentExams.removeAll(fileName);
-        recentExams.prepend(fileName);
+        recentExams.removeAll(m_examFile);
+        recentExams.prepend(m_examFile);
         sett.setValue("recentExams", recentExams);
 
     } else /** @todo the same message is in examSettingsDlg - do it common !!!*/
@@ -672,3 +684,24 @@ QString TexamExecutor::getTextHowAccid(Tnote::Eacidentals accid) {
     return S;
 
 }
+
+bool TexamExecutor::closeNootka() {
+    if (checkAct->isVisible()) {
+        if (QMessageBox::warning(mW, "", tr("Where is an answer ??"),
+                         QMessageBox::Save | QMessageBox::Discard, QMessageBox::Save)
+            == QMessageBox::Discard)
+            return true;
+        else
+            return false;
+    } else {
+        if (QMessageBox::warning(mW, "", tr("close ??"),
+                         QMessageBox::Save | QMessageBox::Discard, QMessageBox::Save)
+            == QMessageBox::Discard)
+            return true;
+        else
+            return false;
+    }
+}
+
+
+

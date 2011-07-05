@@ -52,6 +52,7 @@ public:
     };
         /** Magic number in exam file to identify it.*/
     static const qint32 examVersion;
+    bool closeNootka();
 
 protected:
     MainWindow *mW;
@@ -95,6 +96,7 @@ private:
     Tnote::EnameStyle m_prevStyle;
     TglStore m_glStore;
     TanswerRequire m_answRequire;
+    QString m_examFile;
 
 };
 
