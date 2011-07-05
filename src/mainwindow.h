@@ -63,12 +63,15 @@ protected:
     TnoteName *noteName;
     TfingerBoard *guitar;
     TexamView *examResults;
+    TexamExecutor *ex;
 
     QToolBar *nootBar;
     QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct;
+    void clearAfterExam();
 
     void resizeEvent(QResizeEvent *);
     bool event(QEvent *event);
+    void closeEvent(QCloseEvent *event);
 
 protected slots:
     void restoreMessage();
@@ -86,6 +89,8 @@ private:
     QWidget *widget;
 
     void createActions();
+        /** it sets icon and status text in startExamAct. */
+    void setStartExamActParams();
 
 };
 

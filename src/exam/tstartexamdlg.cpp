@@ -100,13 +100,17 @@ TstartExamDlg::TstartExamDlg(QWidget *parent) :
     recentExams = sett.value("recentExams").toStringList();
     for (int i = recentExams.size()-1; i >= 0; i--) {
         QFileInfo fi(recentExams[i]);
-        if (fi.exists())
-            examCombo->addItem(fi.fileName());
+        if (fi.exists()) {
+            examCombo->insertItem(0, recentExams[i]);
+//            examCombo->insertItem(0, fi.fileName());
+        }
         else
             recentExams.removeAt(i);
     }
-    if (recentExams.size())
+    if (recentExams.size()) {
         sett.setValue("recentExams", recentExams);
+        examCombo->setCurrentIndex(0);
+    }
 
     connect(radioGr, SIGNAL(buttonClicked(int)), this, SLOT(levelOrExamChanged()));
     connect(levelsView, SIGNAL(levelToLoad()), this, SLOT(levelToLoad()));
@@ -125,8 +129,11 @@ TstartExamDlg::Eactions TstartExamDlg::showDialog(QString &txt, TexamLevel &lev)
             return e_newLevel;
         }
         else {
-            txt = recentExams[examCombo->currentIndex()];
-            return e_continue;
+            if (examCombo->currentIndex() != -1) {
+//                txt = recentExams[examCombo->currentIndex()];
+                txt = examCombo->currentText();
+                return e_continue;
+            }
         }
     } else
         return e_none;
@@ -179,7 +186,10 @@ void TstartExamDlg::startAccepted() {
 void TstartExamDlg::loadExam() {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load an exam's' file"),
                                QDir::homePath(), examFilterTxt);
-    examCombo->insertItem(0, fileName);
-    recentExams.prepend(fileName);
-    accept();
+    if (fileName != "") {
+        examCombo->insertItem(0, fileName);
+        recentExams.prepend(fileName);
+        examCombo->setCurrentIndex(0);
+//        accept();
+    }
 }

@@ -82,6 +82,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_statusText = "";
     m_prevBg = -1;
     m_lockStat = false;
+    ex = 0;
 
     createActions();
 
@@ -110,9 +111,8 @@ void MainWindow::createActions() {
     levelCreatorAct->setIcon(QIcon(gl->path+"picts/levelCreator.png"));
     connect(levelCreatorAct, SIGNAL(triggered()), this, SLOT(createExamSettingsDlg()));
 
-    startExamAct = new QAction(tr("Start exam"), this);
-    startExamAct->setStatusTip(startExamAct->text());
-    startExamAct->setIcon(QIcon(gl->path+"picts/startExam.png"));
+    startExamAct = new QAction(this);
+    setStartExamActParams();
     connect(startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
 
     aboutAct = new QAction(tr("about"), this);
@@ -130,7 +130,11 @@ void MainWindow::createActions() {
     nootBar->setMovable(false);
 }
 
-
+void MainWindow::setStartExamActParams() {
+    startExamAct->setText(tr("Start an exam"));
+    startExamAct->setStatusTip(startExamAct->text());
+    startExamAct->setIcon(QIcon(gl->path+"picts/startExam.png"));
+}
 
 void MainWindow::resizeEvent(QResizeEvent *) {
     nootBar->setIconSize(QSize(height()/21, height()/21));
@@ -148,6 +152,15 @@ void MainWindow::resizeEvent(QResizeEvent *) {
     noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(height() * 0.4)));
 //     noteName->setGeometry (examResults->pos().x(), guitar->pos().y() - qRound(height() * 0.75),
 //                centralWidget()->width()- score->width() -2, qRound(height() * 0.7));
+}
+
+void MainWindow::closeEvent(QCloseEvent *event) {
+    if (!settingsAct->isEnabled() && ex) {
+        if (ex->closeNootka())
+            event->accept();
+        else
+            event->ignore();
+    }
 }
 
 void MainWindow::setStatusMessage(QString msg) {
@@ -174,6 +187,12 @@ void MainWindow::setMessageBg(QColor bg) {
     }
 }
 
+void MainWindow::clearAfterExam() {
+    setStartExamActParams();
+    delete ex;
+    ex = 0;
+}
+
 //##########        SLOTS       ###############
 
 void MainWindow::createSettingsDialog() {
@@ -183,25 +202,22 @@ void MainWindow::createSettingsDialog() {
         noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
         noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
         noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
-//        noteName->setAmbitus(gl->Gtune.lowest(),
-//                               Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber));
         noteName->setAmbitus(gl->loString(),
                                Tnote(gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber));
         noteWasClicked(0,noteName->getNoteName(0));//refresh name
         guitar->acceptSettings();;//refresh guitar
     }
-    /** @todo delete */
+    delete settings;
 }
 
 void MainWindow::createExamSettingsDlg() {
     examSettingsDlg *examSettDlg = new examSettingsDlg(this);
     examSettDlg->exec();
+    delete examSettDlg;
 }
 
 void MainWindow::startExamSlot() {
-//    examResults = new TexamView(widget);
-//    nameLay->insertWidget(1, examResults);
-    TexamExecutor *ex = new TexamExecutor(this);
+    ex = new TexamExecutor(this);
 }
 
 void MainWindow::aboutSlot() {
