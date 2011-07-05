@@ -60,7 +60,9 @@ protected:
 
 protected slots:
     void askQuestion();
-    void checkAnswer();
+        /** If it is called by pressing "check answer" it obviously shows results
+        * but if app is closeing it only checks answer and save it.*/
+    void checkAnswer(bool showResults = true);
     void stopExamSlot();
     void repeatQuestion();
 
