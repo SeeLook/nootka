@@ -70,6 +70,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
                      getTQAunitFromStream(in, qaUnit);
                      m_answList << qaUnit;
                      averTime += qaUnit.time;
+                     /** @todo count mistakes here*/
                  }
                  m_examFile = resultText;
                  if (tmpTune != gl->Gtune() ) {
@@ -421,7 +422,7 @@ Tnote TexamExecutor::forceEnharmAccid(Tnote n) {
     else return n;
 }
 
-void TexamExecutor::checkAnswer(){
+void TexamExecutor::checkAnswer(bool showResults) {
     TQAunit curQ = m_answList[m_answList.size() - 1];
     curQ.time = mW->examResults->questionStop();
     mW->nootBar->removeAction(checkAct);
@@ -480,39 +481,42 @@ void TexamExecutor::checkAnswer(){
           curQ.setMistake(TQAunit::e_wrongNote);
     }
 
-    QString answTxt;
-    if (curQ.correct()) { // CORRECT
-        answTxt = QString("<center><span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EanswerColor.name()).arg(mW->getFontSize()).arg(gl->getBGcolorText(gl->EanswerColor));
-        answTxt += tr("Exelent !!");
-    } else { // WRONG
-        answTxt = QString("<center><span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EquestionColor.name()).arg(mW->getFontSize()).arg(gl->getBGcolorText(gl->EquestionColor));
-        if (curQ.wrongNote())
-            answTxt += tr("Wrong note.");
-        if (curQ.wrongKey())
-            answTxt += tr(" Wrong key signature.");
-        if (curQ.wrongAccid())
-            answTxt += tr(" Wrong accidental.");
-        if (curQ.wrongPos())
-            answTxt += tr(" Wrong position.");
-        if (curQ.wrongOctave())
-            answTxt += tr("<br>Wrong octave.");
-    }
-    answTxt += "</span><br>";
-    if (gl->hintsEnabled) {
-        answTxt += tr("<hr>Click <img src=\"%1\"> buton<br>or press <b>space</b> for next question.").arg(gl->path+"picts/next-icon.png");
+    if (showResults) {
+        QString answTxt;
+        if (curQ.correct()) { // CORRECT
+            answTxt = QString("<center><span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EanswerColor.name()).arg(mW->getFontSize()).arg(gl->getBGcolorText(gl->EanswerColor));
+            answTxt += tr("Exelent !!");
+        } else { // WRONG
+            answTxt = QString("<center><span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EquestionColor.name()).arg(mW->getFontSize()).arg(gl->getBGcolorText(gl->EquestionColor));
+            if (curQ.wrongNote())
+                answTxt += tr("Wrong note.");
+            if (curQ.wrongKey())
+                answTxt += tr(" Wrong key signature.");
+            if (curQ.wrongAccid())
+                answTxt += tr(" Wrong accidental.");
+            if (curQ.wrongPos())
+                answTxt += tr(" Wrong position.");
+            if (curQ.wrongOctave())
+                answTxt += tr("<br>Wrong octave.");
+        }
+        answTxt += "</span><br>";
+        if (gl->hintsEnabled) {
+            answTxt += tr("<hr>Click <img src=\"%1\"> buton<br>or press <b>space</b> for next question.").arg(gl->path+"picts/next-icon.png");
+            if (!curQ.correct())
+                answTxt += tr("<br>Click <img src=\"%1\"> buton<br>or press <b>backspace</b> to correct question.").arg(gl->path+"picts/prev-icon.png");
+        }
+        answTxt += "</center>";
+        QWhatsThis::showText(QPoint(mW->pos().x() + qRound(mW->centralWidget()->width()*0.75),
+                                    mW->pos().y() + qRound(mW->centralWidget()->height()*0.5)),
+                             answTxt);
+//        mW->examResults->setAnswer(curQ.correct());
         if (!curQ.correct())
-            answTxt += tr("<br>Click <img src=\"%1\"> buton<br>or press <b>backspace</b> to correct question.").arg(gl->path+"picts/prev-icon.png");
+            mW->nootBar->addAction(prevQuestAct);
+        mW->nootBar->addAction(nextQuestAct);
+        disableWidgets();
     }
-    answTxt += "</center>";
-    QWhatsThis::showText(QPoint(mW->pos().x() + qRound(mW->centralWidget()->width()*0.75),
-                                mW->pos().y() + qRound(mW->centralWidget()->height()*0.5)),
-			 answTxt);
     mW->examResults->setAnswer(curQ.correct());
-    if (!curQ.correct())
-        mW->nootBar->addAction(prevQuestAct);
-    mW->nootBar->addAction(nextQuestAct);
     m_answList[m_answList.size()-1] = curQ;
-    disableWidgets();
 }
 
 void TexamExecutor::repeatQuestion() {
@@ -686,20 +690,19 @@ QString TexamExecutor::getTextHowAccid(Tnote::Eacidentals accid) {
 }
 
 bool TexamExecutor::closeNootka() {
-    if (checkAct->isVisible()) {
-        if (QMessageBox::warning(mW, "", tr("Where is an answer ??"),
-                         QMessageBox::Save | QMessageBox::Discard, QMessageBox::Save)
-            == QMessageBox::Discard)
-            return true;
-        else
-            return false;
+    QMessageBox::StandardButton retMessage = QMessageBox::warning(mW, "", tr("Psssst... Exam is going.<br><br><b>Retry</b> - to continue<br><b>Save - </b> to check(if neded) save and exit<br>"),
+                       QMessageBox::Save | QMessageBox::Retry, QMessageBox::Save);
+    if (retMessage == QMessageBox::Retry) {
+        return false;
     } else {
-        if (QMessageBox::warning(mW, "", tr("close ??"),
-                         QMessageBox::Save | QMessageBox::Discard, QMessageBox::Save)
-            == QMessageBox::Discard)
+        if (mW->startExamAct->isEnabled()) {
+            stopExamSlot();
             return true;
-        else
-            return false;
+        } else {
+            checkAnswer(false);
+            stopExamSlot();
+            return true;
+        }
     }
 }
 
