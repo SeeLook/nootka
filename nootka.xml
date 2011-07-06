@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
  <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
-  <mime-type type="application/x-nootka-exam">
+  <mime-type type="application/x-nootka-item">
     <sub-class-of type="text/xml"/>
     <sub-class-of type="application/xml"/>
-    <comment>Nootka - exam file</comment>
-	<comment xml:lang="pl">Nootka - plik egzaminu</comment>
-    <icon>nootka-exam</icon>
+    <comment>Nootka (score learning app)</comment>
+	<comment xml:lang="pl">Nootka (aplikacja do nauki nut)</comment>
+    <icon>nootka</icon>
     <glob pattern=".nootka" weight="50" />
     <magic priority="90">
         <match type="string" offset="2" value="xml">
