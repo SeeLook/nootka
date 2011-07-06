@@ -74,7 +74,7 @@ QList<TexamLevel> getExampleLevels() {
 
 /*static*/
 const qint32 TlevelSelector::levelVersion = 0x95121701;
-QString TlevelSelector::levelFilterTxt = QObject::tr("Levels (*.nlv)");
+QString TlevelSelector::levelFilterTxt = QObject::tr("Levels (*.nel)");
 
 TlevelSelector::TlevelSelector(QWidget *parent) :
     QWidget(parent)
