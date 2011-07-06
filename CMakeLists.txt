@@ -23,7 +23,7 @@ if(UNIX AND NOT APPLE)
     find_program(XDG-DESKTOP-MENU_EXECUTABLE xdg-desktop-menu)
     execute_process(COMMAND ${XDG-MIME_EXECUTABLE} install --novendor nootka.xml)
     execute_process(COMMAND ${XDG-DESKTOP-MENU_EXECUTABLE} install --novendor nootka.desktop)
-    execute_process(COMMAND ${XDG-MIME_EXECUTABLE} default basket.desktop "application/x-nootka-item")
+    execute_process(COMMAND ${XDG-MIME_EXECUTABLE} default nootka.desktop "application/x-nootka-item")
 
     # uninstall target
     configure_file(
