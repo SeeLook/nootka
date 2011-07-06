@@ -15,17 +15,17 @@ add_subdirectory(src)
 #INSTALLATION
 if(UNIX AND NOT APPLE)
 #     INSTALL(TARGETS nootka DESTINATION bin)
-    INSTALL(FILES LICENSE DESTINATION share/nootka)
-    INSTALL(DIRECTORY picts DESTINATION share/nootka)
-    INSTALL(DIRECTORY fonts DESTINATION share/nootka)
+    INSTALL(FILES LICENSE DESTINATION "${CMAKE_INSTALL_PREFIX}/share/nootka")
+    INSTALL(DIRECTORY picts DESTINATION "${CMAKE_INSTALL_PREFIX}/share/nootka")
+    INSTALL(DIRECTORY fonts DESTINATION "${CMAKE_INSTALL_PREFIX}/share/nootka")
+    INSTALL(FILES nootka.desktop DESTINATION "${CMAKE_INSTALL_PREFIX}/share/applications")
+    INSTALL(FILES picts/nootka.svg DESTINATION "${CMAKE_INSTALL_PREFIX}/share/pixmaps")
+    INSTALL(FILES x-nootka-noo.xml DESTINATION ${XDG_MIME_INSTALL_DIR})
+    INSTALL(FILES x-nootka-nel.xml DESTINATION ${XDG_MIME_INSTALL_DIR})
+    update_xdg_mimetypes(${XDG_MIME_INSTALL_DIR})
 
-    find_program(XDG-MIME_EXECUTABLE xdg-mime)
-    find_program(XDG-DESKTOP-MENU_EXECUTABLE xdg-desktop-menu)
-    execute_process(COMMAND ${XDG-MIME_EXECUTABLE} install --novendor nootka.xml)
-    execute_process(COMMAND ${XDG-DESKTOP-MENU_EXECUTABLE} install --novendor nootka.desktop)
-    execute_process(COMMAND ${XDG-MIME_EXECUTABLE} default nootka.desktop "application/x-nootka-item")
 
-    # uninstall target
+  # uninstall target
     configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
         "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
@@ -35,18 +35,19 @@ if(UNIX AND NOT APPLE)
         COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
 endif(UNIX AND NOT APPLE)
 
-#BUILD PACKAGES
+######################## BUILD PACKAGES ######################
 
 INCLUDE(InstallRequiredSystemLibraries)
 
-SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Nootka")
-SET(CPACK_PACKAGE_VENDOR "SeeLook")
-SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
-SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
-SET(CPACK_PACKAGE_VERSION_MAJOR "0")
-SET(CPACK_PACKAGE_VERSION_MINOR "7")
-SET(CPACK_PACKAGE_VERSION_PATCH "0")
-SET(CPACK_PACKAGE_INSTALL_DIRECTORY "CMake ${CMake_VERSION_MAJOR}.${CMake_VERSION_MINOR}")
+  SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Nootka")
+  SET(CPACK_PACKAGE_VENDOR "SeeLook")
+  SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
+  SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
+  SET(CPACK_PACKAGE_VERSION_MAJOR "0")
+  SET(CPACK_PACKAGE_VERSION_MINOR "7")
+  SET(CPACK_PACKAGE_VERSION_PATCH "0")
+  SET(CPACK_PACKAGE_INSTALL_DIRECTORY "CMake ${CMake_VERSION_MAJOR}.${CMake_VERSION_MINOR}")
+
 IF(WIN32 AND NOT UNIX)
   # There is a bug in NSI that does not handle full unix paths properly. Make
   # sure there is at least one set of four (4) backlasshes.
@@ -63,5 +64,6 @@ ELSE(WIN32 AND NOT UNIX)
   SET(CPACK_GENERATOR "DEB")
   SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "SeeLook") #required 
 ENDIF(WIN32 AND NOT UNIX)
+
 SET(CPACK_PACKAGE_EXECUTABLES "nootka" "nootka")
 INCLUDE(CPack)
