@@ -18,11 +18,25 @@ if(UNIX AND NOT APPLE)
     INSTALL(FILES LICENSE DESTINATION "${CMAKE_INSTALL_PREFIX}/share/nootka")
     INSTALL(DIRECTORY picts DESTINATION "${CMAKE_INSTALL_PREFIX}/share/nootka")
     INSTALL(DIRECTORY fonts DESTINATION "${CMAKE_INSTALL_PREFIX}/share/nootka")
+
+
     INSTALL(FILES nootka.desktop DESTINATION "${CMAKE_INSTALL_PREFIX}/share/applications")
     INSTALL(FILES picts/nootka.svg DESTINATION "${CMAKE_INSTALL_PREFIX}/share/pixmaps")
-    INSTALL(FILES x-nootka-noo.xml DESTINATION ${XDG_MIME_INSTALL_DIR})
-    INSTALL(FILES x-nootka-nel.xml DESTINATION ${XDG_MIME_INSTALL_DIR})
-    update_xdg_mimetypes(${XDG_MIME_INSTALL_DIR})
+    INSTALL(FILES picts/nootka-exam.png DESTINATION "${CMAKE_INSTALL_PREFIX}/share/pixmaps")
+    INSTALL(FILES picts/levelCreator.png DESTINATION "${CMAKE_INSTALL_PREFIX}/share/pixmaps")
+
+    find_program(XDG-MIME_EXECUTABLE xdg-mime)
+    INSTALL( CODE"
+      execute_process(COMMAND ${XDG-MIME_EXECUTABLE} install --novendor ${CMAKE_CURRENT_SOURCE_DIR}/x-nootka-noo.xml)
+      execute_process(COMMAND ${XDG-MIME_EXECUTABLE} install --novendor ${CMAKE_CURRENT_SOURCE_DIR}/x-nootka-nel.xml)"
+    )
+
+#     INSTALL(FILES x-nootka-noo.xml DESTINATION "${XDG_MIME_INSTALL_DIR}")
+#     INSTALL(FILES x-nootka-noo.xml DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mime/application/")
+#     INSTALL(FILES x-nootka-nel.xml DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mime/application/")
+
+#     INSTALL(FILES x-nootka-nel.xml DESTINATION "${XDG_MIME_INSTALL_DIR}")
+#     update_xdg_mimetypes(${XDG_MIME_INSTALL_DIR})
 
 
   # uninstall target
@@ -62,7 +76,7 @@ ELSE(WIN32 AND NOT UNIX)
   SET(CPACK_STRIP_FILES "bin/nootka")
   SET(CPACK_SOURCE_STRIP_FILES "")
   SET(CPACK_GENERATOR "DEB")
-  SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "SeeLook") #required 
+  SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "SeeLook")
 ENDIF(WIN32 AND NOT UNIX)
 
 SET(CPACK_PACKAGE_EXECUTABLES "nootka" "nootka")
