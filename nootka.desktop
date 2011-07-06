@@ -1,0 +1,13 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Value=1.0
+Name=Nootka
+GenericName=to play scores
+GenericName[pl]=żeby grać z nut
+Type=Application
+Comment=Application for learning musical score notation 
+Comment[pl]=Program do nauki nut
+Exec=nootka
+Icon=nootka
+MimeType=x-nootka-noo;x-nootka-nel
+Categories=Education
