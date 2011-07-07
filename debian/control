@@ -1,0 +1,25 @@
+Source: nootka
+Section: education
+Priority: optional
+Maintainer: mean <seelook@gmail.com>
+Bugs: mailto:seelook@gmail.com
+Standards-Version: 3.6.2
+Build-Depends: debhelper (>> 4), dpatch, cmake, desktop-file-utils
+
+Package: nootka
+Architecture: any
+Depends: ${shlibs:Depends}
+Recommends: none
+Description: Nootka is open-source application to
+ help with learning classical score notation.
+ Mostly it is for guitarists,
+ but it has some features which can be helpful for others.
+ .
+ Features
+ numerous settings to personalize for user needs and capabilities
+ support for differents name-callings of the notes
+ scordatures support
+ exams with differents levels
+ levels creator with wide renge of settings
+ .
+ http://nootka.sf.net
