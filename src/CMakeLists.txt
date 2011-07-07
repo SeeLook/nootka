@@ -107,3 +107,11 @@ IF (UNIX AND NOT APPLE)
   INSTALL(TARGETS nootka DESTINATION bin)
 
 ENDIF (UNIX AND NOT APPLE)
+
+IF( MINGW )
+    # resource compilation for MinGW
+    ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/nootico.o
+                        COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -i${CMAKE_CURRENT_SOURCE_DIR}/picts/nootico.rc 
+                             -o ${CMAKE_CURRENT_BINARY_DIR}/nootico.o )
+    SET(NOOTKA_SRCS ${NOOTKA_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/crunchico.o)
+ENDIF( MINGW )
