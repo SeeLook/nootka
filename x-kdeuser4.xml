@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/x-kdeuser4">
-  <!--Created automatically by update-mime-database. DO NOT EDIT!-->
-  <comment>Nootka - plik egzamin </comment>
-  <icon name="/home/tom/DEVELOP/QT4/nootka/picts/nootka-exam.png"/>
-  <glob-deleteall/>
-  <glob pattern="*.NOO"/>
-  <glob pattern="*.noo"/>
-</mime-type>
