@@ -9,5 +9,6 @@ Comment=Application for learning musical score notation
 Comment[pl]=Program do nauki nut
 Exec=nootka
 Icon=nootka
-MimeType=x-nootka-noo;x-nootka-nel
+MimeType=application/x-nootka-noo;application/x-nootka-nel
 Categories=Education
+X-DBUS-StartupType=Unique
