@@ -7,7 +7,7 @@ cat <<EOF
     <sub-class-of type="application/bin"/>
     <comment>Nootka exam's level</comment>
     <comment xml:lang="pl">Poziom egzaminu programu Nootka</comment>
-    <icon type="$1/share/nootka/picts/levelCreator.png" />
+    <icon name="$1/share/nootka/picts/levelCreator.png" />
     <glob pattern="*.nel"/>
     <acronym>NEL</acronym>
     <expanded-acronym>Nootka Exam's Level</expanded-acronym>
