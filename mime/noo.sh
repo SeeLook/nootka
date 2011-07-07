@@ -7,7 +7,7 @@ cat <<EOF
       <sub-class-of type="application/bin"/>
       <comment>Nootka exam file</comment>
       <comment xml:lang="pl">Plik egzaminu programu Nootka</comment>
-      <icon>$1/share/nootka/picts/nootka-exam.png</icon>
+      <icon type="$1/share/nootka/picts/nootka-exam.png" />
       <glob pattern="*.noo" />    
   </mime-type>
  </mime-info> 
