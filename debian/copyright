@@ -1,11 +1,8 @@
-This package was debianized by Christian Marillat <marillat@debian.org> on
-Mon,  1 Apr 2002 23:09:35 +0200.
+Nootka
 
-It was downloaded from http://fixounet.free.fr/avidemux/
+Upstream Author: Tomasz Bojczuk <tomaszbojczuk@gmail.com>
 
-Upstream Author: mean <fixounet@free.fr>
-
-Copyright: 2002 mean
+Copyright: 2011 Tomasz Bojczuk
 
   You should have received a copy of the GNU General Public License with the
   Debian GNU/Linux distribution in file /usr/share/common-licenses/GPL; if
