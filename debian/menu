@@ -1,4 +1,4 @@
-?package(avidemux):needs="X11" section="Apps/Graphics" \
-  title="avidemux" \
-  icon="/usr/share/pixmaps/avidemux.png" \
-  command="/usr/bin/avidemux2"
+?package(nootka):needs="X11" section="Apps/Education" \
+  title="Nootka" \
+  icon="/usr/share/nootka/picts/nootka.svg" \
+  command="/usr/bin/nootka"
