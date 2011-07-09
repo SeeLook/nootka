@@ -78,6 +78,7 @@ private:
     void disableWidgets();
     void clearWidgets();
     QString getTextHowAccid(Tnote::Eacidentals accid);
+    QString saveExamToFile();
 
 
 
