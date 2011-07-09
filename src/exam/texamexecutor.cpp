@@ -75,7 +75,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
                  m_examFile = resultText;
                  if (tmpTune != gl->Gtune() ) {
                      gl->setTune(tmpTune);
-                     QMessageBox::critical(mW, "", tr("Tune of guitar was changed in this exam !!.<br>Now it is:<br><b>%1</b>").arg(gl->Gtune().name));
+                     QMessageBox::critical(mW, "",
+			tr("Tune of guitar was changed in this exam !!.<br>Now it is:<br><b>%1</b>").arg(gl->Gtune().name));
                  }
              } else {
                  QMessageBox::critical(mW, "", tr("Cannot open file\n %1 \n for reading\n%2 ").arg(file.fileName()).arg(qPrintable(file.errorString())));
@@ -630,7 +631,7 @@ void TexamExecutor::clearWidgets() {
 
 void TexamExecutor::stopExamSlot() {
     mW->examResults->stopExam();
-    if (m_examFile == "")
+    if (m_examFile == "" && m_answList.size())
         m_examFile = saveExamToFile();
     if (m_examFile != "") {
         QFile file(m_examFile);
