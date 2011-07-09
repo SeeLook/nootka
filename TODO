@@ -11,7 +11,6 @@ TSCOREWIDGETSIMPLE
     - use enableDblAcc in TscoreWidgetSimple to avoid waste hiding or showing dbl accid buttons
 
 TNOTENAME
-    - resolve problem with resizeing and layout
     - buttons' font size depending on window size
     - buttons' with accids and octaves state during asking question
 
@@ -30,5 +29,3 @@ TKEYSIGNATURE
     - when notes of range are with # or b appropirate accidentals have to be used in level
     - make use with isfretHi, isNoteLo and so on..
 
-
-When app is closed during exam, exept warring about saving exam, restore global settings

@@ -113,12 +113,12 @@ void TlevelSelector::levelSelected(int id) {
 
 void TlevelSelector::findLevels() {
     TexamLevel lev = TexamLevel();
-  // from constructor
-    addLevel(lev);
   // from predefined list
     QList<TexamLevel> llist = getExampleLevels();
     for (int i = 0; i < llist.size(); i++)
         addLevel(llist[i]);
+  // from constructor
+    addLevel(lev);
   // from setting file - recent load/saved levels
 #if defined(Q_OS_WIN32) // I hate mess in Win registry
     QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
@@ -138,7 +138,6 @@ void TlevelSelector::findLevels() {
         else
             recentLevels.removeAt(i);
     }
-
 }
 
 void TlevelSelector::addLevel(const TexamLevel &lev) {

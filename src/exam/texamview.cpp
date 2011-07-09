@@ -115,11 +115,12 @@ quint16 TexamView::questionStop() {
 void TexamView::startExam(int passTimeInSec, int questNumber, int averTime, int mistakes) {
     m_questNr = questNumber;
     m_totElapsedTime = passTimeInSec;
-    m_totalTime = QTime();
+    m_totalTime = QTime(0,0);
     m_averTime = averTime;
     m_mistakes = mistakes;
     m_showReact = false;
     m_totalTime.start();
+    m_totalTime.restart();
     m_timer->start(1000);
     countTime();
     setAnswer(true);

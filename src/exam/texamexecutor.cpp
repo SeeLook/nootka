@@ -186,7 +186,6 @@ void TexamExecutor::createQuestionsList() {
 
 
 void TexamExecutor::askQuestion() {
-//    qDebug() << "start asking:";
     gl->NnameStyleInNoteName = m_prevStyle;
     mW->noteName->setNoteNamesOnButt(m_prevStyle);
 
@@ -205,9 +204,7 @@ void TexamExecutor::askQuestion() {
     curQ.answerAs = m_level.answersAs[curQ.questionAs].next();
 
     if (curQ.questionAs == TQAtype::e_asNote || curQ.answerAs == TQAtype::e_asNote) {
-//      qDebug() << "as note";
         if (m_level.useKeySign) {
-//	    qDebug() << "use key signature";
             Tnote tmpNote = curQ.qa.note;
             if (m_level.isSingleKey) { //for single key
                 curQ.key = m_level.loKey;
@@ -245,9 +242,8 @@ void TexamExecutor::askQuestion() {
 
   // ASKING QUESIONS
     QString questText = QString("<b>%1. </b>").arg(m_answList.size()+1); //question number
-//    qDebug() << "asking";
     if (curQ.questionAs == TQAtype::e_asNote) {
-        questText += tr("Point given note ");
+        questText += tr("Given note show ");
         char strNr = 0;
         if ( curQ.answerAs == TQAtype::e_asFretPos && !m_level.onlyLowPos && m_level.showStrNr)
             strNr = curQ.qa.pos.str(); //show string nr or not
@@ -262,12 +258,14 @@ void TexamExecutor::askQuestion() {
             mW->noteName->askQuestion(curQ.qa.note, curQ.qa.pos.str());
         else
             mW->noteName->askQuestion(curQ.qa.note);
-        questText += tr("Point given note name ");
+        questText += tr("Given note name show ");
     }
 
     if (curQ.questionAs == TQAtype::e_asFretPos) {
         mW->guitar->askQuestion(curQ.qa.pos);
-        questText += tr("Point given position ");
+        questText += tr("Given position show ");
+        if (!m_level.forceAccids)
+            m_answRequire.accid = false;
     }
 
 // PREPARING ANSWERS
@@ -302,7 +300,8 @@ void TexamExecutor::askQuestion() {
             mW->score->forceAccidental((Tnote::Eacidentals)m_note2.acidental);
         }
         if (curQ.questionAs == TQAtype::e_asFretPos) {
-            questText += getTextHowAccid((Tnote::Eacidentals)curQ.qa.note.acidental);
+            if (m_level.forceAccids)
+                questText += getTextHowAccid((Tnote::Eacidentals)curQ.qa.note.acidental);
             mW->score->forceAccidental((Tnote::Eacidentals)curQ.qa.note.acidental);
         }
         mW->score->unLockScore();
@@ -416,7 +415,6 @@ Tnote TexamExecutor::forceEnharmAccid(Tnote n) {
         cnt++;
     } while (n == nX || cnt < 6);
     m_prevAccid = (Tnote::Eacidentals)acc;
-//    qDebug() << QString::fromStdString(n.getName()) << QString::fromStdString(nX.getName());
     if (nX.note)
         return nX;
     else return n;
@@ -446,7 +444,6 @@ void TexamExecutor::checkAnswer(bool showResults) {
             exN = m_note2;
         retN = mW->noteName->getNoteName();
     }
-//qDebug() << QString::fromStdString(exN.getName()) << QString::fromStdString(retN.getName());
     if (curQ.answerAs == TQAtype::e_asFretPos) {
         if (curQ.qa.pos != mW->guitar->getfingerPos())
             curQ.setMistake(TQAunit::e_wrongPos);
@@ -550,7 +547,7 @@ void TexamExecutor::prepareToExam() {
     mW->startExamAct->setIcon(QIcon(gl->path+"picts/stopExam.png"));
     mW->startExamAct->setText(tr("stop the exam"));
     mW->startExamAct->setStatusTip(mW->startExamAct->text());
-    mW->startExamAct->setDisabled(true);
+//    mW->startExamAct->setDisabled(true);
 
     disableWidgets();
 
@@ -560,9 +557,6 @@ void TexamExecutor::prepareToExam() {
     disconnect(mW->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
     connect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
 
-    /** @todo store globals
-
-    */
     m_prevStyle = gl->NnameStyleInNoteName;
     m_glStore.nameStyleInNoteName = gl->NnameStyleInNoteName;
     m_glStore.showEnharmNotes = gl->showEnharmNotes;
@@ -637,46 +631,43 @@ void TexamExecutor::clearWidgets() {
 void TexamExecutor::stopExamSlot() {
     mW->examResults->stopExam();
     if (m_examFile == "")
-        m_examFile = QFileDialog::getSaveFileName(mW, tr("Save exam's results as:"),
-                               QDir::toNativeSeparators(QDir::homePath()+"/"+m_userName+"-"+m_level.name),
-                               TstartExamDlg::examFilterTxt);
-
-    QFile file(m_examFile);
-    if (file.open(QIODevice::WriteOnly)) {
-        QDataStream out(&file);
-        out.setVersion(QDataStream::Qt_4_7);
-        out << examVersion;
-        out << m_userName << m_level << gl->Gtune();
-        out << mW->examResults->getTotalTime(); // elapsed exam time (quint32)
-        // data for file preview
-        out << (quint16)m_answList.size(); // number of questions
-        out << mW->examResults->getAverageTime(); // average time of answer (quint16)
-        // that's all
-        out << mW->examResults->getMistakesNumber(); // number of mistakes (quint16)
-        for (int i = 0; i < m_answList.size(); i++)
-            out << m_answList[i]; // and obviously answers
+        m_examFile = saveExamToFile();
+    if (m_examFile != "") {
+        QFile file(m_examFile);
+        if (file.open(QIODevice::WriteOnly)) {
+            QDataStream out(&file);
+            out.setVersion(QDataStream::Qt_4_7);
+            out << examVersion;
+            out << m_userName << m_level << gl->Gtune();
+            out << mW->examResults->getTotalTime(); // elapsed exam time (quint32)
+            // data for file preview
+            out << (quint16)m_answList.size(); // number of questions
+            out << mW->examResults->getAverageTime(); // average time of answer (quint16)
+            // that's all
+            out << mW->examResults->getMistakesNumber(); // number of mistakes (quint16)
+            for (int i = 0; i < m_answList.size(); i++)
+                out << m_answList[i]; // and obviously answers
 
 #if defined(Q_OS_WIN32)
-        QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
+            QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
 #else
-        QSettings sett;
+            QSettings sett;
 #endif
-        QStringList recentExams = sett.value("recentExams").toStringList();
-        recentExams.removeAll(m_examFile);
-        recentExams.prepend(m_examFile);
-        sett.setValue("recentExams", recentExams);
+            QStringList recentExams = sett.value("recentExams").toStringList();
+            recentExams.removeAll(m_examFile);
+            recentExams.prepend(m_examFile);
+            sett.setValue("recentExams", recentExams);
 
-    } else /** @todo the same message is in examSettingsDlg - do it common !!!*/
-        QMessageBox::critical(mW, "", tr("Cannot open file for writing\n%1").arg(qPrintable(file.errorString())));
-
-
+        } else
+            QMessageBox::critical(mW, "",
+                                  tr("Cannot save exam file:\n%1").arg(qPrintable(file.errorString())));
+    }
 
     mW->setMessageBg(-1);
     mW->setStatusMessage("");
     mW->setStatusMessage("so a pity", 5000);
 
     clearWidgets();
-
     restoreAfterExam();
 }
 
@@ -690,7 +681,7 @@ QString TexamExecutor::getTextHowAccid(Tnote::Eacidentals accid) {
 }
 
 bool TexamExecutor::closeNootka() {
-    QMessageBox::StandardButton retMessage = QMessageBox::warning(mW, "", tr("Psssst... Exam is going.<br><br><b>Retry</b> - to continue<br><b>Save - </b> to check(if neded) save and exit<br>"),
+    QMessageBox::StandardButton retMessage = QMessageBox::warning(mW, "", tr("Psssst... Exam is going.<br><br><b>Retry</b> - to continue<br><b>Save - </b> to check(if neded), save and exit<br>"),
                        QMessageBox::Save | QMessageBox::Retry, QMessageBox::Save);
     if (retMessage == QMessageBox::Retry) {
         return false;
@@ -706,5 +697,16 @@ bool TexamExecutor::closeNootka() {
     }
 }
 
+QString TexamExecutor::saveExamToFile() {
+    QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam's results as:"),
+                         QDir::toNativeSeparators(QDir::homePath()+"/"+m_userName+"-"+m_level.name),
+                                   TstartExamDlg::examFilterTxt);
+    if (fileName == "")
+        if (QMessageBox::warning(mW, "", tr("If You don't save to file<br>all results are lost !!"),
+                             QMessageBox::Save | QMessageBox::Discard, QMessageBox::Save)
+            == QMessageBox::Save)
+                fileName = saveExamToFile();
+    return fileName;
 
+}
 
