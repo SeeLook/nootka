@@ -48,8 +48,9 @@ public:
     void stopExam() { m_timer->stop(); }
         /** This method returns rounded average time. It is only for exam preview.*/
     quint16 getAverageTime() { return (quint16)qRound(m_averTime); }
-    quint32 getTotalTime() {return m_totElapsedTime + quint32(m_totalTime.hour() * 3600 +
-                                   m_totalTime.minute() *60 + m_totalTime.second()); }
+//     quint32 getTotalTime() {return m_totElapsedTime + quint32(m_totalTime.hour() * 3600 +
+//                                    m_totalTime.minute() *60 + m_totalTime.second()); }
+    quint32 getTotalTime() {return m_totElapsedTime + quint32(m_totalTime.elapsed() / 1000); }
     quint16 getMistakesNumber() {return (quint16)m_mistakes; }
     void clearResults();
 

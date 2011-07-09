@@ -154,9 +154,9 @@ void TexamView::setFontSize(int s) {
 void TexamView::countTime() {
     if (m_showReact)
         m_reactTimeLab->setText(QString("%1").arg(m_reactTime.elapsed() / 1000, 0, 'f', 1, '0'));
-    int t = m_totElapsedTime + m_totalTime.elapsed();
+    int t = m_totElapsedTime*1000 + m_totalTime.elapsed();
 //    m_totalTimeLab->setText(m_totalTime.toString("hh:mm:ss"));
-    m_totalTimeLab->setText(QString("%1:%2:%3").arg(t/3600000).arg((t%36000000)/60000, 2, 'f', 0, '0').arg((t%60000)/1000, 2, 'f', 0, '0'));
+    m_totalTimeLab->setText(QString("%1:%2:%3").arg(t/3600000).arg((t%3600000)/60000, 2, 'f', 0, '0').arg((t%60000)/1000, 2, 'f', 0, '0'));
 }
 
 void TexamView::clearResults() {
