@@ -45,6 +45,12 @@ QList<TexamLevel> getExampleLevels() {
     l.isNoteHi = false;
     l.hiFret = 0;// loFret is 0 by constuctor
     l.isFretHi = false;
+    for (int i = 1; i < 7; i++) { //accids will be used if current tune requires it
+        if (gl->Gtune()[i].acidental == 1)
+            l.withSharps = true;
+        if (gl->Gtune()[i].acidental == -1)
+            l.withFlats = ttrueee;
+        }
     llist << l;
 
     l.name = QObject::tr("C-major scale");

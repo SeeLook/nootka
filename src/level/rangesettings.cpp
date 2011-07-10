@@ -36,7 +36,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
     QVBoxLayout *scoreLay = new QVBoxLayout;
     scoreRang = new TscoreWidgetSimple(2, this);
     scoreRang->setFixedWidth(160);
-    scoreRang->setStatusTip(tr("If selected notes are either the lowest or the highest<br>possible sounds in the current guitar tune,<br>they are automatically adjusted to another tune."));
+//    scoreRang->setStatusTip(tr("If selected notes are either the lowest or the highest<br>possible sounds in the current guitar tune,<br>they are automatically adjusted to another tune."));
     scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()),
                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
     QGroupBox *notesRangGr = new QGroupBox(TlevelSummaryWdg::notesRangeTxt, this);
@@ -47,7 +47,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
 
     QVBoxLayout *guitLay = new QVBoxLayout;
     QGroupBox *fretGr = new QGroupBox(TlevelSummaryWdg::fretsRangeTxt, this);
-    fretGr->setStatusTip(tr("If selected fret is the highest, it is automatically<br>changed to the highest possible fret<br>for any frets number in a guitar."));
+//    fretGr->setStatusTip(tr("If selected fret is the highest, it is automatically<br>changed to the highest possible fret<br>for any frets number in a guitar."));
     QHBoxLayout *fretLay = new QHBoxLayout;
     QLabel *fromLab = new QLabel(tr("from"),this);
     fromSpinB = new QSpinBox(this);
@@ -159,6 +159,15 @@ void rangeSettings::saveLevel(TexamLevel &level) {
         level.loNote = scoreRang->getNote(1);
         level.hiNote = scoreRang->getNote(0);
     }
+//    if (level.loNote.getChromaticNrOfNote() == gl->loString().getChromaticNrOfNote())
+//        level.isNoteLo = true;
+//    else
+//        level.isNoteLo = false;
+//    if (level.hiNote.getChromaticNrOfNote() == (gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber))
+//        level.isNoteHi = true;
+//    else
+//        level.isNoteHi = false;
+
     if (fromSpinB->value() <= toSpinB->value()) {
         level.loFret = fromSpinB->value();
         level.hiFret = toSpinB->value();
@@ -167,10 +176,14 @@ void rangeSettings::saveLevel(TexamLevel &level) {
         level.loFret = toSpinB->value();
         level.hiFret = fromSpinB->value();
     }
+//    if (level.hiFret == gl->GfretsNumber)
+//        level.isFretHi = true;
+//    else
+//        level.isFretHi = true;
+
     for (int i=0; i<6; i++)
         level.usedStrings[i] = stringBut[i]->isChecked();
     level.onlyLowPos = lowPosOnlyChBox->isChecked();
     level.onlyCurrKey = currKeySignChBox->isChecked();
-    /** Maybe there is sence to check - is key signature enabled, and if not
-        set all accidentals to false...*/
+
 }
