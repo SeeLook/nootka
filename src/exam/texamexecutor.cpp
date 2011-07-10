@@ -92,8 +92,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
 
     prepareToExam();
     createQuestionsList();
-    m_isSolfege = false;
 
+    m_isSolfege = false;
     m_prevAccid = Tnote::e_Natural;
     m_dblAccidsCntr = 0;
     m_level.questionAs.randNext(); // Randomize question and answer type
@@ -119,6 +119,12 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     checkAct->setShortcut(QKeySequence(Qt::Key_Return));
     // shortcuts
     connect(checkAct, SIGNAL(triggered()), this, SLOT(checkAnswer()));
+
+    if (m_questList.size() == 0) {
+        QMessageBox::critical(mW, "", tr("Level <b>%1<b><br>has no sense till there is no any possible question to ask.<br>Repair it in Level Creator and try again.").arg(m_level.name));
+        restoreAfterExam();
+        return;
+    }
 
 }
 
@@ -177,7 +183,7 @@ void TexamExecutor::createQuestionsList() {
         }
     }
 
-//    if (m_questList.size() == 0)
+
 //    for (int i = 0; i < m_questList.size(); i++)
 //        qDebug() << i << (int)m_questList[i].pos.str() << "f"
 //                << (int)m_questList[i].pos.fret() << " note: "
