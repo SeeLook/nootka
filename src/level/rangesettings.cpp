@@ -88,7 +88,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
     mainLay->addStretch(1);
 
     lowPosOnlyChBox = new QCheckBox(tr("notes in the lowest position only"),this);
-    lowPosOnlyChBox->setStatusTip(tr("If checked, only simple possibility of a note are required,<br>otherwise all possible positions of the note are taken.<br>To use this, all strings have to be available !!"));
+    lowPosOnlyChBox->setStatusTip(tr("if checked, the lowest position in selected frets' range are required,<br>otherwise all possible positions of the note are taken.<br>To use this, all strings have to be available !!"));
     mainLay->addWidget(lowPosOnlyChBox, 0, Qt::AlignCenter);
     mainLay->addStretch(1);
     currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);
@@ -108,16 +108,22 @@ rangeSettings::rangeSettings(QWidget *parent) :
 void rangeSettings::stringSelected() {
     if ( !stringBut[0]->isChecked() && !stringBut[1]->isChecked()
         && !stringBut[2]->isChecked() && !stringBut[3]->isChecked()
-        && !stringBut[4]->isChecked() && !stringBut[5]->isChecked() )
+        && !stringBut[4]->isChecked() && !stringBut[5]->isChecked() ) {
         stringBut[0]->setChecked(true);
+    }
     if ( !stringBut[0]->isChecked() || !stringBut[1]->isChecked()
         || !stringBut[2]->isChecked() || !stringBut[3]->isChecked()
         || !stringBut[4]->isChecked() || !stringBut[5]->isChecked() ) {
-	lowPosOnlyChBox->setDisabled(true);
-	lowPosOnlyChBox->setChecked(false);
+        lowPosOnlyChBox->setDisabled(true);
+        lowPosOnlyChBox->setChecked(false);
+        /** It has two reasons:
+         1. when questions list is created there is no conditions to check
+            unavailable (unchecked) strings
+         2. in level validation method is hard to determine dependecy unchecked
+            strings between range of frets and notes. */
     }
     else
-	lowPosOnlyChBox->setDisabled(false);
+        lowPosOnlyChBox->setDisabled(false);
 }
 
 void rangeSettings::loadLevel(TexamLevel level) {
