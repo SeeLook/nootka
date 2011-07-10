@@ -46,7 +46,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     setLayout(mainLay);
 
     navList->addItem(tr("About"));
-    navList->item(0)->setIcon(QIcon(gl->path+"picts/nootka.svg"));
+    navList->item(0)->setIcon(QIcon(gl->path+"picts/nootka.png"));
     navList->item(0)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Authors"));
     navList->item(1)->setIcon(QIcon(gl->path+"picts/author.png"));

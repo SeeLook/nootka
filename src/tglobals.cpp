@@ -152,7 +152,7 @@ Tglobals::Tglobals() {
 }
 
 Tglobals::~Tglobals() {
-    storeSettings();
+//    storeSettings();
 }
 
 void Tglobals::setTune(Ttune t) {

@@ -21,6 +21,7 @@
 #include "tglobals.h"
 #include "examsettingsdlg.h"
 #include "taboutnootka.h"
+#include "tfirstrunwizzard.h"
 //#include <QDebug>
 
 Tglobals *gl = new Tglobals();
@@ -33,6 +34,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
     setMinimumSize(640,480);
+
+    if (gl->ErepeatIncorrect) {// temporary I use this var to store info Should it run wizzard
+        TfirstRunWizzard *firstWizz = new TfirstRunWizzard(this);
+        firstWizz->exec();
+        delete firstWizz;
+        gl->ErepeatIncorrect = false;
+    }
 
 //    QWidget *widget = new QWidget(this);
     widget = new QWidget(this);
