@@ -91,7 +91,7 @@ void examSettingsDlg::saveToFile() {
     rangeSett->saveLevel(newLevel);
     QString isLevelValid = validateLevel(newLevel);
     if (isLevelValid != "") {
-        isLevelValid.prepend(tr("<b>It seems the level has got some mitakes:</b><br>"));
+        isLevelValid.prepend(tr("<center><b>It seems the level has got some mitakes:</b>"));
         QMessageBox::warning(this, "", isLevelValid);
         return;
     }
@@ -147,14 +147,21 @@ QString examSettingsDlg::validateLevel(TexamLevel &l) {
         cnt--;
     } while (!l.usedStrings[gl->strOrder(cnt)] && cnt >= 0);
     loAvailStr = gl->strOrder(cnt);
-
     if (l.loNote.getChromaticNrOfNote() > gl->Gtune()[hiAvailStr+1].getChromaticNrOfNote()+l.hiFret ||
         l.hiNote.getChromaticNrOfNote() < gl->Gtune()[loAvailStr+1].getChromaticNrOfNote()+l.loFret)
         res += tr("<li>Range of frets is beyond scale of this level</li>");
+  // checking are accids needed because of hi and low notes in range
+    char acc = 0;
+    if (l.loNote.acidental) acc = l.loNote.acidental;
+    if (l.hiNote.acidental) acc = l.hiNote.acidental;
+    if (acc)   {
+        if ( (acc == 1 && !l.withSharps) || (acc == -1 && !l.withFlats))
+            res += tr("<li>In range of notes some accidental is used<br>but not available in this level</li>");
+    }
 
     if (res != "") {
         res.prepend("<ul>");
-        res += "</ul>";
+        res += "</ul></center>";
     }
     return res;
 

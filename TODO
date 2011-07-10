@@ -24,8 +24,8 @@ TKEYSIGNATUREVIEW
 TKEYSIGNATURE
 
 !!!!! LEVELS
-    - ajust level loaded from files or settings to current tune and frets number
+    { - ajust level loaded from files or settings to current tune and frets number
         (in TexamLevel)
-    - when notes of range are with # or b appropirate accidentals have to be used in level
-    - make use with isfretHi, isNoteLo and so on..
+      - make use with isfretHi, isNoteLo and so on..
+     }   - IS IT REALLY HAS SENSE ????
 
