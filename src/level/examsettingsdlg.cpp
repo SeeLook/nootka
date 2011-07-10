@@ -86,13 +86,19 @@ void examSettingsDlg::saveLevel() {
 }
 
 void examSettingsDlg::saveToFile() {
-    TlevelHeaderWdg *saveDlg = new TlevelHeaderWdg(this);
-    QStringList nameList = saveDlg->getLevelName();
     TexamLevel newLevel;
-    newLevel.name = nameList[0];
-    newLevel.desc = nameList[1];
     questSett->saveLevel(newLevel);
     rangeSett->saveLevel(newLevel);
+    QString isLevelValid = validateLevel(newLevel);
+    if (isLevelValid != "") {
+        isLevelValid.prepend(tr("<b>It seems the level has got some mitakes:<b><br>"));
+        QMessageBox::warning(this, "", isLevelValid);
+        return;
+    }
+    TlevelHeaderWdg *saveDlg = new TlevelHeaderWdg(this);
+    QStringList nameList = saveDlg->getLevelName();
+    newLevel.name = nameList[0];
+    newLevel.desc = nameList[1];
   // Saving to file
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save exam's level"), QDir::toNativeSeparators(QDir::homePath()+"/"+newLevel.name), TlevelSelector::levelFilterTxt);
     QFile file(fileName);
@@ -128,7 +134,16 @@ void examSettingsDlg::acceptLevel() {
 }
 
 QString examSettingsDlg::validateLevel(TexamLevel &l) {
-    QString res;
+    QString res = "";
   // checking range
+    if (l.loNote.getChromaticNrOfNote() > gl->hiString().getChromaticNrOfNote()+l.hiFret ||
+        l.hiNote.getChromaticNrOfNote() < gl->loString().getChromaticNrOfNote()+l.loFret)
+        res += tr("<li>Range of frets is beyond scale of this level</li>");
+
+    if (res != "") {
+        res.prepend("<ul>");
+        res += "</ul>";
+    }
+    return res;
 
 }
