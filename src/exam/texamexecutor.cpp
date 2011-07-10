@@ -121,7 +121,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     connect(checkAct, SIGNAL(triggered()), this, SLOT(checkAnswer()));
 
     if (m_questList.size() == 0) {
-        QMessageBox::critical(mW, "", tr("Level <b>%1<b><br>has no sense till there is no any possible question to ask.<br>Repair it in Level Creator and try again.").arg(m_level.name));
+        QMessageBox::critical(mW, "", tr("Level <b>%1<b><br>has no sense till there is no any possible question to ask.<br>It can be unadjusted to current tune.<br>Repair it in Level Creator and try again.").arg(m_level.name));
         restoreAfterExam();
         return;
     }

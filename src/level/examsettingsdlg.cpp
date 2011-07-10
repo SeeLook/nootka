@@ -91,7 +91,7 @@ void examSettingsDlg::saveToFile() {
     rangeSett->saveLevel(newLevel);
     QString isLevelValid = validateLevel(newLevel);
     if (isLevelValid != "") {
-        isLevelValid.prepend(tr("<b>It seems the level has got some mitakes:<b><br>"));
+        isLevelValid.prepend(tr("<b>It seems the level has got some mitakes:</b><br>"));
         QMessageBox::warning(this, "", isLevelValid);
         return;
     }
@@ -136,8 +136,20 @@ void examSettingsDlg::acceptLevel() {
 QString examSettingsDlg::validateLevel(TexamLevel &l) {
     QString res = "";
   // checking range
-    if (l.loNote.getChromaticNrOfNote() > gl->hiString().getChromaticNrOfNote()+l.hiFret ||
-        l.hiNote.getChromaticNrOfNote() < gl->loString().getChromaticNrOfNote()+l.loFret)
+    // determine the highest note of frets' range on available strings
+    int hiAvailStr, loAvailStr, cnt=-1;
+    do {
+        cnt ++;
+    } while (!l.usedStrings[gl->strOrder(cnt)] && cnt < 6);
+    hiAvailStr = gl->strOrder(cnt);
+    cnt = 6;
+    do {
+        cnt--;
+    } while (!l.usedStrings[gl->strOrder(cnt)] && cnt >= 0);
+    loAvailStr = gl->strOrder(cnt);
+
+    if (l.loNote.getChromaticNrOfNote() > gl->Gtune()[hiAvailStr+1].getChromaticNrOfNote()+l.hiFret ||
+        l.hiNote.getChromaticNrOfNote() < gl->Gtune()[loAvailStr+1].getChromaticNrOfNote()+l.loFret)
         res += tr("<li>Range of frets is beyond scale of this level</li>");
 
     if (res != "") {
