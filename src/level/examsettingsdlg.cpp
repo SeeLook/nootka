@@ -126,3 +126,9 @@ void examSettingsDlg::loadFromFile() {
 void examSettingsDlg::acceptLevel() {
 //    mainLevel = levelSett->levelSelector->getSelectedLevel();
 }
+
+QString examSettingsDlg::validateLevel(TexamLevel &l) {
+    QString res;
+  // checking range
+
+}
