@@ -49,7 +49,7 @@ QList<TexamLevel> getExampleLevels() {
         if (gl->Gtune()[i].acidental == 1)
             l.withSharps = true;
         if (gl->Gtune()[i].acidental == -1)
-            l.withFlats = ttrueee;
+            l.withFlats = true;
         }
     llist << l;
 

@@ -42,6 +42,7 @@ SET( NOOTKA_SRCS
   exam/texamview.cpp
 ###### Info
   info/taboutnootka.cpp
+  info/tfirstrunwizzard.cpp
   )
 
 #SET( NOOTKA_HEADERS
@@ -80,6 +81,7 @@ SET( NOOTKA_MOC_SRCS
   exam/texamexecutor.h
 ###### Info
   info/taboutnootka.h
+  info/tfirstrunwizzard.h
   )
 
 QT4_WRAP_CPP( NOOTKA_MOCS ${NOOTKA_MOC_SRCS} )
@@ -108,10 +110,10 @@ IF (UNIX AND NOT APPLE)
 
 ENDIF (UNIX AND NOT APPLE)
 
-IF( MINGW )
+#IF( MINGW )
     # resource compilation for MinGW
-    ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/nootico.o
-                        COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -i${CMAKE_CURRENT_SOURCE_DIR}/picts/nootico.rc 
-                             -o ${CMAKE_CURRENT_BINARY_DIR}/nootico.o )
-    SET(NOOTKA_SRCS ${NOOTKA_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/crunchico.o)
-ENDIF( MINGW )
+#    ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/nootico.o
+ #                       COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -#i${CMAKE_CURRENT_SOURCE_DIR}/picts/nootico.rc
+ #                            -o ${CMAKE_CURRENT_BINARY_DIR}/nootico.o )
+#    SET(NOOTKA_SRCS ${NOOTKA_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/crunchico.o)
+#ENDIF( MINGW )
