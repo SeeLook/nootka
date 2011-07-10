@@ -45,7 +45,9 @@ private:
     rangeSettings *rangeSett;
 
     void saveLevel();
-    TexamLevel *m_exL;
+        /** Returns formated string with problms in given &l level
+        * or empty QString if all is right.*/
+    QString validateLevel(TexamLevel &l);
 
 private slots:
         /** This slot is called when user is chooseing exam's level.
