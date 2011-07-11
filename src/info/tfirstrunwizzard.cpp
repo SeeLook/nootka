@@ -30,6 +30,7 @@ QString TfirstRunWizzard::nextText = QObject::tr("next");
 TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
     QDialog(parent)
 {
+    setWindowTitle("Nootka   "+tr("First run wizzard"));
     QVBoxLayout *lay = new QVBoxLayout;
     pagesLay = new QStackedLayout;
     lay->addLayout(pagesLay);
@@ -50,9 +51,11 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
     setLayout(lay);
 
     Tabout *aboutNoot = new Tabout();
-    QLabel *notationLab = new QLabel(tr("Guitar notation uses ...<br><br><p style=\"vertical-align::::middle;\"> note <img src=\"%1\"> is the same as <img src=\"%2\"></p><br><br>").arg(gl->path+"picts/c1-trebe.png").arg(gl->path+"picts/c1-treble_8.png"));
+    QTextEdit *notationLab = new QTextEdit(tr("<center>Guitar notation uses treble clef with \"eight\" digit below, even if some editors are forgeting about this digit.<br><br>Try to understand this. <br><br><p> <img src=\"%1\"> <img src=\"%2\"><br><span style=\"font-size:20px;\">Both pictures above show the same note: c<sup>1</sup></span><br>(note c in one-line octave)</center></p>").arg(gl->path+"picts/c1-trebe.png").arg(gl->path+"picts/c1-treble_8.png"));
+    notationLab->setWordWrapMode(QTextOption::WordWrap);
+//    notationLab->setWordWrap(true);
 
-    Tpage_3 *page3 = new Tpage_3();
+    page3 = new Tpage_3();
 
     pagesLay->addWidget(aboutNoot);
     pagesLay->addWidget(notationLab);
@@ -89,6 +92,11 @@ void TfirstRunWizzard::nextSlot() {
         pagesLay->setCurrentIndex(2);
         break;
     case 2 :
+        if (page3->isBradio->isChecked())
+            gl->seventhIs_B = true;
+        else gl->seventhIs_B = false;
+        gl->doubleAccidentalsEnabled = page3->dblAccChB->isChecked();
+        gl->showEnharmNotes = page3->enharmChB->isChecked();
         close();
         break;
     }
@@ -100,17 +108,20 @@ Tpage_3::Tpage_3(QWidget *parent) :
         QWidget(parent)
 {
     QVBoxLayout *lay = new QVBoxLayout;
-    QLabel *seventhLab = new QLabel(tr("7-th note can be ...<br><br>"), this);
-    lay->addWidget(seventhLab, 1, Qt::AlignTop);
-    lay->addStretch(1);
+    lay->setAlignment(Qt::AlignCenter);
+    QLabel *seventhLab = new QLabel(tr("<center>7-th note can be B or H, depends on country<br>Which one is Yours?<br></center>"), this);
+    lay->addWidget(seventhLab, 0, Qt::AlignCenter);
+//    lay->addStretch(1);
 
+    /** @todo The same widgets are in namesSettings class. Do it common*/
     QHBoxLayout *radioLay = new QHBoxLayout;
-    radioLay->addStretch(1);
+    radioLay->addStretch(2);
     isBradio = new QRadioButton("B", this);
     radioLay->addWidget(isBradio);
+    radioLay->addStretch(1);
     isHradio = new QRadioButton("H", this);
     radioLay->addWidget(isHradio);
-    radioLay->addStretch(1);
+    radioLay->addStretch(2);
     QButtonGroup *gr7 = new QButtonGroup(this);
     gr7->addButton(isBradio);
     gr7->addButton(isHradio);
@@ -119,11 +130,11 @@ Tpage_3::Tpage_3(QWidget *parent) :
     lay->addStretch(1);
 
     dblAccChB = new QCheckBox(tr("I know about double sharps (x) and double flats (bb)"), this);
-    lay->addWidget(dblAccChB);
+    lay->addWidget(dblAccChB, 0, Qt::AlignCenter);
     lay->addStretch(1);
 
     enharmChB = new QCheckBox(tr("I know that e# is the same as f"), this);
-    lay->addWidget(enharmChB);
+    lay->addWidget(enharmChB, 0, Qt::AlignCenter);
     lay->addStretch(1);
 
     setLayout(lay);
