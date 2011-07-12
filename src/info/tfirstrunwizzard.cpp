@@ -94,7 +94,11 @@ void TfirstRunWizzard::nextSlot() {
     case 2 :
         if (page3->isBradio->isChecked())
             gl->seventhIs_B = true;
-        else gl->seventhIs_B = false;
+        else {
+	    gl->seventhIs_B = false;
+	    gl->NnameStyleInNoteName = Tnote::e_norsk_Hb;
+	    gl->SnameStyleInKeySign = Tnote::e_norsk_Hb;
+	}
         gl->doubleAccidentalsEnabled = page3->dblAccChB->isChecked();
         gl->showEnharmNotes = page3->enharmChB->isChecked();
         close();
