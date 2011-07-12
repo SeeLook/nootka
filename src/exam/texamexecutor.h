@@ -44,6 +44,7 @@ public:
         bool useDblAccids;
         bool useKeySign;
         Ttune tune;
+        bool octaveInName;
     };
     struct TanswerRequire {
         bool octave;
@@ -92,7 +93,7 @@ private:
         /** intervals between asking about double accidentals.
         * By default every forth question is with double adccid.*/
     int m_dblAccidsCntr;
-    Tnote m_note2;
+//    Tnote m_note2;
         /** to switch nameing style between "do re mi" and "c d e"
         * when question and answer are note name.*/
     bool m_isSolfege;

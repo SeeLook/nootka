@@ -278,8 +278,9 @@ TasNameWdg::TasNameWdg(QWidget *parent) :
     octaveRequiredChB = new QCheckBox(tr("require octave"),this);
     octaveRequiredChB->setStatusTip(tr("if checked, selecting of valid octave is required"));
     mainLay->addWidget(octaveRequiredChB,0,Qt::AlignCenter);
-    styleRequiredChB = new QCheckBox(tr("use different nameing style"),this);
+    styleRequiredChB = new QCheckBox(tr("use different nameing styles"),this);
     styleRequiredChB->setStatusTip(tr("if checked, nameing style is switched between C D E and Do Re Mi.<br>It have to be checked if note's name is a question and an answer."));
+    styleRequiredChB->setHidden(true); /** It is not implemented fully. I have to hide it */
     mainLay->addWidget(styleRequiredChB,0,Qt::AlignCenter);
     mainLay->addStretch(1);
 
@@ -367,6 +368,8 @@ void TasFretPosWdg::loadLevel(TexamLevel level) {
 }
 
 void TasFretPosWdg::whenParamsChanged() {
+    asPosGr->asFretPosChB->setChecked(false);/** @todo remove this when asfretPos as answer & question
+                                               will be implement */
     if (!isNotSaved) {
         isNotSaved = true;
         emit asFretPosChanged();

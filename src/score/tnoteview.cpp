@@ -106,8 +106,10 @@ void TnoteView::resize(int co) {
         m_mainUpLines[i]->setLine((qreal)2*m_coeff,(qreal)m_coeff*2*(i+1),
                                   (qreal)width(),(qreal)m_coeff*2*(i+1));
         if (i < 5) {
-            m_downLines[i]->setLine((qreal)2*m_coeff,(qreal)m_coeff*2*(i+13),(qreal)width(),(qreal)m_coeff*2*(i+13));
-            m_mainDownLines[i]->setLine((qreal)2*m_coeff,(qreal)m_coeff*2*(i+13),(qreal)width(),(qreal)m_coeff*2*(i+13));
+            m_downLines[i]->setLine((qreal)2*m_coeff,(qreal)m_coeff*2*(i+13),
+                                    (qreal)width(),(qreal)m_coeff*2*(i+13));
+            m_mainDownLines[i]->setLine((qreal)2*m_coeff,(qreal)m_coeff*2*(i+13),
+                                        (qreal)width(),(qreal)m_coeff*2*(i+13));
         }
     }
     qreal fontFactor = 4;
@@ -124,6 +126,10 @@ void TnoteView::resize(int co) {
     if (reset) m_workAccid->setText("");
 
     if (m_mainNote->isVisible() && m_mainPosY) moveNote(m_mainPosY);
+    if (m_strNr) {
+        m_strNr->setFont(m_mainAccid->font());
+        setStringPos();
+    }
 }
 
 void TnoteView::mouseMoveEvent(QMouseEvent * event) {
@@ -287,15 +293,13 @@ void TnoteView::setStringPos() {
     if (m_strNr) {
         int yy = 28*m_coeff;
         if (m_mainPosY > 20) yy = 10*m_coeff;
-        m_strNr->setPos(0.2*m_coeff, yy-3*m_coeff);
-//        m_strEl->setPos(m_coeff/2,yy);
+        m_strNr->setPos(1, yy-3*m_coeff);
     }
 }
 
 void TnoteView::removeString() {
     if (m_strNr) {
         delete m_strNr;
-//        delete m_strEl;
         m_strNr = 0;
     }
 }
