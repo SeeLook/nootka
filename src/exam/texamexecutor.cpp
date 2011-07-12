@@ -203,7 +203,7 @@ void TexamExecutor::askQuestion() {
     m_answRequire.octave = true;
     m_answRequire.accid = true;
     m_answRequire.key = false;
-    m_note2 = Tnote(0,0,0);
+//    curQ.qa_2.note = Tnote(0,0,0);
 
     TQAunit curQ = TQAunit(); // current question
     curQ.qa = m_questList[qrand() % m_questList.size()];
@@ -298,13 +298,13 @@ void TexamExecutor::askQuestion() {
             }
         }
         if (curQ.questionAs == TQAtype::e_asNote) {// note has to be another than question
-            m_note2 = forceEnharmAccid(curQ.qa.note); // m_note2 is expected note
-            if (m_note2 == curQ.qa.note) {
+            curQ.qa_2.note = forceEnharmAccid(curQ.qa.note); // curQ.qa_2.note is expected note
+            if (curQ.qa_2.note == curQ.qa.note) {
                 qDebug() << "Blind question";
                 //                    askQuestion();
             }
-            questText += getTextHowAccid((Tnote::Eacidentals)m_note2.acidental);
-            mW->score->forceAccidental((Tnote::Eacidentals)m_note2.acidental);
+            questText += getTextHowAccid((Tnote::Eacidentals)curQ.qa_2.note.acidental);
+            mW->score->forceAccidental((Tnote::Eacidentals)curQ.qa_2.note.acidental);
         }
         if (curQ.questionAs == TQAtype::e_asFretPos) {
             if (m_level.forceAccids)
@@ -334,12 +334,12 @@ void TexamExecutor::askQuestion() {
                 m_isSolfege = true;
                 tmpStyle = Tnote::e_italiano_Si;
             }
-            m_note2 = forceEnharmAccid(curQ.qa.note); // force other name of note
+            curQ.qa_2.note = forceEnharmAccid(curQ.qa.note); // force other name of note
             questText = QString("<b>%1. </b>").arg(m_answList.size()+1) +
                         tr("Give name of <span style=\"color: %1; font-size: %2px;\">").arg(
                                 gl->EquestionColor.name()).arg(mW->getFontSize()*2) +
                         TnoteName::noteToRichText(curQ.qa.note) + ". </span>" +
-                        getTextHowAccid((Tnote::Eacidentals)m_note2.acidental);
+                        getTextHowAccid((Tnote::Eacidentals)curQ.qa_2.note.acidental);
             mW->noteName->setNoteNamesOnButt(tmpStyle);
             gl->NnameStyleInNoteName = tmpStyle;
         }
@@ -348,9 +348,12 @@ void TexamExecutor::askQuestion() {
         if (curQ.questionAs == TQAtype::e_asFretPos) {
             if (m_level.forceAccids) {
                 questText += getTextHowAccid((Tnote::Eacidentals)curQ.qa.note.acidental);
+                curQ.qa_2.note = Tnote(1, 0, curQ.qa.note.acidental); // to show which accid on TnoteName
+                /** @todo but don't use curQ.qa.note for this because it will be saved to
+                    results' file. Create some temp variable*/
             }
         }
-        mW->noteName->prepAnswer(m_note2);
+        mW->noteName->prepAnswer(curQ.qa_2.note);
     }
 
     if (curQ.answerAs == TQAtype::e_asFretPos) {
@@ -442,13 +445,13 @@ void TexamExecutor::checkAnswer(bool showResults) {
                 curQ.setMistake(TQAunit::e_wrongKey);
         }
         if (curQ.questionAs == TQAtype::e_asNote)
-            exN = m_note2;
+            exN = curQ.qa_2.note;
         retN = mW->score->getNote(0);
     }
 
     if (curQ.answerAs == TQAtype::e_asName) {
         if (curQ.questionAs == TQAtype::e_asName)
-            exN = m_note2;
+            exN = curQ.qa_2.note;
         retN = mW->noteName->getNoteName();
     }
     if (curQ.answerAs == TQAtype::e_asFretPos) {
@@ -571,12 +574,14 @@ void TexamExecutor::prepareToExam() {
     m_glStore.showOtherPos = gl->GshowOtherPos;
     m_glStore.useDblAccids = gl->doubleAccidentalsEnabled;
     m_glStore.useKeySign = gl->SkeySignatureEnabled;
+    m_glStore.octaveInName = gl->NoctaveInNoteNameFormat;
 
     gl->showEnharmNotes = false;
     gl->SshowKeySignName = false;
     gl->GshowOtherPos = false;
     gl->doubleAccidentalsEnabled = m_level.withDblAcc;
     gl->SkeySignatureEnabled = m_level.useKeySign;
+    gl->NoctaveInNoteNameFormat = true;
 
     mW->score->acceptSettings();
     mW->noteName->setEnabledEnharmNotes(false);
@@ -584,7 +589,8 @@ void TexamExecutor::prepareToExam() {
   // clearing all views/widgets
     clearWidgets();
 
-//    mW->setStatusMessage("click next for next", 2000);
+    if(gl->hintsEnabled)
+        mW->setStatusMessage(tr("<img src=\"%1\"> or <b>space</b> to get next question.").arg(gl->path+"picts/next-icon.png"), 5000);
 
 }
 
@@ -600,6 +606,7 @@ void TexamExecutor::restoreAfterExam() {
     gl->doubleAccidentalsEnabled  = m_glStore.useDblAccids;
     gl->SkeySignatureEnabled = m_glStore.useKeySign;
     gl->setTune(m_glStore.tune);
+    gl->NoctaveInNoteNameFormat = m_glStore.octaveInName;
 
     mW->score->acceptSettings();
     mW->noteName->setEnabledEnharmNotes(false);

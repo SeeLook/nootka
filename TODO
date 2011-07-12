@@ -2,7 +2,7 @@ TGLOBALS
     - setTune param can be reference: setTune (Ttune &t)
 
 TNOTEVIEW
-    - resize a string number if exist
+    - remove m_strEl from .h class declaration
 
 SETTINGS DIALOG
     - disable maximize button on titlebar
@@ -22,6 +22,9 @@ TKEYSIGNATUREVIEW
 
 
 TKEYSIGNATURE
+
+LEVEL CREATOR -QUESTIONS SETTINGS
+    - styleRequiredChB is hiden because it is not impemented in TlevelExecutor. It works only littlebit
 
 !!!!! LEVELS
     { - ajust level loaded from files or settings to current tune and frets number
