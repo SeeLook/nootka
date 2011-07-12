@@ -40,6 +40,8 @@ MainWindow::MainWindow(QWidget *parent)
         firstWizz->exec();
         delete firstWizz;
         gl->ErepeatIncorrect = false;
+	TkeySignature::setNameStyle(
+                gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
     }
 
 //    QWidget *widget = new QWidget(this);

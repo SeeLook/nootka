@@ -46,5 +46,5 @@ void TclefView::resize(int co) {
     font.setPointSizeF(co*14);
     m_clefText->setFont(font);
     m_clefText->setText(QString(QChar(0xe1a7)));
-    m_clefText->setPos(1, qRound(11.2*co));
+    m_clefText->setPos(1, qRound(10.2*co));
 }
