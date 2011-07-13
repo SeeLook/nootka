@@ -1,1 +1,15 @@
- 
+Welcome !!!
+
+Nootka 0.7.0 beta1
+This is beta version and can contain bugs or behave in unexpected way,
+also it has unfinished features.
+Inspite of that You are welcome to try.
+
+To build Nootka from sources, see instructions inside source package.
+
+NOTE!!!!
+- Application creates *.nel and *.noo files (with levels and exam results)
+    but it can't open it as launch parameter (nootka file.noo)
+    - it is not implemented yet.
+  Althought You can open it inside of application.
+- Windows installer doesn't associate these extensions with icons.
