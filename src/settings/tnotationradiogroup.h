@@ -20,12 +20,16 @@
 #ifndef TNOTATIONRADIOGROUP_H
 #define TNOTATIONRADIOGROUP_H
 
-#include <QtGui>
 #include "tnote.h"
+#include <QGroupBox>
 
 /**
 @author Tomasz Bojczuk
 */
+
+class QRadioButton;
+class QButtonGroup;
+
 class TnotationRadioGroup: public QGroupBox
 {
         Q_OBJECT

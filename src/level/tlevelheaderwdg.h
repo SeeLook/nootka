@@ -20,7 +20,9 @@
 #ifndef TLEVELHEADERWDG_H
 #define TLEVELHEADERWDG_H
 
-#include <QtGui>
+#include <QDialog>
+class QLineEdit;
+class QTextEdit;
 
 
     /** This is dialog with level's name and desciption.*/

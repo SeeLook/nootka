@@ -18,6 +18,7 @@
 
 
 #include "tlevelheaderwdg.h"
+#include <QtGui>
 
 TlevelHeaderWdg::TlevelHeaderWdg(QWidget *parent) :
     QDialog(parent)

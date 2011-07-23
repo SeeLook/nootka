@@ -20,10 +20,16 @@
 #ifndef TSTARTEXAMDLG_H
 #define TSTARTEXAMDLG_H
 
-#include <QtGui>
+#include <QDialog>
+
 
 class TlevelSelector;
 class TexamLevel;
+class QRadioButton;
+class QGroupBox;
+class QLineEdit;
+class QLabel;
+class QComboBox;
 
 class TstartExamDlg : public QDialog
 {

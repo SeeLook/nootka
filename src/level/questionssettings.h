@@ -20,11 +20,12 @@
 #ifndef QUESTIONSSETTINGS_H
 #define QUESTIONSSETTINGS_H
 
-#include <QtGui>
 #include "tquestionaswdg.h"
 #include "tkeysigncombobox.h"
 #include "texamlevel.h"
 
+class QToolBox;
+class QRadioButton;
 
 class TasNoteWdg : public QWidget
 {

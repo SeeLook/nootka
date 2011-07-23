@@ -26,6 +26,7 @@
 #include "texamlevel.h"
 #include "texamview.h"
 #include "texamexecutor.h"
+#include <QMainWindow>
 
 
 class MainWindow : public QMainWindow
@@ -85,7 +86,6 @@ private:
     bool m_lockStat;
     QColor m_prevBg;
     int m_statFontSize;
-    QVBoxLayout *nameLay;
     QWidget *widget;
 
     void createActions();

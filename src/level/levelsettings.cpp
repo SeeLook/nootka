@@ -18,6 +18,9 @@
 
 
 #include "levelsettings.h"
+#include <QVBoxLayout>
+#include <QPushButton>
+
 
 levelSettings::levelSettings(QWidget *parent) :
     QWidget(parent)

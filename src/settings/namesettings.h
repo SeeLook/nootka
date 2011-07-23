@@ -20,8 +20,9 @@
 #ifndef NAMESETTINGS_H
 #define NAMESETTINGS_H
 
-#include <QtGui>
 #include "tnotationradiogroup.h"
+
+class QCheckBox;
 
 class NameSettings : public QWidget
 {

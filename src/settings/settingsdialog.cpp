@@ -19,6 +19,7 @@
 #include "settingsdialog.h"
 #include "tglobals.h"
 #include "tnoteview.h"
+#include <QtGui>
 
 
 

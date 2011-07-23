@@ -22,6 +22,7 @@
 #include "examsettingsdlg.h"
 #include "taboutnootka.h"
 #include "tfirstrunwizzard.h"
+#include <QtGui>
 //#include <QDebug>
 
 Tglobals *gl = new Tglobals();
@@ -35,11 +36,11 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
     setMinimumSize(640,480);
 
-    if (gl->ErepeatIncorrect) {// temporary I use this var to store info Should it run wizzard
+    if (gl->isFirstRun) {// temporary I use this var to store info Should it run wizzard
         TfirstRunWizzard *firstWizz = new TfirstRunWizzard(this);
         firstWizz->exec();
         delete firstWizz;
-        gl->ErepeatIncorrect = false;
+        gl->isFirstRun = false;
 	TkeySignature::setNameStyle(
                 gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
     }
@@ -56,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent)
     scoreAndNameLay->addLayout(scoreLay);
 
 //    QVBoxLayout *nameLay = new QVBoxLayout;
-    nameLay = new QVBoxLayout;
+    QVBoxLayout *nameLay = new QVBoxLayout;
 //     QGroupBox *statGr = new QGroupBox(widget);
 //     QVBoxLayout *statLay = new QVBoxLayout;
 //    QHBoxLayout *statResultLay = new QHBoxLayout;

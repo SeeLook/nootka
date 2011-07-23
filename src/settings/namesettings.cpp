@@ -19,6 +19,7 @@
 
 #include "namesettings.h"
 #include "tglobals.h"
+#include <QtGui>
 
 extern Tglobals *gl;
 

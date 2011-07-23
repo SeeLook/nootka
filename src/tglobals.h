@@ -52,6 +52,8 @@ public:
     QString version;
         /** If @param true, hints of widgets are shown*/
     bool hintsEnabled;
+        /** to show or skip first run wizzard*/
+    bool isFirstRun;
 
         /** Let's have a convention:
         * globals settings for @class TnoteName will started from 'N' letter

@@ -18,7 +18,7 @@
 
 
 #include "questionssettings.h"
-#include <QDebug>
+#include <QtGui>
 
 extern bool isNotSaved;
 

@@ -23,6 +23,7 @@
 #include "tkeysignatureview.h"
 #include "tkeysignature.h"
 #include "tglobals.h"
+#include <QtGui>
 //#include <QDebug>
 
 extern Tglobals *gl;

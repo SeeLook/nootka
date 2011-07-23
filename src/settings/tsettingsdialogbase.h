@@ -20,7 +20,21 @@
 #ifndef TSETTINGSDIALOGBASE_H
 #define TSETTINGSDIALOGBASE_H
 
-#include <QtGui>
+#include <QDialog>
+
+/** This is base class for settings dialogs.
+  * It contains navigation list to switch widgets (pages) on
+  * QStackedLayout widget, and
+  * QLabel @param hint that shows statusTips captured by
+  * reimplementing @param event function.
+@author Tomasz Bojczuk
+*/
+
+
+class QListWidget;
+class QStackedLayout;
+class QLabel;
+
 
 class TsettingsDialogBase : public QDialog
 {

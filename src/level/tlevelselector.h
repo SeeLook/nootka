@@ -20,8 +20,13 @@
 #ifndef TLEVELSELECTOR_H
 #define TLEVELSELECTOR_H
 
-#include <QtGui>
 #include "texamlevel.h"
+#include <QWidget>
+
+class QLabel;
+class QListWidget;
+class QPushButton;
+class QFile;
 
 
 class TlevelSummaryWdg : public QWidget

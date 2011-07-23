@@ -21,6 +21,7 @@
 #include "tnoteview.h"
 #include "tglobals.h"
 #include "tkeysignature.h"
+#include <QtGui>
 
 
 

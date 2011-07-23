@@ -19,7 +19,6 @@
 #ifndef SETTINGSDIALOG_H
 #define SETTINGSDIALOG_H
 
-#include <QtGui>
 #include "tnote.h"
 #include "ttune.h"
 #include "tscorewidgetsimple.h"
@@ -27,6 +26,9 @@
 #include "namesettings.h"
 #include "scoresettings.h"
 
+class QCheckBox;
+class QSpinBox;
+class QComboBox;
 
 class GlobalSettings : public QWidget
 {

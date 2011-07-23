@@ -20,7 +20,7 @@
 #include "rangesettings.h"
 #include "tglobals.h"
 #include "tlevelselector.h"
-#include <QDebug>
+#include <QtGui>
 
 extern Tglobals *gl;
 extern bool isNotSaved;

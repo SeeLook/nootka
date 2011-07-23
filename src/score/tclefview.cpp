@@ -18,6 +18,8 @@
 
 
 #include "tclefview.h"
+#include <QGraphicsScene>
+#include <QGraphicsSimpleTextItem>
 
 TclefView::TclefView(TscoreWidgetSimple *parent) :
     QGraphicsView(parent)

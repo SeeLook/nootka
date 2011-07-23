@@ -20,8 +20,11 @@
 #ifndef TQUESTIONASWDG_H
 #define TQUESTIONASWDG_H
 
-#include <QtGui>
 #include "tqatype.h"
+#include <QGroupBox>
+#include <QCheckBox>
+
+class QCheckBox;
 
 
 class TquestionAsWdg : public QGroupBox

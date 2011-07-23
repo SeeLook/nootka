@@ -24,6 +24,9 @@
 #include "tscorewidgetsimple.h"
 #include "texamlevel.h"
 
+class QSpinBox;
+class QCheckBox;
+
 class rangeSettings : public QWidget
 {
     Q_OBJECT
