@@ -20,6 +20,7 @@
 #include "tlevelselector.h"
 #include "tnotename.h"
 #include "tglobals.h"
+#include <QtGui>
 
 extern Tglobals *gl;
 

@@ -1,15 +1,26 @@
-Welcome !!!
+Nootka 0.7.0 beta 1
+===========================
+===========BUILD===========
+===========================
 
-Nootka 0.7.0 beta1
-This is beta version and can contain bugs or behave in unexpected way,
-also it has unfinished features.
-Inspite of that You are welcome to try.
+Requirements:
+- Qt libraries (obviously)
 
-To build Nootka from sources, see instructions inside source package.
 
-NOTE!!!!
-- Application creates *.nel and *.noo files (with levels and exam results)
-    but it can't open it as launch parameter (nootka file.noo)
-    - it is not implemented yet.
-  Althought You can open it inside of application.
-- Windows installer doesn't associate these extensions with icons.
+UNDER LINUX
+- Unpack tarball
+- create some dir (f. e. "build") out of unpacked directory with sources
+- go to build dir
+- cmake ../nootka-0.7.0
+- make
+- make install (usually as root)
+
+to remove (uninstall)
+- make uninstall (usually as root)
+
+
+UNDER WINDOWS
+something similar as above but there is no install target
+You have to manually copy picts and fonts directories to dir where 
+nootka binary was created (src dir in build dir)
+

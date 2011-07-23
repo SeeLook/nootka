@@ -18,6 +18,7 @@
 
 
 #include "tquestionaswdg.h"
+#include <QtGui>
 
 /*static*/
 QString TquestionAsWdg::asNoteTxt =QObject::tr("as note in the score");

@@ -20,15 +20,14 @@
 #define TSCOREWIDGETSIMPLE_H
 
 #include <QWidget>
-#include <QtGui>
 #include "tnote.h"
 
-class QPaintEvent;
 class TnoteView;
 class TkeySignatureView;
 class Tnote;
 class TkeySignature;
 class TclefView;
+class QPushButton;
 
 
 /** Creates widget with score, and buttons to add/remove accids.

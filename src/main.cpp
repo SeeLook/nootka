@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include <QtGui/QApplication>
+#include <QtGui>
 #include "mainwindow.h"
 #include "tglobals.h"
 
@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 
     QFontDatabase fd;
     if (fd.addApplicationFont(Tglobals::getInstPath(qApp->applicationDirPath()) + "fonts/nootka.otf") == -1) {
-        QMessageBox::critical(0, "", QCoreApplication::translate("main", "<center>Can not load a font.<br>Try to install nootka.ttf manually.</center>"));
+        QMessageBox::critical(0, "", QCoreApplication::translate("main", "<center>Can not load a font.<br>Try to install nootka.otf manually.</center>"));
         return 111;
     }
 

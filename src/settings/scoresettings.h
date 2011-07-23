@@ -23,6 +23,10 @@
 #include "tnotationradiogroup.h"
 #include "tnote.h"
 
+class QCheckBox;
+class QLabel;
+class QLineEdit;
+
 class ScoreSettings : public QWidget
 {
     Q_OBJECT

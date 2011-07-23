@@ -1,0 +1,13 @@
+0.7.1
+
+
+0.7.0
+    - executing exams !!!!!
+    - storing user settings
+    - created nootka font
+    - added first run wizzard
+
+0.6
+    - Levels creator dialog
+  Under the hood
+    - all resources moved out of executable file

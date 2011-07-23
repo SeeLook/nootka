@@ -22,6 +22,7 @@
 #include "tstartexamdlg.h"
 #include "tquestionaswdg.h"
 #include "mainwindow.h"
+#include <QtGui>
 #include <QDebug>
 
 extern Tglobals *gl;

@@ -18,9 +18,10 @@
 
 #include "tnoteview.h"
 #include "tscorewidgetsimple.h"
-#include <QGraphicsEllipseItem>
-#include <QGraphicsScene>
-#include <QGraphicsLineItem>
+//#include <QGraphicsEllipseItem>
+//#include <QGraphicsScene>
+//#include <QGraphicsLineItem>
+#include <QtGui>
 //#include <QDebug>
 
 

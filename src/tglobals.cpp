@@ -55,12 +55,11 @@ QColor Tglobals::invertColor(QColor C) {
 
 Tglobals::Tglobals() {
 
-    version = "0.7 beta 1";
+    version = "0.7.1 beta 1";
 //    path ; Is declared in mainWindow constructor
 
     qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
-//    qMetaTypeId<Ttune>();
-    //     qRegisterMetaType<Ttune>("Ttune");
+
 
     QCoreApplication::setOrganizationName("Nootka");
     QCoreApplication::setOrganizationDomain("nootka.sf.net");
@@ -74,6 +73,7 @@ Tglobals::Tglobals() {
 
     sett.beginGroup("common");
         hintsEnabled = sett.value("enableHints", true).toBool(); //true;
+        isFirstRun = sett.value("isFirstRun", true).toBool();
     sett.endGroup();
 
 //score widget settings
@@ -182,6 +182,7 @@ void Tglobals::storeSettings() {
 #endif
     sett.beginGroup("common");
         sett.setValue("enableHints", hintsEnabled);
+        sett.setValue("isFirstRun", isFirstRun);
         sett.setValue("doubleAccidentals", doubleAccidentalsEnabled);
         sett.setValue("showEnaharmonicNotes", showEnharmNotes);
         sett.setValue("enharmonicNotesColor", enharmNotesColor);

@@ -18,6 +18,7 @@
 
 
 #include "tsettingsdialogbase.h"
+#include <QtGui>
 
 TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
         QDialog(parent,Qt::CustomizeWindowHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint)

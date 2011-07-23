@@ -20,6 +20,7 @@
 #include "scoresettings.h"
 #include "tglobals.h"
 #include "tkeysignature.h"
+#include <QtGui>
 
 extern Tglobals *gl;
 

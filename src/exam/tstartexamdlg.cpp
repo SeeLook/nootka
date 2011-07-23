@@ -19,6 +19,7 @@
 
 #include "tstartexamdlg.h"
 #include "tlevelselector.h"
+#include <QtGui>
 
 /*static*/
 const QString TstartExamDlg::examFilterTxt = QObject::tr("Exams' results (*.noo)");

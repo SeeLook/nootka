@@ -1,6 +1,6 @@
 ################################################
 
-INCLUDE_DIRECTORIES (. exam info level score settings )
+INCLUDE_DIRECTORIES (. exam info level score settings sound)
 
 SET( NOOTKA_SRCS
   main.cpp
