@@ -69,11 +69,11 @@ QList<TexamLevel> getExampleLevels() {
     l.requireStyle = false;
     l.showStrNr = false;
     l.loNote = Tnote(1,0,0);
-    l.isNoteLo = false;
+//    l.isNoteLo = false;
     l.hiNote = Tnote(1,1,0);
-    l.isNoteHi = false;
+//    l.isNoteHi = false;
     l.hiFret = 3;// loFret is 0 by constuctor
-    l.isFretHi = false;
+//    l.isFretHi = false;
     llist << l;
 
     return llist;
@@ -137,8 +137,10 @@ void TlevelSelector::findLevels() {
         QFile file(recentLevels[i]);
         if (file.exists()) {
             TexamLevel level = getLevelFromFile(file);
-            if (level.name != "")
+            if (level.name != "") {
                 addLevel(level);
+                isSuitable(level);
+            }
             else
                 recentLevels.removeAt(i);
         }
@@ -152,6 +154,18 @@ void TlevelSelector::addLevel(const TexamLevel &lev) {
     levList << lev;
     levelsList->item(levList.size()-1)->setStatusTip(lev.desc);
 }
+
+bool TlevelSelector::isSuitable(TexamLevel &l) {
+    if (l.hiFret > gl->GfretsNumber ||
+        l.loNote.getChromaticNrOfNote() < gl->loString().getChromaticNrOfNote() ) {
+        levelsList->item(levList.size()-1)->setStatusTip("<span style=\"color: red;\">" +
+                tr("Level is not suitable for current tune and/or frets number") + "</span>");
+        levelsList->item(levList.size()-1)->setFlags(!Qt::ItemIsEnabled);
+        return false;
+    } else
+        return true;
+}
+
 
 void TlevelSelector::selectLevel(int id) {
     if (id >= 0 && id < levelsList->count())
@@ -173,7 +187,8 @@ void TlevelSelector::loadFromFile() {
     TexamLevel level = getLevelFromFile(file);
     if (level.name != "") {
         addLevel(level);
-        selectLevel(); // select the last
+        if (isSuitable(level))
+            selectLevel(); // select the last
         updateRecentLevels(fileName);
     }
 }

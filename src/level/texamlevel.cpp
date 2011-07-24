@@ -48,9 +48,9 @@ TexamLevel::TexamLevel()
  // ANSWERS - as position on fingerboard
    showStrNr = true;
   // RANGE
-//   loNote = gl->Gtune.lowest();
    loNote = gl->loString();
    hiNote = Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber);
+   /** variables isNoteLo, isNoteHi and isFretHi are not used - it has no sense.*/
    isNoteLo = true;
    isNoteHi = true;
    loFret = 0;

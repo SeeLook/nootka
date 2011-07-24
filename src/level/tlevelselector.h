@@ -76,6 +76,9 @@ public:
         /** Returns current level*/
     TexamLevel getSelectedLevel();
     void updateRecentLevels(QString levelFile);
+        /** Checks is given level is in range of current tune and frets number.
+        * If not, it disables entry in the list*/
+    bool isSuitable(TexamLevel &l);
 
 
 public slots:

@@ -65,7 +65,8 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
 
     m_workFinger = new QGraphicsEllipseItem();
     m_workFinger->hide();
-    m_workFinger->setPen(QPen(gl->GfingerColor));
+//    m_workFinger->setPen(QPen(gl->GfingerColor));
+    m_workFinger->setPen(QPen(QBrush(Qt::transparent), 5));
     m_workFinger->setBrush(QBrush(gl->GfingerColor,Qt::SolidPattern));
     m_scene->addItem(m_workFinger);
 
@@ -92,6 +93,8 @@ void TfingerBoard::paint() {
     for (int i=2; i<gl->GfretsNumber+1; i++)
         fretsPos[i-1] = fretsPos[i-2]+(fretWidth-(i/2));
     lastFret = fretsPos[gl->GfretsNumber-1];
+    if (lastFret > (fbRect.width()+10))
+        fbRect.setWidth(lastFret - 8);
   // Let's paint
     QPixmap pixmap(size());
     pixmap.fill(QColor(palette().background().color()));
