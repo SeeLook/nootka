@@ -67,7 +67,7 @@ public:
     static QString levelFilterTxt;
 
         /** Adds level @param lev to list.*/
-    void addLevel(const TexamLevel &lev);
+    void addLevel(const TexamLevel &lev );
         /** Selects @param id level on the list,
         * and shows its summary.*/
     void selectLevel(int id);
@@ -77,7 +77,8 @@ public:
     TexamLevel getSelectedLevel();
     void updateRecentLevels(QString levelFile);
         /** Checks is given level is in range of current tune and frets number.
-        * If not, it disables entry in the list*/
+        * If not, it disables the latest entry in the list - BE SURE to call this
+        * only after addLevel() method whtch puts the last level on the list.*/
     bool isSuitable(TexamLevel &l);
 
 

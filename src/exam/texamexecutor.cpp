@@ -40,11 +40,12 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     TstartExamDlg::Eactions userAct = startDlg->showDialog(resultText, m_level);
     delete startDlg;
     m_glStore.tune = gl->Gtune();
+    m_glStore.fretsNumber = gl->GfretsNumber;
     if (userAct == TstartExamDlg::e_newLevel) {
         m_userName = resultText;
         mW->examResults->startExam();
 
-    } else 
+    } else
         if (userAct == TstartExamDlg::e_continue) {
             QFile file(resultText);
             quint32 totalTime;
@@ -74,11 +75,17 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
                      /** @todo count mistakes here*/
                  }
                  m_examFile = resultText;
-                 if (tmpTune != gl->Gtune() ) {
+                 QString changesMessage = ""; //We check are guitar's params changed
+                 if (tmpTune != gl->Gtune() ) { //Is tune the same ?
                      gl->setTune(tmpTune);
-                     QMessageBox::critical(mW, "",
-			tr("Tune of guitar was changed in this exam !!.<br>Now it is:<br><b>%1</b>").arg(gl->Gtune().name));
+                     changesMessage = tr("Tune of the guitar was changed in this exam !!.<br>Now it is:<br><b>%1</b>").arg(gl->Gtune().name);
                  }
+                 if (m_level.hiFret > gl->GfretsNumber) { //Are enought frets ?
+                     changesMessage += tr("<br><br>This exam requires more frets,<br>so frets number in the guitar will be changed.");
+                     gl->GfretsNumber = m_level.hiFret;
+                 }
+                 if (changesMessage != "")
+                     QMessageBox::warning(mW, "", changesMessage);
              } else {
                  QMessageBox::critical(mW, "", tr("Cannot open file\n %1 \n for reading\n%2 ").arg(file.fileName()).arg(qPrintable(file.errorString())));
                  /** @todo the same text is in TlevelSelector. make it common */
@@ -608,6 +615,7 @@ void TexamExecutor::restoreAfterExam() {
     gl->SkeySignatureEnabled = m_glStore.useKeySign;
     gl->setTune(m_glStore.tune);
     gl->NoctaveInNoteNameFormat = m_glStore.octaveInName;
+    gl->GfretsNumber = m_glStore.fretsNumber;
 
     mW->score->acceptSettings();
     mW->noteName->setEnabledEnharmNotes(false);

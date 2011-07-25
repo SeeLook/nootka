@@ -45,6 +45,7 @@ public:
         bool useKeySign;
         Ttune tune;
         bool octaveInName;
+        char fretsNumber;
     };
     struct TanswerRequire {
         bool octave;
