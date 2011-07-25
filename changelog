@@ -1,4 +1,7 @@
 0.7.1
+    - preventing to use levels with a range out of current tune and frets number
+  BUGS FIXES
+    - fixed drawing last fret out of a fingerboard
 
 
 0.7.0
