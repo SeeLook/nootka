@@ -298,8 +298,10 @@ void TexamExecutor::askQuestion() {
                 QString keyTxt;
                 if (qrand() % 2) // randomize: ask for minor or major key ?
                     keyTxt = curQ.key.getMajorName();
-                else
+                else {
                     keyTxt = curQ.key.getMinorName();
+		    curQ.key.setMinor(true);
+		}
                 questText += tr(" <b>in %1 key.</b>", "in key signature").arg(keyTxt);
                 m_answRequire.key = true;
 
