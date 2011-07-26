@@ -29,10 +29,10 @@ TKEYSIGNATURE
 TFIRSTRUNWIZZARD & NAMESETTINGS
     - They have to have common selector for 7-th note
 
-LEVEL CREATOR - QUESTIONS SETTINGS
-    - styleRequiredChB is hiden because it is not impemented in TlevelExecutor. It works only littlebit
-
 !!!!! LEVELS
 
 MIMETYPES
     - merge them to one file (sh script) as in deb package
+
+MAINWINDOW
+    - clear background color in hints after exams - it remains red so far

@@ -29,6 +29,9 @@
 #include <QMainWindow>
 
 
+class QCheckBox;
+
+
 class MainWindow : public QMainWindow
 {
     friend class TexamExecutor;
@@ -76,6 +79,7 @@ protected:
 
 protected slots:
     void restoreMessage();
+    void hintsStateChanged(bool enable);
 
 private:
 
@@ -86,7 +90,7 @@ private:
     bool m_lockStat;
     QColor m_prevBg;
     int m_statFontSize;
-    QWidget *widget;
+    QCheckBox *m_hintsChB;
 
     void createActions();
         /** it sets icon and status text in startExamAct. */

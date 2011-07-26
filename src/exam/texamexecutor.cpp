@@ -67,15 +67,19 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
                  in >> tmpTune;
                  in >> totalTime;
                  in >> questNr >> tmpAverTime>> mistNr;
+                 int tmpMist = 0;
                  while (!in.atEnd()) {
                      TQAunit qaUnit; /** @todo do something with corrupted answers*/
                      getTQAunitFromStream(in, qaUnit);
                      m_answList << qaUnit;
                      averTime += qaUnit.time;
-                     /** @todo count mistakes here*/
+                     if ( !qaUnit.correct() )
+                         tmpMist++;
                  }
+                 if (tmpMist != mistNr)
+                     qDebug() << "exam file corrupted";
                  m_examFile = resultText;
-                 QString changesMessage = ""; //We check are guitar's params changed
+                 QString changesMessage = ""; //We check are guitar's params suitable for an exam
                  if (tmpTune != gl->Gtune() ) { //Is tune the same ?
                      gl->setTune(tmpTune);
                      changesMessage = tr("Tune of the guitar was changed in this exam !!.<br>Now it is:<br><b>%1</b>").arg(gl->Gtune().name);
@@ -211,7 +215,6 @@ void TexamExecutor::askQuestion() {
     m_answRequire.octave = true;
     m_answRequire.accid = true;
     m_answRequire.key = false;
-//    curQ.qa_2.note = Tnote(0,0,0);
 
     TQAunit curQ = TQAunit(); // current question
     curQ.qa = m_questList[qrand() % m_questList.size()];
@@ -227,7 +230,7 @@ void TexamExecutor::askQuestion() {
             } else { // for multi keys
                 curQ.key = TkeySignature((qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) +
                                          m_level.loKey.value());
-                if (m_level.onlyCurrKey) { // if hote is in current key only
+                if (m_level.onlyCurrKey) { // if note is in current key only
                     int keyRangeWidth = m_level.hiKey.value() - m_level.loKey.value();
                     int patience = 0; // we are lookimg for suitable key
                     char keyOff = curQ.key.value() - m_level.loKey.value();
@@ -324,25 +327,13 @@ void TexamExecutor::askQuestion() {
     }
 
     if (curQ.answerAs == TQAtype::e_asName) {
+        Tnote tmpNote = Tnote(0,0,0); // is used to show which accid has to be used (if any)
         questText += TquestionAsWdg::asNameTxt;
         if (curQ.questionAs == TQAtype::e_asName) {
-//             qDebug() << "as name";
             m_prevStyle = gl->NnameStyleInNoteName;
-            Tnote::EnameStyle tmpStyle = m_prevStyle;
-            if (m_isSolfege) {
-                m_isSolfege = false;
-                if (qrand() % 2) { // full name like cis, gisis
-                    if (gl->seventhIs_B) tmpStyle = Tnote::e_nederl_Bis;
-                    else tmpStyle = Tnote::e_deutsch_His;
-                } else { // name and sign like c#, gx
-                    if (gl->seventhIs_B) tmpStyle = Tnote::e_english_Bb;
-                    else tmpStyle = Tnote::e_norsk_Hb;
-                }
-            } else {
-                m_isSolfege = true;
-                tmpStyle = Tnote::e_italiano_Si;
-            }
+            Tnote::EnameStyle tmpStyle = randomNameStyle();
             curQ.qa_2.note = forceEnharmAccid(curQ.qa.note); // force other name of note
+            tmpNote = curQ.qa_2.note;
             questText = QString("<b>%1. </b>").arg(m_answList.size()+1) +
                         tr("Give name of <span style=\"color: %1; font-size: %2px;\">").arg(
                                 gl->EquestionColor.name()).arg(mW->getFontSize()*2) +
@@ -352,16 +343,19 @@ void TexamExecutor::askQuestion() {
             gl->NnameStyleInNoteName = tmpStyle;
         }
         if (!m_level.requireOctave) m_answRequire.octave = false;
+        if (m_level.requireStyle) {
+            Tnote::EnameStyle tmpStyle = randomNameStyle();
+            mW->noteName->setNoteNamesOnButt(tmpStyle);
+            gl->NnameStyleInNoteName = tmpStyle;
+        }
 
         if (curQ.questionAs == TQAtype::e_asFretPos) {
             if (m_level.forceAccids) {
                 questText += getTextHowAccid((Tnote::Eacidentals)curQ.qa.note.acidental);
-                curQ.qa_2.note = Tnote(1, 0, curQ.qa.note.acidental); // to show which accid on TnoteName
-                /** @todo but don't use curQ.qa.note for this because it will be saved to
-                    results' file. Create some temp variable*/
+                tmpNote = Tnote(1, 0, curQ.qa.note.acidental); // to show which accid on TnoteName
             }
         }
-        mW->noteName->prepAnswer(curQ.qa_2.note);
+        mW->noteName->prepAnswer(tmpNote);
     }
 
     if (curQ.answerAs == TQAtype::e_asFretPos) {
@@ -379,6 +373,26 @@ void TexamExecutor::askQuestion() {
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
 
+}
+
+Tnote::EnameStyle TexamExecutor::randomNameStyle() {
+    if (m_isSolfege) {
+        m_isSolfege = false;
+        if (qrand() % 2) { // full name like cis, gisis
+            if (gl->seventhIs_B)
+                return Tnote::e_nederl_Bis;
+            else
+                return Tnote::e_deutsch_His;
+        } else { // name and sign like c#, gx
+            if (gl->seventhIs_B)
+                return Tnote::e_english_Bb;
+            else
+                return Tnote::e_norsk_Hb;
+        }
+    } else {
+        m_isSolfege = true;
+        return Tnote::e_italiano_Si;
+    }
 }
 
 Tnote TexamExecutor::determineAccid(Tnote n) {

@@ -207,7 +207,7 @@ TexamLevel TlevelSelector::getLevelFromFile(QFile &file) {
              return level;
          }
          if (!getLevelFromStream(in, level))
-             QMessageBox::warning(0, "", tr("Level file\n %1 \n was corrupted and repaired !!\nCheck please, are its parameters such as expected.").arg(file.fileName()));
+             QMessageBox::warning(0, "", tr("Level file\n %1 \n was corrupted and repaired !!\nCheck please, are its parameters as expected.").arg(file.fileName()));
     } else
         QMessageBox::critical(this, "", tr("Cannot open file\n %1 \n for reading\n%2 ").arg(file.fileName()).arg(qPrintable(file.errorString())));
     return level;

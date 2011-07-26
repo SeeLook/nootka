@@ -81,6 +81,7 @@ private:
     void clearWidgets();
     QString getTextHowAccid(Tnote::Eacidentals accid);
     QString saveExamToFile();
+    Tnote::EnameStyle randomNameStyle();
 
 
 
