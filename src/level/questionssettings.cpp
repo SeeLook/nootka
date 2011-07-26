@@ -279,8 +279,7 @@ TasNameWdg::TasNameWdg(QWidget *parent) :
     octaveRequiredChB->setStatusTip(tr("if checked, selecting of valid octave is required"));
     mainLay->addWidget(octaveRequiredChB,0,Qt::AlignCenter);
     styleRequiredChB = new QCheckBox(tr("use different nameing styles"),this);
-    styleRequiredChB->setStatusTip(tr("if checked, nameing style is switched between C D E and Do Re Mi.<br>It have to be checked if note's name is a question and an answer."));
-    styleRequiredChB->setHidden(true); /** It is not implemented fully. I have to hide it */
+    styleRequiredChB->setStatusTip(tr("if checked, nameing style is switched between letters and solfge.<br>It has to be checked if note's name is a question and an answer."));
     mainLay->addWidget(styleRequiredChB,0,Qt::AlignCenter);
     mainLay->addStretch(1);
 

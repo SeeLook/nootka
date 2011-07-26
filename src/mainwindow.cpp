@@ -45,8 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
                 gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
     }
 
-//    QWidget *widget = new QWidget(this);
-    widget = new QWidget(this);
+    QWidget *widget = new QWidget(this);
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *scoreAndNameLay = new QHBoxLayout;
     QVBoxLayout *scoreLay = new QVBoxLayout;
@@ -60,25 +59,21 @@ MainWindow::MainWindow(QWidget *parent)
     QVBoxLayout *nameLay = new QVBoxLayout;
 //     QGroupBox *statGr = new QGroupBox(widget);
 //     QVBoxLayout *statLay = new QVBoxLayout;
-//    QHBoxLayout *statResultLay = new QHBoxLayout;
+    QHBoxLayout *statLay = new QHBoxLayout;
     m_statLab = new QLabel(widget);
     m_statLab->setWordWrap(true);
-//    m_statLab->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-//    m_statLab->setFixedHeight(50);
-//     statLay->addWidget(m_statLab);
-//     statGr->setLayout(statLay);
-//     nameLay->addWidget(statGr);
-    nameLay->addWidget(m_statLab);
-//    statResultLay->addWidget(statGr);
-//    nameLay->addLayout(statLay);
-//     nameLay->addStretch(1);
-    examResults = new TexamView(widget);
-//    examResults = 0;
-    nameLay->addWidget(examResults);
-//    statResultLay->addWidget(examResults);
-//    nameLay->addLayout(statResultLay);
+    m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    statLay->addWidget(m_statLab);
+    m_hintsChB = new QCheckBox(widget);
+    statLay->addWidget(m_hintsChB, 0, Qt::AlignRight);
+    m_hintsChB->setChecked(gl->hintsEnabled);
+    m_hintsChB->setStatusTip(tr("show or hide the hints"));
+    m_hintsChB->setToolTip(m_hintsChB->statusTip());
+    m_hintsChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    nameLay->addLayout(statLay);
 
-//     nameLay->addStretch(1);
+    examResults = new TexamView(widget);
+    nameLay->addWidget(examResults);
     noteName = new TnoteName(widget);
     nameLay->addWidget(noteName);
 //    nameLay->addStretch(1);
@@ -101,8 +96,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
     connect(noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
     connect(guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
-
-
+    connect(m_hintsChB, SIGNAL(clicked(bool)), this, SLOT(hintsStateChanged(bool)));
 
 }
 
@@ -217,6 +211,7 @@ void MainWindow::createSettingsDialog() {
                                Tnote(gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber));
         noteWasClicked(0,noteName->getNoteName(0));//refresh name
         guitar->acceptSettings();;//refresh guitar
+        m_hintsChB->setChecked(gl->hintsEnabled);
     }
     delete settings;
 }
@@ -288,4 +283,10 @@ void MainWindow::restoreMessage() {
     m_lockStat = false;
     setStatusMessage(m_prevMsg);
     m_prevMsg = "";
+}
+
+void MainWindow::hintsStateChanged(bool enable) {
+    gl->hintsEnabled = enable;
+    if (!enable)
+        setStatusMessage("");
 }
