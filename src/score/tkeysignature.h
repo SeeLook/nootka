@@ -30,7 +30,7 @@ class TkeySignature
 {
 public:
     TkeySignature();
-    TkeySignature(char keyS);
+    TkeySignature(char keyS, bool isMinor = false);
         /** Lists of keys names*/
     static QString majorNames[15], minorNames[15];
         /** Array with definitions of each scale.
@@ -61,11 +61,14 @@ public:
         * and returns eighter founded note or Tnote(0,0,0) if didn't find.*/
     static Tnote inKey(TkeySignature k, Tnote n);
     Tnote inKey(Tnote n);
+    bool isMinor() { return m_isMinor; }
+    void setMinor(bool isMinor) { m_isMinor = isMinor; };
 
     char value() { return m_key; }
 
 private:
     char m_key;
+    bool m_isMinor;
         /** Common part for static and no static inKey() methods.*/
     static Tnote m_inKey(char val, Tnote n);
 };

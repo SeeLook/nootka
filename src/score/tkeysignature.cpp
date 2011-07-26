@@ -84,14 +84,16 @@ Tnote TkeySignature::m_inKey(char val, Tnote n) {
 TkeySignature::TkeySignature()
 {
     m_key = 0;
+    m_isMinor = false;
 }
 
-TkeySignature::TkeySignature(char keyS)
+TkeySignature::TkeySignature(char keyS, bool isMinor)
 {
     if (keyS > -8 && keyS <8)
         m_key = keyS;
     else
         m_key = 0;
+    m_isMinor = isMinor;
 }
 
 QString TkeySignature::accidNumber(bool inHtml) {
@@ -113,7 +115,11 @@ Tnote TkeySignature::inKey(Tnote n) {
 
 
 QDataStream &operator << (QDataStream &out, TkeySignature &key) {
-    out << qint8(key.value());
+    quint8 kk = key.value();
+    if (key.isMinor())
+      kk += 15;
+//     out << qint8(key.value());
+    out << kk;
     return out;
 }
 
@@ -121,10 +127,14 @@ bool getKeyFromStream(QDataStream &in, TkeySignature &k) {
     bool ok = true;
     qint8 kk;
     in >> kk;
-    if (kk < -7 || kk > 7) {
+//     if (kk < -7 || kk > 7) {
+    if (kk < -7 || kk > 22) {
         kk = 0; ok = false;
-    }
-    k = TkeySignature(char(kk));
+    } 
+    if (ok && kk > 7 ) // is minor key
+	k = TkeySignature(char(kk - 15), true);
+    else
+	k = TkeySignature(char(kk));
     return ok;
 }
 
