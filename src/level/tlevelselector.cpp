@@ -83,6 +83,14 @@ QList<TexamLevel> getExampleLevels() {
 const qint32 TlevelSelector::levelVersion = 0x95121701;
 QString TlevelSelector::levelFilterTxt = QObject::tr("Levels (*.nel)");
 
+void TlevelSelector::fileIOerrorMsg(QFile &f, QWidget *parent) {
+    QMessageBox::critical(parent, "",
+                          tr("Cannot open file\n %1 \n for reading\n%2 ").arg(
+                                  f.fileName()).arg(qPrintable(f.errorString())));
+}
+
+/*end static*/
+
 TlevelSelector::TlevelSelector(QWidget *parent) :
     QWidget(parent)
 {
@@ -209,7 +217,7 @@ TexamLevel TlevelSelector::getLevelFromFile(QFile &file) {
          if (!getLevelFromStream(in, level))
              QMessageBox::warning(0, "", tr("Level file\n %1 \n was corrupted and repaired !!\nCheck please, are its parameters as expected.").arg(file.fileName()));
     } else
-        QMessageBox::critical(this, "", tr("Cannot open file\n %1 \n for reading\n%2 ").arg(file.fileName()).arg(qPrintable(file.errorString())));
+        fileIOerrorMsg(file, this);
     return level;
 }
 

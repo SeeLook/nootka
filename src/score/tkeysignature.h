@@ -25,7 +25,7 @@
 
 
     /** This class describes a key signatute.
-    * It keeps it in char type  */
+    * It keeps it in char type. Also it keeps info about mode (minor/major)  */
 class TkeySignature
 {
 public:
@@ -62,7 +62,7 @@ public:
     static Tnote inKey(TkeySignature k, Tnote n);
     Tnote inKey(Tnote n);
     bool isMinor() { return m_isMinor; }
-    void setMinor(bool isMinor) { m_isMinor = isMinor; };
+    void setMinor(bool isMinor) { m_isMinor = isMinor; }
 
     char value() { return m_key; }
 

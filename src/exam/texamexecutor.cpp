@@ -21,6 +21,8 @@
 #include "tglobals.h"
 #include "tstartexamdlg.h"
 #include "tquestionaswdg.h"
+#include "tkeysignatureview.h"
+#include "tlevelselector.h"
 #include "mainwindow.h"
 #include <QtGui>
 #include <QDebug>
@@ -67,19 +69,27 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
                  in >> tmpTune;
                  in >> totalTime;
                  in >> questNr >> tmpAverTime>> mistNr;
+                 bool isExamFileOk = true;
                  int tmpMist = 0;
                  while (!in.atEnd()) {
-                     TQAunit qaUnit; /** @todo do something with corrupted answers*/
-                     getTQAunitFromStream(in, qaUnit);
+                     TQAunit qaUnit;
+                     if (!getTQAunitFromStream(in, qaUnit))
+                         isExamFileOk = false;
                      m_answList << qaUnit;
                      averTime += qaUnit.time;
                      if ( !qaUnit.correct() )
                          tmpMist++;
+//                     qDebug() << isExamFileOk << m_answList.size() <<
+//                             (int)qaUnit.key.value() << qaUnit.key.isMinor();
                  }
-                 if (tmpMist != mistNr)
-                     qDebug() << "exam file corrupted";
+                 if (tmpMist != mistNr || questNr != m_answList.size()) {
+                     isExamFileOk = false;
+                 }
+                 if (!isExamFileOk)
+                     QMessageBox::warning(mW, "", tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
                  m_examFile = resultText;
-                 QString changesMessage = ""; //We check are guitar's params suitable for an exam
+         //We check are guitar's params suitable for an exam --------------
+                 QString changesMessage = "";
                  if (tmpTune != gl->Gtune() ) { //Is tune the same ?
                      gl->setTune(tmpTune);
                      changesMessage = tr("Tune of the guitar was changed in this exam !!.<br>Now it is:<br><b>%1</b>").arg(gl->Gtune().name);
@@ -90,9 +100,9 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
                  }
                  if (changesMessage != "")
                      QMessageBox::warning(mW, "", changesMessage);
+         // ---------- End of checking ----------------------------------
              } else {
-                 QMessageBox::critical(mW, "", tr("Cannot open file\n %1 \n for reading\n%2 ").arg(file.fileName()).arg(qPrintable(file.errorString())));
-                 /** @todo the same text is in TlevelSelector. make it common */
+                 TlevelSelector::fileIOerrorMsg(file, mW);
                  mW->clearAfterExam();
                  return;
              }
@@ -291,17 +301,28 @@ void TexamExecutor::askQuestion() {
         questText += TquestionAsWdg::asNoteTxt;
         if (m_level.useKeySign) {
             if (m_level.manualKey) { // user have to manually secect a key
-                mW->score->setKeySignature( // we randomize some key to cover this expected one
-                        (qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) +
-                        m_level.loKey.value());
-                mW->score->setKeyViewBg(gl->EanswerColor);
                 QString keyTxt;
                 if (qrand() % 2) // randomize: ask for minor or major key ?
                     keyTxt = curQ.key.getMajorName();
                 else {
                     keyTxt = curQ.key.getMinorName();
-		    curQ.key.setMinor(true);
-		}
+                    curQ.key.setMinor(true);
+                }
+//                mW->score->setKeySignature( // we randomize some key to cover this expected one
+//                        (qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) +
+//                        m_level.loKey.value());
+//                mW->score->setKeyViewBg(gl->EanswerColor);
+                mW->score->keySignView->askQuestion(// we randomize some key to cover this expected one
+                                                (qrand() % (m_level.hiKey.value() -
+                                                            m_level.loKey.value() + 1)) +
+                                                m_level.loKey.value(), keyTxt);
+//                QString keyTxt;
+//                if (qrand() % 2) // randomize: ask for minor or major key ?
+//                    keyTxt = curQ.key.getMajorName();
+//                else {
+//                    keyTxt = curQ.key.getMinorName();
+//                    curQ.key.setMinor(true);
+//                }
                 questText += tr(" <b>in %1 key.</b>", "in key signature").arg(keyTxt);
                 m_answRequire.key = true;
 
