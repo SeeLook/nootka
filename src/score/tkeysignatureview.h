@@ -54,7 +54,9 @@ public:
     void setKeysFuse(char flatFuse, char sharpFuse);
             /** It shows text @param expectKeyName over key signature and question mark
             * and sets key to @param fakeKey. Also sets background color for questions*/
-    void askQuestion(TkeySignature fakeKey, QString expectKeyName);
+    void askQuestion(QString expectKeyName);
+            /** It deletes m_questKey */
+    void clearAfterQuestion();
 
 
 

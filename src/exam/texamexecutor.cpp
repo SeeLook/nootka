@@ -312,7 +312,7 @@ void TexamExecutor::askQuestion() {
 //                        (qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) +
 //                        m_level.loKey.value());
 //                mW->score->setKeyViewBg(gl->EanswerColor);
-                mW->score->keySignView->askQuestion(// we randomize some key to cover this expected one
+                mW->score->prepareKeyToAnswer(// we randomize some key to cover this expected one
                                                 (qrand() % (m_level.hiKey.value() -
                                                             m_level.loKey.value() + 1)) +
                                                 m_level.loKey.value(), keyTxt);

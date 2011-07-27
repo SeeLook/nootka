@@ -134,8 +134,6 @@ void TscoreWidget::acceptSettings() {
     if (!gl->doubleAccidentalsEnabled) clearNote(2);
     setEnableEnharmNotes(gl->showEnharmNotes);
     if (gl->SkeySignatureEnabled) refreshKeySignNameStyle();
-//    setAmbitus(Tnote(gl->Gtune.lowest().getChromaticNrOfNote()-1),
-//               Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber+1));
     setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()-1),
                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber+1));
     update();
@@ -164,6 +162,7 @@ void TscoreWidget::clearScore() {
   if (keySignView) {
       setKeySignature(TkeySignature());
       setKeyViewBg(-1);
+      keySignView->clearAfterQuestion();
   }
   changeAccidButtonsState(0); // reset buttons with accidentals
 }
@@ -192,4 +191,10 @@ void TscoreWidget::setNoteViewBg(int id, QColor C) {
 
 void TscoreWidget::forceAccidental(Tnote::Eacidentals accid) {
     changeAccidButtonsState(accid);
+}
+
+void TscoreWidget::prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName) {
+    setKeySignature(fakeKey);
+    setKeyViewBg(gl->EquestionColor);
+    keySignView->askQuestion(expectKeyName);
 }
