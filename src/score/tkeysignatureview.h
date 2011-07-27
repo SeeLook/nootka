@@ -52,6 +52,9 @@ public:
     char keySignature() { return m_keySignature; }
             /** It sets fuses to block mouse wheel event and stop adding more flats or sharps*/
     void setKeysFuse(char flatFuse, char sharpFuse);
+            /** It shows text @param expectKeyName over key signature and question mark
+            * and sets key to @param fakeKey. Also sets background color for questions*/
+    void askQuestion(TkeySignature fakeKey, QString expectKeyName);
 
 
 
@@ -80,6 +83,7 @@ private:
         /** Array of text items with # or b signs*/
     QGraphicsSimpleTextItem *m_accidentals[7];
     QGraphicsSimpleTextItem *m_keyNameText;
+    QGraphicsTextItem *m_questKey;
 
     int m_coeff;
     char m_keySignature;

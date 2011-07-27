@@ -65,6 +65,8 @@ public:
         /** Magic number in level file to identify it.*/
     static const qint32 levelVersion;
     static QString levelFilterTxt;
+        /** Shows message box with error if file cannot be opened.*/
+    static void fileIOerrorMsg(QFile &f, QWidget *parent = 0);
 
         /** Adds level @param lev to list.*/
     void addLevel(const TexamLevel &lev );

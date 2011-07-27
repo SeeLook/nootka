@@ -163,7 +163,7 @@ void TscoreWidget::clearScore() {
   clearNote(2); // also hide question mark when will be implemented
   if (keySignView) {
       setKeySignature(TkeySignature());
-      setKeyViewBg(-1);;
+      setKeyViewBg(-1);
   }
   changeAccidButtonsState(0); // reset buttons with accidentals
 }

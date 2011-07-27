@@ -72,7 +72,11 @@ bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit) {
     qaUnit.style = (Tnote::EnameStyle)st;
     ok = getKeyFromStream(in, qaUnit.key);
     in >> qaUnit.time;
-    ok = getNoteFromStream(in, qaUnit.qa_2.note);
+  // getNoteFromStream is too smart and doesn't allow null Tnote(0,0,0)
+  // I have to cheat it....
+    bool ok2 = getNoteFromStream(in, qaUnit.qa_2.note);
+    if (!ok2)
+        qaUnit.qa_2.note = Tnote(0,0,0);
     in >> qaUnit.qa_2.pos;
     in >> qaUnit.m_valid;
     return ok;
