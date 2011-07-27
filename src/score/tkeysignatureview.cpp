@@ -190,22 +190,29 @@ void TkeySignatureView::showKeyName() {
     else m_keyNameText->hide();
 }
 
-void TkeySignatureView::askQuestion(TkeySignature fakeKey, QString expectKeyName) {
-//    setKeySignature(fakeKey);
+void TkeySignatureView::askQuestion(QString expectKeyName) {
     if (!m_questKey) {
         m_questKey = new QGraphicsTextItem();
         m_scene->addItem(m_questKey);
     }
-//    int fs = 6;
-//    do {
-//        fs++;
-        m_questKey->setFont(QFont(font().family(), m_coeff*2));
+    int fs = m_coeff*2;
+    do {
+        fs--;
+        m_questKey->setFont(QFont(font().family(), fs));
         m_questKey->setHtml(QString("<center style=\"color: %1;\"><span style=\"font-family: nootka;\">?</span><br>").arg(gl->EquestionColor.name()) + expectKeyName + "</center>");
+//        qDebug() << width() << m_questKey->document()->size().width();
 
-//    } while (m_questKey->boundingRect().width() < width());
+    } while (m_questKey->document()->size().width() > width());
     m_questKey->setPos(0, m_coeff*5);
     setStyleSheet(gl->getBGcolorText(gl->EquestionColor));
 
+}
+
+void TkeySignatureView::clearAfterQuestion() {
+    if (m_questKey) {
+        delete m_questKey;
+        m_questKey = 0;
+    }
 }
 
 

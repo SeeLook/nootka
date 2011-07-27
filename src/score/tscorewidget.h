@@ -25,7 +25,11 @@ class QAction;
 class QMenu;
 class Tnote;
 class TkeySignature;
-
+/** Asking questions mechanism woeks as follow:
+  *
+@author Tomasz Bojczuk  <tomaszbojczuk@gmail.com>
+*
+*/
 class TscoreWidget : public TscoreWidgetSimple
 {
     Q_OBJECT
@@ -37,6 +41,9 @@ public:
     void askQuestion(Tnote note, char realStr = 0);
     void askQuestion(Tnote note, TkeySignature key, char realStr = 0);
     void clearScore();
+        /** It sets TkeySignatureView background to question color, sets fake key signature
+        * and invokes askQuestion in TkeySignatureView */
+    void prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName);
         /** Connects or disconnects reactions for clicking a note
         * and showing enharmonics notes depends on is exam executing (disconnect)
         * or not (connect).*/
