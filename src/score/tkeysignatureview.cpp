@@ -104,7 +104,9 @@ void TkeySignatureView::resize(int co) {
         m_keyNameText->setText(S);
         m_keyNameText->show();
     }
-
+    if (m_questKey) {
+      resizeQuestion();
+    }
 }
 
 void TkeySignatureView::wheelEvent(QWheelEvent * event) {
@@ -195,15 +197,8 @@ void TkeySignatureView::askQuestion(QString expectKeyName) {
         m_questKey = new QGraphicsTextItem();
         m_scene->addItem(m_questKey);
     }
-    int fs = m_coeff*2;
-    do {
-        fs--;
-        m_questKey->setFont(QFont(font().family(), fs));
-        m_questKey->setHtml(QString("<center style=\"color: %1;\"><span style=\"font-family: nootka;\">?</span><br>").arg(gl->EquestionColor.name()) + expectKeyName + "</center>");
-//        qDebug() << width() << m_questKey->document()->size().width();
-
-    } while (m_questKey->document()->size().width() > width());
-    m_questKey->setPos(0, m_coeff*5);
+    m_questKey->setHtml(QString("<center style=\"color: %1;\"><span style=\"font-family: nootka;\">&nbsp;&nbsp;?&nbsp;&nbsp;</span><br>").arg(gl->EquestionColor.name()) + expectKeyName + "</center>");
+    resizeQuestion();
     setStyleSheet(gl->getBGcolorText(gl->EquestionColor));
 
 }
@@ -213,6 +208,15 @@ void TkeySignatureView::clearAfterQuestion() {
         delete m_questKey;
         m_questKey = 0;
     }
+}
+
+void TkeySignatureView::resizeQuestion() {
+    int fs = m_coeff*2;
+    do {
+        fs--;
+        m_questKey->setFont(QFont(font().family(), fs));
+    } while (m_questKey->document()->size().width() > width());
+    m_questKey->setPos(0, m_coeff*5);
 }
 
 
