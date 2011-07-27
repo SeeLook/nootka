@@ -81,6 +81,9 @@ protected:
 
 
 private:
+    void resizeQuestion();
+  
+  
     QGraphicsScene *m_scene;
         /** Array of text items with # or b signs*/
     QGraphicsSimpleTextItem *m_accidentals[7];
