@@ -21,7 +21,6 @@
 #include "tglobals.h"
 #include "tstartexamdlg.h"
 #include "tquestionaswdg.h"
-#include "tkeysignatureview.h"
 #include "tlevelselector.h"
 #include "mainwindow.h"
 #include <QtGui>
@@ -308,24 +307,11 @@ void TexamExecutor::askQuestion() {
                     keyTxt = curQ.key.getMinorName();
                     curQ.key.setMinor(true);
                 }
-//                mW->score->setKeySignature( // we randomize some key to cover this expected one
-//                        (qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) +
-//                        m_level.loKey.value());
-//                mW->score->setKeyViewBg(gl->EanswerColor);
                 mW->score->prepareKeyToAnswer(// we randomize some key to cover this expected one
-                                                (qrand() % (m_level.hiKey.value() -
-                                                            m_level.loKey.value() + 1)) +
+                   (qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) +
                                                 m_level.loKey.value(), keyTxt);
-//                QString keyTxt;
-//                if (qrand() % 2) // randomize: ask for minor or major key ?
-//                    keyTxt = curQ.key.getMajorName();
-//                else {
-//                    keyTxt = curQ.key.getMinorName();
-//                    curQ.key.setMinor(true);
-//                }
                 questText += tr(" <b>in %1 key.</b>", "in key signature").arg(keyTxt);
                 m_answRequire.key = true;
-
             } else {
                 mW->score->setKeySignature(curQ.key);
                 mW->score->setKeyViewBg(gl->EquestionColor);

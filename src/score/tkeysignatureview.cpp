@@ -199,8 +199,6 @@ void TkeySignatureView::askQuestion(QString expectKeyName) {
     }
     m_questKey->setHtml(QString("<center style=\"color: %1;\"><span style=\"font-family: nootka;\">&nbsp;&nbsp;?&nbsp;&nbsp;</span><br>").arg(gl->EquestionColor.name()) + expectKeyName + "</center>");
     resizeQuestion();
-    setStyleSheet(gl->getBGcolorText(gl->EquestionColor));
-
 }
 
 void TkeySignatureView::clearAfterQuestion() {

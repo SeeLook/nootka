@@ -195,6 +195,6 @@ void TscoreWidget::forceAccidental(Tnote::Eacidentals accid) {
 
 void TscoreWidget::prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName) {
     setKeySignature(fakeKey);
-    setKeyViewBg(gl->EquestionColor);
+    setKeyViewBg(gl->EanswerColor);
     keySignView->askQuestion(expectKeyName);
 }

@@ -395,7 +395,7 @@ void TfingerBoard::paintQuestMark() {
     else {
         if (m_questPos.str() < 4)
             m_questMark->setPos(matrix.map(QPoint(lastFret + fretWidth,
-                                                  (m_questPos.str())*strGap)));
+                                                  (m_questPos.str()+1)*strGap)));
         else
             m_questMark->setPos(matrix.map(QPoint(lastFret + fretWidth,
                                                   (m_questPos.str()-2)*strGap - strGap/2)));
