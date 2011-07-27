@@ -25,8 +25,16 @@ class QAction;
 class QMenu;
 class Tnote;
 class TkeySignature;
-/** Asking questions mechanism woeks as follow:
-  *
+/** Asking questions mechanism works as follow:
+  * @fn askQuestion sets a note, string number (if declared) and key signature (if enabled).
+  * @fn setKeyViewBg and @fn setNoteViewBg set backgrounds of asked note TnoteView[1]
+  * and key to gl->EquestionColor.
+  * If key has to be given as answer @fn prepareKeyToAnswer is invoked and fake key is set
+  * and background color is gl->EanswerColor.
+  * When note is an answer TnoteView[0] background is set to gl->EanswerColor.
+  * Also if the accidental is required @fn forceAccidental is called.
+  * Then widget is unlocked by @fn unLockScore.
+  * After all @fn clearScore clean them.
 @author Tomasz Bojczuk  <tomaszbojczuk@gmail.com>
 *
 */
