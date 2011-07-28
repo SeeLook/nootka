@@ -21,10 +21,10 @@
 
 #include "tscorewidgetsimple.h"
 
-class QAction;
-class QMenu;
 class Tnote;
 class TkeySignature;
+class QGraphicsSimpleTextItem;
+class QGraphicsTextItem;
 /** Asking questions mechanism works as follow:
   * @fn askQuestion sets a note, string number (if declared) and key signature (if enabled).
   * @fn setKeyViewBg and @fn setNoteViewBg set backgrounds of asked note TnoteView[1]
@@ -72,6 +72,12 @@ public slots:
 
 protected:
     void paintEvent(QPaintEvent *event);
+    
+private:
+    QGraphicsSimpleTextItem *m_questMark;
+    QGraphicsTextItem *m_questKey;
+    void resizeQuestMark();
+    void resizeKeyText();
 
 
 };

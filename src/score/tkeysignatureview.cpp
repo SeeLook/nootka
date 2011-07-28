@@ -60,8 +60,6 @@ TkeySignatureView::TkeySignatureView(TscoreWidgetSimple *parent, char _keySign) 
     m_keyNameText->setBrush(QBrush(palette().text().color()));
     m_scene->addItem(m_keyNameText);
 
-    m_questKey = 0;
-
     m_flatKeyFuse = -7;
     m_sharpKeyFuse = 7;
     m_accInKeyPtr = parent->accInKeyArr;
@@ -103,9 +101,6 @@ void TkeySignatureView::resize(int co) {
         }
         m_keyNameText->setText(S);
         m_keyNameText->show();
-    }
-    if (m_questKey) {
-      resizeQuestion();
     }
 }
 
@@ -190,31 +185,6 @@ void TkeySignatureView::showKeyName() {
         m_keyNameText->show();
     }
     else m_keyNameText->hide();
-}
-
-void TkeySignatureView::askQuestion(QString expectKeyName) {
-    if (!m_questKey) {
-        m_questKey = new QGraphicsTextItem();
-        m_scene->addItem(m_questKey);
-    }
-    m_questKey->setHtml(QString("<center style=\"color: %1;\"><span style=\"font-family: nootka;\">&nbsp;&nbsp;?&nbsp;&nbsp;</span><br>").arg(gl->EquestionColor.name()) + expectKeyName + "</center>");
-    resizeQuestion();
-}
-
-void TkeySignatureView::clearAfterQuestion() {
-    if (m_questKey) {
-        delete m_questKey;
-        m_questKey = 0;
-    }
-}
-
-void TkeySignatureView::resizeQuestion() {
-    int fs = m_coeff*2;
-    do {
-        fs--;
-        m_questKey->setFont(QFont(font().family(), fs));
-    } while (m_questKey->document()->size().width() > width());
-    m_questKey->setPos(0, m_coeff*5);
 }
 
 
