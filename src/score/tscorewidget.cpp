@@ -21,7 +21,8 @@
 #include "tkeysignatureview.h"
 #include "tglobals.h"
 #include "tkeysignature.h"
-#include <QGraphicsSimpleTextItem>
+// #include <QGraphicsSimpleTextItem>
+#include <QtGui>
 //#include <QDebug>
 
 
@@ -44,9 +45,9 @@ TscoreWidget::TscoreWidget(unsigned char _notesCount, QWidget *parent) :
 
     setEnabledDblAccid(gl->doubleAccidentalsEnabled);
     setEnableKeySign(gl->SkeySignatureEnabled);
-
-//    setAmbitus(Tnote(gl->Gtune.lowest().getChromaticNrOfNote()-1),
-//               Tnote(gl->Gtune.highest().getChromaticNrOfNote()+gl->GfretsNumber+1));
+    
+    m_questMark = 0;
+    m_questKey = 0;
     setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()-1),
                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber+1));
 
@@ -84,6 +85,10 @@ void TscoreWidget::setEnableEnharmNotes(bool isEnabled) {
 
 void TscoreWidget::paintEvent(QPaintEvent *event) {
   TscoreWidgetSimple::paintEvent(event);
+  if (m_questMark && m_questMark->isVisible())
+      resizeQuestMark();
+  if (m_questKey && m_questKey->isVisible())
+      resizeKeyText();
   if (gl->Gtune() != Ttune::stdTune) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
@@ -143,6 +148,7 @@ void TscoreWidget::acceptSettings() {
 void TscoreWidget::askQuestion(Tnote note, char realStr) {
     setNote(1, note);
     setNoteViewBg(1, gl->EquestionColor);
+    m_questMark->show();
     if (realStr) 
       noteViews[1]->setString(realStr);
 }
@@ -154,31 +160,45 @@ void TscoreWidget::askQuestion(Tnote note, TkeySignature key, char realStr) {
 }
 
 void TscoreWidget::clearScore() {
-  clearNote(0);
-  setNoteViewBg(0, -1);;
-  clearNote(1);
-  setNoteViewBg(1, -1);
-  noteViews[1]->removeString(); // so far string number to remove occur only on this view
-  clearNote(2); // also hide question mark when will be implemented
-  if (keySignView) {
-      setKeySignature(TkeySignature());
-      setKeyViewBg(-1);
-      keySignView->clearAfterQuestion();
-  }
-  changeAccidButtonsState(0); // reset buttons with accidentals
+    clearNote(0);
+    setNoteViewBg(0, -1);;
+    clearNote(1);
+    setNoteViewBg(1, -1);
+    noteViews[1]->removeString(); // so far string number to remove occur only on this view
+    clearNote(2); // also hide question mark when will be implemented
+    if (keySignView) {
+	setKeySignature(TkeySignature());
+	setKeyViewBg(-1);
+    }
+    changeAccidButtonsState(0); // reset buttons with accidentals
+    m_questMark->hide();
+    m_questKey->hide();
 }
 
 void TscoreWidget::isExamExecuting(bool isIt) {
     if (isIt) {
         disconnect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
-        QGraphicsSimpleTextItem *m_questMark = new QGraphicsSimpleTextItem();
+        
+	m_questMark = new QGraphicsSimpleTextItem();
+	m_questMark->hide();
         noteViews[2]->scene()->addItem(m_questMark);
-        m_questMark->setFont(QFont("nootka", coeff*5));
+	QColor c = gl->EquestionColor;
+	c.setAlpha(220);
+	m_questMark->setBrush(QBrush(c));
         m_questMark->setText("?");
-        m_questMark->setPos(0, coeff*10);
+	resizeQuestMark();
+	m_questKey = new QGraphicsTextItem();
+	m_questKey->hide();
+	keySignView->scene()->addItem(m_questKey);
+	
     }
-    else
+    else {
         connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
+	delete m_questMark;
+	m_questMark = 0;
+	delete m_questKey;
+	m_questKey = 0;
+    }
 }
 
 void TscoreWidget::unLockScore() {
@@ -203,5 +223,21 @@ void TscoreWidget::forceAccidental(Tnote::Eacidentals accid) {
 void TscoreWidget::prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName) {
     setKeySignature(fakeKey);
     setKeyViewBg(gl->EanswerColor);
-    keySignView->askQuestion(expectKeyName);
+    m_questKey->setHtml(QString("<center style=\"color: %1;\"><span style=\"font-family: nootka;\">&nbsp;&nbsp;?&nbsp;&nbsp;</span><br>").arg(gl->EquestionColor.name()) + expectKeyName + "</center>");
+    resizeKeyText();
+    m_questKey->show();
+}
+
+void TscoreWidget::resizeQuestMark() {
+    m_questMark->setFont(QFont("nootka", coeff*5));
+    m_questMark->setPos(0, coeff*16);    
+}
+
+void TscoreWidget::resizeKeyText() {
+    int fs = coeff*2;
+    do {
+        fs--;
+        m_questKey->setFont(QFont(font().family(), fs));
+    } while (m_questKey->document()->size().width() > width());
+    m_questKey->setPos(0, coeff*5);
 }
