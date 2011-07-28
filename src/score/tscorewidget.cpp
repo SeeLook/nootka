@@ -21,6 +21,7 @@
 #include "tkeysignatureview.h"
 #include "tglobals.h"
 #include "tkeysignature.h"
+#include <QGraphicsSimpleTextItem>
 //#include <QDebug>
 
 
@@ -168,8 +169,14 @@ void TscoreWidget::clearScore() {
 }
 
 void TscoreWidget::isExamExecuting(bool isIt) {
-    if (isIt)
+    if (isIt) {
         disconnect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
+        QGraphicsSimpleTextItem *m_questMark = new QGraphicsSimpleTextItem();
+        noteViews[2]->scene()->addItem(m_questMark);
+        m_questMark->setFont(QFont("nootka", coeff*5));
+        m_questMark->setText("?");
+        m_questMark->setPos(0, coeff*10);
+    }
     else
         connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
 }
