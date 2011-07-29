@@ -28,8 +28,8 @@ class QGraphicsTextItem;
 /** Asking questions mechanism works as follow:
   * @fn askQuestion sets a note, string number (if declared) and key signature (if enabled).
   * @fn setKeyViewBg and @fn setNoteViewBg set backgrounds of asked note TnoteView[1]
-  * and key to gl->EquestionColor.
-  * If key has to be given as answer @fn prepareKeyToAnswer is invoked and fake key is set
+  * and key to gl->EquestionColor. Also question mark is drown on TnoteView[2] (m_questMark)
+  * If key has to be given as answer @fn prepareKeyToAnswer is invoked, fake key is set
   * and background color is gl->EanswerColor.
   * When note is an answer TnoteView[0] background is set to gl->EanswerColor.
   * Also if the accidental is required @fn forceAccidental is called.
@@ -72,6 +72,7 @@ public slots:
 
 protected:
     void paintEvent(QPaintEvent *event);
+    void resizeEvent(QResizeEvent *event);
     
 private:
     QGraphicsSimpleTextItem *m_questMark;

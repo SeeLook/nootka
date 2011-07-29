@@ -373,6 +373,7 @@ void TexamExecutor::askQuestion() {
             questText += "<b>" + tr(" on <span style=\"font-family: nootka; font-size:%1px;\">%2</span> string.").arg(qRound(mW->getFontSize()*1.5)).arg((int)curQ.qa.pos.str()) + "</b>";
 
         mW->guitar->setMouseTracking(true);
+        mW->guitar->prepareAnswer();
     }
     m_answList << curQ;
     mW->setStatusMessage(questText);
@@ -588,10 +589,10 @@ void TexamExecutor::prepareToExam() {
     mW->startExamAct->setIcon(QIcon(gl->path+"picts/stopExam.png"));
     mW->startExamAct->setText(tr("stop the exam"));
     mW->startExamAct->setStatusTip(mW->startExamAct->text());
-//    mW->startExamAct->setDisabled(true);
 
     disableWidgets();
 
+    mW->score->isExamExecuting(true);
     disconnect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
     disconnect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     disconnect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
@@ -619,6 +620,7 @@ void TexamExecutor::prepareToExam() {
     mW->guitar->acceptSettings();
   // clearing all views/widgets
     clearWidgets();
+    mW->guitar->createRangeBox(m_level.loFret, m_level.hiFret);
 
     if(gl->hintsEnabled)
         mW->setStatusMessage(tr("<img src=\"%1\"> or <b>space</b> to get next question.").arg(gl->path+"picts/next-icon.png"), 5000);
@@ -657,13 +659,14 @@ void TexamExecutor::restoreAfterExam() {
     connect(mW->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
     mW->score->isExamExecuting(false);
     mW->score->unLockScore();
+    mW->guitar->deleteRangeBox();
     mW->clearAfterExam();
     
 }
 
 void TexamExecutor::disableWidgets() {
     mW->noteName->setNameDisabled(true);
-    mW->score->isExamExecuting(true);
+//    mW->score->isExamExecuting(true);
     mW->score->setScoreDisabled(true);
     mW->guitar->setMouseTracking(false);
 }

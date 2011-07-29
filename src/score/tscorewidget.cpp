@@ -83,12 +83,17 @@ void TscoreWidget::setEnableEnharmNotes(bool isEnabled) {
     }
 }
 
+void TscoreWidget::resizeEvent(QResizeEvent *event) {
+    TscoreWidgetSimple::resizeEvent(event);
+    if (m_questMark) {
+        resizeQuestMark();
+    }
+    if (m_questKey && m_questKey->isVisible())
+        resizeKeyText();
+}
+
 void TscoreWidget::paintEvent(QPaintEvent *event) {
   TscoreWidgetSimple::paintEvent(event);
-  if (m_questMark && m_questMark->isVisible())
-      resizeQuestMark();
-  if (m_questKey && m_questKey->isVisible())
-      resizeKeyText();
   if (gl->Gtune() != Ttune::stdTune) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
@@ -178,26 +183,24 @@ void TscoreWidget::clearScore() {
 void TscoreWidget::isExamExecuting(bool isIt) {
     if (isIt) {
         disconnect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
-        
-	m_questMark = new QGraphicsSimpleTextItem();
-	m_questMark->hide();
+        m_questMark = new QGraphicsSimpleTextItem();
+        m_questMark->hide();
         noteViews[2]->scene()->addItem(m_questMark);
-	QColor c = gl->EquestionColor;
-	c.setAlpha(220);
-	m_questMark->setBrush(QBrush(c));
+        QColor c = gl->EquestionColor;
+        c.setAlpha(220);
+        m_questMark->setBrush(QBrush(c));
         m_questMark->setText("?");
-	resizeQuestMark();
-	m_questKey = new QGraphicsTextItem();
-	m_questKey->hide();
-	keySignView->scene()->addItem(m_questKey);
-	
+        resizeQuestMark();
+        m_questKey = new QGraphicsTextItem();
+        m_questKey->hide();
+        keySignView->scene()->addItem(m_questKey);
     }
     else {
         connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
-	delete m_questMark;
-	m_questMark = 0;
-	delete m_questKey;
-	m_questKey = 0;
+        delete m_questMark;
+        m_questMark = 0;
+        delete m_questKey;
+        m_questKey = 0;
     }
 }
 
@@ -238,6 +241,6 @@ void TscoreWidget::resizeKeyText() {
     do {
         fs--;
         m_questKey->setFont(QFont(font().family(), fs));
-    } while (m_questKey->document()->size().width() > width());
+    } while (m_questKey->document()->size().width() > keySignView->width());
     m_questKey->setPos(0, coeff*5);
 }
