@@ -456,6 +456,7 @@ void TfingerBoard::resizeRangeBox() {
         QColor C = gl->EanswerColor;
         C.setAlpha(200);
         QPen pen = QPen(C, strGap/3);
+	pen.setJoinStyle(Qt::RoundJoin);
         int xxB, xxE;
         if (m_loFret == 0 || m_loFret == 1)
             xxB = xxB = fbRect.x() - 4;
