@@ -1,5 +1,6 @@
 0.7.1
-    - added button for fast on/off hints
+    - added button for fast switch on/off hints
+    - questions and answers view is more clear
     - preventing to use levels with a range out of current tune and frets number
   BUGS FIXES
     - fixed drawing last fret out of a fingerboard
