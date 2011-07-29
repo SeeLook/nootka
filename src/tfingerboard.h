@@ -24,8 +24,14 @@ public:
     void setFinger(TfingerPos pos);
         /** Returns selected finger position */
     TfingerPos getfingerPos() { return m_fingerPos; }
+
     void askQuestion(TfingerPos pos);
     void clearFingerBoard();
+        /** Creates rectriangle (or two) indicates range of frets in exam.*/
+    void createRangeBox(char loFret, char hiFret);
+    void prepareAnswer();
+    void deleteRangeBox();
+
 
 signals:
     void guitarClicked(Tnote note);
@@ -71,12 +77,14 @@ private:
         /** Position from a question - is needed to calculate size of questioned finger
         * or string if naughty user changes window size. */
     TfingerPos m_questPos;
+        /** Frets range in an exam*/
+    char m_loFret, m_hiFret;
+    QGraphicsRectItem *m_rangeBox1, *m_rangeBox2;
+
 
     void paintFinger(QGraphicsEllipseItem *f, char strNr, char fretNr);
     void paintQuestMark();
-
-    /** */
-    /** */
+    void resizeRangeBox();
 
 
 };

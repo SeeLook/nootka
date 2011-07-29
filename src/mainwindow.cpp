@@ -151,10 +151,11 @@ void MainWindow::resizeEvent(QResizeEvent *) {
     m_statLab->setFont(f);
     guitar->setFixedHeight(centralWidget()->height()/3);
 //    if (examResults) {
-        examResults->setFixedHeight(height() / 8);
-        examResults->setFontSize(m_statFontSize);
+    examResults->setFixedHeight(height() / 8);
+    examResults->setFontSize(m_statFontSize);
 //    }
     noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(height() * 0.4)));
+    noteName->resize();
 //     noteName->setGeometry (examResults->pos().x(), guitar->pos().y() - qRound(height() * 0.75),
 //                centralWidget()->width()- score->width() -2, qRound(height() * 0.7));
 }
