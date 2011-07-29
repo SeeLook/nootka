@@ -443,7 +443,7 @@ void TfingerBoard::createRangeBox(char loFret, char hiFret) {
         m_scene->addItem(m_rangeBox1);
         m_rangeBox1->setBrush(QBrush(Qt::NoBrush));
     }
-    if (!m_rangeBox2 && m_hiFret < gl->GfretsNumber) {
+    if (!m_rangeBox2 && m_loFret == 0 && m_hiFret > 0 && m_hiFret < gl->GfretsNumber) {
         m_rangeBox2 = new QGraphicsRectItem();
         m_scene->addItem(m_rangeBox2);
         m_rangeBox2->setBrush(QBrush(Qt::NoBrush));
@@ -457,18 +457,29 @@ void TfingerBoard::resizeRangeBox() {
         C.setAlpha(200);
         QPen pen = QPen(C, strGap/3);
         int xxB, xxE;
-        if (m_loFret == 0) xxB = fbRect.x() - 4;
-        else xxB = fretsPos[m_loFret-1] - 4;
-        if (m_hiFret < gl->GfretsNumber) { // we need both rects
-            xxE = fretsPos[m_hiFret-1] + 4; // exam executor takes care about enought frets number
-            m_rangeBox2->setPen(pen);
-            m_rangeBox2->setRect(0, 0, width() - lastFret - 2* strGap, fbRect.height() + 8);
-            m_rangeBox2->setPos(matrix.map(QPoint(lastFret + strGap , fbRect.y() - 4)));
-        } else xxE = width() - strGap;
+        if (m_loFret == 0 || m_loFret == 1)
+            xxB = xxB = fbRect.x() - 4;
+        else
+            xxB = fretsPos[m_loFret-2] - 4;
+        if (m_loFret == 0) {//  surely box for open strings
+            if (m_hiFret == 0) { // one box over hole
+                xxB = lastFret + strGap;
+                xxE = width() - strGap;
+            }
+            else if (m_hiFret < gl->GfretsNumber) { // both, one over hole
+                m_rangeBox2->setPen(pen);
+                m_rangeBox2->setRect(0, 0, width() - lastFret - 2* strGap, fbRect.height() + 8);
+                m_rangeBox2->setPos(matrix.map(QPoint(lastFret + strGap , fbRect.y() - 4)));
+                xxE = fretsPos[m_hiFret-1] + 4;
+            } else { // one - over whole guitar
+                xxE = width() - strGap;
+            }
+        } else { //one
+            xxE = fretsPos[m_hiFret-1] + 4;
+        }
         m_rangeBox1->setPen(pen);
         m_rangeBox1->setRect(0, 0, xxE - xxB, fbRect.height() + 8);
         m_rangeBox1->setPos(matrix.map(QPoint(xxB, fbRect.y() - 4)));
-
     }
 }
 
@@ -489,11 +500,3 @@ void TfingerBoard::deleteRangeBox() {
         m_rangeBox2 = 0;
     }
 }
-
-
-
-
-
-
-
-
