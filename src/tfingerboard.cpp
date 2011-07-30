@@ -105,14 +105,8 @@ void TfingerBoard::paint() {
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setRenderHint(QPainter::TextAntialiasing, true);
     painter.setWindow(0,0,width(),height());
-    matrix.reset();
     resetTransform();
     if (!gl->GisRightHanded) {
-//        matrix.translate(width(),0);
-//        matrix.scale(-1,1);
-//        painter.translate(width(), 0);
-//        painter.scale(-1, 1);
-//        painter.setMatrix(matrix);
         translate(width(), 0);
         scale(-1, 1);
     }
@@ -189,8 +183,8 @@ void TfingerBoard::paint() {
         painter.drawLine(1, fbRect.y()+strGap/2+i*strGap,
                          width()-1-strGap, fbRect.y()+strGap/2+i*strGap);
         m_workStrings[i]->setPen(QPen(gl->GfingerColor,strWidth+2,Qt::SolidLine));
-        m_workStrings[i]->setLine(matrix.map(QLineF(1, fbRect.y()+strGap/2+i*strGap,
-                                  width()-1-strGap, fbRect.y()+strGap/2+i*strGap)));
+        m_workStrings[i]->setLine(1, fbRect.y()+strGap/2+i*strGap, width()-1-strGap,
+                                  fbRect.y()+strGap/2+i*strGap);
         m_strings[i]->setPen(QPen(palette().highlight().color(),strWidth,Qt::SolidLine));
         m_strings[i]->setLine(m_workStrings[i]->line());
   // drawing digits of strings in circles
@@ -246,7 +240,6 @@ void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
     int strNr = 7, fretNr = 99;
     if ( (event->y() >= fbRect.y()) && (event->y() <= (height()-fbRect.y()-4)) ) {
         int tx, ty = event->y();
-//        matrix.map(event->x(), event->y(), &tx, &ty);
         tx = mapToScene(event->x(), event->y()).x();
         strNr = (ty-fbRect.y())/strGap;
         if (tx < fbRect.x() || tx > lastFret /*or some mouse button*/ )
@@ -354,10 +347,8 @@ void TfingerBoard::acceptSettings() {
 }
 
 void TfingerBoard::paintFinger(QGraphicsEllipseItem *f, char strNr, char fretNr) {
-    int off = qRound(fretWidth/1.5);
-    if (matrix.dx()) off = 4;
-    f->setPos(matrix.map(QPoint(fretsPos[fretNr-1]-off,
-                         fbRect.y() + strGap*strNr + strGap/5)));
+    f->setPos(fretsPos[fretNr-1] - qRound(fretWidth/1.5),
+              fbRect.y() + strGap*strNr + strGap/5);
 }
 
 void TfingerBoard::askQuestion(TfingerPos pos) {
@@ -396,22 +387,21 @@ void TfingerBoard::paintQuestMark() {
     }
     QFont f = QFont("nootka", 2*strGap, QFont::Normal);
     m_questMark->setFont(f);
+    int off = -1, off2 = 0;
     if (!gl->GisRightHanded) {
         m_questMark->scale(-1, 1);
-//        m_questMark->translate(m_questMark->boundingRect().width(), 0);
+        if (m_questPos.fret() == 1)
+            off = 1;
+        else
+            off2 = fretWidth/2;
     }
-    int off = -1;
-    if (matrix.dx()) off = -2;
     if (m_questPos.fret())
-        m_questMark->setPos(matrix.map(QPoint(fretsPos[m_questPos.fret() + off],
-                                              (m_questPos.str()-1)*strGap )));
+        m_questMark->setPos(fretsPos[m_questPos.fret() + off] - off2, (m_questPos.str()-1)*strGap );
     else {
         if (m_questPos.str() < 4)
-            m_questMark->setPos(matrix.map(QPoint(lastFret + fretWidth,
-                                                  (m_questPos.str()+1)*strGap)));
+            m_questMark->setPos(lastFret + fretWidth, (m_questPos.str()+1)*strGap);
         else
-            m_questMark->setPos(matrix.map(QPoint(lastFret + fretWidth,
-                                                  (m_questPos.str()-2)*strGap - strGap/2)));
+            m_questMark->setPos(lastFret + fretWidth, (m_questPos.str()-2)*strGap - strGap/2);
     }
 }
 
@@ -480,7 +470,7 @@ void TfingerBoard::resizeRangeBox() {
             else if (m_hiFret < gl->GfretsNumber) { // both, one over hole
                 m_rangeBox2->setPen(pen);
                 m_rangeBox2->setRect(0, 0, width() - lastFret - 2* strGap, fbRect.height() + 8);
-                m_rangeBox2->setPos(matrix.map(QPoint(lastFret + strGap , fbRect.y() - 4)));
+                m_rangeBox2->setPos(lastFret + strGap , fbRect.y() - 4);
                 xxE = fretsPos[m_hiFret-1] + 4;
             } else { // one - over whole guitar
                 xxE = width() - strGap;
@@ -490,7 +480,7 @@ void TfingerBoard::resizeRangeBox() {
         }
         m_rangeBox1->setPen(pen);
         m_rangeBox1->setRect(0, 0, xxE - xxB, fbRect.height() + 8);
-        m_rangeBox1->setPos(matrix.map(QPoint(xxB, fbRect.y() - 4)));
+        m_rangeBox1->setPos(xxB, fbRect.y() - 4);
     }
 }
 
