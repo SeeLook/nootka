@@ -29,6 +29,7 @@
 class QCheckBox;
 class QSpinBox;
 class QComboBox;
+class ExamSettings;
 
 class GlobalSettings : public QWidget
 {
@@ -81,6 +82,7 @@ private:
     ScoreSettings *m_scoreSett;
     NameSettings *m_nameSett;
     GuitarSettings *m_guitarSett;
+    ExamSettings   *m_examSett;
 
 };
 

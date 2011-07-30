@@ -17,55 +17,47 @@
  ***************************************************************************/
 
 
-#ifndef TFIRSTRUNWIZZARD_H
-#define TFIRSTRUNWIZZARD_H
-
-#include <QDialog>
+#include "select7note.h"
+#include <QtGui>
 
 
-class QStackedLayout;
-class QRadioButton;
-class QCheckBox;
-class Tpage_3;
-class Select7note;
-
-class TfirstRunWizzard : public QDialog
+Select7note::Select7note(QWidget *parent) :
+    QWidget(parent)
 {
-    Q_OBJECT
-public:
-    explicit TfirstRunWizzard(QWidget *parent = 0);
-    static QString nextText;
+    QVBoxLayout *lay = new QVBoxLayout;
+    QGroupBox *bGr = new QGroupBox(tr("7-th note is:"),this);
+    QVBoxLayout *bLay = new QVBoxLayout;
+    bLay->setAlignment(Qt::AlignCenter);
+    QButtonGroup *bButtGr = new QButtonGroup(this);
+    isBRadio = new QRadioButton(tr("B"),this);
+    isBRadio->setStatusTip(tr("7-th note is <b>B</b> and with flat is <b>Bb</b> or bes or <b>bs</b>"));
+    bLay->addWidget(isBRadio);
+    bButtGr->addButton(isBRadio);
+    isHRadio = new QRadioButton(tr("H"),this);
+    isHRadio->setStatusTip(tr("7-th note is <b>H</b> and with flat is <b>Hb</b> or <b>B</b>"));
+    bLay->addWidget(isHRadio);
+    bLay->addStretch(1);
+    bButtGr->addButton(isHRadio);
+    bGr->setLayout(bLay);
+    lay->addWidget(bGr);
 
-signals:
+    setLayout(lay);
 
-public slots:
+    connect(bButtGr, SIGNAL(buttonClicked(int)), this, SLOT(namechanged()));
 
-private:
-    QPushButton *skipButt, *nextButt, *prevButt;
-    QStackedLayout *pagesLay;
-    Tpage_3 *page3;
+}
 
-private slots:
-    void nextSlot();
-    void prevSlot();
+void Select7note::namechanged() {
+    if(isBRadio->isChecked())
+        emit seventhIsBchanged(true);
+    else
+        emit seventhIsBchanged(false);
+}
 
+void Select7note::set7th_B(bool isB) {
+    if(isB)
+        isBRadio->setChecked(true);
+    else
+        isHRadio->setChecked(true);
+}
 
-};
-
-// page 1 is about dialog
-// page 2 is QLabel
-
-class Tpage_3 : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit Tpage_3(QWidget *parent = 0);
-
-    Select7note *select7;
-    QCheckBox *dblAccChB, *enharmChB, *useKeyChB;
-
-
-
-};
-
-#endif // TFIRSTRUNWIZZARD_H
