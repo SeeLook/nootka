@@ -43,7 +43,6 @@ protected:
     void paint();
     Tnote posToNote(int str, int fret);
 
-    QMatrix matrix;
     void resizeEvent(QResizeEvent *);
     void mouseMoveEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *);
