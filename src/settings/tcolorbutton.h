@@ -27,17 +27,19 @@ class TcolorButton : public QPushButton
 {
 	Q_OBJECT
 	
+public:
+	
     explicit TcolorButton(QColor col = -1, QWidget* parent = 0);
 	
 	QColor getColor() { return m_color; }
 	void setColor(QColor col);
 	
 	
+protected:
+	void paintEvent(QPaintEvent *event);
 	
 private:
 	QColor m_color;
-	
-	void paint();
 	
 private slots:
 	void whenClicked();

@@ -18,7 +18,11 @@
 
 
 #include "examsettings.h"
+#include "tcolorbutton.h"
+#include "tglobals.h"
 #include <QtGui>
+
+extern Tglobals *gl;
 
 ExamSettings::ExamSettings(QWidget *parent) :
     QWidget(parent)
@@ -27,6 +31,8 @@ ExamSettings::ExamSettings(QWidget *parent) :
 
     autoNextChB = new QCheckBox(tr("automatically ask next question"), this);
     lay->addWidget(autoNextChB);
+	TcolorButton *but = new TcolorButton(gl->EquestionColor, this);
+	lay->addWidget(but);
 
     setLayout(lay);
 

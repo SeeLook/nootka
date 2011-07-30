@@ -17,27 +17,36 @@
  ***************************************************************************/
 
 #include "tcolorbutton.h"
-#include <QColorDialog>
+#include <QtGui>
 
 TcolorButton::TcolorButton(QColor col, QWidget* parent): 
-	QPushButton(col, parent)
+	QPushButton(parent)
 {
 	m_color = col;
+	setFixedSize(40, 30);
+	
 	connect(this, SIGNAL(clicked()), this, SLOT(whenClicked()));
 }
 
-void TcolorButton::paint() {
-
-}
 
 void TcolorButton::whenClicked() {
 	setColor(QColorDialog::getColor(m_color, this));
 }
 
 void TcolorButton::setColor(QColor col) {
-
+	m_color = col;
+	repaint();
 }
 
+void TcolorButton::paintEvent(QPaintEvent* event) {
+    QPushButton::paintEvent(event);
+	QPainter painter(this);
+	painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setWindow(0, 0, width(), height());
+    painter.setPen(Qt::NoPen);
+	painter.setBrush(QBrush(m_color));
+	painter.drawRoundedRect(4, 4, width()-8, height()-8, 4, 4);
+}
 
 
 
