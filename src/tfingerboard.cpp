@@ -21,7 +21,6 @@
 #include <QtGui>
 //#include <QDebug>
 
-
 extern Tglobals *gl;
 
 
