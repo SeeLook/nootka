@@ -17,55 +17,30 @@
  ***************************************************************************/
 
 
-#ifndef TFIRSTRUNWIZZARD_H
-#define TFIRSTRUNWIZZARD_H
+#ifndef SELECT7NOTE_H
+#define SELECT7NOTE_H
 
-#include <QDialog>
+#include <QWidget>
+#include <QRadioButton>
 
-
-class QStackedLayout;
-class QRadioButton;
-class QCheckBox;
-class Tpage_3;
-class Select7note;
-
-class TfirstRunWizzard : public QDialog
+class Select7note : public QWidget
 {
     Q_OBJECT
 public:
-    explicit TfirstRunWizzard(QWidget *parent = 0);
-    static QString nextText;
+    explicit Select7note(QWidget *parent = 0);
+    void set7th_B (bool isB);
+    bool is7th_B () { return isBRadio->isChecked(); }
 
 signals:
+    void seventhIsBchanged (bool isB);
 
-public slots:
 
 private:
-    QPushButton *skipButt, *nextButt, *prevButt;
-    QStackedLayout *pagesLay;
-    Tpage_3 *page3;
+    QRadioButton *isBRadio, *isHRadio;
 
 private slots:
-    void nextSlot();
-    void prevSlot();
-
+    void namechanged();
 
 };
 
-// page 1 is about dialog
-// page 2 is QLabel
-
-class Tpage_3 : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit Tpage_3(QWidget *parent = 0);
-
-    Select7note *select7;
-    QCheckBox *dblAccChB, *enharmChB, *useKeyChB;
-
-
-
-};
-
-#endif // TFIRSTRUNWIZZARD_H
+#endif // SELECT7NOTE_H

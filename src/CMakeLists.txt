@@ -24,6 +24,7 @@ SET( NOOTKA_SRCS
   settings/namesettings.cpp
   settings/tnotationradiogroup.cpp
   settings/scoresettings.cpp
+  settings/examsettings.cpp
 ###### Level
   level/examsettingsdlg.cpp
   level/texamlevel.cpp
@@ -43,6 +44,7 @@ SET( NOOTKA_SRCS
 ###### Info
   info/taboutnootka.cpp
   info/tfirstrunwizzard.cpp
+  info/select7note.cpp
   )
 
 #SET( NOOTKA_HEADERS
@@ -66,6 +68,7 @@ SET( NOOTKA_MOC_SRCS
   settings/namesettings.h
   settings/tnotationradiogroup.h
   settings/scoresettings.h
+  settings/examsettings.h
 ###### Level
   level/examsettingsdlg.h
   level/levelsettings.h
@@ -82,6 +85,7 @@ SET( NOOTKA_MOC_SRCS
 ###### Info
   info/taboutnootka.h
   info/tfirstrunwizzard.h
+  info/select7note.h
   )
 
 QT4_WRAP_CPP( NOOTKA_MOCS ${NOOTKA_MOC_SRCS} )

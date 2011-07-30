@@ -23,6 +23,7 @@
 #include "tnotationradiogroup.h"
 
 class QCheckBox;
+class Select7note;
 
 class NameSettings : public QWidget
 {
@@ -36,13 +37,13 @@ signals:
     void seventhIsBChanged(bool isB);
 
 protected slots:
-    void seventhNoteWasChanged();
+    void seventhNoteWasChanged(bool isB);
 
 
 
 private:
     TnotationRadioGroup *nameStyleGr;
     QCheckBox *octInNameCh;
-    QRadioButton *isBRadio, *isHRadio;
+    Select7note *select7;
 };
 #endif // NAMESETTINGS_H

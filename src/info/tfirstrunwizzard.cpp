@@ -20,6 +20,7 @@
 #include "tfirstrunwizzard.h"
 #include "taboutnootka.h"
 #include "tglobals.h"
+#include "select7note.h"
 #include <QtGui>
 
 extern Tglobals *gl;
@@ -92,12 +93,12 @@ void TfirstRunWizzard::nextSlot() {
         pagesLay->setCurrentIndex(2);
         break;
     case 2 :
-        if (page3->isBradio->isChecked())
+        if (page3->select7->is7th_B())
             gl->seventhIs_B = true;
         else {
-	    gl->seventhIs_B = false;
-	    gl->NnameStyleInNoteName = Tnote::e_norsk_Hb;
-	    gl->SnameStyleInKeySign = Tnote::e_norsk_Hb;
+            gl->seventhIs_B = false;
+            gl->NnameStyleInNoteName = Tnote::e_norsk_Hb;
+            gl->SnameStyleInKeySign = Tnote::e_norsk_Hb;
 	}
         gl->doubleAccidentalsEnabled = page3->dblAccChB->isChecked();
         gl->showEnharmNotes = page3->enharmChB->isChecked();
@@ -106,7 +107,7 @@ void TfirstRunWizzard::nextSlot() {
     }
 }
 
-//###############################################  Tpage_3 ###############################################
+//###############################################  Tpage_3   ###############################################
 
 Tpage_3::Tpage_3(QWidget *parent) :
         QWidget(parent)
@@ -115,22 +116,11 @@ Tpage_3::Tpage_3(QWidget *parent) :
     lay->setAlignment(Qt::AlignCenter);
     QLabel *seventhLab = new QLabel(tr("<center>7-th note can be B or H, depends on country<br>Which one is Yours?<br></center>"), this);
     lay->addWidget(seventhLab, 0, Qt::AlignCenter);
-//    lay->addStretch(1);
 
-    /** @todo The same widgets are in namesSettings class. Do it common*/
-    QHBoxLayout *radioLay = new QHBoxLayout;
-    radioLay->addStretch(2);
-    isBradio = new QRadioButton("B", this);
-    radioLay->addWidget(isBradio);
-    radioLay->addStretch(1);
-    isHradio = new QRadioButton("H", this);
-    radioLay->addWidget(isHradio);
-    radioLay->addStretch(2);
-    QButtonGroup *gr7 = new QButtonGroup(this);
-    gr7->addButton(isBradio);
-    gr7->addButton(isHradio);
-    isBradio->setChecked(true);
-    lay->addLayout(radioLay);
+    select7 = new Select7note(this);
+    lay->addWidget(select7);
+    select7->set7th_B(true);
+
     lay->addStretch(1);
 
     dblAccChB = new QCheckBox(tr("I know about double sharps (x) and double flats (bb)"), this);
@@ -139,6 +129,10 @@ Tpage_3::Tpage_3(QWidget *parent) :
 
     enharmChB = new QCheckBox(tr("I know that e# is the same as f"), this);
     lay->addWidget(enharmChB, 0, Qt::AlignCenter);
+    lay->addStretch(1);
+
+    useKeyChB = new QCheckBox(tr("I know about key signatures"), this);
+    lay->addWidget(useKeyChB, 0, Qt::AlignCenter);
     lay->addStretch(1);
 
     setLayout(lay);

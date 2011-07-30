@@ -19,6 +19,7 @@
 #include "settingsdialog.h"
 #include "tglobals.h"
 #include "tnoteview.h"
+#include "examsettings.h"
 #include <QtGui>
 
 
@@ -195,16 +196,21 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     navList->addItem(tr("Guitar"));
     navList->item(3)->setIcon(QIcon(gl->path+"picts/guitarSettings.png"));
     navList->item(3)->setTextAlignment(Qt::AlignCenter);
+    navList->addItem(tr("Exam"));
+    navList->item(4)->setIcon(QIcon(gl->path+"picts/questionsSettings.png"));
+    navList->item(4)->setTextAlignment(Qt::AlignCenter);
 
     m_globalSett = new GlobalSettings();
     m_scoreSett = new ScoreSettings();
     m_nameSett = new NameSettings();
     m_guitarSett = new GuitarSettings();
+    m_examSett = new ExamSettings();
 
     stackLayout->addWidget(m_globalSett);
     stackLayout->addWidget(m_scoreSett);
     stackLayout->addWidget(m_nameSett);
     stackLayout->addWidget(m_guitarSett);
+    stackLayout->addWidget(m_examSett);
 
     connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
     connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));

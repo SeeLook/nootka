@@ -19,6 +19,7 @@
 
 #include "namesettings.h"
 #include "tglobals.h"
+#include "select7note.h"
 #include <QtGui>
 
 extern Tglobals *gl;
@@ -33,24 +34,10 @@ NameSettings::NameSettings(QWidget *parent) :
     nLay->addWidget(nameStyleGr);
     nLay->addSpacing(5);
 
-    QGroupBox *bGr = new QGroupBox(tr("7-th note is:"),this);
-    QVBoxLayout *bLay = new QVBoxLayout;
-    bLay->setAlignment(Qt::AlignCenter);
-    QButtonGroup *bButtGr = new QButtonGroup(this);
-    isBRadio = new QRadioButton(tr("B"),this);
-    isBRadio->setStatusTip(tr("7-th note is <b>B</b> and with flat is <b>Bb</b> or bes or <b>bs</b>"));
-    bLay->addWidget(isBRadio);
-    bButtGr->addButton(isBRadio);
-    isHRadio = new QRadioButton(tr("H"),this);
-    isHRadio->setStatusTip(tr("7-th note is <b>H</b> and with flat is <b>Hb</b> or <b>B</b>"));
-    bLay->addWidget(isHRadio);
-    bLay->addStretch(1);
-    bButtGr->addButton(isHRadio);
-    bGr->setLayout(bLay);
-    nLay->addWidget(bGr);
+    select7 = new Select7note(this);
+    nLay->addWidget(select7);
 
-    if (gl->seventhIs_B) isBRadio->setChecked(true);
-    else isHRadio->setChecked(true);
+    select7->set7th_B(gl->seventhIs_B);
 
     mainLay->addLayout(nLay);
     mainLay->addStretch(1);
@@ -64,23 +51,16 @@ NameSettings::NameSettings(QWidget *parent) :
     mainLay->addStretch(1);
     setLayout(mainLay);
 
-    connect(bButtGr, SIGNAL(buttonClicked(int)), this, SLOT(seventhNoteWasChanged()));
+    connect (select7, SIGNAL(seventhIsBchanged(bool)), this, SLOT(seventhNoteWasChanged(bool)));
 }
 
 void NameSettings::saveSettings() {
     gl->NnameStyleInNoteName = nameStyleGr->getNameStyle();
     gl->NoctaveInNoteNameFormat = octInNameCh->isChecked();
-    if (isBRadio->isChecked()) gl->seventhIs_B = true;
-    else gl->seventhIs_B = false;
+    gl->seventhIs_B = select7->is7th_B();
 }
 
-void NameSettings::seventhNoteWasChanged() {
-    if (isBRadio->isChecked()) {
-        nameStyleGr->seventhNoteWasChanged(true);
-        emit seventhIsBChanged(true);
-    } else {
-        nameStyleGr->seventhNoteWasChanged(false);
-        emit seventhIsBChanged(false);
-    }
-
+void NameSettings::seventhNoteWasChanged(bool isB) {
+        nameStyleGr->seventhNoteWasChanged(isB);
+        emit seventhIsBChanged(isB);
 }

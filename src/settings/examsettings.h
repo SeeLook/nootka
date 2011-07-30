@@ -17,55 +17,26 @@
  ***************************************************************************/
 
 
-#ifndef TFIRSTRUNWIZZARD_H
-#define TFIRSTRUNWIZZARD_H
+#ifndef EXAMSETTINGS_H
+#define EXAMSETTINGS_H
 
-#include <QDialog>
+#include <QWidget>
 
-
-class QStackedLayout;
-class QRadioButton;
 class QCheckBox;
-class Tpage_3;
-class Select7note;
 
-class TfirstRunWizzard : public QDialog
+class ExamSettings : public QWidget
 {
     Q_OBJECT
 public:
-    explicit TfirstRunWizzard(QWidget *parent = 0);
-    static QString nextText;
+    explicit ExamSettings(QWidget *parent = 0);
 
 signals:
 
 public slots:
 
 private:
-    QPushButton *skipButt, *nextButt, *prevButt;
-    QStackedLayout *pagesLay;
-    Tpage_3 *page3;
-
-private slots:
-    void nextSlot();
-    void prevSlot();
-
+    QCheckBox *autoNextChB;
 
 };
 
-// page 1 is about dialog
-// page 2 is QLabel
-
-class Tpage_3 : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit Tpage_3(QWidget *parent = 0);
-
-    Select7note *select7;
-    QCheckBox *dblAccChB, *enharmChB, *useKeyChB;
-
-
-
-};
-
-#endif // TFIRSTRUNWIZZARD_H
+#endif // EXAMSETTINGS_H
