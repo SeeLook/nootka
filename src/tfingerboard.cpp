@@ -106,10 +106,15 @@ void TfingerBoard::paint() {
     painter.setRenderHint(QPainter::TextAntialiasing, true);
     painter.setWindow(0,0,width(),height());
     matrix.reset();
+    resetTransform();
     if (!gl->GisRightHanded) {
-        matrix.translate(width(),0);
-        matrix.scale(-1,1);
-        painter.setMatrix(matrix);
+//        matrix.translate(width(),0);
+//        matrix.scale(-1,1);
+//        painter.translate(width(), 0);
+//        painter.scale(-1, 1);
+//        painter.setMatrix(matrix);
+        translate(width(), 0);
+        scale(-1, 1);
     }
   // Guitar body
     painter.setPen(QPen(QColor("#ECC93E")));
@@ -192,10 +197,10 @@ void TfingerBoard::paint() {
         painter.setPen(QPen(strColor,1,Qt::SolidLine));
         int wd40;
         if (!gl->GisRightHanded) {
-            painter.scale (-1,1);
-            painter.translate(-width(),0);
+            painter.scale (-1, 1);
+            painter.translate(-width(), 0);
             wd40 = 1;
-        }else
+        } else
             wd40 = width()-1-strGap;
         painter.drawEllipse(wd40, fbRect.y()+i*strGap, strGap-1, strGap-1);
         painter.setPen(QPen(Qt::green,1,Qt::SolidLine));// in green color
@@ -240,8 +245,9 @@ void TfingerBoard::paint() {
 void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
     int strNr = 7, fretNr = 99;
     if ( (event->y() >= fbRect.y()) && (event->y() <= (height()-fbRect.y()-4)) ) {
-        int tx, ty;
-        matrix.map(event->x(), event->y(), &tx, &ty);
+        int tx, ty = event->y();
+//        matrix.map(event->x(), event->y(), &tx, &ty);
+        tx = mapToScene(event->x(), event->y()).x();
         strNr = (ty-fbRect.y())/strGap;
         if (tx < fbRect.x() || tx > lastFret /*or some mouse button*/ )
             fretNr = 0;
@@ -390,6 +396,10 @@ void TfingerBoard::paintQuestMark() {
     }
     QFont f = QFont("nootka", 2*strGap, QFont::Normal);
     m_questMark->setFont(f);
+    if (!gl->GisRightHanded) {
+        m_questMark->scale(-1, 1);
+//        m_questMark->translate(m_questMark->boundingRect().width(), 0);
+    }
     int off = -1;
     if (matrix.dx()) off = -2;
     if (m_questPos.fret())
