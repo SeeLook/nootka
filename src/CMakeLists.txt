@@ -25,6 +25,7 @@ SET( NOOTKA_SRCS
   settings/tnotationradiogroup.cpp
   settings/scoresettings.cpp
   settings/examsettings.cpp
+  settings/tcolorbutton.cpp
 ###### Level
   level/examsettingsdlg.cpp
   level/texamlevel.cpp
@@ -69,6 +70,7 @@ SET( NOOTKA_MOC_SRCS
   settings/tnotationradiogroup.h
   settings/scoresettings.h
   settings/examsettings.h
+  settings/tcolorbutton.h
 ###### Level
   level/examsettingsdlg.h
   level/levelsettings.h
