@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/settings/examsettings.cpp" line="32"/>
         <source>automatically ask next question</source>
-        <translation type="unfinished"></translation>
+        <translation>automatycznie zadaj następne pytanie</translation>
     </message>
     <message>
         <location filename="../src/settings/examsettings.cpp" line="35"/>
@@ -1208,7 +1208,7 @@ and not saved !!</source>
     <message>
         <location filename="../src/main.cpp" line="38"/>
         <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.otf manually.&lt;/center&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;center&gt;Nie mogę wczytać czcionki.&lt;br&gt;Spróbuj ręcznie zainstalować nootka.otf.&lt;/center&gt;</translation>
     </message>
 </context>
 <context>
@@ -1216,32 +1216,32 @@ and not saved !!</source>
     <message>
         <location filename="../src/level/rangesettings.cpp" line="52"/>
         <source>from</source>
-        <translation type="unfinished"></translation>
+        <translation>od</translation>
     </message>
     <message>
         <location filename="../src/level/rangesettings.cpp" line="55"/>
         <source>to</source>
-        <translation type="unfinished"></translation>
+        <translation>do</translation>
     </message>
     <message>
         <location filename="../src/level/rangesettings.cpp" line="67"/>
         <source>avaiable strings:</source>
-        <translation type="unfinished"></translation>
+        <translation>używane struny:</translation>
     </message>
     <message>
         <location filename="../src/level/rangesettings.cpp" line="68"/>
         <source>uncheck strings if You want to skip them&lt;br&gt;in an exam.</source>
-        <translation type="unfinished"></translation>
+        <translation>odznacz struny jeżeli chcesz pominąć je&lt;br&gt;podczas egzaminu.</translation>
     </message>
     <message>
         <location filename="../src/level/rangesettings.cpp" line="90"/>
         <source>notes in the lowest position only</source>
-        <translation type="unfinished"></translation>
+        <translation>dźwięki tylko w najniższej pozycji</translation>
     </message>
     <message>
         <location filename="../src/level/rangesettings.cpp" line="91"/>
         <source>if checked, the lowest position in selected frets&apos; range are required,&lt;br&gt;otherwise all possible positions of the note are taken.&lt;br&gt;To use this, all strings have to be available !!</source>
-        <translation type="unfinished"></translation>
+        <translation>Gdy zaznaczone, wymagana jest najniższa pozycja dźwięku w wybranym zakresie progów,&lt;br&gt;jeżeli nie - używane są wszystkie możliwe pozycje zadanej nuty.&lt;br&gt;Dla tego wszystkie struny muszą być używane !!</translation>
     </message>
     <message>
         <location filename="../src/level/rangesettings.cpp" line="95"/>
