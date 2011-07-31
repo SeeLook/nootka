@@ -16,6 +16,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+
+
 #include "tcolorbutton.h"
 #include <QtGui>
 
@@ -23,6 +25,7 @@ TcolorButton::TcolorButton(QColor col, QWidget* parent):
 	QPushButton(parent)
 {
 	m_color = col;
+    m_color.setAlpha(255);
 	setFixedSize(40, 30);
 	
 	connect(this, SIGNAL(clicked()), this, SLOT(whenClicked()));
@@ -35,6 +38,7 @@ void TcolorButton::whenClicked() {
 
 void TcolorButton::setColor(QColor col) {
 	m_color = col;
+    m_color.setAlpha(255);
 	repaint();
 }
 
@@ -45,7 +49,7 @@ void TcolorButton::paintEvent(QPaintEvent* event) {
     painter.setWindow(0, 0, width(), height());
     painter.setPen(Qt::NoPen);
 	painter.setBrush(QBrush(m_color));
-	painter.drawRoundedRect(4, 4, width()-8, height()-8, 4, 4);
+    painter.drawEllipse(4, 4, width()-8, height()-10);
 }
 
 

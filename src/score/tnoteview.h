@@ -89,7 +89,6 @@ private:
     QGraphicsLineItem *m_upLines[7], *m_mainUpLines[7], *m_mainDownLines[5], *m_downLines[5];
     QGraphicsSimpleTextItem *m_workAccid, *m_mainAccid;
     QGraphicsSimpleTextItem *m_strNr;
-    QGraphicsEllipseItem *m_strEl;
     QColor m_workColor, m_mainColor;
     int m_workPosY, m_mainPosY;
     int m_coeff;

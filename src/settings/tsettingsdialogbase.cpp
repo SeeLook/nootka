@@ -30,7 +30,7 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     QHBoxLayout *contLay = new QHBoxLayout;
     navList = new QListWidget(this);
     navList->setIconSize(QSize(80,80));
-    navList->setFixedWidth(105);
+    navList->setFixedWidth(100);
     navList->setViewMode(QListView::IconMode);
 //    navList->setFlow(QListView::TopToBottom);
 //    navList->setWrapping(false);

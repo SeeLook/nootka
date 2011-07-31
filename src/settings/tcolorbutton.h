@@ -29,7 +29,7 @@ class TcolorButton : public QPushButton
 	
 public:
 	
-    explicit TcolorButton(QColor col = -1, QWidget* parent = 0);
+    explicit TcolorButton(QColor col = QColor(0, 0, 0, 0), QWidget* parent = 0);
 	
 	QColor getColor() { return m_color; }
 	void setColor(QColor col);

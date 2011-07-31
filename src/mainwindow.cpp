@@ -75,6 +75,7 @@ MainWindow::MainWindow(QWidget *parent)
     examResults = new TexamView(widget);
     nameLay->addWidget(examResults);
     noteName = new TnoteName(widget);
+    noteName->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     nameLay->addWidget(noteName);
 //    nameLay->addStretch(1);
     scoreAndNameLay->addLayout(nameLay);
