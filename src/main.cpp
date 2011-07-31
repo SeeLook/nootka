@@ -27,7 +27,10 @@ int main(int argc, char *argv[])
 #endif
     QApplication a(argc, argv);
     
-
+	QTranslator qtTranslator;
+	qtTranslator.load("qt_" + QLocale::system().name(), qApp->applicationDirPath() + "lang");
+	a.installTranslator(&qtTranslator);
+	
     MainWindow w;
 
     QFontDatabase fd;
