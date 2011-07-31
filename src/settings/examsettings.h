@@ -23,6 +23,7 @@
 #include <QWidget>
 
 class QCheckBox;
+class TcolorButton;
 
 class ExamSettings : public QWidget
 {
@@ -30,12 +31,15 @@ class ExamSettings : public QWidget
 public:
     explicit ExamSettings(QWidget *parent = 0);
 
+    void saveSettings();
+
 signals:
 
 public slots:
 
 private:
-    QCheckBox *autoNextChB;
+    QCheckBox *autoNextChB, *repeatIncorChB;
+    TcolorButton *questColorBut, *answColorBut;
 
 };
 

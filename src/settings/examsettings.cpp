@@ -30,10 +30,37 @@ ExamSettings::ExamSettings(QWidget *parent) :
     QVBoxLayout *lay = new QVBoxLayout;
 
     autoNextChB = new QCheckBox(tr("automatically ask next question"), this);
-    lay->addWidget(autoNextChB);
-	TcolorButton *but = new TcolorButton(gl->EquestionColor, this);
-	lay->addWidget(but);
+    lay->addWidget(autoNextChB, 0, Qt::AlignCenter);
+    autoNextChB->setChecked(gl->EautoNextQuest);
+    repeatIncorChB = new QCheckBox(tr("repeat a question when an answer was incorrect."), this);
+    lay->addWidget(repeatIncorChB, 0, Qt::AlignCenter);
+    repeatIncorChB->setChecked(gl->ErepeatIncorrect);
+    repeatIncorChB->setStatusTip(tr("Incorrect questions will be asked once again."));
+    lay->addStretch(1);
+
+    QGridLayout *colLay = new QGridLayout;
+    QLabel *questLab = new QLabel(tr("color indicates questions"), this);
+    questColorBut = new TcolorButton(gl->EquestionColor, this);
+    colLay->addWidget(questLab, 0, 0);
+    colLay->addWidget(questColorBut, 0, 1);
+    QLabel *answLab = new QLabel(tr("color indicates answers"), this);
+    answColorBut = new TcolorButton(gl->EanswerColor, this);
+    colLay->addWidget(answLab, 1, 0);
+    colLay->addWidget(answColorBut, 1, 1);
+
+    lay->addLayout(colLay);
+    lay->addStretch(1);
 
     setLayout(lay);
 
+}
+
+
+void ExamSettings::saveSettings() {
+    gl->EautoNextQuest = autoNextChB->isChecked();
+    gl->ErepeatIncorrect = repeatIncorChB->isChecked();
+    gl->EquestionColor = questColorBut->getColor();
+    gl->EquestionColor.setAlpha(40);
+    gl->EanswerColor = answColorBut->getColor();
+    gl->EanswerColor.setAlpha(40);
 }

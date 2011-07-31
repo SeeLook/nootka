@@ -184,6 +184,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 {
     setWindowTitle("Nootka - "+tr("application's settings"));
 
+    navList->setFixedWidth(110);
     navList->addItem(tr("Common"));
     navList->item(0)->setIcon(QIcon(gl->path+"picts/global.png"));
     navList->item(0)->setTextAlignment(Qt::AlignCenter);
@@ -225,6 +226,7 @@ void SettingsDialog::saveSettings() {
     m_globalSett->saveSettings();
     m_nameSett->saveSettings();
     m_guitarSett->saveSettings();
+    m_examSett->saveSettings();
 }
 
 

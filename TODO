@@ -5,7 +5,6 @@ TGLOBALS & TTUNE
 
 
 TNOTEVIEW
-    - remove m_strEl from .h class declaration
     - resize string number - it is too big in Windows system
 
 SETTINGS DIALOG
@@ -27,7 +26,6 @@ TKEYSIGNATUREVIEW
 TKEYSIGNATURE
 
 TFIRSTRUNWIZZARD & NAMESETTINGS
-    - They have to have common selector for 7-th note
 
 !!!!! LEVELS
 
