@@ -4,14 +4,18 @@
 <context>
     <name>ExamSettings</name>
     <message>
-        <location filename="../src/settings/examsettings.cpp" line="32"/>
         <source>automatically ask next question</source>
-        <translation>automatycznie zadaj następne pytanie</translation>
+        <translation type="obsolete">automatycznie zadaj następne pytanie</translation>
+    </message>
+    <message>
+        <location filename="../src/settings/examsettings.cpp" line="32"/>
+        <source>ask next question automatically</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/settings/examsettings.cpp" line="35"/>
         <source>repeat a question when an answer was incorrect.</source>
-        <translation type="unfinished"></translation>
+        <translation>powtórz pytanie gdy odpowiedź była niepoprawna.</translation>
     </message>
     <message>
         <location filename="../src/settings/examsettings.cpp" line="38"/>
@@ -20,13 +24,21 @@
     </message>
     <message>
         <location filename="../src/settings/examsettings.cpp" line="42"/>
-        <source>color indicates questions</source>
-        <translation>kolor oznaczający pytania</translation>
+        <source>color of questions</source>
+        <translation>kolor  pytań</translation>
     </message>
     <message>
         <location filename="../src/settings/examsettings.cpp" line="46"/>
+        <source>color of answers</source>
+        <translation>kolor odpowiedzi</translation>
+    </message>
+    <message>
+        <source>color indicates questions</source>
+        <translation type="obsolete">kolor oznaczający pytania</translation>
+    </message>
+    <message>
         <source>color indicates answers</source>
-        <translation>kolor oznaczający odpowiedzi</translation>
+        <translation type="obsolete">kolor oznaczający odpowiedzi</translation>
     </message>
 </context>
 <context>
@@ -54,12 +66,12 @@
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="165"/>
         <source>show hints</source>
-        <translation type="unfinished"></translation>
+        <translation>pokaż podpowiedzi</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="167"/>
         <source>Show descriptions of interface&apos;s elements.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż opisy elementów interfejsu.</translation>
     </message>
 </context>
 <context>
