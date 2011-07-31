@@ -29,7 +29,7 @@ ExamSettings::ExamSettings(QWidget *parent) :
 {
     QVBoxLayout *lay = new QVBoxLayout;
 
-    autoNextChB = new QCheckBox(tr("automatically ask next question"), this);
+    autoNextChB = new QCheckBox(tr("ask next question automatically"), this);
     lay->addWidget(autoNextChB, 0, Qt::AlignCenter);
     autoNextChB->setChecked(gl->EautoNextQuest);
     repeatIncorChB = new QCheckBox(tr("repeat a question when an answer was incorrect."), this);
@@ -39,11 +39,11 @@ ExamSettings::ExamSettings(QWidget *parent) :
     lay->addStretch(1);
 
     QGridLayout *colLay = new QGridLayout;
-    QLabel *questLab = new QLabel(tr("color indicates questions"), this);
+    QLabel *questLab = new QLabel(tr("color of questions"), this);
     questColorBut = new TcolorButton(gl->EquestionColor, this);
     colLay->addWidget(questLab, 0, 0);
     colLay->addWidget(questColorBut, 0, 1);
-    QLabel *answLab = new QLabel(tr("color indicates answers"), this);
+    QLabel *answLab = new QLabel(tr("color of answers"), this);
     answColorBut = new TcolorButton(gl->EanswerColor, this);
     colLay->addWidget(answLab, 1, 0);
     colLay->addWidget(answColorBut, 1, 1);
