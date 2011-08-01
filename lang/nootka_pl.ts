@@ -44,32 +44,32 @@
 <context>
     <name>GlobalSettings</name>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="156"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="153"/>
         <source>show other enharmonics variants of a note</source>
         <translation>pokaż inne enharmoniczne warianty nuty</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="157"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="154"/>
         <source>Shows enharmonical variants of a note.&lt;br&gt;F.e.: E note is also Fb (F flat) and Dx (D with double sharp).</source>
         <translation>Pokazuje enharmoniczne warianty dźwięku.&lt;br&gt;Np.: Nuta E to także Fb (F z bemolem) i Dx (D z podwójnym krzyżykiem).</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="160"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="157"/>
         <source>use double accidentals</source>
         <translation>używaj podwójnych znaków</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="161"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="158"/>
         <source>If checked, you can use double sharps and double flats.</source>
         <translation>Kidy jest zaznaczone, można używać podwójnych krzyżyków i bemoli.</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="165"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="162"/>
         <source>show hints</source>
         <translation>pokaż podpowiedzi</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="167"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="164"/>
         <source>Show descriptions of interface&apos;s elements.</source>
         <translation>Pokaż opisy elementów interfejsu.</translation>
     </message>
@@ -206,14 +206,12 @@
         <translation>moll</translation>
     </message>
     <message>
-        <location filename="../src/settings/scoresettings.cpp" line="29"/>
         <source>for example</source>
-        <translation>na przykład</translation>
+        <translation type="obsolete">na przykład</translation>
     </message>
     <message>
-        <location filename="../src/settings/scoresettings.cpp" line="30"/>
         <source>show names of key signature</source>
-        <translation>pokazuj nazwy tonacji</translation>
+        <translation type="obsolete">pokazuj nazwy tonacji</translation>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="29"/>
@@ -306,29 +304,16 @@
         <translation>odpowiedzi</translation>
     </message>
     <message>
-        <location filename="../src/settings/tnotationradiogroup.cpp" line="26"/>
-        <source>Dutch</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/settings/tnotationradiogroup.cpp" line="27"/>
-        <source>Scandinavian</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/settings/tnotationradiogroup.cpp" line="28"/>
         <source>Italian</source>
-        <translation>Włoski</translation>
+        <translation type="obsolete">Włoski</translation>
     </message>
     <message>
-        <location filename="../src/settings/tnotationradiogroup.cpp" line="29"/>
         <source>English</source>
-        <translation>Angielski</translation>
+        <translation type="obsolete">Angielski</translation>
     </message>
     <message>
-        <location filename="../src/settings/tnotationradiogroup.cpp" line="30"/>
         <source>German</source>
-        <translation>Niemiecki</translation>
+        <translation type="obsolete">Niemiecki</translation>
     </message>
     <message>
         <source>Contra</source>
@@ -417,24 +402,34 @@
 <context>
     <name>ScoreSettings</name>
     <message>
-        <location filename="../src/settings/scoresettings.cpp" line="38"/>
+        <location filename="../src/settings/scoresettings.cpp" line="34"/>
         <source>enable key signature</source>
         <translation>używaj tonacji</translation>
     </message>
     <message>
-        <location filename="../src/settings/scoresettings.cpp" line="50"/>
+        <location filename="../src/settings/scoresettings.cpp" line="46"/>
         <source>Nameing extension</source>
         <translation>Dopełnienie nazwy</translation>
     </message>
     <message>
-        <location filename="../src/settings/scoresettings.cpp" line="53"/>
+        <location filename="../src/settings/scoresettings.cpp" line="49"/>
         <source>in the major keys:</source>
-        <translation>w tonacjach durowych:</translation>
+        <translation>w tonacjach&lt;br&gt;durowych:</translation>
     </message>
     <message>
-        <location filename="../src/settings/scoresettings.cpp" line="65"/>
+        <location filename="../src/settings/scoresettings.cpp" line="61"/>
         <source>in the minor keys:</source>
-        <translation>w tonacjach molowych:</translation>
+        <translation>w tonacjach&lt;br&gt;molowych:</translation>
+    </message>
+    <message>
+        <location filename="../src/settings/scoresettings.h" line="36"/>
+        <source>for example</source>
+        <translation>na przykład</translation>
+    </message>
+    <message>
+        <location filename="../src/settings/scoresettings.h" line="37"/>
+        <source>show names of key signature</source>
+        <translation>pokazuj nazwy tonacji</translation>
     </message>
 </context>
 <context>
@@ -462,41 +457,46 @@
     <message>
         <location filename="../src/info/select7note.cpp" line="37"/>
         <source>7-th note is &lt;b&gt;H&lt;/b&gt; and with flat is &lt;b&gt;Hb&lt;/b&gt; or &lt;b&gt;B&lt;/b&gt;</source>
-        <translation>7 nuta to &lt;b&gt;H&lt;/b&gt; z a bemolem to&lt;b&gt;Hb&lt;/b&gt; lub &lt;b&gt;B&lt;/b&gt;</translation>
+        <translation>7 nuta to &lt;b&gt;H&lt;/b&gt; z a bemolem to &lt;b&gt;Hb&lt;/b&gt; lub &lt;b&gt;B&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
     <name>SettingsDialog</name>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="185"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="182"/>
         <source>application&apos;s settings</source>
         <translation>Ustawienia aplikacji</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="188"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="185"/>
         <source>Common</source>
         <translation>Wspólne</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="191"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="188"/>
         <source>Score</source>
         <translation>Zapis</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="194"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="191"/>
         <source>Names</source>
         <comment>name-calling</comment>
         <translation>Nazwy</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="197"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="194"/>
         <source>Guitar</source>
         <translation>Gitara</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="200"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="197"/>
         <source>Exam</source>
         <translation>Egzamin</translation>
+    </message>
+    <message>
+        <location filename="../src/settings/settingsdialog.cpp" line="218"/>
+        <source>Close</source>
+        <translation>Zamknij</translation>
     </message>
 </context>
 <context>
@@ -526,7 +526,7 @@
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="63"/>
-        <source>This application could not exist without numberless open source projects.</source>
+        <source>Althougth this application could not exist without various open source projects.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -997,13 +997,38 @@ Check please, are its parameters as expected.</source>
 <context>
     <name>TnotationRadioGroup</name>
     <message>
-        <location filename="../src/settings/tnotationradiogroup.cpp" line="42"/>
+        <location filename="../src/settings/tnotationradiogroup.cpp" line="37"/>
         <source>Nameing style</source>
+        <translation>Styl nazw</translation>
+    </message>
+    <message>
+        <location filename="../src/settings/tnotationradiogroup.cpp" line="38"/>
+        <source>Nameing style of a note. The main difference is 7-th note.&lt;br&gt;Is it B and B flat, or H and B ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings/tnotationradiogroup.cpp" line="43"/>
-        <source>Nameing style of a note. The main difference is 7-th note.&lt;br&gt;Is it B and B flat, or H and B ?</source>
+        <location filename="../src/settings/tnotationradiogroup.h" line="42"/>
+        <source>Scandinavian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings/tnotationradiogroup.h" line="43"/>
+        <source>Italian</source>
+        <translation>Włoski</translation>
+    </message>
+    <message>
+        <location filename="../src/settings/tnotationradiogroup.h" line="44"/>
+        <source>German</source>
+        <translation>Niemiecki</translation>
+    </message>
+    <message>
+        <location filename="../src/settings/tnotationradiogroup.h" line="45"/>
+        <source>English</source>
+        <translation>Angielski</translation>
+    </message>
+    <message>
+        <location filename="../src/settings/tnotationradiogroup.h" line="46"/>
+        <source>Dutch</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1274,6 +1299,21 @@ and not saved !!</source>
         <location filename="../src/main.cpp" line="39"/>
         <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.otf manually.&lt;/center&gt;</source>
         <translation>&lt;center&gt;Nie mogę wczytać czcionki.&lt;br&gt;Spróbuj ręcznie zainstalować nootka.otf.&lt;/center&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>name_style</name>
+    <message>
+        <source>Italian</source>
+        <translation type="obsolete">Włoski</translation>
+    </message>
+    <message>
+        <source>English</source>
+        <translation type="obsolete">Angielski</translation>
+    </message>
+    <message>
+        <source>German</source>
+        <translation type="obsolete">Niemiecki</translation>
     </message>
 </context>
 <context>

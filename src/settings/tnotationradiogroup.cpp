@@ -23,16 +23,11 @@
 
 extern Tglobals *gl;
 
-const QString TnotationRadioGroup::strNeder =QObject::tr("Dutch");	//nederlands in Lilypond
-const QString TnotationRadioGroup::strNorsk =QObject::tr("Scandinavian");//norsk in Lilypond
-const QString TnotationRadioGroup::strItal =QObject::tr("Italian");
-const QString TnotationRadioGroup::strEnglish =QObject::tr("English");
-const QString TnotationRadioGroup::strDeutsch =QObject::tr("German");
-const QString TnotationRadioGroup::strNorskExampl = "(C, C#, Db ... Hb, H)";
-const QString TnotationRadioGroup::strItalExampl = "(Do, Do#, Reb ... Sib, Si)";
-const QString TnotationRadioGroup::strDeutschExampl = "(C, Cis, Des ... B, H)";
-const QString TnotationRadioGroup::strEnglishExampl = "(C, C#, Db ... Bb, B)";
-const QString TnotationRadioGroup::strNederExampl = "(C, Cis, Des ... Bes, B)";
+QString TnotationRadioGroup::strNorskExampl = "(C, C#, Db ... Hb, H)";
+QString TnotationRadioGroup::strItalExampl = "(Do, Do#, Reb ... Sib, Si)";
+QString TnotationRadioGroup::strDeutschExampl = "(C, Cis, Des ... B, H)";
+QString TnotationRadioGroup::strEnglishExampl = "(C, C#, Db ... Bb, B)";
+QString TnotationRadioGroup::strNederExampl = "(C, Cis, Des ... Bes, B)";
 
 
 TnotationRadioGroup::TnotationRadioGroup( Tnote::EnameStyle _notation, QWidget * parent )
@@ -41,11 +36,11 @@ TnotationRadioGroup::TnotationRadioGroup( Tnote::EnameStyle _notation, QWidget *
     notation = _notation;
     setTitle(tr("Nameing style"));
     setStatusTip(tr("Nameing style of a note. The main difference is 7-th note.<br>Is it B and B flat, or H and B ?"));
-    norskButt = new QRadioButton(strNorsk+" "+strNorskExampl ,this);
-    italianoButt = new QRadioButton(strItal+" "+strItalExampl,this);
-    deutschButt = new QRadioButton(strDeutsch+" "+strDeutschExampl,this);
-    englishButt = new QRadioButton(strEnglish+" "+strEnglishExampl,this);
-    nederlButt = new QRadioButton(strNeder+" "+strNederExampl,this);
+    norskButt = new QRadioButton(strNorsk() + " " + strNorskExampl ,this);
+    italianoButt = new QRadioButton(strItal() + " " + strItalExampl, this);
+    deutschButt = new QRadioButton(strDeutsch() + " " + strDeutschExampl ,this);
+    englishButt = new QRadioButton(strEnglish() + " " + strEnglishExampl, this);
+    nederlButt = new QRadioButton(strNeder() + " " + strNederExampl, this);
     QVBoxLayout *lay = new QVBoxLayout(this);
     lay->addWidget(norskButt);
     lay->addWidget(italianoButt);

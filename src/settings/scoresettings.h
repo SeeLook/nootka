@@ -33,8 +33,8 @@ class ScoreSettings : public QWidget
 public:
     explicit ScoreSettings(QWidget *parent = 0);
 
-    static const QString forExample;
-    static const QString showKeySigName;
+    static QString forExample() { return tr("for example"); }
+    static QString showKeySigName() { return tr("show names of key signature"); }
 
     QString getMajorExample(Tnote::EnameStyle nameStyle);
     QString getMinorExample(Tnote::EnameStyle nameStyle);

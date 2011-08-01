@@ -137,9 +137,6 @@ void GuitarSettings::userTune(int, Tnote) {
 void GuitarSettings::saveSettings() {
     gl->GisRightHanded = righthandCh->isChecked();
     gl->GfretsNumber = fretsNrSpin->value();
-//    gl->Gtune = Ttune(tuneCombo->currentText(), tuneView->getNote(5), tuneView->getNote(4),
-//                      tuneView->getNote(3), tuneView->getNote(2), tuneView->getNote(1),
-//                      tuneView->getNote(0));
     gl->setTune(Ttune(tuneCombo->currentText(), tuneView->getNote(5), tuneView->getNote(4),          tuneView->getNote(3), tuneView->getNote(2), tuneView->getNote(1), tuneView->getNote(0)));
     gl->GshowOtherPos = morePosCh->isChecked();
     if (prefFlatBut->isChecked()) gl->GpreferFlats = true;
@@ -218,6 +215,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     connect(m_nameSett, SIGNAL(seventhIsBChanged(bool)), m_scoreSett, SLOT(seventhIsBChanged(bool)));
 
     navList->setCurrentRow(0);
+    okBut->setText(tr("Close"));
+    cancelBut->hide();
 
 }
 

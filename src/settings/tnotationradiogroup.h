@@ -34,38 +34,39 @@ class TnotationRadioGroup: public QGroupBox
 {
         Q_OBJECT
 public:
-        explicit TnotationRadioGroup(Tnote::EnameStyle _notation, QWidget *parent = 0);
+    explicit TnotationRadioGroup(Tnote::EnameStyle _notation, QWidget *parent = 0);
 
 
-        Tnote::EnameStyle notation;
+    Tnote::EnameStyle notation;
 
-        static const QString strNorsk;
-        static const QString strItal;
-        static const QString strDeutsch;
-        static const QString strEnglish;
-        static const QString strNeder;
-        static const QString strNorskExampl;
-        static const QString strItalExampl;
-        static const QString strDeutschExampl;
-        static const QString strEnglishExampl;
-        static const QString strNederExampl;
+    static QString strNorsk() { return tr("Scandinavian"); }
+    static QString strItal() { return tr("Italian"); }
+    static QString strDeutsch() { return tr("German"); }
+    static QString strEnglish() { return tr("English"); }
+    static QString strNeder() { return tr("Dutch"); }
 
-        Tnote::EnameStyle getNameStyle();
+    static QString strNorskExampl;
+    static QString strItalExampl;
+    static QString strDeutschExampl;
+    static QString strEnglishExampl;
+    static QString strNederExampl;
+
+    Tnote::EnameStyle getNameStyle();
 
 signals:
-        void noteNameStyleWasChanged (Tnote::EnameStyle);
+    void noteNameStyleWasChanged (Tnote::EnameStyle);
 
 public slots:
-        void noteNameStyleWasClicked();
-        void seventhNoteWasChanged(bool isB);
+    void noteNameStyleWasClicked();
+    void seventhNoteWasChanged(bool isB);
 
 private:
-        QRadioButton *norskButt;
-        QRadioButton *deutschButt;
-        QRadioButton *italianoButt;
-        QRadioButton *englishButt;
-        QRadioButton *nederlButt;
-        QButtonGroup *buttonGroup;
+    QRadioButton *norskButt;
+    QRadioButton *deutschButt;
+    QRadioButton *italianoButt;
+    QRadioButton *englishButt;
+    QRadioButton *nederlButt;
+    QButtonGroup *buttonGroup;
 
 };
 
