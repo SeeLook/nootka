@@ -28,7 +28,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     
     QTranslator qtTranslator;
-    qtTranslator.load("nootka_" + QLocale::system().name(), Tglobals::getInstPath(qApp->applicationDirPath()) + "lang");
+    qtTranslator.load("nootka_" + QLocale::system().name(),
+                      Tglobals::getInstPath(qApp->applicationDirPath()) + "lang");
     a.installTranslator(&qtTranslator);
 	
     MainWindow w;

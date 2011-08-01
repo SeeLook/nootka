@@ -22,7 +22,7 @@
 #include <QtGui>
 
 /*static*/
-const QString TstartExamDlg::examFilterTxt = QObject::tr("Exams' results (*.noo)");
+const QString TstartExamDlg::examFilterTxt = QObject::tr("Exams' results") + "(*.noo)";
 
 
 TstartExamDlg::TstartExamDlg(QWidget *parent) :

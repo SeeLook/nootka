@@ -10,7 +10,7 @@
     <message>
         <location filename="../src/settings/examsettings.cpp" line="32"/>
         <source>ask next question automatically</source>
-        <translation type="unfinished"></translation>
+        <translation>automatycznie zadaj nastepne pytanie </translation>
     </message>
     <message>
         <location filename="../src/settings/examsettings.cpp" line="35"/>
@@ -19,8 +19,8 @@
     </message>
     <message>
         <location filename="../src/settings/examsettings.cpp" line="38"/>
-        <source>Incorrect questions will be asked once again.</source>
-        <translation type="unfinished"></translation>
+        <source>A question with incorrect answer will be asked once again.</source>
+        <translation>Pytanie, na które odpowiedziano niepoprawnie, zostanie zadane jeszcze raz.</translation>
     </message>
     <message>
         <location filename="../src/settings/examsettings.cpp" line="42"/>
@@ -79,62 +79,62 @@
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="40"/>
         <source>tune of the guitar</source>
-        <translation type="unfinished"></translation>
+        <translation>strój gitary</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="41"/>
         <source>Select appropirate tune from the list or prepare your own.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz odpowiedni strój z listy lub przygotuj własny.</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="59"/>
         <source>Custom tune</source>
-        <translation type="unfinished"></translation>
+        <translation>Własny strój</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="69"/>
         <source>guitar for right-handed</source>
-        <translation type="unfinished"></translation>
+        <translation>gitara dla praworecznych</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="71"/>
         <source>Uncheck this if you are lefthanded&lt;br&gt;and your gitar has changed strings&apos; order</source>
-        <translation type="unfinished"></translation>
+        <translation>Odznacz, jeżeli jesteś leworęczny(a),&lt;br&gt;a twoja gitara ma zmienioną kolejność strun</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="74"/>
         <source>number of frets:</source>
-        <translation type="unfinished"></translation>
+        <translation>liczba progów:</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="90"/>
         <source>prefered accidentals:</source>
-        <translation type="unfinished"></translation>
+        <translation>preferowane znaki:</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="91"/>
         <source>Choose which accidentals will be shown in the score.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz, które znaki przykluczowe pojawią się przy nutach.</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="92"/>
         <source># - sharps</source>
-        <translation type="unfinished"></translation>
+        <translation># - krzyżyki</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="93"/>
         <source>b - flats</source>
-        <translation type="unfinished"></translation>
+        <translation>b - bemole</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="105"/>
         <source>show all possibilities of a note</source>
-        <translation type="unfinished"></translation>
+        <translation>pokaż wszystkie możliwości danej nuty</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="106"/>
         <source>As you know, the same note can be played in few places on a fingerboard.&lt;br&gt;If checked, all of them are showed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jak wiesz, ta sama nuta może być zagrana w kilku miejscach.na gryfie.&lt;br&gt;Gdy zaznaczone, pokazywane są wszystkie z nich.</translation>
     </message>
 </context>
 <context>
@@ -142,42 +142,42 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="70"/>
         <source>show or hide the hints</source>
-        <translation type="unfinished"></translation>
+        <translation>pokaż lub ukryj podpowiedzi</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="110"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="111"/>
         <source>Application preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferencje aplikacji</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="115"/>
         <source>Levels&apos; creator</source>
-        <translation type="unfinished"></translation>
+        <translation>Kreator poziomów</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="140"/>
         <source>Start an exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozpocznij egzamin</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="124"/>
         <source>about</source>
-        <translation type="unfinished"></translation>
+        <translation>o programie</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="125"/>
         <source>About Nootka</source>
-        <translation type="unfinished"></translation>
+        <translation>O aplikacji Nootka</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="52"/>
         <source>main toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>główny pasek narzędzi</translation>
     </message>
 </context>
 <context>
@@ -185,12 +185,12 @@
     <message>
         <location filename="../src/settings/namesettings.cpp" line="47"/>
         <source>show octave in the note&apos;s name</source>
-        <translation type="unfinished"></translation>
+        <translation>pokaż oktawę w nazwie nuty</translation>
     </message>
     <message>
         <location filename="../src/settings/namesettings.cpp" line="49"/>
         <source>Shows formated note&apos;s name. For small octave - the name is small letter,&lt;br&gt;for great octave - the name starts with a capital letter,&lt;br&gt;for one-line, digit &lt;sup&gt;1&lt;/sup&gt; is added, and so on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokazuje sformatowaną nazwę nuty. Dla oktawy małej - nazwa to mała litera,&lt;br&gt;dla oktawy wielkiej - nazwa zaczyna się od wielkiej litery.&lt;br&gt;dla razkreślnej - dodana jest cyfra&lt;sup&gt;1&lt;/sup&gt;, itd.</translation>
     </message>
 </context>
 <context>
@@ -198,112 +198,112 @@
     <message>
         <location filename="../src/tglobals.cpp" line="85"/>
         <source>major</source>
-        <translation type="unfinished"></translation>
+        <translation>dur</translation>
     </message>
     <message>
         <location filename="../src/tglobals.cpp" line="86"/>
         <source>minor</source>
-        <translation type="unfinished"></translation>
+        <translation>moll</translation>
     </message>
     <message>
         <location filename="../src/settings/scoresettings.cpp" line="29"/>
         <source>for example</source>
-        <translation type="unfinished"></translation>
+        <translation>na przykład</translation>
     </message>
     <message>
         <location filename="../src/settings/scoresettings.cpp" line="30"/>
         <source>show names of key signature</source>
-        <translation type="unfinished"></translation>
+        <translation>pokazuj nazwy tonacji</translation>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="29"/>
         <source>exam&apos;s settings</source>
-        <translation type="unfinished"></translation>
+        <translation>ustawienia egzaminu</translation>
     </message>
     <message>
         <location filename="../src/level/texamlevel.cpp" line="28"/>
         <source>master of masters</source>
-        <translation type="unfinished"></translation>
+        <translation>mistrz nad mistrze</translation>
     </message>
     <message>
         <location filename="../src/level/texamlevel.cpp" line="29"/>
         <source>All possible options are turned on</source>
-        <translation type="unfinished"></translation>
+        <translation>Włączone są wszystkie możliwe opcje</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="31"/>
         <source>open strings</source>
-        <translation type="unfinished"></translation>
+        <translation>puste struny</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="32"/>
         <source>The simplest. No key signatures, no double accidentals.&lt;br&gt;Automatically adjusted to current tune.</source>
-        <translation type="unfinished"></translation>
+        <translation>Najłatwiejszy. Żadnych tonacji, podwójnych znaków.&lt;br&gt;Automatycznie dopasowany do bieżącej tonacji.</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="57"/>
         <source>C-major scale</source>
-        <translation type="unfinished"></translation>
+        <translation>Gama C-dur</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="58"/>
         <source>In first position. No accidentals.&lt;br&gt;Octave required.</source>
-        <translation type="unfinished"></translation>
+        <translation>W I pozycji. Bez znaków.&lt;br&gt;Wymagane podanie oktawy.</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="84"/>
-        <source>Levels (*.nel)</source>
-        <translation type="unfinished"></translation>
+        <source>Levels</source>
+        <translation>Poziomy</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="248"/>
         <source>notes&apos; range:</source>
-        <translation type="unfinished"></translation>
+        <translation>zakres dźwięków:</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="249"/>
         <source>frets&apos; range:</source>
-        <translation type="unfinished"></translation>
+        <translation>zakres progów:</translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.cpp" line="24"/>
         <source>as note in the score</source>
-        <translation type="unfinished"></translation>
+        <translation>jako nuta</translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.cpp" line="25"/>
         <source>as note&apos;s name</source>
-        <translation type="unfinished"></translation>
+        <translation>jako nazwa nuty</translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.cpp" line="26"/>
         <source>as position on the fingerboard</source>
-        <translation type="unfinished"></translation>
+        <translation>jako pozycja na gryfie</translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.cpp" line="27"/>
         <source>as played sound</source>
-        <translation type="unfinished"></translation>
+        <translation>jako grany dźwięk</translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.cpp" line="28"/>
         <source>question</source>
-        <translation type="unfinished"></translation>
+        <translation>pytanie</translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.cpp" line="29"/>
         <source>questions</source>
-        <translation type="unfinished"></translation>
+        <translation>pytania</translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.cpp" line="30"/>
         <source>answer</source>
-        <translation type="unfinished"></translation>
+        <translation>odpowiedź</translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.cpp" line="31"/>
         <source>answers</source>
-        <translation type="unfinished"></translation>
+        <translation>odpowiedzi</translation>
     </message>
     <message>
         <location filename="../src/settings/tnotationradiogroup.cpp" line="26"/>
@@ -318,112 +318,112 @@
     <message>
         <location filename="../src/settings/tnotationradiogroup.cpp" line="28"/>
         <source>Italian</source>
-        <translation type="unfinished"></translation>
+        <translation>Włoski</translation>
     </message>
     <message>
         <location filename="../src/settings/tnotationradiogroup.cpp" line="29"/>
         <source>English</source>
-        <translation type="unfinished"></translation>
+        <translation>Angielski</translation>
     </message>
     <message>
         <location filename="../src/settings/tnotationradiogroup.cpp" line="30"/>
         <source>German</source>
-        <translation type="unfinished"></translation>
+        <translation>Niemiecki</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="29"/>
         <source>Contra</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontra</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="29"/>
         <source>Great</source>
-        <translation type="unfinished"></translation>
+        <translation>Wielka</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="29"/>
         <source>Small</source>
-        <translation type="unfinished"></translation>
+        <translation>Mała</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="30"/>
         <source>1-line</source>
-        <translation type="unfinished"></translation>
+        <translation>1-kr.</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="30"/>
         <source>2-line</source>
-        <translation type="unfinished"></translation>
+        <translation>2-kr.</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="30"/>
         <source>3-line</source>
-        <translation type="unfinished"></translation>
+        <translation>3-kr.</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="31"/>
         <source>Contra octave</source>
-        <translation type="unfinished"></translation>
+        <translation>oktawa Kontra</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="31"/>
         <source>Great octave</source>
-        <translation type="unfinished"></translation>
+        <translation>oktawa Wielka</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="31"/>
         <source>Small octave</source>
-        <translation type="unfinished"></translation>
+        <translation>oktawa Mała</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="31"/>
         <source>One-line octave</source>
-        <translation type="unfinished"></translation>
+        <translation>oktawa Razkreślna</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="31"/>
         <source>Two-line octave</source>
-        <translation type="unfinished"></translation>
+        <translation>oktawa Dwukreślna</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="31"/>
         <source>Three-line octave</source>
-        <translation type="unfinished"></translation>
+        <translation>oktawa Trzykreślna</translation>
     </message>
     <message>
         <location filename="../src/ttune.cpp" line="22"/>
         <source>Standard: E A D G B E </source>
-        <translation type="unfinished"></translation>
+        <translation>Standardowy: E A D G H E</translation>
     </message>
     <message>
         <location filename="../src/ttune.cpp" line="25"/>
         <source>Dropped D: D A D G B E </source>
-        <translation type="unfinished"></translation>
+        <translation>Obniżone D:D A D G H E</translation>
     </message>
     <message>
         <location filename="../src/ttune.cpp" line="26"/>
         <source>Dummy Lute: D A D F# B E </source>
-        <translation type="unfinished"></translation>
+        <translation>Jakby lutnia: D A D F# H E</translation>
     </message>
     <message>
         <location filename="../src/ttune.cpp" line="27"/>
         <source>Open: D A D G A D </source>
-        <translation type="unfinished"></translation>
+        <translation>Otwarty: D A D G A D</translation>
     </message>
     <message>
         <location filename="../src/ttune.cpp" line="28"/>
         <source>Kouyanbaba: D A D A D F </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="25"/>
-        <source>Exams&apos; results (*.noo)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kouyanbaba: D A D A D F </translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="29"/>
         <source>next</source>
-        <translation type="unfinished"></translation>
+        <translation>następny</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="25"/>
+        <source>Exams&apos; results</source>
+        <translation>Wyniki egzaminu</translation>
     </message>
 </context>
 <context>
@@ -431,22 +431,22 @@
     <message>
         <location filename="../src/settings/scoresettings.cpp" line="38"/>
         <source>enable key signature</source>
-        <translation type="unfinished"></translation>
+        <translation>używaj tonacji</translation>
     </message>
     <message>
         <location filename="../src/settings/scoresettings.cpp" line="50"/>
         <source>Nameing extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Dopełnienie nazwy</translation>
     </message>
     <message>
         <location filename="../src/settings/scoresettings.cpp" line="53"/>
         <source>in the major keys:</source>
-        <translation type="unfinished"></translation>
+        <translation>w tonacjach durowych:</translation>
     </message>
     <message>
         <location filename="../src/settings/scoresettings.cpp" line="65"/>
         <source>in the minor keys:</source>
-        <translation type="unfinished"></translation>
+        <translation>w tonacjach molowych:</translation>
     </message>
 </context>
 <context>
@@ -454,27 +454,27 @@
     <message>
         <location filename="../src/info/select7note.cpp" line="28"/>
         <source>7-th note is:</source>
-        <translation type="unfinished"></translation>
+        <translation>7 nuta to:</translation>
     </message>
     <message>
         <location filename="../src/info/select7note.cpp" line="32"/>
         <source>B</source>
-        <translation type="unfinished"></translation>
+        <translation>B</translation>
     </message>
     <message>
         <location filename="../src/info/select7note.cpp" line="33"/>
         <source>7-th note is &lt;b&gt;B&lt;/b&gt; and with flat is &lt;b&gt;Bb&lt;/b&gt; or bes or &lt;b&gt;bs&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>7 nuta to &lt;b&gt;B&lt;/b&gt; a z bemolem to &lt;b&gt;Bb&lt;/b&gt;, bes lub &lt;b&gt;bs&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/select7note.cpp" line="36"/>
         <source>H</source>
-        <translation type="unfinished"></translation>
+        <translation>H</translation>
     </message>
     <message>
         <location filename="../src/info/select7note.cpp" line="37"/>
         <source>7-th note is &lt;b&gt;H&lt;/b&gt; and with flat is &lt;b&gt;Hb&lt;/b&gt; or &lt;b&gt;B&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>7 nuta to &lt;b&gt;H&lt;/b&gt; z a bemolem to&lt;b&gt;Hb&lt;/b&gt; lub &lt;b&gt;B&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -482,39 +482,39 @@
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="185"/>
         <source>application&apos;s settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia aplikacji</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="188"/>
         <source>Common</source>
-        <translation type="unfinished"></translation>
+        <translation>Wspólne</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="191"/>
         <source>Score</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapis</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="194"/>
         <source>Names</source>
         <comment>name-calling</comment>
-        <translation type="unfinished"></translation>
+        <translation>Nazwy</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="197"/>
         <source>Guitar</source>
-        <translation type="unfinished"></translation>
+        <translation>Gitara</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="200"/>
         <source>Exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Egzamin</translation>
     </message>
 </context>
 <context>
     <name>Tabout</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="92"/>
+        <location filename="../src/info/taboutnootka.cpp" line="93"/>
         <source>&lt;p&gt; Welcome on the board.&lt;br&gt; Nootka is open source application to help You learning (and teaching also) classical score notation. It is specially dedicated for guitarists but others can find something usable as well.&lt;br&gt;This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features. Inspite of that You are welcome to try it !!&lt;/p&gt;&lt;p&gt;See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releaces.&lt;/p&gt;&lt;p&gt;Any bugs, sugestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author&lt;/p&gt;&lt;br&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -534,6 +534,11 @@
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="54"/>
         <source>License</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/info/taboutnootka.cpp" line="63"/>
+        <source>This application could not exist without numberless open source projects.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -588,7 +593,7 @@
     <message>
         <location filename="../src/level/questionssettings.cpp" line="79"/>
         <source># - sharps</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"># - krzyżyki</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="80"/>
@@ -598,7 +603,7 @@
     <message>
         <location filename="../src/level/questionssettings.cpp" line="81"/>
         <source>b - flats</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">b - bemole</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="82"/>
@@ -1218,7 +1223,7 @@ and not saved !!</source>
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="38"/>
+        <location filename="../src/main.cpp" line="39"/>
         <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.otf manually.&lt;/center&gt;</source>
         <translation>&lt;center&gt;Nie mogę wczytać czcionki.&lt;br&gt;Spróbuj ręcznie zainstalować nootka.otf.&lt;/center&gt;</translation>
     </message>
