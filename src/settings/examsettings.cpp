@@ -35,7 +35,7 @@ ExamSettings::ExamSettings(QWidget *parent) :
     repeatIncorChB = new QCheckBox(tr("repeat a question when an answer was incorrect."), this);
     lay->addWidget(repeatIncorChB, 0, Qt::AlignCenter);
     repeatIncorChB->setChecked(gl->ErepeatIncorrect);
-    repeatIncorChB->setStatusTip(tr("Incorrect questions will be asked once again."));
+    repeatIncorChB->setStatusTip(tr("A question with incorrect answer will be asked once again."));
     lay->addStretch(1);
 
     QGridLayout *colLay = new QGridLayout;

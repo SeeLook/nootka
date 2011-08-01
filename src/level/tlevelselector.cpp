@@ -81,7 +81,7 @@ QList<TexamLevel> getExampleLevels() {
 
 /*static*/
 const qint32 TlevelSelector::levelVersion = 0x95121701;
-QString TlevelSelector::levelFilterTxt = QObject::tr("Levels (*.nel)");
+QString TlevelSelector::levelFilterTxt = QObject::tr("Levels") + "(*.nel)";
 
 void TlevelSelector::fileIOerrorMsg(QFile &f, QWidget *parent) {
     QMessageBox::critical(parent, "",
