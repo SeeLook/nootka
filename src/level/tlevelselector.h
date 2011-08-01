@@ -33,10 +33,10 @@ class TlevelSummaryWdg : public QWidget
 {
     Q_OBJECT
 public:
-//    explicit TlevelSummaryWdg(TexamLevel *level, QWidget *parent = 0);
     explicit TlevelSummaryWdg(QWidget *parent = 0);
 
-    static QString notesRangeTxt, fretsRangeTxt;
+    static QString notesRangeTxt() { return tr("notes' range:"); }
+    static QString fretsRangeTxt() { return tr("frets' range:"); }
 
     void setLevel(TexamLevel tl);
 
@@ -64,7 +64,7 @@ public:
     void findLevels();
         /** Magic number in level file to identify it.*/
     static const qint32 levelVersion;
-    static QString levelFilterTxt;
+    static QString levelFilterTxt() { return tr("Levels") + "(*.nel)"; }
         /** Shows message box with error if file cannot be opened.*/
     static void fileIOerrorMsg(QFile &f, QWidget *parent = 0);
 

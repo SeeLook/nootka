@@ -33,8 +33,14 @@ class TquestionAsWdg : public QGroupBox
 public:
     explicit TquestionAsWdg(QWidget *parent = 0);
 
-    static QString questionTxt, questionsTxt, answerTxt, answersTxt;
-    static QString asNoteTxt, asNameTxt, asFretPosTxt, asSoundTxt;
+    static QString questionTxt() { return tr("question"); }
+    static QString questionsTxt() { return tr("questions"); }
+    static QString answerTxt() { return tr("answer"); }
+    static QString answersTxt() { return tr("answers"); }
+    static QString asNoteTxt() { return tr("as note in the score"); }
+    static QString asNameTxt() { return tr("as note's name"); }
+    static QString asFretPosTxt() { return tr("as position on the fingerboard"); }
+    static QString asSoundTxt() { return tr("as played sound"); }
 
     bool answerAsNote() { return asNoteChB->isChecked(); }
     bool answerAsName() { return asNameChB->isChecked(); }

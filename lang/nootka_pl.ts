@@ -10,7 +10,7 @@
     <message>
         <location filename="../src/settings/examsettings.cpp" line="32"/>
         <source>ask next question automatically</source>
-        <translation>automatycznie zadaj nastepne pytanie </translation>
+        <translation>automatycznie zadaj następne pytanie </translation>
     </message>
     <message>
         <location filename="../src/settings/examsettings.cpp" line="35"/>
@@ -214,9 +214,8 @@
         <translation type="obsolete">pokazuj nazwy tonacji</translation>
     </message>
     <message>
-        <location filename="../src/level/examsettingsdlg.cpp" line="29"/>
         <source>exam&apos;s settings</source>
-        <translation>ustawienia egzaminu</translation>
+        <translation type="obsolete">ustawienia egzaminu</translation>
     </message>
     <message>
         <location filename="../src/level/texamlevel.cpp" line="28"/>
@@ -249,59 +248,48 @@
         <translation>W I pozycji. Bez znaków.&lt;br&gt;Wymagane podanie oktawy.</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="84"/>
         <source>Levels</source>
-        <translation>Poziomy</translation>
+        <translation type="obsolete">Poziomy</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="248"/>
         <source>notes&apos; range:</source>
-        <translation>zakres dźwięków:</translation>
+        <translation type="obsolete">zakres dźwięków:</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="249"/>
         <source>frets&apos; range:</source>
-        <translation>zakres progów:</translation>
+        <translation type="obsolete">zakres progów:</translation>
     </message>
     <message>
-        <location filename="../src/level/tquestionaswdg.cpp" line="24"/>
         <source>as note in the score</source>
-        <translation>jako nuta</translation>
+        <translation type="obsolete">jako nuta</translation>
     </message>
     <message>
-        <location filename="../src/level/tquestionaswdg.cpp" line="25"/>
         <source>as note&apos;s name</source>
-        <translation>jako nazwa nuty</translation>
+        <translation type="obsolete">jako nazwa nuty</translation>
     </message>
     <message>
-        <location filename="../src/level/tquestionaswdg.cpp" line="26"/>
         <source>as position on the fingerboard</source>
-        <translation>jako pozycja na gryfie</translation>
+        <translation type="obsolete">jako pozycja na gryfie</translation>
     </message>
     <message>
-        <location filename="../src/level/tquestionaswdg.cpp" line="27"/>
         <source>as played sound</source>
-        <translation>jako grany dźwięk</translation>
+        <translation type="obsolete">jako grany dźwięk</translation>
     </message>
     <message>
-        <location filename="../src/level/tquestionaswdg.cpp" line="28"/>
         <source>question</source>
-        <translation>pytanie</translation>
+        <translation type="obsolete">pytanie</translation>
     </message>
     <message>
-        <location filename="../src/level/tquestionaswdg.cpp" line="29"/>
         <source>questions</source>
-        <translation>pytania</translation>
+        <translation type="obsolete">pytania</translation>
     </message>
     <message>
-        <location filename="../src/level/tquestionaswdg.cpp" line="30"/>
         <source>answer</source>
-        <translation>odpowiedź</translation>
+        <translation type="obsolete">odpowiedź</translation>
     </message>
     <message>
-        <location filename="../src/level/tquestionaswdg.cpp" line="31"/>
         <source>answers</source>
-        <translation>odpowiedzi</translation>
+        <translation type="obsolete">odpowiedzi</translation>
     </message>
     <message>
         <source>Italian</source>
@@ -918,7 +906,7 @@
 <context>
     <name>TlevelSelector</name>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="88"/>
+        <location filename="../src/level/tlevelselector.cpp" line="87"/>
         <source>Cannot open file
  %1 
  for reading
@@ -926,72 +914,87 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="100"/>
+        <location filename="../src/level/tlevelselector.cpp" line="99"/>
         <source>Levels:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="106"/>
+        <location filename="../src/level/tlevelselector.cpp" line="105"/>
         <source>Load</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="107"/>
+        <location filename="../src/level/tlevelselector.cpp" line="106"/>
         <source>Load exam&apos;s level from file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="170"/>
+        <location filename="../src/level/tlevelselector.cpp" line="169"/>
         <source>Level is not suitable for current tune and/or frets number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="192"/>
+        <location filename="../src/level/tlevelselector.cpp" line="191"/>
         <source>Load exam&apos;s level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="214"/>
+        <location filename="../src/level/tlevelselector.cpp" line="213"/>
         <source>File: %1 
  is not Nootka level file !!!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="218"/>
+        <location filename="../src/level/tlevelselector.cpp" line="217"/>
         <source>Level file
  %1 
  was corrupted and repaired !!
 Check please, are its parameters as expected.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/level/tlevelselector.h" line="67"/>
+        <source>Levels</source>
+        <translation>Poziomy</translation>
+    </message>
 </context>
 <context>
     <name>TlevelSummaryWdg</name>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="255"/>
+        <location filename="../src/level/tlevelselector.cpp" line="250"/>
         <source>Level summary:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="257"/>
+        <location filename="../src/level/tlevelselector.cpp" line="252"/>
         <source>
  no level selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="279"/>
+        <location filename="../src/level/tlevelselector.cpp" line="274"/>
         <source>key signature:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="288"/>
+        <location filename="../src/level/tlevelselector.cpp" line="283"/>
         <source>accidentals:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="290"/>
+        <location filename="../src/level/tlevelselector.cpp" line="285"/>
         <source>none</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/level/tlevelselector.h" line="38"/>
+        <source>notes&apos; range:</source>
+        <translation>zakres dźwięków:</translation>
+    </message>
+    <message>
+        <location filename="../src/level/tlevelselector.h" line="39"/>
+        <source>frets&apos; range:</source>
+        <translation>zakres progów:</translation>
     </message>
 </context>
 <context>
@@ -1126,14 +1129,54 @@ Check please, are its parameters as expected.</source>
 <context>
     <name>TquestionAsWdg</name>
     <message>
-        <location filename="../src/level/tquestionaswdg.cpp" line="37"/>
+        <location filename="../src/level/tquestionaswdg.cpp" line="27"/>
         <source>select answers for question as mentioned.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/tquestionaswdg.cpp" line="49"/>
+        <location filename="../src/level/tquestionaswdg.cpp" line="39"/>
         <source>not implemented yet</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/level/tquestionaswdg.h" line="36"/>
+        <source>question</source>
+        <translation>pytanie</translation>
+    </message>
+    <message>
+        <location filename="../src/level/tquestionaswdg.h" line="37"/>
+        <source>questions</source>
+        <translation>pytania</translation>
+    </message>
+    <message>
+        <location filename="../src/level/tquestionaswdg.h" line="38"/>
+        <source>answer</source>
+        <translation>odpowiedź</translation>
+    </message>
+    <message>
+        <location filename="../src/level/tquestionaswdg.h" line="39"/>
+        <source>answers</source>
+        <translation>odpowiedzi</translation>
+    </message>
+    <message>
+        <location filename="../src/level/tquestionaswdg.h" line="40"/>
+        <source>as note in the score</source>
+        <translation>jako nuta</translation>
+    </message>
+    <message>
+        <location filename="../src/level/tquestionaswdg.h" line="41"/>
+        <source>as note&apos;s name</source>
+        <translation>jako nazwa nuty</translation>
+    </message>
+    <message>
+        <location filename="../src/level/tquestionaswdg.h" line="42"/>
+        <source>as position on the fingerboard</source>
+        <translation>jako pozycja na gryfie</translation>
+    </message>
+    <message>
+        <location filename="../src/level/tquestionaswdg.h" line="43"/>
+        <source>as played sound</source>
+        <translation>jako grany dźwięk</translation>
     </message>
 </context>
 <context>
@@ -1149,12 +1192,12 @@ Check please, are its parameters as expected.</source>
     <message>
         <location filename="../src/settings/tsettingsdialogbase.cpp" line="57"/>
         <source>Accept</source>
-        <translation type="unfinished"></translation>
+        <translation>Akceptuj</translation>
     </message>
     <message>
         <location filename="../src/settings/tsettingsdialogbase.cpp" line="61"/>
         <source>Discard</source>
-        <translation type="unfinished"></translation>
+        <translation>Porzuć</translation>
     </message>
 </context>
 <context>
@@ -1233,51 +1276,56 @@ Check please, are its parameters as expected.</source>
 <context>
     <name>examSettingsDlg</name>
     <message>
-        <location filename="../src/level/examsettingsdlg.cpp" line="38"/>
+        <location filename="../src/level/examsettingsdlg.cpp" line="35"/>
         <source>Levels</source>
         <translation type="unfinished">Poziomy</translation>
     </message>
     <message>
-        <location filename="../src/level/examsettingsdlg.cpp" line="41"/>
+        <location filename="../src/level/examsettingsdlg.cpp" line="38"/>
         <source>Questions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/examsettingsdlg.cpp" line="44"/>
+        <location filename="../src/level/examsettingsdlg.cpp" line="41"/>
         <source>Range</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/examsettingsdlg.cpp" line="82"/>
+        <location filename="../src/level/examsettingsdlg.cpp" line="79"/>
         <source>Exam&apos;s level was changed
 and not saved !!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/examsettingsdlg.cpp" line="94"/>
+        <location filename="../src/level/examsettingsdlg.cpp" line="91"/>
         <source>&lt;center&gt;&lt;b&gt;It seems the level has got some mitakes:&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/examsettingsdlg.cpp" line="103"/>
+        <location filename="../src/level/examsettingsdlg.cpp" line="100"/>
         <source>Save exam&apos;s level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/examsettingsdlg.cpp" line="112"/>
+        <location filename="../src/level/examsettingsdlg.cpp" line="109"/>
         <source>Cannot open file for writing
 %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/examsettingsdlg.cpp" line="152"/>
+        <location filename="../src/level/examsettingsdlg.cpp" line="149"/>
         <source>&lt;li&gt;Range of frets is beyond scale of this level&lt;/li&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/examsettingsdlg.cpp" line="159"/>
+        <location filename="../src/level/examsettingsdlg.cpp" line="156"/>
         <source>&lt;li&gt;In range of notes some accidental is used&lt;br&gt;but not available in this level&lt;/li&gt;</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/level/examsettingsdlg.h" line="36"/>
+        <source>exam&apos;s settings</source>
+        <translation>ustawienia egzaminu</translation>
     </message>
 </context>
 <context>

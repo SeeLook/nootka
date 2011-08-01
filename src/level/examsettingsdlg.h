@@ -33,11 +33,7 @@ class examSettingsDlg : public TsettingsDialogBase
 public:
     explicit examSettingsDlg(QWidget *parent = 0);
 
-    static QString examSettTxt;
-
-signals:
-
-public slots:
+    static QString examSettTxt() { return tr("exam's settings"); }
 
 private:
     levelSettings *levelSett;

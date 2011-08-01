@@ -39,14 +39,14 @@ rangeSettings::rangeSettings(QWidget *parent) :
 //    scoreRang->setStatusTip(tr("If selected notes are either the lowest or the highest<br>possible sounds in the current guitar tune,<br>they are automatically adjusted to another tune."));
     scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()),
                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
-    QGroupBox *notesRangGr = new QGroupBox(TlevelSummaryWdg::notesRangeTxt, this);
+    QGroupBox *notesRangGr = new QGroupBox(TlevelSummaryWdg::notesRangeTxt(), this);
     scoreLay->addWidget(scoreRang);
     notesRangGr->setLayout(scoreLay);
 
     allLay->addWidget(notesRangGr);
 
     QVBoxLayout *guitLay = new QVBoxLayout;
-    QGroupBox *fretGr = new QGroupBox(TlevelSummaryWdg::fretsRangeTxt, this);
+    QGroupBox *fretGr = new QGroupBox(TlevelSummaryWdg::fretsRangeTxt(), this);
 //    fretGr->setStatusTip(tr("If selected fret is the highest, it is automatically<br>changed to the highest possible fret<br>for any frets number in a guitar."));
     QHBoxLayout *fretLay = new QHBoxLayout;
     QLabel *fromLab = new QLabel(tr("from"),this);

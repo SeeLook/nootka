@@ -297,7 +297,7 @@ void TexamExecutor::askQuestion() {
 
 // PREPARING ANSWERS
     if (curQ.answerAs == TQAtype::e_asNote) {
-        questText += TquestionAsWdg::asNoteTxt;
+        questText += TquestionAsWdg::asNoteTxt();
         if (m_level.useKeySign) {
             if (m_level.manualKey) { // user have to manually secect a key
                 QString keyTxt;
@@ -337,7 +337,7 @@ void TexamExecutor::askQuestion() {
 
     if (curQ.answerAs == TQAtype::e_asName) {
         Tnote tmpNote = Tnote(0,0,0); // is used to show which accid has to be used (if any)
-        questText += TquestionAsWdg::asNameTxt;
+        questText += TquestionAsWdg::asNameTxt();
         if (curQ.questionAs == TQAtype::e_asName) {
             m_prevStyle = gl->NnameStyleInNoteName;
             Tnote::EnameStyle tmpStyle = randomNameStyle();
@@ -368,7 +368,7 @@ void TexamExecutor::askQuestion() {
     }
 
     if (curQ.answerAs == TQAtype::e_asFretPos) {
-        questText += TquestionAsWdg::asFretPosTxt;
+        questText += TquestionAsWdg::asFretPosTxt();
         if (curQ.questionAs == TQAtype::e_asName && m_level.showStrNr)
             questText += "<b>" + tr(" on <span style=\"font-family: nootka; font-size:%1px;\">%2</span> string.").arg(qRound(mW->getFontSize()*1.5)).arg((int)curQ.qa.pos.str()) + "</b>";
 
