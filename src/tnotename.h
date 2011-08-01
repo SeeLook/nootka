@@ -32,8 +32,8 @@ class TnoteName : public QWidget
 public:
     explicit TnoteName(QWidget *parent = 0);
 
-    static const QString octaves[6];
-    static const QString octavesFull[6];
+    static const char * const octaves[6];
+    static const char * const octavesFull[6];
 
     void setNoteNamesOnButt(Tnote::EnameStyle nameStyle);
     void setEnabledDblAccid(bool isEnabled);

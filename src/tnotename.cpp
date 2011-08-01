@@ -26,9 +26,12 @@ extern Tglobals *gl;
 QString styleTxt = "border: 1px solid palette(Text); border-radius: 10px";
 
 /**static*/
-const QString TnoteName::octaves[6] = {QObject::tr("Contra"),QObject::tr("Great"),QObject::tr("Small"),
-               QObject::tr("1-line"),QObject::tr("2-line"),QObject::tr("3-line") };
-const QString TnoteName::octavesFull[6] = {QObject::tr("Contra octave"),QObject::tr("Great octave"),QObject::tr("Small octave"),QObject::tr("One-line octave"),QObject::tr("Two-line octave"),QObject::tr("Three-line octave") };
+const char * const TnoteName::octaves[6] = { QT_TR_NOOP("Contra"), QT_TR_NOOP("Great"), QT_TR_NOOP("Small"),
+                                 QT_TR_NOOP("1-line"), QT_TR_NOOP("2-line"), QT_TR_NOOP("3-line") };
+const char * const TnoteName::octavesFull[6] = { QT_TR_NOOP("Contra octave"),
+                    QT_TR_NOOP("Great octave"), QT_TR_NOOP("Small octave"),
+                    QT_TR_NOOP("One-line octave"), QT_TR_NOOP("Two-line octave"),
+                    QT_TR_NOOP("Three-line octave") };
 
 
 TnoteName::TnoteName(QWidget *parent) :
@@ -97,8 +100,8 @@ TnoteName::TnoteName(QWidget *parent) :
     octLay->addStretch(1);
     octaveGroup = new QButtonGroup(this);
     for (int i=0; i<6; i++) {
-        octaveButtons[i] = new QPushButton(octaves[i],this);
-        octaveButtons[i]->setToolTip(octavesFull[i]);
+        octaveButtons[i] = new QPushButton(tr(octaves[i]), this);
+        octaveButtons[i]->setToolTip(tr(octavesFull[i]));
         octaveButtons[i]->setCheckable(true);
         octLay->addWidget(octaveButtons[i]);
         octaveGroup->addButton(octaveButtons[i],i);
