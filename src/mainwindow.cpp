@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
     setMinimumSize(640,480);
 
-    if (gl->isFirstRun) {// temporary I use this var to store info Should it run wizzard
+    if (gl->isFirstRun) {
         TfirstRunWizzard *firstWizz = new TfirstRunWizzard(this);
         firstWizz->exec();
         delete firstWizz;

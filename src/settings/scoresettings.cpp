@@ -25,10 +25,6 @@
 extern Tglobals *gl;
 
 
-/*static*/
-const QString ScoreSettings::forExample = QObject::tr("for example");
-const QString ScoreSettings::showKeySigName = QObject::tr("show names of key signature");
-
 ScoreSettings::ScoreSettings(QWidget *parent) :
     QWidget(parent)
 {
@@ -39,7 +35,7 @@ ScoreSettings::ScoreSettings(QWidget *parent) :
     enablKeySignCh->setChecked(gl->SkeySignatureEnabled);
     mainLay->addWidget(enablKeySignCh);
     QHBoxLayout *nameLay = new QHBoxLayout();
-    enablKeyNameGr = new QGroupBox(showKeySigName,this);
+    enablKeyNameGr = new QGroupBox(showKeySigName(), this);
     enablKeyNameGr->setCheckable(true);
     enablKeyNameGr->setChecked(gl->SshowKeySignName);
     enablKeyNameGr->setDisabled(!gl->SkeySignatureEnabled);
@@ -111,7 +107,7 @@ QString ScoreSettings::getMajorExample(Tnote::EnameStyle nameStyle) {
     QString S;
     if (majEdit->text().isEmpty()) S = "";
       else S = "-"+majEdit->text();
-      return forExample + "<br><b>" + QString::fromStdString(noteE.getName(nameStyle,false)) + S +
+      return forExample() + "<br><b>" + QString::fromStdString(noteE.getName(nameStyle,false)) + S +
               "<br>" + QString::fromStdString(noteBflat.getName(nameStyle,false)) + S + "</b>";
 }
 
@@ -121,7 +117,7 @@ QString ScoreSettings::getMinorExample(Tnote::EnameStyle nameStyle) {
     QString S;
     if (minEdit->text().isEmpty()) S = "";
       else S = "-"+minEdit->text();
-      return forExample + "<br><b>" +
+      return forExample() + "<br><b>" +
               QString::fromStdString(noteCsharp.getName(nameStyle,false)).toLower()+ S + "<br>" +
               QString::fromStdString(noteG.getName(nameStyle,false)).toLower() + S + "</b>";
 }
