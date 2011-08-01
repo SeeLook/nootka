@@ -331,64 +331,52 @@
         <translation>Niemiecki</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="29"/>
         <source>Contra</source>
-        <translation>Kontra</translation>
+        <translation type="obsolete">Kontra</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="29"/>
         <source>Great</source>
-        <translation>Wielka</translation>
+        <translation type="obsolete">Wielka</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="29"/>
         <source>Small</source>
-        <translation>Mała</translation>
+        <translation type="obsolete">Mała</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="30"/>
         <source>1-line</source>
-        <translation>1-kr.</translation>
+        <translation type="obsolete">1-kr.</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="30"/>
         <source>2-line</source>
-        <translation>2-kr.</translation>
+        <translation type="obsolete">2-kr.</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="30"/>
         <source>3-line</source>
-        <translation>3-kr.</translation>
+        <translation type="obsolete">3-kr.</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="31"/>
         <source>Contra octave</source>
-        <translation>oktawa Kontra</translation>
+        <translation type="obsolete">oktawa Kontra</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="31"/>
         <source>Great octave</source>
-        <translation>oktawa Wielka</translation>
+        <translation type="obsolete">oktawa Wielka</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="31"/>
         <source>Small octave</source>
-        <translation>oktawa Mała</translation>
+        <translation type="obsolete">oktawa Mała</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="31"/>
         <source>One-line octave</source>
-        <translation>oktawa Razkreślna</translation>
+        <translation type="obsolete">oktawa Razkreślna</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="31"/>
         <source>Two-line octave</source>
-        <translation>oktawa Dwukreślna</translation>
+        <translation type="obsolete">oktawa Dwukreślna</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="31"/>
         <source>Three-line octave</source>
-        <translation>oktawa Trzykreślna</translation>
+        <translation type="obsolete">oktawa Trzykreślna</translation>
     </message>
     <message>
         <location filename="../src/ttune.cpp" line="22"/>
@@ -593,7 +581,7 @@
     <message>
         <location filename="../src/level/questionssettings.cpp" line="79"/>
         <source># - sharps</source>
-        <translation type="unfinished"># - krzyżyki</translation>
+        <translation># - krzyżyki</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="80"/>
@@ -603,7 +591,7 @@
     <message>
         <location filename="../src/level/questionssettings.cpp" line="81"/>
         <source>b - flats</source>
-        <translation type="unfinished">b - bemole</translation>
+        <translation>b - bemole</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="82"/>
@@ -1022,9 +1010,69 @@ Check please, are its parameters as expected.</source>
 <context>
     <name>TnoteName</name>
     <message>
-        <location filename="../src/tnotename.cpp" line="172"/>
+        <location filename="../src/tnotename.cpp" line="29"/>
+        <source>Contra</source>
+        <translation>Kontra</translation>
+    </message>
+    <message>
+        <location filename="../src/tnotename.cpp" line="29"/>
+        <source>Great</source>
+        <translation>Wielka</translation>
+    </message>
+    <message>
+        <location filename="../src/tnotename.cpp" line="29"/>
+        <source>Small</source>
+        <translation>Mała</translation>
+    </message>
+    <message>
+        <location filename="../src/tnotename.cpp" line="30"/>
+        <source>1-line</source>
+        <translation>1-kr.</translation>
+    </message>
+    <message>
+        <location filename="../src/tnotename.cpp" line="30"/>
+        <source>2-line</source>
+        <translation>2-kr.</translation>
+    </message>
+    <message>
+        <location filename="../src/tnotename.cpp" line="30"/>
+        <source>3-line</source>
+        <translation>3-kr.</translation>
+    </message>
+    <message>
+        <location filename="../src/tnotename.cpp" line="31"/>
+        <source>Contra octave</source>
+        <translation>oktawa Kontra</translation>
+    </message>
+    <message>
+        <location filename="../src/tnotename.cpp" line="32"/>
+        <source>Great octave</source>
+        <translation>oktawa Wielka</translation>
+    </message>
+    <message>
+        <location filename="../src/tnotename.cpp" line="32"/>
+        <source>Small octave</source>
+        <translation>oktawa Mała</translation>
+    </message>
+    <message>
+        <location filename="../src/tnotename.cpp" line="33"/>
+        <source>One-line octave</source>
+        <translation>oktawa Razkreślna</translation>
+    </message>
+    <message>
+        <location filename="../src/tnotename.cpp" line="33"/>
+        <source>Two-line octave</source>
+        <translation>oktawa Dwukreślna</translation>
+    </message>
+    <message>
+        <location filename="../src/tnotename.cpp" line="34"/>
+        <source>Three-line octave</source>
+        <translation>oktawa Trzykreślna</translation>
+    </message>
+    <message>
+        <location filename="../src/tnotename.cpp" line="175"/>
         <source>The note is beyond&lt;br&gt;scale of the guitar</source>
-        <translation type="unfinished"></translation>
+        <translation>Dźwięk jest poza&lt;br&gt;skalą gitary</translation>
     </message>
 </context>
 <context>
@@ -1162,7 +1210,7 @@ Check please, are its parameters as expected.</source>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="38"/>
         <source>Levels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Poziomy</translation>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="41"/>
