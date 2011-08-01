@@ -27,7 +27,7 @@ questionsSettings::questionsSettings(QWidget *parent) :
 {
     questAsToolBox = new QToolBox(this);
     QVBoxLayout *mainLay = new QVBoxLayout;
-    QLabel *headLab = new QLabel("<b>"+QString(TquestionAsWdg::questionsTxt).toUpper() + "</b>", this);
+    QLabel *headLab = new QLabel("<b>"+QString(TquestionAsWdg::questionsTxt()).toUpper() + "</b>", this);
     mainLay->addWidget(headLab, 0, Qt::AlignCenter);
     mainLay->addWidget(questAsToolBox);
     setLayout(mainLay);
@@ -36,9 +36,9 @@ questionsSettings::questionsSettings(QWidget *parent) :
     asNameWdg = new TasNameWdg();
     asFretPosWdg = new TasFretPosWdg();
 
-    questAsToolBox->addItem(asNoteWdg, TquestionAsWdg::asNoteTxt);
-    questAsToolBox->addItem(asNameWdg, TquestionAsWdg::asNameTxt);
-    questAsToolBox->addItem(asFretPosWdg, TquestionAsWdg::asFretPosTxt);
+    questAsToolBox->addItem(asNoteWdg, TquestionAsWdg::asNoteTxt());
+    questAsToolBox->addItem(asNameWdg, TquestionAsWdg::asNameTxt());
+    questAsToolBox->addItem(asFretPosWdg, TquestionAsWdg::asFretPosTxt());
 
     connect(asNoteWdg, SIGNAL(asNoteChanged()), this, SLOT(whenParamsChanged()));
     connect(asNameWdg, SIGNAL(asNameChanged()), this, SLOT(whenParamsChanged()));
@@ -72,7 +72,7 @@ TasNoteWdg::TasNoteWdg(QWidget *parent) :
 
     QHBoxLayout *upperLay = new QHBoxLayout;
     asNoteGr = new TquestionAsWdg(this);
-    asNoteGr->setTitle(TquestionAsWdg::questionTxt + " - " + TquestionAsWdg::asNoteTxt);
+    asNoteGr->setTitle(TquestionAsWdg::questionTxt() + " - " + TquestionAsWdg::asNoteTxt());
     upperLay->addWidget(asNoteGr);
 
     QVBoxLayout *accLay = new QVBoxLayout;
@@ -272,7 +272,7 @@ TasNameWdg::TasNameWdg(QWidget *parent) :
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
     asNameGr = new TquestionAsWdg(this);
-    asNameGr->setTitle(TquestionAsWdg::questionTxt + " - " + TquestionAsWdg::asNameTxt);
+    asNameGr->setTitle(TquestionAsWdg::questionTxt() + " - " + TquestionAsWdg::asNameTxt());
     mainLay->addWidget(asNameGr,1,Qt::AlignCenter);
 
     octaveRequiredChB = new QCheckBox(tr("require octave"),this);
@@ -334,7 +334,7 @@ TasFretPosWdg::TasFretPosWdg(QWidget *parent) :
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
     asPosGr = new TquestionAsWdg(this);
-    asPosGr->setTitle(TquestionAsWdg::questionTxt + " - " + TquestionAsWdg::asFretPosTxt);
+    asPosGr->setTitle(TquestionAsWdg::questionTxt() + " - " + TquestionAsWdg::asFretPosTxt());
     mainLay->addStretch(1);
     mainLay->addWidget(asPosGr,1,Qt::AlignCenter);
     mainLay->addStretch(1);

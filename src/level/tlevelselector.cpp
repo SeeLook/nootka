@@ -81,7 +81,6 @@ QList<TexamLevel> getExampleLevels() {
 
 /*static*/
 const qint32 TlevelSelector::levelVersion = 0x95121701;
-QString TlevelSelector::levelFilterTxt = QObject::tr("Levels") + "(*.nel)";
 
 void TlevelSelector::fileIOerrorMsg(QFile &f, QWidget *parent) {
     QMessageBox::critical(parent, "",
@@ -190,7 +189,7 @@ void TlevelSelector::m_loadFromFile() {
 
 void TlevelSelector::loadFromFile() {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load exam's level"),
-                                                     QDir::homePath(), levelFilterTxt);
+                                                     QDir::homePath(), levelFilterTxt());
     QFile file(fileName);
     TexamLevel level = getLevelFromFile(file);
     if (level.name != "") {
@@ -244,10 +243,6 @@ void TlevelSelector::updateRecentLevels(QString levelFile) {
 
 //#########################  TlevelSummaryWdg ################################################
 
-/*static*/
-QString TlevelSummaryWdg::notesRangeTxt = QObject:: tr("notes' range:");
-QString TlevelSummaryWdg::fretsRangeTxt = QObject::tr("frets' range:");
-
 TlevelSummaryWdg::TlevelSummaryWdg(QWidget *parent) :
     QWidget(parent)
 {
@@ -266,13 +261,13 @@ void TlevelSummaryWdg::setLevel(TexamLevel tl) {
     QString S;
     S = "<center><b>" + tl.name + "</b>";
     S += "<table border=\"1\">";
-    S += "<tr><td>" + notesRangeTxt + " </td>";
+    S += "<tr><td>" + notesRangeTxt() + " </td>";
     S += "<td>" + TnoteName::noteToRichText(tl.loNote) + " - "
          + TnoteName::noteToRichText(tl.hiNote) + "</td></tr>";
     if (tl.questionAs.isFret() || tl.answersAs[0].isFret()
         || tl.answersAs[1].isFret() || tl.answersAs[2].isFret()
         || tl.answersAs[3].isFret()) { // level uses guitar
-        S += "<tr><td>" + fretsRangeTxt + " </td>";
+        S += "<tr><td>" + fretsRangeTxt() + " </td>";
         S += QString("<td>%1 - %2").arg(int(tl.loFret)).arg(int(tl.hiFret)) + "</td></tr>";
     }
     if (tl.useKeySign) {

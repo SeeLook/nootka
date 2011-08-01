@@ -25,15 +25,12 @@
 extern Tglobals *gl;
 bool isNotSaved;
 
-/*static*/
-QString examSettingsDlg::examSettTxt = QObject::tr("exam's settings");
-
 examSettingsDlg::examSettingsDlg(QWidget *parent) :
     TsettingsDialogBase(parent)
 {
 
     isNotSaved = false;
-    setWindowTitle(examSettTxt);
+    setWindowTitle(examSettTxt());
 
     navList->addItem(tr("Levels"));
     navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
@@ -75,7 +72,7 @@ void examSettingsDlg::levelWasSelected(TexamLevel level) {
 
 void examSettingsDlg::levelNotSaved() {
     navList->item(0)->setIcon(QIcon(gl->path+"picts/notSaved.png"));
-    setWindowTitle(examSettTxt + " (level not saved !!)");
+    setWindowTitle(examSettTxt() + " (level not saved !!)");
 }
 
 void examSettingsDlg::saveLevel() {
@@ -100,7 +97,7 @@ void examSettingsDlg::saveToFile() {
     newLevel.name = nameList[0];
     newLevel.desc = nameList[1];
   // Saving to file
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save exam's level"), QDir::toNativeSeparators(QDir::homePath()+"/"+newLevel.name), TlevelSelector::levelFilterTxt);
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save exam's level"), QDir::toNativeSeparators(QDir::homePath()+"/"+newLevel.name), TlevelSelector::levelFilterTxt());
     QFile file(fileName);
     if (file.open(QIODevice::WriteOnly)) {
         QDataStream out(&file);
@@ -120,7 +117,7 @@ void examSettingsDlg::saveToFile() {
 void examSettingsDlg::levelSaved() {
     isNotSaved = false;
     navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
-    setWindowTitle(examSettTxt);
+    setWindowTitle(examSettTxt());
 }
 
 void examSettingsDlg::loadFromFile() {

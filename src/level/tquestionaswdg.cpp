@@ -20,31 +20,21 @@
 #include "tquestionaswdg.h"
 #include <QtGui>
 
-/*static*/
-QString TquestionAsWdg::asNoteTxt =QObject::tr("as note in the score");
-QString TquestionAsWdg::asNameTxt =QObject::tr("as note's name");
-QString TquestionAsWdg::asFretPosTxt =QObject::tr("as position on the fingerboard");
-QString TquestionAsWdg::asSoundTxt =QObject::tr("as played sound");
-QString TquestionAsWdg::questionTxt =QObject::tr("question");
-QString TquestionAsWdg::questionsTxt =QObject::tr("questions");
-QString TquestionAsWdg::answerTxt =QObject::tr("answer");
-QString TquestionAsWdg::answersTxt =QObject::tr("answers");
-
 
 TquestionAsWdg::TquestionAsWdg(QWidget *parent) :
     QGroupBox(parent)
 {
     setStatusTip(tr("select answers for question as mentioned."));
     QVBoxLayout *mainLay = new QVBoxLayout;
-    QLabel *answersLab = new QLabel(answersTxt+":",this);
+    QLabel *answersLab = new QLabel(answersTxt() + ":",this);
     mainLay->addWidget(answersLab,0,Qt::AlignCenter);
-    asNoteChB = new QCheckBox(asNoteTxt,this);
+    asNoteChB = new QCheckBox(asNoteTxt(), this);
     mainLay->addWidget(asNoteChB);
-    asNameChB = new QCheckBox(asNameTxt,this);
+    asNameChB = new QCheckBox(asNameTxt(), this);
     mainLay->addWidget(asNameChB);
-    asFretPosChB = new QCheckBox(asFretPosTxt,this);
+    asFretPosChB = new QCheckBox(asFretPosTxt(), this);
     mainLay->addWidget(asFretPosChB);
-    asSoundChB = new QCheckBox(asSoundTxt,this);
+    asSoundChB = new QCheckBox(asSoundTxt(), this);
     asSoundChB->setDisabled(true);
     asSoundChB->setStatusTip(tr("not implemented yet"));
     mainLay->addWidget(asSoundChB);
