@@ -33,18 +33,21 @@ public:
         * @p S(1-6) are Tnote notes */
 
     Ttune(const QString _name = "", Tnote S1 = Tnote(0,0,0) , Tnote S2 = Tnote(0,0,0),
-                    Tnote S3 = Tnote(0,0,0), Tnote S4 = Tnote(0,0,0), Tnote S5 = Tnote(0,0,0), Tnote S6 = Tnote(0,0,0));
+                    Tnote S3 = Tnote(0,0,0), Tnote S4 = Tnote(0,0,0),
+                    Tnote S5 = Tnote(0,0,0), Tnote S6 = Tnote(0,0,0));
     ~Ttune();
-                /** It is a name of the tune*/
+          /** It is a name of the tune*/
     QString name;
-            /** Overloaded operator [] allows to use statment
-            * @li Ttune your_variable[number of a string]
-            * @p stringNr is real string number (1 to 6) */
-    static const Ttune stdTune;
-    static const Ttune tunes[4];
+
+    static Ttune stdTune;
+    static Ttune tunes[4];
+        /** Makes transaltions in defined tunes. */
+    static void prepareDefinedTunes();
     friend QDataStream &operator<< (QDataStream &out, const Ttune &t);
     friend QDataStream &operator>> (QDataStream &in, Ttune &t);
-
+        /** Overloaded operator [] allows to use statment
+        * @li Ttune your_variable[number of a string]
+        * @p stringNr is real string number (1 to 6) */
     Tnote &operator[] (unsigned char stringNr) { return m_S[stringNr-1]; }
     bool operator==(Ttune T2) {
         return ( m_S[0]==T2[1] && m_S[1]==T2[2] && m_S[2]==T2[3] &&
@@ -58,6 +61,7 @@ public:
 protected:
             /** Array of Tnotes that represents six strings */
         Tnote m_S[6];
+
 };
 Q_DECLARE_METATYPE(Ttune)
 

@@ -32,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
 
     gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
+    Ttune::prepareDefinedTunes();
 
     setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
     setMinimumSize(640,480);

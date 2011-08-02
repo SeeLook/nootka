@@ -104,10 +104,10 @@ void TscoreWidget::paintEvent(QPaintEvent *event) {
     QFont f = QFont("Arial");
     f.setPixelSize(11);
     painter.setFont(f);
-    Ttune sT = Ttune::stdTune;
+//    Ttune sT = Ttune::stdTune;
     int nL = 0;
     for (int i=1; i<7; i++) {
-        if ( gl->Gtune()[i] != sT[i])
+        if ( gl->Gtune()[i] != Ttune::stdTune[i])
             nL++;
     }
     int xOffBase = coeff;
@@ -116,7 +116,7 @@ void TscoreWidget::paintEvent(QPaintEvent *event) {
     int yOff = -1;
     int c = 0;
     for (int i=1; i<7; i++) {
-        if ( gl->Gtune()[i] != sT[i]) {
+        if ( gl->Gtune()[i] != Ttune::stdTune[i]) {
         if ( nL>3 && c%2 == 1 ) {
             xOff = 45;
         } else {

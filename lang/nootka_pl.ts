@@ -114,7 +114,7 @@
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="91"/>
         <source>Choose which accidentals will be shown in the score.</source>
-        <translation>Wybierz, które znaki przykluczowe pojawią się przy nutach.</translation>
+        <translation>Wybierz, które znaki pojawią się przy nutach.</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="92"/>
@@ -352,27 +352,27 @@
         <translation type="obsolete">oktawa Trzykreślna</translation>
     </message>
     <message>
-        <location filename="../src/ttune.cpp" line="22"/>
+        <location filename="../src/ttune.cpp" line="32"/>
         <source>Standard: E A D G B E </source>
         <translation>Standardowy: E A D G H E</translation>
     </message>
     <message>
-        <location filename="../src/ttune.cpp" line="25"/>
+        <location filename="../src/ttune.cpp" line="33"/>
         <source>Dropped D: D A D G B E </source>
         <translation>Obniżone D:D A D G H E</translation>
     </message>
     <message>
-        <location filename="../src/ttune.cpp" line="26"/>
+        <location filename="../src/ttune.cpp" line="34"/>
         <source>Dummy Lute: D A D F# B E </source>
         <translation>Jakby lutnia: D A D F# H E</translation>
     </message>
     <message>
-        <location filename="../src/ttune.cpp" line="27"/>
+        <location filename="../src/ttune.cpp" line="35"/>
         <source>Open: D A D G A D </source>
         <translation>Otwarty: D A D G A D</translation>
     </message>
     <message>
-        <location filename="../src/ttune.cpp" line="28"/>
+        <location filename="../src/ttune.cpp" line="36"/>
         <source>Kouyanbaba: D A D A D F </source>
         <translation>Kouyanbaba: D A D A D F </translation>
     </message>
@@ -818,32 +818,32 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamview.cpp" line="82"/>
         <source>correct answers&apos; count</source>
-        <translation type="unfinished"></translation>
+        <translation>liczba poprawnych odpowiedzi</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.cpp" line="84"/>
         <source>mistakes&apos; count</source>
-        <translation type="unfinished"></translation>
+        <translation>liczba błędów</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.cpp" line="86"/>
         <source>effectiveness</source>
-        <translation type="unfinished"></translation>
+        <translation>efektywność</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.cpp" line="87"/>
         <source>average reaction&apos;s time [in seconds]</source>
-        <translation type="unfinished"></translation>
+        <translation>średni czas reakcji [w sekundach]</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.cpp" line="89"/>
         <source>reaction&apos;s time [in seconds]</source>
-        <translation type="unfinished"></translation>
+        <translation>czas reakcji [w sekundach]</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.cpp" line="91"/>
         <source>total exam&apos;s time</source>
-        <translation type="unfinished"></translation>
+        <translation>całkowity czas trwania egzaminu</translation>
     </message>
 </context>
 <context>
@@ -851,7 +851,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/tfingerboard.cpp" line="46"/>
         <source>Select string or finger and click to see it in the score.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz strunę lub próg i kliknij żeby zobaczyć w nutach.</translation>
     </message>
 </context>
 <context>
@@ -859,22 +859,22 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="34"/>
         <source>First run wizzard</source>
-        <translation type="unfinished"></translation>
+        <translation>Kreator pierwszego uruchomienia</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="41"/>
         <source>skip wizzard</source>
-        <translation type="unfinished"></translation>
+        <translation>pomiń kreator</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="44"/>
         <source>prev</source>
-        <translation type="unfinished"></translation>
+        <translation>poprzedni</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="55"/>
         <source>&lt;center&gt;Guitar notation uses treble clef with &quot;eight&quot; digit below, even if some editors are forgeting about this digit.&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; &lt;img src=&quot;%1&quot;&gt; &lt;img src=&quot;%2&quot;&gt;&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note c in one-line octave)&lt;/center&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;center&gt;Zapis gitarowy używa klucza wiolinowego z cyfrą &quot;osiem&quot; poniżej, nawet jeżeli niektórzy wydawcy o niej zapominają.&lt;br&gt;&lt;br&gt;Spróbuj to zrozumieć. &lt;br&gt;&lt;br&gt;&lt;p&gt; &lt;img src=&quot;%1&quot;&gt; &lt;img src=&quot;%2&quot;&gt;&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note c in one-line octave)&lt;/center&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="92"/>
