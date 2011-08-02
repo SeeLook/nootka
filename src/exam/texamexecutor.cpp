@@ -344,7 +344,7 @@ void TexamExecutor::askQuestion() {
             curQ.qa_2.note = forceEnharmAccid(curQ.qa.note); // force other name of note
             tmpNote = curQ.qa_2.note;
             questText = QString("<b>%1. </b>").arg(m_answList.size()+1) +
-                        tr("Give name of <span style=\"color: %1; font-size: %2px;\">").arg(
+                        tr("Give name of") + QString(" <span style=\"color: %1; font-size: %2px;\">").arg(
                                 gl->EquestionColor.name()).arg(mW->getFontSize()*2) +
                         TnoteName::noteToRichText(curQ.qa.note) + ". </span>" +
                         getTextHowAccid((Tnote::Eacidentals)curQ.qa_2.note.acidental);
@@ -542,7 +542,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
         if (gl->hintsEnabled) {
             answTxt += tr("<hr>Click <img src=\"%1\"> buton<br>or press <b>space</b> for next question.").arg(gl->path+"picts/next-icon.png");
             if (!curQ.correct())
-                answTxt += tr("<br>Click <img src=\"%1\"> buton<br>or press <b>backspace</b> to correct question.").arg(gl->path+"picts/prev-icon.png");
+                answTxt += tr("<br>Click <img src=\"%1\"> buton<br>or press <b>backspace</b> to correct an answer.").arg(gl->path+"picts/prev-icon.png");
         }
         answTxt += "</center>";
         QWhatsThis::showText(QPoint(mW->pos().x() + qRound(mW->centralWidget()->width()*0.75),

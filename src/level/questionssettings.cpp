@@ -101,7 +101,7 @@ TasNoteWdg::TasNoteWdg(QWidget *parent) :
     singleKeyRadio = new QRadioButton(tr("single key"),this);
     singleKeyRadio->setStatusTip(tr("only one, selected key signature<br>for whole exam."));
     rangeKeysRadio = new QRadioButton(tr("range of keys"),this);
-    rangeKeysRadio->setStatusTip(tr("random key signature from selecteed range."));
+    rangeKeysRadio->setStatusTip(tr("random key signature from selected range."));
     rangeButGr = new QButtonGroup(this);
     rangeButGr->addButton(singleKeyRadio);
     rangeButGr->addButton(rangeKeysRadio);
