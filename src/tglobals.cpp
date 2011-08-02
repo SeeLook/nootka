@@ -111,6 +111,7 @@ Tglobals::Tglobals() {
     sett.endGroup();
 
 // guitar settings
+    Ttune::prepareDefinedTunes();
     sett.beginGroup("guitar");
         GfretsNumber = sett.value("fretNumber", 19).toInt();
         GisRightHanded = sett.value("rightHanded", true).toBool(); //true;
