@@ -32,7 +32,7 @@ examSettingsDlg::examSettingsDlg(QWidget *parent) :
     isNotSaved = false;
     setWindowTitle(examSettTxt());
 
-    navList->addItem(tr("Levels"));
+    navList->addItem(TlevelSelector::levelFilterTxt());
     navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
     navList->item(0)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Questions"));
