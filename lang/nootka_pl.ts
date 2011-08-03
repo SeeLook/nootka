@@ -962,9 +962,8 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
 %2 </translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="99"/>
         <source>Levels:</source>
-        <translation>Poziomy:</translation>
+        <translation type="obsolete">Poziomy:</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="105"/>
@@ -1015,7 +1014,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="250"/>
         <source>Level summary:</source>
-        <translation type="unfinished"></translation>
+        <translation>Właściwości poziomu:</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="252"/>
@@ -1037,7 +1036,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="285"/>
         <source>none</source>
-        <translation>nic</translation>
+        <translation>brak</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.h" line="38"/>
@@ -1060,7 +1059,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/settings/tnotationradiogroup.cpp" line="38"/>
         <source>Nameing style of a note. The main difference is 7-th note.&lt;br&gt;Is it B and B flat, or H and B ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sposób nazywania nut. Podstawowa różnica to 7-my dźwię.&lt;br&gt;Czy jest to  B i Bb, czy też H i B ?</translation>
     </message>
     <message>
         <location filename="../src/settings/tnotationradiogroup.h" line="42"/>
@@ -1329,9 +1328,8 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>examSettingsDlg</name>
     <message>
-        <location filename="../src/level/examsettingsdlg.cpp" line="35"/>
         <source>Levels</source>
-        <translation>Poziomy</translation>
+        <translation type="obsolete">Poziomy</translation>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="38"/>

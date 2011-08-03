@@ -96,7 +96,7 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
     QHBoxLayout *mainLay = new QHBoxLayout;
 
     QVBoxLayout *levLay = new QVBoxLayout;
-    QLabel *levLab = new QLabel(tr("Levels:"),this);
+    QLabel *levLab = new QLabel(levelFilterTxt() + ":",this);
     levLay->addWidget(levLab);
     levelsList = new QListWidget(this);
     levelsList->setMouseTracking(true);
@@ -189,7 +189,7 @@ void TlevelSelector::m_loadFromFile() {
 
 void TlevelSelector::loadFromFile() {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load exam's level"),
-                                                     QDir::homePath(), levelFilterTxt());
+                                                     QDir::homePath(), levelFilterTxt() + "(*.nel)");
     QFile file(fileName);
     TexamLevel level = getLevelFromFile(file);
     if (level.name != "") {

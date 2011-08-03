@@ -64,7 +64,7 @@ public:
     void findLevels();
         /** Magic number in level file to identify it.*/
     static const qint32 levelVersion;
-    static QString levelFilterTxt() { return tr("Levels") + "(*.nel)"; }
+    static QString levelFilterTxt() { return tr("Levels"); }
         /** Shows message box with error if file cannot be opened.*/
     static void fileIOerrorMsg(QFile &f, QWidget *parent = 0);
 
