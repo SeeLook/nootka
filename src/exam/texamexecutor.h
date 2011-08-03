@@ -103,6 +103,7 @@ private:
     TglStore m_glStore;
     TanswerRequire m_answRequire;
     QString m_examFile;
+    bool m_shouldBeTerminated, m_isAnswered, m_incorrectRepeated;
 
 };
 

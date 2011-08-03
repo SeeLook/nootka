@@ -115,6 +115,9 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     createQuestionsList();
 
     m_isSolfege = false;
+    m_shouldBeTerminated = false;
+    m_incorrectRepeated = false;
+    m_isAnswered = true;
     m_prevAccid = Tnote::e_Natural;
     m_dblAccidsCntr = 0;
     m_level.questionAs.randNext(); // Randomize question and answer type
@@ -219,7 +222,9 @@ void TexamExecutor::askQuestion() {
 
     clearWidgets();
     mW->setStatusMessage("");
-    mW->startExamAct->setDisabled(true);
+//    mW->startExamAct->setDisabled(true);
+    m_isAnswered = false;
+    m_incorrectRepeated = false;
     mW->setMessageBg(gl->EquestionColor);
     m_answRequire.octave = true;
     m_answRequire.accid = true;
@@ -466,7 +471,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
     TQAunit curQ = m_answList[m_answList.size() - 1];
     curQ.time = mW->examResults->questionStop();
     mW->nootBar->removeAction(checkAct);
-    mW->startExamAct->setDisabled(false);
+//    mW->startExamAct->setDisabled(false);
+    m_isAnswered = true;
 // Let's check
     Tnote exN, retN; // example note & returned note
     // First we determine what have to be checked
@@ -556,9 +562,32 @@ void TexamExecutor::checkAnswer(bool showResults) {
     }
     mW->examResults->setAnswer(curQ.correct());
     m_answList[m_answList.size()-1] = curQ;
+
+    if (gl->EautoNextQuest) {
+        if (curQ.correct()) {
+            if (m_shouldBeTerminated)
+                stopExamSlot();
+            else
+                askQuestion();
+        } else {
+            if (m_shouldBeTerminated)
+                stopExamSlot();
+            else {
+                if (gl->ErepeatIncorrect && !m_incorrectRepeated) // repeat only once if any
+                    repeatQuestion();
+                else
+                    askQuestion();
+            }
+        }
+    }
+//    else {
+//        if (m_shouldBeTerminated)
+//            stopExamSlot();
+//    }
 }
 
 void TexamExecutor::repeatQuestion() {
+    m_incorrectRepeated = true;
     TQAunit curQ = m_answList[m_answList.size() - 1];
     QString m = mW->statusMessage();
     m.replace(0, m.indexOf("</b>"), QString("<b>%1.").arg(m_answList.size()+1));
@@ -678,6 +707,11 @@ void TexamExecutor::clearWidgets() {
 }
 
 void TexamExecutor::stopExamSlot() {
+    if (!m_isAnswered) {
+        m_shouldBeTerminated = true;
+        mW->setStatusMessage(tr("Give an answer first !"), 2000);
+        return;
+    }
     mW->examResults->stopExam();
     if (m_examFile == "" && m_answList.size())
         m_examFile = saveExamToFile();
@@ -714,7 +748,7 @@ void TexamExecutor::stopExamSlot() {
 
     mW->setMessageBg(-1);
     mW->setStatusMessage("");
-    mW->setStatusMessage("so a pity", 5000);
+    mW->setStatusMessage(tr("so a pity"), 5000);
 
     clearWidgets();
     restoreAfterExam();
@@ -730,9 +764,12 @@ QString TexamExecutor::getTextHowAccid(Tnote::Eacidentals accid) {
 }
 
 bool TexamExecutor::closeNootka() {
-    QMessageBox::StandardButton retMessage = QMessageBox::warning(mW, "", tr("Psssst... Exam is going.<br><br><b>Retry</b> - to continue<br><b>Save - </b> to check(if neded), save and exit<br>"),
-                       QMessageBox::Save | QMessageBox::Retry, QMessageBox::Save);
-    if (retMessage == QMessageBox::Retry) {
+    QMessageBox *msg = new QMessageBox(mW);
+    msg->setText(tr("Psssst... Exam is going.<br><br><b>Continue</b> it<br>or<br><b>Terminate</b> to check, save and exit<br>"));
+    QAbstractButton *contBut = msg->addButton(tr("Continue"), QMessageBox::ApplyRole);
+    msg->addButton(tr("Terminate"), QMessageBox::RejectRole);
+    msg->exec();
+    if (msg->clickedButton() == contBut) {
         return false;
     } else {
         if (mW->startExamAct->isEnabled()) {

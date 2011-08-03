@@ -25,8 +25,6 @@
 
 extern Tglobals *gl;
 
-/*static*/
-QString TfirstRunWizzard::nextText = QObject::tr("next");
 
 TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
     QDialog(parent)
@@ -44,7 +42,7 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
     prevButt = new QPushButton(tr("prev"), this);
     prevButt->setDisabled(true);
     buttLay->addWidget(prevButt);
-    nextButt = new QPushButton(nextText, this);
+    nextButt = new QPushButton(nextText(), this);
     buttLay->addWidget(nextButt);
     buttLay->addStretch(1);
 
@@ -52,7 +50,7 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
     setLayout(lay);
 
     Tabout *aboutNoot = new Tabout();
-    QTextEdit *notationLab = new QTextEdit(tr("<center>Guitar notation uses treble clef with \"eight\" digit below, even if some editors are forgeting about this digit.<br><br>Try to understand this. <br><br><p> <img src=\"%1\"> <img src=\"%2\"><br><span style=\"font-size:20px;\">Both pictures above show the same note: c<sup>1</sup></span><br>(note c in one-line octave)</center></p>").arg(gl->path+"picts/c1-trebe.png").arg(gl->path+"picts/c1-treble_8.png"));
+    QTextEdit *notationLab = new QTextEdit(tr("<center>Guitar notation uses treble clef with \"eight\" digit below (even if some editors are forgeting about this digit).<br><br>Try to understand this. <br><br><p> <img src=\"%1\"> <img src=\"%2\"><br><span style=\"font-size:20px;\">Both pictures above show the same note: c<sup>1</sup></span><br>(note c in one-line octave)</center></p>").arg(gl->path+"picts/c1-trebe.png").arg(gl->path+"picts/c1-treble_8.png"));
     notationLab->setWordWrapMode(QTextOption::WordWrap);
 //    notationLab->setWordWrap(true);
 
@@ -76,7 +74,7 @@ void TfirstRunWizzard::prevSlot() {
         pagesLay->setCurrentIndex(0);
         break;
     case 2 :
-        nextButt->setText(nextText);
+        nextButt->setText(nextText());
         pagesLay->setCurrentIndex(1);
         break;
     }
@@ -102,6 +100,7 @@ void TfirstRunWizzard::nextSlot() {
 	}
         gl->doubleAccidentalsEnabled = page3->dblAccChB->isChecked();
         gl->showEnharmNotes = page3->enharmChB->isChecked();
+        gl->SkeySignatureEnabled = page3->useKeyChB->isChecked();
         close();
         break;
     }
