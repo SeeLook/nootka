@@ -53,6 +53,8 @@ examSettingsDlg::examSettingsDlg(QWidget *parent) :
     connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
 
     navList->setCurrentRow(0);
+    okBut->setText(tr("Close"));
+    cancelBut->hide();
 
     connect(levelSett->levelSelector, SIGNAL(levelChanged(TexamLevel)), this, SLOT(levelWasSelected(TexamLevel))); // to load level to widgets
     connect(rangeSett, SIGNAL(rangeChanged()), this, SLOT(levelNotSaved()));

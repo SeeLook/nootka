@@ -215,8 +215,6 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     connect(m_nameSett, SIGNAL(seventhIsBChanged(bool)), m_scoreSett, SLOT(seventhIsBChanged(bool)));
 
     navList->setCurrentRow(0);
-    okBut->setText(tr("Close"));
-    cancelBut->hide();
 
 }
 

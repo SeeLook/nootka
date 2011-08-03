@@ -34,7 +34,7 @@ class TfirstRunWizzard : public QDialog
     Q_OBJECT
 public:
     explicit TfirstRunWizzard(QWidget *parent = 0);
-    static QString nextText;
+    static QString nextText() { return tr("next"); }
 
 signals:
 
