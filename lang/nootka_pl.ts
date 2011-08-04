@@ -381,9 +381,8 @@
         <translation type="obsolete">następny</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="25"/>
         <source>Exams&apos; results</source>
-        <translation>Wyniki egzaminu</translation>
+        <translation type="obsolete">Wyniki egzaminu</translation>
     </message>
 </context>
 <context>
@@ -1259,74 +1258,79 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>TstartExamDlg</name>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="33"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="30"/>
         <source>start new exam</source>
         <translation>rozpocznij nowy egzamin</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="38"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="35"/>
         <source>student&apos;s name:</source>
         <translation>imię ucznia:</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="42"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="39"/>
         <source>Enter your name or nick.</source>
         <translation>Wpisz swoje imię lub przezwisko.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="51"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="48"/>
         <source>Select a level suitable for You&lt;br&gt;or create new one.</source>
         <translation>Wybierz poziom odpowiedni dla siebie&lt;br&gt;lub utwórz nowy.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="56"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="53"/>
         <source>continue exam</source>
         <translation>kontynuuj egzamin</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="62"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="59"/>
         <source>load exam from file</source>
         <translation>wczytaj egzamin z pliku</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="65"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="62"/>
         <source>Select previous exam, or get it from a file.</source>
         <translation>Wybierz poprzedni egzamin lub wczytaj go z pliku.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="81"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="78"/>
         <source>Start</source>
         <translation>Zacznij</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="82"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="79"/>
         <source>Start or continue exam.</source>
         <translation>Rozpocznij lub kontynuuj egzamin.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="84"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="81"/>
         <source>Discard</source>
         <translation>Porzuć</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="170"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="167"/>
         <source>Any level was not selected !!</source>
         <translation>Nie wybrano żadnego poziomu !!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="174"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="171"/>
         <source>Give any user name !!</source>
         <translation>Podaj jakąś nazwę użytkownika !!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="183"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="180"/>
         <source>Any exam wasn&apos;t selected !!</source>
         <translation>Nie został wybrany żaden egzamin !!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="188"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="185"/>
         <source>Load an exam&apos;s&apos; file</source>
         <translation>Wczytaj plik egazminu</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tstartexamdlg.h" line="51"/>
+        <source>Exams&apos; results</source>
+        <translation>Wyniki egzaminu</translation>
     </message>
 </context>
 <context>

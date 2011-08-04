@@ -48,7 +48,7 @@ public:
         * and returns secected level. */
     Eactions showDialog(QString &txt, TexamLevel &lev);
         /** exam file extension and its description */
-    static const QString examFilterTxt;
+    static const QString examFilterTxt() { return tr("Exams' results")  + "(*.noo)" ; }
 
 
 signals:

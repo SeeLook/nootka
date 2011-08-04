@@ -21,9 +21,6 @@
 #include "tlevelselector.h"
 #include <QtGui>
 
-/*static*/
-const QString TstartExamDlg::examFilterTxt = QObject::tr("Exams' results") + "(*.noo)";
-
 
 TstartExamDlg::TstartExamDlg(QWidget *parent) :
     QDialog(parent)
@@ -186,7 +183,7 @@ void TstartExamDlg::startAccepted() {
 
 void TstartExamDlg::loadExam() {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load an exam's' file"),
-                               QDir::homePath(), examFilterTxt);
+                               QDir::homePath(), examFilterTxt());
     if (fileName != "") {
         examCombo->insertItem(0, fileName);
         recentExams.prepend(fileName);
