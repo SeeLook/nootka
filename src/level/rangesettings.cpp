@@ -92,7 +92,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
     mainLay->addWidget(lowPosOnlyChBox, 0, Qt::AlignCenter);
     mainLay->addStretch(1);
     currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);
-    currKeySignChBox->setStatusTip(tr("Only notes from current key signaature are taken.<br>If key signature is disabled accidentals are not used."));
+    currKeySignChBox->setStatusTip(tr("Only notes from current key signature are taken.<br>If key signature is disabled accidentals are not used."));
     mainLay->addWidget(currKeySignChBox, 0, Qt::AlignCenter);
     mainLay->addStretch(1);
 

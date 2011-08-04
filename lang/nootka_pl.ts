@@ -1261,37 +1261,37 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="33"/>
         <source>start new exam</source>
-        <translation type="unfinished"></translation>
+        <translation>rozpocznij nowy egzamin</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="38"/>
         <source>student&apos;s name:</source>
-        <translation type="unfinished"></translation>
+        <translation>imię ucznia:</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="42"/>
         <source>Enter your name or nick.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wpisz swoje imię lub przezwisko.</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="51"/>
         <source>Select a level suitable for You&lt;br&gt;or create new one.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz poziom odpowiedni dla siebie&lt;br&gt;lub utwórz nowy.</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="56"/>
         <source>continue exam</source>
-        <translation type="unfinished"></translation>
+        <translation>kontynuuj egzamin</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="62"/>
         <source>load exam from file</source>
-        <translation type="unfinished"></translation>
+        <translation>wczytaj egzamin z pliku</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="65"/>
         <source>Select previous exam, or get it from a file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz poprzedni egzamin lub wczytaj go z pliku.</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="81"/>
@@ -1301,7 +1301,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="82"/>
         <source>Start or continue exam.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozpocznij lub kontynuuj egzamin.</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="84"/>
@@ -1311,22 +1311,22 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="170"/>
         <source>Any level was not selected !!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie wybrano żadnego poziomu !!</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="174"/>
         <source>Give any user name !!</source>
-        <translation type="unfinished"></translation>
+        <translation>Podaj jakąś nazwę użytkownika !!</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="183"/>
         <source>Any exam wasn&apos;t selected !!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie został wybrany żaden egzamin !!</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="188"/>
         <source>Load an exam&apos;s&apos; file</source>
-        <translation type="unfinished"></translation>
+        <translation>Wczytaj plik egazminu</translation>
     </message>
 </context>
 <context>
@@ -1349,33 +1349,35 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/level/examsettingsdlg.cpp" line="81"/>
         <source>Exam&apos;s level was changed
 and not saved !!</source>
-        <translation type="unfinished"></translation>
+        <translation>Poziom egzaminu został zmieniony
+ale nie zapisany !!</translation>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="93"/>
         <source>&lt;center&gt;&lt;b&gt;It seems the level has got some mistakes:&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;center&gt;&lt;b&gt;Wygląda na to, że ten poziom ma jakieś błędy::&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="102"/>
         <source>Save exam&apos;s level</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz poziom egzaminu</translation>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="111"/>
         <source>Cannot open file for writing
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie mogę otworzyć pliku żeby zapisać
+%1</translation>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="151"/>
         <source>&lt;li&gt;Range of frets is beyond scale of this level&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Zakres progów jest poza skalą tego poziomu&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="158"/>
         <source>&lt;li&gt;In range of notes some accidental is used&lt;br&gt;but not available in this level&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;W zakresie dźwięków użyte zostały znaki&lt;br&gt;lecz nie zostały zaznaczone dla tego poziomu&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.h" line="36"/>
@@ -1453,13 +1455,13 @@ and not saved !!</source>
     </message>
     <message>
         <location filename="../src/level/rangesettings.cpp" line="95"/>
-        <source>Only notes from current key signaature are taken.&lt;br&gt;If key signature is disabled accidentals are not used.</source>
-        <translation type="unfinished"></translation>
+        <source>Only notes from current key signature are taken.&lt;br&gt;If key signature is disabled accidentals are not used.</source>
+        <translation>Używane będą dźwięki tylko z aktualnej tonacji.&lt;br&gt;Jeżeli tonacja nie jest używana, znaki także nie będą wykorzystywane.</translation>
     </message>
     <message>
         <location filename="../src/level/rangesettings.cpp" line="94"/>
         <source>notes in current key signature only</source>
-        <translation type="unfinished"></translation>
+        <translation>tylko dźwięki z aktualnej tonacji</translation>
     </message>
 </context>
 </TS>
