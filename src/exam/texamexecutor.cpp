@@ -611,7 +611,7 @@ void TexamExecutor::repeatQuestion() {
 
 void TexamExecutor::prepareToExam() {
     mW->setWindowTitle(tr("EXAM!!") + " " + m_userName + " - " + m_level.name);
-    mW->setStatusMessage("exam started on level:<br><b>" + m_level.name + "</b>");
+    mW->setStatusMessage(tr("exam started on level") + ":<br><b>" + m_level.name + "</b>");
 
     mW->settingsAct->setDisabled(true);
     mW->levelCreatorAct->setDisabled(true);
