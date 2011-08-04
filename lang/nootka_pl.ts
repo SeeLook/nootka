@@ -1064,7 +1064,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/settings/tnotationradiogroup.h" line="42"/>
         <source>Scandinavian</source>
-        <translation type="unfinished"></translation>
+        <translation>Skandynawski</translation>
     </message>
     <message>
         <location filename="../src/settings/tnotationradiogroup.h" line="43"/>
@@ -1084,7 +1084,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/settings/tnotationradiogroup.h" line="46"/>
         <source>Dutch</source>
-        <translation type="unfinished"></translation>
+        <translation>Holenderski</translation>
     </message>
 </context>
 <context>
@@ -1160,35 +1160,39 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="116"/>
         <source>&lt;center&gt;7-th note can be B or H, depends on country&lt;br&gt;Which one is Yours?&lt;br&gt;&lt;/center&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;center&gt;7-ma nuta może nazywać się H lub B, w zależności od kraju. &lt;br&gt;Która nazwa jest odpowiednia dla Ciebie ?&lt;br&gt;&lt;/center&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="125"/>
         <source>I know about double sharps (x) and double flats (bb)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wiem co to są podwójne krzyżyki (x) i podwójne bemole (bb)</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="129"/>
         <source>I know that e# is the same as f</source>
-        <translation type="unfinished"></translation>
+        <translation>Wiem, że e# to to samo co f</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="133"/>
         <source>I know about key signatures</source>
-        <translation type="unfinished"></translation>
+        <translation>Wiem co to są tonacje</translation>
     </message>
 </context>
 <context>
     <name>TquestionAsWdg</name>
     <message>
-        <location filename="../src/level/tquestionaswdg.cpp" line="27"/>
         <source>select answers for question as mentioned.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Wybierz wymienione odpowedzi dla pytania.</translation>
+    </message>
+    <message>
+        <location filename="../src/level/tquestionaswdg.cpp" line="27"/>
+        <source>Select mentioned answers for a question.</source>
+        <translation>Wybierz wymienione odpowedzi dla pytania.</translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.cpp" line="39"/>
         <source>not implemented yet</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.h" line="36"/>
@@ -1236,7 +1240,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/score/tscorewidget.cpp" line="36"/>
         <source>Click to sellect a note, use mouse wheel to change accidentals.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kilknij, żeby wybrać nutę, użyj kółka myszy, żeby zmienić znak.</translation>
     </message>
 </context>
 <context>
@@ -1292,7 +1296,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="81"/>
         <source>Start</source>
-        <translation type="unfinished"></translation>
+        <translation>Zacznij</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="82"/>
@@ -1302,7 +1306,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="84"/>
         <source>Discard</source>
-        <translation type="unfinished">Porzuć</translation>
+        <translation>Porzuć</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="170"/>
@@ -1332,19 +1336,14 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation type="obsolete">Poziomy</translation>
     </message>
     <message>
-        <location filename="../src/level/examsettingsdlg.cpp" line="38"/>
-        <source>Questions</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="41"/>
         <source>Range</source>
-        <translation type="unfinished"></translation>
+        <translation>Zakres</translation>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="56"/>
         <source>Close</source>
-        <translation type="unfinished">Zamknij</translation>
+        <translation>Zamknij</translation>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="81"/>
@@ -1354,7 +1353,7 @@ and not saved !!</source>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="93"/>
-        <source>&lt;center&gt;&lt;b&gt;It seems the level has got some mitakes:&lt;/b&gt;</source>
+        <source>&lt;center&gt;&lt;b&gt;It seems the level has got some mistakes:&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1389,12 +1388,12 @@ and not saved !!</source>
     <message>
         <location filename="../src/level/levelsettings.cpp" line="35"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz</translation>
     </message>
     <message>
         <location filename="../src/level/levelsettings.cpp" line="36"/>
         <source>Save level&apos;s settings to file</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz ustawienia poziomu do pliku</translation>
     </message>
 </context>
 <context>

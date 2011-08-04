@@ -35,7 +35,7 @@ examSettingsDlg::examSettingsDlg(QWidget *parent) :
     navList->addItem(TlevelSelector::levelFilterTxt());
     navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
     navList->item(0)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(tr("Questions"));
+    navList->addItem(TquestionAsWdg::questionsTxt());
     navList->item(1)->setIcon(QIcon(gl->path+"picts/questionsSettings.png"));
     navList->item(1)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Range"));
@@ -90,7 +90,7 @@ void examSettingsDlg::saveToFile() {
     rangeSett->saveLevel(newLevel);
     QString isLevelValid = validateLevel(newLevel);
     if (isLevelValid != "") {
-        isLevelValid.prepend(tr("<center><b>It seems the level has got some mitakes:</b>"));
+        isLevelValid.prepend(tr("<center><b>It seems the level has got some mistakes:</b>"));
         QMessageBox::warning(this, "", isLevelValid);
         return;
     }
