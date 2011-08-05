@@ -32,13 +32,13 @@ examSettingsDlg::examSettingsDlg(QWidget *parent) :
     isNotSaved = false;
     setWindowTitle(examSettTxt());
 
-    navList->addItem(TlevelSelector::levelFilterTxt());
+    navList->addItem(TlevelSelector::levelFilterTxt().toUpper());
     navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
     navList->item(0)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(TquestionAsWdg::questionsTxt());
+    navList->addItem(TquestionAsWdg::questionsTxt().toUpper());
     navList->item(1)->setIcon(QIcon(gl->path+"picts/questionsSettings.png"));
     navList->item(1)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(tr("Range"));
+    navList->addItem(tr("Range").toUpper());
     navList->item(2)->setIcon(QIcon(gl->path+"picts/rangeSettings.png"));
     navList->item(2)->setTextAlignment(Qt::AlignCenter);
 

@@ -31,6 +31,8 @@ class TaboutNootka : public QDialog
 public:
     explicit TaboutNootka(QWidget *parent = 0);
 
+    static QString authorsTxt() { return tr("Authors"); }
+
 signals:
 
 public slots:

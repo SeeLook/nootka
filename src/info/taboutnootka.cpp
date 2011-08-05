@@ -48,7 +48,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     navList->addItem(tr("About"));
     navList->item(0)->setIcon(QIcon(gl->path+"picts/nootka.png"));
     navList->item(0)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(tr("Authors"));
+    navList->addItem(authorsTxt());
     navList->item(1)->setIcon(QIcon(gl->path+"picts/author.png"));
     navList->item(1)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("License"));
@@ -59,7 +59,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     Tabout *m_about = new Tabout();
     QWidget *wi = new QWidget();
     QVBoxLayout *wiLLay = new QVBoxLayout;
-    QLabel *authorsLab = new QLabel(("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b><br>Authors<br></b></p></center><br><br>Tomasz Bojczuk<br><a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a><br><br><br>" +
+    QLabel *authorsLab = new QLabel(("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b><br>" + authorsTxt() + "<br></b></p></center><br><br>Tomasz Bojczuk<br><a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a><br><br><br>" +
        tr("Althougth this application could not exist without various open source projects.")));
     authorsLab->setOpenExternalLinks(true);
     wiLLay->addWidget(authorsLab);

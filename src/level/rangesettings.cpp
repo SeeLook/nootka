@@ -68,8 +68,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
     stringsGr->setStatusTip(tr("uncheck strings if You want to skip them<br>in an exam."));
     QGridLayout *strLay = new QGridLayout;
     for (int i=0; i<6; i++) {
-        stringBut[i] = new QPushButton(QString("%1").arg(i+1),this);
-        stringBut[i]->setCheckable(true);
+        stringBut[i] = new QCheckBox(QString("%1").arg(i+1),this);
         stringBut[i]->setFont(QFont("nootka", qRound(font().pointSize()*1.5), QFont::Normal));
         connect(stringBut[i], SIGNAL(clicked()), this, SLOT(stringSelected()));
         connect(stringBut[i], SIGNAL(clicked()), this, SLOT(whenParamsChanged()));

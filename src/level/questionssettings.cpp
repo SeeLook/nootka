@@ -159,6 +159,7 @@ void TasNoteWdg::keyRangeChanged() {
             toKeyCombo->setKeySignature(TkeySignature(0));
             toKeyCombo->setDisabled(true);
             keyInAnswerChB->setDisabled(true);
+            keyInAnswerChB->setChecked(false);
         }
         else {
             toKeyCombo->setDisabled(false);

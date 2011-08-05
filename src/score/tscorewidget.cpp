@@ -21,9 +21,7 @@
 #include "tkeysignatureview.h"
 #include "tglobals.h"
 #include "tkeysignature.h"
-// #include <QGraphicsSimpleTextItem>
 #include <QtGui>
-//#include <QDebug>
 
 
 extern Tglobals *gl;
@@ -172,12 +170,12 @@ void TscoreWidget::clearScore() {
     noteViews[1]->removeString(); // so far string number to remove occur only on this view
     clearNote(2); // also hide question mark when will be implemented
     if (keySignView) {
-	setKeySignature(TkeySignature());
-	setKeyViewBg(-1);
+        setKeySignature(TkeySignature());
+        setKeyViewBg(-1);
+        m_questKey->hide();
     }
     changeAccidButtonsState(0); // reset buttons with accidentals
     m_questMark->hide();
-    m_questKey->hide();
 }
 
 void TscoreWidget::isExamExecuting(bool isIt) {
@@ -191,9 +189,11 @@ void TscoreWidget::isExamExecuting(bool isIt) {
         m_questMark->setBrush(QBrush(c));
         m_questMark->setText("?");
         resizeQuestMark();
-        m_questKey = new QGraphicsTextItem();
-        m_questKey->hide();
-        keySignView->scene()->addItem(m_questKey);
+        if (keySignView) {
+            m_questKey = new QGraphicsTextItem();
+            m_questKey->hide();
+            keySignView->scene()->addItem(m_questKey);
+        }
     }
     else {
         connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
