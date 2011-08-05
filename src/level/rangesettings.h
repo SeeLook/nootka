@@ -44,7 +44,7 @@ public slots:
 private:
     TscoreWidgetSimple *scoreRang;
     QSpinBox *fromSpinB, *toSpinB;
-    QPushButton *stringBut[6];
+    QCheckBox *stringBut[6];
     QCheckBox *lowPosOnlyChBox, *currKeySignChBox;
 
 private slots:

@@ -62,6 +62,7 @@ QList<TexamLevel> getExampleLevels() {
     l.withFlats = false;
     l.withDblAcc = false;
     l.useKeySign = false;
+    l.manualKey = false;
     l.loKey = 0;
     l.hiKey = 0;
     l.forceAccids = false;
