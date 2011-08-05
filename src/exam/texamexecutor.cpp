@@ -621,7 +621,7 @@ void TexamExecutor::prepareToExam() {
 
     disableWidgets();
 
-    mW->score->isExamExecuting(true);
+//     mW->score->isExamExecuting(true);
     disconnect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
     disconnect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     disconnect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
@@ -647,6 +647,7 @@ void TexamExecutor::prepareToExam() {
     mW->score->acceptSettings();
     mW->noteName->setEnabledEnharmNotes(false);
     mW->guitar->acceptSettings();
+	mW->score->isExamExecuting(true);
   // clearing all views/widgets
     clearWidgets();
     mW->guitar->createRangeBox(m_level.loFret, m_level.hiFret);
@@ -660,6 +661,7 @@ void TexamExecutor::restoreAfterExam() {
     mW->setWindowTitle(qApp->applicationName());
     mW->nootBar->removeAction(nextQuestAct);
     mW->examResults->clearResults();
+	mW->score->isExamExecuting(false);
 
     gl->NnameStyleInNoteName = m_glStore.nameStyleInNoteName;
     gl->showEnharmNotes = m_glStore.showEnharmNotes;
@@ -686,7 +688,7 @@ void TexamExecutor::restoreAfterExam() {
     connect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
     disconnect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
     connect(mW->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
-    mW->score->isExamExecuting(false);
+//     mW->score->isExamExecuting(false);
     mW->score->unLockScore();
     mW->guitar->deleteRangeBox();
     mW->clearAfterExam();
