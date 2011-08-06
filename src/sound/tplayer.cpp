@@ -19,12 +19,32 @@
 
 #include "tplayer.h"
 #include "tglobals.h"
-#include <cmath>
+#include "tnote.h"
+//#include <cmath>
 #include <QFile>
 #include <QDebug>
 
 
 extern Tglobals *gl;
+
+int Tplayer::paCallBack(const void *inBuffer, void *outBuffer, unsigned long framesPerBuffer,
+                        const PaStreamCallbackTimeInfo *timeInfo,
+                        PaStreamCallbackFlags statusFlags, void *userData) {
+
+    m_samplesCnt++;
+    short *data = (short*)userData;
+    short *out = (short*)outBuffer;
+
+    for (int i = 0; i < framesPerBuffer; i++)
+        *out++ = data[i + m_samplesCnt*framesPerBuffer];
+
+
+    return paContinue;
+
+}
+
+int Tplayer::m_samplesCnt = -1;
+
 
 Tplayer::Tplayer()
 {
@@ -37,8 +57,31 @@ Tplayer::Tplayer()
 
     m_paParam.device = Pa_GetDefaultOutputDevice();
     if (m_paParam.device != paNoDevice)
-        qDebug() << "found audio dev";
+        qDebug() << "found audio dev: " << QString::fromStdString(Pa_GetDeviceInfo(m_paParam.device)->name);
 
+    m_paParam.channelCount = m_chanels;
+    m_paParam.sampleFormat = paInt16;
+    m_paParam.suggestedLatency = Pa_GetDeviceInfo(m_paParam.device)->defaultLowOutputLatency;
+    m_paParam.hostApiSpecificStreamInfo = NULL;
+
+    m_paErr = Pa_OpenStream(&m_outStream, NULL, &m_paParam, m_sampleRate,
+                            256, paClipOff, paCallBack, m_audioArr);
+
+    if(m_paErr) {
+        qDebug() << QString::fromStdString(Pa_GetErrorText(m_paErr));
+        return;
+    }
+
+
+
+    m_wavDataPtr = (short*)m_audioArr;
+
+
+}
+
+Tplayer::~Tplayer() {
+    Pa_Terminate();
+    delete m_audioArr;
 }
 
 
@@ -60,39 +103,43 @@ void Tplayer::getAudioData() {
           return;
       }
       int fmtSize;
+      delete chunkName;
+      chunkName = new char[4];
       wavStream.skipRawData(1);
       wavStream.readRawData(chunkName, 4);
-      fmtSize = getValueFromChunk(chunkName, 4);
+      fmtSize = *((int*)chunkName);
       wavStream.readRawData(chunkName, 2);
-      short wavFormat = getValueFromChunk(chunkName, 2);
+      short wavFormat = *((short*)chunkName);
       if (wavFormat != 1) {
             qDebug() << "has unsuported data format!!! Use only PCM uncompresed, please.";
             return;
         }
 
-      unsigned short chanels;
-      quint32 sampleRate;
       quint32 dataSizeFromChunk;
 
       wavStream.readRawData(chunkName, 2);
-      chanels = getValueFromChunk(chunkName, 2);
-      qDebug() << "chanels: " << chanels;
+      m_chanels = *((unsigned short*)chunkName);
+      qDebug() << "m_chanels: " << m_chanels;
       wavStream.readRawData(chunkName, 4);
-      sampleRate = getValueFromChunk(chunkName, 4);
-      qDebug() << "sample rate: " << sampleRate;
+      m_sampleRate = *((quint32*)chunkName);
+      qDebug() << "sample rate: " << m_sampleRate;
       wavStream.skipRawData(fmtSize - 8 + 4);
       wavStream.readRawData(chunkName, 4);
-      dataSizeFromChunk = getValueFromChunk(chunkName, 4);
+      dataSizeFromChunk = *((quint32*)chunkName);
       qDebug() << "data size: " << (dataSizeFromChunk/1000)/1000 << "MB";
+      m_audioArr = new char[dataSizeFromChunk];
+      wavStream.readRawData(m_audioArr, dataSizeFromChunk);
+//      m_wavDataPtr = new short[dataSizeFromChunk/2];
 
       wavFile->close();
 
 }
 
-int Tplayer::getValueFromChunk(char *chunk, int len) {
-    int res = 0;
-    for (int i = 0; i < len; ++i) {
-        res = res + (quint8)chunk[i] * pow(256,i);
+void Tplayer::play(Tnote note) {
+//    qDebug() << (int)note.getChromaticNrOfNote();
+    m_samplesCnt = -1;
+    m_paErr = Pa_StartStream(m_outStream);
+    if(m_paErr) {
+        qDebug() << "stream error:" << QString::fromStdString(Pa_GetErrorText(m_paErr));
     }
-    return res;
 }

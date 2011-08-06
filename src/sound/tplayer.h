@@ -21,22 +21,40 @@
 #define TPLAYER_H
 
 #include "portaudio.h"
+#include <QString>
 
+class Tnote;
 
 class Tplayer
 {
 public:
     Tplayer();
+    ~Tplayer();
+
+    void play(Tnote note);
+
 
 
 private:
     void getAudioData();
-    int getValueFromChunk(char *chunk, int len);
+    static int paCallBack( const void *inBuffer, void *outBuffer,
+                                unsigned long framesPerBuffer,
+                                const PaStreamCallbackTimeInfo* timeInfo,
+                                PaStreamCallbackFlags statusFlags,
+                                void *userData );
+//    int getValueFromChunk(char *chunk, int len);
 
 
 
     PaStreamParameters m_paParam;
     PaError m_paErr;
+    PaStream *m_outStream;
+
+    unsigned short m_chanels;
+    quint32 m_sampleRate;
+    char *m_audioArr;
+    short *m_wavDataPtr;
+    static int m_samplesCnt;
 
 
 };
