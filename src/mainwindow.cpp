@@ -22,6 +22,7 @@
 #include "examsettingsdlg.h"
 #include "taboutnootka.h"
 #include "tfirstrunwizzard.h"
+#include "tplayer.h"
 #include <QtGui>
 //#include <QDebug>
 
@@ -45,6 +46,8 @@ MainWindow::MainWindow(QWidget *parent)
 	TkeySignature::setNameStyle(
                 gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
     }
+
+    Tplayer *player = new Tplayer();
 
     QWidget *widget = new QWidget(this);
     QVBoxLayout *mainLay = new QVBoxLayout;
