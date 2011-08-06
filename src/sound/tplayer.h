@@ -53,8 +53,10 @@ private:
     unsigned short m_chanels;
     quint32 m_sampleRate;
     char *m_audioArr;
-    short *m_wavDataPtr;
+        /** maximum number of paCallBack calls per 2 sec. of playing */
+    static int m_maxCBloops;
     static int m_samplesCnt;
+    static int m_noteOffset;
 
 
 };

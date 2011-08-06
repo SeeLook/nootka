@@ -30,7 +30,7 @@
 
 
 class QCheckBox;
-
+class Tplayer;
 
 class MainWindow : public QMainWindow
 {
@@ -66,7 +66,7 @@ protected:
     TscoreWidget *score;
     TnoteName *noteName;
     TfingerBoard *guitar;
-//    Tplayer *player;
+    Tplayer *player;
     TexamView *examResults;
     TexamExecutor *ex;
 
