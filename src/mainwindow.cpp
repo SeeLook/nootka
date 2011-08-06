@@ -47,8 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
                 gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
     }
 
-    Tplayer *player = new Tplayer();
-    player->play(Tnote(1, -1));
+    player = new Tplayer();
 
     QWidget *widget = new QWidget(this);
     QVBoxLayout *mainLay = new QVBoxLayout;
@@ -249,6 +248,7 @@ void MainWindow::noteWasClicked(int index, Tnote note) {
     } else
         noteName->setNoteName(note);
     guitar->setFinger(note);
+    player->play(note);
 }
 
 void MainWindow::noteNameWasChanged(Tnote note) {

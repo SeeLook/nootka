@@ -27,24 +27,28 @@
 
 extern Tglobals *gl;
 
+
+/* static */
 int Tplayer::paCallBack(const void *inBuffer, void *outBuffer, unsigned long framesPerBuffer,
                         const PaStreamCallbackTimeInfo *timeInfo,
                         PaStreamCallbackFlags statusFlags, void *userData) {
 
     m_samplesCnt++;
-    short *data = (short*)userData;
-    short *out = (short*)outBuffer;
-
-    for (int i = 0; i < framesPerBuffer; i++)
-        *out++ = data[i + m_samplesCnt*framesPerBuffer];
-
-
-    return paContinue;
-
+    if (m_samplesCnt < m_maxCBloops-10) {
+        short *data = (short*)userData;
+        short *out = (short*)outBuffer;
+        int off = m_samplesCnt*framesPerBuffer;
+        for (int i = 0; i < framesPerBuffer; i++)
+            *out++ = data[m_noteOffset + i + off];
+        return paContinue;
+    } else
+        return paComplete;
 }
 
 int Tplayer::m_samplesCnt = -1;
-
+int Tplayer::m_maxCBloops = 88200 / 256;
+int Tplayer::m_noteOffset = 0;
+/* end static */
 
 Tplayer::Tplayer()
 {
@@ -71,17 +75,12 @@ Tplayer::Tplayer()
         qDebug() << QString::fromStdString(Pa_GetErrorText(m_paErr));
         return;
     }
-
-
-
-    m_wavDataPtr = (short*)m_audioArr;
-
-
 }
 
 Tplayer::~Tplayer() {
-    Pa_Terminate();
     delete m_audioArr;
+    Pa_CloseStream(m_outStream);
+    Pa_Terminate();
 }
 
 
@@ -129,7 +128,6 @@ void Tplayer::getAudioData() {
       qDebug() << "data size: " << (dataSizeFromChunk/1000)/1000 << "MB";
       m_audioArr = new char[dataSizeFromChunk];
       wavStream.readRawData(m_audioArr, dataSizeFromChunk);
-//      m_wavDataPtr = new short[dataSizeFromChunk/2];
 
       wavFile->close();
 
@@ -137,7 +135,12 @@ void Tplayer::getAudioData() {
 
 void Tplayer::play(Tnote note) {
 //    qDebug() << (int)note.getChromaticNrOfNote();
+    if (Pa_IsStreamActive(m_outStream) == 1)
+        m_paErr = Pa_AbortStream(m_outStream);
+    m_paErr = Pa_StopStream(m_outStream);
     m_samplesCnt = -1;
+    m_noteOffset = (note.getChromaticNrOfNote() + 11)*88200;
+
     m_paErr = Pa_StartStream(m_outStream);
     if(m_paErr) {
         qDebug() << "stream error:" << QString::fromStdString(Pa_GetErrorText(m_paErr));
