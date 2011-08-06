@@ -48,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     Tplayer *player = new Tplayer();
+    player->play(Tnote(1, -1));
 
     QWidget *widget = new QWidget(this);
     QVBoxLayout *mainLay = new QVBoxLayout;
