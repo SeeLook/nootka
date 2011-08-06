@@ -66,6 +66,7 @@ protected:
     TscoreWidget *score;
     TnoteName *noteName;
     TfingerBoard *guitar;
+//    Tplayer *player;
     TexamView *examResults;
     TexamExecutor *ex;
 

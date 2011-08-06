@@ -46,6 +46,8 @@ SET( NOOTKA_SRCS
   info/taboutnootka.cpp
   info/tfirstrunwizzard.cpp
   info/select7note.cpp
+###### Sound
+  sound/tplayer.cpp
   )
 
 #SET( NOOTKA_HEADERS
@@ -108,6 +110,7 @@ ADD_EXECUTABLE( nootka
 TARGET_LINK_LIBRARIES(nootka
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
+        ${PORTAUDIO_LIBRARIES}
  #       ${QT_QTSVG_LIBRARY}
 )
 
