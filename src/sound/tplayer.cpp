@@ -34,7 +34,7 @@ int Tplayer::paCallBack(const void *inBuffer, void *outBuffer, unsigned long fra
                         PaStreamCallbackFlags statusFlags, void *userData) {
 
     m_samplesCnt++;
-    if (m_samplesCnt < m_maxCBloops-10) {
+    if (m_samplesCnt < m_maxCBloops-1) {
         short *data = (short*)userData;
         short *out = (short*)outBuffer;
         int off = m_samplesCnt*framesPerBuffer;
@@ -46,7 +46,7 @@ int Tplayer::paCallBack(const void *inBuffer, void *outBuffer, unsigned long fra
 }
 
 int Tplayer::m_samplesCnt = -1;
-int Tplayer::m_maxCBloops = 88200 / 256;
+int Tplayer::m_maxCBloops = 44100 / 256;
 int Tplayer::m_noteOffset = 0;
 /* end static */
 
@@ -139,7 +139,7 @@ void Tplayer::play(Tnote note) {
         m_paErr = Pa_AbortStream(m_outStream);
     m_paErr = Pa_StopStream(m_outStream);
     m_samplesCnt = -1;
-    m_noteOffset = (note.getChromaticNrOfNote() + 11)*88200;
+    m_noteOffset = (note.getChromaticNrOfNote() + 11)*44100;
 
     m_paErr = Pa_StartStream(m_outStream);
     if(m_paErr) {
