@@ -32,13 +32,16 @@ trackA = <<
 
 trackBchannelA = {
   
-  \set Staff.instrumentName = "acoustic guitar (nylon)"
+  
+  \set Staff.midiInstrument="acoustic guitar (nylon)"
   
 }
 
 trackBchannelB = \relative c {
   \clef "treble_8"
-  c,4. r8 cis4. r8 
+  
+  \set Staff.midiInstrument="acoustic guitar (nylon)"
+  c,4. \fff r8 cis4. r8 
   | % 2
   d4. r8 dis4. r8 
   | % 3
