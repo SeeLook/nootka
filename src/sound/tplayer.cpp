@@ -135,14 +135,21 @@ void Tplayer::getAudioData() {
 
 void Tplayer::play(Tnote note) {
 //    qDebug() << (int)note.getChromaticNrOfNote();
-    if (Pa_IsStreamActive(m_outStream) == 1)
+    if (Pa_IsStreamActive(m_outStream) == 1) {
         m_paErr = Pa_AbortStream(m_outStream);
-    m_paErr = Pa_StopStream(m_outStream);
+		if(m_paErr)
+	        qDebug() << "abort error:" << QString::fromStdString(Pa_GetErrorText(m_paErr));
+	}
+	if (Pa_IsStreamStopped(m_outStream) == 0) {
+	    m_paErr = Pa_StopStream(m_outStream);
+		if(m_paErr)
+	        qDebug() << "stop error:" << QString::fromStdString(Pa_GetErrorText(m_paErr));
+	}
     m_samplesCnt = -1;
     m_noteOffset = (note.getChromaticNrOfNote() + 11)*44100;
 
     m_paErr = Pa_StartStream(m_outStream);
     if(m_paErr) {
-        qDebug() << "stream error:" << QString::fromStdString(Pa_GetErrorText(m_paErr));
+        qDebug() << "start stream error:" << QString::fromStdString(Pa_GetErrorText(m_paErr));
     }
 }

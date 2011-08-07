@@ -239,6 +239,7 @@ void MainWindow::aboutSlot() {
 }
 
 void MainWindow::noteWasClicked(int index, Tnote note) {
+	player->play(note);
     if (gl->showEnharmNotes){
         TnotesList noteList;
         noteList.push_back(note);
@@ -248,10 +249,10 @@ void MainWindow::noteWasClicked(int index, Tnote note) {
     } else
         noteName->setNoteName(note);
     guitar->setFinger(note);
-    player->play(note);
 }
 
 void MainWindow::noteNameWasChanged(Tnote note) {
+	player->play(note);
     score->setNote(0, note);
     if (gl->showEnharmNotes) {
         score->setNote(1, noteName->getNoteName(1));
@@ -261,6 +262,7 @@ void MainWindow::noteNameWasChanged(Tnote note) {
 }
 
 void MainWindow::guitarWasClicked(Tnote note) {
+	player->play(note);
     if (gl->showEnharmNotes) {
         TnotesList noteList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
         noteName->setNoteName(noteList);
@@ -269,7 +271,6 @@ void MainWindow::guitarWasClicked(Tnote note) {
     } else
         noteName->setNoteName(note);
     score->setNote(0, note);
-
 }
 
 bool MainWindow::event(QEvent *event) {
