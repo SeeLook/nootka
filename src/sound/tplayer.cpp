@@ -58,8 +58,10 @@ int Tplayer::paCallBack(const void *inBuffer, void *outBuffer, unsigned long fra
         short *data = (short*)userData;
         short *out = (short*)outBuffer;
         int off = m_samplesCnt*framesPerBuffer;
-        for (int i = 0; i < framesPerBuffer; i++)
+        for (int i = 0; i < framesPerBuffer; i++) {
             *out++ = data[m_noteOffset + i + off];
+
+        }
         return paContinue;
     } else
         return paComplete;
@@ -109,59 +111,61 @@ Tplayer::Tplayer()
 }
 
 Tplayer::~Tplayer() {
-    delete m_audioArr;
     Pa_CloseStream(m_outStream);
     Pa_Terminate();
+    delete m_audioArr;
 }
 
 
 void Tplayer::getAudioData() {
-      QFile *wavFile = new QFile(gl->path + "sounds/classical-guitar.wav");
-      wavFile->open(QIODevice::ReadOnly);
-      QDataStream wavStream(wavFile);
-      char *chunkName = new char[3];
-      wavStream.readRawData(chunkName, 3);
-      QString riffHead(chunkName);
-      wavStream.skipRawData(5);
-      wavStream.readRawData(chunkName, 3);
-      QString waveHead(chunkName);
-      wavStream.skipRawData(1);
-      wavStream.readRawData(chunkName, 3);
-      QString fmtHead(chunkName);
-      if ( (riffHead != "RIF") || (waveHead != "WAV") || (fmtHead != "fmt") ) {
-          qDebug() << "wav file is not valid!!!";
-          return;
-      }
-      int fmtSize;
-      delete chunkName;
-      chunkName = new char[4];
-      wavStream.skipRawData(1);
-      wavStream.readRawData(chunkName, 4);
-      fmtSize = *((int*)chunkName);
-      wavStream.readRawData(chunkName, 2);
-      short wavFormat = *((short*)chunkName);
-      if (wavFormat != 1) {
-            qDebug() << "has unsuported data format!!! Use only PCM uncompresed, please.";
-            return;
-        }
+    QFile wavFile(gl->path + "sounds/classical-guitar.wav");
+    if (!wavFile.exists())
+        return;
+    wavFile.open(QIODevice::ReadOnly);
+    QDataStream wavStream(&wavFile);
+    char *chunkName = new char[3];
+    wavStream.readRawData(chunkName, 3);
+    QString riffHead(chunkName);
+    wavStream.skipRawData(5);
+    wavStream.readRawData(chunkName, 3);
+    QString waveHead(chunkName);
+    wavStream.skipRawData(1);
+    wavStream.readRawData(chunkName, 3);
+    QString fmtHead(chunkName);
+//    if ( (riffHead != "RIF") || (waveHead != "WAV") || (fmtHead != "fmt") ) {
+//        qDebug() << "wav file is not valid!!!" << riffHead << waveHead << fmtHead;
+//        return;
+//    }
+    int fmtSize;
+    delete chunkName;
+    chunkName = new char[4];
+    wavStream.skipRawData(1);
+    wavStream.readRawData(chunkName, 4);
+    fmtSize = *((int*)chunkName);
+    wavStream.readRawData(chunkName, 2);
+    short wavFormat = *((short*)chunkName);
+    if (wavFormat != 1) {
+        qDebug() << "has unsuported data format!!! Use only PCM uncompresed, please.";
+        return;
+    }
 
-      quint32 dataSizeFromChunk;
+    quint32 dataSizeFromChunk;
 
-      wavStream.readRawData(chunkName, 2);
-      m_chanels = *((unsigned short*)chunkName);
-//      qDebug() << "m_chanels: " << m_chanels;
-      wavStream.readRawData(chunkName, 4);
-      m_sampleRate = *((quint32*)chunkName);
-//      qDebug() << "sample rate: " << m_sampleRate;
-      wavStream.skipRawData(fmtSize - 8 + 4);
-      wavStream.readRawData(chunkName, 4);
-      dataSizeFromChunk = *((quint32*)chunkName);
-//      qDebug() << "data size: " << (dataSizeFromChunk/1000)/1000 << "MB";
-      m_audioArr = new char[dataSizeFromChunk];
-      wavStream.readRawData(m_audioArr, dataSizeFromChunk);
+    wavStream.readRawData(chunkName, 2);
+    m_chanels = *((unsigned short*)chunkName);
+    //      qDebug() << "m_chanels: " << m_chanels;
+    wavStream.readRawData(chunkName, 4);
+    m_sampleRate = *((quint32*)chunkName);
+    //      qDebug() << "sample rate: " << m_sampleRate;
+    wavStream.skipRawData(fmtSize - 8 + 4);
+    wavStream.readRawData(chunkName, 4);
+    dataSizeFromChunk = *((quint32*)chunkName);
+    //      qDebug() << "data size: " << (dataSizeFromChunk/1000)/1000 << "MB";
+    m_audioArr = new char[dataSizeFromChunk];
+    wavStream.readRawData(m_audioArr, dataSizeFromChunk);
 
-      wavFile->close();
-
+    wavFile.close();
+    delete chunkName;
 }
 
 void Tplayer::play(Tnote note) {
