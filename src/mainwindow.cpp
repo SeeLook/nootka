@@ -221,7 +221,8 @@ void MainWindow::createSettingsDialog() {
         noteWasClicked(0,noteName->getNoteName(0));//refresh name
         guitar->acceptSettings();;//refresh guitar
         m_hintsChB->setChecked(gl->hintsEnabled);
-        delete player;
+        if (player)
+            delete player;
         if (gl->AoutSoundEnabled) {
             player = new Tplayer();
         } else
