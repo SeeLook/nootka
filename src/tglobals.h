@@ -122,11 +122,16 @@ public:
         /** Next quetion in en exam is given automatically after
          * correct answer */
     bool EautoNextQuest;
-        /** If EautoNextQuest is true incorrect questions are asked
-        * untill correct answer will be given. */
+        /** If EautoNextQuest is true incorrect questions are asked again once */
     bool ErepeatIncorrect;
+        /** or until correct answer will be given. */
+    bool ErepeatUntilcorrect;
 
+//============ Sound settings ===========================================================
 
+    bool AoutSoundEnabled; // default true
+    char AoutDeviceNr; // -1 for system default device
+    QString AoutDeviceName; // default empty
 
 private:
   //--- for tune part ----------------

@@ -20,7 +20,6 @@
 #include "tplayer.h"
 #include "tglobals.h"
 #include "tnote.h"
-//#include <cmath>
 #include <QFile>
 #include <QDebug>
 
@@ -29,6 +28,25 @@ extern Tglobals *gl;
 
 
 /* static */
+QStringList Tplayer::getAudioDevicesList() {
+    QStringList devList;
+    PaError err = Pa_Initialize();
+    if (err != paNoError)
+        return devList;
+    PaDeviceIndex devCnt = Pa_GetDeviceCount();
+    if (devCnt < 1)
+        return devList;
+
+    devList << QObject::tr("default");
+    const PaDeviceInfo *devInfo;
+    for (int i = 0; i < devCnt; i++) {
+        devInfo = Pa_GetDeviceInfo(i);
+        if (devInfo->maxOutputChannels > 0)
+            devList << QString(devInfo->name);
+    }
+    return devList;
+}
+
 int Tplayer::paCallBack(const void *inBuffer, void *outBuffer, unsigned long framesPerBuffer,
                         const PaStreamCallbackTimeInfo *timeInfo,
                         PaStreamCallbackFlags statusFlags, void *userData) {
@@ -118,14 +136,14 @@ void Tplayer::getAudioData() {
 
       wavStream.readRawData(chunkName, 2);
       m_chanels = *((unsigned short*)chunkName);
-      qDebug() << "m_chanels: " << m_chanels;
+//      qDebug() << "m_chanels: " << m_chanels;
       wavStream.readRawData(chunkName, 4);
       m_sampleRate = *((quint32*)chunkName);
-      qDebug() << "sample rate: " << m_sampleRate;
+//      qDebug() << "sample rate: " << m_sampleRate;
       wavStream.skipRawData(fmtSize - 8 + 4);
       wavStream.readRawData(chunkName, 4);
       dataSizeFromChunk = *((quint32*)chunkName);
-      qDebug() << "data size: " << (dataSizeFromChunk/1000)/1000 << "MB";
+//      qDebug() << "data size: " << (dataSizeFromChunk/1000)/1000 << "MB";
       m_audioArr = new char[dataSizeFromChunk];
       wavStream.readRawData(m_audioArr, dataSizeFromChunk);
 

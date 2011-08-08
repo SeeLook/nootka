@@ -17,53 +17,18 @@
  ***************************************************************************/
 
 
-#ifndef TPLAYER_H
-#define TPLAYER_H
+#include "soundsettings.h"
+#include "tplayer.h"
+#include <QtGui>
 
-#include "portaudio.h"
-#include <QString>
-
-class Tnote;
-
-class Tplayer
+SoundSettings::SoundSettings(QWidget *parent) :
+    QWidget(parent)
 {
-public:
-    Tplayer();
-    ~Tplayer();
+    QVBoxLayout *lay = new QVBoxLayout;
 
-    static QStringList getAudioDevicesList();
+    audioDevListCombo = new QComboBox(this);
+    lay->addWidget(audioDevListCombo);
+    audioDevListCombo->addItems(Tplayer::getAudioDevicesList());
 
-    void play(Tnote note);
-        /** It sets device to value taken from Tglobals */
-    void setDevice();
-
-
-
-
-private:
-    void getAudioData();
-    static int paCallBack( const void *inBuffer, void *outBuffer,
-                                unsigned long framesPerBuffer,
-                                const PaStreamCallbackTimeInfo* timeInfo,
-                                PaStreamCallbackFlags statusFlags,
-                                void *userData );
-//    int getValueFromChunk(char *chunk, int len);
-
-
-
-    PaStreamParameters m_paParam;
-    PaError m_paErr;
-    PaStream *m_outStream;
-
-    unsigned short m_chanels;
-    quint32 m_sampleRate;
-    char *m_audioArr;
-        /** maximum number of paCallBack calls per 2 sec. of playing */
-    static int m_maxCBloops;
-    static int m_samplesCnt;
-    static int m_noteOffset;
-
-
-};
-
-#endif // TPLAYER_H
+    setLayout(lay);
+}

@@ -197,18 +197,23 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     navList->addItem(tr("Exam"));
     navList->item(4)->setIcon(QIcon(gl->path+"picts/questionsSettings.png"));
     navList->item(4)->setTextAlignment(Qt::AlignCenter);
+    navList->addItem(tr("Sound"));
+    navList->item(5)->setIcon(QIcon(gl->path+"picts/soundSettings.png"));
+    navList->item(5)->setTextAlignment(Qt::AlignCenter);
 
     m_globalSett = new GlobalSettings();
     m_scoreSett = new ScoreSettings();
     m_nameSett = new NameSettings();
     m_guitarSett = new GuitarSettings();
     m_examSett = new ExamSettings();
+    m_soundSett = new SoundSettings();
 
     stackLayout->addWidget(m_globalSett);
     stackLayout->addWidget(m_scoreSett);
     stackLayout->addWidget(m_nameSett);
     stackLayout->addWidget(m_guitarSett);
     stackLayout->addWidget(m_examSett);
+    stackLayout->addWidget(m_soundSett);
 
     connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
     connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
