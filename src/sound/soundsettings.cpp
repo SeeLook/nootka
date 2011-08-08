@@ -19,16 +19,37 @@
 
 #include "soundsettings.h"
 #include "tplayer.h"
+#include "tglobals.h"
 #include <QtGui>
+
+extern Tglobals *gl;
 
 SoundSettings::SoundSettings(QWidget *parent) :
     QWidget(parent)
 {
     QVBoxLayout *lay = new QVBoxLayout;
 
-    audioDevListCombo = new QComboBox(this);
-    lay->addWidget(audioDevListCombo);
-    audioDevListCombo->addItems(Tplayer::getAudioDevicesList());
+    audioOutEnableGr = new QGroupBox(tr("play sound"), this);
+    audioOutEnableGr->setStatusTip(tr("Selected notes and guitar positions will be played."));
+    audioOutEnableGr->setCheckable(true);
+    audioOutEnableGr->setChecked(gl->AoutSoundEnabled);
 
+    QVBoxLayout *outLay = new QVBoxLayout;
+    audioOutDevListCombo = new QComboBox(this);
+    audioOutDevListCombo->setStatusTip(tr("Select audio device for playing."));
+    outLay->addWidget(audioOutDevListCombo);
+    audioOutDevListCombo->addItems(Tplayer::getAudioDevicesList());
+    int id = audioOutDevListCombo->findText(gl->AoutDeviceName);
+    if (id != -1)
+        audioOutDevListCombo->setCurrentIndex(id);
+    audioOutEnableGr->setLayout(outLay);
+
+    lay->addWidget(audioOutEnableGr);
+    lay->addStretch(1);
     setLayout(lay);
+}
+
+void SoundSettings::saveSettings() {
+    gl->AoutSoundEnabled = audioOutEnableGr->isChecked();
+    gl->AoutDeviceName = audioOutDevListCombo->currentText();
 }

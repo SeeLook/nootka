@@ -23,6 +23,7 @@
 #include <QWidget>
 
 class QComboBox;
+class QGroupBox;
 
 class SoundSettings : public QWidget
 {
@@ -30,12 +31,15 @@ class SoundSettings : public QWidget
 public:
     explicit SoundSettings(QWidget *parent = 0);
 
+    void saveSettings();
+
 signals:
 
 public slots:
 
 private:
-    QComboBox *audioDevListCombo;
+    QGroupBox *audioOutEnableGr;
+    QComboBox *audioOutDevListCombo;
 
 };
 

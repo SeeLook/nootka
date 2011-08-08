@@ -47,7 +47,10 @@ MainWindow::MainWindow(QWidget *parent)
                 gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
     }
 
-    player = new Tplayer();
+    if (gl->AoutSoundEnabled)
+        player = new Tplayer();
+    else
+        player = 0;
 
     QWidget *widget = new QWidget(this);
     QVBoxLayout *mainLay = new QVBoxLayout;
@@ -218,6 +221,11 @@ void MainWindow::createSettingsDialog() {
         noteWasClicked(0,noteName->getNoteName(0));//refresh name
         guitar->acceptSettings();;//refresh guitar
         m_hintsChB->setChecked(gl->hintsEnabled);
+        delete player;
+        if (gl->AoutSoundEnabled) {
+            player = new Tplayer();
+        } else
+            player = 0;
     }
     delete settings;
 }
@@ -239,7 +247,8 @@ void MainWindow::aboutSlot() {
 }
 
 void MainWindow::noteWasClicked(int index, Tnote note) {
-	player->play(note);
+    if (gl->AoutSoundEnabled)
+        player->play(note);
     if (gl->showEnharmNotes){
         TnotesList noteList;
         noteList.push_back(note);
@@ -252,7 +261,8 @@ void MainWindow::noteWasClicked(int index, Tnote note) {
 }
 
 void MainWindow::noteNameWasChanged(Tnote note) {
-	player->play(note);
+    if (gl->AoutSoundEnabled)
+        player->play(note);
     score->setNote(0, note);
     if (gl->showEnharmNotes) {
         score->setNote(1, noteName->getNoteName(1));
@@ -262,7 +272,8 @@ void MainWindow::noteNameWasChanged(Tnote note) {
 }
 
 void MainWindow::guitarWasClicked(Tnote note) {
-	player->play(note);
+    if (gl->AoutSoundEnabled)
+        player->play(note);
     if (gl->showEnharmNotes) {
         TnotesList noteList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
         noteName->setNoteName(noteList);

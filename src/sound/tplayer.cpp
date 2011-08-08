@@ -33,14 +33,16 @@ QStringList Tplayer::getAudioDevicesList() {
     PaError err = Pa_Initialize();
     if (err != paNoError)
         return devList;
-    PaDeviceIndex devCnt = Pa_GetDeviceCount();
+
+    const PaHostApiInfo *hostApi = Pa_GetHostApiInfo(Pa_GetDefaultHostApi());
+    int devCnt = hostApi->deviceCount;
     if (devCnt < 1)
         return devList;
 
-    devList << QObject::tr("default");
+//    devList << QObject::tr("default");
     const PaDeviceInfo *devInfo;
     for (int i = 0; i < devCnt; i++) {
-        devInfo = Pa_GetDeviceInfo(i);
+        devInfo = Pa_GetDeviceInfo( Pa_HostApiDeviceIndexToDeviceIndex(Pa_GetDefaultHostApi(), i) );
         if (devInfo->maxOutputChannels > 0)
             devList << QString(devInfo->name);
     }
@@ -77,7 +79,18 @@ Tplayer::Tplayer()
     if(m_paErr)
         return;
 
-    m_paParam.device = Pa_GetDefaultOutputDevice();
+    if (gl->AoutDeviceName == "")
+        m_paParam.device = Pa_GetDefaultOutputDevice();
+    else {
+        QStringList devList = getAudioDevicesList();
+        if (devList.size()) {
+            int id = devList.indexOf(gl->AoutDeviceName);
+            if (id != -1)
+                m_paParam.device = Pa_HostApiDeviceIndexToDeviceIndex(Pa_GetDefaultHostApi(), id);
+            else
+                m_paParam.device = Pa_GetDefaultOutputDevice();
+        }
+    }
     if (m_paParam.device != paNoDevice)
         qDebug() << "found audio dev: " << QString::fromStdString(Pa_GetDeviceInfo(m_paParam.device)->name);
 

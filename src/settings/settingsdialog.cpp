@@ -229,6 +229,7 @@ void SettingsDialog::saveSettings() {
     m_nameSett->saveSettings();
     m_guitarSett->saveSettings();
     m_examSett->saveSettings();
+    m_soundSett->saveSettings();
 }
 
 
