@@ -48,6 +48,7 @@ SET( NOOTKA_SRCS
   info/select7note.cpp
 ###### Sound
   sound/tplayer.cpp
+  sound/soundsettings.cpp
   )
 
 #SET( NOOTKA_HEADERS
@@ -90,6 +91,8 @@ SET( NOOTKA_MOC_SRCS
   info/taboutnootka.h
   info/tfirstrunwizzard.h
   info/select7note.h
+###### Sound
+  sound/soundsettings.h
   )
 
 QT4_WRAP_CPP( NOOTKA_MOCS ${NOOTKA_MOC_SRCS} )

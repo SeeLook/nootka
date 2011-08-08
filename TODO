@@ -18,6 +18,7 @@ TNOTENAME
     - buttons' with accids and octaves state during asking question
 
 TFINGERBOARD
+    - selected open strings are not hidden when selected finger is on the same string
 
 
 TKEYSIGNATUREVIEW
@@ -34,3 +35,6 @@ MIMETYPES
 
 MAINWINDOW
     - clear background color in hints after exams - it remains red so far
+
+MAIN
+    - path calculated in a few places

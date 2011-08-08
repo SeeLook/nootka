@@ -150,6 +150,13 @@ Tglobals::Tglobals() {
         ErepeatIncorrect = sett.value("repeatIncorrect", true).toBool(); //true;
     sett.endGroup();
 
+// Sound settings
+    sett.beginGroup("sound");
+        AoutDeviceNr = (char)sett.value("outDeviceNr", -1).toInt();
+        AoutSoundEnabled = sett.value("outSoundEnabled", true).toBool();
+        AoutDeviceName = sett.value("outDeviceName", "").toString();
+    sett.endGroup();
+
 }
 
 Tglobals::~Tglobals() {
@@ -219,5 +226,11 @@ void Tglobals::storeSettings() {
         sett.setValue("answerColor", EanswerColor);
         sett.setValue("autoNextQuest", EautoNextQuest);
         sett.setValue("repeatIncorrect", ErepeatIncorrect);
+    sett.endGroup();
+
+    sett.beginGroup("sound");
+        sett.setValue("outSoundEnabled", AoutSoundEnabled);
+        sett.setValue("outDeviceNr", (int)AoutDeviceNr);
+        sett.setValue("outDeviceName", AoutDeviceName);
     sett.endGroup();
 }

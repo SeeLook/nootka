@@ -25,6 +25,7 @@
 #include "tsettingsdialogbase.h"
 #include "namesettings.h"
 #include "scoresettings.h"
+#include "soundsettings.h"
 
 class QCheckBox;
 class QSpinBox;
@@ -83,6 +84,7 @@ private:
     NameSettings *m_nameSett;
     GuitarSettings *m_guitarSett;
     ExamSettings   *m_examSett;
+    SoundSettings *m_soundSett;
 
 };
 
