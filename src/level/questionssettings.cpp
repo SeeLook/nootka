@@ -35,14 +35,17 @@ questionsSettings::questionsSettings(QWidget *parent) :
     asNoteWdg = new TasNoteWdg();
     asNameWdg = new TasNameWdg();
     asFretPosWdg = new TasFretPosWdg();
+    asPlayedSound = new TasPlayedSound();
 
     questAsToolBox->addItem(asNoteWdg, TquestionAsWdg::asNoteTxt());
     questAsToolBox->addItem(asNameWdg, TquestionAsWdg::asNameTxt());
     questAsToolBox->addItem(asFretPosWdg, TquestionAsWdg::asFretPosTxt());
+    questAsToolBox->addItem(asPlayedSound, TquestionAsWdg::asSoundTxt());
 
     connect(asNoteWdg, SIGNAL(asNoteChanged()), this, SLOT(whenParamsChanged()));
     connect(asNameWdg, SIGNAL(asNameChanged()), this, SLOT(whenParamsChanged()));
     connect(asFretPosWdg, SIGNAL(asFretPosChanged()), this, SLOT(whenParamsChanged()));
+    connect(asPlayedSound, SIGNAL(asPlayedSoundChanged()), this, SLOT(whenParamsChanged()));
 
 }
 
@@ -50,6 +53,7 @@ void questionsSettings::loadLevel(TexamLevel level) {
     asNoteWdg->loadLevel(level);
     asNameWdg->loadLevel(level);
     asFretPosWdg->loadLevel(level);
+    asPlayedSound->loadLevel(level);
 }
 
 void questionsSettings::whenParamsChanged() {
@@ -60,6 +64,7 @@ void questionsSettings::saveLevel(TexamLevel &level) {
     asNoteWdg->saveLevel(level);
     asNameWdg->saveLevel(level);
     asFretPosWdg->saveLevel(level);
+    asPlayedSound->saveLevel(level);
 }
 
 //############################# AS NOTE IN A SCORE ###################################
@@ -381,4 +386,42 @@ void TasFretPosWdg::saveLevel(TexamLevel &level) {
     level.answersAs[TQAtype::e_asFretPos] = asPosGr->getAnswers();
     level.forceAccids = forceAccChB->isChecked();
     level.showStrNr = showStrNrChB->isChecked();
+}
+
+
+//############################# AS PLAYED SOUND ############################
+
+TasPlayedSound::TasPlayedSound(QWidget *parent) :
+        QWidget(parent)
+{
+    QVBoxLayout *mainLay = new QVBoxLayout;
+    asSoundGr = new TquestionAsWdg(this);
+    asSoundGr->setTitle(TquestionAsWdg::questionTxt() + " - " + TquestionAsWdg::asSoundTxt());
+    mainLay->addStretch(1);
+    mainLay->addWidget(asSoundGr, 1, Qt::AlignCenter);
+    mainLay->addStretch(1);
+
+
+    setLayout(mainLay);
+
+    connect(asSoundGr, SIGNAL(answerStateChanged()), this, SLOT(whenParamsChanged()));
+    connect(asSoundGr, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+}
+
+void TasPlayedSound::loadLevel(TexamLevel level) {
+    asSoundGr->setChecked(level.questionAs.isSound());
+    asSoundGr->setAnswers(level.answersAs[TQAtype::e_asSound]);
+
+}
+
+void TasPlayedSound::whenParamsChanged() {
+    if (!isNotSaved) {
+        isNotSaved = true;
+        emit asPlayedSoundChanged();;
+    }
+}
+
+void TasPlayedSound::saveLevel(TexamLevel &level) {
+    level.questionAs.setAsSound(asSoundGr->isChecked());
+    level.answersAs[TQAtype::e_asSound] = asSoundGr->getAnswers();
 }

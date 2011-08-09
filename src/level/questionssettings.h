@@ -115,6 +115,29 @@ private slots:
 
 };
 
+class TasPlayedSound : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit TasPlayedSound(QWidget *parent = 0);
+
+    void loadLevel(TexamLevel level);
+    void saveLevel(TexamLevel &level);
+
+signals:
+    void asPlayedSoundChanged();
+
+private:
+    TquestionAsWdg *asSoundGr;
+
+private slots:
+        /** Is called when user changes any parameter.
+            It emits asNameChanged signal. */
+    void whenParamsChanged();
+
+};
+
+
 class questionsSettings : public QWidget
 {
     Q_OBJECT
@@ -132,6 +155,7 @@ private:
     TasNoteWdg *asNoteWdg;
     TasNameWdg *asNameWdg;
     TasFretPosWdg *asFretPosWdg;
+    TasPlayedSound *asPlayedSound;
 
 private slots:
     void whenParamsChanged();

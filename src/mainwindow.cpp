@@ -106,6 +106,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
     connect(m_hintsChB, SIGNAL(clicked(bool)), this, SLOT(hintsStateChanged(bool)));
 
+    if (gl->AoutSoundEnabled && !player->isPlayable())
+        QMessageBox::warning(this, "", tr("Problems withs sound output"));
+
 }
 
 MainWindow::~MainWindow()
@@ -221,12 +224,15 @@ void MainWindow::createSettingsDialog() {
         noteWasClicked(0,noteName->getNoteName(0));//refresh name
         guitar->acceptSettings();;//refresh guitar
         m_hintsChB->setChecked(gl->hintsEnabled);
-        if (player)
-            delete player;
         if (gl->AoutSoundEnabled) {
-            player = new Tplayer();
-        } else
+            if (!player)
+                player = new Tplayer();
+            else // all this to avoid reading wav file every time
+                player->setDevice();
+        } else {
+            delete player;
             player = 0;
+        }
     }
     delete settings;
 }

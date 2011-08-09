@@ -24,7 +24,13 @@
 #include <QString>
 
 class Tnote;
-
+/** Tplayer is a class which plays single guitar sounds.
+  It takes it from file classical-guitar.wav, in method getAudioData checks file
+  and load data to m_audioArr. paCallBack method plays it with PortAudio.
+  Trick is that data is mono 22050 but output is stereo 44100. All this magic
+  is in paCallBack because of requirements of some audio devices.
+  So far playing is bounded to range C in Contra octave to e in 3-line.
+*/
 class Tplayer
 {
 public:
@@ -36,12 +42,14 @@ public:
     void play(Tnote note);
         /** It sets device to value taken from Tglobals */
     void setDevice();
+    bool isPlayable() { return m_playable; }
 
 
 
 
 private:
-    void getAudioData();
+        /** Loads wav file with scale to m_audioArr. If everything is ok return true*/
+    bool getAudioData();
     static int paCallBack( const void *inBuffer, void *outBuffer,
                                 unsigned long framesPerBuffer,
                                 const PaStreamCallbackTimeInfo* timeInfo,
@@ -55,12 +63,14 @@ private:
     PaError m_paErr;
     PaStream *m_outStream;
 
-    unsigned short m_chanels;
+    bool m_playable;
+//    unsigned short m_chanels;
     quint32 m_sampleRate;
     char *m_audioArr;
-        /** maximum number of paCallBack calls per 2 sec. of playing */
+        /** maximum number of paCallBack calls per one note (2 sec. of playing) */
     static int m_maxCBloops;
     static int m_samplesCnt;
+        /** position of a note in @param m_audioArr */
     static int m_noteOffset;
 
 
