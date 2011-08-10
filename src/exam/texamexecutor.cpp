@@ -22,6 +22,7 @@
 #include "tstartexamdlg.h"
 #include "tquestionaswdg.h"
 #include "tlevelselector.h"
+#include "tplayer.h"
 #include "mainwindow.h"
 #include <QtGui>
 #include <QDebug>
@@ -105,6 +106,21 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
                  mW->clearAfterExam();
                  return;
              }
+         //We checking is sound needed in exam and is it available
+             if (m_level.questionAs.isSound()) {
+                 bool soundOk;
+                 if (mW->player) {
+                     if (!mW->player->isPlayable()) soundOk = false;
+                     else soundOk = true;
+                 } else soundOk = false;
+                 if (!soundOk) {
+                     QMessageBox::warning(mW, "",
+                              tr("An exam requires sound but<br>sound output is not available !!!"));
+                     mW->clearAfterExam();
+                     return;
+                 }
+             }
+        // ---------- End of checking ----------------------------------
             mW->examResults->startExam(totalTime, m_answList.size(), averTime/m_answList.size(), mistNr);
     } else {
         mW->clearAfterExam();
@@ -300,6 +316,13 @@ void TexamExecutor::askQuestion() {
             m_answRequire.accid = false;
     }
 
+    if (curQ.questionAs == TQAtype::e_asSound) {
+        mW->player->play(curQ.qa.note);
+        questText += tr("Played sound show ");
+        if (!m_level.forceAccids)
+            m_answRequire.accid = false;
+    }
+
 // PREPARING ANSWERS
     if (curQ.answerAs == TQAtype::e_asNote) {
         questText += TquestionAsWdg::asNoteTxt();
@@ -387,7 +410,6 @@ void TexamExecutor::askQuestion() {
     mW->nootBar->removeAction(prevQuestAct);
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
-
 }
 
 Tnote::EnameStyle TexamExecutor::randomNameStyle() {
@@ -790,7 +812,7 @@ QString TexamExecutor::saveExamToFile() {
                          QDir::toNativeSeparators(QDir::homePath()+"/"+m_userName+"-"+m_level.name),
                                    TstartExamDlg::examFilterTxt());
     if (fileName == "")
-        if (QMessageBox::warning(mW, "", tr("If You don't save to file<br>all results are lost !!"),
+        if (QMessageBox::warning(mW, "", tr("If You don't save to file<br>You lost all results !!"),
                              QMessageBox::Save | QMessageBox::Discard, QMessageBox::Save)
             == QMessageBox::Save)
                 fileName = saveExamToFile();

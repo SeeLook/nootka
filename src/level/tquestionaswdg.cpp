@@ -24,7 +24,7 @@
 TquestionAsWdg::TquestionAsWdg(QWidget *parent) :
     QGroupBox(parent)
 {
-    setStatusTip(tr("Select mentioned answers for a question."));
+    setStatusTip(tr("Select a type of answers for a question."));
     QVBoxLayout *mainLay = new QVBoxLayout;
     QLabel *answersLab = new QLabel(answersTxt() + ":",this);
     mainLay->addWidget(answersLab,0,Qt::AlignCenter);

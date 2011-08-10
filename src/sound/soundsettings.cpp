@@ -40,9 +40,14 @@ SoundSettings::SoundSettings(QWidget *parent) :
     audioOutDevListCombo = new QComboBox(this);
     outLay->addWidget(audioOutDevListCombo);
     audioOutDevListCombo->addItems(Tplayer::getAudioDevicesList());
-    int id = audioOutDevListCombo->findText(gl->AoutDeviceName);
-    if (id != -1)
-        audioOutDevListCombo->setCurrentIndex(id);
+    if (audioOutDevListCombo->count()) {
+        int id = audioOutDevListCombo->findText(gl->AoutDeviceName);
+        if (id != -1)
+            audioOutDevListCombo->setCurrentIndex(id);
+    } else {
+        audioOutDevListCombo->addItem(tr("no devices found"));
+        audioOutDevListCombo->setDisabled(true);
+    }
     audioOutEnableGr->setLayout(outLay);
     outLay->addStretch(1);
     QLabel *outRangeLab = new QLabel(tr("The only notes from C<sub>1</sub> to e<sup>3</sup> are played !!"), this);
