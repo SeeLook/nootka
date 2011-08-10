@@ -31,6 +31,7 @@ extern Tglobals *gl;
 
 /* static */
 QStringList Tplayer::getAudioDevicesList() {
+    qDebug() << "looking";
     QStringList devList;
     PaError err = Pa_Initialize();
     if (err != paNoError)
@@ -38,12 +39,16 @@ QStringList Tplayer::getAudioDevicesList() {
 
     const PaHostApiInfo *hostApi = Pa_GetHostApiInfo(Pa_GetDefaultHostApi());
     int devCnt = hostApi->deviceCount;
+//    int devCnt = Pa_GetDeviceCount();
     if (devCnt < 1)
         return devList;
 //    devList << QObject::tr("default");
     const PaDeviceInfo *devInfo;
     for (int i = 0; i < devCnt; i++) {
-        devInfo = Pa_GetDeviceInfo( Pa_HostApiDeviceIndexToDeviceIndex(Pa_GetDefaultHostApi(), i) );
+        devInfo = Pa_GetDeviceInfo(
+                    Pa_HostApiDeviceIndexToDeviceIndex(Pa_GetDefaultHostApi(), i) );
+        qDebug() << QString::fromStdString(devInfo->name);
+//        devInfo = Pa_GetDeviceInfo(i);
         if (devInfo->maxOutputChannels > 0)
             devList << QString(devInfo->name);
     }
@@ -84,6 +89,7 @@ Tplayer::Tplayer()
 
     m_playable = true;
     if (getAudioData()) {
+        qDebug() << "init";
         m_paErr = Pa_Initialize();
         if(m_paErr) {
             m_playable = false;
@@ -176,7 +182,8 @@ void Tplayer::setDevice() {
         if (devList.size()) {
             int id = devList.indexOf(gl->AoutDeviceName);
             if (id != -1)
-                m_paParam.device = Pa_HostApiDeviceIndexToDeviceIndex(Pa_GetDefaultHostApi(), id);
+         m_paParam.device = Pa_HostApiDeviceIndexToDeviceIndex(Pa_GetDefaultHostApi(), id);
+//                m_paParam.device = id;
             else
                 m_paParam.device = Pa_GetDefaultOutputDevice();
         }
