@@ -31,24 +31,25 @@ extern Tglobals *gl;
 
 /* static */
 QStringList Tplayer::getAudioDevicesList() {
-    qDebug() << "looking";
     QStringList devList;
     PaError err = Pa_Initialize();
     if (err != paNoError)
         return devList;
 
-    const PaHostApiInfo *hostApi = Pa_GetHostApiInfo(Pa_GetDefaultHostApi());
-    int devCnt = hostApi->deviceCount;
-//    int devCnt = Pa_GetDeviceCount();
+//    const PaHostApiInfo *hostApi = Pa_GetHostApiInfo(Pa_GetDefaultHostApi());
+//    int devCnt = hostApi->deviceCount;
+    int devCnt = Pa_GetDeviceCount();
     if (devCnt < 1)
         return devList;
 //    devList << QObject::tr("default");
     const PaDeviceInfo *devInfo;
     for (int i = 0; i < devCnt; i++) {
-        devInfo = Pa_GetDeviceInfo(
-                    Pa_HostApiDeviceIndexToDeviceIndex(Pa_GetDefaultHostApi(), i) );
-        qDebug() << QString::fromStdString(devInfo->name);
-//        devInfo = Pa_GetDeviceInfo(i);
+//        devInfo = Pa_GetDeviceInfo(
+//                    Pa_HostApiDeviceIndexToDeviceIndex(Pa_GetDefaultHostApi(), i) );
+//        qDebug() << QString::fromStdString(devInfo->name)
+//                 << "Default sample rate:" << (int)devInfo->defaultSampleRate
+//                    << "ch:" << (int)devInfo->maxOutputChannels;
+        devInfo = Pa_GetDeviceInfo(i);
         if (devInfo->maxOutputChannels > 0)
             devList << QString(devInfo->name);
     }
@@ -86,21 +87,18 @@ int Tplayer::m_noteOffset = 0;
 
 Tplayer::Tplayer()
 {
-
     m_playable = true;
     if (getAudioData()) {
-        qDebug() << "init";
         m_paErr = Pa_Initialize();
         if(m_paErr) {
             m_playable = false;
             return;
         }
-
         m_paParam.channelCount = 2;
         m_paParam.sampleFormat = paInt16;
-        m_paParam.suggestedLatency = Pa_GetDeviceInfo(m_paParam.device)->defaultLowOutputLatency;
+//        m_paParam.suggestedLatency = Pa_GetDeviceInfo(m_paParam.device)->defaultLowOutputLatency;
         m_paParam.hostApiSpecificStreamInfo = NULL;
-
+        m_outStream = 0;
         setDevice();
     } else
         m_playable = false;
@@ -157,7 +155,7 @@ bool Tplayer::getAudioData() {
     wavStream.skipRawData(fmtSize - 8 + 4);
     wavStream.readRawData(chunkName, 4);
     dataSizeFromChunk = *((quint32*)chunkName);
-//          qDebug() << "data size: " << dataSizeFromChunk << 4740768;
+//    qDebug() << "data size: " << dataSizeFromChunk << 4740768;
     // we check is wav file this proper one ?
     if (m_chanels != 1 || wavFormat != 1 || m_sampleRate != 22050 || dataSizeFromChunk != 4740768) {
         qDebug() << "wav file error occured " << dataSizeFromChunk << m_chanels
@@ -172,24 +170,34 @@ bool Tplayer::getAudioData() {
 }
 
 void Tplayer::setDevice() {
-    m_playable = true;
-    if (Pa_IsStreamStopped(m_outStream) == 0)
-        Pa_CloseStream(m_outStream);
+    m_playable = true;    
+//    if (Pa_IsStreamStopped(m_outStream) == 0)
+//        Pa_CloseStream(m_outStream);
+    qDebug() << (int)m_outStream;
     if (gl->AoutDeviceName == "")
         m_paParam.device = Pa_GetDefaultOutputDevice();
     else {
-        QStringList devList = getAudioDevicesList();
+        QStringList devList;
+        for (int i = 0; i < Pa_GetDeviceCount(); i++) {
+                const PaDeviceInfo *devInfo = Pa_GetDeviceInfo(i);
+            devList << QString::fromStdString(devInfo->name);
+        }
         if (devList.size()) {
             int id = devList.indexOf(gl->AoutDeviceName);
-            if (id != -1)
-         m_paParam.device = Pa_HostApiDeviceIndexToDeviceIndex(Pa_GetDefaultHostApi(), id);
-//                m_paParam.device = id;
+            if (id != -1) {
+//            m_paParam.device = Pa_HostApiDeviceIndexToDeviceIndex(Pa_GetDefaultHostApi(), id);
+                m_paParam.device = id;
+                m_paParam.suggestedLatency =
+                        Pa_GetDeviceInfo(id)->defaultLowOutputLatency;
+
+            }
             else
                 m_paParam.device = Pa_GetDefaultOutputDevice();
         }
     }
     if (m_paParam.device != paNoDevice)
-//        qDebug() << "found audio dev: " << QString::fromStdString(Pa_GetDeviceInfo(m_paParam.device)->name);
+//        qDebug() << "found audio dev: " <<
+//                    QString::fromStdString(Pa_GetDeviceInfo(m_paParam.device)->name);
 
     m_paErr = Pa_OpenStream(&m_outStream, NULL, &m_paParam, SAMPLE_RATE,
                             BUFFER_SIZE, paClipOff, paCallBack, m_audioArr);
