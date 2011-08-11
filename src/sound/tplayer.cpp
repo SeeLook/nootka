@@ -230,21 +230,21 @@ void Tplayer::play(Tnote note) {
     int noteNr = note.getChromaticNrOfNote();
     if (noteNr < -11 || noteNr > 41)
         return; // beyond wav file scale
-    if (Pa_IsStreamActive(m_outStream) == 1) {
-        m_paErr = Pa_AbortStream(m_outStream);
-//		if(m_paErr)
-//	        qDebug() << "abort error:" << QString::fromStdString(Pa_GetErrorText(m_paErr));
+//     if (Pa_IsStreamActive(m_outStream) == 1) {
+//         m_paErr = Pa_AbortStream(m_outStream);
+// 		if(m_paErr)
+// 	        qDebug() << "abort error:" << QString::fromStdString(Pa_GetErrorText(m_paErr));
+// 	} 
+	if (Pa_IsStreamStopped(m_outStream) == 0) {
+	    m_paErr = Pa_StopStream(m_outStream);
+		if(m_paErr)
+	        qDebug() << "stop error:" << QString::fromStdString(Pa_GetErrorText(m_paErr));
 	}
-//	if (Pa_IsStreamStopped(m_outStream) == 0) {
-//	    m_paErr = Pa_StopStream(m_outStream);
-//		if(m_paErr)
-//	        qDebug() << "stop error:" << QString::fromStdString(Pa_GetErrorText(m_paErr));
-//	}
     m_samplesCnt = -1;
     m_noteOffset = (noteNr + 11)*SAMPLE_RATE;
 
     m_paErr = Pa_StartStream(m_outStream);
-//    if(m_paErr) {
-//        qDebug() << "start stream error:" << QString::fromStdString(Pa_GetErrorText(m_paErr));
-//    }
+   if(m_paErr) {
+       qDebug() << "start stream error:" << QString::fromStdString(Pa_GetErrorText(m_paErr));
+   }
 }
