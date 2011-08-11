@@ -23,6 +23,7 @@ else (PORTAUDIO_LIBRARIES AND PORTAUDIO_INCLUDE_DIRS)
       /usr/local/include
       /opt/local/include
       /sw/include
+      ${CMAKE_CURRENT_BINARY_DIR}
   )
 
   find_library(PORTAUDIO_LIBRARY
@@ -33,6 +34,7 @@ else (PORTAUDIO_LIBRARIES AND PORTAUDIO_INCLUDE_DIRS)
       /usr/local/lib
       /opt/local/lib
       /sw/lib
+      ${CMAKE_CURRENT_BINARY_DIR}
   )
 
   set(PORTAUDIO_INCLUDE_DIRS
