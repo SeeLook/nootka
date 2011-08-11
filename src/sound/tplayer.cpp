@@ -50,7 +50,7 @@ QStringList Tplayer::getAudioDevicesList() {
 //                 << "Default sample rate:" << (int)devInfo->defaultSampleRate
 //                    << "ch:" << (int)devInfo->maxOutputChannels;
         devInfo = Pa_GetDeviceInfo(i);
-        if (devInfo->maxOutputChannels > 0)
+        if (devInfo->maxOutputChannels > 1)
             devList << QString(devInfo->name);
     }
     return devList;
@@ -170,41 +170,56 @@ bool Tplayer::getAudioData() {
 }
 
 void Tplayer::setDevice() {
-    m_playable = true;    
-//    if (Pa_IsStreamStopped(m_outStream) == 0)
-//        Pa_CloseStream(m_outStream);
-    qDebug() << (int)m_outStream;
-    if (gl->AoutDeviceName == "")
+    if (m_outStream && QString::fromStdString(Pa_GetDeviceInfo(m_paParam.device)->name)
+            == gl->AoutDeviceName) {
+        qDebug() << "device was not changed";
+        return;
+    }
+    m_playable = true;
+    if (m_outStream) { // stream was palyed and we stop it
+        if (Pa_IsStreamStopped(m_outStream) == 0)
+            Pa_CloseStream(m_outStream);
+        else
+            Pa_StopStream(m_outStream);
+    }
+    if (gl->AoutDeviceName == "") // default system device
         m_paParam.device = Pa_GetDefaultOutputDevice();
-    else {
+    else { // or device by name from Tglobals.
         QStringList devList;
         for (int i = 0; i < Pa_GetDeviceCount(); i++) {
                 const PaDeviceInfo *devInfo = Pa_GetDeviceInfo(i);
-            devList << QString::fromStdString(devInfo->name);
+                devList << QString::fromStdString(devInfo->name);
         }
-        if (devList.size()) {
+        if (devList.size()) { // There are some devices in system
             int id = devList.indexOf(gl->AoutDeviceName);
-            if (id != -1) {
-//            m_paParam.device = Pa_HostApiDeviceIndexToDeviceIndex(Pa_GetDefaultHostApi(), id);
+            if (id != -1) { // so we get id from its name
+                //            m_paParam.device =
+                //                Pa_HostApiDeviceIndexToDeviceIndex(Pa_GetDefaultHostApi(), id);
                 m_paParam.device = id;
-                m_paParam.suggestedLatency =
-                        Pa_GetDeviceInfo(id)->defaultLowOutputLatency;
 
-            }
-            else
+            } else // or we load system default
                 m_paParam.device = Pa_GetDefaultOutputDevice();
+            m_paParam.suggestedLatency = Pa_GetDeviceInfo(id)->defaultLowOutputLatency;
+        } else { // no devices in system since last run. Someone has stolen...
+            m_playable = false;
+            return;
         }
     }
-    if (m_paParam.device != paNoDevice)
-//        qDebug() << "found audio dev: " <<
-//                    QString::fromStdString(Pa_GetDeviceInfo(m_paParam.device)->name);
+    if (m_paParam.device != paNoDevice) {
 
-    m_paErr = Pa_OpenStream(&m_outStream, NULL, &m_paParam, SAMPLE_RATE,
-                            BUFFER_SIZE, paClipOff, paCallBack, m_audioArr);
+            //        qDebug() << "found audio dev: " <<
+            //                    QString::fromStdString(Pa_GetDeviceInfo(
+            //            m_paParam.device)->name);
+            m_paErr = Pa_OpenStream(&m_outStream, NULL, &m_paParam, SAMPLE_RATE,
+                                    BUFFER_SIZE, paClipOff, paCallBack, m_audioArr);
+    } else {
+        m_playable = false;
+        return;
+    }
 
     if(m_paErr) {
         m_playable = false;
-        qDebug() << QString::fromStdString(Pa_GetErrorText(m_paErr));
+//        qDebug() << QString::fromStdString(Pa_GetErrorText(m_paErr));
     }
 }
 
@@ -220,11 +235,11 @@ void Tplayer::play(Tnote note) {
 //		if(m_paErr)
 //	        qDebug() << "abort error:" << QString::fromStdString(Pa_GetErrorText(m_paErr));
 	}
-	if (Pa_IsStreamStopped(m_outStream) == 0) {
-	    m_paErr = Pa_StopStream(m_outStream);
+//	if (Pa_IsStreamStopped(m_outStream) == 0) {
+//	    m_paErr = Pa_StopStream(m_outStream);
 //		if(m_paErr)
 //	        qDebug() << "stop error:" << QString::fromStdString(Pa_GetErrorText(m_paErr));
-	}
+//	}
     m_samplesCnt = -1;
     m_noteOffset = (noteNr + 11)*SAMPLE_RATE;
 
