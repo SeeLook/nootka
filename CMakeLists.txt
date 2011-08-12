@@ -36,7 +36,15 @@ else (PORTAUDIO_LIBRARIES AND PORTAUDIO_INCLUDE_DIRS)
       /sw/lib
       ${CMAKE_CURRENT_BINARY_DIR}
   )
-
+IF(WIN32)
+  find_library(PORTAUDIO_LIBRARY
+    NAMES
+      libportaudio-2.dll
+    PATHS
+      c:\windows\system32
+      ${CMAKE_CURRENT_BINARY_DIR}
+  )
+ENDIF(WIN32)
   set(PORTAUDIO_INCLUDE_DIRS
     ${PORTAUDIO_INCLUDE_DIR}
   )

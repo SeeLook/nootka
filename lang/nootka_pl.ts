@@ -1115,7 +1115,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/settings/tnotationradiogroup.cpp" line="38"/>
         <source>Nameing style of a note. The main difference is 7-th note.&lt;br&gt;Is it B and B flat, or H and B ?</source>
-        <translation>Sposób nazywania nut. Podstawowa różnica to 7-my dźwię.&lt;br&gt;Czy jest to  B i Bb, czy też H i B ?</translation>
+        <translation type="unfinished">Sposób nazywania nut. Podstawowa różnica to 7-my dźwięk.&lt;br&gt;Czy jest to  B i Bb, czy też H i B ?</translation>
     </message>
     <message>
         <location filename="../src/settings/tnotationradiogroup.h" line="42"/>
@@ -1466,7 +1466,7 @@ ale nie zapisany !!</translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="39"/>
+        <location filename="../src/main.cpp" line="43"/>
         <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.otf manually.&lt;/center&gt;</source>
         <translation>&lt;center&gt;Nie mogę wczytać czcionki.&lt;br&gt;Spróbuj ręcznie zainstalować nootka.otf.&lt;/center&gt;</translation>
     </message>

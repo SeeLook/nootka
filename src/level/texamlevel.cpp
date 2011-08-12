@@ -27,7 +27,7 @@ TexamLevel::TexamLevel()
   // level paramrters
    name = QObject::tr("master of masters");
    desc = QObject::tr("All possible options are turned on");
-   questionAs = TQAtype(true, true, true, false);
+   questionAs = TQAtype(true, true, true, true);
    answersAs[0] = TQAtype(true, true, true, false);
    answersAs[1] = TQAtype(true, true, true, false);
    answersAs[2] = TQAtype(true, true, false, false);

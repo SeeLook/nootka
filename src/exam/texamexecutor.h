@@ -58,7 +58,7 @@ public:
 
 protected:
     MainWindow *mW;
-    QAction *nextQuestAct, *prevQuestAct, *checkAct;
+    QAction *nextQuestAct, *prevQuestAct, *checkAct, *repeatSndAct;
 
 protected slots:
     void askQuestion();
@@ -67,6 +67,7 @@ protected slots:
     void checkAnswer(bool showResults = true);
     void stopExamSlot();
     void repeatQuestion();
+    void repeatSound();
 
 private:
     void createQuestionsList();

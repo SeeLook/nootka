@@ -112,67 +112,10 @@ Tplayer::~Tplayer() {
 }
 
 
-bool Tplayer::getAudioData() {
-    QFile wavFile(gl->path + "sounds/classical-guitar.wav");
-    if (!wavFile.exists())
-        return false;
-    wavFile.open(QIODevice::ReadOnly);
-    QDataStream wavStream(&wavFile);
-
-//    char *chunkName = new char[3];
-//    wavStream.readRawData(chunkName, 3);
-//    QString riffHead(chunkName);
-//    wavStream.skipRawData(5);
-//    wavStream.readRawData(chunkName, 3);
-//    QString waveHead(chunkName);
-//    wavStream.skipRawData(1);
-//    wavStream.readRawData(chunkName, 3);
-//    QString fmtHead(chunkName);
-//    if ( (riffHead != "RIF") || (waveHead != "WAV") || (fmtHead != "fmt") ) {
-//        qDebug() << "wav file is not valid!!!" << riffHead << waveHead << fmtHead;
-//        return;
-//    }
-//    wavStream.skipRawData(1);
-//    delete chunkName;
-
-    int fmtSize;    
-    char *chunkName = new char[4];
-    wavStream.skipRawData(16);
-    wavStream.readRawData(chunkName, 4);
-    fmtSize = *((int*)chunkName);
-    wavStream.readRawData(chunkName, 2);
-    short wavFormat = *((short*)chunkName);
-//    if (wavFormat != 1) {
-//        qDebug() << "has unsuported data format!!! Use only PCM uncompresed, please.";
-//        return false;
-//    }
-
-    quint32 dataSizeFromChunk;
-    wavStream.readRawData(chunkName, 2);
-    unsigned short m_chanels = *((unsigned short*)chunkName);
-    wavStream.readRawData(chunkName, 4);
-    m_sampleRate = *((quint32*)chunkName);
-    wavStream.skipRawData(fmtSize - 8 + 4);
-    wavStream.readRawData(chunkName, 4);
-    dataSizeFromChunk = *((quint32*)chunkName);
-//    qDebug() << "data size: " << dataSizeFromChunk << 4740768;
-    // we check is wav file this proper one ?
-    if (m_chanels != 1 || wavFormat != 1 || m_sampleRate != 22050 || dataSizeFromChunk != 4740768) {
-        qDebug() << "wav file error occured " << dataSizeFromChunk << m_chanels
-                << wavFormat << m_sampleRate;
-        return false;
-    }
-    m_audioArr = new char[dataSizeFromChunk];
-    wavStream.readRawData(m_audioArr, dataSizeFromChunk);
-
-    wavFile.close();
-    return true;
-}
-
 void Tplayer::setDevice() {
     if (m_outStream && QString::fromStdString(Pa_GetDeviceInfo(m_paParam.device)->name)
             == gl->AoutDeviceName) {
-        qDebug() << "device was not changed";
+//        qDebug() << "device was not changed";
         return;
     }
     m_playable = true;
@@ -199,19 +142,18 @@ void Tplayer::setDevice() {
 
             } else // or we load system default
                 m_paParam.device = Pa_GetDefaultOutputDevice();
-            m_paParam.suggestedLatency = Pa_GetDeviceInfo(id)->defaultLowOutputLatency;
         } else { // no devices in system since last run. Someone has stolen...
             m_playable = false;
             return;
         }
     }
     if (m_paParam.device != paNoDevice) {
-
+        m_paParam.suggestedLatency = Pa_GetDeviceInfo(m_paParam.device)->defaultLowOutputLatency;
             //        qDebug() << "found audio dev: " <<
             //                    QString::fromStdString(Pa_GetDeviceInfo(
             //            m_paParam.device)->name);
-            m_paErr = Pa_OpenStream(&m_outStream, NULL, &m_paParam, SAMPLE_RATE,
-                                    BUFFER_SIZE, paClipOff, paCallBack, m_audioArr);
+        m_paErr = Pa_OpenStream(&m_outStream, NULL, &m_paParam, SAMPLE_RATE,
+                                BUFFER_SIZE, paClipOff, paCallBack, m_audioArr);
     } else {
         m_playable = false;
         return;
@@ -247,4 +189,62 @@ void Tplayer::play(Tnote note) {
    if(m_paErr) {
        qDebug() << "start stream error:" << QString::fromStdString(Pa_GetErrorText(m_paErr));
    }
+}
+
+
+bool Tplayer::getAudioData() {
+    QFile wavFile(gl->path + "sounds/classical-guitar.wav");
+    if (!wavFile.exists())
+        return false;
+    wavFile.open(QIODevice::ReadOnly);
+    QDataStream wavStream(&wavFile);
+
+//    char *chunkName = new char[3];
+//    wavStream.readRawData(chunkName, 3);
+//    QString riffHead(chunkName);
+//    wavStream.skipRawData(5);
+//    wavStream.readRawData(chunkName, 3);
+//    QString waveHead(chunkName);
+//    wavStream.skipRawData(1);
+//    wavStream.readRawData(chunkName, 3);
+//    QString fmtHead(chunkName);
+//    if ( (riffHead != "RIF") || (waveHead != "WAV") || (fmtHead != "fmt") ) {
+//        qDebug() << "wav file is not valid!!!" << riffHead << waveHead << fmtHead;
+//        return;
+//    }
+//    wavStream.skipRawData(1);
+//    delete chunkName;
+
+    int fmtSize;
+    char *chunkName = new char[4];
+    wavStream.skipRawData(16);
+    wavStream.readRawData(chunkName, 4);
+    fmtSize = *((int*)chunkName);
+    wavStream.readRawData(chunkName, 2);
+    short wavFormat = *((short*)chunkName);
+//    if (wavFormat != 1) {
+//        qDebug() << "has unsuported data format!!! Use only PCM uncompresed, please.";
+//        return false;
+//    }
+
+    quint32 dataSizeFromChunk;
+    wavStream.readRawData(chunkName, 2);
+    unsigned short m_chanels = *((unsigned short*)chunkName);
+    wavStream.readRawData(chunkName, 4);
+    m_sampleRate = *((quint32*)chunkName);
+    wavStream.skipRawData(fmtSize - 8 + 4);
+    wavStream.readRawData(chunkName, 4);
+    dataSizeFromChunk = *((quint32*)chunkName);
+//    qDebug() << "data size: " << dataSizeFromChunk << 4740768;
+    // we check is wav file this proper one ?
+    if (m_chanels != 1 || wavFormat != 1 || m_sampleRate != 22050 || dataSizeFromChunk != 4740768) {
+        qDebug() << "wav file error occured " << dataSizeFromChunk << m_chanels
+                << wavFormat << m_sampleRate;
+        return false;
+    }
+    m_audioArr = new char[dataSizeFromChunk];
+    wavStream.readRawData(m_audioArr, dataSizeFromChunk);
+
+    wavFile.close();
+    return true;
 }
