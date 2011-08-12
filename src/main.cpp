@@ -27,11 +27,12 @@ int main(int argc, char *argv[])
 #endif
     QApplication a(argc, argv);
     
-    QTranslator qtTranslator, nooTranslator;
-    qDebug() << QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+    QTranslator qtTranslator;
     qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     a.installTranslator(&qtTranslator);
 
+
+    QTranslator nooTranslator;
     nooTranslator.load("nootka_" + QLocale::system().name(),
                       Tglobals::getInstPath(qApp->applicationDirPath()) + "lang");
     a.installTranslator(&nooTranslator);
