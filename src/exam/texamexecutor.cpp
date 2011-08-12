@@ -157,8 +157,14 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     checkAct->setStatusTip(checkAct->text());
     checkAct->setIcon(QIcon(gl->path+"picts/check.png"));
     checkAct->setShortcut(QKeySequence(Qt::Key_Return));
-    // shortcuts
     connect(checkAct, SIGNAL(triggered()), this, SLOT(checkAnswer()));
+
+    if (m_level.questionAs.isSound()) {
+        repeatSndAct = new QAction(tr("play sound again"), this);
+        repeatSndAct->setStatusTip(repeatSndAct->text());
+        repeatSndAct->setIcon(QIcon(gl->path+"picts/repeatSound.png"));
+        connect(repeatSndAct, SIGNAL(triggered()), this, SLOT(repeatSound()));
+    }
 
     if (m_questList.size() == 0) {
         QMessageBox::critical(mW, "", tr("Level <b>%1<b><br>has no sense till there is no any possible question to ask.<br>It can be unadjusted to current tune.<br>Repair it in Level Creator and try again.").arg(m_level.name));
@@ -397,7 +403,8 @@ void TexamExecutor::askQuestion() {
 
     if (curQ.answerAs == TQAtype::e_asFretPos) {
         questText += TquestionAsWdg::asFretPosTxt();
-        if (curQ.questionAs == TQAtype::e_asName && m_level.showStrNr)
+        if ( (curQ.questionAs == TQAtype::e_asName && m_level.showStrNr) ||
+                curQ.questionAs == TQAtype::e_asSound)
             questText += "<b>" + tr(" on <span style=\"font-family: nootka; font-size:%1px;\">%2</span> string.").arg(qRound(mW->getFontSize()*1.5)).arg((int)curQ.qa.pos.str()) + "</b>";
 
         mW->guitar->setMouseTracking(true);
@@ -408,6 +415,8 @@ void TexamExecutor::askQuestion() {
 
     mW->nootBar->removeAction(nextQuestAct);
     mW->nootBar->removeAction(prevQuestAct);
+    if (curQ.questionAs == TQAtype::e_asSound)
+        mW->nootBar->addAction(repeatSndAct);
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
 }
@@ -493,6 +502,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
     TQAunit curQ = m_answList[m_answList.size() - 1];
     curQ.time = mW->examResults->questionStop();
     mW->nootBar->removeAction(checkAct);
+    if (curQ.questionAs == TQAtype::e_asSound)
+        mW->nootBar->removeAction(repeatSndAct);
 //    mW->startExamAct->setDisabled(false);
     m_isAnswered = true;
 // Let's check
@@ -549,6 +560,13 @@ void TexamExecutor::checkAnswer(bool showResults) {
     }
 
     if (showResults) {
+      if (gl->EautoNextQuest) { // show quick message
+          if (curQ.correct())
+              mW->setStatusMessage(tr("Good answer"), 1000);
+          else {
+              mW->setStatusMessage(tr("Wrong answer"), 1000);
+          }
+      } else { // show full info
         QString answTxt;
         if (curQ.correct()) { // CORRECT
             answTxt = QString("<center><span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EanswerColor.name()).arg(mW->getFontSize()).arg(gl->getBGcolorText(gl->EanswerColor));
@@ -577,10 +595,11 @@ void TexamExecutor::checkAnswer(bool showResults) {
                                     mW->pos().y() + qRound(mW->centralWidget()->height()*0.5)),
                              answTxt);
 //        mW->examResults->setAnswer(curQ.correct());
-        if (!curQ.correct())
-            mW->nootBar->addAction(prevQuestAct);
-        mW->nootBar->addAction(nextQuestAct);
-        disableWidgets();
+      }
+      if (!curQ.correct())
+          mW->nootBar->addAction(prevQuestAct);
+      mW->nootBar->addAction(nextQuestAct);
+      disableWidgets();
     }
     mW->examResults->setAnswer(curQ.correct());
     m_answList[m_answList.size()-1] = curQ;
@@ -624,9 +643,11 @@ void TexamExecutor::repeatQuestion() {
 
     m_answList << curQ;
 
-    mW->startExamAct->setDisabled(true);
+//    mW->startExamAct->setDisabled(true);
     mW->nootBar->removeAction(nextQuestAct);
     mW->nootBar->removeAction(prevQuestAct);
+    if (curQ.questionAs == TQAtype::e_asSound)
+        mW->nootBar->addAction(repeatSndAct);
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
 }
@@ -809,14 +830,18 @@ bool TexamExecutor::closeNootka() {
 
 QString TexamExecutor::saveExamToFile() {
     QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam's results as:"),
-                         QDir::toNativeSeparators(QDir::homePath()+"/"+m_userName+"-"+m_level.name),
-                                   TstartExamDlg::examFilterTxt());
+                         QDir::toNativeSeparators(QDir::homePath()+ "/" +
+                         m_userName+"-"+m_level.name),
+                         TstartExamDlg::examFilterTxt());
     if (fileName == "")
-        if (QMessageBox::warning(mW, "", tr("If You don't save to file<br>You lost all results !!"),
+        if (QMessageBox::warning(mW, "",
+                             tr("If You don't save to file<br>You lost all results !!"),
                              QMessageBox::Save | QMessageBox::Discard, QMessageBox::Save)
             == QMessageBox::Save)
                 fileName = saveExamToFile();
     return fileName;
-
 }
 
+void TexamExecutor::repeatSound() {
+    mW->player->play(m_answList[m_answList.size()-1].qa.note);
+}

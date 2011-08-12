@@ -162,7 +162,7 @@ void MainWindow::resizeEvent(QResizeEvent *) {
     m_statLab->setFont(f);
     guitar->setFixedHeight(centralWidget()->height()/3);
 //    if (examResults) {
-    examResults->setFixedHeight(height() / 8);
+    examResults->setFixedHeight(height() / 7);
     examResults->setFontSize(m_statFontSize);
 //    }
     noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(height() * 0.4)));

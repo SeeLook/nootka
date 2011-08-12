@@ -27,15 +27,19 @@ int main(int argc, char *argv[])
 #endif
     QApplication a(argc, argv);
     
-    QTranslator qtTranslator;
-    qtTranslator.load("nootka_" + QLocale::system().name(),
+    QTranslator qtTranslator, nooTranslator;
+    qtTranslator.load("qt_" + QLocale::system().name(),
                       Tglobals::getInstPath(qApp->applicationDirPath()) + "lang");
     a.installTranslator(&qtTranslator);
+    nooTranslator.load("nootka_" + QLocale::system().name(),
+                      Tglobals::getInstPath(qApp->applicationDirPath()) + "lang");
+    a.installTranslator(&nooTranslator);
 	
     MainWindow w;
 
     QFontDatabase fd;
-    if (fd.addApplicationFont(Tglobals::getInstPath(qApp->applicationDirPath()) + "fonts/nootka.otf") == -1) {
+    if (fd.addApplicationFont(Tglobals::getInstPath(qApp->applicationDirPath())
+                              + "fonts/nootka.otf") == -1) {
         QMessageBox::critical(0, "", QCoreApplication::translate("main", "<center>Can not load a font.<br>Try to install nootka.otf manually.</center>"));
         return 111;
     }
