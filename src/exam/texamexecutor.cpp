@@ -646,8 +646,10 @@ void TexamExecutor::repeatQuestion() {
 //    mW->startExamAct->setDisabled(true);
     mW->nootBar->removeAction(nextQuestAct);
     mW->nootBar->removeAction(prevQuestAct);
-    if (curQ.questionAs == TQAtype::e_asSound)
+    if (curQ.questionAs == TQAtype::e_asSound) {
         mW->nootBar->addAction(repeatSndAct);
+        repeatSound();
+    }
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
 }
