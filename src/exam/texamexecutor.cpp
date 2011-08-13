@@ -573,10 +573,10 @@ void TexamExecutor::checkAnswer(bool showResults) {
       } else { // show full info
         QString answTxt;
         if (curQ.correct()) { // CORRECT
-            answTxt = QString("<center><span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EanswerColor.name()).arg(mW->getFontSize()*2).arg(gl->getBGcolorText(gl->EanswerColor));
+            answTxt = QString("<span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EanswerColor.name()).arg(mW->getFontSize()*2).arg(gl->getBGcolorText(gl->EanswerColor));
             answTxt += tr("Exelent !!");
         } else { // WRONG
-            answTxt = QString("<center><span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EquestionColor.name()).arg(mW->getFontSize()*2).arg(gl->getBGcolorText(gl->EquestionColor));
+            answTxt = QString("<span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EquestionColor.name()).arg(mW->getFontSize()*2).arg(gl->getBGcolorText(gl->EquestionColor));
             if (curQ.wrongNote())
                 answTxt += tr("Wrong note.");
             if (curQ.wrongKey())
@@ -590,11 +590,11 @@ void TexamExecutor::checkAnswer(bool showResults) {
         }
         answTxt += "</span><br>";
         if (gl->hintsEnabled) {
-            answTxt += tr("<hr>Click <img src=\"%1\"> buton<br>or press <b>space</b> for next question.").arg(gl->path+"picts/next-icon.png");
+            answTxt += tr("<br>Click <img src=\"%1\"> buton<br>or press <b>space</b> for next question.").arg(gl->path+"picts/next-icon.png");
             if (!curQ.correct())
                 answTxt += tr("<br>Click <img src=\"%1\"> buton<br>or press <b>backspace</b> to correct an answer.").arg(gl->path+"picts/prev-icon.png");
         }
-        answTxt += "</center>";
+//        answTxt += "";
 //        QWhatsThis::showText(QPoint(mW->pos().x() + qRound(mW->centralWidget()->width()*0.75),
 //                                    mW->pos().y() + qRound(mW->centralWidget()->height()*0.5)),
 //                             answTxt);
@@ -862,10 +862,9 @@ void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) 
         m_messageItem->hide();
         mW->guitar->scene()->addItem(m_messageItem);
     }
-    m_messageItem->setHtml(QString("<div style=\"%1;\">").arg(gl->getBGcolorText(QColor(255, 255, 255, 200)))
-			+ htmlText + "</div>");
+    m_messageItem->setHtml(QString("<p style=\"%1;\">").arg(gl->getBGcolorText(QColor(255, 255, 255, 200)))
+                        + htmlText + "</p>");
     bool onRightSide;
-	qDebug() << m_messageItem->toHtml();
     if (curPos.fret() > 0 && curPos.fret() < 10) { // on whitch widget side
         onRightSide = gl->GisRightHanded;
     } else
