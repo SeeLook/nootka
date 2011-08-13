@@ -148,7 +148,7 @@ void TexamView::setFontSize(int s) {
     m_effLab->setFont(f);
     m_reactTimeLab->setFixedWidth(s * 3);
     m_averTimeLab->setFixedWidth(s * 3);
-    m_totalTimeLab->setFixedWidth(s * 4);
+    m_totalTimeLab->setFixedWidth(s * 4.5);
 }
 
 void TexamView::countTime() {
