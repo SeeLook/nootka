@@ -244,6 +244,7 @@ void TexamExecutor::askQuestion() {
     mW->noteName->setNoteNamesOnButt(m_prevStyle);
 
     clearWidgets();
+	clearMessage();
     mW->setStatusMessage("");
     if (!gl->EautoNextQuest)
         mW->startExamAct->setDisabled(true);
@@ -572,10 +573,10 @@ void TexamExecutor::checkAnswer(bool showResults) {
       } else { // show full info
         QString answTxt;
         if (curQ.correct()) { // CORRECT
-            answTxt = QString("<center><span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EanswerColor.name()).arg(mW->getFontSize()*2).arg(gl->getBGcolorText(Qt::white));
+            answTxt = QString("<center><span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EanswerColor.name()).arg(mW->getFontSize()*2).arg(gl->getBGcolorText(gl->EanswerColor));
             answTxt += tr("Exelent !!");
         } else { // WRONG
-            answTxt = QString("<center><span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EquestionColor.name()).arg(mW->getFontSize()*2).arg(gl->getBGcolorText(Qt::white));
+            answTxt = QString("<center><span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EquestionColor.name()).arg(mW->getFontSize()*2).arg(gl->getBGcolorText(gl->EquestionColor));
             if (curQ.wrongNote())
                 answTxt += tr("Wrong note.");
             if (curQ.wrongKey())
@@ -754,7 +755,6 @@ void TexamExecutor::disableWidgets() {
 }
 
 void TexamExecutor::clearWidgets() {
-    clearMessage();
     mW->score->clearScore();
     mW->noteName->clearNoteName();
     mW->guitar->clearFingerBoard();
@@ -804,6 +804,7 @@ void TexamExecutor::stopExamSlot() {
     mW->setStatusMessage("");
     mW->setStatusMessage(tr("so a pity"), 5000);
 
+	clearMessage();
     clearWidgets();
     restoreAfterExam();
 }
@@ -861,8 +862,10 @@ void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) 
         m_messageItem->hide();
         mW->guitar->scene()->addItem(m_messageItem);
     }
-    m_messageItem->setHtml(htmlText);
+    m_messageItem->setHtml(QString("<div style=\"%1;\">").arg(gl->getBGcolorText(QColor(255, 255, 255, 200)))
+			+ htmlText + "</div>");
     bool onRightSide;
+	qDebug() << m_messageItem->toHtml();
     if (curPos.fret() > 0 && curPos.fret() < 10) { // on whitch widget side
         onRightSide = gl->GisRightHanded;
     } else
@@ -877,7 +880,6 @@ void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) 
 }
 
 void TexamExecutor::clearMessage() {
-//    qDebug() << (int)m_messageItem;
     if (m_messageItem) {
         if (m_messageItem->isVisible()) {
             m_messageItem->hide();
