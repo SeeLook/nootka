@@ -27,6 +27,7 @@
 
 class MainWindow;
 class QAction;
+class QGraphicsTextItem;
 
     /** This class manages of exam executing*/
 class TexamExecutor : public QObject
@@ -83,7 +84,11 @@ private:
     QString getTextHowAccid(Tnote::Eacidentals accid);
     QString saveExamToFile();
     Tnote::EnameStyle randomNameStyle();
-
+        /** Displays message with given @param htmlText over the fingerboard widget
+        * for given @param time in [ms] or forever if 0.*/
+    void showMessage(QString htmlText, int time = 0);
+        /** Clears above message.*/
+    void clearMessage();
 
 
     TexamLevel m_level;
@@ -105,6 +110,7 @@ private:
     TanswerRequire m_answRequire;
     QString m_examFile;
     bool m_shouldBeTerminated, m_isAnswered, m_incorrectRepeated;
+    QGraphicsTextItem *m_messageItem;
 
 };
 

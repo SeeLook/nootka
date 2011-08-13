@@ -38,3 +38,6 @@ MAINWINDOW
 
 MAIN
     - path calculated in a few places
+
+TPLAYER
+    - convert string encoding for devices' names

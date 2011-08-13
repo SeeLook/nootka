@@ -1,4 +1,5 @@
-0.7.1
+0.7.5
+    - !!! Sound output added, also questions as played sound !!!
     - polish translation
     - added button for fast switch on/off hints
     - questions and answers view is more clear
