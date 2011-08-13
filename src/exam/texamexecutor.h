@@ -85,8 +85,10 @@ private:
     QString saveExamToFile();
     Tnote::EnameStyle randomNameStyle();
         /** Displays message with given @param htmlText over the fingerboard widget
-        * for given @param time in [ms] or forever if 0.*/
-    void showMessage(QString htmlText, int time = 0);
+        * for given @param time in [ms] or forever if 0.
+        * To calculate position it has to have curent selected positions
+        * by @param curPos. */
+    void showMessage(QString htmlText, TfingerPos &curPos, int time = 0);
         /** Clears above message.*/
     void clearMessage();
 

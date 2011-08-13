@@ -136,6 +136,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     m_isAnswered = true;
     m_prevAccid = Tnote::e_Natural;
     m_dblAccidsCntr = 0;
+    m_messageItem = 0;
     m_level.questionAs.randNext(); // Randomize question and answer type
     for (int i = 0; i < 4; i++)
         m_level.answersAs[i].randNext();
@@ -571,10 +572,10 @@ void TexamExecutor::checkAnswer(bool showResults) {
       } else { // show full info
         QString answTxt;
         if (curQ.correct()) { // CORRECT
-            answTxt = QString("<center><span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EanswerColor.name()).arg(mW->getFontSize()).arg(gl->getBGcolorText(gl->EanswerColor));
+            answTxt = QString("<center><span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EanswerColor.name()).arg(mW->getFontSize()*2).arg(gl->getBGcolorText(Qt::white));
             answTxt += tr("Exelent !!");
         } else { // WRONG
-            answTxt = QString("<center><span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EquestionColor.name()).arg(mW->getFontSize()).arg(gl->getBGcolorText(gl->EquestionColor));
+            answTxt = QString("<center><span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EquestionColor.name()).arg(mW->getFontSize()*2).arg(gl->getBGcolorText(Qt::white));
             if (curQ.wrongNote())
                 answTxt += tr("Wrong note.");
             if (curQ.wrongKey())
@@ -593,9 +594,10 @@ void TexamExecutor::checkAnswer(bool showResults) {
                 answTxt += tr("<br>Click <img src=\"%1\"> buton<br>or press <b>backspace</b> to correct an answer.").arg(gl->path+"picts/prev-icon.png");
         }
         answTxt += "</center>";
-        QWhatsThis::showText(QPoint(mW->pos().x() + qRound(mW->centralWidget()->width()*0.75),
-                                    mW->pos().y() + qRound(mW->centralWidget()->height()*0.5)),
-                             answTxt);
+//        QWhatsThis::showText(QPoint(mW->pos().x() + qRound(mW->centralWidget()->width()*0.75),
+//                                    mW->pos().y() + qRound(mW->centralWidget()->height()*0.5)),
+//                             answTxt);
+        showMessage(answTxt, curQ.qa.pos);
 //        mW->examResults->setAnswer(curQ.correct());
       }
       if (!curQ.correct())
@@ -635,6 +637,7 @@ void TexamExecutor::repeatQuestion() {
     QString m = mW->statusMessage();
     m.replace(0, m.indexOf("</b>"), QString("<b>%1.").arg(m_answList.size()+1));
     mW->setStatusMessage(m);
+    clearMessage();
     curQ.setMistake(TQAunit::e_correct);
     if (curQ.answerAs == TQAtype::e_asNote)
         mW->score->unLockScore();
@@ -751,6 +754,7 @@ void TexamExecutor::disableWidgets() {
 }
 
 void TexamExecutor::clearWidgets() {
+    clearMessage();
     mW->score->clearScore();
     mW->noteName->clearNoteName();
     mW->guitar->clearFingerBoard();
@@ -849,4 +853,35 @@ QString TexamExecutor::saveExamToFile() {
 
 void TexamExecutor::repeatSound() {
     mW->player->play(m_answList[m_answList.size()-1].qa.note);
+}
+
+void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) {
+    if (!m_messageItem) {
+        m_messageItem = new QGraphicsTextItem();
+        m_messageItem->hide();
+        mW->guitar->scene()->addItem(m_messageItem);
+    }
+    m_messageItem->setHtml(htmlText);
+    bool onRightSide;
+    if (curPos.fret() > 0 && curPos.fret() < 10) { // on whitch widget side
+        onRightSide = gl->GisRightHanded;
+    } else
+        onRightSide = !gl->GisRightHanded;
+    int xPos = 0;
+    if (onRightSide)
+        xPos = mW->guitar->width() / 2;
+    xPos += (mW->guitar->width() / 2 - m_messageItem->document()->size().width()) / 2;
+    m_messageItem->setPos(xPos,
+       (mW->guitar->height() - m_messageItem->document()->size().height()) / 2 );
+    m_messageItem->show();
+}
+
+void TexamExecutor::clearMessage() {
+//    qDebug() << (int)m_messageItem;
+    if (m_messageItem) {
+        if (m_messageItem->isVisible()) {
+            m_messageItem->hide();
+            m_messageItem->setHtml("");
+        }
+    }
 }
