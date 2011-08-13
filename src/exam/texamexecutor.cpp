@@ -244,7 +244,8 @@ void TexamExecutor::askQuestion() {
 
     clearWidgets();
     mW->setStatusMessage("");
-//    mW->startExamAct->setDisabled(true);
+    if (!gl->EautoNextQuest)
+        mW->startExamAct->setDisabled(true);
     m_isAnswered = false;
     m_incorrectRepeated = false;
     mW->setMessageBg(gl->EquestionColor);
@@ -504,7 +505,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
     mW->nootBar->removeAction(checkAct);
     if (curQ.questionAs == TQAtype::e_asSound)
         mW->nootBar->removeAction(repeatSndAct);
-//    mW->startExamAct->setDisabled(false);
+    if (!gl->EautoNextQuest)
+        mW->startExamAct->setDisabled(false);
     m_isAnswered = true;
 // Let's check
     Tnote exN, retN; // example note & returned note
@@ -643,7 +645,8 @@ void TexamExecutor::repeatQuestion() {
 
     m_answList << curQ;
 
-//    mW->startExamAct->setDisabled(true);
+    if (!gl->EautoNextQuest)
+        mW->startExamAct->setDisabled(true);
     mW->nootBar->removeAction(nextQuestAct);
     mW->nootBar->removeAction(prevQuestAct);
     if (curQ.questionAs == TQAtype::e_asSound) {
