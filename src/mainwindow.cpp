@@ -54,18 +54,18 @@ MainWindow::MainWindow(QWidget *parent)
 
     QWidget *widget = new QWidget(this);
     QVBoxLayout *mainLay = new QVBoxLayout;
+
     QHBoxLayout *scoreAndNameLay = new QHBoxLayout;
     QVBoxLayout *scoreLay = new QVBoxLayout;
-    nootBar = new QToolBar(tr("main toolbar"),widget);
+    nootBar = new QToolBar(tr("main toolbar"), widget);
     scoreLay->addWidget(nootBar);
-    score = new TscoreWidget(3,widget);
+    score = new TscoreWidget(3, widget);
     scoreLay->addWidget(score);
     scoreAndNameLay->addLayout(scoreLay);
 
-//    QVBoxLayout *nameLay = new QVBoxLayout;
+//-------------------------------------------------------------------
     QVBoxLayout *nameLay = new QVBoxLayout;
 //     QGroupBox *statGr = new QGroupBox(widget);
-//     QVBoxLayout *statLay = new QVBoxLayout;
     QHBoxLayout *statLay = new QHBoxLayout;
     m_statLab = new QLabel(widget);
     m_statLab->setWordWrap(true);
@@ -87,19 +87,18 @@ MainWindow::MainWindow(QWidget *parent)
 //    nameLay->addStretch(1);
     scoreAndNameLay->addLayout(nameLay);
     mainLay->addLayout(scoreAndNameLay);
-
+//-------------------------------------------------------------------
     guitar = new TfingerBoard(widget);
     mainLay->addWidget(guitar);
     widget->setLayout(mainLay);
     setCentralWidget(widget);
-
+//-------------------------------------------------------------------
     m_statusText = "";
     m_prevBg = -1;
     m_lockStat = false;
     ex = 0;
 
     createActions();
-
 
     connect(score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
     connect(noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
@@ -161,14 +160,10 @@ void MainWindow::resizeEvent(QResizeEvent *) {
     f.setPixelSize(m_statFontSize);
     m_statLab->setFont(f);
     guitar->setFixedHeight(centralWidget()->height()/3);
-//    if (examResults) {
     examResults->setFixedHeight(height() / 7);
     examResults->setFontSize(m_statFontSize);
-//    }
     noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(height() * 0.4)));
     noteName->resize();
-//     noteName->setGeometry (examResults->pos().x(), guitar->pos().y() - qRound(height() * 0.75),
-//                centralWidget()->width()- score->width() -2, qRound(height() * 0.7));
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
@@ -198,10 +193,9 @@ void MainWindow::setStatusMessage(QString msg, int time) {
 void MainWindow::setMessageBg(QColor bg) {
     if (bg == -1)
         m_statLab->setStyleSheet("background: transparent");
-    else {
+    else
         m_statLab->setStyleSheet(gl->getBGcolorText(bg));
-        m_prevBg = bg;
-    }
+    m_prevBg = bg;
 }
 
 void MainWindow::clearAfterExam() {
