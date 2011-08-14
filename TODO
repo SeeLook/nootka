@@ -34,7 +34,6 @@ MIMETYPES
     - merge them to one file (sh script) as in deb package
 
 MAINWINDOW
-    - clear background color in hints after exams - it remains red so far
 
 MAIN
     - path calculated in a few places

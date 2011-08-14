@@ -59,7 +59,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
                  in >> ev;
                  if (ev != examVersion) {
                      QMessageBox::critical(mW, "",
-                                 tr("File: %1 \n is not valid exam file !!!").arg(file.fileName()));
+                                 tr("File: %1 \n is not valid exam file !!!")
+                                           .arg(file.fileName()));
                      mW->clearAfterExam();
                      return;
                  }
@@ -172,7 +173,6 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
         restoreAfterExam();
         return;
     }
-
 }
 
 
@@ -181,7 +181,7 @@ void TexamExecutor::createQuestionsList() {
     for (int i=0; i<6; i++)
         openStr[i] = gl->Gtune()[i+1].getChromaticNrOfNote();
 
-// 1. searching all frets in range, string by string
+// searching all frets in range, string by string
     for(int s = 0; s < 6; s++) {
         if (m_level.usedStrings[gl->strOrder(s)])// check string by strOrder
             for (int f = m_level.loFret; f <= m_level.hiFret; f++) {
@@ -244,10 +244,11 @@ void TexamExecutor::askQuestion() {
     mW->noteName->setNoteNamesOnButt(m_prevStyle);
 
     clearWidgets();
-	clearMessage();
     mW->setStatusMessage("");
-    if (!gl->EautoNextQuest)
+    if (!gl->EautoNextQuest) {
         mW->startExamAct->setDisabled(true);
+        clearMessage();//if auto message is cleaned after 1 sec.
+    }
     m_isAnswered = false;
     m_incorrectRepeated = false;
     mW->setMessageBg(gl->EquestionColor);
@@ -564,48 +565,43 @@ void TexamExecutor::checkAnswer(bool showResults) {
     }
 
     if (showResults) {
-      if (gl->EautoNextQuest) { // show quick message
-          if (curQ.correct())
-              mW->setStatusMessage(tr("Good answer"), 1000);
-          else {
-              mW->setStatusMessage(tr("Wrong answer"), 1000);
-          }
-      } else { // show full info
-        QString answTxt;
-        if (curQ.correct()) { // CORRECT
-            answTxt = QString("<span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EanswerColor.name()).arg(mW->getFontSize()*2).arg(gl->getBGcolorText(gl->EanswerColor));
-            answTxt += tr("Exelent !!");
-        } else { // WRONG
-            answTxt = QString("<span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EquestionColor.name()).arg(mW->getFontSize()*2).arg(gl->getBGcolorText(gl->EquestionColor));
-            if (curQ.wrongNote())
-                answTxt += tr("Wrong note.");
-            if (curQ.wrongKey())
-                answTxt += tr(" Wrong key signature.");
-            if (curQ.wrongAccid())
-                answTxt += tr(" Wrong accidental.");
-            if (curQ.wrongPos())
-                answTxt += tr(" Wrong position.");
-            if (curQ.wrongOctave())
-                answTxt += tr("<br>Wrong octave.");
-        }
-        answTxt += "</span><br>";
-        if (gl->hintsEnabled) {
-            answTxt += tr("<br>Click <img src=\"%1\"> buton<br>or press <b>space</b> for next question.").arg(gl->path+"picts/next-icon.png");
-            if (!curQ.correct())
-                answTxt += tr("<br>Click <img src=\"%1\"> buton<br>or press <b>backspace</b> to correct an answer.").arg(gl->path+"picts/prev-icon.png");
-        }
-//        answTxt += "";
-//        QWhatsThis::showText(QPoint(mW->pos().x() + qRound(mW->centralWidget()->width()*0.75),
-//                                    mW->pos().y() + qRound(mW->centralWidget()->height()*0.5)),
-//                             answTxt);
-        showMessage(answTxt, curQ.qa.pos);
-//        mW->examResults->setAnswer(curQ.correct());
+        int mesgTime = 0, fc = 1;
+      if (gl->EautoNextQuest)
+          mesgTime = 1500; // show temporary message
+      if (!gl->hintsEnabled || gl->EautoNextQuest)
+          fc = 2; // font size factor to have enought room for text over guitar
+      QString answTxt;
+      if (curQ.correct()) { // CORRECT
+          answTxt = QString("<span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EanswerColor.name()).arg(mW->getFontSize()*fc).arg(gl->getBGcolorText(gl->EanswerColor));
+          answTxt += tr("Exelent !!");
+      } else { // WRONG
+          answTxt = QString("<span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EquestionColor.name()).arg(mW->getFontSize()*fc).arg(gl->getBGcolorText(gl->EquestionColor));
+          if (curQ.wrongNote())
+              answTxt += tr("Wrong note.");
+          if (curQ.wrongKey())
+              answTxt += tr(" Wrong key signature.");
+          if (curQ.wrongAccid())
+              answTxt += tr(" Wrong accidental.");
+          if (curQ.wrongPos())
+              answTxt += tr(" Wrong position.");
+          if (curQ.wrongOctave())
+              answTxt += tr(" Wrong octave.");
       }
-      if (!curQ.correct())
-          mW->nootBar->addAction(prevQuestAct);
-      mW->nootBar->addAction(nextQuestAct);
-      disableWidgets();
+      answTxt += "</span><br>";
+      if (gl->hintsEnabled && !gl->EautoNextQuest) {
+          answTxt += tr("<br>Click <img src=\"%1\"> buton<br>or press <b>space</b> for next question.").arg(gl->path+"picts/next-icon.png");
+          if (!curQ.correct())
+              answTxt += tr("<br>Click <img src=\"%1\"> buton<br>or press <b>backspace</b> to correct an answer.").arg(gl->path+"picts/prev-icon.png");
+//          answTxt += "</span>";
+      }
+      showMessage(answTxt, curQ.qa.pos, mesgTime);
     }
+    if (!gl->EautoNextQuest) {
+        if (!curQ.correct())
+            mW->nootBar->addAction(prevQuestAct);
+        mW->nootBar->addAction(nextQuestAct);
+    }
+    disableWidgets();
     mW->examResults->setAnswer(curQ.correct());
     m_answList[m_answList.size()-1] = curQ;
 
@@ -804,7 +800,7 @@ void TexamExecutor::stopExamSlot() {
     mW->setStatusMessage("");
     mW->setStatusMessage(tr("so a pity"), 5000);
 
-	clearMessage();
+    clearMessage();
     clearWidgets();
     restoreAfterExam();
 }
@@ -861,11 +857,16 @@ void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) 
         m_messageItem = new QGraphicsTextItem();
         m_messageItem->hide();
         mW->guitar->scene()->addItem(m_messageItem);
+        if (!gl->GisRightHanded)
+            m_messageItem->scale(-1, 1);
     }
-    m_messageItem->setHtml(QString("<p style=\"%1;\">").arg(gl->getBGcolorText(QColor(255, 255, 255, 200)))
-                        + htmlText + "</p>");
+    m_messageItem->document()->setTextWidth(mW->guitar->width() / 2 - 15);
+    m_messageItem->setZValue(30);
+    m_messageItem->setHtml(QString("<p align=\"center\" style=\"%1 border-radius: 10px\">")
+                           .arg(gl->getBGcolorText(QColor(255, 255, 255, 200)))
+                           + htmlText + "</p>");
     bool onRightSide;
-    if (curPos.fret() > 0 && curPos.fret() < 10) { // on whitch widget side
+    if (curPos.fret() > 0 && curPos.fret() < 10) { // on which widget side
         onRightSide = gl->GisRightHanded;
     } else
         onRightSide = !gl->GisRightHanded;
@@ -876,6 +877,8 @@ void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) 
     m_messageItem->setPos(xPos,
        (mW->guitar->height() - m_messageItem->document()->size().height()) / 2 );
     m_messageItem->show();
+    if (time)
+        QTimer::singleShot(time, this, SLOT(clearMessage()));
 }
 
 void TexamExecutor::clearMessage() {

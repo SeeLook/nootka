@@ -69,6 +69,8 @@ protected slots:
     void stopExamSlot();
     void repeatQuestion();
     void repeatSound();
+        /** Clears message over the guitar.*/
+    void clearMessage();
 
 private:
     void createQuestionsList();
@@ -89,9 +91,6 @@ private:
         * To calculate position it has to have curent selected positions
         * by @param curPos. */
     void showMessage(QString htmlText, TfingerPos &curPos, int time = 0);
-        /** Clears above message.*/
-    void clearMessage();
-
 
     TexamLevel m_level;
     QString m_userName;
