@@ -20,6 +20,7 @@
 #include "tclefview.h"
 #include <QGraphicsScene>
 #include <QGraphicsSimpleTextItem>
+#include <QDebug>
 
 TclefView::TclefView(TscoreWidgetSimple *parent) :
     QGraphicsView(parent)
@@ -45,8 +46,15 @@ void TclefView::resize(int co) {
     m_scene->setSceneRect(0, 0, width(), height());
 //     QFont font(QFont("nootka", co*12.5, QFont::Normal));
     QFont font(QFont("nootka"));
-    font.setPointSizeF(co*14);
+//    font.setPointSizeF(co*14);
+    font.setPixelSize(co*19);
     m_clefText->setFont(font);
     m_clefText->setText(QString(QChar(0xe1a7)));
-    m_clefText->setPos(1, qRound(10.2*co));
+//    while (m_clefText->text().w // boundingRect().width() < width()-2) {
+
+//        m_clefText->setFont(font);
+//        qDebug() << font.pixelSize();
+//    }
+
+    m_clefText->setPos(0, qRound(11*co));
 }

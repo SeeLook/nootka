@@ -862,8 +862,8 @@ void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) 
     }
     m_messageItem->document()->setTextWidth(mW->guitar->width() / 2 - 15);
     m_messageItem->setZValue(30);
-    m_messageItem->setHtml(QString("<p align=\"center\" style=\"%1 border-radius: 10px\">")
-                           .arg(gl->getBGcolorText(QColor(255, 255, 255, 200)))
+    m_messageItem->setHtml(QString("<p align=\"center\" style=\"%1\">")
+                           .arg(gl->getBGcolorText(QColor(255, 255, 255, 220)))
                            + htmlText + "</p>");
     bool onRightSide;
     if (curPos.fret() > 0 && curPos.fret() < 10) { // on which widget side
