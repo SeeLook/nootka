@@ -199,7 +199,7 @@ void MainWindow::setStatusMessage(QString msg, int time) {
     m_prevMsg = m_statusText;
     m_statLab->setText("<center>" + msg + "</center>");
     m_lockStat = true;
-    m_prevBg = m_curBG;
+//    m_prevBg = m_curBG;
     QTimer::singleShot(time, this, SLOT(restoreMessage()));
 }
 
@@ -208,7 +208,7 @@ void MainWindow::setMessageBg(QColor bg) {
         m_statLab->setStyleSheet("background: transparent");
     else
         m_statLab->setStyleSheet(gl->getBGcolorText(bg));
-//    m_prevBg = bg;
+//    m_prevBg = m_curBG;
     m_curBG = bg;
 }
 
@@ -217,6 +217,9 @@ void MainWindow::clearAfterExam() {
     delete ex;
     ex = 0;
     m_autoRepeatChB->hide();
+    m_curBG = -1;
+    m_prevBg = -1;
+    setMessageBg(-1);
 }
 
 //##########        SLOTS       ###############
@@ -307,6 +310,7 @@ bool MainWindow::event(QEvent *event) {
         if (se->tip() == "") {
             setMessageBg(m_prevBg);
             m_statLab->setText("<center>" + m_statusText + "</center>");
+            m_prevMsg = m_statusText;
         } else {
             m_prevBg = m_curBG;
             setMessageBg(-1);
@@ -325,8 +329,11 @@ void MainWindow::restoreMessage() {
 
 void MainWindow::hintsStateChanged(bool enable) {
     gl->hintsEnabled = enable;
-    if (!enable)
-        setStatusMessage("");
+    if (!enable) {
+//        m_prevMsg = m_statusText;
+        m_prevBg = m_curBG;
+        setStatusMessage(m_prevMsg);
+    }
 }
 
 void MainWindow::autoRepeatStateChanged(bool enable) {
