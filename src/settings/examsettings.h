@@ -31,6 +31,8 @@ class ExamSettings : public QWidget
 public:
     explicit ExamSettings(QWidget *parent = 0);
 
+    static QString autoNextQuestTxt() { return tr("ask next question automatically"); }
+
     void saveSettings();
 
 signals:

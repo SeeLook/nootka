@@ -22,6 +22,7 @@
 #include "examsettingsdlg.h"
 #include "taboutnootka.h"
 #include "tfirstrunwizzard.h"
+#include "examsettings.h"
 #include "tplayer.h"
 #include <QtGui>
 //#include <QDebug>
@@ -71,12 +72,21 @@ MainWindow::MainWindow(QWidget *parent)
     m_statLab->setWordWrap(true);
     m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     statLay->addWidget(m_statLab);
+    QVBoxLayout *chBlay = new QVBoxLayout;
     m_hintsChB = new QCheckBox(widget);
-    statLay->addWidget(m_hintsChB, 0, Qt::AlignRight);
+//    statLay->addWidget(m_hintsChB, 0, Qt::AlignRight);
+    chBlay->addWidget(m_hintsChB);
     m_hintsChB->setChecked(gl->hintsEnabled);
     m_hintsChB->setStatusTip(tr("show or hide the hints"));
     m_hintsChB->setToolTip(m_hintsChB->statusTip());
     m_hintsChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    m_autoRepeatChB = new QCheckBox(widget);
+    m_autoRepeatChB->hide();
+    chBlay->addWidget(m_autoRepeatChB);
+    m_autoRepeatChB->setStatusTip(ExamSettings::autoNextQuestTxt());
+    m_autoRepeatChB->setToolTip(ExamSettings::autoNextQuestTxt());
+    m_autoRepeatChB->setChecked(gl->EautoNextQuest);
+    statLay->addLayout(chBlay);
     nameLay->addLayout(statLay);
 
     examResults = new TexamView(widget);
@@ -95,6 +105,7 @@ MainWindow::MainWindow(QWidget *parent)
 //-------------------------------------------------------------------
     m_statusText = "";
     m_prevBg = -1;
+    m_curBG = -1;
     m_lockStat = false;
     ex = 0;
 
@@ -104,9 +115,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
     connect(guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
     connect(m_hintsChB, SIGNAL(clicked(bool)), this, SLOT(hintsStateChanged(bool)));
+    connect(m_autoRepeatChB, SIGNAL(clicked(bool)), this, SLOT(autoRepeatStateChanged(bool)));
 
     if (gl->AoutSoundEnabled && !player->isPlayable())
-        QMessageBox::warning(this, "", tr("Problems withs sound output"));
+        QMessageBox::warning(this, "", tr("Problems with sound output"));
 
 }
 
@@ -163,7 +175,7 @@ void MainWindow::resizeEvent(QResizeEvent *) {
     examResults->setFixedHeight(height() / 7);
     examResults->setFontSize(m_statFontSize);
     noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(height() * 0.4)));
-    noteName->resize();
+    noteName->resize(m_statFontSize);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
@@ -187,6 +199,7 @@ void MainWindow::setStatusMessage(QString msg, int time) {
     m_prevMsg = m_statusText;
     m_statLab->setText("<center>" + msg + "</center>");
     m_lockStat = true;
+    m_prevBg = m_curBG;
     QTimer::singleShot(time, this, SLOT(restoreMessage()));
 }
 
@@ -195,13 +208,15 @@ void MainWindow::setMessageBg(QColor bg) {
         m_statLab->setStyleSheet("background: transparent");
     else
         m_statLab->setStyleSheet(gl->getBGcolorText(bg));
-    m_prevBg = bg;
+//    m_prevBg = bg;
+    m_curBG = bg;
 }
 
 void MainWindow::clearAfterExam() {
     setStartExamActParams();
     delete ex;
     ex = 0;
+    m_autoRepeatChB->hide();
 }
 
 //##########        SLOTS       ###############
@@ -239,6 +254,7 @@ void MainWindow::createExamSettingsDlg() {
 
 void MainWindow::startExamSlot() {
     ex = new TexamExecutor(this);
+    m_autoRepeatChB->show();
 }
 
 void MainWindow::aboutSlot() {
@@ -292,6 +308,7 @@ bool MainWindow::event(QEvent *event) {
             setMessageBg(m_prevBg);
             m_statLab->setText("<center>" + m_statusText + "</center>");
         } else {
+            m_prevBg = m_curBG;
             setMessageBg(-1);
             m_statLab->setText("<center>"+se->tip()+"</center>");
         }
@@ -302,6 +319,7 @@ bool MainWindow::event(QEvent *event) {
 void MainWindow::restoreMessage() {
     m_lockStat = false;
     setStatusMessage(m_prevMsg);
+    setMessageBg(m_prevBg);
     m_prevMsg = "";
 }
 
@@ -309,4 +327,8 @@ void MainWindow::hintsStateChanged(bool enable) {
     gl->hintsEnabled = enable;
     if (!enable)
         setStatusMessage("");
+}
+
+void MainWindow::autoRepeatStateChanged(bool enable) {
+    gl->EautoNextQuest = enable;
 }

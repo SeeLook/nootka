@@ -34,6 +34,9 @@ const char * const TnoteName::octavesFull[6] = { QT_TR_NOOP("Contra octave"),
                     QT_TR_NOOP("Three-line octave") };
 
 
+
+
+
 TnoteName::TnoteName(QWidget *parent) :
     QWidget(parent)
 {
@@ -45,13 +48,13 @@ TnoteName::TnoteName(QWidget *parent) :
 
     nameLabel = new QLabel("<b><span style=\"font-size: 20px; color: green;\">Nootka " +
                            gl->version + "</span></b>",this);
+    nameLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Expanding);
     nameLabel->setAlignment(Qt::AlignCenter);
     nameLabel->setStyleSheet("background-color: palette(Base); " + styleTxt);
     resize();
 
     mainLay->addStretch(1);
-    mainLay->addWidget(nameLabel);
-//     mainLay->addSpacing(1);
+    mainLay->addWidget(nameLabel, 0, Qt::AlignCenter);
     mainLay->addStretch(1);
 // BUTTONS WITH NOTES TOOLBAR
     QHBoxLayout *noteLay = new QHBoxLayout();
@@ -70,25 +73,25 @@ TnoteName::TnoteName(QWidget *parent) :
     QHBoxLayout *accLay = new QHBoxLayout;
     accLay->addStretch(1);
     dblFlatButt = new QPushButton("B", this);
-    dblFlatButt->setFont(QFont("nootka", 12, QFont::Normal));
-//    dblFlatButt->setFixedHeight(noteButtons[0]->height());
+    dblFlatButt->setFont(QFont("nootka", 10, QFont::Normal));
+//    dblFlatButt->setStyleSheet("background-image: none");
     dblFlatButt->setCheckable(true);
     accLay->addWidget(dblFlatButt);
     connect(dblFlatButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     flatButt = new QPushButton("b", this);
-    flatButt->setFont(QFont("nootka", 12, QFont::Normal));
+    flatButt->setFont(QFont("nootka", 10, QFont::Normal));
 //    flatButt->setFixedHeight(noteButtons[0]->height());
     flatButt->setCheckable(true);
     accLay->addWidget(flatButt);
     connect(flatButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     sharpButt = new QPushButton("#", this);
-    sharpButt->setFont(QFont("nootka", 12, QFont::Normal));
+    sharpButt->setFont(QFont("nootka", 10, QFont::Normal));
 //    sharpButt->setFixedHeight(noteButtons[0]->height());
     sharpButt->setCheckable(true);
     accLay->addWidget(sharpButt);
     connect(sharpButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     dblSharpButt = new QPushButton("x", this);
-    dblSharpButt->setFont(QFont("nootka", 12, QFont::Normal));
+    dblSharpButt->setFont(QFont("nootka", 10, QFont::Normal));
 //    dblSharpButt->setFixedHeight(noteButtons[0]->height());
     dblSharpButt->setCheckable(true);
     accLay->addWidget(dblSharpButt);
@@ -133,9 +136,6 @@ void TnoteName::setNoteNamesOnButt(Tnote::EnameStyle nameStyle) {
     }
 }
 
-void TnoteName::paintEvent(QPaintEvent *) {
-//    resize();
-}
 
 // private setNoteName method
 void TnoteName::setNoteName(char noteNr, char octNr, char accNr) {
@@ -305,10 +305,24 @@ void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
     }
 }
 
-void TnoteName::resize() {
-    nameLabel->setFixedHeight(qRound(height() * 0.3));
+void TnoteName::resize(int fontSize) {
+    nameLabel->setFixedSize(qRound(width()*0.9), qRound(height() * 0.3));
     nameLabel->setFont(QFont(nameLabel->font().family(), qRound(nameLabel->height() * 0.55), 50));
     nameLabel->setText(nameLabel->text());
+    if (fontSize) {
+        QFont f = QFont(noteButtons[0]->font().family());
+        f.setPixelSize(fontSize);
+        for (int i=0; i<7; i++)
+            noteButtons[i]->setFont(f);
+        for (int i=0; i<6; i++)
+            octaveButtons[i]->setFont(f);
+        f = QFont(dblFlatButt->font().family());
+        f.setPixelSize(fontSize);
+        dblFlatButt->setFont(f);
+        flatButt->setFont(f);
+        sharpButt->setFont(f);
+        dblSharpButt->setFont(f);
+    }
 }
 
 void TnoteName::setAmbitus(Tnote lo, Tnote hi) {

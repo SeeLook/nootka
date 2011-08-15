@@ -81,6 +81,7 @@ protected:
 protected slots:
     void restoreMessage();
     void hintsStateChanged(bool enable);
+    void autoRepeatStateChanged(bool enable);
 
 private:
 
@@ -89,9 +90,9 @@ private:
         /** Keeps true when statusMesage is locked by temporary message
         * and stops any status messages in this time.*/
     bool m_lockStat;
-    QColor m_prevBg;
+    QColor m_prevBg, m_curBG;
     int m_statFontSize;
-    QCheckBox *m_hintsChB;
+    QCheckBox *m_hintsChB, *m_autoRepeatChB;
 
     void createActions();
         /** it sets icon and status text in startExamAct. */

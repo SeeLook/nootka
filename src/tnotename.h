@@ -42,7 +42,7 @@ public:
     void setNoteName(TnotesList notes);
     Tnote getNoteName() {return m_notes[0]; }
     Tnote getNoteName(int index) {return m_notes[index]; }
-    void resize();
+    void resize(int fontSize = 0);
     void setAmbitus(Tnote lo, Tnote hi);
     static QString noteToRichText(Tnote note);
     void askQuestion(Tnote note, char strNr = 0);
@@ -65,7 +65,6 @@ private:
 
     TnotesList m_notes;
     short m_ambitMin, m_ambitMax;
-    void paintEvent(QPaintEvent *);
     void setNoteName(char noteNr, char octNr, char accNr);
     void setNameText();
     void setButtons(Tnote note);
