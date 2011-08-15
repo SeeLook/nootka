@@ -71,6 +71,7 @@ protected slots:
     void repeatSound();
         /** Clears message over the guitar.*/
     void clearMessage();
+    void autoRepeatStateChanged(bool enable);
 
 private:
     void createQuestionsList();

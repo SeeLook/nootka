@@ -80,12 +80,12 @@ MainWindow::MainWindow(QWidget *parent)
     m_hintsChB->setStatusTip(tr("show or hide the hints"));
     m_hintsChB->setToolTip(m_hintsChB->statusTip());
     m_hintsChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    m_autoRepeatChB = new QCheckBox(widget);
-    m_autoRepeatChB->hide();
-    chBlay->addWidget(m_autoRepeatChB);
-    m_autoRepeatChB->setStatusTip(ExamSettings::autoNextQuestTxt());
-    m_autoRepeatChB->setToolTip(ExamSettings::autoNextQuestTxt());
-    m_autoRepeatChB->setChecked(gl->EautoNextQuest);
+    autoRepeatChB = new QCheckBox(widget);
+    autoRepeatChB->hide();
+    chBlay->addWidget(autoRepeatChB);
+    autoRepeatChB->setStatusTip(ExamSettings::autoNextQuestTxt());
+    autoRepeatChB->setToolTip(ExamSettings::autoNextQuestTxt());
+    autoRepeatChB->setChecked(gl->EautoNextQuest);
     statLay->addLayout(chBlay);
     nameLay->addLayout(statLay);
 
@@ -115,7 +115,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
     connect(guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
     connect(m_hintsChB, SIGNAL(clicked(bool)), this, SLOT(hintsStateChanged(bool)));
-    connect(m_autoRepeatChB, SIGNAL(clicked(bool)), this, SLOT(autoRepeatStateChanged(bool)));
 
     if (gl->AoutSoundEnabled && !player->isPlayable())
         QMessageBox::warning(this, "", tr("Problems with sound output"));
@@ -216,7 +215,6 @@ void MainWindow::clearAfterExam() {
     setStartExamActParams();
     delete ex;
     ex = 0;
-    m_autoRepeatChB->hide();
     m_curBG = -1;
     m_prevBg = -1;
     setMessageBg(-1);
@@ -257,7 +255,6 @@ void MainWindow::createExamSettingsDlg() {
 
 void MainWindow::startExamSlot() {
     ex = new TexamExecutor(this);
-    m_autoRepeatChB->show();
 }
 
 void MainWindow::aboutSlot() {
@@ -334,8 +331,4 @@ void MainWindow::hintsStateChanged(bool enable) {
         m_prevBg = m_curBG;
         setStatusMessage(m_prevMsg);
     }
-}
-
-void MainWindow::autoRepeatStateChanged(bool enable) {
-    gl->EautoNextQuest = enable;
 }

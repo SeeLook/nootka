@@ -666,6 +666,7 @@ void TexamExecutor::prepareToExam() {
     mW->startExamAct->setIcon(QIcon(gl->path+"picts/stopExam.png"));
     mW->startExamAct->setText(tr("stop the exam"));
     mW->startExamAct->setStatusTip(mW->startExamAct->text());
+    mW->autoRepeatChB->show();
 
     disableWidgets();
 
@@ -675,6 +676,8 @@ void TexamExecutor::prepareToExam() {
     disconnect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
     disconnect(mW->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
     connect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
+    connect(mW->autoRepeatChB, SIGNAL(clicked(bool)), this,
+            SLOT(autoRepeatStateChanged(bool)));
 
     m_prevStyle = gl->NnameStyleInNoteName;
     m_glStore.nameStyleInNoteName = gl->NnameStyleInNoteName;
@@ -731,11 +734,14 @@ void TexamExecutor::restoreAfterExam() {
     mW->startExamAct->setDisabled(false);
     mW->noteName->setNameDisabled(false);
     mW->guitar->setMouseTracking(true);
+    mW->autoRepeatChB->hide();
 
     connect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
     connect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     connect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
     disconnect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
+    disconnect(mW->autoRepeatChB, SIGNAL(clicked(bool)), this,
+            SLOT(autoRepeatStateChanged(bool)));
     connect(mW->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
 //     mW->score->isExamExecuting(false);
     mW->score->unLockScore();
@@ -889,4 +895,8 @@ void TexamExecutor::clearMessage() {
             m_messageItem->setHtml("");
         }
     }
+}
+
+void TexamExecutor::autoRepeatStateChanged(bool enable) {
+    gl->EautoNextQuest = enable;
 }
