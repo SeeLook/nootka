@@ -128,6 +128,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
         return;
     }
 
+    m_messageItem = 0;
     prepareToExam();
     createQuestionsList();
 
@@ -137,7 +138,6 @@ TexamExecutor::TexamExecutor(MainWindow *mainW)
     m_isAnswered = true;
     m_prevAccid = Tnote::e_Natural;
     m_dblAccidsCntr = 0;
-    m_messageItem = 0;
     m_level.questionAs.randNext(); // Randomize question and answer type
     for (int i = 0; i < 4; i++)
         m_level.answersAs[i].randNext();
@@ -700,9 +700,10 @@ void TexamExecutor::prepareToExam() {
     clearWidgets();
     mW->guitar->createRangeBox(m_level.loFret, m_level.hiFret);
 
-    if(gl->hintsEnabled)
-        mW->setStatusMessage(tr("<img src=\"%1\"> or <b>space</b> to get next question.").arg(gl->path+"picts/next-icon.png"), 5000);
-
+    if(gl->hintsEnabled) {
+        TfingerPos pos(1, 0);
+        showMessage(tr("<img src=\"%1\"> or <b>space</b> to get next question.").arg(gl->path+"picts/next-icon.png"), pos, 5000);
+    }
 }
 
 void TexamExecutor::restoreAfterExam() {
@@ -862,7 +863,7 @@ void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) 
     }
     m_messageItem->document()->setTextWidth(mW->guitar->width() / 2 - 15);
     m_messageItem->setZValue(30);
-    m_messageItem->setHtml(QString("<p align=\"center\" style=\"%1\">")
+    m_messageItem->setHtml(QString("<p align=\"center\" style=\"%1 color: #000;\">")
                            .arg(gl->getBGcolorText(QColor(255, 255, 255, 220)))
                            + htmlText + "</p>");
     bool onRightSide;

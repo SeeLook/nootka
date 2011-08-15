@@ -29,7 +29,7 @@ ExamSettings::ExamSettings(QWidget *parent) :
 {
     QVBoxLayout *lay = new QVBoxLayout;
 
-    autoNextChB = new QCheckBox(tr("ask next question automatically"), this);
+    autoNextChB = new QCheckBox(autoNextQuestTxt(), this);
     lay->addWidget(autoNextChB, 0, Qt::AlignCenter);
     autoNextChB->setChecked(gl->EautoNextQuest);
     repeatIncorChB = new QCheckBox(tr("repeat a question when an answer was incorrect."), this);

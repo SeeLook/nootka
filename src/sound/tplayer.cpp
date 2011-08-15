@@ -51,7 +51,7 @@ QStringList Tplayer::getAudioDevicesList() {
 //                    << "ch:" << (int)devInfo->maxOutputChannels;
         devInfo = Pa_GetDeviceInfo(i);
         if (devInfo->maxOutputChannels > 1)
-            devList << QString(devInfo->name);
+            devList << QString::fromLocal8Bit(devInfo->name);
     }
     return devList;
 }
