@@ -586,6 +586,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
               answTxt += tr(" Wrong position.");
           if (curQ.wrongOctave())
               answTxt += tr(" Wrong octave.");
+          if (gl->EautoNextQuest && gl->ErepeatIncorrect && !m_incorrectRepeated)
+              answTxt += tr("<br>Try again !");
       }
       answTxt += "</span><br>";
       if (gl->hintsEnabled && !gl->EautoNextQuest) {
@@ -622,10 +624,6 @@ void TexamExecutor::checkAnswer(bool showResults) {
             }
         }
     }
-//    else {
-//        if (m_shouldBeTerminated)
-//            stopExamSlot();
-//    }
 }
 
 void TexamExecutor::repeatQuestion() {
@@ -634,7 +632,8 @@ void TexamExecutor::repeatQuestion() {
     QString m = mW->statusMessage();
     m.replace(0, m.indexOf("</b>"), QString("<b>%1.").arg(m_answList.size()+1));
     mW->setStatusMessage(m);
-    clearMessage();
+    if (!gl->EautoNextQuest)
+        clearMessage();
     curQ.setMistake(TQAunit::e_correct);
     if (curQ.answerAs == TQAtype::e_asNote)
         mW->score->unLockScore();
@@ -667,6 +666,7 @@ void TexamExecutor::prepareToExam() {
     mW->startExamAct->setText(tr("stop the exam"));
     mW->startExamAct->setStatusTip(mW->startExamAct->text());
     mW->autoRepeatChB->show();
+    mW->autoRepeatChB->setChecked(gl->EautoNextQuest);
 
     disableWidgets();
 
@@ -713,7 +713,7 @@ void TexamExecutor::restoreAfterExam() {
     mW->setWindowTitle(qApp->applicationName());
     mW->nootBar->removeAction(nextQuestAct);
     mW->examResults->clearResults();
-	mW->score->isExamExecuting(false);
+    mW->score->isExamExecuting(false);
 
     gl->NnameStyleInNoteName = m_glStore.nameStyleInNoteName;
     gl->showEnharmNotes = m_glStore.showEnharmNotes;
@@ -766,7 +766,7 @@ void TexamExecutor::clearWidgets() {
 void TexamExecutor::stopExamSlot() {
     if (!m_isAnswered) {
         m_shouldBeTerminated = true;
-        mW->setStatusMessage(tr("Give an answer first !"), 2000);
+        mW->setStatusMessage(tr("Give an answer first!<br>Then the exam'll be finished"), 2000);
         return;
     }
     mW->examResults->stopExam();
@@ -800,7 +800,7 @@ void TexamExecutor::stopExamSlot() {
 
         } else
             QMessageBox::critical(mW, "",
-                                  tr("Cannot save exam file:\n%1").arg(qPrintable(file.errorString())));
+                  tr("Cannot save exam file:\n%1").arg(qPrintable(file.errorString())));
     }
 
     mW->setMessageBg(-1);
@@ -830,11 +830,12 @@ bool TexamExecutor::closeNootka() {
     if (msg->clickedButton() == contBut) {
         return false;
     } else {
-        if (mW->startExamAct->isEnabled()) {
+        if (m_isAnswered) {
             stopExamSlot();
             return true;
         } else {
             checkAnswer(false);
+            m_isAnswered = true;
             stopExamSlot();
             return true;
         }
@@ -867,11 +868,13 @@ void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) 
         if (!gl->GisRightHanded)
             m_messageItem->scale(-1, 1);
     }
-    m_messageItem->document()->setTextWidth(mW->guitar->width() / 2 - 15);
+    QString txt = QString("<p align=\"center\" style=\"%1 color: #000;\">")
+            .arg(gl->getBGcolorText(QColor(255, 255, 255, 220)))
+            + htmlText + "</p>";
     m_messageItem->setZValue(30);
-    m_messageItem->setHtml(QString("<p align=\"center\" style=\"%1 color: #000;\">")
-                           .arg(gl->getBGcolorText(QColor(255, 255, 255, 220)))
-                           + htmlText + "</p>");
+    m_messageItem->setHtml(txt); // to make possible calculating text width
+    m_messageItem->document()->setTextWidth(m_messageItem->document()->size().width());// calc.
+    m_messageItem->setHtml(txt); // now text is able to be centered
     bool onRightSide;
     if (curPos.fret() > 0 && curPos.fret() < 10) { // on which widget side
         onRightSide = gl->GisRightHanded;
@@ -899,4 +902,7 @@ void TexamExecutor::clearMessage() {
 
 void TexamExecutor::autoRepeatStateChanged(bool enable) {
     gl->EautoNextQuest = enable;
+    if (enable) {
+        mW->startExamAct->setDisabled(false);
+    }
 }
