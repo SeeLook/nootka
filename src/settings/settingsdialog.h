@@ -31,6 +31,7 @@ class QCheckBox;
 class QSpinBox;
 class QComboBox;
 class ExamSettings;
+class TcolorButton;
 
 class GlobalSettings : public QWidget
 {
@@ -62,6 +63,8 @@ private:
     QRadioButton *prefFlatBut, *prefSharpBut;
     QSpinBox *fretsNrSpin;
     QComboBox *tuneCombo;
+    TcolorButton *pointColorBut, *selColorBut;
+
 private slots:
     void tuneSelected(int tuneId);
     void userTune(int, Tnote);

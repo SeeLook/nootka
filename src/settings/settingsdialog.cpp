@@ -20,6 +20,7 @@
 #include "tglobals.h"
 #include "tnoteview.h"
 #include "examsettings.h"
+#include "tcolorbutton.h"
 #include <QtGui>
 
 
@@ -108,6 +109,16 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     morePosCh->setChecked(gl->GshowOtherPos);
 
     mainLay->addLayout(downLay);
+    QGridLayout *colorLay = new QGridLayout;
+    QLabel *pointLab = new QLabel(tr("color of string/fret pointer"), this);
+    pointColorBut = new TcolorButton(gl->GfingerColor, this);
+    colorLay->addWidget(pointLab, 0, 0);
+    colorLay->addWidget(pointColorBut, 0 ,1);
+    QLabel *selLab = new QLabel(tr("color of selected string/fret"), this);
+    selColorBut = new TcolorButton(gl->GselectedColor, this);
+    colorLay->addWidget(selLab, 1, 0);
+    colorLay->addWidget(selColorBut, 1, 1);
+
 
     setLayout(mainLay);
 
@@ -141,6 +152,8 @@ void GuitarSettings::saveSettings() {
     gl->GshowOtherPos = morePosCh->isChecked();
     if (prefFlatBut->isChecked()) gl->GpreferFlats = true;
     else gl->GpreferFlats = false;
+    gl->GfingerColor = pointColorBut->getColor();
+    gl->GselectedColor = selColorBut->getColor();
 }
 
 //############# GlobalSettings IMPLEMENTATION ##################
