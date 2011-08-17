@@ -16,9 +16,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#include "tglobals.h"
 #include "settingsdialog.h"
 #include "mainwindow.h"
-#include "tglobals.h"
 #include "examsettingsdlg.h"
 #include "taboutnootka.h"
 #include "tfirstrunwizzard.h"

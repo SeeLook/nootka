@@ -28,10 +28,11 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     QGraphicsView(parent)
 {
     if (gl->GfingerColor == -1) {
-        gl->GfingerColor = palette().highlight().color();
-        gl->GfingerColor.setRgb(qRgb(255-gl->GfingerColor.red(),255-gl->GfingerColor.green(),
-                                     255-gl->GfingerColor.blue()));
+        gl->GfingerColor = gl->invertColor(palette().highlight().color());
         gl->GfingerColor.setAlpha(200);
+    }
+    if (gl->GselectedColor == -1) {
+        gl->GselectedColor = palette().highlight().color();
     }
 
     m_scene = new QGraphicsScene();
@@ -53,8 +54,8 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
 
         m_fingers[i] = new QGraphicsEllipseItem();
         m_fingers[i]->hide();
-        m_fingers[i]->setPen(QPen(palette().highlight().color()));
-        m_fingers[i]->setBrush(QBrush(palette().highlight().color(),Qt::SolidPattern));
+        m_fingers[i]->setPen(QPen(gl->GselectedColor));
+        m_fingers[i]->setBrush(QBrush(gl->GselectedColor, Qt::SolidPattern));
         m_scene->addItem(m_fingers[i]);
 
         m_workStrings[i] = new QGraphicsLineItem();
