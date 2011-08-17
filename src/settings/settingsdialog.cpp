@@ -118,7 +118,7 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     selColorBut = new TcolorButton(gl->GselectedColor, this);
     colorLay->addWidget(selLab, 1, 0);
     colorLay->addWidget(selColorBut, 1, 1);
-
+    mainLay->addLayout(colorLay);
 
     setLayout(mainLay);
 
