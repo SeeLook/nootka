@@ -182,13 +182,13 @@ void TfingerBoard::paint() {
         painter.setPen(QPen(strColor,strWidth,Qt::SolidLine));
         painter.drawLine(1, fbRect.y()+strGap/2+i*strGap,
                          width()-1-strGap, fbRect.y()+strGap/2+i*strGap);
-        m_workStrings[i]->setPen(QPen(gl->GfingerColor,strWidth+2,Qt::SolidLine));
+        m_workStrings[i]->setPen(QPen(gl->GfingerColor, strWidth+2, Qt::SolidLine));
         m_workStrings[i]->setLine(1, fbRect.y()+strGap/2+i*strGap, width()-1-strGap,
                                   fbRect.y()+strGap/2+i*strGap);
-        m_strings[i]->setPen(QPen(palette().highlight().color(),strWidth,Qt::SolidLine));
+        m_strings[i]->setPen(QPen(gl->GselectedColor, strWidth, Qt::SolidLine));
         m_strings[i]->setLine(m_workStrings[i]->line());
   // drawing digits of strings in circles
-        painter.setPen(QPen(strColor,1,Qt::SolidLine));
+        painter.setPen(QPen(strColor, 1, Qt::SolidLine));
         int wd40;
         if (!gl->GisRightHanded) {
             painter.scale (-1, 1);

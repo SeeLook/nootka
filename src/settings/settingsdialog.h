@@ -42,6 +42,7 @@ public:
     void saveSettings();
 private:
     QCheckBox *otherEnharmChBox, *dblAccChBox, *hintsEnabledChBox;
+	TcolorButton *enharmColorBut;
 };
 
 

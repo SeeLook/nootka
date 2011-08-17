@@ -166,7 +166,14 @@ GlobalSettings::GlobalSettings(QWidget *parent) :
     otherEnharmChBox = new QCheckBox(tr("show other enharmonics variants of a note"),this);
     otherEnharmChBox->setStatusTip(tr("Shows enharmonical variants of a note.<br>F.e.: E note is also Fb (F flat) and Dx (D with double sharp)."));
     otherEnharmChBox->setChecked(gl->showEnharmNotes);
-    lay->addWidget(otherEnharmChBox);
+	lay->addWidget(otherEnharmChBox);
+	QHBoxLayout *colorLay = new QHBoxLayout;
+	QLabel *colorLab = new QLabel(tr("color of enharminic notes/names"), this);
+	enharmColorBut = new TcolorButton(gl->enharmNotesColor, this);
+	colorLay->addWidget(colorLab);
+	colorLay->addWidget(enharmColorBut);
+	lay->addLayout(colorLay);
+	lay->addStretch(1);
     dblAccChBox = new QCheckBox(tr("use double accidentals"),this);
     dblAccChBox->setStatusTip(tr("If checked, you can use double sharps and double flats."));
     dblAccChBox->setChecked(gl->doubleAccidentalsEnabled);
@@ -184,6 +191,7 @@ void GlobalSettings::saveSettings() {
    gl->doubleAccidentalsEnabled = dblAccChBox->isChecked();
    gl->showEnharmNotes = otherEnharmChBox->isChecked();
    gl->hintsEnabled = hintsEnabledChBox->isChecked();
+   gl->enharmNotesColor = enharmColorBut->getColor();
 }
 
 
