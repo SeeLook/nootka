@@ -54,7 +54,7 @@ public:
 
 public slots:
     void createSettingsDialog();
-    void createExamSettingsDlg();
+    void openLevelCreator(QString levelFile = "");
     void startExamSlot();
     void aboutSlot();
 

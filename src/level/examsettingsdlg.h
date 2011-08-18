@@ -26,12 +26,12 @@
 #include "rangesettings.h"
 #include "texamlevel.h"
 
-    /** A dialog box with all settings for exams */
+    /** The level creator */
 class examSettingsDlg : public TsettingsDialogBase
 {
     Q_OBJECT
 public:
-    explicit examSettingsDlg(QWidget *parent = 0);
+    explicit examSettingsDlg(QWidget *parent = 0, QString levelFile = "");
 
     static QString examSettTxt() { return tr("exam's settings"); }
 

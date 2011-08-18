@@ -30,7 +30,7 @@ class levelSettings : public QWidget
 {
     Q_OBJECT
 public:
-    explicit levelSettings(QWidget *parent = 0);
+    explicit levelSettings( QString levelFile = "", QWidget *parent = 0);
 
     TlevelSelector *levelSelector;
     QPushButton *saveBut;

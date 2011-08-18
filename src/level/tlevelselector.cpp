@@ -91,7 +91,7 @@ void TlevelSelector::fileIOerrorMsg(QFile &f, QWidget *parent) {
 
 /*end static*/
 
-TlevelSelector::TlevelSelector(QWidget *parent) :
+TlevelSelector::TlevelSelector(QWidget *parent, QString levelFile) :
     QWidget(parent)
 {
     QHBoxLayout *mainLay = new QHBoxLayout;
@@ -115,7 +115,7 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
 
     setLayout(mainLay);
 
-    findLevels();
+    findLevels(levelFile);
 
     connect(levelsList, SIGNAL(currentRowChanged(int)), this, SLOT(levelSelected(int)));
     connect(loadBut, SIGNAL(clicked()), this, SLOT(m_loadFromFile()));
@@ -126,7 +126,7 @@ void TlevelSelector::levelSelected(int id) {
     emit levelChanged(levList[id]);
 }
 
-void TlevelSelector::findLevels() {
+void TlevelSelector::findLevels(QString levelFile) {
     TexamLevel lev = TexamLevel();
   // from predefined list
     QList<TexamLevel> llist = getExampleLevels();
@@ -154,6 +154,13 @@ void TlevelSelector::findLevels() {
         }
         else
             recentLevels.removeAt(i);
+    }
+  // from file given as parameter
+    if (levelFile != "") {
+        int levCnt = levList.size();
+        loadFromFile(levelFile);
+        if (levList.size() > levCnt) // this way we check was level loaded
+            levelSelected(levCnt);
     }
 }
 
@@ -188,16 +195,18 @@ void TlevelSelector::m_loadFromFile() {
     emit levelToLoad();
 }
 
-void TlevelSelector::loadFromFile() {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Load exam's level"),
-                                                     QDir::homePath(), levelFilterTxt() + "(*.nel)");
-    QFile file(fileName);
+void TlevelSelector::loadFromFile(QString levelFile) {
+    if (levelFile == "")
+        levelFile = QFileDialog::getOpenFileName(this, tr("Load exam's level"),
+                                        QDir::homePath(), levelFilterTxt() + "(*.nel)");
+    QFile file(levelFile);
     TexamLevel level = getLevelFromFile(file);
     if (level.name != "") {
+        qDebug() << level.name;
         addLevel(level);
         if (isSuitable(level))
             selectLevel(); // select the last
-        updateRecentLevels(fileName);
+        updateRecentLevels(levelFile);
     }
 }
 
@@ -216,6 +225,7 @@ TexamLevel TlevelSelector::getLevelFromFile(QFile &file) {
          }
          if (!getLevelFromStream(in, level))
              QMessageBox::warning(0, "", tr("Level file\n %1 \n was corrupted and repaired !!\nCheck please, are its parameters as expected.").arg(file.fileName()));
+         file.close();
     } else
         fileIOerrorMsg(file, this);
     return level;
