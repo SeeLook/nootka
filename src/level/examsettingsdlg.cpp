@@ -25,7 +25,7 @@
 extern Tglobals *gl;
 bool isNotSaved;
 
-examSettingsDlg::examSettingsDlg(QWidget *parent) :
+examSettingsDlg::examSettingsDlg(QWidget *parent, QString levelFile) :
     TsettingsDialogBase(parent)
 {
 
@@ -42,7 +42,7 @@ examSettingsDlg::examSettingsDlg(QWidget *parent) :
     navList->item(2)->setIcon(QIcon(gl->path+"picts/rangeSettings.png"));
     navList->item(2)->setTextAlignment(Qt::AlignCenter);
 
-    levelSett = new levelSettings();
+    levelSett = new levelSettings(levelFile);
     questSett = new questionsSettings();
     rangeSett = new rangeSettings();
 
