@@ -50,6 +50,7 @@ public:
         * of others widgets. */
     int getFontSize() {return m_statFontSize; }
     QString statusMessage() { return m_statusText; }
+    void openFile(QString runArg);
 
 public slots:
     void createSettingsDialog();

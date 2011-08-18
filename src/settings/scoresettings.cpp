@@ -20,6 +20,7 @@
 #include "scoresettings.h"
 #include "tglobals.h"
 #include "tkeysignature.h"
+#include "tcolorbutton.h"
 #include <QtGui>
 
 extern Tglobals *gl;
@@ -79,6 +80,13 @@ ScoreSettings::ScoreSettings(QWidget *parent) :
     enablKeyNameGr->setLayout(nameLay);
     mainLay->addWidget(enablKeyNameGr);
 
+    QHBoxLayout *colLay = new QHBoxLayout;
+    QLabel *colLab = new QLabel(tr("color of pointed note"), this);
+    notePointColorBut = new TcolorButton(gl->SpointerColor, this);
+    colLay->addWidget(colLab);
+    colLay->addWidget(notePointColorBut);
+    mainLay->addLayout(colLay);
+
     setLayout(mainLay);
 
     connect(enablKeySignCh, SIGNAL(toggled(bool)), this, SLOT(enableKeySignGroup(bool)));
@@ -129,7 +137,7 @@ void ScoreSettings::nameStyleWasChanged(Tnote::EnameStyle nameStyle) {
     minExampl->setText(getMinorExample(m_workStyle));
 }
 
-/** @todo make order with keys*/
+/** @todo make order with keys - whatever it means :-) */
 void ScoreSettings::saveSettings() {
     gl->SkeySignatureEnabled = enablKeySignCh->isChecked();
     if (gl->SkeySignatureEnabled) { //changed only if key signature is enabled
@@ -140,6 +148,8 @@ void ScoreSettings::saveSettings() {
         TkeySignature::setNameStyle(
                 gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
     }
+    gl->SpointerColor = notePointColorBut->getColor();
+    gl->SpointerColor.setAlpha(200);
 }
 
 void ScoreSettings::seventhIsBChanged(bool isB) {

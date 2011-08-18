@@ -18,9 +18,6 @@
 
 #include "tnoteview.h"
 #include "tscorewidgetsimple.h"
-//#include <QGraphicsEllipseItem>
-//#include <QGraphicsScene>
-//#include <QGraphicsLineItem>
 #include <QtGui>
 //#include <QDebug>
 
@@ -254,14 +251,27 @@ void TnoteView::hideNote() {
 void TnoteView::setColor(QColor color) {
     m_mainColor = color;
     m_mainNote->setPen(QPen(m_mainColor));
-    m_mainNote->setBrush(QBrush(m_mainColor,Qt::SolidPattern));
+    m_mainNote->setBrush(QBrush(m_mainColor, Qt::SolidPattern));
     m_mainAccid->setBrush(QBrush(m_mainColor));
     for (int i=0; i<7; i++) {
         m_mainUpLines[i]->setPen(QPen(color));
         if (i < 5) m_mainDownLines[i]->setPen(QPen(color));
     }
-    //set color also for string nr if exists
+    if (m_strNr)
+        m_strNr->setBrush(QBrush(m_mainColor));
 }
+
+void TnoteView::setPointedColor(QColor color) {
+    m_workColor = color;
+    m_workNote->setPen(QPen(m_workColor));
+    m_workNote->setBrush(QBrush(m_workColor, Qt::SolidPattern));
+    m_workAccid->setBrush(QBrush(m_workColor));
+    for (int i=0; i<7; i++) {
+        m_upLines[i]->setPen(QPen(color));
+        if (i < 5) m_downLines[i]->setPen(QPen(color));
+    }
+}
+
 
 bool TnoteView::event(QEvent *event) {
     if (event->type() == QEvent::Leave)

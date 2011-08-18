@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
 #if defined(Q_OS_WIN32)
     QApplication::setStyle("plastique");  
 #endif
+
     QApplication a(argc, argv);
     
     QTranslator qtTranslator;
@@ -47,5 +48,7 @@ int main(int argc, char *argv[])
     }
 
     w.show();
+    if (argc > 1)
+        w.openFile(QString::fromLocal8Bit(argv[argc-1]));
     return a.exec();
 }

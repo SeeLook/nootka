@@ -32,15 +32,21 @@ extern Tglobals *gl;
 /*static*/
 const qint32 TexamExecutor::examVersion = 0x95121702;
 
-TexamExecutor::TexamExecutor(MainWindow *mainW)
+TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
 {
     mW = mainW;
     m_examFile = "";
-
-    TstartExamDlg *startDlg = new TstartExamDlg(mW);
     QString resultText;
-    TstartExamDlg::Eactions userAct = startDlg->showDialog(resultText, m_level);
-    delete startDlg;
+    TstartExamDlg::Eactions userAct;
+
+    if (examFile == "") {
+        TstartExamDlg *startDlg = new TstartExamDlg(mW);
+        userAct = startDlg->showDialog(resultText, m_level);
+        delete startDlg;
+    } else {
+        resultText = examFile;
+        userAct = TstartExamDlg::e_continue;
+    }
     m_glStore.tune = gl->Gtune();
     m_glStore.fretsNumber = gl->GfretsNumber;
     if (userAct == TstartExamDlg::e_newLevel) {

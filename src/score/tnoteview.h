@@ -50,7 +50,10 @@ public:
     void setString(int realNr);
     void removeString();
     void hideNote();
+        /** Sets color of main note. */
     void setColor(QColor color);
+        /** Sets color of pointing (work) note. */
+    void setPointedColor(QColor color);
 
 
         /** This return value of @li -2 is bb @li 1 is #
