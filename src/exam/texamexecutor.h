@@ -35,7 +35,7 @@ class TexamExecutor : public QObject
     Q_OBJECT
 
 public:
-    explicit TexamExecutor(MainWindow *mainW);
+    explicit TexamExecutor(MainWindow *mainW, QString examFile = "");
 
     struct TglStore {
         bool showEnharmNotes;

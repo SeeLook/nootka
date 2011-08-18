@@ -220,7 +220,26 @@ void MainWindow::clearAfterExam() {
     setMessageBg(-1);
 }
 
-//##########        SLOTS       ###############
+
+void MainWindow::openFile(QString runArg) {
+    if (QFile::exists(runArg)) {
+        QFile file(runArg);
+        quint32 hdr = 0;
+        if (file.open(QIODevice::ReadOnly)) {
+            QDataStream in(&file);
+            in.setVersion(QDataStream::Qt_4_7);
+            in >> hdr; // check what file type
+        }
+        file.close();
+        if (hdr == TexamExecutor::examVersion)
+            ex = new TexamExecutor(this, runArg);
+        else if (hdr == TlevelSelector::levelVersion)
+            qDebug() << "level file";
+    }
+}
+
+
+//#######################     SLOTS       ################################################
 
 void MainWindow::createSettingsDialog() {
     SettingsDialog *settings = new SettingsDialog(this);
@@ -231,8 +250,8 @@ void MainWindow::createSettingsDialog() {
         noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
         noteName->setAmbitus(gl->loString(),
                                Tnote(gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber));
-        noteWasClicked(0,noteName->getNoteName(0));//refresh name
-        guitar->acceptSettings();;//refresh guitar
+        noteWasClicked(0, noteName->getNoteName(0)); //refresh name
+        guitar->acceptSettings(); //refresh guitar
         m_hintsChB->setChecked(gl->hintsEnabled);
         if (gl->AoutSoundEnabled) {
             if (!player)

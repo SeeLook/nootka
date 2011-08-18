@@ -342,6 +342,11 @@ void TfingerBoard::setFinger(TfingerPos pos) {
 }
 
 void TfingerBoard::acceptSettings() {
+    for (int i=0; i<6; i++) {
+        m_fingers[i]->setPen(QPen(gl->GselectedColor));
+        m_fingers[i]->setBrush(QBrush(gl->GselectedColor, Qt::SolidPattern));
+    }
+    m_workFinger->setBrush(QBrush(gl->GfingerColor, Qt::SolidPattern));
     paint();
     setFinger(m_selNote);
 }

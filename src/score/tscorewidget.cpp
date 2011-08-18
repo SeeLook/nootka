@@ -141,6 +141,9 @@ void TscoreWidget::acceptSettings() {
         setHasScord(false);
     setEnableKeySign(gl->SkeySignatureEnabled);
     if (!gl->doubleAccidentalsEnabled) clearNote(2);
+    noteViews[0]->setPointedColor(gl->SpointerColor);
+    noteViews[1]->setColor(gl->enharmNotesColor);
+    noteViews[2]->setColor(gl->enharmNotesColor);
     setEnableEnharmNotes(gl->showEnharmNotes);
     if (gl->SkeySignatureEnabled) refreshKeySignNameStyle();
     setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()-1),

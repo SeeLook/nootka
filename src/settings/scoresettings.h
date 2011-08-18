@@ -26,6 +26,7 @@
 class QCheckBox;
 class QLabel;
 class QLineEdit;
+class TcolorButton;
 
 class ScoreSettings : public QWidget
 {
@@ -56,6 +57,8 @@ private:
     QLineEdit *majEdit, *minEdit;
     TnotationRadioGroup *nameStyleGr;
     Tnote::EnameStyle m_workStyle;
+    TcolorButton *notePointColorBut;
+
 
 
 };

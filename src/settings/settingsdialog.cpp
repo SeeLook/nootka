@@ -153,6 +153,7 @@ void GuitarSettings::saveSettings() {
     if (prefFlatBut->isChecked()) gl->GpreferFlats = true;
     else gl->GpreferFlats = false;
     gl->GfingerColor = pointColorBut->getColor();
+    gl->GfingerColor.setAlpha(200);
     gl->GselectedColor = selColorBut->getColor();
 }
 
