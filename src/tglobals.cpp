@@ -29,11 +29,10 @@
 QString Tglobals::getInstPath(QString appInstPath) {
     QString p = "";
     QDir d = QDir(appInstPath);
+	p = d.path() + "/";
 #if defined(Q_OS_LINUX)
     d.cdUp();
     p = d.path() + "/share/nootka/"; //Linux
-#elif defined(Q_OS_LINUX)
-    p = d.path();
 #endif
     return p;
 }
