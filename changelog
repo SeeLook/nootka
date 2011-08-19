@@ -1,5 +1,6 @@
 0.7.5
     - !!! Sound output added, also questions as played sound !!!
+    - support for opening external nootka files
     - polish translation
     - added button for fast switch on/off hints
     - questions and answers view is more clear

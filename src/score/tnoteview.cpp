@@ -37,7 +37,6 @@ TnoteView::TnoteView(int _index, TscoreWidgetSimple * parent) :
     setScene(m_scene);
 
     m_workColor = palette().highlight().color();
-    m_workColor.setRgb(qRgb(255-m_workColor.red(),255-m_workColor.green(),255-m_workColor.blue()));
     m_workColor.setAlpha(200);
     m_mainColor = palette().windowText().color();
 

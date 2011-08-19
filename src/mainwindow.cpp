@@ -132,7 +132,7 @@ void MainWindow::createActions() {
     settingsAct->setIcon(QIcon(gl->path+"picts/systemsettings.png"));
     connect(settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
 
-    levelCreatorAct = new QAction(tr("Levels' creator"), this);
+    levelCreatorAct = new QAction(TlevelCreatorDlg::levelCreatorTxt(), this);
     levelCreatorAct->setStatusTip(levelCreatorAct->text());
     levelCreatorAct->setIcon(QIcon(gl->path+"picts/levelCreator.png"));
     connect(levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
@@ -230,6 +230,7 @@ void MainWindow::openFile(QString runArg) {
             in.setVersion(QDataStream::Qt_4_7);
             in >> hdr; // check what file type
         }
+        runArg = QDir(file.fileName()).absolutePath();
         file.close();
         if (hdr == TexamExecutor::examVersion)
             ex = new TexamExecutor(this, runArg);
@@ -267,9 +268,11 @@ void MainWindow::createSettingsDialog() {
 }
 
 void MainWindow::openLevelCreator(QString levelFile) {
-    examSettingsDlg *examSettDlg = new examSettingsDlg(this, levelFile);
-    examSettDlg->exec();
-    delete examSettDlg;
+    TlevelCreatorDlg *levelCreator= new TlevelCreatorDlg(this);
+    if (levelFile != "")
+        levelCreator->loadLevelFile(levelFile);
+    levelCreator->exec();
+    delete levelCreator;
 }
 
 void MainWindow::startExamSlot() {

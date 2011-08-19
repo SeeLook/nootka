@@ -22,12 +22,12 @@
 #include <QPushButton>
 
 
-levelSettings::levelSettings(QString levelFile, QWidget *parent) :
+levelSettings::levelSettings(QWidget *parent) :
     QWidget(parent)
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
 
-    levelSelector = new TlevelSelector(this, levelFile);
+    levelSelector = new TlevelSelector();
     mainLay->addWidget(levelSelector);
     mainLay->addStretch(1);
 

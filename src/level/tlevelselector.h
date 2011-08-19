@@ -56,13 +56,12 @@ class TlevelSelector : public QWidget
 {
     Q_OBJECT
 public:
-    explicit TlevelSelector(QWidget *parent = 0, QString levelFile = "");
+    explicit TlevelSelector(QWidget *parent = 0);
         /** It's looking for levels:
         * 1. in TexamLevel constructor
         * 2. In default install dir
-        * 3. In latest used files
-        * 4. Load a level from file given as @param levelFile */
-    void findLevels(QString levelFile = "");
+        * 3. In latest used files */
+    void findLevels();
         /** Magic number in level file to identify it.*/
     static const qint32 levelVersion;
     static QString levelFilterTxt() { return tr("Levels"); }
