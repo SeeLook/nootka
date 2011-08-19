@@ -91,7 +91,7 @@ void TlevelSelector::fileIOerrorMsg(QFile &f, QWidget *parent) {
 
 /*end static*/
 
-TlevelSelector::TlevelSelector(QWidget *parent, QString levelFile) :
+TlevelSelector::TlevelSelector(QWidget *parent) :
     QWidget(parent)
 {
     QHBoxLayout *mainLay = new QHBoxLayout;
@@ -115,7 +115,7 @@ TlevelSelector::TlevelSelector(QWidget *parent, QString levelFile) :
 
     setLayout(mainLay);
 
-    findLevels(levelFile);
+    findLevels();
 
     connect(levelsList, SIGNAL(currentRowChanged(int)), this, SLOT(levelSelected(int)));
     connect(loadBut, SIGNAL(clicked()), this, SLOT(m_loadFromFile()));
@@ -126,7 +126,7 @@ void TlevelSelector::levelSelected(int id) {
     emit levelChanged(levList[id]);
 }
 
-void TlevelSelector::findLevels(QString levelFile) {
+void TlevelSelector::findLevels() {
     TexamLevel lev = TexamLevel();
   // from predefined list
     QList<TexamLevel> llist = getExampleLevels();
@@ -148,20 +148,12 @@ void TlevelSelector::findLevels(QString levelFile) {
             if (level.name != "") {
                 addLevel(level);
                 isSuitable(level);
-            }
-            else
+            } else
                 recentLevels.removeAt(i);
-        }
-        else
+        } else
             recentLevels.removeAt(i);
     }
-  // from file given as parameter
-    if (levelFile != "") {
-        int levCnt = levList.size();
-        loadFromFile(levelFile);
-        if (levList.size() > levCnt) // this way we check was level loaded
-            levelSelected(levCnt);
-    }
+    sett.setValue("recentLevels", recentLevels);
 }
 
 void TlevelSelector::addLevel(const TexamLevel &lev) {
@@ -202,7 +194,6 @@ void TlevelSelector::loadFromFile(QString levelFile) {
     QFile file(levelFile);
     TexamLevel level = getLevelFromFile(file);
     if (level.name != "") {
-        qDebug() << level.name;
         addLevel(level);
         if (isSuitable(level))
             selectLevel(); // select the last

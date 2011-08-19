@@ -25,12 +25,12 @@
 extern Tglobals *gl;
 bool isNotSaved;
 
-examSettingsDlg::examSettingsDlg(QWidget *parent, QString levelFile) :
+TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
     TsettingsDialogBase(parent)
 {
 
     isNotSaved = false;
-    setWindowTitle(examSettTxt());
+    setWindowTitle(levelCreatorTxt());
 
     navList->addItem(TlevelSelector::levelFilterTxt().toUpper());
     navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
@@ -42,7 +42,7 @@ examSettingsDlg::examSettingsDlg(QWidget *parent, QString levelFile) :
     navList->item(2)->setIcon(QIcon(gl->path+"picts/rangeSettings.png"));
     navList->item(2)->setTextAlignment(Qt::AlignCenter);
 
-    levelSett = new levelSettings(levelFile);
+    levelSett = new levelSettings();
     questSett = new questionsSettings();
     rangeSett = new rangeSettings();
 
@@ -56,7 +56,8 @@ examSettingsDlg::examSettingsDlg(QWidget *parent, QString levelFile) :
     okBut->setText(tr("Close"));
     cancelBut->hide();
 
-    connect(levelSett->levelSelector, SIGNAL(levelChanged(TexamLevel)), this, SLOT(levelWasSelected(TexamLevel))); // to load level to widgets
+    connect(levelSett->levelSelector, SIGNAL(levelChanged(TexamLevel)),
+            this, SLOT(levelWasSelected(TexamLevel))); // to load level to widgets
     connect(rangeSett, SIGNAL(rangeChanged()), this, SLOT(levelNotSaved()));
     connect(questSett, SIGNAL(questSettChanged()), this, SLOT(levelNotSaved()));
     connect(levelSett->saveBut, SIGNAL(clicked()), this, SLOT(saveToFile()));
@@ -65,26 +66,26 @@ examSettingsDlg::examSettingsDlg(QWidget *parent, QString levelFile) :
 
 }
 
-void examSettingsDlg::levelWasSelected(TexamLevel level) {
+void TlevelCreatorDlg::levelWasSelected(TexamLevel level) {
     if (isNotSaved)
         saveLevel();
     questSett->loadLevel(level);
     rangeSett->loadLevel(level);
 }
 
-void examSettingsDlg::levelNotSaved() {
+void TlevelCreatorDlg::levelNotSaved() {
     navList->item(0)->setIcon(QIcon(gl->path+"picts/notSaved.png"));
-    setWindowTitle(examSettTxt() + " (level not saved !!)");
+    setWindowTitle(levelCreatorTxt() + " (level not saved !!)");
 }
 
-void examSettingsDlg::saveLevel() {
+void TlevelCreatorDlg::saveLevel() {
     if ( QMessageBox::question(this, "", tr("Exam's level was changed\nand not saved !!"), QMessageBox::Save, QMessageBox::Cancel) == QMessageBox::Save ) {
         saveToFile();
     }
     levelSaved();
 }
 
-void examSettingsDlg::saveToFile() {
+void TlevelCreatorDlg::saveToFile() {
     TexamLevel newLevel;
     questSett->saveLevel(newLevel);
     rangeSett->saveLevel(newLevel);
@@ -116,23 +117,23 @@ void examSettingsDlg::saveToFile() {
     levelSaved();
 }
 
-void examSettingsDlg::levelSaved() {
+void TlevelCreatorDlg::levelSaved() {
     isNotSaved = false;
     navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
-    setWindowTitle(examSettTxt());
+    setWindowTitle(levelCreatorTxt());
 }
 
-void examSettingsDlg::loadFromFile() {
+void TlevelCreatorDlg::loadFromFile() {
     if (isNotSaved)
         saveLevel();
     levelSett->levelSelector->loadFromFile();
 }
 
-void examSettingsDlg::acceptLevel() {
+void TlevelCreatorDlg::acceptLevel() {
 //    mainLevel = levelSett->levelSelector->getSelectedLevel();
 }
 
-QString examSettingsDlg::validateLevel(TexamLevel &l) {
+QString TlevelCreatorDlg::validateLevel(TexamLevel &l) {
     QString res = "";
   // checking range
     // determine the highest note of frets' range on available strings
@@ -164,4 +165,8 @@ QString examSettingsDlg::validateLevel(TexamLevel &l) {
     }
     return res;
 
+}
+
+void TlevelCreatorDlg::loadLevelFile(QString levelFile) {
+    levelSett->levelSelector->loadFromFile(levelFile);
 }

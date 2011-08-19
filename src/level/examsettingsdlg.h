@@ -27,13 +27,15 @@
 #include "texamlevel.h"
 
     /** The level creator */
-class examSettingsDlg : public TsettingsDialogBase
+class TlevelCreatorDlg : public TsettingsDialogBase
 {
     Q_OBJECT
 public:
-    explicit examSettingsDlg(QWidget *parent = 0, QString levelFile = "");
+    explicit TlevelCreatorDlg(QWidget *parent = 0);
 
-    static QString examSettTxt() { return tr("exam's settings"); }
+    static QString levelCreatorTxt() { return tr("Levels creator"); }
+        /** It can be called externally to load level file. */
+    void loadLevelFile(QString levelFile);
 
 private:
     levelSettings *levelSett;

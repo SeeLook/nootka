@@ -35,7 +35,12 @@ TscoreWidget::TscoreWidget(unsigned char _notesCount, QWidget *parent) :
 
     if (gl->enharmNotesColor == -1)
         gl->enharmNotesColor = palette().highlight().color();
+    if (gl->SpointerColor == -1) {
+        gl->SpointerColor = gl->invertColor(palette().highlight().color());
+        gl->SpointerColor.setAlpha(200);
+    }
 
+    noteViews[0]->setPointedColor(gl->SpointerColor);
     noteViews[1]->setDisabled(true);
     noteViews[1]->setColor(gl->enharmNotesColor);
     noteViews[2]->setDisabled(true);
