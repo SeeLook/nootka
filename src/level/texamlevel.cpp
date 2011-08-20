@@ -51,11 +51,12 @@ TexamLevel::TexamLevel()
    loNote = gl->loString();
    hiNote = Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber);
    /** variables isNoteLo, isNoteHi and isFretHi are not used - it has no sense.*/
-   isNoteLo = true;
-   isNoteHi = true;
+   isNoteLo = false;
+   isNoteHi = false;
+   isFretHi = false;
+   //-------------------
    loFret = 0;
    hiFret = gl->GfretsNumber;
-   isFretHi = true;
    usedStrings[0] = true; usedStrings[1] = true; usedStrings[2] = true;
    usedStrings[3] = true; usedStrings[4] = true; usedStrings[5] = true;
    onlyLowPos = false;

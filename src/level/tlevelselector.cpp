@@ -27,9 +27,10 @@ extern Tglobals *gl;
 QList<TexamLevel> getExampleLevels() {
     QList<TexamLevel> llist;
     TexamLevel l = TexamLevel();
-
+//----------------------------------------------------------------------------
     l.name = QObject::tr("open strings");
-    l.desc = QObject::tr("The simplest. No key signatures, no double accidentals.<br>Automatically adjusted to current tune.");
+    l.desc = QObject::tr("The simplest. No key signatures, no double accidentals and no sound.<br>Automatically adjusted to current tune.");
+    l.questionAs.setAsSound(false);
     l.answersAs[0] = TQAtype(false, true, true, false);
     l.answersAs[1] = TQAtype(true, false, true, false);
     l.withSharps = false;
@@ -53,9 +54,10 @@ QList<TexamLevel> getExampleLevels() {
             l.withFlats = true;
         }
     llist << l;
-
+//----------------------------------------------------------------------------
     l.name = QObject::tr("C-major scale");
-    l.desc = QObject::tr("In first position. No accidentals.<br>Octave required.");
+    l.desc = QObject::tr("In first position. No accidentals, no sound.<br>Octave required.");
+    l.questionAs.setAsSound(false);
     l.answersAs[0] = TQAtype(false, true, true, false);
     l.answersAs[1] = TQAtype(true, false, true, false);
     l.withSharps = false;
@@ -70,11 +72,52 @@ QList<TexamLevel> getExampleLevels() {
     l.requireStyle = false;
     l.showStrNr = false;
     l.loNote = Tnote(1,0,0);
-//    l.isNoteLo = false;
     l.hiNote = Tnote(1,1,0);
-//    l.isNoteHi = false;
     l.hiFret = 3;// loFret is 0 by constuctor
-//    l.isFretHi = false;
+    llist << l;
+//----------------------------------------------------------------------------
+    l.name = QObject::tr("All to V fret");
+    l.desc = QObject::tr("All chromatic notes till V-th fret, no sound.<br>Without double accidentals. Key signatures: C, G, D, A");
+    l.questionAs.setAsSound(false);
+    l.answersAs[0] = TQAtype(false, true, true, false);
+    l.answersAs[1] = TQAtype(true, false, true, false);
+    l.withSharps = true;
+    l.withFlats = true;
+    l.withDblAcc = false;
+    l.useKeySign = true;
+    l.manualKey = true;
+    l.loKey = 0;
+    l.hiKey = 3;
+    l.forceAccids = true;
+    l.requireOctave = true;
+    l.requireStyle = false;
+    l.showStrNr = true;
+    l.loNote = gl->loString();
+    l.hiNote = Tnote(gl->hiString().getChromaticNrOfNote() + 5);
+    l.hiFret = 5;// loFret is 0 by constuctor
+    llist << l;
+//----------------------------------------------------------------------------
+    l = TexamLevel();
+    l.name = QObject::tr("Ear training");
+    l.desc = QObject::tr("Playing sounds are pointed in score.<br>No guitar, no note names, no key signatures.<br>Scale A - a<sup>1</sup>");
+    l.questionAs.setAsFret(false); // no guitar
+    l.questionAs.setAsName(false); // no names
+    l.questionAs.setAsNote(false); // score only as answer
+    l.answersAs[3] = TQAtype(true, false, false, false); // score only
+    l.withSharps = true;
+    l.withFlats = true;
+    l.withDblAcc = false;
+    l.useKeySign = false;
+    l.manualKey = false;
+    l.loKey = 0;
+    l.hiKey = 0;
+    l.forceAccids = true;
+    l.requireOctave = true;
+    l.requireStyle = false;
+    l.showStrNr = false;
+    l.loNote = Tnote(6, -1);
+    l.hiNote = Tnote(6, 1);
+    l.hiFret = 19;// loFret is 0 by constuctor
     llist << l;
 
     return llist;

@@ -176,6 +176,7 @@ void TasNoteWdg::keyRangeChanged() {
 
 void TasNoteWdg::loadLevel(TexamLevel level) {
     disconnect(rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));
+    disconnect(asNoteGr, SIGNAL(toggled(bool)), this, SLOT(whenParamsChanged()));
     asNoteGr->setChecked(level.questionAs.isNote());
     asNoteGr->setAnswers(level.answersAs[TQAtype::e_asNote]);
     sharpsChB->setChecked(level.withSharps);
@@ -192,6 +193,7 @@ void TasNoteWdg::loadLevel(TexamLevel level) {
     keyRangeChanged();
 //    keySignChanged();
     connect(rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));
+    connect(asNoteGr, SIGNAL(toggled(bool)), this, SLOT(whenParamsChanged()));
 }
 
 void TasNoteWdg::whenParamsChanged() {
@@ -373,7 +375,8 @@ void TasFretPosWdg::loadLevel(TexamLevel level) {
 }
 
 void TasFretPosWdg::whenParamsChanged() {
-    asPosGr->asFretPosChB->setChecked(false);/** @todo remove this when asfretPos as answer & question
+    asPosGr->asFretPosChB->setChecked(false);
+    /** @todo remove this when asfretPos as answer & question
                                                will be implement */
     if (!isNotSaved) {
         isNotSaved = true;
@@ -401,7 +404,6 @@ TasPlayedSound::TasPlayedSound(QWidget *parent) :
     mainLay->addWidget(asSoundGr, 1, Qt::AlignCenter);
     mainLay->addStretch(1);
 
-
     setLayout(mainLay);
 
     connect(asSoundGr, SIGNAL(answerStateChanged()), this, SLOT(whenParamsChanged()));
@@ -411,7 +413,6 @@ TasPlayedSound::TasPlayedSound(QWidget *parent) :
 void TasPlayedSound::loadLevel(TexamLevel level) {
     asSoundGr->setChecked(level.questionAs.isSound());
     asSoundGr->setAnswers(level.answersAs[TQAtype::e_asSound]);
-
 }
 
 void TasPlayedSound::whenParamsChanged() {
