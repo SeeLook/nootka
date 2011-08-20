@@ -32,13 +32,13 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
     isNotSaved = false;
     setWindowTitle(levelCreatorTxt());
 
-    navList->addItem(TlevelSelector::levelFilterTxt().toUpper());
+    navList->addItem(TlevelSelector::levelFilterTxt());
     navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
     navList->item(0)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(TquestionAsWdg::questionsTxt().toUpper());
+    navList->addItem(TquestionAsWdg::questionsTxt());
     navList->item(1)->setIcon(QIcon(gl->path+"picts/questionsSettings.png"));
     navList->item(1)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(tr("Range").toUpper());
+    navList->addItem(tr("Range"));
     navList->item(2)->setIcon(QIcon(gl->path+"picts/rangeSettings.png"));
     navList->item(2)->setTextAlignment(Qt::AlignCenter);
 
@@ -100,7 +100,9 @@ void TlevelCreatorDlg::saveToFile() {
     newLevel.name = nameList[0];
     newLevel.desc = nameList[1];
   // Saving to file
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save exam's level"), QDir::toNativeSeparators(QDir::homePath()+"/"+newLevel.name), TlevelSelector::levelFilterTxt());
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save exam's level"),
+                       QDir::toNativeSeparators(QDir::homePath()+"/"+newLevel.name),
+                                              TlevelSelector::levelFilterTxt()) + "(*.nel)";
     QFile file(fileName);
     if (file.open(QIODevice::WriteOnly)) {
         QDataStream out(&file);

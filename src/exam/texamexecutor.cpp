@@ -113,26 +113,42 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
                  mW->clearAfterExam();
                  return;
              }
-         //We checking is sound needed in exam and is it available
-             if (m_level.questionAs.isSound()) {
-                 bool soundOk;
-                 if (mW->player) {
-                     if (!mW->player->isPlayable()) soundOk = false;
-                     else soundOk = true;
-                 } else soundOk = false;
-                 if (!soundOk) {
-                     QMessageBox::warning(mW, "",
-                              tr("An exam requires sound but<br>sound output is not available !!!"));
-                     mW->clearAfterExam();
-                     return;
-                 }
-             }
-        // ---------- End of checking ----------------------------------
+//         //We checking is sound needed in exam and is it available
+//             if (m_level.questionAs.isSound()) {
+//                 bool soundOk;
+//                 if (mW->player) {
+//                     if (!mW->player->isPlayable()) soundOk = false;
+//                     else soundOk = true;
+//                 } else soundOk = false;
+//                 if (!soundOk) {
+//                     QMessageBox::warning(mW, "",
+//                              tr("An exam requires sound but<br>sound output is not available !!!"));
+//                     mW->clearAfterExam();
+//                     return;
+//                 }
+//             }
+//        // ---------- End of checking ----------------------------------
             mW->examResults->startExam(totalTime, m_answList.size(), averTime/m_answList.size(), mistNr);
     } else {
         mW->clearAfterExam();
         return;
     }
+
+    //We checking is sound needed in exam and is it available
+    if (m_level.questionAs.isSound()) {
+        bool soundOk;
+        if (mW->player) {
+            if (!mW->player->isPlayable()) soundOk = false;
+            else soundOk = true;
+        } else soundOk = false;
+        if (!soundOk) {
+            QMessageBox::warning(mW, "",
+                     tr("An exam requires sound but<br>sound output is not available !!!"));
+            mW->clearAfterExam();
+            return;
+        }
+    }
+   // ---------- End of checking ----------------------------------
 
     m_messageItem = 0;
     prepareToExam();

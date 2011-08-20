@@ -29,18 +29,21 @@
 QString Tglobals::getInstPath(QString appInstPath) {
     QString p = "";
     QDir d = QDir(appInstPath);
-	p = d.path() + "/";
 #if defined(Q_OS_LINUX)
-    d.cdUp();
-    p = d.path() + "/share/nootka/"; //Linux
+        d.cdUp();
+        p = d.path() + "/share/nootka/"; //Linux
+#else
+        p = d.path() + "/";
 #endif
-    return p;
+
+        return p;
 }
 
 QString Tglobals::getBGcolorText(QColor C) {
   if ( C != -1)
     return QString(
-      "background-color: rgba(%1, %2, %3, %4); ").arg(C.red()).arg(C.green()).arg(C.blue()).arg(C.alpha());
+      "background-color: rgba(%1, %2, %3, %4); ")
+            .arg(C.red()).arg(C.green()).arg(C.blue()).arg(C.alpha());
   else
     return QString("background-color: transparent; ");
 }
