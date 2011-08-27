@@ -12,9 +12,8 @@ include_directories(${QT_INCLUDES})
 
 ########   Looking for Portaudio
 if (PORTAUDIO_LIBRARIES AND PORTAUDIO_INCLUDE_DIRS)
-  # in cache already
   set(PORTAUDIO_FOUND TRUE)
-else (PORTAUDIO_LIBRARIES AND PORTAUDIO_INCLUDE_DIRS)
+ELSE (PORTAUDIO_LIBRARIES AND PORTAUDIO_INCLUDE_DIRS)
   find_path(PORTAUDIO_INCLUDE_DIR
     NAMES
       portaudio.h
@@ -23,28 +22,31 @@ else (PORTAUDIO_LIBRARIES AND PORTAUDIO_INCLUDE_DIRS)
       /usr/local/include
       /opt/local/include
       /sw/include
+      ${CMAKE_CURRENT_SOURCE_DIR}
       ${CMAKE_CURRENT_BINARY_DIR}
   )
+  IF(WIN32)
+		find_library(PORTAUDIO_LIBRARY
+	    NAMES
+	      libportaudio-2.dll
+	    PATHS
+	      ${CMAKE_CURRENT_SOURCE_DIR}
+	      ${CMAKE_CURRENT_BINARY_DIR}
+	  )
+  ELSE(WIN32)
+	  find_library(PORTAUDIO_LIBRARY
+	    NAMES
+	      portaudio
+	    PATHS
+	      /usr/lib
+	      /usr/local/lib
+	      /opt/local/lib
+	      /sw/lib
+	      ${CMAKE_CURRENT_BINARY_DIR}
+	      ${CMAKE_CURRENT_SOURCE_DIR}
+  )
+  ENDIF(WIN32)
 
-  find_library(PORTAUDIO_LIBRARY
-    NAMES
-      portaudio
-    PATHS
-      /usr/lib
-      /usr/local/lib
-      /opt/local/lib
-      /sw/lib
-      ${CMAKE_CURRENT_BINARY_DIR}
-  )
-IF(WIN32)
-  find_library(PORTAUDIO_LIBRARY
-    NAMES
-      libportaudio-2.dll
-    PATHS
-      c:\windows\system32
-      ${CMAKE_CURRENT_BINARY_DIR}
-  )
-ENDIF(WIN32)
   set(PORTAUDIO_INCLUDE_DIRS
     ${PORTAUDIO_INCLUDE_DIR}
   )
@@ -58,18 +60,16 @@ ENDIF(WIN32)
 
   if (PORTAUDIO_FOUND)
     if (NOT Portaudio_FIND_QUIETLY)
-      message(STATUS "Found Portaudio: ${PORTAUDIO_LIBRARIES}")
+      message(STATUS "Portaudio was Found in: ${PORTAUDIO_LIBRARIES}")
     endif (NOT Portaudio_FIND_QUIETLY)
   else (PORTAUDIO_FOUND)
     if (Portaudio_FIND_REQUIRED)
-      message(FATAL_ERROR "Could not find Portaudio")
+      message(FATAL_ERROR "Could not find Portaudio\nTry call cmake with args:\n-DPORTAUDIO_LIBRARIES=/path_to/libportaudio.la(dll) -DPORTAUDIO_INCLUDE_DIRS=/path_to/portaudio.h\nor put those files in build dir or source dir")
     endif (Portaudio_FIND_REQUIRED)
   endif (PORTAUDIO_FOUND)
-
-  # show the PORTAUDIO_INCLUDE_DIRS and PORTAUDIO_LIBRARIES variables only in the advanced view
   mark_as_advanced(PORTAUDIO_INCLUDE_DIRS PORTAUDIO_LIBRARIES)
-
 endif (PORTAUDIO_LIBRARIES AND PORTAUDIO_INCLUDE_DIRS)
+
 
 
 add_subdirectory(src)
