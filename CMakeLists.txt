@@ -76,18 +76,28 @@ add_subdirectory(src)
 
 
 #INSTALLATION
-if(UNIX AND NOT APPLE)
-    INSTALL(FILES LICENSE DESTINATION "${CMAKE_INSTALL_PREFIX}/share/nootka")
-    INSTALL(DIRECTORY picts DESTINATION "${CMAKE_INSTALL_PREFIX}/share/nootka")
-    INSTALL(DIRECTORY fonts DESTINATION "${CMAKE_INSTALL_PREFIX}/share/nootka")
-    INSTALL(DIRECTORY lang DESTINATION "${CMAKE_INSTALL_PREFIX}/share/nootka")
-    INSTALL(DIRECTORY sounds DESTINATION "${CMAKE_INSTALL_PREFIX}/share/nootka")
+IF(WIN32)
+    set(INS_PREF "")
+ELSE(WIN32)
+    set(INS_PREF "/share/nootka")
+ENDIF(WIN32)
 
+INSTALL(FILES LICENSE DESTINATION ${CMAKE_INSTALL_PREFIX}${INS_PREF})
+INSTALL(DIRECTORY picts DESTINATION ${CMAKE_INSTALL_PREFIX}${INS_PREF})
+INSTALL(DIRECTORY fonts DESTINATION ${CMAKE_INSTALL_PREFIX}${INS_PREF})
+FILE(GLOB langs "${CMAKE_CURRENT_SOURCE_DIR}/lang/*.qm")
+INSTALL(FILES ${langs} DESTINATION "${CMAKE_INSTALL_PREFIX}${INS_PREF}/lang")
+FILE(GLOB snds "${CMAKE_CURRENT_SOURCE_DIR}/sounds/*.wav")
+INSTALL(FILES ${snds} DESTINATION "${CMAKE_INSTALL_PREFIX}${INS_PREF}/sounds")
+
+
+# mime-types associations under linux
+if(UNIX AND NOT APPLE)
     INSTALL(FILES mime/nootka.desktop DESTINATION "${CMAKE_INSTALL_PREFIX}/share/applications")
     INSTALL(FILES picts/nootka.svg DESTINATION "${CMAKE_INSTALL_PREFIX}/share/pixmaps")
-
-    execute_process(COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/mime )
-    execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/mime/install-mime.sh ${CMAKE_INSTALL_PREFIX} ${CMAKE_CURRENT_BINARY_DIR}/mime ${CMAKE_CURRENT_SOURCE_DIR}/mime)
+    INSTALL( CODE"
+      execute_process(COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/mime )
+      execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/mime/install-mime.sh ${CMAKE_INSTALL_PREFIX} ${CMAKE_CURRENT_BINARY_DIR}/mime ${CMAKE_CURRENT_SOURCE_DIR}/mime)" )
 
     INSTALL(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/mime DESTINATION "${CMAKE_INSTALL_PREFIX}/share/nootka")
     find_program(XDG-MIME_EXECUTABLE xdg-mime)
@@ -95,30 +105,30 @@ if(UNIX AND NOT APPLE)
     find_program(XDG-MENU_EXECUTABLE xdg-desktop-menu)
     INSTALL( CODE"
       execute_process(COMMAND echo 'Installing mime-types' )
-      execute_process(COMMAND ${XDG-MIME_EXECUTABLE} install --novendor ${CMAKE_CURRENT_BINARY_DIR}/mime/x-nootka-noo.xml)
-      execute_process(COMMAND ${XDG-MIME_EXECUTABLE} install --novendor ${CMAKE_CURRENT_BINARY_DIR}/mime/x-nootka-nel.xml)
+      execute_process(COMMAND ${XDG-MIME_EXECUTABLE} install --novendor ${CMAKE_CURRENT_BINARY_DIR}/mime/x-nootka.xml)
       execute_process(COMMAND ${XDG-MENU_EXECUTABLE} install --novendor ${CMAKE_CURRENT_SOURCE_DIR}/mime/nootka.desktop)
       execute_process(COMMAND ${XDG-MIME_EXECUTABLE} default nootka.desktop application/x-nootka-noo)
       execute_process(COMMAND ${XDG-MIME_EXECUTABLE} default nootka.desktop application/x-nootka-nel)
       execute_process(COMMAND ${XDG-ICON_EXECUTABLE} install --context mimetypes --size 128 ${CMAKE_INSTALL_PREFIX}/share/nootka/picts/levelCreator.png application-x-nootka-nel)
       execute_process(COMMAND ${XDG-ICON_EXECUTABLE} install --context mimetypes --size 128 ${CMAKE_INSTALL_PREFIX}/share/nootka/picts/nootka-exam.png application-x-nootka-noo)"
     )
-#       execute_process(COMMAND sh install-mime.sh ${CMAKE_INSTALL_PREFIX} )
+endif(UNIX AND NOT APPLE)
 
-  # uninstall target
-    configure_file(
-        "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
-        "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+# uninstall target
+configure_file(
+     "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
+     "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
         IMMEDIATE @ONLY)
 
-    add_custom_target(uninstall
-	COMMAND echo "uninstalling mime-types"
-	COMMAND ${XDG-MIME_EXECUTABLE} uninstall --novendor ${CMAKE_INSTALL_PREFIX}/share/nootka/mime/x-nootka-noo.xml
-	COMMAND ${XDG-MIME_EXECUTABLE} uninstall --novendor ${CMAKE_INSTALL_PREFIX}/share/nootka/mime/x-nootka-nel.xml
-	COMMAND ${XDG-MENU_EXECUTABLE} uninstall --novendor ${CMAKE_INSTALL_PREFIX}/share/applications/nootka.desktop
-	COMMAND ${XDG-ICON_EXECUTABLE} uninstall --context mimetypes --size 128 ${CMAKE_INSTALL_PREFIX}/share/nootka/picts/levelCreator.png application-x-nootka-nel
-	COMMAND ${XDG-ICON_EXECUTABLE} uninstall --context mimetypes --size 128 ${CMAKE_INSTALL_PREFIX}/share/nootka/picts/nootka-exam.png application-x-nootka-noo
-	COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake
-    )
-endif(UNIX AND NOT APPLE)
+add_custom_target(uninstall
+#   if(UNIX AND NOT APPLE)
+     COMMAND echo "uninstalling mime-types"
+     COMMAND ${XDG-MIME_EXECUTABLE} uninstall --novendor ${CMAKE_INSTALL_PREFIX}/share/nootka/mime/x-nootka.xml
+     COMMAND ${XDG-MENU_EXECUTABLE} uninstall --novendor ${CMAKE_INSTALL_PREFIX}/share/applications/nootka.desktop
+     COMMAND ${XDG-ICON_EXECUTABLE} uninstall --context mimetypes --size 128 ${CMAKE_INSTALL_PREFIX}/share/nootka/picts/levelCreator.png application-x-nootka-nel
+     COMMAND ${XDG-ICON_EXECUTABLE} uninstall --context mimetypes --size 128 ${CMAKE_INSTALL_PREFIX}/share/nootka/picts/nootka-exam.png application-x-nootka-noo
+#   endif(UNIX AND NOT APPLE)
+   COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake
+)
+
 

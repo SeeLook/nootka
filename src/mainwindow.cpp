@@ -286,7 +286,7 @@ void MainWindow::aboutSlot() {
 }
 
 void MainWindow::noteWasClicked(int index, Tnote note) {
-    if (gl->AoutSoundEnabled)
+    if (player)
         player->play(note);
     if (gl->showEnharmNotes){
         TnotesList noteList;

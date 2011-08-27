@@ -71,7 +71,7 @@ TkeySignatureView::TkeySignatureView(TscoreWidgetSimple *parent, char _keySign) 
 
 void TkeySignatureView::resize(int co) {
     m_coeff = co;
-    m_scene->setSceneRect(0,0,8*m_coeff,height());
+    m_scene->setSceneRect(0, 0, 8*m_coeff, height());
     const qreal fontFactor = 3.8;
     QFont font(QFont("nootka"));
     font.setPointSizeF(fontFactor*m_coeff);
@@ -88,9 +88,10 @@ void TkeySignatureView::resize(int co) {
                     m_posOfAccid[qAbs(base-i)]*m_coeff-m_accTextOffset);
     }
     if (gl->SshowKeySignName) {
-        m_keyNameText->setPos(1,9*m_coeff);
+        m_keyNameText->setPos(1, 9*m_coeff);
     // All calculation below is to have enaught space for key name
-        m_keyNameText->setFont(this->font());
+//        m_keyNameText->setFont(this->font());
+        m_keyNameText->setFont(QFont(this->font().family(), m_coeff*4));
         m_keyNameText->hide();
         QString S = m_keyNameText->text();
         m_keyNameText->setText("Cis-minor");//simple text to determine max width

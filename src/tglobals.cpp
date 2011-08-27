@@ -33,7 +33,7 @@ QString Tglobals::getInstPath(QString appInstPath) {
         d.cdUp();
         p = d.path() + "/share/nootka/"; //Linux
 #else
-        p = d.path() + "/";
+        p = d.path() + "/"; //Windows
 #endif
 
         return p;
@@ -59,7 +59,7 @@ QColor Tglobals::invertColor(QColor C) {
 
 Tglobals::Tglobals() {
 
-    version = "0.7.1 beta 1";
+    version = "0.7.5 beta 1";
 //    path ; Is declared in mainWindow constructor
 
     qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
