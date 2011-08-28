@@ -79,7 +79,8 @@ protected:
     void resizeEvent(QResizeEvent *);
     bool event(QEvent *event);
     void closeEvent(QCloseEvent *event);
-    void mouseDoubleClickEvent(QMouseEvent *);
+        /** Is used to manage asking and checking during an exam*/
+    void contextMenuEvent(QContextMenuEvent *);
 
 protected slots:
     void restoreMessage();
