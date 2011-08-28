@@ -9,11 +9,12 @@ set(CMAKE_COLOR_MAKEFILE ON)
 
 include_directories(${QT_INCLUDES})
 
-
+###########################################################################
 ########   Looking for Portaudio
-if (PORTAUDIO_LIBRARIES AND PORTAUDIO_INCLUDE_DIRS)
+###########################################################################
+IF(PORTAUDIO_LIBRARIES AND PORTAUDIO_INCLUDE_DIRS)
   set(PORTAUDIO_FOUND TRUE)
-ELSE (PORTAUDIO_LIBRARIES AND PORTAUDIO_INCLUDE_DIRS)
+ELSE(PORTAUDIO_LIBRARIES AND PORTAUDIO_INCLUDE_DIRS)
   find_path(PORTAUDIO_INCLUDE_DIR
     NAMES
       portaudio.h
@@ -26,7 +27,7 @@ ELSE (PORTAUDIO_LIBRARIES AND PORTAUDIO_INCLUDE_DIRS)
       ${CMAKE_CURRENT_BINARY_DIR}
   )
   IF(WIN32)
-		find_library(PORTAUDIO_LIBRARY
+            find_library(PORTAUDIO_LIBRARY
 	    NAMES
 	      libportaudio-2.dll
 	    PATHS
@@ -54,28 +55,27 @@ ELSE (PORTAUDIO_LIBRARIES AND PORTAUDIO_INCLUDE_DIRS)
     ${PORTAUDIO_LIBRARY}
 )
 
-  if (PORTAUDIO_INCLUDE_DIRS AND PORTAUDIO_LIBRARIES)
+  IF(PORTAUDIO_INCLUDE_DIRS AND PORTAUDIO_LIBRARIES)
      set(PORTAUDIO_FOUND TRUE)
-  endif (PORTAUDIO_INCLUDE_DIRS AND PORTAUDIO_LIBRARIES)
+  ENDIF(PORTAUDIO_INCLUDE_DIRS AND PORTAUDIO_LIBRARIES)
 
-  if (PORTAUDIO_FOUND)
-    if (NOT Portaudio_FIND_QUIETLY)
-      message(STATUS "Portaudio was Found in: ${PORTAUDIO_LIBRARIES}")
-    endif (NOT Portaudio_FIND_QUIETLY)
-  else (PORTAUDIO_FOUND)
-    if (Portaudio_FIND_REQUIRED)
-      message(FATAL_ERROR "Could not find Portaudio\nTry call cmake with args:\n-DPORTAUDIO_LIBRARIES=/path_to/libportaudio.la(dll) -DPORTAUDIO_INCLUDE_DIRS=/path_to/portaudio.h\nor put those files in build dir or source dir")
-    endif (Portaudio_FIND_REQUIRED)
-  endif (PORTAUDIO_FOUND)
+  IF(PORTAUDIO_FOUND)
+      message(STATUS "Portaudio was Found in:\n${PORTAUDIO_LIBRARIES}\n${PORTAUDIO_INCLUDE_DIRS}")
+  ELSE(PORTAUDIO_FOUND)
+    #if (Portaudio_FIND_REQUIRED)
+      message(FATAL_ERROR "Could not find Portaudio\nTry call cmake with args:\n-DPORTAUDIO_LIBRARIES=/path_to/libportaudio.la(dll) -DPORTAUDIO_INCLUDE_DIRS=/path_to_dir_with/portaudio.h\nor put those files in build dir or source dir")
+    #endif (Portaudio_FIND_REQUIRED)
+  ENDIF(PORTAUDIO_FOUND)
   mark_as_advanced(PORTAUDIO_INCLUDE_DIRS PORTAUDIO_LIBRARIES)
-endif (PORTAUDIO_LIBRARIES AND PORTAUDIO_INCLUDE_DIRS)
-
+ENDIF(PORTAUDIO_LIBRARIES AND PORTAUDIO_INCLUDE_DIRS)
 
 
 add_subdirectory(src)
 
 
+###########################################################################
 #INSTALLATION
+###########################################################################
 IF(WIN32)
     set(INS_PREF "")
 ELSE(WIN32)
@@ -89,7 +89,6 @@ FILE(GLOB langs "${CMAKE_CURRENT_SOURCE_DIR}/lang/*.qm")
 INSTALL(FILES ${langs} DESTINATION "${CMAKE_INSTALL_PREFIX}${INS_PREF}/lang")
 FILE(GLOB snds "${CMAKE_CURRENT_SOURCE_DIR}/sounds/*.wav")
 INSTALL(FILES ${snds} DESTINATION "${CMAKE_INSTALL_PREFIX}${INS_PREF}/sounds")
-
 
 # mime-types associations under linux
 if(UNIX AND NOT APPLE)
@@ -114,21 +113,27 @@ if(UNIX AND NOT APPLE)
     )
 endif(UNIX AND NOT APPLE)
 
+###########################################################################
 # uninstall target
+###########################################################################
 configure_file(
      "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
      "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
         IMMEDIATE @ONLY)
 
-add_custom_target(uninstall
-#   if(UNIX AND NOT APPLE)
+IF(UNIX AND NOT APPLE)
+  add_custom_target(uninstall
      COMMAND echo "uninstalling mime-types"
      COMMAND ${XDG-MIME_EXECUTABLE} uninstall --novendor ${CMAKE_INSTALL_PREFIX}/share/nootka/mime/x-nootka.xml
      COMMAND ${XDG-MENU_EXECUTABLE} uninstall --novendor ${CMAKE_INSTALL_PREFIX}/share/applications/nootka.desktop
      COMMAND ${XDG-ICON_EXECUTABLE} uninstall --context mimetypes --size 128 ${CMAKE_INSTALL_PREFIX}/share/nootka/picts/levelCreator.png application-x-nootka-nel
      COMMAND ${XDG-ICON_EXECUTABLE} uninstall --context mimetypes --size 128 ${CMAKE_INSTALL_PREFIX}/share/nootka/picts/nootka-exam.png application-x-nootka-noo
-#   endif(UNIX AND NOT APPLE)
    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake
 )
+ELSE(UNIX AND NOT APPLE)
+    add_custom_target(uninstall
+        COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake
+  )
+ENDIF(UNIX AND NOT APPLE)
 
 

@@ -14,7 +14,6 @@ TSCOREWIDGETSIMPLE
     - use enableDblAcc in TscoreWidgetSimple to avoid waste hiding or showing dbl accid buttons
 
 TNOTENAME
-    - buttons' font size depending on window size
     - buttons' with accids and octaves state during asking question
 
 TFINGERBOARD
@@ -31,7 +30,6 @@ TFIRSTRUNWIZZARD & NAMESETTINGS
 !!!!! LEVELS
 
 MIMETYPES
-    - merge them to one file (sh script) as in deb package
 
 MAINWINDOW
 

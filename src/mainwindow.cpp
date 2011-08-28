@@ -162,30 +162,6 @@ void MainWindow::setStartExamActParams() {
     startExamAct->setIcon(QIcon(gl->path+"picts/startExam.png"));
 }
 
-void MainWindow::resizeEvent(QResizeEvent *) {
-    nootBar->setIconSize(QSize(height()/21, height()/21));
-    score->setFixedWidth((centralWidget()->width()/13)*6);
-    m_statLab->setFixedHeight(height()/9);
-    m_statFontSize = m_statLab->height()/4;
-    QFont f = m_statLab->font();
-    f.setPixelSize(m_statFontSize);
-    m_statLab->setFont(f);
-    guitar->setFixedHeight(centralWidget()->height()/3);
-    examResults->setFixedHeight(height() / 7);
-    examResults->setFontSize(m_statFontSize);
-    noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(height() * 0.4)));
-    noteName->resize(m_statFontSize);
-}
-
-void MainWindow::closeEvent(QCloseEvent *event) {
-    if (!settingsAct->isEnabled() && ex) {
-        if (ex->closeNootka())
-            event->accept();
-        else
-            event->ignore();
-    }
-}
-
 void MainWindow::setStatusMessage(QString msg) {
     if (!m_lockStat)
         m_statLab->setText("<center>" + msg + "</center>");
@@ -323,6 +299,38 @@ void MainWindow::guitarWasClicked(Tnote note) {
     score->setNote(0, note);
 }
 
+void MainWindow::restoreMessage() {
+    m_lockStat = false;
+    setStatusMessage(m_prevMsg);
+    setMessageBg(m_prevBg);
+    m_prevMsg = "";
+}
+
+void MainWindow::hintsStateChanged(bool enable) {
+    gl->hintsEnabled = enable;
+    if (!enable) {
+//        m_prevMsg = m_statusText;
+        m_prevBg = m_curBG;
+        setStatusMessage(m_prevMsg);
+    }
+}
+
+//#######################     EVENTS       ################################################
+
+void MainWindow::mouseDoubleClickEvent(QMouseEvent *) {
+    if (!settingsAct->isEnabled()) {
+        if(startExamAct->isEnabled() && !gl->EautoNextQuest) {
+//            qDebug() << "ask";
+            ex->askQuestion();
+        }
+        else {
+//            qDebug() << "check";
+            ex->checkAnswer();
+        }
+    }
+}
+
+
 bool MainWindow::event(QEvent *event) {
     if (gl->hintsEnabled && event->type() == QEvent::StatusTip && !m_lockStat) {
         QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
@@ -339,18 +347,26 @@ bool MainWindow::event(QEvent *event) {
     return QMainWindow::event(event);
 }
 
-void MainWindow::restoreMessage() {
-    m_lockStat = false;
-    setStatusMessage(m_prevMsg);
-    setMessageBg(m_prevBg);
-    m_prevMsg = "";
+void MainWindow::resizeEvent(QResizeEvent *) {
+    nootBar->setIconSize(QSize(height()/21, height()/21));
+    score->setFixedWidth((centralWidget()->width()/13)*6);
+    m_statLab->setFixedHeight(height()/9);
+    m_statFontSize = m_statLab->height()/4;
+    QFont f = m_statLab->font();
+    f.setPixelSize(m_statFontSize);
+    m_statLab->setFont(f);
+    guitar->setFixedHeight(centralWidget()->height()/3);
+    examResults->setFixedHeight(m_statFontSize*5);
+    examResults->setFontSize(m_statFontSize);
+    noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(height() * 0.4)));
+    noteName->resize(m_statFontSize);
 }
 
-void MainWindow::hintsStateChanged(bool enable) {
-    gl->hintsEnabled = enable;
-    if (!enable) {
-//        m_prevMsg = m_statusText;
-        m_prevBg = m_curBG;
-        setStatusMessage(m_prevMsg);
+void MainWindow::closeEvent(QCloseEvent *event) {
+    if (!settingsAct->isEnabled() && ex) {
+        if (ex->closeNootka())
+            event->accept();
+        else
+            event->ignore();
     }
 }

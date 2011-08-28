@@ -32,6 +32,8 @@ class QGraphicsTextItem;
     /** This class manages of exam executing*/
 class TexamExecutor : public QObject
 {
+    friend class MainWindow;
+
     Q_OBJECT
 
 public:
@@ -64,7 +66,7 @@ protected:
 protected slots:
     void askQuestion();
         /** If it is called by pressing "check answer" it obviously shows results
-        * but if app is closeing it only checks answer and save it.*/
+        * but if app is closeing it only checks answer and save it without showing.*/
     void checkAnswer(bool showResults = true);
     void stopExamSlot();
     void repeatQuestion();
