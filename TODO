@@ -43,3 +43,9 @@ TEXAMEXECUTOR
     - improve message over fingerboard
 
 
+FOR WINDOWS
+    - move key names up
+    - question mark over keys - without spaces around
+    - I/O errors texts - wrap encoding
+    - style ???
+    - total time - biger
