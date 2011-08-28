@@ -319,25 +319,29 @@ void MainWindow::hintsStateChanged(bool enable) {
 
 void MainWindow::contextMenuEvent(QContextMenuEvent *) {
     if (!settingsAct->isEnabled()) {
-      if (gl->EautoNextQuest){
-        if(ex->nextQuestAct->isVisible()) {
-            qDebug() << "ask";
+        if (ex->isAnswered())
             ex->askQuestion();
-        }
-        else {
-            qDebug() << "check";
+        else
             ex->checkAnswer();
-        }
-      } else {
-          if(startExamAct->isEnabled()) {
-              qDebug() << "ask";
-              ex->askQuestion();
-          }
-          else {
-              qDebug() << "check";
-              ex->checkAnswer();
-          }
-      }
+//      if (gl->EautoNextQuest){
+//        if(ex->nextQuestAct->isVisible()) {
+//            qDebug() << "ask";
+//            ex->askQuestion();
+//        }
+//        else {
+//            qDebug() << "check";
+//            ex->checkAnswer();
+//        }
+//      } else {
+//          if(startExamAct->isEnabled()) {
+//              qDebug() << "ask";
+//              ex->askQuestion();
+//          }
+//          else {
+//              qDebug() << "check";
+//              ex->checkAnswer();
+//          }
+//      }
     }
 }
 
