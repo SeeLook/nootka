@@ -880,9 +880,8 @@ void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) 
             .arg(gl->getBGcolorText(QColor(255, 255, 255, 220)))
             + htmlText + "</p>";
     m_messageItem->setZValue(30);
-//    m_messageItem->setHtml(txt); // to make possible calculating text width
-//    m_messageItem->document()->setTextWidth(m_messageItem->document()->size().width());// calc.
-    m_messageItem->document()->setTextWidth(mW->guitar->width() / 3);
+    m_messageItem->setHtml(txt); // to make possible calculating text width
+    m_messageItem->document()->setTextWidth(m_messageItem->document()->size().width());// calc.
     m_messageItem->setHtml(txt); // now text is able to be centered
     bool onRightSide;
     if (curPos.fret() > 0 && curPos.fret() < 10) { // on which widget side
