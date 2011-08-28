@@ -79,6 +79,7 @@ protected:
     void resizeEvent(QResizeEvent *);
     bool event(QEvent *event);
     void closeEvent(QCloseEvent *event);
+    void mouseDoubleClickEvent(QMouseEvent *);
 
 protected slots:
     void restoreMessage();

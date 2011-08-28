@@ -75,7 +75,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
                  Ttune tmpTune;
                  in >> tmpTune;
                  in >> totalTime;
-                 in >> questNr >> tmpAverTime>> mistNr;
+                 in >> questNr >> tmpAverTime >> mistNr;
                  bool isExamFileOk = true;
                  int tmpMist = 0;
                  while (!in.atEnd()) {
@@ -90,7 +90,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
 //                             (int)qaUnit.key.value() << qaUnit.key.isMinor();
                  }
                  if (tmpMist != mistNr || questNr != m_answList.size()) {
-                     isExamFileOk = false;
+                   isExamFileOk = false;
+                   mistNr = tmpMist;//we try to fix exam file to give proper number of mistakes
                  }
                  if (!isExamFileOk)
                      QMessageBox::warning(mW, "", tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
@@ -113,21 +114,6 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
                  mW->clearAfterExam();
                  return;
              }
-//         //We checking is sound needed in exam and is it available
-//             if (m_level.questionAs.isSound()) {
-//                 bool soundOk;
-//                 if (mW->player) {
-//                     if (!mW->player->isPlayable()) soundOk = false;
-//                     else soundOk = true;
-//                 } else soundOk = false;
-//                 if (!soundOk) {
-//                     QMessageBox::warning(mW, "",
-//                              tr("An exam requires sound but<br>sound output is not available !!!"));
-//                     mW->clearAfterExam();
-//                     return;
-//                 }
-//             }
-//        // ---------- End of checking ----------------------------------
             mW->examResults->startExam(totalTime, m_answList.size(), averTime/m_answList.size(), mistNr);
     } else {
         mW->clearAfterExam();
