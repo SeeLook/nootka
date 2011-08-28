@@ -57,6 +57,8 @@ public:
     };
         /** Magic number in exam file to identify it.*/
     static const qint32 examVersion;
+    static QString orRightButtTxt() { return tr("or right mouse button"); }
+    QString getNextQuestionTxt();
     bool closeNootka();
 
 protected:
