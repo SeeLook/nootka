@@ -50,5 +50,9 @@ void TclefView::resize(int co) {
     font.setPixelSize(co*19);
     m_clefText->setFont(font);
 //    m_clefText->setPos(0, qRound(11*co));
+#if defined(Q_OS_LINUX)
     m_clefText->setPos(0, 20*co - (0.5*m_clefText->boundingRect().height()));
+#else
+	m_clefText->setPos(0, 20*co - (0.54*m_clefText->boundingRect().height()));
+#endif
 }
