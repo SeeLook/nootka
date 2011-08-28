@@ -150,7 +150,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
     for (int i = 0; i < 4; i++)
         m_level.answersAs[i].randNext();
 
-    nextQuestAct = new QAction(tr("next question (space)"), this);
+    nextQuestAct = new QAction(tr("next question\n(space or right click)"), this);
     nextQuestAct->setStatusTip(nextQuestAct->text());
     nextQuestAct->setIcon(QIcon(gl->path+"picts/nextQuest.png"));
     nextQuestAct->setShortcut(QKeySequence(Qt::Key_Space));
@@ -163,7 +163,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
     prevQuestAct->setShortcut(QKeySequence(Qt::Key_Backspace));
     connect(prevQuestAct, SIGNAL(triggered()), this, SLOT(repeatQuestion()));
 
-    checkAct = new QAction(tr("check answer (enter)"), this);
+    checkAct = new QAction(tr("check answer\n(enter or right click)"), this);
     checkAct->setStatusTip(checkAct->text());
     checkAct->setIcon(QIcon(gl->path+"picts/check.png"));
     checkAct->setShortcut(QKeySequence(Qt::Key_Return));
@@ -599,7 +599,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
       }
       answTxt += "</span><br>";
       if (gl->hintsEnabled && !gl->EautoNextQuest) {
-          answTxt += tr("<br>Click <img src=\"%1\"> buton<br>or press <b>space</b> for next question.").arg(gl->path+"picts/next-icon.png");
+          answTxt += tr("<br>Click <img src=\"%1\"> or <b>right</b> button<br>or press <b>space</b> for next question.").arg(gl->path+"picts/next-icon.png");
           if (!curQ.correct())
               answTxt += tr("<br>Click <img src=\"%1\"> buton<br>or press <b>backspace</b> to correct an answer.").arg(gl->path+"picts/prev-icon.png");
 //          answTxt += "</span>";
@@ -713,7 +713,7 @@ void TexamExecutor::prepareToExam() {
 
     if(gl->hintsEnabled) {
         TfingerPos pos(1, 0);
-        showMessage(tr("<img src=\"%1\"> or <b>space</b> to get next question.").arg(gl->path+"picts/next-icon.png"), pos, 5000);
+        showMessage(tr("<img src=\"%1\"> <b>right</b> button<br>or <b>space</b> to get next question.").arg(gl->path+"picts/next-icon.png"), pos, 5000);
     }
 }
 

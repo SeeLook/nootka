@@ -317,7 +317,7 @@ void MainWindow::hintsStateChanged(bool enable) {
 
 //#######################     EVENTS       ################################################
 
-void MainWindow::mouseDoubleClickEvent(QMouseEvent *) {
+void MainWindow::contextMenuEvent(QContextMenuEvent *) {
     if (!settingsAct->isEnabled()) {
         if(startExamAct->isEnabled() && !gl->EautoNextQuest) {
 //            qDebug() << "ask";
@@ -329,7 +329,6 @@ void MainWindow::mouseDoubleClickEvent(QMouseEvent *) {
         }
     }
 }
-
 
 bool MainWindow::event(QEvent *event) {
     if (gl->hintsEnabled && event->type() == QEvent::StatusTip && !m_lockStat) {
