@@ -60,6 +60,7 @@ public:
     static QString orRightButtTxt() { return tr("or right mouse button"); }
     QString getNextQuestionTxt();
     bool closeNootka();
+    bool isAnswered() { return m_isAnswered; }
 
 protected:
     MainWindow *mW;
