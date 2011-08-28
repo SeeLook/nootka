@@ -18,7 +18,6 @@ TNOTENAME
 
 TFINGERBOARD
     - selected open strings are not hidden when selected finger is on the same string
-    - make widget disable in proper way
 
 
 TKEYSIGNATUREVIEW
@@ -30,6 +29,7 @@ TFIRSTRUNWIZZARD & NAMESETTINGS
 
 !!!!! LEVELS
 
+MIMETYPES
 
 MAINWINDOW
 
@@ -39,7 +39,5 @@ MAIN
 TEXAMVIEW
     - runtime change background color of counters
 
-TEXAMEXECUTOR
-    - improve message over fingerboard
 
 
