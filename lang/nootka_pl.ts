@@ -259,27 +259,27 @@
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="59"/>
         <source>In first position. No accidentals, no sound.&lt;br&gt;Octave required.</source>
-        <translation type="unfinished"></translation>
+        <translation>W pierwszej pozycji. Bez znaków, bez dźwięku.&lt;br&gt;Wymagana oktawa.</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="79"/>
         <source>All to V fret</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystko do V progu</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="80"/>
         <source>All chromatic notes till V-th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystkie chromatyczne dźwięki do V progu, bez dźwięku.&lt;br&gt;Z podwójnymi znakami. Tonacje: C, G, D, A</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="101"/>
         <source>Ear training</source>
-        <translation type="unfinished"></translation>
+        <translation>Kształcenie słuchu</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="102"/>
         <source>Playing sounds are pointed in score.&lt;br&gt;No guitar, no note names, no key signatures.&lt;br&gt;Scale A - a&lt;sup&gt;1&lt;/sup&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Grane dźwięki pokazywane są w nutach.&lt;br&gt;Bez gitary, bez nazw dźwięków, bez tonacji.&lt;br&gt;Skala A - a&lt;sup&gt;1&lt;/sup&gt;</translation>
     </message>
     <message>
         <source>The simplest. No key signatures, no double accidentals.&lt;br&gt;Automatically adjusted to current tune.</source>
@@ -457,7 +457,7 @@
     <message>
         <location filename="../src/settings/scoresettings.cpp" line="84"/>
         <source>color of pointed note</source>
-        <translation type="unfinished"></translation>
+        <translation>kolor wskazywanej nuty</translation>
     </message>
     <message>
         <location filename="../src/settings/scoresettings.h" line="37"/>
@@ -534,7 +534,7 @@
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="222"/>
         <source>Sound</source>
-        <translation type="unfinished"></translation>
+        <translation>Dżwięk</translation>
     </message>
     <message>
         <source>Close</source>
@@ -546,27 +546,27 @@
     <message>
         <location filename="../src/sound/soundsettings.cpp" line="32"/>
         <source>play sound</source>
-        <translation type="unfinished"></translation>
+        <translation>odtwarzaj dźwięk</translation>
     </message>
     <message>
         <location filename="../src/sound/soundsettings.cpp" line="33"/>
         <source>Selected notes and guitar positions will be played.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaznaczone dźwięki i pozycje na gitarze będą odtwarzane.</translation>
     </message>
     <message>
         <location filename="../src/sound/soundsettings.cpp" line="38"/>
         <source>audio device for output</source>
-        <translation type="unfinished"></translation>
+        <translation>urzadzenie dżwiękowe do odtwarzania</translation>
     </message>
     <message>
         <location filename="../src/sound/soundsettings.cpp" line="48"/>
         <source>no devices found</source>
-        <translation type="unfinished"></translation>
+        <translation>nie znaleziono urządzenia</translation>
     </message>
     <message>
         <location filename="../src/sound/soundsettings.cpp" line="53"/>
         <source>The only notes from C&lt;sub&gt;1&lt;/sub&gt; to e&lt;sup&gt;3&lt;/sup&gt; are played !!</source>
-        <translation type="unfinished"></translation>
+        <translation>Odtwarzane są tylko dźwięki od C&lt;sub&gt;1&lt;/sub&gt; do e&lt;sup&gt;3&lt;/sup&gt; !!</translation>
     </message>
 </context>
 <context>
@@ -585,6 +585,11 @@
         <translation>O</translation>
     </message>
     <message>
+        <location filename="../src/info/taboutnootka.cpp" line="63"/>
+        <source>Althougth this application could not exist without various open source projects.&lt;br&gt;Especially:</source>
+        <translation>Jednakże ta aplikacja nie mogła by istnieć bez różnych projektów open source,&lt;br&gt;a w szczególności:</translation>
+    </message>
+    <message>
         <location filename="../src/info/taboutnootka.h" line="34"/>
         <source>Authors</source>
         <translation>Autorzy</translation>
@@ -595,9 +600,8 @@
         <translation>Licencja</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="63"/>
         <source>Althougth this application could not exist without various open source projects.</source>
-        <translation>Jednakże ta aplikacja nie mogła by istnieć bez różnych projektów open source.</translation>
+        <translation type="obsolete">Jednakże ta aplikacja nie mogła by istnieć bez różnych projektów open source.</translation>
     </message>
 </context>
 <context>
@@ -751,7 +755,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="132"/>
         <source>An exam requires sound but&lt;br&gt;sound output is not available !!!</source>
-        <translation type="unfinished"></translation>
+        <translation>Egzamin wymaga dźwięku,&lt;br&gt;ale nie jest on włączony !!</translation>
     </message>
     <message>
         <source>next question (space)</source>
@@ -770,18 +774,20 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <location filename="../src/exam/texamexecutor.cpp" line="153"/>
         <source>next question
 (space %1)</source>
-        <translation type="unfinished"></translation>
+        <translation>następne pytanie
+(spacja %1)</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="166"/>
         <source>check answer
 (enter %1)</source>
-        <translation type="unfinished"></translation>
+        <translation>sprawdź odpowiedź
+(enter %1)</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="173"/>
         <source>play sound again</source>
-        <translation type="unfinished"></translation>
+        <translation>ponownie zagraj dźwiek</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="180"/>
@@ -806,7 +812,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="339"/>
         <source>Played sound show </source>
-        <translation type="unfinished"></translation>
+        <translation>Usłyszany dźwięk pokaż </translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="359"/>
@@ -817,22 +823,22 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="596"/>
         <source> Wrong octave.</source>
-        <translation type="unfinished"></translation>
+        <translation> Zła oktawa.</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="598"/>
         <source>&lt;br&gt;Try again !</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;br&gt;Spróbuj ponownie !</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="919"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="920"/>
         <source>Press &lt;img src=&quot;%1&quot;&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Naciśnij &lt;img src=&quot;%1&quot;&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="919"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="920"/>
         <source>&lt;br&gt;or &lt;b&gt;space&lt;/b&gt; to get next question.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;br&gt;lub &lt;b&gt;spacja&lt;/b&gt; po następne pytanie.</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="604"/>
@@ -847,7 +853,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="777"/>
         <source>Give an answer first!&lt;br&gt;Then the exam&apos;ll be finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Najpierw odpowiedz!&lt;br&gt;Potem egzamin zostanie zakończony</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="834"/>
@@ -867,7 +873,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="860"/>
         <source>If You don&apos;t save to file&lt;br&gt;You lost all results !!</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeżeli nie zapiszesz do pliku&lt;br&gt;stracisz dotychczasowe wyniki !!</translation>
     </message>
     <message>
         <source>Give name of &lt;span style=&quot;color: %1; font-size: %2px;&quot;&gt;</source>
@@ -976,7 +982,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.h" line="60"/>
         <source>or right mouse button</source>
-        <translation type="unfinished"></translation>
+        <translation>lub prawy klawisz myszy</translation>
     </message>
 </context>
 <context>
@@ -1074,51 +1080,51 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="41"/>
         <source>Range</source>
-        <translation type="unfinished">Zakres</translation>
+        <translation>Zakres</translation>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="56"/>
         <source>Close</source>
-        <translation type="unfinished">Zamknij</translation>
+        <translation>Zamknij</translation>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="82"/>
         <source>Exam&apos;s level was changed
 and not saved !!</source>
-        <translation type="unfinished">Poziom egzaminu został zmieniony
+        <translation>Poziom egzaminu został zmieniony
 ale nie zapisany !!</translation>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="94"/>
         <source>&lt;center&gt;&lt;b&gt;It seems the level has got some mistakes:&lt;/b&gt;</source>
-        <translation type="unfinished">&lt;center&gt;&lt;b&gt;Wygląda na to, że ten poziom ma jakieś błędy::&lt;/b&gt;</translation>
+        <translation>&lt;center&gt;&lt;b&gt;Wygląda na to, że ten poziom ma jakieś błędy::&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="103"/>
         <source>Save exam&apos;s level</source>
-        <translation type="unfinished">Zapisz poziom egzaminu</translation>
+        <translation>Zapisz poziom egzaminu</translation>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="114"/>
         <source>Cannot open file for writing
 %1</source>
-        <translation type="unfinished">Nie mogę otworzyć pliku żeby zapisać
+        <translation>Nie mogę otworzyć pliku żeby zapisać
 %1</translation>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="154"/>
         <source>&lt;li&gt;Range of frets is beyond scale of this level&lt;/li&gt;</source>
-        <translation type="unfinished">&lt;li&gt;Zakres progów jest poza skalą tego poziomu&lt;/li&gt;</translation>
+        <translation>&lt;li&gt;Zakres progów jest poza skalą tego poziomu&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="161"/>
         <source>&lt;li&gt;In range of notes some accidental is used&lt;br&gt;but not available in this level&lt;/li&gt;</source>
-        <translation type="unfinished">&lt;li&gt;W zakresie dźwięków użyte zostały znaki&lt;br&gt;lecz nie zostały zaznaczone dla tego poziomu&lt;/li&gt;</translation>
+        <translation>&lt;li&gt;W zakresie dźwięków użyte zostały znaki&lt;br&gt;lecz nie zostały one zaznaczone dla tego poziomu&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.h" line="36"/>
         <source>Levels creator</source>
-        <translation type="unfinished"></translation>
+        <translation>Kreator poziomów</translation>
     </message>
 </context>
 <context>
@@ -1255,7 +1261,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/settings/tnotationradiogroup.cpp" line="38"/>
         <source>Nameing style of a note. The main difference is 7-th note.&lt;br&gt;Is it B and B flat, or H and B ?</source>
-        <translation type="unfinished">Sposób nazywania nut. Podstawowa różnica to 7-my dźwięk.&lt;br&gt;Czy jest to  B i Bb, czy też H i B ?</translation>
+        <translation>Sposób nazywania nut. Podstawowa różnica to 7-my dźwięk.&lt;br&gt;Czy jest to  B i Bb, czy też H i B ?</translation>
     </message>
     <message>
         <location filename="../src/settings/tnotationradiogroup.h" line="42"/>
@@ -1387,7 +1393,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/level/tquestionaswdg.cpp" line="27"/>
         <source>Select a type of answers for a question.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaznacz rodzaje odpowiedzi dla pytania.</translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.cpp" line="39"/>

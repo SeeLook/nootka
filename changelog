@@ -4,6 +4,7 @@
     - polish translation
     - added button for fast switch on/off hints
     - questions and answers view is more clear
+    - right mouse button asks questions and checks answers
     - preventing to use levels with a range out of current tune and frets number
   BUGS FIXES
     - fixed drawing last fret out of a fingerboard
