@@ -37,7 +37,8 @@ MainWindow::MainWindow(QWidget *parent)
     Ttune::prepareDefinedTunes();
 
     setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
-    setMinimumSize(640,480);
+//    setMinimumSize(640,480);
+    setMinimumSize(800, 600);
 
     if (gl->isFirstRun) {
         TfirstRunWizzard *firstWizz = new TfirstRunWizzard(this);

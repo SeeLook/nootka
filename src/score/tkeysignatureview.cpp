@@ -88,7 +88,7 @@ void TkeySignatureView::resize(int co) {
                     m_posOfAccid[qAbs(base-i)]*m_coeff-m_accTextOffset);
     }
     if (gl->SshowKeySignName) {
-        m_keyNameText->setPos(1, 9*m_coeff);
+        m_keyNameText->setPos(1, 8*m_coeff);
     // All calculation below is to have enaught space for key name
 //        m_keyNameText->setFont(this->font());
         m_keyNameText->setFont(QFont(this->font().family(), m_coeff*4));
