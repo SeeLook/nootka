@@ -69,7 +69,7 @@ TexamView::TexamView(QWidget *parent) :
 
     m_totalTimeLab = new QLabel(this);
     QVBoxLayout *totalLay = new QVBoxLayout;
-    totalLay->addWidget(m_totalTimeLab);
+    totalLay->addWidget(m_totalTimeLab, 0, Qt::AlignCenter);
     QGroupBox *totalGr = new QGroupBox(this);
     totalGr->setLayout(totalLay);
     mainLay->addWidget(totalGr);
