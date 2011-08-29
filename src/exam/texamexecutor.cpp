@@ -808,7 +808,7 @@ void TexamExecutor::stopExamSlot() {
 
         } else
             QMessageBox::critical(mW, "",
-                  tr("Cannot save exam file:\n%1").arg(qPrintable(file.errorString())));
+                  tr("Cannot save exam file:\n%1").arg(QString::fromLocal8Bit(qPrintable(file.errorString()))));
     }
 
     mW->setMessageBg(-1);
