@@ -69,7 +69,7 @@ TexamView::TexamView(QWidget *parent) :
 
     m_totalTimeLab = new QLabel(this);
     QVBoxLayout *totalLay = new QVBoxLayout;
-    totalLay->addWidget(m_totalTimeLab, 0, Qt::AlignCenter);
+    totalLay->addWidget(m_totalTimeLab);
     QGroupBox *totalGr = new QGroupBox(this);
     totalGr->setLayout(totalLay);
     mainLay->addWidget(totalGr);
@@ -148,7 +148,7 @@ void TexamView::setFontSize(int s) {
     m_effLab->setFont(f);
     m_reactTimeLab->setFixedWidth(s * 3);
     m_averTimeLab->setFixedWidth(s * 3);
-    m_totalTimeLab->setFixedWidth(s * 4.5);
+    m_totalTimeLab->setFixedWidth(s * 5);
 }
 
 void TexamView::countTime() {

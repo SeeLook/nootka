@@ -111,7 +111,8 @@ void TlevelCreatorDlg::saveToFile() {
         levelSett->levelSelector->updateRecentLevels(fileName);
     }
     else
-        QMessageBox::critical(this, "", tr("Cannot open file for writing\n%1").arg(qPrintable(file.errorString())));
+        QMessageBox::critical(this, "", tr("Cannot open file for writing\n%1")
+		.arg(QString::fromLocal8Bit(qPrintable(file.errorString()))));
     isNotSaved = false;
 
     levelSett->levelSelector->addLevel(newLevel);

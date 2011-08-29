@@ -129,7 +129,7 @@ const qint32 TlevelSelector::levelVersion = 0x95121701;
 void TlevelSelector::fileIOerrorMsg(QFile &f, QWidget *parent) {
     QMessageBox::critical(parent, "",
                           tr("Cannot open file\n %1 \n for reading\n%2 ").arg(
-                                  f.fileName()).arg(qPrintable(f.errorString())));
+                                  f.fileName()).arg(QString::fromLocal8Bit(qPrintable(f.errorString()))));
 }
 
 /*end static*/
