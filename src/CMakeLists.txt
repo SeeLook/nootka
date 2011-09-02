@@ -99,17 +99,24 @@ QT4_WRAP_CPP( NOOTKA_MOCS ${NOOTKA_MOC_SRCS} )
 
 ADD_DEFINITIONS(-DQT_NO_DEBUG)
 
+
+
 IF(WIN32)
-   SET(GUI_TYPE WIN32)
+ # dress up win executable in nice nootka icon
+    ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/nootico.o
+                       COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -i${CMAKE_CURRENT_SOURCE_DIR}/../picts/nootka-icon.rc
+                            -o ${CMAKE_CURRENT_BINARY_DIR}/nootico.o )
+    SET(NOOTKA_SRCS ${NOOTKA_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/nootico.o)
+    ADD_EXECUTABLE( nootka WIN32 ${NOOTKA_SRCS} ${NOOTKA_MOCS} nootico.o )
+ELSE(WIN32)
+    ADD_EXECUTABLE( nootka
+        ${NOOTKA_SRCS}
+        ${NOOTKA_MOCS}
+    #        ${NOOTKA_RCC_SRCS}
+    )
 ENDIF(WIN32)
 
 
-ADD_EXECUTABLE( nootka
-	${GUI_TYPE}
-        ${NOOTKA_SRCS}
-        ${NOOTKA_MOCS}
-#        ${NOOTKA_RCC_SRCS}
-)
 TARGET_LINK_LIBRARIES(nootka
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
