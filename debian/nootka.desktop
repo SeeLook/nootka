@@ -1,10 +1,12 @@
 [Desktop Entry]
 Version=1.0
 Name=Nootka
-Type=Application
+GenericName=to play scores
+GenericName[pl]=żeby grać z nut
 Comment=Application for learning musical score notation 
 Comment[pl]=Program do nauki nut
-Exec=nootka
+Type=Application
+Exec=nootka %f
 Icon=nootka
 Terminal=false
 MimeType=application/x-nootka-noo;application/x-nootka-nel

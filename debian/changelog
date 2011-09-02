@@ -1,9 +1,23 @@
+0.7.5
+    - !!! Sound output added, also questions as played sound !!!
+    - support for opening external nootka files
+    - polish translation
+    - added button for fast switch on/off hints
+    - questions and answers view is more clear
+    - right mouse button asks questions and checks answers
+    - preventing to use levels with a range out of current tune and frets number
+  BUGS FIXES
+    - fixed drawing last fret out of a fingerboard
+    - and few smaller
+
+
+0.7.0
+    - executing exams !!!!!
+    - storing user settings
+    - created nootka font
+    - added first run wizzard
+
 0.6
     - Levels creator dialog
   Under the hood
     - all resources moved out of executable file
-
-0.7
-    - storing user settings
-    - executing exams
-
