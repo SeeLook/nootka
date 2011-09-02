@@ -136,6 +136,10 @@ ELSE(UNIX AND NOT APPLE)
   )
 ENDIF(UNIX AND NOT APPLE)
 
+###########################################################################
+#	cpack rules
+###########################################################################
+
 IF(MINGW)
 		include (InstallRequiredSystemLibraries)
 
