@@ -64,10 +64,34 @@ InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
 ShowUnInstDetails show
 
+Section -AssociateMime
+;FILE ASSOCIATION
+!include fileasoc.nsh
+!insertmacro APP_ASSOCIATE "nel" "nootka.level" "Nootka level file" "$INSTDIR\picts\nootka-levels.ico"     "Open with nootka" "$INSTDIR\nootka.exe $\"%1$\""
+!insertmacro APP_ASSOCIATE "noo" "nootka.exam" "Nootka exam file" "$INSTDIR\picts\nootka-exam.ico"     "Open with nootka" "$INSTDIR\nootka.exe $\"%1$\""
+;WriteRegStr HKCR ".nel" "" "Nootka.level"
+;WriteRegStr HKCR "Nootka.level" "" "Nootka level file"
+;WriteRegStr HKCR "Nootka.level\DefaultIcon" "" \
+;      "$INSTDIR\picts\nootka-levels.ico"
+;WriteRegStr HKCR "Nootka.level\shell\open\command" "" \
+;      '"$INSTDIR\nootka.exe" "%1"'
+;WriteRegStr HKCR "Nootka.level\shell\print\command" "" \
+;      '"$INSTDIR\nootka.exe" /p "%1"'
+;WriteRegStr HKCR ".noo" "" "Nootka.exam"
+;WriteRegStr HKCR "Nootka.exam" "" \
+;      "Nootka exam file"
+;WriteRegStr HKCR "Nootka.level\DefaultIcon" "" \
+;      "$INSTDIR\picts\nootka-exam.ico"
+;WriteRegStr HKCR "Nootka.level\shell\open\command" "" \
+;      '"$INSTDIR\nootka.exe" "%1"'
+;WriteRegStr HKCR "Nootka.level\shell\print\command" "" \
+;      '"$INSTDIR\nootka.exe" /p "%1"'
+SectionEnd
+
+
 Section "GrupaGlowna" SEC01
   SetOutPath "$INSTDIR"
   SetOverwrite ifnewer
-  File "QtSvg4.dll"
   File "QtGui4.dll"
   File "QtCore4.dll"
   File "nootka.exe"
@@ -151,14 +175,14 @@ Section -Post
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
 SectionEnd
 
-Section -AssociateMime
-  !include FileAssociation.nsh
-  ${registerExtension} "$INSTDIR\\\\nootka.exe" ".nel" "Nootka exam level file"
-  ${registerExtension} "$INSTDIR\\\\nootka.exe" ".noo" "Nootka exam results file"
-  
-  ${unregisterExtension} ".nel" "Nootka exam level file"
-  ${unregisterExtension} ".noo" "Nootka exam results file"
-SectionEnd
+;Section -AssociateMime
+;  !include FileAssociation.nsh
+;  ${registerExtension}  "$INSTDIR\nootka.exe" ".nel" "Nootka exam level file"
+;  ${registerExtension}  "$INSTDIR\nootka.exe" ".noo" "Nootka exam results file"
+;  
+;  ${unregisterExtension} ".nel" "Nootka exam level file"
+;  ${unregisterExtension} ".noo" "Nootka exam results file"
+;SectionEnd
 
 
 
@@ -241,7 +265,11 @@ Section Uninstall
 
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
   DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
-  
+
+!insertmacro APP_UNASSOCIATE "nel" "nootka.level"
+!insertmacro APP_UNASSOCIATE "noo" "nootka.exam"
+;  DeleteRegKey HKCR "nootka.level"
+;  DeleteRegKey HKCR "nootka.exam"
   
   SetAutoClose true
 SectionEnd
