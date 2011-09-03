@@ -72,6 +72,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
         if(file.open(QFile::ReadOnly | QFile::Text))
         {
 	      QTextStream in(&file);
+		  in.setCodec("UTF-8");
 	      licenseTxt->setPlainText(in.readAll());
         }        
 
