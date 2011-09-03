@@ -2,6 +2,7 @@
     - !!! Sound output added, also questions as played sound !!!
     - support for opening external nootka files
     - polish translation
+    - associate Nootka files with executable also under Windows
     - added button for fast switch on/off hints
     - questions and answers view is more clear
     - right mouse button asks questions and checks answers
@@ -10,7 +11,7 @@
     - fixed drawing last fret out of a fingerboard
     - and few smaller
     - fixed proper position of a clef
-	- fixed encoding characters under non UTF8 systems
+    - fixed encoding characters under non UTF8 systems
 
 
 0.7.0
