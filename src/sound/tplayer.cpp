@@ -36,20 +36,16 @@ QStringList Tplayer::getAudioDevicesList() {
     if (err != paNoError)
         return devList;
 
-//    const PaHostApiInfo *hostApi = Pa_GetHostApiInfo(Pa_GetDefaultHostApi());
-//    int devCnt = hostApi->deviceCount;
     int devCnt = Pa_GetDeviceCount();
     if (devCnt < 1)
         return devList;
-//    devList << QObject::tr("default");
     const PaDeviceInfo *devInfo;
     for (int i = 0; i < devCnt; i++) {
-//        devInfo = Pa_GetDeviceInfo(
-//                    Pa_HostApiDeviceIndexToDeviceIndex(Pa_GetDefaultHostApi(), i) );
-//        qDebug() << QString::fromStdString(devInfo->name)
-//                 << "Default sample rate:" << (int)devInfo->defaultSampleRate
-//                    << "ch:" << (int)devInfo->maxOutputChannels;
-        devInfo = Pa_GetDeviceInfo(i);
+         devInfo = Pa_GetDeviceInfo(i);
+//        QMessageBox::information(0, "", QString::fromStdString(devInfo->name)
+//                                 + "Default sample rate: " + QString::number((int)devInfo->defaultSampleRate)
+//                    + "ch: " + QString::number((int)devInfo->maxOutputChannels));
+
         if (devInfo->maxOutputChannels > 1)
             devList << QString::fromLocal8Bit(devInfo->name);
     }
@@ -113,7 +109,7 @@ Tplayer::~Tplayer() {
 
 
 void Tplayer::setDevice() {
-    if (m_outStream && QString::fromStdString(Pa_GetDeviceInfo(m_paParam.device)->name)
+    if (m_outStream && QString::fromLocal8Bit(Pa_GetDeviceInfo(m_paParam.device)->name)
             == gl->AoutDeviceName) {
 //        qDebug() << "device was not changed";
         return;
@@ -128,30 +124,22 @@ void Tplayer::setDevice() {
     if (gl->AoutDeviceName == "") // default system device
         m_paParam.device = Pa_GetDefaultOutputDevice();
     else { // or device by name from Tglobals.
-        QStringList devList;
+        int devId = -1;
         for (int i = 0; i < Pa_GetDeviceCount(); i++) {
                 const PaDeviceInfo *devInfo = Pa_GetDeviceInfo(i);
-                devList << QString::fromStdString(devInfo->name);
+                if (QString::fromLocal8Bit(devInfo->name) == gl->AoutDeviceName)
+                    if (devInfo->maxOutputChannels > 1) {
+                    devId = i;
+                    break;
+                }
         }
-        if (devList.size()) { // There are some devices in system
-            int id = devList.indexOf(gl->AoutDeviceName);
-            if (id != -1) { // so we get id from its name
-                //            m_paParam.device =
-                //                Pa_HostApiDeviceIndexToDeviceIndex(Pa_GetDefaultHostApi(), id);
-                m_paParam.device = id;
-
-            } else // or we load system default
-                m_paParam.device = Pa_GetDefaultOutputDevice();
-        } else { // no devices in system since last run. Someone has stolen...
-            m_playable = false;
-            return;
-        }
+        if (devId != -1)
+            m_paParam.device = devId;
+        else
+            m_paParam.device = Pa_GetDefaultOutputDevice();
     }
     if (m_paParam.device != paNoDevice) {
         m_paParam.suggestedLatency = Pa_GetDeviceInfo(m_paParam.device)->defaultLowOutputLatency;
-            //        qDebug() << "found audio dev: " <<
-            //                    QString::fromStdString(Pa_GetDeviceInfo(
-            //            m_paParam.device)->name);
         m_paErr = Pa_OpenStream(&m_outStream, NULL, &m_paParam, SAMPLE_RATE,
                                 BUFFER_SIZE, paClipOff, paCallBack, m_audioArr);
     } else {
