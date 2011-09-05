@@ -109,7 +109,7 @@ void TnoteView::resize(int co) {
                                         (qreal)width(),(qreal)m_coeff*2*(i+13));
         }
     }
-    qreal fontFactor = 4;
+    qreal fontFactor = 3.8;
     QFont font(QFont("nootka"));
     font.setPointSizeF(fontFactor*m_coeff);
     m_workAccid->setFont(font);
@@ -119,7 +119,7 @@ void TnoteView::resize(int co) {
         m_workAccid->setText(QString(QChar(0xe11a)));
         reset = true;
     }
-    m_accTextOffset = m_workAccid->boundingRect().height()/2 - qRound(m_coeff * 0.2);
+    m_accTextOffset = m_workAccid->boundingRect().height()/2/* - qRound(m_coeff * 0.2)*/;
     if (reset) m_workAccid->setText("");
 
     if (m_mainNote->isVisible() && m_mainPosY) moveNote(m_mainPosY);
