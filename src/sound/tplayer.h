@@ -21,6 +21,7 @@
 #define TPLAYER_H
 
 #include "portaudio.h"
+#include "RtMidi.h"
 #include <QString>
 
 class Tnote;
@@ -72,7 +73,8 @@ private:
     static int m_samplesCnt;
         /** position of a note in @param m_audioArr */
     static int m_noteOffset;
-
+//########## midi #############
+	RtMidiOut *m_midiOut;
 
 };
 
