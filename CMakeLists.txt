@@ -69,6 +69,33 @@ ENDIF(PORTAUDIO_LIBRARIES AND PORTAUDIO_INCLUDE_DIRS)
 
 include_directories(${PORTAUDIO_INCLUDE_DIRS})
 
+###########################################################################
+#libraries and compiller definitions for RtMidi
+###########################################################################
+IF(UNIX)
+  find_library(ALSA_LIBRARY
+		  NAMES
+			asound
+		  PATHS
+			/usr/lib
+			/usr/local/lib
+			/opt/local/lib
+  )
+  find_library(PTHREAD_LIBRARY
+		  NAMES
+			pthread
+		  PATHS
+			/usr/lib
+			/usr/local/lib
+			/opt/local/lib
+  )
+  add_definitions(-D__LINUX_ALSASEQ__)
+ENDIF(UNIX)
+
+IF(WIN32)
+  add_definitions(-D__WINDOWS_MM__)
+ENDIF(WIN32)
+
 add_subdirectory(src)
 
 

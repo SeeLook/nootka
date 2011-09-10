@@ -49,6 +49,7 @@ SET( NOOTKA_SRCS
 ###### Sound
   sound/tplayer.cpp
   sound/soundsettings.cpp
+  sound/RtMidi.cpp
   )
 
 #SET( NOOTKA_HEADERS
@@ -102,27 +103,36 @@ ADD_DEFINITIONS(-DQT_NO_DEBUG)
 
 
 IF(WIN32)
- # dress up win executable in nice nootka icon
+ # dress up win executable in nice nootka icon ONLY FOR MINGW !!!!!!!!!!!!!
     ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/nootico.o
                        COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -i${CMAKE_CURRENT_SOURCE_DIR}/../picts/nootka-icon.rc
                             -o ${CMAKE_CURRENT_BINARY_DIR}/nootico.o )
     SET(NOOTKA_SRCS ${NOOTKA_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/nootico.o)
     ADD_EXECUTABLE( nootka WIN32 ${NOOTKA_SRCS} ${NOOTKA_MOCS} nootico.o )
-ELSE(WIN32)
+	TARGET_LINK_LIBRARIES(nootka
+        ${QT_QTCORE_LIBRARY}
+        ${QT_QTGUI_LIBRARY}
+        ${PORTAUDIO_LIBRARIES}
+		winmm lib multithreaded
+)
+
+ELSE(WIN32) #Linux
     ADD_EXECUTABLE( nootka
         ${NOOTKA_SRCS}
         ${NOOTKA_MOCS}
     #        ${NOOTKA_RCC_SRCS}
     )
-ENDIF(WIN32)
-
-
-TARGET_LINK_LIBRARIES(nootka
+	TARGET_LINK_LIBRARIES(nootka
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
         ${PORTAUDIO_LIBRARIES}
+		${ALSA_LIBRARY} ${PTHREAD_LIBRARY}
  #       ${QT_QTSVG_LIBRARY}
 )
+
+ENDIF(WIN32)
+
+
 
 IF (UNIX AND NOT APPLE)
   INSTALL(TARGETS nootka DESTINATION bin)
