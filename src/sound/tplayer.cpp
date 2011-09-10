@@ -19,6 +19,7 @@
 
 #include "tplayer.h"
 #include "tglobals.h"
+#include "RtError.h"
 #include "tnote.h"
 #include <QFile>
 #include <QDebug>
@@ -98,6 +99,31 @@ Tplayer::Tplayer()
         setDevice();
     } else
         m_playable = false;
+	
+	m_midiOut = 0;
+	try {
+	    m_midiOut = new RtMidiOut();
+    }
+    catch ( RtError &error ) {
+	    error.printMessage();
+	}
+	
+	if(m_midiOut) {
+// 		int portsCnt = m_midiOut->getPortCount();
+		if (m_midiOut->getPortCount() > 0) {
+#if defined(Q_OS_LINUX)
+			int portNr = 0;
+			for (int i = 0; i < m_midiOut->getPortCount(); i++) {
+				if (QString(m_midiOut->getPortName(i)).contains("TiMidity")) {
+					portNr = i;
+					break;
+				}
+			}
+#endif
+			m_midiOut->openPort(portNr);
+		}
+	}
+
 
 }
 
@@ -105,6 +131,7 @@ Tplayer::~Tplayer() {
     Pa_CloseStream(m_outStream);
     Pa_Terminate();
     delete m_audioArr;
+	delete m_midiOut;
 }
 
 
