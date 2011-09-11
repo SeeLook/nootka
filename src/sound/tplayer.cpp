@@ -103,7 +103,7 @@ Tplayer::Tplayer()
 	
 	m_isMidi = true;
 	m_midiOut = 0;
-	m_prevMidiNote = 0;
+	m_prevMidiNote = 1;
 	m_midiTimer = new QTimer(this);
 	try {
 	    m_midiOut = new RtMidiOut();
@@ -135,7 +135,7 @@ Tplayer::Tplayer()
 		
 		// midi program (instrument) change
 		m_message.push_back(192);
-		m_message.push_back(5); // instrument number
+		m_message.push_back(0); // instrument number
 		m_midiOut->sendMessage(&m_message);
 		// some spacial signals
 		m_message[0] = 241;
@@ -148,6 +148,7 @@ Tplayer::Tplayer()
 		m_message[1] = 7;
 		m_message[2] = 100; // volume 100;
 		m_midiOut->sendMessage(&m_message);
+		connect(m_midiTimer, SIGNAL(timeout()), this, SLOT(midiNoteOff()));
 	  }
 	}
 
@@ -212,23 +213,23 @@ void Tplayer::play(Tnote note) {
         return;
     int noteNr = note.getChromaticNrOfNote();
   if (m_isMidi) {
-	if (m_prevMidiNote) { // note is played and has to be turned off. Volume is pushed.
- 		m_midiTimer->stop();
+	if (m_prevMidiNote)  // note is played and has to be turned off. Volume is pushed.
 		midiNoteOff();
-	}
-	else { // push the volume
+// 	}
+// 	else { // push the volume
 // 		m_message[0] = 176;
 // 		m_message[1] = 7;
 // 		m_message[2] = 100; // volume 100;
 // 		m_midiOut->sendMessage(&m_message);
-	}
+// 	}
 		
 	m_prevMidiNote = noteNr + 47;
 	m_message[0] = 144; // note On
 	m_message[1] = m_prevMidiNote;
 	m_message[2] = 100; // volume
 	m_midiOut->sendMessage(&m_message);
-	m_midiTimer->singleShot(2000, this, SLOT( midiNoteOff() ));
+// 	m_midiTimer->singleShot(2000, this, SLOT( midiNoteOff() ));
+	m_midiTimer->start(2000);
 	
   } else {
     if (noteNr < -11 || noteNr > 41)
@@ -255,11 +256,12 @@ void Tplayer::play(Tnote note) {
 
 
 void Tplayer::midiNoteOff() {
-	m_message[0] = 128; // note Off
-	m_message[1] = m_prevMidiNote;
-	m_message[2] = 0; // volume
-	m_midiOut->sendMessage(&m_message);
-	m_prevMidiNote = 0;
+		m_midiTimer->stop();
+		m_message[0] = 128; // note Off
+		m_message[1] = m_prevMidiNote;
+		m_message[2] = 0; // volume
+		m_midiOut->sendMessage(&m_message);
+		m_prevMidiNote = 0;
 // 	midiBeQuiet();
 }
 
