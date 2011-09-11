@@ -22,9 +22,14 @@
 
 #include "portaudio.h"
 #include "RtMidi.h"
+#include <vector>
 #include <QString>
+#include <QObject>
+// #include 
 
 class Tnote;
+class QTimer;
+
 /** Tplayer is a class which plays single guitar sounds.
   It takes it from file classical-guitar.wav, in method getAudioData checks file
   and load data to m_audioArr. paCallBack method plays it with PortAudio.
@@ -32,8 +37,11 @@ class Tnote;
   is in paCallBack because of requirements of some audio devices.
   So far playing is bounded to range C in Contra octave to e in 3-line.
 */
-class Tplayer
+class Tplayer: public QObject
 {
+  
+	Q_OBJECT
+
 public:
     Tplayer();
     ~Tplayer();
@@ -57,6 +65,7 @@ private:
                                 PaStreamCallbackFlags statusFlags,
                                 void *userData );
 //    int getValueFromChunk(char *chunk, int len);
+	
 
 
 
@@ -74,7 +83,18 @@ private:
         /** position of a note in @param m_audioArr */
     static int m_noteOffset;
 //########## midi #############
+	  /** sends midi message with volume sets to 0 */
+	void midiBeQuiet();
+	
 	RtMidiOut *m_midiOut;
+	bool m_isMidi;
+	unsigned char m_prevMidiNote;
+	std::vector<unsigned char> m_message;
+	QTimer *m_midiTimer;
+	
+private slots:
+	  /** Turns off played @param m_prevMidiNote */
+	void midiNoteOff();
 
 };
 

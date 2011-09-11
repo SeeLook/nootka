@@ -93,6 +93,7 @@ SET( NOOTKA_MOC_SRCS
   info/tfirstrunwizzard.h
   info/select7note.h
 ###### Sound
+  sound/tplayer.h
   sound/soundsettings.h
   )
 
