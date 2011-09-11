@@ -213,7 +213,7 @@ void Tplayer::play(Tnote note) {
     int noteNr = note.getChromaticNrOfNote();
   if (m_isMidi) {
 	if (m_prevMidiNote) { // note is played and has to be turned off. Volume is pushed.
-// 		m_midiTimer->stop();
+ 		m_midiTimer->stop();
 		midiNoteOff();
 	}
 	else { // push the volume
