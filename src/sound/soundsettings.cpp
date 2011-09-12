@@ -40,6 +40,7 @@ SoundSettings::SoundSettings(QWidget *parent) :
     QVBoxLayout *reaALay = new QVBoxLayout;
 	audioRadioButt = new QRadioButton(tr("real audio playback"), this);
 	reaALay->addWidget(audioRadioButt);
+	audioRadioButt->setChecked(!gl->AmidiEnabled);
     QLabel *outDevLab = new QLabel(tr("audio device for output"), this);
     reaALay->addWidget(outDevLab);
     audioOutDevListCombo = new QComboBox(this);
@@ -63,19 +64,23 @@ SoundSettings::SoundSettings(QWidget *parent) :
 	QVBoxLayout *midilay = new QVBoxLayout;
 	midiRadioButt = new QRadioButton(tr("midi playback"), this);
 	midilay->addWidget(midiRadioButt);
+	midiRadioButt->setChecked(gl->AmidiEnabled);
 	QLabel *midiPortsLab = new QLabel(tr("midi port"), this);
 	midilay->addWidget(midiPortsLab);
 	midiPortsCombo = new QComboBox(this);
 	midilay->addWidget(midiPortsCombo);
 	midiPortsCombo->addItems(Tplayer::getMidiPortsList());
-// 	if (midiPortsCombo->count()) {
-// 		int id = midiInstrCombo->findText(gl->AmidiPortName);
-// 		if (id != -1)
-// 			midiPortsCombo->setCurrentIndex(id);		
-// 	} else {
-// 		midiPortsCombo->addItem(tr("no midi ports"));
-// 		midiPortsCombo->setDisabled(true);
-// 	}
+	if (gl->AmidiPortName != "") {
+		if (midiPortsCombo->count()) {
+			int id = midiInstrCombo->findText(gl->AmidiPortName);
+			qDebug() << id;
+			if (id != -1)
+				midiPortsCombo->setCurrentIndex(id);		
+		} else {
+			midiPortsCombo->addItem(tr("no midi ports"));
+			midiPortsCombo->setDisabled(true);
+		}
+	}
 // 	qDebug() << "works";
 	midiGr->setLayout(midilay);
 	audioOutLay->addWidget(midiGr);
