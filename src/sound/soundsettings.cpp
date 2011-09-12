@@ -65,23 +65,31 @@ SoundSettings::SoundSettings(QWidget *parent) :
 	midiRadioButt = new QRadioButton(tr("midi playback"), this);
 	midilay->addWidget(midiRadioButt);
 	midiRadioButt->setChecked(gl->AmidiEnabled);
+	QGridLayout *midiParamLay = new QGridLayout;
 	QLabel *midiPortsLab = new QLabel(tr("midi port"), this);
-	midilay->addWidget(midiPortsLab);
+	midiParamLay->addWidget(midiPortsLab, 0, 0);
 	midiPortsCombo = new QComboBox(this);
-	midilay->addWidget(midiPortsCombo);
+	midiParamLay->addWidget(midiPortsCombo, 1, 0);
 	midiPortsCombo->addItems(Tplayer::getMidiPortsList());
-	if (gl->AmidiPortName != "") {
-		if (midiPortsCombo->count()) {
-			int id = midiInstrCombo->findText(gl->AmidiPortName);
-			qDebug() << id;
-			if (id != -1)
-				midiPortsCombo->setCurrentIndex(id);		
-		} else {
-			midiPortsCombo->addItem(tr("no midi ports"));
-			midiPortsCombo->setDisabled(true);
-		}
-	}
+// 	if (gl->AmidiPortName != "") {
+// 		if (midiPortsCombo->count()) {
+// 			int id = midiInstrCombo->findText(gl->AmidiPortName);
+// 			qDebug() << id;
+// 			if (id != -1)
+// 				midiPortsCombo->setCurrentIndex(id);		
+// 		} else {
+// 			midiPortsCombo->addItem(tr("no midi ports"));
+// 			midiPortsCombo->setDisabled(true);
+// 		}
+// 	}
 // 	qDebug() << "works";
+	QLabel *midiInstrLab = new QLabel(tr("instrument"), this);
+	midiParamLay->addWidget(midiInstrLab, 0, 1);
+	midiInstrCombo = new QComboBox(this);
+	midiParamLay->addWidget(midiInstrCombo, 1, 1);
+	midiInstrCombo->addItem(tr("grand piano"));
+	midiInstrCombo->addItem(tr("classical guitar"));
+	midilay->addLayout(midiParamLay);
 	midiGr->setLayout(midilay);
 	audioOutLay->addWidget(midiGr);
 
