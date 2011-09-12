@@ -156,9 +156,11 @@ Tglobals::Tglobals() {
 
 // Sound settings
     sett.beginGroup("sound");
-        AoutDeviceNr = (char)sett.value("outDeviceNr", -1).toInt();
         AoutSoundEnabled = sett.value("outSoundEnabled", true).toBool();
         AoutDeviceName = sett.value("outDeviceName", "").toString();
+		AmidiEnabled = sett.value("midiEnabled", false).toBool();
+		AmidiPortName = sett.value("midiPortName", "").toString();
+		AmidiInstrNr = (unsigned char)sett.value("midiInstrumentNr", 0).toInt();
     sett.endGroup();
 
 }
@@ -234,7 +236,9 @@ void Tglobals::storeSettings() {
 
     sett.beginGroup("sound");
         sett.setValue("outSoundEnabled", AoutSoundEnabled);
-        sett.setValue("outDeviceNr", (int)AoutDeviceNr);
         sett.setValue("outDeviceName", AoutDeviceName);
+		sett.setValue("midiEnabled", AmidiEnabled);
+		sett.setValue("midiPortName", AmidiPortName);
+		sett.setValue("midiInstrumentNr", (int)AmidiInstrNr);
     sett.endGroup();
 }

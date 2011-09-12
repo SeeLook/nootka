@@ -130,8 +130,10 @@ public:
 //============ Sound settings ===========================================================
 
     bool AoutSoundEnabled; // default true
-    char AoutDeviceNr; // -1 for system default device
     QString AoutDeviceName; // default empty
+    bool AmidiEnabled; // default false
+    QString AmidiPortName; // default empty to find system default
+    unsigned char AmidiInstrNr; // default 0 - grand piano
 
 private:
   //--- for tune part ----------------
