@@ -31,11 +31,14 @@ class Tnote;
 class QTimer;
 
 /** Tplayer is a class which plays single guitar sounds.
-  It takes it from file classical-guitar.wav, in method getAudioData checks file
-  and load data to m_audioArr. paCallBack method plays it with PortAudio.
-  Trick is that data is mono 22050 but output is stereo 44100. All this magic
-  is in paCallBack because of requirements of some audio devices.
-  So far playing is bounded to range C in Contra octave to e in 3-line.
+ * It can play real audio sound or midi.
+ * Audio is taken from file classical-guitar.wav, in method getAudioData checks file
+ * and load data to m_audioArr. paCallBack method plays it with PortAudio.
+ * Trick is that data is mono 22050 but output is stereo 44100. All this magic
+ * is in paCallBack because of requirements of some audio devices.
+ * So far playing is bounded to range C in Contra octave to e in 3-line.
+ * 
+ * Midi is played by RtMidi class.
 */
 class Tplayer: public QObject
 {
@@ -47,14 +50,16 @@ public:
     ~Tplayer();
 
     static QStringList getAudioDevicesList();
+	static QStringList getMidiPortsList();
 
     void play(Tnote note);
-        /** It sets device to value taken from Tglobals */
+        /** It sets audio device to value taken from Tglobals */
     void setDevice();
+		/** Sets midi parameters:
+		 * @param portName, if empty system prefered is set (Timidity under Linux) 
+		 * @param instrNr for instrument number in midi nomenclature. */
+	void setMidiParams(QString portName = "", unsigned char instrNr = 0);
     bool isPlayable() { return m_playable; }
-
-
-
 
 private:
         /** Loads wav file with scale to m_audioArr. If everything is ok return true*/
@@ -83,8 +88,6 @@ private:
         /** position of a note in @param m_audioArr */
     static int m_noteOffset;
 //########## midi #############
-	  /** sends midi message with volume sets to 0 */
-	void midiBeQuiet();
 	
 	RtMidiOut *m_midiOut;
 	bool m_isMidi;

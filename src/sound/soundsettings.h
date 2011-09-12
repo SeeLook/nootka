@@ -24,6 +24,7 @@
 
 class QComboBox;
 class QGroupBox;
+class QRadioButton;
 
 class SoundSettings : public QWidget
 {
@@ -39,7 +40,8 @@ public slots:
 
 private:
     QGroupBox *audioOutEnableGr;
-    QComboBox *audioOutDevListCombo;
+    QComboBox *audioOutDevListCombo, *midiPortsCombo, *midiInstrCombo;
+	QRadioButton *midiRadioButt, *audioRadioButt;
 
 };
 

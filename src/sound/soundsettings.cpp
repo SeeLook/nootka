@@ -33,12 +33,17 @@ SoundSettings::SoundSettings(QWidget *parent) :
     audioOutEnableGr->setStatusTip(tr("Selected notes and guitar positions will be played."));
     audioOutEnableGr->setCheckable(true);
     audioOutEnableGr->setChecked(gl->AoutSoundEnabled);
-
-    QVBoxLayout *outLay = new QVBoxLayout;
+	
+	QVBoxLayout *audioOutLay = new QVBoxLayout;
+	
+	QGroupBox *realAGr = new QGroupBox(this);	
+    QVBoxLayout *reaALay = new QVBoxLayout;
+	audioRadioButt = new QRadioButton(tr("real audio playback"), this);
+	reaALay->addWidget(audioRadioButt);
     QLabel *outDevLab = new QLabel(tr("audio device for output"), this);
-    outLay->addWidget(outDevLab);
+    reaALay->addWidget(outDevLab);
     audioOutDevListCombo = new QComboBox(this);
-    outLay->addWidget(audioOutDevListCombo);
+    reaALay->addWidget(audioOutDevListCombo);
     audioOutDevListCombo->addItems(Tplayer::getAudioDevicesList());
     if (audioOutDevListCombo->count()) {
         int id = audioOutDevListCombo->findText(gl->AoutDeviceName);
@@ -48,11 +53,34 @@ SoundSettings::SoundSettings(QWidget *parent) :
         audioOutDevListCombo->addItem(tr("no devices found"));
         audioOutDevListCombo->setDisabled(true);
     }
-    audioOutEnableGr->setLayout(outLay);
-    outLay->addStretch(1);
+    reaALay->addStretch(1);
     QLabel *outRangeLab = new QLabel(tr("The only notes from C<sub>1</sub> to e<sup>3</sup> are played !!"), this);
-    outLay->addWidget(outRangeLab, 0, Qt::AlignCenter);
+    reaALay->addWidget(outRangeLab, 0, Qt::AlignCenter);
+	realAGr->setLayout(reaALay);
+	audioOutLay->addWidget(realAGr);
+	
+	QGroupBox *midiGr = new QGroupBox(this);
+	QVBoxLayout *midilay = new QVBoxLayout;
+	midiRadioButt = new QRadioButton(tr("midi playback"), this);
+	midilay->addWidget(midiRadioButt);
+	QLabel *midiPortsLab = new QLabel(tr("midi port"), this);
+	midilay->addWidget(midiPortsLab);
+	midiPortsCombo = new QComboBox(this);
+	midilay->addWidget(midiPortsCombo);
+	midiPortsCombo->addItems(Tplayer::getMidiPortsList());
+// 	if (midiPortsCombo->count()) {
+// 		int id = midiInstrCombo->findText(gl->AmidiPortName);
+// 		if (id != -1)
+// 			midiPortsCombo->setCurrentIndex(id);		
+// 	} else {
+// 		midiPortsCombo->addItem(tr("no midi ports"));
+// 		midiPortsCombo->setDisabled(true);
+// 	}
+// 	qDebug() << "works";
+	midiGr->setLayout(midilay);
+	audioOutLay->addWidget(midiGr);
 
+	audioOutEnableGr->setLayout(audioOutLay);
     lay->addWidget(audioOutEnableGr);
     lay->addStretch(1);
     setLayout(lay);

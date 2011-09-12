@@ -43,18 +43,28 @@ QStringList Tplayer::getAudioDevicesList() {
         return devList;
     const PaDeviceInfo *devInfo;
     for (int i = 0; i < devCnt; i++) {
-         devInfo = Pa_GetDeviceInfo(i);
-//        QMessageBox::information(0, "", QString::fromStdString(devInfo->name)
-//                                 + "Default sample rate: " + QString::number((int)devInfo->defaultSampleRate)
-//                    + "ch: " + QString::number((int)devInfo->maxOutputChannels));
-
+        devInfo = Pa_GetDeviceInfo(i);
         if (devInfo->maxOutputChannels > 1)
-            devList << QString::fromLocal8Bit(devInfo->name);
+			devList << QString::fromLocal8Bit(devInfo->name);
     }
     return devList;
 }
 
-
+QStringList Tplayer::getMidiPortsList() {
+	RtMidiOut *midiOut = 0;
+	try {
+		midiOut = new RtMidiOut();
+	}
+	catch ( RtError &error ) {
+			error.printMessage();
+	}
+	QStringList portList;
+	if (midiOut->getPortCount())
+		for (int i = 0; i < midiOut->getPortCount(); i++)
+			portList << QString::fromStdString(midiOut->getPortName(i));
+	return portList;	
+}
+/* end static */
 
 int Tplayer::paCallBack(const void *inBuffer, void *outBuffer, unsigned long framesPerBuffer,
                         const PaStreamCallbackTimeInfo *timeInfo,
@@ -86,72 +96,31 @@ int Tplayer::m_noteOffset = 0;
 Tplayer::Tplayer()
 {
     m_playable = true;
-    if (getAudioData()) {
-        m_paErr = Pa_Initialize();
-        if(m_paErr) {
-            m_playable = false;
-            return;
-        }
-        m_paParam.channelCount = 2;
-        m_paParam.sampleFormat = paInt16;
-//        m_paParam.suggestedLatency = Pa_GetDeviceInfo(m_paParam.device)->defaultLowOutputLatency;
-        m_paParam.hostApiSpecificStreamInfo = NULL;
-        m_outStream = 0;
-        setDevice();
-    } else
-        m_playable = false;
-	
-	m_isMidi = true;
-	m_midiOut = 0;
-	m_prevMidiNote = 1;
-	m_midiTimer = new QTimer(this);
-	try {
-	    m_midiOut = new RtMidiOut();
-    }
-    catch ( RtError &error ) {
-	    error.printMessage();
-	}
-	
-	if(m_midiOut) {
-// 		int portsCnt = m_midiOut->getPortCount();
-		if (m_midiOut->getPortCount() > 0) {
-			unsigned int portNr = 0;
-		  #if defined(Q_OS_LINUX)
-			// TiMidity port is prefered under Linux
-			for (int i = 0; i < m_midiOut->getPortCount(); i++) {
-				if (QString::fromStdString(m_midiOut->getPortName(i)).contains("TiMidity")) {
-					portNr = i;
-					break;
-				}
+	if (gl->AmidiEnabled) {
+		m_isMidi = true;
+		m_midiOut = 0;
+		setMidiParams(gl->AmidiPortName, gl->AmidiInstrNr);
+		if (m_playable) {
+			m_prevMidiNote = 1;
+			m_midiTimer = new QTimer(this);
+			connect(m_midiTimer, SIGNAL(timeout()), this, SLOT(midiNoteOff()));
+		}
+	} else {
+		m_isMidi = false;
+		if (getAudioData()) {
+			m_paErr = Pa_Initialize();
+			if(m_paErr) {
+				m_playable = false;
+				return;
 			}
-		  #endif
-
-		  try {
-			m_midiOut->openPort(portNr);
-		  }
-		  catch (RtError &error){
-			error.printMessage();
-		  }
-		
-		// midi program (instrument) change
-		m_message.push_back(192);
-		m_message.push_back(0); // instrument number
-		m_midiOut->sendMessage(&m_message);
-		// some spacial signals
-		m_message[0] = 241;
-		m_message[1] = 60;
-		m_midiOut->sendMessage(&m_message);
-		
-		m_message.push_back(0); // third message param
-
-		m_message[0] = 176;
-		m_message[1] = 7;
-		m_message[2] = 100; // volume 100;
-		m_midiOut->sendMessage(&m_message);
-		connect(m_midiTimer, SIGNAL(timeout()), this, SLOT(midiNoteOff()));
-	  }
+			m_paParam.channelCount = 2;
+			m_paParam.sampleFormat = paInt16;
+			m_paParam.hostApiSpecificStreamInfo = NULL;
+			m_outStream = 0;
+			setDevice();
+		} else
+			m_playable = false;
 	}
-
 }
 
 Tplayer::~Tplayer() {
@@ -183,8 +152,8 @@ void Tplayer::setDevice() {
                 const PaDeviceInfo *devInfo = Pa_GetDeviceInfo(i);
                 if (QString::fromLocal8Bit(devInfo->name) == gl->AoutDeviceName)
                     if (devInfo->maxOutputChannels > 1) {
-                    devId = i;
-                    break;
+						devId = i;
+						break;
                 }
         }
         if (devId != -1)
@@ -207,29 +176,79 @@ void Tplayer::setDevice() {
     }
 }
 
+void Tplayer::setMidiParams(QString portName, unsigned char instrNr) {
+	if(!m_midiOut) {
+		try {
+			m_midiOut = new RtMidiOut();
+		}
+		catch ( RtError &error ) {
+			error.printMessage();
+			m_playable = false;
+			return;
+		}
+	} else {
+	  m_midiOut->closePort();
+	}
+
+	if (m_midiOut->getPortCount() > 0) {
+		unsigned int portNr = 0;
+	  #if defined(Q_OS_LINUX)
+		if(portName == "")
+			portName = "TiMidity";	// TiMidity port is prefered under Linux
+	  #endif
+		if (portName != "") {
+			for (int i = 0; i < m_midiOut->getPortCount(); i++) {
+				if (QString::fromStdString(m_midiOut->getPortName(i)).contains(portName)) {
+					portNr = i;
+					break;
+				}
+			}
+		}
+
+		try {
+			m_midiOut->openPort(portNr);
+		}
+		catch (RtError &error){
+		  error.printMessage();
+		  m_playable = false;
+		  return;
+		}
+	  gl->AmidiPortName = QString::fromStdString(m_midiOut->getPortName(portNr));
+	  // midi program (instrument) change
+	  m_message.push_back(192);
+	  m_message.push_back(instrNr); // instrument number
+	  m_midiOut->sendMessage(&m_message);
+	  // some spacial signals
+	  m_message[0] = 241;
+	  m_message[1] = 60;
+	  m_midiOut->sendMessage(&m_message);
+	  
+	  m_message.push_back(0); // third message param
+
+	  m_message[0] = 176;
+	  m_message[1] = 7;
+	  m_message[2] = 100; // volume 100;
+	  m_midiOut->sendMessage(&m_message);
+	  
+	} else
+		m_playable = false;
+}
+
+
 void Tplayer::play(Tnote note) {
 //    qDebug() << (int)note.getChromaticNrOfNote();
     if (!m_playable)
         return;
     int noteNr = note.getChromaticNrOfNote();
-  if (m_isMidi) {
-	if (m_prevMidiNote)  // note is played and has to be turned off. Volume is pushed.
-		midiNoteOff();
-// 	}
-// 	else { // push the volume
-// 		m_message[0] = 176;
-// 		m_message[1] = 7;
-// 		m_message[2] = 100; // volume 100;
-// 		m_midiOut->sendMessage(&m_message);
-// 	}
-		
+	if (m_isMidi) {
+		if (m_prevMidiNote)  // note is played and has to be turned off. Volume is pushed.
+			midiNoteOff();		
 	m_prevMidiNote = noteNr + 47;
 	m_message[0] = 144; // note On
 	m_message[1] = m_prevMidiNote;
 	m_message[2] = 100; // volume
 	m_midiOut->sendMessage(&m_message);
-// 	m_midiTimer->singleShot(2000, this, SLOT( midiNoteOff() ));
-	m_midiTimer->start(2000);
+	m_midiTimer->start(1500);
 	
   } else {
     if (noteNr < -11 || noteNr > 41)
@@ -262,17 +281,7 @@ void Tplayer::midiNoteOff() {
 		m_message[2] = 0; // volume
 		m_midiOut->sendMessage(&m_message);
 		m_prevMidiNote = 0;
-// 	midiBeQuiet();
 }
-
-
-void Tplayer::midiBeQuiet() {
-	m_message[0] = 176;
-	m_message[1] = 7;
-	m_message[2] = 0; // volume 0;
-	m_midiOut->sendMessage(&m_message);
-}
-
 
 
 bool Tplayer::getAudioData() {
