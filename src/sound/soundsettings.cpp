@@ -71,17 +71,17 @@ SoundSettings::SoundSettings(QWidget *parent) :
 	midiPortsCombo = new QComboBox(this);
 	midiParamLay->addWidget(midiPortsCombo, 1, 0);
 	midiPortsCombo->addItems(Tplayer::getMidiPortsList());
-// 	if (gl->AmidiPortName != "") {
-// 		if (midiPortsCombo->count()) {
-// 			int id = midiInstrCombo->findText(gl->AmidiPortName);
-// 			qDebug() << id;
-// 			if (id != -1)
-// 				midiPortsCombo->setCurrentIndex(id);		
-// 		} else {
-// 			midiPortsCombo->addItem(tr("no midi ports"));
-// 			midiPortsCombo->setDisabled(true);
-// 		}
-// 	}
+	if (gl->AmidiPortName != "") {
+		if (midiPortsCombo->count()) {
+			int id = midiPortsCombo->findText(gl->AmidiPortName);
+			qDebug() << id;
+			if (id != -1)
+				midiPortsCombo->setCurrentIndex(id);		
+		} else {
+			midiPortsCombo->addItem(tr("no midi ports"));
+			midiPortsCombo->setDisabled(true);
+		}
+	}
 // 	qDebug() << "works";
 	QLabel *midiInstrLab = new QLabel(tr("instrument"), this);
 	midiParamLay->addWidget(midiInstrLab, 0, 1);
