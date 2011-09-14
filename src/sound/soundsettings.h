@@ -21,6 +21,7 @@
 #define SOUNDSETTINGS_H
 
 #include <QWidget>
+#include <QHash>
 
 class QComboBox;
 class QGroupBox;
@@ -33,15 +34,16 @@ public:
     explicit SoundSettings(QWidget *parent = 0);
 
     void saveSettings();
+	QHash<QString, int> instruments;
 
-signals:
-
-public slots:
 
 private:
-    QGroupBox *audioOutEnableGr;
+    QGroupBox *audioOutEnableGr, *realAGr, *midiGr;
     QComboBox *audioOutDevListCombo, *midiPortsCombo, *midiInstrCombo;
 	QRadioButton *midiRadioButt, *audioRadioButt;
+	
+private slots:
+	void audioOrMidiChanged();
 
 };
 

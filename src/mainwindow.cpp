@@ -235,8 +235,12 @@ void MainWindow::createSettingsDialog() {
         if (gl->AoutSoundEnabled) {
             if (!player)
                 player = new Tplayer();
-            else // all this to avoid reading wav file every time
-                player->setDevice();
+            else { // all this to avoid reading wav file every time
+				if (gl->AmidiEnabled)
+					player->setMidiParams(gl->AmidiPortName, gl->AmidiInstrNr);
+				else
+					player->setDevice();
+			}
         } else {
             delete player;
             player = 0;

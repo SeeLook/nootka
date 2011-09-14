@@ -97,9 +97,10 @@ int Tplayer::m_noteOffset = 0;
 Tplayer::Tplayer()
 {
     m_playable = true;
+	m_outStream = 0;
+	m_midiOut = 0;
 	if (gl->AmidiEnabled) {
 		m_isMidi = true;
-		m_midiOut = 0;
 		setMidiParams(gl->AmidiPortName, gl->AmidiInstrNr);
 		if (m_playable) {
 			m_prevMidiNote = 1;
@@ -117,7 +118,7 @@ Tplayer::Tplayer()
 			m_paParam.channelCount = 2;
 			m_paParam.sampleFormat = paInt16;
 			m_paParam.hostApiSpecificStreamInfo = NULL;
-			m_outStream = 0;
+// 			m_outStream = 0;
 			setDevice();
 		} else
 			m_playable = false;
@@ -125,14 +126,21 @@ Tplayer::Tplayer()
 }
 
 Tplayer::~Tplayer() {
-    Pa_CloseStream(m_outStream);
-    Pa_Terminate();
-    delete m_audioArr;
+    if (m_outStream) { // turn off real audio
+		Pa_CloseStream(m_outStream);
+		Pa_Terminate();
+		delete m_audioArr;
+	}
 	delete m_midiOut;
 }
 
 
 void Tplayer::setDevice() {
+	if (m_midiOut) {  // clean after midi
+		delete m_midiOut;
+		m_midiOut = 0;
+	}
+	m_isMidi = false;
     if (m_outStream && QString::fromLocal8Bit(Pa_GetDeviceInfo(m_paParam.device)->name)
             == gl->AoutDeviceName) {
 //        qDebug() << "device was not changed";
@@ -178,7 +186,18 @@ void Tplayer::setDevice() {
 }
 
 void Tplayer::setMidiParams(QString portName, unsigned char instrNr) {
-	if(!m_midiOut) {
+	if (m_outStream) { // turn off real audio
+		Pa_CloseStream(m_outStream);
+		Pa_Terminate();
+		delete m_audioArr;
+		m_outStream = 0;
+	}
+	m_isMidi = true;
+	if (m_midiOut) {
+		m_midiOut->closePort();
+		delete m_midiOut;
+	}
+// 	if(!m_midiOut) {
 		try {
 			m_midiOut = new RtMidiOut();
 		}
@@ -187,9 +206,9 @@ void Tplayer::setMidiParams(QString portName, unsigned char instrNr) {
 			m_playable = false;
 			return;
 		}
-	} else {
-	  m_midiOut->closePort();
-	}
+// 	} else {
+// 	  m_midiOut->closePort();
+// 	}
 
 	if (m_midiOut->getPortCount() > 0) {
 		unsigned int portNr = 0;
