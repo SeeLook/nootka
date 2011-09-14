@@ -221,8 +221,21 @@ void MainWindow::openFile(QString runArg) {
 //#######################     SLOTS       ################################################
 
 void MainWindow::createSettingsDialog() {
+	if (player) {
+		delete player;
+		player = 0;
+	}	/** player has to be deleted before calling of settingsdialog, 
+		* otherwise opened midi blocks audio devices to be listed.
+		* Unfortinately it invokes loading/ unloading wav file when real audio is enabled.
+		* It is not so anoyed even on older machines but not elegant.  */
     SettingsDialog *settings = new SettingsDialog(this);
     if (settings->exec() == QDialog::Accepted) {
+		if (gl->AoutSoundEnabled) {
+			player = new Tplayer();
+        } else {
+            delete player;
+            player = 0;
+        }
         score->acceptSettings();
         noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
         noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
@@ -232,19 +245,6 @@ void MainWindow::createSettingsDialog() {
         noteWasClicked(0, noteName->getNoteName(0)); //refresh name
         guitar->acceptSettings(); //refresh guitar
         m_hintsChB->setChecked(gl->hintsEnabled);
-        if (gl->AoutSoundEnabled) {
-            if (!player)
-                player = new Tplayer();
-            else { // all this to avoid reading wav file every time
-				if (gl->AmidiEnabled)
-					player->setMidiParams(gl->AmidiPortName, gl->AmidiInstrNr);
-				else
-					player->setDevice();
-			}
-        } else {
-            delete player;
-            player = 0;
-        }
     }
     delete settings;
 }

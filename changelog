@@ -1,5 +1,6 @@
 0.7.5
     - !!! Sound output added, also questions as played sound !!!
+      Natural sound of classical guitar and also midi
     - support for opening external nootka files
     - polish translation
     - associate Nootka files with executable also under Windows
@@ -9,9 +10,9 @@
     - preventing to use levels with a range out of current tune and frets number
   BUGS FIXES
     - fixed drawing last fret out of a fingerboard
-    - and few smaller
-    - fixed proper position of a clef
+    - fixed proper position of a clef and accidentals
     - fixed encoding characters under non UTF8 systems
+    - and few smaller bugs
 
 
 0.7.0

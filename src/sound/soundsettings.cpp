@@ -83,24 +83,20 @@ SoundSettings::SoundSettings(QWidget *parent) :
 	midiParamLay->addWidget(midiInstrLab, 0, 1);
 	midiInstrCombo = new QComboBox(this);
 	midiParamLay->addWidget(midiInstrCombo, 1, 1);
-	instruments.insert(tr("Grand Piano"), 0);
-	instruments.insert(tr("Harpsichord"), 6);
-	instruments.insert(tr("Classical Guitar"), 24);
-	instruments.insert(tr("Acoustic Guitar"), 25);
-	instruments.insert(tr("Electric Guitar"), 27);
-	instruments.insert(tr("Electric Guitar (Overdriven)"), 29);
-	instruments.insert(tr("Bass Guitar"), 33);
-	instruments.insert(tr("Violin"), 40);
-	instruments.insert(tr("Flute"), 73);
-// 	instruments.insert(tr(""), 0);
-	QHashIterator<QString, int> i(instruments);
-	int id = 0;
-	while(i.hasNext()) {
-	  i.next();
-	  midiInstrCombo->addItem(i.key());
-	  if (i.value() == gl->AmidiInstrNr)
-		  midiInstrCombo->setCurrentIndex(id);
-	  id++;
+	addInstrument(tr("Grand Piano"), 0);
+	addInstrument(tr("Harpsichord"), 6);
+	addInstrument(tr("Classical Guitar"), 24);
+	addInstrument(tr("Acoustic Guitar"), 25);
+	addInstrument(tr("Electric Guitar"), 27);
+	addInstrument(tr("Electric Guitar (Overdriven)"), 29);
+	addInstrument(tr("Bass Guitar"), 33);
+	addInstrument(tr("Violin"), 40);
+	addInstrument(tr("Sax"), 66);
+	addInstrument(tr("Flute"), 73);
+	for(int i = 0; i < instruments.size(); i++) {
+	  midiInstrCombo->addItem(instruments[i].name);
+	  if (instruments[i].progNr == gl->AmidiInstrNr)
+		  midiInstrCombo->setCurrentIndex(i);
 	}
 
 	midilay->addLayout(midiParamLay);
@@ -127,7 +123,7 @@ void SoundSettings::saveSettings() {
     gl->AoutSoundEnabled = audioOutEnableGr->isChecked();
     gl->AoutDeviceName = audioOutDevListCombo->currentText();
 	gl->AmidiEnabled = midiRadioButt->isChecked();
-	gl->AmidiInstrNr = instruments.value(midiInstrCombo->currentText());
+	gl->AmidiInstrNr = instruments[midiInstrCombo->currentIndex()].progNr;
 	gl->AmidiPortName = midiPortsCombo->currentText();
 }
 
@@ -141,3 +137,9 @@ void SoundSettings::audioOrMidiChanged() {
 	}
 }
 
+void SoundSettings::addInstrument(QString name, unsigned char midiNr) {
+	TmidiInstrListStruct mi;
+	mi.name = name;
+	mi.progNr = midiNr;
+	instruments << mi;
+}
