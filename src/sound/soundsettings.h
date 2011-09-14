@@ -21,7 +21,6 @@
 #define SOUNDSETTINGS_H
 
 #include <QWidget>
-#include <QHash>
 
 class QComboBox;
 class QGroupBox;
@@ -34,10 +33,20 @@ public:
     explicit SoundSettings(QWidget *parent = 0);
 
     void saveSettings();
-	QHash<QString, int> instruments;
+		/** The structure describes midi program (instrument).
+		 * It has @param name 
+		 * and @param progNr which is midi instrument number  */
+	struct TmidiInstrListStruct {
+		QString name;
+		unsigned char progNr;
+	};
+		/** A list of midi instruments used in Nootka */
+	QList<TmidiInstrListStruct> instruments;
 
 
 private:
+	void addInstrument(QString name, unsigned char midiNr);
+  
     QGroupBox *audioOutEnableGr, *realAGr, *midiGr;
     QComboBox *audioOutDevListCombo, *midiPortsCombo, *midiInstrCombo;
 	QRadioButton *midiRadioButt, *audioRadioButt;

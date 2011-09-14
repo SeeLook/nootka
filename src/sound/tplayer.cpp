@@ -134,7 +134,10 @@ Tplayer::~Tplayer() {
 	delete m_midiOut;
 }
 
-
+/** BE AWARE !!!!!!!!!!!!!!!!!!!!!!!! 
+ * setDevice() and setMidiParams() methods work fine called from constructor,
+ * but they are public and calling them after constructor are untested
+ */
 void Tplayer::setDevice() {
 	if (m_midiOut) {  // clean after midi
 		delete m_midiOut;
