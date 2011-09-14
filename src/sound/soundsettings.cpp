@@ -36,11 +36,10 @@ SoundSettings::SoundSettings(QWidget *parent) :
 	
 	QVBoxLayout *audioOutLay = new QVBoxLayout;
 	
-	QGroupBox *realAGr = new QGroupBox(this);	
-    QVBoxLayout *reaALay = new QVBoxLayout;
 	audioRadioButt = new QRadioButton(tr("real audio playback"), this);
-	reaALay->addWidget(audioRadioButt);
-	audioRadioButt->setChecked(!gl->AmidiEnabled);
+	audioOutLay->addWidget(audioRadioButt);
+	realAGr = new QGroupBox(this);	
+    QVBoxLayout *reaALay = new QVBoxLayout;
     QLabel *outDevLab = new QLabel(tr("audio device for output"), this);
     reaALay->addWidget(outDevLab);
     audioOutDevListCombo = new QComboBox(this);
@@ -60,11 +59,10 @@ SoundSettings::SoundSettings(QWidget *parent) :
 	realAGr->setLayout(reaALay);
 	audioOutLay->addWidget(realAGr);
 	
-	QGroupBox *midiGr = new QGroupBox(this);
-	QVBoxLayout *midilay = new QVBoxLayout;
 	midiRadioButt = new QRadioButton(tr("midi playback"), this);
-	midilay->addWidget(midiRadioButt);
-	midiRadioButt->setChecked(gl->AmidiEnabled);
+	audioOutLay->addWidget(midiRadioButt);
+	midiGr = new QGroupBox(this);
+	QVBoxLayout *midilay = new QVBoxLayout;
 	QGridLayout *midiParamLay = new QGridLayout;
 	QLabel *midiPortsLab = new QLabel(tr("midi port"), this);
 	midiParamLay->addWidget(midiPortsLab, 0, 0);
@@ -74,7 +72,6 @@ SoundSettings::SoundSettings(QWidget *parent) :
 	if (gl->AmidiPortName != "") {
 		if (midiPortsCombo->count()) {
 			int id = midiPortsCombo->findText(gl->AmidiPortName);
-			qDebug() << id;
 			if (id != -1)
 				midiPortsCombo->setCurrentIndex(id);		
 		} else {
@@ -82,13 +79,30 @@ SoundSettings::SoundSettings(QWidget *parent) :
 			midiPortsCombo->setDisabled(true);
 		}
 	}
-// 	qDebug() << "works";
 	QLabel *midiInstrLab = new QLabel(tr("instrument"), this);
 	midiParamLay->addWidget(midiInstrLab, 0, 1);
 	midiInstrCombo = new QComboBox(this);
 	midiParamLay->addWidget(midiInstrCombo, 1, 1);
-	midiInstrCombo->addItem(tr("grand piano"));
-	midiInstrCombo->addItem(tr("classical guitar"));
+	instruments.insert(tr("Grand Piano"), 0);
+	instruments.insert(tr("Harpsichord"), 6);
+	instruments.insert(tr("Classical Guitar"), 24);
+	instruments.insert(tr("Acoustic Guitar"), 25);
+	instruments.insert(tr("Electric Guitar"), 27);
+	instruments.insert(tr("Electric Guitar (Overdriven)"), 29);
+	instruments.insert(tr("Bass Guitar"), 33);
+	instruments.insert(tr("Violin"), 40);
+	instruments.insert(tr("Flute"), 73);
+// 	instruments.insert(tr(""), 0);
+	QHashIterator<QString, int> i(instruments);
+	int id = 0;
+	while(i.hasNext()) {
+	  i.next();
+	  midiInstrCombo->addItem(i.key());
+	  if (i.value() == gl->AmidiInstrNr)
+		  midiInstrCombo->setCurrentIndex(id);
+	  id++;
+	}
+
 	midilay->addLayout(midiParamLay);
 	midiGr->setLayout(midilay);
 	audioOutLay->addWidget(midiGr);
@@ -97,9 +111,33 @@ SoundSettings::SoundSettings(QWidget *parent) :
     lay->addWidget(audioOutEnableGr);
     lay->addStretch(1);
     setLayout(lay);
+	
+	QButtonGroup *radioGr = new QButtonGroup(this);
+	radioGr->addButton(audioRadioButt);
+	radioGr->addButton(midiRadioButt);
+	audioRadioButt->setChecked(!gl->AmidiEnabled);
+	midiRadioButt->setChecked(gl->AmidiEnabled);
+	audioOrMidiChanged();
+	
+	connect(radioGr, SIGNAL(buttonClicked(int)), this, SLOT(audioOrMidiChanged()));
+	
 }
 
 void SoundSettings::saveSettings() {
     gl->AoutSoundEnabled = audioOutEnableGr->isChecked();
     gl->AoutDeviceName = audioOutDevListCombo->currentText();
+	gl->AmidiEnabled = midiRadioButt->isChecked();
+	gl->AmidiInstrNr = instruments.value(midiInstrCombo->currentText());
+	gl->AmidiPortName = midiPortsCombo->currentText();
 }
+
+void SoundSettings::audioOrMidiChanged() {
+	if (audioRadioButt->isChecked()) {
+		realAGr->setDisabled(false);
+		midiGr->setDisabled(true);
+	} else {
+		realAGr->setDisabled(true);
+		midiGr->setDisabled(false);
+	}
+}
+
