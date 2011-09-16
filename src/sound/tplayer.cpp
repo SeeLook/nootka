@@ -351,8 +351,8 @@ bool Tplayer::getAudioData() {
     wavStream.readRawData(chunkName, 4);
     dataSizeFromChunk = *((quint32*)chunkName);
 //    qDebug() << "data size: " << dataSizeFromChunk << 4740768;
-    // we check is wav file this proper one ?
-    if (m_chanels != 1 || wavFormat != 1 || m_sampleRate != 22050 || dataSizeFromChunk != 4740768) {
+    // we check is wav file this proper one ? 4740766
+    if (m_chanels != 1 || wavFormat != 1 || m_sampleRate != 22050 || dataSizeFromChunk != 4740766) {
         qDebug() << "wav file error occured " << dataSizeFromChunk << m_chanels
                 << wavFormat << m_sampleRate;
         return false;
