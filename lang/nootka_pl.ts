@@ -66,7 +66,7 @@
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="179"/>
         <source>If checked, you can use double sharps and double flats.</source>
-        <translation>Kidy jest zaznaczone, można używać podwójnych krzyżyków i bemoli.</translation>
+        <translation>Kiedy jest zaznaczone, można używać podwójnych krzyżyków i bemoli.</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="183"/>
@@ -554,30 +554,118 @@
         <translation>Zaznaczone dźwięki i pozycje na gitarze będą odtwarzane.</translation>
     </message>
     <message>
-        <location filename="../src/sound/soundsettings.cpp" line="38"/>
+        <location filename="../src/sound/soundsettings.cpp" line="39"/>
+        <source>real audio playback</source>
+        <translation>prawdziwy dźwięk</translation>
+    </message>
+    <message>
+        <source>Natural, high quality sound of classical guitar&lt;br&gt;but limited to scale&lt;b&gt;from C&lt;sub&gt;1&lt;/sub&gt; to e&lt;sup&gt;3&lt;/sup&gt;&lt;/b&gt;</source>
+        <translation type="obsolete">Naturalny, wysokiej jakości dźwięk gitary klasycznej&lt;br&gt;ale ograniczony do skali&lt;b&gt; od C&lt;sub&gt;1&lt;/sub&gt; do e&lt;sup&gt;3&lt;/sup&gt;&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/sound/soundsettings.cpp" line="40"/>
+        <source>Natural, high quality sound of classical guitar&lt;br&gt;but limited to scale &lt;b&gt;from C&lt;sub&gt;1&lt;/sub&gt; to e&lt;sup&gt;3&lt;/sup&gt;&lt;/b&gt;</source>
+        <translation>Naturalny, wysokiej jakości dźwięk gitary klasycznej&lt;br&gt;ale ograniczony do skali&lt;b&gt; od C&lt;sub&gt;1&lt;/sub&gt; do e&lt;sup&gt;3&lt;/sup&gt;&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/sound/soundsettings.cpp" line="45"/>
         <source>audio device for output</source>
         <translation>urzadzenie dżwiękowe do odtwarzania</translation>
     </message>
     <message>
-        <location filename="../src/sound/soundsettings.cpp" line="48"/>
+        <location filename="../src/sound/soundsettings.cpp" line="55"/>
         <source>no devices found</source>
         <translation>nie znaleziono urządzenia</translation>
     </message>
     <message>
-        <location filename="../src/sound/soundsettings.cpp" line="53"/>
+        <location filename="../src/sound/soundsettings.cpp" line="62"/>
+        <source>midi playback</source>
+        <translation>dźwięk midi</translation>
+    </message>
+    <message>
+        <location filename="../src/sound/soundsettings.cpp" line="63"/>
+        <source>Artificial, low quality sound (depends on hardware)&lt;br&gt;but there is possibility to select an instrument&lt;br&gt;and whole scale can be played.</source>
+        <translation>Sztuczny, niskiej jakości dźwięk (w zależności od sprzętu)&lt;br&gt;ale z możliwością wyboru instrumentu&lt;br&gt;i odtwarzania całej skali.</translation>
+    </message>
+    <message>
+        <location filename="../src/sound/soundsettings.cpp" line="69"/>
+        <source>midi port</source>
+        <translation>port midi</translation>
+    </message>
+    <message>
+        <location filename="../src/sound/soundsettings.cpp" line="80"/>
+        <source>no midi ports</source>
+        <translation>brak portów midi</translation>
+    </message>
+    <message>
+        <location filename="../src/sound/soundsettings.cpp" line="84"/>
+        <source>instrument</source>
+        <translation>instrument</translation>
+    </message>
+    <message>
+        <location filename="../src/sound/soundsettings.cpp" line="88"/>
+        <source>Grand Piano</source>
+        <translation>Fortepian</translation>
+    </message>
+    <message>
+        <location filename="../src/sound/soundsettings.cpp" line="89"/>
+        <source>Harpsichord</source>
+        <translation>Klawesyn</translation>
+    </message>
+    <message>
+        <location filename="../src/sound/soundsettings.cpp" line="90"/>
+        <source>Classical Guitar</source>
+        <translation>Gitara klasyczna</translation>
+    </message>
+    <message>
+        <location filename="../src/sound/soundsettings.cpp" line="91"/>
+        <source>Acoustic Guitar</source>
+        <translation>Gitara akustyczna</translation>
+    </message>
+    <message>
+        <location filename="../src/sound/soundsettings.cpp" line="92"/>
+        <source>Electric Guitar</source>
+        <translation>Gitara elektryczna</translation>
+    </message>
+    <message>
+        <location filename="../src/sound/soundsettings.cpp" line="93"/>
+        <source>Electric Guitar (Overdriven)</source>
+        <translation>Gitara elektryczna (przesterowana)</translation>
+    </message>
+    <message>
+        <location filename="../src/sound/soundsettings.cpp" line="94"/>
+        <source>Bass Guitar</source>
+        <translation>Gitara basowa</translation>
+    </message>
+    <message>
+        <location filename="../src/sound/soundsettings.cpp" line="95"/>
+        <source>Violin</source>
+        <translation>Skrzypce</translation>
+    </message>
+    <message>
+        <location filename="../src/sound/soundsettings.cpp" line="96"/>
+        <source>Sax</source>
+        <translation>Saksofon</translation>
+    </message>
+    <message>
+        <location filename="../src/sound/soundsettings.cpp" line="97"/>
+        <source>Flute</source>
+        <translation>Flet</translation>
+    </message>
+    <message>
         <source>The only notes from C&lt;sub&gt;1&lt;/sub&gt; to e&lt;sup&gt;3&lt;/sup&gt; are played !!</source>
-        <translation>Odtwarzane są tylko dźwięki od C&lt;sub&gt;1&lt;/sub&gt; do e&lt;sup&gt;3&lt;/sup&gt; !!</translation>
+        <translation type="obsolete">Odtwarzane są tylko dźwięki od C&lt;sub&gt;1&lt;/sub&gt; do e&lt;sup&gt;3&lt;/sup&gt; !!</translation>
     </message>
 </context>
 <context>
     <name>Tabout</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="93"/>
+        <location filename="../src/info/taboutnootka.cpp" line="94"/>
         <source>&lt;p&gt; Welcome on the board.&lt;br&gt; Nootka is open source application to help You learning (and teaching also) classical score notation. It is specially dedicated for guitarists but others can find something usable as well.&lt;br&gt;This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features. Inspite of that You are welcome to try it !!&lt;/p&gt;&lt;p&gt;See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releaces.&lt;/p&gt;&lt;p&gt;Any bugs, sugestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author&lt;/p&gt;&lt;br&gt;</source>
         <translation>&lt;p&gt;Witamy na pokładzie.&lt;br&gt; Nootka to aplikacja open source pomagająca w nauce (a także w nauczaniu) klasycznego zapisu nutowego. Jest szczególnie dedykowana gitarzystom ale inni także znajdą w niej coś użytecznego.&lt;br&gt;Ta wersja to beta i może zawierać błędy lub zachowywać się w nieoczekiwany sposób, a także posiada nieukończone funkcje. Mimo wszystko zapraszam do wypróbowania !!&lt;/p&gt;&lt;p&gt;Po więcej szczegółów i po następne wydania zajrzyj na &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;stronę programu&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Błędy, sugestie, tłumaczenia itp., proszę zgłaszać do: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;z poważaniem&lt;br&gt;Autor&lt;/p&gt;&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="95"/>
+        <location filename="../src/info/taboutnootka.cpp" line="96"/>
         <source>&lt;br&gt;To support project and also to avoid infection of Your PC&lt;br&gt;&lt;b&gt;PLEASE, use project site to download updates, new releases and to see news.&lt;/b&gt;</source>
         <translation>&lt;br&gt;Żeby wesprzeć projekt, a także uniknąć zarażenia Twojego komputera&lt;br&gt;&lt;b&gt;do pobierania aktualizacji, nowych wersji i czytania o nowościach, proszę używać strony www projektu&lt;/b&gt;</translation>
     </message>

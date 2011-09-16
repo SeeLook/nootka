@@ -89,6 +89,8 @@ IF(UNIX)
 			/usr/local/lib
 			/opt/local/lib
   )
+  mark_as_advanced(ALSA_LIBRARY PTHREAD_LIBRARY)
+
   add_definitions(-D__LINUX_ALSASEQ__)
 ENDIF(UNIX)
 

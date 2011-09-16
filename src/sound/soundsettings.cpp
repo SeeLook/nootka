@@ -37,8 +37,10 @@ SoundSettings::SoundSettings(QWidget *parent) :
 	QVBoxLayout *audioOutLay = new QVBoxLayout;
 	
 	audioRadioButt = new QRadioButton(tr("real audio playback"), this);
+	audioRadioButt->setStatusTip(tr("Natural, high quality sound of classical guitar<br>but limited to scale <b>from C<sub>1</sub> to e<sup>3</sup></b>"));
 	audioOutLay->addWidget(audioRadioButt);
-	realAGr = new QGroupBox(this);	
+	realAGr = new QGroupBox(this);
+	realAGr->setStatusTip(audioRadioButt->statusTip());
     QVBoxLayout *reaALay = new QVBoxLayout;
     QLabel *outDevLab = new QLabel(tr("audio device for output"), this);
     reaALay->addWidget(outDevLab);
@@ -54,14 +56,14 @@ SoundSettings::SoundSettings(QWidget *parent) :
         audioOutDevListCombo->setDisabled(true);
     }
     reaALay->addStretch(1);
-    QLabel *outRangeLab = new QLabel(tr("The only notes from C<sub>1</sub> to e<sup>3</sup> are played !!"), this);
-    reaALay->addWidget(outRangeLab, 0, Qt::AlignCenter);
 	realAGr->setLayout(reaALay);
 	audioOutLay->addWidget(realAGr);
 	
 	midiRadioButt = new QRadioButton(tr("midi playback"), this);
+	midiRadioButt->setStatusTip(tr("Artificial, low quality sound (depends on hardware)<br>but there is possibility to select an instrument<br>and whole scale can be played."));
 	audioOutLay->addWidget(midiRadioButt);
 	midiGr = new QGroupBox(this);
+	midiGr->setStatusTip(midiRadioButt->statusTip());
 	QVBoxLayout *midilay = new QVBoxLayout;
 	QGridLayout *midiParamLay = new QGridLayout;
 	QLabel *midiPortsLab = new QLabel(tr("midi port"), this);
