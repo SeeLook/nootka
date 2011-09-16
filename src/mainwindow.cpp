@@ -232,10 +232,7 @@ void MainWindow::createSettingsDialog() {
     if (settings->exec() == QDialog::Accepted) {
 		if (gl->AoutSoundEnabled) {
 			player = new Tplayer();
-        } else {
-            delete player;
-            player = 0;
-        }
+        } 
         score->acceptSettings();
         noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
         noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
@@ -245,6 +242,9 @@ void MainWindow::createSettingsDialog() {
         noteWasClicked(0, noteName->getNoteName(0)); //refresh name
         guitar->acceptSettings(); //refresh guitar
         m_hintsChB->setChecked(gl->hintsEnabled);
+    } else { // create player again
+		if (gl->AoutSoundEnabled)
+			player = new Tplayer();
     }
     delete settings;
 }

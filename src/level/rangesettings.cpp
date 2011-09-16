@@ -35,7 +35,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
 
     QVBoxLayout *scoreLay = new QVBoxLayout;
     scoreRang = new TscoreWidgetSimple(2, this);
-    scoreRang->setFixedWidth(160);
+    scoreRang->setFixedSize(200, 220);;
 //    scoreRang->setStatusTip(tr("If selected notes are either the lowest or the highest<br>possible sounds in the current guitar tune,<br>they are automatically adjusted to another tune."));
     scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()),
                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));

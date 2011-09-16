@@ -114,8 +114,8 @@ IF(WIN32)
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
         ${PORTAUDIO_LIBRARIES}
-		winmm lib multithreaded
-)
+		winmm
+	)
 
 ELSE(WIN32) #Linux
     ADD_EXECUTABLE( nootka
@@ -129,7 +129,7 @@ ELSE(WIN32) #Linux
         ${PORTAUDIO_LIBRARIES}
 		${ALSA_LIBRARY} ${PTHREAD_LIBRARY}
  #       ${QT_QTSVG_LIBRARY}
-)
+	)
 
 ENDIF(WIN32)
 
