@@ -273,6 +273,7 @@ void TscoreWidgetSimple::setScoreDisabled(bool disabled) {
             noteViews[i]->setDisabled(true);
         if (keySignView)
             keySignView->setDisabled(true);
+		noteViews[0]->hideWorkNote();
     } else {
         m_sharpBut->setDisabled(false);
         m_flatBut->setDisabled(false);
