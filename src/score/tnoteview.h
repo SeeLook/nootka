@@ -50,6 +50,7 @@ public:
     void setString(int realNr);
     void removeString();
     void hideNote();
+	void hideWorkNote();
         /** Sets color of main note. */
     void setColor(QColor color);
         /** Sets color of pointing (work) note. */
@@ -108,7 +109,6 @@ private:
     int m_accTextOffset;
         /** It is @p 2 if double accidentals are enabled and @p 1 if not*/
     char *m_dblAccFusePtr;
-    void hideWorkNote();
     void setStringPos();
 
 };

@@ -392,7 +392,7 @@ void TexamExecutor::askQuestion() {
             questText = QString("<b>%1. </b>").arg(m_answList.size()+1) +
                         tr("Give name of") + QString(" <span style=\"color: %1; font-size: %2px;\">").arg(
                                 gl->EquestionColor.name()).arg(mW->getFontSize()*2) +
-                        TnoteName::noteToRichText(curQ.qa.note) + ". </span>" +
+                        TnoteName::noteToRichText(curQ.qa.note) + "</span>. " +
                         getTextHowAccid((Tnote::Eacidentals)curQ.qa_2.note.acidental);
             mW->noteName->setNoteNamesOnButt(tmpStyle);
             gl->NnameStyleInNoteName = tmpStyle;

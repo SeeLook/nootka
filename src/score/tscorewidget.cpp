@@ -245,6 +245,7 @@ void TscoreWidget::resizeQuestMark() {
 }
 
 void TscoreWidget::resizeKeyText() {
+// 	m_questKey->document()->setTextWidth(-1);
     int fs = coeff*2;
     do {
         fs--;
@@ -253,4 +254,5 @@ void TscoreWidget::resizeKeyText() {
 // 	m_questKey->document()->setTextWidth(m_questKey->document()->size().width());
 // 	m_questKey->setHtml(m_questKey->toHtml());
     m_questKey->setPos(0, coeff*5);
+// 	m_questKey->document()->setTextWidth(-1);
 }
