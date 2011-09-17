@@ -234,7 +234,6 @@ void TscoreWidget::forceAccidental(Tnote::Eacidentals accid) {
 void TscoreWidget::prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName) {
     setKeySignature(fakeKey);
     setKeyViewBg(gl->EanswerColor);
-// 	m_questKey->document()->setTextWidth(keySignView->width());
     m_questKey->setHtml(QString("<center style=\"color: %1;\"><span style=\"font-family: nootka;\">?</span><br>").arg(gl->EquestionColor.name()) + expectKeyName + "</center>");
     resizeKeyText();
     m_questKey->show();
@@ -251,5 +250,7 @@ void TscoreWidget::resizeKeyText() {
         fs--;
         m_questKey->setFont(QFont(font().family(), fs));
     } while (m_questKey->document()->size().width() > keySignView->width());
+// 	m_questKey->document()->setTextWidth(m_questKey->document()->size().width());
+// 	m_questKey->setHtml(m_questKey->toHtml());
     m_questKey->setPos(0, coeff*5);
 }
