@@ -245,7 +245,7 @@ void TscoreWidget::resizeQuestMark() {
 }
 
 void TscoreWidget::resizeKeyText() {
-// 	m_questKey->document()->setTextWidth(-1);
+	m_questKey->document()->setTextWidth(-1);
     int fs = coeff*2;
     do {
         fs--;
