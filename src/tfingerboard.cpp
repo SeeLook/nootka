@@ -515,6 +515,9 @@ void TfingerBoard::setGuitarDisabled(bool disabled) {
 	if (disabled) {
 		setMouseTracking(false);
 		m_isDisabled = true;
+		m_workFinger->hide();
+		for(int i = 0; i<6; i++)
+			m_workStrings[i]->hide();
 	} else {
 		setMouseTracking(true);
 		m_isDisabled = false;

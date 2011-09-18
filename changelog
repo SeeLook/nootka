@@ -1,7 +1,11 @@
-
 0.7.7
     - added midi playback
     - added playback with natural sound of classical guitar
+  BUGS FIXES
+    - Guitar is disabled during exams in proper way
+    - Fixed behaviour of right mouse button over fingerboard
+
+
 0.7.5
     - !!! Sound output added, also questions as played sound !!!
     - support for opening external nootka files
@@ -23,6 +27,7 @@
     - storing user settings
     - created nootka font
     - added first run wizzard
+
 
 0.6
     - Levels creator dialog
