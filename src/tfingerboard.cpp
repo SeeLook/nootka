@@ -78,7 +78,7 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     m_questMark = 0;
     m_rangeBox1 = 0;
     m_rangeBox2 = 0;
-
+	m_isDisabled = false;
 }
 
 void TfingerBoard::resizeEvent(QResizeEvent *){
@@ -237,6 +237,8 @@ void TfingerBoard::paint() {
 }
 
 void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
+	if (m_isDisabled)
+		return;
     int strNr = 7, fretNr = 99;
     if ( (event->y() >= fbRect.y()) && (event->y() <= (height()-fbRect.y()-4)) ) {
         int tx, ty = event->y();
@@ -269,22 +271,24 @@ void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
     }
 }
 
-void TfingerBoard::mousePressEvent(QMouseEvent *) {
-    if (m_curFret != 99 && m_curStr != 7) {
-        m_selNote = posToNote(m_curStr,m_curFret);
-        m_fingerPos = TfingerPos(m_curStr+1, m_curFret);
-        if (gl->GpreferFlats)
-            if (m_selNote.note != 3 && m_selNote.note != 7) // eliminate Fb from E and Cb from B
-                m_selNote = m_selNote.showWithFlat();
-        if (gl->GshowOtherPos)
-            setFinger(m_selNote);
-        else
-            setFinger(TfingerPos(m_curStr+1, m_curFret));
-        emit guitarClicked(m_selNote);
-    } else {
-        m_selNote = Tnote(0,0,0);
-//        setFinger(m_selNote);
-    }
+void TfingerBoard::mousePressEvent(QMouseEvent *event) {
+	if (!m_isDisabled && event->button() == Qt::LeftButton) {
+		if (m_curFret != 99 && m_curStr != 7) {
+			m_selNote = posToNote(m_curStr,m_curFret);
+			m_fingerPos = TfingerPos(m_curStr+1, m_curFret);
+			if (gl->GpreferFlats)
+				if (m_selNote.note != 3 && m_selNote.note != 7) // eliminate Fb from E and Cb from B
+					m_selNote = m_selNote.showWithFlat();
+			if (gl->GshowOtherPos)
+				setFinger(m_selNote);
+			else
+				setFinger(TfingerPos(m_curStr+1, m_curFret));
+			emit guitarClicked(m_selNote);
+		} else {
+			m_selNote = Tnote(0,0,0);
+	//        setFinger(m_selNote);
+		}
+	}
 }
 
 Tnote TfingerBoard::posToNote(int str, int fret) {
@@ -505,4 +509,14 @@ void TfingerBoard::deleteRangeBox() {
         delete m_rangeBox2;
         m_rangeBox2 = 0;
     }
+}
+
+void TfingerBoard::setGuitarDisabled(bool disabled) {
+	if (disabled) {
+		setMouseTracking(false);
+		m_isDisabled = true;
+	} else {
+		setMouseTracking(true);
+		m_isDisabled = false;
+	}
 }

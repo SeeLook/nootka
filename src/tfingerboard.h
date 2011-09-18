@@ -49,6 +49,7 @@ public:
     void createRangeBox(char loFret, char hiFret);
     void prepareAnswer();
     void deleteRangeBox();
+	void setGuitarDisabled(bool disabled);
 
 
 signals:
@@ -63,7 +64,7 @@ protected:
 
     void resizeEvent(QResizeEvent *);
     void mouseMoveEvent(QMouseEvent *);
-    void mousePressEvent(QMouseEvent *);
+    void mousePressEvent(QMouseEvent *event);
     bool event(QEvent *event);
 
 private:
@@ -97,6 +98,7 @@ private:
         /** Frets range in an exam*/
     char m_loFret, m_hiFret;
     QGraphicsRectItem *m_rangeBox1, *m_rangeBox2;
+	bool m_isDisabled;
 
 
     void paintFinger(QGraphicsEllipseItem *f, char strNr, char fretNr);

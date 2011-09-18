@@ -419,7 +419,7 @@ void TexamExecutor::askQuestion() {
                 curQ.questionAs == TQAtype::e_asSound)
             questText += "<b>" + tr(" on <span style=\"font-family: nootka; font-size:%1px;\">%2</span> string.").arg(qRound(mW->getFontSize()*1.5)).arg((int)curQ.qa.pos.str()) + "</b>";
 
-        mW->guitar->setMouseTracking(true);
+        mW->guitar->setGuitarDisabled(false);
         mW->guitar->prepareAnswer();
     }
     m_answList << curQ;
@@ -604,7 +604,9 @@ void TexamExecutor::checkAnswer(bool showResults) {
               answTxt += tr("<br>Click <img src=\"%1\"> buton<br>or press <b>backspace</b> to correct an answer.").arg(gl->path+"picts/prev-icon.png");
 //          answTxt += "</span>";
       }
-      showMessage(answTxt, curQ.qa.pos, mesgTime);
+//       showMessage(answTxt, curQ.qa.pos, mesgTime);
+	  TfingerPos pp = mW->guitar->getfingerPos();
+	  showMessage(answTxt, pp, mesgTime);
     }
     if (!gl->EautoNextQuest) {
         if (!curQ.correct())
@@ -636,6 +638,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 
 void TexamExecutor::repeatQuestion() {
     m_incorrectRepeated = true;
+	m_isAnswered = false;
     TQAunit curQ = m_answList[m_answList.size() - 1];
     QString m = mW->statusMessage();
     m.replace(0, m.indexOf("</b>"), QString("<b>%1.").arg(m_answList.size()+1));
@@ -648,7 +651,7 @@ void TexamExecutor::repeatQuestion() {
     if (curQ.answerAs == TQAtype::e_asName)
         mW->noteName->setNameDisabled(false);
     if (curQ.answerAs == TQAtype::e_asFretPos)
-        mW->guitar->setMouseTracking(true);
+        mW->guitar->setGuitarDisabled(false);
 
     m_answList << curQ;
 
@@ -741,7 +744,7 @@ void TexamExecutor::restoreAfterExam() {
     mW->levelCreatorAct->setDisabled(false);
     mW->startExamAct->setDisabled(false);
     mW->noteName->setNameDisabled(false);
-    mW->guitar->setMouseTracking(true);
+    mW->guitar->setGuitarDisabled(false);
     mW->autoRepeatChB->hide();
 
     connect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
@@ -760,9 +763,8 @@ void TexamExecutor::restoreAfterExam() {
 
 void TexamExecutor::disableWidgets() {
     mW->noteName->setNameDisabled(true);
-//    mW->score->isExamExecuting(true);
     mW->score->setScoreDisabled(true);
-    mW->guitar->setMouseTracking(false);
+    mW->guitar->setGuitarDisabled(true);
 }
 
 void TexamExecutor::clearWidgets() {
