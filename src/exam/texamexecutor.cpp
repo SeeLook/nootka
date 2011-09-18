@@ -887,7 +887,7 @@ void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) 
     m_messageItem->document()->setTextWidth(mW->guitar->width() / 3);
     m_messageItem->setHtml(txt); // now text is able to be centered
     bool onRightSide;
-    if (curPos.fret() > 0 && curPos.fret() < 10) { // on which widget side
+    if (curPos.fret() > 0 && curPos.fret() < 11) { // on which widget side
         onRightSide = gl->GisRightHanded;
     } else
         onRightSide = !gl->GisRightHanded;
