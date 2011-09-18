@@ -13,12 +13,14 @@ SETTINGS DIALOG
 TSCOREWIDGETSIMPLE
     - use enableDblAcc in TscoreWidgetSimple to avoid waste hiding or showing dbl accid buttons
 
+TSCOREWIDGET
+    - expected key signature has to be centered
+
 TNOTENAME
     - buttons' with accids and octaves state during asking question
 
 TFINGERBOARD
     - selected open strings are not hidden when selected finger is on the same string
-    - make widget disable in proper way
 
 
 TKEYSIGNATUREVIEW

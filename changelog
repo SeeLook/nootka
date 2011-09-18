@@ -1,7 +1,7 @@
 
 0.7.7
-	- added midi output
-	- added playback with natural sound of classical guitar
+    - added midi playback
+    - added playback with natural sound of classical guitar
 0.7.5
     - !!! Sound output added, also questions as played sound !!!
     - support for opening external nootka files
