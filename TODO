@@ -14,7 +14,7 @@ TSCOREWIDGETSIMPLE
     - use enableDblAcc in TscoreWidgetSimple to avoid waste hiding or showing dbl accid buttons
 
 TSCOREWIDGET
-    - expected key signature has to be centered
+    - expected key signature text has to be centered
 
 TNOTENAME
     - buttons' with accids and octaves state during asking question

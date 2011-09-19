@@ -1,13 +1,7 @@
 0.7.7
+    - !!! Sound output added, also questions as played sound !!!
     - added midi playback
     - added playback with natural sound of classical guitar
-  BUGS FIXES
-    - Guitar is disabled during exams in proper way
-    - Fixed behaviour of right mouse button over fingerboard
-
-
-0.7.5
-    - !!! Sound output added, also questions as played sound !!!
     - support for opening external nootka files
     - polish translation
     - associate Nootka files with executable also under Windows
@@ -19,6 +13,8 @@
     - fixed drawing last fret out of a fingerboard
     - fixed proper position of a clef and accidentals
     - fixed encoding characters under non UTF8 systems
+    - Guitar is disabled during exams in proper way
+    - Fixed behaviour of right mouse button over fingerboard
     - and few smaller bugs
 
 
