@@ -16,7 +16,7 @@
    id="svg7854"
    inkscape:version="0.48.1 r9760"
    sodipodi:docname="repeatSound.svg"
-   inkscape:export-filename="/home/tom/DEVELOP/QT4/nootka/picts/repeatSound.png"
+   inkscape:export-filename="/home/tomek/DEVELOP/nootka/picts/repeatSound.png"
    inkscape:export-xdpi="225"
    inkscape:export-ydpi="225">
   <metadata
@@ -40,16 +40,16 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1112"
-     inkscape:window-height="961"
+     inkscape:window-width="1280"
+     inkscape:window-height="998"
      id="namedview3071"
      showgrid="false"
-     inkscape:zoom="9.8333334"
-     inkscape:cx="29.013773"
-     inkscape:cy="-0.69928975"
-     inkscape:window-x="177"
-     inkscape:window-y="105"
-     inkscape:window-maximized="0"
+     inkscape:zoom="19.666667"
+     inkscape:cx="15.322474"
+     inkscape:cy="11.234444"
+     inkscape:window-x="-3"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
      inkscape:current-layer="svg7854"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -278,15 +278,6 @@
          result="result2"
          operator="in" />
     </filter>
-    <filter
-       inkscape:collect="always"
-       id="filter4148"
-       color-interpolation-filters="sRGB">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.20437772"
-         id="feGaussianBlur4150" />
-    </filter>
     <radialGradient
        gradientUnits="userSpaceOnUse"
        r="66.000099"
@@ -333,6 +324,14 @@
          offset="1" />
     </radialGradient>
   </defs>
+  <rect
+     style="fill:#ffffff;fill-opacity:1"
+     id="rect3070"
+     width="27.355932"
+     height="28"
+     x="0"
+     y="1.6730324e-15"
+     ry="1.8362838" />
   <path
      inkscape:connector-curvature="0"
      style="opacity:0.14999999999999999;fill-opacity:1;fill-rule:evenodd;stroke:none;fill:none"
