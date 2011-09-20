@@ -2,12 +2,13 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "Nootka"
-!define PRODUCT_VERSION "0.7.7-beta1"
+!define PRODUCT_VERSION "pre 0.7.5 beta 1"
 !define PRODUCT_PUBLISHER "Nootka"
 !define PRODUCT_WEB_SITE "http://nootka.sf.net"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\nootka.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
+!define PRODUCT_STARTMENU_REGVAL "NSIS:StartMenuDir"
 
 SetCompressor lzma
 
@@ -30,6 +31,14 @@ SetCompressor lzma
 !insertmacro MUI_PAGE_LICENSE "LICENSE"
 ; Directory page
 !insertmacro MUI_PAGE_DIRECTORY
+; Start menu page
+var ICONS_GROUP
+!define MUI_STARTMENUPAGE_NODISABLE
+!define MUI_STARTMENUPAGE_DEFAULTFOLDER "Nootka"
+!define MUI_STARTMENUPAGE_REGISTRY_ROOT "${PRODUCT_UNINST_ROOT_KEY}"
+!define MUI_STARTMENUPAGE_REGISTRY_KEY "${PRODUCT_UNINST_KEY}"
+!define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "${PRODUCT_STARTMENU_REGVAL}"
+!insertmacro MUI_PAGE_STARTMENU Application $ICONS_GROUP
 ; Instfiles page
 !insertmacro MUI_PAGE_INSTFILES
 ; Finish page
@@ -40,8 +49,8 @@ SetCompressor lzma
 !insertmacro MUI_UNPAGE_INSTFILES
 
 ; Language files
-!insertmacro MUI_LANGUAGE "Polish"
 !insertmacro MUI_LANGUAGE "English"
+!insertmacro MUI_LANGUAGE "Polish"
 
 ; Reserve files
 !insertmacro MUI_RESERVEFILE_INSTALLOPTIONS
@@ -49,7 +58,7 @@ SetCompressor lzma
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "Nootka-Setup-0-7-7.exe"
+OutFile "Nootka-Setup-0-7-5-pre.exe"
 InstallDir "$PROGRAMFILES\Nootka"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
@@ -80,19 +89,12 @@ Section -AssociateMime
 SectionEnd
 
 
-Function .onInit
-  !insertmacro MUI_LANGDLL_DISPLAY
-FunctionEnd
-
 Section "GrupaGlowna" SEC01
   SetOutPath "$INSTDIR"
   SetOverwrite ifnewer
-  File "nootka.exe"
-  CreateDirectory "$SMPROGRAMS\Nootka"
-  CreateShortCut "$SMPROGRAMS\Nootka\Nootka.lnk" "$INSTDIR\nootka.exe"
-  CreateShortCut "$DESKTOP\Nootka.lnk" "$INSTDIR\nootka.exe"
   File "QtGui4.dll"
   File "QtCore4.dll"
+  File "nootka.exe"
   File "mingwm10.dll"
   File "LICENSE"
   File "libportaudio-2.dll"
@@ -116,7 +118,6 @@ Section "GrupaGlowna" SEC01
   File "picts\nootka-exam.png"
   File "picts\c1-trebe.png"
   File "picts\nootka.ico"
-  File "picts\nootka.rc"
   File "picts\notSaved.png"
   File "picts\nootka-icon.rc"
   File "picts\soundSettings.png"
@@ -131,8 +132,9 @@ Section "GrupaGlowna" SEC01
   File "picts\rangeSettings.png"
   File "picts\nootka.png"
   File "picts\repeatSound.png"
-  File "picts\nootka-levels.ico"
+  File "picts\Nootka-levels.ico"
   File "picts\c1-treble_8.png"
+  File "picts\nooyico.rc"
   File "picts\nextQuest.png"
   File "picts\logo.png"
   File "picts\nootka.svg"
@@ -144,13 +146,22 @@ Section "GrupaGlowna" SEC01
   File "picts\questionsSettings.png"
   SetOutPath "$INSTDIR\sounds"
   File "sounds\classical-guitar.wav"
+
+; Shortcuts
+  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
+  CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Nootka.lnk" "$INSTDIR\nootka.exe"
+  CreateShortCut "$DESKTOP\Nootka.lnk" "$INSTDIR\nootka.exe"
+  !insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
 
 Section -AdditionalIcons
   SetOutPath $INSTDIR
+  !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
-  CreateShortCut "$SMPROGRAMS\Nootka\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
-  CreateShortCut "$SMPROGRAMS\Nootka\Uninstall.lnk" "$INSTDIR\uninst.exe"
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk" "$INSTDIR\uninst.exe"
+  !insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
 
 Section -Post
@@ -164,6 +175,16 @@ Section -Post
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
 SectionEnd
 
+;Section -AssociateMime
+;  !include FileAssociation.nsh
+;  ${registerExtension}  "$INSTDIR\nootka.exe" ".nel" "Nootka exam level file"
+;  ${registerExtension}  "$INSTDIR\nootka.exe" ".noo" "Nootka exam results file"
+;  
+;  ${unregisterExtension} ".nel" "Nootka exam level file"
+;  ${unregisterExtension} ".noo" "Nootka exam results file"
+;SectionEnd
+
+
 
 Function un.onUninstSuccess
   HideWindow
@@ -171,12 +192,12 @@ Function un.onUninstSuccess
 FunctionEnd
 
 Function un.onInit
-!insertmacro MUI_UNGETLANGUAGE
   MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Czy na pewno chcesz usun¹æ program $(^Name) i wszystkie jego komponenty?" IDYES +2
   Abort
 FunctionEnd
 
 Section Uninstall
+  !insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
   Delete "$INSTDIR\sounds\classical-guitar.wav"
@@ -189,8 +210,9 @@ Section Uninstall
   Delete "$INSTDIR\picts\nootka.svg"
   Delete "$INSTDIR\picts\logo.png"
   Delete "$INSTDIR\picts\nextQuest.png"
+  Delete "$INSTDIR\picts\nooyico.rc"
   Delete "$INSTDIR\picts\c1-treble_8.png"
-  Delete "$INSTDIR\picts\nootka-levels.ico"
+  Delete "$INSTDIR\picts\Nootka-levels.ico"
   Delete "$INSTDIR\picts\repeatSound.png"
   Delete "$INSTDIR\picts\nootka.png"
   Delete "$INSTDIR\picts\rangeSettings.png"
@@ -205,7 +227,6 @@ Section Uninstall
   Delete "$INSTDIR\picts\soundSettings.png"
   Delete "$INSTDIR\picts\nootka-icon.rc"
   Delete "$INSTDIR\picts\notSaved.png"
-  Delete "$INSTDIR\picts\nootka.rc"
   Delete "$INSTDIR\picts\nootka.ico"
   Delete "$INSTDIR\picts\c1-trebe.png"
   Delete "$INSTDIR\picts\nootka-exam.png"
@@ -225,26 +246,30 @@ Section Uninstall
   Delete "$INSTDIR\libportaudio-2.dll"
   Delete "$INSTDIR\LICENSE"
   Delete "$INSTDIR\mingwm10.dll"
+  Delete "$INSTDIR\nootka.exe"
   Delete "$INSTDIR\QtCore4.dll"
   Delete "$INSTDIR\QtGui4.dll"
-  Delete "$INSTDIR\nootka.exe"
+  Delete "$INSTDIR\QtSvg4.dll"
 
-  Delete "$SMPROGRAMS\Nootka\Uninstall.lnk"
-  Delete "$SMPROGRAMS\Nootka\Website.lnk"
+  Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"
+  Delete "$SMPROGRAMS\$ICONS_GROUP\Website.lnk"
   Delete "$DESKTOP\Nootka.lnk"
-  Delete "$SMPROGRAMS\Nootka\Nootka.lnk"
+  Delete "$SMPROGRAMS\$ICONS_GROUP\Nootka.lnk"
 
-  RMDir "$SMPROGRAMS\Nootka"
+  RMDir "$SMPROGRAMS\$ICONS_GROUP"
   RMDir "$INSTDIR\sounds"
   RMDir "$INSTDIR\picts"
   RMDir "$INSTDIR\lang"
   RMDir "$INSTDIR\fonts"
   RMDir "$INSTDIR"
-  
-  !insertmacro APP_UNASSOCIATE "nel" "nootka.level"
-  !insertmacro APP_UNASSOCIATE "noo" "nootka.exam"
 
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
   DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
+
+!insertmacro APP_UNASSOCIATE "nel" "nootka.level"
+!insertmacro APP_UNASSOCIATE "noo" "nootka.exam"
+;  DeleteRegKey HKCR "nootka.level"
+;  DeleteRegKey HKCR "nootka.exam"
+  
   SetAutoClose true
 SectionEnd
