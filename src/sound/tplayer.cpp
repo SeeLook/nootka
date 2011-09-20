@@ -72,7 +72,7 @@ int Tplayer::paCallBack(const void *inBuffer, void *outBuffer, unsigned long fra
                         PaStreamCallbackFlags statusFlags, void *userData) {
 
     m_samplesCnt++;
-    if (m_samplesCnt < m_maxCBloops-10) {
+    if (m_samplesCnt < m_maxCBloops-20) {
         short *data = (short*)userData;
         short *out = (short*)outBuffer;
         int off = m_samplesCnt*framesPerBuffer/2;
