@@ -155,17 +155,17 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="82"/>
+        <location filename="../src/mainwindow.cpp" line="90"/>
         <source>show or hide the hints</source>
         <translation>pokaż lub ukryj podpowiedzi</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="132"/>
+        <location filename="../src/mainwindow.cpp" line="140"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="133"/>
+        <location filename="../src/mainwindow.cpp" line="141"/>
         <source>Application preferences</source>
         <translation>Preferencje aplikacji</translation>
     </message>
@@ -174,27 +174,37 @@
         <translation type="obsolete">Kreator poziomów</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="162"/>
+        <location filename="../src/mainwindow.cpp" line="170"/>
         <source>Start an exam</source>
         <translation>Rozpocznij egzamin</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="146"/>
+        <location filename="../src/mainwindow.cpp" line="154"/>
         <source>about</source>
         <translation>o programie</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="122"/>
+        <location filename="../src/mainwindow.cpp" line="51"/>
+        <source>major</source>
+        <translation>dur</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="55"/>
+        <source>minor</source>
+        <translation>moll</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="130"/>
         <source>Problems with sound output</source>
         <translation>Problemy z odtwarzaniem dźwięku</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="147"/>
+        <location filename="../src/mainwindow.cpp" line="155"/>
         <source>About Nootka</source>
         <translation>O aplikacji Nootka</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="63"/>
+        <location filename="../src/mainwindow.cpp" line="71"/>
         <source>main toolbar</source>
         <translation>główny pasek narzędzi</translation>
     </message>
@@ -924,12 +934,12 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>&lt;br&gt;Spróbuj ponownie !</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="920"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="922"/>
         <source>Press &lt;img src=&quot;%1&quot;&gt;</source>
         <translation>Naciśnij &lt;img src=&quot;%1&quot;&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="920"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="922"/>
         <source>&lt;br&gt;or &lt;b&gt;space&lt;/b&gt; to get next question.</source>
         <translation>&lt;br&gt;lub &lt;b&gt;spacja&lt;/b&gt; po następne pytanie.</translation>
     </message>
@@ -939,32 +949,32 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>&lt;br&gt;Kliknij &lt;img src=&quot;%1&quot;&gt; przycisk&lt;br&gt; lub naciśnij &lt;b&gt;backspace&lt;/b&gt; żeby poprawić odpowiedź.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="669"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="672"/>
         <source>exam started on level</source>
         <translation>egzamin uruchomiony na poziomie</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="777"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="779"/>
         <source>Give an answer first!&lt;br&gt;Then the exam&apos;ll be finished</source>
         <translation>Najpierw odpowiedz!&lt;br&gt;Potem egzamin zostanie zakończony</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="834"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="836"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
         <translation>Psssst... Trwa egzamin.&lt;br&gt;&lt;br&gt;&lt;b&gt;Kontynuuj&lt;/b&gt; go &lt;br&gt;lub&lt;br&gt;&lt;b&gt;Zakończ&lt;/b&gt; żeby sprawdzić, zapisać i wyjść&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="835"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="837"/>
         <source>Continue</source>
         <translation>Kontynuuj</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="836"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="838"/>
         <source>Terminate</source>
         <translation>Zakończ</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="860"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="862"/>
         <source>If You don&apos;t save to file&lt;br&gt;You lost all results !!</source>
         <translation>Jeżeli nie zapiszesz do pliku&lt;br&gt;stracisz dotychczasowe wyniki !!</translation>
     </message>
@@ -1020,12 +1030,12 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="obsolete">&lt;br&gt;Kliknij &lt;img src=&quot;%1&quot;&gt; buton&lt;br&gt; lub naciśnij &lt;b&gt;backspace&lt;/b&gt; żeby poprawić odpowiedź.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="668"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="671"/>
         <source>EXAM!!</source>
         <translation>EGZAMIN!!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="674"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="677"/>
         <source>stop the exam</source>
         <translation>zatrzymaj egzamin</translation>
     </message>
@@ -1038,24 +1048,24 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="obsolete">Najpierw odpowiedz !</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="811"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="813"/>
         <source>Cannot save exam file:
 %1</source>
         <translation>Nie mogę zapisać pliku z egzaminem:
 %1</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="816"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="818"/>
         <source>so a pity</source>
         <translation>jaka szkoda</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="825"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="827"/>
         <source>Use %1</source>
         <translation>Użyj %1</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="826"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="828"/>
         <source> Don&apos;t use accidentals!</source>
         <translation>Nie używaj znaków!</translation>
     </message>
@@ -1064,7 +1074,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="obsolete">Psssst... Trwa egzamin.&lt;br&gt;&lt;br&gt;&lt;b&gt;Retry&lt;/b&gt; - żeby kontynuować&lt;br&gt;&lt;b&gt;Save - &lt;/b&gt; żeby sprawdzić(gdy potrzeba), zapisać i wyjść&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="854"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="856"/>
         <source>Save exam&apos;s results as:</source>
         <translation>Zapisz wyniki egzaminu jako:</translation>
     </message>

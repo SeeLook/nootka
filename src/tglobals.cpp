@@ -86,8 +86,8 @@ Tglobals::Tglobals() {
         SshowKeySignName = sett.value("keyName", true).toBool(); //true;
         SnameStyleInKeySign = Tnote::EnameStyle(sett.value("nameStyleInKey",
                                                            (int)Tnote::e_english_Bb).toInt());
-        SmajKeyNameSufix = sett.value("majorKeysSufix", QObject::tr("major")).toString();
-        SminKeyNameSufix = sett.value("minorKeysSufix", QObject::tr("minor")).toString();
+        SmajKeyNameSufix = sett.value("majorKeysSufix", "").toString();
+        SminKeyNameSufix = sett.value("minorKeysSufix", "").toString();
 	if (sett.contains("pointerColor"))
 	    SpointerColor = sett.value("pointerColor").value<QColor>(); //-1;
 	else 
