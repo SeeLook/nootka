@@ -47,12 +47,16 @@ MainWindow::MainWindow(QWidget *parent)
         delete firstWizz;
         gl->isFirstRun = false;
 		QString maj, min;
-		if (gl->SmajKeyNameSufix == "")
+		if (gl->SmajKeyNameSufix == "") {
 			maj = tr("major");
+			gl->SmajKeyNameSufix = maj;
+		}
 		else 
 			maj = gl->SmajKeyNameSufix;
-		if (gl->SminKeyNameSufix == "")
+		if (gl->SminKeyNameSufix == "") {
 			min = tr("minor");
+			gl->SminKeyNameSufix = min;
+		}
 		else
 			min = gl->SminKeyNameSufix;
 		TkeySignature::setNameStyle(gl->SnameStyleInKeySign, maj, min);
