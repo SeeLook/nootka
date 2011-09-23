@@ -1,4 +1,4 @@
-Nootka 0.7.0 beta 1
+Nootka 0.7.7 beta 1
 ===========================
 ===========BUILD===========
 ===========================
@@ -6,13 +6,16 @@ Nootka 0.7.0 beta 1
 Requirements:
 - Qt libraries (obviously)
 - Portaudio
+    For Windows Portaudio have to be compiled with directsound or ASIO
+    (see Portaudio build instructions)
+- libasound-dev under linux
 
 
-UNDER LINUX
 - Unpack tarball
 - create some dir (f. e. "build") out of unpacked source directory
 - go to build dir
-- cmake ../nootka-0.7.0 (or ccmake or qtcmake with GUI)
+- cmake ../nootka-0.7.7 (or ccmake or qtcmake with GUI)
+  select PORTAUDIO_LIBRARIES variable if Your PA is somewhere else than usualy
 - make
 - make install (usually as root)
 
