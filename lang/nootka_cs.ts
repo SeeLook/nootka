@@ -170,12 +170,12 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="51"/>
         <source>major</source>
-        <translation>Dur</translation>
+        <translation>dur</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="55"/>
         <source>minor</source>
-        <translation>Moll</translation>
+        <translation>moll</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="130"/>
@@ -342,7 +342,7 @@
     <message>
         <location filename="../src/info/select7note.cpp" line="36"/>
         <source>H</source>
-        <translation>BO</translation>
+        <translation>H</translation>
     </message>
     <message>
         <location filename="../src/info/select7note.cpp" line="37"/>
@@ -1186,17 +1186,17 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/tnotename.cpp" line="30"/>
         <source>1-line</source>
-        <translation>1 - čárkované</translation>
+        <translation>1 - a</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="30"/>
         <source>2-line</source>
-        <translation>2 - čárkované</translation>
+        <translation>2 - a</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="30"/>
         <source>3-line</source>
-        <translation>3 - čárkované</translation>
+        <translation>3 - a</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="31"/>
@@ -1315,7 +1315,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/score/tscorewidget.cpp" line="34"/>
         <source>Click to sellect a note, use mouse wheel to change accidentals.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klepněte pro výběr noty. Použijte koločko myši pro změnu posuvek.</translation>
     </message>
 </context>
 <context>
