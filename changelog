@@ -1,3 +1,7 @@
+    - added Czech translation
+  BUGS FIXES
+    - key signatures sufixes are translated properly 
+
 0.7.7
     - !!! Sound output added, also questions as played sound !!!
     - added midi playback
