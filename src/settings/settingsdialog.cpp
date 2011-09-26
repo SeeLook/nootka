@@ -185,14 +185,41 @@ GlobalSettings::GlobalSettings(QWidget *parent) :
     hintsEnabledChBox->setStatusTip(tr("Show descriptions of interface's elements."));
     lay->addWidget(hintsEnabledChBox);
     lay->addStretch(1);
+	QHBoxLayout *langLay = new QHBoxLayout;
+	QLabel *langLab = new QLabel(tr("Application's language"), this);
+	langLay->addWidget(langLab);
+	langLay->addStretch(1);
+	langCombo = new QComboBox(this);
+	langLay->addWidget(langCombo);
+	langCombo->setStatusTip(tr("Select a language. It requires restart of application !!"));
+	langList["cs"] = "český";
+	langList["en"] = "english";
+	langList["pl"] = "polski";
+	QMapIterator<QString, QString> i(langList);
+	while (i.hasNext()) {
+		i.next();
+		langCombo->addItem(i.value());
+	}
+	lay->addLayout(langLay);
+	lay->addStretch(1);
     setLayout(lay);
 }
 
 void GlobalSettings::saveSettings() {
-   gl->doubleAccidentalsEnabled = dblAccChBox->isChecked();
-   gl->showEnharmNotes = otherEnharmChBox->isChecked();
-   gl->hintsEnabled = hintsEnabledChBox->isChecked();
-   gl->enharmNotesColor = enharmColorBut->getColor();
+	gl->doubleAccidentalsEnabled = dblAccChBox->isChecked();
+	gl->showEnharmNotes = otherEnharmChBox->isChecked();
+	gl->hintsEnabled = hintsEnabledChBox->isChecked();
+	gl->enharmNotesColor = enharmColorBut->getColor();
+#if defined(Q_OS_WIN32) // I hate mess in Win registry
+    QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
+#else
+    QSettings sett;
+#endif
+	sett.beginGroup("language");
+//         sett.setValue("language", langList[langCombo->currentIndex()].key());
+    sett.endGroup();
+
+
 }
 
 

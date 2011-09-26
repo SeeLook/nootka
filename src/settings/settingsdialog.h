@@ -26,6 +26,7 @@
 #include "namesettings.h"
 #include "scoresettings.h"
 #include "soundsettings.h"
+#include <QMap>
 
 class QCheckBox;
 class QSpinBox;
@@ -43,6 +44,8 @@ public:
 private:
     QCheckBox *otherEnharmChBox, *dblAccChBox, *hintsEnabledChBox;
 	TcolorButton *enharmColorBut;
+	QComboBox *langCombo;
+	QMap<QString, QString> langList;
 };
 
 

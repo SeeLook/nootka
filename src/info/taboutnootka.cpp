@@ -65,6 +65,8 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     wiLLay->addWidget(authorsLab);
     wiLLay->addStretch(1);
     wi->setLayout(wiLLay);
+	
+	QString trans = QApplication::translate("about translator", "translator", "Do not translate this, just put in translator comment Your data: Translator's' Name<br>Tramslator's' e-mail(optional)<br>Translator site(optional)");
 
 
     QTextEdit *licenseTxt = new QTextEdit();
