@@ -54,6 +54,8 @@ public:
     bool hintsEnabled;
         /** to show or skip first run wizzard*/
     bool isFirstRun;
+		/** Application language. If empty - selected from system info*/
+	QString lang;
 
         /** Let's have a convention:
         * globals settings for @class TnoteName will started from 'N' letter

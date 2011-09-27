@@ -36,7 +36,6 @@ TFIRSTRUNWIZZARD & NAMESETTINGS
 MAINWINDOW
 
 MAIN
-    - path calculated in a few places
 
 TEXAMVIEW
     - runtime change background color of counters

@@ -59,14 +59,14 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     Tabout *m_about = new Tabout();
     QWidget *wi = new QWidget();
     QVBoxLayout *wiLLay = new QVBoxLayout;
-    QLabel *authorsLab = new QLabel(("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b><br>" + authorsTxt() + "<br></b></p></center><br><br>Tomasz Bojczuk<br><a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a><br><br><br>" +
+    QLabel *authorsLab = new QLabel(("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b><br>" + authorsTxt() + "<br></b></p></center><br><br>Tomasz Bojczuk    <a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a><br><br><br><br>Czech translations:<br>Pavel Fric    <a href=\"mailto:pavelfric@seznam.cz\">pavelfric@seznam.cz</a>    <a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a><br><br><br>" + 
        tr("Althougth this application could not exist without various open source projects.<br>Especially:") + "<ul><li><a href=\"http://qt.nokia.com\">Qt</a></li><li><a href=\"http://portaudio.com\">Portaudio</a></li><li><a href=\"http://www.music.mcgill.ca/~gary/rtmidi/\">RtMidi</a></li></ul>"));
     authorsLab->setOpenExternalLinks(true);
     wiLLay->addWidget(authorsLab);
     wiLLay->addStretch(1);
     wi->setLayout(wiLLay);
 	
-	QString trans = QApplication::translate("about translator", "translator", "Do not translate this, just put in translator comment Your data: Translator's' Name<br>Tramslator's' e-mail(optional)<br>Translator site(optional)");
+	QString trans = QApplication::translate("about translator", "translator", "Do not translate this, just put in 'translator comment field' Your data: Translator's' Name<br>Tramslator's' e-mail(optional)<br>Translator site(optional)");
 
 
     QTextEdit *licenseTxt = new QTextEdit();
