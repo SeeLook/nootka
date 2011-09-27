@@ -67,13 +67,18 @@
         <translation>Ukázat popisy prvků rozhraní.</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="189"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="190"/>
         <source>Application&apos;s language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="194"/>
-        <source>Select a language. It requires restart of application !!</source>
+        <location filename="../src/settings/settingsdialog.cpp" line="196"/>
+        <source>Select a language.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;It requires restart of application !!&lt;/span&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings/settingsdialog.cpp" line="197"/>
+        <source>default</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -153,52 +158,52 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="94"/>
+        <location filename="../src/mainwindow.cpp" line="92"/>
         <source>show or hide the hints</source>
         <translation>Ukázat nebo skrýt rady</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="144"/>
+        <location filename="../src/mainwindow.cpp" line="142"/>
         <source>Settings</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="145"/>
+        <location filename="../src/mainwindow.cpp" line="143"/>
         <source>Application preferences</source>
         <translation>Nastavení programu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="174"/>
+        <location filename="../src/mainwindow.cpp" line="172"/>
         <source>Start an exam</source>
         <translation>Spustit zkoušku</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="158"/>
+        <location filename="../src/mainwindow.cpp" line="156"/>
         <source>about</source>
         <translation>O programu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="51"/>
+        <location filename="../src/mainwindow.cpp" line="49"/>
         <source>major</source>
         <translation>dur</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="57"/>
+        <location filename="../src/mainwindow.cpp" line="55"/>
         <source>minor</source>
         <translation>moll</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="134"/>
+        <location filename="../src/mainwindow.cpp" line="132"/>
         <source>Problems with sound output</source>
         <translation>Potíže se zvukovým výstupem</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="159"/>
+        <location filename="../src/mainwindow.cpp" line="157"/>
         <source>About Nootka</source>
         <translation>O programu Nootka</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="75"/>
+        <location filename="../src/mainwindow.cpp" line="73"/>
         <source>main toolbar</source>
         <translation>Hlavní nástrojový pruh</translation>
     </message>
@@ -363,38 +368,38 @@
 <context>
     <name>SettingsDialog</name>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="231"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="237"/>
         <source>application&apos;s settings</source>
         <translation>Nastavení programu</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="234"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="240"/>
         <source>Common</source>
         <translation>Společné</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="237"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="243"/>
         <source>Score</source>
         <translation>Notový zápis</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="240"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="246"/>
         <source>Names</source>
         <comment>name-calling</comment>
         <translation>Názvy</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="243"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="249"/>
         <source>Guitar</source>
         <translation>Kytara</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="246"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="252"/>
         <source>Exam</source>
         <translation>Zkouška</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="249"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="255"/>
         <source>Sound</source>
         <translation>Zvuk</translation>
     </message>
@@ -526,6 +531,11 @@
         <location filename="../src/info/taboutnootka.cpp" line="48"/>
         <source>About</source>
         <translation>O programu</translation>
+    </message>
+    <message>
+        <location filename="../src/info/taboutnootka.cpp" line="62"/>
+        <source>Translators</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="63"/>
@@ -1424,7 +1434,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="69"/>
         <source>translator</source>
-        <comment>Do not translate this, just put in translator comment Your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
+        <comment>Do not translate this, just put in &apos;translator comment field&apos; Your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1444,7 +1454,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="47"/>
+        <location filename="../src/main.cpp" line="51"/>
         <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.otf manually.&lt;/center&gt;</source>
         <translation>&lt;center&gt;Nelze nahrát písmo.&lt;br&gt;Zkuste nainstalovat nootka.otf ručně.&lt;/center&gt;</translation>
     </message>
