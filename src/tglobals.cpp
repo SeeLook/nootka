@@ -78,6 +78,7 @@ Tglobals::Tglobals() {
     sett.beginGroup("common");
         hintsEnabled = sett.value("enableHints", true).toBool(); //true;
         isFirstRun = sett.value("isFirstRun", true).toBool();
+		lang = sett.value("language", "").toString();
     sett.endGroup();
 
 //score widget settings
@@ -201,6 +202,7 @@ void Tglobals::storeSettings() {
         sett.setValue("showEnaharmonicNotes", showEnharmNotes);
         sett.setValue("enharmonicNotesColor", enharmNotesColor);
         sett.setValue("is7thNote_B", seventhIs_B);
+		sett.setValue("language", lang);
     sett.endGroup();
 
     sett.beginGroup("score");

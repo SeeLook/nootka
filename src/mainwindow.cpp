@@ -27,13 +27,11 @@
 #include <QtGui>
 //#include <QDebug>
 
-Tglobals *gl = new Tglobals();
+extern Tglobals *gl;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-
-    gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
     Ttune::prepareDefinedTunes();
 
     setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
@@ -341,25 +339,6 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *) {
             ex->askQuestion();
         else
             ex->checkAnswer();
-//      if (gl->EautoNextQuest){
-//        if(ex->nextQuestAct->isVisible()) {
-//            qDebug() << "ask";
-//            ex->askQuestion();
-//        }
-//        else {
-//            qDebug() << "check";
-//            ex->checkAnswer();
-//        }
-//      } else {
-//          if(startExamAct->isEnabled()) {
-//              qDebug() << "ask";
-//              ex->askQuestion();
-//          }
-//          else {
-//              qDebug() << "check";
-//              ex->checkAnswer();
-//          }
-//      }
     }
 }
 

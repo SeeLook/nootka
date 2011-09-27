@@ -20,30 +20,34 @@
 #include "mainwindow.h"
 #include "tglobals.h"
 
+Tglobals *gl;
+
 int main(int argc, char *argv[])
 {
 #if defined(Q_OS_WIN32)
     QApplication::setStyle("plastique");  
 #endif
-
+		
     QApplication a(argc, argv);
+	gl = new Tglobals();
+	gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
     
+	QString ll = gl->lang;
+	if (ll == "")
+		ll = QLocale::system().name();
     QTranslator qtTranslator;
-    qtTranslator.load("qt_" + QLocale::system().name(),
-                      QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    qtTranslator.load("qt_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     a.installTranslator(&qtTranslator);
 
 
     QTranslator nooTranslator;
-    nooTranslator.load("nootka_" + QLocale::system().name(),
-                      Tglobals::getInstPath(qApp->applicationDirPath()) + "lang");
+    nooTranslator.load("nootka_" + ll, gl->path + "lang");
     a.installTranslator(&nooTranslator);
 	
     MainWindow w;
 
     QFontDatabase fd;
-    if (fd.addApplicationFont(Tglobals::getInstPath(qApp->applicationDirPath())
-                              + "fonts/nootka.otf") == -1) {
+	if (fd.addApplicationFont(gl->path + "fonts/nootka.otf") == -1) {
         QMessageBox::critical(0, "", QCoreApplication::translate("main", "<center>Can not load a font.<br>Try to install nootka.otf manually.</center>"));
         return 111;
     }
