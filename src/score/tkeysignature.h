@@ -44,8 +44,14 @@ public:
     static const char majorKeys[15], minorKeys[15];
         /** This method fulfills majorNames and minorNames arrays
         * appropirate keys names depends on nameing style
-        * and suffixes.*/
+        * and suffixes.
+		* Convention of sufixes is:
+		* - empty sring "" means - sufix id default for language and taken from translations
+		* - string with space " " means - sufix is empty
+		* - any other string means - it is as it is */
     static void setNameStyle(Tnote::EnameStyle style, QString majSuf = "", QString minSuf = "");
+	static QString majorSufixTxt() { return QObject::tr("major"); }
+	static QString minorSufixTxt() { return QObject::tr("minor"); }
 
     static QString getMajorName(char key) { return majorNames[key+7]; }
     static QString getMinorName(char key) { return minorNames[key+7]; }

@@ -1,7 +1,8 @@
     - added Czech translation
     - added language selector to settings
   BUGS FIXES
-    - key signatures sufixes are translated properly 
+    - key signatures sufixes are translated properly
+    - removed some untranslated strings
 
 0.7.7
     - !!! Sound output added, also questions as played sound !!!

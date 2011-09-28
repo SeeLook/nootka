@@ -95,7 +95,7 @@ Tglobals::Tglobals() {
 	    SpointerColor = -1;
     sett.endGroup();
 
-    TkeySignature::setNameStyle(SnameStyleInKeySign, SmajKeyNameSufix, SminKeyNameSufix);
+//     TkeySignature::setNameStyle(SnameStyleInKeySign, SmajKeyNameSufix, SminKeyNameSufix);
 
 //common for score widget and note name
     sett.beginGroup("common");
@@ -209,8 +209,13 @@ void Tglobals::storeSettings() {
         sett.setValue("keySignature", SkeySignatureEnabled);
         sett.setValue("keyName", SshowKeySignName);
         sett.setValue("nameStyleInKey", (int)SnameStyleInKeySign);
-        sett.setValue("majorKeysSufix", SmajKeyNameSufix);
-        sett.setValue("minorKeysSufix", SminKeyNameSufix);
+		QString majS, minS;
+		if (SmajKeyNameSufix != TkeySignature::majorSufixTxt()) majS = SmajKeyNameSufix;
+		else majS = ""; // default sufixes are reset to be translateable in next run
+        sett.setValue("majorKeysSufix", majS);
+		if (SminKeyNameSufix != TkeySignature::minorSufixTxt()) minS = SminKeyNameSufix;
+		else minS = "";
+        sett.setValue("minorKeysSufix", minS);
         sett.setValue("pointerColor", SpointerColor);
     sett.endGroup();
   

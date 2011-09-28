@@ -44,21 +44,8 @@ MainWindow::MainWindow(QWidget *parent)
         firstWizz->exec();
         delete firstWizz;
         gl->isFirstRun = false;
-		QString maj, min;
-		if (gl->SmajKeyNameSufix == "") {
-			maj = tr("major");
-			gl->SmajKeyNameSufix = maj;
-		}
-		else 
-			maj = gl->SmajKeyNameSufix;
-		if (gl->SminKeyNameSufix == "") {
-			min = tr("minor");
-			gl->SminKeyNameSufix = min;
-		}
-		else
-			min = gl->SminKeyNameSufix;
-		TkeySignature::setNameStyle(gl->SnameStyleInKeySign, maj, min);
     }
+    TkeySignature::setNameStyle(gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
 
     if (gl->AoutSoundEnabled)
         player = new Tplayer();

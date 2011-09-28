@@ -113,9 +113,10 @@ QString ScoreSettings::getMajorExample(Tnote::EnameStyle nameStyle) {
     Tnote noteE = Tnote(3,0,0);
     Tnote noteBflat = Tnote(7,0,-1);
     QString S;
-    if (majEdit->text().isEmpty()) S = "";
-      else S = "-"+majEdit->text();
-      return forExample() + "<br><b>" + QString::fromStdString(noteE.getName(nameStyle,false)) + S +
+    if (majEdit->text().isEmpty() || majEdit->text() == " ") 
+		S = "";
+	else S = "-"+majEdit->text();
+    return forExample() + "<br><b>" + QString::fromStdString(noteE.getName(nameStyle,false)) + S +
               "<br>" + QString::fromStdString(noteBflat.getName(nameStyle,false)) + S + "</b>";
 }
 
@@ -123,9 +124,10 @@ QString ScoreSettings::getMinorExample(Tnote::EnameStyle nameStyle) {
     Tnote noteCsharp = Tnote(1,0,1);
     Tnote noteG = Tnote(5,0,0);
     QString S;
-    if (minEdit->text().isEmpty()) S = "";
-      else S = "-"+minEdit->text();
-      return forExample() + "<br><b>" +
+    if (minEdit->text().isEmpty() || minEdit->text() == " ")
+		S = "";
+	else S = "-"+minEdit->text();
+	return forExample() + "<br><b>" +
               QString::fromStdString(noteCsharp.getName(nameStyle,false)).toLower()+ S + "<br>" +
               QString::fromStdString(noteG.getName(nameStyle,false)).toLower() + S + "</b>";
 }
@@ -141,7 +143,9 @@ void ScoreSettings::nameStyleWasChanged(Tnote::EnameStyle nameStyle) {
 void ScoreSettings::saveSettings() {
     gl->SkeySignatureEnabled = enablKeySignCh->isChecked();
     if (gl->SkeySignatureEnabled) { //changed only if key signature is enabled
+		if (majEdit->text() == "") majEdit->setText(" "); // cause "" means default sufix for language
         gl->SmajKeyNameSufix = majEdit->text();
+		if (minEdit->text() == "") minEdit->setText(" ");
         gl->SminKeyNameSufix = minEdit->text();
         gl->SnameStyleInKeySign = nameStyleGr->getNameStyle();
         gl->SshowKeySignName = enablKeyNameGr->isChecked();
