@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "Nootka"
-!define PRODUCT_VERSION "0.7.7-beta1"
+!define PRODUCT_VERSION "0.7.8-beta1"
 !define PRODUCT_PUBLISHER "Nootka"
 !define PRODUCT_WEB_SITE "http://nootka.sf.net"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\nootka.exe"
@@ -40,8 +40,9 @@ SetCompressor lzma
 !insertmacro MUI_UNPAGE_INSTFILES
 
 ; Language files
-!insertmacro MUI_LANGUAGE "Polish"
 !insertmacro MUI_LANGUAGE "English"
+!insertmacro MUI_LANGUAGE "Czech"
+!insertmacro MUI_LANGUAGE "Polish"
 
 ; Reserve files
 !insertmacro MUI_RESERVEFILE_INSTALLOPTIONS
@@ -49,17 +50,28 @@ SetCompressor lzma
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "Nootka-Setup-0-7-7.exe"
+OutFile "Nootka-Setup-0-7-8.exe"
 InstallDir "$PROGRAMFILES\Nootka"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
 ShowUnInstDetails show
 
+LangString NelDesc ${LANG_ENGLISH} "Nootka level file"
+LangString NelDesc ${LANG_POLISH} "Plik poziomu programu Nootka"
+
+LangString NootkaAct ${LANG_ENGLISH} "Open with nootka"
+LangString NootkaAct ${LANG_POLISH} "Otwórz w programie Nootka"
+
+LangString NooDesc ${LANG_ENGLISH} "Nootka exam file"
+LangString NooDesc ${LANG_POLISH} "Plik egzaminu programu Nootka"
+
+
 Section -AssociateMime
 ;FILE ASSOCIATION
+
 !include fileasoc.nsh
-!insertmacro APP_ASSOCIATE "nel" "nootka.level" "Nootka level file" "$INSTDIR\picts\nootka-levels.ico"     "Open with nootka" "$INSTDIR\nootka.exe $\"%1$\""
-!insertmacro APP_ASSOCIATE "noo" "nootka.exam" "Nootka exam file" "$INSTDIR\picts\nootka-exam.ico"     "Open with nootka" "$INSTDIR\nootka.exe $\"%1$\""
+!insertmacro APP_ASSOCIATE "nel" "nootka.level" "$(NelDesc)" "$INSTDIR\picts\nootka-levels.ico"     "$(NootkaAct)" "$INSTDIR\nootka.exe $\"%1$\""
+!insertmacro APP_ASSOCIATE "noo" "nootka.exam" "$(NooDesc)" "$INSTDIR\picts\nootka-exam.ico"     "$(NootkaAct)" "$INSTDIR\nootka.exe $\"%1$\""
 ;WriteRegStr HKCR ".nel" "" "Nootka.level"
 ;WriteRegStr HKCR "Nootka.level" "" "Nootka level file"
 ;WriteRegStr HKCR "Nootka.level\DefaultIcon" "" \
@@ -103,6 +115,7 @@ Section "GrupaGlowna" SEC01
   File "fonts\nootka.otf"
   SetOutPath "$INSTDIR\lang"
   File "lang\nootka_pl.qm"
+  File "lang\nootka_cs.qm"
   SetOutPath "$INSTDIR\picts"
   File "picts\author.png"
   File "picts\nootka-exam.ico"
@@ -219,6 +232,7 @@ Section Uninstall
   Delete "$INSTDIR\picts\nootka-exam.ico"
   Delete "$INSTDIR\picts\author.png"
   Delete "$INSTDIR\lang\nootka_pl.qm"
+  Delete "$INSTDIR\lang\nootka_cs.qm"
   Delete "$INSTDIR\fonts\nootka.otf"
   Delete "$INSTDIR\fonts\README"
   Delete "$INSTDIR\libgcc_s_dw2-1.dll"

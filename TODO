@@ -42,7 +42,6 @@ TEXAMVIEW
 
 TEXAMEXECUTOR
     - improve message over fingerboard
-    - some "discard" text is untranslated because standard QDialog is used
 
 
 FOR WINDOWS

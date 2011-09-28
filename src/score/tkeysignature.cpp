@@ -18,7 +18,10 @@
 
 
 #include "tkeysignature.h"
-//#include <QDebug>
+#include "tglobals.h"
+// #include <QDebug>
+
+extern Tglobals *gl;
 
 /*static*/
 const char TkeySignature::scalesDefArr[15][7] = {
@@ -47,13 +50,29 @@ QString TkeySignature::minorNames[15] = { "", "", "", "", "", "", "", "", "", ""
 
 void TkeySignature::setNameStyle(Tnote::EnameStyle style, QString majSuf, QString minSuf) {
     Tnote n;
+	QString majS = "", minS = "";
+	if (majSuf == "") {
+		majS = "-" + majorSufixTxt();
+		gl->SmajKeyNameSufix = majorSufixTxt();
+	} else
+		if (majSuf != " ")
+			majS = "-" + majSuf;
+		
+	if (minSuf == "") {
+		minS = "-" + minorSufixTxt();
+		gl->SminKeyNameSufix = minorSufixTxt();
+	}
+	else
+		if (minSuf != " ")
+			minS = "-" + minSuf;
+		
     for (int i=0; i<15; i++) {
         n = Tnote(majorKeys[i]+1, 0, scalesDefArr[i][majorKeys[i]]);
         majorNames[i] = QString::fromStdString(n.getName(style, false));
-        if (majSuf != "") majorNames[i] += "-" + majSuf;
+		majorNames[i] += majS;
         n = Tnote(minorKeys[i]+1, 0, scalesDefArr[i][minorKeys[i]]);
         minorNames[i] = QString::fromStdString(n.getName(style, false )).toLower();
-        if (minSuf != "") minorNames[i] += "-" + minSuf;
+		minorNames[i] += minS;
     }
 }
 

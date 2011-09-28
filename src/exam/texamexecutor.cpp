@@ -857,12 +857,15 @@ QString TexamExecutor::saveExamToFile() {
                          QDir::toNativeSeparators(QDir::homePath()+ "/" +
                          m_userName+"-"+m_level.name),
                          TstartExamDlg::examFilterTxt());
-    if (fileName == "")
-        if (QMessageBox::warning(mW, "",
-                             tr("If You don't save to file<br>You lost all results !!"),
-                             QMessageBox::Save | QMessageBox::Discard, QMessageBox::Save)
-            == QMessageBox::Save)
-                fileName = saveExamToFile();
+    if (fileName == "") {
+		QMessageBox *msg = new QMessageBox(mW);
+		msg->setText(tr("If You don't save to file<br>You lost all results !!"));
+		QAbstractButton *saveButt = msg->addButton(tr("Save"), QMessageBox::ApplyRole);
+		msg->addButton(tr("Discard"), QMessageBox::RejectRole);
+		msg->exec();
+        if (msg->clickedButton() == saveButt)
+            fileName = saveExamToFile();
+	}
     return fileName;
 }
 
