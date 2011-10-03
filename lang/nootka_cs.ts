@@ -69,17 +69,17 @@
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="190"/>
         <source>Application&apos;s language</source>
-        <translation type="unfinished"></translation>
+        <translation>Jazyk programu</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="196"/>
         <source>Select a language.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;It requires restart of application !!&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyberte jazyk.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;Vyžaduje, aby byl program spuštěn znovu!&lt;/span&gt;</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="197"/>
         <source>default</source>
-        <translation type="unfinished"></translation>
+        <translation>Výchozí</translation>
     </message>
 </context>
 <context>
@@ -543,7 +543,7 @@
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="62"/>
         <source>Translators</source>
-        <translation type="unfinished"></translation>
+        <translation>Překladatelé</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="63"/>
@@ -1453,7 +1453,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/info/taboutnootka.cpp" line="69"/>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; Your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
-        <translation type="unfinished"></translation>
+        <translation>Pavel Fric&lt;br&gt;fripohled.blogspot.com</translation>
     </message>
 </context>
 <context>
