@@ -1,8 +1,12 @@
+0.7.8
     - added Czech translation
     - added language selector to settings
+    - added translations for associated Nootka files under Windows 
   BUGS FIXES
     - key signatures sufixes are translated properly
     - removed some untranslated strings
+    - fixed segmentation fault occured after run on some platforms (Fedora, Debian)
+
 
 0.7.7
     - !!! Sound output added, also questions as played sound !!!
@@ -36,3 +40,4 @@
     - Levels creator dialog
   Under the hood
     - all resources moved out of executable file
+

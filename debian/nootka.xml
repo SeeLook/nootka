@@ -5,6 +5,7 @@
     <sub-class-of type="application/data"/>
     <sub-class-of type="application/bin"/>
     <comment>Nootka exam's level</comment>
+    <comment xml:lang="cs">Úroveň zkoušky programu Nootka</comment>
     <comment xml:lang="pl">Poziom egzaminu programu Nootka</comment>
     <icon name="levelCreator">/usr/share/pixmaps/levelCreator.png</icon>
     <glob pattern="*.nel"/>
@@ -16,6 +17,7 @@
     <sub-class-of type="application/data"/>
     <sub-class-of type="application/bin"/>
     <comment>Nootka exam file</comment>
+    <comment xml:lang="cs">Zkušební soubor programu Nootka</comment>
     <comment xml:lang="pl">Plik egzaminu programu Nootka</comment>
     <icon name="nootka-exam">/usr/share/pixmaps/nootka-exam.png</icon>
     <glob pattern="*.noo" />    
