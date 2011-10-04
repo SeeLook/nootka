@@ -58,6 +58,7 @@ ShowUnInstDetails show
 
 LangString NelDesc ${LANG_ENGLISH} "Nootka level file"
 LangString NelDesc ${LANG_POLISH} "Plik poziomu programu Nootka"
+LangString NelDesc ${LANG_CZECH} ""
 
 LangString NootkaAct ${LANG_ENGLISH} "Open with nootka"
 LangString NootkaAct ${LANG_POLISH} "Otwórz w programie Nootka"
