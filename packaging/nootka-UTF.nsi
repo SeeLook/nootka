@@ -181,15 +181,15 @@ Section -Post
 SectionEnd
 
 
-Function un.onUninstSuccess
-  HideWindow
-  MessageBox MB_ICONINFORMATION|MB_OK "Program $(^Name) zosta³ pomylnie usuniêty."
-FunctionEnd
+;Function un.onUninstSuccess
+;  HideWindow
+;  MessageBox MB_ICONINFORMATION|MB_OK "Program $(^Name) został pomyślnie usunięty."
+;FunctionEnd
 
 Function un.onInit
 !insertmacro MUI_UNGETLANGUAGE
-  MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Czy na pewno chcesz usun¹æ program $(^Name) i wszystkie jego komponenty?" IDYES +2
-  Abort
+  ;MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Czy na pewno chcesz usunąć program $(^Name) i wszystkie jego komponenty?" IDYES +2
+  ;Abort
 FunctionEnd
 
 Section Uninstall
