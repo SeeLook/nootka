@@ -4,7 +4,7 @@
     - added translations for associated Nootka files under Windows 
   BUGS FIXES
     - key signatures sufixes are translated properly
-    - removed some untranslated strings
+    - removed untranslated strings
     - fixed segmentation fault occured after run on some platforms (Fedora, Debian)
 
 
