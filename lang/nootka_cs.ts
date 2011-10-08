@@ -11,7 +11,7 @@
     <message>
         <location filename="../src/settings/examsettings.cpp" line="35"/>
         <source>repeat a question when an answer was incorrect.</source>
-        <translation>Opakovat otázku, když odpověď byla nesprávná..</translation>
+        <translation>Opakovat otázku, když odpověď byla nesprávná.</translation>
     </message>
     <message>
         <location filename="../src/settings/examsettings.cpp" line="38"/>
@@ -21,7 +21,7 @@
     <message>
         <location filename="../src/settings/examsettings.cpp" line="42"/>
         <source>color of questions</source>
-        <translation>Barva otázekl</translation>
+        <translation>Barva otázek</translation>
     </message>
     <message>
         <location filename="../src/settings/examsettings.cpp" line="46"/>
@@ -152,7 +152,7 @@
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="117"/>
         <source>color of selected string/fret</source>
-        <translation>barva vybrané struny/pražce</translation>
+        <translation>Barva vybrané struny/pražce</translation>
     </message>
 </context>
 <context>
@@ -289,7 +289,7 @@
     <message>
         <location filename="../src/ttune.cpp" line="35"/>
         <source>Open: D A D G A D </source>
-        <translation>Otevřené: D A D G A D</translation>
+        <translation>Otevřený: D A D G A D</translation>
     </message>
     <message>
         <location filename="../src/ttune.cpp" line="36"/>
@@ -322,12 +322,12 @@
     <message>
         <location filename="../src/settings/scoresettings.cpp" line="50"/>
         <source>in the major keys:</source>
-        <translation>V &lt;br&gt;durových tóninách:</translation>
+        <translation>v durových tóninách:</translation>
     </message>
     <message>
         <location filename="../src/settings/scoresettings.cpp" line="62"/>
         <source>in the minor keys:</source>
-        <translation>V &lt;br&gt;molových tóninách:</translation>
+        <translation>v molových tóninách:</translation>
     </message>
     <message>
         <location filename="../src/settings/scoresettings.cpp" line="84"/>
@@ -388,7 +388,7 @@
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="243"/>
         <source>Score</source>
-        <translation>Notový zápis</translation>
+        <translation>Noty</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="246"/>
@@ -427,7 +427,7 @@
     <message>
         <location filename="../src/sound/soundsettings.cpp" line="39"/>
         <source>real audio playback</source>
-        <translation>Skutečná přehrávka zvuku</translation>
+        <translation>Přehrávání skutečného zvuku</translation>
     </message>
     <message>
         <location filename="../src/sound/soundsettings.cpp" line="40"/>
@@ -525,7 +525,7 @@
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="96"/>
         <source>&lt;p&gt; Welcome on the board.&lt;br&gt; Nootka is open source application to help You learning (and teaching also) classical score notation. It is specially dedicated for guitarists but others can find something usable as well.&lt;br&gt;This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features. Inspite of that You are welcome to try it !!&lt;/p&gt;&lt;p&gt;See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releaces.&lt;/p&gt;&lt;p&gt;Any bugs, sugestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author&lt;/p&gt;&lt;br&gt;</source>
-        <translation>&lt;p&gt;Vítejte na palubě.&lt;br&gt; Nootka je program s otevřeným zdrojovým kódem, která vám má pomoci při učení (a také vyučování) klasického notového zápisu. Je určen obzvláště kytaristům ale i jiní na něm můžou najít něco pro ně užitečného.&lt;br&gt;Toto je betaverze a může obsahovat chyby nebo se chovat neočekávaně. Také má nedodělané vlastnosti, ale přesto jste zváni, abyste ji vyzkoušeli!&lt;/p&gt;&lt;p&gt;Podívejte se na stránky programu &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;&lt;/a&gt;, kde naleznete více podrobností a informace o dalších vydáních.&lt;/p&gt;&lt;p&gt;Jakékoli chyby programu, návrhy, překlady a tak dále posílejte na adresu: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;. V úctě&lt;br&gt;autor&lt;/p&gt;&lt;br&gt;</translation>
+        <translation>&lt;p&gt;Vítejte na palubě.&lt;br&gt; Nootka je program s otevřeným zdrojovým kódem, která vám má pomoci při učení (a také vyučování) klasického notového zápisu. Je určen obzvláště kytaristům ale i jiní na něm můžou najít něco pro ně užitečného.&lt;br&gt;Toto je betaverze a může obsahovat chyby nebo se chovat neočekávaně. Také má nedodělané vlastnosti, ale přesto jste zváni, abyste ji vyzkoušeli!&lt;/p&gt;&lt;p&gt;Podívejte se na stránky programu &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;&lt;/a&gt;, kde naleznete více podrobností a informace o dalších vydáních.&lt;/p&gt;&lt;p&gt;Jakékoli chyby programu, návrhy, překlady (a tak dále a tak podobně) posílejte na adresu: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;.&lt;p/&gt;&lt;p&gt;V úctě autor</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="98"/>
@@ -746,17 +746,17 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="312"/>
         <source>Given note show </source>
-        <translation>Ukažte zadanou notu </translation>
+        <translation>Ukažte danou notu </translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="327"/>
         <source>Given note name show </source>
-        <translation>Ukažte název zadané noty </translation>
+        <translation>Ukažte název dané noty </translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="332"/>
         <source>Given position show </source>
-        <translation>Ukažte zadanou polohu </translation>
+        <translation>Ukažte danou polohu </translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="339"/>
@@ -792,17 +792,17 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="925"/>
         <source>Press &lt;img src=&quot;%1&quot;&gt;</source>
-        <translation>Stiskněte &lt;img src=&quot;%1&quot;&gt;</translation>
+        <translation>Stiskněte &lt;img src=&quot;%1&quot;&gt;,</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="925"/>
         <source>&lt;br&gt;or &lt;b&gt;space&lt;/b&gt; to get next question.</source>
-        <translation>&lt;br&gt;nebo &lt;b&gt;mezerník&lt;/b&gt;, abyste dostal další otázku.</translation>
+        <translation>&lt;br&gt;nebo stiskněte &lt;b&gt;mezerník&lt;/b&gt;, abyste dostal další otázku.</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="604"/>
         <source>&lt;br&gt;Click &lt;img src=&quot;%1&quot;&gt; buton&lt;br&gt;or press &lt;b&gt;backspace&lt;/b&gt; to correct an answer.</source>
-        <translation>&lt;br&gt;Klepněte na tlačítko &lt;img src=&quot;%1&quot;&gt;&lt;br&gt; nebo stiskněte klávesu&lt;b&gt;Backspace&lt;/b&gt; kvůli opravě odpovědi.</translation>
+        <translation>&lt;br&gt;Klepněte na tlačítko &lt;img src=&quot;%1&quot;&gt;&lt;br&gt;, nebo stiskněte klávesu &lt;b&gt;Backspace&lt;/b&gt; kvůli opravě odpovědi.</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="672"/>
@@ -899,7 +899,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="828"/>
         <source> Don&apos;t use accidentals!</source>
-        <translation>Nepoužívat posuvky!</translation>
+        <translation> Nepoužívejte posuvky!</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="856"/>
@@ -973,7 +973,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="53"/>
         <source>&lt;center&gt;Guitar notation uses treble clef with &quot;eight&quot; digit below (even if some editors are forgeting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; &lt;img src=&quot;%1&quot;&gt; &lt;img src=&quot;%2&quot;&gt;&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note c in one-line octave)&lt;/center&gt;&lt;/p&gt;</source>
-        <translation>&lt;center&gt;Kytarový zápis používá houslový klíč s číslicí &quot;osm&quot; dole (i když na tuto číslici někteří vydavatelé zapomínají).&lt;br&gt;&lt;br&gt;Pokuste se pochopit toto. &lt;br&gt;&lt;br&gt;&lt;p&gt; &lt;img src=&quot;%1&quot;&gt; &lt;img src=&quot;%2&quot;&gt;&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Obadva obrázky nahoře ukazují tu samou notu: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(nota c v jednočárkové oktávě)&lt;/center&gt;&lt;/p&gt;</translation>
+        <translation>&lt;center&gt;Kytarový zápis používá houslový klíč s číslicí &quot;osm&quot; dole (i když na tuto číslici někteří vydavatelé zapomínají).&lt;br&gt;&lt;br&gt;Pokuste se porozumět tomuto. &lt;br&gt;&lt;br&gt;&lt;p&gt; &lt;img src=&quot;%1&quot;&gt; &lt;img src=&quot;%2&quot;&gt;&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Oba dva obrázky nahoře ukazují tu samou notu: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(nota c v jednočárkové oktávě)&lt;/center&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="90"/>
@@ -1033,7 +1033,7 @@ ale nebyla uložena!</translation>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="155"/>
         <source>&lt;li&gt;Range of frets is beyond scale of this level&lt;/li&gt;</source>
-        <translation>&lt;li&gt;Rozmezí pražců je za rozsahem této úrovně&lt;/li&gt;</translation>
+        <translation>&lt;li&gt;Rozmezí pražců je mimo rozsah této úrovně&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="162"/>
@@ -1138,7 +1138,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <source>
  no level selected</source>
         <translation>
- Nebyla vybrána žádná úroveň</translation>
+Nebyla vybrána žádná úroveň</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="319"/>
@@ -1269,7 +1269,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/tnotename.cpp" line="175"/>
         <source>The note is beyond&lt;br&gt;scale of the guitar</source>
-        <translation>Nota je za &lt;br&gt;rozsahem kytary</translation>
+        <translation>Nota je mimo &lt;br&gt;rozsah kytary</translation>
     </message>
 </context>
 <context>
@@ -1287,7 +1287,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="129"/>
         <source>I know that e# is the same as f</source>
-        <translation>Vím, že e# je to samé co f</translation>
+        <translation>Vím, že eis je to samé co f</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="133"/>
@@ -1330,22 +1330,22 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/level/tquestionaswdg.h" line="40"/>
         <source>as note in the score</source>
-        <translation>Jako nota v notovém zápisu</translation>
+        <translation>jako notu v notovém zápisu</translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.h" line="41"/>
         <source>as note&apos;s name</source>
-        <translation>Jako název noty</translation>
+        <translation>jako název noty</translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.h" line="42"/>
         <source>as position on the fingerboard</source>
-        <translation>Jako poloha na hmatníku</translation>
+        <translation>jako polohu na hmatníku</translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.h" line="43"/>
         <source>as played sound</source>
-        <translation>Jako přehrávaný zvuk</translation>
+        <translation>jako přehrávaný zvuk</translation>
     </message>
 </context>
 <context>
@@ -1353,7 +1353,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/score/tscorewidget.cpp" line="34"/>
         <source>Click to sellect a note, use mouse wheel to change accidentals.</source>
-        <translation>Klepněte pro výběr noty. Použijte koločko myši pro změnu posuvek.</translation>
+        <translation>Klepněte pro výběr noty. Použijte kolečko myši pro změnu posuvek.</translation>
     </message>
 </context>
 <context>
