@@ -11,7 +11,7 @@ include_directories(${QT_INCLUDES})
 
 SET(Nootka_VERSION_MAJOR  "0")
 SET(Nootka_VERSION_MINOR  "7")
-SET(Nootka_VERSION_PATCH  "8-beta1")
+SET(Nootka_VERSION_PATCH  "8")
 
 SET(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
 SET(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
@@ -166,15 +166,20 @@ IF(UNIX AND NOT APPLE)
    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake
 )
 
-  add_custom_target(build-deb
-	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/packaging/build-deb.sh ${Nootka_VERSION_FULL} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}
-   )
 ELSE(UNIX AND NOT APPLE)
     add_custom_target(uninstall
         COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake
   )
 ENDIF(UNIX AND NOT APPLE)
 
+###########################################################################
+#	cpack packaging
+###########################################################################
+IF(UNIX AND NOT APPLE)
+	add_custom_target(deb
+	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/packaging/build-deb.sh ${Nootka_VERSION_FULL} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}
+   )
+ENDIF(UNIX AND NOT APPLE)
 ###########################################################################
 #	cpack rules
 ###########################################################################
