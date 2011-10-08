@@ -16,4 +16,26 @@ ARCH=$(uname -m)
 printf "\033[01;35mBuilding Debian binary package for \033[01;32mnootka-$VERSION-$ARCH\n" 
 printf "\033[01;00m"
 
-mkdir -p 
+# echo 
+# DEB_TOOLS=0
+# if [ $(whereis fakeroot|grep bin) ]; then
+
+
+if [ -f $BUILD_DIR/src/nootka ]; then
+  # Cleaning previous 
+  if [ -d $BUILD_DIR/debian ]; then
+    echo "cleaning...."
+    rm -rf $BUILD_DIR/debian
+  fi
+  # Building dir tree
+  mkdir -p $BUILD_DIR/debian/DEBIAN
+  mkdir -p $BUILD_DIR/debian/usr/bin
+  mkdir -p $BUILD_DIR/debian/usr/share/nootka/doc/nootka
+
+
+
+
+
+else
+  printf "\033[01;31mNootka executable doesn't exist. Compile it first !!!\033[01;00m\n"
+fi
