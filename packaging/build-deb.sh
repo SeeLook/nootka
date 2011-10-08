@@ -48,11 +48,13 @@ if [ -f $BUILD_DIR/src/nootka ]; then
 	mkdir -p $BUILD_DIR/debian/usr/bin
 	mkdir -p $BUILD_DIR/debian/usr/share/nootka/doc/nootka
 	mkdir -p $BUILD_DIR/debian/usr/share/nootka/mime/packages
+	mkdir -p $BUILD_DIR/debian/usr/share/man/man1
 
 	echo " - copying files..."
 	cp $BUILD_DIR/src/nootka $BUILD_DIR/debian/usr/bin/
 	$SRC_DIR/packaging/debian/control.sh $VERSION $ARCH > $BUILD_DIR/debian/DEBIAN/control
-
+	cp $SRC_DIR/packaging/nootka.1 $BUILD_DIR/debian/usr/share/man/man1/
+	gzip --best $BUILD_DIR/debian/usr/share/man/man1/nootka.1
 
 
 
