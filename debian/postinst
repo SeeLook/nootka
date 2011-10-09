@@ -1,9 +1,0 @@
-#!/bin/sh
-set -e
-# Automatically added by dh_installdocs
-# if [ "$1" = "configure" ]; then
-#   if [ -d /usr/doc -a ! -e /usr/doc/parted -a -d /usr/share/doc/parted ]; then
-#     ln -sf ../share/doc/parted /usr/doc/parted
-#   fi
-# fi
-# End automatically added section

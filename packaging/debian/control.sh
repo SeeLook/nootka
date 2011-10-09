@@ -1,8 +1,6 @@
 #!/bin/sh
 # USAGE:
-# control.sh nootka-version sys-arch
-
-
+#       control.sh nootka-version sys-arch
 
 cat <<EOF
 Package: nootka
@@ -20,7 +18,7 @@ Description: Application to help with learning classical score notation.
  .
  Features:
  numerous settings to personalize for user needs and capabilities,
- natural, classical guitar sound output and midi also
+ natural, classical guitar sound output and also midi
  support for different name-callings of the notes,
  scordatures, exams with different levels,
  levels creator with wide range of settings

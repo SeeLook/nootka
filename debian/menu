@@ -1,4 +1,0 @@
-?package(nootka):needs="X11" section="Apps/Education" \
-  title="Nootka" \
-  icon="/usr/share/nootka/picts/nootka.svg" \
-  command="/usr/bin/nootka"
