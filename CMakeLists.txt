@@ -173,9 +173,12 @@ ELSE(UNIX AND NOT APPLE)
 ENDIF(UNIX AND NOT APPLE)
 
 ###########################################################################
-#	cpack packaging
+#	packaging targets (deb)
 ###########################################################################
 IF(UNIX AND NOT APPLE)
+    execute_process(COMMAND printf "\n\n\nTo build deb package call:\n")
+    execute_process(COMMAND printf "\tmake deb\n\n\n" )
+
 	add_custom_target(deb
 	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/packaging/build-deb.sh ${Nootka_VERSION_FULL} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}
    )
