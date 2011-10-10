@@ -74,6 +74,7 @@ if [ -f $BUILD_DIR/src/nootka ]; then
 	gzip --best $BUILD_DIR/debian/usr/share/man/man1/nootka.1
 
 	$SRC_DIR/mime/nel-noo.sh /usr > $BUILD_DIR/debian/usr/share/mime/packages/nootka.xml
+	sed -i 's/nootka\/picts/pixmaps/g' $BUILD_DIR/debian/usr/share/mime/packages/nootka.xml
 	cp $SRC_DIR/mime/nootka.desktop $BUILD_DIR/debian/usr/share/applications/
 	cp $SRC_DIR/picts/nootka.svg $BUILD_DIR/debian/usr/share/pixmaps
 	cp $SRC_DIR/picts/levelCreator.png $BUILD_DIR/debian/usr/share/pixmaps
