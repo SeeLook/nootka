@@ -186,5 +186,4 @@ ENDIF(UNIX AND NOT APPLE)
 ###########################################################################
 #	cpack rules
 ###########################################################################
-# unforunately pack manually works better than cmake. Rules (not working) are moved 
-# to packaging/cpack.cmake file
+add_subdirectory(packaging)
