@@ -14,11 +14,12 @@ SRC_DIR=$3
 
 printf "Nootka ($VERSION) all-deb; urgency=low\n" > $BUILD_DIR/doc/changelog
 echo "
- * Changes:
+  * Changes set:
 " >> $BUILD_DIR/doc/changelog
-cat $SRC_DIR/changelog >> $BUILD_DIR/doc/changelog
+$SRC_DIR/packaging/getLastChangesSet.sh $SRC_DIR/changelog >> $BUILD_DIR/doc/changelog
 # echo " -- See Look <seelook@gmail.com>  $(date +%G-%m-%d)" >> $BUILD_DIR/doc/changelog
-echo " -- See Look <seelook@gmail.com>  $(date -R)" >> $BUILD_DIR/doc/changelog
+echo "
+ -- See Look <seelook@gmail.com>  $(date -R)" >> $BUILD_DIR/doc/changelog
 echo "
 " >> $BUILD_DIR/doc/changelog
 gzip -f --best $BUILD_DIR/doc/changelog

@@ -1,7 +1,3 @@
-0.8
-  Under the hood
-    - make target for building deb packages
-
 0.7.8
     - added Czech translation
     - added language selector to settings
