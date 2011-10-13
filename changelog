@@ -1,4 +1,4 @@
-
+0.8
   Under the hood
     - make target for building deb packages
 
@@ -9,8 +9,8 @@
   BUGS FIXES
     - key signatures sufixes are translated properly
     - removed untranslated strings
-    - fixed segmentation fault occured after run on some platforms (Fedora, Debian)
-
+    - fixed segmentation fault occured after run on some 
+      platforms (Fedora, Debian)
 
 0.7.7
     - !!! Sound output added, also questions as played sound !!!
@@ -23,7 +23,8 @@
     - questions and answers view is more clear
     - right mouse button asks questions and checks answers
     - preventing to use levels with a range out of current tune and frets number
-    - possibility of changing colors (note pointer, finger/string pointer, questions/answers colors etc.)
+    - possibility of changing colors
+      (note pointer, finger/string pointer, questions/answers colors etc.)
   BUGS FIXES
     - fixed drawing last fret out of a fingerboard
     - fixed proper position of a clef and accidentals
@@ -32,16 +33,13 @@
     - Fixed behaviour of right mouse button over fingerboard
     - and few smaller bugs
 
-
 0.7.0
-    - executing exams !!!!!
+    - !!! executing exams !!!
     - storing user settings
     - created nootka font
     - added first run wizzard
-
 
 0.6
     - Levels creator dialog
   Under the hood
     - all resources moved out of executable file
-
