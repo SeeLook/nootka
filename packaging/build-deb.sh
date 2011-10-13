@@ -13,6 +13,8 @@ BUILD_DIR=$2
 SRC_DIR=$3
 ARCH=$(dpkg-architecture -qDEB_BUILD_ARCH)
 
+echo $SRC_DIR $BUILD_DIR
+
 printf "\033[01;35mBuilding Debian binary package for \033[01;32mnootka""_""$VERSION""_""$ARCH\n" 
 printf "\033[01;00m"
 
@@ -52,6 +54,7 @@ if [ -f $BUILD_DIR/src/nootka ]; then
 	mkdir -p $BUILD_DIR/debian/usr/share/pixmaps
 	mkdir -p $BUILD_DIR/debian/usr/share/nootka/lang
 	mkdir -p $BUILD_DIR/debian/usr/share/nootka/sounds
+	mkdir -p $BUILD_DIR/doc	
 
 	echo " - copying files..."
 	cp $BUILD_DIR/src/nootka $BUILD_DIR/debian/usr/bin/
@@ -84,7 +87,7 @@ if [ -f $BUILD_DIR/src/nootka ]; then
 	echo " - crearting deb package..."
 	fakeroot dpkg-deb --build $BUILD_DIR/debian
 
-	mv debian.deb nootka"_"$VERSION"_"$ARCH.deb
+	mv $BUILD_DIR/debian.deb $BUILD_DIR/nootka"_"$VERSION"_"$ARCH.deb
 
 	rm -rf $BUILD_DIR/debian
 
