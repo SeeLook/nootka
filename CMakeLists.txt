@@ -154,18 +154,6 @@ configure_file(
    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake
 )
 
-###########################################################################
-#	packaging targets (deb)
-###########################################################################
-IF(UNIX AND NOT APPLE)
-    execute_process(COMMAND printf "\n\n\nTo build deb package call:\n")
-    execute_process(COMMAND printf "\tmake deb\n\n\n" )
 
-	add_custom_target(deb
-	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/packaging/build-deb.sh ${Nootka_VERSION_FULL} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}
-   )
-ENDIF(UNIX AND NOT APPLE)
-###########################################################################
-#	cpack rules
-###########################################################################
-add_subdirectory(packaging)
+add_subdirectory(mime) # target for make install-mime
+add_subdirectory(packaging) # cpack rules
