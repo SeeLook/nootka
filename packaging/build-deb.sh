@@ -1,6 +1,6 @@
 #! /bin/bash
 # Script for building Nootka debian biniary package
-# It ussualy is invoked by make deb
+# It usualy is invoked by make deb
 # USAGE:
 # build-deb.sh version build-directory source-directory
 # 
@@ -13,7 +13,7 @@ BUILD_DIR=$2
 SRC_DIR=$3
 ARCH=$(dpkg-architecture -qDEB_BUILD_ARCH)
 
-printf "\033[01;35mBuilding Debian binary package for \033[01;32mnootka-$VERSION""_""$ARCH\n" 
+printf "\033[01;35mBuilding Debian binary package for \033[01;32mnootka""_""$VERSION""_""$ARCH\n" 
 printf "\033[01;00m"
 
 echo " - Searching for tools for building deb package..."
@@ -61,20 +61,15 @@ if [ -f $BUILD_DIR/src/nootka ]; then
 	cp $SRC_DIR/packaging/debian/postrm $BUILD_DIR/debian/DEBIAN/
 
 	cp $SRC_DIR/copyright $BUILD_DIR/debian/usr/share/doc/nootka/
-	printf "Nootka ($VERSION) all-deb; urgency=low\n\n  * " > $BUILD_DIR/debian/usr/share/doc/nootka/changelog
-# 	cat $SRC_DIR/changelog >> $BUILD_DIR/debian/usr/share/doc/nootka/changelog
-# 	cat $SRC_DIR/packaging/debian/changelog >> $BUILD_DIR/debian/usr/share/doc/nootka/changelog
-# 	echo "" >> $BUILD_DIR/debian/usr/share/doc/nootka/changelog
-# 	echo " -- See Look <seelook@gmail.com>  $(date -R)" >> $BUILD_DIR/debian/usr/share/doc/nootka/changelog	
-# 	echo "" >> $BUILD_DIR/debian/usr/share/doc/nootka/changelog
-	cp $SRC_DIR/packaging/debian/changelog $BUILD_DIR/debian/usr/share/doc/nootka/changelog
-	gzip --best $BUILD_DIR/debian/usr/share/doc/nootka/changelog
+	$SRC_DIR/packaging/make-chlog.sh $VERSION $BUILD_DIR $SRC_DIR
+# 	cp $SRC_DIR/packaging/debian/changelog $BUILD_DIR/debian/usr/share/doc/nootka/changelog
+	cp $BUILD_DIR/doc/changelog.gz $BUILD_DIR/debian/usr/share/doc/nootka/
 
-	cp $SRC_DIR/packaging/nootka.1 $BUILD_DIR/debian/usr/share/man/man1/
-	gzip --best $BUILD_DIR/debian/usr/share/man/man1/nootka.1
+	cp $SRC_DIR/packaging/nootka.1.gz $BUILD_DIR/debian/usr/share/man/man1/
+# 	gzip --best $BUILD_DIR/debian/usr/share/man/man1/nootka.1
 
 	$SRC_DIR/mime/nel-noo.sh /usr > $BUILD_DIR/debian/usr/share/mime/packages/nootka.xml
-	sed -i 's/nootka\/picts/pixmaps/g' $BUILD_DIR/debian/usr/share/mime/packages/nootka.xml
+# 	sed -i 's/nootka\/picts/pixmaps/g' $BUILD_DIR/debian/usr/share/mime/packages/nootka.xml
 	cp $SRC_DIR/mime/nootka.desktop $BUILD_DIR/debian/usr/share/applications/
 	cp $SRC_DIR/picts/nootka.svg $BUILD_DIR/debian/usr/share/pixmaps
 	cp $SRC_DIR/picts/levelCreator.png $BUILD_DIR/debian/usr/share/pixmaps
@@ -89,7 +84,7 @@ if [ -f $BUILD_DIR/src/nootka ]; then
 	echo " - crearting deb package..."
 	fakeroot dpkg-deb --build $BUILD_DIR/debian
 
-	mv debian.deb nootka-$VERSION"_"$ARCH.deb
+	mv debian.deb nootka"_"$VERSION"_"$ARCH.deb
 
 	rm -rf $BUILD_DIR/debian
 

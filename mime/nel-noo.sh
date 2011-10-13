@@ -9,7 +9,7 @@ cat <<EOF
     <comment>Nootka exam's level</comment>
     <comment xml:lang="cs">Úroveň zkoušky programu Nootka</comment>
     <comment xml:lang="pl">Poziom egzaminu programu Nootka</comment>
-    <icon name="levelCreator">$1/share/nootka/picts/levelCreator.png</icon>
+    <icon name="levelCreator">$1/share/pixmaps/levelCreator.png</icon>
     <glob pattern="*.nel"/>
     <acronym>NEL</acronym>
     <expanded-acronym>Nootka Exam's Level</expanded-acronym>
@@ -21,7 +21,7 @@ cat <<EOF
     <comment>Nootka exam file</comment>
     <comment xml:lang="cs">Zkušební soubor programu Nootka</comment>
     <comment xml:lang="pl">Plik egzaminu programu Nootka</comment>
-    <icon name="nootka-exam">$1/share/nootka/picts/nootka-exam.png</icon>
+    <icon name="nootka-exam">$1/share/pixmaps/nootka-exam.png</icon>
     <glob pattern="*.noo" />
   </mime-type>
 
