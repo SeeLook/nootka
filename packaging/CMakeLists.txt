@@ -25,7 +25,11 @@ IF(UNIX AND NOT APPLE)
     execute_process(COMMAND printf "\tmake deb\n\n\n" )
 
 	add_custom_target(deb
-	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/build-deb.sh ${Nootka_VERSION_FULL} ${CMAKE_BINARY_DIR} "${CMAKE_SOURCE_DIR}"
+	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/build-deb.sh ${Nootka_VERSION_FULL} ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR} "${CMAKE_BINARY_DIR}/debian"
+   )
+	
+	add_custom_target(rpm
+	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/build-rpm.sh ${Nootka_VERSION_FULL} ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR} "${CMAKE_BINARY_DIR}/rpm"
    )
 ENDIF(UNIX AND NOT APPLE)
 
