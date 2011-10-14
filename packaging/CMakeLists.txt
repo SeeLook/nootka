@@ -14,7 +14,7 @@ set(CPACK_PACKAGE_VERSION ${Nootka_VERSION_FULL})
 
 set(CPACK_PACKAGE_CONTACT "See Look <seelook@gmail.com>")
 
-set(CPACK_PACKAGE_NAME "nootka_${CPACK_PACKAGE_VERSION}")
+set(CPACK_PACKAGE_NAME "nootka")
 
 
 ###########################################################################
@@ -66,7 +66,8 @@ set(CPACK_RPM_PACKAGE_URL "http://nootka.sf.net")
 # CPACK_RPM_COMPRESSION_TYPE #  Possible value are: lzma, xz, bzip2 and gzip.
 # set(CPACK_RPM_PACKAGE_REQUIRES "libc6 (>= 2.9), libqt4-core (>= 4.6), libqt4-gui (>= 4.6), libportaudio2")
 set(CPACK_RPM_PACKAGE_SUGGESTS "timidity")
-set(CPACK_RPM_SPEC_INSTALL_POST "/usr/bin/update-desktop-database &> /dev/null || : && /usr/bin/update-mime-database %{_datadir}/mime &> /dev/null || :")
+# set(CPACK_RPM_SPEC_INSTALL_POST "/usr/bin/update-desktop-database &> /dev/null || :
+# /usr/bin/update-mime-database %{_datadir}/mime &> /dev/null || :")
 # CPACK_RPM_SPEC_MORE_DEFINE # May be used to add any %define lines to the generated spec file.
 # CPACK_RPM_PACKAGE_DEBUG # cpack -D CPACK_RPM_PACKAGE_DEBUG=1 -G RPM
 #          CPACK_RPM_USER_BINARY_SPECFILE
@@ -92,8 +93,8 @@ set(CPACK_RPM_SPEC_INSTALL_POST "/usr/bin/update-desktop-database &> /dev/null |
 #             put after the %pre or %preun section
 #             One may verify which scriptlet has been included with
 #              rpm -qp --scripts  package.rpm
-#          CPACK_RPM_POST_INSTALL_SCRIPT_FILE
-#          CPACK_RPM_POST_UNINSTALL_SCRIPT_FILE
+set(CPACK_RPM_POST_INSTALL_SCRIPT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/rpm/rpm-post.sh")
+set(PACK_RPM_POST_UNINSTALL_SCRIPT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/rpm/rpm-post.sh")
 #             Mandatory : NO
 #             Default   : -
 #             May be used to embbed a post (un)installation script in the spec file.
