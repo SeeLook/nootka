@@ -1,4 +1,5 @@
 #! /bin/bash
+# A param is changelog ffile
 
 IFS="
 "
