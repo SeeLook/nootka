@@ -70,7 +70,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 
 
     QTextEdit *licenseTxt = new QTextEdit();
-    QFile file(gl->path + "LICENSE");
+    QFile file(gl->path + "gpl");
         if(file.open(QFile::ReadOnly | QFile::Text))
         {
 	      QTextStream in(&file);

@@ -9,6 +9,8 @@ TNOTEVIEW
 
 SETTINGS DIALOG
     - disable maximize button on titlebar
+	- aadd "restore defaults" button
+	- avoid to size biger than screen resolution
 
 TSCOREWIDGETSIMPLE
     - use enableDblAcc in TscoreWidgetSimple to avoid waste hiding or showing dbl accid buttons
@@ -31,6 +33,7 @@ TKEYSIGNATURE
 TFIRSTRUNWIZZARD & NAMESETTINGS
 
 !!!!! LEVELS
+	- validation has to be improved
 
 
 MAINWINDOW
