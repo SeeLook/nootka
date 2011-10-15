@@ -42,7 +42,18 @@ set(CPACK_DEBIAN_PACKAGE_NAME "nootka_${CPACK_PACKAGE_VERSION}_${CPACK_DEBIAN_PA
 set(CPACK_DEBIAN_PACKAGE_NAME "nootka" )
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.9), libqt4-core (>= 4.6), libqt4-gui (>= 4.6), libportaudio2")
 #CPACK_DEBIAN_PACKAGE_MAINTAINER #CPACK_PACKAGE_CONTACT
-# set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "${CMAKE_CURRENT_SOURCE_DIR}/nootka-desc") #CPACK_PACKAGE_DESCRIPTION_SUMMARY
+set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Application to help with learning classical score notation.
+ Mostly it is for guitarists,
+ but it can be used for ear training as well.
+ .
+ Features:
+ numerous settings to personalize for user needs and capabilities,
+ natural, classical guitar sound output and also midi
+ support for different name-callings of the notes,
+ scordatures, exams with different levels,
+ levels creator with wide range of settings
+ .
+ http://nootka.sf.net") #CPACK_PACKAGE_DESCRIPTION_SUMMARY
 set(CPACK_DEBIAN_PACKAGE_SECTION "Education")
 # CPACK_DEBIAN_PACKAGE_PRIORITY #optional
 set(CPACK_DEBIAN_PACKAGE_HOMEPAGE "http://nootka.sf.net")
@@ -64,7 +75,7 @@ set(CPACK_RPM_PACKAGE_VENDOR "Nootka")
 set(CPACK_RPM_PACKAGE_URL "http://nootka.sf.net")
 # CPACK_RPM_PACKAGE_DESCRIPTION # Default   : CPACK_PACKAGE_DESCRIPTION_FILE if set or "no package description available"
 # CPACK_RPM_COMPRESSION_TYPE #  Possible value are: lzma, xz, bzip2 and gzip.
-# set(CPACK_RPM_PACKAGE_REQUIRES "libc6 (>= 2.9), libqt4-core (>= 4.6), libqt4-gui (>= 4.6), libportaudio2")
+set(CPACK_RPM_PACKAGE_REQUIRES "libc6 >= 2.9, libqt4-core >= 4.6, libqt4-gui >= 4.6, libportaudio2")
 set(CPACK_RPM_PACKAGE_SUGGESTS "timidity")
 # set(CPACK_RPM_SPEC_INSTALL_POST "/usr/bin/update-desktop-database &> /dev/null || :
 # /usr/bin/update-mime-database %{_datadir}/mime &> /dev/null || :")
@@ -94,7 +105,7 @@ set(CPACK_RPM_PACKAGE_SUGGESTS "timidity")
 #             One may verify which scriptlet has been included with
 #              rpm -qp --scripts  package.rpm
 set(CPACK_RPM_POST_INSTALL_SCRIPT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/rpm/rpm-post.sh")
-set(PACK_RPM_POST_UNINSTALL_SCRIPT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/rpm/rpm-post.sh")
+set(CPACK_RPM_POST_UNINSTALL_SCRIPT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/rpm/rpm-post.sh")
 #             Mandatory : NO
 #             Default   : -
 #             May be used to embbed a post (un)installation script in the spec file.
@@ -122,7 +133,7 @@ else (MINGW)
   if (NOT APPLE)
     set(CPACK_STRIP_FILES "nootka")
     set(CPACK_GENERATOR "RPM;DEB;TBZ2")
-#    set(CPACK_GENERATOR "DEB")
+#    set(CPACK_GENERATOR "RPM")
     set(CPACK_DEB "on")
   endif (NOT APPLE)
 endif (MINGW)
