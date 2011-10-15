@@ -32,7 +32,7 @@ cp $SRC_DIR/picts/nootka.svg $ROOT_DIR/usr/share/pixmaps
 cp $SRC_DIR/picts/levelCreator.png $ROOT_DIR/usr/share/pixmaps
 cp $SRC_DIR/picts/nootka-exam.png $ROOT_DIR/usr/share/pixmaps
 
-cp $SRC_DIR/LICENSE $ROOT_DIR/usr/share/nootka/
+cp $SRC_DIR/gpl $ROOT_DIR/usr/share/nootka/
 cp $SRC_DIR/lang/*.qm $ROOT_DIR/usr/share/nootka/lang/
 cp -r $SRC_DIR/fonts $ROOT_DIR/usr/share/nootka/
 cp -r $SRC_DIR/picts $ROOT_DIR/usr/share/nootka/
