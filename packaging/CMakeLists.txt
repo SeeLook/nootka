@@ -20,34 +20,34 @@ set(CPACK_PACKAGE_NAME "nootka")
 ###########################################################################
 #	packaging targets (deb)
 ###########################################################################
-IF(UNIX AND NOT APPLE)
-    execute_process(COMMAND printf "\n\n\nTo build deb package call:\n")
-    execute_process(COMMAND printf "\tmake deb\n\n\n" )
-
-	add_custom_target(deb
-	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/build-deb.sh ${Nootka_VERSION_FULL} ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR} "${CMAKE_BINARY_DIR}/debian"
-   )
-	
-	add_custom_target(rpm
-	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/build-rpm.sh ${Nootka_VERSION_FULL} ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR} "${CMAKE_BINARY_DIR}/rpm"
-   )
-ENDIF(UNIX AND NOT APPLE)
+# IF(UNIX AND NOT APPLE)
+#     execute_process(COMMAND printf "\n\n\nTo build deb package call:\n")
+#     execute_process(COMMAND printf "\tmake deb\n\n\n" )
+# 
+# 	add_custom_target(deb
+# 	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/build-deb.sh ${Nootka_VERSION_FULL} ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR} "${CMAKE_BINARY_DIR}/debian"
+#    )
+# 	
+# 	add_custom_target(rpm
+# 	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/build-rpm.sh ${Nootka_VERSION_FULL} ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR} "${CMAKE_BINARY_DIR}/rpm"
+#    )
+# # ENDIF(UNIX AND NOT APPLE)
 
 ##########################################################################################
 #		cmake/cpack	DEB  generator 
 ##########################################################################################
-# CPACK_DEBIAN_PACKAGE_NAME #default CPACK_PACKAGE_NAME
+set(CPACK_DEBIAN_PACKAGE_NAME "nootka_${CPACK_PACKAGE_VERSION}_${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}") #default CPACK_PACKAGE_NAME
 # CPACK_DEBIAN_PACKAGE_VERSION #CPACK_PACKAGE_VERSION
 # CPACK_DEBIAN_PACKAGE_ARCHITECTURE #dpkg --print-architecture or i386
 set(CPACK_DEBIAN_PACKAGE_NAME "nootka" )
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.9), libqt4-core (>= 4.6), libqt4-gui (>= 4.6), libportaudio2")
 #CPACK_DEBIAN_PACKAGE_MAINTAINER #CPACK_PACKAGE_CONTACT
-set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "${CMAKE_CURRENT_SOURCE_DIR}/nootka-desc") #CPACK_PACKAGE_DESCRIPTION_SUMMARY
+# set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "${CMAKE_CURRENT_SOURCE_DIR}/nootka-desc") #CPACK_PACKAGE_DESCRIPTION_SUMMARY
 set(CPACK_DEBIAN_PACKAGE_SECTION "Education")
 # CPACK_DEBIAN_PACKAGE_PRIORITY #optional
-# CPACK_DEBIAN_PACKAGE_HOMEPAGE
+set(CPACK_DEBIAN_PACKAGE_HOMEPAGE "http://nootka.sf.net")
 set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "timidity")
-set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_CURRENT_SOURCE_DIR}/debian/postinst;${CMAKE_CURRENT_SOURCE_DIR}/debian/prerm" )
+set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_CURRENT_SOURCE_DIR}/debian/postinst;${CMAKE_CURRENT_SOURCE_DIR}/debian/postrm" )
 
 
 ##########################################################################################
@@ -120,8 +120,9 @@ if (MINGW)
 #   set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/packaging" ${CMAKE_MODULE_PATH}) # Use custom version of NSIS.InstallOptions.ini
 else (MINGW)
   if (NOT APPLE)
-	set(CPACK_STRIP_FILES "nootka")
+    set(CPACK_STRIP_FILES "nootka")
     set(CPACK_GENERATOR "RPM;DEB;TBZ2")
+#    set(CPACK_GENERATOR "DEB")
     set(CPACK_DEB "on")
   endif (NOT APPLE)
 endif (MINGW)
