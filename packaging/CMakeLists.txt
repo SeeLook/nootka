@@ -75,7 +75,7 @@ set(CPACK_RPM_PACKAGE_VENDOR "Nootka")
 set(CPACK_RPM_PACKAGE_URL "http://nootka.sf.net")
 # CPACK_RPM_PACKAGE_DESCRIPTION # Default   : CPACK_PACKAGE_DESCRIPTION_FILE if set or "no package description available"
 # CPACK_RPM_COMPRESSION_TYPE #  Possible value are: lzma, xz, bzip2 and gzip.
-set(CPACK_RPM_PACKAGE_REQUIRES "libc6 >= 2.9, libqt4-core >= 4.6, libqt4-gui >= 4.6, libportaudio2")
+set(CPACK_RPM_PACKAGE_REQUIRES "libqt4-core >= 4.6, libqt4-gui >= 4.6, portaudio-19")
 set(CPACK_RPM_PACKAGE_SUGGESTS "timidity")
 # set(CPACK_RPM_SPEC_INSTALL_POST "/usr/bin/update-desktop-database &> /dev/null || :
 # /usr/bin/update-mime-database %{_datadir}/mime &> /dev/null || :")
