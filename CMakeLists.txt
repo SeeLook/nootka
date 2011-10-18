@@ -85,6 +85,7 @@ IF(UNIX)
 			asound
 		  PATHS
 			/usr/lib
+			/usr/lib/x86_64-linux-gnu
 			/usr/local/lib
 			/opt/local/lib
   )
@@ -93,6 +94,7 @@ IF(UNIX)
 			pthread
 		  PATHS
 			/usr/lib
+			/usr/lib/x86_64-linux-gnu
 			/usr/local/lib
 			/opt/local/lib
   )
