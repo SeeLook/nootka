@@ -2,7 +2,7 @@
 
 INCLUDE_DIRECTORIES (. exam info level score settings sound)
 
-SET( NOOTKA_SRCS
+SET( NOOTKA_SRCS 
   main.cpp
   mainwindow.cpp
   tglobals.cpp
@@ -18,6 +18,7 @@ SET( NOOTKA_SRCS
   score/tkeysignatureview.cpp
   score/tkeysignature.cpp
   score/tclefview.cpp
+  score/tpushbutton.cpp
 ###### Settings
   settings/settingsdialog.cpp
   settings/tsettingsdialogbase.cpp
@@ -67,6 +68,7 @@ SET( NOOTKA_MOC_SRCS
   score/tkeysignatureview.h
   score/tkeysignatureview.h
   score/tclefview.h
+  score/tpushbutton.h
 ###### Settings
   settings/settingsdialog.h
   settings/tsettingsdialogbase.h

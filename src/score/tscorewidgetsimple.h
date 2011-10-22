@@ -21,6 +21,7 @@
 
 #include <QWidget>
 #include "tnote.h"
+#include "tpushbutton.h"
 
 class TnoteView;
 class TkeySignatureView;
@@ -112,7 +113,8 @@ private:
         /** Returns Y position of note in TnoteView "unuts". */
     int getNotePos(Tnote note);
 
-    QPushButton *m_sharpBut, *m_flatBut, *m_dblSharpBut, *m_dblFlatBut;
+    QPushButton *m_sharpBut, *m_flatBut, *m_dblSharpBut;
+	TpushButton *m_dblFlatBut;
     TnotesList m_notes;
     bool m_hasScord;
     TclefView *m_clef;
