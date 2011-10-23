@@ -52,8 +52,7 @@ TscoreWidgetSimple::TscoreWidgetSimple(unsigned char _notesCount, QWidget *paren
     setButtons(m_sharpBut);
     m_flatBut = new TpushButton("b", this);
     setButtons(m_flatBut);
-//     m_dblFlatBut = new QPushButton("B", this);
-	m_dblFlatBut = new TpushButton("B", this);
+    m_dblFlatBut = new TpushButton("B", this);
     setButtons(m_dblFlatBut);
     QVBoxLayout *butLay = new QVBoxLayout;
     butLay->addStretch(1);
@@ -125,9 +124,7 @@ void TscoreWidgetSimple::resize() {
 
 void TscoreWidgetSimple::setButtons(QPushButton *button) {
     button->setFixedSize(40,45);
-//     button->setFixedWidth(40);
     button->setFont(QFont("nootka", 20, QFont::Normal));
-//     button->setIconSize(QSize(28,28));
 //     button->setCheckable(true);
 }
 
