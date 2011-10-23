@@ -19,8 +19,9 @@
 #include "tnotename.h"
 #include "tnoteview.h"
 #include "tglobals.h"
+#include "tpushbutton.h"
 #include <QtGui>
-//#include <iostream>
+
 
 extern Tglobals *gl;
 QString styleTxt = "border: 1px solid palette(Text); border-radius: 10px";
@@ -61,8 +62,8 @@ TnoteName::TnoteName(QWidget *parent) :
     noteLay->addStretch(1);
     noteGroup =new QButtonGroup(this);
     for (int i=0; i<7; i++) {
-        noteButtons[i] = new QPushButton(this);
-        noteButtons[i]->setCheckable(true);
+        noteButtons[i] = new TpushButton("", this);
+//         noteButtons[i]->setCheckable(true);
         noteLay->addWidget(noteButtons[i]);
         noteGroup->addButton(noteButtons[i],i);
     }
@@ -72,28 +73,28 @@ TnoteName::TnoteName(QWidget *parent) :
 // ACCID BUTTONS TOOOLBAR
     QHBoxLayout *accLay = new QHBoxLayout;
     accLay->addStretch(1);
-    dblFlatButt = new QPushButton("B", this);
+    dblFlatButt = new TpushButton("B", this);
     dblFlatButt->setFont(QFont("nootka", 10, QFont::Normal));
 //    dblFlatButt->setStyleSheet("background-image: none");
-    dblFlatButt->setCheckable(true);
+//     dblFlatButt->setCheckable(true);
     accLay->addWidget(dblFlatButt);
     connect(dblFlatButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
-    flatButt = new QPushButton("b", this);
+    flatButt = new TpushButton("b", this);
     flatButt->setFont(QFont("nootka", 10, QFont::Normal));
 //    flatButt->setFixedHeight(noteButtons[0]->height());
-    flatButt->setCheckable(true);
+//     flatButt->setCheckable(true);
     accLay->addWidget(flatButt);
     connect(flatButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
-    sharpButt = new QPushButton("#", this);
+    sharpButt = new TpushButton("#", this);
     sharpButt->setFont(QFont("nootka", 10, QFont::Normal));
 //    sharpButt->setFixedHeight(noteButtons[0]->height());
-    sharpButt->setCheckable(true);
+//     sharpButt->setCheckable(true);
     accLay->addWidget(sharpButt);
     connect(sharpButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
-    dblSharpButt = new QPushButton("x", this);
+    dblSharpButt = new TpushButton("x", this);
     dblSharpButt->setFont(QFont("nootka", 10, QFont::Normal));
 //    dblSharpButt->setFixedHeight(noteButtons[0]->height());
-    dblSharpButt->setCheckable(true);
+//     dblSharpButt->setCheckable(true);
     accLay->addWidget(dblSharpButt);
     connect(dblSharpButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     accLay->addStretch(1);
@@ -103,9 +104,9 @@ TnoteName::TnoteName(QWidget *parent) :
     octLay->addStretch(1);
     octaveGroup = new QButtonGroup(this);
     for (int i=0; i<6; i++) {
-        octaveButtons[i] = new QPushButton(tr(octaves[i]), this);
+        octaveButtons[i] = new TpushButton(tr(octaves[i]), this);
         octaveButtons[i]->setToolTip(tr(octavesFull[i]));
-        octaveButtons[i]->setCheckable(true);
+//         octaveButtons[i]->setCheckable(true);
         octLay->addWidget(octaveButtons[i]);
         octaveGroup->addButton(octaveButtons[i],i);
     }
