@@ -46,11 +46,11 @@ TscoreWidgetSimple::TscoreWidgetSimple(unsigned char _notesCount, QWidget *paren
     }
     keySignView = 0;
 
-    m_dblSharpBut = new QPushButton("x", this);
+    m_dblSharpBut = new TpushButton("x", this);
     setButtons(m_dblSharpBut);
-    m_sharpBut = new QPushButton("#", this);
+    m_sharpBut = new TpushButton("#", this);
     setButtons(m_sharpBut);
-    m_flatBut = new QPushButton("b", this);
+    m_flatBut = new TpushButton("b", this);
     setButtons(m_flatBut);
 //     m_dblFlatBut = new QPushButton("B", this);
 	m_dblFlatBut = new TpushButton("B", this);
