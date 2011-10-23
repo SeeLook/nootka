@@ -23,7 +23,7 @@
 #include "tnote.h"
 
 class QLabel;
-class QPushButton;
+class TpushButton;
 class QButtonGroup;
 
 class TnoteName : public QWidget
@@ -58,9 +58,9 @@ public slots:
 
 private:
     QLabel *nameLabel;
-    QPushButton *noteButtons[7];
-    QPushButton *octaveButtons[6];
-    QPushButton *dblFlatButt, *flatButt, *sharpButt, *dblSharpButt;
+    TpushButton *noteButtons[7];
+    TpushButton *octaveButtons[6];
+    TpushButton *dblFlatButt, *flatButt, *sharpButt, *dblSharpButt;
     QButtonGroup *noteGroup, *octaveGroup;
 
     TnotesList m_notes;

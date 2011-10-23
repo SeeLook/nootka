@@ -40,7 +40,7 @@ void TpushButton::setChecked(bool isChecked) {
 		setStyleSheet(QString("background-color: %1; color: %2; ")
 			.arg(m_backColor.name()).arg(m_textColor.name()));
 	else
-		setStyleSheet("background-color: transparent; color: palette(Text)");
+		setStyleSheet("background-color: native; color: native");
 	m_Ichecked = isChecked;
 }
 
