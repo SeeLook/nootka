@@ -24,6 +24,7 @@
 #include "tfirstrunwizzard.h"
 #include "examsettings.h"
 #include "tplayer.h"
+#include "tpushbutton.h"
 #include <QtGui>
 //#include <QDebug>
 
@@ -33,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     Ttune::prepareDefinedTunes();
+	TpushButton::setCheckColor(gl->SpointerColor, Tglobals::invertColor(gl->SpointerColor));
 
     setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
     setMinimumSize(640,480);
@@ -239,6 +241,7 @@ void MainWindow::createSettingsDialog() {
         noteWasClicked(0, noteName->getNoteName(0)); //refresh name
         guitar->acceptSettings(); //refresh guitar
         m_hintsChB->setChecked(gl->hintsEnabled);
+		TpushButton::setCheckColor(gl->SpointerColor, Tglobals::invertColor(gl->SpointerColor));
     } else { // create player again
 		if (gl->AoutSoundEnabled)
 			player = new Tplayer();
