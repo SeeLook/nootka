@@ -75,25 +75,21 @@ TnoteName::TnoteName(QWidget *parent) :
     accLay->addStretch(1);
     dblFlatButt = new TpushButton("B", this);
     dblFlatButt->setFont(QFont("nootka", 10, QFont::Normal));
-//    dblFlatButt->setStyleSheet("background-image: none");
 //     dblFlatButt->setCheckable(true);
     accLay->addWidget(dblFlatButt);
     connect(dblFlatButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     flatButt = new TpushButton("b", this);
     flatButt->setFont(QFont("nootka", 10, QFont::Normal));
-//    flatButt->setFixedHeight(noteButtons[0]->height());
 //     flatButt->setCheckable(true);
     accLay->addWidget(flatButt);
     connect(flatButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     sharpButt = new TpushButton("#", this);
     sharpButt->setFont(QFont("nootka", 10, QFont::Normal));
-//    sharpButt->setFixedHeight(noteButtons[0]->height());
 //     sharpButt->setCheckable(true);
     accLay->addWidget(sharpButt);
     connect(sharpButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     dblSharpButt = new TpushButton("x", this);
     dblSharpButt->setFont(QFont("nootka", 10, QFont::Normal));
-//    dblSharpButt->setFixedHeight(noteButtons[0]->height());
 //     dblSharpButt->setCheckable(true);
     accLay->addWidget(dblSharpButt);
     connect(dblSharpButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
@@ -140,7 +136,11 @@ void TnoteName::setNoteNamesOnButt(Tnote::EnameStyle nameStyle) {
 
 // private setNoteName method
 void TnoteName::setNoteName(char noteNr, char octNr, char accNr) {
-    m_notes[0] = Tnote(noteNr,octNr,accNr);
+	if (m_notes[0].note) {
+		noteButtons[m_notes[0].note-1]->setChecked(false);
+		octaveButtons[m_notes[0].octave-2]->setChecked(false);
+	}
+    m_notes[0] = Tnote(noteNr, octNr, accNr);
     if (noteNr) {
         if (gl->showEnharmNotes) {
             TnotesList enharmList = m_notes[0].getTheSameNotes(gl->doubleAccidentalsEnabled);
@@ -179,6 +179,10 @@ void TnoteName::setNameText() {
 
 /** public setNoteName methods */
 void TnoteName::setNoteName(Tnote note) {
+	if (m_notes[0].note) {
+		noteButtons[m_notes[0].note-1]->setChecked(false);
+		octaveButtons[m_notes[0].octave-2]->setChecked(false);
+	}		
     if (note.note) {
         m_notes[0] = note;
         setButtons(note);
@@ -216,6 +220,7 @@ void TnoteName::setEnabledDblAccid(bool isEnabled) {
 }
 
 void TnoteName::noteWasChanged(int noteNr) {
+	noteButtons[noteNr]->setChecked(true);
     setNoteName(noteNr+1, m_notes[0].octave, m_notes[0].acidental);
 }
 
@@ -254,6 +259,7 @@ void TnoteName::accidWasChanged() {
 }
 
 void TnoteName::octaveWasChanged(int octNr) {
+	octaveButtons[octNr]->setChecked(true);
     setNoteName(m_notes[0].note, octNr-2, m_notes[0].acidental);
 }
 
