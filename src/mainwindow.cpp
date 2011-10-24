@@ -34,7 +34,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     Ttune::prepareDefinedTunes();
-	TpushButton::setCheckColor(gl->SpointerColor, Tglobals::invertColor(gl->SpointerColor));
+// 	TpushButton::setCheckColor(gl->SpointerColor, Tglobals::invertColor(gl->SpointerColor));
+	TpushButton::setCheckColor(Tglobals::invertColor(palette().highlight().color().name()),
+		palette().highlight().color().name() );
 
     setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
     setMinimumSize(640,480);
@@ -225,7 +227,7 @@ void MainWindow::createSettingsDialog() {
 		player = 0;
 	}	/** player has to be deleted before calling of settingsdialog, 
 		* otherwise opened midi blocks audio devices to be listed.
-		* Unfortinately it invokes loading/ unloading wav file when real audio is enabled.
+		* Unfortinately it invokes loading/unloading wav file when real audio is enabled.
 		* It is not so anoyed even on older machines but not elegant.  */
     SettingsDialog *settings = new SettingsDialog(this);
     if (settings->exec() == QDialog::Accepted) {
@@ -241,7 +243,6 @@ void MainWindow::createSettingsDialog() {
         noteWasClicked(0, noteName->getNoteName(0)); //refresh name
         guitar->acceptSettings(); //refresh guitar
         m_hintsChB->setChecked(gl->hintsEnabled);
-		TpushButton::setCheckColor(gl->SpointerColor, Tglobals::invertColor(gl->SpointerColor));
     } else { // create player again
 		if (gl->AoutSoundEnabled)
 			player = new Tplayer();

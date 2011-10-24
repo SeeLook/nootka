@@ -45,6 +45,6 @@ void TpushButton::setChecked(bool isChecked) {
 }
 
 void TpushButton::wasClicked() {
-	setChecked(!m_Ichecked);
+// 	setChecked(!m_Ichecked);
 }
 
