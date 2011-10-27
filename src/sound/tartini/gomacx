@@ -1,0 +1,1 @@
+qmake -spec macx-pbuilder pitch.pro

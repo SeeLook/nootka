@@ -1,0 +1,188 @@
+CONFIG *= moc thread
+
+#handle defines
+win32 {
+   shared:DEFINES += QT_DLL
+   !contains(DEFINES, QT_NODLL) {
+      QT_ENV_DLL = $$(QT_DLL)
+      QT_ENV_NO_DLL = $$(QT_NODLL)
+      !isEmpty(QT_ENV_DLL):isEmpty(QT_ENV_NO_DLL):DEFINES += QT_DLL
+      contains(DEFINES, QT_MAKEDLL)|contains(DEFINES, QT_DLL):QMAKE_QT_DLL = 1
+   }
+}
+CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG
+no_keywords:DEFINES += QT_NO_KEYWORDS
+plugin { #Qt plugins
+   static:DEFINES += QT_STATICPLUGIN
+   DEFINES += QT_PLUGIN
+}
+
+#handle includes
+INCLUDEPATH = $$QMAKE_INCDIR_QT $$INCLUDEPATH #prepending prevents us from picking up "stale" includes
+win32:INCLUDEPATH += $$QMAKE_INCDIR_QT/ActiveQt
+
+# As order does matter for static libs, we reorder the QT variable here
+TMPLIBS = svg canvas qt3support sql xml opengl gui network core
+for(QTLIB, $$list($$TMPLIBS)) {
+   contains(QT, $$QTLIB): QT_ORDERED += $$QTLIB
+}
+
+QT = $$QT_ORDERED
+
+#specific module settings
+!isEmpty(QT_BUILD_TREE):QMAKE_LIBDIR = $$QT_BUILD_TREE/lib $$QMAKE_LIBDIR #as above, prepending prevents us from picking up "stale" libs
+QMAKE_LIBDIR += $$QMAKE_LIBDIR_QT
+for(QTLIB, $$list($$lower($$unique(QT)))) {
+   qlib_style = 
+   false:contains(QTLIB, ".*_debug$") {
+      qlib_style = debug
+      QTLIB ~= s,_debug$,,g
+   } else:false:contains(QTLIB, ".*_release$") {
+      qlib_style = release
+      QTLIB ~= s,_release$,,g
+   } else:!qt_debug:!qt_release {
+      CONFIG(debug, debug|release):qlib_style = debug
+      else:qlib_style = release
+   } else:CONFIG(qt_debug, qt_debug|qt_release) {
+      qlib_style = debug
+   } else {
+      qlib_style = release
+   }
+
+   qlib =
+   isEqual(QTLIB, gui):qlib = QtGui
+   else:isEqual(QTLIB, network):qlib = QtNetwork
+   else:isEqual(QTLIB, xml):qlib = QtXml
+   else:isEqual(QTLIB, opengl):qlib = QtOpenGL
+   else:isEqual(QTLIB, sql):qlib = QtSql
+   else:isEqual(QTLIB, core):qlib = QtCore
+   else:isEqual(QTLIB, canvas):qlib = QtCanvas
+   else:isEqual(QTLIB, qt3support):qlib = Qt3Support
+   else:isEqual(QTLIB, svg):qlib = QtSvg
+   else:message("Unknown QT: $$QTLIB"):qlib =
+   !isEmpty(qlib) {
+      target_qt:isEqual(TARGET, qlib) {
+         warning($$TARGET cannot have a QT of $$QTLIB)
+      } else {
+         DEFINES *= $$upper(QT_$${QTLIB}_LIB)
+	 exists($$QMAKE_INCDIR_QT/$$qlib) {
+             INCLUDEPATH -= $$QMAKE_INCDIR_QT/$$qlib
+             INCLUDEPATH = $$QMAKE_INCDIR_QT/$$qlib $$INCLUDEPATH
+         }
+	 isEqual(QTLIB, opengl):CONFIG += opengl
+	 isEqual(QTLIB, qt3support):DEFINES *= QT3_SUPPORT
+
+	 QT_LINKAGE =
+	 mac {
+	    CONFIG(qt_framework, qt_framework|qt_no_framework) { #forced
+	       QMAKE_CFLAGS *= -F$${QMAKE_LIBDIR_QT}
+	       QMAKE_CXXFLAGS *= -F$${QMAKE_LIBDIR_QT}
+	       QMAKE_LIBDIR_FLAGS *= -F$${QMAKE_LIBDIR_QT}
+	       FRAMEWORK_INCLUDE = $$QMAKE_LIBDIR_QT/$${qlib}.framework/Headers
+	       !qt_no_framework_direct_includes:exists($$FRAMEWORK_INCLUDE) {
+	          INCLUDEPATH -= $$FRAMEWORK_INCLUDE
+	          INCLUDEPATH = $$FRAMEWORK_INCLUDE $$INCLUDEPATH
+               }
+	       QT_LINKAGE = -framework $${qlib}
+            } else:!qt_no_framework { #detection
+  	       for(frmwrk_dir, $$list($$QMAKE_LIBDIR $$(DYLD_FRAMEWORK_PATH) /Library/Frameworks)) {
+	          exists($${frmwrk_dir}/$${qlib}.framework) {
+	            QMAKE_CFLAGS *= -F$${frmwrk_dir}
+	            QMAKE_CXXFLAGS *= -F$${frmwrk_dir}
+	            QMAKE_LIBDIR_FLAGS *= -F$${frmwrk_dir}
+	            FRAMEWORK_INCLUDE = $$frmwrk_dir/$${qlib}.framework/Headers
+	            !qt_no_framework_direct_includes:exists($$FRAMEWORK_INCLUDE) {
+	               INCLUDEPATH -= $$FRAMEWORK_INCLUDE
+	               INCLUDEPATH = $$FRAMEWORK_INCLUDE $$INCLUDEPATH
+                    }
+		    QT_LINKAGE = -framework $${qlib}
+		    break()
+                  }
+               }
+            }
+	 }
+	 false {
+	    QT_LINKAGE = -l$${qlib}
+	 } else:isEmpty(QT_LINKAGE) {
+            win32 {
+	       CONFIG(debug, debug|release):QT_LINKAGE = -l$${qlib}d
+	       else:QT_LINKAGE = -l$${qlib}
+	    } else { 
+	       isEqual(qlib_style, debug):QT_LINKAGE = -l$${qlib}_debug
+	       else:QT_LINKAGE = -l$${qlib}
+            }
+         }
+	 LIBS += $$QT_LINKAGE
+      }
+   }
+}
+for(QTPLUG, $$list($$lower($$unique(QTPLUGIN)))) {
+   qplugin_style = 
+   false:contains(QTPLUG, ".*_debug$") {
+      qplugin_style = debug
+      QTPLUG ~= s,_debug$,,g
+   } else:false:contains(QTPLUG, ".*_release$") {
+      qplugin_style = release
+      QTPLUG ~= s,_release$,,g
+   } else:!qt_debug:!qt_release {
+      CONFIG(debug, debug|release):qplugin_style = debug
+      else:qplugin_style = release
+   } else:CONFIG(qt_debug, qt_debug|qt_release) {
+      qplugin_style = debug
+   } else {
+      qplugin_style = release
+   }
+
+   # Check if the plugin is known to Qt. We can use this to determine
+   # the plugin path. Unknown plugins must rely on the default link path.
+   ACCESSIBLEPLUGINS = qtaccessiblewidgets qtaccessiblecompatwidgets
+   CODECPLUGINS = qcncodecs qjpcodecs qkrcodecs qtwcodecs
+   DECORATIONPLUGINS = qdecorationdefault qdecorationwindows
+   GFXDRIVERPLUGINS = qgfxvnc qscreenvfb qgfxsnap qgfxvga16 qgfxmatrox qgfxvoodoo qgfxtransformed qgfxshadowfb
+   IMAGEPLUGINS = qgif qmng qjpeg
+   INPUTPLUGINS = qimsw-multi
+   MOUSEDRIVERPLUGINS = qtslibmousehandler
+   SQLPLUGINS = qsqldb2 qsqloci qsqltds qsqlodbc qsqlpsql qsqlibase qsqlmysql qsqlite2 qsqlite
+
+   ALLQTPLUGINS = $$ACCESSIBLEPLUGINS $$CODECPLUGINS $$DECORATIONPLUGINS $$GFXDRIVERPLUGINS $$IMAGEPLUGINS $$INPUTPLUGINS $$MOUSEDRIVERPLUGINS $$SQLPLUGINS
+
+   QT_PLUGINPATH = 
+   contains(ALLQTPLUGINS, $$QTPLUG) {
+       # Determine the plugin path
+       contains(ACCESSIBLEPLUGINS, $$QTPLUG): QT_PLUGINPATH = $$[QT_INSTALL_PLUGINS]/accessible/
+       contains(CODECPLUGINS, $$QTPLUG): QT_PLUGINPATH = $$[QT_INSTALL_PLUGINS]/codecs/
+       contains(DECORATIONPLUGINS, $$QTPLUG): QT_PLUGINPATH = $$[QT_INSTALL_PLUGINS]/decorations/
+       contains(GFXDRIVERPLUGINS, $$QTPLUG): QT_PLUGINPATH = $$[QT_INSTALL_PLUGINS]/gfxdrivers/
+       contains(IMAGEPLUGINS, $$QTPLUG): QT_PLUGINPATH = $$[QT_INSTALL_PLUGINS]/imageformats/
+       contains(INPUTPLUGINS, $$QTPLUG): QT_PLUGINPATH = $$[QT_INSTALL_PLUGINS]/inputmethods/
+       contains(MOUSEDRIVERPLUGINS, $$QTPLUG): QT_PLUGINPATH = $$[QT_INSTALL_PLUGINS]/mousedrivers/
+       contains(SQLPLUGINS, $$QTPLUG):  QT_PLUGINPATH = $$[QT_INSTALL_PLUGINS]/sqldrivers/
+    }
+
+    # Generate the plugin linker line
+    target_qt:isEqual(TARGET, QTPLUG) {
+       warning($$TARGET cannot have a QTPLUGIN of $$QTPLUG)
+    } else {
+       QT_LINKAGE =
+       false {
+          QT_LINKAGE = -l$${QTPLUG}
+       } else:isEmpty(QT_LINKAGE) {
+          win32 {
+             CONFIG(debug, debug|release):QT_LINKAGE = -l$${QTPLUG}d
+             else:QT_LINKAGE = -l$${QTPLUG}
+          } else { 
+             isEqual(qplugin_style, debug):QT_LINKAGE = -l$${QTPLUG}_debug
+             else:QT_LINKAGE = -l$${QTPLUG}
+          }
+       }
+       
+       !isEmpty($$QT_PLUGINPATH): LIBS += -L$$QT_PLUGINPATH
+       LIBS += $$QT_LINKAGE
+    }
+}
+
+qt_compat {
+   !qt_compat_no_warning:QTDIR_build:warning(***USE of COMPAT inside of QTDIR!**) #just for us
+   INCLUDEPATH *= $$QMAKE_INCDIR_QT/Qt
+   DEFINES *= QT_COMPAT
+}

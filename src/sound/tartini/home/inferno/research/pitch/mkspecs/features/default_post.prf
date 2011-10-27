@@ -1,0 +1,3 @@
+CONFIG(debug, debug|release):load(debug)
+else:load(release)
+debug_and_release:load(debug_and_release)
