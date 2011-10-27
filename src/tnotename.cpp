@@ -181,7 +181,7 @@ void TnoteName::setNameText() {
 void TnoteName::setNoteName(Tnote note) {
 	if (m_notes[0].note) {
 		noteButtons[m_notes[0].note-1]->setChecked(false);
-		octaveButtons[m_notes[0].octave-2]->setChecked(false);
+		octaveButtons[m_notes[0].octave+2]->setChecked(false);
 	}		
     if (note.note) {
         m_notes[0] = note;
