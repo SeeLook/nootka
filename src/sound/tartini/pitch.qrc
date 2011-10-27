@@ -1,0 +1,6 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/res">
+   <file alias="tartinilogo.png">pics/tartinilogo.png</file>
+   <file>LICENSE.txt</file>
+</qresource>
+</RCC>

@@ -130,6 +130,8 @@ void TscoreWidgetSimple::setButtons(QPushButton *button) {
 
 void TscoreWidgetSimple::onAcidButtonPressed() {
     int ac;
+	TpushButton *button = static_cast<TpushButton *>(sender());
+	button->setChecked(!button->isChecked());
     if (sender() == m_flatBut) {
         m_sharpBut->setChecked(false);
         m_dblSharpBut->setChecked(false);

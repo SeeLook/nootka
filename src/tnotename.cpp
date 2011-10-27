@@ -226,6 +226,8 @@ void TnoteName::noteWasChanged(int noteNr) {
 
 void TnoteName::accidWasChanged() {
     char ac;
+	TpushButton *button = static_cast<TpushButton *>(sender());
+	button->setChecked(!button->isChecked());
     if (sender() == dblFlatButt) {
         flatButt->setChecked(false);
         sharpButt->setChecked(false);

@@ -1,0 +1,25 @@
+Install instructions for Tartini (version 1.1)
+
+To compile Tartini 1.1 from the source:
+
+Step 1.
+Make sure the following libraries are installed on your system
+- Qt 4.x
+- fftw3   (configured with the --enable-float option)
+- Qwt 5.x
+(these can be downloaded from http://www.tartini.net)
+
+
+Step 2.
+Edit pitch.pro and put the correct library and include paths for your setup.
+
+
+Step 3.
+At the command prompt (from in the directory) type:
+qmake pitch.pro       - This will generate a Makefile
+make                  - This will compile the executable called tartini.
+
+Note: To compile on Windows you need to use MinGW (www.mingw.org),
+since Qt4 is not supported for Visual Studio under the GPL edition.
+
+Note: qmake comes as part of the Qt4 package

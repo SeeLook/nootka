@@ -32,7 +32,7 @@ TpushButton::TpushButton(QString text, QWidget* parent):
 	 QPushButton(text, parent),
 	 m_Ichecked(false)
 {
-	connect(this, SIGNAL(clicked()), this, SLOT(wasClicked()));
+// 	connect(this, SIGNAL(clicked()), this, SLOT(wasClicked()));
 }
 
 void TpushButton::setChecked(bool isChecked) {
