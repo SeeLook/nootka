@@ -35,8 +35,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     Ttune::prepareDefinedTunes();
 // 	TpushButton::setCheckColor(gl->SpointerColor, Tglobals::invertColor(gl->SpointerColor));
-	TpushButton::setCheckColor(Tglobals::invertColor(palette().highlight().color().name()),
-		palette().highlight().color().name() );
+	TpushButton::setCheckColor(palette().highlight().color().name(),
+		palette().highlightedText().color() );
 
     setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
     setMinimumSize(640,480);

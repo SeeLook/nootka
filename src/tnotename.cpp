@@ -63,7 +63,6 @@ TnoteName::TnoteName(QWidget *parent) :
     noteGroup =new QButtonGroup(this);
     for (int i=0; i<7; i++) {
         noteButtons[i] = new TpushButton("", this);
-//         noteButtons[i]->setCheckable(true);
         noteLay->addWidget(noteButtons[i]);
         noteGroup->addButton(noteButtons[i],i);
     }
@@ -75,22 +74,18 @@ TnoteName::TnoteName(QWidget *parent) :
     accLay->addStretch(1);
     dblFlatButt = new TpushButton("B", this);
     dblFlatButt->setFont(QFont("nootka", 10, QFont::Normal));
-//     dblFlatButt->setCheckable(true);
     accLay->addWidget(dblFlatButt);
     connect(dblFlatButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     flatButt = new TpushButton("b", this);
     flatButt->setFont(QFont("nootka", 10, QFont::Normal));
-//     flatButt->setCheckable(true);
     accLay->addWidget(flatButt);
     connect(flatButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     sharpButt = new TpushButton("#", this);
     sharpButt->setFont(QFont("nootka", 10, QFont::Normal));
-//     sharpButt->setCheckable(true);
     accLay->addWidget(sharpButt);
     connect(sharpButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     dblSharpButt = new TpushButton("x", this);
     dblSharpButt->setFont(QFont("nootka", 10, QFont::Normal));
-//     dblSharpButt->setCheckable(true);
     accLay->addWidget(dblSharpButt);
     connect(dblSharpButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     accLay->addStretch(1);
@@ -102,7 +97,6 @@ TnoteName::TnoteName(QWidget *parent) :
     for (int i=0; i<6; i++) {
         octaveButtons[i] = new TpushButton(tr(octaves[i]), this);
         octaveButtons[i]->setToolTip(tr(octavesFull[i]));
-//         octaveButtons[i]->setCheckable(true);
         octLay->addWidget(octaveButtons[i]);
         octaveGroup->addButton(octaveButtons[i],i);
     }
@@ -137,8 +131,10 @@ void TnoteName::setNoteNamesOnButt(Tnote::EnameStyle nameStyle) {
 // private setNoteName method
 void TnoteName::setNoteName(char noteNr, char octNr, char accNr) {
 	if (m_notes[0].note) {
-		noteButtons[m_notes[0].note-1]->setChecked(false);
-		octaveButtons[m_notes[0].octave-2]->setChecked(false);
+		if (m_notes[0].note != noteNr) //uncheck only if previous was different
+			noteButtons[m_notes[0].note-1]->setChecked(false);
+		if (m_notes[0].octave != octNr) //uncheck only if previous was different
+			octaveButtons[m_notes[0].octave-2]->setChecked(false);
 	}
     m_notes[0] = Tnote(noteNr, octNr, accNr);
     if (noteNr) {
@@ -182,7 +178,8 @@ void TnoteName::setNoteName(Tnote note) {
 	if (m_notes[0].note) {
 		noteButtons[m_notes[0].note-1]->setChecked(false);
 		octaveButtons[m_notes[0].octave+2]->setChecked(false);
-	}		
+	} else if (octaveButtons[2]->isChecked())
+		octaveButtons[2]->setChecked(false);
     if (note.note) {
         m_notes[0] = note;
         setButtons(note);
@@ -225,33 +222,25 @@ void TnoteName::noteWasChanged(int noteNr) {
 }
 
 void TnoteName::accidWasChanged() {
+	flatButt->setChecked(false);
+    sharpButt->setChecked(false);
+    dblSharpButt->setChecked(false);
+	dblFlatButt->setChecked(false);
     char ac;
 	TpushButton *button = static_cast<TpushButton *>(sender());
 	button->setChecked(!button->isChecked());
     if (sender() == dblFlatButt) {
-        flatButt->setChecked(false);
-        sharpButt->setChecked(false);
-        dblSharpButt->setChecked(false);
         if (dblFlatButt->isChecked()) ac = -2;
         else ac = 0;
     } else {
         if (sender() == flatButt) {
-            dblFlatButt->setChecked(false);
-            sharpButt->setChecked(false);
-            dblSharpButt->setChecked(false);
             if (flatButt->isChecked()) ac = -1;
             else ac = 0;
     } else {
         if (sender() == sharpButt) {
-            flatButt->setChecked(false);
-            dblFlatButt->setChecked(false);
-            dblSharpButt->setChecked(false);
             if (sharpButt->isChecked()) ac = 1;
             else ac = 0;
         } else {
-            flatButt->setChecked(false);
-            sharpButt->setChecked(false);
-            dblFlatButt->setChecked(false);
             if (dblSharpButt->isChecked()) ac = 2;
             else ac = 0;
           }
@@ -261,6 +250,8 @@ void TnoteName::accidWasChanged() {
 }
 
 void TnoteName::octaveWasChanged(int octNr) {
+	for (int i = 0; i < 6; i++)
+        octaveButtons[i]->setChecked(false);
 	octaveButtons[octNr]->setChecked(true);
     setNoteName(m_notes[0].note, octNr-2, m_notes[0].acidental);
 }

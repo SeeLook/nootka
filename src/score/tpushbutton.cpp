@@ -31,9 +31,7 @@ void TpushButton::setCheckColor(QColor background, QColor text) {
 TpushButton::TpushButton(QString text, QWidget* parent):
 	 QPushButton(text, parent),
 	 m_Ichecked(false)
-{
-// 	connect(this, SIGNAL(clicked()), this, SLOT(wasClicked()));
-}
+{}
 
 void TpushButton::setChecked(bool isChecked) {
 	if (isChecked)
@@ -44,7 +42,4 @@ void TpushButton::setChecked(bool isChecked) {
 	m_Ichecked = isChecked;
 }
 
-void TpushButton::wasClicked() {
-// 	setChecked(!m_Ichecked);
-}
 
