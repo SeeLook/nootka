@@ -31,7 +31,6 @@ public:
 	static void setCheckColor(QColor background = Qt::black, QColor text = Qt::white);
 	
 private slots:
-	void wasClicked();
 	
 private:
 	bool m_Ichecked;
