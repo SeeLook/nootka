@@ -113,7 +113,7 @@ TnoteName::TnoteName(QWidget *parent) :
 //    setLayout(mainLay);
 
     setNoteNamesOnButt(gl->NnameStyleInNoteName);
-    octaveButtons[2]->setChecked(true);
+//    octaveButtons[2]->setChecked(true);
     for (int i=0; i<3; i++) m_notes.push_back(Tnote());
     setAmbitus(gl->loString(),
                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
@@ -178,8 +178,8 @@ void TnoteName::setNoteName(Tnote note) {
 	if (m_notes[0].note) {
 		noteButtons[m_notes[0].note-1]->setChecked(false);
 		octaveButtons[m_notes[0].octave+2]->setChecked(false);
-	} else if (octaveButtons[2]->isChecked())
-		octaveButtons[2]->setChecked(false);
+	} /*else if (octaveButtons[2]->isChecked())
+		octaveButtons[2]->setChecked(false);*/
     if (note.note) {
         m_notes[0] = note;
         setButtons(note);
@@ -219,6 +219,8 @@ void TnoteName::setEnabledDblAccid(bool isEnabled) {
 void TnoteName::noteWasChanged(int noteNr) {
 	noteButtons[noteNr]->setChecked(true);
     setNoteName(noteNr+1, m_notes[0].octave, m_notes[0].acidental);
+	if(octaveGroup->checkedId() == -1)
+		octaveButtons[2]->setChecked(true);
 }
 
 void TnoteName::accidWasChanged() {
