@@ -62,6 +62,9 @@ private:
     TpushButton *octaveButtons[6];
     TpushButton *dblFlatButt, *flatButt, *sharpButt, *dblSharpButt;
     QButtonGroup *noteGroup, *octaveGroup;
+		/** Keeps index of previous selected octave Button.
+		 * none if -1 */
+	int m_prevOctButton;
 
     TnotesList m_notes;
     short m_ambitMin, m_ambitMax;
