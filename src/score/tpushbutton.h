@@ -21,6 +21,10 @@
 
 #include <QPushButton>
 
+/** This is replacement for standard QPushButton.
+ * The aim is to override setChecked() and isChecked() method
+ * to be frendly with Bespin style witch looks bad with checkable buttons
+*/
 class TpushButton : public QPushButton
 {
 	Q_OBJECT
@@ -28,6 +32,8 @@ public:
     TpushButton(QString text = "", QWidget *parent = 0);
 	void setChecked(bool isChecked);
 	bool isChecked() { return m_Ichecked; }
+		/** Sets colors for checked button. 
+		 * It has influence on all buttons in the application.	 */
 	static void setCheckColor(QColor background = Qt::black, QColor text = Qt::white);
 	
 private slots:

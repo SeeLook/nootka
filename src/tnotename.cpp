@@ -103,6 +103,7 @@ TnoteName::TnoteName(QWidget *parent) :
     octLay->addStretch(1);
     mainLay->addLayout(octLay);
     mainLay->addStretch(1);
+	m_prevOctButton = -1;
     connect(octaveGroup, SIGNAL(buttonClicked(int)), this, SLOT(octaveWasChanged(int)));
     
      QVBoxLayout *lay = new QVBoxLayout;
