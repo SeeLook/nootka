@@ -15,7 +15,7 @@
    height="755.89056"
    id="svg3221"
    version="1.1"
-   inkscape:version="0.48.1 r9760"
+   inkscape:version="0.48.2 r9819"
    inkscape:export-filename="/home/tom/DEVELOP/QT4/nootka/picts/logo.png"
    inkscape:export-xdpi="11.755102"
    inkscape:export-ydpi="11.755102">
@@ -28,9 +28,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49497475"
-     inkscape:cx="14.074607"
-     inkscape:cy="165.60108"
+     inkscape:zoom="0.24748738"
+     inkscape:cx="139.19892"
+     inkscape:cy="1.4965349"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -51,7 +51,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -72,8 +72,8 @@
     <path
        inkscape:connector-curvature="0"
        id="rect3492"
-       d="m -1052.6854,120.15187 1886.72368,0 c 10.89318,0 19.66279,5.175 19.66279,11.60315 l 0,739.74507 c 0,6.42816 -8.76961,11.60316 -19.66279,11.60316 l -1886.72368,0 c -10.8931,0 -19.6628,-5.175 -19.6628,-11.60316 l 0,-739.74507 c 0,-6.42815 8.7697,-11.60315 19.6628,-11.60315 z"
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.3291676;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dashoffset:0" />
+       d="m -1052.6854,120.15187 1886.72368,0 c 10.89318,0 19.66279,5.2411 19.66279,11.75137 l 0,749.19444 c 0,6.51027 -8.76961,11.75137 -19.66279,11.75137 l -1886.72368,0 c -10.8931,0 -19.6628,-5.2411 -19.6628,-11.75137 l 0,-749.19444 c 0,-6.51027 8.7697,-11.75137 19.6628,-11.75137 z"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3.35036325;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dashoffset:0" />
     <g
        id="g2996"
        transform="matrix(2.9191088,0,0,1,-669.31012,0)">
@@ -195,7 +195,7 @@
        inkscape:export-ydpi="327.32205"
        inkscape:connector-curvature="0" />
     <path
-       d="m -337.39212,535.24461 c 18.54414,0 36.09485,9.60319 36.09485,30.13424 0,23.8424 -18.54415,40.06861 -34.10799,49.34063 -11.92126,6.95408 -25.16703,11.92127 -38.74399,11.92127 -18.54415,0 -36.09486,-9.6032 -36.09486,-30.13421 0,-23.84256 18.54415,-40.06864 34.10799,-49.34065 11.92126,-6.95408 25.16704,-11.92128 38.744,-11.92128 z"
+       d="m -347.49365,555.44766 c 18.54414,0 36.09485,9.60319 36.09485,30.13424 0,23.8424 -18.54415,40.06861 -34.10799,49.34063 -11.92126,6.95408 -25.16703,11.92127 -38.74399,11.92127 -18.54415,0 -36.09486,-9.6032 -36.09486,-30.13421 0,-23.84256 18.54415,-40.06864 34.10799,-49.34065 11.92126,-6.95408 25.16704,-11.92128 38.744,-11.92128 z"
        id="path44-4-1"
        inkscape:connector-curvature="0"
        style="fill:#ffffff;fill-opacity:1"
@@ -203,26 +203,10 @@
        inkscape:export-xdpi="327.32205"
        inkscape:export-ydpi="327.32205" />
     <path
-       d="m -346.22865,552.97908 c 11.66651,0 22.70803,6.04157 22.70803,18.95809 0,14.99975 -11.66651,25.208 -21.45805,31.04122 -7.49992,4.37496 -15.83311,7.49992 -24.37466,7.49992 -11.66651,0 -22.70803,-6.04157 -22.70803,-18.95806 0,-14.99986 11.66651,-25.20802 21.45805,-31.04124 7.49992,-4.37496 15.83311,-7.49993 24.37466,-7.49993 z"
-       id="path44-4-4"
-       inkscape:connector-curvature="0"
-       style="fill:#000000;fill-opacity:1"
-       inkscape:export-filename="/home/tom/DEVELOP/QT4/nootka/picts/c1-trecle_8.png"
-       inkscape:export-xdpi="327.32205"
-       inkscape:export-ydpi="327.32205" />
-    <path
-       d="m -206.07229,536.25476 c 18.54414,0 36.09485,9.60319 36.09485,30.13424 0,23.8424 -18.54415,40.06861 -34.10799,49.34063 -11.92126,6.95408 -25.16703,11.92127 -38.74399,11.92127 -18.54415,0 -36.09486,-9.6032 -36.09486,-30.13421 0,-23.84256 18.54415,-40.06864 34.10799,-49.34065 11.92126,-6.95408 25.16704,-11.92128 38.744,-11.92128 z"
+       d="m -202.03168,560.49842 c 18.54414,0 36.09485,9.60319 36.09485,30.13424 0,23.8424 -18.54415,40.06861 -34.10799,49.34063 -11.92126,6.95408 -25.16703,11.92127 -38.74399,11.92127 -18.54415,0 -36.09486,-9.6032 -36.09486,-30.13421 0,-23.84256 18.54415,-40.06864 34.10799,-49.34065 11.92126,-6.95408 25.16704,-11.92128 38.744,-11.92128 z"
        id="path44-4-1-9"
        inkscape:connector-curvature="0"
        style="fill:#ffffff;fill-opacity:1"
-       inkscape:export-filename="/home/tom/DEVELOP/QT4/nootka/picts/c1-trecle_8.png"
-       inkscape:export-xdpi="327.32205"
-       inkscape:export-ydpi="327.32205" />
-    <path
-       d="m -214.90882,553.98923 c 11.66651,0 22.70803,6.04157 22.70803,18.95809 0,14.99975 -11.66651,25.208 -21.45805,31.04122 -7.49992,4.37496 -15.83311,7.49992 -24.37466,7.49992 -11.66651,0 -22.70803,-6.04157 -22.70803,-18.95806 0,-14.99986 11.66651,-25.20802 21.45805,-31.04124 7.49992,-4.37496 15.83311,-7.49993 24.37466,-7.49993 z"
-       id="path44-4-4-2"
-       inkscape:connector-curvature="0"
-       style="fill:#000000;fill-opacity:1"
        inkscape:export-filename="/home/tom/DEVELOP/QT4/nootka/picts/c1-trecle_8.png"
        inkscape:export-xdpi="327.32205"
        inkscape:export-ydpi="327.32205" />
@@ -239,33 +223,25 @@
          x="-166.19177"
          y="557.10681">tk</tspan></text>
     <path
-       d="m 230.85165,540.25476 c 18.54414,0 36.09484,9.60319 36.09484,30.13424 0,23.8424 -18.54414,40.06861 -34.10798,49.34063 -11.92126,6.95408 -25.16703,11.92127 -38.74399,11.92127 -18.54415,0 -36.09486,-9.6032 -36.09486,-30.13421 0,-23.84256 18.54415,-40.06864 34.10799,-49.34065 11.92126,-6.95408 25.16704,-11.92128 38.744,-11.92128 z"
+       d="m 222.84412,538.23446 c 24.73401,0 48.14298,11.72597 48.14298,36.79539 0,29.11275 -24.73401,48.92575 -45.49292,60.24734 -15.90047,8.49128 -33.56757,14.55646 -51.6764,14.55646 -24.73402,0 -48.143,-11.72598 -48.143,-36.79536 0,-29.11294 24.73402,-48.92578 45.49293,-60.24736 15.90048,-8.49127 33.56758,-14.55647 51.67641,-14.55647 z"
        id="path44-4-1-9-8"
        inkscape:connector-curvature="0"
        style="fill:#ffffff;fill-opacity:1"
        inkscape:export-filename="/home/tom/DEVELOP/QT4/nootka/picts/c1-trecle_8.png"
        inkscape:export-xdpi="327.32205"
        inkscape:export-ydpi="327.32205" />
-    <path
-       d="m 222.01512,557.98923 c 11.66651,0 22.70803,6.04157 22.70803,18.95809 0,14.99975 -11.66651,25.208 -21.45805,31.04122 -7.49992,4.37496 -15.83311,7.49992 -24.37466,7.49992 -11.66651,0 -22.70803,-6.04157 -22.70803,-18.95806 0,-14.99986 11.66651,-25.20802 21.45805,-31.04124 7.49992,-4.37496 15.83311,-7.49993 24.37466,-7.49993 z"
-       id="path44-4-4-2-8"
-       inkscape:connector-curvature="0"
-       style="fill:#000000;fill-opacity:1"
-       inkscape:export-filename="/home/tom/DEVELOP/QT4/nootka/picts/c1-trecle_8.png"
-       inkscape:export-xdpi="327.32205"
-       inkscape:export-ydpi="327.32205" />
     <text
        xml:space="preserve"
-       style="font-size:92.44115448px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-       x="336.17731"
-       y="467.86664"
+       style="font-size:122.22629547px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       x="323.11197"
+       y="508.75687"
        id="text3195"
        sodipodi:linespacing="125%"
-       transform="scale(0.74088005,1.3497462)"><tspan
+       transform="scale(0.77389191,1.2921701)"><tspan
          sodipodi:role="line"
          id="tspan3197"
-         x="336.17731"
-         y="467.86664"
+         x="323.11197"
+         y="508.75687"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FL Prosty 2;-inkscape-font-specification:FL Prosty 2">l</tspan></text>
   </g>
 </svg>
