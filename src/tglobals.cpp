@@ -59,11 +59,10 @@ QColor Tglobals::invertColor(QColor C) {
 
 Tglobals::Tglobals() {
 
-    version = "0.7.8 beta 1";
-//    path ; Is declared in mainWindow constructor
+    version = "0.8 alpha";
+//    path ; Is declared in main()
 
     qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
-
 
     QCoreApplication::setOrganizationName("Nootka");
     QCoreApplication::setOrganizationDomain("nootka.sf.net");

@@ -172,9 +172,9 @@ void TnoteName::setNameText() {
 void TnoteName::setNoteName(Tnote note) {
 	if (m_notes[0].note) {
 		noteButtons[m_notes[0].note-1]->setChecked(false);
-// 		octaveButtons[m_notes[0].octave+2]->setChecked(false);
-	} /*else if (octaveButtons[2]->isChecked())
-		octaveButtons[2]->setChecked(false);*/
+	}
+	if (m_prevOctButton != -1)
+		octaveButtons[m_prevOctButton]->setChecked(false);
     if (note.note) {
         m_notes[0] = note;
         setButtons(note);
@@ -182,6 +182,7 @@ void TnoteName::setNoteName(Tnote note) {
         m_notes[0] = Tnote(0,0,0);
         m_notes[1] = Tnote(0,0,0);
         m_notes[2] = Tnote(0,0,0);
+		m_prevOctButton = -1;
     }
     setNameText();
 }
@@ -221,10 +222,14 @@ void TnoteName::noteWasChanged(int noteNr) {
 }
 
 void TnoteName::accidWasChanged() {
-	flatButt->setChecked(false);
-    sharpButt->setChecked(false);
-    dblSharpButt->setChecked(false);
-	dblFlatButt->setChecked(false);
+	if (sender() != flatButt)
+		flatButt->setChecked(false);
+	if (sender() != sharpButt)
+		sharpButt->setChecked(false);
+	if (sender() != dblSharpButt)
+		dblSharpButt->setChecked(false);
+	if (sender() != dblFlatButt)
+		dblFlatButt->setChecked(false);
     char ac;
 	TpushButton *button = static_cast<TpushButton *>(sender());
 	button->setChecked(!button->isChecked());
@@ -399,6 +404,7 @@ void TnoteName::uncheckAllButtons() {
         noteButtons[i]->setChecked(false);
     for (int i = 0; i < 6; i++)
         octaveButtons[i]->setChecked(false);
+	m_prevOctButton = -1;
     noteGroup->setExclusive(true);
     octaveGroup->setExclusive(true);
 }
