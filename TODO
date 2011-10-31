@@ -20,6 +20,7 @@ TSCOREWIDGET
 
 TNOTENAME
     - buttons' with accids and octaves state during asking question
+	- maybe more elegant method for check & uncheck buttons (also in TSCOREWIDGETSIMPLE)
 
 TFINGERBOARD
     - selected open strings are not hidden when selected finger is on the same string
