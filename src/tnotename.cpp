@@ -131,12 +131,6 @@ void TnoteName::setNoteNamesOnButt(Tnote::EnameStyle nameStyle) {
 
 // private setNoteName method
 void TnoteName::setNoteName(char noteNr, char octNr, char accNr) {
-	if (m_notes[0].note) {
-		if (m_notes[0].note != noteNr) //uncheck only if previous was different
-			noteButtons[m_notes[0].note-1]->setChecked(false);
-		if (m_notes[0].octave != octNr) //uncheck only if previous was different
-			octaveButtons[m_notes[0].octave-2]->setChecked(false);
-	}
     m_notes[0] = Tnote(noteNr, octNr, accNr);
     if (noteNr) {
         if (gl->showEnharmNotes) {
@@ -178,7 +172,7 @@ void TnoteName::setNameText() {
 void TnoteName::setNoteName(Tnote note) {
 	if (m_notes[0].note) {
 		noteButtons[m_notes[0].note-1]->setChecked(false);
-		octaveButtons[m_notes[0].octave+2]->setChecked(false);
+// 		octaveButtons[m_notes[0].octave+2]->setChecked(false);
 	} /*else if (octaveButtons[2]->isChecked())
 		octaveButtons[2]->setChecked(false);*/
     if (note.note) {
@@ -218,10 +212,12 @@ void TnoteName::setEnabledDblAccid(bool isEnabled) {
 }
 
 void TnoteName::noteWasChanged(int noteNr) {
+	if (m_notes[0].note) {
+		if (m_notes[0].note != noteNr+1) //uncheck only if previous was different
+			noteButtons[m_notes[0].note-1]->setChecked(false);
+	}	
 	noteButtons[noteNr]->setChecked(true);
     setNoteName(noteNr+1, m_notes[0].octave, m_notes[0].acidental);
-	if(octaveGroup->checkedId() == -1)
-		octaveButtons[2]->setChecked(true);
 }
 
 void TnoteName::accidWasChanged() {
@@ -253,8 +249,9 @@ void TnoteName::accidWasChanged() {
 }
 
 void TnoteName::octaveWasChanged(int octNr) {
-	for (int i = 0; i < 6; i++)
-        octaveButtons[i]->setChecked(false);
+	if (octNr != m_prevOctButton && m_prevOctButton != -1)
+		octaveButtons[m_prevOctButton]->setChecked(false);
+	m_prevOctButton = octNr;
 	octaveButtons[octNr]->setChecked(true);
     setNoteName(m_notes[0].note, octNr-2, m_notes[0].acidental);
 }
@@ -296,8 +293,10 @@ void TnoteName::setButtons(Tnote note) {
     case 1 : sharpButt->setChecked(true); break;
     case 2 : dblSharpButt->setChecked(true); break;
     }
-    if (note.octave >= -2 && note.octave <= 3)
+    if (note.octave >= -2 && note.octave <= 3) {
         octaveButtons[note.octave+2]->setChecked(true);
+		m_prevOctButton = note.octave+2;
+	}
 }
 
 void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
