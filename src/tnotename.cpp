@@ -219,6 +219,10 @@ void TnoteName::noteWasChanged(int noteNr) {
 	}	
 	noteButtons[noteNr]->setChecked(true);
     setNoteName(noteNr+1, m_notes[0].octave, m_notes[0].acidental);
+	if (octaveGroup->checkedId() == -1 && m_prevOctButton == -1) {
+		octaveButtons[2]->setChecked(true);
+// 		octaveGroup->setId(2);
+	}
 }
 
 void TnoteName::accidWasChanged() {
