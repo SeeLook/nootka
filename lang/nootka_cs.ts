@@ -158,50 +158,42 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="79"/>
+        <location filename="../src/mainwindow.cpp" line="83"/>
         <source>show or hide the hints</source>
         <translation>Ukázat nebo skrýt rady</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="129"/>
+        <location filename="../src/mainwindow.cpp" line="133"/>
         <source>Settings</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="130"/>
+        <location filename="../src/mainwindow.cpp" line="134"/>
         <source>Application preferences</source>
         <translation>Nastavení programu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="159"/>
+        <location filename="../src/mainwindow.cpp" line="163"/>
         <source>Start an exam</source>
         <translation>Spustit zkoušku</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="143"/>
+        <location filename="../src/mainwindow.cpp" line="147"/>
         <source>about</source>
         <translation>O programu</translation>
     </message>
     <message>
-        <source>major</source>
-        <translation type="obsolete">dur</translation>
-    </message>
-    <message>
-        <source>minor</source>
-        <translation type="obsolete">moll</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="119"/>
+        <location filename="../src/mainwindow.cpp" line="123"/>
         <source>Problems with sound output</source>
         <translation>Potíže se zvukovým výstupem</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="144"/>
+        <location filename="../src/mainwindow.cpp" line="148"/>
         <source>About Nootka</source>
         <translation>O programu Nootka</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="60"/>
+        <location filename="../src/mainwindow.cpp" line="64"/>
         <source>main toolbar</source>
         <translation>Hlavní nástrojový pruh</translation>
     </message>
@@ -1207,67 +1199,67 @@ Nebyla vybrána žádná úroveň</translation>
 <context>
     <name>TnoteName</name>
     <message>
-        <location filename="../src/tnotename.cpp" line="29"/>
+        <location filename="../src/tnotename.cpp" line="30"/>
         <source>Contra</source>
         <translation>Kontra</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="29"/>
+        <location filename="../src/tnotename.cpp" line="30"/>
         <source>Great</source>
         <translation>Velká</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="29"/>
+        <location filename="../src/tnotename.cpp" line="30"/>
         <source>Small</source>
         <translation>Malá</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="30"/>
+        <location filename="../src/tnotename.cpp" line="31"/>
         <source>1-line</source>
         <translation>1 - a</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="30"/>
+        <location filename="../src/tnotename.cpp" line="31"/>
         <source>2-line</source>
         <translation>2 - a</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="30"/>
+        <location filename="../src/tnotename.cpp" line="31"/>
         <source>3-line</source>
         <translation>3 - a</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="31"/>
+        <location filename="../src/tnotename.cpp" line="32"/>
         <source>Contra octave</source>
         <translation>Kontraoktáva</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="32"/>
+        <location filename="../src/tnotename.cpp" line="33"/>
         <source>Great octave</source>
         <translation>Velká oktáva</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="32"/>
+        <location filename="../src/tnotename.cpp" line="33"/>
         <source>Small octave</source>
         <translation>Malá oktáva</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="33"/>
+        <location filename="../src/tnotename.cpp" line="34"/>
         <source>One-line octave</source>
         <translation>Jednočárkovaná oktáva</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="33"/>
+        <location filename="../src/tnotename.cpp" line="34"/>
         <source>Two-line octave</source>
         <translation>Dvoučárkovaná oktáva</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="34"/>
+        <location filename="../src/tnotename.cpp" line="35"/>
         <source>Three-line octave</source>
         <translation>Tříčárkovaná oktáva</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="175"/>
+        <location filename="../src/tnotename.cpp" line="167"/>
         <source>The note is beyond&lt;br&gt;scale of the guitar</source>
         <translation>Nota je mimo &lt;br&gt;rozsah kytary</translation>
     </message>
