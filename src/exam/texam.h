@@ -38,6 +38,13 @@ public:
 	Texam(Tlevel *l);
 	Texam(QString examFile);
     virtual ~Texam();
+	  
+	  /** Possible errors during opening and saveing exam file.*/
+	enum EerrorType { e_file_OK = 0,
+					  e_file_not_valid, // occurs when examVersion is different
+					  e_file_corrupted, // when data in file is corrupted
+					  e_cant_open // problems with reading file	  
+	};
 	
 	Tlevel* level() { return m_level; }
 	void setLevel(Tlevel *l);
@@ -47,8 +54,8 @@ public:
 	TQAunit curQ() { return m_answList.last(); }
 	
 	
-	bool loadExamFromFile(QString &fileName);
-	bool saveExamToFile(QString &fileName = 0);
+	EerrorType loadExamFromFile(QString &fileName);
+	EerrorType saveExamToFile(QString &fileName = 0);
 	
 	  /** Magic number in exam file to identify it.*/
 	static const qint32 examVersion;

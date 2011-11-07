@@ -35,11 +35,11 @@ Texam::~Texam()
 }
 
 
-bool Texam::loadExamFromFile(QString& fileName) {
+Texam::EerrorType Texam::loadExamFromFile(QString& fileName) {
 
 }
 
-bool Texam::saveExamToFile(QString& fileName) {
+Texam::EerrorType Texam::saveExamToFile(QString& fileName) {
 
 }
 
