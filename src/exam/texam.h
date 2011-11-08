@@ -63,6 +63,8 @@ public:
 	quint16 averageReactonTime() { return m_averReactTime; }
 	  /** Total time spent for answering without breaks between questions */
 	quint16 workTime() { return m_workTime; }
+	QString userName() { return m_userName; }
+	QString fileName() { return m_fileName; }
 	
 	
 	EerrorType loadExamFromFile(QString &fileName);
