@@ -43,6 +43,7 @@ SET( NOOTKA_SRCS
   exam/tstartexamdlg.cpp
   exam/tqaunit.cpp
   exam/texamview.cpp
+  exam/texam.cpp
 ###### Info
   info/taboutnootka.cpp
   info/tfirstrunwizzard.cpp

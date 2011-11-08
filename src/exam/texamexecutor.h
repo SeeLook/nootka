@@ -25,6 +25,7 @@
 #include "ttune.h"
 #include <QList>
 
+class Texam;
 class MainWindow;
 class QAction;
 class QGraphicsTextItem;
@@ -98,10 +99,11 @@ private:
         * by @param curPos. */
     void showMessage(QString htmlText, TfingerPos &curPos, int time = 0);
 
-    TexamLevel m_level;
-    QString m_userName;
+	Texam *m_exam;
+//     TexamLevel m_level;
+//     QString m_userName;
     QList<TQAunit::TQAgroup> m_questList;
-    QList<TQAunit> m_answList;
+//     QList<TQAunit> m_answList;
 //    TQAunit m_curQ;
         /** Previous accidentals used*/
     Tnote::Eacidentals m_prevAccid;
@@ -115,7 +117,7 @@ private:
     Tnote::EnameStyle m_prevStyle;
     TglStore m_glStore;
     TanswerRequire m_answRequire;
-    QString m_examFile;
+//     QString m_examFile;
     bool m_shouldBeTerminated, m_isAnswered, m_incorrectRepeated;
     QGraphicsTextItem *m_messageItem;
 
