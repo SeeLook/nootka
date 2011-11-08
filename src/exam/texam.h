@@ -21,10 +21,9 @@
 #include <QString>
 #include <QList>
 
+class TexamLevel;
 class Ttune;
 class TQAunit;
-class Tlevel;
-
 
 
 /** This class describes instance of an exam.
@@ -35,7 +34,7 @@ class Texam
 
 public:
     explicit Texam();
-	Texam(Tlevel *l);
+	Texam(Tlevel *l, QString userName);
 	Texam(QString examFile);
     virtual ~Texam();
 	  
@@ -46,12 +45,24 @@ public:
 					  e_cant_open // problems with reading file	  
 	};
 	
-	Tlevel* level() { return m_level; }
-	void setLevel(Tlevel *l);
+	TexamLevel* level() { return m_level; }
+	void setLevel(Tlevel *l) { m_level = l; }
+	Ttune tune() { return m_tune; }
+	void setTune(Ttune &tune) { m_tune = tune; }
+	
+	quint32 totalTime() { return m_totalTime; }
+	
 	
 	void addQuestion(TQAunit &question) { m_answList << question; }
 	void setAnswer(TQAunit &answer) { m_answList.last() = answer; }
 	TQAunit curQ() { return m_answList.last(); }
+	  /** Returns number of questions/answers in en exam. */
+	int count() { return m_answList.size(); }
+	  /** Returns number of commited mistakes in en exam. */
+	quint16 mistakes() { return m_mistNr; }
+	quint16 averageReactonTime() { return m_averReactTime; }
+	  /** Total time spent for answering without breaks between questions */
+	quint16 workTime() { return m_workTime; }
 	
 	
 	EerrorType loadExamFromFile(QString &fileName);
@@ -63,9 +74,11 @@ public:
 	
 private:
 	QString m_fileName, m_userName;
-	Tlevel *m_level;
+	TexamLevel *m_level;
 	QList<TQAunit> m_answList;
-	Ttune m_tune;		
+	Ttune m_tune;
+	quint32 m_totalTime;
+	quint16 m_mistNr, m_averReactTime, m_workTime;
 		
 		
 		
