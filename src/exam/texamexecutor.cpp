@@ -391,7 +391,8 @@ void TexamExecutor::askQuestion() {
         mW->guitar->setGuitarDisabled(false);
         mW->guitar->prepareAnswer();
     }
-    m_answList << curQ;
+//     m_answList << curQ;
+	m_exam->addQuestion(curQ);
     mW->setStatusMessage(questText);
 
     mW->nootBar->removeAction(nextQuestAct);
@@ -480,7 +481,8 @@ Tnote TexamExecutor::forceEnharmAccid(Tnote n) {
 }
 
 void TexamExecutor::checkAnswer(bool showResults) {
-    TQAunit curQ = m_answList[m_answList.size() - 1];
+//     TQAunit curQ = m_answList[m_answList.size() - 1];
+	TQAunit &curQ = m_exam->curQ();
     curQ.time = mW->examResults->questionStop();
     mW->nootBar->removeAction(checkAct);
     if (curQ.questionAs == TQAtype::e_asSound)
@@ -584,7 +586,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
     }
     disableWidgets();
     mW->examResults->setAnswer(curQ.correct());
-    m_answList[m_answList.size()-1] = curQ;
+//     m_answList[m_answList.size()-1] = curQ;
 
     if (gl->EautoNextQuest) {
         if (curQ.correct()) {
@@ -608,7 +610,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
 void TexamExecutor::repeatQuestion() {
     m_incorrectRepeated = true;
 	m_isAnswered = false;
-    TQAunit curQ = m_answList[m_answList.size() - 1];
+//     TQAunit curQ = m_answList[m_answList.size() - 1];
+	TQAunit &curQ = m_exam->curQ();
     QString m = mW->statusMessage();
     m.replace(0, m.indexOf("</b>"), QString("<b>%1.").arg(m_answList.size()+1));
     mW->setStatusMessage(m);
@@ -637,7 +640,7 @@ void TexamExecutor::repeatQuestion() {
 }
 
 void TexamExecutor::prepareToExam() {
-    mW->setWindowTitle(tr("EXAM!!") + " " + m_userName + " - " + m_exam->level()->name);
+    mW->setWindowTitle(tr("EXAM!!") + " " + m_exam->userName() + " - " + m_exam->level()->name);
     mW->setStatusMessage(tr("exam started on level") + ":<br><b>" + m_exam->level()->name + "</b>");
 
     mW->settingsAct->setDisabled(true);
