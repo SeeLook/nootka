@@ -20,6 +20,7 @@
 
 #include <QMainWindow>
 
+class TpitchFinder;
 class QComboBox;
 class QLabel;
 class QPushButton;
@@ -42,6 +43,7 @@ private:
     QComboBox *devListCombo;
     QLabel *devNameLab, *peakLab, *pitchLab;
 	QPushButton *startSniffBut;
+	TpitchFinder *m_pitch;
 	
 
     QString m_devName;
@@ -51,3 +53,5 @@ private:
 };
 
 #endif // MAINWINDOW_H
+
+class TpitchFinder;

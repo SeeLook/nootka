@@ -30,15 +30,13 @@ signals:
 
 private slots:
 	void sniffedDataReady();
-	void findPitch();
+
   
 private:
     QAudioDeviceInfo m_deviceInfo;
     QAudioInput *m_audioInput;
 	QIODevice *m_IOaudioDevice;
 	QByteArray m_buffer;
-	quint64 m_lenght;
-	QTimer *m_timer;
 	qint16 m_maxPeak;
 
 
