@@ -16,43 +16,51 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef TAUDIOIN_H
+#define TAUDIOIN_H
 
-#include <QMainWindow>
+#include <QObject>
+#include <QAudioDeviceInfo>
+#include <QAudioInput>
+#include <QAudioFormat>
+//#include
 
-class TaudioIN;
-class QComboBox;
-class QLabel;
-class QPushButton;
 
-class MainWindow : public QMainWindow
+/** The main purpose of this class is to recognize pitch
+ * of flowing throught it aduio data. 
+ * Finding pitch method(s) are taken from Tartini project writrn by Philip McLeod
+ */
+class TaudioIN : public QObject
 {
     Q_OBJECT
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit TaudioIN(QObject *parent = 0);
+    ~TaudioIN();
 
-    QString deviceName() { return m_devName; }
+    static QStringList getAudioDevicesList();
+	static QAudioFormat templAudioFormat;
 
-
-signals:
-
-public slots:
-    void setDeviceName(QString devN);
-
-private:
-    QComboBox *devListCombo;
-    QLabel *devNameLab, *peakLab, *pitchLab;
-	QPushButton *startSniffBut;
-	TaudioIN *m_pitch;
+    void setAudioDevice(const QString &devN);
+	void startSniffing();
+	qint16 maxPeak() { return m_maxPeak; }
 	
 
-    QString m_devName;
-	QTimer *m_levelTimer;
+signals:
+	void pitchFound(float pitch);
+
+
+private slots:
+	void sniffedDataReady();
+
+  
+private:
+    QAudioDeviceInfo m_deviceInfo;
+    QAudioInput *m_audioInput;
+	QIODevice *m_IOaudioDevice;
+	QByteArray m_buffer;
+	qint16 m_maxPeak;
 
 
 };
 
-#endif // MAINWINDOW_H
-
-class TaudioIN;
+#endif // TAUDIOIN_H

@@ -18,7 +18,7 @@
 
 #include "mainwindow.h"
 #include <QtGui>
-#include "tpitchfinder.h"
+#include "taudioin.h"
 
 // #include "tnote.h"
 
@@ -57,8 +57,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	
 	m_levelTimer = new QTimer();
 
-	m_pitch = new TpitchFinder();
-    devListCombo->addItems(TpitchFinder::getAudioDevicesList());
+	m_pitch = new TaudioIN();
+    devListCombo->addItems(TaudioIN::getAudioDevicesList());
 
     connect(devListCombo, SIGNAL(currentIndexChanged(QString)), this, SLOT(setDeviceName(QString)));
 // 	connect(startSniffBut, SIGNAL(clicked(bool)), this, SLOT(startSniffSlot()));
