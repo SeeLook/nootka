@@ -31,13 +31,13 @@ SET( PITCH_SRCS
   main.cpp
   mainwindow.cpp
   taudioin.cpp
-  
+  tpitchfinder.cpp  
 )
 
 SET( PITCH_MOC_SRCS
   mainwindow.h
   taudioin.h
-  
+  tpitchfinder.h
 )
 
 QT4_WRAP_CPP( PITCH_MOCS ${PITCH_MOC_SRCS} )
