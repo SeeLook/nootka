@@ -30,13 +30,13 @@ message(STATUS "${QTMULTIMEDIAKIT_LIBRARY}")
 SET( PITCH_SRCS 
   main.cpp
   mainwindow.cpp
-#   tpitchfinder.cpp
+  tpitchfinder.cpp
   
 )
 
 SET( PITCH_MOC_SRCS
   mainwindow.h
-#   tpitchfinder.h
+  tpitchfinder.h
   
 )
 
