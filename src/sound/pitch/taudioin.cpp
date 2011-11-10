@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,14 +12,14 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
 #include "taudioin.h"
 #include <QAudio>
 #include <QDebug>
-#include <QTimer>
+#include "tpitchfinder.h"
 
 
 /*static */
@@ -48,7 +48,8 @@ TaudioIN::TaudioIN(QObject *parent) :
     QObject(parent),
     m_audioInput(0),
     m_maxPeak(0),
-    m_deviceInfo(QAudioDeviceInfo::defaultInputDevice())
+    m_deviceInfo(QAudioDeviceInfo::defaultInputDevice()),
+    m_pitch(TpitchFinder())
 {    
 	setAudioDevice(m_deviceInfo.deviceName());
 // 	setAudioDevice("plughw:CARD=default,DEV=0");
@@ -83,24 +84,31 @@ void TaudioIN::setAudioDevice(const QString &devN) {
 
 void TaudioIN::startSniffing() {
 	
-	
-	m_buffer.resize(4096*2); // 2048 samples, 16 bits each
+	m_buffer.resize(2048*2); // 2048 samples, 16 bits each
 	m_buffer.fill(0);
+	m_floatBuff = new float[m_pitch->A().windowSize];
+	m_floatsWriten = 0;
 	m_IOaudioDevice = m_audioInput->start();
-	connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(sniffedDataReady()));
+	connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));
 		
 }
 
-void TaudioIN::sniffedDataReady() {
+void TaudioIN::audioDataReady() {
 	qint64 bytesReady = m_audioInput->bytesReady();
 	qint64 bSize = m_buffer.size();
 	qint64 toRead = qMin(bytesReady, bSize);
-	qint64 dataRead = m_IOaudioDevice->read(m_buffer.data(), toRead);
-	TsamplePeak peak;
+	qint64 dataRead = m_IOaudioDevice->read(m_buffer.data(), toRead) / 2;
+	float *posInBuff = m_buffer;
 	
-	int i = 0;	
-	for (i = 0; i < dataRead/2; i++) {
+// 	int i = 0;	
+	for (int i = 0; i < dataRead; i++) {
 	  qint16 value = *reinterpret_cast<qint16*>(m_buffer.data()+i*2);
+	  *(posInBuff + m_floatsWriten) = float(value) / 32768;
+	  m_floatsWriten++;
+	  if (m_floatsWriten == m_pitch->A().windowSize) {
+		m_pitch->searchIn(m_floatBuff);
+		m_floatsWriten = 0;
+	  }
 	}
 	 
 }

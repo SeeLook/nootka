@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -24,12 +24,9 @@
 #include <QAudioInput>
 #include <QAudioFormat>
 //#include
+class TpitchFinder;
 
 
-/** The main purpose of this class is to recognize pitch
- * of flowing throught it aduio data. 
- * Finding pitch method(s) are taken from Tartini project writrn by Philip McLeod
- */
 class TaudioIN : public QObject
 {
     Q_OBJECT
@@ -50,7 +47,7 @@ signals:
 
 
 private slots:
-	void sniffedDataReady();
+	void audioDataReady();
 
   
 private:
@@ -58,7 +55,10 @@ private:
     QAudioInput *m_audioInput;
 	QIODevice *m_IOaudioDevice;
 	QByteArray m_buffer;
+	float *m_floatBuff;
+	quint32 m_floatsWriten;
 	qint16 m_maxPeak;
+	TpitchFinder *m_pitch;
 
 
 };

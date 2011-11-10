@@ -21,7 +21,11 @@
 
 #include <QThread>
 
-
+/** The main purpose of this class is to recognize pitch
+ * of flowing throught it aduio data. 
+ * Finding pitch method(s) are taken from Tartini project
+ * writen by Philip McLeod.
+ */
 class TpitchFinder : public QThread
 {
 	Q_OBJECT
@@ -30,6 +34,21 @@ public:
     TpitchFinder();
     virtual ~TpitchFinder();
 	
+	struct audioSetts {
+	  quint32 rate;
+	  quint8 chanells;
+	  quint32 windowSize;
+	};
+	  
+	  audioSetts A() { return m_a; }
+	
+	  /** Starts thread searching in @param chunk,
+	   * whitch is poiter to array of float audio data. 
+	   * First copy it to channel obiect. */
+	void searchIn(float *chunk);
+	
+private:
+	audioSetts m_a;
 	
 };
 
