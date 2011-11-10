@@ -25,6 +25,8 @@ TpitchFinder::TpitchFinder()
 
 TpitchFinder::~TpitchFinder()
 {
-
+	m_a.chanells = 1;
+	m_a.rate = 44100;
+	m_a.windowSize = 2048;
 }
 
