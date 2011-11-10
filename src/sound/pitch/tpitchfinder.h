@@ -19,10 +19,15 @@
 #ifndef TPITCHFINDER_H
 #define TPITCHFINDER_H
 
+
+
 #include <QThread>
 
+class Channel;
+
+
 /** The main purpose of this class is to recognize pitch
- * of flowing throught it aduio data. 
+ * of aduio data flowing throught it. 
  * Finding pitch method(s) are taken from Tartini project
  * writen by Philip McLeod.
  */
@@ -43,12 +48,13 @@ public:
 	  audioSetts A() { return m_a; }
 	
 	  /** Starts thread searching in @param chunk,
-	   * whitch is poiter to array of float audio data. 
+	   * whitch is pointer to array of floats of audio data. 
 	   * First copy it to channel obiect. */
 	void searchIn(float *chunk);
 	
 private:
 	audioSetts m_a;
+	Channel *m_channel;
 	
 };
 
