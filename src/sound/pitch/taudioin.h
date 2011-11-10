@@ -38,7 +38,7 @@ public:
 	static QAudioFormat templAudioFormat;
 
     void setAudioDevice(const QString &devN);
-	void startSniffing();
+	void startListening();
 	qint16 maxPeak() { return m_maxPeak; }
 	
 

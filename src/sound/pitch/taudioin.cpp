@@ -82,7 +82,7 @@ void TaudioIN::setAudioDevice(const QString &devN) {
     m_audioInput = new QAudioInput(m_deviceInfo, templAudioFormat, this);
 }
 
-void TaudioIN::startSniffing() {
+void TaudioIN::startListening() {
 	
 	m_buffer.resize(2048*2); // 2048 samples, 16 bits each
 	m_buffer.fill(0);
@@ -98,12 +98,12 @@ void TaudioIN::audioDataReady() {
 	qint64 bSize = m_buffer.size();
 	qint64 toRead = qMin(bytesReady, bSize);
 	qint64 dataRead = m_IOaudioDevice->read(m_buffer.data(), toRead) / 2;
-	float *posInBuff = m_buffer;
+// 	float *posInBuff = m_buffer;
 	
 // 	int i = 0;	
 	for (int i = 0; i < dataRead; i++) {
 	  qint16 value = *reinterpret_cast<qint16*>(m_buffer.data()+i*2);
-	  *(posInBuff + m_floatsWriten) = float(value) / 32768;
+	  *(m_floatBuff + m_floatsWriten) = float(value) / 32768.0f;
 	  m_floatsWriten++;
 	  if (m_floatsWriten == m_pitch->A().windowSize) {
 		m_pitch->searchIn(m_floatBuff);

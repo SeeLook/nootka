@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "tpitchfinder.h"
+#include "tartini/channel.h"
 
 TpitchFinder::TpitchFinder()
 {
@@ -28,5 +29,13 @@ TpitchFinder::~TpitchFinder()
 	m_a.chanells = 1;
 	m_a.rate = 44100;
 	m_a.windowSize = 2048;
+	
+	m_channel = new Channel(this, A().windowSize);
 }
+
+void TpitchFinder::searchIn(float* chunk) {
+	// copy chunk to channel
+	
+}
+
 

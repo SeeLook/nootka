@@ -12,6 +12,7 @@ add_definitions(${QT_DEFINITIONS})
 include_directories(${QT_INCLUDES})
 include_directories(/usr/include/QtMobility)
 include_directories(/usr/include/QtMultimediaKit)
+include_directories( tartini )
 
 
 find_library(QTMULTIMEDIAKIT_LIBRARY
@@ -26,15 +27,16 @@ find_library(QTMULTIMEDIAKIT_LIBRARY
 mark_as_advanced(QTMULTIMEDIAKIT_LIBRARY)
 message(STATUS "${QTMULTIMEDIAKIT_LIBRARY}")
 
-
-SET( PITCH_SRCS 
+set( PITCH_SRCS 
   main.cpp
   mainwindow.cpp
   taudioin.cpp
-  tpitchfinder.cpp  
+  tpitchfinder.cpp
+ # tartini
+  tartini/channel.cpp
 )
 
-SET( PITCH_MOC_SRCS
+set( PITCH_MOC_SRCS
   mainwindow.h
   taudioin.h
   tpitchfinder.h

@@ -11,6 +11,10 @@
    (at your option) any later version.
    
    Please read LICENSE.txt for details.
+   
+   Adjusted to Nootka by Tomasz Bojczuk
+	  tomaszbojczuk@gmail.com
+	  Copyright (C) 2011
  ***************************************************************************/
 
 #ifndef CHANNEL_H
@@ -20,26 +24,25 @@
 #include "array2d.h"
 #include "qcolor.h"
 #include <vector>
-//#include "myqmutex.h"
 #include "analysisdata.h"
 #include "zoomlookup.h"
-#include "soundfile.h"
+// #include "soundfile.h"
 #include "notedata.h"
 #include "large_vector.h"
 #include "Filter.h"
 
-class Channel/* : public Array1d<float>*/
+
+class TpitchFinder;
+
+class Channel
 {
 private:
   SoundFile *parent;
   float freq; /**< Channel's frequency */
-  //float estimate;
-  //int frame_num;
+
   int _pitch_method;
   bool visible;
   bool noteIsPlaying;
-  //double timeOffset; /**< Where the file starts in absolute time (in seconds) */
-  //std::vector<AnalysisData> lookup;
   large_vector<AnalysisData> lookup;
   float _threshold;
   QMutex *mutex;
@@ -52,7 +55,6 @@ public:
   large_vector<float> pitchLookup;
   large_vector<float> pitchLookupSmoothed;
   QColor color;
-  //large_vector<float> filteredData;
   Array1d<float> directInput;
   Array1d<float> filteredInput;
   Array1d<float> coefficients_table;
@@ -66,13 +68,10 @@ public:
   Array1d<float> cepstrumData;
   Array1d<float> detailedPitchData;
   Array1d<float> detailedPitchDataSmoothed;
-  //std::vector<NoteData> noteData;
   large_vector<NoteData> noteData;
   Filter *highPassFilter;
   Filter *pitchSmallSmoothingFilter;
   Filter *pitchBigSmoothingFilter;
-  //double filterStateX1, filterStateX2;
-  //double filterStateY1, filterStateY2;
   double rmsFloor; //in dB
   double rmsCeiling; //in dB
   
@@ -85,7 +84,8 @@ public:
   bool locked() { return isLocked; } //For same thread testing of asserts only
 
   //Channel();
-  Channel(SoundFile *parent_, int size_, int k_=0);
+//   Channel(SoundFile *parent_, int size_, int k_=0);
+  Channel(TpitchFinder *parent_, int size_, int k_=0);
   virtual ~Channel();
   float *begin() { return directInput.begin(); }
   float *end() { return directInput.end(); }
