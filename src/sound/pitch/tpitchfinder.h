@@ -45,6 +45,8 @@ public:
 	  quint32 windowSize;
 	  quint32 framesPerChunk; // in mono signal frames are the same as samples
 	  double dBFloor;
+	  bool equalLoudness;
+	  
 	};
 	  /** global settings for pitch recognizeing. */
 	audioSetts aGl() { return m_aGl; }
@@ -57,6 +59,7 @@ public:
 private:
 	audioSetts m_aGl;
 	Channel *m_channel;
+	float *m_filteredChunk;
 	
 };
 
