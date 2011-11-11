@@ -11,12 +11,15 @@
    (at your option) any later version.
    
    Please read LICENSE.txt for details.
+   
+   Adjusted to Nootka by Tomasz Bojczuk
+	  tomaszbojczuk@gmail.com
+	  Copyright (C) 2011
  ***************************************************************************/
 
 #include "channel.h"
 //#include "gdata.h"
 #include "soundfile.h"
-//#include "fundamental.h"
 
 #include <algorithm>
 #include "myassert.h"
@@ -31,6 +34,8 @@
 #include "prony.h"
 #include "musicnotes.h"
 #include "bspline.h"
+
+#include "../tpitchfinder.h"
 
 const double shortTime = 0.08; //0.08; //0.18;
 const float shortBase = 0.1f;
@@ -146,26 +151,12 @@ double lowPassFilterCoeffA[3][3] = {
   }
 };
 
-/*
-Channel::Channel() : lookup(0, 512), filteredData(0, 8192)
-{
-  _pitch_method = 2;
-  color = Qt::black;
-  visible = true;
-  //setThreshold(0.97f);
-  setIntThreshold(gdata->settings.getInt("Analysis", "thresholdValue"));
-  //estimate = 0.0;
-  freq = 0.0;
-  mutex = new QMutex(true);
-  filterStateX1 = filterStateX2 = 0.0;
-  filterStateY1 = filterStateY2 = 0.0;
-}
-*/
-
-Channel::Channel(SoundFile *parent_, int size_, int k_) : lookup(0, 128)/*, filteredData(0, 8192)*/
+Channel::Channel(TpitchFinder *parent_, int size_, int k_) 
+  : lookup(0, 128)
 {
   setParent(parent_);
-  int sampleRate = parent->rate();
+//   int sampleRate = parent->rate();
+  int sampleRate = parent->aGl().rate;
   if(k_ == 0) k_ = (size_ + 1) / 2;
   directInput.resize(size_, 0.0);
   filteredInput.resize(size_, 0.0);
@@ -182,8 +173,8 @@ Channel::Channel(SoundFile *parent_, int size_, int k_) : lookup(0, 128)/*, filt
   _pitch_method = 2;
   color = Qt::black;
   coefficients_table.resize(size_*4);
-  rmsFloor = gdata->dBFloor();
-  rmsCeiling = gdata->dBFloor();
+  rmsFloor = parent->aGl().dBFloor;
+  rmsCeiling = parent->aGl().dBFloor;
   pronyWindowSize = int(ceil(0.4/timePerChunk()));
   pronyData.resize(pronyWindowSize);
 

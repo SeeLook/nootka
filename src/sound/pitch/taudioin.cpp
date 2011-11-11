@@ -86,7 +86,7 @@ void TaudioIN::startListening() {
 	
 	m_buffer.resize(2048*2); // 2048 samples, 16 bits each
 	m_buffer.fill(0);
-	m_floatBuff = new float[m_pitch->A().windowSize];
+	m_floatBuff = new float[m_pitch->aGl().windowSize];
 	m_floatsWriten = 0;
 	m_IOaudioDevice = m_audioInput->start();
 	connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));
@@ -105,7 +105,7 @@ void TaudioIN::audioDataReady() {
 	  qint16 value = *reinterpret_cast<qint16*>(m_buffer.data()+i*2);
 	  *(m_floatBuff + m_floatsWriten) = float(value) / 32768.0f;
 	  m_floatsWriten++;
-	  if (m_floatsWriten == m_pitch->A().windowSize) {
+	  if (m_floatsWriten == m_pitch->aGl().windowSize) {
 		m_pitch->searchIn(m_floatBuff);
 		m_floatsWriten = 0;
 	  }
