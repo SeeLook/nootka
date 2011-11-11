@@ -23,6 +23,7 @@
 
 #include <QThread>
 
+class MyTransforms;
 class Channel;
 
 
@@ -38,6 +39,8 @@ class TpitchFinder : public QThread
 public:
     TpitchFinder();
     virtual ~TpitchFinder();
+	
+	MyTransforms myTransforms;
 	  
 	  /** Audio input & pitch recognition settings. */
 	struct audioSetts {
@@ -47,6 +50,7 @@ public:
 	  quint32 framesPerChunk; // in mono signal frames are the same as samples
 	  double dBFloor;
 	  bool equalLoudness;
+	  int threshold; // threshold of lowest loudness in [dB]
 	  
 	};
 	  /** global settings for pitch recognize. */
@@ -68,6 +72,7 @@ private:
 	audioSetts m_aGl;
 	Channel *m_channel;
 	int m_chunkNum;
+	
 	
 };
 

@@ -86,7 +86,7 @@ void TaudioIN::startListening() {
 	
 	m_buffer.resize(2048*2); // 2048 samples, 16 bits each
 	m_buffer.fill(0);
-	m_floatBuff = new float[m_pitch->aGl().framesPerChunk];
+	m_floatBuff = new float[m_pitch->aGl().framesPerChunk+16] + 16;
 	m_floatsWriten = 0;
 	m_IOaudioDevice = m_audioInput->start();
 	connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));

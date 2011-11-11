@@ -18,6 +18,7 @@
 
 #include "tpitchfinder.h"
 #include "tartini/channel.h"
+#include "tartini/mytransforms.h"
 #include "tartini/filters/Filter.h"
 #include "tartini/sound/filters/IIR_Filter.h"
 
@@ -33,8 +34,10 @@ TpitchFinder::TpitchFinder() :
 	m_aGl.framesPerChunk = 1024;
 	m_aGl.dBFloor = -150.0;
 	m_aGl.equalLoudness = true;
+	m_aGl.threshold = 93;
 	
 	m_channel = new Channel(this, aGl().windowSize);
+	myTransforms.init(aGl().windowSize, 0, aGl().rate, aGl().equalLoudness);
 }
 
 TpitchFinder::~TpitchFinder()
@@ -48,7 +51,7 @@ void TpitchFinder::searchIn(float* chunk) {
 	float *filteredChunk;
 	m_channel->lock();
 	if (aGl().equalLoudness) {
-	  filteredChunk = new float[aGl().framesPerChunk];
+	  filteredChunk = new float[aGl().framesPerChunk+16] + 16;
 	  m_channel->highPassFilter->filter(chunk, filteredChunk, aGl().framesPerChunk);
 	  for(int i = 0; i < aGl().framesPerChunk; i++)
 		  filteredChunk[i] = qBound(filteredChunk[i], -1.0f, 1.0f);
