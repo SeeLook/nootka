@@ -19,18 +19,18 @@
 
 #include "channel.h"
 //#include "gdata.h"
-#include "soundfile.h"
+// #include "soundfile.h"
 
 #include <algorithm>
-#include "myassert.h"
+// #include "myassert.h"
 #include "mystring.h"
 #include <QFileDialog>
 #include <QFile>
 #include <QTextStream>
 
-#include "FastSmoothedAveragingFilter.h"
-#include "FixedAveragingFilter.h"
-#include "GrowingAveragingFilter.h"
+#include "filters/FastSmoothedAveragingFilter.h"
+#include "filters/FixedAveragingFilter.h"
+#include "filters/GrowingAveragingFilter.h"
 #include "prony.h"
 #include "musicnotes.h"
 #include "bspline.h"
@@ -52,7 +52,6 @@ This filter was created in Matlab using
 num2str(Bb, '%1.52f\n')
 num2str(Ab, '%1.52f\n')
 */
-
 double highPassFilterCoeffB[6][3] = {
   { //96000 Hz
     0.9930820351754101604768720790161751210689544677734375,
@@ -151,11 +150,11 @@ double lowPassFilterCoeffA[3][3] = {
   }
 };
 
-Channel::Channel(TpitchFinder *parent_, int size_, int k_) 
-  : lookup(0, 128)
+Channel::Channel(TpitchFinder *parent_, int size_, int k_) :
+	lookup(0, 128)
 {
   setParent(parent_);
-//   int sampleRate = parent->rate();
+/**   int sampleRate = parent->rate(); */
   int sampleRate = parent->aGl().rate;
   if(k_ == 0) k_ = (size_ + 1) / 2;
   directInput.resize(size_, 0.0);
@@ -178,11 +177,6 @@ Channel::Channel(TpitchFinder *parent_, int size_, int k_)
   pronyWindowSize = int(ceil(0.4/timePerChunk()));
   pronyData.resize(pronyWindowSize);
 
-  //freqLookup.resize(0);
-  //noteLookup.resize(0);
-  //errorLookup.resize(0);
-  //lookup.resize(0);
-  //lookup.clear();
   visible = true;
   noteIsPlaying = false;
   //setThreshold(0.97f);
@@ -260,20 +254,14 @@ void Channel::resize(int newSize, int k_)
   cepstrumData.resize(newSize/2, 0.0);
   detailedPitchData.resize(newSize/2, 0.0);
   detailedPitchDataSmoothed.resize(newSize/2, 0.0);
-  //freqLookup.resize(0);
-  //noteLookup.resize(0);
-  //errorLookup.resize(0);
-  //lookup.resize(0);
   lookup.clear();
 }
 
 void Channel::shift_left(int n)
 {
-  //Array1d<float>::shift_left(n);
   directInput.shift_left(n);
   filteredInput.shift_left(n);
   coefficients_table.shift_left(n*4);
-  //frame_num += n;
 }
 
 void Channel::calc_last_n_coefficients(int n)

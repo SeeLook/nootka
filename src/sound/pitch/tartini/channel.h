@@ -29,7 +29,7 @@
 // #include "soundfile.h"
 #include "notedata.h"
 #include "large_vector.h"
-#include "Filter.h"
+#include "filters/Filter.h"
 
 
 class TpitchFinder;
