@@ -26,11 +26,13 @@ TpitchFinder::TpitchFinder()
 
 TpitchFinder::~TpitchFinder()
 {
-	m_a.chanells = 1;
-	m_a.rate = 44100;
-	m_a.windowSize = 2048;
+	m_aGl.chanells = 1;
+	m_aGl.rate = 44100;
+	m_aGl.windowSize = 2048;
+	m_aGl.framesPerChunk = 1024;
+	m_aGl.dBFloor = -150.0;
 	
-	m_channel = new Channel(this, A().windowSize);
+	m_channel = new Channel(this, aGl().windowSize);
 }
 
 void TpitchFinder::searchIn(float* chunk) {

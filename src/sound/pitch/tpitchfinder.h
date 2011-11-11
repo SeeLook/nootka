@@ -43,9 +43,11 @@ public:
 	  quint32 rate;
 	  quint8 chanells;
 	  quint32 windowSize;
+	  quint32 framesPerChunk; // in mono signal frames are the same as samples
+	  double dBFloor;
 	};
-	  
-	  audioSetts A() { return m_a; }
+	  /** global settings for pitch recognizeing. */
+	audioSetts aGl() { return m_aGl; }
 	
 	  /** Starts thread searching in @param chunk,
 	   * whitch is pointer to array of floats of audio data. 
@@ -53,7 +55,7 @@ public:
 	void searchIn(float *chunk);
 	
 private:
-	audioSetts m_a;
+	audioSetts m_aGl;
 	Channel *m_channel;
 	
 };

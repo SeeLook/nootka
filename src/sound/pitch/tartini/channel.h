@@ -37,9 +37,8 @@ class TpitchFinder;
 class Channel
 {
 private:
-  SoundFile *parent;
+  TpitchFinder *parent;
   float freq; /**< Channel's frequency */
-
   int _pitch_method;
   bool visible;
   bool noteIsPlaying;
@@ -83,8 +82,7 @@ public:
   void unlock() { isLocked = false; mutex->unlock(); }
   bool locked() { return isLocked; } //For same thread testing of asserts only
 
-  //Channel();
-//   Channel(SoundFile *parent_, int size_, int k_=0);
+/**   Channel(SoundFile *parent_, int size_, int k_=0); */
   Channel(TpitchFinder *parent_, int size_, int k_=0);
   virtual ~Channel();
   float *begin() { return directInput.begin(); }
@@ -117,13 +115,8 @@ public:
   int chunkAtTime(double t) { return parent->chunkAtTime(t); }
   double chunkFractionAtTime(double t) { return parent->chunkFractionAtTime(t); }
   int chunkAtCurrentTime() { return parent->chunkAtCurrentTime(); }
-  //int chunkOffset() { return parent->chunkOffset(); }
-  //int currentChunk() { return chunkNum() - chunkOffset(); } //this one should be use to retrieve current info
   int currentChunk() { return parent->currentChunk(); } //this one should be use to retrieve current info
   double timeAtChunk(int chunk) { return parent->timeAtChunk(chunk); }
-
-  //AnalysisData &dataAtChunk(int chunk) { myassert(chunk >= 0 && chunk < int(lookup.size())); return lookup[chunk]; }
-  //AnalysisData &dataAtCurrentTime() { return dataAtChunk(chunkAtCurrentTime()); }
 
   AnalysisData *dataAtChunk(int chunk) { return (isValidChunk(chunk)) ? &lookup[chunk] : NULL; }
   AnalysisData *dataAtCurrentChunk() { return dataAtChunk(currentChunk()); }
@@ -140,11 +133,9 @@ public:
   float averageMaxCorrelation(int begin, int end);
 
   float threshold() { return _threshold; }
-  //void setThreshold(float threshold) { _threshold = threshold; }
   void setIntThreshold(int thresholdPercentage) { _threshold = float(thresholdPercentage) / 100.0f; }
   void resetIntThreshold(int thresholdPercentage);
   void setColor(QColor c) { color = c; }
-  //static QColor getNextColour();
 
   bool isNotePlaying() { return noteIsPlaying; }
   bool isVisibleNote(int noteIndex_);
@@ -180,7 +171,7 @@ public:
   bool doingDetailedPitch() { return parent->doingDetailedPitch(); }
 
   void calcVibratoData(int chunk);
-  float periodOctaveEstimate(int chunk); /*< A estimate from over the whole duration of the note, to help get the correct octave */
+  float periodOctaveEstimate(int chunk); // A estimate from over the whole duration of the note, to help get the correct octave
 
   void exportChannel(int type, QString typeString);
   void doPronyFit(int chunk);
