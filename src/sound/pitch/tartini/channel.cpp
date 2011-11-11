@@ -354,6 +354,7 @@ float Channel::averagePitch(int begin, int end)
   return float(total / goodCount);
 }
 
+
 float Channel::averageMaxCorrelation(int begin, int end)
 {
 //   myassert(locked());
@@ -370,6 +371,7 @@ float Channel::averageMaxCorrelation(int begin, int end)
   //return (total / (end - begin + 1));
   return (totalCorrelation / (end - begin + 1));
 }
+
 
 AnalysisData *Channel::getActiveChannelCurrentChunkData()
 {
@@ -413,39 +415,21 @@ bool Channel::isVisibleNote(int noteIndex_)
 bool Channel::isVisibleChunk(AnalysisData *data)
 {
 //   myassert(data);
-  if(data->noteScore() >= gdata->ampThreshold(NOTE_SCORE,0)) return true;
-/*  if(gdata->pitchContourMode() == 0) {
-    if(gdata->amplitudeMode() == AMPLITUDE_RMS) {
-      //if(data->logrms() >= gdata->noiseThresholdDB()) return true;
-      if(data->logrms() >= gdata->ampThreshold(AMPLITUDE_RMS, 0)) return true;
-    } else if(gdata->amplitudeMode() == AMPLITUDE_MAX_INTENSITY) {
-      //if(data->maxIntensityDB() >= gdata->noiseThresholdDB()) return true;
-      if(data->maxIntensityDB() >= gdata->ampThreshold(AMPLITUDE_MAX_INTENSITY, 0)) return true;
-    } else if(gdata->amplitudeMode() == AMPLITUDE_CORRELATION) {
-      //if((data->correlation()-1.0f) * 160.0f >= gdata->noiseThresholdDB()) return true;
-      if(data->correlation() >= gdata->ampThreshold(AMPLITUDE_CORRELATION, 0)) return true;
-    //} else if(gdata->amplitudeMode() == AMPLITUDE_PURITY) {
-    //  if(data->volumeValue >= gdata->noiseThresholdDB()) return true;
-    } else {
-      return true;
-    }
-  } else {
-    return isVisibleNote(data->noteIndex);
-  }
-*/
-  return false;
+//   if(data->noteScore() >= gdata->ampThreshold(NOTE_SCORE,0)) return true;
+	if(data->noteScore() >= 0.03f) return true;
+	else return false;
 }
 
 bool Channel::isChangingChunk(AnalysisData *data)
 {
-  myassert(data);
-  if(data->noteChangeScore() >= gdata->ampThreshold(NOTE_CHANGE_SCORE,0)) return true;
+//   myassert(data);
+//   if(data->noteChangeScore() >= gdata->ampThreshold(NOTE_CHANGE_SCORE,0)) return true;
+  if(data->noteChangeScore() >= 0.12f) return true;
   else return false;
 }
 
 void Channel::backTrackNoteChange(int chunk) {
-  int first = MAX(chunk - (int)ceil(longTime/timePerChunk()), getLastNote()->startChunk()/*+5*/);
-  //printf("ceil = %d, %d\n", (int)ceil(longTime/timePerChunk()), chunk-first);
+  int first = qMax(chunk - (int)ceil(longTime/timePerChunk()), getLastNote()->startChunk());
   int last = chunk; //currentNote->endChunk();
   if(first >= last) return;
   float largestWeightedDiff = 0.0f; //fabs(dataAtChunk(first)->pitch - dataAtChunk(first)->shortTermMean);
@@ -475,20 +459,16 @@ void Channel::backTrackNoteChange(int chunk) {
 
   int curChunk = largestDiffChunk;
   if(curChunk < last) {
-    //dataAtChunk(curChunk)->noteIndex = NO_NOTE;
-    //dataAtChunk(curChunk)->notePlaying = false;
     curChunk++;
   }
   while((curChunk < last) && !isVisibleChunk(dataAtChunk(curChunk))) {
-    //dataAtChunk(curChunk)->noteIndex = NO_NOTE;
-    //dataAtChunk(curChunk)->notePlaying = false;
     curChunk++;
   }
   if((curChunk < last) && isVisibleChunk(dataAtChunk(curChunk))) {
     noteIsPlaying = true;
     noteBeginning(curChunk);
     NoteData *currentNote = getLastNote();
-    myassert(currentNote);
+//     myassert(currentNote);
     //periodDiff = 0.0f;
     dataAtChunk(curChunk)->noteIndex = getCurrentNoteIndex();
     dataAtChunk(curChunk)->notePlaying = true;
@@ -512,8 +492,8 @@ bool Channel::isNoteChanging(int chunk)
 {
   AnalysisData *prevData = dataAtChunk(chunk-1);
   if(!prevData) return false;
-  myassert(dataAtChunk(chunk));
-  myassert(noteData.size() > 0);
+//   myassert(dataAtChunk(chunk));
+//   myassert(noteData.size() > 0);
   AnalysisData *analysisData = dataAtChunk(chunk);
   //Note: analysisData.noteIndex is still undefined here
   int numChunks = getLastNote()->numChunks();
@@ -536,23 +516,12 @@ bool Channel::isNoteChanging(int chunk)
 
   if(numChunks >= (int)(ceil(longTime/timePerChunk()) / 2.0) && spread2 > 0.0) {
     analysisData->reason = 4;
-    //backTrackNoteChange(chunk);
     return true;
   }
-  //if(getCurrentNote()->numChunks() >= 2 && diff > 2/*1.5*/) { //if jumping to fast anywhere then note is changing
-  if(numChunks > 1 && diff > 2/*1.5*/) { //if jumping to fast anywhere then note is changing
-    //printf("numChunks=%d\n", getCurrentNote()->numChunks());
-    //printf("analysisData->pitch=%f, ", analysisData->pitch);
-    //printf("prevData->shortTermMean=%f\n", prevData->shortTermMean);
+  if(numChunks > 1 && diff > 2) { //if jumping to fast anywhere then note is changing
     analysisData->reason = 2;
-    //backTrackNoteChange(chunk);
     return true;
   }
-/*
-  if(numChunks > 1 && fabs(prevData->shortTermMean - prevData->longTermMean) > prevData->longTermDeviation) {
-    analysisData->reason = 3;
-    return true;
-  }*/
   return false;
 }
 
@@ -562,31 +531,27 @@ bool Channel::isNoteChanging(int chunk)
 */
 bool Channel::isLabelNote(int noteIndex_)
 {
-  myassert(noteIndex_ < (int)noteData.size());
+//   myassert(noteIndex_ < (int)noteData.size());
   if(noteIndex_ >= 0 && noteData[noteIndex_].isValid()) return true;
   else return false;
 }
 
 void Channel::processNoteDecisions(int chunk, float periodDiff)
 {
-  myassert(locked());
-  myassert(dataAtChunk(chunk));
+//   myassert(locked());
+//   myassert(dataAtChunk(chunk));
   AnalysisData &analysisData = *dataAtChunk(chunk);
-  //AnalysisData *prevAnalysisData = dataAtChunk(chunk-1);
 
   analysisData.reason = 0;
   //look for note transitions
   if(noteIsPlaying) {
     if(isVisibleChunk(&analysisData) /*&& !isChangingChunk(&analysisData)*/ && !isNoteChanging(chunk)) {
-      //noteData.back().addData(&analysisData, float(framesPerChunk()) / float(analysisData.period));
     } else {
-      //printf("ending chunk %d, ", chunk);
-      //printf("%s, %s\n", isVisibleChunk(&analysisData)?"T":"F", isNoteChanging(chunk)?"T":"F");
       noteIsPlaying = false;
       noteEnding(chunk);
     }
   } else { //if(!noteIsPlaying)
-    if(isVisibleChunk(&analysisData) /*&& !isChangingChunk(&analysisData)*/) {
+    if(isVisibleChunk(&analysisData)) {
       noteBeginning(chunk);
       periodDiff = 0.0f;
       noteIsPlaying = true;
@@ -596,31 +561,25 @@ void Channel::processNoteDecisions(int chunk, float periodDiff)
   analysisData.notePlaying = noteIsPlaying;
 
   if(noteIsPlaying) {
-      //addTo(nsdfData.begin(), nsdfData.end(), nsdfAggregateData.begin());
-      //addElements(nsdfAggregateData.begin(), nsdfAggregateData.end(), nsdfData.begin(), dB2Normalised(analysisData.logrms()));
-      //addToNSDFAggregate(dB2Normalised(analysisData.logrms()));
-      //addToNSDFAggregate(dB2Linear(analysisData.logrms()), analysisData.period);
       addToNSDFAggregate(dB2Linear(analysisData.logrms()), periodDiff);
       //analysisData.periodOctaveEstimate = calcOctaveEstimate();
       NoteData *currentNote = getLastNote();
-      myassert(currentNote);
+//       myassert(currentNote);
 
       analysisData.noteIndex = getCurrentNoteIndex();
       currentNote->setEndChunk(chunk+1);
 
       currentNote->addData(&analysisData, float(framesPerChunk()) / float(analysisData.period));
       currentNote->setPeriodOctaveEstimate(calcOctaveEstimate());
-      //if(!gdata->doingActiveCepstrum()) {
-      //if(!gdata->analysisType() == MPM_MODIFIED_CEPSTRUM) {
       if(gdata->analysisType() != MPM_MODIFIED_CEPSTRUM) {
         recalcNotePitches(chunk);
       }
-  } else { //if(!noteIsPlaying)
+  } /*else { //if(!noteIsPlaying)
 /*
       analysisData.noteIndex = NO_NOTE;
       analysisData.periodOctaveEstimate = -1.0f;
-*/
-  }
+
+  }*/
 }
 
 void Channel::noteBeginning(int chunk)
