@@ -106,10 +106,8 @@ public:
   double timePerChunk() { return parent->timePerChunk(); }
   double startTime() { return parent->startTime(); }
   void setStartTime(double newStartTime) { parent->setStartTime(newStartTime); }
-  //int chunkNum() { return parent->chunkNum(); }
   int totalChunks() { return lookup.size(); }
   double finishTime() { return startTime() + totalTime(); }
-  //double totalTime() { return double(lookup.size()) * timePerChunk(); }
   double totalTime() { return double(MAX(totalChunks()-1, 0)) * timePerChunk(); }
   void jumpToTime(double t) { parent->jumpToTime(t); }
   int chunkAtTime(double t) { return parent->chunkAtTime(t); }
@@ -148,7 +146,7 @@ public:
   void clearAmplitudeLookup();
   void recalcScoreThresholds();
 
-  QString getUniqueFilename();
+//   QString getUniqueFilename(); // I don't need this'
 
   NoteData *getLastNote();
   NoteData *getCurrentNote();
@@ -187,7 +185,7 @@ class ChannelLocker
   
 public:
   ChannelLocker(Channel *channel_) {
-    myassert(channel_);
+//     myassert(channel_);
     channel = channel_;
     channel->lock();
   }

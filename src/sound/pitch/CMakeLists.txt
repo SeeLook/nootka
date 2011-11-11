@@ -34,8 +34,17 @@ set( PITCH_SRCS
   tpitchfinder.cpp
  # tartini
   tartini/channel.cpp
+  tartini/analysisdata.cpp
+  tartini/mytransforms.cpp
+  tartini/notedata.cpp
+  tartini/zoomlookup.cpp
+  tartini/musicnotes.cpp
+  tartini/bspline.cpp
+  tartini/prony.cpp
+
   tartini/array1d.h
   tartini/array2d.h
+  tartini/large_vector.h
  # filters
   tartini/filters/Filter.h
   tartini/filters/FastSmoothedAveragingFilter.cpp

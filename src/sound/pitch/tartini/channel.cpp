@@ -20,14 +20,14 @@
 #include "channel.h"
 //#include "gdata.h"
 // #include "soundfile.h"
-
-#include <algorithm>
 // #include "myassert.h"
-#include "mystring.h"
+// #include "mystring.h"
+
+#include <math.h>
+#include <algorithm>
 #include <QFileDialog>
 #include <QFile>
 #include <QTextStream>
-
 #include "filters/FastSmoothedAveragingFilter.h"
 #include "filters/FixedAveragingFilter.h"
 #include "filters/GrowingAveragingFilter.h"
@@ -179,41 +179,24 @@ Channel::Channel(TpitchFinder *parent_, int size_, int k_) :
 
   visible = true;
   noteIsPlaying = false;
-  //setThreshold(0.97f);
-  //setIntThreshold(gdata->settings.getInt("Analysis", "thresholdValue"));
-  setIntThreshold(gdata->qsettings->value("Analysis/thresholdValue", 93).toInt());
-  //estimate = 0.0;
+/**  setIntThreshold(gdata->qsettings->value("Analysis/thresholdValue", 93).toInt()); */
+  setIntThreshold(parent->aGl().threshold);
   freq = 0.0;
   mutex = new QMutex(true);
   isLocked = false;
   int filterIndex = 2;
-  //choose the closest filter index
+  
+ //choose the closest filter index
   if(sampleRate > (48000 + 96000) / 2) filterIndex = 0; //96000 Hz
   else if(sampleRate > (44100 + 48000) / 2) filterIndex = 1; //48000 Hz
   else if(sampleRate > (22050 + 44100) / 2) filterIndex = 2; //44100 Hz
   else if(sampleRate > (11025 + 22050) / 2) filterIndex = 3; //22050 Hz
   else if(sampleRate > (8000 + 11025) / 2) filterIndex = 4; //11025 Hz
   else filterIndex = 5; //8000 Hz
- // printf("filterIndex = %d\n", filterIndex);
-  //highPassFilter = new IIR_Filter();
-  //lowPassFilter = new IIR_Filter();
-  //highPassFilter->make_IIR(highPassFilterCoeffB[filterIndex], highPassFilterCoeffA[filterIndex], 3);
-  //lowPassFilter->make_IIR(lowPassFilterCoeffB[2], lowPassFilterCoeffA[2], 3);
   highPassFilter = new IIR_Filter(highPassFilterCoeffB[filterIndex], highPassFilterCoeffA[filterIndex], 3);
-  //lowPassFilter = new IIR_Filter(lowPassFilterCoeffB[2], lowPassFilterCoeffA[2], 3);
   pitchSmallSmoothingFilter = new GrowingAverageFilter(sampleRate/64);
   pitchBigSmoothingFilter = new FastSmoothedAveragingFilter(sampleRate/16);
-  //pitchBigSmoothingFilter = new FixedAverageFilter(sampleRate/16);
-  //pitchBigSmoothingFilter = new GrowingAverageFilter(sampleRate/16);
-
-  //printf("typeid = %s\n", typeid(highPassFilter).name());
-  //printf("typeid = %s\n", typeid(lowPassFilter).name());
-
-  //highPassFilter->print();
-  //lowPassFilter->print();
-  //filterStateX1 = filterStateX2 = 0.0;
-  //filterStateY1 = filterStateY2 = 0.0;
-
+  
   fastSmooth = new fast_smooth(size_/8);
 }
 
@@ -229,9 +212,6 @@ void Channel::resetIntThreshold(int thresholdPercentage)
   _threshold = float(thresholdPercentage) / 100.0f;
   uint j;
   for(j=0; j<lookup.size(); j++) {
-    //parent->myTransforms.chooseCorrelationIndex(lookup.at(j), threshold(), lookup.at(j).periodOctaveEstimate);
-    //chooseCorrelationIndex(lookup.at(j), threshold(), lookup.at(j).periodOctaveEstimate);
-    //chooseCorrelationIndex(j, dataAtChunk(j)->periodOctaveEstimate);
     chooseCorrelationIndex(j, periodOctaveEstimate(j));
     calcDeviation(j);
   }
@@ -240,7 +220,6 @@ void Channel::resetIntThreshold(int thresholdPercentage)
 
 void Channel::resize(int newSize, int k_)
 {
-  //Array1d<float>::resize(newSize);
   coefficients_table.resize(newSize*4);
   if(k_ == 0) k_ = (newSize + 1) / 2;
   directInput.resize(newSize, 0.0);
@@ -271,7 +250,6 @@ void Channel::calc_last_n_coefficients(int n)
 	int start_pos = MAX(size() - n, 3);
 	float *buf_pos = begin() + start_pos;
 	float *coeff_pos = coefficients_table.begin()+start_pos*4;
-	//printf("toRead=%d, length()=%d, w=%d, start_pos=%d\n", toRead, gdata->mainBuffer->length(), gdata->coefficients_table.w(), start_pos);
 	for(;buf_pos < end(); buf_pos++) {
     const float &xm1 = buf_pos[-3];
     const float &x0 = buf_pos[-2];
@@ -289,28 +267,14 @@ void Channel::calc_last_n_coefficients(int n)
 */
 void Channel::processNewChunk(FilterState *filterState)
 {
-  myassert(locked());
-/*
-  int n = framesPerChunk();
-  if(!coefficients_table.isEmpty()) {
-    calc_last_n_coefficients(n);
-    //std::cout << coefficients_table;
-  }
-*/
-  
-  //printf("%d, %d, %d, %d\n", currentChunk(), parent->currentRawChunk(), parent->currentStreamChunk(), lookup.size());
-  //fflush(stdout);
+//   myassert(locked());
+
   //lock();
-  myassert(parent->currentRawChunk() == MAX(0, parent->currentStreamChunk()-1) ||
-           parent->currentRawChunk() == MAX(0, parent->currentStreamChunk()));
+//   myassert(parent->currentRawChunk() == MAX(0, parent->currentStreamChunk()-1) ||
+//            parent->currentRawChunk() == MAX(0, parent->currentStreamChunk()));
   lookup.push_back(AnalysisData());
   lookup.back().filterState = *filterState;
-  //printf("lookup=%d\n", lookup.capacity());
-  //AnalysisData &analysisData = lookup.back();
-  //parent->myTransforms.calculateAnalysisData(begin(), analysisData, nsdfData.begin(), threshold());
-  //parent->myTransforms.calculateAnalysisData(begin(), lookup.back(), nsdfData.begin(), threshold());
-  //parent->myTransforms.calculateAnalysisData(begin(), lookup.back(), this, threshold());
-  parent->myTransforms.calculateAnalysisData(/*begin(), */int(lookup.size())-1, this/*, threshold()*/);
+  parent->myTransforms.calculateAnalysisData(int(lookup.size())-1, this);
   //unlock();
 }
 
@@ -320,14 +284,9 @@ void Channel::processNewChunk(FilterState *filterState)
 */
 void Channel::processChunk(int chunk)
 {
-  //myassert(chunk >= 0 && chunk < totalChunks());
-  //lock();
-  myassert(locked());
+//   myassert(locked());
   if(chunk >= 0 && chunk < totalChunks())
-    //parent->myTransforms.calculateAnalysisData(begin(), *dataAtChunk(chunk), nsdfData.begin(), threshold());
-    //parent->myTransforms.calculateAnalysisData(begin(), *dataAtChunk(chunk), this, threshold());
-    parent->myTransforms.calculateAnalysisData(/*begin(), */chunk, this/*, threshold()*/);
-  //unlock();
+    parent->myTransforms.calculateAnalysisData(chunk, this);
 }
 
 void Channel::reset()
@@ -337,14 +296,7 @@ void Channel::reset()
   std::fill(coefficients_table.begin(), coefficients_table.end(), 0.0f);
   //estimate = 0.0;
 }
-
 /*
-QColor Channel::getNextColour()
-{
-	return colours[nextColour++ % 12];
-}
-*/
-
 QString Channel::getUniqueFilename()
 {
 	QString endingStar = (parent->saved()) ? QString("") : QString("*");
@@ -366,7 +318,7 @@ QString Channel::getUniqueFilename()
 	myassert(false);
 	return QString(getFilenamePart(getParent()->filename)) + endingStar;
 }
-
+*/
 /**
  * Returns the average pitch for a given channel between two frames.
  * It weights using a -ve cos shaped window
@@ -380,9 +332,7 @@ float Channel::averagePitch(int begin, int end)
 {
   if(begin < 0) begin = 0;
   if (begin >= end) return -1;
-  //myassert(mutex->locked());
-  myassert(locked());
-  myassert(isValidChunk(begin) && isValidChunk(end-1));
+//   myassert(isValidChunk(begin) && isValidChunk(end-1));
 
   // Init the total to be the first item if certain enough or zero if not
 
@@ -401,59 +351,20 @@ float Channel::averagePitch(int begin, int end)
     total += data->pitch * weight;
     goodCount += weight;
   }
-  //if (goodCount < 1.0) return -1;
   return float(total / goodCount);
 }
 
-/*
-float Channel::averagePitch(Channel *ch, int begin, int end)
-{
-  ChannelLocker channelLocker(ch);
-
-  //myassert(begin >= 0 && begin < int(ch->lookup.size()));
-  //myassert(end >= 0 && end < int(ch->lookup.size()));
-  if(ch->totalChunks() == 0) return -1;
-  if(!ch->hasAnalysisData()) return -1;
-  begin = bound(begin, 0, ch->totalChunks()-1);
-  end = bound(end, 0, ch->totalChunks());
-  //if (begin > end || begin >= ch->lookup.size() || end >= ch->lookup.size()) return -1;
-
-  // Init the total to be the first item if certain enough or zero if not
-  float goodCount = 0.0f;
-  float total = 0.0f;
-
-  for (int i = begin; i < end; i++) {
-    if (ch->dataAtChunk(i)->correlation() >= 0.8) {
-    //if (ch->isVisibleNote(ch->dataAtChunk(i)->noteIndex)) {
-      total += ch->dataAtChunk(i)->pitch * ch->dataAtChunk(i)->correlation();
-      //printf("Note is %f\n", ch->lookup.at(i).note);
-      goodCount += ch->dataAtChunk(i)->correlation();
-    }
-  }
-  //printf("begin = %d, end = %d\n", begin, end);
-  //printf("total = %f, goodCount = %f\n", total, goodCount);
-  if (goodCount == 0.0f) return -1;
-  return (total / goodCount);
-}
-*/
-
 float Channel::averageMaxCorrelation(int begin, int end)
 {
-  //myassert(mutex->locked());
-  myassert(locked());
-  //ChannelLocker channelLocker(ch);
-  //myassert(begin >= 0 && begin < int(ch->lookup.size()));
-  //myassert(end >= 0 && end < int(ch->lookup.size()));
+//   myassert(locked());
   if(!hasAnalysisData()) return -1;
-  begin = bound(begin, 0, totalChunks()-1);
-  end = bound(end, 0, totalChunks()-1);
-  //if (begin > end || begin >= ch->lookup.size() || end >= ch->lookup.size()) return -1;
+  begin = qBound(begin, 0, totalChunks()-1);
+  end = qBound(end, 0, totalChunks()-1);
 
   // Init the total to be the first item
   float totalCorrelation = dataAtChunk(begin)->correlation();
 
   for (int i = begin + 1; i < end; i++) {
-     //total += ch->dataAtChunk(i)->volumeValue;
      totalCorrelation += dataAtChunk(i)->correlation();
   }
   //return (total / (end - begin + 1));
@@ -462,8 +373,9 @@ float Channel::averageMaxCorrelation(int begin, int end)
 
 AnalysisData *Channel::getActiveChannelCurrentChunkData()
 {
-  Channel *active = gdata->getActiveChannel();
-  return (active) ? active->dataAtCurrentChunk() : NULL;
+//   Channel *active = gdata->getActiveChannel();
+//   return (active) ? active->dataAtCurrentChunk() : NULL;
+	return dataAtCurrentChunk();
 }
 
 void Channel::clearFreqLookup()
@@ -493,31 +405,14 @@ void Channel::recalcScoreThresholds()
 */
 bool Channel::isVisibleNote(int noteIndex_)
 {
-  myassert(noteIndex_ < (int)noteData.size());
-  //if(!(noteIndex_ >= 0)) return false;
+//   myassert(noteIndex_ < (int)noteData.size());
   if(noteIndex_ == NO_NOTE) return false;
-/*
-  if(gdata->amplitudeMode() == AMPLITUDE_RMS) {
-    //if(noteData[noteIndex_].maxRms >= gdata->noiseThreshold()) return true;
-    //if(noteData[noteIndex_].maxLogRMS >= gdata->noiseThresholdDB()) return true;
-    if(noteData[noteIndex_].maxLogRMS >= gdata->ampThreshold(AMPLITUDE_RMS, 0)) return true;
-  } else if(gdata->amplitudeMode() == AMPLITUDE_MAX_INTENSITY) {
-    //if(noteData[noteIndex_].maxIntensityDB >= gdata->noiseThresholdDB()) return true;
-    if(noteData[noteIndex_].maxIntensityDB >= gdata->ampThreshold(AMPLITUDE_MAX_INTENSITY, 0)) return true;
-  } else if(gdata->amplitudeMode() == AMPLITUDE_CORRELATION) {
-    //if((noteData[noteIndex_].maxCorrelation-1.0f) * 160.0f >= gdata->noiseThresholdDB()) return true;
-    if(noteData[noteIndex_].maxCorrelation >= gdata->ampThreshold(AMPLITUDE_CORRELATION, 0)) return true;
-  //} else if(gdata->amplitudeMode() == AMPLITUDE_PURITY) {
-  //  if(noteData[noteIndex_].maxPurity >= gdata->noiseThresholdDB()) return true;
-  }
-  return false;
-*/
   return true;
 }
 
 bool Channel::isVisibleChunk(AnalysisData *data)
 {
-  myassert(data);
+//   myassert(data);
   if(data->noteScore() >= gdata->ampThreshold(NOTE_SCORE,0)) return true;
 /*  if(gdata->pitchContourMode() == 0) {
     if(gdata->amplitudeMode() == AMPLITUDE_RMS) {
