@@ -38,7 +38,8 @@ class TpitchFinder : public QThread
 public:
     TpitchFinder();
     virtual ~TpitchFinder();
-	
+	  
+	  /** Audio input & pitch recognition settings. */
 	struct audioSetts {
 	  quint32 rate;
 	  quint8 chanells;
@@ -48,7 +49,7 @@ public:
 	  bool equalLoudness;
 	  
 	};
-	  /** global settings for pitch recognizeing. */
+	  /** global settings for pitch recognize. */
 	audioSetts aGl() { return m_aGl; }
 	
 	  /** Starts thread searching in @param chunk,
@@ -56,10 +57,17 @@ public:
 	   * First copy it to channel obiect. */
 	void searchIn(float *chunk);
 	
+	int currentChunk() { return m_chunkNum; }
+	void setCurrentChunk(int curCh) { m_chunkNum = curCh; }
+	void incrementChunk() { m_chunkNum++; }
+	
+protected:
+	void start();
+	
 private:
 	audioSetts m_aGl;
 	Channel *m_channel;
-	float *m_filteredChunk;
+	int m_chunkNum;
 	
 };
 

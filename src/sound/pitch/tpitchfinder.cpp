@@ -19,13 +19,13 @@
 #include "tpitchfinder.h"
 #include "tartini/channel.h"
 #include "tartini/filters/Filter.h"
+#include "tartini/sound/filters/IIR_Filter.h"
 
-TpitchFinder::TpitchFinder()
-{
 
-}
 
-TpitchFinder::~TpitchFinder()
+
+TpitchFinder::TpitchFinder() :
+  m_chunkNum(0)
 {
 	m_aGl.chanells = 1;
 	m_aGl.rate = 44100;
@@ -37,17 +37,35 @@ TpitchFinder::~TpitchFinder()
 	m_channel = new Channel(this, aGl().windowSize);
 }
 
+TpitchFinder::~TpitchFinder()
+{
+
+}
+
+
 void TpitchFinder::searchIn(float* chunk) {
 	// copy chunk to channel
-	
-	m_filteredChunk = new float[aGl().framesPerChunk];
-	m_channel->highPassFilter->filter(chunk, m_filteredChunk, aGl().framesPerChunk);
-	for(int i = 0; i < aGl().framesPerChunk; i++)
-		m_filteredChunk[i] = qBound(m_filteredChunk[i], -1.0f, 1.0f);
+	float *filteredChunk;
+	m_channel->lock();
+	if (aGl().equalLoudness) {
+	  filteredChunk = new float[aGl().framesPerChunk];
+	  m_channel->highPassFilter->filter(chunk, filteredChunk, aGl().framesPerChunk);
+	  for(int i = 0; i < aGl().framesPerChunk; i++)
+		  filteredChunk[i] = qBound(filteredChunk[i], -1.0f, 1.0f);
+	  }
 	m_channel->shift_left(aGl().framesPerChunk);
-	std::copy(chunk, chunk+aGl().framesPerChunk, Channel.end() - aGl().framesPerChunk);
+	std::copy(chunk, chunk+aGl().framesPerChunk, m_channel->end() - aGl().framesPerChunk);
+	if (aGl().equalLoudness)
+	  std::copy(filteredChunk, filteredChunk+aGl().framesPerChunk, m_channel->filteredInput.end() - aGl().framesPerChunk);
 	run();
 	
 }
 
+void TpitchFinder::start() {
+	FilterState filterState;
+	m_channel->processNewChunk(&filterState);	
+	m_channel->unlock();
+	incrementChunk();	
+	
+}
 

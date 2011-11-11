@@ -12,7 +12,7 @@ add_definitions(${QT_DEFINITIONS})
 include_directories(${QT_INCLUDES})
 include_directories(/usr/include/QtMobility)
 include_directories(/usr/include/QtMultimediaKit)
-include_directories( tartini )
+# include_directories( tartini )
 
 
 find_library(QTMULTIMEDIAKIT_LIBRARY
@@ -34,6 +34,14 @@ set( PITCH_SRCS
   tpitchfinder.cpp
  # tartini
   tartini/channel.cpp
+  tartini/array1d.h
+  tartini/array2d.h
+ # filters
+  tartini/filters/Filter.h
+  tartini/filters/FastSmoothedAveragingFilter.cpp
+  tartini/filters/FixedAveragingFilter.cpp
+  tartini/filters/GrowingAveragingFilter.cpp
+  tartini/filters/IIR_Filter.cpp
 )
 
 set( PITCH_MOC_SRCS
