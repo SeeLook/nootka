@@ -18,6 +18,7 @@
 
 #include "tpitchfinder.h"
 #include "tartini/channel.h"
+#include "tartini/filters/Filter.h"
 
 TpitchFinder::TpitchFinder()
 {
@@ -31,12 +32,21 @@ TpitchFinder::~TpitchFinder()
 	m_aGl.windowSize = 2048;
 	m_aGl.framesPerChunk = 1024;
 	m_aGl.dBFloor = -150.0;
+	m_aGl.equalLoudness = true;
 	
 	m_channel = new Channel(this, aGl().windowSize);
 }
 
 void TpitchFinder::searchIn(float* chunk) {
 	// copy chunk to channel
+	
+	m_filteredChunk = new float[aGl().framesPerChunk];
+	m_channel->highPassFilter->filter(chunk, m_filteredChunk, aGl().framesPerChunk);
+	for(int i = 0; i < aGl().framesPerChunk; i++)
+		m_filteredChunk[i] = qBound(m_filteredChunk[i], -1.0f, 1.0f);
+	m_channel->shift_left(aGl().framesPerChunk);
+	std::copy(chunk, chunk+aGl().framesPerChunk, Channel.end() - aGl().framesPerChunk);
+	run();
 	
 }
 
