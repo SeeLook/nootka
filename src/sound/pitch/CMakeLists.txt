@@ -41,10 +41,12 @@ set( PITCH_SRCS
   tartini/musicnotes.cpp
   tartini/bspline.cpp
   tartini/prony.cpp
+  tartini/conversions.cpp
 
   tartini/array1d.h
   tartini/array2d.h
   tartini/large_vector.h
+  tartini/myassert.h
  # filters
   tartini/filters/Filter.h
   tartini/filters/FastSmoothedAveragingFilter.cpp

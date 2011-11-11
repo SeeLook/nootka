@@ -49,7 +49,7 @@ TpitchFinder::~TpitchFinder()
 void TpitchFinder::searchIn(float* chunk) {
 	// copy chunk to channel
 	float *filteredChunk;
-	m_channel->lock();
+// 	m_channel->lock();
 	if (aGl().equalLoudness) {
 	  filteredChunk = new float[aGl().framesPerChunk+16] + 16;
 	  m_channel->highPassFilter->filter(chunk, filteredChunk, aGl().framesPerChunk);
@@ -67,7 +67,7 @@ void TpitchFinder::searchIn(float* chunk) {
 void TpitchFinder::start() {
 	FilterState filterState;
 	m_channel->processNewChunk(&filterState);	
-	m_channel->unlock();
+// 	m_channel->unlock();
 	incrementChunk();	
 	
 }
