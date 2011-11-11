@@ -26,6 +26,8 @@
 class MyTransforms;
 class Channel;
 
+enum 
+
 
 /** The main purpose of this class is to recognize pitch
  * of aduio data flowing throught it. 

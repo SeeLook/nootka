@@ -20,7 +20,6 @@
 #include "channel.h"
 //#include "gdata.h"
 // #include "soundfile.h"
-// #include "myassert.h"
 // #include "mystring.h"
 
 #include <math.h>
@@ -28,6 +27,9 @@
 #include <QFileDialog>
 #include <QFile>
 #include <QTextStream>
+
+#include "myassert.h"
+#include "conversions.h"
 #include "filters/FastSmoothedAveragingFilter.h"
 #include "filters/FixedAveragingFilter.h"
 #include "filters/GrowingAveragingFilter.h"
@@ -269,13 +271,13 @@ void Channel::processNewChunk(FilterState *filterState)
 {
 //   myassert(locked());
 
-  //lock();
-//   myassert(parent->currentRawChunk() == MAX(0, parent->currentStreamChunk()-1) ||
-//            parent->currentRawChunk() == MAX(0, parent->currentStreamChunk()));
+  lock();
+  myassert(parent->currentRawChunk() == MAX(0, parent->currentStreamChunk()-1) ||
+           parent->currentRawChunk() == MAX(0, parent->currentStreamChunk()));
   lookup.push_back(AnalysisData());
   lookup.back().filterState = *filterState;
   parent->myTransforms.calculateAnalysisData(int(lookup.size())-1, this);
-  //unlock();
+  unlock();
 }
 
 /** Analysis the current data and put it at chunk position in the lookup table
@@ -332,7 +334,7 @@ float Channel::averagePitch(int begin, int end)
 {
   if(begin < 0) begin = 0;
   if (begin >= end) return -1;
-//   myassert(isValidChunk(begin) && isValidChunk(end-1));
+  myassert(isValidChunk(begin) && isValidChunk(end-1));
 
   // Init the total to be the first item if certain enough or zero if not
 
@@ -368,7 +370,6 @@ float Channel::averageMaxCorrelation(int begin, int end)
   for (int i = begin + 1; i < end; i++) {
      totalCorrelation += dataAtChunk(i)->correlation();
   }
-  //return (total / (end - begin + 1));
   return (totalCorrelation / (end - begin + 1));
 }
 
@@ -407,14 +408,14 @@ void Channel::recalcScoreThresholds()
 */
 bool Channel::isVisibleNote(int noteIndex_)
 {
-//   myassert(noteIndex_ < (int)noteData.size());
+  myassert(noteIndex_ < (int)noteData.size());
   if(noteIndex_ == NO_NOTE) return false;
   return true;
 }
 
 bool Channel::isVisibleChunk(AnalysisData *data)
 {
-//   myassert(data);
+  myassert(data);
 //   if(data->noteScore() >= gdata->ampThreshold(NOTE_SCORE,0)) return true;
 	if(data->noteScore() >= 0.03f) return true;
 	else return false;
@@ -422,7 +423,7 @@ bool Channel::isVisibleChunk(AnalysisData *data)
 
 bool Channel::isChangingChunk(AnalysisData *data)
 {
-//   myassert(data);
+  myassert(data);
 //   if(data->noteChangeScore() >= gdata->ampThreshold(NOTE_CHANGE_SCORE,0)) return true;
   if(data->noteChangeScore() >= 0.12f) return true;
   else return false;
@@ -468,7 +469,7 @@ void Channel::backTrackNoteChange(int chunk) {
     noteIsPlaying = true;
     noteBeginning(curChunk);
     NoteData *currentNote = getLastNote();
-//     myassert(currentNote);
+    myassert(currentNote);
     //periodDiff = 0.0f;
     dataAtChunk(curChunk)->noteIndex = getCurrentNoteIndex();
     dataAtChunk(curChunk)->notePlaying = true;
@@ -492,8 +493,8 @@ bool Channel::isNoteChanging(int chunk)
 {
   AnalysisData *prevData = dataAtChunk(chunk-1);
   if(!prevData) return false;
-//   myassert(dataAtChunk(chunk));
-//   myassert(noteData.size() > 0);
+  myassert(dataAtChunk(chunk));
+  myassert(noteData.size() > 0);
   AnalysisData *analysisData = dataAtChunk(chunk);
   //Note: analysisData.noteIndex is still undefined here
   int numChunks = getLastNote()->numChunks();
@@ -503,7 +504,6 @@ bool Channel::isNoteChanging(int chunk)
     (analysisData->shortTermDeviation + analysisData->longTermDeviation);
   if(numChunks >= 5 && spread > 0.0) {
     analysisData->reason = 1;
-    //backTrackNoteChange(chunk);
     return true;
   }
 
@@ -531,7 +531,7 @@ bool Channel::isNoteChanging(int chunk)
 */
 bool Channel::isLabelNote(int noteIndex_)
 {
-//   myassert(noteIndex_ < (int)noteData.size());
+  myassert(noteIndex_ < (int)noteData.size());
   if(noteIndex_ >= 0 && noteData[noteIndex_].isValid()) return true;
   else return false;
 }
@@ -539,7 +539,7 @@ bool Channel::isLabelNote(int noteIndex_)
 void Channel::processNoteDecisions(int chunk, float periodDiff)
 {
 //   myassert(locked());
-//   myassert(dataAtChunk(chunk));
+  myassert(dataAtChunk(chunk));
   AnalysisData &analysisData = *dataAtChunk(chunk);
 
   analysisData.reason = 0;
@@ -562,9 +562,8 @@ void Channel::processNoteDecisions(int chunk, float periodDiff)
 
   if(noteIsPlaying) {
       addToNSDFAggregate(dB2Linear(analysisData.logrms()), periodDiff);
-      //analysisData.periodOctaveEstimate = calcOctaveEstimate();
       NoteData *currentNote = getLastNote();
-//       myassert(currentNote);
+      myassert(currentNote);
 
       analysisData.noteIndex = getCurrentNoteIndex();
       currentNote->setEndChunk(chunk+1);
