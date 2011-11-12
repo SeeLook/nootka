@@ -39,7 +39,6 @@
 #include "mytransforms.h"
 #include "useful.h"
 
-#include "../tpitchfinder.h"
 
 const double shortTime = 0.08; //0.08; //0.18;
 const float shortBase = 0.1f;

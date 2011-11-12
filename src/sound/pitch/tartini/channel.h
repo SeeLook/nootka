@@ -30,6 +30,8 @@
 #include "notedata.h"
 #include "large_vector.h"
 #include "filters/Filter.h"
+#include <QMutex>
+#include "../tpitchfinder.h"
 
 
 class TpitchFinder;
@@ -89,12 +91,14 @@ public:
   float *end() { return directInput.end(); }
   int size() { return directInput.size(); }
   float &at(int pos) { return directInput.at(pos); }
-  int rate() { return parent->rate(); }
+//   int rate() { return parent->rate(); }
+  int rate() { return parent->aGl().rate ; }
   virtual void resize(int newSize, int k_=0);
   virtual void shift_left(int n);
-  int framesPerChunk() { return parent->framesPerChunk(); }
-  void setParent(SoundFile *parent_) { parent = parent_; }
-  SoundFile* getParent() { return parent; }
+//   int framesPerChunk() { return parent->framesPerChunk(); }
+  int framesPerChunk() { return parent->aGl().framesPerChunk ; }
+//   void setParent(SoundFile *parent_) { parent = parent_; }
+//   SoundFile* getParent() { return parent; }
   void setPitchMethod(int pitch_method) { _pitch_method = pitch_method; }
   int pitchMethod() { return _pitch_method; }
   void calc_last_n_coefficients(int n);
@@ -103,7 +107,8 @@ public:
   bool isVisible() { return visible; }
   void setVisible(bool state=true) { visible = state; }
   void reset();
-  double timePerChunk() { return parent->timePerChunk(); }
+//   double timePerChunk() { return parent->timePerChunk(); }
+  double timePerChunk() { return double(parent->aGl().framesPerChunk) / double(parent->aGl().rate) ; }
   double startTime() { return parent->startTime(); }
   void setStartTime(double newStartTime) { parent->setStartTime(newStartTime); }
   int totalChunks() { return lookup.size(); }
