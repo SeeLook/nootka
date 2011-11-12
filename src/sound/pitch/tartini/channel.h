@@ -109,17 +109,20 @@ public:
   void reset();
 //   double timePerChunk() { return parent->timePerChunk(); }
   double timePerChunk() { return double(parent->aGl().framesPerChunk) / double(parent->aGl().rate) ; }
-  double startTime() { return parent->startTime(); }
-  void setStartTime(double newStartTime) { parent->setStartTime(newStartTime); }
+//   double startTime() { return parent->startTime(); }
+//   void setStartTime(double newStartTime) { parent->setStartTime(newStartTime); }
   int totalChunks() { return lookup.size(); }
-  double finishTime() { return startTime() + totalTime(); }
+//   double finishTime() { return startTime() + totalTime(); }
   double totalTime() { return double(MAX(totalChunks()-1, 0)) * timePerChunk(); }
-  void jumpToTime(double t) { parent->jumpToTime(t); }
-  int chunkAtTime(double t) { return parent->chunkAtTime(t); }
-  double chunkFractionAtTime(double t) { return parent->chunkFractionAtTime(t); }
-  int chunkAtCurrentTime() { return parent->chunkAtCurrentTime(); }
+//   void jumpToTime(double t) { parent->jumpToTime(t); }
+//   int chunkAtTime(double t) { return parent->chunkAtTime(t); }
+  int chunkAtTime(double t) { return toInt(chunkFractionAtTime(t)) ; }
+//   double chunkFractionAtTime(double t) { return parent->chunkFractionAtTime(t); }
+  double chunkFractionAtTime(double t) { return t / timePerChunk(); }
+//   int chunkAtCurrentTime() { return parent->chunkAtCurrentTime(); }
   int currentChunk() { return parent->currentChunk(); } //this one should be use to retrieve current info
-  double timeAtChunk(int chunk) { return parent->timeAtChunk(chunk); }
+//   double timeAtChunk(int chunk) { return parent->timeAtChunk(chunk); }
+  double timeAtChunk(int chunk) { return double(chunk) * timePerChunk(); }
 
   AnalysisData *dataAtChunk(int chunk) { return (isValidChunk(chunk)) ? &lookup[chunk] : NULL; }
   AnalysisData *dataAtCurrentChunk() { return dataAtChunk(currentChunk()); }
@@ -130,7 +133,7 @@ public:
   bool hasAnalysisData() { return !lookup.empty(); }
   bool isValidChunk(int chunk) { return (chunk >= 0 && chunk < totalChunks()); }
   bool isValidTime(double t) { return isValidChunk(chunkAtTime(t)); }
-  bool isValidCurrentTime() { return isValidChunk(chunkAtCurrentTime()); }
+//   bool isValidCurrentTime() { return isValidChunk(chunkAtCurrentTime()); }
   
   float averagePitch(int begin, int end);
   float averageMaxCorrelation(int begin, int end);
@@ -170,8 +173,10 @@ public:
   void resetNSDFAggregate(float period);
   void addToNSDFAggregate(const float scaler, float periodDiff);
   float calcDetailedPitch(float *input, double period, int chunk);
-  bool firstTimeThrough() { return parent->firstTimeThrough; }
-  bool doingDetailedPitch() { return parent->doingDetailedPitch(); }
+//   bool firstTimeThrough() { return parent->firstTimeThrough; }
+  bool firstTimeThrough() { return parent->aGl().firstTimeThrough; }
+//   bool doingDetailedPitch() { return parent->doingDetailedPitch(); }
+  bool doingDetailedPitch() { return parent->aGl().doingDetailedPitch; }
 
   void calcVibratoData(int chunk);
   float periodOctaveEstimate(int chunk); // A estimate from over the whole duration of the note, to help get the correct octave

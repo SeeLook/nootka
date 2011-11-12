@@ -154,9 +154,10 @@ double lowPassFilterCoeffA[3][3] = {
 };
 
 Channel::Channel(TpitchFinder *parent_, int size_, int k_) :
-	lookup(0, 128)
+	lookup(0, 128),
+	parent(parent_)
 {
-  setParent(parent_);
+//   setParent(parent_);
 /**   int sampleRate = parent->rate(); */
   int sampleRate = parent->aGl().rate;
   if(k_ == 0) k_ = (size_ + 1) / 2;

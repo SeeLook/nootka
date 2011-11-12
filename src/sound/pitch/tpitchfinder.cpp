@@ -40,6 +40,8 @@ TpitchFinder::TpitchFinder() :
 	m_aGl.doingFreqAnalysis = true;
 	m_aGl.doingAutoNoiseFloor = true;
 	m_aGl.doingHarmonicAnalysis = true;
+	m_aGl.firstTimeThrough = true;
+	m_aGl.doingDetailedPitch = true;
 	m_aGl.threshold = 93;
 	m_aGl.analysisType = e_MPM;
 	m_aGl.topPitch = 128.0;
