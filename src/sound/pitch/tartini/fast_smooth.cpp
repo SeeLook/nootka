@@ -1,6 +1,7 @@
 #include <math.h>
 #include "fast_smooth.h"
 #include <numeric>
+#include <algorithm>
 
 fast_smooth::fast_smooth(int size)
 {

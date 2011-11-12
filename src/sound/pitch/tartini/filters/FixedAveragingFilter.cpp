@@ -15,8 +15,8 @@
 #include <iostream>
 #include "FixedAveragingFilter.h"
 #include <algorithm>
-#include "myassert.h"
-#include "useful.h"
+#include "../myassert.h"
+#include "../useful.h"
 
 FixedAverageFilter::FixedAverageFilter(int size)
 {

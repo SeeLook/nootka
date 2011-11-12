@@ -10,38 +10,33 @@
    the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
    
-   Please read LICENSE.txt for details.
+   Please read LICENSE.txt for details.      
+   
+   Adjusted to Nootka by Tomasz Bojczuk
+	  tomaszbojczuk@gmail.com
+	  Copyright (C) 2011
  ***************************************************************************/
 
 #include <vector>
 
 #include "notedata.h"
-#include "gdata.h"
+// #include "gdata.h"
 #include "channel.h"
 #include "useful.h"
 #include "musicnotes.h"
 
+extern TpitchFinder::audioSetts *glAsett;
 
 NoteData::NoteData(Channel *channel_)
 {
   channel = channel_;
-  maxLogRMS = gdata->dBFloor();
+//   maxLogRMS = gdata->dBFloor();
+  maxLogRMS = glAsett->dBFloor;
   maxima = new Array1d<int>();
   minima = new Array1d<int>();
   _periodOctaveEstimate = 1.0f;
   _numPeriods = 0;
 }
-
-/*
-NoteData::NoteData(int startChunk_, int endChunk_, float logRMS_, float intensityDB_, float correlation_, float purity_)
-{
-  startChunk = startChunk_;
-  endChunk = endChunk_;
-  maxLogRMS = logRMS_;
-  maxIntensityDB = intensityDB_;
-  maxCorrelation = correlation_;
-  maxPurity = purity_;
-}*/
 
 NoteData::NoteData(Channel *channel_, int startChunk_, AnalysisData *analysisData)
 {
@@ -74,15 +69,8 @@ NoteData::NoteData(Channel *channel_, int startChunk_, AnalysisData *analysisDat
 NoteData::~NoteData()
 {
 }
-/*
-void NoteData::addValues(float logRMS_, float intensityDB_, float correlation_, float purity_)
-{
-  if(logRMS_ > maxLogRMS) maxLogRMS = logRMS_;
-  if(intensityDB_ > maxIntensityDB) maxIntensityDB = intensityDB_;
-  if(correlation_ > maxCorrelation) maxCorrelation = correlation_;
-  if(purity_ > maxPurity) maxPurity = purity_;
-}
-*/
+
+
 void NoteData::resetData()
 {
   _numPeriods = 0;
@@ -96,8 +84,8 @@ void NoteData::addData(AnalysisData *analysisData, float periods)
   maxPurity = MAX(maxPurity, analysisData->volumeValue());
   _volume = MAX(_volume, dB2Normalised(analysisData->logrms()));
   _numPeriods += periods; //sum up the periods
-  //_periodOctaveEstimate = analysisData->periodOctaveEstimate; //overwrite the old estimate
-  _avgPitch = bound(freq2pitch(avgFreq()), 0.0, gdata->topPitch());
+//   _avgPitch = bound(freq2pitch(avgFreq()), 0.0, gdata->topPitch());
+  _avgPitch = bound(freq2pitch(avgFreq()), 0.0, glAsett->topPitch);
 }
 
 /** @return The length of the note (in seconds)
@@ -233,5 +221,6 @@ void NoteData::recalcAvgPitch() {
   for(int j=startChunk(); j<endChunk(); j++) {
       _numPeriods += float(channel->framesPerChunk()) / float(channel->dataAtChunk(j)->period);
   }
-  _avgPitch = bound(freq2pitch(avgFreq()), 0.0, gdata->topPitch());
+  _avgPitch = bound(freq2pitch(avgFreq()), 0.0, glAsett->topPitch);
+//   _avgPitch = bound(freq2pitch(avgFreq()), 0.0, gdata->topPitch());
 }

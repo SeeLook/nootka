@@ -47,7 +47,7 @@ ELSE(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
   IF(WIN32)
             find_library(FFTW3_LIBRARY
 	    NAMES
-	      fftw3.dll
+	      fftw3f.dll
 	    PATHS
 	      ${CMAKE_CURRENT_SOURCE_DIR}
 	      ${CMAKE_CURRENT_BINARY_DIR}
@@ -55,7 +55,7 @@ ELSE(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
   ELSE(WIN32)
 	  find_library(FFTW3_LIBRARY
 	    NAMES
-	      fftw3
+	      fftw3f
 	    PATHS
 	      /usr/lib
 	      /usr/local/lib
@@ -80,7 +80,7 @@ IF(FFTW3_INCLUDE_DIRS AND FFTW3_LIBRARIES)
   IF(FFTW3_FOUND)
       message(STATUS "Fftw3 was Found in:\n${FFTW3_LIBRARIES}\n${FFTW3_INCLUDE_DIRS}")
   ELSE(FFTW3_FOUND)
-      message(FATAL_ERROR "Could not find Portaudio\nTry call cmake with args:\n-DFFTW3_LIBRARIES=/path_to/libfftw3.la(dll) -DFFTW3_INCLUDE_DIRS=/path_to_dir_with/fftw3.h\nor put those files in build dir or source dir")
+      message(FATAL_ERROR "Could not find Fftw3\nTry call cmake with args:\n-DFFTW3_LIBRARIES=/path_to/libfftw3.la(dll) -DFFTW3_INCLUDE_DIRS=/path_to_dir_with/fftw3.h\nor put those files in build dir or source dir")
   ENDIF(FFTW3_FOUND)
   mark_as_advanced(FFTW3_INCLUDE_DIRS FFTW3_LIBRARIES)
 ENDIF(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
@@ -106,6 +106,7 @@ set( PITCH_SRCS
   tartini/useful.cpp
   tartini/fast_smooth.cpp
   tartini/equalloudness.cpp
+  tartini/mymatrix.cpp
 
   tartini/array1d.h
   tartini/array2d.h
