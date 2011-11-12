@@ -20,6 +20,7 @@
 #include <memory>
 #include "myassert.h"
 #include <stdlib.h>
+#include <cstring>
 #include "useful.h"
 
 /** Warning!: Use only for arrays of basic types or pointers

@@ -159,7 +159,7 @@ void MusicScale::addScale(const char *theName, const int *theNotes, int length, 
     pSemitoneLookup[theNotes[j]] = true;
   }
 //   pName = copy_string(theName);
-  pName = theName;
+  pName = "some key";
   _semitoneOffset = semitoneOffset_;
 }
 
@@ -215,7 +215,8 @@ void MusicKey::setName(const char *theName)
 {
   if(pName) free(pName);
 //   pName = copy_string(theName);
-  pName = theName;
+//   pName = theName;
+  pName = "some key";
 }
 
 int MusicKey::nearestNoteIndex(double x) {

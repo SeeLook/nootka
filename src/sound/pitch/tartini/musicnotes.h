@@ -21,6 +21,7 @@
 
 #include "useful.h"
 #include "array1d.h"
+#include <vector>
 // #include "gdata.h"
 
 /** Returns the fractional note (from the midi scale)

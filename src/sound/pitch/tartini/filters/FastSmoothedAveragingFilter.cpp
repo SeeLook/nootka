@@ -15,8 +15,8 @@
 #include <iostream>
 #include "FastSmoothedAveragingFilter.h"
 #include <algorithm>
-#include "myassert.h"
-#include "useful.h"
+#include "../myassert.h"
+#include "../useful.h"
 
 /** Construct a FastSmoothedAverageFilter
   * @param size The total width of the hanning window. To keep data centered use an odd size
@@ -44,7 +44,7 @@ void FastSmoothedAveragingFilter::init(int size)
   reset();
 }
 
-#include "fast_smooth.h"
+#include "../fast_smooth.h"
 
 void FastSmoothedAveragingFilter::filter(const float *input, float *output, int n)
 {

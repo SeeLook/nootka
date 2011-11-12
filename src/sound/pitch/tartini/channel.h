@@ -128,7 +128,7 @@ public:
   AnalysisData *dataAtCurrentChunk() { return dataAtChunk(currentChunk()); }
   AnalysisData *dataAtTime(double t) { return dataAtChunk(chunkAtTime(t)); }
   large_vector<AnalysisData>::iterator dataIteratorAtChunk(int chunk) { return lookup.iterator_at(chunk); }
-  static AnalysisData *getActiveChannelCurrentChunkData();
+//   static AnalysisData *getActiveChannelCurrentChunkData();
   
   bool hasAnalysisData() { return !lookup.empty(); }
   bool isValidChunk(int chunk) { return (chunk >= 0 && chunk < totalChunks()); }

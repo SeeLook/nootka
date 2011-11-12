@@ -15,8 +15,8 @@
 #include <iostream>
 #include "IIR_Filter.h"
 #include <algorithm>
-#include "myassert.h"
-#include "useful.h"
+#include "../myassert.h"
+#include "../useful.h"
 
 /*
 void IIR_Filter::make_FIR(double *b, uint n)

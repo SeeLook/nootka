@@ -402,7 +402,8 @@ void MyTransforms::calculateAnalysisData(int chunk, Channel *ch)
       //goto finished; //return;
     } else {
       //calc the periodDiff
-      if(chunk > 0) {
+      if(chunk > 0 && prevAnalysisData->highestCorrelationIndex!=-1) {
+/**       if(chunk > 0) { */
         float prevPeriod = prevAnalysisData->periodEstimates[prevAnalysisData->highestCorrelationIndex];
         std::vector<float>::iterator closestIter = binary_search_closest(analysisData.periodEstimates.begin(), analysisData.periodEstimates.end(), prevPeriod);
         periodDiff = *closestIter - prevPeriod;

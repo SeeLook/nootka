@@ -186,7 +186,8 @@ Channel::Channel(TpitchFinder *parent_, int size_, int k_) :
 /**  setIntThreshold(gdata->qsettings->value("Analysis/thresholdValue", 93).toInt()); */
   setIntThreshold(parent->aGl().threshold);
   freq = 0.0;
-  mutex = new QMutex(true);
+//   mutex = new QMutex(true);
+  mutex = new QMutex();
   isLocked = false;
   int filterIndex = 2;
   
@@ -375,13 +376,13 @@ float Channel::averageMaxCorrelation(int begin, int end)
   return (totalCorrelation / (end - begin + 1));
 }
 
-
+/**
 AnalysisData *Channel::getActiveChannelCurrentChunkData()
 {
 //   Channel *active = gdata->getActiveChannel();
 //   return (active) ? active->dataAtCurrentChunk() : NULL;
 	return dataAtCurrentChunk();
-}
+} */
 
 void Channel::clearFreqLookup()
 {
@@ -742,7 +743,8 @@ bool Channel::chooseCorrelationIndex(int chunk, float periodOctaveEstimate)
   analysisData.period = analysisData.periodEstimates[choosenMaxIndex];
   double freq = rate() / analysisData.period;
   analysisData.fundamentalFreq = float(freq);
-  analysisData.pitch = bound(freq2pitch(freq), 0.0, gdata->topPitch());
+//   analysisData.pitch = bound(freq2pitch(freq), 0.0, gdata->topPitch());
+  analysisData.pitch = bound(freq2pitch(freq), 0.0, parent->aGl().topPitch );
   if(chunk > 0 && !isFirstChunkInNote(chunk)) {
     analysisData.pitchSum = dataAtChunk(chunk-1)->pitchSum + (double)analysisData.pitch;
     analysisData.pitch2Sum = dataAtChunk(chunk-1)->pitch2Sum + sq((double)analysisData.pitch);
@@ -939,10 +941,14 @@ float Channel::calcDetailedPitch(float *input, double period, int /*chunk*/)
   }
 
   pitchBigSmoothingFilter->filter(unsmoothed.begin(), detailedPitchDataSmoothed.begin(), num);
-  for(j=0; j<num; j++) detailedPitchDataSmoothed[j] = bound(detailedPitchDataSmoothed[j], 0.0f, (float)gdata->topPitch());
+  for(j=0; j<num; j++) 
+	  detailedPitchDataSmoothed[j] = bound(detailedPitchDataSmoothed[j], 0.0f, (float)parent->aGl().topPitch);
+// 	  detailedPitchDataSmoothed[j] = bound(detailedPitchDataSmoothed[j], 0.0f, (float)gdata->topPitch());
 
   pitchSmallSmoothingFilter->filter(unsmoothed.begin(), detailedPitchData.begin(), num);
-  for(j=0; j<num; j++) detailedPitchData[j] = bound(detailedPitchData[j], 0.0f, (float)gdata->topPitch());
+  for(j=0; j<num; j++)
+	  detailedPitchData[j] = bound(detailedPitchData[j], 0.0f, (float)parent->aGl().topPitch);
+// 	  detailedPitchData[j] = bound(detailedPitchData[j], 0.0f, (float)gdata->topPitch());
 
   return periodDiff;
 }
