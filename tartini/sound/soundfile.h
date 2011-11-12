@@ -110,7 +110,7 @@ public:
   //double timeAtChunk(int chunk) { return double(chunk - chunkOffset()) * timePerChunk(); }
   double timeAtChunk(int chunk) { return double(chunk) * timePerChunk(); }
   double timeAtCurrentChunk() { return timeAtChunk(currentChunk()); }
-  int chunkAtCurrentTime() { return chunkAtTime(gdata->view->currentTime()); }
+//   int chunkAtCurrentTime() { return chunkAtTime(gdata->view->currentTime()); }
   void shift_left(int n);
   //void nextChunk();
   void jumpToChunk(int chunk);

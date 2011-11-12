@@ -57,6 +57,8 @@ public:
 	  bool doingFreqAnalysis;
 	  bool doingAutoNoiseFloor;
 	  bool doingHarmonicAnalysis;
+	  bool firstTimeThrough;
+	  bool doingDetailedPitch;
 	  int threshold; // threshold of lowest loudness in [dB]
 	  EanalysisModes analysisType;
 	  double topPitch; // The highest possible note pitch allowed (lowest possible is 0)
