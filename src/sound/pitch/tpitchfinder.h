@@ -22,11 +22,12 @@
 
 
 #include <QThread>
+#include "tartini/mytransforms.h"
 
-class MyTransforms;
+// class MyTransforms;
 class Channel;
 
-
+// QT_FORWARD_DECLARE_CLASS(MyTransforms)
 
 enum EanalysisModes { e_MPM, e_AUTOCORRELATION, e_MPM_MODIFIED_CEPSTRUM };
 
@@ -40,7 +41,7 @@ class TpitchFinder : public QThread
 	Q_OBJECT
 	
 public:
-    TpitchFinder();
+    explicit TpitchFinder();
     virtual ~TpitchFinder();
 	
 	MyTransforms myTransforms;

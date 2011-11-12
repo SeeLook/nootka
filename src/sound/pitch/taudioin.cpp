@@ -49,7 +49,7 @@ TaudioIN::TaudioIN(QObject *parent) :
     m_audioInput(0),
     m_maxPeak(0),
     m_deviceInfo(QAudioDeviceInfo::defaultInputDevice()),
-    m_pitch(TpitchFinder())
+    m_pitch(new TpitchFinder())
 {    
 	setAudioDevice(m_deviceInfo.deviceName());
 // 	setAudioDevice("plughw:CARD=default,DEV=0");
