@@ -626,18 +626,15 @@ void MyTransforms::doChannelDataFFT(Channel *ch, float *curInput, int chunk)
     ch->fftData1[0] = bound(log10(sqValue) / 2.0 - logSize, glAsett->dBFloor, 0.0);
   else ch->fftData1[0] = glAsett->dBFloor; // gdata->dBFloor();
 
-  if(gdata->analysisType() == MPM_MODIFIED_CEPSTRUM) {
+//   if(gdata->analysisType() == MPM_MODIFIED_CEPSTRUM) {
+  if(glAsett->analysisType == e_MPM_MODIFIED_CEPSTRUM) {
     for(int j=1; j<nDiv2; j++) {
       dataFFT[j] = ch->fftData2[j];
       dataFFT[n-j] = 0.0;
     }
     dataFFT[0] = ch->fftData2[0];
-    //dataFFT[0] = 0.0;
     dataFFT[nDiv2] = 0.0;
     fftwf_execute(planDataFFT2Time);
-    //std::copy(dataTime, dataTime + nDiv2, ch->cepstrumData.begin());
-    //float theMax = *std::max_element(dataTime, dataTime+nDiv2);
-    //printf("theMax = %f\n", dataTime[0]);
 
     for(int j=1; j<n; j++) {
       dataTime[j] /= dataTime[0];
@@ -645,24 +642,8 @@ void MyTransforms::doChannelDataFFT(Channel *ch, float *curInput, int chunk)
     dataTime[0] = 1.0;
     for(int j=0; j<nDiv2; j++) ch->cepstrumData[j] = dataTime[j];
     AnalysisData &analysisData = *ch->dataAtChunk(chunk);
-    //analysisData.cepstrumIndex = findCepstrumMaximum(dataTime, nDiv2, 0.8f);
     analysisData.cepstrumIndex = findNSDFsubMaximum(dataTime, nDiv2, 0.6f);
     analysisData.cepstrumPitch = freq2pitch(double(analysisData.cepstrumIndex) / ch->rate());
-/*
-    //Take out everything above the pitch and reverse the cepstrum to get the frequency curve
-    int maxIndex = int(std::max_element(dataTime+10, dataTime+nDiv2) - dataTime) - 3;
-    maxIndex /= 2;
-    //maxIndex = 8;
-    if(maxIndex < 0) maxIndex = 0;
-    //printf("maxIndex = %d\n", maxIndex);
-    for(int j=maxIndex; j<n-maxIndex; j++) dataTime[j] = 0.0;
-
-    //for(int j=0; j<nDiv2; j++) ch->cepstrumData[j] = dataTime[j];
-
-    fftwf_execute(planDataTime2FFT);
-
-    for(int j=0; j<nDiv2; j++) ch->fftData3[j] = sqrt(sq(dataFFT[j])+sq(dataFFT[n-j]))/2;
-*/
   }
 }
 
@@ -673,7 +654,7 @@ void MyTransforms::calcHarmonicAmpPhase(float *harmonicsAmp, float *harmonicsPha
     harmonic = (j+1) * binsPerHarmonic;
     if(harmonic < n) {
       harmonicsAmp[j] = sqrt(sq(dataFFT[harmonic]) + sq(dataFFT[n-harmonic]));
-      harmonicsPhase[j] = atan2f(dataFFT[n-harmonic], dataFFT[harmonic]);
+      harmonicsPhase[j] = atan2((double)dataFFT[n-harmonic], (double)dataFFT[harmonic]);
     } else {
       harmonicsAmp[j] = 0.0;
       harmonicsPhase[j] = 0.0;
@@ -695,38 +676,21 @@ void MyTransforms::doHarmonicAnalysis(float *input, AnalysisData &analysisData, 
   stretch_array(n, input, n, dataTime, start, length, LINEAR);
   applyHanningWindow(dataTime);
   fftwf_execute(planDataTime2FFT);
-  calcHarmonicAmpPhase(harmonicsAmpLeft, harmonicsPhaseLeft, iNumPeriodsUse);
-  //printf("left\n");
-  //for(int jj=0; jj < 6; jj++)
-  //  printf("[%d %lf %lf]", jj, harmonicsAmpLeft[jj], harmonicsPhaseLeft[jj]);
-  //printf("\n");
+  calcHarmonicAmpPhase(harmonicsAmpLeft, harmonicsPhaseLeft, iNumPeriodsUse);  
   
   //do center
-  //float start = (float(n) - period) / 2.0;
-  //stretch_array(n, input, n, dataTime, start, period, LINEAR);
-  //start = centerX - ((numPeriodsUse) / 2.0) * period;
   start += period / 2.0;
   stretch_array(n, input, n, dataTime, start, length, LINEAR);
   applyHanningWindow(dataTime);
   fftwf_execute(planDataTime2FFT);
   calcHarmonicAmpPhase(harmonicsAmpCenter, harmonicsPhaseCenter, iNumPeriodsUse);
-  //printf("centre\n");
-  //for(int jj=0; jj < 6; jj++)
-  //  printf("[%d %lf %lf]", jj, harmonicsAmpCenter[jj], harmonicsPhaseCenter[jj]);
-  //printf("\n");
   
   //do right
-  //stretch_array(n, input, n, dataTime, float(n)/2.0, period, LINEAR);
-  //start = centerX - ((numPeriodsFit / 2.0) - 1) * period;
   start += period / 2.0;
   stretch_array(n, input, n, dataTime, start, length, LINEAR);
   applyHanningWindow(dataTime);
   fftwf_execute(planDataTime2FFT);
   calcHarmonicAmpPhase(harmonicsAmpRight, harmonicsPhaseRight, iNumPeriodsUse);
-  //printf("right\n");
-  //for(int jj=0; jj < 6; jj++)
-  //  printf("[%d %lf %lf]", jj, harmonicsAmpRight[jj], harmonicsPhaseRight[jj]);
-  //printf("\n");
   
   double freq = rate / period;
   int harmonic;
@@ -738,44 +702,28 @@ void MyTransforms::doHarmonicAnalysis(float *input, AnalysisData &analysisData, 
 
   for(int j=0; j<numHarmonics; j++) {
     harmonic = (j+1) * iNumPeriodsUse;
-    //analysisData.harmonicAmp[j] = float(analysisData.correlation / double(j+1));
-    //analysisData.harmonicFreq[j] = float(freq * double(j+1));
-    //analysisData.harmonicAmp[j] = log10(sqrt(sq(dataFFT[j+1]) + sq(dataFFT[n-(j+1)]))) / 10.0;
-    //analysisData.harmonicAmpNoCutOff[j] = analysisData.harmonicAmp[j] = log10(harmonicsAmpCenter[j]) / 5.0;
-    //analysisData.harmonicAmpNoCutOff[j] = analysisData.harmonicAmp[j] = log10(harmonicsAmpCenter[j] / hanningScalar);
-    //analysisData.harmonicAmpNoCutOff[j] = analysisData.harmonicAmp[j] = log10(harmonicsAmpCenter[j]/(double) n)* 20;
     analysisData.harmonicAmpNoCutOff[j] = analysisData.harmonicAmp[j] = log10(harmonicsAmpCenter[j] / hanningScalar) * 20;
-    //analysisData.harmonicAmpNoCutOff[j] = analysisData.harmonicAmp[j] = log10(harmonicsAmpCenter[j]);
-    //analysisData.harmonicAmp[j] = (analysisData.harmonicAmp[j] - gdata->noiseThresholdDB()) / (-gdata->noiseThresholdDB());
-    analysisData.harmonicAmp[j] = 1.0 - (analysisData.harmonicAmp[j] / gdata->ampThreshold(AMPLITUDE_RMS, 0));
+//     analysisData.harmonicAmp[j] = 1.0 - (analysisData.harmonicAmp[j] / gdata->ampThreshold(AMPLITUDE_RMS, 0));
+	analysisData.harmonicAmp[j] = 1.0 - (analysisData.harmonicAmp[j] / glAsett->ampThresholds[AMPLITUDE_RMS][0]);
     if(analysisData.harmonicAmp[j] < 0.0) analysisData.harmonicAmp[j] = 0.0;
     //should be 1 whole period between left and right. i.e. the same freq give 0 phase difference
     double diffAngle = (harmonicsPhaseRight[j] - harmonicsPhaseLeft[j]) / twoPI;
-    //if(diffAngle < 0) diffAngle++;
-    //if(diffAngle > 0.5) diffAngle--;
     diffAngle = cycle(diffAngle + 0.5, 1.0) - 0.5;
     double diffAngle2 = (harmonicsPhaseCenter[j] - harmonicsPhaseLeft[j]) / twoPI;
     //if an odd harmonic the phase will be 180 degrees out. So correct for this
     if(j % 2 == 0) diffAngle2 += 0.5;
-    //if(diffAngle2 < 0) diffAngle2++;
-    //while(diffAngle2 > 0.5) diffAngle2--;
     diffAngle2 = cycle(diffAngle2 + 0.5, 1.0) - 0.5;
     analysisData.harmonicNoise[j] = fabs(diffAngle2 - diffAngle);
     analysisData.harmonicFreq[j] = float(freq * double(j+1)) + (freq*diffAngle);
   }
 }
-/*
-void MyTransforms::applyHighPassFilter(float *input, float *output)
-{
-  int j;
-  highPassFilter->clear();
-  for(j=0; j<n; j++) output[j] = bound(highPassFilter->apply(input[j]), -1.0, 1.0);
-}
-*/
+
+
 void MyTransforms::applyHanningWindow(float *d)
 {
   for(int j=0; j<n; j++) d[j] *= hanningCoeff[j];
 }
+
 
 /**
   @param buffer The input buffer, as outputted from the fftw. ie 1st half real, 2nd half imaginary parts
@@ -789,7 +737,6 @@ double MyTransforms::calcFreqCentroid(float *buffer, int len)
   double absValue;
   for(int j=1; j<len/2; j++) { //ignore the end freq bins, ie j=0
     //calculate centroid
-    //absValue = sqrt(sq(dataFFT[j]) + sq(dataFFT[len-j]));
     absValue = sqrt(sq(buffer[j]) + sq(buffer[len-j]));
     centroid += double(j)*absValue;
     totalWeight += absValue;
@@ -797,6 +744,7 @@ double MyTransforms::calcFreqCentroid(float *buffer, int len)
   centroid /= totalWeight * double(len/2);
   return centroid;
 }
+
 
 /**
   @param buffer The input buffer of logarithmic magnitudes
@@ -813,6 +761,4 @@ double MyTransforms::calcFreqCentroidFromLogMagnitudes(float *buffer, int len)
     totalWeight += buffer[j];
   }
   return centroid;
-  //if(centroid == 0.0) return 0.0;
-  //return centroid / (totalWeight * double(len));
 }

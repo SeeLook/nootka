@@ -27,6 +27,67 @@ find_library(QTMULTIMEDIAKIT_LIBRARY
 mark_as_advanced(QTMULTIMEDIAKIT_LIBRARY)
 message(STATUS "${QTMULTIMEDIAKIT_LIBRARY}")
 
+###########################################################################
+########   Looking for fftw3
+###########################################################################
+IF(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
+  set(FFTW3_FOUND TRUE)
+ELSE(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
+  find_path(FFTW3_INCLUDE_DIR
+    NAMES
+      fftw3.h
+    PATHS
+      /usr/include
+      /usr/local/include
+      /opt/local/include
+      /sw/include
+      ${CMAKE_CURRENT_SOURCE_DIR}
+      ${CMAKE_CURRENT_BINARY_DIR}
+  )
+  IF(WIN32)
+            find_library(FFTW3_LIBRARY
+	    NAMES
+	      fftw3.dll
+	    PATHS
+	      ${CMAKE_CURRENT_SOURCE_DIR}
+	      ${CMAKE_CURRENT_BINARY_DIR}
+	  )
+  ELSE(WIN32)
+	  find_library(FFTW3_LIBRARY
+	    NAMES
+	      fftw3
+	    PATHS
+	      /usr/lib
+	      /usr/local/lib
+	      /opt/local/lib
+	      /sw/lib
+	      ${CMAKE_CURRENT_BINARY_DIR}
+	      ${CMAKE_CURRENT_SOURCE_DIR}
+  )
+  ENDIF(WIN32)
+
+  set(FFTW3_INCLUDE_DIRS
+    ${FFTW3_INCLUDE_DIR}
+  )
+  set(FFTW3_LIBRARIES
+    ${FFTW3_LIBRARY}
+)
+
+IF(FFTW3_INCLUDE_DIRS AND FFTW3_LIBRARIES)
+     set(FFTW3_FOUND TRUE)
+  ENDIF(FFTW3_INCLUDE_DIRS AND FFTW3_LIBRARIES)
+
+  IF(FFTW3_FOUND)
+      message(STATUS "Fftw3 was Found in:\n${FFTW3_LIBRARIES}\n${FFTW3_INCLUDE_DIRS}")
+  ELSE(FFTW3_FOUND)
+      message(FATAL_ERROR "Could not find Portaudio\nTry call cmake with args:\n-DFFTW3_LIBRARIES=/path_to/libfftw3.la(dll) -DFFTW3_INCLUDE_DIRS=/path_to_dir_with/fftw3.h\nor put those files in build dir or source dir")
+  ENDIF(FFTW3_FOUND)
+  mark_as_advanced(FFTW3_INCLUDE_DIRS FFTW3_LIBRARIES)
+ENDIF(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
+
+include_directories(${FFTW3_INCLUDE_DIRS})
+###################################################################################################################
+
 set( PITCH_SRCS 
   main.cpp
   mainwindow.cpp
@@ -78,5 +139,6 @@ TARGET_LINK_LIBRARIES( pitch
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
         ${QTMULTIMEDIAKIT_LIBRARY}
+        ${FFTW3_LIBRARIES}
         
 )
