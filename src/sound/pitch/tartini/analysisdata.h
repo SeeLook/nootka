@@ -10,21 +10,24 @@
    the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
    
-   Please read LICENSE.txt for details.
+   Please read LICENSE.txt for details.   
+   
+   Adjusted to Nootka by Tomasz Bojczuk
+	  tomaszbojczuk@gmail.com
+	  Copyright (C) 2011
  ***************************************************************************/
 
-#ifndef ANALYSIS_DAYA_H
-#define ANALYSIS_DAYA_H
+#ifndef ANALYSIS_DATA_H
+#define ANALYSIS_DATA_H
 
 //#include "useful.h"
 #include <functional>
 #include <vector>
-#include "Filter.h"
-#include "IIR_Filter.h"
+#include "filters/Filter.h"
+#include "filters/IIR_Filter.h"
 
 #include "conversions.h"
 
-//enum AmplitudeModes { AMPLITUDE_RMS, AMPLITUDE_MAX_INTENSITY, AMPLITUDE_CORRELATION, AMPLITUDE_PURITY, FREQ_CHANGENESS };
 enum AmplitudeModes { AMPLITUDE_RMS, AMPLITUDE_MAX_INTENSITY, AMPLITUDE_CORRELATION, FREQ_CHANGENESS, DELTA_FREQ_CENTROID, NOTE_SCORE, NOTE_CHANGE_SCORE };
 
 #define NUM_AMP_MODES 7
@@ -58,18 +61,13 @@ public:
   float vibratoPhase;
   float vibratoError;
   int reason; /*< The reason why there was a note change */
-  //float correlation; /*< How well the fundamental frequency fits the signal (0=no fit, 1=perfet fit) */
-  //float logrms; /*< The Root-mean-square, a measure of intensity/volume in the chunk */
-  //float maxIntensityDB;
   int highestCorrelationIndex;
   int chosenCorrelationIndex;
   float periodRatio; /*< The ratio of the current period to the period at the beginning of the current note */
 
   int cepstrumIndex;
   float cepstrumPitch;
-  //float periodOctaveEstimate; /*< A estimate from over the whole duration of the note, to help get the correct octave */
-  //float volumeValue; /*< A value between 0 and 1 related to volume and correlation */
-  //float changeness; /*< 0 for a stedy note, larger for a fast changing frequency */
+
   std::vector<float> periodEstimates;
   std::vector<float> periodEstimatesAmp;
   std::vector<float> harmonicAmpNoCutOff;
@@ -81,7 +79,6 @@ public:
   int noteIndex; //The index of the note in the noteData, or NO_NOTE
   bool notePlaying;
   bool done;
-  //bool isValid();
   AnalysisData();
   void calcScores();
 
@@ -111,48 +108,6 @@ struct lessPitch : public std::binary_function<AnalysisData &, AnalysisData &, b
 struct greaterPitch : public std::binary_function<AnalysisData &, AnalysisData &, bool> {
 	bool operator()(const AnalysisData &x, const AnalysisData &y) { return x.pitch > y.pitch; }
 };
-
-/*
-struct lessCorrelation : public std::binary_function<AnalysisData &, AnalysisData &, bool> {
-	bool operator()(const AnalysisData &x, const AnalysisData &y) { return x.correlation < y.correlation; }
-};
-
-struct greaterCorrelation : public std::binary_function<AnalysisData &, AnalysisData &, bool> {
-	bool operator()(const AnalysisData &x, const AnalysisData &y) { return x.correlation > y.correlation; }
-};
-
-struct lessVolumeValue : public std::binary_function<AnalysisData &, AnalysisData &, bool> {
-	bool operator()(const AnalysisData &x, const AnalysisData &y) { return x.volumeValue < y.volumeValue; }
-};
-
-struct greaterVolumeValue : public std::binary_function<AnalysisData &, AnalysisData &, bool> {
-	bool operator()(const AnalysisData &x, const AnalysisData &y) { return x.volumeValue > y.volumeValue; }
-};
-
-struct lessLogRMS : public std::binary_function<AnalysisData &, AnalysisData &, bool> {
-  bool operator()(const AnalysisData &x, const AnalysisData &y) { return x.logrms < y.logrms; }
-};
-
-struct greaterLogRMS : public std::binary_function<AnalysisData &, AnalysisData &, bool> {
-  bool operator()(const AnalysisData &x, const AnalysisData &y) { return x.logrms > y.logrms; }
-};
-
-struct lessMaxIntensityDB : public std::binary_function<AnalysisData &, AnalysisData &, bool> {
-  bool operator()(const AnalysisData &x, const AnalysisData &y) { return x.maxIntensityDB < y.maxIntensityDB; }
-};
-
-struct greaterMaxIntensityDB : public std::binary_function<AnalysisData &, AnalysisData &, bool> {
-  bool operator()(const AnalysisData &x, const AnalysisData &y) { return x.maxIntensityDB > y.maxIntensityDB; }
-};
-
-struct lessChangeness : public std::binary_function<AnalysisData &, AnalysisData &, bool> {
-  bool operator()(const AnalysisData &x, const AnalysisData &y) { return x.changeness < y.changeness; }
-};
-
-struct greaterChangeness : public std::binary_function<AnalysisData &, AnalysisData &, bool> {
-  bool operator()(const AnalysisData &x, const AnalysisData &y) { return x.changeness > y.changeness; }
-};
-*/
 
 struct lessValue : public std::binary_function<AnalysisData &, AnalysisData &, bool> {
   int v;

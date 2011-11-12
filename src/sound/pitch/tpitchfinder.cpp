@@ -20,10 +20,13 @@
 #include "tartini/channel.h"
 #include "tartini/mytransforms.h"
 #include "tartini/filters/Filter.h"
-#include "tartini/sound/filters/IIR_Filter.h"
+#include "tartini/filters/IIR_Filter.h"
+#include "tartini/analysisdata.h"
+
+#include <QDebug>
 
 
-
+TpitchFinder::audioSetts *glAsett;
 
 TpitchFinder::TpitchFinder() :
   m_chunkNum(0)
@@ -34,7 +37,22 @@ TpitchFinder::TpitchFinder() :
 	m_aGl.framesPerChunk = 1024;
 	m_aGl.dBFloor = -150.0;
 	m_aGl.equalLoudness = true;
+	m_aGl.doingFreqAnalysis = true;
+	m_aGl.doingAutoNoiseFloor = true;
+	m_aGl.doingHarmonicAnalysis = true;
 	m_aGl.threshold = 93;
+	m_aGl.analysisType = e_MPM;
+	m_aGl.topPitch = 128.0;
+	m_aGl.ampThresholds[AMPLITUDE_RMS][0]           = -85.0; m_aGl.ampThresholds[AMPLITUDE_RMS][1]           = -0.0;
+	m_aGl.ampThresholds[AMPLITUDE_MAX_INTENSITY][0] = -30.0; m_aGl.ampThresholds[AMPLITUDE_MAX_INTENSITY][1] = -20.0;
+	m_aGl.ampThresholds[AMPLITUDE_CORRELATION][0]   =  0.40; m_aGl.ampThresholds[AMPLITUDE_CORRELATION][1]   =  1.00;
+	m_aGl.ampThresholds[FREQ_CHANGENESS][0]         =  0.50; m_aGl.ampThresholds[FREQ_CHANGENESS][1]         =  0.02;
+	m_aGl.ampThresholds[DELTA_FREQ_CENTROID][0]     =  0.00; m_aGl.ampThresholds[DELTA_FREQ_CENTROID][1]     =  0.10;
+	m_aGl.ampThresholds[NOTE_SCORE][0]              =  0.03; m_aGl.ampThresholds[NOTE_SCORE][1]              =  0.20;
+	m_aGl.ampThresholds[NOTE_CHANGE_SCORE][0]       =  0.12; m_aGl.ampThresholds[NOTE_CHANGE_SCORE][1]       =  0.30;
+	
+	
+	glAsett = &m_aGl;
 	
 	m_channel = new Channel(this, aGl().windowSize);
 	myTransforms.init(aGl().windowSize, 0, aGl().rate, aGl().equalLoudness);
@@ -42,14 +60,17 @@ TpitchFinder::TpitchFinder() :
 
 TpitchFinder::~TpitchFinder()
 {
+	
 
 }
 
 
 void TpitchFinder::searchIn(float* chunk) {
 	// copy chunk to channel
-	float *filteredChunk;
+	float *filteredChunk = 0;
 // 	m_channel->lock();
+	if (m_channel->locked())
+		qDebug() << "channel still locked";
 	if (aGl().equalLoudness) {
 	  filteredChunk = new float[aGl().framesPerChunk+16] + 16;
 	  m_channel->highPassFilter->filter(chunk, filteredChunk, aGl().framesPerChunk);
@@ -60,8 +81,9 @@ void TpitchFinder::searchIn(float* chunk) {
 	std::copy(chunk, chunk+aGl().framesPerChunk, m_channel->end() - aGl().framesPerChunk);
 	if (aGl().equalLoudness)
 	  std::copy(filteredChunk, filteredChunk+aGl().framesPerChunk, m_channel->filteredInput.end() - aGl().framesPerChunk);
-	run();
-	
+	start();
+	if (filteredChunk)
+	  delete[] filteredChunk;
 }
 
 void TpitchFinder::start() {

@@ -36,6 +36,8 @@
 #include "prony.h"
 #include "musicnotes.h"
 #include "bspline.h"
+#include "mytransforms.h"
+#include "useful.h"
 
 #include "../tpitchfinder.h"
 
@@ -545,7 +547,7 @@ void Channel::processNoteDecisions(int chunk, float periodDiff)
   analysisData.reason = 0;
   //look for note transitions
   if(noteIsPlaying) {
-    if(isVisibleChunk(&analysisData) /*&& !isChangingChunk(&analysisData)*/ && !isNoteChanging(chunk)) {
+    if(isVisibleChunk(&analysisData) && !isNoteChanging(chunk)) {
     } else {
       noteIsPlaying = false;
       noteEnding(chunk);
@@ -570,7 +572,8 @@ void Channel::processNoteDecisions(int chunk, float periodDiff)
 
       currentNote->addData(&analysisData, float(framesPerChunk()) / float(analysisData.period));
       currentNote->setPeriodOctaveEstimate(calcOctaveEstimate());
-      if(gdata->analysisType() != MPM_MODIFIED_CEPSTRUM) {
+//       if(gdata->analysisType() != MPM_MODIFIED_CEPSTRUM) {
+	  if(parent->aGl().analysisType != e_MPM_MODIFIED_CEPSTRUM) {
         recalcNotePitches(chunk);
       }
   } /*else { //if(!noteIsPlaying)
@@ -581,38 +584,24 @@ void Channel::processNoteDecisions(int chunk, float periodDiff)
   }*/
 }
 
+
 void Channel::noteBeginning(int chunk)
 {
   AnalysisData *analysisData = dataAtChunk(chunk);
-  //noteData.push_back(NoteData(chunk, chunk+1, analysisData.logrms(), analysisData.maxIntensityDB(), analysisData.correlation(), analysisData.volumeValue())); 
-  //noteData.push_back(NoteData(this, chunk, analysisData, float(framesPerChunk()) / float(analysisData->period)));
   noteData.push_back(NoteData(this, chunk, analysisData));
-  //initalise the aggregate NSDF data with the current NSDF data
-  //std::copy(nsdfData.begin(), nsdfData.end(), nsdfAggregateData.begin());
-  //addElements(nsdfAggregateData.begin(), nsdfAggregateData.end(), nsdfData.begin(), dB2Normalised(analysisData->logrms()));
   resetNSDFAggregate(analysisData->period);
-  //addToNSDFAggregate(dB2Linear(analysisData->logrms()), 0.0f);
-  //printf("Note Beginning: period = %f\n", analysisData->period);
 
   pitchSmallSmoothingFilter->reset();
   pitchBigSmoothingFilter->reset();
 }
 
+
 void Channel::noteEnding(int chunk)
 {
   AnalysisData &analysisData = *dataAtChunk(chunk);
-  //recalcNotePitches(chunk);
-  /*
-  NoteData *currentNote = getCurrentNote();
-  myassert(currentNote);
-  currentNote->nsdfAggregateData = nsdfAggregateData;
-  currentNote->nsdfAggregateRoof = nsdfAggregateRoof;
-  */
   if(analysisData.reason > 0) {
     backTrackNoteChange(chunk);
   }
-
-  //getLastNote()->recalcAvgPitch();
 }
 
 /** Uses the nsdfAggregateData to get an estimate of
@@ -621,12 +610,10 @@ void Channel::noteEnding(int chunk)
     @return the estimated note period, or -1.0 if none found
 */
 float Channel::calcOctaveEstimate() {
-  //Array1d<float> agData = nsdfAggregateData;
   Array1d<float> agData = nsdfAggregateDataScaled;
   std::vector<int> nsdfAggregateMaxPositions;
   MyTransforms::findNSDFMaxima(agData.begin(), agData.size(), nsdfAggregateMaxPositions);
   if(nsdfAggregateMaxPositions.empty()) return -1.0;
-  //myassert(!nsdfAggregateMaxPositions.empty());
   
   //get the highest nsdfAggregateMaxPosition
   uint j;
@@ -636,51 +623,43 @@ float Channel::calcOctaveEstimate() {
   }
   //get the choosen nsdfAggregateMaxPosition
   double highest = agData[nsdfAggregateMaxPositions[nsdfAggregateMaxIndex]];
-  //double nsdfAggregateCutoff = bound(nsdfAggregateRoof - (nsdfAggregateRoof - highest) * 2.0, 0.0, highest);
   double nsdfAggregateCutoff = highest * threshold();
   /*Allow for overide by the threshold value*/
-  //nsdfAggregateCutoff = std::max(highest*threshold(), nsdfAggregateCutoff);
   int nsdfAggregateChoosenIndex = 0;
   for(j=0; j<nsdfAggregateMaxPositions.size(); j++) {
     if(agData[nsdfAggregateMaxPositions[j]] >= nsdfAggregateCutoff) { nsdfAggregateChoosenIndex = j; break; }
   }
-  float periodEstimate = float(nsdfAggregateMaxPositions[nsdfAggregateChoosenIndex]+1); //add 1 for index offset, ie position 0 = 1 period
-  //NoteData *currentNote = getLastNote();
-  //myassert(currentNote);
-  //float periodRatio = currentNote->currentNsdfPeriod / currentNote->firstNsdfPeriod;
-  //return periodEstimate * periodRatio;
+  //add 1 for index offset, ie position 0 = 1 period
+  float periodEstimate = float(nsdfAggregateMaxPositions[nsdfAggregateChoosenIndex]+1); 
   return periodEstimate;
 }
+
 
 void Channel::recalcNotePitches(int chunk)
 {
   if(!isValidChunk(chunk)) return;
-  //AnalysisData *data = dataAtChunk(chunk);
-
-  //noteData.back().setEndChunk(chunk+1);
+  
   //recalculate the values for the note using the overall periodOctaveEstimate
   NoteData *currentNote = getLastNote();
   if(currentNote == NULL) return;
   myassert(currentNote);
-  //float periodOctaveEstimate = currentNote->periodOctaveEstimate();
   int first = currentNote->startChunk();
   int last = chunk; //currentNote->endChunk();
   currentNote->resetData();
   int numNotesChangedIndex = 0;
   for(int curChunk=first; curChunk<=last; curChunk++) {
-    //dataAtChunk(curChunk)->periodOctaveEstimate = periodOctaveEstimate;
-    //if(chooseCorrelationIndex(curChunk, periodOctaveEstimate)) numNotesChangedIndex++;
     if(chooseCorrelationIndex(curChunk, periodOctaveEstimate(curChunk))) numNotesChangedIndex++;
     calcDeviation(curChunk);
     currentNote->addData(dataAtChunk(curChunk), float(framesPerChunk()) / float(dataAtChunk(curChunk)->period));
   }
-  //printf("numNotesChangedIndex=%d/%d\n", numNotesChangedIndex, last-first+1);
 }
+
 
 NoteData *Channel::getLastNote()
 {
   return (noteData.empty()) ? NULL : &noteData.back();
 }
+
 
 NoteData *Channel::getCurrentNote()
 {
@@ -691,6 +670,7 @@ NoteData *Channel::getCurrentNote()
   }
   return NULL;
 }
+
 
 NoteData *Channel::getNote(int noteIndex)
 {
@@ -708,12 +688,6 @@ void Channel::chooseCorrelationIndex1(int chunk)
   uint iterPos;
   int choosenMaxIndex = 0;
   if(analysisData.periodEstimates.empty()) { //no period found
-/*
-    analysisData.fundamentalFreq = 0.0f;
-    analysisData.note = 0.0f;
-    analysisData.chosenCorrelationIndex = -1;
-    analysisData.correlation() = 0.0f;
-*/
     return;
   }
   //choose a cutoff value based on the highest value and a relative threshold
@@ -726,17 +700,15 @@ void Channel::chooseCorrelationIndex1(int chunk)
   analysisData.chosenCorrelationIndex = choosenMaxIndex;
   analysisData.correlation() = analysisData.periodEstimatesAmp[choosenMaxIndex];
   
-  //double period = analysisData.periodEstimates[choosenMaxIndex];
   analysisData.period = analysisData.periodEstimates[choosenMaxIndex];
-  //float clarityMin = get_fine_clarity_measure(period);
-  //double freq = rate / period;
   double freq = rate() / analysisData.period;
   analysisData.fundamentalFreq = float(freq);
-  analysisData.pitch = bound(freq2pitch(freq), 0.0, gdata->topPitch());
-  //if(isnan(analysisData.note)) analysisData.note = 0.0f;
+//   analysisData.pitch = qBound(freq2pitch(freq), 0.0, gdata->topPitch());
+  analysisData.pitch = qBound(freq2pitch(freq), 0.0, parent->aGl().topPitch);
   analysisData.pitchSum = (double)analysisData.pitch;
   analysisData.pitch2Sum = sq((double)analysisData.pitch);
 }
+
 
 /** This uses an octave extimate to help chose the correct correlation index
   * Returns true if the new correlation index is different from the old one
@@ -749,23 +721,10 @@ bool Channel::chooseCorrelationIndex(int chunk, float periodOctaveEstimate)
   int choosenMaxIndex = 0;
   bool isDifferentIndex = false;
   if(analysisData.periodEstimates.empty()) { //no period found
-/*
-    analysisData.fundamentalFreq = 0.0f;
-    analysisData.note = 0.0f;
-    analysisData.chosenCorrelationIndex = -1;
-    analysisData.correlation() = 0.0f;
-*/
     return false;
   }
-  if(gdata->analysisType() == MPM || gdata->analysisType() == MPM_MODIFIED_CEPSTRUM) {
-    /*
-    //choose a cutoff value based on the highest value and a relative threshold
-    float cutoff = analysisData.periodEstimatesAmp[analysisData.highestCorrelationIndex] * threshold;
-    //find the first of the maxPositions which is above the cutoff
-    for(iterPos = 0; iterPos < analysisData.periodEstimatesAmp.size(); iterPos++) {
-      if(analysisData.periodEstimatesAmp[iterPos] >= cutoff) { choosenMaxIndex = iterPos; break; }
-    }
-    */
+//   if(gdata->analysisType() == MPM || gdata->analysisType() == MPM_MODIFIED_CEPSTRUM) {
+  if(parent->aGl().analysisType == e_MPM || parent->aGl().analysisType == e_MPM_MODIFIED_CEPSTRUM) {
   //choose the periodEstimate which is closest to the periodOctaveEstimate
     float minDist = fabs(analysisData.periodEstimates[0] - periodOctaveEstimate);
     float dist;
@@ -773,8 +732,6 @@ bool Channel::chooseCorrelationIndex(int chunk, float periodOctaveEstimate)
       dist = fabs(analysisData.periodEstimates[iterPos] - periodOctaveEstimate);
       if(dist < minDist) { minDist = dist; choosenMaxIndex = iterPos; }
     }
-
-    //myassert(wantedMaxPos > 0);
   } else {
     choosenMaxIndex = analysisData.highestCorrelationIndex;
   }
@@ -782,10 +739,7 @@ bool Channel::chooseCorrelationIndex(int chunk, float periodOctaveEstimate)
   analysisData.chosenCorrelationIndex = choosenMaxIndex;
   analysisData.correlation() = analysisData.periodEstimatesAmp[choosenMaxIndex];
   
-  //double period = analysisData.periodEstimates[choosenMaxIndex];
   analysisData.period = analysisData.periodEstimates[choosenMaxIndex];
-  //float clarityMin = get_fine_clarity_measure(period);
-  //double freq = rate / period;
   double freq = rate() / analysisData.period;
   analysisData.fundamentalFreq = float(freq);
   analysisData.pitch = bound(freq2pitch(freq), 0.0, gdata->topPitch());
@@ -796,23 +750,20 @@ bool Channel::chooseCorrelationIndex(int chunk, float periodOctaveEstimate)
     analysisData.pitchSum = (double)analysisData.pitch;
     analysisData.pitch2Sum = sq((double)analysisData.pitch);
   }
-  //if(isnan(analysisData.note)) analysisData.note = 0.0f;
   return isDifferentIndex;
 }
 
+
 void Channel::calcDeviation(int chunk) {
-  //int j;
   int lastChunk = chunk;
   int currentNoteIndex = getCurrentNoteIndex();
   myassert(dataAtChunk(chunk));
   AnalysisData &lastChunkData = *dataAtChunk(lastChunk);
-  //assert(currentNoteIndex >= 0);
   if(currentNoteIndex < 0) return;
 
   //Do long term calculation
-  int firstChunk = MAX(lastChunk - (int)ceil(longTime/timePerChunk()), noteData[currentNoteIndex].startChunk());
+  int firstChunk = qMax(lastChunk - (int)ceil(longTime/timePerChunk()), noteData[currentNoteIndex].startChunk());
   AnalysisData *firstChunkData = dataAtChunk(firstChunk);
-  //int numChunks = (lastChunk - firstChunk) + 1; //lastChunk is inclusive
   int numChunks = (lastChunk - firstChunk);
   double mean_sum, mean, sumX2, variance, standard_deviation;
   if(numChunks > 0) {
@@ -846,12 +797,14 @@ void Channel::calcDeviation(int chunk) {
   }
 }
 
+
 bool Channel::isFirstChunkInNote(int chunk)
 {
   AnalysisData *analysisData = dataAtChunk(chunk);
   if(analysisData && analysisData->noteIndex >= 0 && noteData[analysisData->noteIndex].startChunk() == chunk) return true;
   else return false;
 }
+
 
 void Channel::resetNSDFAggregate(float period)
 {
@@ -863,8 +816,6 @@ void Channel::resetNSDFAggregate(float period)
   myassert(currentNote);
   currentNote->nsdfAggregateRoof = 0.0;
   currentNote->currentNsdfPeriod = currentNote->firstNsdfPeriod = period;
-  //currentNote->resize(nsdfData.size());
-  //std::fill(currentNote->nsdfAggregateData.begin(), currentNote->nsdfAggregateData.end(), 0.0f);
 }
 
 void Channel::addToNSDFAggregate(const float scaler, float periodDiff)
@@ -880,10 +831,6 @@ void Channel::addToNSDFAggregate(const float scaler, float periodDiff)
   currentNote->currentNsdfPeriod += periodDiff;
   float periodRatio = currentNote->currentNsdfPeriod / currentNote->firstNsdfPeriod;
   analysisData.periodRatio = periodRatio;
-  //printf("%f, periodDiff = %f\n", currentNote->currentNsdfPeriod, periodDiff);
-  //printf("currentNsdfPeriod = %f\n", currentNote->currentNsdfPeriod);
-  //printf("ratio=%f\n", periodRatio);
-  //addElements(currentNote->nsdfAggregateData.begin(), currentNote->nsdfAggregateData.end(), nsdfData.begin(), scaler);
   int len = nsdfData.size();
   float stretch_len = float(len) * periodRatio;
   Array1d<float> stretch_data(len);
@@ -895,15 +842,8 @@ void Channel::addToNSDFAggregate(const float scaler, float periodDiff)
 
   //the unscaled version
   copyElementsDivide(nsdfAggregateData.begin(), nsdfAggregateData.end(), currentNote->nsdfAggregateData.begin(), currentNote->nsdfAggregateRoof);
-/*
-  printf("chunk = %d, ", currentChunk());
-  printf("scaler = %f, ", scaler);
-  printf("periodDiff = %f, ", periodDiff);
-  printf("currentNote->currentNsdfPeriod = %f, ", currentNote->currentNsdfPeriod);
-  printf("currentNote->firstNsdfPeriod = %f, ", currentNote->firstNsdfPeriod);
-  printf("periodRatio = %f\n", periodRatio);
-*/
 }
+
 
 /** Calculate (the middle half of) pitches within the current window of the input
     Calculates pitches for positions 1/4 of size() to 3/4 of size()
@@ -913,24 +853,18 @@ void Channel::addToNSDFAggregate(const float scaler, float periodDiff)
 */
 float Channel::calcDetailedPitch(float *input, double period, int /*chunk*/)
 {
-  //printf("begin calcDetailedPitch\n"); fflush(stdout);
   const int pitchSamplesRange = 4; //look 4 samples either side of the period. Total of 9 different subwindows.
 
   int n = size();
   int i, j, j2;
-  //int preferd_subwindow_size = n / 4;
   int subwindow_size;
-  //if(period < 1.0 || period > n/2 - pitchSamplesRange) {
   if(period < pitchSamplesRange || period > double(n)*(3.0/8.0) - pitchSamplesRange) {
     std::fill(detailedPitchData.begin(), detailedPitchData.end(), 0.0f); //invalid period
     std::fill(detailedPitchDataSmoothed.begin(), detailedPitchDataSmoothed.end(), 0.0f); //invalid period
-    //printf("end calcDetailedPitch\n"); fflush(stdout);
+//     printf("end calcDetailedPitch\n"); fflush(stdout);
     return 0.0f;
   }
   int iPeriod = int(floor(period));
-  //if(period < double(max_subwindow)) subwindow_size = int(floor(period * (double(max_subwindow) / period)));
-  //if(iPeriod < preferd_subwindow_size) subwindow_size = preferd_subwindow_size;
-  //else subwindow_size = iPeriod;
   subwindow_size = n/4;
   int num = n/2;
   int left_start = n/4 - iPeriod/2;
@@ -944,12 +878,6 @@ float Channel::calcDetailedPitch(float *input, double period, int /*chunk*/)
     right_start = iPeriod;
     right_finsh = right_start + num;
   }
-  //int num = n-subwindow_size-iPeriod;
-
-  //printf("n=%d, subwindow_size=%d, iPeriod=%d\n", n, subwindow_size, iPeriod);
-  /*std::vector<int> offsets;
-  for(j=-4; j<=4; j++) offsets.push_back(j); //do a total of 9 subwindows at once. 4 either side.
-  int ln = offsets.size();*/
 
   std::vector<int> periods;
   for(j=-pitchSamplesRange; j<=pitchSamplesRange; j++) periods.push_back(iPeriod+j);
@@ -966,24 +894,17 @@ float Channel::calcDetailedPitch(float *input, double period, int /*chunk*/)
   std::vector<float> err(ln);
   std::vector<float> result(ln);
   Array1d<float> unsmoothed(num);
-  //float *unsmoothed = new float[num];
-  //Array1d<float> smoothed(num);
-  //std::vector<float> smoothed_diff(num);
 
   //calc the values of pow and err for the first in each row.
   for(i=0; i<ln; i++) {
     left_pow[i] = right_pow[i] = pow[i] = err[i] = 0;
     int offset = periods[i]-iPeriod;
-    //for(j=0, j2=iPeriod+offsets[i]; j<subwindow_size-offsets[i]; j++, j2++) {
     for(j=0, j2=periods[i]; j<subwindow_size-offset; j++, j2++) {
       left_pow[i] += squareTable[j]; //sq(input[j]);
       right_pow[i] += squareTable[j2]; //sq(input[j2]);
       err[i] += sq(input[j] - input[j2]);
     }
   }
-  //printf("subwindow_size=%d, num=%d, period=%lf\n", subwindow_size, num, period);
-  //TODO: speed up this for loop
-  //for(j=0; j<num-1; j++) {
   int left1 = 0;
   int left2;
   int right1;
@@ -1000,8 +921,6 @@ float Channel::calcDetailedPitch(float *input, double period, int /*chunk*/)
       result[i] = 1.0 - (err[i] / pow[i]);
 
       err[i] += sq(input[left2] - input[right2]) - sq(input[left1] - input[right1]);
-      //left_pow[i]  += sq(input[left2])  - sq(input[left1]);
-      //right_pow[i] += sq(input[right2]) - sq(input[right1]);
       left_pow[i]  += squareTable[left2]  - squareTable[left1];
       right_pow[i] += squareTable[right2] - squareTable[right1];
     }
@@ -1014,42 +933,20 @@ float Channel::calcDetailedPitch(float *input, double period, int /*chunk*/)
       unsmoothed[left1] = double(periods[pos]);
   }
 
-  //fastSmooth->fast_smoothB(&(unsmoothed[0]), &(smoothed[0]), num-1);
-  //fastSmooth->fast_smoothB(&(unsmoothed[0]), detailedPitchData.begin(), num);
   float periodDiff = unsmoothed.back() - unsmoothed.front();
-
-  //float avgPitch = bound(freq2pitch(rate() / period), 0.0, gdata->topPitch());
   for(j=0; j<num; j++) {
-    //detailedPitchData[j] = bound(freq2pitch(rate() / smoothed[j]), 0.0, gdata->topPitch()) - avgPitch;
-    //detailedPitchData[j] = bound(freq2pitch(rate() / unsmoothed[j]), 0.0, gdata->topPitch());
-    //unsmoothed[j] = bound(freq2pitch(rate() / unsmoothed[j]), 0.0, gdata->topPitch());
     unsmoothed[j] = freq2pitch(rate() / unsmoothed[j]);
   }
 
-  //for(j=0; j<num; j++) detailedPitchData[j] = detailedPitchData[j] - period;
   pitchBigSmoothingFilter->filter(unsmoothed.begin(), detailedPitchDataSmoothed.begin(), num);
-  //printf("big filter size = %d\n", pitchBigSmoothingFilter->delay());
   for(j=0; j<num; j++) detailedPitchDataSmoothed[j] = bound(detailedPitchDataSmoothed[j], 0.0f, (float)gdata->topPitch());
 
-  //for(j=0; j<num; j++) printf("%f, %f\n", detailedPitchData[j], unsmoothed[j]);
-  //std::copy(unsmoothed, unsmoothed+num, detailedPitchData.begin());
-  //std::copy(unsmoothed.begin(), unsmoothed.end(), detailedPitchData.begin());
   pitchSmallSmoothingFilter->filter(unsmoothed.begin(), detailedPitchData.begin(), num);
-  //printf("small filter size = %d\n", pitchSmallSmoothingFilter->delay());
   for(j=0; j<num; j++) detailedPitchData[j] = bound(detailedPitchData[j], 0.0f, (float)gdata->topPitch());
-/*
-  int max_pos = 0;
-  for(j=0; j<num-2; j++) {
-    smoothed_diff[j] = fabs(smoothed[j+1] - smoothed[j]);
-    //printf("%f ", smoothed[j]);
-    if(smoothed_diff[j] > smoothed_diff[max_pos]) max_pos = j;
-  }
-  return;
-*/
-  //delete unsmoothed;
-  //printf("end calcDetailedPitch\n"); fflush(stdout);
+
   return periodDiff;
 }
+
 
 void Channel::calcVibratoData(int chunk)
 {
@@ -1061,8 +958,6 @@ void Channel::calcVibratoData(int chunk)
 
 float Channel::periodOctaveEstimate(int chunk)
 {
-  //return (float)rate() / 440.0f;
-
   AnalysisData *analysisData = dataAtChunk(chunk);
   if(analysisData && analysisData->noteIndex >= 0) {
     return noteData[analysisData->noteIndex].periodOctaveEstimate() * analysisData->periodRatio;
@@ -1070,6 +965,7 @@ float Channel::periodOctaveEstimate(int chunk)
   else return -1.0f;
 }
 
+/*
 void Channel::exportChannel(int type, QString typeString)
 {
   QString s = QFileDialog::getSaveFileName(mainWindow, "Choose a filename to save under", ".", typeString);
@@ -1110,6 +1006,7 @@ void Channel::exportChannel(int type, QString typeString)
   }
   f.close();
 }
+*/
 
 void Channel::doPronyFit(int chunk)
 {
@@ -1118,11 +1015,9 @@ void Channel::doPronyFit(int chunk)
   int start = chunk - pronyWindowSize;
   int center = chunk - pronyDelay();
   AnalysisData *data = dataAtChunk(center);
-  //AnalysisData *data = dataAtChunk(chunk);
   for(int j=0; j<pronyWindowSize; j++) {
     pronyData[j] = dataAtChunk(start + j)->pitch;
   }
-  //PronyData p = pronyFit(pronyData.begin(), pronyWindowSize, 2, timePerChunk(), true);
   PronyData p;
   if(pronyFit(&p, pronyData.begin(), pronyWindowSize, 2, true)) {
     data->vibratoError = p.error;
@@ -1134,11 +1029,6 @@ void Channel::doPronyFit(int chunk)
       } else {
         data->vibratoWidth = p.amp;
         data->vibratoPhase = p.phase;
-        //float xCenter = pronyData[pronyWindowSize/2-1];
-        //float fitCenter = p.amp * sin((pronyWindowSize/2-1)*p.omega + p.phase);
-        //dataAtChunk(center)->vibratoPitch += fitCenter;
-        //dataAtChunk(center)->vibratoPitch = xCenter;
-        //dataAtChunk(center)->vibratoWidthAdjust = xCenter / fitCenter;
         data->vibratoWidthAdjust = 0.0f;
       }
     } else {

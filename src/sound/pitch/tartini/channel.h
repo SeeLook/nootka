@@ -146,7 +146,7 @@ public:
   void clearAmplitudeLookup();
   void recalcScoreThresholds();
 
-//   QString getUniqueFilename(); // I don't need this'
+//   QString getUniqueFilename(); // I don't need this
 
   NoteData *getLastNote();
   NoteData *getCurrentNote();
@@ -171,7 +171,7 @@ public:
   void calcVibratoData(int chunk);
   float periodOctaveEstimate(int chunk); // A estimate from over the whole duration of the note, to help get the correct octave
 
-  void exportChannel(int type, QString typeString);
+// void exportChannel(int type, QString typeString); // I don't need this
   void doPronyFit(int chunk);
   int pronyDelay() { return pronyWindowSize/2; }
 };

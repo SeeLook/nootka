@@ -42,11 +42,15 @@ set( PITCH_SRCS
   tartini/bspline.cpp
   tartini/prony.cpp
   tartini/conversions.cpp
+  tartini/useful.cpp
+  tartini/fast_smooth.cpp
+  tartini/equalloudness.cpp
 
   tartini/array1d.h
   tartini/array2d.h
   tartini/large_vector.h
   tartini/myassert.h
+  tartini/SmartPtr.h
  # filters
   tartini/filters/Filter.h
   tartini/filters/FastSmoothedAveragingFilter.cpp

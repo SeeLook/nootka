@@ -26,8 +26,9 @@
 class MyTransforms;
 class Channel;
 
-enum 
 
+
+enum EanalysisModes { e_MPM, e_AUTOCORRELATION, e_MPM_MODIFIED_CEPSTRUM };
 
 /** The main purpose of this class is to recognize pitch
  * of aduio data flowing throught it. 
@@ -52,7 +53,13 @@ public:
 	  quint32 framesPerChunk; // in mono signal frames are the same as samples
 	  double dBFloor;
 	  bool equalLoudness;
+	  bool doingFreqAnalysis;
+	  bool doingAutoNoiseFloor;
+	  bool doingHarmonicAnalysis;
 	  int threshold; // threshold of lowest loudness in [dB]
+	  EanalysisModes analysisType;
+	  double topPitch; // The highest possible note pitch allowed (lowest possible is 0)
+	  double ampThresholds[7][2];
 	  
 	};
 	  /** global settings for pitch recognize. */

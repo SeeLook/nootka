@@ -60,6 +60,7 @@ TaudioIN::TaudioIN(QObject *parent) :
 TaudioIN::~TaudioIN()
 {
 	m_buffer.clear();
+	delete[] m_floatBuff;
 }
 
 

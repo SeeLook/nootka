@@ -11,23 +11,34 @@
    (at your option) any later version.
    
    Please read LICENSE.txt for details.
+   
+   Adjusted to Nootka by Tomasz Bojczuk
+	  tomaszbojczuk@gmail.com
+	  Copyright (C) 2011
  ***************************************************************************/
 
 #include <math.h>
-#include "gdata.h"
+// #include "gdata.h"
+#include "useful.h"
+#include "../tpitchfinder.h"
+
+extern TpitchFinder::audioSetts *glAsett;
 
 /* x is between 0 and 1. 1 becomes 0dB and 0 becomes dBFloor (-ve) */
 double linear2dB(double x) {
-  return (x > 0.0) ? bound((log10(x) * 20.0), gdata->dBFloor(), 0.0) : gdata->dBFloor();
+//   return (x > 0.0) ? bound((log10(x) * 20.0), gdata->dBFloor(), 0.0) : gdata->dBFloor();
+	return (x > 0.0) ? bound((log10(x) * 20.0), glAsett->dBFloor , 0.0) : glAsett->dBFloor;
 }
 double dB2Linear(double x) {
   return pow10(x / 20.0);
 }
 double dB2Normalised(double x) {
-  return bound(1.0 - (x / gdata->dBFloor()), 0.0, 1.0);
+//   return bound(1.0 - (x / gdata->dBFloor()), 0.0, 1.0);
+	return bound(1.0 - (x / glAsett->dBFloor), 0.0, 1.0);
 }
 double normalised2dB(double x) {
-  return (1.0 - x) * gdata->dBFloor();
+//   return (1.0 - x) * gdata->dBFloor();
+	return (1.0 - x) * glAsett->dBFloor;
 }
 double dB2ViewVal(double x) {
   //return sqrt(pow10(x / 20.0))*10.0;
