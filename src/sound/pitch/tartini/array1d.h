@@ -16,10 +16,8 @@
 #ifndef ARRAY1D_H
 #define ARRAY1D_H
 
-//#include <algorithm>
 #include <iostream>
 #include <memory>
-//#define NDEBUG //removes the asserts
 #include "myassert.h"
 #include <stdlib.h>
 #include "useful.h"

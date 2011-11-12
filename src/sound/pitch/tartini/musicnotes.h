@@ -11,13 +11,17 @@
    (at your option) any later version.
    
    Please read LICENSE.txt for details.
+   
+   Adjusted to Nootka by Tomasz Bojczuk
+	  tomaszbojczuk@gmail.com
+	  Copyright (C) 2011
  ***************************************************************************/
 #ifndef MUSICNOTES_H
 #define MUSICNOTES_H
 
 #include "useful.h"
 #include "array1d.h"
-#include "gdata.h"
+// #include "gdata.h"
 
 /** Returns the fractional note (from the midi scale)
 @param freq The frequency in Hz
@@ -39,15 +43,9 @@ inline double freq2note(double freq)
 */
 inline double freq2pitch(double freq)
 {
-	//if(gdata) freq += gdata->freqA() - 440.0;
 #ifdef log2
-	//return 69 + 12*log2(freq / 440);
-	//From log rules  log(x/y) = log(x) - log(y)
-	//return 69 + 12*(log2(freq) - log2(440));
 	return -36.3763165622959152488 + 12.0*log2(freq);
 #else
-	//From log rules  log_b(x) = log_a(x) / log_a(b)
-	//return 69 + 39.8631371386483481*log10(freq / 440);
 	return -36.3763165622959152488 + 39.8631371386483481*log10(freq);
 #endif
 }
@@ -57,7 +55,6 @@ inline double freq2pitch(double freq)
 inline double pitch2freq(double note)
 {
 	double result = pow10((note + 36.3763165622959152488) / 39.8631371386483481);
-	//if(gdata) result -= (gdata->freqA() - 440.0);
 	return result;
 }
 
@@ -121,8 +118,6 @@ class MusicKey
 
 void initMusicStuff();
 
-//extern MusicKey EvenTempered;
-//extern MusicKey JustIntonation;
 #define NUM_MUSIC_KEYS 12
 extern std::vector<MusicKey> gMusicKeys;
 extern std::vector<MusicScale> gMusicScales;
