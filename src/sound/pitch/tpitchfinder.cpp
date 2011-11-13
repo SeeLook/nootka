@@ -73,28 +73,23 @@ TpitchFinder::~TpitchFinder()
 
 
 void TpitchFinder::searchIn(float* chunk) {
-// 	qDebug() << "search";
 	// copy chunk to channel
-	
-// 	m_channel->lock();
 	if (m_channel->locked())
 		qDebug() << "channel still locked";
 	if (aGl().equalLoudness) {
-// 	  filteredChunk = new float[aGl().framesPerChunk+16] + 16;
 	  m_channel->highPassFilter->filter(chunk, filteredChunk, aGl().framesPerChunk);
-	  for(int i = 0; i < aGl().framesPerChunk; i++)
+	  for(int i = 0; i < aGl().framesPerChunk-1; i++)
 		  filteredChunk[i] = qBound(filteredChunk[i], -1.0f, 1.0f);
 	}
-// 	qDebug() << "filtered";
 	m_channel->shift_left(aGl().framesPerChunk);
-	std::copy(chunk, chunk+aGl().framesPerChunk - 1, m_channel->end() - aGl().framesPerChunk -1);
+	std::copy(chunk, chunk+aGl().framesPerChunk - 1, m_channel->end() - aGl().framesPerChunk);
 	if (aGl().equalLoudness)
-	  std::copy(filteredChunk, filteredChunk+aGl().framesPerChunk, m_channel->filteredInput.end() - aGl().framesPerChunk);
+	  std::copy(filteredChunk, filteredChunk+aGl().framesPerChunk-1, m_channel->filteredInput.end() - aGl().framesPerChunk);
 	
-	for(int i = 0; i<aGl().framesPerChunk; i++) {
-		std::cout << *(m_channel->begin()+i) <<  "\t";
+// 	for(int i = 0; i<aGl().framesPerChunk-1; i++) {
+// 		std::cout << *(m_channel->end()-1023+i) <<  "\t";
 // 		std::cout << *(filteredChunk+i) <<  "\t";
-	}
+// 	}
 	start();
 // 	qDebug() << "started";
 // 	if (filteredChunk)
@@ -104,20 +99,21 @@ void TpitchFinder::searchIn(float* chunk) {
 
 void TpitchFinder::start() {
 	FilterState filterState;
-	m_channel->processNewChunk(&filterState);
-// 	qDebug() << "channle ready";
-// 	m_channel->unlock();
-// 	incrementChunk();
-	m_channel->lock();
-	AnalysisData *data = m_channel->dataAtCurrentChunk();
-	if (data) {
-//           qDebug() << "data chunk" << data->noteIndex;
-	  
-	  if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex))
-		qDebug() << data->pitch;
+	qDebug() << currentChunk();
+	if (currentChunk()) {
+		m_channel->processNewChunk(&filterState);
+  // 	incrementChunk();
+	  m_channel->lock();
+	  AnalysisData *data = m_channel->dataAtCurrentChunk();
+	  if (data) {
+            qDebug() << "data chunk" << data->noteIndex;
+		
+		if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex))
+		  qDebug() << data->pitch;
+	  }
+  // 	qDebug() << "data chunk";
+	  m_channel->unlock();
 	}
-// 	qDebug() << "data chunk";
-	m_channel->unlock();
 	incrementChunk();
 	
 }	
