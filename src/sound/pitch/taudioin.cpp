@@ -110,7 +110,7 @@ void TaudioIN::audioDataReady() {
 		m_pitch->searchIn(m_floatBuff);
 		m_floatsWriten = 0;
 // 		qDebug() << "read data" << dataRead ;
-		exit(77);
+// 		exit(77);
 	  }
 	}
 	 
