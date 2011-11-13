@@ -28,6 +28,8 @@
 
 TpitchFinder::audioSetts *glAsett;
 
+float *filteredChunk = 0;
+
 TpitchFinder::TpitchFinder() :
   m_chunkNum(0)
 {
@@ -58,6 +60,8 @@ TpitchFinder::TpitchFinder() :
 	
 	m_channel = new Channel(this, aGl().windowSize);
 	myTransforms.init(aGl().windowSize, 0, aGl().rate, aGl().equalLoudness);
+	if (aGl().equalLoudness)
+	  filteredChunk = new float[aGl().framesPerChunk+16] + 16;
 }
 
 TpitchFinder::~TpitchFinder()
@@ -70,12 +74,12 @@ TpitchFinder::~TpitchFinder()
 void TpitchFinder::searchIn(float* chunk) {
 // 	qDebug() << "search";
 	// copy chunk to channel
-	float *filteredChunk = 0;
+	
 // 	m_channel->lock();
 	if (m_channel->locked())
 		qDebug() << "channel still locked";
 	if (aGl().equalLoudness) {
-	  filteredChunk = new float[aGl().framesPerChunk+16] + 16;
+// 	  filteredChunk = new float[aGl().framesPerChunk+16] + 16;
 	  m_channel->highPassFilter->filter(chunk, filteredChunk, aGl().framesPerChunk);
 	  for(int i = 0; i < aGl().framesPerChunk; i++)
 		  filteredChunk[i] = qBound(filteredChunk[i], -1.0f, 1.0f);
