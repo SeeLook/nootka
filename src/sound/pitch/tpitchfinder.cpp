@@ -100,10 +100,33 @@ void TpitchFinder::start() {
 	m_channel->processNewChunk(&filterState);
 // 	qDebug() << "channle ready";
 // 	m_channel->unlock();
-	incrementChunk();
+// 	incrementChunk();
+	m_channel->lock();
 	AnalysisData *data = m_channel->dataAtCurrentChunk();
+	if (data) {
+// 	  qDebug() << "data chunk";
+	  if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex))
+		qDebug() << data->pitch;
+	}
 // 	qDebug() << "data chunk";
-// 	qDebug() << data->pitch;
+	m_channel->unlock();
+	incrementChunk();
 	
 }
 
+/*
+Channel *active = gdata->getActiveChannel();
+  if(active) {
+    active->lock();
+    AnalysisData *data = active->dataAtCurrentChunk();
+    if(data && active->isVisibleNote(data->noteIndex) && active->isLabelNote(data->noteIndex)) {
+        sprintf(temp, "Note: %d", data->noteIndex);
+        if (shown && data->pitch > 35) {
+            qDebug() << data->pitch;
+            shown = false;
+        }
+    } else {
+        sprintf(temp, "Note:    ");
+        shown = true;
+    }
+    */
