@@ -24,6 +24,7 @@
 #include "tartini/analysisdata.h"
 
 #include <QDebug>
+#include <stdio.h>
 
 
 TpitchFinder::audioSetts *glAsett;
@@ -93,6 +94,7 @@ void TpitchFinder::searchIn(float* chunk) {
 // 	qDebug() << "started";
 // 	if (filteredChunk)
 // 	  delete[] filteredChunk;
+
 }
 
 void TpitchFinder::start() {
@@ -104,7 +106,7 @@ void TpitchFinder::start() {
 	m_channel->lock();
 	AnalysisData *data = m_channel->dataAtCurrentChunk();
 	if (data) {
-// 	  qDebug() << "data chunk" << data->noteIndex;
+//           qDebug() << "data chunk" << data->noteIndex;
 	  
 	  if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex))
 		qDebug() << data->pitch;
@@ -112,8 +114,12 @@ void TpitchFinder::start() {
 // 	qDebug() << "data chunk";
 	m_channel->unlock();
 	incrementChunk();
+	for(int i = 0; i<aGl().framesPerChunk; i++) {
+		std::cout << *(m_channel->begin()+i) <<  "\t";
+// 		std::cout << *(filteredChunk+i) <<  "\t";
+	}
 	
-}
+}	
 
 /*
 Channel *active = gdata->getActiveChannel();
