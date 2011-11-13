@@ -413,7 +413,7 @@ bool Channel::isVisibleNote(int noteIndex_)
 {
   myassert(noteIndex_ < (int)noteData.size());
   if(noteIndex_ == NO_NOTE) return false;
-  return true;
+  else return true;
 }
 
 bool Channel::isVisibleChunk(AnalysisData *data)
