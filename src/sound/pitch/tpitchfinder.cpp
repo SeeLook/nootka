@@ -87,9 +87,14 @@ void TpitchFinder::searchIn(float* chunk) {
 	}
 // 	qDebug() << "filtered";
 	m_channel->shift_left(aGl().framesPerChunk);
-	std::copy(chunk, chunk+aGl().framesPerChunk, m_channel->end() - aGl().framesPerChunk);
+	std::copy(chunk, chunk+aGl().framesPerChunk - 1, m_channel->end() - aGl().framesPerChunk -1);
 	if (aGl().equalLoudness)
 	  std::copy(filteredChunk, filteredChunk+aGl().framesPerChunk, m_channel->filteredInput.end() - aGl().framesPerChunk);
+	
+	for(int i = 0; i<aGl().framesPerChunk; i++) {
+		std::cout << *(m_channel->begin()+i) <<  "\t";
+// 		std::cout << *(filteredChunk+i) <<  "\t";
+	}
 	start();
 // 	qDebug() << "started";
 // 	if (filteredChunk)
@@ -114,10 +119,6 @@ void TpitchFinder::start() {
 // 	qDebug() << "data chunk";
 	m_channel->unlock();
 	incrementChunk();
-	for(int i = 0; i<aGl().framesPerChunk; i++) {
-		std::cout << *(m_channel->begin()+i) <<  "\t";
-// 		std::cout << *(filteredChunk+i) <<  "\t";
-	}
 	
 }	
 
