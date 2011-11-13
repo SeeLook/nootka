@@ -39,6 +39,7 @@ signals:
 
 public slots:
     void setDeviceName(QString devN);
+	void startListening();
 
 private:
     QComboBox *devListCombo;
