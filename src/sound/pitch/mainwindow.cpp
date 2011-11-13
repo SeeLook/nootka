@@ -59,9 +59,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	m_pitch = new TaudioIN();
     devListCombo->addItems(TaudioIN::getAudioDevicesList());
+	m_pitch->setAudioDevice("plughw:CARD=default,DEV=0");
 
     connect(devListCombo, SIGNAL(currentIndexChanged(QString)), this, SLOT(setDeviceName(QString)));
-// 	connect(startSniffBut, SIGNAL(clicked(bool)), this, SLOT(startSniffSlot()));
+	connect(startSniffBut, SIGNAL(clicked()), this, SLOT(startListening()));
 // 	connect(m_levelTimer, SIGNAL(timeout()), this, SLOT(levelSlot()));
 
 }
@@ -69,4 +70,8 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::setDeviceName(QString devN) {
     devNameLab->setText(devN);
 	m_pitch->setAudioDevice(devN);
+}
+
+void MainWindow::startListening() {
+	m_pitch->startListening();
 }

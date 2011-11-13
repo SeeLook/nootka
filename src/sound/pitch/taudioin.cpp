@@ -51,7 +51,7 @@ TaudioIN::TaudioIN(QObject *parent) :
     m_deviceInfo(QAudioDeviceInfo::defaultInputDevice()),
     m_pitch(new TpitchFinder())
 {    
-	setAudioDevice(m_deviceInfo.deviceName());
+// 	setAudioDevice(m_deviceInfo.deviceName());
 // 	setAudioDevice("plughw:CARD=default,DEV=0");
 
 
@@ -84,7 +84,6 @@ void TaudioIN::setAudioDevice(const QString &devN) {
 }
 
 void TaudioIN::startListening() {
-	
 	m_buffer.resize(2048*2); // 2048 samples, 16 bits each
 	m_buffer.fill(0);
 	m_floatBuff = new float[m_pitch->aGl().framesPerChunk+16] + 16;
@@ -100,6 +99,7 @@ void TaudioIN::audioDataReady() {
 	qint64 toRead = qMin(bytesReady, bSize);
 	qint64 dataRead = m_IOaudioDevice->read(m_buffer.data(), toRead) / 2;
 // 	float *posInBuff = m_buffer;
+// 	qDebug() << "read data" << dataRead ;
 	
 // 	int i = 0;	
 	for (int i = 0; i < dataRead; i++) {
@@ -109,6 +109,7 @@ void TaudioIN::audioDataReady() {
 	  if (m_floatsWriten == m_pitch->aGl().framesPerChunk) {
 		m_pitch->searchIn(m_floatBuff);
 		m_floatsWriten = 0;
+// 		qDebug() << "read data" << dataRead ;
 	  }
 	}
 	 

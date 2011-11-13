@@ -68,6 +68,7 @@ TpitchFinder::~TpitchFinder()
 
 
 void TpitchFinder::searchIn(float* chunk) {
+// 	qDebug() << "search";
 	// copy chunk to channel
 	float *filteredChunk = 0;
 // 	m_channel->lock();
@@ -78,21 +79,27 @@ void TpitchFinder::searchIn(float* chunk) {
 	  m_channel->highPassFilter->filter(chunk, filteredChunk, aGl().framesPerChunk);
 	  for(int i = 0; i < aGl().framesPerChunk; i++)
 		  filteredChunk[i] = qBound(filteredChunk[i], -1.0f, 1.0f);
-	  }
+	}
+// 	qDebug() << "filtered";
 	m_channel->shift_left(aGl().framesPerChunk);
 	std::copy(chunk, chunk+aGl().framesPerChunk, m_channel->end() - aGl().framesPerChunk);
 	if (aGl().equalLoudness)
 	  std::copy(filteredChunk, filteredChunk+aGl().framesPerChunk, m_channel->filteredInput.end() - aGl().framesPerChunk);
 	start();
-	if (filteredChunk)
-	  delete[] filteredChunk;
+// 	qDebug() << "started";
+// 	if (filteredChunk)
+// 	  delete[] filteredChunk;
 }
 
 void TpitchFinder::start() {
 	FilterState filterState;
-	m_channel->processNewChunk(&filterState);	
+	m_channel->processNewChunk(&filterState);
+// 	qDebug() << "channle ready";
 // 	m_channel->unlock();
-	incrementChunk();	
+	incrementChunk();
+	AnalysisData *data = m_channel->dataAtCurrentChunk();
+// 	qDebug() << "data chunk";
+// 	qDebug() << data->pitch;
 	
 }
 
