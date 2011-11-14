@@ -36,6 +36,7 @@
 #include <float.h>
 
 #include <complex>
+#include <QDebug>
 
 
 extern TpitchFinder::audioSetts *glAsett;
@@ -328,20 +329,23 @@ int MyTransforms::findNSDFsubMaximum(float *input, int len, float threshold)
 */
 void MyTransforms::calculateAnalysisData(int chunk, Channel *ch)
 {
-  myassert(ch);
-  myassert(ch->dataAtChunk(chunk));
+//   myassert(ch);
+//   myassert(ch->dataAtChunk(chunk));
+
   AnalysisData &analysisData = *ch->dataAtChunk(chunk);
   AnalysisData *prevAnalysisData = ch->dataAtChunk(chunk-1);
+// qDebug() << ch->dataAtChunk(chunk) << prevAnalysisData << n;
   float *output = ch->nsdfData.begin();
   float *curInput = (equalLoudness) ? ch->filteredInput.begin() : ch->directInput.begin();
 
   std::vector<int> nsdfMaxPositions;
   
   analysisData.maxIntensityDB() = linear2dB(fabs(*std::max_element(curInput, curInput+n, absoluteLess<float>())));
-  
+	
+// qDebug() << "do FFT";
   doChannelDataFFT(ch, curInput, chunk);
   std::copy(curInput, curInput+n, dataTime);
-  
+// qDebug() << "FFT done";
 //   if(gdata->doingFreqAnalysis() && (ch->firstTimeThrough() || gdata->doingActiveAnalysis())) {
   if(glAsett->doingFreqAnalysis && (ch->firstTimeThrough() || glAsett->doingFreqAnalysis)) {
     //calculate the Normalised Square Difference Function
@@ -351,7 +355,8 @@ void MyTransforms::calculateAnalysisData(int chunk, Channel *ch)
 	if(glAsett->doingAutoNoiseFloor && !analysisData.done) {
       //do it for gdata. this is only here for old code. remove some stage
 //       if(chunk == 0) { gdata->rmsFloor() = 0.0; gdata->rmsCeiling() = gdata->dBFloor(); }
-	  if(chunk == 0) { 
+// qDebug() << "for chunk";
+	  if(chunk == 0) {
 		glAsett->ampThresholds[AMPLITUDE_RMS][0] = 0.0; //gdata->rmsFloor() = 0.0;
 		glAsett->ampThresholds[AMPLITUDE_RMS][1] = glAsett->dBFloor; //gdata->rmsCeiling() = gdata->dBFloor(); 
 	  }
@@ -361,7 +366,7 @@ void MyTransforms::calculateAnalysisData(int chunk, Channel *ch)
 //       if(logrms > gdata->rmsCeiling()) gdata->rmsCeiling() = logrms;
 	  if(logrms > glAsett->ampThresholds[AMPLITUDE_RMS][1]) 
 		  glAsett->ampThresholds[AMPLITUDE_RMS][1] = logrms;
-
+// qDebug() << "for channel";
       //do it for the channel
       if(chunk == 0) { 
 		ch->rmsFloor = 0.0;
@@ -402,6 +407,7 @@ void MyTransforms::calculateAnalysisData(int chunk, Channel *ch)
       //goto finished; //return;
     } else {
       //calc the periodDiff
+// qDebug() << "periodDiff";
       if(chunk > 0 && prevAnalysisData->highestCorrelationIndex!=-1) {
 /**       if(chunk > 0) { */
         float prevPeriod = prevAnalysisData->periodEstimates[prevAnalysisData->highestCorrelationIndex];
@@ -628,7 +634,7 @@ void MyTransforms::doChannelDataFFT(Channel *ch, float *curInput, int chunk)
   else ch->fftData1[0] = glAsett->dBFloor; // gdata->dBFloor();
 
 //   if(gdata->analysisType() == MPM_MODIFIED_CEPSTRUM) {
-  if(glAsett->analysisType == e_MPM_MODIFIED_CEPSTRUM) {
+  if(glAsett->analysisType == e_MPM_MODIFIED_CEPSTRUM) {/** FIXME: ???*/
     for(int j=1; j<nDiv2; j++) {
       dataFFT[j] = ch->fftData2[j];
       dataFFT[n-j] = 0.0;
