@@ -39,15 +39,15 @@ TpitchFinder::TpitchFinder() :
 	m_aGl.windowSize = 2048;
 	m_aGl.framesPerChunk = 1024;
 	m_aGl.dBFloor = -150.0;
-	m_aGl.equalLoudness = true;
+	m_aGl.equalLoudness = false;
 	m_aGl.doingFreqAnalysis = true;
 	m_aGl.doingAutoNoiseFloor = true;
-	m_aGl.doingHarmonicAnalysis = true;
+	m_aGl.doingHarmonicAnalysis = false;
 	m_aGl.firstTimeThrough = true;
 	m_aGl.doingDetailedPitch = true;
 	m_aGl.threshold = 93;
-	m_aGl.analysisType = e_MPM_MODIFIED_CEPSTRUM;
-	m_aGl.topPitch = 150.0;
+	m_aGl.analysisType = e_MPM;
+	m_aGl.topPitch = 128.0;
 	m_aGl.ampThresholds[AMPLITUDE_RMS][0]           = -85.0; m_aGl.ampThresholds[AMPLITUDE_RMS][1]           = -0.0;
 	m_aGl.ampThresholds[AMPLITUDE_MAX_INTENSITY][0] = -30.0; m_aGl.ampThresholds[AMPLITUDE_MAX_INTENSITY][1] = -20.0;
 	m_aGl.ampThresholds[AMPLITUDE_CORRELATION][0]   =  0.40; m_aGl.ampThresholds[AMPLITUDE_CORRELATION][1]   =  1.00;
@@ -78,18 +78,19 @@ void TpitchFinder::searchIn(float* chunk) {
 		qDebug() << "channel still locked";
 	if (aGl().equalLoudness) {
 	  m_channel->highPassFilter->filter(chunk, filteredChunk, aGl().framesPerChunk);
-	  for(int i = 0; i < aGl().framesPerChunk-1; i++)
+	  for(int i = 0; i < aGl().framesPerChunk; i++)
 		  filteredChunk[i] = qBound(filteredChunk[i], -1.0f, 1.0f);
 	}
 	m_channel->shift_left(aGl().framesPerChunk);
-	std::copy(chunk, chunk+aGl().framesPerChunk - 1, m_channel->end() - aGl().framesPerChunk);
+	std::copy(chunk, chunk+aGl().framesPerChunk, m_channel->end() - aGl().framesPerChunk);
 	if (aGl().equalLoudness)
-	  std::copy(filteredChunk, filteredChunk+aGl().framesPerChunk-1, m_channel->filteredInput.end() - aGl().framesPerChunk);
+	  std::copy(filteredChunk, filteredChunk+aGl().framesPerChunk, m_channel->filteredInput.end() - aGl().framesPerChunk);
 	
 // 	for(int i = 0; i<aGl().framesPerChunk-1; i++) {
 // 		std::cout << *(m_channel->end()-1023+i) <<  "\t";
 // 		std::cout << *(filteredChunk+i) <<  "\t";
 // 	}
+// 	qDebug() << "ready";
 	start();
 // 	qDebug() << "started";
 // 	if (filteredChunk)
@@ -97,23 +98,31 @@ void TpitchFinder::searchIn(float* chunk) {
 
 }
 
+
+bool shown = true;
+
 void TpitchFinder::start() {
 	FilterState filterState;
-	qDebug() << currentChunk();
-	if (currentChunk()) {
+// 	qDebug() << currentChunk();
+// 	if (currentChunk()) {
 		m_channel->processNewChunk(&filterState);
+// 		qDebug() << "processed";
   // 	incrementChunk();
 	  m_channel->lock();
 	  AnalysisData *data = m_channel->dataAtCurrentChunk();
 	  if (data) {
-            qDebug() << "data chunk" << data->noteIndex;
-		
-		if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex))
-		  qDebug() << data->pitch;
+// 		qDebug() << "data chunk" << data->noteIndex;	
+		if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)) {
+		  if (shown && data->pitch > 35) {
+			qDebug() << data->noteIndex << data->pitch;
+			shown = false;
+		  }
+		} else
+			shown = true;
 	  }
   // 	qDebug() << "data chunk";
 	  m_channel->unlock();
-	}
+// 	}
 	incrementChunk();
 	
 }	

@@ -27,6 +27,7 @@
 #include <QFileDialog>
 #include <QFile>
 #include <QTextStream>
+#include <QDebug>
 
 #include "myassert.h"
 #include "conversions.h"
@@ -275,11 +276,12 @@ void Channel::processNewChunk(FilterState *filterState)
 //   myassert(locked());
 
   lock();
-  myassert(parent->currentRawChunk() == MAX(0, parent->currentStreamChunk()-1) ||
-           parent->currentRawChunk() == MAX(0, parent->currentStreamChunk()));
+//   myassert(parent->currentRawChunk() == MAX(0, parent->currentStreamChunk()-1) ||
+//            parent->currentRawChunk() == MAX(0, parent->currentStreamChunk()));
   lookup.push_back(AnalysisData());
   lookup.back().filterState = *filterState;
   parent->myTransforms.calculateAnalysisData(int(lookup.size())-1, this);
+//   qDebug() << "calculated";
   unlock();
 }
 
