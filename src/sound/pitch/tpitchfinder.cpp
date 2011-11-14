@@ -39,7 +39,7 @@ TpitchFinder::TpitchFinder() :
 	m_aGl.windowSize = 2048;
 	m_aGl.framesPerChunk = 1024;
 	m_aGl.dBFloor = -150.0;
-	m_aGl.equalLoudness = true;
+	m_aGl.equalLoudness = false;
 	m_aGl.doingFreqAnalysis = true;
 	m_aGl.doingAutoNoiseFloor = true;
 	m_aGl.doingHarmonicAnalysis = false;
@@ -124,7 +124,7 @@ void TpitchFinder::start() {
 	  m_channel->unlock();
 // 	}
 	incrementChunk();
-	QThread::start(QThread::HighPriority);
+// 	QThread::start(QThread::HighPriority);
 }	
 
 /*
