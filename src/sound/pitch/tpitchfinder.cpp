@@ -39,7 +39,7 @@ TpitchFinder::TpitchFinder() :
 	m_aGl.windowSize = 2048;
 	m_aGl.framesPerChunk = 1024;
 	m_aGl.dBFloor = -150.0;
-	m_aGl.equalLoudness = false;
+	m_aGl.equalLoudness = true;
 	m_aGl.doingFreqAnalysis = true;
 	m_aGl.doingAutoNoiseFloor = true;
 	m_aGl.doingHarmonicAnalysis = false;
@@ -67,7 +67,7 @@ TpitchFinder::TpitchFinder() :
 
 TpitchFinder::~TpitchFinder()
 {
-	
+	delete filteredChunk;
 
 }
 
@@ -79,7 +79,7 @@ void TpitchFinder::searchIn(float* chunk) {
 	if (aGl().equalLoudness) {
 	  m_channel->highPassFilter->filter(chunk, filteredChunk, aGl().framesPerChunk);
 	  for(int i = 0; i < aGl().framesPerChunk; i++)
-		  filteredChunk[i] = qBound(filteredChunk[i], -1.0f, 1.0f);
+		  filteredChunk[i] = bound(filteredChunk[i], -1.0f, 1.0f);
 	}
 	m_channel->shift_left(aGl().framesPerChunk);
 	std::copy(chunk, chunk+aGl().framesPerChunk, m_channel->end() - aGl().framesPerChunk);
@@ -124,7 +124,7 @@ void TpitchFinder::start() {
 	  m_channel->unlock();
 // 	}
 	incrementChunk();
-	
+	QThread::start(QThread::HighPriority);
 }	
 
 /*
