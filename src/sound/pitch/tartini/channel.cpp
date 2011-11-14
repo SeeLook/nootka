@@ -366,8 +366,8 @@ float Channel::averageMaxCorrelation(int begin, int end)
 {
 //   myassert(locked());
   if(!hasAnalysisData()) return -1;
-  begin = qBound(begin, 0, totalChunks()-1);
-  end = qBound(end, 0, totalChunks()-1);
+  begin = bound(begin, 0, totalChunks()-1);
+  end = bound(end, 0, totalChunks()-1);
 
   // Init the total to be the first item
   float totalCorrelation = dataAtChunk(begin)->correlation();
@@ -435,7 +435,7 @@ bool Channel::isChangingChunk(AnalysisData *data)
 }
 
 void Channel::backTrackNoteChange(int chunk) {
-  int first = qMax(chunk - (int)ceil(longTime/timePerChunk()), getLastNote()->startChunk());
+  int first = MAX(chunk - (int)ceil(longTime/timePerChunk()), getLastNote()->startChunk());
   int last = chunk; //currentNote->endChunk();
   if(first >= last) return;
   float largestWeightedDiff = 0.0f; //fabs(dataAtChunk(first)->pitch - dataAtChunk(first)->shortTermMean);
@@ -706,8 +706,8 @@ void Channel::chooseCorrelationIndex1(int chunk)
   analysisData.period = analysisData.periodEstimates[choosenMaxIndex];
   double freq = rate() / analysisData.period;
   analysisData.fundamentalFreq = float(freq);
-//   analysisData.pitch = qBound(freq2pitch(freq), 0.0, gdata->topPitch());
-  analysisData.pitch = qBound(freq2pitch(freq), 0.0, parent->aGl().topPitch);
+//   analysisData.pitch = bound(freq2pitch(freq), 0.0, gdata->topPitch());
+  analysisData.pitch = bound(freq2pitch(freq), 0.0, parent->aGl().topPitch);
   analysisData.pitchSum = (double)analysisData.pitch;
   analysisData.pitch2Sum = sq((double)analysisData.pitch);
 }
@@ -766,7 +766,7 @@ void Channel::calcDeviation(int chunk) {
   if(currentNoteIndex < 0) return;
 
   //Do long term calculation
-  int firstChunk = qMax(lastChunk - (int)ceil(longTime/timePerChunk()), noteData[currentNoteIndex].startChunk());
+  int firstChunk = MAX(lastChunk - (int)ceil(longTime/timePerChunk()), noteData[currentNoteIndex].startChunk());
   AnalysisData *firstChunkData = dataAtChunk(firstChunk);
   int numChunks = (lastChunk - firstChunk);
   double mean_sum, mean, sumX2, variance, standard_deviation;
