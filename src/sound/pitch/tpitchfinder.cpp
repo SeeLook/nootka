@@ -39,14 +39,14 @@ TpitchFinder::TpitchFinder() :
 	m_aGl.windowSize = 2048;
 	m_aGl.framesPerChunk = 1024;
 	m_aGl.dBFloor = -150.0;
-	m_aGl.equalLoudness = false;
+	m_aGl.equalLoudness = true;
 	m_aGl.doingFreqAnalysis = true;
 	m_aGl.doingAutoNoiseFloor = true;
 	m_aGl.doingHarmonicAnalysis = false;
 	m_aGl.firstTimeThrough = true;
 	m_aGl.doingDetailedPitch = true;
 	m_aGl.threshold = 93;
-	m_aGl.analysisType = e_MPM;
+	m_aGl.analysisType = e_MPM_MODIFIED_CEPSTRUM;
 	m_aGl.topPitch = 128.0;
 	m_aGl.ampThresholds[AMPLITUDE_RMS][0]           = -85.0; m_aGl.ampThresholds[AMPLITUDE_RMS][1]           = -0.0;
 	m_aGl.ampThresholds[AMPLITUDE_MAX_INTENSITY][0] = -30.0; m_aGl.ampThresholds[AMPLITUDE_MAX_INTENSITY][1] = -20.0;
@@ -95,7 +95,7 @@ void TpitchFinder::searchIn(float* chunk) {
 // 	qDebug() << "started";
 // 	if (filteredChunk)
 // 	  delete[] filteredChunk;
-
+	
 }
 
 
@@ -103,26 +103,24 @@ bool shown = true;
 
 void TpitchFinder::start() {
 	FilterState filterState;
-// 	qDebug() << currentChunk();
-// 	if (currentChunk()) {
-		m_channel->processNewChunk(&filterState);
-// 		qDebug() << "processed";
-  // 	incrementChunk();
-	  m_channel->lock();
-	  AnalysisData *data = m_channel->dataAtCurrentChunk();
-	  if (data) {
-// 		qDebug() << "data chunk" << data->noteIndex;	
-		if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)) {
-		  if (shown && data->pitch > 35) {
-			qDebug() << data->noteIndex << data->pitch;
-			shown = false;
-		  }
-		} else
-			shown = true;
-	  }
-  // 	qDebug() << "data chunk";
-	  m_channel->unlock();
-// 	}
+	qDebug() << currentChunk();
+	m_channel->processNewChunk(&filterState);
+	qDebug() << "processed";
+// 	incrementChunk();
+// 	  m_channel->lock();
+	AnalysisData *data = m_channel->dataAtCurrentChunk();
+	if (data) {
+		qDebug() << "data index" << data->cepstrumIndex << data->noteIndex << data->notePlaying
+		  << data->fundamentalFreq;	
+	  if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)) {
+		if (shown && data->cepstrumPitch > 35) {
+		  qDebug() << data->noteIndex << data->cepstrumPitch;
+		  shown = false;
+		}
+	  } else
+		  shown = true;
+	}
+// 	  m_channel->unlock();
 	incrementChunk();
 // 	QThread::start(QThread::HighPriority);
 }	
