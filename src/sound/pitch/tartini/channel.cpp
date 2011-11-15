@@ -422,7 +422,8 @@ bool Channel::isVisibleChunk(AnalysisData *data)
 {
   myassert(data);
 //   if(data->noteScore() >= gdata->ampThreshold(NOTE_SCORE,0)) return true;
-	if(data->noteScore() >= 0.03f) return true;
+// 	if(data->noteScore() >= 0.03f) return true;
+  if(data->noteScore() >= parent->aGl().ampThresholds[NOTE_SCORE][0]) return true;
 	else return false;
 }
 
@@ -430,7 +431,8 @@ bool Channel::isChangingChunk(AnalysisData *data)
 {
   myassert(data);
 //   if(data->noteChangeScore() >= gdata->ampThreshold(NOTE_CHANGE_SCORE,0)) return true;
-  if(data->noteChangeScore() >= 0.12f) return true;
+//   if(data->noteChangeScore() >= 0.12f) return true;
+  if(data->noteChangeScore() >= parent->aGl().ampThresholds[NOTE_CHANGE_SCORE][0]) return true;
   else return false;
 }
 
