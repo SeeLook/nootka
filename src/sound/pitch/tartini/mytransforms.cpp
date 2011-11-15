@@ -274,7 +274,9 @@ int MyTransforms::findNSDFMaxima(float *input, int len, std::vector<int> &maxPos
   if(pos == 0) pos = 1; // can happen if output[0] is NAN
   
   while(pos < len-1) {
-    myassert(!(input[pos] < 0)); //don't assert on NAN
+//     myassert(!(input[pos] < 0)); //don't assert on NAN
+	if (input[pos] < 0)
+	  qDebug() << "myassert(!(input[pos] < 0)); //don't assert on NAN";
     if(input[pos] > input[pos-1] && input[pos] >= input[pos+1]) { //a local maxima
       if(curMaxPos == 0) curMaxPos = pos; //the first maxima (between zero crossings)
       else if(input[pos] > input[curMaxPos]) curMaxPos = pos; //a higher maxima (between the zero crossings)
@@ -313,7 +315,8 @@ int MyTransforms::findNSDFsubMaximum(float *input, int len, float threshold)
   for(uint j=0; j<indices.size(); j++) {
     if(input[indices[j]] >= cutoff) return indices[j];
   }
-  myassert(0); //should never get here
+//   myassert(0); //should never get here
+  qDebug() << "hilfe findNSDFsubMaximum";
   return 0; //stop the compiler warning
 }
 
@@ -613,7 +616,9 @@ void MyTransforms::doChannelDataFFT(Channel *ch, float *curInput, int chunk)
   applyHanningWindow(dataTime);
   fftwf_execute(planDataTime2FFT);
   int nDiv2 = n/2;
-  myassert(ch->fftData1.size() == nDiv2);
+//   myassert(ch->fftData1.size() == nDiv2);
+  if (ch->fftData1.size() != nDiv2)
+	qDebug() << "wrong ch->fftData1.size() == nDiv2";
   double logSize = log10(double(ch->fftData1.size())); //0.0
   //Adjust the coefficents, both real and imaginary part by same amount
   double sqValue;
@@ -626,7 +631,6 @@ void MyTransforms::doChannelDataFFT(Channel *ch, float *curInput, int chunk)
 		ch->fftData1[j] = bound(log10(sqValue) / 2.0 - logSize, glAsett->dBFloor, 0.0);
     else ch->fftData1[j] = glAsett->dBFloor; // gdata->dBFloor();
   }
-  //ch->fftData1[0] = log10(sqrt(sq(dataFFT[0]) + sq(dataFFT[n/2])) / ds);
   sqValue = sq(dataFFT[0]) + sq(dataFFT[nDiv2]);
   ch->fftData2[0] = logBaseN(logBase, 1.0 + 2.0*sqrt(sqValue) / double(nDiv2) * (logBase-1.0));
   if(sqValue > 0.0)
@@ -642,15 +646,19 @@ void MyTransforms::doChannelDataFFT(Channel *ch, float *curInput, int chunk)
     dataFFT[0] = ch->fftData2[0];
     dataFFT[nDiv2] = 0.0;
     fftwf_execute(planDataFFT2Time);
-
     for(int j=1; j<n; j++) {
       dataTime[j] /= dataTime[0];
     }
     dataTime[0] = 1.0;
     for(int j=0; j<nDiv2; j++) ch->cepstrumData[j] = dataTime[j];
-    AnalysisData &analysisData = *ch->dataAtChunk(chunk);
-    analysisData.cepstrumIndex = findNSDFsubMaximum(dataTime, nDiv2, 0.6f);
-    analysisData.cepstrumPitch = freq2pitch(double(analysisData.cepstrumIndex) / ch->rate());
+    AnalysisData *analysisData = ch->dataAtChunk(chunk);
+	if(analysisData != NULL) {
+// 	  qDebug() << "before";
+	  analysisData->cepstrumIndex = findNSDFsubMaximum(dataTime, nDiv2, 0.6f);
+// 	  qDebug() << "middle";
+	  analysisData->cepstrumPitch = freq2pitch(double(analysisData->cepstrumIndex) / ch->rate());
+// 	  qDebug() << "after";
+	}
   }
 }
 
