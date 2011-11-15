@@ -40,9 +40,10 @@ QStringList TaudioIN::getAudioDevicesList() {
 
 QAudioFormat TaudioIN::templAudioFormat = QAudioFormat();
 
+
 //************************************************************************************/
 
-
+float *tmpBuff;
 
 TaudioIN::TaudioIN(QObject *parent) :
     QObject(parent),
@@ -87,6 +88,7 @@ void TaudioIN::startListening() {
 	m_buffer.resize(2048*2); // 2048 samples, 16 bits each
 	m_buffer.fill(0);
 	m_floatBuff = new float[m_pitch->aGl().framesPerChunk+16] + 16;
+	tmpBuff = new  float[m_pitch->aGl().framesPerChunk+16] + 16;
 	m_floatsWriten = 0;
 	m_IOaudioDevice = m_audioInput->start();
 	connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));
@@ -94,6 +96,7 @@ void TaudioIN::startListening() {
 }
 
 bool isBussy = false;
+
 
 void TaudioIN::audioDataReady() {
 // 	qDebug() << "Let's read";
@@ -117,6 +120,7 @@ void TaudioIN::audioDataReady() {
 	  if (m_floatsWriten == m_pitch->aGl().framesPerChunk+1) {
 // 		qDebug() << m_floatsWriten;
 		isBussy = true;
+		std::copy(m_floatBuff, m_floatBuff+m_pitch->aGl().framesPerChunk, tmpBuff);
 		m_pitch->searchIn(m_floatBuff);
 		m_floatsWriten = 0;
 		isBussy = false;

@@ -39,7 +39,7 @@ TpitchFinder::TpitchFinder() :
 	m_aGl.windowSize = 2048;
 	m_aGl.framesPerChunk = 1024;
 	m_aGl.dBFloor = -150.0;
-	m_aGl.equalLoudness = true;
+	m_aGl.equalLoudness = false;
 	m_aGl.doingFreqAnalysis = true;
 	m_aGl.doingAutoNoiseFloor = true;
 	m_aGl.doingHarmonicAnalysis = false;
@@ -105,7 +105,7 @@ void TpitchFinder::start() {
 	FilterState filterState;
 	qDebug() << currentChunk();
 	m_channel->processNewChunk(&filterState);
-	qDebug() << "processed";
+// 	qDebug() << "processed";
 // 	incrementChunk();
 // 	  m_channel->lock();
 	AnalysisData *data = m_channel->dataAtCurrentChunk();
