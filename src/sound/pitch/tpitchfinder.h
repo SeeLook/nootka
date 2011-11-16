@@ -36,9 +36,9 @@ enum EanalysisModes { e_MPM, e_AUTOCORRELATION, e_MPM_MODIFIED_CEPSTRUM };
  * Finding pitch method(s) are taken from Tartini project
  * writen by Philip McLeod.
  */
-class TpitchFinder /*: public QThread*/
+class TpitchFinder : public QThread
 {
-// 	Q_OBJECT
+	Q_OBJECT
 	
 public:
     explicit TpitchFinder();
@@ -72,19 +72,22 @@ public:
 	   * whitch is pointer to array of floats of audio data. 
 	   * First copy it to channel obiect. */
 	void searchIn(float *chunk);
+	bool isBussy() { return m_isBussy; }
 	
 	int currentChunk() { return m_chunkNum; }
 	void setCurrentChunk(int curCh) { m_chunkNum = curCh; }
 	void incrementChunk() { m_chunkNum++; }
 	
 protected:
-	void start();
+// 	void start();
+	void run();
 	
 private:
 	audioSetts m_aGl;
 	Channel *m_channel;
 	int m_chunkNum;
-	
+	float *m_workChunk;
+	bool m_isBussy;
 	
 };
 

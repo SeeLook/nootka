@@ -25,11 +25,13 @@
 
 #include <QDebug>
 #include <stdio.h>
+#include "tnote.h"
 
 
 TpitchFinder::audioSetts *glAsett;
 
 float *filteredChunk = 0;
+bool shown = true;
 
 TpitchFinder::TpitchFinder() :
   m_chunkNum(0)
@@ -39,14 +41,14 @@ TpitchFinder::TpitchFinder() :
 	m_aGl.windowSize = 2048;
 	m_aGl.framesPerChunk = 1024;
 	m_aGl.dBFloor = -150.0;
-	m_aGl.equalLoudness = false;
+	m_aGl.equalLoudness = true;
 	m_aGl.doingFreqAnalysis = true;
 	m_aGl.doingAutoNoiseFloor = true;
 	m_aGl.doingHarmonicAnalysis = false;
 	m_aGl.firstTimeThrough = true;
 	m_aGl.doingDetailedPitch = true;
 	m_aGl.threshold = 93;
-	m_aGl.analysisType = e_MPM_MODIFIED_CEPSTRUM;
+	m_aGl.analysisType = e_AUTOCORRELATION;
 	m_aGl.topPitch = 128.0;
 	m_aGl.ampThresholds[AMPLITUDE_RMS][0]           = -85.0; m_aGl.ampThresholds[AMPLITUDE_RMS][1]           = -0.0;
 	m_aGl.ampThresholds[AMPLITUDE_MAX_INTENSITY][0] = -30.0; m_aGl.ampThresholds[AMPLITUDE_MAX_INTENSITY][1] = -20.0;
@@ -58,6 +60,7 @@ TpitchFinder::TpitchFinder() :
 	
 	
 	glAsett = &m_aGl;
+	m_isBussy = false;
 	
 	m_channel = new Channel(this, aGl().windowSize);
 	myTransforms.init(aGl().windowSize, 0, aGl().rate, aGl().equalLoudness);
@@ -73,71 +76,50 @@ TpitchFinder::~TpitchFinder()
 
 
 void TpitchFinder::searchIn(float* chunk) {
+	if (chunk) {
+		m_workChunk = chunk;
+		run();
+	}
+}
+
+
+void TpitchFinder::run() {
+	m_isBussy = true;
+// 	QThread::start(QThread::HighPriority);
 	// copy chunk to channel
-	if (m_channel->locked())
-		qDebug() << "channel still locked";
+// 	if (m_channel->locked())
+// 		qDebug() << "channel still locked";
 	if (aGl().equalLoudness) {
-	  m_channel->highPassFilter->filter(chunk, filteredChunk, aGl().framesPerChunk);
+	  m_channel->highPassFilter->filter(m_workChunk, filteredChunk, aGl().framesPerChunk);
 	  for(int i = 0; i < aGl().framesPerChunk; i++)
 		  filteredChunk[i] = bound(filteredChunk[i], -1.0f, 1.0f);
 	}
 	m_channel->shift_left(aGl().framesPerChunk);
-	std::copy(chunk, chunk+aGl().framesPerChunk, m_channel->end() - aGl().framesPerChunk);
+	std::copy(m_workChunk, m_workChunk+aGl().framesPerChunk, m_channel->end() - aGl().framesPerChunk);
 	if (aGl().equalLoudness)
 	  std::copy(filteredChunk, filteredChunk+aGl().framesPerChunk, m_channel->filteredInput.end() - aGl().framesPerChunk);
 	
-// 	for(int i = 0; i<aGl().framesPerChunk-1; i++) {
-// 		std::cout << *(m_channel->end()-1023+i) <<  "\t";
-// 		std::cout << *(filteredChunk+i) <<  "\t";
-// 	}
-// 	qDebug() << "ready";
-	start();
-// 	qDebug() << "started";
-// 	if (filteredChunk)
-// 	  delete[] filteredChunk;
-	
-}
-
-
-bool shown = true;
-
-void TpitchFinder::start() {
 	FilterState filterState;
-	qDebug() << currentChunk();
+// 	qDebug() << currentChunk();
 	m_channel->processNewChunk(&filterState);
-// 	qDebug() << "processed";
-// 	incrementChunk();
-// 	  m_channel->lock();
 	AnalysisData *data = m_channel->dataAtCurrentChunk();
 	if (data) {
-		qDebug() << "data index" << data->cepstrumIndex << data->noteIndex << data->notePlaying
-		  << data->fundamentalFreq;	
+// 		qDebug() << "data index" << data->cepstrumIndex << data->noteIndex << data->notePlaying
+// 		  << data->fundamentalFreq;	
 	  if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)) {
-		if (shown && data->cepstrumPitch > 35) {
-		  qDebug() << data->noteIndex << data->cepstrumPitch;
+		if (shown && data->pitch > 35) {
+		  Tnote n = Tnote(qRound(data->pitch)-47);
+		  qDebug() << data->noteIndex <<  QString::fromStdString(n.getName());
 		  shown = false;
 		}
 	  } else
 		  shown = true;
 	}
-// 	  m_channel->unlock();
 	incrementChunk();
-// 	QThread::start(QThread::HighPriority);
+	m_isBussy = false;
 }	
 
-/*
-Channel *active = gdata->getActiveChannel();
-  if(active) {
-    active->lock();
-    AnalysisData *data = active->dataAtCurrentChunk();
-    if(data && active->isVisibleNote(data->noteIndex) && active->isLabelNote(data->noteIndex)) {
-        sprintf(temp, "Note: %d", data->noteIndex);
-        if (shown && data->pitch > 35) {
-            qDebug() << data->pitch;
-            shown = false;
-        }
-    } else {
-        sprintf(temp, "Note:    ");
-        shown = true;
-    }
-    */
+// void TpitchFinder::run() {
+// QThread::run();
+// }
+
