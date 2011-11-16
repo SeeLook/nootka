@@ -93,6 +93,7 @@ set( PITCH_SRCS
   mainwindow.cpp
   taudioin.cpp
   tpitchfinder.cpp
+  tnote.cpp
  # tartini
   tartini/channel.cpp
   tartini/analysisdata.cpp

@@ -62,6 +62,7 @@ TaudioIN::~TaudioIN()
 {
 	m_buffer.clear();
 	delete[] m_floatBuff;
+	delete[] tmpBuff;
 }
 
 
@@ -90,12 +91,12 @@ void TaudioIN::startListening() {
 	m_floatBuff = new float[m_pitch->aGl().framesPerChunk+16] + 16;
 	tmpBuff = new  float[m_pitch->aGl().framesPerChunk+16] + 16;
 	m_floatsWriten = 0;
+	m_maxPeak = 0;
 	m_IOaudioDevice = m_audioInput->start();
 	connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));
 		
 }
 
-bool isBussy = false;
 
 
 void TaudioIN::audioDataReady() {
@@ -104,29 +105,28 @@ void TaudioIN::audioDataReady() {
 	qint64 bSize = m_buffer.size();
 	qint64 toRead = qMin(bytesReady, bSize);
 	qint64 dataRead = m_IOaudioDevice->read(m_buffer.data(), toRead) / 2;
-	if(isBussy)
-	  qDebug() << "I'm bussy";
-// 	float *posInBuff = m_buffer;
+	
 // 	qDebug() << "read data" << dataRead ;
 	
 // 	int i = 0;	
 	for (int i = 0; i < dataRead; i++) {
 	  qint16 value = *reinterpret_cast<qint16*>(m_buffer.data()+i*2);
-	  *(m_floatBuff + m_floatsWriten) = float(value) / 32768.0f;
+	  m_maxPeak = qMax(m_maxPeak, value);
+	  *(tmpBuff + m_floatsWriten) = float(value) / 32768.0f;
 // 	  *(m_floatBuff + m_floatsWriten) = qBound(-1.0f, float(value) / 32768.0f, 1.0f);
-// 	  if (*(m_floatBuff + m_floatsWriten) > 1.0f)
-// 		qDebug() << "loud";
-	  m_floatsWriten++;
-	  if (m_floatsWriten == m_pitch->aGl().framesPerChunk+1) {
-// 		qDebug() << m_floatsWriten;
-		isBussy = true;
-		std::copy(m_floatBuff, m_floatBuff+m_pitch->aGl().framesPerChunk, tmpBuff);
-		m_pitch->searchIn(m_floatBuff);
-		m_floatsWriten = 0;
-		isBussy = false;
-// 		qDebug() << "read data" << dataRead ;
-// 		exit(77);
+
+	  if (m_floatsWriten == m_pitch->aGl().framesPerChunk) {
+		if (maxPeak() > 100) {
+// 		  std::copy(tmpBuff, tmpBuff + m_pitch->aGl().framesPerChunk, m_floatBuff);
+		  if (m_pitch->isBussy())
+			qDebug() << "data ignored";
+		  else
+			m_pitch->searchIn(tmpBuff);
+		}
+		m_floatsWriten = 0;		
+		m_maxPeak = 0;
 	  }
+	  m_floatsWriten++;
 	}
 	 
 }
