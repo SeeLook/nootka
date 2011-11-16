@@ -102,6 +102,10 @@ void TaudioIN::startListening() {
 void TaudioIN::audioDataReady() {
 // 	qDebug() << "Let's read";
 	qint64 bytesReady = m_audioInput->bytesReady();
+	if (bytesReady < 5) {
+// 		qDebug() << "null";
+		return;
+	}		
 	qint64 bSize = m_buffer.size();
 	qint64 toRead = qMin(bytesReady, bSize);
 	qint64 dataRead = m_IOaudioDevice->read(m_buffer.data(), toRead) / 2;
