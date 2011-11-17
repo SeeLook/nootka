@@ -75,6 +75,7 @@ ELSE(PORTAUDIO_LIBRARIES AND PORTAUDIO_INCLUDE_DIRS)
 ENDIF(PORTAUDIO_LIBRARIES AND PORTAUDIO_INCLUDE_DIRS)
 
 include_directories(${PORTAUDIO_INCLUDE_DIRS})
+include_directories(/usr/include/QtMultimediaKit/)
 
 ###########################################################################
 #libraries and compiller definitions for RtMidi
