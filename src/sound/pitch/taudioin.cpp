@@ -86,12 +86,18 @@ void TaudioIN::setAudioDevice(const QString &devN) {
 }
 
 void TaudioIN::startListening() {
-	m_buffer.resize(2048*2); // 2048 samples, 16 bits each
+	m_buffer.resize(4096*2); // 2048 samples, 16 bits each
 	m_buffer.fill(0);
 	m_floatBuff = new float[m_pitch->aGl().framesPerChunk+16] + 16;
 	tmpBuff = new  float[m_pitch->aGl().framesPerChunk+16] + 16;
 	m_floatsWriten = 0;
 	m_maxPeak = 0;
+// 	m_IOaudioDevice = new QIODevice(this);
+// 	m_IOaudioDevice->open(QIODevice::WriteOnly);
+// 	m_IOaudioDevice->read(m_buffer.data(), 1);
+// 	qDebug("ready");
+// 	m_audioInput->start(m_IOaudioDevice);
+// 	qDebug("opened");
 	m_IOaudioDevice = m_audioInput->start();
 	connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));
 		
@@ -101,16 +107,22 @@ void TaudioIN::startListening() {
 
 void TaudioIN::audioDataReady() {
 // 	qDebug() << "Let's read";
+	if (m_audioInput->state() != QAudio::ActiveState)
+	  qDebug() << (int)m_audioInput->state();
 	qint64 bytesReady = m_audioInput->bytesReady();
-	if (bytesReady < 5) {
-// 		qDebug() << "null";
-		return;
-	}		
 	qint64 bSize = m_buffer.size();
 	qint64 toRead = qMin(bytesReady, bSize);
+// 	qDebug() << "period:" << bytesReady << m_audioInput->periodSize() << toRead 
+// 	  << m_audioInput->periodSize()*2 << m_audioInput->periodSize()*2 + toRead*2;
+	/*if (bytesReady < 5) {
+// 		qDebug() << "null";
+		return;
+	}*/		
+	
+	
 	qint64 dataRead = m_IOaudioDevice->read(m_buffer.data(), toRead) / 2;
 	
-// 	qDebug() << "read data" << dataRead ;
+// 	qDebug() << "read data" << dataRead*2 ;
 	
 // 	int i = 0;	
 	for (int i = 0; i < dataRead; i++) {
