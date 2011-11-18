@@ -83,7 +83,7 @@ void TaudioIN::setAudioDevice(const QString &devN) {
 }
 
 void TaudioIN::startListening() {
-	m_buffer.resize(4096*2); // 2048 samples, 16 bits each
+	m_buffer.resize(8192*2); // 2048 samples, 16 bits each
 	m_buffer.fill(0);
 	m_floatBuff = new float[m_pitch->aGl().framesPerChunk+16] + 16;
 // 	tmpBuff = new  float[m_pitch->aGl().framesPerChunk+16] + 16;
@@ -108,7 +108,8 @@ void TaudioIN::audioDataReady() {
 	qint64 dataRead = m_IOaudioDevice->read(m_buffer.data(), toRead) / 2;
 	if (dataRead > bSize/2) {
 		dataRead = bSize/2;
-		qDebug("Audio data cut off. Buffer is too small !!!!");
+// 		m_buffer.resize(m_buffer.size()*2);
+		qDebug() << dataRead << "Audio data cut off. Buffer is too small !!!!";
 	}
 	
 // 	qDebug() << "read data" << dataRead*2 ;

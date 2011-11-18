@@ -81,12 +81,13 @@ void TpitchFinder::searchIn(float* chunk) {
 	if (chunk) {
 		m_workChunk = chunk;
 		run();
-	} /*else {
-	  delete m_channel;
-	  myTransforms.uninit();
-	  m_channel = new Channel(this, aGl().windowSize);
-	  myTransforms.init(aGl().windowSize, 0, aGl().rate, aGl().equalLoudness);
-	}*/
+	} else {
+// 	  delete m_channel;
+// 	  myTransforms.uninit();
+// 	  m_channel = new Channel(this, aGl().windowSize);
+// 	  myTransforms.init(aGl().windowSize, 0, aGl().rate, aGl().equalLoudness);
+// 	  m_channel->reset();
+	}
 }
 
 
