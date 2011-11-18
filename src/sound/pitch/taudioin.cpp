@@ -43,7 +43,7 @@ QAudioFormat TaudioIN::templAudioFormat = QAudioFormat();
 
 //************************************************************************************/
 
-float *tmpBuff;
+// float *tmpBuff;
 
 TaudioIN::TaudioIN(QObject *parent) :
     QObject(parent),
@@ -52,9 +52,6 @@ TaudioIN::TaudioIN(QObject *parent) :
     m_deviceInfo(QAudioDeviceInfo::defaultInputDevice()),
     m_pitch(new TpitchFinder())
 {    
-// 	setAudioDevice(m_deviceInfo.deviceName());
-// 	setAudioDevice("plughw:CARD=default,DEV=0");
-
 
 }
 
@@ -62,7 +59,7 @@ TaudioIN::~TaudioIN()
 {
 	m_buffer.clear();
 	delete[] m_floatBuff;
-	delete[] tmpBuff;
+// 	delete[] tmpBuff;
 }
 
 
@@ -89,55 +86,56 @@ void TaudioIN::startListening() {
 	m_buffer.resize(4096*2); // 2048 samples, 16 bits each
 	m_buffer.fill(0);
 	m_floatBuff = new float[m_pitch->aGl().framesPerChunk+16] + 16;
-	tmpBuff = new  float[m_pitch->aGl().framesPerChunk+16] + 16;
+// 	tmpBuff = new  float[m_pitch->aGl().framesPerChunk+16] + 16;
 	m_floatsWriten = 0;
 	m_maxPeak = 0;
-// 	m_IOaudioDevice = new QIODevice(this);
-// 	m_IOaudioDevice->open(QIODevice::WriteOnly);
-// 	m_IOaudioDevice->read(m_buffer.data(), 1);
-// 	qDebug("ready");
-// 	m_audioInput->start(m_IOaudioDevice);
-// 	qDebug("opened");
 	m_IOaudioDevice = m_audioInput->start();
 	connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));
 		
 }
 
-
+bool m_noteStarted = false;
 
 void TaudioIN::audioDataReady() {
-// 	qDebug() << "Let's read";
-	if (m_audioInput->state() != QAudio::ActiveState)
-	  qDebug() << (int)m_audioInput->state();
+	if (m_audioInput->state() != QAudio::ActiveState && m_audioInput->state() != QAudio::IdleState)
+	  qDebug() << "Device in state:" << (int)m_audioInput->state();
 	qint64 bytesReady = m_audioInput->bytesReady();
 	qint64 bSize = m_buffer.size();
 	qint64 toRead = qMin(bytesReady, bSize);
 // 	qDebug() << "period:" << bytesReady << m_audioInput->periodSize() << toRead 
-// 	  << m_audioInput->periodSize()*2 << m_audioInput->periodSize()*2 + toRead*2;
-	/*if (bytesReady < 5) {
-// 		qDebug() << "null";
-		return;
-	}*/		
-	
+// 	  << m_audioInput->periodSize()*2 << m_audioInput->periodSize()*2 + toRead*2;	
 	
 	qint64 dataRead = m_IOaudioDevice->read(m_buffer.data(), toRead) / 2;
+	if (dataRead > bSize/2) {
+		dataRead = bSize/2;
+		qDebug("Audio data cut off. Buffer is too small !!!!");
+	}
 	
 // 	qDebug() << "read data" << dataRead*2 ;
 	
-// 	int i = 0;	
 	for (int i = 0; i < dataRead; i++) {
 	  qint16 value = *reinterpret_cast<qint16*>(m_buffer.data()+i*2);
 	  m_maxPeak = qMax(m_maxPeak, value);
-	  *(tmpBuff + m_floatsWriten) = float(value) / 32768.0f;
-// 	  *(m_floatBuff + m_floatsWriten) = qBound(-1.0f, float(value) / 32768.0f, 1.0f);
+	  *(m_floatBuff + m_floatsWriten) = float(value) / 32768.0f;
 
 	  if (m_floatsWriten == m_pitch->aGl().framesPerChunk) {
-		if (maxPeak() > 100) {
+		if (maxPeak() > 150) {
 // 		  std::copy(tmpBuff, tmpBuff + m_pitch->aGl().framesPerChunk, m_floatBuff);
 		  if (m_pitch->isBussy())
 			qDebug() << "data ignored";
-		  else
-			m_pitch->searchIn(tmpBuff);
+		  else {
+			m_pitch->searchIn(m_floatBuff);
+			if (!m_noteStarted) {
+			  qDebug("note started");
+			  m_noteStarted = true;
+			}
+		  }
+		} else {
+		  if (m_noteStarted) {
+// 			m_pitch->searchIn(0);
+			qDebug("note stoped");
+			m_noteStarted = false;
+		  }			
 		}
 		m_floatsWriten = 0;		
 		m_maxPeak = 0;
