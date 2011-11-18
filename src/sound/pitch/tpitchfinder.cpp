@@ -71,7 +71,9 @@ TpitchFinder::TpitchFinder() :
 TpitchFinder::~TpitchFinder()
 {
 	delete filteredChunk;
-
+	myTransforms.uninit();
+	delete m_channel;
+	
 }
 
 
@@ -79,7 +81,12 @@ void TpitchFinder::searchIn(float* chunk) {
 	if (chunk) {
 		m_workChunk = chunk;
 		run();
-	}
+	} /*else {
+	  delete m_channel;
+	  myTransforms.uninit();
+	  m_channel = new Channel(this, aGl().windowSize);
+	  myTransforms.init(aGl().windowSize, 0, aGl().rate, aGl().equalLoudness);
+	}*/
 }
 
 
@@ -123,3 +130,4 @@ void TpitchFinder::run() {
 // QThread::run();
 // }
 
+	
