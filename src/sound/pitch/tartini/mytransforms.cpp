@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include "mytransforms.h"
-#include "myassert.h"
+// #include "myassert.h"
 #include "array1d.h"
 #include "equalloudness.h"
 // #include "gdata.h"
@@ -136,7 +136,7 @@ void MyTransforms::uninit()
 */
 double MyTransforms::autocorr(float *input, float *output)
 {
-  myassert(beenInit);
+//   myassert(beenInit);
   float fsize = float(size);
   
   //pack the data into an array which is zero padded by k elements
@@ -168,7 +168,7 @@ double MyTransforms::autocorr(float *input, float *output)
 
 double MyTransforms::autoLogCorr(float *input, float *output)
 {
-  myassert(beenInit);
+//   myassert(beenInit);
   float fsize = float(size);
   
   //pack the data into an array which is zero padded by k elements
@@ -204,7 +204,7 @@ double MyTransforms::autoLogCorr(float *input, float *output)
 */
 double MyTransforms::asdf(float *input, float *output)
 {
-  myassert(beenInit);
+//   myassert(beenInit);
   double sumSq = autocorr(input, output); //Do an autocorrelation and return the sum of squares of the input
   double sumRightSq = sumSq, sumLeftSq = sumSq;
   for(int j=0; j<k; j++) {
@@ -223,7 +223,7 @@ double MyTransforms::asdf(float *input, float *output)
 */
 double MyTransforms::nsdf(float *input, float *output)
 {
-  myassert(beenInit);
+//   myassert(beenInit);
   double sumSq = autocorr(input, output); //the sum of squares of the input
 
   double totalSumSq = sumSq * 2.0;
@@ -275,8 +275,6 @@ int MyTransforms::findNSDFMaxima(float *input, int len, std::vector<int> &maxPos
   
   while(pos < len-1) {
 //     myassert(!(input[pos] < 0)); //don't assert on NAN
-	if (input[pos] < 0)
-	  qDebug() << "myassert(!(input[pos] < 0)); //don't assert on NAN";
     if(input[pos] > input[pos-1] && input[pos] >= input[pos+1]) { //a local maxima
       if(curMaxPos == 0) curMaxPos = pos; //the first maxima (between zero crossings)
       else if(input[pos] > input[curMaxPos]) curMaxPos = pos; //a higher maxima (between the zero crossings)
@@ -316,7 +314,7 @@ int MyTransforms::findNSDFsubMaximum(float *input, int len, float threshold)
     if(input[indices[j]] >= cutoff) return indices[j];
   }
 //   myassert(0); //should never get here
-  qDebug() << "hilfe findNSDFsubMaximum";
+//   qDebug() << "hilfe findNSDFsubMaximum";
   return 0; //stop the compiler warning
 }
 
@@ -591,7 +589,7 @@ int findFirstSubMaximum(float *data, int length, float threshold)
   for(int j=0; j < length; j++) {
     if(data[j] >= cutoffValue) return j;
   }
-  myassert(0); //shouldn't get here.
+//   myassert(0); //shouldn't get here.
   return length;
 }
 

@@ -32,6 +32,8 @@ TpitchFinder::audioSetts *glAsett;
 
 float *filteredChunk = 0;
 bool shown = true;
+bool noteNoticed = false;
+int noticedChunk = 0;
 
 TpitchFinder::TpitchFinder() :
   m_chunkNum(0)
@@ -49,7 +51,7 @@ TpitchFinder::TpitchFinder() :
 	m_aGl.doingDetailedPitch = true;
 	m_aGl.threshold = 93;
 	m_aGl.analysisType = e_MPM_MODIFIED_CEPSTRUM;
-	m_aGl.topPitch = 128.0;
+	m_aGl.topPitch = 140.0;
 	m_aGl.ampThresholds[AMPLITUDE_RMS][0]           = -85.0; m_aGl.ampThresholds[AMPLITUDE_RMS][1]           = -0.0;
 	m_aGl.ampThresholds[AMPLITUDE_MAX_INTENSITY][0] = -30.0; m_aGl.ampThresholds[AMPLITUDE_MAX_INTENSITY][1] = -20.0;
 	m_aGl.ampThresholds[AMPLITUDE_CORRELATION][0]   =  0.40; m_aGl.ampThresholds[AMPLITUDE_CORRELATION][1]   =  1.00;
@@ -82,10 +84,11 @@ void TpitchFinder::searchIn(float* chunk) {
 		m_workChunk = chunk;
 		run();
 	} else {
-// 	  delete m_channel;
-// 	  myTransforms.uninit();
-// 	  m_channel = new Channel(this, aGl().windowSize);
-// 	  myTransforms.init(aGl().windowSize, 0, aGl().rate, aGl().equalLoudness);
+	  delete m_channel;
+	  m_chunkNum = 0;
+	  myTransforms.uninit();
+	  m_channel = new Channel(this, aGl().windowSize);
+	  myTransforms.init(aGl().windowSize, 0, aGl().rate, aGl().equalLoudness);
 // 	  m_channel->reset();
 	}
 }
@@ -93,10 +96,7 @@ void TpitchFinder::searchIn(float* chunk) {
 
 void TpitchFinder::run() {
 	m_isBussy = true;
-// 	QThread::start(QThread::HighPriority);
-	// copy chunk to channel
-// 	if (m_channel->locked())
-// 		qDebug() << "channel still locked";
+
 	if (aGl().equalLoudness) {
 	  m_channel->highPassFilter->filter(m_workChunk, filteredChunk, aGl().framesPerChunk);
 	  for(int i = 0; i < aGl().framesPerChunk; i++)
@@ -115,13 +115,26 @@ void TpitchFinder::run() {
 // 		qDebug() << "data index" << data->cepstrumIndex << data->noteIndex << data->notePlaying
 // 		  << data->fundamentalFreq;	
 	  if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)) {
-		if (shown && data->pitch > 35) {
-		  Tnote n = Tnote(qRound(data->pitch)-47);
-		  qDebug() << data->noteIndex << data->fundamentalFreq <<  QString::fromStdString(n.getName());
-		  shown = false;
+		if (!noteNoticed) {
+		  noteNoticed = true;
+		  noticedChunk = currentChunk();
 		}
-	  } else
-		  shown = true;
+// 		if (shown && data->pitch > 35) {
+// 		  Tnote n = Tnote(qRound(data->pitch)-47);
+// 		  qDebug() << data->noteIndex << data->fundamentalFreq <<  QString::fromStdString(n.getName());
+// 		  shown = false;
+// 		}
+	  } else {
+		  if(noteNoticed) {
+			noteNoticed = false;
+			int nn = qRound(m_channel->averagePitch(noticedChunk, currentChunk()));
+			if (nn > 35) {
+			  Tnote n = Tnote(nn-47);
+			  qDebug() << noticedChunk << currentChunk() << QString::fromStdString(n.getName());
+			}
+		  }
+// 		  shown = true;
+	  }
 	}
 	incrementChunk();
 	m_isBussy = false;

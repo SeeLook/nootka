@@ -20,6 +20,7 @@
 #include <QAudio>
 #include <QDebug>
 #include "tpitchfinder.h"
+#include <QBuffer>
 
 
 /*static */
@@ -82,8 +83,10 @@ void TaudioIN::setAudioDevice(const QString &devN) {
     m_audioInput = new QAudioInput(m_deviceInfo, templAudioFormat, this);
 }
 
+bool m_noteStarted = false;
+
 void TaudioIN::startListening() {
-	m_buffer.resize(8192*2); // 2048 samples, 16 bits each
+	m_buffer.resize(8192*2); // samples count in mono signal
 	m_buffer.fill(0);
 	m_floatBuff = new float[m_pitch->aGl().framesPerChunk+16] + 16;
 // 	tmpBuff = new  float[m_pitch->aGl().framesPerChunk+16] + 16;
@@ -94,9 +97,8 @@ void TaudioIN::startListening() {
 		
 }
 
-bool m_noteStarted = false;
-
 void TaudioIN::audioDataReady() {
+	
 	if (m_audioInput->state() != QAudio::ActiveState && m_audioInput->state() != QAudio::IdleState)
 	  qDebug() << "Device in state:" << (int)m_audioInput->state();
 	qint64 bytesReady = m_audioInput->bytesReady();
@@ -109,7 +111,7 @@ void TaudioIN::audioDataReady() {
 	if (dataRead > bSize/2) {
 		dataRead = bSize/2;
 // 		m_buffer.resize(m_buffer.size()*2);
-		qDebug() << dataRead << "Audio data cut off. Buffer is too small !!!!";
+		qDebug() << dataRead << "Audio data was cut off. Buffer is too small !!!!";
 	}
 	
 // 	qDebug() << "read data" << dataRead*2 ;
@@ -127,14 +129,14 @@ void TaudioIN::audioDataReady() {
 		  else {
 			m_pitch->searchIn(m_floatBuff);
 			if (!m_noteStarted) {
-			  qDebug("note started");
+// 			  qDebug("note started");
 			  m_noteStarted = true;
 			}
 		  }
 		} else {
 		  if (m_noteStarted) {
-// 			m_pitch->searchIn(0);
-			qDebug("note stoped");
+			m_pitch->searchIn(0);
+// 			qDebug("note stoped");
 			m_noteStarted = false;
 		  }			
 		}
@@ -143,7 +145,7 @@ void TaudioIN::audioDataReady() {
 	  }
 	  m_floatsWriten++;
 	}
-	 
+
 }
 	
 	
