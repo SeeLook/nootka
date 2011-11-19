@@ -33,6 +33,8 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   enableInBox->setChecked(true);
   
   QVBoxLayout *inLay = new QVBoxLayout();
+  
+  QHBoxLayout *upLay = new QHBoxLayout();  
   QVBoxLayout *devDetLay = new QVBoxLayout(); // device & detection method layout
   
   QLabel *devLab = new QLabel(tr("input device"), this);
@@ -43,11 +45,51 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   devDetLay->addWidget(detectLab);
   detectMethodCombo = new QComboBox(this);
   devDetLay->addWidget(detectMethodCombo);
-  detectMethodCombo->addItem("Mpm");
-  detectMethodCombo->addItem(tr("Auto correlation"));
-  detectMethodCombo->addItem(tr("Mpm & modified cepstrum"));
+  detectMethodCombo->addItem("MPM");
+  detectMethodCombo->addItem(tr("Autocorrelation"));
+  detectMethodCombo->addItem(tr("MPM & modified cepstrum"));
   
-  inLay->addLayout(devDetLay);  
+  loudChB = new QCheckBox(tr("low-pass filter"), this);
+  devDetLay->addWidget(loudChB);
+  voiceChB = new QCheckBox(tr("human voice"), this);
+  voiceChB->setStatusTip(tr("Check this for singing."));
+  devDetLay->addWidget(voiceChB);
+  noiseChB = new QCheckBox(tr("noise floor"), this);
+  devDetLay->addWidget(noiseChB);
+  
+  upLay->addLayout(devDetLay);
+  QVBoxLayout *tunLay = new QVBoxLayout(); //middle A & threshold layout
+  
+  QGroupBox *midABox = new QGroupBox(tr("middle A")+" (a1)", this);
+  QVBoxLayout *midLay = new QVBoxLayout();
+  QLabel *freqLab = new QLabel(tr("frequency:"), this);
+  midLay->addWidget(freqLab);
+  freqSpin = new QSpinBox(this);
+  midLay->addWidget(freqSpin);
+  freqSpin->setMinimum(420);
+  freqSpin->setMaximum(460);
+  freqSpin->setValue(440);
+  freqSpin->setSuffix(" Hz");
+  
+  QLabel *intLab = new QLabel(tr("interval:"), this);
+  midLay->addWidget(intLab);
+  intervalCombo = new QComboBox(this);
+  midLay->addWidget(intervalCombo);
+  intervalCombo->addItem(tr("semitone up"));
+  intervalCombo->addItem(tr("none"));
+  intervalCombo->addItem(tr("semitone down"));
+  intervalCombo->setCurrentIndex(1);
+  midABox->setLayout(midLay);
+  tunLay->addWidget(midABox);
+  
+  QLabel *threLab = new QLabel(tr("noise threshold:"), this);
+  tunLay->addWidget(threLab);
+  thresholdSlider = new QSlider(Qt::Horizontal, this);
+  tunLay->addWidget(thresholdSlider);
+  
+  upLay->addLayout(tunLay);
+  
+  inLay->addLayout(upLay);
   
   enableInBox->setLayout(inLay);  
   lay->addWidget(enableInBox);
