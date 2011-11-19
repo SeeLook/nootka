@@ -39,6 +39,13 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   devDetLay->addWidget(devLab);
   inDeviceCombo = new QComboBox(this);
   devDetLay->addWidget(inDeviceCombo);
+  QLabel *detectLab = new QLabel(tr("detection method"), this);
+  devDetLay->addWidget(detectLab);
+  detectMethodCombo = new QComboBox(this);
+  devDetLay->addWidget(detectMethodCombo);
+  detectMethodCombo->addItem("Mpm");
+  detectMethodCombo->addItem(tr("Auto correlation"));
+  detectMethodCombo->addItem(tr("Mpm & modified cepstrum"));
   
   inLay->addLayout(devDetLay);  
   
