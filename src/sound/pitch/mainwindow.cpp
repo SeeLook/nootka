@@ -17,8 +17,9 @@
  ***************************************************************************/
 
 #include "mainwindow.h"
-#include <QtGui>
-#include "taudioin.h"
+#include "audioinsettings.h"
+// #include <QtGui>
+// #include "taudioin.h"
 
 // #include "tnote.h"
 
@@ -27,8 +28,11 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-
-    QWidget *widget = new QWidget(this);
+  
+  aInSett = new AudioInSettings(this);
+  setCentralWidget(aInSett);
+  
+  /*  QWidget *widget = new QWidget(this);
 
     QVBoxLayout *mLay = new QVBoxLayout;
 
@@ -64,9 +68,16 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(devListCombo, SIGNAL(currentIndexChanged(QString)), this, SLOT(setDeviceName(QString)));
 	connect(startSniffBut, SIGNAL(clicked()), this, SLOT(startListening()));
 // 	connect(m_levelTimer, SIGNAL(timeout()), this, SLOT(levelSlot()));
-
+*/
 }
 
+
+
+
+
+
+
+/*
 void MainWindow::setDeviceName(QString devN) {
     devNameLab->setText(devN);
 	m_pitch->setAudioDevice(devN);
@@ -75,3 +86,6 @@ void MainWindow::setDeviceName(QString devN) {
 void MainWindow::startListening() {
 	m_pitch->startListening();
 }
+*/
+
+

@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,51 +12,33 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef AUDIOINSETTINGS_H
+#define AUDIOINSETTINGS_H
+#include <QWidget>
 
-#include <QMainWindow>
-
-// class TaudioIN;
-// class QComboBox;
-// class QLabel;
-// class QPushButton;
-// class AudioInSettings;
-QT_FORWARD_DECLARE_CLASS(AudioInSettings);
+class QCheckBox;
+class QGroupBox;
+class QComboBox;
 
 
-class MainWindow : public QMainWindow
+class AudioInSettings: public QWidget
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit MainWindow(QWidget *parent = 0);
-
-//     QString deviceName() { return m_devName; }
-
-
-signals:
-
-public slots:
-//     void setDeviceName(QString devN);
-// 	void startListening();
-
+  
+  explicit AudioInSettings(QWidget *parent = 0);
+  virtual ~AudioInSettings();
+  
 private:
-  AudioInSettings *aInSett;
-//     QComboBox *devListCombo;
-//     QLabel *devNameLab, *peakLab, *pitchLab;
-// 	QPushButton *startSniffBut;
-// 	TaudioIN *m_pitch;
-	
+  QComboBox *inDeviceCombo, *detectMethodCombo, *intervalCombo;
+  QGroupBox *enableInBox, *midABox, *testBox;
+  QCheckBox *loudChB, *voiceChB, *noiseChB;
 
-//     QString m_devName;
-// 	QTimer *m_levelTimer;
-
-
+  
 };
 
-#endif // MAINWINDOW_H
-
+#endif // AUDIOINSETTINGS_H
