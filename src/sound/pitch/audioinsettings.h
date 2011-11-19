@@ -20,6 +20,8 @@
 #define AUDIOINSETTINGS_H
 #include <QWidget>
 
+class QSlider;
+class QSpinBox;
 class QCheckBox;
 class QGroupBox;
 class QComboBox;
@@ -35,8 +37,10 @@ public:
   
 private:
   QComboBox *inDeviceCombo, *detectMethodCombo, *intervalCombo;
-  QGroupBox *enableInBox, *midABox, *testBox;
+  QGroupBox *enableInBox;
   QCheckBox *loudChB, *voiceChB, *noiseChB;
+  QSpinBox *freqSpin;
+  QSlider *thresholdSlider;
 
   
 };

@@ -95,6 +95,7 @@ set( PITCH_SRCS
   tpitchfinder.cpp
   audioinsettings.cpp
   tnote.cpp
+  ../../settings/tsettingsdialogbase.cpp
  # tartini
   tartini/channel.cpp
   tartini/analysisdata.cpp
@@ -129,6 +130,7 @@ set( PITCH_MOC_SRCS
   taudioin.h
   tpitchfinder.h
   audioinsettings.h
+  ../../settings/tsettingsdialogbase.h
 )
 
 QT4_WRAP_CPP( PITCH_MOCS ${PITCH_MOC_SRCS} )

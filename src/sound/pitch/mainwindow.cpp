@@ -18,7 +18,7 @@
 
 #include "mainwindow.h"
 #include "audioinsettings.h"
-// #include <QtGui>
+#include <QtGui>
 // #include "taudioin.h"
 
 // #include "tnote.h"
@@ -26,11 +26,14 @@
 
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent)
+    TsettingsDialogBase(parent)
 {
+  navList->addItem("Audio");
+  
   
   aInSett = new AudioInSettings(this);
-  setCentralWidget(aInSett);
+  
+  stackLayout->addWidget(aInSett);
   
   /*  QWidget *widget = new QWidget(this);
 

@@ -19,7 +19,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
+#include "../../settings/tsettingsdialogbase.h"
 
 // class TaudioIN;
 // class QComboBox;
@@ -29,7 +29,7 @@
 QT_FORWARD_DECLARE_CLASS(AudioInSettings);
 
 
-class MainWindow : public QMainWindow
+class MainWindow : public TsettingsDialogBase
 {
     Q_OBJECT
 public:
