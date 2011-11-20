@@ -16,46 +16,30 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef AUDIOINSETTINGS_H
-#define AUDIOINSETTINGS_H
+#ifndef TVOLUMEMETER_H
+#define TVOLUMEMETER_H
+
 #include <QWidget>
 
-class TvolumeMeter;
-class QLabel;
-class QPushButton;
-class QSlider;
-class QSpinBox;
-class QCheckBox;
-class QGroupBox;
-class QComboBox;
 
-
-class AudioInSettings: public QWidget
+class TvolumeMeter : public QWidget
 {
   Q_OBJECT
+  
 public:
   
-  explicit AudioInSettings(QWidget *parent = 0);
-  virtual ~AudioInSettings();
+  explicit TvolumeMeter(QWidget *parent = 0);
+  virtual ~TvolumeMeter();
   
+  void setVolume(qreal vol);
+
 protected:
-  void setTestDisabled(bool disabled);
-  
-protected slots:
-  void testSlot();
-  void calcSlot();
-  
+  void paintEvent(QPaintEvent* );
+
 private:
-  QComboBox *inDeviceCombo, *detectMethodCombo, *intervalCombo;
-  QGroupBox *enableInBox;
-  QCheckBox *loudChB, *voiceChB, *noiseChB;
-  QSpinBox *freqSpin;
-  QSlider *thresholdSlider;
-  QPushButton *calcButt, *testButt;
-  QLabel *pitchLab;
-  bool m_testDisabled;
-  TvolumeMeter *volMeter;
-  
+    qreal m_volume;
+    QPixmap m_pixmap;
+
 };
 
-#endif // AUDIOINSETTINGS_H
+#endif // TVOLUMEMETER_H

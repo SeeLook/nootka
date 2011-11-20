@@ -19,6 +19,7 @@
 
 #include "audioinsettings.h"
 #include "taudioin.h"
+#include "../tvolumemeter.h"
 #include <QtGui>
 
 
@@ -49,6 +50,7 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   detectMethodCombo->addItem(tr("Autocorrelation"));
   detectMethodCombo->addItem(tr("MPM & modified cepstrum"));
   
+  devDetLay->addStretch(1);
   loudChB = new QCheckBox(tr("low-pass filter"), this);
   devDetLay->addWidget(loudChB);
   voiceChB = new QCheckBox(tr("human voice"), this);
@@ -56,6 +58,7 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   devDetLay->addWidget(voiceChB);
   noiseChB = new QCheckBox(tr("noise floor"), this);
   devDetLay->addWidget(noiseChB);
+  devDetLay->addStretch(1);
   
   upLay->addLayout(devDetLay);
   QVBoxLayout *tunLay = new QVBoxLayout(); //middle A & threshold layout
@@ -82,20 +85,51 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   midABox->setLayout(midLay);
   tunLay->addWidget(midABox);
   
+  QGroupBox *noisGr = new QGroupBox(this);
+  QVBoxLayout *noisLay = new QVBoxLayout();
   QLabel *threLab = new QLabel(tr("noise threshold:"), this);
-  tunLay->addWidget(threLab);
+  noisLay->addWidget(threLab);
   thresholdSlider = new QSlider(Qt::Horizontal, this);
-  tunLay->addWidget(thresholdSlider);
+  noisLay->addWidget(thresholdSlider);
+  calcButt = new QPushButton(tr("Calculate"), this);
+  noisLay->addWidget(calcButt, 1, Qt::AlignCenter);
+  calcButt->setStatusTip(tr("Click to automatically detect noise level."));
+  noisGr->setLayout(noisLay);
+  tunLay->addWidget(noisGr);
   
   upLay->addLayout(tunLay);
   
   inLay->addLayout(upLay);
+  
+  QGroupBox *testGr = new QGroupBox(this);
+  QHBoxLayout *testLay = new QHBoxLayout();
+  testButt = new QPushButton(tr("Test"), this);
+  testButt->setStatusTip(tr("Check, Are audio input settings appropirate for You,<br>and pitch detection works."));
+  testLay->addWidget(testButt);
+  testLay->addStretch(1);
+  volMeter = new TvolumeMeter(this);
+  testLay->addWidget(volMeter);
+  volMeter->setStatusTip(tr("Level of a volume"));
+  testLay->addStretch(1);
+  pitchLab = new QLabel("--", this);
+  testLay->addWidget(pitchLab);
+  testLay->addStretch(1);
+  pitchLab->setStatusTip(tr("Detected pitch"));
+  
+  
+  testGr->setLayout(testLay);
+  inLay->addWidget(testGr);
   
   enableInBox->setLayout(inLay);  
   lay->addWidget(enableInBox);
   setLayout(lay);
   
   inDeviceCombo->addItems(TaudioIN::getAudioDevicesList());
+  volMeter->setVolume(0.5);
+  setTestDisabled(true);
+  
+  connect(testButt, SIGNAL(clicked()), this, SLOT(testSlot()));
+  connect(calcButt, SIGNAL(clicked()), this, SLOT(calcSlot()));
   
 }
 
@@ -103,4 +137,31 @@ AudioInSettings::~AudioInSettings()
 {
 }
 
+//------------------------------------------------------------------------------------
+//------------          methods       --------------------------------------------------
+//------------------------------------------------------------------------------------
+void AudioInSettings::setTestDisabled(bool disabled) {
+  m_testDisabled = disabled;
+  if (disabled) {
+	volMeter->setDisabled(true);
+	pitchLab->setDisabled(true);
+  } else {
+	volMeter->setDisabled(false);
+	pitchLab->setDisabled(false);
+  }
+}
+
+
+
+//------------------------------------------------------------------------------------
+//------------          slots       --------------------------------------------------
+//------------------------------------------------------------------------------------
+
+void AudioInSettings::calcSlot() {
+
+}
+
+void AudioInSettings::testSlot() {
+  setTestDisabled(!m_testDisabled);
+}
 
