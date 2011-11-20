@@ -20,7 +20,9 @@
 #include <QAudio>
 #include <QDebug>
 #include "tpitchfinder.h"
-#include <QBuffer>
+#include <QTimer>
+// #include <QBuffer>
+
 
 
 /*static */
@@ -50,23 +52,31 @@ TaudioIN::TaudioIN(QObject *parent) :
     QObject(parent),
     m_audioInput(0),
     m_maxPeak(0),
+    m_floatBuff(0),
     m_deviceInfo(QAudioDeviceInfo::defaultInputDevice()),
     m_pitch(new TpitchFinder())
 {    
-
+  m_buffer.resize(8192*2); // samples count in mono signal
+  m_buffer.fill(0);
 }
 
 TaudioIN::~TaudioIN()
 {
-	m_buffer.clear();
+  if (m_audioInput) {
+	m_audioInput->stop();
+	delete m_audioInput;
+  }
+  m_buffer.clear();
+  if (m_floatBuff)
 	delete[] m_floatBuff;
+//   delete m_pitch;
+	
 // 	delete[] tmpBuff;
 }
 
 
 
 void TaudioIN::setAudioDevice(const QString &devN) {
-
     QList<QAudioDeviceInfo> dL = QAudioDeviceInfo::availableDevices(QAudio::AudioInput);
     for(int i = 0; i<dL.size(); i++) {
         if (dL[i].deviceName() == devN) {
@@ -85,17 +95,41 @@ void TaudioIN::setAudioDevice(const QString &devN) {
 
 bool m_noteStarted = false;
 
+void TaudioIN::initInput() {
+  m_floatsWriten = 0;
+  m_maxPeak = 0;
+  m_IOaudioDevice = m_audioInput->start();
+}
+
+
 void TaudioIN::startListening() {
-	m_buffer.resize(8192*2); // samples count in mono signal
-	m_buffer.fill(0);
+  if (m_audioInput) {
 	m_floatBuff = new float[m_pitch->aGl().framesPerChunk+16] + 16;
 // 	tmpBuff = new  float[m_pitch->aGl().framesPerChunk+16] + 16;
-	m_floatsWriten = 0;
-	m_maxPeak = 0;
-	m_IOaudioDevice = m_audioInput->start();
-	connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));
-		
+	initInput();
+	connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));	
+  }
 }
+
+void TaudioIN::calculateNoiseLevel()
+{
+  if (m_audioInput) {
+	initInput();
+	m_peakList.clear();
+	connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(readToCalc()));
+	QTimer::singleShot(1000, this, SLOT(calc()));
+  }
+}
+
+void TaudioIN::calc() {
+  m_audioInput->stop();
+  disconnect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(readToCalc()));
+  qint16 noise = 0;
+  for (int i = 0; i < m_peakList.size(); i++ )
+	noise = qMax(noise, m_peakList[i]);
+  emit noiseLevel(noise);
+}
+
 
 void TaudioIN::audioDataReady() {
 	
@@ -140,15 +174,34 @@ void TaudioIN::audioDataReady() {
 			m_noteStarted = false;
 		  }			
 		}
-		m_floatsWriten = 0;		
+		m_floatsWriten = 0;	/** FIXME: -1 */
 		m_maxPeak = 0;
 	  }
 	  m_floatsWriten++;
 	}
-
 }
 	
-	
+void TaudioIN::readToCalc() {
+  qint64 bytesReady = m_audioInput->bytesReady();
+  qint64 bSize = m_buffer.size();
+  qint64 toRead = qMin(bytesReady, bSize);	
+  qint64 dataRead = m_IOaudioDevice->read(m_buffer.data(), toRead) / 2;
+  if (dataRead > bSize/2) {
+	  dataRead = bSize/2;
+	  // buffer size to resize
+  }
+  for (int i = 0; i < dataRead; i++) {
+	qint16 value = *reinterpret_cast<qint16*>(m_buffer.data()+i*2);
+	m_maxPeak = qMax(m_maxPeak, value);
+	if (m_floatsWriten == m_pitch->aGl().framesPerChunk) {
+	  m_floatsWriten = -1;
+	  m_peakList << m_maxPeak;
+	}
+	m_floatsWriten++;
+  }
+}
+
+
 
 
 

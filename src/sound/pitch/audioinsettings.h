@@ -20,6 +20,7 @@
 #define AUDIOINSETTINGS_H
 #include <QWidget>
 
+class TaudioIN;
 class TvolumeMeter;
 class QLabel;
 class QPushButton;
@@ -44,6 +45,7 @@ protected:
 protected slots:
   void testSlot();
   void calcSlot();
+  void noiseDetected(qint16 noise);
   
 private:
   QComboBox *inDeviceCombo, *detectMethodCombo, *intervalCombo;
@@ -52,9 +54,10 @@ private:
   QSpinBox *freqSpin;
   QSlider *thresholdSlider;
   QPushButton *calcButt, *testButt;
-  QLabel *pitchLab;
+  QLabel *pitchLab, *noiseLab;
   bool m_testDisabled;
   TvolumeMeter *volMeter;
+  TaudioIN *m_audioIn;
   
 };
 
