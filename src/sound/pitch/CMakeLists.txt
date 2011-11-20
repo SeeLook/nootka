@@ -95,6 +95,7 @@ set( PITCH_SRCS
   tpitchfinder.cpp
   audioinsettings.cpp
   tnote.cpp
+  ../tvolumemeter.cpp
   ../../settings/tsettingsdialogbase.cpp
  # tartini
   tartini/channel.cpp
@@ -130,6 +131,7 @@ set( PITCH_MOC_SRCS
   taudioin.h
   tpitchfinder.h
   audioinsettings.h
+  ../tvolumemeter.h
   ../../settings/tsettingsdialogbase.h
 )
 
