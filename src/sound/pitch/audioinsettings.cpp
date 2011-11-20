@@ -25,7 +25,8 @@
 
 
 AudioInSettings::AudioInSettings(QWidget* parent) :
-  QWidget(parent)
+  QWidget(parent),
+  m_audioIn(0)
 {
   QVBoxLayout *lay = new QVBoxLayout();
   
@@ -88,8 +89,12 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   QGroupBox *noisGr = new QGroupBox(this);
   QVBoxLayout *noisLay = new QVBoxLayout();
   QLabel *threLab = new QLabel(tr("noise threshold:"), this);
-  noisLay->addWidget(threLab);
+  noisLay->addWidget(threLab, 1, Qt::AlignCenter);
+  noiseLab = new QLabel(this);
+  noisLay->addWidget(noiseLab, 1, Qt::AlignCenter);
   thresholdSlider = new QSlider(Qt::Horizontal, this);
+  thresholdSlider->setMinimum(0);
+  thresholdSlider->setMaximum(100);
   noisLay->addWidget(thresholdSlider);
   calcButt = new QPushButton(tr("Calculate"), this);
   noisLay->addWidget(calcButt, 1, Qt::AlignCenter);
@@ -158,10 +163,23 @@ void AudioInSettings::setTestDisabled(bool disabled) {
 //------------------------------------------------------------------------------------
 
 void AudioInSettings::calcSlot() {
-
+  if (!m_audioIn)
+	m_audioIn = new TaudioIN(this);
+  m_audioIn->setAudioDevice(inDeviceCombo->currentText());
+  connect(m_audioIn, SIGNAL(noiseLevel(qint16)), this, SLOT(noiseDetected(qint16)));
+  m_audioIn->calculateNoiseLevel();
 }
 
 void AudioInSettings::testSlot() {
   setTestDisabled(!m_testDisabled);
 }
+
+void AudioInSettings::noiseDetected(qint16 noise) {
+  int nVal = qRound(float(noise/32768.0f)*100);
+  disconnect(m_audioIn, SIGNAL(noiseLevel(qint16)), this, SLOT(noiseDetected(qint16)));
+  thresholdSlider->setValue(nVal);
+  noiseLab->setText(QString("<b>%1 %</b>").arg(nVal));
+}
+
+
 

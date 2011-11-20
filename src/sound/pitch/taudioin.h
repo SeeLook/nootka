@@ -40,17 +40,28 @@ public:
     void setAudioDevice(const QString &devN);
 	void startListening();
 	qint16 maxPeak() { return m_maxPeak; }
+	  /** Starts capturing audio to calculate max level. 
+	   * After 1000ms singleShot of Qtimer calls calc,
+	   * and signal noiseLevel(qint16 level) is emited.
+	   */
+	void calculateNoiseLevel();
 	
 
 signals:
 	void pitchFound(float pitch);
+	void noiseLevel(qint16 level);
 
 
 private slots:
 	void audioDataReady();
+	void readToCalc();
+	void calc();
 
   
 private:
+  void initInput();
+  
+  
     QAudioDeviceInfo m_deviceInfo;
     QAudioInput *m_audioInput;
 	QIODevice *m_IOaudioDevice;
@@ -59,7 +70,7 @@ private:
 	quint32 m_floatsWriten;
 	qint16 m_maxPeak;
 	TpitchFinder *m_pitch;
-
+	QList<qint16> m_peakList;
 
 };
 
