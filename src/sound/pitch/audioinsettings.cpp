@@ -88,17 +88,19 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   
   QGroupBox *noisGr = new QGroupBox(this);
   QVBoxLayout *noisLay = new QVBoxLayout();
-  QLabel *threLab = new QLabel(tr("noise threshold:"), this);
+  QLabel *threLab = new QLabel(tr("noise level:"), this);
   noisLay->addWidget(threLab, 1, Qt::AlignCenter);
-  noiseLab = new QLabel(this);
-  noisLay->addWidget(noiseLab, 1, Qt::AlignCenter);
-  thresholdSlider = new QSlider(Qt::Horizontal, this);
-  thresholdSlider->setMinimum(0);
-  thresholdSlider->setMaximum(100);
-  noisLay->addWidget(thresholdSlider);
+  noiseSpin = new QDoubleSpinBox(this);
+  noiseSpin->setMinimum(0.2);
+  noiseSpin->setMaximum(98.0);
+  noiseSpin->setDecimals(1);
+  noiseSpin->setSingleStep(0.2);
+  noiseSpin->setSuffix(" %");
+  noisLay->addWidget(noiseSpin);
+  noiseSpin->setStatusTip(tr("This value determines level of signal above witch sounds are detected."));
   calcButt = new QPushButton(tr("Calculate"), this);
   noisLay->addWidget(calcButt, 1, Qt::AlignCenter);
-  calcButt->setStatusTip(tr("Click to automatically detect noise level."));
+  calcButt->setStatusTip(tr("Click to automatically detect noise level.<br>Keep silence during 2 seconds to determine it properly."));
   noisGr->setLayout(noisLay);
   tunLay->addWidget(noisGr);
   
@@ -106,9 +108,12 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   
   inLay->addLayout(upLay);
   
+  testTxt = tr("Test");
+  stopTxt = tr("Stop");
+  
   QGroupBox *testGr = new QGroupBox(this);
   QHBoxLayout *testLay = new QHBoxLayout();
-  testButt = new QPushButton(tr("Test"), this);
+  testButt = new QPushButton(testTxt, this);
   testButt->setStatusTip(tr("Check, Are audio input settings appropirate for You,<br>and pitch detection works."));
   testLay->addWidget(testButt);
   testLay->addStretch(1);
@@ -130,7 +135,7 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   setLayout(lay);
   
   inDeviceCombo->addItems(TaudioIN::getAudioDevicesList());
-  volMeter->setVolume(0.5);
+//   volMeter->setVolume(0.5);
   setTestDisabled(true);
   
   connect(testButt, SIGNAL(clicked()), this, SLOT(testSlot()));
@@ -172,14 +177,40 @@ void AudioInSettings::calcSlot() {
 
 void AudioInSettings::testSlot() {
   setTestDisabled(!m_testDisabled);
+  if (!m_testDisabled) { // start a test
+	if (!m_audioIn)
+	  m_audioIn = new TaudioIN(this);
+	m_audioIn->setAudioDevice(inDeviceCombo->currentText());
+	m_audioIn->setNoiseLevel(m_noiseLevel);
+	testButt->setText(stopTxt);
+	m_signalTimer = new QTimer(this);
+	connect(m_signalTimer, SIGNAL(timeout()), this, SLOT(updateSignalLevel()));
+	m_audioIn->startListening();
+	m_signalTimer->start(75);
+  } else { // stop a test
+	m_signalTimer->stop();
+	disconnect(m_signalTimer, SIGNAL(timeout()), this, SLOT(updateSignalLevel()));
+	m_audioIn->stopListening();
+	testButt->setText(testTxt);
+	volMeter->setVolume(0.0);
+	setTestDisabled(true);
+  }
 }
 
 void AudioInSettings::noiseDetected(qint16 noise) {
-  int nVal = qRound(float(noise/32768.0f)*100);
+  if (noise < 10) {
+	QMessageBox::warning(this, "", 
+			tr("There isn't any noise !?!<br>It seems, Your audio input<br>is not configured properly."));
+	m_noiseLevel = 70;
+  } else
+	m_noiseLevel = noise;
+  double nVal = (noise/32768.0f)*100;
   disconnect(m_audioIn, SIGNAL(noiseLevel(qint16)), this, SLOT(noiseDetected(qint16)));
-  thresholdSlider->setValue(nVal);
-  noiseLab->setText(QString("<b>%1 %</b>").arg(nVal));
+  noiseSpin->setValue(nVal);
 }
 
+void AudioInSettings::updateSignalLevel() {
+	volMeter->setVolume(qreal(m_audioIn->maxPeak()) / 32768.0);
+}
 
 
