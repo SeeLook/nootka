@@ -54,7 +54,9 @@ TaudioIN::TaudioIN(QObject *parent) :
     m_maxPeak(0),
     m_floatBuff(0),
     m_deviceInfo(QAudioDeviceInfo::defaultInputDevice()),
-    m_pitch(new TpitchFinder())
+    m_devName(""),
+    m_pitch(new TpitchFinder(this)),
+    m_noiseLevel(70) // 0.2% of 32768 - smallest noise
 {    
   m_buffer.resize(8192*2); // samples count in mono signal
   m_buffer.fill(0);
@@ -62,6 +64,7 @@ TaudioIN::TaudioIN(QObject *parent) :
 
 TaudioIN::~TaudioIN()
 {
+  qDebug("TaudioIN deleteing");
   if (m_audioInput) {
 	m_audioInput->stop();
 	delete m_audioInput;
@@ -83,11 +86,12 @@ void TaudioIN::setAudioDevice(const QString &devN) {
             m_deviceInfo = dL[i];
             break;
         }
-    }
+    } //TODO: check when no  device with devN name
 	qDebug() << m_deviceInfo.deviceName();    
 
-    if (m_audioInput)
-        delete m_audioInput;
+    if (m_audioInput)	  
+	  delete m_audioInput;
+	m_devName = m_deviceInfo.deviceName();
 	if (!m_deviceInfo.isFormatSupported(templAudioFormat))
 	  qDebug() << m_deviceInfo.deviceName() << "format unsupported !!";
     m_audioInput = new QAudioInput(m_deviceInfo, templAudioFormat, this);
@@ -110,6 +114,11 @@ void TaudioIN::startListening() {
 	connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));	
   }
 }
+
+void TaudioIN::stopListening() {
+  m_audioInput->stop();
+}
+
 
 void TaudioIN::calculateNoiseLevel()
 {
@@ -149,14 +158,15 @@ void TaudioIN::audioDataReady() {
 	}
 	
 // 	qDebug() << "read data" << dataRead*2 ;
-	
+	qint16 maxP = 0;
 	for (int i = 0; i < dataRead; i++) {
 	  qint16 value = *reinterpret_cast<qint16*>(m_buffer.data()+i*2);
-	  m_maxPeak = qMax(m_maxPeak, value);
+	  maxP = qMax(maxP, value);
 	  *(m_floatBuff + m_floatsWriten) = float(value) / 32768.0f;
 
 	  if (m_floatsWriten == m_pitch->aGl().framesPerChunk) {
-		if (maxPeak() > 150) {
+		m_maxPeak = maxP;
+		if (maxPeak() > m_noiseLevel) {
 // 		  std::copy(tmpBuff, tmpBuff + m_pitch->aGl().framesPerChunk, m_floatBuff);
 		  if (m_pitch->isBussy())
 			qDebug() << "data ignored";
@@ -175,7 +185,7 @@ void TaudioIN::audioDataReady() {
 		  }			
 		}
 		m_floatsWriten = 0;	/** FIXME: -1 */
-		m_maxPeak = 0;
+		maxP = 0;
 	  }
 	  m_floatsWriten++;
 	}

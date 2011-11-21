@@ -41,7 +41,7 @@ class TpitchFinder : public QThread
 	Q_OBJECT
 	
 public:
-    explicit TpitchFinder();
+    explicit TpitchFinder(QObject *parent = 0);
     virtual ~TpitchFinder();
 	
 	MyTransforms myTransforms;

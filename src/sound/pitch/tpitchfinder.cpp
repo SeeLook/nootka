@@ -35,8 +35,10 @@ bool shown = true;
 bool noteNoticed = false;
 int noticedChunk = 0;
 
-TpitchFinder::TpitchFinder() :
-  m_chunkNum(0)
+TpitchFinder::TpitchFinder(QObject* parent) :
+  QThread(parent),
+  m_chunkNum(0),
+  m_channel(0)
 {
 	m_aGl.chanells = 1;
 	m_aGl.rate = 44100;
@@ -71,11 +73,16 @@ TpitchFinder::TpitchFinder() :
 }
 
 TpitchFinder::~TpitchFinder()
-{
-	delete filteredChunk;
+{	
+  qDebug("tpitchfinder deleting");
+	if (filteredChunk)
+	  delete filteredChunk;
+	qDebug("filteredChunk deleted");
 	myTransforms.uninit();
-	delete m_channel;
-	
+	qDebug("myTransforms uninited");
+	if(m_channel)
+	  delete m_channel;	
+	qDebug("m_channel deleted");
 }
 
 
@@ -89,7 +96,6 @@ void TpitchFinder::searchIn(float* chunk) {
 	  myTransforms.uninit();
 	  m_channel = new Channel(this, aGl().windowSize);
 	  myTransforms.init(aGl().windowSize, 0, aGl().rate, aGl().equalLoudness);
-// 	  m_channel->reset();
 	}
 }
 
