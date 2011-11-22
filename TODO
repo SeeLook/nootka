@@ -35,7 +35,8 @@ TFIRSTRUNWIZZARD & NAMESETTINGS
 
 !!!!! LEVELS
 	- validation has to be improved
-
+TSOUND
+	- it crash when no devices are found and settings dialog is opening
 
 MAINWINDOW
 

@@ -97,6 +97,7 @@ set( PITCH_SRCS
   tnote.cpp
   ../tvolumemeter.cpp
   ../../settings/tsettingsdialogbase.cpp
+  saudioinparams.h
  # tartini
   tartini/channel.cpp
   tartini/analysisdata.cpp

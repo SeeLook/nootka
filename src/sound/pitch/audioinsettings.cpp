@@ -161,6 +161,16 @@ void AudioInSettings::setTestDisabled(bool disabled) {
   }
 }
 
+void AudioInSettings::grabParams() {
+  m_aInParams.a1freq = (float)freqSpin->value();
+  m_aInParams.analysisType = (EanalysisModes)detectMethodCombo->currentIndex();
+  m_aInParams.devName = inDeviceCombo->currentText();
+  m_aInParams.doingAutoNoiseFloor = noiseChB->isChecked();
+  m_aInParams.equalLoudness = loudChB->isChecked();
+  m_aInParams.isVoice = voiceChB->isChecked();
+  m_aInParams.noiseLevel = qRound((noiseSpin->value()/100) * 32768.0);
+}
+
 
 
 //------------------------------------------------------------------------------------
@@ -180,14 +190,17 @@ void AudioInSettings::testSlot() {
   if (!m_testDisabled) { // start a test
 	if (!m_audioIn)
 	  m_audioIn = new TaudioIN(this);
-	m_audioIn->setAudioDevice(inDeviceCombo->currentText());
-	m_audioIn->setNoiseLevel(m_noiseLevel);
+	if (inDeviceCombo->currentText() != m_audioIn->deviceName())
+	  m_audioIn->setAudioDevice(inDeviceCombo->currentText());
+	grabParams();
+	m_audioIn->setParameters(m_aInParams);
 	testButt->setText(stopTxt);
 	m_signalTimer = new QTimer(this);
 	connect(m_signalTimer, SIGNAL(timeout()), this, SLOT(updateSignalLevel()));
 	m_audioIn->startListening();
 	m_signalTimer->start(75);
-  } else { // stop a test
+  } 
+  else { // stop a test
 	m_signalTimer->stop();
 	disconnect(m_signalTimer, SIGNAL(timeout()), this, SLOT(updateSignalLevel()));
 	m_audioIn->stopListening();

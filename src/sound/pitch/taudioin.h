@@ -23,7 +23,8 @@
 #include <QAudioDeviceInfo>
 #include <QAudioInput>
 #include <QAudioFormat>
-//#include
+#include "saudioinparams.h"
+
 class TpitchFinder;
 
 
@@ -36,18 +37,23 @@ public:
 
     static QStringList getAudioDevicesList();
 	static QAudioFormat templAudioFormat;
+	QString deviceName();
+	
 
     void setAudioDevice(const QString &devN);
 	void startListening();
 	void stopListening();
 	qint16 maxPeak() { return m_maxPeak; }
 	  /** Starts capturing audio to calculate max level. 
-	   * After 1000ms singleShot of Qtimer calls calc,
-	   * and signal noiseLevel(qint16 level) is emited.
+	   * After 1000ms singleShot of Qtimer calls calc(),
+	   * and signal noiseLevel(qint16 level) with max peak is emited.
 	   */
 	void calculateNoiseLevel();
-	void setNoiseLevel(qint16 noise) { m_noiseLevel = noise; }
-	qint16 noiseLevel() { return m_noiseLevel; }
+	  /** Sets device parameters stores in struct SaudioInParams. 
+	   * SaudioInParams::deviceName is ignored. It have to be set separately
+	   * by setAudioDevice() method. 	   */
+	void setParameters(SaudioInParams &params);
+// 	SaudioInParams parameters() { return m_params; } // if needed make it as reference and const also
 	
 
 signals:
@@ -71,10 +77,13 @@ private:
 	QByteArray m_buffer;
 	float *m_floatBuff;
 	quint32 m_floatsWriten;
-	qint16 m_maxPeak, m_noiseLevel;
+	qint16 m_maxPeak;
 	TpitchFinder *m_pitch;
 	QList<qint16> m_peakList;
-	QString m_devName;
+	bool m_noteStarted;
+	SaudioInParams m_params;
+	
+	
 };
 
 #endif // TAUDIOIN_H
