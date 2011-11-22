@@ -87,6 +87,13 @@ TpitchFinder::~TpitchFinder()
 	qDebug("m_channel deleted");
 }
 
+void TpitchFinder::setParameters(SaudioInParams& params) {
+  m_aGl.analysisType = params.analysisType;
+  m_aGl.equalLoudness = params.equalLoudness;
+  m_aGl.doingAutoNoiseFloor = params.doingAutoNoiseFloor;
+  m_aGl.isVoice = params.isVoice;
+}
+
 
 void TpitchFinder::searchIn(float* chunk) {
 	if (chunk) {

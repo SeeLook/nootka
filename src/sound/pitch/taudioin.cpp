@@ -87,10 +87,7 @@ QString TaudioIN::deviceName() {
 
 void TaudioIN::setParameters(SaudioInParams& params) {
   m_params = params;
-  m_pitch->aGl().analysisType = params.analysisType;
-  m_pitch->aGl().equalLoudness = params.equalLoudness;
-  m_pitch->aGl().doingAutoNoiseFloor = params.doingAutoNoiseFloor;
-  m_pitch->aGl().isVoice = params.isVoice;
+  m_pitch->setParameters(m_params);
   qDebug() << (int)m_params.analysisType << m_params.noiseLevel;
 }
 
