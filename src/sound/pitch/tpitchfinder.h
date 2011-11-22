@@ -77,6 +77,7 @@ public:
 	int currentChunk() { return m_chunkNum; }
 	void setCurrentChunk(int curCh) { m_chunkNum = curCh; }
 	void incrementChunk() { m_chunkNum++; }
+	void setParameters(SaudioInParams &params);
 	
 protected:
 // 	void start();
