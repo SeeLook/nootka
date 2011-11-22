@@ -180,7 +180,8 @@ void AudioInSettings::grabParams() {
 void AudioInSettings::calcSlot() {
   if (!m_audioIn)
 	m_audioIn = new TaudioIN(this);
-  m_audioIn->setAudioDevice(inDeviceCombo->currentText());
+  if (inDeviceCombo->currentText() != m_audioIn->deviceName())
+	m_audioIn->setAudioDevice(inDeviceCombo->currentText());
   connect(m_audioIn, SIGNAL(noiseLevel(qint16)), this, SLOT(noiseDetected(qint16)));
   m_audioIn->calculateNoiseLevel();
 }

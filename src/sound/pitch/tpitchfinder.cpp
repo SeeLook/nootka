@@ -33,7 +33,8 @@ TpitchFinder::audioSetts *glAsett;
 float *filteredChunk = 0;
 bool shown = true;
 bool noteNoticed = false;
-int noticedChunk = 0;
+int noticedChunk = 0; // chunk nr where note was started
+const quint8 lowestMidiNote = 35; // a lowest detectable note
 
 TpitchFinder::TpitchFinder(QObject* parent) :
   QThread(parent),
@@ -123,32 +124,34 @@ void TpitchFinder::run() {
 	  std::copy(filteredChunk, filteredChunk+aGl().framesPerChunk, m_channel->filteredInput.end() - aGl().framesPerChunk);
 	
 	FilterState filterState;
-// 	qDebug() << currentChunk();
 	m_channel->processNewChunk(&filterState);
 	AnalysisData *data = m_channel->dataAtCurrentChunk();
 	if (data) {
-// 		qDebug() << "data index" << data->cepstrumIndex << data->noteIndex << data->notePlaying
-// 		  << data->fundamentalFreq;	
 	  if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)) {
-		if (!noteNoticed) {
-		  noteNoticed = true;
-		  noticedChunk = currentChunk();
+		if (m_aGl.isVoice) { // average pitch
+		  if (!noteNoticed) {
+			noteNoticed = true;
+			noticedChunk = currentChunk();
+		  }
+		} else { // pitch in single chunk
+			if (shown && data->pitch > lowestMidiNote) {
+			  Tnote n = Tnote(qRound(data->pitch)-47);
+			  qDebug() << data->noteIndex << data->fundamentalFreq <<  QString::fromStdString(n.getName());
+			  shown = false;
+			}
 		}
-// 		if (shown && data->pitch > 35) {
-// 		  Tnote n = Tnote(qRound(data->pitch)-47);
-// 		  qDebug() << data->noteIndex << data->fundamentalFreq <<  QString::fromStdString(n.getName());
-// 		  shown = false;
-// 		}
 	  } else {
+		if (m_aGl.isVoice) { // average pitch - shown when note is stoped
 		  if(noteNoticed) {
 			noteNoticed = false;
 			int nn = qRound(m_channel->averagePitch(noticedChunk, currentChunk()));
-			if (nn > 35) {
+			if (nn > lowestMidiNote) {
 			  Tnote n = Tnote(nn-47);
 			  qDebug() << noticedChunk << currentChunk() << QString::fromStdString(n.getName());
 			}
 		  }
-// 		  shown = true;
+		} else // pitch in single chunk 
+			shown = true;
 	  }
 	}
 	incrementChunk();

@@ -73,10 +73,11 @@ TaudioIN::~TaudioIN()
   }
   m_buffer.clear();
   qDebug("buffer cleared");
-  if (m_floatBuff) {
+  delete m_pitch;
+//   if (m_floatBuff) {
 // 	delete[] m_floatBuff;
-	qDebug("m_floatBuff deleted");
-  }
+// 	qDebug("m_floatBuff deleted");
+//   }
 //   delete m_pitch;
 // 	delete[] tmpBuff;
 }
@@ -88,7 +89,6 @@ QString TaudioIN::deviceName() {
 void TaudioIN::setParameters(SaudioInParams& params) {
   m_params = params;
   m_pitch->setParameters(m_params);
-  qDebug() << (int)m_params.analysisType << m_params.noiseLevel;
 }
 
 
