@@ -19,6 +19,7 @@
 #ifndef AUDIOINSETTINGS_H
 #define AUDIOINSETTINGS_H
 #include <QWidget>
+#include "saudioinparams.h"
 
 class QDoubleSpinBox;
 class TaudioIN;
@@ -43,6 +44,8 @@ public:
   
 protected:
   void setTestDisabled(bool disabled);
+	/** Writes state of widgets to m_aInParams struct. */
+  void grabParams();
   
 protected slots:
   void testSlot();
@@ -63,6 +66,7 @@ private:
   TaudioIN *m_audioIn;
   QTimer *m_signalTimer;
   qint16 m_noiseLevel;
+  SaudioInParams m_aInParams; 
   
 };
 

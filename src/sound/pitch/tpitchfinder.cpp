@@ -51,9 +51,11 @@ TpitchFinder::TpitchFinder(QObject* parent) :
 	m_aGl.doingHarmonicAnalysis = false;
 	m_aGl.firstTimeThrough = true;
 	m_aGl.doingDetailedPitch = true;
+	m_aGl.isVoice = true;
 	m_aGl.threshold = 93;
 	m_aGl.analysisType = e_MPM_MODIFIED_CEPSTRUM;
 	m_aGl.topPitch = 140.0;
+	
 	m_aGl.ampThresholds[AMPLITUDE_RMS][0]           = -85.0; m_aGl.ampThresholds[AMPLITUDE_RMS][1]           = -0.0;
 	m_aGl.ampThresholds[AMPLITUDE_MAX_INTENSITY][0] = -30.0; m_aGl.ampThresholds[AMPLITUDE_MAX_INTENSITY][1] = -20.0;
 	m_aGl.ampThresholds[AMPLITUDE_CORRELATION][0]   =  0.40; m_aGl.ampThresholds[AMPLITUDE_CORRELATION][1]   =  1.00;

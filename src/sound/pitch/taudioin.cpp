@@ -53,11 +53,12 @@ TaudioIN::TaudioIN(QObject *parent) :
     m_audioInput(0),
     m_maxPeak(0),
     m_floatBuff(0),
+    m_noteStarted(false),
     m_deviceInfo(QAudioDeviceInfo::defaultInputDevice()),
-    m_devName(""),
-    m_pitch(new TpitchFinder(this)),
-    m_noiseLevel(70) // 0.2% of 32768 - smallest noise
+    m_pitch(new TpitchFinder(this))
 {    
+  m_params.devName = "";
+  m_params.noiseLevel = 70; // 0.2% of 32768 - smallest noise
   m_buffer.resize(8192*2); // samples count in mono signal
   m_buffer.fill(0);
 }
@@ -68,15 +69,30 @@ TaudioIN::~TaudioIN()
   if (m_audioInput) {
 	m_audioInput->stop();
 	delete m_audioInput;
+	qDebug("m_audioInput deleted");
   }
   m_buffer.clear();
-  if (m_floatBuff)
-	delete[] m_floatBuff;
+  qDebug("buffer cleared");
+  if (m_floatBuff) {
+// 	delete[] m_floatBuff;
+	qDebug("m_floatBuff deleted");
+  }
 //   delete m_pitch;
-	
 // 	delete[] tmpBuff;
 }
 
+QString TaudioIN::deviceName() {
+  return m_params.devName;
+}
+
+void TaudioIN::setParameters(SaudioInParams& params) {
+  m_params = params;
+  m_pitch->aGl().analysisType = params.analysisType;
+  m_pitch->aGl().equalLoudness = params.equalLoudness;
+  m_pitch->aGl().doingAutoNoiseFloor = params.doingAutoNoiseFloor;
+  m_pitch->aGl().isVoice = params.isVoice;
+  qDebug() << (int)m_params.analysisType << m_params.noiseLevel;
+}
 
 
 void TaudioIN::setAudioDevice(const QString &devN) {
@@ -91,13 +107,12 @@ void TaudioIN::setAudioDevice(const QString &devN) {
 
     if (m_audioInput)	  
 	  delete m_audioInput;
-	m_devName = m_deviceInfo.deviceName();
+	m_params.devName = m_deviceInfo.deviceName();
 	if (!m_deviceInfo.isFormatSupported(templAudioFormat))
 	  qDebug() << m_deviceInfo.deviceName() << "format unsupported !!";
     m_audioInput = new QAudioInput(m_deviceInfo, templAudioFormat, this);
 }
 
-bool m_noteStarted = false;
 
 void TaudioIN::initInput() {
   m_floatsWriten = 0;
@@ -111,12 +126,14 @@ void TaudioIN::startListening() {
 	m_floatBuff = new float[m_pitch->aGl().framesPerChunk+16] + 16;
 // 	tmpBuff = new  float[m_pitch->aGl().framesPerChunk+16] + 16;
 	initInput();
-	connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));	
+	if (m_IOaudioDevice)
+	  connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));	
   }
 }
 
 void TaudioIN::stopListening() {
-  m_audioInput->stop();
+  m_audioInput->stop(); // TODO: maybe send something to m_pitch to clean it
+  m_noteStarted = false;
 }
 
 
@@ -125,8 +142,10 @@ void TaudioIN::calculateNoiseLevel()
   if (m_audioInput) {
 	initInput();
 	m_peakList.clear();
-	connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(readToCalc()));
-	QTimer::singleShot(1000, this, SLOT(calc()));
+	if (m_IOaudioDevice) {
+	  connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(readToCalc()));
+	  QTimer::singleShot(1000, this, SLOT(calc()));
+	}
   }
 }
 
@@ -166,7 +185,7 @@ void TaudioIN::audioDataReady() {
 
 	  if (m_floatsWriten == m_pitch->aGl().framesPerChunk) {
 		m_maxPeak = maxP;
-		if (maxPeak() > m_noiseLevel) {
+		if (maxPeak() > m_params.noiseLevel) {
 // 		  std::copy(tmpBuff, tmpBuff + m_pitch->aGl().framesPerChunk, m_floatBuff);
 		  if (m_pitch->isBussy())
 			qDebug() << "data ignored";
@@ -184,7 +203,7 @@ void TaudioIN::audioDataReady() {
 			m_noteStarted = false;
 		  }			
 		}
-		m_floatsWriten = 0;	/** FIXME: -1 */
+		m_floatsWriten = -1;	/** FIXME: -1 */
 		maxP = 0;
 	  }
 	  m_floatsWriten++;

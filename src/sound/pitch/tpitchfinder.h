@@ -23,13 +23,13 @@
 
 #include <QThread>
 #include "tartini/mytransforms.h"
+#include "saudioinparams.h"
 
 // class MyTransforms;
 class Channel;
 
 // QT_FORWARD_DECLARE_CLASS(MyTransforms)
 
-enum EanalysisModes { e_MPM, e_AUTOCORRELATION, e_MPM_MODIFIED_CEPSTRUM };
 
 /** The main purpose of this class is to recognize pitch
  * of aduio data flowing throught it. 
@@ -63,7 +63,7 @@ public:
 	  EanalysisModes analysisType;
 	  double topPitch; // The highest possible note pitch allowed (lowest possible is 0)
 	  double ampThresholds[7][2];
-	  
+	  bool isVoice; // calculates average pitch in chunks range instead pitch in single chunk
 	};
 	  /** global settings for pitch recognize. */
 	audioSetts aGl() { return m_aGl; }
