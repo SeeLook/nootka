@@ -76,15 +76,11 @@ TpitchFinder::TpitchFinder(QObject* parent) :
 
 TpitchFinder::~TpitchFinder()
 {	
-  qDebug("tpitchfinder deleting");
-	if (filteredChunk)
-	  delete filteredChunk;
-	qDebug("filteredChunk deleted");
+  	if (filteredChunk)
+	  delete[] (filteredChunk - 16);
 	myTransforms.uninit();
-	qDebug("myTransforms uninited");
 	if(m_channel)
 	  delete m_channel;	
-	qDebug("m_channel deleted");
 }
 
 void TpitchFinder::setParameters(SaudioInParams& params) {
