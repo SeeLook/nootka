@@ -20,7 +20,7 @@
 #include <QAudio>
 #include <QDebug>
 #include "tpitchfinder.h"
-#include "tnote.h"
+// #include "tnote.h"
 #include <QTimer>
 // #include <QBuffer>
 
@@ -162,7 +162,7 @@ void TaudioIN::calc() {
   emit noiseLevel(noise);
 }
 
-
+bool gotNote = false;
 void TaudioIN::audioDataReady() {
 	
 	if (m_audioInput->state() != QAudio::ActiveState && m_audioInput->state() != QAudio::IdleState)
@@ -205,6 +205,7 @@ void TaudioIN::audioDataReady() {
 			m_pitch->searchIn(0);
 // 			qDebug("note stoped");
 			m_noteStarted = false;
+			gotNote = false;
 			emit stateChanged(e_ready);
 		  }			
 		}
@@ -236,7 +237,11 @@ void TaudioIN::readToCalc() {
 }
 
 void TaudioIN::pitchSlot(float pitch) {
-  emit noteDetected(Tnote(qRound(pitch))-47); //TODO pitch offset 
+  if(!gotNote) {
+	emit noteDetected(Tnote(qRound(pitch)-47)); //TODO pitch offset 
+	qDebug() << QString::fromStdString(Tnote(qRound(pitch)-47).getName());
+	gotNote = true;
+  }
 }
 
 

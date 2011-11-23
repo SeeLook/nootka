@@ -20,6 +20,7 @@
 #define AUDIOINSETTINGS_H
 #include <QWidget>
 #include "saudioinparams.h"
+#include "tnote.h"
 
 class QDoubleSpinBox;
 class TaudioIN;
@@ -52,6 +53,7 @@ protected slots:
   void calcSlot();
   void noiseDetected(qint16 noise);
   void updateSignalLevel();
+  void noteSlot(Tnote note);
   
 private:
   QComboBox *inDeviceCombo, *detectMethodCombo, *intervalCombo;

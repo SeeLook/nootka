@@ -198,6 +198,7 @@ void AudioInSettings::testSlot() {
 	testButt->setText(stopTxt);
 	m_signalTimer = new QTimer(this);
 	connect(m_signalTimer, SIGNAL(timeout()), this, SLOT(updateSignalLevel()));
+	connect(m_audioIn, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
 	m_audioIn->startListening();
 	m_signalTimer->start(75);
   } 
@@ -227,4 +228,7 @@ void AudioInSettings::updateSignalLevel() {
 	volMeter->setVolume(qreal(m_audioIn->maxPeak()) / 32768.0);
 }
 
+void AudioInSettings::noteSlot(Tnote note) {
+  pitchLab->setText(QString::fromStdString(note.getName()));
+}
 
