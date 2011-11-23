@@ -20,6 +20,7 @@
 #include <QAudio>
 #include <QDebug>
 #include "tpitchfinder.h"
+#include "tnote.h"
 #include <QTimer>
 // #include <QBuffer>
 
@@ -51,16 +52,20 @@ QAudioFormat TaudioIN::templAudioFormat = QAudioFormat();
 TaudioIN::TaudioIN(QObject *parent) :
     QObject(parent),
     m_audioInput(0),
+    m_IOaudioDevice(0),
     m_maxPeak(0),
     m_floatBuff(0),
     m_noteStarted(false),
     m_deviceInfo(QAudioDeviceInfo::defaultInputDevice()),
-    m_pitch(new TpitchFinder(this))
+    m_pitch(new TpitchFinder(this)),
+    m_state(e_disabled)
 {    
   m_params.devName = "";
   m_params.noiseLevel = 70; // 0.2% of 32768 - smallest noise
   m_buffer.resize(8192*2); // samples count in mono signal
   m_buffer.fill(0);
+  
+  connect(m_pitch, SIGNAL(pitchFound(float)), this, SLOT(pitchSlot(float)));
 }
 
 TaudioIN::~TaudioIN()
@@ -123,8 +128,10 @@ void TaudioIN::startListening() {
 	m_floatBuff = new float[m_pitch->aGl().framesPerChunk+16] + 16;
 // 	tmpBuff = new  float[m_pitch->aGl().framesPerChunk+16] + 16;
 	initInput();
-	if (m_IOaudioDevice)
-	  connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));	
+	if (m_IOaudioDevice) {
+	  connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));
+	  emit stateChanged(e_ready);
+	}
   }
 }
 
@@ -169,7 +176,6 @@ void TaudioIN::audioDataReady() {
 	qint64 dataRead = m_IOaudioDevice->read(m_buffer.data(), toRead) / 2;
 	if (dataRead > bSize/2) {
 		dataRead = bSize/2;
-// 		m_buffer.resize(m_buffer.size()*2);
 		qDebug() << dataRead << "Audio data was cut off. Buffer is too small !!!!";
 	}
 	
@@ -191,6 +197,7 @@ void TaudioIN::audioDataReady() {
 			if (!m_noteStarted) {
 // 			  qDebug("note started");
 			  m_noteStarted = true;
+			  emit stateChanged(e_noteStarted);
 			}
 		  }
 		} else {
@@ -198,9 +205,10 @@ void TaudioIN::audioDataReady() {
 			m_pitch->searchIn(0);
 // 			qDebug("note stoped");
 			m_noteStarted = false;
+			emit stateChanged(e_ready);
 		  }			
 		}
-		m_floatsWriten = -1;	/** FIXME: -1 */
+		m_floatsWriten = -1;
 		maxP = 0;
 	  }
 	  m_floatsWriten++;
@@ -227,6 +235,9 @@ void TaudioIN::readToCalc() {
   }
 }
 
+void TaudioIN::pitchSlot(float pitch) {
+  emit noteDetected(Tnote(qRound(pitch))-47); //TODO pitch offset 
+}
 
 
 

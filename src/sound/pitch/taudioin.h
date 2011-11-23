@@ -25,6 +25,8 @@
 #include <QAudioFormat>
 #include "saudioinparams.h"
 
+
+class Tnote;
 class TpitchFinder;
 
 
@@ -34,11 +36,20 @@ class TaudioIN : public QObject
 public:
     explicit TaudioIN(QObject *parent = 0);
     ~TaudioIN();
-
+	  /** A state of TaudioIN.
+	   * When pitch is founded it emits another signal: pitchFound()
+	   */ 
+	enum Estate { e_disabled, // when no sound
+				  e_paused, // when sound output is played (gray)
+				  e_ready, // when it is listening
+				  e_noteStarted, // when note detecting was started (red)
+	};
+	
     static QStringList getAudioDevicesList();
 	static QAudioFormat templAudioFormat;
 	QString deviceName();
 	
+	bool isAvailAble() {return (m_IOaudioDevice ? true : false) ; }
 
     void setAudioDevice(const QString &devN);
 	void startListening();
@@ -57,14 +68,16 @@ public:
 	
 
 signals:
-	void pitchFound(float pitch);
+	void noteDetected(Tnote note);
 	void noiseLevel(qint16 level);
+	void stateChanged(Estate state);
 
 
 private slots:
 	void audioDataReady();
 	void readToCalc();
 	void calc();
+	void pitchSlot(float pitch);
 
   
 private:
@@ -82,6 +95,7 @@ private:
 	QList<qint16> m_peakList;
 	bool m_noteStarted;
 	SaudioInParams m_params;
+	Estate m_state;
 	
 	
 };
