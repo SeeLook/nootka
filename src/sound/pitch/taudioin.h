@@ -24,10 +24,11 @@
 #include <QAudioInput>
 #include <QAudioFormat>
 #include "saudioinparams.h"
+#include "tnote.h"
 
-
-class Tnote;
+// class Tnote;
 class TpitchFinder;
+
 
 
 class TaudioIN : public QObject

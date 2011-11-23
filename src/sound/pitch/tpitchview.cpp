@@ -19,14 +19,25 @@
 
 #include "tpitchview.h"
 #include "tnote.h"
+#include "tvolumemeter.h"
 #include <QTimer>
 #include <QLabel>
+#include <QHBoxLayout>
+
 
 TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent): 
   QWidget(parent),
   m_audioIN(audioIn)
 {
-
+  QHBoxLayout *lay = new QHBoxLayout();
+  m_volMeter = new TvolumeMeter(this);
+  lay->addWidget(m_volMeter);
+  m_stateLabel = new QLabel(this);
+  lay->addWidget(m_stateLabel);
+  setLayout(lay);
+  
+  
+  m_volTimer = new QTimer(this);
 }
 
 
@@ -40,11 +51,25 @@ TpitchView::~TpitchView()
 //------------------------------------------------------------------------------------
 
 void TpitchView::audioState(TaudioIN::Estate state) {
+  switch (state) {
+	case TaudioIN::e_disabled :
+	  break;
+	case TaudioIN::e_paused :
+	  m_stateLabel->setText("");
+	  m_volTimer->stop();
+	  break;
+	case TaudioIN::e_ready :
+	  m_stateLabel->setText("<span style\"font-family: nootka; color: grey; \">n</span>");
+	  break;
+	case TaudioIN::e_noteStarted :
+	  m_stateLabel->setText("<span style\"font-family: nootka; color: red; \">n</span>");
+	  break;
+  }
 
 }
 
 void TpitchView::noteSlot(Tnote note) {
-
+  m_stateLabel->setText("<span style\"font-family: nootka; color: green; \">n</span>");
 }
 
 
