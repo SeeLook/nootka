@@ -70,21 +70,15 @@ TaudioIN::TaudioIN(QObject *parent) :
 
 TaudioIN::~TaudioIN()
 {
-  qDebug("TaudioIN deleteing");
+//   qDebug("TaudioIN deleteing");
   if (m_audioInput) {
 	m_audioInput->stop();
 	delete m_audioInput;
-	qDebug("m_audioInput deleted");
   }
   m_buffer.clear();
-  qDebug("buffer cleared");
   delete m_pitch;
-//   if (m_floatBuff) {
-// 	delete[] m_floatBuff;
-// 	qDebug("m_floatBuff deleted");
-//   }
-//   delete m_pitch;
-// 	delete[] tmpBuff;
+  if (m_floatBuff)
+	delete[] (m_floatBuff - 16);
 }
 
 QString TaudioIN::deviceName() {
