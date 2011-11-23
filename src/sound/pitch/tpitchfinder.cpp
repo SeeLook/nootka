@@ -18,14 +18,13 @@
 
 #include "tpitchfinder.h"
 #include "tartini/channel.h"
-// #include "tartini/mytransforms.h"
 #include "tartini/filters/Filter.h"
 #include "tartini/filters/IIR_Filter.h"
 #include "tartini/analysisdata.h"
 
 #include <QDebug>
 #include <stdio.h>
-#include "tnote.h"
+// #include "tnote.h"
 
 
 TpitchFinder::audioSetts *glAsett;
@@ -135,19 +134,23 @@ void TpitchFinder::run() {
 		  }
 		} else { // pitch in single chunk
 			if (shown && data->pitch > lowestMidiNote) {
-			  Tnote n = Tnote(qRound(data->pitch)-47);
-			  qDebug() << data->noteIndex << data->fundamentalFreq <<  QString::fromStdString(n.getName());
+// 			  Tnote n = Tnote(qRound(data->pitch)-47);
+// 			  qDebug() << data->noteIndex << data->fundamentalFreq <<  QString::fromStdString(n.getName());
+			  qDebug() << currentChunk() << data->noteIndex << data->fundamentalFreq;
 			  shown = false;
+			  emit pitchFound(data->pitch);
 			}
 		}
 	  } else {
 		if (m_aGl.isVoice) { // average pitch - shown when note is stoped
 		  if(noteNoticed) {
 			noteNoticed = false;
-			int nn = qRound(m_channel->averagePitch(noticedChunk, currentChunk()));
+			float nn = m_channel->averagePitch(noticedChunk, currentChunk());
 			if (nn > lowestMidiNote) {
-			  Tnote n = Tnote(nn-47);
-			  qDebug() << noticedChunk << currentChunk() << QString::fromStdString(n.getName());
+// 			  Tnote n = Tnote(nn-47);
+// 			  qDebug() << noticedChunk << currentChunk() << QString::fromStdString(n.getName());
+			  qDebug() << noticedChunk << currentChunk();
+			  emit pitchFound(nn);
 			}
 		  }
 		} else // pitch in single chunk 

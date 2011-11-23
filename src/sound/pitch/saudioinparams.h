@@ -9,6 +9,7 @@ enum EanalysisModes { e_MPM = 0, e_AUTOCORRELATION = 1, e_MPM_MODIFIED_CEPSTRUM 
 
   /** Structure describes audio input parameters. */
 struct SaudioInParams {
+  bool enabled; // is audio input enabled
   QString devName; // input device name
   float a1freq; // frequency of note a1 in Hz (440 Hz default)
   qint16 noiseLevel;

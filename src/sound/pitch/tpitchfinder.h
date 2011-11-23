@@ -79,8 +79,12 @@ public:
 	void incrementChunk() { m_chunkNum++; }
 	void setParameters(SaudioInParams &params);
 	
+signals:
+	/** Signal emited whe pitch is detected. 
+	 * @param pitch is float type of midi note. */
+  pitchFound(float pitch);
+	
 protected:
-// 	void start();
 	void run();
 	
 private:
