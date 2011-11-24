@@ -146,8 +146,8 @@ void TpitchFinder::run() {
 		  }
 		} else { // pitch in single chunk 
 			shown = true;
-// 			emit noteStoped();
 		}
+		emit noteStoped();
 	  }
 	}
 	incrementChunk();

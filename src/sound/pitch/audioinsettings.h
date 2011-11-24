@@ -22,9 +22,9 @@
 #include "saudioinparams.h"
 #include "tnote.h"
 
+class TpitchView;
 class QDoubleSpinBox;
 class TaudioIN;
-class TvolumeMeter;
 class QLabel;
 class QPushButton;
 class QSpinBox;
@@ -52,7 +52,7 @@ protected slots:
   void testSlot();
   void calcSlot();
   void noiseDetected(qint16 noise);
-  void updateSignalLevel();
+//   void updateSignalLevel();
   void noteSlot(Tnote note);
   
 private:
@@ -64,9 +64,9 @@ private:
   QPushButton *calcButt, *testButt;
   QLabel *pitchLab;
   bool m_testDisabled;
-  TvolumeMeter *volMeter;
+  TpitchView *volMeter;
   TaudioIN *m_audioIn;
-  QTimer *m_signalTimer;
+//   QTimer *m_signalTimer;
   qint16 m_noiseLevel;
   SaudioInParams m_aInParams; 
   

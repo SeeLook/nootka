@@ -22,8 +22,8 @@
 
 #include <QWidget>
 #include "taudioin.h"
+#include "tnote.h"
 
-class Tnote;
 class QTimer;
 class QLabel;
 class TvolumeMeter;
@@ -35,10 +35,13 @@ public:
   explicit TpitchView(TaudioIN *audioIn, QWidget *parent = 0);
   virtual ~TpitchView();
   
+  void setAudioInput(TaudioIN *audioIn) { m_audioIN = audioIn; }
   
+  void startVolume();
+  void stopVolume();
   
 protected slots:
-  void audioState(TaudioIN::Estate state);
+  void pitchState(TaudioIN::Estate state);
   void noteSlot(Tnote note);
   void updateLevel();
   

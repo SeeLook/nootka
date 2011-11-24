@@ -71,7 +71,7 @@ public:
 signals:
 	void noteDetected(Tnote note);
 	void noiseLevel(qint16 level);
-	void stateChanged(Estate state);
+	void stateChanged(TaudioIN::Estate state);
 
 
 private slots:
