@@ -66,7 +66,7 @@ TaudioIN::TaudioIN(QObject *parent) :
   m_buffer.fill(0);
   
   connect(m_pitch, SIGNAL(pitchFound(float)), this, SLOT(pitchSlot(float)));
-//   connect(m_pitch, SIGNAL(noteStoped()), this, SLOT(noteStopedSlot()));
+  connect(m_pitch, SIGNAL(noteStoped()), this, SLOT(noteStopedSlot()));
   
 }
 
@@ -127,7 +127,7 @@ void TaudioIN::startListening() {
 	if (m_IOaudioDevice) {
 	  connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));
 	  emit stateChanged(e_ready);
-	  connect(m_audioInput, SIGNAL(stateChanged(QAudio::State)), this, SLOT(noteStopedSlot()));
+// 	  connect(m_audioInput, SIGNAL(stateChanged(QAudio::State)), this, SLOT(noteStopedSlot()));
 	}
   }
 }
@@ -202,7 +202,7 @@ void TaudioIN::audioDataReady() {
 // 			qDebug("note stoped");
 			m_noteStarted = false;
 			gotNote = false;
-			emit stateChanged(e_ready);
+// 			emit stateChanged(e_ready);
 		  }			
 		}
 		m_floatsWriten = -1;
@@ -243,8 +243,8 @@ void TaudioIN::pitchSlot(float pitch) {
 void TaudioIN::noteStopedSlot() {
 //   qDebug("noteStopedSlot");
 //   m_noteStarted = false;
-//   gotNote = false;
-	qDebug() << (int)m_audioInput->state();
+  gotNote = false;
+  emit stateChanged(e_ready);
 }
 
 

@@ -94,6 +94,7 @@ set( PITCH_SRCS
   taudioin.cpp
   tpitchfinder.cpp
   audioinsettings.cpp
+  tpitchview.cpp
   tnote.cpp
   ../tvolumemeter.cpp
   ../../settings/tsettingsdialogbase.cpp
@@ -132,6 +133,7 @@ set( PITCH_MOC_SRCS
   taudioin.h
   tpitchfinder.h
   audioinsettings.h
+  tpitchview.h
   ../tvolumemeter.h
   ../../settings/tsettingsdialogbase.h
 )

@@ -18,8 +18,7 @@
 
 
 #include "tpitchview.h"
-#include "tnote.h"
-#include "tvolumemeter.h"
+#include "../tvolumemeter.h"
 #include <QTimer>
 #include <QLabel>
 #include <QHBoxLayout>
@@ -38,6 +37,8 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent):
   
   
   m_volTimer = new QTimer(this);
+//   connect(m_audioIN, SIGNAL(stateChanged(TaudioIN::Estate)), this, SLOT(pitchState(TaudioIN::Estate)));
+  connect(m_volTimer, SIGNAL(timeout()), this, SLOT(updateLevel()));
 }
 
 
@@ -45,12 +46,24 @@ TpitchView::~TpitchView()
 {
 }
 
+void TpitchView::startVolume() {
+	connect(m_audioIN, SIGNAL(stateChanged(TaudioIN::Estate)), this, SLOT(pitchState(TaudioIN::Estate)));
+	m_volTimer->start(75);
+}
+
+void TpitchView::stopVolume() {
+	m_volTimer->stop();
+	m_volMeter->setVolume(0.0);
+}
+
+
+
 
 //------------------------------------------------------------------------------------
 //------------          slots       --------------------------------------------------
 //------------------------------------------------------------------------------------
 
-void TpitchView::audioState(TaudioIN::Estate state) {
+void TpitchView::pitchState(TaudioIN::Estate state) {
   switch (state) {
 	case TaudioIN::e_disabled :
 	  break;
@@ -74,7 +87,7 @@ void TpitchView::noteSlot(Tnote note) {
 
 
 void TpitchView::updateLevel() {
-
+	m_volMeter->setVolume(qreal(m_audioIN->maxPeak()) / 32768.0);
 }
 
 

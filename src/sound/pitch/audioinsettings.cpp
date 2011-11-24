@@ -19,7 +19,7 @@
 
 #include "audioinsettings.h"
 #include "taudioin.h"
-#include "../tvolumemeter.h"
+#include "tpitchview.h"
 #include <QtGui>
 
 
@@ -117,7 +117,7 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   testButt->setStatusTip(tr("Check, Are audio input settings appropirate for You,<br>and did pitch detection work ?"));
   testLay->addWidget(testButt);
   testLay->addStretch(1);
-  volMeter = new TvolumeMeter(this);
+  volMeter = new TpitchView(m_audioIn, this);
   testLay->addWidget(volMeter);
   volMeter->setStatusTip(tr("Level of a volume"));
   testLay->addStretch(1);
@@ -136,7 +136,6 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   setLayout(lay);
   
   inDeviceCombo->addItems(TaudioIN::getAudioDevicesList());
-//   volMeter->setVolume(0.5);
   setTestDisabled(true);
   
   connect(testButt, SIGNAL(clicked()), this, SLOT(testSlot()));
@@ -198,18 +197,21 @@ void AudioInSettings::testSlot() {
 	grabParams();
 	m_audioIn->setParameters(m_aInParams);
 	testButt->setText(stopTxt);
-	m_signalTimer = new QTimer(this);
-	connect(m_signalTimer, SIGNAL(timeout()), this, SLOT(updateSignalLevel()));
+// 	m_signalTimer = new QTimer(this);
+// 	connect(m_signalTimer, SIGNAL(timeout()), this, SLOT(updateSignalLevel()));
+	volMeter->setAudioInput(m_audioIn);
+	volMeter->startVolume();
 	connect(m_audioIn, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
 	m_audioIn->startListening();
-	m_signalTimer->start(75);
+// 	m_signalTimer->start(75);
   } 
   else { // stop a test
-	m_signalTimer->stop();
-	disconnect(m_signalTimer, SIGNAL(timeout()), this, SLOT(updateSignalLevel()));
+// 	m_signalTimer->stop();
+// 	disconnect(m_signalTimer, SIGNAL(timeout()), this, SLOT(updateSignalLevel()));
+	volMeter->stopVolume();
 	m_audioIn->stopListening();
 	testButt->setText(testTxt);
-	volMeter->setVolume(0.0);
+// 	volMeter->setVolume(0.0);
 	setTestDisabled(true);
   }
 }
@@ -226,9 +228,9 @@ void AudioInSettings::noiseDetected(qint16 noise) {
   noiseSpin->setValue(nVal);
 }
 
-void AudioInSettings::updateSignalLevel() {
-	volMeter->setVolume(qreal(m_audioIn->maxPeak()) / 32768.0);
-}
+// void AudioInSettings::updateSignalLevel() {
+// 	volMeter->setVolume(qreal(m_audioIn->maxPeak()) / 32768.0);
+// }
 
 void AudioInSettings::noteSlot(Tnote note) {
   pitchLab->setText("<b>"+QString::fromStdString(note.getName())+"</b>");
