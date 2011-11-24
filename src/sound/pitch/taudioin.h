@@ -79,6 +79,7 @@ private slots:
 	void readToCalc();
 	void calc();
 	void pitchSlot(float pitch);
+	void noteStopedSlot();
 
   
 private:

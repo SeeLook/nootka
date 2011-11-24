@@ -83,6 +83,7 @@ signals:
 	/** Signal emited whe pitch is detected. 
 	 * @param pitch is float type of midi note. */
   void pitchFound(float pitch);
+  void noteStoped();
 	
 protected:
 	void run();
