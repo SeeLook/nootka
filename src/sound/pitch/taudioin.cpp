@@ -66,6 +66,8 @@ TaudioIN::TaudioIN(QObject *parent) :
   m_buffer.fill(0);
   
   connect(m_pitch, SIGNAL(pitchFound(float)), this, SLOT(pitchSlot(float)));
+//   connect(m_pitch, SIGNAL(noteStoped()), this, SLOT(noteStopedSlot()));
+  
 }
 
 TaudioIN::~TaudioIN()
@@ -125,6 +127,7 @@ void TaudioIN::startListening() {
 	if (m_IOaudioDevice) {
 	  connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));
 	  emit stateChanged(e_ready);
+	  connect(m_audioInput, SIGNAL(stateChanged(QAudio::State)), this, SLOT(noteStopedSlot()));
 	}
   }
 }
@@ -157,8 +160,8 @@ void TaudioIN::calc() {
 }
 
 bool gotNote = false;
-void TaudioIN::audioDataReady() {
-	
+
+void TaudioIN::audioDataReady() {	
 	if (m_audioInput->state() != QAudio::ActiveState && m_audioInput->state() != QAudio::IdleState)
 	  qDebug() << "Device in state:" << (int)m_audioInput->state();
 	qint64 bytesReady = m_audioInput->bytesReady();
@@ -172,7 +175,6 @@ void TaudioIN::audioDataReady() {
 		dataRead = bSize/2;
 		qDebug() << dataRead << "Audio data was cut off. Buffer is too small !!!!";
 	}
-	
 // 	qDebug() << "read data" << dataRead*2 ;
 	qint16 maxP = 0;
 	for (int i = 0; i < dataRead; i++) {
@@ -238,6 +240,12 @@ void TaudioIN::pitchSlot(float pitch) {
   }
 }
 
+void TaudioIN::noteStopedSlot() {
+//   qDebug("noteStopedSlot");
+//   m_noteStarted = false;
+//   gotNote = false;
+	qDebug() << (int)m_audioInput->state();
+}
 
 
 

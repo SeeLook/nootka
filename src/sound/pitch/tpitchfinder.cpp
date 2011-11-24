@@ -107,7 +107,6 @@ void TpitchFinder::searchIn(float* chunk) {
 
 void TpitchFinder::run() {
 	m_isBussy = true;
-
 	if (aGl().equalLoudness) {
 	  m_channel->highPassFilter->filter(m_workChunk, filteredChunk, aGl().framesPerChunk);
 	  for(int i = 0; i < aGl().framesPerChunk; i++)
@@ -130,9 +129,7 @@ void TpitchFinder::run() {
 		  }
 		} else { // pitch in single chunk
 			if (shown && data->pitch > lowestMidiNote) {
-// 			  Tnote n = Tnote(qRound(data->pitch)-47);
-// 			  qDebug() << data->noteIndex << data->fundamentalFreq <<  QString::fromStdString(n.getName());
-			  qDebug() << currentChunk() << data->noteIndex << data->fundamentalFreq;
+// 			  qDebug() << currentChunk() << data->noteIndex << data->fundamentalFreq;
 			  shown = false;
 			  emit pitchFound(data->pitch);
 			}
@@ -143,14 +140,14 @@ void TpitchFinder::run() {
 			noteNoticed = false;
 			float nn = m_channel->averagePitch(noticedChunk, currentChunk());
 			if (nn > lowestMidiNote) {
-// 			  Tnote n = Tnote(nn-47);
-// 			  qDebug() << noticedChunk << currentChunk() << QString::fromStdString(n.getName());
-			  qDebug() << noticedChunk << currentChunk();
+// 			  qDebug() << noticedChunk << currentChunk();
 			  emit pitchFound(nn);
 			}
 		  }
-		} else // pitch in single chunk 
+		} else { // pitch in single chunk 
 			shown = true;
+// 			emit noteStoped();
+		}
 	  }
 	}
 	incrementChunk();

@@ -114,7 +114,7 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   QGroupBox *testGr = new QGroupBox(this);
   QHBoxLayout *testLay = new QHBoxLayout();
   testButt = new QPushButton(testTxt, this);
-  testButt->setStatusTip(tr("Check, Are audio input settings appropirate for You,<br>and pitch detection works."));
+  testButt->setStatusTip(tr("Check, Are audio input settings appropirate for You,<br>and did pitch detection work ?"));
   testLay->addWidget(testButt);
   testLay->addStretch(1);
   volMeter = new TvolumeMeter(this);
@@ -122,6 +122,7 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   volMeter->setStatusTip(tr("Level of a volume"));
   testLay->addStretch(1);
   pitchLab = new QLabel("--", this);
+  pitchLab->setFixedWidth(30);
   testLay->addWidget(pitchLab);
   testLay->addStretch(1);
   pitchLab->setStatusTip(tr("Detected pitch"));
@@ -154,6 +155,7 @@ void AudioInSettings::setTestDisabled(bool disabled) {
   m_testDisabled = disabled;
   if (disabled) {
 	volMeter->setDisabled(true);
+	pitchLab->setText("");
 	pitchLab->setDisabled(true);
   } else {
 	volMeter->setDisabled(false);
@@ -229,6 +231,6 @@ void AudioInSettings::updateSignalLevel() {
 }
 
 void AudioInSettings::noteSlot(Tnote note) {
-  pitchLab->setText(QString::fromStdString(note.getName()));
+  pitchLab->setText("<b>"+QString::fromStdString(note.getName())+"</b>");
 }
 
