@@ -24,8 +24,12 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
 
+	
     MainWindow w;
 
+	QFontDatabase fd;
+	fd.addApplicationFont("nootka.otf");
+	
     w.show();
     return a.exec();
 }

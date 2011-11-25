@@ -23,9 +23,7 @@
 #include "tartini/analysisdata.h"
 
 #include <QDebug>
-#include <stdio.h>
-// #include "tnote.h"
-
+// #include <stdio.h>
 
 TpitchFinder::audioSetts *glAsett;
 
@@ -154,8 +152,3 @@ void TpitchFinder::run() {
 	m_isBussy = false;
 }	
 
-// void TpitchFinder::run() {
-// QThread::run();
-// }
-
-	

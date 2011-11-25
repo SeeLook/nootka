@@ -32,12 +32,14 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent):
   m_volMeter = new TvolumeMeter(this);
   lay->addWidget(m_volMeter);
   m_stateLabel = new QLabel(this);
+  m_stateLabel->setFixedWidth(20);
+  m_stateLabel->setFont(QFont("nootka", 15));
+  m_stateLabel->setStatusTip(tr("state of pitch detection."));
   lay->addWidget(m_stateLabel);
   setLayout(lay);
   
   
   m_volTimer = new QTimer(this);
-//   connect(m_audioIN, SIGNAL(stateChanged(TaudioIN::Estate)), this, SLOT(pitchState(TaudioIN::Estate)));
   connect(m_volTimer, SIGNAL(timeout()), this, SLOT(updateLevel()));
 }
 
@@ -63,31 +65,44 @@ void TpitchView::stopVolume() {
 //------------          slots       --------------------------------------------------
 //------------------------------------------------------------------------------------
 
+int hideCnt = 0;
+
 void TpitchView::pitchState(TaudioIN::Estate state) {
   switch (state) {
 	case TaudioIN::e_disabled :
-	  break;
-	case TaudioIN::e_paused :
 	  m_stateLabel->setText("");
 	  m_volTimer->stop();
 	  break;
+	case TaudioIN::e_paused :
+// 	  m_stateLabel->setText("<span style=\"color: grey;\">n</span>");
+	  m_volTimer->stop();
+	  break;
 	case TaudioIN::e_ready :
-	  m_stateLabel->setText("<span style\"font-family: nootka; color: grey; \">n</span>");
+	  m_stateLabel->setText("");
+// 	  m_stateLabel->setText("<span style=\"color: yellow;\">n</span>");
 	  break;
 	case TaudioIN::e_noteStarted :
-	  m_stateLabel->setText("<span style\"font-family: nootka; color: red; \">n</span>");
+	  m_stateLabel->setText("");
+// 	  m_stateLabel->setText("<span style=\"color: red;\">n</span>");
+	  break;
+	case TaudioIN::e_founded :
+	  m_stateLabel->setText("<span style=\"color: green;\">n</span>");
+	  hideCnt = 0;
 	  break;
   }
 
 }
 
-void TpitchView::noteSlot(Tnote note) {
-  m_stateLabel->setText("<span style\"font-family: nootka; color: green; \">n</span>");
-}
+// void TpitchView::noteSlot(Tnote note) {
+//   m_stateLabel->setText("<span style=\"color: green;\">n</span>");
+// }
 
 
 void TpitchView::updateLevel() {
 	m_volMeter->setVolume(qreal(m_audioIN->maxPeak()) / 32768.0);
+	hideCnt++;
+	if (hideCnt == 5)
+	  m_stateLabel->setText("");
 }
 
 

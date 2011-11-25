@@ -58,7 +58,7 @@ protected slots:
 private:
   QComboBox *inDeviceCombo, *detectMethodCombo, *intervalCombo;
   QGroupBox *enableInBox;
-  QCheckBox *loudChB, *voiceChB, *noiseChB;
+  QCheckBox /* *loudChB,*/ *voiceChB/*, *noiseChB*/;
   QSpinBox *freqSpin;
   QDoubleSpinBox *noiseSpin;
   QPushButton *calcButt, *testButt;

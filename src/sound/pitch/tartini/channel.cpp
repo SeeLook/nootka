@@ -174,7 +174,7 @@ Channel::Channel(TpitchFinder *parent_, int size_, int k_) :
   cepstrumData.resize(size_/2, 0.0);
   detailedPitchData.resize(size_/2, 0.0);
   detailedPitchDataSmoothed.resize(size_/2, 0.0);
-  _pitch_method = 2;
+/**  _pitch_method = 2; */
   color = Qt::black;
   coefficients_table.resize(size_*4);
   rmsFloor = parent->aGl().dBFloor;

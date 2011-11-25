@@ -52,13 +52,15 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   detectMethodCombo->addItem(tr("MPM & modified cepstrum"));
   
   devDetLay->addStretch(1);
-  loudChB = new QCheckBox(tr("low-pass filter"), this);
-  devDetLay->addWidget(loudChB);
+//   loudChB = new QCheckBox(tr("low-pass filter"), this);
+//   loudChB->setChecked(true);
+//   devDetLay->addWidget(loudChB);
   voiceChB = new QCheckBox(tr("human voice"), this);
   voiceChB->setStatusTip(tr("Check this for singing."));
   devDetLay->addWidget(voiceChB);
-  noiseChB = new QCheckBox(tr("noise floor"), this);
-  devDetLay->addWidget(noiseChB);
+//   noiseChB = new QCheckBox(tr("noise floor"), this);
+//   noiseChB->setChecked(true);
+//   devDetLay->addWidget(noiseChB);
   devDetLay->addStretch(1);
   
   upLay->addLayout(devDetLay);
@@ -122,7 +124,7 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   volMeter->setStatusTip(tr("Level of a volume"));
   testLay->addStretch(1);
   pitchLab = new QLabel("--", this);
-  pitchLab->setFixedWidth(30);
+  pitchLab->setFixedWidth(40);
   testLay->addWidget(pitchLab);
   testLay->addStretch(1);
   pitchLab->setStatusTip(tr("Detected pitch"));
@@ -163,11 +165,13 @@ void AudioInSettings::setTestDisabled(bool disabled) {
 }
 
 void AudioInSettings::grabParams() {
+  m_aInParams.doingAutoNoiseFloor = true;
+  m_aInParams.equalLoudness = true;
   m_aInParams.a1freq = (float)freqSpin->value();
   m_aInParams.analysisType = (EanalysisModes)detectMethodCombo->currentIndex();
   m_aInParams.devName = inDeviceCombo->currentText();
-  m_aInParams.doingAutoNoiseFloor = noiseChB->isChecked();
-  m_aInParams.equalLoudness = loudChB->isChecked();
+//   m_aInParams.doingAutoNoiseFloor = noiseChB->isChecked();
+//   m_aInParams.equalLoudness = loudChB->isChecked();
   m_aInParams.isVoice = voiceChB->isChecked();
   m_aInParams.noiseLevel = qRound((noiseSpin->value()/100) * 32768.0);
 }
