@@ -35,6 +35,8 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent):
   m_stateLabel->setFixedWidth(20);
   m_stateLabel->setFont(QFont("nootka", 15));
   m_stateLabel->setStatusTip(tr("state of pitch detection."));
+  m_stateLabel->setStyleSheet(QString("border-radius: 6px; background-color: palette(Highlight); color: %1;").
+		  arg(palette().highlightedText().color().name()));
   lay->addWidget(m_stateLabel);
   setLayout(lay);
   
@@ -86,7 +88,8 @@ void TpitchView::pitchState(TaudioIN::Estate state) {
 // 	  m_stateLabel->setText("<span style=\"color: red;\">n</span>");
 	  break;
 	case TaudioIN::e_founded :
-	  m_stateLabel->setText("<span style=\"color: green;\">n</span>");
+// 	  m_stateLabel->setText("<span style=\"color: green;\">n</span>");
+	  m_stateLabel->setText("n");
 	  hideCnt = 0;
 	  break;
   }
