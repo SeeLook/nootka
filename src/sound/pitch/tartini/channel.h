@@ -41,7 +41,7 @@ class Channel
 private:
   TpitchFinder *parent;
   float freq; /**< Channel's frequency */
-  int _pitch_method;
+//   int _pitch_method;
   bool visible;
   bool noteIsPlaying;
   large_vector<AnalysisData> lookup;
@@ -99,8 +99,8 @@ public:
   int framesPerChunk() { return parent->aGl().framesPerChunk ; }
 //   void setParent(SoundFile *parent_) { parent = parent_; }
 //   SoundFile* getParent() { return parent; }
-  void setPitchMethod(int pitch_method) { _pitch_method = pitch_method; }
-  int pitchMethod() { return _pitch_method; }
+//   void setPitchMethod(int pitch_method) { _pitch_method = pitch_method; }
+//   int pitchMethod() { return _pitch_method; }
   void calc_last_n_coefficients(int n);
   void processNewChunk(FilterState *filterState);
   void processChunk(int chunk);

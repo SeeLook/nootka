@@ -22,7 +22,7 @@
 
 #include <QWidget>
 #include "taudioin.h"
-#include "tnote.h"
+// #include "tnote.h"
 
 class QTimer;
 class QLabel;
@@ -42,7 +42,7 @@ public:
   
 protected slots:
   void pitchState(TaudioIN::Estate state);
-  void noteSlot(Tnote note);
+//   void noteSlot(Tnote note);
   void updateLevel();
   
 private:

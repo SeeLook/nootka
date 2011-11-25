@@ -62,6 +62,8 @@ TaudioIN::TaudioIN(QObject *parent) :
 {    
   m_params.devName = "";
   m_params.noiseLevel = 70; // 0.2% of 32768 - smallest noise
+  m_params.doingAutoNoiseFloor = true;
+  m_params.equalLoudness = true;
   m_buffer.resize(8192*2); // samples count in mono signal
   m_buffer.fill(0);
   
@@ -72,7 +74,6 @@ TaudioIN::TaudioIN(QObject *parent) :
 
 TaudioIN::~TaudioIN()
 {
-//   qDebug("TaudioIN deleteing");
   if (m_audioInput) {
 	m_audioInput->stop();
 	delete m_audioInput;
@@ -135,6 +136,7 @@ void TaudioIN::startListening() {
 void TaudioIN::stopListening() {
   m_audioInput->stop(); // TODO: maybe send something to m_pitch to clean it
   m_noteStarted = false;
+  emit stateChanged(e_disabled);
 }
 
 
@@ -184,7 +186,7 @@ void TaudioIN::audioDataReady() {
 
 	  if (m_floatsWriten == m_pitch->aGl().framesPerChunk) {
 		m_maxPeak = maxP;
-		if (maxPeak() > m_params.noiseLevel) {
+		if (m_maxPeak > m_params.noiseLevel) {
 // 		  std::copy(tmpBuff, tmpBuff + m_pitch->aGl().framesPerChunk, m_floatBuff);
 		  if (m_pitch->isBussy())
 			qDebug() << "data ignored";
@@ -202,7 +204,7 @@ void TaudioIN::audioDataReady() {
 // 			qDebug("note stoped");
 			m_noteStarted = false;
 			gotNote = false;
-// 			emit stateChanged(e_ready);
+			emit stateChanged(e_ready);
 		  }			
 		}
 		m_floatsWriten = -1;
@@ -235,16 +237,17 @@ void TaudioIN::readToCalc() {
 void TaudioIN::pitchSlot(float pitch) {
   if(!gotNote) {
 	emit noteDetected(Tnote(qRound(pitch)-47)); //TODO pitch offset 
-	qDebug() << QString::fromStdString(Tnote(qRound(pitch)-47).getName());
+	emit stateChanged(e_founded);
+// 	qDebug() << QString::fromStdString(Tnote(qRound(pitch)-47).getName());
 	gotNote = true;
   }
 }
 
 void TaudioIN::noteStopedSlot() {
-//   qDebug("noteStopedSlot");
 //   m_noteStarted = false;
   gotNote = false;
-  emit stateChanged(e_ready);
+  if (!m_params.isVoice)
+	emit stateChanged(e_ready);
 }
 
 

@@ -42,8 +42,9 @@ public:
 	   */ 
 	enum Estate { e_disabled, // when no sound
 				  e_paused, // when sound output is played (gray)
-				  e_ready, // when it is listening
+				  e_ready, // when it is listening (yellow)
 				  e_noteStarted, // when note detecting was started (red)
+				  e_founded // when pitch is detected (green)
 	};
 	
     static QStringList getAudioDevicesList();
