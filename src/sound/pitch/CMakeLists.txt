@@ -9,10 +9,15 @@ find_package(Qt4 REQUIRED)
 INCLUDE( ${QT_USE_FILE} )
 add_definitions(${QT_DEFINITIONS})
 
+message(STATUS ${QT_INCLUDES})
+
 include_directories(${QT_INCLUDES})
-include_directories(/usr/include/QtMobility)
-include_directories(/usr/include/QtMultimediaKit)
-# include_directories( tartini )
+  IF(WIN32)
+	  include_directories(${QT_INCLUDES}/QtMultimedia)
+  ELSE(WIN32)
+	  include_directories(${QT_INCLUDES}/QtMultimediaKit)
+  ENDIF(WIN32)
+# include_directories(/usr/include/QtMobility)
 
 
 find_library(QTMULTIMEDIAKIT_LIBRARY
