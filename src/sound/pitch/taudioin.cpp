@@ -47,7 +47,7 @@ QAudioFormat TaudioIN::templAudioFormat = QAudioFormat();
 
 //************************************************************************************/
 
-// float *tmpBuff;
+float *tmpBuff;
 
 TaudioIN::TaudioIN(QObject *parent) :
     QObject(parent),
@@ -64,7 +64,7 @@ TaudioIN::TaudioIN(QObject *parent) :
   m_params.noiseLevel = 70; // 0.2% of 32768 - smallest noise
   m_params.doingAutoNoiseFloor = true;
   m_params.equalLoudness = true;
-  m_buffer.resize(8192*2); // samples count in mono signal
+  m_buffer.resize(8192*4); // samples count in mono signal
   m_buffer.fill(0);
   
   connect(m_pitch, SIGNAL(pitchFound(float)), this, SLOT(pitchSlot(float)));
@@ -123,7 +123,7 @@ void TaudioIN::initInput() {
 void TaudioIN::startListening() {
   if (m_audioInput) {
 	m_floatBuff = new float[m_pitch->aGl().framesPerChunk+16] + 16;
-// 	tmpBuff = new  float[m_pitch->aGl().framesPerChunk+16] + 16;
+	tmpBuff = new  float[m_pitch->aGl().framesPerChunk+16] + 16;
 	initInput();
 	if (m_IOaudioDevice) {
 	  connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));
@@ -182,12 +182,13 @@ void TaudioIN::audioDataReady() {
 	for (int i = 0; i < dataRead; i++) {
 	  qint16 value = *reinterpret_cast<qint16*>(m_buffer.data()+i*2);
 	  maxP = qMax(maxP, value);
-	  *(m_floatBuff + m_floatsWriten) = float(value) / 32768.0f;
+// 	  *(m_floatBuff + m_floatsWriten) = float(value) / 32768.0f;
+	  *(tmpBuff + m_floatsWriten) = float(value) / 32768.0f;
 
 	  if (m_floatsWriten == m_pitch->aGl().framesPerChunk) {
 		m_maxPeak = maxP;
 		if (m_maxPeak > m_params.noiseLevel) {
-// 		  std::copy(tmpBuff, tmpBuff + m_pitch->aGl().framesPerChunk, m_floatBuff);
+		  std::copy(tmpBuff, tmpBuff + m_pitch->aGl().framesPerChunk, m_floatBuff);
 		  if (m_pitch->isBussy())
 			qDebug() << "data ignored";
 		  else {
