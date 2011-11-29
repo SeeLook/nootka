@@ -45,9 +45,10 @@ QStringList TaudioIN::getAudioDevicesList() {
 QAudioFormat TaudioIN::templAudioFormat = QAudioFormat();
 
 
-//************************************************************************************/
+//------------------------------------------------------------------------------------
+//------------          constructor     ----------------------------------------------
+//------------------------------------------------------------------------------------
 
-// float *tmpBuff;
 
 TaudioIN::TaudioIN(QObject *parent) :
     QObject(parent),
@@ -69,6 +70,7 @@ TaudioIN::TaudioIN(QObject *parent) :
   
   connect(m_pitch, SIGNAL(pitchFound(float)), this, SLOT(pitchSlot(float)));
   connect(m_pitch, SIGNAL(noteStoped()), this, SLOT(noteStopedSlot()));
+  connect(m_pitch, SIGNAL(fundamentalFreq(float)), this, SLOT(freqSlot(float)));
   
 }
 
@@ -161,6 +163,10 @@ void TaudioIN::calc() {
   emit noiseLevel(noise);
 }
 
+//------------------------------------------------------------------------------------
+//------------          slots       --------------------------------------------------
+//------------------------------------------------------------------------------------
+
 bool gotNote = false;
 
 void TaudioIN::audioDataReady() {	
@@ -169,8 +175,6 @@ void TaudioIN::audioDataReady() {
 	qint64 bytesReady = m_audioInput->bytesReady();
 	qint64 bSize = m_buffer.size();
 	qint64 toRead = qMin(bytesReady, bSize);
-// 	qDebug() << "period:" << bytesReady << m_audioInput->periodSize() << toRead 
-// 	  << m_audioInput->periodSize()*2 << m_audioInput->periodSize()*2 + toRead*2;	
 	
 	qint64 dataRead = m_IOaudioDevice->read(m_buffer.data(), toRead) / 2;
 	if (dataRead > bSize/2) {
@@ -178,6 +182,8 @@ void TaudioIN::audioDataReady() {
 		qDebug() << dataRead << "Audio data was cut off. Buffer is too small !!!!";
 	}
 // 	qDebug() << "read data" << dataRead*2 ;
+	if (!dataRead)
+		return;
 	qint16 maxP = 0;
 	for (int i = 0; i < dataRead; i++) {
 	  qint16 value = *reinterpret_cast<qint16*>(m_buffer.data()+i*2);
@@ -252,6 +258,9 @@ void TaudioIN::noteStopedSlot() {
 }
 
 
+void TaudioIN::freqSlot(float freq) {
+	emit fundamentalFreq(freq);
+}
 
 
 

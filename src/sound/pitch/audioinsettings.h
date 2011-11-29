@@ -52,8 +52,8 @@ protected slots:
   void testSlot();
   void calcSlot();
   void noiseDetected(qint16 noise);
-//   void updateSignalLevel();
   void noteSlot(Tnote note);
+  void freqSlot(float freq);
   
 private:
   QComboBox *inDeviceCombo, *detectMethodCombo, *intervalCombo;
@@ -62,11 +62,10 @@ private:
   QSpinBox *freqSpin;
   QDoubleSpinBox *noiseSpin;
   QPushButton *calcButt, *testButt;
-  QLabel *pitchLab;
+  QLabel *pitchLab, *freqLab;
   bool m_testDisabled;
   TpitchView *volMeter;
   TaudioIN *m_audioIn;
-//   QTimer *m_signalTimer;
   qint16 m_noiseLevel;
   SaudioInParams m_aInParams; 
   

@@ -80,9 +80,10 @@ public:
 	void setParameters(SaudioInParams &params);
 	
 signals:
-	/** Signal emited whe pitch is detected. 
+	/** Signal emited when pitch is detected. 
 	 * @param pitch is float type of midi note. */
   void pitchFound(float pitch);
+  void fundamentalFreq(float freq);
   void noteStoped();
 	
 protected:
