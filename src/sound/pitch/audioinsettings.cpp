@@ -123,12 +123,16 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   testLay->addWidget(volMeter);
   volMeter->setStatusTip(tr("Level of a volume"));
   testLay->addStretch(1);
+  QVBoxLayout *freqLay = new QVBoxLayout();
   pitchLab = new QLabel("--", this);
   pitchLab->setFixedWidth(40);
-  testLay->addWidget(pitchLab);
-  testLay->addStretch(1);
   pitchLab->setStatusTip(tr("Detected pitch"));
-  
+  freqLay->addWidget(pitchLab);
+  freqLab = new QLabel("--", this);
+  freqLab->setFixedWidth(40);
+  freqLay->addWidget(freqLab);
+  testLay->addLayout(freqLay);
+  testLay->addStretch(1);  
   
   testGr->setLayout(testLay);
   inLay->addWidget(testGr);
@@ -232,11 +236,14 @@ void AudioInSettings::noiseDetected(qint16 noise) {
   noiseSpin->setValue(nVal);
 }
 
-// void AudioInSettings::updateSignalLevel() {
-// 	volMeter->setVolume(qreal(m_audioIn->maxPeak()) / 32768.0);
-// }
-
 void AudioInSettings::noteSlot(Tnote note) {
   pitchLab->setText("<b>"+QString::fromStdString(note.getName())+"</b>");
 }
+
+void AudioInSettings::freqSlot(float freq) {
+	freqLab->setText(QString::number(freq));
+}
+
+
+
 

@@ -73,6 +73,7 @@ signals:
 	void noteDetected(Tnote note);
 	void noiseLevel(qint16 level);
 	void stateChanged(TaudioIN::Estate state);
+	void fundamentalFreq(float freq);
 
 
 private slots:
@@ -80,6 +81,7 @@ private slots:
 	void readToCalc();
 	void calc();
 	void pitchSlot(float pitch);
+	void freqSlot(float freq);
 	void noteStopedSlot();
 
   

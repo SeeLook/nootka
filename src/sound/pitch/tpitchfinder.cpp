@@ -92,6 +92,15 @@ void TpitchFinder::setParameters(SaudioInParams& params) {
 void TpitchFinder::searchIn(float* chunk) {
 	if (chunk) {
 		m_workChunk = chunk;
+		if (aGl().equalLoudness) {
+		  m_channel->highPassFilter->filter(m_workChunk, filteredChunk, aGl().framesPerChunk);
+		  for(int i = 0; i < aGl().framesPerChunk; i++)
+			  filteredChunk[i] = bound(filteredChunk[i], -1.0f, 1.0f);
+		}
+		m_channel->shift_left(aGl().framesPerChunk);
+		std::copy(m_workChunk, m_workChunk+aGl().framesPerChunk-1, m_channel->end() - aGl().framesPerChunk);
+		if (aGl().equalLoudness)
+			  std::copy(filteredChunk, filteredChunk+aGl().framesPerChunk-1, m_channel->filteredInput.end() - aGl().framesPerChunk);
 		start();
 // 		run();
 	} else {
@@ -106,16 +115,7 @@ void TpitchFinder::searchIn(float* chunk) {
 
 void TpitchFinder::run() {
 	m_isBussy = true;
-	if (aGl().equalLoudness) {
-	  m_channel->highPassFilter->filter(m_workChunk, filteredChunk, aGl().framesPerChunk);
-	  for(int i = 0; i < aGl().framesPerChunk; i++)
-		  filteredChunk[i] = bound(filteredChunk[i], -1.0f, 1.0f);
-	}
-	m_channel->shift_left(aGl().framesPerChunk);
-	std::copy(m_workChunk, m_workChunk+aGl().framesPerChunk-1, m_channel->end() - aGl().framesPerChunk);
-	if (aGl().equalLoudness)
-	  std::copy(filteredChunk, filteredChunk+aGl().framesPerChunk-1, m_channel->filteredInput.end() - aGl().framesPerChunk);
-	
+		
 	FilterState filterState;
 	m_channel->processNewChunk(&filterState);
 	AnalysisData *data = m_channel->dataAtCurrentChunk();
@@ -131,6 +131,7 @@ void TpitchFinder::run() {
 // 			  qDebug() << currentChunk() << data->noteIndex << data->fundamentalFreq;
 			  shown = false;
 			  emit pitchFound(data->pitch);
+			  emit fundamentalFreq(data->fundamentalFreq);
 			}
 		}
 	  } else {
