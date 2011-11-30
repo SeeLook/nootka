@@ -24,8 +24,9 @@ TvolumeMeter::TvolumeMeter(QWidget* parent): QWidget(parent)
   setBackgroundRole(QPalette::Background);
   setAutoFillBackground(true);
   m_volume = 0;
-  setMinimumHeight(30);
-  setMinimumWidth(200);
+//   setMinimumHeight(30);
+//   setMinimumWidth(200);
+  setFixedSize(200, 20);
   m_grad = QLinearGradient(0, 5, 180, 5);
   m_grad.setColorAt(0.0, Qt::green);
   m_grad.setColorAt(0.7, Qt::yellow);
@@ -49,9 +50,9 @@ void TvolumeMeter::paintEvent(QPaintEvent* )
   painter.setBrush(m_grad);
   int pos = ((painter.viewport().right()-20)-(painter.viewport().left()+11))*m_volume;
   painter.drawRect(QRect(painter.viewport().left()+10,
-						painter.viewport().top()+10,
+						painter.viewport().top()+5,
 						painter.viewport().left()+20+pos,
-						painter.viewport().bottom()-20));
+						painter.viewport().bottom()-10));
 }
 
 TvolumeMeter::~TvolumeMeter()
