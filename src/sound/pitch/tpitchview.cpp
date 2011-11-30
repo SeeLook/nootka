@@ -22,6 +22,7 @@
 #include <QTimer>
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QGroupBox>
 
 
 TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent): 
@@ -31,13 +32,17 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent):
   QHBoxLayout *lay = new QHBoxLayout();
   m_volMeter = new TvolumeMeter(this);
   lay->addWidget(m_volMeter);
+  QVBoxLayout *statLay = new QVBoxLayout();
   m_stateLabel = new QLabel(this);
+  statLay->addWidget(m_stateLabel);
+  QGroupBox *gr = new QGroupBox(this);
+  gr->setLayout(statLay);
   m_stateLabel->setFixedWidth(20);
   m_stateLabel->setFont(QFont("nootka", 15));
   m_stateLabel->setStatusTip(tr("state of pitch detection."));
-  m_stateLabel->setStyleSheet(QString("border-radius: 6px; background-color: palette(Highlight); color: %1;").
-		  arg(palette().highlightedText().color().name()));
-  lay->addWidget(m_stateLabel);
+//   m_stateLabel->setStyleSheet(QString("border-radius: 6px; background-color: palette(Highlight); color: %1;").
+// 		  arg(palette().highlightedText().color().name()));
+  lay->addWidget(gr);
   setLayout(lay);
   
   
@@ -51,7 +56,7 @@ TpitchView::~TpitchView()
 }
 
 void TpitchView::startVolume() {
-	connect(m_audioIN, SIGNAL(stateChanged(TaudioIN::Estate)), this, SLOT(pitchState(TaudioIN::Estate)));
+	connect(m_audioIN, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
 	m_volTimer->start(75);
 }
 
@@ -61,50 +66,22 @@ void TpitchView::stopVolume() {
 }
 
 
-
-
 //------------------------------------------------------------------------------------
 //------------          slots       --------------------------------------------------
 //------------------------------------------------------------------------------------
 
-int hideCnt = 0;
+int hideCnt = 0; // counter of m_volTimer loops. After 7 loop text is hidden (7 * 75ms = 525 ms)
 
-void TpitchView::pitchState(TaudioIN::Estate state) {
-  switch (state) {
-	case TaudioIN::e_disabled :
-	  m_stateLabel->setText("");
-	  m_volTimer->stop();
-	  break;
-	case TaudioIN::e_paused :
-// 	  m_stateLabel->setText("<span style=\"color: grey;\">n</span>");
-	  m_volTimer->stop();
-	  break;
-	case TaudioIN::e_ready :
-	  m_stateLabel->setText("");
-// 	  m_stateLabel->setText("<span style=\"color: yellow;\">n</span>");
-	  break;
-	case TaudioIN::e_noteStarted :
-	  m_stateLabel->setText("");
-// 	  m_stateLabel->setText("<span style=\"color: red;\">n</span>");
-	  break;
-	case TaudioIN::e_founded :
-// 	  m_stateLabel->setText("<span style=\"color: green;\">n</span>");
-	  m_stateLabel->setText("n");
-	  hideCnt = 0;
-	  break;
-  }
-
+void TpitchView::noteSlot(Tnote note) {
+  Q_UNUSED(note)
+  m_stateLabel->setText("n");
+  hideCnt = 0;
 }
-
-// void TpitchView::noteSlot(Tnote note) {
-//   m_stateLabel->setText("<span style=\"color: green;\">n</span>");
-// }
-
 
 void TpitchView::updateLevel() {
 	m_volMeter->setVolume(qreal(m_audioIN->maxPeak()) / 32768.0);
 	hideCnt++;
-	if (hideCnt == 5)
+	if (hideCnt == 7)
 	  m_stateLabel->setText("");
 }
 

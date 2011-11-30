@@ -68,8 +68,8 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   
   QGroupBox *midABox = new QGroupBox(tr("middle A")+" (a1)", this);
   QVBoxLayout *midLay = new QVBoxLayout();
-  QLabel *freqLab = new QLabel(tr("frequency:"), this);
-  midLay->addWidget(freqLab);
+  QLabel *frLab = new QLabel(tr("frequency:"), this);
+  midLay->addWidget(frLab);
   freqSpin = new QSpinBox(this);
   midLay->addWidget(freqSpin);
   freqSpin->setMinimum(420);
@@ -124,12 +124,23 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   volMeter->setStatusTip(tr("Level of a volume"));
   testLay->addStretch(1);
   QVBoxLayout *freqLay = new QVBoxLayout();
+  freqLay->setAlignment(Qt::AlignCenter);
   pitchLab = new QLabel("--", this);
-  pitchLab->setFixedWidth(40);
+  pitchLab->setFixedWidth(70);
   pitchLab->setStatusTip(tr("Detected pitch"));
+  pitchLab->setAlignment(Qt::AlignCenter);
   freqLay->addWidget(pitchLab);
+  
   freqLab = new QLabel("--", this);
-  freqLab->setFixedWidth(40);
+  freqLab->setFixedWidth(70);
+  freqLab->setAlignment(Qt::AlignCenter);
+  freqLab->setStatusTip(tr("Frequency of detected note.") + 
+	  "<br><span style=\"font-family: nootka;\">6</span>E = 80Hz, " +
+	  "<span style=\"font-family: nootka;\">5</span>A = 110Hz, " +
+	  "<span style=\"font-family: nootka;\">4</span>d = 160Hz, " +
+	  "<span style=\"font-family: nootka;\">3</span>g = 200Hz, " +
+	  "<span style=\"font-family: nootka;\">2</span>h = 240Hz, " +
+	  "<span style=\"font-family: nootka;\">1</span>e<sup>1</sup> = 330Hz");
   freqLay->addWidget(freqLab);
   testLay->addLayout(freqLay);
   testLay->addStretch(1);  
@@ -154,17 +165,20 @@ AudioInSettings::~AudioInSettings()
 }
 
 //------------------------------------------------------------------------------------
-//------------          methods       --------------------------------------------------
+//------------          methods       ------------------------------------------------
 //------------------------------------------------------------------------------------
 void AudioInSettings::setTestDisabled(bool disabled) {
   m_testDisabled = disabled;
   if (disabled) {
 	volMeter->setDisabled(true);
-	pitchLab->setText("");
+	pitchLab->setText("--");
+	freqLab->setText("--");
 	pitchLab->setDisabled(true);
+	freqLab->setDisabled(true);
   } else {
 	volMeter->setDisabled(false);
 	pitchLab->setDisabled(false);
+	freqLab->setDisabled(false);
   }
 }
 
@@ -201,25 +215,23 @@ void AudioInSettings::testSlot() {
 	if (!m_audioIn)
 	  m_audioIn = new TaudioIN(this);
 	if (inDeviceCombo->currentText() != m_audioIn->deviceName())
-	  m_audioIn->setAudioDevice(inDeviceCombo->currentText());
+	  if(!m_audioIn->setAudioDevice(inDeviceCombo->currentText())) {
+		setTestDisabled(true);
+		return;
+	  }
 	grabParams();
 	m_audioIn->setParameters(m_aInParams);
 	testButt->setText(stopTxt);
-// 	m_signalTimer = new QTimer(this);
-// 	connect(m_signalTimer, SIGNAL(timeout()), this, SLOT(updateSignalLevel()));
 	volMeter->setAudioInput(m_audioIn);
 	volMeter->startVolume();
 	connect(m_audioIn, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
+	connect(m_audioIn, SIGNAL(fundamentalFreq(float)), this, SLOT(freqSlot(float)));
 	m_audioIn->startListening();
-// 	m_signalTimer->start(75);
   } 
   else { // stop a test
-// 	m_signalTimer->stop();
-// 	disconnect(m_signalTimer, SIGNAL(timeout()), this, SLOT(updateSignalLevel()));
 	volMeter->stopVolume();
 	m_audioIn->stopListening();
 	testButt->setText(testTxt);
-// 	volMeter->setVolume(0.0);
 	setTestDisabled(true);
   }
 }
@@ -241,7 +253,7 @@ void AudioInSettings::noteSlot(Tnote note) {
 }
 
 void AudioInSettings::freqSlot(float freq) {
-	freqLab->setText(QString::number(freq));
+	freqLab->setText(QString("%1 Hz").arg(freq, 0, 'f', 1, '0'));
 }
 
 

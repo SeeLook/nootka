@@ -26,6 +26,10 @@ TvolumeMeter::TvolumeMeter(QWidget* parent): QWidget(parent)
   m_volume = 0;
   setMinimumHeight(30);
   setMinimumWidth(200);
+  m_grad = QLinearGradient(0, 5, 180, 5);
+  m_grad.setColorAt(0.0, Qt::green);
+  m_grad.setColorAt(0.7, Qt::yellow);
+  m_grad.setColorAt(1.0, Qt::red);
 
 }
 
@@ -39,28 +43,15 @@ void TvolumeMeter::setVolume(qreal vol) {
 void TvolumeMeter::paintEvent(QPaintEvent* )
 {
   QPainter painter(this);
-
-  painter.setPen(palette().text().color());
-  painter.drawRect(QRect(painter.viewport().left()+10,
-						  painter.viewport().top()+10,
-						  painter.viewport().right()-20,
-						  painter.viewport().bottom()-20));
   if (m_volume == 0.0)
 	  return;
-
-  painter.setPen(Qt::red);
+  painter.setPen(Qt::NoPen);
+  painter.setBrush(m_grad);
   int pos = ((painter.viewport().right()-20)-(painter.viewport().left()+11))*m_volume;
-  for (int i = 0; i < 10; ++i) {
-	  int x1 = painter.viewport().left()+11;
-	  int y1 = painter.viewport().top()+10+i;
-	  int x2 = painter.viewport().left()+20+pos;
-	  int y2 = painter.viewport().top()+10+i;
-	  if (x2 < painter.viewport().left()+10)
-		  x2 = painter.viewport().left()+10;
-
-	  painter.drawLine(QPoint(x1, y1),QPoint(x2, y2));
-  }
-
+  painter.drawRect(QRect(painter.viewport().left()+10,
+						painter.viewport().top()+10,
+						painter.viewport().left()+20+pos,
+						painter.viewport().bottom()-20));
 }
 
 TvolumeMeter::~TvolumeMeter()

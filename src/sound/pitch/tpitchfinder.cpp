@@ -101,8 +101,8 @@ void TpitchFinder::searchIn(float* chunk) {
 		std::copy(m_workChunk, m_workChunk+aGl().framesPerChunk-1, m_channel->end() - aGl().framesPerChunk);
 		if (aGl().equalLoudness)
 			  std::copy(filteredChunk, filteredChunk+aGl().framesPerChunk-1, m_channel->filteredInput.end() - aGl().framesPerChunk);
-		start();
-// 		run();
+// 		start();
+		run();
 	} else {
 	  delete m_channel;
 	  m_chunkNum = 0;
