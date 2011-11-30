@@ -20,10 +20,7 @@
 #include <QAudio>
 #include <QDebug>
 #include "tpitchfinder.h"
-// #include "tnote.h"
 #include <QTimer>
-// #include <QBuffer>
-
 
 
 /*static */
@@ -58,8 +55,7 @@ TaudioIN::TaudioIN(QObject *parent) :
     m_floatBuff(0),
     m_noteStarted(false),
     m_deviceInfo(QAudioDeviceInfo::defaultInputDevice()),
-    m_pitch(new TpitchFinder(this)),
-    m_state(e_disabled)
+    m_pitch(new TpitchFinder(this))
 {    
   m_params.devName = "";
   m_params.noiseLevel = 70; // 0.2% of 32768 - smallest noise
@@ -70,8 +66,7 @@ TaudioIN::TaudioIN(QObject *parent) :
   
   connect(m_pitch, SIGNAL(pitchFound(float)), this, SLOT(pitchSlot(float)));
   connect(m_pitch, SIGNAL(noteStoped()), this, SLOT(noteStopedSlot()));
-  connect(m_pitch, SIGNAL(fundamentalFreq(float)), this, SLOT(freqSlot(float)));
-  
+  connect(m_pitch, SIGNAL(fundamentalFreq(float)), this, SLOT(freqSlot(float)));  
 }
 
 TaudioIN::~TaudioIN()
@@ -96,22 +91,33 @@ void TaudioIN::setParameters(SaudioInParams& params) {
 }
 
 
-void TaudioIN::setAudioDevice(const QString &devN) {
+bool TaudioIN::setAudioDevice(const QString& devN) {
+	bool fnd = false;
     QList<QAudioDeviceInfo> dL = QAudioDeviceInfo::availableDevices(QAudio::AudioInput);
-    for(int i = 0; i<dL.size(); i++) {
+    for(int i = 0; i < dL.size(); i++) {
         if (dL[i].deviceName() == devN) {
             m_deviceInfo = dL[i];
+			fnd = true;
             break;
         }
-    } //TODO: check when no  device with devN name
-	qDebug() << m_deviceInfo.deviceName();    
-
-    if (m_audioInput)	  
+    }
+    if (m_audioInput) {
 	  delete m_audioInput;
-	m_params.devName = m_deviceInfo.deviceName();
-	if (!m_deviceInfo.isFormatSupported(templAudioFormat))
-	  qDebug() << m_deviceInfo.deviceName() << "format unsupported !!";
-    m_audioInput = new QAudioInput(m_deviceInfo, templAudioFormat, this);
+	  m_audioInput = 0;
+	}
+	
+    if (fnd) {
+	  qDebug() << m_deviceInfo.deviceName();
+	  m_params.devName = m_deviceInfo.deviceName();
+	  if (!m_deviceInfo.isFormatSupported(templAudioFormat))
+		  qDebug() << m_deviceInfo.deviceName() << "format unsupported !!";
+	  m_audioInput = new QAudioInput(m_deviceInfo, templAudioFormat, this);
+	}
+	else {
+	  qDebug() << "no devices found";
+	  m_params.devName = "";
+	}
+	return fnd;
 }
 
 
@@ -125,12 +131,9 @@ void TaudioIN::initInput() {
 void TaudioIN::startListening() {
   if (m_audioInput) {
 	m_floatBuff = new float[m_pitch->aGl().framesPerChunk+16] + 16;
-// 	tmpBuff = new  float[m_pitch->aGl().framesPerChunk+16] + 16;
 	initInput();
 	if (m_IOaudioDevice) {
 	  connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));
-	  emit stateChanged(e_ready);
-// 	  connect(m_audioInput, SIGNAL(stateChanged(QAudio::State)), this, SLOT(noteStopedSlot()));
 	}
   }
 }
@@ -138,7 +141,6 @@ void TaudioIN::startListening() {
 void TaudioIN::stopListening() {
   m_audioInput->stop(); // TODO: maybe send something to m_pitch to clean it
   m_noteStarted = false;
-  emit stateChanged(e_disabled);
 }
 
 
@@ -168,6 +170,7 @@ void TaudioIN::calc() {
 //------------------------------------------------------------------------------------
 
 bool gotNote = false;
+qint16 maxP = 0;
 
 void TaudioIN::audioDataReady() {	
 	if (m_audioInput->state() != QAudio::ActiveState && m_audioInput->state() != QAudio::IdleState)
@@ -184,34 +187,27 @@ void TaudioIN::audioDataReady() {
 // 	qDebug() << "read data" << dataRead*2 ;
 	if (!dataRead)
 		return;
-	qint16 maxP = 0;
 	for (int i = 0; i < dataRead; i++) {
 	  qint16 value = *reinterpret_cast<qint16*>(m_buffer.data()+i*2);
 	  maxP = qMax(maxP, value);
 	  *(m_floatBuff + m_floatsWriten) = float(value) / 32768.0f;
-// 	  *(tmpBuff + m_floatsWriten) = float(value) / 32768.0f;
 
 	  if (m_floatsWriten == m_pitch->aGl().framesPerChunk-1) {
 		m_maxPeak = maxP;
 		if (m_maxPeak > m_params.noiseLevel) {
-// 		  std::copy(tmpBuff, tmpBuff + m_pitch->aGl().framesPerChunk-1, m_floatBuff);
 		  if (m_pitch->isBussy())
 			qDebug() << "data ignored";
 		  else {
 			m_pitch->searchIn(m_floatBuff);
 			if (!m_noteStarted) {
-// 			  qDebug("note started");
 			  m_noteStarted = true;
-			  emit stateChanged(e_noteStarted);
 			}
 		  }
 		} else {
 		  if (m_noteStarted) {
 			m_pitch->searchIn(0);
-// 			qDebug("note stoped");
 			m_noteStarted = false;
 			gotNote = false;
-			emit stateChanged(e_ready);
 		  }			
 		}
 		m_floatsWriten = -1;
@@ -244,17 +240,12 @@ void TaudioIN::readToCalc() {
 void TaudioIN::pitchSlot(float pitch) {
   if(!gotNote) {
 	emit noteDetected(Tnote(qRound(pitch)-47)); //TODO pitch offset 
-	emit stateChanged(e_founded);
-// 	qDebug() << QString::fromStdString(Tnote(qRound(pitch)-47).getName());
 	gotNote = true;
   }
 }
 
 void TaudioIN::noteStopedSlot() {
-//   m_noteStarted = false;
   gotNote = false;
-  if (!m_params.isVoice)
-	emit stateChanged(e_ready);
 }
 
 

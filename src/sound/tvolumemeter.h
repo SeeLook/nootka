@@ -39,7 +39,8 @@ protected:
 private:
     qreal m_volume;
     QPixmap m_pixmap;
-
+	QLinearGradient m_grad;
+	
 };
 
 #endif // TVOLUMEMETER_H

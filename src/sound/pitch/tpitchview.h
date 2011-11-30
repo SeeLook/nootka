@@ -22,12 +22,14 @@
 
 #include <QWidget>
 #include "taudioin.h"
-// #include "tnote.h"
+#include "tnote.h"
 
 class QTimer;
 class QLabel;
 class TvolumeMeter;
 
+  /** This class represents volume meter of audio signal
+   * and displays note symbol when TaudioIN detected it  */
 class TpitchView : public QWidget
 {
   Q_OBJECT
@@ -36,23 +38,19 @@ public:
   virtual ~TpitchView();
   
   void setAudioInput(TaudioIN *audioIn) { m_audioIN = audioIn; }
-  
+	/** Starts grabbing of peak level*/
   void startVolume();
   void stopVolume();
   
 protected slots:
-  void pitchState(TaudioIN::Estate state);
-//   void noteSlot(Tnote note);
+  void noteSlot(Tnote note);
   void updateLevel();
   
 private:
   TvolumeMeter *m_volMeter;
   QLabel *m_stateLabel;
   TaudioIN *m_audioIN;
-  QTimer *m_volTimer;
-
-  
-  
+  QTimer *m_volTimer;  
   
 };
 

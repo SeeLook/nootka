@@ -37,15 +37,6 @@ class TaudioIN : public QObject
 public:
     explicit TaudioIN(QObject *parent = 0);
     ~TaudioIN();
-	  /** A state of TaudioIN.
-	   * When pitch is founded it emits another signal: pitchFound()
-	   */ 
-	enum Estate { e_disabled, // when no sound
-				  e_paused, // when sound output is played (gray)
-				  e_ready, // when it is listening (yellow)
-				  e_noteStarted, // when note detecting was started (red)
-				  e_founded // when pitch is detected (green)
-	};
 	
     static QStringList getAudioDevicesList();
 	static QAudioFormat templAudioFormat;
@@ -53,7 +44,7 @@ public:
 	
 	bool isAvailAble() {return (m_IOaudioDevice ? true : false) ; }
 
-    void setAudioDevice(const QString &devN);
+    bool setAudioDevice(const QString &devN);
 	void startListening();
 	void stopListening();
 	qint16 maxPeak() { return m_maxPeak; }
@@ -72,7 +63,6 @@ public:
 signals:
 	void noteDetected(Tnote note);
 	void noiseLevel(qint16 level);
-	void stateChanged(TaudioIN::Estate state);
 	void fundamentalFreq(float freq);
 
 
@@ -100,7 +90,6 @@ private:
 	QList<qint16> m_peakList;
 	bool m_noteStarted;
 	SaudioInParams m_params;
-	Estate m_state;
 	
 	
 };
