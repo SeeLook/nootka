@@ -66,7 +66,7 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   upLay->addLayout(devDetLay);
   QVBoxLayout *tunLay = new QVBoxLayout(); //middle A & threshold layout
   
-  QGroupBox *midABox = new QGroupBox(tr("middle A")+" (a1)", this);
+  midABox = new QGroupBox(tr("middle A")+" (a1)", this);
   QVBoxLayout *midLay = new QVBoxLayout();
   QLabel *frLab = new QLabel(tr("frequency:"), this);
   midLay->addWidget(frLab);
@@ -88,7 +88,7 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   midABox->setLayout(midLay);
   tunLay->addWidget(midABox);
   
-  QGroupBox *noisGr = new QGroupBox(this);
+  noisGr = new QGroupBox(this);
   QVBoxLayout *noisLay = new QVBoxLayout();
   QLabel *threLab = new QLabel(tr("noise level:"), this);
   noisLay->addWidget(threLab, 1, Qt::AlignCenter);
@@ -175,17 +175,30 @@ void AudioInSettings::setTestDisabled(bool disabled) {
 	freqLab->setText("--");
 	pitchLab->setDisabled(true);
 	freqLab->setDisabled(true);
+  // enable the rest of widget
+	inDeviceCombo->setDisabled(false);
+	detectMethodCombo->setDisabled(false);
+	voiceChB->setDisabled(false);
+	midABox->setDisabled(false);
+	noisGr->setDisabled(false);	
+	
   } else {
 	volMeter->setDisabled(false);
 	pitchLab->setDisabled(false);
 	freqLab->setDisabled(false);
+	// disenable the rest of widget
+	inDeviceCombo->setDisabled(true);
+	detectMethodCombo->setDisabled(true);
+	voiceChB->setDisabled(true);
+	midABox->setDisabled(true);
+	noisGr->setDisabled(true);
   }
 }
 
 void AudioInSettings::grabParams() {
   m_aInParams.doingAutoNoiseFloor = true;
   m_aInParams.equalLoudness = true;
-  m_aInParams.a1freq = (float)freqSpin->value();
+  m_aInParams.a440diff = 440.0 - (float)freqSpin->value();
   m_aInParams.analysisType = (EanalysisModes)detectMethodCombo->currentIndex();
   m_aInParams.devName = inDeviceCombo->currentText();
 //   m_aInParams.doingAutoNoiseFloor = noiseChB->isChecked();
