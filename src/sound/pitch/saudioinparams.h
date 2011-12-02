@@ -11,10 +11,10 @@ enum EanalysisModes { e_MPM = 0, e_AUTOCORRELATION = 1, e_MPM_MODIFIED_CEPSTRUM 
 struct SaudioInParams {
   bool enabled; // is audio input enabled
   QString devName; // input device name
-  float a1freq; // frequency of note a1 in Hz (440 Hz default)
+  float a440diff; // difference betwen standard a1 440Hz and user prefered base pitch
   qint16 noiseLevel;
   EanalysisModes analysisType; // Types of detection methods
-  bool isVoice;
+  bool isVoice; 
   bool equalLoudness; // It's kinda low pass filter
   bool doingAutoNoiseFloor;
 };
