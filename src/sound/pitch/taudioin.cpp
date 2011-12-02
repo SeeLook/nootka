@@ -239,9 +239,11 @@ void TaudioIN::readToCalc() {
 
 void TaudioIN::pitchSlot(float pitch) {
   if(!gotNote) {
-	pitch = pitch + m_params.a440diff;
-	emit noteDetected(Tnote(qRound(pitch)-47)); //TODO pitch offset 
-	gotNote = true;
+		qDebug() << pitch;
+		pitch = pitch + m_params.a440diff;
+		qDebug() << pitch;
+		emit noteDetected(Tnote(qRound(pitch)-47)); //TODO pitch offset 
+		gotNote = true;
   }
 }
 

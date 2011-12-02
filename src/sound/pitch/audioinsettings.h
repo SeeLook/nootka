@@ -54,11 +54,13 @@ protected slots:
   void noiseDetected(qint16 noise);
   void noteSlot(Tnote note);
   void freqSlot(float freq);
+  void intervalChanged(int index);
+  void baseFreqChanged(int bFreq);
   
 private:
   QComboBox *inDeviceCombo, *detectMethodCombo, *intervalCombo;
   QGroupBox *enableInBox, *midABox, *noisGr;
-  QCheckBox /* *loudChB,*/ *voiceChB/*, *noiseChB*/;
+  QCheckBox  *loudChB, *voiceChB/*, *noiseChB*/;
   QSpinBox *freqSpin;
   QDoubleSpinBox *noiseSpin;
   QPushButton *calcButt, *testButt;
