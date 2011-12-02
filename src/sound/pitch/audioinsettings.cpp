@@ -20,9 +20,19 @@
 #include "audioinsettings.h"
 #include "taudioin.h"
 #include "tpitchview.h"
+#include "tpitchfinder.h"
 #include <QtGui>
 
+inline double freq2pitch(double freq)
+{
+#ifdef log2
+	return -36.3763165622959152488 + 12.0*log2(freq);
+#else
+	return -36.3763165622959152488 + 39.8631371386483481*log10(freq);
+#endif
+}
 
+//------------------------------------------------------------------------------------
 
 AudioInSettings::AudioInSettings(QWidget* parent) :
   QWidget(parent),
@@ -52,9 +62,9 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   detectMethodCombo->addItem(tr("MPM & modified cepstrum"));
   
   devDetLay->addStretch(1);
-//   loudChB = new QCheckBox(tr("low-pass filter"), this);
-//   loudChB->setChecked(true);
-//   devDetLay->addWidget(loudChB);
+  loudChB = new QCheckBox(tr("low-pass filter"), this);
+  loudChB->setChecked(true);
+  devDetLay->addWidget(loudChB);
   voiceChB = new QCheckBox(tr("human voice"), this);
   voiceChB->setStatusTip(tr("Check this for singing."));
   devDetLay->addWidget(voiceChB);
@@ -157,6 +167,8 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   
   connect(testButt, SIGNAL(clicked()), this, SLOT(testSlot()));
   connect(calcButt, SIGNAL(clicked()), this, SLOT(calcSlot()));
+  connect(intervalCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(intervalChanged(int)));
+  connect(freqSpin, SIGNAL(valueChanged(int)), this, SLOT(baseFreqChanged(int)));
   
 }
 
@@ -181,6 +193,7 @@ void AudioInSettings::setTestDisabled(bool disabled) {
 	voiceChB->setDisabled(false);
 	midABox->setDisabled(false);
 	noisGr->setDisabled(false);	
+	loudChB->setDisabled(false);
 	
   } else {
 	volMeter->setDisabled(false);
@@ -192,17 +205,19 @@ void AudioInSettings::setTestDisabled(bool disabled) {
 	voiceChB->setDisabled(true);
 	midABox->setDisabled(true);
 	noisGr->setDisabled(true);
+	loudChB->setDisabled(true);
   }
 }
 
 void AudioInSettings::grabParams() {
   m_aInParams.doingAutoNoiseFloor = true;
   m_aInParams.equalLoudness = true;
-  m_aInParams.a440diff = 440.0 - (float)freqSpin->value();
+  m_aInParams.a440diff = freq2pitch(440.0) - freq2pitch((float)freqSpin->value());
+	qDebug() << m_aInParams.a440diff;
   m_aInParams.analysisType = (EanalysisModes)detectMethodCombo->currentIndex();
   m_aInParams.devName = inDeviceCombo->currentText();
 //   m_aInParams.doingAutoNoiseFloor = noiseChB->isChecked();
-//   m_aInParams.equalLoudness = loudChB->isChecked();
+  m_aInParams.equalLoudness = loudChB->isChecked();
   m_aInParams.isVoice = voiceChB->isChecked();
   m_aInParams.noiseLevel = qRound((noiseSpin->value()/100) * 32768.0);
 }
@@ -268,6 +283,31 @@ void AudioInSettings::noteSlot(Tnote note) {
 void AudioInSettings::freqSlot(float freq) {
 	freqLab->setText(QString("%1 Hz").arg(freq, 0, 'f', 1, '0'));
 }
+
+void AudioInSettings::intervalChanged(int index) {
+	if (intervalCombo->hasFocus()) {
+		switch (index) {
+			case 0 :
+				freqSpin->setValue(425); break;
+			case 1 :
+				freqSpin->setValue(440); break;
+			case 2 :
+				freqSpin->setValue(455); break;
+		}
+	}
+}
+
+void AudioInSettings::baseFreqChanged(int bFreq) {
+	if (freqSpin->hasFocus()) {
+		if (freqSpin->value() <= 425)
+			intervalCombo->setCurrentIndex(2);
+		else if (freqSpin->value() >= 455)
+			intervalCombo->setCurrentIndex(0);
+		else
+			intervalCombo->setCurrentIndex(1);
+	}		
+}
+
 
 
 
