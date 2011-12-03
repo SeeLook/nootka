@@ -20,7 +20,6 @@
 #include <vector>
 
 #include "notedata.h"
-// #include "gdata.h"
 #include "channel.h"
 #include "useful.h"
 #include "musicnotes.h"
@@ -109,8 +108,6 @@ void NoteData::addVibratoData(int chunk)
     // Detailed pitch information available, calculate maxima and minima
     int loopLimit = ((chunk+1) * channel->framesPerChunk()) - loopStep;
     for (int currentTime = loopStart; currentTime < loopLimit; currentTime += loopStep) {
-      myassert(currentTime + loopStep < (int)channel->pitchLookupSmoothed.size());
-      myassert(currentTime - loopStep >= 0);
       float prevPitch = channel->pitchLookupSmoothed.at(currentTime - loopStep);
       float currentPitch = channel->pitchLookupSmoothed.at(currentTime);
       float nextPitch = channel->pitchLookupSmoothed.at(currentTime + loopStep);
@@ -125,7 +122,6 @@ void NoteData::addVibratoData(int chunk)
         }
         if ((prevExtremum == FIRST_MAXIMUM) || (prevExtremum == MAXIMUM)) {
           if (currentPitch >= prevExtremumPitch) {
-            myassert(!maxima->isEmpty());
             maxima->pop_back();
             maxima->push_back(currentTime);
             prevExtremumTime = currentTime;
@@ -152,7 +148,6 @@ void NoteData::addVibratoData(int chunk)
               continue;
             } else {
               // Not good
-              myassert(!minima->isEmpty());
               minima->pop_back();
               maxima->push_back(currentTime);
               prevExtremumTime = currentTime;
@@ -172,7 +167,6 @@ void NoteData::addVibratoData(int chunk)
         }
         if ((prevExtremum == FIRST_MINIMUM) || (prevExtremum == MINIMUM)) {
           if (currentPitch <= prevExtremumPitch) {
-            myassert(!minima->isEmpty());
             minima->pop_back();
             minima->push_back(currentTime);
             prevExtremumTime = currentTime;
@@ -199,7 +193,6 @@ void NoteData::addVibratoData(int chunk)
               continue;
             } else {
               // Not good
-              myassert(!maxima->isEmpty());
               maxima->pop_back();
               minima->push_back(currentTime);
               prevExtremumTime = currentTime;

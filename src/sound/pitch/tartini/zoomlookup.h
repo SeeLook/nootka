@@ -17,9 +17,7 @@
 #define ZOOMLOOKUP_H
 
 #include <qcolor.h>
-//#include "array1d.h"
 #include <vector>
-#include "myassert.h"
 
 class AnalysisData;
 
@@ -60,12 +58,6 @@ private:
 public:
   std::vector<ZoomElement> _table;
 
-/*#ifdef MACX
-  std::bit_vector _hasValue;
-#else
-  std::vector<bool> _hasValue;
-#endif
-*/
   ZoomLookup();
   virtual ~ZoomLookup();
 
@@ -73,10 +65,8 @@ public:
   void setZoomLevel(double zoomLevel_);
   int size() { return _size; }
   void setSize(int size_);
-  ZoomElement &at(int x) { myassert(x >= 0 && x < int(_table.size())); return _table[x]; }
-  //bool hasValue(int x) { myassert(x >= 0 && x < int(_hasValue.size())); return _hasValue[x]; }
-  //void setHasValue(int x, bool val=true) { myassert(x >= 0 && x < int(_hasValue.size())); _hasValue[x] = val; }
-  //void setValue(int x, ZoomElement *z);
+  ZoomElement &at(int x) { return _table[x]; }
+  
 };
 
 #endif

@@ -15,7 +15,6 @@
 #include <iostream>
 #include "GrowingAveragingFilter.h"
 #include <algorithm>
-#include "../myassert.h"
 #include "../useful.h"
 
 GrowingAverageFilter::GrowingAverageFilter(int size)

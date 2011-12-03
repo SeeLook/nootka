@@ -18,10 +18,8 @@
  ***************************************************************************/
 
 #include "mytransforms.h"
-// #include "myassert.h"
 #include "array1d.h"
 #include "equalloudness.h"
-// #include "gdata.h"
 #include "../tpitchfinder.h"
 #include "bspline.h"
 #include "channel.h"
@@ -136,7 +134,6 @@ void MyTransforms::uninit()
 */
 double MyTransforms::autocorr(float *input, float *output)
 {
-//   myassert(beenInit);
   float fsize = float(size);
   
   //pack the data into an array which is zero padded by k elements
@@ -168,7 +165,6 @@ double MyTransforms::autocorr(float *input, float *output)
 
 double MyTransforms::autoLogCorr(float *input, float *output)
 {
-//   myassert(beenInit);
   float fsize = float(size);
   
   //pack the data into an array which is zero padded by k elements
@@ -204,7 +200,6 @@ double MyTransforms::autoLogCorr(float *input, float *output)
 */
 double MyTransforms::asdf(float *input, float *output)
 {
-//   myassert(beenInit);
   double sumSq = autocorr(input, output); //Do an autocorrelation and return the sum of squares of the input
   double sumRightSq = sumSq, sumLeftSq = sumSq;
   for(int j=0; j<k; j++) {
@@ -223,11 +218,8 @@ double MyTransforms::asdf(float *input, float *output)
 */
 double MyTransforms::nsdf(float *input, float *output)
 {
-//   myassert(beenInit);
   double sumSq = autocorr(input, output); //the sum of squares of the input
-
   double totalSumSq = sumSq * 2.0;
-//   if(gdata->analysisType() == MPM || gdata->analysisType() == MPM_MODIFIED_CEPSTRUM) { //nsdf
     if(glAsett->analysisType == e_MPM || glAsett->analysisType == e_MPM_MODIFIED_CEPSTRUM) { //nsdf
     for(int j=0; j<k; j++) {
       totalSumSq  -= sq(input[n-1-j]) + sq(input[j]);
@@ -274,7 +266,6 @@ int MyTransforms::findNSDFMaxima(float *input, int len, std::vector<int> &maxPos
   if(pos == 0) pos = 1; // can happen if output[0] is NAN
   
   while(pos < len-1) {
-//     myassert(!(input[pos] < 0)); //don't assert on NAN
     if(input[pos] > input[pos-1] && input[pos] >= input[pos+1]) { //a local maxima
       if(curMaxPos == 0) curMaxPos = pos; //the first maxima (between zero crossings)
       else if(input[pos] > input[curMaxPos]) curMaxPos = pos; //a higher maxima (between the zero crossings)
@@ -313,8 +304,6 @@ int MyTransforms::findNSDFsubMaximum(float *input, int len, float threshold)
   for(uint j=0; j<indices.size(); j++) {
     if(input[indices[j]] >= cutoff) return indices[j];
   }
-//   myassert(0); //should never get here
-//   qDebug() << "hilfe findNSDFsubMaximum";
   return 0; //stop the compiler warning
 }
 
@@ -330,12 +319,8 @@ int MyTransforms::findNSDFsubMaximum(float *input, int len, float threshold)
 */
 void MyTransforms::calculateAnalysisData(int chunk, Channel *ch)
 {
-//   myassert(ch);
-//   myassert(ch->dataAtChunk(chunk));
-
   AnalysisData &analysisData = *ch->dataAtChunk(chunk);
   AnalysisData *prevAnalysisData = ch->dataAtChunk(chunk-1);
-// qDebug() << ch->dataAtChunk(chunk) << prevAnalysisData << n;
   float *output = ch->nsdfData.begin();
   float *curInput = (equalLoudness) ? ch->filteredInput.begin() : ch->directInput.begin();
 
@@ -343,31 +328,22 @@ void MyTransforms::calculateAnalysisData(int chunk, Channel *ch)
   
   analysisData.maxIntensityDB() = linear2dB(fabs(*std::max_element(curInput, curInput+n, absoluteLess<float>())));
 	
-// qDebug() << "do FFT";
   doChannelDataFFT(ch, curInput, chunk);
   std::copy(curInput, curInput+n, dataTime);
-// qDebug() << "FFT done";
-//   if(gdata->doingFreqAnalysis() && (ch->firstTimeThrough() || gdata->doingActiveAnalysis())) {
   if(glAsett->doingFreqAnalysis && (ch->firstTimeThrough() || glAsett->doingFreqAnalysis)) {
     //calculate the Normalised Square Difference Function
     double logrms = linear2dB(nsdf(dataTime, ch->nsdfData.begin()) / double(n)); /**< Do the NSDF calculation */
     analysisData.logrms() = logrms;
-//     if(gdata->doingAutoNoiseFloor() && !analysisData.done) {
 	if(glAsett->doingAutoNoiseFloor && !analysisData.done) {
       //do it for gdata. this is only here for old code. remove some stage
-//       if(chunk == 0) { gdata->rmsFloor() = 0.0; gdata->rmsCeiling() = gdata->dBFloor(); }
-// qDebug() << "for chunk";
 	  if(chunk == 0) {
 		glAsett->ampThresholds[AMPLITUDE_RMS][0] = 0.0; //gdata->rmsFloor() = 0.0;
 		glAsett->ampThresholds[AMPLITUDE_RMS][1] = glAsett->dBFloor; //gdata->rmsCeiling() = gdata->dBFloor(); 
 	  }
-//       if(logrms+15 < gdata->rmsFloor()) gdata->rmsFloor() = logrms+15;
 	  if(logrms+15 < glAsett->ampThresholds[AMPLITUDE_RMS][0]) 
 		  glAsett->ampThresholds[AMPLITUDE_RMS][0] = logrms+15;
-//       if(logrms > gdata->rmsCeiling()) gdata->rmsCeiling() = logrms;
 	  if(logrms > glAsett->ampThresholds[AMPLITUDE_RMS][1]) 
 		  glAsett->ampThresholds[AMPLITUDE_RMS][1] = logrms;
-// qDebug() << "for channel";
       //do it for the channel
       if(chunk == 0) { 
 		ch->rmsFloor = 0.0;
@@ -589,7 +565,6 @@ int findFirstSubMaximum(float *data, int length, float threshold)
   for(int j=0; j < length; j++) {
     if(data[j] >= cutoffValue) return j;
   }
-//   myassert(0); //shouldn't get here.
   return length;
 }
 
@@ -614,9 +589,6 @@ void MyTransforms::doChannelDataFFT(Channel *ch, float *curInput, int chunk)
   applyHanningWindow(dataTime);
   fftwf_execute(planDataTime2FFT);
   int nDiv2 = n/2;
-//   myassert(ch->fftData1.size() == nDiv2);
-  if (ch->fftData1.size() != nDiv2)
-	qDebug() << "wrong ch->fftData1.size() == nDiv2";
   double logSize = log10(double(ch->fftData1.size())); //0.0
   //Adjust the coefficents, both real and imaginary part by same amount
   double sqValue;
@@ -625,8 +597,7 @@ void MyTransforms::doChannelDataFFT(Channel *ch, float *curInput, int chunk)
     sqValue = sq(dataFFT[j]) + sq(dataFFT[n-j]);
     ch->fftData2[j] = logBaseN(logBase, 1.0 + 2.0*sqrt(sqValue) / double(nDiv2) * (logBase-1.0));
     if(sqValue > 0.0)
-//       ch->fftData1[j] = bound(log10(sqValue) / 2.0 - logSize, gdata->dBFloor(), 0.0);
-		ch->fftData1[j] = bound(log10(sqValue) / 2.0 - logSize, glAsett->dBFloor, 0.0);
+			ch->fftData1[j] = bound(log10(sqValue) / 2.0 - logSize, glAsett->dBFloor, 0.0);
     else ch->fftData1[j] = glAsett->dBFloor; // gdata->dBFloor();
   }
   sqValue = sq(dataFFT[0]) + sq(dataFFT[nDiv2]);
@@ -635,7 +606,6 @@ void MyTransforms::doChannelDataFFT(Channel *ch, float *curInput, int chunk)
     ch->fftData1[0] = bound(log10(sqValue) / 2.0 - logSize, glAsett->dBFloor, 0.0);
   else ch->fftData1[0] = glAsett->dBFloor; // gdata->dBFloor();
 
-//   if(gdata->analysisType() == MPM_MODIFIED_CEPSTRUM) {
   if(glAsett->analysisType == e_MPM_MODIFIED_CEPSTRUM) {/** FIXME: ???*/
     for(int j=1; j<nDiv2; j++) {
       dataFFT[j] = ch->fftData2[j];

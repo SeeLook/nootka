@@ -18,7 +18,6 @@
  ***************************************************************************/
 
 #include <math.h>
-// #include "gdata.h"
 #include "useful.h"
 #include "../tpitchfinder.h"
 

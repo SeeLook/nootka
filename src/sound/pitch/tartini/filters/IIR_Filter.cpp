@@ -15,7 +15,6 @@
 #include <iostream>
 #include "IIR_Filter.h"
 #include <algorithm>
-#include "../myassert.h"
 #include "../useful.h"
 
 /** Create an IIR Filter from the coeff's a direct form II transposed structure
