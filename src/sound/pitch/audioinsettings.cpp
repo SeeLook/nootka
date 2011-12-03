@@ -82,8 +82,8 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   midLay->addWidget(frLab);
   freqSpin = new QSpinBox(this);
   midLay->addWidget(freqSpin);
-  freqSpin->setMinimum(420);
-  freqSpin->setMaximum(460);
+  freqSpin->setMinimum(400);
+  freqSpin->setMaximum(480);
   freqSpin->setValue(440);
   freqSpin->setSuffix(" Hz");
   
@@ -145,11 +145,11 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   freqLab->setFixedWidth(70);
   freqLab->setAlignment(Qt::AlignCenter);
   freqLab->setStatusTip(tr("Frequency of detected note.") + 
-	  "<br><span style=\"font-family: nootka;\">6</span>E = 80Hz, " +
+	  "<br><span style=\"font-family: nootka;\">6</span>E = 82,5Hz, " +
 	  "<span style=\"font-family: nootka;\">5</span>A = 110Hz, " +
-	  "<span style=\"font-family: nootka;\">4</span>d = 160Hz, " +
-	  "<span style=\"font-family: nootka;\">3</span>g = 200Hz, " +
-	  "<span style=\"font-family: nootka;\">2</span>h = 240Hz, " +
+	  "<span style=\"font-family: nootka;\">4</span>d = 146Hz, " +
+	  "<span style=\"font-family: nootka;\">3</span>g = 195Hz, " +
+	  "<span style=\"font-family: nootka;\">2</span>h = 245Hz, " +
 	  "<span style=\"font-family: nootka;\">1</span>e<sup>1</sup> = 330Hz");
   freqLay->addWidget(freqLab);
   testLay->addLayout(freqLay);
@@ -194,7 +194,6 @@ void AudioInSettings::setTestDisabled(bool disabled) {
 	midABox->setDisabled(false);
 	noisGr->setDisabled(false);	
 	loudChB->setDisabled(false);
-	
   } else {
 	volMeter->setDisabled(false);
 	pitchLab->setDisabled(false);
@@ -213,7 +212,6 @@ void AudioInSettings::grabParams() {
   m_aInParams.doingAutoNoiseFloor = true;
   m_aInParams.equalLoudness = true;
   m_aInParams.a440diff = freq2pitch(440.0) - freq2pitch((float)freqSpin->value());
-	qDebug() << m_aInParams.a440diff;
   m_aInParams.analysisType = (EanalysisModes)detectMethodCombo->currentIndex();
   m_aInParams.devName = inDeviceCombo->currentText();
 //   m_aInParams.doingAutoNoiseFloor = noiseChB->isChecked();
@@ -285,23 +283,20 @@ void AudioInSettings::freqSlot(float freq) {
 }
 
 void AudioInSettings::intervalChanged(int index) {
-	if (intervalCombo->hasFocus()) {
+  if (intervalCombo->hasFocus()) {
 		switch (index) {
-			case 0 :
-				freqSpin->setValue(425); break;
-			case 1 :
-				freqSpin->setValue(440); break;
-			case 2 :
-				freqSpin->setValue(455); break;
+			case 0 : freqSpin->setValue(465); break;
+			case 1 : freqSpin->setValue(440); break;
+			case 2 : freqSpin->setValue(415); break;
 		}
-	}
+  }
 }
 
 void AudioInSettings::baseFreqChanged(int bFreq) {
 	if (freqSpin->hasFocus()) {
-		if (freqSpin->value() <= 425)
+		if (freqSpin->value() <= 415)
 			intervalCombo->setCurrentIndex(2);
-		else if (freqSpin->value() >= 455)
+		else if (freqSpin->value() >= 465)
 			intervalCombo->setCurrentIndex(0);
 		else
 			intervalCombo->setCurrentIndex(1);
