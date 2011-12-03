@@ -96,11 +96,9 @@ public:
   }
   
   T& operator[](uint pos) {
-    //myassert(empty() || pos < size());
     return (*buf_ptrs()[pos / _buffer_size])[pos % _buffer_size];
   }
   T& at(uint pos) {
-    myassert(empty() || pos < size());
     return (*buf_ptrs()[pos / _buffer_size])[pos % _buffer_size];
   }
   T &front() { return at(0); }
@@ -160,7 +158,6 @@ public:
   std::vector<T> &getBuffer(uint bufferNum) { return *buf_ptrs()[bufferNum]; }
   //efficient copy to a single block of memory (ie array or vector)
   void copyTo(T *dest, uint start, uint length) {
-    myassert(start+length <= size());
     T* ending = dest+length;
     uint curBuf = start / bufferSize();
     uint offset = start % bufferSize();
@@ -180,7 +177,6 @@ public:
   }
   //efficient copy from a single block of memory (ie array or vector)
   void copyFrom(const T *src, uint start, uint length) {
-    myassert(start+length <= size());
     const T* ending = src+length;
     uint curBuf = start / bufferSize();
     uint offset = start % bufferSize();

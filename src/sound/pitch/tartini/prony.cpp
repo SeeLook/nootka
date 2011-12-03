@@ -24,16 +24,10 @@
 //PronyData pronyFit(const float *x, int length, int gap, double dt, bool allowOffset)
 bool pronyFit(PronyData *result, const float *x, int length, int gap, bool allowOffset)
 {
-    myassert(result != NULL);
-    myassert(x != NULL);
     int j;
-    //double sumX1X2=0.0, sumX2X2=0.0, sumX2=0.0, real_z1, phase;
-    //double XX[4], XXinv[4], XY[2];
     double alpha[3];
     double omega;
     double error = 0.0;
-    //std::complex<double> z1, invz1, invz1sqN, Om12, c, d1, b1;
-    //PronyData result;
 
     Array1d<float> x1(length);
     Array1d<float> x2(length);

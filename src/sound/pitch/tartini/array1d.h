@@ -18,7 +18,6 @@
 
 #include <iostream>
 #include <memory>
-#include "myassert.h"
 #include <stdlib.h>
 #include <cstring>
 #include "useful.h"
@@ -54,7 +53,6 @@ template<class T> class Array1d
     dataSize = length;
     allocatedSize = nextPowerOf2(dataSize);
     data = (T*)malloc(allocatedSize * sizeof(T));
-    myassert(data != NULL);
   }
 
   /** Construct an Array1d of size length. The values are all initialied to val
@@ -65,7 +63,6 @@ template<class T> class Array1d
     dataSize = length;
     allocatedSize = nextPowerOf2(dataSize);
     data = (T*)malloc(allocatedSize * sizeof(T));
-    myassert(data != NULL);
     fill(val);
   }
 
@@ -78,7 +75,6 @@ template<class T> class Array1d
     dataSize = length;
     allocatedSize = nextPowerOf2(dataSize);
     data = (T*)malloc(allocatedSize * sizeof(T));
-    myassert(data != NULL);
     for(T *p = data; p != end();) *p++ = *src++;
   }
 
@@ -108,13 +104,9 @@ template<class T> class Array1d
   T& operator[](int x) { return at(x); }
   const T& operator[](int x) const { return at(x); }
   T& at(int x) {
-    myassert(data != NULL);
-    myassert(x >= 0 && x < size());
     return data[x];
   }
   const T& at(int x) const {
-    myassert(data != NULL);
-    myassert(x >= 0 && x < size());
     return data[x];
   }
   int size() const { return dataSize; }

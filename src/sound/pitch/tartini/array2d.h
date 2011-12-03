@@ -34,8 +34,6 @@ int *ptr = &*it;
 
 //#include <algorithm>
 #include <iostream>
-//#define NDEBUG //removes the asserts
-#include "myassert.h"
 
 #ifndef MIN
 #define MIN(x,y)    ((x)<(y) ? (x) : (y))
@@ -62,8 +60,6 @@ template<class T> class Array2d
   	width=w_;
   	height=h_;
   	data =(T*)malloc(size()*sizeof(T));
-  	myassert(data);
-    //std::uninitialized_fill(begin(), end(), T());
   }
   Array2d(int w_, int h_, T val) { //initialise fill with val
   	w_ = MAX(w_, 0);
@@ -71,7 +67,6 @@ template<class T> class Array2d
   	width=w_;
   	height=h_;
   	data =(T*)malloc(size()*sizeof(T));
-  	myassert(data);
   	//for(T *p = data; p != end();)
       //*p++ = val;
     std::uninitialized_fill(begin(), end(), val);
@@ -80,17 +75,12 @@ template<class T> class Array2d
   	if(data) free(data);
   }
   T& operator()(int x, int y) {
-  	myassert(x >= 0 && x < width);
-  	myassert(y >= 0 && y < height);
   	return( *(data + (width*y + x)));
   }
   T const& operator()(int x, int y) const {
-  	myassert(x >= 0 && x < width);
-  	myassert(y >= 0 && y < height);
   	return( *(data + (width*y + x)));
   }
   T* operator[](int y) {
-  	myassert(y >= 0 && y < height);
 	  return(data+width*y);
   }
   int w() { return width; }
@@ -98,7 +88,6 @@ template<class T> class Array2d
   int size() { return width*height; }
   T *begin() { return data; }
   T *begin(int y) { // same as []
-	  myassert(y >= 0 && y < height);
 	  return(data+width*y);
   }
   T *end() { return data+size(); }

@@ -15,7 +15,6 @@
 #include <iostream>
 #include "FastSmoothedAveragingFilter.h"
 #include <algorithm>
-#include "../myassert.h"
 #include "../useful.h"
 
 /** Construct a FastSmoothedAverageFilter

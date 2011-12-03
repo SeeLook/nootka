@@ -30,28 +30,36 @@
 class TpitchFinder;
 
 
-
+/** This class manages audio input for Nootka.
+ * It emits noteDetected(Tnote) signal when some note is detected
+ * and fundamentalFreq(float) with freq of detected note.
+ * @method calculateNoiseLevel() can be used to obtain noise. */
 class TaudioIN : public QObject
 {
     Q_OBJECT
 public:
     explicit TaudioIN(QObject *parent = 0);
     ~TaudioIN();
-	
-    static QStringList getAudioDevicesList();
+		/** Returns list of audio input devices 
+		 * filtered by template audio format */
+	static QStringList getAudioDevicesList();
+		/** Template audio format is 
+		 * 1 chanell (mono) 
+		 * 44100 samples per second
+		 * signed int resolution (16bit)
+		 * pcm data */
 	static QAudioFormat templAudioFormat;
 	QString deviceName();
 	
 	bool isAvailAble() {return (m_IOaudioDevice ? true : false) ; }
 
-    bool setAudioDevice(const QString &devN);
+	bool setAudioDevice(const QString &devN);
 	void startListening();
 	void stopListening();
 	qint16 maxPeak() { return m_maxPeak; }
 	  /** Starts capturing audio to calculate max level. 
 	   * After 1000ms singleShot of Qtimer calls calc(),
-	   * and signal noiseLevel(qint16 level) with max peak is emited.
-	   */
+	   * and signal noiseLevel(qint16 level) with max peak is emited. */
 	void calculateNoiseLevel();
 	  /** Sets device parameters stores in struct SaudioInParams. 
 	   * SaudioInParams::deviceName is ignored. It have to be set separately
@@ -79,8 +87,8 @@ private:
   void initInput();
   
   
-    QAudioDeviceInfo m_deviceInfo;
-    QAudioInput *m_audioInput;
+	QAudioDeviceInfo m_deviceInfo;
+	QAudioInput *m_audioInput;
 	QIODevice *m_IOaudioDevice;
 	QByteArray m_buffer;
 	float *m_floatBuff;

@@ -121,9 +121,7 @@ set( PITCH_SRCS
   tartini/array1d.h
   tartini/array2d.h
   tartini/large_vector.h
-  tartini/myassert.h
   tartini/SmartPtr.h
-  tartini/safe_bool.h
  # filters
   tartini/filters/Filter.h
   tartini/filters/FastSmoothedAveragingFilter.cpp

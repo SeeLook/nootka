@@ -17,8 +17,6 @@
 	  Copyright (C) 2011
  ***************************************************************************/
 #include "musicnotes.h"
-// #include "mystring.h"
-#include "myassert.h"
 
 
 std::vector<MusicKey> gMusicKeys;
@@ -155,7 +153,6 @@ void MusicScale::addScale(const char *theName, const int *theNotes, int length, 
   pNotes.resize_copy(theNotes, length);
   pSemitoneLookup.resize(12, false);
   for(int j=0; j<length; j++) {
-    myassert(theNotes[j] >= 0 && theNotes[j] < 12);
     pSemitoneLookup[theNotes[j]] = true;
   }
 //   pName = copy_string(theName);

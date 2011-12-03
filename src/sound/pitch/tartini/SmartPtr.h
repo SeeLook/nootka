@@ -1,7 +1,6 @@
 #ifndef SMART_PTR_H
 #define SMART_PTR_H
 
-#include "safe_bool.h"
 
 /** Smart Pointer class
  *  This can be used in place of normal pointers.
@@ -27,7 +26,7 @@
 
 template <class T>
 class SmartPtr {
-    SPTR_SAFE_BOOL_DEFINE;
+//     SPTR_SAFE_BOOL_DEFINE;
 
  public:
     typedef T                                  value_type;
@@ -133,7 +132,7 @@ class SmartPtr {
     }
 
     /** boolean (cast) operator. e.g. if(smartPtr) ... */
-    operator safe_bool () const { return (_ptr != (T*)NULL) ? SPTR_SAFE_BOOL_TRUE : false; }
+//     operator safe_bool () const { return (_ptr != (T*)NULL) ? SPTR_SAFE_BOOL_TRUE : false; }
     /** boolean not operator. e.g. if(!smartPtr) ... */
     bool operator !() const { return (_ptr != (T*)NULL) ? false : true; }
     /** Dereferencing the pointer */
