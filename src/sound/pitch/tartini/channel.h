@@ -22,11 +22,9 @@
 
 #include "array1d.h"
 #include "array2d.h"
-// #include "qcolor.h"
 #include <vector>
 #include "analysisdata.h"
-#include "zoomlookup.h"
-// #include "soundfile.h"
+// #include "zoomlookup.h"
 #include "notedata.h"
 #include "large_vector.h"
 #include "filters/Filter.h"
@@ -76,9 +74,9 @@ public:
   double rmsFloor; //in dB
   double rmsCeiling; //in dB
   
-  ZoomLookup summaryZoomLookup;
-  ZoomLookup normalZoomLookup;
-  ZoomLookup amplitudeZoomLookup;
+//   ZoomLookup summaryZoomLookup;
+//   ZoomLookup normalZoomLookup;
+//   ZoomLookup amplitudeZoomLookup;
   
   void lock() { mutex->lock(); isLocked = true; }
   void unlock() { isLocked = false; mutex->unlock(); }

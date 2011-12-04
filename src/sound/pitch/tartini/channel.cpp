@@ -341,14 +341,14 @@ float Channel::averageMaxCorrelation(int begin, int end)
 void Channel::clearFreqLookup()
 {
   ChannelLocker channelLocker(this);
-  summaryZoomLookup.clear();
-  normalZoomLookup.clear();
+//   summaryZoomLookup.clear();
+//   normalZoomLookup.clear();
 }
 
 void Channel::clearAmplitudeLookup()
 {
   ChannelLocker channelLocker(this);
-  amplitudeZoomLookup.clear();
+//   amplitudeZoomLookup.clear();
 }
 
 void Channel::recalcScoreThresholds()
