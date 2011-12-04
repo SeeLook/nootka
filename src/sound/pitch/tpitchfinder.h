@@ -25,7 +25,32 @@
 #include "tartini/mytransforms.h"
 #include "saudioinparams.h"
 
-// class MyTransforms;
+
+// This part of code id directly taken from Tartini musicnotes.h --------------------
+	/** Converts the frequencies freq (in hertz) into their note number on the midi scale
+    i.e. the number of semi-tones above C0
+    Note: The note's pitch will contain its fractional part
+    Reference = http://www.borg.com/~jglatt/tutr/notenum.htm
+		@param freq The frequency in Hz
+		@return The pitch in fractional part semitones from the midi scale. */
+inline double freq2pitch(double freq)
+{
+#ifdef log2
+	return -36.3763165622959152488 + 12.0*log2(freq);
+#else
+	return -36.3763165622959152488 + 39.8631371386483481*log10(freq);
+#endif
+}
+
+		/** Does the opposite of the function above */
+inline double pitch2freq(double note)
+{
+	double result = pow10((note + 36.3763165622959152488) / 39.8631371386483481);
+	return result;
+}
+//-----------------------------------------------------------------------------------
+
+
 class Channel;
 
 // QT_FORWARD_DECLARE_CLASS(MyTransforms)

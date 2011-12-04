@@ -22,7 +22,7 @@
 #include "notedata.h"
 #include "channel.h"
 #include "useful.h"
-#include "musicnotes.h"
+// #include "musicnotes.h"
 
 extern TpitchFinder::audioSetts *glAsett;
 
