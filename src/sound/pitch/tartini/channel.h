@@ -48,8 +48,8 @@ private:
   float _threshold;
   QMutex *mutex;
   bool isLocked;
-  int pronyWindowSize;
-  Array1d<float> pronyData;
+//   int pronyWindowSize;
+//   Array1d<float> pronyData;
   fast_smooth *fastSmooth;
 
 public:
@@ -182,8 +182,8 @@ public:
   float periodOctaveEstimate(int chunk); // A estimate from over the whole duration of the note, to help get the correct octave
 
 // void exportChannel(int type, QString typeString); // I don't need this
-  void doPronyFit(int chunk);
-  int pronyDelay() { return pronyWindowSize/2; }
+//   void doPronyFit(int chunk);
+//   int pronyDelay() { return pronyWindowSize/2; }
 };
 
 /** Create a ChannelLocker on the stack, the channel will be freed automaticly when
