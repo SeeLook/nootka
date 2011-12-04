@@ -110,7 +110,6 @@ set( PITCH_SRCS
   tartini/notedata.cpp
   tartini/zoomlookup.cpp
   tartini/bspline.cpp
-  tartini/prony.cpp
   tartini/conversions.cpp
   tartini/useful.cpp
   tartini/fast_smooth.cpp

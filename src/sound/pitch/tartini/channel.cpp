@@ -27,7 +27,7 @@
 #include "filters/FastSmoothedAveragingFilter.h"
 #include "filters/FixedAveragingFilter.h"
 #include "filters/GrowingAveragingFilter.h"
-#include "prony.h"
+// #include "prony.h"
 // #include "musicnotes.h"
 #include "bspline.h"
 #include "mytransforms.h"
@@ -170,8 +170,8 @@ Channel::Channel(TpitchFinder *parent_, int size_, int k_) :
   coefficients_table.resize(size_*4);
   rmsFloor = parent->aGl().dBFloor;
   rmsCeiling = parent->aGl().dBFloor;
-  pronyWindowSize = int(ceil(0.4/timePerChunk()));
-  pronyData.resize(pronyWindowSize);
+//   pronyWindowSize = int(ceil(0.4/timePerChunk()));
+//   pronyData.resize(pronyWindowSize);
 
   visible = true;
   noteIsPlaying = false;
@@ -891,7 +891,7 @@ float Channel::periodOctaveEstimate(int chunk)
   }
   else return -1.0f;
 }
-
+/*
 void Channel::doPronyFit(int chunk)
 {
   if(chunk < pronyWindowSize) return;
@@ -922,5 +922,5 @@ void Channel::doPronyFit(int chunk)
     data->vibratoPitch = data->pitch;
   }
 }
-
+*/
 

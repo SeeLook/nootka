@@ -409,7 +409,7 @@ void MyTransforms::calculateAnalysisData(int chunk, Channel *ch)
         }
         ch->calcDeviation(chunk);
 
-        ch->doPronyFit(chunk); //calculate vibratoPitch, vibratoWidth, vibratoSpeed
+//         ch->doPronyFit(chunk); //calculate vibratoPitch, vibratoWidth, vibratoSpeed
       }
 
       analysisData.changeness() = 0.0f;
