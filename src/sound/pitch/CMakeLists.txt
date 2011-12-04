@@ -109,7 +109,6 @@ set( PITCH_SRCS
   tartini/mytransforms.cpp
   tartini/notedata.cpp
   tartini/zoomlookup.cpp
-  tartini/musicnotes.cpp
   tartini/bspline.cpp
   tartini/prony.cpp
   tartini/conversions.cpp

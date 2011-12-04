@@ -28,7 +28,7 @@
 #include "filters/FixedAveragingFilter.h"
 #include "filters/GrowingAveragingFilter.h"
 #include "prony.h"
-#include "musicnotes.h"
+// #include "musicnotes.h"
 #include "bspline.h"
 #include "mytransforms.h"
 #include "useful.h"
@@ -151,8 +151,6 @@ Channel::Channel(TpitchFinder *parent_, int size_, int k_) :
 	lookup(0, 128),
 	parent(parent_)
 {
-//   setParent(parent_);
-/**   int sampleRate = parent->rate(); */
   int sampleRate = parent->aGl().rate;
   if(k_ == 0) k_ = (size_ + 1) / 2;
   directInput.resize(size_, 0.0);
@@ -168,7 +166,7 @@ Channel::Channel(TpitchFinder *parent_, int size_, int k_) :
   detailedPitchData.resize(size_/2, 0.0);
   detailedPitchDataSmoothed.resize(size_/2, 0.0);
 /**  _pitch_method = 2; */
-  color = Qt::black;
+//   color = Qt::black;
   coefficients_table.resize(size_*4);
   rmsFloor = parent->aGl().dBFloor;
   rmsCeiling = parent->aGl().dBFloor;
@@ -177,7 +175,6 @@ Channel::Channel(TpitchFinder *parent_, int size_, int k_) :
 
   visible = true;
   noteIsPlaying = false;
-/**  setIntThreshold(gdata->qsettings->value("Analysis/thresholdValue", 93).toInt()); */
   setIntThreshold(parent->aGl().threshold);
   freq = 0.0;
 //   mutex = new QMutex(true);

@@ -22,7 +22,7 @@
 
 #include "array1d.h"
 #include "array2d.h"
-#include "qcolor.h"
+// #include "qcolor.h"
 #include <vector>
 #include "analysisdata.h"
 #include "zoomlookup.h"
@@ -55,7 +55,7 @@ private:
 public:
   large_vector<float> pitchLookup;
   large_vector<float> pitchLookupSmoothed;
-  QColor color;
+//   QColor color;
   Array1d<float> directInput;
   Array1d<float> filteredInput;
   Array1d<float> coefficients_table;
@@ -141,7 +141,7 @@ public:
   float threshold() { return _threshold; }
   void setIntThreshold(int thresholdPercentage) { _threshold = float(thresholdPercentage) / 100.0f; }
   void resetIntThreshold(int thresholdPercentage);
-  void setColor(QColor c) { color = c; }
+//   void setColor(QColor c) { color = c; }
 
   bool isNotePlaying() { return noteIsPlaying; }
   bool isVisibleNote(int noteIndex_);
