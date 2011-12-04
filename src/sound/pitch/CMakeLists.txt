@@ -108,7 +108,6 @@ set( PITCH_SRCS
   tartini/analysisdata.cpp
   tartini/mytransforms.cpp
   tartini/notedata.cpp
-  tartini/zoomlookup.cpp
   tartini/bspline.cpp
   tartini/conversions.cpp
   tartini/useful.cpp
