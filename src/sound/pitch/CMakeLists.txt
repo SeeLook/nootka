@@ -112,7 +112,6 @@ set( PITCH_SRCS
   tartini/conversions.cpp
   tartini/useful.cpp
   tartini/fast_smooth.cpp
-  tartini/mymatrix.cpp
 
   tartini/array1d.h
   tartini/array2d.h
