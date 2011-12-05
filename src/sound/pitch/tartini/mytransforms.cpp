@@ -19,13 +19,11 @@
 
 #include "mytransforms.h"
 #include "array1d.h"
-#include "equalloudness.h"
 #include "../tpitchfinder.h"
 #include "bspline.h"
 #include "channel.h"
 #include "filters/Filter.h"
 #include "conversions.h"
-// #include "musicnotes.h"
 
 #include "useful.h"
 #include <algorithm>
@@ -34,7 +32,7 @@
 #include <float.h>
 
 #include <complex>
-#include <QDebug>
+
 
 
 extern TpitchFinder::audioSetts *glAsett;
