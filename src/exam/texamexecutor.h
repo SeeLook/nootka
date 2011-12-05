@@ -100,7 +100,7 @@ private:
     void showMessage(QString htmlText, TfingerPos &curPos, int time = 0);
 
 	Texam *m_exam;
-//     TexamLevel m_level;
+    TexamLevel m_level;
 //     QString m_userName;
     QList<TQAunit::TQAgroup> m_questList;
 //     QList<TQAunit> m_answList;
