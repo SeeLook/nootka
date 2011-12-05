@@ -21,7 +21,7 @@
 #define CHANNEL_H
 
 #include "array1d.h"
-#include "array2d.h"
+// #include "array2d.h"
 #include <vector>
 #include "analysisdata.h"
 // #include "zoomlookup.h"
@@ -73,32 +73,21 @@ public:
   Filter *pitchBigSmoothingFilter;
   double rmsFloor; //in dB
   double rmsCeiling; //in dB
-  
-//   ZoomLookup summaryZoomLookup;
-//   ZoomLookup normalZoomLookup;
-//   ZoomLookup amplitudeZoomLookup;
-  
+    
   void lock() { mutex->lock(); isLocked = true; }
   void unlock() { isLocked = false; mutex->unlock(); }
   bool locked() { return isLocked; } //For same thread testing of asserts only
 
-/**   Channel(SoundFile *parent_, int size_, int k_=0); */
   Channel(TpitchFinder *parent_, int size_, int k_=0);
   virtual ~Channel();
   float *begin() { return directInput.begin(); }
   float *end() { return directInput.end(); }
   int size() { return directInput.size(); }
   float &at(int pos) { return directInput.at(pos); }
-//   int rate() { return parent->rate(); }
   int rate() { return parent->aGl().rate ; }
   virtual void resize(int newSize, int k_=0);
   virtual void shift_left(int n);
-//   int framesPerChunk() { return parent->framesPerChunk(); }
   int framesPerChunk() { return parent->aGl().framesPerChunk ; }
-//   void setParent(SoundFile *parent_) { parent = parent_; }
-//   SoundFile* getParent() { return parent; }
-//   void setPitchMethod(int pitch_method) { _pitch_method = pitch_method; }
-//   int pitchMethod() { return _pitch_method; }
   void calc_last_n_coefficients(int n);
   void processNewChunk(FilterState *filterState);
   void processChunk(int chunk);
@@ -126,12 +115,10 @@ public:
   AnalysisData *dataAtCurrentChunk() { return dataAtChunk(currentChunk()); }
   AnalysisData *dataAtTime(double t) { return dataAtChunk(chunkAtTime(t)); }
   large_vector<AnalysisData>::iterator dataIteratorAtChunk(int chunk) { return lookup.iterator_at(chunk); }
-//   static AnalysisData *getActiveChannelCurrentChunkData();
   
   bool hasAnalysisData() { return !lookup.empty(); }
   bool isValidChunk(int chunk) { return (chunk >= 0 && chunk < totalChunks()); }
   bool isValidTime(double t) { return isValidChunk(chunkAtTime(t)); }
-//   bool isValidCurrentTime() { return isValidChunk(chunkAtCurrentTime()); }
   
   float averagePitch(int begin, int end);
   float averageMaxCorrelation(int begin, int end);
@@ -139,7 +126,6 @@ public:
   float threshold() { return _threshold; }
   void setIntThreshold(int thresholdPercentage) { _threshold = float(thresholdPercentage) / 100.0f; }
   void resetIntThreshold(int thresholdPercentage);
-//   void setColor(QColor c) { color = c; }
 
   bool isNotePlaying() { return noteIsPlaying; }
   bool isVisibleNote(int noteIndex_);
@@ -152,7 +138,6 @@ public:
   void clearAmplitudeLookup();
   void recalcScoreThresholds();
 
-//   QString getUniqueFilename(); // I don't need this
 
   NoteData *getLastNote();
   NoteData *getCurrentNote();
@@ -171,15 +156,12 @@ public:
   void resetNSDFAggregate(float period);
   void addToNSDFAggregate(const float scaler, float periodDiff);
   float calcDetailedPitch(float *input, double period, int chunk);
-//   bool firstTimeThrough() { return parent->firstTimeThrough; }
   bool firstTimeThrough() { return parent->aGl().firstTimeThrough; }
-//   bool doingDetailedPitch() { return parent->doingDetailedPitch(); }
   bool doingDetailedPitch() { return parent->aGl().doingDetailedPitch; }
 
   void calcVibratoData(int chunk);
   float periodOctaveEstimate(int chunk); // A estimate from over the whole duration of the note, to help get the correct octave
 
-// void exportChannel(int type, QString typeString); // I don't need this
 //   void doPronyFit(int chunk);
 //   int pronyDelay() { return pronyWindowSize/2; }
 };
@@ -193,7 +175,6 @@ class ChannelLocker
   
 public:
   ChannelLocker(Channel *channel_) {
-//     myassert(channel_);
     channel = channel_;
     channel->lock();
   }
