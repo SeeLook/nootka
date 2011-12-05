@@ -20,9 +20,9 @@
 #ifndef TEXAMEXECUTOR_H
 #define TEXAMEXECUTOR_H
 
-#include "texamlevel.h"
 #include "tqaunit.h"
 #include "ttune.h"
+#include "texamlevel.h"
 #include <QList>
 
 class Texam;
@@ -56,8 +56,7 @@ public:
         bool accid;
         bool key;
     };
-        /** Magic number in exam file to identify it.*/
-    static const qint32 examVersion;
+
     static QString orRightButtTxt() { return tr("or right mouse button"); }
     QString getNextQuestionTxt();
     bool closeNootka();
@@ -99,8 +98,8 @@ private:
         * by @param curPos. */
     void showMessage(QString htmlText, TfingerPos &curPos, int time = 0);
 
-	Texam *m_exam;
-    TexamLevel m_level;
+		Texam *m_exam;
+    TexamLevel m_level; // main instance of TexamLevel, others are poiters or references
 //     QString m_userName;
     QList<TQAunit::TQAgroup> m_questList;
 //     QList<TQAunit> m_answList;

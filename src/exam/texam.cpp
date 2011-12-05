@@ -49,6 +49,7 @@ Texam::~Texam()
 
 
 Texam::EerrorType Texam::loadFromFile(QString& fileName) {
+	m_fileName = fileName;
 	QFile file(fileName);
 //     quint16 questNr, mistNr, tmpAverTime, averTime = 0;
 	quint16 questNr;

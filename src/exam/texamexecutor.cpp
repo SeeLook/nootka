@@ -30,8 +30,6 @@
 
 extern Tglobals *gl;
 
-/*static*/
-const qint32 TexamExecutor::examVersion = 0x95121702;
 
 TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
 {

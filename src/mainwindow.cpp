@@ -26,6 +26,7 @@
 #include "tplayer.h"
 #include "tpushbutton.h"
 #include <QtGui>
+#include "texam.h"
 //#include <QDebug>
 
 extern Tglobals *gl;
@@ -211,7 +212,7 @@ void MainWindow::openFile(QString runArg) {
         }
         runArg = QDir(file.fileName()).absolutePath();
         file.close();
-        if (hdr == TexamExecutor::examVersion)
+        if (hdr == Texam::examVersion)
             ex = new TexamExecutor(this, runArg);
         else if (hdr == TlevelSelector::levelVersion)
             openLevelCreator(runArg);
