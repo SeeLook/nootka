@@ -36,13 +36,13 @@ const qint32 TexamExecutor::examVersion = 0x95121702;
 TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
 {
     mW = mainW;
-	TexamLevel level;
+// 		TexamLevel level;
     QString resultText;
     TstartExamDlg::Eactions userAct;
 
     if (examFile == "") { // start exam dialog
         TstartExamDlg *startDlg = new TstartExamDlg(mW);
-        userAct = startDlg->showDialog(resultText, level);
+        userAct = startDlg->showDialog(resultText, m_level);
         delete startDlg;
     } else { // command line arg
         resultText = examFile;
@@ -51,11 +51,11 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
     m_glStore.tune = gl->Gtune();
     m_glStore.fretsNumber = gl->GfretsNumber;
     if (userAct == TstartExamDlg::e_newLevel) {
-				m_exam = new Texam(&level, resultText); // resultText is userName
+				m_exam = new Texam(&m_level, resultText); // resultText is userName
         mW->examResults->startExam();
     } else
 				if (userAct == TstartExamDlg::e_continue) {
-					m_exam = new Texam();
+					m_exam = new Texam(&m_level, "");
 					Texam::EerrorType err = m_exam->loadFromFile(resultText);
 					if (err == Texam::e_file_OK || err == Texam::e_file_corrupted) {
 						if (err == Texam::e_file_corrupted)
@@ -67,9 +67,9 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
 													gl->setTune(m_exam->tune());
 													changesMessage = tr("Tune of the guitar was changed in this exam !!.<br>Now it is:<br><b>%1</b>").arg(gl->Gtune().name);
 											}
-										if (m_exam->level()->hiFret > gl->GfretsNumber) { //Are enought frets ?
+										if (m_level.hiFret > gl->GfretsNumber) { //Are enought frets ?
 													changesMessage += tr("<br><br>This exam requires more frets,<br>so frets number in the guitar will be changed.");
-													gl->GfretsNumber =  m_exam->level()->hiFret;
+													gl->GfretsNumber =  m_level.hiFret;
 											}
 										if (changesMessage != "")
 													QMessageBox::warning(mW, "", changesMessage);
@@ -89,7 +89,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
     }
 
     //We checking is sound needed in exam and is it available
-    if (m_exam->level()->questionAs.isSound()) {
+    if (m_level.questionAs.isSound()) {
         bool soundOk;
         if (mW->player) {
             if (!mW->player->isPlayable()) soundOk = false;
@@ -114,9 +114,9 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
     m_isAnswered = true;
     m_prevAccid = Tnote::e_Natural;
     m_dblAccidsCntr = 0;
-    m_exam->level()->questionAs.randNext(); // Randomize question and answer type
+    m_level.questionAs.randNext(); // Randomize question and answer type
     for (int i = 0; i < 4; i++)
-        m_exam->level()->answersAs[i].randNext();
+        m_level.answersAs[i].randNext();
 
     nextQuestAct = new QAction(tr("next question\n(space %1)").arg(orRightButtTxt()), this);
     nextQuestAct->setStatusTip(nextQuestAct->text());
@@ -137,7 +137,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
     checkAct->setShortcut(QKeySequence(Qt::Key_Return));
     connect(checkAct, SIGNAL(triggered()), this, SLOT(checkAnswer()));
 
-    if (m_exam->level()->questionAs.isSound()) {
+    if (m_level.questionAs.isSound()) {
         repeatSndAct = new QAction(tr("play sound again"), this);
         repeatSndAct->setStatusTip(repeatSndAct->text());
         repeatSndAct->setIcon(QIcon(gl->path+"picts/repeatSound.png"));
@@ -145,7 +145,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
     }
 
     if (m_questList.size() == 0) {
-        QMessageBox::critical(mW, "", tr("Level <b>%1<b><br>has no sense till there is no any possible question to ask.<br>It can be unadjusted to current tune.<br>Repair it in Level Creator and try again.").arg(m_exam->level()->name));
+        QMessageBox::critical(mW, "", tr("Level <b>%1<b><br>has no sense till there is no any possible question to ask.<br>It can be unadjusted to current tune.<br>Repair it in Level Creator and try again.").arg(m_level.name));
         restoreAfterExam();
         return;
     }
@@ -159,19 +159,19 @@ void TexamExecutor::createQuestionsList() {
 
 // searching all frets in range, string by string
     for(int s = 0; s < 6; s++) {
-        if (m_exam->level()->usedStrings[gl->strOrder(s)])// check string by strOrder
-            for (int f = m_exam->level()->loFret; f <= m_exam->level()->hiFret; f++) {
+        if (m_level.usedStrings[gl->strOrder(s)])// check string by strOrder
+            for (int f = m_level.loFret; f <= m_level.hiFret; f++) {
                 Tnote n = Tnote(gl->Gtune()[gl->strOrder(s)+1].getChromaticNrOfNote() + f);
-            if (n.getChromaticNrOfNote() >= m_exam->level()->loNote.getChromaticNrOfNote() &&
-                n.getChromaticNrOfNote() <= m_exam->level()->hiNote.getChromaticNrOfNote()) {
+            if (n.getChromaticNrOfNote() >= m_level.loNote.getChromaticNrOfNote() &&
+                n.getChromaticNrOfNote() <= m_level.hiNote.getChromaticNrOfNote()) {
                 bool hope = true; // we stil have hope that note is for an exam
-                if (m_exam->level()->onlyLowPos) {
+                if (m_level.onlyLowPos) {
                     if (s > 0) {
                        // we have to check when note is on the lowest positions
                        // is it realy lowest pos
                        // when strOrder[s] is 0 - it is the highest sting
                         char diff = openStr[gl->strOrder(s-1)] - openStr[gl->strOrder(s)];
-                       if( (f-diff) >= m_exam->level()->loFret && (f-diff) <= m_exam->level()->hiFret) {
+                       if( (f-diff) >= m_level.loFret && (f-diff) <= m_level.hiFret) {
                            hope = false; //There is the same note on highest string
                        }
                        else {
@@ -179,13 +179,13 @@ void TexamExecutor::createQuestionsList() {
                        }
                     }
                 }
-                if (hope && m_exam->level()->useKeySign && m_exam->level()->onlyCurrKey) {
+                if (hope && m_level.useKeySign && m_level.onlyCurrKey) {
                   hope = false;
-                  if (m_exam->level()->isSingleKey) {
-                    if(m_exam->level()->loKey.inKey(n).note != 0)
+                  if (m_level.isSingleKey) {
+                    if(m_level.loKey.inKey(n).note != 0)
                         hope = true;
                     } else {
-                        for (int k = m_exam->level()->loKey.value(); k <= m_exam->level()->hiKey.value(); k++) {
+                        for (int k = m_level.loKey.value(); k <= m_level.hiKey.value(); k++) {
                           if (TkeySignature::inKey(TkeySignature(k), n).note != 0) {
                             hope = true;
                             break;
@@ -194,7 +194,7 @@ void TexamExecutor::createQuestionsList() {
                     }
                 }
                 if (hope) {
-                    if (n.acidental && (!m_exam->level()->withFlats && !m_exam->level()->withSharps))
+                    if (n.acidental && (!m_level.withFlats && !m_level.withSharps))
                         continue;
                     else {
                         TQAunit::TQAgroup g;
@@ -234,27 +234,27 @@ void TexamExecutor::askQuestion() {
 
     TQAunit curQ = TQAunit(); // current question
     curQ.qa = m_questList[qrand() % m_questList.size()];
-    curQ.questionAs = m_exam->level()->questionAs.next();
-    curQ.answerAs = m_exam->level()->answersAs[curQ.questionAs].next();
+    curQ.questionAs = m_level.questionAs.next();
+    curQ.answerAs = m_level.answersAs[curQ.questionAs].next();
 
     if (curQ.questionAs == TQAtype::e_asNote || curQ.answerAs == TQAtype::e_asNote) {
-        if (m_exam->level()->useKeySign) {
+        if (m_level.useKeySign) {
             Tnote tmpNote = curQ.qa.note;
-            if (m_exam->level()->isSingleKey) { //for single key
-                curQ.key = m_exam->level()->loKey;
-                tmpNote = m_exam->level()->loKey.inKey(curQ.qa.note);
+            if (m_level.isSingleKey) { //for single key
+                curQ.key = m_level.loKey;
+                tmpNote = m_level.loKey.inKey(curQ.qa.note);
             } else { // for multi keys
-                curQ.key = TkeySignature((qrand() % (m_exam->level()->hiKey.value() - m_exam->level()->loKey.value() + 1)) +
-                                         m_exam->level()->loKey.value());
-                if (m_exam->level()->onlyCurrKey) { // if note is in current key only
-                    int keyRangeWidth = m_exam->level()->hiKey.value() - m_exam->level()->loKey.value();
+                curQ.key = TkeySignature((qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) +
+                                         m_level.loKey.value());
+                if (m_level.onlyCurrKey) { // if note is in current key only
+                    int keyRangeWidth = m_level.hiKey.value() - m_level.loKey.value();
                     int patience = 0; // we are lookimg for suitable key
-                    char keyOff = curQ.key.value() - m_exam->level()->loKey.value();
+                    char keyOff = curQ.key.value() - m_level.loKey.value();
                     tmpNote = curQ.key.inKey(curQ.qa.note);
                     while(tmpNote.note == 0 && patience < keyRangeWidth) {
                         keyOff++;
                         if (keyOff > keyRangeWidth) keyOff = 0;
-                        curQ.key = TkeySignature(m_exam->level()->loKey.value() + keyOff);
+                        curQ.key = TkeySignature(m_level.loKey.value() + keyOff);
                         patience++;
                         tmpNote = curQ.key.inKey(curQ.qa.note);
                         if (patience >= keyRangeWidth) {
@@ -266,7 +266,7 @@ void TexamExecutor::askQuestion() {
             }
             curQ.qa.note = tmpNote;
         }
-        if ( !m_exam->level()->onlyCurrKey) // if key dosen't determine accidentals, we do this
+        if ( !m_level.onlyCurrKey) // if key dosen't determine accidentals, we do this
             curQ.qa.note = determineAccid(curQ.qa.note);
     }
 
@@ -279,16 +279,16 @@ void TexamExecutor::askQuestion() {
     if (curQ.questionAs == TQAtype::e_asNote) {
         questText += tr("Given note show ");
         char strNr = 0;
-        if ( curQ.answerAs == TQAtype::e_asFretPos && !m_exam->level()->onlyLowPos && m_exam->level()->showStrNr)
+        if ( curQ.answerAs == TQAtype::e_asFretPos && !m_level.onlyLowPos && m_level.showStrNr)
             strNr = curQ.qa.pos.str(); //show string nr or not
-        if (m_exam->level()->useKeySign && curQ.answerAs != TQAtype::e_asNote)
+        if (m_level.useKeySign && curQ.answerAs != TQAtype::e_asNote)
             // when answer is also asNote we determine key in preparing answer part
             mW->score->askQuestion(curQ.qa.note, curQ.key, strNr);
         else mW->score->askQuestion(curQ.qa.note, strNr);
     }
 
     if (curQ.questionAs == TQAtype::e_asName) {
-        if (curQ.answerAs == TQAtype::e_asFretPos && m_exam->level()->showStrNr)
+        if (curQ.answerAs == TQAtype::e_asFretPos && m_level.showStrNr)
             mW->noteName->askQuestion(curQ.qa.note, curQ.qa.pos.str());
         else
             mW->noteName->askQuestion(curQ.qa.note);
@@ -298,22 +298,22 @@ void TexamExecutor::askQuestion() {
     if (curQ.questionAs == TQAtype::e_asFretPos) {
         mW->guitar->askQuestion(curQ.qa.pos);
         questText += tr("Given position show ");
-        if (!m_exam->level()->forceAccids)
+        if (!m_level.forceAccids)
             m_answRequire.accid = false;
     }
 
     if (curQ.questionAs == TQAtype::e_asSound) {
         mW->player->play(curQ.qa.note);
         questText += tr("Played sound show ");
-        if (!m_exam->level()->forceAccids)
+        if (!m_level.forceAccids)
             m_answRequire.accid = false;
     }
 
 // PREPARING ANSWERS
     if (curQ.answerAs == TQAtype::e_asNote) {
         questText += TquestionAsWdg::asNoteTxt();
-        if (m_exam->level()->useKeySign) {
-            if (m_exam->level()->manualKey) { // user have to manually secect a key
+        if (m_level.useKeySign) {
+            if (m_level.manualKey) { // user have to manually secect a key
                 QString keyTxt;
                 if (qrand() % 2) // randomize: ask for minor or major key ?
                     keyTxt = curQ.key.getMajorName();
@@ -322,8 +322,8 @@ void TexamExecutor::askQuestion() {
                     curQ.key.setMinor(true);
                 }
                 mW->score->prepareKeyToAnswer(// we randomize some key to cover this expected one
-                   (qrand() % (m_exam->level()->hiKey.value() - m_exam->level()->loKey.value() + 1)) +
-                                                m_exam->level()->loKey.value(), keyTxt);
+                   (qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) +
+                                                m_level.loKey.value(), keyTxt);
                 questText += tr(" <b>in %1 key.</b>", "in key signature").arg(keyTxt);
                 m_answRequire.key = true;
             } else {
@@ -341,7 +341,7 @@ void TexamExecutor::askQuestion() {
             mW->score->forceAccidental((Tnote::Eacidentals)curQ.qa_2.note.acidental);
         }
         if (curQ.questionAs == TQAtype::e_asFretPos) {
-            if (m_exam->level()->forceAccids)
+            if (m_level.forceAccids)
                 questText += getTextHowAccid((Tnote::Eacidentals)curQ.qa.note.acidental);
             mW->score->forceAccidental((Tnote::Eacidentals)curQ.qa.note.acidental);
         }
@@ -365,15 +365,15 @@ void TexamExecutor::askQuestion() {
             mW->noteName->setNoteNamesOnButt(tmpStyle);
             gl->NnameStyleInNoteName = tmpStyle;
         }
-        if (!m_exam->level()->requireOctave) m_answRequire.octave = false;
-        if (m_exam->level()->requireStyle) {
+        if (!m_level.requireOctave) m_answRequire.octave = false;
+        if (m_level.requireStyle) {
             Tnote::EnameStyle tmpStyle = randomNameStyle();
             mW->noteName->setNoteNamesOnButt(tmpStyle);
             gl->NnameStyleInNoteName = tmpStyle;
         }
 
         if (curQ.questionAs == TQAtype::e_asFretPos) {
-            if (m_exam->level()->forceAccids) {
+            if (m_level.forceAccids) {
                 questText += getTextHowAccid((Tnote::Eacidentals)curQ.qa.note.acidental);
                 tmpNote = Tnote(1, 0, curQ.qa.note.acidental); // to show which accid on TnoteName
             }
@@ -383,7 +383,7 @@ void TexamExecutor::askQuestion() {
 
     if (curQ.answerAs == TQAtype::e_asFretPos) {
         questText += TquestionAsWdg::asFretPosTxt();
-        if ( (curQ.questionAs == TQAtype::e_asName && m_exam->level()->showStrNr) ||
+        if ( (curQ.questionAs == TQAtype::e_asName && m_level.showStrNr) ||
                 curQ.questionAs == TQAtype::e_asSound)
             questText += "<b>" + tr(" on <span style=\"font-family: nootka; font-size:%1px;\">%2</span> string.").arg(qRound(mW->getFontSize()*1.5)).arg((int)curQ.qa.pos.str()) + "</b>";
 
@@ -425,8 +425,8 @@ Tnote::EnameStyle TexamExecutor::randomNameStyle() {
 Tnote TexamExecutor::determineAccid(Tnote n) {
     Tnote nA = n;
     bool notFound = true;
-    if (m_exam->level()->withSharps || m_exam->level()->withFlats || m_exam->level()->withDblAcc) {
-        if (m_exam->level()->withDblAcc) {
+    if (m_level.withSharps || m_level.withFlats || m_level.withDblAcc) {
+        if (m_level.withDblAcc) {
             m_dblAccidsCntr++;
             if (m_dblAccidsCntr == 4) { //double accid note occurs every 4-th question
                 if ( (qrand() % 2) ) // randomize dblSharp or dblFlat
@@ -441,11 +441,11 @@ Tnote TexamExecutor::determineAccid(Tnote n) {
                 }
             }
         }
-        if (notFound && m_prevAccid != Tnote::e_Flat && m_exam->level()->withFlats) {
+        if (notFound && m_prevAccid != Tnote::e_Flat && m_level.withFlats) {
             nA = n.showWithFlat();
             notFound = false;
         }
-        if (m_prevAccid != Tnote::e_Sharp && m_exam->level()->withSharps) {
+        if (m_prevAccid != Tnote::e_Sharp && m_level.withSharps) {
             nA = n.showWithSharp();
         }
     }
@@ -461,15 +461,15 @@ Tnote TexamExecutor::forceEnharmAccid(Tnote n) {
         acc++;
         if (acc > 2) acc = -2;
 
-        if (acc == Tnote::e_DoubleFlat && m_exam->level()->withDblAcc)
+        if (acc == Tnote::e_DoubleFlat && m_level.withDblAcc)
             nX = n.showWithDoubleFlat();
-        if (acc == Tnote::e_Flat && m_exam->level()->withFlats)
+        if (acc == Tnote::e_Flat && m_level.withFlats)
             nX = n.showWithFlat();
         if (acc == Tnote::e_Natural)
             nX = n.showAsNatural();
-        if (acc == Tnote::e_Sharp && m_exam->level()->withSharps)
+        if (acc == Tnote::e_Sharp && m_level.withSharps)
             nX = n.showWithSharp();
-        if (acc == Tnote::e_DoubleSharp && m_exam->level()->withDblAcc)
+        if (acc == Tnote::e_DoubleSharp && m_level.withDblAcc)
             nX = n.showWithDoubleSharp();
         cnt++;
     } while (n == nX || cnt < 6);
@@ -494,7 +494,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
     // First we determine what have to be checked
     exN = curQ.qa.note;
     if (curQ.answerAs == TQAtype::e_asNote) {
-        if (m_exam->level()->manualKey) {
+        if (m_level.manualKey) {
             if (mW->score->keySignature().value() != curQ.key.value())
                 curQ.setMistake(TQAunit::e_wrongKey);
         }
@@ -639,8 +639,8 @@ void TexamExecutor::repeatQuestion() {
 }
 
 void TexamExecutor::prepareToExam() {
-    mW->setWindowTitle(tr("EXAM!!") + " " + m_exam->userName() + " - " + m_exam->level()->name);
-    mW->setStatusMessage(tr("exam started on level") + ":<br><b>" + m_exam->level()->name + "</b>");
+    mW->setWindowTitle(tr("EXAM!!") + " " + m_exam->userName() + " - " + m_level.name);
+    mW->setStatusMessage(tr("exam started on level") + ":<br><b>" + m_level.name + "</b>");
 
     mW->settingsAct->setDisabled(true);
     mW->levelCreatorAct->setDisabled(true);
@@ -673,8 +673,8 @@ void TexamExecutor::prepareToExam() {
     gl->showEnharmNotes = false;
     gl->SshowKeySignName = false;
     gl->GshowOtherPos = false;
-    gl->doubleAccidentalsEnabled = m_exam->level()->withDblAcc;
-    gl->SkeySignatureEnabled = m_exam->level()->useKeySign;
+    gl->doubleAccidentalsEnabled = m_level.withDblAcc;
+    gl->SkeySignatureEnabled = m_level.useKeySign;
     gl->NoctaveInNoteNameFormat = true;
 
     mW->score->acceptSettings();
@@ -683,7 +683,7 @@ void TexamExecutor::prepareToExam() {
 	mW->score->isExamExecuting(true);
   // clearing all views/widgets
     clearWidgets();
-    mW->guitar->createRangeBox(m_exam->level()->loFret, m_exam->level()->hiFret);
+    mW->guitar->createRangeBox(m_level.loFret, m_level.hiFret);
 
     if(gl->hintsEnabled) {
         TfingerPos pos(1, 0);
@@ -811,7 +811,7 @@ bool TexamExecutor::closeNootka() {
 QString TexamExecutor::saveExamToFile() {
     QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam's results as:"),
                          QDir::toNativeSeparators(QDir::homePath()+ "/" +
-                         m_exam->userName() + "-" + m_exam->level()->name),
+                         m_exam->userName() + "-" + m_level.name),
                          TstartExamDlg::examFilterTxt());
     if (fileName == "") {
 		QMessageBox *msg = new QMessageBox(mW);
