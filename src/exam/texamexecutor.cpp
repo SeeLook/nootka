@@ -40,50 +40,49 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
     QString resultText;
     TstartExamDlg::Eactions userAct;
 
-    if (examFile == "") {
+    if (examFile == "") { // start exam dialog
         TstartExamDlg *startDlg = new TstartExamDlg(mW);
         userAct = startDlg->showDialog(resultText, level);
         delete startDlg;
-    } else {
+    } else { // command line arg
         resultText = examFile;
         userAct = TstartExamDlg::e_continue;
     }
     m_glStore.tune = gl->Gtune();
     m_glStore.fretsNumber = gl->GfretsNumber;
     if (userAct == TstartExamDlg::e_newLevel) {
-		m_exam = new Texam(&level, resultText); // resultText is userName
+				m_exam = new Texam(&level, resultText); // resultText is userName
         mW->examResults->startExam();
-
     } else
-        if (userAct == TstartExamDlg::e_continue) {
-			m_exam = new Texam();
-			Texam::EerrorType err = m_exam->loadExamFromFile(resultText);
-			if (err == Texam::e_file_OK || err == Texam::e_file_corrupted) {
-				if (err == Texam::e_file_corrupted)
-					QMessageBox::warning(mW, "", 
-						tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
-		//We check are guitar's params suitable for an exam --------------
-                QString changesMessage = "";
-                if (m_exam->tune() != gl->Gtune() ) { //Is tune the same ?
-                     gl->setTune(m_exam->tune());
-                     changesMessage = tr("Tune of the guitar was changed in this exam !!.<br>Now it is:<br><b>%1</b>").arg(gl->Gtune().name);
-                 }
-                if (m_exam->level()->hiFret > gl->GfretsNumber) { //Are enought frets ?
-                     changesMessage += tr("<br><br>This exam requires more frets,<br>so frets number in the guitar will be changed.");
-                     gl->GfretsNumber =  m_exam->level()->hiFret;
-                 }
-                if (changesMessage != "")
-                     QMessageBox::warning(mW, "", changesMessage);
-         // ---------- End of checking ----------------------------------
-				mW->examResults->startExam(m_exam->totalTime(), m_exam->count(), m_exam->averageReactonTime(),
-										   m_exam->mistakes());					
-			} else {
-				if (err == Texam::e_file_not_valid)
-						QMessageBox::critical(mW, "", tr("File: %1 \n is not valid exam file !!!")
-                             .arg(resultText));
-				mW->clearAfterExam();
-                return;					
-			}
+				if (userAct == TstartExamDlg::e_continue) {
+					m_exam = new Texam();
+					Texam::EerrorType err = m_exam->loadFromFile(resultText);
+					if (err == Texam::e_file_OK || err == Texam::e_file_corrupted) {
+						if (err == Texam::e_file_corrupted)
+							QMessageBox::warning(mW, "", 
+								tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
+				//We check are guitar's params suitable for an exam --------------
+										QString changesMessage = "";
+										if (m_exam->tune() != gl->Gtune() ) { //Is tune the same ?
+													gl->setTune(m_exam->tune());
+													changesMessage = tr("Tune of the guitar was changed in this exam !!.<br>Now it is:<br><b>%1</b>").arg(gl->Gtune().name);
+											}
+										if (m_exam->level()->hiFret > gl->GfretsNumber) { //Are enought frets ?
+													changesMessage += tr("<br><br>This exam requires more frets,<br>so frets number in the guitar will be changed.");
+													gl->GfretsNumber =  m_exam->level()->hiFret;
+											}
+										if (changesMessage != "")
+													QMessageBox::warning(mW, "", changesMessage);
+							// ---------- End of checking ----------------------------------
+						mW->examResults->startExam(m_exam->totalTime(), m_exam->count(), m_exam->averageReactonTime(),
+														m_exam->mistakes());					
+					} else {
+						if (err == Texam::e_file_not_valid)
+								QMessageBox::critical(mW, "", tr("File: %1 \n is not valid exam file !!!")
+																	.arg(resultText));
+						mW->clearAfterExam();
+										return;					
+					}
     } else {
         mW->clearAfterExam();
         return;
@@ -276,7 +275,7 @@ void TexamExecutor::askQuestion() {
 //            << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
 
   // ASKING QUESIONS
-    QString questText = QString("<b>%1. </b>").arg(m_answList.size()+1); //question number
+    QString questText = QString("<b>%1. </b>").arg(m_exam->count() + 1); //question number
     if (curQ.questionAs == TQAtype::e_asNote) {
         questText += tr("Given note show ");
         char strNr = 0;
@@ -358,7 +357,7 @@ void TexamExecutor::askQuestion() {
             Tnote::EnameStyle tmpStyle = randomNameStyle();
             curQ.qa_2.note = forceEnharmAccid(curQ.qa.note); // force other name of note
             tmpNote = curQ.qa_2.note;
-            questText = QString("<b>%1. </b>").arg(m_answList.size()+1) +
+            questText = QString("<b>%1. </b>").arg(m_exam->count() + 1) +
                         tr("Give name of") + QString(" <span style=\"color: %1; font-size: %2px;\">").arg(
                                 gl->EquestionColor.name()).arg(mW->getFontSize()*2) +
                         TnoteName::noteToRichText(curQ.qa.note) + "</span>. " +
@@ -482,7 +481,7 @@ Tnote TexamExecutor::forceEnharmAccid(Tnote n) {
 
 void TexamExecutor::checkAnswer(bool showResults) {
 //     TQAunit curQ = m_answList[m_answList.size() - 1];
-	TQAunit &curQ = m_exam->curQ();
+		TQAunit curQ = m_exam->curQ();
     curQ.time = mW->examResults->questionStop();
     mW->nootBar->removeAction(checkAct);
     if (curQ.questionAs == TQAtype::e_asSound)
@@ -611,9 +610,9 @@ void TexamExecutor::repeatQuestion() {
     m_incorrectRepeated = true;
 	m_isAnswered = false;
 //     TQAunit curQ = m_answList[m_answList.size() - 1];
-	TQAunit &curQ = m_exam->curQ();
+		TQAunit curQ = m_exam->curQ();
     QString m = mW->statusMessage();
-    m.replace(0, m.indexOf("</b>"), QString("<b>%1.").arg(m_answList.size()+1));
+    m.replace(0, m.indexOf("</b>"), QString("<b>%1.").arg(m_exam->count()+1));
     mW->setStatusMessage(m);
     if (!gl->EautoNextQuest)
         clearMessage();
@@ -625,7 +624,7 @@ void TexamExecutor::repeatQuestion() {
     if (curQ.answerAs == TQAtype::e_asFretPos)
         mW->guitar->setGuitarDisabled(false);
 
-    m_answList << curQ;
+		m_exam->addQuestion(curQ);
 
     if (!gl->EautoNextQuest)
         mW->startExamAct->setDisabled(true);
@@ -752,37 +751,22 @@ void TexamExecutor::stopExamSlot() {
         return;
     }
     mW->examResults->stopExam();
-    if (m_examFile == "" && m_answList.size())
-        m_examFile = saveExamToFile();
-    if (m_examFile != "") {
-        QFile file(m_examFile);
-        if (file.open(QIODevice::WriteOnly)) {
-            QDataStream out(&file);
-            out.setVersion(QDataStream::Qt_4_7);
-            out << examVersion;
-            out << m_userName << m_level << gl->Gtune();
-            out << mW->examResults->getTotalTime(); // elapsed exam time (quint32)
-            // data for file preview
-            out << (quint16)m_answList.size(); // number of questions
-            out << mW->examResults->getAverageTime(); // average time of answer (quint16)
-            // that's all
-            out << mW->examResults->getMistakesNumber(); // number of mistakes (quint16)
-            for (int i = 0; i < m_answList.size(); i++)
-                out << m_answList[i]; // and obviously answers
-
+    if (m_exam->fileName() == "" && m_exam->count())
+        m_exam->setFileName(saveExamToFile());
+    if (m_exam->fileName() != "") {
+			m_exam->setTotalTime(mW->examResults->getTotalTime());
+			m_exam->setAverageReactonTime(mW->examResults->getAverageTime());
+			if (m_exam->saveToFile() == Texam::e_file_OK) {
 #if defined(Q_OS_WIN32)
-            QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
+				QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
 #else
-            QSettings sett;
+				QSettings sett;
 #endif
-            QStringList recentExams = sett.value("recentExams").toStringList();
-            recentExams.removeAll(m_examFile);
-            recentExams.prepend(m_examFile);
-            sett.setValue("recentExams", recentExams);
-
-        } else
-            QMessageBox::critical(mW, "",
-                  tr("Cannot save exam file:\n%1").arg(QString::fromLocal8Bit(qPrintable(file.errorString()))));
+				QStringList recentExams = sett.value("recentExams").toStringList();
+				recentExams.removeAll(m_exam->fileName());
+				recentExams.prepend(m_exam->fileName());
+				sett.setValue("recentExams", recentExams);
+			}
     }
 
     mW->setMessageBg(-1);
@@ -827,7 +811,7 @@ bool TexamExecutor::closeNootka() {
 QString TexamExecutor::saveExamToFile() {
     QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam's results as:"),
                          QDir::toNativeSeparators(QDir::homePath()+ "/" +
-                         m_userName+"-"+m_exam->level()->name),
+                         m_exam->userName() + "-" + m_exam->level()->name),
                          TstartExamDlg::examFilterTxt());
     if (fileName == "") {
 		QMessageBox *msg = new QMessageBox(mW);

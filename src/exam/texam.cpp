@@ -19,11 +19,10 @@
 
 #include "texam.h"
 #include "texamlevel.h"
-#include "tqaunit.h"
 #include "tlevelselector.h"
 #include <QFile>
 #include <QDataStream>
-
+#include <QMessageBox>
 
 /*static*/
 const qint32 Texam::examVersion = 0x95121702;
@@ -35,7 +34,7 @@ Texam::Texam():
 
 }
 
-Texam::Texam(Tlevel* l, QString userName):
+Texam::Texam(TexamLevel* l, QString userName):
 	m_level(l),
 	m_userName(userName)
 {
@@ -49,14 +48,14 @@ Texam::~Texam()
 }
 
 
-Texam::EerrorType Texam::loadExamFromFile(QString& fileName) {
+Texam::EerrorType Texam::loadFromFile(QString& fileName) {
 	QFile file(fileName);
 //     quint16 questNr, mistNr, tmpAverTime, averTime = 0;
 	quint16 questNr;
 	m_workTime = 0;
 	EerrorType result = e_file_OK;
     if (file.open(QIODevice::ReadOnly)) {
-	     QDataStream in(&file);
+				 QDataStream in(&file);
          in.setVersion(QDataStream::Qt_4_7);
          quint32 ev; //exam template version
          in >> ev;
@@ -64,7 +63,7 @@ Texam::EerrorType Texam::loadExamFromFile(QString& fileName) {
              return e_file_not_valid;
 		 
          in >> m_userName;
-         getLevelFromStream(in, *(m_level);
+         getLevelFromStream(in, *(m_level));
          in >> m_tune;
          in >> m_totalTime;
          in >> questNr >> m_averReactTime >> m_mistNr;
@@ -89,14 +88,42 @@ Texam::EerrorType Texam::loadExamFromFile(QString& fileName) {
                      result = e_file_corrupted;        
      } else {
          TlevelSelector::fileIOerrorMsg(file, 0);
-		 result = e_cant_open;
+				 result = e_cant_open;
      }
      return result;
 }
 
 
-Texam::EerrorType Texam::saveExamToFile(QString& fileName) {
-
+Texam::EerrorType Texam::saveToFile(QString fileName) {
+	if (fileName != "")
+		setFileName(fileName); // m_fileName becomes fileName
+	if (m_fileName == "")
+		return e_noFileName;
+	QFile file(m_fileName);
+	if (file.open(QIODevice::WriteOnly)) {
+		QDataStream out(&file);
+		out.setVersion(QDataStream::Qt_4_7);
+		out << examVersion;
+		out << m_userName << *m_level << m_tune;
+		out << m_totalTime; // elapsed exam time (quint32)
+			// data for file preview
+		out << (quint16)m_answList.size(); // number of questions
+		out << m_averReactTime; // average time of answer (quint16)
+			// that's all
+		out << m_mistNr; // number of mistakes (quint16)
+		for (int i = 0; i < m_answList.size(); i++)
+				out << m_answList[i]; // and obviously answers
+	} else {
+		QMessageBox::critical(0, "",
+           QObject::tr("Cannot save exam file:\n%1").arg(QString::fromLocal8Bit(qPrintable(file.errorString()))));
+		return e_cant_open;
+	}
+	return e_file_OK;
 }
 
+void Texam::setAnswer(TQAunit& answer) {
+	m_answList.last() = answer;
+	if (!answer.correct())
+			m_mistNr++;
+}
 
