@@ -20,17 +20,36 @@
 #include "texamsummary.h"
 #include <QtGui>
 #include "texam.h"
+#include "tlevelselector.h"
 
 TexamSummary::TexamSummary(Texam* exam, QWidget* parent) :
   QDialog(parent)
 {
-  QVBoxLayout *lay = new QVBoxLayout();
-  QLabel *userNameLab = new QLabel(exam->userName(), this);
-  lay->addWidget(userNameLab);
+  QHBoxLayout *lay = new QHBoxLayout();
+//-------  left layout -----------------------
+	QVBoxLayout *leftLay = new QVBoxLayout();
+	
+	QLabel *studentLab = new QLabel(tr("student:"), this);
+	leftLay->addWidget(studentLab);
+  QLabel *userNameLab = new QLabel(QString("<b style=\"font-size: 20px\">%1</b>").arg(exam->userName()), this);
+  leftLay->addWidget(userNameLab, 0, Qt::AlignCenter);
+	QLabel *questNrLAb = new QLabel(tr("Questions number:  ") + 
+											QString("<b style=\"font-size: 20px\">%1</b>").arg(exam->count()), this);
+	leftLay->addWidget(questNrLAb);
+	
   
   QPushButton *okButt = new QPushButton(tr("OK"), this);
-  lay->addWidget(okButt);
+  leftLay->addWidget(okButt);
   
+	lay->addLayout(leftLay);
+//-------  right layout -----------------------	
+	QVBoxLayout *rightLay = new QVBoxLayout();
+	TlevelSummaryWdg *levelWdg = new TlevelSummaryWdg(this);
+	rightLay->addWidget(levelWdg);
+	levelWdg->setLevel(*(exam->level()));
+	
+	lay->addLayout(rightLay);
+	
   setLayout(lay);
   
   connect(okButt, SIGNAL(clicked()), this, SLOT(accept()));
