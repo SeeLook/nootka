@@ -23,7 +23,7 @@
 #include "tartini/analysisdata.h"
 
 #include <QDebug>
-// #include <stdio.h>
+#include <stdio.h>
 
 TpitchFinder::audioSetts *glAsett;
 
@@ -46,7 +46,7 @@ TpitchFinder::TpitchFinder(QObject* parent) :
 	m_aGl.equalLoudness = true;
 	m_aGl.doingFreqAnalysis = true;
 	m_aGl.doingAutoNoiseFloor = true;
-	m_aGl.doingHarmonicAnalysis = false;
+	m_aGl.doingHarmonicAnalysis = true;
 	m_aGl.firstTimeThrough = true;
 	m_aGl.doingDetailedPitch = true;
 	m_aGl.isVoice = true;
@@ -132,6 +132,10 @@ void TpitchFinder::run() {
 			  shown = false;
 			  emit pitchFound(data->pitch);
 			  emit fundamentalFreq(data->fundamentalFreq);
+				std::cout << data->fundamentalFreq << "\n";
+				for(int a = 0; a < 20; a++ )
+					std::cout << data->harmonicAmpNoCutOff[a] << "\t";
+				std::cout << "\n\n";
 			}
 		}
 	  } else {
