@@ -26,58 +26,58 @@
 class TexamLevel;
 
 
-/** This class describes instance of an exam.
- * 
- */
+/** This class describes instance of an exam.  */
 class Texam
 {
 
 public:
-    explicit Texam();
-		Texam(TexamLevel *l, QString userName);
-		Texam(QString examFile);
+      /** An exam constructor.
+       * @param TexamLevel has to be pointer to existing exam level       
+       */
+    explicit Texam(TexamLevel *l, QString userName);
     virtual ~Texam();
-	  
-	  /** Possible errors during opening and saveing exam file.*/
-	enum EerrorType { e_file_OK = 0,
-					  e_file_not_valid, // occurs when examVersion is different
-					  e_file_corrupted, // when data in file is corrupted
-					  e_cant_open, // problems with reading file	
-					  e_noFileName
-	};
-	
-	TexamLevel* level() { return m_level; }
-	void setLevel(TexamLevel *l) { m_level = l; }
-	Ttune tune() { return m_tune; }
-	void setTune(Ttune &tune) { m_tune = tune; }
-	
-	quint32 totalTime() { return m_totalTime; }
-	void setTotalTime(quint32 total) { m_totalTime = total; }
-	
-	
-	void addQuestion(TQAunit &question) { m_answList << question; }
-	void setAnswer(TQAunit &answer); /*{ m_answList.last() = answer; }*/
-	TQAunit curQ() { return m_answList.last(); }
-	  /** Returns number of questions/answers in en exam. */
-	int count() { return m_answList.size(); }
-	  /** Returns number of commited mistakes in en exam. */
-	quint16 mistakes() { return m_mistNr; }
-	quint16 averageReactonTime() { return m_averReactTime; }
-	void setAverageReactonTime(quint16 avTime) { m_averReactTime = avTime; }
-	  /** Total time spent for answering without breaks between questions */
-	quint16 workTime() { return m_workTime; }
-	QString userName() { return m_userName; }
-	QString fileName() { return m_fileName; }
-	void setFileName(QString fileName) { m_fileName = fileName; }
-	
-	
-	EerrorType loadFromFile(QString &fileName);
-	EerrorType saveToFile(QString fileName = "");
-	
-	  /** Magic number in exam file to identify it.*/
-	static const qint32 examVersion;
-	
-	
+
+      /** Possible errors during opening and saveing exam file.*/
+    enum EerrorType { e_file_OK = 0,
+                    e_file_not_valid, // occurs when examVersion is different
+                    e_file_corrupted, // when data in file is corrupted
+                    e_cant_open, // problems with reading file	
+                    e_noFileName
+          };
+
+  TexamLevel* level() { return m_level; }
+  void setLevel(TexamLevel *l) { m_level = l; }
+  Ttune tune() { return m_tune; }
+  void setTune(Ttune tune) { m_tune = tune; }
+
+  quint32 totalTime() { return m_totalTime; }
+  void setTotalTime(quint32 total) { m_totalTime = total; }
+
+    /** Adds @param TQAunit object at the end of the questions list. */
+  void addQuestion(TQAunit &question) { m_answList << question; }
+    /** Overvrites the last element on the questions list. */
+  void setAnswer(TQAunit &answer); 
+  TQAunit curQ() { return m_answList.last(); }
+    /** Returns number of questions/answers in en exam. */
+  int count() { return m_answList.size(); }
+    /** Returns number of commited mistakes in en exam. */
+  quint16 mistakes() { return m_mistNr; }
+  quint16 averageReactonTime() { return m_averReactTime; }
+  void setAverageReactonTime(quint16 avTime) { m_averReactTime = avTime; }
+    /** Total time spent for answering without breaks between questions */
+  quint16 workTime() { return m_workTime; }
+  QString userName() { return m_userName; }
+  QString fileName() { return m_fileName; }
+  void setFileName(QString fileName) { m_fileName = fileName; }
+
+
+  EerrorType loadFromFile(QString &fileName);
+  EerrorType saveToFile(QString fileName = "");
+
+    /** Magic number in exam file to identify it.*/
+  static const qint32 examVersion;
+
+
 private:
 	QString m_fileName, m_userName;
 	TexamLevel *m_level;

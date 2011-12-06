@@ -49,38 +49,39 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
     m_glStore.tune = gl->Gtune();
     m_glStore.fretsNumber = gl->GfretsNumber;
     if (userAct == TstartExamDlg::e_newLevel) {
-				m_exam = new Texam(&m_level, resultText); // resultText is userName
+        m_exam = new Texam(&m_level, resultText); // resultText is userName
+        m_exam->setTune(gl->Gtune());
         mW->examResults->startExam();
     } else
-				if (userAct == TstartExamDlg::e_continue) {
-					m_exam = new Texam(&m_level, "");
-					Texam::EerrorType err = m_exam->loadFromFile(resultText);
-					if (err == Texam::e_file_OK || err == Texam::e_file_corrupted) {
-						if (err == Texam::e_file_corrupted)
-							QMessageBox::warning(mW, "", 
-								tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
-				//We check are guitar's params suitable for an exam --------------
-										QString changesMessage = "";
-										if (m_exam->tune() != gl->Gtune() ) { //Is tune the same ?
-													gl->setTune(m_exam->tune());
-													changesMessage = tr("Tune of the guitar was changed in this exam !!.<br>Now it is:<br><b>%1</b>").arg(gl->Gtune().name);
-											}
-										if (m_level.hiFret > gl->GfretsNumber) { //Are enought frets ?
-													changesMessage += tr("<br><br>This exam requires more frets,<br>so frets number in the guitar will be changed.");
-													gl->GfretsNumber =  m_level.hiFret;
-											}
-										if (changesMessage != "")
-													QMessageBox::warning(mW, "", changesMessage);
-							// ---------- End of checking ----------------------------------
-						mW->examResults->startExam(m_exam->totalTime(), m_exam->count(), m_exam->averageReactonTime(),
-														m_exam->mistakes());					
-					} else {
-						if (err == Texam::e_file_not_valid)
-								QMessageBox::critical(mW, "", tr("File: %1 \n is not valid exam file !!!")
-																	.arg(resultText));
-						mW->clearAfterExam();
-										return;					
-					}
+      if (userAct == TstartExamDlg::e_continue) {
+        m_exam = new Texam(&m_level, "");
+        Texam::EerrorType err = m_exam->loadFromFile(resultText);
+        if (err == Texam::e_file_OK || err == Texam::e_file_corrupted) {
+          if (err == Texam::e_file_corrupted)
+            QMessageBox::warning(mW, "", 
+              tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
+      //We check are guitar's params suitable for an exam --------------
+                  QString changesMessage = "";
+                  if (m_exam->tune() != gl->Gtune() ) { //Is tune the same ?
+                        gl->setTune(m_exam->tune());
+                        changesMessage = tr("Tune of the guitar was changed in this exam !!.<br>Now it is:<br><b>%1</b>").arg(gl->Gtune().name);
+                    }
+                  if (m_level.hiFret > gl->GfretsNumber) { //Are enought frets ?
+                        changesMessage += tr("<br><br>This exam requires more frets,<br>so frets number in the guitar will be changed.");
+                        gl->GfretsNumber =  m_level.hiFret;
+                    }
+                  if (changesMessage != "")
+                        QMessageBox::warning(mW, "", changesMessage);
+            // ---------- End of checking ----------------------------------
+          mW->examResults->startExam(m_exam->totalTime(), m_exam->count(), m_exam->averageReactonTime(),
+                          m_exam->mistakes());					
+        } else {
+          if (err == Texam::e_file_not_valid)
+              QMessageBox::critical(mW, "", tr("File: %1 \n is not valid exam file !!!")
+                                .arg(resultText));
+          mW->clearAfterExam();
+                  return;					
+        }
     } else {
         mW->clearAfterExam();
         return;
@@ -388,8 +389,7 @@ void TexamExecutor::askQuestion() {
         mW->guitar->setGuitarDisabled(false);
         mW->guitar->prepareAnswer();
     }
-//     m_answList << curQ;
-	m_exam->addQuestion(curQ);
+    m_exam->addQuestion(curQ);
     mW->setStatusMessage(questText);
 
     mW->nootBar->removeAction(nextQuestAct);
@@ -478,7 +478,6 @@ Tnote TexamExecutor::forceEnharmAccid(Tnote n) {
 }
 
 void TexamExecutor::checkAnswer(bool showResults) {
-//     TQAunit curQ = m_answList[m_answList.size() - 1];
 		TQAunit curQ = m_exam->curQ();
     curQ.time = mW->examResults->questionStop();
     mW->nootBar->removeAction(checkAct);
@@ -583,6 +582,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
     }
     disableWidgets();
     mW->examResults->setAnswer(curQ.correct());
+    m_exam->setAnswer(curQ);
 //     m_answList[m_answList.size()-1] = curQ;
 
     if (gl->EautoNextQuest) {
@@ -678,7 +678,7 @@ void TexamExecutor::prepareToExam() {
     mW->score->acceptSettings();
     mW->noteName->setEnabledEnharmNotes(false);
     mW->guitar->acceptSettings();
-	mW->score->isExamExecuting(true);
+    mW->score->isExamExecuting(true);
   // clearing all views/widgets
     clearWidgets();
     mW->guitar->createRangeBox(m_level.loFret, m_level.hiFret);

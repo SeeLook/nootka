@@ -30,7 +30,7 @@ class MainWindow;
 class QAction;
 class QGraphicsTextItem;
 
-    /** This class manages of exam executing*/
+    /** This class manages of an exam executing */
 class TexamExecutor : public QObject
 {
     friend class MainWindow;
@@ -98,25 +98,21 @@ private:
         * by @param curPos. */
     void showMessage(QString htmlText, TfingerPos &curPos, int time = 0);
 
-		Texam *m_exam;
-    TexamLevel m_level; // main instance of TexamLevel, others are poiters or references
-//     QString m_userName;
+    Texam *m_exam;
+      /** main instance of TexamLevel, others are poiters or references to it */
+    TexamLevel m_level;
     QList<TQAunit::TQAgroup> m_questList;
-//     QList<TQAunit> m_answList;
-//    TQAunit m_curQ;
         /** Previous accidentals used*/
     Tnote::Eacidentals m_prevAccid;
         /** intervals between asking about double accidentals.
         * By default every forth question is with double adccid.*/
     int m_dblAccidsCntr;
-//    Tnote m_note2;
         /** to switch nameing style between "do re mi" and "c d e"
         * when question and answer are note name.*/
     bool m_isSolfege;
     Tnote::EnameStyle m_prevStyle;
     TglStore m_glStore;
     TanswerRequire m_answRequire;
-//     QString m_examFile;
     bool m_shouldBeTerminated, m_isAnswered, m_incorrectRepeated;
     QGraphicsTextItem *m_messageItem;
 
