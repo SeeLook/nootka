@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,10 +12,9 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
-
 
 #include "texamexecutor.h"
 #include "tglobals.h"
@@ -25,6 +24,7 @@
 #include "tplayer.h"
 #include "mainwindow.h"
 #include "texam.h"
+#include "texamsummary.h"
 #include <QtGui>
 #include <QDebug>
 
@@ -73,14 +73,16 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
                   if (changesMessage != "")
                         QMessageBox::warning(mW, "", changesMessage);
             // ---------- End of checking ----------------------------------
+          TexamSummary *ES = new TexamSummary(m_exam, mW);
+          ES->exec(); delete ES;
           mW->examResults->startExam(m_exam->totalTime(), m_exam->count(), m_exam->averageReactonTime(),
-                          m_exam->mistakes());					
+                          m_exam->mistakes());
         } else {
-          if (err == Texam::e_file_not_valid)
-              QMessageBox::critical(mW, "", tr("File: %1 \n is not valid exam file !!!")
-                                .arg(resultText));
-          mW->clearAfterExam();
-                  return;					
+            if (err == Texam::e_file_not_valid)
+                QMessageBox::critical(mW, "", tr("File: %1 \n is not valid exam file !!!")
+                                  .arg(resultText));
+            mW->clearAfterExam();
+            return;
         }
     } else {
         mW->clearAfterExam();
