@@ -2,7 +2,7 @@
 
 INCLUDE_DIRECTORIES (. exam info level score settings sound)
 
-SET( NOOTKA_SRCS 
+SET( NOOTKA_SRCS
   main.cpp
   mainwindow.cpp
   tglobals.cpp
@@ -44,6 +44,7 @@ SET( NOOTKA_SRCS
   exam/tqaunit.cpp
   exam/texamview.cpp
   exam/texam.cpp
+  exam/texamsummary.cpp 
 ###### Info
   info/taboutnootka.cpp
   info/tfirstrunwizzard.cpp
@@ -91,6 +92,7 @@ SET( NOOTKA_MOC_SRCS
   exam/tstartexamdlg.h
   exam/texamview.h
   exam/texamexecutor.h
+  exam/texamsummary.h
 ###### Info
   info/taboutnootka.h
   info/tfirstrunwizzard.h
