@@ -320,7 +320,8 @@ void MyTransforms::calculateAnalysisData(int chunk, Channel *ch)
   AnalysisData &analysisData = *ch->dataAtChunk(chunk);
   AnalysisData *prevAnalysisData = ch->dataAtChunk(chunk-1);
   float *output = ch->nsdfData.begin();
-  float *curInput = (equalLoudness) ? ch->filteredInput.begin() : ch->directInput.begin();
+//   float *curInput = (equalLoudness) ? ch->filteredInput.begin() : ch->directInput.begin();
+  float *curInput = ch->directInput.begin();
 
   std::vector<int> nsdfMaxPositions;
   

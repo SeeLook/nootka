@@ -21,10 +21,8 @@
 #define CHANNEL_H
 
 #include "array1d.h"
-// #include "array2d.h"
 #include <vector>
 #include "analysisdata.h"
-// #include "zoomlookup.h"
 #include "notedata.h"
 #include "large_vector.h"
 #include "filters/Filter.h"
@@ -39,15 +37,12 @@ class Channel
 private:
   TpitchFinder *parent;
   float freq; /**< Channel's frequency */
-//   int _pitch_method;
   bool visible;
   bool noteIsPlaying;
   large_vector<AnalysisData> lookup;
   float _threshold;
   QMutex *mutex;
   bool isLocked;
-//   int pronyWindowSize;
-//   Array1d<float> pronyData;
   fast_smooth *fastSmooth;
 
 public:
@@ -55,7 +50,7 @@ public:
   large_vector<float> pitchLookupSmoothed;
 //   QColor color;
   Array1d<float> directInput;
-  Array1d<float> filteredInput;
+//   Array1d<float> filteredInput;
   Array1d<float> coefficients_table;
   Array1d<float> nsdfData;
   Array1d<float> nsdfAggregateData;
