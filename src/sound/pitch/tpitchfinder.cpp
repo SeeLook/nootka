@@ -46,7 +46,7 @@ TpitchFinder::TpitchFinder(QObject* parent) :
 	m_aGl.equalLoudness = true;
 	m_aGl.doingFreqAnalysis = true;
 	m_aGl.doingAutoNoiseFloor = true;
-	m_aGl.doingHarmonicAnalysis = true;
+	m_aGl.doingHarmonicAnalysis = false;
 	m_aGl.firstTimeThrough = true;
 	m_aGl.doingDetailedPitch = true;
 	m_aGl.isVoice = true;

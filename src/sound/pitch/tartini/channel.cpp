@@ -27,8 +27,6 @@
 #include "filters/FastSmoothedAveragingFilter.h"
 #include "filters/FixedAveragingFilter.h"
 #include "filters/GrowingAveragingFilter.h"
-// #include "prony.h"
-// #include "musicnotes.h"
 #include "bspline.h"
 #include "mytransforms.h"
 #include "useful.h"
@@ -219,7 +217,6 @@ void Channel::resize(int newSize, int k_)
   coefficients_table.resize(newSize*4);
   if(k_ == 0) k_ = (newSize + 1) / 2;
   directInput.resize(newSize, 0.0);
-//   filteredInput.resize(newSize, 0.0);
   nsdfData.resize(k_, 0.0);
   nsdfAggregateData.resize(k_, 0.0);
   nsdfAggregateDataScaled.resize(k_, 0.0);
@@ -235,7 +232,6 @@ void Channel::resize(int newSize, int k_)
 void Channel::shift_left(int n)
 {
   directInput.shift_left(n);
-//   filteredInput.shift_left(n);
   coefficients_table.shift_left(n*4);
 }
 
@@ -284,7 +280,6 @@ void Channel::processChunk(int chunk)
 void Channel::reset()
 {
   std::fill(begin(), end(), 0.0f);
-//   std::fill(filteredInput.begin(), filteredInput.end(), 0.0f);
   std::fill(coefficients_table.begin(), coefficients_table.end(), 0.0f);
   //estimate = 0.0;
 }
@@ -737,7 +732,7 @@ bool Channel::isFirstChunkInNote(int chunk)
 }
 
 
-void Channel::resetNSDFAggregate(float period)
+void Channel::resetNSDFAggregate(float period)  // needed
 {
   nsdfAggregateRoof = 0.0;
   std::fill(nsdfAggregateData.begin(), nsdfAggregateData.end(), 0.0f);
@@ -748,7 +743,7 @@ void Channel::resetNSDFAggregate(float period)
   currentNote->currentNsdfPeriod = currentNote->firstNsdfPeriod = period;
 }
 
-void Channel::addToNSDFAggregate(const float scaler, float periodDiff)
+void Channel::addToNSDFAggregate(const float scaler, float periodDiff) // needed
 {
   AnalysisData &analysisData = *dataAtCurrentChunk();
 
