@@ -21,6 +21,7 @@
 #include <QtGui>
 #include "texam.h"
 #include "tlevelselector.h"
+#include "texamview.h"
 
 TexamSummary::TexamSummary(Texam* exam, QWidget* parent) :
   QDialog(parent)
@@ -34,11 +35,23 @@ TexamSummary::TexamSummary(Texam* exam, QWidget* parent) :
   QLabel *userNameLab = new QLabel(QString("<b style=\"font-size: 20px\">%1</b>").arg(exam->userName()), this);
   leftLay->addWidget(userNameLab, 0, Qt::AlignCenter);
 	QLabel *questNrLAb = new QLabel(tr("Questions number:  ") + 
-											QString("<b style=\"font-size: 20px\">%1</b>").arg(exam->count()), this);
+                    QString("<b style=\"font-size: 20px\">%1</b>").arg(exam->count()), this);
 	leftLay->addWidget(questNrLAb);
+  QVBoxLayout *timeLay = new QVBoxLayout();
+  QGroupBox *timeGr = new QGroupBox(tr("times:"), this);
+  QLabel *timeLab = new QLabel(
+    TexamView::totalTimetxt() + ": <b>" + TexamView::formatedTotalTime(exam->totalTime()*1000) +
+    "</b><br>" + tr("Time of work") + ": <b>" + TexamView::formatedTotalTime(exam->workTime()*100) +
+    "</b><br>" + TexamView::averAnsverTimeTxt() + ": <b>" +
+    QString("%1 s").arg(exam->averageReactonTime()/ 10, 0, 'f', 1, '0') + "</b>"
+    , this);
+  timeLay->addWidget(timeLab);
+  
+  timeGr->setLayout(timeLay);
+  leftLay->addWidget(timeGr);
 	
   
-  QPushButton *okButt = new QPushButton(tr("OK"), this);
+  QPushButton *okButt = new QPushButton(tr("Close"), this);
   leftLay->addWidget(okButt);
   
 	lay->addLayout(leftLay);
