@@ -34,7 +34,12 @@ TKEYSIGNATURE
 TFIRSTRUNWIZZARD & NAMESETTINGS
 
 !!!!! LEVELS
-	- validation has to be improved
+  - validation has to be improved
+TSTARTEXAMDLG
+  - TexamLevel has to be pointer or reference
+  - also other instances of TexamLevel
+
+
 TSOUND
 	- it crash when no devices are found and settings dialog is opening
 
