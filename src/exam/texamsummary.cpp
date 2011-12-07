@@ -60,6 +60,13 @@ TexamSummary::TexamSummary(Texam* exam, QWidget* parent) :
 	TlevelSummaryWdg *levelWdg = new TlevelSummaryWdg(this);
 	rightLay->addWidget(levelWdg);
 	levelWdg->setLevel(*(exam->level()));
+	QVBoxLayout *resLay = new QVBoxLayout();
+	QGroupBox *resGr = new QGroupBox(tr("Results:"), this);
+	QLabel *resLab = new QLabel(TexamView::mistakesNrTxt() + QString(": <b>%1</b>").arg(exam->mistakes()), this);
+	resLay->addWidget(resLab);
+	
+	resGr->setLayout(resLay);
+	rightLay->addWidget(resGr);
 	
 	lay->addLayout(rightLay);
 	
