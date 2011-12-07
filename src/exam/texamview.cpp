@@ -79,16 +79,16 @@ TexamView::TexamView(QWidget *parent) :
 
     clearResults();
 
-    m_corrLab->setToolTip(tr("correct answers' count"));
+    m_corrLab->setToolTip(corrAnswersNrTxt());
     m_corrLab->setStyleSheet(gl->getBGcolorText(gl->EanswerColor));
-    m_mistLab->setToolTip(tr("mistakes' count"));
+    m_mistLab->setToolTip(mistakesNrTxt());
     m_mistLab->setStyleSheet(gl->getBGcolorText(gl->EquestionColor));
-    m_effLab->setToolTip(tr("effectiveness"));
-    m_averTimeLab->setToolTip(tr("average reaction's time [in seconds]"));
+    m_effLab->setToolTip(effectTxt());
+    m_averTimeLab->setToolTip(averAnsverTimeTxt() + " " + inSecondsTxt());
     m_averTimeLab->setAlignment(Qt::AlignCenter);
-    m_reactTimeLab->setToolTip(tr("reaction's time [in seconds]"));
+    m_reactTimeLab->setToolTip(reactTimeTxt() + " " + inSecondsTxt());
     m_reactTimeLab->setAlignment(Qt::AlignCenter);
-    m_totalTimeLab->setToolTip(tr("total exam's time"));
+    m_totalTimeLab->setToolTip(totalTimetxt());
     m_totalTimeLab->setAlignment(Qt::AlignCenter);
     
     m_timer = new QTimer(this);
@@ -154,9 +154,10 @@ void TexamView::setFontSize(int s) {
 void TexamView::countTime() {
     if (m_showReact)
         m_reactTimeLab->setText(QString("%1").arg(m_reactTime.elapsed() / 1000, 0, 'f', 1, '0'));
-    int t = m_totElapsedTime*1000 + m_totalTime.elapsed();
+    m_totalTimeLab->setText(formatedTotalTime(m_totElapsedTime*1000 + m_totalTime.elapsed()));
+//     int t = m_totElapsedTime*1000 + m_totalTime.elapsed();
 //    m_totalTimeLab->setText(m_totalTime.toString("hh:mm:ss"));
-    m_totalTimeLab->setText(QString("%1:%2:%3").arg(t/3600000).arg((t%3600000)/60000, 2, 'f', 0, '0').arg((t%60000)/1000, 2, 'f', 0, '0'));
+//     m_totalTimeLab->setText(QString("%1:%2:%3").arg(t/3600000).arg((t%3600000)/60000, 2, 'f', 0, '0').arg((t%60000)/1000, 2, 'f', 0, '0'));
 }
 
 void TexamView::clearResults() {
