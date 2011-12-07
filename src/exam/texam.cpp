@@ -82,6 +82,7 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
 //             qDebug() << "mistakes:" << tmpMist << m_mistNr << "questions:" << questNr << m_answList.size();
             m_mistNr = tmpMist; //we try to fix exam file to give proper number of mistakes
           }
+          m_averReactTime = m_workTime / count();
           if (!isExamFileOk)
               result = e_file_corrupted;        
      } else {
