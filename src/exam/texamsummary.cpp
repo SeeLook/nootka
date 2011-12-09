@@ -62,7 +62,9 @@ TexamSummary::TexamSummary(Texam* exam, QWidget* parent) :
 	levelWdg->setLevel(*(exam->level()));
 	QVBoxLayout *resLay = new QVBoxLayout();
 	QGroupBox *resGr = new QGroupBox(tr("Results:"), this);
-	QLabel *resLab = new QLabel(TexamView::mistakesNrTxt() + QString(": <b>%1</b>").arg(exam->mistakes()), this);
+	qreal eff = (((qreal)exam->count() - (qreal)exam->mistakes()) / (qreal)exam->count()) * 100;
+	QLabel *resLab = new QLabel(TexamView::effectTxt() + QString(": <b>%1%</b><br>").arg(qRound(eff)) +
+		TexamView::mistakesNrTxt() + QString(": <b>%1</b>").arg(exam->mistakes()), this);
 	resLay->addWidget(resLab);
 	
 	resGr->setLayout(resLay);
