@@ -81,6 +81,7 @@ private:
   QTimer *m_timer;
   
 //########## audio #############
+	QAudioDeviceInfo m_deviceInfo;
   QAudioOutput *m_audioOutput;
   QIODevice *m_IOaudioDevice;
   QByteArray m_buffer;
