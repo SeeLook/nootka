@@ -24,6 +24,9 @@
 #include <vector>
 #include <QString>
 #include <QObject>
+#include <QAudioFormat>
+#include <QAudioDeviceInfo>
+#include <QAudioOutput>
 // #include 
 
 class RtMidiOut;
@@ -52,6 +55,12 @@ public:
 
   static QStringList getAudioDevicesList();
   static QStringList getMidiPortsList();
+		/** Template audio format is 
+		 * 2 chanells (stereo) 
+		 * 44100 samples per second
+		 * signed int resolution (16bit)
+		 * pcm data */
+	static QAudioFormat templAudioFormat;
 
   void play(Tnote note);
       /** It sets audio device to value taken from */
