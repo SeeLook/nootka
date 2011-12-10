@@ -66,12 +66,19 @@ public:
   void setAudioOutParams(TaudioParams *params);
       /** It sets audio device to value taken from */
   bool setAudioDevice(QString &name);
-//   bool setMidiDevice(QString &name);
     /** Sets midi parameters:
     * @param portName, if empty system prefered is set (Timidity under Linux) 
     * @param instrNr for instrument number in midi nomenclature. */
   void setMidiParams();
   bool isPlayable() { return m_playable; }
+    /** Deletes midi device if exists. 
+     * Midi device usually blocks audio devices, 
+     * so when it exists getAudioDevicesList() doesn't work */
+  void deleteMidi();
+  
+public signals:
+    /** This signal is emited when playing of a note is finished. */
+  void notePlayed();
 
 private:
       /** Loads wav file with scale to m_audioArr. If everything is ok returns true */
@@ -93,7 +100,10 @@ private:
   quint32 m_sampleRate;
   char *m_audioArr;
       /** position of a note in @param m_audioArr */
-  static int m_noteOffset;
+  int m_noteOffset;
+  int m_samplesCnt;
+  bool m_isPlayed;
+
 //########## midi #############
   RtMidiOut *m_midiOut;
   bool m_isMidi;
