@@ -92,12 +92,51 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
       
     }    
   } else { // Audio output
-    if (!m_audioOutput) { // prepare audio
-      
-    }
+//     if (!m_audioOutput) { // prepare audio
+      if (m_devName != params->OUTdevName)
+          if (setAudioDevice(params->OUTdevName))
+            m_playable = loadAudioData();
+          else
+            m_playable = false;
+          
+//     }
     
   }
 }
+
+bool TaudioOUT::setAudioDevice(QString& name) {
+    bool fnd = false;
+    QList<QAudioDeviceInfo> dL = QAudioDeviceInfo::availableDevices(QAudio::AudioOutput);
+    for(int i = 0; i < dL.size(); i++) {
+        if (dL[i].deviceName() == name) {
+            m_deviceInfo = dL[i];
+            fnd = true;
+            break;
+        }
+    }
+    if (m_audioOutput) {
+        delete m_audioOutput;
+        m_audioOutput = 0;
+    }
+    
+    if (fnd) {
+      qDebug() << m_deviceInfo.deviceName();
+      m_devName = m_deviceInfo.deviceName();
+      if (!m_deviceInfo.isFormatSupported(templAudioFormat))
+          qDebug() << m_deviceInfo.deviceName() << "format unsupported !!";
+      m_audioOutput = new QAudioOutput(m_deviceInfo, templAudioFormat, this);
+    }
+    else {
+      qDebug() << "no devices found";
+      m_devName = "";
+    }
+    return fnd;
+}
+
+void TaudioOUT::play(Tnote note) {
+
+}
+
 
 bool TaudioOUT::loadAudioData() {
   QFile wavFile(m_wavFile);
