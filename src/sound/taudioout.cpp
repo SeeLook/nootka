@@ -27,6 +27,18 @@
 
 //------------------ static methods ------------------------------------------------------
 QStringList TaudioOUT::getAudioDevicesList() {
+	templAudioFormat.setChannelCount(2);
+  templAudioFormat.setSampleSize(16);
+  templAudioFormat.setSampleRate(44100);
+  templAudioFormat.setSampleType(QAudioFormat::SignedInt);
+  templAudioFormat.setCodec("audio/pcm");
+  QStringList devList;
+  QList<QAudioDeviceInfo> dL = QAudioDeviceInfo::availableDevices(QAudio::AudioOutput);
+    for(int i = 0; i<dL.size(); i++) {
+        if (dL[i].isFormatSupported(templAudioFormat))
+            devList << dL[i].deviceName();
+    }
+  return devList;
 
 }
 
