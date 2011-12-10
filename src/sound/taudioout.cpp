@@ -71,10 +71,10 @@ TaudioOUT::TaudioOUT(TaudioParams* params, QString& path, QObject* parent) :
   m_midiOut(0),
   m_audioOutput(0),
   m_IOaudioDevice(0),
-  m_devName(""),
+  m_devName("any"),
   m_audioArr(0)
 {
-  
+  m_timer = new QTimer(this);
   setAudioOutParams(params);
 }
 
@@ -84,22 +84,29 @@ TaudioOUT::~TaudioOUT()
     delete m_audioArr;
 }
 
+//---------------------------------------------------------------------------------------
 void TaudioOUT::setAudioOutParams(TaudioParams* params) {
-  
+  m_timer->disconnect();
   if (params->midiEnabled) { // Midi output
     if (!m_midiOut) { // prepare midi and delete audio
       m_isMidi = true;
-      
+      setMidiParams();
+      deleteAudio();
+      if (m_playable)
+          connect(m_timer, SIGNAL(timeout()), this, SLOT(midiNoteOff()));
     }    
   } else { // Audio output
-//     if (!m_audioOutput) { // prepare audio
-      if (m_devName != params->OUTdevName)
+      m_isMidi = false;
+      if (m_devName != params->OUTdevName) {
           if (setAudioDevice(params->OUTdevName))
             m_playable = loadAudioData();
           else
             m_playable = false;
-          
-//     }
+      }
+      if (m_playable)
+          connect(m_timer, SIGNAL(timeout()), this, SLOT(timeForAudio()));
+      if (m_midiOut)
+        delete m_midiOut;
     
   }
 }
@@ -135,6 +142,78 @@ bool TaudioOUT::setAudioDevice(QString& name) {
 
 void TaudioOUT::play(Tnote note) {
 
+}
+
+void TaudioOUT::deleteAudio() {
+  if (m_audioArr) {
+    delete m_audioArr;
+    m_audioArr = 0;
+  }
+  if (m_audioOutput) {
+    delete m_audioOutput;
+    m_audioOutput = 0;
+  }
+
+}
+
+
+void TaudioOUT::setMidiParams() {
+  if (m_midiOut) {
+    m_midiOut->closePort();
+    delete m_midiOut;
+  }
+
+  try {
+    m_midiOut = new RtMidiOut();
+  }
+  catch ( RtError &error ) {
+    error.printMessage();
+    m_playable = false;
+    return;
+  }
+
+  if (m_midiOut->getPortCount() > 0) {
+      unsigned int portNr = 0;
+  #if defined(Q_OS_LINUX)
+      if(m_params->midiPortName == "")
+      m_params->midiPortName = "TiMidity";  // TiMidity port is prefered under Linux
+  #endif
+      if (m_params->midiPortName != "") {
+          for (int i = 0; i < m_midiOut->getPortCount(); i++) {
+            if (QString::fromStdString(m_midiOut->getPortName(i)).contains(m_params->midiPortName)) {
+              portNr = i;
+              break;
+            }
+          }
+      }
+
+      try {
+          m_midiOut->openPort(portNr);
+      }
+      catch (RtError &error){
+          error.printMessage();
+          m_playable = false;
+          return;
+      }
+      m_params->midiPortName = QString::fromStdString(m_midiOut->getPortName(portNr));
+      // midi program (instrument) change
+      m_message.push_back(192);
+      m_message.push_back(m_params->midiInstrNr); // instrument number
+      m_midiOut->sendMessage(&m_message);
+      // some spacial signals
+      m_message[0] = 241;
+      m_message[1] = 60;
+      m_midiOut->sendMessage(&m_message);
+        
+      m_message.push_back(0); // third message param
+
+      m_message[0] = 176;
+      m_message[1] = 7;
+      m_message[2] = 100; // volume 100;
+      m_midiOut->sendMessage(&m_message);
+      
+  } else
+      m_playable = false;
 }
 
 
@@ -178,7 +257,7 @@ bool TaudioOUT::loadAudioData() {
 
 
 //-------------------------------- slots ----------------------------------------------------
-void TaudioOUT::feedAudioBuffer() {
+void TaudioOUT::timeForAudio() {
 
 }
 

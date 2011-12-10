@@ -70,15 +70,17 @@ public:
     /** Sets midi parameters:
     * @param portName, if empty system prefered is set (Timidity under Linux) 
     * @param instrNr for instrument number in midi nomenclature. */
-  void setMidiParams(QString portName = "", unsigned char instrNr = 0);
+  void setMidiParams();
   bool isPlayable() { return m_playable; }
 
 private:
       /** Loads wav file with scale to m_audioArr. If everything is ok returns true */
   bool loadAudioData();
+  void deleteAudio();
   
   bool m_playable;
   QTimer *m_timer;
+  TaudioParams *m_params;
   
 //########## audio #############
 	QAudioDeviceInfo m_deviceInfo;
@@ -102,7 +104,7 @@ private slots:
     /** Turns off played @param m_prevMidiNote */
   void midiNoteOff();
     /** m_timer calls this to prepare audio for device*/
-  void feedAudioBuffer();
+  void timeForAudio();
 
 };
 
