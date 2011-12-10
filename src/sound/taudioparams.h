@@ -8,19 +8,21 @@
 class TaudioParams {
   
 public:
-  
-      /** Types of detection methods. */
-  enum EanalysisModes 
-      { e_MPM = 0, e_AUTOCORRELATION = 1, e_MPM_MODIFIED_CEPSTRUM = 2 };
+// audio input settings
   bool INenabled; // is audio input enabled
   QString INdevName; // input device name
   float a440diff; // difference betwen standard a1 440Hz and user prefered base pitch
   qint16 noiseLevel; // ?????
-  EanalysisModes analysisType; // Types of detection methods
+    /** If true - pitch is average of all visible pitches
+     * if false - the first detected in sound over noise is taken.  */
   bool isVoice; 
-  
+
+// audio output settings
   bool OUTenabled;
   QString OUTdevName;
+  bool midiEnabled; // default false
+  QString midiPortName; // default empty to find system default
+  unsigned char midiInstrNr; // default 0 - grand piano
 };
 
 
