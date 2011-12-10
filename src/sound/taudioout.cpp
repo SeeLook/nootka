@@ -26,6 +26,8 @@
 #include <QAudio>
 
 
+#define SAMPLE_RATE (44100)
+
 //------------------ static methods ------------------------------------------------------
 
 QAudioFormat TaudioOUT::templAudioFormat = QAudioFormat();
@@ -71,8 +73,9 @@ TaudioOUT::TaudioOUT(TaudioParams* params, QString& path, QObject* parent) :
   m_midiOut(0),
   m_audioOutput(0),
   m_IOaudioDevice(0),
-  m_devName("any"),
-  m_audioArr(0)
+  m_devName("anything"),
+  m_audioArr(0),
+  m_params(params)
 {
   m_timer = new QTimer(this);
   setAudioOutParams(params);
@@ -80,8 +83,8 @@ TaudioOUT::TaudioOUT(TaudioParams* params, QString& path, QObject* parent) :
 
 TaudioOUT::~TaudioOUT()
 {
-  if (m_audioArr)
-    delete m_audioArr;
+  deleteAudio();
+  deleteMidi();
 }
 
 //---------------------------------------------------------------------------------------
@@ -97,7 +100,7 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
     }    
   } else { // Audio output
       m_isMidi = false;
-      if (m_devName != params->OUTdevName) {
+      if (m_devName != params->OUTdevName) { //device doesn't exists
           if (setAudioDevice(params->OUTdevName))
             m_playable = loadAudioData();
           else
@@ -105,17 +108,16 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
       }
       if (m_playable)
           connect(m_timer, SIGNAL(timeout()), this, SLOT(timeForAudio()));
-      if (m_midiOut)
-        delete m_midiOut;
-    
+      deleteMidi();
   }
 }
+
 
 bool TaudioOUT::setAudioDevice(QString& name) {
     bool fnd = false;
     QList<QAudioDeviceInfo> dL = QAudioDeviceInfo::availableDevices(QAudio::AudioOutput);
-    for(int i = 0; i < dL.size(); i++) {
-        if (dL[i].deviceName() == name) {
+    for(int i = 0; i < dL.size(); i++) { // Is there device on the list ??
+        if (dL[i].deviceName() == name) { // There is !!
             m_deviceInfo = dL[i];
             fnd = true;
             break;
@@ -125,22 +127,45 @@ bool TaudioOUT::setAudioDevice(QString& name) {
         delete m_audioOutput;
         m_audioOutput = 0;
     }
-    
-    if (fnd) {
-      qDebug() << m_deviceInfo.deviceName();
-      m_devName = m_deviceInfo.deviceName();
-      if (!m_deviceInfo.isFormatSupported(templAudioFormat))
-          qDebug() << m_deviceInfo.deviceName() << "format unsupported !!";
-      m_audioOutput = new QAudioOutput(m_deviceInfo, templAudioFormat, this);
+    if (!fnd) { // no device on the list - load default
+        m_deviceInfo = QAudioDeviceInfo::defaultOutputDevice();
+        fnd = true;
     }
-    else {
-      qDebug() << "no devices found";
-      m_devName = "";
+    if (!m_deviceInfo.isFormatSupported(templAudioFormat)) {
+        qDebug() << m_deviceInfo.deviceName() << "format unsupported !!";
+        fnd = false;
+    }
+    if (fnd) {
+        qDebug() << m_deviceInfo.deviceName();
+        m_devName = m_deviceInfo.deviceName();
+        m_audioOutput = new QAudioOutput(m_deviceInfo, templAudioFormat, this);
     }
     return fnd;
 }
 
 void TaudioOUT::play(Tnote note) {
+  if (!m_playable)
+        return;
+  
+  int noteNr = note.getChromaticNrOfNote();
+  if (m_params->midiEnabled) {
+    if (m_prevMidiNote)  // note is played and has to be turned off. Volume is pushed.
+        midiNoteOff();    
+    m_prevMidiNote = noteNr + 47;
+    m_message[0] = 144; // note On
+    m_message[1] = m_prevMidiNote;
+    m_message[2] = 100; // volume
+    m_midiOut->sendMessage(&m_message);
+    m_timer->start(1500);
+  
+  } else {
+    if (noteNr < -11 || noteNr > 41)
+        return;
+    m_samplesCnt = -1;
+    m_noteOffset = (noteNr + 11)*SAMPLE_RATE;
+    m_IOaudioDevice = m_audioOutput->start();
+    m_timer->start(20);
+  }
 
 }
 
@@ -153,16 +178,19 @@ void TaudioOUT::deleteAudio() {
     delete m_audioOutput;
     m_audioOutput = 0;
   }
+}
 
+void TaudioOUT::deleteMidi() {
+  if (m_midiOut) {
+    delete m_midiOut;
+    m_midiOut = 0;
+  }
 }
 
 
-void TaudioOUT::setMidiParams() {
-  if (m_midiOut) {
-    m_midiOut->closePort();
-    delete m_midiOut;
-  }
 
+void TaudioOUT::setMidiParams() {
+  deleteMidi();
   try {
     m_midiOut = new RtMidiOut();
   }
@@ -258,7 +286,9 @@ bool TaudioOUT::loadAudioData() {
 
 //-------------------------------- slots ----------------------------------------------------
 void TaudioOUT::timeForAudio() {
-
+  if (m_audioOutput && m_audioOutput->state() != QAudio::StoppedState) {
+    
+  }
 }
 
 
