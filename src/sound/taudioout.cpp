@@ -23,9 +23,13 @@
 #include <QTimer>
 #include <QFile>
 #include <QStringList>
+#include <QAudio>
 
 
 //------------------ static methods ------------------------------------------------------
+
+QAudioFormat TaudioOUT::templAudioFormat = QAudioFormat();
+
 QStringList TaudioOUT::getAudioDevicesList() {
 	templAudioFormat.setChannelCount(2);
   templAudioFormat.setSampleSize(16);
@@ -39,7 +43,6 @@ QStringList TaudioOUT::getAudioDevicesList() {
             devList << dL[i].deviceName();
     }
   return devList;
-
 }
 
 QStringList TaudioOUT::getMidiPortsList() {
@@ -60,21 +63,89 @@ QStringList TaudioOUT::getMidiPortsList() {
 
 
 //---------------------------------------------------------------------------------------
-TaudioOUT::TaudioOUT(TaudioParams* params, QObject* parent) :
-  QObject(parent)
+TaudioOUT::TaudioOUT(TaudioParams* params, QString& path, QObject* parent) :
+  QObject(parent),
+  m_wavFile(path + "sounds/classical-guitar.wav"),
+  m_isMidi(false),
+  m_playable(false),
+  m_midiOut(0),
+  m_audioOutput(0),
+  m_IOaudioDevice(0),
+  m_devName(""),
+  m_audioArr(0)
 {
-
+  
+  setAudioOutParams(params);
 }
 
 TaudioOUT::~TaudioOUT()
 {
+  if (m_audioArr)
+    delete m_audioArr;
+}
+
+void TaudioOUT::setAudioOutParams(TaudioParams* params) {
+  
+  if (params->midiEnabled) { // Midi output
+    if (!m_midiOut) { // prepare midi and delete audio
+      m_isMidi = true;
+      
+    }    
+  } else { // Audio output
+    if (!m_audioOutput) { // prepare audio
+      
+    }
+    
+  }
+}
+
+bool TaudioOUT::loadAudioData() {
+  QFile wavFile(m_wavFile);
+  if (!wavFile.exists())
+      return false;
+  wavFile.open(QIODevice::ReadOnly);
+  QDataStream wavStream(&wavFile);
+  
+  int fmtSize;
+  char *chunkName = new char[4];
+  wavStream.skipRawData(16);
+  wavStream.readRawData(chunkName, 4);
+  fmtSize = *((int*)chunkName);
+  wavStream.readRawData(chunkName, 2);
+  short wavFormat = *((short*)chunkName);
+  
+  quint32 dataSizeFromChunk;
+  wavStream.readRawData(chunkName, 2);
+  unsigned short m_chanels = *((unsigned short*)chunkName);
+  wavStream.readRawData(chunkName, 4);
+  m_sampleRate = *((quint32*)chunkName);
+  wavStream.skipRawData(fmtSize - 8 + 4);
+  wavStream.readRawData(chunkName, 4);
+  dataSizeFromChunk = *((quint32*)chunkName);
+//    qDebug() << "data size: " << dataSizeFromChunk << 4740768;
+  // we check is wav file this proper one ? 4740766
+  if (m_chanels != 1 || wavFormat != 1 || m_sampleRate != 22050 || dataSizeFromChunk != 4740766) {
+      qDebug() << "wav file error occured " << dataSizeFromChunk << m_chanels
+              << wavFormat << m_sampleRate;
+      return false;
+  }
+  m_audioArr = new char[dataSizeFromChunk];
+  wavStream.readRawData(m_audioArr, dataSizeFromChunk);
+
+  wavFile.close();
+  return true;
+}
+
+
+
+//-------------------------------- slots ----------------------------------------------------
+void TaudioOUT::feedAudioBuffer() {
 
 }
 
 
-//---------------------------------------------------------------------------------------
 void TaudioOUT::midiNoteOff() {
-  m_midiTimer->stop();
+  m_timer->stop();
   m_message[0] = 128; // note Off
   m_message[1] = m_prevMidiNote;
   m_message[2] = 0; // volume

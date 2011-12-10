@@ -50,7 +50,7 @@ class TaudioOUT: public QObject
   Q_OBJECT
 
 public:
-    TaudioOUT(TaudioParams *params, QObject *parent = 0);
+    TaudioOUT(TaudioParams *params, QString &path, QObject *parent = 0);
     ~TaudioOUT();
 
   static QStringList getAudioDevicesList();
@@ -63,6 +63,7 @@ public:
 	static QAudioFormat templAudioFormat;
 
   void play(Tnote note);
+  void setAudioOutParams(TaudioParams *params);
       /** It sets audio device to value taken from */
   bool setAudioDevice(QString &name);
 //   bool setMidiDevice(QString &name);
@@ -73,10 +74,19 @@ public:
   bool isPlayable() { return m_playable; }
 
 private:
-        /** Loads wav file with scale to m_audioArr. If everything is ok return true */
+      /** Loads wav file with scale to m_audioArr. If everything is ok returns true */
   bool loadAudioData();
   
   bool m_playable;
+  QTimer *m_timer;
+  
+//########## audio #############
+  QAudioOutput *m_audioOutput;
+  QIODevice *m_IOaudioDevice;
+  QByteArray m_buffer;
+  QString m_devName;
+      /** Path to wav file with sounds */
+  QString m_wavFile;
   quint32 m_sampleRate;
   char *m_audioArr;
       /** position of a note in @param m_audioArr */
@@ -86,11 +96,12 @@ private:
   bool m_isMidi;
   unsigned char m_prevMidiNote;
   std::vector<unsigned char> m_message;
-  QTimer *m_midiTimer;
   
 private slots:
     /** Turns off played @param m_prevMidiNote */
   void midiNoteOff();
+    /** m_timer calls this to prepare audio for device*/
+  void feedAudioBuffer();
 
 };
 
