@@ -169,7 +169,7 @@ void TaudioOUT::play(Tnote note) {
   } else { // play audio
     if (noteNr < -11 || noteNr > 41)
         return;
-    qDebug() << "note" << noteNr;
+//     qDebug() << "note" << noteNr;
     if (m_timer->isActive()) {
       m_timer->stop();
       m_audioOutput->stop();
@@ -177,7 +177,7 @@ void TaudioOUT::play(Tnote note) {
     m_samplesCnt = 0;
     m_noteOffset = (noteNr + 11)*SAMPLE_RATE;
     m_IOaudioDevice = m_audioOutput->start();
-    qDebug() << m_audioOutput->bytesFree();
+//     qDebug() << m_audioOutput->bytesFree();
 //     qDebug() << "audio buffer size" << m_audioOutput->bufferSize();
 //     m_buffer.resize(m_audioOutput->periodSize()*2);
     timeForAudio();
@@ -306,7 +306,7 @@ void TaudioOUT::timeForAudio() {
   if (m_audioOutput && m_audioOutput->state() != QAudio::StoppedState) {
 //     int chunks = m_audioOutput->bytesFree() / m_audioOutput->periodSize();
     int chunks = qMin(m_audioOutput->bytesFree()/8, m_buffer.size()/8);
-    qDebug() << "period:" << m_audioOutput->periodSize() << "free:" << m_audioOutput->bytesFree() << chunks;
+//     qDebug() << "period:" << m_audioOutput->periodSize() << "free:" << m_audioOutput->bytesFree() << chunks;
     qint16 *data = (qint16*)m_audioArr;
     qint16 *out = (qint16*)m_buffer.data();
     qint16 sample;
@@ -316,11 +316,11 @@ void TaudioOUT::timeForAudio() {
 //       for(int i=0; i < m_audioOutput->periodSize()/8; i++) {
 //         sample = data[m_noteOffset + m_samplesCnt];
           sample = data[m_noteOffset + m_samplesCnt];
-          *out = sample;
           *out++ = sample;
           *out++ = sample;
           *out++ = sample;
-          out++;
+          *out++ = sample;
+//           out++;
         m_samplesCnt++;
         if (m_samplesCnt == 40000) {
             m_audioOutput->stop();
