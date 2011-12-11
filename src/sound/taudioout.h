@@ -84,6 +84,8 @@ private:
       /** Loads wav file with scale to m_audioArr. If everything is ok returns true */
   bool loadAudioData();
   void deleteAudio();
+      /** Sets template values to templAudioFormat*/
+  static void prepTemplFormat();
   
   bool m_playable;
   QTimer *m_timer;
