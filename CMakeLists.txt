@@ -17,14 +17,38 @@ SET(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
 SET(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
 
 ###########################################################################
-########   Looking for Portaudio
+########   Looking for QtMultimedia
 ###########################################################################
-IF(PORTAUDIO_LIBRARIES AND PORTAUDIO_INCLUDE_DIRS)
-  set(PORTAUDIO_FOUND TRUE)
-ELSE(PORTAUDIO_LIBRARIES AND PORTAUDIO_INCLUDE_DIRS)
-  find_path(PORTAUDIO_INCLUDE_DIR
+  IF(WIN32)
+    include_directories(${QT_INCLUDES}/QtMultimedia)
+  ELSE(WIN32)
+    include_directories(/usr/include/QtMultimediaKit)
+    include_directories(/usr/include/QtMobility)
+  ENDIF(WIN32)
+# include_directories(/usr/include/QtMobility)
+
+
+find_library(QTMULTIMEDIAKIT_LIBRARY
+                  NAMES
+                        QtMultimediaKit
+                  PATHS
+                        /usr/lib
+                        /usr/local/lib
+                        /opt/local/lib
+  )
+
+mark_as_advanced(QTMULTIMEDIAKIT_LIBRARY)
+message(STATUS "Qt Multimedia: ${QTMULTIMEDIAKIT_LIBRARY}")
+
+###########################################################################
+########   Looking for fftw3
+###########################################################################
+IF(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
+  set(FFTW3_FOUND TRUE)
+ELSE(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
+  find_path(FFTW3_INCLUDE_DIR
     NAMES
-      portaudio.h
+      fftw3.h
     PATHS
       /usr/include
       /usr/local/include
@@ -34,48 +58,47 @@ ELSE(PORTAUDIO_LIBRARIES AND PORTAUDIO_INCLUDE_DIRS)
       ${CMAKE_CURRENT_BINARY_DIR}
   )
   IF(WIN32)
-            find_library(PORTAUDIO_LIBRARY
-	    NAMES
-	      libportaudio-2.dll
-	    PATHS
-	      ${CMAKE_CURRENT_SOURCE_DIR}
-	      ${CMAKE_CURRENT_BINARY_DIR}
-	  )
+            find_library(FFTW3_LIBRARY
+      NAMES
+        fftw3f.dll
+      PATHS
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_BINARY_DIR}
+    )
   ELSE(WIN32)
-	  find_library(PORTAUDIO_LIBRARY
-	    NAMES
-	      portaudio
-	    PATHS
-	      /usr/lib
-	      /usr/local/lib
-	      /opt/local/lib
-	      /sw/lib
-	      ${CMAKE_CURRENT_BINARY_DIR}
-	      ${CMAKE_CURRENT_SOURCE_DIR}
+    find_library(FFTW3_LIBRARY
+      NAMES
+        fftw3f
+      PATHS
+        /usr/lib
+        /usr/local/lib
+        /opt/local/lib
+        /sw/lib
+        ${CMAKE_CURRENT_BINARY_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}
   )
   ENDIF(WIN32)
 
-  set(PORTAUDIO_INCLUDE_DIRS
-    ${PORTAUDIO_INCLUDE_DIR}
+  set(FFTW3_INCLUDE_DIRS
+    ${FFTW3_INCLUDE_DIR}
   )
-  set(PORTAUDIO_LIBRARIES
-    ${PORTAUDIO_LIBRARY}
+  set(FFTW3_LIBRARIES
+    ${FFTW3_LIBRARY}
 )
 
-  IF(PORTAUDIO_INCLUDE_DIRS AND PORTAUDIO_LIBRARIES)
-     set(PORTAUDIO_FOUND TRUE)
-  ENDIF(PORTAUDIO_INCLUDE_DIRS AND PORTAUDIO_LIBRARIES)
+IF(FFTW3_INCLUDE_DIRS AND FFTW3_LIBRARIES)
+     set(FFTW3_FOUND TRUE)
+  ENDIF(FFTW3_INCLUDE_DIRS AND FFTW3_LIBRARIES)
 
-  IF(PORTAUDIO_FOUND)
-      message(STATUS "Portaudio was Found in:\n${PORTAUDIO_LIBRARIES}\n${PORTAUDIO_INCLUDE_DIRS}")
-  ELSE(PORTAUDIO_FOUND)
-      message(FATAL_ERROR "Could not find Portaudio\nTry call cmake with args:\n-DPORTAUDIO_LIBRARIES=/path_to/libportaudio.la(dll) -DPORTAUDIO_INCLUDE_DIRS=/path_to_dir_with/portaudio.h\nor put those files in build dir or source dir")
-  ENDIF(PORTAUDIO_FOUND)
-  mark_as_advanced(PORTAUDIO_INCLUDE_DIRS PORTAUDIO_LIBRARIES)
-ENDIF(PORTAUDIO_LIBRARIES AND PORTAUDIO_INCLUDE_DIRS)
+  IF(FFTW3_FOUND)
+      message(STATUS "Fftw3 was Found in:\n${FFTW3_LIBRARIES}\n${FFTW3_INCLUDE_DIRS}")
+  ELSE(FFTW3_FOUND)
+      message(FATAL_ERROR "Could not find Fftw3\nTry call cmake with args:\n-DFFTW3_LIBRARIES=/path_to/libfftw3.la(dll) -DFFTW3_INCLUDE_DIRS=/path_to_dir_with/fftw3.h\nor put those files in build dir or source dir")
+  ENDIF(FFTW3_FOUND)
+  mark_as_advanced(FFTW3_INCLUDE_DIRS FFTW3_LIBRARIES)
+ENDIF(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
 
-include_directories(${PORTAUDIO_INCLUDE_DIRS})
-include_directories(/usr/include/QtMultimediaKit/)
+include_directories(${FFTW3_INCLUDE_DIRS})
 
 ###########################################################################
 #libraries and compiller definitions for RtMidi

@@ -24,7 +24,7 @@
 #include <QFile>
 #include <QStringList>
 #include <QAudio>
-
+#include <QDebug>
 
 #define SAMPLE_RATE (44100)
 
@@ -106,8 +106,10 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
           else
             m_playable = false;
       }
-      if (m_playable)
+      if (m_playable) {
           connect(m_timer, SIGNAL(timeout()), this, SLOT(timeForAudio()));
+          m_buffer.resize(2048);
+      }
       deleteMidi();
   }
 }
@@ -158,11 +160,15 @@ void TaudioOUT::play(Tnote note) {
     m_midiOut->sendMessage(&m_message);
     m_timer->start(1500);
   
-  } else {
+  } else { // play audio
     if (noteNr < -11 || noteNr > 41)
         return;
-    m_samplesCnt = -1;
-    m_noteOffset = (noteNr + 11)*SAMPLE_RATE;
+    if (m_timer->isActive()) {
+      m_timer->stop();
+      m_audioOutput->stop();
+    }
+    m_samplesCnt = 0;
+    m_noteOffset = (noteNr + 11)*SAMPLE_RATE*2;
     m_IOaudioDevice = m_audioOutput->start();
     m_timer->start(20);
   }
@@ -287,7 +293,32 @@ bool TaudioOUT::loadAudioData() {
 //-------------------------------- slots ----------------------------------------------------
 void TaudioOUT::timeForAudio() {
   if (m_audioOutput && m_audioOutput->state() != QAudio::StoppedState) {
-    
+    int chunks = m_audioOutput->bytesFree() / m_audioOutput->periodSize();
+    qint16 *data = (qint16*)m_audioArr;
+    qint16 *out = (qint16*)m_buffer.data();
+    qint16 sample;
+    while (chunks) {
+      for(int i=0; i < m_audioOutput->periodSize()/8; i++) {
+        sample = data[m_noteOffset + m_samplesCnt];
+//         for (int j=0; j<4; j++) {
+          *out = sample;
+          *out++ = sample;
+          *out++ = sample;
+          *out++ = sample;
+          out++;
+//           *(m_buffer.data() + j*2 + i*8) = m_audioArr[m_noteOffset + m_samplesCnt];
+//           *(m_buffer.data() + j*2 + i*8 +1) = m_audioArr[m_noteOffset + m_samplesCnt +1];
+//         }
+        m_samplesCnt++;
+        if (m_samplesCnt == SAMPLE_RATE*2) {
+            m_audioOutput->stop();
+            m_timer->stop();
+            return;
+        }
+      }
+      m_IOaudioDevice->write(m_buffer.data(), (m_audioOutput->periodSize()/8)*8);
+      chunks--;
+    }
   }
 }
 

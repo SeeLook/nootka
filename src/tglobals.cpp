@@ -18,6 +18,7 @@
 
 #include "tglobals.h"
 #include "tkeysignature.h"
+#include "taudioparams.h"
 #include <QDir>
 #include <QSettings>
 #include <QCoreApplication>
@@ -155,12 +156,13 @@ Tglobals::Tglobals() {
     sett.endGroup();
 
 // Sound settings
+    A = new TaudioParams();
     sett.beginGroup("sound");
-        AoutSoundEnabled = sett.value("outSoundEnabled", true).toBool();
-        AoutDeviceName = sett.value("outDeviceName", "").toString();
-		AmidiEnabled = sett.value("midiEnabled", false).toBool();
-		AmidiPortName = sett.value("midiPortName", "").toString();
-		AmidiInstrNr = (unsigned char)sett.value("midiInstrumentNr", 0).toInt();
+      A->OUTenabled = sett.value("outSoundEnabled", true).toBool();
+      A->OUTdevName = sett.value("outDeviceName", "").toString();
+      A->midiEnabled = sett.value("midiEnabled", false).toBool();
+      A->midiPortName = sett.value("midiPortName", "").toString();
+      A->midiInstrNr = (unsigned char)sett.value("midiInstrumentNr", 0).toInt();
     sett.endGroup();
 
 }
@@ -241,10 +243,10 @@ void Tglobals::storeSettings() {
     sett.endGroup();
 
     sett.beginGroup("sound");
-        sett.setValue("outSoundEnabled", AoutSoundEnabled);
-        sett.setValue("outDeviceName", AoutDeviceName);
-		sett.setValue("midiEnabled", AmidiEnabled);
-		sett.setValue("midiPortName", AmidiPortName);
-		sett.setValue("midiInstrumentNr", (int)AmidiInstrNr);
+        sett.setValue("outSoundEnabled", A->OUTenabled);
+        sett.setValue("outDeviceName", A->OUTdevName);
+        sett.setValue("midiEnabled", A->midiEnabled);
+        sett.setValue("midiPortName", A->midiPortName);
+        sett.setValue("midiInstrumentNr", (int)A->midiInstrNr);
     sett.endGroup();
 }

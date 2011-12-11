@@ -18,9 +18,10 @@
 
 
 #include "soundsettings.h"
-#include "tplayer.h"
+#include "taudioout.h"
 #include "tglobals.h"
 #include <QtGui>
+#include "taudioparams.h"
 
 extern Tglobals *gl;
 
@@ -32,23 +33,23 @@ SoundSettings::SoundSettings(QWidget *parent) :
     audioOutEnableGr = new QGroupBox(tr("play sound"), this);
     audioOutEnableGr->setStatusTip(tr("Selected notes and guitar positions will be played."));
     audioOutEnableGr->setCheckable(true);
-    audioOutEnableGr->setChecked(gl->AoutSoundEnabled);
-	
-	QVBoxLayout *audioOutLay = new QVBoxLayout;
-	
-	audioRadioButt = new QRadioButton(tr("real audio playback"), this);
-	audioRadioButt->setStatusTip(tr("Natural, high quality sound of classical guitar<br>but limited to scale <b>from C<sub>1</sub> to e<sup>3</sup></b>"));
-	audioOutLay->addWidget(audioRadioButt);
-	realAGr = new QGroupBox(this);
-	realAGr->setStatusTip(audioRadioButt->statusTip());
+    audioOutEnableGr->setChecked(gl->A->OUTenabled ); 
+
+    QVBoxLayout *audioOutLay = new QVBoxLayout;
+
+    audioRadioButt = new QRadioButton(tr("real audio playback"), this);
+    audioRadioButt->setStatusTip(tr("Natural, high quality sound of classical guitar<br>but limited to scale <b>from C<sub>1</sub> to e<sup>3</sup></b>"));
+    audioOutLay->addWidget(audioRadioButt);
+    realAGr = new QGroupBox(this);
+    realAGr->setStatusTip(audioRadioButt->statusTip());
     QVBoxLayout *reaALay = new QVBoxLayout;
     QLabel *outDevLab = new QLabel(tr("audio device for output"), this);
     reaALay->addWidget(outDevLab);
     audioOutDevListCombo = new QComboBox(this);
     reaALay->addWidget(audioOutDevListCombo);
-    audioOutDevListCombo->addItems(Tplayer::getAudioDevicesList());
+    audioOutDevListCombo->addItems(TaudioOUT::getAudioDevicesList());
     if (audioOutDevListCombo->count()) {
-        int id = audioOutDevListCombo->findText(gl->AoutDeviceName);
+        int id = audioOutDevListCombo->findText(gl->A->OUTdevName);
         if (id != -1)
             audioOutDevListCombo->setCurrentIndex(id);
     } else {
@@ -70,10 +71,10 @@ SoundSettings::SoundSettings(QWidget *parent) :
 	midiParamLay->addWidget(midiPortsLab, 0, 0);
 	midiPortsCombo = new QComboBox(this);
 	midiParamLay->addWidget(midiPortsCombo, 1, 0);
-	midiPortsCombo->addItems(Tplayer::getMidiPortsList());
-	if (gl->AmidiPortName != "") {
+	midiPortsCombo->addItems(TaudioOUT::getMidiPortsList());
+	if (gl->A->midiPortName != "") {
 		if (midiPortsCombo->count()) {
-			int id = midiPortsCombo->findText(gl->AmidiPortName);
+			int id = midiPortsCombo->findText(gl->A->midiPortName);
 			if (id != -1)
 				midiPortsCombo->setCurrentIndex(id);		
 		} else {
@@ -97,7 +98,7 @@ SoundSettings::SoundSettings(QWidget *parent) :
 	addInstrument(tr("Flute"), 73);
 	for(int i = 0; i < instruments.size(); i++) {
 	  midiInstrCombo->addItem(instruments[i].name);
-	  if (instruments[i].progNr == gl->AmidiInstrNr)
+	  if (instruments[i].progNr == gl->A->midiInstrNr)
 		  midiInstrCombo->setCurrentIndex(i);
 	}
 
@@ -113,8 +114,8 @@ SoundSettings::SoundSettings(QWidget *parent) :
 	QButtonGroup *radioGr = new QButtonGroup(this);
 	radioGr->addButton(audioRadioButt);
 	radioGr->addButton(midiRadioButt);
-	audioRadioButt->setChecked(!gl->AmidiEnabled);
-	midiRadioButt->setChecked(gl->AmidiEnabled);
+	audioRadioButt->setChecked(!gl->A->midiEnabled);
+	midiRadioButt->setChecked(gl->A->midiEnabled);
 	audioOrMidiChanged();
 	
 	connect(radioGr, SIGNAL(buttonClicked(int)), this, SLOT(audioOrMidiChanged()));
@@ -122,11 +123,11 @@ SoundSettings::SoundSettings(QWidget *parent) :
 }
 
 void SoundSettings::saveSettings() {
-    gl->AoutSoundEnabled = audioOutEnableGr->isChecked();
-    gl->AoutDeviceName = audioOutDevListCombo->currentText();
-	gl->AmidiEnabled = midiRadioButt->isChecked();
-	gl->AmidiInstrNr = instruments[midiInstrCombo->currentIndex()].progNr;
-	gl->AmidiPortName = midiPortsCombo->currentText();
+    gl->A->OUTenabled = audioOutEnableGr->isChecked();
+    gl->A->OUTdevName = audioOutDevListCombo->currentText();
+    gl->A->midiEnabled = midiRadioButt->isChecked();
+    gl->A->midiInstrNr = instruments[midiInstrCombo->currentIndex()].progNr;
+    gl->A->midiPortName = midiPortsCombo->currentText();
 }
 
 void SoundSettings::audioOrMidiChanged() {
