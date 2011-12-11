@@ -50,9 +50,11 @@ SET( NOOTKA_SRCS
   info/tfirstrunwizzard.cpp
   info/select7note.cpp
 ###### Sound
-  sound/tplayer.cpp
+#   sound/tplayer.cpp
+  sound/taudioout.cpp
   sound/soundsettings.cpp
   sound/RtMidi.cpp
+  sound/taudioparams.h
   )
 
 #SET( NOOTKA_HEADERS
@@ -98,7 +100,8 @@ SET( NOOTKA_MOC_SRCS
   info/tfirstrunwizzard.h
   info/select7note.h
 ###### Sound
-  sound/tplayer.h
+#   sound/tplayer.h
+  sound/taudioout.h
   sound/soundsettings.h
   )
 
@@ -118,8 +121,9 @@ IF(WIN32)
 	TARGET_LINK_LIBRARIES(nootka
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
-        ${PORTAUDIO_LIBRARIES}
-		winmm
+        ${QTMULTIMEDIAKIT_LIBRARY}
+#         ${FFTW3_LIBRARIES}
+        winmm
 	)
 
 ELSE(WIN32) #Linux
@@ -131,9 +135,9 @@ ELSE(WIN32) #Linux
 	TARGET_LINK_LIBRARIES(nootka
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
-        ${PORTAUDIO_LIBRARIES}
-		${ALSA_LIBRARY} ${PTHREAD_LIBRARY}
- #       ${QT_QTSVG_LIBRARY}
+        ${QTMULTIMEDIAKIT_LIBRARY}
+#         ${FFTW3_LIBRARIES}
+        ${ALSA_LIBRARY} ${PTHREAD_LIBRARY}
 	)
 
 ENDIF(WIN32)

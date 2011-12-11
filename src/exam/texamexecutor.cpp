@@ -21,7 +21,7 @@
 #include "tstartexamdlg.h"
 #include "tquestionaswdg.h"
 #include "tlevelselector.h"
-#include "tplayer.h"
+#include "taudioout.h"
 #include "mainwindow.h"
 #include "texam.h"
 #include "texamsummary.h"

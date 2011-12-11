@@ -26,6 +26,7 @@
 #include "tnote.h"
 #include "ttune.h"
 
+class TaudioParams;
 
 class Tglobals
 {
@@ -130,15 +131,12 @@ public:
     bool ErepeatUntilcorrect;
 
 //============ Sound settings ===========================================================
-
-    bool AoutSoundEnabled; // default true
-    QString AoutDeviceName; // default empty
-    bool AmidiEnabled; // default false
-    QString AmidiPortName; // default empty to find system default
-    unsigned char AmidiInstrNr; // default 0 - grand piano
-
+      /** Audio parameters */
+    TaudioParams *A;
+    
 private:
   //--- for tune part ----------------
+      /** current guitar tune */
     Ttune m_tune;
         /** Strings' order is determined in @param setTune() method */
     char m_order[6];

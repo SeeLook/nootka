@@ -76,7 +76,7 @@ public:
      * so when it exists getAudioDevicesList() doesn't work */
   void deleteMidi();
   
-public signals:
+signals:
     /** This signal is emited when playing of a note is finished. */
   void notePlayed();
 
