@@ -108,7 +108,7 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
       }
       if (m_playable) {
           connect(m_timer, SIGNAL(timeout()), this, SLOT(timeForAudio()));
-          m_buffer.resize(2048);
+//           m_buffer.resize(2048);
       }
       deleteMidi();
   }
@@ -133,10 +133,10 @@ bool TaudioOUT::setAudioDevice(QString& name) {
         m_deviceInfo = QAudioDeviceInfo::defaultOutputDevice();
         fnd = true;
     }
-    if (!m_deviceInfo.isFormatSupported(templAudioFormat)) {
-        qDebug() << m_deviceInfo.deviceName() << "format unsupported !!";
-        fnd = false;
-    }
+//     if (!m_deviceInfo.isFormatSupported(templAudioFormat)) {
+//         qDebug() << m_deviceInfo.deviceName() << "format unsupported !!";
+//         fnd = false;
+//     }
     if (fnd) {
         qDebug() << m_deviceInfo.deviceName();
         m_devName = m_deviceInfo.deviceName();
@@ -163,6 +163,7 @@ void TaudioOUT::play(Tnote note) {
   } else { // play audio
     if (noteNr < -11 || noteNr > 41)
         return;
+    qDebug() << "note" << noteNr;
     if (m_timer->isActive()) {
       m_timer->stop();
       m_audioOutput->stop();
@@ -170,6 +171,9 @@ void TaudioOUT::play(Tnote note) {
     m_samplesCnt = 0;
     m_noteOffset = (noteNr + 11)*SAMPLE_RATE*2;
     m_IOaudioDevice = m_audioOutput->start();
+//     qDebug() << m_audioOutput->periodSize();
+    m_buffer.resize(m_audioOutput->periodSize());
+    timeForAudio();
     m_timer->start(20);
   }
 
@@ -274,7 +278,7 @@ bool TaudioOUT::loadAudioData() {
   wavStream.skipRawData(fmtSize - 8 + 4);
   wavStream.readRawData(chunkName, 4);
   dataSizeFromChunk = *((quint32*)chunkName);
-//    qDebug() << "data size: " << dataSizeFromChunk << 4740768;
+   qDebug() << "data size: " << dataSizeFromChunk << 4740768;
   // we check is wav file this proper one ? 4740766
   if (m_chanels != 1 || wavFormat != 1 || m_sampleRate != 22050 || dataSizeFromChunk != 4740766) {
       qDebug() << "wav file error occured " << dataSizeFromChunk << m_chanels
@@ -294,10 +298,13 @@ bool TaudioOUT::loadAudioData() {
 void TaudioOUT::timeForAudio() {
   if (m_audioOutput && m_audioOutput->state() != QAudio::StoppedState) {
     int chunks = m_audioOutput->bytesFree() / m_audioOutput->periodSize();
+    qDebug() << "period:" << m_audioOutput->periodSize() << "free:" << m_audioOutput->bytesFree() << chunks;
     qint16 *data = (qint16*)m_audioArr;
-    qint16 *out = (qint16*)m_buffer.data();
+//     qint16 *out = (qint16*)m_buffer.data();
     qint16 sample;
     while (chunks) {
+//       qDebug() << chunks << m_samplesCnt;
+      qint16 *out = (qint16*)m_buffer.data();
       for(int i=0; i < m_audioOutput->periodSize()/8; i++) {
         sample = data[m_noteOffset + m_samplesCnt];
 //         for (int j=0; j<4; j++) {
@@ -313,6 +320,7 @@ void TaudioOUT::timeForAudio() {
         if (m_samplesCnt == SAMPLE_RATE*2) {
             m_audioOutput->stop();
             m_timer->stop();
+            qDebug() << "done";
             return;
         }
       }
