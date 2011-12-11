@@ -115,6 +115,7 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
       if (m_playable) {
           connect(m_timer, SIGNAL(timeout()), this, SLOT(timeForAudio()));
           m_buffer.resize(32768);
+          m_IOaudioDevice = m_audioOutput->start();
       }
       deleteMidi();
   }
@@ -151,6 +152,9 @@ bool TaudioOUT::setAudioDevice(QString& name) {
     return fnd;
 }
 
+
+bool lock = false;
+
 void TaudioOUT::play(Tnote note) {
   if (!m_playable)
         return;
@@ -170,18 +174,26 @@ void TaudioOUT::play(Tnote note) {
     if (noteNr < -11 || noteNr > 41)
         return;
 //     qDebug() << "note" << noteNr;
-    if (m_timer->isActive()) {
-      m_timer->stop();
-      m_audioOutput->stop();
-    }
+        
     m_samplesCnt = 0;
     m_noteOffset = (noteNr + 11)*SAMPLE_RATE;
-    m_IOaudioDevice = m_audioOutput->start();
+    if (m_timer->isActive()) {
+//       m_timer->stop();
+//       m_audioOutput->stop();
+//       m_audioOutput->reset();
+    } else {
+      if (lock)
+        qDebug() << "locked";
+      timeForAudio();
+      m_timer->start(20);      
+    }
+    
+//     m_IOaudioDevice = m_audioOutput->start();
 //     qDebug() << m_audioOutput->bytesFree();
 //     qDebug() << "audio buffer size" << m_audioOutput->bufferSize();
 //     m_buffer.resize(m_audioOutput->periodSize()*2);
-    timeForAudio();
-    m_timer->start(20);
+//     timeForAudio();
+//     m_timer->start(20);
   }
 
 }
@@ -306,10 +318,11 @@ void TaudioOUT::timeForAudio() {
   if (m_audioOutput && m_audioOutput->state() != QAudio::StoppedState) {
 //     int chunks = m_audioOutput->bytesFree() / m_audioOutput->periodSize();
     int chunks = qMin(m_audioOutput->bytesFree()/8, m_buffer.size()/8);
-//     qDebug() << "period:" << m_audioOutput->periodSize() << "free:" << m_audioOutput->bytesFree() << chunks;
+    qDebug() << "period:" << m_audioOutput->periodSize() << "free:" << m_audioOutput->bytesFree() << chunks;
     qint16 *data = (qint16*)m_audioArr;
     qint16 *out = (qint16*)m_buffer.data();
     qint16 sample;
+    lock = true;
     while (chunks) {
 //       qDebug() << chunks << m_samplesCnt;
 //       qint16 *out = (qint16*)m_buffer.data();
@@ -323,7 +336,7 @@ void TaudioOUT::timeForAudio() {
 //           out++;
         m_samplesCnt++;
         if (m_samplesCnt == 40000) {
-            m_audioOutput->stop();
+//             m_audioOutput->stop();
             m_timer->stop();
             return;
         }
@@ -332,6 +345,7 @@ void TaudioOUT::timeForAudio() {
       chunks--;
     }
     m_IOaudioDevice->write(m_buffer.data(), (m_audioOutput->bytesFree()/8)*8);
+    lock = false;
   }
 }
 
