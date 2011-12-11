@@ -235,8 +235,10 @@ void MainWindow::createSettingsDialog() {
     SettingsDialog *settings = new SettingsDialog(this);
     if (settings->exec() == QDialog::Accepted) {
         if (gl->A->OUTenabled) {
-        if (!player)
+          if (!player)
             player = new TaudioOUT(gl->A, gl->path, this);
+          else
+            player->setAudioOutParams(gl->A);
         } 
         score->acceptSettings();
         noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
