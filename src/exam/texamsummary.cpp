@@ -23,6 +23,12 @@
 #include "tlevelselector.h"
 #include "texamview.h"
 
+  /** returns 2 columns row of table */
+QString row2(QString S1, QString S2) {
+  return QString("<tr><td>%1: </td><td><b>%2</b></td></tr>").arg(S1).arg(S2);
+}
+
+
 TexamSummary::TexamSummary(Texam* exam, QWidget* parent) :
   QDialog(parent)
 {
@@ -39,12 +45,11 @@ TexamSummary::TexamSummary(Texam* exam, QWidget* parent) :
 	leftLay->addWidget(questNrLAb);
   QVBoxLayout *timeLay = new QVBoxLayout();
   QGroupBox *timeGr = new QGroupBox(tr("times:"), this);
-  QLabel *timeLab = new QLabel(
-    TexamView::totalTimetxt() + ": <b>" + TexamView::formatedTotalTime(exam->totalTime()*1000) +
-    "</b><br>" + tr("Time of work") + ": <b>" + TexamView::formatedTotalTime(exam->workTime()*100) +
-    "</b><br>" + TexamView::averAnsverTimeTxt() + ": <b>" +
-    QString("%1 s").arg(exam->averageReactonTime()/ 10, 0, 'f', 1, '0') + "</b>"
-    , this);
+  QLabel *timeLab = new QLabel("<table>" + 
+    row2(TexamView::totalTimetxt(), TexamView::formatedTotalTime(exam->totalTime()*1000)) +
+    row2(tr("Time of work"), TexamView::formatedTotalTime(exam->workTime()*100)) +
+    row2(TexamView::averAnsverTimeTxt(), QString("%1 s").arg(exam->averageReactonTime()/ 10, 0, 'f', 1, '0')) +
+    "</table>", this);
   timeLay->addWidget(timeLab);
   
   timeGr->setLayout(timeLay);
@@ -63,8 +68,10 @@ TexamSummary::TexamSummary(Texam* exam, QWidget* parent) :
 	QVBoxLayout *resLay = new QVBoxLayout();
 	QGroupBox *resGr = new QGroupBox(tr("Results:"), this);
 	qreal eff = (((qreal)exam->count() - (qreal)exam->mistakes()) / (qreal)exam->count()) * 100;
-	QLabel *resLab = new QLabel(TexamView::effectTxt() + QString(": <b>%1%</b><br>").arg(qRound(eff)) +
-		TexamView::mistakesNrTxt() + QString(": <b>%1</b>").arg(exam->mistakes()), this);
+	QLabel *resLab = new QLabel("<table>" +
+    row2(TexamView::effectTxt(), QString::number(qRound(eff)) + "%") +
+    row2(TexamView::mistakesNrTxt(), QString::number(exam->mistakes())) +
+    "</table>", this);
 	resLay->addWidget(resLab);
 	
 	resGr->setLayout(resLay);

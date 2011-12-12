@@ -58,6 +58,7 @@ public:
     /** Overvrites the last element on the questions list. */
   void setAnswer(TQAunit &answer); 
   TQAunit curQ() { return m_answList.last(); }
+  QList<TQAunit>* answList() { return &m_answList; }
     /** Returns number of questions/answers in en exam. */
   int count() { return m_answList.size(); }
     /** Returns number of commited mistakes in en exam. */
