@@ -91,7 +91,7 @@ private:
     NameSettings *m_nameSett;
     GuitarSettings *m_guitarSett;
     ExamSettings   *m_examSett;
-    SoundSettings *m_soundSett;
+    SoundSettings *m_sndOutSett;
 
 };
 

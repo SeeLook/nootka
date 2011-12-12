@@ -22,6 +22,7 @@
 
 #include <QWidget>
 
+class TaudioParams;
 class QComboBox;
 class QGroupBox;
 class QRadioButton;
@@ -30,7 +31,7 @@ class SoundSettings : public QWidget
 {
     Q_OBJECT
 public:
-    explicit SoundSettings(QWidget *parent = 0);
+    explicit SoundSettings(TaudioParams *aParams, QWidget *parent = 0);
 
     void saveSettings();
 		/** The structure describes midi program (instrument).
@@ -46,10 +47,11 @@ public:
 
 private:
 	void addInstrument(QString name, unsigned char midiNr);
-  
-    QGroupBox *audioOutEnableGr, *realAGr, *midiGr;
-    QComboBox *audioOutDevListCombo, *midiPortsCombo, *midiInstrCombo;
-	QRadioButton *midiRadioButt, *audioRadioButt;
+
+  QGroupBox *audioOutEnableGr, *realAGr, *midiGr;
+  QComboBox *audioOutDevListCombo, *midiPortsCombo, *midiInstrCombo;
+  QRadioButton *midiRadioButt, *audioRadioButt;
+  TaudioParams *m_params;
 	
 private slots:
 	void audioOrMidiChanged();

@@ -31,13 +31,12 @@
 
 class RtMidiOut;
 class TaudioParams;
-class Tnote;
 class QTimer;
 
 /** TaudioOUT is a class which plays single guitar sounds.
  * It can play real audio sound or midi.
  * Audio is taken from file classical-guitar.wav, in method getAudioData checks file
- * and load data to m_audioArr. paCallBack method plays it with PortAudio.
+ * and load data to m_audioArr.
  * Trick is that data is mono 22050 but output is stereo 44100. All this magic
  * is in paCallBack because of requirements of some audio devices.
  * So far playing is bounded to range C in Contra octave to e in 3-line.
@@ -55,14 +54,14 @@ public:
 
   static QStringList getAudioDevicesList();
   static QStringList getMidiPortsList();
-		/** Template audio format is 
-		 * 2 chanells (stereo) 
-		 * 44100 samples per second
-		 * signed int resolution (16bit)
-		 * pcm data */
+      /** Template audio format is 
+      * 2 chanells (stereo) 
+      * 44100 samples per second
+      * signed int resolution (16bit)
+      * pcm data */
 	static QAudioFormat templAudioFormat;
 
-  void play(Tnote note);
+  void play(int noteNr);
   void setAudioOutParams(TaudioParams *params);
       /** It sets audio device to value taken from */
   bool setAudioDevice(QString &name);
@@ -72,13 +71,12 @@ public:
   void setMidiParams();
   bool isPlayable() { return m_playable; }
     /** Deletes midi device if exists. 
-     * Midi device usually blocks audio devices, 
-     * so when it exists getAudioDevicesList() doesn't work */
+     * Midi device usually blocks audio devices, so when it exists getAudioDevicesList() doesn't work */
   void deleteMidi();
   
 signals:
     /** This signal is emited when playing of a note is finished. */
-  void notePlayed();
+  void noteFinished();
 
 private:
       /** Loads wav file with scale to m_audioArr. If everything is ok returns true */
@@ -100,7 +98,7 @@ private:
       /** Path to wav file with sounds */
   QString m_wavFile;
   quint32 m_sampleRate;
-  char *m_audioArr;
+  qint16 *m_audioArr;
       /** position of a note in @param m_audioArr */
   int m_noteOffset;
   int m_samplesCnt;
@@ -108,7 +106,6 @@ private:
 
 //########## midi #############
   RtMidiOut *m_midiOut;
-  bool m_isMidi;
   unsigned char m_prevMidiNote;
   std::vector<unsigned char> m_message;
   
