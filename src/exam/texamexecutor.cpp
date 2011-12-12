@@ -21,7 +21,7 @@
 #include "tstartexamdlg.h"
 #include "tquestionaswdg.h"
 #include "tlevelselector.h"
-#include "taudioout.h"
+#include "tsound.h"
 #include "mainwindow.h"
 #include "texam.h"
 #include "texamsummary.h"
@@ -91,12 +91,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
 
     //We checking is sound needed in exam and is it available
     if (m_level.questionAs.isSound()) {
-        bool soundOk;
-        if (mW->player) {
-            if (!mW->player->isPlayable()) soundOk = false;
-            else soundOk = true;
-        } else soundOk = false;
-        if (!soundOk) {
+        if (!mW->sound->isPlayable()) {
             QMessageBox::warning(mW, "",
                      tr("An exam requires sound but<br>sound output is not available !!!"));
             mW->clearAfterExam();
@@ -304,7 +299,7 @@ void TexamExecutor::askQuestion() {
     }
 
     if (curQ.questionAs == TQAtype::e_asSound) {
-        mW->player->play(curQ.qa.note);
+        mW->sound->play(curQ.qa.note);
         questText += tr("Played sound show ");
         if (!m_level.forceAccids)
             m_answRequire.accid = false;
@@ -827,7 +822,7 @@ QString TexamExecutor::saveExamToFile() {
 
 void TexamExecutor::repeatSound() {
 //     mW->player->play(m_answList[m_answList.size()-1].qa.note);
-	mW->player->play(m_exam->curQ().qa.note);
+	mW->sound->play(m_exam->curQ().qa.note);
 }
 
 void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) {

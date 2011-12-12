@@ -28,7 +28,7 @@
 #include "texamexecutor.h"
 #include <QMainWindow>
 
-class TaudioOUT;
+class Tsound;
 class QCheckBox;
 
 
@@ -67,7 +67,8 @@ protected:
     TscoreWidget *score;
     TnoteName *noteName;
     TfingerBoard *guitar;
-    TaudioOUT *player;
+//     TaudioOUT *player;
+    Tsound *sound;
     TexamView *examResults;
     TexamExecutor *ex;
     QCheckBox *autoRepeatChB;

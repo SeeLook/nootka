@@ -50,7 +50,7 @@ SET( NOOTKA_SRCS
   info/tfirstrunwizzard.cpp
   info/select7note.cpp
 ###### Sound
-#   sound/tplayer.cpp
+  sound/tsound.cpp
   sound/taudioout.cpp
   sound/soundsettings.cpp
   sound/RtMidi.cpp
@@ -100,7 +100,7 @@ SET( NOOTKA_MOC_SRCS
   info/tfirstrunwizzard.h
   info/select7note.h
 ###### Sound
-#   sound/tplayer.h
+  sound/tsound.h
   sound/taudioout.h
   sound/soundsettings.h
   )

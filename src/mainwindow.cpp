@@ -23,11 +23,12 @@
 #include "taboutnootka.h"
 #include "tfirstrunwizzard.h"
 #include "examsettings.h"
-#include "taudioout.h"
+#include "tsound.h"
 #include "tpushbutton.h"
 #include <QtGui>
 #include "texam.h"
-#include <taudioparams.h>
+#include "taudioparams.h"
+#include <taudioout.h>
 //#include <QDebug>
 
 extern Tglobals *gl;
@@ -53,10 +54,11 @@ MainWindow::MainWindow(QWidget *parent)
     }
     TkeySignature::setNameStyle(gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
 
-    if (gl->A->OUTenabled)
-        player = new TaudioOUT(gl->A, gl->path, this);
-    else
-        player = 0;
+//     if (gl->A->OUTenabled)
+//         player = new TaudioOUT(gl->A, gl->path, this);
+//     else
+//         player = 0;
+    sound = new Tsound(this);
 
     QWidget *widget = new QWidget(this);
     QVBoxLayout *mainLay = new QVBoxLayout;
@@ -121,7 +123,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
     connect(m_hintsChB, SIGNAL(clicked(bool)), this, SLOT(hintsStateChanged(bool)));
 
-    if (gl->A->OUTenabled && !player->isPlayable())
+    if (gl->A->OUTenabled && !sound->isPlayable())
         QMessageBox::warning(this, "", tr("Problems with sound output"));
 
 }
@@ -224,22 +226,10 @@ void MainWindow::openFile(QString runArg) {
 //#######################     SLOTS       ################################################
 
 void MainWindow::createSettingsDialog() {
-// 	if (player) {
-// 		delete player;
-// 		player = 0;
-// 	}	
-    /** player has to be deleted before calling of settingsdialog, 
-		* otherwise opened midi blocks audio devices to be listed.
-		* Unfortinately it invokes loading/unloading wav file when real audio is enabled.
-		* It is not so anoyed even on older machines but not elegant.  */
     SettingsDialog *settings = new SettingsDialog(this);
+    sound->player->deleteMidi(); // midi blocks devices ists
     if (settings->exec() == QDialog::Accepted) {
-        if (gl->A->OUTenabled) {
-          if (!player)
-            player = new TaudioOUT(gl->A, gl->path, this);
-          else
-            player->setAudioOutParams(gl->A);
-        } 
+        sound->acceptSettings();
         score->acceptSettings();
         noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
         noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
@@ -249,10 +239,7 @@ void MainWindow::createSettingsDialog() {
         noteWasClicked(0, noteName->getNoteName(0)); //refresh name
         guitar->acceptSettings(); //refresh guitar
         m_hintsChB->setChecked(gl->hintsEnabled);
-    } else //{ // create player again
-// 		if (gl->AoutSoundEnabled)
-// 			player = new Tplayer();
-//     }
+    }
     delete settings;
 }
 
@@ -275,8 +262,7 @@ void MainWindow::aboutSlot() {
 }
 
 void MainWindow::noteWasClicked(int index, Tnote note) {
-    if (player)
-        player->play(note);
+    sound->play(note);
     if (gl->showEnharmNotes){
         TnotesList noteList;
         noteList.push_back(note);
@@ -289,8 +275,7 @@ void MainWindow::noteWasClicked(int index, Tnote note) {
 }
 
 void MainWindow::noteNameWasChanged(Tnote note) {
-    if (gl->A->OUTenabled)
-        player->play(note);
+    sound->play(note);
     score->setNote(0, note);
     if (gl->showEnharmNotes) {
         score->setNote(1, noteName->getNoteName(1));
@@ -300,8 +285,7 @@ void MainWindow::noteNameWasChanged(Tnote note) {
 }
 
 void MainWindow::guitarWasClicked(Tnote note) {
-    if (gl->A->OUTenabled)
-        player->play(note);
+    sound->play(note);
     if (gl->showEnharmNotes) {
         TnotesList noteList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
         noteName->setNoteName(noteList);

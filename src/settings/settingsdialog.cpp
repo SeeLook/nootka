@@ -255,20 +255,24 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     navList->addItem(tr("Sound"));
     navList->item(5)->setIcon(QIcon(gl->path+"picts/soundSettings.png"));
     navList->item(5)->setTextAlignment(Qt::AlignCenter);
-
+    
     m_globalSett = new GlobalSettings();
     m_scoreSett = new ScoreSettings();
     m_nameSett = new NameSettings();
     m_guitarSett = new GuitarSettings();
     m_examSett = new ExamSettings();
-    m_soundSett = new SoundSettings();
+    m_sndOutSett = new SoundSettings(gl->A);
+    QWidget *inSett = new QWidget();
+    QTabWidget *sndTTab = new QTabWidget();
+    sndTTab->addTab(m_sndOutSett, tr("otput"));
+    sndTTab->addTab(inSett, tr("input"));
 
     stackLayout->addWidget(m_globalSett);
     stackLayout->addWidget(m_scoreSett);
     stackLayout->addWidget(m_nameSett);
     stackLayout->addWidget(m_guitarSett);
     stackLayout->addWidget(m_examSett);
-    stackLayout->addWidget(m_soundSett);
+    stackLayout->addWidget(sndTTab);
 
     connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
     connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
@@ -284,7 +288,7 @@ void SettingsDialog::saveSettings() {
     m_nameSett->saveSettings();
     m_guitarSett->saveSettings();
     m_examSett->saveSettings();
-    m_soundSett->saveSettings();
+    m_sndOutSett->saveSettings();
 }
 
 
