@@ -27,22 +27,25 @@
 
 TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent): 
   QWidget(parent),
-  m_audioIN(audioIn)
+  m_audioIN(audioIn),
+  m_pitchColor(Qt::red)
 {
   QHBoxLayout *lay = new QHBoxLayout();
   m_volMeter = new TvolumeMeter(this);
   lay->addWidget(m_volMeter);
   QVBoxLayout *statLay = new QVBoxLayout();
   m_stateLabel = new QLabel(this);
-  statLay->addWidget(m_stateLabel);
-  QGroupBox *gr = new QGroupBox(this);
-  gr->setLayout(statLay);
+//   statLay->addWidget(m_stateLabel);
+//   QGroupBox *gr = new QGroupBox(this);
+//   gr->setLayout(statLay);
   m_stateLabel->setFixedWidth(20);
-  m_stateLabel->setFont(QFont("nootka", 15));
+  m_stateLabel->setFont(QFont("nootka"));
   m_stateLabel->setStatusTip(tr("state of pitch detection."));
 //   m_stateLabel->setStyleSheet(QString("border-radius: 6px; background-color: palette(Highlight); color: %1;").
 // 		  arg(palette().highlightedText().color().name()));
-  lay->addWidget(gr);
+  m_stateLabel->setStyleSheet(QString("border-radius: 3px;"));
+//   lay->addWidget(gr);
+  lay->addWidget(m_stateLabel);
   setLayout(lay);
   
   
@@ -71,6 +74,14 @@ void TpitchView::stopVolume() {
 //------------------------------------------------------------------------------------
 
 int hideCnt = 0; // counter of m_volTimer loops. After 7 loop text is hidden (7 * 75ms = 525 ms)
+QString getBGcolorText(QColor C) {
+  if ( C != -1)
+    return QString(
+      "background-color: rgba(%1, %2, %3, %4); ")
+            .arg(C.red()).arg(C.green()).arg(C.blue()).arg(C.alpha());
+  else
+    return QString("background-color: transparent; ");
+}
 
 void TpitchView::noteSlot(Tnote note) {
   Q_UNUSED(note)
@@ -81,8 +92,34 @@ void TpitchView::noteSlot(Tnote note) {
 void TpitchView::updateLevel() {
 	m_volMeter->setVolume(qreal(m_audioIN->maxPeak()) / 32768.0);
 	hideCnt++;
-	if (hideCnt == 7)
-	  m_stateLabel->setText("");
+	if (hideCnt < 8)
+    switch (hideCnt) {
+      case 0 : m_pitchColor.setAlpha(255);
+        m_stateLabel->setStyleSheet(getBGcolorText(m_pitchColor));
+        break;
+      case 1 : m_pitchColor.setAlpha(225);
+        m_stateLabel->setStyleSheet(getBGcolorText(m_pitchColor));
+        break;
+      case 2 : m_pitchColor.setAlpha(200);
+        m_stateLabel->setStyleSheet(getBGcolorText(m_pitchColor));
+        break;
+      case 3 : m_pitchColor.setAlpha(175);
+        m_stateLabel->setStyleSheet(getBGcolorText(m_pitchColor));
+        break;
+      case 4 : m_pitchColor.setAlpha(150);
+        m_stateLabel->setStyleSheet(getBGcolorText(m_pitchColor));
+        break;
+      case 5 : m_pitchColor.setAlpha(100);
+        m_stateLabel->setStyleSheet(getBGcolorText(m_pitchColor));
+        break;
+      case 6 : m_pitchColor.setAlpha(50);
+        m_stateLabel->setStyleSheet(getBGcolorText(m_pitchColor));
+        break;
+      case 7 : m_pitchColor.setAlpha(0);
+        m_stateLabel->setStyleSheet(getBGcolorText(m_pitchColor));
+        m_stateLabel->setText("");
+        break;
+    }
 }
 
 

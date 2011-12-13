@@ -15,43 +15,40 @@
  *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
+#ifndef TSOUND_H
+#define TSOUND_H
 
-
-#ifndef TPITCHVIEW_H
-#define TPITCHVIEW_H
-
-#include <QWidget>
-#include "taudioin.h"
+#include <QObject>
 #include "tnote.h"
 
-class QTimer;
-class QLabel;
-class TvolumeMeter;
+class TaudioOUT;
 
-  /** This class represents volume meter of audio signal
-   * and displays note symbol when TaudioIN detected it  */
-class TpitchView : public QWidget
+class Tsound : public QObject
 {
+
   Q_OBJECT
+  
 public:
-  explicit TpitchView(TaudioIN *audioIn, QWidget *parent = 0);
-  virtual ~TpitchView();
+  explicit Tsound(QObject *parent = 0);
+  virtual ~Tsound();
   
-  void setAudioInput(TaudioIN *audioIn) { m_audioIN = audioIn; }
-	/** Starts grabbing of peak level*/
-  void startVolume();
-  void stopVolume();
+  TaudioOUT *player;
+  // *sniffer
   
-protected slots:
-  void noteSlot(Tnote note);
-  void updateLevel();
+  void play(Tnote note);
+  bool isPlayable() { return m_playable; }
+  void acceptSettings();
+  
+signals:
+  void noteDetected(Tnote note);
   
 private:
-  TvolumeMeter *m_volMeter;
-  QLabel *m_stateLabel;
-  TaudioIN *m_audioIN;
-  QTimer *m_volTimer;  
+  bool m_playable;
+  
+private slots:
+    /** Is performed when note stops plaing, then sniffing is unlocked*/
+  void playingFinished();
   
 };
 
-#endif // TPITCHVIEW_H
+#endif // TSOUND_H

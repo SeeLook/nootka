@@ -17,33 +17,43 @@
  ***************************************************************************/
 
 
-#ifndef TAUDIOPARAMS_H
-#define TAUDIOPARAMS_H
+#ifndef TPITCHVIEW_H
+#define TPITCHVIEW_H
 
-#include <QString>
+#include <QWidget>
+#include "taudioin.h"
+#include "tnote.h"
 
+class QTimer;
+class QLabel;
+class TvolumeMeter;
 
-  /** class describes audio input parameters. */
-class TaudioParams 
+  /** This class represents volume meter of audio signal
+   * and displays note symbol when TaudioIN detected it  */
+class TpitchView : public QWidget
 {
-  
+  Q_OBJECT
 public:
-// audio input settings
-  bool INenabled; // is audio input enabled
-  QString INdevName; // input device name
-  float a440diff; // difference betwen standard a1 440Hz and user prefered base pitch
-  qint16 noiseLevel; // default 70 -- 0.2% of 32768 - smallest noise
-    /** If true - pitch is average of all visible pitches
-     * if false - the first detected in sound over noise is taken.  */
-  bool isVoice; 
-
-// audio output settings
-  bool OUTenabled; // audio output enabled
-  QString OUTdevName; // output device name
-  bool midiEnabled; // default false
-  QString midiPortName; // default empty to find system default
-  unsigned char midiInstrNr; // default 0 - grand piano
+  explicit TpitchView(TaudioIN *audioIn, QWidget *parent = 0);
+  virtual ~TpitchView();
+  
+  void setAudioInput(TaudioIN *audioIn) { m_audioIN = audioIn; }
+	/** Starts grabbing of peak level*/
+  void startVolume();
+  void stopVolume();
+  void setPitchColor(QColor col) { m_pitchColor = col; }
+  
+protected slots:
+  void noteSlot(Tnote note);
+  void updateLevel();
+  
+private:
+  TvolumeMeter *m_volMeter;
+  QLabel *m_stateLabel;
+  TaudioIN *m_audioIN;
+  QTimer *m_volTimer;
+  QColor m_pitchColor;
+  
 };
 
-
-#endif // TAUDIOPARAMS_H
+#endif // TPITCHVIEW_H

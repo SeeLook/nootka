@@ -196,18 +196,18 @@ void TaudioIN::audioDataReady() {
 		m_maxPeak = maxP;
 		if (m_maxPeak > m_params.noiseLevel) {
 		  if (m_pitch->isBussy())
-			qDebug() << "data ignored";
+        qDebug() << "data ignored";
 		  else {
-			m_pitch->searchIn(m_floatBuff);
-			if (!m_noteStarted) {
-			  m_noteStarted = true;
-			}
+        m_pitch->searchIn(m_floatBuff);
+        if (!m_noteStarted) {
+          m_noteStarted = true;
+        }
 		  }
 		} else {
 		  if (m_noteStarted) {
-			m_pitch->searchIn(0);
-			m_noteStarted = false;
-			gotNote = false;
+        m_pitch->searchIn(0);
+        m_noteStarted = false;
+        gotNote = false;
 		  }			
 		}
 		m_floatsWriten = -1;
