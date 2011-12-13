@@ -23,7 +23,7 @@
 #include "tartini/analysisdata.h"
 
 #include <QDebug>
-#include <stdio.h>
+// #include <stdio.h>
 
 TpitchFinder::audioSetts *glAsett;
 
@@ -145,6 +145,7 @@ void TpitchFinder::run() {
 			if (nn > lowestMidiNote) {
 // 			  qDebug() << noticedChunk << currentChunk();
 			  emit pitchFound(nn);
+        emit fundamentalFreq(pitch2freq(nn));
 			}
 		  }
 		} else { // pitch in single chunk 

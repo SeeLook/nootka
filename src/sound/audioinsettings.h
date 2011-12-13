@@ -16,34 +16,61 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#ifndef AUDIOINSETTINGS_H
+#define AUDIOINSETTINGS_H
+#include <QWidget>
+#include "saudioinparams.h"
+#include "tnote.h"
 
-#ifndef TAUDIOPARAMS_H
-#define TAUDIOPARAMS_H
+class TpitchView;
+class QDoubleSpinBox;
+class TaudioIN;
+class QLabel;
+class QPushButton;
+class QSpinBox;
+class QCheckBox;
+class QGroupBox;
+class QComboBox;
 
-#include <QString>
 
-
-  /** class describes audio input parameters. */
-class TaudioParams 
+class AudioInSettings: public QWidget
 {
-  
+  Q_OBJECT
 public:
-// audio input settings
-  bool INenabled; // is audio input enabled
-  QString INdevName; // input device name
-  float a440diff; // difference betwen standard a1 440Hz and user prefered base pitch
-  qint16 noiseLevel; // default 70 -- 0.2% of 32768 - smallest noise
-    /** If true - pitch is average of all visible pitches
-     * if false - the first detected in sound over noise is taken.  */
-  bool isVoice; 
-
-// audio output settings
-  bool OUTenabled; // audio output enabled
-  QString OUTdevName; // output device name
-  bool midiEnabled; // default false
-  QString midiPortName; // default empty to find system default
-  unsigned char midiInstrNr; // default 0 - grand piano
+  
+  explicit AudioInSettings(QWidget *parent = 0);
+  virtual ~AudioInSettings();
+  
+  QString testTxt, stopTxt;
+  
+protected:
+  void setTestDisabled(bool disabled);
+	/** Writes state of widgets to m_aInParams struct. */
+  void grabParams();
+  
+protected slots:
+  void testSlot();
+  void calcSlot();
+  void noiseDetected(qint16 noise);
+  void noteSlot(Tnote note);
+  void freqSlot(float freq);
+  void intervalChanged(int index);
+  void baseFreqChanged(int bFreq);
+  
+private:
+  QComboBox *inDeviceCombo, *detectMethodCombo, *intervalCombo;
+  QGroupBox *enableInBox, *midABox, *noisGr;
+  QCheckBox  *loudChB, *voiceChB/*, *noiseChB*/;
+  QSpinBox *freqSpin;
+  QDoubleSpinBox *noiseSpin;
+  QPushButton *calcButt, *testButt;
+  QLabel *pitchLab, *freqLab;
+  bool m_testDisabled;
+  TpitchView *volMeter;
+  TaudioIN *m_audioIn;
+  qint16 m_noiseLevel;
+  SaudioInParams m_aInParams; 
+  
 };
 
-
-#endif // TAUDIOPARAMS_H
+#endif // AUDIOINSETTINGS_H

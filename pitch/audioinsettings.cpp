@@ -122,6 +122,7 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   volMeter = new TpitchView(m_audioIn, this);
   testLay->addWidget(volMeter);
   volMeter->setStatusTip(tr("Level of a volume"));
+  volMeter->setPitchColor(palette().highlight().color());
   testLay->addStretch(1);
   QVBoxLayout *freqLay = new QVBoxLayout();
   freqLay->setAlignment(Qt::AlignCenter);

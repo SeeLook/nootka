@@ -163,6 +163,11 @@ Tglobals::Tglobals() {
       A->midiEnabled = sett.value("midiEnabled", false).toBool();
       A->midiPortName = sett.value("midiPortName", "").toString();
       A->midiInstrNr = (unsigned char)sett.value("midiInstrumentNr", 0).toInt();
+      A->INenabled = sett.value("inSoundEnabled", true).toBool();
+      A->INdevName = sett.value("inDeviceName", "").toString();
+      A->isVoice = sett.value("isVoice", false).toBool();
+      A->noiseLevel = (qint16)sett.value("noiseLevel", 70).toInt();
+      A->a440diff = sett.value("a440Offset", 0).toFloat();
     sett.endGroup();
 
 }
@@ -248,5 +253,10 @@ void Tglobals::storeSettings() {
         sett.setValue("midiEnabled", A->midiEnabled);
         sett.setValue("midiPortName", A->midiPortName);
         sett.setValue("midiInstrumentNr", (int)A->midiInstrNr);
+        sett.setValue("inSoundEnabled", A->INenabled);
+        sett.setValue("inDeviceName", A->INdevName);
+        sett.setValue("isVoice", A->isVoice);
+        sett.setValue("noiseLevel", A->noiseLevel);      
+        sett.setValue("a440Offset", A->a440diff);
     sett.endGroup();
 }
