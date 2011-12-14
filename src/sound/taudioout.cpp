@@ -120,8 +120,9 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
 
 
 bool TaudioOUT::setAudioDevice(QString& name) {
-    bool fnd = false;
-    QList<QAudioDeviceInfo> dL = QAudioDeviceInfo::availableDevices(QAudio::AudioOutput);
+  bool fnd = false;
+  QList<QAudioDeviceInfo> dL = QAudioDeviceInfo::availableDevices(QAudio::AudioOutput);
+  if (dL.size()) {
     for(int i = 0; i < dL.size(); i++) { // Is there device on the list ??
         if (dL[i].deviceName() == name) { // There is !!
             m_deviceInfo = dL[i];
@@ -129,23 +130,27 @@ bool TaudioOUT::setAudioDevice(QString& name) {
             break;
         }
     }
-    if (m_audioOutput) {
-        delete m_audioOutput;
-        m_audioOutput = 0;
-    }
     if (!fnd) { // no device on the list - load default
         m_deviceInfo = QAudioDeviceInfo::defaultOutputDevice();
         fnd = true;
     }
-    if (!m_deviceInfo.isFormatSupported(templAudioFormat)) {
+  }
+  if (m_audioOutput) {
+      delete m_audioOutput;
+      m_audioOutput = 0;
+  }
+  if (fnd) {
+    if (m_deviceInfo.isFormatSupported(templAudioFormat)) {
+        qDebug() << m_deviceInfo.deviceName();
+        m_devName = m_deviceInfo.deviceName(); //TODO: save device name to globals ?!
+        m_audioOutput = new QAudioOutput(m_deviceInfo, templAudioFormat, this);
+    } else {
         qDebug() << m_deviceInfo.deviceName() << "format unsupported !!";
         fnd = false;
-    }
-    if (fnd) {
-        qDebug() << m_deviceInfo.deviceName();
-        m_devName = m_deviceInfo.deviceName();
-        m_audioOutput = new QAudioOutput(m_deviceInfo, templAudioFormat, this);
-    }
+    }    
+  } else {
+      qDebug() << "no output devices found";
+  }
     return fnd;
 }
 

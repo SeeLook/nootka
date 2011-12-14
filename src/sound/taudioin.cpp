@@ -68,7 +68,7 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
 {    
   prepTemplFormat();
   setParameters(params);
-  m_buffer.resize(8192*4); // samples count in mono signal
+  m_buffer.resize(8192*4); // calculated by hand, can be not enought
   m_buffer.fill(0);
   
   connect(m_pitch, SIGNAL(found(float,float)), this, SLOT(pitchFreqFound(float,float)));
@@ -87,9 +87,13 @@ TaudioIN::~TaudioIN()
 	delete[] (m_floatBuff - 16);
 }
 
-QString TaudioIN::deviceName() {
-  return m_params.devName;
-}
+//------------------------------------------------------------------------------------
+//------------          methods         ----------------------------------------------
+//------------------------------------------------------------------------------------
+
+// QString TaudioIN::deviceName() {
+//   return m_params->INdevName;
+// }
 
 void TaudioIN::setParameters(TaudioParams* params) {
   setAudioDevice(params->INdevName);
@@ -119,7 +123,6 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
 	}
 	
   if (fnd) {
-	  qDebug() << m_deviceInfo.deviceName();
     if (m_deviceInfo.isFormatSupported(templAudioFormat)) {
       qDebug() << m_deviceInfo.deviceName();
       m_params->INdevName = m_deviceInfo.deviceName();
@@ -129,8 +132,8 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
       fnd = false;
     }	  
 	}	else {
-	  qDebug() << "no devices found";
-	  m_params.devName = "";
+	  qDebug() << "no input devices found";
+// 	  m_params->INdevName = "";
 	}
 	return fnd;
 }
@@ -154,8 +157,21 @@ void TaudioIN::startListening() {
 }
 
 void TaudioIN::stopListening() {
-  m_audioInput->stop(); // TODO: maybe send something to m_pitch to clean it
+  m_audioInput->stop();
+  m_pitch->resetFinder();
   m_noteStarted = false;
+}
+
+void TaudioIN::wait() {
+  if (isAvailable()) {
+    m_audioInput->suspend();
+    m_pitch->resetFinder();
+  }  
+}
+
+void TaudioIN::go() {
+  if (isAvailable() && m_audioInput->state() == QAudio::SuspendedState)
+    m_audioInput->resume();
 }
 
 
@@ -190,10 +206,10 @@ qint16 maxP = 0;
 void TaudioIN::audioDataReady() {	
 	if (m_audioInput->state() != QAudio::ActiveState && m_audioInput->state() != QAudio::IdleState)
 	  qDebug() << "Device in state:" << (int)m_audioInput->state();
+  
 	qint64 bytesReady = m_audioInput->bytesReady();
 	qint64 bSize = m_buffer.size();
-	qint64 toRead = qMin(bytesReady, bSize);
-	
+	qint64 toRead = qMin(bytesReady, bSize);	
 	qint64 dataRead = m_IOaudioDevice->read(m_buffer.data(), toRead) / 2;
 	if (dataRead > bSize/2) {
 		dataRead = bSize/2;
@@ -209,7 +225,7 @@ void TaudioIN::audioDataReady() {
 
 	  if (m_floatsWriten == m_pitch->aGl().framesPerChunk-1) {
 		m_maxPeak = maxP;
-		if (m_maxPeak > m_params.noiseLevel) {
+		if (m_maxPeak > m_params->noiseLevel) {
 		  if (m_pitch->isBussy())
         qDebug() << "data ignored";
 		  else {
@@ -223,7 +239,7 @@ void TaudioIN::audioDataReady() {
         m_pitch->searchIn(0);
         m_noteStarted = false;
         gotNote = false;
-		  }			
+		  }
     }
     m_floatsWriten = -1;
     maxP = 0;
@@ -255,7 +271,7 @@ void TaudioIN::readToCalc() {
 
 void TaudioIN::pitchFreqFound(float pitch, float freq) {
   if(!gotNote) {
-    emit noteDetected(Tnote(qRound(pitch + m_params.a440diff)-47));
+    emit noteDetected(Tnote(qRound(pitch + m_params->a440diff)-47));
     emit fundamentalFreq(freq);
     gotNote = true;
   }

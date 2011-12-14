@@ -18,6 +18,7 @@
 #include "tsound.h"
 #include "tglobals.h"
 #include "taudioout.h"
+#include "taudioin.h"
 #include "taudioparams.h"
 
 
@@ -26,13 +27,17 @@ extern Tglobals *gl;
 Tsound::Tsound(QObject* parent) : 
   QObject(parent)
 {
-  if (gl->A->OUTenabled) {
-      player = new TaudioOUT(gl->A, gl->path, this);
-      m_playable = player->isPlayable();
-  }
+  if (gl->A->OUTenabled)
+      createPlayer();
   else {
       player = 0;
       m_playable = false;
+  }
+  if (gl->A->INenabled) {
+    createSniffer();
+  } else {
+    sniffer = 0;
+    m_sniffable = false;
   }
 }
 
@@ -42,15 +47,19 @@ Tsound::~Tsound()
 void Tsound::play(Tnote note) {
   if(m_playable) {
     player->play(note.getChromaticNrOfNote());
+    if (m_sniffable)
+      sniffer->wait();
   }
 }
 
 void Tsound::acceptSettings() {
   if (gl->A->OUTenabled) {
     if (!player)
-        player = new TaudioOUT(gl->A, gl->path, this);
-    else
+        createPlayer();
+    else {
         player->setAudioOutParams(gl->A);
+        m_playable = player->isPlayable();
+    }
   } else {
     if (player) {
         delete player;
@@ -58,10 +67,43 @@ void Tsound::acceptSettings() {
         m_playable = false;
     }      
   }
+  if (gl->A->INenabled) {
+    if (!sniffer)
+      createSniffer();
+    else {
+      sniffer->setParameters(gl->A);
+      m_sniffable = sniffer->isAvailable();
+    }
+  } else {
+    if (sniffer) {
+      delete sniffer;
+      sniffer = 0;
+      m_sniffable = false;
+    }
+  }
+}
+
+void Tsound::createPlayer() {
+  player = new TaudioOUT(gl->A, gl->path, this);
+  m_playable = player->isPlayable();
+  connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinished()));
+}
+
+void Tsound::createSniffer() {
+  sniffer = new TaudioIN(gl->A, this);
+  sniffer->startListening();
+  m_sniffable = sniffer->isAvailable();
+  connect(sniffer, SIGNAL(noteDetected(Tnote)), this, SLOT(noteDetectedSlot(Tnote)));
 }
 
 
 //-------------------------------- slots ----------------------------------------------------
 void Tsound::playingFinished() {
-
+  if (m_sniffable)
+    sniffer->go();
 }
+
+void Tsound::noteDetectedSlot(Tnote note) {
+  emit detectedNote(note);
+}
+

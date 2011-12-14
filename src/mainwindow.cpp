@@ -54,10 +54,6 @@ MainWindow::MainWindow(QWidget *parent)
     }
     TkeySignature::setNameStyle(gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
 
-//     if (gl->A->OUTenabled)
-//         player = new TaudioOUT(gl->A, gl->path, this);
-//     else
-//         player = 0;
     sound = new Tsound(this);
 
     QWidget *widget = new QWidget(this);
@@ -122,10 +118,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
     connect(guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
     connect(m_hintsChB, SIGNAL(clicked(bool)), this, SLOT(hintsStateChanged(bool)));
+    connect(sound, SIGNAL(detectedNote(Tnote)), this, SLOT(soundWasPlayed(Tnote)));
 
     if (gl->A->OUTenabled && !sound->isPlayable())
         QMessageBox::warning(this, "", tr("Problems with sound output"));
-
+    
 }
 
 MainWindow::~MainWindow()
@@ -295,6 +292,19 @@ void MainWindow::guitarWasClicked(Tnote note) {
         noteName->setNoteName(note);
     score->setNote(0, note);
 }
+
+void MainWindow::soundWasPlayed(Tnote note) {
+  if (gl->showEnharmNotes) {
+      TnotesList noteList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
+      noteName->setNoteName(noteList);
+      score->setNote(1, noteName->getNoteName(1));
+      score->setNote(2, noteName->getNoteName(2));
+  } else
+      noteName->setNoteName(note);
+  score->setNote(0, note);
+  guitar->setFinger(note);
+}
+
 
 void MainWindow::restoreMessage() {
     m_lockStat = false;

@@ -103,18 +103,21 @@ void TpitchFinder::searchIn(float* chunk) {
           std::copy(m_workChunk, m_workChunk+aGl().framesPerChunk-1, m_channel->end() - aGl().framesPerChunk);
       run();
   } else {
-      delete m_channel;
-      m_chunkNum = 0;
-      myTransforms.uninit();
-      m_channel = new Channel(this, aGl().windowSize);
-      myTransforms.init(aGl().windowSize, 0, aGl().rate, aGl().equalLoudness);
+      resetFinder();
   }
+}
+
+void TpitchFinder::resetFinder() {
+  delete m_channel;
+  m_chunkNum = 0;
+  myTransforms.uninit();
+  m_channel = new Channel(this, aGl().windowSize);
+  myTransforms.init(aGl().windowSize, 0, aGl().rate, aGl().equalLoudness);
 }
 
 
 void TpitchFinder::run() {
 	m_isBussy = true;
-		
 	FilterState filterState;
 	m_channel->processNewChunk(&filterState);
 	AnalysisData *data = m_channel->dataAtCurrentChunk();

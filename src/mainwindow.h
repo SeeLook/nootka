@@ -61,13 +61,13 @@ public slots:
     void noteWasClicked(int index, Tnote note);
     void noteNameWasChanged(Tnote note);
     void guitarWasClicked(Tnote note);
+    void soundWasPlayed(Tnote note);
 
 
 protected:
     TscoreWidget *score;
     TnoteName *noteName;
     TfingerBoard *guitar;
-//     TaudioOUT *player;
     Tsound *sound;
     TexamView *examResults;
     TexamExecutor *ex;

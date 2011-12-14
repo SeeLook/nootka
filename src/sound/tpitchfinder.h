@@ -54,7 +54,8 @@ inline double pitch2freq(double note)
 class Channel;
 
 // QT_FORWARD_DECLARE_CLASS(MyTransforms)
-
+  /** Types of detection methods. */
+  enum EanalysisModes { e_MPM = 0, e_AUTOCORRELATION = 1, e_MPM_MODIFIED_CEPSTRUM = 2 };
 
 /** The main purpose of this class is to recognize pitch
  * of aduio data flowing throught it. 
@@ -70,8 +71,6 @@ public:
     virtual ~TpitchFinder();
 	
 	MyTransforms myTransforms;
-	  /** Types of detection methods. */
-  enum EanalysisModes { e_MPM = 0, e_AUTOCORRELATION = 1, e_MPM_MODIFIED_CEPSTRUM = 2 };
 	  /** Audio input & pitch recognition settings. */
 	struct audioSetts {
 	  quint32 rate;
@@ -104,6 +103,8 @@ public:
 	void setCurrentChunk(int curCh) { m_chunkNum = curCh; }
 	void incrementChunk() { m_chunkNum++; }
 	void setIsVoice(bool voice);
+    /** Cleans all buffers, sets m_chunkNum to 0. */
+  void resetFinder();
 	
 signals:
 	/** Signal emited when pitch is detected. 
