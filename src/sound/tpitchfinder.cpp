@@ -123,32 +123,32 @@ void TpitchFinder::run() {
 	AnalysisData *data = m_channel->dataAtCurrentChunk();
 	if (data) {
 	  if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)) {
-		if (m_aGl.isVoice) { // average pitch
-		  if (!noteNoticed) {
-			noteNoticed = true;
-			noticedChunk = currentChunk();
-		  }
-		} else { // pitch in single chunk
-			if (shown && data->pitch > lowestMidiNote) {
-// 			  qDebug() << currentChunk() << data->noteIndex << data->fundamentalFreq;
-			  shown = false;
-        emit found(data->pitch, data->fundamentalFreq);
-			}
-		}
-	  } else {
-		if (m_aGl.isVoice) { // average pitch - shown when note is stoped
-		  if(noteNoticed) {
-			noteNoticed = false;
-			float nn = m_channel->averagePitch(noticedChunk, currentChunk());
-			if (nn > lowestMidiNote) {
-        emit found(nn, pitch2freq(nn));
-			}
-		  }
-		} else { // pitch in single chunk 
-			shown = true;
-		}
-		emit noteStoped();
-	  }
+      if (m_aGl.isVoice) { // average pitch
+        if (!noteNoticed) {
+        noteNoticed = true;
+        noticedChunk = currentChunk();
+        }
+      } else { // pitch in single chunk
+        if (shown && data->pitch > lowestMidiNote) {
+  // 			  qDebug() << currentChunk() << data->noteIndex << data->fundamentalFreq;
+          shown = false;
+          emit found(data->pitch, data->fundamentalFreq);
+        }
+      }
+      } else {
+      if (m_aGl.isVoice) { // average pitch - shown when note is stoped
+        if(noteNoticed) {
+        noteNoticed = false;
+        float nn = m_channel->averagePitch(noticedChunk, currentChunk());
+        if (nn > lowestMidiNote) {
+          emit found(nn, pitch2freq(nn));
+        }
+        }
+      } else { // pitch in single chunk 
+        shown = true;
+      }
+      emit noteStoped();
+      }
 	}
 	incrementChunk();
 	m_isBussy = false;
