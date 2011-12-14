@@ -52,9 +52,29 @@ SET( NOOTKA_SRCS
 ###### Sound
   sound/tsound.cpp
   sound/taudioout.cpp
+  sound/taudioin.cpp
   sound/soundsettings.cpp
   sound/RtMidi.cpp
   sound/taudioparams.h
+  sound/tpitchfinder.cpp
+# tartini
+  sound/tartini/channel.cpp
+  sound/tartini/analysisdata.cpp
+  sound/tartini/mytransforms.cpp
+  sound/tartini/notedata.cpp
+  sound/tartini/bspline.cpp
+  sound/tartini/conversions.cpp
+  sound/tartini/useful.cpp
+  sound/tartini/fast_smooth.cpp
+  sound/tartini/array1d.h
+  sound/tartini/large_vector.h
+  sound/tartini/SmartPtr.h
+ # filters
+  sound/tartini/filters/Filter.h
+  sound/tartini/filters/FastSmoothedAveragingFilter.cpp
+  sound/tartini/filters/FixedAveragingFilter.cpp
+  sound/tartini/filters/GrowingAveragingFilter.cpp
+  sound/tartini/filters/IIR_Filter.cpp
   )
 
 #SET( NOOTKA_HEADERS
@@ -102,7 +122,9 @@ SET( NOOTKA_MOC_SRCS
 ###### Sound
   sound/tsound.h
   sound/taudioout.h
+  sound/taudioin.h
   sound/soundsettings.h
+  sound/tpitchfinder.h
   )
 
 QT4_WRAP_CPP( NOOTKA_MOCS ${NOOTKA_MOC_SRCS} )
@@ -122,7 +144,7 @@ IF(WIN32)
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
         ${QTMULTIMEDIAKIT_LIBRARY}
-#         ${FFTW3_LIBRARIES}
+        ${FFTW3_LIBRARIES}
         winmm
 	)
 
@@ -136,7 +158,7 @@ ELSE(WIN32) #Linux
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
         ${QTMULTIMEDIAKIT_LIBRARY}
-#         ${FFTW3_LIBRARIES}
+        ${FFTW3_LIBRARIES}
         ${ALSA_LIBRARY} ${PTHREAD_LIBRARY}
 	)
 

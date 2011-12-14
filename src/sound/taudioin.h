@@ -49,9 +49,9 @@ public:
 		 * signed int resolution (16bit)
 		 * pcm data */
 	static QAudioFormat templAudioFormat;
-	QString deviceName();
+// 	inline QString deviceName();
 	
-	bool isAvailAble() {return (m_IOaudioDevice ? true : false) ; }
+	bool isAvailable() {return (m_IOaudioDevice ? true : false) ; }
 
 	bool setAudioDevice(const QString &devN);
 	void startListening();
@@ -65,6 +65,10 @@ public:
 	   * SaudioInParams::deviceName is ignored. It have to be set separately
 	   * by setAudioDevice() method. 	   */
 	void setParameters(TaudioParams *params);	
+    /** Pauses TaudioIN */
+  void wait();
+    /** Wakes up TaudioIN after pause called by wait() */
+  void go();
 
 signals:
 	void noteDetected(Tnote note);

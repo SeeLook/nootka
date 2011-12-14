@@ -21,6 +21,7 @@
 #include <QObject>
 #include "tnote.h"
 
+class TaudioIN;
 class TaudioOUT;
 
 class Tsound : public QObject
@@ -33,21 +34,26 @@ public:
   virtual ~Tsound();
   
   TaudioOUT *player;
-  // *sniffer
+  TaudioIN  *sniffer;
   
   void play(Tnote note);
   bool isPlayable() { return m_playable; }
   void acceptSettings();
   
 signals:
-  void noteDetected(Tnote note);
+  void detectedNote(Tnote note);
   
 private:
-  bool m_playable;
+  void createPlayer();
+  void createSniffer();
+  
+  
+  bool m_playable, m_sniffable;
   
 private slots:
-    /** Is performed when note stops plaing, then sniffing is unlocked*/
+    /** Is performed when note stops plaing, then sniffing is unlocked */
   void playingFinished();
+  void noteDetectedSlot(Tnote note);
   
 };
 

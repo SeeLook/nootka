@@ -1,9 +1,11 @@
 0.8
+    - 
     - Bespin style "frendly" - more clear look of buttons
   BUGS FIXES
     -
   Under the hood
     - cpack rules for building deb & rpm packages
+    - ported audio lib to "Qt native" QAudio
 
 0.7.8
     - added Czech translation
