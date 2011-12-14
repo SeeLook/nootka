@@ -20,6 +20,7 @@
 #include "taudioout.h"
 #include "taudioin.h"
 #include "taudioparams.h"
+#include "tpitchview.h"
 
 
 extern Tglobals *gl;
@@ -47,8 +48,10 @@ Tsound::~Tsound()
 void Tsound::play(Tnote note) {
   if(m_playable) {
     player->play(note.getChromaticNrOfNote());
-    if (m_sniffable)
+    if (m_sniffable) {
       sniffer->wait();
+      m_pitchView->stopVolume();
+    }
   }
 }
 
@@ -96,11 +99,21 @@ void Tsound::createSniffer() {
   connect(sniffer, SIGNAL(noteDetected(Tnote)), this, SLOT(noteDetectedSlot(Tnote)));
 }
 
+void Tsound::setPitchView(TpitchView* pView) {
+  if (m_sniffable) {
+      m_pitchView = pView;
+      m_pitchView->setPitchColor(gl->EquestionColor);
+      m_pitchView->startVolume();
+  }
+}
+
 
 //-------------------------------- slots ----------------------------------------------------
 void Tsound::playingFinished() {
-  if (m_sniffable)
+  if (m_sniffable) {
     sniffer->go();
+    m_pitchView->startVolume();
+  }
 }
 
 void Tsound::noteDetectedSlot(Tnote note) {

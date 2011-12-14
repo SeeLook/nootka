@@ -18,7 +18,7 @@
 
 
 #include "tpitchview.h"
-#include "../tvolumemeter.h"
+#include "tvolumemeter.h"
 #include <QTimer>
 #include <QLabel>
 #include <QHBoxLayout>
@@ -35,16 +35,12 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent):
   lay->addWidget(m_volMeter);
   QVBoxLayout *statLay = new QVBoxLayout();
   m_stateLabel = new QLabel(this);
-//   statLay->addWidget(m_stateLabel);
-//   QGroupBox *gr = new QGroupBox(this);
-//   gr->setLayout(statLay);
   m_stateLabel->setFixedWidth(20);
   m_stateLabel->setFont(QFont("nootka"));
   m_stateLabel->setStatusTip(tr("state of pitch detection."));
 //   m_stateLabel->setStyleSheet(QString("border-radius: 6px; background-color: palette(Highlight); color: %1;").
 // 		  arg(palette().highlightedText().color().name()));
-  m_stateLabel->setStyleSheet(QString("border-radius: 3px;"));
-//   lay->addWidget(gr);
+  m_stateLabel->setStyleSheet(QString("border-radius: 6px;"));
   lay->addWidget(m_stateLabel);
   setLayout(lay);
   
@@ -59,8 +55,10 @@ TpitchView::~TpitchView()
 }
 
 void TpitchView::startVolume() {
-	connect(m_audioIN, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
-	m_volTimer->start(75);
+  if (m_audioIN) {
+    connect(m_audioIN, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
+    m_volTimer->start(75);
+  }
 }
 
 void TpitchView::stopVolume() {
@@ -77,7 +75,7 @@ int hideCnt = 0; // counter of m_volTimer loops. After 7 loop text is hidden (7 
 QString getBGcolorText(QColor C) {
   if ( C != -1)
     return QString(
-      "background-color: rgba(%1, %2, %3, %4); ")
+      "background-color: rgba(%1, %2, %3, %4); border-radius: 6px;")
             .arg(C.red()).arg(C.green()).arg(C.blue()).arg(C.alpha());
   else
     return QString("background-color: transparent; ");

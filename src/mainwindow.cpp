@@ -28,7 +28,8 @@
 #include <QtGui>
 #include "texam.h"
 #include "taudioparams.h"
-#include <taudioout.h>
+#include "taudioout.h"
+#include "tpitchview.h"
 //#include <QDebug>
 
 extern Tglobals *gl;
@@ -38,12 +39,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     Ttune::prepareDefinedTunes();
 // 	TpushButton::setCheckColor(gl->SpointerColor, Tglobals::invertColor(gl->SpointerColor));
-	TpushButton::setCheckColor(palette().highlight().color().name(),
-		palette().highlightedText().color() );
+    TpushButton::setCheckColor(palette().highlight().color().name(),
+    palette().highlightedText().color() );
 
     setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
     setMinimumSize(640,480);
-	setGeometry(50, 50, 800, 600);
+    setGeometry(50, 50, 800, 600);
 //     setMinimumSize(800, 600);
 
     if (gl->isFirstRun) {
@@ -65,6 +66,9 @@ MainWindow::MainWindow(QWidget *parent)
     scoreLay->addWidget(nootBar);
     score = new TscoreWidget(3, widget);
     scoreLay->addWidget(score);
+    pitchView = new TpitchView(sound->sniffer, this);
+    sound->setPitchView(pitchView);
+    scoreLay->addWidget(pitchView);
     scoreAndNameLay->addLayout(scoreLay);
 
 //-------------------------------------------------------------------
