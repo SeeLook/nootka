@@ -57,6 +57,8 @@ SET( NOOTKA_SRCS
   sound/RtMidi.cpp
   sound/taudioparams.h
   sound/tpitchfinder.cpp
+  sound/tvolumemeter.cpp
+  sound/tpitchview.cpp
 # tartini
   sound/tartini/channel.cpp
   sound/tartini/analysisdata.cpp
@@ -125,6 +127,8 @@ SET( NOOTKA_MOC_SRCS
   sound/taudioin.h
   sound/soundsettings.h
   sound/tpitchfinder.h
+  sound/tvolumemeter.h
+  sound/tpitchview.h
   )
 
 QT4_WRAP_CPP( NOOTKA_MOCS ${NOOTKA_MOC_SRCS} )

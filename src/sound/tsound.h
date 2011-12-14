@@ -21,9 +21,15 @@
 #include <QObject>
 #include "tnote.h"
 
+class TpitchView;
 class TaudioIN;
 class TaudioOUT;
 
+/** Tsound is a wrapper of TaudioIN & TaudioOUT classes
+ * to manage them. It enables/disables them depends on Tglobals,
+ * pauses sniffing when playback is proceding.
+ * Also it has got TpitchView to show volume meter & pitch detection state.
+ */
 class Tsound : public QObject
 {
 
@@ -39,6 +45,7 @@ public:
   void play(Tnote note);
   bool isPlayable() { return m_playable; }
   void acceptSettings();
+  void setPitchView(TpitchView *pView);
   
 signals:
   void detectedNote(Tnote note);
@@ -49,6 +56,7 @@ private:
   
   
   bool m_playable, m_sniffable;
+  TpitchView *m_pitchView;
   
 private slots:
     /** Is performed when note stops plaing, then sniffing is unlocked */

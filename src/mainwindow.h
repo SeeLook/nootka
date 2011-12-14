@@ -28,6 +28,7 @@
 #include "texamexecutor.h"
 #include <QMainWindow>
 
+class TpitchView;
 class Tsound;
 class QCheckBox;
 
@@ -72,6 +73,7 @@ protected:
     TexamView *examResults;
     TexamExecutor *ex;
     QCheckBox *autoRepeatChB;
+    TpitchView *pitchView;
 
     QToolBar *nootBar;
     QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct;
