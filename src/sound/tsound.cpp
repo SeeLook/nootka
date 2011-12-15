@@ -102,7 +102,7 @@ void Tsound::createSniffer() {
 void Tsound::setPitchView(TpitchView* pView) {
   if (m_sniffable) {
       m_pitchView = pView;
-      m_pitchView->setPitchColor(gl->EquestionColor);
+      m_pitchView->setPitchColor(gl->EanswerColor);
       m_pitchView->startVolume();
   }
 }

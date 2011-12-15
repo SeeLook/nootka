@@ -366,6 +366,8 @@ void MainWindow::resizeEvent(QResizeEvent *) {
     examResults->setFontSize(m_statFontSize);
     noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(height() * 0.4)));
     noteName->resize(m_statFontSize);
+    pitchView->setFixedHeight(height()/20);
+    pitchView->resize();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {

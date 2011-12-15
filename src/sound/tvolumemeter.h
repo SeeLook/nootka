@@ -22,6 +22,8 @@
 #include <QWidget>
 
 
+/** Volume meter is volume meter. What we can say more ??
+ * resize() method has to be called from outside. */
 class TvolumeMeter : public QWidget
 {
   Q_OBJECT
@@ -30,16 +32,22 @@ public:
   
   explicit TvolumeMeter(QWidget *parent = 0);
   virtual ~TvolumeMeter();
-  
-  void setVolume(qreal vol);
+    
+    /** @param alpha is alpha value of background color
+     * to manage of the animation of detected pitch */
+  void setVolume(qreal vol, int alpha = 0);
+  void setPitchColor (QColor col) { m_pitchColor = col; }
+  void resize();
 
 protected:
   void paintEvent(QPaintEvent* );
 
 private:
-    qreal m_volume;
-    QPixmap m_pixmap;
-	QLinearGradient m_grad;
+  qreal m_volume;
+  QPixmap m_pixmap;
+  QLinearGradient m_grad;
+  QColor m_pitchColor;
+  int m_alpha; // aplha value of m_pitchColor
 	
 };
 
