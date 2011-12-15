@@ -24,8 +24,8 @@
 #include "taudioin.h"
 #include "tnote.h"
 
+class QPushButton;
 class QTimer;
-class QLabel;
 class TvolumeMeter;
 
   /** This class represents volume meter of audio signal
@@ -41,18 +41,26 @@ public:
 	/** Starts grabbing of peak level*/
   void startVolume();
   void stopVolume();
-  void setPitchColor(QColor col) { m_pitchColor = col; }
+  void setPitchColor(QColor col);
+    /** Button to toggle between voice/instrument mode in TaudioIN */
+  QPushButton *voiceButt;
+    /** Button to pause or activate pitch detection */
+  QPushButton *pauseButt;
+  bool isPaused() { return m_isPaused; }
+  void resize();
   
 protected slots:
   void noteSlot(Tnote note);
   void updateLevel();
+  void voiceClicked();
+  void pauseClicked();
   
 private:
   TvolumeMeter *m_volMeter;
-  QLabel *m_stateLabel;
   TaudioIN *m_audioIN;
   QTimer *m_volTimer;
   QColor m_pitchColor;
+  bool m_isPaused;
   
 };
 

@@ -23,27 +23,31 @@
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QGroupBox>
+#include <QPushButton>
 
 
 TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent): 
   QWidget(parent),
   m_audioIN(audioIn),
-  m_pitchColor(Qt::red)
+  m_pitchColor(Qt::red),
+  m_isPaused(false)
 {
   QHBoxLayout *lay = new QHBoxLayout();
+  voiceButt = new QPushButton("I", this);
+  voiceButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  lay->addWidget(voiceButt);
+  voiceButt->setStatusTip(tr("Toggles between pitch detection for human voice and for instruments"));
+  pauseButt = new QPushButton("n", this);
+  pauseButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  lay->addWidget(pauseButt);
+  pauseButt->setStatusTip(tr("Switch on/off the pitch detection"));
+  pauseButt->setFont(QFont("nootka"));
+  
   m_volMeter = new TvolumeMeter(this);
   lay->addWidget(m_volMeter);
-  QVBoxLayout *statLay = new QVBoxLayout();
-  m_stateLabel = new QLabel(this);
-  m_stateLabel->setFixedWidth(20);
-  m_stateLabel->setFont(QFont("nootka"));
-  m_stateLabel->setStatusTip(tr("state of pitch detection."));
-//   m_stateLabel->setStyleSheet(QString("border-radius: 6px; background-color: palette(Highlight); color: %1;").
-// 		  arg(palette().highlightedText().color().name()));
-  m_stateLabel->setStyleSheet(QString("border-radius: 6px;"));
-  lay->addWidget(m_stateLabel);
-  setLayout(lay);
+  m_volMeter->setStatusTip(tr("Shows volume level of input sound and indicates when note was detected"));
   
+  setLayout(lay);  
   
   m_volTimer = new QTimer(this);
   connect(m_volTimer, SIGNAL(timeout()), this, SLOT(updateLevel()));
@@ -66,58 +70,54 @@ void TpitchView::stopVolume() {
 	m_volMeter->setVolume(0.0);
 }
 
+void TpitchView::setPitchColor(QColor col) {
+  m_pitchColor = col;
+  m_volMeter->setPitchColor(col);
+}
+
+void TpitchView::resize() {
+  //TODO font size on buttons
+  m_volMeter->setFixedHeight(height()-4);
+  m_volMeter->resize();
+}
+
 
 //------------------------------------------------------------------------------------
 //------------          slots       --------------------------------------------------
 //------------------------------------------------------------------------------------
 
-int hideCnt = 0; // counter of m_volTimer loops. After 7 loop text is hidden (7 * 75ms = 525 ms)
-QString getBGcolorText(QColor C) {
-  if ( C != -1)
-    return QString(
-      "background-color: rgba(%1, %2, %3, %4); border-radius: 6px;")
-            .arg(C.red()).arg(C.green()).arg(C.blue()).arg(C.alpha());
-  else
-    return QString("background-color: transparent; ");
-}
+int hideCnt = 8; // counter of m_volTimer loops. After 7 loop text is hidden (7 * 75ms = 525 ms)
 
 void TpitchView::noteSlot(Tnote note) {
   Q_UNUSED(note)
-  m_stateLabel->setText("n");
   hideCnt = 0;
 }
 
 void TpitchView::updateLevel() {
-	m_volMeter->setVolume(qreal(m_audioIN->maxPeak()) / 32768.0);
-	hideCnt++;
-	if (hideCnt < 8)
+  int a = 0;
+  if (hideCnt < 8)
     switch (hideCnt) {
-      case 0 : m_pitchColor.setAlpha(255);
-        m_stateLabel->setStyleSheet(getBGcolorText(m_pitchColor));
-        break;
-      case 1 : m_pitchColor.setAlpha(225);
-        m_stateLabel->setStyleSheet(getBGcolorText(m_pitchColor));
-        break;
-      case 2 : m_pitchColor.setAlpha(200);
-        m_stateLabel->setStyleSheet(getBGcolorText(m_pitchColor));
-        break;
-      case 3 : m_pitchColor.setAlpha(175);
-        m_stateLabel->setStyleSheet(getBGcolorText(m_pitchColor));
-        break;
-      case 4 : m_pitchColor.setAlpha(150);
-        m_stateLabel->setStyleSheet(getBGcolorText(m_pitchColor));
-        break;
-      case 5 : m_pitchColor.setAlpha(100);
-        m_stateLabel->setStyleSheet(getBGcolorText(m_pitchColor));
-        break;
-      case 6 : m_pitchColor.setAlpha(50);
-        m_stateLabel->setStyleSheet(getBGcolorText(m_pitchColor));
-        break;
-      case 7 : m_pitchColor.setAlpha(0);
-        m_stateLabel->setStyleSheet(getBGcolorText(m_pitchColor));
-        m_stateLabel->setText("");
-        break;
+      case 0 : a = 255; break;
+      case 1 : a = 225; break;
+      case 2 : a = 200; break;
+      case 3 : a = 175; break;
+      case 4 : a = 150; break;
+      case 5 : a = 110; break;
+      case 6 : a = 75;  break;
+      case 7 : a = 40;  break;
     }
+    m_volMeter->setVolume(qreal(m_audioIN->maxPeak()) / 32768.0, a);
+    hideCnt++;
+}
+
+void TpitchView::pauseClicked() {
+  
+
+}
+
+void TpitchView::voiceClicked() {
+
+
 }
 
 
