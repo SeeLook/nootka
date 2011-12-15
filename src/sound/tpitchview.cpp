@@ -33,15 +33,16 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent):
   m_isPaused(false)
 {
   QHBoxLayout *lay = new QHBoxLayout();
-  voiceButt = new QPushButton("I", this);
+  voiceButt = new QPushButton("g", this);
   voiceButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   lay->addWidget(voiceButt);
   voiceButt->setStatusTip(tr("Toggles between pitch detection for human voice and for instruments"));
+  voiceButt->setFont(QFont("nootka", 15));
   pauseButt = new QPushButton("n", this);
   pauseButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   lay->addWidget(pauseButt);
   pauseButt->setStatusTip(tr("Switch on/off the pitch detection"));
-  pauseButt->setFont(QFont("nootka"));
+  pauseButt->setFont(QFont("nootka", 15));
   
   m_volMeter = new TvolumeMeter(this);
   lay->addWidget(m_volMeter);
@@ -77,6 +78,10 @@ void TpitchView::setPitchColor(QColor col) {
 
 void TpitchView::resize() {
   //TODO font size on buttons
+  voiceButt->setFixedHeight(height()-4);
+  voiceButt->setFont(QFont("nootka", height()-8));
+  pauseButt->setFixedHeight(height()-4);
+  pauseButt->setFont(QFont("nootka", height()-8));
   m_volMeter->setFixedHeight(height()-4);
   m_volMeter->resize();
 }
