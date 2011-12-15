@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="1000"
+   height="1000"
+   id="svg2"
+   inkscape:version="0.48.2 r9819"
+   sodipodi:docname="sing.svg"
+   inkscape:export-filename="/home/tom/DEVELOP/QT4/nootka/unused-picts/proto/note.png"
+   inkscape:export-xdpi="300.09186"
+   inkscape:export-ydpi="300.09186">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1600"
+     inkscape:window-height="1176"
+     id="namedview8"
+     showgrid="false"
+     inkscape:zoom="0.4765625"
+     inkscape:cx="190.99443"
+     inkscape:cy="290.75887"
+     inkscape:window-x="-8"
+     inkscape:window-y="-3"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2"
+     showguides="true"
+     inkscape:guide-bbox="true">
+    <sodipodi:guide
+       orientation="1,0"
+       position="203.54098,940.06557"
+       id="guide5187" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="-83.090843,500.02882"
+       id="guide2996" />
+  </sodipodi:namedview>
+  <defs
+     id="defs4" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     style="font-size:600px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Emmentaler;-inkscape-font-specification:Emmentaler"
+     id="text5163" />
+  <g
+     style="font-size:600px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Emmentaler;-inkscape-font-specification:Emmentaler"
+     id="text5167" />
+  <path
+     inkscape:connector-curvature="0"
+     id="path3093"
+     d="m -665.17206,1856.1312 0,-264 565.499998,0 565.500002,0 0,264 0,263.9999 -565.500002,0 -565.499998,0 0,-263.9999 z"
+     style="fill:#fefefe" />
+  <path
+     style="fill:#000000"
+     d="M 422.22608,843.67433 C 350.69664,838.992 276.17966,834.98705 210.26334,804.1782 c -42.12061,-14.96547 -20.34078,-60.22605 -6.72236,-88.25341 15.51716,-34.71095 30.96065,-74.85262 68.85403,-90.55697 39.3998,-21.43647 85.31636,-29.74052 122.61603,-54.7984 20.81197,-25.2306 12.22862,-61.45716 7.00638,-90.84911 -12.6753,-28.79743 -22.38704,-60.85041 -43.78347,-83.8262 -12.50224,-23.93136 -21.74619,-53.40726 -5.51093,-73.33724 -1.45883,-42.32786 -1.97121,-90.26406 30.91618,-122.19353 45.72713,-57.45019 141.05918,-60.81851 190.66506,-6.72541 34.06804,30.78102 39.77858,78.43398 38.41915,121.70362 9.70763,11.91478 11.6089,21.9618 4.99235,37.49725 -6.5071,29.8104 -25.52436,54.16557 -35.12462,82.87881 -17.68885,35.75044 -25.16182,77.96883 -18.32467,117.35346 13.96545,31.18724 52.45916,34.59229 80.11231,48.11429 39.17467,17.16668 88.71394,29.71576 105.90053,73.91519 12.15692,31.77359 22.81698,64.32997 34.37964,96.19467 -2.79569,34.73 -45.62166,41.15362 -72.68169,50.33341 -94.52061,23.04671 -192.95787,25.43117 -289.75118,22.0457 z m 87.00825,-398.92241 c 38.04904,-36.77591 -40.85613,-80.47421 -52.28125,-29.22815 -8.22385,30.27097 31.43382,51.78574 52.28125,29.22815 z"
+     id="path3079"
+     inkscape:connector-curvature="0" />
+</svg>
