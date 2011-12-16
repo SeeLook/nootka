@@ -61,7 +61,7 @@ private:
   QTimer *m_volTimer;
   QColor m_pitchColor;
   bool m_isPaused;
-  
+  bool m_isVoice;  
 };
 
 #endif // TPITCHVIEW_H

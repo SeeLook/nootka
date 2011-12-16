@@ -22,25 +22,12 @@
 TvolumeMeter::TvolumeMeter(QWidget* parent):
   QWidget(parent),
   m_volume(0),
-  m_pitchColor(Qt::red)
+  m_pitchColor(Qt::red),
+  m_noiseLevel(0.02)
 {
   setBackgroundRole(QPalette::Background);
   setAutoFillBackground(true);
-  setStyleSheet("border-radius: 6px;");
   setFixedHeight(20);
-  m_grad = QLinearGradient(0, 5, 180, 5);
-  resize();
-
-}
-
-int rad = 4; // background rectiangle radius
-
-void TvolumeMeter::resize() {
-  m_grad.setFinalStop(width()-20, 5);
-  m_grad.setColorAt(0.0, Qt::green);
-  m_grad.setColorAt(0.7, Qt::yellow);
-  m_grad.setColorAt(1.0, Qt::red);
-  rad = height()/5;
 }
 
 
@@ -60,15 +47,20 @@ void TvolumeMeter::paintEvent(QPaintEvent* )
   if (m_alpha) { // m_alpha==0 means transparent - no sense to painnnnt background
       m_pitchColor.setAlpha(m_alpha);
       painter.setBrush(QBrush(m_pitchColor));
-      painter.drawRoundedRect(painter.viewport(), rad, rad);
+      painter.drawRoundedRect(painter.viewport(), 4, 4);
   }
-  painter.setBrush(m_grad);
+  QLinearGradient grad = QLinearGradient(0, 5, painter.viewport().right()-20, 5);
+  grad.setColorAt(0.0, Qt::darkGray);
+  grad.setColorAt(m_noiseLevel, Qt::green);
+  grad.setColorAt(0.7, Qt::yellow);
+  grad.setColorAt(1.0, Qt::red);
+  painter.setBrush(grad);
   int pos = ((painter.viewport().right()-20)-(painter.viewport().left()+11))*m_volume;
   painter.drawRoundedRect(QRect(painter.viewport().left()+10,
           painter.viewport().top()+5,
           painter.viewport().left()+20+pos,
           painter.viewport().bottom()-10),
-          rad, rad );
+          2, 2 );
 }
 
 TvolumeMeter::~TvolumeMeter()

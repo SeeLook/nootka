@@ -361,12 +361,12 @@ void MainWindow::resizeEvent(QResizeEvent *) {
     QFont f = m_statLab->font();
     f.setPixelSize(m_statFontSize);
     m_statLab->setFont(f);
-    guitar->setFixedHeight(centralWidget()->height()/3);
+    guitar->setFixedHeight((centralWidget()->height()-nootBar->height())/3);
     examResults->setFixedHeight(m_statFontSize*5);
     examResults->setFontSize(m_statFontSize);
     noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(height() * 0.4)));
     noteName->resize(m_statFontSize);
-    pitchView->setFixedHeight(height()/20);
+    pitchView->setFixedHeight((centralWidget()->height()-nootBar->height())/18);
     pitchView->resize();
 }
 
