@@ -19,16 +19,16 @@
 #ifndef AUDIOINSETTINGS_H
 #define AUDIOINSETTINGS_H
 #include <QWidget>
-#include "saudioinparams.h"
 #include "tnote.h"
 
+class QRadioButton;
+class TaudioParams;
 class TpitchView;
 class QDoubleSpinBox;
 class TaudioIN;
 class QLabel;
 class QPushButton;
 class QSpinBox;
-class QCheckBox;
 class QGroupBox;
 class QComboBox;
 
@@ -38,7 +38,7 @@ class AudioInSettings: public QWidget
   Q_OBJECT
 public:
   
-  explicit AudioInSettings(QWidget *parent = 0);
+  explicit AudioInSettings(TaudioParams *params, QWidget *parent = 0);
   virtual ~AudioInSettings();
   
   QString testTxt, stopTxt;
@@ -58,9 +58,9 @@ protected slots:
   void baseFreqChanged(int bFreq);
   
 private:
-  QComboBox *inDeviceCombo, *detectMethodCombo, *intervalCombo;
-  QGroupBox *enableInBox, *midABox, *noisGr;
-  QCheckBox  *loudChB, *voiceChB/*, *noiseChB*/;
+  QComboBox *inDeviceCombo, *intervalCombo;
+  QGroupBox *enableInBox, *modeGr, *midABox, *noisGr;
+  QRadioButton *voiceRadio, *instrRadio;
   QSpinBox *freqSpin;
   QDoubleSpinBox *noiseSpin;
   QPushButton *calcButt, *testButt;
@@ -69,7 +69,7 @@ private:
   TpitchView *volMeter;
   TaudioIN *m_audioIn;
   qint16 m_noiseLevel;
-  SaudioInParams m_aInParams; 
+  TaudioParams *m_params; 
   
 };
 

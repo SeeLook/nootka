@@ -28,6 +28,7 @@
 #include "soundsettings.h"
 #include <QMap>
 
+class AudioInSettings;
 class QCheckBox;
 class QSpinBox;
 class QComboBox;
@@ -92,6 +93,7 @@ private:
     GuitarSettings *m_guitarSett;
     ExamSettings   *m_examSett;
     SoundSettings *m_sndOutSett;
+    AudioInSettings *m_sndInSett;
 
 };
 

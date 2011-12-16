@@ -22,11 +22,13 @@
 #include "tpitchview.h"
 #include "tpitchfinder.h"
 #include <QtGui>
+#include "taudioparams.h"
 
 
-AudioInSettings::AudioInSettings(QWidget* parent) :
+AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   QWidget(parent),
-  m_audioIn(0)
+  m_audioIn(0),
+  m_params(params)
 {
   QVBoxLayout *lay = new QVBoxLayout();
   
@@ -45,22 +47,34 @@ AudioInSettings::AudioInSettings(QWidget* parent) :
   devDetLay->addWidget(inDeviceCombo);
   QLabel *detectLab = new QLabel(tr("detection method"), this);
   devDetLay->addWidget(detectLab);
-  detectMethodCombo = new QComboBox(this);
-  devDetLay->addWidget(detectMethodCombo);
-  detectMethodCombo->addItem("MPM");
-  detectMethodCombo->addItem(tr("Autocorrelation"));
-  detectMethodCombo->addItem(tr("MPM & modified cepstrum"));
   
   devDetLay->addStretch(1);
-  loudChB = new QCheckBox(tr("low-pass filter"), this);
-  loudChB->setChecked(true);
-  devDetLay->addWidget(loudChB);
-  voiceChB = new QCheckBox(tr("human voice"), this);
-  voiceChB->setStatusTip(tr("Check this for singing."));
-  devDetLay->addWidget(voiceChB);
-//   noiseChB = new QCheckBox(tr("noise floor"), this);
-//   noiseChB->setChecked(true);
-//   devDetLay->addWidget(noiseChB);
+  
+  modeGr = new QGroupBox(tr("pitch detection mode"), this);
+  QGridLayout *modeLay = new QGridLayout();
+  QButtonGroup *butGr = new QButtonGroup(this);
+  butGr->setExclusive(true);
+  instrRadio = new QRadioButton(this);
+  modeLay->addWidget(instrRadio, 0, 0);
+  butGr->addButton(instrRadio);
+  QLabel *instrLab = new QLabel(tr("for playing") + 
+        " <span style=\"font-family: nootka;\">g</span>", this);
+  modeLay->addWidget(instrLab, 0, 1);
+  instrLab->setStatusTip(tr("This mode is faster and good enought for guitars and other instruments."));
+  voiceRadio = new QRadioButton(this);
+  modeLay->addWidget(voiceRadio, 1, 0);
+  butGr->addButton(voiceRadio);
+  QLabel *voiceLab = new QLabel(tr("for singing") + 
+    " <span style=\"font-family: nootka;\">v</span>", this);
+  modeLay->addWidget(voiceLab, 1, 1);
+  voiceLab->setStatusTip(tr("This mode is more accurate but slower. It is recommended for singing and for instruments with \"wobly\" intonation."));
+  modeGr->setLayout(modeLay);
+  devDetLay->addWidget(modeGr);
+  if (m_params->isVoice)
+    voiceRadio->setChecked(true);
+  else
+    instrRadio->setChecked(true);
+  
   devDetLay->addStretch(1);
   
   upLay->addLayout(devDetLay);
@@ -180,35 +194,30 @@ void AudioInSettings::setTestDisabled(bool disabled) {
 	freqLab->setDisabled(true);
   // enable the rest of widget
 	inDeviceCombo->setDisabled(false);
-	detectMethodCombo->setDisabled(false);
-	voiceChB->setDisabled(false);
+	
 	midABox->setDisabled(false);
 	noisGr->setDisabled(false);	
-	loudChB->setDisabled(false);
   } else {
 	volMeter->setDisabled(false);
 	pitchLab->setDisabled(false);
 	freqLab->setDisabled(false);
 	// disable the rest of widget
 	inDeviceCombo->setDisabled(true);
-	detectMethodCombo->setDisabled(true);
-	voiceChB->setDisabled(true);
 	midABox->setDisabled(true);
 	noisGr->setDisabled(true);
-	loudChB->setDisabled(true);
   }
 }
 
 void AudioInSettings::grabParams() {
-  m_aInParams.doingAutoNoiseFloor = true;
-  m_aInParams.equalLoudness = true;
-  m_aInParams.a440diff = freq2pitch(440.0) - freq2pitch((float)freqSpin->value());
-  m_aInParams.analysisType = (EanalysisModes)detectMethodCombo->currentIndex();
-  m_aInParams.devName = inDeviceCombo->currentText();
+  m_params->a440diff = freq2pitch(440.0) - freq2pitch((float)freqSpin->value());
+  
+  m_params->INdevName = inDeviceCombo->currentText();
 //   m_aInParams.doingAutoNoiseFloor = noiseChB->isChecked();
-  m_aInParams.equalLoudness = loudChB->isChecked();
-  m_aInParams.isVoice = voiceChB->isChecked();
-  m_aInParams.noiseLevel = qRound((noiseSpin->value()/100) * 32768.0);
+  if (voiceRadio->isChecked())
+    m_params->isVoice = true;
+  else
+    m_params->isVoice = false;
+  m_params->noiseLevel = qRound((noiseSpin->value()/100) * 32768.0);
 }
 
 
@@ -219,8 +228,8 @@ void AudioInSettings::grabParams() {
 
 void AudioInSettings::calcSlot() {
   if (!m_audioIn)
-	m_audioIn = new TaudioIN(this);
-  if (inDeviceCombo->currentText() != m_audioIn->deviceName())
+	m_audioIn = new TaudioIN(m_params, this);
+//   if (inDeviceCombo->currentText() != m_audioIn->deviceName())
 	m_audioIn->setAudioDevice(inDeviceCombo->currentText());
   connect(m_audioIn, SIGNAL(noiseLevel(qint16)), this, SLOT(noiseDetected(qint16)));
   m_audioIn->calculateNoiseLevel();
@@ -230,14 +239,14 @@ void AudioInSettings::testSlot() {
   setTestDisabled(!m_testDisabled);
   if (!m_testDisabled) { // start a test
 	if (!m_audioIn)
-	  m_audioIn = new TaudioIN(this);
-	if (inDeviceCombo->currentText() != m_audioIn->deviceName())
+	  m_audioIn = new TaudioIN(m_params, this);
+// 	if (inDeviceCombo->currentText() != m_audioIn->deviceName())
 	  if(!m_audioIn->setAudioDevice(inDeviceCombo->currentText())) {
 		setTestDisabled(true);
 		return;
 	  }
 	grabParams();
-	m_audioIn->setParameters(m_aInParams);
+	m_audioIn->setParameters(m_params);
 	testButt->setText(stopTxt);
 	volMeter->setAudioInput(m_audioIn);
 	volMeter->startVolume();

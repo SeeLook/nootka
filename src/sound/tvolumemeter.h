@@ -37,7 +37,8 @@ public:
      * to manage of the animation of detected pitch */
   void setVolume(qreal vol, int alpha = 0);
   void setPitchColor (QColor col) { m_pitchColor = col; }
-  void resize();
+    /** Level bar is painted in gray color till this value */
+  void setNoiseLevel(float level) { m_noiseLevel = level; }
 
 protected:
   void paintEvent(QPaintEvent* );
@@ -45,9 +46,9 @@ protected:
 private:
   qreal m_volume;
   QPixmap m_pixmap;
-  QLinearGradient m_grad;
   QColor m_pitchColor;
   int m_alpha; // aplha value of m_pitchColor
+  float m_noiseLevel; // 0 - 100 - the same as in TaudioParams
 	
 };
 
