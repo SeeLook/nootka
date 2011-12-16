@@ -127,7 +127,7 @@ void TpitchView::pauseClicked() {
       m_audioIN->startListening();
       m_volTimer->start(75);
     } else {
-      pauseButt->setText("x");
+      pauseButt->setText("o");
       m_isPaused = true;
       m_audioIN->stopListening();
       stopVolume();
