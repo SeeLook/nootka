@@ -26,7 +26,6 @@
 #include "tnote.h"
 
 class TaudioParams;
-// class Tnote;
 class TpitchFinder;
 
 
@@ -69,6 +68,7 @@ public:
   void wait();
     /** Wakes up TaudioIN after pause called by wait() */
   void go();
+  void setIsVoice(bool isV);
 
 signals:
 	void noteDetected(Tnote note);

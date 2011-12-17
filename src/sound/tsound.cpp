@@ -30,25 +30,21 @@ Tsound::Tsound(QObject* parent) :
 {
   if (gl->A->OUTenabled)
       createPlayer();
-  else {
+  else
       player = 0;
-      m_playable = false;
-  }
   if (gl->A->INenabled) {
     createSniffer();
-  } else {
+  } else
     sniffer = 0;
-    m_sniffable = false;
-  }
 }
 
 Tsound::~Tsound()
 {}
 
 void Tsound::play(Tnote note) {
-  if(m_playable) {
+  if(player) {
     player->play(note.getChromaticNrOfNote());
-    if (m_sniffable) {
+    if (sniffer) {
       sniffer->wait();
       m_pitchView->stopVolume();
     }
@@ -61,56 +57,78 @@ void Tsound::acceptSettings() {
         createPlayer();
     else {
         player->setAudioOutParams(gl->A);
-        m_playable = player->isPlayable();
+        if (!player->isPlayable())
+          deletePlayer();
     }
   } else {
-    if (player) {
-        delete player;
-        player = 0;
-        m_playable = false;
-    }      
+    if (player)
+      deletePlayer();
   }
   if (gl->A->INenabled) {
     if (!sniffer)
       createSniffer();
     else {
       sniffer->setParameters(gl->A);
-      m_sniffable = sniffer->isAvailable();
+      if (!sniffer->isAvailable())
+        deleteSniffer();
+      else {
+        sniffer->startListening();
+        m_pitchView->startVolume();
+      }
     }
   } else {
-    if (sniffer) {
-      delete sniffer;
-      sniffer = 0;
-      m_sniffable = false;
-    }
+    if (sniffer)
+      deleteSniffer();
   }
 }
 
 void Tsound::createPlayer() {
   player = new TaudioOUT(gl->A, gl->path, this);
-  m_playable = player->isPlayable();
   connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinished()));
 }
+
+void Tsound::deletePlayer() {
+  delete player;
+  player = 0;
+}
+
 
 void Tsound::createSniffer() {
   sniffer = new TaudioIN(gl->A, this);
   sniffer->startListening();
-  m_sniffable = sniffer->isAvailable();
   connect(sniffer, SIGNAL(noteDetected(Tnote)), this, SLOT(noteDetectedSlot(Tnote)));
 }
 
+void Tsound::deleteSniffer() {
+  delete sniffer;
+  sniffer = 0;
+}
+
+
 void Tsound::setPitchView(TpitchView* pView) {
-  if (m_sniffable) {
+  if (sniffer) {
       m_pitchView = pView;
       m_pitchView->setPitchColor(gl->EanswerColor);
       m_pitchView->startVolume();
   }
 }
 
+void Tsound::prepareToConf() {
+  if (player) {
+    player->deleteMidi();
+  }
+  if (sniffer) {
+    sniffer->stopListening();
+    m_pitchView->stopVolume();
+//     deleteSniffer();
+  }
+}
+
+
 
 //-------------------------------- slots ----------------------------------------------------
 void Tsound::playingFinished() {
-  if (m_sniffable) {
+  if (sniffer) {
     sniffer->go();
     m_pitchView->startVolume();
   }

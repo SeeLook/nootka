@@ -23,6 +23,7 @@
 #include "tcolorbutton.h"
 #include <QtGui>
 #include <audioinsettings.h>
+#include <audiooutsettings.h>
 
 
 
@@ -262,11 +263,11 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     m_nameSett = new NameSettings();
     m_guitarSett = new GuitarSettings();
     m_examSett = new ExamSettings();
-    m_sndOutSett = new SoundSettings(gl->A);
+    m_sndOutSett = new AudioOutSettings(gl->A);
     m_sndInSett = new AudioInSettings(gl->A);
     QTabWidget *sndTTab = new QTabWidget();
-    sndTTab->addTab(m_sndOutSett, tr("otput"));
     sndTTab->addTab(m_sndInSett, tr("input"));
+    sndTTab->addTab(m_sndOutSett, tr("otput"));    
 
     stackLayout->addWidget(m_globalSett);
     stackLayout->addWidget(m_scoreSett);
@@ -290,6 +291,7 @@ void SettingsDialog::saveSettings() {
     m_guitarSett->saveSettings();
     m_examSett->saveSettings();
     m_sndOutSett->saveSettings();
+    m_sndInSett->saveSettings();
 }
 
 

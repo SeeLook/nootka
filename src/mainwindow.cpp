@@ -228,7 +228,7 @@ void MainWindow::openFile(QString runArg) {
 
 void MainWindow::createSettingsDialog() {
     SettingsDialog *settings = new SettingsDialog(this);
-    sound->player->deleteMidi(); // midi blocks devices ists
+    sound->prepareToConf();
     if (settings->exec() == QDialog::Accepted) {
         sound->acceptSettings();
         score->acceptSettings();

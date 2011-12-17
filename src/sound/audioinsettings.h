@@ -42,11 +42,12 @@ public:
   virtual ~AudioInSettings();
   
   QString testTxt, stopTxt;
+  void saveSettings();
   
 protected:
   void setTestDisabled(bool disabled);
-	/** Writes state of widgets to m_aInParams struct. */
-  void grabParams();
+    /** Writes state of widgets to TaudioParams object. */
+  void grabParams(TaudioParams *params);
   
 protected slots:
   void testSlot();
@@ -69,7 +70,7 @@ private:
   TpitchView *volMeter;
   TaudioIN *m_audioIn;
   qint16 m_noiseLevel;
-  TaudioParams *m_params; 
+  TaudioParams *m_glParams, *m_tmpParams; 
   
 };
 
