@@ -97,7 +97,8 @@ TaudioIN::~TaudioIN()
 
 void TaudioIN::setParameters(TaudioParams* params) {
   setAudioDevice(params->INdevName);
-  m_pitch->setIsVoice(params->isVoice);  
+  m_pitch->setIsVoice(params->isVoice);
+  m_params = params;
 }
 
 
@@ -172,6 +173,10 @@ void TaudioIN::wait() {
 void TaudioIN::go() {
   if (isAvailable() && m_audioInput->state() == QAudio::SuspendedState)
     m_audioInput->resume();
+}
+
+void TaudioIN::setIsVoice(bool isV) {
+  m_pitch->setIsVoice(isV);
 }
 
 

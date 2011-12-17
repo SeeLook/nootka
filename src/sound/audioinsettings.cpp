@@ -28,13 +28,16 @@
 AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   QWidget(parent),
   m_audioIn(0),
-  m_params(params)
+  m_glParams(params)
 {
+  m_tmpParams = new TaudioParams();
+  *m_tmpParams = *m_glParams;
+  
   QVBoxLayout *lay = new QVBoxLayout();
   
   enableInBox = new QGroupBox(tr("enable audio input (pitch detection)"), this);
   enableInBox->setCheckable(true);
-  enableInBox->setChecked(true);
+  enableInBox->setChecked(m_glParams->INenabled);
   
   QVBoxLayout *inLay = new QVBoxLayout();
   
@@ -45,8 +48,6 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   devDetLay->addWidget(devLab);
   inDeviceCombo = new QComboBox(this);
   devDetLay->addWidget(inDeviceCombo);
-  QLabel *detectLab = new QLabel(tr("detection method"), this);
-  devDetLay->addWidget(detectLab);
   
   devDetLay->addStretch(1);
   
@@ -58,19 +59,19 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   modeLay->addWidget(instrRadio, 0, 0);
   butGr->addButton(instrRadio);
   QLabel *instrLab = new QLabel(tr("for playing") + 
-        " <span style=\"font-family: nootka;\">g</span>", this);
+        " <span style=\"font-family: nootka; font-size: 25px;\">g</span>", this);
   modeLay->addWidget(instrLab, 0, 1);
   instrLab->setStatusTip(tr("This mode is faster and good enought for guitars and other instruments."));
   voiceRadio = new QRadioButton(this);
   modeLay->addWidget(voiceRadio, 1, 0);
   butGr->addButton(voiceRadio);
   QLabel *voiceLab = new QLabel(tr("for singing") + 
-    " <span style=\"font-family: nootka;\">v</span>", this);
+    " <span style=\"font-family: nootka; font-size: 25px;\">v</span>", this);
   modeLay->addWidget(voiceLab, 1, 1);
-  voiceLab->setStatusTip(tr("This mode is more accurate but slower. It is recommended for singing and for instruments with \"wobly\" intonation."));
+  voiceLab->setStatusTip(tr("This mode is more accurate but slower. It is recommended for singing and for instruments with \"wobbly\" intonation."));
   modeGr->setLayout(modeLay);
   devDetLay->addWidget(modeGr);
-  if (m_params->isVoice)
+  if (m_glParams->isVoice)
     voiceRadio->setChecked(true);
   else
     instrRadio->setChecked(true);
@@ -88,7 +89,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   midLay->addWidget(freqSpin);
   freqSpin->setMinimum(400);
   freqSpin->setMaximum(480);
-  freqSpin->setValue(440);
+  freqSpin->setValue(440 + m_glParams->a440diff);
   freqSpin->setSuffix(" Hz");
   
   QLabel *intLab = new QLabel(tr("interval:"), this);
@@ -98,7 +99,13 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   intervalCombo->addItem(tr("semitone up"));
   intervalCombo->addItem(tr("none"));
   intervalCombo->addItem(tr("semitone down"));
-  intervalCombo->setCurrentIndex(1);
+  if (freqSpin->value() <= 415)
+      intervalCombo->setCurrentIndex(2);
+    else if (freqSpin->value() >= 465)
+      intervalCombo->setCurrentIndex(0);
+    else
+      intervalCombo->setCurrentIndex(1);
+  
   midABox->setLayout(midLay);
   tunLay->addWidget(midABox);
   
@@ -112,6 +119,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   noiseSpin->setDecimals(1);
   noiseSpin->setSingleStep(0.2);
   noiseSpin->setSuffix(" %");
+  noiseSpin->setValue((double)(m_glParams->noiseLevel/32768)*100);
   noisLay->addWidget(noiseSpin);
   noiseSpin->setStatusTip(tr("This value determines level of signal above witch sounds are detected."));
   calcButt = new QPushButton(tr("Calculate"), this);
@@ -134,8 +142,9 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   testLay->addWidget(testButt);
   testLay->addStretch(1);
   volMeter = new TpitchView(m_audioIn, this);
+  volMeter->pauseButt->hide();
+  volMeter->voiceButt->hide();
   testLay->addWidget(volMeter);
-  volMeter->setStatusTip(tr("Level of a volume"));
   volMeter->setPitchColor(palette().highlight().color());
   testLay->addStretch(1);
   QVBoxLayout *freqLay = new QVBoxLayout();
@@ -168,6 +177,14 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   setLayout(lay);
   
   inDeviceCombo->addItems(TaudioIN::getAudioDevicesList());
+  if (inDeviceCombo->count()) {
+        int id = inDeviceCombo->findText(m_glParams->INdevName);
+        if (id != -1)
+            inDeviceCombo->setCurrentIndex(id);
+    } else {
+        inDeviceCombo->addItem(tr("no devices found"));
+        inDeviceCombo->setDisabled(true);
+    }
   setTestDisabled(true);
   
   connect(testButt, SIGNAL(clicked()), this, SLOT(testSlot()));
@@ -179,6 +196,9 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
 
 AudioInSettings::~AudioInSettings()
 {
+  if (m_audioIn)
+    delete m_audioIn;
+  delete m_tmpParams;
 }
 
 //------------------------------------------------------------------------------------
@@ -187,37 +207,40 @@ AudioInSettings::~AudioInSettings()
 void AudioInSettings::setTestDisabled(bool disabled) {
   m_testDisabled = disabled;
   if (disabled) {
-	volMeter->setDisabled(true);
-	pitchLab->setText("--");
-	freqLab->setText("--");
-	pitchLab->setDisabled(true);
-	freqLab->setDisabled(true);
-  // enable the rest of widget
-	inDeviceCombo->setDisabled(false);
-	
-	midABox->setDisabled(false);
-	noisGr->setDisabled(false);	
+    volMeter->setDisabled(true);
+    pitchLab->setText("--");
+    freqLab->setText("--");
+    pitchLab->setDisabled(true);
+    freqLab->setDisabled(true);
+    // enable the rest of widget
+    inDeviceCombo->setDisabled(false);
+    
+    midABox->setDisabled(false);
+    noisGr->setDisabled(false);	
   } else {
-	volMeter->setDisabled(false);
-	pitchLab->setDisabled(false);
-	freqLab->setDisabled(false);
-	// disable the rest of widget
-	inDeviceCombo->setDisabled(true);
-	midABox->setDisabled(true);
-	noisGr->setDisabled(true);
+    volMeter->setDisabled(false);
+    pitchLab->setDisabled(false);
+    freqLab->setDisabled(false);
+    // disable the rest of widget
+    inDeviceCombo->setDisabled(true);
+    midABox->setDisabled(true);
+    noisGr->setDisabled(true);
   }
 }
 
-void AudioInSettings::grabParams() {
-  m_params->a440diff = freq2pitch(440.0) - freq2pitch((float)freqSpin->value());
-  
-  m_params->INdevName = inDeviceCombo->currentText();
-//   m_aInParams.doingAutoNoiseFloor = noiseChB->isChecked();
+void AudioInSettings::grabParams(TaudioParams *params) {
+  params->a440diff = freq2pitch(440.0) - freq2pitch((float)freqSpin->value()); 
+  params->INdevName = inDeviceCombo->currentText();
   if (voiceRadio->isChecked())
-    m_params->isVoice = true;
+    params->isVoice = true;
   else
-    m_params->isVoice = false;
-  m_params->noiseLevel = qRound((noiseSpin->value()/100) * 32768.0);
+    params->isVoice = false;
+  params->noiseLevel = qRound((noiseSpin->value()/100) * 32768.0);
+}
+
+
+void AudioInSettings::saveSettings() {
+  grabParams(m_glParams);
 }
 
 
@@ -227,10 +250,13 @@ void AudioInSettings::grabParams() {
 //------------------------------------------------------------------------------------
 
 void AudioInSettings::calcSlot() {
-  if (!m_audioIn)
-	m_audioIn = new TaudioIN(m_params, this);
+  if (!m_audioIn) {
+    grabParams(m_tmpParams);
+    m_audioIn = new TaudioIN(m_tmpParams, this);
+  } else
 //   if (inDeviceCombo->currentText() != m_audioIn->deviceName())
-	m_audioIn->setAudioDevice(inDeviceCombo->currentText());
+    m_audioIn->setAudioDevice(inDeviceCombo->currentText());
+    //TODO check is devide aviable, if not dialog......
   connect(m_audioIn, SIGNAL(noiseLevel(qint16)), this, SLOT(noiseDetected(qint16)));
   m_audioIn->calculateNoiseLevel();
 }
@@ -238,37 +264,38 @@ void AudioInSettings::calcSlot() {
 void AudioInSettings::testSlot() {
   setTestDisabled(!m_testDisabled);
   if (!m_testDisabled) { // start a test
-	if (!m_audioIn)
-	  m_audioIn = new TaudioIN(m_params, this);
+    grabParams(m_tmpParams);
+    if (!m_audioIn)
+      m_audioIn = new TaudioIN(m_tmpParams, this);
+    else 
 // 	if (inDeviceCombo->currentText() != m_audioIn->deviceName())
-	  if(!m_audioIn->setAudioDevice(inDeviceCombo->currentText())) {
-		setTestDisabled(true);
-		return;
-	  }
-	grabParams();
-	m_audioIn->setParameters(m_params);
-	testButt->setText(stopTxt);
-	volMeter->setAudioInput(m_audioIn);
-	volMeter->startVolume();
-	connect(m_audioIn, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
-	connect(m_audioIn, SIGNAL(fundamentalFreq(float)), this, SLOT(freqSlot(float)));
-	m_audioIn->startListening();
+        m_audioIn->setParameters(m_tmpParams);
+    if (m_audioIn->isAvailable()) {
+      setTestDisabled(true);
+      return;
+    }
+    testButt->setText(stopTxt);
+    volMeter->setAudioInput(m_audioIn);
+    volMeter->startVolume();
+    connect(m_audioIn, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
+    connect(m_audioIn, SIGNAL(fundamentalFreq(float)), this, SLOT(freqSlot(float)));
+    m_audioIn->startListening();
   } 
   else { // stop a test
-	volMeter->stopVolume();
-	m_audioIn->stopListening();
-	testButt->setText(testTxt);
-	setTestDisabled(true);
+    volMeter->stopVolume();
+    m_audioIn->stopListening();
+    testButt->setText(testTxt);
+    setTestDisabled(true);
   }
 }
 
 void AudioInSettings::noiseDetected(qint16 noise) {
   if (noise < 10) {
-	QMessageBox::warning(this, "", 
-			tr("There isn't any noise !?!<br>It seems, Your audio input<br>is not configured properly."));
-	m_noiseLevel = 70;
+    QMessageBox::warning(this, "", 
+      tr("There isn't any noise !?!<br>It seems, Your audio input<br>is not configured properly."));
+    m_noiseLevel = 70;
   } else
-	m_noiseLevel = noise;
+  m_noiseLevel = noise;
   double nVal = (noise/32768.0f)*100;
   disconnect(m_audioIn, SIGNAL(noiseLevel(qint16)), this, SLOT(noiseDetected(qint16)));
   noiseSpin->setValue(nVal);
@@ -293,17 +320,14 @@ void AudioInSettings::intervalChanged(int index) {
 }
 
 void AudioInSettings::baseFreqChanged(int bFreq) {
-	if (freqSpin->hasFocus()) {
-		if (freqSpin->value() <= 415)
-			intervalCombo->setCurrentIndex(2);
-		else if (freqSpin->value() >= 465)
-			intervalCombo->setCurrentIndex(0);
-		else
-			intervalCombo->setCurrentIndex(1);
-	}		
+  if (freqSpin->hasFocus()) {
+    if (freqSpin->value() <= 415)
+      intervalCombo->setCurrentIndex(2);
+    else if (freqSpin->value() >= 465)
+      intervalCombo->setCurrentIndex(0);
+    else
+      intervalCombo->setCurrentIndex(1);
+  }		
 }
-
-
-
 
 

@@ -138,7 +138,7 @@ add_subdirectory(src)
 #INSTALLATION
 ###########################################################################
 IF(WIN32)
-    set(INS_PREF "")
+    set(INS_PREF ".")
 ELSE(WIN32)
     set(INS_PREF "share/nootka")
 ENDIF(WIN32)

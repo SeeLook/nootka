@@ -43,7 +43,13 @@ public:
   TaudioIN  *sniffer;
   
   void play(Tnote note);
-  bool isPlayable() { return m_playable; }
+  bool isPlayable() { return (player ? true : false) ; }
+  bool isSniffable() { return (sniffer ? true : false) ; }
+    /** Before Nootka config dialog is created a few things have to be done.
+     * stop sniffing, playing
+     * delete midi, whitch bloks audio devices,
+     * delete audioIN, config creates its own to test. */
+  void prepareToConf();
   void acceptSettings();
   void setPitchView(TpitchView *pView);
   
@@ -53,13 +59,13 @@ signals:
 private:
   void createPlayer();
   void createSniffer();
+  void deletePlayer();
+  void deleteSniffer();
   
-  
-  bool m_playable, m_sniffable;
   TpitchView *m_pitchView;
   
 private slots:
-    /** Is performed when note stops plaing, then sniffing is unlocked */
+    /** Is performed when note stops playing, then sniffing is unlocked */
   void playingFinished();
   void noteDetectedSlot(Tnote note);
   

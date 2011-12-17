@@ -53,7 +53,7 @@ SET( NOOTKA_SRCS
   sound/tsound.cpp
   sound/taudioout.cpp
   sound/taudioin.cpp
-  sound/soundsettings.cpp
+  sound/audiooutsettings.cpp
   sound/audioinsettings.cpp
   sound/RtMidi.cpp
   sound/taudioparams.h
@@ -126,7 +126,7 @@ SET( NOOTKA_MOC_SRCS
   sound/tsound.h
   sound/taudioout.h
   sound/taudioin.h
-  sound/soundsettings.h
+  sound/audiooutsettings.h
   sound/audioinsettings.h
   sound/tpitchfinder.h
   sound/tvolumemeter.h
