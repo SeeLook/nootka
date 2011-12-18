@@ -81,13 +81,10 @@ void TpitchView::setPitchColor(QColor col) {
   m_volMeter->setPitchColor(col);
 }
 
-void TpitchView::resize() {
-  int h = qRound((float)height()*0.70);
-  voiceButt->setFixedSize(h + 6, h);
-  voiceButt->setFont(QFont("nootka", h - 4));
-  pauseButt->setFixedSize(h + 6, h);
-  pauseButt->setFont(QFont("nootka", h - 4));
-  m_volMeter->setFixedHeight(h);
+void TpitchView::resize(int fontSize) {
+  voiceButt->setFont(QFont("nootka", fontSize));
+  pauseButt->setFont(QFont("nootka", fontSize));
+  m_volMeter->setFixedHeight(qRound((float)height()*0.70));
 }
 
 
