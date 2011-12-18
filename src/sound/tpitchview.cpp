@@ -31,7 +31,8 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent):
   m_audioIN(audioIn),
   m_pitchColor(Qt::red),
   m_isPaused(false),
-  m_isVoice(false)
+  m_isVoice(false),
+  m_hideCnt(8)
 {
   QHBoxLayout *lay = new QHBoxLayout();
   voiceButt = new QPushButton("g", this);
@@ -92,17 +93,16 @@ void TpitchView::resize(int fontSize) {
 //------------          slots       --------------------------------------------------
 //------------------------------------------------------------------------------------
 
-int hideCnt = 8; // counter of m_volTimer loops.
 
 void TpitchView::noteSlot(Tnote note) {
   Q_UNUSED(note)
-  hideCnt = 0;
+  m_hideCnt = 0;
 }
 
 void TpitchView::updateLevel() {
   int a = 0;
-  if (hideCnt < 8)
-    switch (hideCnt) {
+  if (m_hideCnt < 8)
+    switch (m_hideCnt) {
       case 0 : a = 255; break;
       case 1 : a = 225; break;
       case 2 : a = 200; break;
@@ -113,7 +113,7 @@ void TpitchView::updateLevel() {
       case 7 : a = 40;  break;
     }
     m_volMeter->setVolume(qreal(m_audioIN->maxPeak()) / 32768.0, a);
-    hideCnt++;
+    m_hideCnt++;
 }
 
 void TpitchView::pauseClicked() {

@@ -18,6 +18,8 @@
 
 #include "tvolumemeter.h"
 #include <QPainter>
+#include <QDebug>
+#include <QPaintEvent>
 
 TvolumeMeter::TvolumeMeter(QWidget* parent):
   QWidget(parent),
@@ -34,11 +36,14 @@ TvolumeMeter::TvolumeMeter(QWidget* parent):
 void TvolumeMeter::setVolume(qreal vol, int alpha) {
   m_volume = vol;
   m_alpha = alpha;
-  repaint();
+//   repaint();
+//   update();
+  paintEvent(QPaintEvent*);
 }
 
 void TvolumeMeter::paintEvent(QPaintEvent* )
 {
+  qDebug("paint");
   if (m_volume == 0.0)
 	  return;
   QPainter painter(this);
