@@ -207,7 +207,7 @@ AudioInSettings::~AudioInSettings()
 void AudioInSettings::setTestDisabled(bool disabled) {
   m_testDisabled = disabled;
   if (disabled) {
-    volMeter->setDisabled(true);
+//     volMeter->setDisabled(true);
     pitchLab->setText("--");
     freqLab->setText("--");
     pitchLab->setDisabled(true);
@@ -218,7 +218,8 @@ void AudioInSettings::setTestDisabled(bool disabled) {
     midABox->setDisabled(false);
     noisGr->setDisabled(false);	
   } else {
-    volMeter->setDisabled(false);
+//     volMeter->setDisabled(false);
+//     volMeter->setEnabled(true);
     pitchLab->setDisabled(false);
     freqLab->setDisabled(false);
     // disable the rest of widget
@@ -277,10 +278,10 @@ void AudioInSettings::testSlot() {
     }
     testButt->setText(stopTxt);
     volMeter->setAudioInput(m_audioIn);
+    m_audioIn->startListening();
     volMeter->startVolume();
     connect(m_audioIn, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
     connect(m_audioIn, SIGNAL(fundamentalFreq(float)), this, SLOT(freqSlot(float)));
-    m_audioIn->startListening();
   } 
   else { // stop a test
     volMeter->stopVolume();
