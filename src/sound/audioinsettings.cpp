@@ -214,7 +214,7 @@ void AudioInSettings::setTestDisabled(bool disabled) {
     freqLab->setDisabled(true);
     // enable the rest of widget
     inDeviceCombo->setDisabled(false);
-    
+    modeGr->setDisabled(false);
     midABox->setDisabled(false);
     noisGr->setDisabled(false);	
   } else {
@@ -225,6 +225,7 @@ void AudioInSettings::setTestDisabled(bool disabled) {
     inDeviceCombo->setDisabled(true);
     midABox->setDisabled(true);
     noisGr->setDisabled(true);
+    modeGr->setDisabled(true);
   }
 }
 
