@@ -47,7 +47,7 @@ public:
     /** Button to pause or activate pitch detection */
   QPushButton *pauseButt;
   bool isPaused() { return m_isPaused; }
-  void resize();
+  void resize(int fontSize);
   
 protected slots:
   void noteSlot(Tnote note);

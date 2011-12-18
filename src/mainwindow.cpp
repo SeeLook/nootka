@@ -97,6 +97,7 @@ MainWindow::MainWindow(QWidget *parent)
     nameLay->addLayout(statLay);
 
     examResults = new TexamView(widget);
+    examResults->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     nameLay->addWidget(examResults);
     noteName = new TnoteName(widget);
     noteName->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
@@ -362,12 +363,11 @@ void MainWindow::resizeEvent(QResizeEvent *) {
     f.setPixelSize(m_statFontSize);
     m_statLab->setFont(f);
     guitar->setFixedHeight((centralWidget()->height()-nootBar->height())/3);
-    examResults->setFixedHeight(m_statFontSize*5);
+//     examResults->setFixedHeight(m_statFontSize*5);
     examResults->setFontSize(m_statFontSize);
     noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(height() * 0.4)));
     noteName->resize(m_statFontSize);
-    pitchView->setFixedHeight((centralWidget()->height()-nootBar->height())/18);
-    pitchView->resize();
+    pitchView->resize(m_statFontSize);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
