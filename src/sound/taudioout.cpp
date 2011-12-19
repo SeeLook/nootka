@@ -90,6 +90,7 @@ TaudioOUT::~TaudioOUT()
 {
   deleteAudio();
   deleteMidi();
+  qDebug("out delete");
 }
 
 //---------------------------------------------------------------------------------------
@@ -141,7 +142,7 @@ bool TaudioOUT::setAudioDevice(QString& name) {
   }
   if (fnd) {
     if (m_deviceInfo.isFormatSupported(templAudioFormat)) {
-        qDebug() << m_deviceInfo.deviceName();
+        qDebug() << "out:" << m_deviceInfo.deviceName();
         m_devName = m_deviceInfo.deviceName(); //TODO: save device name to globals ?!
         m_audioOutput = new QAudioOutput(m_deviceInfo, templAudioFormat, this);
     } else {

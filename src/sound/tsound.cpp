@@ -34,8 +34,9 @@ Tsound::Tsound(QObject* parent) :
       player = 0;
   if (gl->A->INenabled) {
     createSniffer();
-  } else
+  } else {
     sniffer = 0;
+  }
 }
 
 Tsound::~Tsound()
@@ -65,18 +66,24 @@ void Tsound::acceptSettings() {
       deletePlayer();
   }
   if (gl->A->INenabled) {
-    if (!sniffer)
+    m_pitchView->setEnabled(true);
+    if (!sniffer) {
       createSniffer();
+      m_pitchView->setAudioInput(sniffer);
+      if (m_pitchView->isPaused())
+        sniffer->stopListening();
+    }
     else {
       sniffer->setParameters(gl->A);
-      if (!sniffer->isAvailable())
-        deleteSniffer();
-      else {
+      m_pitchView->setAudioInput(sniffer);
+      m_pitchView->setIsVoice(gl->A->isVoice);
+      if (!m_pitchView->isPaused()) { // and pause button
         sniffer->startListening();
         m_pitchView->startVolume();
       }
     }
   } else {
+    m_pitchView->setDisabled(true);
     if (sniffer)
       deleteSniffer();
   }
@@ -106,11 +113,13 @@ void Tsound::deleteSniffer() {
 
 
 void Tsound::setPitchView(TpitchView* pView) {
-  if (sniffer) {
-      m_pitchView = pView;
-      m_pitchView->setPitchColor(gl->EanswerColor);
+  m_pitchView = pView;
+  m_pitchView->setPitchColor(gl->EanswerColor);
+  m_pitchView->setIsVoice(gl->A->isVoice);
+  if (sniffer)
       m_pitchView->startVolume();
-  }
+  else
+    m_pitchView->setDisabled(true);
 }
 
 void Tsound::prepareToConf() {
@@ -124,6 +133,18 @@ void Tsound::prepareToConf() {
   }
 }
 
+void Tsound::restoreAfterConf() {
+  if (player) {
+    if (gl->A->midiEnabled)
+      player->setMidiParams();
+  }
+  if (sniffer) {
+    if (!m_pitchView->isPaused()) {
+      sniffer->startListening();
+      m_pitchView->startVolume();
+    }
+  }
+}
 
 
 //-------------------------------- slots ----------------------------------------------------

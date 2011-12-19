@@ -50,6 +50,8 @@ public:
      * delete midi, whitch bloks audio devices,
      * delete audioIN, config creates its own to test. */
   void prepareToConf();
+    /** Also, when user will discard config, it has to restore its state. */
+  void restoreAfterConf();
   void acceptSettings();
   void setPitchView(TpitchView *pView);
   

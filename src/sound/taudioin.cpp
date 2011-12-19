@@ -78,13 +78,14 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
 TaudioIN::~TaudioIN()
 {
   if (m_audioInput) {
-	m_audioInput->stop();
-	delete m_audioInput;
+    m_audioInput->stop();
+    delete m_audioInput;
   }
   m_buffer.clear();
   delete m_pitch;
   if (m_floatBuff)
-	delete[] (m_floatBuff - 16);
+    delete[] (m_floatBuff - 16);
+  qDebug("in delete");
 }
 
 //------------------------------------------------------------------------------------
@@ -125,7 +126,7 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
 	
   if (fnd) {
     if (m_deviceInfo.isFormatSupported(templAudioFormat)) {
-      qDebug() << m_deviceInfo.deviceName();
+      qDebug() << "in:" << m_deviceInfo.deviceName();
       m_params->INdevName = m_deviceInfo.deviceName();
       m_audioInput = new QAudioInput(m_deviceInfo, templAudioFormat, this);
     } else {
