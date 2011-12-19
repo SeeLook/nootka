@@ -75,20 +75,22 @@ TexamSummary::TexamSummary(Texam* exam, QWidget* parent) :
     int wAccid = 0, wKey = 0, wNote = 0, wOctave = 0, wStyle = 0, wPos = 0;
     for(int i=0; i<exam->count(); i++) {
       if (!exam->q(i).correct()) {
-        if(!exam->q(i).wrongAccid()) wAccid++;
-        if(!exam->q(i).wrongKey()) wKey++;
-        if(!exam->q(i).wrongNote()) wNote++;
-        if(!exam->q(i).wrongOctave()) wOctave++;
-        if(!exam->q(i).wrongStyle()) wStyle++;
-        if(!exam->q(i).wrongPos()) wPos++;
+        if(exam->q(i).wrongAccid()) wAccid++;
+        if(exam->q(i).wrongKey()) wKey++;
+        if(exam->q(i).wrongNote()) wNote++;
+        if(exam->q(i).wrongOctave()) wOctave++;
+        if(exam->q(i).wrongStyle()) wStyle++;
+        if(exam->q(i).wrongPos()) wPos++;
       }
     }
     if (wNote)
-      effStr += row2("Wrong notes:", QString::number(wNote));
+      effStr += row2("Wrong notes", QString::number(wNote));
     if (wAccid)
-      effStr += row2("Wrong accidentals:", QString::number(wAccid));
+      effStr += row2("Wrong accidentals", QString::number(wAccid));
     if (wKey)
-      effStr += row2("Wrong key signatures:", QString::number(wKey));
+      effStr += row2("Wrong key signatures", QString::number(wKey));
+    if (wPos)
+      effStr += row2("Wrong position", QString::number(wPos));
   }
 	QLabel *resLab = new QLabel("<table>" +
     row2(TexamView::effectTxt(), QString::number(qRound(eff)) + "%") +
