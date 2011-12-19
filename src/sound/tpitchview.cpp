@@ -26,38 +26,42 @@
 #include <QPushButton>
 
 
-TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent): 
+TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons): 
   QWidget(parent),
   m_audioIN(audioIn),
   m_pitchColor(Qt::red),
   m_isPaused(false),
   m_isVoice(false),
-  m_hideCnt(8)
+  m_hideCnt(8),
+  m_withButtons(withButtons)
 {
   QHBoxLayout *lay = new QHBoxLayout();
-  voiceButt = new QPushButton("g", this);
-  voiceButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-  lay->addWidget(voiceButt);
-  voiceButt->setStatusTip(tr("Toggles between pitch detection for human voice and for instruments"));
-  voiceButt->setFont(QFont("nootka", 15));
-  
+  if (m_withButtons) {
+      voiceButt = new QPushButton("g", this);
+      voiceButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+      lay->addWidget(voiceButt);
+      voiceButt->setStatusTip(tr("Toggles between pitch detection for human voice and for instruments"));
+      voiceButt->setFont(QFont("nootka", 15));
+  }
   m_volMeter = new TvolumeMeter(this);
   lay->addWidget(m_volMeter);
   m_volMeter->setStatusTip(tr("Shows volume level of input sound and indicates when note was detected"));
   
-  pauseButt = new QPushButton("n", this);
-  pauseButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-  lay->addWidget(pauseButt);
-  pauseButt->setStatusTip(tr("Switch on/off the pitch detection"));
-  pauseButt->setFont(QFont("nootka", 15));
-  
+  if (m_withButtons) {
+      pauseButt = new QPushButton("n", this);
+      pauseButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+      lay->addWidget(pauseButt);
+      pauseButt->setStatusTip(tr("Switch on/off the pitch detection"));
+      pauseButt->setFont(QFont("nootka", 15));
+  }
   setLayout(lay);  
   
   m_volTimer = new QTimer(this);
   connect(m_volTimer, SIGNAL(timeout()), this, SLOT(updateLevel()));
-  connect(pauseButt, SIGNAL(clicked()), this, SLOT(pauseClicked()));
-  connect(voiceButt, SIGNAL(clicked()), this, SLOT(voiceClicked()));
-//   m_volMeter->setNoiseLevel(audioIn->n);
+  if (m_withButtons) {
+    connect(pauseButt, SIGNAL(clicked()), this, SLOT(pauseClicked()));
+    connect(voiceButt, SIGNAL(clicked()), this, SLOT(voiceClicked()));
+  }
 }
 
 
@@ -83,9 +87,24 @@ void TpitchView::setPitchColor(QColor col) {
 }
 
 void TpitchView::resize(int fontSize) {
-  voiceButt->setFont(QFont("nootka", fontSize));
-  pauseButt->setFont(QFont("nootka", fontSize));
+  if (m_withButtons) {
+    voiceButt->setFont(QFont("nootka", fontSize));
+    voiceButt->setFixedWidth(3*fontSize/2);
+    pauseButt->setFont(QFont("nootka", fontSize));
+    pauseButt->setFixedWidth(3*fontSize/2);
+  }
   m_volMeter->setFixedHeight(qRound((float)height()*0.70));
+}
+
+void TpitchView::setIsVoice(bool isVoice) {
+  if (isVoice) {
+      voiceButt->setText("v"); // singer symbol for voice mode
+      m_isVoice = true;
+    } else {
+      voiceButt->setText("g"); // guitar symbol for instruments mode
+      m_isVoice = false;
+    }
+    m_audioIN->setIsVoice(m_isVoice);
 }
 
 
@@ -134,14 +153,7 @@ void TpitchView::pauseClicked() {
 }
 
 void TpitchView::voiceClicked() {
-    if (m_isVoice) {
-      voiceButt->setText("g"); // guitar symbol for instruments mode
-      m_isVoice = false;
-    } else {
-      voiceButt->setText("v"); // singer symbol for voice mode
-      m_isVoice = true;
-    }
-    m_audioIN->setIsVoice(m_isVoice);
+      setIsVoice(!m_isVoice); // switch to opposite
 }
 
 

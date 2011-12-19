@@ -27,8 +27,11 @@ TvolumeMeter::TvolumeMeter(QWidget* parent):
 {
   setBackgroundRole(QPalette::Background);
   setAutoFillBackground(true);
-  setFixedHeight(20);
+  setMinimumSize(200, 20);
 }
+
+TvolumeMeter::~TvolumeMeter()
+{}
 
 
 void TvolumeMeter::setVolume(qreal vol, int alpha) {
@@ -37,20 +40,21 @@ void TvolumeMeter::setVolume(qreal vol, int alpha) {
   repaint();
 }
 
+
 void TvolumeMeter::paintEvent(QPaintEvent* )
 {
   if (m_volume == 0.0)
-	  return;
+    return;
   QPainter painter(this);
   painter.setRenderHints(QPainter::Antialiasing);
   painter.setPen(Qt::NoPen);
-  if (m_alpha) { // m_alpha==0 means transparent - no sense to painnnnt background
+  if (m_alpha) { // m_alpha==0 means transparent - no sense to paint background
       m_pitchColor.setAlpha(m_alpha);
       painter.setBrush(QBrush(m_pitchColor));
       painter.drawRoundedRect(painter.viewport(), 4, 4);
   }
   QLinearGradient grad = QLinearGradient(0, 5, painter.viewport().right()-20, 5);
-  grad.setColorAt(0.0, Qt::darkGray);
+  grad.setColorAt(0.0, Qt::darkGreen);
   grad.setColorAt(m_noiseLevel, Qt::green);
   grad.setColorAt(0.7, Qt::yellow);
   grad.setColorAt(1.0, Qt::red);
@@ -63,5 +67,3 @@ void TvolumeMeter::paintEvent(QPaintEvent* )
           2, 2 );
 }
 
-TvolumeMeter::~TvolumeMeter()
-{}

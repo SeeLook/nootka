@@ -241,7 +241,8 @@ void MainWindow::createSettingsDialog() {
         noteWasClicked(0, noteName->getNoteName(0)); //refresh name
         guitar->acceptSettings(); //refresh guitar
         m_hintsChB->setChecked(gl->hintsEnabled);
-    }
+    } else
+      sound->restoreAfterConf();
     delete settings;
 }
 
@@ -355,6 +356,7 @@ bool MainWindow::event(QEvent *event) {
 }
 
 void MainWindow::resizeEvent(QResizeEvent *) {
+    setUpdatesEnabled(false);
     nootBar->setIconSize(QSize(height()/21, height()/21));
     score->setFixedWidth((centralWidget()->width()/13)*6);
     m_statLab->setFixedHeight(height()/9);
@@ -363,11 +365,11 @@ void MainWindow::resizeEvent(QResizeEvent *) {
     f.setPixelSize(m_statFontSize);
     m_statLab->setFont(f);
     guitar->setFixedHeight((centralWidget()->height()-nootBar->height())/3);
-//     examResults->setFixedHeight(m_statFontSize*5);
     examResults->setFontSize(m_statFontSize);
     noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(height() * 0.4)));
     noteName->resize(m_statFontSize);
     pitchView->resize(m_statFontSize);
+    setUpdatesEnabled(true);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {

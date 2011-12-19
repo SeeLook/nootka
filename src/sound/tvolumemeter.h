@@ -43,9 +43,8 @@ public:
 protected:
   void paintEvent(QPaintEvent* );
 
-private:
+private:  
   qreal m_volume;
-  QPixmap m_pixmap;
   QColor m_pitchColor;
   int m_alpha; // aplha value of m_pitchColor
   float m_noiseLevel; // 0 - 100 - the same as in TaudioParams

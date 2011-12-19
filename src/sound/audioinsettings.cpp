@@ -119,7 +119,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   noiseSpin->setDecimals(1);
   noiseSpin->setSingleStep(0.2);
   noiseSpin->setSuffix(" %");
-  noiseSpin->setValue((double)(m_glParams->noiseLevel/32768)*100);
+  noiseSpin->setValue((double)((double)m_glParams->noiseLevel/32768.0)*100.0);
   noisLay->addWidget(noiseSpin);
   noiseSpin->setStatusTip(tr("This value determines level of signal above witch sounds are detected."));
   calcButt = new QPushButton(tr("Calculate"), this);
@@ -138,12 +138,11 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   QGroupBox *testGr = new QGroupBox(this);
   QHBoxLayout *testLay = new QHBoxLayout();
   testButt = new QPushButton(testTxt, this);
-  testButt->setStatusTip(tr("Check, Are audio input settings appropirate for You,<br>and did pitch detection work ?"));
+  testButt->setStatusTip(tr("Check, Are audio input settings appropirate for You,<br>and Does pitch detection work ?"));
   testLay->addWidget(testButt);
   testLay->addStretch(1);
-  volMeter = new TpitchView(m_audioIn, this);
-  volMeter->pauseButt->hide();
-  volMeter->voiceButt->hide();
+  volMeter = new TpitchView(m_audioIn, this, false);
+  volMeter->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
   testLay->addWidget(volMeter);
   volMeter->setPitchColor(palette().highlight().color());
   testLay->addStretch(1);
@@ -207,7 +206,6 @@ AudioInSettings::~AudioInSettings()
 void AudioInSettings::setTestDisabled(bool disabled) {
   m_testDisabled = disabled;
   if (disabled) {
-//     volMeter->setDisabled(true);
     pitchLab->setText("--");
     freqLab->setText("--");
     pitchLab->setDisabled(true);
@@ -218,8 +216,6 @@ void AudioInSettings::setTestDisabled(bool disabled) {
     midABox->setDisabled(false);
     noisGr->setDisabled(false);	
   } else {
-//     volMeter->setDisabled(false);
-//     volMeter->setEnabled(true);
     pitchLab->setDisabled(false);
     freqLab->setDisabled(false);
     // disable the rest of widget
@@ -252,8 +248,8 @@ void AudioInSettings::saveSettings() {
 //------------------------------------------------------------------------------------
 
 void AudioInSettings::calcSlot() {
+  grabParams(m_tmpParams);
   if (!m_audioIn) {
-    grabParams(m_tmpParams);
     m_audioIn = new TaudioIN(m_tmpParams, this);
   } else
 //   if (inDeviceCombo->currentText() != m_audioIn->deviceName())
@@ -272,10 +268,10 @@ void AudioInSettings::testSlot() {
     else 
 // 	if (inDeviceCombo->currentText() != m_audioIn->deviceName())
         m_audioIn->setParameters(m_tmpParams);
-    if (m_audioIn->isAvailable()) {
-      setTestDisabled(true);
-      return;
-    }
+//     if (m_audioIn->isAvailable()) {
+//       setTestDisabled(true);
+//       return;
+//     }
     testButt->setText(stopTxt);
     volMeter->setAudioInput(m_audioIn);
     m_audioIn->startListening();

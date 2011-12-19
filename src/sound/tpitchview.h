@@ -29,12 +29,14 @@ class QTimer;
 class TvolumeMeter;
 
   /** This class represents volume meter of audio signal
-   * and displays note symbol when TaudioIN detected it  */
+   * and displays note symbol when TaudioIN detected it.
+   * It can has two buttons, but by setting @param withButtons to false
+   * they are not created. */
 class TpitchView : public QWidget
 {
   Q_OBJECT
 public:
-  explicit TpitchView(TaudioIN *audioIn, QWidget *parent = 0);
+  explicit TpitchView(TaudioIN *audioIn,  QWidget *parent = 0, bool withButtons = true);
   virtual ~TpitchView();
   
   void setAudioInput(TaudioIN *audioIn) { m_audioIN = audioIn; }
@@ -47,6 +49,8 @@ public:
     /** Button to pause or activate pitch detection */
   QPushButton *pauseButt;
   bool isPaused() { return m_isPaused; }
+  bool isVoice() { return m_isVoice; }
+  void setIsVoice(bool isVoice);
   void resize(int fontSize);
   
 protected slots:
@@ -62,6 +66,7 @@ private:
   QColor m_pitchColor;
   bool m_isPaused;
   bool m_isVoice;
+  bool m_withButtons;
   int m_hideCnt; // counter of m_volTimer loops.
 };
 
