@@ -22,6 +22,7 @@
 #include "texam.h"
 #include "tlevelselector.h"
 #include "texamview.h"
+#include "tqaunit.h"
 
   /** returns 2 columns row of table */
 QString row2(QString S1, QString S2) {
@@ -68,9 +69,30 @@ TexamSummary::TexamSummary(Texam* exam, QWidget* parent) :
 	QVBoxLayout *resLay = new QVBoxLayout();
 	QGroupBox *resGr = new QGroupBox(tr("Results:"), this);
 	qreal eff = (((qreal)exam->count() - (qreal)exam->mistakes()) / (qreal)exam->count()) * 100;
+  QString effStr = "";
+  if (exam->mistakes()) {
+    effStr = row2(TexamView::mistakesNrTxt(), QString::number(exam->mistakes()));
+    int wAccid = 0, wKey = 0, wNote = 0, wOctave = 0, wStyle = 0, wPos = 0;
+    for(int i=0; i<exam->count(); i++) {
+      if (!exam->q(i).correct()) {
+        if(!exam->q(i).wrongAccid()) wAccid++;
+        if(!exam->q(i).wrongKey()) wKey++;
+        if(!exam->q(i).wrongNote()) wNote++;
+        if(!exam->q(i).wrongOctave()) wOctave++;
+        if(!exam->q(i).wrongStyle()) wStyle++;
+        if(!exam->q(i).wrongPos()) wPos++;
+      }
+    }
+    if (wNote)
+      effStr += row2("Wrong notes:", QString::number(wNote));
+    if (wAccid)
+      effStr += row2("Wrong accidentals:", QString::number(wAccid));
+    if (wKey)
+      effStr += row2("Wrong key signatures:", QString::number(wKey));
+  }
 	QLabel *resLab = new QLabel("<table>" +
     row2(TexamView::effectTxt(), QString::number(qRound(eff)) + "%") +
-    row2(TexamView::mistakesNrTxt(), QString::number(exam->mistakes())) +
+    effStr +
     "</table>", this);
 	resLay->addWidget(resLab);
 	
