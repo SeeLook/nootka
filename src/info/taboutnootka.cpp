@@ -60,7 +60,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     QWidget *wi = new QWidget();
     QVBoxLayout *wiLLay = new QVBoxLayout;
     QLabel *authorsLab = new QLabel(("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>" + authorsTxt() + "</b></p></center><br><br>Tomasz Bojczuk    <a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a><br><br><center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>" + tr("Translators") + "</b></p></center>" + QString::fromUtf8("český") + ": Pavel Fric        <a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a><br><br>polski: Tomasz Bojczuk    <a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a><br><br><br>" + 
-       tr("Althougth this application could not exist without various open source projects.<br>Especially:") + "<ul><li><a href=\"http://qt.nokia.com\">Qt</a></li><li><a href=\"http://portaudio.com\">Portaudio</a></li><li><a href=\"http://www.music.mcgill.ca/~gary/rtmidi/\">RtMidi</a></li></ul>"));
+       tr("Althougth this application could not exist without various open source projects.<br>Especially:") + "<ul><li><a href=\"http://qt.nokia.com\">Qt</a></li><li><a href=\"http://www.fftw.org\">FFTW</a></li><li><a href=\"http://www.music.mcgill.ca/~gary/rtmidi/\">RtMidi</a></li><li><a href=\"http://miracle.otago.ac.nz/tartini/index.html\">Tartini</a></li></ul>"));
     authorsLab->setOpenExternalLinks(true);
     wiLLay->addWidget(authorsLab);
     wiLLay->addStretch(1);

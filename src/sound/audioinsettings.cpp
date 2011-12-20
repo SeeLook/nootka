@@ -78,10 +78,15 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   
   devDetLay->addStretch(1);
   
+  QLabel *tartiniLab = new QLabel(tr("Pitch detection methods are taken from the <a href=\"http://miracle.otago.ac.nz/tartini/index.html\">Tartini Project</a> developed by<br>Philip McLeod"), this);
+  tartiniLab->setWordWrap(true);
+  devDetLay->addWidget(tartiniLab);
+  devDetLay->addStretch(1);
+  
   upLay->addLayout(devDetLay);
   QVBoxLayout *tunLay = new QVBoxLayout(); //middle A & threshold layout
   
-  midABox = new QGroupBox(tr("middle A")+" (a1)", this);
+  midABox = new QGroupBox(tr("middle A")+" (a<sup>1</sup>)", this);
   QVBoxLayout *midLay = new QVBoxLayout();
   QLabel *frLab = new QLabel(tr("frequency:"), this);
   midLay->addWidget(frLab);
