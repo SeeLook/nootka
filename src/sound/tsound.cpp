@@ -21,6 +21,7 @@
 #include "taudioin.h"
 #include "taudioparams.h"
 #include "tpitchview.h"
+#include <QPushButton>
 
 
 extern Tglobals *gl;
@@ -146,6 +147,20 @@ void Tsound::restoreAfterConf() {
   }
 }
 
+void Tsound::wait() {
+  if (sniffer) {
+    sniffer->stopListening();
+    m_pitchView->stopVolume();
+  }
+}
+
+void Tsound::go() {
+  if (sniffer && !m_pitchView->isPaused()) {
+    sniffer->startListening();
+    m_pitchView->startVolume();
+  }
+}
+
 
 //-------------------------------- slots ----------------------------------------------------
 void Tsound::playingFinished() {
@@ -156,6 +171,7 @@ void Tsound::playingFinished() {
 }
 
 void Tsound::noteDetectedSlot(Tnote note) {
+  m_detNote = note;
   emit detectedNote(note);
 }
 

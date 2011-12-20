@@ -54,6 +54,11 @@ public:
   void restoreAfterConf();
   void acceptSettings();
   void setPitchView(TpitchView *pView);
+    /** Stops sniffing. It is called when en exam is starting. */
+  void wait();
+    /** Starts sniffing again. */
+  void go();
+  Tnote note() { return m_detNote; }
   
 signals:
   void detectedNote(Tnote note);
@@ -65,6 +70,7 @@ private:
   void deleteSniffer();
   
   TpitchView *m_pitchView;
+  Tnote m_detNote; // detected note
   
 private slots:
     /** Is performed when note stops playing, then sniffing is unlocked */

@@ -77,8 +77,9 @@ public:
 
     /** Magic number in exam file to identify it.*/
   static const qint32 examVersion;
-    /** Be Aware !!! index has to be less than m_answList.size() */
-  TQAunit &q(unsigned int index) { return m_answList[index]; }
+    /** Returns a reference to question/answer unit nr @param index.
+     * Be Aware !!! index has to be less than m_answList.size() */
+  TQAunit &qusetion(unsigned int index) { return m_answList[index]; }
 
 
 private:

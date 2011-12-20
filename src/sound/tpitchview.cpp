@@ -42,6 +42,9 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
       lay->addWidget(voiceButt);
       voiceButt->setStatusTip(tr("Toggles between pitch detection for human voice and for instruments"));
       voiceButt->setFont(QFont("nootka", 15));
+  } else {
+    voiceButt = 0;
+    pauseButt = 0;
   }
   m_volMeter = new TvolumeMeter(this);
   lay->addWidget(m_volMeter);

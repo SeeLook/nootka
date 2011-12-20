@@ -38,11 +38,12 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
     QString resultText;
     TstartExamDlg::Eactions userAct;
 
+    mW->sound->wait();
     if (examFile == "") { // start exam dialog
         TstartExamDlg *startDlg = new TstartExamDlg(mW);
         userAct = startDlg->showDialog(resultText, m_level);
         delete startDlg;
-    } else { // command line arg
+    } else { // command line arg with given filename
         resultText = examFile;
         userAct = TstartExamDlg::e_continue;
     }
@@ -73,8 +74,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
                   if (changesMessage != "")
                         QMessageBox::warning(mW, "", changesMessage);
             // ---------- End of checking ----------------------------------
-          TexamSummary *ES = new TexamSummary(m_exam, mW);
-          ES->exec(); delete ES;
+          showExamSummary();
           mW->examResults->startExam(m_exam->totalTime(), m_exam->count(), m_exam->averageReactonTime(),
                           m_exam->mistakes());
         } else {
@@ -386,6 +386,13 @@ void TexamExecutor::askQuestion() {
         mW->guitar->setGuitarDisabled(false);
         mW->guitar->prepareAnswer();
     }
+    
+    if (curQ.answerAs == TQAtype::e_asSound) {
+      questText = QString("<b>%1. </b>").arg(m_exam->count() + 1) +
+      tr("Play or sing given note");
+      m_answRequire.accid = false;
+      mW->sound->go();
+    }
     m_exam->addQuestion(curQ);
     mW->setStatusMessage(questText);
 
@@ -502,6 +509,9 @@ void TexamExecutor::checkAnswer(bool showResults) {
             exN = curQ.qa_2.note;
         retN = mW->noteName->getNoteName();
     }
+    if (curQ.answerAs == TQAtype::e_asSound) {
+      retN = mW->sound->note();
+    }
     if (curQ.answerAs == TQAtype::e_asFretPos) {
         if (curQ.qa.pos != mW->guitar->getfingerPos())
             curQ.setMistake(TQAunit::e_wrongPos);
@@ -603,8 +613,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 
 void TexamExecutor::repeatQuestion() {
     m_incorrectRepeated = true;
-	m_isAnswered = false;
-//     TQAunit curQ = m_answList[m_answList.size() - 1];
+    m_isAnswered = false;
 		TQAunit curQ = m_exam->curQ();
     QString m = mW->statusMessage();
     m.replace(0, m.indexOf("</b>"), QString("<b>%1.").arg(m_exam->count()+1));
@@ -652,6 +661,7 @@ void TexamExecutor::prepareToExam() {
     disconnect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     disconnect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
     disconnect(mW->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
+    disconnect(mW->sound, SIGNAL(detectedNote(Tnote)), mW, SLOT(soundWasPlayed(Tnote)));
     connect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
     connect(mW->autoRepeatChB, SIGNAL(clicked(bool)), this,
             SLOT(autoRepeatStateChanged(bool)));
@@ -716,6 +726,7 @@ void TexamExecutor::restoreAfterExam() {
     connect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
     connect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     connect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
+    connect(mW->sound, SIGNAL(detectedNote(Tnote)), mW, SLOT(soundWasPlayed(Tnote)));
     disconnect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
     disconnect(mW->autoRepeatChB, SIGNAL(clicked(bool)), this,
             SLOT(autoRepeatStateChanged(bool)));
@@ -731,6 +742,7 @@ void TexamExecutor::disableWidgets() {
     mW->noteName->setNameDisabled(true);
     mW->score->setScoreDisabled(true);
     mW->guitar->setGuitarDisabled(true);
+    mW->sound->wait();
 }
 
 void TexamExecutor::clearWidgets() {
@@ -751,6 +763,7 @@ void TexamExecutor::stopExamSlot() {
     if (m_exam->fileName() != "") {
 			m_exam->setTotalTime(mW->examResults->getTotalTime());
 			m_exam->setAverageReactonTime(mW->examResults->getAverageTime());
+      showExamSummary();
 			if (m_exam->saveToFile() == Texam::e_file_OK) {
 #if defined(Q_OS_WIN32)
 				QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
@@ -821,7 +834,6 @@ QString TexamExecutor::saveExamToFile() {
 }
 
 void TexamExecutor::repeatSound() {
-//     mW->player->play(m_answList[m_answList.size()-1].qa.note);
 	mW->sound->play(m_exam->curQ().qa.note);
 }
 
@@ -876,3 +888,9 @@ void TexamExecutor::autoRepeatStateChanged(bool enable) {
 QString TexamExecutor::getNextQuestionTxt() {
             return tr("Press <img src=\"%1\">").arg(gl->path+"picts/next-icon.png") + orRightButtTxt() + tr("<br>or <b>space</b> to get next question.");
 }
+
+void TexamExecutor::showExamSummary() {
+  TexamSummary *ES = new TexamSummary(m_exam, mW);
+  ES->exec(); delete ES;
+}
+
