@@ -35,8 +35,6 @@ TquestionAsWdg::TquestionAsWdg(QWidget *parent) :
     asFretPosChB = new QCheckBox(asFretPosTxt(), this);
     mainLay->addWidget(asFretPosChB);
     asSoundChB = new QCheckBox(asSoundTxt(), this);
-    asSoundChB->setDisabled(true);
-    asSoundChB->setStatusTip(tr("not implemented yet"));
     mainLay->addWidget(asSoundChB);
     mainLay->addStretch(1);
     setLayout(mainLay);
