@@ -203,6 +203,7 @@ void MainWindow::clearAfterExam() {
     m_curBG = -1;
     m_prevBg = -1;
     setMessageBg(-1);
+    sound->go();
 }
 
 
@@ -358,7 +359,7 @@ bool MainWindow::event(QEvent *event) {
 void MainWindow::resizeEvent(QResizeEvent *) {
     setUpdatesEnabled(false);
     nootBar->setIconSize(QSize(height()/21, height()/21));
-    score->setFixedWidth((centralWidget()->width()/13)*6);
+    score->setFixedWidth((centralWidget()->width()/14)*6);
     m_statLab->setFixedHeight(height()/9);
     m_statFontSize = m_statLab->height()/4;
     QFont f = m_statLab->font();

@@ -48,7 +48,7 @@ TexamSummary::TexamSummary(Texam* exam, QWidget* parent) :
   QGroupBox *timeGr = new QGroupBox(tr("times:"), this);
   QLabel *timeLab = new QLabel("<table>" + 
     row2(TexamView::totalTimetxt(), TexamView::formatedTotalTime(exam->totalTime()*1000)) +
-    row2(tr("Time of work"), TexamView::formatedTotalTime(exam->workTime()*100)) +
+    row2(tr("Time of work"), TexamView::formatedTotalTime(exam->workTime()*1000)) +
     row2(TexamView::averAnsverTimeTxt(), QString("%1 s").arg(exam->averageReactonTime()/ 10, 0, 'f', 1, '0')) +
     "</table>", this);
   timeLay->addWidget(timeLab);
@@ -58,7 +58,7 @@ TexamSummary::TexamSummary(Texam* exam, QWidget* parent) :
 	
   
   QPushButton *okButt = new QPushButton(tr("Close"), this);
-  leftLay->addWidget(okButt);
+  leftLay->addWidget(okButt, 1, Qt::AlignCenter);
   
 	lay->addLayout(leftLay);
 //-------  right layout -----------------------	
@@ -72,30 +72,34 @@ TexamSummary::TexamSummary(Texam* exam, QWidget* parent) :
   QString effStr = "";
   if (exam->mistakes()) {
     effStr = row2(TexamView::mistakesNrTxt(), QString::number(exam->mistakes()));
-    int wAccid = 0, wKey = 0, wNote = 0, wOctave = 0, wStyle = 0, wPos = 0;
+    float wAccid = 0.0, wKey = 0.0, wNote = 0.0, wOctave = 0.0, wStyle = 0.0, wPos = 0.0, wTotal;
     for(int i=0; i<exam->count(); i++) {
-      if (!exam->q(i).correct()) {
-        if(exam->q(i).wrongAccid()) wAccid++;
-        if(exam->q(i).wrongKey()) wKey++;
-        if(exam->q(i).wrongNote()) wNote++;
-        if(exam->q(i).wrongOctave()) wOctave++;
-        if(exam->q(i).wrongStyle()) wStyle++;
-        if(exam->q(i).wrongPos()) wPos++;
+      if (!exam->qusetion(i).correct()) {
+          if(exam->qusetion(i).wrongAccid())  wAccid++;
+          if(exam->qusetion(i).wrongKey())    wKey++;
+          if(exam->qusetion(i).wrongNote())   wNote++;
+          if(exam->qusetion(i).wrongOctave()) wOctave++;
+          if(exam->qusetion(i).wrongStyle())  wStyle++;
+          if(exam->qusetion(i).wrongPos())    wPos++;
       }
     }
+    effStr += "<tr><td colspan=\"2\">----- " + tr("Kinds of mistakes") + ": -----</td></tr>";
+    wTotal = wAccid + wKey + wNote + wOctave + wStyle + wPos;
     if (wNote)
-      effStr += row2("Wrong notes", QString::number(wNote));
+      effStr += row2("Wrong notes", QString::number(qRound(wNote*100.0 / wTotal)) + "%");
     if (wAccid)
-      effStr += row2("Wrong accidentals", QString::number(wAccid));
+      effStr += row2("Wrong accidentals", QString::number(qRound(wAccid*100.0 / wTotal)) + "%");
     if (wKey)
-      effStr += row2("Wrong key signatures", QString::number(wKey));
+      effStr += row2("Wrong key signatures", QString::number(qRound(wKey*100.0 /wTotal)) + "%");
+    if (wOctave)
+      effStr += row2("Wrong octaves", QString::number(qRound(wOctave*100.0 /wTotal)) + "%");
+    if (wStyle)
+      effStr += row2("Wrong note name-calling", QString::number(qRound(wStyle*100.0 /wTotal)) + "%");
     if (wPos)
-      effStr += row2("Wrong position", QString::number(wPos));
+      effStr += row2("Wrong frets or strings", QString::number(qRound(wPos*100.0 / wTotal)) + "%");
   }
 	QLabel *resLab = new QLabel("<table>" +
-    row2(TexamView::effectTxt(), QString::number(qRound(eff)) + "%") +
-    effStr +
-    "</table>", this);
+    row2(TexamView::effectTxt(), QString::number(qRound(eff)) + "%") + effStr + "</table>", this);
 	resLay->addWidget(resLab);
 	
 	resGr->setLayout(resLay);

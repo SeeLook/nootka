@@ -119,6 +119,29 @@ QList<TexamLevel> getExampleLevels() {
     l.hiNote = Tnote(6, 1);
     l.hiFret = 19;// loFret is 0 by constuctor
     llist << l;
+//----------------------------------------------------------------------------
+    l = TexamLevel();
+    l.name = QObject::tr("Play scores");
+    l.desc = QObject::tr("Take Your instrument and just play...<br>No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.");
+    l.questionAs.setAsFret(false); // no guitar
+    l.questionAs.setAsName(false); // no names
+    l.questionAs.setAsSound(false); // don't play
+    l.answersAs[0] = TQAtype(false, false, false, true); // score only
+    l.withSharps = true;
+    l.withFlats = true;
+    l.withDblAcc = true;
+    l.useKeySign = true;
+    l.manualKey = false;
+    l.loKey = -4;
+    l.hiKey = 4;
+    l.forceAccids = false;
+    l.requireOctave = true;
+    l.requireStyle = false;
+    l.showStrNr = false;
+//     l.loNote & l.hiNote from constructor
+//     l.hiFret by constuctor
+    l.onlyLowPos = true;
+    llist << l;
 
     return llist;
 }

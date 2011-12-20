@@ -28,10 +28,10 @@ TexamLevel::TexamLevel()
    name = QObject::tr("master of masters");
    desc = QObject::tr("All possible options are turned on");
    questionAs = TQAtype(true, true, true, true);
-   answersAs[0] = TQAtype(true, true, true, false);
-   answersAs[1] = TQAtype(true, true, true, false);
+   answersAs[0] = TQAtype(true, true, true, true);
+   answersAs[1] = TQAtype(true, true, true, true);
    answersAs[2] = TQAtype(true, true, false, false);
-   answersAs[3] = TQAtype(true, true, true, false);
+   answersAs[3] = TQAtype(true, true, true, true);
   // QUESTIONS - as note
    withSharps = true;
    withFlats = true;
