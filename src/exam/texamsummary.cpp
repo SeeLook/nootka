@@ -49,18 +49,18 @@ TexamSummary::TexamSummary(Texam* exam, QWidget* parent) :
   QLabel *timeLab = new QLabel("<table>" + 
     row2(TexamView::totalTimetxt(), TexamView::formatedTotalTime(exam->totalTime()*1000)) +
     row2(tr("Time of work"), TexamView::formatedTotalTime(exam->workTime()*1000)) +
-    row2(TexamView::averAnsverTimeTxt(), QString("%1 s").arg(exam->averageReactonTime()/ 10, 0, 'f', 1, '0')) +
+    row2(TexamView::averAnsverTimeTxt(), QString("%1 s").
+        arg((qreal)exam->averageReactonTime()/10.0, 0, 'f', 1, '0')) +
     "</table>", this);
   timeLay->addWidget(timeLab);
   
   timeGr->setLayout(timeLay);
   leftLay->addWidget(timeGr);
 	
-  
   QPushButton *okButt = new QPushButton(tr("Close"), this);
   leftLay->addWidget(okButt, 1, Qt::AlignCenter);
-  
 	lay->addLayout(leftLay);
+  
 //-------  right layout -----------------------	
 	QVBoxLayout *rightLay = new QVBoxLayout();
 	TlevelSummaryWdg *levelWdg = new TlevelSummaryWdg(this);

@@ -45,12 +45,12 @@ Texam::~Texam()
 
 
 Texam::EerrorType Texam::loadFromFile(QString& fileName) {
-	m_fileName = fileName;
-	QFile file(fileName);
-	quint16 questNr;
-	m_workTime = 0;
-  m_mistNr = 0;
-	EerrorType result = e_file_OK;
+    m_fileName = fileName;
+    QFile file(fileName);
+    quint16 questNr;
+    m_workTime = 0;
+    m_mistNr = 0;
+    EerrorType result = e_file_OK;
     if (file.open(QIODevice::ReadOnly)) {
       QDataStream in(&file);
       in.setVersion(QDataStream::Qt_4_7);

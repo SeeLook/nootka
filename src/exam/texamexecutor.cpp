@@ -34,7 +34,6 @@ extern Tglobals *gl;
 TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
 {
     mW = mainW;
-// 		TexamLevel level;
     QString resultText;
     TstartExamDlg::Eactions userAct;
 

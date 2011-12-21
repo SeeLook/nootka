@@ -54,6 +54,7 @@ void Tsound::play(Tnote note) {
 }
 
 void Tsound::acceptSettings() {
+  // for output
   if (gl->A->OUTenabled) {
     if (!player)
         createPlayer();
@@ -66,6 +67,7 @@ void Tsound::acceptSettings() {
     if (player)
       deletePlayer();
   }
+  // for input
   if (gl->A->INenabled) {
     m_pitchView->setEnabled(true);
     if (!sniffer) {
@@ -76,6 +78,7 @@ void Tsound::acceptSettings() {
     }
     else {
       sniffer->setParameters(gl->A);
+      sniffer->setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
       m_pitchView->setAudioInput(sniffer);
       m_pitchView->setIsVoice(gl->A->isVoice);
       if (!m_pitchView->isPaused()) { // and pause button
@@ -103,6 +106,7 @@ void Tsound::deletePlayer() {
 
 void Tsound::createSniffer() {
   sniffer = new TaudioIN(gl->A, this);
+  sniffer->setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
   sniffer->startListening();
   connect(sniffer, SIGNAL(noteDetected(Tnote)), this, SLOT(noteDetectedSlot(Tnote)));
 }

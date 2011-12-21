@@ -31,7 +31,6 @@ float *filteredChunk = 0;
 bool shown = true;
 bool noteNoticed = false;
 int noticedChunk = 0; // chunk nr where note was started
-const quint8 lowestMidiNote = 35; // a lowest detectable note
 
 TpitchFinder::TpitchFinder(QObject* parent) :
   QObject(parent),
@@ -53,6 +52,7 @@ TpitchFinder::TpitchFinder(QObject* parent) :
 	m_aGl.threshold = 93;
 	m_aGl.analysisType = e_AUTOCORRELATION;
 	m_aGl.topPitch = 140.0;
+  m_aGl.loPitch = 35;
 	
 	m_aGl.ampThresholds[AMPLITUDE_RMS][0]           = -85.0; m_aGl.ampThresholds[AMPLITUDE_RMS][1]           = -0.0;
 	m_aGl.ampThresholds[AMPLITUDE_MAX_INTENSITY][0] = -30.0; m_aGl.ampThresholds[AMPLITUDE_MAX_INTENSITY][1] = -20.0;
@@ -133,7 +133,7 @@ void TpitchFinder::run() {
         noticedChunk = currentChunk();
         }
       } else { // pitch in single chunk
-        if (shown && data->pitch > lowestMidiNote) {
+        if (shown && data->pitch > m_aGl.loPitch) {
   // 			  qDebug() << currentChunk() << data->noteIndex << data->fundamentalFreq;
           shown = false;
           emit found(data->pitch, data->fundamentalFreq);
@@ -144,7 +144,7 @@ void TpitchFinder::run() {
         if(noteNoticed) {
         noteNoticed = false;
         float nn = m_channel->averagePitch(noticedChunk, currentChunk());
-        if (nn > lowestMidiNote) {
+        if (nn > m_aGl.loPitch) {
           emit found(nn, pitch2freq(nn));
         }
         }

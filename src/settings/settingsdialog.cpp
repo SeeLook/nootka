@@ -266,8 +266,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     m_sndOutSett = new AudioOutSettings(gl->A);
     m_sndInSett = new AudioInSettings(gl->A);
     QTabWidget *sndTTab = new QTabWidget();
-    sndTTab->addTab(m_sndInSett, tr("input"));
-    sndTTab->addTab(m_sndOutSett, tr("otput"));    
+    sndTTab->addTab(m_sndInSett, tr("listening"));
+    sndTTab->addTab(m_sndOutSett, tr("playing"));    
 
     stackLayout->addWidget(m_globalSett);
     stackLayout->addWidget(m_scoreSett);
