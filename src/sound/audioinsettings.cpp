@@ -35,7 +35,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   
   QVBoxLayout *lay = new QVBoxLayout();
   
-  enableInBox = new QGroupBox(tr("enable audio input (pitch detection)"), this);
+  enableInBox = new QGroupBox(tr("enable pitch detection"), this);
   enableInBox->setCheckable(true);
   enableInBox->setChecked(m_glParams->INenabled);
   
@@ -57,18 +57,18 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   QButtonGroup *butGr = new QButtonGroup(this);
   butGr->setExclusive(true);
   instrRadio = new QRadioButton(this);
-  modeLay->addWidget(instrRadio, 0, 0);
+  modeLay->addWidget(instrRadio, 0, 0, Qt::AlignRight);
   butGr->addButton(instrRadio);
   QLabel *instrLab = new QLabel(tr("for playing") + 
         " <span style=\"font-family: nootka; font-size: 25px;\">g</span>", this);
-  modeLay->addWidget(instrLab, 0, 1);
+  modeLay->addWidget(instrLab, 0, 1, Qt::AlignLeft);
   instrLab->setStatusTip(tr("This mode is faster and good enought for guitars and other instruments."));
   voiceRadio = new QRadioButton(this);
-  modeLay->addWidget(voiceRadio, 1, 0);
+  modeLay->addWidget(voiceRadio, 1, 0, Qt::AlignRight);
   butGr->addButton(voiceRadio);
   QLabel *voiceLab = new QLabel(tr("for singing") + 
     " <span style=\"font-family: nootka; font-size: 25px;\">v</span>", this);
-  modeLay->addWidget(voiceLab, 1, 1);
+  modeLay->addWidget(voiceLab, 1, 1, Qt::AlignLeft);
   voiceLab->setStatusTip(tr("This mode is more accurate but slower. It is recommended for singing and for instruments with \"wobbly\" intonation."));
   modeGr->setLayout(modeLay);
   devDetLay->addWidget(modeGr);
