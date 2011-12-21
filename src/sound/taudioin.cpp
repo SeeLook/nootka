@@ -205,8 +205,7 @@ void TaudioIN::calc() {
 }
 
 void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
-  m_pitch->aGl().loPitch = loNote.getChromaticNrOfNote()+47;
-  m_pitch->aGl().topPitch = hiNote.getChromaticNrOfNote()+47;
+  m_pitch->setAmbitus(loNote.getChromaticNrOfNote()+47, hiNote.getChromaticNrOfNote()+47);
 }
 
 

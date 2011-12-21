@@ -106,6 +106,8 @@ public:
 	void setIsVoice(bool voice);
     /** Cleans all buffers, sets m_chunkNum to 0. */
   void resetFinder();
+  void setAmbitus(qint16 loPitch, double topPitch) { 
+        m_aGl.loPitch = loPitch; m_aGl.topPitch = topPitch; }
 	
 signals:
 	/** Signal emited when pitch is detected. 
