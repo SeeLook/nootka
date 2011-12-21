@@ -64,7 +64,8 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     m_noteStarted(false),
     m_deviceInfo(QAudioDeviceInfo::defaultInputDevice()),
     m_pitch(new TpitchFinder(this)),
-    m_params(params)
+    m_params(params),
+    m_devName("any")
 {    
   prepTemplFormat();
   setParameters(params);
@@ -85,16 +86,12 @@ TaudioIN::~TaudioIN()
   delete m_pitch;
   if (m_floatBuff)
     delete[] (m_floatBuff - 16);
-  qDebug("in delete");
 }
 
 //------------------------------------------------------------------------------------
 //------------          methods         ----------------------------------------------
 //------------------------------------------------------------------------------------
 
-// QString TaudioIN::deviceName() {
-//   return m_params->INdevName;
-// }
 
 void TaudioIN::setParameters(TaudioParams* params) {
   setAudioDevice(params->INdevName);
@@ -102,8 +99,11 @@ void TaudioIN::setParameters(TaudioParams* params) {
   m_params = params;
 }
 
-
+/** Device name is saved to globals and to config file only after changed the Nootka preferences.
+* In other cases the default device is loaded. */
 bool TaudioIN::setAudioDevice(const QString& devN) {
+  if (devN == m_devName)
+    return true;
 	bool fnd = false;
   QList<QAudioDeviceInfo> dL = QAudioDeviceInfo::availableDevices(QAudio::AudioInput);
   if (dL.size()) { // if there are any devices
@@ -127,7 +127,8 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
   if (fnd) {
     if (m_deviceInfo.isFormatSupported(templAudioFormat)) {
       qDebug() << "in:" << m_deviceInfo.deviceName();
-      m_params->INdevName = m_deviceInfo.deviceName();
+//       m_params->INdevName = m_deviceInfo.deviceName();
+      m_devName = m_deviceInfo.deviceName();
       m_audioInput = new QAudioInput(m_deviceInfo, templAudioFormat, this);
     } else {
 		  qDebug() << m_deviceInfo.deviceName() << "format unsupported !!";
@@ -136,6 +137,7 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
 	}	else {
 	  qDebug() << "no input devices found";
 // 	  m_params->INdevName = "";
+    m_devName = "any";
 	}
 	return fnd;
 }
@@ -201,6 +203,12 @@ void TaudioIN::calc() {
 	noise = qMax(noise, m_peakList[i]);
   emit noiseLevel(noise);
 }
+
+void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
+  m_pitch->aGl().loPitch = loNote.getChromaticNrOfNote()+47;
+  m_pitch->aGl().topPitch = hiNote.getChromaticNrOfNote()+47;
+}
+
 
 //------------------------------------------------------------------------------------
 //------------          slots       --------------------------------------------------

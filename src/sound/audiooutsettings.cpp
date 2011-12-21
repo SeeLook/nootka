@@ -84,9 +84,9 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
       }
     }
     QLabel *midiInstrLab = new QLabel(tr("instrument"), this);
-    midiParamLay->addWidget(midiInstrLab, 0, 1);
+    midiParamLay->addWidget(midiInstrLab, 2, 0);
     midiInstrCombo = new QComboBox(this);
-    midiParamLay->addWidget(midiInstrCombo, 1, 1);
+    midiParamLay->addWidget(midiInstrCombo, 3, 0);
     addInstrument(tr("Grand Piano"), 0);
     addInstrument(tr("Harpsichord"), 6);
     addInstrument(tr("Classical Guitar"), 24);

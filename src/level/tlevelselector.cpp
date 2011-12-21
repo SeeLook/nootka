@@ -99,7 +99,7 @@ QList<TexamLevel> getExampleLevels() {
 //----------------------------------------------------------------------------
     l = TexamLevel();
     l.name = QObject::tr("Ear training");
-    l.desc = QObject::tr("Playing sounds are pointed in score.<br>No guitar, no note names, no key signatures.<br>Scale A - a<sup>1</sup>");
+    l.desc = QObject::tr("Played sounds are pointed in score.<br>No guitar, no note names, no key signatures.<br>Scale A - a<sup>1</sup>");
     l.questionAs.setAsFret(false); // no guitar
     l.questionAs.setAsName(false); // no names
     l.questionAs.setAsNote(false); // score only as answer
@@ -142,7 +142,30 @@ QList<TexamLevel> getExampleLevels() {
 //     l.hiFret by constuctor
     l.onlyLowPos = true;
     llist << l;
-
+//----------------------------------------------------------------------------
+    l = TexamLevel();
+    l.name = QObject::tr("Sing scores");
+    l.desc = QObject::tr("Just sing a score...<br>No note names, no fretboard, no keys and double accids. Scale doesn't matter because octaves are ignored - You can transpose.");
+    l.questionAs.setAsFret(false); // no guitar
+    l.questionAs.setAsName(false); // no names
+    l.questionAs.setAsSound(false); // don't play
+    l.answersAs[0] = TQAtype(false, false, false, true); // score only
+    l.withSharps = true;
+    l.withFlats = true;
+    l.withDblAcc = false;
+    l.useKeySign = false;
+    l.manualKey = false;
+    l.loKey = 0;
+    l.hiKey = 0;
+    l.forceAccids = false;
+    l.requireOctave = false;
+    l.requireStyle = false;
+    l.showStrNr = false;
+    l.loNote = Tnote(5, -1); // G contra
+    l.hiNote = Tnote(6, 1); // a one-line
+//     l.hiFret by constuctor
+    l.onlyLowPos = true;
+    llist << l;
     return llist;
 }
 

@@ -48,6 +48,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   devDetLay->addWidget(devLab);
   inDeviceCombo = new QComboBox(this);
   devDetLay->addWidget(inDeviceCombo);
+  inDeviceCombo->setStatusTip(tr("Be sure Your input device (a mike, a webcam, an instrument pluged to line-in) is properly configured by Your operating system."));
   
   devDetLay->addStretch(1);
   
@@ -78,15 +79,20 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   
   devDetLay->addStretch(1);
   
+  QVBoxLayout *tarLay = new QVBoxLayout();
+  QGroupBox *tarGr = new QGroupBox(this);
   QLabel *tartiniLab = new QLabel(tr("Pitch detection methods are taken from the <a href=\"http://miracle.otago.ac.nz/tartini/index.html\">Tartini Project</a> developed by<br>Philip McLeod"), this);
   tartiniLab->setWordWrap(true);
-  devDetLay->addWidget(tartiniLab);
+  tartiniLab->setAlignment(Qt::AlignCenter);
+  tarLay->addWidget(tartiniLab);
+  tarGr->setLayout(tarLay);
+  devDetLay->addWidget(tarGr);
   devDetLay->addStretch(1);
   
   upLay->addLayout(devDetLay);
   QVBoxLayout *tunLay = new QVBoxLayout(); //middle A & threshold layout
   
-  midABox = new QGroupBox(tr("middle A")+" (a<sup>1</sup>)", this);
+  midABox = new QGroupBox(tr("middle A")+" (a1)", this);
   QVBoxLayout *midLay = new QVBoxLayout();
   QLabel *frLab = new QLabel(tr("frequency:"), this);
   midLay->addWidget(frLab);
@@ -126,7 +132,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   noiseSpin->setSuffix(" %");
   noiseSpin->setValue((double)((double)m_glParams->noiseLevel/32768.0)*100.0);
   noisLay->addWidget(noiseSpin);
-  noiseSpin->setStatusTip(tr("This value determines level of signal above witch sounds are detected."));
+  noiseSpin->setStatusTip(tr("Only sounds louder than noise level are taken to pitch analyse. It can improve the pitch detection accuracy."));
   calcButt = new QPushButton(tr("Calculate"), this);
   noisLay->addWidget(calcButt, 1, Qt::AlignCenter);
   calcButt->setStatusTip(tr("Click to automatically detect noise level.<br>Keep silence during 2 seconds to determine it properly."));
@@ -143,7 +149,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   QGroupBox *testGr = new QGroupBox(this);
   QHBoxLayout *testLay = new QHBoxLayout();
   testButt = new QPushButton(testTxt, this);
-  testButt->setStatusTip(tr("Check, Are audio input settings appropirate for You,<br>and Does pitch detection work ?"));
+  testButt->setStatusTip(tr("Check, are audio input settings appropirate for You,<br>and does pitch detection work?"));
   testLay->addWidget(testButt);
   testLay->addStretch(1);
   volMeter = new TpitchView(m_audioIn, this, false);
@@ -162,7 +168,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   freqLab = new QLabel("--", this);
   freqLab->setFixedWidth(70);
   freqLab->setAlignment(Qt::AlignCenter);
-  freqLab->setStatusTip(tr("Frequency of detected note.") + 
+  freqLab->setStatusTip(tr("Frequency of detected note. You can use it for tune") + 
 	  "<br><span style=\"font-family: nootka;\">6</span>E = 82,5Hz, " +
 	  "<span style=\"font-family: nootka;\">5</span>A = 110Hz, " +
 	  "<span style=\"font-family: nootka;\">4</span>d = 146Hz, " +
@@ -257,7 +263,6 @@ void AudioInSettings::calcSlot() {
   if (!m_audioIn) {
     m_audioIn = new TaudioIN(m_tmpParams, this);
   } else
-//   if (inDeviceCombo->currentText() != m_audioIn->deviceName())
     m_audioIn->setAudioDevice(inDeviceCombo->currentText());
     //TODO check is devide aviable, if not dialog......
   connect(m_audioIn, SIGNAL(noiseLevel(qint16)), this, SLOT(noiseDetected(qint16)));
@@ -271,12 +276,7 @@ void AudioInSettings::testSlot() {
     if (!m_audioIn)
       m_audioIn = new TaudioIN(m_tmpParams, this);
     else 
-// 	if (inDeviceCombo->currentText() != m_audioIn->deviceName())
-        m_audioIn->setParameters(m_tmpParams);
-//     if (m_audioIn->isAvailable()) {
-//       setTestDisabled(true);
-//       return;
-//     }
+      m_audioIn->setParameters(m_tmpParams);
     testButt->setText(stopTxt);
     volMeter->setAudioInput(m_audioIn);
     m_audioIn->startListening();

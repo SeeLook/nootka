@@ -48,7 +48,7 @@ public:
 		 * signed int resolution (16bit)
 		 * pcm data */
 	static QAudioFormat templAudioFormat;
-// 	inline QString deviceName();
+	QString deviceName() { return m_devName; }
 	
 	bool isAvailable() {return (m_IOaudioDevice ? true : false) ; }
 
@@ -69,6 +69,8 @@ public:
     /** Wakes up TaudioIN after pause called by wait() */
   void go();
   void setIsVoice(bool isV);
+    /** Sets range of notes which are detected. */
+  void setAmbitus(Tnote loNote, Tnote hiNote);
 
 signals:
 	void noteDetected(Tnote note);
@@ -101,7 +103,7 @@ private:
 	QList<qint16> m_peakList;
 	bool m_noteStarted;
 	TaudioParams *m_params;
-	
+  QString m_devName;	
 	
 };
 

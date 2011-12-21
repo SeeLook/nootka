@@ -86,7 +86,8 @@ public:
 	  bool doingDetailedPitch;
 	  int threshold; // threshold of lowest loudness in [dB]
 	  EanalysisModes analysisType;
-	  double topPitch; // The highest possible note pitch allowed (lowest possible is 0)
+	  double topPitch; // The highest possible note pitch allowed (lowest possible is 0 in Tartini)
+	  qint16 loPitch; // The lowest possible note. Filtered in searchIn() method
 	  double ampThresholds[7][2];
 	  bool isVoice; // calculates average pitch in chunks range instead pitch in single chunk
 	};
