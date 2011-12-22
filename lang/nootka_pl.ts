@@ -41,32 +41,32 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="72"/>
         <source>This mode is more accurate but slower. It is recommended for singing and for instruments with &quot;wobbly&quot; intonation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ten tryb jest bardziej dokładny ale wolniejszy. Rekomendowany jest dla śpiewu i dla instrumentów z &quot;rozchwianą&quot; intonacją.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="84"/>
         <source>Pitch detection methods are taken from the &lt;a href=&quot;http://miracle.otago.ac.nz/tartini/index.html&quot;&gt;Tartini Project&lt;/a&gt; developed by&lt;br&gt;Philip McLeod</source>
-        <translation type="unfinished"></translation>
+        <translation>Metody rozpoznawania dźwięku zostały wzięte z &lt;a href=&quot;http://miracle.otago.ac.nz/tartini/index.html&quot;&gt;projektu Tartini&lt;/a&gt; rozwijanego przez&lt;br&gt;Philip-a McLeod-a</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="95"/>
         <source>middle A</source>
-        <translation type="unfinished"></translation>
+        <translation>środkowe A</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="97"/>
         <source>frequency:</source>
-        <translation type="unfinished"></translation>
+        <translation>częstotliwość:</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="106"/>
         <source>interval:</source>
-        <translation type="unfinished"></translation>
+        <translation>interwał:</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="110"/>
         <source>semitone up</source>
-        <translation type="unfinished"></translation>
+        <translation>pół tonu w górę</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="111"/>
@@ -86,42 +86,42 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="135"/>
         <source>Only sounds louder than noise level are taken to pitch analyse. It can improve the pitch detection accuracy.</source>
-        <translation type="unfinished"></translation>
+        <translation>Do analizy wysokości brane są tylko dżwięki głośniejsze niż poziom szumu. Może to poprawić dokładność rozpoznawania dźwięku.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="152"/>
         <source>Check, are audio input settings appropirate for You,&lt;br&gt;and does pitch detection work?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprawdź, czy ustawienia wejścia audio są właściwe,&lt;br&gt; oraz czy działa rozpozawanie wysokości dźwięku?</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="171"/>
         <source>Frequency of detected note. You can use it for tune</source>
-        <translation type="unfinished"></translation>
+        <translation>Częstotliwość wykrytego dźwięku. Możne jej użyć do strojenia</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="136"/>
         <source>Calculate</source>
-        <translation type="unfinished"></translation>
+        <translation>Oblicz</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="138"/>
         <source>Click to automatically detect noise level.&lt;br&gt;Keep silence during 2 seconds to determine it properly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kliknij żeby automatycznie wyznaczyć poziom szumu.&lt;br&gt;Zachowaj ciszę przez 2 sekundy.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="146"/>
         <source>Test</source>
-        <translation type="unfinished"></translation>
+        <translation>Próba</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="147"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Stop</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="164"/>
         <source>Detected pitch</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykryty dźwięk</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="195"/>
@@ -131,7 +131,7 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="298"/>
         <source>There isn&apos;t any noise !?!&lt;br&gt;It seems, Your audio input&lt;br&gt;is not configured properly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie słychać szumu!?!&lt;br&gt;Wygląda na to że wejście audio&lt;br&gt;nie jest poprawnie skonfigurowane.</translation>
     </message>
 </context>
 <context>
@@ -531,7 +531,7 @@
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="125"/>
         <source>Take Your instrument and just play...&lt;br&gt;No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.</source>
-        <translation type="unfinished"></translation>
+        <translation>Weź swój instrument i po prostu graj...&lt;br&gt;Bez nazw nut, bez gryfu. Tonacje do 4 zanków. Podwójne krzyżyki i bemole. Skala całej gitary bez dźwięków w pozycjach.</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="58"/>
@@ -678,12 +678,12 @@
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="269"/>
         <source>listening</source>
-        <translation type="unfinished"></translation>
+        <translation>słuchanie</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="270"/>
         <source>playing</source>
-        <translation type="unfinished"></translation>
+        <translation>odtwarzanie</translation>
     </message>
 </context>
 <context>
