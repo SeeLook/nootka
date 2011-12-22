@@ -4,11 +4,6 @@
 <context>
     <name>AudioInSettings</name>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="38"/>
-        <source>enable audio input (pitch detection)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/sound/audioinsettings.cpp" line="47"/>
         <source>input device</source>
         <translation type="unfinished"></translation>
@@ -101,6 +96,11 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="136"/>
         <source>Calculate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/sound/audioinsettings.cpp" line="38"/>
+        <source>enable pitch detection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

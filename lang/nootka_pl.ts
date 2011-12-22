@@ -4,9 +4,8 @@
 <context>
     <name>AudioInSettings</name>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="38"/>
         <source>enable audio input (pitch detection)</source>
-        <translation>używaj wyjścia audio (rozpoznawanie dźwięku)</translation>
+        <translation type="obsolete">używaj wyjścia audio (rozpoznawanie dźwięku)</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="47"/>
@@ -102,6 +101,11 @@
         <location filename="../src/sound/audioinsettings.cpp" line="136"/>
         <source>Calculate</source>
         <translation>Oblicz</translation>
+    </message>
+    <message>
+        <location filename="../src/sound/audioinsettings.cpp" line="38"/>
+        <source>enable pitch detection</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="138"/>
