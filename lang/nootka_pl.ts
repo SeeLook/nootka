@@ -105,7 +105,7 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="38"/>
         <source>enable pitch detection</source>
-        <translation type="unfinished"></translation>
+        <translation>włącz rozpoznawanie dźwięków</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="138"/>
@@ -1029,7 +1029,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="391"/>
         <source>Play or sing given note</source>
-        <translation type="unfinished"></translation>
+        <translation>Zagraj lub zaśpiewaj podaną nutę</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="569"/>
@@ -1178,37 +1178,71 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="40"/>
         <source>student:</source>
-        <translation type="unfinished"></translation>
+        <translation>uczeń:</translation>
+    </message>
+    <message>
+        <source>Questions number:  </source>
+        <translation type="obsolete">Liczba pytań:</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="44"/>
-        <source>Questions number:  </source>
-        <translation type="unfinished"></translation>
+        <source>Questions number:</source>
+        <translation>Liczba pytań:</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="48"/>
         <source>times:</source>
-        <translation type="unfinished"></translation>
+        <translation>czasy:</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="51"/>
         <source>Time of work</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas pracy</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="60"/>
         <source>Close</source>
-        <translation type="unfinished">Zamknij</translation>
+        <translation>Zamknij</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="70"/>
         <source>Results:</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyniki:</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="86"/>
+        <location filename="../src/exam/texamsummary.cpp" line="87"/>
         <source>Kinds of mistakes</source>
-        <translation type="unfinished"></translation>
+        <translation>Rodzaje błędów</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamsummary.cpp" line="90"/>
+        <source>Wrong notes</source>
+        <translation>Nieprawidłowe dźwięki</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamsummary.cpp" line="92"/>
+        <source>Wrong accidentals</source>
+        <translation>Nieprawidłowe znaki</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamsummary.cpp" line="94"/>
+        <source>Wrong key signatures</source>
+        <translation>Nieprawidłowe tonacje</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamsummary.cpp" line="96"/>
+        <source>Wrong octaves</source>
+        <translation>Nieprawidłowe oktawy</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamsummary.cpp" line="98"/>
+        <source>Wrong note name-calling</source>
+        <translation>Nieprawidłowe nazwy nut</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamsummary.cpp" line="100"/>
+        <source>Wrong frets or strings</source>
+        <translation>Nieprawidłowe progi lub struny</translation>
     </message>
 </context>
 <context>
@@ -1240,37 +1274,37 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamview.h" line="42"/>
         <source>Average time of an answer</source>
-        <translation type="unfinished"></translation>
+        <translation>Średni czas odpowiedzi</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.h" line="43"/>
         <source>[in seconds]</source>
-        <translation type="unfinished"></translation>
+        <translation>[w sekundach]</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.h" line="44"/>
         <source>Time of an answer</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas odpowiedzi</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.h" line="45"/>
         <source>Number of mistakes</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba błędów</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.h" line="46"/>
         <source>Total time of an exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Całkowity czas egzaminu</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.h" line="47"/>
         <source>Number of correct answers</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba prawidłowych odpowiedzi</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.h" line="48"/>
         <source>Effectiveness</source>
-        <translation type="unfinished"></translation>
+        <translation>Skuteczność</translation>
     </message>
 </context>
 <context>
@@ -1626,19 +1660,23 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>TpitchView</name>
     <message>
-        <location filename="../src/sound/tpitchview.cpp" line="43"/>
         <source>Toggles between pitch detection for human voice and for instruments</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Przełancza między wykrywaniem dźwięku dla śpiewu lub dla gry</translation>
+    </message>
+    <message>
+        <location filename="../src/sound/tpitchview.cpp" line="43"/>
+        <source>Toggles between pitch detection for singing and for playing</source>
+        <translation>Przełącza między wykrywaniem dźwięku dla śpiewania lub dla grania</translation>
     </message>
     <message>
         <location filename="../src/sound/tpitchview.cpp" line="51"/>
         <source>Shows volume level of input sound and indicates when note was detected</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokazuje gośność dźwięku wejściowego i sygnalizuje kiedy nuta jest rozpoznana</translation>
     </message>
     <message>
         <location filename="../src/sound/tpitchview.cpp" line="57"/>
         <source>Switch on/off the pitch detection</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz/wyłącz rozpoznawanie dźwięku</translation>
     </message>
 </context>
 <context>

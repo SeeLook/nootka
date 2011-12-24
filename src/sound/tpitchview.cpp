@@ -40,7 +40,7 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
       voiceButt = new QPushButton("g", this);
       voiceButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
       lay->addWidget(voiceButt);
-      voiceButt->setStatusTip(tr("Toggles between pitch detection for human voice and for instruments"));
+      voiceButt->setStatusTip(tr("Toggles between pitch detection for singing and for playing"));
       voiceButt->setFont(QFont("nootka", 15));
   } else {
     voiceButt = 0;
