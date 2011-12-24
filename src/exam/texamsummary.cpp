@@ -41,8 +41,8 @@ TexamSummary::TexamSummary(Texam* exam, QWidget* parent) :
 	leftLay->addWidget(studentLab);
   QLabel *userNameLab = new QLabel(QString("<b style=\"font-size: 20px\">%1</b>").arg(exam->userName()), this);
   leftLay->addWidget(userNameLab, 0, Qt::AlignCenter);
-	QLabel *questNrLAb = new QLabel(tr("Questions number:  ") + 
-                    QString("<b style=\"font-size: 20px\">%1</b>").arg(exam->count()), this);
+	QLabel *questNrLAb = new QLabel(tr("Questions number:") + 
+                    QString("<b style=\"font-size: 20px\">  %1</b>").arg(exam->count()), this);
 	leftLay->addWidget(questNrLAb);
   QVBoxLayout *timeLay = new QVBoxLayout();
   QGroupBox *timeGr = new QGroupBox(tr("times:"), this);
@@ -72,6 +72,7 @@ TexamSummary::TexamSummary(Texam* exam, QWidget* parent) :
   QString effStr = "";
   if (exam->mistakes()) {
     effStr = row2(TexamView::mistakesNrTxt(), QString::number(exam->mistakes()));
+    effStr += row2(TexamView::corrAnswersNrTxt(), QString::number(exam->count()-exam->mistakes()));
     float wAccid = 0.0, wKey = 0.0, wNote = 0.0, wOctave = 0.0, wStyle = 0.0, wPos = 0.0, wTotal;
     for(int i=0; i<exam->count(); i++) {
       if (!exam->qusetion(i).correct()) {
@@ -86,17 +87,17 @@ TexamSummary::TexamSummary(Texam* exam, QWidget* parent) :
     effStr += "<tr><td colspan=\"2\">----- " + tr("Kinds of mistakes") + ": -----</td></tr>";
     wTotal = wAccid + wKey + wNote + wOctave + wStyle + wPos;
     if (wNote)
-      effStr += row2("Wrong notes", QString::number(qRound(wNote*100.0 / wTotal)) + "%");
+      effStr += row2(tr("Wrong notes"), QString::number(qRound(wNote*100.0 / wTotal)) + "%");
     if (wAccid)
-      effStr += row2("Wrong accidentals", QString::number(qRound(wAccid*100.0 / wTotal)) + "%");
+      effStr += row2(tr("Wrong accidentals"), QString::number(qRound(wAccid*100.0 / wTotal)) + "%");
     if (wKey)
-      effStr += row2("Wrong key signatures", QString::number(qRound(wKey*100.0 /wTotal)) + "%");
+      effStr += row2(tr("Wrong key signatures"), QString::number(qRound(wKey*100.0 /wTotal)) + "%");
     if (wOctave)
-      effStr += row2("Wrong octaves", QString::number(qRound(wOctave*100.0 /wTotal)) + "%");
+      effStr += row2(tr("Wrong octaves"), QString::number(qRound(wOctave*100.0 /wTotal)) + "%");
     if (wStyle)
-      effStr += row2("Wrong note name-calling", QString::number(qRound(wStyle*100.0 /wTotal)) + "%");
+      effStr += row2(tr("Wrong note name-calling"), QString::number(qRound(wStyle*100.0 /wTotal)) + "%");
     if (wPos)
-      effStr += row2("Wrong frets or strings", QString::number(qRound(wPos*100.0 / wTotal)) + "%");
+      effStr += row2(tr("Wrong frets or strings"), QString::number(qRound(wPos*100.0 / wTotal)) + "%");
   }
 	QLabel *resLab = new QLabel("<table>" +
     row2(TexamView::effectTxt(), QString::number(qRound(eff)) + "%") + effStr + "</table>", this);

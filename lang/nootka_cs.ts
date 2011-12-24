@@ -1178,7 +1178,7 @@ není platným souborem zkoušky!</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="44"/>
-        <source>Questions number:  </source>
+        <source>Questions number:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1202,8 +1202,38 @@ není platným souborem zkoušky!</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="86"/>
+        <location filename="../src/exam/texamsummary.cpp" line="87"/>
         <source>Kinds of mistakes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamsummary.cpp" line="90"/>
+        <source>Wrong notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamsummary.cpp" line="92"/>
+        <source>Wrong accidentals</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamsummary.cpp" line="94"/>
+        <source>Wrong key signatures</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamsummary.cpp" line="96"/>
+        <source>Wrong octaves</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamsummary.cpp" line="98"/>
+        <source>Wrong note name-calling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamsummary.cpp" line="100"/>
+        <source>Wrong frets or strings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1623,7 +1653,7 @@ Nebyla vybrána žádná úroveň</translation>
     <name>TpitchView</name>
     <message>
         <location filename="../src/sound/tpitchview.cpp" line="43"/>
-        <source>Toggles between pitch detection for human voice and for instruments</source>
+        <source>Toggles between pitch detection for singing and for playing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
