@@ -23,6 +23,7 @@
 #include "tpitchfinder.h"
 #include <QtGui>
 #include "taudioparams.h"
+#include "tnotename.h"
 
 
 AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
@@ -37,7 +38,6 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   
   enableInBox = new QGroupBox(tr("enable pitch detection"), this);
   enableInBox->setCheckable(true);
-  enableInBox->setChecked(m_glParams->INenabled);
   
   QVBoxLayout *inLay = new QVBoxLayout();
   
@@ -196,6 +196,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
         inDeviceCombo->setDisabled(true);
     }
   setTestDisabled(true);
+  enableInBox->setChecked(m_glParams->INenabled);
   
   connect(testButt, SIGNAL(clicked()), this, SLOT(testSlot()));
   connect(calcButt, SIGNAL(clicked()), this, SLOT(calcSlot()));
@@ -245,6 +246,7 @@ void AudioInSettings::grabParams(TaudioParams *params) {
   else
     params->isVoice = false;
   params->noiseLevel = qRound((noiseSpin->value()/100) * 32768.0);
+  params->INenabled = enableInBox->isChecked();
 }
 
 
@@ -305,7 +307,7 @@ void AudioInSettings::noiseDetected(qint16 noise) {
 }
 
 void AudioInSettings::noteSlot(Tnote note) {
-  pitchLab->setText("<b>"+QString::fromStdString(note.getName())+"</b>");
+  pitchLab->setText("<b>" + TnoteName::noteToRichText(note) + "</b>");
 }
 
 void AudioInSettings::freqSlot(float freq) {

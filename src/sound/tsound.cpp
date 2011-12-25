@@ -73,8 +73,11 @@ void Tsound::acceptSettings() {
     if (!sniffer) {
       createSniffer();
       m_pitchView->setAudioInput(sniffer);
+      m_pitchView->setIsVoice(gl->A->isVoice);
       if (m_pitchView->isPaused())
         sniffer->stopListening();
+      else
+        m_pitchView->startVolume();
     }
     else {
       sniffer->setParameters(gl->A);
