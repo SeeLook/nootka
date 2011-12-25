@@ -96,7 +96,7 @@ void TpitchView::resize(int fontSize) {
     pauseButt->setFont(QFont("nootka", fontSize));
     pauseButt->setFixedWidth(3*fontSize/2);
   }
-  m_volMeter->setFixedHeight(qRound((float)height()*0.70));
+//   m_volMeter->setFixedHeight(qRound((float)pauseButt->height()*0.70));
 }
 
 void TpitchView::setIsVoice(bool isVoice) {
@@ -107,7 +107,8 @@ void TpitchView::setIsVoice(bool isVoice) {
       voiceButt->setText("g"); // guitar symbol for instruments mode
       m_isVoice = false;
     }
-    m_audioIN->setIsVoice(m_isVoice);
+    if (m_audioIN)
+      m_audioIN->setIsVoice(m_isVoice);
 }
 
 
