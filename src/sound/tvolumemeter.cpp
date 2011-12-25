@@ -51,7 +51,13 @@ void TvolumeMeter::paintEvent(QPaintEvent* )
   if (m_alpha) { // m_alpha==0 means transparent - no sense to paint background
       m_pitchColor.setAlpha(m_alpha);
       painter.setBrush(QBrush(m_pitchColor));
+//       QColor cc = palette().highlightedText().color();
+//       cc.setAlpha(m_alpha);
+//       painter.setBrush(QBrush(cc));
       painter.drawRoundedRect(painter.viewport(), 4, 4);
+      painter.setPen(m_pitchColor);
+//       painter.setFont(QFont("nootka", painter.viewport().height()-2));
+//       painter.drawText(painter.viewport(), Qt::AlignCenter, "nnnnnnnnnn");
   }
   QLinearGradient grad = QLinearGradient(0, 5, painter.viewport().right()-20, 5);
   grad.setColorAt(0.0, Qt::darkGreen);
