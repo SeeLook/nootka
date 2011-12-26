@@ -168,6 +168,7 @@ signals:
 
 private:
     QToolBox *questAsToolBox;
+//     QTabWidget *questAsToolBox;
     TasNoteWdg *asNoteWdg;
     TasNameWdg *asNameWdg;
     TasFretPosWdg *asFretPosWdg;

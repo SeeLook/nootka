@@ -26,6 +26,7 @@ questionsSettings::questionsSettings(QWidget *parent) :
     QWidget(parent)
 {
     questAsToolBox = new QToolBox(this);
+//     questAsToolBox = new QTabWidget(this);
     QVBoxLayout *mainLay = new QVBoxLayout;
     QLabel *headLab = new QLabel("<b>"+QString(TquestionAsWdg::questionsTxt()).toUpper() + "</b>", this);
     mainLay->addWidget(headLab, 0, Qt::AlignCenter);
@@ -41,6 +42,10 @@ questionsSettings::questionsSettings(QWidget *parent) :
     questAsToolBox->addItem(asNameWdg, TquestionAsWdg::asNameTxt());
     questAsToolBox->addItem(asFretPosWdg, TquestionAsWdg::asFretPosTxt());
     questAsToolBox->addItem(asPlayedSound, TquestionAsWdg::asSoundTxt());
+//     questAsToolBox->addTab(asNoteWdg, TquestionAsWdg::asNoteTxt());
+//     questAsToolBox->addTab(asNameWdg, TquestionAsWdg::asNameTxt());
+//     questAsToolBox->addTab(asFretPosWdg, TquestionAsWdg::asFretPosTxt());
+//     questAsToolBox->addTab(asPlayedSound, TquestionAsWdg::asSoundTxt());
 
     connect(asNoteWdg, SIGNAL(asNoteChanged()), this, SLOT(whenParamsChanged()));
     connect(asNameWdg, SIGNAL(asNameChanged()), this, SLOT(whenParamsChanged()));
