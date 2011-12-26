@@ -75,10 +75,18 @@ public:
 
 signals:
     void asNameChanged();
+    
+  friend class questionsSettings;
 
+protected:
+  QCheckBox *octaveRequiredChB;
+  
+protected slots:
+  void checkOctaveChB(bool check);
+    
 private:
     TquestionAsWdg *asNameGr;
-    QCheckBox *octaveRequiredChB, *styleRequiredChB;
+    QCheckBox *styleRequiredChB;
 
 private slots:
         /** Is called to block styleRequiredChB when note name is
@@ -126,6 +134,14 @@ public:
 
 signals:
     void asPlayedSoundChanged();
+    
+  friend class questionsSettings;
+    
+protected:
+    QCheckBox *octaveRequiredChB; // this is connected with octaveRequiredChB in TasNameWdg
+  
+protected slots:
+    void checkOctaveChB(bool check);
 
 private:
     TquestionAsWdg *asSoundGr;

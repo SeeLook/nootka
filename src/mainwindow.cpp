@@ -248,11 +248,13 @@ void MainWindow::createSettingsDialog() {
 }
 
 void MainWindow::openLevelCreator(QString levelFile) {
+    sound->wait(); // stops pitch detection
     TlevelCreatorDlg *levelCreator= new TlevelCreatorDlg(this);
     if (levelFile != "")
         levelCreator->loadLevelFile(levelFile);
     levelCreator->exec();
     delete levelCreator;
+    sound->go(); // restore pitch detection
 }
 
 void MainWindow::startExamSlot() {

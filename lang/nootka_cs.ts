@@ -99,7 +99,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="38"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="39"/>
         <source>enable pitch detection</source>
         <translation type="unfinished"></translation>
     </message>
@@ -129,7 +129,7 @@
         <translation type="unfinished">Nebylo nalezeno žádné zařízení</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="298"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="300"/>
         <source>There isn&apos;t any noise !?!&lt;br&gt;It seems, Your audio input&lt;br&gt;is not configured properly.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -817,22 +817,22 @@
 <context>
     <name>TasFretPosWdg</name>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="352"/>
+        <location filename="../src/level/questionssettings.cpp" line="358"/>
         <source>force useing appropirate accidental</source>
         <translation>Vynutit používání náležitých posuvek</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="353"/>
+        <location filename="../src/level/questionssettings.cpp" line="359"/>
         <source>if checked, is possible to select a note&lt;br&gt;with given accidental only.</source>
         <translation>Je-li zaškrtnuto, je možné vybrat notu&lt;br&gt;jen s danou posuvkou.</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="357"/>
+        <location filename="../src/level/questionssettings.cpp" line="363"/>
         <source>show string number in questions</source>
         <translation>Ukázat číslo struny v otázkách</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="358"/>
+        <location filename="../src/level/questionssettings.cpp" line="364"/>
         <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, when it is needed and when it has no sense</source>
         <translation>Ukazuje, na které struně má být dána odpověď.&lt;br&gt;U tohoto buďte opatrní, kdy je to potřeba a kdy to nedává smysl</translation>
     </message>
@@ -840,22 +840,22 @@
 <context>
     <name>TasNameWdg</name>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="286"/>
+        <location filename="../src/level/questionssettings.cpp" line="289"/>
         <source>require octave</source>
         <translation>Požadována oktáva</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="287"/>
+        <location filename="../src/level/questionssettings.cpp" line="290"/>
         <source>if checked, selecting of valid octave is required</source>
         <translation>Je-li zaškrtnuto, je požadován výběr platné oktávy</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="289"/>
+        <location filename="../src/level/questionssettings.cpp" line="292"/>
         <source>use different nameing styles</source>
         <translation>Používat různé názvy not</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="290"/>
+        <location filename="../src/level/questionssettings.cpp" line="293"/>
         <source>if checked, nameing style is switched between letters and solfge.&lt;br&gt;It has to be checked if note&apos;s name is a question and an answer.</source>
         <translation>Je-li zaškrtnuto, jsou názvy not přepínány mezi písmeny a solmizací.&lt;br&gt;Musí to být zaškrtnuto, když je název noty otázkou i odpovědí.</translation>
     </message>
@@ -863,79 +863,92 @@
 <context>
     <name>TasNoteWdg</name>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="84"/>
+        <location filename="../src/level/questionssettings.cpp" line="87"/>
         <source># - sharps</source>
         <translation># - křížky</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="85"/>
+        <location filename="../src/level/questionssettings.cpp" line="88"/>
         <source>Sharps will be uesd in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
         <translation>Ve zkušebních otázkách a odpovědích se budou používat křížky.&lt;br&gt;Musí to být zaškrtnuto, když se používají tóniny s křížky.</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="86"/>
+        <location filename="../src/level/questionssettings.cpp" line="89"/>
         <source>b - flats</source>
         <translation>b - béčka</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="87"/>
+        <location filename="../src/level/questionssettings.cpp" line="90"/>
         <source>Flats will be uesd in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
         <translation>Ve zkušebních otázkách a odpovědích se budou používat béčka.&lt;br&gt;Musí to být zaškrtnuto, když se používají tóniny s béčky.</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="88"/>
+        <location filename="../src/level/questionssettings.cpp" line="91"/>
         <source>x, bb - double accidentals</source>
         <translation>x, bb - dvojité posuvky</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="93"/>
+        <location filename="../src/level/questionssettings.cpp" line="96"/>
         <source>accidentals</source>
         <translation>Posuvky</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="94"/>
+        <location filename="../src/level/questionssettings.cpp" line="97"/>
         <source>Accidentals used in exam.</source>
         <translation>Posuvky používané během zkoušky.</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="101"/>
+        <location filename="../src/level/questionssettings.cpp" line="104"/>
         <source>use keys singature</source>
         <translation>Používat předznamenání</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="106"/>
+        <location filename="../src/level/questionssettings.cpp" line="109"/>
         <source>single key</source>
         <translation>Jednoduchá tónina</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="107"/>
+        <location filename="../src/level/questionssettings.cpp" line="110"/>
         <source>only one, selected key signature&lt;br&gt;for whole exam.</source>
         <translation>Pouze jedna vybraná tónina&lt;br&gt;pro celou zkoušku.</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="108"/>
+        <location filename="../src/level/questionssettings.cpp" line="111"/>
         <source>range of keys</source>
         <translation>Rozsah tónin</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="109"/>
+        <location filename="../src/level/questionssettings.cpp" line="112"/>
         <source>random key signature from selected range.</source>
         <translation>Náhodně vybraná tónina z vybraného rozsahu.</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="117"/>
+        <location filename="../src/level/questionssettings.cpp" line="120"/>
         <source>Select a key signature.&lt;br&gt;Apropirate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
         <translation>Vybrat tóninu.&lt;br&gt;Příslušné posuvky používané během zkoušky&lt;br&gt;budou vybrány automaticky!</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="126"/>
+        <location filename="../src/level/questionssettings.cpp" line="129"/>
         <source>select a key signature manually</source>
         <translation>Vybrat tóninu ručně</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="127"/>
+        <location filename="../src/level/questionssettings.cpp" line="130"/>
         <source>if checked, in exam user have to select a key signature,&lt;br&gt;otherwise it is shown by application.</source>
         <translation>Je-li zaškrtnuto, musí tóninu ve zkoušce vybrat uživatel,&lt;br&gt;jinak je ukázána programem.</translation>
+    </message>
+</context>
+<context>
+    <name>TasPlayedSound</name>
+    <message>
+        <location filename="../src/level/questionssettings.cpp" line="411"/>
+        <source>require octave</source>
+        <translation type="unfinished">Požadována oktáva</translation>
+    </message>
+    <message>
+        <location filename="../src/level/questionssettings.cpp" line="412"/>
+        <source>if checked, playing or singing in valid octave is required</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
