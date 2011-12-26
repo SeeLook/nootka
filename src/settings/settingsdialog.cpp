@@ -276,13 +276,27 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     stackLayout->addWidget(m_examSett);
     stackLayout->addWidget(sndTTab);
 
-    connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
+    connect(navList, SIGNAL(currentRowChanged(int)), this, SLOT(changeSettingsWidget(int)));
+//     connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
     connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
     connect(m_nameSett, SIGNAL(seventhIsBChanged(bool)), m_scoreSett, SLOT(seventhIsBChanged(bool)));
 
     navList->setCurrentRow(0);
 
 }
+
+/** To avoid generating audio devices list every opening Nootka prefereces
+     * witch is slow for pulseaudio, the list is generated on demand.
+     * When user first time opens Sound settings widget.*/
+void SettingsDialog::changeSettingsWidget(int index) {
+  stackLayout->setCurrentIndex(index);
+  if (index == 5) { // generate devices list for sound settings
+      m_sndInSett->generateDevicesList();
+      m_sndOutSett->generateDevicesList();
+  }
+}
+
+
 
 void SettingsDialog::saveSettings() {
     m_scoreSett->saveSettings();

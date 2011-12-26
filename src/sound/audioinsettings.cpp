@@ -29,7 +29,8 @@
 AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   QWidget(parent),
   m_audioIn(0),
-  m_glParams(params)
+  m_glParams(params),
+  m_listGenerated(false)
 {
   m_tmpParams = new TaudioParams();
   *m_tmpParams = *m_glParams;
@@ -186,15 +187,15 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   lay->addWidget(enableInBox);
   setLayout(lay);
   
-  inDeviceCombo->addItems(TaudioIN::getAudioDevicesList());
-  if (inDeviceCombo->count()) {
-        int id = inDeviceCombo->findText(m_glParams->INdevName);
-        if (id != -1)
-            inDeviceCombo->setCurrentIndex(id);
-    } else {
-        inDeviceCombo->addItem(tr("no devices found"));
-        inDeviceCombo->setDisabled(true);
-    }
+//   inDeviceCombo->addItems(TaudioIN::getAudioDevicesList());
+//   if (inDeviceCombo->count()) {
+//         int id = inDeviceCombo->findText(m_glParams->INdevName);
+//         if (id != -1)
+//             inDeviceCombo->setCurrentIndex(id);
+//     } else {
+//         inDeviceCombo->addItem(tr("no devices found"));
+//         inDeviceCombo->setDisabled(true);
+//   }
   setTestDisabled(true);
   enableInBox->setChecked(m_glParams->INenabled);
   
@@ -254,6 +255,20 @@ void AudioInSettings::saveSettings() {
   grabParams(m_glParams);
 }
 
+void AudioInSettings::generateDevicesList() {
+  if (m_listGenerated)
+    return;
+  inDeviceCombo->addItems(TaudioIN::getAudioDevicesList());
+  if (inDeviceCombo->count()) {
+        int id = inDeviceCombo->findText(m_glParams->INdevName);
+        if (id != -1)
+            inDeviceCombo->setCurrentIndex(id);
+    } else {
+        inDeviceCombo->addItem(tr("no devices found"));
+        inDeviceCombo->setDisabled(true);
+  }
+  m_listGenerated = true;
+}
 
 
 //------------------------------------------------------------------------------------

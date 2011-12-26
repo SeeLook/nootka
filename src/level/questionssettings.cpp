@@ -341,6 +341,10 @@ void TasNameWdg::saveLevel(TexamLevel &level) {
     level.requireStyle = styleRequiredChB->isChecked();
 }
 
+/** @param octaveRequiredChB QCheckBox is connected with the same checkBox
+ * in TasPlayedSound widget. It may be confused for user but I doesn't invent 
+ * nothing better. So ignoring octeve can work only:
+ * when answer is note name or answer is played sound. */
 void TasNameWdg::checkOctaveChB(bool check) {
     octaveRequiredChB->setChecked(check);
 }

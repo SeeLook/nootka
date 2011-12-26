@@ -44,8 +44,10 @@ public:
 		/** A list of midi instruments used in Nootka */
 	QList<TmidiInstrListStruct> instruments;
   
+  /** Generates devices list for inDeviceCombo QComboBox.*/
+  void generateDevicesList();
+  
 protected:
-virtual void focusInEvent(QFocusEvent* );
 
 
 private:
@@ -55,9 +57,7 @@ private:
   QComboBox *audioOutDevListCombo, *midiPortsCombo, *midiInstrCombo;
   QRadioButton *midiRadioButt, *audioRadioButt;
   TaudioParams *m_params;
-    /** Is true when widget is shown first time. 
-     * Then devices lists are taken. */
-  bool m_firstTime;
+  bool m_listGenerated;
 	
 private slots:
 	void audioOrMidiChanged();

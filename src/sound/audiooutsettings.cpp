@@ -27,7 +27,7 @@
 AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
     QWidget(parent),
     m_params(aParams),
-    m_firstTime(true)
+    m_listGenerated(false)
 {
     QVBoxLayout *lay = new QVBoxLayout;
 
@@ -48,15 +48,15 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
     reaALay->addWidget(outDevLab);
     audioOutDevListCombo = new QComboBox(this);
     reaALay->addWidget(audioOutDevListCombo);
-    audioOutDevListCombo->addItems(TaudioOUT::getAudioDevicesList());
-    if (audioOutDevListCombo->count()) {
-        int id = audioOutDevListCombo->findText(m_params->OUTdevName);
-        if (id != -1)
-            audioOutDevListCombo->setCurrentIndex(id);
-    } else {
-        audioOutDevListCombo->addItem(tr("no devices found"));
-        audioOutDevListCombo->setDisabled(true);
-    }
+//     audioOutDevListCombo->addItems(TaudioOUT::getAudioDevicesList());
+//     if (audioOutDevListCombo->count()) {
+//         int id = audioOutDevListCombo->findText(m_params->OUTdevName);
+//         if (id != -1)
+//             audioOutDevListCombo->setCurrentIndex(id);
+//     } else {
+//         audioOutDevListCombo->addItem(tr("no devices found"));
+//         audioOutDevListCombo->setDisabled(true);
+//     }
     reaALay->addStretch(1);
     realAGr->setLayout(reaALay);
     audioOutLay->addWidget(realAGr);
@@ -125,6 +125,22 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
     
 }
 
+void AudioOutSettings::generateDevicesList() {
+  if (m_listGenerated)
+    return;
+  audioOutDevListCombo->addItems(TaudioOUT::getAudioDevicesList());
+    if (audioOutDevListCombo->count()) {
+        int id = audioOutDevListCombo->findText(m_params->OUTdevName);
+        if (id != -1)
+            audioOutDevListCombo->setCurrentIndex(id);
+    } else {
+        audioOutDevListCombo->addItem(tr("no devices found"));
+        audioOutDevListCombo->setDisabled(true);
+  }
+  m_listGenerated = true;
+}
+
+
 void AudioOutSettings::saveSettings() {
     m_params->OUTenabled = audioOutEnableGr->isChecked();
     m_params->OUTdevName = audioOutDevListCombo->currentText();
@@ -150,7 +166,4 @@ void AudioOutSettings::addInstrument(QString name, unsigned char midiNr) {
 	instruments << mi;
 }
 
-void AudioOutSettings::focusInEvent(QFocusEvent* ) {
-    qDebug("out: focus");
-}
 
