@@ -43,6 +43,8 @@ public:
   
   QString testTxt, stopTxt;
   void saveSettings();
+    /** Generates devices list for inDeviceCombo QComboBox.*/
+  void generateDevicesList();
   
 protected:
   void setTestDisabled(bool disabled);
@@ -66,7 +68,7 @@ private:
   QDoubleSpinBox *noiseSpin;
   QPushButton *calcButt, *testButt;
   QLabel *pitchLab, *freqLab;
-  bool m_testDisabled;
+  bool m_testDisabled, m_listGenerated;
   TpitchView *volMeter;
   TaudioIN *m_audioIn;
   qint16 m_noiseLevel;

@@ -390,6 +390,7 @@ void TexamExecutor::askQuestion() {
       questText = QString("<b>%1. </b>").arg(m_exam->count() + 1) +
       tr("Play or sing given note");
       m_answRequire.accid = false;
+      m_answRequire.octave = m_level.requireOctave;
       mW->sound->go();
     }
     m_exam->addQuestion(curQ);

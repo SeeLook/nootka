@@ -51,7 +51,7 @@ private:
 
 
 
-//##############################################################
+//############## GuitarSettings ################################################
 class GuitarSettings : public QWidget
 {
     Q_OBJECT
@@ -75,7 +75,7 @@ private slots:
     void userTune(int, Tnote);
 };
 
-//##############################################################
+//################ SettingsDialog ##############################################
 class SettingsDialog : public TsettingsDialogBase
 {
     Q_OBJECT
@@ -94,6 +94,9 @@ private:
     ExamSettings   *m_examSett;
     AudioOutSettings *m_sndOutSett;
     AudioInSettings *m_sndInSett;
+    
+private slots:
+    void changeSettingsWidget(int index);
 
 };
 
