@@ -103,7 +103,7 @@
         <translation>Oblicz</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="38"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="39"/>
         <source>enable pitch detection</source>
         <translation>włącz rozpoznawanie dźwięków</translation>
     </message>
@@ -133,7 +133,7 @@
         <translation>nie znaleziono urządzenia</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="298"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="300"/>
         <source>There isn&apos;t any noise !?!&lt;br&gt;It seems, Your audio input&lt;br&gt;is not configured properly.</source>
         <translation>Nie słychać szumu!?!&lt;br&gt;Wygląda na to że wejście audio&lt;br&gt;nie jest poprawnie skonfigurowane.</translation>
     </message>
@@ -821,22 +821,22 @@
 <context>
     <name>TasFretPosWdg</name>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="352"/>
+        <location filename="../src/level/questionssettings.cpp" line="358"/>
         <source>force useing appropirate accidental</source>
         <translation>wymuś używanie odpowiedniego znaku</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="353"/>
+        <location filename="../src/level/questionssettings.cpp" line="359"/>
         <source>if checked, is possible to select a note&lt;br&gt;with given accidental only.</source>
         <translation>Gdy zaznaczone, możliwe jest podanie nuty&lt;br&gt;tylko z podanym znakiem.</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="357"/>
+        <location filename="../src/level/questionssettings.cpp" line="363"/>
         <source>show string number in questions</source>
         <translation>pokazuj numer struny w pytaniu</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="358"/>
+        <location filename="../src/level/questionssettings.cpp" line="364"/>
         <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, when it is needed and when it has no sense</source>
         <translation>Pokazuje, na której strunie ma być odpowiedź.&lt;br&gt;Ostrożnie z tym, kiedy ta opcja jest potzrebna, a kiedy nie ma sensu</translation>
     </message>
@@ -844,22 +844,22 @@
 <context>
     <name>TasNameWdg</name>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="286"/>
+        <location filename="../src/level/questionssettings.cpp" line="289"/>
         <source>require octave</source>
         <translation>wymagana oktawa</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="287"/>
+        <location filename="../src/level/questionssettings.cpp" line="290"/>
         <source>if checked, selecting of valid octave is required</source>
         <translation>Gdy zaznaczone, wymagane jest podanie właściwej oktawy</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="289"/>
+        <location filename="../src/level/questionssettings.cpp" line="292"/>
         <source>use different nameing styles</source>
         <translation>używaj różnych nazw nut</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="290"/>
+        <location filename="../src/level/questionssettings.cpp" line="293"/>
         <source>if checked, nameing style is switched between letters and solfge.&lt;br&gt;It has to be checked if note&apos;s name is a question and an answer.</source>
         <translation>Gdy zaznaczone, nazwy nut zmieniają się między solmizacją a literami.&lt;br&gt;Musi być zaznaczone jeżeli nazwa nuty jest pytaniem i odpowiedzią.</translation>
     </message>
@@ -867,79 +867,92 @@
 <context>
     <name>TasNoteWdg</name>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="84"/>
+        <location filename="../src/level/questionssettings.cpp" line="87"/>
         <source># - sharps</source>
         <translation># - krzyżyki</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="85"/>
+        <location filename="../src/level/questionssettings.cpp" line="88"/>
         <source>Sharps will be uesd in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
         <translation>Krzyżyki będa używane w pytaniach i odpowiedziach.&lt;br&gt;Musi być zaznaczone gdy są używane tonacje z krzyżykami.</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="86"/>
+        <location filename="../src/level/questionssettings.cpp" line="89"/>
         <source>b - flats</source>
         <translation>b - bemole</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="87"/>
+        <location filename="../src/level/questionssettings.cpp" line="90"/>
         <source>Flats will be uesd in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
         <translation>Bemole będa używane w pytaniach i odpowiedziach.&lt;br&gt;Musi być zaznaczone gdy są używane tonacje z bemolami.</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="88"/>
+        <location filename="../src/level/questionssettings.cpp" line="91"/>
         <source>x, bb - double accidentals</source>
         <translation>x, bb - podwójne znaki</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="93"/>
+        <location filename="../src/level/questionssettings.cpp" line="96"/>
         <source>accidentals</source>
         <translation>znaki</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="94"/>
+        <location filename="../src/level/questionssettings.cpp" line="97"/>
         <source>Accidentals used in exam.</source>
         <translation>Znaki używane podczas egzaminu.</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="101"/>
+        <location filename="../src/level/questionssettings.cpp" line="104"/>
         <source>use keys singature</source>
         <translation>używaj tonacji</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="106"/>
+        <location filename="../src/level/questionssettings.cpp" line="109"/>
         <source>single key</source>
         <translation>pojedyncza tonacja</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="107"/>
+        <location filename="../src/level/questionssettings.cpp" line="110"/>
         <source>only one, selected key signature&lt;br&gt;for whole exam.</source>
         <translation>tylko jedna, wybrana tonacja&lt;br&gt;dla całego egzaminu.</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="108"/>
+        <location filename="../src/level/questionssettings.cpp" line="111"/>
         <source>range of keys</source>
         <translation>zakres tonacji</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="109"/>
+        <location filename="../src/level/questionssettings.cpp" line="112"/>
         <source>random key signature from selected range.</source>
         <translation>losowo wybrana tonacja z zaznaczonego zakresu.</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="117"/>
+        <location filename="../src/level/questionssettings.cpp" line="120"/>
         <source>Select a key signature.&lt;br&gt;Apropirate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
         <translation>Wybierz tonację.&lt;br&gt;Odpowiednie znaki używane podczas egzaminu&lt;br&gt;zostaną zaznaczone automatycznie !</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="126"/>
+        <location filename="../src/level/questionssettings.cpp" line="129"/>
         <source>select a key signature manually</source>
         <translation>podaj tonację samodzielnie</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="127"/>
+        <location filename="../src/level/questionssettings.cpp" line="130"/>
         <source>if checked, in exam user have to select a key signature,&lt;br&gt;otherwise it is shown by application.</source>
         <translation>Gdy zaznaczone, podczas egzaminu użytkownik sam musi wprowadzić tonację,&lt;br&gt;w przciwnym wypadku wyświetli ją program.</translation>
+    </message>
+</context>
+<context>
+    <name>TasPlayedSound</name>
+    <message>
+        <location filename="../src/level/questionssettings.cpp" line="411"/>
+        <source>require octave</source>
+        <translation type="unfinished">wymagana oktawa</translation>
+    </message>
+    <message>
+        <location filename="../src/level/questionssettings.cpp" line="412"/>
+        <source>if checked, playing or singing in valid octave is required</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

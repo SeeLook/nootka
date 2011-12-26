@@ -46,6 +46,9 @@ questionsSettings::questionsSettings(QWidget *parent) :
     connect(asNameWdg, SIGNAL(asNameChanged()), this, SLOT(whenParamsChanged()));
     connect(asFretPosWdg, SIGNAL(asFretPosChanged()), this, SLOT(whenParamsChanged()));
     connect(asPlayedSound, SIGNAL(asPlayedSoundChanged()), this, SLOT(whenParamsChanged()));
+    
+    connect(asNameWdg->octaveRequiredChB, SIGNAL(clicked(bool)), asPlayedSound, SLOT(checkOctaveChB(bool)));
+    connect(asPlayedSound->octaveRequiredChB, SIGNAL(clicked(bool)), asNameWdg, SLOT(checkOctaveChB(bool)));
 
 }
 
@@ -333,6 +336,9 @@ void TasNameWdg::saveLevel(TexamLevel &level) {
     level.requireStyle = styleRequiredChB->isChecked();
 }
 
+void TasNameWdg::checkOctaveChB(bool check) {
+    octaveRequiredChB->setChecked(check);
+}
 
 
 //############################# AS POSITION ON FINGEROARD ############################
@@ -402,10 +408,14 @@ TasPlayedSound::TasPlayedSound(QWidget *parent) :
     asSoundGr->setTitle(TquestionAsWdg::questionTxt() + " - " + TquestionAsWdg::asSoundTxt());
     mainLay->addStretch(1);
     mainLay->addWidget(asSoundGr, 1, Qt::AlignCenter);
+    octaveRequiredChB = new QCheckBox(tr("require octave"), this);
+    octaveRequiredChB->setStatusTip(tr("if checked, playing or singing in valid octave is required"));
+    mainLay->addWidget(octaveRequiredChB,0,Qt::AlignCenter);
     mainLay->addStretch(1);
 
     setLayout(mainLay);
 
+    connect(octaveRequiredChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
     connect(asSoundGr, SIGNAL(answerStateChanged()), this, SLOT(whenParamsChanged()));
     connect(asSoundGr, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 }
@@ -413,6 +423,7 @@ TasPlayedSound::TasPlayedSound(QWidget *parent) :
 void TasPlayedSound::loadLevel(TexamLevel level) {
     asSoundGr->setChecked(level.questionAs.isSound());
     asSoundGr->setAnswers(level.answersAs[TQAtype::e_asSound]);
+    octaveRequiredChB->setChecked(level.requireOctave);
 }
 
 void TasPlayedSound::whenParamsChanged() {
@@ -426,3 +437,8 @@ void TasPlayedSound::saveLevel(TexamLevel &level) {
     level.questionAs.setAsSound(asSoundGr->isChecked());
     level.answersAs[TQAtype::e_asSound] = asSoundGr->getAnswers();
 }
+
+void TasPlayedSound::checkOctaveChB(bool check) {
+    octaveRequiredChB->setChecked(check);
+}
+
