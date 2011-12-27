@@ -93,6 +93,11 @@ MainWindow::MainWindow(QWidget *parent)
     autoRepeatChB->setStatusTip(ExamSettings::autoNextQuestTxt());
     autoRepeatChB->setToolTip(ExamSettings::autoNextQuestTxt());
     autoRepeatChB->setChecked(gl->EautoNextQuest);
+    autoRepeatChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    expertAnswChB = new QCheckBox(widget);
+    expertAnswChB->hide();
+    chBlay->addWidget(expertAnswChB);
+    expertAnswChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     statLay->addLayout(chBlay);
     nameLay->addLayout(statLay);
 
@@ -354,7 +359,7 @@ bool MainWindow::event(QEvent *event) {
             setMessageBg(-1);
             m_statLab->setText("<center>"+se->tip()+"</center>");
         }
-    }
+    } 
     return QMainWindow::event(event);
 }
 

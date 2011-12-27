@@ -51,6 +51,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
     if (userAct == TstartExamDlg::e_newLevel) {
         m_exam = new Texam(&m_level, resultText); // resultText is userName
         m_exam->setTune(gl->Gtune());
+        showExamHelp();
         mW->examResults->startExam();
     } else
       if (userAct == TstartExamDlg::e_continue) {
@@ -653,6 +654,7 @@ void TexamExecutor::prepareToExam() {
     mW->startExamAct->setStatusTip(mW->startExamAct->text());
     mW->autoRepeatChB->show();
     mW->autoRepeatChB->setChecked(gl->EautoNextQuest);
+    mW->expertAnswChB->show();
 
     disableWidgets();
 
@@ -722,6 +724,7 @@ void TexamExecutor::restoreAfterExam() {
     mW->noteName->setNameDisabled(false);
     mW->guitar->setGuitarDisabled(false);
     mW->autoRepeatChB->hide();
+    mW->expertAnswChB->hide();
 
     connect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
     connect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
@@ -894,3 +897,12 @@ void TexamExecutor::showExamSummary() {
   ES->exec(); delete ES;
 }
 
+void TexamExecutor::showExamHelp() {
+  QMessageBox::information(mW, tr("Exam's help"), getNextQuestionTxt() + "<br>" + 
+      tr("Select 2-nd check box to get it automaticaly.") + 
+      QString("<br><br><span style=\"%1\">").arg(gl->getBGcolorText(gl->EquestionColor)) +
+      tr("Questions are marked that color,") + "</span> " + tr("so find it and give an answer") +
+      QString("<br><span style=\"%1\">").arg(gl->getBGcolorText(gl->EanswerColor)) +
+      tr("where it is marked that color.")
+    );
+}

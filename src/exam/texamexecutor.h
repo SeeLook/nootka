@@ -61,6 +61,7 @@ public:
     QString getNextQuestionTxt();
     bool closeNootka();
     bool isAnswered() { return m_isAnswered; }
+    void showExamHelp();
 
 protected:
     MainWindow *mW;
