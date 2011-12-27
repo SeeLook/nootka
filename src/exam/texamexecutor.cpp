@@ -903,6 +903,7 @@ void TexamExecutor::showExamHelp() {
       QString("<br><br><span style=\"%1\">").arg(gl->getBGcolorText(gl->EquestionColor)) +
       tr("Questions are marked that color,") + "</span> " + tr("so find it and give an answer") +
       QString("<br><span style=\"%1\">").arg(gl->getBGcolorText(gl->EanswerColor)) +
-      tr("where it is marked that color.")
+      tr("where it is marked that color.") + 
+      QString("<br><br><img src=\"%1\">").arg(gl->path+"picts/expertCorner.png")
     );
 }
