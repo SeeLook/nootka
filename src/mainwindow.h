@@ -72,7 +72,7 @@ protected:
     Tsound *sound;
     TexamView *examResults;
     TexamExecutor *ex;
-    QCheckBox *autoRepeatChB;
+    QCheckBox *autoRepeatChB, *expertAnswChB;
     TpitchView *pitchView;
 
     QToolBar *nootBar;
