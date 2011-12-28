@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,40 +12,33 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
 
-#ifndef EXAMSETTINGS_H
-#define EXAMSETTINGS_H
+#ifndef TEXAMPARAMS_H
+#define TEXAMPARAMS_H
 
-#include <QWidget>
+#include <QString>
+#include <QColor>
 
-class QLineEdit;
-class QCheckBox;
-class TcolorButton;
 
-class ExamSettings : public QWidget
+  /** class describes en exam parameters changeable by user. */
+class TexamParams 
 {
-    Q_OBJECT
 public:
-    explicit ExamSettings(QWidget *parent = 0);
-
-    static QString autoNextQuestTxt() { return tr("ask next question automatically"); }
-    static QString expertsAnswerTxt() { return tr("check answers without confirm"); }
-
-    void saveSettings();
-
-signals:
-
-public slots:
-
-private:
-    QCheckBox *autoNextChB, *repeatIncorChB, *expertAnswChB, *showHelpChB;
-    TcolorButton *questColorBut, *answColorBut;
-    QLineEdit *nameEdit;
+  QColor questionColor;
+  QColor answerColor;
+  bool autoNextQuest; // Next quetion in en exam is given automatically after correct answer
+  bool repeatIncorrect; // If EautoNextQuest is true incorrect questions are asked again once
+//   bool repeatUntilcorrect; /** or until correct answer will be given. */
+  bool expertsAnswerEnable;
+  bool askAboutExpert; // shows confirm dialog when expertsAnswerEnable is going to be changed
+  bool showHelpOnStart; // shows dialog with help on start en exam
+  QString studentName;
 
 };
 
-#endif // EXAMSETTINGS_H
+
+#endif // TEXAMPARAMS_H
