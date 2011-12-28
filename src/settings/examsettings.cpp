@@ -36,6 +36,20 @@ ExamSettings::ExamSettings(QWidget *parent) :
     lay->addWidget(repeatIncorChB, 0, Qt::AlignCenter);
     repeatIncorChB->setChecked(gl->ErepeatIncorrect);
     repeatIncorChB->setStatusTip(tr("A question with incorrect answer will be asked once again."));
+    expertAnswChB = new QCheckBox(expertsAnswerTxt(), this);
+    lay->addWidget(expertAnswChB, 0, Qt::AlignCenter);
+    lay->addStretch(1);
+    
+    showHelpChB = new QCheckBox(tr("show help when exam starts"), this);
+    lay->addWidget(showHelpChB, 0, Qt::AlignCenter);
+    showHelpChB->setStatusTip(tr("Shows window with help when new exam begins."));
+    lay->addStretch(1);
+    QLabel *nameLab = new QLabel(tr("student's name:"), this);
+    lay->addWidget(nameLab, 0, Qt::AlignCenter);
+    nameEdit = new QLineEdit(this);
+    nameEdit->setMaxLength(20);
+    lay->addWidget(nameEdit, 0, Qt::AlignCenter);
+    nameEdit->setStatusTip(tr("Default name for every new exam."));
     lay->addStretch(1);
 
     QGridLayout *colLay = new QGridLayout;

@@ -25,6 +25,7 @@
 #include "mainwindow.h"
 #include "texam.h"
 #include "texamsummary.h"
+#include "examsettings.h"
 #include <QtGui>
 #include <QDebug>
 
@@ -898,12 +899,27 @@ void TexamExecutor::showExamSummary() {
 }
 
 void TexamExecutor::showExamHelp() {
-  QMessageBox::information(mW, tr("Exam's help"), getNextQuestionTxt() + "<br>" + 
-      tr("Select 2-nd check box to get it automaticaly.") + 
-      QString("<br><br><span style=\"%1\">").arg(gl->getBGcolorText(gl->EquestionColor)) +
-      tr("Questions are marked that color,") + "</span> " + tr("so find it and give an answer") +
-      QString("<br><span style=\"%1\">").arg(gl->getBGcolorText(gl->EanswerColor)) +
-      tr("where it is marked that color.") + 
-      QString("<br><br><img src=\"%1\">").arg(gl->path+"picts/expertCorner.png")
+  QMessageBox *hlp = new QMessageBox(mW);
+  hlp->setWindowTitle(tr("Exam's help"));
+  hlp->setText(getNextQuestionTxt() + "<br>" + 
+    tr("Select 2-nd check box to get it automaticaly.") + 
+    QString("<br><br><span style=\"%1\">").arg(gl->getBGcolorText(gl->EquestionColor)) +
+    tr("Questions are marked with this color and \"?\" mark.") + "</span><br>" + 
+    tr("To give an answer, select it on <span style=\"%1\">Nootka's element pointed with that color.</span><br>").arg(gl->getBGcolorText(gl->EanswerColor)) +      
+    tr("To check the answer confirm it with <img src=\"%1\"> button, press <b>Enter </b>")
+        .arg(gl->path+"picts/check-icon.png") + orRightButtTxt() + "<br>" +
+    tr("If You make mistake, You can use <img src=\"%1\"> button or <b>Backspace</b> key to repeat the question.<br>").arg(gl->path+"picts/prev-icon.png") +
+    tr("By selecting 3-rd check box, the answers will be checking immediately without confirmation.") + "<br><br>" +
+    tr("To stop en exam click <img src=\"%1\"> button.").arg(gl->path+"picts/stopExam-icon.png") + 
+    "<br><br><center><span style=\"font-size: 20px;\"><b>" +
+    tr("GOOD LUCK !!!") + "</b></span>" + "<br><table><tr><th colspan=2>" +
+    tr("Experts' corner") + "</th></tr><tr><td rowspan=3>" +
+    QString("<img src=\"%1\">").arg(gl->path+"picts/expertCorner.png") +
+    "</td><td><br>1. lalalala" + "</td></tr><tr><td><br>2. " + 
+    ExamSettings::autoNextQuestTxt() + "</td></tr><tr><td><br>3. " + 
+    ExamSettings::expertsAnswerTxt() + "</td></tr>"
     );
+  hlp->setFixedHeight(mW->height()-20);
+  hlp->exec();
+  delete hlp;
 }
