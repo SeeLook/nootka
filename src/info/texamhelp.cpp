@@ -30,7 +30,8 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt, QString& path,
   
   
   QVBoxLayout *lay = new QVBoxLayout();
-  QTextEdit *ed = new QTextEdit(tr("Press <img src=\"%1\">").arg(path+"picts/next-icon.png") + orRightButtTxt() + tr(" or <b>space</b> to get next question.") + "<br>" + 
+  QTextEdit *ed = new QTextEdit("<body><style type=\"text/css\">img {border-width: 1px;}</style>" +
+    tr("Press <img src=\"%1\">").arg(path+"picts/next-icon.png") + orRightButtTxt() + tr(" or <b>space</b> to get next question.") + "<br>" + 
     tr("Select 2-nd check box to get it automaticaly.") + 
     QString("<br><br><span style=\"%1\">").arg(questColorTxt) +
     tr("Questions are marked with this color and \"?\" mark.") + "</span><br>" + 
@@ -47,7 +48,7 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt, QString& path,
     QString("<img src=\"%1\">").arg(path+"picts/expertCorner.png") +
     "</td><td><br>1. " + tr("show or hide the hints") + "</td></tr><tr><td><br>2. " + 
     ExamSettings::autoNextQuestTxt() + "</td></tr><tr><td><br>3. " + 
-    ExamSettings::expertsAnswerTxt() + "</td></tr>", this);
+    ExamSettings::expertsAnswerTxt() + "</td></tr></table></body>", this);
   ed->setReadOnly(true);
   ed->setFixedSize((parent->width()/3)*2, (parent->height()/5)*3);
   ed->setAlignment(Qt::AlignCenter);
