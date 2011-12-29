@@ -26,15 +26,17 @@
 #include "texam.h"
 #include "texamsummary.h"
 #include "examsettings.h"
+#include "texamhelp.h"
 #include <QtGui>
 #include <QDebug>
 
 extern Tglobals *gl;
 
 
-TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
+TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile) :
+  m_exam(0),
+  mW(mainW)
 {
-    mW = mainW;
     QString resultText;
     TstartExamDlg::Eactions userAct;
 
@@ -52,7 +54,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
     if (userAct == TstartExamDlg::e_newLevel) {
         m_exam = new Texam(&m_level, resultText); // resultText is userName
         m_exam->setTune(gl->Gtune());
-        showExamHelp();
+//         showExamHelp();
         mW->examResults->startExam();
     } else
       if (userAct == TstartExamDlg::e_continue) {
@@ -83,10 +85,12 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
                 QMessageBox::critical(mW, "", tr("File: %1 \n is not valid exam file !!!")
                                   .arg(resultText));
             mW->clearAfterExam();
+            if (m_exam) delete m_exam;
             return;
         }
     } else {
         mW->clearAfterExam();
+        if (m_exam) delete m_exam;
         return;
     }
 
@@ -96,6 +100,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
             QMessageBox::warning(mW, "",
                      tr("An exam requires sound but<br>sound output is not available !!!"));
             mW->clearAfterExam();
+            if (m_exam) delete m_exam;
             return;
         }
     }
@@ -103,6 +108,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
 
     m_messageItem = 0;
     prepareToExam();
+    if (m_exam->fileName() == "")
+      showExamHelp();
     createQuestionsList();
 
     m_isSolfege = false;
@@ -115,7 +122,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
     for (int i = 0; i < 4; i++)
         m_level.answersAs[i].randNext();
 
-    nextQuestAct = new QAction(tr("next question\n(space %1)").arg(orRightButtTxt()), this);
+    nextQuestAct = new QAction(tr("next question\n(space %1)").arg(TexamHelp::orRightButtTxt()), this);
     nextQuestAct->setStatusTip(nextQuestAct->text());
     nextQuestAct->setIcon(QIcon(gl->path+"picts/nextQuest.png"));
     nextQuestAct->setShortcut(QKeySequence(Qt::Key_Space));
@@ -128,7 +135,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile)
     prevQuestAct->setShortcut(QKeySequence(Qt::Key_Backspace));
     connect(prevQuestAct, SIGNAL(triggered()), this, SLOT(repeatQuestion()));
 
-    checkAct = new QAction(tr("check answer\n(enter %1)").arg(orRightButtTxt()), this);
+    checkAct = new QAction(tr("check answer\n(enter %1)").arg(TexamHelp::orRightButtTxt()), this);
     checkAct->setStatusTip(checkAct->text());
     checkAct->setIcon(QIcon(gl->path+"picts/check.png"));
     checkAct->setShortcut(QKeySequence(Qt::Key_Return));
@@ -649,7 +656,10 @@ void TexamExecutor::prepareToExam() {
     mW->setStatusMessage(tr("exam started on level") + ":<br><b>" + m_level.name + "</b>");
 
     mW->settingsAct->setDisabled(true);
-    mW->levelCreatorAct->setDisabled(true);
+//     mW->levelCreatorAct->setDisabled(true);
+    mW->levelCreatorAct->setIcon(QIcon(gl->path+"picts/help.png"));
+    mW->levelCreatorAct->setText(tr("help"));
+    mW->levelCreatorAct->setStatusTip(mW->levelCreatorAct->text());
     mW->startExamAct->setIcon(QIcon(gl->path+"picts/stopExam.png"));
     mW->startExamAct->setText(tr("stop the exam"));
     mW->startExamAct->setStatusTip(mW->startExamAct->text());
@@ -663,9 +673,11 @@ void TexamExecutor::prepareToExam() {
     disconnect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
     disconnect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     disconnect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
-    disconnect(mW->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
     disconnect(mW->sound, SIGNAL(detectedNote(Tnote)), mW, SLOT(soundWasPlayed(Tnote)));
+    disconnect(mW->levelCreatorAct, SIGNAL(triggered()), mW, SLOT(openLevelCreator()));
+    disconnect(mW->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
     connect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
+    connect(mW->levelCreatorAct, SIGNAL(triggered()), this, SLOT(showExamHelp()));
     connect(mW->autoRepeatChB, SIGNAL(clicked(bool)), this,
             SLOT(autoRepeatStateChanged(bool)));
 
@@ -720,7 +732,7 @@ void TexamExecutor::restoreAfterExam() {
     mW->guitar->acceptSettings();
 
     mW->settingsAct->setDisabled(false);
-    mW->levelCreatorAct->setDisabled(false);
+//     mW->levelCreatorAct->setDisabled(false);
     mW->startExamAct->setDisabled(false);
     mW->noteName->setNameDisabled(false);
     mW->guitar->setGuitarDisabled(false);
@@ -732,13 +744,16 @@ void TexamExecutor::restoreAfterExam() {
     connect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
     connect(mW->sound, SIGNAL(detectedNote(Tnote)), mW, SLOT(soundWasPlayed(Tnote)));
     disconnect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
+    disconnect(mW->levelCreatorAct, SIGNAL(triggered()), this, SLOT(showExamHelp()));
     disconnect(mW->autoRepeatChB, SIGNAL(clicked(bool)), this,
             SLOT(autoRepeatStateChanged(bool)));
     connect(mW->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
+    connect(mW->levelCreatorAct, SIGNAL(triggered()), mW, SLOT(openLevelCreator()));
 //     mW->score->isExamExecuting(false);
     mW->score->unLockScore();
     mW->guitar->deleteRangeBox();
     mW->clearAfterExam();
+//     if (m_exam) delete m_exam;
     
 }
 
@@ -890,7 +905,7 @@ void TexamExecutor::autoRepeatStateChanged(bool enable) {
 }
 
 QString TexamExecutor::getNextQuestionTxt() {
-            return tr("Press <img src=\"%1\">").arg(gl->path+"picts/next-icon.png") + orRightButtTxt() + tr("<br>or <b>space</b> to get next question.");
+            return tr("Press <img src=\"%1\">").arg(gl->path+"picts/next-icon.png") + TexamHelp::orRightButtTxt() + tr("<br>or <b>space</b> to get next question.");
 }
 
 void TexamExecutor::showExamSummary() {
@@ -899,27 +914,8 @@ void TexamExecutor::showExamSummary() {
 }
 
 void TexamExecutor::showExamHelp() {
-  QMessageBox *hlp = new QMessageBox(mW);
-  hlp->setWindowTitle(tr("Exam's help"));
-  hlp->setText(getNextQuestionTxt() + "<br>" + 
-    tr("Select 2-nd check box to get it automaticaly.") + 
-    QString("<br><br><span style=\"%1\">").arg(gl->getBGcolorText(gl->EquestionColor)) +
-    tr("Questions are marked with this color and \"?\" mark.") + "</span><br>" + 
-    tr("To give an answer, select it on <span style=\"%1\">Nootka's element pointed with that color.</span><br>").arg(gl->getBGcolorText(gl->EanswerColor)) +      
-    tr("To check the answer confirm it with <img src=\"%1\"> button, press <b>Enter </b>")
-        .arg(gl->path+"picts/check-icon.png") + orRightButtTxt() + "<br>" +
-    tr("If You make mistake, You can use <img src=\"%1\"> button or <b>Backspace</b> key to repeat the question.<br>").arg(gl->path+"picts/prev-icon.png") +
-    tr("By selecting 3-rd check box, the answers will be checking immediately without confirmation.") + "<br><br>" +
-    tr("To stop en exam click <img src=\"%1\"> button.").arg(gl->path+"picts/stopExam-icon.png") + 
-    "<br><br><center><span style=\"font-size: 20px;\"><b>" +
-    tr("GOOD LUCK !!!") + "</b></span>" + "<br><table><tr><th colspan=2>" +
-    tr("Experts' corner") + "</th></tr><tr><td rowspan=3>" +
-    QString("<img src=\"%1\">").arg(gl->path+"picts/expertCorner.png") +
-    "</td><td><br>1. lalalala" + "</td></tr><tr><td><br>2. " + 
-    ExamSettings::autoNextQuestTxt() + "</td></tr><tr><td><br>3. " + 
-    ExamSettings::expertsAnswerTxt() + "</td></tr>"
-    );
-  hlp->setFixedHeight(mW->height()-20);
+  TexamHelp *hlp = new TexamHelp(gl->getBGcolorText(gl->EquestionColor), gl->getBGcolorText(gl->EanswerColor), 
+    gl->path, mW);
   hlp->exec();
   delete hlp;
 }

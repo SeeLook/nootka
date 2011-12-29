@@ -55,8 +55,9 @@ void TvolumeMeter::paintEvent(QPaintEvent* )
 //       cc.setAlpha(m_alpha);
 //       painter.setBrush(QBrush(cc));
       painter.drawRoundedRect(painter.viewport(), 4, 4);
-      painter.setPen(m_pitchColor);
-//       painter.setFont(QFont("nootka", painter.viewport().height()-2));
+      painter.setPen(palette().highlightedText().color());
+      painter.setFont(QFont("nootka", painter.viewport().height()-6));
+      painter.drawText(painter.viewport(), Qt::AlignRight, "n");
 //       painter.drawText(painter.viewport(), Qt::AlignCenter, "nnnnnnnnnn");
   }
   QLinearGradient grad = QLinearGradient(0, 5, painter.viewport().right()-20, 5);

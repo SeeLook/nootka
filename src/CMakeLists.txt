@@ -44,11 +44,12 @@ SET( NOOTKA_SRCS
   exam/tqaunit.cpp
   exam/texamview.cpp
   exam/texam.cpp
-  exam/texamsummary.cpp 
+  exam/texamsummary.cpp
 ###### Info
   info/taboutnootka.cpp
   info/tfirstrunwizzard.cpp
   info/select7note.cpp
+  info/texamhelp.cpp
 ###### Sound
   sound/tsound.cpp
   sound/taudioout.cpp
@@ -122,6 +123,7 @@ SET( NOOTKA_MOC_SRCS
   info/taboutnootka.h
   info/tfirstrunwizzard.h
   info/select7note.h
+  info/texamhelp.h
 ###### Sound
   sound/tsound.h
   sound/taudioout.h

@@ -146,18 +146,15 @@ void MainWindow::createActions() {
     settingsAct->setIcon(QIcon(gl->path+"picts/systemsettings.png"));
     connect(settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
 
-    levelCreatorAct = new QAction(TlevelCreatorDlg::levelCreatorTxt(), this);
-    levelCreatorAct->setStatusTip(levelCreatorAct->text());
-    levelCreatorAct->setIcon(QIcon(gl->path+"picts/levelCreator.png"));
+    levelCreatorAct = new QAction(this);
     connect(levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
 
     startExamAct = new QAction(this);
-    setStartExamActParams();
     connect(startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
+    setStartExamActParams(); // set text and icon also for levelCreatorAct
 
     aboutAct = new QAction(tr("about"), this);
     aboutAct->setStatusTip(tr("About Nootka"));
-//    aboutAct->setMenuRole(QAction::AboutRole);
     aboutAct->setIcon(QIcon(gl->path+"picts/about.png"));
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(aboutSlot()));
 
@@ -171,6 +168,10 @@ void MainWindow::createActions() {
 }
 
 void MainWindow::setStartExamActParams() {
+    levelCreatorAct->setText(TlevelCreatorDlg::levelCreatorTxt());
+    levelCreatorAct->setStatusTip(levelCreatorAct->text());
+    levelCreatorAct->setIcon(QIcon(gl->path+"picts/levelCreator.png"));
+  
     startExamAct->setText(tr("Start an exam"));
     startExamAct->setStatusTip(startExamAct->text());
     startExamAct->setIcon(QIcon(gl->path+"picts/startExam.png"));

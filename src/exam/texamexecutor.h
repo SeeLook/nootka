@@ -57,11 +57,9 @@ public:
         bool key;
     };
 
-    static QString orRightButtTxt() { return tr("or right mouse button"); }
     QString getNextQuestionTxt();
     bool closeNootka();
     bool isAnswered() { return m_isAnswered; }
-    void showExamHelp();
 
 protected:
     MainWindow *mW;
@@ -79,6 +77,7 @@ protected slots:
     void clearMessage();
     void autoRepeatStateChanged(bool enable);
     void showExamSummary();
+    void showExamHelp();
 
 private:
     void createQuestionsList();
