@@ -928,12 +928,12 @@ void TexamExecutor::expertAnswersStateChanged(bool enable) {
       TexpertAnswerHelp *exHlp = new TexpertAnswerHelp(mW);
       exHlp->exec();
       delete exHlp;
-      connect(mW->score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(expertAnswersSlot()));
+      connect(mW->score, SIGNAL(noteClicked()), this, SLOT(expertAnswersSlot()));
       connect(mW->noteName, SIGNAL(noteButtonClicked()), this, SLOT(expertAnswersSlot()));
       connect(mW->guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(expertAnswersSlot()));
       connect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(expertAnswersSlot()));
   } else {
-    disconnect(mW->score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(expertAnswersSlot()));
+    disconnect(mW->score, SIGNAL(noteClicked()), this, SLOT(expertAnswersSlot()));
     disconnect(mW->noteName, SIGNAL(noteButtonClicked()), this, SLOT(expertAnswersSlot()));
     disconnect(mW->guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(expertAnswersSlot()));
     disconnect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(expertAnswersSlot()));

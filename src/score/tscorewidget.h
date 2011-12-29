@@ -66,9 +66,12 @@ public:
 
 signals:
     void noteChanged(int index, Tnote note);
+        /** This signal is emited during an exam when expert answers are used. */
+    void noteClicked();
 
 public slots:
     void whenNoteWasChanged(int index, Tnote note);
+    void expertNoteChanged();
 
 protected:
     void paintEvent(QPaintEvent *event);
