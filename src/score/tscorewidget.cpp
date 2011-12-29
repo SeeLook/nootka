@@ -189,6 +189,7 @@ void TscoreWidget::clearScore() {
 void TscoreWidget::isExamExecuting(bool isIt) {
     if (isIt) {
         disconnect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
+        connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
         m_questMark = new QGraphicsSimpleTextItem();
         m_questMark->hide();
         noteViews[2]->scene()->addItem(m_questMark);
@@ -205,6 +206,7 @@ void TscoreWidget::isExamExecuting(bool isIt) {
     }
     else {
         connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
+        disconnect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
         delete m_questMark;
         m_questMark = 0;
         delete m_questKey;
@@ -256,3 +258,8 @@ void TscoreWidget::resizeKeyText() {
     m_questKey->setPos(0, coeff*5);
 // 	m_questKey->document()->setTextWidth(-1);
 }
+
+void TscoreWidget::expertNoteChanged() {
+    emit noteClicked();
+}
+
