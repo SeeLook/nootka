@@ -1,8 +1,9 @@
 0.8
     - !!! Added sound input and pitch detection !!!
     - simple preview of an exam results
+    - help window during exams
     - better sound output under Windows (in Linux it remains good)
-    - layout of widgets improved
+    - layout of widgets was improved
     - Bespin style "frendly" - more clear look of buttons
   BUGS FIXES
     -
