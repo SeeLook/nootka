@@ -98,6 +98,8 @@ MainWindow::MainWindow(QWidget *parent)
     expertAnswChB->hide();
     chBlay->addWidget(expertAnswChB);
     expertAnswChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    expertAnswChB->setStatusTip(ExamSettings::expertsAnswerTxt());
+    expertAnswChB->setToolTip(ExamSettings::expertsAnswerTxt());
     statLay->addLayout(chBlay);
     nameLay->addLayout(statLay);
 

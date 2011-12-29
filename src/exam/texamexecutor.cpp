@@ -27,6 +27,7 @@
 #include "texamsummary.h"
 #include "examsettings.h"
 #include "texamhelp.h"
+#include "texpertanswerhelp.h"
 #include <QtGui>
 #include <QDebug>
 
@@ -680,6 +681,7 @@ void TexamExecutor::prepareToExam() {
     connect(mW->levelCreatorAct, SIGNAL(triggered()), this, SLOT(showExamHelp()));
     connect(mW->autoRepeatChB, SIGNAL(clicked(bool)), this,
             SLOT(autoRepeatStateChanged(bool)));
+    connect(mW->expertAnswChB, SIGNAL(clicked(bool)), this, SLOT(expertAnswersStateChanged(bool)));
 
     m_prevStyle = gl->NnameStyleInNoteName;
     m_glStore.nameStyleInNoteName = gl->NnameStyleInNoteName;
@@ -910,7 +912,8 @@ QString TexamExecutor::getNextQuestionTxt() {
 
 void TexamExecutor::showExamSummary() {
   TexamSummary *ES = new TexamSummary(m_exam, mW);
-  ES->exec(); delete ES;
+  ES->exec(); 
+  delete ES;
 }
 
 void TexamExecutor::showExamHelp() {
@@ -918,4 +921,27 @@ void TexamExecutor::showExamHelp() {
     gl->path, mW);
   hlp->exec();
   delete hlp;
+}
+
+void TexamExecutor::expertAnswersStateChanged(bool enable) {
+  if (enable) {
+      TexpertAnswerHelp *exHlp = new TexpertAnswerHelp(mW);
+      exHlp->exec();
+      delete exHlp;
+      connect(mW->score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(expertAnswersSlot()));
+      connect(mW->noteName, SIGNAL(noteButtonClicked()), this, SLOT(expertAnswersSlot()));
+      connect(mW->guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(expertAnswersSlot()));
+      connect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(expertAnswersSlot()));
+  } else {
+    disconnect(mW->score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(expertAnswersSlot()));
+    disconnect(mW->noteName, SIGNAL(noteButtonClicked()), this, SLOT(expertAnswersSlot()));
+    disconnect(mW->guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(expertAnswersSlot()));
+    disconnect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(expertAnswersSlot()));
+  }
+}
+
+
+
+void TexamExecutor::expertAnswersSlot() {
+  checkAnswer();
 }
