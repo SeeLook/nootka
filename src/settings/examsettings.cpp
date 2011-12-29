@@ -47,7 +47,7 @@ ExamSettings::ExamSettings(QWidget *parent) :
     QLabel *nameLab = new QLabel(tr("student's name:"), this);
     lay->addWidget(nameLab, 0, Qt::AlignCenter);
     nameEdit = new QLineEdit(this);
-    nameEdit->setMaxLength(20);
+    nameEdit->setMaxLength(30);
     lay->addWidget(nameEdit, 0, Qt::AlignCenter);
     nameEdit->setStatusTip(tr("Default name for every new exam."));
     lay->addStretch(1);
