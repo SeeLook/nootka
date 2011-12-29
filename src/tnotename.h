@@ -53,6 +53,7 @@ public:
 
 signals:
     void noteNameWasChanged(Tnote note);
+    void noteButtonClicked();
 
 public slots:
 

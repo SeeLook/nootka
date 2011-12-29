@@ -78,6 +78,8 @@ protected slots:
     void autoRepeatStateChanged(bool enable);
     void showExamSummary();
     void showExamHelp();
+    void expertAnswersSlot();
+    void expertAnswersStateChanged(bool enable);
 
 private:
     void createQuestionsList();

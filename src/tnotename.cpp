@@ -223,6 +223,7 @@ void TnoteName::noteWasChanged(int noteNr) {
 		octaveButtons[2]->setChecked(true);
 // 		octaveGroup->setId(2);
 	}
+	emit noteButtonClicked();
 }
 
 void TnoteName::accidWasChanged() {

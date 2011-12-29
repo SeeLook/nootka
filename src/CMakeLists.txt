@@ -50,6 +50,7 @@ SET( NOOTKA_SRCS
   info/tfirstrunwizzard.cpp
   info/select7note.cpp
   info/texamhelp.cpp
+  info/texpertanswerhelp.cpp
 ###### Sound
   sound/tsound.cpp
   sound/taudioout.cpp
@@ -124,6 +125,7 @@ SET( NOOTKA_MOC_SRCS
   info/tfirstrunwizzard.h
   info/select7note.h
   info/texamhelp.h
+  info/texpertanswerhelp.h
 ###### Sound
   sound/tsound.h
   sound/taudioout.h
