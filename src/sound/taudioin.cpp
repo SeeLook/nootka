@@ -167,6 +167,7 @@ void TaudioIN::stopListening() {
 }
 
 void TaudioIN::wait() {
+  qDebug("TaudioIN::wait()");
   if (isAvailable()) {
     m_audioInput->suspend();
     m_pitch->resetFinder();
@@ -174,6 +175,7 @@ void TaudioIN::wait() {
 }
 
 void TaudioIN::go() {
+  qDebug("TaudioIN::go()");
   if (isAvailable() && m_audioInput->state() == QAudio::SuspendedState)
     m_audioInput->resume();
 }
