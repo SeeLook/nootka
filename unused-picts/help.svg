@@ -14,9 +14,9 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
    id="Livello_1"
-   width="207.60526"
-   height="189.86876"
-   viewBox="0 0 207.60525 189.86876"
+   width="265.60526"
+   height="187.86877"
+   viewBox="0 0 265.60525 187.86878"
    overflow="visible"
    enable-background="new 0 0 128 128"
    xml:space="preserve"
@@ -25,8 +25,8 @@
    sodipodi:docname="help.svg"
    style="overflow:visible"
    inkscape:export-filename="/home/tom/DEVELOP/QT4/nootka/picts/help.png"
-   inkscape:export-xdpi="32.232788"
-   inkscape:export-ydpi="32.232788"><defs
+   inkscape:export-xdpi="31.85178"
+   inkscape:export-ydpi="31.85178"><defs
    id="defs1325">
 	<foreignObject
    id="foreignObject7"
@@ -949,9 +949,9 @@
    bordercolor="#666666"
    pagecolor="#ffffff"
    id="base"
-   inkscape:zoom="0.1767767"
-   inkscape:cx="-324.41788"
-   inkscape:cy="456.66288"
+   inkscape:zoom="1"
+   inkscape:cx="161.1605"
+   inkscape:cy="127.7494"
    inkscape:window-x="0"
    inkscape:window-y="22"
    inkscape:current-layer="Livello_1"
@@ -4599,7 +4599,7 @@ TqeTs7N/L25X320X9x9X28ntp8X/VtVivYaorH7Mv8lDsPq022xX1ae7zU+g5CLl9bOzt9/+Y/IL
 	
 </i:pgf>
 <g
-   transform="matrix(41.163659,0,0,41.163659,84.832448,189.86877)"
+   transform="matrix(45.350399,0,0,45.350399,115.58705,187.86877)"
    id="g1159-7"><rect
      width="0.11028571"
      height="3.301692"
@@ -4608,7 +4608,7 @@ TqeTs7N/L25X320X9x9X28ntp8X/VtVivYaorH7Mv8lDsPq022xX1ae7zU+g5CLl9bOzt9/+Y/IL
      y="-3.301692"
      id="rect1161-6" /></g><g
    id="g4209"
-   transform="matrix(1.103189,0.05366658,-0.51872705,0.78836243,66.397058,0)"><g
+   transform="matrix(1.4113939,0.06910236,-0.66364712,1.0151141,84.946828,0)"><g
      id="g15">
 					<path
    style="fill:none"
@@ -7235,14 +7235,14 @@ TqeTs7N/L25X320X9x9X28ntp8X/VtVivYaorH7Mv8lDsPq022xX1ae7zU+g5CLl9bOzt9/+Y/IL
      id="path726"
      style="fill:url(#linearGradient4989);fill-opacity:1"
      inkscape:connector-curvature="0" /></g><g
-   transform="matrix(41.163659,0,0,41.163659,82.562638,45.795989)"
+   transform="matrix(45.350399,0,0,45.350399,113.08638,29.142401)"
    id="g947-3"><g
      id="text949-8"
      style="font-size:4px;fill:currentColor;font-family:Emmentaler"><path
        d="M 0.808,-0.576 C 0.42000039,-0.576 0,-0.24399962 0,0.14 c 0,0.25999974 0.21200029,0.436 0.5,0.436 0.38799961,0 0.808,-0.33200038 0.808,-0.716 0,-0.25999974 -0.2120003,-0.436 -0.5,-0.436"
        id="path5416"
        inkscape:connector-curvature="0" /></g></g><g
-   transform="matrix(-41.163659,0,0,41.163659,82.377688,188.60225)"
+   transform="matrix(-45.350399,0,0,45.350399,112.88262,186.47343)"
    id="g1153-1"><g
      id="text1155-0"
      style="font-size:4px;fill:currentColor;font-family:Emmentaler"><path
