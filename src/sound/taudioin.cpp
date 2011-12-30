@@ -204,8 +204,11 @@ void TaudioIN::calc() {
   emit noiseLevel(noise);
 }
 
+/** Range of notes is increased one note down and up.
+ * This 46 and 48 are its sign. 
+ * Normaly 47 is offset of midi note to Nootka Tnote. */
 void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
-  m_pitch->setAmbitus(loNote.getChromaticNrOfNote()+47, hiNote.getChromaticNrOfNote()+47);
+  m_pitch->setAmbitus(loNote.getChromaticNrOfNote()+46, hiNote.getChromaticNrOfNote()+48);
 }
 
 

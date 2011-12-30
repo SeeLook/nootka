@@ -156,6 +156,7 @@ void Tsound::restoreAfterConf() {
 
 void Tsound::wait() {
   if (sniffer) {
+    qDebug("Tsound::wait()");
     sniffer->stopListening();
     m_pitchView->stopVolume();
   }
@@ -163,6 +164,7 @@ void Tsound::wait() {
 
 void Tsound::go() {
   if (sniffer && !m_pitchView->isPaused()) {
+    qDebug("Tsound::go()");
     sniffer->startListening();
     m_pitchView->startVolume();
   }
@@ -178,6 +180,7 @@ void Tsound::playingFinished() {
 }
 
 void Tsound::noteDetectedSlot(Tnote note) {
+  qDebug("Tsound::noteDetectedSlot()");
   m_detNote = note;
   emit detectedNote(note);
 }
