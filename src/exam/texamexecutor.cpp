@@ -221,6 +221,7 @@ void TexamExecutor::createQuestionsList() {
 
 
 void TexamExecutor::askQuestion() {
+    qDebug("asking");
     gl->NnameStyleInNoteName = m_prevStyle;
     mW->noteName->setNoteNamesOnButt(m_prevStyle);
 
@@ -412,6 +413,7 @@ void TexamExecutor::askQuestion() {
         mW->nootBar->addAction(repeatSndAct);
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
+    qDebug("asked");
 }
 
 Tnote::EnameStyle TexamExecutor::randomNameStyle() {
@@ -491,7 +493,10 @@ Tnote TexamExecutor::forceEnharmAccid(Tnote n) {
     else return n;
 }
 
+
+
 void TexamExecutor::checkAnswer(bool showResults) {
+    qDebug("checking");
 		TQAunit curQ = m_exam->curQ();
     curQ.time = mW->examResults->questionStop();
     mW->nootBar->removeAction(checkAct);
@@ -619,6 +624,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
             }
         }
     }
+    qDebug("checked");
 }
 
 void TexamExecutor::repeatQuestion() {
@@ -637,6 +643,8 @@ void TexamExecutor::repeatQuestion() {
         mW->noteName->setNameDisabled(false);
     if (curQ.answerAs == TQAtype::e_asFretPos)
         mW->guitar->setGuitarDisabled(false);
+    if (curQ.answerAs == TQAtype::e_asSound)
+        mW->sound->go();
 
 		m_exam->addQuestion(curQ);
 
