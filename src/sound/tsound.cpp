@@ -45,11 +45,12 @@ Tsound::~Tsound()
 
 void Tsound::play(Tnote note) {
   if(player) {
-    player->play(note.getChromaticNrOfNote());
+//     player->play(note.getChromaticNrOfNote());
     if (sniffer) {
       sniffer->wait();
       m_pitchView->stopVolume();
     }
+    player->play(note.getChromaticNrOfNote());
   }
 }
 
@@ -175,10 +176,11 @@ void Tsound::go() {
 
 //-------------------------------- slots ----------------------------------------------------
 void Tsound::playingFinished() {
-  if (sniffer) {
-    sniffer->go();
-    m_pitchView->startVolume();
-  }
+//   if (sniffer) {
+//     sniffer->go();
+//     m_pitchView->startVolume();
+//   }
+  go();
 }
 
 void Tsound::noteDetectedSlot(Tnote note) {
