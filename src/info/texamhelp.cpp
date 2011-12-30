@@ -30,7 +30,7 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt, QString& path,
   
   
   QVBoxLayout *lay = new QVBoxLayout();
-  QTextEdit *ed = new QTextEdit("<body><style type=\"text/css\">img {border-color: palette(text); border-width: 2px; border-style: solid; border-radius: 4px;}</style>" +
+  QTextEdit *ed = new QTextEdit("<body><style type=\"text/css\">img {border-style: solid; border-color: palette(text); border-width: 2px;}</style>" +
     tr("Press <img src=\"%1\">").arg(path+"picts/next-icon.png") + orRightButtTxt() + tr(" or <b>space</b> to get next question.") + "<br>" + 
     tr("Select 2-nd check box to get it automaticaly.") + 
     QString("<br><br><span style=\"%1\">").arg(questColorTxt) +

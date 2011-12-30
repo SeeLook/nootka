@@ -59,6 +59,7 @@ void TvolumeMeter::paintEvent(QPaintEvent* )
       painter.setFont(QFont("nootka", painter.viewport().height()-6));
       painter.drawText(painter.viewport(), Qt::AlignRight, "n");
 //       painter.drawText(painter.viewport(), Qt::AlignCenter, "nnnnnnnnnn");
+      painter.setPen(Qt::NoPen);
   }
   QLinearGradient grad = QLinearGradient(0, 5, painter.viewport().right()-20, 5);
   grad.setColorAt(0.0, Qt::darkGreen);

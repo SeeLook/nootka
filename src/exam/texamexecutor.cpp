@@ -607,6 +607,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
     m_exam->setAnswer(curQ);
 //     m_answList[m_answList.size()-1] = curQ;
 
+    qDebug("checked");
     if (gl->EautoNextQuest) {
         if (curQ.correct()) {
             if (m_shouldBeTerminated)
@@ -624,7 +625,6 @@ void TexamExecutor::checkAnswer(bool showResults) {
             }
         }
     }
-    qDebug("checked");
 }
 
 void TexamExecutor::repeatQuestion() {
@@ -951,5 +951,6 @@ void TexamExecutor::expertAnswersStateChanged(bool enable) {
 
 
 void TexamExecutor::expertAnswersSlot() {
+  qDebug("expert's answer slot");
   checkAnswer();
 }
