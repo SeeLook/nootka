@@ -350,7 +350,7 @@ void MainWindow::contextMenuEvent(QContextMenuEvent *) {
     }
 }
 
-bool MainWindow::event(QEvent *event) {
+bool MainWindow::event(QEvent *event) {  
     if (gl->hintsEnabled && event->type() == QEvent::StatusTip && !m_lockStat) {
         QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
         if (se->tip() == "") {
