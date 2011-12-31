@@ -169,6 +169,7 @@ void Tsound::go() {
     sniffer->startListening();
 //     sniffer->go();
     m_pitchView->startVolume();
+    qDebug("Tsound::go(DONE)");
   }
 }
 

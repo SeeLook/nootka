@@ -153,12 +153,14 @@ void TaudioIN::initInput() {
 void TaudioIN::startListening() {
   if (m_audioInput) {
     qDebug("TaudioIN::startListening()");
-    m_floatBuff = new float[m_pitch->aGl().framesPerChunk+16] + 16;
+    if (!m_floatBuff)
+      m_floatBuff = new float[m_pitch->aGl().framesPerChunk+16] + 16;
     initInput();
     if (m_IOaudioDevice) {
       connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));
     }
   }
+  qDebug("TaudioIN::startListening(DONE)");
 }
 
 void TaudioIN::stopListening() {
