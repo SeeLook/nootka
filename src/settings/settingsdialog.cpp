@@ -262,7 +262,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     m_scoreSett = new ScoreSettings();
     m_nameSett = new NameSettings();
     m_guitarSett = new GuitarSettings();
-    m_examSett = new ExamSettings();
+    m_examSett = new ExamSettings(gl->E, &gl->EquestionColor, &gl->EanswerColor);
     m_sndOutSett = new AudioOutSettings(gl->A);
     m_sndInSett = new AudioInSettings(gl->A);
     QTabWidget *sndTTab = new QTabWidget();
@@ -277,7 +277,6 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     stackLayout->addWidget(sndTTab);
 
     connect(navList, SIGNAL(currentRowChanged(int)), this, SLOT(changeSettingsWidget(int)));
-//     connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
     connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
     connect(m_nameSett, SIGNAL(seventhIsBChanged(bool)), m_scoreSett, SLOT(seventhIsBChanged(bool)));
 

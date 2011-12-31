@@ -28,16 +28,19 @@
 class TexamParams 
 {
 public:
-  QColor questionColor;
-  QColor answerColor;
-  bool autoNextQuest; // Next quetion in en exam is given automatically after correct answer
-  bool repeatIncorrect; // If EautoNextQuest is true incorrect questions are asked again once
-//   bool repeatUntilcorrect; /** or until correct answer will be given. */
-  bool expertsAnswerEnable;
-  bool askAboutExpert; // shows confirm dialog when expertsAnswerEnable is going to be changed
-  bool showHelpOnStart; // shows dialog with help on start en exam
-  QString studentName;
+// They are very global and Tglobbals has them directly
+//   QColor questionColor;
+//   QColor answerColor;
 
+
+  bool autoNextQuest; /** Next quetion in en exam is given automatically after correct answer @def false */
+  bool repeatIncorrect; /** If EautoNextQuest is true incorrect questions are asked again once @def true */
+  bool expertsAnswerEnable; /** Enable checking without confirm @def false */
+  bool askAboutExpert; /** shows confirm dialog when expertsAnswerEnable is going to be changed @def true */
+  bool showHelpOnStart; /** shows dialog with help on start en exam @def true */
+  QString studentName; /** @def empty */
+  
+  //   bool repeatUntilcorrect; /** or until correct answer will be given. */
 };
 
 

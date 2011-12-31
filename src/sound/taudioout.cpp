@@ -157,6 +157,7 @@ bool TaudioOUT::setAudioDevice(QString& name) {
 
 
 QMutex mutex;
+bool doPlay = true;
 
 void TaudioOUT::play(int noteNr) {
   if (!m_playable)
@@ -183,6 +184,7 @@ void TaudioOUT::play(int noteNr) {
       qDebug("stoped");
       m_audioOutput->start();
     }
+    doPlay = true;
 //     mutex.lock();
     m_samplesCnt = 0;
     // note pos in array is shifted 1000 samples before to start from silence
@@ -314,11 +316,11 @@ void TaudioOUT::timeForAudio() {
 //     qDebug("TaudioOUT::timeForAudio()");
     int perSize = qMin(m_audioOutput->periodSize(), m_buffer.size());
     int chunks = m_audioOutput->bytesFree() / perSize;
-    qDebug() << "period:" << m_audioOutput->periodSize() << "free:" << m_audioOutput->bytesFree() << chunks;
+//     qDebug() << "period:" << m_audioOutput->periodSize() << "free:" << m_audioOutput->bytesFree() << chunks;
     qint16 sample;
 //     qDebug() << "chunks:" << chunks;
 //     if (chunks)
-      while (chunks) {
+      while (doPlay && chunks) {
 //       mutex.lock();
         qint16 *out = (qint16*)m_buffer.data();
         for(int i=0; i < perSize/8; i++) {
@@ -330,15 +332,20 @@ void TaudioOUT::timeForAudio() {
             m_samplesCnt++;
           if (m_samplesCnt == 40000) {
               m_timer->stop();
+              doPlay = false;
 //               mutex.unlock();
-              m_audioOutput->reset();
-              emit noteFinished();
-              return;
+//               m_audioOutput->reset();
+//               emit noteFinished();
+//               return;
           }
         }
         m_IOaudioDevice->write(m_buffer.data(), (m_audioOutput->periodSize()/8)*8);
         chunks--;
 //       mutex.unlock();
+      }
+      if (!doPlay) {
+        m_timer->stop();
+        emit noteFinished();
       }
 //     else {
 //       qDebug("empty");

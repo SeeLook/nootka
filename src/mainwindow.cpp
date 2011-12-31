@@ -92,7 +92,7 @@ MainWindow::MainWindow(QWidget *parent)
     chBlay->addWidget(autoRepeatChB);
     autoRepeatChB->setStatusTip(ExamSettings::autoNextQuestTxt());
     autoRepeatChB->setToolTip(ExamSettings::autoNextQuestTxt());
-    autoRepeatChB->setChecked(gl->EautoNextQuest);
+//     autoRepeatChB->setChecked(gl->EautoNextQuest);
     autoRepeatChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     expertAnswChB = new QCheckBox(widget);
     expertAnswChB->hide();

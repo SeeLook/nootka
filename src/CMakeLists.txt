@@ -45,6 +45,7 @@ SET( NOOTKA_SRCS
   exam/texamview.cpp
   exam/texam.cpp
   exam/texamsummary.cpp
+  exam/texamparams.h
 ###### Info
   info/taboutnootka.cpp
   info/tfirstrunwizzard.cpp

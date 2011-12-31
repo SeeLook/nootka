@@ -19,6 +19,7 @@
 #include "tglobals.h"
 #include "tkeysignature.h"
 #include "taudioparams.h"
+#include "texamparams.h"
 #include <QDir>
 #include <QSettings>
 #include <QCoreApplication>
@@ -60,7 +61,7 @@ QColor Tglobals::invertColor(QColor C) {
 
 Tglobals::Tglobals() {
 
-    version = "0.8 pre1";
+    version = "0.8 beta";
 //    path ; Is declared in main()
 
     qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
@@ -138,6 +139,7 @@ Tglobals::Tglobals() {
 
    
 // Exam settings
+    E = new TexamParams();
     sett.beginGroup("exam");
         if (sett.contains("questionColor"))
             EquestionColor = sett.value("questionColor").value<QColor>();
@@ -151,8 +153,12 @@ Tglobals::Tglobals() {
                 EanswerColor = QColor("green");
                EanswerColor.setAlpha(40);
            }
-        EautoNextQuest = sett.value("autoNextQuest", false).toBool(); //false;
-        ErepeatIncorrect = sett.value("repeatIncorrect", true).toBool(); //true;
+        E->autoNextQuest = sett.value("autoNextQuest", false).toBool(); 
+        E->repeatIncorrect = sett.value("repeatIncorrect", true).toBool();
+        E->expertsAnswerEnable = sett.value("expertsAnswerEnable", false).toBool();
+        E->askAboutExpert = sett.value("askAboutExpert", true).toBool();
+        E->showHelpOnStart = sett.value("showHelpOnStart", true).toBool();
+        E->studentName = sett.value("studentName", "").toString();
     sett.endGroup();
 
 // Sound settings
@@ -243,8 +249,12 @@ void Tglobals::storeSettings() {
     sett.beginGroup("exam");
         sett.setValue("questionColor", EquestionColor);
         sett.setValue("answerColor", EanswerColor);
-        sett.setValue("autoNextQuest", EautoNextQuest);
-        sett.setValue("repeatIncorrect", ErepeatIncorrect);
+        sett.setValue("autoNextQuest", E->autoNextQuest);
+        sett.setValue("repeatIncorrect", E->repeatIncorrect);
+        sett.setValue("expertsAnswerEnable", E->expertsAnswerEnable);
+        sett.setValue("askAboutExpert", E->askAboutExpert);
+        sett.setValue("showHelpOnStart", E->showHelpOnStart);
+        sett.setValue("studentName", E->studentName);
     sett.endGroup();
 
     sett.beginGroup("sound");
