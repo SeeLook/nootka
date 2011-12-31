@@ -45,12 +45,12 @@ Tsound::~Tsound()
 
 void Tsound::play(Tnote note) {
   if(player) {
-//     player->play(note.getChromaticNrOfNote());
+    player->play(note.getChromaticNrOfNote());
     if (sniffer) {
       sniffer->wait();
       m_pitchView->stopVolume();
     }
-    player->play(note.getChromaticNrOfNote());
+//     player->play(note.getChromaticNrOfNote());
   }
 }
 
@@ -157,7 +157,6 @@ void Tsound::restoreAfterConf() {
 
 void Tsound::wait() {
   if (sniffer) {
-    qDebug("Tsound::wait()");
 //     sniffer->stopListening();
     sniffer->wait();
     m_pitchView->stopVolume();
@@ -166,9 +165,8 @@ void Tsound::wait() {
 
 void Tsound::go() {
   if (sniffer && !m_pitchView->isPaused()) {
-    qDebug("Tsound::go()");
-//     sniffer->startListening();
-    sniffer->go();
+    sniffer->startListening();
+//     sniffer->go();
     m_pitchView->startVolume();
   }
 }
@@ -176,15 +174,14 @@ void Tsound::go() {
 
 //-------------------------------- slots ----------------------------------------------------
 void Tsound::playingFinished() {
-//   if (sniffer) {
-//     sniffer->go();
-//     m_pitchView->startVolume();
-//   }
-  go();
+  if (sniffer) {
+    sniffer->go();
+    m_pitchView->startVolume();
+  }
+//   go();
 }
 
 void Tsound::noteDetectedSlot(Tnote note) {
-  qDebug("Tsound::noteDetectedSlot()");
   m_detNote = note;
   emit detectedNote(note);
 }

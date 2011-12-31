@@ -22,6 +22,7 @@
 
 #include <QWidget>
 
+class TexamParams;
 class QLineEdit;
 class QCheckBox;
 class TcolorButton;
@@ -30,12 +31,17 @@ class ExamSettings : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ExamSettings(QWidget *parent = 0);
+      /** Params are:
+       * TexamParams @param params - is obvious
+       * QColor @param qColor - is pointer to gl->EquestionColor
+       * QColor @param aColor - is pointer to gl->EanswerColor
+       */
+  explicit ExamSettings(TexamParams *params, QColor *qColor, QColor *aColor, QWidget *parent = 0);
 
-    static QString autoNextQuestTxt() { return tr("ask next question automatically"); }
-    static QString expertsAnswerTxt() { return tr("check answers without confirm"); }
+  static QString autoNextQuestTxt() { return tr("ask next question automatically"); }
+  static QString expertsAnswerTxt() { return tr("check answers without confirm"); }
 
-    void saveSettings();
+  void saveSettings();
 
 signals:
 
@@ -45,6 +51,8 @@ private:
     QCheckBox *autoNextChB, *repeatIncorChB, *expertAnswChB, *showHelpChB;
     TcolorButton *questColorBut, *answColorBut;
     QLineEdit *nameEdit;
+    TexamParams *m_params;
+    QColor *m_qColor, *m_aColor;
 
 };
 

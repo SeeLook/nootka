@@ -19,46 +19,52 @@
 
 #include "examsettings.h"
 #include "tcolorbutton.h"
-#include "tglobals.h"
+#include "texamparams.h"
 #include <QtGui>
 
-extern Tglobals *gl;
 
-ExamSettings::ExamSettings(QWidget *parent) :
-    QWidget(parent)
+ExamSettings::ExamSettings(TexamParams* params, QColor* qColor, QColor* aColor, QWidget* parent) :
+    QWidget(parent),
+    m_params(params),
+    m_qColor(qColor),
+    m_aColor(aColor)
 {
     QVBoxLayout *lay = new QVBoxLayout;
 
     autoNextChB = new QCheckBox(autoNextQuestTxt(), this);
     lay->addWidget(autoNextChB, 0, Qt::AlignCenter);
-    autoNextChB->setChecked(gl->EautoNextQuest);
+    autoNextChB->setChecked(m_params->autoNextQuest);
     repeatIncorChB = new QCheckBox(tr("repeat a question when an answer was incorrect."), this);
     lay->addWidget(repeatIncorChB, 0, Qt::AlignCenter);
-    repeatIncorChB->setChecked(gl->ErepeatIncorrect);
+    repeatIncorChB->setChecked(m_params->repeatIncorrect);
     repeatIncorChB->setStatusTip(tr("A question with incorrect answer will be asked once again."));
     expertAnswChB = new QCheckBox(expertsAnswerTxt(), this);
     lay->addWidget(expertAnswChB, 0, Qt::AlignCenter);
     lay->addStretch(1);
     
     showHelpChB = new QCheckBox(tr("show help when exam starts"), this);
+    showHelpChB->setChecked(m_params->showHelpOnStart);
     lay->addWidget(showHelpChB, 0, Qt::AlignCenter);
     showHelpChB->setStatusTip(tr("Shows window with help when new exam begins."));
     lay->addStretch(1);
+    
+    QHBoxLayout *nameLay = new QHBoxLayout();
     QLabel *nameLab = new QLabel(tr("student's name:"), this);
-    lay->addWidget(nameLab, 0, Qt::AlignCenter);
-    nameEdit = new QLineEdit(this);
+    nameLay->addWidget(nameLab);
+    nameEdit = new QLineEdit(m_params->studentName, this);
     nameEdit->setMaxLength(30);
-    lay->addWidget(nameEdit, 0, Qt::AlignCenter);
+    nameLay->addWidget(nameEdit);
     nameEdit->setStatusTip(tr("Default name for every new exam."));
+    lay->addLayout(nameLay);
     lay->addStretch(1);
 
     QGridLayout *colLay = new QGridLayout;
     QLabel *questLab = new QLabel(tr("color of questions"), this);
-    questColorBut = new TcolorButton(gl->EquestionColor, this);
+    questColorBut = new TcolorButton(*(m_qColor), this);
     colLay->addWidget(questLab, 0, 0);
     colLay->addWidget(questColorBut, 0, 1);
     QLabel *answLab = new QLabel(tr("color of answers"), this);
-    answColorBut = new TcolorButton(gl->EanswerColor, this);
+    answColorBut = new TcolorButton(*(m_aColor), this);
     colLay->addWidget(answLab, 1, 0);
     colLay->addWidget(answColorBut, 1, 1);
 
@@ -71,10 +77,14 @@ ExamSettings::ExamSettings(QWidget *parent) :
 
 
 void ExamSettings::saveSettings() {
-    gl->EautoNextQuest = autoNextChB->isChecked();
-    gl->ErepeatIncorrect = repeatIncorChB->isChecked();
-    gl->EquestionColor = questColorBut->getColor();
-    gl->EquestionColor.setAlpha(40);
-    gl->EanswerColor = answColorBut->getColor();
-    gl->EanswerColor.setAlpha(40);
+    m_params->autoNextQuest = autoNextChB->isChecked();
+    m_params->repeatIncorrect = repeatIncorChB->isChecked();
+    m_params->expertsAnswerEnable = expertAnswChB->isChecked();
+    m_params->showHelpOnStart = showHelpChB->isChecked();
+    m_params->studentName = nameEdit->text();
+        
+    *m_qColor = questColorBut->getColor();
+    m_qColor->setAlpha(40);
+    *m_aColor = answColorBut->getColor();
+    m_aColor->setAlpha(40);
 }

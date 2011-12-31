@@ -22,7 +22,7 @@
 #include <QtGui>
 
 
-TstartExamDlg::TstartExamDlg(QWidget *parent) :
+TstartExamDlg::TstartExamDlg(QString& nick, QWidget* parent) :
     QDialog(parent)
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
@@ -34,8 +34,8 @@ TstartExamDlg::TstartExamDlg(QWidget *parent) :
     QHBoxLayout *nameLay = new QHBoxLayout;
     QLabel *nameLab = new QLabel(tr("student's name:"), this);
     nameLay->addWidget(nameLab);
-    nameEdit = new QLineEdit(this);
-    nameEdit->setMaxLength(20);
+    nameEdit = new QLineEdit(nick, this);
+    nameEdit->setMaxLength(30);
     nameEdit->setStatusTip(tr("Enter your name or nick."));
     nameLay->addWidget(nameEdit);
     levLay->addLayout(nameLay);

@@ -26,6 +26,7 @@
 #include "tnote.h"
 #include "ttune.h"
 
+class TexamParams;
 class TaudioParams;
 
 class Tglobals
@@ -119,20 +120,12 @@ public:
         * and note is calculated. Default are sharps*/
     bool GpreferFlats; // default false
 
-//============ Exam settings ===========================================================
+
+    TexamParams *E; /** Exam parameters */
     QColor EquestionColor;
     QColor EanswerColor;
-        /** Next quetion in en exam is given automatically after
-         * correct answer */
-    bool EautoNextQuest;
-        /** If EautoNextQuest is true incorrect questions are asked again once */
-    bool ErepeatIncorrect;
-        /** or until correct answer will be given. */
-    bool ErepeatUntilcorrect;
 
-//============ Sound settings ===========================================================
-      /** Audio parameters */
-    TaudioParams *A;
+    TaudioParams *A;  /** Audio parameters */
     
 private:
   //--- for tune part ----------------

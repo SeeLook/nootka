@@ -28,6 +28,7 @@
 #include "examsettings.h"
 #include "texamhelp.h"
 #include "texpertanswerhelp.h"
+#include "texamparams.h"
 #include <QtGui>
 #include <QDebug>
 
@@ -43,7 +44,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile) :
 
     mW->sound->wait();
     if (examFile == "") { // start exam dialog
-        TstartExamDlg *startDlg = new TstartExamDlg(mW);
+        TstartExamDlg *startDlg = new TstartExamDlg(gl->E->studentName, mW);
         userAct = startDlg->showDialog(resultText, m_level);
         delete startDlg;
     } else { // command line arg with given filename
@@ -227,7 +228,7 @@ void TexamExecutor::askQuestion() {
 
     clearWidgets();
     mW->setStatusMessage("");
-    if (!gl->EautoNextQuest) {
+    if (!gl->E->autoNextQuest) {
         mW->startExamAct->setDisabled(true);
         clearMessage();//if auto message is cleaned after 1 sec.
     }
@@ -502,7 +503,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
     mW->nootBar->removeAction(checkAct);
     if (curQ.questionAs == TQAtype::e_asSound)
         mW->nootBar->removeAction(repeatSndAct);
-    if (!gl->EautoNextQuest)
+    if (!gl->E->autoNextQuest)
         mW->startExamAct->setDisabled(false);
     m_isAnswered = true;
 // Let's check
@@ -563,9 +564,9 @@ void TexamExecutor::checkAnswer(bool showResults) {
 
     if (showResults) {
         int mesgTime = 0, fc = 1;
-      if (gl->EautoNextQuest)
+      if (gl->E->autoNextQuest)
           mesgTime = 1500; // show temporary message
-      if (!gl->hintsEnabled || gl->EautoNextQuest)
+      if (!gl->hintsEnabled || gl->E->autoNextQuest)
           fc = 2; // font size factor to have enought room for text over guitar
       QString answTxt;
       if (curQ.correct()) { // CORRECT
@@ -583,11 +584,11 @@ void TexamExecutor::checkAnswer(bool showResults) {
               answTxt += tr(" Wrong position.");
           if (curQ.wrongOctave())
               answTxt += tr(" Wrong octave.");
-          if (gl->EautoNextQuest && gl->ErepeatIncorrect && !m_incorrectRepeated)
+          if (gl->E->autoNextQuest && gl->E->repeatIncorrect && !m_incorrectRepeated)
               answTxt += tr("<br>Try again !");
       }
       answTxt += "</span><br>";
-      if (gl->hintsEnabled && !gl->EautoNextQuest) {
+      if (gl->hintsEnabled && !gl->E->autoNextQuest) {
           answTxt += getNextQuestionTxt();
           if (!curQ.correct())
               answTxt += tr("<br>Click <img src=\"%1\"> buton<br>or press <b>backspace</b> to correct an answer.").arg(gl->path+"picts/prev-icon.png");
@@ -597,7 +598,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 	  TfingerPos pp = mW->guitar->getfingerPos();
 	  showMessage(answTxt, pp, mesgTime);
     }
-    if (!gl->EautoNextQuest) {
+    if (!gl->E->autoNextQuest) {
         if (!curQ.correct())
             mW->nootBar->addAction(prevQuestAct);
         mW->nootBar->addAction(nextQuestAct);
@@ -608,7 +609,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 //     m_answList[m_answList.size()-1] = curQ;
 
     qDebug("checked");
-    if (gl->EautoNextQuest) {
+    if (gl->E->autoNextQuest) {
         if (curQ.correct()) {
             if (m_shouldBeTerminated)
                 stopExamSlot();
@@ -618,7 +619,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
             if (m_shouldBeTerminated)
                 stopExamSlot();
             else {
-                if (gl->ErepeatIncorrect && !m_incorrectRepeated) // repeat only once if any
+                if (gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
                     repeatQuestion();
                 else
                     askQuestion();
@@ -634,7 +635,7 @@ void TexamExecutor::repeatQuestion() {
     QString m = mW->statusMessage();
     m.replace(0, m.indexOf("</b>"), QString("<b>%1.").arg(m_exam->count()+1));
     mW->setStatusMessage(m);
-    if (!gl->EautoNextQuest)
+    if (!gl->E->autoNextQuest)
         clearMessage();
     curQ.setMistake(TQAunit::e_correct);
     if (curQ.answerAs == TQAtype::e_asNote)
@@ -648,7 +649,7 @@ void TexamExecutor::repeatQuestion() {
 
 		m_exam->addQuestion(curQ);
 
-    if (!gl->EautoNextQuest)
+    if (!gl->E->autoNextQuest)
         mW->startExamAct->setDisabled(true);
     mW->nootBar->removeAction(nextQuestAct);
     mW->nootBar->removeAction(prevQuestAct);
@@ -673,8 +674,9 @@ void TexamExecutor::prepareToExam() {
     mW->startExamAct->setText(tr("stop the exam"));
     mW->startExamAct->setStatusTip(mW->startExamAct->text());
     mW->autoRepeatChB->show();
-    mW->autoRepeatChB->setChecked(gl->EautoNextQuest);
+    mW->autoRepeatChB->setChecked(gl->E->autoNextQuest);
     mW->expertAnswChB->show();
+    mW->expertAnswChB->setChecked(gl->E->expertsAnswerEnable);
 
     disableWidgets();
 
@@ -908,7 +910,7 @@ void TexamExecutor::clearMessage() {
 }
 
 void TexamExecutor::autoRepeatStateChanged(bool enable) {
-    gl->EautoNextQuest = enable;
+    gl->E->autoNextQuest = enable;
     if (enable) {
         mW->startExamAct->setDisabled(false);
     }
