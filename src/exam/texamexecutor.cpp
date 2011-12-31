@@ -876,6 +876,7 @@ void TexamExecutor::repeatSound() {
 }
 
 void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) {
+  qDebug("TexamExecutor::showMessage()");
     if (!m_messageItem) {
         m_messageItem = new QGraphicsTextItem();
         m_messageItem->hide();
@@ -908,6 +909,7 @@ void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) 
 }
 
 void TexamExecutor::clearMessage() {
+  qDebug("TexamExecutor::clearMessage()");
     if (m_messageItem) {
         if (m_messageItem->isVisible()) {
             m_messageItem->hide();
