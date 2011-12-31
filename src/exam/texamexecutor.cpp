@@ -398,13 +398,13 @@ void TexamExecutor::askQuestion() {
         mW->guitar->prepareAnswer();
     }
     
-    if (curQ.answerAs == TQAtype::e_asSound) {
-      questText = QString("<b>%1. </b>").arg(m_exam->count() + 1) +
-      tr("Play or sing given note");
-      m_answRequire.accid = false;
-      m_answRequire.octave = m_level.requireOctave;
-      mW->sound->go();
-    }
+//     if (curQ.answerAs == TQAtype::e_asSound) {
+//       questText = QString("<b>%1. </b>").arg(m_exam->count() + 1) +
+//       tr("Play or sing given note");
+//       m_answRequire.accid = false;
+//       m_answRequire.octave = m_level.requireOctave;
+//       mW->sound->go();
+//     }
     m_exam->addQuestion(curQ);
     mW->setStatusMessage(questText);
 
@@ -415,6 +415,13 @@ void TexamExecutor::askQuestion() {
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
     qDebug("asked");
+    if (curQ.answerAs == TQAtype::e_asSound) {
+      questText = QString("<b>%1. </b>").arg(m_exam->count() + 1) +
+      tr("Play or sing given note");
+      m_answRequire.accid = false;
+      m_answRequire.octave = m_level.requireOctave;
+      mW->sound->go();
+    }
 }
 
 Tnote::EnameStyle TexamExecutor::randomNameStyle() {

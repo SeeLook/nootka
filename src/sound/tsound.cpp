@@ -157,14 +157,15 @@ void Tsound::restoreAfterConf() {
 
 void Tsound::wait() {
   if (sniffer) {
-//     sniffer->stopListening();
-    sniffer->wait();
+    sniffer->stopListening();
+//     sniffer->wait();
     m_pitchView->stopVolume();
   }
 }
 
 void Tsound::go() {
   if (sniffer && !m_pitchView->isPaused()) {
+    qDebug("Tsound::go()");
     sniffer->startListening();
 //     sniffer->go();
     m_pitchView->startVolume();
