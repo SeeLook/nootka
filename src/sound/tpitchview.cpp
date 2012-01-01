@@ -76,7 +76,6 @@ void TpitchView::startVolume() {
   if (m_audioIN) {
     connect(m_audioIN, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
     m_volTimer->start(75);
-    qDebug("TpitchView::startVolume()");
   }
 }
 

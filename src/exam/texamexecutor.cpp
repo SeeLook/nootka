@@ -222,7 +222,6 @@ void TexamExecutor::createQuestionsList() {
 
 
 void TexamExecutor::askQuestion() {
-    qDebug("asking");
     gl->NnameStyleInNoteName = m_prevStyle;
     mW->noteName->setNoteNamesOnButt(m_prevStyle);
 
@@ -414,7 +413,6 @@ void TexamExecutor::askQuestion() {
         mW->nootBar->addAction(repeatSndAct);
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
-    qDebug("asked");
     if (curQ.answerAs == TQAtype::e_asSound) {
       questText = QString("<b>%1. </b>").arg(m_exam->count() + 1) +
       tr("Play or sing given note");
@@ -504,7 +502,7 @@ Tnote TexamExecutor::forceEnharmAccid(Tnote n) {
 
 
 void TexamExecutor::checkAnswer(bool showResults) {
-    qDebug("checking");
+    disableWidgets();
 		TQAunit curQ = m_exam->curQ();
     curQ.time = mW->examResults->questionStop();
     mW->nootBar->removeAction(checkAct);
@@ -610,12 +608,11 @@ void TexamExecutor::checkAnswer(bool showResults) {
             mW->nootBar->addAction(prevQuestAct);
         mW->nootBar->addAction(nextQuestAct);
     }
-    disableWidgets();
+//     disableWidgets();
     mW->examResults->setAnswer(curQ.correct());
     m_exam->setAnswer(curQ);
 //     m_answList[m_answList.size()-1] = curQ;
 
-    qDebug("checked");
     if (gl->E->autoNextQuest) {
         if (curQ.correct()) {
             if (m_shouldBeTerminated)
@@ -876,7 +873,6 @@ void TexamExecutor::repeatSound() {
 }
 
 void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) {
-  qDebug("TexamExecutor::showMessage()");
     if (!m_messageItem) {
         m_messageItem = new QGraphicsTextItem();
         m_messageItem->hide();
@@ -909,7 +905,6 @@ void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) 
 }
 
 void TexamExecutor::clearMessage() {
-  qDebug("TexamExecutor::clearMessage()");
     if (m_messageItem) {
         if (m_messageItem->isVisible()) {
             m_messageItem->hide();
@@ -962,6 +957,5 @@ void TexamExecutor::expertAnswersStateChanged(bool enable) {
 
 
 void TexamExecutor::expertAnswersSlot() {
-  qDebug("expert's answer slot");
-  checkAnswer();
+  QTimer::singleShot(100, this, SLOT(checkAnswer()));
 }

@@ -192,7 +192,6 @@ void TaudioOUT::play(int noteNr) {
 //     mutex.unlock();
     timeForAudio();
     m_timer->start(20);
-    qDebug("TaudioOUT::play()");
   }
 }
 
