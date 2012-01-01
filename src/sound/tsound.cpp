@@ -165,11 +165,9 @@ void Tsound::wait() {
 
 void Tsound::go() {
   if (sniffer && !m_pitchView->isPaused()) {
-    qDebug("Tsound::go()");
     sniffer->startListening();
 //     sniffer->go();
     m_pitchView->startVolume();
-    qDebug("Tsound::go(DONE)");
   }
 }
 
