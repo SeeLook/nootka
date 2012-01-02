@@ -152,7 +152,6 @@ void TaudioIN::initInput() {
 
 void TaudioIN::startListening() {
   if (m_audioInput) {
-    qDebug("TaudioIN::startListening()");
     if (!m_floatBuff)
       m_floatBuff = new float[m_pitch->aGl().framesPerChunk+16] + 16;
     initInput();
@@ -160,7 +159,6 @@ void TaudioIN::startListening() {
       connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));
     }
   }
-  qDebug("TaudioIN::startListening(DONE)");
 }
 
 void TaudioIN::stopListening() {
@@ -170,7 +168,6 @@ void TaudioIN::stopListening() {
 }
 
 void TaudioIN::wait() {
-  qDebug("TaudioIN::wait()");
   if (isAvailable()) {
     m_audioInput->suspend();
     m_pitch->resetFinder();
@@ -178,7 +175,6 @@ void TaudioIN::wait() {
 }
 
 void TaudioIN::go() {
-  qDebug("TaudioIN::go()");
   if (isAvailable() && m_audioInput->state() == QAudio::SuspendedState)
     m_audioInput->resume();
 }

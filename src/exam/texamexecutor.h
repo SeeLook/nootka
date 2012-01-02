@@ -80,6 +80,8 @@ protected slots:
     void showExamHelp();
     void expertAnswersSlot();
     void expertAnswersStateChanged(bool enable);
+        /** Ivokes Tsound::go() */
+    void startSniffing(); 
 
 private:
     void createQuestionsList();
@@ -92,6 +94,10 @@ private:
         /** Disables score, noteName and guitar*/
     void disableWidgets();
     void clearWidgets();
+        /** Connects all Nootka widgets signals to expertAnswersSlot() */
+    void connectForExpert();
+    
+private:
     QString getTextHowAccid(Tnote::Eacidentals accid);
     QString saveExamToFile();
     Tnote::EnameStyle randomNameStyle();

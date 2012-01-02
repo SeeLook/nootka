@@ -106,11 +106,22 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile) :
             return;
         }
     }
+    if (m_level.answersAs[0].isSound() || m_level.answersAs[1].isSound() || 
+            m_level.answersAs[2].isSound() || m_level.answersAs[3].isSound() ) {
+      if (!mW->sound->isSniffable()) {
+            QMessageBox::warning(mW, "",
+                     tr("An exam requires sound input but<br>it is not available !!!"));
+            mW->clearAfterExam();
+            if (m_exam) delete m_exam;
+            return;
+      }
+    }
+    
    // ---------- End of checking ----------------------------------
 
     m_messageItem = 0;
     prepareToExam();
-    if (m_exam->fileName() == "")
+    if (m_exam->fileName() == "" && gl->E->showHelpOnStart)
       showExamHelp();
     createQuestionsList();
 
@@ -397,13 +408,18 @@ void TexamExecutor::askQuestion() {
         mW->guitar->prepareAnswer();
     }
     
-//     if (curQ.answerAs == TQAtype::e_asSound) {
-//       questText = QString("<b>%1. </b>").arg(m_exam->count() + 1) +
-//       tr("Play or sing given note");
-//       m_answRequire.accid = false;
-//       m_answRequire.octave = m_level.requireOctave;
-//       mW->sound->go();
-//     }
+    if (curQ.answerAs == TQAtype::e_asSound) {
+      questText = QString("<b>%1. </b>").arg(m_exam->count() + 1) +
+      tr("Play or sing given note");
+      m_answRequire.accid = false;
+      m_answRequire.octave = m_level.requireOctave;
+      if (gl->E->expertsAnswerEnable && gl->E->autoNextQuest)
+          QTimer::singleShot(500, this, SLOT(startSniffing()));
+          // Give a student some time to prepare for next question in expert mode
+          // It avoids capture previous played sound as current answer
+      else
+        mW->sound->go();
+    }
     m_exam->addQuestion(curQ);
     mW->setStatusMessage(questText);
 
@@ -413,13 +429,7 @@ void TexamExecutor::askQuestion() {
         mW->nootBar->addAction(repeatSndAct);
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
-    if (curQ.answerAs == TQAtype::e_asSound) {
-      questText = QString("<b>%1. </b>").arg(m_exam->count() + 1) +
-      tr("Play or sing given note");
-      m_answRequire.accid = false;
-      m_answRequire.octave = m_level.requireOctave;
-      mW->sound->go();
-    }
+    
 }
 
 Tnote::EnameStyle TexamExecutor::randomNameStyle() {
@@ -502,7 +512,7 @@ Tnote TexamExecutor::forceEnharmAccid(Tnote n) {
 
 
 void TexamExecutor::checkAnswer(bool showResults) {
-    disableWidgets();
+//     disableWidgets();
 		TQAunit curQ = m_exam->curQ();
     curQ.time = mW->examResults->questionStop();
     mW->nootBar->removeAction(checkAct);
@@ -608,7 +618,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
             mW->nootBar->addAction(prevQuestAct);
         mW->nootBar->addAction(nextQuestAct);
     }
-//     disableWidgets();
+    disableWidgets();
     mW->examResults->setAnswer(curQ.correct());
     m_exam->setAnswer(curQ);
 //     m_answList[m_answList.size()-1] = curQ;
@@ -670,7 +680,6 @@ void TexamExecutor::prepareToExam() {
     mW->setStatusMessage(tr("exam started on level") + ":<br><b>" + m_level.name + "</b>");
 
     mW->settingsAct->setDisabled(true);
-//     mW->levelCreatorAct->setDisabled(true);
     mW->levelCreatorAct->setIcon(QIcon(gl->path+"picts/help.png"));
     mW->levelCreatorAct->setText(tr("help"));
     mW->levelCreatorAct->setStatusTip(mW->levelCreatorAct->text());
@@ -681,6 +690,8 @@ void TexamExecutor::prepareToExam() {
     mW->autoRepeatChB->setChecked(gl->E->autoNextQuest);
     mW->expertAnswChB->show();
     mW->expertAnswChB->setChecked(gl->E->expertsAnswerEnable);
+    if (gl->E->expertsAnswerEnable)
+      connectForExpert();
 
     disableWidgets();
 
@@ -748,11 +759,12 @@ void TexamExecutor::restoreAfterExam() {
     mW->guitar->acceptSettings();
 
     mW->settingsAct->setDisabled(false);
-//     mW->levelCreatorAct->setDisabled(false);
     mW->startExamAct->setDisabled(false);
     mW->noteName->setNameDisabled(false);
     mW->guitar->setGuitarDisabled(false);
     mW->autoRepeatChB->hide();
+    if (gl->E->expertsAnswerEnable) // disconnect check box 
+      expertAnswersStateChanged(false);
     mW->expertAnswChB->hide();
 
     connect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
@@ -931,21 +943,27 @@ void TexamExecutor::showExamSummary() {
 }
 
 void TexamExecutor::showExamHelp() {
-  TexamHelp *hlp = new TexamHelp(gl->getBGcolorText(gl->EquestionColor), gl->getBGcolorText(gl->EanswerColor), 
-    gl->path, mW);
-  hlp->exec();
-  delete hlp;
+      TexamHelp *hlp = new TexamHelp(gl->getBGcolorText(gl->EquestionColor), gl->getBGcolorText(gl->EanswerColor), 
+        gl->path, mW);
+      hlp->exec();
+      delete hlp;
 }
+
+void TexamExecutor::connectForExpert() {
+  connect(mW->score, SIGNAL(noteClicked()), this, SLOT(expertAnswersSlot()));
+  connect(mW->noteName, SIGNAL(noteButtonClicked()), this, SLOT(expertAnswersSlot()));
+  connect(mW->guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(expertAnswersSlot()));
+  connect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(expertAnswersSlot()));
+}
+
+
 
 void TexamExecutor::expertAnswersStateChanged(bool enable) {
   if (enable) {
       TexpertAnswerHelp *exHlp = new TexpertAnswerHelp(mW);
       exHlp->exec();
       delete exHlp;
-      connect(mW->score, SIGNAL(noteClicked()), this, SLOT(expertAnswersSlot()));
-      connect(mW->noteName, SIGNAL(noteButtonClicked()), this, SLOT(expertAnswersSlot()));
-      connect(mW->guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(expertAnswersSlot()));
-      connect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(expertAnswersSlot()));
+      connectForExpert();
   } else {
     disconnect(mW->score, SIGNAL(noteClicked()), this, SLOT(expertAnswersSlot()));
     disconnect(mW->noteName, SIGNAL(noteButtonClicked()), this, SLOT(expertAnswersSlot()));
@@ -954,8 +972,15 @@ void TexamExecutor::expertAnswersStateChanged(bool enable) {
   }
 }
 
+void TexamExecutor::startSniffing() {
+    mW->sound->go();
+}
 
 
 void TexamExecutor::expertAnswersSlot() {
-  QTimer::singleShot(100, this, SLOT(checkAnswer()));
+    /** expertAnswersSlot() is invoked also by TaudioIN/TpitchFinder.
+     * Calling checkAnswer() from here invokes stoping and deleting TaudioIN.
+     * It finishs with crash. To avoid this checkAnswer() has to be called
+     * from outside - by timer event. */
+  QTimer::singleShot(10, this, SLOT(checkAnswer()));
 }
