@@ -311,6 +311,8 @@ void MainWindow::guitarWasClicked(Tnote note) {
 }
 
 void MainWindow::soundWasPlayed(Tnote note) {
+  if (gl->hintsEnabled)
+    setStatusMessage(tr("Note was detected !!"), 600);
   if (gl->showEnharmNotes) {
       TnotesList noteList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
       noteName->setNoteName(noteList);
