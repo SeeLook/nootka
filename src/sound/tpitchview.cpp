@@ -111,6 +111,10 @@ void TpitchView::setIsVoice(bool isVoice) {
       m_audioIN->setIsVoice(m_isVoice);
 }
 
+void TpitchView::setBgStyle(QString bgStyle) {
+    setStyleSheet(bgStyle);
+}
+
 
 //------------------------------------------------------------------------------------
 //------------          slots       --------------------------------------------------

@@ -171,6 +171,15 @@ void Tsound::go() {
   }
 }
 
+void Tsound::prepareAnswer() {
+  m_pitchView->setBgStyle(gl->getBGcolorText(gl->EanswerColor));
+}
+
+void Tsound::restoreAfterAnswer() {
+  m_pitchView->setBgStyle(gl->getBGcolorText(-1));
+}
+
+
 
 //-------------------------------- slots ----------------------------------------------------
 void Tsound::playingFinished() {
