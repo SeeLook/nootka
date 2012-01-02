@@ -413,6 +413,7 @@ void TexamExecutor::askQuestion() {
       tr("Play or sing given note");
       m_answRequire.accid = false;
       m_answRequire.octave = m_level.requireOctave;
+      mW->sound->prepareAnswer();
       if (gl->E->expertsAnswerEnable && gl->E->autoNextQuest)
           QTimer::singleShot(500, this, SLOT(startSniffing()));
           // Give a student some time to prepare for next question in expert mode
@@ -796,6 +797,7 @@ void TexamExecutor::clearWidgets() {
     mW->score->clearScore();
     mW->noteName->clearNoteName();
     mW->guitar->clearFingerBoard();
+    mW->sound->restoreAfterAnswer();
 }
 
 void TexamExecutor::stopExamSlot() {

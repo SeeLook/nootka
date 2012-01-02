@@ -52,6 +52,7 @@ public:
   bool isVoice() { return m_isVoice; }
   void setIsVoice(bool isVoice);
   void resize(int fontSize);
+  void setBgStyle(QString bgStyle);
   
 protected slots:
   void noteSlot(Tnote note);

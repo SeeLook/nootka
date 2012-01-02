@@ -59,6 +59,8 @@ public:
     /** Starts sniffing again. */
   void go();
   Tnote note() { return m_detNote; }
+  void prepareAnswer();
+  void restoreAfterAnswer();
   
 signals:
   void detectedNote(Tnote note);
