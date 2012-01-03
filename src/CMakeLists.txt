@@ -2,7 +2,7 @@
 
 INCLUDE_DIRECTORIES (. exam info level score settings sound)
 
-SET( NOOTKA_SRCS
+SET( NOOTKA_SRCS 
   main.cpp
   mainwindow.cpp
   tglobals.cpp
@@ -11,6 +11,7 @@ SET( NOOTKA_SRCS
   tfingerboard.cpp
   ttune.cpp
   tfingerpos.h
+  trightclickfilter.cpp
 ###### Score
   score/tnoteview.cpp
   score/tscorewidget.cpp
@@ -91,6 +92,7 @@ SET( NOOTKA_MOC_SRCS
   mainwindow.h
   tnotename.h
   tfingerboard.h
+  trightclickfilter.h
 ###### Score
   score/tnoteview.h
   score/tscorewidget.h
