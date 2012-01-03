@@ -63,7 +63,6 @@ public slots:
     void noteNameWasChanged(Tnote note);
     void guitarWasClicked(Tnote note);
     void soundWasPlayed(Tnote note);
-    void rightButtonClicked();
 
 
 protected:

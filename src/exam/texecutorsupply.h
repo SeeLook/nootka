@@ -20,20 +20,29 @@
 #define TEXECUTORSUPPLY_H
 
 #include "tnote.h"
+#include <QObject>
 
 class TexamLevel;
 
-/** A purpose of this class is to make the exam executor smaller */
-class TexecutorSupply
+/** A purpose of this class is to make the exam executor smaller.
+ * Also it has eventFilter() reimplementation to manage right mouse button,
+ * witch can be simply captured by contextMenuEvent from disabled widgets. */
+class TexecutorSupply : public QObject
 {
-
+  Q_OBJECT
 public:
-  TexecutorSupply(TexamLevel *level);
+  TexecutorSupply(TexamLevel *level, QObject *parent = 0);
   
   void createQuestionsList();
   Tnote determineAccid(Tnote n);
         /** */
   Tnote forceEnharmAccid(Tnote n);
+  
+signals:
+  void rightButtonClicked();
+  
+protected:
+  virtual bool eventFilter(QObject* obj, QEvent* event);
 
   
 private:
