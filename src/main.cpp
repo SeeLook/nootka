@@ -19,7 +19,6 @@
 #include <QtGui>
 #include "mainwindow.h"
 #include "tglobals.h"
-// #include "trightclickfilter.h"
 
 Tglobals *gl;
 
@@ -53,10 +52,6 @@ int main(int argc, char *argv[])
         return 111;
     }
 
-//     TrightClickFilter *filter = new TrightClickFilter(w);
-//     a.installEventFilter(filter);
-//     w.connect(filter, SIGNAL(clicked()), w, SLOT(rightButtonClicked()));
-//     
     w.show();
     if (argc > 1)
         w.openFile(QString::fromLocal8Bit(argv[argc-1]));

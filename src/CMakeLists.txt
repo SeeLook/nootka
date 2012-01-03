@@ -11,7 +11,6 @@ SET( NOOTKA_SRCS
   tfingerboard.cpp
   ttune.cpp
   tfingerpos.h
-  trightclickfilter.cpp
 ###### Score
   score/tnoteview.cpp
   score/tscorewidget.cpp
@@ -47,6 +46,7 @@ SET( NOOTKA_SRCS
   exam/texam.cpp
   exam/texamsummary.cpp
   exam/texamparams.h
+  exam/texecutorsupply.cpp
 ###### Info
   info/taboutnootka.cpp
   info/tfirstrunwizzard.cpp
@@ -92,7 +92,6 @@ SET( NOOTKA_MOC_SRCS
   mainwindow.h
   tnotename.h
   tfingerboard.h
-  trightclickfilter.h
 ###### Score
   score/tnoteview.h
   score/tscorewidget.h
@@ -123,6 +122,7 @@ SET( NOOTKA_MOC_SRCS
   exam/texamview.h
   exam/texamexecutor.h
   exam/texamsummary.h
+  exam/texecutorsupply.h
 ###### Info
   info/taboutnootka.h
   info/tfirstrunwizzard.h

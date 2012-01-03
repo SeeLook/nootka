@@ -1,12 +1,13 @@
 0.8
     - !!! Added sound input and pitch detection !!!
     - simple preview of an exam results
+    - expert's mode in an exam
     - help window during exams
     - better sound output under Windows (in Linux it remains good)
     - layout of widgets was improved
     - Bespin style "frendly" - more clear look of buttons
   BUGS FIXES
-    -
+    - right mouse button does what it has to do
   Under the hood
     - cpack rules for building deb & rpm packages
     - ported audio lib to "Qt native" QAudio

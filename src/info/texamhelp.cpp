@@ -31,30 +31,36 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt,
   setMaximumSize((parent->width()/3)*2, (parent->height()/3)*2);
   setWindowTitle(tr("Exam's help"));
   
-  
   QVBoxLayout *lay = new QVBoxLayout();
-  QTextEdit *ed = new QTextEdit("<body><style type=\"text/css\">img { border-style: solid; border-color: palette(text); border-width: 2px; background-color: palette(window); }</style>" +
-    tr("Press <img src=\"%1\">").arg(path+"picts/next-icon.png") + orRightButtTxt() + tr(" or <b>space</b> to get next question.") + "<br>" + 
-    tr("Select 2-nd check box to get it automaticaly.") + 
+  QTextEdit *ed = new QTextEdit(
+    QString("<center><img src=\"%1\"><span style=\"font-size: 18px;\"> ").arg(path+"picts/help.png") +
+    tr("How does an exam work ?") +
+    QString(" </span><img src=\"%1\"> ").arg(path+"picts/startExam.png") + "<br><br>" +
+    "<style type=\"text/css\">img { border-style: solid; border-color: palette(text); border-width: 2px; background-color: palette(window); }</style>" +
+    tr("To get question:") + "<br>- " + tr("click <img src=\"%1\"> button").arg(path+"picts/next-icon.png") + "<br>- " +
+    tr("press <b>space</b> key") + "<br>- " + orRightButtTxt() + "<br>" + 
+    tr("Select 2-nd check box to get the question automaticaly.") + 
     QString("<br><br><span style=\"%1\">").arg(questColorTxt) +
     tr("Questions are marked with this color and \"?\" mark.") + "</span><br>" + 
     tr("To give an answer, select it on <span style=\"%1\">Nootka's element pointed with that color.</span><br>")
-      .arg(answColorTxt) +      
-    tr("To check the answer confirm it with <img src=\"%1\"> button, press <b>Enter </b>")
-        .arg(path+"picts/check-icon.png") + orRightButtTxt() + "<br>" +
-    tr("If You make mistake, You can use <img src=\"%1\"> button or <b>Backspace</b> key to repeat the question.<br>").arg(path+"picts/prev-icon.png") +
+      .arg(answColorTxt) +
+    QString("<img src=\"%1\"><br>").arg(path+"picts/scr.png") +
+    tr("To check the answer confirm it:") + "<br>- " + 
+    tr("click <img src=\"%1\"> button").arg(path+"picts/check-icon.png") + "<br>- " +
+    tr("press <b>Enter</b> key") + "<br>- " + orRightButtTxt() + "<br><br>" +
+    tr("If You make mistake, You can use:<br>- <img src=\"%1\"> button<br>- <b>Backspace</b> key<br>to repeat the question.<br>").arg(path+"picts/prev-icon.png") +
     tr("By selecting 3-rd check box, the answers will be checking immediately without confirmation.") + "<br><br>" +
     tr("To stop the exam click <img src=\"%1\"> button.").arg(path+"picts/stopExam-icon.png") + 
-    "<br><br><center><span style=\"font-size: 20px;\"><b>" +
+    "<br><br><span style=\"font-size: 20px;\"><b>" +
     tr("GOOD LUCK !!!") + "</b></span>" + "<br><hr><table><tr><th colspan=2>" +
     tr("Experts' corner") + "</th></tr><tr><td rowspan=3>" +
     QString("<img style=\"background-color: transparent;\" src=\"%1\">").arg(path+"picts/expertCorner.png") +
     "</td><td><br>1. " + tr("show or hide the hints") + "</td></tr><tr><td><br>2. " + 
     ExamSettings::autoNextQuestTxt() + "</td></tr><tr><td><br>3. " + 
-    ExamSettings::expertsAnswerTxt() + "</td></tr></table></body>", this);
+    ExamSettings::expertsAnswerTxt() + "</td></tr></table>", this);
   ed->setReadOnly(true);
   ed->setFixedSize((parent->width()/3)*2, (parent->height()/5)*3);
-  ed->setAlignment(Qt::AlignJustify);
+  ed->setAlignment(Qt::AlignCenter);
   lay->addWidget(ed);
   
   showHelpChB = new QCheckBox(ExamSettings::showHelpWindowTxt(), this);

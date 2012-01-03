@@ -30,7 +30,6 @@
 #include "taudioparams.h"
 #include "taudioout.h"
 #include "tpitchview.h"
-#include "trightclickfilter.h"
 //#include <QDebug>
 
 extern Tglobals *gl;
@@ -136,9 +135,6 @@ MainWindow::MainWindow(QWidget *parent)
     if (gl->A->OUTenabled && !sound->isPlayable())
         QMessageBox::warning(this, "", tr("Problems with sound output"));
     
-    TrightClickFilter *filter = new TrightClickFilter(this);
-    qApp->installEventFilter(filter);
-    connect(filter, SIGNAL(clicked()), this, SLOT(rightButtonClicked()));
     
 }
 
@@ -353,17 +349,6 @@ void MainWindow::hintsStateChanged(bool enable) {
 //##########################################################################################
 //#######################     EVENTS       ################################################
 //##########################################################################################
-
-void MainWindow::rightButtonClicked() {
-
-// void MainWindow::contextMenuEvent(QContextMenuEvent *) {
-    if (!settingsAct->isEnabled()) {
-        if (ex->isAnswered())
-            ex->askQuestion();
-        else
-            ex->checkAnswer();
-    }
-}
 
 bool MainWindow::event(QEvent *event) {  
     if (gl->hintsEnabled && event->type() == QEvent::StatusTip && !m_lockStat) {

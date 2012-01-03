@@ -29,6 +29,7 @@
 #include "texamhelp.h"
 #include "texpertanswerhelp.h"
 #include "texamparams.h"
+#include "texecutorsupply.h"
 #include <QtGui>
 #include <QDebug>
 
@@ -120,6 +121,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile) :
    // ---------- End of checking ----------------------------------
 
     m_messageItem = 0;
+    m_supp = new TexecutorSupply(&m_level, this);
     prepareToExam();
     if (m_exam->fileName() == "" && gl->E->showHelpOnStart)
       showExamHelp();
@@ -695,6 +697,9 @@ void TexamExecutor::prepareToExam() {
       connectForExpert();
 
     disableWidgets();
+    
+    qApp->installEventFilter(m_supp);
+    connect(m_supp, SIGNAL(rightButtonClicked()), this, SLOT(rightButtonSlot()));
 
 //     mW->score->isExamExecuting(true);
     disconnect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
@@ -769,6 +774,8 @@ void TexamExecutor::restoreAfterExam() {
     if (gl->E->expertsAnswerEnable) // disconnect check box 
       expertAnswersStateChanged(false);
     mW->expertAnswChB->hide();
+    
+    qApp->removeEventFilter(m_supp);
 
     connect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
     connect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
@@ -781,6 +788,7 @@ void TexamExecutor::restoreAfterExam() {
     connect(mW->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
     connect(mW->levelCreatorAct, SIGNAL(triggered()), mW, SLOT(openLevelCreator()));
 //     mW->score->isExamExecuting(false);
+    delete m_supp;
     mW->score->unLockScore();
     mW->guitar->deleteRangeBox();
     mW->sound->restoreAfterExam();
@@ -989,4 +997,11 @@ void TexamExecutor::expertAnswersSlot() {
      * It finishs with crash. To avoid this checkAnswer() has to be called
      * from outside - by timer event. */
   QTimer::singleShot(10, this, SLOT(checkAnswer()));
+}
+
+void TexamExecutor::rightButtonSlot() {
+    if (m_isAnswered)
+        askQuestion();
+    else
+        checkAnswer();
 }

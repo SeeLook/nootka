@@ -25,6 +25,7 @@
 #include "texamlevel.h"
 #include <QList>
 
+class TexecutorSupply;
 class Texam;
 class MainWindow;
 class QAction;
@@ -81,7 +82,8 @@ protected slots:
     void expertAnswersSlot();
     void expertAnswersStateChanged(bool enable);
         /** Ivokes Tsound::go() */
-    void startSniffing(); 
+    void startSniffing();
+    void rightButtonSlot();
 
 private:
     void createQuestionsList();
@@ -107,6 +109,7 @@ private:
         * by @param curPos. */
     void showMessage(QString htmlText, TfingerPos &curPos, int time = 0);
 
+    TexecutorSupply *m_supp; 
     Texam *m_exam;
       /** main instance of TexamLevel, others are poiters or references to it */
     TexamLevel m_level;

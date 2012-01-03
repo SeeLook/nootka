@@ -17,8 +17,11 @@
  ***************************************************************************/
 
 #include "texecutorsupply.h"
+#include <QMouseEvent>
+#include <QDebug>
 
-TexecutorSupply::TexecutorSupply(TexamLevel* level) :
+TexecutorSupply::TexecutorSupply(TexamLevel* level, QObject* parent) :
+  QObject(parent),
   m_level(level),
   m_prevAccid(Tnote::e_Natural),
   m_isSolfege(false),
@@ -39,3 +42,13 @@ Tnote TexecutorSupply::forceEnharmAccid(Tnote n) {
 
 }
 
+bool TexecutorSupply::eventFilter(QObject* obj, QEvent* event) {
+  if (event->type() == QEvent::MouseButtonPress) {
+    QMouseEvent *me = static_cast<QMouseEvent *>(event);
+    if (me->button() == Qt::RightButton) {
+        emit rightButtonClicked();
+        return true;   
+    }
+  }
+  return QObject::eventFilter(obj, event);
+}
