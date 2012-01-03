@@ -58,7 +58,10 @@ public:
   void wait();
     /** Starts sniffing again. */
   void go();
+    /** Returns recently detected note. */
   Tnote note() { return m_detNote; }
+  void prepareToExam();
+  void restoreAfterExam();
   void prepareAnswer();
   void restoreAfterAnswer();
   

@@ -40,6 +40,7 @@ public:
 
   static QString autoNextQuestTxt() { return tr("ask next question automatically"); }
   static QString expertsAnswerTxt() { return tr("check answers without confirm"); }
+  static QString showHelpWindowTxt() { return tr("show help when exam starts"); }
 
   void saveSettings();
 

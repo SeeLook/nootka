@@ -24,6 +24,7 @@
 #include <QHBoxLayout>
 #include <QGroupBox>
 #include <QPushButton>
+#include <QPainter>
 
 
 TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons): 
@@ -33,7 +34,8 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
   m_isPaused(false),
   m_isVoice(false),
   m_hideCnt(8),
-  m_withButtons(withButtons)
+  m_withButtons(withButtons),
+  m_bgColor(Qt::transparent)
 {
   QHBoxLayout *lay = new QHBoxLayout();
   if (m_withButtons) {
@@ -71,6 +73,10 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
 TpitchView::~TpitchView()
 {
 }
+
+//------------------------------------------------------------------------------------
+//------------          methods     --------------------------------------------------
+//------------------------------------------------------------------------------------
 
 void TpitchView::startVolume() {
   if (m_audioIN) {
@@ -110,11 +116,6 @@ void TpitchView::setIsVoice(bool isVoice) {
     if (m_audioIN)
       m_audioIN->setIsVoice(m_isVoice);
 }
-
-void TpitchView::setBgStyle(QString bgStyle) {
-    setStyleSheet(bgStyle);
-}
-
 
 //------------------------------------------------------------------------------------
 //------------          slots       --------------------------------------------------
@@ -164,5 +165,16 @@ void TpitchView::voiceClicked() {
       setIsVoice(!m_isVoice); // switch to opposite
 }
 
+//------------------------------------------------------------------------------------
+//------------          events      --------------------------------------------------
+//------------------------------------------------------------------------------------
+
+void TpitchView::paintEvent(QPaintEvent* )
+{
+    QPainter painter(this);
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(QBrush(m_bgColor));
+    painter.drawRoundedRect(painter.viewport(), 2, 2 );
+}
 
 

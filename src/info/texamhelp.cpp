@@ -21,16 +21,19 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QTextEdit>
+#include <QCheckBox>
 
-TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt, QString& path, QWidget* parent) :
-    QDialog(parent)
+TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt, 
+                     QString& path, bool& showHelp, QWidget* parent) :
+    QDialog(parent),
+    m_showHelp(showHelp)
 {
   setMaximumSize((parent->width()/3)*2, (parent->height()/3)*2);
   setWindowTitle(tr("Exam's help"));
   
   
   QVBoxLayout *lay = new QVBoxLayout();
-  QTextEdit *ed = new QTextEdit("<body><style type=\"text/css\">img {border-style: solid; border-color: palette(text); border-width: 2px;}</style>" +
+  QTextEdit *ed = new QTextEdit("<body><style type=\"text/css\">img { border-style: solid; border-color: palette(text); border-width: 2px; background-color: palette(window); }</style>" +
     tr("Press <img src=\"%1\">").arg(path+"picts/next-icon.png") + orRightButtTxt() + tr(" or <b>space</b> to get next question.") + "<br>" + 
     tr("Select 2-nd check box to get it automaticaly.") + 
     QString("<br><br><span style=\"%1\">").arg(questColorTxt) +
@@ -45,21 +48,35 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt, QString& path,
     "<br><br><center><span style=\"font-size: 20px;\"><b>" +
     tr("GOOD LUCK !!!") + "</b></span>" + "<br><hr><table><tr><th colspan=2>" +
     tr("Experts' corner") + "</th></tr><tr><td rowspan=3>" +
-    QString("<img src=\"%1\">").arg(path+"picts/expertCorner.png") +
+    QString("<img style=\"background-color: transparent;\" src=\"%1\">").arg(path+"picts/expertCorner.png") +
     "</td><td><br>1. " + tr("show or hide the hints") + "</td></tr><tr><td><br>2. " + 
     ExamSettings::autoNextQuestTxt() + "</td></tr><tr><td><br>3. " + 
     ExamSettings::expertsAnswerTxt() + "</td></tr></table></body>", this);
   ed->setReadOnly(true);
   ed->setFixedSize((parent->width()/3)*2, (parent->height()/5)*3);
-  ed->setAlignment(Qt::AlignCenter);
+  ed->setAlignment(Qt::AlignJustify);
   lay->addWidget(ed);
+  
+  showHelpChB = new QCheckBox(ExamSettings::showHelpWindowTxt(), this);
+  lay->addWidget(showHelpChB, 0, Qt::AlignCenter);
+  showHelpChB->setChecked(m_showHelp);
+  
+  
   QPushButton *okBut = new QPushButton(tr("OK"),  this);
   lay->addWidget(okBut, 0, Qt::AlignCenter);
   
   setLayout(lay);
   
-  connect(okBut, SIGNAL(clicked()), this, SLOT(close()));
+  connect(okBut, SIGNAL(clicked()), this, SLOT(closeHelp()));
 
 }
+
+void TexamHelp::closeHelp() {
+  m_showHelp = showHelpChB->isChecked();
+  close();
+}
+
+
+
 
 

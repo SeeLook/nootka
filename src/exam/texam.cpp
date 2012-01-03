@@ -34,7 +34,8 @@ Texam::Texam(TexamLevel* l, QString userName):
 	m_level(l),
 	m_userName(userName),
 	m_fileName(""),
-	m_mistNr(0)
+	m_mistNr(0),
+	m_workTime(0)
 {
 
 }
@@ -83,7 +84,7 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
             m_mistNr = tmpMist; //we try to fix exam file to give proper number of mistakes
           }
           m_averReactTime = m_workTime / count();
-          m_workTime = qRound((qreal)m_workTime / 10.0);
+//           m_workTime = qRound((qreal)m_workTime / 10.0);
           if (!isExamFileOk)
               result = e_file_corrupted;        
      } else {
@@ -122,8 +123,9 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
 }
 
 void Texam::setAnswer(TQAunit& answer) {
-	m_answList.last() = answer;
-	if (!answer.correct())
-			m_mistNr++;
+    m_answList.last() = answer;
+    if (!answer.correct())
+      m_mistNr++;
+    m_workTime += answer.time;
 }
 

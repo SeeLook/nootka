@@ -729,6 +729,7 @@ void TexamExecutor::prepareToExam() {
     mW->noteName->setEnabledEnharmNotes(false);
     mW->guitar->acceptSettings();
     mW->score->isExamExecuting(true);
+    mW->sound->prepareToExam();
   // clearing all views/widgets
     clearWidgets();
     mW->guitar->createRangeBox(m_level.loFret, m_level.hiFret);
@@ -745,7 +746,8 @@ void TexamExecutor::restoreAfterExam() {
     mW->examResults->clearResults();
     mW->score->isExamExecuting(false);
 
-    gl->NnameStyleInNoteName = m_glStore.nameStyleInNoteName;
+// It has to be restored before the exam summary is sown
+    //     gl->NnameStyleInNoteName = m_glStore.nameStyleInNoteName;
     gl->showEnharmNotes = m_glStore.showEnharmNotes;
     gl->SshowKeySignName = m_glStore.showKeySignName;
     gl->GshowOtherPos = m_glStore.showOtherPos;
@@ -781,6 +783,7 @@ void TexamExecutor::restoreAfterExam() {
 //     mW->score->isExamExecuting(false);
     mW->score->unLockScore();
     mW->guitar->deleteRangeBox();
+    mW->sound->restoreAfterExam();
     mW->clearAfterExam();
 //     if (m_exam) delete m_exam;
     
@@ -812,6 +815,7 @@ void TexamExecutor::stopExamSlot() {
     if (m_exam->fileName() != "") {
 			m_exam->setTotalTime(mW->examResults->getTotalTime());
 			m_exam->setAverageReactonTime(mW->examResults->getAverageTime());
+      gl->NnameStyleInNoteName = m_glStore.nameStyleInNoteName; // restore to show in user defined style      
       showExamSummary();
 			if (m_exam->saveToFile() == Texam::e_file_OK) {
 #if defined(Q_OS_WIN32)
@@ -946,7 +950,7 @@ void TexamExecutor::showExamSummary() {
 
 void TexamExecutor::showExamHelp() {
       TexamHelp *hlp = new TexamHelp(gl->getBGcolorText(gl->EquestionColor), gl->getBGcolorText(gl->EanswerColor), 
-        gl->path, mW);
+        gl->path, gl->E->showHelpOnStart, mW);
       hlp->exec();
       delete hlp;
 }

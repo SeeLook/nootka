@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,37 +12,41 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TEXAMHELP_H
-#define TEXAMHELP_H
+#ifndef TEXECUTORSUPPLY_H
+#define TEXECUTORSUPPLY_H
 
-#include <QDialog>
+#include "tnote.h"
 
-class QCheckBox;
-class QLabel;
+class TexamLevel;
 
-/** It shows simple exam help. The parameters are QStrings with colors 
- * in HTML format: 
- * background-color: rgba() 
- * @param path is global path to images*/
-class TexamHelp : public QDialog
+/** A purpose of this class is to make the exam executor smaller */
+class TexecutorSupply
 {
-  Q_OBJECT
-  
+
 public:
-  TexamHelp(QString questColorTxt, QString answColorTxt, 
-            QString &path, bool &showHelp, QWidget *parent = 0);
-  static QString orRightButtTxt() { return tr("or right mouse button"); }
+  TexecutorSupply(TexamLevel *level);
   
-protected slots:
-  void closeHelp();
+  void createQuestionsList();
+  Tnote determineAccid(Tnote n);
+        /** */
+  Tnote forceEnharmAccid(Tnote n);
+
   
 private:
-  bool &m_showHelp;
-  QCheckBox *showHelpChB;
+  TexamLevel *m_level;
+  
+      /** Previous accidentals used*/
+  Tnote::Eacidentals m_prevAccid;
+      /** intervals between asking about double accidentals.
+        * By default every forth question is with double adccid.*/
+  int m_dblAccidsCntr;
+        /** to switch nameing style between "do re mi" and "c d e"
+        * when question and answer are note name.*/
+  bool m_isSolfege;
 };
 
-#endif // TEXAMHELP_H
+#endif // TEXECUTORSUPPLY_H
