@@ -43,6 +43,10 @@ Tsound::Tsound(QObject* parent) :
 Tsound::~Tsound()
 {}
 
+//------------------------------------------------------------------------------------
+//------------  public  methods     --------------------------------------------------
+//------------------------------------------------------------------------------------
+
 void Tsound::play(Tnote note) {
   if(player) {
     player->play(note.getChromaticNrOfNote());
@@ -97,30 +101,6 @@ void Tsound::acceptSettings() {
   }
 }
 
-void Tsound::createPlayer() {
-  player = new TaudioOUT(gl->A, gl->path, this);
-  connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinished()));
-}
-
-void Tsound::deletePlayer() {
-  delete player;
-  player = 0;
-}
-
-
-void Tsound::createSniffer() {
-  sniffer = new TaudioIN(gl->A, this);
-  sniffer->setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
-  sniffer->startListening();
-  connect(sniffer, SIGNAL(noteDetected(Tnote)), this, SLOT(noteDetectedSlot(Tnote)));
-}
-
-void Tsound::deleteSniffer() {
-  delete sniffer;
-  sniffer = 0;
-}
-
-
 void Tsound::setPitchView(TpitchView* pView) {
   m_pitchView = pView;
   m_pitchView->setPitchColor(gl->EanswerColor);
@@ -172,16 +152,61 @@ void Tsound::go() {
 }
 
 void Tsound::prepareAnswer() {
-  m_pitchView->setBgStyle(gl->getBGcolorText(gl->EanswerColor));
+  m_pitchView->setBgColor(gl->EanswerColor);
+  m_pitchView->update();
 }
 
 void Tsound::restoreAfterAnswer() {
-  m_pitchView->setBgStyle(gl->getBGcolorText(-1));
+  m_pitchView->setBgColor(Qt::transparent);
+  m_pitchView->update();
+}
+
+void Tsound::prepareToExam() {
+  if (player) // to avoid activate sniffing after play() during an exam
+    disconnect(player, SIGNAL(noteFinished()), this, SLOT(playingFinished()));
+}
+
+void Tsound::restoreAfterExam() {
+  if (player)
+    connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinished()));
+  go();
+    
 }
 
 
 
-//-------------------------------- slots ----------------------------------------------------
+//------------------------------------------------------------------------------------
+//------------  private  methods     --------------------------------------------------
+//------------------------------------------------------------------------------------
+
+
+void Tsound::createPlayer() {
+  player = new TaudioOUT(gl->A, gl->path, this);
+  connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinished()));
+}
+
+void Tsound::createSniffer() {
+  sniffer = new TaudioIN(gl->A, this);
+  sniffer->setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
+  sniffer->startListening();
+  connect(sniffer, SIGNAL(noteDetected(Tnote)), this, SLOT(noteDetectedSlot(Tnote)));
+}
+
+void Tsound::deletePlayer() {
+  delete player;
+  player = 0;
+}
+
+
+void Tsound::deleteSniffer() {
+  delete sniffer;
+  sniffer = 0;
+}
+
+
+//------------------------------------------------------------------------------------
+//------------  slots               --------------------------------------------------
+//------------------------------------------------------------------------------------
 void Tsound::playingFinished() {
   if (sniffer) {
     sniffer->go();

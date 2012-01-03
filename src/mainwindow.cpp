@@ -142,6 +142,10 @@ MainWindow::~MainWindow()
     delete gl;
 }
 
+//##########################################################################################
+//#######################     METHODS       ################################################
+//##########################################################################################
+
 void MainWindow::createActions() {
     settingsAct = new QAction(tr("Settings"), this);
     settingsAct->setStatusTip(tr("Application preferences"));
@@ -211,7 +215,6 @@ void MainWindow::clearAfterExam() {
     m_curBG = -1;
     m_prevBg = -1;
     setMessageBg(-1);
-    sound->go();
 }
 
 
@@ -233,8 +236,9 @@ void MainWindow::openFile(QString runArg) {
     }
 }
 
-
+//##########################################################################################
 //#######################     SLOTS       ################################################
+//##########################################################################################
 
 void MainWindow::createSettingsDialog() {
     SettingsDialog *settings = new SettingsDialog(this);
@@ -312,7 +316,7 @@ void MainWindow::guitarWasClicked(Tnote note) {
 
 void MainWindow::soundWasPlayed(Tnote note) {
   if (gl->hintsEnabled)
-    setStatusMessage(tr("Note was detected !!"), 600);
+    setStatusMessage(tr("Note was detected !!"), 750);
   if (gl->showEnharmNotes) {
       TnotesList noteList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
       noteName->setNoteName(noteList);
@@ -341,7 +345,9 @@ void MainWindow::hintsStateChanged(bool enable) {
     }
 }
 
+//##########################################################################################
 //#######################     EVENTS       ################################################
+//##########################################################################################
 
 void MainWindow::contextMenuEvent(QContextMenuEvent *) {
     if (!settingsAct->isEnabled()) {

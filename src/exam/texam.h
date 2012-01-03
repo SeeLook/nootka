@@ -66,7 +66,7 @@ public:
   quint16 averageReactonTime() { return m_averReactTime; }
   void setAverageReactonTime(quint16 avTime) { m_averReactTime = avTime; }
     /** Total time spent for answering without breaks between questions */
-  quint16 workTime() { return m_workTime; }
+  quint16 workTime() { return qRound((qreal)m_workTime / 10.0); }
   QString userName() { return m_userName; }
   QString fileName() { return m_fileName; }
   void setFileName(QString fileName) { m_fileName = fileName; }

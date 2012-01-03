@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,37 +12,30 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TEXAMHELP_H
-#define TEXAMHELP_H
+#include "texecutorsupply.h"
 
-#include <QDialog>
-
-class QCheckBox;
-class QLabel;
-
-/** It shows simple exam help. The parameters are QStrings with colors 
- * in HTML format: 
- * background-color: rgba() 
- * @param path is global path to images*/
-class TexamHelp : public QDialog
+TexecutorSupply::TexecutorSupply(TexamLevel* level) :
+  m_level(level),
+  m_prevAccid(Tnote::e_Natural),
+  m_isSolfege(false),
+  m_dblAccidsCntr(0)
 {
-  Q_OBJECT
-  
-public:
-  TexamHelp(QString questColorTxt, QString answColorTxt, 
-            QString &path, bool &showHelp, QWidget *parent = 0);
-  static QString orRightButtTxt() { return tr("or right mouse button"); }
-  
-protected slots:
-  void closeHelp();
-  
-private:
-  bool &m_showHelp;
-  QCheckBox *showHelpChB;
-};
 
-#endif // TEXAMHELP_H
+}
+
+void TexecutorSupply::createQuestionsList() {
+
+}
+
+Tnote TexecutorSupply::determineAccid(Tnote n) {
+
+}
+
+Tnote TexecutorSupply::forceEnharmAccid(Tnote n) {
+
+}
+

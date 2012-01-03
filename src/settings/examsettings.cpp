@@ -42,7 +42,7 @@ ExamSettings::ExamSettings(TexamParams* params, QColor* qColor, QColor* aColor, 
     lay->addWidget(expertAnswChB, 0, Qt::AlignCenter);
     lay->addStretch(1);
     
-    showHelpChB = new QCheckBox(tr("show help when exam starts"), this);
+    showHelpChB = new QCheckBox(showHelpWindowTxt(), this);
     showHelpChB->setChecked(m_params->showHelpOnStart);
     lay->addWidget(showHelpChB, 0, Qt::AlignCenter);
     showHelpChB->setStatusTip(tr("Shows window with help when new exam begins."));

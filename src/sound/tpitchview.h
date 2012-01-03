@@ -52,7 +52,7 @@ public:
   bool isVoice() { return m_isVoice; }
   void setIsVoice(bool isVoice);
   void resize(int fontSize);
-  void setBgStyle(QString bgStyle);
+  void setBgColor(QColor col) { m_bgColor = col; }
   
 protected slots:
   void noteSlot(Tnote note);
@@ -60,11 +60,14 @@ protected slots:
   void voiceClicked();
   void pauseClicked();
   
+protected:
+  virtual void paintEvent(QPaintEvent* );
+  
 private:
   TvolumeMeter *m_volMeter;
   TaudioIN *m_audioIN;
   QTimer *m_volTimer;
-  QColor m_pitchColor;
+  QColor m_pitchColor, m_bgColor;
   bool m_isPaused;
   bool m_isVoice;
   bool m_withButtons;
