@@ -19,6 +19,7 @@
 #include <QtGui>
 #include "mainwindow.h"
 #include "tglobals.h"
+// #include "trightclickfilter.h"
 
 Tglobals *gl;
 
@@ -28,7 +29,7 @@ int main(int argc, char *argv[])
     QApplication::setStyle("plastique");  
 #endif
 		
-    QApplication a(argc, argv);
+  QApplication a(argc, argv);
 	gl = new Tglobals();
 	gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
     
@@ -47,11 +48,15 @@ int main(int argc, char *argv[])
     MainWindow w;
 
     QFontDatabase fd;
-	if (fd.addApplicationFont(gl->path + "fonts/nootka.otf") == -1) {
+    if (fd.addApplicationFont(gl->path + "fonts/nootka.otf") == -1) {
         QMessageBox::critical(0, "", QCoreApplication::translate("main", "<center>Can not load a font.<br>Try to install nootka.otf manually.</center>"));
         return 111;
     }
 
+//     TrightClickFilter *filter = new TrightClickFilter(w);
+//     a.installEventFilter(filter);
+//     w.connect(filter, SIGNAL(clicked()), w, SLOT(rightButtonClicked()));
+//     
     w.show();
     if (argc > 1)
         w.openFile(QString::fromLocal8Bit(argv[argc-1]));

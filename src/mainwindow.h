@@ -63,6 +63,7 @@ public slots:
     void noteNameWasChanged(Tnote note);
     void guitarWasClicked(Tnote note);
     void soundWasPlayed(Tnote note);
+    void rightButtonClicked();
 
 
 protected:
@@ -82,9 +83,7 @@ protected:
     void resizeEvent(QResizeEvent *);
     bool event(QEvent *event);
     void closeEvent(QCloseEvent *event);
-        /** Is used to manage asking and checking during an exam*/
-    void contextMenuEvent(QContextMenuEvent *);
-
+        
 protected slots:
     void restoreMessage();
     void hintsStateChanged(bool enable);
