@@ -5,12 +5,13 @@
     - help window during exams
     - better sound output under Windows (in Linux it remains good)
     - layout of widgets was improved
-    - Bespin style "frendly" - more clear look of buttons
+    - Bespin QT style "frendly" - more clear look of buttons
   BUGS FIXES
     - right mouse button does what it has to do
+    - fixed hunging up on an exam start for some levels
   Under the hood
     - cpack rules for building deb & rpm packages
-    - ported audio lib to "Qt native" QAudio
+    - ported audio lib to "Qt native" QtMultimedia
 
 0.7.8
     - added Czech translation

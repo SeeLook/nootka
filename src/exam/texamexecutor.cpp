@@ -33,6 +33,8 @@
 #include <QtGui>
 #include <QDebug>
 
+#define WAIT_TIME (600) //[ms]
+
 extern Tglobals *gl;
 
 
@@ -125,18 +127,18 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile) :
     prepareToExam();
     if (m_exam->fileName() == "" && gl->E->showHelpOnStart)
       showExamHelp();
-    createQuestionsList();
+    m_supp->createQuestionsList(m_questList);
 
-    m_isSolfege = false;
     m_shouldBeTerminated = false;
     m_incorrectRepeated = false;
     m_isAnswered = true;
-    m_prevAccid = Tnote::e_Natural;
-    m_dblAccidsCntr = 0;
+    
     m_level.questionAs.randNext(); // Randomize question and answer type
-    for (int i = 0; i < 4; i++)
-        m_level.answersAs[i].randNext();
-
+    if (m_level.questionAs.isNote()) m_level.answersAs[TQAtype::e_asNote].randNext();
+    if (m_level.questionAs.isName()) m_level.answersAs[TQAtype::e_asName].randNext();
+    if (m_level.questionAs.isFret()) m_level.answersAs[TQAtype::e_asFretPos].randNext();
+    if (m_level.questionAs.isSound()) m_level.answersAs[TQAtype::e_asSound].randNext();
+    
     nextQuestAct = new QAction(tr("next question\n(space %1)").arg(TexamHelp::orRightButtTxt()), this);
     nextQuestAct->setStatusTip(nextQuestAct->text());
     nextQuestAct->setIcon(QIcon(gl->path+"picts/nextQuest.png"));
@@ -164,75 +166,11 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile) :
     }
 
     if (m_questList.size() == 0) {
-        QMessageBox::critical(mW, "", tr("Level <b>%1<b><br>has no sense till there is no any possible question to ask.<br>It can be unadjusted to current tune.<br>Repair it in Level Creator and try again.").arg(m_level.name));
+        QMessageBox::critical(mW, "", tr("Level <b>%1<b><br>has no sense till there are no any possible question to ask.<br>It can be unadjusted to current tune.<br>Repair it in Level Creator and try again.").arg(m_level.name));
         restoreAfterExam();
         return;
     }
 }
-
-
-void TexamExecutor::createQuestionsList() {
-    char openStr[6];
-    for (int i=0; i<6; i++)
-        openStr[i] = gl->Gtune()[i+1].getChromaticNrOfNote();
-
-// searching all frets in range, string by string
-    for(int s = 0; s < 6; s++) {
-        if (m_level.usedStrings[gl->strOrder(s)])// check string by strOrder
-            for (int f = m_level.loFret; f <= m_level.hiFret; f++) {
-                Tnote n = Tnote(gl->Gtune()[gl->strOrder(s)+1].getChromaticNrOfNote() + f);
-            if (n.getChromaticNrOfNote() >= m_level.loNote.getChromaticNrOfNote() &&
-                n.getChromaticNrOfNote() <= m_level.hiNote.getChromaticNrOfNote()) {
-                bool hope = true; // we stil have hope that note is for an exam
-                if (m_level.onlyLowPos) {
-                    if (s > 0) {
-                       // we have to check when note is on the lowest positions
-                       // is it realy lowest pos
-                       // when strOrder[s] is 0 - it is the highest sting
-                        char diff = openStr[gl->strOrder(s-1)] - openStr[gl->strOrder(s)];
-                       if( (f-diff) >= m_level.loFret && (f-diff) <= m_level.hiFret) {
-                           hope = false; //There is the same note on highest string
-                       }
-                       else {
-                           hope = true;
-                       }
-                    }
-                }
-                if (hope && m_level.useKeySign && m_level.onlyCurrKey) {
-                  hope = false;
-                  if (m_level.isSingleKey) {
-                    if(m_level.loKey.inKey(n).note != 0)
-                        hope = true;
-                    } else {
-                        for (int k = m_level.loKey.value(); k <= m_level.hiKey.value(); k++) {
-                          if (TkeySignature::inKey(TkeySignature(k), n).note != 0) {
-                            hope = true;
-                            break;
-                          }
-                        }
-                    }
-                }
-                if (hope) {
-                    if (n.acidental && (!m_level.withFlats && !m_level.withSharps))
-                        continue;
-                    else {
-                        TQAunit::TQAgroup g;
-                        g.note = n; g.pos = TfingerPos(gl->strOrder(s)+1, f);
-                        m_questList << g;
-                    }
-                }
-            }
-        }
-    }
-
-
-//    for (int i = 0; i < m_questList.size(); i++)
-//        qDebug() << i << (int)m_questList[i].pos.str() << "f"
-//                << (int)m_questList[i].pos.fret() << " note: "
-//                << QString::fromStdString(m_questList[i].note.getName());
-}
-
-
 
 void TexamExecutor::askQuestion() {
     gl->NnameStyleInNoteName = m_prevStyle;
@@ -286,7 +224,7 @@ void TexamExecutor::askQuestion() {
             curQ.qa.note = tmpNote;
         }
         if ( !m_level.onlyCurrKey) // if key dosen't determine accidentals, we do this
-            curQ.qa.note = determineAccid(curQ.qa.note);
+            curQ.qa.note = m_supp->determineAccid(curQ.qa.note);
     }
 
 //    qDebug() << QString::fromStdString(curQ.qa.note.getName()) << "Q" << (int)curQ.questionAs
@@ -351,7 +289,7 @@ void TexamExecutor::askQuestion() {
             }
         }
         if (curQ.questionAs == TQAtype::e_asNote) {// note has to be another than question
-            curQ.qa_2.note = forceEnharmAccid(curQ.qa.note); // curQ.qa_2.note is expected note
+            curQ.qa_2.note = m_supp->forceEnharmAccid(curQ.qa.note); // curQ.qa_2.note is expected note
             if (curQ.qa_2.note == curQ.qa.note) {
                 qDebug() << "Blind question";
                 //                    askQuestion();
@@ -373,8 +311,8 @@ void TexamExecutor::askQuestion() {
         questText += TquestionAsWdg::asNameTxt();
         if (curQ.questionAs == TQAtype::e_asName) {
             m_prevStyle = gl->NnameStyleInNoteName;
-            Tnote::EnameStyle tmpStyle = randomNameStyle();
-            curQ.qa_2.note = forceEnharmAccid(curQ.qa.note); // force other name of note
+            Tnote::EnameStyle tmpStyle = m_supp->randomNameStyle();
+            curQ.qa_2.note = m_supp->forceEnharmAccid(curQ.qa.note); // force other name of note
             tmpNote = curQ.qa_2.note;
             questText = QString("<b>%1. </b>").arg(m_exam->count() + 1) +
                         tr("Give name of") + QString(" <span style=\"color: %1; font-size: %2px;\">").arg(
@@ -386,7 +324,7 @@ void TexamExecutor::askQuestion() {
         }
         if (!m_level.requireOctave) m_answRequire.octave = false;
         if (m_level.requireStyle) {
-            Tnote::EnameStyle tmpStyle = randomNameStyle();
+            Tnote::EnameStyle tmpStyle = m_supp->randomNameStyle();
             mW->noteName->setNoteNamesOnButt(tmpStyle);
             gl->NnameStyleInNoteName = tmpStyle;
         }
@@ -417,7 +355,7 @@ void TexamExecutor::askQuestion() {
       m_answRequire.octave = m_level.requireOctave;
       mW->sound->prepareAnswer();
       if (gl->E->expertsAnswerEnable && gl->E->autoNextQuest)
-          QTimer::singleShot(500, this, SLOT(startSniffing()));
+          QTimer::singleShot(WAIT_TIME, this, SLOT(startSniffing()));
           // Give a student some time to prepare for next question in expert mode
           // It avoids capture previous played sound as current answer
       else
@@ -432,91 +370,11 @@ void TexamExecutor::askQuestion() {
         mW->nootBar->addAction(repeatSndAct);
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
-    
 }
-
-Tnote::EnameStyle TexamExecutor::randomNameStyle() {
-    if (m_isSolfege) {
-        m_isSolfege = false;
-        if (qrand() % 2) { // full name like cis, gisis
-            if (gl->seventhIs_B)
-                return Tnote::e_nederl_Bis;
-            else
-                return Tnote::e_deutsch_His;
-        } else { // name and sign like c#, gx
-            if (gl->seventhIs_B)
-                return Tnote::e_english_Bb;
-            else
-                return Tnote::e_norsk_Hb;
-        }
-    } else {
-        m_isSolfege = true;
-        return Tnote::e_italiano_Si;
-    }
-}
-
-Tnote TexamExecutor::determineAccid(Tnote n) {
-    Tnote nA = n;
-    bool notFound = true;
-    if (m_level.withSharps || m_level.withFlats || m_level.withDblAcc) {
-        if (m_level.withDblAcc) {
-            m_dblAccidsCntr++;
-            if (m_dblAccidsCntr == 4) { //double accid note occurs every 4-th question
-                if ( (qrand() % 2) ) // randomize dblSharp or dblFlat
-                    nA = n.showWithDoubleSharp();
-                else
-                    nA = n.showWithDoubleFlat();
-                if (nA == n) // dbl accids are not possible
-                    m_dblAccidsCntr--;
-                else {
-                    m_dblAccidsCntr = 0;
-                    notFound = false;
-                }
-            }
-        }
-        if (notFound && m_prevAccid != Tnote::e_Flat && m_level.withFlats) {
-            nA = n.showWithFlat();
-            notFound = false;
-        }
-        if (m_prevAccid != Tnote::e_Sharp && m_level.withSharps) {
-            nA = n.showWithSharp();
-        }
-    }
-    m_prevAccid = (Tnote::Eacidentals)nA.acidental;
-    return nA;
-}
-
-Tnote TexamExecutor::forceEnharmAccid(Tnote n) {
-    Tnote nX;
-    char acc = m_prevAccid;
-    int cnt;
-    do {
-        acc++;
-        if (acc > 2) acc = -2;
-
-        if (acc == Tnote::e_DoubleFlat && m_level.withDblAcc)
-            nX = n.showWithDoubleFlat();
-        if (acc == Tnote::e_Flat && m_level.withFlats)
-            nX = n.showWithFlat();
-        if (acc == Tnote::e_Natural)
-            nX = n.showAsNatural();
-        if (acc == Tnote::e_Sharp && m_level.withSharps)
-            nX = n.showWithSharp();
-        if (acc == Tnote::e_DoubleSharp && m_level.withDblAcc)
-            nX = n.showWithDoubleSharp();
-        cnt++;
-    } while (n == nX || cnt < 6);
-    m_prevAccid = (Tnote::Eacidentals)acc;
-    if (nX.note)
-        return nX;
-    else return n;
-}
-
 
 
 void TexamExecutor::checkAnswer(bool showResults) {
-//     disableWidgets();
-		TQAunit curQ = m_exam->curQ();
+    TQAunit curQ = m_exam->curQ();
     curQ.time = mW->examResults->questionStop();
     mW->nootBar->removeAction(checkAct);
     if (curQ.questionAs == TQAtype::e_asSound)
@@ -624,22 +482,21 @@ void TexamExecutor::checkAnswer(bool showResults) {
     disableWidgets();
     mW->examResults->setAnswer(curQ.correct());
     m_exam->setAnswer(curQ);
-//     m_answList[m_answList.size()-1] = curQ;
 
     if (gl->E->autoNextQuest) {
         if (curQ.correct()) {
             if (m_shouldBeTerminated)
                 stopExamSlot();
             else
-                askQuestion();
+                QTimer::singleShot(WAIT_TIME, this, SLOT(askQuestion()));
         } else {
             if (m_shouldBeTerminated)
                 stopExamSlot();
             else {
                 if (gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
-                    repeatQuestion();
+                    QTimer::singleShot(WAIT_TIME, this, SLOT(repeatQuestion()));
                 else
-                    askQuestion();
+                    QTimer::singleShot(WAIT_TIME, this, SLOT(askQuestion()));
             }
         }
     }
@@ -896,6 +753,10 @@ QString TexamExecutor::saveExamToFile() {
 
 void TexamExecutor::repeatSound() {
 	mW->sound->play(m_exam->curQ().qa.note);
+  if (m_exam->curQ().answerAs == TQAtype::e_asSound)
+    QTimer::singleShot(1600, this, SLOT(startSniffing()));
+  // Tsound in exam doesn't call go() after playing.
+  // When answer is asSound we do this. 1600ms is played sound duration
 }
 
 void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) {
@@ -970,11 +831,9 @@ void TexamExecutor::connectForExpert() {
   connect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(expertAnswersSlot()));
 }
 
-
-
 void TexamExecutor::expertAnswersStateChanged(bool enable) {
   if (enable) {
-      TexpertAnswerHelp *exHlp = new TexpertAnswerHelp(mW);
+      TexpertAnswerHelp *exHlp = new TexpertAnswerHelp(gl->E->askAboutExpert, mW);
       exHlp->exec();
       delete exHlp;
       connectForExpert();
@@ -989,7 +848,6 @@ void TexamExecutor::expertAnswersStateChanged(bool enable) {
 void TexamExecutor::startSniffing() {
     mW->sound->go();
 }
-
 
 void TexamExecutor::expertAnswersSlot() {
     /** expertAnswersSlot() is invoked also by TaudioIN/TpitchFinder.

@@ -86,11 +86,6 @@ protected slots:
     void rightButtonSlot();
 
 private:
-    void createQuestionsList();
-    Tnote determineAccid(Tnote n);
-        /** */
-    Tnote forceEnharmAccid(Tnote n);
-
     void prepareToExam();
     void restoreAfterExam();
         /** Disables score, noteName and guitar*/
@@ -102,7 +97,6 @@ private:
 private:
     QString getTextHowAccid(Tnote::Eacidentals accid);
     QString saveExamToFile();
-    Tnote::EnameStyle randomNameStyle();
         /** Displays message with given @param htmlText over the fingerboard widget
         * for given @param time in [ms] or forever if 0.
         * To calculate position it has to have curent selected positions
@@ -114,14 +108,6 @@ private:
       /** main instance of TexamLevel, others are poiters or references to it */
     TexamLevel m_level;
     QList<TQAunit::TQAgroup> m_questList;
-        /** Previous accidentals used*/
-    Tnote::Eacidentals m_prevAccid;
-        /** intervals between asking about double accidentals.
-        * By default every forth question is with double adccid.*/
-    int m_dblAccidsCntr;
-        /** to switch nameing style between "do re mi" and "c d e"
-        * when question and answer are note name.*/
-    bool m_isSolfege;
     Tnote::EnameStyle m_prevStyle;
     TglStore m_glStore;
     TanswerRequire m_answRequire;
