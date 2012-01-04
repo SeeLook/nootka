@@ -21,6 +21,7 @@
 
 #include <QDialog>
 
+class QCheckBox;
 
 /** It shows simple exam help. The parameters are QStrings with colors 
 */
@@ -29,7 +30,14 @@ class TexpertAnswerHelp : public QDialog
   Q_OBJECT
   
 public:
-  explicit TexpertAnswerHelp(QWidget* parent = 0);
+  explicit TexpertAnswerHelp(bool &showHelp, QWidget* parent = 0);
+  
+protected slots:
+  void closeIt();
+  
+private:
+  bool &m_show;
+  QCheckBox *showInfoChB;
   
 };
 

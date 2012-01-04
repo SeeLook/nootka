@@ -17,30 +17,47 @@
  ***************************************************************************/
 
 #include "texpertanswerhelp.h"
+#include "examsettings.h"
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QTextEdit>
+#include <QCheckBox>
 
-TexpertAnswerHelp::TexpertAnswerHelp(QWidget* parent) :
-    QDialog(parent)
+TexpertAnswerHelp::TexpertAnswerHelp(bool& showHelp, QWidget* parent) :
+    QDialog(parent),
+    m_show(showHelp)
 {
   setMaximumSize((parent->width()/3)*2, (parent->height()/3)*2);
   setWindowTitle(tr("Experts' answers"));
   
   
   QVBoxLayout *lay = new QVBoxLayout();
-  QTextEdit *ed = new QTextEdit(tr("You are trying to switch on some advanced mode"), this);
+  QTextEdit *ed = new QTextEdit(tr("You are about to go in expert's answers.<br> In this mode You don't need to confirm every answer,<br><b>but remember the folowing:</b>") + "<ul><li>" + 
+    tr("Selecting a note on the score or position on the fingerboard invokes checking of Your answer, so select a key signature first if required.") + "</li><li>" +
+    tr("When an answer is name of a note <b>first select</b> a proper accidental and an octave and then click a note button - it invokes checking.") + "</li><li>" +
+    tr("When You have to play a note as an answer - the first detected sound will be taken. Be sure that Your input device captures exacly what You want.") + "<br><br>" +
+    tr("That's all. You become a master soon...")
+    , this);
   ed->setReadOnly(true);
   ed->setFixedSize((parent->width()/3)*2, (parent->height()/5)*3);
   ed->setAlignment(Qt::AlignCenter);
   lay->addWidget(ed);
+  
+  showInfoChB = new QCheckBox(tr("remind me about this"), this);
+  lay->addWidget(showInfoChB, 0, Qt::AlignCenter);
+  showInfoChB->setChecked(m_show); 
+  
   QPushButton *okBut = new QPushButton(tr("OK"),  this);
   lay->addWidget(okBut, 0, Qt::AlignCenter);
   
   setLayout(lay);
   
-  connect(okBut, SIGNAL(clicked()), this, SLOT(close()));
+  connect(okBut, SIGNAL(clicked()), this, SLOT(closeIt()));
 
 }
 
+void TexpertAnswerHelp::closeIt() {
+  m_show = showInfoChB->isChecked();
+  close();
+}
 

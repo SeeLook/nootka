@@ -21,22 +21,24 @@
 
 #include "tnote.h"
 #include <QObject>
+#include "tqaunit.h"
 
 class TexamLevel;
 
 /** A purpose of this class is to make the exam executor smaller.
  * Also it has eventFilter() reimplementation to manage right mouse button,
- * witch can be simply captured by contextMenuEvent from disabled widgets. */
+ * witch can not be simply captured by contextMenuEvent from disabled widgets. */
 class TexecutorSupply : public QObject
 {
   Q_OBJECT
 public:
   TexecutorSupply(TexamLevel *level, QObject *parent = 0);
   
-  void createQuestionsList();
+  void createQuestionsList(QList<TQAunit::TQAgroup> &list);
   Tnote determineAccid(Tnote n);
         /** */
   Tnote forceEnharmAccid(Tnote n);
+  Tnote::EnameStyle randomNameStyle();
   
 signals:
   void rightButtonClicked();
