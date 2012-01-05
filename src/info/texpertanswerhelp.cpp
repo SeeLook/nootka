@@ -20,6 +20,7 @@
 #include "examsettings.h"
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QTextEdit>
 #include <QCheckBox>
 
@@ -27,7 +28,7 @@ TexpertAnswerHelp::TexpertAnswerHelp(bool& showHelp, QWidget* parent) :
     QDialog(parent),
     m_show(showHelp)
 {
-  setMaximumSize((parent->width()/3)*2, (parent->height()/3)*2);
+  setMaximumSize((parent->width()/3)*2, (parent->height()/2));
   setWindowTitle(tr("Experts' answers"));
   
   
@@ -39,21 +40,28 @@ TexpertAnswerHelp::TexpertAnswerHelp(bool& showHelp, QWidget* parent) :
     tr("That's all. You become a master soon...")
     , this);
   ed->setReadOnly(true);
-  ed->setFixedSize((parent->width()/3)*2, (parent->height()/5)*3);
+  ed->setFixedSize((parent->width()/3)*2, (parent->height()/2));
   ed->setAlignment(Qt::AlignCenter);
   lay->addWidget(ed);
   
-  showInfoChB = new QCheckBox(tr("remind me about this"), this);
+  showInfoChB = new QCheckBox(tr("Always remind me about this"), this);
   lay->addWidget(showInfoChB, 0, Qt::AlignCenter);
   showInfoChB->setChecked(m_show); 
-  
-  QPushButton *okBut = new QPushButton(tr("OK"),  this);
-  lay->addWidget(okBut, 0, Qt::AlignCenter);
+  QHBoxLayout *buttLay = new QHBoxLayout();
+  buttLay->addStretch(1);
+  QPushButton *appBut = new QPushButton(tr("Apply"),  this);
+  buttLay->addWidget(appBut, 0, Qt::AlignCenter);
+  buttLay->addStretch(1);
+  QPushButton *discBut= new QPushButton(tr("Discard"),  this);
+  buttLay->addWidget(discBut,  0, Qt::AlignCenter);
+  buttLay->addStretch(1);
+  lay->addLayout(buttLay);
   
   setLayout(lay);
   
-  connect(okBut, SIGNAL(clicked()), this, SLOT(closeIt()));
-
+  connect(appBut, SIGNAL(clicked()), this, SLOT(accept()));
+  connect(discBut, SIGNAL(clicked()), this, SLOT(reject()));
+  connect(this, SIGNAL(finished(int)), this, SLOT(closeIt()));
 }
 
 void TexpertAnswerHelp::closeIt() {
