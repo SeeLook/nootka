@@ -835,8 +835,11 @@ void TexamExecutor::expertAnswersStateChanged(bool enable) {
   if (enable) {
       TexpertAnswerHelp *exHlp = new TexpertAnswerHelp(gl->E->askAboutExpert, mW);
       exHlp->exec();
-      delete exHlp;
-      connectForExpert();
+      if (exHlp->result() == QDialog::Accepted)
+          connectForExpert();
+      else
+          mW->expertAnswChB->setChecked(false);
+      delete exHlp;      
   } else {
     disconnect(mW->score, SIGNAL(noteClicked()), this, SLOT(expertAnswersSlot()));
     disconnect(mW->noteName, SIGNAL(noteButtonClicked()), this, SLOT(expertAnswersSlot()));
