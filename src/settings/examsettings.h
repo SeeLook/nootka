@@ -44,10 +44,9 @@ public:
 
   void saveSettings();
 
-signals:
-
 public slots:
-
+  void expertAnswersChanged(bool enabled);
+  
 private:
     QCheckBox *autoNextChB, *repeatIncorChB, *expertAnswChB, *showHelpChB;
     TcolorButton *questColorBut, *answColorBut;

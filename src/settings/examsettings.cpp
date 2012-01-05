@@ -20,6 +20,7 @@
 #include "examsettings.h"
 #include "tcolorbutton.h"
 #include "texamparams.h"
+#include "texpertanswerhelp.h"
 #include <QtGui>
 
 
@@ -72,7 +73,8 @@ ExamSettings::ExamSettings(TexamParams* params, QColor* qColor, QColor* aColor, 
     lay->addStretch(1);
 
     setLayout(lay);
-
+    
+    connect(expertAnswChB, SIGNAL(clicked(bool)), this, SLOT(expertAnswersChanged(bool)));
 }
 
 
@@ -87,4 +89,12 @@ void ExamSettings::saveSettings() {
     m_qColor->setAlpha(40);
     *m_aColor = answColorBut->getColor();
     m_aColor->setAlpha(40);
+}
+
+
+void ExamSettings::expertAnswersChanged(bool enabled) {
+  if (enabled) {
+      if (!showExpertAnswersHelpDlg(m_params->askAboutExpert, this, false))
+        expertAnswChB->setChecked(false);
+  }
 }

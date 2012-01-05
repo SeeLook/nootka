@@ -24,29 +24,30 @@
 #include <QTextEdit>
 #include <QCheckBox>
 
-TexpertAnswerHelp::TexpertAnswerHelp(bool& showHelp, QWidget* parent) :
+TexpertAnswerHelp::TexpertAnswerHelp(bool& showHelp, QWidget* parent, bool showChBox) :
     QDialog(parent),
-    m_show(showHelp)
+    m_show(showHelp),
+    showInfoChB(0)
 {
   setMaximumSize((parent->width()/3)*2, (parent->height()/2));
   setWindowTitle(tr("Experts' answers"));
-  
   
   QVBoxLayout *lay = new QVBoxLayout();
   QTextEdit *ed = new QTextEdit(tr("You are about to go in expert's answers.<br> In this mode You don't need to confirm every answer,<br><b>but remember the folowing:</b>") + "<ul><li>" + 
     tr("Selecting a note on the score or position on the fingerboard invokes checking of Your answer, so select a key signature first if required.") + "</li><li>" +
     tr("When an answer is name of a note <b>first select</b> a proper accidental and an octave and then click a note button - it invokes checking.") + "</li><li>" +
-    tr("When You have to play a note as an answer - the first detected sound will be taken. Be sure that Your input device captures exacly what You want.") + "<br><br>" +
-    tr("That's all. You become a master soon...")
+    tr("When You have to play a note as an answer - the first detected sound will be taken. Be sure that Your input device captures exacly what You want.") + "<br><br>"
     , this);
   ed->setReadOnly(true);
   ed->setFixedSize((parent->width()/3)*2, (parent->height()/2));
   ed->setAlignment(Qt::AlignCenter);
   lay->addWidget(ed);
   
-  showInfoChB = new QCheckBox(tr("Always remind me about this"), this);
-  lay->addWidget(showInfoChB, 0, Qt::AlignCenter);
-  showInfoChB->setChecked(m_show); 
+  if (showChBox) {
+      showInfoChB = new QCheckBox(tr("Always remind me about this"), this);
+      lay->addWidget(showInfoChB, 0, Qt::AlignCenter);
+      showInfoChB->setChecked(m_show); 
+  }
   QHBoxLayout *buttLay = new QHBoxLayout();
   buttLay->addStretch(1);
   QPushButton *appBut = new QPushButton(tr("Apply"),  this);
@@ -65,7 +66,17 @@ TexpertAnswerHelp::TexpertAnswerHelp(bool& showHelp, QWidget* parent) :
 }
 
 void TexpertAnswerHelp::closeIt() {
-  m_show = showInfoChB->isChecked();
+  if (showInfoChB)
+      m_show = showInfoChB->isChecked();
   close();
 }
 
+bool showExpertAnswersHelpDlg(bool& showHelp, QWidget* parent, bool showChBox) {
+  TexpertAnswerHelp *exHlp = new TexpertAnswerHelp(showHelp, parent, showChBox);
+  bool res = false;
+  exHlp->exec();
+  if (exHlp->result() == QDialog::Accepted)
+      res = true;    
+  delete exHlp;
+  return res;
+}
