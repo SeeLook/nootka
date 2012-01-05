@@ -23,14 +23,17 @@
 
 class QCheckBox;
 
-/** It shows simple exam help. The parameters are QStrings with colors 
-*/
+/** This function creates showExpertAnswersHelpDlg, 
+ * and return user decision. */
+bool showExpertAnswersHelpDlg(bool &showHelp, QWidget* parent, bool showChBox = true);
+
+/** It shows simple exam help. The parameters are QStrings with colors */
 class TexpertAnswerHelp : public QDialog
 {
   Q_OBJECT
   
 public:
-  explicit TexpertAnswerHelp(bool &showHelp, QWidget* parent = 0);
+  explicit TexpertAnswerHelp(bool &showHelp, QWidget* parent = 0, bool showChBox = true);
   
 protected slots:
   void closeIt();

@@ -64,12 +64,12 @@ void TquestionAsWdg::groupChecked() {
         asNoteChB->setChecked(true);
         asNameChB->setChecked(true);
         asFretPosChB->setChecked(true);
-//        asSoundChB->setChecked(true);
+       asSoundChB->setChecked(true);
     } else {
         asNoteChB->setChecked(false);
         asNameChB->setChecked(false);
 //        asFretPosChB->setChecked(false);
-//        asSoundChB->setChecked(false);
+       asSoundChB->setChecked(false);
     }
 }
 

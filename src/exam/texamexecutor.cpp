@@ -833,19 +833,17 @@ void TexamExecutor::connectForExpert() {
 
 void TexamExecutor::expertAnswersStateChanged(bool enable) {
   if (enable) {
-      TexpertAnswerHelp *exHlp = new TexpertAnswerHelp(gl->E->askAboutExpert, mW);
-      exHlp->exec();
-      if (exHlp->result() == QDialog::Accepted)
+      if (showExpertAnswersHelpDlg(gl->E->askAboutExpert, mW))
           connectForExpert();
       else
           mW->expertAnswChB->setChecked(false);
-      delete exHlp;      
   } else {
     disconnect(mW->score, SIGNAL(noteClicked()), this, SLOT(expertAnswersSlot()));
     disconnect(mW->noteName, SIGNAL(noteButtonClicked()), this, SLOT(expertAnswersSlot()));
     disconnect(mW->guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(expertAnswersSlot()));
     disconnect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(expertAnswersSlot()));
   }
+  gl->E->expertsAnswerEnable = mW->expertAnswChB->isChecked();
 }
 
 void TexamExecutor::startSniffing() {
