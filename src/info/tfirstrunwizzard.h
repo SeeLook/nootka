@@ -27,6 +27,7 @@ class QStackedLayout;
 class QRadioButton;
 class QCheckBox;
 class Tpage_3;
+class Tpage_4;
 class Select7note;
 
 class TfirstRunWizzard : public QDialog
@@ -44,6 +45,7 @@ private:
     QPushButton *skipButt, *nextButt, *prevButt;
     QStackedLayout *pagesLay;
     Tpage_3 *page3;
+    Tpage_4 *page4;
 
 private slots:
     void nextSlot();
@@ -57,15 +59,22 @@ private slots:
 
 class Tpage_3 : public QWidget
 {
-    Q_OBJECT
+    
 public:
     explicit Tpage_3(QWidget *parent = 0);
 
     Select7note *select7;
     QCheckBox *dblAccChB, *enharmChB, *useKeyChB;
 
+};
 
-
+class Tpage_4 : public QWidget
+{
+  
+public:
+  explicit Tpage_4(QWidget *parent = 0);
+  
+  
 };
 
 #endif // TFIRSTRUNWIZZARD_H

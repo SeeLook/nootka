@@ -44,7 +44,7 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt,
     tr("Questions are marked with this color and \"?\" mark.") + "</span><br>" + 
     tr("To give an answer, select it on <span style=\"%1\">Nootka's element pointed with that color.</span><br>")
       .arg(answColorTxt) +
-    QString("<img src=\"%1\"><br>").arg(path+"picts/scr.png") +
+    QString("<br><br><img src=\"%1\"><br><br>").arg(path+"picts/scr.png") +
     tr("To check the answer confirm it:") + "<br>- " + 
     tr("click <img src=\"%1\"> button").arg(path+"picts/check-icon.png") + "<br>- " +
     tr("press <b>Enter</b> key") + "<br>- " + orRightButtTxt() + "<br><br>" +
