@@ -1151,12 +1151,12 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="116"/>
         <source>An exam requires sound input but&lt;br&gt;it is not available !!!</source>
-        <translation type="unfinished"></translation>
+        <translation>Egzamin wymaga sygnału wejściowego&lt;br&gt;ale nie jest on dostępny !!!</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="169"/>
         <source>Level &lt;b&gt;%1&lt;b&gt;&lt;br&gt;has no sense till there are no any possible question to ask.&lt;br&gt;It can be unadjusted to current tune.&lt;br&gt;Repair it in Level Creator and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Poziom &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nie ma sensu, bo nie ma w nim żadnego pytania, które można zadać.&lt;br&gt;Możliwe, że nie jest dopasowany do bieżącego stroju gitary.&lt;br&gt;Napraw to w Kreatorze Poziomów i spróbuj ponownie.</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="345"/>
@@ -1256,58 +1256,58 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="45"/>
         <source>To give an answer, select it on &lt;span style=&quot;%1&quot;&gt;Nootka&apos;s element pointed with that color.&lt;/span&gt;&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Wskaż odpowiedź na &lt;span style=&quot;%1&quot;&gt;elemencie okna Nootki zaznzczonym tym kolorem.&lt;/span&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="37"/>
         <source>How does an exam work ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Jak działa egzamin ?</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="40"/>
         <source>To get question:</source>
-        <translation type="unfinished"></translation>
+        <translation>Żeby otrzymać pytanie:</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="40"/>
         <location filename="../src/info/texamhelp.cpp" line="49"/>
         <source>click &lt;img src=&quot;%1&quot;&gt; button</source>
-        <translation type="unfinished"></translation>
+        <translation>naciśnij przycisk &lt;img src=&quot;%1&quot;&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="41"/>
         <source>press &lt;b&gt;space&lt;/b&gt; key</source>
-        <translation type="unfinished"></translation>
+        <translation>naciśnij &lt;b&gt;spację&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="42"/>
         <source>Select 2-nd check box to get the question automaticaly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaznacz 2-gie pole wyboru żeby pytania były zadawane automatycznie.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="48"/>
         <source>To check the answer confirm it:</source>
-        <translation type="unfinished"></translation>
+        <translation>Aby sprawdzić odpowiedź, potwierdź ją:</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="50"/>
         <source>press &lt;b&gt;Enter&lt;/b&gt; key</source>
-        <translation type="unfinished"></translation>
+        <translation>naciśnij &lt;b&gt;Enter&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="51"/>
         <source>If You make mistake, You can use:&lt;br&gt;- &lt;img src=&quot;%1&quot;&gt; button&lt;br&gt;- &lt;b&gt;Backspace&lt;/b&gt; key&lt;br&gt;to repeat the question.&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Gdy popełnisz błąd, możesz użyć:&lt;br&gt;- przycisku &lt;img src=&quot;%1&quot;&gt;&lt;br&gt;- klawisza &lt;b&gt;Backspace&lt;/b&gt;&lt;br&gt;żeby powtórzyć pytanie.&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="52"/>
         <source>By selecting 3-rd check box, the answers will be checking immediately without confirmation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaznzczając 3-cie pole wyboru, odpowiedzi będą sprawdzane od razu, bez potwierdzenia.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="53"/>
         <source>To stop the exam click &lt;img src=&quot;%1&quot;&gt; button.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aby zatrzymać egzamin kliknij przycisk &lt;img src=&quot;%1&quot;&gt; .</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="55"/>
@@ -1474,7 +1474,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="33"/>
         <source>Experts&apos; answers</source>
-        <translation type="unfinished"></translation>
+        <translation>Odpowiedzi eksperta</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="36"/>
