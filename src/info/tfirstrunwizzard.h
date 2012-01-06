@@ -59,7 +59,7 @@ private slots:
 
 class Tpage_3 : public QWidget
 {
-    
+    Q_OBJECT
 public:
     explicit Tpage_3(QWidget *parent = 0);
 
@@ -70,7 +70,7 @@ public:
 
 class Tpage_4 : public QWidget
 {
-  
+    Q_OBJECT
 public:
   explicit Tpage_4(QWidget *parent = 0);
   
