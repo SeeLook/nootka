@@ -55,10 +55,12 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
 //    notationLab->setWordWrap(true);
 
     page3 = new Tpage_3();
+    page4 = new Tpage_4();
 
     pagesLay->addWidget(aboutNoot);
     pagesLay->addWidget(notationLab);
     pagesLay->addWidget(page3);
+    pagesLay->addWidget(page4);
 
     connect(skipButt, SIGNAL(clicked()), this, SLOT(close()));
     connect(prevButt, SIGNAL(clicked()), this, SLOT(prevSlot()));
@@ -74,8 +76,11 @@ void TfirstRunWizzard::prevSlot() {
         pagesLay->setCurrentIndex(0);
         break;
     case 2 :
-        nextButt->setText(nextText());
         pagesLay->setCurrentIndex(1);
+        break;
+    case 3 :
+        nextButt->setText(nextText());
+        pagesLay->setCurrentIndex(2);
         break;
     }
 }
@@ -87,17 +92,20 @@ void TfirstRunWizzard::nextSlot() {
         pagesLay->setCurrentIndex(1);
         break;
     case 1 :
-        nextButt->setText(tr("Finish"));
         pagesLay->setCurrentIndex(2);
         break;
     case 2 :
+        nextButt->setText(tr("Finish"));
+        pagesLay->setCurrentIndex(3);
+        break;
+    case 3 :
         if (page3->select7->is7th_B())
             gl->seventhIs_B = true;
         else {
             gl->seventhIs_B = false;
             gl->NnameStyleInNoteName = Tnote::e_norsk_Hb;
             gl->SnameStyleInKeySign = Tnote::e_norsk_Hb;
-	}
+        }
         gl->doubleAccidentalsEnabled = page3->dblAccChB->isChecked();
         gl->showEnharmNotes = page3->enharmChB->isChecked();
         gl->SkeySignatureEnabled = page3->useKeyChB->isChecked();
@@ -135,7 +143,20 @@ Tpage_3::Tpage_3(QWidget *parent) :
     lay->addStretch(1);
 
     setLayout(lay);
-
 }
 
+//###############################################  Tpage_4  ###############################################
+
+Tpage_4::Tpage_4(QWidget* parent) :
+    QWidget(parent)
+{ 
+  QVBoxLayout *lay = new QVBoxLayout;
+  lay->addStretch(1);
+  QLabel *lab = new QLabel(QString("<center><img src=\"%1\"><br><br><br>").arg(gl->path+"picts/pitch.png") +
+    tr("Nootka can recognize played or sung sound<br>but it requires adjustment and some practise.<br>All needed settings are in <b>Preferences->Sound<b>.")
+    , this );
+  lay->addWidget(lab);
+  lay->addStretch(1);
+  setLayout(lay);
+}
 

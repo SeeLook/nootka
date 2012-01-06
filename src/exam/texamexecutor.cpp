@@ -833,7 +833,7 @@ void TexamExecutor::connectForExpert() {
 
 void TexamExecutor::expertAnswersStateChanged(bool enable) {
   if (enable) {
-      if (showExpertAnswersHelpDlg(gl->E->askAboutExpert, mW))
+      if (!gl->E->askAboutExpert || showExpertAnswersHelpDlg(gl->E->askAboutExpert, mW))
           connectForExpert();
       else
           mW->expertAnswChB->setChecked(false);

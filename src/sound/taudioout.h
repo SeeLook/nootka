@@ -114,6 +114,7 @@ private slots:
   void midiNoteOff();
     /** m_timer calls this to prepare audio for device*/
   void timeForAudio();
+  void playBuffer();
 
 };
 

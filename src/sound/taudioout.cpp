@@ -25,6 +25,7 @@
 #include <QAudio>
 #include <QMutex>
 #include <QDebug>
+#include <QBuffer>
 
 #define SAMPLE_RATE (44100)
 
@@ -33,9 +34,11 @@
 QAudioFormat TaudioOUT::templAudioFormat = QAudioFormat();
 
 void TaudioOUT::prepTemplFormat() {
-  templAudioFormat.setChannelCount(2);
+//   templAudioFormat.setChannelCount(2);
+templAudioFormat.setChannelCount(1);
   templAudioFormat.setSampleSize(16);
-  templAudioFormat.setSampleRate(44100);
+//   templAudioFormat.setSampleRate(44100);
+  templAudioFormat.setSampleRate(22050);
   templAudioFormat.setSampleType(QAudioFormat::SignedInt);
   templAudioFormat.setCodec("audio/pcm");
 }
@@ -68,6 +71,8 @@ QStringList TaudioOUT::getMidiPortsList() {
   return portList;  
 }
 
+
+QBuffer buff;
 
 //---------------------------------------------------------------------------------------
 TaudioOUT::TaudioOUT(TaudioParams* params, QString& path, QObject* parent) :
@@ -112,9 +117,12 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
             m_playable = false;
       }
       if (m_playable) {
-          connect(m_timer, SIGNAL(timeout()), this, SLOT(timeForAudio()));
+          /*connect(m_timer, SIGNAL(timeout()), this, SLOT(timeForAudio()));
           m_IOaudioDevice = m_audioOutput->start();
-          m_buffer.resize(m_audioOutput->periodSize()*2);
+          m_buffer.resize(m_audioOutput->periodSize()*2);*/
+          connect(m_audioOutput, SIGNAL(notify()), this, SLOT(playBuffer()));
+          m_audioOutput->setNotifyInterval(1500);
+          buff.open(QIODevice::ReadOnly);
       }
   }
 }
@@ -165,7 +173,7 @@ void TaudioOUT::play(int noteNr) {
   
   if (m_params->midiEnabled) {
     if (m_prevMidiNote)  // note is played and has to be turned off. Volume is pushed.
-        midiNoteOff();    
+        midiNoteOff();    //TODO: but don't emit signall in this call
     m_prevMidiNote = noteNr + 47;
     m_message[0] = 144; // note On
     m_message[1] = m_prevMidiNote;
@@ -176,7 +184,13 @@ void TaudioOUT::play(int noteNr) {
   } else { // play audio
     if (noteNr < -11 || noteNr > 41)
         return;
-      
+    
+    qDebug() << m_audioOutput->state();
+    if (m_audioOutput->state() != QAudio::StoppedState)
+        m_audioOutput->stop();
+    buff.seek((noteNr + 11)*SAMPLE_RATE*2 - 1000);
+    m_audioOutput->start(&buff);
+/*      
     if (m_timer->isActive()) {
       m_timer->stop();
     }
@@ -191,7 +205,7 @@ void TaudioOUT::play(int noteNr) {
     m_noteOffset = (noteNr + 11)*SAMPLE_RATE - 1000;
 //     mutex.unlock();
     timeForAudio();
-    m_timer->start(20);
+    m_timer->start(20);*/
   }
 }
 
@@ -301,8 +315,13 @@ bool TaudioOUT::loadAudioData() {
               << wavFormat << m_sampleRate;
       return false;
   }
+  
   m_audioArr = new qint16[dataSizeFromChunk/2];
   wavStream.readRawData((char*)m_audioArr, dataSizeFromChunk);
+  //TODO: make 1000 bytes space on the begining and fill it with 0
+  
+  buff.setData((char*)m_audioArr, dataSizeFromChunk);
+//   qDebug() << buff.size();
 
   wavFile.close();
   return true;
@@ -367,5 +386,10 @@ void TaudioOUT::midiNoteOff() {
   emit noteFinished();
 }
 
+void TaudioOUT::playBuffer() {
+  qDebug() << m_audioOutput->elapsedUSecs();
+  m_audioOutput->stop();
+  emit noteFinished();
+}
 
 
