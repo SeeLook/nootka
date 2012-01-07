@@ -201,7 +201,8 @@ void TaudioOUT::play(int noteNr) {
     }
     if (m_audioOutput && m_audioOutput->state() == QAudio::StoppedState) {
       qDebug("stoped");
-      m_audioOutput->start();
+//       m_audioOutput->start();
+      m_audioOutput->resume();
     }
     doPlay = true;
 //     mutex.lock();
@@ -209,8 +210,9 @@ void TaudioOUT::play(int noteNr) {
     // note pos in array is shifted 1000 samples before to start from silence
     m_noteOffset = (noteNr + 11)*SAMPLE_RATE - 1000;
 //     mutex.unlock();
+    m_audioOutput->resume();
     timeForAudio();
-    m_timer->start(20);
+    m_timer->start(5);
   }
 }
 
@@ -341,7 +343,7 @@ void TaudioOUT::timeForAudio() {
   if (m_audioOutput && m_audioOutput->state() != QAudio::StoppedState) {
     int perSize = qMin(m_audioOutput->periodSize(), m_buffer.size());
     int chunks = m_audioOutput->bytesFree() / perSize;
-//     qDebug() << "period:" << m_audioOutput->periodSize() << "free:" << m_audioOutput->bytesFree() << chunks;
+    qDebug() << "period:" << m_audioOutput->periodSize() << "free:" << m_audioOutput->bytesFree() << chunks;
     qint16 sample;
     if (chunks == 0) {
 //       m_timer->stop();
@@ -359,8 +361,11 @@ void TaudioOUT::timeForAudio() {
             *out++ = sample;
             m_samplesCnt++;
           if (m_samplesCnt == 40000) {
-//               m_timer->stop();
+              m_timer->stop();
+              qDebug("enought");
               doPlay = false;
+              m_audioOutput->suspend();
+              emit noteFinished();
 //               mutex.unlock();
           }
         }
@@ -368,7 +373,7 @@ void TaudioOUT::timeForAudio() {
             m_IOaudioDevice->write(m_buffer.data(), (m_audioOutput->periodSize()/8)*8);
             chunks--;
 //       mutex.unlock();
-        } else break;
+        } /*else break;*/
       }
 //       if (!doPlay) {
 //         m_timer->stop();
@@ -391,11 +396,12 @@ void TaudioOUT::midiNoteOff() {
 }
 
 void TaudioOUT::stateSlot(QAudio::State st) {
-  if (st == QAudio::IdleState) {
-     qDebug() << "iddle";
-     m_timer->stop();
-     emit noteFinished();
-  }
+//   if (st == QAudio::IdleState && !doPlay) {
+     qDebug() << st;
+//      m_timer->stop();
+// //      m_audioOutput->reset();
+//      emit noteFinished();
+//   }
 }
 
 
