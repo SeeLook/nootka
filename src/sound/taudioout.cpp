@@ -201,8 +201,8 @@ void TaudioOUT::play(int noteNr) {
     }
     if (m_audioOutput && m_audioOutput->state() == QAudio::StoppedState) {
       qDebug("stoped");
-//       m_audioOutput->start();
-      m_audioOutput->resume();
+      m_IOaudioDevice = m_audioOutput->start();
+//       m_audioOutput->resume();
     }
     doPlay = true;
 //     mutex.lock();
@@ -212,7 +212,7 @@ void TaudioOUT::play(int noteNr) {
 //     mutex.unlock();
     m_audioOutput->resume();
     timeForAudio();
-    m_timer->start(5);
+    m_timer->start(20);
   }
 }
 
@@ -343,11 +343,11 @@ void TaudioOUT::timeForAudio() {
   if (m_audioOutput && m_audioOutput->state() != QAudio::StoppedState) {
     int perSize = qMin(m_audioOutput->periodSize(), m_buffer.size());
     int chunks = m_audioOutput->bytesFree() / perSize;
-    qDebug() << "period:" << m_audioOutput->periodSize() << "free:" << m_audioOutput->bytesFree() << chunks;
+//     qDebug() << "period:" << m_audioOutput->periodSize() << "free:" << m_audioOutput->bytesFree() << chunks;
     qint16 sample;
     if (chunks == 0) {
 //       m_timer->stop();
-      qDebug("empty chunk");
+//       qDebug("empty chunk");
       return;
     }
       while (doPlay && chunks) {
@@ -361,11 +361,11 @@ void TaudioOUT::timeForAudio() {
             *out++ = sample;
             m_samplesCnt++;
           if (m_samplesCnt == 40000) {
-              m_timer->stop();
+//               m_timer->stop();d
               qDebug("enought");
               doPlay = false;
               m_audioOutput->suspend();
-              emit noteFinished();
+//               emit noteFinished();
 //               mutex.unlock();
           }
         }
@@ -375,10 +375,10 @@ void TaudioOUT::timeForAudio() {
 //       mutex.unlock();
         } /*else break;*/
       }
-//       if (!doPlay) {
-//         m_timer->stop();
-//         emit noteFinished();
-//       }
+      if (!doPlay) {
+        m_timer->stop();
+        emit noteFinished();
+      }
   } else
     qDebug("QAudio::StoppedState");
 }
