@@ -108,13 +108,15 @@ private:
   RtMidiOut *m_midiOut;
   unsigned char m_prevMidiNote;
   std::vector<unsigned char> m_message;
+  bool m_doEmit;
   
 private slots:
-    /** Turns off played @param m_prevMidiNote */
+    /** Turns off played @param m_prevMidiNote
+     * If @param m_doEmit is true emits noteFinished() signal. */
   void midiNoteOff();
     /** m_timer calls this to prepare audio for device*/
   void timeForAudio();
-  void playBuffer();
+//   void playBuffer();
 
 };
 

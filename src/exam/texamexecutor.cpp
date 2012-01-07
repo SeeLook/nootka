@@ -808,7 +808,8 @@ void TexamExecutor::autoRepeatStateChanged(bool enable) {
 }
 
 QString TexamExecutor::getNextQuestionTxt() {
-            return tr("Press <img src=\"%1\">").arg(gl->path+"picts/next-icon.png") + TexamHelp::orRightButtTxt() + tr("<br>or <b>space</b> to get next question.");
+    return TexamHelp::toGetQuestTxt() + " " + TexamHelp::clickNextButtonTxt(gl->path) + "<br>" +
+                TexamHelp::pressSpaceKey() + " " + TexamHelp::orRightButtTxt();
 }
 
 void TexamExecutor::showExamSummary() {

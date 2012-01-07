@@ -35,7 +35,12 @@ class TexamHelp : public QDialog
 public:
   TexamHelp(QString questColorTxt, QString answColorTxt, 
             QString &path, bool &showHelp, QWidget *parent = 0);
-  static QString orRightButtTxt() { return tr("or right mouse button"); }
+  
+  static QString orRightButtTxt() { return tr("or right mouse button"); } // or right mouse button
+  static QString clickNextButtonTxt(QString &path) 
+      { return tr("click <img src=\"%1\"> button").arg(path+"picts/next-icon.png"); } // click <img next> button
+  static QString toGetQuestTxt() { return tr("To get question"); } // To get question
+  static QString pressSpaceKey() { return tr("press <b>space</b> key"); } // press <b>space</b> key
   
 protected slots:
   void closeHelp();

@@ -1099,14 +1099,12 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>Porzuć</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="811"/>
         <source>Press &lt;img src=&quot;%1&quot;&gt;</source>
-        <translation>Naciśnij &lt;img src=&quot;%1&quot;&gt;</translation>
+        <translation type="obsolete">Naciśnij &lt;img src=&quot;%1&quot;&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="811"/>
         <source>&lt;br&gt;or &lt;b&gt;space&lt;/b&gt; to get next question.</source>
-        <translation>&lt;br&gt;lub &lt;b&gt;spacja&lt;/b&gt; po następne pytanie.</translation>
+        <translation type="obsolete">&lt;br&gt;lub &lt;b&gt;spacja&lt;/b&gt; po następne pytanie.</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="470"/>
@@ -1232,7 +1230,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
 <context>
     <name>TexamHelp</name>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="32"/>
+        <location filename="../src/info/texamhelp.cpp" line="33"/>
         <source>Exam&apos;s help</source>
         <translation>Pomoc egzaminu</translation>
     </message>
@@ -1249,88 +1247,96 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="obsolete">Zaznacz 2-gie pole wyboru aby otrzymać je automatycznie.</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="44"/>
+        <location filename="../src/info/texamhelp.cpp" line="45"/>
         <source>Questions are marked with this color and &quot;?&quot; mark.</source>
         <translation>Pytania oznaczone są tym kolorem i znakiem &quot;?&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="45"/>
+        <location filename="../src/info/texamhelp.cpp" line="46"/>
         <source>To give an answer, select it on &lt;span style=&quot;%1&quot;&gt;Nootka&apos;s element pointed with that color.&lt;/span&gt;&lt;br&gt;</source>
         <translation>Wskaż odpowiedź na &lt;span style=&quot;%1&quot;&gt;elemencie okna Nootki zaznzczonym tym kolorem.&lt;/span&gt;&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="37"/>
+        <location filename="../src/info/texamhelp.cpp" line="38"/>
         <source>How does an exam work ?</source>
         <translation>Jak działa egzamin ?</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="40"/>
         <source>To get question:</source>
-        <translation>Żeby otrzymać pytanie:</translation>
+        <translation type="obsolete">Żeby otrzymać pytanie:</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="40"/>
-        <location filename="../src/info/texamhelp.cpp" line="49"/>
+        <location filename="../src/info/texamhelp.cpp" line="50"/>
+        <location filename="../src/info/texamhelp.h" line="41"/>
         <source>click &lt;img src=&quot;%1&quot;&gt; button</source>
         <translation>naciśnij przycisk &lt;img src=&quot;%1&quot;&gt;</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="41"/>
+        <location filename="../src/info/texamhelp.h" line="42"/>
+        <source>To get question</source>
+        <translation>Żeby otrzymać pytanie</translation>
+    </message>
+    <message>
+        <location filename="../src/info/texamhelp.h" line="43"/>
         <source>press &lt;b&gt;space&lt;/b&gt; key</source>
         <translation>naciśnij &lt;b&gt;spację&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="42"/>
+        <location filename="../src/info/texamhelp.cpp" line="43"/>
         <source>Select 2-nd check box to get the question automaticaly.</source>
         <translation>Zaznacz 2-gie pole wyboru żeby pytania były zadawane automatycznie.</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="48"/>
+        <location filename="../src/info/texamhelp.cpp" line="49"/>
         <source>To check the answer confirm it:</source>
         <translation>Aby sprawdzić odpowiedź, potwierdź ją:</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="50"/>
+        <location filename="../src/info/texamhelp.cpp" line="51"/>
         <source>press &lt;b&gt;Enter&lt;/b&gt; key</source>
         <translation>naciśnij &lt;b&gt;Enter&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="51"/>
         <source>If You make mistake, You can use:&lt;br&gt;- &lt;img src=&quot;%1&quot;&gt; button&lt;br&gt;- &lt;b&gt;Backspace&lt;/b&gt; key&lt;br&gt;to repeat the question.&lt;br&gt;</source>
-        <translation>Gdy popełnisz błąd, możesz użyć:&lt;br&gt;- przycisku &lt;img src=&quot;%1&quot;&gt;&lt;br&gt;- klawisza &lt;b&gt;Backspace&lt;/b&gt;&lt;br&gt;żeby powtórzyć pytanie.&lt;br&gt;</translation>
+        <translation type="obsolete">Gdy popełnisz błąd, możesz użyć:&lt;br&gt;- przycisku &lt;img src=&quot;%1&quot;&gt;&lt;br&gt;- klawisza &lt;b&gt;Backspace&lt;/b&gt;&lt;br&gt;żeby powtórzyć pytanie.&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="52"/>
+        <source>If You make mistake, You can use:&lt;br&gt;- &lt;img src=&quot;%1&quot;&gt; button&lt;br&gt;- or &lt;b&gt;Backspace&lt;/b&gt; key&lt;br&gt;to repeat the question.&lt;br&gt;</source>
+        <translation>Gdy popełnisz błąd, możesz użyć:&lt;br&gt;- przycisku &lt;img src=&quot;%1&quot;&gt;&lt;br&gt;- klawisza &lt;b&gt;Backspace&lt;/b&gt;&lt;br&gt;żeby powtórzyć pytanie.&lt;br&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/info/texamhelp.cpp" line="53"/>
         <source>By selecting 3-rd check box, the answers will be checking immediately without confirmation.</source>
         <translation>Zaznzczając 3-cie pole wyboru, odpowiedzi będą sprawdzane od razu, bez potwierdzenia.</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="53"/>
+        <location filename="../src/info/texamhelp.cpp" line="54"/>
         <source>To stop the exam click &lt;img src=&quot;%1&quot;&gt; button.</source>
         <translation>Aby zatrzymać egzamin kliknij przycisk &lt;img src=&quot;%1&quot;&gt; .</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="55"/>
+        <location filename="../src/info/texamhelp.cpp" line="56"/>
         <source>GOOD LUCK !!!</source>
         <translation>POWODZENIA !!!</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="56"/>
+        <location filename="../src/info/texamhelp.cpp" line="57"/>
         <source>Experts&apos; corner</source>
         <translation>Kącik eksperta</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="58"/>
+        <location filename="../src/info/texamhelp.cpp" line="59"/>
         <source>show or hide the hints</source>
         <translation>pokaż lub ukryj podpowiedzi</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="71"/>
+        <location filename="../src/info/texamhelp.cpp" line="72"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.h" line="38"/>
+        <location filename="../src/info/texamhelp.h" line="39"/>
         <source>or right mouse button</source>
         <translation>lub prawy klawisz myszy</translation>
     </message>
@@ -1509,7 +1515,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="56"/>
         <source>Discard</source>
-        <translation type="unfinished">Porzuć</translation>
+        <translation>Porzuć</translation>
     </message>
 </context>
 <context>

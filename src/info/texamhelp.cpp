@@ -23,6 +23,7 @@
 #include <QTextEdit>
 #include <QCheckBox>
 
+
 TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt, 
                      QString& path, bool& showHelp, QWidget* parent) :
     QDialog(parent),
@@ -37,8 +38,8 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt,
     tr("How does an exam work ?") +
     QString(" </span><img src=\"%1\"> ").arg(path+"picts/startExam.png") + "<br><br>" +
     "<style type=\"text/css\">img { border-style: solid; border-color: palette(text); border-width: 2px; background-color: palette(window); }</style>" +
-    tr("To get question:") + "<br>- " + tr("click <img src=\"%1\"> button").arg(path+"picts/next-icon.png") + "<br>- " +
-    tr("press <b>space</b> key") + "<br>- " + orRightButtTxt() + "<br>" + 
+    toGetQuestTxt() + ":<br>- " + clickNextButtonTxt(path) + "<br>- " +
+    pressSpaceKey() + "<br>- " + orRightButtTxt() + "<br>" + 
     tr("Select 2-nd check box to get the question automaticaly.") + 
     QString("<br><br><span style=\"%1\">").arg(questColorTxt) +
     tr("Questions are marked with this color and \"?\" mark.") + "</span><br>" + 
@@ -48,7 +49,7 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt,
     tr("To check the answer confirm it:") + "<br>- " + 
     tr("click <img src=\"%1\"> button").arg(path+"picts/check-icon.png") + "<br>- " +
     tr("press <b>Enter</b> key") + "<br>- " + orRightButtTxt() + "<br><br>" +
-    tr("If You make mistake, You can use:<br>- <img src=\"%1\"> button<br>- <b>Backspace</b> key<br>to repeat the question.<br>").arg(path+"picts/prev-icon.png") +
+    tr("If You make mistake, You can use:<br>- <img src=\"%1\"> button<br>- or <b>Backspace</b> key<br>to repeat the question.<br>").arg(path+"picts/prev-icon.png") +
     tr("By selecting 3-rd check box, the answers will be checking immediately without confirmation.") + "<br><br>" +
     tr("To stop the exam click <img src=\"%1\"> button.").arg(path+"picts/stopExam-icon.png") + 
     "<br><br><span style=\"font-size: 20px;\"><b>" +
@@ -76,6 +77,7 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt,
   connect(okBut, SIGNAL(clicked()), this, SLOT(closeHelp()));
 
 }
+
 
 void TexamHelp::closeHelp() {
   m_showHelp = showHelpChB->isChecked();
