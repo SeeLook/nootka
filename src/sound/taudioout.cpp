@@ -120,6 +120,8 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
           connect(m_timer, SIGNAL(timeout()), this, SLOT(timeForAudio()));
           m_IOaudioDevice = m_audioOutput->start();
           m_buffer.resize(m_audioOutput->periodSize()*2);
+         connect(m_audioOutput, SIGNAL(stateChanged(QAudio::State)), 
+                 this, SLOT(stateSlot(QAudio::State)));
           /*connect(m_audioOutput, SIGNAL(notify()), this, SLOT(playBuffer()));
           m_audioOutput->setNotifyInterval(1500);
           buff.open(QIODevice::ReadOnly);*/
@@ -343,7 +345,7 @@ void TaudioOUT::timeForAudio() {
     qint16 sample;
     if (chunks == 0) {
 //       m_timer->stop();
-//       qDebug("empty chunk");
+      qDebug("empty chunk");
       return;
     }
       while (doPlay && chunks) {
@@ -357,7 +359,7 @@ void TaudioOUT::timeForAudio() {
             *out++ = sample;
             m_samplesCnt++;
           if (m_samplesCnt == 40000) {
-              m_timer->stop();
+//               m_timer->stop();
               doPlay = false;
 //               mutex.unlock();
           }
@@ -368,10 +370,10 @@ void TaudioOUT::timeForAudio() {
 //       mutex.unlock();
         } else break;
       }
-      if (!doPlay) {
-        m_timer->stop();
-        emit noteFinished();
-      }
+//       if (!doPlay) {
+//         m_timer->stop();
+//         emit noteFinished();
+//       }
   } else
     qDebug("QAudio::StoppedState");
 }
@@ -387,6 +389,15 @@ void TaudioOUT::midiNoteOff() {
   if (m_doEmit)
     emit noteFinished();
 }
+
+void TaudioOUT::stateSlot(QAudio::State st) {
+  if (st == QAudio::IdleState) {
+     qDebug() << "iddle";
+     m_timer->stop();
+     emit noteFinished();
+  }
+}
+
 
 // void TaudioOUT::playBuffer() {
 //   qDebug() << m_audioOutput->elapsedUSecs();

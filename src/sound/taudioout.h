@@ -117,6 +117,7 @@ private slots:
     /** m_timer calls this to prepare audio for device*/
   void timeForAudio();
 //   void playBuffer();
+  void stateSlot(QAudio::State st);
 
 };
 
