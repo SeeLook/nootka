@@ -345,7 +345,7 @@ void TaudioOUT::timeForAudio() {
   if (m_audioOutput && m_audioOutput->state() != QAudio::StoppedState) {
     int perSize = qMin(m_audioOutput->periodSize(), m_buffer.size());
     int chunks = m_audioOutput->bytesFree() / perSize;
-//     qDebug() << "period:" << m_audioOutput->periodSize() << "free:" << m_audioOutput->bytesFree() << chunks;
+    qDebug() << "period:" << m_audioOutput->periodSize() << "free:" << m_audioOutput->bytesFree() << chunks;
     qint16 sample;
     if (chunks == 0) {
 //       m_timer->stop();
