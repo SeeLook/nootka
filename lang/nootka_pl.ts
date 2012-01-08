@@ -78,27 +78,27 @@
         <translation>pół tonu w dół</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="126"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="127"/>
         <source>noise level:</source>
         <translation>poziom szumu:</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="136"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="137"/>
         <source>Only sounds louder than noise level are taken to pitch analyse. It can improve the pitch detection accuracy.</source>
         <translation>Do analizy wysokości brane są tylko dżwięki głośniejsze niż poziom szumu. Może to poprawić dokładność rozpoznawania dźwięku.</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="153"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="154"/>
         <source>Check, are audio input settings appropirate for You,&lt;br&gt;and does pitch detection work?</source>
         <translation>Sprawdź, czy ustawienia wejścia audio są właściwe,&lt;br&gt; oraz czy działa rozpozawanie wysokości dźwięku?</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="172"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="173"/>
         <source>Frequency of detected note. You can use it for tune</source>
         <translation>Częstotliwość wykrytego dźwięku. Możne jej użyć do strojenia</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="137"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="138"/>
         <source>Calculate</source>
         <translation>Oblicz</translation>
     </message>
@@ -108,32 +108,32 @@
         <translation>włącz rozpoznawanie dźwięków</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="139"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="140"/>
         <source>Click to automatically detect noise level.&lt;br&gt;Keep silence during 2 seconds to determine it properly.</source>
         <translation>Kliknij żeby automatycznie wyznaczyć poziom szumu.&lt;br&gt;Zachowaj ciszę przez 2 sekundy.</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="147"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="148"/>
         <source>Test</source>
         <translation>Próba</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="148"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="149"/>
         <source>Stop</source>
         <translation>Stop</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="165"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="166"/>
         <source>Detected pitch</source>
         <translation>Wykryty dźwięk</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="267"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="261"/>
         <source>no devices found</source>
         <translation>nie znaleziono urządzenia</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="315"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="309"/>
         <source>There isn&apos;t any noise !?!&lt;br&gt;It seems, Your audio input&lt;br&gt;is not configured properly.</source>
         <translation>Nie słychać szumu!?!&lt;br&gt;Wygląda na to że wejście audio&lt;br&gt;nie jest poprawnie skonfigurowane.</translation>
     </message>
@@ -166,82 +166,87 @@
         <translation>urzadzenie dżwiękowe do odtwarzania</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="137"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="102"/>
+        <source>Midi output is performed by &lt;a href=&quot;http://www.music.mcgill.ca/~gary/rtmidi/&quot;&gt;RtMidi&lt;/a&gt; developed by&lt;br&gt;Gary P. Scavone</source>
+        <translation>Wyjście midi jest przetwarzane przez &lt;a href=&quot;http://www.music.mcgill.ca/~gary/rtmidi/&quot;&gt;projekt RtMidi&lt;/a&gt; rozwijany przez &lt;br&gt;Gary P. Scavone</translation>
+    </message>
+    <message>
+        <location filename="../src/sound/audiooutsettings.cpp" line="139"/>
         <source>no devices found</source>
         <translation>nie znaleziono urządzenia</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="64"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="56"/>
         <source>midi playback</source>
         <translation>dźwięk midi</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="65"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="57"/>
         <source>Artificial, low quality sound (depends on hardware)&lt;br&gt;but there is possibility to select an instrument&lt;br&gt;and whole scale can be played.</source>
         <translation>Sztuczny, niskiej jakości dźwięk (w zależności od sprzętu)&lt;br&gt;ale z możliwością wyboru instrumentu&lt;br&gt;i odtwarzania całej skali.</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="71"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="63"/>
         <source>midi port</source>
         <translation>port midi</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="82"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="74"/>
         <source>no midi ports</source>
         <translation>brak portów midi</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="86"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="78"/>
         <source>instrument</source>
         <translation>instrument</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="90"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="82"/>
         <source>Grand Piano</source>
         <translation>Fortepian</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="91"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="83"/>
         <source>Harpsichord</source>
         <translation>Klawesyn</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="92"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="84"/>
         <source>Classical Guitar</source>
         <translation>Gitara klasyczna</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="93"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="85"/>
         <source>Acoustic Guitar</source>
         <translation>Gitara akustyczna</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="94"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="86"/>
         <source>Electric Guitar</source>
         <translation>Gitara elektryczna</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="95"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="87"/>
         <source>Electric Guitar (Overdriven)</source>
         <translation>Gitara elektryczna (przesterowana)</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="96"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="88"/>
         <source>Bass Guitar</source>
         <translation>Gitara basowa</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="97"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="89"/>
         <source>Violin</source>
         <translation>Skrzypce</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="98"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="90"/>
         <source>Sax</source>
         <translation>Saksofon</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="99"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="91"/>
         <source>Flute</source>
         <translation>Flet</translation>
     </message>
@@ -1485,32 +1490,32 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="36"/>
         <source>You are about to go in expert&apos;s answers.&lt;br&gt; In this mode You don&apos;t need to confirm every answer,&lt;br&gt;&lt;b&gt;but remember the folowing:&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Jesteś blisko wejścia w tryb odpowiedzi eksperta.&lt;br&gt; Nie musisz w nim potwierdzać każdej odpowiedzi,&lt;br&gt;&lt;b&gt;ale zapamiętaj co następuje:&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="37"/>
         <source>Selecting a note on the score or position on the fingerboard invokes checking of Your answer, so select a key signature first if required.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybranie nuty na pięciolini lub pozycji na podstrunnicy skutkuje sprawdzeniem Twojej odpowiedzi, Zaznacz najpierw tonację gdy jest to wymagane.</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="38"/>
         <source>When an answer is name of a note &lt;b&gt;first select&lt;/b&gt; a proper accidental and an octave and then click a note button - it invokes checking.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gdy odpowiedź jest nazwą dźwięku &lt;b&gt;najpierw zaznacz&lt;/b&gt; właściwy znak i oktawę i dopiero wtedy kliknij przycisk z nazwą dźwięku - to wywołuje sprawdzanie.</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="39"/>
         <source>When You have to play a note as an answer - the first detected sound will be taken. Be sure that Your input device captures exacly what You want.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kiedy jako odpowiedź masz zagrać dźwięk -- ten pierwszy rozpoznany jest brany jako odpowiedź. Upewnij się, że Twoje urządzenie wejściowe odbiera dokładnie to co chcesz.</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="47"/>
         <source>Always remind me about this</source>
-        <translation type="unfinished"></translation>
+        <translation>Zawsze mi o tym przypominaj</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="53"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Potwiedź</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="56"/>
@@ -1873,7 +1878,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="156"/>
         <source>Nootka can recognize played or sung sound&lt;br&gt;but it requires adjustment and some practise.&lt;br&gt;All needed settings are in &lt;b&gt;Preferences-&gt;Sound&lt;b&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nootka może rozpoznawać grane lub śpiewane dźwięki&lt;br&gt;ale wymaga to dopasowania i odrobiny praktyki.&lt;br&gt;Wszystkie potrzebne ustawienia znajdują się w &lt;b&gt;Preferencje-&gt;Dźwięk&lt;/b&gt;.</translation>
     </message>
 </context>
 <context>

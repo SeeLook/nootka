@@ -74,27 +74,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="126"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="127"/>
         <source>noise level:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="136"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="137"/>
         <source>Only sounds louder than noise level are taken to pitch analyse. It can improve the pitch detection accuracy.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="153"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="154"/>
         <source>Check, are audio input settings appropirate for You,&lt;br&gt;and does pitch detection work?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="172"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="173"/>
         <source>Frequency of detected note. You can use it for tune</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="137"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="138"/>
         <source>Calculate</source>
         <translation type="unfinished"></translation>
     </message>
@@ -104,32 +104,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="139"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="140"/>
         <source>Click to automatically detect noise level.&lt;br&gt;Keep silence during 2 seconds to determine it properly.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="147"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="148"/>
         <source>Test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="148"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="149"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="165"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="166"/>
         <source>Detected pitch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="267"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="261"/>
         <source>no devices found</source>
         <translation type="unfinished">Nebylo nalezeno žádné zařízení</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="315"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="309"/>
         <source>There isn&apos;t any noise !?!&lt;br&gt;It seems, Your audio input&lt;br&gt;is not configured properly.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -162,82 +162,87 @@
         <translation type="unfinished">Zvukové zařízení pro výstup</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="137"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="102"/>
+        <source>Midi output is performed by &lt;a href=&quot;http://www.music.mcgill.ca/~gary/rtmidi/&quot;&gt;RtMidi&lt;/a&gt; developed by&lt;br&gt;Gary P. Scavone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/sound/audiooutsettings.cpp" line="139"/>
         <source>no devices found</source>
         <translation type="unfinished">Nebylo nalezeno žádné zařízení</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="64"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="56"/>
         <source>midi playback</source>
         <translation type="unfinished">Přehrávání MIDI</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="65"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="57"/>
         <source>Artificial, low quality sound (depends on hardware)&lt;br&gt;but there is possibility to select an instrument&lt;br&gt;and whole scale can be played.</source>
         <translation type="unfinished">Uměle vytvořený zvuk o nízké jakosti (v závislosti na technickém vybavení)&lt;br&gt;ale s možností výběru nástroje&lt;br&gt;a je možné přehrát celý rozsah.</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="71"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="63"/>
         <source>midi port</source>
         <translation type="unfinished">Přípojka MIDI</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="82"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="74"/>
         <source>no midi ports</source>
         <translation type="unfinished">Žádné přípojky MIDI</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="86"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="78"/>
         <source>instrument</source>
         <translation type="unfinished">Nástroj</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="90"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="82"/>
         <source>Grand Piano</source>
         <translation type="unfinished">Klavír, křídlo</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="91"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="83"/>
         <source>Harpsichord</source>
         <translation type="unfinished">Cembalo</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="92"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="84"/>
         <source>Classical Guitar</source>
         <translation type="unfinished">Klasická kytara</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="93"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="85"/>
         <source>Acoustic Guitar</source>
         <translation type="unfinished">Akustická kytara</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="94"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="86"/>
         <source>Electric Guitar</source>
         <translation type="unfinished">Elektrická kytara</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="95"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="87"/>
         <source>Electric Guitar (Overdriven)</source>
         <translation type="unfinished">Elektrická kytara (na plné obrátky)</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="96"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="88"/>
         <source>Bass Guitar</source>
         <translation type="unfinished">Basová kytara</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="97"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="89"/>
         <source>Violin</source>
         <translation type="unfinished">Housle</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="98"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="90"/>
         <source>Sax</source>
         <translation type="unfinished">Saxofon</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="99"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="91"/>
         <source>Flute</source>
         <translation type="unfinished">Flétna</translation>
     </message>
