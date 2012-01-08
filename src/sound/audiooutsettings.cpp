@@ -21,7 +21,7 @@
 #include "taudioout.h"
 #include <QtGui>
 #include "taudioparams.h"
-#include <QDebug>
+// #include <QDebug>
 
 
 AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
@@ -48,15 +48,7 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
     reaALay->addWidget(outDevLab);
     audioOutDevListCombo = new QComboBox(this);
     reaALay->addWidget(audioOutDevListCombo);
-//     audioOutDevListCombo->addItems(TaudioOUT::getAudioDevicesList());
-//     if (audioOutDevListCombo->count()) {
-//         int id = audioOutDevListCombo->findText(m_params->OUTdevName);
-//         if (id != -1)
-//             audioOutDevListCombo->setCurrentIndex(id);
-//     } else {
-//         audioOutDevListCombo->addItem(tr("no devices found"));
-//         audioOutDevListCombo->setDisabled(true);
-//     }
+
     reaALay->addStretch(1);
     realAGr->setLayout(reaALay);
     audioOutLay->addWidget(realAGr);
@@ -104,6 +96,16 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
     }
 
     midilay->addLayout(midiParamLay);
+    
+    QVBoxLayout *rtLay = new QVBoxLayout();
+    QGroupBox *rtGr = new QGroupBox(this);
+    QLabel *rtLab = new QLabel(tr("Midi output is performed by <a href=\"http://www.music.mcgill.ca/~gary/rtmidi/\">RtMidi</a> developed by<br>Gary P. Scavone"), this);
+    rtLab->setWordWrap(true);
+    rtLab->setAlignment(Qt::AlignCenter);
+    rtLay->addWidget(rtLab);
+    rtGr->setLayout(rtLay);
+    midilay->addWidget(rtGr);
+    
     midiGr->setLayout(midilay);
     audioOutLay->addWidget(midiGr);
 
@@ -142,11 +144,13 @@ void AudioOutSettings::generateDevicesList() {
 
 
 void AudioOutSettings::saveSettings() {
+  if (m_listGenerated) { // save only when user opened a tab
     m_params->OUTenabled = audioOutEnableGr->isChecked();
     m_params->OUTdevName = audioOutDevListCombo->currentText();
     m_params->midiEnabled = midiRadioButt->isChecked();
     m_params->midiInstrNr = instruments[midiInstrCombo->currentIndex()].progNr;
     m_params->midiPortName = midiPortsCombo->currentText();
+  }
 }
 
 void AudioOutSettings::audioOrMidiChanged() {

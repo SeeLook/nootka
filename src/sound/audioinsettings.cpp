@@ -119,6 +119,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
       intervalCombo->setCurrentIndex(1);
   
   midABox->setLayout(midLay);
+  midABox->setDisabled(true); //TODO: implement note offset for sound
   tunLay->addWidget(midABox);
   
   noisGr = new QGroupBox(this);
@@ -187,15 +188,6 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   lay->addWidget(enableInBox);
   setLayout(lay);
   
-//   inDeviceCombo->addItems(TaudioIN::getAudioDevicesList());
-//   if (inDeviceCombo->count()) {
-//         int id = inDeviceCombo->findText(m_glParams->INdevName);
-//         if (id != -1)
-//             inDeviceCombo->setCurrentIndex(id);
-//     } else {
-//         inDeviceCombo->addItem(tr("no devices found"));
-//         inDeviceCombo->setDisabled(true);
-//   }
   setTestDisabled(true);
   enableInBox->setChecked(m_glParams->INenabled);
   
@@ -252,7 +244,9 @@ void AudioInSettings::grabParams(TaudioParams *params) {
 
 
 void AudioInSettings::saveSettings() {
-  grabParams(m_glParams);
+  // save only when user opened a tab otherwise it returns incorect device
+  if (m_listGenerated)
+      grabParams(m_glParams);
 }
 
 void AudioInSettings::generateDevicesList() {
