@@ -120,8 +120,9 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
           connect(m_timer, SIGNAL(timeout()), this, SLOT(timeForAudio()));
           m_IOaudioDevice = m_audioOutput->start();
           m_buffer.resize(m_audioOutput->periodSize()*2);
-         connect(m_audioOutput, SIGNAL(stateChanged(QAudio::State)), 
+          connect(m_audioOutput, SIGNAL(stateChanged(QAudio::State)), 
                  this, SLOT(stateSlot(QAudio::State)));
+//           connect(m_IOaudioDevice, SIGNAL(), this, SLOT(bytesWritenSlot(qint64)));
           /*connect(m_audioOutput, SIGNAL(notify()), this, SLOT(playBuffer()));
           m_audioOutput->setNotifyInterval(1500);
           buff.open(QIODevice::ReadOnly);*/
@@ -203,14 +204,15 @@ void TaudioOUT::play(int noteNr) {
       qDebug("stoped");
       m_IOaudioDevice = m_audioOutput->start();
 //       m_audioOutput->resume();
-    }
+    } else 
+      m_audioOutput->resume();
     doPlay = true;
 //     mutex.lock();
     m_samplesCnt = 0;
     // note pos in array is shifted 1000 samples before to start from silence
     m_noteOffset = (noteNr + 11)*SAMPLE_RATE - 1000;
 //     mutex.unlock();
-    m_audioOutput->resume();
+//     m_audioOutput->resume();
     timeForAudio();
     m_timer->start(20);
   }
@@ -402,6 +404,10 @@ void TaudioOUT::stateSlot(QAudio::State st) {
 // //      m_audioOutput->reset();
 //      emit noteFinished();
 //   }
+}
+
+void TaudioOUT::bytesWritenSlot(qint64 len) {
+  qDebug() << "bytesWritten:" << len;
 }
 
 

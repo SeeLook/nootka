@@ -118,6 +118,7 @@ private slots:
   void timeForAudio();
 //   void playBuffer();
   void stateSlot(QAudio::State st);
+  void bytesWritenSlot(qint64 len);
 
 };
 
