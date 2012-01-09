@@ -467,7 +467,9 @@ void TexamExecutor::checkAnswer(bool showResults) {
       if (gl->hintsEnabled && !gl->E->autoNextQuest) {
           answTxt += getNextQuestionTxt();
           if (!curQ.correct())
-              answTxt += tr("<br>Click <img src=\"%1\"> buton<br>or press <b>backspace</b> to correct an answer.").arg(gl->path+"picts/prev-icon.png");
+              answTxt += "<br>" + tr("To correct an answer") + " " + 
+                  TexamHelp::clickSomeButtonTxt(gl->path+"picts/prev-icon.png") + 
+                  " " + TexamHelp::orPressBkSTxt();
 //          answTxt += "</span>";
       }
 //       showMessage(answTxt, curQ.qa.pos, mesgTime);
@@ -808,7 +810,7 @@ void TexamExecutor::autoRepeatStateChanged(bool enable) {
 }
 
 QString TexamExecutor::getNextQuestionTxt() {
-    return TexamHelp::toGetQuestTxt() + " " + TexamHelp::clickNextButtonTxt(gl->path) + "<br>" +
+    return TexamHelp::toGetQuestTxt() + " " + TexamHelp::clickSomeButtonTxt(gl->path+"picts/next-icon.png") + ", " +
                 TexamHelp::pressSpaceKey() + " " + TexamHelp::orRightButtTxt();
 }
 

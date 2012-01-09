@@ -102,7 +102,7 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
   m_timer->disconnect();
   if (params->midiEnabled) { // Midi output
     if (!m_midiOut) { // prepare midi and delete audio
-      deleteAudio();
+//       deleteAudio();
       setMidiParams();
       if (m_playable)
           connect(m_timer, SIGNAL(timeout()), this, SLOT(midiNoteOff()));
@@ -238,6 +238,9 @@ void TaudioOUT::deleteAudio() {
 
 void TaudioOUT::deleteMidi() {
   if (m_midiOut) {
+    if (m_timer->isActive())
+      m_timer->stop();
+    m_midiOut->closePort();
     delete m_midiOut;
     m_midiOut = 0;
   }
@@ -256,7 +259,7 @@ void TaudioOUT::setMidiParams() {
     m_playable = false;
     return;
   }
-
+  
   if (m_midiOut->getPortCount() > 0) {
       unsigned int portNr = 0;
   #if defined(Q_OS_LINUX)
@@ -281,7 +284,8 @@ void TaudioOUT::setMidiParams() {
           return;
       }
       m_params->midiPortName = QString::fromStdString(m_midiOut->getPortName(portNr));
-      qDebug() << "midi device:" << m_params->midiPortName;
+      qDebug() << "midi device:" << m_params->midiPortName << 
+      "instr:" << (int)m_params->midiInstrNr << "address:" << (int)m_midiOut;
       // midi program (instrument) change
       m_message.push_back(192);
       m_message.push_back(m_params->midiInstrNr); // instrument number
@@ -353,7 +357,6 @@ void TaudioOUT::timeForAudio() {
 //     qDebug() << "period:" << m_audioOutput->periodSize() << "free:" << m_audioOutput->bytesFree() << chunks;
     qint16 sample;
     if (chunks == 0) {
-//       m_timer->stop();
 //       qDebug("empty chunk");
       return;
     }

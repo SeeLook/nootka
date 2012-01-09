@@ -40,7 +40,7 @@ set(CPACK_DEBIAN_PACKAGE_NAME "nootka_${CPACK_PACKAGE_VERSION}_${CPACK_DEBIAN_PA
 # CPACK_DEBIAN_PACKAGE_VERSION #CPACK_PACKAGE_VERSION
 # CPACK_DEBIAN_PACKAGE_ARCHITECTURE #dpkg --print-architecture or i386
 set(CPACK_DEBIAN_PACKAGE_NAME "nootka" )
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.9), libqt4-core (>= 4.6), libqt4-gui (>= 4.6), libportaudio2")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.9), libqt4-core (>= 4.6), libqt4-gui (>= 4.6), libqtmultimediakit, libfftw3-3")
 #CPACK_DEBIAN_PACKAGE_MAINTAINER #CPACK_PACKAGE_CONTACT
 set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Application to help with learning classical score notation.
  Mostly it is for guitarists,
