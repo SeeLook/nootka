@@ -285,7 +285,7 @@ void TaudioOUT::setMidiParams() {
       }
       m_params->midiPortName = QString::fromStdString(m_midiOut->getPortName(portNr));
       qDebug() << "midi device:" << m_params->midiPortName << 
-      "instr:" << (int)m_params->midiInstrNr << "address:" << (int)m_midiOut;
+      "instr:" << (int)m_params->midiInstrNr /*<< "address:" << (int)m_midiOut*/;
       // midi program (instrument) change
       m_message.push_back(192);
       m_message.push_back(m_params->midiInstrNr); // instrument number
