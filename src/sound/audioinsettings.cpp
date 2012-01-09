@@ -80,7 +80,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   
   devDetLay->addStretch(1);
   
-  QVBoxLayout *tarLay = new QVBoxLayout();
+  /*QVBoxLayout *tarLay = new QVBoxLayout();
   QGroupBox *tarGr = new QGroupBox(this);
   QLabel *tartiniLab = new QLabel(tr("Pitch detection methods are taken from the <a href=\"http://miracle.otago.ac.nz/tartini/index.html\">Tartini Project</a> developed by<br>Philip McLeod"), this);
   tartiniLab->setWordWrap(true);
@@ -88,7 +88,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   tarLay->addWidget(tartiniLab);
   tarGr->setLayout(tarLay);
   devDetLay->addWidget(tarGr);
-  devDetLay->addStretch(1);
+  devDetLay->addStretch(1);*/
   
   upLay->addLayout(devDetLay);
   QVBoxLayout *tunLay = new QVBoxLayout(); //middle A & threshold layout
@@ -103,6 +103,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   freqSpin->setMaximum(480);
   freqSpin->setValue(440 + m_glParams->a440diff);
   freqSpin->setSuffix(" Hz");
+  freqSpin->setDisabled(true); //TODO: implement note offset for sound
   
   QLabel *intLab = new QLabel(tr("interval:"), this);
   midLay->addWidget(intLab);
@@ -117,9 +118,9 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
       intervalCombo->setCurrentIndex(0);
     else
       intervalCombo->setCurrentIndex(1);
+ intervalCombo->setDisabled(true); //TODO: implement note offset for sound
   
   midABox->setLayout(midLay);
-  midABox->setDisabled(true); //TODO: implement note offset for sound
   tunLay->addWidget(midABox);
   
   noisGr = new QGroupBox(this);

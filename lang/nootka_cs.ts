@@ -1085,17 +1085,22 @@ není platným souborem zkoušky!</translation>
         <translation>&lt;br&gt;Zkuste to znovu!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="544"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="470"/>
+        <source>To correct an answer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamexecutor.cpp" line="546"/>
         <source>help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="745"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="747"/>
         <source>Save</source>
         <translation>Uložit</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="746"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="748"/>
         <source>Discard</source>
         <translation>Odmítnout</translation>
     </message>
@@ -1108,37 +1113,36 @@ není platným souborem zkoušky!</translation>
         <translation type="obsolete">&lt;br&gt;nebo stiskněte &lt;b&gt;mezerník&lt;/b&gt;, abyste dostal další otázku.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="470"/>
         <source>&lt;br&gt;Click &lt;img src=&quot;%1&quot;&gt; buton&lt;br&gt;or press &lt;b&gt;backspace&lt;/b&gt; to correct an answer.</source>
-        <translation>&lt;br&gt;Klepněte na tlačítko &lt;img src=&quot;%1&quot;&gt;&lt;br&gt;, nebo stiskněte klávesu &lt;b&gt;Backspace&lt;/b&gt; kvůli opravě odpovědi.</translation>
+        <translation type="obsolete">&lt;br&gt;Klepněte na tlačítko &lt;img src=&quot;%1&quot;&gt;&lt;br&gt;, nebo stiskněte klávesu &lt;b&gt;Backspace&lt;/b&gt; kvůli opravě odpovědi.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="540"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="542"/>
         <source>exam started on level</source>
         <translation>Zkouška začala na úrovni</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="674"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="676"/>
         <source>Give an answer first!&lt;br&gt;Then the exam&apos;ll be finished</source>
         <translation>Nejprve odpovězte!&lt;br&gt;Potom bude zkouška dokončena</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="718"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="720"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
         <translation>Pssst... Zkouška trvá.&lt;br&gt;&lt;br&gt;&lt;b&gt;Pokračujte&lt;/b&gt; &lt;br&gt;nebo&lt;br&gt;&lt;b&gt;skončete&lt;/b&gt; pro ověření, uložení a ukončení&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="719"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="721"/>
         <source>Continue</source>
         <translation>Pokračovat</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="720"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="722"/>
         <source>Terminate</source>
         <translation>Ukončit</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="744"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="746"/>
         <source>If You don&apos;t save to file&lt;br&gt;You lost all results !!</source>
         <translation>Pokud soubor neuložíte&lt;br&gt;ztratíte všechny výsledky!</translation>
     </message>
@@ -1188,12 +1192,12 @@ není platným souborem zkoušky!</translation>
         <translation>Nesprávná poloha.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="539"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="541"/>
         <source>EXAM!!</source>
         <translation>ZKOUŠKA!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="547"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="549"/>
         <source>stop the exam</source>
         <translation>Zastavit zkoušku</translation>
     </message>
@@ -1204,22 +1208,22 @@ není platným souborem zkoušky!</translation>
 %1</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="700"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="702"/>
         <source>so a pity</source>
         <translation>Jaká škoda</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="709"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="711"/>
         <source>Use %1</source>
         <translation>Použít %1</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="710"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="712"/>
         <source> Don&apos;t use accidentals!</source>
         <translation> Nepoužívejte posuvky!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="738"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="740"/>
         <source>Save exam&apos;s results as:</source>
         <translation>Uložit výsledky zkoušky jako:</translation>
     </message>
@@ -1255,7 +1259,6 @@ není platným souborem zkoušky!</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="50"/>
         <location filename="../src/info/texamhelp.h" line="41"/>
         <source>click &lt;img src=&quot;%1&quot;&gt; button</source>
         <translation type="unfinished"></translation>
@@ -1271,6 +1274,11 @@ není platným souborem zkoušky!</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/info/texamhelp.h" line="45"/>
+        <source>or &lt;b&gt;Backspace&lt;/b&gt; key</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/info/texamhelp.cpp" line="43"/>
         <source>Select 2-nd check box to get the question automaticaly.</source>
         <translation type="unfinished"></translation>
@@ -1281,42 +1289,42 @@ není platným souborem zkoušky!</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="51"/>
+        <location filename="../src/info/texamhelp.h" line="44"/>
         <source>press &lt;b&gt;Enter&lt;/b&gt; key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="52"/>
-        <source>If You make mistake, You can use:&lt;br&gt;- &lt;img src=&quot;%1&quot;&gt; button&lt;br&gt;- or &lt;b&gt;Backspace&lt;/b&gt; key&lt;br&gt;to repeat the question.&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/info/texamhelp.cpp" line="53"/>
-        <source>By selecting 3-rd check box, the answers will be checking immediately without confirmation.</source>
+        <source>If You made a mistake and You want to repeat the question:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="54"/>
+        <source>By selecting 3-rd check box, the answers will be checking immediately without confirmation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/info/texamhelp.cpp" line="55"/>
         <source>To stop the exam click &lt;img src=&quot;%1&quot;&gt; button.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="56"/>
+        <location filename="../src/info/texamhelp.cpp" line="57"/>
         <source>GOOD LUCK !!!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="57"/>
+        <location filename="../src/info/texamhelp.cpp" line="58"/>
         <source>Experts&apos; corner</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="59"/>
+        <location filename="../src/info/texamhelp.cpp" line="60"/>
         <source>show or hide the hints</source>
         <translation type="unfinished">Ukázat nebo skrýt rady</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="72"/>
+        <location filename="../src/info/texamhelp.cpp" line="73"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>

@@ -1089,17 +1089,22 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>&lt;br&gt;Spróbuj ponownie !</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="544"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="470"/>
+        <source>To correct an answer</source>
+        <translation>Żeby poprawić odpowiedź</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamexecutor.cpp" line="546"/>
         <source>help</source>
         <translation>pomoc</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="745"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="747"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="746"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="748"/>
         <source>Discard</source>
         <translation>Porzuć</translation>
     </message>
@@ -1112,37 +1117,36 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="obsolete">&lt;br&gt;lub &lt;b&gt;spacja&lt;/b&gt; po następne pytanie.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="470"/>
         <source>&lt;br&gt;Click &lt;img src=&quot;%1&quot;&gt; buton&lt;br&gt;or press &lt;b&gt;backspace&lt;/b&gt; to correct an answer.</source>
-        <translation>&lt;br&gt;Kliknij &lt;img src=&quot;%1&quot;&gt; przycisk&lt;br&gt; lub naciśnij &lt;b&gt;backspace&lt;/b&gt; żeby poprawić odpowiedź.</translation>
+        <translation type="obsolete">&lt;br&gt;Kliknij &lt;img src=&quot;%1&quot;&gt; przycisk&lt;br&gt; lub naciśnij &lt;b&gt;backspace&lt;/b&gt; żeby poprawić odpowiedź.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="540"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="542"/>
         <source>exam started on level</source>
         <translation>egzamin uruchomiony na poziomie</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="674"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="676"/>
         <source>Give an answer first!&lt;br&gt;Then the exam&apos;ll be finished</source>
         <translation>Najpierw odpowiedz!&lt;br&gt;Potem egzamin zostanie zakończony</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="718"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="720"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
         <translation>Psssst... Trwa egzamin.&lt;br&gt;&lt;br&gt;&lt;b&gt;Kontynuuj&lt;/b&gt; go &lt;br&gt;lub&lt;br&gt;&lt;b&gt;Zakończ&lt;/b&gt; żeby sprawdzić, zapisać i wyjść&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="719"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="721"/>
         <source>Continue</source>
         <translation>Kontynuuj</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="720"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="722"/>
         <source>Terminate</source>
         <translation>Zakończ</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="744"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="746"/>
         <source>If You don&apos;t save to file&lt;br&gt;You lost all results !!</source>
         <translation>Jeżeli nie zapiszesz do pliku&lt;br&gt;stracisz dotychczasowe wyniki !!</translation>
     </message>
@@ -1192,12 +1196,12 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>Zła pozycja.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="539"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="541"/>
         <source>EXAM!!</source>
         <translation>EGZAMIN!!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="547"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="549"/>
         <source>stop the exam</source>
         <translation>zatrzymaj egzamin</translation>
     </message>
@@ -1208,22 +1212,22 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
 %1</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="700"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="702"/>
         <source>so a pity</source>
         <translation>jaka szkoda</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="709"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="711"/>
         <source>Use %1</source>
         <translation>Użyj %1</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="710"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="712"/>
         <source> Don&apos;t use accidentals!</source>
         <translation>Nie używaj znaków!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="738"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="740"/>
         <source>Save exam&apos;s results as:</source>
         <translation>Zapisz wyniki egzaminu jako:</translation>
     </message>
@@ -1271,7 +1275,6 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="obsolete">Żeby otrzymać pytanie:</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="50"/>
         <location filename="../src/info/texamhelp.h" line="41"/>
         <source>click &lt;img src=&quot;%1&quot;&gt; button</source>
         <translation>naciśnij przycisk &lt;img src=&quot;%1&quot;&gt;</translation>
@@ -1287,6 +1290,11 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>naciśnij &lt;b&gt;spację&lt;/b&gt;</translation>
     </message>
     <message>
+        <location filename="../src/info/texamhelp.h" line="45"/>
+        <source>or &lt;b&gt;Backspace&lt;/b&gt; key</source>
+        <translation>lub klawisz &lt;b&gt;Bakspace&lt;/b&gt;</translation>
+    </message>
+    <message>
         <location filename="../src/info/texamhelp.cpp" line="43"/>
         <source>Select 2-nd check box to get the question automaticaly.</source>
         <translation>Zaznacz 2-gie pole wyboru żeby pytania były zadawane automatycznie.</translation>
@@ -1297,7 +1305,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>Aby sprawdzić odpowiedź, potwierdź ją:</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="51"/>
+        <location filename="../src/info/texamhelp.h" line="44"/>
         <source>press &lt;b&gt;Enter&lt;/b&gt; key</source>
         <translation>naciśnij &lt;b&gt;Enter&lt;/b&gt;</translation>
     </message>
@@ -1306,37 +1314,41 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="obsolete">Gdy popełnisz błąd, możesz użyć:&lt;br&gt;- przycisku &lt;img src=&quot;%1&quot;&gt;&lt;br&gt;- klawisza &lt;b&gt;Backspace&lt;/b&gt;&lt;br&gt;żeby powtórzyć pytanie.&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="52"/>
         <source>If You make mistake, You can use:&lt;br&gt;- &lt;img src=&quot;%1&quot;&gt; button&lt;br&gt;- or &lt;b&gt;Backspace&lt;/b&gt; key&lt;br&gt;to repeat the question.&lt;br&gt;</source>
-        <translation>Gdy popełnisz błąd, możesz użyć:&lt;br&gt;- przycisku &lt;img src=&quot;%1&quot;&gt;&lt;br&gt;- klawisza &lt;b&gt;Backspace&lt;/b&gt;&lt;br&gt;żeby powtórzyć pytanie.&lt;br&gt;</translation>
+        <translation type="obsolete">Gdy popełnisz błąd, możesz użyć:&lt;br&gt;- przycisku &lt;img src=&quot;%1&quot;&gt;&lt;br&gt;- klawisza &lt;b&gt;Backspace&lt;/b&gt;&lt;br&gt;żeby powtórzyć pytanie.&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="53"/>
+        <location filename="../src/info/texamhelp.cpp" line="52"/>
+        <source>If You made a mistake and You want to repeat the question:</source>
+        <translation>Gdy popełnisz błąd i chcesz powtórzyć pytanie:</translation>
+    </message>
+    <message>
+        <location filename="../src/info/texamhelp.cpp" line="54"/>
         <source>By selecting 3-rd check box, the answers will be checking immediately without confirmation.</source>
         <translation>Zaznzczając 3-cie pole wyboru, odpowiedzi będą sprawdzane od razu, bez potwierdzenia.</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="54"/>
+        <location filename="../src/info/texamhelp.cpp" line="55"/>
         <source>To stop the exam click &lt;img src=&quot;%1&quot;&gt; button.</source>
         <translation>Aby zatrzymać egzamin kliknij przycisk &lt;img src=&quot;%1&quot;&gt; .</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="56"/>
+        <location filename="../src/info/texamhelp.cpp" line="57"/>
         <source>GOOD LUCK !!!</source>
         <translation>POWODZENIA !!!</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="57"/>
+        <location filename="../src/info/texamhelp.cpp" line="58"/>
         <source>Experts&apos; corner</source>
         <translation>Kącik eksperta</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="59"/>
+        <location filename="../src/info/texamhelp.cpp" line="60"/>
         <source>show or hide the hints</source>
         <translation>pokaż lub ukryj podpowiedzi</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="72"/>
+        <location filename="../src/info/texamhelp.cpp" line="73"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -1490,7 +1502,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="36"/>
         <source>You are about to go in expert&apos;s answers.&lt;br&gt; In this mode You don&apos;t need to confirm every answer,&lt;br&gt;&lt;b&gt;but remember the folowing:&lt;/b&gt;</source>
-        <translation>Jesteś blisko wejścia w tryb odpowiedzi eksperta.&lt;br&gt; Nie musisz w nim potwierdzać każdej odpowiedzi,&lt;br&gt;&lt;b&gt;ale zapamiętaj co następuje:&lt;/b&gt;</translation>
+        <translation>Jesteś blisko wejścia w tryb odpowiedzi eksperta.&lt;br&gt; Nie musisz w nim potwierdzać każdej odpowiedzi,&lt;br&gt;&lt;b&gt;ale pamietaj o niżej wymienionych zasadach:&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="37"/>
