@@ -23,7 +23,7 @@
 #include <QFile>
 #include <QStringList>
 #include <QAudio>
-#include <QMutex>
+// #include <QMutex>
 #include <QDebug>
 // #include <QBuffer>
 
@@ -95,7 +95,6 @@ TaudioOUT::~TaudioOUT()
 {
   deleteAudio();
   deleteMidi();
-  qDebug("out delete");
 }
 
 //---------------------------------------------------------------------------------------
@@ -103,8 +102,8 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
   m_timer->disconnect();
   if (params->midiEnabled) { // Midi output
     if (!m_midiOut) { // prepare midi and delete audio
-      setMidiParams();
       deleteAudio();
+      setMidiParams();
       if (m_playable)
           connect(m_timer, SIGNAL(timeout()), this, SLOT(midiNoteOff()));
     }    
@@ -120,12 +119,15 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
           connect(m_timer, SIGNAL(timeout()), this, SLOT(timeForAudio()));
           m_IOaudioDevice = m_audioOutput->start();
           m_buffer.resize(m_audioOutput->periodSize()*2);
-          connect(m_audioOutput, SIGNAL(stateChanged(QAudio::State)), 
-                 this, SLOT(stateSlot(QAudio::State)));
+          connect(m_audioOutput, SIGNAL(stateChanged(QAudio::State)),
+                 this, SLOT(stateSlot(QAudio::State))); 
 //           connect(m_IOaudioDevice, SIGNAL(), this, SLOT(bytesWritenSlot(qint64)));
-          /*connect(m_audioOutput, SIGNAL(notify()), this, SLOT(playBuffer()));
-          m_audioOutput->setNotifyInterval(1500);
-          buff.open(QIODevice::ReadOnly);*/
+//           connect(m_audioOutput, SIGNAL(notify()), this, SLOT(midiNoteOff()));
+//           m_audioOutput->setNotifyInterval(1500);
+          /*buff.open(QIODevice::ReadOnly);
+          connect(m_timer, SIGNAL(timeout()), this, SLOT(midiNoteOff()));
+          connect(m_audioOutput, SIGNAL(stateChanged(QAudio::State)),
+                 this, SLOT(stateSlot(QAudio::State)));*/
       }
   }
 }
@@ -167,7 +169,7 @@ bool TaudioOUT::setAudioDevice(QString& name) {
 }
 
 
-QMutex mutex;
+// QMutex mutex;
 bool doPlay = true;
 
 void TaudioOUT::play(int noteNr) {
@@ -191,11 +193,15 @@ void TaudioOUT::play(int noteNr) {
     if (noteNr < -11 || noteNr > 41)
         return;
     
-    /*qDebug() << m_audioOutput->state();
-    if (m_audioOutput->state() != QAudio::StoppedState)
-        m_audioOutput->stop();
-    buff.seek((noteNr + 11)*SAMPLE_RATE*2 - 1000);
-    m_audioOutput->start(&buff);*/
+    /*buff.seek((noteNr + 11)*SAMPLE_RATE*2 - 1000);
+    if (m_audioOutput->state() == QAudio::StoppedState)
+        m_audioOutput->start(&buff);
+    else
+        m_audioOutput->resume();
+    
+    if (m_timer->isActive())
+      m_timer->stop();
+    m_timer->start(1500);*/    
       
     if (m_timer->isActive()) {
       m_timer->stop();
@@ -203,16 +209,13 @@ void TaudioOUT::play(int noteNr) {
     if (m_audioOutput && m_audioOutput->state() == QAudio::StoppedState) {
       qDebug("stoped");
       m_IOaudioDevice = m_audioOutput->start();
-//       m_audioOutput->resume();
-    } else 
-      m_audioOutput->resume();
+    } 
     doPlay = true;
 //     mutex.lock();
     m_samplesCnt = 0;
     // note pos in array is shifted 1000 samples before to start from silence
     m_noteOffset = (noteNr + 11)*SAMPLE_RATE - 1000;
 //     mutex.unlock();
-//     m_audioOutput->resume();
     timeForAudio();
     m_timer->start(20);
   }
@@ -232,6 +235,7 @@ void TaudioOUT::deleteAudio() {
   }
 }
 
+
 void TaudioOUT::deleteMidi() {
   if (m_midiOut) {
     delete m_midiOut;
@@ -240,9 +244,10 @@ void TaudioOUT::deleteMidi() {
 }
 
 
-
 void TaudioOUT::setMidiParams() {
   deleteMidi();
+  deleteAudio();
+  m_playable = true;
   try {
     m_midiOut = new RtMidiOut();
   }
@@ -276,6 +281,7 @@ void TaudioOUT::setMidiParams() {
           return;
       }
       m_params->midiPortName = QString::fromStdString(m_midiOut->getPortName(portNr));
+      qDebug() << "midi device:" << m_params->midiPortName;
       // midi program (instrument) change
       m_message.push_back(192);
       m_message.push_back(m_params->midiInstrNr); // instrument number
@@ -333,7 +339,6 @@ bool TaudioOUT::loadAudioData() {
   //TODO: make 1000 bytes space on the begining and fill it with 0
   
 //   buff.setData((char*)m_audioArr, dataSizeFromChunk);
-//   qDebug() << buff.size();
 
   wavFile.close();
   return true;
@@ -345,7 +350,7 @@ void TaudioOUT::timeForAudio() {
   if (m_audioOutput && m_audioOutput->state() != QAudio::StoppedState) {
     int perSize = qMin(m_audioOutput->periodSize(), m_buffer.size());
     int chunks = m_audioOutput->bytesFree() / perSize;
-    qDebug() << "period:" << m_audioOutput->periodSize() << "free:" << m_audioOutput->bytesFree() << chunks;
+//     qDebug() << "period:" << m_audioOutput->periodSize() << "free:" << m_audioOutput->bytesFree() << chunks;
     qint16 sample;
     if (chunks == 0) {
 //       m_timer->stop();
@@ -363,30 +368,32 @@ void TaudioOUT::timeForAudio() {
             *out++ = sample;
             m_samplesCnt++;
           if (m_samplesCnt == 40000) {
-//               m_timer->stop();d
               qDebug("enought");
               doPlay = false;
-              m_audioOutput->suspend();
-//               emit noteFinished();
 //               mutex.unlock();
+              break;
           }
         }
-        if (doPlay) {
-            m_IOaudioDevice->write(m_buffer.data(), (m_audioOutput->periodSize()/8)*8);
-            chunks--;
+        m_IOaudioDevice->write(m_buffer.data(), (m_audioOutput->periodSize()/8)*8);
+        chunks--;
 //       mutex.unlock();
-        } /*else break;*/
       }
       if (!doPlay) {
         m_timer->stop();
         emit noteFinished();
       }
   } else
-    qDebug("QAudio::StoppedState");
+      qDebug("QAudio::StoppedState");
 }
 
 
 void TaudioOUT::midiNoteOff() {
+  /*if (!m_midiOut) {
+    m_audioOutput->suspend();
+    m_timer->stop();
+    emit noteFinished();
+    return;
+  }*/
   m_timer->stop();
   m_message[0] = 128; // note Off
   m_message[1] = m_prevMidiNote;
