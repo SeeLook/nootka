@@ -40,7 +40,7 @@ set(CPACK_DEBIAN_PACKAGE_NAME "nootka_${CPACK_PACKAGE_VERSION}_${CPACK_DEBIAN_PA
 # CPACK_DEBIAN_PACKAGE_VERSION #CPACK_PACKAGE_VERSION
 # CPACK_DEBIAN_PACKAGE_ARCHITECTURE #dpkg --print-architecture or i386
 set(CPACK_DEBIAN_PACKAGE_NAME "nootka" )
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.9), libqt4-core (>= 4.6), libqt4-gui (>= 4.6), libqtmultimediakit, libfftw3-3")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.9), libqt4-core (>=4:4.6), libqt4-gui (>=4:4.6), libqtmultimediakit1, libfftw3-3")
 #CPACK_DEBIAN_PACKAGE_MAINTAINER #CPACK_PACKAGE_CONTACT
 set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Application to help with learning classical score notation.
  Mostly it is for guitarists,
@@ -54,7 +54,7 @@ set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Application to help with learning classica
  levels creator with wide range of settings
  .
  http://nootka.sf.net") #CPACK_PACKAGE_DESCRIPTION_SUMMARY
-set(CPACK_DEBIAN_PACKAGE_SECTION "Education")
+set(CPACK_DEBIAN_PACKAGE_SECTION "Education/Sound")
 # CPACK_DEBIAN_PACKAGE_PRIORITY #optional
 set(CPACK_DEBIAN_PACKAGE_HOMEPAGE "http://nootka.sf.net")
 set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "timidity")

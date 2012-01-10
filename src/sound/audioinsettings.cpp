@@ -94,11 +94,13 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   QVBoxLayout *tunLay = new QVBoxLayout(); //middle A & threshold layout
   
   midABox = new QGroupBox(tr("middle A")+" (a1)", this);
+//   midABox->setStatusTip(tr("Base frequency of note a<sup>1</sup>"));
   QVBoxLayout *midLay = new QVBoxLayout();
   QLabel *frLab = new QLabel(tr("frequency:"), this);
   midLay->addWidget(frLab);
   freqSpin = new QSpinBox(this);
   midLay->addWidget(freqSpin);
+  freqSpin->setStatusTip(tr("A pitch of detecting notes is related to this value. It also affects played sounds - for midi exaclty and for real audio it is rounded to semitones.") + "<br>[UNDER CONSTRUCTION]");
   freqSpin->setMinimum(400);
   freqSpin->setMaximum(480);
   freqSpin->setValue(440 + m_glParams->a440diff);
@@ -112,6 +114,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   intervalCombo->addItem(tr("semitone up"));
   intervalCombo->addItem(tr("none"));
   intervalCombo->addItem(tr("semitone down"));
+  intervalCombo->setStatusTip(tr("Shifts the frequency of base a<sup>1</sup> on semitone.") + "<br>[UNDER CONSTRUCTION]");
   if (freqSpin->value() <= 415)
       intervalCombo->setCurrentIndex(2);
     else if (freqSpin->value() >= 465)
