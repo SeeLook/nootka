@@ -29,11 +29,11 @@ Select7note::Select7note(QWidget *parent) :
     QVBoxLayout *bLay = new QVBoxLayout;
     bLay->setAlignment(Qt::AlignCenter);
     QButtonGroup *bButtGr = new QButtonGroup(this);
-    isBRadio = new QRadioButton(tr("B"),this);
+    isBRadio = new QRadioButton("B",this);
     isBRadio->setStatusTip(tr("7-th note is <b>B</b> and with flat is <b>Bb</b> or bes or <b>bs</b>"));
     bLay->addWidget(isBRadio);
     bButtGr->addButton(isBRadio);
-    isHRadio = new QRadioButton(tr("H"),this);
+    isHRadio = new QRadioButton("H",this);
     isHRadio->setStatusTip(tr("7-th note is <b>H</b> and with flat is <b>Hb</b> or <b>B</b>"));
     bLay->addWidget(isHRadio);
     bLay->addStretch(1);

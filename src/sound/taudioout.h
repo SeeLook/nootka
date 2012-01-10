@@ -97,12 +97,14 @@ private:
   QString m_devName;
       /** Path to wav file with sounds */
   QString m_wavFile;
-  quint32 m_sampleRate;
   qint16 *m_audioArr;
       /** position of a note in @param m_audioArr */
   int m_noteOffset;
+      /** Number of performed samples. */
   int m_samplesCnt;
-  bool m_isPlayed;
+  bool m_doPlay;
+      /** Period of audio timer loop depends of QAudioOutput::periodSize() unit [ms] */
+  quint16 m_period;
 
 //########## midi #############
   RtMidiOut *m_midiOut;

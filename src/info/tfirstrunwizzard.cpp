@@ -126,20 +126,27 @@ Tpage_3::Tpage_3(QWidget *parent) :
 
     select7 = new Select7note(this);
     lay->addWidget(select7);
-    select7->set7th_B(true);
+    QString note7 = tr("b", "Give here a name of 7-th note prefered in Your country. But only 'b' or 'h' not 'si' or something worst...");
+    if (note7.toLower() == "b")
+        select7->set7th_B(true);
+    else
+        select7->set7th_B(false);
 
     lay->addStretch(1);
 
     dblAccChB = new QCheckBox(tr("I know about double sharps (x) and double flats (bb)"), this);
     lay->addWidget(dblAccChB, 0, Qt::AlignCenter);
+    dblAccChB->setChecked(gl->doubleAccidentalsEnabled);
     lay->addStretch(1);
 
     enharmChB = new QCheckBox(tr("I know that e# is the same as f"), this);
     lay->addWidget(enharmChB, 0, Qt::AlignCenter);
+    enharmChB->setChecked(gl->showEnharmNotes);
     lay->addStretch(1);
 
     useKeyChB = new QCheckBox(tr("I know about key signatures"), this);
     lay->addWidget(useKeyChB, 0, Qt::AlignCenter);
+    useKeyChB->setChecked(gl->SkeySignatureEnabled);
     lay->addStretch(1);
 
     setLayout(lay);

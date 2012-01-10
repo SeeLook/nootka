@@ -115,6 +115,10 @@ TstartExamDlg::TstartExamDlg(QString& nick, QWidget* parent) :
     connect(startBut, SIGNAL(clicked()), this, SLOT(startAccepted()));
     connect(cancelBut, SIGNAL(clicked()), this, SLOT(reject()));
     connect(loadExamBut, SIGNAL(clicked()), this, SLOT(loadExam()));
+    
+    QApplication::translate("File association entries", "Nootka level file", "for file brrrowsers");
+    QApplication::translate("File association entries", "Open with nootka");
+    QApplication::translate("File association entries", "Nootka exam file");
 
 }
 

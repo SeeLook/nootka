@@ -36,7 +36,7 @@ TexpertAnswerHelp::TexpertAnswerHelp(bool& showHelp, QWidget* parent, bool showC
   QTextEdit *ed = new QTextEdit(tr("You are about to go in expert's answers.<br> In this mode You don't need to confirm every answer,<br><b>but remember the folowing:</b>") + "<ul><li>" + 
     tr("Selecting a note on the score or position on the fingerboard invokes checking of Your answer, so select a key signature first if required.") + "</li><li>" +
     tr("When an answer is name of a note <b>first select</b> a proper accidental and an octave and then click a note button - it invokes checking.") + "</li><li>" +
-    tr("When You have to play a note as an answer - the first detected sound will be taken. Be sure that Your input device captures exacly what You want.") + "<br><br>"
+    tr("When You have to play a note as an answer - the first detected sound will be taken. Be sure that Your input device captures exactly what You want.") + "<br><br>"
     , this);
   ed->setReadOnly(true);
   ed->setFixedSize((parent->width()/3)*2, (parent->height()/2));
