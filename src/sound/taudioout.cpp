@@ -126,8 +126,8 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
           m_buffer.resize(m_audioOutput->periodSize()*2);
           m_period = (SAMPLE_RATE*2) / m_audioOutput->periodSize();
           qDebug() << "period [ms]" << m_period;
-          connect(m_audioOutput, SIGNAL(stateChanged(QAudio::State)),
-                 this, SLOT(stateSlot(QAudio::State))); 
+//          connect(m_audioOutput, SIGNAL(stateChanged(QAudio::State)),
+//                 this, SLOT(stateSlot(QAudio::State))); 
 //           connect(m_IOaudioDevice, SIGNAL(), this, SLOT(bytesWritenSlot(qint64)));
 //           connect(m_audioOutput, SIGNAL(notify()), this, SLOT(midiNoteOff()));
 //           m_audioOutput->setNotifyInterval(1500);
@@ -378,7 +378,7 @@ void TaudioOUT::timeForAudio() {
             *out++ = sample;
             m_samplesCnt++;
           if (m_samplesCnt == 40000) {
-              qDebug("enought");
+//              qDebug("enought");
               m_doPlay = false;
 //               mutex.unlock();
               break;
@@ -416,7 +416,7 @@ void TaudioOUT::midiNoteOff() {
 
 void TaudioOUT::stateSlot(QAudio::State st) {
 //   if (st == QAudio::IdleState && !m_doPlay) {
-     qDebug() << st;
+//     qDebug() << st;
 //      m_timer->stop();
 // //      m_audioOutput->reset();
 //      emit noteFinished();
