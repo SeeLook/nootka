@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -20,6 +20,7 @@
 #include "levelsettings.h"
 #include <QVBoxLayout>
 #include <QPushButton>
+#include <QLabel>
 
 
 levelSettings::levelSettings(QWidget *parent) :
@@ -37,6 +38,12 @@ levelSettings::levelSettings(QWidget *parent) :
     butLay->addWidget(saveBut);
 
     mainLay->addLayout(butLay);
+    mainLay->addStretch(1);
+    
+    QLabel *moreLab = new QLabel(tr("Get more levels <a href=\"%1\">from Nootka home page</a>").
+        arg("http://www.nootka.sf.net/index.php?C=down#levels"), this);
+    moreLab->setOpenExternalLinks(true);
+    mainLay->addWidget(moreLab, 0, Qt::AlignCenter);
     mainLay->addStretch(1);
 
     setLayout(mainLay);

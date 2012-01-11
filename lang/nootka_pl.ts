@@ -1913,14 +1913,19 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>levelSettings</name>
     <message>
-        <location filename="../src/level/levelsettings.cpp" line="35"/>
+        <location filename="../src/level/levelsettings.cpp" line="36"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../src/level/levelsettings.cpp" line="36"/>
+        <location filename="../src/level/levelsettings.cpp" line="37"/>
         <source>Save level&apos;s settings to file</source>
         <translation>Zapisz ustawienia poziomu do pliku</translation>
+    </message>
+    <message>
+        <location filename="../src/level/levelsettings.cpp" line="43"/>
+        <source>Get more levels &lt;a href=&quot;%1&quot;&gt;from Nootka home page&lt;/a&gt;</source>
+        <translation>Pobierz więcej poziomów &lt;a href=&quot;%1&quot;&gt;ze strony www.nootka.sf.net&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
