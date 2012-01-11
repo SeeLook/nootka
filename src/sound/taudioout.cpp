@@ -126,6 +126,7 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
           m_buffer.resize(m_audioOutput->periodSize()*2);
           m_period = (SAMPLE_RATE*2) / m_audioOutput->periodSize();
           qDebug() << "period [ms]" << m_period;
+//          qDebug() << "buffer:" << m_buffer.size();
 //          connect(m_audioOutput, SIGNAL(stateChanged(QAudio::State)),
 //                 this, SLOT(stateSlot(QAudio::State))); 
 //           connect(m_IOaudioDevice, SIGNAL(), this, SLOT(bytesWritenSlot(qint64)));
@@ -361,7 +362,7 @@ void TaudioOUT::timeForAudio() {
   if (m_audioOutput && m_audioOutput->state() != QAudio::StoppedState) {
     int perSize = qMin(m_audioOutput->periodSize(), m_buffer.size());
     int chunks = m_audioOutput->bytesFree() / perSize;
-//     qDebug() << "period:" << m_audioOutput->periodSize() << "free:" << m_audioOutput->bytesFree() << chunks;
+    qDebug() << "period:" << m_audioOutput->periodSize() << "free:" << m_audioOutput->bytesFree() << chunks;
     qint16 sample;
     if (chunks == 0) {
 //       qDebug("empty chunk");
@@ -416,7 +417,7 @@ void TaudioOUT::midiNoteOff() {
 
 void TaudioOUT::stateSlot(QAudio::State st) {
 //   if (st == QAudio::IdleState && !m_doPlay) {
-//     qDebug() << st;
+     qDebug() << st;
 //      m_timer->stop();
 // //      m_audioOutput->reset();
 //      emit noteFinished();
@@ -424,7 +425,7 @@ void TaudioOUT::stateSlot(QAudio::State st) {
 }
 
 void TaudioOUT::bytesWritenSlot(qint64 len) {
-  qDebug() << "bytesWritten:" << len;
+//  qDebug() << "bytesWritten:" << len;
 }
 
 
