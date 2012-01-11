@@ -1912,14 +1912,19 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>levelSettings</name>
     <message>
-        <location filename="../src/level/levelsettings.cpp" line="35"/>
+        <location filename="../src/level/levelsettings.cpp" line="36"/>
         <source>Save</source>
         <translation>Uložit</translation>
     </message>
     <message>
-        <location filename="../src/level/levelsettings.cpp" line="36"/>
+        <location filename="../src/level/levelsettings.cpp" line="37"/>
         <source>Save level&apos;s settings to file</source>
         <translation>Uložit nastavení úrovně do souboru</translation>
+    </message>
+    <message>
+        <location filename="../src/level/levelsettings.cpp" line="43"/>
+        <source>Get more levels &lt;a href=&quot;%1&quot;&gt;from Nootka home page&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

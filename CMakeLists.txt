@@ -21,7 +21,7 @@ SET(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
 ###########################################################################
   IF(WIN32)
     include_directories(${QT_INCLUDES}/QtMultimedia)
-  ELSE(WIN32)
+  ELSE(WIN32) # This works for Ubuntu others major distro have qaudio.h in /usr/include
     include_directories(/usr/include/QtMultimediaKit)
     include_directories(/usr/include/QtMobility)
   ENDIF(WIN32)
@@ -33,12 +33,26 @@ find_library(QTMULTIMEDIAKIT_LIBRARY
                         QtMultimediaKit
                   PATHS
                         /usr/lib
+                        /usr/lib64
+                        /usr/local/lib
+                        /opt/local/lib
+  )
+if (NOT QTMULTIMEDIAKIT_LIBRARY)
+  find_library(QTMULTIMEDIAKIT_LIBRARY
+                  NAMES
+                        QtMultimedia
+                  PATHS
+                        /usr/lib
+                        /usr/lib64
                         /usr/local/lib
                         /opt/local/lib
   )
 
-mark_as_advanced(QTMULTIMEDIAKIT_LIBRARY)
+endif (NOT QTMULTIMEDIAKIT_LIBRARY)
+
+# mark_as_advanced(QTMULTIMEDIAKIT_LIBRARY)
 message(STATUS "Qt Multimedia: ${QTMULTIMEDIAKIT_LIBRARY}")
+# message(STATUS "QtMultimedia: ${QT_QTMULTIMEDIA_LIBRARY}")
 
 ###########################################################################
 ########   Looking for fftw3
@@ -54,8 +68,8 @@ ELSE(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
       /usr/local/include
       /opt/local/include
       /sw/include
-      ${CMAKE_CURRENT_SOURCE_DIR}
-      ${CMAKE_CURRENT_BINARY_DIR}
+      "${CMAKE_CURRENT_SOURCE_DIR}/fftw"
+      "${CMAKE_CURRENT_BINARY_DIR}/fftw"
   )
   IF(WIN32)
             find_library(FFTW3_LIBRARY
@@ -71,6 +85,7 @@ ELSE(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
         fftw3f
       PATHS
         /usr/lib
+        /usr/lib64
         /usr/local/lib
         /opt/local/lib
         /sw/lib
@@ -95,7 +110,7 @@ IF(FFTW3_INCLUDE_DIRS AND FFTW3_LIBRARIES)
   ELSE(FFTW3_FOUND)
       message(FATAL_ERROR "Could not find Fftw3\nTry call cmake with args:\n-DFFTW3_LIBRARIES=/path_to/libfftw3.la(dll) -DFFTW3_INCLUDE_DIRS=/path_to_dir_with/fftw3.h\nor put those files in build dir or source dir")
   ENDIF(FFTW3_FOUND)
-  mark_as_advanced(FFTW3_INCLUDE_DIRS FFTW3_LIBRARIES)
+#   mark_as_advanced(FFTW3_INCLUDE_DIRS FFTW3_LIBRARIES)
 ENDIF(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
 
 include_directories(${FFTW3_INCLUDE_DIRS})
