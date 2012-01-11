@@ -1,21 +1,29 @@
-Nootka 0.7.7 beta 1
+Nootka 0.8
 ===========================
 ===========BUILD===========
 ===========================
 
 Requirements:
 - Qt libraries (obviously)
-- Portaudio
-    For Windows Portaudio have to be compiled with directsound or ASIO
-    (see Portaudio build instructions)
+- QtMultimedia
+  uder Windows it is included with Qt/Qt-SDK package
+  but under Linux it is separate package:
+    - rpm based (Suse, Fedora) it is in qt-devel
+    - deb based (Ubuntu, Mint) it is qtmultimediakit and qtmibility-dev
+- FFTW libraries (http://www.fftw.org/)
+    libfftw3-dev
 - libasound-dev under linux
 
 
 - Unpack tarball
 - create some dir (f. e. "build") out of unpacked source directory
 - go to build dir
-- cmake ../nootka-0.7.7 (or ccmake or qtcmake with GUI)
-  select PORTAUDIO_LIBRARIES variable if Your PA is somewhere else than usualy
+- cmake ../nootka-0.8 (or ccmake or qtcmake with GUI)
+  if You get error about not founded libfftw or libQtMultimedia(Kit1)
+  put it manually:
+      -DFFTW3_LIBRARIES=/path_to/libfftw3f.la(dll)
+      -DFFTW3_INCLUDE_DIRS=/path_to_dir_with/fftw3.h
+      -DQTMULTIMEDIAKIT_LIBRARY=/path_to_dir_with/libqtmultimedia.la(dll)
 - make
 - make install (usually as root)
 
