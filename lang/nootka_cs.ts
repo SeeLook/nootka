@@ -6,137 +6,137 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="40"/>
         <source>enable pitch detection</source>
-        <translation type="unfinished"></translation>
+        <translation>Povolit zjištění výšky tónu</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="48"/>
         <source>input device</source>
-        <translation type="unfinished"></translation>
+        <translation>Vstupní zařízení</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="52"/>
         <source>Be sure Your input device (a mike, a webcam, an instrument pluged to line-in) is properly configured by Your operating system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ujistěte se, že vaše vstupní zařízení (mikrofon, kamera počítače, k počítači připojený nástroj) je vaším operačním systémem nastaveno správně.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="56"/>
         <source>pitch detection mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Režim zjištění výšky tónu</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="63"/>
         <source>for playing</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro hraní</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="66"/>
         <source>This mode is faster and good enought for guitars and other instruments.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tento režim je rychlejší a dostatečně dobrý pro kytary a jiné nástroje.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="70"/>
         <source>for singing</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro zpívání</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="73"/>
         <source>This mode is more accurate but slower. It is recommended for singing and for instruments with &quot;wobbly&quot; intonation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tento režim je přesnější ale pomalejší. Doporučuje se pro zpěv a pro nástroje s nejistou (roztřesenou) intonací.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="96"/>
         <source>middle A</source>
-        <translation type="unfinished"></translation>
+        <translation>Střední A</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="99"/>
         <source>frequency:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kmitočet:</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="103"/>
         <source>A pitch of detecting notes is related to this value. It also affects played sounds - for midi exaclty and for real audio it is rounded to semitones.</source>
-        <translation type="unfinished"></translation>
+        <translation>Výška zjišťování not je spojena s touto hodnotou. Také ovlivňuje přehrávané zvuky - pro MIDI přesně a pro skutečný zvuk je zaokrouhlena na půltóny.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="110"/>
         <source>interval:</source>
-        <translation type="unfinished"></translation>
+        <translation>Interval:</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="114"/>
         <source>semitone up</source>
-        <translation type="unfinished"></translation>
+        <translation>Půltón nahoru</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="115"/>
         <source>none</source>
-        <translation type="unfinished">Žádné</translation>
+        <translation>Žádné</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="116"/>
         <source>semitone down</source>
-        <translation type="unfinished"></translation>
+        <translation>Půltón dolů</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="117"/>
         <source>Shifts the frequency of base a&lt;sup&gt;1&lt;/sup&gt; on semitone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Posune kmitočet základního a&lt;sup&gt;1&lt;/sup&gt; o půltón.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="131"/>
         <source>noise level:</source>
-        <translation type="unfinished"></translation>
+        <translation>Úroveň šumu:</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="141"/>
         <source>Only sounds louder than noise level are taken to pitch analyse. It can improve the pitch detection accuracy.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro rozbor výšky tónu se berou pouze zvuky, které jsou hlasitější než úroveň šumu. Může to zlepšit přesnost zjištění výšky tónu.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="142"/>
         <source>Calculate</source>
-        <translation type="unfinished"></translation>
+        <translation>Spočítat</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="144"/>
         <source>Click to automatically detect noise level.&lt;br&gt;Keep silence during 2 seconds to determine it properly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klepněte pro automatické zjištění úrovně šumu.&lt;br&gt;Po dobu dvou sekund zachovejte ticho, aby byla úroveň šumu určena správně.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="152"/>
         <source>Test</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyzkoušet</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="153"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Zastavit</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="158"/>
         <source>Check, are audio input settings appropirate for You,&lt;br&gt;and does pitch detection work?</source>
-        <translation type="unfinished"></translation>
+        <translation>Ověřte, zda jsou nastavení vstupu zvuku pro vás vhodná,&lt;br&gt;a zda zjištění výšky tónu pracuje?</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="170"/>
         <source>Detected pitch</source>
-        <translation type="unfinished"></translation>
+        <translation>Zjištění výšky tónu</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="177"/>
         <source>Frequency of detected note. You can use it for tune</source>
-        <translation type="unfinished"></translation>
+        <translation>Kmitočet zjištěné noty. Můžete jej použít pro ladění</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="265"/>
         <source>no devices found</source>
-        <translation type="unfinished">Nebylo nalezeno žádné zařízení</translation>
+        <translation>Nebylo nalezeno žádné zařízení</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="313"/>
         <source>There isn&apos;t any noise !?!&lt;br&gt;It seems, Your audio input&lt;br&gt;is not configured properly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Není tu žádný šum!&lt;br&gt;Zdá se, že vstup zvuku&lt;br&gt;není nastaven správně.</translation>
     </message>
 </context>
 <context>
@@ -144,107 +144,107 @@
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="34"/>
         <source>play sound</source>
-        <translation type="unfinished">Přehrát zvuk</translation>
+        <translation>Přehrát zvuk</translation>
     </message>
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="35"/>
         <source>Selected notes and guitar positions will be played.</source>
-        <translation type="unfinished">Budou přehrány vybrané noty a kytarové polohy.</translation>
+        <translation>Budou přehrány vybrané noty a kytarové polohy.</translation>
     </message>
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="41"/>
         <source>real audio playback</source>
-        <translation type="unfinished">Skutečná přehrávka zvuku</translation>
+        <translation>Přehrávání skutečného zvuku</translation>
     </message>
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="42"/>
         <source>Natural, high quality sound of classical guitar&lt;br&gt;but limited to scale &lt;b&gt;from C&lt;sub&gt;1&lt;/sub&gt; to e&lt;sup&gt;3&lt;/sup&gt;&lt;/b&gt;</source>
-        <translation type="unfinished">Přirozený, zvuk klasické kytary o vysoké jakosti&lt;br&gt;ale ohraničený rozsahem&lt;b&gt; od C&lt;sub&gt;1&lt;/sub&gt; do e&lt;sup&gt;3&lt;/sup&gt;&lt;/b&gt;</translation>
+        <translation>Přirozený zvuk klasické kytary o vysoké jakosti&lt;br&gt;ale ohraničený rozsahem&lt;b&gt; od C&lt;sub&gt;1&lt;/sub&gt; do e&lt;sup&gt;3&lt;/sup&gt;&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="47"/>
         <source>audio device for output</source>
-        <translation type="unfinished">Zvukové zařízení pro výstup</translation>
+        <translation>Zvukové zařízení pro výstup</translation>
     </message>
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="56"/>
         <source>midi playback</source>
-        <translation type="unfinished">Přehrávání MIDI</translation>
+        <translation>Přehrávání MIDI</translation>
     </message>
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="57"/>
         <source>Artificial, low quality sound (depends on hardware)&lt;br&gt;but there is possibility to select an instrument&lt;br&gt;and whole scale can be played.</source>
-        <translation type="unfinished">Uměle vytvořený zvuk o nízké jakosti (v závislosti na technickém vybavení)&lt;br&gt;ale s možností výběru nástroje&lt;br&gt;a je možné přehrát celý rozsah.</translation>
+        <translation>Uměle vytvořený zvuk o nízké jakosti (v závislosti na technickém vybavení)&lt;br&gt;ale s možností výběru nástroje&lt;br&gt;a je možné přehrát celý rozsah.</translation>
     </message>
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="63"/>
         <source>midi port</source>
-        <translation type="unfinished">Přípojka MIDI</translation>
+        <translation>Přípojka MIDI</translation>
     </message>
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="74"/>
         <source>no midi ports</source>
-        <translation type="unfinished">Žádné přípojky MIDI</translation>
+        <translation>Žádné přípojky MIDI</translation>
     </message>
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="78"/>
         <source>instrument</source>
-        <translation type="unfinished">Nástroj</translation>
+        <translation>Nástroj</translation>
     </message>
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="82"/>
         <source>Grand Piano</source>
-        <translation type="unfinished">Klavír, křídlo</translation>
+        <translation>Klavír, křídlo</translation>
     </message>
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="83"/>
         <source>Harpsichord</source>
-        <translation type="unfinished">Cembalo</translation>
+        <translation>Cembalo</translation>
     </message>
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="84"/>
         <source>Classical Guitar</source>
-        <translation type="unfinished">Klasická kytara</translation>
+        <translation>Klasická kytara</translation>
     </message>
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="85"/>
         <source>Acoustic Guitar</source>
-        <translation type="unfinished">Akustická kytara</translation>
+        <translation>Akustická kytara</translation>
     </message>
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="86"/>
         <source>Electric Guitar</source>
-        <translation type="unfinished">Elektrická kytara</translation>
+        <translation>Elektrická kytara</translation>
     </message>
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="87"/>
         <source>Electric Guitar (Overdriven)</source>
-        <translation type="unfinished">Elektrická kytara (na plné obrátky)</translation>
+        <translation>Elektrická kytara (na plné obrátky)</translation>
     </message>
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="88"/>
         <source>Bass Guitar</source>
-        <translation type="unfinished">Basová kytara</translation>
+        <translation>Basová kytara</translation>
     </message>
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="89"/>
         <source>Violin</source>
-        <translation type="unfinished">Housle</translation>
+        <translation>Housle</translation>
     </message>
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="90"/>
         <source>Sax</source>
-        <translation type="unfinished">Saxofon</translation>
+        <translation>Saxofon</translation>
     </message>
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="91"/>
         <source>Flute</source>
-        <translation type="unfinished">Flétna</translation>
+        <translation>Flétna</translation>
     </message>
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="139"/>
         <source>no devices found</source>
-        <translation type="unfinished">Nebylo nalezeno žádné zařízení</translation>
+        <translation>Nebylo nalezeno žádné zařízení</translation>
     </message>
 </context>
 <context>
@@ -257,12 +257,12 @@
     <message>
         <location filename="../src/settings/examsettings.h" line="42"/>
         <source>check answers without confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>Ověřit odpovědi bez potvrzení</translation>
     </message>
     <message>
         <location filename="../src/settings/examsettings.h" line="43"/>
         <source>show help when exam starts</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat nápovědu, když zkouška začne</translation>
     </message>
     <message>
         <location filename="../src/settings/examsettings.cpp" line="38"/>
@@ -277,17 +277,17 @@
     <message>
         <location filename="../src/settings/examsettings.cpp" line="49"/>
         <source>Shows window with help when new exam begins.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukáže okno s nápovědou, když začne nová zkouška.</translation>
     </message>
     <message>
         <location filename="../src/settings/examsettings.cpp" line="53"/>
         <source>student&apos;s name:</source>
-        <translation type="unfinished">Žákovo jméno:</translation>
+        <translation>Žákovo jméno:</translation>
     </message>
     <message>
         <location filename="../src/settings/examsettings.cpp" line="58"/>
         <source>Default name for every new exam.</source>
-        <translation type="unfinished"></translation>
+        <translation>Výchozí název každé nové zkoušky.</translation>
     </message>
     <message>
         <location filename="../src/settings/examsettings.cpp" line="63"/>
@@ -470,7 +470,7 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="320"/>
         <source>Note was detected !!</source>
-        <translation type="unfinished"></translation>
+        <translation>Byla zjištěna nota!</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="163"/>
@@ -551,27 +551,27 @@
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="102"/>
         <source>Played sounds are pointed in score.&lt;br&gt;No guitar, no note names, no key signatures.&lt;br&gt;Scale A - a&lt;sup&gt;1&lt;/sup&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Přehrávané zvuky jsou zdůrazněny v notách.&lt;br&gt;Žádná kytara, žádné názvy not, žádná předznamenání.&lt;br&gt;Rozsah A - a&lt;sup&gt;1&lt;/sup&gt;</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="124"/>
         <source>Play scores</source>
-        <translation type="unfinished"></translation>
+        <translation>Přehrát noty</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="125"/>
         <source>Take Your instrument and just play...&lt;br&gt;No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vezměte svůj nástroj a jen hrajte...&lt;br&gt;Žádné názvy not, žádný hmatník. Jsou povoleny stupnice až do čtyř posuvek! Rozsah celé kytary bez poloh.</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="147"/>
         <source>Sing scores</source>
-        <translation type="unfinished"></translation>
+        <translation>Zpívat noty</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="148"/>
         <source>Just sing a score...&lt;br&gt;No note names, no fretboard, no keys and double accids. Scale doesn&apos;t matter because octaves are ignored - You can transpose.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pouze zpívejte noty...&lt;br&gt;Žádné názvy not, žádný hmatník, žádné stupnice a dvojité posuvky. Na rozsahu nezáleží, protože na oktávy se nebere zřetel - Můžete transponovat.</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="58"/>
@@ -617,7 +617,7 @@
         <location filename="../src/exam/texam.cpp" line="119"/>
         <source>Cannot save exam file:
 %1</source>
-        <translation type="unfinished">Nelze uložit soubor se zkouškou:
+        <translation>Nelze uložit soubor se zkouškou:
 %1</translation>
     </message>
 </context>
@@ -692,7 +692,7 @@
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="245"/>
         <source>Score</source>
-        <translation>Notový zápis</translation>
+        <translation>Noty</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="248"/>
@@ -718,12 +718,12 @@
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="269"/>
         <source>listening</source>
-        <translation type="unfinished"></translation>
+        <translation>Poslech</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="270"/>
         <source>playing</source>
-        <translation type="unfinished"></translation>
+        <translation>Hra</translation>
     </message>
 </context>
 <context>
@@ -896,12 +896,12 @@
     <message>
         <location filename="../src/level/questionssettings.cpp" line="420"/>
         <source>require octave</source>
-        <translation type="unfinished">Požadována oktáva</translation>
+        <translation>Požadována oktáva</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="421"/>
         <source>if checked, playing or singing in valid octave is required</source>
-        <translation type="unfinished"></translation>
+        <translation>Je-li zaškrtnuto, je požadována hra nebo zpěv v platné oktávě</translation>
     </message>
 </context>
 <context>
@@ -1041,12 +1041,12 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="116"/>
         <source>An exam requires sound input but&lt;br&gt;it is not available !!!</source>
-        <translation type="unfinished"></translation>
+        <translation>Zkouška vyžaduje vstup zvuku,&lt;br&gt;ale zvukový vstup není dostupný!</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="169"/>
         <source>Level &lt;b&gt;%1&lt;b&gt;&lt;br&gt;has no sense till there are no any possible question to ask.&lt;br&gt;It can be unadjusted to current tune.&lt;br&gt;Repair it in Level Creator and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Úroveň &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nemá smysl, protože nemá žádnou otázku, kterou by bylo možné zadat.&lt;br&gt;Může být nenastavena na nynější ladění.&lt;br&gt;Opravte to v tvůrci úrovní a zkuste to znovu.</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="345"/>
@@ -1056,7 +1056,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="353"/>
         <source>Play or sing given note</source>
-        <translation type="unfinished"></translation>
+        <translation>Zahrajte nebo zazpívejte danou notu</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="450"/>
@@ -1086,7 +1086,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="470"/>
         <source>To correct an answer</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro opravu odpovědi</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="541"/>
@@ -1096,7 +1096,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="546"/>
         <source>help</source>
-        <translation type="unfinished"></translation>
+        <translation>Nápověda</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="549"/>
@@ -1129,97 +1129,97 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="33"/>
         <source>Exam&apos;s help</source>
-        <translation type="unfinished"></translation>
+        <translation>Nápověda ke zkoušce</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="38"/>
         <source>How does an exam work ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Jak zkouška pracuje?</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="43"/>
         <source>Select 2-nd check box to get the question automaticaly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyberte druhé zaškrtávací okénko, abyste otázku dostali automaticky.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="45"/>
         <source>Questions are marked with this color and &quot;?&quot; mark.</source>
-        <translation type="unfinished"></translation>
+        <translation>Otázky jsou označeny touto barvou a znakem &quot;?&quot;.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="46"/>
         <source>To give an answer, select it on &lt;span style=&quot;%1&quot;&gt;Nootka&apos;s element pointed with that color.&lt;/span&gt;&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro podání odpovědi ji vyberte na &lt;span style=&quot;%1&quot;&gt;prvku Nootky zdůrazněném touto barvou.&lt;/span&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="49"/>
         <source>To check the answer confirm it:</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro prověření odpovědi ji potvrďte:</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="52"/>
         <source>If You made a mistake and You want to repeat the question:</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokud jste se zmýlili a chcete otázku zopakovat:</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="54"/>
         <source>By selecting 3-rd check box, the answers will be checking immediately without confirmation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybráním třetího zaškrtávacího okénka se budou odpovědi ověřovat okamžitě bez potvrzení.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="55"/>
         <source>To stop the exam click &lt;img src=&quot;%1&quot;&gt; button.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro zastavení zkoušky klepněte na tlačítko &lt;img src=&quot;%1&quot;&gt;.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="57"/>
         <source>GOOD LUCK !!!</source>
-        <translation type="unfinished"></translation>
+        <translation>Hodně štěstí!</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="58"/>
         <source>Experts&apos; corner</source>
-        <translation type="unfinished"></translation>
+        <translation>Odborníkův koutek</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="60"/>
         <source>show or hide the hints</source>
-        <translation type="unfinished">Ukázat nebo skrýt rady</translation>
+        <translation>Ukázat nebo skrýt rady</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="73"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.h" line="39"/>
         <source>or right mouse button</source>
-        <translation type="unfinished">nebo pravé tlačítko myši</translation>
+        <translation>nebo pravé tlačítko myši</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.h" line="41"/>
         <source>click &lt;img src=&quot;%1&quot;&gt; button</source>
-        <translation type="unfinished"></translation>
+        <translation>Klepněte na tlačítko &lt;img src=&quot;%1&quot;&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.h" line="42"/>
         <source>To get question</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro dostání otázky</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.h" line="43"/>
         <source>press &lt;b&gt;space&lt;/b&gt; key</source>
-        <translation type="unfinished"></translation>
+        <translation>stiskněte klávesu &lt;b&gt;mezerníku&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.h" line="44"/>
         <source>press &lt;b&gt;Enter&lt;/b&gt; key</source>
-        <translation type="unfinished"></translation>
+        <translation>stiskněte klávesu &lt;b&gt;Enter&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.h" line="45"/>
         <source>or &lt;b&gt;Backspace&lt;/b&gt; key</source>
-        <translation type="unfinished"></translation>
+        <translation>nebo klávesu &lt;b&gt;Backspace&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -1227,67 +1227,67 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="40"/>
         <source>student:</source>
-        <translation type="unfinished"></translation>
+        <translation>Žák:</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="44"/>
         <source>Questions number:</source>
-        <translation type="unfinished"></translation>
+        <translation>Číslo otázky:</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="48"/>
         <source>times:</source>
-        <translation type="unfinished"></translation>
+        <translation>Časy:</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="51"/>
         <source>Time of work</source>
-        <translation type="unfinished"></translation>
+        <translation>Čas práce</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="60"/>
         <source>Close</source>
-        <translation type="unfinished">Zavřít</translation>
+        <translation>Zavřít</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="70"/>
         <source>Results:</source>
-        <translation type="unfinished"></translation>
+        <translation>Výsledky:</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="87"/>
         <source>Kinds of mistakes</source>
-        <translation type="unfinished"></translation>
+        <translation>Druhy omylů</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="90"/>
         <source>Wrong notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Nesprávné noty</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="92"/>
         <source>Wrong accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>Nesprávné posuvky</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="94"/>
         <source>Wrong key signatures</source>
-        <translation type="unfinished"></translation>
+        <translation>Nesprávná  předznamenání</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="96"/>
         <source>Wrong octaves</source>
-        <translation type="unfinished"></translation>
+        <translation>Nesprávné oktávy</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="98"/>
         <source>Wrong note name-calling</source>
-        <translation type="unfinished"></translation>
+        <translation>Nesprávný název noty</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="100"/>
         <source>Wrong frets or strings</source>
-        <translation type="unfinished"></translation>
+        <translation>Nesprávné pražce nebo struny</translation>
     </message>
 </context>
 <context>
@@ -1295,37 +1295,37 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/exam/texamview.h" line="42"/>
         <source>Average time of an answer</source>
-        <translation type="unfinished"></translation>
+        <translation>Průměrný čas odpovědi</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.h" line="43"/>
         <source>[in seconds]</source>
-        <translation type="unfinished"></translation>
+        <translation>[v sekundách]</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.h" line="44"/>
         <source>Time of an answer</source>
-        <translation type="unfinished"></translation>
+        <translation>Čas odpovědi</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.h" line="45"/>
         <source>Number of mistakes</source>
-        <translation type="unfinished"></translation>
+        <translation>Počet omylů</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.h" line="46"/>
         <source>Total time of an exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Celkový čas zkoušky</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.h" line="47"/>
         <source>Number of correct answers</source>
-        <translation type="unfinished"></translation>
+        <translation>Počet správných odpovědí</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.h" line="48"/>
         <source>Effectiveness</source>
-        <translation type="unfinished"></translation>
+        <translation>Účinnost</translation>
     </message>
 </context>
 <context>
@@ -1333,42 +1333,42 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="33"/>
         <source>Experts&apos; answers</source>
-        <translation type="unfinished"></translation>
+        <translation>Odborníkovy odpovědi</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="36"/>
         <source>You are about to go in expert&apos;s answers.&lt;br&gt; In this mode You don&apos;t need to confirm every answer,&lt;br&gt;&lt;b&gt;but remember the folowing:&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Chystáte se jít do odborníkových odpovědí.&lt;br&gt; V tomto režimu nepotřebujete potvrzovat každou odpověď,&lt;br&gt;&lt;b&gt;ale zapamatujte si toto:&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="37"/>
         <source>Selecting a note on the score or position on the fingerboard invokes checking of Your answer, so select a key signature first if required.</source>
-        <translation type="unfinished"></translation>
+        <translation>Výběr noty v notovém zápisu nebo polohy na hmatníku vyvolá ověření vaší odpovědi, takže nejprve, když je to vyžadováno, označte tóninu.</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="38"/>
         <source>When an answer is name of a note &lt;b&gt;first select&lt;/b&gt; a proper accidental and an octave and then click a note button - it invokes checking.</source>
-        <translation type="unfinished"></translation>
+        <translation>Když odpovědí je název noty &lt;b&gt;vyberte nejprve&lt;/b&gt; správnou posuvku a oktávu, a pak klepněte na tlačítko noty - vyvolá to ověření.</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="39"/>
         <source>When You have to play a note as an answer - the first detected sound will be taken. Be sure that Your input device captures exactly what You want.</source>
-        <translation type="unfinished"></translation>
+        <translation>Když máte jako odpověď zahrát notu - bude vzat první zahraný zvuk. Ujistěte se, že vaše vstupní zařízení zachytává přesně to, co chcete.</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="47"/>
         <source>Always remind me about this</source>
-        <translation type="unfinished"></translation>
+        <translation>Toto připomínat vždy</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="53"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Použít</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="56"/>
         <source>Discard</source>
-        <translation type="unfinished">Odmítnout</translation>
+        <translation>Odmítnout</translation>
     </message>
 </context>
 <context>
@@ -1709,7 +1709,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/info/tfirstrunwizzard.cpp" line="129"/>
         <source>b</source>
         <comment>Give here a name of 7-th note prefered in Your country. But only &apos;b&apos; or &apos;h&apos; not &apos;si&apos; or something worst...</comment>
-        <translation type="unfinished"></translation>
+        <translation>h</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="137"/>
@@ -1732,7 +1732,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="163"/>
         <source>Nootka can recognize played or sung sound&lt;br&gt;but it requires adjustment and some practise.&lt;br&gt;All needed settings are in &lt;b&gt;Preferences-&gt;Sound&lt;b&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nootka dokáže rozpoznat zahraný nebo zazpívaný zvuk,&lt;br&gt;ale vyžaduje to nastavení a nějaké to cvičení.&lt;br&gt;Všechna potřebná nastavení jsou v &lt;b&gt;Nastavení-&gt;Zvuk&lt;b&gt;.</translation>
     </message>
 </context>
 <context>
@@ -1740,17 +1740,17 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/sound/tpitchview.cpp" line="45"/>
         <source>Toggles between pitch detection for singing and for playing</source>
-        <translation type="unfinished"></translation>
+        <translation>Přepne mezi zjištěním zvuku pro zpívání a pro hraní</translation>
     </message>
     <message>
         <location filename="../src/sound/tpitchview.cpp" line="53"/>
         <source>Shows volume level of input sound and indicates when note was detected</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukáže úroveň hlasitosti vstupního zvuku a naznačí, když je zjištěna nota</translation>
     </message>
     <message>
         <location filename="../src/sound/tpitchview.cpp" line="59"/>
         <source>Switch on/off the pitch detection</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapnout/Vypnout zjištění zvuku</translation>
     </message>
 </context>
 <context>
@@ -1924,7 +1924,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/level/levelsettings.cpp" line="43"/>
         <source>Get more levels &lt;a href=&quot;%1&quot;&gt;from Nootka home page&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Dostat více úrovní &lt;a href=&quot;%1&quot;&gt;ze stránek programu Nootka&lt;/a&gt;</translation>
     </message>
 </context>
 <context>

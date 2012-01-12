@@ -291,9 +291,9 @@ void TaudioOUT::setMidiParams() {
           return;
       }
       m_params->midiPortName = QString::fromStdString(m_midiOut->getPortName(portNr));
-      qDebug() << "midi device:" << m_params->midiPortName << 
-      "instr:" << (int)m_params->midiInstrNr /*<< "address:" << (int)m_midiOut*/;
+      qDebug() << "midi device:" << m_params->midiPortName << "instr:" << (int)m_params->midiInstrNr;
       // midi program (instrument) change
+      m_message.clear();
       m_message.push_back(192);
       m_message.push_back(m_params->midiInstrNr); // instrument number
       m_midiOut->sendMessage(&m_message);
@@ -362,7 +362,12 @@ void TaudioOUT::timeForAudio() {
   if (m_audioOutput && m_audioOutput->state() != QAudio::StoppedState) {
     int perSize = qMin(m_audioOutput->periodSize(), m_buffer.size());
     int chunks = m_audioOutput->bytesFree() / perSize;
-    qDebug() << "period:" << m_audioOutput->periodSize() << "free:" << m_audioOutput->bytesFree() << chunks;
+    if (m_audioOutput->bytesFree() == -128) {
+      qDebug("Audio device is in trouble. Shock teraphy used");
+      perSize = m_audioOutput->periodSize();
+      chunks = 1;
+    }
+//     qDebug() << "period:" << m_audioOutput->periodSize() << "free:" << m_audioOutput->bytesFree() << chunks;
     qint16 sample;
     if (chunks == 0) {
 //       qDebug("empty chunk");
@@ -386,6 +391,7 @@ void TaudioOUT::timeForAudio() {
           }
         }
         m_IOaudioDevice->write(m_buffer.data(), (m_audioOutput->periodSize()/8)*8);
+        //TODO periodSize seems to be const - stop this calculations
         chunks--;
 //       mutex.unlock();
       }
