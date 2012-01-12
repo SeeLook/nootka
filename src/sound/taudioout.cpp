@@ -224,7 +224,7 @@ void TaudioOUT::play(int noteNr) {
     m_noteOffset = (noteNr + 11)*SAMPLE_RATE - 1000;
 //     mutex.unlock();
     timeForAudio();
-    m_timer->start(m_period);
+    m_timer->start(m_period-10);
   }
 }
 
@@ -363,7 +363,7 @@ void TaudioOUT::timeForAudio() {
     int perSize = qMin(m_audioOutput->periodSize(), m_buffer.size());
     int chunks = m_audioOutput->bytesFree() / perSize;
     if (m_audioOutput->bytesFree() == -128) {
-      qDebug("Audio device is in trouble. Shock teraphy used");
+//       qDebug("Audio device is in trouble. Shock teraphy used");
       perSize = m_audioOutput->periodSize();
       chunks = 1;
     }
@@ -386,6 +386,7 @@ void TaudioOUT::timeForAudio() {
           if (m_samplesCnt == 40000) {
 //              qDebug("enought");
               m_doPlay = false;
+//               m_IOaudioDevice->reset();
 //               mutex.unlock();
               break;
           }
