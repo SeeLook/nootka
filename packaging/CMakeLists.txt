@@ -68,14 +68,14 @@ set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_CURRENT_SOURCE_DIR}/debian/posti
 # CPACK_RPM_PACKAGE_NAME # Default   : CPACK_PACKAGE_NAME
 # CPACK_RPM_PACKAGE_VERSION # Default   : CPACK_PACKAGE_VERSION
 # CPACK_RPM_PACKAGE_ARCHITECTURE # Default   : -
-set(CPACK_RPM_PACKAGE_RELEASE "1")
+set(CPACK_RPM_PACKAGE_RELEASE "2")
 set(CPACK_RPM_PACKAGE_LICENSE "GPLv3")
 set(CPACK_RPM_PACKAGE_GROUP "Applications/Education")
 set(CPACK_RPM_PACKAGE_VENDOR "Nootka")
 set(CPACK_RPM_PACKAGE_URL "http://nootka.sf.net")
 # CPACK_RPM_PACKAGE_DESCRIPTION # Default   : CPACK_PACKAGE_DESCRIPTION_FILE if set or "no package description available"
 # CPACK_RPM_COMPRESSION_TYPE #  Possible value are: lzma, xz, bzip2 and gzip.
-# set(CPACK_RPM_PACKAGE_REQUIRES "libqt4-core >= 4.6, libqt4-gui >= 4.6, portaudio-19")
+set(CPACK_RPM_PACKAGE_REQUIRES "libQtGui >= 4.6, qt-devel, fftw-3")
 set(CPACK_RPM_PACKAGE_SUGGESTS "timidity")
 # set(CPACK_RPM_SPEC_INSTALL_POST "/usr/bin/update-desktop-database &> /dev/null || :
 # /usr/bin/update-mime-database %{_datadir}/mime &> /dev/null || :")

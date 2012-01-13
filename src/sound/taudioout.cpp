@@ -25,7 +25,6 @@
 #include <QAudio>
 // #include <QMutex>
 #include <QDebug>
-// #include <QBuffer>
 
 #define SAMPLE_RATE (44100)
 
@@ -35,10 +34,8 @@ QAudioFormat TaudioOUT::templAudioFormat = QAudioFormat();
 
 void TaudioOUT::prepTemplFormat() {
   templAudioFormat.setChannelCount(2);
-// templAudioFormat.setChannelCount(1);
   templAudioFormat.setSampleSize(16);
   templAudioFormat.setSampleRate(44100);
-//   templAudioFormat.setSampleRate(22050);
   templAudioFormat.setSampleType(QAudioFormat::SignedInt);
   templAudioFormat.setCodec("audio/pcm");
 }
@@ -72,7 +69,6 @@ QStringList TaudioOUT::getMidiPortsList() {
 }
 
 
-// QBuffer buff;
 
 //---------------------------------------------------------------------------------------
 //                CONSTRUCTOR
@@ -124,18 +120,10 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
           connect(m_timer, SIGNAL(timeout()), this, SLOT(timeForAudio()));
           m_IOaudioDevice = m_audioOutput->start();
           m_buffer.resize(m_audioOutput->periodSize()*2);
-          m_period = (SAMPLE_RATE*2) / m_audioOutput->periodSize();
+          m_period = (SAMPLE_RATE*2) / m_audioOutput->periodSize() - 10;
+          // m_period has to be smaller in case of QtMultimedia bug
+          // to deliver data to m_IOaudioDevice in time
           qDebug() << "period [ms]" << m_period;
-//          qDebug() << "buffer:" << m_buffer.size();
-//          connect(m_audioOutput, SIGNAL(stateChanged(QAudio::State)),
-//                 this, SLOT(stateSlot(QAudio::State))); 
-//           connect(m_IOaudioDevice, SIGNAL(), this, SLOT(bytesWritenSlot(qint64)));
-//           connect(m_audioOutput, SIGNAL(notify()), this, SLOT(midiNoteOff()));
-//           m_audioOutput->setNotifyInterval(1500);
-          /*buff.open(QIODevice::ReadOnly);
-          connect(m_timer, SIGNAL(timeout()), this, SLOT(midiNoteOff()));
-          connect(m_audioOutput, SIGNAL(stateChanged(QAudio::State)),
-                 this, SLOT(stateSlot(QAudio::State)));*/
       }
   }
 }
@@ -200,16 +188,6 @@ void TaudioOUT::play(int noteNr) {
     if (noteNr < -11 || noteNr > 41)
         return;
     
-    /*buff.seek((noteNr + 11)*SAMPLE_RATE*2 - 1000);
-    if (m_audioOutput->state() == QAudio::StoppedState)
-        m_audioOutput->start(&buff);
-    else
-        m_audioOutput->resume();
-    
-    if (m_timer->isActive())
-      m_timer->stop();
-    m_timer->start(1500);*/    
-      
     if (m_timer->isActive()) {
       m_timer->stop();
     }
@@ -224,7 +202,7 @@ void TaudioOUT::play(int noteNr) {
     m_noteOffset = (noteNr + 11)*SAMPLE_RATE - 1000;
 //     mutex.unlock();
     timeForAudio();
-    m_timer->start(m_period-10);
+    m_timer->start(m_period);
   }
 }
 
@@ -348,8 +326,6 @@ bool TaudioOUT::loadAudioData() {
   m_audioArr = new qint16[dataSizeFromChunk/2];
   wavStream.readRawData((char*)m_audioArr, dataSizeFromChunk);
   //TODO: make 1000 bytes space on the begining and fill it with 0
-  
-//   buff.setData((char*)m_audioArr, dataSizeFromChunk);
 
   wavFile.close();
   return true;
@@ -363,14 +339,16 @@ void TaudioOUT::timeForAudio() {
     int perSize = qMin(m_audioOutput->periodSize(), m_buffer.size());
     int chunks = m_audioOutput->bytesFree() / perSize;
     if (m_audioOutput->bytesFree() == -128) {
-//       qDebug("Audio device is in trouble. Shock teraphy used");
       perSize = m_audioOutput->periodSize();
       chunks = 1;
+      // It seems to be QtMultimedia bug
+      // On some platforms (64bit Ubuntu) bytesFree() returns -128
+      // It means it has 128 bytes ocupated more than possible - a cancer ?!?
+      // But it is ready to get data and plays
     }
 //     qDebug() << "period:" << m_audioOutput->periodSize() << "free:" << m_audioOutput->bytesFree() << chunks;
     qint16 sample;
     if (chunks == 0) {
-//       qDebug("empty chunk");
       return;
     }
       while (m_doPlay && chunks) {
@@ -384,15 +362,11 @@ void TaudioOUT::timeForAudio() {
             *out++ = sample;
             m_samplesCnt++;
           if (m_samplesCnt == 40000) {
-//              qDebug("enought");
               m_doPlay = false;
-//               m_IOaudioDevice->reset();
-//               mutex.unlock();
               break;
           }
         }
         m_IOaudioDevice->write(m_buffer.data(), (m_audioOutput->periodSize()/8)*8);
-        //TODO periodSize seems to be const - stop this calculations
         chunks--;
 //       mutex.unlock();
       }
@@ -406,12 +380,6 @@ void TaudioOUT::timeForAudio() {
 
 
 void TaudioOUT::midiNoteOff() {
-  /*if (!m_midiOut) {
-    m_audioOutput->suspend();
-    m_timer->stop();
-    emit noteFinished();
-    return;
-  }*/
   m_timer->stop();
   m_message[0] = 128; // note Off
   m_message[1] = m_prevMidiNote;
@@ -424,22 +392,11 @@ void TaudioOUT::midiNoteOff() {
 
 void TaudioOUT::stateSlot(QAudio::State st) {
 //   if (st == QAudio::IdleState && !m_doPlay) {
-     qDebug() << st;
+//      qDebug() << st;
 //      m_timer->stop();
 // //      m_audioOutput->reset();
 //      emit noteFinished();
 //   }
 }
-
-void TaudioOUT::bytesWritenSlot(qint64 len) {
-//  qDebug() << "bytesWritten:" << len;
-}
-
-
-// void TaudioOUT::playBuffer() {
-//   qDebug() << m_audioOutput->elapsedUSecs();
-//   m_audioOutput->stop();
-//   emit noteFinished();
-// }
 
 
