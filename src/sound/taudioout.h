@@ -20,14 +20,14 @@
 #ifndef TAUDIOOUT_H
 #define TAUDIOOUT_H
 
-// #include "RtMidi.h"
+
 #include <vector>
 #include <QString>
 #include <QObject>
 #include <QAudioFormat>
 #include <QAudioDeviceInfo>
 #include <QAudioOutput>
-// #include 
+
 
 class RtMidiOut;
 class TaudioParams;
@@ -71,7 +71,8 @@ public:
   void setMidiParams();
   bool isPlayable() { return m_playable; }
     /** Deletes midi device if exists. 
-     * Midi device usually blocks audio devices, so when it exists getAudioDevicesList() doesn't work */
+     * Midi device usually blocks audio devices, 
+     * so when it exists getAudioDevicesList() doesn't work */
   void deleteMidi();
   
 signals:
@@ -103,7 +104,7 @@ private:
       /** Number of performed samples. */
   int m_samplesCnt;
   bool m_doPlay;
-      /** Period of audio timer loop depends of QAudioOutput::periodSize() unit [ms] */
+      /** Period of audio timer loop depends on QAudioOutput::periodSize() unit [ms] */
   quint16 m_period;
 
 //########## midi #############
@@ -118,9 +119,7 @@ private slots:
   void midiNoteOff();
     /** m_timer calls this to prepare audio for device*/
   void timeForAudio();
-//   void playBuffer();
   void stateSlot(QAudio::State st);
-  void bytesWritenSlot(qint64 len);
 
 };
 
