@@ -11,7 +11,8 @@ Vendor:         @CPACK_RPM_PACKAGE_VENDOR@
 # My three cents about requirements
 %if 0%{?suse_version}
 Requires: libqt4 >= 4.6, libqt4-devel, fftw3
-%else
+%endif
+%if 0%{?fedora_version}
 Requires: qt-devel, fftw
 %endif
 
