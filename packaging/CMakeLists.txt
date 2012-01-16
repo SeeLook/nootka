@@ -76,6 +76,10 @@ set(CPACK_RPM_PACKAGE_URL "http://nootka.sf.net")
 # CPACK_RPM_PACKAGE_DESCRIPTION # Default   : CPACK_PACKAGE_DESCRIPTION_FILE if set or "no package description available"
 # CPACK_RPM_COMPRESSION_TYPE #  Possible value are: lzma, xz, bzip2 and gzip.
 # set(CPACK_RPM_PACKAGE_REQUIRES "libQtGui >= 4.6, qt-devel, fftw-3")
+#Mandriva libfftw3
+#Suse fftw3 libqt4-devel
+#Fedora fftw qt-devel
+#CentOs fftw
 set(CPACK_RPM_PACKAGE_SUGGESTS "timidity")
 # set(CPACK_RPM_SPEC_INSTALL_POST "/usr/bin/update-desktop-database &> /dev/null || :
 # /usr/bin/update-mime-database %{_datadir}/mime &> /dev/null || :")
