@@ -16,51 +16,6 @@ set(CPACK_PACKAGE_CONTACT "See Look <seelook@gmail.com>")
 
 set(CPACK_PACKAGE_NAME "nootka")
 
-
-###########################################################################
-#	packaging targets (deb)
-###########################################################################
-# IF(UNIX AND NOT APPLE)
-#     execute_process(COMMAND printf "\n\n\nTo build deb package call:\n")
-#     execute_process(COMMAND printf "\tmake deb\n\n\n" )
-# 
-# 	add_custom_target(deb
-# 	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/build-deb.sh ${Nootka_VERSION_FULL} ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR} "${CMAKE_BINARY_DIR}/debian"
-#    )
-# 	
-# 	add_custom_target(rpm
-# 	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/build-rpm.sh ${Nootka_VERSION_FULL} ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR} "${CMAKE_BINARY_DIR}/rpm"
-#    )
-# # ENDIF(UNIX AND NOT APPLE)
-
-##########################################################################################
-#		cmake/cpack	DEB  generator 
-##########################################################################################
-set(CPACK_DEBIAN_PACKAGE_NAME "nootka_${CPACK_PACKAGE_VERSION}_${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}") #default CPACK_PACKAGE_NAME
-# CPACK_DEBIAN_PACKAGE_VERSION #CPACK_PACKAGE_VERSION
-# CPACK_DEBIAN_PACKAGE_ARCHITECTURE #dpkg --print-architecture or i386
-set(CPACK_DEBIAN_PACKAGE_NAME "nootka" )
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.9), libqt4-core (>=4:4.6), libqt4-gui (>=4:4.6), libqtmultimediakit1, libfftw3-3")
-#CPACK_DEBIAN_PACKAGE_MAINTAINER #CPACK_PACKAGE_CONTACT
-set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Application to help with learning classical score notation.
- Mostly it is for guitarists,
- but it can be used for ear training as well.
- .
- Features:
- numerous settings to personalize for user needs and capabilities,
- natural, classical guitar sound output and also midi
- support for different name-callings of the notes,
- scordatures, exams with different levels,
- levels creator with wide range of settings
- .
- http://nootka.sf.net") #CPACK_PACKAGE_DESCRIPTION_SUMMARY
-set(CPACK_DEBIAN_PACKAGE_SECTION "Education/Sound")
-# CPACK_DEBIAN_PACKAGE_PRIORITY #optional
-set(CPACK_DEBIAN_PACKAGE_HOMEPAGE "http://nootka.sf.net")
-set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "timidity")
-set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_CURRENT_SOURCE_DIR}/debian/postinst;${CMAKE_CURRENT_SOURCE_DIR}/debian/postrm" )
-
-
 ##########################################################################################
 #		cmake/cpack	RPM  generator 
 ##########################################################################################
@@ -119,24 +74,3 @@ set(CPACK_RPM_POST_UNINSTALL_SCRIPT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/rpm/rpm-po
 #             May be used to embbed a changelog in the spec file.
 #             The refered file will be read and directly  put after the %changelog
 #             section.
-
-
-
-##########################################################################################
-#			Resume              ##########################################################
-##########################################################################################
-
-if (MINGW)
-  set(CPACK_GENERATOR  "NSIS")
-#   set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/packaging" ${CMAKE_MODULE_PATH}) # Use custom version of NSIS.InstallOptions.ini
-else (MINGW)
-  if (NOT APPLE)
-    set(CPACK_STRIP_FILES "nootka")
-    set(CPACK_GENERATOR "RPM;DEB;TBZ2")
-#     set(CPACK_GENERATOR "DEB")
-    set(CPACK_DEB "on")
-  endif (NOT APPLE)
-endif (MINGW)
-
-include (CPack)
-
