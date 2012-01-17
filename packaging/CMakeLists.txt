@@ -117,7 +117,7 @@ set(CPACK_RPM_POST_UNINSTALL_SCRIPT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/rpm/rpm-po
 #             put after the %post or %postun section
 #             One may verify which scriptlet has been included with
 #              rpm -qp --scripts  package.rpm
-# set(CPACK_RPM_CHANGELOG_FILE "${CMAKE_BINARY_DIR}/doc/changelog-raw")
+set(CPACK_RPM_CHANGELOG_FILE "${CMAKE_BINARY_DIR}/doc/changelog-rpm")
 #             Mandatory : NO
 #             Default   : -
 #             May be used to embbed a changelog in the spec file.

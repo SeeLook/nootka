@@ -12,8 +12,11 @@ Vendor:         @CPACK_RPM_PACKAGE_VENDOR@
 %if 0%{?suse_version}
 Requires: libqt4 >= 4.6, libqt4-devel, fftw3
 %endif
-%if 0%{?fedora_version}
+%if 0%{?fedora}
 Requires: qt-devel, fftw
+%endif
+%if 0%{?mandriva_version}
+Requires: libqtmultimedia, libfftw3
 %endif
 
 @TMP_RPM_PROVIDES@
