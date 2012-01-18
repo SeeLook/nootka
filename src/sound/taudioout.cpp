@@ -177,26 +177,37 @@ void TaudioOUT::play(int noteNr) {
         midiNoteOff();
     }
     m_doEmit = true;
-    m_prevMidiNote = noteNr + 47;
+    int semiToneOff = 0; // "whole" semitone offset
+    quint16 midiBend = 0;
+    if (m_params->a440diff != 0.0) {
+      semiToneOff = (int)m_params->a440diff; 
+      float fineOff = qAbs(m_params->a440diff) - qAbs((float)semiToneOff); // float part of offset
+      if (fineOff) { // if exist midi bend message is needed
+          if (m_params->a440diff < 0) // restore bend direction
+            fineOff *= -1;
+//           qDebug() << "fineOff" << fineOff;
+          midiBend = 8192 + (quint16)qRound(4192.0 * fineOff); // calculate 14-bit bend value
+      }
+    }
+    m_prevMidiNote = noteNr + 47 + semiToneOff;
     m_message[0] = 144; // note On
     m_message[1] = m_prevMidiNote;
     m_message[2] = 100; // volume
     m_midiOut->sendMessage(&m_message);
-    if (m_params->a440diff != 0.0) {
-//         m_message[0] = 224; // pitch bend
-//         unsigned short CombineBytes(unsigned char First, unsigned char Second) 
-//                 { 
-//                 unsigned short _14bit;
-// 
-//                 _14bit = (unsigned short)Second; 
-//                 _14bit<<=7; 
-//                 _14bit|=(unsigned short)First; 
-//                 return(_14bit); 
-//               }
+    if (midiBend) { // let's send bend message
+//       qDebug() << "midiBend" << midiBend; 
+      char msb, lsb;
+      lsb = (char)(midiBend % 128); // calculate 7 bits lsb&msb
+      msb = (char)(midiBend / 128);
+      m_message[0] = 224; // pitch bend
+      m_message[1] = lsb;
+      m_message[2] = msb;
+      m_midiOut->sendMessage(&m_message);
     }
     m_timer->start(1500);
   
   } else { // play audio
+//     qDebug() << "audio offset" << qRound(m_params->a440diff);
     noteNr = noteNr + qRound(m_params->a440diff);
     if (noteNr < -11 || noteNr > 41)
         return;

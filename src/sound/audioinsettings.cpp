@@ -100,7 +100,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   midLay->addWidget(frLab);
   freqSpin = new QSpinBox(this);
   midLay->addWidget(freqSpin);
-  freqSpin->setStatusTip(tr("A pitch of detecting notes is related to this value. It also affects played sounds - for midi exaclty and for real audio it is rounded to semitones.") + "<br>[UNDER CONSTRUCTION]");
+  freqSpin->setStatusTip(tr("A pitch of detecting notes is related to this value. It also affects played sounds - for midi exaclty and for real audio it is rounded to semitones."));
   freqSpin->setMinimum(400);
   freqSpin->setMaximum(480);
 //   freqSpin->setValue(int(pitch2freq(freq2pitch(440.0) + m_glParams->a440diff)));
@@ -114,7 +114,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   intervalCombo->addItem(tr("semitone up"));
   intervalCombo->addItem(tr("none"));
   intervalCombo->addItem(tr("semitone down"));
-  intervalCombo->setStatusTip(tr("Shifts the frequency of base a<sup>1</sup> on semitone.") + "<br>[UNDER CONSTRUCTION]");
+  intervalCombo->setStatusTip(tr("Shifts the frequency of base a<sup>1</sup> on semitone."));
   if (freqSpin->value() <= 415)
       intervalCombo->setCurrentIndex(2);
     else if (freqSpin->value() >= 465)
@@ -229,12 +229,15 @@ void AudioInSettings::setTestDisabled(bool disabled) {
 }
 
 void AudioInSettings::grabParams(TaudioParams *params) {
-  params->a440diff = m_tmpParams->a440diff = getDiff(freqSpin->value());
+  if (freqSpin->value() == 440 )
+      params->a440diff = 0.0;
+  else
+      params->a440diff = m_tmpParams->a440diff = getDiff(freqSpin->value());
   params->INdevName = inDeviceCombo->currentText();
   if (voiceRadio->isChecked())
-    params->isVoice = true;
+      params->isVoice = true;
   else
-    params->isVoice = false;
+      params->isVoice = false;
   params->noiseLevel = qRound((noiseSpin->value()/100) * 32768.0);
   params->INenabled = enableInBox->isChecked();
 }
@@ -276,7 +279,7 @@ int AudioInSettings::getFreq(double freq) {
 }
 
 float AudioInSettings::getDiff(int freq) {
-   return float(freq2pitch(440.0) - freq2pitch((double)freq)); // in semitones
+   return float(freq2pitch((double)freq) - freq2pitch(440.0)); // in semitones
 }
 
 
