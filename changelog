@@ -1,5 +1,6 @@
 0.8
     - !!! Added sound input and pitch detection !!!
+    - added possibility to change base pitch of a1 note
     - simple preview of an exam results
     - expert's mode in an exam
     - help window during exams
@@ -8,7 +9,7 @@
     - Bespin QT style "frendly" - more clear look of buttons
   BUGS FIXES
     - right mouse button does what it has to do
-    - fixed hunging up on an exam start for some levels
+    - fixed hanging up on an exam start for some levels
   Under the hood
     - cpack rules for building deb & rpm packages
     - ported audio lib to "Qt native" QtMultimedia
