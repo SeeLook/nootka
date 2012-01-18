@@ -61,6 +61,15 @@ protected slots:
   void baseFreqChanged(int bFreq);
   
 private:
+    /** Calculates frequencies of strings related to a440diff 
+     * and sets status tip.*/
+  void getFreqStatusTip();
+      /** returns frequency of @param freq shifted by a440diff 
+       * rounded to int */
+  int getFreq(double freq);
+      /** returns difference of @param freq related to 440 Hz in semitones */
+  float getDiff(int freq); 
+  
   QComboBox *inDeviceCombo, *intervalCombo;
   QGroupBox *enableInBox, *modeGr, *midABox, *noisGr;
   QRadioButton *voiceRadio, *instrRadio;
