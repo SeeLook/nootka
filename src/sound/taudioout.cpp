@@ -96,6 +96,7 @@ TaudioOUT::~TaudioOUT()
   deleteMidi();
 }
 
+
 //---------------------------------------------------------------------------------------
 //              METHODS
 //---------------------------------------------------------------------------------------
@@ -103,7 +104,6 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
   m_timer->disconnect();
   if (params->midiEnabled) { // Midi output
     if (!m_midiOut) { // prepare midi and delete audio
-//       deleteAudio();
       setMidiParams();
       if (m_playable)
           connect(m_timer, SIGNAL(timeout()), this, SLOT(midiNoteOff()));
@@ -123,7 +123,7 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
           m_period = (SAMPLE_RATE*2) / m_audioOutput->periodSize() - 10;
           // m_period has to be smaller in case of QtMultimedia bug
           // to deliver data to m_IOaudioDevice in time
-          qDebug() << "period [ms]" << m_period;
+//           qDebug() << "period [ms]" << m_period;
       }
   }
 }
@@ -182,9 +182,22 @@ void TaudioOUT::play(int noteNr) {
     m_message[1] = m_prevMidiNote;
     m_message[2] = 100; // volume
     m_midiOut->sendMessage(&m_message);
+    if (m_params->a440diff != 0.0) {
+//         m_message[0] = 224; // pitch bend
+//         unsigned short CombineBytes(unsigned char First, unsigned char Second) 
+//                 { 
+//                 unsigned short _14bit;
+// 
+//                 _14bit = (unsigned short)Second; 
+//                 _14bit<<=7; 
+//                 _14bit|=(unsigned short)First; 
+//                 return(_14bit); 
+//               }
+    }
     m_timer->start(1500);
   
   } else { // play audio
+    noteNr = noteNr + qRound(m_params->a440diff);
     if (noteNr < -11 || noteNr > 41)
         return;
     

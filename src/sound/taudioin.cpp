@@ -288,7 +288,7 @@ void TaudioIN::readToCalc() {
 
 void TaudioIN::pitchFreqFound(float pitch, float freq) {
   if(!gotNote) {
-    emit noteDetected(Tnote(qRound(pitch + m_params->a440diff)-47));
+    emit noteDetected(Tnote(qRound(pitch - m_params->a440diff)-47));
     emit fundamentalFreq(freq);
     gotNote = true;
   }

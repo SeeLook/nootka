@@ -103,9 +103,9 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   freqSpin->setStatusTip(tr("A pitch of detecting notes is related to this value. It also affects played sounds - for midi exaclty and for real audio it is rounded to semitones.") + "<br>[UNDER CONSTRUCTION]");
   freqSpin->setMinimum(400);
   freqSpin->setMaximum(480);
-  freqSpin->setValue(440 + m_glParams->a440diff);
+//   freqSpin->setValue(int(pitch2freq(freq2pitch(440.0) + m_glParams->a440diff)));
+  freqSpin->setValue(getFreq(440.0));
   freqSpin->setSuffix(" Hz");
-  freqSpin->setDisabled(true); //TODO: implement note offset for sound
   
   QLabel *intLab = new QLabel(tr("interval:"), this);
   midLay->addWidget(intLab);
@@ -121,7 +121,6 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
       intervalCombo->setCurrentIndex(0);
     else
       intervalCombo->setCurrentIndex(1);
- intervalCombo->setDisabled(true); //TODO: implement note offset for sound
   
   midABox->setLayout(midLay);
   tunLay->addWidget(midABox);
@@ -174,13 +173,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   freqLab = new QLabel("--", this);
   freqLab->setFixedWidth(70);
   freqLab->setAlignment(Qt::AlignCenter);
-  freqLab->setStatusTip(tr("Frequency of detected note. You can use it for tune") + 
-	  "<br><span style=\"font-family: nootka;\">6</span>E = 82,5Hz, " +
-	  "<span style=\"font-family: nootka;\">5</span>A = 110Hz, " +
-	  "<span style=\"font-family: nootka;\">4</span>d = 146Hz, " +
-	  "<span style=\"font-family: nootka;\">3</span>g = 195Hz, " +
-	  "<span style=\"font-family: nootka;\">2</span>h = 245Hz, " +
-	  "<span style=\"font-family: nootka;\">1</span>e<sup>1</sup> = 330Hz");
+  getFreqStatusTip();
   freqLay->addWidget(freqLab);
   testLay->addLayout(freqLay);
   testLay->addStretch(1);  
@@ -236,7 +229,7 @@ void AudioInSettings::setTestDisabled(bool disabled) {
 }
 
 void AudioInSettings::grabParams(TaudioParams *params) {
-  params->a440diff = freq2pitch(440.0) - freq2pitch((float)freqSpin->value()); 
+  params->a440diff = m_tmpParams->a440diff = getDiff(freqSpin->value());
   params->INdevName = inDeviceCombo->currentText();
   if (voiceRadio->isChecked())
     params->isVoice = true;
@@ -248,7 +241,6 @@ void AudioInSettings::grabParams(TaudioParams *params) {
 
 
 void AudioInSettings::saveSettings() {
-  // save only when user opened a tab otherwise it returns incorect device
   if (m_listGenerated)
       grabParams(m_glParams);
 }
@@ -266,6 +258,25 @@ void AudioInSettings::generateDevicesList() {
         inDeviceCombo->setDisabled(true);
   }
   m_listGenerated = true;
+}
+
+void AudioInSettings::getFreqStatusTip() {
+    freqLab->setStatusTip(tr("Frequency of detected note. You can use it for tune") + 
+      QString("<br><span style=\"font-family: nootka;\">6</span>E = %1Hz, ").arg(getFreq(82.5)) +
+      QString("<span style=\"font-family: nootka;\">5</span>A = %1Hz, ").arg(getFreq(110.0)) +
+      QString("<span style=\"font-family: nootka;\">4</span>d = %1Hz, ").arg(getFreq(146.0)) +
+      QString("<span style=\"font-family: nootka;\">3</span>g = %1Hz, ").arg(getFreq(195.0)) +
+      QString("<span style=\"font-family: nootka;\">2</span>h = %1Hz, ").arg(getFreq(245.0)) +
+      QString("<span style=\"font-family: nootka;\">1</span>e<sup>1</sup> = %1Hz").arg(getFreq(330.0))
+    );
+}
+
+int AudioInSettings::getFreq(double freq) {
+    return qRound((pitch2freq(freq2pitch(freq) + m_tmpParams->a440diff)));
+}
+
+float AudioInSettings::getDiff(int freq) {
+   return float(freq2pitch(440.0) - freq2pitch((double)freq)); // in semitones
 }
 
 
@@ -330,10 +341,12 @@ void AudioInSettings::freqSlot(float freq) {
 void AudioInSettings::intervalChanged(int index) {
   if (intervalCombo->hasFocus()) {
 		switch (index) {
-			case 0 : freqSpin->setValue(465); break;
-			case 1 : freqSpin->setValue(440); break;
-			case 2 : freqSpin->setValue(415); break;
+      case 0 : freqSpin->setValue(pitch2freq(70)); break;
+      case 1 : freqSpin->setValue(pitch2freq(69)); break;
+      case 2 : freqSpin->setValue(pitch2freq(68)); break;
 		}
+    m_tmpParams->a440diff = getDiff(freqSpin->value());
+		getFreqStatusTip();
   }
 }
 
@@ -345,7 +358,9 @@ void AudioInSettings::baseFreqChanged(int bFreq) {
       intervalCombo->setCurrentIndex(0);
     else
       intervalCombo->setCurrentIndex(1);
-  }		
+    m_tmpParams->a440diff = getDiff(freqSpin->value());
+    getFreqStatusTip();
+  }
 }
 
 
