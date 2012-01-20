@@ -121,9 +121,9 @@ Tnote TexecutorSupply::determineAccid(Tnote n) {
             }
         }
         if (notFound && m_prevAccid != Tnote::e_Flat && m_level->withFlats) {
-          if (n.note == 3 || n.note == 7) { // increase counter for f and c notes
+          if ((n.note == 3 || n.note == 7) && n.acidental == 0 ) { // increase counter for f and c notes
             m_eisCesCntr++;
-            if (m_eisCesCntr == 3) { // fes or ces can occur every 4 e or b occurences
+            if (m_eisCesCntr == 3) { // fes or ces can occur every 3 e or b occurences
               m_eisCesCntr = 0;
               nA = n.showWithFlat();
               notFound = false;
@@ -134,9 +134,9 @@ Tnote TexecutorSupply::determineAccid(Tnote n) {
           }
         }
         if (notFound && m_prevAccid != Tnote::e_Sharp && m_level->withSharps) {
-          if (n.note == 4 || n.note == 1) { // increase counter for f and c notes
+          if ((n.note == 4 || n.note == 1) && n.acidental == 0) { // increase counter for f and c notes
             m_eisCesCntr++;
-            if (m_eisCesCntr == 3) { // eis or bis can occur every 4 f or c occurences
+            if (m_eisCesCntr == 3) { // eis or bis can occur every 3 f or c occurences
               nA = n.showWithSharp();
               m_eisCesCntr = 0;
             }
