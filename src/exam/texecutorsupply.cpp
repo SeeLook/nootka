@@ -29,7 +29,8 @@ TexecutorSupply::TexecutorSupply(TexamLevel* level, QObject* parent) :
   m_level(level),
   m_prevAccid(Tnote::e_Natural),
   m_isSolfege(false),
-  m_dblAccidsCntr(0)
+  m_dblAccidsCntr(0),
+  m_eisCesCntr(0)
 {
 
 }
@@ -100,6 +101,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
 }
 
 Tnote TexecutorSupply::determineAccid(Tnote n) {
+//     qDebug() << "determineAccid";
     Tnote nA = n;
     bool notFound = true;
     if (m_level->withSharps || m_level->withFlats || m_level->withDblAcc) {
@@ -119,11 +121,28 @@ Tnote TexecutorSupply::determineAccid(Tnote n) {
             }
         }
         if (notFound && m_prevAccid != Tnote::e_Flat && m_level->withFlats) {
+          if (n.note == 3 || n.note == 7) { // increase counter for f and c notes
+            m_eisCesCntr++;
+            if (m_eisCesCntr == 3) { // fes or ces can occur every 4 e or b occurences
+              m_eisCesCntr = 0;
+              nA = n.showWithFlat();
+              notFound = false;
+            }
+          } else { // other notes can be with flat allways
             nA = n.showWithFlat();
             notFound = false;
+          }
         }
-        if (m_prevAccid != Tnote::e_Sharp && m_level->withSharps) {
+        if (notFound && m_prevAccid != Tnote::e_Sharp && m_level->withSharps) {
+          if (n.note == 4 || n.note == 1) { // increase counter for f and c notes
+            m_eisCesCntr++;
+            if (m_eisCesCntr == 3) { // eis or bis can occur every 4 f or c occurences
+              nA = n.showWithSharp();
+              m_eisCesCntr = 0;
+            }
+          } else { // other notes can be with sharp allways
             nA = n.showWithSharp();
+          }
         }
     }
     m_prevAccid = (Tnote::Eacidentals)nA.acidental;

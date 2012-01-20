@@ -1,3 +1,15 @@
+IF(NOT CPACK_DEBIAN_PACKAGE_ARCHITECTURE)
+   FIND_PROGRAM(DPKG_CMD dpkg)
+   IF(NOT DPKG_CMD)
+     MESSAGE(STATUS "Can not find dpkg in your path, default to i386.")
+     SET(CPACK_DEBIAN_PACKAGE_ARCHITECTURE i386)
+   ENDIF(NOT DPKG_CMD)
+   EXECUTE_PROCESS(COMMAND "${DPKG_CMD}" --print-architecture
+   OUTPUT_VARIABLE CPACK_DEBIAN_PACKAGE_ARCHITECTURE
+   OUTPUT_STRIP_TRAILING_WHITESPACE
+   )
+ENDIF(NOT CPACK_DEBIAN_PACKAGE_ARCHITECTURE)
+
 ##########################################################################################
 #			COMMON SETTINGS  ##########################################################
 ##########################################################################################
@@ -15,6 +27,7 @@ set(CPACK_PACKAGE_VERSION ${Nootka_VERSION_FULL})
 set(CPACK_PACKAGE_CONTACT "See Look <seelook@gmail.com>")
 
 set(CPACK_PACKAGE_NAME "nootka")
+set(CPACK_PACKAGE_FILE_NAME "nootka_${CPACK_PACKAGE_VERSION}_${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}")
 
 
 ###########################################################################
@@ -37,9 +50,10 @@ set(CPACK_PACKAGE_NAME "nootka")
 #		cmake/cpack	DEB  generator 
 ##########################################################################################
 set(CPACK_DEBIAN_PACKAGE_NAME "nootka_${CPACK_PACKAGE_VERSION}_${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}") #default CPACK_PACKAGE_NAME
+message(STATUS ${CPACK_DEBIAN_PACKAGE_NAME} )
 # CPACK_DEBIAN_PACKAGE_VERSION #CPACK_PACKAGE_VERSION
 # CPACK_DEBIAN_PACKAGE_ARCHITECTURE #dpkg --print-architecture or i386
-set(CPACK_DEBIAN_PACKAGE_NAME "nootka" )
+# set(CPACK_DEBIAN_PACKAGE_NAME "nootka" )
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.9), libqt4-core (>=4:4.6), libqt4-gui (>=4:4.6), libqtmultimediakit1, libfftw3-3")
 #CPACK_DEBIAN_PACKAGE_MAINTAINER #CPACK_PACKAGE_CONTACT
 set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Application to help with learning classical score notation.
@@ -49,6 +63,7 @@ set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Application to help with learning classica
  Features:
  numerous settings to personalize for user needs and capabilities,
  natural, classical guitar sound output and also midi
+ accurate pitch detection method
  support for different name-callings of the notes,
  scordatures, exams with different levels,
  levels creator with wide range of settings

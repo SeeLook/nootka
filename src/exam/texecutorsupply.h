@@ -55,6 +55,10 @@ private:
       /** intervals between asking about double accidentals.
         * By default every forth question is with double adccid.*/
   int m_dblAccidsCntr;
+      /** It counts occurency of e, f, b and c notes
+       * to avoid asking about eis fes his and ces to oftent 
+       * witch occurs in scores rerely. */
+  int m_eisCesCntr;
         /** to switch nameing style between "do re mi" and "c d e"
         * when question and answer are note name.*/
   bool m_isSolfege;
