@@ -113,6 +113,13 @@ private:
     TanswerRequire m_answRequire;
     bool m_shouldBeTerminated, m_isAnswered, m_incorrectRepeated;
     QGraphicsTextItem *m_messageItem;
+      /** If it is sets to TRUE locks invokeing event of right mouse button.
+      * It has to be set before singleShot() method caled on askQuestion() 
+      * to avoid user click button and call askQuestion() again during time of delay.*/
+bool m_lockRightButt;
+    /** It becames true when user wants close Nootka
+     * during an exam.*/
+bool m_goingClosed;
 
 };
 
