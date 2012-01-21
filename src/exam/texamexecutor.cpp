@@ -40,7 +40,9 @@ extern Tglobals *gl;
 
 TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile) :
   m_exam(0),
-  mW(mainW)
+  mW(mainW),
+  m_lockRightButt(false),
+  m_goingClosed(false)
 {
     QString resultText;
     TstartExamDlg::Eactions userAct;
@@ -173,6 +175,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile) :
 }
 
 void TexamExecutor::askQuestion() {
+    m_lockRightButt = false; // release mouse button events
     gl->NnameStyleInNoteName = m_prevStyle;
     mW->noteName->setNoteNamesOnButt(m_prevStyle);
 
@@ -489,22 +492,29 @@ void TexamExecutor::checkAnswer(bool showResults) {
         if (curQ.correct()) {
             if (m_shouldBeTerminated)
                 stopExamSlot();
-            else
+            else {
+                m_lockRightButt = true; // to avoid nervous users click mouse during WAIT_TIME
                 QTimer::singleShot(WAIT_TIME, this, SLOT(askQuestion()));
+            }
         } else {
             if (m_shouldBeTerminated)
                 stopExamSlot();
             else {
-                if (gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
+                if (gl->E->repeatIncorrect && !m_incorrectRepeated) { // repeat only once if any
+                    m_lockRightButt = true;
                     QTimer::singleShot(WAIT_TIME, this, SLOT(repeatQuestion()));
-                else
+                }
+                else {
+                    m_lockRightButt = true;
                     QTimer::singleShot(WAIT_TIME, this, SLOT(askQuestion()));
+                }
             }
         }
     }
 }
 
 void TexamExecutor::repeatQuestion() {
+    m_lockRightButt = false;
     m_incorrectRepeated = true;
     m_isAnswered = false;
 		TQAunit curQ = m_exam->curQ();
@@ -610,7 +620,7 @@ void TexamExecutor::restoreAfterExam() {
     mW->examResults->clearResults();
     mW->score->isExamExecuting(false);
 
-// It has to be restored before the exam summary is sown
+// It has to be restored before the exam summary is shown
     //     gl->NnameStyleInNoteName = m_glStore.nameStyleInNoteName;
     gl->showEnharmNotes = m_glStore.showEnharmNotes;
     gl->SshowKeySignName = m_glStore.showKeySignName;
@@ -682,8 +692,9 @@ void TexamExecutor::stopExamSlot() {
     if (m_exam->fileName() != "") {
 			m_exam->setTotalTime(mW->examResults->getTotalTime());
 			m_exam->setAverageReactonTime(mW->examResults->getAverageTime());
-      gl->NnameStyleInNoteName = m_glStore.nameStyleInNoteName; // restore to show in user defined style      
-      showExamSummary();
+      gl->NnameStyleInNoteName = m_glStore.nameStyleInNoteName; // restore to show in user defined style  
+      if (!m_goingClosed) // if Nootka is closeing don't show summary 
+          showExamSummary();
 			if (m_exam->saveToFile() == Texam::e_file_OK) {
 #if defined(Q_OS_WIN32)
 				QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
@@ -712,7 +723,6 @@ QString TexamExecutor::getTextHowAccid(Tnote::Eacidentals accid) {
     else S += tr(" Don't use accidentals!");
     S +=  "</span>";
     return S;
-
 }
 
 bool TexamExecutor::closeNootka() {
@@ -724,6 +734,7 @@ bool TexamExecutor::closeNootka() {
     if (msg->clickedButton() == contBut) {
         return false;
     } else {
+        m_goingClosed = true;
         if (m_isAnswered) {
             stopExamSlot();
             return true;
@@ -862,6 +873,8 @@ void TexamExecutor::expertAnswersSlot() {
 }
 
 void TexamExecutor::rightButtonSlot() {
+  if (m_lockRightButt)
+      return;
     if (m_isAnswered)
         askQuestion();
     else
