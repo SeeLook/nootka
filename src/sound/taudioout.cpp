@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,6 +23,7 @@
 #include <QFile>
 #include <QStringList>
 #include <QAudio>
+#include <QThread>
 // #include <QMutex>
 #include <QDebug>
 
@@ -84,7 +85,10 @@ TaudioOUT::TaudioOUT(TaudioParams* params, QString& path, QObject* parent) :
   m_audioArr(0),
   m_params(params),
   m_period(20)
+//   m_thread(new QThread(this))
 {
+//   moveToThread(m_thread);
+//   m_thread->start(QThread::HighPriority);
   prepTemplFormat();
   m_timer = new QTimer(this);
   setAudioOutParams(params);

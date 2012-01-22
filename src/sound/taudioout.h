@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk            *
- *   tomaszbojczuk@gmail.com                 *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License    *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -28,7 +28,7 @@
 #include <QAudioDeviceInfo>
 #include <QAudioOutput>
 
-
+class QThread;
 class RtMidiOut;
 class TaudioParams;
 class QTimer;
@@ -37,8 +37,8 @@ class QTimer;
  * It can play real audio sound or midi.
  * Audio is taken from file classical-guitar.wav, in method getAudioData checks file
  * and load data to m_audioArr.
- * Trick is that data is mono 22050 but output is stereo 44100. All this magic
- * is in paCallBack because of requirements of some audio devices.
+ * Trick is that data is mono 22050 but output is stereo 44100. 
+ * All this magicis in timeForAudio() because some of audio devices supports only 44100/16/2 format.
  * So far playing is bounded to range C in Contra octave to e in 3-line.
  * 
  * Midi is played by RtMidi class.
@@ -89,6 +89,7 @@ private:
   bool m_playable;
   QTimer *m_timer;
   TaudioParams *m_params;
+  QThread *m_thread;
   
 //########## audio #############
 	QAudioDeviceInfo m_deviceInfo;
