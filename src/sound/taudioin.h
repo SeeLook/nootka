@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -92,18 +92,19 @@ private:
   void initInput();
   
   
-	QAudioDeviceInfo m_deviceInfo;
-	QAudioInput *m_audioInput;
-	QIODevice *m_IOaudioDevice;
-	QByteArray m_buffer;
-	float *m_floatBuff;
-	quint32 m_floatsWriten;
-	qint16 m_maxPeak;
-	TpitchFinder *m_pitch;
-	QList<qint16> m_peakList;
-	bool m_noteStarted;
-	TaudioParams *m_params;
-  QString m_devName;	
+  QAudioDeviceInfo m_deviceInfo;
+  QAudioInput *m_audioInput;
+  QIODevice *m_IOaudioDevice;
+  QByteArray m_buffer;
+  float *m_floatBuff;
+  quint32 m_floatsWriten;
+  qint16 m_maxPeak, m_maxP;
+  TpitchFinder *m_pitch;
+  QList<qint16> m_peakList;
+  bool m_noteStarted;
+  TaudioParams *m_params;
+  QString m_devName;
+  bool m_gotNote;
 	
 };
 

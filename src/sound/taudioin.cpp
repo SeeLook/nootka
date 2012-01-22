@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -60,6 +60,8 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     m_audioInput(0),
     m_IOaudioDevice(0),
     m_maxPeak(0),
+    m_maxP(0),
+    m_gotNote(false),
     m_floatBuff(0),
     m_noteStarted(false),
     m_deviceInfo(QAudioDeviceInfo::defaultInputDevice()),
@@ -85,7 +87,8 @@ TaudioIN::~TaudioIN()
   m_buffer.clear();
   delete m_pitch;
   if (m_floatBuff)
-    delete[] (m_floatBuff - 16);
+//     delete[] (m_floatBuff - 16);
+      delete[] (m_floatBuff);
 }
 
 //------------------------------------------------------------------------------------
@@ -153,7 +156,8 @@ void TaudioIN::initInput() {
 void TaudioIN::startListening() {
   if (m_audioInput) {
     if (!m_floatBuff)
-      m_floatBuff = new float[m_pitch->aGl().framesPerChunk+16] + 16;
+//       m_floatBuff = new float[m_pitch->aGl().framesPerChunk+16] + 16;
+    m_floatBuff = new float[m_pitch->aGl().framesPerChunk];
     initInput();
     if (m_IOaudioDevice) {
       connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));
@@ -217,8 +221,6 @@ void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
 //------------          slots       --------------------------------------------------
 //------------------------------------------------------------------------------------
 
-bool gotNote = false;
-qint16 maxP = 0;
 
 void TaudioIN::audioDataReady() {	
 	if (m_audioInput->state() != QAudio::ActiveState && m_audioInput->state() != QAudio::IdleState)
@@ -237,11 +239,11 @@ void TaudioIN::audioDataReady() {
 		return;
 	for (int i = 0; i < dataRead; i++) {
 	  qint16 value = *reinterpret_cast<qint16*>(m_buffer.data()+i*2);
-	  maxP = qMax(maxP, value);
+	  m_maxP = qMax(m_maxP, value);
 	  *(m_floatBuff + m_floatsWriten) = float(value) / 32768.0f;
 
 	  if (m_floatsWriten == m_pitch->aGl().framesPerChunk-1) {
-		m_maxPeak = maxP;
+		m_maxPeak = m_maxP;
 		if (m_maxPeak > m_params->noiseLevel) {
 		  if (m_pitch->isBussy())
         qDebug() << "data ignored";
@@ -255,11 +257,11 @@ void TaudioIN::audioDataReady() {
 		  if (m_noteStarted) {
         m_pitch->searchIn(0);
         m_noteStarted = false;
-        gotNote = false;
+        m_gotNote = false;
 		  }
     }
     m_floatsWriten = -1;
-    maxP = 0;
+    m_maxP = 0;
     }
     m_floatsWriten++;
 	}
@@ -287,15 +289,15 @@ void TaudioIN::readToCalc() {
 }
 
 void TaudioIN::pitchFreqFound(float pitch, float freq) {
-  if(!gotNote) {
+  if(!m_gotNote) {
     emit noteDetected(Tnote(qRound(pitch - m_params->a440diff)-47));
     emit fundamentalFreq(freq);
-    gotNote = true;
+    m_gotNote = true;
   }
 }
 
 void TaudioIN::noteStopedSlot() {
-  gotNote = false;
+  m_gotNote = false;
 }
 
 
