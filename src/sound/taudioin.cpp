@@ -87,8 +87,8 @@ TaudioIN::~TaudioIN()
   m_buffer.clear();
   delete m_pitch;
   if (m_floatBuff)
-//     delete[] (m_floatBuff - 16);
       delete[] (m_floatBuff);
+  qDebug("TaudioIN deleted");
 }
 
 //------------------------------------------------------------------------------------
@@ -156,7 +156,6 @@ void TaudioIN::initInput() {
 void TaudioIN::startListening() {
   if (m_audioInput) {
     if (!m_floatBuff)
-//       m_floatBuff = new float[m_pitch->aGl().framesPerChunk+16] + 16;
     m_floatBuff = new float[m_pitch->aGl().framesPerChunk];
     initInput();
     if (m_IOaudioDevice) {

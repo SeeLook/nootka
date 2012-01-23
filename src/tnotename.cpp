@@ -47,7 +47,7 @@ TnoteName::TnoteName(QWidget *parent) :
     QVBoxLayout *mainLay = new QVBoxLayout();
     mainLay->setAlignment(Qt::AlignCenter);
 
-    nameLabel = new QLabel("<b><span style=\"font-size: 20px; color: green;\">Nootka " +
+    nameLabel = new QLabel("<b><span style=\"font-size: 24px; color: green;\">Nootka " +
                            gl->version + "</span></b>",this);
     nameLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Expanding);
     nameLabel->setAlignment(Qt::AlignCenter);
@@ -102,7 +102,7 @@ TnoteName::TnoteName(QWidget *parent) :
     }
     octLay->addStretch(1);
     mainLay->addLayout(octLay);
-    mainLay->addStretch(1);
+//     mainLay->addStretch(1);
 	m_prevOctButton = -1;
     connect(octaveGroup, SIGNAL(buttonClicked(int)), this, SLOT(octaveWasChanged(int)));
     

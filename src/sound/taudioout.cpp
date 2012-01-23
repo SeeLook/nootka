@@ -24,7 +24,6 @@
 #include <QStringList>
 #include <QAudio>
 #include <QThread>
-// #include <QMutex>
 #include <QDebug>
 
 #define SAMPLE_RATE (44100)
@@ -85,7 +84,7 @@ TaudioOUT::TaudioOUT(TaudioParams* params, QString& path, QObject* parent) :
   m_audioArr(0),
   m_params(params),
   m_period(20)
-//   m_thread(new QThread(this))
+//   m_thread(new QThread)
 {
 //   moveToThread(m_thread);
 //   m_thread->start(QThread::HighPriority);
@@ -169,12 +168,11 @@ bool TaudioOUT::setAudioDevice(QString& name) {
 }
 
 
-// QMutex mutex;
-
 void TaudioOUT::play(int noteNr) {
   if (!m_playable)
         return;
   
+//   qDebug() << "Thread" << m_thread->isRunning();
   if (m_params->midiEnabled) {
     if (m_prevMidiNote) {  // note is played and has to be turned off. Volume is pushed.
         m_doEmit = false;
@@ -189,7 +187,6 @@ void TaudioOUT::play(int noteNr) {
       if (fineOff) { // if exist midi bend message is needed
           if (m_params->a440diff < 0) // restore bend direction
             fineOff *= -1;
-//           qDebug() << "fineOff" << fineOff;
           midiBend = 8192 + (quint16)qRound(4192.0 * fineOff); // calculate 14-bit bend value
       }
     }
@@ -199,7 +196,6 @@ void TaudioOUT::play(int noteNr) {
     m_message[2] = 100; // volume
     m_midiOut->sendMessage(&m_message);
     if (midiBend) { // let's send bend message
-//       qDebug() << "midiBend" << midiBend; 
       char msb, lsb;
       lsb = (char)(midiBend % 128); // calculate 7 bits lsb&msb
       msb = (char)(midiBend / 128);
@@ -211,7 +207,6 @@ void TaudioOUT::play(int noteNr) {
     m_timer->start(1500);
   
   } else { // play audio
-//     qDebug() << "audio offset" << qRound(m_params->a440diff);
     noteNr = noteNr + qRound(m_params->a440diff);
     if (noteNr < -11 || noteNr > 41)
         return;
@@ -224,11 +219,9 @@ void TaudioOUT::play(int noteNr) {
       m_IOaudioDevice = m_audioOutput->start();
     } 
     m_doPlay = true;
-//     mutex.lock();
     m_samplesCnt = 0;
     // note pos in array is shifted 1000 samples before to start from silence
     m_noteOffset = (noteNr + 11)*SAMPLE_RATE - 1000;
-//     mutex.unlock();
     timeForAudio();
     m_timer->start(m_period);
   }
@@ -380,7 +373,6 @@ void TaudioOUT::timeForAudio() {
       return;
     }
       while (m_doPlay && chunks) {
-//       mutex.lock();
         qint16 *out = (qint16*)m_buffer.data();
         for(int i=0; i < perSize/8; i++) {
             sample = m_audioArr[m_noteOffset + m_samplesCnt];
@@ -396,7 +388,6 @@ void TaudioOUT::timeForAudio() {
         }
         m_IOaudioDevice->write(m_buffer.data(), (m_audioOutput->periodSize()/8)*8);
         chunks--;
-//       mutex.unlock();
       }
       if (!m_doPlay) {
         m_timer->stop();
@@ -417,14 +408,4 @@ void TaudioOUT::midiNoteOff() {
   if (m_doEmit)
     emit noteFinished();
 }
-
-void TaudioOUT::stateSlot(QAudio::State st) {
-//   if (st == QAudio::IdleState && !m_doPlay) {
-//      qDebug() << st;
-//      m_timer->stop();
-// //      m_audioOutput->reset();
-//      emit noteFinished();
-//   }
-}
-
 
