@@ -79,6 +79,7 @@ TpitchFinder::~TpitchFinder()
 	myTransforms.uninit();
 	if(m_channel)
 	  delete m_channel;	
+  qDebug("TpitchFinder deleted");
 }
 
 void TpitchFinder::setIsVoice(bool voice) {

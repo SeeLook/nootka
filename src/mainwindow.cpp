@@ -30,7 +30,7 @@
 #include "taudioparams.h"
 #include "taudioout.h"
 #include "tpitchview.h"
-//#include <QDebug>
+
 
 extern Tglobals *gl;
 
@@ -275,9 +275,11 @@ void MainWindow::startExamSlot() {
 }
 
 void MainWindow::aboutSlot() {
+    sound->wait();
     TaboutNootka *ab = new TaboutNootka(this);
     ab->exec();
     delete ab;
+    sound->go();
 }
 
 void MainWindow::noteWasClicked(int index, Tnote note) {

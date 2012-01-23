@@ -87,17 +87,21 @@ TexamSummary::TexamSummary(Texam* exam, QWidget* parent) :
     effStr += "<tr><td colspan=\"2\">----- " + tr("Kinds of mistakes") + ": -----</td></tr>";
     wTotal = wAccid + wKey + wNote + wOctave + wStyle + wPos;
     if (wNote)
-      effStr += row2(tr("Wrong notes"), QString::number(qRound(wNote*100.0 / wTotal)) + "%");
+      effStr += row2(tr("Wrong notes"), QString::number(qRound(wNote*100.0 / wTotal)) + "%" + QString(" (%1)").arg(wNote));
     if (wAccid)
-      effStr += row2(tr("Wrong accidentals"), QString::number(qRound(wAccid*100.0 / wTotal)) + "%");
+      effStr += row2(tr("Wrong accidentals"), QString::number(qRound(wAccid*100.0 / wTotal)) + "%" + 
+          QString(" (%1)").arg(wAccid));
     if (wKey)
-      effStr += row2(tr("Wrong key signatures"), QString::number(qRound(wKey*100.0 /wTotal)) + "%");
+      effStr += row2(tr("Wrong key signatures"), QString::number(qRound(wKey*100.0 /wTotal)) + "%" + 
+          QString(" (%1)").arg(wKey));
     if (wOctave)
-      effStr += row2(tr("Wrong octaves"), QString::number(qRound(wOctave*100.0 /wTotal)) + "%");
+      effStr += row2(tr("Wrong octaves"), QString::number(qRound(wOctave*100.0 /wTotal)) + "%" + QString(" (%1)").arg(wOctave));
     if (wStyle)
-      effStr += row2(tr("Wrong note name-calling"), QString::number(qRound(wStyle*100.0 /wTotal)) + "%");
+      effStr += row2(tr("Wrong note name-calling"), QString::number(qRound(wStyle*100.0 /wTotal)) + "%" + 
+          QString(" (%1)").arg(wStyle));
     if (wPos)
-      effStr += row2(tr("Wrong frets or strings"), QString::number(qRound(wPos*100.0 / wTotal)) + "%");
+      effStr += row2(tr("Wrong frets or strings"), QString::number(qRound(wPos*100.0 / wTotal)) + "%" + 
+          QString(" (%1)").arg(wPos));
   }
 	QLabel *resLab = new QLabel("<table>" +
     row2(TexamView::effectTxt(), QString::number(qRound(eff)) + "%") + effStr + "</table>", this);

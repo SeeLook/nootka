@@ -145,8 +145,7 @@ QT4_WRAP_CPP( NOOTKA_MOCS ${NOOTKA_MOC_SRCS} )
 ADD_DEFINITIONS(-DQT_NO_DEBUG)
 
 
-
-IF(WIN32)
+IF(MINGW)
  # dress up win executable in nice nootka icon ONLY FOR MINGW !!!!!!!!!!!!!
     ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/nootico.o
                        COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -i${CMAKE_CURRENT_SOURCE_DIR}/../picts/nootka-icon.rc
@@ -161,7 +160,7 @@ IF(WIN32)
         winmm
 	)
 
-ELSE(WIN32) #Linux
+ELSE(MINGW) #Linux
     ADD_EXECUTABLE( nootka
         ${NOOTKA_SRCS}
         ${NOOTKA_MOCS}
@@ -175,7 +174,7 @@ ELSE(WIN32) #Linux
         ${ALSA_LIBRARY} ${PTHREAD_LIBRARY}
 	)
 
-ENDIF(WIN32)
+ENDIF(MINGW)
 
 
 
