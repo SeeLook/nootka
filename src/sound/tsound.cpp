@@ -87,7 +87,7 @@ void Tsound::acceptSettings() {
     else {
       sniffer->setParameters(gl->A);
       sniffer->setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
-      m_pitchView->setAudioInput(sniffer);
+//       m_pitchView->setAudioInput(sniffer);
       m_pitchView->setIsVoice(gl->A->isVoice);
       if (!m_pitchView->isPaused()) { // and pause button
         sniffer->startListening();
