@@ -66,7 +66,7 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     m_noteStarted(false),
     m_deviceInfo(QAudioDeviceInfo::defaultInputDevice()),
     m_pitch(new TpitchFinder(this)),
-    m_params(params),
+    m_params(params), // points on gl->A or tmpParams in AudioInSettings
     m_devName("any")
 {    
   prepTemplFormat();
@@ -99,12 +99,13 @@ TaudioIN::~TaudioIN()
 void TaudioIN::setParameters(TaudioParams* params) {
   setAudioDevice(params->INdevName);
   m_pitch->setIsVoice(params->isVoice);
-  m_params = params;
+//   m_params = params;
 }
 
 /** Device name is saved to globals and to config file only after changed the Nootka preferences.
 * In other cases the default device is loaded. */
 bool TaudioIN::setAudioDevice(const QString& devN) {
+  qDebug() << "start input dev name" << m_devName;
   if (devN == m_devName)
     return true;
 	bool fnd = false;
@@ -150,13 +151,14 @@ void TaudioIN::initInput() {
   m_floatsWriten = 0;
   m_maxPeak = 0;
   m_IOaudioDevice = m_audioInput->start();
+  qDebug() << "m_IOaudioDevice" << (int)m_IOaudioDevice;
 }
 
 
 void TaudioIN::startListening() {
   if (m_audioInput) {
     if (!m_floatBuff)
-    m_floatBuff = new float[m_pitch->aGl().framesPerChunk];
+        m_floatBuff = new float[m_pitch->aGl().framesPerChunk]; // 1024
     initInput();
     if (m_IOaudioDevice) {
       connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));
