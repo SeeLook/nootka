@@ -88,7 +88,6 @@ TaudioIN::~TaudioIN()
   delete m_pitch;
   if (m_floatBuff)
       delete[] (m_floatBuff);
-  qDebug("TaudioIN deleted");
 }
 
 //------------------------------------------------------------------------------------
@@ -105,7 +104,6 @@ void TaudioIN::setParameters(TaudioParams* params) {
 /** Device name is saved to globals and to config file only after changed the Nootka preferences.
 * In other cases the default device is loaded. */
 bool TaudioIN::setAudioDevice(const QString& devN) {
-  qDebug() << "start input dev name" << m_devName;
   if (devN == m_devName)
     return true;
 	bool fnd = false;
@@ -151,7 +149,6 @@ void TaudioIN::initInput() {
   m_floatsWriten = 0;
   m_maxPeak = 0;
   m_IOaudioDevice = m_audioInput->start();
-  qDebug() << "m_IOaudioDevice" << (int)m_IOaudioDevice;
 }
 
 

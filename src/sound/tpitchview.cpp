@@ -146,13 +146,13 @@ void TpitchView::updateLevel() {
 
 void TpitchView::pauseClicked() {
     if (m_isPaused) {
-      pauseButt->setText("n");
+      pauseButt->setText("n"); // note symbol
       m_isPaused = false;
       m_volMeter->setDisabled(false);
       m_audioIN->startListening();
       m_volTimer->start(75);
     } else {
-      pauseButt->setText("o");
+      pauseButt->setText("o"); // stroked note symbol
       m_isPaused = true;
       m_audioIN->stopListening();
       stopVolume();

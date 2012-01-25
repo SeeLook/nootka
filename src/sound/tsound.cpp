@@ -22,6 +22,7 @@
 #include "taudioparams.h"
 #include "tpitchview.h"
 #include <QPushButton>
+#include <QThread>
 
 
 extern Tglobals *gl;
@@ -179,9 +180,13 @@ void Tsound::restoreAfterExam() {
 //------------  private  methods     --------------------------------------------------
 //------------------------------------------------------------------------------------
 
+// QThread *m_thread = 0;
 
 void Tsound::createPlayer() {
+//   m_thread =new  QThread;
   player = new TaudioOUT(gl->A, gl->path, this);
+//   player->moveToThread(m_thread);
+//   m_thread->start(QThread::HighPriority);
   connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinished()));
 }
 
@@ -193,6 +198,10 @@ void Tsound::createSniffer() {
 }
 
 void Tsound::deletePlayer() {
+//   if (m_thread) {
+//     m_thread->quit();
+//     delete m_thread;
+//   }
   delete player;
   player = 0;
 }

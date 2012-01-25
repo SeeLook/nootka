@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -27,15 +27,15 @@
 
 TpitchFinder::audioSetts *glAsett;
 
-float *filteredChunk = 0;
-bool shown = true;
-bool noteNoticed = false;
-int noticedChunk = 0; // chunk nr where note was started
 
 TpitchFinder::TpitchFinder(QObject* parent) :
   QObject(parent),
   m_chunkNum(0),
-  m_channel(0)
+  m_channel(0),
+  m_filteredChunk(0),
+  m_shown(true),
+  m_noteNoticed(false),
+  m_noticedChunk(0)
 {
 	m_aGl.chanells = 1;
 	m_aGl.rate = 44100;
@@ -69,17 +69,16 @@ TpitchFinder::TpitchFinder(QObject* parent) :
 	m_channel = new Channel(this, aGl().windowSize);
 	myTransforms.init(aGl().windowSize, 0, aGl().rate, aGl().equalLoudness);
 	if (aGl().equalLoudness)
-	  filteredChunk = new float[aGl().framesPerChunk+16] + 16;
+    m_filteredChunk = new float[aGl().framesPerChunk];
 }
 
 TpitchFinder::~TpitchFinder()
-{	
-  	if (filteredChunk)
-	  delete[] (filteredChunk - 16);
-	myTransforms.uninit();
-	if(m_channel)
-	  delete m_channel;	
-  qDebug("TpitchFinder deleted");
+{
+    if (m_filteredChunk)
+        delete m_filteredChunk;
+    myTransforms.uninit();
+    if(m_channel)
+      delete m_channel;	
 }
 
 void TpitchFinder::setIsVoice(bool voice) {
@@ -100,10 +99,10 @@ void TpitchFinder::searchIn(float* chunk) {
       m_workChunk = chunk;
       m_channel->shift_left(aGl().framesPerChunk); // make palce in channel for new audio data
       if (aGl().equalLoudness) { // filter it and copy  too channel
-        m_channel->highPassFilter->filter(m_workChunk, filteredChunk, aGl().framesPerChunk);
+        m_channel->highPassFilter->filter(m_workChunk, m_filteredChunk, aGl().framesPerChunk);
         for(int i = 0; i < aGl().framesPerChunk; i++)
-            filteredChunk[i] = bound(filteredChunk[i], -1.0f, 1.0f);
-        std::copy(filteredChunk, filteredChunk+aGl().framesPerChunk-1, m_channel->end() - aGl().framesPerChunk);
+            m_filteredChunk[i] = bound(m_filteredChunk[i], -1.0f, 1.0f);
+        std::copy(m_filteredChunk, m_filteredChunk+aGl().framesPerChunk-1, m_channel->end() - aGl().framesPerChunk);
       } else // copy without filtering
           std::copy(m_workChunk, m_workChunk+aGl().framesPerChunk-1, m_channel->end() - aGl().framesPerChunk);
       run();
@@ -129,28 +128,27 @@ void TpitchFinder::run() {
 	if (data) {
 	  if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)) {
       if (m_aGl.isVoice) { // average pitch
-        if (!noteNoticed) {
-        noteNoticed = true;
-        noticedChunk = currentChunk();
+        if (!m_noteNoticed) {
+        m_noteNoticed = true;
+        m_noticedChunk = currentChunk();
         }
       } else { // pitch in single chunk
-        if (shown && data->pitch > m_aGl.loPitch) {
-  // 			  qDebug() << currentChunk() << data->noteIndex << data->fundamentalFreq;
-          shown = false;
+        if (m_shown && data->pitch > m_aGl.loPitch) {
+          m_shown = false;
           emit found(data->pitch, data->fundamentalFreq);
         }
       }
       } else {
       if (m_aGl.isVoice) { // average pitch - shown when note is stoped
-        if(noteNoticed) {
-        noteNoticed = false;
-        float nn = m_channel->averagePitch(noticedChunk, currentChunk());
+        if(m_noteNoticed) {
+        m_noteNoticed = false;
+        float nn = m_channel->averagePitch(m_noticedChunk, currentChunk());
         if (nn > m_aGl.loPitch) {
           emit found(nn, pitch2freq(nn));
         }
         }
       } else { // pitch in single chunk 
-        shown = true;
+        m_shown = true;
       }
       emit noteStoped();
       }

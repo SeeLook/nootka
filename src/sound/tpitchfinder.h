@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -53,9 +53,8 @@ inline double pitch2freq(double note)
 
 class Channel;
 
-// QT_FORWARD_DECLARE_CLASS(MyTransforms)
-  /** Types of detection methods. */
-  enum EanalysisModes { e_MPM = 0, e_AUTOCORRELATION = 1, e_MPM_MODIFIED_CEPSTRUM = 2 };
+      /** Types of detection methods. */
+enum EanalysisModes { e_MPM = 0, e_AUTOCORRELATION = 1, e_MPM_MODIFIED_CEPSTRUM = 2 };
 
 /** The main purpose of this class is to recognize pitch
  * of aduio data flowing throught it. 
@@ -73,23 +72,23 @@ public:
 	MyTransforms myTransforms;
 	  /** Audio input & pitch recognition settings. */
 	struct audioSetts {
-	  quint32 rate;
-	  quint8 chanells;
-	  quint32 windowSize;
-	  quint32 framesPerChunk; // in mono signal frames are the same as samples
-	  double dBFloor;
-	  bool equalLoudness;
-	  bool doingFreqAnalysis;
-	  bool doingAutoNoiseFloor;
-	  bool doingHarmonicAnalysis;
-	  bool firstTimeThrough;
-	  bool doingDetailedPitch;
-	  int threshold; // threshold of lowest loudness in [dB]
-	  EanalysisModes analysisType;
-	  double topPitch; // The highest possible note pitch allowed (lowest possible is 0 in Tartini)
-	  qint16 loPitch; // The lowest possible note. Filtered in searchIn() method
-	  double ampThresholds[7][2];
-	  bool isVoice; // calculates average pitch in chunks range instead pitch in single chunk
+      quint32 rate;
+      quint8 chanells;
+      quint32 windowSize;
+      quint32 framesPerChunk; // in mono signal frames are the same as samples
+      double dBFloor;
+      bool equalLoudness;
+      bool doingFreqAnalysis;
+      bool doingAutoNoiseFloor;
+      bool doingHarmonicAnalysis;
+      bool firstTimeThrough;
+      bool doingDetailedPitch;
+      int threshold; // threshold of lowest loudness in [dB]
+      EanalysisModes analysisType;
+      double topPitch; // The highest possible note pitch allowed (lowest possible is 0 in Tartini)
+      qint16 loPitch; // The lowest possible note. Filtered in searchIn() method
+      double ampThresholds[7][2];
+      bool isVoice; // calculates average pitch in chunks range instead pitch in single chunk
 	};
 	  /** global settings for pitch recognize. */
 	audioSetts aGl() { return m_aGl; }
@@ -110,9 +109,9 @@ public:
         m_aGl.loPitch = loPitch; m_aGl.topPitch = topPitch; }
 	
 signals:
-	/** Signal emited when pitch is detected. 
-	 * @param pitch is float type of midi note.
-   * @param freq if current frequency. */
+      /** Signal emited when pitch is detected. 
+      * @param pitch is float type of midi note.
+      * @param freq if current frequency. */
   void found(float pitch, float freq);
   void noteStoped();
 	
@@ -120,11 +119,14 @@ protected:
 	void run();
 	
 private:
-	audioSetts m_aGl;
-	Channel *m_channel;
-	int m_chunkNum;
-	float *m_workChunk;
-	bool m_isBussy;
+  float         *m_filteredChunk, *m_workChunk;
+  bool          m_shown;
+  bool          m_noteNoticed;
+  int           m_noticedChunk; // chunk nr where note was started
+	audioSetts    m_aGl; 
+	Channel       *m_channel;
+	int           m_chunkNum;
+	bool          m_isBussy;
 	
 };
 
