@@ -2,7 +2,7 @@
 
 INCLUDE_DIRECTORIES (. exam info level score settings sound)
 
-SET( NOOTKA_SRCS 
+SET( NOOTKA_SRCS
   main.cpp
   mainwindow.cpp
   tglobals.cpp
