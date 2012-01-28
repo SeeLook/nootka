@@ -21,7 +21,7 @@
 #include "array1d.h"
 #include <vector>
 
-
+class TartiniParams;
 class Channel;
 
 /**
@@ -46,6 +46,8 @@ class NoteData
   float prevExtremumPitch;
   enum PrevExtremum {NONE, FIRST_MAXIMUM, FIRST_MINIMUM, MAXIMUM, MINIMUM};
   PrevExtremum prevExtremum;
+  
+  TartiniParams *m_params;
 
 public:
   Array1d<float> nsdfAggregateData;
@@ -54,23 +56,20 @@ public:
   float firstNsdfPeriod;
   float currentNsdfPeriod;
 
-  NoteData() { }
-  NoteData(Channel *channel_);
-  //NoteData(int startChunk_, int endChunk_, float logRMS_, float intensityDB_, float correlation_, float purity_);
-  NoteData(Channel *channel_, int startChunk_, AnalysisData *analysisData);
+  NoteData(TartiniParams *tParams = 0) { m_params = tParams; }
+  NoteData(Channel *channel_, TartiniParams *tParams);
+  NoteData(Channel *channel_, int startChunk_, AnalysisData *analysisData, TartiniParams *tParams);
   ~NoteData();
 
   SmartPtr<Array1d<int> > maxima;
   SmartPtr<Array1d<int> > minima;
 
   void    resetData();
-  //int   size() { return _endChunk - _startChunk; }
   bool    isValid() { return (numChunks() > 2); }
   void    setStartChunk(int startChunk_) { _startChunk = startChunk_; }
   void    setEndChunk(int endChunk_) { _endChunk = endChunk_; }
   int     startChunk() { return _startChunk; }
   int     endChunk() { return _endChunk; }
-  //void  addValues(float logRMS_, float intensityDB_, float correlation_, float purity_);
   void    addData(AnalysisData *analysisData, float periods);
   int     numChunks() { return _endChunk - _startChunk; }
   double  noteLength(); /**< in seconds */

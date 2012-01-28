@@ -24,6 +24,7 @@
 #include "analysisdata.h"
 #include "fast_smooth.h"
 
+class TartiniParams;
 class Channel;
 class Filter;
 
@@ -45,6 +46,7 @@ class MyTransforms
   double rate;
   int numHarmonics;
   fast_smooth *fastSmooth;
+  TartiniParams *m_params;
   
  public:
   bool equalLoudness;
@@ -52,7 +54,8 @@ class MyTransforms
   MyTransforms();
   virtual ~MyTransforms();
 
-  void init(int n_, int k_, double rate_, bool equalLoudness_=false, int numHarmonics_=40); 
+  void init(TartiniParams* tParams, int n_, int k_, double rate_, bool equalLoudness_=false, int numHarmonics_=40); 
+//   void init(TartiniParam *tParams); 
   void uninit();
   double autocorr(float *input, float *output);
   double autoLogCorr(float *input, float *output);

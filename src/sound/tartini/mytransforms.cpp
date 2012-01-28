@@ -19,7 +19,7 @@
 
 #include "mytransforms.h"
 #include "array1d.h"
-#include "../tpitchfinder.h"
+#include "../tartiniparams.h"
 #include "bspline.h"
 #include "channel.h"
 #include "filters/Filter.h"
@@ -32,11 +32,6 @@
 #include <float.h>
 
 #include <complex>
-
-
-
-extern TpitchFinder::audioSetts *glAsett;
-
 
 MyTransforms::MyTransforms()
 {
@@ -54,8 +49,10 @@ MyTransforms::~MyTransforms()
   @param rate_ The sampling rate of the incoming signal to process
   @param threshold_ The ratio of highest peak to the first peak allowed to be chosen
 */
-void MyTransforms::init(int n_, int k_, double rate_,bool equalLoudness_, int numHarmonics_)
+void MyTransforms::init(TartiniParams* tParams, int n_, int k_, double rate_,bool equalLoudness_, int numHarmonics_)
+// void MyTransforms::init(TartiniParams* tParams)
 {
+  m_params = tParams;
   const int myFFTMode = FFTW_ESTIMATE;
   uninit();
   if(k_ == 0) k_ = (n_ + 1) / 2;
@@ -218,7 +215,7 @@ double MyTransforms::nsdf(float *input, float *output)
 {
   double sumSq = autocorr(input, output); //the sum of squares of the input
   double totalSumSq = sumSq * 2.0;
-    if(glAsett->analysisType == e_MPM || glAsett->analysisType == e_MPM_MODIFIED_CEPSTRUM) { //nsdf
+    if(m_params->analysisType == e_MPM || m_params->analysisType == e_MPM_MODIFIED_CEPSTRUM) { //nsdf
     for(int j=0; j<k; j++) {
       totalSumSq  -= sq(input[n-1-j]) + sq(input[j]);
       //dividing by zero is very slow, so deal with it seperately
@@ -329,24 +326,24 @@ void MyTransforms::calculateAnalysisData(int chunk, Channel *ch)
 	
   doChannelDataFFT(ch, curInput, chunk);
   std::copy(curInput, curInput+n, dataTime);
-  if(glAsett->doingFreqAnalysis && (ch->firstTimeThrough() || glAsett->doingFreqAnalysis)) {
+  if(m_params->doingFreqAnalysis && (ch->firstTimeThrough() || m_params->doingFreqAnalysis)) {
     //calculate the Normalised Square Difference Function
     double logrms = linear2dB(nsdf(dataTime, ch->nsdfData.begin()) / double(n)); /**< Do the NSDF calculation */
     analysisData.logrms() = logrms;
-	if(glAsett->doingAutoNoiseFloor && !analysisData.done) {
+	if(m_params->doingAutoNoiseFloor && !analysisData.done) {
       //do it for gdata. this is only here for old code. remove some stage
 	  if(chunk == 0) {
-		glAsett->ampThresholds[AMPLITUDE_RMS][0] = 0.0; //gdata->rmsFloor() = 0.0;
-		glAsett->ampThresholds[AMPLITUDE_RMS][1] = glAsett->dBFloor; //gdata->rmsCeiling() = gdata->dBFloor(); 
+		m_params->ampThresholds[AMPLITUDE_RMS][0] = 0.0; //gdata->rmsFloor() = 0.0;
+		m_params->ampThresholds[AMPLITUDE_RMS][1] = m_params->dBFloor; //gdata->rmsCeiling() = gdata->dBFloor(); 
 	  }
-	  if(logrms+15 < glAsett->ampThresholds[AMPLITUDE_RMS][0]) 
-		  glAsett->ampThresholds[AMPLITUDE_RMS][0] = logrms+15;
-	  if(logrms > glAsett->ampThresholds[AMPLITUDE_RMS][1]) 
-		  glAsett->ampThresholds[AMPLITUDE_RMS][1] = logrms;
+	  if(logrms+15 < m_params->ampThresholds[AMPLITUDE_RMS][0]) 
+		  m_params->ampThresholds[AMPLITUDE_RMS][0] = logrms+15;
+	  if(logrms > m_params->ampThresholds[AMPLITUDE_RMS][1]) 
+		  m_params->ampThresholds[AMPLITUDE_RMS][1] = logrms;
       //do it for the channel
       if(chunk == 0) { 
 		ch->rmsFloor = 0.0;
-		ch->rmsCeiling = glAsett->dBFloor; // gdata->dBFloor();
+		ch->rmsCeiling = m_params->dBFloor; // gdata->dBFloor();
 	  }
       if(logrms+15 < ch->rmsFloor) ch->rmsFloor = logrms+15;
       if(logrms > ch->rmsCeiling) ch->rmsCeiling = logrms;
@@ -378,12 +375,11 @@ void MyTransforms::calculateAnalysisData(int chunk, Channel *ch)
     
     float periodDiff = 0.0f;
     if(analysisData.periodEstimates.empty()) { //no period found
-      analysisData.calcScores();
+      analysisData.calcScores(m_params);
       analysisData.done = true;
       //goto finished; //return;
     } else {
       //calc the periodDiff
-// qDebug() << "periodDiff";
       if(chunk > 0 && prevAnalysisData->highestCorrelationIndex!=-1) {
 /**       if(chunk > 0) { */
         float prevPeriod = prevAnalysisData->periodEstimates[prevAnalysisData->highestCorrelationIndex];
@@ -396,8 +392,7 @@ void MyTransforms::calculateAnalysisData(int chunk, Channel *ch)
       analysisData.highestCorrelationIndex = nsdfMaxIndex;
 
       if(!analysisData.done) {
-//         if(gdata->analysisType() == MPM_MODIFIED_CEPSTRUM) {
-		if(glAsett->analysisType == e_MPM_MODIFIED_CEPSTRUM) {
+		if(m_params->analysisType == e_MPM_MODIFIED_CEPSTRUM) {
             ch->chooseCorrelationIndex(chunk, float(analysisData.cepstrumIndex)); //calculate pitch
         } else {
           if(ch->isNotePlaying() && chunk > 0) {
@@ -408,20 +403,17 @@ void MyTransforms::calculateAnalysisData(int chunk, Channel *ch)
         }
         ch->calcDeviation(chunk);
 
-//         ch->doPronyFit(chunk); //calculate vibratoPitch, vibratoWidth, vibratoSpeed
       }
 
       analysisData.changeness() = 0.0f;
-//       if(gdata->doingHarmonicAnalysis()) {
-	  if(glAsett->doingHarmonicAnalysis) {
+	  if(m_params->doingHarmonicAnalysis) {
         std::copy(dataTime, dataTime+n, dataTemp);
         if(analysisData.chosenCorrelationIndex >= 0)
           doHarmonicAnalysis(dataTemp, analysisData, analysisData.periodEstimates[analysisData.chosenCorrelationIndex]/*period*/);
       }
     }
 
-//     if(gdata->doingFreqAnalysis() && ch->doingDetailedPitch() && ch->firstTimeThrough()) {
-    if(glAsett->doingFreqAnalysis && ch->doingDetailedPitch() && ch->firstTimeThrough()) {
+    if(m_params->doingFreqAnalysis && ch->doingDetailedPitch() && ch->firstTimeThrough()) {
       float periodDiff2 = ch->calcDetailedPitch(curInput, analysisData.period, chunk);
       periodDiff = periodDiff2;
       ch->pitchLookup.push_back(ch->detailedPitchData.begin(), ch->detailedPitchData.size());
@@ -429,18 +421,17 @@ void MyTransforms::calculateAnalysisData(int chunk, Channel *ch)
     }
 
     if(!analysisData.done) {
-      analysisData.calcScores();
+      analysisData.calcScores(m_params);
       ch->processNoteDecisions(chunk, periodDiff);
       analysisData.done = true;
     }
 
-    if(glAsett->doingFreqAnalysis && ch->doingDetailedPitch() && ch->firstTimeThrough()) {
-//     if(gdata->doingFreqAnalysis() && ch->doingDetailedPitch() && ch->firstTimeThrough()) {
+    if(m_params->doingFreqAnalysis && ch->doingDetailedPitch() && ch->firstTimeThrough()) {
       ch->calcVibratoData(chunk);
     }
   }
 
-  if(glAsett->doingFreqAnalysis && ch->doingDetailedPitch() && (!ch->firstTimeThrough())) {
+  if(m_params->doingFreqAnalysis && ch->doingDetailedPitch() && (!ch->firstTimeThrough())) {
     ch->pitchLookup.copyTo(ch->detailedPitchData.begin(), chunk*ch->detailedPitchData.size(), ch->detailedPitchData.size());
     ch->pitchLookupSmoothed.copyTo(ch->detailedPitchDataSmoothed.begin(), chunk*ch->detailedPitchDataSmoothed.size(), ch->detailedPitchDataSmoothed.size());
   }
@@ -453,7 +444,7 @@ void MyTransforms::calculateAnalysisData(int chunk, Channel *ch)
       rms += sq(dataTime[j]);
     }
     analysisData.logrms() = linear2dB(rms / float(n));
-    analysisData.calcScores();
+    analysisData.calcScores(m_params);
     analysisData.done = true;
   }
 
@@ -596,16 +587,16 @@ void MyTransforms::doChannelDataFFT(Channel *ch, float *curInput, int chunk)
     sqValue = sq(dataFFT[j]) + sq(dataFFT[n-j]);
     ch->fftData2[j] = logBaseN(logBase, 1.0 + 2.0*sqrt(sqValue) / double(nDiv2) * (logBase-1.0));
     if(sqValue > 0.0)
-			ch->fftData1[j] = bound(log10(sqValue) / 2.0 - logSize, glAsett->dBFloor, 0.0);
-    else ch->fftData1[j] = glAsett->dBFloor; // gdata->dBFloor();
+			ch->fftData1[j] = bound(log10(sqValue) / 2.0 - logSize, m_params->dBFloor, 0.0);
+    else ch->fftData1[j] = m_params->dBFloor; // gdata->dBFloor();
   }
   sqValue = sq(dataFFT[0]) + sq(dataFFT[nDiv2]);
   ch->fftData2[0] = logBaseN(logBase, 1.0 + 2.0*sqrt(sqValue) / double(nDiv2) * (logBase-1.0));
   if(sqValue > 0.0)
-    ch->fftData1[0] = bound(log10(sqValue) / 2.0 - logSize, glAsett->dBFloor, 0.0);
-  else ch->fftData1[0] = glAsett->dBFloor; // gdata->dBFloor();
+    ch->fftData1[0] = bound(log10(sqValue) / 2.0 - logSize, m_params->dBFloor, 0.0);
+  else ch->fftData1[0] = m_params->dBFloor; // gdata->dBFloor();
 
-  if(glAsett->analysisType == e_MPM_MODIFIED_CEPSTRUM) {/** FIXME: ???*/
+  if(m_params->analysisType == e_MPM_MODIFIED_CEPSTRUM) {
     for(int j=1; j<nDiv2; j++) {
       dataFFT[j] = ch->fftData2[j];
       dataFFT[n-j] = 0.0;
@@ -620,11 +611,8 @@ void MyTransforms::doChannelDataFFT(Channel *ch, float *curInput, int chunk)
     for(int j=0; j<nDiv2; j++) ch->cepstrumData[j] = dataTime[j];
     AnalysisData *analysisData = ch->dataAtChunk(chunk);
 	if(analysisData != NULL) {
-// 	  qDebug() << "before";
 	  analysisData->cepstrumIndex = findNSDFsubMaximum(dataTime, nDiv2, 0.6f);
-// 	  qDebug() << "middle";
 	  analysisData->cepstrumPitch = freq2pitch(double(analysisData->cepstrumIndex) / ch->rate());
-// 	  qDebug() << "after";
 	}
   }
 }
@@ -686,7 +674,7 @@ void MyTransforms::doHarmonicAnalysis(float *input, AnalysisData &analysisData, 
     harmonic = (j+1) * iNumPeriodsUse;
     analysisData.harmonicAmpNoCutOff[j] = analysisData.harmonicAmp[j] = log10(harmonicsAmpCenter[j] / hanningScalar) * 20;
 //     analysisData.harmonicAmp[j] = 1.0 - (analysisData.harmonicAmp[j] / gdata->ampThreshold(AMPLITUDE_RMS, 0));
-	analysisData.harmonicAmp[j] = 1.0 - (analysisData.harmonicAmp[j] / glAsett->ampThresholds[AMPLITUDE_RMS][0]);
+	analysisData.harmonicAmp[j] = 1.0 - (analysisData.harmonicAmp[j] / m_params->ampThresholds[AMPLITUDE_RMS][0]);
     if(analysisData.harmonicAmp[j] < 0.0) analysisData.harmonicAmp[j] = 0.0;
     //should be 1 whole period between left and right. i.e. the same freq give 0 phase difference
     double diffAngle = (harmonicsPhaseRight[j] - harmonicsPhaseLeft[j]) / twoPI;

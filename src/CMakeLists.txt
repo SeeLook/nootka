@@ -64,6 +64,7 @@ SET( NOOTKA_SRCS
   sound/tpitchfinder.cpp
   sound/tvolumemeter.cpp
   sound/tpitchview.cpp
+  sound/tartiniparams.h
 # tartini
   sound/tartini/channel.cpp
   sound/tartini/analysisdata.cpp
@@ -155,7 +156,7 @@ IF(MINGW)
 	TARGET_LINK_LIBRARIES(nootka
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
-        ${QTMULTIMEDIAKIT_LIBRARY}
+        ${QTMULTIMEDIA_LIBRARIES}
         ${FFTW3_LIBRARIES}
         winmm
 	)
@@ -169,7 +170,7 @@ ELSE(MINGW) #Linux
 	TARGET_LINK_LIBRARIES(nootka
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
-        ${QTMULTIMEDIAKIT_LIBRARY}
+        ${QTMULTIMEDIA_LIBRARIES}
         ${FFTW3_LIBRARIES}
         ${ALSA_LIBRARY} ${PTHREAD_LIBRARY}
 	)

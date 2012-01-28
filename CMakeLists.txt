@@ -1,17 +1,16 @@
 project(nootka)
 cmake_minimum_required(VERSION 2.8)
-SET(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE release)
 find_package(Qt4 REQUIRED)
 INCLUDE( ${QT_USE_FILE} )
 add_definitions(${QT_DEFINITIONS})
 
-set(CMAKE_COLOR_MAKEFILE ON)
 
 include_directories(${QT_INCLUDES})
 
 SET(Nootka_VERSION_MAJOR  "0")
 SET(Nootka_VERSION_MINOR  "7")
-SET(Nootka_VERSION_PATCH  "98")
+SET(Nootka_VERSION_PATCH  "99")
 
 SET(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
 SET(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
@@ -19,16 +18,39 @@ SET(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
 ###########################################################################
 ########   Looking for QtMultimedia
 ###########################################################################
-  IF(WIN32)
-    include_directories(${QT_INCLUDES}/QtMultimedia)
-  ELSE(WIN32) # This works for Ubuntu others major distro have qaudio.h in /usr/include
-    include_directories(/usr/include/QtMultimediaKit)
-    include_directories(/usr/include/QtMobility)
-  ENDIF(WIN32)
-# include_directories(/usr/include/QtMobility)
+if(QTMULTIMEDIA_LIBRARIES AND QTMULTIMEDIA_INCLUDE_DIRS AND QTMOBILITY_INCLUDE_DIRS)
+  set(QTMULTIMEDIA_FOUND TRUE)
+else(QTMULTIMEDIA_LIBRARIES AND QTMULTIMEDIA_INCLUDE_DIRS AND QTMOBILITY_INCLUDE_DIRS)
+  if(WIN32)
+    set(QTMULTIMEDIA_INCLUDE_DIR "${QT_INCLUDES}/QtMultimedia")    
+  else(WIN32) # This works for Ubuntu others major distro have qaudio.h in /usr/include
+    find_path(QTMULTIMEDIA_INCLUDE_DIR
+        NAMES
+          qaudio.h qmobilityglobal.h
+        PATHS
+          /usr/include
+          /usr/local/include
+          /opt/local/include
+          /sw/include
+          /usr/include/QtMultimedia
+          /usr/include/QtMultimediaKit
+          /usr/include/QtMobility
+    )
+    find_path(QTMOBILITY_INCLUDE_DIR
+        NAMES
+          qmobilityglobal.h
+        PATHS
+          /usr/include
+          /usr/local/include
+          /opt/local/include
+          /sw/include
+          /usr/include/QtMultimedia
+          /usr/include/QtMultimediaKit
+          /usr/include/QtMobility
+    )
+  endif(WIN32)
 
-
-find_library(QTMULTIMEDIAKIT_LIBRARY
+    find_library(QTMULTIMEDIA_LIBRARY
                   NAMES
                         QtMultimediaKit
                   PATHS
@@ -36,9 +58,10 @@ find_library(QTMULTIMEDIAKIT_LIBRARY
                         /usr/lib64
                         /usr/local/lib
                         /opt/local/lib
-  )
-if (NOT QTMULTIMEDIAKIT_LIBRARY)
-  find_library(QTMULTIMEDIAKIT_LIBRARY
+    )
+
+  if (NOT QTMULTIMEDIA_LIBRARY)
+    find_library(QTMULTIMEDIA_LIBRARY
                   NAMES
                         QtMultimedia
                   PATHS
@@ -46,13 +69,34 @@ if (NOT QTMULTIMEDIAKIT_LIBRARY)
                         /usr/lib64
                         /usr/local/lib
                         /opt/local/lib
+    )
+  endif(NOT QTMULTIMEDIA_LIBRARY)
+
+  set(QTMULTIMEDIA_INCLUDE_DIRS 
+      ${QTMULTIMEDIA_INCLUDE_DIR} 
+    )
+  set(QTMULTIMEDIA_LIBRARIES
+      ${QTMULTIMEDIA_LIBRARY} 
+    )
+  set(QTMOBILITY_INCLUDE_DIRS
+      ${QTMOBILITY_INCLUDE_DIR}
   )
 
-endif (NOT QTMULTIMEDIAKIT_LIBRARY)
+  if(QTMULTIMEDIA_INCLUDE_DIRS AND QTMULTIMEDIA_LIBRARIES AND QTMOBILITY_INCLUDE_DIRS)
+    set(QTMULTIMEDIA_FOUND TRUE)
+  endif(QTMULTIMEDIA_INCLUDE_DIRS AND QTMULTIMEDIA_LIBRARIES AND QTMOBILITY_INCLUDE_DIRS)
 
-# mark_as_advanced(QTMULTIMEDIAKIT_LIBRARY)
-message(STATUS "Qt Multimedia: ${QTMULTIMEDIAKIT_LIBRARY}")
-# message(STATUS "QtMultimedia: ${QT_QTMULTIMEDIA_LIBRARY}")
+  if(QTMULTIMEDIA_FOUND)
+      message(STATUS "QtMultimedia was Found in:\n${QTMULTIMEDIA_LIBRARIES}\n${QTMULTIMEDIA_INCLUDE_DIRS}\n${QTMULTIMEDIA_INCLUDE_DIR} ")
+  else(QTMULTIMEDIA_FOUND)
+      message(FATAL_ERROR 
+        "Could not find QtMultimedia\nTry call cmake with args:\n-DQTMULTIMEDIA_LIBRARIES=/path_to/libQtMultimedia(Kit).la(dll) -DQTMULTIMEDIA_INCLUDE_DIRS=/path_to_dir_with/qaudio.h -DQTMOBILITY_INCLUDE_DIRS=/path_to_dir_with/qmobilityglobal.h")
+  endif(QTMULTIMEDIA_FOUND)
+
+endif(QTMULTIMEDIA_LIBRARIES AND QTMULTIMEDIA_INCLUDE_DIRS AND QTMOBILITY_INCLUDE_DIRS)
+
+include_directories(${QTMULTIMEDIA_INCLUDE_DIRS})
+include_directories(${QTMOBILITY_INCLUDE_DIRS}) 
 
 ###########################################################################
 ########   Looking for fftw3
@@ -72,7 +116,7 @@ ELSE(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
       "${CMAKE_CURRENT_BINARY_DIR}/fftw"
   )
   IF(WIN32)
-            find_library(FFTW3_LIBRARY
+    find_library(FFTW3_LIBRARY
       NAMES
         fftw3f.dll
       PATHS
@@ -101,7 +145,7 @@ ELSE(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
     ${FFTW3_LIBRARY}
 )
 
-IF(FFTW3_INCLUDE_DIRS AND FFTW3_LIBRARIES)
+  IF(FFTW3_INCLUDE_DIRS AND FFTW3_LIBRARIES)
      set(FFTW3_FOUND TRUE)
   ENDIF(FFTW3_INCLUDE_DIRS AND FFTW3_LIBRARIES)
 
@@ -110,7 +154,7 @@ IF(FFTW3_INCLUDE_DIRS AND FFTW3_LIBRARIES)
   ELSE(FFTW3_FOUND)
       message(FATAL_ERROR "Could not find Fftw3\nTry call cmake with args:\n-DFFTW3_LIBRARIES=/path_to/libfftw3.la(dll) -DFFTW3_INCLUDE_DIRS=/path_to_dir_with/fftw3.h\nor put those files in build dir or source dir")
   ENDIF(FFTW3_FOUND)
-#   mark_as_advanced(FFTW3_INCLUDE_DIRS FFTW3_LIBRARIES)
+
 ENDIF(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
 
 include_directories(${FFTW3_INCLUDE_DIRS})

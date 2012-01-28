@@ -257,6 +257,7 @@ bool TlevelSelector::isSuitable(TexamLevel &l) {
         levelsList->item(levList.size()-1)->setStatusTip("<span style=\"color: red;\">" +
                 tr("Level is not suitable for current tune and/or frets number") + "</span>");
         levelsList->item(levList.size()-1)->setFlags(!Qt::ItemIsEnabled);
+//         levelsList->item(levList.size()-1)->setFlags(Qt::NoItemFlags); FIXME
         return false;
     } else
         return true;
