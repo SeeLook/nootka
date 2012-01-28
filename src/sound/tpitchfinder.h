@@ -23,8 +23,7 @@
 
 #include <QObject>
 #include "tartini/mytransforms.h"
-
-
+#include "tartiniparams.h"
 
 // This part of code id directly taken from Tartini musicnotes.h --------------------
 	/** Converts the frequencies freq (in hertz) into their note number on the midi scale
@@ -53,8 +52,6 @@ inline double pitch2freq(double note)
 
 class Channel;
 
-      /** Types of detection methods. */
-enum EanalysisModes { e_MPM = 0, e_AUTOCORRELATION = 1, e_MPM_MODIFIED_CEPSTRUM = 2 };
 
 /** The main purpose of this class is to recognize pitch
  * of aduio data flowing throught it. 
@@ -69,29 +66,9 @@ public:
     explicit TpitchFinder(QObject *parent = 0);
     virtual ~TpitchFinder();
 	
-	MyTransforms myTransforms;
-	  /** Audio input & pitch recognition settings. */
-	struct audioSetts {
-      quint32 rate;
-      quint8 chanells;
-      quint32 windowSize;
-      quint32 framesPerChunk; // in mono signal frames are the same as samples
-      double dBFloor;
-      bool equalLoudness;
-      bool doingFreqAnalysis;
-      bool doingAutoNoiseFloor;
-      bool doingHarmonicAnalysis;
-      bool firstTimeThrough;
-      bool doingDetailedPitch;
-      int threshold; // threshold of lowest loudness in [dB]
-      EanalysisModes analysisType;
-      double topPitch; // The highest possible note pitch allowed (lowest possible is 0 in Tartini)
-      qint16 loPitch; // The lowest possible note. Filtered in searchIn() method
-      double ampThresholds[7][2];
-      bool isVoice; // calculates average pitch in chunks range instead pitch in single chunk
-	};
+    MyTransforms myTransforms;
 	  /** global settings for pitch recognize. */
-	audioSetts aGl() { return m_aGl; }
+    TartiniParams* aGl() { return m_aGl; }
 	
 	  /** Starts thread searching in @param chunk,
 	   * whitch is pointer to array of floats of audio data. 
@@ -106,7 +83,7 @@ public:
     /** Cleans all buffers, sets m_chunkNum to 0. */
   void resetFinder();
   void setAmbitus(qint16 loPitch, double topPitch) { 
-        m_aGl.loPitch = loPitch; m_aGl.topPitch = topPitch; }
+        m_aGl->loPitch = loPitch; m_aGl->topPitch = topPitch; }
 	
 signals:
       /** Signal emited when pitch is detected. 
@@ -119,14 +96,15 @@ protected:
 	void run();
 	
 private:
-  float         *m_filteredChunk, *m_workChunk;
-  bool          m_shown;
-  bool          m_noteNoticed;
-  int           m_noticedChunk; // chunk nr where note was started
-	audioSetts    m_aGl; 
-	Channel       *m_channel;
-	int           m_chunkNum;
-	bool          m_isBussy;
+  float           *m_filteredChunk, *m_workChunk;
+  bool            m_shown;
+  bool            m_noteNoticed;
+  int             m_noticedChunk; // chunk nr where note was started
+	TartiniParams   *m_aGl; 
+	Channel         *m_channel;
+	int             m_chunkNum;
+	bool            m_isBussy;
+  bool            m_isVoice; // calculates average pitch in chunks range instead pitch in single chunk
 	
 };
 

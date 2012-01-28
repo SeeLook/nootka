@@ -18,13 +18,8 @@
  ***************************************************************************/
 
 #include "analysisdata.h"
-#include "../tpitchfinder.h"
-// #include "gdata.h"
+#include "../tartiniparams.h"
 
-extern TpitchFinder::audioSetts *glAsett;
-
-const char *amp_mode_names[NUM_AMP_MODES] = { "RMS Amplitude (dB)", "Max Amplitude (dB)", "Amplitude Correlation", "Frequency Changness", "Delta Frequency Centroid", "Note Score", "Note Change Score" };
-const char *amp_display_string[NUM_AMP_MODES] = { "RMS Amp Threshold = %0.2f, %0.2f", "Max Amp Threshold = %0.2f, %0.2f", "Amp Corr Threshold = %0.2f, %0.2f", "Freq Changeness Threshold = %0.2f, %0.2f", "Delta Freq Centroid Threshold = %0.2f, %0.2f", "Note Score Threshold = %0.2f, %0.2f", "Note Change Score Threshold = %0.2f, %0.2f" };
 double(*amp_mode_func[NUM_AMP_MODES])(double) = { &dB2Normalised, &dB2Normalised, &same, &oneMinus, &same, &same, &same };
 double(*amp_mode_inv_func[NUM_AMP_MODES])(double) = { &normalised2dB, &normalised2dB, &same, &oneMinus, &same, &same, &same };
 
@@ -61,17 +56,14 @@ AnalysisData::AnalysisData()
 }
 
 
-void AnalysisData::calcScores()
+void AnalysisData::calcScores(TartiniParams *tParams)
 {
   double a[NUM_AMP_MODES-2];
   int j;
   for(j=0; j<NUM_AMP_MODES-2; j++) {
-//     a[j] = bound(((*amp_mode_func[j])(values[j]) - 
-// 	  (*amp_mode_func[j])(gdata->ampThreshold(j,0))) / ((*amp_mode_func[j])(gdata->ampThreshold(j,1)) - 
-// 	  (*amp_mode_func[j])(gdata->ampThreshold(j,0))), 0.0, 1.0);
-	a[j] = bound(((*amp_mode_func[j])(values[j]) - 
-	  (*amp_mode_func[j])(glAsett->ampThresholds[j][0])) / ((*amp_mode_func[j])(glAsett->ampThresholds[j][1]) - 
-	  (*amp_mode_func[j])(glAsett->ampThresholds[j][0])), 0.0, 1.0);
+      a[j] = bound(((*amp_mode_func[j])(values[j]) - 
+        (*amp_mode_func[j])(tParams->ampThresholds[j][0])) / ((*amp_mode_func[j])(tParams->ampThresholds[j][1]) - 
+        (*amp_mode_func[j])(tParams->ampThresholds[j][0])), 0.0, 1.0);
   }
   noteScore() = a[AMPLITUDE_RMS] * a[AMPLITUDE_CORRELATION];
   noteChangeScore() = (1.0 - a[FREQ_CHANGENESS]);

@@ -25,8 +25,6 @@
 #include <QDebug>
 // #include <stdio.h>
 
-TpitchFinder::audioSetts *glAsett;
-
 
 TpitchFinder::TpitchFinder(QObject* parent) :
   QObject(parent),
@@ -35,41 +33,41 @@ TpitchFinder::TpitchFinder(QObject* parent) :
   m_filteredChunk(0),
   m_shown(true),
   m_noteNoticed(false),
-  m_noticedChunk(0)
+  m_noticedChunk(0),
+  m_isVoice(false)
 {
-	m_aGl.chanells = 1;
-	m_aGl.rate = 44100;
-	m_aGl.windowSize = 2048;
-	m_aGl.framesPerChunk = 1024;
-	m_aGl.dBFloor = -150.0;
-	m_aGl.equalLoudness = true;
-	m_aGl.doingFreqAnalysis = true;
-	m_aGl.doingAutoNoiseFloor = true;
-	m_aGl.doingHarmonicAnalysis = false;
-	m_aGl.firstTimeThrough = true;
-	m_aGl.doingDetailedPitch = true;
-	m_aGl.isVoice = false;
-	m_aGl.threshold = 93;
-	m_aGl.analysisType = e_AUTOCORRELATION;
-	m_aGl.topPitch = 140.0;
-  m_aGl.loPitch = 35;
-	
-	m_aGl.ampThresholds[AMPLITUDE_RMS][0]           = -85.0; m_aGl.ampThresholds[AMPLITUDE_RMS][1]           = -0.0;
-	m_aGl.ampThresholds[AMPLITUDE_MAX_INTENSITY][0] = -30.0; m_aGl.ampThresholds[AMPLITUDE_MAX_INTENSITY][1] = -20.0;
-	m_aGl.ampThresholds[AMPLITUDE_CORRELATION][0]   =  0.40; m_aGl.ampThresholds[AMPLITUDE_CORRELATION][1]   =  1.00;
-	m_aGl.ampThresholds[FREQ_CHANGENESS][0]         =  0.50; m_aGl.ampThresholds[FREQ_CHANGENESS][1]         =  0.02;
-	m_aGl.ampThresholds[DELTA_FREQ_CENTROID][0]     =  0.00; m_aGl.ampThresholds[DELTA_FREQ_CENTROID][1]     =  0.10;
-	m_aGl.ampThresholds[NOTE_SCORE][0]              =  0.03; m_aGl.ampThresholds[NOTE_SCORE][1]              =  0.20;
-	m_aGl.ampThresholds[NOTE_CHANGE_SCORE][0]       =  0.12; m_aGl.ampThresholds[NOTE_CHANGE_SCORE][1]       =  0.30;
-	
-	
-	glAsett = &m_aGl;
-	m_isBussy = false;
-	
-	m_channel = new Channel(this, aGl().windowSize);
-	myTransforms.init(aGl().windowSize, 0, aGl().rate, aGl().equalLoudness);
-	if (aGl().equalLoudness)
-    m_filteredChunk = new float[aGl().framesPerChunk];
+    m_aGl = new TartiniParams();
+    m_aGl->chanells = 1;
+    m_aGl->rate = 44100;
+    m_aGl->windowSize = 2048;
+    m_aGl->framesPerChunk = 1024;
+    m_aGl->dBFloor = -150.0; // it is unchanged but if it will in conversions.cpp it is hard coded
+    m_aGl->equalLoudness = true;
+    m_aGl->doingFreqAnalysis = true;
+    m_aGl->doingAutoNoiseFloor = true;
+    m_aGl->doingHarmonicAnalysis = false;
+    m_aGl->firstTimeThrough = true;
+    m_aGl->doingDetailedPitch = true;
+    m_aGl->threshold = 93;
+    m_aGl->analysisType = e_AUTOCORRELATION;
+    m_aGl->topPitch = 140.0;
+    m_aGl->loPitch = 35;
+    
+    m_aGl->ampThresholds[AMPLITUDE_RMS][0]           = -85.0; m_aGl->ampThresholds[AMPLITUDE_RMS][1]           = -0.0;
+    m_aGl->ampThresholds[AMPLITUDE_MAX_INTENSITY][0] = -30.0; m_aGl->ampThresholds[AMPLITUDE_MAX_INTENSITY][1] = -20.0;
+    m_aGl->ampThresholds[AMPLITUDE_CORRELATION][0]   =  0.40; m_aGl->ampThresholds[AMPLITUDE_CORRELATION][1]   =  1.00;
+    m_aGl->ampThresholds[FREQ_CHANGENESS][0]         =  0.50; m_aGl->ampThresholds[FREQ_CHANGENESS][1]         =  0.02;
+    m_aGl->ampThresholds[DELTA_FREQ_CENTROID][0]     =  0.00; m_aGl->ampThresholds[DELTA_FREQ_CENTROID][1]     =  0.10;
+    m_aGl->ampThresholds[NOTE_SCORE][0]              =  0.03; m_aGl->ampThresholds[NOTE_SCORE][1]              =  0.20;
+    m_aGl->ampThresholds[NOTE_CHANGE_SCORE][0]       =  0.12; m_aGl->ampThresholds[NOTE_CHANGE_SCORE][1]       =  0.30;
+    
+    
+    m_isBussy = false;
+    
+    m_channel = new Channel(this, aGl()->windowSize);
+    myTransforms.init(m_aGl, aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
+    if (aGl()->equalLoudness)
+      m_filteredChunk = new float[aGl()->framesPerChunk];
 }
 
 TpitchFinder::~TpitchFinder()
@@ -78,7 +76,8 @@ TpitchFinder::~TpitchFinder()
         delete m_filteredChunk;
     myTransforms.uninit();
     if(m_channel)
-      delete m_channel;	
+      delete m_channel;
+    delete m_aGl;
 }
 
 void TpitchFinder::setIsVoice(bool voice) {
@@ -86,25 +85,25 @@ void TpitchFinder::setIsVoice(bool voice) {
       qDebug("finder is bussy");
       return;
   }    
-  m_aGl.isVoice = voice;
+  m_isVoice = voice;
   if (voice)
-    m_aGl.analysisType = e_MPM_MODIFIED_CEPSTRUM;
+    m_aGl->analysisType = e_MPM_MODIFIED_CEPSTRUM;
   else 
-    m_aGl.analysisType = e_AUTOCORRELATION;
+    m_aGl->analysisType = e_AUTOCORRELATION;
 }
 
 
 void TpitchFinder::searchIn(float* chunk) {
   if (chunk) {
       m_workChunk = chunk;
-      m_channel->shift_left(aGl().framesPerChunk); // make palce in channel for new audio data
-      if (aGl().equalLoudness) { // filter it and copy  too channel
-        m_channel->highPassFilter->filter(m_workChunk, m_filteredChunk, aGl().framesPerChunk);
-        for(int i = 0; i < aGl().framesPerChunk; i++)
+      m_channel->shift_left(aGl()->framesPerChunk); // make palce in channel for new audio data
+      if (aGl()->equalLoudness) { // filter it and copy  too channel
+        m_channel->highPassFilter->filter(m_workChunk, m_filteredChunk, aGl()->framesPerChunk);
+        for(int i = 0; i < aGl()->framesPerChunk; i++)
             m_filteredChunk[i] = bound(m_filteredChunk[i], -1.0f, 1.0f);
-        std::copy(m_filteredChunk, m_filteredChunk+aGl().framesPerChunk-1, m_channel->end() - aGl().framesPerChunk);
+        std::copy(m_filteredChunk, m_filteredChunk+aGl()->framesPerChunk-1, m_channel->end() - aGl()->framesPerChunk);
       } else // copy without filtering
-          std::copy(m_workChunk, m_workChunk+aGl().framesPerChunk-1, m_channel->end() - aGl().framesPerChunk);
+          std::copy(m_workChunk, m_workChunk+aGl()->framesPerChunk-1, m_channel->end() - aGl()->framesPerChunk);
       run();
   } else {
       resetFinder();
@@ -115,8 +114,8 @@ void TpitchFinder::resetFinder() {
   delete m_channel;
   m_chunkNum = 0;
   myTransforms.uninit();
-  m_channel = new Channel(this, aGl().windowSize);
-  myTransforms.init(aGl().windowSize, 0, aGl().rate, aGl().equalLoudness);
+  m_channel = new Channel(this, aGl()->windowSize);
+  myTransforms.init(aGl(), aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
 }
 
 
@@ -127,23 +126,23 @@ void TpitchFinder::run() {
 	AnalysisData *data = m_channel->dataAtCurrentChunk();
 	if (data) {
 	  if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)) {
-      if (m_aGl.isVoice) { // average pitch
+      if (m_isVoice) { // average pitch
         if (!m_noteNoticed) {
         m_noteNoticed = true;
         m_noticedChunk = currentChunk();
         }
       } else { // pitch in single chunk
-        if (m_shown && data->pitch > m_aGl.loPitch) {
+        if (m_shown && data->pitch > m_aGl->loPitch) {
           m_shown = false;
           emit found(data->pitch, data->fundamentalFreq);
         }
       }
       } else {
-      if (m_aGl.isVoice) { // average pitch - shown when note is stoped
+      if (m_isVoice) { // average pitch - shown when note is stoped
         if(m_noteNoticed) {
         m_noteNoticed = false;
         float nn = m_channel->averagePitch(m_noticedChunk, currentChunk());
-        if (nn > m_aGl.loPitch) {
+        if (nn > m_aGl->loPitch) {
           emit found(nn, pitch2freq(nn));
         }
         }

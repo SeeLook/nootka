@@ -22,22 +22,23 @@
 #include "notedata.h"
 #include "channel.h"
 #include "useful.h"
-// #include "musicnotes.h"
+#include "../tartiniparams.h"
+#include <QDebug>
 
-extern TpitchFinder::audioSetts *glAsett;
 
-NoteData::NoteData(Channel *channel_)
+NoteData::NoteData(Channel* channel_, TartiniParams* tParams) :
+  m_params(tParams)
 {
   channel = channel_;
-//   maxLogRMS = gdata->dBFloor();
-  maxLogRMS = glAsett->dBFloor;
+  maxLogRMS = m_params->dBFloor;
   maxima = new Array1d<int>();
   minima = new Array1d<int>();
   _periodOctaveEstimate = 1.0f;
   _numPeriods = 0;
 }
 
-NoteData::NoteData(Channel *channel_, int startChunk_, AnalysisData *analysisData)
+NoteData::NoteData(Channel* channel_, int startChunk_, AnalysisData* analysisData, TartiniParams* tParams) :
+  m_params(tParams)
 {
   channel = channel_;
   _startChunk = startChunk_;
@@ -48,7 +49,6 @@ NoteData::NoteData(Channel *channel_, int startChunk_, AnalysisData *analysisDat
   maxPurity = analysisData->volumeValue();
   _volume = 0.0f;
   _numPeriods = 0.0f; //periods;
-  //_periodOctaveEstimate = analysisData->periodOctaveEstimate;
   _periodOctaveEstimate = 1.0f;
   loopStep = channel->rate() / 1000;  // stepsize = 0.001 seconds
   loopStart = _startChunk * channel->framesPerChunk() + loopStep;
@@ -77,14 +77,15 @@ void NoteData::resetData()
 
 void NoteData::addData(AnalysisData *analysisData, float periods)
 {
+  if (m_params == 0)
+        qDebug("NoteData no params");
   maxLogRMS = MAX(maxLogRMS, analysisData->logrms());
   maxIntensityDB = MAX(maxIntensityDB, analysisData->maxIntensityDB());
   maxCorrelation = MAX(maxCorrelation, analysisData->correlation());
   maxPurity = MAX(maxPurity, analysisData->volumeValue());
   _volume = MAX(_volume, dB2Normalised(analysisData->logrms()));
   _numPeriods += periods; //sum up the periods
-//   _avgPitch = bound(freq2pitch(avgFreq()), 0.0, gdata->topPitch());
-  _avgPitch = bound(freq2pitch(avgFreq()), 0.0, glAsett->topPitch);
+  _avgPitch = bound(freq2pitch(avgFreq()), 0.0, m_params->topPitch);
 }
 
 /** @return The length of the note (in seconds)
@@ -210,10 +211,11 @@ void NoteData::addVibratoData(int chunk)
 }
 
 void NoteData::recalcAvgPitch() {
+  if (m_params == 0)
+    qDebug("NoteData no params");
   _numPeriods = 0.0f;
   for(int j=startChunk(); j<endChunk(); j++) {
       _numPeriods += float(channel->framesPerChunk()) / float(channel->dataAtChunk(j)->period);
   }
-  _avgPitch = bound(freq2pitch(avgFreq()), 0.0, glAsett->topPitch);
-//   _avgPitch = bound(freq2pitch(avgFreq()), 0.0, gdata->topPitch());
+  _avgPitch = bound(freq2pitch(avgFreq()), 0.0, m_params->topPitch);
 }

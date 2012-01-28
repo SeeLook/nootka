@@ -48,9 +48,7 @@ private:
 public:
   large_vector<float> pitchLookup;
   large_vector<float> pitchLookupSmoothed;
-//   QColor color;
   Array1d<float> directInput;
-//   Array1d<float> filteredInput;
   Array1d<float> coefficients_table;
   Array1d<float> nsdfData;
   Array1d<float> nsdfAggregateData;
@@ -79,31 +77,23 @@ public:
   float *end() { return directInput.end(); }
   int size() { return directInput.size(); }
   float &at(int pos) { return directInput.at(pos); }
-  int rate() { return parent->aGl().rate ; }
+  int rate() { return parent->aGl()->rate ; }
   virtual void resize(int newSize, int k_=0);
   virtual void shift_left(int n);
-  int framesPerChunk() { return parent->aGl().framesPerChunk ; }
+  int framesPerChunk() { return parent->aGl()->framesPerChunk ; }
   void calc_last_n_coefficients(int n);
   void processNewChunk(FilterState *filterState);
   void processChunk(int chunk);
   bool isVisible() { return visible; }
   void setVisible(bool state=true) { visible = state; }
   void reset();
-//   double timePerChunk() { return parent->timePerChunk(); }
-  double timePerChunk() { return double(parent->aGl().framesPerChunk) / double(parent->aGl().rate) ; }
-//   double startTime() { return parent->startTime(); }
-//   void setStartTime(double newStartTime) { parent->setStartTime(newStartTime); }
+
+  double timePerChunk() { return double(parent->aGl()->framesPerChunk) / double(parent->aGl()->rate) ; }
   int totalChunks() { return lookup.size(); }
-//   double finishTime() { return startTime() + totalTime(); }
   double totalTime() { return double(MAX(totalChunks()-1, 0)) * timePerChunk(); }
-//   void jumpToTime(double t) { parent->jumpToTime(t); }
-//   int chunkAtTime(double t) { return parent->chunkAtTime(t); }
   int chunkAtTime(double t) { return toInt(chunkFractionAtTime(t)) ; }
-//   double chunkFractionAtTime(double t) { return parent->chunkFractionAtTime(t); }
   double chunkFractionAtTime(double t) { return t / timePerChunk(); }
-//   int chunkAtCurrentTime() { return parent->chunkAtCurrentTime(); }
   int currentChunk() { return parent->currentChunk(); } //this one should be use to retrieve current info
-//   double timeAtChunk(int chunk) { return parent->timeAtChunk(chunk); }
   double timeAtChunk(int chunk) { return double(chunk) * timePerChunk(); }
 
   AnalysisData *dataAtChunk(int chunk) { return (isValidChunk(chunk)) ? &lookup[chunk] : NULL; }
@@ -151,14 +141,12 @@ public:
   void resetNSDFAggregate(float period);
   void addToNSDFAggregate(const float scaler, float periodDiff);
   float calcDetailedPitch(float *input, double period, int chunk);
-  bool firstTimeThrough() { return parent->aGl().firstTimeThrough; }
-  bool doingDetailedPitch() { return parent->aGl().doingDetailedPitch; }
+  bool firstTimeThrough() { return parent->aGl()->firstTimeThrough; }
+  bool doingDetailedPitch() { return parent->aGl()->doingDetailedPitch; }
 
   void calcVibratoData(int chunk);
   float periodOctaveEstimate(int chunk); // A estimate from over the whole duration of the note, to help get the correct octave
 
-//   void doPronyFit(int chunk);
-//   int pronyDelay() { return pronyWindowSize/2; }
 };
 
 /** Create a ChannelLocker on the stack, the channel will be freed automaticly when

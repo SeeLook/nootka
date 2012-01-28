@@ -155,7 +155,7 @@ void TaudioIN::initInput() {
 void TaudioIN::startListening() {
   if (m_audioInput) {
     if (!m_floatBuff)
-        m_floatBuff = new float[m_pitch->aGl().framesPerChunk]; // 1024
+        m_floatBuff = new float[m_pitch->aGl()->framesPerChunk]; // 1024
     initInput();
     if (m_IOaudioDevice) {
       connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));
@@ -240,7 +240,7 @@ void TaudioIN::audioDataReady() {
 	  m_maxP = qMax(m_maxP, value);
 	  *(m_floatBuff + m_floatsWriten) = float(value) / 32768.0f;
 
-	  if (m_floatsWriten == m_pitch->aGl().framesPerChunk-1) {
+	  if (m_floatsWriten == m_pitch->aGl()->framesPerChunk-1) {
 		m_maxPeak = m_maxP;
 		if (m_maxPeak > m_params->noiseLevel) {
 		  if (m_pitch->isBussy())
@@ -278,7 +278,7 @@ void TaudioIN::readToCalc() {
   for (int i = 0; i < dataRead; i++) {
 	qint16 value = *reinterpret_cast<qint16*>(m_buffer.data()+i*2);
 	m_maxPeak = qMax(m_maxPeak, value);
-	if (m_floatsWriten == m_pitch->aGl().framesPerChunk) {
+	if (m_floatsWriten == m_pitch->aGl()->framesPerChunk) {
 	  m_floatsWriten = -1;
 	  m_peakList << m_maxPeak;
 	}

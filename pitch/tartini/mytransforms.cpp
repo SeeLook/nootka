@@ -54,7 +54,7 @@ MyTransforms::~MyTransforms()
   @param rate_ The sampling rate of the incoming signal to process
   @param threshold_ The ratio of highest peak to the first peak allowed to be chosen
 */
-void MyTransforms::init(int n_, int k_, double rate_,bool equalLoudness_, int numHarmonics_)
+void MyTransforms::init(TartiniParams* tParams, int n_, int k_, double rate_, bool equalLoudness_, int numHarmonics_)
 {
   const int myFFTMode = FFTW_ESTIMATE;
   uninit();

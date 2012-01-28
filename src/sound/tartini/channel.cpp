@@ -21,14 +21,11 @@
 
 #include <math.h>
 #include <algorithm>
-#include <QDebug>
 
 #include "conversions.h"
 #include "filters/FastSmoothedAveragingFilter.h"
 #include "filters/FixedAveragingFilter.h"
 #include "filters/GrowingAveragingFilter.h"
-// #include "prony.h"
-// #include "musicnotes.h"
 #include "bspline.h"
 #include "mytransforms.h"
 #include "useful.h"
@@ -151,10 +148,9 @@ Channel::Channel(TpitchFinder *parent_, int size_, int k_) :
 	lookup(0, 128),
 	parent(parent_)
 {
-  int sampleRate = parent->aGl().rate;
+  int sampleRate = parent->aGl()->rate;
   if(k_ == 0) k_ = (size_ + 1) / 2;
   directInput.resize(size_, 0.0);
-//   filteredInput.resize(size_, 0.0);
   nsdfData.resize(k_, 0.0);
   nsdfAggregateData.resize(k_, 0.0);
   nsdfAggregateDataScaled.resize(k_, 0.0);
@@ -165,17 +161,13 @@ Channel::Channel(TpitchFinder *parent_, int size_, int k_) :
   cepstrumData.resize(size_/2, 0.0);
   detailedPitchData.resize(size_/2, 0.0);
   detailedPitchDataSmoothed.resize(size_/2, 0.0);
-/**  _pitch_method = 2; */
-//   color = Qt::black;
   coefficients_table.resize(size_*4);
-  rmsFloor = parent->aGl().dBFloor;
-  rmsCeiling = parent->aGl().dBFloor;
-//   pronyWindowSize = int(ceil(0.4/timePerChunk()));
-//   pronyData.resize(pronyWindowSize);
+  rmsFloor = parent->aGl()->dBFloor;
+  rmsCeiling = parent->aGl()->dBFloor;
 
   visible = true;
   noteIsPlaying = false;
-  setIntThreshold(parent->aGl().threshold);
+  setIntThreshold(parent->aGl()->threshold);
   freq = 0.0;
 //   mutex = new QMutex(true);
   mutex = new QMutex();
@@ -242,7 +234,6 @@ void Channel::shift_left(int n)
 void Channel::calc_last_n_coefficients(int n)
 {
   //build a table of coefficients for calculating interpolation
-  //gdata->coefficients_table.shift_left(n*4);
 	int start_pos = MAX(size() - n, 3);
 	float *buf_pos = begin() + start_pos;
 	float *coeff_pos = coefficients_table.begin()+start_pos*4;
@@ -264,7 +255,6 @@ void Channel::calc_last_n_coefficients(int n)
 void Channel::processNewChunk(FilterState *filterState)
 {
   lock();
-
   lookup.push_back(AnalysisData());
   lookup.back().filterState = *filterState;
   parent->myTransforms.calculateAnalysisData(int(lookup.size())-1, this);
@@ -284,9 +274,7 @@ void Channel::processChunk(int chunk)
 void Channel::reset()
 {
   std::fill(begin(), end(), 0.0f);
-//   std::fill(filteredInput.begin(), filteredInput.end(), 0.0f);
   std::fill(coefficients_table.begin(), coefficients_table.end(), 0.0f);
-  //estimate = 0.0;
 }
 
 /**
@@ -341,14 +329,11 @@ float Channel::averageMaxCorrelation(int begin, int end)
 void Channel::clearFreqLookup()
 {
   ChannelLocker channelLocker(this);
-//   summaryZoomLookup.clear();
-//   normalZoomLookup.clear();
 }
 
 void Channel::clearAmplitudeLookup()
 {
   ChannelLocker channelLocker(this);
-//   amplitudeZoomLookup.clear();
 }
 
 void Channel::recalcScoreThresholds()
@@ -356,7 +341,7 @@ void Channel::recalcScoreThresholds()
   AnalysisData *d;
   ChannelLocker channelLocker(this);
   for(int j=0; j<totalChunks(); j++)
-    if((d = dataAtChunk(j)) != NULL) d->calcScores();
+    if((d = dataAtChunk(j)) != NULL) d->calcScores(parent->aGl());
 }
 
 /**
@@ -371,13 +356,13 @@ bool Channel::isVisibleNote(int noteIndex_)
 
 bool Channel::isVisibleChunk(AnalysisData *data)
 {
-  if(data->noteScore() >= parent->aGl().ampThresholds[NOTE_SCORE][0]) return true;
+  if(data->noteScore() >= parent->aGl()->ampThresholds[NOTE_SCORE][0]) return true;
 	else return false;
 }
 
 bool Channel::isChangingChunk(AnalysisData *data)
 {
-  if(data->noteChangeScore() >= parent->aGl().ampThresholds[NOTE_CHANGE_SCORE][0]) return true;
+  if(data->noteChangeScore() >= parent->aGl()->ampThresholds[NOTE_CHANGE_SCORE][0]) return true;
   else return false;
 }
 
@@ -515,7 +500,7 @@ void Channel::processNoteDecisions(int chunk, float periodDiff)
 
       currentNote->addData(&analysisData, float(framesPerChunk()) / float(analysisData.period));
       currentNote->setPeriodOctaveEstimate(calcOctaveEstimate());
-	  if(parent->aGl().analysisType != e_MPM_MODIFIED_CEPSTRUM) {
+	  if(parent->aGl()->analysisType != e_MPM_MODIFIED_CEPSTRUM) {
         recalcNotePitches(chunk);
       }
   } 
@@ -525,7 +510,7 @@ void Channel::processNoteDecisions(int chunk, float periodDiff)
 void Channel::noteBeginning(int chunk)
 {
   AnalysisData *analysisData = dataAtChunk(chunk);
-  noteData.push_back(NoteData(this, chunk, analysisData));
+  noteData.push_back(NoteData(this, chunk, analysisData, parent->aGl()));
   resetNSDFAggregate(analysisData->period);
 
   pitchSmallSmoothingFilter->reset();
@@ -638,7 +623,7 @@ void Channel::chooseCorrelationIndex1(int chunk)
   analysisData.period = analysisData.periodEstimates[choosenMaxIndex];
   double freq = rate() / analysisData.period;
   analysisData.fundamentalFreq = float(freq);
-  analysisData.pitch = bound(freq2pitch(freq), 0.0, parent->aGl().topPitch);
+  analysisData.pitch = bound(freq2pitch(freq), 0.0, parent->aGl()->topPitch);
   analysisData.pitchSum = (double)analysisData.pitch;
   analysisData.pitch2Sum = sq((double)analysisData.pitch);
 }
@@ -656,7 +641,7 @@ bool Channel::chooseCorrelationIndex(int chunk, float periodOctaveEstimate)
   if(analysisData.periodEstimates.empty()) { //no period found
     return false;
   }
-  if(parent->aGl().analysisType == e_MPM || parent->aGl().analysisType == e_MPM_MODIFIED_CEPSTRUM) {
+  if(parent->aGl()->analysisType == e_MPM || parent->aGl()->analysisType == e_MPM_MODIFIED_CEPSTRUM) {
   //choose the periodEstimate which is closest to the periodOctaveEstimate
     float minDist = fabs(analysisData.periodEstimates[0] - periodOctaveEstimate);
     float dist;
@@ -674,7 +659,7 @@ bool Channel::chooseCorrelationIndex(int chunk, float periodOctaveEstimate)
   analysisData.period = analysisData.periodEstimates[choosenMaxIndex];
   double freq = rate() / analysisData.period;
   analysisData.fundamentalFreq = float(freq);
-  analysisData.pitch = bound(freq2pitch(freq), 0.0, parent->aGl().topPitch );
+  analysisData.pitch = bound(freq2pitch(freq), 0.0, parent->aGl()->topPitch );
   if(chunk > 0 && !isFirstChunkInNote(chunk)) {
     analysisData.pitchSum = dataAtChunk(chunk-1)->pitchSum + (double)analysisData.pitch;
     analysisData.pitch2Sum = dataAtChunk(chunk-1)->pitch2Sum + sq((double)analysisData.pitch);
@@ -865,11 +850,11 @@ float Channel::calcDetailedPitch(float *input, double period, int /*chunk*/)
 
   pitchBigSmoothingFilter->filter(unsmoothed.begin(), detailedPitchDataSmoothed.begin(), num);
   for(j=0; j<num; j++) 
-	  detailedPitchDataSmoothed[j] = bound(detailedPitchDataSmoothed[j], 0.0f, (float)parent->aGl().topPitch);
+	  detailedPitchDataSmoothed[j] = bound(detailedPitchDataSmoothed[j], 0.0f, (float)parent->aGl()->topPitch);
 
   pitchSmallSmoothingFilter->filter(unsmoothed.begin(), detailedPitchData.begin(), num);
   for(j=0; j<num; j++)
-	  detailedPitchData[j] = bound(detailedPitchData[j], 0.0f, (float)parent->aGl().topPitch);
+	  detailedPitchData[j] = bound(detailedPitchData[j], 0.0f, (float)parent->aGl()->topPitch);
 
   return periodDiff;
 }
@@ -891,36 +876,3 @@ float Channel::periodOctaveEstimate(int chunk)
   }
   else return -1.0f;
 }
-/*
-void Channel::doPronyFit(int chunk)
-{
-  if(chunk < pronyWindowSize) return;
-
-  int start = chunk - pronyWindowSize;
-  int center = chunk - pronyDelay();
-  AnalysisData *data = dataAtChunk(center);
-  for(int j=0; j<pronyWindowSize; j++) {
-    pronyData[j] = dataAtChunk(start + j)->pitch;
-  }
-  PronyData p;
-  if(pronyFit(&p, pronyData.begin(), pronyWindowSize, 2, true)) {
-    data->vibratoError = p.error;
-    data->vibratoPitch = p.yOffset;
-    if(p.error < 1.0) {
-      data->vibratoSpeed = p.freqHz(timePerChunk());
-      if(p.omega * pronyWindowSize < TwoPi) {
-        data->vibratoPitch = data->pitch;
-      } else {
-        data->vibratoWidth = p.amp;
-        data->vibratoPhase = p.phase;
-        data->vibratoWidthAdjust = 0.0f;
-      }
-    } else {
-      data->vibratoPitch = data->pitch;
-    }
-  } else {
-    data->vibratoPitch = data->pitch;
-  }
-}
-*/
-

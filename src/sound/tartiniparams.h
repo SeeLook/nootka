@@ -20,11 +20,16 @@
 #ifndef TARTINIPARAMS_H
 #define TARTINIPARAMS_H
 
+#include <QString>
+
     /** Types of detection methods. */
 enum EanalysisModes { e_MPM = 0, e_AUTOCORRELATION = 1, e_MPM_MODIFIED_CEPSTRUM = 2 };
 
+
+    /** Audio input & pitch recognition settings for Tartini core. */
 class TartiniParams
 {
+public:
   quint32 rate;
   quint8 chanells;
   quint32 windowSize;

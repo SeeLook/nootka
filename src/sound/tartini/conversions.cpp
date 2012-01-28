@@ -19,28 +19,23 @@
 
 #include <math.h>
 #include "useful.h"
-#include "../tpitchfinder.h"
 
-extern TpitchFinder::audioSetts *glAsett;
+double dbfloor = -150.0;
 
 /* x is between 0 and 1. 1 becomes 0dB and 0 becomes dBFloor (-ve) */
 double linear2dB(double x) {
-//   return (x > 0.0) ? bound((log10(x) * 20.0), gdata->dBFloor(), 0.0) : gdata->dBFloor();
-	return (x > 0.0) ? bound((log10(x) * 20.0), glAsett->dBFloor , 0.0) : glAsett->dBFloor;
+	return (x > 0.0) ? bound((log10(x) * 20.0), dbfloor , 0.0) : dbfloor;
 }
 double dB2Linear(double x) {
   return pow10(x / 20.0);
 }
 double dB2Normalised(double x) {
-//   return bound(1.0 - (x / gdata->dBFloor()), 0.0, 1.0);
-	return bound(1.0 - (x / glAsett->dBFloor), 0.0, 1.0);
+	return bound(1.0 - (x / dbfloor), 0.0, 1.0);
 }
 double normalised2dB(double x) {
-//   return (1.0 - x) * gdata->dBFloor();
-	return (1.0 - x) * glAsett->dBFloor;
+	return (1.0 - x) * dbfloor;
 }
 double dB2ViewVal(double x) {
-  //return sqrt(pow10(x / 20.0))*10.0;
   return pow10(1.0 + x / 40.0);
 }
 double same(double x) { return x; }
