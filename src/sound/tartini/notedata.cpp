@@ -75,17 +75,19 @@ void NoteData::resetData()
   _numPeriods = 0;
 }
 
+//TODO Remove this class or make m_params more smart. Method below can be invoked without m_params
 void NoteData::addData(AnalysisData *analysisData, float periods)
 {
-  if (m_params == 0)
-        qDebug("NoteData no params");
+  double topP = 140.0;
+  if (m_params != 0) // to avoid seg fault if no m_params
+        topP = m_params->topPitch;
   maxLogRMS = MAX(maxLogRMS, analysisData->logrms());
   maxIntensityDB = MAX(maxIntensityDB, analysisData->maxIntensityDB());
   maxCorrelation = MAX(maxCorrelation, analysisData->correlation());
   maxPurity = MAX(maxPurity, analysisData->volumeValue());
   _volume = MAX(_volume, dB2Normalised(analysisData->logrms()));
   _numPeriods += periods; //sum up the periods
-  _avgPitch = bound(freq2pitch(avgFreq()), 0.0, m_params->topPitch);
+  _avgPitch = bound(freq2pitch(avgFreq()), 0.0, topP);
 }
 
 /** @return The length of the note (in seconds)
@@ -211,11 +213,12 @@ void NoteData::addVibratoData(int chunk)
 }
 
 void NoteData::recalcAvgPitch() {
-  if (m_params == 0)
-    qDebug("NoteData no params");
+  double topP = 140.0;
+  if (m_params != 0) // to avoid seg fault if no m_params
+    topP = m_params->topPitch;
   _numPeriods = 0.0f;
   for(int j=startChunk(); j<endChunk(); j++) {
       _numPeriods += float(channel->framesPerChunk()) / float(channel->dataAtChunk(j)->period);
   }
-  _avgPitch = bound(freq2pitch(avgFreq()), 0.0, m_params->topPitch);
+  _avgPitch = bound(freq2pitch(avgFreq()), 0.0, topP);
 }

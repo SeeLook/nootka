@@ -821,8 +821,8 @@ void TexamExecutor::autoRepeatStateChanged(bool enable) {
 }
 
 QString TexamExecutor::getNextQuestionTxt() {
-    return TexamHelp::toGetQuestTxt() + " " + TexamHelp::clickSomeButtonTxt(gl->path+"picts/next-icon.png") + ", " +
-                TexamHelp::pressSpaceKey() + " " + TexamHelp::orRightButtTxt();
+    return TexamHelp::toGetQuestTxt() + ":<br>" + TexamHelp::clickSomeButtonTxt(gl->path+"picts/next-icon.png") + ",<br>" +
+                TexamHelp::pressSpaceKey() + "<br>" + TexamHelp::orRightButtTxt();
 }
 
 void TexamExecutor::showExamSummary() {

@@ -221,6 +221,7 @@ void TnoteName::noteWasChanged(int noteNr) {
     setNoteName(noteNr+1, m_notes[0].octave, m_notes[0].acidental);
 	if (octaveGroup->checkedId() == -1 && m_prevOctButton == -1) {
 		octaveButtons[2]->setChecked(true);
+    m_prevOctButton = 2;
 // 		octaveGroup->setId(2);
 	}
 	emit noteButtonClicked();
@@ -258,7 +259,7 @@ void TnoteName::accidWasChanged() {
     setNoteName(m_notes[0].note, m_notes[0].octave, ac);
 }
 
-void TnoteName::octaveWasChanged(int octNr) {
+void TnoteName::octaveWasChanged(int octNr) { // octNr is button nr in the group
 	if (octNr != m_prevOctButton && m_prevOctButton != -1)
 		octaveButtons[m_prevOctButton]->setChecked(false);
 	m_prevOctButton = octNr;
