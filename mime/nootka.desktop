@@ -10,5 +10,5 @@ Comment[cs]=Program pro vyučování notového zápisu hudby
 Exec=nootka %f
 Icon=nootka
 Terminal=false
-MimeType=application/x-nootka-noo;application/x-nootka-nel
+MimeType=application/x-nootka-noo;application/x-nootka-nel;
 Categories=Education
