@@ -19,11 +19,13 @@ Requirements:
 - create some dir (f. e. "build") out of unpacked source directory
 - go to build dir
 - cmake ../nootka-0.8 (or ccmake or qtcmake with GUI)
-  if You get error about not founded libfftw or libQtMultimedia(Kit1)
+  if You get error about not found libfftw or libQtMultimedia(Kit1)
   put it manually:
       -DFFTW3_LIBRARIES=/path_to/libfftw3f.la(dll)
       -DFFTW3_INCLUDE_DIRS=/path_to_dir_with/fftw3.h
       -DQTMULTIMEDIAKIT_LIBRARY=/path_to_dir_with/libqtmultimedia.la(dll)
+	  -DQTMULTIMEDIA_INCLUDE_DIRS=/path_to_dir_with/qaudio.h
+	  -DQTMOBILITY_INCLUDE_DIRS=/path_to_dir_with/qmobilityglobal.h
 - make
 - make install (usually as root)
 

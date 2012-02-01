@@ -39,26 +39,10 @@ set(CPACK_PACKAGE_NAME "nootka")
 set(CPACK_PACKAGE_FILE_NAME "nootka_${CPACK_PACKAGE_VERSION}_${PACKAGE_ARCHITECTURE}")
 
 
-###########################################################################
-#	packaging targets (deb)
-###########################################################################
-# IF(UNIX AND NOT APPLE)
-#     execute_process(COMMAND printf "\n\n\nTo build deb package call:\n")
-#     execute_process(COMMAND printf "\tmake deb\n\n\n" )
-# 
-# 	add_custom_target(deb
-# 	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/build-deb.sh ${Nootka_VERSION_FULL} ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR} "${CMAKE_BINARY_DIR}/debian"
-#    )
-# 	
-# 	add_custom_target(rpm
-# 	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/build-rpm.sh ${Nootka_VERSION_FULL} ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR} "${CMAKE_BINARY_DIR}/rpm"
-#    )
-# # ENDIF(UNIX AND NOT APPLE)
-
 ##########################################################################################
 #		cmake/cpack	DEB  generator 
 ##########################################################################################
-set(CPACK_DEBIAN_PACKAGE_NAME "nootka_${CPACK_PACKAGE_VERSION}_${PACKAGE_ARCHITECTURE}") #default CPACK_PACKAGE_NAME
+set(CPACK_DEBIAN_PACKAGE_NAME "nootka") #default CPACK_PACKAGE_NAME
 message(STATUS ${CPACK_DEBIAN_PACKAGE_NAME} )
 # CPACK_DEBIAN_PACKAGE_VERSION #CPACK_PACKAGE_VERSION
 # PACKAGE_ARCHITECTURE #dpkg --print-architecture or i386
@@ -70,11 +54,11 @@ set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Application to help with learning classica
  but it can be used for ear training as well.
  .
  Features:
- numerous settings to personalize for user needs and capabilities,
- natural, classical guitar sound output and also midi
- accurate pitch detection method
- support for different name-callings of the notes,
- scordatures, exams with different levels,
+ numerous settings to personalise for user needs and capabilities
+ accurate method for detecting sung and played sounds
+ different name-callings of the notes
+ support for scordatures
+ exam mode with different levels to registry progresses
  levels creator with wide range of settings
  .
  http://nootka.sf.net") #CPACK_PACKAGE_DESCRIPTION_SUMMARY
@@ -142,11 +126,6 @@ set(CPACK_RPM_POST_UNINSTALL_SCRIPT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/rpm/rpm-po
 #             One may verify which scriptlet has been included with
 #              rpm -qp --scripts  package.rpm
 set(CPACK_RPM_CHANGELOG_FILE "${CMAKE_BINARY_DIR}/doc/changelog-rpm")
-#             Mandatory : NO
-#             Default   : -
-#             May be used to embbed a changelog in the spec file.
-#             The refered file will be read and directly  put after the %changelog
-#             section.
 
 
 
@@ -168,3 +147,19 @@ endif (WIN32)
 
 include (CPack)
 
+#### OBSOLETE ##########################
+###########################################################################
+#	packaging targets (make deb)
+###########################################################################
+# IF(UNIX AND NOT APPLE)
+#     execute_process(COMMAND printf "\n\n\nTo build deb package call:\n")
+#     execute_process(COMMAND printf "\tmake deb\n\n\n" )
+# 
+# 	add_custom_target(deb
+# 	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/build-deb.sh ${Nootka_VERSION_FULL} ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR} "${CMAKE_BINARY_DIR}/debian"
+#    )
+# 	
+# 	add_custom_target(rpm
+# 	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/build-rpm.sh ${Nootka_VERSION_FULL} ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR} "${CMAKE_BINARY_DIR}/rpm"
+#    )
+# # ENDIF(UNIX AND NOT APPLE)
