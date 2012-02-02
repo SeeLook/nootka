@@ -73,7 +73,7 @@ set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_CURRENT_SOURCE_DIR}/debian/posti
 #		cmake/cpack	RPM  generator 
 ##########################################################################################
 # CPACK_RPM_PACKAGE_SUMMARY #CPACK_PACKAGE_DESCRIPTION_SUMMARY
-# CPACK_RPM_PACKAGE_NAME # Default   : CPACK_PACKAGE_NAME
+set(CPACK_RPM_PACKAGE_NAME "nootka")# Default   : CPACK_PACKAGE_NAME
 # CPACK_RPM_PACKAGE_VERSION # Default   : CPACK_PACKAGE_VERSION
 # CPACK_RPM_PACKAGE_ARCHITECTURE # Default   : -
 set(CPACK_RPM_PACKAGE_RELEASE "3")
