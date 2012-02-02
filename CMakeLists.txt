@@ -26,7 +26,7 @@ else(QTMULTIMEDIA_LIBRARIES AND QTMULTIMEDIA_INCLUDE_DIRS AND QTMOBILITY_INCLUDE
   else(WIN32) # This works for Ubuntu others major distro have qaudio.h in /usr/include
     find_path(QTMULTIMEDIA_INCLUDE_DIR
         NAMES
-          qaudio.h qmobilityglobal.h
+          qaudio.h
         PATHS
           /usr/include
           /usr/local/include
