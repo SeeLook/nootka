@@ -147,6 +147,20 @@ endif (WIN32)
 
 include (CPack)
 
+###########################################################################
+#	packaging targets (make src)
+###########################################################################
+if(UNIX AND NOT APPLE)
+    execute_process(COMMAND printf "\n\n\nTo build src package call:\n")
+    execute_process(COMMAND printf "\tmake src\n\n\n" )
+
+	add_custom_target(src
+	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/src/make-src.sh ${Nootka_VERSION_FULL} ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}
+   )
+ENDIF(UNIX AND NOT APPLE)
+
+
+
 #### OBSOLETE ##########################
 ###########################################################################
 #	packaging targets (make deb)
