@@ -22,8 +22,8 @@ if(QTMULTIMEDIA_LIBRARIES AND QTMULTIMEDIA_INCLUDE_DIRS AND QTMOBILITY_INCLUDE_D
   set(QTMULTIMEDIA_FOUND TRUE)
 else(QTMULTIMEDIA_LIBRARIES AND QTMULTIMEDIA_INCLUDE_DIRS AND QTMOBILITY_INCLUDE_DIRS)
   if(WIN32)
-    set(QTMULTIMEDIA_INCLUDE_DIR "${QT_INCLUDES}/QtMultimedia")    
-  else(WIN32) # This works for Ubuntu others major distro have qaudio.h in /usr/include
+    set(QTMULTIMEDIA_FOUND TRUE)
+  else(WIN32) 
     find_path(QTMULTIMEDIA_INCLUDE_DIR
         NAMES
           qaudio.h
@@ -48,6 +48,10 @@ else(QTMULTIMEDIA_LIBRARIES AND QTMULTIMEDIA_INCLUDE_DIRS AND QTMOBILITY_INCLUDE
           /usr/include/QtMultimediaKit
           /usr/include/QtMobility
     )
+	if(NOT QTMOBILITY_INCLUDE_DIR) # Dostros other than Ubuntu/Mint haven't qmobilityglobal dependices
+	  set(QTMOBILITY_INCLUDE_DIR /usr/include) # and this var is unused
+	endif(NOT QTMOBILITY_INCLUDE_DIR)
+
   endif(WIN32)
 
     find_library(QTMULTIMEDIA_LIBRARY
