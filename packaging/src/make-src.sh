@@ -11,12 +11,13 @@
 VERSION=$1
 BUILD_DIR=$2
 SRC_DIR=$3
-DST_DIR=$BUILD_DIR/nootka-$VERSION-sources
+DST_DIR=nootka-$VERSION-source
 
-printf "\033[01;35mGenerating source package for \033[01;32mnootka""-""$VERSION"-"sources" 
+printf "\033[01;35mGenerating source package for \033[01;32m$DST_DIR" 
 printf "\033[01;00m"
 echo
 
+cd $BUILD_DIR
 mkdir $DST_DIR
 
 cp -r $SRC_DIR/fonts $DST_DIR
@@ -33,5 +34,8 @@ cp $SRC_DIR/CMakeLists.txt $DST_DIR
 cp $SRC_DIR/gpl $DST_DIR
 cp $SRC_DIR/README $DST_DIR
 cp $SRC_DIR/TODO $DST_DIR
+cp $SRC_DIR/cmake_uninstall.cmake.in $DST_DIR
 
-tar -cvjf $DST_DIR.tar.bz2 $DST_DIR
+tar -cjf $DST_DIR.tar.bz2 $DST_DIR
+
+rm -r $DST_DIR
