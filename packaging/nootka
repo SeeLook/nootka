@@ -1,0 +1,12 @@
+#! /bin/bash
+
+if [ -f /usr/lib/libQtMultimediaKit.so ]; then
+  ./bin/nootka-kit
+else
+  if [ -f /usr/lib/libQtMultimedia.so ]; then
+	./bin/nootka-nokit
+  else
+	echo "Can not find QtMultimedia libraary"
+  fi
+fi
+
