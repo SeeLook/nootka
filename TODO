@@ -9,7 +9,7 @@ TNOTEVIEW
 
 SETTINGS DIALOG
     - disable maximize button on titlebar
-	- aadd "restore defaults" button
+	- add "restore defaults" button
 	- avoid to size biger than screen resolution
 
 TSCOREWIDGETSIMPLE
@@ -35,6 +35,8 @@ TFIRSTRUNWIZZARD & NAMESETTINGS
 
 !!!!! LEVELS
   - validation has to be improved
+  - untranslated string: "level not saved"
+
 TSTARTEXAMDLG
   - TexamLevel has to be pointer or reference
   - also other instances of TexamLevel
@@ -52,7 +54,12 @@ TEXAMVIEW
 
 TEXAMEXECUTOR
     - improve message over fingerboard
-	- checkis possible to given exam file
+	- check is possible to given exam file
+	- show hints in non expert mode after clicking answer
+	- enable/disable sniffing durning exams (specially when no inpur is required)
+
+TEXAMSUMMARY
+	- numbers of mistakes (percentage%)
 
 
 FOR WINDOWS

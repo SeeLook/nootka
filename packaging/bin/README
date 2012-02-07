@@ -1,0 +1,6 @@
+
+
+To run Nootka just click a "nootka" file(script)
+or type ./nootka in terminal
+
+BE SURE You have fftw3 and QtMultimedia installed
