@@ -34,6 +34,7 @@ void TaudioIN::prepTemplFormat() {
     templAudioFormat.setSampleSize(16);
     templAudioFormat.setSampleRate(44100);
     templAudioFormat.setSampleType(QAudioFormat::SignedInt);
+    templAudioFormat.setByteOrder(QAudioFormat::LittleEndian);
     templAudioFormat.setCodec("audio/pcm");
 }
 

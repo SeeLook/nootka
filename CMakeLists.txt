@@ -91,7 +91,7 @@ else(QTMULTIMEDIA_LIBRARIES AND QTMULTIMEDIA_INCLUDE_DIRS AND QTMOBILITY_INCLUDE
   endif(QTMULTIMEDIA_INCLUDE_DIRS AND QTMULTIMEDIA_LIBRARIES AND QTMOBILITY_INCLUDE_DIRS)
 
   if(QTMULTIMEDIA_FOUND)
-      message(STATUS "QtMultimedia was Found in:\n${QTMULTIMEDIA_LIBRARIES}\n${QTMULTIMEDIA_INCLUDE_DIRS}\n${QTMULTIMEDIA_INCLUDE_DIR} ")
+      message(STATUS "QtMultimedia was Found in:\n${QTMULTIMEDIA_LIBRARIES}\n${QTMULTIMEDIA_INCLUDE_DIRS}\n${QTMOBILITY_INCLUDE_DIRS} ")
   else(QTMULTIMEDIA_FOUND)
       message(FATAL_ERROR 
         "Could not find QtMultimedia\nTry call cmake with args:\n-DQTMULTIMEDIA_LIBRARIES=/path_to/libQtMultimedia(Kit).la(dll) -DQTMULTIMEDIA_INCLUDE_DIRS=/path_to_dir_with/qaudio.h -DQTMOBILITY_INCLUDE_DIRS=/path_to_dir_with/qmobilityglobal.h")
@@ -166,7 +166,7 @@ include_directories(${FFTW3_INCLUDE_DIRS})
 ###########################################################################
 #libraries and compiller definitions for RtMidi
 ###########################################################################
-IF(UNIX)
+IF(UNIX AND NOT APPLE)
   find_library(ALSA_LIBRARY
 		  NAMES
 			asound
@@ -188,11 +188,15 @@ IF(UNIX)
   mark_as_advanced(ALSA_LIBRARY PTHREAD_LIBRARY)
 
   add_definitions(-D__LINUX_ALSASEQ__)
-ENDIF(UNIX)
+ENDIF(UNIX AND NOT APPLE)
 
 IF(WIN32)
   add_definitions(-D__WINDOWS_MM__)
 ENDIF(WIN32)
+
+if(APPLE)
+  add_definitions(-D__MACOSX_CORE__)
+endif(APPLE)
 
 add_subdirectory(src)
 
@@ -245,5 +249,5 @@ configure_file(
 )
 
 
-add_subdirectory(mime) # target for make install-mime
+# add_subdirectory(mime) # target for make install-mime
 add_subdirectory(packaging) # cpack rules
