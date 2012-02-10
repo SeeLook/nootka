@@ -1,7 +1,5 @@
 Nootka 0.8
-===========================
-===========BUILD===========
-===========================
+
 
 Requirements:
 - Qt libraries (obviously)
@@ -24,8 +22,8 @@ Requirements:
       -DFFTW3_LIBRARIES=/path_to/libfftw3f.la(dll)
       -DFFTW3_INCLUDE_DIRS=/path_to_dir_with/fftw3.h
       -DQTMULTIMEDIAKIT_LIBRARY=/path_to_dir_with/libqtmultimedia.la(dll)
-	  -DQTMULTIMEDIA_INCLUDE_DIRS=/path_to_dir_with/qaudio.h
-	  -DQTMOBILITY_INCLUDE_DIRS=/path_to_dir_with/qmobilityglobal.h
+      -DQTMULTIMEDIA_INCLUDE_DIRS=/path_to_dir_with/qaudio.h
+      -DQTMOBILITY_INCLUDE_DIRS=/path_to_dir_with/qmobilityglobal.h
 - make
 - make install (usually as root)
 

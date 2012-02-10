@@ -146,7 +146,7 @@ QT4_WRAP_CPP( NOOTKA_MOCS ${NOOTKA_MOC_SRCS} )
 ADD_DEFINITIONS(-DQT_NO_DEBUG)
 
 
-IF(MINGW)
+if(MINGW)
  # dress up win executable in nice nootka icon ONLY FOR MINGW !!!!!!!!!!!!!
     ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/nootico.o
                        COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -i${CMAKE_CURRENT_SOURCE_DIR}/../picts/nootka-icon.rc
@@ -160,8 +160,9 @@ IF(MINGW)
         ${FFTW3_LIBRARIES}
         winmm
 	)
+endif(MINGW)
 
-ELSE(MINGW) #Linux
+if(UNIX AND NOT APPLE) #Linux
     ADD_EXECUTABLE( nootka
         ${NOOTKA_SRCS}
         ${NOOTKA_MOCS}
@@ -174,14 +175,30 @@ ELSE(MINGW) #Linux
         ${FFTW3_LIBRARIES}
         ${ALSA_LIBRARY} ${PTHREAD_LIBRARY}
 	)
+endif(UNIX AND NOT APPLE)
 
-ENDIF(MINGW)
+if(APPLE)
+    ADD_EXECUTABLE( nootka
+        ${NOOTKA_SRCS}
+        ${NOOTKA_MOCS}
+    )
+  TARGET_LINK_LIBRARIES(nootka
+        ${QT_QTCORE_LIBRARY}
+        ${QT_QTGUI_LIBRARY}
+        ${QTMULTIMEDIA_LIBRARIES}
+        ${FFTW3_LIBRARIES}
+        CoreMidi
+        CoreAudio
+        CoreFoundation
+  )
+endif(APPLE)
 
 
 
-IF (UNIX AND NOT APPLE)
+
+if(UNIX)
   INSTALL(TARGETS nootka DESTINATION bin)
-ELSE (UNIX AND NOT APPLE)
+else(UNIX)
   INSTALL(TARGETS nootka DESTINATION .)
-ENDIF (UNIX AND NOT APPLE)
+endif(UNIX)
 
