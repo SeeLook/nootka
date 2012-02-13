@@ -1,3 +1,10 @@
+BUGS
+  - levels doesn't work with names only or scores only. It freezes app.
+  - in above cases it dosen't recognize mistake as "wrong accid"
+  - build in levels are not locked when circumstances are not proper
+  - fret range has influence on levels that don't use guitar
+
+
 TGLOBALS & TTUNE
     - fix warrngs about const tunes list - make QList
     - let setTune has reference Ttune& as parameter
