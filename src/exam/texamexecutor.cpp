@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -130,6 +130,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile) :
     if (m_exam->fileName() == "" && gl->E->showHelpOnStart)
       showExamHelp();
     m_supp->createQuestionsList(m_questList);
+    
+    qDebug() << "questions number:" << m_questList.size();
 
     m_shouldBeTerminated = false;
     m_incorrectRepeated = false;
