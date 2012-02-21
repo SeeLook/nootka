@@ -170,7 +170,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile) :
     }
 
     if (m_questList.size() == 0) {
-        QMessageBox::critical(mW, "", tr("Level <b>%1<b><br>has no sense till there are no any possible question to ask.<br>It can be unadjusted to current tune.<br>Repair it in Level Creator and try again.").arg(m_level.name));
+        QMessageBox::critical(mW, "", tr("Level <b>%1<b><br>has no sense till there are no any possible questions to ask.<br>It can be unadjusted to current tune.<br>Repair it in Level Creator and try again.").arg(m_level.name));
         restoreAfterExam();
         return;
     }
@@ -429,7 +429,10 @@ void TexamExecutor::checkAnswer(bool showResults) {
                 retN.octave = 1;//octaves are checed so we are reseting them
                 if (exN != retN) {// if they are equal it means that only octaves were wrong
                     if (m_answRequire.accid) {
-                        if(exN.showAsNatural() == retN.showAsNatural())
+                        exN = exN.showAsNatural();
+                        retN = retN.showAsNatural();
+//                         if(exN.showAsNatural() == retN.showAsNatural())
+                        if (exN.note == retN.note && exN.acidental == retN.acidental)
                             curQ.setMistake(TQAunit::e_wrongAccid);
                         else
                             curQ.setMistake(TQAunit::e_wrongNote);

@@ -1,6 +1,5 @@
 BUGS
   - levels doesn't work with names only or scores only. It freezes app.
-  - in above cases it dosen't recognize mistake as "wrong accid"
   - build in levels are not locked when circumstances are not proper
   - fret range has influence on levels that don't use guitar
 
@@ -34,7 +33,6 @@ TFIRSTRUNWIZZARD & NAMESETTINGS
 
 !!!!! LEVELS
   - validation has to be improved
-  - untranslated string: "level not saved"
 
 TSTARTEXAMDLG
   - TexamLevel has to be pointer or reference
@@ -54,8 +52,7 @@ TEXAMEXECUTOR
 	- show hints in non expert mode after clicking answer
 	- enable/disable sniffing durning exams (specially when no inpur is required)
 
-TEXAMSUMMARY
-	- numbers of mistakes (percentage%)
+
 
 
 FOR WINDOWS
