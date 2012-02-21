@@ -84,57 +84,57 @@
         <translation>Posune kmitočet základního a&lt;sup&gt;1&lt;/sup&gt; o půltón.</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="131"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="130"/>
         <source>noise level:</source>
         <translation>Úroveň šumu:</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="141"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="140"/>
         <source>Only sounds louder than noise level are taken to pitch analyse. It can improve the pitch detection accuracy.</source>
         <translation>Pro rozbor výšky tónu se berou pouze zvuky, které jsou hlasitější než úroveň šumu. Může to zlepšit přesnost zjištění výšky tónu.</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="142"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="141"/>
         <source>Calculate</source>
         <translation>Spočítat</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="144"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="143"/>
         <source>Click to automatically detect noise level.&lt;br&gt;Keep silence during 2 seconds to determine it properly.</source>
         <translation>Klepněte pro automatické zjištění úrovně šumu.&lt;br&gt;Po dobu dvou sekund zachovejte ticho, aby byla úroveň šumu určena správně.</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="152"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="151"/>
         <source>Test</source>
         <translation>Vyzkoušet</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="153"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="152"/>
         <source>Stop</source>
         <translation>Zastavit</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="158"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="157"/>
         <source>Check, are audio input settings appropirate for You,&lt;br&gt;and does pitch detection work?</source>
         <translation>Ověřte, zda jsou nastavení vstupu zvuku pro vás vhodná,&lt;br&gt;a zda zjištění výšky tónu pracuje?</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="170"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="169"/>
         <source>Detected pitch</source>
         <translation>Zjištění výšky tónu</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="177"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="267"/>
         <source>Frequency of detected note. You can use it for tune</source>
         <translation>Kmitočet zjištěné noty. Můžete jej použít pro ladění</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="265"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="260"/>
         <source>no devices found</source>
         <translation>Nebylo nalezeno žádné zařízení</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="313"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="327"/>
         <source>There isn&apos;t any noise !?!&lt;br&gt;It seems, Your audio input&lt;br&gt;is not configured properly.</source>
         <translation>Není tu žádný šum!&lt;br&gt;Zdá se, že vstup zvuku&lt;br&gt;není nastaven správně.</translation>
     </message>
@@ -468,7 +468,7 @@
         <translation>Spustit zkoušku</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="320"/>
+        <location filename="../src/mainwindow.cpp" line="322"/>
         <source>Note was detected !!</source>
         <translation>Byla zjištěna nota!</translation>
     </message>
@@ -907,219 +907,223 @@
 <context>
     <name>TexamExecutor</name>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="90"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="92"/>
         <source>File: %1 
  is not valid exam file !!!</source>
         <translation>Soubor: %1 
 není platným souborem zkoušky!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="71"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="73"/>
         <source>&lt;b&gt;Exam file seems to be corrupted&lt;/b&gt;&lt;br&gt;Better start new exam on the same level</source>
         <translation>&lt;b&gt;Zdá se, že soubor se zkouškou je poškozený.&lt;/b&gt;&lt;br&gt;Lepší bude začít novou zkoušku na stejné úrovni</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="76"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="78"/>
         <source>Tune of the guitar was changed in this exam !!.&lt;br&gt;Now it is:&lt;br&gt;&lt;b&gt;%1&lt;/b&gt;</source>
         <translation>Zvuk kytary byl v této zkoušce změněn!&lt;br&gt;nyní je to:&lt;br&gt;&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="79"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="81"/>
         <source>&lt;br&gt;&lt;br&gt;This exam requires more frets,&lt;br&gt;so frets number in the guitar will be changed.</source>
         <translation>&lt;br&gt;&lt;br&gt;Tato zkouška vyžaduje více pražců,&lt;br&gt;takže počet pražců kytary bude změněn.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="106"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="108"/>
         <source>An exam requires sound but&lt;br&gt;sound output is not available !!!</source>
         <translation>Zkouška vyžaduje zvuk,&lt;br&gt;ale zvukový výstup není dostupný!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="149"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="153"/>
         <source>repeat prevoius question (backspace)</source>
         <translation>Opakovat předchozí otázku (klávesa Backspace)</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="142"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="146"/>
         <source>next question
 (space %1)</source>
         <translation>Další otázku
 (mezerník %1)</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="155"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="159"/>
         <source>check answer
 (enter %1)</source>
         <translation>Ověřit odpověď
 (klávesa Enter %1)</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="162"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="166"/>
         <source>play sound again</source>
         <translation>Přehrát zvuk znovu</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="237"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="173"/>
+        <source>Level &lt;b&gt;%1&lt;b&gt;&lt;br&gt;has no sense till there are no any possible questions to ask.&lt;br&gt;It can be unadjusted to current tune.&lt;br&gt;Repair it in Level Creator and try again.</source>
+        <translation>Úroveň &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nemá smysl, protože nemá žádnou otázku, kterou by bylo možné zadat.&lt;br&gt;Může být nenastavena na nynější ladění.&lt;br&gt;Opravte to v tvůrci úrovní a zkuste to znovu.</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamexecutor.cpp" line="242"/>
         <source>Given note show </source>
         <translation>Ukažte zadanou notu </translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="252"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="257"/>
         <source>Given note name show </source>
         <translation>Ukažte název zadané noty </translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="257"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="262"/>
         <source>Given position show </source>
         <translation>Ukažte zadanou polohu </translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="264"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="269"/>
         <source>Played sound show </source>
         <translation>Ukažte přehraný zvuk </translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="284"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="289"/>
         <source> &lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
         <translation> &lt;b&gt;v tónině %1.&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="462"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="467"/>
         <source> Wrong octave.</source>
         <translation> Chybná oktáva.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="464"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="469"/>
         <source>&lt;br&gt;Try again !</source>
         <translation>&lt;br&gt;Zkuste to znovu!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="747"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="760"/>
         <source>Save</source>
         <translation>Uložit</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="748"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="761"/>
         <source>Discard</source>
         <translation>Odmítnout</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="542"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="554"/>
         <source>exam started on level</source>
         <translation>Zkouška začala na úrovni</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="676"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="688"/>
         <source>Give an answer first!&lt;br&gt;Then the exam&apos;ll be finished</source>
         <translation>Nejprve odpovězte!&lt;br&gt;Potom bude zkouška dokončena</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="720"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="732"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
         <translation>Pssst... Zkouška trvá.&lt;br&gt;&lt;br&gt;&lt;b&gt;Pokračujte&lt;/b&gt; &lt;br&gt;nebo&lt;br&gt;&lt;b&gt;skončete&lt;/b&gt; pro ověření, uložení a ukončení&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="721"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="733"/>
         <source>Continue</source>
         <translation>Pokračovat</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="722"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="734"/>
         <source>Terminate</source>
         <translation>Ukončit</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="746"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="759"/>
         <source>If You don&apos;t save to file&lt;br&gt;You lost all results !!</source>
         <translation>Pokud soubor neuložíte&lt;br&gt;ztratíte všechny výsledky!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="318"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="323"/>
         <source>Give name of</source>
         <translation>Udejte název</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="116"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="118"/>
         <source>An exam requires sound input but&lt;br&gt;it is not available !!!</source>
         <translation>Zkouška vyžaduje vstup zvuku,&lt;br&gt;ale zvukový vstup není dostupný!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="169"/>
         <source>Level &lt;b&gt;%1&lt;b&gt;&lt;br&gt;has no sense till there are no any possible question to ask.&lt;br&gt;It can be unadjusted to current tune.&lt;br&gt;Repair it in Level Creator and try again.</source>
-        <translation>Úroveň &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nemá smysl, protože nemá žádnou otázku, kterou by bylo možné zadat.&lt;br&gt;Může být nenastavena na nynější ladění.&lt;br&gt;Opravte to v tvůrci úrovní a zkuste to znovu.</translation>
+        <translation type="obsolete">Úroveň &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nemá smysl, protože nemá žádnou otázku, kterou by bylo možné zadat.&lt;br&gt;Může být nenastavena na nynější ladění.&lt;br&gt;Opravte to v tvůrci úrovní a zkuste to znovu.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="345"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="350"/>
         <source> on &lt;span style=&quot;font-family: nootka; font-size:%1px;&quot;&gt;%2&lt;/span&gt; string.</source>
         <translation> na &lt;span style=&quot;font-family: nootka; font-size:%1px;&quot;&gt;%2&lt;/span&gt; struně.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="353"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="358"/>
         <source>Play or sing given note</source>
         <translation>Zahrajte nebo zazpívejte danou notu</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="450"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="455"/>
         <source>Exelent !!</source>
         <translation>Výborně!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="454"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="459"/>
         <source>Wrong note.</source>
         <translation>Nesprávná nota.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="456"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="461"/>
         <source> Wrong key signature.</source>
-        <translation>Nesprávná tónina.</translation>
+        <translation> Nesprávná tónina.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="458"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="463"/>
         <source> Wrong accidental.</source>
-        <translation>Nesprávná posuvka.</translation>
+        <translation> Nesprávná posuvka.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="460"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="465"/>
         <source> Wrong position.</source>
-        <translation>Nesprávná poloha.</translation>
+        <translation> Nesprávná poloha.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="470"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="475"/>
         <source>To correct an answer</source>
         <translation>Pro opravu odpovědi</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="541"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="553"/>
         <source>EXAM!!</source>
         <translation>ZKOUŠKA!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="546"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="558"/>
         <source>help</source>
         <translation>Nápověda</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="549"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="561"/>
         <source>stop the exam</source>
         <translation>Zastavit zkoušku</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="702"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="715"/>
         <source>so a pity</source>
         <translation>Jaká škoda</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="711"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="724"/>
         <source>Use %1</source>
         <translation>Použít %1</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="712"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="725"/>
         <source> Don&apos;t use accidentals!</source>
         <translation>Nepoužívat posuvky!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="740"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="753"/>
         <source>Save exam&apos;s results as:</source>
         <translation>Uložit výsledky zkoušky jako:</translation>
     </message>
@@ -1270,22 +1274,22 @@ není platným souborem zkoušky!</translation>
         <translation>Nesprávné posuvky</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="94"/>
+        <location filename="../src/exam/texamsummary.cpp" line="95"/>
         <source>Wrong key signatures</source>
         <translation>Nesprávná  předznamenání</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="96"/>
+        <location filename="../src/exam/texamsummary.cpp" line="98"/>
         <source>Wrong octaves</source>
         <translation>Nesprávné oktávy</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="98"/>
+        <location filename="../src/exam/texamsummary.cpp" line="100"/>
         <source>Wrong note name-calling</source>
         <translation>Nesprávný název noty</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="100"/>
+        <location filename="../src/exam/texamsummary.cpp" line="103"/>
         <source>Wrong frets or strings</source>
         <translation>Nesprávné pražce nebo struny</translation>
     </message>
@@ -1431,6 +1435,11 @@ není platným souborem zkoušky!</translation>
         <location filename="../src/level/examsettingsdlg.cpp" line="56"/>
         <source>Close</source>
         <translation>Zavřít</translation>
+    </message>
+    <message>
+        <location filename="../src/level/examsettingsdlg.cpp" line="78"/>
+        <source>level not saved !!</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="82"/>
