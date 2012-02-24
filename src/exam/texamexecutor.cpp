@@ -101,7 +101,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile) :
         return;
     }
 
-    //We checking is sound needed in exam and is it available
+    //We are checking is sound needed in exam and is it available
     if (m_level.questionAs.isSound()) {
         if (!mW->sound->isPlayable()) {
             QMessageBox::warning(mW, "",
@@ -111,8 +111,12 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile) :
             return;
         }
     }
-    if (m_level.answersAs[0].isSound() || m_level.answersAs[1].isSound() || 
-            m_level.answersAs[2].isSound() || m_level.answersAs[3].isSound() ) {
+    if ((m_level.questionAs.isNote() && m_level.answersAs[TQAtype::e_asNote].isSound()) ||
+     (m_level.questionAs.isName() && m_level.answersAs[TQAtype::e_asName].isSound()) ||
+     (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isSound()) ||
+     (m_level.questionAs.isSound() && m_level.answersAs[TQAtype::e_asSound].isSound())
+    )
+    {
       if (!mW->sound->isSniffable()) {
             QMessageBox::warning(mW, "",
                      tr("An exam requires sound input but<br>it is not available !!!"));

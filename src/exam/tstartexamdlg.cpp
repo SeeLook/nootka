@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -83,6 +83,10 @@ TstartExamDlg::TstartExamDlg(QString& nick, QWidget* parent) :
 
     mainLay->addLayout(butLay);
     setLayout(mainLay);
+    setStatusTip("<b>" + tr("Would You like to start new exam or continue previous one ?<br>To start new one, put your name and select a level.<br>To continue previous, select it from the list or load from file.") + "</b>" );
+    hint->setStatusTip(statusTip());
+    levelRadio->setStatusTip(statusTip());
+    contRadio->setStatusTip(statusTip());    
 
     QButtonGroup *radioGr = new QButtonGroup(this);
     radioGr->addButton(levelRadio);
