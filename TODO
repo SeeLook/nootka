@@ -1,7 +1,5 @@
 BUGS
   - levels doesn't work with names only or scores only. It freezes app.
-  - build in levels are not locked when circumstances are not proper
-  - fret range has influence on levels that don't use guitar
 
 
 TGLOBALS & TTUNE
@@ -40,6 +38,7 @@ TSTARTEXAMDLG
 
 
 TSOUND
+  - it seems to not activate TvolumeMeter after enabling sound input
 	- it crash when no devices are found and settings dialog is opening
 
 
