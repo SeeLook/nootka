@@ -178,7 +178,16 @@ if(UNIX AND NOT APPLE) #Linux
 endif(UNIX AND NOT APPLE)
 
 if(APPLE)
-    ADD_EXECUTABLE( nootka
+   set (ExeName nootka MACOSX_BUNDLE)
+   set (MACOSX_BUNDLE_INFO_STRING Nootka release for Mac OSX)
+#    set (MACOSX_BUNDLE_ICON_FILE      ????.icns)
+   set (MACOSX_BUNDLE_GUI_IDENTIFIER net.sourceforge.nootka)
+   set (MACOSX_BUNDLE_LONG_VERSION_STRING ${Nootka_VERSION_FULL})
+   set (MACOSX_BUNDLE_BUNDLE_NAME Nootka)
+   set (MACOSX_BUNDLE_SHORT_VERSION_STRING ${Nootka_VERSION_FULL})
+   set (MACOSX_BUNDLE_BUNDLE_VERSION ${Nootka_VERSION_FULL})
+   set (MACOSX_BUNDLE_COPYRIGHT nootka.sf.net)
+    ADD_EXECUTABLE( ${ExeName}
         ${NOOTKA_SRCS}
         ${NOOTKA_MOCS}
     )
@@ -187,18 +196,22 @@ if(APPLE)
         ${QT_QTGUI_LIBRARY}
         ${QTMULTIMEDIA_LIBRARIES}
         ${FFTW3_LIBRARIES}
-        CoreMidi
-        CoreAudio
-        CoreFoundation
+		${CoreAudio_LIB}
+		${CoreMidi_LIB}
+        ${CoreFoundation_LIB}        
   )
 endif(APPLE)
 
 
 
 
-if(UNIX)
-  INSTALL(TARGETS nootka DESTINATION bin)
-else(UNIX)
-  INSTALL(TARGETS nootka DESTINATION .)
-endif(UNIX)
+if(UNIX AND NOT APPLE) 	# Linux path for Nootka binary
+  install(TARGETS nootka DESTINATION bin)
+else(UNIX AND NOT APPLE)
+  if(WIN32) 			# Windows
+	install(TARGETS nootka DESTINATION .)
+  else(WIN32) 			# MacOs
+	install(TARGETS nootka  BUNDLE DESTINATION ${CMAKE_INSTALL_PREFIX})
+  endif(WIN32)
+endif(UNIX AND NOT APPLE)
 

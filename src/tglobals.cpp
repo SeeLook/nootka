@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -31,11 +31,14 @@
 QString Tglobals::getInstPath(QString appInstPath) {
     QString p = "";
     QDir d = QDir(appInstPath);
-#if defined(Q_OS_LINUX)
-        d.cdUp();
-        p = d.path() + "/share/nootka/"; //Linux
-#else
-        p = d.path() + "/"; //Windows
+#if defined(Q_OS_WIN32)
+		p = d.path() + "/"; 				//	Windows
+  #elif defined(Q_OS_LINUX)
+		  d.cdUp();
+		  p = d.path() + "/share/nootka/"; 	// Linux
+  #else
+		  d.cdUp();
+		  p = d.path() + "/nootka.app/"; 		// MacOs
 #endif
 
         return p;
