@@ -166,6 +166,19 @@ include_directories(${FFTW3_INCLUDE_DIRS})
 ###########################################################################
 #libraries and compiller definitions for RtMidi
 ###########################################################################
+if (APPLE)
+      # Building against the Binary-Package of Qt might require to uncomment
+      # and possibly adjust the following path, because the QtUiTools are not
+      # deployed as a framework.
+      # set(QT_QTUITOOLS_INCLUDE_DIR /usr/include/QtUiTools )
+
+
+
+      find_library(CoreAudio_LIB             NAMES CoreAudio)
+      find_library(CoreMidi_LIB              NAMES CoreMIDI)
+      find_library(CoreFoundation_LIB        NAMES CoreFoundation)
+endif (APPLE)
+
 IF(UNIX AND NOT APPLE)
   find_library(ALSA_LIBRARY
 		  NAMES
@@ -204,11 +217,15 @@ add_subdirectory(src)
 ###########################################################################
 #INSTALLATION
 ###########################################################################
-IF(WIN32)
+if(WIN32)
     set(INS_PREF ".")
-ELSE(WIN32)
-    set(INS_PREF "share/nootka")
-ENDIF(WIN32)
+else(WIN32)
+  if (APPLE)
+	set(INS_PREF "share/nootka")
+  else(APPLE)
+    set(INS_PREF "Contents/Resources/nootka.app")
+  endif(APPLE)
+endif(WIN32)
 
 INSTALL(FILES gpl DESTINATION "${INS_PREF}")
 INSTALL(DIRECTORY picts DESTINATION "${INS_PREF}")
