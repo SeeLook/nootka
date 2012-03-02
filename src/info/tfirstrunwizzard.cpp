@@ -65,6 +65,7 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
     connect(skipButt, SIGNAL(clicked()), this, SLOT(close()));
     connect(prevButt, SIGNAL(clicked()), this, SLOT(prevSlot()));
     connect(nextButt, SIGNAL(clicked()), this, SLOT(nextSlot()));
+    qDebug() << "tfirstrunwizzard created";
 }
 
 void TfirstRunWizzard::prevSlot() {
