@@ -43,19 +43,15 @@ MainWindow::MainWindow(QWidget *parent)
     palette().highlightedText().color() );
 
     setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
-    setMinimumSize(640,480);
+    setMinimumSize(640, 480);
     setGeometry(50, 50, 800, 600);
 //     setMinimumSize(800, 600);
 
-    qDebug() << gl->isFirstRun;
     if (gl->isFirstRun) {
         TfirstRunWizzard *firstWizz = new TfirstRunWizzard(this);
-        qDebug("creating");
-        if (firstWizz->exec() == QDialog::Rejected)
-          qDebug() << "ban";
+        firstWizz->exec();
           
         delete firstWizz;
-        qDebug("deleteed");
         gl->isFirstRun = false;
     }
     TkeySignature::setNameStyle(gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
