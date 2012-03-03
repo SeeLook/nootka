@@ -209,9 +209,9 @@ if(UNIX AND NOT APPLE) 	# Linux path for Nootka binary
   install(TARGETS nootka DESTINATION bin)
 else(UNIX AND NOT APPLE)
   if(WIN32) 			# Windows
-	install(TARGETS nootka DESTINATION .)
+    install(TARGETS nootka DESTINATION .)
   else(WIN32) 			# MacOs
-	install(TARGETS nootka  BUNDLE DESTINATION ${CMAKE_INSTALL_PREFIX})
+    install(TARGETS nootka BUNDLE DESTINATION ${CMAKE_INSTALL_PREFIX})
   endif(WIN32)
 endif(UNIX AND NOT APPLE)
 
