@@ -65,7 +65,6 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
     connect(skipButt, SIGNAL(clicked()), this, SLOT(close()));
     connect(prevButt, SIGNAL(clicked()), this, SLOT(prevSlot()));
     connect(nextButt, SIGNAL(clicked()), this, SLOT(nextSlot()));
-    qDebug() << "tfirstrunwizzard created";
 }
 
 void TfirstRunWizzard::prevSlot() {
@@ -127,8 +126,7 @@ Tpage_3::Tpage_3(QWidget *parent) :
 
     select7 = new Select7note(this);
     lay->addWidget(select7);
-    QString note7 = tr("b", "Give here a name of 7-th note prefered in Your country. But only 'b' or 'h' not 'si' or something worst...");
-    if (note7.toLower() == "b")
+    if (gl->seventhIs_B)
         select7->set7th_B(true);
     else
         select7->set7th_B(false);
