@@ -448,47 +448,47 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="87"/>
+        <location filename="../src/mainwindow.cpp" line="92"/>
         <source>show or hide the hints</source>
         <translation>pokaż lub ukryj podpowiedzi</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="151"/>
+        <location filename="../src/mainwindow.cpp" line="156"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="152"/>
+        <location filename="../src/mainwindow.cpp" line="157"/>
         <source>Application preferences</source>
         <translation>Preferencje aplikacji</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="182"/>
+        <location filename="../src/mainwindow.cpp" line="187"/>
         <source>Start an exam</source>
         <translation>Rozpocznij egzamin</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="322"/>
+        <location filename="../src/mainwindow.cpp" line="327"/>
         <source>Note was detected !!</source>
         <translation>Dźwięk zosał wykryty !!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="163"/>
+        <location filename="../src/mainwindow.cpp" line="168"/>
         <source>about</source>
         <translation>o programie</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="136"/>
+        <location filename="../src/mainwindow.cpp" line="141"/>
         <source>Problems with sound output</source>
         <translation>Problemy z odtwarzaniem dźwięku</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="164"/>
+        <location filename="../src/mainwindow.cpp" line="169"/>
         <source>About Nootka</source>
         <translation>O aplikacji Nootka</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="65"/>
+        <location filename="../src/mainwindow.cpp" line="70"/>
         <source>main toolbar</source>
         <translation>główny pasek narzędzi</translation>
     </message>
@@ -1528,24 +1528,24 @@ ale nie zapisany !!</translation>
         <translation>Wczytaj poziom egzaminu z pliku</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="258"/>
+        <location filename="../src/level/tlevelselector.cpp" line="265"/>
         <source>Level is not suitable for current tune and/or frets number</source>
         <translation>Poziom nie jest odpowiedni dla aktualnego stroju i/lub liczby progów</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="281"/>
+        <location filename="../src/level/tlevelselector.cpp" line="288"/>
         <source>Load exam&apos;s level</source>
         <translation>Wczytaj poziom egzaminu</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="303"/>
+        <location filename="../src/level/tlevelselector.cpp" line="310"/>
         <source>File: %1 
  is not Nootka level file !!!</source>
         <translation>Plik: %1 
  nie jest plikiem poziomu programu Nootka !!!</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="307"/>
+        <location filename="../src/level/tlevelselector.cpp" line="314"/>
         <source>Level file
  %1 
  was corrupted and repaired !!
@@ -1564,29 +1564,29 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>TlevelSummaryWdg</name>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="341"/>
+        <location filename="../src/level/tlevelselector.cpp" line="348"/>
         <source>Level summary:</source>
         <translation>Właściwości poziomu:</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="343"/>
+        <location filename="../src/level/tlevelselector.cpp" line="350"/>
         <source>
  no level selected</source>
         <translation>
  nie wybrano poziomu</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="365"/>
+        <location filename="../src/level/tlevelselector.cpp" line="372"/>
         <source>key signature:</source>
         <translation>tonacja:</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="374"/>
+        <location filename="../src/level/tlevelselector.cpp" line="381"/>
         <source>accidentals:</source>
         <translation>znaki:</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="376"/>
+        <location filename="../src/level/tlevelselector.cpp" line="383"/>
         <source>none</source>
         <translation>brak</translation>
     </message>
@@ -1715,23 +1715,23 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation>&lt;center&gt;7-ma nuta może nazywać się H lub B, w zależności od kraju. &lt;br&gt;Która nazwa jest odpowiednia dla Ciebie ?&lt;br&gt;&lt;/center&gt;</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="129"/>
+        <location filename="../src/info/tfirstrunwizzard.h" line="66"/>
         <source>b</source>
         <comment>Give here a name of 7-th note prefered in Your country. But only &apos;b&apos; or &apos;h&apos; not &apos;si&apos; or something worst...</comment>
         <translation>h</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="137"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="136"/>
         <source>I know about double sharps (x) and double flats (bb)</source>
         <translation>Wiem co to są podwójne krzyżyki (x) i podwójne bemole (bb)</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="142"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="141"/>
         <source>I know that e# is the same as f</source>
         <translation>Wiem, że e# to to samo co f</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="147"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="146"/>
         <source>I know about key signatures</source>
         <translation>Wiem co to są tonacje</translation>
     </message>
@@ -1739,7 +1739,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>Tpage_4</name>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="163"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="162"/>
         <source>Nootka can recognize played or sung sound&lt;br&gt;but it requires adjustment and some practise.&lt;br&gt;All needed settings are in &lt;b&gt;Preferences-&gt;Sound&lt;b&gt;.</source>
         <translation>Nootka może rozpoznawać grane lub śpiewane dźwięki&lt;br&gt;ale wymaga to dopasowania i odrobiny praktyki.&lt;br&gt;Wszystkie potrzebne ustawienia znajdują się w &lt;b&gt;Preferencje-&gt;Dźwięk&lt;/b&gt;.</translation>
     </message>

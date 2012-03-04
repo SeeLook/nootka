@@ -48,6 +48,11 @@ MainWindow::MainWindow(QWidget *parent)
 //     setMinimumSize(800, 600);
 
     if (gl->isFirstRun) {
+        qDebug() << Tpage_3::note7txt().toLower() ;
+        if (Tpage_3::note7txt().toLower() == "b")
+          gl->seventhIs_B = true; 
+        else
+          gl->seventhIs_B = false;
         TfirstRunWizzard *firstWizz = new TfirstRunWizzard(this);
         firstWizz->exec();
           

@@ -448,47 +448,47 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="87"/>
+        <location filename="../src/mainwindow.cpp" line="92"/>
         <source>show or hide the hints</source>
         <translation>Ukázat nebo skrýt rady</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="151"/>
+        <location filename="../src/mainwindow.cpp" line="156"/>
         <source>Settings</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="152"/>
+        <location filename="../src/mainwindow.cpp" line="157"/>
         <source>Application preferences</source>
         <translation>Nastavení programu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="182"/>
+        <location filename="../src/mainwindow.cpp" line="187"/>
         <source>Start an exam</source>
         <translation>Spustit zkoušku</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="322"/>
+        <location filename="../src/mainwindow.cpp" line="327"/>
         <source>Note was detected !!</source>
         <translation>Byla zjištěna nota!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="163"/>
+        <location filename="../src/mainwindow.cpp" line="168"/>
         <source>about</source>
         <translation>O programu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="136"/>
+        <location filename="../src/mainwindow.cpp" line="141"/>
         <source>Problems with sound output</source>
         <translation>Potíže se zvukovým výstupem</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="164"/>
+        <location filename="../src/mainwindow.cpp" line="169"/>
         <source>About Nootka</source>
         <translation>O programu Nootka</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="65"/>
+        <location filename="../src/mainwindow.cpp" line="70"/>
         <source>main toolbar</source>
         <translation>Hlavní nástrojový pruh</translation>
     </message>
@@ -1528,24 +1528,24 @@ ale nebyla uložena!</translation>
         <translation>Nahrát úroveň zkoušky ze souboru</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="258"/>
+        <location filename="../src/level/tlevelselector.cpp" line="265"/>
         <source>Level is not suitable for current tune and/or frets number</source>
         <translation>Úroveň není vhodná pro současný zvuk a/nebo počet pražců</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="281"/>
+        <location filename="../src/level/tlevelselector.cpp" line="288"/>
         <source>Load exam&apos;s level</source>
         <translation>Nahrát úroveň zkoušky</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="303"/>
+        <location filename="../src/level/tlevelselector.cpp" line="310"/>
         <source>File: %1 
  is not Nootka level file !!!</source>
         <translation>Soubor: %1 
  není souborem s úrovní programu Nootka!</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="307"/>
+        <location filename="../src/level/tlevelselector.cpp" line="314"/>
         <source>Level file
  %1 
  was corrupted and repaired !!
@@ -1564,29 +1564,29 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TlevelSummaryWdg</name>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="341"/>
+        <location filename="../src/level/tlevelselector.cpp" line="348"/>
         <source>Level summary:</source>
         <translation>Přehled úrovně:</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="343"/>
+        <location filename="../src/level/tlevelselector.cpp" line="350"/>
         <source>
  no level selected</source>
         <translation>
  Nebyla vybrána žádná úroveň</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="365"/>
+        <location filename="../src/level/tlevelselector.cpp" line="372"/>
         <source>key signature:</source>
         <translation>Předznamenání:</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="374"/>
+        <location filename="../src/level/tlevelselector.cpp" line="381"/>
         <source>accidentals:</source>
         <translation>Posuvky:</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="376"/>
+        <location filename="../src/level/tlevelselector.cpp" line="383"/>
         <source>none</source>
         <translation>Žádné</translation>
     </message>
@@ -1715,23 +1715,23 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>&lt;center&gt;Sedmá nota může být H nebo B, v závislosti na zemi. &lt;br&gt;Jaká je vaše?&lt;br&gt;&lt;/center&gt;</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="129"/>
+        <location filename="../src/info/tfirstrunwizzard.h" line="66"/>
         <source>b</source>
         <comment>Give here a name of 7-th note prefered in Your country. But only &apos;b&apos; or &apos;h&apos; not &apos;si&apos; or something worst...</comment>
         <translation>h</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="137"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="136"/>
         <source>I know about double sharps (x) and double flats (bb)</source>
         <translation>Vím o dvojitých křížcích (x) a o dvojitých béčcích (bb)</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="142"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="141"/>
         <source>I know that e# is the same as f</source>
         <translation>Vím, že e# je to samé co f</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="147"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="146"/>
         <source>I know about key signatures</source>
         <translation>Vím o předznamenáních</translation>
     </message>
@@ -1739,7 +1739,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>Tpage_4</name>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="163"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="162"/>
         <source>Nootka can recognize played or sung sound&lt;br&gt;but it requires adjustment and some practise.&lt;br&gt;All needed settings are in &lt;b&gt;Preferences-&gt;Sound&lt;b&gt;.</source>
         <translation>Nootka dokáže rozpoznat zahraný nebo zazpívaný zvuk,&lt;br&gt;ale vyžaduje to nastavení a nějaké to cvičení.&lt;br&gt;Všechna potřebná nastavení jsou v &lt;b&gt;Nastavení-&gt;Zvuk&lt;b&gt;.</translation>
     </message>
