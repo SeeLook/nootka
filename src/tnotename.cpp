@@ -42,7 +42,7 @@ TnoteName::TnoteName(QWidget *parent) :
     QWidget(parent)
 {
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
-    
+
 // NAME LABEL
     QVBoxLayout *mainLay = new QVBoxLayout();
     mainLay->setAlignment(Qt::AlignCenter);
