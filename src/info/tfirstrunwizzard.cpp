@@ -29,6 +29,16 @@ extern Tglobals *gl;
 TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
     QDialog(parent)
 {
+    // grab 7-th note from translation
+    if (Tpage_3::note7txt().toLower() == "b")
+        gl->seventhIs_B = true; // rest (NnameStyleInNoteName
+        // SnameStyleInKeySign) matched by default
+    else {
+        gl->seventhIs_B = false;
+        gl->NnameStyleInNoteName = Tnote::e_norsk_Hb;
+        gl->SnameStyleInKeySign = Tnote::e_norsk_Hb;
+    }
+  
     setWindowTitle("Nootka   "+tr("First run wizzard"));
     QVBoxLayout *lay = new QVBoxLayout;
     pagesLay = new QStackedLayout;
@@ -99,8 +109,11 @@ void TfirstRunWizzard::nextSlot() {
         pagesLay->setCurrentIndex(3);
         break;
     case 3 :
-        if (page3->select7->is7th_B())
+        if (page3->select7->is7th_B()) {
             gl->seventhIs_B = true;
+            gl->NnameStyleInNoteName = Tnote::e_english_Bb;
+            gl->SnameStyleInKeySign = Tnote::e_english_Bb;
+        }
         else {
             gl->seventhIs_B = false;
             gl->NnameStyleInNoteName = Tnote::e_norsk_Hb;
@@ -126,10 +139,7 @@ Tpage_3::Tpage_3(QWidget *parent) :
 
     select7 = new Select7note(this);
     lay->addWidget(select7);
-    if (gl->seventhIs_B)
-        select7->set7th_B(true);
-    else
-        select7->set7th_B(false);
+    select7->set7th_B(gl->seventhIs_B);
 
     lay->addStretch(1);
 
