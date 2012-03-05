@@ -152,8 +152,7 @@ Tnote TexecutorSupply::determineAccid(Tnote n) {
 Tnote TexecutorSupply::forceEnharmAccid(Tnote n) {
     Tnote nX;
     char acc = m_prevAccid;
-    int cnt;
-    do {
+     for (int i = 0; i < 6; i++) { // to be sure that all cases are checked
         acc++;
         if (acc > 2) acc = -2;
 
@@ -167,8 +166,8 @@ Tnote TexecutorSupply::forceEnharmAccid(Tnote n) {
             nX = n.showWithSharp();
         if (acc == Tnote::e_DoubleSharp && m_level->withDblAcc)
             nX = n.showWithDoubleSharp();
-        cnt++;
-    } while (n == nX || cnt < 6);
+        if (nX.note && n != nX) break;
+     }
     m_prevAccid = (Tnote::Eacidentals)acc;
     if (nX.note)
         return nX;

@@ -448,47 +448,47 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="92"/>
+        <location filename="../src/mainwindow.cpp" line="87"/>
         <source>show or hide the hints</source>
         <translation>Ukázat nebo skrýt rady</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="156"/>
+        <location filename="../src/mainwindow.cpp" line="151"/>
         <source>Settings</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="157"/>
+        <location filename="../src/mainwindow.cpp" line="152"/>
         <source>Application preferences</source>
         <translation>Nastavení programu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="187"/>
+        <location filename="../src/mainwindow.cpp" line="182"/>
         <source>Start an exam</source>
         <translation>Spustit zkoušku</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="327"/>
+        <location filename="../src/mainwindow.cpp" line="322"/>
         <source>Note was detected !!</source>
         <translation>Byla zjištěna nota!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="168"/>
+        <location filename="../src/mainwindow.cpp" line="163"/>
         <source>about</source>
         <translation>O programu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="141"/>
+        <location filename="../src/mainwindow.cpp" line="136"/>
         <source>Problems with sound output</source>
         <translation>Potíže se zvukovým výstupem</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="169"/>
+        <location filename="../src/mainwindow.cpp" line="164"/>
         <source>About Nootka</source>
         <translation>O programu Nootka</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="70"/>
+        <location filename="../src/mainwindow.cpp" line="65"/>
         <source>main toolbar</source>
         <translation>Hlavní nástrojový pruh</translation>
     </message>
@@ -1386,27 +1386,27 @@ není platným souborem zkoušky!</translation>
 <context>
     <name>TfirstRunWizzard</name>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="32"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="42"/>
         <source>First run wizzard</source>
         <translation>Průvodce prvním spuštěním</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="39"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="49"/>
         <source>skip wizzard</source>
         <translation>Přeskočit průvodce</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="42"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="52"/>
         <source>prev</source>
         <translation>Předchozí</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="53"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="63"/>
         <source>&lt;center&gt;Guitar notation uses treble clef with &quot;eight&quot; digit below (even if some editors are forgeting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; &lt;img src=&quot;%1&quot;&gt; &lt;img src=&quot;%2&quot;&gt;&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note c in one-line octave)&lt;/center&gt;&lt;/p&gt;</source>
         <translation>&lt;center&gt;Kytarový zápis používá houslový klíč s číslicí &quot;osm&quot; dole (i když na tuto číslici někteří vydavatelé zapomínají).&lt;br&gt;&lt;br&gt;Pokuste se pochopit toto. &lt;br&gt;&lt;br&gt;&lt;p&gt; &lt;img src=&quot;%1&quot;&gt; &lt;img src=&quot;%2&quot;&gt;&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Obadva obrázky nahoře ukazují tu samou notu: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(nota c v jednočárkové oktávě)&lt;/center&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="98"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="108"/>
         <source>Finish</source>
         <translation>Dokončit</translation>
     </message>
@@ -1426,6 +1426,11 @@ není platným souborem zkoušky!</translation>
 </context>
 <context>
     <name>TlevelCreatorDlg</name>
+    <message>
+        <location filename="../src/level/examsettingsdlg.cpp" line="38"/>
+        <source>Questions</source>
+        <translation>Otázky</translation>
+    </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="41"/>
         <source>Range</source>
@@ -1710,7 +1715,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>Tpage_3</name>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="124"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="137"/>
         <source>&lt;center&gt;7-th note can be B or H, depends on country&lt;br&gt;Which one is Yours?&lt;br&gt;&lt;/center&gt;</source>
         <translation>&lt;center&gt;Sedmá nota může být H nebo B, v závislosti na zemi. &lt;br&gt;Jaká je vaše?&lt;br&gt;&lt;/center&gt;</translation>
     </message>
@@ -1721,17 +1726,17 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>h</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="136"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="146"/>
         <source>I know about double sharps (x) and double flats (bb)</source>
         <translation>Vím o dvojitých křížcích (x) a o dvojitých béčcích (bb)</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="141"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="151"/>
         <source>I know that e# is the same as f</source>
         <translation>Vím, že e# je to samé co f</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="146"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="156"/>
         <source>I know about key signatures</source>
         <translation>Vím o předznamenáních</translation>
     </message>
@@ -1739,7 +1744,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>Tpage_4</name>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="162"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="172"/>
         <source>Nootka can recognize played or sung sound&lt;br&gt;but it requires adjustment and some practise.&lt;br&gt;All needed settings are in &lt;b&gt;Preferences-&gt;Sound&lt;b&gt;.</source>
         <translation>Nootka dokáže rozpoznat zahraný nebo zazpívaný zvuk,&lt;br&gt;ale vyžaduje to nastavení a nějaké to cvičení.&lt;br&gt;Všechna potřebná nastavení jsou v &lt;b&gt;Nastavení-&gt;Zvuk&lt;b&gt;.</translation>
     </message>

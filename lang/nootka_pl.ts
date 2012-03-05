@@ -448,47 +448,47 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="92"/>
+        <location filename="../src/mainwindow.cpp" line="87"/>
         <source>show or hide the hints</source>
         <translation>pokaż lub ukryj podpowiedzi</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="156"/>
+        <location filename="../src/mainwindow.cpp" line="151"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="157"/>
+        <location filename="../src/mainwindow.cpp" line="152"/>
         <source>Application preferences</source>
         <translation>Preferencje aplikacji</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="187"/>
+        <location filename="../src/mainwindow.cpp" line="182"/>
         <source>Start an exam</source>
         <translation>Rozpocznij egzamin</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="327"/>
+        <location filename="../src/mainwindow.cpp" line="322"/>
         <source>Note was detected !!</source>
         <translation>Dźwięk zosał wykryty !!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="168"/>
+        <location filename="../src/mainwindow.cpp" line="163"/>
         <source>about</source>
         <translation>o programie</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="141"/>
+        <location filename="../src/mainwindow.cpp" line="136"/>
         <source>Problems with sound output</source>
         <translation>Problemy z odtwarzaniem dźwięku</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="169"/>
+        <location filename="../src/mainwindow.cpp" line="164"/>
         <source>About Nootka</source>
         <translation>O aplikacji Nootka</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="70"/>
+        <location filename="../src/mainwindow.cpp" line="65"/>
         <source>main toolbar</source>
         <translation>główny pasek narzędzi</translation>
     </message>
@@ -1386,27 +1386,27 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
 <context>
     <name>TfirstRunWizzard</name>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="32"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="42"/>
         <source>First run wizzard</source>
         <translation>Kreator pierwszego uruchomienia</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="39"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="49"/>
         <source>skip wizzard</source>
         <translation>pomiń kreator</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="42"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="52"/>
         <source>prev</source>
         <translation>poprzedni</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="53"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="63"/>
         <source>&lt;center&gt;Guitar notation uses treble clef with &quot;eight&quot; digit below (even if some editors are forgeting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; &lt;img src=&quot;%1&quot;&gt; &lt;img src=&quot;%2&quot;&gt;&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note c in one-line octave)&lt;/center&gt;&lt;/p&gt;</source>
         <translation>&lt;center&gt;Zapis gitarowy używa klucza wiolinowego z cyfrą &quot;osiem&quot; poniżej (nawet jeżeli niektórzy wydawcy tej cyfrze zapominają).&lt;br&gt;&lt;br&gt;Spróbuj to zrozumieć. &lt;br&gt;&lt;br&gt;&lt;p&gt; &lt;img src=&quot;%1&quot;&gt; &lt;img src=&quot;%2&quot;&gt;&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Obydwa obrazki powyżej pokazują tą samą nutę: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(dźwięk c w oktawie razkreślnej)&lt;/center&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="98"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="108"/>
         <source>Finish</source>
         <translation>Koniec</translation>
     </message>
@@ -1426,6 +1426,11 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
 </context>
 <context>
     <name>TlevelCreatorDlg</name>
+    <message>
+        <location filename="../src/level/examsettingsdlg.cpp" line="38"/>
+        <source>Questions</source>
+        <translation>Pytania</translation>
+    </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="41"/>
         <source>Range</source>
@@ -1710,7 +1715,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>Tpage_3</name>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="124"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="137"/>
         <source>&lt;center&gt;7-th note can be B or H, depends on country&lt;br&gt;Which one is Yours?&lt;br&gt;&lt;/center&gt;</source>
         <translation>&lt;center&gt;7-ma nuta może nazywać się H lub B, w zależności od kraju. &lt;br&gt;Która nazwa jest odpowiednia dla Ciebie ?&lt;br&gt;&lt;/center&gt;</translation>
     </message>
@@ -1721,17 +1726,17 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation>h</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="136"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="146"/>
         <source>I know about double sharps (x) and double flats (bb)</source>
         <translation>Wiem co to są podwójne krzyżyki (x) i podwójne bemole (bb)</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="141"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="151"/>
         <source>I know that e# is the same as f</source>
         <translation>Wiem, że e# to to samo co f</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="146"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="156"/>
         <source>I know about key signatures</source>
         <translation>Wiem co to są tonacje</translation>
     </message>
@@ -1739,7 +1744,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>Tpage_4</name>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="162"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="172"/>
         <source>Nootka can recognize played or sung sound&lt;br&gt;but it requires adjustment and some practise.&lt;br&gt;All needed settings are in &lt;b&gt;Preferences-&gt;Sound&lt;b&gt;.</source>
         <translation>Nootka może rozpoznawać grane lub śpiewane dźwięki&lt;br&gt;ale wymaga to dopasowania i odrobiny praktyki.&lt;br&gt;Wszystkie potrzebne ustawienia znajdują się w &lt;b&gt;Preferencje-&gt;Dźwięk&lt;/b&gt;.</translation>
     </message>

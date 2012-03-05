@@ -24,6 +24,7 @@ TSCOREWIDGET
 
 TNOTENAME
   - buttons with accids and octaves state during asking question
+      when qusetion is repeated accid buttons are cleaned but "inside" remains checked                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 
 TFINGERBOARD
 
@@ -50,6 +51,7 @@ TEXAMEXECUTOR
 	- check is possible to given exam file
 	- show hints in non expert mode after clicking answer
 	- enable/disable sniffing durning exams (specially when no inpur is required)
+  - store name style state in questions
 
 
 
