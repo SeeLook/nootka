@@ -182,8 +182,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile) :
 
 void TexamExecutor::askQuestion() {
     m_lockRightButt = false; // release mouse button events
-    gl->NnameStyleInNoteName = m_prevStyle;
-    mW->noteName->setNoteNamesOnButt(m_prevStyle);
+//     gl->NnameStyleInNoteName = m_prevStyle;
+//     mW->noteName->setNoteNamesOnButt(m_prevStyle);
 
     clearWidgets();
     mW->setStatusMessage("");
@@ -202,6 +202,12 @@ void TexamExecutor::askQuestion() {
     curQ.qa = m_questList[qrand() % m_questList.size()];
     curQ.questionAs = m_level.questionAs.next();
     curQ.answerAs = m_level.answersAs[curQ.questionAs].next();
+    
+    // Restore user prefered style if it is possible and has sense
+    if (!(curQ.questionAs == TQAtype::e_asName && curQ.answerAs == TQAtype::e_asName)) {
+        gl->NnameStyleInNoteName = m_prevStyle;
+        mW->noteName->setNoteNamesOnButt(m_prevStyle);
+    }
 
     if (curQ.questionAs == TQAtype::e_asNote || curQ.answerAs == TQAtype::e_asNote) {
         if (m_level.useKeySign) {
@@ -319,7 +325,7 @@ void TexamExecutor::askQuestion() {
         Tnote tmpNote = Tnote(0,0,0); // is used to show which accid has to be used (if any)
         questText += TquestionAsWdg::asNameTxt();
         if (curQ.questionAs == TQAtype::e_asName) {
-            m_prevStyle = gl->NnameStyleInNoteName;
+            m_prevStyle = gl->NnameStyleInNoteName; // to keep user prefered style for other issues
             Tnote::EnameStyle tmpStyle = m_supp->randomNameStyle();
             curQ.qa_2.note = m_supp->forceEnharmAccid(curQ.qa.note); // force other name of note
             tmpNote = curQ.qa_2.note;
@@ -332,7 +338,7 @@ void TexamExecutor::askQuestion() {
             gl->NnameStyleInNoteName = tmpStyle;
         }
         if (!m_level.requireOctave) m_answRequire.octave = false;
-        if (m_level.requireStyle) {
+        if (m_level.requireStyle && curQ.questionAs != TQAtype::e_asName) { // switch style if not switched before
             Tnote::EnameStyle tmpStyle = m_supp->randomNameStyle();
             mW->noteName->setNoteNamesOnButt(tmpStyle);
             gl->NnameStyleInNoteName = tmpStyle;

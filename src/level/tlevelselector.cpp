@@ -60,6 +60,7 @@ QList<TexamLevel> getExampleLevels() {
     l.questionAs.setAsSound(false);
     l.answersAs[0] = TQAtype(false, true, true, false);
     l.answersAs[1] = TQAtype(true, false, true, false);
+    l.answersAs[3] = TQAtype(false, false, false,false);
     l.withSharps = false;
     l.withFlats = false;
     l.withDblAcc = false;
@@ -81,6 +82,7 @@ QList<TexamLevel> getExampleLevels() {
     l.questionAs.setAsSound(false);
     l.answersAs[0] = TQAtype(false, true, true, false);
     l.answersAs[1] = TQAtype(true, false, true, false);
+    l.answersAs[3] = TQAtype(false, false, false,false);
     l.withSharps = true;
     l.withFlats = true;
     l.withDblAcc = false;
@@ -102,7 +104,10 @@ QList<TexamLevel> getExampleLevels() {
     l.desc = QObject::tr("Played sounds are pointed in score.<br>No guitar, no note names, no key signatures.<br>Scale A - a<sup>1</sup>");
     l.questionAs.setAsFret(false); // no guitar
     l.questionAs.setAsName(false); // no names
-    l.questionAs.setAsNote(false); // score only as answer
+    l.questionAs.setAsNote(false); // score only as an question
+    l.answersAs[0] = TQAtype(false, false, false,false);
+    l.answersAs[1] = TQAtype(false, false, false,false);
+    l.answersAs[2] = TQAtype(false, false, false,false);
     l.answersAs[3] = TQAtype(true, false, false, false); // score only
     l.withSharps = true;
     l.withFlats = true;
@@ -127,6 +132,9 @@ QList<TexamLevel> getExampleLevels() {
     l.questionAs.setAsName(false); // no names
     l.questionAs.setAsSound(false); // don't play
     l.answersAs[0] = TQAtype(false, false, false, true); // score only
+    l.answersAs[1] = TQAtype(false, false, false,false);
+    l.answersAs[2] = TQAtype(false, false, false,false);
+    l.answersAs[3] = TQAtype(false, false, false,false);
     l.withSharps = true;
     l.withFlats = true;
     l.withDblAcc = true;
@@ -150,6 +158,9 @@ QList<TexamLevel> getExampleLevels() {
     l.questionAs.setAsName(false); // no names
     l.questionAs.setAsSound(false); // don't play
     l.answersAs[0] = TQAtype(false, false, false, true); // score only
+    l.answersAs[1] = TQAtype(false, false, false,false);
+    l.answersAs[2] = TQAtype(false, false, false,false);
+    l.answersAs[3] = TQAtype(false, false, false,false);
     l.withSharps = true;
     l.withFlats = true;
     l.withDblAcc = false;
