@@ -23,8 +23,7 @@ TSCOREWIDGET
     - expected key signature text has to be centered
 
 TNOTENAME
-  - buttons with accids and octaves state during asking question
-      when qusetion is repeated accid buttons are cleaned but "inside" remains checked                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+      
 
 TFINGERBOARD
 
@@ -47,11 +46,14 @@ TEXAMVIEW
     - runtime change background color of counters
 
 TEXAMEXECUTOR
-  - improve message over fingerboard
+  - improve message over fingerboard - make it resizable with main widdow size
 	- check is possible to given exam file
 	- show hints in non expert mode after clicking answer
 	- enable/disable sniffing durning exams (specially when no inpur is required)
   - store name style state in questions
+  - think about hide octave in note name format when octaves are not required in answers. 
+     Also for qustions in "hint" - don't show octave when only name is required
+  - when expert answers are selecting after confirm previous message over guiar is not cleaned after click next question
 
 
 

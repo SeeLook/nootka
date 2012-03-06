@@ -182,9 +182,6 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile) :
 
 void TexamExecutor::askQuestion() {
     m_lockRightButt = false; // release mouse button events
-//     gl->NnameStyleInNoteName = m_prevStyle;
-//     mW->noteName->setNoteNamesOnButt(m_prevStyle);
-
     clearWidgets();
     mW->setStatusMessage("");
     if (!gl->E->autoNextQuest) {
@@ -202,12 +199,6 @@ void TexamExecutor::askQuestion() {
     curQ.qa = m_questList[qrand() % m_questList.size()];
     curQ.questionAs = m_level.questionAs.next();
     curQ.answerAs = m_level.answersAs[curQ.questionAs].next();
-    
-    // Restore user prefered style if it is possible and has sense
-    if (!(curQ.questionAs == TQAtype::e_asName && curQ.answerAs == TQAtype::e_asName)) {
-        gl->NnameStyleInNoteName = m_prevStyle;
-        mW->noteName->setNoteNamesOnButt(m_prevStyle);
-    }
 
     if (curQ.questionAs == TQAtype::e_asNote || curQ.answerAs == TQAtype::e_asNote) {
         if (m_level.useKeySign) {
@@ -327,7 +318,7 @@ void TexamExecutor::askQuestion() {
         if (curQ.questionAs == TQAtype::e_asName) {
             m_prevStyle = gl->NnameStyleInNoteName; // to keep user prefered style for other issues
             Tnote::EnameStyle tmpStyle = m_supp->randomNameStyle();
-            curQ.qa_2.note = m_supp->forceEnharmAccid(curQ.qa.note); // force other name of note
+            curQ.qa_2.note = m_supp->forceEnharmAccid(curQ.qa.note); // force other name of note - expected note
             tmpNote = curQ.qa_2.note;
             questText = QString("<b>%1. </b>").arg(m_exam->count() + 1) +
                         tr("Give name of") + QString(" <span style=\"color: %1; font-size: %2px;\">").arg(
@@ -338,6 +329,11 @@ void TexamExecutor::askQuestion() {
             gl->NnameStyleInNoteName = tmpStyle;
         }
         if (!m_level.requireOctave) m_answRequire.octave = false;
+           /** During an exam Note name style is changed in two cases:
+            * 1. If level.requireStyle = true every question or answer with Note Name
+            *       switch it (letters/solfege)
+            * 2. If Note Name is question and answer this is only way that it has sense    
+           */
         if (m_level.requireStyle && curQ.questionAs != TQAtype::e_asName) { // switch style if not switched before
             Tnote::EnameStyle tmpStyle = m_supp->randomNameStyle();
             mW->noteName->setNoteNamesOnButt(tmpStyle);
@@ -414,6 +410,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
     if (curQ.answerAs == TQAtype::e_asName) {
         if (curQ.questionAs == TQAtype::e_asName)
             exN = curQ.qa_2.note;
+        m_prevNoteIfName = mW->noteName->getNoteName();
         retN = mW->noteName->getNoteName();
     }
     if (curQ.answerAs == TQAtype::e_asSound) {
@@ -528,6 +525,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
     }
 }
 
+
 void TexamExecutor::repeatQuestion() {
     m_lockRightButt = false;
     m_incorrectRepeated = true;
@@ -541,8 +539,10 @@ void TexamExecutor::repeatQuestion() {
     curQ.setMistake(TQAunit::e_correct);
     if (curQ.answerAs == TQAtype::e_asNote)
         mW->score->unLockScore();
-    if (curQ.answerAs == TQAtype::e_asName)
+    if (curQ.answerAs == TQAtype::e_asName) {
         mW->noteName->setNameDisabled(false);
+        mW->noteName->setNoteName(m_prevNoteIfName); // restore previous answered name (and button state)
+    }
     if (curQ.answerAs == TQAtype::e_asFretPos)
         mW->guitar->setGuitarDisabled(false);
     if (curQ.answerAs == TQAtype::e_asSound)
@@ -561,6 +561,7 @@ void TexamExecutor::repeatQuestion() {
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
 }
+
 
 void TexamExecutor::prepareToExam() {
     mW->setWindowTitle(tr("EXAM!!") + " " + m_exam->userName() + " - " + m_level.name);
@@ -616,6 +617,7 @@ void TexamExecutor::prepareToExam() {
 
     mW->score->acceptSettings();
     mW->noteName->setEnabledEnharmNotes(false);
+    mW->noteName->setEnabledDblAccid(m_level.withDblAcc);
     mW->guitar->acceptSettings();
     mW->score->isExamExecuting(true);
     mW->sound->prepareToExam();
@@ -648,6 +650,7 @@ void TexamExecutor::restoreAfterExam() {
 
     mW->score->acceptSettings();
     mW->noteName->setEnabledEnharmNotes(false);
+    mW->noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
     mW->guitar->acceptSettings();
 
     mW->settingsAct->setDisabled(false);
