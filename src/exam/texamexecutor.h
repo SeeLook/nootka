@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -120,6 +120,9 @@ bool m_lockRightButt;
     /** It becames true when user wants close Nootka
      * during an exam.*/
 bool m_goingClosed;
+    /** stores note if question and answeer are Note Name to restore it if question is repeated
+     It is to restorrre buttons state in NoteName widget whitch are uncheced by disableWidget() */
+Tnote m_prevNoteIfName; 
 
 };
 

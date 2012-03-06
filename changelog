@@ -1,3 +1,5 @@
+    - during exams double accids buttons in Note Name are hiden if no needed
+
 0.8
     - !!! Added sound input and pitch detection !!!
     - added possibility to change base pitch of a1 note
@@ -10,6 +12,8 @@
   BUGS FIXES
     - right mouse button does what it has to do
     - fixed hanging up on an exam start for some levels
+    - fixed behaviour of the buttons in Note Name Widget
+    - a lot of small bugfixes
   Under the hood
     - cpack rules for building deb & rpm & src packages
     - ported audio lib to "Qt native" QtMultimedia

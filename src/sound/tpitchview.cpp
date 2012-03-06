@@ -25,6 +25,7 @@
 #include <QGroupBox>
 #include <QPushButton>
 #include <QPainter>
+#include <QDebug>
 
 
 TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons): 
@@ -80,8 +81,10 @@ TpitchView::~TpitchView()
 
 void TpitchView::startVolume() {
   if (m_audioIN) {
+    qDebug() << "TpitchView paused" << isPaused();
     connect(m_audioIN, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
     m_volTimer->start(75);
+    m_volMeter->setDisabled(false);
   }
 }
 
