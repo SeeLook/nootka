@@ -81,7 +81,7 @@ TpitchView::~TpitchView()
 
 void TpitchView::startVolume() {
   if (m_audioIN) {
-    qDebug() << "TpitchView paused" << isPaused();
+    qDebug("startVolume");
     connect(m_audioIN, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
     m_volTimer->start(75);
     m_volMeter->setDisabled(false);
@@ -143,6 +143,8 @@ void TpitchView::updateLevel() {
       case 6 : a = 75;  break;
       case 7 : a = 40;  break;
     }
+    if (a == 0)
+      qDebug("timer");
     m_volMeter->setVolume(qreal(m_audioIN->maxPeak()) / 32768.0, a);
     m_hideCnt++;
 }
