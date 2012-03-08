@@ -22,18 +22,26 @@
 Ttune Ttune::stdTune = Ttune("", Tnote(3,1,0), Tnote(7,0,0),
                                           Tnote(5,0,0), Tnote(2,0,0), Tnote(6,-1,0),Tnote(3,-1,0));
 
-Ttune Ttune::tunes[4] = { {Ttune("", Tnote(3,1,0), Tnote(7,0,0), Tnote(5,0,0), Tnote(2,0,0), Tnote(6,-1,0),Tnote(2,-1,0)) },
-      {Ttune("", Tnote(3,1,0), Tnote(7,0,0), Tnote(4,0,1), Tnote(2,0,0), Tnote(6,-1,0),Tnote(2,-1,0)) },
-      {Ttune("", Tnote(2,1,0), Tnote(6,0,0), Tnote(5,0,0), Tnote(2,0,0), Tnote(6,-1,0),Tnote(2,-1,0)) },
-      {Ttune("", Tnote(4,1,0), Tnote(2,1,0), Tnote(6,0,0), Tnote(2,0,0), Tnote(6,-1,0),Tnote(2,-1,0)) }
-};
+//Ttune Ttune::tunes[4] = { {Ttune("", Tnote(3,1,0), Tnote(7,0,0), Tnote(5,0,0), Tnote(2,0,0), Tnote(6,-1,0),Tnote(2,-1,0)) },
+//      {Ttune("", Tnote(3,1,0), Tnote(7,0,0), Tnote(4,0,1), Tnote(2,0,0), Tnote(6,-1,0),Tnote(2,-1,0)) },
+//      {Ttune("", Tnote(2,1,0), Tnote(6,0,0), Tnote(5,0,0), Tnote(2,0,0), Tnote(6,-1,0),Tnote(2,-1,0)) },
+//      {Ttune("", Tnote(4,1,0), Tnote(2,1,0), Tnote(6,0,0), Tnote(2,0,0), Tnote(6,-1,0),Tnote(2,-1,0)) }
+//};
+
+Ttune Ttune::tunes[4];
 
 void Ttune::prepareDefinedTunes() {
-    stdTune.name = QObject::tr("Standard: E A D G B E ");
-    tunes[0].name = QObject::tr("Dropped D: D A D G B E ");
-    tunes[1].name = QObject::tr("Dummy Lute: D A D F# B E ");
-    tunes[2].name = QObject::tr("Open: D A D G A D ");
-    tunes[3].name = QObject::tr("Kouyanbaba: D A D A D F ");
+   // stdTune.name = QObject::tr("Standard: E A D G B E ");
+	stdTune = Ttune(QObject::tr("Standard: E A D G B E "), Tnote(3,1,0), Tnote(7,0,0),
+					Tnote(5,0,0), Tnote(2,0,0), Tnote(6,-1,0),Tnote(3,-1,0));
+//    tunes[0].name = QObject::tr("Dropped D: D A D G B E ");
+	tunes[0] = Ttune(QObject::tr("Dropped D: D A D G B E "), Tnote(3,1,0), Tnote(7,0,0), Tnote(5,0,0), Tnote(2,0,0), Tnote(6,-1,0),Tnote(2,-1,0));
+//    tunes[1].name = QObject::tr("Dummy Lute: D A D F# B E ");
+	tunes[1] = Ttune(QObject::tr("Dummy Lute: D A D F# B E "), Tnote(3,1,0), Tnote(7,0,0), Tnote(4,0,1), Tnote(2,0,0), Tnote(6,-1,0),Tnote(2,-1,0));
+	tunes[2] = Ttune(QObject::tr("Open: D A D G A D "), Tnote(2,1,0), Tnote(6,0,0), Tnote(5,0,0), Tnote(2,0,0), Tnote(6,-1,0),Tnote(2,-1,0));
+//    tunes[2].name = QObject::tr("Open: D A D G A D ");
+//    tunes[3].name = QObject::tr("Kouyanbaba: D A D A D F ");
+	tunes[3] = Ttune(QObject::tr("Kouyanbaba: D A D A D F "), Tnote(4,1,0), Tnote(2,1,0), Tnote(6,0,0), Tnote(2,0,0), Tnote(6,-1,0),Tnote(2,-1,0));
 }
 
 

@@ -144,7 +144,7 @@ void TpitchView::updateLevel() {
       case 7 : a = 40;  break;
     }
     if (a == 0)
-      qDebug("timer");
+     // qDebug("timer");
     m_volMeter->setVolume(qreal(m_audioIN->maxPeak()) / 32768.0, a);
     m_hideCnt++;
 }
