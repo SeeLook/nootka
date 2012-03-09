@@ -196,8 +196,8 @@ if(APPLE)
         ${QT_QTGUI_LIBRARY}
         ${QTMULTIMEDIA_LIBRARIES}
         ${FFTW3_LIBRARIES}
-		${CoreAudio_LIB}
-		${CoreMidi_LIB}
+        ${CoreAudio_LIB}
+        ${CoreMidi_LIB}
         ${CoreFoundation_LIB}        
   )
 endif(APPLE)
