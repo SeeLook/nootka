@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -31,14 +31,22 @@ void TpushButton::setCheckColor(QColor background, QColor text) {
 TpushButton::TpushButton(QString text, QWidget* parent):
 	 QPushButton(text, parent),
 	 m_Ichecked(false)
-{}
+{
+#if defined(Q_OS_MAC)
+  setCheckable(true);
+#endif
+}
 
 void TpushButton::setChecked(bool isChecked) {
+#if defined(Q_OS_MAC)
+  QPushButton::setChecked(isChecked);
+#else
 	if (isChecked)
 		setStyleSheet(QString("background-color: %1; color: %2; ")
 			.arg(m_backColor.name()).arg(m_textColor.name()));
 	else
 		setStyleSheet("background-color: native; color: native");
+#endif 
 	m_Ichecked = isChecked;
 }
 
