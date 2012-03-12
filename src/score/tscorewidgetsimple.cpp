@@ -125,6 +125,7 @@ void TscoreWidgetSimple::resize() {
 void TscoreWidgetSimple::setButtons(QPushButton *button) {
     button->setFixedSize(40,45);
     button->setFont(QFont("nootka", 20, QFont::Normal));
+    qDebug() << "font width:" << button->fontMetrics().width("#");
 //     button->setCheckable(true);
 }
 
