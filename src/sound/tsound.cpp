@@ -50,10 +50,11 @@ Tsound::~Tsound()
 
 void Tsound::play(Tnote note) {
   if(player) {
-    player->play(note.getChromaticNrOfNote());
-    if (sniffer) {
-      sniffer->wait();
-      m_pitchView->stopVolume();
+    if (player->play(note.getChromaticNrOfNote())) { // true if plaing was started
+      if (sniffer) { // pause sniffer if note was started
+        sniffer->wait();
+        m_pitchView->stopVolume();
+      }
     }
 //     player->play(note.getChromaticNrOfNote());
   }
@@ -80,10 +81,12 @@ void Tsound::acceptSettings() {
       createSniffer();
       m_pitchView->setAudioInput(sniffer);
       m_pitchView->setIsVoice(gl->A->isVoice);
-      if (m_pitchView->isPaused())
+      if (m_pitchView->isPaused()) {
         sniffer->stopListening();
-      else
+      }
+      else {
         m_pitchView->startVolume();
+      }
     }
     else {
       sniffer->setParameters(gl->A);
@@ -220,6 +223,7 @@ void Tsound::playingFinished() {
   if (sniffer) {
     sniffer->go();
     m_pitchView->startVolume();
+    
   }
 //   go();
 }

@@ -3,11 +3,11 @@ BUGS
 
 MAC ISSUES
  (X)- colored buttons look ugly
-    - buttons size in TnoteName looks too small
+    - buttons size in TnoteName looks too small (probably because of font size)
     - fonts are not loaded
-    - movable note on the score is not cleaned when mouse goes out
+    - main note on the score is not cleaned when is moved
     - pitch detection stops after one note
-    - audio out returns StopedSate - TimeForAudio() has to be adjusted for MAC
+    - audio out returns StopedSate - TimeForAudio() has to be adjusted for MAC (it's not a issue)
 
 TGLOBALS & TTUNE
     - let setTune has reference Ttune& as parameter

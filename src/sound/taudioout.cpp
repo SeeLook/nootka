@@ -168,9 +168,9 @@ bool TaudioOUT::setAudioDevice(QString& name) {
 }
 
 
-void TaudioOUT::play(int noteNr) {
+bool TaudioOUT::play(int noteNr) {
   if (!m_playable)
-        return;
+        return false;
   
 //   qDebug() << "Thread" << m_thread->isRunning();
   if (m_params->midiEnabled) {
@@ -209,7 +209,7 @@ void TaudioOUT::play(int noteNr) {
   } else { // play audio
     noteNr = noteNr + qRound(m_params->a440diff);
     if (noteNr < -11 || noteNr > 41)
-        return;
+        return false;
     
     if (m_timer->isActive()) {
       m_timer->stop();
@@ -225,6 +225,7 @@ void TaudioOUT::play(int noteNr) {
     timeForAudio();
     m_timer->start(m_period);
   }
+  return true;
 }
 
 void TaudioOUT::deleteAudio() {
