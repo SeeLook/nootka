@@ -61,7 +61,7 @@ public:
       * pcm data */
 	static QAudioFormat templAudioFormat;
 
-  void play(int noteNr);
+  bool play(int noteNr);
   void setAudioOutParams(TaudioParams *params);
       /** It sets audio device to value taken from */
   bool setAudioDevice(QString &name);
