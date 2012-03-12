@@ -40,6 +40,10 @@ TpushButton::TpushButton(QString text, QWidget* parent):
 void TpushButton::setChecked(bool isChecked) {
 #if defined(Q_OS_MAC)
   QPushButton::setChecked(isChecked);
+  if (isChecked)
+      setStyleSheet(QString("color: %1; ").arg(m_textColor.name()));
+  else
+      setStyleSheet("color: native");
 #else
 	if (isChecked)
 		setStyleSheet(QString("background-color: %1; color: %2; ")
