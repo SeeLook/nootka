@@ -44,7 +44,6 @@ TSTARTEXAMDLG
 
 
 TSOUND
-  - it seems to not activate TvolumeMeter after enabling sound input
 	- it crash when no devices are found and settings dialog is opening
 
 
