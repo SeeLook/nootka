@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -111,7 +111,7 @@ void TnoteView::resize(int co) {
     }
     qreal fontFactor = 3.8;
  #if defined(Q_OS_MAC)
-    fontFactor = fontFactor*2;
+    fontFactor = fontFactor*1.8;
  #endif
     QFont font(QFont("nootka"));
     font.setPointSizeF(fontFactor*m_coeff);
