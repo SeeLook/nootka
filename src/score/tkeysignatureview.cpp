@@ -74,7 +74,7 @@ void TkeySignatureView::resize(int co) {
     m_scene->setSceneRect(0, 0, 8*m_coeff, height());
     qreal fontFactor = 3.8;
  #if defined(Q_OS_MAC)
-    fontFactor = fontFactor*1.5;
+    fontFactor = fontFactor*1.4;
  #endif
     QFont font(QFont("nootka"));
     font.setPointSizeF(fontFactor*m_coeff);
