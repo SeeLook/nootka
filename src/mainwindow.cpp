@@ -373,7 +373,11 @@ void MainWindow::resizeEvent(QResizeEvent *) {
     nootBar->setIconSize(QSize(height()/21, height()/21));
     score->setFixedWidth((centralWidget()->width()/14)*6);
     m_statLab->setFixedHeight(height()/9);
+#if defined(Q_OS_MAC)
+   m_statFontSize = m_statLab->height()/4-2;
+#else
     m_statFontSize = m_statLab->height()/4;
+#endif
     QFont f = m_statLab->font();
     f.setPixelSize(m_statFontSize);
     m_statLab->setFont(f);

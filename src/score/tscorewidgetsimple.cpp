@@ -123,9 +123,9 @@ void TscoreWidgetSimple::resize() {
 
 
 void TscoreWidgetSimple::setButtons(QPushButton *button) {
-    button->setFixedSize(40,45);
+    button->setFixedSize(40, 45);
 #if defined(Q_OS_MAC)
-    button->setFont(QFont("nootka", 35, QFont::Normal));
+    button->setFont(QFont("nootka", 25, QFont::Normal));
 #else
     button->setFont(QFont("nootka", 20, QFont::Normal));
 #endif

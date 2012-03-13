@@ -111,7 +111,7 @@ void TnoteView::resize(int co) {
     }
     qreal fontFactor = 3.8;
  #if defined(Q_OS_MAC)
-    fontFactor = fontFactor*1.8;
+    fontFactor = fontFactor*1.5;
  #endif
     QFont font(QFont("nootka"));
     font.setPointSizeF(fontFactor*m_coeff);
