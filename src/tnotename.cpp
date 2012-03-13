@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,9 +12,10 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
+
 
 #include "tnotename.h"
 #include "tnoteview.h"
@@ -73,19 +74,35 @@ TnoteName::TnoteName(QWidget *parent) :
     QHBoxLayout *accLay = new QHBoxLayout;
     accLay->addStretch(1);
     dblFlatButt = new TpushButton("B", this);
-    dblFlatButt->setFont(QFont("nootka", 10, QFont::Normal));
+    #if defined(Q_OS_MAC)
+     dblFlatButt->setFont(QFont("nootka", 15, QFont::Normal));
+    #else
+     dblFlatButt->setFont(QFont("nootka", 10, QFont::Normal));
+    #endif
     accLay->addWidget(dblFlatButt);
     connect(dblFlatButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     flatButt = new TpushButton("b", this);
-    flatButt->setFont(QFont("nootka", 10, QFont::Normal));
+    #if defined(Q_OS_MAC)
+     flatButt->setFont(QFont("nootka", 15, QFont::Normal));
+    #else
+     flatButt->setFont(QFont("nootka", 10, QFont::Normal));
+    #endif
     accLay->addWidget(flatButt);
     connect(flatButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     sharpButt = new TpushButton("#", this);
-    sharpButt->setFont(QFont("nootka", 10, QFont::Normal));
+    #if defined(Q_OS_MAC)
+     sharpButt->setFont(QFont("nootka", 15, QFont::Normal));
+    #else
+     sharpButt->setFont(QFont("nootka", 10, QFont::Normal));
+    #endif
     accLay->addWidget(sharpButt);
     connect(sharpButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     dblSharpButt = new TpushButton("x", this);
-    dblSharpButt->setFont(QFont("nootka", 10, QFont::Normal));
+    #if defined(Q_OS_MAC)
+     dblSharpButt->setFont(QFont("nootka", 15, QFont::Normal));
+    #else
+     dblSharpButt->setFont(QFont("nootka", 10, QFont::Normal));
+    #endif
     accLay->addWidget(dblSharpButt);
     connect(dblSharpButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     accLay->addStretch(1);
