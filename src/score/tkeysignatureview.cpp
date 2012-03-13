@@ -72,9 +72,9 @@ TkeySignatureView::TkeySignatureView(TscoreWidgetSimple *parent, char _keySign) 
 void TkeySignatureView::resize(int co) {
     m_coeff = co;
     m_scene->setSceneRect(0, 0, 8*m_coeff, height());
-    const qreal fontFactor = 3.8;
+    qreal fontFactor = 3.8;
  #if defined(Q_OS_MAC)
-    fontFactor = fontFactor*1.8;
+    fontFactor = fontFactor*1.5;
  #endif
     QFont font(QFont("nootka"));
     font.setPointSizeF(fontFactor*m_coeff);

@@ -44,7 +44,11 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
       voiceButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
       lay->addWidget(voiceButt);
       voiceButt->setStatusTip(tr("Toggles between pitch detection for singing and for playing"));
+#if defined(Q_OS_MAC)
+      voiceButt->setFont(QFont("nootka", 25));
+#else
       voiceButt->setFont(QFont("nootka", 15));
+#endif
   } else {
     voiceButt = 0;
     pauseButt = 0;
