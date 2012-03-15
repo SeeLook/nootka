@@ -394,7 +394,11 @@ void TfingerBoard::paintQuestMark() {
         m_scene->addItem(m_questMark);
         m_questMark->setText("?");
     }
+#if defined(Q_OS_MACX)
+    QFont f = QFont("nootka", 4*strGap, QFont::Normal);
+#else
     QFont f = QFont("nootka", 2*strGap, QFont::Normal);
+#endif
     m_questMark->setFont(f);
     int off = -1, off2 = 0;
     if (!gl->GisRightHanded) {

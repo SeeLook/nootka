@@ -134,7 +134,7 @@ void TpitchFinder::run() {
       } else { // pitch in single chunk
         if (m_shown && data->pitch > m_aGl->loPitch) {
           m_shown = false;
-          qDebug("TpitchFinder: founded");
+//          qDebug("TpitchFinder: founded");
           emit found(data->pitch, data->fundamentalFreq);
         }
       }
@@ -144,7 +144,7 @@ void TpitchFinder::run() {
         m_noteNoticed = false;
         float nn = m_channel->averagePitch(m_noticedChunk, currentChunk());
         if (nn > m_aGl->loPitch) {
-            qDebug("TpitchFinder: founded");
+//            qDebug("TpitchFinder: founded");
           emit found(nn, pitch2freq(nn));
         }
         }
@@ -152,7 +152,7 @@ void TpitchFinder::run() {
         m_shown = true;
       }
       emit noteStoped();
-      qDebug("TpitchFinder: stopped");
+//      qDebug("TpitchFinder: stopped");
       }
 	}
 	incrementChunk();
