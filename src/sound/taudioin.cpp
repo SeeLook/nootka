@@ -221,7 +221,8 @@ void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
 //------------------------------------------------------------------------------------
 
 
-void TaudioIN::audioDataReady() {	
+void TaudioIN::audioDataReady() {
+//    qDebug() << m_audioInput->bytesReady();
 	if (m_audioInput->state() != QAudio::ActiveState && m_audioInput->state() != QAudio::IdleState)
 	  qDebug() << "Device in state:" << (int)m_audioInput->state();
   
@@ -233,7 +234,7 @@ void TaudioIN::audioDataReady() {
 		dataRead = bSize/2;
 		qDebug() << dataRead << "Audio data was cut off. Buffer is too small !!!!";
 	}
-    qDebug() << "read data" << dataRead*2 ;
+//    qDebug() << "read data" << dataRead*2 ;
 	if (!dataRead)
 		return;
 	for (int i = 0; i < dataRead; i++) {
@@ -290,10 +291,10 @@ void TaudioIN::readToCalc() {
 void TaudioIN::pitchFreqFound(float pitch, float freq) {
     qDebug("TaudioIn: got note");
   if(!m_gotNote) {
-      qDebug("emited");
-    emit noteDetected(Tnote(qRound(pitch - m_params->a440diff)-47));
-    emit fundamentalFreq(freq);
-    m_gotNote = true;
+      qDebug() << QString::fromStdString(Tnote(qRound(pitch - m_params->a440diff)-47).getName());
+      emit noteDetected(Tnote(qRound(pitch - m_params->a440diff)-47));
+      emit fundamentalFreq(freq);
+      m_gotNote = true;
   }
 }
 

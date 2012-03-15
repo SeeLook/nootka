@@ -27,7 +27,7 @@
 
 extern Tglobals *gl;
 
-Tsound::Tsound(QObject* parent) : 
+Tsound::Tsound(QObject* parent) :
   QObject(parent)
 {
   if (gl->A->OUTenabled)
@@ -183,7 +183,7 @@ void Tsound::restoreAfterExam() {
 //------------  private  methods     --------------------------------------------------
 //------------------------------------------------------------------------------------
 
-// QThread *m_thread = 0;
+ QThread *m_thread = 0;
 
 void Tsound::createPlayer() {
 //   m_thread =new  QThread;
@@ -194,7 +194,10 @@ void Tsound::createPlayer() {
 }
 
 void Tsound::createSniffer() {
+    m_thread = new QThread();
   sniffer = new TaudioIN(gl->A, this);
+  sniffer->moveToThread(m_thread);
+  m_thread->start(QThread::HighPriority);
   sniffer->setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
   sniffer->startListening();
   connect(sniffer, SIGNAL(noteDetected(Tnote)), this, SLOT(noteDetectedSlot(Tnote)));

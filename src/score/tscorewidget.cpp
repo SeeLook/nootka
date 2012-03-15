@@ -242,8 +242,12 @@ void TscoreWidget::prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyNa
 }
 
 void TscoreWidget::resizeQuestMark() {
+#if defined(Q_OS_MACX)
+    m_questMark->setFont(QFont("nootka", coeff*7));
+#else
     m_questMark->setFont(QFont("nootka", coeff*5));
-    m_questMark->setPos(0, coeff*16);    
+#endif
+    m_questMark->setPos(0, coeff*16);
 }
 
 void TscoreWidget::resizeKeyText() {

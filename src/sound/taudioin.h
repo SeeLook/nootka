@@ -82,8 +82,8 @@ private slots:
 	void audioDataReady();
 	void readToCalc();
 	void calc();
-  void pitchFreqFound(float pitch, float freq);
-	void noteStopedSlot();
+    void pitchFreqFound(float pitch, float freq);
+    void noteStopedSlot();
 
   
 private:
