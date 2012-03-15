@@ -31,9 +31,7 @@ int main(int argc, char *argv[])
   QApplication a(argc, argv);
 	gl = new Tglobals();
 	gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
-	
-	qDebug() << gl->path;
-    
+	    
 	QString ll = gl->lang;
 	if (ll == "")
 		ll = QLocale::system().name();
