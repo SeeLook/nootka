@@ -291,7 +291,7 @@ void TaudioIN::readToCalc() {
 void TaudioIN::pitchFreqFound(float pitch, float freq) {
     qDebug("TaudioIn: got note");
   if(!m_gotNote) {
-      qDebug() << QString::fromStdString(Tnote(qRound(pitch - m_params->a440diff)-47).getName());
+//      qDebug() << QString::fromStdString(Tnote(qRound(pitch - m_params->a440diff)-47).getName());
       emit noteDetected(Tnote(qRound(pitch - m_params->a440diff)-47));
       emit fundamentalFreq(freq);
       m_gotNote = true;

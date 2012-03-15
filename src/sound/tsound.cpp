@@ -195,7 +195,7 @@ void Tsound::createPlayer() {
 
 void Tsound::createSniffer() {
     m_thread = new QThread();
-  sniffer = new TaudioIN(gl->A, this);
+  sniffer = new TaudioIN(gl->A);
   sniffer->moveToThread(m_thread);
   m_thread->start(QThread::HighPriority);
   sniffer->setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
