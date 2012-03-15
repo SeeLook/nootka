@@ -37,10 +37,8 @@ QString Tglobals::getInstPath(QString appInstPath) {
 		  d.cdUp();
 		  p = d.path() + "/share/nootka/"; 	// Linux
   #else
-		  d.cdUp();
       d.cdUp();
-      d.cdUp();
-		  p = d.path() + "/share/nootka/"; 		// MacOs
+      p = d.path() + "/Resurces/"; 		// MacOs
 #endif
 
         return p;

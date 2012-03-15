@@ -55,9 +55,13 @@ TnoteName::TnoteName(QWidget *parent) :
     nameLabel->setStyleSheet("background-color: palette(Base); " + styleTxt);
     resize();
 
+//#if !defined (Q_OS_MAC)
     mainLay->addStretch(1);
+//#endif
     mainLay->addWidget(nameLabel, 0, Qt::AlignCenter);
+//#if !defined (Q_OS_MAC)
     mainLay->addStretch(1);
+//#endif
 // BUTTONS WITH NOTES TOOLBAR
     QHBoxLayout *noteLay = new QHBoxLayout();
     noteLay->addStretch(1);
@@ -336,7 +340,7 @@ void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
 }
 
 void TnoteName::resize(int fontSize) {
-    nameLabel->setFixedSize(qRound(width()*0.9), qRound(height() * 0.3));
+    nameLabel->setFixedSize(qRound(width()*0.88), qRound(height() * 0.3));
     nameLabel->setFont(QFont(nameLabel->font().family(), qRound(nameLabel->height() * 0.55), 50));
     nameLabel->setText(nameLabel->text());
     if (fontSize) {

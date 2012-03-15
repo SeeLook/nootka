@@ -233,7 +233,7 @@ void TaudioIN::audioDataReady() {
 		dataRead = bSize/2;
 		qDebug() << dataRead << "Audio data was cut off. Buffer is too small !!!!";
 	}
-// 	qDebug() << "read data" << dataRead*2 ;
+    qDebug() << "read data" << dataRead*2 ;
 	if (!dataRead)
 		return;
 	for (int i = 0; i < dataRead; i++) {
@@ -288,7 +288,9 @@ void TaudioIN::readToCalc() {
 }
 
 void TaudioIN::pitchFreqFound(float pitch, float freq) {
+    qDebug("TaudioIn: got note");
   if(!m_gotNote) {
+      qDebug("emited");
     emit noteDetected(Tnote(qRound(pitch - m_params->a440diff)-47));
     emit fundamentalFreq(freq);
     m_gotNote = true;

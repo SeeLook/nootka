@@ -38,9 +38,12 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     Ttune::prepareDefinedTunes();
-// 	TpushButton::setCheckColor(gl->SpointerColor, Tglobals::invertColor(gl->SpointerColor));
+#if defined(Q_OS_MAC)
+    TpushButton::setCheckColor(gl->SpointerColor, palette().base().color());
+#else
     TpushButton::setCheckColor(palette().highlight().color().name(),
     palette().highlightedText().color() );
+#endif
 
     setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
     setMinimumSize(640, 480);
@@ -77,7 +80,7 @@ MainWindow::MainWindow(QWidget *parent)
     QHBoxLayout *statLay = new QHBoxLayout;
     m_statLab = new QLabel(widget);
     m_statLab->setWordWrap(true);
-    m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
     statLay->addWidget(m_statLab);
     QVBoxLayout *chBlay = new QVBoxLayout;
     m_hintsChB = new QCheckBox(widget);
@@ -372,7 +375,7 @@ void MainWindow::resizeEvent(QResizeEvent *) {
     setUpdatesEnabled(false);
     nootBar->setIconSize(QSize(height()/21, height()/21));
     score->setFixedWidth((centralWidget()->width()/14)*6);
-    m_statLab->setFixedHeight(height()/9);
+    m_statLab->setFixedHeight(centralWidget()->height()/9);
 #if defined(Q_OS_MAC)
    m_statFontSize = m_statLab->height()/4-2;
 #else
@@ -383,7 +386,7 @@ void MainWindow::resizeEvent(QResizeEvent *) {
     m_statLab->setFont(f);
     guitar->setFixedHeight((centralWidget()->height()-nootBar->height())/3);
     examResults->setFontSize(m_statFontSize);
-    noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(height() * 0.4)));
+    noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(centralWidget()->height() * 0.4)));
     noteName->resize(m_statFontSize);
     pitchView->resize(m_statFontSize);
     setUpdatesEnabled(true);
