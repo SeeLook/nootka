@@ -196,6 +196,7 @@ void TexamExecutor::askQuestion() {
     m_answRequire.key = false;
 
     TQAunit curQ = TQAunit(); // current question
+//     qsrand(100);
     curQ.qa = m_questList[qrand() % m_questList.size()];
     curQ.questionAs = m_level.questionAs.next();
     curQ.answerAs = m_level.answersAs[curQ.questionAs].next();

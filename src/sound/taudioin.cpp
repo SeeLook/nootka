@@ -133,6 +133,7 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
 //       m_params->INdevName = m_deviceInfo.deviceName();
       m_devName = m_deviceInfo.deviceName();
       m_audioInput = new QAudioInput(m_deviceInfo, templAudioFormat, this);
+      m_audioInput->setBufferSize(m_buffer.size());
     } else {
 		  qDebug() << m_deviceInfo.deviceName() << "format unsupported !!";
       fnd = false;
@@ -150,6 +151,7 @@ void TaudioIN::initInput() {
   m_floatsWriten = 0;
   m_maxPeak = 0;
   m_IOaudioDevice = m_audioInput->start();
+  qDebug() << "m_audioInput buffer size:" << m_audioInput->bufferSize();
 }
 
 
@@ -224,7 +226,7 @@ void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
 void TaudioIN::audioDataReady() {
 //    qDebug() << m_audioInput->bytesReady();
 	if (m_audioInput->state() != QAudio::ActiveState && m_audioInput->state() != QAudio::IdleState)
-	  qDebug() << "Device in state:" << (int)m_audioInput->state();
+	  qDebug() << "Input device in state:" << (int)m_audioInput->state();
   
 	qint64 bytesReady = m_audioInput->bytesReady();
 	qint64 bSize = m_buffer.size();
@@ -235,8 +237,10 @@ void TaudioIN::audioDataReady() {
 		qDebug() << dataRead << "Audio data was cut off. Buffer is too small !!!!";
 	}
 //    qDebug() << "read data" << dataRead*2 ;
-	if (!dataRead)
+	if (!dataRead) {
+//     qDebug() << "no data. TaudioIN in state:" << (int)m_audioInput->state();
 		return;
+  }
 	for (int i = 0; i < dataRead; i++) {
 	  qint16 value = *reinterpret_cast<qint16*>(m_buffer.data()+i*2);
 	  m_maxP = qMax(m_maxP, value);
@@ -288,12 +292,17 @@ void TaudioIN::readToCalc() {
   }
 }
 
+float ppi, ffr;
+
 void TaudioIN::pitchFreqFound(float pitch, float freq) {
-    qDebug("TaudioIn: got note");
+//     qDebug("TaudioIn: got note");
   if(!m_gotNote) {
-//      qDebug() << QString::fromStdString(Tnote(qRound(pitch - m_params->a440diff)-47).getName());
-      emit noteDetected(Tnote(qRound(pitch - m_params->a440diff)-47));
-      emit fundamentalFreq(freq);
+//       qDebug() << QString::fromStdString(Tnote(qRound(pitch - m_params->a440diff)-47).getName());
+//       emit noteDetected(Tnote(qRound(pitch - m_params->a440diff)-47));
+//       emit fundamentalFreq(freq);
+      ppi = pitch;
+      ffr = freq;
+      QTimer::singleShot(2, this, SLOT(emitingSlot()));
       m_gotNote = true;
   }
 }
@@ -303,5 +312,9 @@ void TaudioIN::noteStopedSlot() {
 }
 
 
+void TaudioIN::emitingSlot() {
+   emit noteDetected(Tnote(qRound(ppi - m_params->a440diff)-47));
+   emit fundamentalFreq(ffr);
+}
 
 

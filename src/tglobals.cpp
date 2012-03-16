@@ -64,10 +64,11 @@ QColor Tglobals::invertColor(QColor C) {
 
 Tglobals::Tglobals() {
 
-    version = "0.8 rc1";
+    version = "0.8 rc2";
 //    path ; Is declared in main()
 
     qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
+    qRegisterMetaType<Tnote>("Tnote");
 
     QCoreApplication::setOrganizationName("Nootka");
     QCoreApplication::setOrganizationDomain("nootka.sf.net");
@@ -82,7 +83,7 @@ Tglobals::Tglobals() {
     sett.beginGroup("common");
         hintsEnabled = sett.value("enableHints", true).toBool(); //true;
         isFirstRun = sett.value("isFirstRun", true).toBool();
-		lang = sett.value("language", "").toString();
+        lang = sett.value("language", "").toString();
     sett.endGroup();
 
 //score widget settings

@@ -42,7 +42,9 @@ Tsound::Tsound(QObject* parent) :
 }
 
 Tsound::~Tsound()
-{}
+{
+  deleteSniffer();
+}
 
 //------------------------------------------------------------------------------------
 //------------  public  methods     --------------------------------------------------
@@ -194,10 +196,10 @@ void Tsound::createPlayer() {
 }
 
 void Tsound::createSniffer() {
-    m_thread = new QThread();
+  m_thread = new QThread();
   sniffer = new TaudioIN(gl->A);
-  sniffer->moveToThread(m_thread);
-  m_thread->start(QThread::HighPriority);
+//   sniffer->moveToThread(m_thread);
+//   m_thread->start(QThread::HighPriority);
   sniffer->setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
   sniffer->startListening();
   connect(sniffer, SIGNAL(noteDetected(Tnote)), this, SLOT(noteDetectedSlot(Tnote)));
@@ -214,6 +216,10 @@ void Tsound::deletePlayer() {
 
 
 void Tsound::deleteSniffer() {
+   if (m_thread) {
+    m_thread->quit();
+    delete m_thread;
+  }
   delete sniffer;
   sniffer = 0;
 }
@@ -233,7 +239,7 @@ void Tsound::playingFinished() {
 
 void Tsound::noteDetectedSlot(Tnote note) {
   m_detNote = note;
-  qDebug("Tsound: got note");
+//   qDebug("Tsound: got note");
   emit detectedNote(note);
 }
 
