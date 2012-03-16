@@ -183,9 +183,11 @@ void TnoteName::setNameText() {
             txt = txt + ")</span>";
         }
         nameLabel->setText(txt);
-      } else
+      } else {
           nameLabel->setText("<span style=\"font-size: 16px; color: #ff0000;\"><b>" +
                              tr("The note is beyond<br>scale of the guitar") + "</b></span>");
+          qDebug("The note is beyond scale of the guitar");
+      }
     } else nameLabel->setText("");;
 }
 
