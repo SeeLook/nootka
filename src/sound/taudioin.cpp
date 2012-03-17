@@ -156,6 +156,7 @@ void TaudioIN::initInput() {
 
 
 void TaudioIN::startListening() {
+//    qDebug("listening started");
   if (m_audioInput) {
     if (!m_floatBuff)
         m_floatBuff = new float[m_pitch->aGl()->framesPerChunk]; // 1024
@@ -167,12 +168,14 @@ void TaudioIN::startListening() {
 }
 
 void TaudioIN::stopListening() {
+//    qDebug("listening stoped");
   m_audioInput->stop();
   m_pitch->resetFinder();
   m_noteStarted = false;
 }
 
 void TaudioIN::wait() {
+//    qDebug("listening suspended");
   if (isAvailable()) {
     m_audioInput->suspend();
     m_pitch->resetFinder();
@@ -222,9 +225,10 @@ void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
 //------------          slots       --------------------------------------------------
 //------------------------------------------------------------------------------------
 
+//int cntr = 0;
 
 void TaudioIN::audioDataReady() {
-//    qDebug() << m_audioInput->bytesReady();
+//    qDebug() << cntr << ": " << m_audioInput->bytesReady(); cntr++;
 	if (m_audioInput->state() != QAudio::ActiveState && m_audioInput->state() != QAudio::IdleState)
 	  qDebug() << "Input device in state:" << (int)m_audioInput->state();
   
@@ -292,17 +296,15 @@ void TaudioIN::readToCalc() {
   }
 }
 
-float ppi, ffr;
 
 void TaudioIN::pitchFreqFound(float pitch, float freq) {
-//     qDebug("TaudioIn: got note");
   if(!m_gotNote) {
 //       qDebug() << QString::fromStdString(Tnote(qRound(pitch - m_params->a440diff)-47).getName());
-//       emit noteDetected(Tnote(qRound(pitch - m_params->a440diff)-47));
-//       emit fundamentalFreq(freq);
-      ppi = pitch;
-      ffr = freq;
-      QTimer::singleShot(2, this, SLOT(emitingSlot()));
+       emit noteDetected(Tnote(qRound(pitch - m_params->a440diff)-47));
+       emit fundamentalFreq(freq);
+#if defined(Q_OS_MAC)
+      QTimer::singleShot(100, this, SLOT(emitingSlot()));
+#endif
       m_gotNote = true;
   }
 }
@@ -313,8 +315,8 @@ void TaudioIN::noteStopedSlot() {
 
 
 void TaudioIN::emitingSlot() {
-   emit noteDetected(Tnote(qRound(ppi - m_params->a440diff)-47));
-   emit fundamentalFreq(ffr);
+    wait();
+    go();
 }
 
 

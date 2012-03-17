@@ -81,7 +81,11 @@ private slots:
     /** Is performed when note stops playing, then sniffing is unlocked */
   void playingFinished();
   void noteDetectedSlot(Tnote note);
-  
+#if defined(Q_OS_MAC)
+  void macSlot();
+#endif
+
+
 };
 
 #endif // TSOUND_H

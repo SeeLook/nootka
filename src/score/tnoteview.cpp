@@ -213,6 +213,9 @@ void TnoteView::moveNote(int pos) {
             m_mainDownLines[i]->show();
       else m_mainDownLines[i]->hide();
     }
+#if defined(Q_OS_MAC) // others Os-es has no problem with this. Mac lives trash.
+    update();
+#endif
 }
 
 /*static*/
