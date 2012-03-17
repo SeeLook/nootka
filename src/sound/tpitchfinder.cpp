@@ -95,6 +95,7 @@ void TpitchFinder::setIsVoice(bool voice) {
 
 void TpitchFinder::searchIn(float* chunk) {
   if (chunk) {
+//      qDebug("searching");
       m_workChunk = chunk;
       m_channel->shift_left(aGl()->framesPerChunk); // make palce in channel for new audio data
       if (aGl()->equalLoudness) { // filter it and copy  too channel
@@ -107,6 +108,7 @@ void TpitchFinder::searchIn(float* chunk) {
       run();
   } else {
       resetFinder();
+//      qDebug("reset chanell");
   }
 }
 
@@ -157,5 +159,6 @@ void TpitchFinder::run() {
 	}
 	incrementChunk();
 	m_isBussy = false;
+//    qDebug() << "TpitchFinder:" << m_chunkNum ;
 }	
 

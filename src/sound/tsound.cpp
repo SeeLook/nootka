@@ -23,6 +23,7 @@
 #include "tpitchview.h"
 #include <QPushButton>
 #include <QThread>
+#include <QTimer>
 
 
 extern Tglobals *gl;
@@ -196,13 +197,17 @@ void Tsound::createPlayer() {
 }
 
 void Tsound::createSniffer() {
-  m_thread = new QThread();
+//  m_thread = new QThread();
   sniffer = new TaudioIN(gl->A);
 //   sniffer->moveToThread(m_thread);
 //   m_thread->start(QThread::HighPriority);
   sniffer->setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
+
   sniffer->startListening();
-  connect(sniffer, SIGNAL(noteDetected(Tnote)), this, SLOT(noteDetectedSlot(Tnote)));
+#if defined(Q_OS_MAC)
+  QTimer::singleShot(100, this, SLOT(macSlot()));
+#endif
+  connect(sniffer, SIGNAL(noteDetected(Tnote)), this, SLOT(noteDetectedSlot(Tnote)), Qt::QueuedConnection);
 }
 
 void Tsound::deletePlayer() {
@@ -218,6 +223,7 @@ void Tsound::deletePlayer() {
 void Tsound::deleteSniffer() {
    if (m_thread) {
     m_thread->quit();
+//    m_thread->terminate();
     delete m_thread;
   }
   delete sniffer;
@@ -243,3 +249,8 @@ void Tsound::noteDetectedSlot(Tnote note) {
   emit detectedNote(note);
 }
 
+#if defined(Q_OS_MAC)
+void Tsound::macSlot() {
+    sniffer->startListening();
+}
+#endif
