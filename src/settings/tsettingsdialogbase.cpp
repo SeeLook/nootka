@@ -26,8 +26,8 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
 //    setWindowFlags(Qt::Dialog | Qt::Window);
 //    setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint);
 
-//    if (parent)
-//        setFixedHeight(parent->height());
+   if (parent)
+       setFixedHeight(parent->height());
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *contLay = new QHBoxLayout;
     navList = new QListWidget(this);
@@ -36,12 +36,18 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     navList->setViewMode(QListView::IconMode);
 //    navList->setFlow(QListView::TopToBottom);
 //    navList->setWrapping(false);
-    navList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//     navList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     contLay->addWidget(navList);
 
     QVBoxLayout *aLay = new QVBoxLayout;
     stackLayout = new QStackedLayout;
-    aLay->addLayout(stackLayout);
+    QScrollArea *scrollArea = new QScrollArea;
+    QWidget *scrollWidget = new QWidget(this);
+    scrollWidget->setLayout(stackLayout);
+    scrollArea->setWidget(scrollWidget);
+    
+//     aLay->addLayout(stackLayout);
+    aLay->addWidget(scrollWidget);
 
     QGroupBox *hGr = new QGroupBox(this);
     QVBoxLayout *hLay = new QVBoxLayout;
