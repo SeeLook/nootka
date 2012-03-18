@@ -5,9 +5,10 @@ MAC ISSUES
  (X)- colored buttons look ugly
  (X)- buttons size in TnoteName looks too small (probably because of font size)
  (X)- fonts are not loaded
-    - main note on the score is not cleaned when is moved
+ (X)- main note on the score is not cleaned when is moved
     - pitch detection stops after one note
-    - audio out returns StopedSate - TimeForAudio() has to be adjusted for MAC (it's not a issue)
+ (X)- audio out returns StopedSate - TimeForAudio() has to be adjusted for
+MAC (it's not a issue)
     - random questions are not random
 
 TGLOBALS & TTUNE
