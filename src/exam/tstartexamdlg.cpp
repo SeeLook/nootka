@@ -25,6 +25,7 @@
 TstartExamDlg::TstartExamDlg(QString& nick, QWidget* parent) :
     QDialog(parent)
 {
+  setWindowTitle(tr("Start en exam"));
     QVBoxLayout *mainLay = new QVBoxLayout;
 
     levelRadio = new QRadioButton(tr("start new exam"), this);
