@@ -36,6 +36,7 @@ extern Tglobals *gl;
 GuitarSettings::GuitarSettings(QWidget *parent) :
         QWidget(parent)
 {
+    
     QVBoxLayout *mainLay = new QVBoxLayout;
     mainLay->setAlignment(Qt::AlignCenter);
 
@@ -126,6 +127,7 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
 
     connect(tuneCombo, SIGNAL(activated(int)), this, SLOT(tuneSelected(int)));
     connect(tuneView, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(userTune(int,Tnote)));
+    
 }
 
 void GuitarSettings::setTune(Ttune tune) {

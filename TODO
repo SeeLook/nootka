@@ -20,7 +20,6 @@ TNOTEVIEW
     - resize string number - it is too big in Windows system
 
 SETTINGS DIALOG
-  - disable maximize button on titlebar
 	- add "restore defaults" button
 	- avoid a size biger than screen resolution
 
