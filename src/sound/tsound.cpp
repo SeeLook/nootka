@@ -24,6 +24,7 @@
 #include <QPushButton>
 #include <QThread>
 #include <QTimer>
+#include <QAudioInput>
 
 
 extern Tglobals *gl;
@@ -235,6 +236,7 @@ void Tsound::deleteSniffer() {
 //------------  slots               --------------------------------------------------
 //------------------------------------------------------------------------------------
 void Tsound::playingFinished() {
+ qDebug("playingFinished");
   if (sniffer) {
     sniffer->go();
     m_pitchView->startVolume();
@@ -249,8 +251,7 @@ void Tsound::noteDetectedSlot(Tnote note) {
   emit detectedNote(note);
 }
 
-#if defined(Q_OS_MAC)
+
 void Tsound::macSlot() {
     sniffer->startListening();
 }
-#endif

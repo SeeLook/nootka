@@ -163,6 +163,7 @@ void TaudioIN::startListening() {
     initInput();
     if (m_IOaudioDevice) {
       connect(m_IOaudioDevice, SIGNAL(readyRead()), this, SLOT(audioDataReady()));
+      connect(m_audioInput, SIGNAL(stateChanged(QAudio::State)), this, SLOT(deviceStateSlot(QAudio::State)));
     }
   }
 }
@@ -319,4 +320,14 @@ void TaudioIN::emitingSlot() {
     go();
 }
 
+void TaudioIN::deviceStateSlot(QAudio::State auStat) {
+   QString statTxt = "innput state: ";
+   switch (auStat) {
+    case QAudio::ActiveState : statTxt += "active"; break;
+    case QAudio::IdleState : statTxt += "iddle"; break;
+    case QAudio::SuspendedState : statTxt += "suspended"; break;
+    case QAudio::StoppedState : statTxt += "stoped"; break;
+   }
+   qDebug() << statTxt;
+}
 

@@ -36,7 +36,6 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     navList->setViewMode(QListView::IconMode);
 //    navList->setFlow(QListView::TopToBottom);
 //    navList->setWrapping(false);
-//     navList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     contLay->addWidget(navList);
 
     QVBoxLayout *aLay = new QVBoxLayout;

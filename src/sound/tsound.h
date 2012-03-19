@@ -81,9 +81,9 @@ private slots:
     /** Is performed when note stops playing, then sniffing is unlocked */
   void playingFinished();
   void noteDetectedSlot(Tnote note);
-#if defined(Q_OS_MAC)
+   /** under MacOs first call of sniffer->startListening() has to be delayed */
   void macSlot();
-#endif
+
 
 
 };
