@@ -27,7 +27,7 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
 //    setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint);
 
    if (parent)
-       setMaximumHeight(parent->height());
+       setMaximumSize(parent->width(), parent->height());
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *contLay = new QHBoxLayout;
     navList = new QListWidget(this);
