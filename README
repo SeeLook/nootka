@@ -31,4 +31,23 @@ to remove (uninstall)
 - make uninstall (usually as root)
 
 
+##########################################################
+#### How to prepare developement enviroment under MacOs
+
+1. Install Xcode & X11 (from MacOs install DVD). XCode SDK is not required
+2. To 
+http://www.macports.org/install.php
+
+sudo port install pkgconfig gcc46 cmake fftw-3 mercurial
+
+3. 
+
+http://qt.nokia.com/downloads/qt-for-open-source-cpp-development-on-mac-os-x/
+
+
+ 
+
+
+
+
 
