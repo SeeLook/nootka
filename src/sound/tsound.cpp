@@ -206,7 +206,7 @@ void Tsound::createSniffer() {
 
   sniffer->startListening();
 #if defined(Q_OS_MAC)
-  QTimer::singleShot(100, this, SLOT(macSlot()));
+//  QTimer::singleShot(100, this, SLOT(macSlot()));
 #endif
   connect(sniffer, SIGNAL(noteDetected(Tnote)), this, SLOT(noteDetectedSlot(Tnote)), Qt::QueuedConnection);
 }

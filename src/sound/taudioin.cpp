@@ -304,7 +304,7 @@ void TaudioIN::pitchFreqFound(float pitch, float freq) {
        emit noteDetected(Tnote(qRound(pitch - m_params->a440diff)-47));
        emit fundamentalFreq(freq);
 #if defined(Q_OS_MAC)
-      QTimer::singleShot(100, this, SLOT(emitingSlot()));
+//      QTimer::singleShot(100, this, SLOT(emitingSlot()));
 #endif
       m_gotNote = true;
   }
@@ -321,13 +321,16 @@ void TaudioIN::emitingSlot() {
 }
 
 void TaudioIN::deviceStateSlot(QAudio::State auStat) {
-   QString statTxt = "innput state: ";
+//   QString statTxt = "innput state: ";
    switch (auStat) {
-    case QAudio::ActiveState : statTxt += "active"; break;
-    case QAudio::IdleState : statTxt += "iddle"; break;
-    case QAudio::SuspendedState : statTxt += "suspended"; break;
-    case QAudio::StoppedState : statTxt += "stoped"; break;
+//    case QAudio::ActiveState : statTxt += "active"; break;
+    case QAudio::IdleState :
+//       statTxt += "iddle";
+       emitingSlot();
+       break;
+//    case QAudio::SuspendedState : statTxt += "suspended"; break;
+//    case QAudio::StoppedState : statTxt += "stoped"; break;
    }
-   qDebug() << statTxt;
+//   qDebug() << statTxt;
 }
 
