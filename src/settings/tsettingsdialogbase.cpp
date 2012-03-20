@@ -26,8 +26,9 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
 //    setWindowFlags(Qt::Dialog | Qt::Window);
 //    setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint);
 
-   if (parent)
+   if (parent) {
        setMaximumSize(parent->width(), parent->height());
+   }
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *contLay = new QHBoxLayout;
     navList = new QListWidget(this);
@@ -43,8 +44,9 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     QScrollArea *scrollArea = new QScrollArea;
     QWidget *scrollWidget = new QWidget(this);
     scrollWidget->setLayout(stackLayout);
-    if (parent)
-      scrollWidget->setFixedHeight(parent->height()-110); // 70px for hint + buttons + some decorations
+//     if (parent)
+//       scrollWidget->setFixedHeight(parent->height()-110); // 70px for hint + buttons + some decorations
+    scrollWidget->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     scrollArea->setWidget(scrollWidget);
     stackLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
     scrollWidget->layout()->setSizeConstraint(QLayout::SetMinAndMaxSize);
