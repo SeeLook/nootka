@@ -47,8 +47,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
     setMinimumSize(640, 480);
+#if defined(Q_OS_MAC)
+    setGeometry(50, 50, 960, 720);
+#else
     setGeometry(50, 50, 800, 600);
-//     setMinimumSize(800, 600);
+#endif
 
     if (gl->isFirstRun) {
         TfirstRunWizzard *firstWizz = new TfirstRunWizzard();

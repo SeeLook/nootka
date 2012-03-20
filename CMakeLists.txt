@@ -5,12 +5,13 @@ find_package(Qt4 REQUIRED)
 INCLUDE( ${QT_USE_FILE} )
 add_definitions(${QT_DEFINITIONS})
 
+message(STATUS "QT dir: ${QT_LIBRARY_DIR}"	 )
 
 include_directories(${QT_INCLUDES})
 
 SET(Nootka_VERSION_MAJOR  "0")
-SET(Nootka_VERSION_MINOR  "7")
-SET(Nootka_VERSION_PATCH  "99")
+SET(Nootka_VERSION_MINOR  "8")
+SET(Nootka_VERSION_PATCH  "0")
 
 SET(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
 SET(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")

@@ -149,7 +149,7 @@ else (WIN32)
     set(CPACK_GENERATOR "RPM;DEB")
     set(CPACK_DEB "on")
   else (NOT APPLE)
-    set(CPACK_GENERATOR "DMG")
+#     set(CPACK_GENERATOR "DMG")
   endif (NOT APPLE)
 endif (WIN32)
 
@@ -166,6 +166,19 @@ if(UNIX AND NOT APPLE)
 	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/src/make-src.sh ${Nootka_VERSION_FULL} ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}
    )
 ENDIF(UNIX AND NOT APPLE)
+
+###########################################################################
+# packaging targets (make mac)
+###########################################################################
+if(${UNIX})
+    execute_process(COMMAND printf "\n\n\nTo prepare independency of mac boundle:\n")
+    execute_process(COMMAND printf "\tmake mac\n\n\n" )
+
+  add_custom_target(mac
+  COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/mac/linking.sh ${QTMULTIMEDIA_LIBRARIES} ${QT_LIBRARY_DIR} ${FFTW3_LIBRARIES} ${CMAKE_BINARY_DIR}
+   )
+ENDIF(${UNIX})
+
 
 
 
@@ -184,4 +197,3 @@ ENDIF(UNIX AND NOT APPLE)
 # 	add_custom_target(rpm
 # 	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/build-rpm.sh ${Nootka_VERSION_FULL} ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR} "${CMAKE_BINARY_DIR}/rpm"
 #    )
-# # ENDIF(UNIX AND NOT APPLE)

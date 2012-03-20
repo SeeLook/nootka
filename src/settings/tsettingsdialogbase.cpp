@@ -44,6 +44,8 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     QWidget *scrollWidget = new QWidget(this);
     scrollWidget->setLayout(stackLayout);
     scrollArea->setWidget(scrollWidget);
+    stackLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
+    scrollWidget->layout()->setSizeConstraint(QLayout::SetMinAndMaxSize);
     
 //     aLay->addLayout(stackLayout);
     aLay->addWidget(scrollWidget);

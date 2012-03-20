@@ -187,7 +187,7 @@ void Tsound::restoreAfterExam() {
 //------------  private  methods     --------------------------------------------------
 //------------------------------------------------------------------------------------
 
- QThread *m_thread = 0;
+//  QThread *m_thread = 0;
 
 void Tsound::createPlayer() {
 //   m_thread =new  QThread;
@@ -222,11 +222,11 @@ void Tsound::deletePlayer() {
 
 
 void Tsound::deleteSniffer() {
-   if (m_thread) {
-    m_thread->quit();
+//    if (m_thread) {
+//     m_thread->quit();
 //    m_thread->terminate();
-    delete m_thread;
-  }
+//     delete m_thread;
+//   }
   delete sniffer;
   sniffer = 0;
 }
