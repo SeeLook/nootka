@@ -31,7 +31,7 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *contLay = new QHBoxLayout;
     navList = new QListWidget(this);
-    navList->setIconSize(QSize(80,80));
+    navList->setIconSize(QSize(80, 80));
     navList->setFixedWidth(100);
     navList->setViewMode(QListView::IconMode);
 //    navList->setFlow(QListView::TopToBottom);
@@ -43,6 +43,8 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     QScrollArea *scrollArea = new QScrollArea;
     QWidget *scrollWidget = new QWidget(this);
     scrollWidget->setLayout(stackLayout);
+    if (parent)
+      scrollWidget->setFixedHeight(parent->height()-110); // 70px for hint + buttons + some decorations
     scrollArea->setWidget(scrollWidget);
     stackLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
     scrollWidget->layout()->setSizeConstraint(QLayout::SetMinAndMaxSize);
