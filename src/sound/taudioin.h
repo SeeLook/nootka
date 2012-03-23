@@ -84,7 +84,7 @@ private slots:
 	void calc();
   void pitchFreqFound(float pitch, float freq);
   void noteStopedSlot();
-  void emitingSlot();
+  void resetSlot(); // resets audio input
   void deviceStateSlot(QAudio::State auStat);
 
   
