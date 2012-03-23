@@ -230,6 +230,9 @@ endif(WIN32)
 
 
 if(APPLE)
+  INSTALL( CODE"
+      execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/mac/install.sh ${CMAKE_INSTALL_PREFIX} ${QT_QMAKE_EXECUTABLE} )
+  " )
 	INSTALL(FILES "${CMAKE_SOURCE_DIR}/picts/nootka.icns" DESTINATION "${INS_PREF}")
 	INSTALL(FILES "${CMAKE_SOURCE_DIR}/picts/nootka-levels.icns" DESTINATION "${INS_PREF}")
 	INSTALL(FILES "${CMAKE_SOURCE_DIR}/picts/nootka-exam.icns" DESTINATION "${INS_PREF}")
