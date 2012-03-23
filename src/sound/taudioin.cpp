@@ -300,13 +300,10 @@ void TaudioIN::readToCalc() {
 
 void TaudioIN::pitchFreqFound(float pitch, float freq) {
   if(!m_gotNote) {
-//       qDebug() << QString::fromStdString(Tnote(qRound(pitch - m_params->a440diff)-47).getName());
+//     qDebug() << QString::fromStdString(Tnote(qRound(pitch - m_params->a440diff)-47).getName());
        emit noteDetected(Tnote(qRound(pitch - m_params->a440diff)-47));
        emit fundamentalFreq(freq);
-#if defined(Q_OS_MAC)
-//      QTimer::singleShot(100, this, SLOT(emitingSlot()));
-#endif
-      m_gotNote = true;
+       m_gotNote = true;
   }
 }
 
@@ -315,18 +312,24 @@ void TaudioIN::noteStopedSlot() {
 }
 
 
-void TaudioIN::emitingSlot() {
+void TaudioIN::resetSlot() {
     wait();
     go();
 }
 
 void TaudioIN::deviceStateSlot(QAudio::State auStat) {
-//   QString statTxt = "innput state: ";
+  QString statTxt = "innput state: ";
    switch (auStat) {
 //    case QAudio::ActiveState : statTxt += "active"; break;
+    /** Iddle state occurs mostly under Mac and it shouldn't. 
+     * This is why it should be reseted. 
+     * On old machines it can occurs as well so let it be*/
     case QAudio::IdleState :
-//       statTxt += "iddle";
-       emitingSlot();
+#if !defined(Q_OS_MAC)
+      statTxt += "iddle";
+      qDebug() << statTxt;
+#endif
+       resetSlot();
        break;
 //    case QAudio::SuspendedState : statTxt += "suspended"; break;
 //    case QAudio::StoppedState : statTxt += "stoped"; break;
