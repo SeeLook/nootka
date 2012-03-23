@@ -6,10 +6,11 @@ MAC ISSUES
  (X)- buttons size in TnoteName looks too small (probably because of font size)
  (X)- fonts are not loaded
  (X)- main note on the score is not cleaned when is moved
-    - pitch detection stops after one note
+ (X)- pitch detection stops after one note
  (X)- audio out returns StopedSate - TimeForAudio() has to be adjusted for
 MAC (it's not a issue)
     - random questions are not random
+    - playing stops
 
 TGLOBALS & TTUNE
     - let setTune has reference Ttune& as parameter

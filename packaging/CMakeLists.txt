@@ -170,14 +170,14 @@ ENDIF(UNIX AND NOT APPLE)
 ###########################################################################
 # packaging targets (make mac)
 ###########################################################################
-if(${UNIX})
-    execute_process(COMMAND printf "\n\n\nTo prepare independency of mac boundle:\n")
-    execute_process(COMMAND printf "\tmake mac\n\n\n" )
-
-  add_custom_target(mac
-  COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/mac/linking.sh ${QT_LIBRARY_DIR} ${QTMULTIMEDIA_LIBRARIES} ${FFTW3_LIBRARIES} ${CMAKE_BINARY_DIR}
-   )
-ENDIF(${UNIX})
+# if(${UNIX})
+#     execute_process(COMMAND printf "\n\n\nTo prepare independency of mac boundle:\n")
+#     execute_process(COMMAND printf "\tmake mac\n\n\n" )
+# 
+#   add_custom_target(mac
+#   COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/mac/linking.sh ${QT_LIBRARY_DIR} ${QTMULTIMEDIA_LIBRARIES} ${FFTW3_LIBRARIES} ${CMAKE_BINARY_DIR}
+#    )
+# ENDIF(${UNIX})
 #${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY}
 
 
