@@ -230,7 +230,7 @@ endif(WIN32)
 
 
 if(APPLE)
-  INSTALL(FILES ${FFTW3_LIBRARIES} DESTINATION "nootka.app/Contents/Frameworks")
+#   INSTALL(FILES ${FFTW3_LIBRARIES} DESTINATION "nootka.app/Contents/Frameworks")
   INSTALL( CODE"
       execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/mac/install.sh ${CMAKE_BINARY_DIR} ${QT_LIBRARY_DIR} ${FFTW3_LIBRARIES} )
   " )
