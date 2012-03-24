@@ -121,7 +121,7 @@ private slots:
   void midiNoteOff();
     /** m_timer calls this to prepare audio for device*/
   void timeForAudio();
-
+  void deviceStateSlot(QAudio::State auStat);
 };
 
 #endif // TAUDIOOUT_H

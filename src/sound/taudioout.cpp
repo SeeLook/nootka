@@ -122,6 +122,7 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
       if (m_playable) {
           connect(m_timer, SIGNAL(timeout()), this, SLOT(timeForAudio()));
           m_IOaudioDevice = m_audioOutput->start();
+//          qDebug() << (m_IOaudioDevice); // device memory address
           m_buffer.resize(m_audioOutput->periodSize()*2);
           m_period = (SAMPLE_RATE*2) / m_audioOutput->periodSize() - 10;
           // m_period has to be smaller in case of QtMultimedia bug
@@ -157,6 +158,7 @@ bool TaudioOUT::setAudioDevice(QString& name) {
         qDebug() << "out:" << m_deviceInfo.deviceName();
         m_devName = m_deviceInfo.deviceName(); //TODO: save device name to globals ?!
         m_audioOutput = new QAudioOutput(m_deviceInfo, templAudioFormat, this);
+//        connect(m_audioOutput, SIGNAL(stateChanged(QAudio::State)), this, SLOT(deviceStateSlot(QAudio::State)));
     } else {
         qDebug() << m_deviceInfo.deviceName() << "format unsupported !!";
         fnd = false;
@@ -215,7 +217,8 @@ bool TaudioOUT::play(int noteNr) {
       m_timer->stop();
     }
     if (m_audioOutput && m_audioOutput->state() == QAudio::StoppedState) {
-      qDebug("stoped");
+      qDebug("is stoped so let it reset");
+      m_audioOutput = new QAudioOutput(m_deviceInfo, templAudioFormat, this);
       m_IOaudioDevice = m_audioOutput->start();
     } 
     m_doPlay = true;
@@ -394,8 +397,8 @@ void TaudioOUT::timeForAudio() {
         m_timer->stop();
         emit noteFinished();
       }
-  } else
-      qDebug("QAudio::StoppedState");
+  } // else
+      //qDebug("QAudio::StoppedState");
 }
 
 
@@ -408,5 +411,21 @@ void TaudioOUT::midiNoteOff() {
   m_prevMidiNote = 0;
   if (m_doEmit)
     emit noteFinished();
+}
+
+void TaudioOUT::deviceStateSlot(QAudio::State auStat) {
+  QString statTxt = "output state: ";
+   switch (auStat) {
+    case QAudio::ActiveState : statTxt += "active"; break;
+    /** Iddle state occurs mostly under Mac and it shouldn't.
+     * This is why it should be reseted.
+     * On old machines it can occurs as well so let it be*/
+    case QAudio::IdleState :
+      statTxt += "iddle";
+       break;
+    case QAudio::SuspendedState : statTxt += "suspended"; break;
+    case QAudio::StoppedState : statTxt += "stoped"; break;
+   }
+   qDebug() << statTxt;
 }
 
