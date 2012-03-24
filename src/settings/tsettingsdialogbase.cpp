@@ -41,18 +41,22 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
 
     QVBoxLayout *aLay = new QVBoxLayout;
     stackLayout = new QStackedLayout;
-    QScrollArea *scrollArea = new QScrollArea;
-    QWidget *scrollWidget = new QWidget(this);
-    scrollWidget->setLayout(stackLayout);
+    QScrollArea *scrollArea = new QScrollArea();
+    scrollArea->setLayout(stackLayout);
+//     QWidget *scrollWidget = new QWidget(this);
+//     scrollWidget->setLayout(stackLayout);
 //     if (parent)
-//       scrollWidget->setFixedHeight(parent->height()-110); // 70px for hint + buttons + some decorations
-    scrollWidget->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-    scrollArea->setWidget(scrollWidget);
+//       scrollWidget->setMinimumHeight(parent->height()-110); // 70px for hint + buttons + some decorations
+//     scrollWidget->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+//     scrollArea->setWidget(scrollWidget);
+//     scrollArea->setWidgetResizable(true);
+//     scrollArea->setFixedHeight(parent->height()-150);
     stackLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
-    scrollWidget->layout()->setSizeConstraint(QLayout::SetMinAndMaxSize);
+//     scrollWidget->layout()->setSizeConstraint(QLayout::SetMinAndMaxSize);
     
 //     aLay->addLayout(stackLayout);
-    aLay->addWidget(scrollWidget);
+//     aLay->addWidget(scrollWidget);
+    aLay->addWidget(scrollArea);
 
     QGroupBox *hGr = new QGroupBox(this);
     QVBoxLayout *hLay = new QVBoxLayout;

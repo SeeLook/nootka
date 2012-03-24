@@ -8,16 +8,21 @@
 #B_PATH=$1/nootka.app/Contents/Resurces
 B_PATH=$1/src/nootka.app
 QT_PATH=$(dirname $2)
+FFTW_LIB=$3
 
-echo "path: $B_PATH"
-echo "path: $QT_PATH"
+echo "Preparing bundle to install"
 
-if [ -f "B_PATH" ]; then
-    echo "i have nootka"
+if [ -L $FFTW_LIB ]; then
+	printf "\033[01;31m $FFTW_LIB is a link but regular file was expected. Run cmake again and give proper file !!!\033[01;00m\n"
+else
+	mkdir $B_PATH/Contents/Frameworks
+	cp $FFTW_LIB $B_PATH/Contents/Frameworks/
 fi
+
+
 if [ -d "$B_PATH/Contents/Resources" ]; then
         echo "Cleaning Resurces Dir"
-        rm $B_PATH/Contents/Resources/* # There are only links
+#         rm $B_PATH/Contents/Resources/* # There are only links
 else
         echo "no dir $B_PATH"
 fi
