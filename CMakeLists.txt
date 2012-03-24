@@ -232,7 +232,7 @@ endif(WIN32)
 if(APPLE)
   INSTALL(FILES ${FFTW3_LIBRARIES} DESTINATION "nootka.app/Contents/Frameworks")
   INSTALL( CODE"
-      execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/mac/install.sh ${CMAKE_BINARY_DIR} ${QT_LIBRARY_DIR} )
+      execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/mac/install.sh ${CMAKE_BINARY_DIR} ${QT_LIBRARY_DIR} ${FFTW3_LIBRARIES} )
   " )
 	INSTALL(FILES "${CMAKE_SOURCE_DIR}/picts/nootka.icns" DESTINATION "${INS_PREF}")
 	INSTALL(FILES "${CMAKE_SOURCE_DIR}/picts/nootka-levels.icns" DESTINATION "${INS_PREF}")
