@@ -1,7 +1,12 @@
-	- added support for MacOs
+0.8 final	  
+	  - added support for MacOs
     - during exams double accids buttons in Note Name are hiden if no needed
+    - GUI text entries improved
+    BUGS FIXES
+    - fixed behaviour of the buttons in Note Name Widget
+    - fixed segmentation fault after probing audio input
 
-0.8
+0.8 beta
     - !!! Added sound input and pitch detection !!!
     - added possibility to change base pitch of a1 note
     - simple preview of an exam results
@@ -13,7 +18,6 @@
   BUGS FIXES
     - right mouse button does what it has to do
     - fixed hanging up on an exam start for some levels
-    - fixed behaviour of the buttons in Note Name Widget
     - a lot of small bugfixes
   Under the hood
     - cpack rules for building deb & rpm & src packages

@@ -51,6 +51,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile) :
     if (examFile == "") { // start exam dialog
         TstartExamDlg *startDlg = new TstartExamDlg(gl->E->studentName, mW);
         userAct = startDlg->showDialog(resultText, m_level);
+        gl->E->studentName = resultText; // store user name 
         delete startDlg;
     } else { // command line arg with given filename
         resultText = examFile;

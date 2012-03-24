@@ -218,6 +218,7 @@ bool TaudioOUT::play(int noteNr) {
     }
     if (m_audioOutput && m_audioOutput->state() == QAudio::StoppedState) {
       qDebug("is stoped so let it reset");
+      delete m_audioOutput;
       m_audioOutput = new QAudioOutput(m_deviceInfo, templAudioFormat, this);
       m_IOaudioDevice = m_audioOutput->start();
     } 
