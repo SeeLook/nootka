@@ -323,11 +323,11 @@ void TaudioIN::deviceStateSlot(QAudio::State auStat) {
 //    case QAudio::ActiveState : statTxt += "active"; break;
     /** Iddle state occurs mostly under Mac and it shouldn't. 
      * This is why it should be reseted. 
-     * On old machines it can occurs as well so let it be*/
+     * On old machines it can occurs as well so let it be. */
     case QAudio::IdleState :
 #if !defined(Q_OS_MAC)
       statTxt += "iddle";
-      qDebug() << statTxt;
+//       qDebug() << statTxt;
 #endif
        resetSlot();
        break;

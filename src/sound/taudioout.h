@@ -75,6 +75,8 @@ public:
      * Midi device usually blocks audio devices, 
      * so when it exists getAudioDevicesList() doesn't work */
   void deleteMidi();
+    /** Immediately stops playing. Emits nothing */
+  void stop();
   
 signals:
     /** This signal is emited when playing of a note is finished. */

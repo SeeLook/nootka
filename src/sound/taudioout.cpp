@@ -239,6 +239,18 @@ bool TaudioOUT::play(int noteNr) {
   return true;
 }
 
+void TaudioOUT::stop() {
+    if (m_timer->isActive()) {
+      m_timer->stop();
+      if (m_params->midiEnabled)
+        midiNoteOff();
+      else
+        m_audioOutput->stop();
+    } else
+      qDebug("stoped already");
+}
+
+
 void TaudioOUT::deleteAudio() {
   if (m_audioOutput) {
     if (m_timer->isActive())

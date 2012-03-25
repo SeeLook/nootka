@@ -269,6 +269,7 @@ void MainWindow::createSettingsDialog() {
 
 void MainWindow::openLevelCreator(QString levelFile) {
     sound->wait(); // stops pitch detection
+    sound->stopPlaying();
     TlevelCreatorDlg *levelCreator= new TlevelCreatorDlg(this);
     if (levelFile != "")
         levelCreator->loadLevelFile(levelFile);
@@ -278,11 +279,13 @@ void MainWindow::openLevelCreator(QString levelFile) {
 }
 
 void MainWindow::startExamSlot() {
+    sound->stopPlaying();
     ex = new TexamExecutor(this);
 }
 
 void MainWindow::aboutSlot() {
     sound->wait();
+    sound->stopPlaying();
     TaboutNootka *ab = new TaboutNootka(this);
     ab->exec();
     delete ab;
