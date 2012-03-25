@@ -123,6 +123,7 @@ void Tsound::setPitchView(TpitchView* pView) {
 void Tsound::prepareToConf() {
   if (player) {
     player->deleteMidi();
+    stopPlaying();
   }
   if (sniffer) {
     sniffer->stopListening();
@@ -178,8 +179,12 @@ void Tsound::prepareToExam() {
 void Tsound::restoreAfterExam() {
   if (player)
     connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinished()));
-  go();
-    
+  go();    
+}
+
+void Tsound::stopPlaying() {
+    if (player)
+      player->stop();
 }
 
 

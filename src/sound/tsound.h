@@ -64,6 +64,7 @@ public:
   void restoreAfterExam();
   void prepareAnswer();
   void restoreAfterAnswer();
+  void stopPlaying();
   
 signals:
   void detectedNote(Tnote note);
