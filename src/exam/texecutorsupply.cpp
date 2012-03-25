@@ -98,6 +98,8 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
 //                << (int)list[i].pos.fret() << " note: "
 //                << QString::fromStdString(list[i].note.getName());
 
+//     qsrand(100);
+
 }
 
 Tnote TexecutorSupply::determineAccid(Tnote n) {

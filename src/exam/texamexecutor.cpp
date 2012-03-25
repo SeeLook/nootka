@@ -51,7 +51,6 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile) :
     if (examFile == "") { // start exam dialog
         TstartExamDlg *startDlg = new TstartExamDlg(gl->E->studentName, mW);
         userAct = startDlg->showDialog(resultText, m_level);
-        gl->E->studentName = resultText; // store user name 
         delete startDlg;
     } else { // command line arg with given filename
         resultText = examFile;
@@ -61,8 +60,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile) :
     m_glStore.fretsNumber = gl->GfretsNumber;
     if (userAct == TstartExamDlg::e_newLevel) {
         m_exam = new Texam(&m_level, resultText); // resultText is userName
+        gl->E->studentName = resultText; // store user name 
         m_exam->setTune(gl->Gtune());
-//         showExamHelp();
         mW->examResults->startExam();
     } else
       if (userAct == TstartExamDlg::e_continue) {
@@ -197,7 +196,6 @@ void TexamExecutor::askQuestion() {
     m_answRequire.key = false;
 
     TQAunit curQ = TQAunit(); // current question
-//     qsrand(100);
     curQ.qa = m_questList[qrand() % m_questList.size()];
     curQ.questionAs = m_level.questionAs.next();
     curQ.answerAs = m_level.answersAs[curQ.questionAs].next();
@@ -277,6 +275,7 @@ void TexamExecutor::askQuestion() {
 // PREPARING ANSWERS
     if (curQ.answerAs == TQAtype::e_asNote) {
         questText += TquestionAsWdg::asNoteTxt();
+//         questText += tr("in the score");
         if (m_level.useKeySign) {
             if (m_level.manualKey) { // user have to manually secect a key
                 QString keyTxt;

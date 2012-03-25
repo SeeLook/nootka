@@ -157,7 +157,7 @@ Tglobals::Tglobals() {
                 EanswerColor = QColor("green");
                EanswerColor.setAlpha(40);
            }
-        E->autoNextQuest = sett.value("autoNextQuest", false).toBool(); 
+        E->autoNextQuest = sett.value("autoNextQuest", true).toBool();
         E->repeatIncorrect = sett.value("repeatIncorrect", true).toBool();
         E->expertsAnswerEnable = sett.value("expertsAnswerEnable", false).toBool();
         E->askAboutExpert = sett.value("askAboutExpert", true).toBool();
