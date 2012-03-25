@@ -46,6 +46,7 @@ Tsound::Tsound(QObject* parent) :
 Tsound::~Tsound()
 {
   deleteSniffer();
+  deletePlayer();
 }
 
 //------------------------------------------------------------------------------------
@@ -187,11 +188,12 @@ void Tsound::restoreAfterExam() {
 //------------  private  methods     --------------------------------------------------
 //------------------------------------------------------------------------------------
 
-//  QThread *m_thread = 0;
+ QThread *m_thread = 0;
 
 void Tsound::createPlayer() {
-//   m_thread =new  QThread;
-  player = new TaudioOUT(gl->A, gl->path, this);
+//   if (!m_thread)
+//       m_thread = new  QThread;
+  player = new TaudioOUT(gl->A, gl->path);
 //   player->moveToThread(m_thread);
 //   m_thread->start(QThread::HighPriority);
   connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinished()));
@@ -212,10 +214,10 @@ void Tsound::createSniffer() {
 }
 
 void Tsound::deletePlayer() {
-//   if (m_thread) {
-//     m_thread->quit();
-//     delete m_thread;
-//   }
+  if (m_thread) {
+    m_thread->quit();
+    delete m_thread;
+  }
   delete player;
   player = 0;
 }

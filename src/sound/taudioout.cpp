@@ -206,8 +206,12 @@ bool TaudioOUT::play(int noteNr) {
       m_message[2] = msb;
       m_midiOut->sendMessage(&m_message);
     }
+    if (m_timer->isActive())
+      m_timer->stop();
+//     connect(m_timer, SIGNAL(timeout()), this, SLOT(midiNoteOff()));
     m_timer->start(1500);
-  
+      return true;
+      
   } else { // play audio
     noteNr = noteNr + qRound(m_params->a440diff);
     if (noteNr < -11 || noteNr > 41)
@@ -218,6 +222,9 @@ bool TaudioOUT::play(int noteNr) {
     }
     if (m_audioOutput && m_audioOutput->state() == QAudio::StoppedState) {
       qDebug("is stoped so let it reset");
+      /** Mostly it occurs uder MacOs (let's say only)
+       * Maybe it is not so elegant to restore output in this way
+       * but it works and quite fast. */
       delete m_audioOutput;
       m_audioOutput = new QAudioOutput(m_deviceInfo, templAudioFormat, this);
       m_IOaudioDevice = m_audioOutput->start();
@@ -399,7 +406,7 @@ void TaudioOUT::timeForAudio() {
         emit noteFinished();
       }
   } // else
-      //qDebug("QAudio::StoppedState");
+      //qDebug("QAudio::StoppedState"); // occurs under macOs
 }
 
 
@@ -418,12 +425,7 @@ void TaudioOUT::deviceStateSlot(QAudio::State auStat) {
   QString statTxt = "output state: ";
    switch (auStat) {
     case QAudio::ActiveState : statTxt += "active"; break;
-    /** Iddle state occurs mostly under Mac and it shouldn't.
-     * This is why it should be reseted.
-     * On old machines it can occurs as well so let it be*/
-    case QAudio::IdleState :
-      statTxt += "iddle";
-       break;
+    case QAudio::IdleState : statTxt += "iddle"; break;
     case QAudio::SuspendedState : statTxt += "suspended"; break;
     case QAudio::StoppedState : statTxt += "stoped"; break;
    }
