@@ -59,6 +59,7 @@ protected slots:
   void updateLevel();
   void voiceClicked();
   void pauseClicked();
+  void stopTimerDelayed(); // to call stop() on m_volTimer after note detected animation
   
 protected:
   virtual void paintEvent(QPaintEvent* );

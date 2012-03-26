@@ -44,7 +44,7 @@ Tsound::Tsound(QObject* parent) :
 }
 
 Tsound::~Tsound()
-{
+{ //They have not a prent
   deleteSniffer();
   deletePlayer();
 }
@@ -163,23 +163,30 @@ void Tsound::go() {
 
 void Tsound::prepareAnswer() {
   m_pitchView->setBgColor(gl->EanswerColor);
-  m_pitchView->update();
+  m_pitchView->setDisabled(false);
+//   m_pitchView->update();
 }
 
 void Tsound::restoreAfterAnswer() {
   m_pitchView->setBgColor(Qt::transparent);
-  m_pitchView->update();
+  m_pitchView->setDisabled(true);
+//   m_pitchView->update();
 }
 
 void Tsound::prepareToExam() {
   if (player) // to avoid activate sniffing after play() during an exam
     disconnect(player, SIGNAL(noteFinished()), this, SLOT(playingFinished()));
+  if (sniffer)
+     m_pitchView->setDisabled(true);
 }
 
 void Tsound::restoreAfterExam() {
   if (player)
     connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinished()));
-  go();    
+  if (sniffer) {
+     m_pitchView->setDisabled(false);
+     go();
+  }
 }
 
 void Tsound::stopPlaying() {
@@ -188,12 +195,11 @@ void Tsound::stopPlaying() {
 }
 
 
-
 //------------------------------------------------------------------------------------
 //------------  private  methods     --------------------------------------------------
 //------------------------------------------------------------------------------------
 
- QThread *m_thread = 0;
+//  QThread *m_thread = 0;
 
 void Tsound::createPlayer() {
 //   if (!m_thread)
@@ -219,10 +225,10 @@ void Tsound::createSniffer() {
 }
 
 void Tsound::deletePlayer() {
-  if (m_thread) {
-    m_thread->quit();
-    delete m_thread;
-  }
+//   if (m_thread) {
+//     m_thread->quit();
+//     delete m_thread;
+//   }
   delete player;
   player = 0;
 }

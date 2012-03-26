@@ -5,7 +5,7 @@ find_package(Qt4 REQUIRED)
 INCLUDE( ${QT_USE_FILE} )
 add_definitions(${QT_DEFINITIONS})
 
-message(STATUS "QT dir: ${QT_LIBRARY_DIR}"	 )
+# message(STATUS "QT dir: ${QT_LIBRARY_DIR}"	 )
 
 include_directories(${QT_INCLUDES})
 

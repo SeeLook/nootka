@@ -151,7 +151,7 @@ void TaudioIN::initInput() {
   m_floatsWriten = 0;
   m_maxPeak = 0;
   m_IOaudioDevice = m_audioInput->start();
-  qDebug() << "m_audioInput buffer size:" << m_audioInput->bufferSize();
+//   qDebug() << "m_audioInput buffer size:" << m_audioInput->bufferSize();
 }
 
 

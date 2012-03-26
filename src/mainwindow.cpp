@@ -250,7 +250,7 @@ void MainWindow::openFile(QString runArg) {
 void MainWindow::createSettingsDialog() {
     SettingsDialog *settings = new SettingsDialog(this);
     sound->prepareToConf();
-    qDebug("prepared");
+//     qDebug("prepared");
     if (settings->exec() == QDialog::Accepted) {
         sound->acceptSettings();
         score->acceptSettings();

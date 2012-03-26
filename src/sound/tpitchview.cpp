@@ -44,11 +44,11 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
       voiceButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
       lay->addWidget(voiceButt);
       voiceButt->setStatusTip(tr("Toggles between pitch detection for singing and for playing"));
-#if defined(Q_OS_MAC)
-      voiceButt->setFont(QFont("nootka", 35));
-#else
+// #if defined(Q_OS_MAC)
+//       voiceButt->setFont(QFont("nootka", 35));
+// #else
       voiceButt->setFont(QFont("nootka", 15));
-#endif
+// #endif
   } else {
     voiceButt = 0;
     pauseButt = 0;
@@ -93,8 +93,9 @@ void TpitchView::startVolume() {
 }
 
 void TpitchView::stopVolume() {
-	m_volTimer->stop();
-	m_volMeter->setVolume(0.0);
+// 	m_volTimer->stop();
+// 	m_volMeter->setVolume(0.0);
+   QTimer::singleShot(600, this, SLOT(stopTimerDelayed()));
 }
 
 void TpitchView::setPitchColor(QColor col) {
@@ -184,4 +185,8 @@ void TpitchView::paintEvent(QPaintEvent* )
     painter.drawRoundedRect(painter.viewport(), 2, 2 );
 }
 
+void TpitchView::stopTimerDelayed() {
+   m_volTimer->stop();
+   m_volMeter->setVolume(0.0);
+}
 

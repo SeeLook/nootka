@@ -135,7 +135,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile) :
       showExamHelp();
     m_supp->createQuestionsList(m_questList);
     
-    qDebug() << "questions number:" << m_questList.size();
+//     qDebug() << "questions number:" << m_questList.size();
 
     m_shouldBeTerminated = false;
     m_incorrectRepeated = false;
