@@ -178,7 +178,7 @@ if(UNIX AND NOT APPLE) #Linux
 endif(UNIX AND NOT APPLE)
 
 if(APPLE)
-#    set (MACOSX_BUNDLE_INFO_PLIST "${CMAKE_SOURCE_DIR}/packaging/mac/info.plist")
+    set (MACOSX_BUNDLE_INFO_PLIST "${CMAKE_SOURCE_DIR}/packaging/mac/info.plist")
    set (ExeName nootka MACOSX_BUNDLE)
    set (MACOSX_BUNDLE_INFO_STRING Nootka release for Mac OSX)
    set (MACOSX_BUNDLE_ICON_FILE      "nootka.icns")
