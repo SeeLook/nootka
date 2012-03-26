@@ -22,7 +22,7 @@ fi
 
 if [ -d "$B_PATH/Contents/Resources" ]; then
         echo "Cleaning Resurces Dir"
-#         rm $B_PATH/Contents/Resources/* # There are only links
+         rm $B_PATH/Contents/Resources/* # There are only links
 else
         echo "no dir $B_PATH"
 fi
