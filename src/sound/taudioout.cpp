@@ -246,8 +246,8 @@ void TaudioOUT::stop() {
         midiNoteOff();
       else
         m_audioOutput->stop();
-    } else
-      qDebug("stoped already");
+    } //else
+//       qDebug("stoped already");
 }
 
 

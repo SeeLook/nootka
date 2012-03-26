@@ -62,7 +62,9 @@ public:
   Tnote note() { return m_detNote; }
   void prepareToExam();
   void restoreAfterExam();
+    /** Sets bg color to question color and enables TpitchView. */
   void prepareAnswer();
+    /** Clears bg color and disables TpitchView. */
   void restoreAfterAnswer();
   void stopPlaying();
   
