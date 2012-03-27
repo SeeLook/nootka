@@ -218,9 +218,6 @@ void Tsound::createSniffer() {
   sniffer->setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
 
   sniffer->startListening();
-#if defined(Q_OS_MAC)
-//  QTimer::singleShot(100, this, SLOT(macSlot()));
-#endif
   connect(sniffer, SIGNAL(noteDetected(Tnote)), this, SLOT(noteDetectedSlot(Tnote)), Qt::QueuedConnection);
 }
 
@@ -249,7 +246,7 @@ void Tsound::deleteSniffer() {
 //------------  slots               --------------------------------------------------
 //------------------------------------------------------------------------------------
 void Tsound::playingFinished() {
- qDebug("playingFinished");
+//  qDebug("playingFinished");
   if (sniffer) {
     sniffer->go();
     m_pitchView->startVolume();
