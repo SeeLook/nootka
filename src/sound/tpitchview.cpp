@@ -105,9 +105,16 @@ void TpitchView::setPitchColor(QColor col) {
 
 void TpitchView::resize(int fontSize) {
   if (m_withButtons) {
+#if defined(Q_OS_MAC)
+    voiceButt->setFont(QFont("nootka", (fontSize*3)/2));
+    pauseButt->setFont(QFont("nootka", (fontSize*3)/2));
+    voiceButt->setFixedHeight(3*fontSize/2);
+    pauseButt->setFixedHeight(3*fontSize/2);
+#else
     voiceButt->setFont(QFont("nootka", fontSize));
-    voiceButt->setFixedWidth(3*fontSize/2);
     pauseButt->setFont(QFont("nootka", fontSize));
+#endif
+    voiceButt->setFixedWidth(3*fontSize/2);
     pauseButt->setFixedWidth(3*fontSize/2);
   }
   m_volMeter->setFixedHeight(qRound((float)fontSize * 1.2));
