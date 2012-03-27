@@ -20,6 +20,7 @@
 #include "tglobals.h"
 #include "texamlevel.h"
 #include <QMouseEvent>
+#include <QDateTime>
 #include <QDebug>
 
 extern Tglobals *gl;
@@ -99,6 +100,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
 //                << QString::fromStdString(list[i].note.getName());
 
 //     qsrand(100);
+     qsrand(QDateTime::currentDateTime().toTime_t());
 
 }
 

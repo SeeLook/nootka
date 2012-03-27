@@ -30,7 +30,15 @@ fi
 if [ -f $QT_PATH/bin/macdeployqt ]; then
         $QT_PATH/bin/macdeployqt $B_PATH
 	echo "deploy qt done"
-# 	rm -r $B_PATH/Context/Frameworks/QtSvg.framework
+     if [ -d $B_PATH/Context/Frameworks/QtSvg.framework ]; then
+        rm -r $B_PATH/Context/Frameworks/QtSvg.framework
+        rm -r $B_PATH/Context/Frameworks/QtDeclarative.framework
+        rm -r $B_PATH/Context/Frameworks/QtNetwork.framework
+        rm -r $B_PATH/Context/Frameworks/QtScript.framework
+        rm -r $B_PATH/Context/Frameworks/QtSql.framework
+        rm -r $B_PATH/Context/Frameworks/QtXmlPatterns.framework
+        rm -r $B_PATH/Context/Plugins
+    fi
 else
 	echo "Can not find macdeployqt executable"
 fi
