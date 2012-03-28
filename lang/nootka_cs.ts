@@ -1444,7 +1444,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="78"/>
         <source>level not saved !!</source>
-        <translation type="unfinished"></translation>
+        <translation>Úroveň neuložena!</translation>
     </message>
     <message>
         <location filename="../src/level/examsettingsdlg.cpp" line="82"/>
@@ -1841,7 +1841,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="28"/>
         <source>Start en exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Začít zkoušku</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="31"/>
@@ -1896,7 +1896,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="87"/>
         <source>Would You like to start new exam or continue previous one ?&lt;br&gt;To start new one, put your name and select a level.&lt;br&gt;To continue previous, select it from the list or load from file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Chcete začít novou zkoušku nebo pokračovat v předchozí?&lt;br&gt;Pro započetí nové zadejte své jméno a vyberte úroveň.&lt;br&gt;Pro pokračování v předchozí tuto vyberte v seznamu nebo nahrajte ze souboru.</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="176"/>
