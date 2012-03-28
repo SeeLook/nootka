@@ -1841,7 +1841,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="28"/>
         <source>Start en exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Zacznij egzamin</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="31"/>

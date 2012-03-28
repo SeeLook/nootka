@@ -242,7 +242,8 @@ void TexamExecutor::askQuestion() {
     if (curQ.questionAs == TQAtype::e_asNote) {
         questText += tr("Given note show ");
         char strNr = 0;
-        if ( curQ.answerAs == TQAtype::e_asFretPos && !m_level.onlyLowPos && m_level.showStrNr)
+        if ( (curQ.answerAs == TQAtype::e_asFretPos || curQ.answerAs == TQAtype::e_asSound) 
+            && !m_level.onlyLowPos && m_level.showStrNr)
             strNr = curQ.qa.pos.str(); //show string nr or not
         if (m_level.useKeySign && curQ.answerAs != TQAtype::e_asNote)
             // when answer is also asNote we determine key in preparing answer part
