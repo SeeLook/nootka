@@ -421,6 +421,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
         if (curQ.qa.pos != mW->guitar->getfingerPos())
             curQ.setMistake(TQAunit::e_wrongPos);
     } else { // we check are the notes the same
+//       qDebug() << QString::fromStdString(retN.getName()) << QString::fromStdString(exN.getName());
       if (retN.note) {
         if (exN != retN) {
             if (m_answRequire.octave) {
@@ -433,8 +434,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
                     curQ.setMistake(TQAunit::e_wrongNote);
             }
             if (!curQ.wrongNote()) { // There is stil something to check
-                exN.octave = 1;
-                retN.octave = 1;//octaves are checed so we are reseting them
+//                 exN.octave = 1;
+//                 retN.octave = 1;//octaves are checed so we are reseting them
                 if (exN != retN) {// if they are equal it means that only octaves were wrong
                     if (m_answRequire.accid) {
                         exN = exN.showAsNatural();
