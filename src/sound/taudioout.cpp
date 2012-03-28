@@ -443,6 +443,6 @@ void TaudioOUT::deviceStateSlot(QAudio::State auStat) {
     case QAudio::SuspendedState : statTxt += "suspended"; break;
     case QAudio::StoppedState : statTxt += "stoped"; break;
    }
-   qDebug() << statTxt;
+//   qDebug() << statTxt;
 }
 

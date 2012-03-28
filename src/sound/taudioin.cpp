@@ -230,8 +230,8 @@ void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
 
 void TaudioIN::audioDataReady() {
 //    qDebug() << cntr << ": " << m_audioInput->bytesReady(); cntr++;
-	if (m_audioInput->state() != QAudio::ActiveState && m_audioInput->state() != QAudio::IdleState)
-	  qDebug() << "Input device in state:" << (int)m_audioInput->state();
+//	if (m_audioInput->state() != QAudio::ActiveState && m_audioInput->state() != QAudio::IdleState)
+//	  qDebug() << "Input device in state:" << (int)m_audioInput->state();
   
 	qint64 bytesReady = m_audioInput->bytesReady();
 	qint64 bSize = m_buffer.size();
