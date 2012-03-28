@@ -195,6 +195,7 @@ void TscoreWidget::isExamExecuting(bool isIt) {
         noteViews[2]->scene()->addItem(m_questMark);
         QColor c = gl->EquestionColor;
         c.setAlpha(220);
+        noteViews[1]->setColor(c);
         m_questMark->setBrush(QBrush(c));
         m_questMark->setText("?");
         resizeQuestMark();
