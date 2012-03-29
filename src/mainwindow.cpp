@@ -44,8 +44,11 @@ MainWindow::MainWindow(QWidget *parent)
     TpushButton::setCheckColor(palette().highlight().color().name(),
     palette().highlightedText().color() );
 #endif
-
+#if defined(Q_OS_LINUX)
     setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
+#else
+    setWindowIcon(QIcon(gl->path+"picts/nootka.png"));
+#endif
     setMinimumSize(640, 480);
 #if defined(Q_OS_MAC)
     setGeometry(50, 50, 960, 720);
