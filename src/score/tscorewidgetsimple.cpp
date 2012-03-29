@@ -88,9 +88,11 @@ void TscoreWidgetSimple::paintEvent(QPaintEvent *) {
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
     painter.setWindow(0,0,width(),height());
 
-    painter.setPen(QPen(palette().foreground().color()));
-    painter.setBrush(QBrush(palette().base().color(),Qt::SolidPattern));
-    painter.drawRoundedRect(1,1,width()-55,height()-2,coeff,coeff);
+//    painter.setPen(QPen(palette().foreground().color()));
+    painter.setPen(QPen(palette().color(palette().currentColorGroup(), QPalette::Foreground)));
+//    painter.setBrush(QBrush(palette().base().color(),Qt::SolidPattern));
+    painter.setBrush(QBrush(palette().color(palette().currentColorGroup(), QPalette::Base), Qt::SolidPattern));
+    painter.drawRoundedRect(1, 1, width()-55, height()-2, coeff,coeff);
 
     for (int i=16; i < 26; i += 2)
         painter.drawLine(5,(i*coeff),width()-55,(i*coeff));
@@ -266,6 +268,7 @@ void TscoreWidgetSimple::setKeySignature(TkeySignature keySign) {
 
 void TscoreWidgetSimple::setScoreDisabled(bool disabled) {
     if (disabled) {
+//        setDisabled(true);
         m_sharpBut->setDisabled(true);
         m_flatBut->setDisabled(true);
         m_dblSharpBut->setDisabled(true);
@@ -276,6 +279,7 @@ void TscoreWidgetSimple::setScoreDisabled(bool disabled) {
             keySignView->setDisabled(true);
 		noteViews[0]->hideWorkNote();
     } else {
+//        setDisabled(false);
         m_sharpBut->setDisabled(false);
         m_flatBut->setDisabled(false);
         m_dblSharpBut->setDisabled(false);

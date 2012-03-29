@@ -1,10 +1,12 @@
 0.8 final	  
-	  - added support for MacOs
+    - added support for MacOs and issues according with
     - during exams double accids buttons in Note Name are hiden if no needed
     - GUI text entries improved
+    - adjustements and bugfixes for some rare question/answer combinations
     BUGS FIXES
     - fixed behaviour of the buttons in Note Name Widget
     - fixed segmentation fault after probing audio input
+    - fixed forcing accidentals on ear training level
 
 0.8 beta
     - !!! Added sound input and pitch detection !!!

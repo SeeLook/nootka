@@ -367,12 +367,20 @@ void TexamExecutor::askQuestion() {
       m_answRequire.accid = false;
       m_answRequire.octave = m_level.requireOctave;
       mW->sound->prepareAnswer();
-      if (gl->E->expertsAnswerEnable && gl->E->autoNextQuest)
-          QTimer::singleShot(WAIT_TIME, this, SLOT(startSniffing()));
+      if (gl->E->expertsAnswerEnable && gl->E->autoNextQuest) {
+          if (curQ.questionAs == TQAtype::e_asSound)
+              QTimer::singleShot(1600, this, SLOT(startSniffing())); // playing duration
+          else
+              QTimer::singleShot(WAIT_TIME, this, SLOT(startSniffing()));
           // Give a student some time to prepare for next question in expert mode
           // It avoids capture previous played sound as current answer
-      else
-        mW->sound->go();
+      }
+      else {
+          if (curQ.questionAs == TQAtype::e_asSound)
+              QTimer::singleShot(1600, this, SLOT(startSniffing())); // playing duration
+          else
+              startSniffing();
+      }
     }
     m_exam->addQuestion(curQ);
     mW->setStatusMessage(questText);
@@ -891,6 +899,8 @@ void TexamExecutor::expertAnswersSlot() {
      * It finishs with crash. To avoid this checkAnswer() has to be called
      * from outside - by timer event. */
   QTimer::singleShot(10, this, SLOT(checkAnswer()));
+//  if (m_exam->curQ().questionAs == TQAtype::e_asSound)
+//      mW->sound->stopPlaying();
 }
 
 void TexamExecutor::rightButtonSlot() {

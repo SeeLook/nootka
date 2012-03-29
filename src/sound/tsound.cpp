@@ -261,7 +261,3 @@ void Tsound::noteDetectedSlot(Tnote note) {
   emit detectedNote(note);
 }
 
-
-void Tsound::macSlot() {
-    sniffer->startListening();
-}
