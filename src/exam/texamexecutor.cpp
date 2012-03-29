@@ -305,7 +305,7 @@ void TexamExecutor::askQuestion() {
             questText += getTextHowAccid((Tnote::Eacidentals)curQ.qa_2.note.acidental);
             mW->score->forceAccidental((Tnote::Eacidentals)curQ.qa_2.note.acidental);
         }
-        if (curQ.questionAs == TQAtype::e_asFretPos) {
+        if (curQ.questionAs == TQAtype::e_asFretPos || curQ.questionAs == TQAtype::e_asSound) {
             if (m_level.forceAccids)
                 questText += getTextHowAccid((Tnote::Eacidentals)curQ.qa.note.acidental);
             mW->score->forceAccidental((Tnote::Eacidentals)curQ.qa.note.acidental);

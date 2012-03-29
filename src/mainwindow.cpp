@@ -45,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
     palette().highlightedText().color() );
 #endif
 #if defined(Q_OS_LINUX)
-    setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
+    setWindowIcon(QIcon(gl->path+"picts/nootka.svg")); //TODO change
 #else
     setWindowIcon(QIcon(gl->path+"picts/nootka.png"));
 #endif
