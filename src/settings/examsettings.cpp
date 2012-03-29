@@ -40,6 +40,7 @@ ExamSettings::ExamSettings(TexamParams* params, QColor* qColor, QColor* aColor, 
     repeatIncorChB->setChecked(m_params->repeatIncorrect);
     repeatIncorChB->setStatusTip(tr("A question with incorrect answer will be asked once again."));
     expertAnswChB = new QCheckBox(expertsAnswerTxt(), this);
+    expertAnswChB->setChecked(m_params->expertsAnswerEnable);
     lay->addWidget(expertAnswChB, 0, Qt::AlignCenter);
     lay->addStretch(1);
     

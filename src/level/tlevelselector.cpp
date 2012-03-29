@@ -116,7 +116,7 @@ QList<TexamLevel> getExampleLevels() {
     l.manualKey = false;
     l.loKey = 0;
     l.hiKey = 0;
-    l.forceAccids = true;
+    l.forceAccids = false;
     l.requireOctave = true;
     l.requireStyle = false;
     l.showStrNr = false;

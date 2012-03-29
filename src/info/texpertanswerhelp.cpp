@@ -29,7 +29,9 @@ TexpertAnswerHelp::TexpertAnswerHelp(bool& showHelp, QWidget* parent, bool showC
     m_show(showHelp),
     showInfoChB(0)
 {
-  setMaximumSize((parent->width()/3)*2, (parent->height()/2));
+    if (parent)
+//        setFixedSize(qMin((parent->width()/3)*2, 800), qMin((parent->height()/2), 600));
+        setFixedSize(600, 380);
   setWindowTitle(tr("Experts' answers"));
   
   QVBoxLayout *lay = new QVBoxLayout();
@@ -39,7 +41,7 @@ TexpertAnswerHelp::TexpertAnswerHelp(bool& showHelp, QWidget* parent, bool showC
     tr("When You have to play a note as an answer - the first detected sound will be taken. Be sure that Your input device captures exactly what You want.") + "<br><br>"
     , this);
   ed->setReadOnly(true);
-  ed->setFixedSize((parent->width()/3)*2, (parent->height()/2));
+//  ed->setFixedSize((parent->width()/3)*2, (parent->height()/2));
   ed->setAlignment(Qt::AlignCenter);
   lay->addWidget(ed);
   
