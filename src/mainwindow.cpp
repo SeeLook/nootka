@@ -49,11 +49,21 @@ MainWindow::MainWindow(QWidget *parent)
 #else
     setWindowIcon(QIcon(gl->path+"picts/nootka.png"));
 #endif
+    
     setMinimumSize(640, 480);
-#if defined(Q_OS_MAC)
-    setGeometry(50, 50, 960, 720);
+    
+#if defined(Q_OS_WIN32) // I hate mess in Win registry
+    QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
 #else
-    setGeometry(50, 50, 800, 600);
+    QSettings sett;
+#endif
+
+#if defined(Q_OS_MAC)
+    setGeometry(sett.value("General/geometry", QRect(50, 50, 960, 720)).toRect());
+//     setGeometry(50, 50, 960, 720);
+#else
+    setGeometry(sett.value("General/geometry", QRect(50, 50, 800, 600)).toRect());
+//     setGeometry(50, 50, 800, 600);
 #endif
 
     if (gl->isFirstRun) {
@@ -149,6 +159,12 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+#if defined(Q_OS_WIN32) // I hate mess in Win registry
+    QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
+#else
+    QSettings sett;
+#endif
+    sett.setValue("General/geometry", geometry());
     delete gl;
 }
 

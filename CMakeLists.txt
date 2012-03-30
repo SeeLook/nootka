@@ -234,14 +234,14 @@ if(APPLE)
   INSTALL( CODE"
       execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/mac/install.sh ${CMAKE_BINARY_DIR} ${QT_LIBRARY_DIR} ${FFTW3_LIBRARIES} )
   " )
-	INSTALL(FILES "${CMAKE_SOURCE_DIR}/picts/nootka.icns" DESTINATION "${INS_PREF}")
+	INSTALL(FILES "${CMAKE_SOURCE_DIR}/picts/nootka.icns" DESTINATION "${INS_PREF}") # icns for mac
 	INSTALL(FILES "${CMAKE_SOURCE_DIR}/picts/nootka-levels.icns" DESTINATION "${INS_PREF}")
 	INSTALL(FILES "${CMAKE_SOURCE_DIR}/picts/nootka-exam.icns" DESTINATION "${INS_PREF}")
 endif(APPLE)
 
 INSTALL(FILES gpl DESTINATION "${INS_PREF}")
 #INSTALL(DIRECTORY picts DESTINATION "${INS_PREF}")
-FILE(GLOB ICONS_PNG "${CMAKE_CURRENT_SOURCE_DIR}/picts/*.png")
+FILE(GLOB ICONS_PNG "${CMAKE_CURRENT_SOURCE_DIR}/picts/*.png") #png-s for all
 INSTALL(FILES ${ICONS_PNG} DESTINATION "${INS_PREF}/picts")
 INSTALL(DIRECTORY fonts DESTINATION "${INS_PREF}")
 FILE(GLOB langs "${CMAKE_CURRENT_SOURCE_DIR}/lang/*.qm")
@@ -249,9 +249,14 @@ INSTALL(FILES ${langs} DESTINATION "${INS_PREF}/lang")
 FILE(GLOB snds "${CMAKE_CURRENT_SOURCE_DIR}/sounds/classical-guitar.wav")
 INSTALL(FILES ${snds} DESTINATION "${INS_PREF}/sounds")
 
+if(NOT UNIX) # Windows icons
+  INSTALL(FILES picts/nootka-exam.ico picts/nootka.ico picts/nootka-icon.rc picts/nootka-levels.ico picts/nootka.rc DESTINATION "${INS_PREF}/picts") #ico for windows
+endif(NOT UNIX)
+
 # files related with Linux (mime, desktop entry, icons)
 if(UNIX AND NOT APPLE)
     INSTALL(FILES mime/nootka.desktop DESTINATION share/applications)
+    INSTALL(FILES picts/nootka.svg DESTINATION "${INS_PREF}/picts")
     INSTALL(FILES picts/nootka.svg picts/levelCreator.png picts/nootka-exam.png DESTINATION share/pixmaps)
     INSTALL( CODE"
       execute_process(COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/mime )
