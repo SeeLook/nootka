@@ -26,9 +26,9 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
 //    setWindowFlags(Qt::Dialog | Qt::Window);
 //    setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint);
 
-   if (parent) {
-       setMaximumSize(parent->width(), parent->height());
-   }
+//    if (parent) {
+//        setMaximumSize(parent->width(), parent->height());
+//    }
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *contLay = new QHBoxLayout;
     navList = new QListWidget(this);
@@ -41,8 +41,8 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
 
     QVBoxLayout *aLay = new QVBoxLayout;
     stackLayout = new QStackedLayout;
-    QScrollArea *scrollArea = new QScrollArea();
-    scrollArea->setLayout(stackLayout);
+//     QScrollArea *scrollArea = new QScrollArea();
+//     scrollArea->setLayout(stackLayout);
 //     QWidget *scrollWidget = new QWidget(this);
 //     scrollWidget->setLayout(stackLayout);
 //     if (parent)
@@ -51,12 +51,12 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
 //     scrollArea->setWidget(scrollWidget);
 //     scrollArea->setWidgetResizable(true);
 //     scrollArea->setFixedHeight(parent->height()-150);
-    stackLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
+//     stackLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
 //     scrollWidget->layout()->setSizeConstraint(QLayout::SetMinAndMaxSize);
     
-//     aLay->addLayout(stackLayout);
+    aLay->addLayout(stackLayout);
 //     aLay->addWidget(scrollWidget);
-    aLay->addWidget(scrollArea);
+//     aLay->addWidget(scrollArea);
 
     QGroupBox *hGr = new QGroupBox(this);
     QVBoxLayout *hLay = new QVBoxLayout;

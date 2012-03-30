@@ -436,6 +436,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
             if (m_answRequire.octave) {
                 Tnote nE = exN.showAsNatural();
                 Tnote nR = retN.showAsNatural();
+                qDebug() << QString::fromStdString(nE.getName()) << QString::fromStdString(nR.getName());
                 if (nE.note == nR.note && nE.acidental == nR.acidental) {
                     if (nE.octave != nR.octave)
                         curQ.setMistake(TQAunit::e_wrongOctave);
@@ -455,6 +456,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
                         else
                             curQ.setMistake(TQAunit::e_wrongNote);
                     } else
+//                         if (exN.note != retN.note || exN.acidental != retN.acidental)
                         if (exN.showAsNatural() != retN.showAsNatural())
                             curQ.setMistake(TQAunit::e_wrongNote);
                 }
