@@ -258,6 +258,7 @@ void TexamExecutor::askQuestion() {
         else
             mW->noteName->askQuestion(curQ.qa.note);
         questText += tr("Given note name show ");
+        m_answRequire.accid = true;
     }
 
     if (curQ.questionAs == TQAtype::e_asFretPos) {
@@ -432,7 +433,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
         if (curQ.qa.pos != mW->guitar->getfingerPos())
             curQ.setMistake(TQAunit::e_wrongPos);
     } else { // we check are the notes the same
-       qDebug() << QString::fromStdString(retN.getName()) << QString::fromStdString(exN.getName());
+//        qDebug() << QString::fromStdString(retN.getName()) << QString::fromStdString(exN.getName());
       if (retN.note) {
         Tnote nE = exN.showAsNatural();
         Tnote nR = retN.showAsNatural();
@@ -450,16 +451,12 @@ void TexamExecutor::checkAnswer(bool showResults) {
                 }
             }
             if (!curQ.wrongNote()) { // There is stil something to check
-//                nE.octave = 1;
-//                nR.octave = 1;
                 if (exN.note != retN.note || exN.acidental != retN.acidental) {// if they are equal it means that only octaves were wrong
 //                if (exN != retN) {
                     exN = exN.showAsNatural();
                     retN = retN.showAsNatural();
 //                    qDebug() << QString::fromStdString(retN.getName()) << QString::fromStdString(exN.getName());
                     if (m_answRequire.accid) {
-//                        exN.octave = 1;
-//                        retN.octave = 1;
                         if (exN.note == retN.note && exN.acidental == retN.acidental) {
                             curQ.setMistake(TQAunit::e_wrongAccid);
 //                            qDebug("wrong accid");
@@ -813,9 +810,9 @@ QString TexamExecutor::saveExamToFile() {
 void TexamExecutor::repeatSound() {
 	mW->sound->play(m_exam->curQ().qa.note);
   if (m_exam->curQ().answerAs == TQAtype::e_asSound)
-    QTimer::singleShot(1600, this, SLOT(startSniffing()));
+    QTimer::singleShot(2000, this, SLOT(startSniffing()));
   // Tsound in exam doesn't call go() after playing.
-  // When answer is asSound we do this. 1600ms is played sound duration
+  // When answer is asSound we do this. 2000ms is played sound duration
 }
 
 void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) {
