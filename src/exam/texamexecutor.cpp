@@ -192,7 +192,8 @@ void TexamExecutor::askQuestion() {
     m_incorrectRepeated = false;
     mW->setMessageBg(gl->EquestionColor);
     m_answRequire.octave = true;
-    m_answRequire.accid = true;
+//    m_answRequire.accid = true;
+    m_answRequire.accid = m_level.forceAccids;
     m_answRequire.key = false;
 
     TQAunit curQ = TQAunit(); // current question
@@ -306,9 +307,10 @@ void TexamExecutor::askQuestion() {
             mW->score->forceAccidental((Tnote::Eacidentals)curQ.qa_2.note.acidental);
         }
         if (curQ.questionAs == TQAtype::e_asFretPos || curQ.questionAs == TQAtype::e_asSound) {
-            if (m_level.forceAccids)
+            if (m_level.forceAccids) {
                 questText += getTextHowAccid((Tnote::Eacidentals)curQ.qa.note.acidental);
-            mW->score->forceAccidental((Tnote::Eacidentals)curQ.qa.note.acidental);
+                mW->score->forceAccidental((Tnote::Eacidentals)curQ.qa.note.acidental);
+            }
         }
         mW->score->unLockScore();
         mW->score->setNoteViewBg(0, gl->EanswerColor);
@@ -432,34 +434,47 @@ void TexamExecutor::checkAnswer(bool showResults) {
     } else { // we check are the notes the same
 //       qDebug() << QString::fromStdString(retN.getName()) << QString::fromStdString(exN.getName());
       if (retN.note) {
+        Tnote nE = exN.showAsNatural();
+        Tnote nR = retN.showAsNatural();
         if (exN != retN) {
             if (m_answRequire.octave) {
-                Tnote nE = exN.showAsNatural();
-                Tnote nR = retN.showAsNatural();
-                qDebug() << QString::fromStdString(nE.getName()) << QString::fromStdString(nR.getName());
+//                qDebug() << "1." << QString::fromStdString(nR.getName()) << QString::fromStdString(nE.getName());
                 if (nE.note == nR.note && nE.acidental == nR.acidental) {
-                    if (nE.octave != nR.octave)
+                    if (nE.octave != nR.octave) {
                         curQ.setMistake(TQAunit::e_wrongOctave);
-                } else
-                    curQ.setMistake(TQAunit::e_wrongNote);
-            }
-            if (!curQ.wrongNote()) { // There is stil something to check
-//                 exN.octave = 1;
-//                 retN.octave = 1;//octaves are checed so we are reseting them
-                if (exN != retN) {// if they are equal it means that only octaves were wrong
-                    if (m_answRequire.accid) {
-                        exN = exN.showAsNatural();
-                        retN = retN.showAsNatural();
-//                         if(exN.showAsNatural() == retN.showAsNatural())
-                        if (exN.note == retN.note && exN.acidental == retN.acidental)
-                            curQ.setMistake(TQAunit::e_wrongAccid);
-                        else
-                            curQ.setMistake(TQAunit::e_wrongNote);
-                    } else
-//                         if (exN.note != retN.note || exN.acidental != retN.acidental)
-                        if (exN.showAsNatural() != retN.showAsNatural())
-                            curQ.setMistake(TQAunit::e_wrongNote);
+//                        qDebug("wrong octave");
                 }
+            } else {
+                    curQ.setMistake(TQAunit::e_wrongNote);
+//                    qDebug("1. wrong note");
+                }
+            if (!curQ.wrongNote()) { // There is stil something to check
+//                nE.octave = 1;
+//                nR.octave = 1;
+                if (exN.note != retN.note || exN.acidental != retN.acidental) {// if they are equal it means that only octaves were wrong
+//                if (exN != retN) {
+                    exN = exN.showAsNatural();
+                    retN = retN.showAsNatural();
+//                    qDebug() << QString::fromStdString(retN.getName()) << QString::fromStdString(exN.getName());
+                    if (m_answRequire.accid) {
+//                        exN.octave = 1;
+//                        retN.octave = 1;
+                        if (exN.note == retN.note && exN.acidental == retN.acidental) {
+                            curQ.setMistake(TQAunit::e_wrongAccid);
+//                            qDebug("wrong accid");
+                        }
+                        else {
+                            curQ.setMistake(TQAunit::e_wrongNote);
+//                            qDebug("2. wrong note");
+                        }
+                    } else {
+                         if (exN.note != retN.note || exN.acidental != retN.acidental) {
+                            curQ.setMistake(TQAunit::e_wrongNote);
+//                            qDebug("3. wrong note");
+                         }
+                    }
+                }
+            }
             }
         }
       } else
