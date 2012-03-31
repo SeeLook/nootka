@@ -371,7 +371,7 @@ void TexamExecutor::askQuestion() {
       mW->sound->prepareAnswer();
       if (gl->E->expertsAnswerEnable && gl->E->autoNextQuest) {
           if (curQ.questionAs == TQAtype::e_asSound)
-              QTimer::singleShot(1600, this, SLOT(startSniffing())); // playing duration
+              QTimer::singleShot(2000, this, SLOT(startSniffing())); // playing duration
           else
               QTimer::singleShot(WAIT_TIME, this, SLOT(startSniffing()));
           // Give a student some time to prepare for next question in expert mode
@@ -432,7 +432,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
         if (curQ.qa.pos != mW->guitar->getfingerPos())
             curQ.setMistake(TQAunit::e_wrongPos);
     } else { // we check are the notes the same
-//       qDebug() << QString::fromStdString(retN.getName()) << QString::fromStdString(exN.getName());
+       qDebug() << QString::fromStdString(retN.getName()) << QString::fromStdString(exN.getName());
       if (retN.note) {
         Tnote nE = exN.showAsNatural();
         Tnote nR = retN.showAsNatural();
@@ -448,6 +448,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
                     curQ.setMistake(TQAunit::e_wrongNote);
 //                    qDebug("1. wrong note");
                 }
+            }
             if (!curQ.wrongNote()) { // There is stil something to check
 //                nE.octave = 1;
 //                nR.octave = 1;
@@ -474,7 +475,6 @@ void TexamExecutor::checkAnswer(bool showResults) {
                          }
                     }
                 }
-            }
             }
         }
       } else
