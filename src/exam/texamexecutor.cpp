@@ -344,6 +344,8 @@ void TexamExecutor::askQuestion() {
             mW->noteName->setNoteNamesOnButt(tmpStyle);
             gl->NnameStyleInNoteName = tmpStyle;
         }
+        if (curQ.questionAs == TQAtype::e_asNote)
+            m_answRequire.accid = true;
 
         if (curQ.questionAs == TQAtype::e_asFretPos) {
             if (m_level.forceAccids) {
@@ -372,7 +374,7 @@ void TexamExecutor::askQuestion() {
       mW->sound->prepareAnswer();
       if (gl->E->expertsAnswerEnable && gl->E->autoNextQuest) {
           if (curQ.questionAs == TQAtype::e_asSound)
-              QTimer::singleShot(2000, this, SLOT(startSniffing())); // playing duration
+              QTimer::singleShot(1500, this, SLOT(startSniffing())); // playing duration
           else
               QTimer::singleShot(WAIT_TIME, this, SLOT(startSniffing()));
           // Give a student some time to prepare for next question in expert mode
@@ -380,7 +382,7 @@ void TexamExecutor::askQuestion() {
       }
       else {
           if (curQ.questionAs == TQAtype::e_asSound)
-              QTimer::singleShot(1600, this, SLOT(startSniffing())); // playing duration
+              QTimer::singleShot(1500, this, SLOT(startSniffing())); // playing duration
           else
               startSniffing();
       }
@@ -810,7 +812,7 @@ QString TexamExecutor::saveExamToFile() {
 void TexamExecutor::repeatSound() {
 	mW->sound->play(m_exam->curQ().qa.note);
   if (m_exam->curQ().answerAs == TQAtype::e_asSound)
-    QTimer::singleShot(2000, this, SLOT(startSniffing()));
+    QTimer::singleShot(1500, this, SLOT(startSniffing()));
   // Tsound in exam doesn't call go() after playing.
   // When answer is asSound we do this. 2000ms is played sound duration
 }
@@ -904,6 +906,7 @@ void TexamExecutor::expertAnswersStateChanged(bool enable) {
 }
 
 void TexamExecutor::startSniffing() {
+    mW->sound->stopPlaying();
     mW->sound->go();
 }
 
