@@ -40,8 +40,7 @@ levelSettings::levelSettings(QWidget *parent) :
     mainLay->addLayout(butLay);
     mainLay->addStretch(1);
     
-    QLabel *moreLab = new QLabel(tr("Get more levels <a href=\"%1\">from Nootka home page</a>").
-        arg("http://www.nootka.sf.net/index.php?C=down#levels"), this);
+    QLabel *moreLab = new QLabel(moreLevelLinkTxt(), this);
     moreLab->setOpenExternalLinks(true);
     mainLay->addWidget(moreLab, 0, Qt::AlignCenter);
     mainLay->addStretch(1);

@@ -19,6 +19,7 @@
 
 #include "tstartexamdlg.h"
 #include "tlevelselector.h"
+#include "levelsettings.h"
 #include <QtGui>
 
 
@@ -42,6 +43,9 @@ TstartExamDlg::TstartExamDlg(QString& nick, QWidget* parent) :
     levLay->addLayout(nameLay);
     levelsView = new TlevelSelector(this);
     levLay->addWidget(levelsView);
+    QLabel *moreLab = new QLabel(levelSettings::moreLevelLinkTxt(), this);
+    moreLab->setOpenExternalLinks(true);
+    levLay->addWidget(moreLab, 0, Qt::AlignCenter);
 //    createBut = new QPushButton(tr("create new level"),this);
 //    createBut->setStatusTip(tr("Dialog window for creating new level<br>will be opened."));
 //    levLay->addWidget(createBut, 1, Qt::AlignCenter);
