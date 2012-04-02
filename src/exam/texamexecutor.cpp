@@ -34,6 +34,7 @@
 #include <QDebug>
 
 #define WAIT_TIME (600) //[ms]
+#define SOUND_DURATION (1500) //[ms]
 
 extern Tglobals *gl;
 
@@ -192,7 +193,6 @@ void TexamExecutor::askQuestion() {
     m_incorrectRepeated = false;
     mW->setMessageBg(gl->EquestionColor);
     m_answRequire.octave = true;
-//    m_answRequire.accid = true;
     m_answRequire.accid = m_level.forceAccids;
     m_answRequire.key = false;
 
@@ -258,21 +258,21 @@ void TexamExecutor::askQuestion() {
         else
             mW->noteName->askQuestion(curQ.qa.note);
         questText += tr("Given note name show ");
-        m_answRequire.accid = true;
+//         m_answRequire.accid = true;
     }
 
     if (curQ.questionAs == TQAtype::e_asFretPos) {
         mW->guitar->askQuestion(curQ.qa.pos);
         questText += tr("Given position show ");
-        if (!m_level.forceAccids)
-            m_answRequire.accid = false;
+//         if (!m_level.forceAccids)
+//             m_answRequire.accid = false;
     }
 
     if (curQ.questionAs == TQAtype::e_asSound) {
         mW->sound->play(curQ.qa.note);
         questText += tr("Played sound show ");
-        if (!m_level.forceAccids)
-            m_answRequire.accid = false;
+//         if (!m_level.forceAccids)
+//             m_answRequire.accid = false;
     }
 
 // PREPARING ANSWERS
@@ -306,6 +306,7 @@ void TexamExecutor::askQuestion() {
             }
             questText += getTextHowAccid((Tnote::Eacidentals)curQ.qa_2.note.acidental);
             mW->score->forceAccidental((Tnote::Eacidentals)curQ.qa_2.note.acidental);
+//             m_answRequire.accid = true;
         }
         if (curQ.questionAs == TQAtype::e_asFretPos || curQ.questionAs == TQAtype::e_asSound) {
             if (m_level.forceAccids) {
@@ -313,6 +314,8 @@ void TexamExecutor::askQuestion() {
                 mW->score->forceAccidental((Tnote::Eacidentals)curQ.qa.note.acidental);
             }
         }
+        if (curQ.questionAs == TQAtype::e_asName)
+            m_answRequire.accid = true;
         mW->score->unLockScore();
         mW->score->setNoteViewBg(0, gl->EanswerColor);
     }
@@ -364,6 +367,7 @@ void TexamExecutor::askQuestion() {
 
         mW->guitar->setGuitarDisabled(false);
         mW->guitar->prepareAnswer();
+        m_answRequire.accid = false;
     }
     
     if (curQ.answerAs == TQAtype::e_asSound) {
@@ -373,16 +377,22 @@ void TexamExecutor::askQuestion() {
       m_answRequire.octave = m_level.requireOctave;
       mW->sound->prepareAnswer();
       if (gl->E->expertsAnswerEnable && gl->E->autoNextQuest) {
-          if (curQ.questionAs == TQAtype::e_asSound)
-              QTimer::singleShot(1500, this, SLOT(startSniffing())); // playing duration
+          if (curQ.questionAs == TQAtype::e_asSound) {
+              if (m_soundTimer->isActive()) // sound is playing and timer waits to stop it
+                  m_soundTimer->stop(); // cancel a timer 
+              m_soundTimer->start(SOUND_DURATION); // and call startSniffing() again
+          }
           else
               QTimer::singleShot(WAIT_TIME, this, SLOT(startSniffing()));
           // Give a student some time to prepare for next question in expert mode
           // It avoids capture previous played sound as current answer
       }
       else {
-          if (curQ.questionAs == TQAtype::e_asSound)
-              QTimer::singleShot(1500, this, SLOT(startSniffing())); // playing duration
+          if (curQ.questionAs == TQAtype::e_asSound) {
+              if (m_soundTimer->isActive()) 
+                  m_soundTimer->stop();
+              m_soundTimer->start(SOUND_DURATION);
+          }
           else
               startSniffing();
       }
@@ -573,7 +583,8 @@ void TexamExecutor::repeatQuestion() {
     if (curQ.answerAs == TQAtype::e_asFretPos)
         mW->guitar->setGuitarDisabled(false);
     if (curQ.answerAs == TQAtype::e_asSound)
-        mW->sound->go();
+        startSniffing();
+//         mW->sound->go();
 
 		m_exam->addQuestion(curQ);
 
@@ -651,6 +662,8 @@ void TexamExecutor::prepareToExam() {
   // clearing all views/widgets
     clearWidgets();
     mW->guitar->createRangeBox(m_level.loFret, m_level.hiFret);
+    m_soundTimer = new QTimer(this);
+    connect(m_soundTimer, SIGNAL(timeout()), this, SLOT(startSniffing()));
 
     if(gl->hintsEnabled) {
         TfingerPos pos(1, 0);
@@ -732,6 +745,10 @@ void TexamExecutor::stopExamSlot() {
         return;
     }
     mW->examResults->stopExam();
+    if (m_soundTimer->isActive())
+        m_soundTimer->stop();
+    mW->sound->stopPlaying();
+    mW->sound->wait();
     if (m_exam->fileName() == "" && m_exam->count())
         m_exam->setFileName(saveExamToFile());
     if (m_exam->fileName() != "") {
@@ -811,10 +828,14 @@ QString TexamExecutor::saveExamToFile() {
 
 void TexamExecutor::repeatSound() {
 	mW->sound->play(m_exam->curQ().qa.note);
-  if (m_exam->curQ().answerAs == TQAtype::e_asSound)
-    QTimer::singleShot(1500, this, SLOT(startSniffing()));
+  if (m_exam->curQ().answerAs == TQAtype::e_asSound) {
+      if (m_soundTimer->isActive())
+        m_soundTimer->stop();
+      m_soundTimer->start(1500);
+//     QTimer::singleShot(1500, this, SLOT(startSniffing()));
   // Tsound in exam doesn't call go() after playing.
   // When answer is asSound we do this. 2000ms is played sound duration
+  }
 }
 
 void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) {
@@ -906,6 +927,8 @@ void TexamExecutor::expertAnswersStateChanged(bool enable) {
 }
 
 void TexamExecutor::startSniffing() {
+    if (m_soundTimer->isActive())
+      m_soundTimer->stop();
     mW->sound->stopPlaying();
     mW->sound->go();
 }
@@ -916,8 +939,6 @@ void TexamExecutor::expertAnswersSlot() {
      * It finishs with crash. To avoid this checkAnswer() has to be called
      * from outside - by timer event. */
   QTimer::singleShot(10, this, SLOT(checkAnswer()));
-//  if (m_exam->curQ().questionAs == TQAtype::e_asSound)
-//      mW->sound->stopPlaying();
 }
 
 void TexamExecutor::rightButtonSlot() {

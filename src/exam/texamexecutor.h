@@ -25,6 +25,7 @@
 #include "texamlevel.h"
 #include <QList>
 
+class QTimer;
 class TexecutorSupply;
 class Texam;
 class MainWindow;
@@ -105,24 +106,27 @@ private:
 
     TexecutorSupply *m_supp; 
     Texam *m_exam;
-      /** main instance of TexamLevel, others are poiters or references to it */
+          /** main instance of TexamLevel, others are poiters or references to it */
     TexamLevel m_level;
     QList<TQAunit::TQAgroup> m_questList;
+          /** Invokes startSniffing() and stopPlaying() after delay
+           * to avoid feedback betwen played question and listened answer. */
+    QTimer *m_soundTimer;
     Tnote::EnameStyle m_prevStyle;
     TglStore m_glStore;
     TanswerRequire m_answRequire;
     bool m_shouldBeTerminated, m_isAnswered, m_incorrectRepeated;
     QGraphicsTextItem *m_messageItem;
-      /** If it is sets to TRUE locks invokeing event of right mouse button.
-      * It has to be set before singleShot() method caled on askQuestion() 
-      * to avoid user click button and call askQuestion() again during time of delay.*/
-bool m_lockRightButt;
-    /** It becames true when user wants close Nootka
-     * during an exam.*/
-bool m_goingClosed;
-    /** stores note if question and answeer are Note Name to restore it if question is repeated
-     It is to restorrre buttons state in NoteName widget whitch are uncheced by disableWidget() */
-Tnote m_prevNoteIfName; 
+          /** If it is sets to TRUE locks invokeing event of right mouse button.
+          * It has to be set before singleShot() method caled on askQuestion() 
+          * to avoid user click button and call askQuestion() again during time of delay.*/
+    bool m_lockRightButt;
+          /** It becames true when user wants close Nootka
+          * during an exam.*/
+    bool m_goingClosed;
+          /** stores note if question and answeer are Note Name to restore it if question is repeated
+          It is to restorrre buttons state in NoteName widget whitch are uncheced by disableWidget() */
+    Tnote m_prevNoteIfName; 
 
 };
 
