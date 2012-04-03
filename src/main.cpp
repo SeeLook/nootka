@@ -27,14 +27,20 @@ int main(int argc, char *argv[])
 #if defined(Q_OS_WIN32)
     QApplication::setStyle("plastique");  
 #endif
-		
+
+#if defined (Q_OS_MAC)
+  #include "qappmac.h"
+  QAppMac a(argc, argv);
+#else
   QApplication a(argc, argv);
-	gl = new Tglobals();
-	gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
-	    
-	QString ll = gl->lang;
-	if (ll == "")
-		ll = QLocale::system().name();
+#endif  
+  
+  gl = new Tglobals();
+  gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
+      
+  QString ll = gl->lang;
+  if (ll == "")
+    ll = QLocale::system().name();
     QTranslator qtTranslator;
     qtTranslator.load("qt_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     a.installTranslator(&qtTranslator);
@@ -52,8 +58,9 @@ int main(int argc, char *argv[])
         QMessageBox::critical(0, "", QCoreApplication::translate("main", "<center>Can not load a font.<br>Try to install nootka.otf manually.</center>"));
         return 111;
     }
-
-
+#if defined (Q_OS_MAC)
+    a.connect(a, SIGNAL(fileToOpen(QString)), w, SLOT(openFile(QString)));
+#endif
     w.show();
     if (argc > 1)
         w.openFile(QString::fromLocal8Bit(argv[argc-1]));

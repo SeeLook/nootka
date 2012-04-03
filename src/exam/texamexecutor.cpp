@@ -192,7 +192,7 @@ void TexamExecutor::askQuestion() {
     m_isAnswered = false;
     m_incorrectRepeated = false;
     mW->setMessageBg(gl->EquestionColor);
-    m_answRequire.octave = true;
+    m_answRequire.octave = m_level.requireOctave;
     m_answRequire.accid = m_level.forceAccids;
     m_answRequire.key = false;
 
@@ -250,6 +250,10 @@ void TexamExecutor::askQuestion() {
             // when answer is also asNote we determine key in preparing answer part
             mW->score->askQuestion(curQ.qa.note, curQ.key, strNr);
         else mW->score->askQuestion(curQ.qa.note, strNr);
+        if (curQ.answerAs  == TQAtype::e_asName)
+            m_answRequire.accid = true; // checking octave determined by level
+        if (curQ.answerAs  == TQAtype::e_asSound)
+            m_answRequire.accid = false; // checking octave determined by level
     }
 
     if (curQ.questionAs == TQAtype::e_asName) {
@@ -258,21 +262,26 @@ void TexamExecutor::askQuestion() {
         else
             mW->noteName->askQuestion(curQ.qa.note);
         questText += tr("Given note name show ");
-//         m_answRequire.accid = true;
+        if (curQ.answerAs  == TQAtype::e_asSound)
+            m_answRequire.accid = false; // checking octave determined by level
     }
 
     if (curQ.questionAs == TQAtype::e_asFretPos) {
         mW->guitar->askQuestion(curQ.qa.pos);
         questText += tr("Given position show ");
-//         if (!m_level.forceAccids)
-//             m_answRequire.accid = false;
+        if (curQ.answerAs  == TQAtype::e_asNote)
+            m_answRequire.octave = true; // checking accid determined by level
+        if (curQ.answerAs  == TQAtype::e_asSound) {
+            m_answRequire.accid = false;
+            m_answRequire.octave = true;
+        }
     }
 
     if (curQ.questionAs == TQAtype::e_asSound) {
         mW->sound->play(curQ.qa.note);
         questText += tr("Played sound show ");
-//         if (!m_level.forceAccids)
-//             m_answRequire.accid = false;
+        if (curQ.answerAs  == TQAtype::e_asSound)
+            m_answRequire.accid = false; // checking octave determined by level
     }
 
 // PREPARING ANSWERS
@@ -306,7 +315,8 @@ void TexamExecutor::askQuestion() {
             }
             questText += getTextHowAccid((Tnote::Eacidentals)curQ.qa_2.note.acidental);
             mW->score->forceAccidental((Tnote::Eacidentals)curQ.qa_2.note.acidental);
-//             m_answRequire.accid = true;
+            m_answRequire.accid = true;
+            m_answRequire.octave = true;
         }
         if (curQ.questionAs == TQAtype::e_asFretPos || curQ.questionAs == TQAtype::e_asSound) {
             if (m_level.forceAccids) {
@@ -314,8 +324,10 @@ void TexamExecutor::askQuestion() {
                 mW->score->forceAccidental((Tnote::Eacidentals)curQ.qa.note.acidental);
             }
         }
-        if (curQ.questionAs == TQAtype::e_asName)
+        if (curQ.questionAs == TQAtype::e_asName) {
             m_answRequire.accid = true;
+            m_answRequire.octave = true;
+        }
         mW->score->unLockScore();
         mW->score->setNoteViewBg(0, gl->EanswerColor);
     }
@@ -335,6 +347,7 @@ void TexamExecutor::askQuestion() {
                         getTextHowAccid((Tnote::Eacidentals)curQ.qa_2.note.acidental);
             mW->noteName->setNoteNamesOnButt(tmpStyle);
             gl->NnameStyleInNoteName = tmpStyle;
+            m_answRequire.accid = true;
         }
         if (!m_level.requireOctave) m_answRequire.octave = false;
            /** During an exam Note name style is changed in two cases:
@@ -347,9 +360,6 @@ void TexamExecutor::askQuestion() {
             mW->noteName->setNoteNamesOnButt(tmpStyle);
             gl->NnameStyleInNoteName = tmpStyle;
         }
-        if (curQ.questionAs == TQAtype::e_asNote)
-            m_answRequire.accid = true;
-
         if (curQ.questionAs == TQAtype::e_asFretPos) {
             if (m_level.forceAccids) {
                 questText += getTextHowAccid((Tnote::Eacidentals)curQ.qa.note.acidental);
@@ -367,14 +377,12 @@ void TexamExecutor::askQuestion() {
 
         mW->guitar->setGuitarDisabled(false);
         mW->guitar->prepareAnswer();
-        m_answRequire.accid = false;
+        m_answRequire.accid = false;  // Ignored in checking, positions are comparing
     }
     
     if (curQ.answerAs == TQAtype::e_asSound) {
       questText = QString("<b>%1. </b>").arg(m_exam->count() + 1) +
       tr("Play or sing given note");
-      m_answRequire.accid = false;
-      m_answRequire.octave = m_level.requireOctave;
       mW->sound->prepareAnswer();
       if (gl->E->expertsAnswerEnable && gl->E->autoNextQuest) {
           if (curQ.questionAs == TQAtype::e_asSound) {
@@ -397,6 +405,7 @@ void TexamExecutor::askQuestion() {
               startSniffing();
       }
     }
+    
     m_exam->addQuestion(curQ);
     mW->setStatusMessage(questText);
 
@@ -441,7 +450,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
     if (curQ.answerAs == TQAtype::e_asSound) {
       retN = mW->sound->note();
     }
-    if (curQ.answerAs == TQAtype::e_asFretPos) {
+    if (curQ.answerAs == TQAtype::e_asFretPos) { // Comparing positions
         if (curQ.qa.pos != mW->guitar->getfingerPos())
             curQ.setMistake(TQAunit::e_wrongPos);
     } else { // we check are the notes the same
