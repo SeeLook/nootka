@@ -18,7 +18,7 @@
 
 #include "qappmac.h"
 
-//
+
 QAppMac::QAppMac( int & argc, char **argv ) 
 	: QApplication(argc, argv)
 {
@@ -32,12 +32,10 @@ QAppMac::QAppMac( int & argc, char **argv )
 
 bool QAppMac::event(QEvent *event)
 {
-        switch (event->type()) {
-        case QEvent::FileOpen:
-            emit fileToOpen(static_cast<QFileOpenEvent *>(
-                     event)->file());        
-            return true;
-        default:
-            return QApplication::event(event);
-    }
+  if (event->type() == QEvent::FileOpen) {
+      emit fileToOpen(static_cast<QFileOpenEvent *>(event)->file());
+      return true;
+  } else
+      return QApplication::event(event);
 }
+

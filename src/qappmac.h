@@ -23,7 +23,8 @@
 #include <QtGui>
 
 
-
+/** This class overrides standard QApplication to handle opening file.
+ * MacOs doesn't support invokeing nootka with commandline args. */
 class QAppMac : public QApplication
 {
 	Q_OBJECT
@@ -35,7 +36,7 @@ public signals:
 	void fileToOpen(QString fileName);
 	
 protected:
-        bool event(QEvent *);
+  bool event(QEvent *);
 
 };
 #endif 

@@ -51,9 +51,9 @@ public:
         * of others widgets. */
     int getFontSize() {return m_statFontSize; }
     QString statusMessage() { return m_statusText; }
-    void openFile(QString runArg);
 
 public slots:
+    void openFile(QString runArg); // opens *.nel or *.noo file
     void createSettingsDialog();
     void openLevelCreator(QString levelFile = "");
     void startExamSlot();
