@@ -85,9 +85,9 @@ SET( NOOTKA_SRCS
   sound/tartini/filters/IIR_Filter.cpp
   )
 
-if(APPLE)
-  list(APPEND NOOTKA_SRCS qappmac.cpp)
-endif(APPLE)
+#if(APPLE)
+#  list(APPEND NOOTKA_SRCS qappmac.cpp)
+#endif(APPLE)
 
 #SET( NOOTKA_HEADERS
 #    tfingerpos.h
@@ -146,9 +146,9 @@ SET( NOOTKA_MOC_SRCS
   )
 
 
-if(APPLE)
-  list(APPEND NOOTKA_MOC_SRCS qappmac.h)
-endif(APPLE)
+#if(APPLE)
+#  list(APPEND NOOTKA_MOC_SRCS qappmac.h)
+#endif(APPLE)
 
 QT4_WRAP_CPP( NOOTKA_MOCS ${NOOTKA_MOC_SRCS} )
 

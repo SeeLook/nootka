@@ -82,6 +82,7 @@ protected:
     void resizeEvent(QResizeEvent *);
     bool event(QEvent *event);
     void closeEvent(QCloseEvent *event);
+    virtual bool eventFilter(QObject* obj, QEvent* event);
         
 protected slots:
     void restoreMessage();
