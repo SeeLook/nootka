@@ -20,23 +20,28 @@
 #define QAPPMAC_H
 
 
-#include <QtGui>
+#include <QApplication>
+#include <QFileOpenEvent>
+#include <QEvent>
+//#include <QtGui>
 
 
 /** This class overrides standard QApplication to handle opening file.
  * MacOs doesn't support invokeing nootka with commandline args. */
 class QAppMac : public QApplication
 {
-	Q_OBJECT
+
+    Q_OBJECT
+
 public:
-	QAppMac(int & argc, char **argv);
+    QAppMac(int argc, char *argv[]) : QApplication(argc, argv){}
 // 	virtual ~QAppMac();
 	
-public signals:
+signals:
 	void fileToOpen(QString fileName);
 	
 protected:
-  bool event(QEvent *);
+  bool event(QEvent *event);
 
 };
 #endif 

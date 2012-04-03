@@ -30,6 +30,7 @@
 #include "texpertanswerhelp.h"
 #include "texamparams.h"
 #include "texecutorsupply.h"
+#include "taudioout.h"
 #include <QtGui>
 #include <QDebug>
 
@@ -387,7 +388,8 @@ void TexamExecutor::askQuestion() {
           if (curQ.questionAs == TQAtype::e_asSound) {
               if (m_soundTimer->isActive()) // sound is playing and timer waits to stop it
                   m_soundTimer->stop(); // cancel a timer 
-              m_soundTimer->start(SOUND_DURATION); // and call startSniffing() again
+//              m_soundTimer->start(SOUND_DURATION); // and call startSniffing() again
+              connect(mW->sound->player, SIGNAL(noteFinished()), this, SLOT(startSniffing()));
           }
           else
               QTimer::singleShot(WAIT_TIME, this, SLOT(startSniffing()));
@@ -398,7 +400,8 @@ void TexamExecutor::askQuestion() {
           if (curQ.questionAs == TQAtype::e_asSound) {
               if (m_soundTimer->isActive()) 
                   m_soundTimer->stop();
-              m_soundTimer->start(SOUND_DURATION);
+//              m_soundTimer->start(SOUND_DURATION);
+              connect(mW->sound->player, SIGNAL(noteFinished()), this, SLOT(startSniffing()));
           }
           else
               startSniffing();
@@ -839,7 +842,8 @@ void TexamExecutor::repeatSound() {
   if (m_exam->curQ().answerAs == TQAtype::e_asSound) {
       if (m_soundTimer->isActive())
         m_soundTimer->stop();
-      m_soundTimer->start(1500);
+//      m_soundTimer->start(1500);
+      connect(mW->sound->player, SIGNAL(noteFinished()), this, SLOT(startSniffing()));
 //     QTimer::singleShot(1500, this, SLOT(startSniffing()));
   // Tsound in exam doesn't call go() after playing.
   // When answer is asSound we do this. 2000ms is played sound duration
@@ -938,6 +942,7 @@ void TexamExecutor::startSniffing() {
     if (m_soundTimer->isActive())
       m_soundTimer->stop();
     mW->sound->stopPlaying();
+    disconnect(mW->sound->player, SIGNAL(noteFinished()), this, SLOT(startSniffing()));
     mW->sound->go();
 }
 

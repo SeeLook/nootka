@@ -241,6 +241,7 @@ void MainWindow::clearAfterExam() {
     m_curBG = -1;
     m_prevBg = -1;
     setMessageBg(-1);
+    sound->go();
 }
 
 //##########################################################################################
@@ -426,4 +427,19 @@ void MainWindow::closeEvent(QCloseEvent *event) {
         else
             event->ignore();
     }
+}
+
+
+bool MainWindow::eventFilter(QObject* obj, QEvent* event) {
+    if (event->type() == QEvent::FileOpen)
+        {
+            QFileOpenEvent* fileEvent = static_cast<QFileOpenEvent*>(event);
+            openFile(fileEvent->file());
+            return true;
+        }
+        else
+        {
+            // standard event processing
+            return QObject::eventFilter(obj, event);
+        }
 }
