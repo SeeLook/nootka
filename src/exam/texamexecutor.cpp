@@ -349,7 +349,6 @@ void TexamExecutor::askQuestion() {
             gl->NnameStyleInNoteName = tmpStyle;
             m_answRequire.accid = true;
         }
-        if (!m_level.requireOctave) m_answRequire.octave = false;
            /** During an exam Note name style is changed in two cases:
             * 1. If level.requireStyle = true every question or answer with Note Name
             *       switch it (letters/solfege)
