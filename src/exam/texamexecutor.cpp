@@ -384,28 +384,29 @@ void TexamExecutor::askQuestion() {
       questText = QString("<b>%1. </b>").arg(m_exam->count() + 1) +
       tr("Play or sing given note");
       mW->sound->prepareAnswer();
-      if (gl->E->expertsAnswerEnable && gl->E->autoNextQuest) {
+//      if (gl->E->expertsAnswerEnable && gl->E->autoNextQuest) {
           if (curQ.questionAs == TQAtype::e_asSound) {
-              if (m_soundTimer->isActive()) // sound is playing and timer waits to stop it
-                  m_soundTimer->stop(); // cancel a timer 
+//              if (m_soundTimer->isActive()) // sound is playing and timer waits to stop it
+//                  m_soundTimer->stop(); // cancel a timer
 //              m_soundTimer->start(SOUND_DURATION); // and call startSniffing() again
-              connect(mW->sound->player, SIGNAL(noteFinished()), this, SLOT(startSniffing()));
+              connect(mW->sound->player, SIGNAL(noteFinished()), this, SLOT(sniffAfterPlaying()));
+              // sniffing after finished sound
           }
           else
               QTimer::singleShot(WAIT_TIME, this, SLOT(startSniffing()));
           // Give a student some time to prepare for next question in expert mode
           // It avoids capture previous played sound as current answer
-      }
-      else {
-          if (curQ.questionAs == TQAtype::e_asSound) {
-              if (m_soundTimer->isActive()) 
-                  m_soundTimer->stop();
+//      }
+//      else {
+//          if (curQ.questionAs == TQAtype::e_asSound) {
+//              if (m_soundTimer->isActive())
+//                  m_soundTimer->stop();
 //              m_soundTimer->start(SOUND_DURATION);
-              connect(mW->sound->player, SIGNAL(noteFinished()), this, SLOT(startSniffing()));
-          }
-          else
-              startSniffing();
-      }
+//              connect(mW->sound->player, SIGNAL(noteFinished()), this, SLOT(startSniffing()));
+//          }
+//          else
+//              startSniffing();
+//      }
     }
     
     m_exam->addQuestion(curQ);
@@ -429,6 +430,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
     if (!gl->E->autoNextQuest)
         mW->startExamAct->setDisabled(false);
     m_isAnswered = true;
+    disconnect(mW->sound->player, SIGNAL(noteFinished()), this, SLOT(sniffAfterPlaying()));
 // Let's check
     Tnote exN, retN; // example note & returned note
     // First we determine what have to be checked
@@ -466,32 +468,26 @@ void TexamExecutor::checkAnswer(bool showResults) {
                 if (nE.note == nR.note && nE.acidental == nR.acidental) {
                     if (nE.octave != nR.octave) {
                         curQ.setMistake(TQAunit::e_wrongOctave);
-//                        qDebug("wrong octave");
                 }
             } else {
                     curQ.setMistake(TQAunit::e_wrongNote);
-//                    qDebug("1. wrong note");
                 }
             }
             if (!curQ.wrongNote()) { // There is stil something to check
                 if (exN.note != retN.note || exN.acidental != retN.acidental) {// if they are equal it means that only octaves were wrong
-//                if (exN != retN) {
                     exN = exN.showAsNatural();
                     retN = retN.showAsNatural();
 //                    qDebug() << QString::fromStdString(retN.getName()) << QString::fromStdString(exN.getName());
                     if (m_answRequire.accid) {
                         if (exN.note == retN.note && exN.acidental == retN.acidental) {
                             curQ.setMistake(TQAunit::e_wrongAccid);
-//                            qDebug("wrong accid");
                         }
                         else {
                             curQ.setMistake(TQAunit::e_wrongNote);
-//                            qDebug("2. wrong note");
                         }
                     } else {
                          if (exN.note != retN.note || exN.acidental != retN.acidental) {
                             curQ.setMistake(TQAunit::e_wrongNote);
-//                            qDebug("3. wrong note");
                          }
                     }
                 }
@@ -839,11 +835,12 @@ QString TexamExecutor::saveExamToFile() {
 
 void TexamExecutor::repeatSound() {
 	mW->sound->play(m_exam->curQ().qa.note);
-  if (m_exam->curQ().answerAs == TQAtype::e_asSound) {
-      if (m_soundTimer->isActive())
-        m_soundTimer->stop();
+    if (m_exam->curQ().answerAs == TQAtype::e_asSound) {
+        connect(mW->sound->player, SIGNAL(noteFinished()), this, SLOT(sniffAfterPlaying()));
+//      if (m_soundTimer->isActive())
+//        m_soundTimer->stop();
 //      m_soundTimer->start(1500);
-      connect(mW->sound->player, SIGNAL(noteFinished()), this, SLOT(startSniffing()));
+
 //     QTimer::singleShot(1500, this, SLOT(startSniffing()));
   // Tsound in exam doesn't call go() after playing.
   // When answer is asSound we do this. 2000ms is played sound duration
@@ -938,13 +935,22 @@ void TexamExecutor::expertAnswersStateChanged(bool enable) {
   gl->E->expertsAnswerEnable = mW->expertAnswChB->isChecked();
 }
 
-void TexamExecutor::startSniffing() {
-    if (m_soundTimer->isActive())
-      m_soundTimer->stop();
+
+void TexamExecutor::sniffAfterPlaying() {
     mW->sound->stopPlaying();
     disconnect(mW->sound->player, SIGNAL(noteFinished()), this, SLOT(startSniffing()));
+    if (m_soundTimer->isActive())
+      m_soundTimer->stop();
+    m_soundTimer->start(100);
+}
+
+void TexamExecutor::startSniffing() {
+//    mW->sound->stopPlaying();
+    if (m_soundTimer->isActive())
+      m_soundTimer->stop();
     mW->sound->go();
 }
+
 
 void TexamExecutor::expertAnswersSlot() {
     /** expertAnswersSlot() is invoked also by TaudioIN/TpitchFinder.

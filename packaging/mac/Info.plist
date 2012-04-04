@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
-	
-	<!-- UTI declarations for OS X >= 10.4	-->
 	<key>UTExportedTypeDeclarations</key>
 	<array>
-		<!-- MuseScore documents -->
-		
 		<dict>
 			<key>UTTypeIdentifier</key>
 			<string>org.nootka.bin</string>
@@ -55,7 +51,6 @@
 			</dict>
 		</dict>
 	</array>
-	
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -99,8 +94,6 @@
 			<true/>
 		</dict>
 	</array>
-      
-	
 	<key>CFBundleExecutable</key>
 	<string>nootka</string>
 	<key>CFBundleGetInfoString</key>
@@ -122,7 +115,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>0.8.0</string>
+	<string>772</string>
 	<key>CSResourcesFileMapped</key>
 	<true/>
 	<key>LSRequiresCarbon</key>

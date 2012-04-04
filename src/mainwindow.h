@@ -98,6 +98,8 @@ private:
     QColor m_prevBg, m_curBG;
     int m_statFontSize;
     QCheckBox *m_hintsChB;
+         /** Keeps true when Dialog windows is opened, to avoid opening another file. */
+    bool m_levelCreatorExist;
 
     void createActions();
         /** it sets icon and status text in startExamAct. */
