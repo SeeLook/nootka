@@ -142,6 +142,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_curBG = -1;
     m_lockStat = false;
     ex = 0;
+    m_levelCreatorExist = false;
 
     createActions();
 
@@ -250,6 +251,8 @@ void MainWindow::clearAfterExam() {
 
 
 void MainWindow::openFile(QString runArg) {
+    if (ex || m_levelCreatorExist)
+        return;
     if (QFile::exists(runArg)) {
         QFile file(runArg);
         quint32 hdr = 0;
@@ -291,11 +294,13 @@ void MainWindow::createSettingsDialog() {
 void MainWindow::openLevelCreator(QString levelFile) {
     sound->wait(); // stops pitch detection
     sound->stopPlaying();
+    m_levelCreatorExist = true;
     TlevelCreatorDlg *levelCreator= new TlevelCreatorDlg(this);
     if (levelFile != "")
         levelCreator->loadLevelFile(levelFile);
     levelCreator->exec();
     delete levelCreator;
+    m_levelCreatorExist = false;
     sound->go(); // restore pitch detection
 }
 

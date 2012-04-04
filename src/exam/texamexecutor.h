@@ -84,6 +84,7 @@ protected slots:
     void expertAnswersStateChanged(bool enable);
         /** Ivokes Tsound::go() */
     void startSniffing();
+    void sniffAfterPlaying();
     void rightButtonSlot();
 
 private:
@@ -126,7 +127,8 @@ private:
     bool m_goingClosed;
           /** stores note if question and answeer are Note Name to restore it if question is repeated
           It is to restorrre buttons state in NoteName widget whitch are uncheced by disableWidget() */
-    Tnote m_prevNoteIfName; 
+    Tnote m_prevNoteIfName;
+
 
 };
 
