@@ -27,13 +27,9 @@ int main(int argc, char *argv[])
 #if defined(Q_OS_WIN32)
     QApplication::setStyle("plastique");  
 #endif
-
-//#if defined (Q_OS_MAC)
-//  #include "qappmac.h"
-//  QAppMac a(argc, argv);
-//#else
+    
   QApplication a(argc, argv);
-//#endif
+
   
   gl = new Tglobals();
   gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
@@ -59,7 +55,6 @@ int main(int argc, char *argv[])
         return 111;
     }
 #if defined (Q_OS_MAC)
-//    a.connect(&a, SIGNAL(fileToOpen(QString)), &w, SLOT(openFile(QString)));
     a.installEventFilter(&w);
 #endif
     w.show();
