@@ -387,11 +387,10 @@ void TexamExecutor::askQuestion() {
           if (curQ.questionAs == TQAtype::e_asSound) {
               connect(mW->sound->player, SIGNAL(noteFinished()), this, SLOT(sniffAfterPlaying()));
               // sniffing after finished sound
-          }
-          else
+          } else
               QTimer::singleShot(WAIT_TIME, this, SLOT(startSniffing()));
-            // Give a student some time to prepare for next question in expert mode
-            // It avoids capture previous played sound as current answer
+              // Give a student some time to prepare for next question in expert mode
+              // It avoids capture previous played sound as current answer
     }
     
     m_exam->addQuestion(curQ);
@@ -415,7 +414,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
     if (!gl->E->autoNextQuest)
         mW->startExamAct->setDisabled(false);
     m_isAnswered = true;
-    disconnect(mW->sound->player, SIGNAL(noteFinished()), this, SLOT(sniffAfterPlaying()));
+    disconnect(mW->sound->player, 0, this, 0);
 // Let's check
     Tnote exN, retN; // example note & returned note
     // First we determine what have to be checked
@@ -574,9 +573,10 @@ void TexamExecutor::repeatQuestion() {
     }
     if (curQ.answerAs == TQAtype::e_asFretPos)
         mW->guitar->setGuitarDisabled(false);
-    if (curQ.answerAs == TQAtype::e_asSound)
+    if (curQ.answerAs == TQAtype::e_asSound && curQ.questionAs != TQAtype::e_asSound)
         startSniffing();
-//         mW->sound->go();
+        // *** When question is sound it is playe again (repeatSound()) 
+        // and than startSniffing is called
 
 		m_exam->addQuestion(curQ);
 
@@ -584,10 +584,11 @@ void TexamExecutor::repeatQuestion() {
         mW->startExamAct->setDisabled(true);
     mW->nootBar->removeAction(nextQuestAct);
     mW->nootBar->removeAction(prevQuestAct);
-    if (curQ.questionAs == TQAtype::e_asSound) {
+    if (curQ.questionAs == TQAtype::e_asSound) { // *** Here :-)
         mW->nootBar->addAction(repeatSndAct);
         repeatSound();
     }
+    
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
 }
@@ -918,7 +919,7 @@ void TexamExecutor::expertAnswersStateChanged(bool enable) {
 
 void TexamExecutor::sniffAfterPlaying() {
 //     mW->sound->stopPlaying();
-    disconnect(mW->sound->player, SIGNAL(noteFinished()), this, SLOT(startSniffing()));
+    disconnect(mW->sound->player, 0, this, 0);
     if (m_soundTimer->isActive())
       m_soundTimer->stop();
     m_soundTimer->start(100);
