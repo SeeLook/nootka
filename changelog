@@ -6,7 +6,8 @@
     BUGS FIXES
     - fixed behaviour of the buttons in Note Name Widget
     - fixed segmentation fault after probing audio input
-    - fixed forcing accidentals on ear training level
+    - fixed forceing accidentals on ear training level
+   - a lot of smalest
 
 0.8 beta
     - !!! Added sound input and pitch detection !!!

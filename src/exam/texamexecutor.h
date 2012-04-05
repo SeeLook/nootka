@@ -84,6 +84,7 @@ protected slots:
     void expertAnswersStateChanged(bool enable);
         /** Ivokes Tsound::go() */
     void startSniffing();
+        /** Starts sniffing when asked note is finished */
     void sniffAfterPlaying();
     void rightButtonSlot();
 
