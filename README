@@ -41,7 +41,9 @@ to remove (uninstall)
 2. Install MacPorts 
 	http://www.macports.org/install.php
 	and in terminal type:
-sudo port install pkgconfig cmake mercurial fftw-3-single
+    sudo port install pkgconfig cmake mercurial fftw-3-single
+  alternatively You can use Fink
+
 
 3. Download and install QT librares:
 http://qt.nokia.com/downloads/qt-for-open-source-cpp-development-on-mac-os-x/
