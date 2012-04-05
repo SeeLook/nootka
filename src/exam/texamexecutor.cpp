@@ -384,29 +384,14 @@ void TexamExecutor::askQuestion() {
       questText = QString("<b>%1. </b>").arg(m_exam->count() + 1) +
       tr("Play or sing given note");
       mW->sound->prepareAnswer();
-//      if (gl->E->expertsAnswerEnable && gl->E->autoNextQuest) {
           if (curQ.questionAs == TQAtype::e_asSound) {
-//              if (m_soundTimer->isActive()) // sound is playing and timer waits to stop it
-//                  m_soundTimer->stop(); // cancel a timer
-//              m_soundTimer->start(SOUND_DURATION); // and call startSniffing() again
               connect(mW->sound->player, SIGNAL(noteFinished()), this, SLOT(sniffAfterPlaying()));
               // sniffing after finished sound
           }
           else
               QTimer::singleShot(WAIT_TIME, this, SLOT(startSniffing()));
-          // Give a student some time to prepare for next question in expert mode
-          // It avoids capture previous played sound as current answer
-//      }
-//      else {
-//          if (curQ.questionAs == TQAtype::e_asSound) {
-//              if (m_soundTimer->isActive())
-//                  m_soundTimer->stop();
-//              m_soundTimer->start(SOUND_DURATION);
-//              connect(mW->sound->player, SIGNAL(noteFinished()), this, SLOT(startSniffing()));
-//          }
-//          else
-//              startSniffing();
-//      }
+            // Give a student some time to prepare for next question in expert mode
+            // It avoids capture previous played sound as current answer
     }
     
     m_exam->addQuestion(curQ);
@@ -834,16 +819,11 @@ QString TexamExecutor::saveExamToFile() {
 }
 
 void TexamExecutor::repeatSound() {
-	mW->sound->play(m_exam->curQ().qa.note);
+    mW->sound->play(m_exam->curQ().qa.note);
+    if (m_soundTimer->isActive())
+        m_soundTimer->stop();
     if (m_exam->curQ().answerAs == TQAtype::e_asSound) {
         connect(mW->sound->player, SIGNAL(noteFinished()), this, SLOT(sniffAfterPlaying()));
-//      if (m_soundTimer->isActive())
-//        m_soundTimer->stop();
-//      m_soundTimer->start(1500);
-
-//     QTimer::singleShot(1500, this, SLOT(startSniffing()));
-  // Tsound in exam doesn't call go() after playing.
-  // When answer is asSound we do this. 2000ms is played sound duration
   }
 }
 
@@ -937,7 +917,7 @@ void TexamExecutor::expertAnswersStateChanged(bool enable) {
 
 
 void TexamExecutor::sniffAfterPlaying() {
-    mW->sound->stopPlaying();
+//     mW->sound->stopPlaying();
     disconnect(mW->sound->player, SIGNAL(noteFinished()), this, SLOT(startSniffing()));
     if (m_soundTimer->isActive())
       m_soundTimer->stop();
