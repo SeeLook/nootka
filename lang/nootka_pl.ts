@@ -91,7 +91,7 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="267"/>
         <source>Frequency of detected note. You can use it for tune</source>
-        <translation>Częstotliwość wykrytego dźwięku. Możne jej użyć do strojenia</translation>
+        <translation>Częstotliwość wykrytego dźwięku. Można jej użyć do strojenia</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="141"/>
@@ -136,7 +136,7 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="327"/>
         <source>There isn&apos;t any noise !?!&lt;br&gt;It seems, Your audio input&lt;br&gt;is not configured properly.</source>
-        <translation>Nie słychać szumu!?!&lt;br&gt;Wygląda na to że wejście audio&lt;br&gt;nie jest poprawnie skonfigurowane.</translation>
+        <translation>Nie słychać szumu!?!&lt;br&gt;Wygląda na to, że wejście audio&lt;br&gt;nie jest poprawnie skonfigurowane.</translation>
     </message>
 </context>
 <context>
@@ -392,7 +392,7 @@
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="73"/>
         <source>guitar for right-handed</source>
-        <translation>gitara dla praworecznych</translation>
+        <translation>gitara dla praworęcznych</translation>
     </message>
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="75"/>
@@ -571,7 +571,7 @@
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="156"/>
         <source>Just sing a score...&lt;br&gt;No note names, no fretboard, no keys and double accids. Scale doesn&apos;t matter because octaves are ignored - You can transpose.</source>
-        <translation>Poprostu śpiewaj...&lt;br&gt;Bez nazw nut, bez gryfu, tonacji i podwójnych znaków, Skala nie ma znaczenia ponieważ oktawa śpiewanego dźwięku jest ignorowana - można transponować.</translation>
+        <translation>Po prostu śpiewaj...&lt;br&gt;Bez nazw nut, bez gryfu, tonacji i podwójnych znaków, Skala nie ma znaczenia ponieważ oktawa śpiewanego dźwięku jest ignorowana - można transponować.</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="129"/>
@@ -731,7 +731,7 @@
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="96"/>
         <source>&lt;p&gt; Welcome on the board.&lt;br&gt; Nootka is open source application to help You learning (and teaching also) classical score notation. It is specially dedicated for guitarists but others can find something usable as well.&lt;br&gt;This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features. Inspite of that You are welcome to try it !!&lt;/p&gt;&lt;p&gt;See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releaces.&lt;/p&gt;&lt;p&gt;Any bugs, sugestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author&lt;/p&gt;&lt;br&gt;</source>
-        <translation>&lt;p&gt;Witamy na pokładzie.&lt;br&gt; Nootka to aplikacja open source pomagająca w nauce (a także w nauczaniu) klasycznego zapisu nutowego. Jest szczególnie dedykowana gitarzystom ale inni także znajdą w niej coś użytecznego.&lt;br&gt;Ta wersja to beta i może zawierać błędy lub zachowywać się w nieoczekiwany sposób, a także posiada nieukończone funkcje. Mimo wszystko zapraszam do wypróbowania !!&lt;/p&gt;&lt;p&gt;Po więcej szczegółów i po następne wydania zajrzyj na &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;stronę programu&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Błędy, sugestie, tłumaczenia itp., proszę zgłaszać do: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;z poważaniem&lt;br&gt;Autor&lt;/p&gt;&lt;br&gt;</translation>
+        <translation>&lt;p&gt;Witamy na pokładzie.&lt;br&gt; Nootka to aplikacja open source pomagająca w nauce (a także w nauczaniu) klasycznego zapisu nutowego. Jest szczególnie dedykowana gitarzystom ale inni także znajdą w niej coś użytecznego.&lt;br&gt;Ta wersja to beta. Chociaz dziala stabilnie, posiada nieukończone funkcje. Mimo wszystko zapraszam do wypróbowania !!&lt;/p&gt;&lt;p&gt;Po więcej szczegółów i po następne wydania zajrzyj na &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;stronę programu&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Błędy, sugestie, tłumaczenia itp., proszę zgłaszać do: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;z poważaniem&lt;br&gt;Autor&lt;/p&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="98"/>
@@ -878,7 +878,7 @@
     <message>
         <location filename="../src/level/questionssettings.cpp" line="125"/>
         <source>Select a key signature.&lt;br&gt;Apropirate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
-        <translation>Wybierz tonację.&lt;br&gt;Odpowiednie znaki używane podczas egzaminu&lt;br&gt;zostaną zaznaczone automatycznie !</translation>
+        <translation>Wybierz tonację.&lt;br&gt;Odpowiednie znaki używane podczas egzaminu&lt;br&gt;zostaną zaznaczone automatycznie!</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="134"/>
@@ -888,7 +888,7 @@
     <message>
         <location filename="../src/level/questionssettings.cpp" line="135"/>
         <source>if checked, in exam user have to select a key signature,&lt;br&gt;otherwise it is shown by application.</source>
-        <translation>Gdy zaznaczone, podczas egzaminu użytkownik sam musi wprowadzić tonację,&lt;br&gt;w przciwnym wypadku wyświetli ją program.</translation>
+        <translation>Gdy zaznaczone, podczas egzaminu użytkownik sam musi wprowadzić tonację,&lt;br&gt;gdy nie zaznaczone, wyświetli ją program.</translation>
     </message>
 </context>
 <context>
@@ -921,7 +921,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="78"/>
         <source>Tune of the guitar was changed in this exam !!.&lt;br&gt;Now it is:&lt;br&gt;&lt;b&gt;%1&lt;/b&gt;</source>
-        <translation>W tym egazminie zmiena sie strój gitary !!&lt;br&gt;Teraz jest to:&lt;br&gt;&lt;b&gt;%1&lt;/b&gt;</translation>
+        <translation>W tym egazminie zmiena się strój gitary !!&lt;br&gt;Teraz jest to:&lt;br&gt;&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="81"/>
@@ -931,7 +931,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="108"/>
         <source>An exam requires sound but&lt;br&gt;sound output is not available !!!</source>
-        <translation>Egzamin wymaga dźwięku,&lt;br&gt;ale nie jest on włączony !!</translation>
+        <translation>Egzamin wymaga dźwięku&lt;br&gt;ale nie jest on włączony !!</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="157"/>
@@ -955,7 +955,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="170"/>
         <source>play sound again</source>
-        <translation>ponownie zagraj dźwiek</translation>
+        <translation>ponownie zagraj dźwięk</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="177"/>
@@ -1001,7 +1001,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="480"/>
         <source>&lt;br&gt;Try again !</source>
-        <translation>&lt;br&gt;Spróbuj ponownie !</translation>
+        <translation>&lt;br&gt;Spróbuj ponownie!</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="486"/>
@@ -1051,7 +1051,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="776"/>
         <source>If You don&apos;t save to file&lt;br&gt;You lost all results !!</source>
-        <translation>Jeżeli nie zapiszesz do pliku&lt;br&gt;stracisz dotychczasowe wyniki !!</translation>
+        <translation>Jeżeli nie zapiszesz do pliku&lt;br&gt;stracisz dotychczasowe wyniki!!</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="325"/>
@@ -1075,7 +1075,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="466"/>
         <source>Exelent !!</source>
-        <translation>Super !!</translation>
+        <translation>Super!!</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="470"/>
@@ -1148,7 +1148,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="38"/>
         <source>How does an exam work ?</source>
-        <translation>Jak działa egzamin ?</translation>
+        <translation>Jak działa egzamin?</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.h" line="41"/>
