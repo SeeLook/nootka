@@ -159,7 +159,7 @@
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="42"/>
         <source>Natural, high quality sound of classical guitar&lt;br&gt;but limited to scale &lt;b&gt;from C&lt;sub&gt;1&lt;/sub&gt; to e&lt;sup&gt;3&lt;/sup&gt;&lt;/b&gt;</source>
-        <translation>Přirozený zvuk klasické kytary o vysoké jakosti&lt;br&gt;ale ohraničený rozsahem&lt;b&gt; od C&lt;sub&gt;1&lt;/sub&gt; do e&lt;sup&gt;3&lt;/sup&gt;&lt;/b&gt;</translation>
+        <translation>Přirozený zvuk klasické kytary o vysoké jakosti, který je ale&lt;br&gt; ohraničený rozsahem&lt;b&gt; od C&lt;sub&gt;1&lt;/sub&gt; do e&lt;sup&gt;3&lt;/sup&gt;&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="47"/>
@@ -174,7 +174,7 @@
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="57"/>
         <source>Artificial, low quality sound (depends on hardware)&lt;br&gt;but there is possibility to select an instrument&lt;br&gt;and whole scale can be played.</source>
-        <translation>Uměle vytvořený zvuk o nízké jakosti (v závislosti na technickém vybavení)&lt;br&gt;ale s možností výběru nástroje&lt;br&gt;a je možné přehrát celý rozsah.</translation>
+        <translation>Uměle vytvořený zvuk o nízké jakosti (v závislosti na technickém vybavení),&lt;br&gt;ale s možností výběru nástroje, a je možné přehrát celý rozsah&lt;br&gt;.</translation>
     </message>
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="63"/>
@@ -267,7 +267,7 @@
     <message>
         <location filename="../src/settings/examsettings.cpp" line="38"/>
         <source>repeat a question when an answer was incorrect.</source>
-        <translation>Opakovat otázku, když odpověď byla nesprávná..</translation>
+        <translation>Opakovat otázku, když odpověď byla nesprávná</translation>
     </message>
     <message>
         <location filename="../src/settings/examsettings.cpp" line="41"/>
@@ -292,7 +292,7 @@
     <message>
         <location filename="../src/settings/examsettings.cpp" line="63"/>
         <source>color of questions</source>
-        <translation>Barva otázekl</translation>
+        <translation>Barva otázek</translation>
     </message>
     <message>
         <location filename="../src/settings/examsettings.cpp" line="67"/>
@@ -442,7 +442,7 @@
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="120"/>
         <source>color of selected string/fret</source>
-        <translation>barva vybrané struny/pražce</translation>
+        <translation>Barva vybrané struny/pražce</translation>
     </message>
 </context>
 <context>
@@ -731,12 +731,12 @@
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="96"/>
         <source>&lt;p&gt; Welcome on the board.&lt;br&gt; Nootka is open source application to help You learning (and teaching also) classical score notation. It is specially dedicated for guitarists but others can find something usable as well.&lt;br&gt;This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features. Inspite of that You are welcome to try it !!&lt;/p&gt;&lt;p&gt;See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releaces.&lt;/p&gt;&lt;p&gt;Any bugs, sugestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author&lt;/p&gt;&lt;br&gt;</source>
-        <translation>&lt;p&gt;Vítejte na palubě.&lt;br&gt; Nootka je program s otevřeným zdrojovým kódem, která vám má pomoci při učení (a také vyučování) klasického notového zápisu. Je určen obzvláště kytaristům ale i jiní na něm můžou najít něco pro ně užitečného.&lt;br&gt;Toto je betaverze a může obsahovat chyby nebo se chovat neočekávaně. Také má nedodělané vlastnosti, ale přesto jste zváni, abyste ji vyzkoušeli!&lt;/p&gt;&lt;p&gt;Podívejte se na stránky programu &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;&lt;/a&gt;, kde naleznete více podrobností a informace o dalších vydáních.&lt;/p&gt;&lt;p&gt;Jakékoli chyby programu, návrhy, překlady a tak dále posílejte na adresu: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;. V úctě&lt;br&gt;autor&lt;/p&gt;&lt;br&gt;</translation>
+        <translation>&lt;p&gt;Vítejte na palubě.&lt;br&gt; Nootka je program s otevřeným zdrojovým kódem, která vám má pomoci při učení (a také vyučování) klasického notového zápisu. Je určen obzvláště kytaristům ale i jiní na něm můžou najít něco pro ně užitečného.&lt;br&gt;Toto je betaverze a může obsahovat chyby nebo se chovat neočekávaně. Také má nedodělané vlastnosti, ale přesto jste zváni, abyste ji vyzkoušeli!&lt;/p&gt;&lt;p&gt;Podívejte se na stránky programu &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;&lt;/a&gt;, kde naleznete více podrobností a informace o dalších vydáních.&lt;/p&gt;&lt;p&gt;Jakékoli chyby programu, návrhy, překlady a tak dále posílejte na adresu: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com.&lt;/a&gt;&lt;p/&gt;&lt;p&gt;V úctě autor&lt;br&gt;&lt;/p&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="98"/>
         <source>&lt;br&gt;To support project and also to avoid infection of Your PC&lt;br&gt;&lt;b&gt;PLEASE, use project site to download updates, new releases and to see news.&lt;/b&gt;</source>
-        <translation>&lt;br&gt;Pro podporu projektu, a abyste se vyhnuli možnému nakažení vašeho počítače&lt;br&gt;&lt;b&gt;, používejte, prosím, pro stahování aktualizací, nových vydání a pro sledování novinek stránky projektu.&lt;/b&gt;</translation>
+        <translation>&lt;br&gt;Pro podporu projektu, a abyste se vyhnuli možnému nakažení vašeho počítače, používejte, prosím, &lt;br&gt;&lt;b&gt;pro stahování aktualizací, nových vydání a pro sledování novinek stránky projektu.&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -1403,7 +1403,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="63"/>
         <source>&lt;center&gt;Guitar notation uses treble clef with &quot;eight&quot; digit below (even if some editors are forgeting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; &lt;img src=&quot;%1&quot;&gt; &lt;img src=&quot;%2&quot;&gt;&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note c in one-line octave)&lt;/center&gt;&lt;/p&gt;</source>
-        <translation>&lt;center&gt;Kytarový zápis používá houslový klíč s číslicí &quot;osm&quot; dole (i když na tuto číslici někteří vydavatelé zapomínají).&lt;br&gt;&lt;br&gt;Pokuste se pochopit toto. &lt;br&gt;&lt;br&gt;&lt;p&gt; &lt;img src=&quot;%1&quot;&gt; &lt;img src=&quot;%2&quot;&gt;&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Obadva obrázky nahoře ukazují tu samou notu: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(nota c v jednočárkové oktávě)&lt;/center&gt;&lt;/p&gt;</translation>
+        <translation>&lt;center&gt;Kytarový zápis používá houslový klíč s číslicí &quot;osm&quot; dole (i když na tuto číslici někteří vydavatelé zapomínají).&lt;br&gt;&lt;br&gt;Pokuste se pochopit toto. &lt;br&gt;&lt;br&gt;&lt;p&gt; &lt;img src=&quot;%1&quot;&gt; &lt;img src=&quot;%2&quot;&gt;&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Oba dva obrázky nahoře ukazují tu samou notu: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(nota c v jednočárkové oktávě)&lt;/center&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="108"/>
@@ -1717,7 +1717,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="137"/>
         <source>&lt;center&gt;7-th note can be B or H, depends on country&lt;br&gt;Which one is Yours?&lt;br&gt;&lt;/center&gt;</source>
-        <translation>&lt;center&gt;Sedmá nota může být H nebo B, v závislosti na zemi. &lt;br&gt;Jaká je vaše?&lt;br&gt;&lt;/center&gt;</translation>
+        <translation>&lt;center&gt;Sedmá nota může být H nebo B, v závislosti na zemi. &lt;br&gt;Jak je to u vás?&lt;br&gt;&lt;/center&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.h" line="66"/>
