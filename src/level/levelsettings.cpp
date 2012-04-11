@@ -23,7 +23,7 @@
 #include <QLabel>
 
 
-levelSettings::levelSettings(QWidget *parent) :
+levelSettings::levelSettings(QString &imgPath, QWidget *parent) :
     QWidget(parent)
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
@@ -36,6 +36,12 @@ levelSettings::levelSettings(QWidget *parent) :
     saveBut = new QPushButton(tr("Save"),this);
     saveBut->setStatusTip(tr("Save level's settings to file"));
     butLay->addWidget(saveBut);
+    // Start an exam button
+    startExamBut = new QPushButton(QIcon(imgPath+"picts/startExam.png"), tr("Start an exam"), this);
+    startExamBut->setIconSize(QSize(48, 48));
+    startExamBut->setStatusTip(tr("Start an exam on selected level"));
+    startExamBut->setDisabled(true);
+    butLay->addWidget(startExamBut);
 
     mainLay->addLayout(butLay);
     mainLay->addStretch(1);

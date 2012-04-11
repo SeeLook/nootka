@@ -30,12 +30,12 @@ class levelSettings : public QWidget
 {
     Q_OBJECT
 public:
-    explicit levelSettings(QWidget *parent = 0);
+    explicit levelSettings(QString &imgPath, QWidget *parent = 0);
 
     static QString moreLevelLinkTxt() { return tr("Get more levels <a href=\"%1\">from Nootka home page</a>")
             .arg("http://www.nootka.sf.net/index.php?C=down#levels"); }
     TlevelSelector *levelSelector;
-    QPushButton *saveBut;
+    QPushButton *saveBut, *startExamBut;
 
 };
 
