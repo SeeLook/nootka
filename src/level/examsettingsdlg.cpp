@@ -42,7 +42,7 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
     navList->item(2)->setIcon(QIcon(gl->path+"picts/rangeSettings.png"));
     navList->item(2)->setTextAlignment(Qt::AlignCenter);
 
-    levelSett = new levelSettings();
+    levelSett = new levelSettings(gl->path);
     questSett = new questionsSettings();
     rangeSett = new rangeSettings();
 
@@ -71,6 +71,7 @@ void TlevelCreatorDlg::levelWasSelected(TexamLevel level) {
         saveLevel();
     questSett->loadLevel(level);
     rangeSett->loadLevel(level);
+    levelSett->startExamBut->setDisabled(false);
 }
 
 void TlevelCreatorDlg::levelNotSaved() {
