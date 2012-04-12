@@ -32,6 +32,7 @@
 #include "texecutorsupply.h"
 #include "taudioout.h"
 #include <QtGui>
+#include <stdlib.h> // for getenv()
 #include <QDebug>
 
 #define WAIT_TIME (600) //[ms]
@@ -40,7 +41,7 @@
 extern Tglobals *gl;
 
 
-TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile) :
+TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *lev) :
   m_exam(0),
   mW(mainW),
   m_lockRightButt(false),
@@ -50,19 +51,33 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile) :
     TstartExamDlg::Eactions userAct;
 
     mW->sound->wait();
-    if (examFile == "") { // start exam dialog
-        TstartExamDlg *startDlg = new TstartExamDlg(gl->E->studentName, mW);
-        userAct = startDlg->showDialog(resultText, m_level);
-        delete startDlg;
-    } else { // command line arg with given filename
-        resultText = examFile;
-        userAct = TstartExamDlg::e_continue;
+    if (lev) {
+        m_level = *lev;
+        if (gl->E->studentName == "") {
+#if defined(Q_OS_WIN32)
+        resultText = QString::fromLocal8Bit(getenv("USERNAME"));
+#else
+        resultText = QString::fromLocal8Bit(getenv("USER"));
+#endif
+        }
+        else
+            resultText = gl->E->studentName;
+        userAct = TstartExamDlg::e_newLevel;
+    } else {
+        if (examFile == "") { // start exam dialog
+            TstartExamDlg *startDlg = new TstartExamDlg(gl->E->studentName, mW);
+            userAct = startDlg->showDialog(resultText, m_level);
+            delete startDlg;
+        } else { // command line arg with given filename
+            resultText = examFile;
+            userAct = TstartExamDlg::e_continue;
+        }
     }
     m_glStore.tune = gl->Gtune();
     m_glStore.fretsNumber = gl->GfretsNumber;
     if (userAct == TstartExamDlg::e_newLevel) {
         m_exam = new Texam(&m_level, resultText); // resultText is userName
-        gl->E->studentName = resultText; // store user name 
+        gl->E->studentName = resultText; // store user name
         m_exam->setTune(gl->Gtune());
         mW->examResults->startExam();
     } else
@@ -609,10 +624,13 @@ void TexamExecutor::prepareToExam() {
     mW->autoRepeatChB->setChecked(gl->E->autoNextQuest);
     mW->expertAnswChB->show();
     mW->expertAnswChB->setChecked(gl->E->expertsAnswerEnable);
-    if (gl->E->expertsAnswerEnable)
-      connectForExpert();
+//    if (gl->E->expertsAnswerEnable)
+//      connectForExpert();
 
     disableWidgets();
+
+    if (gl->E->expertsAnswerEnable)
+      connectForExpert();
     
     qApp->installEventFilter(m_supp);
     connect(m_supp, SIGNAL(rightButtonClicked()), this, SLOT(rightButtonSlot()));
@@ -803,6 +821,7 @@ bool TexamExecutor::closeNootka() {
 }
 
 QString TexamExecutor::saveExamToFile() {
+//    qDebug() << m_exam->userName() << m_level.name;
     QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam's results as:"),
                          QDir::toNativeSeparators(QDir::homePath()+ "/" +
                          m_exam->userName() + "-" + m_level.name),

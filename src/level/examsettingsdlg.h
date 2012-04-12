@@ -26,6 +26,8 @@
 #include "rangesettings.h"
 #include "texamlevel.h"
 
+//class TexamLevel;
+
     /** The level creator */
 class TlevelCreatorDlg : public TsettingsDialogBase
 {
@@ -36,6 +38,8 @@ public:
     static QString levelCreatorTxt() { return tr("Levels creator"); }
         /** It can be called externally to load level file. */
     void loadLevelFile(QString levelFile);
+        /** Returns user selected level or level with empty name if not selected. */
+    TexamLevel selectedLevel();
 
 private:
     levelSettings *levelSett;
@@ -60,6 +64,8 @@ private slots:
     void levelSaved();
     void loadFromFile();
     void acceptLevel();
+        /** Performed when user cliks StartExam Button. */
+    void startExam();
 
 };
 
