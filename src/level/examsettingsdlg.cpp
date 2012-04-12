@@ -53,8 +53,8 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
     connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
 
     navList->setCurrentRow(0);
-    okBut->setText(tr("Close"));
-    cancelBut->hide();
+    cancelBut->setText(tr("Close"));
+    okBut->hide();
 
     connect(levelSett->levelSelector, SIGNAL(levelChanged(TexamLevel)),
             this, SLOT(levelWasSelected(TexamLevel))); // to load level to widgets
@@ -62,7 +62,7 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
     connect(questSett, SIGNAL(questSettChanged()), this, SLOT(levelNotSaved()));
     connect(levelSett->saveBut, SIGNAL(clicked()), this, SLOT(saveToFile()));
     connect(levelSett->levelSelector, SIGNAL(levelToLoad()), this, SLOT(loadFromFile()));
-//    connect(this, SIGNAL(accepted()), this, SLOT(acceptLevel()));
+    connect(levelSett->startExamBut, SIGNAL(clicked()), this, SLOT(startExam()));
 
 }
 
@@ -173,4 +173,14 @@ QString TlevelCreatorDlg::validateLevel(TexamLevel &l) {
 
 void TlevelCreatorDlg::loadLevelFile(QString levelFile) {
     levelSett->levelSelector->loadFromFile(levelFile);
+}
+
+
+void TlevelCreatorDlg::startExam() {
+    accept();
+}
+
+
+TexamLevel TlevelCreatorDlg::selectedLevel() {
+    return levelSett->levelSelector->getSelectedLevel();
 }

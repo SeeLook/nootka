@@ -33,7 +33,8 @@ levelSettings::levelSettings(QString &imgPath, QWidget *parent) :
     mainLay->addStretch(1);
 
     QHBoxLayout *butLay = new QHBoxLayout;
-    saveBut = new QPushButton(tr("Save"),this);
+    saveBut = new QPushButton(QIcon(imgPath+"picts/notSaved.png"), tr("Save"),this);
+    saveBut->setIconSize(QSize(48, 48));
     saveBut->setStatusTip(tr("Save level's settings to file"));
     butLay->addWidget(saveBut);
     // Start an exam button

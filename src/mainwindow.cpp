@@ -291,17 +291,26 @@ void MainWindow::createSettingsDialog() {
     delete settings;
 }
 
+
 void MainWindow::openLevelCreator(QString levelFile) {
     sound->wait(); // stops pitch detection
     sound->stopPlaying();
     m_levelCreatorExist = true;
     TlevelCreatorDlg *levelCreator= new TlevelCreatorDlg(this);
+    bool shallExamStart = false;
     if (levelFile != "")
         levelCreator->loadLevelFile(levelFile);
-    levelCreator->exec();
+    if (levelCreator->exec() == QDialog::Accepted) {
+        m_level = levelCreator->selectedLevel();
+        if (m_level.name != "")
+            shallExamStart = true;
+    }
     delete levelCreator;
     m_levelCreatorExist = false;
-    sound->go(); // restore pitch detection
+    if (shallExamStart) {
+        ex = new TexamExecutor(this, "", &m_level); // start exam
+    } else
+        sound->go(); // restore pitch detection
 }
 
 void MainWindow::startExamSlot() {

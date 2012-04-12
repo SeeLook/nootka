@@ -100,6 +100,7 @@ private:
     QCheckBox *m_hintsChB;
          /** Keeps true when Dialog windows is opened, to avoid opening another file. */
     bool m_levelCreatorExist;
+    TexamLevel m_level;
 
     void createActions();
         /** it sets icon and status text in startExamAct. */
