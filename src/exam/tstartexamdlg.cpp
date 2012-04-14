@@ -46,9 +46,9 @@ TstartExamDlg::TstartExamDlg(QString& nick, QWidget* parent) :
     QLabel *moreLab = new QLabel(levelSettings::moreLevelLinkTxt(), this);
     moreLab->setOpenExternalLinks(true);
     levLay->addWidget(moreLab, 0, Qt::AlignCenter);
-//    createBut = new QPushButton(tr("create new level"),this);
-//    createBut->setStatusTip(tr("Dialog window for creating new level<br>will be opened."));
-//    levLay->addWidget(createBut, 1, Qt::AlignCenter);
+    createBut = new QPushButton(tr("create new level"),this);
+    createBut->setStatusTip(tr("Dialog window for creating new level<br>will be opened."));
+    levLay->addWidget(createBut, 1, Qt::AlignCenter);
     levelGr = new QGroupBox(this);
     levelGr->setStatusTip(tr("Select a level suitable for You<br>or create new one."));
     levelGr->setLayout(levLay);
@@ -124,6 +124,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QWidget* parent) :
     connect(startBut, SIGNAL(clicked()), this, SLOT(startAccepted()));
     connect(cancelBut, SIGNAL(clicked()), this, SLOT(reject()));
     connect(loadExamBut, SIGNAL(clicked()), this, SLOT(loadExam()));
+    connect(createBut, SIGNAL(clicked()), this, SLOT(createLevel()));
     
     QApplication::translate("File association entries", "Nootka level file", "for file brrrowsers");
     QApplication::translate("File association entries", "Open with nootka");
@@ -203,4 +204,10 @@ void TstartExamDlg::loadExam() {
         examCombo->setCurrentIndex(0);
 //        accept();
     }
+}
+
+
+TstartExamDlg::Eactions TstartExamDlg::createLevel() {
+    close();
+    return e_newLevel;
 }
