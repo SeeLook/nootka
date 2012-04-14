@@ -34,7 +34,8 @@ QString TstartExamDlg::systemUserName() {
 
 
 TstartExamDlg::TstartExamDlg(QString& nick, QWidget* parent) :
-    QDialog(parent)
+    QDialog(parent),
+    m_openCreator(false)
 {
   setWindowTitle(tr("Start en exam"));
     QVBoxLayout *mainLay = new QVBoxLayout;
@@ -159,8 +160,12 @@ TstartExamDlg::Eactions TstartExamDlg::showDialog(QString &txt, TexamLevel &lev)
                 return e_continue;
             }
         }
-    } else
-        return e_none;
+    } else {
+		if (m_openCreator)
+			return e_levelCreator;
+		else
+			return e_none;
+	}
 }
 
 void TstartExamDlg::levelOrExamChanged() {
@@ -220,6 +225,6 @@ void TstartExamDlg::loadExam() {
 
 
 TstartExamDlg::Eactions TstartExamDlg::createLevel() {
-    close();
-    return e_newLevel;
+    m_openCreator = true;
+	close();
 }

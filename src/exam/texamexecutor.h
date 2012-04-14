@@ -65,9 +65,9 @@ public:
       e_openCreator,
       e_questioning,
       e_answering,
-      e_saveing
+      e_saveing,
+      e_finished
     };
-    Estate state() { return m_state; }
     QString getNextQuestionTxt();
     bool closeNootka();
     bool isAnswered() { return m_isAnswered; }
@@ -138,7 +138,6 @@ private:
           /** stores note if question and answeer are Note Name to restore it if question is repeated
           It is to restorrre buttons state in NoteName widget whitch are uncheced by disableWidget() */
     Tnote m_prevNoteIfName;
-    Estate m_state;
 
 
 };
