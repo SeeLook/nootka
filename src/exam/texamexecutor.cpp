@@ -32,7 +32,6 @@
 #include "texecutorsupply.h"
 #include "taudioout.h"
 #include <QtGui>
-#include <stdlib.h> // for getenv()
 #include <QDebug>
 
 #define WAIT_TIME (600) //[ms]
@@ -47,6 +46,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
   m_lockRightButt(false),
   m_goingClosed(false)
 {
+    m_state = e_starting;
     QString resultText;
     TstartExamDlg::Eactions userAct;
 
@@ -54,11 +54,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
     if (lev) {
         m_level = *lev;
         if (gl->E->studentName == "") {
-#if defined(Q_OS_WIN32)
-        resultText = QString::fromLocal8Bit(getenv("USERNAME"));
-#else
-        resultText = QString::fromLocal8Bit(getenv("USER"));
-#endif
+	    resultText = TstartExamDlg::systemUserName();
         }
         else
             resultText = gl->E->studentName;
@@ -113,6 +109,11 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
             return;
         }
     } else {
+	if (userAct == TstartExamDlg::e_levelCreator)
+	    m_state = e_openCreator;
+	else 
+	    m_state = e_failed;
+	qDebug("clearAfterExam examexec");
         mW->clearAfterExam();
         if (m_exam) delete m_exam;
         return;

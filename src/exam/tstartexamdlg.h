@@ -42,7 +42,8 @@ public:
         * @param e_none - dialog discarded,
         * @param e_continue - exam to continue,
         * @param e_newLevel - new level selected.
-	* @param e_levelCreator - open Level creator.*/
+	* @param e_levelCreator - open Level creator.
+	*/
     enum Eactions { e_none, e_continue, e_newLevel, e_levelCreator };
         /** This method calls dialog window,
         * takes txt reference and puts there eighter user name
@@ -51,6 +52,8 @@ public:
     Eactions showDialog(QString &txt, TexamLevel &lev);
         /** exam file extension and its description */
     static const QString examFilterTxt() { return tr("Exams' results")  + "(*.noo)" ; }
+	/** Returns system user name (login name)  */
+    static QString systemUserName();
 
 
 signals:

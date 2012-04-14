@@ -21,6 +21,16 @@
 #include "tlevelselector.h"
 #include "levelsettings.h"
 #include <QtGui>
+#include <stdlib.h> // for getenv()
+
+QString TstartExamDlg::systemUserName() {
+#if defined(Q_OS_WIN32)
+        return QString::fromLocal8Bit(getenv("USERNAME"));
+#else
+        return QString::fromLocal8Bit(getenv("USER"));
+#endif
+}
+
 
 
 TstartExamDlg::TstartExamDlg(QString& nick, QWidget* parent) :
@@ -37,6 +47,8 @@ TstartExamDlg::TstartExamDlg(QString& nick, QWidget* parent) :
     QLabel *nameLab = new QLabel(tr("student's name:"), this);
     nameLay->addWidget(nameLab);
     nameEdit = new QLineEdit(nick, this);
+    if (nick == "")
+      nameEdit->setText(systemUserName());
     nameEdit->setMaxLength(30);
     nameEdit->setStatusTip(tr("Enter your name or nick."));
     nameLay->addWidget(nameEdit);
