@@ -77,7 +77,7 @@ protected:
 
     QToolBar *nootBar;
     QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct;
-    void clearAfterExam();
+    void clearAfterExam(TexamExecutor::Estate examState = TexamExecutor::e_finished);
 
     void resizeEvent(QResizeEvent *);
     bool event(QEvent *event);

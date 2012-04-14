@@ -72,6 +72,7 @@ private:
     QLabel *hint;
     QComboBox *examCombo;
     QStringList recentExams;
+	bool m_openCreator;
 
 private slots:
     void levelOrExamChanged();

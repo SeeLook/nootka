@@ -46,7 +46,6 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
   m_lockRightButt(false),
   m_goingClosed(false)
 {
-    m_state = e_starting;
     QString resultText;
     TstartExamDlg::Eactions userAct;
 
@@ -109,12 +108,11 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
             return;
         }
     } else {
-	if (userAct == TstartExamDlg::e_levelCreator)
-	    m_state = e_openCreator;
-	else 
-	    m_state = e_failed;
-	qDebug("clearAfterExam examexec");
-        mW->clearAfterExam();
+	if (userAct == TstartExamDlg::e_levelCreator) {
+	    mW->clearAfterExam(e_openCreator);
+	}
+	else 	
+	    mW->clearAfterExam(e_failed);
         if (m_exam) delete m_exam;
         return;
     }

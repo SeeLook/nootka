@@ -235,23 +235,15 @@ void MainWindow::setMessageBg(QColor bg) {
     m_curBG = bg;
 }
 
-void MainWindow::clearAfterExam() {
+void MainWindow::clearAfterExam(TexamExecutor::Estate examState) {
     setStartExamActParams();
-    qDebug() << "clearAfterExam" << ex ;
-    bool shallOpenCreator = false;
-    if (ex->state() == TexamExecutor::e_openCreator) {
-	shallOpenCreator = true;
-	qDebug("e_openCreator");
-    }
     delete ex;
     ex = 0;
     m_curBG = -1;
     m_prevBg = -1;
     setMessageBg(-1);
-    if (shallOpenCreator) {
-	qDebug("opening");
+    if (examState == TexamExecutor::e_openCreator) 
 	openLevelCreator();
-    }
     else
 	sound->go();
 }
