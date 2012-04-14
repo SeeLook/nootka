@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com   						   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -41,8 +41,9 @@ public:
         /** Describes actions commited by user.
         * @param e_none - dialog discarded,
         * @param e_continue - exam to continue,
-        * @param e_newLevel - new level selected.*/
-    enum Eactions { e_none, e_continue, e_newLevel };
+        * @param e_newLevel - new level selected.
+	* @param e_levelCreator - open Level creator.*/
+    enum Eactions { e_none, e_continue, e_newLevel, e_levelCreator };
         /** This method calls dialog window,
         * takes txt reference and puts there eighter user name
         * or exam file path, depends on returned @param Eactions,
@@ -64,7 +65,7 @@ private:
     QGroupBox *examGr, *levelGr;
     TlevelSelector *levelsView;
     QLineEdit *nameEdit;
-    QPushButton /**createBut,*/ *loadExamBut, *startBut, *cancelBut;
+    QPushButton *createBut, *loadExamBut, *startBut, *cancelBut;
     QLabel *hint;
     QComboBox *examCombo;
     QStringList recentExams;
@@ -72,9 +73,11 @@ private:
 private slots:
     void levelOrExamChanged();
     void levelToLoad();
-        /** occurs when user click Accept button*/
+        /** occurs when user clicks Accept button*/
     void startAccepted();
     void loadExam();
+        /** occurs when user clicks create Level Button */
+    Eactions createLevel();
 };
 
 #endif // TSTARTEXAMDLG_H
