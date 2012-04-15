@@ -19,3 +19,12 @@
 
 #include "tanalyswindow.h"
 
+TanalysWindow::TanalysWindow(QWidget* parent, Qt::WindowFlags flags): 
+	QMainWindow(parent, flags) 
+{
+
+}
+
+
+TanalysWindow::~TanalysWindow()
+{}
