@@ -25,6 +25,12 @@
 
 class TanalysWindow : public QMainWindow
 {
+	Q_OBJECT
+	
+public:
+	explicit TanalysWindow(QWidget* parent = 0, Qt::WindowFlags flags = 0);
+	virtual ~TanalysWindow();
+	
 };
 
 #endif // TANALYSWINDOW_H

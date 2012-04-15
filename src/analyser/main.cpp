@@ -17,10 +17,14 @@
  ***************************************************************************/
 
 #include <QtGui>
+#include "tanalyswindow.h"
 int main(int argc, char *argv[])
 {
     
   QApplication a(argc, argv);
+  
+  TanalysWindow w;
+  w.show();
 
   return a.exec();
 }

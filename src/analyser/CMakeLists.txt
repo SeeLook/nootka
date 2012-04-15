@@ -9,20 +9,15 @@ include_directories(${QT_INCLUDES})
 
 
 
-
-
-
-
-
-
-include_directories ( ../src )
+include_directories ( . ../src )
 
 set( NOOANALYSER_SRCS
   main.cpp
+  tanalyswindow.cpp
 )
 
 set( NOOANALYSER_MOC_SRCS
-
+	tanalyswindow.h
 )
 
 qt4_wrap_cpp ( NOOANALYSER_MOCS ${NOOANALYSER_MOC_SRCS} )
@@ -31,7 +26,7 @@ add_definitions(-DQT_NO_DEBUG)
 
 add_executable( nooanalyser
         ${NOOANALYSER_SRCS}
-#         ${NOOANALYSER_MOCS}
+        ${NOOANALYSER_MOCS}
     
   )
 target_link_libraries(nooanalyser
