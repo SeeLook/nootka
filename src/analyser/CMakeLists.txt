@@ -14,12 +14,12 @@ include_directories ( . ../src )
 set( NOOANALYSER_SRCS
   main.cpp
   tanalyswindow.cpp
-  tanalyswdg.cpp
+#  tanalyswdg.cpp
 )
 
 set( NOOANALYSER_MOC_SRCS
 	tanalyswindow.h
-  tanalyswdg.h
+#  tanalyswdg.h
 )
 
 qt4_wrap_cpp ( NOOANALYSER_MOCS ${NOOANALYSER_MOC_SRCS} )
