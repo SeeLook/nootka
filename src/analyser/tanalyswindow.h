@@ -24,24 +24,31 @@
 
 class Texam;
 class TanalysWdg;
+class QLabel;
+class QComboBox;
 
 class TanalysWindow : public QMainWindow
 {
 	Q_OBJECT
 	
 public:
-	explicit TanalysWindow(Texam *exam = 0, QWidget* parent = 0, Qt::WindowFlags flags = 0);
+    explicit TanalysWindow();
 	virtual ~TanalysWindow();
   
+    void setExam(QString &examFile);
+
 private:
   QToolBar *m_toolBar;
   QAction *m_openExamAct, *m_closeAct;
+  QLabel *m_levelLab, *m_userLab;
+  QComboBox *m_chartListComo;
   
   TanalysWdg *m_analyseWdg;
   Texam *m_exam;
   
 private:
   void createActions();
+  void loadExamSlot();
 	
 };
 

@@ -20,10 +20,10 @@
 #include <QtGui>
 #include "tanalyswindow.h"
 // #include "../exam/texam.h"
+#include <texam.h>
 
-TanalysWindow::TanalysWindow(Texam* exam, QWidget* parent, Qt::WindowFlags flags): 
-	QMainWindow(parent, flags),
-	m_exam(exam)
+TanalysWindow::TanalysWindow() :
+    m_exam(0)
 {
   
   QVBoxLayout *mainLay = new QVBoxLayout;
@@ -31,6 +31,19 @@ TanalysWindow::TanalysWindow(Texam* exam, QWidget* parent, Qt::WindowFlags flags
   
   m_toolBar = new QToolBar("", widget);
   mainLay->addWidget(m_toolBar);
+
+  QGridLayout *headLay = new QGridLayout;
+  headLay->addWidget(new QLabel(tr("analyse type:"), this), 0, 0);
+  headLay->addWidget(new QLabel(tr("user name:"), this), 0, 1);
+  headLay->addWidget(new QLabel(tr("level:"), this), 0, 2);
+  m_chartListComo = new QComboBox(this);
+  headLay->addWidget(m_chartListComo, 1, 0);
+  m_userLab = new QLabel("XX", this);
+  headLay->addWidget(m_userLab, 1, 1);
+  m_levelLab = new QLabel("YY", this);
+  headLay->addWidget(m_levelLab, 1, 2);
+
+  mainLay->addLayout(headLay);
   
   
   widget->setLayout(mainLay);
@@ -40,17 +53,34 @@ TanalysWindow::TanalysWindow(Texam* exam, QWidget* parent, Qt::WindowFlags flags
 
 }
 
-
 TanalysWindow::~TanalysWindow()
 {}
 
+
+
+//##########  PUBLIC METHODS #####################
+void TanalysWindow::setExam(QString &examFile) {
+
+}
+
+//##########  PRIVATE METHODS #####################
+
 void TanalysWindow::createActions() {
   m_openExamAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_DirOpenIcon)), tr("Open an exam"), this);
+
+  m_closeAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)), tr("Close analyser"), this);
+  connect(m_closeAct, SIGNAL(triggered()), this, SLOT(close()));
   
   m_toolBar->addAction(m_openExamAct);
+  m_toolBar->addAction(m_closeAct);
 }
 
 
+//##########  SLOTS #####################
+
+void TanalysWindow::loadExamSlot() {
+
+}
 
 
 
