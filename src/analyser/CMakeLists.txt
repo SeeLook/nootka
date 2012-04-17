@@ -11,21 +11,33 @@ include_directories(${QT_INCLUDES})
 
 #include_directories ( . ${CMAKE_COURENT_SOURCE_DIR}/../src ${CMAKE_COURENT_SOURCE_DIR}/../src/exam ${CMAKE_COURENT_SOURCE_DIR}/../src/level )
 include_directories ( .
-    ..
-    ../exam
-    ../level
-    ../score
+    .. # Tnote, TfingerPos, Ttune
+    ../exam # Texam, TQAunit, TQAtype
+    ../level # TexamLevel
+    ../score # TkeySignature
  )
 
 set( NOOANALYSER_SRCS
   main.cpp
   tanalyswindow.cpp
 #  tanalyswdg.cpp
+
+   ../exam/texam.cpp
+   ../exam/tqatype.cpp
+   ../exam/tqaunit.cpp
+   ../tnote.cpp
+   ../ttune.cpp
+   ../tfingerpos.h
+   ../score/tkeysignature.cpp
+   #../level/texamlevel.cpp
+   #../level/tlevelselector.cpp
 )
 
 set( NOOANALYSER_MOC_SRCS
-	tanalyswindow.h
+   tanalyswindow.h
 #  tanalyswdg.h
+    #../level/tlevelselector.h
+
 )
 
 qt4_wrap_cpp ( NOOANALYSER_MOCS ${NOOANALYSER_MOC_SRCS} )
