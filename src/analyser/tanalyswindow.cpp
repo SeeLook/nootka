@@ -17,14 +17,40 @@
  ***************************************************************************/
 
 
+#include <QtGui>
 #include "tanalyswindow.h"
+// #include "../exam/texam.h"
 
-TanalysWindow::TanalysWindow(QWidget* parent, Qt::WindowFlags flags): 
-	QMainWindow(parent, flags) 
+TanalysWindow::TanalysWindow(Texam* exam, QWidget* parent, Qt::WindowFlags flags): 
+	QMainWindow(parent, flags),
+	m_exam(exam)
 {
+  
+  QVBoxLayout *mainLay = new QVBoxLayout;
+  QWidget *widget = new QWidget(this);
+  
+  m_toolBar = new QToolBar("", widget);
+  mainLay->addWidget(m_toolBar);
+  
+  
+  widget->setLayout(mainLay);
+  setCentralWidget(widget);
+  
+  createActions();
 
 }
 
 
 TanalysWindow::~TanalysWindow()
 {}
+
+void TanalysWindow::createActions() {
+  m_openExamAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_DirOpenIcon)), tr("Open an exam"), this);
+  
+  m_toolBar->addAction(m_openExamAct);
+}
+
+
+
+
+
