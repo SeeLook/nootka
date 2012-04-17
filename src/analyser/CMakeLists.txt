@@ -9,7 +9,13 @@ include_directories(${QT_INCLUDES})
 
 
 
-include_directories ( . ../src )
+#include_directories ( . ${CMAKE_COURENT_SOURCE_DIR}/../src ${CMAKE_COURENT_SOURCE_DIR}/../src/exam ${CMAKE_COURENT_SOURCE_DIR}/../src/level )
+include_directories ( .
+    ..
+    ../exam
+    ../level
+    ../score
+ )
 
 set( NOOANALYSER_SRCS
   main.cpp
