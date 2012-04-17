@@ -19,12 +19,12 @@
 
 #include <QtGui>
 #include "tanalyswindow.h"
-#include "texam.h"
+// #include "texam.h"
 //#include "texamlevel.h"
 
 TanalysWindow::TanalysWindow() :
-    m_exam(0),
-    m_level(0)
+    m_exam(0)
+//     m_level(0)
 {
   
   QVBoxLayout *mainLay = new QVBoxLayout;
@@ -61,11 +61,11 @@ TanalysWindow::~TanalysWindow()
 
 //##########  PUBLIC METHODS #####################
 void TanalysWindow::loadExam(QString &examFile) {
-    if (!m_exam) {
-        m_exam = new Texam(m_level, "");
-    }
-    m_exam->loadFromFile(examFile);
-    m_userLab->setText(m_exam->userName());
+//     if (!m_exam) {
+//         m_exam = new Texam(m_level, "");
+//     }
+//     m_exam->loadFromFile(examFile);
+//     m_userLab->setText(m_exam->userName());
 //    m_levelLab->setText(m_exam->level()->name);
 }
 
