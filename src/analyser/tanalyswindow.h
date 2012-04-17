@@ -22,14 +22,26 @@
 
 #include <QMainWindow>
 
+class Texam;
+class TanalysWdg;
 
 class TanalysWindow : public QMainWindow
 {
 	Q_OBJECT
 	
 public:
-	explicit TanalysWindow(QWidget* parent = 0, Qt::WindowFlags flags = 0);
+	explicit TanalysWindow(Texam *exam = 0, QWidget* parent = 0, Qt::WindowFlags flags = 0);
 	virtual ~TanalysWindow();
+  
+private:
+  QToolBar *m_toolBar;
+  QAction *m_openExamAct, *m_closeAct;
+  
+  TanalysWdg *m_analyseWdg;
+  Texam *m_exam;
+  
+private:
+  void createActions();
 	
 };
 
