@@ -26,7 +26,7 @@ class Texam;
 class TanalysWdg;
 class QLabel;
 class QComboBox;
-class TexamLevel;
+// class TexamLevel;
 
 class TanalysWindow : public QMainWindow
 {
@@ -46,7 +46,7 @@ private:
   
   TanalysWdg *m_analyseWdg;
   Texam *m_exam;
-  TexamLevel *m_level;
+//   TexamLevel *m_level;
   
 private:
   void createActions();

@@ -22,14 +22,14 @@ set( NOOANALYSER_SRCS
   tanalyswindow.cpp
 #  tanalyswdg.cpp
 
-   ../exam/texam.cpp
-   ../exam/tqatype.cpp
-   ../exam/tqaunit.cpp
-   ../tnote.cpp
-   ../ttune.cpp
-   ../tfingerpos.h
-   ../score/tkeysignature.cpp
-   #../level/texamlevel.cpp
+#    texam.cpp
+#    ../exam/tqatype.cpp
+#    ../exam/tqaunit.cpp
+#    ../tnote.cpp
+#    ../ttune.cpp
+#    ../tfingerpos.h
+#    ../score/tkeysignature.cpp
+#    texamlevel.cpp
    #../level/tlevelselector.cpp
 )
 
