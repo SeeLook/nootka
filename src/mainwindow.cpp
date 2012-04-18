@@ -30,7 +30,7 @@
 #include "taudioparams.h"
 #include "taudioout.h"
 #include "tpitchview.h"
-
+#include "tanalysdialog.h"
 
 extern Tglobals *gl;
 
@@ -185,6 +185,9 @@ void MainWindow::createActions() {
     startExamAct = new QAction(this);
     connect(startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
     setStartExamActParams(); // set text and icon also for levelCreatorAct
+    
+    analyseAct = new QAction(this);
+    connect(analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
 
     aboutAct = new QAction(tr("about"), this);
     aboutAct->setStatusTip(tr("About Nootka"));
@@ -193,6 +196,7 @@ void MainWindow::createActions() {
 
     nootBar->addAction(settingsAct);
     nootBar->addAction(levelCreatorAct);
+    nootBar->addAction(analyseAct);
     nootBar->addAction(aboutAct);
     nootBar->addSeparator();
     nootBar->addAction(startExamAct);
@@ -329,6 +333,17 @@ void MainWindow::aboutSlot() {
     delete ab;
     sound->go();
 }
+
+
+void MainWindow::analyseSlot() {
+    sound->wait();
+    sound->stopPlaying();
+    TanalysDialog *ad = new TanalysDialog(this);
+    ad->exec();
+    sound->go();
+}
+
+
 
 void MainWindow::noteWasClicked(int index, Tnote note) {
     sound->play(note);

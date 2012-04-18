@@ -5,7 +5,7 @@ find_package(Qt4 REQUIRED)
 INCLUDE( ${QT_USE_FILE} )
 add_definitions(${QT_DEFINITIONS})
 
-add_subdirectory(src/analyser)
+#add_subdirectory(src/analyser) # deprecated
 
 include_directories(${QT_INCLUDES})
 
