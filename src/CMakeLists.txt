@@ -1,6 +1,6 @@
 ################################################
 
-INCLUDE_DIRECTORIES (. exam info level score settings sound)
+INCLUDE_DIRECTORIES (. exam info level score settings sound charts)
 
 SET( NOOTKA_SRCS
   main.cpp
@@ -53,6 +53,8 @@ SET( NOOTKA_SRCS
   info/select7note.cpp
   info/texamhelp.cpp
   info/texpertanswerhelp.cpp
+###### Charts
+  charts/tanalysdialog.cpp
 ###### Sound
   sound/tsound.cpp
   sound/taudioout.cpp
@@ -130,6 +132,8 @@ SET( NOOTKA_MOC_SRCS
   info/select7note.h
   info/texamhelp.h
   info/texpertanswerhelp.h
+###### Charts
+  charts/tanalysdialog.h
 ###### Sound
   sound/tsound.h
   sound/taudioout.h

@@ -58,6 +58,7 @@ public slots:
     void openLevelCreator(QString levelFile = "");
     void startExamSlot();
     void aboutSlot();
+    void analyseSlot();
 
     void noteWasClicked(int index, Tnote note);
     void noteNameWasChanged(Tnote note);
@@ -76,7 +77,7 @@ protected:
     TpitchView *pitchView;
 
     QToolBar *nootBar;
-    QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct;
+    QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct, *analyseAct;
     void clearAfterExam(TexamExecutor::Estate examState = TexamExecutor::e_finished);
 
     void resizeEvent(QResizeEvent *);
