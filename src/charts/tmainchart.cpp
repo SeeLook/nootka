@@ -12,55 +12,46 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TANALYSDIALOG_H
-#define TANALYSDIALOG_H
 
-#include <QDialog>
+#include "tmainchart.h"
+#include "qwt_plot.h"
+#include "qwt_plot_curve.h"
+#include <QtGui>
 
-class Texam;
-class TanalysWdg;
-class QLabel;
-class QComboBox;
-class TexamLevel;
-class QToolBar;
-class QVBoxLayout;
-
-
-
-class TanalysDialog : public QDialog
+TmainChart::TmainChart(QWidget *parent) :
+    QWidget(parent)
 {
-    Q_OBJECT
-    
-public:
-    TanalysDialog(QWidget *parent = 0);
-    virtual ~TanalysDialog();
-    
-    void loadExam(QString &examFile);
-    
-protected slots:
-  
-  void loadExamSlot();
 
-private:
-  QToolBar *m_toolBar;
-  QAction *m_openExamAct, *m_closeAct;
-  QLabel *m_levelLab, *m_userLab;
-  QComboBox *m_chartListComo;
-  
-//   TanalysWdg *m_analyseWdg;
-  Texam *m_exam;
-  TexamLevel *m_level;
-  QVBoxLayout *m_lay;
-  
-private:
-  void createActions();
-     
-    
-    
-};
+    QVBoxLayout *mainLay = new QVBoxLayout;
 
-#endif // TANALYSDIALOG_H
+    m_chart = new QwtPlot(tr("chart"), this);
+
+    QwtPlotCurve *reactTimeLine = new QwtPlotCurve(tr("reaction time"));
+//    QwtPlotCurve *averTimeLine = new QwtPlotCurve(tr("average reaction time"));
+
+//    QwtSeriesData data;
+//    data << QPointF(1, 13) << QPointF(2, 3);
+
+//    reactTimeLine->setData(QPointF(1, 13));
+//    reactTimeLine->setData(QPointF(2, 3));
+//    reactTimeLine->setData(data);
+    double x[2], y[2];
+    x[0] = 1; x[1] = 2;
+    y[0] = 13; y[2] = 5;
+    reactTimeLine->setSamples(x, y, 2);
+
+//    averTimeLine->setData(QPointF(1, 8));
+//    averTimeLine->setData(QPointF(2, 16));
+
+    reactTimeLine->attach(m_chart);
+//    averTimeLine->attach(m_chart);
+
+    m_chart->replot();
+
+    setLayout(mainLay);
+
+}

@@ -139,11 +139,11 @@
        id="pattern2121"
        width="1012.0000">
       <image
-         sodipodi:absref="/home/tom/DEVELOP/QT4/nootka/unused-picts/pack_pliki/package-large.html"
+         sodipodi:absref="/Users/poa/DEVELOP/nootka/unused-picts/pack_pliki/package-large.html"
          xlink:href="pack_pliki/package-large.html"
-         width="1012.0000"
+         height="1020.0000"
          id="image2122"
-         height="1020.0000" />
+         width="1012.0000" />
     </pattern>
     <linearGradient
        id="linearGradient2246"
@@ -164,11 +164,11 @@
        id="pattern2261"
        width="200.00000">
       <image
-         sodipodi:absref="/home/tom/DEVELOP/QT4/nootka/unused-picts/pack_pliki/rpmlogo-200.html"
+         sodipodi:absref="/Users/poa/DEVELOP/nootka/unused-picts/pack_pliki/rpmlogo-200.html"
          xlink:href="pack_pliki/rpmlogo-200.html"
-         width="200.00000"
+         height="200.00000"
          id="image2262"
-         height="200.00000" />
+         width="200.00000" />
     </pattern>
     <linearGradient
        id="linearGradient2730"
@@ -1073,18 +1073,18 @@
      bordercolor="#666666"
      borderopacity="1.0"
      id="base"
-     inkscape:cx="-4.8416122"
-     inkscape:cy="100.24122"
+     inkscape:cx="98.556355"
+     inkscape:cy="90.377608"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:window-height="1174"
-     inkscape:window-width="1600"
-     inkscape:window-x="-8"
-     inkscape:window-y="-3"
-     inkscape:zoom="4.9599049"
+     inkscape:window-height="931"
+     inkscape:window-width="1680"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:zoom="3.5071824"
      pagecolor="#ffffff"
      showgrid="false"
-     inkscape:window-maximized="1"
+     inkscape:window-maximized="0"
      inkscape:current-layer="svg2115"
      showguides="true"
      inkscape:guide-bbox="true">
@@ -1129,9 +1129,8 @@
      sodipodi:nodetypes="ccccc"
      style="fill:url(#linearGradient2247);fill-opacity:1;fill-rule:evenodd;stroke-width:1.0000000pt;" />
   <path
-     transform="matrix(0.99936472,0.03563934,-0.03563934,0.99936472,0,0)"
      style="opacity:0.57317074;fill:#ececec;fill-opacity:1;stroke:none"
-     d="m 34.981637,33.602918 43.703321,1.151901 c 9.564742,0.252101 10.699285,4.165687 10.904945,13.315765 l 1.459026,64.913866 c 0.09033,4.01904 -5.2814,11.36987 -10.684051,10.08911 L 33.165192,111.88438 c -3.911651,-0.9273 -5.189979,-6.01805 -5.358331,-10.03458 L 25.452099,45.669852 C 25.032665,35.66299 27.868509,33.415435 34.981637,33.602918 z"
+     d="m 33.761828,34.23891 43.634504,3.874726 c 9.549681,0.848008 10.544026,4.826113 10.423452,13.974486 l -0.855388,64.901768 c -0.05296,4.01829 -5.683259,11.02255 -11.036833,9.407 L 29.156637,112.28284 c -3.876117,-1.16969 -4.972202,-6.33206 -4.997301,-10.35271 L 23.808286,45.692574 C 23.745757,35.67545 26.659901,33.608262 33.761828,34.23891 z"
      id="rect3236"
      inkscape:connector-curvature="0"
      sodipodi:nodetypes="sssssssss" />
@@ -1195,7 +1194,7 @@
     </g>
   </g>
   <g
-     transform="matrix(0.06514347,0.02063712,-0.0311555,0.09834597,-76.991233,449.99544)"
+     transform="matrix(0.06793175,0.00740535,-0.01117972,0.10255539,-10.157072,467.50437)"
      id="g9067">
     <path
        inkscape:connector-curvature="0"
@@ -2074,7 +2073,7 @@
   </g>
   <g
      id="g4479"
-     transform="matrix(0.06448925,0.00309766,-0.00437408,0.09106287,54.487232,31.434147)">
+     transform="matrix(0.048903,-0.00100452,0.00120381,0.08136644,51.707271,38.46652)">
     <g
        id="layer1-89">
       <path

@@ -12,55 +12,31 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TANALYSDIALOG_H
-#define TANALYSDIALOG_H
 
-#include <QDialog>
+#ifndef TMAINCHART_H
+#define TMAINCHART_H
 
-class Texam;
-class TanalysWdg;
-class QLabel;
-class QComboBox;
-class TexamLevel;
-class QToolBar;
-class QVBoxLayout;
+#include <QWidget>
 
+class QwtPlot;
 
-
-class TanalysDialog : public QDialog
+class TmainChart : public QWidget
 {
     Q_OBJECT
-    
 public:
-    TanalysDialog(QWidget *parent = 0);
-    virtual ~TanalysDialog();
+    explicit TmainChart(QWidget *parent = 0);
     
-    void loadExam(QString &examFile);
+signals:
     
-protected slots:
-  
-  void loadExamSlot();
+public slots:
 
 private:
-  QToolBar *m_toolBar;
-  QAction *m_openExamAct, *m_closeAct;
-  QLabel *m_levelLab, *m_userLab;
-  QComboBox *m_chartListComo;
-  
-//   TanalysWdg *m_analyseWdg;
-  Texam *m_exam;
-  TexamLevel *m_level;
-  QVBoxLayout *m_lay;
-  
-private:
-  void createActions();
-     
-    
+    QwtPlot *m_chart;
     
 };
 
-#endif // TANALYSDIALOG_H
+#endif // TMAINCHART_H
