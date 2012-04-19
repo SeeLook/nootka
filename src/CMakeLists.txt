@@ -55,6 +55,7 @@ SET( NOOTKA_SRCS
   info/texpertanswerhelp.cpp
 ###### Charts
   charts/tanalysdialog.cpp
+  charts/tmainchart.cpp
 ###### Sound
   sound/tsound.cpp
   sound/taudioout.cpp
@@ -134,6 +135,7 @@ SET( NOOTKA_MOC_SRCS
   info/texpertanswerhelp.h
 ###### Charts
   charts/tanalysdialog.h
+  charts/tmainchart.h
 ###### Sound
   sound/tsound.h
   sound/taudioout.h
@@ -202,6 +204,7 @@ if(APPLE)
         ${QT_QTGUI_LIBRARY}
         ${QTMULTIMEDIA_LIBRARIES}
         ${FFTW3_LIBRARIES}
+        ${QWT_LIBRARIES}
         ${CoreAudio_LIB}
         ${CoreMidi_LIB}
         ${CoreFoundation_LIB}        

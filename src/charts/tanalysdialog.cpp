@@ -22,6 +22,7 @@
 #include "texam.h"
 #include "texamlevel.h"
 #include "tstartexamdlg.h"
+#include "tmainchart.h"
 
 TanalysDialog::TanalysDialog(QWidget *parent) :
     QDialog(parent),
@@ -31,10 +32,10 @@ TanalysDialog::TanalysDialog(QWidget *parent) :
  
   setWindowTitle(tr("Analyse of the results"));
   
-  QVBoxLayout *mainLay = new QVBoxLayout;
+  m_lay = new QVBoxLayout;
   
   m_toolBar = new QToolBar("", this);
-  mainLay->addWidget(m_toolBar);
+  m_lay->addWidget(m_toolBar);
 
   QGridLayout *headLay = new QGridLayout;
   headLay->addWidget(new QLabel(tr("analyse type:"), this), 0, 0);
@@ -47,10 +48,10 @@ TanalysDialog::TanalysDialog(QWidget *parent) :
   m_levelLab = new QLabel(" ", this);
   headLay->addWidget(m_levelLab, 1, 2);
 
-  mainLay->addLayout(headLay);
+  m_lay->addLayout(headLay);
+
   
-  
-  setLayout(mainLay);
+  setLayout(m_lay);
   
   createActions();
 
@@ -70,6 +71,9 @@ void TanalysDialog::loadExam(QString& examFile) {
     m_exam->loadFromFile(examFile);
     m_userLab->setText(m_exam->userName());
     m_levelLab->setText(m_exam->level()->name);
+    TmainChart *m_chart = new TmainChart(this);
+    m_lay->addWidget(m_chart);
+
 }
 
 //##########  PRIVATE METHODS #####################
