@@ -175,6 +175,7 @@ ELSE(QWT_LIBRARIES AND QWT_INCLUDE_DIRS)
       qwt_plot.h
     PATHS
       /usr/include
+      /usr/include/qwt
       /usr/local/include
       /opt/local/include
       /sw/include
