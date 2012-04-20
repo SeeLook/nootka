@@ -12,32 +12,37 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
-#ifndef TMAINCHART_H
-#define TMAINCHART_H
-
 #include "tbasechart.h"
+#include <QtGui>
+#include "qwt_plot.h"
+#include "texam.h"
 
 
-class Texam;
 
-class TmainChart : public TbaseChart
+TbaseChart::TbaseChart(QWidget* parent): 
+  QWidget(parent),
+  exam(0)
 {
-    Q_OBJECT
-public:
-    explicit TmainChart(Texam *ex, QWidget *parent = 0);
-    
-signals:
-    
-public slots:
+  QVBoxLayout *lay = new QVBoxLayout;
+  
+  plot = new QwtPlot(this);
+  plot->setMinimumSize(400, 300);
+  lay->addWidget(plot);
+  
+  setLayout(lay);
+}
 
-private:
-    
-    
-};
+TbaseChart::~TbaseChart()
+{}
 
-#endif // TMAINCHART_H
+void TbaseChart::setPlot(QwtPlot* pl) {
+  delete plot;
+  plot = pl;
+}
+
+
+void TbaseChart::setExam(Texam* ex) {}

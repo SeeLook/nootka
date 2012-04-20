@@ -340,6 +340,7 @@ void MainWindow::analyseSlot() {
     sound->stopPlaying();
     TanalysDialog *ad = new TanalysDialog(this);
     ad->exec();
+    delete ad;
     sound->go();
 }
 

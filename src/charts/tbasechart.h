@@ -12,32 +12,36 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
+ *  You should have received a copy of the GNU General Public License	   *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#ifndef TBASECHART_H
+#define TBASECHART_H
 
-#ifndef TMAINCHART_H
-#define TMAINCHART_H
+#include <QWidget>
 
-#include "tbasechart.h"
-
-
+class QwtPlot;
 class Texam;
 
-class TmainChart : public TbaseChart
-{
-    Q_OBJECT
-public:
-    explicit TmainChart(Texam *ex, QWidget *parent = 0);
-    
-signals:
-    
-public slots:
 
-private:
-    
-    
+/** This is template class for all charts in analyse window. */
+class TbaseChart : public QWidget
+{
+  Q_OBJECT
+  
+public:
+  
+  explicit TbaseChart(QWidget* parent = 0);
+  virtual ~TbaseChart();
+  virtual void setExam(Texam *ex);
+  void setPlot(QwtPlot *pl);
+  
+protected:
+  Texam *exam;
+    /** Common instance of QwtPlot widget for all charts. */
+  QwtPlot *plot;
+  
 };
 
-#endif // TMAINCHART_H
+#endif // TBASECHART_H

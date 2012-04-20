@@ -22,6 +22,7 @@
 #include "texam.h"
 #include "texamlevel.h"
 #include "tstartexamdlg.h"
+#include "tbasechart.h"
 #include "tmainchart.h"
 
 TanalysDialog::TanalysDialog(QWidget *parent) :
@@ -31,27 +32,31 @@ TanalysDialog::TanalysDialog(QWidget *parent) :
 {
  
   setWindowTitle(tr("Analyse of the results"));
+  QVBoxLayout *lay = new QVBoxLayout;
   
-  m_lay = new QVBoxLayout;
+  lay = new QVBoxLayout;
   
   m_toolBar = new QToolBar("", this);
-  m_lay->addWidget(m_toolBar);
+  lay->addWidget(m_toolBar);
 
   QGridLayout *headLay = new QGridLayout;
   headLay->addWidget(new QLabel(tr("analyse type:"), this), 0, 0);
   headLay->addWidget(new QLabel(tr("user name:"), this), 0, 1);
   headLay->addWidget(new QLabel(tr("level:"), this), 0, 2);
   m_chartListComo = new QComboBox(this);
+  m_chartListComo->addItem(tr("main analyse"));
   headLay->addWidget(m_chartListComo, 1, 0);
   m_userLab = new QLabel(" ", this);
   headLay->addWidget(m_userLab, 1, 1);
   m_levelLab = new QLabel(" ", this);
   headLay->addWidget(m_levelLab, 1, 2);
 
-  m_lay->addLayout(headLay);
+  lay->addLayout(headLay);
 
+  m_chart = new TbaseChart(this);
+  lay->addWidget(m_chart);
   
-  setLayout(m_lay);
+  setLayout(lay);
   
   createActions();
 
@@ -71,8 +76,8 @@ void TanalysDialog::loadExam(QString& examFile) {
     m_exam->loadFromFile(examFile);
     m_userLab->setText(m_exam->userName());
     m_levelLab->setText(m_exam->level()->name);
-    TmainChart *m_chart = new TmainChart(this);
-    m_lay->addWidget(m_chart);
+//     m_chart->plo
+    
 
 }
 

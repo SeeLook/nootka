@@ -18,39 +18,38 @@
 
 
 #include "tmainchart.h"
+#include "texam.h"
+#include "tqaunit.h"
 #include "qwt_plot.h"
 #include "qwt_plot_curve.h"
 #include <QtGui>
 
-TmainChart::TmainChart(QWidget *parent) :
-    QWidget(parent)
+TmainChart::TmainChart(Texam* ex, QWidget* parent): 
+  TbaseChart(parent)
 {
-
+    exam = ex;
     QVBoxLayout *mainLay = new QVBoxLayout;
 
-    m_chart = new QwtPlot(tr("chart"), this);
+    plot = new QwtPlot(tr("chart"), this);
 
     QwtPlotCurve *reactTimeLine = new QwtPlotCurve(tr("reaction time"));
 //    QwtPlotCurve *averTimeLine = new QwtPlotCurve(tr("average reaction time"));
 
-//    QwtSeriesData data;
-//    data << QPointF(1, 13) << QPointF(2, 3);
-
-//    reactTimeLine->setData(QPointF(1, 13));
-//    reactTimeLine->setData(QPointF(2, 3));
-//    reactTimeLine->setData(data);
-    double x[2], y[2];
-    x[0] = 1; x[1] = 2;
-    y[0] = 13; y[2] = 5;
-    reactTimeLine->setSamples(x, y, 2);
-
+//     reactTimeLine->setSamples(x, y, 2);
+    double x[exam->count()];
+    double y[exam->count()];
+    for (int i = 0; i < exam->count(); i++) {
+      x[i] = i;
+//      y[i] = exam->answList()[i].time;
+    }
+//    reactTimeLine->setData(x, y, exam->count());
 //    averTimeLine->setData(QPointF(1, 8));
 //    averTimeLine->setData(QPointF(2, 16));
 
-    reactTimeLine->attach(m_chart);
+    reactTimeLine->attach(plot);
 //    averTimeLine->attach(m_chart);
 
-    m_chart->replot();
+    plot->replot();
 
     setLayout(mainLay);
 

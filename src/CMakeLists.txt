@@ -2,7 +2,7 @@
 
 INCLUDE_DIRECTORIES (. exam info level score settings sound charts)
 
-SET( NOOTKA_SRCS
+SET( NOOTKA_SRCS 
   main.cpp
   mainwindow.cpp
   tglobals.cpp
@@ -56,6 +56,7 @@ SET( NOOTKA_SRCS
 ###### Charts
   charts/tanalysdialog.cpp
   charts/tmainchart.cpp
+  charts/tbasechart.cpp
 ###### Sound
   sound/tsound.cpp
   sound/taudioout.cpp
@@ -136,6 +137,7 @@ SET( NOOTKA_MOC_SRCS
 ###### Charts
   charts/tanalysdialog.h
   charts/tmainchart.h
+  charts/tbasechart.h
 ###### Sound
   sound/tsound.h
   sound/taudioout.h
