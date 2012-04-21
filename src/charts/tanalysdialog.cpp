@@ -32,12 +32,12 @@ TanalysDialog::TanalysDialog(QWidget *parent) :
 {
  
   setWindowTitle(tr("Analyse of the results"));
-  QVBoxLayout *lay = new QVBoxLayout;
+  m_lay = new QVBoxLayout;
   
-  lay = new QVBoxLayout;
+  m_lay = new QVBoxLayout;
   
   m_toolBar = new QToolBar("", this);
-  lay->addWidget(m_toolBar);
+  m_lay->addWidget(m_toolBar);
 
   QGridLayout *headLay = new QGridLayout;
   headLay->addWidget(new QLabel(tr("analyse type:"), this), 0, 0);
@@ -51,12 +51,12 @@ TanalysDialog::TanalysDialog(QWidget *parent) :
   m_levelLab = new QLabel(" ", this);
   headLay->addWidget(m_levelLab, 1, 2);
 
-  lay->addLayout(headLay);
+  m_lay->addLayout(headLay);
 
   m_chart = new TbaseChart(this);
-  lay->addWidget(m_chart);
+  m_lay->addWidget(m_chart);
   
-  setLayout(lay);
+  setLayout(m_lay);
   
   createActions();
 
@@ -76,7 +76,11 @@ void TanalysDialog::loadExam(QString& examFile) {
     m_exam->loadFromFile(examFile);
     m_userLab->setText(m_exam->userName());
     m_levelLab->setText(m_exam->level()->name);
-//     m_chart->plo
+	
+	m_lay->removeWidget(m_chart);
+	delete m_chart;
+	m_chart = new TmainChart(m_exam, this);
+	m_lay->addWidget(m_chart);
     
 
 }
