@@ -30,27 +30,29 @@ TmainChart::TmainChart(Texam* ex, QWidget* parent):
     exam = ex;
     QVBoxLayout *mainLay = new QVBoxLayout;
 
-    plot = new QwtPlot(tr("chart"), this);
+//     plot = new QwtPlot(tr(""), this);
 
     QwtPlotCurve *reactTimeLine = new QwtPlotCurve(tr("reaction time"));
-//    QwtPlotCurve *averTimeLine = new QwtPlotCurve(tr("average reaction time"));
+	QwtPlotCurve *averTimeLine = new QwtPlotCurve(tr("average reaction time"));
+	reactTimeLine->setPen(QPen(QBrush(Qt::darkBlue), 2));
+	averTimeLine->setPen(QPen(QBrush(Qt::darkGreen), 2));
 
-//     reactTimeLine->setSamples(x, y, 2);
     double x[exam->count()];
     double y[exam->count()];
+	double a[exam->count()];
     for (int i = 0; i < exam->count(); i++) {
-      x[i] = i;
-     y[i] = exam->qusetion(i).time;
+		x[i] = i;
+		y[i] = (double)exam->qusetion(i).time / 10.0;
+		a[i] = (double)exam->averageReactonTime() / 10.0;
     }
    reactTimeLine->setSamples(x, y, exam->count());
-//    averTimeLine->setData(QPointF(1, 8));
-//    averTimeLine->setData(QPointF(2, 16));
+   averTimeLine->setSamples(x, a, exam->count());
 
+	averTimeLine->attach(plot);
     reactTimeLine->attach(plot);
-//    averTimeLine->attach(m_chart);
 
     plot->replot();
 
-    setLayout(mainLay);
+//     setLayout(mainLay);
 
 }

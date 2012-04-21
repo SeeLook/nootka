@@ -38,7 +38,7 @@ TbaseChart::TbaseChart(QWidget* parent):
 
 TbaseChart::~TbaseChart()
 {
-	delete plot;
+// 	delete plot;
 }
 
 void TbaseChart::setPlot(QwtPlot* pl) {
