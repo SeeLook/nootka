@@ -55,6 +55,7 @@ private:
   TbaseChart *m_chart;
   Texam *m_exam;
   TexamLevel *m_level;
+  QVBoxLayout *m_lay;
   
   
 private:

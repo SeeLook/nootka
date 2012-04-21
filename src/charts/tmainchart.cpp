@@ -40,9 +40,9 @@ TmainChart::TmainChart(Texam* ex, QWidget* parent):
     double y[exam->count()];
     for (int i = 0; i < exam->count(); i++) {
       x[i] = i;
-//      y[i] = exam->answList()[i].time;
+     y[i] = exam->qusetion(i).time;
     }
-//    reactTimeLine->setData(x, y, exam->count());
+   reactTimeLine->setSamples(x, y, exam->count());
 //    averTimeLine->setData(QPointF(1, 8));
 //    averTimeLine->setData(QPointF(2, 16));
 
