@@ -28,16 +28,17 @@
 TanalysDialog::TanalysDialog(QWidget *parent) :
     QDialog(parent),
     m_exam(0),
-    m_level(new TexamLevel())
+    m_level(new TexamLevel()),
+    m_chart(0)
 {
  
   setWindowTitle(tr("Analyse of the results"));
-  m_lay = new QVBoxLayout;
+  QVBoxLayout *lay = new QVBoxLayout;
   
-  m_lay = new QVBoxLayout;
+  lay = new QVBoxLayout;
   
   m_toolBar = new QToolBar("", this);
-  m_lay->addWidget(m_toolBar);
+  lay->addWidget(m_toolBar);
 
   QGridLayout *headLay = new QGridLayout;
   headLay->addWidget(new QLabel(tr("analyse type:"), this), 0, 0);
@@ -51,12 +52,15 @@ TanalysDialog::TanalysDialog(QWidget *parent) :
   m_levelLab = new QLabel(" ", this);
   headLay->addWidget(m_levelLab, 1, 2);
 
-  m_lay->addLayout(headLay);
+  lay->addLayout(headLay);
 
-  m_chart = new TbaseChart(this);
-  m_lay->addWidget(m_chart);
+//   m_chart = new TbaseChart(this);
+//   lay->addWidget(m_chart);
+  m_plotLay = new QVBoxLayout;
+//   m_plotLay->setS
+  lay->addLayout(m_plotLay);
   
-  setLayout(m_lay);
+  setLayout(lay);
   
   createActions();
 
@@ -77,10 +81,12 @@ void TanalysDialog::loadExam(QString& examFile) {
     m_userLab->setText(m_exam->userName());
     m_levelLab->setText(m_exam->level()->name);
 	
-	m_lay->removeWidget(m_chart);
-	delete m_chart;
+	if (m_chart) {
+		m_plotLay->removeWidget(m_chart);
+		delete m_chart;
+	}
 	m_chart = new TmainChart(m_exam, this);
-	m_lay->addWidget(m_chart);
+	m_plotLay->addWidget(m_chart);
     
 
 }
