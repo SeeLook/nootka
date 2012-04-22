@@ -19,6 +19,7 @@
 
 #include <QtGui>
 #include "tanalyswindow.h"
+#include "tchart.h"
 // #include "texam.h"
 //#include "texamlevel.h"
 
@@ -45,7 +46,8 @@ TanalysWindow::TanalysWindow() :
   headLay->addWidget(m_levelLab, 1, 2);
 
   mainLay->addLayout(headLay);
-  
+  Tchart *ch = new Tchart(this);
+  mainLay->addWidget(ch);
   
   widget->setLayout(mainLay);
   setCentralWidget(widget);
