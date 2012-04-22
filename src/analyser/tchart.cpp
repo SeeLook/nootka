@@ -17,39 +17,27 @@
  ***************************************************************************/
 
 
-#ifndef TANALYSWINDOW_H
-#define TANALYSWINDOW_H
+#include "tchart.h"
+#include <QGraphicsEllipseItem>
 
-#include <QMainWindow>
 
-class Texam;
-class QLabel;
-class QComboBox;
-// class TexamLevel;
-
-class TanalysWindow : public QMainWindow
+Tchart::Tchart(QWidget* parent) :
+	QGraphicsView(parent)
 {
-	Q_OBJECT
+	setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 	
-public:
-    explicit TanalysWindow();
-	virtual ~TanalysWindow();
-  
-    void loadExam(QString &examFile);
-
-private:
-  QToolBar *m_toolBar;
-  QAction *m_openExamAct, *m_closeAct;
-  QLabel *m_levelLab, *m_userLab;
-  QComboBox *m_chartListComo;
-  
-  Texam *m_exam;
-//   TexamLevel *m_level;
-  
-private:
-  void createActions();
-  void loadExamSlot();
+	m_scene = new QGraphicsScene();
+    setScene(m_scene);
 	
-};
+	QGraphicsEllipseItem *point = new QGraphicsEllipseItem();
+	m_scene->addItem(point);
+	point->setRect(0, 0, 30, 30);
+	
+}
 
-#endif // TANALYSWINDOW_H
+Tchart::~Tchart()
+{
+
+}
+
+

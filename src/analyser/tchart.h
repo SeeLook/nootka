@@ -17,39 +17,22 @@
  ***************************************************************************/
 
 
-#ifndef TANALYSWINDOW_H
-#define TANALYSWINDOW_H
+#ifndef TCHART_H
+#define TCHART_H
 
-#include <QMainWindow>
+#include <QGraphicsView>
 
-class Texam;
-class QLabel;
-class QComboBox;
-// class TexamLevel;
 
-class TanalysWindow : public QMainWindow
+class Tchart : public QGraphicsView
 {
 	Q_OBJECT
 	
 public:
-    explicit TanalysWindow();
-	virtual ~TanalysWindow();
-  
-    void loadExam(QString &examFile);
-
-private:
-  QToolBar *m_toolBar;
-  QAction *m_openExamAct, *m_closeAct;
-  QLabel *m_levelLab, *m_userLab;
-  QComboBox *m_chartListComo;
-  
-  Texam *m_exam;
-//   TexamLevel *m_level;
-  
-private:
-  void createActions();
-  void loadExamSlot();
+    Tchart(QWidget* parent = 0);
+    virtual ~Tchart();
 	
+private:
+	QGraphicsScene *m_scene;
 };
 
-#endif // TANALYSWINDOW_H
+#endif // TCHART_H

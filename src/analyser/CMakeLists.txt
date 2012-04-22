@@ -20,6 +20,7 @@ include_directories ( .
 set( NOOANALYSER_SRCS
   main.cpp
   tanalyswindow.cpp
+  tchart.cpp
 #  tanalyswdg.cpp
 
 #    texam.cpp
@@ -35,6 +36,7 @@ set( NOOANALYSER_SRCS
 
 set( NOOANALYSER_MOC_SRCS
    tanalyswindow.h
+   tchart.h
 #  tanalyswdg.h
     #../level/tlevelselector.h
 
