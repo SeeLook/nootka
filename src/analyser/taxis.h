@@ -12,50 +12,32 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
+ *  You should have received a copy of the GNU General Public License	   *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#ifndef TAXIS_H
+#define TAXIS_H
 
-#include "tchart.h"
-#include <QGraphicsEllipseItem>
-#include <QMouseEvent>
-#include <cmath>
-#include "taxis.h"
+#include <QGraphicsItem>
 
-Tchart::Tchart(QWidget* parent) :
-	QGraphicsView(parent)
+
+class Taxis : public QGraphicsItem
 {
-	setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
-	setDragMode(ScrollHandDrag);
-	m_scene = new QGraphicsScene();
-  setScene(m_scene);
-	
-// 	QGraphicsEllipseItem *point = new QGraphicsEllipseItem();
-// 	m_scene->addItem(point);
-// 	point->setRect(0, 0, 30, 30);
+
+public:
+  Taxis();
+  virtual ~Taxis();
   
-  Taxis *axisX = new Taxis();
-  m_scene->addItem(axisX);
-  axisX->setWidth(300);
-  axisX->setPos(10, m_scene->height() - 16);
+  void setWidth(qreal w);
+  qreal width() { return m_width; }
   
-  Taxis *axisY = new Taxis();
-  m_scene->addItem(axisY);
-  axisY->setRotation(-90);
-  axisY->translate(1, -1);
-  axisY->setWidth(300);
-  axisY->setPos(5, 0);
-	
-}
+  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+  virtual QRectF boundingRect() const;
+  
+private:
+  qreal m_width;
+  
+};
 
-Tchart::~Tchart()
-{}
-
-void Tchart::wheelEvent(QWheelEvent* event) {
-  double deg = -event->delta() / 8.0;
-  double step = deg / 15.0;
-  double coef = std::pow(1.125, step);
-  scale(coef, coef);
-}
-
+#endif // TAXIS_H

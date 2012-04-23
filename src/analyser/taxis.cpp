@@ -12,50 +12,46 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
+ *  You should have received a copy of the GNU General Public License	   *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
-#include "tchart.h"
-#include <QGraphicsEllipseItem>
-#include <QMouseEvent>
-#include <cmath>
 #include "taxis.h"
+#include <QPainter>
 
-Tchart::Tchart(QWidget* parent) :
-	QGraphicsView(parent)
+Taxis::Taxis() :
+  m_width(200)
 {
-	setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
-	setDragMode(ScrollHandDrag);
-	m_scene = new QGraphicsScene();
-  setScene(m_scene);
-	
-// 	QGraphicsEllipseItem *point = new QGraphicsEllipseItem();
-// 	m_scene->addItem(point);
-// 	point->setRect(0, 0, 30, 30);
-  
-  Taxis *axisX = new Taxis();
-  m_scene->addItem(axisX);
-  axisX->setWidth(300);
-  axisX->setPos(10, m_scene->height() - 16);
-  
-  Taxis *axisY = new Taxis();
-  m_scene->addItem(axisY);
-  axisY->setRotation(-90);
-  axisY->translate(1, -1);
-  axisY->setWidth(300);
-  axisY->setPos(5, 0);
-	
+
 }
 
-Tchart::~Tchart()
+Taxis::~Taxis()
 {}
 
-void Tchart::wheelEvent(QWheelEvent* event) {
-  double deg = -event->delta() / 8.0;
-  double step = deg / 15.0;
-  double coef = std::pow(1.125, step);
-  scale(coef, coef);
+
+void Taxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+{
+  QRectF rect = boundingRect();
+  qreal half = rect.height() /  2.0;
+  painter->drawLine(0, half, rect.width(), half);
+  painter->drawLine(rect.width(), half, rect.width() - 7, 2);
+  painter->drawLine(rect.width(), half, rect.width() - 7, rect.height() - 2);
+  painter->drawText(rect.width() - 30, 0, "Axis");
+  int b = m_width / 10 - 1;
+  for (int i=1; i < b; i++) {
+    painter->drawLine(i*10, half, i*10, half + 4);
+  }
+  
+}
+
+QRectF Taxis::boundingRect() const
+{
+  QRectF rect(0 ,0, m_width, 10);
+  return rect;
+}
+
+void Taxis::setWidth(qreal w) {
+  m_width = w;
+  update(boundingRect());
 }
 
