@@ -30,6 +30,9 @@ class Tchart : public QGraphicsView
 public:
     Tchart(QWidget* parent = 0);
     virtual ~Tchart();
+    
+protected:
+    void wheelEvent(QWheelEvent *event);
 	
 private:
 	QGraphicsScene *m_scene;
