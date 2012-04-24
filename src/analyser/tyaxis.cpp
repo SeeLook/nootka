@@ -61,7 +61,7 @@ void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
 QRectF TYaxis::boundingRect() const
 {
     QRectF rect(0 ,0, 10, m_lenght);
-    rect.translate(1, -m_lenght);
+//     rect.translate(1, -m_lenght);
     return rect;
 }
 
