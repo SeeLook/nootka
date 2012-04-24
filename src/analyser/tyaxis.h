@@ -12,50 +12,42 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#ifndef TYAXIS_H
+#define TYAXIS_H
 
-#include "tchart.h"
-#include <QGraphicsEllipseItem>
-#include <QMouseEvent>
-#include <cmath>
-#include "taxis.h"
-#include "tyaxis.h"
+#include <QGraphicsItem>
 
-Tchart::Tchart(QWidget* parent) :
-	QGraphicsView(parent)
+
+class TYaxis : public QGraphicsItem
 {
-	setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
-	setDragMode(ScrollHandDrag);
-	m_scene = new QGraphicsScene();
-  setScene(m_scene);
-	
-// 	QGraphicsEllipseItem *point = new QGraphicsEllipseItem();
-// 	m_scene->addItem(point);
-// 	point->setRect(0, 0, 30, 30);
+
+public:
   
-  Taxis *axisX = new Taxis();
-  m_scene->addItem(axisX);
-  axisX->setWidth(300);
-  axisX->setPos(10, m_scene->height() - 16);
+  TYaxis();
+  virtual ~TYaxis();
   
-  TYaxis *axisY = new TYaxis();
-  axisY->setMaxValue(43.7);
-  m_scene->addItem(axisY);
-  axisY->setLenght(300);
-  axisY->setPos(5, m_scene->height() - 16);
-	
-}
+  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+  virtual QRectF boundingRect() const;
+      /** Maximum value of a data on Y axis. Needs update(). */
+  void setMaxValue(qreal val) { m_maxVal = val; }
+  qreal maxValue() { return m_maxVal; }
+      /** Sets a lenght of axis in pixels. Needs update() after. */
+  void setLenght(int len) { m_lenght = len; }
+      /**  Returns y position of given value in data units. */
+  inline double mapToY(double val) { return val * m_yScale; }
+  
+  
+private:
+  qreal m_maxVal, m_multi;
+  qreal m_topTick; // highest tick
+  qreal m_yScale; // factor to calculate Y orign
+  int m_lenght;
+  
 
-Tchart::~Tchart()
-{}
+};
 
-void Tchart::wheelEvent(QWheelEvent* event) {
-  double deg = -event->delta() / 8.0;
-  double step = deg / 15.0;
-  double coef = std::pow(1.125, step);
-  scale(coef, coef);
-}
-
+#endif // TYAXIS_H
