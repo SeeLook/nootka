@@ -18,17 +18,20 @@
 
 #include "tyaxis.h"
 #include <QPainter>
+#include <QApplication>
 #include <QDebug>
 
 
 TYaxis::TYaxis() :
   m_yScale(1),
   m_topTick(10),
-  m_maxVal(10),
+  m_maxVal(11),
   m_multi(1),
   m_lenght(200)
 {
 
+    QFontMetrics metrics = QApplication::font();
+    m_textPosOffset = metrics.boundingRect("X").height() / 2 - 1;
 }
 
 TYaxis::~TYaxis()
@@ -46,15 +49,37 @@ void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
     
     qreal maxT = m_maxVal;
     qreal multi = m_multi;
-    while ((maxT / 10.0) >= 1) {
+    while (maxT > 99) {
       multi = multi*10;
       maxT = maxT / 10;
     }
-    double top = ((int)(maxT / multi) +1 ) * multi;
-    double step = (m_lenght - 10) / top;
-    qDebug() << top << step;
-    for (int i = 1; i <= top; i++) {
-        painter->drawLine(half, i*step, 1, i*step);
+    int top = int(maxT) + 1 ;
+    int loop = top;
+    int multi2 = 1;
+
+    if (top > 9) {
+        loop = top / 10;
+        multi2 = 10;
+    }
+
+    double yScale = (m_lenght - 15) / top;
+    double nearTop = top * yScale;
+    double step = (nearTop / top)  ;
+//    qDebug() << top << loop << yScale << nearTop << step << multi2;
+    bool halfTick = false;
+    if (step > m_textPosOffset*2)
+        halfTick = true;
+    for (int i = 1; i <= loop; i++) {
+        painter->drawLine(half, m_lenght - i*step*multi2, 1, m_lenght - i*step*multi2);
+        painter->drawText(half + 3, m_lenght - i*step*multi2 + m_textPosOffset, QString::number(i*multi*multi2));
+        if (halfTick) {
+            painter->drawLine(half, m_lenght - (double)(i-0.5)*step*multi2, 1, m_lenght - (double)(i-0.5)*step*multi2);
+            painter->drawText(half + 3, m_lenght - (double)(i-0.5)*step*multi2 + m_textPosOffset, QString::number((double)(i-0.5)*multi*multi2));
+        }
+    }
+    if (loop != top) {
+        painter->drawLine(half, m_lenght - nearTop, 1, m_lenght - nearTop);
+        painter->drawText(half + 3, m_lenght - nearTop + m_textPosOffset, QString::number(top*multi));
     }
 }
 

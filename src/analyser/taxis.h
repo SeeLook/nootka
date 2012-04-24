@@ -20,6 +20,7 @@
 #define TAXIS_H
 
 #include <QGraphicsItem>
+#include <QFont>
 
 
 class Taxis : public QGraphicsItem
@@ -37,6 +38,8 @@ public:
   
 private:
   qreal m_width;
+  QRectF outRect(QString txt);
+  QFont m_font;
   
 };
 

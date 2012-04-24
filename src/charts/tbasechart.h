@@ -36,11 +36,12 @@ public:
   virtual ~TbaseChart();
   virtual void setExam(Texam *ex);
   void setPlot(QwtPlot *pl);
+  QwtPlot *plot;
+
   
 protected:
   Texam *exam;
     /** Common instance of QwtPlot widget for all charts. */
-  QwtPlot *plot;
   
 };
 

@@ -44,6 +44,7 @@ TbaseChart::~TbaseChart()
 void TbaseChart::setPlot(QwtPlot* pl) {
   delete plot;
   plot = pl;
+//  pl->setParent(this);
 }
 
 

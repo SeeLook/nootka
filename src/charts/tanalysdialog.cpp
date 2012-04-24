@@ -80,6 +80,10 @@ void TanalysDialog::loadExam(QString& examFile) {
     m_exam->loadFromFile(examFile);
     m_userLab->setText(m_exam->userName());
     m_levelLab->setText(m_exam->level()->name);
+<<<<<<< local
+    delete m_chart;
+    m_chart = new TmainChart(m_exam, this);
+=======
 	
 	if (m_chart) {
 		m_plotLay->removeWidget(m_chart);
@@ -88,6 +92,7 @@ void TanalysDialog::loadExam(QString& examFile) {
 	m_chart = new TmainChart(m_exam, this);
 	m_plotLay->addWidget(m_chart);
     
+>>>>>>> other
 
 }
 
