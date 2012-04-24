@@ -41,12 +41,23 @@ TmainChart::TmainChart(Texam* ex, QWidget* parent):
     double y[exam->count()];
 	double a[exam->count()];
     for (int i = 0; i < exam->count(); i++) {
+<<<<<<< local
+      x[i] = i;
+      y[i] = exam->qusetion(i).time;
+=======
 		x[i] = i;
 		y[i] = (double)exam->qusetion(i).time / 10.0;
 		a[i] = (double)exam->averageReactonTime() / 10.0;
+>>>>>>> other
     }
+<<<<<<< local
+    reactTimeLine->setSamples(x, y, exam->count());
+//    averTimeLine->setData(QPointF(1, 8));
+//    averTimeLine->setData(QPointF(2, 16));
+=======
    reactTimeLine->setSamples(x, y, exam->count());
    averTimeLine->setSamples(x, a, exam->count());
+>>>>>>> other
 
 	averTimeLine->attach(plot);
     reactTimeLine->attach(plot);

@@ -46,6 +46,7 @@ private:
   qreal m_topTick; // highest tick
   qreal m_yScale; // factor to calculate Y orign
   int m_lenght;
+  int m_textPosOffset; // half of text height
   
 
 };
