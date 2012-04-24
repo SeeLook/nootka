@@ -30,23 +30,25 @@ Tchart::Tchart(QWidget* parent) :
 	setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 	setDragMode(ScrollHandDrag);
 	m_scene = new QGraphicsScene();
-  setScene(m_scene);
+	setScene(m_scene);
 	
 // 	QGraphicsEllipseItem *point = new QGraphicsEllipseItem();
 // 	m_scene->addItem(point);
 // 	point->setRect(0, 0, 30, 30);
   
-  Taxis *axisX = new Taxis();
-  m_scene->addItem(axisX);
-  axisX->setWidth(300);
-  axisX->setPos(10, m_scene->height() - 16);
-  
+    
   TYaxis *axisY = new TYaxis();
   axisY->setMaxValue(43.7);
   m_scene->addItem(axisY);
+  m_scene->setSceneRect(0, 0, width(), height());
+  //   axisY->setRect(0,0,10,300);
   axisY->setLenght(300);
-  axisY->setPos(5, m_scene->height() - 16);
+  axisY->setPos(5, 0);
 	
+  Taxis *axisX = new Taxis();
+  m_scene->addItem(axisX);
+  axisX->setWidth(300);
+  axisX->setPos(10, height() - 16);
 }
 
 Tchart::~Tchart()
