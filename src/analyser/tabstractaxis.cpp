@@ -25,7 +25,7 @@
 /* static*/
 const int TabstractAxis::tickSize = 4;
 const int TabstractAxis::axisWidth = 10;
-const int TabstractAxis::arrowSize = 7;
+const int TabstractAxis::arrowSize = 9;
 
 void TabstractAxis::drawArrow(QPainter *painter, QPointF endPoint, bool isHorizontal) {
     QPointF points[3];
