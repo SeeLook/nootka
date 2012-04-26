@@ -41,13 +41,13 @@ Tchart::Tchart(QWidget* parent) :
   TYaxis *axisY = new TYaxis();
   m_scene->addItem(axisY);
   axisY->setLength(300);
-  axisY->setMaxValue(19);
-  axisY->setPos(10, 0);
+  axisY->setMaxValue(1024);
+  axisY->setPos(20, 0);
 	
   Taxis *axisX = new Taxis();
   m_scene->addItem(axisX);
-  axisX->setWidth(1800);
-  axisX->setPos(10, axisY->boundingRect().height()-16);
+  axisX->setWidth(800);
+  axisX->setPos(27, axisY->boundingRect().height()-5);
   
 }
 
