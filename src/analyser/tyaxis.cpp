@@ -22,7 +22,6 @@
 
 
 TYaxis::TYaxis() :
-  m_topTick(10),
   m_maxVal(11),
   m_multi(1),
   m_halfTick(false)
@@ -44,12 +43,13 @@ void TYaxis::setMaxValue(qreal val) {
         m_loop = m_top / 10;
         m_multi2 = 10;
     }
-    axisScale = (length() - (2 * arrowSize)) / m_top;
+    axisScale = ((length() - (2 * arrowSize)) / m_top);
+    axisScale = m_top / (length() - (2 * arrowSize));
     m_nearTop = m_top * axisScale;
     m_step = (m_nearTop / m_top);
-    if (m_step > m_textPosOffset*2)
+    if ( ((m_top * axisScale * m_multi) / m_top) > m_textPosOffset*2)
         m_halfTick = true;
-	qDebug() << m_top << axisScale << m_top*axisScale << length() - (2 * arrowSize) << length();
+    qDebug() << m_top << axisScale << m_top*axisScale << length() - (2 * arrowSize) << length() << m_loop << mapValue(m_top) << m_multi << m_multi2;
 
 }
 
@@ -58,11 +58,21 @@ void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    QRectF rect = boundingRect();
-    qreal half = rect.width() /  2.0;
-    painter->drawLine(half, 0, half, rect.height());
+//    QRectF rect = boundingRect();
+//    qreal half = rect.width() /  2.0;
+    qreal half = axisWidth / 2;
+    painter->drawLine(half, 0, half, length());
     drawArrow(painter, QPointF(half, 0), false);
     
+//    double shift = 1.0;
+//    if (m_halfTick) shift = 0.5;
+//    for (double i = shift; i <= m_loop; i=i+shift) {
+//        double v= i*m_multi*m_multi2;
+//        qDebug() << i << v << mapValue(v);
+//        painter->drawLine(half, length() - mapValue(v), 1, length() - mapValue(v));
+//        painter->drawText(half + 3, length() - mapValue(v) + m_textPosOffset, QString::number(i*m_multi*m_multi2));
+//    }
+
     for (int i = 1; i <= m_loop; i++) {
 // 		qDebug()<< i*m_multi*m_multi2 << i*m_step*m_multi2 << i*m_multi*m_multi2*axisScale;
         painter->drawLine(half, length() - i*m_step*m_multi2, 1, length() - i*m_step*m_multi2);
@@ -73,6 +83,8 @@ void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
         }
     }
     if (m_loop != m_top) {
+//        painter->drawLine(half, length() - mapValue(m_top*m_multi*axisScale), 1, length() - mapValue(m_top*m_multi*axisScale));
+//        painter->drawText(half + 3, length() - mapValue(m_top*m_multi*axisScale) + m_textPosOffset, QString::number(m_top*m_multi));
         painter->drawLine(half, length() - m_nearTop*m_multi2, 1, length() - m_nearTop*m_multi2);
         painter->drawText(half + 3, length() - m_nearTop*m_multi2 + m_textPosOffset, QString::number(m_top*m_multi));
     }
@@ -80,7 +92,7 @@ void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
 
 QRectF TYaxis::boundingRect()
 {
-    QRectF rect(0 ,0, axisWidth , length());
+    QRectF rect(0 ,0, axisWidth + rectBoundText(QString::number(m_maxVal)).width() , length());
 //     rect.translate(1, -m_lenght);
     return rect;
 }
