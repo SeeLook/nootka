@@ -23,6 +23,7 @@ set( NOOANALYSER_SRCS
   tchart.cpp
   taxis.cpp
   tyaxis.cpp
+  tabstractaxis.cpp
 #  tanalyswdg.cpp
 
 #    texam.cpp

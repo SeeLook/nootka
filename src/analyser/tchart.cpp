@@ -23,6 +23,7 @@
 #include <cmath>
 #include "taxis.h"
 #include "tyaxis.h"
+#include "tabstractaxis.h"
 
 Tchart::Tchart(QWidget* parent) :
 	QGraphicsView(parent)
@@ -38,9 +39,9 @@ Tchart::Tchart(QWidget* parent) :
   
     
   TYaxis *axisY = new TYaxis();
-  axisY->setMaxValue(450);
+  axisY->setMaxValue(15);
   m_scene->addItem(axisY);
-  axisY->setLenght(300);
+  axisY->setLength(300);
   axisY->setPos(10, 0);
 	
   Taxis *axisX = new Taxis();

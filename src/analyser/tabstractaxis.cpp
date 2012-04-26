@@ -17,45 +17,52 @@
  ***************************************************************************/
 
 
-#include "tabstarctaxis.h"
+#include "tabstractaxis.h"
 #include <QApplication>
 #include <QPainter>
 
 
 /* static*/
-int TabstarctAxis::m_tickSize = 4;
-int TabstarctAxis::m_axisWidth = 10;
-int TabstarctAxis::m_arrowSize = 7;
+const int TabstractAxis::tickSize = 4;
+const int TabstractAxis::axisWidth = 10;
+const int TabstractAxis::arrowSize = 7;
 
-void TabstarctAxis::drawArrow(QPainter &painter, QPointF endPoint) {
+void TabstractAxis::drawArrow(QPainter *painter, QPointF endPoint, bool isHorizontal) {
     QPointF points[3];
     points[0] = endPoint;
-    points[1] = QPointF(endPoint.x() - m_arrowSize, endPoint.x() - m_tickSize);
-    points[2] = QPointF(endPoint.x() - m_arrowSize, endPoint.x() + m_tickSize);
-    painter.drawPolygon(points, 3);
+    if (isHorizontal) {
+        points[1] = QPointF(endPoint.x() - arrowSize, endPoint.y() - tickSize);
+        points[2] = QPointF(endPoint.x() - arrowSize, endPoint.y() + tickSize);
+    } else {
+        points[1] = QPointF(endPoint.x() - tickSize, endPoint.y() + arrowSize);
+        points[2] = QPointF(endPoint.x() + tickSize, endPoint.y() + arrowSize);
+    }
+    painter->setBrush(QBrush(Qt::black));
+    painter->drawPolygon(points, 3);
 }
 
 
 
 
-TabstarctAxis::TabstarctAxis() :
+TabstractAxis::TabstractAxis() :
     m_font(QApplication::font()),
-    m_length(200)
+    m_length(200),
+    axisScale(1)
 {
 }
 
-void TabstarctAxis::setLength(qreal len) {
+void TabstractAxis::setLength(qreal len) {
     m_length = len;
     update(boundingRect());
 }
 
-void TabstarctAxis::setFont(QFont f) {
+void TabstractAxis::setFont(QFont f) {
     m_font = f;
     update(boundingRect());
 }
 
 
-QRectF TabstarctAxis::rectBoundText(QString txt) {
+QRectF TabstractAxis::rectBoundText(QString txt) {
     const int padd = 2;
     QFontMetrics metrics = m_font;
     QRectF rect = metrics.boundingRect(txt);
