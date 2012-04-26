@@ -43,7 +43,6 @@ protected:
 private:
   qreal m_maxVal, m_multi, m_multi2;
   int m_textPosOffset; // half of text height
-  double m_step, m_nearTop;
   int m_loop, m_top;
   bool m_halfTick;
   
