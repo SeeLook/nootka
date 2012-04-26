@@ -44,11 +44,12 @@ void TYaxis::setMaxValue(qreal val) {
         m_loop = m_top / 10;
         m_multi2 = 10;
     }
-    axisScale = (length() - (2 * axisWidth)) / m_top;
+    axisScale = (length() - (2 * arrowSize)) / m_top;
     m_nearTop = m_top * axisScale;
     m_step = (m_nearTop / m_top);
     if (m_step > m_textPosOffset*2)
         m_halfTick = true;
+	qDebug() << m_top << axisScale << m_top*axisScale << length() - (2 * arrowSize) << length();
 
 }
 
@@ -63,6 +64,7 @@ void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
     drawArrow(painter, QPointF(half, 0), false);
     
     for (int i = 1; i <= m_loop; i++) {
+// 		qDebug()<< i*m_multi*m_multi2 << i*m_step*m_multi2 << i*m_multi*m_multi2*axisScale;
         painter->drawLine(half, length() - i*m_step*m_multi2, 1, length() - i*m_step*m_multi2);
         painter->drawText(half + 3, length() - i*m_step*m_multi2 + m_textPosOffset, QString::number(i*m_multi*m_multi2));
         if (m_halfTick) {
@@ -71,8 +73,8 @@ void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
         }
     }
     if (m_loop != m_top) {
-        painter->drawLine(half, length() - m_nearTop, 1, length() - m_nearTop);
-        painter->drawText(half + 3, length() - m_nearTop + m_textPosOffset, QString::number(m_top*m_multi));
+        painter->drawLine(half, length() - m_nearTop*m_multi2, 1, length() - m_nearTop*m_multi2);
+        painter->drawText(half + 3, length() - m_nearTop*m_multi2 + m_textPosOffset, QString::number(m_top*m_multi));
     }
 }
 
