@@ -43,11 +43,11 @@ void TYaxis::setMaxValue(qreal val) {
         m_loop = m_top / 10;
         m_multi2 = 10;
     }
-    axisScale = ((length() - (2 * arrowSize)) / m_top);
-    axisScale = m_top / (length() - (2 * arrowSize));
-    m_nearTop = m_top * axisScale;
-    m_step = (m_nearTop / m_top);
-    if ( ((m_top * axisScale * m_multi) / m_top) > m_textPosOffset*2)
+    axisScale = ((length() - (2 * arrowSize)) / (m_top*m_multi));
+//    axisScale = m_top / (length() - (2 * arrowSize));
+//    m_nearTop = m_top * axisScale;
+//    m_step = (m_nearTop / m_top);
+//    if ( ((m_top * axisScale * m_multi) / m_top) > m_textPosOffset*2)
         m_halfTick = true;
     qDebug() << m_top << axisScale << m_top*axisScale << length() - (2 * arrowSize) << length() << m_loop << mapValue(m_top) << m_multi << m_multi2;
 
@@ -64,29 +64,30 @@ void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
     painter->drawLine(half, 0, half, length());
     drawArrow(painter, QPointF(half, 0), false);
     
-//    double shift = 1.0;
-//    if (m_halfTick) shift = 0.5;
-//    for (double i = shift; i <= m_loop; i=i+shift) {
-//        double v= i*m_multi*m_multi2;
-//        qDebug() << i << v << mapValue(v);
-//        painter->drawLine(half, length() - mapValue(v), 1, length() - mapValue(v));
-//        painter->drawText(half + 3, length() - mapValue(v) + m_textPosOffset, QString::number(i*m_multi*m_multi2));
-//    }
-
-    for (int i = 1; i <= m_loop; i++) {
-// 		qDebug()<< i*m_multi*m_multi2 << i*m_step*m_multi2 << i*m_multi*m_multi2*axisScale;
-        painter->drawLine(half, length() - i*m_step*m_multi2, 1, length() - i*m_step*m_multi2);
-        painter->drawText(half + 3, length() - i*m_step*m_multi2 + m_textPosOffset, QString::number(i*m_multi*m_multi2));
-        if (m_halfTick) {
-            painter->drawLine(half, length() - (double)(i-0.5)*m_step*m_multi2, 1, length() - (double)(i-0.5)*m_step*m_multi2);
-            painter->drawText(half + 3, length() - (double)(i-0.5)*m_step*m_multi2 + m_textPosOffset, QString::number((double)(i-0.5)*m_multi*m_multi2));
-        }
+    double shift = 1.0;
+    if (m_halfTick) shift = 0.5;
+    for (double i = shift; i <= m_loop; i=i+shift) {
+        double v= i*m_multi*m_multi2;
+        qDebug() << i << v << mapValue(v);
+        painter->drawLine(half, length() - mapValue(v), 1, length() - mapValue(v));
+        painter->drawText(half + 3, length() - mapValue(v) + m_textPosOffset, QString::number(i*m_multi*m_multi2));
     }
+
+//    for (int i = 1; i <= m_loop; i++) {
+// 		qDebug()<< i*m_multi*m_multi2 << i*m_step*m_multi2 << i*m_multi*m_multi2*axisScale;
+//        painter->drawLine(half, length() - i*m_step*m_multi2, 1, length() - i*m_step*m_multi2);
+//        painter->drawText(half + 3, length() - i*m_step*m_multi2 + m_textPosOffset, QString::number(i*m_multi*m_multi2));
+//        if (m_halfTick) {
+//            painter->drawLine(half, length() - (double)(i-0.5)*m_step*m_multi2, 1, length() - (double)(i-0.5)*m_step*m_multi2);
+//            painter->drawText(half + 3, length() - (double)(i-0.5)*m_step*m_multi2 + m_textPosOffset, QString::number((double)(i-0.5)*m_multi*m_multi2));
+//        }
+//    }
     if (m_loop != m_top) {
-//        painter->drawLine(half, length() - mapValue(m_top*m_multi*axisScale), 1, length() - mapValue(m_top*m_multi*axisScale));
-//        painter->drawText(half + 3, length() - mapValue(m_top*m_multi*axisScale) + m_textPosOffset, QString::number(m_top*m_multi));
-        painter->drawLine(half, length() - m_nearTop*m_multi2, 1, length() - m_nearTop*m_multi2);
-        painter->drawText(half + 3, length() - m_nearTop*m_multi2 + m_textPosOffset, QString::number(m_top*m_multi));
+        qDebug() << m_top*m_multi;
+        painter->drawLine(half, length() - mapValue(m_top*m_multi), 1, length() - mapValue(m_top*m_multi));
+        painter->drawText(half + 3, length() - mapValue(m_top*m_multi) + m_textPosOffset, QString::number(m_top*m_multi));
+//        painter->drawLine(half, length() - m_nearTop*m_multi2, 1, length() - m_nearTop*m_multi2);
+//        painter->drawText(half + 3, length() - m_nearTop*m_multi2 + m_textPosOffset, QString::number(m_top*m_multi));
     }
 }
 
