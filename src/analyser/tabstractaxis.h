@@ -17,37 +17,44 @@
  ***************************************************************************/
 
 
-#ifndef TABSTARCTAXIS_H
-#define TABSTARCTAXIS_H
+#ifndef TABSTRACTAXIS_H
+#define TABSTRACTAXIS_H
 
 #include <QGraphicsItem>
 #include <QFont>
 
-class TabstarctAxis : public QGraphicsItem
+class TabstractAxis : public QGraphicsItem
 {
 public:
-    TabstarctAxis();
-    virtual ~Taxis() {}
+    TabstractAxis();
+    virtual ~TabstractAxis() {}
 
     void setLength(qreal len);
         /** Returns a length of a axis*/
     qreal length() { return m_length; }
-    QFont font() { return m_font; }
-    void setFont(QFont f);
-    QRectF rectBoundText(QString txt);
 
-    static void drawArrow(QPainter &painter, QPointF endPoint);
+    QFont font() { return m_font; }
+
+    void setFont(QFont f);
+
+    QRectF rectBoundText(QString txt);
+        /** Returns value maped to axis scale. */
+    virtual double mapValue(double val) { return axisScale * val; }
+        /** Paints arrow at the end of axis. */
+    static void drawArrow(QPainter *painter, QPointF endPoint, bool isHorizontal = true);
 
 protected:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) {}
-    virtual QRectF boundingRect() const {}
+        /** Default QRectF - is valid for horizontal layout. */
+    virtual QRectF boundingRect() const { return QRectF(0 ,0, m_length, axisWidth); }
+    double axisScale;
+    static const int axisWidth, arrowSize, tickSize;
 
 
 private:
     qreal m_length;
     QFont m_font;
-    static int m_tickSize, m_axisWidth, m_arrowSize;
 
 };
 
-#endif // TABSTARCTAXIS_H
+#endif // TABSTRACTAXIS_H

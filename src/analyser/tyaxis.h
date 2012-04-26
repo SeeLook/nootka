@@ -19,34 +19,34 @@
 #ifndef TYAXIS_H
 #define TYAXIS_H
 
-#include <QGraphicsItem>
+
+#include "tabstractaxis.h"
 
 
-class TYaxis : public QGraphicsItem
+class TYaxis : public TabstractAxis
 {
 
 public:
   
   TYaxis();
-  virtual ~TYaxis();
+  virtual ~TYaxis() {}
   
-  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
-  virtual QRectF boundingRect() const;
+
       /** Maximum value of a data on Y axis. Needs update(). */
-  void setMaxValue(qreal val) { m_maxVal = val; }
+  void setMaxValue(qreal val);
   qreal maxValue() { return m_maxVal; }
-      /** Sets a lenght of axis in pixels. Needs update() after. */
-  void setLenght(int len) { m_lenght = len; }
-      /**  Returns y position of given value in data units. */
-  inline double mapToY(double val) { return val * m_yScale; }
+  virtual QRectF boundingRect();
   
+protected:
+  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
   
 private:
-  qreal m_maxVal, m_multi;
+  qreal m_maxVal, m_multi, m_multi2;
   qreal m_topTick; // highest tick
-  qreal m_yScale; // factor to calculate Y orign
-  int m_lenght;
   int m_textPosOffset; // half of text height
+  double m_step, m_nearTop;
+  int m_loop, m_top;
+  bool m_halfTick;
   
 
 };
