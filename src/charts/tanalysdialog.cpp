@@ -22,8 +22,9 @@
 #include "texam.h"
 #include "texamlevel.h"
 #include "tstartexamdlg.h"
-#include "tbasechart.h"
-#include "tmainchart.h"
+#include "tchart.h"
+
+
 
 TanalysDialog::TanalysDialog(QWidget *parent) :
     QDialog(parent),
@@ -80,19 +81,13 @@ void TanalysDialog::loadExam(QString& examFile) {
     m_exam->loadFromFile(examFile);
     m_userLab->setText(m_exam->userName());
     m_levelLab->setText(m_exam->level()->name);
-<<<<<<< local
-    delete m_chart;
-    m_chart = new TmainChart(m_exam, this);
-=======
-	
+
 	if (m_chart) {
-		m_plotLay->removeWidget(m_chart);
 		delete m_chart;
 	}
-	m_chart = new TmainChart(m_exam, this);
+	m_chart = new Tchart(this);
 	m_plotLay->addWidget(m_chart);
     
->>>>>>> other
 
 }
 

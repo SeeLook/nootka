@@ -55,8 +55,10 @@ SET( NOOTKA_SRCS
   info/texpertanswerhelp.cpp
 ###### Charts
   charts/tanalysdialog.cpp
-  charts/tmainchart.cpp
-  charts/tbasechart.cpp
+  charts/tchart.cpp
+  charts/tabstractaxis.cpp
+  charts/taxis.cpp
+  charts/tyaxis.cpp
 ###### Sound
   sound/tsound.cpp
   sound/taudioout.cpp
@@ -136,8 +138,7 @@ SET( NOOTKA_MOC_SRCS
   info/texpertanswerhelp.h
 ###### Charts
   charts/tanalysdialog.h
-  charts/tmainchart.h
-  charts/tbasechart.h
+  charts/tchart.h
 ###### Sound
   sound/tsound.h
   sound/taudioout.h
@@ -182,7 +183,7 @@ if(UNIX AND NOT APPLE) #Linux
         ${QT_QTGUI_LIBRARY}
         ${QTMULTIMEDIA_LIBRARIES}
         ${FFTW3_LIBRARIES}
-        ${QWT_LIBRARIES}
+#         ${QWT_LIBRARIES}
         ${ALSA_LIBRARY} ${PTHREAD_LIBRARY}
 	)
 endif(UNIX AND NOT APPLE)
@@ -207,7 +208,7 @@ if(APPLE)
         ${QT_QTGUI_LIBRARY}
         ${QTMULTIMEDIA_LIBRARIES}
         ${FFTW3_LIBRARIES}
-        ${QWT_LIBRARIES}
+#         ${QWT_LIBRARIES}
         ${CoreAudio_LIB}
         ${CoreMidi_LIB}
         ${CoreFoundation_LIB}        

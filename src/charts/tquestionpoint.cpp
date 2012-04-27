@@ -40,10 +40,4 @@ QRectF TquestionPoint::boundingRect() const {
 
 }
   
-  
-private:
-  TQAunit *m_question;
-  
-  static QColor m_goodColor, m_wrongColor, m_notBadColor;
-  
-};
+
