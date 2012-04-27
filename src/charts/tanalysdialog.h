@@ -21,9 +21,8 @@
 
 #include <QDialog>
 
-class TbaseChart;
+class Tchart;
 class Texam;
-class TanalysWdg;
 class QLabel;
 class QComboBox;
 class TexamLevel;
@@ -52,7 +51,7 @@ private:
   QLabel *m_levelLab, *m_userLab;
   QComboBox *m_chartListComo;
   
-  TbaseChart *m_chart;
+  Tchart *m_chart;
   Texam *m_exam;
   TexamLevel *m_level;
   QVBoxLayout *m_plotLay;
