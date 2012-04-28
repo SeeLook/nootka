@@ -33,9 +33,11 @@ public:
     
 protected:
     void wheelEvent(QWheelEvent *event);
+	QGraphicsScene *scene;
+	
 	
 private:
-	QGraphicsScene *m_scene;
+	
 };
 
 #endif // TCHART_H
