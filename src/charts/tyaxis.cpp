@@ -65,14 +65,14 @@ void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
     for (double i = shift; i <= m_loop; i=i+shift) {
         double v= i*m_multi*m_multi2;
 //         qDebug() << i << v << mapValue(v);
-        painter->drawLine(half, length() - mapValue(v), half - tickSize, length() - mapValue(v));
-        painter->drawText(half + 3, length() - mapValue(v) + m_textPosOffset, QString::number(i*m_multi*m_multi2));
+        painter->drawLine(half, mapValue(v), half - tickSize, mapValue(v));
+        painter->drawText(half + 3, mapValue(v) + m_textPosOffset, QString::number(i*m_multi*m_multi2));
     }
 
     if (m_loop != m_top) {
 //         qDebug() << m_top*m_multi;
-        painter->drawLine(half, length() - mapValue(m_top*m_multi), half - tickSize, length() - mapValue(m_top*m_multi));
-        painter->drawText(half + 3, length() - mapValue(m_top*m_multi) + m_textPosOffset, QString::number(m_top*m_multi));
+        painter->drawLine(half, mapValue(m_top*m_multi), half - tickSize, mapValue(m_top*m_multi));
+        painter->drawText(half + 3, mapValue(m_top*m_multi) + m_textPosOffset, QString::number(m_top*m_multi));
     }
 }
 
