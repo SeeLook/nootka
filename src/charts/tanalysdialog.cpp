@@ -23,6 +23,7 @@
 #include "texamlevel.h"
 #include "tstartexamdlg.h"
 #include "tchart.h"
+#include "tmainchart.h"
 
 
 
@@ -55,10 +56,9 @@ TanalysDialog::TanalysDialog(QWidget *parent) :
 
   lay->addLayout(headLay);
 
-//   m_chart = new TbaseChart(this);
-//   lay->addWidget(m_chart);
+  m_chart = new Tchart(this);
+  lay->addWidget(m_chart);
   m_plotLay = new QVBoxLayout;
-//   m_plotLay->setS
   lay->addLayout(m_plotLay);
   
   setLayout(lay);
@@ -85,7 +85,8 @@ void TanalysDialog::loadExam(QString& examFile) {
 	if (m_chart) {
 		delete m_chart;
 	}
-	m_chart = new Tchart(this);
+
+	m_chart = new TmainChart(m_exam, this);
 	m_plotLay->addWidget(m_chart);
     
 

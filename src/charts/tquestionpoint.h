@@ -20,25 +20,33 @@
 #define TQUESTIONPOINT_H
 
 #include <QGraphicsItem>
-#include <QFont>
 
+class TQAunit;
+class TmainLine;
+class QGraphicsSceneHoverEvent;
 
 class TquestionPoint : public QGraphicsItem
 {
 
 public:
-  TquestionPoint(TQAunit *question);
+  TquestionPoint(TmainLine *parent,TQAunit *question);
   virtual ~TquestionPoint() {}
   
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
   virtual QRectF boundingRect() const;
   TQAunit* question() { return m_question; } 
   
-  static void setColors(QColor goodColor = Qt::green, QColor wrongColor = Qt::red, QColor notBadColor = Qt::yelow);
+  static void setColors(QColor goodColor = Qt::green, QColor wrongColor = Qt::red, QColor notBadColor = Qt::darkMagenta);
+  
+protected:
+  void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+  void hoverLeaveEvent(QGraphicsSceneHoverEvent * event);
   
   
 private:
   TQAunit *m_question;
+  TmainLine *m_parent;
+  QColor m_color;
   
   static QColor m_goodColor, m_wrongColor, m_notBadColor;
   

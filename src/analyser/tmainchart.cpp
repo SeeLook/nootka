@@ -24,7 +24,7 @@
 #include "qwt_plot_curve.h"
 #include <QtGui>
 
-TmainChart::TmainChart(Texam* ex, QWidget* parent): 
+TmainChart::TmainChart(Texam* exam, QWidget* parent): 
   TbaseChart(parent)
 {
     exam = ex;
