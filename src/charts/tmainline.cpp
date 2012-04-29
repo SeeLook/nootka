@@ -12,50 +12,51 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
+ *  You should have received a copy of the GNU General Public License	   *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
-#include "tchart.h"
-#include <QGraphicsEllipseItem>
-#include <QMouseEvent>
-#include <cmath>
+#include "tmainline.h"
+#include "texam.h"
 #include "txaxis.h"
 #include "tyaxis.h"
-#include "tabstractaxis.h"
+#include "tchart.h"
+#include <QGraphicsScene>
+#include <QDebug>
 
-Tchart::Tchart(QWidget* parent) :
-	QGraphicsView(parent)
+TmainLine::TmainLine(Texam* exam, Tchart* chart) :
+  m_exam(exam),
+  m_chart(chart)
 {
-	setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
-	setDragMode(ScrollHandDrag);
-	scene = new QGraphicsScene();
-	setScene(scene);
-	
-    
-  yAxis = new TYaxis();
-  scene->addItem(yAxis);
-  yAxis->setLength(300);
-  yAxis->setMaxValue(3);
-  yAxis->setPos(20, 0);
-	
-  xAxis = new TXaxis();
-  scene->addItem(xAxis);
-  xAxis->setPos(27, yAxis->boundingRect().height()-5);
   
+  QGraphicsLineItem *lines[m_exam->count() - 1];
+  QPointF off(15 , 0);
+  
+  for(int i = 0; i < m_exam->count(); i++) {
+    m_points <<  new TquestionPoint(this, &m_exam->qusetion(i));
+    m_chart->scene->addItem(m_points[i]);
+    m_points[i]->setZValue(50);
+    m_points[i]->setPos(m_chart->xAxis->mapValue(i+1), 
+                       m_chart->yAxis->mapValue((double)m_exam->qusetion(i).time / 10.0));
+    if (i) {
+      lines[i-1] = new QGraphicsLineItem();
+      lines[i-1]->setPen(QPen(QBrush(Qt::darkBlue), 2));
+      m_chart->scene->addItem(lines[i-1]);
+      lines[i-1]->setLine(QLineF(m_points[i-1]->pos() + off, m_points[i]->pos() + off));
+    }
+  }
+  
+
 }
 
-Tchart::~Tchart()
+void TmainLine::showTip(TQAunit* question)
 {
-  delete xAxis;
-  delete yAxis;
+  qDebug("show tip");
 }
 
-void Tchart::wheelEvent(QWheelEvent* event) {
-  double deg = -event->delta() / 8.0;
-  double step = deg / 15.0;
-  double coef = std::pow(1.125, step);
-  scale(coef, coef);
+void TmainLine::deleteTip()
+{
+
 }
+
 

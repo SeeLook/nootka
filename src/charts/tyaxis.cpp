@@ -1,4 +1,4 @@
-/***************************************************************************
+ /***************************************************************************
  *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "tyaxis.h"
+#include "tqaunit.h"
 #include <QPainter>
 #include <QDebug>
 
@@ -46,7 +47,7 @@ void TYaxis::setMaxValue(qreal val) {
     axisScale = ((length() - (2 * arrowSize)) / (m_top*m_multi));
 //    if ( ((m_top * axisScale * m_multi) / m_top) > m_textPosOffset*2)
         m_halfTick = true;
-    qDebug() << m_top << axisScale << m_top*axisScale << length() - (2 * arrowSize) << length() << m_loop << mapValue(m_top) << m_multi << m_multi2;
+//     qDebug() << m_top << axisScale << m_top*axisScale << length() - (2 * arrowSize) << length() << m_loop << mapValue(m_top) << m_multi << m_multi2;
 
 }
 
@@ -64,13 +65,13 @@ void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
     for (double i = shift; i <= m_loop; i=i+shift) {
         double v= i*m_multi*m_multi2;
 //         qDebug() << i << v << mapValue(v);
-        painter->drawLine(half, length() - mapValue(v), 1, length() - mapValue(v));
+        painter->drawLine(half, length() - mapValue(v), half - tickSize, length() - mapValue(v));
         painter->drawText(half + 3, length() - mapValue(v) + m_textPosOffset, QString::number(i*m_multi*m_multi2));
     }
 
     if (m_loop != m_top) {
 //         qDebug() << m_top*m_multi;
-        painter->drawLine(half, length() - mapValue(m_top*m_multi), 1, length() - mapValue(m_top*m_multi));
+        painter->drawLine(half, length() - mapValue(m_top*m_multi), half - tickSize, length() - mapValue(m_top*m_multi));
         painter->drawText(half + 3, length() - mapValue(m_top*m_multi) + m_textPosOffset, QString::number(m_top*m_multi));
     }
 }

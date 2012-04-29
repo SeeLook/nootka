@@ -21,11 +21,23 @@
 #define TCHART_H
 
 #include <QGraphicsView>
+#include "tmainline.h"
+
+class TYaxis;
+class TXaxis;
+// class TabstractAxis;
 
 
+
+/** This is base class for charts in Nootka.
+ * It has got QGraphicsScene *scene and
+ * two axises xAxis and yAxis witch are created by default.
+ */
 class Tchart : public QGraphicsView
 {
 	Q_OBJECT
+	
+	friend class TmainLine;
 	
 public:
     Tchart(QWidget* parent = 0);
@@ -33,11 +45,14 @@ public:
     
 protected:
     void wheelEvent(QWheelEvent *event);
-	QGraphicsScene *scene;
-	
-	
+    QGraphicsScene *scene;
+    TXaxis *xAxis;
+    TYaxis *yAxis;
+//     TabstractAxis *xAxis, *yAxis;
+    
+    
 private:
-	
+    
 };
 
 #endif // TCHART_H

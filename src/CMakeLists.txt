@@ -57,8 +57,11 @@ SET( NOOTKA_SRCS
   charts/tanalysdialog.cpp
   charts/tchart.cpp
   charts/tabstractaxis.cpp
-  charts/taxis.cpp
+  charts/txaxis.cpp
   charts/tyaxis.cpp
+  charts/tmainline.cpp
+  charts/tquestionpoint.cpp
+  charts/tmainchart.cpp
 ###### Sound
   sound/tsound.cpp
   sound/taudioout.cpp
@@ -139,6 +142,7 @@ SET( NOOTKA_MOC_SRCS
 ###### Charts
   charts/tanalysdialog.h
   charts/tchart.h
+  charts/tmainchart.h
 ###### Sound
   sound/tsound.h
   sound/taudioout.h
