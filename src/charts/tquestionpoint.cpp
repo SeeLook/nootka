@@ -38,6 +38,8 @@ TquestionPoint::TquestionPoint(TmainLine* parent, TQAunit* question):
   m_question(question),
   m_parent(parent)
 {
+  setAcceptHoverEvents(true);
+
   if (question->correct())
     m_color = m_goodColor;
   else {

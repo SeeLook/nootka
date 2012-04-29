@@ -35,6 +35,8 @@ public:
       /** Maximum value of a data on Y axis. Needs update(). */
   void setMaxValue(qreal val);
   qreal maxValue() { return m_maxVal; }
+  double mapValue(double val) { return length() - TabstractAxis::mapValue(val); }
+  
   virtual QRectF boundingRect();
   
 protected:
