@@ -39,6 +39,8 @@ public:
   
   virtual QRectF boundingRect();
   
+  QList<double> getYforGrid(); // Returns list of Y coordinates to paint grid lines
+  
 protected:
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
   

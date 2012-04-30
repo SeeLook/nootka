@@ -64,6 +64,8 @@ TanalysDialog::TanalysDialog(QWidget *parent) :
   setLayout(lay);
   
   createActions();
+  
+  QTimer::singleShot(100, this, SLOT(testSlot()));
 
 }
 
@@ -117,5 +119,9 @@ void TanalysDialog::loadExamSlot() {
 
 }
 
+void TanalysDialog::testSlot() {
+  QString testFile = "../nootka/test.noo";
+  loadExam(testFile);
+}
 
 

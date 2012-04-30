@@ -71,7 +71,8 @@ void TXaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
 
 QRectF TXaxis::boundingRect()
 {
-  QRectF rect(0 ,0, length(), axisWidth*2);
+  QRectF rect(0 ,0, length(), axisWidth*4);
+  rect.translate(0, -axisWidth / 2.0);
   return rect;
 }
 

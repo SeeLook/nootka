@@ -67,7 +67,7 @@ QRectF TquestionPoint::boundingRect() const {
   QFontMetrics metrics = QFont("nootka", 20);
   QRectF rect = metrics.boundingRect("n");
   rect.adjust(-4, -4, 4, 4);
-//   rect.translate(-rect.center());
+  rect.translate(-rect.center());
   return rect;
 }
   

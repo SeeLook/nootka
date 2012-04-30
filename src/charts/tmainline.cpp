@@ -30,20 +30,25 @@ TmainLine::TmainLine(Texam* exam, Tchart* chart) :
 {
   
   QGraphicsLineItem *lines[m_exam->count() - 1];
-  QPointF off(15 , 0);
+//   QPointF off(m_chart->xAxis->pos().x() , 0);
+  QPointF off(0 , 0);
   
   for(int i = 0; i < m_exam->count(); i++) {
+    double xPos = m_chart->xAxis->mapValue(i+1) + m_chart->xAxis->pos().x();
     m_points <<  new TquestionPoint(this, &m_exam->qusetion(i));
     m_chart->scene->addItem(m_points[i]);
     m_points[i]->setZValue(50);
-    m_points[i]->setPos(m_chart->xAxis->mapValue(i+1), 
+//     m_points[i]->setPos(m_chart->xAxis->mapValue(i+1) + m_chart->xAxis->pos().x() - m_points[i]->boundingRect().width()/2, 
+//                        m_chart->yAxis->mapValue((double)m_exam->qusetion(i).time / 10.0));
+    m_points[i]->setPos(xPos - m_points[i]->boundingRect().width()/2, 
                        m_chart->yAxis->mapValue((double)m_exam->qusetion(i).time / 10.0));
     if (i) {
       lines[i-1] = new QGraphicsLineItem();
-      lines[i-1]->setPen(QPen(QBrush(Qt::darkBlue), 2));
+//       lines[i-1]->setPen(QPen(QBrush(Qt::darkBlue), 2));
       m_chart->scene->addItem(lines[i-1]);
       lines[i-1]->setLine(QLineF(m_points[i-1]->pos() + off, m_points[i]->pos() + off));
-    }
+    } else
+         off.setX(m_points[i]->boundingRect().width()/2);
   }
   
 
@@ -51,7 +56,7 @@ TmainLine::TmainLine(Texam* exam, Tchart* chart) :
 
 void TmainLine::showTip(TQAunit* question)
 {
-  qDebug("show tip");
+//   qDebug("show tip");
 }
 
 void TmainLine::deleteTip()

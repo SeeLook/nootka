@@ -83,3 +83,10 @@ QRectF TYaxis::boundingRect()
     return rect;
 }
 
+QList<double> TYaxis::getYforGrid() {
+  QList<double> listY;
+  for (double i = 1; i <= m_loop; i++) {
+    listY << mapValue(i*m_multi*m_multi2);
+  }
+  return listY;
+}
