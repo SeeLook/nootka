@@ -40,15 +40,16 @@ TmainLine::TmainLine(Texam* exam, Tchart* chart) :
     m_points[i]->setZValue(50);
 //     m_points[i]->setPos(m_chart->xAxis->mapValue(i+1) + m_chart->xAxis->pos().x() - m_points[i]->boundingRect().width()/2, 
 //                        m_chart->yAxis->mapValue((double)m_exam->qusetion(i).time / 10.0));
-    m_points[i]->setPos(xPos - m_points[i]->boundingRect().width()/2, 
+    m_points[i]->setPos(xPos, 
                        m_chart->yAxis->mapValue((double)m_exam->qusetion(i).time / 10.0));
     if (i) {
       lines[i-1] = new QGraphicsLineItem();
 //       lines[i-1]->setPen(QPen(QBrush(Qt::darkBlue), 2));
       m_chart->scene->addItem(lines[i-1]);
       lines[i-1]->setLine(QLineF(m_points[i-1]->pos() + off, m_points[i]->pos() + off));
-    } else
-         off.setX(m_points[i]->boundingRect().width()/2);
+    } 
+//     else
+//          off.setX(m_points[i]->boundingRect().width()/2);
   }
   
 

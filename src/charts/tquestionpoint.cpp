@@ -29,7 +29,7 @@ void TquestionPoint::setColors(QColor goodColor, QColor wrongColor, QColor notBa
     m_wrongColor = wrongColor;
     m_notBadColor = notBadColor;
 }
-QColor TquestionPoint::m_goodColor = Qt::green;
+QColor TquestionPoint::m_goodColor = Qt::darkGreen;
 QColor TquestionPoint::m_wrongColor = Qt::red;
 QColor TquestionPoint::m_notBadColor = Qt::darkMagenta;
 
@@ -57,17 +57,18 @@ void TquestionPoint::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
   Q_UNUSED(option)
   Q_UNUSED(widget)
   
-  painter->setFont(QFont("nootka", 20));
-  painter->drawText(0, 1, "n");
+  QRectF rect = boundingRect();
+  painter->setFont(QFont("nootka", 25));
+//   painter->drawText(0, 1, "n");
   painter->setPen(m_color);
-  painter->drawText(0, 0, "n");
+  painter->drawText(rect, Qt::AlignCenter, "n");
 }
   
 QRectF TquestionPoint::boundingRect() const {
-  QFontMetrics metrics = QFont("nootka", 20);
+  QFontMetrics metrics = QFont("nootka", 25);
   QRectF rect = metrics.boundingRect("n");
   rect.adjust(-4, -4, 4, 4);
-  rect.translate(-rect.center());
+  rect.translate(-rect.center().x(), 0);
   return rect;
 }
   
