@@ -42,7 +42,7 @@ public:
     void loadExam(QString &examFile);
     
 protected slots:
-  
+  void testSlot();
   void loadExamSlot();
 
 private:

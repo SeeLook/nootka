@@ -31,14 +31,33 @@ TmainChart::TmainChart(Texam *exam, QWidget* parent):
   
   xAxis->setExam(exam);
   
-    // Determine maximal rection time to prepare Y axis
+  
+// Determine maximal rection time to prepare Y axis
   quint16 maxTime = 0;
   for(int i = 0; i < m_exam->count(); i++)
       maxTime =   qMax(maxTime, m_exam->qusetion(i).time);
   yAxis->setMaxValue((double)maxTime / 10.0);
   qDebug() << m_exam->userName() << "max time" << (double)maxTime / 10.0;
   
+// Grid lines
+  QColor lineColor = palette().foreground().color();
+  lineColor.setAlpha(120);
+  for(int i = 5; i < m_exam->count(); i++) {
+    if (i%5 == 0)
+      scene->addLine(xAxis->mapValue(i) + xAxis->pos().x(), 0,
+        xAxis->mapValue(i) + xAxis->pos().x(), yAxis->length(), 
+                     QPen(QBrush(lineColor), 1, Qt::DashLine));
+  }
+  QList<double> listY = yAxis->getYforGrid();
+  if (listY.size()) {
+      for(int i = 0; i < listY.size(); i++)
+        scene->addLine(xAxis->pos().x(), listY[i],
+        xAxis->pos().x() + xAxis->length(), listY[i], 
+                     QPen(QBrush(lineColor), 1, Qt::DashLine));
+  }  
+  
   m_mainLine = new TmainLine(m_exam, this);
+  
 }
 
 
