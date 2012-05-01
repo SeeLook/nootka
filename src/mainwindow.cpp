@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -187,6 +187,7 @@ void MainWindow::createActions() {
     setStartExamActParams(); // set text and icon also for levelCreatorAct
     
     analyseAct = new QAction(this);
+    analyseAct->setIcon(QIcon(gl->path+"picts/charts.png"));
     connect(analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
 
     aboutAct = new QAction(tr("about"), this);

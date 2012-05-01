@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "Nootka"
-!define PRODUCT_VERSION "0.8-beta2"
+!define PRODUCT_VERSION "0.8"
 !define PRODUCT_PUBLISHER "Nootka"
 !define PRODUCT_WEB_SITE "http://nootka.sf.net"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\nootka.exe"
@@ -50,7 +50,7 @@ SetCompressor lzma
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "Nootka-Setup-0-8rc1.exe"
+OutFile "Nootka-Setup-0-8.exe"
 InstallDir "$PROGRAMFILES\Nootka"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
@@ -148,7 +148,6 @@ Section "GrupaGlowna" SEC01
   File "picts\nootka.ico"
   File "picts\nootka.png"
   File "picts\nootka.rc"
-  File "picts\nootka.svg"
   File "picts\notSaved.png"
   File "picts\pitch.png"
   File "picts\prev-icon.png"
@@ -215,7 +214,6 @@ Section Uninstall
   Delete "$INSTDIR\picts\prev-icon.png"
   Delete "$INSTDIR\picts\pitch.png"
   Delete "$INSTDIR\picts\notSaved.png"
-  Delete "$INSTDIR\picts\nootka.svg"
   Delete "$INSTDIR\picts\nootka.rc"
   Delete "$INSTDIR\picts\nootka.png"
   Delete "$INSTDIR\picts\nootka.ico"
