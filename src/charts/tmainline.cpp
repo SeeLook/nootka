@@ -21,6 +21,7 @@
 #include "txaxis.h"
 #include "tyaxis.h"
 #include "tchart.h"
+#include "tstafflinechart.h"
 #include <QGraphicsScene>
 #include <QDebug>
 
@@ -29,28 +30,27 @@ TmainLine::TmainLine(Texam* exam, Tchart* chart) :
   m_chart(chart)
 {
   
-  QGraphicsLineItem *lines[m_exam->count() - 1];
-//   QPointF off(m_chart->xAxis->pos().x() , 0);
-  QPointF off(0 , 0);
+  TstaffLineChart *lines[m_exam->count() - 1];
+//   QGraphicsLineItem *ll[m_exam->count() - 1];
   
   for(int i = 0; i < m_exam->count(); i++) {
     double xPos = m_chart->xAxis->mapValue(i+1) + m_chart->xAxis->pos().x();
     m_points <<  new TquestionPoint(this, &m_exam->qusetion(i));
     m_chart->scene->addItem(m_points[i]);
     m_points[i]->setZValue(50);
-//     m_points[i]->setPos(m_chart->xAxis->mapValue(i+1) + m_chart->xAxis->pos().x() - m_points[i]->boundingRect().width()/2, 
-//                        m_chart->yAxis->mapValue((double)m_exam->qusetion(i).time / 10.0));
-    m_points[i]->setPos(xPos, 
-                       m_chart->yAxis->mapValue((double)m_exam->qusetion(i).time / 10.0));
+    m_points[i]->setPos(xPos, m_chart->yAxis->mapValue((double)m_exam->qusetion(i).time / 10.0));
     if (i) {
-      lines[i-1] = new QGraphicsLineItem();
-//       lines[i-1]->setPen(QPen(QBrush(Qt::darkBlue), 2));
+      lines[i-1] = new TstaffLineChart();
+//       ll[i-1] = new QGraphicsLineItem();
+//       ll[i-1]->setPen(QPen(QBrush(Qt::darkBlue), 1));
       m_chart->scene->addItem(lines[i-1]);
-      lines[i-1]->setLine(QLineF(m_points[i-1]->pos() + off, m_points[i]->pos() + off));
+//       m_chart->scene->addItem(ll[i-1]);
+//       ll[i-1]->setLine(QLineF(m_points[i-1]->pos(), m_points[i]->pos()));
+      lines[i-1]->setLine(m_points[i-1]->pos(), m_points[i]->pos());
     } 
-//     else
-//          off.setX(m_points[i]->boundingRect().width()/2);
   }
+  
+//   qDebug() << lines[0]->boundingRect();
   
 
 }

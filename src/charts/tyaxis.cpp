@@ -27,7 +27,7 @@ TYaxis::TYaxis() :
   m_multi(1),
   m_halfTick(false)
 {
-    m_textPosOffset = (rectBoundText("X").height() / 2) -3;
+    m_textPosOffset = (rectBoundText("X").height() / 4);
 }
 
 void TYaxis::setMaxValue(qreal val) {
@@ -45,10 +45,10 @@ void TYaxis::setMaxValue(qreal val) {
         m_multi2 = 10;
     }
     axisScale = ((length() - (2 * arrowSize)) / (m_top*m_multi));
-//    if ( ((m_top * axisScale * m_multi) / m_top) > m_textPosOffset*2)
+    // check is enought place for half ticks
+    if ( ((mapValue((m_loop-1)*m_multi*m_multi2) - mapValue(m_loop*m_multi*m_multi2))) > m_textPosOffset*4)
         m_halfTick = true;
 //     qDebug() << m_top << axisScale << m_top*axisScale << length() - (2 * arrowSize) << length() << m_loop << mapValue(m_top) << m_multi << m_multi2;
-
 }
 
 void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
@@ -68,9 +68,8 @@ void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
         painter->drawLine(half, mapValue(v), half - tickSize, mapValue(v));
         painter->drawText(half + 3, mapValue(v) + m_textPosOffset, QString::number(i*m_multi*m_multi2));
     }
-
-    if (m_loop != m_top) {
-//         qDebug() << m_top*m_multi;
+    // paint top tick only if there is free room
+    if ( ((mapValue(m_loop*m_multi*m_multi2) - mapValue(m_top*m_multi)) ) > m_textPosOffset*4) {
         painter->drawLine(half, mapValue(m_top*m_multi), half - tickSize, mapValue(m_top*m_multi));
         painter->drawText(half + 3, mapValue(m_top*m_multi) + m_textPosOffset, QString::number(m_top*m_multi));
     }
@@ -78,15 +77,14 @@ void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
 
 QRectF TYaxis::boundingRect()
 {
-    QRectF rect(0 ,0, axisWidth + rectBoundText(QString::number(m_maxVal)).width() , length());
-    rect.translate(1, -length());
+    QRectF rect(1 ,-length(), axisWidth + rectBoundText(QString::number(m_maxVal)).width() , length());
+//     rect.translate(1, -length());
     return rect;
 }
 
-QList<double> TYaxis::getYforGrid() {
-  QList<double> listY;
+ void TYaxis::getYforGrid(QList< double >& yList) {
+  yList.clear();
   for (double i = 1; i <= m_loop; i++) {
-    listY << mapValue(i*m_multi*m_multi2);
+    yList << mapValue(i*m_multi*m_multi2);
   }
-  return listY;
 }

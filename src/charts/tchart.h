@@ -45,10 +45,12 @@ public:
     
 protected:
     void wheelEvent(QWheelEvent *event);
+      /** Keeps a chart scaled when user changes its size. */
+    void resizeEvent(QResizeEvent *event);
+    
     QGraphicsScene *scene;
     TXaxis *xAxis;
     TYaxis *yAxis;
-//     TabstractAxis *xAxis, *yAxis;
     
     
 private:
