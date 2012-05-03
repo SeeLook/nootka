@@ -21,6 +21,7 @@
 #include "tmainline.h"
 #include "txaxis.h"
 #include "tyaxis.h"
+#include "tstafflinechart.h"
 #include <QDebug>
 
 TmainChart::TmainChart(Texam *exam, QWidget* parent): 
@@ -48,15 +49,26 @@ TmainChart::TmainChart(Texam *exam, QWidget* parent):
         xAxis->mapValue(i) + xAxis->pos().x(), yAxis->length(), 
                      QPen(QBrush(lineColor), 1, Qt::DashLine));
   }
-  QList<double> listY = yAxis->getYforGrid();
+  QList<double> listY;
+  yAxis->getYforGrid(listY);
   if (listY.size()) {
       for(int i = 0; i < listY.size(); i++)
-        scene->addLine(xAxis->pos().x(), listY[i],
-        xAxis->pos().x() + xAxis->length(), listY[i], 
+        scene->addLine(xAxis->pos().x(), listY[i]-0.5,
+        xAxis->pos().x() + xAxis->length(), listY[i]-0.5, 
                      QPen(QBrush(lineColor), 1, Qt::DashLine));
   }  
   
   m_mainLine = new TmainLine(m_exam, this);
+  QGraphicsLineItem *averLine = new QGraphicsLineItem();
+  scene->addItem(averLine);
+//   averLine->setLine(QPointF(xAxis->mapValue(1), yAxis->mapValue(m_exam->averageReactonTime()/10.0)),
+//     QPointF(xAxis->mapValue(m_exam->count()), yAxis->mapValue(m_exam->averageReactonTime()/10.0))
+//   );
+  averLine->setZValue(20);
+  averLine->setPen(QPen(Qt::yellow, 3));
+  averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime()/10.0),
+    xAxis->mapValue(m_exam->count()) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime()/10.0));
+  
   
 }
 

@@ -58,17 +58,19 @@ void TquestionPoint::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
   Q_UNUSED(widget)
   
   QRectF rect = boundingRect();
+//   painter->setFont(QFont("nootka", 26));
   painter->setFont(QFont("nootka", 25));
-//   painter->drawText(0, 1, "n");
+//   rect.translate(1, 1);
+//   painter->drawText(rect, "n");
   painter->setPen(m_color);
+  rect.translate(-1, -1);
   painter->drawText(rect, Qt::AlignCenter, "n");
 }
   
 QRectF TquestionPoint::boundingRect() const {
-  QFontMetrics metrics = QFont("nootka", 25);
-  QRectF rect = metrics.boundingRect("n");
-  rect.adjust(-4, -4, 4, 4);
-  rect.translate(-rect.center().x(), 0);
+//   QFontMetrics metrics = QFont("nootka", 25);
+//   QRectF rect = metrics.boundingRect("n");
+  QRectF rect(-11, -29, 24, 41); // values calculated from above, hardcoded for speedy
   return rect;
 }
   

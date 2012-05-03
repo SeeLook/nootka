@@ -16,41 +16,37 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TYAXIS_H
-#define TYAXIS_H
+#include "tstafflinechart.h"
+#include <QPainter>
 
 
-#include "tabstractaxis.h"
+#define DISTANCE (3)
 
-
-class TYaxis : public TabstractAxis
+TstaffLineChart::TstaffLineChart()
 {
+  m_vector.setX(1);
+  m_vector.setY(1);
+}
 
-public:
-  
-  TYaxis();
-  virtual ~TYaxis() {}
-  
+void TstaffLineChart::setLine(QPointF from, QPointF to) {
+  m_vector.setX(to.x() - from.x());
+  m_vector.setY(to.y() - from.y());
+  setPos(from);
+}
 
-      /** Maximum value of a data on Y axis. Needs update(). */
-  void setMaxValue(qreal val);
-  qreal maxValue() { return m_maxVal; }
-  double mapValue(double val) { return length() - TabstractAxis::mapValue(val); }
-  
-  virtual QRectF boundingRect();
-  
-  void getYforGrid(QList<double> &yList); // Puts list of Y to yList coordinates to paint grid lines
-  
-protected:
-  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
-  
-private:
-  qreal m_maxVal, m_multi, m_multi2;
-  int m_textPosOffset; // half of text height
-  int m_loop, m_top;
-  bool m_halfTick;
-  
 
-};
+void TstaffLineChart::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+  Q_UNUSED(option)
+  Q_UNUSED(widget)
+  
+  for(double i = -2.0; i < 3.0; i++) {
+    painter->drawLine(0.0, i*DISTANCE, m_vector.x(), m_vector.y() + i*DISTANCE);
+  }
 
-#endif // TYAXIS_H
+}
+
+QRectF TstaffLineChart::boundingRect() const {
+    QRectF rect(0, -2*DISTANCE, m_vector.x(), m_vector.y() + DISTANCE*4);
+    return rect;
+}
+

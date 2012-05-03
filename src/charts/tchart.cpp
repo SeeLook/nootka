@@ -54,9 +54,15 @@ Tchart::~Tchart()
 }
 
 void Tchart::wheelEvent(QWheelEvent* event) {
-  double deg = -event->delta() / 8.0;
-  double step = deg / 15.0;
-  double coef = std::pow(1.125, step);
-  scale(coef, coef);
+  if (event->modifiers() == Qt::ControlModifier) {
+    double deg = -event->delta() / 8.0;
+    double step = deg / 15.0;
+    double coef = std::pow(1.125, step);
+    scale(coef, coef);
+  }
 }
 
+void Tchart::resizeEvent(QResizeEvent* event ) {
+//   double coef = event->oldSize().height() / event->size().height();
+//   scale(coef, coef);
+}

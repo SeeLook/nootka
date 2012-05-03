@@ -57,13 +57,13 @@ void TXaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
 //   if (m_qList->isEmpty()) // for empty questions list draw only axis
 //       return;
   
-  int b = length() / m_qWidth - 1;
+  int b = length() / m_qWidth -1;
   for (int i=1; i <= b; i++) {
     painter->drawLine(i*m_qWidth, half, i*m_qWidth, half + tickSize);
     if (m_exam) {
         QString tt = QString("%1.\n%2").arg(i).arg(QString::fromStdString(m_exam->qusetion(i).qa.note.getName()));
         QRectF rr = rectBoundText(tt);
-        painter->drawText(QRectF(i*50 - rr.width()/2, 15, rr.width(), rr.height()), Qt::AlignCenter, tt);
+        painter->drawText(QRectF(i*50 - rr.width()/2, 0, rr.width(), rr.height()*3), Qt::AlignCenter, tt);
     }
   }
   
@@ -71,7 +71,7 @@ void TXaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
 
 QRectF TXaxis::boundingRect()
 {
-  QRectF rect(0 ,0, length(), axisWidth*4);
+  QRectF rect(0 ,0, length(), axisWidth*8);
   rect.translate(0, -axisWidth / 2.0);
   return rect;
 }

@@ -16,41 +16,30 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TYAXIS_H
-#define TYAXIS_H
+#ifndef TSTAFFLINECHART_H
+#define TSTAFFLINECHART_H
+
+#include <QGraphicsItem>
 
 
-#include "tabstractaxis.h"
 
-
-class TYaxis : public TabstractAxis
+/** This graphics item paints staff (five lines) from 
+ * QPointF @param from to QPointF @param to points.
+ * Its 0,0 orign is at the begin of middle line. */
+class TstaffLineChart : public QGraphicsItem
 {
 
 public:
-  
-  TYaxis();
-  virtual ~TYaxis() {}
-  
 
-      /** Maximum value of a data on Y axis. Needs update(). */
-  void setMaxValue(qreal val);
-  qreal maxValue() { return m_maxVal; }
-  double mapValue(double val) { return length() - TabstractAxis::mapValue(val); }
-  
-  virtual QRectF boundingRect();
-  
-  void getYforGrid(QList<double> &yList); // Puts list of Y to yList coordinates to paint grid lines
-  
-protected:
+  TstaffLineChart();
+  virtual ~TstaffLineChart() {}
+  void setLine(QPointF from, QPointF to);
+
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+  virtual QRectF boundingRect() const;
   
 private:
-  qreal m_maxVal, m_multi, m_multi2;
-  int m_textPosOffset; // half of text height
-  int m_loop, m_top;
-  bool m_halfTick;
-  
-
+  QPointF m_vector;
 };
 
-#endif // TYAXIS_H
+#endif // TSTAFFLINECHART_H
