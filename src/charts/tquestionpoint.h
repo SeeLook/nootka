@@ -21,6 +21,7 @@
 
 #include <QGraphicsItem>
 
+class TtipChart;
 class TQAunit;
 class TmainLine;
 class QGraphicsSceneHoverEvent;
@@ -44,6 +45,7 @@ protected:
   
   
 private:
+  TtipChart *m_tip;
   TQAunit *m_question;
   TmainLine *m_parent;
   QColor m_color;
