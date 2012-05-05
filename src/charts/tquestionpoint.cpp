@@ -20,6 +20,7 @@
 #include "tquestionpoint.h"
 #include "tmainline.h"
 #include "tqaunit.h"
+#include "ttipchart.h"
 #include "QGraphicsSceneHoverEvent"
 #include <QPainter>
 
@@ -34,9 +35,13 @@ QColor TquestionPoint::m_wrongColor = Qt::red;
 QColor TquestionPoint::m_notBadColor = Qt::darkMagenta;
 
 
+
+
+
 TquestionPoint::TquestionPoint(TmainLine* parent, TQAunit* question):
   m_question(question),
-  m_parent(parent)
+  m_parent(parent),
+  m_tip(0)
 {
   setAcceptHoverEvents(true);
 
@@ -74,14 +79,21 @@ QRectF TquestionPoint::boundingRect() const {
   return rect;
 }
   
-void TquestionPoint::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
-{
-    m_parent->showTip(question());
+void TquestionPoint::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
+//     m_parent->showTip(question());
+  if (!m_tip) {
+    m_tip = new TtipChart(m_question, scene());
+    m_tip->setPos(pos());
+  }
+  
 }
 
 
-void TquestionPoint::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
-{
-  m_parent->deleteTip();
+void TquestionPoint::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
+//   m_parent->deleteTip();
+  if (m_tip) {
+    delete m_tip;
+    m_tip = 0;
+  }
 }
 
