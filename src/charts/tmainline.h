@@ -23,6 +23,7 @@
 #include <qlist.h>
 #include "tquestionpoint.h"
 
+class TtipChart;
 class Tchart;
 class TQAunit;
 class Texam;
@@ -33,22 +34,29 @@ class Texam;
  * It paints qustions points TquestionPoint over the scene.
  * It also performs Tips - information about question 
  */
-class TmainLine
+class TmainLine : public QObject
 {
+    Q_OBJECT
+    
   friend class TquestionPoint;
   
 public:
   TmainLine(Texam *exam, Tchart *chart);
-  virtual ~TmainLine() {}
+  virtual ~TmainLine();
   
 protected:
-  void showTip(TQAunit *question); // Shows question/answer data as tip
+  void showTip(TQAunit *question, QPointF pos); // Shows question/answer data as tip
   void deleteTip();
   
 private:
   Texam *m_exam; // Pointer to chart contained this plot
   Tchart *m_chart;
   QList<TquestionPoint*> m_points; // List of points 
+  QTimer *m_delTimer;
+  TtipChart *m_tip;
+  
+private slots:
+  void delayedDelete();
   
   
 };

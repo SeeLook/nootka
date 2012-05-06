@@ -24,7 +24,7 @@
 #include <QPainter>
 #include <qstyleoption.h>
 #include <QApplication>
-#include <qgraphicseffect.h>
+#include <QGraphicsEffect>
 #include <QDebug>
 
 

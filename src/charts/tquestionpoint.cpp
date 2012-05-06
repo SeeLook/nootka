@@ -20,11 +20,11 @@
 #include "tquestionpoint.h"
 #include "tmainline.h"
 #include "tqaunit.h"
-#include "ttipchart.h"
 #include <QGraphicsSceneHoverEvent>
 #include <QPainter>
 #include <QGraphicsScene>
-#include <QMutex>
+#include <QGraphicsEffect>
+
 
 /* static */
 void TquestionPoint::setColors(QColor goodColor, QColor wrongColor, QColor notBadColor) {
@@ -41,9 +41,9 @@ QColor TquestionPoint::m_notBadColor = Qt::darkMagenta;
 
 
 TquestionPoint::TquestionPoint(TmainLine* parent, TQAunit* question):
+  QGraphicsItem(),
   m_question(question),
-  m_parent(parent),
-  m_tip(0)
+  m_parent(parent)
 {
   setAcceptHoverEvents(true);
 
@@ -55,6 +55,10 @@ TquestionPoint::TquestionPoint(TmainLine* parent, TQAunit* question):
     else
       m_color = m_notBadColor;
   }
+  QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect();
+  shadow->setBlurRadius(2);
+  shadow->setOffset(2, 2);
+  setGraphicsEffect(shadow);
   
 }
   
@@ -65,10 +69,7 @@ void TquestionPoint::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
   Q_UNUSED(widget)
   
   QRectF rect = boundingRect();
-//   painter->setFont(QFont("nootka", 26));
   painter->setFont(QFont("nootka", 25));
-//   rect.translate(1, 1);
-//   painter->drawText(rect, "n");
   painter->setPen(m_color);
   rect.translate(-1, -1);
   painter->drawText(rect, Qt::AlignCenter, "n");
@@ -81,28 +82,12 @@ QRectF TquestionPoint::boundingRect() const {
   return rect;
 }
   
-  QMutex mutex;
 void TquestionPoint::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
-//     m_parent->showTip(question());
-	mutex.lock();
-	if (!m_tip) {
-		m_tip = new TtipChart(m_question);
-		scene()->addItem(m_tip);
-		m_tip->setPos(pos());
-  }
-  mutex.unlock();
-  
+    m_parent->showTip(question(), pos());  
 }
 
 
 void TquestionPoint::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
-//   m_parent->deleteTip();
-  mutex.lock();
-  if (m_tip) {
-		scene()->removeItem(m_tip);
-		delete m_tip;
-		m_tip = 0;
-  }
-  mutex.unlock();
+  m_parent->deleteTip();
 }
 
