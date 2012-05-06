@@ -45,7 +45,6 @@ protected:
   
   
 private:
-  TtipChart *m_tip;
   TQAunit *m_question;
   TmainLine *m_parent;
   QColor m_color;

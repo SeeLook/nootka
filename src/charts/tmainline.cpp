@@ -22,14 +22,19 @@
 #include "tyaxis.h"
 #include "tchart.h"
 #include "tstafflinechart.h"
+#include "ttipchart.h"
 #include <QGraphicsScene>
 #include <QDebug>
+#include <QTimer>
 
 TmainLine::TmainLine(Texam* exam, Tchart* chart) :
   m_exam(exam),
-  m_chart(chart)
+  m_chart(chart),
+  m_tip(0)
 {
   
+  m_delTimer = new QTimer();
+  connect(m_delTimer, SIGNAL(timeout()), this, SLOT(delayedDelete()));
   TstaffLineChart *lines[m_exam->count() - 1];
 //   QGraphicsLineItem *ll[m_exam->count() - 1];
   
@@ -55,14 +60,35 @@ TmainLine::TmainLine(Texam* exam, Tchart* chart) :
 
 }
 
-void TmainLine::showTip(TQAunit* question)
+TmainLine::~TmainLine() {
+    delete m_delTimer;
+}
+
+
+
+void TmainLine::showTip(TQAunit* question, QPointF pos)
 {
-//   qDebug("show tip");
+    if (m_tip)
+        return;
+    m_tip = new TtipChart(question);
+    m_chart->scene->addItem(m_tip);
+    m_tip->setPos(pos);
 }
 
 void TmainLine::deleteTip()
 {
-
+    if (!m_delTimer->isActive()) {
+        m_delTimer->start(300);
+    }
 }
+
+void TmainLine::delayedDelete() {
+    m_delTimer->stop();
+    m_chart->scene->removeItem(m_tip);
+    delete m_tip;
+    m_tip = 0;
+    
+}
+
 
 
