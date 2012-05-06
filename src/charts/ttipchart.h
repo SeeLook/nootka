@@ -19,18 +19,18 @@
 #ifndef TTIPCHART_H
 #define TTIPCHART_H
 
-#include <QGraphicsItem>
+#include <QGraphicsTextItem>
 
 class TQAunit;
 
 
 /** This clas represent tip displayed when user hovers cursor 
  * over question point in the chart. */
-class TtipChart : public QGraphicsItem
+class TtipChart : public QGraphicsTextItem
 {
 
 public:
-  TtipChart(TQAunit *question, QGraphicsScene *scene);
+  TtipChart(TQAunit *question);
   virtual ~TtipChart();
   
   void setPos(QPointF p);
@@ -41,7 +41,7 @@ protected:
   virtual QRectF boundingRect() const;
   
 private:
-  QGraphicsTextItem *m_text;
+//   QGraphicsTextItem *m_text;
   
   
 };

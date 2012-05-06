@@ -21,8 +21,10 @@
 #include "tmainline.h"
 #include "tqaunit.h"
 #include "ttipchart.h"
-#include "QGraphicsSceneHoverEvent"
+#include <QGraphicsSceneHoverEvent>
 #include <QPainter>
+#include <QGraphicsScene>
+#include <QMutex>
 
 /* static */
 void TquestionPoint::setColors(QColor goodColor, QColor wrongColor, QColor notBadColor) {
@@ -79,21 +81,28 @@ QRectF TquestionPoint::boundingRect() const {
   return rect;
 }
   
+  QMutex mutex;
 void TquestionPoint::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 //     m_parent->showTip(question());
-  if (!m_tip) {
-    m_tip = new TtipChart(m_question, scene());
-    m_tip->setPos(pos());
+	mutex.lock();
+	if (!m_tip) {
+		m_tip = new TtipChart(m_question);
+		scene()->addItem(m_tip);
+		m_tip->setPos(pos());
   }
+  mutex.unlock();
   
 }
 
 
 void TquestionPoint::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 //   m_parent->deleteTip();
+  mutex.lock();
   if (m_tip) {
-    delete m_tip;
-    m_tip = 0;
+		scene()->removeItem(m_tip);
+		delete m_tip;
+		m_tip = 0;
   }
+  mutex.unlock();
 }
 
