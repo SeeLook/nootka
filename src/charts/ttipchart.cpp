@@ -20,15 +20,16 @@
 #include "tqaunit.h"
 #include "texamview.h"
 #include "tquestionaswdg.h"
-#include <QGraphicsScene>
+// #include <QGraphicsScene>
 #include <QPainter>
 #include <qstyleoption.h>
 #include <QApplication>
+#include <qgraphicseffect.h>
 #include <QDebug>
 
 
-TtipChart::TtipChart(TQAunit* question, QGraphicsScene* scene) :
-  QGraphicsItem(0, scene)
+TtipChart::TtipChart(TQAunit* question) :
+  QGraphicsTextItem()
 {
   QString txt = "<b>" + TquestionAsWdg::questionTxt() + " ";
   switch (question->questionAs) {
@@ -41,21 +42,26 @@ TtipChart::TtipChart(TQAunit* question, QGraphicsScene* scene) :
   txt += "</b><br>";
   txt += TexamView::reactTimeTxt() + "<br>" + 
         QString("<span style=\"font-size: 20px\">%1s</span>").arg((double)question->time / 10.0);
-  m_text = new QGraphicsTextItem();
-  this->scene()->addItem(m_text);
+//   m_text = new QGraphicsTextItem();
+//   this->scene()->addItem(m_text);
   
-  m_text->setHtml(txt);
+  setHtml(txt);
   
   
   setZValue(75);
-  m_text->setZValue(76);
+//   m_text->setZValue(76);
   
   setFlag(QGraphicsItem::ItemIgnoresTransformations);
-  m_text->setFlag(QGraphicsItem::ItemIgnoresTransformations);
+  
+  QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(this);
+  shadow->setBlurRadius(5);
+  shadow->setOffset(5, 5);
+  setGraphicsEffect(shadow);
+//   m_text->setFlag(QGraphicsItem::ItemIgnoresTransformations);
 }
 
 TtipChart::~TtipChart() {
-  scene()->removeItem(m_text);
+//   scene()->removeItem(m_text);
 //   qDebug() << "delete" << m_text;
 //   delete m_text;
 //   m_text = 0;
@@ -65,30 +71,34 @@ TtipChart::~TtipChart() {
 
 void TtipChart::setPos(QPointF p) {
   QGraphicsItem::setPos(p);
-  m_text->setPos(p);
+//   m_text->setPos(p);
 }
 
 
 
 void TtipChart::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
 //   Q_UNUSED(option)
-  Q_UNUSED(widget)
+//   Q_UNUSED(widget)
+
+
   
-  QRectF rect = boundingRect();
+	QRectF rect = boundingRect();
 //   painter->setBrush(QBrush(Qt::lightGray));
-  QColor shadow = option->palette.dark().color();
-  shadow.setAlpha(170);
-  painter->setPen(Qt::NoPen);
-  painter->setBrush(shadow);
-  painter->drawRoundedRect(rect.x() + 7 ,rect.y() + 7, rect.width(), rect.height(), 7, 7);
-  painter->setBrush(QBrush(option->palette.light()));
-  painter->drawRoundedRect(rect, 5, 5);
+//   QColor shadow = option->palette.dark().color();
+//   shadow.setAlpha(170);
+	painter->setPen(Qt::NoPen);
+//   painter->setBrush(shadow);
+//   painter->drawRoundedRect(rect.x() + 7 ,rect.y() + 7, rect.width(), rect.height(), 7, 7);
+	painter->setBrush(QBrush(option->palette.light()));
+	painter->drawRoundedRect(rect, 5, 5);
+  
+	QGraphicsTextItem::paint(painter, option, widget);  
 
 }
 
 QRectF TtipChart::boundingRect() const {
 //   if (m_text)
-    return m_text->boundingRect();
+    return QGraphicsTextItem::boundingRect();
 //   else
 //     return QRectF(0, 0, 1, 1);
 }
