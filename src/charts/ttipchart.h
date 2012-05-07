@@ -20,6 +20,7 @@
 #define TTIPCHART_H
 
 #include <QGraphicsTextItem>
+#include <tqatype.h>
 
 class TQAunit;
 
@@ -34,6 +35,7 @@ public:
   virtual ~TtipChart();
   
   void setPos(QPointF p);
+  static QString qaTypeText(TQAtype::Etype &type);
   
   
 protected:
