@@ -30,17 +30,33 @@
 #include <QDebug>
 
 
+/* static */
+QString TtipChart::qaTypeText(TQAtype::Etype& type) {
+  QString txt;
+  switch (type) {
+    case TQAtype::e_asNote : txt = TquestionAsWdg::asNoteTxt(); break;
+    case TQAtype::e_asName : txt = TquestionAsWdg::asNameTxt(); break;
+    case TQAtype::e_asFretPos : txt = TquestionAsWdg::asFretPosTxt(); break;
+    case TQAtype::e_asSound : txt = TquestionAsWdg::asSoundTxt(); break;    
+  }
+  return txt;
+}
+
+
+
 TtipChart::TtipChart(TQAunit* question) :
   QGraphicsTextItem()
 {
-  QString txt = "<b>" + TquestionAsWdg::questionTxt() + " ";
-  switch (question->questionAs) {
-    case TQAtype::e_asNote : txt += TquestionAsWdg::asNoteTxt(); break;
-    case TQAtype::e_asName : txt += TquestionAsWdg::asNameTxt(); break;
-    case TQAtype::e_asFretPos : txt += TquestionAsWdg::asFretPosTxt(); break;
-    case TQAtype::e_asSound : txt += TquestionAsWdg::asSoundTxt(); break;    
-  }
+  QString txt = "<b>" + TquestionAsWdg::questionTxt() + " " + qaTypeText(question->questionAs);
+//   switch (question->questionAs) {
+//     case TQAtype::e_asNote : txt += TquestionAsWdg::asNoteTxt(); break;
+//     case TQAtype::e_asName : txt += TquestionAsWdg::asNameTxt(); break;
+//     case TQAtype::e_asFretPos : txt += TquestionAsWdg::asFretPosTxt(); break;
+//     case TQAtype::e_asSound : txt += TquestionAsWdg::asSoundTxt(); break;    
+//   }
   
+  txt += "</b><br>";
+  txt += "<b>" + TquestionAsWdg::answerTxt() + " " + qaTypeText(question->answerAs);
   txt += "</b><br>";
   txt += TexamView::reactTimeTxt() + "<br>" + 
         QString("<span style=\"font-size: 20px\">%1s</span>").arg((double)question->time / 10.0);
