@@ -25,6 +25,8 @@
 #include <qstyleoption.h>
 #include <QApplication>
 #include <QGraphicsEffect>
+#include <QTextBlockFormat>
+#include <QTextCursor>
 #include <QDebug>
 
 
@@ -42,14 +44,20 @@ TtipChart::TtipChart(TQAunit* question) :
   txt += "</b><br>";
   txt += TexamView::reactTimeTxt() + "<br>" + 
         QString("<span style=\"font-size: 20px\">%1s</span>").arg((double)question->time / 10.0);
-//   m_text = new QGraphicsTextItem();
-//   this->scene()->addItem(m_text);
   
   setHtml(txt);
   
+  setTextWidth(boundingRect().width());
+  QTextBlockFormat format;
+  format.setAlignment(Qt::AlignCenter);
+  QTextCursor cursor = textCursor();
+  cursor.select(QTextCursor::Document);
+  cursor.mergeBlockFormat(format);
+  cursor.clearSelection();
+  setTextCursor(cursor);
   
   setZValue(75);
-//   m_text->setZValue(76);
+
   
   setFlag(QGraphicsItem::ItemIgnoresTransformations);
   
@@ -57,50 +65,32 @@ TtipChart::TtipChart(TQAunit* question) :
   shadow->setBlurRadius(5);
   shadow->setOffset(5, 5);
   setGraphicsEffect(shadow);
-//   m_text->setFlag(QGraphicsItem::ItemIgnoresTransformations);
 }
 
 TtipChart::~TtipChart() {
-//   scene()->removeItem(m_text);
-//   qDebug() << "delete" << m_text;
-//   delete m_text;
-//   m_text = 0;
 }
 
 
 
 void TtipChart::setPos(QPointF p) {
   QGraphicsItem::setPos(p);
-//   m_text->setPos(p);
 }
 
 
 
 void TtipChart::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-//   Q_UNUSED(option)
-//   Q_UNUSED(widget)
 
+    QRectF rect = boundingRect();
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(QBrush(option->palette.light()));
+    painter->drawRoundedRect(rect, 5, 5);
 
-  
-	QRectF rect = boundingRect();
-//   painter->setBrush(QBrush(Qt::lightGray));
-//   QColor shadow = option->palette.dark().color();
-//   shadow.setAlpha(170);
-	painter->setPen(Qt::NoPen);
-//   painter->setBrush(shadow);
-//   painter->drawRoundedRect(rect.x() + 7 ,rect.y() + 7, rect.width(), rect.height(), 7, 7);
-	painter->setBrush(QBrush(option->palette.light()));
-	painter->drawRoundedRect(rect, 5, 5);
-  
-	QGraphicsTextItem::paint(painter, option, widget);  
+    QGraphicsTextItem::paint(painter, option, widget);
 
 }
 
 QRectF TtipChart::boundingRect() const {
-//   if (m_text)
     return QGraphicsTextItem::boundingRect();
-//   else
-//     return QRectF(0, 0, 1, 1);
 }
 
 
