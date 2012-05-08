@@ -20,7 +20,8 @@
 #include "tqaunit.h"
 #include "texamview.h"
 #include "tquestionaswdg.h"
-// #include <QGraphicsScene>
+#include "tquestionpoint.h"
+#include "tnotename.h"
 #include <QPainter>
 #include <qstyleoption.h>
 #include <QApplication>
@@ -31,7 +32,7 @@
 
 
 /* static */
-QString TtipChart::qaTypeText(TQAtype::Etype& type) {
+QString TtipChart::qaTypeText(TQAtype::Etype &type) {
   QString txt;
   switch (type) {
     case TQAtype::e_asNote : txt = TquestionAsWdg::asNoteTxt(); break;
@@ -44,22 +45,20 @@ QString TtipChart::qaTypeText(TQAtype::Etype& type) {
 
 
 
-TtipChart::TtipChart(TQAunit* question) :
-  QGraphicsTextItem()
+TtipChart::TtipChart(TquestionPoint *point) :
+    QGraphicsTextItem(),
+    m_point(point)
 {
-  QString txt = "<b>" + TquestionAsWdg::questionTxt() + " " + qaTypeText(question->questionAs);
-//   switch (question->questionAs) {
-//     case TQAtype::e_asNote : txt += TquestionAsWdg::asNoteTxt(); break;
-//     case TQAtype::e_asName : txt += TquestionAsWdg::asNameTxt(); break;
-//     case TQAtype::e_asFretPos : txt += TquestionAsWdg::asFretPosTxt(); break;
-//     case TQAtype::e_asSound : txt += TquestionAsWdg::asSoundTxt(); break;    
-//   }
-  
+  QString txt = "<b>" + TquestionAsWdg::questionTxt() + " " + qaTypeText(point->question()->questionAs);
   txt += "</b><br>";
-  txt += "<b>" + TquestionAsWdg::answerTxt() + " " + qaTypeText(question->answerAs);
+  if (point->question()->questionAs == TQAtype::e_asFretPos)
+      txt += QString("(%1) %2<br>").arg(point->question()->qa.pos.str()).arg(point->question()->qa.pos.fret());
+  else
+      txt += TnoteName::noteToRichText(point->question()->qa.note) + "<br>";
+  txt += "<b>" + TquestionAsWdg::answerTxt() + " " + qaTypeText(point->question()->answerAs);
   txt += "</b><br>";
   txt += TexamView::reactTimeTxt() + "<br>" + 
-        QString("<span style=\"font-size: 20px\">%1s</span>").arg((double)question->time / 10.0);
+        QString("<span style=\"font-size: 20px\">%1s</span>").arg((double)point->question()->time / 10.0);
   
   setHtml(txt);
   
@@ -99,6 +98,15 @@ void TtipChart::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
     QRectF rect = boundingRect();
     painter->setPen(Qt::NoPen);
     painter->setBrush(QBrush(option->palette.light()));
+    painter->drawRoundedRect(rect, 5, 5);
+    QColor startColor = m_point->color();
+    startColor.setAlpha(25);
+    QColor endColor = startColor;
+    endColor.setAlpha(75);
+    QLinearGradient grad(rect.topLeft(), rect.bottomRight());
+    grad.setColorAt(0.1, startColor);
+    grad.setColorAt(0.9, endColor);
+    painter->setBrush(QBrush(grad));
     painter->drawRoundedRect(rect, 5, 5);
 
     QGraphicsTextItem::paint(painter, option, widget);

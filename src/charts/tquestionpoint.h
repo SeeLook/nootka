@@ -35,13 +35,14 @@ public:
   
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
   virtual QRectF boundingRect() const;
-  TQAunit* question() { return m_question; } 
+  TQAunit* question() { return m_question; }
+  QColor color() { return m_color; }
   
   static void setColors(QColor goodColor = Qt::green, QColor wrongColor = Qt::red, QColor notBadColor = Qt::darkMagenta);
   
 protected:
-  void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
-  void hoverLeaveEvent(QGraphicsSceneHoverEvent * event);
+  void hoverEnterEvent(QGraphicsSceneHoverEvent *);
+  void hoverLeaveEvent(QGraphicsSceneHoverEvent *);
   
   
 private:

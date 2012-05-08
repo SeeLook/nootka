@@ -45,13 +45,14 @@ public:
   virtual ~TmainLine();
   
 protected:
-  void showTip(TQAunit *question, QPointF pos); // Shows question/answer data as tip
+  void showTip(TquestionPoint *point); // Shows question/answer data as tip
   void deleteTip();
   
 private:
   Texam *m_exam; // Pointer to chart contained this plot
   Tchart *m_chart;
   QList<TquestionPoint*> m_points; // List of points 
+  TquestionPoint *m_curPoint;
   QTimer *m_delTimer;
   TtipChart *m_tip;
   

@@ -24,6 +24,7 @@
 #include "tstafflinechart.h"
 #include "ttipchart.h"
 #include <QGraphicsScene>
+#include <QGraphicsView>
 #include <QDebug>
 #include <QTimer>
 
@@ -52,6 +53,7 @@ TmainLine::TmainLine(Texam* exam, Tchart* chart) :
 //       m_chart->scene->addItem(ll[i-1]);
 //       ll[i-1]->setLine(QLineF(m_points[i-1]->pos(), m_points[i]->pos()));
       lines[i-1]->setLine(m_points[i-1]->pos(), m_points[i]->pos());
+      lines[i-1]->setZValue(45);
     } 
   }
   
@@ -66,13 +68,19 @@ TmainLine::~TmainLine() {
 
 
 
-void TmainLine::showTip(TQAunit* question, QPointF pos)
-{
+void TmainLine::showTip(TquestionPoint *point) {
     if (m_tip)
         return;
-    m_tip = new TtipChart(question);
+    m_tip = new TtipChart(point);
     m_chart->scene->addItem(m_tip);
-    m_tip->setPos(pos);
+    QPointF p = point->pos();
+    // determine where to display tip when point is near a view boundaries
+    if (m_chart->mapFromScene(point->pos()).x() > (m_chart->width() / 2) )
+        p.setX(p.x() - m_tip->boundingRect().width()/m_chart->transform().m11());
+    if (m_chart->mapFromScene(point->pos()).y() > (m_chart->height() / 2) )
+        p.setY(p.y() - m_tip->boundingRect().height()/m_chart->transform().m22());
+    m_tip->setPos(p);
+    m_curPoint = point;
 }
 
 void TmainLine::deleteTip()
@@ -83,11 +91,14 @@ void TmainLine::deleteTip()
 }
 
 void TmainLine::delayedDelete() {
+    if (m_curPoint->isUnderMouse())
+        return;
     m_delTimer->stop();
-    m_chart->scene->removeItem(m_tip);
-    delete m_tip;
-    m_tip = 0;
-    
+    if (m_tip) {
+        m_chart->scene->removeItem(m_tip);
+        delete m_tip;
+        m_tip = 0;
+    }
 }
 
 
