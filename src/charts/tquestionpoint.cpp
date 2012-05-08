@@ -82,12 +82,12 @@ QRectF TquestionPoint::boundingRect() const {
   return rect;
 }
   
-void TquestionPoint::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
-    m_parent->showTip(question(), pos());  
+void TquestionPoint::hoverEnterEvent(QGraphicsSceneHoverEvent* ) {
+    m_parent->showTip(this);
 }
 
 
-void TquestionPoint::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
+void TquestionPoint::hoverLeaveEvent(QGraphicsSceneHoverEvent* ) {
   m_parent->deleteTip();
 }
 
