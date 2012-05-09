@@ -36,8 +36,8 @@ TmainLine::TmainLine(Texam* exam, Tchart* chart) :
   
   m_delTimer = new QTimer();
   connect(m_delTimer, SIGNAL(timeout()), this, SLOT(delayedDelete()));
-  TstaffLineChart *lines[m_exam->count() - 1];
-//   QGraphicsLineItem *ll[m_exam->count() - 1];
+//  TstaffLineChart *lines[m_exam->count() - 1];
+   QGraphicsLineItem *ll[m_exam->count() - 1];
   
   for(int i = 0; i < m_exam->count(); i++) {
     double xPos = m_chart->xAxis->mapValue(i+1) + m_chart->xAxis->pos().x();
@@ -46,14 +46,15 @@ TmainLine::TmainLine(Texam* exam, Tchart* chart) :
     m_points[i]->setZValue(50);
     m_points[i]->setPos(xPos, m_chart->yAxis->mapValue((double)m_exam->qusetion(i).time / 10.0));
     if (i) {
-      lines[i-1] = new TstaffLineChart();
-//       ll[i-1] = new QGraphicsLineItem();
-//       ll[i-1]->setPen(QPen(QBrush(Qt::darkBlue), 1));
-      m_chart->scene->addItem(lines[i-1]);
-//       m_chart->scene->addItem(ll[i-1]);
-//       ll[i-1]->setLine(QLineF(m_points[i-1]->pos(), m_points[i]->pos()));
-      lines[i-1]->setLine(m_points[i-1]->pos(), m_points[i]->pos());
-      lines[i-1]->setZValue(45);
+//      lines[i-1] = new TstaffLineChart();
+       ll[i-1] = new QGraphicsLineItem();
+       ll[i-1]->setPen(QPen(QBrush(Qt::blue), 2));
+//       m_chart->scene->addItem(lines[i-1]);
+       m_chart->scene->addItem(ll[i-1]);
+       ll[i-1]->setLine(QLineF(m_points[i-1]->pos(), m_points[i]->pos()));
+//      lines[i-1]->setLine(m_points[i-1]->pos(), m_points[i]->pos());
+//      lines[i-1]->setZValue(45);
+       ll[i-1]->setZValue(45);
     } 
   }
   
