@@ -19,7 +19,9 @@
 #include "txaxis.h"
 #include "tqaunit.h"
 #include "texam.h"
+#include "tnotename.h"
 #include <QPainter>
+#include <QGraphicsScene>
 
 
 TXaxis::TXaxis(Texam* exam) :
@@ -39,8 +41,15 @@ TXaxis::~TXaxis()
 
 void TXaxis::setExam(Texam* exam) {
   m_exam = exam;
-  setLength(m_qWidth * m_exam->count());
+  setLength(m_qWidth * (m_exam->count()+1));
   update(boundingRect());
+  QGraphicsSimpleTextItem *ticTips[m_exam->count()];
+  for (int i = 0; i < m_exam->count(); i++) {
+      QString txt = QString("%1.").arg(i+1);
+      ticTips[i] = new QGraphicsSimpleTextItem(txt);
+      scene()->addItem(ticTips[i]);
+      ticTips[i]->setPos(pos().x() + mapValue(i+1) - rectBoundText(txt).width() / 2 , pos().y() + 15);
+  }
 }
 
 
@@ -49,7 +58,7 @@ void TXaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
     Q_UNUSED(option)
     Q_UNUSED(widget)
       
-  QRectF rect = boundingRect();
+//  QRectF rect = boundingRect();
   qreal half = axisWidth /  2.0;
   painter->drawLine(0, half, length(), half);
   drawArrow(painter, QPointF(length(), half), true);
@@ -60,19 +69,19 @@ void TXaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
   int b = length() / m_qWidth -1;
   for (int i=1; i <= b; i++) {
     painter->drawLine(i*m_qWidth, half, i*m_qWidth, half + tickSize);
-    if (m_exam) {
-        QString tt = QString("%1.\n%2").arg(i).arg(QString::fromStdString(m_exam->qusetion(i).qa.note.getName()));
-        QRectF rr = rectBoundText(tt);
-        painter->drawText(QRectF(i*50 - rr.width()/2, 0, rr.width(), rr.height()*3), Qt::AlignCenter, tt);
-    }
+//    if (m_exam) {
+//        QString tt = QString("%1.\n%2").arg(i).arg(QString::fromStdString(m_exam->qusetion(i).qa.note.getName()));
+//        QRectF rr = rectBoundText(tt);
+//        painter->drawText(QRectF(i*50 - rr.width()/2, 0, rr.width(), rr.height()*3), Qt::AlignCenter, tt);
+//    }
   }
   
 }
 
 QRectF TXaxis::boundingRect()
 {
-  QRectF rect(0 ,0, length(), axisWidth*8);
-  rect.translate(0, -axisWidth / 2.0);
+  QRectF rect(0 ,0, length(), axisWidth);
+//  rect.translate(1, axisWidth / 2.0);
   return rect;
 }
 
