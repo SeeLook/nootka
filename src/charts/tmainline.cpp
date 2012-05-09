@@ -86,7 +86,7 @@ void TmainLine::showTip(TquestionPoint *point) {
 void TmainLine::deleteTip()
 {
     if (!m_delTimer->isActive()) {
-        m_delTimer->start(300);
+        m_delTimer->start(30);
     }
 }
 

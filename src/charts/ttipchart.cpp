@@ -49,16 +49,29 @@ TtipChart::TtipChart(TquestionPoint *point) :
     QGraphicsTextItem(),
     m_point(point)
 {
-  QString txt = "<b>" + TquestionAsWdg::questionTxt() + " " + qaTypeText(point->question()->questionAs);
-  txt += "</b><br>";
+    
+  QString txt = TquestionAsWdg::questionTxt() + " " + qaTypeText(point->question()->questionAs);
+  txt += "<p style=\"font-size: 20px;\">";
   if (point->question()->questionAs == TQAtype::e_asFretPos)
-      txt += QString("(%1) %2<br>").arg(point->question()->qa.pos.str()).arg(point->question()->qa.pos.fret());
+      txt += QString("(%1) %2</p>").arg(point->question()->qa.pos.str()).arg(point->question()->qa.pos.fret());
   else
-      txt += TnoteName::noteToRichText(point->question()->qa.note) + "<br>";
-  txt += "<b>" + TquestionAsWdg::answerTxt() + " " + qaTypeText(point->question()->answerAs);
-  txt += "</b><br>";
-  txt += TexamView::reactTimeTxt() + "<br>" + 
-        QString("<span style=\"font-size: 20px\">%1s</span>").arg((double)point->question()->time / 10.0);
+      txt += TnoteName::noteToRichText(point->question()->qa.note) + "</p>";
+  txt += TquestionAsWdg::answerTxt() + " " + qaTypeText(point->question()->answerAs);
+  if (point->question()->answerAs == TQAtype::e_asFretPos)
+      txt += QString("<p style=\"font-size: 20px;\">(%1) %2</p>").arg(point->question()->qa.pos.str()).arg(point->question()->qa.pos.fret());
+  else {
+    if ((point->question()->questionAs == TQAtype::e_asNote && point->question()->answerAs == TQAtype::e_asNote) || 
+        (point->question()->questionAs == TQAtype::e_asName && point->question()->answerAs == TQAtype::e_asName)
+    )
+        txt += "<p style=\"font-size: 20px;\">" + TnoteName::noteToRichText(point->question()->qa_2.note) + "</p>";
+        else {
+            if (point->question()->questionAs == TQAtype::e_asFretPos)
+                txt += "<p style=\"font-size: 20px;\">" + TnoteName::noteToRichText(point->question()->qa.note) + "</p>";
+        }
+  }
+  
+  txt += "<p>" + TexamView::reactTimeTxt() + "<br>" + 
+        QString("<span style=\"font-size: 20px\">%1s</span></p>").arg((double)point->question()->time / 10.0);
   
   setHtml(txt);
   
