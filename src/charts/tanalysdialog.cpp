@@ -77,15 +77,16 @@ TanalysDialog::~TanalysDialog()
 //##########  PUBLIC METHODS #####################
 void TanalysDialog::loadExam(QString& examFile) {
 
-    if (!m_exam) {
-        m_exam = new Texam(m_level, "");
-    }
+    if (m_exam)
+        delete m_exam;
+    m_exam = new Texam(m_level, "");
     m_exam->loadFromFile(examFile);
     m_userLab->setText(m_exam->userName());
     m_levelLab->setText(m_exam->level()->name);
 
 	if (m_chart) {
 		delete m_chart;
+        m_chart = 0;
 	}
 
 	m_chart = new TmainChart(m_exam, this);
