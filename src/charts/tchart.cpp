@@ -24,6 +24,7 @@
 #include "txaxis.h"
 #include "tyaxis.h"
 #include "tabstractaxis.h"
+#include <QDebug>
 
 Tchart::Tchart(QWidget* parent) :
 	QGraphicsView(parent)
@@ -44,6 +45,13 @@ Tchart::Tchart(QWidget* parent) :
   scene->addItem(xAxis);
   xAxis->setLength(600);
   xAxis->setPos(27, yAxis->boundingRect().height()-5);
+
+  // stupid trick to make room for further tips of ticks of x axis
+  QGraphicsEllipseItem *el = new QGraphicsEllipseItem();
+  el->setPen(Qt::NoPen);
+  scene->addItem(el);
+  el->setRect(0, 0, 15, xAxis->rectBoundText("X").height()*3);
+  el->setPos(27, yAxis->boundingRect().height() + 15);
   
 }
 
@@ -53,12 +61,28 @@ Tchart::~Tchart()
   delete yAxis;
 }
 
+void Tchart::zoom(bool in) {
+    double coef = 1.125;
+    if (!in)
+        coef = 0.888889;
+    scale(coef, coef);
+}
+
+
 void Tchart::wheelEvent(QWheelEvent* event) {
   if (event->modifiers() == Qt::ControlModifier) {
-    double deg = -event->delta() / 8.0;
-    double step = deg / 15.0;
-    double coef = std::pow(1.125, step);
-    scale(coef, coef);
+//    double deg = -event->delta() / 8.0;
+//    double step = deg / 15.0;
+//    double coef = std::pow(1.125, step);
+//    qDebug() << event->delta() << coef;
+//      double coef = 1.125;
+//      if (event->delta() > 0)
+//          coef = 0.888889;
+//      scale(coef, coef);
+      if  (event->delta() > 0)
+          zoom(true);
+      else
+          zoom(false);
   }
 }
 

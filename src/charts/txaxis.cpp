@@ -22,6 +22,8 @@
 #include "tnotename.h"
 #include <QPainter>
 #include <QGraphicsScene>
+#include <QTextBlockFormat>
+#include <QTextCursor>
 
 
 TXaxis::TXaxis(Texam* exam) :
@@ -43,12 +45,23 @@ void TXaxis::setExam(Texam* exam) {
   m_exam = exam;
   setLength(m_qWidth * (m_exam->count()+1));
   update(boundingRect());
-  QGraphicsSimpleTextItem *ticTips[m_exam->count()];
+  QGraphicsTextItem *ticTips[m_exam->count()];
   for (int i = 0; i < m_exam->count(); i++) {
-      QString txt = QString("%1.").arg(i+1);
-      ticTips[i] = new QGraphicsSimpleTextItem(txt);
+      QString txt = QString("%1.<br>%2").arg(i+1).arg(TnoteName::noteToRichText(m_exam->qusetion(i).qa.note));
+      ticTips[i] = new QGraphicsTextItem();
+      ticTips[i]->setHtml(txt);
+      // Align centrally ticTip content
+      ticTips[i]->setTextWidth(ticTips[i]->boundingRect().width());
+      QTextBlockFormat format;
+      format.setAlignment(Qt::AlignCenter);
+      QTextCursor cursor = ticTips[i]->textCursor();
+      cursor.select(QTextCursor::Document);
+      cursor.mergeBlockFormat(format);
+      cursor.clearSelection();
+      ticTips[i]->setTextCursor(cursor); // done
+
       scene()->addItem(ticTips[i]);
-      ticTips[i]->setPos(pos().x() + mapValue(i+1) - rectBoundText(txt).width() / 2 , pos().y() + 15);
+      ticTips[i]->setPos(pos().x() + mapValue(i+1) - ticTips[i]->boundingRect().width() / 2 , pos().y() + 15);
   }
 }
 

@@ -48,7 +48,7 @@ TmainLine::TmainLine(Texam* exam, Tchart* chart) :
     if (i) {
 //      lines[i-1] = new TstaffLineChart();
        ll[i-1] = new QGraphicsLineItem();
-       ll[i-1]->setPen(QPen(QBrush(Qt::blue), 2));
+       ll[i-1]->setPen(QPen(QBrush(Qt::blue), 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 //       m_chart->scene->addItem(lines[i-1]);
        m_chart->scene->addItem(ll[i-1]);
        ll[i-1]->setLine(QLineF(m_points[i-1]->pos(), m_points[i]->pos()));
