@@ -42,6 +42,8 @@ class Tchart : public QGraphicsView
 public:
     Tchart(QWidget* parent = 0);
     virtual ~Tchart();
+
+    void zoom(bool in = true); // zoom view, by default zoom in but when false zoom out
     
 protected:
     void wheelEvent(QWheelEvent *event);

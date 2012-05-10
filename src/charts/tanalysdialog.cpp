@@ -99,14 +99,25 @@ void TanalysDialog::loadExam(QString& examFile) {
 
 void TanalysDialog::createActions() {
   
-  m_openExamAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_DirOpenIcon)), tr("Open an exam"), this);
+  m_openExamAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_FileIcon)), tr("Open an exam"), this);
   connect(m_openExamAct, SIGNAL(triggered()), this, SLOT(loadExamSlot()));
 
   m_closeAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)), tr("Close analyser"), this);
   connect(m_closeAct, SIGNAL(triggered()), this, SLOT(close()));
-  
+
+  m_zoomInAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_ArrowRight)), tr("zoom in"), this);
+  connect(m_zoomInAct, SIGNAL(triggered()), this, SLOT(zoomInSlot()));
+
+  m_zoomOutAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_ArrowLeft)), tr("zoom in"), this);
+  connect(m_zoomOutAct, SIGNAL(triggered()), this, SLOT(zoomOutSlot()));
+
   m_toolBar->addAction(m_openExamAct);
+  m_toolBar->addSeparator();
+  m_toolBar->addAction(m_zoomOutAct);
+  m_toolBar->addAction(m_zoomInAct);
+  m_toolBar->addSeparator();
   m_toolBar->addAction(m_closeAct);
+
 }
 
 
@@ -125,4 +136,10 @@ void TanalysDialog::testSlot() {
   loadExam(testFile);
 }
 
+void TanalysDialog::zoomInSlot() {
+    m_chart->zoom(true);
+}
 
+void TanalysDialog::zoomOutSlot() {
+    m_chart->zoom(false);
+}

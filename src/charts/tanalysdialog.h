@@ -44,10 +44,12 @@ public:
 protected slots:
   void testSlot();
   void loadExamSlot();
+  void zoomInSlot();
+  void zoomOutSlot();
 
 private:
   QToolBar *m_toolBar;
-  QAction *m_openExamAct, *m_closeAct;
+  QAction *m_openExamAct, *m_closeAct, *m_zoomInAct, *m_zoomOutAct;
   QLabel *m_levelLab, *m_userLab;
   QComboBox *m_chartListComo;
   
@@ -59,6 +61,7 @@ private:
   
 private:
   void createActions();
+
      
     
     

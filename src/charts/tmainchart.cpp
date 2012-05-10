@@ -42,7 +42,7 @@ TmainChart::TmainChart(Texam *exam, QWidget* parent):
   
 // Grid lines
   QColor lineColor = palette().foreground().color();
-  lineColor.setAlpha(120);
+//  lineColor.setAlpha(120);
   for(int i = 5; i < m_exam->count(); i++) {
     if (i%5 == 0)
       scene->addLine(xAxis->mapValue(i) + xAxis->pos().x(), 0,
@@ -53,8 +53,8 @@ TmainChart::TmainChart(Texam *exam, QWidget* parent):
   yAxis->getYforGrid(listY);
   if (listY.size()) {
       for(int i = 0; i < listY.size(); i++)
-        scene->addLine(xAxis->pos().x(), listY[i]-0.5,
-        xAxis->pos().x() + xAxis->length(), listY[i]-0.5, 
+        scene->addLine(xAxis->pos().x(), listY[i],
+        xAxis->pos().x() + xAxis->length(), listY[i],
                      QPen(QBrush(lineColor), 1, Qt::DashLine));
   }  
   
