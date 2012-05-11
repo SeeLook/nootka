@@ -64,6 +64,7 @@ SET( NOOTKA_SRCS
   charts/tmainchart.cpp
   charts/tstafflinechart.cpp
   charts/ttipchart.cpp
+  charts/tnotepixmap.cpp
 ###### Sound
   sound/tsound.cpp
   sound/taudioout.cpp
