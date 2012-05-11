@@ -18,14 +18,42 @@
 
 
 #include "tnotepixmap.h"
+#include <QPainter>
 
-TnotePixmap::TnotePixmap(Tnote note, int height, TkeySignature key)
+#define NOTES_PER_HEIGHT (25)
+
+TnotePixmap::TnotePixmap(Tnote note, bool clef, int height, TkeySignature key) :
+  QPixmap((height/NOTES_PER_HEIGHT)*2*(NOTES_PER_HEIGHT/3), height)
 {
+  // sizes from TscoreWidgetSimple
+  // clef 5.5 * coeff
+  // key 5 * coeff
+  // note 6 * coeff
+  
+    double coeff = height / NOTES_PER_HEIGHT;
+    fill(); // white background
 
+    int noteOffset = 10 - (note.octave*7 + note.note);
+    int hiLinePos = 4;
+    if (noteOffset < -4)
+        hiLinePos = 9;
+    
+    QPainter painter(this);
+    painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
+    painter.setWindow(0, 0, width(), height);
+
+    painter.setPen(Qt::black);
+    painter.setBrush(Qt::black);
+    for (int i=hiLinePos; i < (hiLinePos + 10); i += 2)
+        painter.drawLine(0 ,i*coeff, width(), i*coeff);
+    if (clef) {
+        painter.setFont(QFont("nootka", coeff*12.5, QFont::Normal));
+        painter.drawText(QRectF(1, (hiLinePos - 3.8)*coeff, coeff*6, coeff*18), Qt::AlignLeft, QString(QChar(0xe1a7)));
+    }
+    painter.drawEllipse( 9*coeff, (hiLinePos + noteOffset)*coeff, coeff*3, coeff*2);
+    
 }
 
 TnotePixmap::~TnotePixmap()
-{
-
-}
+{}
 

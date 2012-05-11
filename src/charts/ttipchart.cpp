@@ -22,12 +22,14 @@
 #include "tquestionaswdg.h"
 #include "tquestionpoint.h"
 #include "tnotename.h"
+#include "tnotepixmap.h"
 #include <QPainter>
 #include <qstyleoption.h>
 #include <QApplication>
 #include <QGraphicsEffect>
 #include <QTextBlockFormat>
 #include <QTextCursor>
+#include <QBuffer>
 #include <QDebug>
 
 
@@ -54,8 +56,18 @@ TtipChart::TtipChart(TquestionPoint *point) :
   txt += "<p style=\"font-size: 20px;\">";
   if (point->question()->questionAs == TQAtype::e_asFretPos)
       txt += QString("(%1) %2</p>").arg(point->question()->qa.pos.str()).arg(point->question()->qa.pos.fret());
-  else
-      txt += TnoteName::noteToRichText(point->question()->qa.note) + "</p>";
+  else {
+    if (point->question()->questionAs == TQAtype::e_asName)
+        txt += TnoteName::noteToRichText(point->question()->qa.note) + "</p>";
+    else {
+        qDebug() << (int)10 - (point->question()->qa.note.octave*7 + point->question()->qa.note.note);
+        TnotePixmap pixmap(point->question()->qa.note, true, 100);
+        QByteArray byteArray;
+        QBuffer buffer(&byteArray);
+        pixmap.save(&buffer, "PNG");
+        txt += QString("<img src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/><br>";
+    }      
+  }
   txt += TquestionAsWdg::answerTxt() + " " + qaTypeText(point->question()->answerAs);
   if (point->question()->answerAs == TQAtype::e_asFretPos)
       txt += QString("<p style=\"font-size: 20px;\">(%1) %2</p>").arg(point->question()->qa.pos.str()).arg(point->question()->qa.pos.fret());

@@ -24,12 +24,14 @@
 #include <tnote.h>
 #include <tkeysignature.h>
 
-
+/** This class creates pixmap with given note i ngiven key and so on.
+ * Default height is 100 px. Width is calculated by contents (clef, key, accidentals) 
+ */
 class TnotePixmap : public QPixmap
 {
 
 public:
-    TnotePixmap(Tnote note, int height = 100, TkeySignature key = TkeySignature(0));
+    TnotePixmap(Tnote note, bool clef = true, int height = 100, TkeySignature key = TkeySignature(0));
     virtual ~TnotePixmap();
 };
 
