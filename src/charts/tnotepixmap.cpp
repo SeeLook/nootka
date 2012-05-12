@@ -19,6 +19,7 @@
 
 #include "tnotepixmap.h"
 #include <QPainter>
+#include <QDebug>
 
 #define NOTES_PER_HEIGHT (25)
 #define COEFF (4)
@@ -48,13 +49,15 @@ TnotePixmap::TnotePixmap(Tnote note, bool clef, int height, int width, TkeySigna
 
 //    double coeff = height / NOTES_PER_HEIGHT;
     double coeff = COEFF;
+    int noteNr = note.octave*7 + note.note;
     fill(); // white background
 
-    int noteOffset = 10 - (note.octave*7 + note.note);
+    int noteOffset = 10 - noteNr;
     int hiLinePos = 4;
-    if ((note.octave*7 + note.note) > 14)
-        hiLinePos = 4 + (note.octave*7 + note.note) - 14;
+    if (noteNr > 14)
+        hiLinePos = 4 + noteNr - 14;
 
+    qDebug() << noteNr << hiLinePos << noteOffset;
     
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
@@ -64,6 +67,9 @@ TnotePixmap::TnotePixmap(Tnote note, bool clef, int height, int width, TkeySigna
     painter.setBrush(Qt::black);
     for (int i=hiLinePos; i < (hiLinePos + 10); i += 2)
         painter.drawLine(0 ,i*coeff, width, i*coeff);
+    if (noteNr > 12)
+        for (int i = hiLinePos - 2; i > (noteNr - 12); i -= 2)
+            painter.drawLine(8 * coeff ,i*coeff, 13 * coeff, i*coeff);
     if (clef) {
 #if defined(Q_OS_MAC)
         painter.setFont(QFont("nootka", coeff*18.5, QFont::Normal));
