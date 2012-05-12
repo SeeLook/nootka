@@ -28,12 +28,12 @@
 
 TnotePixmap TnotePixmap::pix(Tnote note, bool clef, TkeySignature key) {
     int noteNr = note.octave*7 + note.note;
-    int h = COEFF * 17;
+    int h = COEFF * 18;
     int w = COEFF * 15;
     if (noteNr > 14)
-        h = COEFF * (17 + (noteNr - 14));
+        h = COEFF * (18 + (noteNr - 13));
     if (noteNr < -1)
-        h = COEFF * (17 + (-1 - noteNr));
+        h = COEFF * (18 + (-1 - noteNr));
 
     return TnotePixmap(note, clef, h, w, key);
 }
@@ -55,7 +55,7 @@ TnotePixmap::TnotePixmap(Tnote note, bool clef, int height, int width, TkeySigna
     int noteOffset = 10 - noteNr;
     int hiLinePos = 4;
     if (noteNr > 14)
-        hiLinePos = 4 + noteNr - 14;
+        hiLinePos = 4 + noteNr - 13;
 
     qDebug() << noteNr << hiLinePos << noteOffset;
     
@@ -65,17 +65,20 @@ TnotePixmap::TnotePixmap(Tnote note, bool clef, int height, int width, TkeySigna
 
     painter.setPen(Qt::black);
     painter.setBrush(Qt::black);
-    for (int i=hiLinePos; i < (hiLinePos + 10); i += 2)
+    for (int i = hiLinePos; i < (hiLinePos + 10); i += 2)
         painter.drawLine(0 ,i*coeff, width, i*coeff);
     if (noteNr > 12)
-        for (int i = hiLinePos - 2; i > (noteNr - 12); i -= 2)
+        for (int i = hiLinePos - 2; i > (0); i -= 2)
+            painter.drawLine(8 * coeff ,i*coeff, 13 * coeff, i*coeff);
+    if (noteNr < -1)
+        for (int i = hiLinePos + 12; i < (-1 - noteNr); i += 2)
             painter.drawLine(8 * coeff ,i*coeff, 13 * coeff, i*coeff);
     if (clef) {
 #if defined(Q_OS_MAC)
         painter.setFont(QFont("nootka", coeff*18.5, QFont::Normal));
         painter.drawText(QRectF(1, (hiLinePos - 4.4)*coeff, coeff*6, coeff*18), Qt::AlignLeft, QString(QChar(0xe1a7)));
 #else
-        painter.setFont(QFont("nootka", coeff*12.5, QFont::Normal));
+        painter.setFont(QFont("nootka", coeff*13, QFont::Normal));
 #endif
 #if defined(Q_OS_LINUX)
         painter.drawText(QRectF(1, (hiLinePos - 3.8)*coeff, coeff*6, coeff*18), Qt::AlignLeft, QString(QChar(0xe1a7)));
