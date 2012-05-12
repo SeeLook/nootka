@@ -24,7 +24,10 @@
 #include "tstartexamdlg.h"
 #include "tchart.h"
 #include "tmainchart.h"
+#include "tglobals.h"
 
+
+extern Tglobals *gl;
 
 
 TanalysDialog::TanalysDialog(QWidget *parent) :
@@ -105,10 +108,10 @@ void TanalysDialog::createActions() {
   m_closeAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)), tr("Close analyser"), this);
   connect(m_closeAct, SIGNAL(triggered()), this, SLOT(close()));
 
-  m_zoomInAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_ArrowRight)), tr("zoom in"), this);
+  m_zoomInAct = new QAction(QIcon(gl->path+"picts/zoom-in.png"), tr("zoom in"), this);
   connect(m_zoomInAct, SIGNAL(triggered()), this, SLOT(zoomInSlot()));
 
-  m_zoomOutAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_ArrowLeft)), tr("zoom in"), this);
+  m_zoomOutAct = new QAction(QIcon(gl->path+"picts/zoom-out.png"), tr("zoom out"), this);
   connect(m_zoomOutAct, SIGNAL(triggered()), this, SLOT(zoomOutSlot()));
 
   m_toolBar->addAction(m_openExamAct);
