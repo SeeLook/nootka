@@ -31,8 +31,13 @@ class TnotePixmap : public QPixmap
 {
 
 public:
-    TnotePixmap(Tnote note, bool clef = true, int height = 100, TkeySignature key = TkeySignature(0));
+    TnotePixmap(Tnote note, bool clef = true, int height = 100, int width = 150, TkeySignature key = TkeySignature(0));
     virtual ~TnotePixmap();
+
+    static TnotePixmap pix(Tnote note, bool clef = true, TkeySignature key = TkeySignature(0));
+
+protected:
+//    static int hiLinePos;
 };
 
 #endif // TNOTEPIXMAP_H

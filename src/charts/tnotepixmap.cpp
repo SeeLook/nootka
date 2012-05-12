@@ -21,34 +21,61 @@
 #include <QPainter>
 
 #define NOTES_PER_HEIGHT (25)
+#define COEFF (4)
 
-TnotePixmap::TnotePixmap(Tnote note, bool clef, int height, TkeySignature key) :
-  QPixmap((height/NOTES_PER_HEIGHT)*2*(NOTES_PER_HEIGHT/3), height)
+/* static */
+
+TnotePixmap TnotePixmap::pix(Tnote note, bool clef, TkeySignature key) {
+    int noteNr = note.octave*7 + note.note;
+    int h = COEFF * 17;
+    int w = COEFF * 15;
+    if (noteNr > 14)
+        h = COEFF * (17 + (noteNr - 14));
+    if (noteNr < -1)
+        h = COEFF * (17 + (-1 - noteNr));
+
+    return TnotePixmap(note, clef, h, w, key);
+}
+
+
+TnotePixmap::TnotePixmap(Tnote note, bool clef, int height, int width, TkeySignature key) :
+  QPixmap(width, height)
 {
   // sizes from TscoreWidgetSimple
   // clef 5.5 * coeff
   // key 5 * coeff
   // note 6 * coeff
-  
-    double coeff = height / NOTES_PER_HEIGHT;
+
+//    double coeff = height / NOTES_PER_HEIGHT;
+    double coeff = COEFF;
     fill(); // white background
 
     int noteOffset = 10 - (note.octave*7 + note.note);
     int hiLinePos = 4;
-    if (noteOffset < -4)
-        hiLinePos = 9;
+    if ((note.octave*7 + note.note) > 14)
+        hiLinePos = 4 + (note.octave*7 + note.note) - 14;
+
     
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
-    painter.setWindow(0, 0, width(), height);
+    painter.setWindow(0, 0, width, height);
 
     painter.setPen(Qt::black);
     painter.setBrush(Qt::black);
     for (int i=hiLinePos; i < (hiLinePos + 10); i += 2)
-        painter.drawLine(0 ,i*coeff, width(), i*coeff);
+        painter.drawLine(0 ,i*coeff, width, i*coeff);
     if (clef) {
+#if defined(Q_OS_MAC)
+        painter.setFont(QFont("nootka", coeff*18.5, QFont::Normal));
+        painter.drawText(QRectF(1, (hiLinePos - 4.4)*coeff, coeff*6, coeff*18), Qt::AlignLeft, QString(QChar(0xe1a7)));
+#else
         painter.setFont(QFont("nootka", coeff*12.5, QFont::Normal));
+#endif
+#if defined(Q_OS_LINUX)
         painter.drawText(QRectF(1, (hiLinePos - 3.8)*coeff, coeff*6, coeff*18), Qt::AlignLeft, QString(QChar(0xe1a7)));
+#else
+//        painter.drawText(QRectF(1, (hiLinePos - 3.2)*coeff, coeff*6, coeff*18), Qt::AlignLeft, QString(QChar(0xe1a7)));
+#endif
     }
     painter.drawEllipse( 9*coeff, (hiLinePos + noteOffset)*coeff, coeff*3, coeff*2);
     

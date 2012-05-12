@@ -60,8 +60,8 @@ TtipChart::TtipChart(TquestionPoint *point) :
     if (point->question()->questionAs == TQAtype::e_asName)
         txt += TnoteName::noteToRichText(point->question()->qa.note) + "</p>";
     else {
-        qDebug() << (int)10 - (point->question()->qa.note.octave*7 + point->question()->qa.note.note);
-        TnotePixmap pixmap(point->question()->qa.note, true, 100);
+//        qDebug() << (int)10 - (point->question()->qa.note.octave*7 + point->question()->qa.note.note);
+        TnotePixmap pixmap = TnotePixmap::pix(point->question()->qa.note, true, 100);
         QByteArray byteArray;
         QBuffer buffer(&byteArray);
         pixmap.save(&buffer, "PNG");
