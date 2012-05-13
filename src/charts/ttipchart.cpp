@@ -52,7 +52,8 @@ TtipChart::TtipChart(TquestionPoint *point) :
     m_point(point)
 {
     
-  QString txt = TquestionAsWdg::questionTxt() + " " + qaTypeText(point->question()->questionAs);
+  QString txt = TquestionAsWdg::questionTxt() + " " + qaTypeText(point->question()->questionAs) + "<br>" +
+     TquestionAsWdg::answerTxt() + " " + qaTypeText(point->question()->answerAs);
   txt += "<p style=\"font-size: 20px;\">";
   if (point->question()->questionAs == TQAtype::e_asFretPos)
       txt += QString("(%1) %2</p>").arg(point->question()->qa.pos.str()).arg(point->question()->qa.pos.fret());
@@ -68,7 +69,7 @@ TtipChart::TtipChart(TquestionPoint *point) :
         txt += QString("<img src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/><br>";
     }      
   }
-  txt += TquestionAsWdg::answerTxt() + " " + qaTypeText(point->question()->answerAs);
+//   txt += TquestionAsWdg::answerTxt() + " " + qaTypeText(point->question()->answerAs);
   if (point->question()->answerAs == TQAtype::e_asFretPos)
       txt += QString("<p style=\"font-size: 20px;\">(%1) %2</p>").arg(point->question()->qa.pos.str()).arg(point->question()->qa.pos.fret());
   else {

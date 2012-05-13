@@ -19,6 +19,7 @@
 
 #include "tnotepixmap.h"
 #include "tnoteview.h"
+#include "tkeysignature.h"
 #include <QPainter>
 #include <QDebug>
 
@@ -26,12 +27,13 @@
 #define COEFF (4)
 
 /* static */
-
 TnotePixmap TnotePixmap::pix(Tnote note, bool clef, TkeySignature key) {
     int noteNr = note.octave*7 + note.note;
-    int h = COEFF * 18;
-    int w = COEFF * 15;
-    if (note.acidental)
+    int h = COEFF * 18; // height
+    int w = COEFF * 15; // width
+    if (key.value())
+        w += COEFF * (2 * qAbs(key.value()));
+    if (hasAccid(note, key))
         w += COEFF * 3;
     if (noteNr > 14)
         h = COEFF * (18 + (noteNr - 13));
@@ -39,6 +41,21 @@ TnotePixmap TnotePixmap::pix(Tnote note, bool clef, TkeySignature key) {
         h = COEFF * (18 + (-1 - noteNr));
 
     return TnotePixmap(note, clef, h, w, key);
+}
+
+bool TnotePixmap::hasAccid(Tnote note, TkeySignature key) {
+    if (qAbs(note.acidental) == 2)
+        return true; //double accidentals always
+    if (note.acidental) {
+        if (note.acidental == TkeySignature::scalesDefArr[key.value()+7][note.note-1])
+            return false; // accid in key sign.
+        else
+            return true; // paint accid
+    } else { // maybe natural ??
+        if (TkeySignature::scalesDefArr[key.value()+15][note.note-1] != 0) // accid in key
+            return true; // so paint natural
+    }
+    return false;
 }
 
 
@@ -52,7 +69,7 @@ TnotePixmap::TnotePixmap(Tnote note, bool clef, int height, int width, TkeySigna
 
 //    double coeff = height / NOTES_PER_HEIGHT;
     int xPosOfNote = 9;
-    if (note.acidental)
+    if (hasAccid(note, key))
         xPosOfNote = 12;
     double coeff = COEFF;
     int noteNr = note.octave*7 + note.note;
@@ -114,6 +131,10 @@ TnotePixmap::TnotePixmap(Tnote note, bool clef, int height, int width, TkeySigna
     }
     
 }
+
+// QString TnotePixmap::getPixHtmlString(Tnote note, bool clef, TkeySignature key) {
+// }
+
 
 TnotePixmap::~TnotePixmap()
 {}
