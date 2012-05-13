@@ -35,6 +35,10 @@ public:
     virtual ~TnotePixmap();
 
     static TnotePixmap pix(Tnote note, bool clef = true, TkeySignature key = TkeySignature(0));
+        /** Returns true if note has accidental or neutral in given key signature. */
+    static bool hasAccid(Tnote note, TkeySignature key = TkeySignature(0));
+//         /** Returns html formated QString <img src... */
+//     static QString getPixHtmlString(Tnote note, bool clef = true, TkeySignature key = TkeySignature(0));
 
 protected:
 //    static int hiLinePos;
