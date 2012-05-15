@@ -50,7 +50,7 @@ Tchart::Tchart(QWidget* parent) :
   QGraphicsEllipseItem *el = new QGraphicsEllipseItem();
   el->setPen(Qt::NoPen);
   scene->addItem(el);
-  el->setRect(0, 0, 15, xAxis->rectBoundText("X").height()*3);
+  el->setRect(0, 0, 15, xAxis->rectBoundText("X").height()*4);
   el->setPos(27, yAxis->boundingRect().height() + 15);
   
 }

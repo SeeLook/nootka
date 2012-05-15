@@ -27,6 +27,28 @@
 
 extern Tglobals *gl;
 
+/* static */
+char TkeySignatureView::getPosOfAccid(int noteNr) {
+    if (noteNr >= 0 && noteNr < 7)
+        return m_posOfAccid[noteNr];
+    else
+        return 0;
+}
+
+
+char TkeySignatureView::m_posOfAccid[7] = {
+    16, // Fes & Fis (F#)
+    19, // Ces (C#)
+    15, // Ges (G#)
+    18, // Des (D#)
+    21, // As  (A#)
+    17, // ES  (E#)
+    20 // B   (H#)  (Bb - B#) in west
+};
+
+
+
+
 TkeySignatureView::TkeySignatureView(TscoreWidgetSimple *parent, char _keySign) :
     QGraphicsView(parent)
 {
@@ -40,14 +62,6 @@ TkeySignatureView::TkeySignatureView(TscoreWidgetSimple *parent, char _keySign) 
 
     m_scene = new QGraphicsScene();
     setScene(m_scene);
-
-    m_posOfAccid[0] = 16; // Fes & Fis (F#)
-    m_posOfAccid[1] = 19; // Ces (C#)
-    m_posOfAccid[2] = 15; // Ges (G#)
-    m_posOfAccid[3] = 18; // Des (D#)
-    m_posOfAccid[4] = 21; // As  (A#)
-    m_posOfAccid[5] = 17; // ES  (E#)
-    m_posOfAccid[6] = 20; // B   (H#)  (Bb - B#) in west
 
     for (int i=0; i<7; i++) {
         m_accidentals[i] = new QGraphicsSimpleTextItem();
