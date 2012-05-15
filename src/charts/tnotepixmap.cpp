@@ -26,6 +26,105 @@
 #define NOTES_PER_HEIGHT (25)
 #define COEFF (4)
 
+
+QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
+    int noteNr = note.octave*7 + note.note;
+    
+    QString accidString = TnoteView::getAccid(note.acidental);
+    if (qAbs(note.acidental) != 2) { // double accids already assigned 
+        if (note.acidental != TkeySignature::scalesDefArr[key.value()+7][note.note-1])
+            accidString = ""; // accid in key signature
+      else { // maybe natural ??
+        if (TkeySignature::scalesDefArr[key.value()+7][note.note-1] != 0) // accid in key
+            accidString = TnoteView::getAccid(3); // so paint natural
+      }
+    }
+    int h = factor * 18; // height
+    int w = factor * 15; // width
+    int xPosOfNote = 9;
+    if (key.value()) {
+        w += factor * (2 * qAbs(key.value()));
+        xPosOfNote += 2 * qAbs(key.value());
+    }
+    if (accidString != "") {
+        w += factor * 3;
+        xPosOfNote += 3;
+    }
+    if (noteNr > 14)
+        h = factor * (18 + (noteNr - 13));
+    if (noteNr < -1)
+        h = factor * (18 + (-1 - noteNr));
+    
+    QPixmap pix(w, h);
+    
+    pix.fill(); // white background
+
+    int noteOffset = 10 - noteNr;
+    int hiLinePos = 4;
+    if (noteNr > 14)
+        hiLinePos = 4 + noteNr - 12;
+
+//     qDebug() << noteNr << hiLinePos << noteOffset;
+    
+    QPainter painter(&pix);
+    painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
+    painter.setWindow(0, 0, w, h);
+
+    painter.setPen(Qt::black);
+    painter.setBrush(Qt::black);
+    // main staff lines
+    for (int i = hiLinePos; i < (hiLinePos + 10); i += 2)
+        painter.drawLine(0 ,i * factor, w, i * factor);
+    // upper lines if needed
+    if (noteNr > 12)
+        for (int i = hiLinePos - 2; i > (1); i -= 2)
+            painter.drawLine((xPosOfNote - 1) * factor, i * factor, (xPosOfNote + 4) * factor, i * factor);
+    // lower lines if needed
+    if (noteNr < 1) {
+//         qDebug() << noteNr << hiLinePos << hiLinePos + 12 + qAbs(noteNr);
+        for (int i = (hiLinePos + 10); i < (hiLinePos + 12 + qAbs(noteNr)); i += 2)
+            painter.drawLine((xPosOfNote - 1) * factor, i * factor, (xPosOfNote + 4) * factor, i * factor);
+    }
+    if (clef) {
+#if defined(Q_OS_MAC)
+        painter.setFont(QFont("nootka", factor * 18.5, QFont::Normal));
+        painter.drawText(QRectF(1, (hiLinePos - 4.4) * factor, factor * 6, factor * 18),
+                         Qt::AlignLeft, QString(QChar(0xe1a7)));
+#else
+        painter.setFont(QFont("nootka", qRound(factor * 14), QFont::Normal));
+#endif
+#if defined(Q_OS_LINUX)
+        painter.drawText(QRectF(1, (hiLinePos - 5) * factor, factor * 6, factor * 19),
+                         Qt::AlignLeft, QString(QChar(0xe1a7)));
+#else
+//        painter.drawText(QRectF(1, (hiLinePos - 3.2)*coeff, coeff*6, coeff*18), Qt::AlignLeft, QString(QChar(0xe1a7)));
+#endif
+    }
+    // key signature
+    if (key.value()) {
+        for (int i = 0; i <= qAbs(key.value()); i++) {
+//           painter.drawText(QRectF(), Qt::AlignCenter);
+        }
+    }    
+    // note
+    painter.drawEllipse( xPosOfNote * factor, (hiLinePos + noteOffset) * factor, factor * 3, factor * 2);
+    // accidental
+    if (note.acidental) {
+        QFont f = QFont("nootka", factor*6, QFont::Normal);
+        painter.setFont(f);
+        QFontMetricsF metrics = f;
+        QRectF rect = metrics.boundingRect(accidString);
+//         qDebug() << (int)note.acidental;
+        painter.drawText(QRectF((xPosOfNote - 1.5) * factor - (rect.width()), 
+                                (hiLinePos + noteOffset) * factor - (factor * 3) , 
+                                rect.width() * 3, rect.height() ), 
+                         Qt::AlignCenter, accidString );
+    }
+    
+    return pix;
+}
+
+
 /* static */
 TnotePixmap TnotePixmap::pix(Tnote note, bool clef, TkeySignature key) {
     int noteNr = note.octave*7 + note.note;

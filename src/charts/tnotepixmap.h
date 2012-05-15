@@ -24,6 +24,14 @@
 #include <tnote.h>
 #include <tkeysignature.h>
 
+/**  returns QPixmap with given note. 
+ * @param factor determines its size
+ */
+QPixmap getNotePixmap(Tnote note, bool clef = true, 
+                      TkeySignature key = TkeySignature(0), double factor = 4);
+
+
+
 /** This class creates pixmap with given note i ngiven key and so on.
  * Default height is 100 px. Width is calculated by contents (clef, key, accidentals) 
  */
