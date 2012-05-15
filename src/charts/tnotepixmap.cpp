@@ -102,7 +102,11 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
 #endif
     }
     QFont accFont = QFont("nootka");
+#if defined (Q_OS_MAC)
     accFont.setPointSizeF(6.5 * factor);
+#else    
+    accFont.setPointSizeF(5  * factor);
+#endif
     painter.setFont(accFont);
     QFontMetricsF metrics = accFont;
     QRectF rect = metrics.boundingRect(TnoteView::getAccid(1));
@@ -120,7 +124,7 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
         }
 
         for (int i = 1; i <= (qAbs(key.value())); i++) {
-            painter.drawText(QRectF( (3 + i*1.7) * factor,
+            painter.drawText(QRectF( (4 + i*1.7) * factor,
                                      (TkeySignatureView::getPosOfAccid((7 + ((i)*ff))%8) - 19 + hiLinePos) * factor,
                                      rect.width() * 3, rect.height()),
                             Qt::AlignCenter, keyAccidString);
