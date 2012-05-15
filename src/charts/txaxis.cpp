@@ -28,7 +28,7 @@
 
 
 TXaxis::TXaxis(Texam* exam) :
-  m_qWidth(50)
+  m_qWidth(60)
 {
   if (exam)
       setExam(exam);

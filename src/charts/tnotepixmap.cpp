@@ -20,6 +20,7 @@
 #include "tnotepixmap.h"
 #include "tnoteview.h"
 #include "tkeysignature.h"
+#include "tkeysignatureview.h"
 #include <QPainter>
 #include <QDebug>
 
@@ -32,7 +33,7 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
     
     QString accidString = TnoteView::getAccid(note.acidental);
     if (qAbs(note.acidental) != 2) { // double accids already assigned 
-        if (note.acidental != TkeySignature::scalesDefArr[key.value()+7][note.note-1])
+        if (note.acidental == TkeySignature::scalesDefArr[key.value()+7][note.note-1])
             accidString = ""; // accid in key signature
       else { // maybe natural ??
         if (TkeySignature::scalesDefArr[key.value()+7][note.note-1] != 0) // accid in key
@@ -40,8 +41,8 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
       }
     }
     int h = factor * 18; // height
-    int w = factor * 15; // width
-    int xPosOfNote = 9;
+    int w = factor * 13; // width
+    int xPosOfNote = 8;
     if (key.value()) {
         w += factor * (2 * qAbs(key.value()));
         xPosOfNote += 2 * qAbs(key.value());
@@ -57,7 +58,7 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
     
     QPixmap pix(w, h);
     
-    pix.fill(); // white background
+    pix.fill(Qt::transparent); // white background
 
     int noteOffset = 10 - noteNr;
     int hiLinePos = 4;
@@ -100,30 +101,45 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
 //        painter.drawText(QRectF(1, (hiLinePos - 3.2)*coeff, coeff*6, coeff*18), Qt::AlignLeft, QString(QChar(0xe1a7)));
 #endif
     }
+    QFont accFont = QFont("nootka");
+    accFont.setPointSizeF(6.5 * factor);
+    painter.setFont(accFont);
+    QFontMetricsF metrics = accFont;
+    QRectF rect = metrics.boundingRect(TnoteView::getAccid(1));
     // key signature
     if (key.value()) {
-        for (int i = 0; i <= qAbs(key.value()); i++) {
-//           painter.drawText(QRectF(), Qt::AlignCenter);
+        QString keyAccidString;
+        char ff;
+        if (key.value() < 0) {
+            keyAccidString = TnoteView::getAccid(-1); // flat
+            ff = -1;
+        }
+        else {
+            keyAccidString = TnoteView::getAccid(1); // sharp
+            ff = 1;
+        }
+
+        for (int i = 1; i <= (qAbs(key.value())); i++) {
+            painter.drawText(QRectF( (3 + i*1.7) * factor,
+                                     (TkeySignatureView::getPosOfAccid((7 + ((i)*ff))%8) - 19 + hiLinePos) * factor,
+                                     rect.width() * 3, rect.height()),
+                            Qt::AlignCenter, keyAccidString);
         }
     }    
     // note
     painter.drawEllipse( xPosOfNote * factor, (hiLinePos + noteOffset) * factor, factor * 3, factor * 2);
     // accidental
     if (note.acidental) {
-        QFont f = QFont("nootka", factor*6, QFont::Normal);
-        painter.setFont(f);
-        QFontMetricsF metrics = f;
-        QRectF rect = metrics.boundingRect(accidString);
-//         qDebug() << (int)note.acidental;
         painter.drawText(QRectF((xPosOfNote - 1.5) * factor - (rect.width()), 
-                                (hiLinePos + noteOffset) * factor - (factor * 3) , 
-                                rect.width() * 3, rect.height() ), 
+                                (hiLinePos + noteOffset) * factor - (factor * 2) ,
+                                rect.width() *3, rect.height() ),
                          Qt::AlignCenter, accidString );
     }
     
     return pix;
 }
 
+//#################################################################################
 
 /* static */
 TnotePixmap TnotePixmap::pix(Tnote note, bool clef, TkeySignature key) {

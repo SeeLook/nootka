@@ -110,7 +110,7 @@ SET( NOOTKA_MOC_SRCS
   score/tscorewidget.h
   score/tscorewidgetsimple.h
   score/tkeysignatureview.h
-  score/tkeysignatureview.h
+#   score/tkeysignatureview.h
   score/tclefview.h
   score/tpushbutton.h
 ###### Settings

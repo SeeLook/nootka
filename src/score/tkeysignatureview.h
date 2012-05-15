@@ -52,6 +52,8 @@ public:
     char keySignature() { return m_keySignature; }
             /** It sets fuses to block mouse wheel event and stop adding more flats or sharps*/
     void setKeysFuse(char flatFuse, char sharpFuse);
+        /** Returns Y position of given accidental to put it near a clef. */
+    static char getPosOfAccid(int noteNr);
     
 
 signals:
@@ -88,7 +90,7 @@ private:
         * @li [0] is position for f# and fb
         * @li [1] c# and
         * @li etc....    */
-    char m_posOfAccid[7];
+    static char m_posOfAccid[7];
                 /** This points at array @param TscoreWidget::accInKeyArr[7],
                     * which keeps information
                     * about adequate accidental in key signature.

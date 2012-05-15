@@ -69,7 +69,11 @@ void TquestionPoint::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
   Q_UNUSED(widget)
   
   QRectF rect = boundingRect();
+#if defined(Q_OS_MAC)
+  painter->setFont(QFont("nootka", 35));
+#else
   painter->setFont(QFont("nootka", 25));
+#endif
   painter->setPen(m_color);
   rect.translate(-1, -1);
   painter->drawText(rect, Qt::AlignCenter, "n");
