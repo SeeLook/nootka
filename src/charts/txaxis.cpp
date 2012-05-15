@@ -20,6 +20,7 @@
 #include "tqaunit.h"
 #include "texam.h"
 #include "tnotename.h"
+#include <texamlevel.h>
 #include <QPainter>
 #include <QGraphicsScene>
 #include <QTextBlockFormat>
@@ -48,6 +49,12 @@ void TXaxis::setExam(Texam* exam) {
   QGraphicsTextItem *ticTips[m_exam->count()];
   for (int i = 0; i < m_exam->count(); i++) {
       QString txt = QString("%1.<br>%2").arg(i+1).arg(TnoteName::noteToRichText(m_exam->qusetion(i).qa.note));
+      if (m_exam->level()->useKeySign) {
+        if (m_exam->qusetion(i).key.isMinor())
+          txt += "<br>" + m_exam->qusetion(i).key.getMinorName();
+        else
+          txt += "<br>" + m_exam->qusetion(i).key.getMajorName();
+      }
       ticTips[i] = new QGraphicsTextItem();
       ticTips[i]->setHtml(txt);
       // Align centrally ticTip content
