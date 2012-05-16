@@ -80,23 +80,23 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
             painter.drawLine((xPosOfNote - 1) * factor, i * factor, (xPosOfNote + 4) * factor, i * factor);
     // lower lines if needed
     if (noteNr < 2) {
-        for (int i = (hiLinePos + 10); i <= (hiLinePos + 10 + qAbs(noteNr)); i += 2)
+        for (int i = (hiLinePos + 10); i <= (hiLinePos + 10 + (1+ (-1 * noteNr))); i += 2)
             painter.drawLine((xPosOfNote - 1) * factor, i * factor, (xPosOfNote + 4) * factor, i * factor);
     }
     if (clef) {
-#if defined(Q_OS_MAC)
+    #if defined(Q_OS_MAC)
         painter.setFont(QFont("nootka", factor * 18.5, QFont::Normal));
         painter.drawText(QRectF(1, (hiLinePos - 4.4) * factor, factor * 6, factor * 18),
                          Qt::AlignLeft, QString(QChar(0xe1a7)));
-#else
+    #else
         painter.setFont(QFont("nootka", qRound(factor * 14), QFont::Normal));
-#endif
-#if defined(Q_OS_LINUX)
+    #endif
+    #if defined(Q_OS_LINUX)
         painter.drawText(QRectF(1, (hiLinePos - 5) * factor, factor * 6, factor * 19),
                          Qt::AlignLeft, QString(QChar(0xe1a7)));
-#else
+    #else
 //        painter.drawText(QRectF(1, (hiLinePos - 3.2)*coeff, coeff*6, coeff*18), Qt::AlignLeft, QString(QChar(0xe1a7)));
-#endif
+    #endif
     }
     QFont accFont = QFont("nootka");
 #if defined (Q_OS_MAC)
