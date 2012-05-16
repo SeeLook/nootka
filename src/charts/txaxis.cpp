@@ -48,12 +48,12 @@ void TXaxis::setExam(Texam* exam) {
   update(boundingRect());
   QGraphicsTextItem *ticTips[m_exam->count()];
   for (int i = 0; i < m_exam->count(); i++) {
-      QString txt = QString("%1.<br>%2").arg(i+1).arg(TnoteName::noteToRichText(m_exam->qusetion(i).qa.note));
+      QString txt = QString("%1.<br><b>%2</b>").arg(i+1).arg(TnoteName::noteToRichText(m_exam->qusetion(i).qa.note));
       if (m_exam->level()->useKeySign) {
         if (m_exam->qusetion(i).key.isMinor())
-          txt += "<br>" + m_exam->qusetion(i).key.getMinorName();
+          txt += "<br><i>" + m_exam->qusetion(i).key.getMinorName() + "</i>";
         else
-          txt += "<br>" + m_exam->qusetion(i).key.getMajorName();
+          txt += "<br><i>" + m_exam->qusetion(i).key.getMajorName() + "</i>";
       }
       ticTips[i] = new QGraphicsTextItem();
       ticTips[i]->setHtml(txt);
