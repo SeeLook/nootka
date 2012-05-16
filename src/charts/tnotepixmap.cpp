@@ -64,8 +64,6 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
     int hiLinePos = 4;
     if (noteNr > 14)
         hiLinePos = 4 + noteNr - 12;
-
-//     qDebug() << noteNr << hiLinePos << noteOffset;
     
     QPainter painter(&pix);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
@@ -81,9 +79,8 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
         for (int i = hiLinePos - 2; i > (1); i -= 2)
             painter.drawLine((xPosOfNote - 1) * factor, i * factor, (xPosOfNote + 4) * factor, i * factor);
     // lower lines if needed
-    if (noteNr < 1) {
-//         qDebug() << noteNr << hiLinePos << hiLinePos + 12 + qAbs(noteNr);
-        for (int i = (hiLinePos + 10); i < (hiLinePos + 12 + qAbs(noteNr)); i += 2)
+    if (noteNr < 2) {
+        for (int i = (hiLinePos + 10); i <= (hiLinePos + 10 + qAbs(noteNr)); i += 2)
             painter.drawLine((xPosOfNote - 1) * factor, i * factor, (xPosOfNote + 4) * factor, i * factor);
     }
     if (clef) {
@@ -124,10 +121,18 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
         }
 
         for (int i = 1; i <= (qAbs(key.value())); i++) {
+#if defined (Q_OS_MAC)
             painter.drawText(QRectF( (4 + i*1.7) * factor,
                                      (TkeySignatureView::getPosOfAccid((7 + ((i)*ff))%8) - 19 + hiLinePos) * factor,
                                      rect.width() * 3, rect.height()),
                             Qt::AlignCenter, keyAccidString);
+#else
+            painter.drawText(QRectF( (4 + i*1.6) * factor,
+                                     (TkeySignatureView::getPosOfAccid((7 + ((i)*ff))%8) - 19 + hiLinePos) * factor - 1,
+                                     rect.width() * 3, rect.height()),
+                            Qt::AlignCenter, keyAccidString);
+            
+#endif
         }
     }    
     // note
@@ -135,7 +140,7 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
     // accidental
     if (note.acidental) {
         painter.drawText(QRectF((xPosOfNote - 1.5) * factor - (rect.width()), 
-                                (hiLinePos + noteOffset) * factor - (factor * 2) ,
+                                (hiLinePos + noteOffset) * factor - (factor * 2) - 1,
                                 rect.width() *3, rect.height() ),
                          Qt::AlignCenter, accidString );
     }
