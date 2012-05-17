@@ -20,13 +20,13 @@
 #define TTIPCHART_H
 
 #include <QGraphicsTextItem>
-#include "tqatype.h"
+<<<<<<< local
+=======
+#include <tqatype.h>
+>>>>>>> other
 
+class TQAunit;
 
-class TquestionPoint;
-class Tnote;
-class TkeySignature;
-class TfingerPos;
 
 /** This clas represent tip displayed when user hovers cursor 
  * over question point in the chart. */
@@ -34,24 +34,24 @@ class TtipChart : public QGraphicsTextItem
 {
 
 public:
-  TtipChart(TquestionPoint *point);
+  TtipChart(TQAunit *question);
   virtual ~TtipChart();
   
   void setPos(QPointF p);
   static QString qaTypeText(TQAtype::Etype &type);
   
+  
+protected:
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
   virtual QRectF boundingRect() const;
   
 private:
-    /** Returns html sting with note pixmap generated from @param point. */
-  QString wrapPixWithHtml( Tnote note, bool clef, TkeySignature key, double factor = 4);
-  QString insertQMark();
-  QString wrapPosToHtml(TfingerPos pos);
-
-
-  TquestionPoint *m_point;
-
+<<<<<<< local
+//  QGraphicsTextItem *m_text;
+=======
+//   QGraphicsTextItem *m_text;
+>>>>>>> other
+  
   
 };
 

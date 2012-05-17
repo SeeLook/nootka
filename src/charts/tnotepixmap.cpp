@@ -32,14 +32,19 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
     int noteNr = note.octave*7 + note.note;
     
     QString accidString = TnoteView::getAccid(note.acidental);
-    if (qAbs(note.acidental) != 2) { // double accids already assigned 
-        if (note.acidental == TkeySignature::scalesDefArr[key.value()+7][note.note-1])
-            accidString = ""; // accid in key signature
-      else { // maybe natural ??
-        if (TkeySignature::scalesDefArr[key.value()+7][note.note-1] != 0) // accid in key
-            accidString = TnoteView::getAccid(3); // so paint natural
-      }
-    }
+    if (note.acidental) {
+        if (qAbs(note.acidental) == 1) { // double accids already assigned
+            if (note.acidental == TkeySignature::scalesDefArr[key.value()+7][note.note-1])
+                accidString = ""; // accid in key signature
+//            else { // maybe natural ??
+//                if (TkeySignature::scalesDefArr[key.value()+7][note.note-1] != 0) // accid in key
+//                    accidString = TnoteView::getAccid(3); // so paint natural
+//            }
+        }
+    } else // no accids
+        if (TkeySignature::scalesDefArr[key.value()+7][note.note-1] != 0)
+                        accidString = TnoteView::getAccid(3); // so paint natural
+
     int h = factor * 18; // height
     int w = factor * 13; // width
     int xPosOfNote = 8;
@@ -139,10 +144,17 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
     painter.drawEllipse( xPosOfNote * factor, (hiLinePos + noteOffset) * factor, factor * 3, factor * 2);
     // accidental
     if (note.acidental) {
+#if defined (Q_OS_MAC)
         painter.drawText(QRectF((xPosOfNote - 1.5) * factor - (rect.width()), 
+                                (hiLinePos + noteOffset) * factor - (factor * 2) + 1,
+                                rect.width() *3, rect.height() ),
+                         Qt::AlignCenter, accidString );
+#else
+        painter.drawText(QRectF((xPosOfNote - 1.5) * factor - (rect.width()),
                                 (hiLinePos + noteOffset) * factor - (factor * 2) - 1,
                                 rect.width() *3, rect.height() ),
                          Qt::AlignCenter, accidString );
+#endif
     }
     
     return pix;
