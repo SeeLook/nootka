@@ -45,47 +45,74 @@ QString TtipChart::qaTypeText(TQAtype::Etype &type) {
   return txt;
 }
 
+QString TtipChart::insertQMark() {
+    return QString("<span style=\"color: red; font-family: nootka; font-size: 45px;\">?</span>");
+}
 
+QString TtipChart::wrapPosToHtml(TfingerPos pos) {
+    QString("<span style=\"font-size: 20px;\"><span style=\"font-family: nootka\">%1</span> %2</span>").arg(pos.str()).arg(pos.fret());
+}
+
+QString TtipChart::wrapPixWithHtml(Tnote note, bool clef, TkeySignature key, double factor) {
+    QPixmap pixmap = getNotePixmap(note, clef, key, factor);
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+    pixmap.save(&buffer, "PNG");
+    return QString("<img src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/>";
+}
 
 TtipChart::TtipChart(TquestionPoint *point) :
     QGraphicsTextItem(),
     m_point(point)
 {
-    
   QString txt = TquestionAsWdg::questionTxt() + " " + qaTypeText(point->question()->questionAs) + "<br>" +
-     TquestionAsWdg::answerTxt() + " " + qaTypeText(point->question()->answerAs);
-  txt += "<p style=\"font-size: 20px;\">";
-  if (point->question()->questionAs == TQAtype::e_asFretPos)
-      txt += QString("(%1) %2</p>").arg(point->question()->qa.pos.str()).arg(point->question()->qa.pos.fret());
-  else {
-    if (point->question()->questionAs == TQAtype::e_asName)
-        txt += TnoteName::noteToRichText(point->question()->qa.note) + "</p>";
-    else {
-//        qDebug() << (int)10 - (point->question()->qa.note.octave*7 + point->question()->qa.note.note);
-//         TnotePixmap pixmap = TnotePixmap::pix(point->question()->qa.note, true, point->question()->key);
-        QPixmap pixmap = getNotePixmap(point->question()->qa.note, true, point->question()->key);
-        QByteArray byteArray;
-        QBuffer buffer(&byteArray);
-        pixmap.save(&buffer, "PNG");
-        txt += QString("<img src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/><br>";
-    }      
+          TquestionAsWdg::answerTxt() + " " + qaTypeText(point->question()->answerAs) + "<br>";
+  QString qS = "", aS = "";
+  switch (point->question()->questionAs) {
+    case TQAtype::e_asNote :
+      qS = wrapPixWithHtml(point->question()->qa.note, true, point->question()->key);
+      if (point->question()->answerAs == TQAtype::e_asNote) {
+          aS = wrapPixWithHtml(point->question()->qa_2.note, true, point->question()->key);
+      }
+      break;
+    case TQAtype::e_asName:
+      qS = "<span style=\"font-size: 20px;\">" + TnoteName::noteToRichText(point->question()->qa.note) + "</span>";
+      if (point->question()->answerAs == TQAtype::e_asName)
+          aS = "<span style=\"font-size: 20px;\">" + TnoteName::noteToRichText(point->question()->qa_2.note) + "</span>";
+      break;
+    case TQAtype::e_asFretPos:
+        qS = QString("<span style=\"font-size: 20px;\">(%1) %2</span>").arg(point->question()->qa.pos.str()).arg(point->question()->qa.pos.fret());
+      break;
+    case TQAtype::e_asSound:
+        qS = QString("<span style=\"font-family: nootka; font-size: 45px;\">n</span>");
+        if (point->question()->answerAs == TQAtype::e_asSound)
+            aS = wrapPixWithHtml(point->question()->qa.note, true, point->question()->key);
+      break;
   }
-//   txt += TquestionAsWdg::answerTxt() + " " + qaTypeText(point->question()->answerAs);
-  if (point->question()->answerAs == TQAtype::e_asFretPos)
-      txt += QString("<p style=\"font-size: 20px;\">(%1) %2</p>").arg(point->question()->qa.pos.str()).arg(point->question()->qa.pos.fret());
-  else {
-    if ((point->question()->questionAs == TQAtype::e_asNote && point->question()->answerAs == TQAtype::e_asNote) || 
-        (point->question()->questionAs == TQAtype::e_asName && point->question()->answerAs == TQAtype::e_asName)
-    )
-        txt += "<p style=\"font-size: 20px;\">" + TnoteName::noteToRichText(point->question()->qa_2.note) + "</p>";
-        else {
-            if (point->question()->questionAs == TQAtype::e_asFretPos)
-                txt += "<p style=\"font-size: 20px;\">" + TnoteName::noteToRichText(point->question()->qa.note) + "</p>";
-        }
+  if (aS == "") {
+      switch (point->question()->answerAs) {
+        case TQAtype::e_asNote :
+          aS = wrapPixWithHtml(point->question()->qa.note, true, point->question()->key);
+          break;
+        case TQAtype::e_asName:
+          aS = "<span style=\"font-size: 20px;\">" + TnoteName::noteToRichText(point->question()->qa.note) + "</span>";
+          break;
+        case TQAtype::e_asFretPos:
+            aS = QString("<span style=\"font-size: 20px;\">(%1) %2</span>").arg(point->question()->qa.pos.str()).arg(point->question()->qa.pos.fret());
+//            qS = wrapPosToHtml(point->question()->qa.pos);
+          break;
+        case TQAtype::e_asSound:
+          if (point->question()->questionAs == TQAtype::e_asNote)
+              aS = QString("<span style=\"font-family: nootka; font-size: 45px;\">n</span>");
+          else
+              aS = wrapPixWithHtml(point->question()->qa.note, true, point->question()->key);
+          break;
+
+      }
   }
-  
-  txt += "<p>" + TexamView::reactTimeTxt() + "<br>" + 
-        QString("<span style=\"font-size: 20px\">%1s</span></p>").arg((double)point->question()->time / 10.0);
+  txt += "<table valign=\"middle\" align=\"center\"><tr><td> " + qS + " </td><td>" + insertQMark() + " </td><td> " + aS + " </td></tr></table>";
+  txt += "<br>" + TexamView::reactTimeTxt() + "<br>" +
+        QString("<span style=\"font-size: 20px\">%1s</span>").arg((double)point->question()->time / 10.0);
   
   setHtml(txt);
   
