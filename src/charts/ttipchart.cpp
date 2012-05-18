@@ -127,18 +127,21 @@ TtipChart::TtipChart(TquestionPoint *point) :
       }
   }
   txt += "<table valign=\"middle\" align=\"center\"><tr><td> " + qS + " </td><td>" + insertQMark() + " </td><td> " + aS + " </td></tr></table>";
+  txt += QString("<span style=\"color: %1;\">").arg(point->color().name());
   if (point->question()->correct()) {
-    txt += QString("<span style=\"color: %1;\">").arg(point->color().name()) + 
-            QApplication::translate("TtipChart", "It was good!") + "</span><br>";
+    txt += QApplication::translate("TtipChart", "It was good!");
   } else
       if (point->question()->wrongNote() || point->question()->wrongPos())
-          txt += QString("<span style=\"color: %1;\">").arg(point->color().name()) + 
-            QApplication::translate("TtipChart", "Wrong answer!") + "</span><br>";
-            else
-                txt += QString("<span style=\"color: %1;\">").arg(point->color().name()) + 
-            QApplication::translate("TtipChart", "Not so bad.") + "</span><br>";
-          
-  txt += "<br>" + TexamView::reactTimeTxt() + "<br>" +
+          txt += QApplication::translate("TtipChart", "Wrong answer!");
+            else {
+                txt += QApplication::translate("TtipChart", "Not so bad.");
+//                 QStringList misList;
+//                 if (point->question()->wrongAccid())
+//                     misList 
+            }
+            
+  txt += "</span><br>";
+  txt += TexamView::reactTimeTxt() +
         QString("<span style=\"font-size: 20px\">%1s</span>").arg((double)point->question()->time / 10.0);
   
   setHtml(txt);
