@@ -91,7 +91,11 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
         painter.drawText(QRectF(1, (hiLinePos - 4.4) * factor, factor * 6, factor * 18),
                          Qt::AlignLeft, QString(QChar(0xe1a7)));
     #else
-        painter.setFont(QFont("nootka", qRound(factor * 14), QFont::Normal));
+        QFont cFont = QFont("nootka");
+        cFont.setPointSizeF(factor * 14);
+//         painter.setFont(QFont("nootka", qRound(factor * 14), QFont::Normal));
+        
+        painter.setFont(cFont);
     #endif
     #if defined(Q_OS_LINUX)
         painter.drawText(QRectF(1, (hiLinePos - 5) * factor, factor * 6, factor * 19),
@@ -130,7 +134,7 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
                             Qt::AlignCenter, keyAccidString);
 #else
             painter.drawText(QRectF( (4 + i*1.6) * factor,
-                                     (TkeySignatureView::getPosOfAccid((7 + ((i)*ff))%8) - 19 + hiLinePos) * factor - 1,
+                                     (TkeySignatureView::getPosOfAccid((7 + ((i)*ff))%8) - 19 + hiLinePos - 0.5) * factor,
                                      rect.width() * 3, rect.height()),
                             Qt::AlignCenter, keyAccidString);
             
