@@ -32,24 +32,5 @@ QPixmap getNotePixmap(Tnote note, bool clef = true,
 
 
 
-/** This class creates pixmap with given note i ngiven key and so on.
- * Default height is 100 px. Width is calculated by contents (clef, key, accidentals) 
- */
-class TnotePixmap : public QPixmap
-{
-
-public:
-    TnotePixmap(Tnote note, bool clef = true, int height = 100, int width = 150, TkeySignature key = TkeySignature(0));
-    virtual ~TnotePixmap();
-
-    static TnotePixmap pix(Tnote note, bool clef = true, TkeySignature key = TkeySignature(0));
-        /** Returns true if note has accidental or neutral in given key signature. */
-    static bool hasAccid(Tnote note, TkeySignature key = TkeySignature(0));
-//         /** Returns html formated QString <img src... */
-//     static QString getPixHtmlString(Tnote note, bool clef = true, TkeySignature key = TkeySignature(0));
-
-protected:
-//    static int hiLinePos;
-};
 
 #endif // TNOTEPIXMAP_H

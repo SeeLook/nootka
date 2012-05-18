@@ -45,15 +45,29 @@ QString TtipChart::qaTypeText(TQAtype::Etype &type) {
   return txt;
 }
 
+QString TtipChart::romanFret(quint8 fret) {
+  if (fret >= 0 && fret < 25)
+      return fretsList[fret];
+  else
+      return "";
+}
+
+
+const QString TtipChart::fretsList[25] = { "0",
+  "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X",
+  "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX",
+  "XI", "XII", "XIII", "XIV"
+};
+
 QString TtipChart::insertQMark() {
     return QString("<span style=\"color: red; font-family: nootka; font-size: 45px;\">?</span>");
 }
 
 QString TtipChart::wrapPosToHtml(TfingerPos pos) {
-    QString("<span style=\"font-size: 20px;\"><span style=\"font-family: nootka\">%1</span> %2</span>").arg(pos.str()).arg(pos.fret());
+    return QString("<span style=\"font-size: 20px;\"><span style=\"font-family: nootka\">%1</span> %2</span>").arg(pos.str()).arg(romanFret(pos.fret()));
 }
 
-QString TtipChart::wrapPixWithHtml(Tnote note, bool clef, TkeySignature key, double factor) {
+QString TtipChart::wrapPixToHtml(Tnote note, bool clef, TkeySignature key, double factor) {
     QPixmap pixmap = getNotePixmap(note, clef, key, factor);
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
@@ -70,9 +84,10 @@ TtipChart::TtipChart(TquestionPoint *point) :
   QString qS = "", aS = "";
   switch (point->question()->questionAs) {
     case TQAtype::e_asNote :
-      qS = wrapPixWithHtml(point->question()->qa.note, true, point->question()->key);
+      qS = wrapPixToHtml(point->question()->qa.note, true, point->question()->key);
       if (point->question()->answerAs == TQAtype::e_asNote) {
-          aS = wrapPixWithHtml(point->question()->qa_2.note, true, point->question()->key);
+          qS = wrapPixToHtml(point->question()->qa.note, true, TkeySignature(0)); // no key in question
+          aS = wrapPixToHtml(point->question()->qa_2.note, true, point->question()->key);
       }
       break;
     case TQAtype::e_asName:
@@ -81,31 +96,32 @@ TtipChart::TtipChart(TquestionPoint *point) :
           aS = "<span style=\"font-size: 20px;\">" + TnoteName::noteToRichText(point->question()->qa_2.note) + "</span>";
       break;
     case TQAtype::e_asFretPos:
-        qS = QString("<span style=\"font-size: 20px;\">(%1) %2</span>").arg(point->question()->qa.pos.str()).arg(point->question()->qa.pos.fret());
+//         qS = QString("<span style=\"font-size: 20px;\">(%1) %2</span>").arg(point->question()->qa.pos.str()).arg(point->question()->qa.pos.fret());
+        qS = wrapPosToHtml(point->question()->qa.pos);
       break;
     case TQAtype::e_asSound:
         qS = QString("<span style=\"font-family: nootka; font-size: 45px;\">n</span>");
         if (point->question()->answerAs == TQAtype::e_asSound)
-            aS = wrapPixWithHtml(point->question()->qa.note, true, point->question()->key);
+            aS = wrapPixToHtml(point->question()->qa.note, true, point->question()->key);
       break;
   }
   if (aS == "") {
       switch (point->question()->answerAs) {
         case TQAtype::e_asNote :
-          aS = wrapPixWithHtml(point->question()->qa.note, true, point->question()->key);
+          aS = wrapPixToHtml(point->question()->qa.note, true, point->question()->key);
           break;
         case TQAtype::e_asName:
           aS = "<span style=\"font-size: 20px;\">" + TnoteName::noteToRichText(point->question()->qa.note) + "</span>";
           break;
         case TQAtype::e_asFretPos:
-            aS = QString("<span style=\"font-size: 20px;\">(%1) %2</span>").arg(point->question()->qa.pos.str()).arg(point->question()->qa.pos.fret());
-//            qS = wrapPosToHtml(point->question()->qa.pos);
+//             aS = QString("<span style=\"font-size: 20px;\">(%1) %2</span>").arg(point->question()->qa.pos.str()).arg(point->question()->qa.pos.fret());
+           aS = wrapPosToHtml(point->question()->qa.pos);
           break;
         case TQAtype::e_asSound:
           if (point->question()->questionAs == TQAtype::e_asNote)
               aS = QString("<span style=\"font-family: nootka; font-size: 45px;\">n</span>");
           else
-              aS = wrapPixWithHtml(point->question()->qa.note, true, point->question()->key);
+              aS = wrapPixToHtml(point->question()->qa.note, true, point->question()->key);
           break;
 
       }
