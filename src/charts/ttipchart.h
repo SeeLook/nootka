@@ -22,6 +22,7 @@
 #include <QGraphicsTextItem>
 #include "tqatype.h"
 
+struct stat;
 
 class TquestionPoint;
 class Tnote;
@@ -39,15 +40,17 @@ public:
   
   void setPos(QPointF p);
   static QString qaTypeText(TQAtype::Etype &type);
+    /** Returns html sting with note pixmap generated from @param point. */
+  static QString wrapPixToHtml( Tnote note, bool clef, TkeySignature key, double factor = 4);
+  static QString insertQMark();
+  static QString wrapPosToHtml(TfingerPos pos);
+    /** Returns roman number or given fret */
+  static QString romanFret(quint8 fret);
+  static const QString fretsList[25];
   
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
   virtual QRectF boundingRect() const;
   
-private:
-    /** Returns html sting with note pixmap generated from @param point. */
-  QString wrapPixWithHtml( Tnote note, bool clef, TkeySignature key, double factor = 4);
-  QString insertQMark();
-  QString wrapPosToHtml(TfingerPos pos);
 
 
   TquestionPoint *m_point;
