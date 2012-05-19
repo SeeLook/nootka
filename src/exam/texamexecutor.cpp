@@ -510,13 +510,13 @@ void TexamExecutor::checkAnswer(bool showResults) {
           if (curQ.wrongNote())
               answTxt += tr("Wrong note.");
           if (curQ.wrongKey())
-              answTxt += tr(" Wrong key signature.");
+              answTxt += " " + tr("Wrong key signature") + ".";
           if (curQ.wrongAccid())
-              answTxt += tr(" Wrong accidental.");
+              answTxt += " " + tr("Wrong accidental") + ".";
           if (curQ.wrongPos())
-              answTxt += tr(" Wrong position.");
+              answTxt += " " + tr("Wrong position") + ".";
           if (curQ.wrongOctave())
-              answTxt += tr(" Wrong octave.");
+              answTxt += " " + tr("Wrong octave") + ".";
           if (gl->E->autoNextQuest && gl->E->repeatIncorrect && !m_incorrectRepeated)
               answTxt += tr("<br>Try again !");
       }
