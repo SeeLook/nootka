@@ -303,18 +303,18 @@
 <context>
     <name>File association entries</name>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="128"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="142"/>
         <source>Nootka level file</source>
         <comment>for file brrrowsers</comment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="129"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="143"/>
         <source>Open with nootka</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="130"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="144"/>
         <source>Nootka exam file</source>
         <translation></translation>
     </message>
@@ -463,17 +463,17 @@
         <translation>Preferencje aplikacji</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="208"/>
+        <location filename="../src/mainwindow.cpp" line="213"/>
         <source>Start an exam</source>
         <translation>Rozpocznij egzamin</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="367"/>
+        <location filename="../src/mainwindow.cpp" line="387"/>
         <source>Note was detected !!</source>
         <translation>Dźwięk zosał wykryty !!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="189"/>
+        <location filename="../src/mainwindow.cpp" line="193"/>
         <source>about</source>
         <translation>o programie</translation>
     </message>
@@ -483,7 +483,7 @@
         <translation>Problemy z odtwarzaniem dźwięku</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="190"/>
+        <location filename="../src/mainwindow.cpp" line="194"/>
         <source>About Nootka</source>
         <translation>O aplikacji Nootka</translation>
     </message>
@@ -614,6 +614,7 @@
         <translation>Kouyanbaba: D A D A D F </translation>
     </message>
     <message>
+        <location filename="../src/analyser/texam.cpp" line="119"/>
         <location filename="../src/exam/texam.cpp" line="119"/>
         <source>Cannot save exam file:
 %1</source>
@@ -768,6 +769,87 @@
     </message>
 </context>
 <context>
+    <name>TanalysDialog</name>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="40"/>
+        <source>Analyse of the results</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="49"/>
+        <source>analyse type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="50"/>
+        <source>user name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="51"/>
+        <source>level:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="53"/>
+        <source>main analyse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="105"/>
+        <source>Open an exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="108"/>
+        <source>Close analyser</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="111"/>
+        <source>zoom in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="114"/>
+        <source>zoom out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="131"/>
+        <source>Load an exam&apos;s&apos; file</source>
+        <translation type="unfinished">Wczytaj plik egazminu</translation>
+    </message>
+</context>
+<context>
+    <name>TanalysWindow</name>
+    <message>
+        <location filename="../src/analyser/tanalyswindow.cpp" line="38"/>
+        <source>analyse type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/analyser/tanalyswindow.cpp" line="39"/>
+        <source>user name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/analyser/tanalyswindow.cpp" line="40"/>
+        <source>level:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/analyser/tanalyswindow.cpp" line="77"/>
+        <source>Open an exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/analyser/tanalyswindow.cpp" line="79"/>
+        <source>Close analyser</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TasFretPosWdg</name>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="367"/>
@@ -907,159 +989,178 @@
 <context>
     <name>TexamExecutor</name>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="109"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="104"/>
         <source>File: %1 
  is not valid exam file !!!</source>
         <translation>Plik: %1 
 nie jest poprawnym plikiem egzaminu !!!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="90"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="85"/>
         <source>&lt;b&gt;Exam file seems to be corrupted&lt;/b&gt;&lt;br&gt;Better start new exam on the same level</source>
         <translation>&lt;b&gt;Plik egzaminu wygląda na uszkodzony&lt;/b&gt;&lt;br&gt;Lepiej zacznij nowy na tym samym poziomie</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="95"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="90"/>
         <source>Tune of the guitar was changed in this exam !!.&lt;br&gt;Now it is:&lt;br&gt;&lt;b&gt;%1&lt;/b&gt;</source>
         <translation>W tym egazminie zmiena się strój gitary !!&lt;br&gt;Teraz jest to:&lt;br&gt;&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="98"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="93"/>
         <source>&lt;br&gt;&lt;br&gt;This exam requires more frets,&lt;br&gt;so frets number in the guitar will be changed.</source>
         <translation>&lt;br&gt;&lt;br&gt;Ten egzamin wymaga więcej progów,&lt;br&gt;więc ich liczba zostanie zmieniona.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="125"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="124"/>
         <source>An exam requires sound but&lt;br&gt;sound output is not available !!!</source>
         <translation>Egzamin wymaga dźwięku&lt;br&gt;ale nie jest on włączony !!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="174"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="173"/>
         <source>repeat prevoius question (backspace)</source>
         <translation>powtórz poprzednie pytanie (backspace)</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="167"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="166"/>
         <source>next question
 (space %1)</source>
         <translation>następne pytanie
 (spacja %1)</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="180"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="179"/>
         <source>check answer
 (enter %1)</source>
         <translation>sprawdź odpowiedź
 (enter %1)</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="187"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="186"/>
         <source>play sound again</source>
         <translation>ponownie zagraj dźwięk</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="194"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="193"/>
         <source>Level &lt;b&gt;%1&lt;b&gt;&lt;br&gt;has no sense till there are no any possible questions to ask.&lt;br&gt;It can be unadjusted to current tune.&lt;br&gt;Repair it in Level Creator and try again.</source>
         <translation>Poziom &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nie ma sensu, bo nie ma w nim żadnego pytania, które można zadać.&lt;br&gt;Możliwe, że nie jest dopasowany do bieżącego stroju gitary.&lt;br&gt;Napraw to w Kreatorze Poziomów i spróbuj ponownie.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="260"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="259"/>
         <source>Given note show </source>
         <translation>Podaną nutę pokaż </translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="280"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="279"/>
         <source>Given note name show </source>
         <translation>Podaną nazwę pokaż </translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="287"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="286"/>
         <source>Given position show </source>
         <translation>Podaną pozycję pokaż </translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="298"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="297"/>
         <source>Played sound show </source>
         <translation>Usłyszany dźwięk pokaż </translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="319"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="318"/>
         <source> &lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
         <translation> &lt;b&gt;w tonacji %1.&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="400"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="399"/>
         <source>Play or sing given note</source>
         <translation>Zagraj lub zaśpiewaj podaną nutę</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="520"/>
         <source> Wrong octave.</source>
-        <translation> Zła oktawa.</translation>
+        <translation type="obsolete"> Zła oktawa.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="522"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="521"/>
         <source>&lt;br&gt;Try again !</source>
         <translation>&lt;br&gt;Spróbuj ponownie!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="528"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="527"/>
         <source>To correct an answer</source>
         <translation>Żeby poprawić odpowiedź</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="618"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="617"/>
         <source>help</source>
         <translation>pomoc</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="832"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="831"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="833"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="832"/>
         <source>Discard</source>
         <translation>Porzuć</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="614"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="613"/>
         <source>exam started on level</source>
         <translation>egzamin uruchomiony na poziomie</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="755"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="513"/>
+        <source>Wrong key signature</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamexecutor.cpp" line="515"/>
+        <source>Wrong accidental</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamexecutor.cpp" line="517"/>
+        <source>Wrong position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamexecutor.cpp" line="519"/>
+        <source>Wrong octave</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamexecutor.cpp" line="754"/>
         <source>Give an answer first!&lt;br&gt;Then the exam&apos;ll be finished</source>
         <translation>Najpierw odpowiedz!&lt;br&gt;Potem egzamin zostanie zakończony</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="803"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="802"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
         <translation>Psssst... Trwa egzamin.&lt;br&gt;&lt;br&gt;&lt;b&gt;Kontynuuj&lt;/b&gt; go &lt;br&gt;lub&lt;br&gt;&lt;b&gt;Zakończ&lt;/b&gt; żeby sprawdzić, zapisać i wyjść&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="804"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="803"/>
         <source>Continue</source>
         <translation>Kontynuuj</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="805"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="804"/>
         <source>Terminate</source>
         <translation>Zakończ</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="831"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="830"/>
         <source>If You don&apos;t save to file&lt;br&gt;You lost all results !!</source>
         <translation>Jeżeli nie zapiszesz do pliku&lt;br&gt;stracisz dotychczasowe wyniki!!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="360"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="359"/>
         <source>Give name of</source>
         <translation>Podaj nazwę</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="139"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="138"/>
         <source>An exam requires sound input but&lt;br&gt;it is not available !!!</source>
         <translation>Egzamin wymaga sygnału wejściowego&lt;br&gt;ale nie jest on dostępny !!!</translation>
     </message>
@@ -1068,62 +1169,59 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="obsolete">Poziom &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nie ma sensu, bo nie ma w nim żadnego pytania, które można zadać.&lt;br&gt;Możliwe, że nie jest dopasowany do bieżącego stroju gitary.&lt;br&gt;Napraw to w Kreatorze Poziomów i spróbuj ponownie.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="391"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="390"/>
         <source> on &lt;span style=&quot;font-family: nootka; font-size:%1px;&quot;&gt;%2&lt;/span&gt; string.</source>
         <translation> na &lt;span style=&quot;font-family: nootka; font-size:%1px;&quot;&gt;%2&lt;/span&gt; strunie.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="508"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="507"/>
         <source>Exelent !!</source>
         <translation>Super!!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="512"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="511"/>
         <source>Wrong note.</source>
         <translation>Zła nuta.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="514"/>
         <source> Wrong key signature.</source>
-        <translation> Zła tonacja.</translation>
+        <translation type="obsolete"> Zła tonacja.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="516"/>
         <source> Wrong accidental.</source>
-        <translation> Zły znak.</translation>
+        <translation type="obsolete"> Zły znak.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="518"/>
         <source> Wrong position.</source>
-        <translation> Zła pozycja.</translation>
+        <translation type="obsolete"> Zła pozycja.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="613"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="612"/>
         <source>EXAM!!</source>
         <translation>EGZAMIN!!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="621"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="620"/>
         <source>stop the exam</source>
         <translation>zatrzymaj egzamin</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="786"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="785"/>
         <source>so a pity</source>
         <translation>jaka szkoda</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="795"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="794"/>
         <source>Use %1</source>
         <translation>Użyj %1</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="796"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="795"/>
         <source> Don&apos;t use accidentals!</source>
         <translation>Nie używaj znaków!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="825"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="824"/>
         <source>Save exam&apos;s results as:</source>
         <translation>Zapisz wyniki egzaminu jako:</translation>
     </message>
@@ -1419,7 +1517,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
 <context>
     <name>TkeySignatureView</name>
     <message>
-        <location filename="../src/score/tkeysignatureview.cpp" line="39"/>
+        <location filename="../src/score/tkeysignatureview.cpp" line="61"/>
         <source>Use mouse wheel to change a key signature</source>
         <translation>Użyj kółka myszy żeby zmienić tonację</translation>
     </message>
@@ -1604,6 +1702,19 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/level/tlevelselector.h" line="39"/>
         <source>frets&apos; range:</source>
         <translation>zakres progów:</translation>
+    </message>
+</context>
+<context>
+    <name>TmainChart</name>
+    <message>
+        <location filename="../src/analyser/tmainchart.cpp" line="35"/>
+        <source>reaction time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/analyser/tmainchart.cpp" line="36"/>
+        <source>average reaction time</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1839,62 +1950,72 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>TstartExamDlg</name>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="29"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="40"/>
         <source>Start en exam</source>
         <translation>Zacznij egzamin</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="32"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="43"/>
         <source>start new exam</source>
         <translation>rozpocznij nowy egzamin</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="37"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="48"/>
         <source>student&apos;s name:</source>
         <translation>imię ucznia:</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="41"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="54"/>
         <source>Enter your name or nick.</source>
         <translation>Wpisz swoje imię lub przezwisko.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="53"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="62"/>
+        <source>create new level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="63"/>
+        <source>Dialog window for creating new level&lt;br&gt;will be opened.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="66"/>
         <source>Select a level suitable for You&lt;br&gt;or create new one.</source>
         <translation>Wybierz poziom odpowiedni dla siebie&lt;br&gt;lub utwórz nowy.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="58"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="71"/>
         <source>continue exam</source>
         <translation>kontynuuj egzamin</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="64"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="77"/>
         <source>load exam from file</source>
         <translation>wczytaj egzamin z pliku</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="67"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="80"/>
         <source>Select previous exam, or get it from a file.</source>
         <translation>Wybierz poprzedni egzamin lub wczytaj go z pliku.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="83"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="96"/>
         <source>Start</source>
         <translation>Zacznij</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="84"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="97"/>
         <source>Start or continue exam.</source>
         <translation>Rozpocznij lub kontynuuj egzamin.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="86"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="99"/>
         <source>Discard</source>
         <translation>Porzuć</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="91"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="104"/>
         <source>Would You like to start new exam or continue previous one ?&lt;br&gt;To start new one, put your name and select a level.&lt;br&gt;To continue previous, select it from the list or load from file.</source>
         <translation>Chcesz rozpocząć nowy egzamin, czy kontynuować poprzedni ?&lt;br&gt;Żeby rozpocząć nowy, wpisz swoje imię i wybierz poziom.&lt;br&gt;Żeby kontynuować poprzedni, wybierz go z listy lub wczytaj z pliku.</translation>
     </message>
@@ -1903,29 +2024,47 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation type="obsolete">Chcesz rozpocząć nowy egzamin, czy kontynuować poprzedni ?&lt;br&gt;Żeby rozpocząć nowy, wpisz swoje imię i wybierz poziom.&lt;br&gt;Żeby kontynuować poprzedni, wybierz go z listy lub wczytaj z pliku.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="180"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="198"/>
         <source>Any level was not selected !!</source>
         <translation>Nie wybrano żadnego poziomu !!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="184"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="202"/>
         <source>Give any user name !!</source>
         <translation>Podaj jakąś nazwę użytkownika !!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="193"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="211"/>
         <source>Any exam wasn&apos;t selected !!</source>
         <translation>Nie został wybrany żaden egzamin !!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="198"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="216"/>
         <source>Load an exam&apos;s&apos; file</source>
         <translation>Wczytaj plik egazminu</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.h" line="52"/>
+        <location filename="../src/exam/tstartexamdlg.h" line="54"/>
         <source>Exams&apos; results</source>
         <translation>Wyniki egzaminu</translation>
+    </message>
+</context>
+<context>
+    <name>TtipChart</name>
+    <message>
+        <location filename="../src/charts/ttipchart.cpp" line="132"/>
+        <source>It was good!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/charts/ttipchart.cpp" line="135"/>
+        <source>Wrong answer!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/charts/ttipchart.cpp" line="137"/>
+        <source>Not so bad.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

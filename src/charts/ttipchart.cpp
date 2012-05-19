@@ -64,7 +64,7 @@ QString TtipChart::insertQMark() {
 }
 
 QString TtipChart::wrapPosToHtml(TfingerPos pos) {
-    return QString("<span style=\"font-size: 20px;\"><span style=\"font-family: nootka\">%1</span> %2</span>").arg(pos.str()).arg(romanFret(pos.fret()));
+    return QString("<span style=\"font-size: 25px; font-family: nootka\">%1%2</span>").arg(pos.str()).arg(romanFret(pos.fret()));
 }
 
 QString TtipChart::wrapPixToHtml(Tnote note, bool clef, TkeySignature key, double factor) {
@@ -91,9 +91,9 @@ TtipChart::TtipChart(TquestionPoint *point) :
       }
       break;
     case TQAtype::e_asName:
-      qS = "<span style=\"font-size: 20px;\">" + TnoteName::noteToRichText(point->question()->qa.note) + "</span>";
+      qS = "<span style=\"font-size: 25px;\">" + TnoteName::noteToRichText(point->question()->qa.note) + "</span>";
       if (point->question()->answerAs == TQAtype::e_asName)
-          aS = "<span style=\"font-size: 20px;\">" + TnoteName::noteToRichText(point->question()->qa_2.note) + "</span>";
+          aS = "<span style=\"font-size: 25px;\">" + TnoteName::noteToRichText(point->question()->qa_2.note) + "</span>";
       break;
     case TQAtype::e_asFretPos:
 //         qS = QString("<span style=\"font-size: 20px;\">(%1) %2</span>").arg(point->question()->qa.pos.str()).arg(point->question()->qa.pos.fret());
@@ -111,7 +111,7 @@ TtipChart::TtipChart(TquestionPoint *point) :
           aS = wrapPixToHtml(point->question()->qa.note, true, point->question()->key);
           break;
         case TQAtype::e_asName:
-          aS = "<span style=\"font-size: 20px;\">" + TnoteName::noteToRichText(point->question()->qa.note) + "</span>";
+          aS = "<span style=\"font-size: 25px;\">" + TnoteName::noteToRichText(point->question()->qa.note) + "</span>";
           break;
         case TQAtype::e_asFretPos:
 //             aS = QString("<span style=\"font-size: 20px;\">(%1) %2</span>").arg(point->question()->qa.pos.str()).arg(point->question()->qa.pos.fret());
@@ -134,15 +134,28 @@ TtipChart::TtipChart(TquestionPoint *point) :
       if (point->question()->wrongNote() || point->question()->wrongPos())
           txt += QApplication::translate("TtipChart", "Wrong answer!");
             else {
-                txt += QApplication::translate("TtipChart", "Not so bad.");
-//                 QStringList misList;
-//                 if (point->question()->wrongAccid())
-//                     misList 
+                txt += QApplication::translate("TtipChart", "Not so bad.") + "<br>";
+                QString misMes = ""; // Message with mistakes
+                if (point->question()->wrongAccid())
+                    misMes = "wrong accidental";
+                if (point->question()->wrongKey()) {
+                    if (misMes != "")
+                        misMes += ", ";
+                    misMes += "wrong key signature";
+                }
+                if (point->question()->wrongOctave()) {
+                    if (misMes != "")
+                        misMes += ", ";
+                    if (misMes.length() > 25)
+                        misMes += "<br>";
+                    misMes += "wrong octave";
+                }
+                txt += misMes;
             }
             
   txt += "</span><br>";
   txt += TexamView::reactTimeTxt() +
-        QString("<span style=\"font-size: 20px\">%1s</span>").arg((double)point->question()->time / 10.0);
+        QString("<span style=\"font-size: 20px\">  %1s</span>").arg((double)point->question()->time / 10.0);
   
   setHtml(txt);
   
