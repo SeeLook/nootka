@@ -18,3 +18,12 @@
 ../nootka/src/sound/audioinsettings.cpp:      QString("<span style=\"font-family: nootka;\">1</span>e<sup>1</sup> = %1Hz").arg(getFreq(330.0))
 
 ../nootka/src/tnotename.cpp:                       QString(" <span style=\"color: %1; font-family: nootka;\">?%2</span>").arg(gl->EquestionColor.name()).arg(sN));
+
+float factor = rect().width() / painter->fontMetrics().width(name);
+ if ((factor < 1) || (factor > 1.25))
+ {
+  QFont f = painter->font();
+  f.setPointSizeF(f.pointSizeF()*factor);
+  painter->setFont(f);
+ }
+
