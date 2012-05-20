@@ -91,12 +91,17 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
 #else
         QFont cFont = QFont("nootka", factor * 15.5, QFont::Normal);
 //         cFont.setPointSizeF(factor * 16);
-        QFontMetricsF cMetr = cFont;
+        QFontMetricsF cMetr(cFont);
 //         QRectF cRect = cMetr.boundingRect(QString(QChar(0xe1a7)));
         double clefWidth = cMetr.width(QString(QChar(0xe1a7)));
-        qDebug() << clefWidth;
-//         painter.setFont(QFont("nootka", qRound(factor * 14), QFont::Normal));
-        
+        double fontF = clefWidth / 70.0;
+        qDebug() << clefWidth << fontF;
+        if ((fontF < 1) || (fontF > 1.25)) {
+            cFont.setPointSizeF(cFont.pointSizeF() * fontF);
+            cMetr = QFontMetricsF(cFont);
+            clefWidth = cMetr.width(QString(QChar(0xe1a7)));
+        }
+        qDebug() << clefWidth << fontF;
         painter.setFont(cFont);
 #endif
 #if defined(Q_OS_LINUX)
@@ -116,7 +121,7 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
 //     accFont.setP
 #endif
     painter.setFont(accFont);
-    QFontMetricsF metrics = accFont;
+    QFontMetricsF metrics(accFont);
     QRectF rect = metrics.boundingRect(TnoteView::getAccid(1));
 //     qDebug() << rect;
     // key signature
