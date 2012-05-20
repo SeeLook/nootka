@@ -37,7 +37,7 @@ TanalysDialog::TanalysDialog(QWidget *parent) :
     m_chart(0)
 {
  
-  setWindowTitle(tr("Analyse of the results"));
+  setWindowTitle(tr("Analyse of an exam results"));
   QVBoxLayout *lay = new QVBoxLayout;
   
   lay = new QVBoxLayout;
@@ -46,11 +46,11 @@ TanalysDialog::TanalysDialog(QWidget *parent) :
   lay->addWidget(m_toolBar);
 
   QGridLayout *headLay = new QGridLayout;
-  headLay->addWidget(new QLabel(tr("analyse type:"), this), 0, 0);
+  headLay->addWidget(new QLabel(tr("ordered by:"), this), 0, 0);
   headLay->addWidget(new QLabel(tr("user name:"), this), 0, 1);
   headLay->addWidget(new QLabel(tr("level:"), this), 0, 2);
   m_chartListComo = new QComboBox(this);
-  m_chartListComo->addItem(tr("main analyse"));
+  m_chartListComo->addItem(tr("question number"));
   headLay->addWidget(m_chartListComo, 1, 0);
   m_userLab = new QLabel(" ", this);
   headLay->addWidget(m_userLab, 1, 1);
@@ -65,6 +65,11 @@ TanalysDialog::TanalysDialog(QWidget *parent) :
   lay->addLayout(m_plotLay);
   
   setLayout(lay);
+  
+//   QColor sh = palette().foreground().color();
+//   sh.setAlpha(180);
+  TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()), Qt::darkMagenta,
+    palette().shadow().color(), palette().background().color());
   
   createActions();
   
