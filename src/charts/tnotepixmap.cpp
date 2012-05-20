@@ -115,6 +115,8 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
     painter.setFont(accFont);
     QFontMetricsF metrics = accFont;
     QRectF rect = metrics.boundingRect(TnoteView::getAccid(1));
+//     double accWidth = metrics.width(TnoteView::getAccid(1));
+//     double accHeight = metrics.height();
 //     qDebug() << rect;
     // key signature
     if (key.value()) {
@@ -147,6 +149,8 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
     // note
     painter.drawEllipse( xPosOfNote * factor, (hiLinePos + noteOffset) * factor, factor * 3, factor * 2);
     // accidental
+    double accWidth = metrics.width(accidString);
+    double accHeight = metrics.height();
     if (note.acidental) {
 #if defined (Q_OS_MAC)
         painter.drawText(QRectF((xPosOfNote - 1.5) * factor - (rect.width()), 
@@ -154,9 +158,9 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
                                 rect.width() *3, rect.height() ),
                          Qt::AlignCenter, accidString );
 #else
-        painter.drawText(QRectF((xPosOfNote - 1.5) * factor - (rect.width()),
+        painter.drawText(QRectF((xPosOfNote) * factor - accWidth / 2,
                                 (hiLinePos + noteOffset) * factor - (factor * 3),
-                                rect.width() *3, rect.height() ),
+                                accWidth, accHeight ),
                          Qt::AlignCenter, accidString );
 #endif
     }
