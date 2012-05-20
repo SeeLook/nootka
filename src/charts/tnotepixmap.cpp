@@ -51,8 +51,8 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
         w += factor * 3;
         xPosOfNote += 3;
     }
-    if (noteNr > 14)
-        h = factor * (18 + (noteNr - 13));
+    if (noteNr > 12)
+        h = factor * (18 + (noteNr - 12));
     if (noteNr < -1)
         h = factor * (18 + (-1 - noteNr));
     
@@ -62,7 +62,7 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
 
     int noteOffset = 10 - noteNr;
     int hiLinePos = 4;
-    if (noteNr > 14)
+    if (noteNr > 12)
         hiLinePos = 4 + noteNr - 12;
     
     QPainter painter(&pix);
@@ -76,7 +76,7 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
         painter.drawLine(0 ,i * factor, w, i * factor);
     // upper lines if needed
     if (noteNr > 12)
-        for (int i = hiLinePos - 2; i > (1); i -= 2)
+        for (int i = hiLinePos - 2; i > (2); i -= 2)
             painter.drawLine((xPosOfNote - 1) * factor, i * factor, (xPosOfNote + 4) * factor, i * factor);
     // lower lines if needed
     if (noteNr < 2) {
@@ -89,8 +89,8 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
         painter.drawText(QRectF(1, (hiLinePos - 4.4) * factor, factor * 6, factor * 18),
                          Qt::AlignLeft, QString(QChar(0xe1a7)));
 #else
-        QFont cFont = QFont("nootka");
-        cFont.setPointSizeF(factor * 16);
+        QFont cFont = QFont("nootka", factor * 15, QFont::Normal);
+//         cFont.setPointSizeF(factor * 16);
         QFontMetricsF cMetr = cFont;
         QRectF cRect = cMetr.boundingRect(QString(QChar(0xe1a7)));
 //         qDebug() << cRect;
@@ -99,7 +99,7 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
         painter.setFont(cFont);
 #endif
 #if defined(Q_OS_LINUX)
-        painter.drawText(QRectF(1, (hiLinePos - 5) * factor /*+ cRect.height() / 6*/, cRect.width(), cRect.height()),
+        painter.drawText(QRectF(1, (hiLinePos + 9.5) * factor - qAbs(cRect.y()), cRect.width(), cRect.height()),
                          Qt::AlignLeft, QString(QChar(0xe1a7)));
 #else
 //        painter.drawText(QRectF(1, (hiLinePos - 3.2)*coeff, coeff*6, coeff*18), Qt::AlignLeft, QString(QChar(0xe1a7)));
@@ -110,10 +110,12 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
     accFont.setPointSizeF(6.5 * factor);
 #else    
     accFont.setPointSizeF(6 * factor);
+//     accFont.setP
 #endif
     painter.setFont(accFont);
     QFontMetricsF metrics = accFont;
     QRectF rect = metrics.boundingRect(TnoteView::getAccid(1));
+//     qDebug() << rect;
     // key signature
     if (key.value()) {
         QString keyAccidString;
@@ -134,9 +136,9 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
                                      rect.width() * 3, rect.height()),
                             Qt::AlignCenter, keyAccidString);
 #else
-            painter.drawText(QRectF( (4 + i*1.6) * factor,
-                                     (TkeySignatureView::getPosOfAccid((7 + ((i)*ff))%8) - 19 + hiLinePos - 0.5) * factor,
-                                     rect.width() * 3, rect.height()),
+            painter.drawText(QRectF( (5 + i*1.7) * factor,
+                                     (TkeySignatureView::getPosOfAccid((7 + ((i)*ff))%8) - 20 + hiLinePos) * factor,
+                                     rect.width() *3, rect.height()),
                             Qt::AlignCenter, keyAccidString);
             
 #endif
@@ -153,7 +155,7 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
                          Qt::AlignCenter, accidString );
 #else
         painter.drawText(QRectF((xPosOfNote - 1.5) * factor - (rect.width()),
-                                (hiLinePos + noteOffset) * factor - (factor * 2) - 1,
+                                (hiLinePos + noteOffset) * factor - (factor * 3),
                                 rect.width() *3, rect.height() ),
                          Qt::AlignCenter, accidString );
 #endif

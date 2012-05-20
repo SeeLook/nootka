@@ -58,7 +58,7 @@ TmainLine::TmainLine(Texam* exam, Tchart* chart) :
     } 
   }
   
-//   qDebug() << lines[0]->boundingRect();
+//   qDebug() << m_exam->answList()->operator[](1).time / 10.0;
   
 
 }
