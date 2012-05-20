@@ -39,13 +39,17 @@ public:
   virtual ~TtipChart();
   
   void setPos(QPointF p);
+    /** Returns string with kind of question/answer text. */
   static QString qaTypeText(TQAtype::Etype &type);
     /** Returns html sting with note pixmap generated from @param point. */
   static QString wrapPixToHtml( Tnote note, bool clef, TkeySignature key, double factor = 4);
+    /** Returns html string with question mark in nootka font. */
   static QString insertQMark();
+    /** TfingerPos in HTML format as a string fe.: 3 XVII */
   static QString wrapPosToHtml(TfingerPos pos);
     /** Returns roman number or given fret */
   static QString romanFret(quint8 fret);
+    /** List of QStrings with roman representatin of numbers 0-24. */
   static const QString fretsList[25];
   
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);

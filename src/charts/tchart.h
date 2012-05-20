@@ -25,7 +25,6 @@
 
 class TYaxis;
 class TXaxis;
-// class TabstractAxis;
 
 
 
@@ -46,9 +45,9 @@ public:
     void zoom(bool in = true); // zoom view, by default zoom in but when false zoom out
     
 protected:
-    void wheelEvent(QWheelEvent *event);
       /** Keeps a chart scaled when user changes its size. */
     void resizeEvent(QResizeEvent *event);
+    bool event(QEvent *event);
     
     QGraphicsScene *scene;
     TXaxis *xAxis;

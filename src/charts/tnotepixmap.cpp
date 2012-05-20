@@ -21,7 +21,9 @@
 #include "tnoteview.h"
 #include "tkeysignature.h"
 #include "tkeysignatureview.h"
+#include "tquestionpoint.h"
 #include <QPainter>
+#include <QApplication>
 #include <QDebug>
 
 
@@ -33,10 +35,6 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
         if (qAbs(note.acidental) == 1) { // double accids already assigned
             if (note.acidental == TkeySignature::scalesDefArr[key.value()+7][note.note-1])
                 accidString = ""; // accid in key signature
-//            else { // maybe natural ??
-//                if (TkeySignature::scalesDefArr[key.value()+7][note.note-1] != 0) // accid in key
-//                    accidString = TnoteView::getAccid(3); // so paint natural
-//            }
         }
     } else // no accids
         if (TkeySignature::scalesDefArr[key.value()+7][note.note-1] != 0)
@@ -70,9 +68,9 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
     QPainter painter(&pix);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
     painter.setWindow(0, 0, w, h);
-
-    painter.setPen(Qt::black);
-    painter.setBrush(Qt::black);
+    
+    painter.setPen(QApplication::palette().foreground().color());
+    painter.setBrush(QApplication::palette().foreground().color());
     // main staff lines
     for (int i = hiLinePos; i < (hiLinePos + 10); i += 2)
         painter.drawLine(0 ,i * factor, w, i * factor);
@@ -86,29 +84,32 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
             painter.drawLine((xPosOfNote - 1) * factor, i * factor, (xPosOfNote + 4) * factor, i * factor);
     }
     if (clef) {
-    #if defined(Q_OS_MAC)
+#if defined(Q_OS_MAC)
         painter.setFont(QFont("nootka", factor * 18.5, QFont::Normal));
         painter.drawText(QRectF(1, (hiLinePos - 4.4) * factor, factor * 6, factor * 18),
                          Qt::AlignLeft, QString(QChar(0xe1a7)));
-    #else
+#else
         QFont cFont = QFont("nootka");
-        cFont.setPointSizeF(factor * 14);
+        cFont.setPointSizeF(factor * 16);
+        QFontMetricsF cMetr = cFont;
+        QRectF cRect = cMetr.boundingRect(QString(QChar(0xe1a7)));
+//         qDebug() << cRect;
 //         painter.setFont(QFont("nootka", qRound(factor * 14), QFont::Normal));
         
         painter.setFont(cFont);
-    #endif
-    #if defined(Q_OS_LINUX)
-        painter.drawText(QRectF(1, (hiLinePos - 5) * factor, factor * 6, factor * 19),
+#endif
+#if defined(Q_OS_LINUX)
+        painter.drawText(QRectF(1, (hiLinePos - 5) * factor /*+ cRect.height() / 6*/, cRect.width(), cRect.height()),
                          Qt::AlignLeft, QString(QChar(0xe1a7)));
-    #else
+#else
 //        painter.drawText(QRectF(1, (hiLinePos - 3.2)*coeff, coeff*6, coeff*18), Qt::AlignLeft, QString(QChar(0xe1a7)));
-    #endif
+#endif
     }
     QFont accFont = QFont("nootka");
 #if defined (Q_OS_MAC)
     accFont.setPointSizeF(6.5 * factor);
 #else    
-    accFont.setPointSizeF(5  * factor);
+    accFont.setPointSizeF(6 * factor);
 #endif
     painter.setFont(accFont);
     QFontMetricsF metrics = accFont;

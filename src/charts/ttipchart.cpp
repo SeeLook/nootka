@@ -75,6 +75,9 @@ QString TtipChart::wrapPixToHtml(Tnote note, bool clef, TkeySignature key, doubl
     return QString("<img src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/>";
 }
 
+
+// ###################### CONSTRUCTOR ############################
+
 TtipChart::TtipChart(TquestionPoint *point) :
     QGraphicsTextItem(),
     m_point(point)
@@ -96,7 +99,6 @@ TtipChart::TtipChart(TquestionPoint *point) :
           aS = "<span style=\"font-size: 25px;\">" + TnoteName::noteToRichText(point->question()->qa_2.note) + "</span>";
       break;
     case TQAtype::e_asFretPos:
-//         qS = QString("<span style=\"font-size: 20px;\">(%1) %2</span>").arg(point->question()->qa.pos.str()).arg(point->question()->qa.pos.fret());
         qS = wrapPosToHtml(point->question()->qa.pos);
       break;
     case TQAtype::e_asSound:
@@ -114,7 +116,6 @@ TtipChart::TtipChart(TquestionPoint *point) :
           aS = "<span style=\"font-size: 25px;\">" + TnoteName::noteToRichText(point->question()->qa.note) + "</span>";
           break;
         case TQAtype::e_asFretPos:
-//             aS = QString("<span style=\"font-size: 20px;\">(%1) %2</span>").arg(point->question()->qa.pos.str()).arg(point->question()->qa.pos.fret());
            aS = wrapPosToHtml(point->question()->qa.pos);
           break;
         case TQAtype::e_asSound:
@@ -176,6 +177,7 @@ TtipChart::TtipChart(TquestionPoint *point) :
   QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(this);
   shadow->setBlurRadius(5);
   shadow->setOffset(5, 5);
+  shadow->setColor(TquestionPoint::shadowColor());
   setGraphicsEffect(shadow);
 }
 
@@ -191,10 +193,9 @@ void TtipChart::setPos(QPointF p) {
 
 
 void TtipChart::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-
     QRectF rect = boundingRect();
     painter->setPen(Qt::NoPen);
-    painter->setBrush(QBrush(option->palette.light()));
+    painter->setBrush(QBrush(TquestionPoint::bgColor()));
     painter->drawRoundedRect(rect, 5, 5);
     QColor startColor = m_point->color();
     startColor.setAlpha(25);

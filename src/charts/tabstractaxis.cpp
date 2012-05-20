@@ -37,7 +37,7 @@ void TabstractAxis::drawArrow(QPainter *painter, QPointF endPoint, bool isHorizo
         points[1] = QPointF(endPoint.x() - tickSize, endPoint.y() + arrowSize);
         points[2] = QPointF(endPoint.x() + tickSize, endPoint.y() + arrowSize);
     }
-    painter->setBrush(QBrush(Qt::black));
+    painter->setBrush(QBrush(painter->pen().color()));
     painter->drawPolygon(points, 3);
 }
 

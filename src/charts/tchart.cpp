@@ -26,6 +26,8 @@
 #include "tabstractaxis.h"
 #include <QDebug>
 
+
+
 Tchart::Tchart(QWidget* parent) :
 	QGraphicsView(parent)
 {
@@ -69,22 +71,26 @@ void Tchart::zoom(bool in) {
 }
 
 
-void Tchart::wheelEvent(QWheelEvent* event) {
-  if (event->modifiers() == Qt::ControlModifier) {
-//    double deg = -event->delta() / 8.0;
-//    double step = deg / 15.0;
-//    double coef = std::pow(1.125, step);
-//    qDebug() << event->delta() << coef;
-//      double coef = 1.125;
-//      if (event->delta() > 0)
-//          coef = 0.888889;
-//      scale(coef, coef);
-      if  (event->delta() > 0)
+//##########################################################################################
+//#######################     EVENTS       ################################################
+//##########################################################################################
+
+bool Tchart::event(QEvent* event)
+{
+  if (event->type() == QEvent::Wheel) {
+    QWheelEvent *we = static_cast<QWheelEvent *>(event);
+    if (we->modifiers() == Qt::ControlModifier) {
+      if  (we->delta() > 0)
           zoom(true);
       else
           zoom(false);
+      return true;
+    }
   }
+  return QGraphicsView::event(event);
 }
+
+
 
 void Tchart::resizeEvent(QResizeEvent* event ) {
 //   double coef = event->oldSize().height() / event->size().height();

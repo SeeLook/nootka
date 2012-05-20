@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk      	                	   	   *
- *   tomaszbojczuk@gmail.com   						                       *
+ *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -26,11 +26,19 @@ class TQAunit;
 class TmainLine;
 class QGraphicsSceneHoverEvent;
 
+
+/** This class is a point on a chart. It has shape of note taken from nootka font.
+ * It has pointer to question pointed by it and poiter to parent @class TmainLine.
+ * It grabs hoverEnterEvent & hoverLeaveEvent and calls to TmainLine::showTip()
+ * 
+ * Also this class keeps colors for all Nootka Chart engine.
+ * They are initialised in satic setColors method
+ */
 class TquestionPoint : public QGraphicsItem
 {
 
 public:
-  TquestionPoint(TmainLine *parent,TQAunit *question);
+  TquestionPoint(TmainLine *parent,  TQAunit *question);
   virtual ~TquestionPoint() {}
   
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
@@ -38,7 +46,12 @@ public:
   TQAunit* question() { return m_question; }
   QColor color() { return m_color; }
   
-  static void setColors(QColor goodColor = Qt::green, QColor wrongColor = Qt::red, QColor notBadColor = Qt::darkMagenta);
+  static void setColors(QColor goodColor = Qt::green, QColor wrongColor = Qt::red,
+                        QColor notBadColor = Qt::darkMagenta, QColor shadowColor = QColor(63, 63, 63, 180),
+                        QColor bgColor = Qt::white);
+  
+  static QColor bgColor() { return m_bgColor; }
+  static QColor shadowColor() { return m_shadowColor; } // shadow of tip and point
   
 protected:
   void hoverEnterEvent(QGraphicsSceneHoverEvent *);
@@ -50,7 +63,7 @@ private:
   TmainLine *m_parent;
   QColor m_color;
   
-  static QColor m_goodColor, m_wrongColor, m_notBadColor;
+  static QColor m_goodColor, m_wrongColor, m_notBadColor, m_shadowColor, m_bgColor;
   
 };
 

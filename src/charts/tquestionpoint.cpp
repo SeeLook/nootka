@@ -27,14 +27,18 @@
 
 
 /* static */
-void TquestionPoint::setColors(QColor goodColor, QColor wrongColor, QColor notBadColor) {
+void TquestionPoint::setColors(QColor goodColor, QColor wrongColor, QColor notBadColor, QColor shadowColor, QColor bgColor) {
     m_goodColor = goodColor;
     m_wrongColor = wrongColor;
     m_notBadColor = notBadColor;
+    m_shadowColor = shadowColor;
+    m_bgColor = bgColor;
 }
 QColor TquestionPoint::m_goodColor = Qt::darkGreen;
 QColor TquestionPoint::m_wrongColor = Qt::red;
 QColor TquestionPoint::m_notBadColor = Qt::darkMagenta;
+QColor TquestionPoint::m_shadowColor = QColor(63, 63, 63, 180); // gray with transparency
+QColor TquestionPoint::m_bgColor = Qt::white;
 
 
 
@@ -58,6 +62,7 @@ TquestionPoint::TquestionPoint(TmainLine* parent, TQAunit* question):
   QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect();
   shadow->setBlurRadius(2);
   shadow->setOffset(2, 2);
+  shadow->setColor(shadowColor());
   setGraphicsEffect(shadow);
   
 }
