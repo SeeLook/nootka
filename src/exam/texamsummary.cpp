@@ -30,7 +30,7 @@ QString row2(QString S1, QString S2) {
 }
 
 
-TexamSummary::TexamSummary(Texam* exam, QWidget* parent) :
+TexamSummary::TexamSummary(Texam* exam, QString &path, QWidget *parent) :
   QDialog(parent)
 {
   QHBoxLayout *lay = new QHBoxLayout();
@@ -39,26 +39,40 @@ TexamSummary::TexamSummary(Texam* exam, QWidget* parent) :
 	
 	QLabel *studentLab = new QLabel(tr("student:"), this);
 	leftLay->addWidget(studentLab);
-  QLabel *userNameLab = new QLabel(QString("<b style=\"font-size: 20px\">%1</b>").arg(exam->userName()), this);
-  leftLay->addWidget(userNameLab, 0, Qt::AlignCenter);
+    QLabel *userNameLab = new QLabel(QString("<b style=\"font-size: 20px\">%1</b>").arg(exam->userName()), this);
+    leftLay->addWidget(userNameLab, 0, Qt::AlignCenter);
 	QLabel *questNrLAb = new QLabel(tr("Questions number:") + 
                     QString("<b style=\"font-size: 20px\">  %1</b>").arg(exam->count()), this);
 	leftLay->addWidget(questNrLAb);
-  QVBoxLayout *timeLay = new QVBoxLayout();
-  QGroupBox *timeGr = new QGroupBox(tr("times:"), this);
-  QLabel *timeLab = new QLabel("<table>" + 
+    QVBoxLayout *timeLay = new QVBoxLayout();
+    QGroupBox *timeGr = new QGroupBox(tr("times:"), this);
+    QLabel *timeLab = new QLabel("<table>" +
     row2(TexamView::totalTimetxt(), TexamView::formatedTotalTime(exam->totalTime()*1000)) +
     row2(tr("Time of work"), TexamView::formatedTotalTime(exam->workTime()*1000)) +
     row2(TexamView::averAnsverTimeTxt(), QString("%1 s").
         arg((qreal)exam->averageReactonTime()/10.0, 0, 'f', 1, '0')) +
     "</table>", this);
-  timeLay->addWidget(timeLab);
+    timeLay->addWidget(timeLab);
   
-  timeGr->setLayout(timeLay);
-  leftLay->addWidget(timeGr);
+    timeGr->setLayout(timeLay);
+    leftLay->addWidget(timeGr);
 	
-  QPushButton *okButt = new QPushButton(tr("Close"), this);
-  leftLay->addWidget(okButt, 1, Qt::AlignCenter);
+    QHBoxLayout *buttLay =new QHBoxLayout;
+
+    QPushButton *analyseButt = new QPushButton(tr("Analyse"), this);
+    analyseButt->setIcon(QIcon(path + "picts/charts.png"));
+    analyseButt->setIconSize(QSize(48, 48));
+    QPushButton *okButt = new QPushButton(tr("Close"), this);
+    okButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
+    okButt->setIconSize(QSize(48, 48));
+
+
+    buttLay->addWidget(okButt);
+    buttLay->addWidget(analyseButt);
+
+    leftLay->addLayout(buttLay);
+
+//    leftLay->addWidget(okButt, 1, Qt::AlignCenter);
 	lay->addLayout(leftLay);
   
 //-------  right layout -----------------------	
