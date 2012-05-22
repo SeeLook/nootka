@@ -900,7 +900,7 @@ QString TexamExecutor::getNextQuestionTxt() {
 }
 
 void TexamExecutor::showExamSummary() {
-  TexamSummary *ES = new TexamSummary(m_exam, mW);
+  TexamSummary *ES = new TexamSummary(m_exam, gl->path, mW);
   ES->exec(); 
   delete ES;
 }

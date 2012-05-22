@@ -27,7 +27,7 @@ class TexamSummary : public QDialog
 {
   Q_OBJECT
 public:
-  TexamSummary(Texam *exam, QWidget *parent = 0);
+  TexamSummary(Texam *exam, QString &path, QWidget *parent = 0);
   virtual ~TexamSummary();
   
 private:
