@@ -66,11 +66,14 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   
   setLayout(lay);
   
-//   QColor sh = palette().foreground().color();
-//   sh.setAlpha(180);
+#if defined (Q_OS_MAC) // MacOs has poor shadow color in palette
+  TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()), Qt::darkMagenta,
+    QColor(100, 100, 100, 180), palette().background().color());
+#else
   TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()), Qt::darkMagenta,
     palette().shadow().color(), palette().background().color());
-  
+#endif
+
   createActions();
   
 //   QTimer::singleShot(100, this, SLOT(testSlot()));
@@ -132,7 +135,7 @@ void TanalysDialog::loadExam(QString& examFile) {
 
 void TanalysDialog::createActions() {
   
-  m_openExamAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_FileIcon)), tr("Open an exam"), this);
+    m_openExamAct = new QAction(QIcon(gl->path + "picts/nootka-exam.png"), tr("Open an exam"), this);
   connect(m_openExamAct, SIGNAL(triggered()), this, SLOT(loadExamSlot()));
 
   m_closeAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)), tr("Close analyser"), this);

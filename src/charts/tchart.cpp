@@ -20,7 +20,6 @@
 #include "tchart.h"
 #include <QGraphicsEllipseItem>
 #include <QMouseEvent>
-#include <cmath>
 #include "txaxis.h"
 #include "tyaxis.h"
 #include "tabstractaxis.h"

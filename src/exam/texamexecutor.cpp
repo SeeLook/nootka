@@ -61,7 +61,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
         userAct = TstartExamDlg::e_newLevel;
     } else {
         if (examFile == "") { // start exam dialog
-            TstartExamDlg *startDlg = new TstartExamDlg(gl->E->studentName, mW);
+            TstartExamDlg *startDlg = new TstartExamDlg(gl->E->studentName, gl->path, mW);
             userAct = startDlg->showDialog(resultText, m_level);
             delete startDlg;
         } else { // command line arg with given filename
