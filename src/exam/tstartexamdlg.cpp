@@ -33,7 +33,7 @@ QString TstartExamDlg::systemUserName() {
 
 
 
-TstartExamDlg::TstartExamDlg(QString& nick, QWidget* parent) :
+TstartExamDlg::TstartExamDlg(QString& nick, QString &path, QWidget *parent) :
     QDialog(parent),
     m_openCreator(false)
 {
@@ -56,12 +56,18 @@ TstartExamDlg::TstartExamDlg(QString& nick, QWidget* parent) :
     levLay->addLayout(nameLay);
     levelsView = new TlevelSelector(this);
     levLay->addWidget(levelsView);
+    QHBoxLayout *lLay = new QHBoxLayout;
     QLabel *moreLab = new QLabel(levelSettings::moreLevelLinkTxt(), this);
     moreLab->setOpenExternalLinks(true);
-    levLay->addWidget(moreLab, 0, Qt::AlignCenter);
-    createBut = new QPushButton(tr("create new level"),this);
+//    levLay->addWidget(moreLab, 0, Qt::AlignCenter);
+    lLay->addWidget(moreLab, 0, Qt::AlignCenter);
+    createBut = new QPushButton(tr("Create new level"),this);
     createBut->setStatusTip(tr("Dialog window for creating new level<br>will be opened."));
-    levLay->addWidget(createBut, 1, Qt::AlignCenter);
+    createBut->setIcon(QIcon(path + "picts/levelCreator.png"));
+    createBut->setIconSize(QSize(48, 48));
+//    levLay->addWidget(createBut, 1, Qt::AlignCenter);
+    lLay->addWidget(createBut, 1, Qt::AlignCenter);
+    levLay->addLayout(lLay);
     levelGr = new QGroupBox(this);
     levelGr->setStatusTip(tr("Select a level suitable for You<br>or create new one."));
     levelGr->setLayout(levLay);

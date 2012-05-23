@@ -36,7 +36,7 @@ class TstartExamDlg : public QDialog
     Q_OBJECT
 public:
       /** QString @param &nick is student Name  */
-    explicit TstartExamDlg(QString &nick, QWidget *parent = 0);
+    explicit TstartExamDlg(QString &nick, QString &path, QWidget *parent = 0);
 
         /** Describes actions commited by user.
         * @param e_none - dialog discarded,
