@@ -45,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
     palette().highlightedText().color() );
 #endif
 #if defined(Q_OS_LINUX)
-    setWindowIcon(QIcon(gl->path+"picts/nootka.svg")); //TODO change
+    setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
 #else
     setWindowIcon(QIcon(gl->path+"picts/nootka.png"));
 #endif
@@ -155,7 +155,7 @@ MainWindow::MainWindow(QWidget *parent)
     if (gl->A->OUTenabled && !sound->isPlayable())
         QMessageBox::warning(this, "", tr("Problems with sound output"));
     
-    QTimer::singleShot(100, this, SLOT(analyseSlot()));
+//     QTimer::singleShot(100, this, SLOT(analyseSlot()));
 }
 
 MainWindow::~MainWindow()
@@ -339,7 +339,7 @@ void MainWindow::aboutSlot() {
 void MainWindow::analyseSlot() {
     sound->wait();
     sound->stopPlaying();
-    TanalysDialog *ad = new TanalysDialog(this);
+    TanalysDialog *ad = new TanalysDialog(0, this);
     ad->exec();
     delete ad;
     sound->go();

@@ -31,6 +31,7 @@
 #include "texamparams.h"
 #include "texecutorsupply.h"
 #include "taudioout.h"
+#include "tanalysdialog.h"
 #include <QtGui>
 #include <QDebug>
 
@@ -99,6 +100,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
           showExamSummary();
           mW->examResults->startExam(m_exam->totalTime(), m_exam->count(), m_exam->averageReactonTime(),
                           m_exam->mistakes());
+//           TfingerPos fp(1, 0);
+//           showMessage(QString("START"), fp, 2000);
         } else {
             if (err == Texam::e_file_not_valid)
                 QMessageBox::critical(mW, "", tr("File: %1 \n is not valid exam file !!!")
@@ -613,6 +616,7 @@ void TexamExecutor::prepareToExam() {
     mW->setStatusMessage(tr("exam started on level") + ":<br><b>" + m_level.name + "</b>");
 
     mW->settingsAct->setDisabled(true);
+    mW->analyseAct->setVisible(false);
     mW->levelCreatorAct->setIcon(QIcon(gl->path+"picts/help.png"));
     mW->levelCreatorAct->setText(tr("help"));
     mW->levelCreatorAct->setStatusTip(mW->levelCreatorAct->text());
@@ -704,6 +708,7 @@ void TexamExecutor::restoreAfterExam() {
     mW->guitar->acceptSettings();
 
     mW->settingsAct->setDisabled(false);
+    mW->analyseAct->setVisible(true);
     mW->startExamAct->setDisabled(false);
     mW->noteName->setNameDisabled(false);
     mW->guitar->setGuitarDisabled(false);
@@ -901,7 +906,11 @@ QString TexamExecutor::getNextQuestionTxt() {
 
 void TexamExecutor::showExamSummary() {
   TexamSummary *ES = new TexamSummary(m_exam, gl->path, mW);
-  ES->exec(); 
+  if (ES->exec() == QDialog::Accepted) {
+     TanalysDialog *AD = new TanalysDialog(m_exam, mW);
+     AD->exec();
+     delete AD;
+  }  
   delete ES;
 }
 
