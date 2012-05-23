@@ -84,7 +84,19 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
             painter.drawLine((xPosOfNote - 1) * factor, i * factor, (xPosOfNote + 4) * factor, i * factor);
     }
     
-    double fontF = 1;
+    
+    double fontF = 1; // font factor 
+    // Unfortunately clef and accids glyphs from nootka font
+    // depends on system font size. To scale it fontF exists
+    QFont cFont = QFont("nootka", factor * 15.5, QFont::Normal);
+    QFontMetricsF cMetr(cFont);
+    double clefWidth = cMetr.width(QString(QChar(0xe1a7)));
+    fontF = 80.0 / clefWidth; // 70 - Linux
+    if ((fontF < 1) || (fontF > 1.25)) {
+        cFont.setPointSizeF(cFont.pointSizeF() * fontF);
+        cMetr = QFontMetricsF(cFont);
+        clefWidth = cMetr.width(QString(QChar(0xe1a7)));
+    }
     if (clef) {
 //    #if defined(Q_OS_MAC)
 //        painter.setFont(QFont("nootka", factor * 18.5, QFont::Normal));
@@ -95,15 +107,15 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
 //        double clefWidth = cMetr.width(QString(QChar(0xe1a7)));
 //        qDebug() << clefWidth;
 //    #else
-        QFont cFont = QFont("nootka", factor * 15.5, QFont::Normal);
-        QFontMetricsF cMetr(cFont);
-        double clefWidth = cMetr.width(QString(QChar(0xe1a7)));
-        fontF = 80.0 / clefWidth; // 70 - Linux
-        if ((fontF < 1) || (fontF > 1.25)) {
-            cFont.setPointSizeF(cFont.pointSizeF() * fontF);
-            cMetr = QFontMetricsF(cFont);
-            clefWidth = cMetr.width(QString(QChar(0xe1a7)));
-        }
+//         QFont cFont = QFont("nootka", factor * 15.5, QFont::Normal);
+//         QFontMetricsF cMetr(cFont);
+//         double clefWidth = cMetr.width(QString(QChar(0xe1a7)));
+//         fontF = 80.0 / clefWidth; // 70 - Linux
+//         if ((fontF < 1) || (fontF > 1.25)) {
+//             cFont.setPointSizeF(cFont.pointSizeF() * fontF);
+//             cMetr = QFontMetricsF(cFont);
+//             clefWidth = cMetr.width(QString(QChar(0xe1a7)));
+//         }
         painter.setFont(cFont);
 //    #endif
 //    #if defined(Q_OS_LINUX)
@@ -116,11 +128,11 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
     
   // ALL ACCIDENTALS  
     QFont accFont = QFont("nootka");
-    #if defined (Q_OS_MAC)
-    accFont.setPointSizeF(6.5 * factor);
-    #else    
-    accFont.setPointSizeF(6 * factor * fontF);
-    #endif
+//     #if defined (Q_OS_MAC)
+//     accFont.setPointSizeF(6.5 * factor);
+//     #else    
+    accFont.setPointSizeF(5 * factor * fontF);
+//     #endif
     painter.setFont(accFont);
     QFontMetricsF metrics(accFont);
 //    QRectF rect = metrics.boundingRect(TnoteView::getAccid(1));

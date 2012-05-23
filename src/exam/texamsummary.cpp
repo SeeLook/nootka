@@ -70,9 +70,9 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, QWidget *parent) :
     buttLay->addWidget(okButt);
     buttLay->addWidget(analyseButt);
 
+    leftLay->addStretch(1);
     leftLay->addLayout(buttLay);
 
-//    leftLay->addWidget(okButt, 1, Qt::AlignCenter);
 	lay->addLayout(leftLay);
   
 //-------  right layout -----------------------	
@@ -125,7 +125,8 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, QWidget *parent) :
 	
   setLayout(lay);
   
-  connect(okButt, SIGNAL(clicked()), this, SLOT(accept()));
+  connect(okButt, SIGNAL(clicked()), this, SLOT(close()));
+  connect(analyseButt, SIGNAL(clicked()), this, SLOT(accept()));
   
 }
 

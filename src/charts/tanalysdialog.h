@@ -36,10 +36,11 @@ class TanalysDialog : public QDialog
     Q_OBJECT
     
 public:
-    TanalysDialog(QWidget *parent = 0);
+    TanalysDialog(Texam *exam = 0, QWidget *parent = 0);
     virtual ~TanalysDialog();
     
-    void loadExam(QString &examFile);
+    void loadExam(QString &examFile); // loads exam from given file name
+    void setExam(Texam *exam);  // loads exam from variable
     
 protected slots:
   void testSlot();

@@ -30,7 +30,7 @@
 extern Tglobals *gl;
 
 
-TanalysDialog::TanalysDialog(QWidget *parent) :
+TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
     QDialog(parent),
     m_exam(0),
     m_level(new TexamLevel()),
@@ -73,33 +73,58 @@ TanalysDialog::TanalysDialog(QWidget *parent) :
   
   createActions();
   
-  QTimer::singleShot(100, this, SLOT(testSlot()));
+//   QTimer::singleShot(100, this, SLOT(testSlot()));
+  if (exam) {
+    m_openExamAct->setVisible(false); // hide "open exam file" acction
+    setExam(exam);
+  }
 
 }
 
 TanalysDialog::~TanalysDialog()
-{}
+{
+  // TODO delete exam if was created by TanalysDialog
+}
 
 
 
 //##########  PUBLIC METHODS #####################
+
+void TanalysDialog::setExam(Texam* exam) {
+  if (exam == 0)
+      return;
+  m_exam = exam;
+  m_userLab->setText(m_exam->userName());
+  m_levelLab->setText(m_exam->level()->name);
+
+  if (m_chart) {
+    delete m_chart;
+    m_chart = 0;
+  }
+
+  m_chart = new TmainChart(m_exam, this);
+  m_plotLay->addWidget(m_chart);
+}
+
+
 void TanalysDialog::loadExam(QString& examFile) {
 
     if (m_exam)
         delete m_exam;
     m_exam = new Texam(m_level, "");
     m_exam->loadFromFile(examFile);
-    m_userLab->setText(m_exam->userName());
-    m_levelLab->setText(m_exam->level()->name);
-
-	if (m_chart) {
-		delete m_chart;
-        m_chart = 0;
-	}
-
-	m_chart = new TmainChart(m_exam, this);
-	m_plotLay->addWidget(m_chart);
-    
+    setExam(m_exam);
+//     m_userLab->setText(m_exam->userName());
+//     m_levelLab->setText(m_exam->level()->name);
+// 
+// 	if (m_chart) {
+// 		delete m_chart;
+//         m_chart = 0;
+// 	}
+// 
+// 	m_chart = new TmainChart(m_exam, this);
+// 	m_plotLay->addWidget(m_chart);
+//     
 
 }
 

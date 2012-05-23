@@ -54,7 +54,7 @@ TquestionPoint::TquestionPoint(TmainLine* parent, TQAunit* question):
   if (question->correct())
     m_color = m_goodColor;
   else {
-    if (question->wrongNote())
+    if (question->wrongNote() || question->wrongPos())
       m_color = m_wrongColor;
     else
       m_color = m_notBadColor;
