@@ -191,7 +191,6 @@ if(UNIX AND NOT APPLE) #Linux
         ${QT_QTGUI_LIBRARY}
         ${QTMULTIMEDIA_LIBRARIES}
         ${FFTW3_LIBRARIES}
-#         ${QWT_LIBRARIES}
         ${ALSA_LIBRARY} ${PTHREAD_LIBRARY}
 	)
 endif(UNIX AND NOT APPLE)
@@ -216,7 +215,6 @@ if(APPLE)
         ${QT_QTGUI_LIBRARY}
         ${QTMULTIMEDIA_LIBRARIES}
         ${FFTW3_LIBRARIES}
-#         ${QWT_LIBRARIES}
         ${CoreAudio_LIB}
         ${CoreMidi_LIB}
         ${CoreFoundation_LIB}        
@@ -233,6 +231,10 @@ else(UNIX AND NOT APPLE)
     install(TARGETS nootka DESTINATION .)
   else(WIN32) 			# MacOs
     install(TARGETS nootka BUNDLE DESTINATION ${CMAKE_INSTALL_PREFIX})
+    install( CODE"
+    execute_process(COMMAND echo copying info.plist )
+    execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/packaging/mac/grabInfo.sh ${Nootka_VERSION_FULL} ${CMAKE_SOURCE_DIR} ${CMAKE_INSTALL_PREFIX} )"
+    )
   endif(WIN32)
 endif(UNIX AND NOT APPLE)
 

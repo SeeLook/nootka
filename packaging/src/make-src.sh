@@ -26,6 +26,7 @@ cp -r $SRC_DIR/mime $DST_DIR
 cp -r $SRC_DIR/packaging $DST_DIR
 cp -r $SRC_DIR/picts $DST_DIR
 mkdir $DST_DIR/sounds
+mkdir -p $DST-DIR/.hg/cache
 cp $SRC_DIR/sounds/classical-guitar.wav $DST_DIR/sounds/
 cp -r $SRC_DIR/src $DST_DIR
 cp $SRC_DIR/changelog $DST_DIR
@@ -35,6 +36,7 @@ cp $SRC_DIR/gpl $DST_DIR
 cp $SRC_DIR/README $DST_DIR
 cp $SRC_DIR/TODO $DST_DIR
 cp $SRC_DIR/cmake_uninstall.cmake.in $DST_DIR
+cp $SRC_DIR/.hg/cache/branchheads $DST_DIR/.hg/cache/
 
 tar -cjf $DST_DIR.tar.bz2 $DST_DIR
 

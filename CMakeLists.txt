@@ -5,13 +5,12 @@ find_package(Qt4 REQUIRED)
 INCLUDE( ${QT_USE_FILE} )
 add_definitions(${QT_DEFINITIONS})
 
-#add_subdirectory(src/analyser) # deprecated
 
 include_directories(${QT_INCLUDES})
 
 SET(Nootka_VERSION_MAJOR  "0")
 SET(Nootka_VERSION_MINOR  "8")
-SET(Nootka_VERSION_PATCH  "1-alpha")
+SET(Nootka_VERSION_PATCH  "1-beta")
 
 SET(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
 SET(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
@@ -163,69 +162,6 @@ ELSE(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
 ENDIF(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
 
 include_directories(${FFTW3_INCLUDE_DIRS})
-
-###########################################################################
-########   Looking for qwt
-###########################################################################
-# IF(QWT_LIBRARIES AND QWT_INCLUDE_DIRS)
-#   set(QWT_FOUND TRUE)
-# ELSE(QWT_LIBRARIES AND QWT_INCLUDE_DIRS)
-#   find_path(QWT_INCLUDE_DIR
-#     NAMES
-#       qwt_plot.h
-#     PATHS
-#       /usr/include
-#       /usr/include/qwt
-#       /usr/local/include
-#       /opt/local/include
-#       /sw/include
-#       "${CMAKE_CURRENT_SOURCE_DIR}/qwt"
-#       "${CMAKE_CURRENT_BINARY_DIR}/qwt"
-#   )
-#   IF(WIN32)
-#     find_library(QWT_LIBRARY
-#       NAMES
-#         qwt.dll
-#       PATHS
-#         ${CMAKE_CURRENT_SOURCE_DIR}
-#         ${CMAKE_CURRENT_BINARY_DIR}
-#     )
-#   ELSE(WIN32)
-#     find_library(QWT_LIBRARY
-#       NAMES
-#         qwt
-#       PATHS
-#         /usr/lib
-#         /usr/lib64
-#         /usr/local/lib
-#         /opt/local/lib
-#         /sw/lib
-#         ${CMAKE_CURRENT_BINARY_DIR}
-#         ${CMAKE_CURRENT_SOURCE_DIR}
-#   )
-#   ENDIF(WIN32)
-# 
-#   set(QWT_INCLUDE_DIRS
-#     ${QWT_INCLUDE_DIR}
-#   )
-#   set(QWT_LIBRARIES
-#     ${QWT_LIBRARY}
-# )
-# 
-#   IF(QWT_INCLUDE_DIRS AND QWT_LIBRARIES)
-#      set(QWT_FOUND TRUE)
-#   ENDIF(QWT_INCLUDE_DIRS AND QWT_LIBRARIES)
-# 
-#   IF(QWT_FOUND)
-#       message(STATUS "QWT was Found in:\n${QWT_LIBRARIES}\n${QWT_INCLUDE_DIRS}")
-#   ELSE(QWT_FOUND)
-#       message(FATAL_ERROR "Could not find QWT\nTry call cmake with args:\n-DQWT_LIBRARIES=/path_to/libqwt.la(dll) -DQWT_INCLUDE_DIRS=/path_to_dir_with/qwt_plot.h")
-#   ENDIF(QWT_FOUND)
-# 
-# ENDIF(QWT_LIBRARIES AND QWT_INCLUDE_DIRS)
-# 
-# include_directories(${QWT_INCLUDE_DIRS})
-# 
 
 ###########################################################################
 #libraries and compiller definitions for RtMidi

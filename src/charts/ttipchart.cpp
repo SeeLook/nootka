@@ -49,7 +49,7 @@ QString TtipChart::romanFret(quint8 fret) {
   if (fret >= 0 && fret < 25)
       return fretsList[fret];
   else
-      return "";
+      return QString("");
 }
 
 
@@ -64,7 +64,8 @@ QString TtipChart::insertQMark() {
 }
 
 QString TtipChart::wrapPosToHtml(TfingerPos pos) {
-    return QString("<span style=\"font-size: 25px; font-family: nootka\">%1%2</span>").arg(pos.str()).arg(romanFret(pos.fret()));
+//    return QString("<span style=\"font-size: 25px; font-family: nootka\">%1%2</span>").arg(pos.str()).arg(romanFret(pos.fret()));
+    return QString("<span style=\"font-size: 25px; font-family: nootka\">%1</span><sub style=\"font-size: 30px;\">%2</sub>").arg(pos.str()).arg(pos.fret());
 }
 
 QString TtipChart::wrapPixToHtml(Tnote note, bool clef, TkeySignature key, double factor) {
