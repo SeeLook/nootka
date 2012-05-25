@@ -52,7 +52,7 @@ private:
   QToolBar *m_toolBar;
   QAction *m_openExamAct, *m_closeAct, *m_zoomInAct, *m_zoomOutAct;
   QLabel *m_levelLab, *m_userLab;
-  QComboBox *m_chartListComo;
+  QComboBox *m_chartListCombo;
   
   Tchart *m_chart;
   Texam *m_exam;

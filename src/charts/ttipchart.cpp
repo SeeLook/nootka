@@ -139,18 +139,18 @@ TtipChart::TtipChart(TquestionPoint *point) :
                 txt += QApplication::translate("TtipChart", "Not so bad.") + "<br>";
                 QString misMes = ""; // Message with mistakes
                 if (point->question()->wrongAccid())
-                    misMes = "wrong accidental";
+                    misMes = QApplication::translate("TtipChart", "wrong accidental");
                 if (point->question()->wrongKey()) {
                     if (misMes != "")
                         misMes += ", ";
-                    misMes += "wrong key signature";
+                    misMes += QApplication::translate("TtipChart", "wrong key signature");
                 }
                 if (point->question()->wrongOctave()) {
                     if (misMes != "")
                         misMes += ", ";
                     if (misMes.length() > 25)
                         misMes += "<br>";
-                    misMes += "wrong octave";
+                    misMes += QApplication::translate("TtipChart", "wrong octave");
                 }
                 txt += misMes;
             }

@@ -1,5 +1,9 @@
-    - opening Level Creator from strt exam dialog
+0.8.1 beta
+    - !!! Added analyse of an exam results - first chart !!!
+    - opening Level Creator from starting exam dialog
     - starting exams from Level Creator dialog
+  Under the hood
+    - implementation of chart engine
 
 0.8 final	  
     - added support for MacOs and related issues

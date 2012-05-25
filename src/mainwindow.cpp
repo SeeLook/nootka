@@ -188,6 +188,7 @@ void MainWindow::createActions() {
     
     analyseAct = new QAction(this);
     analyseAct->setIcon(QIcon(gl->path+"picts/charts.png"));
+    analyseAct->setStatusTip(tr("Analyse of an exam results"));
     connect(analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
 
     aboutAct = new QAction(tr("about"), this);
