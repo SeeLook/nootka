@@ -46,16 +46,16 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   lay->addWidget(m_toolBar);
 
   QGridLayout *headLay = new QGridLayout;
-  headLay->addWidget(new QLabel(tr("ordered by:"), this), 0, 0);
-  headLay->addWidget(new QLabel(tr("user name:"), this), 0, 1);
-  headLay->addWidget(new QLabel(tr("level:"), this), 0, 2);
-  m_chartListComo = new QComboBox(this);
-  m_chartListComo->addItem(tr("question number"));
-  headLay->addWidget(m_chartListComo, 1, 0);
+  headLay->addWidget(new QLabel(tr("ordered by:"), this), 0, 0, Qt::AlignCenter);
+  headLay->addWidget(new QLabel(tr("student name:"), this), 0, 1, Qt::AlignCenter);
+  headLay->addWidget(new QLabel(tr("level:"), this), 0, 2, Qt::AlignCenter);
+  m_chartListCombo = new QComboBox(this);
+  m_chartListCombo->addItem(tr("question number"));
+  headLay->addWidget(m_chartListCombo, 1, 0, Qt::AlignCenter);
   m_userLab = new QLabel(" ", this);
-  headLay->addWidget(m_userLab, 1, 1);
+  headLay->addWidget(m_userLab, 1, 1, Qt::AlignCenter);
   m_levelLab = new QLabel(" ", this);
-  headLay->addWidget(m_levelLab, 1, 2);
+  headLay->addWidget(m_levelLab, 1, 2, Qt::AlignCenter);
 
   lay->addLayout(headLay);
 
@@ -161,7 +161,7 @@ void TanalysDialog::createActions() {
 
 void TanalysDialog::loadExamSlot() {
   
-  QString fileName = QFileDialog::getOpenFileName(this, tr("Load an exam's' file"),
+  QString fileName = QFileDialog::getOpenFileName(this, tr("Load an exam file"),
                                QDir::homePath(), TstartExamDlg::examFilterTxt());
   loadExam(fileName);
 

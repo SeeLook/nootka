@@ -58,7 +58,7 @@ void TXaxis::setExam(Texam* exam) {
       }
       ticTips[i] = new QGraphicsTextItem();
       ticTips[i]->setHtml(txt);
-      // Align centrally ticTip content
+      // Aligned centrally ticTip content
       ticTips[i]->setTextWidth(ticTips[i]->boundingRect().width());
       QTextBlockFormat format;
       format.setAlignment(Qt::AlignCenter);
