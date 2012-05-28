@@ -129,33 +129,34 @@ TtipChart::TtipChart(TquestionPoint *point) :
       }
   }
   txt += "<table valign=\"middle\" align=\"center\"><tr><td> " + qS + " </td><td>" + insertQMark() + " </td><td> " + aS + " </td></tr></table>";
-  txt += QString("<span style=\"color: %1;\">").arg(point->color().name());
-  if (point->question()->correct()) {
-    txt += QApplication::translate("TtipChart", "It was good!");
-  } else
-      if (point->question()->wrongNote() || point->question()->wrongPos())
-          txt += QApplication::translate("TtipChart", "Wrong answer!");
-            else {
-                txt += QApplication::translate("TtipChart", "Not so bad.") + "<br>";
-                QString misMes = ""; // Message with mistakes
-                if (point->question()->wrongAccid())
-                    misMes = QApplication::translate("TtipChart", "wrong accidental");
-                if (point->question()->wrongKey()) {
-                    if (misMes != "")
-                        misMes += ", ";
-                    misMes += QApplication::translate("TtipChart", "wrong key signature");
-                }
-                if (point->question()->wrongOctave()) {
-                    if (misMes != "")
-                        misMes += ", ";
-                    if (misMes.length() > 25)
-                        misMes += "<br>";
-                    misMes += QApplication::translate("TtipChart", "wrong octave");
-                }
-                txt += misMes;
-            }
-            
-  txt += "</span><br>";
+//   txt += QString("<span style=\"color: %1;\">").arg(point->color().name());
+//   if (point->question()->correct()) {
+//     txt += QApplication::translate("TtipChart", "It was good!");
+//   } else
+//       if (point->question()->wrongNote() || point->question()->wrongPos())
+//           txt += QApplication::translate("TtipChart", "Wrong answer!");
+//             else {
+//                 txt += QApplication::translate("TtipChart", "Not so bad.") + "<br>";
+//                 QString misMes = ""; // Message with mistakes
+//                 if (point->question()->wrongAccid())
+//                     misMes = QApplication::translate("TtipChart", "wrong accidental");
+//                 if (point->question()->wrongKey()) {
+//                     if (misMes != "")
+//                         misMes += ", ";
+//                     misMes += QApplication::translate("TtipChart", "wrong key signature");
+//                 }
+//                 if (point->question()->wrongOctave()) {
+//                     if (misMes != "")
+//                         misMes += ", ";
+//                     if (misMes.length() > 25)
+//                         misMes += "<br>";
+//                     misMes += QApplication::translate("TtipChart", "wrong octave");
+//                 }
+//                 txt += misMes;
+//             }
+//             
+//   txt += "</span><br>";
+  txt += wasAnswerOKtext(point->question(), point->color());
   txt += TexamView::reactTimeTxt() +
         QString("<span style=\"font-size: 20px\">  %1s</span>").arg((double)point->question()->time / 10.0);
   

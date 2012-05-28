@@ -32,6 +32,7 @@
 #include "texecutorsupply.h"
 #include "taudioout.h"
 #include "tanalysdialog.h"
+#include "tnotepixmap.h"
 #include <QtGui>
 #include <QDebug>
 
@@ -505,25 +506,33 @@ void TexamExecutor::checkAnswer(bool showResults) {
       if (!gl->hintsEnabled || gl->E->autoNextQuest)
           fc = 2; // font size factor to have enought room for text over guitar
       QString answTxt;
-      if (curQ.correct()) { // CORRECT
-          answTxt = QString("<span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EanswerColor.name()).arg(mW->getFontSize()*fc).arg(gl->getBGcolorText(gl->EanswerColor));
-          answTxt += tr("Exelent !!");
-      } else { // WRONG
-          answTxt = QString("<span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EquestionColor.name()).arg(mW->getFontSize()*fc).arg(gl->getBGcolorText(gl->EquestionColor));
-          if (curQ.wrongNote())
-              answTxt += tr("Wrong note.");
-          if (curQ.wrongKey())
-              answTxt += " " + tr("Wrong key signature") + ".";
-          if (curQ.wrongAccid())
-              answTxt += " " + tr("Wrong accidental") + ".";
-          if (curQ.wrongPos())
-              answTxt += " " + tr("Wrong position") + ".";
-          if (curQ.wrongOctave())
-              answTxt += " " + tr("Wrong octave") + ".";
-          if (gl->E->autoNextQuest && gl->E->repeatIncorrect && !m_incorrectRepeated)
-              answTxt += tr("<br>Try again !");
+//       if (curQ.correct()) { // CORRECT
+//           answTxt = QString("<span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EanswerColor.name()).arg(mW->getFontSize()*fc).arg(gl->getBGcolorText(gl->EanswerColor));
+//           answTxt += tr("Exelent !!");
+//       } else { // WRONG
+//           answTxt = QString("<span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EquestionColor.name()).arg(mW->getFontSize()*fc).arg(gl->getBGcolorText(gl->EquestionColor));
+//           if (curQ.wrongNote())
+//               answTxt += tr("Wrong note.");
+//           if (curQ.wrongKey())
+//               answTxt += " " + tr("Wrong key signature") + ".";
+//           if (curQ.wrongAccid())
+//               answTxt += " " + tr("Wrong accidental") + ".";
+//           if (curQ.wrongPos())
+//               answTxt += " " + tr("Wrong position") + ".";
+//           if (curQ.wrongOctave())
+//               answTxt += " " + tr("Wrong octave") + ".";
+//           if (gl->E->autoNextQuest && gl->E->repeatIncorrect && !m_incorrectRepeated)
+//               answTxt += tr("<br>Try again !");
+//       }
+//       answTxt += "</span><br>";
+      if (curQ.correct())
+          answTxt = wasAnswerOKtext(&curQ, gl->EanswerColor, mW->getFontSize()*fc);
+      else {
+        if (curQ.wrongNote() || curQ.wrongPos())
+            answTxt = wasAnswerOKtext(&curQ, gl->EquestionColor, mW->getFontSize()*fc);
+        else
+            answTxt = wasAnswerOKtext(&curQ, Qt::darkMagenta, mW->getFontSize()*fc);
       }
-      answTxt += "</span><br>";
       if (gl->hintsEnabled && !gl->E->autoNextQuest) {
           answTxt += getNextQuestionTxt();
           if (!curQ.correct())
