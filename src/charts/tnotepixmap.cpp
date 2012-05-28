@@ -22,6 +22,7 @@
 #include "tkeysignature.h"
 #include "tkeysignatureview.h"
 #include "tquestionpoint.h"
+#include <tqaunit.h>
 #include <QPainter>
 #include <QApplication>
 #include <QDebug>
@@ -140,4 +141,39 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
     }
     
     return pix;
+}
+
+
+QString wasAnswerOKtext(TQAunit* answer, QColor textColor, int fontSize) {
+    QString txt;
+    if (fontSize != -1)
+        txt = QString("<span style=\"color: %1; font-size: %2px;\">").arg(textColor.name()).arg(fontSize);
+    else
+        txt = QString("<span style=\"color: %1;\">").arg(textColor.name());
+    if (answer->correct()) {
+    txt += QApplication::translate("AnswerText", "It was good!");
+  } else
+      if (answer->wrongNote() || answer->wrongPos())
+          txt += QApplication::translate("AnswerText", "Wrong answer!");
+            else {
+                txt += QApplication::translate("AnswerText", "Not so bad, but:") + "<br>";
+                QString misMes = ""; // Message with mistakes
+                if (answer->wrongAccid())
+                    misMes = QApplication::translate("AnswerText", "wrong accidental");
+                if (answer->wrongKey()) {
+                    if (misMes != "")
+                        misMes += ", ";
+                    misMes += QApplication::translate("AnswerText", "wrong key signature");
+                }
+                if (answer->wrongOctave()) {
+                    if (misMes != "")
+                        misMes += ", ";
+                    if (misMes.length() > 25)
+                        misMes += "<br>";
+                    misMes += QApplication::translate("AnswerText", "wrong octave");
+                }
+                txt += misMes;
+            }
+    txt += "</span><br>";
+    return txt;
 }

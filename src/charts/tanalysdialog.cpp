@@ -46,11 +46,11 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   lay->addWidget(m_toolBar);
 
   QGridLayout *headLay = new QGridLayout;
-  headLay->addWidget(new QLabel(tr("ordered by:"), this), 0, 0, Qt::AlignCenter);
+  headLay->addWidget(new QLabel(tr("ordered by:", "Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc..."), this), 0, 0, Qt::AlignCenter);
   headLay->addWidget(new QLabel(tr("student name:"), this), 0, 1, Qt::AlignCenter);
   headLay->addWidget(new QLabel(tr("level:"), this), 0, 2, Qt::AlignCenter);
   m_chartListCombo = new QComboBox(this);
-  m_chartListCombo->addItem(tr("question number"));
+  m_chartListCombo->addItem(tr("question number", "see coment in 'ordered by:' entry"));
   headLay->addWidget(m_chartListCombo, 1, 0, Qt::AlignCenter);
   m_userLab = new QLabel(" ", this);
   headLay->addWidget(m_userLab, 1, 1, Qt::AlignCenter);
