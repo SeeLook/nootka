@@ -87,7 +87,7 @@ protected slots:
         /** Clears message over the guitar.*/
     void clearMessage();
     void autoRepeatStateChanged(bool enable);
-    void showExamSummary();
+    void showExamSummary(bool cont);
     void showExamHelp();
     void expertAnswersSlot();
     void expertAnswersStateChanged(bool enable);

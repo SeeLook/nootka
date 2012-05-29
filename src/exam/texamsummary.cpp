@@ -30,7 +30,7 @@ QString row2(QString S1, QString S2) {
 }
 
 
-TexamSummary::TexamSummary(Texam* exam, QString &path, QWidget *parent) :
+TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *parent) :
   QDialog(parent)
 {
   QHBoxLayout *lay = new QHBoxLayout();
@@ -62,7 +62,9 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, QWidget *parent) :
     QPushButton *analyseButt = new QPushButton(tr("Analyse"), this);
     analyseButt->setIcon(QIcon(path + "picts/charts.png"));
     analyseButt->setIconSize(QSize(48, 48));
-    QPushButton *okButt = new QPushButton(tr("Close"), this);
+    QPushButton *okButt = new QPushButton(tr("Close"), this); // tr("Continue")
+    if (cont)
+        okButt->setText(tr("Continue"));
     okButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
     okButt->setIconSize(QSize(48, 48));
 

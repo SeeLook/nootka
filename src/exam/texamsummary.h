@@ -23,11 +23,13 @@
 
 class Texam;
 
+
+/** When @param cont is true On button is shown text 'continue' */
 class TexamSummary : public QDialog
 {
   Q_OBJECT
 public:
-  TexamSummary(Texam *exam, QString &path, QWidget *parent = 0);
+  TexamSummary(Texam *exam, QString &path, bool cont = false, QWidget *parent = 0);
   virtual ~TexamSummary();
   
 private:
