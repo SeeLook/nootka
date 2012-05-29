@@ -34,6 +34,7 @@
 #include "tanalysdialog.h"
 #include "tnotepixmap.h"
 #include <QtGui>
+#include <QTextCursor>
 #include <QDebug>
 
 #define WAIT_TIME (600) //[ms]
@@ -98,7 +99,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
                   if (changesMessage != "")
                         QMessageBox::warning(mW, "", changesMessage);
             // ---------- End of checking ----------------------------------
-          showExamSummary();
+          showExamSummary(true);
           mW->examResults->startExam(m_exam->totalTime(), m_exam->count(), m_exam->averageReactonTime(),
                           m_exam->mistakes());
 //           TfingerPos fp(1, 0);
@@ -506,25 +507,6 @@ void TexamExecutor::checkAnswer(bool showResults) {
       if (!gl->hintsEnabled || gl->E->autoNextQuest)
           fc = 2; // font size factor to have enought room for text over guitar
       QString answTxt;
-//       if (curQ.correct()) { // CORRECT
-//           answTxt = QString("<span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EanswerColor.name()).arg(mW->getFontSize()*fc).arg(gl->getBGcolorText(gl->EanswerColor));
-//           answTxt += tr("Exelent !!");
-//       } else { // WRONG
-//           answTxt = QString("<span style=\"color: %1; font-size:%2px; %3\">").arg(gl->EquestionColor.name()).arg(mW->getFontSize()*fc).arg(gl->getBGcolorText(gl->EquestionColor));
-//           if (curQ.wrongNote())
-//               answTxt += tr("Wrong note.");
-//           if (curQ.wrongKey())
-//               answTxt += " " + tr("Wrong key signature") + ".";
-//           if (curQ.wrongAccid())
-//               answTxt += " " + tr("Wrong accidental") + ".";
-//           if (curQ.wrongPos())
-//               answTxt += " " + tr("Wrong position") + ".";
-//           if (curQ.wrongOctave())
-//               answTxt += " " + tr("Wrong octave") + ".";
-//           if (gl->E->autoNextQuest && gl->E->repeatIncorrect && !m_incorrectRepeated)
-//               answTxt += tr("<br>Try again !");
-//       }
-//       answTxt += "</span><br>";
       if (curQ.correct())
           answTxt = wasAnswerOKtext(&curQ, gl->EanswerColor, mW->getFontSize()*fc);
       else {
@@ -780,7 +762,7 @@ void TexamExecutor::stopExamSlot() {
 			m_exam->setAverageReactonTime(mW->examResults->getAverageTime());
       gl->NnameStyleInNoteName = m_glStore.nameStyleInNoteName; // restore to show in user defined style  
       if (!m_goingClosed) // if Nootka is closeing don't show summary 
-          showExamSummary();
+          showExamSummary(false);
 			if (m_exam->saveToFile() == Texam::e_file_OK) {
 #if defined(Q_OS_WIN32)
 				QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
@@ -865,17 +847,30 @@ void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) 
         m_messageItem = new QGraphicsTextItem();
         m_messageItem->hide();
         mW->guitar->scene()->addItem(m_messageItem);
-        if (!gl->GisRightHanded)
+        m_messageItem->setZValue(30);
+        if (!gl->GisRightHanded) {
             m_messageItem->scale(-1, 1);
+        }
     }
-    QString txt = QString("<p align=\"center\" style=\"%1 color: #000;\">")
-            .arg(gl->getBGcolorText(QColor(255, 255, 255, 220)))
-            + htmlText + "</p>";
-    m_messageItem->setZValue(30);
-//    m_messageItem->setHtml(txt); // to make possible calculating text width
-//    m_messageItem->document()->setTextWidth(m_messageItem->document()->size().width());// calc.
-    m_messageItem->document()->setTextWidth(mW->guitar->width() / 3);
-    m_messageItem->setHtml(txt); // now text is able to be centered
+    QString txt = QString("<p style=\"color: #000; %1\">").arg(gl->getBGcolorText(QColor(255, 255, 255, 200))) + htmlText + "</p>";
+
+    m_messageItem->setHtml(txt);
+// center text
+    m_messageItem->setTextWidth(m_messageItem->boundingRect().width());
+    QTextBlockFormat format;
+    format.setAlignment(Qt::AlignCenter);
+    QTextCursor cursor = m_messageItem->textCursor();
+    cursor.select(QTextCursor::Document);
+    cursor.mergeBlockFormat(format);
+    cursor.clearSelection();
+    m_messageItem->setTextCursor(cursor);
+// add shadow
+    QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(this);
+    shadow->setBlurRadius(5);
+    shadow->setOffset(7, 7);
+//    shadow->setColor(TquestionPoint::shadowColor());
+    m_messageItem->setGraphicsEffect(shadow);
+
     bool onRightSide;
     if (curPos.fret() > 0 && curPos.fret() < 11) { // on which widget side
         onRightSide = gl->GisRightHanded;
@@ -910,11 +905,11 @@ void TexamExecutor::autoRepeatStateChanged(bool enable) {
 
 QString TexamExecutor::getNextQuestionTxt() {
     return TexamHelp::toGetQuestTxt() + ":<br>" + TexamHelp::clickSomeButtonTxt(gl->path+"picts/next-icon.png") + ",<br>" +
-                TexamHelp::pressSpaceKey() + "<br>" + TexamHelp::orRightButtTxt();
+                TexamHelp::pressSpaceKey() + " " + TexamHelp::orRightButtTxt();
 }
 
-void TexamExecutor::showExamSummary() {
-  TexamSummary *ES = new TexamSummary(m_exam, gl->path, mW);
+void TexamExecutor::showExamSummary(bool cont) {
+  TexamSummary *ES = new TexamSummary(m_exam, gl->path, cont, mW);
   if (ES->exec() == QDialog::Accepted) {
      TanalysDialog *AD = new TanalysDialog(m_exam, mW);
      AD->exec();
