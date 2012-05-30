@@ -22,6 +22,7 @@
 #include "texam.h"
 #include "texamlevel.h"
 #include "tstartexamdlg.h"
+#include "texamview.h"
 #include "tchart.h"
 #include "tmainchart.h"
 #include "tglobals.h"
@@ -34,7 +35,8 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
     QDialog(parent),
     m_exam(0),
     m_level(new TexamLevel()),
-    m_chart(0)
+    m_chart(0),
+    m_wasExamCreated(false)
 {
  
   setWindowTitle(tr("Analyse of an exam results"));
@@ -56,6 +58,10 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   headLay->addWidget(m_userLab, 1, 1, Qt::AlignCenter);
   m_levelLab = new QLabel(" ", this);
   headLay->addWidget(m_levelLab, 1, 2, Qt::AlignCenter);
+  m_questNrLab = new QLabel(" ", this);
+  headLay->addWidget(m_questNrLab, 0, 3, Qt::AlignCenter);
+  m_effectLab = new QLabel(" ", this);
+  headLay->addWidget(m_effectLab, 1, 3, Qt::AlignCenter);
 
   lay->addLayout(headLay);
 
@@ -78,6 +84,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   
 //   QTimer::singleShot(100, this, SLOT(testSlot()));
   if (exam) {
+    m_wasExamCreated = false;
     m_openExamAct->setVisible(false); // hide "open exam file" acction
     setExam(exam);
   }
@@ -86,7 +93,8 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
 
 TanalysDialog::~TanalysDialog()
 {
-  // TODO delete exam if was created by TanalysDialog
+  if (m_wasExamCreated) // to avoid memory leaks
+    delete m_exam;
 }
 
 
@@ -99,6 +107,7 @@ void TanalysDialog::setExam(Texam* exam) {
   m_exam = exam;
   m_userLab->setText(m_exam->userName());
   m_levelLab->setText(m_exam->level()->name);
+  m_questNrLab->setText();
 
   if (m_chart) {
     delete m_chart;
@@ -115,6 +124,7 @@ void TanalysDialog::loadExam(QString& examFile) {
     if (m_exam)
         delete m_exam;
     m_exam = new Texam(m_level, "");
+    m_wasExamCreated = true; // delete exam in destructor
     m_exam->loadFromFile(examFile);
     setExam(m_exam);
 //     m_userLab->setText(m_exam->userName());

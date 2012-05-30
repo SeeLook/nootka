@@ -6,17 +6,17 @@
     <message>
         <location filename="../src/charts/tnotepixmap.cpp" line="154"/>
         <source>It was good!</source>
-        <translation type="unfinished"></translation>
+        <translation>To bylo dobré!</translation>
     </message>
     <message>
         <location filename="../src/charts/tnotepixmap.cpp" line="157"/>
         <source>Wrong answer!</source>
-        <translation type="unfinished"></translation>
+        <translation>Špatná odpověď!</translation>
     </message>
     <message>
         <location filename="../src/charts/tnotepixmap.cpp" line="159"/>
         <source>Not so bad, but:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nebylo to tak špatné, ale:</translation>
     </message>
     <message>
         <location filename="../src/charts/tnotepixmap.cpp" line="162"/>
@@ -498,7 +498,7 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="191"/>
         <source>Analyse of an exam results</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozbor výsledků zkoušky</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="214"/>
@@ -810,54 +810,54 @@
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="40"/>
         <source>Analyse of an exam results</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozbor výsledků zkoušky</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="49"/>
         <source>ordered by:</source>
         <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
-        <translation type="unfinished"></translation>
+        <translation>Seřazeno podle:</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="50"/>
         <source>student name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Žákovo jméno:</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="51"/>
         <source>level:</source>
-        <translation type="unfinished"></translation>
+        <translation>Úroveň:</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="53"/>
         <source>question number</source>
         <comment>see coment in &apos;ordered by:&apos; entry</comment>
-        <translation type="unfinished"></translation>
+        <translation>Otázka číslo</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="138"/>
         <source>Open an exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevřít zkoušku</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="141"/>
         <source>Close analyser</source>
-        <translation type="unfinished"></translation>
+        <translation>Zavřít analyzátor</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="144"/>
         <source>zoom in</source>
-        <translation type="unfinished"></translation>
+        <translation>Přiblížit</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="147"/>
         <source>zoom out</source>
-        <translation type="unfinished"></translation>
+        <translation>Oddálit</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="164"/>
         <source>Load an exam file</source>
-        <translation type="unfinished"></translation>
+        <translation>Nahrát soubor se zkouškou</translation>
     </message>
 </context>
 <context>
@@ -1000,83 +1000,83 @@
 <context>
     <name>TexamExecutor</name>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="108"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="109"/>
         <source>File: %1 
  is not valid exam file !!!</source>
         <translation>Soubor: %1 
 není platným souborem zkoušky!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="87"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="88"/>
         <source>&lt;b&gt;Exam file seems to be corrupted&lt;/b&gt;&lt;br&gt;Better start new exam on the same level</source>
         <translation>&lt;b&gt;Zdá se, že soubor se zkouškou je poškozený.&lt;/b&gt;&lt;br&gt;Lepší bude začít novou zkoušku na stejné úrovni</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="92"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="93"/>
         <source>Tune of the guitar was changed in this exam !!.&lt;br&gt;Now it is:&lt;br&gt;&lt;b&gt;%1&lt;/b&gt;</source>
         <translation>Zvuk kytary byl v této zkoušce změněn!&lt;br&gt;nyní je to:&lt;br&gt;&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="95"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="96"/>
         <source>&lt;br&gt;&lt;br&gt;This exam requires more frets,&lt;br&gt;so frets number in the guitar will be changed.</source>
         <translation>&lt;br&gt;&lt;br&gt;Tato zkouška vyžaduje více pražců,&lt;br&gt;takže počet pražců kytary bude změněn.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="128"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="129"/>
         <source>An exam requires sound but&lt;br&gt;sound output is not available !!!</source>
         <translation>Zkouška vyžaduje zvuk,&lt;br&gt;ale zvukový výstup není dostupný!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="177"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="178"/>
         <source>repeat prevoius question (backspace)</source>
         <translation>Opakovat předchozí otázku (klávesa Backspace)</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="170"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="171"/>
         <source>next question
 (space %1)</source>
         <translation>Další otázku
 (mezerník %1)</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="183"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="184"/>
         <source>check answer
 (enter %1)</source>
         <translation>Ověřit odpověď
 (klávesa Enter %1)</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="190"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="191"/>
         <source>play sound again</source>
         <translation>Přehrát zvuk znovu</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="197"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="198"/>
         <source>Level &lt;b&gt;%1&lt;b&gt;&lt;br&gt;has no sense till there are no any possible questions to ask.&lt;br&gt;It can be unadjusted to current tune.&lt;br&gt;Repair it in Level Creator and try again.</source>
         <translation>Úroveň &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nemá smysl, protože nemá žádnou otázku, kterou by bylo možné zadat.&lt;br&gt;Může být nenastavena na nynější ladění.&lt;br&gt;Opravte to v tvůrci úrovní a zkuste to znovu.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="263"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="264"/>
         <source>Given note show </source>
         <translation>Ukažte zadanou notu </translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="283"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="284"/>
         <source>Given note name show </source>
         <translation>Ukažte název zadané noty </translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="290"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="291"/>
         <source>Given position show </source>
         <translation>Ukažte zadanou polohu </translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="301"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="302"/>
         <source>Played sound show </source>
         <translation>Ukažte přehraný zvuk </translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="322"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="323"/>
         <source> &lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
         <translation> &lt;b&gt;v tónině %1.&lt;/b&gt;</translation>
@@ -1090,52 +1090,52 @@ není platným souborem zkoušky!</translation>
         <translation type="obsolete">&lt;br&gt;Zkuste to znovu!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="845"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="827"/>
         <source>Save</source>
         <translation>Uložit</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="846"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="828"/>
         <source>Discard</source>
         <translation>Odmítnout</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="625"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="607"/>
         <source>exam started on level</source>
         <translation>Zkouška začala na úrovni</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="768"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="750"/>
         <source>Give an answer first!&lt;br&gt;Then the exam&apos;ll be finished</source>
         <translation>Nejprve odpovězte!&lt;br&gt;Potom bude zkouška dokončena</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="816"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="798"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
         <translation>Pssst... Zkouška trvá.&lt;br&gt;&lt;br&gt;&lt;b&gt;Pokračujte&lt;/b&gt; &lt;br&gt;nebo&lt;br&gt;&lt;b&gt;skončete&lt;/b&gt; pro ověření, uložení a ukončení&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="817"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="799"/>
         <source>Continue</source>
         <translation>Pokračovat</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="818"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="800"/>
         <source>Terminate</source>
         <translation>Ukončit</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="844"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="826"/>
         <source>If You don&apos;t save to file&lt;br&gt;You lost all results !!</source>
         <translation>Pokud soubor neuložíte&lt;br&gt;ztratíte všechny výsledky!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="363"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="364"/>
         <source>Give name of</source>
         <translation>Udejte název</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="142"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="143"/>
         <source>An exam requires sound input but&lt;br&gt;it is not available !!!</source>
         <translation>Zkouška vyžaduje vstup zvuku,&lt;br&gt;ale zvukový vstup není dostupný!</translation>
     </message>
@@ -1144,12 +1144,12 @@ není platným souborem zkoušky!</translation>
         <translation type="obsolete">Úroveň &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nemá smysl, protože nemá žádnou otázku, kterou by bylo možné zadat.&lt;br&gt;Může být nenastavena na nynější ladění.&lt;br&gt;Opravte to v tvůrci úrovní a zkuste to znovu.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="394"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="395"/>
         <source> on &lt;span style=&quot;font-family: nootka; font-size:%1px;&quot;&gt;%2&lt;/span&gt; string.</source>
         <translation> na &lt;span style=&quot;font-family: nootka; font-size:%1px;&quot;&gt;%2&lt;/span&gt; struně.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="403"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="404"/>
         <source>Play or sing given note</source>
         <translation>Zahrajte nebo zazpívejte danou notu</translation>
     </message>
@@ -1174,42 +1174,42 @@ není platným souborem zkoušky!</translation>
         <translation type="obsolete"> Nesprávná poloha.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="539"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="521"/>
         <source>To correct an answer</source>
         <translation>Pro opravu odpovědi</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="624"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="606"/>
         <source>EXAM!!</source>
         <translation>ZKOUŠKA!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="630"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="612"/>
         <source>help</source>
         <translation>Nápověda</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="633"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="615"/>
         <source>stop the exam</source>
         <translation>Zastavit zkoušku</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="799"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="781"/>
         <source>so a pity</source>
         <translation>Jaká škoda</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="808"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="790"/>
         <source>Use %1</source>
         <translation>Použít %1</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="809"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="791"/>
         <source> Don&apos;t use accidentals!</source>
         <translation>Nepoužívat posuvky!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="838"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="820"/>
         <source>Save exam&apos;s results as:</source>
         <translation>Uložit výsledky zkoušky jako:</translation>
     </message>
@@ -1337,7 +1337,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="62"/>
         <source>Analyse</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozebrat</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="65"/>
@@ -1345,42 +1345,47 @@ není platným souborem zkoušky!</translation>
         <translation>Zavřít</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="84"/>
+        <location filename="../src/exam/texamsummary.cpp" line="67"/>
+        <source>Continue</source>
+        <translation>Pokračovat</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamsummary.cpp" line="86"/>
         <source>Results:</source>
         <translation>Výsledky:</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="101"/>
+        <location filename="../src/exam/texamsummary.cpp" line="103"/>
         <source>Kinds of mistakes</source>
         <translation>Druhy omylů</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="104"/>
+        <location filename="../src/exam/texamsummary.cpp" line="106"/>
         <source>Wrong notes</source>
         <translation>Nesprávné noty</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="106"/>
+        <location filename="../src/exam/texamsummary.cpp" line="108"/>
         <source>Wrong accidentals</source>
         <translation>Nesprávné posuvky</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="108"/>
+        <location filename="../src/exam/texamsummary.cpp" line="110"/>
         <source>Wrong key signatures</source>
         <translation>Nesprávná  předznamenání</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="110"/>
+        <location filename="../src/exam/texamsummary.cpp" line="112"/>
         <source>Wrong octaves</source>
         <translation>Nesprávné oktávy</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="112"/>
+        <location filename="../src/exam/texamsummary.cpp" line="114"/>
         <source>Wrong note name-calling</source>
         <translation>Nesprávný název noty</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="115"/>
+        <location filename="../src/exam/texamsummary.cpp" line="117"/>
         <source>Wrong frets or strings</source>
         <translation>Nesprávné pražce nebo struny</translation>
     </message>
@@ -1952,12 +1957,12 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="64"/>
         <source>Create new level</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvořit novou úroveň</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="65"/>
         <source>Dialog window for creating new level&lt;br&gt;will be opened.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bude otevřeno dialogové okno pro vytvoření nové úrovně&lt;br&gt;.</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="72"/>
@@ -2049,12 +2054,12 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/level/levelsettings.cpp" line="41"/>
         <source>Start an exam</source>
-        <translation type="unfinished">Spustit zkoušku</translation>
+        <translation>Spustit zkoušku</translation>
     </message>
     <message>
         <location filename="../src/level/levelsettings.cpp" line="43"/>
         <source>Start an exam on selected level</source>
-        <translation type="unfinished"></translation>
+        <translation>Spustit zkoušku na vybrané úrovni</translation>
     </message>
     <message>
         <location filename="../src/level/levelsettings.h" line="35"/>
