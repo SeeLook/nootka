@@ -51,7 +51,7 @@ protected slots:
 private:
   QToolBar *m_toolBar;
   QAction *m_openExamAct, *m_closeAct, *m_zoomInAct, *m_zoomOutAct;
-  QLabel *m_levelLab, *m_userLab;
+  QLabel *m_levelLab, *m_userLab, *m_effectLab, *m_questNrLab;
   QComboBox *m_chartListCombo;
   
   Tchart *m_chart;
@@ -62,6 +62,8 @@ private:
   
 private:
   void createActions();
+  
+  bool m_wasExamCreated; // true if exam instance was created by TanalysDialog, false when exam was given as param
 
      
     

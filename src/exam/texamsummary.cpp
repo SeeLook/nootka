@@ -62,9 +62,11 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
     QPushButton *analyseButt = new QPushButton(tr("Analyse"), this);
     analyseButt->setIcon(QIcon(path + "picts/charts.png"));
     analyseButt->setIconSize(QSize(48, 48));
-    QPushButton *okButt = new QPushButton(tr("Close"), this); // tr("Continue")
-    if (cont)
+    QPushButton *okButt = new QPushButton(tr("Close"), this);
+    if (cont) {
         okButt->setText(tr("Continue"));
+        okButt->setIcon(QIcon(path + "picts/startExam.png"));
+    }
     okButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
     okButt->setIconSize(QSize(48, 48));
 
