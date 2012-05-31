@@ -808,54 +808,59 @@
 <context>
     <name>TanalysDialog</name>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="51"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="53"/>
         <source>level:</source>
         <translation>poziom:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="40"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="42"/>
         <source>Analyse of an exam results</source>
         <translation>Analiza wyników egzaminu</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="50"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="52"/>
         <source>student name:</source>
         <translation>imię ucznia:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="49"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="51"/>
         <source>ordered by:</source>
         <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
         <translation>kolejność według:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="53"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="55"/>
         <source>question number</source>
         <comment>see coment in &apos;ordered by:&apos; entry</comment>
         <translation>zadawnych pytań</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="138"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="110"/>
+        <source>Questions number:</source>
+        <translation>Liczba pytań:</translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="150"/>
         <source>Open an exam</source>
         <translation>Otwórz egzamin</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="141"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="153"/>
         <source>Close analyser</source>
         <translation>Zamknij   okno analizy</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="144"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="156"/>
         <source>zoom in</source>
         <translation>powiększ</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="147"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="159"/>
         <source>zoom out</source>
         <translation>pomniejsz</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="164"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="176"/>
         <source>Load an exam file</source>
         <translation>Wczytaj plik egzaminu</translation>
     </message>
@@ -1318,42 +1323,42 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>Kontynuuj</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="86"/>
+        <location filename="../src/exam/texamsummary.cpp" line="88"/>
         <source>Results:</source>
         <translation>Wyniki:</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="103"/>
+        <location filename="../src/exam/texamsummary.cpp" line="105"/>
         <source>Kinds of mistakes</source>
         <translation>Rodzaje błędów</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="106"/>
+        <location filename="../src/exam/texamsummary.cpp" line="108"/>
         <source>Wrong notes</source>
         <translation>Nieprawidłowe dźwięki</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="108"/>
+        <location filename="../src/exam/texamsummary.cpp" line="110"/>
         <source>Wrong accidentals</source>
         <translation>Nieprawidłowe znaki</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="110"/>
+        <location filename="../src/exam/texamsummary.cpp" line="112"/>
         <source>Wrong key signatures</source>
         <translation>Nieprawidłowe tonacje</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="112"/>
+        <location filename="../src/exam/texamsummary.cpp" line="114"/>
         <source>Wrong octaves</source>
         <translation>Nieprawidłowe oktawy</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="114"/>
+        <location filename="../src/exam/texamsummary.cpp" line="116"/>
         <source>Wrong note name-calling</source>
         <translation>Nieprawidłowe nazwy nut</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="117"/>
+        <location filename="../src/exam/texamsummary.cpp" line="119"/>
         <source>Wrong frets or strings</source>
         <translation>Nieprawidłowe progi lub struny</translation>
     </message>
