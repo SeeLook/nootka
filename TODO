@@ -1,6 +1,8 @@
 BUGS
     
 
+    effectivenes and formating results - do this in one place !!!
+
 TGLOBALS & TTUNE
     - let setTune has reference Ttune& as parameter
 
