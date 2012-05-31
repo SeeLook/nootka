@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "Nootka"
-!define PRODUCT_VERSION "0.8"
+!define PRODUCT_VERSION "0.8.1-beta"
 !define PRODUCT_PUBLISHER "Nootka"
 !define PRODUCT_WEB_SITE "http://nootka.sf.net"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\nootka.exe"
@@ -50,7 +50,7 @@ SetCompressor lzma
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "Nootka-Setup-0-8.exe"
+OutFile "Nootka-Setup-0-8-1-beta.exe"
 InstallDir "$PROGRAMFILES\Nootka"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
@@ -128,6 +128,9 @@ Section "GrupaGlowna" SEC01
   File "picts\c1-treble_8.png"
   File "picts\check-icon.png"
   File "picts\check.png"
+  File "picts\charts.png"
+  File "picts\zoom-in.png"
+  File "picts\zoom-out.png"
   File "picts\examSettings.png"
   File "picts\expertCorner.png"
   File "picts\fingbg.png"
@@ -236,6 +239,9 @@ Section Uninstall
   Delete "$INSTDIR\picts\examSettings.png"
   Delete "$INSTDIR\picts\check.png"
   Delete "$INSTDIR\picts\check-icon.png"
+  Delete "$INSTDIR\picts\charts.png"
+  Delete "$INSTDIR\picts\zoom-in.png"
+  Delete "$INSTDIR\picts\zoom-out.png"
   Delete "$INSTDIR\picts\c1-treble_8.png"
   Delete "$INSTDIR\picts\c1-trebe.png"
   Delete "$INSTDIR\picts\body.png"
