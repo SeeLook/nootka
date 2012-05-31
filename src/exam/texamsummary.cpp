@@ -66,8 +66,8 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
     if (cont) {
         okButt->setText(tr("Continue"));
         okButt->setIcon(QIcon(path + "picts/startExam.png"));
-    }
-    okButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
+    } else
+        okButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
     okButt->setIconSize(QSize(48, 48));
 
 

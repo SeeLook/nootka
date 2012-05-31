@@ -108,7 +108,8 @@ void TanalysDialog::setExam(Texam* exam) {
   m_userLab->setText(m_exam->userName());
   m_levelLab->setText(m_exam->level()->name);
   m_questNrLab->setText(tr("Questions number:") + QString(" %1").arg(exam->count()) );
-  m_effectLab->setText(TexamView::effectTxt() + QString(": %1%").arg( ( (double)((exam->count() - exam->mistakes())) / (double)exam->count() ) * 100 ));
+  m_effectLab->setText(TexamView::effectTxt() + QString(": %1%")
+                       .arg( qRound(( (double)((exam->count() - exam->mistakes())) / (double)exam->count() ) * 100 )) );
 
   if (m_chart) {
     delete m_chart;

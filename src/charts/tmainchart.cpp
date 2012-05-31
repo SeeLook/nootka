@@ -69,7 +69,10 @@ TmainChart::TmainChart(Texam *exam, QWidget* parent):
   averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime()/10.0),
     xAxis->mapValue(m_exam->count()) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime()/10.0));
   
-  
+  QGraphicsSimpleTextItem *axisUnit = new QGraphicsSimpleTextItem();
+  scene->addItem(axisUnit);
+  axisUnit->setText("[s]");
+  axisUnit->setPos(xAxis->pos().x() + 7, -5);
 }
 
 
