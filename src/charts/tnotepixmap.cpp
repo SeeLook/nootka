@@ -100,8 +100,13 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
     }
     if (clef) {
         painter.setFont(cFont);
+#if defined(Q_OS_WIN32)
+        painter.drawText(QRectF(0, (hiLinePos + 3.4) * factor - cMetr.height() / 2, clefWidth, cMetr.height()),
+                         Qt::AlignCenter, QString(QChar(0xe1a7))); // 4.4
+#else
         painter.drawText(QRectF(0, (hiLinePos + 4) * factor - cMetr.height() / 2, clefWidth, cMetr.height()),
                          Qt::AlignCenter, QString(QChar(0xe1a7))); // 4.4
+#endif
     }
     
   // ALL ACCIDENTALS  
@@ -123,10 +128,17 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
         }
         double accWidth = metrics.width(keyAccidString);
         for (int i = 1; i <= (qAbs(key.value())); i++) {
+#if defined(Q_OS_WIN32)
+            painter.drawText(QRectF( (4 + i*1.7) * factor,
+                                     (TkeySignatureView::getPosOfAccid((7 + ((i)*ff))%8) - 19.5 + hiLinePos) * factor,
+                                     accWidth, metrics.height()),
+                            Qt::AlignCenter, keyAccidString);
+#else
             painter.drawText(QRectF( (4 + i*1.7) * factor,
                                      (TkeySignatureView::getPosOfAccid((7 + ((i)*ff))%8) - 19 + hiLinePos) * factor,
                                      accWidth, metrics.height()),
                             Qt::AlignCenter, keyAccidString);
+#endif
         }
     }    
     // note
@@ -134,10 +146,17 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
     // accidental
     if (note.acidental) {
       double accWidth = metrics.width(accidString);
+#if defined(Q_OS_WIN32)
+        painter.drawText(QRectF((xPosOfNote) * factor - accWidth / 2,
+                                (hiLinePos + noteOffset - 2.5) * factor,
+                                accWidth, metrics.height() ),
+                         Qt::AlignCenter, accidString );
+#else
         painter.drawText(QRectF((xPosOfNote) * factor - accWidth / 2,
                                 (hiLinePos + noteOffset - 2.2) * factor,
                                 accWidth, metrics.height() ),
                          Qt::AlignCenter, accidString );
+#endif
     }
     
     return pix;
