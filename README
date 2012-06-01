@@ -48,7 +48,9 @@ to remove (uninstall)
 3. Download and install QT librares:
 http://qt.nokia.com/downloads/qt-for-open-source-cpp-development-on-mac-os-x/
 
-Now You can go to to Building section
+4. Now You can go to to Building section
+
+5. make install under MacOs generates independent boundle with all needed frameworks inside
 
 
  
