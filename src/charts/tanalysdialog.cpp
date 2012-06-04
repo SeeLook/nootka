@@ -25,6 +25,7 @@
 #include "texamview.h"
 #include "tchart.h"
 #include "tmainchart.h"
+#include "tgraphicstexttip.h"
 #include "tglobals.h"
 
 
@@ -87,6 +88,13 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
     m_wasExamCreated = false;
     m_openExamAct->setVisible(false); // hide "open exam file" acction
     setExam(exam);
+  } else { // show help in tip
+      TgraphicsTextTip *helpTip = new TgraphicsTextTip(tr("Select an exam from file<br>Use CTRL + mouse wheel to resize chart.<br>Drag a cursor to move it."), QColor(0, 255, 0, 100));
+      m_chart->scene->addItem(helpTip);
+      helpTip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
+//       helpTip->setPos((m_chart->width() - helpTip->boundingRect().width()) / 2, 
+//                       (m_chart->height() - helpTip->boundingRect().height()) / 2 );
+      helpTip->setPos(100, 30);
   }
 
 }
