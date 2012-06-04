@@ -1,9 +1,9 @@
-Nootka 0.8
+Nootka 0.8.2
 
 ##########################################################
 #############   Requirements:
 ##########################################################
-- Qt libraries (obviously)
+- Qt libraries (at least 4.7 version)
 - QtMultimedia
   uder Windows and MacOs it is included with Qt/Qt-SDK package
   but under Linux it is separate package:
