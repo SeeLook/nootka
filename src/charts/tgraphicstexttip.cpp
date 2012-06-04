@@ -20,6 +20,8 @@
 #include "tquestionpoint.h"
 #include <QTextBlockFormat>
 #include <QTextCursor>
+#include <QGraphicsEffect>
+#include <QPainter>
 
 
 /* static */
@@ -40,7 +42,14 @@ TgraphicsTextTip::TgraphicsTextTip(QString text, QColor bgColor) :
   QGraphicsTextItem(),
   m_bgColor(bgColor)
 {
-
+  setHtml(text);
+  alignCenter(this);
+  
+  QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(this);
+  shadow->setBlurRadius(5);
+  shadow->setOffset(5, 5);
+  shadow->setColor(TquestionPoint::shadowColor());
+  setGraphicsEffect(shadow);
 }
 
 TgraphicsTextTip::~TgraphicsTextTip() {
@@ -66,4 +75,9 @@ void TgraphicsTextTip::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
 
     QGraphicsTextItem::paint(painter, option, widget);
 
+}
+
+QRectF TgraphicsTextTip::boundingRect() const
+{
+  return QGraphicsTextItem::boundingRect();
 }
