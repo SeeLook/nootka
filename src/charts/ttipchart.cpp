@@ -23,14 +23,9 @@
 #include "tquestionpoint.h"
 #include "tnotename.h"
 #include "tnotepixmap.h"
-#include <QPainter>
-#include <qstyleoption.h>
 #include <QApplication>
-#include <QGraphicsEffect>
-#include <QTextBlockFormat>
-#include <QTextCursor>
 #include <QBuffer>
-#include <QDebug>
+// #include <QDebug>
 
 
 /* static */
@@ -80,7 +75,7 @@ QString TtipChart::wrapPixToHtml(Tnote note, bool clef, TkeySignature key, doubl
 // ###################### CONSTRUCTOR ############################
 
 TtipChart::TtipChart(TquestionPoint *point) :
-    QGraphicsTextItem(),
+    TgraphicsTextTip(),
     m_point(point)
 {
   QString txt = TquestionAsWdg::questionTxt() + " " + qaTypeText(point->question()->questionAs) + "<br>" +
@@ -133,62 +128,14 @@ TtipChart::TtipChart(TquestionPoint *point) :
   txt += TexamView::reactTimeTxt() +
         QString("<span style=\"font-size: 20px\">  %1s</span>").arg((double)point->question()->time / 10.0);
   
+  setBgColor(point->color());
   setHtml(txt);
   
-  setTextWidth(boundingRect().width());
-  QTextBlockFormat format;
-  format.setAlignment(Qt::AlignCenter);
-  QTextCursor cursor = textCursor();
-  cursor.select(QTextCursor::Document);
-  cursor.mergeBlockFormat(format);
-  cursor.clearSelection();
-  setTextCursor(cursor);
-  
-  setZValue(75);
-
-  
+  setZValue(75);  
   setFlag(QGraphicsItem::ItemIgnoresTransformations);
   
-  QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(this);
-  shadow->setBlurRadius(5);
-  shadow->setOffset(5, 5);
-  shadow->setColor(TquestionPoint::shadowColor());
-  setGraphicsEffect(shadow);
 }
 
 TtipChart::~TtipChart() {
 }
-
-
-
-void TtipChart::setPos(QPointF p) {
-  QGraphicsItem::setPos(p);
-}
-
-
-
-void TtipChart::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-    QRectF rect = boundingRect();
-    painter->setPen(Qt::NoPen);
-    painter->setBrush(QBrush(TquestionPoint::bgColor()));
-    painter->drawRoundedRect(rect, 5, 5);
-    QColor startColor = m_point->color();
-    startColor.setAlpha(25);
-    QColor endColor = startColor;
-    endColor.setAlpha(75);
-    QLinearGradient grad(rect.topLeft(), rect.bottomRight());
-    grad.setColorAt(0.1, startColor);
-    grad.setColorAt(0.9, endColor);
-    painter->setBrush(QBrush(grad));
-    painter->drawRoundedRect(rect, 5, 5);
-
-    QGraphicsTextItem::paint(painter, option, widget);
-
-}
-
-QRectF TtipChart::boundingRect() const {
-    return QGraphicsTextItem::boundingRect();
-}
-
-
 

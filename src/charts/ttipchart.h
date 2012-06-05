@@ -19,10 +19,9 @@
 #ifndef TTIPCHART_H
 #define TTIPCHART_H
 
-#include <QGraphicsTextItem>
+#include <tgraphicstexttip.h>
 #include "tqatype.h"
 
-struct stat;
 
 class TquestionPoint;
 class Tnote;
@@ -30,15 +29,21 @@ class TkeySignature;
 class TfingerPos;
 
 /** This clas represent tip displayed when user hovers cursor 
- * over question point in the chart. */
-class TtipChart : public QGraphicsTextItem
+ * over question point in the chart.
+ * It has some usefull ststic methods:
+ * qaTypeText
+ * wrapPixToHtml
+ * wrapPosToHtml
+ * romanFret
+ * fretsList
+ */
+class TtipChart : public TgraphicsTextTip
 {
 
 public:
   TtipChart(TquestionPoint *point);
   virtual ~TtipChart();
   
-  void setPos(QPointF p);
     /** Returns string with kind of question/answer text. */
   static QString qaTypeText(TQAtype::Etype &type);
     /** Returns html sting with note pixmap generated from @param point. */
@@ -52,14 +57,8 @@ public:
     /** List of QStrings with roman representatin of numbers 0-24. */
   static const QString fretsList[25];
   
-  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
-  virtual QRectF boundingRect() const;
-  
-
-
   TquestionPoint *m_point;
 
-  
 };
 
 #endif // TTIPCHART_H

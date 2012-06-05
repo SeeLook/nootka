@@ -25,12 +25,12 @@
 #include "texamlevel.h"
 #include <QList>
 
+class TgraphicsTextTip;
 class QTimer;
 class TexecutorSupply;
 class Texam;
 class MainWindow;
 class QAction;
-class QGraphicsTextItem;
 
     /** This class manages of an exam executing */
 class TexamExecutor : public QObject
@@ -127,7 +127,7 @@ private:
     TglStore m_glStore;
     TanswerRequire m_answRequire;
     bool m_shouldBeTerminated, m_isAnswered, m_incorrectRepeated;
-    QGraphicsTextItem *m_messageItem;
+    TgraphicsTextTip *m_messageItem;
           /** If it is sets to TRUE locks invokeing event of right mouse button.
           * It has to be set before singleShot() method caled on askQuestion() 
           * to avoid user click button and call askQuestion() again during time of delay.*/

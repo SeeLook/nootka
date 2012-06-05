@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -21,10 +21,10 @@
 #include "texam.h"
 #include "tnotename.h"
 #include <texamlevel.h>
+#include "tgraphicstexttip.h"
 #include <QPainter>
 #include <QGraphicsScene>
-#include <QTextBlockFormat>
-#include <QTextCursor>
+
 
 
 TXaxis::TXaxis(Texam* exam) :
@@ -58,16 +58,7 @@ void TXaxis::setExam(Texam* exam) {
       }
       ticTips[i] = new QGraphicsTextItem();
       ticTips[i]->setHtml(txt);
-      // Aligned centrally ticTip content
-      ticTips[i]->setTextWidth(ticTips[i]->boundingRect().width());
-      QTextBlockFormat format;
-      format.setAlignment(Qt::AlignCenter);
-      QTextCursor cursor = ticTips[i]->textCursor();
-      cursor.select(QTextCursor::Document);
-      cursor.mergeBlockFormat(format);
-      cursor.clearSelection();
-      ticTips[i]->setTextCursor(cursor); // done
-
+      TgraphicsTextTip::alignCenter(ticTips[i]);
       scene()->addItem(ticTips[i]);
       ticTips[i]->setPos(pos().x() + mapValue(i+1) - ticTips[i]->boundingRect().width() / 2 , pos().y() + 15);
   }
@@ -79,7 +70,6 @@ void TXaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
     Q_UNUSED(option)
     Q_UNUSED(widget)
       
-//  QRectF rect = boundingRect();
   qreal half = axisWidth /  2.0;
   painter->drawLine(0, half, length(), half);
   drawArrow(painter, QPointF(length(), half), true);
@@ -90,11 +80,6 @@ void TXaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
   int b = length() / m_qWidth -1;
   for (int i=1; i <= b; i++) {
     painter->drawLine(i*m_qWidth, half, i*m_qWidth, half + tickSize);
-//    if (m_exam) {
-//        QString tt = QString("%1.\n%2").arg(i).arg(QString::fromStdString(m_exam->qusetion(i).qa.note.getName()));
-//        QRectF rr = rectBoundText(tt);
-//        painter->drawText(QRectF(i*50 - rr.width()/2, 0, rr.width(), rr.height()*3), Qt::AlignCenter, tt);
-//    }
   }
   
 }
