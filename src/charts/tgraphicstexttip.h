@@ -22,22 +22,34 @@
 #include <qgraphicsitem.h>
 
 
+/** This is baase class for tips. 
+ * It centering html text, paints background rounded rect in given color
+ * and drops shadow. If bgColor is -1 the shadow is on a text.
+*/
 class TgraphicsTextTip : public QGraphicsTextItem
 {
 
 public:
   TgraphicsTextTip(QString text, QColor bgColor = -1);
+  TgraphicsTextTip();
   
   virtual ~TgraphicsTextTip();
   
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
   virtual QRectF boundingRect() const;
   
+      /** Overwrites QGraphicsTextItem method and make given text centered. */
+  void setHtml(QString htmlText);
+  
+      /** Background color of tip */
   QColor bgColor() { return m_bgColor; }
+  void setBgColor(QColor col) { m_bgColor = col; }
   
       /** This method align center content of item.
        * Put text before call it. */
-  static void alignCenter(TgraphicsTextTip *tip);
+  static void alignCenter(QGraphicsTextItem *tip);
+      /** Adds drop shadow with defaults color/blur to an item. */
+  static void setDropShadow(QGraphicsTextItem *tip);
   
 private:
   QColor m_bgColor;

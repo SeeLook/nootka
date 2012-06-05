@@ -33,8 +33,8 @@
 #include "taudioout.h"
 #include "tanalysdialog.h"
 #include "tnotepixmap.h"
+#include "tgraphicstexttip.h"
 #include <QtGui>
-#include <QTextCursor>
 #include <QDebug>
 
 #define WAIT_TIME (600) //[ms]
@@ -710,6 +710,9 @@ void TexamExecutor::restoreAfterExam() {
     
     qApp->removeEventFilter(m_supp);
 
+    if (m_messageItem)
+        delete m_messageItem;
+
     connect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
     connect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     connect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
@@ -844,7 +847,7 @@ void TexamExecutor::repeatSound() {
 
 void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) {
     if (!m_messageItem) {
-        m_messageItem = new QGraphicsTextItem();
+        m_messageItem = new TgraphicsTextTip();
         m_messageItem->hide();
         mW->guitar->scene()->addItem(m_messageItem);
         m_messageItem->setZValue(30);
@@ -852,24 +855,11 @@ void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) 
             m_messageItem->scale(-1, 1);
         }
     }
-    QString txt = QString("<p style=\"color: #000; %1\">").arg(gl->getBGcolorText(QColor(255, 255, 255, 200))) + htmlText + "</p>";
+//     QString txt = QString("<p style=\"color: #000; %1\">").arg(gl->getBGcolorText(QColor(255, 255, 255, 200))) + htmlText + "</p>";
+    QString txt = QString("<p style=\"color: #000;\">") + htmlText + "</p>";
 
+    m_messageItem->setBgColor(QColor(1, 1, 1));
     m_messageItem->setHtml(txt);
-// center text
-    m_messageItem->setTextWidth(m_messageItem->boundingRect().width());
-    QTextBlockFormat format;
-    format.setAlignment(Qt::AlignCenter);
-    QTextCursor cursor = m_messageItem->textCursor();
-    cursor.select(QTextCursor::Document);
-    cursor.mergeBlockFormat(format);
-    cursor.clearSelection();
-    m_messageItem->setTextCursor(cursor);
-// add shadow
-    QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(this);
-    shadow->setBlurRadius(5);
-    shadow->setOffset(7, 7);
-//    shadow->setColor(TquestionPoint::shadowColor());
-    m_messageItem->setGraphicsEffect(shadow);
 
     bool onRightSide;
     if (curPos.fret() > 0 && curPos.fret() < 11) { // on which widget side

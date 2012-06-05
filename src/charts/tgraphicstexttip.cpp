@@ -25,7 +25,7 @@
 
 
 /* static */
-void TgraphicsTextTip::alignCenter(TgraphicsTextTip* tip) {
+void TgraphicsTextTip::alignCenter(QGraphicsTextItem* tip) {
     tip->setTextWidth(tip->boundingRect().width());
     QTextBlockFormat format;
     format.setAlignment(Qt::AlignCenter);
@@ -36,6 +36,20 @@ void TgraphicsTextTip::alignCenter(TgraphicsTextTip* tip) {
     tip->setTextCursor(cursor);
 }
 
+void TgraphicsTextTip::setDropShadow(QGraphicsTextItem* tip) {
+  //NOTE: Be sure that shadow instance is deleted with item - otherwise You get memory leaks
+  QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect();
+  shadow->setBlurRadius(5);
+  shadow->setOffset(5, 5);
+  shadow->setColor(TquestionPoint::shadowColor());
+  tip->setGraphicsEffect(shadow);
+
+}
+
+
+//#############################################################################
+//###################  constructors #########################################
+//#############################################################################
 
 
 TgraphicsTextTip::TgraphicsTextTip(QString text, QColor bgColor) :
@@ -43,18 +57,32 @@ TgraphicsTextTip::TgraphicsTextTip(QString text, QColor bgColor) :
   m_bgColor(bgColor)
 {
   setHtml(text);
+  setDropShadow(this);  
+}
+
+TgraphicsTextTip::TgraphicsTextTip() :
+  QGraphicsTextItem(),
+  m_bgColor(-1)
+{
+  setDropShadow(this);
+}
+
+
+//#############################################################################
+//###################  public ################################################
+//#############################################################################
+
+void TgraphicsTextTip::setHtml(QString htmlText) {
+  QGraphicsTextItem::setHtml(htmlText);
   alignCenter(this);
-  
-  QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(this);
-  shadow->setBlurRadius(5);
-  shadow->setOffset(5, 5);
-  shadow->setColor(TquestionPoint::shadowColor());
-  setGraphicsEffect(shadow);
 }
 
-TgraphicsTextTip::~TgraphicsTextTip() {
 
-}
+//#############################################################################
+//###################  virtual ################################################
+//#############################################################################
+
+TgraphicsTextTip::~TgraphicsTextTip() {}
 
 void TgraphicsTextTip::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
   if (m_bgColor != -1) {

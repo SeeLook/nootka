@@ -89,12 +89,12 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
     m_openExamAct->setVisible(false); // hide "open exam file" acction
     setExam(exam);
   } else { // show help in tip
-      TgraphicsTextTip *helpTip = new TgraphicsTextTip(tr("Select an exam from file<br>Use CTRL + mouse wheel to resize chart.<br>Drag a cursor to move it."), QColor(0, 255, 0, 100));
+      TgraphicsTextTip *helpTip = new TgraphicsTextTip("<br>" + tr("Select an exam from a file<br>Use CTRL + mouse wheel to zoom a chart.<br>Drag a cursor to move the chart.")  + "<br>", TquestionPoint::bgColor());
       m_chart->scene->addItem(helpTip);
       helpTip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
 //       helpTip->setPos((m_chart->width() - helpTip->boundingRect().width()) / 2, 
 //                       (m_chart->height() - helpTip->boundingRect().height()) / 2 );
-      helpTip->setPos(100, 30);
+      helpTip->setPos(200, 80);
   }
 
 }
@@ -135,19 +135,9 @@ void TanalysDialog::loadExam(QString& examFile) {
         delete m_exam;
     m_exam = new Texam(m_level, "");
     m_wasExamCreated = true; // delete exam in destructor
-    m_exam->loadFromFile(examFile);
-    setExam(m_exam);
-//     m_userLab->setText(m_exam->userName());
-//     m_levelLab->setText(m_exam->level()->name);
-// 
-// 	if (m_chart) {
-// 		delete m_chart;
-//         m_chart = 0;
-// 	}
-// 
-// 	m_chart = new TmainChart(m_exam, this);
-// 	m_plotLay->addWidget(m_chart);
-//     
+    if (m_exam->loadFromFile(examFile) == Texam::e_file_OK)
+        setExam(m_exam); // only when file was OK
+
 
 }
 
