@@ -39,8 +39,23 @@ class Tchart : public QGraphicsView
 	friend class TmainLine;
 	
 public:
+    
+    enum EanswersOrder {
+      e_byNumber,
+      e_byNote,
+      e_byFret,
+      e_byAccid,
+      e_byKey,
+      e_byQuestion,
+      e_byAnswer,
+      e_byQuestAndAnsw, // both above
+      e_byStyle,
+      e_byClef
+    };
     Tchart(QWidget* parent = 0);
     virtual ~Tchart();
+    
+    virtual void setAnalyse(EanswersOrder order) {} // prototype only
 
     void zoom(bool in = true); // zoom view, by default zoom in but when false zoom out
     QGraphicsScene *scene;

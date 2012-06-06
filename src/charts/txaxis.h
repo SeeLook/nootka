@@ -21,7 +21,8 @@
 
 #include "tabstractaxis.h"
 
-class Texam;
+class TexamLevel;
+class TQAunit;
 
 /** This is X axis of charts. It represents qustions.
  * Its size is (length) is calcutaled automaticaly by questions number.
@@ -30,10 +31,10 @@ class TXaxis : public TabstractAxis
 {
 
 public:
-  TXaxis(Texam *exam = 0);
+  TXaxis(QList<TQAunit> *answers = 0, TexamLevel *level = 0);
   virtual ~TXaxis();
   
-  void setExam(Texam *exam);
+  void setAnswersList(QList<TQAunit> *answers = 0, TexamLevel *level = 0);
   
 protected:
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
@@ -41,7 +42,9 @@ protected:
   
 private:
   const int m_qWidth; // pixel width of question on the axis
-  Texam *m_exam;
+  QList<TQAunit> *m_answers;
+  TexamLevel *m_level;
+  QList<QGraphicsTextItem*> m_ticTips;
 };
 
 #endif // TXAXIS_H
