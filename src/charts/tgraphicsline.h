@@ -12,63 +12,22 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TANALYSDIALOG_H
-#define TANALYSDIALOG_H
+#ifndef TGRAPHICSLINE_H
+#define TGRAPHICSLINE_H
 
-#include <QDialog>
-
-class Tchart;
-class Texam;
-class QLabel;
-class QComboBox;
-class TexamLevel;
-class QToolBar;
-class QVBoxLayout;
+#include <qgraphicsitem.h>
 
 
-
-class TanalysDialog : public QDialog
+class TgraphicsLine : public QGraphicsLineItem
 {
-    Q_OBJECT
-    
-public:
-    TanalysDialog(Texam *exam = 0, QWidget *parent = 0);
-    virtual ~TanalysDialog();
-    
-    void loadExam(QString &examFile); // loads exam from given file name
-    void setExam(Texam *exam);  // loads exam from variable
-    
-    
-    
-protected slots:
-  void testSlot();
-  void loadExamSlot();
-  void zoomInSlot();
-  void zoomOutSlot();
-  void analyseChanged(int index);
 
-private:
-  QToolBar *m_toolBar;
-  QAction *m_openExamAct, *m_closeAct, *m_zoomInAct, *m_zoomOutAct;
-  QLabel *m_levelLab, *m_userLab, *m_effectLab, *m_questNrLab;
-  QComboBox *m_chartListCombo;
-  
-  Tchart *m_chart;
-  Texam *m_exam;
-  TexamLevel *m_level;
-  QVBoxLayout *m_plotLay;
-  bool m_wasExamCreated; // true if exam instance was created by TanalysDialog, false when exam was given as param
-  
-  
-private:
-  void createActions();
-  
-  
-    
+public:
+TgraphicsLine();
+virtual ~TgraphicsLine();
 };
 
-#endif // TANALYSDIALOG_H
+#endif // TGRAPHICSLINE_H

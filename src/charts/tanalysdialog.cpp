@@ -54,6 +54,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   headLay->addWidget(new QLabel(tr("level:"), this), 0, 2, Qt::AlignCenter);
   m_chartListCombo = new QComboBox(this);
   m_chartListCombo->addItem(tr("question number", "see coment in 'ordered by:' entry"));
+  m_chartListCombo->addItem(tr("note pitch"));
   headLay->addWidget(m_chartListCombo, 1, 0, Qt::AlignCenter);
   m_userLab = new QLabel(" ", this);
   headLay->addWidget(m_userLab, 1, 1, Qt::AlignCenter);
@@ -96,6 +97,8 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
 //                       (m_chart->height() - helpTip->boundingRect().height()) / 2 );
       helpTip->setPos(200, 80);
   }
+  
+  connect(m_chartListCombo, SIGNAL(activated(int)), this, SLOT(analyseChanged(int)) );
 
 }
 
@@ -176,6 +179,21 @@ void TanalysDialog::loadExamSlot() {
   loadExam(fileName);
 
 }
+
+Tchart::EanswersOrder m_order;
+
+void TanalysDialog::analyseChanged(int index) {
+  switch (index) {
+    case 0:
+      m_order = TmainChart::e_byNumber;
+      break;
+    case 1:
+      m_order = TmainChart::e_byNote;
+      break;
+  }
+  m_chart->setAnalyse(m_order);
+}
+
 
 void TanalysDialog::testSlot() {
   QString testFile = "../nootka/test.noo";

@@ -27,14 +27,15 @@
 
 
 
-TXaxis::TXaxis(Texam* exam) :
+TXaxis::TXaxis(QList< TQAunit >* answers, TexamLevel* level) :
   m_qWidth(70)
 {
-  if (exam)
-      setExam(exam);
+  if (answers && level)
+      setAnswersList(answers, level);
   else {
       setLength(100);
-      m_exam = 0;
+      m_answers = 0;
+      m_level = 0;
   }
   axisScale = m_qWidth;
 }
@@ -42,25 +43,29 @@ TXaxis::TXaxis(Texam* exam) :
 TXaxis::~TXaxis()
 {}
 
-void TXaxis::setExam(Texam* exam) {
-  m_exam = exam;
-  setLength(m_qWidth * (m_exam->count()+1));
+
+void TXaxis::setAnswersList(QList< TQAunit >* answers, TexamLevel* level) {
+  m_answers = answers;
+  m_level = level;
+  setLength(m_qWidth * (m_answers->size() + 1));
   update(boundingRect());
-  QGraphicsTextItem *ticTips[m_exam->count()];
-  for (int i = 0; i < m_exam->count(); i++) {
-      QString txt = QString("%1.<br><b>%2</b>").arg(i+1).arg(TnoteName::noteToRichText(m_exam->qusetion(i).qa.note));
-      if (m_exam->level()->useKeySign && 
-        (m_exam->qusetion(i).questionAs == TQAtype::e_asNote || m_exam->qusetion(i).answerAs == TQAtype::e_asNote)) {
-          if (m_exam->qusetion(i).key.isMinor())
-            txt += "<br><i>" + m_exam->qusetion(i).key.getMinorName() + "</i>";
+  m_ticTips.clear();
+  for (int i = 0; i < m_answers->size(); i++) {
+      QString txt = QString("%1.<br><b>%2</b>").arg(i+1).
+      arg(TnoteName::noteToRichText(m_answers->operator[](i).qa.note));
+      if (m_level->useKeySign && 
+        (m_answers->operator[](i).questionAs == TQAtype::e_asNote || m_answers->operator[](i).answerAs == TQAtype::e_asNote)) {
+          if (m_answers->operator[](i).key.isMinor())
+            txt += "<br><i>" + m_answers->operator[](i).key.getMinorName() + "</i>";
           else
-            txt += "<br><i>" + m_exam->qusetion(i).key.getMajorName() + "</i>";
+            txt += "<br><i>" + m_answers->operator[](i).key.getMajorName() + "</i>";
       }
-      ticTips[i] = new QGraphicsTextItem();
-      ticTips[i]->setHtml(txt);
-      TgraphicsTextTip::alignCenter(ticTips[i]);
-      scene()->addItem(ticTips[i]);
-      ticTips[i]->setPos(pos().x() + mapValue(i+1) - ticTips[i]->boundingRect().width() / 2 , pos().y() + 15);
+      QGraphicsTextItem *ticTip = new QGraphicsTextItem();
+      ticTip->setHtml(txt);
+      TgraphicsTextTip::alignCenter(ticTip);
+      scene()->addItem(ticTip);
+      ticTip->setPos(pos().x() + mapValue(i+1) - ticTip->boundingRect().width() / 2 , pos().y() + 15);
+      m_ticTips << ticTip;
   }
 }
 
@@ -73,9 +78,6 @@ void TXaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
   qreal half = axisWidth /  2.0;
   painter->drawLine(0, half, length(), half);
   drawArrow(painter, QPointF(length(), half), true);
-  
-//   if (m_qList->isEmpty()) // for empty questions list draw only axis
-//       return;
   
   int b = length() / m_qWidth -1;
   for (int i=1; i <= b; i++) {

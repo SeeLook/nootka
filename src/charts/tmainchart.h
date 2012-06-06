@@ -34,9 +34,17 @@ public:
   TmainChart(Texam *exam, QWidget* parent = 0);
   virtual ~TmainChart();
   
+  void setAnalyse(EanswersOrder order);
+  
+  void doAnalyseByNumber();
+  void doAnalyseByNote();
+  
+  
+  
 private:
   Texam *m_exam;
   TmainLine *m_mainLine;
+  EanswersOrder m_analysType;
 };
 
 #endif // TMAINCHART_H

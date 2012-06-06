@@ -30,7 +30,7 @@ TmainChart::TmainChart(Texam *exam, QWidget* parent):
 {
   setMouseTracking(true);
   
-  xAxis->setExam(exam);
+  xAxis->setAnswersList(exam->answList(), exam->level());
   
   
 // Determine maximal rection time to prepare Y axis
@@ -78,3 +78,28 @@ TmainChart::TmainChart(Texam *exam, QWidget* parent):
 
 TmainChart::~TmainChart()
 {}
+
+//####################################################################################
+//##################### public method ################################################
+//####################################################################################
+
+void TmainChart::setAnalyse(TmainChart::EanswersOrder order) {
+  switch (order) {
+    case e_byNumber:
+      doAnalyseByNumber();
+      break;
+    case e_byNote:
+      doAnalyseByNote();
+      break;
+  }
+}
+
+void TmainChart::doAnalyseByNumber() {
+
+}
+
+
+void TmainChart::doAnalyseByNote() {
+  
+
+}
