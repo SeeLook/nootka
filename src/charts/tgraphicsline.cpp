@@ -17,14 +17,53 @@
  ***************************************************************************/
 
 #include "tgraphicsline.h"
+#include "tgraphicstexttip.h"
+#include <QGraphicsScene>
+#include <QGraphicsSceneHoverEvent>
+#include <QTimer>
 
-TgraphicsLine::TgraphicsLine()
+TgraphicsLine::TgraphicsLine(QString text) :
+  QGraphicsLineItem(),
+  m_tip(0),
+  m_text(text)
 {
-
+  setAcceptHoverEvents(true);
+  m_delTimer = new QTimer();
+  connect(m_delTimer, SIGNAL(timeout()), this, SLOT(delayedDelete()));
 }
 
 TgraphicsLine::~TgraphicsLine()
 {
-
+  if (m_tip)
+    delete m_tip;
+  delete m_delTimer;
 }
+
+void TgraphicsLine::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
+  if (m_tip || m_text == "")
+        return;
+  m_tip = new TgraphicsTextTip(m_text, pen().color());
+  scene()->addItem(m_tip);
+  m_tip->setZValue(77);
+  m_tip->setPos(event->pos());  
+}
+
+void TgraphicsLine::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
+{
+  if (!m_delTimer->isActive()) {
+        m_delTimer->start(30);
+    }
+}
+
+void TgraphicsLine::delayedDelete() {
+  if (isUnderMouse())
+        return;
+  m_delTimer->stop();
+  if (m_tip) {
+      scene()->removeItem(m_tip);
+      delete m_tip;
+      m_tip = 0;
+  }
+}
+
 

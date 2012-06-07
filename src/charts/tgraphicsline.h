@@ -21,13 +21,33 @@
 
 #include <qgraphicsitem.h>
 
+class TgraphicsTextTip;
 
-class TgraphicsLine : public QGraphicsLineItem
+
+/** This class represents a line on QGraphicsScene 
+ * but it captures hover events and shows description text 
+ * in TgraphicsTextTip. 
+ * When text is empty, events are ignored. */
+class TgraphicsLine : QObject, public QGraphicsLineItem
 {
+  Q_OBJECT
 
 public:
-TgraphicsLine();
-virtual ~TgraphicsLine();
+  TgraphicsLine(QString text = "");
+  virtual ~TgraphicsLine();
+  void setText(QString text) { m_text = text; }
+  
+protected:
+  virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
+  virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+  
+protected slots:
+  void delayedDelete();
+  
+private:
+  QString m_text;
+  TgraphicsTextTip *m_tip;
+  QTimer *m_delTimer;
 };
 
 #endif // TGRAPHICSLINE_H
