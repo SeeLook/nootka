@@ -18,10 +18,12 @@
 
 #include "tmainchart.h"
 #include "texam.h"
+#include <texamview.h>
 #include "tmainline.h"
 #include "txaxis.h"
 #include "tyaxis.h"
 #include "tstafflinechart.h"
+#include "tgraphicsline.h"
 #include <QDebug>
 
 TmainChart::TmainChart(Texam *exam, QWidget* parent): 
@@ -59,7 +61,8 @@ TmainChart::TmainChart(Texam *exam, QWidget* parent):
   }  
   
   m_mainLine = new TmainLine(m_exam, this);
-  QGraphicsLineItem *averLine = new QGraphicsLineItem();
+  TgraphicsLine *averLine = new TgraphicsLine(
+    "<p style=\"font-size: 20px;\">" + TexamView::averAnsverTimeTxt() + QString("<br>%1</p>").arg(m_exam->averageReactonTime()));
   scene->addItem(averLine);
 //   averLine->setLine(QPointF(xAxis->mapValue(1), yAxis->mapValue(m_exam->averageReactonTime()/10.0)),
 //     QPointF(xAxis->mapValue(m_exam->count()), yAxis->mapValue(m_exam->averageReactonTime()/10.0))
