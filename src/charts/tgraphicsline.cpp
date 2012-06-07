@@ -44,6 +44,7 @@ void TgraphicsLine::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
         return;
   m_tip = new TgraphicsTextTip(m_text, pen().color());
   scene()->addItem(m_tip);
+  m_tip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
   m_tip->setZValue(77);
   m_tip->setPos(event->pos());  
 }
