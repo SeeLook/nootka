@@ -26,7 +26,6 @@
 class TtipChart;
 class Tchart;
 class TQAunit;
-class Texam;
 
 
 
@@ -41,7 +40,7 @@ class TmainLine : public QObject
   friend class TquestionPoint;
   
 public:
-  TmainLine(Texam *exam, Tchart *chart);
+  TmainLine(QList<TQAunit> *answers, Tchart *chart);
   virtual ~TmainLine();
   
 protected:
@@ -49,8 +48,8 @@ protected:
   void deleteTip();
   
 private:
-  Texam *m_exam; // Pointer to chart contained this plot
-  Tchart *m_chart;
+  QList<TQAunit> *m_answers; 
+  Tchart *m_chart; // Pointer to chart contained this plot
   QList<TquestionPoint*> m_points; // List of points 
   TquestionPoint *m_curPoint;
   QTimer *m_delTimer;

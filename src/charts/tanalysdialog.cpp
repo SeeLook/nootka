@@ -126,8 +126,7 @@ void TanalysDialog::setExam(Texam* exam) {
     delete m_chart;
     m_chart = 0;
   }
-
-  m_chart = new TmainChart(m_exam, this);
+  m_chart = new TmainChart(m_exam, Tchart::e_byNumber, this);
   m_plotLay->addWidget(m_chart);
 }
 
@@ -183,6 +182,9 @@ void TanalysDialog::loadExamSlot() {
 Tchart::EanswersOrder m_order;
 
 void TanalysDialog::analyseChanged(int index) {
+  if (!m_exam)
+    return; // TODO: Maybe lock m_chartListCombo without some exam loaded
+    
   switch (index) {
     case 0:
       m_order = TmainChart::e_byNumber;
@@ -192,6 +194,13 @@ void TanalysDialog::analyseChanged(int index) {
       break;
   }
   m_chart->setAnalyse(m_order);
+  if (m_chart) {
+    delete m_chart;
+    m_chart = 0;
+  }
+
+  m_chart = new TmainChart(m_exam, m_order, this);
+  m_plotLay->addWidget(m_chart);
 }
 
 

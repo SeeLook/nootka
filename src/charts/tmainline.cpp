@@ -28,8 +28,8 @@
 #include <QDebug>
 #include <QTimer>
 
-TmainLine::TmainLine(Texam* exam, Tchart* chart) :
-  m_exam(exam),
+TmainLine::TmainLine(QList< TQAunit >* answers, Tchart* chart) :
+  m_answers(answers),
   m_chart(chart),
   m_tip(0)
 {
@@ -37,14 +37,14 @@ TmainLine::TmainLine(Texam* exam, Tchart* chart) :
   m_delTimer = new QTimer();
   connect(m_delTimer, SIGNAL(timeout()), this, SLOT(delayedDelete()));
 //  TstaffLineChart *lines[m_exam->count() - 1];
-   QGraphicsLineItem *ll[m_exam->count() - 1];
+   QGraphicsLineItem *ll[m_answers->size() - 1];
   
-  for(int i = 0; i < m_exam->count(); i++) {
+  for(int i = 0; i < m_answers->size(); i++) {
     double xPos = m_chart->xAxis->mapValue(i+1) + m_chart->xAxis->pos().x();
-    m_points <<  new TquestionPoint(this, &m_exam->qusetion(i));
+    m_points <<  new TquestionPoint(this, &m_answers->operator[](i));
     m_chart->scene->addItem(m_points[i]);
     m_points[i]->setZValue(50);
-    m_points[i]->setPos(xPos, m_chart->yAxis->mapValue((double)m_exam->qusetion(i).time / 10.0));
+    m_points[i]->setPos(xPos, m_chart->yAxis->mapValue((double)m_answers->operator[](i).time / 10.0));
     if (i) {
 //      lines[i-1] = new TstaffLineChart();
        ll[i-1] = new QGraphicsLineItem();
