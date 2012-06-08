@@ -22,6 +22,9 @@
 #include "tchart.h"
 
 
+typedef QList<TQAunit*> TanswerListPtr; // definition of TQAunit list type
+
+
 class Texam;
 
 
@@ -31,15 +34,21 @@ class TmainChart : public Tchart
   
 public:
   
-  TmainChart(Texam *exam, QWidget* parent = 0);
+  TmainChart(Texam *exam, EanswersOrder order = e_byNumber, QWidget* parent = 0);
   virtual ~TmainChart();
   
-  void setAnalyse(EanswersOrder order);
+//   void setAnalyse(EanswersOrder order);
   
   void doAnalyseByNumber();
   void doAnalyseByNote();
+      /** Divides given list on lists with correct & almost good answers and wrong ones. */
+  void divideGoodAndBad(QList<TQAunit> *list, TanswerListPtr &goodList, TanswerListPtr &badList);
+      /** Returns the lists of list of the same notes */
+  QList<TanswerListPtr> sortByNote(TanswerListPtr &answList);
   
-  
+private:
+      /** Performs common elements for all kinds of charts. */
+  void prepareChart();
   
 private:
   Texam *m_exam;
