@@ -43,13 +43,17 @@ public:
   
   QList<Tnote> getTheSame(short noteNr, TexamLevel *level = 0);
   double calcAverTime(TanswerListPtr *answers);
+      /** Merges elements of each list ti single list of poiters to TQAunit. */
+  TanswerListPtr mergeListOfLists(QList<TanswerListPtr> &listOfLists);
   
   void doAnalyseByNumber();
   void doAnalyseByNote();
       /** Divides given list on lists with correct & almost good answers and wrong ones. */
   void divideGoodAndBad(QList<TQAunit> *list, TanswerListPtr &goodList, TanswerListPtr &badList);
-      /** Returns the lists of list of the same notes */
+      /** Returns the lists of list of the same notes. 
+       * The last list is a list of ignored answers - no notes eighter in answer nor questions. */
   QList<TanswerListPtr> sortByNote(TanswerListPtr &answList);
+  
   
 private:
       /** Performs common elements for all kinds of charts. */
