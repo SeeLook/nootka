@@ -90,6 +90,61 @@ void TmainChart::setAnalyse(TmainChart::EanswersOrder order) {
   }
 }*/
 
+double TmainChart::calcAverTime(TanswerListPtr* answers) {
+  if (answers->isEmpty())
+    return 0.0;
+  double result = 0.0;
+  for (int i = 0; i < answers->size(); i++)
+    result += answers->operator[](i)->time;
+  return result / answers->size();
+}
+
+QList<Tnote> TmainChart::getTheSame(short int noteNr, TexamLevel* level) {
+  Tnote workNote(noteNr); // natural or sharp by default
+  qDebug() << "main:" << QString::fromStdString(workNote.getName());
+  QList<Tnote> nList;
+  nList << workNote;
+  bool doFlats = true, doDblAcc = true, doSharps = true;
+  if (level){
+    doFlats = level->withFlats;
+    doDblAcc = level->withDblAcc;
+    doSharps = level->withSharps;
+  }
+  Tnote xNote;
+  if (doSharps) {
+    xNote = workNote.showWithSharp();
+    if (workNote != xNote) {
+      nList.prepend(xNote);
+//       qDebug() << QString::fromStdString(xNote.getName());
+    }
+  }
+  if (nList.size() == 1) { // sharp not found
+    if (doDblAcc) {
+      xNote = workNote.showWithDoubleSharp();
+      if (workNote != xNote) {
+        nList.prepend(xNote);
+//         qDebug() << QString::fromStdString(xNote.getName());
+      }
+    }
+  }
+  if (doFlats) {
+    xNote = workNote.showWithFlat();
+    if (workNote != xNote) {
+      nList.append(xNote);
+//       qDebug() << QString::fromStdString(xNote.getName());
+    }
+  }
+  if (doDblAcc && nList.last().acidental != -1) { // flat not found
+    xNote = workNote.showWithDoubleFlat();
+    if (workNote != xNote) {
+      nList.append(xNote);
+//       qDebug() << QString::fromStdString(xNote.getName());
+    }
+  }
+  return nList;
+}
+
+
 void TmainChart::divideGoodAndBad(QList< TQAunit >* list, TanswerListPtr& goodList, TanswerListPtr& badList) {
   for (int i = 0; i < list->size(); i++) {
     if (list->operator[](i).wrongNote() || list->operator[](i).wrongPos())
@@ -103,21 +158,18 @@ void TmainChart::divideGoodAndBad(QList< TQAunit >* list, TanswerListPtr& goodLi
 QList<TanswerListPtr> TmainChart::sortByNote(TanswerListPtr& answList) {
   QList<TanswerListPtr> result;
   qDebug() << (int)m_exam->level()->loNote.getChromaticNrOfNote() << (int)m_exam->level()->hiNote.getChromaticNrOfNote();
-  for (int i = m_exam->level()->loNote.getChromaticNrOfNote(); i <= m_exam->level()->hiNote.getChromaticNrOfNote(); i++) {
-    qDebug() << i;
-    TnotesList notesL = Tnote(i).getTheSameNotes(m_exam->level()->withDblAcc);
-    TnotesList::iterator m = notesL.begin();
-    TanswerListPtr sameNotesList;
-    while( m != notesL.end() ){
-      ++m;
-      sameNotesList.clear();
-      for (int i = 0; i < answList.size(); i++) {
-        if (answList.operator[](i)->qa.note == *(m) )
-          sameNotesList << answList.operator[](i);
+  for (short i = m_exam->level()->loNote.getChromaticNrOfNote(); i <= m_exam->level()->hiNote.getChromaticNrOfNote(); i++) {
+    QList<Tnote> theSame = getTheSame(i, m_exam->level());
+    for (int j = 0; j < theSame.size(); j++) {
+//       qDebug() << QString::fromStdString(theSame[j].getName());
+      TanswerListPtr noteList;
+      for (int k = 0; k < answList.size(); k++) {
+        if (answList.operator[](k)->qa.note == theSame[j])
+          noteList << answList.operator[](k);
       }
-      if (!sameNotesList.isEmpty()) {
-  //       result << al;
-        qDebug() << QString::fromStdString((*m).getName()) << sameNotesList.size();
+      if (!noteList.isEmpty()) {
+        result << noteList;
+        qDebug() << QString::fromStdString(theSame[j].getName()) << noteList.size();
       }
     }
   }
