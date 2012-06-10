@@ -33,7 +33,6 @@ TmainLine::TmainLine(QList< TQAunit >* answers, Tchart* chart) :
   m_chart(chart),
   m_tip(0)
 {
-  
   m_delTimer = new QTimer();
   connect(m_delTimer, SIGNAL(timeout()), this, SLOT(delayedDelete()));
 //  TstaffLineChart *lines[m_exam->count() - 1];
@@ -56,15 +55,50 @@ TmainLine::TmainLine(QList< TQAunit >* answers, Tchart* chart) :
 //      lines[i-1]->setZValue(45);
        ll[i-1]->setZValue(45);
     } 
-  }
-  
-//   qDebug() << m_exam->answList()->operator[](1).time / 10.0;
-  
-
+  }  
 }
+
+TmainLine::TmainLine(QList< QList< TQAunit* > >& listOfLists, Tchart* chart) :
+  m_chart(chart),
+  m_tip(0)
+{
+    m_delTimer = new QTimer();
+    connect(m_delTimer, SIGNAL(timeout()), this, SLOT(delayedDelete()));
+    int ln = 0, cnt = 0;
+    for (int i = 0; i < listOfLists.size(); i++) {
+      ln += listOfLists[i].size();
+    }
+//    QGraphicsLineItem *ll[ln - 1];
+  
+  for(int i = 0; i < listOfLists.size(); i++) {
+    for (int j = 0; j < listOfLists[i].size(); j++) {
+        double xPos = m_chart->xAxis->mapValue(cnt+1) + m_chart->xAxis->pos().x();
+        m_points <<  new TquestionPoint(this, listOfLists[i].operator[](j));
+        m_chart->scene->addItem(m_points[cnt]);
+        m_points[cnt]->setZValue(50);
+        m_points[cnt]->setPos(xPos, m_chart->yAxis->mapValue((double)listOfLists[i].operator[](j)->time / 10.0));
+        if (cnt) {
+         TstaffLineChart *line = new TstaffLineChart();
+//           ll[i-1] = new QGraphicsLineItem();
+//           ll[i-1]->setPen(QPen(QBrush(Qt::blue), 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+          m_chart->scene->addItem(line);
+//           m_chart->scene->addItem(ll[i-1]);
+//           ll[i-1]->setLine(QLineF(m_points[i-1]->pos(), m_points[i]->pos()));
+         line->setLine(m_points[cnt-1]->pos(), m_points[cnt]->pos());
+         line->setZValue(45);
+         m_lines << line;
+//           ll[i-1]->setZValue(45);
+        } 
+        cnt++;
+    }
+  }
+}
+
 
 TmainLine::~TmainLine() {
     delete m_delTimer;
+    m_points.clear(); // clear a scene from deleted elements
+    m_lines.clear();
 }
 
 

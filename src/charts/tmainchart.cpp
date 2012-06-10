@@ -18,13 +18,14 @@
 
 #include "tmainchart.h"
 #include "texam.h"
-#include <texamview.h>
+#include "texamview.h"
 #include "tmainline.h"
 #include "txaxis.h"
 #include "tyaxis.h"
 #include "tstafflinechart.h"
 #include "tgraphicsline.h"
 #include <texamlevel.h>
+#include <tnotename.h>
 #include <QDebug>
 
 TmainChart::TmainChart(Texam* exam, Tchart::EanswersOrder order, QWidget* parent): 
@@ -33,42 +34,57 @@ TmainChart::TmainChart(Texam* exam, Tchart::EanswersOrder order, QWidget* parent
   m_analysType(order)
 {
   setMouseTracking(true);
+
+// Determine maximal rection time to prepare Y axis
+  quint16 maxTime = 0;
+  for(int i = 0; i < m_exam->count(); i++)
+      maxTime = qMax(maxTime, m_exam->qusetion(i).time);
+  yAxis->setMaxValue((double)maxTime / 10.0);
   
   if (m_analysType == e_byNote) {
       TanswerListPtr goodAnsw, badAnsw;
       divideGoodAndBad(m_exam->answList(), goodAnsw, badAnsw);
-      sortByNote(goodAnsw);
+      QList<TanswerListPtr> sortedLists = sortByNote(goodAnsw);
+//       sortedLists.append(sortByNote(badAnsw));
+      xAxis->setAnswersLists(sortedLists, m_exam->level());
+      int ln = 0;
+      for (int i = 0; i < sortedLists.size(); i++)
+        ln += sortedLists[i].size();
+      prepareChart(ln);
+      m_mainLine = new TmainLine(sortedLists, this);
+      int cnt = 1;
+      for (int i = 0; i < sortedLists.size(); i++) {
+        double aTime = calcAverTime(sortedLists[i]) / 10.0;
+        TgraphicsLine *aNoteLine = new TgraphicsLine("<p style=\"font-size: 20px;\">" +
+          TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2 s</p>").arg(tr("for a note ", "average reaction time for...") + "<b>" + TnoteName::noteToRichText(sortedLists[i].operator[](0)->qa.note) + "</b>").arg(aTime));
+        scene->addItem(aNoteLine);
+        aNoteLine->setZValue(20);
+        aNoteLine->setPen(QPen(Qt::yellow, 3));
+        aNoteLine->setLine(xAxis->mapValue(cnt - 0.4) + xAxis->pos().x(), yAxis->mapValue(aTime),
+          xAxis->mapValue(cnt + sortedLists[i].size() -0.6) + xAxis->pos().x(), yAxis->mapValue(aTime));
+        cnt += sortedLists[i].size();
+      }      
       
-      
-  } /*else  */
-    xAxis->setAnswersList(exam->answList(), exam->level());
-    
-  prepareChart();
-  
-// Determine maximal rection time to prepare Y axis
-  quint16 maxTime = 0;
-  for(int i = 0; i < m_exam->count(); i++)
-      maxTime =   qMax(maxTime, m_exam->qusetion(i).time);
-  yAxis->setMaxValue((double)maxTime / 10.0);
+  }   
+
 //   qDebug() << m_exam->userName() << "max time" << (double)maxTime / 10.0;
   
-  
-  m_mainLine = new TmainLine(m_exam->answList(), this);
-  TgraphicsLine *averLine = new TgraphicsLine(
-    "<p style=\"font-size: 20px;\">" + TexamView::averAnsverTimeTxt() + QString("<br>%1</p>").arg(m_exam->averageReactonTime()));
-  scene->addItem(averLine);
+  if (m_analysType == e_byNumber) {
+      xAxis->setAnswersList(exam->answList(), exam->level());
+      prepareChart(m_exam->count());
+      m_mainLine = new TmainLine(m_exam->answList(), this);
+      TgraphicsLine *averLine = new TgraphicsLine("<p style=\"font-size: 20px;\">" +
+          TexamView::averAnsverTimeTxt() + QString("<br>%1 s</p>").arg(m_exam->averageReactonTime()));
+      scene->addItem(averLine);
 //   averLine->setLine(QPointF(xAxis->mapValue(1), yAxis->mapValue(m_exam->averageReactonTime()/10.0)),
 //     QPointF(xAxis->mapValue(m_exam->count()), yAxis->mapValue(m_exam->averageReactonTime()/10.0))
 //   );
-  averLine->setZValue(20);
-  averLine->setPen(QPen(Qt::yellow, 3));
-  averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime()/10.0),
-    xAxis->mapValue(m_exam->count()) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime()/10.0));
+      averLine->setZValue(20);
+      averLine->setPen(QPen(Qt::yellow, 3));
+      averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime()/10.0),
+          xAxis->mapValue(m_exam->count()) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime()/10.0));
+  }
   
-  QGraphicsSimpleTextItem *axisUnit = new QGraphicsSimpleTextItem();
-  scene->addItem(axisUnit);
-  axisUnit->setText("[s]");
-  axisUnit->setPos(xAxis->pos().x() + 7, -5);
 }
 
 
@@ -90,18 +106,18 @@ void TmainChart::setAnalyse(TmainChart::EanswersOrder order) {
   }
 }*/
 
-double TmainChart::calcAverTime(TanswerListPtr* answers) {
-  if (answers->isEmpty())
+double TmainChart::calcAverTime(TanswerListPtr& answers) {
+  if (answers.isEmpty())
     return 0.0;
   double result = 0.0;
-  for (int i = 0; i < answers->size(); i++)
-    result += answers->operator[](i)->time;
-  return result / answers->size();
+  for (int i = 0; i < answers.size(); i++)
+    result += answers.operator[](i)->time;
+  return result / answers.size();
 }
 
 QList<Tnote> TmainChart::getTheSame(short int noteNr, TexamLevel* level) {
   Tnote workNote(noteNr); // natural or sharp by default
-  qDebug() << "main:" << QString::fromStdString(workNote.getName());
+//   qDebug() << "main:" << QString::fromStdString(workNote.getName());
   QList<Tnote> nList;
   nList << workNote;
   bool doFlats = true, doDblAcc = true, doSharps = true;
@@ -157,7 +173,6 @@ void TmainChart::divideGoodAndBad(QList< TQAunit >* list, TanswerListPtr& goodLi
 
 QList<TanswerListPtr> TmainChart::sortByNote(TanswerListPtr& answList) {
   QList<TanswerListPtr> result;
-  TanswerListPtr ignoredList;
   qDebug() << (int)m_exam->level()->loNote.getChromaticNrOfNote() << (int)m_exam->level()->hiNote.getChromaticNrOfNote();
   for (short i = m_exam->level()->loNote.getChromaticNrOfNote(); i <= m_exam->level()->hiNote.getChromaticNrOfNote(); i++) {
     QList<Tnote> theSame = getTheSame(i, m_exam->level());
@@ -165,12 +180,11 @@ QList<TanswerListPtr> TmainChart::sortByNote(TanswerListPtr& answList) {
 //       qDebug() << QString::fromStdString(theSame[j].getName());
       TanswerListPtr noteList;
       for (int k = 0; k < answList.size(); k++) {
-        if (answList.operator[](k)->questionAs == TQAtype::e_asFretPos && 
-          answList.operator[](k)->questionAs == TQAtype::e_asFretPos) // ignore answers without notes
-                  ignoredList << answList.operator[](k);
-        else
-          if (answList.operator[](k)->qa.note == theSame[j])
-              noteList << answList.operator[](k);
+        if (answList.operator[](k)->qa.note == theSame[j] && 
+            !(answList.operator[](k)->questionAs == TQAtype::e_asFretPos && 
+              answList.operator[](k)->questionAs == TQAtype::e_asFretPos)
+          )
+                  noteList << answList.operator[](k);
       }
       if (!noteList.isEmpty()) {
         result << noteList;
@@ -178,8 +192,16 @@ QList<TanswerListPtr> TmainChart::sortByNote(TanswerListPtr& answList) {
       }
     }
   }
-  if (!ignoredList.isEmpty())
-    result << ignoredList; // add ignoredList at the end
+  if (m_exam->level()->questionAs.isFret() && m_exam->level()->answersAs[2].isFret()) {
+      TanswerListPtr ignoredList; // ignore answers without notes
+      for (int k = 0; k < answList.size(); k++)
+            if (answList.operator[](k)->questionAs == TQAtype::e_asFretPos && 
+              answList.operator[](k)->questionAs == TQAtype::e_asFretPos)
+                      ignoredList << answList.operator[](k);
+      if (!ignoredList.isEmpty())
+        result << ignoredList; // add ignoredList at the end
+//           qDebug() << ignoredList.size();
+  }
   return result;
 }
 
@@ -207,10 +229,10 @@ void TmainChart::doAnalyseByNote() {
 //##################### private method ###############################################
 //####################################################################################
 
-void TmainChart::prepareChart() {
+void TmainChart::prepareChart(int maxX) {
   // Grid lines
   QColor lineColor = palette().foreground().color();
-  for(int i = 5; i < m_exam->count(); i++) {
+  for(int i = 5; i < maxX; i++) {
     if (i%5 == 0)
       scene->addLine(xAxis->mapValue(i) + xAxis->pos().x(), 0,
         xAxis->mapValue(i) + xAxis->pos().x(), yAxis->length(), 
@@ -224,7 +246,10 @@ void TmainChart::prepareChart() {
         xAxis->pos().x() + xAxis->length(), listY[i],
                      QPen(QBrush(lineColor), 1, Qt::DashLine));
   }  
-
+  QGraphicsSimpleTextItem *axisUnit = new QGraphicsSimpleTextItem();
+  scene->addItem(axisUnit);
+  axisUnit->setText("[s]");
+  axisUnit->setPos(xAxis->pos().x() + 7, -5);
 
 }
 

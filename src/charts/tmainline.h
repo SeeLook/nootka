@@ -23,6 +23,7 @@
 #include <qlist.h>
 #include "tquestionpoint.h"
 
+class TstaffLineChart;
 class TtipChart;
 class Tchart;
 class TQAunit;
@@ -41,6 +42,7 @@ class TmainLine : public QObject
   
 public:
   TmainLine(QList<TQAunit> *answers, Tchart *chart);
+  TmainLine(QList< QList<TQAunit*> > &listOfLists, Tchart *chart);
   virtual ~TmainLine();
   
 protected:
@@ -50,7 +52,8 @@ protected:
 private:
   QList<TQAunit> *m_answers; 
   Tchart *m_chart; // Pointer to chart contained this plot
-  QList<TquestionPoint*> m_points; // List of points 
+  QList<TquestionPoint*> m_points; // List of points
+  QList<TstaffLineChart*> m_lines; // list of lines betwen points
   TquestionPoint *m_curPoint;
   QTimer *m_delTimer;
   TtipChart *m_tip;

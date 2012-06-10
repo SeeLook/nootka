@@ -46,7 +46,7 @@ void TgraphicsLine::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
   scene()->addItem(m_tip);
   m_tip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
   m_tip->setZValue(77);
-  m_tip->setPos(event->pos());  
+  m_tip->setPos(event->pos().x() - m_tip->boundingRect().width() / 2, event->pos().y());  
 }
 
 void TgraphicsLine::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
