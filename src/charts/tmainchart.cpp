@@ -157,6 +157,7 @@ void TmainChart::divideGoodAndBad(QList< TQAunit >* list, TanswerListPtr& goodLi
 
 QList<TanswerListPtr> TmainChart::sortByNote(TanswerListPtr& answList) {
   QList<TanswerListPtr> result;
+  TanswerListPtr ignoredList;
   qDebug() << (int)m_exam->level()->loNote.getChromaticNrOfNote() << (int)m_exam->level()->hiNote.getChromaticNrOfNote();
   for (short i = m_exam->level()->loNote.getChromaticNrOfNote(); i <= m_exam->level()->hiNote.getChromaticNrOfNote(); i++) {
     QList<Tnote> theSame = getTheSame(i, m_exam->level());
@@ -164,8 +165,12 @@ QList<TanswerListPtr> TmainChart::sortByNote(TanswerListPtr& answList) {
 //       qDebug() << QString::fromStdString(theSame[j].getName());
       TanswerListPtr noteList;
       for (int k = 0; k < answList.size(); k++) {
-        if (answList.operator[](k)->qa.note == theSame[j])
-          noteList << answList.operator[](k);
+        if (answList.operator[](k)->questionAs == TQAtype::e_asFretPos && 
+          answList.operator[](k)->questionAs == TQAtype::e_asFretPos) // ignore answers without notes
+                  ignoredList << answList.operator[](k);
+        else
+          if (answList.operator[](k)->qa.note == theSame[j])
+              noteList << answList.operator[](k);
       }
       if (!noteList.isEmpty()) {
         result << noteList;
@@ -173,7 +178,18 @@ QList<TanswerListPtr> TmainChart::sortByNote(TanswerListPtr& answList) {
       }
     }
   }
+  if (!ignoredList.isEmpty())
+    result << ignoredList; // add ignoredList at the end
   return result;
+}
+
+TanswerListPtr TmainChart::mergeListOfLists(QList<TanswerListPtr>& listOfLists) {
+  TanswerListPtr result;
+  for (int i = 0; i < listOfLists.size(); i++)
+    for (int j = 0; j < listOfLists[i].size(); j++)
+      result << listOfLists[i].operator[](j);
+    
+    return result;
 }
 
 
