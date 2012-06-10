@@ -21,6 +21,8 @@
 
 #include "tchart.h"
 
+class TexamLevel;
+class Tnote;
 
 typedef QList<TQAunit*> TanswerListPtr; // definition of TQAunit list type
 
@@ -38,6 +40,9 @@ public:
   virtual ~TmainChart();
   
 //   void setAnalyse(EanswersOrder order);
+  
+  QList<Tnote> getTheSame(short noteNr, TexamLevel *level = 0);
+  double calcAverTime(TanswerListPtr *answers);
   
   void doAnalyseByNumber();
   void doAnalyseByNote();
