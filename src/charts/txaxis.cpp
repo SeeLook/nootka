@@ -24,6 +24,7 @@
 #include "tgraphicstexttip.h"
 #include <QPainter>
 #include <QGraphicsScene>
+#include <QDebug>
 
 
 
@@ -68,6 +69,38 @@ void TXaxis::setAnswersList(QList< TQAunit >* answers, TexamLevel* level) {
       m_ticTips << ticTip;
   }
 }
+
+void TXaxis::setAnswersLists(QList< QList< TQAunit* > >& listOfLists, TexamLevel* level) {
+  int ln = 0, cnt = 0;
+  m_level = level;
+  for (int i = 0; i < listOfLists.size(); i++) {
+    ln += listOfLists[i].size();
+  }
+  setLength(m_qWidth * (ln + 1));
+  update(boundingRect());
+  m_ticTips.clear();
+  for (int i = 0; i < listOfLists.size(); i++) {
+    for (int j = 0; j < listOfLists[i].size(); j++) {
+      cnt++;
+      QString txt = QString("<b>%1</b>").arg(TnoteName::noteToRichText(listOfLists[i].operator[](j)->qa.note));
+      if (m_level->useKeySign && 
+        (listOfLists[i].operator[](j)->questionAs == TQAtype::e_asNote || 
+        listOfLists[i].operator[](j)->answerAs == TQAtype::e_asNote)) {
+          if (listOfLists[i].operator[](j)->key.isMinor())
+            txt += "<br><i>" + listOfLists[i].operator[](j)->key.getMinorName() + "</i>";
+          else
+            txt += "<br><i>" + listOfLists[i].operator[](j)->key.getMajorName() + "</i>";
+      }
+      QGraphicsTextItem *ticTip = new QGraphicsTextItem();
+      ticTip->setHtml(txt);
+      TgraphicsTextTip::alignCenter(ticTip);
+      scene()->addItem(ticTip);
+      ticTip->setPos(pos().x() + mapValue(cnt) - ticTip->boundingRect().width() / 2 , pos().y() + 15);
+      m_ticTips << ticTip;
+    }
+  }      
+}
+
 
 
 void TXaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {

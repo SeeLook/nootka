@@ -35,7 +35,8 @@ public:
   virtual ~TXaxis();
   
   void setAnswersList(QList<TQAunit> *answers = 0, TexamLevel *level = 0);
-  void setAnswersLists(QList< QList<*TQAunit> > listOfLists, TexamLevel *level = 0);
+  void setAnswersLists(QList< QList<TQAunit*> > &listOfLists, TexamLevel *level = 0);
+  int questWidth() { return m_qWidth; } // pixel width of question on the axis
   
 protected:
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);

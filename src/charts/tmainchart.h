@@ -42,7 +42,7 @@ public:
 //   void setAnalyse(EanswersOrder order);
   
   QList<Tnote> getTheSame(short noteNr, TexamLevel *level = 0);
-  double calcAverTime(TanswerListPtr *answers);
+  double calcAverTime(TanswerListPtr &answers);
       /** Merges elements of each list ti single list of poiters to TQAunit. */
   TanswerListPtr mergeListOfLists(QList<TanswerListPtr> &listOfLists);
   
@@ -57,7 +57,7 @@ public:
   
 private:
       /** Performs common elements for all kinds of charts. */
-  void prepareChart();
+  void prepareChart(int maxX);
   
 private:
   Texam *m_exam;
