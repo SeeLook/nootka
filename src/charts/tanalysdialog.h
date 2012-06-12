@@ -50,11 +50,13 @@ protected slots:
   void loadExamSlot();
   void zoomInSlot();
   void zoomOutSlot();
+  void wrongSeparateSlot();
+  void includeWrongSlot();
   void analyseChanged(int index);
 
 private:
   QToolBar *m_toolBar;
-  QAction *m_openExamAct, *m_closeAct, *m_zoomInAct, *m_zoomOutAct, *m_settAct;
+  QAction *m_openExamAct, *m_closeAct, *m_zoomInAct, *m_zoomOutAct, *m_inclWrongAct, *m_wrongSeparateAct;
   QLabel *m_levelLab, *m_userLab, *m_effectLab, *m_questNrLab;
   QComboBox *m_chartListCombo;
   QMenu *m_menu;

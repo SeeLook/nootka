@@ -160,21 +160,26 @@ void TanalysDialog::createActions() {
     m_zoomOutAct = new QAction(QIcon(gl->path+"picts/zoom-out.png"), tr("zoom out"), this);
     connect(m_zoomOutAct, SIGNAL(triggered()), this, SLOT(zoomOutSlot()));
 
-    QAction *m_inclWrongAct = new QAction(tr("include wrong answ. to chart"), this);
-    m_menu = new QMenu("chert menu", this);
-    m_settAct = new QAction(QIcon(gl->path+"picts/systemsettings.png"), tr("chart settings"), this);
-    QToolButton *m_settButt = new QToolButton(this);
-    m_settButt->addAction(m_settAct);
-//    connect(m_settAct, SIGNAL(triggered()), this, SLOT(settingsSlot()));
+    m_inclWrongAct = new QAction(tr("include wrong answ. time to average"), this);
+    m_inclWrongAct->setCheckable(true);
+    m_wrongSeparateAct = new QAction(tr("show wrong answers separately"), this);
+    m_wrongSeparateAct->setCheckable(true);
+    m_menu = new QMenu("chart menu", this);
+    m_menu->addAction(m_wrongSeparateAct);
     m_menu->addAction(m_inclWrongAct);
-//    m_settAct->setMenu(m_menu);
-//    m_settAct->setMenuRole(QAction::ApplicationSpecificRole);
+    connect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
+    connect(m_inclWrongAct, SIGNAL(changed()), this, SLOT(includeWrongSlot()));
+    
+    QToolButton *m_settButt = new QToolButton(this);
+    m_settButt->setIcon(QIcon(gl->path+"picts/systemsettings.png"));
     m_settButt->setMenu(m_menu);
-//    m_settButt->set
+    m_settButt->setPopupMode(QToolButton::InstantPopup);
+    
+    QWidgetAction* toolButtonAction = new QWidgetAction(this);
+    toolButtonAction->setDefaultWidget(m_settButt);
 
     m_toolBar->addAction(m_openExamAct);
-//    m_toolBar->addAction(m_settAct);
-    m_toolBar->addWidget(m_settButt);
+    m_toolBar->addAction(toolButtonAction);
     m_toolBar->addSeparator();
     m_toolBar->addAction(m_zoomOutAct);
     m_toolBar->addAction(m_zoomInAct);
@@ -229,5 +234,16 @@ void TanalysDialog::zoomInSlot() {
 
 void TanalysDialog::zoomOutSlot() {
     m_chart->zoom(false);
+}
+
+void TanalysDialog::wrongSeparateSlot() {
+  if (m_wrongSeparateAct->isChecked())
+    m_inclWrongAct->setDisabled(true);
+  else
+    m_inclWrongAct->setDisabled(false);
+}
+
+void TanalysDialog::includeWrongSlot() {
+
 }
 
