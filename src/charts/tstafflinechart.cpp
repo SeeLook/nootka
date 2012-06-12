@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "tstafflinechart.h"
+#include "tquestionpoint.h"
 #include <QPainter>
 #include <QGraphicsEffect>
 
@@ -43,6 +44,7 @@ void TstaffLineChart::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
   Q_UNUSED(option)
   Q_UNUSED(widget)
   painter->setRenderHint(QPainter::Antialiasing, true);
+  painter->setPen(QPen(TquestionPoint::shadowColor(), 0.5));
   for(double i = -2.0; i < 3.0; i++) {
     painter->drawLine(0.0, i*DISTANCE, m_vector.x(), m_vector.y() + i*DISTANCE);
   }

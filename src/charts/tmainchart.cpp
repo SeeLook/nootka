@@ -56,7 +56,7 @@ TmainChart::TmainChart(Texam* exam, Tchart::EanswersOrder order, QWidget* parent
       for (int i = 0; i < sortedLists.size(); i++) {
         double aTime = calcAverTime(sortedLists[i]) / 10.0;
         TgraphicsLine *aNoteLine = new TgraphicsLine("<p>" + TexamView::averAnsverTimeTxt() + 
-          QString("<br>%1<br>%2 s</p>").arg(tr("for a note ", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>" + TnoteName::noteToRichText(sortedLists[i].operator[](0)->qa.note) + "</b>").arg(aTime));
+          QString("<br>%1<br>%2 s</p>").arg(tr("for a note:  ", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>" + TnoteName::noteToRichText(sortedLists[i].operator[](0)->qa.note) + "</b>").arg(aTime));
         scene->addItem(aNoteLine);
         aNoteLine->setZValue(46);
         aNoteLine->setPen(QPen(Qt::yellow, 3));
@@ -69,14 +69,12 @@ TmainChart::TmainChart(Texam* exam, Tchart::EanswersOrder order, QWidget* parent
           QGraphicsRectItem *noteBg = new QGraphicsRectItem();
           scene->addItem(noteBg);
           QBrush brush;
-          if (i%2)
-            brush = QBrush(palette().light().color());
-          else
-            brush = QBrush(palette().mid().color());
-          noteBg->setBrush(brush);
-          noteBg->setPen(Qt::NoPen);
-          noteBg->setRect(xAxis->mapValue(cnt), 0, sortedLists[i].size() * xAxis->questWidth(), yAxis->boundingRect().height());
-          noteBg->setZValue(-1);
+          if (i%2) {
+            noteBg->setBrush(QBrush(QColor(0, 255, 0, 30)));
+            noteBg->setPen(Qt::NoPen);
+            noteBg->setRect(xAxis->mapValue(cnt), 0, sortedLists[i].size() * xAxis->questWidth(), yAxis->boundingRect().height());
+            noteBg->setZValue(-1);
+          }
           cnt += sortedLists[i].size();
       }      
   }   
