@@ -20,8 +20,9 @@
 #define TANALYSDIALOG_H
 
 #include <QDialog>
+#include "tchart.h"
 
-class Tchart;
+
 class Texam;
 class QLabel;
 class QComboBox;
@@ -62,6 +63,7 @@ private:
   TexamLevel *m_level;
   QVBoxLayout *m_plotLay;
   bool m_wasExamCreated; // true if exam instance was created by TanalysDialog, false when exam was given as param
+  Tchart::EanswersOrder m_order;
   
   
 private:

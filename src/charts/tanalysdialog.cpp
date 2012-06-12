@@ -37,7 +37,8 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
     m_exam(0),
     m_level(new TexamLevel()),
     m_chart(0),
-    m_wasExamCreated(false)
+    m_wasExamCreated(false),
+    m_order(Tchart::e_byNumber)
 {
  
   setWindowTitle(tr("Analyse of an exam results"));
@@ -126,7 +127,7 @@ void TanalysDialog::setExam(Texam* exam) {
     delete m_chart;
     m_chart = 0;
   }
-  m_chart = new TmainChart(m_exam, Tchart::e_byNumber, this);
+  m_chart = new TmainChart(m_exam, m_order, this);
   m_plotLay->addWidget(m_chart);
 }
 
@@ -179,7 +180,6 @@ void TanalysDialog::loadExamSlot() {
 
 }
 
-Tchart::EanswersOrder m_order;
 
 void TanalysDialog::analyseChanged(int index) {
   if (!m_exam)
