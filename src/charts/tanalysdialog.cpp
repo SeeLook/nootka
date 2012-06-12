@@ -149,23 +149,37 @@ void TanalysDialog::loadExam(QString& examFile) {
 void TanalysDialog::createActions() {
   
     m_openExamAct = new QAction(QIcon(gl->path + "picts/nootka-exam.png"), tr("Open an exam"), this);
-  connect(m_openExamAct, SIGNAL(triggered()), this, SLOT(loadExamSlot()));
+    connect(m_openExamAct, SIGNAL(triggered()), this, SLOT(loadExamSlot()));
 
-  m_closeAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)), tr("Close analyser"), this);
-  connect(m_closeAct, SIGNAL(triggered()), this, SLOT(close()));
+    m_closeAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)), tr("Close analyser"), this);
+    connect(m_closeAct, SIGNAL(triggered()), this, SLOT(close()));
 
-  m_zoomInAct = new QAction(QIcon(gl->path+"picts/zoom-in.png"), tr("zoom in"), this);
-  connect(m_zoomInAct, SIGNAL(triggered()), this, SLOT(zoomInSlot()));
+    m_zoomInAct = new QAction(QIcon(gl->path+"picts/zoom-in.png"), tr("zoom in"), this);
+    connect(m_zoomInAct, SIGNAL(triggered()), this, SLOT(zoomInSlot()));
 
-  m_zoomOutAct = new QAction(QIcon(gl->path+"picts/zoom-out.png"), tr("zoom out"), this);
-  connect(m_zoomOutAct, SIGNAL(triggered()), this, SLOT(zoomOutSlot()));
+    m_zoomOutAct = new QAction(QIcon(gl->path+"picts/zoom-out.png"), tr("zoom out"), this);
+    connect(m_zoomOutAct, SIGNAL(triggered()), this, SLOT(zoomOutSlot()));
 
-  m_toolBar->addAction(m_openExamAct);
-  m_toolBar->addSeparator();
-  m_toolBar->addAction(m_zoomOutAct);
-  m_toolBar->addAction(m_zoomInAct);
-  m_toolBar->addSeparator();
-  m_toolBar->addAction(m_closeAct);
+    QAction *m_inclWrongAct = new QAction(tr("include wrong answ. to chart"), this);
+    m_menu = new QMenu("chert menu", this);
+    m_settAct = new QAction(QIcon(gl->path+"picts/systemsettings.png"), tr("chart settings"), this);
+    QToolButton *m_settButt = new QToolButton(this);
+    m_settButt->addAction(m_settAct);
+//    connect(m_settAct, SIGNAL(triggered()), this, SLOT(settingsSlot()));
+    m_menu->addAction(m_inclWrongAct);
+//    m_settAct->setMenu(m_menu);
+//    m_settAct->setMenuRole(QAction::ApplicationSpecificRole);
+    m_settButt->setMenu(m_menu);
+//    m_settButt->set
+
+    m_toolBar->addAction(m_openExamAct);
+//    m_toolBar->addAction(m_settAct);
+    m_toolBar->addWidget(m_settButt);
+    m_toolBar->addSeparator();
+    m_toolBar->addAction(m_zoomOutAct);
+    m_toolBar->addAction(m_zoomInAct);
+    m_toolBar->addSeparator();
+    m_toolBar->addAction(m_closeAct);
 
 }
 
@@ -216,3 +230,4 @@ void TanalysDialog::zoomInSlot() {
 void TanalysDialog::zoomOutSlot() {
     m_chart->zoom(false);
 }
+

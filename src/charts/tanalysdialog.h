@@ -54,9 +54,10 @@ protected slots:
 
 private:
   QToolBar *m_toolBar;
-  QAction *m_openExamAct, *m_closeAct, *m_zoomInAct, *m_zoomOutAct;
+  QAction *m_openExamAct, *m_closeAct, *m_zoomInAct, *m_zoomOutAct, *m_settAct;
   QLabel *m_levelLab, *m_userLab, *m_effectLab, *m_questNrLab;
   QComboBox *m_chartListCombo;
+  QMenu *m_menu;
   
   Tchart *m_chart;
   Texam *m_exam;
