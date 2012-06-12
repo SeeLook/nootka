@@ -27,3 +27,17 @@ float factor = rect().width() / painter->fontMetrics().width(name);
   painter->setFont(f);
  }
 
+QMenu *menu = new QMenu();
+QAction *testAction = new QAction("test menu item", this);
+menu->addAction(testAction);
+
+QToolButton* toolButton = new QToolButton();
+toolButton->setMenu(menu);
+toolButton->setPopupMode(QToolButton::InstantPopup);
+
+QWidgetAction* toolButtonAction = new QWidgetAction(this);
+toolButtonAction->setDefaultWidget(toolButton);
+
+toolBar->addAction(toolButtonAction);
+
+
