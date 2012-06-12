@@ -55,16 +55,30 @@ TmainChart::TmainChart(Texam* exam, Tchart::EanswersOrder order, QWidget* parent
       int cnt = 1;
       for (int i = 0; i < sortedLists.size(); i++) {
         double aTime = calcAverTime(sortedLists[i]) / 10.0;
-        TgraphicsLine *aNoteLine = new TgraphicsLine("<p style=\"font-size: 20px;\">" +
-          TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2 s</p>").arg(tr("for a note ", "average reaction time for...") + "<b>" + TnoteName::noteToRichText(sortedLists[i].operator[](0)->qa.note) + "</b>").arg(aTime));
+        TgraphicsLine *aNoteLine = new TgraphicsLine("<p>" + TexamView::averAnsverTimeTxt() + 
+          QString("<br>%1<br>%2 s</p>").arg(tr("for a note ", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>" + TnoteName::noteToRichText(sortedLists[i].operator[](0)->qa.note) + "</b>").arg(aTime));
         scene->addItem(aNoteLine);
-        aNoteLine->setZValue(20);
+        aNoteLine->setZValue(46);
         aNoteLine->setPen(QPen(Qt::yellow, 3));
         aNoteLine->setLine(xAxis->mapValue(cnt - 0.4) + xAxis->pos().x(), yAxis->mapValue(aTime),
           xAxis->mapValue(cnt + sortedLists[i].size() -0.6) + xAxis->pos().x(), yAxis->mapValue(aTime));
         cnt += sortedLists[i].size();
+      }
+      cnt = 1;
+      for (int i = 0; i < sortedLists.size(); i++) {
+          QGraphicsRectItem *noteBg = new QGraphicsRectItem();
+          scene->addItem(noteBg);
+          QBrush brush;
+          if (i%2)
+            brush = QBrush(palette().light().color());
+          else
+            brush = QBrush(palette().mid().color());
+          noteBg->setBrush(brush);
+          noteBg->setPen(Qt::NoPen);
+          noteBg->setRect(xAxis->mapValue(cnt), 0, sortedLists[i].size() * xAxis->questWidth(), yAxis->boundingRect().height());
+          noteBg->setZValue(-1);
+          cnt += sortedLists[i].size();
       }      
-      
   }   
 
 //   qDebug() << m_exam->userName() << "max time" << (double)maxTime / 10.0;
@@ -73,8 +87,8 @@ TmainChart::TmainChart(Texam* exam, Tchart::EanswersOrder order, QWidget* parent
       xAxis->setAnswersList(exam->answList(), exam->level());
       prepareChart(m_exam->count());
       m_mainLine = new TmainLine(m_exam->answList(), this);
-      TgraphicsLine *averLine = new TgraphicsLine("<p style=\"font-size: 20px;\">" +
-          TexamView::averAnsverTimeTxt() + QString("<br>%1 s</p>").arg(m_exam->averageReactonTime()));
+      TgraphicsLine *averLine = new TgraphicsLine("<p>" +
+          TexamView::averAnsverTimeTxt() + QString("<br><span style=\"font-size: 20px;\">%1 s</span></p>").arg(m_exam->averageReactonTime() / 10.0));
       scene->addItem(averLine);
 //   averLine->setLine(QPointF(xAxis->mapValue(1), yAxis->mapValue(m_exam->averageReactonTime()/10.0)),
 //     QPointF(xAxis->mapValue(m_exam->count()), yAxis->mapValue(m_exam->averageReactonTime()/10.0))
@@ -173,11 +187,9 @@ void TmainChart::divideGoodAndBad(QList< TQAunit >* list, TanswerListPtr& goodLi
 
 QList<TanswerListPtr> TmainChart::sortByNote(TanswerListPtr& answList) {
   QList<TanswerListPtr> result;
-  qDebug() << (int)m_exam->level()->loNote.getChromaticNrOfNote() << (int)m_exam->level()->hiNote.getChromaticNrOfNote();
   for (short i = m_exam->level()->loNote.getChromaticNrOfNote(); i <= m_exam->level()->hiNote.getChromaticNrOfNote(); i++) {
     QList<Tnote> theSame = getTheSame(i, m_exam->level());
     for (int j = 0; j < theSame.size(); j++) {
-//       qDebug() << QString::fromStdString(theSame[j].getName());
       TanswerListPtr noteList;
       for (int k = 0; k < answList.size(); k++) {
         if (answList.operator[](k)->qa.note == theSame[j] && 
@@ -188,7 +200,7 @@ QList<TanswerListPtr> TmainChart::sortByNote(TanswerListPtr& answList) {
       }
       if (!noteList.isEmpty()) {
         result << noteList;
-        qDebug() << QString::fromStdString(theSame[j].getName()) << noteList.size();
+//         qDebug() << QString::fromStdString(theSame[j].getName()) << noteList.size();
       }
     }
   }

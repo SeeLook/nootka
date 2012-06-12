@@ -18,14 +18,18 @@
 
 #include "tstafflinechart.h"
 #include <QPainter>
+#include <QGraphicsEffect>
 
 
-#define DISTANCE (3)
+#define DISTANCE (2)
 
 TstaffLineChart::TstaffLineChart()
 {
   m_vector.setX(1);
   m_vector.setY(1);
+//   QGraphicsBlurEffect *blur = new QGraphicsBlurEffect();
+//   blur->setBlurRadius(2);
+//   setGraphicsEffect(blur);
 }
 
 void TstaffLineChart::setLine(QPointF from, QPointF to) {
