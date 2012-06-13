@@ -44,23 +44,19 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
   if (m_settings.order == e_byNote) {
       TanswerListPtr goodAnsw, badAnsw;
       QList<TanswerListPtr> sortedLists;
-      int goodSize;
+      int goodSize; // number of lists with good answers
       if (m_settings.separateWrong) {
           divideGoodAndBad(m_exam->answList(), goodAnsw, badAnsw);
           sortedLists = sortByNote(goodAnsw);
-          goodSize = sortedLists.size();
+          goodSize = sortedLists.size(); // number without wrong answers
           sortedLists.append(sortByNote(badAnsw));
       }
       else {
           TanswerListPtr convList = convertToPointers(m_exam->answList());
           sortedLists = sortByNote(convList);
-
+          goodSize = sortedLists.size();
       }
 
-//      int badSize = badAnsw.size();
-
-//      int goodSortedSize = sortedLists.size();
-//       sortedLists.append(sortByNote(badAnsw));
       xAxis->setAnswersLists(sortedLists, m_exam->level());
       int ln = 0;
       for (int i = 0; i < sortedLists.size(); i++)
@@ -68,8 +64,9 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
       prepareChart(ln);
       m_mainLine = new TmainLine(sortedLists, this);
       int cnt = 1;
-      for (int i = 0; i < sortedLists.size(); i++) {
-        double aTime = calcAverTime(sortedLists[i]) / 10.0;
+      // paint lines with average time of all the same notes
+      for (int i = 0; i < goodSize; i++) { // skip wrong answers if separeted
+        double aTime = calcAverTime(sortedLists[i], m_settings.inclWrongAnsw) / 10.0;
         TgraphicsLine *aNoteLine = new TgraphicsLine("<p>" + TexamView::averAnsverTimeTxt() + 
           QString("<br>%1<br>%2 s</p>").arg(tr("for a note:  ", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>" + TnoteName::noteToRichText(sortedLists[i].operator[](0)->qa.note) + "</b>").arg(aTime));
         scene->addItem(aNoteLine);
@@ -80,6 +77,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
         cnt += sortedLists[i].size();
       }
       cnt = 1;
+      // paint highlights under grouped notes
       for (int i = 0; i < sortedLists.size(); i++) {
           QGraphicsRectItem *noteBg = new QGraphicsRectItem();
           scene->addItem(noteBg);
@@ -122,25 +120,21 @@ TmainChart::~TmainChart()
 //####################################################################################
 //##################### public method ################################################
 //####################################################################################
-/*
-void TmainChart::setAnalyse(TmainChart::EanswersOrder order) {
-  switch (order) {
-    case e_byNumber:
-      doAnalyseByNumber();
-      break;
-    case e_byNote:
-      doAnalyseByNote();
-      break;
-  }
-}*/
 
-double TmainChart::calcAverTime(TanswerListPtr& answers) {
+double TmainChart::calcAverTime(TanswerListPtr& answers, bool skipWrong) {
   if (answers.isEmpty())
     return 0.0;
   double result = 0.0;
-  for (int i = 0; i < answers.size(); i++)
-    result += answers.operator[](i)->time;
-  return result / answers.size();
+  int cnt = 0; // number of answers in average
+  for (int i = 0; i < answers.size(); i++) {
+    if (skipWrong && (answers.operator[](i)->wrongNote() || answers.operator[](i)->wrongPos()) ) 
+      continue; // skip wrong answer
+    else {
+      result += answers.operator[](i)->time;
+      cnt++;
+    }
+  }
+  return result / cnt;
 }
 
 QList<Tnote> TmainChart::getTheSame(short int noteNr, TexamLevel* level) {
@@ -231,6 +225,11 @@ QList<TanswerListPtr> TmainChart::sortByNote(TanswerListPtr& answList) {
   return result;
 }
 
+QList< TanswerListPtr > TmainChart::sortByFret(TanswerListPtr& answList) {
+
+}
+
+
 TanswerListPtr TmainChart::mergeListOfLists(QList<TanswerListPtr>& listOfLists) {
   TanswerListPtr result;
   for (int i = 0; i < listOfLists.size(); i++)
@@ -247,15 +246,6 @@ TanswerListPtr TmainChart::convertToPointers(QList<TQAunit> *examList) {
     return result;
 }
 
-void TmainChart::doAnalyseByNumber() {
-
-}
-
-
-void TmainChart::doAnalyseByNote() {
-  
-
-}
 
 //####################################################################################
 //##################### private method ###############################################

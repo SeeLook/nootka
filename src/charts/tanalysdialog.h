@@ -71,8 +71,7 @@ private:
   
 private:
   void createActions();
-  
-  
+  void createChart(Tchart::Tsettings &chartSett);
     
 };
 
