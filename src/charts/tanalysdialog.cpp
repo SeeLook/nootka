@@ -37,13 +37,16 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
     m_exam(0),
     m_level(new TexamLevel()),
     m_chart(0),
-    m_wasExamCreated(false),
-    m_order(Tchart::e_byNumber)
+    m_wasExamCreated(false)
 {
  
   setWindowTitle(tr("Analyse of an exam results"));
   QVBoxLayout *lay = new QVBoxLayout;
   
+  m_chartSetts.inclWrongAnsw = false;
+  m_chartSetts.separateWrong = true;
+  m_chartSetts.order = Tchart::e_byNumber;
+
   lay = new QVBoxLayout;
   
   m_toolBar = new QToolBar("", this);
@@ -127,7 +130,7 @@ void TanalysDialog::setExam(Texam* exam) {
     delete m_chart;
     m_chart = 0;
   }
-  m_chart = new TmainChart(m_exam, m_order, this);
+  m_chart = new TmainChart(m_exam, m_chartSetts, this);
   m_plotLay->addWidget(m_chart);
 }
 
@@ -169,6 +172,8 @@ void TanalysDialog::createActions() {
     m_menu->addAction(m_inclWrongAct);
     connect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
     connect(m_inclWrongAct, SIGNAL(changed()), this, SLOT(includeWrongSlot()));
+    m_wrongSeparateAct->setChecked(m_chartSetts.separateWrong);
+    m_inclWrongAct->setChecked(m_chartSetts.inclWrongAnsw);
     
     QToolButton *m_settButt = new QToolButton(this);
     m_settButt->setIcon(QIcon(gl->path+"picts/systemsettings.png"));
@@ -206,19 +211,19 @@ void TanalysDialog::analyseChanged(int index) {
     
   switch (index) {
     case 0:
-      m_order = TmainChart::e_byNumber;
+      m_chartSetts.order = TmainChart::e_byNumber;
       break;
     case 1:
-      m_order = TmainChart::e_byNote;
+      m_chartSetts.order = TmainChart::e_byNote;
       break;
   }
-  m_chart->setAnalyse(m_order);
+//  m_chart->setAnalyse(m_order);
   if (m_chart) {
     delete m_chart;
     m_chart = 0;
   }
 
-  m_chart = new TmainChart(m_exam, m_order, this);
+  m_chart = new TmainChart(m_exam, m_chartSetts, this);
   m_plotLay->addWidget(m_chart);
 }
 
@@ -237,13 +242,21 @@ void TanalysDialog::zoomOutSlot() {
 }
 
 void TanalysDialog::wrongSeparateSlot() {
-  if (m_wrongSeparateAct->isChecked())
+  if (m_wrongSeparateAct->isChecked()) {
     m_inclWrongAct->setDisabled(true);
-  else
+    m_chartSetts.inclWrongAnsw = true;
+  }
+  else {
     m_inclWrongAct->setDisabled(false);
+    m_chartSetts.inclWrongAnsw = false;
+  }
 }
 
 void TanalysDialog::includeWrongSlot() {
+    if (m_wrongSeparateAct->isChecked())
+        m_chartSetts.separateWrong = true;
+    else
+        m_chartSetts.separateWrong = false;
 
 }
 

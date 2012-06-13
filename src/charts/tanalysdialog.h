@@ -66,7 +66,7 @@ private:
   TexamLevel *m_level;
   QVBoxLayout *m_plotLay;
   bool m_wasExamCreated; // true if exam instance was created by TanalysDialog, false when exam was given as param
-  Tchart::EanswersOrder m_order;
+  Tchart::Tsettings m_chartSetts;
   
   
 private:

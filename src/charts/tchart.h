@@ -52,6 +52,13 @@ public:
       e_byStyle,
       e_byClef
     };
+
+    struct Tsettings {
+        bool inclWrongAnsw; // include wrong answers to average time of sorted group of answers
+        bool separateWrong; // separate wrong answers and correct/almost good ones
+        EanswersOrder order;
+    };
+
     Tchart(QWidget* parent = 0);
     virtual ~Tchart();
     

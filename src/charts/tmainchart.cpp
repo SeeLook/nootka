@@ -28,10 +28,10 @@
 #include <tnotename.h>
 #include <QDebug>
 
-TmainChart::TmainChart(Texam* exam, Tchart::EanswersOrder order, QWidget* parent): 
+TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
   Tchart(parent),
   m_exam(exam),
-  m_analysType(order)
+  m_settings(settings)
 {
   setMouseTracking(true);
 
@@ -41,10 +41,25 @@ TmainChart::TmainChart(Texam* exam, Tchart::EanswersOrder order, QWidget* parent
       maxTime = qMax(maxTime, m_exam->qusetion(i).time);
   yAxis->setMaxValue((double)maxTime / 10.0);
   
-  if (m_analysType == e_byNote) {
+  if (m_settings.order == e_byNote) {
       TanswerListPtr goodAnsw, badAnsw;
-      divideGoodAndBad(m_exam->answList(), goodAnsw, badAnsw);
-      QList<TanswerListPtr> sortedLists = sortByNote(goodAnsw);
+      QList<TanswerListPtr> sortedLists;
+      int goodSize;
+      if (m_settings.separateWrong) {
+          divideGoodAndBad(m_exam->answList(), goodAnsw, badAnsw);
+          sortedLists = sortByNote(goodAnsw);
+          goodSize = sortedLists.size();
+          sortedLists.append(sortByNote(badAnsw));
+      }
+      else {
+          TanswerListPtr convList = convertToPointers(m_exam->answList());
+          sortedLists = sortByNote(convList);
+
+      }
+
+//      int badSize = badAnsw.size();
+
+//      int goodSortedSize = sortedLists.size();
 //       sortedLists.append(sortByNote(badAnsw));
       xAxis->setAnswersLists(sortedLists, m_exam->level());
       int ln = 0;
@@ -68,9 +83,10 @@ TmainChart::TmainChart(Texam* exam, Tchart::EanswersOrder order, QWidget* parent
       for (int i = 0; i < sortedLists.size(); i++) {
           QGraphicsRectItem *noteBg = new QGraphicsRectItem();
           scene->addItem(noteBg);
-          QBrush brush;
+          QColor hiCol = palette().highlight().color();
+          hiCol.setAlpha(30);
           if (i%2) {
-            noteBg->setBrush(QBrush(QColor(0, 255, 0, 30)));
+            noteBg->setBrush(QBrush(hiCol));
             noteBg->setPen(Qt::NoPen);
             noteBg->setRect(xAxis->mapValue(cnt), 0, sortedLists[i].size() * xAxis->questWidth(), yAxis->boundingRect().height());
             noteBg->setZValue(-1);
@@ -81,7 +97,7 @@ TmainChart::TmainChart(Texam* exam, Tchart::EanswersOrder order, QWidget* parent
 
 //   qDebug() << m_exam->userName() << "max time" << (double)maxTime / 10.0;
   
-  if (m_analysType == e_byNumber) {
+  if (m_settings.order == e_byNumber) {
       xAxis->setAnswersList(exam->answList(), exam->level());
       prepareChart(m_exam->count());
       m_mainLine = new TmainLine(m_exam->answList(), this);
@@ -224,6 +240,12 @@ TanswerListPtr TmainChart::mergeListOfLists(QList<TanswerListPtr>& listOfLists) 
     return result;
 }
 
+TanswerListPtr TmainChart::convertToPointers(QList<TQAunit> *examList) {
+    TanswerListPtr result;
+    for (int i = 0; i< examList->size(); i++)
+        result << &examList->operator [](i);
+    return result;
+}
 
 void TmainChart::doAnalyseByNumber() {
 
