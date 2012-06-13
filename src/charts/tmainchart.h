@@ -36,7 +36,7 @@ class TmainChart : public Tchart
   
 public:
   
-  TmainChart(Texam *exam, EanswersOrder order = e_byNumber, QWidget* parent = 0);
+  TmainChart(Texam *exam, Tsettings &settings, QWidget* parent = 0);
   virtual ~TmainChart();
   
 //   void setAnalyse(EanswersOrder order);
@@ -45,6 +45,7 @@ public:
   double calcAverTime(TanswerListPtr &answers);
       /** Merges elements of each list ti single list of poiters to TQAunit. */
   TanswerListPtr mergeListOfLists(QList<TanswerListPtr> &listOfLists);
+  TanswerListPtr convertToPointers(QList<TQAunit> *examList);
   
   void doAnalyseByNumber();
   void doAnalyseByNote();
@@ -62,7 +63,7 @@ private:
 private:
   Texam *m_exam;
   TmainLine *m_mainLine;
-  EanswersOrder m_analysType;
+  Tsettings &m_settings;
 };
 
 #endif // TMAINCHART_H
