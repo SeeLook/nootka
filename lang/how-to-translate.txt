@@ -1,0 +1,20 @@
+********************************************************************
+	HOW TO TRANSLATE NOOTKA
+********************************************************************
+
+
+Welcome !!!
+Nice that You glimped here :-)
+
+=====================================================================
+This process is very easy and doesn't require any programming skills,
+ only some time and a bit of patience.
+=====================================================================
+
+
+I) Recommended method - install Qt Linquist
+
+II) Alternate method - work in text editor
+    1. MS NotePad is good for nothing so first got some editor with syntax hightlight
+       f.e. Notepad++
+    2. 

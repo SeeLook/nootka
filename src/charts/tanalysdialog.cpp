@@ -42,7 +42,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
  
   setWindowTitle(tr("Analyse of an exam results"));
   QVBoxLayout *lay = new QVBoxLayout;
-  
+// default chart presets
   m_chartSetts.inclWrongAnsw = false;
   m_chartSetts.separateWrong = true;
   m_chartSetts.order = Tchart::e_byNumber;
@@ -71,10 +71,9 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
 
   lay->addLayout(headLay);
 
-  m_chart = new Tchart(this);
-  lay->addWidget(m_chart);
   m_plotLay = new QVBoxLayout;
   lay->addLayout(m_plotLay);
+  createChart(m_chartSetts);
   
   setLayout(lay);
   
@@ -125,32 +124,27 @@ void TanalysDialog::setExam(Texam* exam) {
   m_questNrLab->setText(tr("Questions number:") + QString(" %1").arg(exam->count()) );
   m_effectLab->setText(TexamView::effectTxt() + QString(": %1%")
                        .arg( qRound(( (double)((exam->count() - exam->mistakes())) / (double)exam->count() ) * 100 )) );
-
-  if (m_chart) {
-    delete m_chart;
-    m_chart = 0;
-  }
-  m_chart = new TmainChart(m_exam, m_chartSetts, this);
-  m_plotLay->addWidget(m_chart);
+  createChart(m_chartSetts);
 }
 
 
 void TanalysDialog::loadExam(QString& examFile) {
-
     if (m_exam)
         delete m_exam;
     m_exam = new Texam(m_level, "");
     m_wasExamCreated = true; // delete exam in destructor
     if (m_exam->loadFromFile(examFile) == Texam::e_file_OK)
         setExam(m_exam); // only when file was OK
-
-
+    else {
+      delete m_exam;
+      m_exam = 0;
+    }
+      
 }
 
 //##########  PRIVATE METHODS #####################
 
 void TanalysDialog::createActions() {
-  
     m_openExamAct = new QAction(QIcon(gl->path + "picts/nootka-exam.png"), tr("Open an exam"), this);
     connect(m_openExamAct, SIGNAL(triggered()), this, SLOT(loadExamSlot()));
 
@@ -162,26 +156,27 @@ void TanalysDialog::createActions() {
 
     m_zoomOutAct = new QAction(QIcon(gl->path+"picts/zoom-out.png"), tr("zoom out"), this);
     connect(m_zoomOutAct, SIGNAL(triggered()), this, SLOT(zoomOutSlot()));
-
-    m_inclWrongAct = new QAction(tr("include wrong answ. time to average"), this);
+// settings menu button
+    m_inclWrongAct = new QAction(tr("include time of wrong answers to average"), this);
     m_inclWrongAct->setCheckable(true);
     m_wrongSeparateAct = new QAction(tr("show wrong answers separately"), this);
     m_wrongSeparateAct->setCheckable(true);
     m_menu = new QMenu("chart menu", this);
     m_menu->addAction(m_wrongSeparateAct);
     m_menu->addAction(m_inclWrongAct);
+    m_menu->setDisabled(true); // that options have no sense for default chart
     connect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
     connect(m_inclWrongAct, SIGNAL(changed()), this, SLOT(includeWrongSlot()));
     m_wrongSeparateAct->setChecked(m_chartSetts.separateWrong);
     m_inclWrongAct->setChecked(m_chartSetts.inclWrongAnsw);
     
-    QToolButton *m_settButt = new QToolButton(this);
-    m_settButt->setIcon(QIcon(gl->path+"picts/systemsettings.png"));
-    m_settButt->setMenu(m_menu);
-    m_settButt->setPopupMode(QToolButton::InstantPopup);
+    QToolButton *settButt = new QToolButton(this);
+    settButt->setIcon(QIcon(gl->path+"picts/systemsettings.png"));
+    settButt->setMenu(m_menu);
+    settButt->setPopupMode(QToolButton::InstantPopup);
     
     QWidgetAction* toolButtonAction = new QWidgetAction(this);
-    toolButtonAction->setDefaultWidget(m_settButt);
+    toolButtonAction->setDefaultWidget(settButt);
 
     m_toolBar->addAction(m_openExamAct);
     m_toolBar->addAction(toolButtonAction);
@@ -190,7 +185,18 @@ void TanalysDialog::createActions() {
     m_toolBar->addAction(m_zoomInAct);
     m_toolBar->addSeparator();
     m_toolBar->addAction(m_closeAct);
+}
 
+void TanalysDialog::createChart(Tchart::Tsettings& chartSett) {
+    if (m_chart) {
+      delete m_chart;
+      m_chart = 0;
+    }
+    if (m_exam)
+      m_chart = new TmainChart(m_exam, m_chartSetts, this);
+    else
+      m_chart = new Tchart(this); // empty chart by default
+    m_plotLay->addWidget(m_chart);
 }
 
 
@@ -201,7 +207,6 @@ void TanalysDialog::loadExamSlot() {
   QString fileName = QFileDialog::getOpenFileName(this, tr("Load an exam file"),
                                QDir::homePath(), TstartExamDlg::examFilterTxt());
   loadExam(fileName);
-
 }
 
 
@@ -212,19 +217,14 @@ void TanalysDialog::analyseChanged(int index) {
   switch (index) {
     case 0:
       m_chartSetts.order = TmainChart::e_byNumber;
+      m_menu->setDisabled(true);
       break;
     case 1:
       m_chartSetts.order = TmainChart::e_byNote;
+      m_menu->setDisabled(false);
       break;
   }
-//  m_chart->setAnalyse(m_order);
-  if (m_chart) {
-    delete m_chart;
-    m_chart = 0;
-  }
-
-  m_chart = new TmainChart(m_exam, m_chartSetts, this);
-  m_plotLay->addWidget(m_chart);
+  createChart(m_chartSetts);
 }
 
 
@@ -242,21 +242,22 @@ void TanalysDialog::zoomOutSlot() {
 }
 
 void TanalysDialog::wrongSeparateSlot() {
+  m_chartSetts.separateWrong = m_wrongSeparateAct->isChecked();
   if (m_wrongSeparateAct->isChecked()) {
-    m_inclWrongAct->setDisabled(true);
-    m_chartSetts.inclWrongAnsw = true;
+    m_inclWrongAct->setDisabled(true); // wrong sepereted - it has no sense - look it!
+    m_chartSetts.inclWrongAnsw = false; // and reset 
+    disconnect(m_inclWrongAct, SIGNAL(changed()), this, SLOT(includeWrongSlot()));
+    m_inclWrongAct->setChecked(false);
+    connect(m_inclWrongAct, SIGNAL(changed()), this, SLOT(includeWrongSlot()));
   }
   else {
-    m_inclWrongAct->setDisabled(false);
-    m_chartSetts.inclWrongAnsw = false;
+    m_inclWrongAct->setDisabled(false); // unlock
   }
+  createChart(m_chartSetts);
 }
 
 void TanalysDialog::includeWrongSlot() {
-    if (m_wrongSeparateAct->isChecked())
-        m_chartSetts.separateWrong = true;
-    else
-        m_chartSetts.separateWrong = false;
-
+  m_chartSetts.inclWrongAnsw = m_inclWrongAct->isChecked();
+  createChart(m_chartSetts);
 }
 
