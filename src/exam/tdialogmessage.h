@@ -16,64 +16,22 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TANALYSDIALOG_H
-#define TANALYSDIALOG_H
+
+
+#ifndef TDIALOGMESSAGE_H
+#define TDIALOGMESSAGE_H
 
 #include <QDialog>
-#include "tchart.h"
+
+class TQAunit;
 
 
-class Texam;
-class QLabel;
-class QComboBox;
-class TexamLevel;
-class QToolBar;
-class QVBoxLayout;
-class QToolButton;
-
-
-
-class TanalysDialog : public QDialog
+class TdialogMessage : public QWidget
 {
-    Q_OBJECT
-    
+//    Q_OBJECT
 public:
-    TanalysDialog(Texam *exam = 0, QWidget *parent = 0);
-    virtual ~TanalysDialog();
-    
-    void loadExam(QString &examFile); // loads exam from given file name
-    void setExam(Texam *exam);  // loads exam from variable
-    
-    
-    
-protected slots:
-  void testSlot();
-  void loadExamSlot();
-  void zoomInSlot();
-  void zoomOutSlot();
-  void wrongSeparateSlot();
-  void includeWrongSlot();
-  void analyseChanged(int index);
-
-private:
-  QToolBar *m_toolBar;
-  QAction *m_openExamAct, *m_closeAct, *m_zoomInAct, *m_zoomOutAct, *m_inclWrongAct, *m_wrongSeparateAct;
-  QLabel *m_levelLab, *m_userLab, *m_effectLab, *m_questNrLab;
-  QComboBox *m_chartListCombo;
-  QToolButton *m_settButt;
-  
-  Tchart *m_chart;
-  Texam *m_exam;
-  TexamLevel *m_level;
-  QVBoxLayout *m_plotLay;
-  bool m_wasExamCreated; // true if exam instance was created by TanalysDialog, false when exam was given as param
-  Tchart::Tsettings m_chartSetts;
-  
-  
-private:
-  void createActions();
-  void createChart(Tchart::Tsettings &chartSett);
+    explicit TdialogMessage(const QRect &parentGeo, TQAunit &question, QWidget *parent = 0);
     
 };
 
-#endif // TANALYSDIALOG_H
+#endif // TDIALOGMESSAGE_H

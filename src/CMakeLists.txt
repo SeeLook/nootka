@@ -47,6 +47,7 @@ SET( NOOTKA_SRCS
   exam/texamsummary.cpp
   exam/texamparams.h
   exam/texecutorsupply.cpp
+  exam/tdialogmessage.cpp
 ###### Info
   info/taboutnootka.cpp
   info/tfirstrunwizzard.cpp
@@ -138,6 +139,7 @@ SET( NOOTKA_MOC_SRCS
   exam/texamexecutor.h
   exam/texamsummary.h
   exam/texecutorsupply.h
+ # exam/tdialogmessage.h
 ###### Info
   info/taboutnootka.h
   info/tfirstrunwizzard.h

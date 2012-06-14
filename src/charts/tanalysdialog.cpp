@@ -161,22 +161,22 @@ void TanalysDialog::createActions() {
     m_inclWrongAct->setCheckable(true);
     m_wrongSeparateAct = new QAction(tr("show wrong answers separately"), this);
     m_wrongSeparateAct->setCheckable(true);
-    m_menu = new QMenu("chart menu", this);
-    m_menu->addAction(m_wrongSeparateAct);
-    m_menu->addAction(m_inclWrongAct);
-    m_menu->setDisabled(true); // that options have no sense for default chart
+    QMenu *menu = new QMenu("chart menu", this);
+    menu->addAction(m_wrongSeparateAct);
+    menu->addAction(m_inclWrongAct);
     connect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
     connect(m_inclWrongAct, SIGNAL(changed()), this, SLOT(includeWrongSlot()));
     m_wrongSeparateAct->setChecked(m_chartSetts.separateWrong);
     m_inclWrongAct->setChecked(m_chartSetts.inclWrongAnsw);
     
-    QToolButton *settButt = new QToolButton(this);
-    settButt->setIcon(QIcon(gl->path+"picts/systemsettings.png"));
-    settButt->setMenu(m_menu);
-    settButt->setPopupMode(QToolButton::InstantPopup);
+    m_settButt = new QToolButton(this);
+    m_settButt->setIcon(QIcon(gl->path+"picts/systemsettings.png"));
+    m_settButt->setMenu(menu);
+    m_settButt->setPopupMode(QToolButton::InstantPopup);
+    m_settButt->setDisabled(true); // that options have no sense for default chart
     
     QWidgetAction* toolButtonAction = new QWidgetAction(this);
-    toolButtonAction->setDefaultWidget(settButt);
+    toolButtonAction->setDefaultWidget(m_settButt);
 
     m_toolBar->addAction(m_openExamAct);
     m_toolBar->addAction(toolButtonAction);
@@ -217,11 +217,11 @@ void TanalysDialog::analyseChanged(int index) {
   switch (index) {
     case 0:
       m_chartSetts.order = TmainChart::e_byNumber;
-      m_menu->setDisabled(true);
+      m_settButt->setDisabled(true);
       break;
     case 1:
       m_chartSetts.order = TmainChart::e_byNote;
-      m_menu->setDisabled(false);
+      m_settButt->setDisabled(false);
       break;
   }
   createChart(m_chartSetts);
