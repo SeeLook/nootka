@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License	   *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -71,7 +71,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
           QString("<br>%1<br>%2 s</p>").arg(tr("for a note:  ", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>" + TnoteName::noteToRichText(sortedLists[i].operator[](0)->qa.note) + "</b>").arg(aTime));
         scene->addItem(aNoteLine);
         aNoteLine->setZValue(46);
-        aNoteLine->setPen(QPen(Qt::yellow, 3));
+        aNoteLine->setPen(QPen(QColor(255, 153, 57), 3));
         aNoteLine->setLine(xAxis->mapValue(cnt - 0.4) + xAxis->pos().x(), yAxis->mapValue(aTime),
           xAxis->mapValue(cnt + sortedLists[i].size() -0.6) + xAxis->pos().x(), yAxis->mapValue(aTime));
         cnt += sortedLists[i].size();
@@ -106,7 +106,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
 //     QPointF(xAxis->mapValue(m_exam->count()), yAxis->mapValue(m_exam->averageReactonTime()/10.0))
 //   );
       averLine->setZValue(20);
-      averLine->setPen(QPen(Qt::yellow, 3));
+      averLine->setPen(QPen(QColor(255, 153, 57), 3));
       averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime()/10.0),
           xAxis->mapValue(m_exam->count()) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime()/10.0));
   }

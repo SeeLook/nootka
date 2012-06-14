@@ -34,6 +34,7 @@
 #include "tanalysdialog.h"
 #include "tnotepixmap.h"
 #include "tgraphicstexttip.h"
+#include "tdialogmessage.h"
 #include <QtGui>
 #include <QDebug>
 
@@ -421,6 +422,7 @@ void TexamExecutor::askQuestion() {
         mW->nootBar->addAction(repeatSndAct);
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
+    TdialogMessage *mess = new TdialogMessage(mW->geometry(), curQ, mW);
 }
 
 
