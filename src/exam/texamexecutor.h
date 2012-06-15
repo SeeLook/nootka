@@ -25,6 +25,7 @@
 #include "texamlevel.h"
 #include <QList>
 
+class TdialogMessage;
 class TgraphicsTextTip;
 class QTimer;
 class TexecutorSupply;
@@ -138,6 +139,8 @@ private:
           /** stores note if question and answeer are Note Name to restore it if question is repeated
           It is to restorrre buttons state in NoteName widget whitch are uncheced by disableWidget() */
     Tnote m_prevNoteIfName;
+          /** Frameless dialog with question instance. */
+    TdialogMessage *m_questMessage;
 
 
 };

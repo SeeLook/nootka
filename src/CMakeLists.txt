@@ -139,7 +139,7 @@ SET( NOOTKA_MOC_SRCS
   exam/texamexecutor.h
   exam/texamsummary.h
   exam/texecutorsupply.h
- # exam/tdialogmessage.h
+  exam/tdialogmessage.h
 ###### Info
   info/taboutnootka.h
   info/tfirstrunwizzard.h

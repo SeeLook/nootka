@@ -87,7 +87,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
 
   createActions();
   
-  QTimer::singleShot(100, this, SLOT(testSlot()));
+//   QTimer::singleShot(100, this, SLOT(testSlot()));
   if (exam) {
     m_wasExamCreated = false;
     m_openExamAct->setVisible(false); // hide "open exam file" acction
