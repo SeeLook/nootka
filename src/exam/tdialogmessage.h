@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -22,18 +22,22 @@
 #define TDIALOGMESSAGE_H
 
 #include <QDialog>
+#include "tnote.h"
+
 
 class TQAunit;
 
-
 class TdialogMessage : public QDialog
 {
-//    Q_OBJECT
+   Q_OBJECT
 public:
-    explicit TdialogMessage(const QRect &parentGeo, TQAunit &question, QWidget *parent = 0);
+    explicit TdialogMessage(TQAunit &question, int questNr, const QRect &parentGeo);
+    static QString getTextHowAccid(Tnote::Eacidentals accid);
+        /** Returns html-formated question text. */
+    QString getQuestion(TQAunit &question, int questNr);
 	
-protected:
-	virtual void paintEvent(QPaintEvent *paintEvent);
+// protected:
+// 	virtual void paintEvent(QPaintEvent *paintEvent);
     
 };
 

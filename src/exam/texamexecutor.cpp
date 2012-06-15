@@ -48,7 +48,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
   m_exam(0),
   mW(mainW),
   m_lockRightButt(false),
-  m_goingClosed(false)
+  m_goingClosed(false),
+  m_questMessage(0)
 {
     QString resultText;
     TstartExamDlg::Eactions userAct;
@@ -422,7 +423,7 @@ void TexamExecutor::askQuestion() {
         mW->nootBar->addAction(repeatSndAct);
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
-//     TdialogMessage *mess = new TdialogMessage(mW->geometry(), curQ, mW);
+    m_questMessage = new TdialogMessage(curQ, m_exam->count(), mW->geometry());
 }
 
 
@@ -436,6 +437,10 @@ void TexamExecutor::checkAnswer(bool showResults) {
         mW->startExamAct->setDisabled(false);
     m_isAnswered = true;
     disconnect(mW->sound->player, 0, this, 0);
+    if (m_questMessage) {
+      delete m_questMessage;
+      m_questMessage = 0;
+    }    
 // Let's check
     Tnote exN, retN; // example note & returned note
     // First we determine what have to be checked
@@ -598,7 +603,7 @@ void TexamExecutor::repeatQuestion() {
         mW->nootBar->addAction(repeatSndAct);
         repeatSound();
     }
-    
+    m_questMessage = new TdialogMessage(curQ, m_exam->count(), mW->geometry());
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
 }
@@ -714,6 +719,10 @@ void TexamExecutor::restoreAfterExam() {
 
     if (m_messageItem)
         delete m_messageItem;
+    if (m_questMessage) {
+      delete m_questMessage;
+      m_questMessage = 0;
+    }
 
     connect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
     connect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));

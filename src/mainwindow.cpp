@@ -32,7 +32,6 @@
 #include "tpitchview.h"
 #include "tanalysdialog.h"
 
-#include "tdialogmessage.h"
 
 extern Tglobals *gl;
 
@@ -159,8 +158,6 @@ MainWindow::MainWindow(QWidget *parent)
     
 //     QTimer::singleShot(100, this, SLOT(analyseSlot()));
     
-    TQAunit curQ;
-    TdialogMessage *mess = new TdialogMessage(geometry(), curQ);
 }
 
 MainWindow::~MainWindow()
