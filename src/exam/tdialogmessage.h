@@ -26,11 +26,14 @@
 class TQAunit;
 
 
-class TdialogMessage : public QWidget
+class TdialogMessage : public QDialog
 {
 //    Q_OBJECT
 public:
     explicit TdialogMessage(const QRect &parentGeo, TQAunit &question, QWidget *parent = 0);
+	
+protected:
+	virtual void paintEvent(QPaintEvent *paintEvent);
     
 };
 
