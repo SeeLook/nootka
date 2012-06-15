@@ -21,28 +21,33 @@
 #include "tdialogmessage.h"
 #include <QLabel>
 #include <QPainter>
+#include <QHBoxLayout>
 
 TdialogMessage::TdialogMessage(const QRect &parentGeo, TQAunit &question, QWidget *parent) :
-    QDialog(0, Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::Tool)
+    QDialog(0, Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::Tool | Qt::X11BypassWindowManagerHint)
 {
-    setWindowOpacity(0.8);
-	setStyleSheet("background:transparent;");
+//     setWindowOpacity(0.8);
+// 	setStyleSheet("background:transparent;");
 //     setAttribute(Qt::WA_TranslucentBackground, true);
-	
-    setGeometry(parentGeo.left() + parentGeo.width() / 2, parentGeo.top() + parentGeo.height() / 2, parentGeo.width() / 4, parentGeo.height() / 4);
+	QHBoxLayout *lay = new QHBoxLayout;
+    setGeometry(parentGeo.left() + parentGeo.width() / 2, parentGeo.top() + parentGeo.height() / 3, parentGeo.width() / 3, parentGeo.height() / 3);
     QLabel *mainLab = new QLabel("<br><span style=\"font-size: 30px;\">lets try</span>", this);
     mainLab->setAlignment(Qt::AlignCenter);
+    lay->addStretch(1);
+    lay->addWidget(mainLab, 0, Qt::AlignCenter);
+    lay->addStretch(1);
+    setLayout(lay);
 	show();
 }
 
 
 void TdialogMessage::paintEvent(QPaintEvent *paintEvent) {
-	QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing);
-    painter.setPen(Qt::NoPen);
-    painter.setBrush(QColor(255, 0, 0, 127));
+// 	QPainter painter(this);
+//     painter.setRenderHint(QPainter::Antialiasing);
+//     painter.setPen(Qt::NoPen);
+//     painter.setBrush(QColor(255, 0, 0, 127));
 
-    painter.drawEllipse(0, 0, width(), height());
+//     painter.drawEllipse(0, 0, width(), height());
 }
 
 
