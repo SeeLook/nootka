@@ -157,7 +157,10 @@ MainWindow::MainWindow(QWidget *parent)
     if (gl->A->OUTenabled && !sound->isPlayable())
         QMessageBox::warning(this, "", tr("Problems with sound output"));
     
-    QTimer::singleShot(100, this, SLOT(analyseSlot()));
+//     QTimer::singleShot(100, this, SLOT(analyseSlot()));
+    
+    TQAunit curQ;
+    TdialogMessage *mess = new TdialogMessage(geometry(), curQ);
 }
 
 MainWindow::~MainWindow()
@@ -340,14 +343,12 @@ void MainWindow::aboutSlot() {
 
 
 void MainWindow::analyseSlot() {
-//     sound->wait();
-//     sound->stopPlaying();
-//     TanalysDialog *ad = new TanalysDialog(0, this);
-//     ad->exec();
-//     delete ad;
-//     sound->go();
-	TQAunit curQ;
-	TdialogMessage *mess = new TdialogMessage(geometry(), curQ);
+    sound->wait();
+    sound->stopPlaying();
+    TanalysDialog *ad = new TanalysDialog(0, this);
+    ad->exec();
+    delete ad;
+    sound->go();
 }
 
 
