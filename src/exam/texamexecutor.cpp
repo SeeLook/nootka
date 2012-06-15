@@ -422,7 +422,7 @@ void TexamExecutor::askQuestion() {
         mW->nootBar->addAction(repeatSndAct);
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
-    TdialogMessage *mess = new TdialogMessage(mW->geometry(), curQ, mW);
+//     TdialogMessage *mess = new TdialogMessage(mW->geometry(), curQ, mW);
 }
 
 

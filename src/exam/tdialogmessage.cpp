@@ -20,12 +20,63 @@
 
 #include "tdialogmessage.h"
 #include <QLabel>
+#include <QPainter>
 
 TdialogMessage::TdialogMessage(const QRect &parentGeo, TQAunit &question, QWidget *parent) :
-    QWidget(0, Qt::FramelessWindowHint)
+    QDialog(0, Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::Tool)
 {
-    setWindowOpacity(100);
-    setGeometry(parentGeo.left() + parentGeo.width() / 2, parentGeo.height() + parentGeo.height() / 2, parentGeo.width() / 4, parentGeo.height() / 4);
-    QLabel *mainLab = new QLabel("<span style=\"font-size: 30px;\">lets try</span>", this);
-    show();
+    setWindowOpacity(0.8);
+	setStyleSheet("background:transparent;");
+//     setAttribute(Qt::WA_TranslucentBackground, true);
+	
+    setGeometry(parentGeo.left() + parentGeo.width() / 2, parentGeo.top() + parentGeo.height() / 2, parentGeo.width() / 4, parentGeo.height() / 4);
+    QLabel *mainLab = new QLabel("<br><span style=\"font-size: 30px;\">lets try</span>", this);
+    mainLab->setAlignment(Qt::AlignCenter);
+	show();
 }
+
+
+void TdialogMessage::paintEvent(QPaintEvent *paintEvent) {
+	QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(QColor(255, 0, 0, 127));
+
+    painter.drawEllipse(0, 0, width(), height());
+}
+
+
+/*
+void MainWindow::on_actionAlways_on_Top_triggered(bool checked)
+{
+#ifdef Q_OS_WIN
+    // #include <windows.h>
+    if (checked)
+    {
+        SetWindowPos(this->winId(), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+    }
+    else
+    {
+        SetWindowPos(this->winId(), HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+    }
+#else
+    Qt::WindowFlags flags = this->windowFlags();
+    if (checked)
+    {
+        this->setWindowFlags(flags | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
+        this->show();
+    }
+    else
+    {
+        this->setWindowFlags(flags ^ (Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint));
+        this->show();
+    }
+#endif
+}
+
+QPixmap qpm(":/alphamask.png"); 
+qpm = qpm.scaled(this->width(),this->height(),Qt::IgnoreAspectRatio,Qt::SmoothTransfor‌​mation);
+if (!qpm.isNull()) 
+  this->setMask(qpm.mask());
+  this->setWindowOpacity(0.9);
+*/
