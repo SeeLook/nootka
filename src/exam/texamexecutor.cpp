@@ -423,7 +423,7 @@ void TexamExecutor::askQuestion() {
         mW->nootBar->addAction(repeatSndAct);
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
-    m_questMessage = new TdialogMessage(curQ, m_exam->count(), mW->geometry());
+    m_questMessage = new TdialogMessage(curQ, m_exam->count(), m_exam->level(),  mW->geometry());
 }
 
 
@@ -603,7 +603,7 @@ void TexamExecutor::repeatQuestion() {
         mW->nootBar->addAction(repeatSndAct);
         repeatSound();
     }
-    m_questMessage = new TdialogMessage(curQ, m_exam->count(), mW->geometry());
+    m_questMessage = new TdialogMessage(curQ, m_exam->count(), m_exam->level(), mW->geometry());
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
 }

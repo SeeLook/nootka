@@ -24,17 +24,19 @@
 #include <QDialog>
 #include "tnote.h"
 
-
+class TexamLevel;
 class TQAunit;
+
+
 
 class TdialogMessage : public QDialog
 {
    Q_OBJECT
 public:
-    explicit TdialogMessage(TQAunit &question, int questNr, const QRect &parentGeo);
+    explicit TdialogMessage(TQAunit &question, int questNr, TexamLevel *level, const QRect &parentGeo);
     static QString getTextHowAccid(Tnote::Eacidentals accid);
         /** Returns html-formated question text. */
-    QString getQuestion(TQAunit &question, int questNr);
+    QString getQuestion(TQAunit &question, int questNr, TexamLevel *level);
 	
 // protected:
 // 	virtual void paintEvent(QPaintEvent *paintEvent);
