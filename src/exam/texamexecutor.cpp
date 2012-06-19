@@ -704,6 +704,7 @@ void TexamExecutor::restoreAfterExam() {
     mW->noteName->setEnabledEnharmNotes(false);
     mW->noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
     mW->guitar->acceptSettings();
+    mW->noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
 
     mW->settingsAct->setDisabled(false);
     mW->analyseAct->setVisible(true);

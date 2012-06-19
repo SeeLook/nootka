@@ -48,7 +48,7 @@ TdialogMessage::TdialogMessage(TQAunit& question, int questNr, TexamLevel *level
 //     setWindowOpacity(0.8);
 // 	setStyleSheet("background:transparent;");
 //     setStyleSheet(gl->getBGcolorText(gl->EquestionColor));
-//     setAttribute(Qt::WA_TranslucentBackground, true);
+    setAttribute(Qt::WA_TranslucentBackground, true);
     QHBoxLayout *lay = new QHBoxLayout;
     setGeometry(parentGeo.left() + parentGeo.width() / 2, parentGeo.top() + parentGeo.height() / 3, parentGeo.width() / 3, parentGeo.height() / 3);
     QLabel *mainLab = new QLabel(getQuestion(question, questNr, level), this);
