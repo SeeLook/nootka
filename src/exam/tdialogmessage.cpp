@@ -21,14 +21,18 @@
 #include "tdialogmessage.h"
 #include "tqaunit.h"
 #include "ttipchart.h"
+#include "texamlevel.h"
+#include "tglobals.h"
 #include <tnotename.h>
 #include <QLabel>
 // #include <QPainter>
 #include <QHBoxLayout>
 
+extern Tglobals *gl;
+
 /* static */
 QString TdialogMessage::getTextHowAccid(Tnote::Eacidentals accid) {
-    QString S = QString("<br><span style=\"color: %1\">").arg(QColor(Qt::magenta).name());
+    QString S = QString("<br><span style=\"color: %1\">").arg(gl->GfingerColor.name());
     if (accid) S += tr("Use %1").arg(QString::fromStdString(signsAcid[accid + 2]));
     else S += tr(" Don't use accidentals!");
     S +=  "</span>";
@@ -38,16 +42,22 @@ QString TdialogMessage::getTextHowAccid(Tnote::Eacidentals accid) {
 
 //#################################### CONSTRUCTOR ###########################################
 
-TdialogMessage::TdialogMessage(TQAunit& question, int questNr, const QRect& parentGeo) :
+TdialogMessage::TdialogMessage(TQAunit& question, int questNr, TexamLevel *level, const QRect& parentGeo) :
     QDialog(0, Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::Tool)
 {
 //     setWindowOpacity(0.8);
 // 	setStyleSheet("background:transparent;");
+//     setStyleSheet(gl->getBGcolorText(gl->EquestionColor));
 //     setAttribute(Qt::WA_TranslucentBackground, true);
     QHBoxLayout *lay = new QHBoxLayout;
     setGeometry(parentGeo.left() + parentGeo.width() / 2, parentGeo.top() + parentGeo.height() / 3, parentGeo.width() / 3, parentGeo.height() / 3);
-    QLabel *mainLab = new QLabel(getQuestion(question, questNr), this);
+    QLabel *mainLab = new QLabel(getQuestion(question, questNr, level), this);
+    mainLab->setGeometry(0, 0, width(), height());
     mainLab->setAlignment(Qt::AlignCenter);
+    QFont f(font());
+    f.setPointSize(height() / 10);
+    mainLab->setFont(f);
+    mainLab->setStyleSheet(gl->getBGcolorText(gl->EquestionColor));
     lay->addStretch(1);
     lay->addWidget(mainLab, 0, Qt::AlignCenter);
     lay->addStretch(1);
@@ -55,29 +65,45 @@ TdialogMessage::TdialogMessage(TQAunit& question, int questNr, const QRect& pare
     show();
 }
 
-QString TdialogMessage::getQuestion(TQAunit& question, int questNr) {
+QString TdialogMessage::getQuestion(TQAunit& question, int questNr, TexamLevel* level) {
     QString quest = QString("<b>%1. </b>").arg(questNr);
+    QString apendix = "";
+    QString noteStr;
     switch (question.questionAs) {
       case TQAtype::e_asNote:
         quest += "<table valign=\"middle\" align=\"center\"><tr><td>";
+//         QString apendix = "";
         if (question.answerAs == TQAtype::e_asNote) {
-          quest += tr("Show on the score alternative of");
-          // TODO ket signature !!
+          quest += tr("Convert enharmonicaly and show in the score note");
+          if (level->useKeySign && level->manualKey) {
+            QString keyTxt;
+            if (question.key.isMinor())
+              keyTxt = question.key.getMinorName();
+            else
+              keyTxt = question.key.getMajorName();
+            apendix = tr("<br><b>in %1 key.</b>", "in key signature").arg(keyTxt);
+          }
         } else
           if (question.answerAs == TQAtype::e_asName) {
             quest += tr("Give name of note");
           } else
             if (question.answerAs == TQAtype::e_asFretPos) {
               quest += tr("Show on the guitar note");
+              if (level->showStrNr)
+                apendix = "<b>" + tr(" on <span style=\"font-family: nootka;\">%1</span> string.").
+                      arg((int)question.qa.pos.str()) + "</b>";
             } else
               if (question.answerAs == TQAtype::e_asSound) {
                 quest += "Play or sing note";
               }
-        quest += " " + TtipChart::wrapPixToHtml(question.qa.note, true, question.key) + "</td></tr></table>";
+        quest += "<br>" + TtipChart::wrapPixToHtml(question.qa.note, true, question.key);
+        if (apendix != "")
+          quest += apendix;
+        quest += "</td></tr></table>";
       break;
       
       case TQAtype::e_asName:
-        QString noteStr = "<b>  " + TnoteName::noteToRichText(question.qa.note) + "</b>";
+        noteStr = "<br><b>" + TnoteName::noteToRichText(question.qa.note) + "</b>";
         if (question.answerAs == TQAtype::e_asNote) {
           quest += tr("Show on the score") + noteStr;
         } else
@@ -87,13 +113,15 @@ QString TdialogMessage::getQuestion(TQAunit& question, int questNr) {
           } else
             if (question.answerAs == TQAtype::e_asFretPos) {
               quest += tr("Show on the guitar") + noteStr;
-              // TODO string nr
+              if (level->showStrNr)
+                quest += "<br><b>" + tr(" on <span style=\"font-family: nootka;\">%1</span> string.").
+                      arg((int)question.qa.pos.str()) + "</b>";
             } else
               if (question.answerAs == TQAtype::e_asSound) {
-                quest += tr("Play or sing note") + noteStr;
+                quest += "<br>" + tr("Play or sing note") + noteStr;
               }
       break;
-      /*
+      
       case TQAtype::e_asFretPos:
         quest += "";
         if (question.answerAs == TQAtype::e_asNote) {
@@ -103,14 +131,14 @@ QString TdialogMessage::getQuestion(TQAunit& question, int questNr) {
             quest += tr("Give name of");
           } else
             if (question.answerAs == TQAtype::e_asFretPos) {
-              // NOT IMPLEMENTED
+              quest += "not implemented";
             } else
               if (question.answerAs == TQAtype::e_asSound) {
                 quest += tr("Play or sing note");
               }
         quest += "<br>" + TtipChart::wrapPosToHtml(question.qa.pos);
       break;
-      
+      /*
       case TQAtype::e_asSound:
         if (question.answerAs == TQAtype::e_asNote) {
           
