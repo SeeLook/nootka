@@ -57,7 +57,7 @@ TdialogMessage::TdialogMessage(TQAunit& question, int questNr, TexamLevel *level
     QFont f(font());
     f.setPointSize(height() / 10);
     mainLab->setFont(f);
-    mainLab->setStyleSheet(gl->getBGcolorText(gl->EquestionColor));
+    mainLab->setStyleSheet(QString("border: 1px solid palette(Text); border-radius: 10px; %1").arg(gl->getBGcolorText(gl->EquestionColor)));
     lay->addStretch(1);
     lay->addWidget(mainLab, 0, Qt::AlignCenter);
     lay->addStretch(1);
@@ -137,6 +137,8 @@ QString TdialogMessage::getQuestion(TQAunit& question, int questNr, TexamLevel* 
                 quest += tr("Play or sing note");
               }
         quest += "<br>" + TtipChart::wrapPosToHtml(question.qa.pos);
+        if (question.answerAs == TQAtype::e_asNote || question.answerAs == TQAtype::e_asName)
+            quest += getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
       break;
       /*
       case TQAtype::e_asSound:
