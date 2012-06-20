@@ -38,14 +38,17 @@ public:
     static QString getTextHowAccid(Tnote::Eacidentals accid);
         /** Returns html-formated question text. */
     QString getQuestion(TQAunit &question, int questNr, TexamLevel *level);
+    
+public slots:
+    void mainWindowMoved(QPoint vector);
 	
 protected:
     virtual void paintEvent(QPaintEvent *);
-    bool event(QEvent *event);
     
 private:
     QLabel *m_mainLab;
-    
+    QPoint m_pos;
+    bool m_scoreFree, m_nameFree, m_guitarFree; // Indicate when widgets show question or answer
 };
 
 #endif // TDIALOGMESSAGE_H

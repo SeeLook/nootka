@@ -480,3 +480,8 @@ bool MainWindow::eventFilter(QObject* obj, QEvent* event) {
             return QObject::eventFilter(obj, event);
         }
 }
+
+void MainWindow::moveEvent(QMoveEvent* event) {
+    QPoint v = event->pos() - event->oldPos();
+    emit moved(v);
+}

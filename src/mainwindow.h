@@ -64,6 +64,11 @@ public slots:
     void noteNameWasChanged(Tnote note);
     void guitarWasClicked(Tnote note);
     void soundWasPlayed(Tnote note);
+    
+signals:
+        /** This signal is emited when window changes its position.
+        * A parameter is difference betwen current and previous position*/
+    void moved(QPoint);
 
 
 protected:
@@ -84,6 +89,7 @@ protected:
     bool event(QEvent *event);
     void closeEvent(QCloseEvent *event);
     virtual bool eventFilter(QObject* obj, QEvent* event);
+    void moveEvent(QMoveEvent *event);
         
 protected slots:
     void restoreMessage();
