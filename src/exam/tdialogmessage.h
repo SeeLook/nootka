@@ -40,7 +40,8 @@ public:
     QString getQuestion(TQAunit &question, int questNr, TexamLevel *level);
 	
 protected:
-	virtual void paintEvent(QPaintEvent *paintEvent);
+    virtual void paintEvent(QPaintEvent *);
+    bool event(QEvent *event);
     
 private:
     QLabel *m_mainLab;

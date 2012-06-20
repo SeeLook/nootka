@@ -27,6 +27,8 @@
 #include <QLabel>
 #include <QPainter>
 #include <QHBoxLayout>
+#include <QEvent>
+#include <QDebug>
 
 extern Tglobals *gl;
 
@@ -57,7 +59,7 @@ TdialogMessage::TdialogMessage(TQAunit& question, int questNr, TexamLevel *level
     QFont f(font());
     f.setPointSize(height() / 10);
     m_mainLab->setFont(f);
-    m_mainLab->setStyleSheet(QString("border: 1px solid palette(Text); border-radius: 10px; %1").arg(gl->getBGcolorText(gl->EquestionColor)));
+    m_mainLab->setStyleSheet(QString("border: 1px none palette(Text); border-radius: 10px; %1").arg(gl->getBGcolorText(gl->EquestionColor)));
     lay->addStretch(1);
     lay->addWidget(m_mainLab, 0, Qt::AlignCenter);
     lay->addStretch(1);
@@ -161,15 +163,24 @@ QString TdialogMessage::getQuestion(TQAunit& question, int questNr, TexamLevel* 
 }
 
 
-void TdialogMessage::paintEvent(QPaintEvent *paintEvent) {
+void TdialogMessage::paintEvent(QPaintEvent *) {
 	QPainter painter(this);
+    QRect rect = m_mainLab->geometry();
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setPen(Qt::NoPen);
+    QColor c = palette().text().color();
+    c.setAlpha(100);
+    painter.setBrush(QBrush(c));
+    painter.drawRoundedRect(rect.x() + 5, rect.y() +5, rect.width(), rect.height(), 10, 10);
     painter.setBrush(QBrush(palette().background().color()));
-    painter.drawRoundedRect(m_mainLab->geometry(), 10, 10);
-//     painter.drawEllipse(0, 0, width(), height());
+    painter.drawRoundedRect(rect, 10, 10);
 }
 
+bool TdialogMessage::event(QEvent *event) {
+    qDebug() << event;
+
+    return QDialog::event(event);
+}
 
 /*
 void MainWindow::on_actionAlways_on_Top_triggered(bool checked)
