@@ -25,7 +25,7 @@
 #include "tglobals.h"
 #include <tnotename.h>
 #include <QLabel>
-// #include <QPainter>
+#include <QPainter>
 #include <QHBoxLayout>
 
 extern Tglobals *gl;
@@ -51,22 +51,22 @@ TdialogMessage::TdialogMessage(TQAunit& question, int questNr, TexamLevel *level
     setAttribute(Qt::WA_TranslucentBackground, true);
     QHBoxLayout *lay = new QHBoxLayout;
     setGeometry(parentGeo.left() + parentGeo.width() / 2, parentGeo.top() + parentGeo.height() / 3, parentGeo.width() / 3, parentGeo.height() / 3);
-    QLabel *mainLab = new QLabel(getQuestion(question, questNr, level), this);
-    mainLab->setGeometry(0, 0, width(), height());
-    mainLab->setAlignment(Qt::AlignCenter);
+    m_mainLab = new QLabel(getQuestion(question, questNr, level), this);
+    m_mainLab->setGeometry(0, 0, width(), height());
+    m_mainLab->setAlignment(Qt::AlignCenter);
     QFont f(font());
     f.setPointSize(height() / 10);
-    mainLab->setFont(f);
-    mainLab->setStyleSheet(QString("border: 1px solid palette(Text); border-radius: 10px; %1").arg(gl->getBGcolorText(gl->EquestionColor)));
+    m_mainLab->setFont(f);
+    m_mainLab->setStyleSheet(QString("border: 1px solid palette(Text); border-radius: 10px; %1").arg(gl->getBGcolorText(gl->EquestionColor)));
     lay->addStretch(1);
-    lay->addWidget(mainLab, 0, Qt::AlignCenter);
+    lay->addWidget(m_mainLab, 0, Qt::AlignCenter);
     lay->addStretch(1);
     setLayout(lay);
     show();
 }
 
 QString TdialogMessage::getQuestion(TQAunit& question, int questNr, TexamLevel* level) {
-    QString quest = QString("<b>%1. </b>").arg(questNr);
+    QString quest = QString("<b>%1. </b><br>").arg(questNr);
     QString apendix = "";
     QString noteStr;
     switch (question.questionAs) {
@@ -161,14 +161,14 @@ QString TdialogMessage::getQuestion(TQAunit& question, int questNr, TexamLevel* 
 }
 
 
-// void TdialogMessage::paintEvent(QPaintEvent *paintEvent) {
-// 	QPainter painter(this);
-//     painter.setRenderHint(QPainter::Antialiasing);
-//     painter.setPen(Qt::NoPen);
-//     painter.setBrush(QColor(255, 0, 0, 127));
-
+void TdialogMessage::paintEvent(QPaintEvent *paintEvent) {
+	QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(QBrush(palette().background().color()));
+    painter.drawRoundedRect(m_mainLab->geometry(), 10, 10);
 //     painter.drawEllipse(0, 0, width(), height());
-// }
+}
 
 
 /*
