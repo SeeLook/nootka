@@ -26,6 +26,7 @@
 
 class TexamLevel;
 class TQAunit;
+class QLabel;
 
 
 
@@ -38,8 +39,11 @@ public:
         /** Returns html-formated question text. */
     QString getQuestion(TQAunit &question, int questNr, TexamLevel *level);
 	
-// protected:
-// 	virtual void paintEvent(QPaintEvent *paintEvent);
+protected:
+	virtual void paintEvent(QPaintEvent *paintEvent);
+    
+private:
+    QLabel *m_mainLab;
     
 };
 
