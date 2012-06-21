@@ -88,7 +88,7 @@ QString TdialogMessage::getQuestion(TQAunit& question, int questNr, TexamLevel* 
 //         QString apendix = "";
         m_scoreFree = false;
         if (question.answerAs == TQAtype::e_asNote) {
-          quest += tr("Convert enharmonicaly and show in the score note");
+          quest += tr("Convert enharmonicaly and show in the score");
           if (level->useKeySign && level->manualKey) {
             QString keyTxt;
             if (question.key.isMinor())
@@ -97,20 +97,21 @@ QString TdialogMessage::getQuestion(TQAunit& question, int questNr, TexamLevel* 
               keyTxt = question.key.getMajorName();
             apendix = tr("<br><b>in %1 key.</b>", "in key signature").arg(keyTxt);
           }
+           quest += "<br>" + getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);
         } else
           if (question.answerAs == TQAtype::e_asName) {
             m_nameFree = false;
-            quest += tr("Give name of note");
+            quest += tr("Give name of");
           } else
             if (question.answerAs == TQAtype::e_asFretPos) {
               m_guitarFree = false;
-              quest += tr("Show on the guitar note");
+              quest += tr("Show on the guitar");
               if (level->showStrNr)
                 apendix = "<br><b>" + tr(" on <span style=\"font-family: nootka;\">%1</span> string.").
                       arg((int)question.qa.pos.str()) + "</b>";
             } else
               if (question.answerAs == TQAtype::e_asSound) {
-                quest += "Play or sing note";
+                quest += "Play or sing";
               }
         quest += "<br>" + TtipChart::wrapPixToHtml(question.qa.note, true, question.key);
         if (apendix != "")
@@ -121,12 +122,20 @@ QString TdialogMessage::getQuestion(TQAunit& question, int questNr, TexamLevel* 
       case TQAtype::e_asName:
         noteStr = "<br><b>" + TnoteName::noteToRichText(question.qa.note) + "</b>";
         if (question.answerAs == TQAtype::e_asNote) {
-          m_scoreFree = false;
-          quest += tr("Show on the score") + noteStr;
+          m_nameFree = false;
+          quest += tr("Show in the score") + noteStr;
+          if (level->useKeySign && level->manualKey) {
+            QString keyTxt;
+            if (question.key.isMinor())
+              keyTxt = question.key.getMinorName();
+            else
+              keyTxt = question.key.getMajorName();
+            quest += tr("<br><b>in %1 key.</b>", "in key signature").arg(keyTxt);
+          }
         } else
           if (question.answerAs == TQAtype::e_asName) {
             m_nameFree = false;
-            quest += tr("Give another name of") + noteStr + "<br>" +
+            quest += tr("Convert enharmonicaly and give name of") + noteStr +
                   getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);                
           } else
             if (question.answerAs == TQAtype::e_asFretPos) {
@@ -137,7 +146,7 @@ QString TdialogMessage::getQuestion(TQAunit& question, int questNr, TexamLevel* 
                       arg((int)question.qa.pos.str()) + "</b>";
             } else
               if (question.answerAs == TQAtype::e_asSound) {
-                quest += "<br>" + tr("Play or sing note") + noteStr;
+                quest += "<br>" + tr("Play or sing") + noteStr;
               }
       break;
       
@@ -164,29 +173,44 @@ QString TdialogMessage::getQuestion(TQAunit& question, int questNr, TexamLevel* 
               quest += "not implemented";
             } else
               if (question.answerAs == TQAtype::e_asSound) {
-                quest += tr("Play or sing note");
+                quest += tr("Play or sing");
               }
-        quest += "<br>" + TtipChart::wrapPosToHtml(question.qa.pos);
+        quest += "<p style=\"font-size: 25px;\">" + TtipChart::wrapPosToHtml(question.qa.pos) + "</p>";
         if (apendix != "")
-          quest += "<br>" + apendix;
+          quest += apendix;
         if (question.answerAs == TQAtype::e_asNote || question.answerAs == TQAtype::e_asName)
-            quest += getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
+            quest += "<br>" + getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
         
       break;
       
       case TQAtype::e_asSound:
         if (question.answerAs == TQAtype::e_asNote) {
           m_scoreFree = false;
+          quest += tr("Listened sound show in the score");
+          if (level->useKeySign && level->manualKey) {
+            QString keyTxt;
+            if (question.key.isMinor())
+              keyTxt = question.key.getMinorName();
+            else
+              keyTxt = question.key.getMajorName();
+            quest += tr("<br><b>in %1 key.</b>", "in key signature").arg(keyTxt);
+          }
+           quest += "<br>" + getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
         } else
           if (question.answerAs == TQAtype::e_asName) {
             m_nameFree = false;
+            quest += tr("Give name of listened sound");
+            quest += "<br>" + getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
           } else
             if (question.answerAs == TQAtype::e_asFretPos) {
               m_guitarFree = false;
-          
+              quest += tr("Listened sound show on the guitar");
+              if (level->showStrNr)
+              quest += "<br><b>" + tr(" on <span style=\"font-family: nootka;\">%1</span> string.").
+                      arg((int)question.qa.pos.str()) + "</b>";
             } else
               if (question.answerAs == TQAtype::e_asSound) {
-          
+                quest += tr("Play or sing listened sound");          
               }
       break;
     }
