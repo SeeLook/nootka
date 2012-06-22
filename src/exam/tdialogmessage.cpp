@@ -28,6 +28,7 @@
 #include <QPainter>
 #include <QHBoxLayout>
 #include <QEvent>
+#include <QX11Info>
 #include <QDebug>
 
 extern Tglobals *gl;
@@ -53,19 +54,20 @@ TdialogMessage::TdialogMessage(TQAunit& question, int questNr, TexamLevel *level
 //     setWindowOpacity(0.8);
 // 	setStyleSheet("background:transparent;");
 //     setStyleSheet(gl->getBGcolorText(gl->EquestionColor));
-//     setAttribute(Qt::WA_TranslucentBackground, true);
+    if (QX11Info::isCompositingManagerRunning())
+        setAttribute(Qt::WA_TranslucentBackground, true);
     QHBoxLayout *lay = new QHBoxLayout;
     m_mainLab = new QLabel(getQuestion(question, questNr, level), this);
     m_mainLab->setFixedSize(parentGeo.width() / 3 - 10, parentGeo.height() / 3 - 10);
     m_mainLab->setAlignment(Qt::AlignCenter);
     m_mainLab->setWordWrap(true);
     if (m_guitarFree)
-      m_pos = QPoint(parentGeo.left() + parentGeo.width() / 3, parentGeo.top() + (parentGeo.height() /3) * 2 + 8);
+      m_pos = QPoint(parentGeo.left() + parentGeo.width() / 3, parentGeo.top() + (parentGeo.height() /3) * 2);
     else
       if (m_nameFree)
         m_pos = QPoint(parentGeo.left() + (parentGeo.width() / 2), parentGeo.top() + (parentGeo.height() /3));
       else // on the score
-        m_pos = QPoint(parentGeo.left() + 10, parentGeo.top() + parentGeo.height() /15);
+        m_pos = QPoint(parentGeo.left() + 10, parentGeo.top() + parentGeo.height() /10);
     setGeometry(m_pos.x(), m_pos.y(), parentGeo.width() / 3, parentGeo.height() / 3);
     QFont f(font());
     f.setPointSize(height() / 12);
@@ -120,6 +122,7 @@ QString TdialogMessage::getQuestion(TQAunit& question, int questNr, TexamLevel* 
       break;
       
       case TQAtype::e_asName:
+        m_nameFree = false;
         noteStr = "<br><b>" + TnoteName::noteToRichText(question.qa.note) + "</b>";
         if (question.answerAs == TQAtype::e_asNote) {
           m_nameFree = false;
@@ -177,9 +180,9 @@ QString TdialogMessage::getQuestion(TQAunit& question, int questNr, TexamLevel* 
               }
         quest += "<p style=\"font-size: 25px;\">" + TtipChart::wrapPosToHtml(question.qa.pos) + "</p>";
         if (apendix != "")
-          quest += apendix;
+          quest += apendix + "<br>";
         if (question.answerAs == TQAtype::e_asNote || question.answerAs == TQAtype::e_asName)
-            quest += "<br>" + getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
+            quest += getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
         
       break;
       
@@ -234,7 +237,8 @@ void TdialogMessage::paintEvent(QPaintEvent *) {
 }
 
 void TdialogMessage::mainWindowMoved(QPoint vector) {
-    move(m_pos + vector);
+    m_pos = m_pos + vector;
+    move(m_pos);
 }
 
 
