@@ -54,23 +54,30 @@ TdialogMessage::TdialogMessage(TQAunit& question, int questNr, TexamLevel *level
 //     setWindowOpacity(0.8);
 // 	setStyleSheet("background:transparent;");
 //     setStyleSheet(gl->getBGcolorText(gl->EquestionColor));
-    if (QX11Info::isCompositingManagerRunning())
+#if defined(Q_OS_LINUX)
+  // check is Transparent background supported
+  // fe. LXDE windows manager doesn't suport composite and displays ugly black frame
+  // Windows doesn't support checking but composite works always
+    if (QX11Info::isCompositingManagerRunning()) 
         setAttribute(Qt::WA_TranslucentBackground, true);
+#else
+        setAttribute(Qt::WA_TranslucentBackground, true);
+#endif
     QHBoxLayout *lay = new QHBoxLayout;
     m_mainLab = new QLabel(getQuestion(question, questNr, level), this);
     m_mainLab->setFixedSize(parentGeo.width() / 3 - 10, parentGeo.height() / 3 - 10);
     m_mainLab->setAlignment(Qt::AlignCenter);
     m_mainLab->setWordWrap(true);
     if (m_guitarFree)
-      m_pos = QPoint(parentGeo.left() + parentGeo.width() / 3, parentGeo.top() + (parentGeo.height() /3) * 2);
+      m_pos = QPoint(parentGeo.left() + parentGeo.width() / 2, parentGeo.top() + (parentGeo.height() /3) * 2);
     else
       if (m_nameFree)
-        m_pos = QPoint(parentGeo.left() + (parentGeo.width() / 2), parentGeo.top() + (parentGeo.height() /3));
+        m_pos = QPoint(parentGeo.left() + (parentGeo.width() / 2), parentGeo.top() + (parentGeo.height() /4));
       else // on the score
         m_pos = QPoint(parentGeo.left() + 10, parentGeo.top() + parentGeo.height() /10);
-    setGeometry(m_pos.x(), m_pos.y(), parentGeo.width() / 3, parentGeo.height() / 3);
+    setGeometry(m_pos.x(), m_pos.y(), parentGeo.width() / 3, parentGeo.height() / 3 - parentGeo.height() / 10);
     QFont f(font());
-    f.setPointSize(height() / 12);
+    f.setPointSize(height() / 10);
     m_mainLab->setFont(f);
     m_mainLab->setStyleSheet(QString("border-radius: 10px; %1").arg(gl->getBGcolorText(gl->EquestionColor)));
     lay->addStretch(1);
@@ -99,7 +106,8 @@ QString TdialogMessage::getQuestion(TQAunit& question, int questNr, TexamLevel* 
               keyTxt = question.key.getMajorName();
             apendix = tr("<br><b>in %1 key.</b>", "in key signature").arg(keyTxt);
           }
-           quest += "<br>" + getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);
+          if (level->forceAccids)
+            quest += "<br>" + getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);
         } else
           if (question.answerAs == TQAtype::e_asName) {
             m_nameFree = false;
@@ -178,11 +186,12 @@ QString TdialogMessage::getQuestion(TQAunit& question, int questNr, TexamLevel* 
               if (question.answerAs == TQAtype::e_asSound) {
                 quest += tr("Play or sing");
               }
-        quest += "<p style=\"font-size: 25px;\">" + TtipChart::wrapPosToHtml(question.qa.pos) + "</p>";
+        quest += "<br><span style=\"font-size: 25px;\">" + TtipChart::wrapPosToHtml(question.qa.pos) + "</span>";
         if (apendix != "")
-          quest += apendix + "<br>";
+          quest += "<br>" + apendix;
         if (question.answerAs == TQAtype::e_asNote || question.answerAs == TQAtype::e_asName)
-            quest += getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
+          if (level->forceAccids)
+            quest += "<br>" + getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
         
       break;
       
@@ -198,12 +207,14 @@ QString TdialogMessage::getQuestion(TQAunit& question, int questNr, TexamLevel* 
               keyTxt = question.key.getMajorName();
             quest += tr("<br><b>in %1 key.</b>", "in key signature").arg(keyTxt);
           }
-           quest += "<br>" + getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
+          if (level->forceAccids)
+            quest += "<br>" + getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
         } else
           if (question.answerAs == TQAtype::e_asName) {
             m_nameFree = false;
             quest += tr("Give name of listened sound");
-            quest += "<br>" + getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
+            if (level->forceAccids)
+                quest += "<br>" + getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
           } else
             if (question.answerAs == TQAtype::e_asFretPos) {
               m_guitarFree = false;

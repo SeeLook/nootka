@@ -244,14 +244,15 @@ void TanalysDialog::zoomOutSlot() {
 void TanalysDialog::wrongSeparateSlot() {
   m_chartSetts.separateWrong = m_wrongSeparateAct->isChecked();
   if (m_wrongSeparateAct->isChecked()) {
-    m_inclWrongAct->setDisabled(true); // wrong sepereted - it has no sense - look it!
-    m_chartSetts.inclWrongAnsw = false; // and reset 
     disconnect(m_inclWrongAct, SIGNAL(changed()), this, SLOT(includeWrongSlot()));
+    m_inclWrongAct->setDisabled(true); // wrong separeted - it has no sense - lock it!
+    m_chartSetts.inclWrongAnsw = false; // and reset 
     m_inclWrongAct->setChecked(false);
-    connect(m_inclWrongAct, SIGNAL(changed()), this, SLOT(includeWrongSlot()));
   }
   else {
+    disconnect(m_inclWrongAct, SIGNAL(changed()), this, SLOT(includeWrongSlot()));
     m_inclWrongAct->setDisabled(false); // unlock
+    connect(m_inclWrongAct, SIGNAL(changed()), this, SLOT(includeWrongSlot()));
   }
   createChart(m_chartSetts);
 }
