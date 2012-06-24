@@ -24,8 +24,10 @@
 #include <QDialog>
 #include "tnote.h"
 
-class TexamLevel;
+class Texam;
+class MainWindow;
 class TQAunit;
+class TexamLevel;
 class QLabel;
 
 
@@ -34,10 +36,10 @@ class TdialogMessage : public QDialog
 {
    Q_OBJECT
 public:
-    explicit TdialogMessage(TQAunit &question, int questNr, TexamLevel *level, const QRect &parentGeo);
+    explicit TdialogMessage(Texam *exam, MainWindow *parent, Tnote::EnameStyle style);
     static QString getTextHowAccid(Tnote::Eacidentals accid);
         /** Returns html-formated question text. */
-    QString getQuestion(TQAunit &question, int questNr, TexamLevel *level);
+    QString getQuestion(TQAunit &question, int questNr, TexamLevel *level, Tnote::EnameStyle style);
     
 public slots:
     void mainWindowMoved(QPoint vector);

@@ -23,7 +23,9 @@
 #include "ttipchart.h"
 #include "texamlevel.h"
 #include "tglobals.h"
-#include <tnotename.h>
+#include "tnotename.h"
+#include "mainwindow.h"
+#include "texam.h"
 #include <QLabel>
 #include <QPainter>
 #include <QHBoxLayout>
@@ -45,7 +47,7 @@ QString TdialogMessage::getTextHowAccid(Tnote::Eacidentals accid) {
 
 //#################################### CONSTRUCTOR ###########################################
 
-TdialogMessage::TdialogMessage(TQAunit& question, int questNr, TexamLevel *level, const QRect& parentGeo) :
+TdialogMessage::TdialogMessage(Texam *exam, MainWindow *parent, Tnote::EnameStyle style) :
     QDialog(0, Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::Tool | Qt::X11BypassWindowManagerHint),
     m_scoreFree(true),
     m_nameFree(true),
@@ -63,8 +65,9 @@ TdialogMessage::TdialogMessage(TQAunit& question, int questNr, TexamLevel *level
 #else
         setAttribute(Qt::WA_TranslucentBackground, true);
 #endif
+    QRect parentGeo = parent->geometry();
     QHBoxLayout *lay = new QHBoxLayout;
-    m_mainLab = new QLabel(getQuestion(question, questNr, level), this);
+    m_mainLab = new QLabel(getQuestion(exam->qusetion(exam->count()-1), exam->count(), exam->level(), style), this);
     m_mainLab->setFixedSize(parentGeo.width() / 3 - 10, parentGeo.height() / 3 - 10);
     m_mainLab->setAlignment(Qt::AlignCenter);
     m_mainLab->setWordWrap(true);
@@ -87,7 +90,7 @@ TdialogMessage::TdialogMessage(TQAunit& question, int questNr, TexamLevel *level
     show();
 }
 
-QString TdialogMessage::getQuestion(TQAunit& question, int questNr, TexamLevel* level) {
+QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* level, Tnote::EnameStyle style) {
     QString quest = QString("<b>%1. </b><br>").arg(questNr);
     QString apendix = "";
     QString noteStr;
@@ -97,7 +100,7 @@ QString TdialogMessage::getQuestion(TQAunit& question, int questNr, TexamLevel* 
 //         QString apendix = "";
         m_scoreFree = false;
         if (question.answerAs == TQAtype::e_asNote) {
-          quest += tr("Convert enharmonicaly and show in the score");
+          quest += tr("Change enharmonicaly and show in the score");
           if (level->useKeySign && level->manualKey) {
             QString keyTxt;
             if (question.key.isMinor())
@@ -146,8 +149,17 @@ QString TdialogMessage::getQuestion(TQAunit& question, int questNr, TexamLevel* 
         } else
           if (question.answerAs == TQAtype::e_asName) {
             m_nameFree = false;
-            quest += tr("Convert enharmonicaly and give name of") + noteStr +
-                  getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);                
+            Tnote::EnameStyle tmpStyle = gl->NnameStyleInNoteName;
+            gl->NnameStyleInNoteName = style;
+            noteStr = "<br><b>" + TnoteName::noteToRichText(question.qa.note) + "</b>";
+            if (question.qa.note.acidental != question.qa_2.note.acidental)
+                quest += tr("Change enharmonicaly and give name of");
+            else
+                quest += tr("Use another style to give name of");
+            quest += noteStr + "<br>" + getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);
+            gl->NnameStyleInNoteName = tmpStyle;
+            // It is not so elegant to get note name in different style this way
+            // but there is no other way
           } else
             if (question.answerAs == TQAtype::e_asFretPos) {
               m_guitarFree = false;
