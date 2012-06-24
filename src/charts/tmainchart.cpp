@@ -61,17 +61,18 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
       int ln = 0;
       for (int i = 0; i < sortedLists.size(); i++)
         ln += sortedLists[i].size();
+//       qDebug() << "questions number" << ln;
       prepareChart(ln);
       m_mainLine = new TmainLine(sortedLists, this);
       int cnt = 1;
       // paint lines with average time of all the same notes
       for (int i = 0; i < goodSize; i++) { // skip wrong answers if separeted
-        double aTime = calcAverTime(sortedLists[i], m_settings.inclWrongAnsw) / 10.0;
+        double aTime = calcAverTime(sortedLists[i], !m_settings.inclWrongAnsw) / 10.0;
         TgraphicsLine *aNoteLine = new TgraphicsLine("<p>" + TexamView::averAnsverTimeTxt() + 
           QString("<br>%1<br>%2 s</p>").arg(tr("for a note:  ", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>" + TnoteName::noteToRichText(sortedLists[i].operator[](0)->qa.note) + "</b>").arg(aTime));
         scene->addItem(aNoteLine);
         aNoteLine->setZValue(46);
-        aNoteLine->setPen(QPen(QColor(255, 153, 57), 3));
+        aNoteLine->setPen(QPen(QColor(255, 153, 57), 3)); // orange
         aNoteLine->setLine(xAxis->mapValue(cnt - 0.4) + xAxis->pos().x(), yAxis->mapValue(aTime),
           xAxis->mapValue(cnt + sortedLists[i].size() -0.6) + xAxis->pos().x(), yAxis->mapValue(aTime));
         cnt += sortedLists[i].size();
@@ -200,11 +201,13 @@ QList<TanswerListPtr> TmainChart::sortByNote(TanswerListPtr& answList) {
     for (int j = 0; j < theSame.size(); j++) {
       TanswerListPtr noteList;
       for (int k = 0; k < answList.size(); k++) {
-        if (answList.operator[](k)->qa.note == theSame[j] && 
-            !(answList.operator[](k)->questionAs == TQAtype::e_asFretPos && 
-              answList.operator[](k)->questionAs == TQAtype::e_asFretPos)
-          )
-                  noteList << answList.operator[](k);
+        if (answList.operator[](k)->qa.note == theSame[j]) {
+            if (answList.operator[](k)->questionAs == TQAtype::e_asFretPos && 
+              answList.operator[](k)->answerAs == TQAtype::e_asFretPos)
+                qDebug("guitar -> guitar: not implemented");
+            else
+                noteList << answList.operator[](k);   
+        }
       }
       if (!noteList.isEmpty()) {
         result << noteList;
@@ -220,7 +223,7 @@ QList<TanswerListPtr> TmainChart::sortByNote(TanswerListPtr& answList) {
                       ignoredList << answList.operator[](k);
       if (!ignoredList.isEmpty())
         result << ignoredList; // add ignoredList at the end
-//           qDebug() << ignoredList.size();
+          qDebug() << ignoredList.size();
   }
   return result;
 }

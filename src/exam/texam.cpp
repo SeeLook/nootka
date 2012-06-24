@@ -23,7 +23,7 @@
 #include <QFile>
 #include <QDataStream>
 #include <QMessageBox>
-// #include <QDebug>
+#include <QDebug>
 
 /*static*/
 const qint32 Texam::examVersion = 0x95121702;
@@ -72,6 +72,7 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
           if (!getTQAunitFromStream(in, qaUnit))
               isExamFileOk = false;
           m_answList << qaUnit;
+//           qDebug() << m_answList.size() << QString::fromStdString(qaUnit.qa.note.getName());
           m_workTime += qaUnit.time; // 
           if ( !qaUnit.correct() )
               tmpMist++;
