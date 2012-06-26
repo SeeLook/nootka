@@ -433,6 +433,13 @@ bool MainWindow::event(QEvent *event) {
             m_statLab->setText("<center>"+se->tip()+"</center>");
         }
     } 
+    if (event->type() == QEvent::WindowStateChange){
+      if (isMinimized()) {
+        emit minimised();
+      }
+      else
+        emit maximised();
+    }
     return QMainWindow::event(event);
 }
 
@@ -455,6 +462,7 @@ void MainWindow::resizeEvent(QResizeEvent *) {
     noteName->resize(m_statFontSize);
     pitchView->resize(m_statFontSize);
     setUpdatesEnabled(true);
+    emit sizeChanged();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
@@ -485,3 +493,4 @@ void MainWindow::moveEvent(QMoveEvent* event) {
     QPoint v = event->pos() - event->oldPos();
     emit moved(v);
 }
+

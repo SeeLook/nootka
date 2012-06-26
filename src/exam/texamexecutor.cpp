@@ -424,7 +424,6 @@ void TexamExecutor::askQuestion() {
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
     m_questMessage = new TdialogMessage(m_exam, mW, m_prevStyle);
-    connect(mW, SIGNAL(moved(QPoint)), m_questMessage, SLOT(mainWindowMoved(QPoint)));
 }
 
 
@@ -439,7 +438,6 @@ void TexamExecutor::checkAnswer(bool showResults) {
     m_isAnswered = true;
     disconnect(mW->sound->player, 0, this, 0);
     if (m_questMessage) {
-      disconnect(mW, SIGNAL(moved(QPoint)), m_questMessage, SLOT(mainWindowMoved(QPoint)));
       delete m_questMessage;
       m_questMessage = 0;
     }    
@@ -606,7 +604,6 @@ void TexamExecutor::repeatQuestion() {
         repeatSound();
     }
     m_questMessage = new TdialogMessage(m_exam, mW, m_prevStyle);
-    connect(mW, SIGNAL(moved(QPoint)), m_questMessage, SLOT(mainWindowMoved(QPoint)));
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
 }

@@ -24,6 +24,7 @@
 #include <QDialog>
 #include "tnote.h"
 
+class TkeySignature;
 class Texam;
 class MainWindow;
 class TQAunit;
@@ -38,19 +39,26 @@ class TdialogMessage : public QDialog
 public:
     explicit TdialogMessage(Texam *exam, MainWindow *parent, Tnote::EnameStyle style);
     static QString getTextHowAccid(Tnote::Eacidentals accid);
+    static QString getKeyText(TkeySignature &key);
         /** Returns html-formated question text. */
     QString getQuestion(TQAunit &question, int questNr, TexamLevel *level, Tnote::EnameStyle style);
     
 public slots:
     void mainWindowMoved(QPoint vector);
+    void mainWindowMaximised();
+    void mainWindowMinimised();
+    void mainWindowResized();
 	
 protected:
     virtual void paintEvent(QPaintEvent *);
+    
+    void setPosAndSize();
     
 private:
     QLabel *m_mainLab;
     QPoint m_pos;
     bool m_scoreFree, m_nameFree, m_guitarFree; // Indicate when widgets show question or answer
+    MainWindow *m_parent;
 };
 
 #endif // TDIALOGMESSAGE_H
