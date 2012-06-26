@@ -4,32 +4,32 @@
 <context>
     <name>AnswerText</name>
     <message>
-        <location filename="../src/charts/tnotepixmap.cpp" line="154"/>
+        <location filename="../src/charts/tnotepixmap.cpp" line="173"/>
         <source>It was good!</source>
         <translation>To bylo dobré!</translation>
     </message>
     <message>
-        <location filename="../src/charts/tnotepixmap.cpp" line="157"/>
+        <location filename="../src/charts/tnotepixmap.cpp" line="176"/>
         <source>Wrong answer!</source>
         <translation>Špatná odpověď!</translation>
     </message>
     <message>
-        <location filename="../src/charts/tnotepixmap.cpp" line="159"/>
+        <location filename="../src/charts/tnotepixmap.cpp" line="178"/>
         <source>Not so bad, but:</source>
         <translation>Nebylo to tak špatné, ale:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tnotepixmap.cpp" line="162"/>
+        <location filename="../src/charts/tnotepixmap.cpp" line="181"/>
         <source>wrong accidental</source>
         <translation>nesprávná posuvka</translation>
     </message>
     <message>
-        <location filename="../src/charts/tnotepixmap.cpp" line="166"/>
+        <location filename="../src/charts/tnotepixmap.cpp" line="185"/>
         <source>wrong key signature</source>
         <translation>nesprávná tónina</translation>
     </message>
     <message>
-        <location filename="../src/charts/tnotepixmap.cpp" line="173"/>
+        <location filename="../src/charts/tnotepixmap.cpp" line="192"/>
         <source>wrong octave</source>
         <translation>Chybná oktáva</translation>
     </message>
@@ -481,52 +481,52 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="106"/>
+        <location filename="../src/mainwindow.cpp" line="107"/>
         <source>show or hide the hints</source>
         <translation>Ukázat nebo skrýt rady</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="177"/>
+        <location filename="../src/mainwindow.cpp" line="179"/>
         <source>Settings</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="178"/>
+        <location filename="../src/mainwindow.cpp" line="180"/>
         <source>Application preferences</source>
         <translation>Nastavení programu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="191"/>
+        <location filename="../src/mainwindow.cpp" line="193"/>
         <source>Analyse of an exam results</source>
         <translation>Rozbor výsledků zkoušky</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="214"/>
+        <location filename="../src/mainwindow.cpp" line="216"/>
         <source>Start an exam</source>
         <translation>Spustit zkoušku</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="388"/>
+        <location filename="../src/mainwindow.cpp" line="390"/>
         <source>Note was detected !!</source>
         <translation>Byla zjištěna nota!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="194"/>
+        <location filename="../src/mainwindow.cpp" line="196"/>
         <source>about</source>
         <translation>O programu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="156"/>
+        <location filename="../src/mainwindow.cpp" line="157"/>
         <source>Problems with sound output</source>
         <translation>Potíže se zvukovým výstupem</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="195"/>
+        <location filename="../src/mainwindow.cpp" line="197"/>
         <source>About Nootka</source>
         <translation>O programu Nootka</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="84"/>
+        <location filename="../src/mainwindow.cpp" line="85"/>
         <source>main toolbar</source>
         <translation>Hlavní nástrojový pruh</translation>
     </message>
@@ -652,7 +652,7 @@
         <translation>moll</translation>
     </message>
     <message>
-        <location filename="../src/exam/texam.cpp" line="119"/>
+        <location filename="../src/exam/texam.cpp" line="120"/>
         <source>Cannot save exam file:
 %1</source>
         <translation>Nelze uložit soubor se zkouškou:
@@ -767,12 +767,12 @@
 <context>
     <name>Tabout</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="96"/>
+        <location filename="../src/info/taboutnootka.cpp" line="102"/>
         <source>&lt;p&gt; Welcome on the board.&lt;br&gt; Nootka is open source application to help You learning (and teaching also) classical score notation. It is specially dedicated for guitarists but others can find something usable as well.&lt;br&gt;This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features. Inspite of that You are welcome to try it !!&lt;/p&gt;&lt;p&gt;See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releaces.&lt;/p&gt;&lt;p&gt;Any bugs, sugestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author&lt;/p&gt;&lt;br&gt;</source>
         <translation>&lt;p&gt;Vítejte na palubě.&lt;br&gt; Nootka je program s otevřeným zdrojovým kódem, která vám má pomoci při učení (a také vyučování) klasického notového zápisu. Je určen obzvláště kytaristům ale i jiní na něm můžou najít něco pro ně užitečného.&lt;br&gt;Toto je betaverze a může obsahovat chyby nebo se chovat neočekávaně. Také má nedodělané vlastnosti, ale přesto jste zváni, abyste ji vyzkoušeli!&lt;/p&gt;&lt;p&gt;Podívejte se na stránky programu &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;&lt;/a&gt;, kde naleznete více podrobností a informace o dalších vydáních.&lt;/p&gt;&lt;p&gt;Jakékoli chyby programu, návrhy, překlady a tak dále posílejte na adresu: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com.&lt;/a&gt;&lt;p/&gt;&lt;p&gt;V úctě autor&lt;br&gt;&lt;/p&gt;&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="98"/>
+        <location filename="../src/info/taboutnootka.cpp" line="104"/>
         <source>&lt;br&gt;To support project and also to avoid infection of Your PC&lt;br&gt;&lt;b&gt;PLEASE, use project site to download updates, new releases and to see news.&lt;/b&gt;</source>
         <translation>&lt;br&gt;Pro podporu projektu, a abyste se vyhnuli možnému nakažení vašeho počítače, používejte, prosím, &lt;br&gt;&lt;b&gt;pro stahování aktualizací, nových vydání a pro sledování novinek stránky projektu.&lt;/b&gt;</translation>
     </message>
@@ -780,17 +780,22 @@
 <context>
     <name>TaboutNootka</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="48"/>
+        <location filename="../src/info/taboutnootka.cpp" line="49"/>
         <source>About</source>
         <translation>O programu</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="62"/>
+        <location filename="../src/info/taboutnootka.cpp" line="58"/>
+        <source>Support</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/info/taboutnootka.cpp" line="67"/>
         <source>Translators</source>
         <translation>Překladatelé</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="63"/>
+        <location filename="../src/info/taboutnootka.cpp" line="68"/>
         <source>Althougth this application could not exist without various open source projects.&lt;br&gt;Especially:</source>
         <translation>Tento program by nemohl být bez dalších různých projektů s otevřeným zdrojovým kódem.&lt;br&gt;Obzvláště:</translation>
     </message>
@@ -800,7 +805,7 @@
         <translation>Autoři</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="54"/>
+        <location filename="../src/info/taboutnootka.cpp" line="55"/>
         <source>License</source>
         <translation>Povolení</translation>
     </message>
@@ -808,59 +813,79 @@
 <context>
     <name>TanalysDialog</name>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="42"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="43"/>
         <source>Analyse of an exam results</source>
         <translation>Rozbor výsledků zkoušky</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="51"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="56"/>
         <source>ordered by:</source>
         <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
         <translation>Seřazeno podle:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="52"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="57"/>
         <source>student name:</source>
         <translation>Žákovo jméno:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="53"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="58"/>
         <source>level:</source>
         <translation>Úroveň:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="55"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="60"/>
         <source>question number</source>
         <comment>see coment in &apos;ordered by:&apos; entry</comment>
         <translation>Otázka číslo</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="110"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="61"/>
+        <source>note pitch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="96"/>
+        <source>Select an exam from a file&lt;br&gt;Use CTRL + mouse wheel to zoom a chart.&lt;br&gt;Drag a cursor to move the chart.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="124"/>
         <source>Questions number:</source>
         <translation>Číslo otázky:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="150"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="148"/>
         <source>Open an exam</source>
         <translation>Otevřít zkoušku</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="153"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="151"/>
         <source>Close analyser</source>
         <translation>Zavřít analyzátor</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="156"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="154"/>
         <source>zoom in</source>
         <translation>Přiblížit</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="159"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="157"/>
         <source>zoom out</source>
         <translation>Oddálit</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="176"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="160"/>
+        <source>include time of wrong answers to average</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="162"/>
+        <source>show wrong answers separately</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="207"/>
         <source>Load an exam file</source>
         <translation>Nahrát soubor se zkouškou</translation>
     </message>
@@ -1003,85 +1028,182 @@
     </message>
 </context>
 <context>
+    <name>TdialogMessage</name>
+    <message>
+        <location filename="../src/exam/tdialogmessage.cpp" line="41"/>
+        <source>Use %1</source>
+        <translation type="unfinished">Použít %1</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tdialogmessage.cpp" line="42"/>
+        <source> Don&apos;t use accidentals!</source>
+        <translation type="unfinished">Nepoužívat posuvky!</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tdialogmessage.cpp" line="135"/>
+        <source>Change enharmonicaly and show in the score</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tdialogmessage.cpp" line="137"/>
+        <source>Given note show in the score</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tdialogmessage.cpp" line="139"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="170"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="208"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="243"/>
+        <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
+        <comment>in key signature</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tdialogmessage.cpp" line="146"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="214"/>
+        <source>Give name of</source>
+        <translation type="unfinished">Udejte název</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tdialogmessage.cpp" line="150"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="191"/>
+        <source>Show on the guitar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tdialogmessage.cpp" line="152"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="193"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="258"/>
+        <source> on &lt;span style=&quot;font-family: nootka;&quot;&gt;%1&lt;/span&gt; string.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tdialogmessage.cpp" line="168"/>
+        <source>Show in the score</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tdialogmessage.cpp" line="180"/>
+        <source>Change enharmonicaly and give name of</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tdialogmessage.cpp" line="182"/>
+        <source>Use another style to give name of</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tdialogmessage.cpp" line="197"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="221"/>
+        <source>Play or sing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tdialogmessage.cpp" line="206"/>
+        <source>Show on the score note played on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tdialogmessage.cpp" line="236"/>
+        <source>Listened sound show in the score</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tdialogmessage.cpp" line="250"/>
+        <source>Give name of listened sound</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tdialogmessage.cpp" line="256"/>
+        <source>Listened sound show on the guitar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tdialogmessage.cpp" line="262"/>
+        <source>Play or sing listened sound</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TexamExecutor</name>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="109"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="111"/>
         <source>File: %1 
  is not valid exam file !!!</source>
         <translation>Soubor: %1 
 není platným souborem zkoušky!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="88"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="90"/>
         <source>&lt;b&gt;Exam file seems to be corrupted&lt;/b&gt;&lt;br&gt;Better start new exam on the same level</source>
         <translation>&lt;b&gt;Zdá se, že soubor se zkouškou je poškozený.&lt;/b&gt;&lt;br&gt;Lepší bude začít novou zkoušku na stejné úrovni</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="93"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="95"/>
         <source>Tune of the guitar was changed in this exam !!.&lt;br&gt;Now it is:&lt;br&gt;&lt;b&gt;%1&lt;/b&gt;</source>
         <translation>Zvuk kytary byl v této zkoušce změněn!&lt;br&gt;nyní je to:&lt;br&gt;&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="96"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="98"/>
         <source>&lt;br&gt;&lt;br&gt;This exam requires more frets,&lt;br&gt;so frets number in the guitar will be changed.</source>
         <translation>&lt;br&gt;&lt;br&gt;Tato zkouška vyžaduje více pražců,&lt;br&gt;takže počet pražců kytary bude změněn.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="129"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="131"/>
         <source>An exam requires sound but&lt;br&gt;sound output is not available !!!</source>
         <translation>Zkouška vyžaduje zvuk,&lt;br&gt;ale zvukový výstup není dostupný!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="178"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="180"/>
         <source>repeat prevoius question (backspace)</source>
         <translation>Opakovat předchozí otázku (klávesa Backspace)</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="171"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="173"/>
         <source>next question
 (space %1)</source>
         <translation>Další otázku
 (mezerník %1)</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="184"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="186"/>
         <source>check answer
 (enter %1)</source>
         <translation>Ověřit odpověď
 (klávesa Enter %1)</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="191"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="193"/>
         <source>play sound again</source>
         <translation>Přehrát zvuk znovu</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="198"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="200"/>
         <source>Level &lt;b&gt;%1&lt;b&gt;&lt;br&gt;has no sense till there are no any possible questions to ask.&lt;br&gt;It can be unadjusted to current tune.&lt;br&gt;Repair it in Level Creator and try again.</source>
         <translation>Úroveň &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nemá smysl, protože nemá žádnou otázku, kterou by bylo možné zadat.&lt;br&gt;Může být nenastavena na nynější ladění.&lt;br&gt;Opravte to v tvůrci úrovní a zkuste to znovu.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="264"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="266"/>
         <source>Given note show </source>
         <translation>Ukažte zadanou notu </translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="284"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="286"/>
         <source>Given note name show </source>
         <translation>Ukažte název zadané noty </translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="291"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="293"/>
         <source>Given position show </source>
         <translation>Ukažte zadanou polohu </translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="302"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="304"/>
         <source>Played sound show </source>
         <translation>Ukažte přehraný zvuk </translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="323"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="325"/>
         <source> &lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
         <translation> &lt;b&gt;v tónině %1.&lt;/b&gt;</translation>
@@ -1095,52 +1217,52 @@ není platným souborem zkoušky!</translation>
         <translation type="obsolete">&lt;br&gt;Zkuste to znovu!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="827"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="842"/>
         <source>Save</source>
         <translation>Uložit</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="828"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="843"/>
         <source>Discard</source>
         <translation>Odmítnout</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="607"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="614"/>
         <source>exam started on level</source>
         <translation>Zkouška začala na úrovni</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="750"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="765"/>
         <source>Give an answer first!&lt;br&gt;Then the exam&apos;ll be finished</source>
         <translation>Nejprve odpovězte!&lt;br&gt;Potom bude zkouška dokončena</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="798"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="813"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
         <translation>Pssst... Zkouška trvá.&lt;br&gt;&lt;br&gt;&lt;b&gt;Pokračujte&lt;/b&gt; &lt;br&gt;nebo&lt;br&gt;&lt;b&gt;skončete&lt;/b&gt; pro ověření, uložení a ukončení&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="799"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="814"/>
         <source>Continue</source>
         <translation>Pokračovat</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="800"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="815"/>
         <source>Terminate</source>
         <translation>Ukončit</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="826"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="841"/>
         <source>If You don&apos;t save to file&lt;br&gt;You lost all results !!</source>
         <translation>Pokud soubor neuložíte&lt;br&gt;ztratíte všechny výsledky!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="364"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="366"/>
         <source>Give name of</source>
         <translation>Udejte název</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="143"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="145"/>
         <source>An exam requires sound input but&lt;br&gt;it is not available !!!</source>
         <translation>Zkouška vyžaduje vstup zvuku,&lt;br&gt;ale zvukový vstup není dostupný!</translation>
     </message>
@@ -1149,12 +1271,12 @@ není platným souborem zkoušky!</translation>
         <translation type="obsolete">Úroveň &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nemá smysl, protože nemá žádnou otázku, kterou by bylo možné zadat.&lt;br&gt;Může být nenastavena na nynější ladění.&lt;br&gt;Opravte to v tvůrci úrovní a zkuste to znovu.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="395"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="397"/>
         <source> on &lt;span style=&quot;font-family: nootka; font-size:%1px;&quot;&gt;%2&lt;/span&gt; string.</source>
         <translation> na &lt;span style=&quot;font-family: nootka; font-size:%1px;&quot;&gt;%2&lt;/span&gt; struně.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="404"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="406"/>
         <source>Play or sing given note</source>
         <translation>Zahrajte nebo zazpívejte danou notu</translation>
     </message>
@@ -1179,42 +1301,42 @@ není platným souborem zkoušky!</translation>
         <translation type="obsolete"> Nesprávná poloha.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="521"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="528"/>
         <source>To correct an answer</source>
         <translation>Pro opravu odpovědi</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="606"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="613"/>
         <source>EXAM!!</source>
         <translation>ZKOUŠKA!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="612"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="619"/>
         <source>help</source>
         <translation>Nápověda</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="615"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="622"/>
         <source>stop the exam</source>
         <translation>Zastavit zkoušku</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="781"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="796"/>
         <source>so a pity</source>
         <translation>Jaká škoda</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="790"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="805"/>
         <source>Use %1</source>
         <translation>Použít %1</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="791"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="806"/>
         <source> Don&apos;t use accidentals!</source>
         <translation>Nepoužívat posuvky!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="820"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="835"/>
         <source>Save exam&apos;s results as:</source>
         <translation>Uložit výsledky zkoušky jako:</translation>
     </message>
@@ -1708,6 +1830,15 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
 </context>
 <context>
+    <name>TmainChart</name>
+    <message>
+        <location filename="../src/charts/tmainchart.cpp" line="72"/>
+        <source>for a note:  </source>
+        <comment>average reaction time for...</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TnotationRadioGroup</name>
     <message>
         <location filename="../src/settings/tnotationradiogroup.cpp" line="37"/>
@@ -2038,7 +2169,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>about translator</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="69"/>
+        <location filename="../src/info/taboutnootka.cpp" line="74"/>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; Your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
         <translation>Pavel Fric&lt;br&gt;fripohled.blogspot.com</translation>
