@@ -51,11 +51,13 @@ TdialogMessage::TdialogMessage(Texam *exam, MainWindow *parent, Tnote::EnameStyl
     QDialog(0, Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::Tool | Qt::X11BypassWindowManagerHint),
     m_scoreFree(true),
     m_nameFree(true),
-    m_guitarFree(true)
+    m_guitarFree(true),
+    m_parent(parent)
 {
 //     setWindowOpacity(0.8);
 // 	setStyleSheet("background:transparent;");
 //     setStyleSheet(gl->getBGcolorText(gl->EquestionColor));
+
 #if defined(Q_OS_LINUX)
   // check is Transparent background supported
   // fe. LXDE windows manager doesn't suport composite and displays ugly black frame
@@ -68,27 +70,51 @@ TdialogMessage::TdialogMessage(Texam *exam, MainWindow *parent, Tnote::EnameStyl
     QRect parentGeo = parent->geometry();
     QHBoxLayout *lay = new QHBoxLayout;
     m_mainLab = new QLabel(getQuestion(exam->qusetion(exam->count()-1), exam->count(), exam->level(), style), this);
-    m_mainLab->setFixedSize(parentGeo.width() / 3 - 10, parentGeo.height() / 3 - 10);
     m_mainLab->setAlignment(Qt::AlignCenter);
     m_mainLab->setWordWrap(true);
-    if (m_guitarFree)
-      m_pos = QPoint(parentGeo.left() + parentGeo.width() / 2, parentGeo.top() + (parentGeo.height() /3) * 2);
-    else
-      if (m_nameFree)
-        m_pos = QPoint(parentGeo.left() + (parentGeo.width() / 2), parentGeo.top() + (parentGeo.height() /4));
-      else // on the score
-        m_pos = QPoint(parentGeo.left() + 10, parentGeo.top() + parentGeo.height() /10);
-    setGeometry(m_pos.x(), m_pos.y(), parentGeo.width() / 3, parentGeo.height() / 3 - parentGeo.height() / 10);
-    QFont f(font());
-    f.setPointSize(height() / 10);
-    m_mainLab->setFont(f);
+
+    setPosAndSize();
     m_mainLab->setStyleSheet(QString("border-radius: 10px; %1").arg(gl->getBGcolorText(gl->EquestionColor)));
     lay->addStretch(1);
     lay->addWidget(m_mainLab, 0, Qt::AlignCenter);
     lay->addStretch(1);
     setLayout(lay);
+    
+    connect(parent, SIGNAL(moved(QPoint)), this, SLOT(mainWindowMoved(QPoint)));
+    connect(parent, SIGNAL(maximised()), this, SLOT(mainWindowMaximised()));
+    connect(parent, SIGNAL(minimised()), this, SLOT(mainWindowMinimised()));
+    connect(parent, SIGNAL(sizeChanged()), this, SLOT(mainWindowResized()));
+    
     show();
 }
+
+void TdialogMessage::setPosAndSize() {
+  if (m_guitarFree)
+      m_pos = QPoint(m_parent->geometry().left() + m_parent->geometry().width() / 2, m_parent->geometry().top() + (m_parent->geometry().height() /3) * 2);
+    else
+      if (m_nameFree)
+        m_pos = QPoint(m_parent->geometry().left() + (m_parent->geometry().width() / 2),
+                       m_parent->geometry().top() + (m_parent->geometry().height() /4));
+      else // on the score
+        m_pos = QPoint(m_parent->geometry().left() + 10, m_parent->geometry().top() + m_parent->geometry().height() /10);
+    setGeometry(m_pos.x(), m_pos.y(), m_parent->geometry().width() / 3,
+                m_parent->geometry().height() / 3 - m_parent->geometry().height() / 10);
+    m_mainLab->setFixedSize(m_parent->geometry().width() / 3 - 10, m_parent->geometry().height() / 3 - 10);
+    QFont f(font());
+    f.setPointSize(height() / 10);
+    m_mainLab->setFont(f);
+}
+
+
+QString TdialogMessage::getKeyText(TkeySignature& key) {
+  QString keyTxt ="";
+  if (key.isMinor())
+      keyTxt = key.getMinorName();
+  else
+      keyTxt = key.getMajorName();
+  return keyTxt;
+}
+
 
 QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* level, Tnote::EnameStyle style) {
     QString quest = QString("<b>%1. </b><br>").arg(questNr);
@@ -96,18 +122,11 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
     QString noteStr;
     switch (question.questionAs) {
       case TQAtype::e_asNote:
-//         quest += "<table valign=\"middle\" align=\"center\"><tr><td>";
-//         QString apendix = "";
         m_scoreFree = false;
         if (question.answerAs == TQAtype::e_asNote) {
           quest += tr("Change enharmonicaly and show in the score");
           if (level->useKeySign && level->manualKey) {
-            QString keyTxt;
-            if (question.key.isMinor())
-              keyTxt = question.key.getMinorName();
-            else
-              keyTxt = question.key.getMajorName();
-            apendix = tr("<br><b>in %1 key.</b>", "in key signature").arg(keyTxt);
+            apendix = tr("<br><b>in %1 key.</b>", "in key signature").arg(getKeyText(question.key));
           }
           if (level->forceAccids)
             quest += "<br>" + getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);
@@ -129,7 +148,6 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
         quest += "<br>" + TtipChart::wrapPixToHtml(question.qa.note, true, question.key);
         if (apendix != "")
           quest += apendix;
-//         quest += "</td></tr></table>";
       break;
       
       case TQAtype::e_asName:
@@ -139,12 +157,7 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
           m_nameFree = false;
           quest += tr("Show in the score") + noteStr;
           if (level->useKeySign && level->manualKey) {
-            QString keyTxt;
-            if (question.key.isMinor())
-              keyTxt = question.key.getMinorName();
-            else
-              keyTxt = question.key.getMajorName();
-            quest += tr("<br><b>in %1 key.</b>", "in key signature").arg(keyTxt);
+            quest += tr("<br><b>in %1 key.</b>", "in key signature").arg(getKeyText(question.key));
           }
         } else
           if (question.answerAs == TQAtype::e_asName) {
@@ -180,12 +193,7 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
           m_scoreFree = false;
           quest += tr("Show on the score note played on");
           if (level->useKeySign && level->manualKey) {
-            QString keyTxt;
-            if (question.key.isMinor())
-              keyTxt = question.key.getMinorName();
-            else
-              keyTxt = question.key.getMajorName();
-            apendix = tr("<br><b>in %1 key.</b>", "in key signature").arg(keyTxt);
+            apendix = tr("<br><b>in %1 key.</b>", "in key signature").arg(getKeyText(question.key));
           }
         } else
           if (question.answerAs == TQAtype::e_asName) {
@@ -259,10 +267,25 @@ void TdialogMessage::paintEvent(QPaintEvent *) {
     painter.drawRoundedRect(rect, 10, 10);
 }
 
+//#################################### SLOTS ###########################################
+
 void TdialogMessage::mainWindowMoved(QPoint vector) {
     m_pos = m_pos + vector;
     move(m_pos);
 }
+
+void TdialogMessage::mainWindowMinimised() {
+  hide();
+}
+
+void TdialogMessage::mainWindowMaximised() {
+  show();
+}
+
+void TdialogMessage::mainWindowResized() {
+  setPosAndSize();
+}
+
 
 
 /*
