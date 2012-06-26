@@ -42,21 +42,23 @@ public:
     static QString getKeyText(TkeySignature &key);
         /** Returns html-formated question text. */
     QString getQuestion(TQAunit &question, int questNr, TexamLevel *level, Tnote::EnameStyle style);
+    QString getNiceNoteName(Tnote note);
     
 public slots:
     void mainWindowMoved(QPoint vector);
     void mainWindowMaximised();
     void mainWindowMinimised();
-    void mainWindowResized();
+    void mainWindowResized(QSize parentSize);
 	
 protected:
     virtual void paintEvent(QPaintEvent *);
     
-    void setPosAndSize();
+    void setPosAndSize(QSize &size);
     
 private:
     QLabel *m_mainLab;
     QPoint m_pos;
+    QSize m_size;
     bool m_scoreFree, m_nameFree, m_guitarFree; // Indicate when widgets show question or answer
     MainWindow *m_parent;
 };
