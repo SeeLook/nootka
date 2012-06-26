@@ -443,7 +443,7 @@ bool MainWindow::event(QEvent *event) {
     return QMainWindow::event(event);
 }
 
-void MainWindow::resizeEvent(QResizeEvent *) {
+void MainWindow::resizeEvent(QResizeEvent * event) {
     setUpdatesEnabled(false);
     nootBar->setIconSize(QSize(height()/21, height()/21));
     score->setFixedWidth((centralWidget()->width()/14)*6);
@@ -462,7 +462,7 @@ void MainWindow::resizeEvent(QResizeEvent *) {
     noteName->resize(m_statFontSize);
     pitchView->resize(m_statFontSize);
     setUpdatesEnabled(true);
-    emit sizeChanged();
+    emit sizeChanged(event->size());
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {

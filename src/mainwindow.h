@@ -72,7 +72,7 @@ signals:
         /** Are emited when application window is minimides or maximised. */
     void minimised();
     void maximised();
-    void sizeChanged();
+    void sizeChanged(QSize size);
 
 
 protected:
@@ -89,7 +89,7 @@ protected:
     QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct, *analyseAct;
     void clearAfterExam(TexamExecutor::Estate examState = TexamExecutor::e_finished);
 
-    void resizeEvent(QResizeEvent *);
+    void resizeEvent(QResizeEvent *event);
     bool event(QEvent *event);
     void closeEvent(QCloseEvent *event);
     bool eventFilter(QObject* obj, QEvent* event);

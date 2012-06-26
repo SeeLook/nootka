@@ -54,6 +54,7 @@ SET( NOOTKA_SRCS
   info/select7note.cpp
   info/texamhelp.cpp
   info/texpertanswerhelp.cpp
+  info/tsupportnootka.cpp
 ###### Charts
   charts/tanalysdialog.cpp
   charts/tchart.cpp

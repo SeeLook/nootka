@@ -18,6 +18,7 @@
 
 
 #include "taboutnootka.h"
+#include "tsupportnootka.h"
 #include "tglobals.h"
 #include <QtGui>
 
@@ -54,6 +55,10 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     navList->addItem(tr("License"));
     navList->item(2)->setIcon(QIcon(gl->path+"picts/license.png"));
     navList->item(2)->setTextAlignment(Qt::AlignCenter);
+    navList->addItem(tr("Support"));
+    navList->item(3)->setIcon(QIcon(gl->path+"picts/help.png"));
+    navList->item(3)->setTextAlignment(Qt::AlignCenter);
+
 
 
     Tabout *m_about = new Tabout();
@@ -71,18 +76,19 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 
     QTextEdit *licenseTxt = new QTextEdit();
     QFile file(gl->path + "gpl");
-        if(file.open(QFile::ReadOnly | QFile::Text))
-        {
+    if(file.open(QFile::ReadOnly | QFile::Text)) {
 	      QTextStream in(&file);
 		  in.setCodec("UTF-8");
 	      licenseTxt->setPlainText(in.readAll());
-        }        
+    }
 
+    TsupportNootka *support = new TsupportNootka(this);
 
     stackLayout->addWidget(m_about);
 
     stackLayout->addWidget(wi);
     stackLayout->addWidget(licenseTxt);
+    stackLayout->addWidget(support);
 
     connect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
     connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));

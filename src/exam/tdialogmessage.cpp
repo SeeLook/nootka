@@ -67,14 +67,14 @@ TdialogMessage::TdialogMessage(Texam *exam, MainWindow *parent, Tnote::EnameStyl
 #else
         setAttribute(Qt::WA_TranslucentBackground, true);
 #endif
-    QRect parentGeo = parent->geometry();
+//    QRect parentGeo = parent->geometry();
     QHBoxLayout *lay = new QHBoxLayout;
     m_mainLab = new QLabel(getQuestion(exam->qusetion(exam->count()-1), exam->count(), exam->level(), style), this);
     m_mainLab->setAlignment(Qt::AlignCenter);
     m_mainLab->setWordWrap(true);
-
-    setPosAndSize();
-    m_mainLab->setStyleSheet(QString("border-radius: 10px; %1").arg(gl->getBGcolorText(gl->EquestionColor)));
+    QSize pSize(parent->width(), parent->height());
+    setPosAndSize(pSize);
+//    m_mainLab->setStyleSheet(QString("border-radius: 10px; %1").arg(gl->getBGcolorText(gl->EquestionColor)));
     lay->addStretch(1);
     lay->addWidget(m_mainLab, 0, Qt::AlignCenter);
     lay->addStretch(1);
@@ -83,26 +83,29 @@ TdialogMessage::TdialogMessage(Texam *exam, MainWindow *parent, Tnote::EnameStyl
     connect(parent, SIGNAL(moved(QPoint)), this, SLOT(mainWindowMoved(QPoint)));
     connect(parent, SIGNAL(maximised()), this, SLOT(mainWindowMaximised()));
     connect(parent, SIGNAL(minimised()), this, SLOT(mainWindowMinimised()));
-    connect(parent, SIGNAL(sizeChanged()), this, SLOT(mainWindowResized()));
+    connect(parent, SIGNAL(sizeChanged(QSize)), this, SLOT(mainWindowResized(QSize)));
     
     show();
 }
 
-void TdialogMessage::setPosAndSize() {
+void TdialogMessage::setPosAndSize(QSize &size) {
   if (m_guitarFree)
-      m_pos = QPoint(m_parent->geometry().left() + m_parent->geometry().width() / 2, m_parent->geometry().top() + (m_parent->geometry().height() /3) * 2);
+      m_pos = QPoint(m_parent->geometry().left() + size.width() * 0.4,
+                     m_parent->geometry().top() + size.height() * 0.65);
     else
       if (m_nameFree)
-        m_pos = QPoint(m_parent->geometry().left() + (m_parent->geometry().width() / 2),
-                       m_parent->geometry().top() + (m_parent->geometry().height() /4));
+        m_pos = QPoint(m_parent->geometry().left() + (size.width() / 2),
+                       m_parent->geometry().top() + (size.height() /4));
       else // on the score
-        m_pos = QPoint(m_parent->geometry().left() + 10, m_parent->geometry().top() + m_parent->geometry().height() /10);
-    setGeometry(m_pos.x(), m_pos.y(), m_parent->geometry().width() / 3,
-                m_parent->geometry().height() / 3 - m_parent->geometry().height() / 10);
-    m_mainLab->setFixedSize(m_parent->geometry().width() / 3 - 10, m_parent->geometry().height() / 3 - 10);
+        m_pos = QPoint(m_parent->geometry().left() + 2, m_parent->geometry().top() + size.height() / 10);
+
+    m_size = QSize(size.width() * 0.4, size.height() * 0.3);
+    setGeometry(m_pos.x(), m_pos.y(), m_size.width(), m_size.height());
+    m_mainLab->setFixedSize(m_size.width() - 10, m_size.height() - 10);
     QFont f(font());
-    f.setPointSize(height() / 10);
+    f.setPointSize(m_size.height() * 0.1);
     m_mainLab->setFont(f);
+//    repaint();
 }
 
 
@@ -115,6 +118,10 @@ QString TdialogMessage::getKeyText(TkeySignature& key) {
   return keyTxt;
 }
 
+QString TdialogMessage::getNiceNoteName(Tnote note) {
+    return QString("<b><span style=\"border-radius: 5px; %1\">  ").arg(gl->getBGcolorText(gl->EquestionColor)) +
+            TnoteName::noteToRichText(note) + " </span></b>";
+}
 
 QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* level, Tnote::EnameStyle style) {
     QString quest = QString("<b>%1. </b><br>").arg(questNr);
@@ -124,12 +131,15 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
       case TQAtype::e_asNote:
         m_scoreFree = false;
         if (question.answerAs == TQAtype::e_asNote) {
-          quest += tr("Change enharmonicaly and show in the score");
+            if (question.qa.note.acidental != question.qa_2.note.acidental)
+                quest += tr("Change enharmonicaly and show in the score");
+            else
+                quest += tr("Given note show in the score");
           if (level->useKeySign && level->manualKey) {
             apendix = tr("<br><b>in %1 key.</b>", "in key signature").arg(getKeyText(question.key));
           }
           if (level->forceAccids)
-            quest += "<br>" + getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);
+            quest += getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);
         } else
           if (question.answerAs == TQAtype::e_asName) {
             m_nameFree = false;
@@ -152,7 +162,7 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
       
       case TQAtype::e_asName:
         m_nameFree = false;
-        noteStr = "<br><b>" + TnoteName::noteToRichText(question.qa.note) + "</b>";
+        noteStr = "<br>" + getNiceNoteName(question.qa.note);
         if (question.answerAs == TQAtype::e_asNote) {
           m_nameFree = false;
           quest += tr("Show in the score") + noteStr;
@@ -164,18 +174,20 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
             m_nameFree = false;
             Tnote::EnameStyle tmpStyle = gl->NnameStyleInNoteName;
             gl->NnameStyleInNoteName = style;
-            noteStr = "<br><b>" + TnoteName::noteToRichText(question.qa.note) + "</b>";
+            noteStr = "<br>" + getNiceNoteName(question.qa.note);
+            quest += "<br>";
             if (question.qa.note.acidental != question.qa_2.note.acidental)
                 quest += tr("Change enharmonicaly and give name of");
             else
                 quest += tr("Use another style to give name of");
-            quest += noteStr + "<br>" + getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);
+            quest += noteStr + getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);
             gl->NnameStyleInNoteName = tmpStyle;
             // It is not so elegant to get note name in different style this way
             // but there is no other way
           } else
             if (question.answerAs == TQAtype::e_asFretPos) {
               m_guitarFree = false;
+              quest += "<br>";
               quest += tr("Show on the guitar") + noteStr;
               if (level->showStrNr)
                 quest += "<br><b>" + tr(" on <span style=\"font-family: nootka;\">%1</span> string.").
@@ -198,24 +210,27 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
         } else
           if (question.answerAs == TQAtype::e_asName) {
             m_nameFree = false;
+            quest += "<br>";
             quest += tr("Give name of");
           } else
             if (question.answerAs == TQAtype::e_asFretPos) {
               quest += "not implemented";
             } else
               if (question.answerAs == TQAtype::e_asSound) {
-                quest += tr("Play or sing");
+                  quest += "<br>";
+                  quest += tr("Play or sing");
               }
         quest += "<br><span style=\"font-size: 25px;\">" + TtipChart::wrapPosToHtml(question.qa.pos) + "</span>";
         if (apendix != "")
           quest += "<br>" + apendix;
         if (question.answerAs == TQAtype::e_asNote || question.answerAs == TQAtype::e_asName)
           if (level->forceAccids)
-            quest += "<br>" + getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
+            quest += getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
         
       break;
       
       case TQAtype::e_asSound:
+        quest += "<br>";
         if (question.answerAs == TQAtype::e_asNote) {
           m_scoreFree = false;
           quest += tr("Listened sound show in the score");
@@ -228,13 +243,13 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
             quest += tr("<br><b>in %1 key.</b>", "in key signature").arg(keyTxt);
           }
           if (level->forceAccids)
-            quest += "<br>" + getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
+            quest += getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
         } else
           if (question.answerAs == TQAtype::e_asName) {
             m_nameFree = false;
             quest += tr("Give name of listened sound");
             if (level->forceAccids)
-                quest += "<br>" + getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
+                quest += getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
           } else
             if (question.answerAs == TQAtype::e_asFretPos) {
               m_guitarFree = false;
@@ -256,15 +271,33 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
 void TdialogMessage::paintEvent(QPaintEvent *) {
 	QPainter painter(this);
     QRect rect = m_mainLab->geometry();
-//     QRect rect = geometry();
+//    qDebug() << m_size;
+//    QRect rect = QRect(m_pos.x(), m_pos.y(), m_size.width() - 10 , m_size.height() - 10);
     painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHint(QPainter::TextAntialiasing);
+    // shade
     painter.setPen(Qt::NoPen);
     QColor c = palette().text().color();
     c.setAlpha(100);
     painter.setBrush(QBrush(c));
-    painter.drawRoundedRect(rect.x() + 5, rect.y() +5, rect.width(), rect.height(), 10, 10);
+    painter.drawRoundedRect(rect.x() + 7, rect.y() +7, rect.width(), rect.height(), 12, 12);
+    // solid background
     painter.setBrush(QBrush(palette().background().color()));
-    painter.drawRoundedRect(rect, 10, 10);
+    painter.drawRoundedRect(rect, 12, 12);
+    // gradient backround in question color
+    c = gl->EquestionColor;
+    c.setAlpha(75);
+    QLinearGradient grad(rect.topLeft(), rect.bottomRight());
+    grad.setColorAt(0.1, c);
+    grad.setColorAt(0.9, gl->EquestionColor);
+    painter.setBrush(QBrush(grad));
+    painter.drawRoundedRect(rect, 12, 12);
+    // Question mark
+    c = palette().background().color();
+    c.setAlpha(100);
+    painter.setPen(QPen(c));
+    painter.setFont(QFont("nootka", (double)height() / 1.5));
+    painter.drawText(rect, Qt::AlignCenter ,"?");
 }
 
 //#################################### SLOTS ###########################################
@@ -282,8 +315,8 @@ void TdialogMessage::mainWindowMaximised() {
   show();
 }
 
-void TdialogMessage::mainWindowResized() {
-  setPosAndSize();
+void TdialogMessage::mainWindowResized(QSize parentSize) {
+  setPosAndSize(parentSize);
 }
 
 
