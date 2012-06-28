@@ -26,8 +26,9 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
     QWidget(parent)
 {
     QVBoxLayout *lay = new QVBoxLayout;
-    QLabel *lab = new QLabel("<b>You also can help with makeing Notka better</b><br><ul><li><b>Translate Nootka</b><br>It does not require any programming skills.<br></li><li>Test Nootka intensively</li></ul>", this);
+    QLabel *lab = new QLabel("<b>You also can help with makeing Notka better</b><br><ul><li><b>Translate Nootka</b><br>It does not require any programming skills.<br></li><li><b>Test Nootka intensively</b></li><li><b>Maintain Nootka package<b></b><br>for Your system or Distibution</li><li><b>Donate Nootka</b></li><li><b>Vote on Nootka</b><br>There are a lot of services. For example:<br> - <a href=\"http://kde-apps.org/content/show.php/Nootka?content=143598\">Kde-Apps</a><br> - <a href=\"\">Qt-Apps</a></li></ul>", this);
 //    lab->setAlignment(Qt:: AlignCenter);
+    lab->setOpenExternalLinks(true);
     lay->addWidget(lab);
 
     setLayout(lay);
