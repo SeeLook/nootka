@@ -99,7 +99,7 @@ void TdialogMessage::setPosAndSize(QSize &size) {
       else // on the score
         m_pos = QPoint(m_parent->geometry().left() + 2, m_parent->geometry().top() + size.height() / 10);
 #if defined(Q_OS_LINUX)
-    m_size = QSize(size.width() * 0.5, size.height() * 0.35);
+    m_size = QSize(size.width() * 0.45, size.height() * 0.35);
 #else
     m_size = QSize(size.width() * 0.4, size.height() * 0.3);
 #endif
@@ -109,7 +109,7 @@ void TdialogMessage::setPosAndSize(QSize &size) {
 #if defined(Q_OS_MAC)
     f.setPointSize(m_size.height() * 0.1);
 #else
-    f.setPointSize((double)m_size.height() * 0.08);
+    f.setPointSize((double)m_size.height() * 0.075);
 #endif
     
     m_mainLab->setFont(f);

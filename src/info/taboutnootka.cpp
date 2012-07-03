@@ -27,6 +27,8 @@ extern Tglobals *gl;
 TaboutNootka::TaboutNootka(QWidget *parent) :
     QDialog(parent)
 {
+    
+    setWindowTitle(tr("About Nootka"));
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *abLay = new QHBoxLayout;
     navList = new QListWidget(this);

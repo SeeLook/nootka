@@ -206,14 +206,14 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
 void TexamExecutor::askQuestion() {
     m_lockRightButt = false; // release mouse button events
     clearWidgets();
-    mW->setStatusMessage("");
+//     mW->setStatusMessage("");
     if (!gl->E->autoNextQuest) {
         mW->startExamAct->setDisabled(true);
         clearMessage();//if auto message is cleaned after 1 sec.
     }
     m_isAnswered = false;
     m_incorrectRepeated = false;
-    mW->setMessageBg(gl->EquestionColor);
+//     mW->setMessageBg(gl->EquestionColor);
     m_answRequire.octave = m_level.requireOctave;
     m_answRequire.accid = m_level.forceAccids;
     m_answRequire.key = false;
@@ -415,7 +415,7 @@ void TexamExecutor::askQuestion() {
     }
     
     m_exam->addQuestion(curQ);
-    mW->setStatusMessage(questText);
+//     mW->setStatusMessage(questText);
 
     mW->nootBar->removeAction(nextQuestAct);
     mW->nootBar->removeAction(prevQuestAct);
@@ -574,9 +574,9 @@ void TexamExecutor::repeatQuestion() {
     m_incorrectRepeated = true;
     m_isAnswered = false;
 		TQAunit curQ = m_exam->curQ();
-    QString m = mW->statusMessage();
-    m.replace(0, m.indexOf("</b>"), QString("<b>%1.").arg(m_exam->count()+1));
-    mW->setStatusMessage(m);
+//     QString m = mW->statusMessage();
+//     m.replace(0, m.indexOf("</b>"), QString("<b>%1.").arg(m_exam->count()+1));
+//     mW->setStatusMessage(m);
     if (!gl->E->autoNextQuest)
         clearMessage();
     curQ.setMistake(TQAunit::e_correct);
@@ -791,8 +791,8 @@ void TexamExecutor::stopExamSlot() {
 			}
     }
 
-    mW->setMessageBg(-1);
-    mW->setStatusMessage("");
+//     mW->setMessageBg(-1);
+//     mW->setStatusMessage("");
     mW->setStatusMessage(tr("so a pity"), 5000);
 
     clearMessage();
