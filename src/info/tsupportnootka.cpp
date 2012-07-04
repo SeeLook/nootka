@@ -20,16 +20,17 @@
 
 #include "tsupportnootka.h"
 #include <QVBoxLayout>
-#include <QLabel>
+#include <QTextEdit>
 
 TsupportNootka::TsupportNootka(QWidget *parent) :
     QWidget(parent)
 {
     QVBoxLayout *lay = new QVBoxLayout;
-    QLabel *lab = new QLabel("<b>You also can help with makeing Notka better</b><br><ul><li><b>Translate Nootka</b><br>It does not require any programming skills.<br></li><li><b>Test Nootka intensively</b></li><li><b>Maintain Nootka package</b><br>for Your system or Distibution</li><li><b>Donate Nootka</b></li><li><b>Vote on Nootka</b><br>There are a lot of services. For example:<br> - <a href=\"http://kde-apps.org/content/show.php/Nootka?content=143598\">Kde-Apps</a><br> - <a href=\"http://qt-apps.org/content/show.php/Nootka?content=148705\">Qt-Apps</a><br> - <a href=\"http://www.softpedia.com/get/Others/Home-Education/Nootka.shtml\">Softpedia</a></li></ul>", this);
-//    lab->setAlignment(Qt:: AlignCenter);
-    lab->setOpenExternalLinks(true);
-    lay->addWidget(lab);
+    QTextEdit *sup = new QTextEdit(this);
+    sup->setHtml("<b>You also can help with makeing Notka better</b><br><ul><li><b>Translate Nootka</b><br>It does not require any programming skills. Just read <a href=\"\">the instructions</a>, tramslate and send Your work.<br></li><li><b>Test Nootka intensively</b><br>When You will produce a big exam file, let's say 500 or more questions, it doesn't matter how many mistakes You did, send me the file please. It will help to improve analyse of exams.<br></li><li><b>Maintain Nootka package</b><br>If You can build Nootka from sources share Your package with others<br></li><li><b>Make a donation</b><br>Nootka is for free but developing costs. To make donation:<br> use <a href=\"\">this site</a><br>or see more on <a href=\"\">on Nootka site</a><br></li><li><b>Vote on Nootka</b><br>There are a lot of services. For example:<br><a href=\"http://kde-apps.org/content/show.php/Nootka?content=143598\">Kde-Apps</a>, <a href=\"http://qt-apps.org/content/show.php/Nootka?content=148705\">Qt-Apps</a>, <a href=\"http://www.softpedia.com/get/Others/Home-Education/Nootka.shtml\">Softpedia</a><br></li><li><b>Express Your opinion</b><br>Simply <a href=\"mailto:seelook.gmail.com\">send an email</a></li></ul><p>Thanks in advance<br>Author</p><br>");
+    sup->setReadOnly(true);
+    
+    lay->addWidget(sup);
 
     setLayout(lay);
 
