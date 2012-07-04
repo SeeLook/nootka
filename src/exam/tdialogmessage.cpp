@@ -274,10 +274,12 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
 
 void TdialogMessage::paintEvent(QPaintEvent *) {
 	QPainter painter(this);
-    QRect rect = m_mainLab->geometry();
+//     QRect rect = m_mainLab->geometry();
+    qDebug() << m_mainLab->geometry() << m_size << m_pos;
 //     QRect rect = QRect(m_mainLab->
 //    qDebug() << m_size;
-//    QRect rect = QRect(m_pos.x(), m_pos.y(), m_size.width() - 10 , m_size.height() - 10);
+    QRect rect = QRect(m_size.width() - m_mainLab->geometry().width(), m_size.height() - m_mainLab->geometry().height(),
+                       m_size.width() - 10 , m_size.height() - 10);
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setRenderHint(QPainter::TextAntialiasing);
     // shade
@@ -323,6 +325,13 @@ void TdialogMessage::mainWindowMaximised() {
 void TdialogMessage::mainWindowResized(QSize parentSize) {
   setPosAndSize(parentSize);
 }
+
+
+
+
+
+
+
 
 
 

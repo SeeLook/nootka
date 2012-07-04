@@ -767,12 +767,12 @@
 <context>
     <name>Tabout</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="102"/>
+        <location filename="../src/info/taboutnootka.cpp" line="104"/>
         <source>&lt;p&gt; Welcome on the board.&lt;br&gt; Nootka is open source application to help You learning (and teaching also) classical score notation. It is specially dedicated for guitarists but others can find something usable as well.&lt;br&gt;This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features. Inspite of that You are welcome to try it !!&lt;/p&gt;&lt;p&gt;See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releaces.&lt;/p&gt;&lt;p&gt;Any bugs, sugestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author&lt;/p&gt;&lt;br&gt;</source>
         <translation>&lt;p&gt;Witamy na pokładzie.&lt;br&gt; Nootka to aplikacja open source pomagająca w nauce (a także w nauczaniu) klasycznego zapisu nutowego. Jest szczególnie dedykowana gitarzystom ale inni także znajdą w niej coś użytecznego.&lt;br&gt;Ta wersja to beta. Chociaz dziala stabilnie, posiada nieukończone funkcje. Mimo wszystko zapraszam do wypróbowania !!&lt;/p&gt;&lt;p&gt;Po więcej szczegółów i po następne wydania zajrzyj na &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;stronę programu&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Błędy, sugestie, tłumaczenia itp., proszę zgłaszać do: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;z poważaniem&lt;br&gt;Autor&lt;/p&gt;&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="104"/>
+        <location filename="../src/info/taboutnootka.cpp" line="106"/>
         <source>&lt;br&gt;To support project and also to avoid infection of Your PC&lt;br&gt;&lt;b&gt;PLEASE, use project site to download updates, new releases and to see news.&lt;/b&gt;</source>
         <translation>&lt;br&gt;Żeby wesprzeć projekt, a także uniknąć zarażenia Twojego komputera&lt;br&gt;&lt;b&gt;do pobierania aktualizacji, nowych wersji i czytania o nowościach, proszę używać strony www projektu&lt;/b&gt;</translation>
     </message>
@@ -780,22 +780,27 @@
 <context>
     <name>TaboutNootka</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="49"/>
+        <location filename="../src/info/taboutnootka.cpp" line="31"/>
+        <source>About Nootka</source>
+        <translation>O aplikacji Nootka</translation>
+    </message>
+    <message>
+        <location filename="../src/info/taboutnootka.cpp" line="51"/>
         <source>About</source>
         <translation>O</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="58"/>
+        <location filename="../src/info/taboutnootka.cpp" line="60"/>
         <source>Support</source>
         <translation>Wsparcie</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="67"/>
+        <location filename="../src/info/taboutnootka.cpp" line="69"/>
         <source>Translators</source>
         <translation>Tłumacze</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="68"/>
+        <location filename="../src/info/taboutnootka.cpp" line="70"/>
         <source>Althougth this application could not exist without various open source projects.&lt;br&gt;Especially:</source>
         <translation>Jednakże ta aplikacja nie mogła by istnieć bez różnych projektów open source,&lt;br&gt;a w szczególności:</translation>
     </message>
@@ -805,7 +810,7 @@
         <translation>Autorzy</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="55"/>
+        <location filename="../src/info/taboutnootka.cpp" line="57"/>
         <source>License</source>
         <translation>Licencja</translation>
     </message>
@@ -1040,86 +1045,91 @@
         <translation>Nie używaj znaków!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="135"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="143"/>
         <source>Change enharmonicaly and show in the score</source>
         <translation>Zamień enharmonicznie i pokaż w nutach</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="137"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="145"/>
         <source>Given note show in the score</source>
         <translation>Podaną nutę pokaż na pięciolini</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="139"/>
-        <location filename="../src/exam/tdialogmessage.cpp" line="170"/>
-        <location filename="../src/exam/tdialogmessage.cpp" line="208"/>
-        <location filename="../src/exam/tdialogmessage.cpp" line="243"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="147"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="178"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="247"/>
         <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
         <translation>&lt;br&gt;&lt;b&gt;w tonacji %1.&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="146"/>
-        <location filename="../src/exam/tdialogmessage.cpp" line="214"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="154"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="219"/>
         <source>Give name of</source>
         <translation>Podaj nazwę</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="152"/>
-        <location filename="../src/exam/tdialogmessage.cpp" line="193"/>
-        <location filename="../src/exam/tdialogmessage.cpp" line="258"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="160"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="199"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="262"/>
         <source> on &lt;span style=&quot;font-family: nootka;&quot;&gt;%1&lt;/span&gt; string.</source>
         <translation> na &lt;span style=&quot;font-family: nootka;&quot;&gt;%1&lt;/span&gt; strunie.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="168"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="176"/>
         <source>Show in the score</source>
         <translation>Pokaż w nutach</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="180"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="187"/>
         <source>Change enharmonicaly and give name of</source>
         <translation>Zamień enharmonicznie i podaj nazwę</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="182"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="189"/>
         <source>Use another style to give name of</source>
         <translation>Użyj innego stylu żeby podać nazwę</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="197"/>
-        <location filename="../src/exam/tdialogmessage.cpp" line="221"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="203"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="225"/>
         <source>Play or sing</source>
         <translation>Zagraj lub zaśpiewaj</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="206"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="212"/>
         <source>Show on the score note played on</source>
         <translation>Pokaż w nutach dźwięk grany na</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="236"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="214"/>
+        <source>&lt;b&gt;in %1 key.&lt;/b&gt;</source>
+        <comment>in key signature</comment>
+        <translation>&lt;b&gt;w tonacji %1.&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tdialogmessage.cpp" line="240"/>
         <source>Listened sound show in the score</source>
         <translation>Usłyszany dźwięk pokaż w nutach</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="250"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="254"/>
         <source>Give name of listened sound</source>
         <translation>Podaj nazwę usłyszanego dźwięku</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="256"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="260"/>
         <source>Listened sound show on the guitar</source>
         <translation>Usłyszany dźwięk pokaż na gitarze</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="262"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="266"/>
         <source>Play or sing listened sound</source>
         <translation>Zagraj lub zaśpiewaj usłyszany dźwięk</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="150"/>
-        <location filename="../src/exam/tdialogmessage.cpp" line="191"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="158"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="197"/>
         <source>Show on the guitar</source>
         <translation>Pokaż na gitarze</translation>
     </message>
@@ -1214,52 +1224,52 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>Zagraj lub zaśpiewaj podaną nutę</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="528"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="534"/>
         <source>To correct an answer</source>
         <translation>Żeby poprawić odpowiedź</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="619"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="624"/>
         <source>help</source>
         <translation>pomoc</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="842"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="850"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="843"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="851"/>
         <source>Discard</source>
         <translation>Porzuć</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="614"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="619"/>
         <source>exam started on level</source>
         <translation>egzamin uruchomiony na poziomie</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="765"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="773"/>
         <source>Give an answer first!&lt;br&gt;Then the exam&apos;ll be finished</source>
         <translation>Najpierw odpowiedz!&lt;br&gt;Potem egzamin zostanie zakończony</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="813"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="821"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
         <translation>Psssst... Trwa egzamin.&lt;br&gt;&lt;br&gt;&lt;b&gt;Kontynuuj&lt;/b&gt; go &lt;br&gt;lub&lt;br&gt;&lt;b&gt;Zakończ&lt;/b&gt; żeby sprawdzić, zapisać i wyjść&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="814"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="822"/>
         <source>Continue</source>
         <translation>Kontynuuj</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="815"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="823"/>
         <source>Terminate</source>
         <translation>Zakończ</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="841"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="849"/>
         <source>If You don&apos;t save to file&lt;br&gt;You lost all results !!</source>
         <translation>Jeżeli nie zapiszesz do pliku&lt;br&gt;stracisz dotychczasowe wyniki!!</translation>
     </message>
@@ -1279,32 +1289,32 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation> na &lt;span style=&quot;font-family: nootka; font-size:%1px;&quot;&gt;%2&lt;/span&gt; strunie.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="613"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="618"/>
         <source>EXAM!!</source>
         <translation>EGZAMIN!!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="622"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="627"/>
         <source>stop the exam</source>
         <translation>zatrzymaj egzamin</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="796"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="804"/>
         <source>so a pity</source>
         <translation>jaka szkoda</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="805"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="813"/>
         <source>Use %1</source>
         <translation>Użyj %1</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="806"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="814"/>
         <source> Don&apos;t use accidentals!</source>
         <translation>Nie używaj znaków!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="835"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="843"/>
         <source>Save exam&apos;s results as:</source>
         <translation>Zapisz wyniki egzaminu jako:</translation>
     </message>
@@ -1803,7 +1813,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/charts/tmainchart.cpp" line="72"/>
         <source>for a note:  </source>
         <comment>average reaction time for...</comment>
-        <translation>dla nuty</translation>
+        <translation>dla nuty: </translation>
     </message>
 </context>
 <context>
@@ -2137,7 +2147,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>about translator</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="74"/>
+        <location filename="../src/info/taboutnootka.cpp" line="76"/>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; Your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
         <translatorcomment>o przecież wiesz o co chodzi :-)</translatorcomment>

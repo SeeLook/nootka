@@ -509,8 +509,14 @@ void TexamExecutor::checkAnswer(bool showResults) {
 
     if (showResults) {
         int mesgTime = 0, fc = 1;
-      if (gl->E->autoNextQuest)
+        TfingerPos pp = mW->guitar->getfingerPos();
+      if (gl->E->autoNextQuest) {
           mesgTime = 1500; // show temporary message
+          if (gl->GisRightHanded)
+            pp = TfingerPos(1, 14); // show it on the left side of a fingerboard - onnnnnn the right is question dialog
+          else
+            pp = TfingerPos(1, 11); // left side foor lefthanded
+      }
       if (!gl->hintsEnabled || gl->E->autoNextQuest)
           fc = 2; // font size factor to have enought room for text over guitar
       QString answTxt;
@@ -531,7 +537,6 @@ void TexamExecutor::checkAnswer(bool showResults) {
 //          answTxt += "</span>";
       }
 //       showMessage(answTxt, curQ.qa.pos, mesgTime);
-	  TfingerPos pp = mW->guitar->getfingerPos();
 	  showMessage(answTxt, pp, mesgTime);
     }
     if (!gl->E->autoNextQuest) {
@@ -762,6 +767,9 @@ void TexamExecutor::clearWidgets() {
 void TexamExecutor::stopExamSlot() {
     if (!m_isAnswered) {
         m_shouldBeTerminated = true;
+        QColor c = gl->GfingerColor;
+        c.setAlpha(30);
+        mW->setMessageBg(c);
         mW->setStatusMessage(tr("Give an answer first!<br>Then the exam'll be finished"), 2000);
         return;
     }
@@ -791,8 +799,8 @@ void TexamExecutor::stopExamSlot() {
 			}
     }
 
-//     mW->setMessageBg(-1);
-//     mW->setStatusMessage("");
+    mW->setMessageBg(-1);
+    mW->setStatusMessage("");
     mW->setStatusMessage(tr("so a pity"), 5000);
 
     clearMessage();

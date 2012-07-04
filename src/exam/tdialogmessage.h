@@ -32,11 +32,14 @@ class TexamLevel;
 class QLabel;
 
 
-
+/** This class reimlements QDialog and show window over main appication window.
+ * It takes away window decorations and looks like widget over widgets. 
+ */
 class TdialogMessage : public QDialog
 {
    Q_OBJECT
 public:
+      /** Constructs dialog with question content. itself calculates position over Nootka window */
     explicit TdialogMessage(Texam *exam, MainWindow *parent, Tnote::EnameStyle style);
     static QString getTextHowAccid(Tnote::Eacidentals accid);
     static QString getKeyText(TkeySignature &key);
