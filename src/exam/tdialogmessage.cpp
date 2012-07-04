@@ -275,7 +275,7 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
 void TdialogMessage::paintEvent(QPaintEvent *) {
 	QPainter painter(this);
 //     QRect rect = m_mainLab->geometry();
-    qDebug() << m_mainLab->geometry() << m_size << m_pos;
+//     qDebug() << m_mainLab->geometry() << m_size << m_pos;
 //     QRect rect = QRect(m_mainLab->
 //    qDebug() << m_size;
     QRect rect = QRect(m_size.width() - m_mainLab->geometry().width(), m_size.height() - m_mainLab->geometry().height(),
