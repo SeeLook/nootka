@@ -104,7 +104,6 @@ void TdialogMessage::setPosAndSize(QSize &size) {
     m_size = QSize(size.width() * 0.4, size.height() * 0.3);
 #endif
     setGeometry(m_pos.x(), m_pos.y(), m_size.width(), m_size.height());
-    m_mainLab->setFixedSize(m_size.width() - 10, m_size.height() - 10);
     QFont f(font());
 #if defined(Q_OS_MAC)
     f.setPointSize(m_size.height() * 0.1);
@@ -113,6 +112,8 @@ void TdialogMessage::setPosAndSize(QSize &size) {
 #endif
     
     m_mainLab->setFont(f);
+    m_mainLab->setFixedSize(m_size.width() - 10, m_size.height() - 10);
+    m_mainLab->updateGeometry();
 //    repaint();
 }
 
