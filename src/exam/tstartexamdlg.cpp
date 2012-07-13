@@ -40,9 +40,6 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, QWidget *parent) :
     setWindowTitle(tr("Start en exam"));
     QVBoxLayout *mainLay = new QVBoxLayout;
 
-//     levelRadio = new QRadioButton(tr("start new exam"), this);
-//     mainLay->addWidget(levelRadio);
-
     QVBoxLayout *levLay = new QVBoxLayout;
     QHBoxLayout *nameLay = new QHBoxLayout;
     QLabel *nameLab = new QLabel(tr("student's name:"), this);
@@ -79,12 +76,13 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, QWidget *parent) :
     mainLay->addWidget(levelGr);
 
     QVBoxLayout *exLay = new QVBoxLayout;
-    QHBoxLayout *fileLay = new QHBoxLayout;
-    examCombo = new QComboBox(this);
-    fileLay->addWidget(examCombo);
-    m_loadExamBut = new QPushButton(tr("load exam from file"), this);
-    fileLay->addWidget(m_loadExamBut);
-    exLay->addLayout(fileLay);
+//     QHBoxLayout *fileLay = new QHBoxLayout;
+    m_examCombo = new QComboBox(this);
+//     fileLay->addWidget(m_examCombo);
+//     m_loadExamBut = new QPushButton(tr("load exam from file"), this);
+//     fileLay->addWidget(m_loadExamBut);
+//     exLay->addLayout(fileLay);
+    exLay->addWidget(m_examCombo);
     
     QHBoxLayout *butLay = new QHBoxLayout;
     m_contExamButt = new QPushButton(tr("continue exam"), this);
@@ -97,7 +95,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, QWidget *parent) :
     m_cancelBut->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
     m_cancelBut->setStatusTip(tr("Discard"));
     m_cancelBut->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-//     m_cancelBut->setIconSize(QSize(48, 48));
+    m_cancelBut->setIconSize(QSize(48, 48));
     butLay->addWidget(m_cancelBut);
     exLay->addLayout(butLay);
     examGr = new QGroupBox(this);
@@ -129,23 +127,25 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, QWidget *parent) :
     for (int i = recentExams.size()-1; i >= 0; i--) {
         QFileInfo fi(recentExams[i]);
         if (fi.exists()) {
-            examCombo->insertItem(0, recentExams[i]);
+            m_examCombo->insertItem(0, recentExams[i]);
 //            examCombo->insertItem(0, fi.fileName());
         }
         else
             recentExams.removeAt(i);
     }
+    m_examCombo->addItem(tr("load exam from file"));
     if (recentExams.size()) {
         sett.setValue("recentExams", recentExams);
-        examCombo->setCurrentIndex(0);
+        m_examCombo->setCurrentIndex(0);
     }
 
     connect(levelsView, SIGNAL(levelToLoad()), this, SLOT(levelToLoad()));
     connect(m_cancelBut, SIGNAL(clicked()), this, SLOT(reject()));
-    connect(m_loadExamBut, SIGNAL(clicked()), this, SLOT(loadExam()));
+//     connect(m_loadExamBut, SIGNAL(clicked()), this, SLOT(loadExam()));
     connect(m_createBut, SIGNAL(clicked()), this, SLOT(createLevel()));
     connect(m_newExamBut, SIGNAL(clicked()), this, SLOT(startAccepted()));
     connect(m_contExamButt, SIGNAL(clicked()), this, SLOT(startAccepted()));
+    connect(m_examCombo, SIGNAL(activated(int)), this, SLOT(prevExamSelected(int)));
     
     QApplication::translate("File association entries", "Nootka level file", "for file brrrowsers");
     QApplication::translate("File association entries", "Open with nootka");
@@ -163,9 +163,9 @@ TstartExamDlg::Eactions TstartExamDlg::showDialog(QString &txt, TexamLevel &lev)
             return e_newLevel;
         }
         else {
-            if (examCombo->currentIndex() != -1) {
+            if (m_examCombo->currentIndex() != -1) {
 //                txt = recentExams[examCombo->currentIndex()];
-                txt = examCombo->currentText();
+                txt = m_examCombo->currentText();
                 return e_continue;
             } else
               return e_none;
@@ -176,17 +176,6 @@ TstartExamDlg::Eactions TstartExamDlg::showDialog(QString &txt, TexamLevel &lev)
 		else
 			return e_none;
 	}
-}
-
-void TstartExamDlg::levelOrExamChanged() {
-//     if (levelRadio->isChecked()) {
-//         levelGr->setDisabled(false);
-//         examGr->setDisabled(true);
-//     } else {
-//         levelGr->setDisabled(true);
-//         examGr->setDisabled(false);
-//     }
-
 }
 
 void TstartExamDlg::levelToLoad() {
@@ -202,7 +191,6 @@ bool TstartExamDlg::event(QEvent *event) {
 }
 
 void TstartExamDlg::startAccepted() {
-//     if (levelRadio->isChecked()) {// new exam on selsected level
     if (sender() == m_newExamBut) { // new exam on selsected level
         TexamLevel l = levelsView->getSelectedLevel();
         if (l.name == "") { // nothing selected
@@ -217,7 +205,8 @@ void TstartExamDlg::startAccepted() {
             accept();
         }
     } else { // exam to continue
-        if (examCombo->currentText() != "")    {
+//         if (m_examCombo->currentText() != "")    {
+        if (m_examCombo->currentIndex() < m_examCombo->count() - 1)    {
             m_Acction = e_continue;
             accept();
         } else
@@ -229,10 +218,11 @@ void TstartExamDlg::loadExam() {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load an exam's' file"),
                                QDir::homePath(), examFilterTxt());
     if (fileName != "") {
-        examCombo->insertItem(0, fileName);
+        m_examCombo->insertItem(0, fileName);
         recentExams.prepend(fileName);
-        examCombo->setCurrentIndex(0);
-//        accept();
+        m_examCombo->setCurrentIndex(0);
+        m_Acction = e_continue;
+        accept();
     }
 }
 
@@ -240,4 +230,13 @@ void TstartExamDlg::loadExam() {
 TstartExamDlg::Eactions TstartExamDlg::createLevel() {
     m_Acction = e_levelCreator;
     close();
+}
+
+void TstartExamDlg::prevExamSelected(int index) {
+    if (index == m_examCombo->count() - 1) {
+        loadExam();
+    } else {
+        m_Acction = e_continue;
+        accept();
+    }
 }

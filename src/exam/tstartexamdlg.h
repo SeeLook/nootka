@@ -68,18 +68,18 @@ private:
     QLineEdit *nameEdit;
     QPushButton *m_createBut, *m_loadExamBut, *m_cancelBut, *m_newExamBut, *m_contExamButt;
     QLabel *hint;
-    QComboBox *examCombo;
+    QComboBox *m_examCombo;
     QStringList recentExams;
     Eactions m_Acction;
 
 private slots:
-    void levelOrExamChanged();
     void levelToLoad();
         /** occurs when user clicks Accept button*/
     void startAccepted();
     void loadExam();
         /** occurs when user clicks create Level Button */
     Eactions createLevel();
+    void prevExamSelected(int index);
 };
 
 #endif // TSTARTEXAMDLG_H
