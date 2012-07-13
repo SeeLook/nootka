@@ -32,10 +32,10 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
     QLabel *lab = new QLabel(this);
     QString supp = "<b>&nbsp;&nbsp;You also can help with makeing Notka better</b><br>";
     supp += "<ul>";
-    supp += "<li><b>Translate Nootka</b><br>It does not require any programming skills. Just read <a href=\"\">the instructions</a>,<br>tramslate and send Your work.<br></li>";
+    supp += "<li><b>Translate Nootka</b><br>It does not require any programming skills. Just read <a href=\"http://code.google.com/p/nootka/source/browse/lang/how-to-translate.txt\">the instructions</a>,<br>tramslate and send Your work.<br></li>";
     supp += "<li><b>Test Nootka intensively</b><br>When You will produce a big exam file, let's say 500 or more questions, it doesn't matter how many mistakes You did, send me the file please. It will help to improve analyse of exams.<br></li>";
     supp += "<li><b>Maintain Nootka package</b><br>If You know how to build Nootka from sources You would be keep Nootka version for Your system or distribuution fresh.<br></li>";
-    supp += "<li><b>Make a donation</b><br>Nootka is for free but developing costs. To make donation by PayPal:<br> use <a href=\"http://sourceforge.net/donate/index.php?group_id=515420\">this site</a><br>or see more on <a href=\"http://nootka.sourceforge.net/index.php?L=en&C=sup\">on Nootka site</a><br></li>";
+    supp += "<li><b>Make a donation</b><br>Nootka is for free but developing costs. To make donation by PayPal:<br> use <a href=\"http://nootka.sourceforge.net/index.php?L=en&C=sup\"> Nootka site</a><br></li>";
     supp += "<li><b>Vote on Nootka</b><br>There are a lot of services. For example:<br><a href=\"http://kde-apps.org/content/show.php/Nootka?content=143598\">Kde-Apps</a>, <a href=\"http://qt-apps.org/content/show.php/Nootka?content=148705\">Qt-Apps</a>, <a href=\"http://www.softpedia.com/get/Others/Home-Education/Nootka.shtml\">Softpedia</a><br></li>";
     supp += "<li><b>Express Your opinion</b><br>Simply <a href=\"mailto:seelook.gmail.com\">send an email</a></li>";
     supp += "</ul><p>&nbsp;&nbsp;Thanks in advance<br>&nbsp;&nbsp;Author</p><br>";
