@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -42,7 +42,7 @@ public:
         * @param e_none - dialog discarded,
         * @param e_continue - exam to continue,
         * @param e_newLevel - new level selected.
-	* @param e_levelCreator - open Level creator.
+        * @param e_levelCreator - open Level creator.
 	*/
     enum Eactions { e_none, e_continue, e_newLevel, e_levelCreator };
         /** This method calls dialog window,
@@ -63,16 +63,14 @@ public slots:
 private:
     bool event(QEvent *event);
 
-
-    QRadioButton *contRadio, *levelRadio;
     QGroupBox *examGr, *levelGr;
     TlevelSelector *levelsView;
     QLineEdit *nameEdit;
-    QPushButton *createBut, *loadExamBut, *startBut, *cancelBut;
+    QPushButton *m_createBut, *m_loadExamBut, *m_cancelBut, *m_newExamBut, *m_contExamButt;
     QLabel *hint;
     QComboBox *examCombo;
     QStringList recentExams;
-	bool m_openCreator;
+    Eactions m_Acction;
 
 private slots:
     void levelOrExamChanged();
