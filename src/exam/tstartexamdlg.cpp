@@ -35,13 +35,13 @@ QString TstartExamDlg::systemUserName() {
 
 TstartExamDlg::TstartExamDlg(QString& nick, QString &path, QWidget *parent) :
     QDialog(parent),
-    m_openCreator(false)
+    m_Acction(e_none)
 {
-  setWindowTitle(tr("Start en exam"));
+    setWindowTitle(tr("Start en exam"));
     QVBoxLayout *mainLay = new QVBoxLayout;
 
-    levelRadio = new QRadioButton(tr("start new exam"), this);
-    mainLay->addWidget(levelRadio);
+//     levelRadio = new QRadioButton(tr("start new exam"), this);
+//     mainLay->addWidget(levelRadio);
 
     QVBoxLayout *levLay = new QVBoxLayout;
     QHBoxLayout *nameLay = new QHBoxLayout;
@@ -61,27 +61,45 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, QWidget *parent) :
     moreLab->setOpenExternalLinks(true);
 //    levLay->addWidget(moreLab, 0, Qt::AlignCenter);
     lLay->addWidget(moreLab, 0, Qt::AlignCenter);
-    createBut = new QPushButton(tr("Create new level"),this);
-    createBut->setStatusTip(tr("Dialog window for creating new level<br>will be opened."));
-    createBut->setIcon(QIcon(path + "picts/levelCreator.png"));
-    createBut->setIconSize(QSize(48, 48));
+    m_createBut = new QPushButton(tr("Create new level"),this);
+    m_createBut->setStatusTip(tr("Dialog window for creating new level<br>will be opened."));
+    m_createBut->setIcon(QIcon(path + "picts/levelCreator.png"));
+    m_createBut->setIconSize(QSize(48, 48));
 //    levLay->addWidget(createBut, 1, Qt::AlignCenter);
-    lLay->addWidget(createBut, 1, Qt::AlignCenter);
+    lLay->addWidget(m_createBut, 1, Qt::AlignCenter);
     levLay->addLayout(lLay);
+    m_newExamBut = new QPushButton(tr("start new exam"), this);
+    m_newExamBut->setIcon(QIcon(path + "picts/startExam.png"));
+    m_newExamBut->setIconSize(QSize(48, 48));
+    levLay->addWidget(m_newExamBut);
     levelGr = new QGroupBox(this);
     levelGr->setStatusTip(tr("Select a level suitable for You<br>or create new one."));
     levelGr->setLayout(levLay);
 
     mainLay->addWidget(levelGr);
 
-    contRadio = new QRadioButton(tr("continue exam"), this);
-    mainLay->addWidget(contRadio);
-
     QVBoxLayout *exLay = new QVBoxLayout;
+    QHBoxLayout *fileLay = new QHBoxLayout;
     examCombo = new QComboBox(this);
-    exLay->addWidget(examCombo);
-    loadExamBut = new QPushButton(tr("load exam from file"), this);
-    exLay->addWidget(loadExamBut, 1, Qt::AlignCenter);
+    fileLay->addWidget(examCombo);
+    m_loadExamBut = new QPushButton(tr("load exam from file"), this);
+    fileLay->addWidget(m_loadExamBut);
+    exLay->addLayout(fileLay);
+    
+    QHBoxLayout *butLay = new QHBoxLayout;
+    m_contExamButt = new QPushButton(tr("continue exam"), this);
+    m_contExamButt->setIcon(QIcon(path + "picts/startExam.png"));
+    m_contExamButt->setIconSize(QSize(48, 48));
+    m_contExamButt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    butLay->addWidget(m_contExamButt);
+//     butLay->addStretch(1);
+    m_cancelBut = new QPushButton(this);
+    m_cancelBut->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
+    m_cancelBut->setStatusTip(tr("Discard"));
+    m_cancelBut->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+//     m_cancelBut->setIconSize(QSize(48, 48));
+    butLay->addWidget(m_cancelBut);
+    exLay->addLayout(butLay);
     examGr = new QGroupBox(this);
     examGr->setStatusTip(tr("Select previous exam, or get it from a file."));
     examGr->setLayout(exLay);
@@ -97,26 +115,10 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, QWidget *parent) :
     hint->setWordWrap(true);
 
     mainLay->addWidget(hGr);
-
-    QHBoxLayout *butLay = new QHBoxLayout;
-    startBut = new QPushButton(tr("Start"), this);
-    startBut->setStatusTip(tr("Start or continue exam."));
-    butLay->addWidget(startBut);
-    cancelBut = new QPushButton(tr("Discard"), this);
-    butLay->addWidget(cancelBut);
-
-    mainLay->addLayout(butLay);
     setLayout(mainLay);
+    
     setStatusTip("<b>" + tr("Would You like to start new exam or continue previous one ?<br>To start new one, put your name and select a level.<br>To continue previous, select it from the list or load from file.") + "</b>" );
     hint->setStatusTip(statusTip());
-    levelRadio->setStatusTip(statusTip());
-    contRadio->setStatusTip(statusTip());    
-
-    QButtonGroup *radioGr = new QButtonGroup(this);
-    radioGr->addButton(levelRadio);
-    radioGr->addButton(contRadio);
-    levelRadio->setChecked(true);
-    levelOrExamChanged();
 
 #if defined(Q_OS_WIN32) // I hate mess in Win registry
     QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
@@ -138,12 +140,12 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, QWidget *parent) :
         examCombo->setCurrentIndex(0);
     }
 
-    connect(radioGr, SIGNAL(buttonClicked(int)), this, SLOT(levelOrExamChanged()));
     connect(levelsView, SIGNAL(levelToLoad()), this, SLOT(levelToLoad()));
-    connect(startBut, SIGNAL(clicked()), this, SLOT(startAccepted()));
-    connect(cancelBut, SIGNAL(clicked()), this, SLOT(reject()));
-    connect(loadExamBut, SIGNAL(clicked()), this, SLOT(loadExam()));
-    connect(createBut, SIGNAL(clicked()), this, SLOT(createLevel()));
+    connect(m_cancelBut, SIGNAL(clicked()), this, SLOT(reject()));
+    connect(m_loadExamBut, SIGNAL(clicked()), this, SLOT(loadExam()));
+    connect(m_createBut, SIGNAL(clicked()), this, SLOT(createLevel()));
+    connect(m_newExamBut, SIGNAL(clicked()), this, SLOT(startAccepted()));
+    connect(m_contExamButt, SIGNAL(clicked()), this, SLOT(startAccepted()));
     
     QApplication::translate("File association entries", "Nootka level file", "for file brrrowsers");
     QApplication::translate("File association entries", "Open with nootka");
@@ -154,7 +156,8 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, QWidget *parent) :
 TstartExamDlg::Eactions TstartExamDlg::showDialog(QString &txt, TexamLevel &lev) {
     exec();
     if (result() == QDialog::Accepted) {
-        if (levelRadio->isChecked()) {
+//         if (levelRadio->isChecked()) {
+        if (m_Acction == e_newLevel) {
             txt = nameEdit->text();
             lev = levelsView->getSelectedLevel();
             return e_newLevel;
@@ -164,10 +167,11 @@ TstartExamDlg::Eactions TstartExamDlg::showDialog(QString &txt, TexamLevel &lev)
 //                txt = recentExams[examCombo->currentIndex()];
                 txt = examCombo->currentText();
                 return e_continue;
-            }
+            } else
+              return e_none;
         }
     } else {
-		if (m_openCreator)
+		if (m_Acction == e_levelCreator)
 			return e_levelCreator;
 		else
 			return e_none;
@@ -175,13 +179,13 @@ TstartExamDlg::Eactions TstartExamDlg::showDialog(QString &txt, TexamLevel &lev)
 }
 
 void TstartExamDlg::levelOrExamChanged() {
-    if (levelRadio->isChecked()) {
-        levelGr->setDisabled(false);
-        examGr->setDisabled(true);
-    } else {
-        levelGr->setDisabled(true);
-        examGr->setDisabled(false);
-    }
+//     if (levelRadio->isChecked()) {
+//         levelGr->setDisabled(false);
+//         examGr->setDisabled(true);
+//     } else {
+//         levelGr->setDisabled(true);
+//         examGr->setDisabled(false);
+//     }
 
 }
 
@@ -198,7 +202,8 @@ bool TstartExamDlg::event(QEvent *event) {
 }
 
 void TstartExamDlg::startAccepted() {
-    if (levelRadio->isChecked()) {// new exam on selsected level
+//     if (levelRadio->isChecked()) {// new exam on selsected level
+    if (sender() == m_newExamBut) { // new exam on selsected level
         TexamLevel l = levelsView->getSelectedLevel();
         if (l.name == "") { // nothing selected
             QMessageBox::warning(this, "", tr("Any level was not selected !!"));
@@ -208,12 +213,14 @@ void TstartExamDlg::startAccepted() {
                 QMessageBox::warning(this, "", tr("Give any user name !!"));
                 return;
             }
+            m_Acction = e_newLevel;
             accept();
         }
     } else { // exam to continue
-        if (examCombo->currentText() != "")
+        if (examCombo->currentText() != "")    {
+            m_Acction = e_continue;
             accept();
-        else
+        } else
             QMessageBox::warning(this, "", tr("Any exam wasn't selected !!"));
     }
 }
@@ -231,6 +238,6 @@ void TstartExamDlg::loadExam() {
 
 
 TstartExamDlg::Eactions TstartExamDlg::createLevel() {
-    m_openCreator = true;
-	close();
+    m_Acction = e_levelCreator;
+    close();
 }
