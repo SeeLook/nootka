@@ -850,47 +850,47 @@
         <translation>wysokości dźwięku</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="96"/>
-        <source>Select an exam from a file&lt;br&gt;Use CTRL + mouse wheel to zoom a chart.&lt;br&gt;Drag a cursor to move the chart.</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/charts/tanalysdialog.cpp" line="102"/>
+        <source>Select an exam from a file&lt;br&gt;Use %1 + mouse wheel to zoom a chart.&lt;br&gt;Drag a cursor to move the chart.</source>
+        <translation>Wybierz plik egzaminu&lt;br&gt;Użyj %1 + kółko myszy żeby powiększyć wykres.&lt;br&gt;Przeciągnij kursor myszy żeby przesunąć wykres..</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="124"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="130"/>
         <source>Questions number:</source>
         <translation>Liczba pytań:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="148"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="154"/>
         <source>Open an exam</source>
         <translation>Otwórz egzamin</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="151"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="157"/>
         <source>Close analyser</source>
         <translation>Zamknij   okno analizy</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="154"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="160"/>
         <source>zoom in</source>
         <translation>powiększ</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="157"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="163"/>
         <source>zoom out</source>
         <translation>pomniejsz</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="160"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="166"/>
         <source>include time of wrong answers to average</source>
         <translation>dodaj czas niepoprawnych odpowiedzi do średniej</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="162"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="168"/>
         <source>show wrong answers separately</source>
         <translation>pokaż niepoprawne odpowiedzi oddzielnie</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="207"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="213"/>
         <source>Load an exam file</source>
         <translation>Wczytaj plik egzaminu</translation>
     </message>
@@ -1045,91 +1045,91 @@
         <translation>Nie używaj znaków!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="143"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="144"/>
         <source>Change enharmonicaly and show in the score</source>
         <translation>Zamień enharmonicznie i pokaż w nutach</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="145"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="146"/>
         <source>Given note show in the score</source>
         <translation>Podaną nutę pokaż na pięciolini</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="147"/>
-        <location filename="../src/exam/tdialogmessage.cpp" line="178"/>
-        <location filename="../src/exam/tdialogmessage.cpp" line="247"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="148"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="179"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="248"/>
         <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
         <translation>&lt;br&gt;&lt;b&gt;w tonacji %1.&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="154"/>
-        <location filename="../src/exam/tdialogmessage.cpp" line="219"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="155"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="220"/>
         <source>Give name of</source>
         <translation>Podaj nazwę</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="160"/>
-        <location filename="../src/exam/tdialogmessage.cpp" line="199"/>
-        <location filename="../src/exam/tdialogmessage.cpp" line="262"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="161"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="200"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="263"/>
         <source> on &lt;span style=&quot;font-family: nootka;&quot;&gt;%1&lt;/span&gt; string.</source>
         <translation> na &lt;span style=&quot;font-family: nootka;&quot;&gt;%1&lt;/span&gt; strunie.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="176"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="177"/>
         <source>Show in the score</source>
         <translation>Pokaż w nutach</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="187"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="188"/>
         <source>Change enharmonicaly and give name of</source>
         <translation>Zamień enharmonicznie i podaj nazwę</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="189"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="190"/>
         <source>Use another style to give name of</source>
         <translation>Użyj innego stylu żeby podać nazwę</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="203"/>
-        <location filename="../src/exam/tdialogmessage.cpp" line="225"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="204"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="226"/>
         <source>Play or sing</source>
         <translation>Zagraj lub zaśpiewaj</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="212"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="213"/>
         <source>Show on the score note played on</source>
         <translation>Pokaż w nutach dźwięk grany na</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="214"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="215"/>
         <source>&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
         <translation>&lt;b&gt;w tonacji %1.&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="240"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="241"/>
         <source>Listened sound show in the score</source>
         <translation>Usłyszany dźwięk pokaż w nutach</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="254"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="255"/>
         <source>Give name of listened sound</source>
         <translation>Podaj nazwę usłyszanego dźwięku</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="260"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="261"/>
         <source>Listened sound show on the guitar</source>
         <translation>Usłyszany dźwięk pokaż na gitarze</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="266"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="267"/>
         <source>Play or sing listened sound</source>
         <translation>Zagraj lub zaśpiewaj usłyszany dźwięk</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="158"/>
-        <location filename="../src/exam/tdialogmessage.cpp" line="197"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="159"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="198"/>
         <source>Show on the guitar</source>
         <translation>Pokaż na gitarze</translation>
     </message>
@@ -2054,87 +2054,87 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation>Zacznij egzamin</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="43"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="68"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="243"/>
         <source>start new exam</source>
         <translation>rozpocznij nowy egzamin</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="48"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="45"/>
         <source>student&apos;s name:</source>
         <translation>imię ucznia:</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="54"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="51"/>
         <source>Enter your name or nick.</source>
         <translation>Wpisz swoje imię lub przezwisko.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="64"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="61"/>
         <source>Create new level</source>
         <translation>Utwórz nowy poziom</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="65"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="62"/>
         <source>Dialog window for creating new level&lt;br&gt;will be opened.</source>
         <translation>Zostanie otwarte okno dla utworzenia nowego poziomu.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="72"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="74"/>
         <source>Select a level suitable for You&lt;br&gt;or create new one.</source>
         <translation>Wybierz poziom odpowiedni dla siebie&lt;br&gt;lub utwórz nowy.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="77"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="84"/>
         <source>continue exam</source>
         <translation>kontynuuj egzamin</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="83"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="132"/>
         <source>load exam from file</source>
         <translation>wczytaj egzamin z pliku</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="86"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="98"/>
         <source>Select previous exam, or get it from a file.</source>
         <translation>Wybierz poprzedni egzamin lub wczytaj go z pliku.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="102"/>
         <source>Start</source>
-        <translation>Zacznij</translation>
+        <translation type="obsolete">Zacznij</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="103"/>
         <source>Start or continue exam.</source>
-        <translation>Rozpocznij lub kontynuuj egzamin.</translation>
+        <translation type="obsolete">Rozpocznij lub kontynuuj egzamin.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="105"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="92"/>
         <source>Discard</source>
         <translation>Porzuć</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="110"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="114"/>
         <source>Would You like to start new exam or continue previous one ?&lt;br&gt;To start new one, put your name and select a level.&lt;br&gt;To continue previous, select it from the list or load from file.</source>
         <translation>Chcesz rozpocząć nowy egzamin, czy kontynuować poprzedni ?&lt;br&gt;Żeby rozpocząć nowy, wpisz swoje imię i wybierz poziom.&lt;br&gt;Żeby kontynuować poprzedni, wybierz go z listy lub wczytaj z pliku.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="204"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="69"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="194"/>
         <source>Any level was not selected !!</source>
         <translation>Nie wybrano żadnego poziomu !!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="208"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="198"/>
         <source>Give any user name !!</source>
         <translation>Podaj jakąś nazwę użytkownika !!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="217"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="210"/>
         <source>Any exam wasn&apos;t selected !!</source>
         <translation>Nie został wybrany żaden egzamin !!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="222"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="215"/>
         <source>Load an exam&apos;s&apos; file</source>
         <translation>Wczytaj plik egazminu</translation>
     </message>

@@ -21,10 +21,10 @@
 #define TSTARTEXAMDLG_H
 
 #include <QDialog>
+#include "texamlevel.h"
 
 
 class TlevelSelector;
-class TexamLevel;
 class QRadioButton;
 class QGroupBox;
 class QLineEdit;
@@ -64,7 +64,7 @@ private:
     bool event(QEvent *event);
 
     QGroupBox *examGr, *levelGr;
-    TlevelSelector *levelsView;
+    TlevelSelector *m_levelsView;
     QLineEdit *nameEdit;
     QPushButton *m_createBut, *m_loadExamBut, *m_cancelBut, *m_newExamBut, *m_contExamButt;
     QLabel *hint;
@@ -80,6 +80,7 @@ private slots:
         /** occurs when user clicks create Level Button */
     Eactions createLevel();
     void prevExamSelected(int index);
+    void levelWasSelected(TexamLevel level);
 };
 
 #endif // TSTARTEXAMDLG_H

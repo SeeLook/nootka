@@ -93,7 +93,13 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
     m_openExamAct->setVisible(false); // hide "open exam file" acction
     setExam(exam);
   } else { // show help in tip
-      TgraphicsTextTip *helpTip = new TgraphicsTextTip("<br>" + tr("Select an exam from a file<br>Use CTRL + mouse wheel to zoom a chart.<br>Drag a cursor to move the chart.")  + "<br>", TquestionPoint::bgColor());
+    QString modKey = "";
+#if defined(Q_OS_MAC)
+    modKey = "CMD";
+#else
+    modKey = "CTRL";
+#endif
+      TgraphicsTextTip *helpTip = new TgraphicsTextTip("<br>" + tr("Select an exam from a file<br>Use %1 + mouse wheel to zoom a chart.<br>Drag a cursor to move the chart.").arg(modKey)  + "<br>", TquestionPoint::bgColor());
       m_chart->scene->addItem(helpTip);
       helpTip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
 //       helpTip->setPos((m_chart->width() - helpTip->boundingRect().width()) / 2, 
