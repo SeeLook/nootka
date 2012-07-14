@@ -45,6 +45,21 @@ QString TdialogMessage::getTextHowAccid(Tnote::Eacidentals accid) {
 }
 
 
+QString TdialogMessage::getKeyText(TkeySignature& key) {
+  QString keyTxt ="";
+  if (key.isMinor())
+      keyTxt = key.getMinorName();
+  else
+      keyTxt = key.getMajorName();
+  return keyTxt;
+}
+
+
+QString TdialogMessage::onStringTxt(quint8 strNr) {
+    return tr("on <span style=\"font-family: nootka;\">%1</span> string.").arg(strNr);
+}
+
+
 //#################################### CONSTRUCTOR ###########################################
 
 TdialogMessage::TdialogMessage(Texam *exam, MainWindow *parent, Tnote::EnameStyle style) :
@@ -67,13 +82,27 @@ TdialogMessage::TdialogMessage(Texam *exam, MainWindow *parent, Tnote::EnameStyl
 #else
         setAttribute(Qt::WA_TranslucentBackground, true);
 #endif
-//    QRect parentGeo = parent->geometry();
     QHBoxLayout *lay = new QHBoxLayout;
     m_mainLab = new QLabel(getQuestion(exam->qusetion(exam->count()-1), exam->count(), exam->level(), style), this);
     m_mainLab->setAlignment(Qt::AlignCenter);
     m_mainLab->setWordWrap(true);
     QSize pSize(parent->width(), parent->height());
+#if defined(Q_OS_LINUX)
+    m_size = QSize(parent->width() * 0.45, parent->height() * 0.35);
+#else
+    m_size = QSize(parent->width() * 0.4, parent->height() * 0.3);
+#endif
     setPosAndSize(pSize);
+    
+    QFont f(font());
+#if defined(Q_OS_MAC)
+    f.setPointSize(m_size.height() * 0.1);
+#else
+    f.setPointSize((double)m_size.height() * 0.075);
+#endif
+    m_mainLab->setFont(f);
+    m_mainLab->setFixedSize(m_size.width() - 10, m_size.height() - 10);
+    
 //    m_mainLab->setStyleSheet(QString("border-radius: 10px; %1").arg(gl->getBGcolorText(gl->EquestionColor)));
     lay->addStretch(1);
     lay->addWidget(m_mainLab, 0, Qt::AlignCenter);
@@ -98,34 +127,29 @@ void TdialogMessage::setPosAndSize(QSize &size) {
                        m_parent->geometry().top() + (size.height() /4));
       else // on the score
         m_pos = QPoint(m_parent->geometry().left() + 2, m_parent->geometry().top() + size.height() / 10);
-#if defined(Q_OS_LINUX)
-    m_size = QSize(size.width() * 0.45, size.height() * 0.35);
-#else
-    m_size = QSize(size.width() * 0.4, size.height() * 0.3);
-#endif
-    setGeometry(m_pos.x(), m_pos.y(), m_size.width(), m_size.height());
-    QFont f(font());
-#if defined(Q_OS_MAC)
-    f.setPointSize(m_size.height() * 0.1);
-#else
-    f.setPointSize((double)m_size.height() * 0.075);
-#endif
-    
-    m_mainLab->setFont(f);
-    m_mainLab->setFixedSize(m_size.width() - 10, m_size.height() - 10);
-    m_mainLab->updateGeometry();
-//    repaint();
+      
+  setGeometry(m_pos.x(), m_pos.y(), m_size.width(), m_size.height());
+  // Folowing code resizes nicely dialog when main window is resized
+  // But when it is backing to smalest size it remains garbage
+// #if defined(Q_OS_LINUX)
+//     m_size = QSize(size.width() * 0.45, size.height() * 0.35);
+// #else
+//     m_size = QSize(size.width() * 0.4, size.height() * 0.3);
+// #endif
+//     setGeometry(m_pos.x(), m_pos.y(), m_size.width(), m_size.height());
+//     QFont f(font());
+// #if defined(Q_OS_MAC)
+//     f.setPointSize(m_size.height() * 0.1);
+// #else
+//     f.setPointSize((double)m_size.height() * 0.075);
+// #endif
+//     
+//     m_mainLab->setFont(f);
+//     m_mainLab->setFixedSize(m_size.width() - 10, m_size.height() - 10);
+//     
+//     m_mainLab->updateGeometry();
 }
 
-
-QString TdialogMessage::getKeyText(TkeySignature& key) {
-  QString keyTxt ="";
-  if (key.isMinor())
-      keyTxt = key.getMinorName();
-  else
-      keyTxt = key.getMajorName();
-  return keyTxt;
-}
 
 QString TdialogMessage::getNiceNoteName(Tnote note) {
     return QString("<b><span style=\"%1\">&nbsp;").arg(gl->getBGcolorText(gl->EquestionColor)) +
@@ -158,11 +182,10 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
               m_guitarFree = false;
               quest += tr("Show on the guitar");
               if (level->showStrNr)
-                apendix = "<br><b>" + tr(" on <span style=\"font-family: nootka;\">%1</span> string.").
-                      arg((int)question.qa.pos.str()) + "</b>";
+                apendix = "<br><b> " + onStringTxt(question.qa.pos.str()) + "</b>";
             } else
               if (question.answerAs == TQAtype::e_asSound) {
-                quest += "Play or sing";
+                quest += tr("Play or sing");
               }
         quest += "<br>" + TtipChart::wrapPixToHtml(question.qa.note, true, question.key);
         if (apendix != "")
@@ -197,8 +220,7 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
               m_guitarFree = false;
               quest += tr("Show on the guitar") + noteStr;
               if (level->showStrNr)
-                quest += "<br><b>" + tr(" on <span style=\"font-family: nootka;\">%1</span> string.").
-                      arg((int)question.qa.pos.str()) + "</b>";
+                quest += "<br><b> " + onStringTxt(question.qa.pos.str()) + "</b>";
             } else
               if (question.answerAs == TQAtype::e_asSound) {
                 quest += "<br>" + tr("Play or sing") + noteStr;
@@ -260,8 +282,7 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
               m_guitarFree = false;
               quest += tr("Listened sound show on the guitar");
               if (level->showStrNr)
-              quest += "<br><b>" + tr(" on <span style=\"font-family: nootka;\">%1</span> string.").
-                      arg((int)question.qa.pos.str()) + "</b>";
+              quest += "<br><b> " + onStringTxt(question.qa.pos.str()) + "</b>";
             } else
               if (question.answerAs == TQAtype::e_asSound) {
                 quest += tr("Play or sing listened sound");          
@@ -274,11 +295,8 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
 
 
 void TdialogMessage::paintEvent(QPaintEvent *) {
-	QPainter painter(this);
-//     QRect rect = m_mainLab->geometry();
-//     qDebug() << m_mainLab->geometry() << m_size << m_pos;
-//     QRect rect = QRect(m_mainLab->
-//    qDebug() << m_size;
+    QPainter painter(this);
+    qDebug("painter");
     QRect rect = QRect(m_size.width() - m_mainLab->geometry().width(), m_size.height() - m_mainLab->geometry().height(),
                        m_size.width() - 10 , m_size.height() - 10);
     painter.setRenderHint(QPainter::Antialiasing);

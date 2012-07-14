@@ -44,12 +44,12 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, QWidget *parent) :
     QHBoxLayout *nameLay = new QHBoxLayout;
     QLabel *nameLab = new QLabel(tr("student's name:"), this);
     nameLay->addWidget(nameLab);
-    nameEdit = new QLineEdit(nick, this);
+    m_nameEdit = new QLineEdit(nick, this);
     if (nick == "")
-      nameEdit->setText(systemUserName());
-    nameEdit->setMaxLength(30);
-    nameEdit->setStatusTip(tr("Enter your name or nick."));
-    nameLay->addWidget(nameEdit);
+      m_nameEdit->setText(systemUserName());
+    m_nameEdit->setMaxLength(30);
+    m_nameEdit->setStatusTip(tr("Enter your name or nick."));
+    nameLay->addWidget(m_nameEdit);
     levLay->addLayout(nameLay);
     m_levelsView = new TlevelSelector(this);
     levLay->addWidget(m_levelsView);
@@ -102,36 +102,36 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, QWidget *parent) :
 
     QGroupBox *hGr = new QGroupBox(this);
     QVBoxLayout *hLay = new QVBoxLayout;
-    hint = new QLabel(this);
-    hLay->addWidget(hint);
+    m_hintLabel = new QLabel(this);
+    hLay->addWidget(m_hintLabel);
     hGr->setLayout(hLay);
-    hint->setFixedHeight(70);
-    hint->setWordWrap(true);
+    m_hintLabel->setFixedHeight(70);
+    m_hintLabel->setWordWrap(true);
 
     mainLay->addWidget(hGr);
     setLayout(mainLay);
     
     setStatusTip("<b>" + tr("Would You like to start new exam or continue previous one ?<br>To start new one, put your name and select a level.<br>To continue previous, select it from the list or load from file.") + "</b>" );
-    hint->setStatusTip(statusTip());
+    m_hintLabel->setStatusTip(statusTip());
 
 #if defined(Q_OS_WIN32) // I hate mess in Win registry
     QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
 #else
     QSettings sett;
 #endif
-    recentExams = sett.value("recentExams").toStringList();
-    for (int i = recentExams.size()-1; i >= 0; i--) {
-        QFileInfo fi(recentExams[i]);
+    m_recentExams = sett.value("recentExams").toStringList();
+    for (int i = m_recentExams.size()-1; i >= 0; i--) {
+        QFileInfo fi(m_recentExams[i]);
         if (fi.exists()) {
-            m_examCombo->insertItem(0, recentExams[i]);
+            m_examCombo->insertItem(0, m_recentExams[i]);
 //            examCombo->insertItem(0, fi.fileName());
         }
         else
-            recentExams.removeAt(i);
+            m_recentExams.removeAt(i);
     }
     m_examCombo->addItem(tr("load exam from file"));
-    if (recentExams.size()) {
-        sett.setValue("recentExams", recentExams);
+    if (m_recentExams.size()) {
+        sett.setValue("recentExams", m_recentExams);
         m_examCombo->setCurrentIndex(0);
     }
 
@@ -155,7 +155,7 @@ TstartExamDlg::Eactions TstartExamDlg::showDialog(QString &txt, TexamLevel &lev)
     exec();
     if (result() == QDialog::Accepted) {
         if (m_Acction == e_newLevel) {
-            txt = nameEdit->text();
+            txt = m_nameEdit->text();
             lev = m_levelsView->getSelectedLevel();
             return e_newLevel;
         }
@@ -182,7 +182,7 @@ void TstartExamDlg::levelToLoad() {
 bool TstartExamDlg::event(QEvent *event) {
     if (event->type() == QEvent::StatusTip) {
         QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
-        hint->setText("<center>"+se->tip()+"</center>");
+        m_hintLabel->setText("<center>"+se->tip()+"</center>");
     }
     return QDialog::event(event);
 }
@@ -194,7 +194,7 @@ void TstartExamDlg::startAccepted() {
             QMessageBox::warning(this, "", tr("Any level was not selected !!"));
             return;
         } else {
-            if (nameEdit->text() == "") {
+            if (m_nameEdit->text() == "") {
                 QMessageBox::warning(this, "", tr("Give any user name !!"));
                 return;
             }
@@ -216,7 +216,7 @@ void TstartExamDlg::loadExam() {
                                QDir::homePath(), examFilterTxt());
     if (fileName != "") {
         m_examCombo->insertItem(0, fileName);
-        recentExams.prepend(fileName);
+        m_recentExams.prepend(fileName);
         m_examCombo->setCurrentIndex(0);
         m_Acction = e_continue;
         accept();

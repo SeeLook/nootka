@@ -782,7 +782,7 @@
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="31"/>
         <source>About Nootka</source>
-        <translation type="unfinished">O programu Nootka</translation>
+        <translation>O programu Nootka</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="51"/>
@@ -1037,99 +1037,98 @@
     <message>
         <location filename="../src/exam/tdialogmessage.cpp" line="41"/>
         <source>Use %1</source>
-        <translation type="unfinished">Použít %1</translation>
+        <translation>Použít %1</translation>
     </message>
     <message>
         <location filename="../src/exam/tdialogmessage.cpp" line="42"/>
         <source> Don&apos;t use accidentals!</source>
-        <translation type="unfinished">Nepoužívat posuvky!</translation>
+        <translation>Nepoužívat posuvky!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="144"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="59"/>
+        <source>on &lt;span style=&quot;font-family: nootka;&quot;&gt;%1&lt;/span&gt; string.</source>
+        <translation>na &lt;span style=&quot;font-family: nootka;&quot;&gt;%1&lt;/span&gt; struně.</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tdialogmessage.cpp" line="168"/>
         <source>Change enharmonicaly and show in the score</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="146"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="170"/>
         <source>Given note show in the score</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="148"/>
-        <location filename="../src/exam/tdialogmessage.cpp" line="179"/>
-        <location filename="../src/exam/tdialogmessage.cpp" line="248"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="172"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="202"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="270"/>
         <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="155"/>
-        <location filename="../src/exam/tdialogmessage.cpp" line="220"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="179"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="242"/>
         <source>Give name of</source>
-        <translation type="unfinished">Udejte název</translation>
+        <translation>Udejte název</translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="159"/>
-        <location filename="../src/exam/tdialogmessage.cpp" line="198"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="183"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="221"/>
         <source>Show on the guitar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="161"/>
         <location filename="../src/exam/tdialogmessage.cpp" line="200"/>
-        <location filename="../src/exam/tdialogmessage.cpp" line="263"/>
-        <source> on &lt;span style=&quot;font-family: nootka;&quot;&gt;%1&lt;/span&gt; string.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="177"/>
         <source>Show in the score</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="188"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="211"/>
         <source>Change enharmonicaly and give name of</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="190"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="213"/>
         <source>Use another style to give name of</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="204"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="188"/>
         <location filename="../src/exam/tdialogmessage.cpp" line="226"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="248"/>
         <source>Play or sing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="213"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="235"/>
         <source>Show on the score note played on</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="215"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="237"/>
         <source>&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="241"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="263"/>
         <source>Listened sound show in the score</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="255"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="277"/>
         <source>Give name of listened sound</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="261"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="283"/>
         <source>Listened sound show on the guitar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/tdialogmessage.cpp" line="267"/>
+        <location filename="../src/exam/tdialogmessage.cpp" line="288"/>
         <source>Play or sing listened sound</source>
         <translation type="unfinished"></translation>
     </message>
