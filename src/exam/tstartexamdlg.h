@@ -52,7 +52,7 @@ public:
     Eactions showDialog(QString &txt, TexamLevel &lev);
         /** exam file extension and its description */
     static const QString examFilterTxt() { return tr("Exams' results")  + "(*.noo)" ; }
-	/** Returns system user name (login name)  */
+        /** Returns system user name (login name)  */
     static QString systemUserName();
 
 
@@ -65,11 +65,11 @@ private:
 
     QGroupBox *examGr, *levelGr;
     TlevelSelector *m_levelsView;
-    QLineEdit *nameEdit;
+    QLineEdit *m_nameEdit;
     QPushButton *m_createBut, *m_loadExamBut, *m_cancelBut, *m_newExamBut, *m_contExamButt;
-    QLabel *hint;
+    QLabel *m_hintLabel;
     QComboBox *m_examCombo;
-    QStringList recentExams;
+    QStringList m_recentExams;
     Eactions m_Acction;
 
 private slots:

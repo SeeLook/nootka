@@ -440,6 +440,10 @@ bool MainWindow::event(QEvent *event) {
       else
         emit maximised();
     }
+    if (event->type() == QEvent::FocusIn)
+      qDebug("In");
+    if (event->type() == QEvent::FocusOut)
+      qDebug("Out");
     return QMainWindow::event(event);
 }
 
