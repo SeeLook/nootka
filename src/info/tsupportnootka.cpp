@@ -48,7 +48,8 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
     setLayout(lay);
 }
 
-TsupportStandalone::TsupportStandalone(QString& path, QWidget* parent): QDialog(parent, )
+TsupportStandalone::TsupportStandalone(QString& path, QWidget* parent) :
+    QDialog(parent)
 {
 
 }
