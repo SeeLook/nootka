@@ -79,6 +79,7 @@ TdialogMessage::TdialogMessage(Texam *exam, MainWindow *parent, Tnote::EnameStyl
 #else
 //         setAttribute(Qt::WA_TranslucentBackground, true);
 #endif
+setAttribute(Qt::WA_TransparentForMouseEvents);
     QHBoxLayout *lay = new QHBoxLayout;
     m_mainLab = new QLabel(getQuestion(exam->qusetion(exam->count()-1), exam->count(), exam->level(), style), this);
     m_mainLab->setAlignment(Qt::AlignCenter);
