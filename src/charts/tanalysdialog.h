@@ -73,6 +73,7 @@ private:
 private:
   void createActions();
   void createChart(Tchart::Tsettings &chartSett);
+  void enableComboItem(int index, bool enable);
     
 };
 

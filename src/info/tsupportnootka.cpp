@@ -27,7 +27,6 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
     QWidget(parent)
 {
     QHBoxLayout *lay = new QHBoxLayout;
-//     QHBoxLayout *innLay = new QHBoxLayout;
     QScrollArea *scrollArea = new QScrollArea();
     QLabel *lab = new QLabel(this);
     QString supp = "<b>&nbsp;&nbsp;You also can help with makeing Notka better</b><br>";
@@ -43,13 +42,13 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
     lab->setWordWrap(true);
     lab->setOpenExternalLinks(true);
 
-//     innLay->addSpacing(5);
-//     innLay->addWidget(lab);
-//     innLay->addSpacing(5);
-//     scrollArea->setLayout(innLay);
     scrollArea->setWidget(lab);
     
     lay->addWidget(scrollArea);
     setLayout(lay);
+}
+
+TsupportStandalone::TsupportStandalone(QString& path, QWidget* parent): QDialog(parent, )
+{
 
 }

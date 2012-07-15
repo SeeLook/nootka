@@ -131,10 +131,22 @@ void TanalysDialog::setExam(Texam* exam) {
   m_questNrLab->setText(tr("Questions number:") + QString(" %1").arg(exam->count()) );
   m_effectLab->setText(TexamView::effectTxt() + QString(": %1%")
                        .arg( qRound(( (double)((exam->count() - exam->mistakes())) / (double)exam->count() ) * 100 )) );
-//   if (m_exam->level()->questionAs.isNote() || m_exam->level()->answersAs[TQAtype::e_asNote].isNote() || 
-//       m_exam->level()->answersAs[TQAtype::e_asName].isNote() || m_exam->level()->answersAs[TQAtype::e_asFretPos].isNote() ||
-//       m_exam->level()->answersAs[TQAtype::e_asSound].isNote() )
-//     m_chartListCombo->
+  if (m_exam->level()->questionAs.isNote() ||
+      m_exam->level()->answersAs[TQAtype::e_asName].isNote() ||
+      m_exam->level()->answersAs[TQAtype::e_asFretPos].isNote() ||
+      m_exam->level()->answersAs[TQAtype::e_asSound].isNote() )
+        enableComboItem(1, true);
+    else
+        enableComboItem(1, false);
+    
+  if (m_exam->level()->questionAs.isFret() || 
+      m_exam->level()->answersAs[TQAtype::e_asNote].isFret() ||
+      m_exam->level()->answersAs[TQAtype::e_asName].isFret() ||
+      m_exam->level()->answersAs[TQAtype::e_asSound].isFret() )
+        enableComboItem(2, true);
+    else
+        enableComboItem(2, false);
+    
   
   
   createChart(m_chartSetts);
@@ -210,6 +222,16 @@ void TanalysDialog::createChart(Tchart::Tsettings& chartSett) {
     else
       m_chart = new Tchart(this); // empty chart by default
     m_plotLay->addWidget(m_chart);
+}
+
+void TanalysDialog::enableComboItem(int index, bool enable) {
+    QModelIndex ind = m_chartListCombo->model()->index(index, 0);
+    QVariant v;
+    if (enable)
+        v = QVariant(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    else
+        v = QVariant(Qt::NoItemFlags); // disable
+    m_chartListCombo->model()->setData(ind, v, Qt::UserRole - 1);
 }
 
 
