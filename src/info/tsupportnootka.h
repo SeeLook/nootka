@@ -22,16 +22,22 @@
 #define TSUPPORTNOOTKA_H
 
 #include <QWidget>
+#include <QDialog>
+
+
 
 class TsupportNootka : public QWidget
 {
 public:
     explicit TsupportNootka(QWidget *parent = 0);
-    
-signals:
-    
-public slots:
-    
+};
+
+
+
+class TsupportStandalone : public QDialog
+{
+public:
+    explicit TsupportStandalone(QString &path, QWidget *parent = 0);
 };
 
 #endif // TSUPPORTNOOTKA_H
