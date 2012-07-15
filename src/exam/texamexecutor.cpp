@@ -879,6 +879,10 @@ void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) 
     QString txt = QString("<p style=\"color: #000;\">") + htmlText + "</p>";
 
     m_messageItem->setBgColor(QColor(1, 1, 1));
+//     if (m_exam->curQ().correct())
+//       m_messageItem->setBgColor(gl->EanswerColor);
+//     else
+//       m_messageItem->setBgColor(gl->EquestionColor);
     m_messageItem->setHtml(txt);
 
     bool onRightSide;

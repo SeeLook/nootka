@@ -77,14 +77,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     sound = new Tsound(this);
 
-    QWidget *widget = new QWidget(this);
+    innerWidget = new QWidget(this);
     QVBoxLayout *mainLay = new QVBoxLayout;
 
     QHBoxLayout *scoreAndNameLay = new QHBoxLayout;
     QVBoxLayout *scoreLay = new QVBoxLayout;
-    nootBar = new QToolBar(tr("main toolbar"), widget);
+    nootBar = new QToolBar(tr("main toolbar"), innerWidget);
     scoreLay->addWidget(nootBar);
-    score = new TscoreWidget(3, widget);
+    score = new TscoreWidget(3, innerWidget);
     scoreLay->addWidget(score);
     pitchView = new TpitchView(sound->sniffer, this);
     sound->setPitchView(pitchView);
@@ -95,26 +95,26 @@ MainWindow::MainWindow(QWidget *parent)
     QVBoxLayout *nameLay = new QVBoxLayout;
 //     QGroupBox *statGr = new QGroupBox(widget);
     QHBoxLayout *statLay = new QHBoxLayout;
-    m_statLab = new QLabel(widget);
+    m_statLab = new QLabel(innerWidget);
     m_statLab->setWordWrap(true);
     m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
     statLay->addWidget(m_statLab);
     QVBoxLayout *chBlay = new QVBoxLayout;
-    m_hintsChB = new QCheckBox(widget);
+    m_hintsChB = new QCheckBox(innerWidget);
 //    statLay->addWidget(m_hintsChB, 0, Qt::AlignRight);
     chBlay->addWidget(m_hintsChB);
     m_hintsChB->setChecked(gl->hintsEnabled);
     m_hintsChB->setStatusTip(tr("show or hide the hints"));
     m_hintsChB->setToolTip(m_hintsChB->statusTip());
     m_hintsChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    autoRepeatChB = new QCheckBox(widget);
+    autoRepeatChB = new QCheckBox(innerWidget);
     autoRepeatChB->hide();
     chBlay->addWidget(autoRepeatChB);
     autoRepeatChB->setStatusTip(ExamSettings::autoNextQuestTxt());
     autoRepeatChB->setToolTip(ExamSettings::autoNextQuestTxt());
 //     autoRepeatChB->setChecked(gl->EautoNextQuest);
     autoRepeatChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    expertAnswChB = new QCheckBox(widget);
+    expertAnswChB = new QCheckBox(innerWidget);
     expertAnswChB->hide();
     chBlay->addWidget(expertAnswChB);
     expertAnswChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
@@ -123,20 +123,20 @@ MainWindow::MainWindow(QWidget *parent)
     statLay->addLayout(chBlay);
     nameLay->addLayout(statLay);
 
-    examResults = new TexamView(widget);
+    examResults = new TexamView(innerWidget);
     examResults->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     nameLay->addWidget(examResults);
-    noteName = new TnoteName(widget);
+    noteName = new TnoteName(innerWidget);
     noteName->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     nameLay->addWidget(noteName);
 //    nameLay->addStretch(1);
     scoreAndNameLay->addLayout(nameLay);
     mainLay->addLayout(scoreAndNameLay);
 //-------------------------------------------------------------------
-    guitar = new TfingerBoard(widget);
+    guitar = new TfingerBoard(innerWidget);
     mainLay->addWidget(guitar);
-    widget->setLayout(mainLay);
-    setCentralWidget(widget);
+    innerWidget->setLayout(mainLay);
+    setCentralWidget(innerWidget);
 //-------------------------------------------------------------------
     m_statusText = "";
     m_prevBg = -1;
@@ -433,17 +433,6 @@ bool MainWindow::event(QEvent *event) {
             m_statLab->setText("<center>"+se->tip()+"</center>");
         }
     } 
-    if (event->type() == QEvent::WindowStateChange){
-      if (isMinimized()) {
-        emit minimised();
-      }
-      else
-        emit maximised();
-    }
-    if (event->type() == QEvent::FocusIn)
-      qDebug("In");
-    if (event->type() == QEvent::FocusOut)
-      qDebug("Out");
     return QMainWindow::event(event);
 }
 
@@ -492,9 +481,3 @@ bool MainWindow::eventFilter(QObject* obj, QEvent* event) {
             return QObject::eventFilter(obj, event);
         }
 }
-
-void MainWindow::moveEvent(QMoveEvent* event) {
-    QPoint v = event->pos() - event->oldPos();
-    emit moved(v);
-}
-

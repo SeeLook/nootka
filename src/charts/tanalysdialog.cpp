@@ -59,6 +59,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   m_chartListCombo = new QComboBox(this);
   m_chartListCombo->addItem(tr("question number", "see coment in 'ordered by:' entry"));
   m_chartListCombo->addItem(tr("note pitch"));
+  m_chartListCombo->addItem(tr("fret number"));
   headLay->addWidget(m_chartListCombo, 1, 0, Qt::AlignCenter);
   m_userLab = new QLabel(" ", this);
   headLay->addWidget(m_userLab, 1, 1, Qt::AlignCenter);
@@ -130,6 +131,12 @@ void TanalysDialog::setExam(Texam* exam) {
   m_questNrLab->setText(tr("Questions number:") + QString(" %1").arg(exam->count()) );
   m_effectLab->setText(TexamView::effectTxt() + QString(": %1%")
                        .arg( qRound(( (double)((exam->count() - exam->mistakes())) / (double)exam->count() ) * 100 )) );
+//   if (m_exam->level()->questionAs.isNote() || m_exam->level()->answersAs[TQAtype::e_asNote].isNote() || 
+//       m_exam->level()->answersAs[TQAtype::e_asName].isNote() || m_exam->level()->answersAs[TQAtype::e_asFretPos].isNote() ||
+//       m_exam->level()->answersAs[TQAtype::e_asSound].isNote() )
+//     m_chartListCombo->
+  
+  
   createChart(m_chartSetts);
 }
 
@@ -227,6 +234,10 @@ void TanalysDialog::analyseChanged(int index) {
       break;
     case 1:
       m_chartSetts.order = TmainChart::e_byNote;
+      m_settButt->setDisabled(false);
+      break;
+    case 2:
+      m_chartSetts.order = TmainChart::e_byFret;
       m_settButt->setDisabled(false);
       break;
   }

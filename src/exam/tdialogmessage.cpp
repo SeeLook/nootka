@@ -63,24 +63,21 @@ QString TdialogMessage::onStringTxt(quint8 strNr) {
 //#################################### CONSTRUCTOR ###########################################
 
 TdialogMessage::TdialogMessage(Texam *exam, MainWindow *parent, Tnote::EnameStyle style) :
-    QDialog(0, Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::Tool | Qt::X11BypassWindowManagerHint),
+    QWidget(parent->innerWidget),
     m_scoreFree(true),
     m_nameFree(true),
     m_guitarFree(true),
     m_parent(parent)
 {
-//     setWindowOpacity(0.8);
-// 	setStyleSheet("background:transparent;");
-//     setStyleSheet(gl->getBGcolorText(gl->EquestionColor));
 
 #if defined(Q_OS_LINUX)
   // check is Transparent background supported
   // fe. LXDE windows manager doesn't suport composite and displays ugly black frame
   // Windows doesn't support checking but composite works always
-    if (QX11Info::isCompositingManagerRunning()) 
-        setAttribute(Qt::WA_TranslucentBackground, true);
+//     if (QX11Info::isCompositingManagerRunning()) 
+//         setAttribute(Qt::WA_TranslucentBackground, true);
 #else
-        setAttribute(Qt::WA_TranslucentBackground, true);
+//         setAttribute(Qt::WA_TranslucentBackground, true);
 #endif
     QHBoxLayout *lay = new QHBoxLayout;
     m_mainLab = new QLabel(getQuestion(exam->qusetion(exam->count()-1), exam->count(), exam->level(), style), this);
@@ -88,9 +85,9 @@ TdialogMessage::TdialogMessage(Texam *exam, MainWindow *parent, Tnote::EnameStyl
     m_mainLab->setWordWrap(true);
     QSize pSize(parent->width(), parent->height());
 #if defined(Q_OS_LINUX)
-    m_size = QSize(parent->width() * 0.45, parent->height() * 0.35);
+    m_size = QSize(pSize.width() * 0.45, pSize.height() * 0.35);
 #else
-    m_size = QSize(parent->width() * 0.4, parent->height() * 0.3);
+    m_size = QSize(pSize.width() * 0.4, pSize.height() * 0.3);
 #endif
     setPosAndSize(pSize);
     
@@ -103,51 +100,39 @@ TdialogMessage::TdialogMessage(Texam *exam, MainWindow *parent, Tnote::EnameStyl
     m_mainLab->setFont(f);
     m_mainLab->setFixedSize(m_size.width() - 10, m_size.height() - 10);
     
-//    m_mainLab->setStyleSheet(QString("border-radius: 10px; %1").arg(gl->getBGcolorText(gl->EquestionColor)));
     lay->addStretch(1);
     lay->addWidget(m_mainLab, 0, Qt::AlignCenter);
     lay->addStretch(1);
     setLayout(lay);
     
-    connect(parent, SIGNAL(moved(QPoint)), this, SLOT(mainWindowMoved(QPoint)));
-    connect(parent, SIGNAL(maximised()), this, SLOT(mainWindowMaximised()));
-    connect(parent, SIGNAL(minimised()), this, SLOT(mainWindowMinimised()));
     connect(parent, SIGNAL(sizeChanged(QSize)), this, SLOT(mainWindowResized(QSize)));
-    
     show();
 }
 
 void TdialogMessage::setPosAndSize(QSize &size) {
   if (m_guitarFree)
-      m_pos = QPoint(m_parent->geometry().left() + size.width() * 0.4,
-                     m_parent->geometry().top() + size.height() * 0.65);
+      m_pos = QPoint(size.width() * 0.4, size.height() * 0.65);
     else
       if (m_nameFree)
-        m_pos = QPoint(m_parent->geometry().left() + (size.width() / 2),
-                       m_parent->geometry().top() + (size.height() /4));
+        m_pos = QPoint((size.width() / 2), (size.height() /4));
       else // on the score
-        m_pos = QPoint(m_parent->geometry().left() + 2, m_parent->geometry().top() + size.height() / 10);
-      
-  setGeometry(m_pos.x(), m_pos.y(), m_size.width(), m_size.height());
-  // Folowing code resizes nicely dialog when main window is resized
-  // But when it is backing to smalest size it remains garbage
-// #if defined(Q_OS_LINUX)
-//     m_size = QSize(size.width() * 0.45, size.height() * 0.35);
-// #else
-//     m_size = QSize(size.width() * 0.4, size.height() * 0.3);
-// #endif
-//     setGeometry(m_pos.x(), m_pos.y(), m_size.width(), m_size.height());
-//     QFont f(font());
-// #if defined(Q_OS_MAC)
-//     f.setPointSize(m_size.height() * 0.1);
-// #else
-//     f.setPointSize((double)m_size.height() * 0.075);
-// #endif
-//     
-//     m_mainLab->setFont(f);
-//     m_mainLab->setFixedSize(m_size.width() - 10, m_size.height() - 10);
-//     
-//     m_mainLab->updateGeometry();
+        m_pos = QPoint(2, size.height() / 10);
+
+#if defined(Q_OS_LINUX)
+    m_size = QSize(size.width() * 0.45, size.height() * 0.35);
+#else
+    m_size = QSize(size.width() * 0.4, size.height() * 0.3);
+#endif
+    setGeometry(m_pos.x(), m_pos.y(), m_size.width(), m_size.height());
+    QFont f(font());
+#if defined(Q_OS_MAC)
+    f.setPointSize(m_size.height() * 0.1);
+#else
+    f.setPointSize((double)m_size.height() * 0.075);
+#endif
+    
+    m_mainLab->setFont(f);
+    m_mainLab->setFixedSize(m_size.width() - 10, m_size.height() - 10);
 }
 
 
@@ -156,8 +141,41 @@ QString TdialogMessage::getNiceNoteName(Tnote note) {
             TnoteName::noteToRichText(note) + " </span></b>";
 }
 
+
+void TdialogMessage::paintEvent(QPaintEvent *) {
+    QPainter painter(this);
+//     QRect rect = QRect(m_size.width() - m_mainLab->geometry().width(), m_size.height() - m_mainLab->geometry().height(),
+//                        m_size.width() - 10 , m_size.height() - 10);
+    QRect rect = m_mainLab->geometry();
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHint(QPainter::TextAntialiasing);
+    // shade
+    painter.setPen(Qt::NoPen);
+    QColor c = palette().text().color();
+    c.setAlpha(100);
+    painter.setBrush(QBrush(c));
+    painter.drawRoundedRect(rect.x() + 7, rect.y() +7, rect.width(), rect.height(), 12, 12);
+    // solid background
+    painter.setBrush(QBrush(palette().background().color()));
+    painter.drawRoundedRect(rect, 12, 12);
+    // gradient backround in question color
+    c = gl->EquestionColor;
+    c.setAlpha(75);
+    QLinearGradient grad(rect.topLeft(), rect.bottomRight());
+    grad.setColorAt(0.1, c);
+    grad.setColorAt(0.9, gl->EquestionColor);
+    painter.setBrush(QBrush(grad));
+    painter.drawRoundedRect(rect, 12, 12);
+    // Question mark
+    c = palette().background().color();
+    c.setAlpha(100);
+    painter.setPen(QPen(c));
+    painter.setFont(QFont("nootka", (double)height() / 1.3));
+    painter.drawText(rect, Qt::AlignCenter ,"?");
+}
+
 QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* level, Tnote::EnameStyle style) {
-    QString quest = QString("<b>%1. </b><br>").arg(questNr);
+    QString quest = QString("<b><u>&nbsp;%1.&nbsp;</u></b><br>").arg(questNr);
     QString apendix = "";
     QString noteStr;
     switch (question.questionAs) {
@@ -187,7 +205,10 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
               if (question.answerAs == TQAtype::e_asSound) {
                 quest += tr("Play or sing");
               }
-        quest += "<br>" + TtipChart::wrapPixToHtml(question.qa.note, true, question.key);
+        if (level->useKeySign && level->manualKey) // hide key signature
+            quest += "<br>" + TtipChart::wrapPixToHtml(question.qa.note, true, TkeySignature(0));
+        else
+            quest += "<br>" + TtipChart::wrapPixToHtml(question.qa.note, true, question.key);
         if (apendix != "")
           quest += apendix;
       break;
@@ -294,37 +315,6 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
 }
 
 
-void TdialogMessage::paintEvent(QPaintEvent *) {
-    QPainter painter(this);
-    qDebug("painter");
-    QRect rect = QRect(m_size.width() - m_mainLab->geometry().width(), m_size.height() - m_mainLab->geometry().height(),
-                       m_size.width() - 10 , m_size.height() - 10);
-    painter.setRenderHint(QPainter::Antialiasing);
-    painter.setRenderHint(QPainter::TextAntialiasing);
-    // shade
-    painter.setPen(Qt::NoPen);
-    QColor c = palette().text().color();
-    c.setAlpha(100);
-    painter.setBrush(QBrush(c));
-    painter.drawRoundedRect(rect.x() + 7, rect.y() +7, rect.width(), rect.height(), 12, 12);
-    // solid background
-    painter.setBrush(QBrush(palette().background().color()));
-    painter.drawRoundedRect(rect, 12, 12);
-    // gradient backround in question color
-    c = gl->EquestionColor;
-    c.setAlpha(75);
-    QLinearGradient grad(rect.topLeft(), rect.bottomRight());
-    grad.setColorAt(0.1, c);
-    grad.setColorAt(0.9, gl->EquestionColor);
-    painter.setBrush(QBrush(grad));
-    painter.drawRoundedRect(rect, 12, 12);
-    // Question mark
-    c = palette().background().color();
-    c.setAlpha(100);
-    painter.setPen(QPen(c));
-    painter.setFont(QFont("nootka", (double)height() / 1.5));
-    painter.drawText(rect, Qt::AlignCenter ,"?");
-}
 
 //#################################### SLOTS ###########################################
 
@@ -387,4 +377,5 @@ qpm = qpm.scaled(this->width(),this->height(),Qt::IgnoreAspectRatio,Qt::SmoothTr
 if (!qpm.isNull()) 
   this->setMask(qpm.mask());
   this->setWindowOpacity(0.9);
+//Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::Tool | Qt::X11BypassWindowManagerHint
 */
