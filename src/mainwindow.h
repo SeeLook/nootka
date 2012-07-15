@@ -51,6 +51,7 @@ public:
         * of others widgets. */
     int getFontSize() {return m_statFontSize; }
     QString statusMessage() { return m_statusText; }
+    QWidget *innerWidget;
 
 public slots:
     void openFile(QString runArg); // opens *.nel or *.noo file
@@ -66,12 +67,6 @@ public slots:
     void soundWasPlayed(Tnote note);
     
 signals:
-        /** This signal is emited when window changes its position.
-        * A parameter is difference betwen current and previous position*/
-    void moved(QPoint);
-        /** Are emited when application window is minimides or maximised. */
-    void minimised();
-    void maximised();
     void sizeChanged(QSize size);
 
 
@@ -93,7 +88,6 @@ protected:
     bool event(QEvent *event);
     void closeEvent(QCloseEvent *event);
     bool eventFilter(QObject* obj, QEvent* event);
-    void moveEvent(QMoveEvent *event);
         
 protected slots:
     void restoreMessage();

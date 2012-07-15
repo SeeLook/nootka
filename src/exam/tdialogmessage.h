@@ -21,7 +21,7 @@
 #ifndef TDIALOGMESSAGE_H
 #define TDIALOGMESSAGE_H
 
-#include <QDialog>
+#include <QWidget>
 #include "tnote.h"
 
 class TkeySignature;
@@ -32,10 +32,10 @@ class TexamLevel;
 class QLabel;
 
 
-/** This class reimlements QDialog and show window over main appication window.
- * It takes away window decorations and looks like widget over widgets. 
+/** This class reimlements QWidget and show window over main appication window.
+ * It looks like widget over widgets. 
  */
-class TdialogMessage : public QDialog
+class TdialogMessage : public QWidget
 {
    Q_OBJECT
 public:
