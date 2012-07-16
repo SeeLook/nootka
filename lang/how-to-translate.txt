@@ -1,10 +1,14 @@
-********************************************************************
+
+l********************************************************************
 	HOW TO TRANSLATE NOOTKA
 ********************************************************************
 
 
 Welcome !!!
 Nice that You glanced here :-)
+
+THANK YOU IN ADVANCE
+For any question message me: seelook@gmail.com
 
 =====================================================================
 This process is very easy and doesn't require any programming skills,
@@ -22,7 +26,7 @@ I) Recommended method - translation with Qt Linguist
   2. Download Nootka language file: http://code.google.com/p/nootka/source/browse/lang/nootka_xx.ts
       and change that xx in file name to Your language code to get file name like f.e.: nootka_en.ts
   3. Open this file by Qt Linguist
-  4. In every moment You can generate a "lang package" form File menu (file with *.qm extension)
+  4. In every moment You can generate a "lang package" form menu File->Release (file with *.qm extension)
       and put that file in Nootka instalation dir in lang directory 
       f.e.: path_to_nootka/lang/nootka_en.qm
       and run Nootka to see effects of the translation
@@ -33,18 +37,21 @@ I) Recommended method - translation with Qt Linguist
     * To copy oryginal entry use [CTRL+b] and then just translate.
       Obviously You can move this mischievous characters and tags
       to make proper whole transtaled sentence in Your language
+    * PLEASE BE RESPONSIBLE !!! USE KIND WORDS AND OFFICIAL MUSICAL TERMS.
+      DO NOT USE SOME SLANG WORDS EVEN MUSICAL. Nootka is used by children and pupils 
 
-=====================================================================
-When translation will be ready or You give up :-( send me what You have
-      seelook@gmail.com
-      How to give some info about translator(You) You will find during translations
+  =====================================================================
+When translation will be ready or You give up :-( , send me what You have:
+		seelook@gmail.com
+      How to give some info about translator(You) You will find during translation
       Have good fun !!!!!!!!!!!!!
   
       
       
 II) Alternate method - translate in text editor
     1. MS NotePad is good for nothing so first got some editor with syntax hightlight
-       f.e.: Notepad++
+       f.e.: Notepad++. Also there are online editors 
+       (f.e.: create free acount on Cloud9 http://c9.io and upload the *.ts file there)
     2. Download Nootka language file: http://code.google.com/p/nootka/source/browse/lang/nootka_xx.ts
       and change that xx in file name to Your language code to get file name like f.e.: nootka_en.ts
     3. Open this file in Your editor
@@ -62,8 +69,9 @@ II) Alternate method - translate in text editor
       <message>
         <location filename="../src/charts/tnotepixmap.cpp" line="173"/>
         <source>It was good!</source>
-        <translation> !!!!!!!!! HERE PUT TRANSLATION !!!!!!!!!!!! </translation>
+        <translation> !!!!!!!!! HERE PUT A TRANSLATION !!!!!!!!!!!! </translation>
       </message>
       When finished - remove type="unfinished" from a tag.
+    6. See hints above
       
       
