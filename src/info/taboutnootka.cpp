@@ -58,7 +58,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     navList->item(2)->setIcon(QIcon(gl->path+"picts/license.png"));
     navList->item(2)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Support"));
-    navList->item(3)->setIcon(QIcon(gl->path+"picts/help.png"));
+    navList->item(3)->setIcon(QIcon(gl->path+"picts/support.png"));
     navList->item(3)->setTextAlignment(Qt::AlignCenter);
 
 
