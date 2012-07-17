@@ -70,16 +70,10 @@ TdialogMessage::TdialogMessage(Texam *exam, MainWindow *parent, Tnote::EnameStyl
     m_parent(parent)
 {
 
-#if defined(Q_OS_LINUX)
-  // check is Transparent background supported
-  // fe. LXDE windows manager doesn't suport composite and displays ugly black frame
-  // Windows doesn't support checking but composite works always
-//     if (QX11Info::isCompositingManagerRunning()) 
-//         setAttribute(Qt::WA_TranslucentBackground, true);
-#else
-//         setAttribute(Qt::WA_TranslucentBackground, true);
-#endif
-setAttribute(Qt::WA_TransparentForMouseEvents);
+
+    setAttribute(Qt::WA_TransparentForMouseEvents);
+      /** During exams right mouse click is captured by filter on application level,
+       * There is some bug that right click over this widget causes seg. fault. */
     QHBoxLayout *lay = new QHBoxLayout;
     m_mainLab = new QLabel(getQuestion(exam->qusetion(exam->count()-1), exam->count(), exam->level(), style), this);
     m_mainLab->setAlignment(Qt::AlignCenter);
@@ -145,8 +139,6 @@ QString TdialogMessage::getNiceNoteName(Tnote note) {
 
 void TdialogMessage::paintEvent(QPaintEvent *) {
     QPainter painter(this);
-//     QRect rect = QRect(m_size.width() - m_mainLab->geometry().width(), m_size.height() - m_mainLab->geometry().height(),
-//                        m_size.width() - 10 , m_size.height() - 10);
     QRect rect = m_mainLab->geometry();
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setRenderHint(QPainter::TextAntialiasing);

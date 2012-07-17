@@ -467,6 +467,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
     if (curQ.answerAs == TQAtype::e_asFretPos) { // Comparing positions
         if (curQ.qa.pos != mW->guitar->getfingerPos())
             curQ.setMistake(TQAunit::e_wrongPos);
+        /** TODO this is incorrect!!! Check here are note the same then e_wrongPos occurs
+         * otherwise it is e_wrongNote mistake. */
     } else { // we check are the notes the same
 //        qDebug() << QString::fromStdString(retN.getName()) << QString::fromStdString(exN.getName());
       if (retN.note) {

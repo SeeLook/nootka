@@ -41,61 +41,6 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
       maxTime = qMax(maxTime, m_exam->qusetion(i).time);
   yAxis->setMaxValue((double)maxTime / 10.0);
   
-  if (m_settings.order == e_byNote) {
-      TanswerListPtr goodAnsw, badAnsw;
-      QList<TanswerListPtr> sortedLists;
-      int goodSize; // number of lists with good answers
-      if (m_settings.separateWrong) {
-          divideGoodAndBad(m_exam->answList(), goodAnsw, badAnsw);
-          sortedLists = sortByNote(goodAnsw);
-          goodSize = sortedLists.size(); // number without wrong answers
-          sortedLists.append(sortByNote(badAnsw));
-      }
-      else {
-          TanswerListPtr convList = convertToPointers(m_exam->answList());
-          sortedLists = sortByNote(convList);
-          goodSize = sortedLists.size();
-      }
-
-      xAxis->setAnswersLists(sortedLists, m_exam->level());
-      int ln = 0;
-      for (int i = 0; i < sortedLists.size(); i++)
-        ln += sortedLists[i].size();
-//       qDebug() << "questions number" << ln;
-      prepareChart(ln);
-      m_mainLine = new TmainLine(sortedLists, this);
-      int cnt = 1;
-      // paint lines with average time of all the same notes
-      for (int i = 0; i < goodSize; i++) { // skip wrong answers if separeted
-        double aTime = calcAverTime(sortedLists[i], !m_settings.inclWrongAnsw) / 10.0;
-        TgraphicsLine *aNoteLine = new TgraphicsLine("<p>" + TexamView::averAnsverTimeTxt() + 
-          QString("<br>%1<br>%2 s</p>").arg(tr("for a note:  ", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>" + TnoteName::noteToRichText(sortedLists[i].operator[](0)->qa.note) + "</b>").arg(aTime));
-        scene->addItem(aNoteLine);
-        aNoteLine->setZValue(46);
-        aNoteLine->setPen(QPen(QColor(255, 153, 57), 3)); // orange
-        aNoteLine->setLine(xAxis->mapValue(cnt - 0.4) + xAxis->pos().x(), yAxis->mapValue(aTime),
-          xAxis->mapValue(cnt + sortedLists[i].size() -0.6) + xAxis->pos().x(), yAxis->mapValue(aTime));
-        cnt += sortedLists[i].size();
-      }
-      cnt = 1;
-      // paint highlights under grouped notes
-      for (int i = 0; i < sortedLists.size(); i++) {
-          QGraphicsRectItem *noteBg = new QGraphicsRectItem();
-          scene->addItem(noteBg);
-          QColor hiCol = palette().highlight().color();
-          hiCol.setAlpha(30);
-          if (i%2) {
-            noteBg->setBrush(QBrush(hiCol));
-            noteBg->setPen(Qt::NoPen);
-            noteBg->setRect(xAxis->mapValue(cnt), 0, sortedLists[i].size() * xAxis->questWidth(), yAxis->boundingRect().height());
-            noteBg->setZValue(-1);
-          }
-          cnt += sortedLists[i].size();
-      }      
-  }   
-
-//   qDebug() << m_exam->userName() << "max time" << (double)maxTime / 10.0;
-  
   if (m_settings.order == e_byNumber) {
       xAxis->setAnswersList(exam->answList(), exam->level());
       prepareChart(m_exam->count());
@@ -103,15 +48,92 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
       TgraphicsLine *averLine = new TgraphicsLine("<p>" +
           TexamView::averAnsverTimeTxt() + QString("<br><span style=\"font-size: 20px;\">%1 s</span></p>").arg(m_exam->averageReactonTime() / 10.0));
       scene->addItem(averLine);
-//   averLine->setLine(QPointF(xAxis->mapValue(1), yAxis->mapValue(m_exam->averageReactonTime()/10.0)),
-//     QPointF(xAxis->mapValue(m_exam->count()), yAxis->mapValue(m_exam->averageReactonTime()/10.0))
-//   );
       averLine->setZValue(20);
       averLine->setPen(QPen(QColor(255, 153, 57), 3));
       averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime()/10.0),
           xAxis->mapValue(m_exam->count()) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime()/10.0));
   }
   
+  if (m_settings.order == e_byFret) {
+    
+  }
+  
+  if (m_settings.order == e_byNote || m_settings.order == e_byFret) {
+      TanswerListPtr goodAnsw, badAnsw;
+      QList<TanswerListPtr> sortedLists;
+      int goodSize; // number of lists with good answers
+      if (m_settings.separateWrong) {
+          divideGoodAndBad(m_exam->answList(), goodAnsw, badAnsw);
+          if (m_settings.order == e_byNote)
+            sortedLists = sortByNote(goodAnsw);
+          else 
+            if (m_settings.order == e_byFret)
+              sortedLists = sortByFret(goodAnsw);
+          goodSize = sortedLists.size(); // number without wrong answers
+          if (m_settings.order == e_byNote)
+            sortedLists.append(sortByNote(badAnsw));
+          else
+            if (m_settings.order == e_byFret)
+              sortedLists.append(sortByFret(badAnsw));
+      }
+      else {
+          TanswerListPtr convList = convertToPointers(m_exam->answList());
+          if (m_settings.order == e_byNote)
+            sortedLists = sortByNote(convList);
+          else
+            if (m_settings.order == e_byFret)
+              sortedLists = sortByFret(convList);
+          goodSize = sortedLists.size();
+      }
+
+      xAxis->setAnswersLists(sortedLists, m_exam->level());
+      int ln = 0;
+      for (int i = 0; i < sortedLists.size(); i++)
+        ln += sortedLists[i].size();
+      prepareChart(ln);
+      m_mainLine = new TmainLine(sortedLists, this);
+      
+//       if (m_settings.order == e_byNote) {
+          int cnt = 1;
+          // paint lines with average time of all the same notes
+          for (int i = 0; i < goodSize; i++) { // skip wrong answers if separeted
+            double aTime = calcAverTime(sortedLists[i], !m_settings.inclWrongAnsw) / 10.0;
+            TgraphicsLine *aNoteLine = 0;
+            if (m_settings.order == e_byNote)
+              aNoteLine = new TgraphicsLine("<p>" + TexamView::averAnsverTimeTxt() + 
+                QString("<br>%1<br>%2 s</p>").arg(tr("for a note:  ", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>" + TnoteName::noteToRichText(sortedLists[i].operator[](0)->qa.note) + "</b>").arg(aTime));
+            else
+              if (m_settings.order == e_byFret)
+                aNoteLine = new TgraphicsLine("<p>" + TexamView::averAnsverTimeTxt() + 
+                QString("<br>%1<br>%2 s</p>").arg(tr("for a fret:  ", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>" + sortedLists[i].operator[](0)->qa.pos.fret() + "</b>").arg(aTime));
+            if (aNoteLine) {
+                scene->addItem(aNoteLine);
+                aNoteLine->setZValue(46);
+                aNoteLine->setPen(QPen(QColor(255, 153, 57), 3)); // orange
+                aNoteLine->setLine(xAxis->mapValue(cnt - 0.4) + xAxis->pos().x(), yAxis->mapValue(aTime),
+                  xAxis->mapValue(cnt + sortedLists[i].size() -0.6) + xAxis->pos().x(), yAxis->mapValue(aTime));
+            }
+            cnt += sortedLists[i].size();
+          }
+          cnt = 1;
+          // paint highlights under grouped notes
+          for (int i = 0; i < sortedLists.size(); i++) {
+              QGraphicsRectItem *noteBg = new QGraphicsRectItem();
+              scene->addItem(noteBg);
+              QColor hiCol = palette().highlight().color();
+              hiCol.setAlpha(30);
+              if (i%2) {
+                noteBg->setBrush(QBrush(hiCol));
+                noteBg->setPen(Qt::NoPen);
+                noteBg->setRect(xAxis->mapValue(cnt), 0, sortedLists[i].size() * xAxis->questWidth(), yAxis->boundingRect().height());
+                noteBg->setZValue(-1);
+              }
+              cnt += sortedLists[i].size();
+        }
+//       }
+      
+  }   
+
 }
 
 
@@ -229,7 +251,29 @@ QList<TanswerListPtr> TmainChart::sortByNote(TanswerListPtr& answList) {
 }
 
 QList< TanswerListPtr > TmainChart::sortByFret(TanswerListPtr& answList) {
-
+  QList<TanswerListPtr> result;
+  for (int f = m_exam->level()->loFret; f <= m_exam->level()->hiFret; f++) {
+    // search all list for each fret in level's fret range
+    TanswerListPtr fretList;
+    for (int i = 0; i < answList.size(); i++) {
+      if (answList.operator[](i)->questionAs == TQAtype::e_asFretPos ||
+          answList.operator[](i)->answerAs == TQAtype::e_asFretPos ) { // is a question related to guitar
+        if (f == answList.operator[](i)->qa.pos.fret())
+            fretList << answList.operator[](i);
+      }
+    }
+    result << fretList;
+  }
+  TanswerListPtr unrelatedList;
+  for (int i = 0; i < answList.size(); i++) {
+    if (answList.operator[](i)->questionAs != TQAtype::e_asFretPos &&
+        answList.operator[](i)->answerAs != TQAtype::e_asFretPos ) { // exclude unrelated
+          unrelatedList << answList.operator[](i);
+    }
+  }
+  if (!unrelatedList.isEmpty())
+      result << unrelatedList; // add unrelatedList at the end of list
+  return result;
 }
 
 
