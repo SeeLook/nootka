@@ -142,7 +142,10 @@ void TanalysDialog::setExam(Texam* exam) {
   if (m_exam->level()->questionAs.isFret() || 
       m_exam->level()->answersAs[TQAtype::e_asNote].isFret() ||
       m_exam->level()->answersAs[TQAtype::e_asName].isFret() ||
-      m_exam->level()->answersAs[TQAtype::e_asSound].isFret() )
+      m_exam->level()->answersAs[TQAtype::e_asSound].isFret() ||
+      m_exam->level()->answersAs[TQAtype::e_asNote].isSound() || // answers as played sound are also important
+      m_exam->level()->answersAs[TQAtype::e_asName].isSound() ||
+      m_exam->level()->answersAs[TQAtype::e_asSound].isSound() )
         enableComboItem(2, true);
     else
         enableComboItem(2, false);
