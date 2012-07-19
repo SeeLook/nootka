@@ -64,14 +64,13 @@ public:
 private:
       /** Performs common elements for all kinds of charts. */
   void prepareChart(int maxX);
-      /** Returns true if list contains unrelated list of questions.
-       * pos parameter points suspected list. */
-  bool hasListUnrelated(QList<TanswerListPtr> &list, int pos);
   
 private:
   Texam *m_exam;
   TmainLine *m_mainLine;
   Tsettings &m_settings;
+  /** Returns true if list contains unrelated list of questions. */
+  bool m_hasListUnrelated;
 };
 
 #endif // TMAINCHART_H

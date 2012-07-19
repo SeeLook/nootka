@@ -32,7 +32,8 @@
 TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
   Tchart(parent),
   m_exam(exam),
-  m_settings(settings)
+  m_settings(settings),
+  m_hasListUnrelated(false)
 {
   setMouseTracking(true);
 
@@ -91,7 +92,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
       m_mainLine = new TmainLine(sortedLists, this);
       
       int goodOffset = 0; // 0 when not unrelated question list inside
-      if (hasListUnrelated(sortedLists, goodSize-1))
+      if (m_hasListUnrelated)
         goodOffset = -1; // do not perform a last loop 
       int cnt = 1;
   // paint lines with average time of all the same notes/frets
@@ -137,7 +138,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
         QFont f;
         f.setPixelSize(30);
         fretText->setFont(f);
-        QString hintText = "<b style=\"color: rgba(200, 200, 200, 150); \">";
+        QString hintText = "<b style=\"color: rgba(200, 200, 200, 180); \">";
         if (goodOffset && (i == goodSize -1))
           hintText += tr("questions unrelated<br>with chart type");
         else
@@ -265,9 +266,11 @@ QList<TanswerListPtr> TmainChart::sortByNote(TanswerListPtr& answList) {
             if (answList.operator[](k)->questionAs == TQAtype::e_asFretPos && 
               answList.operator[](k)->questionAs == TQAtype::e_asFretPos)
                       ignoredList << answList.operator[](k);
-      if (!ignoredList.isEmpty())
+      if (!ignoredList.isEmpty()) {
         result << ignoredList; // add ignoredList at the end
-          qDebug() << ignoredList.size();
+        m_hasListUnrelated = true;
+        qDebug() << ignoredList.size();
+      }
   }
   return result;
 }
@@ -279,7 +282,8 @@ QList< TanswerListPtr > TmainChart::sortByFret(TanswerListPtr& answList) {
     TanswerListPtr fretList;
     for (int i = 0; i < answList.size(); i++) {
       if (answList.operator[](i)->questionAs == TQAtype::e_asFretPos ||
-          answList.operator[](i)->answerAs == TQAtype::e_asFretPos ) { // is a question related to guitar
+          answList.operator[](i)->answerAs == TQAtype::e_asFretPos ||
+          answList.operator[](i)->answerAs == TQAtype::e_asSound) { // is a question related to guitar
         if (f == answList.operator[](i)->qa.pos.fret())
             fretList << answList.operator[](i);
       }
@@ -290,12 +294,15 @@ QList< TanswerListPtr > TmainChart::sortByFret(TanswerListPtr& answList) {
   TanswerListPtr unrelatedList;
   for (int i = 0; i < answList.size(); i++) {
     if (answList.operator[](i)->questionAs != TQAtype::e_asFretPos &&
-        answList.operator[](i)->answerAs != TQAtype::e_asFretPos ) { // exclude unrelated
+        answList.operator[](i)->answerAs != TQAtype::e_asFretPos && 
+        answList.operator[](i)->answerAs != TQAtype::e_asSound) { // exclude unrelated
           unrelatedList << answList.operator[](i);
     }
   }
-  if (!unrelatedList.isEmpty())
+  if (!unrelatedList.isEmpty()) {
       result << unrelatedList; // add unrelatedList at the end of list
+      m_hasListUnrelated = true;
+  }
   return result;
 }
 
@@ -345,16 +352,3 @@ void TmainChart::prepareChart(int maxX) {
 
 }
 
-bool TmainChart::hasListUnrelated(QList< TanswerListPtr >& list, int pos) {
-  if (m_settings.order == e_byNote) {
-    if (list[pos].operator[](0)->questionAs == TQAtype::e_asFretPos && 
-        list[pos].operator[](0)->answerAs == TQAtype::e_asFretPos)
-        return true;
-    }
-    if (m_settings.order == e_byFret) {
-      if (list[pos].operator[](0)->questionAs != TQAtype::e_asFretPos && 
-          list[pos].operator[](0)->answerAs != TQAtype::e_asFretPos)
-          return true;
-    }
-    return false;
-}
