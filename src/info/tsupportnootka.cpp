@@ -19,9 +19,7 @@
 
 
 #include "tsupportnootka.h"
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QScrollArea>
+#include <QtGui>
 
 TsupportNootka::TsupportNootka(QWidget *parent) :
     QWidget(parent)
@@ -51,5 +49,17 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
 TsupportStandalone::TsupportStandalone(QString& path, QWidget* parent) :
     QDialog(parent)
 {
-
+    setWindowTitle("Support Nootka");
+    QVBoxLayout *lay = new QVBoxLayout();
+    QLabel *headLab = new QLabel(QString("<img src=\"%1\">").arg(path + "picts/logo.png"), this);
+    lay->addWidget(headLab, 1, Qt::AlignCenter);
+    TsupportNootka *suppWdg = new TsupportNootka(this);
+    lay->addWidget(suppWdg);
+    QPushButton *butt = new QPushButton("Thanks Nootka!", this);
+    lay->addStretch(1);
+    lay->addWidget(butt, 1, Qt::AlignCenter);
+    
+    setLayout(lay);
+    
+    connect(butt, SIGNAL(clicked(bool)), this, SLOT(accept()));
 }

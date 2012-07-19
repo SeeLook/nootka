@@ -22,6 +22,7 @@
 #include "examsettingsdlg.h"
 #include "taboutnootka.h"
 #include "tfirstrunwizzard.h"
+#include <tsupportnootka.h>
 #include "examsettings.h"
 #include "tsound.h"
 #include "tpushbutton.h"
@@ -162,6 +163,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    TsupportStandalone *supp = new TsupportStandalone(gl->path, this);
+    supp->exec();
 #if defined(Q_OS_WIN32) // I hate mess in Win registry
     QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
 #else
