@@ -147,6 +147,7 @@ SET( NOOTKA_MOC_SRCS
   info/select7note.h
   info/texamhelp.h
   info/texpertanswerhelp.h
+  info/tsupportnootka.h
 ###### Charts
   charts/tanalysdialog.h
   charts/tchart.h

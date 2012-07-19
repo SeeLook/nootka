@@ -36,6 +36,8 @@ public:
 
 class TsupportStandalone : public QDialog
 {
+    Q_OBJECT
+    
 public:
     explicit TsupportStandalone(QString &path, QWidget *parent = 0);
 };
