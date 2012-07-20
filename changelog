@@ -1,6 +1,6 @@
 0.8.2 beta    
-    - Added analyse chart sorted by note pitch
-    - Added analyse chart sorted by fret number
+    - Added analyse chart - data sorted by note pitch
+    - Added analyse chart - data sorted by fret number
     - improved dilog window to start/continue exams
     - new, more detailed question dialogs during exams
     - A few settings of a chart
