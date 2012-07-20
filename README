@@ -1,7 +1,7 @@
 Nootka 0.8.2
 
 ##########################################################
-#############   Requirements:
+#############   Requirements:                #############
 ##########################################################
 - Qt libraries (at least 4.7 version)
 - QtMultimedia
@@ -14,12 +14,13 @@ Nootka 0.8.2
 - libasound-dev under linux
 
 ##########################################################
-###############    Building 
+###############    Building                  #############
 ##########################################################
 - Unpack tarball
-- create some dir (f. e. "build") out of unpacked source directory
+- go into unpacked directory
+- create some dir (f. e. "build")
 - go to build dir
-- cmake ../nootka-0.8 (or ccmake or qtcmake with GUI)
+- cmake ../ (or ccmake or qtcmake with GUI)
   if You get error about not found libfftw or libQtMultimedia(Kit1)
   put it manually:
       -DFFTW3_LIBRARIES=/path_to/libfftw3f.la(dll)
@@ -33,6 +34,15 @@ Nootka 0.8.2
 to remove (uninstall)
 - make uninstall (usually as root)
 
+##########################################################
+###################### Packaging #########################
+##########################################################
+You can easyly generate rpm and deb package.
+1. For deb call:
+  fakeroot cpack -G DEB
+  (obviously packages for build debian packages are needed)
+2. For rpm call
+  cpack -G RPM
 
 ##########################################################
 #### How to prepare developement enviroment under MacOs ##
@@ -51,6 +61,8 @@ http://qt.nokia.com/downloads/qt-for-open-source-cpp-development-on-mac-os-x/
 4. Now You can go to to Building section
 
 5. make install under MacOs generates independent boundle with all needed frameworks inside
+   however You mast to put during invokeing cmake -DFFTW3_LIBRARIES=/path_to_real_file_with_libfftw3f
+   (cmake autoagicaly finds only symbolic link)
 
 
  
