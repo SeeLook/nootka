@@ -101,10 +101,10 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
         TgraphicsLine *averTimeLine = new TgraphicsLine();
         QString lineText;
         if (m_settings.order == e_byNote)
-          lineText = "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2 s</p>").arg(tr("for a note:  ", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>" + TnoteName::noteToRichText(sortedLists[i].operator[](0)->qa.note) + "</b>").arg(aTime);
+          lineText = "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2 s</p>").arg(tr("for a note:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + TnoteName::noteToRichText(sortedLists[i].operator[](0)->qa.note) + "</b>").arg(aTime);
         else
           if (m_settings.order == e_byFret)
-            lineText = "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2 s</p>").arg(tr("for a fret:  ", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>" + 
+            lineText = "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2 s</p>").arg(tr("for a fret:", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>  " + 
             QString::number(sortedLists[i].operator[](0)->qa.pos.fret()) + "</b>").arg(aTime);
         
         averTimeLine->setText(lineText);
