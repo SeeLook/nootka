@@ -792,7 +792,7 @@
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="60"/>
         <source>Support</source>
-        <translation type="unfinished"></translation>
+        <translation>Podpora</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="69"/>
@@ -847,17 +847,17 @@
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="61"/>
         <source>note pitch</source>
-        <translation type="unfinished"></translation>
+        <translation>Výška tónu noty</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="62"/>
         <source>fret number</source>
-        <translation type="unfinished"></translation>
+        <translation>Číslo pražce</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="103"/>
         <source>Select an exam from a file&lt;br&gt;Use %1 + mouse wheel to zoom a chart.&lt;br&gt;Drag a cursor to move the chart.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyberte zkoušku ze souboru&lt;br&gt;Použijte %1 + kolečko myši pro přiblížená/oddálení grafu.&lt;br&gt;Táhněte ukazovátkem pro přesun grafu.</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="131"/>
@@ -887,12 +887,12 @@
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="188"/>
         <source>include time of wrong answers to average</source>
-        <translation type="unfinished"></translation>
+        <translation>Zahrnout čas nesprávných odpovědí do průměru</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="190"/>
         <source>show wrong answers separately</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat nesprávné odpovědi každou zvlášť</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="245"/>
@@ -1057,12 +1057,12 @@
     <message>
         <location filename="../src/exam/tdialogmessage.cpp" line="179"/>
         <source>Change enharmonicaly and show in the score</source>
-        <translation type="unfinished"></translation>
+        <translation>Změnit enharmonicky a ukázat v notovém zápisu</translation>
     </message>
     <message>
         <location filename="../src/exam/tdialogmessage.cpp" line="181"/>
         <source>Given note show in the score</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázání dané noty v notovém zápisu</translation>
     </message>
     <message>
         <location filename="../src/exam/tdialogmessage.cpp" line="183"/>
@@ -1070,7 +1070,7 @@
         <location filename="../src/exam/tdialogmessage.cpp" line="284"/>
         <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;br&gt;&lt;b&gt;v tónině %1.&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/exam/tdialogmessage.cpp" line="190"/>
@@ -1082,34 +1082,34 @@
         <location filename="../src/exam/tdialogmessage.cpp" line="194"/>
         <location filename="../src/exam/tdialogmessage.cpp" line="235"/>
         <source>Show on the guitar</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat na kytaře</translation>
     </message>
     <message>
         <location filename="../src/exam/tdialogmessage.cpp" line="214"/>
         <source>Show in the score</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat v notovém zápisu</translation>
     </message>
     <message>
         <location filename="../src/exam/tdialogmessage.cpp" line="225"/>
         <source>Change enharmonicaly and give name of</source>
-        <translation type="unfinished"></translation>
+        <translation>Změnit enharmonicky a udat název</translation>
     </message>
     <message>
         <location filename="../src/exam/tdialogmessage.cpp" line="227"/>
         <source>Use another style to give name of</source>
-        <translation type="unfinished"></translation>
+        <translation>Použít jiný styl pro udání názvu</translation>
     </message>
     <message>
         <location filename="../src/exam/tdialogmessage.cpp" line="199"/>
         <location filename="../src/exam/tdialogmessage.cpp" line="240"/>
         <location filename="../src/exam/tdialogmessage.cpp" line="262"/>
         <source>Play or sing</source>
-        <translation type="unfinished"></translation>
+        <translation>Přehrát nebo zazpívat</translation>
     </message>
     <message>
         <location filename="../src/exam/tdialogmessage.cpp" line="249"/>
         <source>Show on the score note played on</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat přehranou notu v notovém zápisu</translation>
     </message>
     <message>
         <location filename="../src/exam/tdialogmessage.cpp" line="251"/>
@@ -1120,22 +1120,22 @@
     <message>
         <location filename="../src/exam/tdialogmessage.cpp" line="277"/>
         <source>Listened sound show in the score</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázání poslechnutého zvuku v notovém zápisu</translation>
     </message>
     <message>
         <location filename="../src/exam/tdialogmessage.cpp" line="291"/>
         <source>Give name of listened sound</source>
-        <translation type="unfinished"></translation>
+        <translation>Udat název poslechnutého zvuku</translation>
     </message>
     <message>
         <location filename="../src/exam/tdialogmessage.cpp" line="297"/>
         <source>Listened sound show on the guitar</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázání poslechnutého zvuku na kytaře</translation>
     </message>
     <message>
         <location filename="../src/exam/tdialogmessage.cpp" line="302"/>
         <source>Play or sing listened sound</source>
-        <translation type="unfinished"></translation>
+        <translation>Zahrajte nebo zazpívejte poslechnutý zvuk</translation>
     </message>
 </context>
 <context>
@@ -1849,18 +1849,18 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/charts/tmainchart.cpp" line="104"/>
         <source>for a note:</source>
         <comment>average reaction time for...</comment>
-        <translation type="unfinished"></translation>
+        <translation>Pro notu:</translation>
     </message>
     <message>
         <location filename="../src/charts/tmainchart.cpp" line="107"/>
         <source>for a fret:</source>
         <comment>average reaction time for...</comment>
-        <translation type="unfinished"></translation>
+        <translation>Pro pražec:</translation>
     </message>
     <message>
         <location filename="../src/charts/tmainchart.cpp" line="143"/>
         <source>questions unrelated&lt;br&gt;with chart type</source>
-        <translation type="unfinished"></translation>
+        <translation>Otázky nesouvisející&lt;br&gt;s typem grafu</translation>
     </message>
 </context>
 <context>
