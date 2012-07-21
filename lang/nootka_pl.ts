@@ -852,7 +852,7 @@
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="62"/>
         <source>fret number</source>
-        <translation type="unfinished"></translation>
+        <translation>progów</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="103"/>
@@ -1826,18 +1826,18 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/charts/tmainchart.cpp" line="104"/>
         <source>for a note:</source>
         <comment>average reaction time for...</comment>
-        <translation type="unfinished"></translation>
+        <translation>dla nuty:</translation>
     </message>
     <message>
         <location filename="../src/charts/tmainchart.cpp" line="107"/>
         <source>for a fret:</source>
         <comment>average reaction time for...</comment>
-        <translation type="unfinished"></translation>
+        <translation>dla progu:</translation>
     </message>
     <message>
         <location filename="../src/charts/tmainchart.cpp" line="143"/>
         <source>questions unrelated&lt;br&gt;with chart type</source>
-        <translation type="unfinished"></translation>
+        <translation>pytania niezwiązane&lt;br&gt;z rodzajem wykresu</translation>
     </message>
 </context>
 <context>
