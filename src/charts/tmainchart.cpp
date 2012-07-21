@@ -48,7 +48,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
       prepareChart(m_exam->count());
       m_mainLine = new TmainLine(m_exam->answList(), this);
       TgraphicsLine *averLine = new TgraphicsLine("<p>" +
-          TexamView::averAnsverTimeTxt() + QString("<br><span style=\"font-size: 20px;\">%1 s</span></p>").arg(m_exam->averageReactonTime() / 10.0));
+          TexamView::averAnsverTimeTxt() + QString("<br><span style=\"font-size: 20px;\">%1 s</span></p><br>").arg(m_exam->averageReactonTime() / 10.0));
       scene->addItem(averLine);
       averLine->setZValue(20);
       averLine->setPen(QPen(QColor(255, 153, 57), 3));
@@ -107,7 +107,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
             lineText = "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2 s</p>").arg(tr("for a fret:", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>  " + 
             QString::number(sortedLists[i].operator[](0)->qa.pos.fret()) + "</b>").arg(aTime);
         
-        averTimeLine->setText(lineText);
+        averTimeLine->setText(lineText + "<br>");
         scene->addItem(averTimeLine);
         averTimeLine->setZValue(46);
         averTimeLine->setPen(QPen(QColor(255, 153, 57), 3)); // orange
@@ -346,6 +346,7 @@ void TmainChart::prepareChart(int maxX) {
                      QPen(QBrush(lineColor), 1, Qt::DashLine));
   }  
   QGraphicsSimpleTextItem *axisUnit = new QGraphicsSimpleTextItem();
+  axisUnit->setBrush(QColor(palette().text().color()));
   scene->addItem(axisUnit);
   axisUnit->setText("[s]");
   axisUnit->setPos(xAxis->pos().x() + 7, -5);
