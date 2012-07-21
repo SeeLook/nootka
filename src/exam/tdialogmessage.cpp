@@ -21,6 +21,7 @@
 #include "tdialogmessage.h"
 #include "tqaunit.h"
 #include "ttipchart.h"
+#include <tquestionpoint.h>
 #include "texamlevel.h"
 #include "tglobals.h"
 #include "tnotename.h"
@@ -30,7 +31,6 @@
 #include <QPainter>
 #include <QHBoxLayout>
 #include <QEvent>
-#include <QX11Info>
 #include <QDebug>
 
 extern Tglobals *gl;
@@ -144,19 +144,20 @@ void TdialogMessage::paintEvent(QPaintEvent *) {
     painter.setRenderHint(QPainter::TextAntialiasing);
     // shade
     painter.setPen(Qt::NoPen);
-    QColor c = palette().text().color();
-    c.setAlpha(100);
-    painter.setBrush(QBrush(c));
+    QColor bc = TquestionPoint::shadowColor();
+    bc.setAlpha(100);
+    painter.setBrush(QBrush(bc));
     painter.drawRoundedRect(rect.x() + 7, rect.y() +7, rect.width(), rect.height(), 12, 12);
     // solid background
     painter.setBrush(QBrush(palette().background().color()));
     painter.drawRoundedRect(rect, 12, 12);
     // gradient backround in question color
-    c = gl->EquestionColor;
-    c.setAlpha(75);
+    QColor c = gl->EquestionColor;
+    c.setAlpha(30);
     QLinearGradient grad(rect.topLeft(), rect.bottomRight());
     grad.setColorAt(0.1, c);
-    grad.setColorAt(0.9, gl->EquestionColor);
+    c.setAlpha(60);
+    grad.setColorAt(0.9, c);
     painter.setBrush(QBrush(grad));
     painter.drawRoundedRect(rect, 12, 12);
     // Question mark

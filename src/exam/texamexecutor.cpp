@@ -467,8 +467,6 @@ void TexamExecutor::checkAnswer(bool showResults) {
     if (curQ.answerAs == TQAtype::e_asFretPos) { // Comparing positions
         if (curQ.qa.pos != mW->guitar->getfingerPos())
             curQ.setMistake(TQAunit::e_wrongPos);
-        /** TODO this is incorrect!!! Check here are note the same then e_wrongPos occurs
-         * otherwise it is e_wrongNote mistake. */
     } else { // we check are the notes the same
 //        qDebug() << QString::fromStdString(retN.getName()) << QString::fromStdString(exN.getName());
       if (retN.note) {
@@ -522,13 +520,20 @@ void TexamExecutor::checkAnswer(bool showResults) {
       if (!gl->hintsEnabled || gl->E->autoNextQuest)
           fc = 2; // font size factor to have enought room for text over guitar
       QString answTxt;
-      if (curQ.correct())
+      QColor answColor;
+      if (curQ.correct()) {
           answTxt = wasAnswerOKtext(&curQ, gl->EanswerColor, mW->getFontSize()*fc);
+          answColor = gl->EanswerColor;
+      }
       else {
-        if (curQ.wrongNote() || curQ.wrongPos())
+        if (curQ.wrongNote() || curQ.wrongPos()) {
             answTxt = wasAnswerOKtext(&curQ, gl->EquestionColor, mW->getFontSize()*fc);
-        else
+            answColor = gl->EquestionColor;
+        }
+        else {
             answTxt = wasAnswerOKtext(&curQ, Qt::darkMagenta, mW->getFontSize()*fc);
+            answColor = QColor(124, 0 ,124, 30);
+        }
       }
       if (gl->hintsEnabled && !gl->E->autoNextQuest) {
           answTxt += getNextQuestionTxt();
@@ -538,8 +543,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
                   " " + TexamHelp::orPressBkSTxt();
 //          answTxt += "</span>";
       }
-//       showMessage(answTxt, curQ.qa.pos, mesgTime);
-	  showMessage(answTxt, pp, mesgTime);
+	  showMessage(answTxt, pp, mesgTime, answColor);
     }
     if (!gl->E->autoNextQuest) {
         if (!curQ.correct())
@@ -634,6 +638,14 @@ void TexamExecutor::prepareToExam() {
     mW->expertAnswChB->setChecked(gl->E->expertsAnswerEnable);
 //    if (gl->E->expertsAnswerEnable)
 //      connectForExpert();
+#if defined (Q_OS_MAC) // MacOs has poor shadow color in palette
+  TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()), Qt::darkMagenta,
+    QColor(100, 100, 100, 180), palette().background().color());
+#else
+  TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()), Qt::darkMagenta,
+    mW->palette().shadow().color(), mW->palette().background().color());
+#endif
+
 
     disableWidgets();
 
@@ -867,7 +879,7 @@ void TexamExecutor::repeatSound() {
   }
 }
 
-void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) {
+void TexamExecutor::showMessage(QString htmlText, TfingerPos& curPos, int time, QColor bgColor) {
     if (!m_messageItem) {
         m_messageItem = new TgraphicsTextTip();
         m_messageItem->hide();
@@ -877,14 +889,10 @@ void TexamExecutor::showMessage(QString htmlText, TfingerPos &curPos, int time) 
             m_messageItem->scale(-1, 1);
         }
     }
-//     QString txt = QString("<p style=\"color: #000; %1\">").arg(gl->getBGcolorText(QColor(255, 255, 255, 200))) + htmlText + "</p>";
-    QString txt = QString("<p style=\"color: #000;\">") + htmlText + "</p>";
 
-    m_messageItem->setBgColor(QColor(1, 1, 1));
-//     if (m_exam->curQ().correct())
-//       m_messageItem->setBgColor(gl->EanswerColor);
-//     else
-//       m_messageItem->setBgColor(gl->EquestionColor);
+    QString txt = QString("<p>") + htmlText + "</p>";
+
+    m_messageItem->setBgColor(bgColor);
     m_messageItem->setHtml(txt);
 
     bool onRightSide;

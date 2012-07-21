@@ -78,14 +78,6 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   
   setLayout(lay);
   
-#if defined (Q_OS_MAC) // MacOs has poor shadow color in palette
-  TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()), Qt::darkMagenta,
-    QColor(100, 100, 100, 180), palette().background().color());
-#else
-  TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()), Qt::darkMagenta,
-    palette().shadow().color(), palette().background().color());
-#endif
-
   createActions();
   
 //   QTimer::singleShot(100, this, SLOT(testSlot()));
@@ -250,7 +242,7 @@ void TanalysDialog::loadExamSlot() {
 
 void TanalysDialog::analyseChanged(int index) {
   if (!m_exam)
-    return; // TODO: Maybe lock m_chartListCombo without some exam loaded
+    return;
     
   switch (index) {
     case 0:

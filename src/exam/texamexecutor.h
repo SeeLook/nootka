@@ -24,6 +24,7 @@
 #include "ttune.h"
 #include "texamlevel.h"
 #include <QList>
+#include <QColor>
 
 class TdialogMessage;
 class TgraphicsTextTip;
@@ -114,7 +115,7 @@ private:
         * for given @param time in [ms] or forever if 0.
         * To calculate position it has to have curent selected positions
         * by @param curPos. */
-    void showMessage(QString htmlText, TfingerPos &curPos, int time = 0);
+    void showMessage(QString htmlText, TfingerPos &curPos, int time = 0, QColor bgColor = QColor(0, 0, 0, 0));
 
     TexecutorSupply *m_supp; 
     Texam *m_exam;

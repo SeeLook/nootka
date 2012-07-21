@@ -17,9 +17,9 @@
  ***************************************************************************/
 
 #include "tstafflinechart.h"
-#include "tquestionpoint.h"
 #include <QPainter>
 #include <QGraphicsEffect>
+#include <qstyleoption.h>
 
 
 #define DISTANCE (2)
@@ -28,9 +28,6 @@ TstaffLineChart::TstaffLineChart()
 {
   m_vector.setX(1);
   m_vector.setY(1);
-//   QGraphicsBlurEffect *blur = new QGraphicsBlurEffect();
-//   blur->setBlurRadius(2);
-//   setGraphicsEffect(blur);
 }
 
 void TstaffLineChart::setLine(QPointF from, QPointF to) {
@@ -41,10 +38,9 @@ void TstaffLineChart::setLine(QPointF from, QPointF to) {
 
 
 void TstaffLineChart::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-  Q_UNUSED(option)
   Q_UNUSED(widget)
   painter->setRenderHint(QPainter::Antialiasing, true);
-  painter->setPen(QPen(TquestionPoint::shadowColor(), 0.5));
+  painter->setPen(QPen(option->palette.text().color(), 0.5));
   for(double i = -2.0; i < 3.0; i++) {
     painter->drawLine(0.0, i*DISTANCE, m_vector.x(), m_vector.y() + i*DISTANCE);
   }
