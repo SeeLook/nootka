@@ -24,10 +24,15 @@
 TsupportNootka::TsupportNootka(QWidget *parent) :
     QWidget(parent)
 {
-    QHBoxLayout *lay = new QHBoxLayout;
+    QVBoxLayout *lay = new QVBoxLayout;
     QScrollArea *scrollArea = new QScrollArea();
+    QLabel *headLab = new QLabel("<b style=\"font-size: 20px\">You also can help with makeing Notka better</b>", this);
+    headLab->setAlignment(Qt::AlignCenter);
+    headLab->setStyleSheet("border-radius: 5px 5px; background-color: palette(highlight); color: palette(highlightedText)");
+    lay->addWidget(headLab);
     QLabel *lab = new QLabel(this);
-    QString supp = "<b style=\"font-size: 20px\">&nbsp;&nbsp;You also can help with makeing Notka better</b><br>";
+    QString supp;
+//     supp = "<b style=\"font-size: 20px\">&nbsp;&nbsp;You also can help with makeing Notka better</b><br>";
     supp += "<ul>";
     supp += "<li><b>Translate Nootka</b><br>It does not require any programming skills. Just read <a href=\"http://code.google.com/p/nootka/source/browse/lang/how-to-translate.txt\">the instructions</a>,<br>tramslate and send Your work.<br></li>";
     supp += "<li><b>Test Nootka intensively</b><br>When You will produce a big exam file, let's say 500 or more questions, it doesn't matter how many mistakes You did, send me the file please. It will help to improve analyse of exams.<br></li>";
@@ -42,7 +47,7 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
     
     scrollArea->setWidget(lab);
     
-    lay->setContentsMargins(5, 5, 5, 5);
+    scrollArea->setContentsMargins(5, 5, 5, 5);
     lay->addWidget(scrollArea);
     setLayout(lay);
 }
@@ -52,11 +57,11 @@ TsupportStandalone::TsupportStandalone(QString& path, QWidget* parent) :
 {
     setWindowTitle("Support Nootka");
     QVBoxLayout *lay = new QVBoxLayout();
-    QLabel *headLab = new QLabel(QString("<img src=\"%1\">").arg(path + "picts/logo.png"), this);
-    lay->addWidget(headLab, 1, Qt::AlignCenter);
+//     QLabel *headLab = new QLabel(QString("<img src=\"%1\">").arg(path + "picts/logo.png"), this);
+//     lay->addWidget(headLab, 1, Qt::AlignCenter);
     TsupportNootka *suppWdg = new TsupportNootka(this);
     lay->addWidget(suppWdg);
-    QLabel *neverLab = new QLabel("It won't appear any more in this release.<br>You can find this window in 'About Nootka' dialog", this);
+    QLabel *neverLab = new QLabel("This window won't disturb You in this release.<br>You can find that info in 'About Nootka' dialog", this);
     neverLab->setAlignment(Qt::AlignCenter);
     neverLab->setStyleSheet("border-radius: 5px 5px; background-color: palette(highlight); color: palette(highlightedText)");
     lay->addWidget(neverLab, 1, Qt::AlignCenter);

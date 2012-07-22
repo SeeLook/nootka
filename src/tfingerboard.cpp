@@ -99,7 +99,7 @@ void TfingerBoard::paint() {
         fbRect.setWidth(lastFret - 8);
   // Let's paint
     QPixmap pixmap(size());
-    pixmap.fill(QColor(palette().background().color()));
+    pixmap.fill(QColor(palette().window().color()));
 
     QPainter painter(&pixmap);
     painter.setRenderHint(QPainter::Antialiasing, true);

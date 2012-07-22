@@ -218,7 +218,7 @@ void Tglobals::storeSettings() {
         sett.setValue("showEnaharmonicNotes", showEnharmNotes);
         sett.setValue("enharmonicNotesColor", enharmNotesColor);
         sett.setValue("is7thNote_B", seventhIs_B);
-		sett.setValue("language", lang);
+        sett.setValue("language", lang);
     sett.endGroup();
 
     sett.beginGroup("score");

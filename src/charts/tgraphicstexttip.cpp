@@ -84,6 +84,8 @@ void TgraphicsTextTip::setHtml(QString htmlText) {
 
 TgraphicsTextTip::~TgraphicsTextTip() {}
 
+
+
 void TgraphicsTextTip::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
   if (m_bgColor != -1) {
     QRectF rect = boundingRect();
