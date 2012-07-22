@@ -78,6 +78,12 @@ MainWindow::MainWindow(QWidget *parent)
         firstWizz->exec();
         delete firstWizz;
         gl->isFirstRun = false;
+    } else {
+        sett.beginGroup("General");
+        setGeometry(sett.value("geometry", QRect(50, 50, 800, 600)).toRect());
+        if (sett.value("version", "").toString() != gl->version)
+          QTimer::singleShot(200, this, SLOT(showSupportDialog()));
+        sett.endGroup();
     }
     TkeySignature::setNameStyle(gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
 
@@ -168,8 +174,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    TsupportStandalone *supp = new TsupportStandalone(gl->path, this);
-    supp->exec();
 #if defined(Q_OS_WIN32) // I hate mess in Win registry
     QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
 #else
@@ -396,8 +400,8 @@ void MainWindow::guitarWasClicked(Tnote note) {
 }
 
 void MainWindow::soundWasPlayed(Tnote note) {
-  if (gl->hintsEnabled)
-    setStatusMessage(tr("Note was detected !!"), 750);
+//   if (gl->hintsEnabled)
+//     setStatusMessage(tr("Note was detected !!"), 750);
   if (gl->showEnharmNotes) {
       TnotesList noteList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
       noteName->setNoteName(noteList);
@@ -424,6 +428,23 @@ void MainWindow::hintsStateChanged(bool enable) {
         m_prevBg = m_curBG;
         setStatusMessage(m_prevMsg);
     }
+}
+
+void MainWindow::showSupportDialog() {
+    sound->wait();
+    sound->stopPlaying();
+    TsupportStandalone *supp = new TsupportStandalone(gl->path, this);
+    supp->exec();
+#if defined(Q_OS_WIN32) // I hate mess in Win registry
+    QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
+#else
+    QSettings sett;
+#endif
+    sett.beginGroup("General");
+      sett.setValue("version", gl->version);
+    sett.endGroup();
+    delete supp;
+    sound->go();
 }
 
 //##########################################################################################

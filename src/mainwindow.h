@@ -92,6 +92,7 @@ protected:
 protected slots:
     void restoreMessage();
     void hintsStateChanged(bool enable);
+    void showSupportDialog();
 
 private:
 
