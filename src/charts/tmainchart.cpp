@@ -277,6 +277,7 @@ QList<TanswerListPtr> TmainChart::sortByNote(TanswerListPtr& answList) {
 
 QList< TanswerListPtr > TmainChart::sortByFret(TanswerListPtr& answList) {
   QList<TanswerListPtr> result;
+  TanswerListPtr unrelatedList;
   for (int f = m_exam->level()->loFret; f <= m_exam->level()->hiFret; f++) {
     // search all list for each fret in level's fret range
     TanswerListPtr fretList;
@@ -286,18 +287,13 @@ QList< TanswerListPtr > TmainChart::sortByFret(TanswerListPtr& answList) {
           answList.operator[](i)->answerAs == TQAtype::e_asSound) { // is a question related to guitar
         if (f == answList.operator[](i)->qa.pos.fret())
             fretList << answList.operator[](i);
+      } else {
+          if (!f)
+              unrelatedList << answList.operator[](i);
       }
     }
     if (!fretList.isEmpty())
       result << fretList;
-  }
-  TanswerListPtr unrelatedList;
-  for (int i = 0; i < answList.size(); i++) {
-    if (answList.operator[](i)->questionAs != TQAtype::e_asFretPos &&
-        answList.operator[](i)->answerAs != TQAtype::e_asFretPos && 
-        answList.operator[](i)->answerAs != TQAtype::e_asSound) { // exclude unrelated
-          unrelatedList << answList.operator[](i);
-    }
   }
   if (!unrelatedList.isEmpty()) {
       result << unrelatedList; // add unrelatedList at the end of list

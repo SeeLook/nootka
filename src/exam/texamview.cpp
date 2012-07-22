@@ -79,16 +79,16 @@ TexamView::TexamView(QWidget *parent) :
 
     clearResults();
 
-    m_corrLab->setToolTip(corrAnswersNrTxt());
+    m_corrLab->setStatusTip(corrAnswersNrTxt());
     m_corrLab->setStyleSheet(gl->getBGcolorText(gl->EanswerColor));
-    m_mistLab->setToolTip(mistakesNrTxt());
+    m_mistLab->setStatusTip(mistakesNrTxt());
     m_mistLab->setStyleSheet(gl->getBGcolorText(gl->EquestionColor));
-    m_effLab->setToolTip(effectTxt());
-    m_averTimeLab->setToolTip(averAnsverTimeTxt() + " " + inSecondsTxt());
+    m_effLab->setStatusTip(effectTxt());
+    m_averTimeLab->setStatusTip(averAnsverTimeTxt() + " " + inSecondsTxt());
     m_averTimeLab->setAlignment(Qt::AlignCenter);
-    m_reactTimeLab->setToolTip(reactTimeTxt() + " " + inSecondsTxt());
+    m_reactTimeLab->setStatusTip(reactTimeTxt() + " " + inSecondsTxt());
     m_reactTimeLab->setAlignment(Qt::AlignCenter);
-    m_totalTimeLab->setToolTip(totalTimetxt());
+    m_totalTimeLab->setStatusTip(totalTimetxt());
     m_totalTimeLab->setAlignment(Qt::AlignCenter);
     
     m_timer = new QTimer(this);

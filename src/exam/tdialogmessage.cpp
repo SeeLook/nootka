@@ -85,17 +85,7 @@ TdialogMessage::TdialogMessage(Texam *exam, MainWindow *parent, Tnote::EnameStyl
     m_size = QSize(pSize.width() * 0.4, pSize.height() * 0.3);
 #endif
     setPosAndSize(pSize);
-    
-    QFont f(font());
-#if defined(Q_OS_MAC)
-    f.setPointSize(m_size.height() * 0.1);
-#else
-    f.setPointSize((double)m_size.height() * 0.075);
-#endif
-    m_mainLab->setFont(f);
-    m_mainLab->setFixedSize(m_size.width() - 10, m_size.height() - 10);
-    
-    lay->addStretch(1);
+     
     lay->addWidget(m_mainLab, 0, Qt::AlignCenter);
     lay->addStretch(1);
     setLayout(lay);
@@ -127,7 +117,7 @@ void TdialogMessage::setPosAndSize(QSize &size) {
 #endif
     
     m_mainLab->setFont(f);
-    m_mainLab->setFixedSize(m_size.width() - 10, m_size.height() - 10);
+    m_mainLab->setFixedSize(m_size.width() - 15, m_size.height() - 15);
 }
 
 
@@ -142,16 +132,16 @@ void TdialogMessage::paintEvent(QPaintEvent *) {
     QRect rect = m_mainLab->geometry();
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setRenderHint(QPainter::TextAntialiasing);
-    // shade
+  // shade
     painter.setPen(Qt::NoPen);
     QColor bc = TquestionPoint::shadowColor();
-    bc.setAlpha(100);
+    bc.setAlpha(150);
     painter.setBrush(QBrush(bc));
     painter.drawRoundedRect(rect.x() + 7, rect.y() +7, rect.width(), rect.height(), 12, 12);
-    // solid background
-    painter.setBrush(QBrush(palette().background().color()));
+  // solid background
+    painter.setBrush(QBrush(palette().window().color()));
     painter.drawRoundedRect(rect, 12, 12);
-    // gradient backround in question color
+  // gradient backround in question color
     QColor c = gl->EquestionColor;
     c.setAlpha(30);
     QLinearGradient grad(rect.topLeft(), rect.bottomRight());
@@ -160,8 +150,8 @@ void TdialogMessage::paintEvent(QPaintEvent *) {
     grad.setColorAt(0.9, c);
     painter.setBrush(QBrush(grad));
     painter.drawRoundedRect(rect, 12, 12);
-    // Question mark
-    c = palette().background().color();
+  // Question mark
+    c = palette().window().color();
     c.setAlpha(100);
     painter.setPen(QPen(c));
     painter.setFont(QFont("nootka", (double)height() / 1.3));

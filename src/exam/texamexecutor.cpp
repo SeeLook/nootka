@@ -638,15 +638,6 @@ void TexamExecutor::prepareToExam() {
     mW->expertAnswChB->setChecked(gl->E->expertsAnswerEnable);
 //    if (gl->E->expertsAnswerEnable)
 //      connectForExpert();
-#if defined (Q_OS_MAC) // MacOs has poor shadow color in palette
-  TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()), Qt::darkMagenta,
-    QColor(100, 100, 100, 180), palette().background().color());
-#else
-  TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()), Qt::darkMagenta,
-    mW->palette().shadow().color(), mW->palette().background().color());
-#endif
-
-
     disableWidgets();
 
     if (gl->E->expertsAnswerEnable)

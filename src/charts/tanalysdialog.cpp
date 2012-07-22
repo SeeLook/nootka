@@ -296,3 +296,8 @@ void TanalysDialog::includeWrongSlot() {
   createChart(m_chartSetts);
 }
 
+//##########  EVENTS #####################
+void TanalysDialog::resizeEvent(QResizeEvent* )
+{
+    m_toolBar->setIconSize(QSize(height()/21, height()/21));
+}

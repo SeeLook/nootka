@@ -42,9 +42,12 @@ MainWindow::MainWindow(QWidget *parent)
     Ttune::prepareDefinedTunes();
 #if defined(Q_OS_MAC)
     TpushButton::setCheckColor(gl->SpointerColor, palette().base().color());
+    TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()), Qt::darkMagenta,
+        QColor(100, 100, 100, 180), palette().window().color());
 #else
-    TpushButton::setCheckColor(palette().highlight().color().name(),
-    palette().highlightedText().color() );
+    TpushButton::setCheckColor(palette().highlight().color().name(), palette().highlightedText().color() );
+    TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()), Qt::darkMagenta,
+        palette().shadow().color(), palette().window().color());
 #endif
 #if defined(Q_OS_LINUX)
     setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
@@ -61,11 +64,13 @@ MainWindow::MainWindow(QWidget *parent)
 #endif
 
 #if defined(Q_OS_MAC)
-    setGeometry(sett.value("General/geometry", QRect(50, 50, 960, 720)).toRect());
-//     setGeometry(50, 50, 960, 720);
+    sett.beginGroup("General");
+      setGeometry(sett.value("geometry", QRect(50, 50, 960, 720)).toRect());
+    sett.endGroup();
 #else
-    setGeometry(sett.value("General/geometry", QRect(50, 50, 800, 600)).toRect());
-//     setGeometry(50, 50, 800, 600);
+    sett.beginGroup("General");
+      setGeometry(sett.value("geometry", QRect(50, 50, 800, 600)).toRect());
+    sett.endGroup();
 #endif
 
     if (gl->isFirstRun) {
@@ -170,7 +175,9 @@ MainWindow::~MainWindow()
 #else
     QSettings sett;
 #endif
-    sett.setValue("General/geometry", geometry());
+    sett.beginGroup("General");
+      sett.setValue("geometry", geometry());
+    sett.endGroup();
     delete gl;
 }
 
