@@ -48,7 +48,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
       prepareChart(m_exam->count());
       m_mainLine = new TmainLine(m_exam->answList(), this);
       TgraphicsLine *averLine = new TgraphicsLine("<p>" +
-          TexamView::averAnsverTimeTxt() + QString("<br><span style=\"font-size: 20px;\">%1 s</span></p><br>").arg(m_exam->averageReactonTime() / 10.0));
+          TexamView::averAnsverTimeTxt() + QString("<br><span style=\"font-size: 20px;\">%1 s</span></p>").arg(m_exam->averageReactonTime() / 10.0));
       scene->addItem(averLine);
       averLine->setZValue(20);
       averLine->setPen(QPen(QColor(255, 153, 57), 3));
@@ -99,15 +99,15 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
       for (int i = 0; i < goodSize + goodOffset; i++) { // skip wrong answers if separeted
         double aTime = calcAverTime(sortedLists[i], !m_settings.inclWrongAnsw) / 10.0;
         TgraphicsLine *averTimeLine = new TgraphicsLine();
-        QString lineText;
+        QString lineText = "";
         if (m_settings.order == e_byNote)
-          lineText = "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2 s</p>").arg(tr("for a note:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + TnoteName::noteToRichText(sortedLists[i].operator[](0)->qa.note) + "</b>").arg(aTime);
+          lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2 s</p>").arg(tr("for a note:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + TnoteName::noteToRichText(sortedLists[i].operator[](0)->qa.note) + "</b>").arg(aTime);
         else
           if (m_settings.order == e_byFret)
-            lineText = "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2 s</p>").arg(tr("for a fret:", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>  " + 
+            lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2 s</p>").arg(tr("for a fret:", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>  " + 
             QString::number(sortedLists[i].operator[](0)->qa.pos.fret()) + "</b>").arg(aTime);
         
-        averTimeLine->setText(lineText + "<br>");
+        averTimeLine->setText(lineText);
         scene->addItem(averTimeLine);
         averTimeLine->setZValue(46);
         averTimeLine->setPen(QPen(QColor(255, 153, 57), 3)); // orange
