@@ -18,25 +18,26 @@ This process is very easy and doesn't require any programming skills,
 
 I) Recommended method - translation with Qt Linguist
   1. Install Qt Linguist:
-    - form http://qt.nokia.com/downloads/ download QT online installer appropirate for Your system and run it
-    - Go with creator and select 'custom' type of instalation when You want exacly only Qt Linguist
+    - form http://qt.nokia.com/downloads/ download QT online installer appropirate for Your system and run it.
+    - Go with creator and select 'custom' type of instalation.
     - When You selected custom type of instalation deselect all components in next window
-      and select only Qt Linguist (QtCreator has to be selected)
-    - approve license and wait a while for instalation finish
+      and select only Qt Linguist (QtCreator is mandatory).
+    - approve license and wait a while for finish the instalation.
   2. Download Nootka language file: http://code.google.com/p/nootka/source/browse/lang/nootka_xx.ts
       and change that xx in file name to Your language code to get file name like f.e.: nootka_en.ts
-  3. Open this file by Qt Linguist
+  3. Open this file by Qt Linguist and translate - this is very easy.
   4. In every moment You can generate a "lang package" form menu File->Release (file with *.qm extension)
       and put that file in Nootka instalation dir in lang directory 
       f.e.: path_to_nootka/lang/nootka_en.qm
       and run Nootka to see effects of the translation
   
   ************* A Few Hints *************************************
-    * To approve transtaled entry You can use [CTRL+Enter] - it will be automatically merked as finished
+    * To approve transtaled entry You can use [CTRL+Enter] - it will be automatically marked as finished.
     * Do note remove any special characters like \n %1 or HTML tags like <br> and <whatever>.
     * To copy oryginal entry use [CTRL+b] and then just translate.
       Obviously You can move this mischievous characters and tags
       to make proper whole transtaled sentence in Your language
+    * Often use [CTRL+s] to save Your work
     * PLEASE BE RESPONSIBLE !!! USE KIND WORDS AND OFFICIAL MUSICAL TERMS.
       DO NOT USE SOME SLANG WORDS EVEN MUSICAL. Nootka is used by children and pupils 
 
