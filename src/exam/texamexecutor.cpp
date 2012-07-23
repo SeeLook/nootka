@@ -261,9 +261,9 @@ void TexamExecutor::askQuestion() {
 //            << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
 
   // ASKING QUESIONS
-    QString questText = QString("<b>%1. </b>").arg(m_exam->count() + 1); //question number
+//     QString questText = QString("<b>%1. </b>").arg(m_exam->count() + 1); //question number
     if (curQ.questionAs == TQAtype::e_asNote) {
-        questText += tr("Given note show ");
+//         questText += tr("Given note show ");
         char strNr = 0;
         if ( (curQ.answerAs == TQAtype::e_asFretPos || curQ.answerAs == TQAtype::e_asSound) 
             && !m_level.onlyLowPos && m_level.showStrNr)
@@ -283,14 +283,14 @@ void TexamExecutor::askQuestion() {
             mW->noteName->askQuestion(curQ.qa.note, curQ.qa.pos.str());
         else
             mW->noteName->askQuestion(curQ.qa.note);
-        questText += tr("Given note name show ");
+//         questText += tr("Given note name show ");
         if (curQ.answerAs  == TQAtype::e_asSound)
             m_answRequire.accid = false; // checking octave determined by level
     }
 
     if (curQ.questionAs == TQAtype::e_asFretPos) {
         mW->guitar->askQuestion(curQ.qa.pos);
-        questText += tr("Given position show ");
+//         questText += tr("Given position show ");
         if (curQ.answerAs  == TQAtype::e_asNote)
             m_answRequire.octave = true; // checking accid determined by level
         if (curQ.answerAs  == TQAtype::e_asSound) {
@@ -301,14 +301,14 @@ void TexamExecutor::askQuestion() {
 
     if (curQ.questionAs == TQAtype::e_asSound) {
         mW->sound->play(curQ.qa.note);
-        questText += tr("Played sound show ");
+//         questText += tr("Played sound show ");
         if (curQ.answerAs  == TQAtype::e_asSound)
             m_answRequire.accid = false; // checking octave determined by level
     }
 
 // PREPARING ANSWERS
     if (curQ.answerAs == TQAtype::e_asNote) {
-        questText += TquestionAsWdg::asNoteTxt();
+//         questText += TquestionAsWdg::asNoteTxt();
 //         questText += tr("in the score");
         if (m_level.useKeySign) {
             if (m_level.manualKey) { // user have to manually secect a key
@@ -322,7 +322,7 @@ void TexamExecutor::askQuestion() {
                 mW->score->prepareKeyToAnswer(// we randomize some key to cover this expected one
                    (qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) +
                                                 m_level.loKey.value(), keyTxt);
-                questText += tr(" <b>in %1 key.</b>", "in key signature").arg(keyTxt);
+//                 questText += tr(" <b>in %1 key.</b>", "in key signature").arg(keyTxt);
                 m_answRequire.key = true;
             } else {
                 mW->score->setKeySignature(curQ.key);
@@ -335,14 +335,14 @@ void TexamExecutor::askQuestion() {
                 qDebug() << "Blind question";
                 //                    askQuestion();
             }
-            questText += getTextHowAccid((Tnote::Eacidentals)curQ.qa_2.note.acidental);
+//             questText += getTextHowAccid((Tnote::Eacidentals)curQ.qa_2.note.acidental);
             mW->score->forceAccidental((Tnote::Eacidentals)curQ.qa_2.note.acidental);
             m_answRequire.accid = true;
             m_answRequire.octave = true;
         }
         if (curQ.questionAs == TQAtype::e_asFretPos || curQ.questionAs == TQAtype::e_asSound) {
             if (m_level.forceAccids) {
-                questText += getTextHowAccid((Tnote::Eacidentals)curQ.qa.note.acidental);
+//                 questText += getTextHowAccid((Tnote::Eacidentals)curQ.qa.note.acidental);
                 mW->score->forceAccidental((Tnote::Eacidentals)curQ.qa.note.acidental);
             }
         }
@@ -356,17 +356,17 @@ void TexamExecutor::askQuestion() {
 
     if (curQ.answerAs == TQAtype::e_asName) {
         Tnote tmpNote = Tnote(0,0,0); // is used to show which accid has to be used (if any)
-        questText += TquestionAsWdg::asNameTxt();
+//         questText += TquestionAsWdg::asNameTxt();
         if (curQ.questionAs == TQAtype::e_asName) {
             m_prevStyle = gl->NnameStyleInNoteName; // to keep user prefered style for other issues
             Tnote::EnameStyle tmpStyle = m_supp->randomNameStyle();
             curQ.qa_2.note = m_supp->forceEnharmAccid(curQ.qa.note); // force other name of note - expected note
             tmpNote = curQ.qa_2.note;
-            questText = QString("<b>%1. </b>").arg(m_exam->count() + 1) +
-                        tr("Give name of") + QString(" <span style=\"color: %1; font-size: %2px;\">").arg(
-                                gl->EquestionColor.name()).arg(mW->getFontSize()*2) +
-                        TnoteName::noteToRichText(curQ.qa.note) + "</span>. " +
-                        getTextHowAccid((Tnote::Eacidentals)curQ.qa_2.note.acidental);
+//             questText = QString("<b>%1. </b>").arg(m_exam->count() + 1) +
+//                         tr("Give name of") + QString(" <span style=\"color: %1; font-size: %2px;\">").arg(
+//                                 gl->EquestionColor.name()).arg(mW->getFontSize()*2) +
+//                         TnoteName::noteToRichText(curQ.qa.note) + "</span>. " +
+//                         getTextHowAccid((Tnote::Eacidentals)curQ.qa_2.note.acidental);
             mW->noteName->setNoteNamesOnButt(tmpStyle);
             gl->NnameStyleInNoteName = tmpStyle;
             m_answRequire.accid = true;
@@ -382,19 +382,19 @@ void TexamExecutor::askQuestion() {
             gl->NnameStyleInNoteName = tmpStyle;
         }
         if (curQ.questionAs == TQAtype::e_asFretPos) {
-            if (m_level.forceAccids) {
-                questText += getTextHowAccid((Tnote::Eacidentals)curQ.qa.note.acidental);
-                tmpNote = Tnote(1, 0, curQ.qa.note.acidental); // to show which accid on TnoteName
-            }
+//             if (m_level.forceAccids) {
+//                 questText += getTextHowAccid((Tnote::Eacidentals)curQ.qa.note.acidental);
+//                 tmpNote = Tnote(1, 0, curQ.qa.note.acidental); // to show which accid on TnoteName
+//             }
         }
         mW->noteName->prepAnswer(tmpNote);
     }
 
     if (curQ.answerAs == TQAtype::e_asFretPos) {
-        questText += TquestionAsWdg::asFretPosTxt();
-        if ( (curQ.questionAs == TQAtype::e_asName && m_level.showStrNr) ||
-                curQ.questionAs == TQAtype::e_asSound)
-            questText += "<b>" + tr(" on <span style=\"font-family: nootka; font-size:%1px;\">%2</span> string.").arg(qRound(mW->getFontSize()*1.5)).arg((int)curQ.qa.pos.str()) + "</b>";
+//         questText += TquestionAsWdg::asFretPosTxt();
+//         if ( (curQ.questionAs == TQAtype::e_asName && m_level.showStrNr) ||
+//                 curQ.questionAs == TQAtype::e_asSound)
+//             questText += "<b>" + tr(" on <span style=\"font-family: nootka; font-size:%1px;\">%2</span> string.").arg(qRound(mW->getFontSize()*1.5)).arg((int)curQ.qa.pos.str()) + "</b>";
 
         mW->guitar->setGuitarDisabled(false);
         mW->guitar->prepareAnswer();
@@ -402,8 +402,7 @@ void TexamExecutor::askQuestion() {
     }
     
     if (curQ.answerAs == TQAtype::e_asSound) {
-      questText = QString("<b>%1. </b>").arg(m_exam->count() + 1) +
-      tr("Play or sing given note");
+//       questText = QString("<b>%1. </b>").arg(m_exam->count() + 1) + tr("Play or sing given note");
       mW->sound->prepareAnswer();
           if (curQ.questionAs == TQAtype::e_asSound) {
               connect(mW->sound->player, SIGNAL(noteFinished()), this, SLOT(sniffAfterPlaying()));
@@ -813,13 +812,13 @@ void TexamExecutor::stopExamSlot() {
     restoreAfterExam();
 }
 
-QString TexamExecutor::getTextHowAccid(Tnote::Eacidentals accid) {
-    QString S = QString("<br><span style=\"color: %1\">").arg(gl->GfingerColor.name());
-    if (accid) S += tr("Use %1").arg(QString::fromStdString(signsAcid[accid + 2]));
-    else S += tr(" Don't use accidentals!");
-    S +=  "</span>";
-    return S;
-}
+// QString TexamExecutor::getTextHowAccid(Tnote::Eacidentals accid) {
+//     QString S = QString("<br><span style=\"color: %1\">").arg(gl->GfingerColor.name());
+//     if (accid) S += tr("Use %1").arg(QString::fromStdString(signsAcid[accid + 2]));
+//     else S += tr(" Don't use accidentals!");
+//     S +=  "</span>";
+//     return S;
+// }
 
 bool TexamExecutor::closeNootka() {
     QMessageBox *msg = new QMessageBox(mW);
@@ -880,7 +879,6 @@ void TexamExecutor::showMessage(QString htmlText, TfingerPos& curPos, int time, 
             m_messageItem->scale(-1, 1);
         }
     }
-
     QString txt = QString("<p>") + htmlText + "</p>";
 
     m_messageItem->setBgColor(bgColor);

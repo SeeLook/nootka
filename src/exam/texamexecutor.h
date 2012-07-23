@@ -109,7 +109,7 @@ private:
     void connectForExpert();
     
 private:
-    QString getTextHowAccid(Tnote::Eacidentals accid);
+//     QString getTextHowAccid(Tnote::Eacidentals accid);
     QString saveExamToFile();
         /** Displays message with given @param htmlText over the fingerboard widget
         * for given @param time in [ms] or forever if 0.

@@ -78,7 +78,7 @@ MainWindow::MainWindow(QWidget *parent)
         firstWizz->exec();
         delete firstWizz;
         gl->isFirstRun = false;
-    } else {
+    } else { // show support window once but not with first run wizzard
         sett.beginGroup("General");
         setGeometry(sett.value("geometry", QRect(50, 50, 800, 600)).toRect());
         if (sett.value("version", "").toString() != gl->version)
