@@ -10,8 +10,12 @@ if(NOT PACKAGE_ARCHITECTURE)
    if(NOT DPKG_CMD)
       find_program(RPM_CMD rpm)
       if(NOT RPM_CMD)
-        message(STATUS "Can not find any program to determine architecture, default to i386.")
-        set(PACKAGE_ARCHITECTURE i386)
+#         message(STATUS "Can not find any program to determine architecture, default to i386.")
+#         set(PACKAGE_ARCHITECTURE i386)
+        execute_process(COMMAND uname -m
+          OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
+          OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
       else(NOT RPM_CMD)
         execute_process(COMMAND "${RPM_CMD}" --eval %_target_cpu
           OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
@@ -50,7 +54,7 @@ set(CPACK_PACKAGE_FILE_NAME "nootka_${CPACK_PACKAGE_VERSION}_${PACKAGE_ARCHITECT
 #		cmake/cpack	DEB  generator 
 ##########################################################################################
 set(CPACK_DEBIAN_PACKAGE_NAME "nootka") #default CPACK_PACKAGE_NAME
-message(STATUS ${CPACK_DEBIAN_PACKAGE_NAME} )
+# message(STATUS ${CPACK_DEBIAN_PACKAGE_NAME} )
 # CPACK_DEBIAN_PACKAGE_VERSION #CPACK_PACKAGE_VERSION
 # PACKAGE_ARCHITECTURE #dpkg --print-architecture or i386
 # set(CPACK_DEBIAN_PACKAGE_NAME "nootka" )

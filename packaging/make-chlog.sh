@@ -17,6 +17,7 @@ echo "* $(LANG=en date +'%a %b %d %Y') See Look <seelook@gmail.com> " > $DEST_FI
 $SRC_DIR/packaging/getLastChangesSet.sh $SRC_DIR/changelog >> $DEST_FILE-rpm
 
 #This is for DEB
+DEST_FILE=$(echo $DEST_FILE.Debian)
 printf "Nootka ($VERSION) all-deb; urgency=low\n" > $DEST_FILE
 echo "
   * Changes set:
