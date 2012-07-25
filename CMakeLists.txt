@@ -10,7 +10,7 @@ include_directories(${QT_INCLUDES})
 
 SET(Nootka_VERSION_MAJOR  "0")
 SET(Nootka_VERSION_MINOR  "8")
-SET(Nootka_VERSION_PATCH  "2-beta")
+SET(Nootka_VERSION_PATCH  "3-alpha")
 
 SET(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
 SET(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
@@ -167,13 +167,6 @@ include_directories(${FFTW3_INCLUDE_DIRS})
 #libraries and compiller definitions for RtMidi
 ###########################################################################
 if (APPLE)
-      # Building against the Binary-Package of Qt might require to uncomment
-      # and possibly adjust the following path, because the QtUiTools are not
-      # deployed as a framework.
-      # set(QT_QTUITOOLS_INCLUDE_DIR /usr/include/QtUiTools )
-
-
-
       find_library(CoreAudio_LIB             NAMES CoreAudio)
       find_library(CoreMidi_LIB              NAMES CoreMIDI)
       find_library(CoreFoundation_LIB        NAMES CoreFoundation)
