@@ -1,6 +1,8 @@
 project(nootka)
 cmake_minimum_required(VERSION 2.8)
-set(CMAKE_BUILD_TYPE release)
+if (NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE release)
+endif (NOT CMAKE_BUILD_TYPE)
 find_package(Qt4 REQUIRED)
 INCLUDE( ${QT_USE_FILE} )
 add_definitions(${QT_DEFINITIONS})
@@ -204,6 +206,12 @@ if(APPLE)
   add_definitions(-D__MACOSX_CORE__)
 endif(APPLE)
 
+if (CMAKE_BUILD_TYPE MATCHES 'release')
+# set (CMAKE_CXX_FLAGS_RELEASE "-DQT_NO_DEBUG")
+  add_definitions(-DQT_NO_DEBUG)
+endif (CMAKE_BUILD_TYPE MATCHES 'release')
+
+
 add_subdirectory(src)
 
 
@@ -242,7 +250,7 @@ FILE(GLOB snds "${CMAKE_CURRENT_SOURCE_DIR}/sounds/classical-guitar.wav")
 INSTALL(FILES ${snds} DESTINATION "${INS_PREF}/sounds")
 
 if(NOT UNIX) # Windows icons
-  INSTALL(FILES picts/nootka-exam.ico picts/nootka.ico picts/nootka-icon.rc picts/nootka-levels.ico picts/nootka.rc DESTINATION "${INS_PREF}/picts") #ico for windows
+  INSTALL(FILES picts/nootka-exam.ico picts/nootka.ico picts/nootka-icon.rc picts/nootka-levels.ico picts/pack.ico picts/nootka.rc DESTINATION "${INS_PREF}/picts") #ico for windows
 endif(NOT UNIX)
 
 # files related with Linux (mime, desktop entry, icons)
@@ -258,7 +266,7 @@ if(UNIX AND NOT APPLE)
       execute_process(COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/doc )
       execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/make-chlog.sh ${Nootka_VERSION_FULL} ${CMAKE_CURRENT_BINARY_DIR}/doc/changelog ${CMAKE_CURRENT_SOURCE_DIR})
 	" )
-	INSTALL(FILES "${CMAKE_CURRENT_BINARY_DIR}/doc/changelog.gz" DESTINATION share/doc/nootka)
+	INSTALL(FILES "${CMAKE_CURRENT_BINARY_DIR}/doc/changelog.Debian.gz" DESTINATION share/doc/nootka)
 	INSTALL(FILES copyright DESTINATION share/doc/nootka)
 	INSTALL(FILES packaging/nootka.1.gz DESTINATION share/man/man1)
     
