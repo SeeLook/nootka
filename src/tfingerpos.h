@@ -51,15 +51,8 @@ public:
     bool operator==( TfingerPos f2) { return m_pos == f2.m_pos; }
     bool operator!=( TfingerPos f2) { return m_pos != f2.m_pos; }
 
-    friend QDataStream &operator<< (QDataStream &out, const TfingerPos &fPos) {
-        out << fPos.m_pos;
-        return out;
-    }
-
-    friend QDataStream &operator>> (QDataStream &in, TfingerPos &fPos) {
-        in >> fPos.m_pos;
-        return in;
-    }
+    friend QDataStream &operator<< (QDataStream &out, const TfingerPos &fPos); 
+    friend QDataStream &operator>> (QDataStream &in, TfingerPos &fPos);
 
 protected:
     quint8 m_pos;
