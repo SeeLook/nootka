@@ -33,20 +33,12 @@ QString TfingerPos::romanFret(quint8 fret) {
       return QString("");
 }
 
-QString TfingerPos::toHtml(TfingerPos pos) {
+QString TfingerPos::toHtml() {
   //    return QString("<span style=\"font-size: 25px; font-family: nootka\">%1%2</span>").arg(pos.str()).arg(romanFret(pos.fret()));
-    return QString("<span style=\"font-size: 25px; font-family: nootka\">%1</span><sub style=\"font-size: 30px;\">%2</sub>").arg(pos.str()).arg(pos.fret());
+    return QString("<span style=\"font-size: 25px; font-family: nootka\">%1</span><sub style=\"font-size: 30px;\">%2</sub>").arg(str()).arg(fret());
 }
 
-QDataStream& TfingerPos::operator<<(QDataStream& out, const TfingerPos& fPos) {
-    out << fPos.m_pos;
-    return out;
-}
-    
-QDataStream& TfingerPos::operator>>(QDataStream& in, TfingerPos& fPos) {
-    in >> fPos.m_pos;
-    return in;
-}
+
     
     
     
