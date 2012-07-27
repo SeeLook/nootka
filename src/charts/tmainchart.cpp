@@ -142,7 +142,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
         if (goodOffset && (i == goodSize -1))
           hintText += tr("questions unrelated<br>with chart type");
         else
-          hintText += QString("%1</b>").arg(TtipChart::romanFret(sortedLists[i].operator[](0)->qa.pos.fret()));
+          hintText += QString("%1</b>").arg(TfingerPos::romanFret(sortedLists[i].operator[](0)->qa.pos.fret()));
         hintText += "</b>";          
         fretText->setHtml(hintText);
         scene->addItem(fretText);
