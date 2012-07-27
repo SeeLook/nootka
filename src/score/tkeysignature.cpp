@@ -68,10 +68,10 @@ void TkeySignature::setNameStyle(Tnote::EnameStyle style, QString majSuf, QStrin
 		
     for (int i=0; i<15; i++) {
         n = Tnote(majorKeys[i]+1, 0, scalesDefArr[i][majorKeys[i]]);
-        majorNames[i] = QString::fromStdString(n.getName(style, false));
+        majorNames[i] = n.toText(style, false);
 		majorNames[i] += majS;
         n = Tnote(minorKeys[i]+1, 0, scalesDefArr[i][minorKeys[i]]);
-        minorNames[i] = QString::fromStdString(n.getName(style, false )).toLower();
+        minorNames[i] = n.toText(style, false ).toLower();
 		minorNames[i] += minS;
     }
 }

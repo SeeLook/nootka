@@ -116,8 +116,8 @@ QString ScoreSettings::getMajorExample(Tnote::EnameStyle nameStyle) {
     if (majEdit->text().isEmpty() || majEdit->text() == " ") 
 		S = "";
 	else S = "-"+majEdit->text();
-    return forExample() + "<br><b>" + QString::fromStdString(noteE.getName(nameStyle,false)) + S +
-              "<br>" + QString::fromStdString(noteBflat.getName(nameStyle,false)) + S + "</b>";
+    return forExample() + "<br><b>" + noteE.toText(nameStyle,false) + S +
+              "<br>" + noteBflat.toText(nameStyle,false) + S + "</b>";
 }
 
 QString ScoreSettings::getMinorExample(Tnote::EnameStyle nameStyle) {
@@ -128,8 +128,7 @@ QString ScoreSettings::getMinorExample(Tnote::EnameStyle nameStyle) {
 		S = "";
 	else S = "-"+minEdit->text();
 	return forExample() + "<br><b>" +
-              QString::fromStdString(noteCsharp.getName(nameStyle,false)).toLower()+ S + "<br>" +
-              QString::fromStdString(noteG.getName(nameStyle,false)).toLower() + S + "</b>";
+              noteCsharp.toText(nameStyle,false).toLower()+ S + "<br>" + noteG.toText(nameStyle,false).toLower() + S + "</b>";
 }
 
 

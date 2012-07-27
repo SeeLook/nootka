@@ -139,6 +139,11 @@ std::string printNote ( bool showOctave = 1);
 
 	std::string getName (EnameStyle notation = e_norsk_Hb, bool showOctave = 1);
 	std::string getName (Tnote eNote, EnameStyle notation = e_norsk_Hb, bool showOctave = 1);
+    /** Returns note name converted to QString */
+  QString toText (EnameStyle notation = e_norsk_Hb, bool showOctave = 1)
+    { return QString::fromStdString(getName(notation, showOctave)); }
+    /** Returns note name formated to HTML*/
+  QString toRichText(EnameStyle notation = e_norsk_Hb, bool showOctave = 1);
 
 	 /**
 	  *  Return @param chromaticNrOfNote 

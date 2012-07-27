@@ -131,7 +131,7 @@ void TscoreWidget::paintEvent(QPaintEvent *event) {
         painter.drawText(QRectF(5+xOff,29*coeff+17*yOff, fa, fa), Qt::AlignCenter,
                QString("%1").arg(i));
         painter.drawText(QRectF(5+xOff+fa, 29*coeff+17*yOff, 60, fa),Qt::AlignLeft,
-             " =" + QString::fromStdString(gl->Gtune()[i].getName(gl->NnameStyleInNoteName,false)));
+             " =" + gl->Gtune()[i].toText(gl->NnameStyleInNoteName, false));
         painter.drawEllipse(5+xOff,29*coeff+17*yOff,fa,fa);
       }
     }

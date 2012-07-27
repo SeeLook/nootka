@@ -338,8 +338,35 @@ std::string Tnote::getName( Tnote eNote, EnameStyle notation, bool showOctave )
 	note = eNote.note;
 	acidental = eNote.acidental;
 	octave = eNote.octave;
-	return getName(notation,showOctave);
+	return getName(notation, showOctave);
 }
+
+QString Tnote::toRichText(Tnote::EnameStyle notation, bool showOctave) {
+  QString result = toText(notation, false);
+    if (notation == Tnote::e_italiano_Si ||
+        notation == Tnote::e_english_Bb ||
+        notation == Tnote::e_norsk_Hb ) {
+        if (acidental) {
+            int a = 1;
+            if (acidental == -2) a = 2;
+            result.insert(result.size()-a,"<sub><i>");
+        result.insert(result.size(),"</i></sub>");
+        }
+    }
+    result = result.toLower();
+    if (showOctave) {
+        if (octave < 0) { //first letter capitalize
+         QString l1 = result.mid(0,1).toUpper();
+         result.replace(0,1,l1);
+         if (octave < -1)
+             result = result + QString("<sub>%1</sub>").arg(int(octave*(-1)-1));
+        }
+        if (octave > 0)
+            result = result + QString("<sup>%1</sup>").arg((int)octave);
+    }
+    return result;
+}
+
 
 bool Tnote::operator ==( const Tnote N2 )
 {

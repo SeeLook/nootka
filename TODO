@@ -60,9 +60,7 @@ FOR WINDOWS
     - style ???
 
 Things need global rebuild:
-    1. TkeySignature::name - depend on minor/major
     2. TQAunit - isNotSoBad(), isWrong() methods, update comment in e_wrongPos
-    3. Tnote - QString as result of name
     4. Tglobals - permanent instance of QSettings - config
     5. TexamLevel - canBeScore(), canBeName() and so on
     

@@ -42,8 +42,6 @@ public:
         /** Constructs dialog with question content. itself calculates position over Nootka window */
     explicit TdialogMessage(Texam *exam, MainWindow *parent, Tnote::EnameStyle style);
     static QString getTextHowAccid(Tnote::Eacidentals accid);
-        /** Returns key signature name depends on minor/major */
-    static QString getKeyText(TkeySignature &key);
         /** Returns translated text on (strNr) string in Nootka font. */
     static QString onStringTxt(quint8 strNr);
         /** Returns html-formated question text. */
