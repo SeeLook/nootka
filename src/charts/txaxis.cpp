@@ -56,10 +56,7 @@ void TXaxis::setAnswersList(QList< TQAunit >* answers, TexamLevel* level) {
       arg(TnoteName::noteToRichText(m_answers->operator[](i).qa.note));
       if (m_level->useKeySign && 
         (m_answers->operator[](i).questionAs == TQAtype::e_asNote || m_answers->operator[](i).answerAs == TQAtype::e_asNote)) {
-          if (m_answers->operator[](i).key.isMinor())
-            txt += "<br><i>" + m_answers->operator[](i).key.getMinorName() + "</i>";
-          else
-            txt += "<br><i>" + m_answers->operator[](i).key.getMajorName() + "</i>";
+          txt += "<br><i>" + m_answers->operator[](i).key.getName() + "</i>";
       }
       QGraphicsTextItem *ticTip = new QGraphicsTextItem();
       ticTip->setHtml(txt);
@@ -86,10 +83,7 @@ void TXaxis::setAnswersLists(QList< QList< TQAunit* > >& listOfLists, TexamLevel
       if (m_level->useKeySign && 
         (listOfLists[i].operator[](j)->questionAs == TQAtype::e_asNote || 
         listOfLists[i].operator[](j)->answerAs == TQAtype::e_asNote)) {
-          if (listOfLists[i].operator[](j)->key.isMinor())
-            txt += "<br><i>" + listOfLists[i].operator[](j)->key.getMinorName() + "</i>";
-          else
-            txt += "<br><i>" + listOfLists[i].operator[](j)->key.getMajorName() + "</i>";
+          txt += "<br><i>" + listOfLists[i].operator[](j)->key.getName() + "</i>";
       }
       QGraphicsTextItem *ticTip = new QGraphicsTextItem();
       ticTip->setHtml(txt);

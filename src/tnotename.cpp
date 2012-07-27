@@ -145,7 +145,7 @@ TnoteName::TnoteName(QWidget *parent) :
 
 void TnoteName::setNoteNamesOnButt(Tnote::EnameStyle nameStyle) {
     for (int i=0; i<7; i++) {
-        noteButtons[i]->setText(QString::fromStdString(Tnote(i+1,0,0).getName(nameStyle,false)));
+        noteButtons[i]->setText(Tnote(i+1,0,0).toText(nameStyle,false));
     }
 }
 
@@ -292,7 +292,7 @@ void TnoteName::octaveWasChanged(int octNr) { // octNr is button nr in the group
 
 /*static*/
 QString TnoteName::noteToRichText(Tnote note) {
-    QString nameTxt = QString::fromStdString(note.getName(gl->NnameStyleInNoteName,false));
+    QString nameTxt = note.toText(gl->NnameStyleInNoteName,false);
     if (gl->NnameStyleInNoteName == Tnote::e_italiano_Si ||
         gl->NnameStyleInNoteName == Tnote::e_english_Bb ||
         gl->NnameStyleInNoteName == Tnote::e_norsk_Hb ) {

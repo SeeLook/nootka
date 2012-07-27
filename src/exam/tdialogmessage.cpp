@@ -45,16 +45,6 @@ QString TdialogMessage::getTextHowAccid(Tnote::Eacidentals accid) {
 }
 
 
-QString TdialogMessage::getKeyText(TkeySignature& key) {
-  QString keyTxt ="";
-  if (key.isMinor())
-      keyTxt = key.getMinorName();
-  else
-      keyTxt = key.getMajorName();
-  return keyTxt;
-}
-
-
 QString TdialogMessage::onStringTxt(quint8 strNr) {
     return tr("on <span style=\"font-family: nootka;\">%1</span> string.").arg(strNr);
 }
@@ -171,7 +161,7 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
             else
                 quest += tr("Given note show in the score");
           if (level->useKeySign && level->manualKey) {
-            apendix = tr("<br><b>in %1 key.</b>", "in key signature").arg(getKeyText(question.key));
+            apendix = tr("<br><b>in %1 key.</b>", "in key signature").arg(question.key.getName());
           }
           if (level->forceAccids)
             quest += getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);
@@ -204,7 +194,7 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
           m_nameFree = false;
           quest += tr("Show in the score") + noteStr;
           if (level->useKeySign && level->manualKey) {
-            quest += tr("<br><b>in %1 key.</b>", "in key signature").arg(getKeyText(question.key));
+            quest += tr("<br><b>in %1 key.</b>", "in key signature").arg(question.key.getName());
           }
         } else
           if (question.answerAs == TQAtype::e_asName) {
@@ -239,7 +229,7 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
           m_scoreFree = false;
           quest += tr("Show on the score note played on");
           if (level->useKeySign && level->manualKey) {
-            apendix = tr("<b>in %1 key.</b>", "in key signature").arg(getKeyText(question.key));
+            apendix = tr("<b>in %1 key.</b>", "in key signature").arg(question.key.getName());
           }
         } else
           if (question.answerAs == TQAtype::e_asName) {
@@ -267,12 +257,7 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
           m_scoreFree = false;
           quest += tr("Listened sound show in the score");
           if (level->useKeySign && level->manualKey) {
-            QString keyTxt;
-            if (question.key.isMinor())
-              keyTxt = question.key.getMinorName();
-            else
-              keyTxt = question.key.getMajorName();
-            quest += tr("<br><b>in %1 key.</b>", "in key signature").arg(keyTxt);
+            quest += tr("<br><b>in %1 key.</b>", "in key signature").arg(question.key.getName());
           }
           if (level->forceAccids)
             quest += getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
