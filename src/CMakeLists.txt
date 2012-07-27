@@ -10,7 +10,7 @@ SET( NOOTKA_SRCS
   tnotename.cpp
   tfingerboard.cpp
   ttune.cpp
-  tfingerpos.h
+  tfingerpos.cpp
 ###### Score
   score/tnoteview.cpp
   score/tscorewidget.cpp

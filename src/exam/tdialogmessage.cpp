@@ -243,7 +243,7 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
                   quest += tr("Play or sing");
               }
         quest += QString("<br><span style=\"font-size: 30px; %1\">&nbsp;").arg(gl->getBGcolorText(gl->EquestionColor)) +
-                    TtipChart::wrapPosToHtml(question.qa.pos) + " </span>";
+                    question.qa.pos.toHtml() + " </span>";
         if (apendix != "")
           quest += "<br>" + apendix;
         if (question.answerAs == TQAtype::e_asNote || question.answerAs == TQAtype::e_asName)

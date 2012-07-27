@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011 - 2012 by Tomasz Bojczuk                           *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -24,8 +24,7 @@
 
 
 /**
-*  @short A class describes finger's position on the fingerboard.
-*  @author Tomasz Bojczuk <tomaszbojczuk@gmail.com>
+*  A class describes finger's position on the fingerboard.
 */
 
 class TfingerPos
@@ -42,10 +41,14 @@ public:
     void setPos(unsigned char realStr, unsigned char fret) {
         m_pos = (realStr-1)*40 + fret;
     }
+        /** List of QStrings with roman representatin of numbers 0-24. */
+    static const QString fretsList[25];
+    static QString romanFret(quint8 fret);
+    QString romanFret() { return romanFret(fret()); }
+      /** TfingerPos in HTML format as a string fe.: 3 XVII */
+    QString toHtml(TfingerPos pos);
 
-//    bool operator==( TfingerPos f2) { return str() == f2.str() && fret() == f2.fret(); }
     bool operator==( TfingerPos f2) { return m_pos == f2.m_pos; }
-//    bool operator!=( TfingerPos f2) { return str() != f2.str() || fret() != f2.fret(); }
     bool operator!=( TfingerPos f2) { return m_pos != f2.m_pos; }
 
     friend QDataStream &operator<< (QDataStream &out, const TfingerPos &fPos) {

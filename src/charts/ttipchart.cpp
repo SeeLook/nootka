@@ -40,27 +40,9 @@ QString TtipChart::qaTypeText(TQAtype::Etype &type) {
   return txt;
 }
 
-QString TtipChart::romanFret(quint8 fret) {
-  if (fret >= 0 && fret < 25)
-      return fretsList[fret];
-  else
-      return QString("");
-}
-
-
-const QString TtipChart::fretsList[25] = { "0",
-  "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X",
-  "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX",
-  "XI", "XII", "XIII", "XIV"
-};
 
 QString TtipChart::insertQMark() {
     return QString("<span style=\"color: red; font-family: nootka; font-size: 45px;\">?</span>");
-}
-
-QString TtipChart::wrapPosToHtml(TfingerPos pos) {
-//    return QString("<span style=\"font-size: 25px; font-family: nootka\">%1%2</span>").arg(pos.str()).arg(romanFret(pos.fret()));
-    return QString("<span style=\"font-size: 25px; font-family: nootka\">%1</span><sub style=\"font-size: 30px;\">%2</sub>").arg(pos.str()).arg(pos.fret());
 }
 
 QString TtipChart::wrapPixToHtml(Tnote note, bool clef, TkeySignature key, double factor) {
@@ -95,7 +77,7 @@ TtipChart::TtipChart(TquestionPoint *point) :
           aS = "<span style=\"font-size: 25px;\">" + TnoteName::noteToRichText(point->question()->qa_2.note) + "</span>";
       break;
     case TQAtype::e_asFretPos:
-        qS = wrapPosToHtml(point->question()->qa.pos);
+        qS = point->question()->qa.pos.toHtml();
       break;
     case TQAtype::e_asSound:
         qS = QString("<span style=\"font-family: nootka; font-size: 45px;\">n</span>");
@@ -112,7 +94,7 @@ TtipChart::TtipChart(TquestionPoint *point) :
           aS = "<span style=\"font-size: 25px;\">" + TnoteName::noteToRichText(point->question()->qa.note) + "</span>";
           break;
         case TQAtype::e_asFretPos:
-           aS = wrapPosToHtml(point->question()->qa.pos);
+           aS = point->question()->qa.pos.toHtml();
           break;
         case TQAtype::e_asSound:
           if (point->question()->questionAs == TQAtype::e_asNote)

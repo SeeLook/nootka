@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2011 - 2012 by Tomasz Bojczuk                           *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,46 +12,29 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TTIPCHART_H
-#define TTIPCHART_H
 
-#include <tgraphicstexttip.h>
-#include "tqatype.h"
+#include "tfingerpos.h"
 
+/* static */
+const QString TfingerPos::fretsList[25] = { "0",
+      "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X",
+      "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX",
+      "XI", "XII", "XIII", "XIV"
+    };
+    
+QString TfingerPos::romanFret(quint8 fret) {
+    if (fret >= 0 && fret < 25)
+      return fretsList[fret];
+    else
+      return QString("");
+}
 
-class TquestionPoint;
-class Tnote;
-class TkeySignature;
-class TfingerPos;
+QString TfingerPos::toHtml(TfingerPos pos) {
+  //    return QString("<span style=\"font-size: 25px; font-family: nootka\">%1%2</span>").arg(pos.str()).arg(romanFret(pos.fret()));
+    return QString("<span style=\"font-size: 25px; font-family: nootka\">%1</span><sub style=\"font-size: 30px;\">%2</sub>").arg(pos.str()).arg(pos.fret());
+}
 
-/** This clas represent tip displayed when user hovers cursor 
- * over question point in the chart.
- * It has some usefull ststic methods:
- * qaTypeText
- * wrapPixToHtml
- * wrapPosToHtml
- * romanFret
- * fretsList
- */
-class TtipChart : public TgraphicsTextTip
-{
-
-public:
-  TtipChart(TquestionPoint *point);
-  virtual ~TtipChart();
-  
-    /** Returns string with kind of question/answer text. */
-  static QString qaTypeText(TQAtype::Etype &type);
-    /** Returns html sting with note pixmap generated from @param point. */
-  static QString wrapPixToHtml( Tnote note, bool clef, TkeySignature key, double factor = 4);
-    /** Returns html string with question mark in nootka font. */
-  static QString insertQMark();
-  TquestionPoint *m_point;
-
-};
-
-#endif // TTIPCHART_H
