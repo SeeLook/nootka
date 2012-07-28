@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -74,7 +74,7 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
           m_answList << qaUnit;
 //           qDebug() << m_answList.size() << QString::fromStdString(qaUnit.qa.note.getName());
           m_workTime += qaUnit.time; // 
-          if ( !qaUnit.correct() )
+          if ( !qaUnit.isCorrect() )
               tmpMist++;
 //                     qDebug() << isExamFileOk << m_answList.size() <<
 //                             (int)qaUnit.key.value() << qaUnit.key.isMinor();
@@ -125,8 +125,9 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
 
 void Texam::setAnswer(TQAunit& answer) {
     m_answList.last() = answer;
-    if (!answer.correct())
+    if (!answer.isCorrect())
       m_mistNr++;
     m_workTime += answer.time;
 }
+
 

@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -23,6 +23,7 @@
 #include <QDir>
 #include <QSettings>
 #include <QCoreApplication>
+#include <qset.h>
 //#include <QDebug>
 
 
@@ -75,110 +76,110 @@ Tglobals::Tglobals() {
     QCoreApplication::setApplicationName("Nootka");
 
 #if defined(Q_OS_WIN32) // I hate mess in Win registry
-    QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
+    config = new QSettings(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
 #else
-    QSettings sett;
+    config = new QSettings();
 #endif
 
-    sett.beginGroup("common");
-        hintsEnabled = sett.value("enableHints", true).toBool(); //true;
-        isFirstRun = sett.value("isFirstRun", true).toBool();
-        lang = sett.value("language", "").toString();
-    sett.endGroup();
+    config->beginGroup("common");
+        hintsEnabled = config->value("enableHints", true).toBool(); //true;
+        isFirstRun = config->value("isFirstRun", true).toBool();
+        lang = config->value("language", "").toString();
+    config->endGroup();
 
 //score widget settings
-    sett.beginGroup("score");
-        SkeySignatureEnabled = sett.value("keySignature", true).toBool(); //true;
-        SshowKeySignName = sett.value("keyName", true).toBool(); //true;
-        SnameStyleInKeySign = Tnote::EnameStyle(sett.value("nameStyleInKey",
+    config->beginGroup("score");
+        SkeySignatureEnabled = config->value("keySignature", true).toBool(); //true;
+        SshowKeySignName = config->value("keyName", true).toBool(); //true;
+        SnameStyleInKeySign = Tnote::EnameStyle(config->value("nameStyleInKey",
                                                            (int)Tnote::e_english_Bb).toInt());
-        SmajKeyNameSufix = sett.value("majorKeysSufix", "").toString();
-        SminKeyNameSufix = sett.value("minorKeysSufix", "").toString();
-	if (sett.contains("pointerColor"))
-	    SpointerColor = sett.value("pointerColor").value<QColor>(); //-1;
+        SmajKeyNameSufix = config->value("majorKeysSufix", "").toString();
+        SminKeyNameSufix = config->value("minorKeysSufix", "").toString();
+	if (config->contains("pointerColor"))
+	    SpointerColor = config->value("pointerColor").value<QColor>(); //-1;
 	else 
 	    SpointerColor = -1;
-    sett.endGroup();
+    config->endGroup();
 
 //     TkeySignature::setNameStyle(SnameStyleInKeySign, SmajKeyNameSufix, SminKeyNameSufix);
 
 //common for score widget and note name
-    sett.beginGroup("common");
-        doubleAccidentalsEnabled = sett.value("doubleAccidentals", true).toBool(); //true;
-        showEnharmNotes = sett.value("showEnaharmonicNotes", true).toBool(); //true;
-        if (sett.contains("enharmonicNotesColor"))
-            enharmNotesColor = sett.value("enharmonicNotesColor").value<QColor>(); //-1;
+    config->beginGroup("common");
+        doubleAccidentalsEnabled = config->value("doubleAccidentals", true).toBool(); //true;
+        showEnharmNotes = config->value("showEnaharmonicNotes", true).toBool(); //true;
+        if (config->contains("enharmonicNotesColor"))
+            enharmNotesColor = config->value("enharmonicNotesColor").value<QColor>(); //-1;
         else
             enharmNotesColor = -1;
-        seventhIs_B = sett.value("is7thNote_B", true).toBool(); //true;
-    sett.endGroup();
+        seventhIs_B = config->value("is7thNote_B", true).toBool(); //true;
+    config->endGroup();
     
 //note name settings    
-    sett.beginGroup("noteName");
-        NnameStyleInNoteName = Tnote::EnameStyle(sett.value("nameStyle", (int)Tnote::e_english_Bb).toInt());
-        NoctaveInNoteNameFormat = sett.value("octaveInName", true).toBool();
+    config->beginGroup("noteName");
+        NnameStyleInNoteName = Tnote::EnameStyle(config->value("nameStyle", (int)Tnote::e_english_Bb).toInt());
+        NoctaveInNoteNameFormat = config->value("octaveInName", true).toBool();
 	//    NoctaveNameInNoteName = true;
-    sett.endGroup();
+    config->endGroup();
 
 // guitar settings
     Ttune::prepareDefinedTunes();
-    sett.beginGroup("guitar");
-        GfretsNumber = sett.value("fretNumber", 19).toInt();
-        GisRightHanded = sett.value("rightHanded", true).toBool(); //true;
-        GshowOtherPos = sett.value("showOtherPos", true).toBool(); //true;
-        if (sett.contains("fingerColor"))
-            GfingerColor = sett.value("fingerColor").value<QColor>();
+    config->beginGroup("guitar");
+        GfretsNumber = config->value("fretNumber", 19).toInt();
+        GisRightHanded = config->value("rightHanded", true).toBool(); //true;
+        GshowOtherPos = config->value("showOtherPos", true).toBool(); //true;
+        if (config->contains("fingerColor"))
+            GfingerColor = config->value("fingerColor").value<QColor>();
         else
             GfingerColor = -1;
-        if (sett.contains("selectedColor"))
-            GselectedColor = sett.value("selectedColor").value<QColor>();
+        if (config->contains("selectedColor"))
+            GselectedColor = config->value("selectedColor").value<QColor>();
         else
             GselectedColor = -1;
-        QVariant tun = sett.value("tune");
+        QVariant tun = config->value("tune");
         if (tun.isValid())
             setTune(tun.value<Ttune>());
         else setTune(Ttune::stdTune);
-        GpreferFlats = sett.value("flatsPrefered", false).toBool(); //false;
-    sett.endGroup();
+        GpreferFlats = config->value("flatsPrefered", false).toBool(); //false;
+    config->endGroup();
 
    
 // Exam settings
     E = new TexamParams();
-    sett.beginGroup("exam");
-        if (sett.contains("questionColor"))
-            EquestionColor = sett.value("questionColor").value<QColor>();
+    config->beginGroup("exam");
+        if (config->contains("questionColor"))
+            EquestionColor = config->value("questionColor").value<QColor>();
         else {
                EquestionColor = QColor("red");
                EquestionColor.setAlpha(40);
            }
-        if (sett.contains("answerColor"))
-            EanswerColor = sett.value("answerColor").value<QColor>();
+        if (config->contains("answerColor"))
+            EanswerColor = config->value("answerColor").value<QColor>();
         else {
                 EanswerColor = QColor("green");
                EanswerColor.setAlpha(40);
            }
-        E->autoNextQuest = sett.value("autoNextQuest", true).toBool();
-        E->repeatIncorrect = sett.value("repeatIncorrect", true).toBool();
-        E->expertsAnswerEnable = sett.value("expertsAnswerEnable", false).toBool();
-        E->askAboutExpert = sett.value("askAboutExpert", true).toBool();
-        E->showHelpOnStart = sett.value("showHelpOnStart", true).toBool();
-        E->studentName = sett.value("studentName", "").toString();
-    sett.endGroup();
+        E->autoNextQuest = config->value("autoNextQuest", true).toBool();
+        E->repeatIncorrect = config->value("repeatIncorrect", true).toBool();
+        E->expertsAnswerEnable = config->value("expertsAnswerEnable", false).toBool();
+        E->askAboutExpert = config->value("askAboutExpert", true).toBool();
+        E->showHelpOnStart = config->value("showHelpOnStart", true).toBool();
+        E->studentName = config->value("studentName", "").toString();
+    config->endGroup();
 
 // Sound settings
     A = new TaudioParams();
-    sett.beginGroup("sound");
-      A->OUTenabled = sett.value("outSoundEnabled", true).toBool();
-      A->OUTdevName = sett.value("outDeviceName", "").toString();
-      A->midiEnabled = sett.value("midiEnabled", false).toBool();
-      A->midiPortName = sett.value("midiPortName", "").toString();
-      A->midiInstrNr = (unsigned char)sett.value("midiInstrumentNr", 0).toInt();
-      A->INenabled = sett.value("inSoundEnabled", true).toBool();
-      A->INdevName = sett.value("inDeviceName", "").toString();
-      A->isVoice = sett.value("isVoice", false).toBool();
-      A->noiseLevel = (qint16)sett.value("noiseLevel", 70).toInt();
-      A->a440diff = sett.value("a440Offset", 0).toFloat();
-    sett.endGroup();
+    config->beginGroup("sound");
+      A->OUTenabled = config->value("outSoundEnabled", true).toBool();
+      A->OUTdevName = config->value("outDeviceName", "").toString();
+      A->midiEnabled = config->value("midiEnabled", false).toBool();
+      A->midiPortName = config->value("midiPortName", "").toString();
+      A->midiInstrNr = (unsigned char)config->value("midiInstrumentNr", 0).toInt();
+      A->INenabled = config->value("inSoundEnabled", true).toBool();
+      A->INdevName = config->value("inDeviceName", "").toString();
+      A->isVoice = config->value("isVoice", false).toBool();
+      A->noiseLevel = (qint16)config->value("noiseLevel", 70).toInt();
+      A->a440diff = config->value("a440Offset", 0).toFloat();
+    config->endGroup();
 
 }
 

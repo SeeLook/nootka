@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,13 +12,15 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
 
 #ifndef TQAUNIT_H
 #define TQAUNIT_H
+
+
 #include "tfingerpos.h"
 #include "tnote.h"
 #include "tqatype.h"
@@ -43,8 +45,8 @@ public:
 		    e_wrongKey = 2,
 		    e_wrongOctave = 4,
 		    e_wrongStyle = 8, //for further releases when typeing of note name will be implemented
-		    e_wrongPos = 16, // when sound is correct but in wrong position
-                
+		    e_wrongPos = 16, // when wrong position
+        e_wrongString = 32, // when sound is ok but not on required string
 		    e_wrongNote = 64 // the highest crime  
     };
 
@@ -62,14 +64,19 @@ public:
 //    friend QDataStream &operator>> (QDataStream &in, TQAunit &qaUnit);
     friend bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit);
     
-    bool correct() { return m_valid == 0; }
+    bool isCorrect() { return m_valid == 0; }
     bool wrongAccid() { return m_valid & 1; }
     bool wrongKey() { return m_valid & 2;}
     bool wrongOctave() { return m_valid & 4; }
     bool wrongStyle() { return m_valid & 8; }
     bool wrongPos() { return m_valid & 16; }
-
+    bool wrongString() { return m_valid & 32; }
     bool wrongNote() {return m_valid & 64; }
+    
+    bool isWrong() { return wrongNote() | wrongPos(); }
+    bool isNotSoBad() { if (m_valid && !wrongNote() && !wrongPos()) return true;
+                            else return false;
+    }
     
 protected:
     quint8 m_valid;

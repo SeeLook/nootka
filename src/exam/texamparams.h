@@ -28,7 +28,7 @@
 class TexamParams 
 {
 public:
-// They are very global and Tglobbals has them directly
+// They are very global and Tglobals has them directly
 //   QColor questionColor;
 //   QColor answerColor;
 

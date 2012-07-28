@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -30,7 +30,7 @@
 class TexamLevel
 {
 public:
-        /** default constructor creates "complex" level*/
+        /** default constructor creates a "complex" level*/
     TexamLevel();
 
   // level paramrters
@@ -58,6 +58,12 @@ public:
     bool usedStrings[6];
     bool onlyLowPos;
     bool onlyCurrKey;
+    
+  // some helpers
+    bool canBeScore(); // True if answer or question is note on a score
+    bool canBeName(); // True if answer or question is note name
+    bool canBeGuitar(); // True if answer or question is position on a guitar
+    bool canBeSound(); // True if answer or question is played or sang sound
 
 };
 
