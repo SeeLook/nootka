@@ -30,12 +30,9 @@ class TfingerPos;
 
 /** This clas represent tip displayed when user hovers cursor 
  * over question point in the chart.
- * It has some usefull ststic methods:
+ * It has some usefull static methods:
  * qaTypeText
  * wrapPixToHtml
- * wrapPosToHtml
- * romanFret
- * fretsList
  */
 class TtipChart : public TgraphicsTextTip
 {
@@ -44,12 +41,14 @@ public:
   TtipChart(TquestionPoint *point);
   virtual ~TtipChart();
   
-    /** Returns string with kind of question/answer text. */
+      /** Returns string with kind of question/answer text. */
   static QString qaTypeText(TQAtype::Etype &type);
-    /** Returns html sting with note pixmap generated from @param point. */
+      /** Returns html sting with note pixmap generated from @param point. */
   static QString wrapPixToHtml( Tnote note, bool clef, TkeySignature key, double factor = 4);
-    /** Returns html string with question mark in nootka font. */
+      /** Returns html string with question mark in nootka font. */
   static QString insertQMark();
+  
+private:
   TquestionPoint *m_point;
 
 };

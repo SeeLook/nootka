@@ -520,7 +520,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
           fc = 2; // font size factor to have enought room for text over guitar
       QString answTxt;
       QColor answColor;
-      if (curQ.correct()) {
+      if (curQ.isCorrect()) {
           answTxt = wasAnswerOKtext(&curQ, gl->EanswerColor, mW->getFontSize()*fc);
           answColor = gl->EanswerColor;
       }
@@ -536,7 +536,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
       }
       if (gl->hintsEnabled && !gl->E->autoNextQuest) {
           answTxt += getNextQuestionTxt();
-          if (!curQ.correct())
+          if (!curQ.isCorrect())
               answTxt += "<br>" + tr("To correct an answer") + " " + 
                   TexamHelp::clickSomeButtonTxt(gl->path+"picts/prev-icon.png") + 
                   " " + TexamHelp::orPressBkSTxt();
@@ -545,16 +545,16 @@ void TexamExecutor::checkAnswer(bool showResults) {
 	  showMessage(answTxt, pp, mesgTime, answColor);
     }
     if (!gl->E->autoNextQuest) {
-        if (!curQ.correct())
+        if (!curQ.isCorrect())
             mW->nootBar->addAction(prevQuestAct);
         mW->nootBar->addAction(nextQuestAct);
     }
     disableWidgets();
-    mW->examResults->setAnswer(curQ.correct());
+    mW->examResults->setAnswer(curQ.isCorrect());
     m_exam->setAnswer(curQ);
 
     if (gl->E->autoNextQuest) {
-        if (curQ.correct()) {
+        if (curQ.isCorrect()) {
             if (m_shouldBeTerminated)
                 stopExamSlot();
             else {

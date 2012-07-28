@@ -169,7 +169,7 @@ QString wasAnswerOKtext(TQAunit* answer, QColor textColor, int fontSize) {
         txt = QString("<span style=\"color: %1; font-size: %2px;\">").arg(textColor.name()).arg(fontSize);
     else
         txt = QString("<span style=\"color: %1;\">").arg(textColor.name());
-    if (answer->correct()) {
+    if (answer->isCorrect()) {
     txt += QApplication::translate("AnswerText", "It was good!");
   } else
       if (answer->wrongNote() || answer->wrongPos())

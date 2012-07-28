@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,9 +12,10 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
+
 
 
 #include "texamlevel.h"
@@ -118,3 +119,44 @@ bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
     in >> lev.onlyLowPos >> lev.onlyCurrKey >> lev.showStrNr;
     return ok;
 }
+
+bool TexamLevel::canBeScore() {
+  if (questionAs.isNote() || 
+    answersAs[TQAtype::e_asName].isNote() || 
+    answersAs[TQAtype::e_asFretPos].isNote() ||
+    answersAs[TQAtype::e_asSound].isNote()  )
+      return true;
+  else
+      return false;
+}
+
+bool TexamLevel::canBeName() {
+  if (questionAs.isName() || 
+    answersAs[TQAtype::e_asNote].isName() || 
+    answersAs[TQAtype::e_asFretPos].isName() ||
+    answersAs[TQAtype::e_asSound].isName()  )
+      return true;
+  else
+      return false;
+}
+
+bool TexamLevel::canBeGuitar() {
+  if (questionAs.isFret() || 
+    answersAs[TQAtype::e_asName].isFret() || 
+    answersAs[TQAtype::e_asNote].isFret() ||
+    answersAs[TQAtype::e_asSound].isFret()  )
+      return true;
+  else
+      return false;
+}
+
+bool TexamLevel::canBeSound() {
+  if (questionAs.isSound() || 
+    answersAs[TQAtype::e_asName].isSound() || 
+    answersAs[TQAtype::e_asFretPos].isSound() ||
+    answersAs[TQAtype::e_asNote].isSound()  )
+      return true;
+  else
+      return false;
+}
+

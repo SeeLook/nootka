@@ -51,10 +51,10 @@ TquestionPoint::TquestionPoint(TmainLine* parent, TQAunit* question):
 {
   setAcceptHoverEvents(true);
 
-  if (question->correct())
+  if (question->isCorrect())
     m_color = m_goodColor;
   else {
-    if (question->wrongNote() || question->wrongPos())
+    if (question->isWrong())
       m_color = m_wrongColor;
     else
       m_color = m_notBadColor;

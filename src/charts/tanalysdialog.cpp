@@ -123,18 +123,12 @@ void TanalysDialog::setExam(Texam* exam) {
   m_questNrLab->setText(tr("Questions number:") + QString(" %1").arg(exam->count()) );
   m_effectLab->setText(TexamView::effectTxt() + QString(": %1%")
                        .arg( qRound(( (double)((exam->count() - exam->mistakes())) / (double)exam->count() ) * 100 )) );
-  if (m_exam->level()->questionAs.isNote() ||
-      m_exam->level()->answersAs[TQAtype::e_asName].isNote() ||
-      m_exam->level()->answersAs[TQAtype::e_asFretPos].isNote() ||
-      m_exam->level()->answersAs[TQAtype::e_asSound].isNote() )
+  if (m_exam->level()->canBeScore())
         enableComboItem(1, true);
     else
         enableComboItem(1, false);
     
-  if (m_exam->level()->questionAs.isFret() || 
-      m_exam->level()->answersAs[TQAtype::e_asNote].isFret() ||
-      m_exam->level()->answersAs[TQAtype::e_asName].isFret() ||
-      m_exam->level()->answersAs[TQAtype::e_asSound].isFret() ||
+  if (m_exam->level()->canBeGuitar() ||
       m_exam->level()->answersAs[TQAtype::e_asNote].isSound() || // answers as played sound are also important
       m_exam->level()->answersAs[TQAtype::e_asName].isSound() ||
       m_exam->level()->answersAs[TQAtype::e_asSound].isSound() )

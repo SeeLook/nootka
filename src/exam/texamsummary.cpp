@@ -93,7 +93,7 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
     effStr += row2(TexamView::corrAnswersNrTxt(), QString::number(exam->count()-exam->mistakes()));
     float wAccid = 0.0, wKey = 0.0, wNote = 0.0, wOctave = 0.0, wStyle = 0.0, wPos = 0.0, wTotal;
     for(int i=0; i<exam->count(); i++) {
-      if (!exam->qusetion(i).correct()) {
+      if (!exam->qusetion(i).isCorrect()) {
           if(exam->qusetion(i).wrongAccid())  wAccid++;
           if(exam->qusetion(i).wrongKey())    wKey++;
           if(exam->qusetion(i).wrongNote())   wNote++;
