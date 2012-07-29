@@ -26,6 +26,7 @@
 
 class QToolBox;
 class QRadioButton;
+class QGroupBox;
 
 class TasNoteWdg : public QWidget
 {
