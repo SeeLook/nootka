@@ -26,31 +26,24 @@ questionsSettings::questionsSettings(QWidget *parent) :
     QWidget(parent)
 {
 //     questAsToolBox = new QToolBox(this);
-    QVBoxLayout *mainLay = new QVBoxLayout;
-//     QLabel *headLab = new QLabel("<b>"+QString(TquestionAsWdg::questionsTxt()).toUpper() + "</b>", this);
-//     mainLay->addWidget(headLab, 0, Qt::AlignCenter);
+    QVBoxLayout *mainLay = new QVBoxLayout;    
+
     QGridLayout *qaLay = new QGridLayout();
-    TquestionAsWdg *asNoteWdg = new TquestionAsWdg(this);
-//     QLabel *asNoteLab = new QLabel(TquestionAsWdg::asNoteTxt(), this);
-//     qaLay->addWidget(asNoteLab, 0, 0);
-    qaLay->addWidget(asNoteWdg, 0, 1);
     
-    TquestionAsWdg *asNameWdg = new TquestionAsWdg(this);
-//     QLabel *asNameLab = new QLabel(TquestionAsWdg::asNameTxt(), this);
-//     qaLay->addWidget(asNameLab, 1, 0);
-    qaLay->addWidget(asNameWdg, 1, 1);
+    QLabel *qLab = new QLabel(TquestionAsWdg::questionsTxt().toUpper(), this);
+    qaLay->addWidget(qLab, 0, 0);
+    QLabel *aLab = new QLabel(TquestionAsWdg::answersTxt().toUpper(), this);
+    qaLay->addWidget(aLab, 0, 1);
     
-    TquestionAsWdg *asFretPosWdg = new TquestionAsWdg(this);
-//     QLabel *asFretPosLab = new QLabel(TquestionAsWdg::asFretPosTxt(), this);
-//     qaLay->addWidget(asFretPosLab, 2, 0);
-    qaLay->addWidget(asFretPosWdg, 2, 1);
     
-    TquestionAsWdg *asSoundWdg = new TquestionAsWdg(this);
-//     QLabel *asSoundLab = new QLabel(TquestionAsWdg::asSoundTxt(), this);
-//     qaLay->addWidget(asSoundLab, 3, 0);
-    qaLay->addWidget(asSoundWdg, 3, 1);
+    TquestionAsWdg *asNoteWdg = new TquestionAsWdg(TquestionAsWdg::asNoteTxt(), qaLay, 1, this);
     
-//     mainLay->addWidget(questAsToolBox);
+    TquestionAsWdg *asNameWdg = new TquestionAsWdg(TquestionAsWdg::asNameTxt(), qaLay, 2, this);
+    
+    TquestionAsWdg *asFretPosWdg = new TquestionAsWdg(TquestionAsWdg::asFretPosTxt(), qaLay, 3, this);
+    
+    TquestionAsWdg *asSoundWdg = new TquestionAsWdg(TquestionAsWdg::asSoundTxt(), qaLay, 4, this);
+    
     mainLay->addLayout(qaLay);
     setLayout(mainLay);
 
@@ -93,7 +86,7 @@ void questionsSettings::saveLevel(TexamLevel &level) {
 }
 
 //############################# AS NOTE IN A SCORE ###################################
-
+/*
 TasNoteWdg::TasNoteWdg(QWidget *parent) :
     QWidget(parent)
 {
@@ -297,7 +290,7 @@ void TasNoteWdg::keySignChanged() {
     }
 
 }
-
+/*
 //############################# AS NOTE'S NAME  ###################################
 
 TasNameWdg::TasNameWdg(QWidget *parent) :
@@ -361,7 +354,7 @@ void TasNameWdg::saveLevel(TexamLevel &level) {
 /** @param octaveRequiredChB QCheckBox is connected with the same checkBox
  * in TasPlayedSound widget. It may be confused for user but I doesn't invent 
  * nothing better. So ignoring octeve can work only:
- * when answer is note name or answer is played sound. */
+ * when answer is note name or answer is played sound. 
 void TasNameWdg::checkOctaveChB(bool check) {
     octaveRequiredChB->setChecked(check);
 }
@@ -409,7 +402,7 @@ void TasFretPosWdg::loadLevel(TexamLevel level) {
 void TasFretPosWdg::whenParamsChanged() {
     asPosGr->asFretPosChB->setChecked(false);
     /** @todo remove this when asfretPos as answer & question
-                                               will be implement */
+                                               will be implement 
     if (!isNotSaved) {
         isNotSaved = true;
         emit asFretPosChanged();
@@ -467,4 +460,4 @@ void TasPlayedSound::saveLevel(TexamLevel &level) {
 void TasPlayedSound::checkOctaveChB(bool check) {
     octaveRequiredChB->setChecked(check);
 }
-
+*/
