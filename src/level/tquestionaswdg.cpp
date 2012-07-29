@@ -25,18 +25,22 @@ TquestionAsWdg::TquestionAsWdg(QWidget *parent) :
     QGroupBox(parent)
 {
     setStatusTip(tr("Select a type of answers for a question."));
-    QVBoxLayout *mainLay = new QVBoxLayout;
-    QLabel *answersLab = new QLabel(answersTxt() + ":",this);
-    mainLay->addWidget(answersLab,0,Qt::AlignCenter);
-    asNoteChB = new QCheckBox(asNoteTxt(), this);
+    QHBoxLayout *mainLay = new QHBoxLayout;
+//     QLabel *answersLab = new QLabel(answersTxt() + ":",this);
+//     mainLay->addWidget(answersLab,0,Qt::AlignCenter);
+//     asNoteChB = new QCheckBox(asNoteTxt(), this);
+    asNoteChB = new QCheckBox(this);
     mainLay->addWidget(asNoteChB);
-    asNameChB = new QCheckBox(asNameTxt(), this);
+//     asNameChB = new QCheckBox(asNameTxt(), this);
+    asNameChB = new QCheckBox(this);
     mainLay->addWidget(asNameChB);
-    asFretPosChB = new QCheckBox(asFretPosTxt(), this);
+//     asFretPosChB = new QCheckBox(asFretPosTxt(), this);
+    asFretPosChB = new QCheckBox(this);
     mainLay->addWidget(asFretPosChB);
-    asSoundChB = new QCheckBox(asSoundTxt(), this);
+//     asSoundChB = new QCheckBox(asSoundTxt(), this);
+    asSoundChB = new QCheckBox(this);
     mainLay->addWidget(asSoundChB);
-    mainLay->addStretch(1);
+//     mainLay->addStretch(1);
     setLayout(mainLay);
 
     setCheckable(true);
