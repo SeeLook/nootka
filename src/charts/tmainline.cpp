@@ -43,7 +43,7 @@ TmainLine::TmainLine(QList< TQAunit >* answers, Tchart* chart) :
     m_points <<  new TquestionPoint(this, &m_answers->operator[](i));
     m_chart->scene->addItem(m_points[i]);
     m_points[i]->setZValue(50);
-    m_points[i]->setPos(xPos, m_chart->yAxis->mapValue((double)m_answers->operator[](i).time / 10.0));
+    m_points[i]->setPos(xPos, m_chart->yAxis->mapValue(m_answers->operator[](i).getTime()));
     if (i) {
       TstaffLineChart *line = new TstaffLineChart();
   //        ll[i-1] = new QGraphicsLineItem();
@@ -77,7 +77,7 @@ TmainLine::TmainLine(QList< QList< TQAunit* > >& listOfLists, Tchart* chart) :
         m_points <<  new TquestionPoint(this, listOfLists[i].operator[](j));
         m_chart->scene->addItem(m_points[cnt]);
         m_points[cnt]->setZValue(50);
-        m_points[cnt]->setPos(xPos, m_chart->yAxis->mapValue((double)listOfLists[i].operator[](j)->time / 10.0));
+        m_points[cnt]->setPos(xPos, m_chart->yAxis->mapValue(listOfLists[i].operator[](j)->getTime()));
         if (cnt) {
          TstaffLineChart *line = new TstaffLineChart();
 //           ll[i-1] = new QGraphicsLineItem();

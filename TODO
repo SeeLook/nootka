@@ -1,8 +1,5 @@
 BUGS
     
-
-    effectivenes and formating results - do this in one place !!!
-
 TGLOBALS & TTUNE
     - let setTune has reference Ttune& as parameter
 
@@ -41,7 +38,6 @@ TSOUND
 
 
 TEXAMVIEW
-    - runtime change background color of counters
 
 TEXAMEXECUTOR
   - improve message over fingerboard - make it resizable with main widdow size
@@ -53,14 +49,14 @@ TEXAMEXECUTOR
      Also for qustions in "hint" - don't show octave when only name is required
   - when expert answers are selecting after confirm previous message over guiar is not cleaned after click next question
 
+TANALYSEDIALOG
+  - settings button icon when disabled is not resized with window size
 
 
 
 FOR WINDOWS
     - style ???
 
-Things need global rebuild:
-    4. Tglobals - permanent instance of QSettings - config
     
     
     

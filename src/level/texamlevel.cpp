@@ -122,9 +122,12 @@ bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
 
 bool TexamLevel::canBeScore() {
   if (questionAs.isNote() || 
-    answersAs[TQAtype::e_asName].isNote() || 
-    answersAs[TQAtype::e_asFretPos].isNote() ||
-    answersAs[TQAtype::e_asSound].isNote()  )
+    (questionAs.isName() && answersAs[TQAtype::e_asName].isNote()) || 
+    (questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isNote()) ||
+    (questionAs.isSound() && answersAs[TQAtype::e_asSound].isNote())  )
+    /** Checking is any question enabled first and then checking appropirate answer type.
+     * Despite of level creator disables all questions with empty answers (set to false)
+     * beter check this again to avoid further problems. */
       return true;
   else
       return false;
@@ -132,9 +135,9 @@ bool TexamLevel::canBeScore() {
 
 bool TexamLevel::canBeName() {
   if (questionAs.isName() || 
-    answersAs[TQAtype::e_asNote].isName() || 
-    answersAs[TQAtype::e_asFretPos].isName() ||
-    answersAs[TQAtype::e_asSound].isName()  )
+    (questionAs.isNote() && answersAs[TQAtype::e_asNote].isName()) || 
+    (questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isName()) ||
+    (questionAs.isSound() && answersAs[TQAtype::e_asSound].isName())  )
       return true;
   else
       return false;
@@ -142,9 +145,9 @@ bool TexamLevel::canBeName() {
 
 bool TexamLevel::canBeGuitar() {
   if (questionAs.isFret() || 
-    answersAs[TQAtype::e_asName].isFret() || 
-    answersAs[TQAtype::e_asNote].isFret() ||
-    answersAs[TQAtype::e_asSound].isFret()  )
+    (questionAs.isName() && answersAs[TQAtype::e_asName].isFret()) || 
+    (questionAs.isNote() && answersAs[TQAtype::e_asNote].isFret()) ||
+    (questionAs.isSound() && answersAs[TQAtype::e_asSound].isFret())  )
       return true;
   else
       return false;
@@ -152,9 +155,9 @@ bool TexamLevel::canBeGuitar() {
 
 bool TexamLevel::canBeSound() {
   if (questionAs.isSound() || 
-    answersAs[TQAtype::e_asName].isSound() || 
-    answersAs[TQAtype::e_asFretPos].isSound() ||
-    answersAs[TQAtype::e_asNote].isSound()  )
+    (questionAs.isName() && answersAs[TQAtype::e_asName].isSound()) || 
+    (questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isSound()) ||
+    (questionAs.isSound() && answersAs[TQAtype::e_asNote].isSound())  )
       return true;
   else
       return false;

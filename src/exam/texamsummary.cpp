@@ -134,8 +134,5 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
   
 }
 
-TexamSummary::~TexamSummary()
-{
-
-}
+TexamSummary::~TexamSummary() {}
 

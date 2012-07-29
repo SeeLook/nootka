@@ -57,21 +57,13 @@ MainWindow::MainWindow(QWidget *parent)
     
     setMinimumSize(640, 480);
     
-#if defined(Q_OS_WIN32) // I hate mess in Win registry
-    QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
-#else
-    QSettings sett;
-#endif
-
+    gl->config->beginGroup("General");
 #if defined(Q_OS_MAC)
-    sett.beginGroup("General");
-      setGeometry(sett.value("geometry", QRect(50, 50, 960, 720)).toRect());
-    sett.endGroup();
+    setGeometry(gl->config->value("geometry", QRect(50, 50, 960, 720)).toRect());
 #else
-    sett.beginGroup("General");
-      setGeometry(sett.value("geometry", QRect(50, 50, 800, 600)).toRect());
-    sett.endGroup();
+    setGeometry(gl->config->value("geometry", QRect(50, 50, 800, 600)).toRect());
 #endif
+    gl->config->endGroup();
 
     if (gl->isFirstRun) {
         TfirstRunWizzard *firstWizz = new TfirstRunWizzard();
@@ -79,11 +71,11 @@ MainWindow::MainWindow(QWidget *parent)
         delete firstWizz;
         gl->isFirstRun = false;
     } else { // show support window once but not with first run wizzard
-        sett.beginGroup("General");
-        setGeometry(sett.value("geometry", QRect(50, 50, 800, 600)).toRect());
-        if (sett.value("version", "").toString() != gl->version)
+        gl->config->beginGroup("General");
+        setGeometry(gl->config->value("geometry", QRect(50, 50, 800, 600)).toRect());
+        if (gl->config->value("version", "").toString() != gl->version)
           QTimer::singleShot(200, this, SLOT(showSupportDialog()));
-        sett.endGroup();
+        gl->config->endGroup();
     }
     TkeySignature::setNameStyle(gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
 
@@ -137,6 +129,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     examResults = new TexamView(innerWidget);
     examResults->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+    examResults->setStyleBg(gl->getBGcolorText(gl->EanswerColor), gl->getBGcolorText(gl->EquestionColor));
     nameLay->addWidget(examResults);
     noteName = new TnoteName(innerWidget);
     noteName->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
@@ -174,14 +167,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-#if defined(Q_OS_WIN32) // I hate mess in Win registry
-    QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
-#else
-    QSettings sett;
-#endif
-    sett.beginGroup("General");
-      sett.setValue("geometry", geometry());
-    sett.endGroup();
+    gl->config->beginGroup("General");
+      gl->config->setValue("geometry", geometry());
+    gl->config->endGroup();
     delete gl;
 }
 
@@ -306,6 +294,8 @@ void MainWindow::createSettingsDialog() {
         noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
         noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
         noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
+          // set new colors in exam view
+        examResults->setStyleBg(gl->getBGcolorText(gl->EanswerColor), gl->getBGcolorText(gl->EquestionColor));
         noteName->setAmbitus(gl->loString(),
                                Tnote(gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber));
         noteWasClicked(0, noteName->getNoteName(0)); //refresh name
@@ -435,14 +425,9 @@ void MainWindow::showSupportDialog() {
     sound->stopPlaying();
     TsupportStandalone *supp = new TsupportStandalone(gl->path, this);
     supp->exec();
-#if defined(Q_OS_WIN32) // I hate mess in Win registry
-    QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
-#else
-    QSettings sett;
-#endif
-    sett.beginGroup("General");
-      sett.setValue("version", gl->version);
-    sett.endGroup();
+    gl->config->beginGroup("General");
+      gl->config->setValue("version", gl->version);
+    gl->config->endGroup();
     delete supp;
     sound->go();
 }

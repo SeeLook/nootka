@@ -50,6 +50,15 @@ public:
 		    e_wrongNote = 64 // the highest crime  
     };
 
+        /** Returns string with time divided by 10. 
+        * Usually time is stored in value multipled by 10. 
+        * @param prec defines digit number after point. */
+    static QString timeToText(int time10, int prec = 1) { return QString("%1").arg((qreal)time10 / 10, 0, 'f', prec); }
+        /** Gives ready to insert string with time value. */
+    QString timeText() { return timeToText(time); }
+        /** Returns time value divaided by 10*/
+    double getTime() { return (double)time / 10.0; }
+    
     void setMistake(Emistake mis);
 
     TQAgroup qa;
@@ -57,8 +66,8 @@ public:
     TQAtype::Etype answerAs;
     Tnote::EnameStyle style;
     TkeySignature key;
-    quint16 time;
-    TQAgroup qa_2; // espected answers when question and answer are the same
+    quint16 time; // time of answer multiple by 10
+    TQAgroup qa_2; // espected answers when question and answer types are the same
 
     friend QDataStream &operator<< (QDataStream &out, TQAunit &qaUnit);
 //    friend QDataStream &operator>> (QDataStream &in, TQAunit &qaUnit);
