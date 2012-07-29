@@ -28,6 +28,34 @@ class QToolBox;
 class QRadioButton;
 class QGroupBox;
 
+        
+class questionsSettings : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit questionsSettings(QWidget *parent = 0);
+
+    void loadLevel(TexamLevel level);
+    void saveLevel(TexamLevel &level);
+
+signals:
+    void questSettChanged();
+
+private:
+//     QToolBox *questAsToolBox;
+//     QTabWidget *questAsToolBox;
+//     TasNoteWdg *asNoteWdg;
+//     TasNameWdg *asNameWdg;
+//     TasFretPosWdg *asFretPosWdg;
+//     TasPlayedSound *asPlayedSound;
+
+private slots:
+    void whenParamsChanged();
+
+};
+
+
+/*
 class TasNoteWdg : public QWidget
 {
     Q_OBJECT
@@ -52,14 +80,14 @@ private:
 
 private slots:
         /** is called when radio button are checked
-        * to enable/disable second TkeySignComboBox. */
+        * to enable/disable second TkeySignComboBox. 
     void keyRangeChanged();
         /** Is called when user changes any parameter.
-            It emits asNoteChanged() signal. */
+            It emits asNoteChanged() signal. 
     void whenParamsChanged();
         /** It is called when user changes TkeySignComboBox-es
         * and goal is to check sharps or flats, otherwiese exam level
-        * has no sense.*/
+        * has no sense.
     void keySignChanged();
 };
 
@@ -91,10 +119,10 @@ private:
 
 private slots:
         /** Is called to block styleRequiredChB when note name is
-            either question and answer.*/
+            either question and answer.
     void disableStyleChBox();
         /** Is called when user changes any parameter.
-            It emits asNameChanged signal. */
+            It emits asNameChanged signal. 
     void whenParamsChanged();
 
 };
@@ -119,7 +147,7 @@ private:
 
 private slots:
         /** Is called when user changes any parameter.
-            It emits asNameChanged signal. */
+            It emits asNameChanged signal. 
     void whenParamsChanged();
 
 };
@@ -149,35 +177,11 @@ private:
 
 private slots:
         /** Is called when user changes any parameter.
-            It emits asNameChanged signal. */
+            It emits asNameChanged signal. 
     void whenParamsChanged();
 
 };
 
-
-class questionsSettings : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit questionsSettings(QWidget *parent = 0);
-
-    void loadLevel(TexamLevel level);
-    void saveLevel(TexamLevel &level);
-
-signals:
-    void questSettChanged();
-
-private:
-    QToolBox *questAsToolBox;
-//     QTabWidget *questAsToolBox;
-    TasNoteWdg *asNoteWdg;
-    TasNameWdg *asNameWdg;
-    TasFretPosWdg *asFretPosWdg;
-    TasPlayedSound *asPlayedSound;
-
-private slots:
-    void whenParamsChanged();
-
-};
+*/
 
 #endif // QUESTIONSSETTINGS_H

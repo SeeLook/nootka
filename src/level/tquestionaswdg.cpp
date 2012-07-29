@@ -22,32 +22,39 @@
 
 
 
-TquestionAsWdg::TquestionAsWdg(QWidget *parent) :
-    QWidget(parent)
+TquestionAsWdg::TquestionAsWdg(QString title, QGridLayout* gridLay, int row, QWidget* parent) :
+    QObject(parent)
 {
-    setStatusTip(tr("Select a type of answers for a question."));
-    QHBoxLayout *mainLay = new QHBoxLayout;
-    mainLay->addStretch(1);
+//     setStatusTip(tr("Select a type of answers for a question."));
+//     QHBoxLayout *mainLay = new QHBoxLayout;
+//     mainLay->addStretch(1);
 //     QLabel *answersLab = new QLabel(answersTxt() + ":",this);
 //     mainLay->addWidget(answersLab,0,Qt::AlignCenter);
 //     asNoteChB = new QCheckBox(asNoteTxt(), this);
-    questLab = new QLabel("              ", this);
-    mainLay->addWidget(questLab);
-    enableChBox = new QCheckBox(this);
-    mainLay->addWidget(enableChBox);
-    asNoteChB = new QCheckBox(this);
-    mainLay->addWidget(asNoteChB);
+    questLab = new QLabel(title, parent);
+    questLab->setStatusTip(tr("Select a type of answers for a question."));
+    gridLay->addWidget(questLab, row, 0);
+//     mainLay->addWidget(questLab);
+    enableChBox = new QCheckBox(parent);
+    gridLay->addWidget(enableChBox, row, 1);
+//     mainLay->addWidget(enableChBox);
+    asNoteChB = new QCheckBox(parent);
+    gridLay->addWidget(asNoteChB, row, 2);
+//     mainLay->addWidget(asNoteChB);
 //     asNameChB = new QCheckBox(asNameTxt(), this);
-    asNameChB = new QCheckBox(this);
-    mainLay->addWidget(asNameChB);
+    asNameChB = new QCheckBox(parent);
+    gridLay->addWidget(asNameChB, row, 3);
+//     mainLay->addWidget(asNameChB);
 //     asFretPosChB = new QCheckBox(asFretPosTxt(), this);
-    asFretPosChB = new QCheckBox(this);
-    mainLay->addWidget(asFretPosChB);
+    asFretPosChB = new QCheckBox(parent);
+    gridLay->addWidget(asFretPosChB, row, 4);
+//     mainLay->addWidget(asFretPosChB);
 //     asSoundChB = new QCheckBox(asSoundTxt(), this);
-    asSoundChB = new QCheckBox(this);
-    mainLay->addWidget(asSoundChB);
-    mainLay->addStretch(1);
-    setLayout(mainLay);
+    asSoundChB = new QCheckBox(parent);
+    gridLay->addWidget(asSoundChB, row, 5);
+//     mainLay->addWidget(asSoundChB);
+//     mainLay->addStretch(1);
+//     setLayout(mainLay);
 
 //     setCheckable(true);
 

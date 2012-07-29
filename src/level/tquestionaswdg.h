@@ -21,16 +21,17 @@
 #define TQUESTIONASWDG_H
 
 #include "tqatype.h"
-#include <QWidget>
+#include <QObject>
 #include <QCheckBox>
 
+class QGridLayout;
 class QLabel;
 
-class TquestionAsWdg : public QWidget
+class TquestionAsWdg : public QObject
 {
     Q_OBJECT
 public:
-    explicit TquestionAsWdg(QWidget *parent = 0);
+    explicit TquestionAsWdg(QString title, QGridLayout *gridLay, int row, QWidget *parent = 0);
 
     static QString questionTxt() { return tr("question"); } // question
     static QString questionsTxt() { return tr("questions"); } // questions
