@@ -207,71 +207,66 @@ void Tglobals::setTune(Ttune t) {
 }
 
 void Tglobals::storeSettings() {
-#if defined(Q_OS_WIN32) // I hate mess in Windows registry
-    QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
-#else
-    QSettings sett;
-#endif
-    sett.beginGroup("common");
-        sett.setValue("enableHints", hintsEnabled);
-        sett.setValue("isFirstRun", isFirstRun);
-        sett.setValue("doubleAccidentals", doubleAccidentalsEnabled);
-        sett.setValue("showEnaharmonicNotes", showEnharmNotes);
-        sett.setValue("enharmonicNotesColor", enharmNotesColor);
-        sett.setValue("is7thNote_B", seventhIs_B);
-        sett.setValue("language", lang);
-    sett.endGroup();
+    config->beginGroup("common");
+        config->setValue("enableHints", hintsEnabled);
+        config->setValue("isFirstRun", isFirstRun);
+        config->setValue("doubleAccidentals", doubleAccidentalsEnabled);
+        config->setValue("showEnaharmonicNotes", showEnharmNotes);
+        config->setValue("enharmonicNotesColor", enharmNotesColor);
+        config->setValue("is7thNote_B", seventhIs_B);
+        config->setValue("language", lang);
+    config->endGroup();
 
-    sett.beginGroup("score");
-        sett.setValue("keySignature", SkeySignatureEnabled);
-        sett.setValue("keyName", SshowKeySignName);
-        sett.setValue("nameStyleInKey", (int)SnameStyleInKeySign);
+    config->beginGroup("score");
+        config->setValue("keySignature", SkeySignatureEnabled);
+        config->setValue("keyName", SshowKeySignName);
+        config->setValue("nameStyleInKey", (int)SnameStyleInKeySign);
 		QString majS, minS;
 		if (SmajKeyNameSufix != TkeySignature::majorSufixTxt()) majS = SmajKeyNameSufix;
 		else majS = ""; // default sufixes are reset to be translateable in next run
-        sett.setValue("majorKeysSufix", majS);
+        config->setValue("majorKeysSufix", majS);
 		if (SminKeyNameSufix != TkeySignature::minorSufixTxt()) minS = SminKeyNameSufix;
 		else minS = "";
-        sett.setValue("minorKeysSufix", minS);
-        sett.setValue("pointerColor", SpointerColor);
-    sett.endGroup();
+        config->setValue("minorKeysSufix", minS);
+        config->setValue("pointerColor", SpointerColor);
+    config->endGroup();
   
-    sett.beginGroup("noteName");
-        sett.setValue("nameStyle", (int)NnameStyleInNoteName);
-        sett.setValue("octaveInName", NoctaveInNoteNameFormat);
-    sett.endGroup();
+    config->beginGroup("noteName");
+        config->setValue("nameStyle", (int)NnameStyleInNoteName);
+        config->setValue("octaveInName", NoctaveInNoteNameFormat);
+    config->endGroup();
     
-    sett.beginGroup("guitar");
-        sett.setValue("fretNumber", (int)GfretsNumber);
-        sett.setValue("rightHanded", GisRightHanded);
-        sett.setValue("showOtherPos", GshowOtherPos);
-        sett.setValue("fingerColor", GfingerColor);
-        sett.setValue("selectedColor", GselectedColor);
-        sett.setValue("tune", qVariantFromValue(Gtune()));
-        sett.setValue("flatsPrefered", GpreferFlats);
-    sett.endGroup();
+    config->beginGroup("guitar");
+        config->setValue("fretNumber", (int)GfretsNumber);
+        config->setValue("rightHanded", GisRightHanded);
+        config->setValue("showOtherPos", GshowOtherPos);
+        config->setValue("fingerColor", GfingerColor);
+        config->setValue("selectedColor", GselectedColor);
+        config->setValue("tune", qVariantFromValue(Gtune()));
+        config->setValue("flatsPrefered", GpreferFlats);
+    config->endGroup();
 
-    sett.beginGroup("exam");
-        sett.setValue("questionColor", EquestionColor);
-        sett.setValue("answerColor", EanswerColor);
-        sett.setValue("autoNextQuest", E->autoNextQuest);
-        sett.setValue("repeatIncorrect", E->repeatIncorrect);
-        sett.setValue("expertsAnswerEnable", E->expertsAnswerEnable);
-        sett.setValue("askAboutExpert", E->askAboutExpert);
-        sett.setValue("showHelpOnStart", E->showHelpOnStart);
-        sett.setValue("studentName", E->studentName);
-    sett.endGroup();
+    config->beginGroup("exam");
+        config->setValue("questionColor", EquestionColor);
+        config->setValue("answerColor", EanswerColor);
+        config->setValue("autoNextQuest", E->autoNextQuest);
+        config->setValue("repeatIncorrect", E->repeatIncorrect);
+        config->setValue("expertsAnswerEnable", E->expertsAnswerEnable);
+        config->setValue("askAboutExpert", E->askAboutExpert);
+        config->setValue("showHelpOnStart", E->showHelpOnStart);
+        config->setValue("studentName", E->studentName);
+    config->endGroup();
 
-    sett.beginGroup("sound");
-        sett.setValue("outSoundEnabled", A->OUTenabled);
-        sett.setValue("outDeviceName", A->OUTdevName);
-        sett.setValue("midiEnabled", A->midiEnabled);
-        sett.setValue("midiPortName", A->midiPortName);
-        sett.setValue("midiInstrumentNr", (int)A->midiInstrNr);
-        sett.setValue("inSoundEnabled", A->INenabled);
-        sett.setValue("inDeviceName", A->INdevName);
-        sett.setValue("isVoice", A->isVoice);
-        sett.setValue("noiseLevel", A->noiseLevel);      
-        sett.setValue("a440Offset", A->a440diff);
-    sett.endGroup();
+    config->beginGroup("sound");
+        config->setValue("outSoundEnabled", A->OUTenabled);
+        config->setValue("outDeviceName", A->OUTdevName);
+        config->setValue("midiEnabled", A->midiEnabled);
+        config->setValue("midiPortName", A->midiPortName);
+        config->setValue("midiInstrumentNr", (int)A->midiInstrNr);
+        config->setValue("inSoundEnabled", A->INenabled);
+        config->setValue("inDeviceName", A->INdevName);
+        config->setValue("isVoice", A->isVoice);
+        config->setValue("noiseLevel", A->noiseLevel);      
+        config->setValue("a440Offset", A->a440diff);
+    config->endGroup();
 }

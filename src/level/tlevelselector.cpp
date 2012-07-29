@@ -237,12 +237,7 @@ void TlevelSelector::findLevels() {
   // from constructor
     addLevel(lev);
   // from setting file - recent load/saved levels
-#if defined(Q_OS_WIN32) // I hate mess in Win registry
-    QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
-#else
-    QSettings sett;
-#endif
-    QStringList recentLevels = sett.value("recentLevels").toStringList();
+    QStringList recentLevels = gl->config->value("recentLevels").toStringList();
     for (int i = recentLevels.size()-1; i >= 0; i--) {
         QFile file(recentLevels[i]);
         if (file.exists()) {
@@ -255,7 +250,7 @@ void TlevelSelector::findLevels() {
         } else
             recentLevels.removeAt(i);
     }
-    sett.setValue("recentLevels", recentLevels);
+    gl->config->setValue("recentLevels", recentLevels);
 }
 
 void TlevelSelector::addLevel(const TexamLevel &lev) {
@@ -339,15 +334,10 @@ TexamLevel TlevelSelector::getSelectedLevel() {
 }
 
 void TlevelSelector::updateRecentLevels(QString levelFile) {
-#if defined(Q_OS_WIN32) // I hate mess in Win registry
-    QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
-#else
-    QSettings sett;
-#endif
-    QStringList recentLevels = sett.value("recentLevels").toStringList();
+    QStringList recentLevels = gl->config->value("recentLevels").toStringList();
     recentLevels.removeAll(levelFile);
     recentLevels.prepend(levelFile);
-    sett.setValue("recentLevels", recentLevels);
+    gl->config->setValue("recentLevels", recentLevels);
 }
 
 //#########################  TlevelSummaryWdg ################################################
