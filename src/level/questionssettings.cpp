@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -25,43 +25,60 @@ extern bool isNotSaved;
 questionsSettings::questionsSettings(QWidget *parent) :
     QWidget(parent)
 {
-    questAsToolBox = new QToolBox(this);
-//     questAsToolBox = new QTabWidget(this);
+//     questAsToolBox = new QToolBox(this);
     QVBoxLayout *mainLay = new QVBoxLayout;
-    QLabel *headLab = new QLabel("<b>"+QString(TquestionAsWdg::questionsTxt()).toUpper() + "</b>", this);
-    mainLay->addWidget(headLab, 0, Qt::AlignCenter);
-    mainLay->addWidget(questAsToolBox);
+//     QLabel *headLab = new QLabel("<b>"+QString(TquestionAsWdg::questionsTxt()).toUpper() + "</b>", this);
+//     mainLay->addWidget(headLab, 0, Qt::AlignCenter);
+    QGridLayout *qaLay = new QGridLayout();
+    TquestionAsWdg *asNoteWdg = new TquestionAsWdg(this);
+    QLabel *asNoteLab = new QLabel(TquestionAsWdg::asNoteTxt(), this);
+    qaLay->addWidget(asNoteLab, 0, 0);
+    qaLay->addWidget(asNoteWdg, 0, 1);
+    
+    TquestionAsWdg *asNameWdg = new TquestionAsWdg(this);
+    QLabel *asNameLab = new QLabel(TquestionAsWdg::asNameTxt(), this);
+    qaLay->addWidget(asNameLab, 1, 0);
+    qaLay->addWidget(asNameWdg, 1, 1);
+    
+    TquestionAsWdg *asFretPosWdg = new TquestionAsWdg(this);
+    QLabel *asFretPosLab = new QLabel(TquestionAsWdg::asFretPosTxt(), this);
+    qaLay->addWidget(asFretPosLab, 2, 0);
+    qaLay->addWidget(asFretPosWdg, 2, 1);
+    
+    TquestionAsWdg *asSoundWdg = new TquestionAsWdg(this);
+    QLabel *asSoundLab = new QLabel(TquestionAsWdg::asSoundTxt(), this);
+    qaLay->addWidget(asSoundLab, 3, 0);
+    qaLay->addWidget(asSoundWdg, 3, 1);
+    
+//     mainLay->addWidget(questAsToolBox);
+    mainLay->addLayout(qaLay);
     setLayout(mainLay);
 
-    asNoteWdg = new TasNoteWdg();
-    asNameWdg = new TasNameWdg();
-    asFretPosWdg = new TasFretPosWdg();
-    asPlayedSound = new TasPlayedSound();
+//     asNoteWdg = new TasNoteWdg();
+//     asNameWdg = new TasNameWdg();
+//     asFretPosWdg = new TasFretPosWdg();
+//     asPlayedSound = new TasPlayedSound();
 
-    questAsToolBox->addItem(asNoteWdg, TquestionAsWdg::asNoteTxt());
-    questAsToolBox->addItem(asNameWdg, TquestionAsWdg::asNameTxt());
-    questAsToolBox->addItem(asFretPosWdg, TquestionAsWdg::asFretPosTxt());
-    questAsToolBox->addItem(asPlayedSound, TquestionAsWdg::asSoundTxt());
-//     questAsToolBox->addTab(asNoteWdg, TquestionAsWdg::asNoteTxt());
-//     questAsToolBox->addTab(asNameWdg, TquestionAsWdg::asNameTxt());
-//     questAsToolBox->addTab(asFretPosWdg, TquestionAsWdg::asFretPosTxt());
-//     questAsToolBox->addTab(asPlayedSound, TquestionAsWdg::asSoundTxt());
+//     questAsToolBox->addItem(asNoteWdg, TquestionAsWdg::asNoteTxt());
+//     questAsToolBox->addItem(asNameWdg, TquestionAsWdg::asNameTxt());
+//     questAsToolBox->addItem(asFretPosWdg, TquestionAsWdg::asFretPosTxt());
+//     questAsToolBox->addItem(asPlayedSound, TquestionAsWdg::asSoundTxt());
 
-    connect(asNoteWdg, SIGNAL(asNoteChanged()), this, SLOT(whenParamsChanged()));
-    connect(asNameWdg, SIGNAL(asNameChanged()), this, SLOT(whenParamsChanged()));
-    connect(asFretPosWdg, SIGNAL(asFretPosChanged()), this, SLOT(whenParamsChanged()));
-    connect(asPlayedSound, SIGNAL(asPlayedSoundChanged()), this, SLOT(whenParamsChanged()));
-    
-    connect(asNameWdg->octaveRequiredChB, SIGNAL(clicked(bool)), asPlayedSound, SLOT(checkOctaveChB(bool)));
-    connect(asPlayedSound->octaveRequiredChB, SIGNAL(clicked(bool)), asNameWdg, SLOT(checkOctaveChB(bool)));
+//     connect(asNoteWdg, SIGNAL(asNoteChanged()), this, SLOT(whenParamsChanged()));
+//     connect(asNameWdg, SIGNAL(asNameChanged()), this, SLOT(whenParamsChanged()));
+//     connect(asFretPosWdg, SIGNAL(asFretPosChanged()), this, SLOT(whenParamsChanged()));
+//     connect(asPlayedSound, SIGNAL(asPlayedSoundChanged()), this, SLOT(whenParamsChanged()));
+//     
+//     connect(asNameWdg->octaveRequiredChB, SIGNAL(clicked(bool)), asPlayedSound, SLOT(checkOctaveChB(bool)));
+//     connect(asPlayedSound->octaveRequiredChB, SIGNAL(clicked(bool)), asNameWdg, SLOT(checkOctaveChB(bool)));
 
 }
 
 void questionsSettings::loadLevel(TexamLevel level) {
-    asNoteWdg->loadLevel(level);
-    asNameWdg->loadLevel(level);
-    asFretPosWdg->loadLevel(level);
-    asPlayedSound->loadLevel(level);
+//     asNoteWdg->loadLevel(level);
+//     asNameWdg->loadLevel(level);
+//     asFretPosWdg->loadLevel(level);
+//     asPlayedSound->loadLevel(level);
 }
 
 void questionsSettings::whenParamsChanged() {
@@ -69,10 +86,10 @@ void questionsSettings::whenParamsChanged() {
 }
 
 void questionsSettings::saveLevel(TexamLevel &level) {
-    asNoteWdg->saveLevel(level);
-    asNameWdg->saveLevel(level);
-    asFretPosWdg->saveLevel(level);
-    asPlayedSound->saveLevel(level);
+//     asNoteWdg->saveLevel(level);
+//     asNameWdg->saveLevel(level);
+//     asFretPosWdg->saveLevel(level);
+//     asPlayedSound->saveLevel(level);
 }
 
 //############################# AS NOTE IN A SCORE ###################################
