@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -25,10 +25,7 @@
 #include <QTimer>
 
 
-//class QLCDNumber;
 class QLabel;
-class QTime;
-class QTimer;
 
     /** A @class TexamView represents status of exam.
     * It displays times and numbers of valid/invalid questions.
@@ -39,14 +36,15 @@ class TexamView : public QWidget
 public:
     explicit TexamView(QWidget *parent = 0);
     
-    static const QString averAnsverTimeTxt() { return tr("Average time of an answer"); }
-    static const QString inSecondsTxt() { return tr("[in seconds]"); }
-    static const QString reactTimeTxt() { return tr("Time of an answer"); }
-    static const QString mistakesNrTxt() { return tr("Number of mistakes"); }
-    static const QString totalTimetxt() { return tr("Total time of an exam"); }
-    static const QString corrAnswersNrTxt() { return tr("Number of correct answers"); }
-    static const QString effectTxt() { return tr("Effectiveness"); }
+    static const QString averAnsverTimeTxt() { return tr("Average time of an answer"); } // Average time of an answer
+    static const QString inSecondsTxt() { return tr("[in seconds]"); } // [in seconds]
+    static const QString reactTimeTxt() { return tr("Time of an answer"); } // Time of an answer
+    static const QString mistakesNrTxt() { return tr("Number of mistakes"); } // Number of mistakes
+    static const QString totalTimetxt() { return tr("Total time of an exam"); } // Total time of an exam
+    static const QString corrAnswersNrTxt() { return tr("Number of correct answers"); } // Number of correct answers
+    static const QString effectTxt() { return tr("Effectiveness"); } // Effectiveness
     
+      /** Returns time given in milisec. in format h:mm:ss */
     static QString formatedTotalTime(int t) { return QString("%1:%2:%3")
             .arg(t/3600000)
             .arg((t%3600000)/60000, 2, 'f', 0, '0')
@@ -61,11 +59,14 @@ public:
     void stopExam() { m_timer->stop(); }
         /** This method returns rounded average time. It is only for exam preview.*/
     quint16 getAverageTime() { return (quint16)qRound(m_averTime); }
-//     quint32 getTotalTime() {return m_totElapsedTime + quint32(m_totalTime.hour() * 3600 +
-//                                    m_totalTime.minute() *60 + m_totalTime.second()); }
     quint32 getTotalTime() {return m_totElapsedTime + quint32(m_totalTime.elapsed() / 1000); }
     quint16 getMistakesNumber() {return (quint16)m_mistakes; }
     void clearResults();
+        /** Sets background of mistakes/correct answers number Qlabel.
+         * Backgroun color is directly inserted to setStyleSheet so 
+         * it has to be given in format: 
+         * background-color: rgba(red, green, blue, alpha) */
+    void setStyleBg(QString okBg, QString wrongBg, QString notBadBg = "");
 
 signals:
 
@@ -74,7 +75,6 @@ public slots:
 private:
     bool m_showReact;
 
-//    QLCDNumber *m_averTime, /**m_reactTimeLCD,*/ *m_totalTime;
     QLabel *m_reactTimeLab, *m_averTimeLab, *m_totalTimeLab;
     QLabel *m_mistLab, *m_corrLab, *m_effLab;
     QTime m_reactTime;

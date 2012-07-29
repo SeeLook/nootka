@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,16 +12,14 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
 
 #include "texamview.h"
-#include "tglobals.h"
 #include <QtGui>
 
-extern Tglobals *gl;
 
 TexamView::TexamView(QWidget *parent) :
     QWidget(parent)
@@ -80,9 +78,7 @@ TexamView::TexamView(QWidget *parent) :
     clearResults();
 
     m_corrLab->setStatusTip(corrAnswersNrTxt());
-    m_corrLab->setStyleSheet(gl->getBGcolorText(gl->EanswerColor));
     m_mistLab->setStatusTip(mistakesNrTxt());
-    m_mistLab->setStyleSheet(gl->getBGcolorText(gl->EquestionColor));
     m_effLab->setStatusTip(effectTxt());
     m_averTimeLab->setStatusTip(averAnsverTimeTxt() + " " + inSecondsTxt());
     m_averTimeLab->setAlignment(Qt::AlignCenter);
@@ -96,6 +92,12 @@ TexamView::TexamView(QWidget *parent) :
 
 }
 
+void TexamView::setStyleBg(QString okBg, QString wrongBg, QString notBadBg) {
+    Q_UNUSED(notBadBg)
+    m_corrLab->setStyleSheet(okBg);
+    m_mistLab->setStyleSheet(wrongBg);    
+}
+
 void TexamView::questionStart() {
     m_reactTime.start();
     m_showReact = true;
@@ -106,7 +108,7 @@ void TexamView::questionStart() {
 quint16 TexamView::questionStop() {
     m_showReact = false;
     quint16 t = qRound(m_reactTime.elapsed() / 100);
-    m_reactTimeLab->setText(QString("%1").arg((qreal)t/10, 0, 'f', 1));
+    m_reactTimeLab->setText(QString("%1").arg((qreal) t /10, 0, 'f', 1));
     m_averTime = (m_averTime * (m_questNr-1) + t) / m_questNr;
     m_averTimeLab->setText(QString("%1").arg((qreal)qRound(m_averTime)/10));
     return t;
@@ -115,7 +117,7 @@ quint16 TexamView::questionStop() {
 void TexamView::startExam(int passTimeInSec, int questNumber, int averTime, int mistakes) {
     m_questNr = questNumber;
     m_totElapsedTime = passTimeInSec;
-    m_totalTime = QTime(0,0);
+    m_totalTime = QTime(0, 0);
     m_averTime = averTime;
     m_mistakes = mistakes;
     m_showReact = false;
@@ -155,9 +157,6 @@ void TexamView::countTime() {
     if (m_showReact)
         m_reactTimeLab->setText(QString("%1").arg(m_reactTime.elapsed() / 1000, 0, 'f', 1, '0'));
     m_totalTimeLab->setText(formatedTotalTime(m_totElapsedTime*1000 + m_totalTime.elapsed()));
-//     int t = m_totElapsedTime*1000 + m_totalTime.elapsed();
-//    m_totalTimeLab->setText(m_totalTime.toString("hh:mm:ss"));
-//     m_totalTimeLab->setText(QString("%1:%2:%3").arg(t/3600000).arg((t%3600000)/60000, 2, 'f', 0, '0').arg((t%60000)/1000, 2, 'f', 0, '0'));
 }
 
 void TexamView::clearResults() {
