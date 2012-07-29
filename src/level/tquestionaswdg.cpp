@@ -21,14 +21,20 @@
 #include <QtGui>
 
 
+
 TquestionAsWdg::TquestionAsWdg(QWidget *parent) :
-    QGroupBox(parent)
+    QWidget(parent)
 {
     setStatusTip(tr("Select a type of answers for a question."));
     QHBoxLayout *mainLay = new QHBoxLayout;
+    mainLay->addStretch(1);
 //     QLabel *answersLab = new QLabel(answersTxt() + ":",this);
 //     mainLay->addWidget(answersLab,0,Qt::AlignCenter);
 //     asNoteChB = new QCheckBox(asNoteTxt(), this);
+    questLab = new QLabel("              ", this);
+    mainLay->addWidget(questLab);
+    enableChBox = new QCheckBox(this);
+    mainLay->addWidget(enableChBox);
     asNoteChB = new QCheckBox(this);
     mainLay->addWidget(asNoteChB);
 //     asNameChB = new QCheckBox(asNameTxt(), this);
@@ -40,31 +46,34 @@ TquestionAsWdg::TquestionAsWdg(QWidget *parent) :
 //     asSoundChB = new QCheckBox(asSoundTxt(), this);
     asSoundChB = new QCheckBox(this);
     mainLay->addWidget(asSoundChB);
-//     mainLay->addStretch(1);
+    mainLay->addStretch(1);
     setLayout(mainLay);
 
-    setCheckable(true);
+//     setCheckable(true);
 
     connect(asNoteChB, SIGNAL(clicked()), this, SLOT(buttonClicked()));
     connect(asNameChB, SIGNAL(clicked()), this, SLOT(buttonClicked()));
     connect(asFretPosChB, SIGNAL(clicked()), this, SLOT(buttonClicked()));
     connect(asSoundChB, SIGNAL(clicked()), this, SLOT(buttonClicked()));
 
-    connect(this, SIGNAL(clicked()), this, SLOT(groupChecked()));
+//     connect(this, SIGNAL(clicked()), this, SLOT(groupChecked()));
+    connect(enableChBox, SIGNAL(clicked()), this, SLOT(groupChecked()));
 
 }
 
 void TquestionAsWdg::buttonClicked() {
     if (!asNoteChB->isChecked() && !asNameChB->isChecked() && !asFretPosChB->isChecked()
         && !asSoundChB->isChecked())
-        setChecked(false);
+//         setChecked(false);
+    enableChBox->setChecked(false);
     emit answerStateChanged();
 }
 
 
 
 void TquestionAsWdg::groupChecked() {
-    if (isChecked()) {
+//     if (isChecked()) {
+  if (enableChBox->isChecked()) {
         asNoteChB->setChecked(true);
         asNameChB->setChecked(true);
         asFretPosChB->setChecked(true);
@@ -91,4 +100,8 @@ TQAtype TquestionAsWdg::getAnswers() {
     t.setAsFret(asFretPosChB->isChecked());
     t.setAsSound(asSoundChB->isChecked());
     return t;
+}
+
+void TquestionAsWdg::setTitle(QString title) {
+  questLab->setText(title);
 }

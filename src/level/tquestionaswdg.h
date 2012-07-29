@@ -21,13 +21,12 @@
 #define TQUESTIONASWDG_H
 
 #include "tqatype.h"
-#include <QGroupBox>
+#include <QWidget>
 #include <QCheckBox>
 
-class QCheckBox;
+class QLabel;
 
-
-class TquestionAsWdg : public QGroupBox
+class TquestionAsWdg : public QWidget
 {
     Q_OBJECT
 public:
@@ -46,11 +45,17 @@ public:
     bool answerAsName() { return asNameChB->isChecked(); }
     bool answerAsPos() { return asFretPosChB->isChecked(); }
     bool answerAsSound() { return asSoundChB->isChecked(); }
+    
+    void setChecked(bool checked) { enableChBox->setChecked(checked); }
+    bool isChecked() { return enableChBox->isChecked(); }
+    void setTitle(QString title);
+    
 
     void setAnswers(TQAtype types);
     TQAtype getAnswers();
 
-    QCheckBox *asNoteChB, *asNameChB, *asFretPosChB, *asSoundChB;
+    QCheckBox *enableChBox, *asNoteChB, *asNameChB, *asFretPosChB, *asSoundChB;
+    QLabel *questLab;
 
 signals:
         /** This signal is emited when any QCheckBox changes his state. */

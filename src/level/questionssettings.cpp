@@ -31,23 +31,23 @@ questionsSettings::questionsSettings(QWidget *parent) :
 //     mainLay->addWidget(headLab, 0, Qt::AlignCenter);
     QGridLayout *qaLay = new QGridLayout();
     TquestionAsWdg *asNoteWdg = new TquestionAsWdg(this);
-    QLabel *asNoteLab = new QLabel(TquestionAsWdg::asNoteTxt(), this);
-    qaLay->addWidget(asNoteLab, 0, 0);
+//     QLabel *asNoteLab = new QLabel(TquestionAsWdg::asNoteTxt(), this);
+//     qaLay->addWidget(asNoteLab, 0, 0);
     qaLay->addWidget(asNoteWdg, 0, 1);
     
     TquestionAsWdg *asNameWdg = new TquestionAsWdg(this);
-    QLabel *asNameLab = new QLabel(TquestionAsWdg::asNameTxt(), this);
-    qaLay->addWidget(asNameLab, 1, 0);
+//     QLabel *asNameLab = new QLabel(TquestionAsWdg::asNameTxt(), this);
+//     qaLay->addWidget(asNameLab, 1, 0);
     qaLay->addWidget(asNameWdg, 1, 1);
     
     TquestionAsWdg *asFretPosWdg = new TquestionAsWdg(this);
-    QLabel *asFretPosLab = new QLabel(TquestionAsWdg::asFretPosTxt(), this);
-    qaLay->addWidget(asFretPosLab, 2, 0);
+//     QLabel *asFretPosLab = new QLabel(TquestionAsWdg::asFretPosTxt(), this);
+//     qaLay->addWidget(asFretPosLab, 2, 0);
     qaLay->addWidget(asFretPosWdg, 2, 1);
     
     TquestionAsWdg *asSoundWdg = new TquestionAsWdg(this);
-    QLabel *asSoundLab = new QLabel(TquestionAsWdg::asSoundTxt(), this);
-    qaLay->addWidget(asSoundLab, 3, 0);
+//     QLabel *asSoundLab = new QLabel(TquestionAsWdg::asSoundTxt(), this);
+//     qaLay->addWidget(asSoundLab, 3, 0);
     qaLay->addWidget(asSoundWdg, 3, 1);
     
 //     mainLay->addWidget(questAsToolBox);
