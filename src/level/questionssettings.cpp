@@ -30,9 +30,12 @@ questionsSettings::questionsSettings(QWidget *parent) :
 
     QGridLayout *qaLay = new QGridLayout();
     
-    QLabel *qLab = new QLabel(TquestionAsWdg::questionsTxt().toUpper(), this);
+    QLabel *qLab = new QLabel("<b>" + TquestionAsWdg::questionsTxt().toUpper() + "</b>", this);
     qaLay->addWidget(qLab, 0, 0);
     TverticalLabel *aLab = new TverticalLabel(TquestionAsWdg::answersTxt().toUpper(), this);
+    QFont f = font();
+    f.setBold(true);
+    aLab->setFont(f);
     qaLay->addWidget(aLab, 0, 1);
     TverticalLabel *asNoteLab = new TverticalLabel(TquestionAsWdg::asNoteTxt(), this);
     qaLay->addWidget(asNoteLab, 0, 2);
@@ -109,9 +112,9 @@ TverticalLabel::TverticalLabel(QString text, QWidget* parent) :
 void TverticalLabel::paintEvent(QPaintEvent* ) {
     QPainter painter(this);
     painter.save();
-//     painter.translate(x, y);
-    painter.rotate(90); // angle
-    painter.drawText(m_rect, m_text);
+    painter.translate(width() / 2, height() / 2);
+    painter.rotate(270); // angle
+    painter.drawText( height() / (-2), 0 , m_text);
     painter.restore();
 }
 
