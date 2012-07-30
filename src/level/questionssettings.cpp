@@ -29,22 +29,24 @@ questionsSettings::questionsSettings(QWidget *parent) :
     QVBoxLayout *mainLay = new QVBoxLayout;    
 
     QGridLayout *qaLay = new QGridLayout();
+    qaLay->setAlignment(Qt::AlignCenter);
+    qaLay->setSpacing(10);
     
     QLabel *qLab = new QLabel("<b>" + TquestionAsWdg::questionsTxt().toUpper() + "</b>", this);
-    qaLay->addWidget(qLab, 0, 0);
+    qaLay->addWidget(qLab, 0, 0, Qt::AlignBottom | Qt::AlignRight);
     TverticalLabel *aLab = new TverticalLabel(TquestionAsWdg::answersTxt().toUpper(), this);
     QFont f = font();
     f.setBold(true);
     aLab->setFont(f);
-    qaLay->addWidget(aLab, 0, 1);
+    qaLay->addWidget(aLab, 0, 1, Qt::AlignBottom);
     TverticalLabel *asNoteLab = new TverticalLabel(TquestionAsWdg::asNoteTxt(), this);
-    qaLay->addWidget(asNoteLab, 0, 2);
+    qaLay->addWidget(asNoteLab, 0, 2, Qt::AlignBottom);
     TverticalLabel *asNameLab = new TverticalLabel(TquestionAsWdg::asNameTxt(), this);
-    qaLay->addWidget(asNameLab, 0, 3);
+    qaLay->addWidget(asNameLab, 0, 3, Qt::AlignBottom);
     TverticalLabel *asFretLab = new TverticalLabel(TquestionAsWdg::asFretPosTxt(), this);
-    qaLay->addWidget(asFretLab, 0, 4);
+    qaLay->addWidget(asFretLab, 0, 4, Qt::AlignBottom);
     TverticalLabel *asSoundLab = new TverticalLabel(TquestionAsWdg::asSoundTxt(), this);
-    qaLay->addWidget(asSoundLab, 0, 5);
+    qaLay->addWidget(asSoundLab, 0, 5, Qt::AlignBottom);
     
     TquestionAsWdg *asNoteWdg = new TquestionAsWdg(TquestionAsWdg::asNoteTxt(), qaLay, 1, this);
     
@@ -53,10 +55,64 @@ questionsSettings::questionsSettings(QWidget *parent) :
     TquestionAsWdg *asFretPosWdg = new TquestionAsWdg(TquestionAsWdg::asFretPosTxt(), qaLay, 3, this);
     
     TquestionAsWdg *asSoundWdg = new TquestionAsWdg(TquestionAsWdg::asSoundTxt(), qaLay, 4, this);
-    
 //     mainLay->addStretch(1);
     mainLay->addLayout(qaLay);
 //     mainLay->addStretch(1);
+    
+    QHBoxLayout *upperLay = new QHBoxLayout;
+    
+    QHBoxLayout *keyLay = new QHBoxLayout;
+    m_keySignGr = new QGroupBox(tr("use keys singature"),this);
+    m_keySignGr->setCheckable(true);
+
+    QVBoxLayout *rangeLay = new QVBoxLayout;
+    rangeLay->setAlignment(Qt::AlignCenter);
+    m_singleKeyRadio = new QRadioButton(tr("single key"),this);
+    m_singleKeyRadio->setStatusTip(tr("only one, selected key signature<br>for whole exam."));
+    m_rangeKeysRadio = new QRadioButton(tr("range of keys"),this);
+    m_rangeKeysRadio->setStatusTip(tr("random key signature from selected range."));
+    rangeButGr = new QButtonGroup(this);
+    rangeButGr->addButton(m_singleKeyRadio);
+    rangeButGr->addButton(m_rangeKeysRadio);
+    rangeLay->addWidget(m_singleKeyRadio,0,Qt::AlignCenter);
+    rangeLay->addWidget(m_rangeKeysRadio,0,Qt::AlignCenter);
+    QHBoxLayout *comboLay = new QHBoxLayout;
+    fromKeyCombo = new TkeySignComboBox(this);
+    fromKeyCombo->setStatusTip(tr("Select a key signature.<br>Apropirate accidentals used in exam<br>will be automatically selected !"));
+    toKeyCombo = new TkeySignComboBox(this);
+    toKeyCombo->setStatusTip(fromKeyCombo->statusTip());
+    comboLay->addWidget(fromKeyCombo);
+    QLabel *ll = new QLabel(" - ", this);
+    comboLay->addWidget(ll);
+    comboLay->addWidget(toKeyCombo);
+    rangeLay->addLayout(comboLay);
+    rangeLay->addStretch(1);
+    keyInAnswerChB = new QCheckBox(tr("select a key signature manually"),this);
+    keyInAnswerChB->setStatusTip(tr("if checked, in exam user have to select a key signature,<br>otherwise it is shown by application."));
+    rangeLay->addWidget(keyInAnswerChB,0,Qt::AlignCenter);
+    keyLay->addLayout(rangeLay);
+    keyLay->addStretch(1);
+
+    m_keySignGr->setLayout(keyLay);
+    upperLay->addWidget(m_keySignGr);
+
+    
+    QVBoxLayout *accLay = new QVBoxLayout;
+    sharpsChB = new QCheckBox(tr("# - sharps"),this);
+    sharpsChB->setStatusTip(tr("Sharps will be uesd in exam's questions and answers.<br>It has to be checked, if keys with sharps are used."));
+    flatsChB = new QCheckBox(tr("b - flats"),this);
+    flatsChB->setStatusTip(tr("Flats will be uesd in exam's questions and answers.<br>It has to be checked, if keys with flats are used."));
+    doubleAccChB = new QCheckBox(tr("x, bb - double accidentals"),this);
+    accLay->addWidget(sharpsChB);
+    accLay->addWidget(flatsChB);
+    accLay->addWidget(doubleAccChB);
+    accLay->addStretch(1);
+    m_accidGr = new QGroupBox(tr("accidentals"),this);
+    m_accidGr->setStatusTip(tr("Accidentals used in exam."));
+    m_accidGr->setLayout(accLay);
+    upperLay->addWidget(m_accidGr);
+    
+    mainLay->addLayout(upperLay);;
     
     setLayout(mainLay);
 
