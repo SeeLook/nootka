@@ -32,9 +32,16 @@ questionsSettings::questionsSettings(QWidget *parent) :
     
     QLabel *qLab = new QLabel(TquestionAsWdg::questionsTxt().toUpper(), this);
     qaLay->addWidget(qLab, 0, 0);
-    QLabel *aLab = new QLabel(TquestionAsWdg::answersTxt().toUpper(), this);
+    TverticalLabel *aLab = new TverticalLabel(TquestionAsWdg::answersTxt().toUpper(), this);
     qaLay->addWidget(aLab, 0, 1);
-    
+    TverticalLabel *asNoteLab = new TverticalLabel(TquestionAsWdg::asNoteTxt(), this);
+    qaLay->addWidget(asNoteLab, 0, 2);
+    TverticalLabel *asNameLab = new TverticalLabel(TquestionAsWdg::asNameTxt(), this);
+    qaLay->addWidget(asNameLab, 0, 3);
+    TverticalLabel *asFretLab = new TverticalLabel(TquestionAsWdg::asFretPosTxt(), this);
+    qaLay->addWidget(asFretLab, 0, 4);
+    TverticalLabel *asSoundLab = new TverticalLabel(TquestionAsWdg::asSoundTxt(), this);
+    qaLay->addWidget(asSoundLab, 0, 5);
     
     TquestionAsWdg *asNoteWdg = new TquestionAsWdg(TquestionAsWdg::asNoteTxt(), qaLay, 1, this);
     
@@ -44,7 +51,10 @@ questionsSettings::questionsSettings(QWidget *parent) :
     
     TquestionAsWdg *asSoundWdg = new TquestionAsWdg(TquestionAsWdg::asSoundTxt(), qaLay, 4, this);
     
+//     mainLay->addStretch(1);
     mainLay->addLayout(qaLay);
+//     mainLay->addStretch(1);
+    
     setLayout(mainLay);
 
 //     asNoteWdg = new TasNoteWdg();
@@ -84,6 +94,29 @@ void questionsSettings::saveLevel(TexamLevel &level) {
 //     asFretPosWdg->saveLevel(level);
 //     asPlayedSound->saveLevel(level);
 }
+
+//############################# TverticalLabel ###################################
+
+TverticalLabel::TverticalLabel(QString text, QWidget* parent) :
+  QWidget(parent),
+  m_text(text)
+{
+    QFontMetrics metrics = fontMetrics();
+    m_rect = metrics.boundingRect(m_text);
+    setFixedSize(m_rect.height() * 2, m_rect.width());
+}
+
+void TverticalLabel::paintEvent(QPaintEvent* ) {
+    QPainter painter(this);
+    painter.save();
+//     painter.translate(x, y);
+    painter.rotate(90); // angle
+    painter.drawText(m_rect, m_text);
+    painter.restore();
+}
+
+
+
 
 //############################# AS NOTE IN A SCORE ###################################
 /*

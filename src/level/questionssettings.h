@@ -28,6 +28,22 @@ class QToolBox;
 class QRadioButton;
 class QGroupBox;
 
+
+class TverticalLabel : public QWidget
+{
+  
+public:
+    explicit TverticalLabel(QString text, QWidget* parent = 0);
+    
+    QString text() { return m_text; }
+    
+protected:
+    void paintEvent(QPaintEvent* );
+    
+private:
+  QRect m_rect;
+  QString m_text;
+};
         
 class questionsSettings : public QWidget
 {
