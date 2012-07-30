@@ -33,7 +33,7 @@ TquestionAsWdg::TquestionAsWdg(QString title, QGridLayout* gridLay, int row, QWi
 //     asNoteChB = new QCheckBox(asNoteTxt(), this);
     questLab = new QLabel(title, parent);
     questLab->setStatusTip(tr("Select a type of answers for a question."));
-    gridLay->addWidget(questLab, row, 0);
+    gridLay->addWidget(questLab, row, 0, Qt::AlignRight);
 //     mainLay->addWidget(questLab);
     enableChBox = new QCheckBox(parent);
     gridLay->addWidget(enableChBox, row, 1);

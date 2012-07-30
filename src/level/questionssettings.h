@@ -58,6 +58,12 @@ signals:
     void questSettChanged();
 
 private:
+    QGroupBox *m_accidGr, *m_keySignGr;
+    QRadioButton *m_singleKeyRadio, *m_rangeKeysRadio;
+    QButtonGroup *rangeButGr;
+    QCheckBox *sharpsChB, *flatsChB, *doubleAccChB;
+    TkeySignComboBox *fromKeyCombo, *toKeyCombo;
+    QCheckBox *keyInAnswerChB;
 //     QToolBox *questAsToolBox;
 //     QTabWidget *questAsToolBox;
 //     TasNoteWdg *asNoteWdg;
