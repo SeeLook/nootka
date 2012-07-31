@@ -20,6 +20,9 @@
 #include "examsettingsdlg.h"
 #include "tglobals.h"
 #include "tlevelheaderwdg.h"
+#include "questionssettings.h"
+#include "levelsettings.h"
+#include "rangesettings.h"
 #include <QtGui>
 
 extern Tglobals *gl;

@@ -18,6 +18,8 @@
 
 
 #include "questionssettings.h"
+#include "tquestionaswdg.h"
+#include "tkeysigncombobox.h"
 #include <QtGui>
 
 extern bool isNotSaved;
@@ -25,16 +27,16 @@ extern bool isNotSaved;
 questionsSettings::questionsSettings(QWidget *parent) :
     QWidget(parent)
 {
-//     questAsToolBox = new QToolBox(this);
+  QScrollArea *scrollArea = new QScrollArea();
     QVBoxLayout *mainLay = new QVBoxLayout;    
 
     QGridLayout *qaLay = new QGridLayout();
     qaLay->setAlignment(Qt::AlignCenter);
     qaLay->setSpacing(10);
     
-    QLabel *qLab = new QLabel("<b>" + TquestionAsWdg::questionsTxt().toUpper() + "</b>", this);
+    qLab = new QLabel("<b>" + TquestionAsWdg::questionTxt().toUpper() + "</b>", this);
     qaLay->addWidget(qLab, 0, 0, Qt::AlignBottom | Qt::AlignRight);
-    TverticalLabel *aLab = new TverticalLabel(TquestionAsWdg::answersTxt().toUpper(), this);
+    aLab = new TverticalLabel(TquestionAsWdg::answerTxt().toUpper(), this);
     QFont f = font();
     f.setBold(true);
     aLab->setFont(f);
@@ -45,19 +47,19 @@ questionsSettings::questionsSettings(QWidget *parent) :
     qaLay->addWidget(asNameLab, 0, 3, Qt::AlignBottom);
     TverticalLabel *asFretLab = new TverticalLabel(TquestionAsWdg::asFretPosTxt(), this);
     qaLay->addWidget(asFretLab, 0, 4, Qt::AlignBottom);
-    TverticalLabel *asSoundLab = new TverticalLabel(TquestionAsWdg::asSoundTxt(), this);
+    asSoundLab = new TverticalLabel(TquestionAsWdg::asSoundTxt(), this);
     qaLay->addWidget(asSoundLab, 0, 5, Qt::AlignBottom);
     
-    TquestionAsWdg *asNoteWdg = new TquestionAsWdg(TquestionAsWdg::asNoteTxt(), qaLay, 1, this);
-    
-    TquestionAsWdg *asNameWdg = new TquestionAsWdg(TquestionAsWdg::asNameTxt(), qaLay, 2, this);
-    
-    TquestionAsWdg *asFretPosWdg = new TquestionAsWdg(TquestionAsWdg::asFretPosTxt(), qaLay, 3, this);
-    
-    TquestionAsWdg *asSoundWdg = new TquestionAsWdg(TquestionAsWdg::asSoundTxt(), qaLay, 4, this);
-//     mainLay->addStretch(1);
+    asNoteWdg = new TquestionAsWdg(TquestionAsWdg::asNoteTxt(), qaLay, 1, this);
+    asNoteWdg->setQuestionTip(TquestionAsWdg::asNoteTxt());
+    asNameWdg = new TquestionAsWdg(TquestionAsWdg::asNameTxt(), qaLay, 2, this);
+    asNameWdg->setQuestionTip(TquestionAsWdg::asNameTxt());
+    asFretPosWdg = new TquestionAsWdg(TquestionAsWdg::asFretPosTxt(), qaLay, 3, this);
+    asFretPosWdg->setQuestionTip(TquestionAsWdg::asFretPosTxt());
+    asSoundWdg = new TquestionAsWdg(TquestionAsWdg::asSoundTxt(), qaLay, 4, this);
+    asSoundWdg->setQuestionTip(TquestionAsWdg::asSoundTxt());
     mainLay->addLayout(qaLay);
-//     mainLay->addStretch(1);
+
     
     QHBoxLayout *upperLay = new QHBoxLayout;
     
@@ -112,19 +114,26 @@ questionsSettings::questionsSettings(QWidget *parent) :
     m_accidGr->setLayout(accLay);
     upperLay->addWidget(m_accidGr);
     
-    mainLay->addLayout(upperLay);;
+    mainLay->addLayout(upperLay);
     
+    octaveRequiredChB = new QCheckBox(tr("require octave"),this);
+    octaveRequiredChB->setStatusTip(tr("if checked, selecting of valid octave is required"));
+    mainLay->addWidget(octaveRequiredChB, 0, Qt::AlignCenter);
+    
+    forceAccChB = new QCheckBox(tr("force useing appropirate accidental"),this);
+    forceAccChB->setStatusTip(tr("if checked, is possible to select a note<br>with given accidental only."));
+    mainLay->addWidget(forceAccChB, 0, Qt::AlignCenter);
+    
+    styleRequiredChB = new QCheckBox(tr("use different nameing styles"),this);
+    styleRequiredChB->setStatusTip(tr("if checked, nameing style is switched between letters and solfge.<br>It has to be checked if note's name is a question and an answer."));
+    mainLay->addWidget(styleRequiredChB,0,Qt::AlignCenter);
+    
+    showStrNrChB = new QCheckBox(tr("show string number in questions"), this);
+    showStrNrChB->setStatusTip(tr("Shows on which string an answer has to be given.<br>Be careful, when it is needed and when it has no sense"));
+    mainLay->addWidget(showStrNrChB, 0, Qt::AlignCenter);
+      
+    scrollArea->setWidget(this);
     setLayout(mainLay);
-
-//     asNoteWdg = new TasNoteWdg();
-//     asNameWdg = new TasNameWdg();
-//     asFretPosWdg = new TasFretPosWdg();
-//     asPlayedSound = new TasPlayedSound();
-
-//     questAsToolBox->addItem(asNoteWdg, TquestionAsWdg::asNoteTxt());
-//     questAsToolBox->addItem(asNameWdg, TquestionAsWdg::asNameTxt());
-//     questAsToolBox->addItem(asFretPosWdg, TquestionAsWdg::asFretPosTxt());
-//     questAsToolBox->addItem(asPlayedSound, TquestionAsWdg::asSoundTxt());
 
 //     connect(asNoteWdg, SIGNAL(asNoteChanged()), this, SLOT(whenParamsChanged()));
 //     connect(asNameWdg, SIGNAL(asNameChanged()), this, SLOT(whenParamsChanged()));
@@ -154,7 +163,21 @@ void questionsSettings::saveLevel(TexamLevel &level) {
 //     asPlayedSound->saveLevel(level);
 }
 
-//############################# TverticalLabel ###################################
+void questionsSettings::paintEvent(QPaintEvent* ) {
+  QPainter painter(this);
+  QPen pen = painter.pen();
+  pen.setWidth(3);
+  painter.setPen(pen);
+  painter.drawLine(qLab->geometry().left(), qLab->geometry().bottom() + 3, // horizontal line - under 'QUESTION'
+                   asSoundLab->geometry().right(), qLab->geometry().bottom() + 3);
+  painter.drawLine(aLab->geometry().right(), aLab->geometry().top(), // vertical line - right to 'ANSWER''
+                   aLab->geometry().right(), asSoundWdg->enableChBox->geometry().bottom() + 3);
+}
+
+
+/****************************************************************************
+ *   TverticalLabel                                                         *
+ ****************************************************************************/
 
 TverticalLabel::TverticalLabel(QString text, QWidget* parent) :
   QWidget(parent),

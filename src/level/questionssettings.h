@@ -20,11 +20,14 @@
 #ifndef QUESTIONSSETTINGS_H
 #define QUESTIONSSETTINGS_H
 
-#include "tquestionaswdg.h"
-#include "tkeysigncombobox.h"
+#include <QWidget>
 #include "texamlevel.h"
 
-class QToolBox;
+class QCheckBox;
+class QButtonGroup;
+class QLabel;
+class TkeySignComboBox;
+class TquestionAsWdg;
 class QRadioButton;
 class QGroupBox;
 
@@ -45,6 +48,11 @@ private:
   QString m_text;
 };
         
+
+/****************************************************************************
+ **                         - questionsSettings -                          **
+ ***************************************************************************/
+
 class questionsSettings : public QWidget
 {
     Q_OBJECT
@@ -56,6 +64,9 @@ public:
 
 signals:
     void questSettChanged();
+    
+protected:
+    void paintEvent(QPaintEvent*);
 
 private:
     QGroupBox *m_accidGr, *m_keySignGr;
@@ -64,12 +75,10 @@ private:
     QCheckBox *sharpsChB, *flatsChB, *doubleAccChB;
     TkeySignComboBox *fromKeyCombo, *toKeyCombo;
     QCheckBox *keyInAnswerChB;
-//     QToolBox *questAsToolBox;
-//     QTabWidget *questAsToolBox;
-//     TasNoteWdg *asNoteWdg;
-//     TasNameWdg *asNameWdg;
-//     TasFretPosWdg *asFretPosWdg;
-//     TasPlayedSound *asPlayedSound;
+    QLabel *qLab; // QLabel with 'QUESTION' text
+    TverticalLabel *aLab, *asSoundLab; // TverticalLabel with 'ANSWER' text
+    TquestionAsWdg *asNoteWdg, *asNameWdg, *asFretPosWdg, *asSoundWdg;
+    QCheckBox *styleRequiredChB, *octaveRequiredChB, *forceAccChB, *showStrNrChB;
 
 private slots:
     void whenParamsChanged();

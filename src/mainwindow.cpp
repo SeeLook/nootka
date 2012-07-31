@@ -20,6 +20,7 @@
 #include "settingsdialog.h"
 #include "mainwindow.h"
 #include "examsettingsdlg.h"
+#include "tlevelselector.h"
 #include "taboutnootka.h"
 #include "tfirstrunwizzard.h"
 #include <tsupportnootka.h>
