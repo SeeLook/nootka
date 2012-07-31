@@ -2,7 +2,7 @@
 
 INCLUDE_DIRECTORIES (. exam info level score settings sound charts)
 
-SET( NOOTKA_SRCS
+SET( NOOTKA_SRCS level/accidsettings.cpp
   main.cpp
   mainwindow.cpp
   tglobals.cpp
@@ -32,6 +32,7 @@ SET( NOOTKA_SRCS
   level/texamlevel.cpp
   level/levelsettings.cpp
   level/questionssettings.cpp
+  level/accidsettings.cpp
   level/tlevelselector.cpp
   level/rangesettings.cpp
   level/tquestionaswdg.cpp
@@ -129,6 +130,7 @@ SET( NOOTKA_MOC_SRCS
   level/examsettingsdlg.h
   level/levelsettings.h
   level/questionssettings.h
+  level/accidsettings.h
   level/tlevelselector.h
   level/rangesettings.h
   level/tquestionaswdg.h

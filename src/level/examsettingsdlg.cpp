@@ -21,6 +21,7 @@
 #include "tglobals.h"
 #include "tlevelheaderwdg.h"
 #include "questionssettings.h"
+#include "accidsettings.h"
 #include "levelsettings.h"
 #include "rangesettings.h"
 #include <QtGui>
@@ -41,16 +42,21 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
     navList->addItem(tr("Questions"));
     navList->item(1)->setIcon(QIcon(gl->path+"picts/questionsSettings.png"));
     navList->item(1)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(tr("Range"));
-    navList->item(2)->setIcon(QIcon(gl->path+"picts/rangeSettings.png"));
+    navList->addItem(tr("Accidentals"));
+    navList->item(2)->setIcon(QIcon(gl->path+"picts/accidSettings.png"));
     navList->item(2)->setTextAlignment(Qt::AlignCenter);
+    navList->addItem(tr("Range"));
+    navList->item(3)->setIcon(QIcon(gl->path+"picts/rangeSettings.png"));
+    navList->item(3)->setTextAlignment(Qt::AlignCenter);
 
     levelSett = new levelSettings(gl->path);
     questSett = new questionsSettings();
+    accSett = new accidSettings();
     rangeSett = new rangeSettings();
 
     stackLayout->addWidget(levelSett);
     stackLayout->addWidget(questSett);
+    stackLayout->addWidget(accSett);
     stackLayout->addWidget(rangeSett);
 
     connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));

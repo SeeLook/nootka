@@ -69,12 +69,7 @@ protected:
     void paintEvent(QPaintEvent*);
 
 private:
-    QGroupBox *m_accidGr, *m_keySignGr;
-    QRadioButton *m_singleKeyRadio, *m_rangeKeysRadio;
-    QButtonGroup *rangeButGr;
-    QCheckBox *sharpsChB, *flatsChB, *doubleAccChB;
-    TkeySignComboBox *fromKeyCombo, *toKeyCombo;
-    QCheckBox *keyInAnswerChB;
+    
     QLabel *qLab; // QLabel with 'QUESTION' text
     TverticalLabel *aLab, *asSoundLab; // TverticalLabel with 'ANSWER' text
     TquestionAsWdg *asNoteWdg, *asNameWdg, *asFretPosWdg, *asSoundWdg;
