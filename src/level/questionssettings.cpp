@@ -27,9 +27,9 @@ extern bool isNotSaved;
 questionsSettings::questionsSettings(QWidget *parent) :
     QWidget(parent)
 {
-  QScrollArea *scrollArea = new QScrollArea();
     QVBoxLayout *mainLay = new QVBoxLayout;    
 
+    QGroupBox *qaGr = new QGroupBox(this);
     QGridLayout *qaLay = new QGridLayout();
     qaLay->setAlignment(Qt::AlignCenter);
     qaLay->setSpacing(10);
@@ -58,64 +58,10 @@ questionsSettings::questionsSettings(QWidget *parent) :
     asFretPosWdg->setQuestionTip(TquestionAsWdg::asFretPosTxt());
     asSoundWdg = new TquestionAsWdg(TquestionAsWdg::asSoundTxt(), qaLay, 4, this);
     asSoundWdg->setQuestionTip(TquestionAsWdg::asSoundTxt());
-    mainLay->addLayout(qaLay);
-
+    qaGr->setLayout(qaLay);
+    mainLay->addWidget(qaGr);
     
-    QHBoxLayout *upperLay = new QHBoxLayout;
-    
-    QHBoxLayout *keyLay = new QHBoxLayout;
-    m_keySignGr = new QGroupBox(tr("use keys singature"),this);
-    m_keySignGr->setCheckable(true);
-
-    QVBoxLayout *rangeLay = new QVBoxLayout;
-    rangeLay->setAlignment(Qt::AlignCenter);
-    m_singleKeyRadio = new QRadioButton(tr("single key"),this);
-    m_singleKeyRadio->setStatusTip(tr("only one, selected key signature<br>for whole exam."));
-    m_rangeKeysRadio = new QRadioButton(tr("range of keys"),this);
-    m_rangeKeysRadio->setStatusTip(tr("random key signature from selected range."));
-    rangeButGr = new QButtonGroup(this);
-    rangeButGr->addButton(m_singleKeyRadio);
-    rangeButGr->addButton(m_rangeKeysRadio);
-    rangeLay->addWidget(m_singleKeyRadio,0,Qt::AlignCenter);
-    rangeLay->addWidget(m_rangeKeysRadio,0,Qt::AlignCenter);
-    QHBoxLayout *comboLay = new QHBoxLayout;
-    fromKeyCombo = new TkeySignComboBox(this);
-    fromKeyCombo->setStatusTip(tr("Select a key signature.<br>Apropirate accidentals used in exam<br>will be automatically selected !"));
-    toKeyCombo = new TkeySignComboBox(this);
-    toKeyCombo->setStatusTip(fromKeyCombo->statusTip());
-    comboLay->addWidget(fromKeyCombo);
-    QLabel *ll = new QLabel(" - ", this);
-    comboLay->addWidget(ll);
-    comboLay->addWidget(toKeyCombo);
-    rangeLay->addLayout(comboLay);
-    rangeLay->addStretch(1);
-    keyInAnswerChB = new QCheckBox(tr("select a key signature manually"),this);
-    keyInAnswerChB->setStatusTip(tr("if checked, in exam user have to select a key signature,<br>otherwise it is shown by application."));
-    rangeLay->addWidget(keyInAnswerChB,0,Qt::AlignCenter);
-    keyLay->addLayout(rangeLay);
-    keyLay->addStretch(1);
-
-    m_keySignGr->setLayout(keyLay);
-    upperLay->addWidget(m_keySignGr);
-
-    
-    QVBoxLayout *accLay = new QVBoxLayout;
-    sharpsChB = new QCheckBox(tr("# - sharps"),this);
-    sharpsChB->setStatusTip(tr("Sharps will be uesd in exam's questions and answers.<br>It has to be checked, if keys with sharps are used."));
-    flatsChB = new QCheckBox(tr("b - flats"),this);
-    flatsChB->setStatusTip(tr("Flats will be uesd in exam's questions and answers.<br>It has to be checked, if keys with flats are used."));
-    doubleAccChB = new QCheckBox(tr("x, bb - double accidentals"),this);
-    accLay->addWidget(sharpsChB);
-    accLay->addWidget(flatsChB);
-    accLay->addWidget(doubleAccChB);
-    accLay->addStretch(1);
-    m_accidGr = new QGroupBox(tr("accidentals"),this);
-    m_accidGr->setStatusTip(tr("Accidentals used in exam."));
-    m_accidGr->setLayout(accLay);
-    upperLay->addWidget(m_accidGr);
-    
-    mainLay->addLayout(upperLay);
-    
+  // some check boxes
     octaveRequiredChB = new QCheckBox(tr("require octave"),this);
     octaveRequiredChB->setStatusTip(tr("if checked, selecting of valid octave is required"));
     mainLay->addWidget(octaveRequiredChB, 0, Qt::AlignCenter);
@@ -132,7 +78,6 @@ questionsSettings::questionsSettings(QWidget *parent) :
     showStrNrChB->setStatusTip(tr("Shows on which string an answer has to be given.<br>Be careful, when it is needed and when it has no sense"));
     mainLay->addWidget(showStrNrChB, 0, Qt::AlignCenter);
       
-    scrollArea->setWidget(this);
     setLayout(mainLay);
 
 //     connect(asNoteWdg, SIGNAL(asNoteChanged()), this, SLOT(whenParamsChanged()));
@@ -166,10 +111,10 @@ void questionsSettings::saveLevel(TexamLevel &level) {
 void questionsSettings::paintEvent(QPaintEvent* ) {
   QPainter painter(this);
   QPen pen = painter.pen();
-  pen.setWidth(3);
+  pen.setWidth(2);
   painter.setPen(pen);
-  painter.drawLine(qLab->geometry().left(), qLab->geometry().bottom() + 3, // horizontal line - under 'QUESTION'
-                   asSoundLab->geometry().right(), qLab->geometry().bottom() + 3);
+  painter.drawLine(qLab->geometry().left(), asNoteWdg->enableChBox->geometry().top(), // horizontal line - under 'QUESTION'
+                   asSoundLab->geometry().right(), asNoteWdg->enableChBox->geometry().top());
   painter.drawLine(aLab->geometry().right(), aLab->geometry().top(), // vertical line - right to 'ANSWER''
                    aLab->geometry().right(), asSoundWdg->enableChBox->geometry().bottom() + 3);
 }

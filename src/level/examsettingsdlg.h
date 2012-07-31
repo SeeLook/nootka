@@ -23,6 +23,7 @@
 #include "tsettingsdialogbase.h"
 #include "texamlevel.h"
 
+class accidSettings;
 class levelSettings;
 class rangeSettings;
 class questionsSettings;
@@ -44,6 +45,7 @@ public:
 private:
     levelSettings *levelSett;
     questionsSettings *questSett;
+    accidSettings *accSett;
     rangeSettings *rangeSett;
 
     void saveLevel();
