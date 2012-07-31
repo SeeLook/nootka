@@ -27,6 +27,9 @@
 class QGridLayout;
 class QLabel;
 
+
+/** Widget aumatically inserting into QGridLayout object
+ * to select types of answers for question. */
 class TquestionAsWdg : public QObject
 {
     Q_OBJECT
@@ -49,7 +52,8 @@ public:
     
     void setChecked(bool checked) { enableChBox->setChecked(checked); }
     bool isChecked() { return enableChBox->isChecked(); }
-    void setTitle(QString title);
+    void setTitle(QString title); // Text of left label
+    void setQuestionTip(QString tip); // First line of Text in statusTip Message
     
 
     void setAnswers(TQAtype types);
@@ -61,9 +65,6 @@ public:
 signals:
         /** This signal is emited when any QCheckBox changes his state. */
     void answerStateChanged();
-
-
-private:
 
 private slots:
     void buttonClicked();

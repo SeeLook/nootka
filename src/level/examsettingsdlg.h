@@ -21,12 +21,12 @@
 #define EXAMSETTINGSDLG_H
 
 #include "tsettingsdialogbase.h"
-#include "levelsettings.h"
-#include "questionssettings.h"
-#include "rangesettings.h"
 #include "texamlevel.h"
 
-//class TexamLevel;
+class levelSettings;
+class rangeSettings;
+class questionsSettings;
+
 
     /** The level creator */
 class TlevelCreatorDlg : public TsettingsDialogBase
