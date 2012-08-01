@@ -69,6 +69,7 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
             this, SLOT(levelWasSelected(TexamLevel))); // to load level to widgets
     connect(rangeSett, SIGNAL(rangeChanged()), this, SLOT(levelNotSaved()));
     connect(questSett, SIGNAL(questSettChanged()), this, SLOT(levelNotSaved()));
+    connect(accSett, SIGNAL(accidsChanged()), this, SLOT(levelNotSaved()));
     connect(levelSett->saveBut, SIGNAL(clicked()), this, SLOT(saveToFile()));
     connect(levelSett->levelSelector, SIGNAL(levelToLoad()), this, SLOT(loadFromFile()));
     connect(levelSett->startExamBut, SIGNAL(clicked()), this, SLOT(startExam()));
@@ -79,6 +80,7 @@ void TlevelCreatorDlg::levelWasSelected(TexamLevel level) {
     if (isNotSaved)
         saveLevel();
     questSett->loadLevel(level);
+    accSett->loadLevel(level);
     rangeSett->loadLevel(level);
     levelSett->startExamBut->setDisabled(false);
 }

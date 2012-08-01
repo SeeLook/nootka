@@ -41,13 +41,21 @@ questionsSettings::questionsSettings(QWidget *parent) :
     f.setBold(true);
     aLab->setFont(f);
     qaLay->addWidget(aLab, 0, 1, Qt::AlignBottom);
-    TverticalLabel *asNoteLab = new TverticalLabel(TquestionAsWdg::asNoteTxt(), this);
+//     TverticalLabel *asNoteLab = new TverticalLabel(TquestionAsWdg::asNoteTxt(), this);
+    QLabel *asNoteLab = new QLabel(TquestionAsWdg::asNoteTxt().replace(" ", "<br>"), this);
+    asNoteLab->setAlignment(Qt::AlignCenter);
     qaLay->addWidget(asNoteLab, 0, 2, Qt::AlignBottom);
-    TverticalLabel *asNameLab = new TverticalLabel(TquestionAsWdg::asNameTxt(), this);
+//     TverticalLabel *asNameLab = new TverticalLabel(TquestionAsWdg::asNameTxt(), this);
+    QLabel *asNameLab = new QLabel(TquestionAsWdg::asNameTxt().replace(" ", "<br>"), this);
+    asNameLab->setAlignment(Qt::AlignCenter);
     qaLay->addWidget(asNameLab, 0, 3, Qt::AlignBottom);
-    TverticalLabel *asFretLab = new TverticalLabel(TquestionAsWdg::asFretPosTxt(), this);
+//     TverticalLabel *asFretLab = new TverticalLabel(TquestionAsWdg::asFretPosTxt(), this);
+    QLabel *asFretLab = new QLabel(TquestionAsWdg::asFretPosTxt().replace(" ", "<br>"), this);
+    asFretLab->setAlignment(Qt::AlignCenter);
     qaLay->addWidget(asFretLab, 0, 4, Qt::AlignBottom);
-    asSoundLab = new TverticalLabel(TquestionAsWdg::asSoundTxt(), this);
+//     asSoundLab = new TverticalLabel(TquestionAsWdg::asSoundTxt(), this);
+    asSoundLab = new QLabel(TquestionAsWdg::asSoundTxt().replace(" ", "<br>"), this);
+    asSoundLab->setAlignment(Qt::AlignCenter);
     qaLay->addWidget(asSoundLab, 0, 5, Qt::AlignBottom);
     
     asNoteWdg = new TquestionAsWdg(TquestionAsWdg::asNoteTxt(), qaLay, 1, this);
@@ -55,7 +63,9 @@ questionsSettings::questionsSettings(QWidget *parent) :
     asNameWdg = new TquestionAsWdg(TquestionAsWdg::asNameTxt(), qaLay, 2, this);
     asNameWdg->setQuestionTip(TquestionAsWdg::asNameTxt());
     asFretPosWdg = new TquestionAsWdg(TquestionAsWdg::asFretPosTxt(), qaLay, 3, this);
+    asFretPosWdg->asFretPosChB->setDisabled(true);
     asFretPosWdg->setQuestionTip(TquestionAsWdg::asFretPosTxt());
+    asFretPosWdg->asFretPosChB->setStatusTip("not implemented yet");
     asSoundWdg = new TquestionAsWdg(TquestionAsWdg::asSoundTxt(), qaLay, 4, this);
     asSoundWdg->setQuestionTip(TquestionAsWdg::asSoundTxt());
     qaGr->setLayout(qaLay);
@@ -80,32 +90,71 @@ questionsSettings::questionsSettings(QWidget *parent) :
       
     setLayout(mainLay);
 
-//     connect(asNoteWdg, SIGNAL(asNoteChanged()), this, SLOT(whenParamsChanged()));
-//     connect(asNameWdg, SIGNAL(asNameChanged()), this, SLOT(whenParamsChanged()));
-//     connect(asFretPosWdg, SIGNAL(asFretPosChanged()), this, SLOT(whenParamsChanged()));
-//     connect(asPlayedSound, SIGNAL(asPlayedSoundChanged()), this, SLOT(whenParamsChanged()));
+    connect(asNoteWdg, SIGNAL(answerStateChanged()), this, SLOT(whenParamsChanged()));
+    connect(asNameWdg, SIGNAL(answerStateChanged()), this, SLOT(whenParamsChanged()));
+    connect(asFretPosWdg, SIGNAL(answerStateChanged()), this, SLOT(whenParamsChanged()));
+    connect(asSoundWdg, SIGNAL(answerStateChanged()), this, SLOT(whenParamsChanged()));
+    
+    connect(octaveRequiredChB , SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+    connect(forceAccChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+    connect(styleRequiredChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+    connect(showStrNrChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 //     
 //     connect(asNameWdg->octaveRequiredChB, SIGNAL(clicked(bool)), asPlayedSound, SLOT(checkOctaveChB(bool)));
 //     connect(asPlayedSound->octaveRequiredChB, SIGNAL(clicked(bool)), asNameWdg, SLOT(checkOctaveChB(bool)));
 
 }
 
-void questionsSettings::loadLevel(TexamLevel level) {
-//     asNoteWdg->loadLevel(level);
-//     asNameWdg->loadLevel(level);
-//     asFretPosWdg->loadLevel(level);
-//     asPlayedSound->loadLevel(level);
+void questionsSettings::loadLevel(TexamLevel& level) {
+    asNoteWdg->setChecked(level.questionAs.isNote());
+    if (level.questionAs.isNote())
+        asNoteWdg->setAnswers(level.answersAs[TQAtype::e_asNote]);
+    asNameWdg->setChecked(level.questionAs.isName());
+    if (level.questionAs.isName())
+        asNameWdg->setAnswers(level.answersAs[TQAtype::e_asName]);
+    asFretPosWdg->setChecked(level.questionAs.isFret());
+    if (level.questionAs.isFret())
+        asFretPosWdg->setAnswers(level.answersAs[TQAtype::e_asFretPos]);
+    asSoundWdg->setChecked(level.questionAs.isSound());
+    if (level.questionAs.isSound())
+        asSoundWdg->setAnswers(level.answersAs[TQAtype::e_asSound]);
+    
+    octaveRequiredChB->setChecked(level.requireOctave);
+    forceAccChB->setChecked(level.forceAccids);
+    styleRequiredChB->setChecked(level.requireStyle);
+    showStrNrChB->setChecked(level.showStrNr);
 }
 
+
 void questionsSettings::whenParamsChanged() {
-    emit questSettChanged();
+    if (asNameWdg->answerAsName() && asNameWdg->isChecked()) {
+        styleRequiredChB->setChecked(true);
+        styleRequiredChB->setDisabled(true);
+    }
+    else styleRequiredChB->setDisabled(false);
+    
+    asFretPosWdg->asFretPosChB->setChecked(false);
+    
+    if (!isNotSaved) {
+        isNotSaved = true;
+        emit questSettChanged();
+    }
 }
 
 void questionsSettings::saveLevel(TexamLevel &level) {
-//     asNoteWdg->saveLevel(level);
-//     asNameWdg->saveLevel(level);
-//     asFretPosWdg->saveLevel(level);
-//     asPlayedSound->saveLevel(level);
+    level.questionAs.setAsNote(asNoteWdg->isChecked());
+    level.answersAs[TQAtype::e_asNote] = asNoteWdg->getAnswers();
+    level.questionAs.setAsName(asNameWdg->isChecked());
+    level.answersAs[TQAtype::e_asName] = asNameWdg->getAnswers();
+    level.questionAs.setAsFret(asFretPosWdg->isChecked());
+    level.answersAs[TQAtype::e_asFretPos] = asFretPosWdg->getAnswers();
+    level.questionAs.setAsSound(asSoundWdg->isChecked());
+    level.answersAs[TQAtype::e_asSound] = asSoundWdg->getAnswers();
+    
+    level.requireOctave = octaveRequiredChB->isChecked();
+    level.forceAccids = forceAccChB->isChecked();
+    level.requireStyle = styleRequiredChB->isChecked();
+    level.showStrNr = showStrNrChB->isChecked();
 }
 
 void questionsSettings::paintEvent(QPaintEvent* ) {

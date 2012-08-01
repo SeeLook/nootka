@@ -48,7 +48,7 @@ private:
     
     QGroupBox *m_accidGr, *m_keySignGr;
     QRadioButton *m_singleKeyRadio, *m_rangeKeysRadio;
-    QButtonGroup *rangeButGr;
+    QButtonGroup *m_rangeButGr;
     QCheckBox *m_sharpsChB, *m_flatsChB, *m_doubleAccChB;
     TkeySignComboBox *m_fromKeyCombo, *m_toKeyCombo;
     QCheckBox *m_keyInAnswerChB;
