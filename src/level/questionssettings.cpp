@@ -41,19 +41,15 @@ questionsSettings::questionsSettings(QWidget *parent) :
     f.setBold(true);
     aLab->setFont(f);
     qaLay->addWidget(aLab, 0, 1, Qt::AlignBottom);
-//     TverticalLabel *asNoteLab = new TverticalLabel(TquestionAsWdg::asNoteTxt(), this);
     QLabel *asNoteLab = new QLabel(TquestionAsWdg::asNoteTxt().replace(" ", "<br>"), this);
     asNoteLab->setAlignment(Qt::AlignCenter);
     qaLay->addWidget(asNoteLab, 0, 2, Qt::AlignBottom);
-//     TverticalLabel *asNameLab = new TverticalLabel(TquestionAsWdg::asNameTxt(), this);
     QLabel *asNameLab = new QLabel(TquestionAsWdg::asNameTxt().replace(" ", "<br>"), this);
     asNameLab->setAlignment(Qt::AlignCenter);
     qaLay->addWidget(asNameLab, 0, 3, Qt::AlignBottom);
-//     TverticalLabel *asFretLab = new TverticalLabel(TquestionAsWdg::asFretPosTxt(), this);
     QLabel *asFretLab = new QLabel(TquestionAsWdg::asFretPosTxt().replace(" ", "<br>"), this);
     asFretLab->setAlignment(Qt::AlignCenter);
     qaLay->addWidget(asFretLab, 0, 4, Qt::AlignBottom);
-//     asSoundLab = new TverticalLabel(TquestionAsWdg::asSoundTxt(), this);
     asSoundLab = new QLabel(TquestionAsWdg::asSoundTxt().replace(" ", "<br>"), this);
     asSoundLab->setAlignment(Qt::AlignCenter);
     qaLay->addWidget(asSoundLab, 0, 5, Qt::AlignBottom);
@@ -106,18 +102,14 @@ questionsSettings::questionsSettings(QWidget *parent) :
 }
 
 void questionsSettings::loadLevel(TexamLevel& level) {
-    asNoteWdg->setChecked(level.questionAs.isNote());
-    if (level.questionAs.isNote())
-        asNoteWdg->setAnswers(level.answersAs[TQAtype::e_asNote]);
+    asNoteWdg->setAnswers(level.answersAs[TQAtype::e_asNote]);
+    asNoteWdg->setChecked(level.questionAs.isNote()); // when it is false it cleans all checkBoxes to false
+    asNameWdg->setAnswers(level.answersAs[TQAtype::e_asName]);
     asNameWdg->setChecked(level.questionAs.isName());
-    if (level.questionAs.isName())
-        asNameWdg->setAnswers(level.answersAs[TQAtype::e_asName]);
+    asFretPosWdg->setAnswers(level.answersAs[TQAtype::e_asFretPos]);
     asFretPosWdg->setChecked(level.questionAs.isFret());
-    if (level.questionAs.isFret())
-        asFretPosWdg->setAnswers(level.answersAs[TQAtype::e_asFretPos]);
+    asSoundWdg->setAnswers(level.answersAs[TQAtype::e_asSound]);
     asSoundWdg->setChecked(level.questionAs.isSound());
-    if (level.questionAs.isSound())
-        asSoundWdg->setAnswers(level.answersAs[TQAtype::e_asSound]);
     
     octaveRequiredChB->setChecked(level.requireOctave);
     forceAccChB->setChecked(level.forceAccids);
