@@ -64,6 +64,20 @@ questionsSettings::questionsSettings(QWidget *parent) :
     asFretPosWdg->asFretPosChB->setStatusTip("not implemented yet");
     asSoundWdg = new TquestionAsWdg(TquestionAsWdg::asSoundTxt(), qaLay, 4, this);
     asSoundWdg->setQuestionTip(TquestionAsWdg::asSoundTxt());
+    
+    QLabel *scoreNooLab = new QLabel("s", this);
+    QFont nf("nootka", 20);
+    scoreNooLab->setFont(nf);
+    qaLay->addWidget(scoreNooLab, 1, 6);
+    QLabel *nameNooLab = new QLabel("c", this);
+    nameNooLab->setFont(nf);
+    qaLay->addWidget(nameNooLab, 2, 6);
+    QLabel *guitarNooLab = new QLabel("g", this);
+    guitarNooLab->setFont(nf);
+    qaLay->addWidget(guitarNooLab, 3, 6);
+    QLabel *soundNooLab = new QLabel("n", this);
+    soundNooLab->setFont(nf);
+    qaLay->addWidget(soundNooLab, 4, 6);
     qaGr->setLayout(qaLay);
     mainLay->addWidget(qaGr);
     
