@@ -59,7 +59,7 @@ class questionsSettings : public QWidget
 public:
     explicit questionsSettings(QWidget *parent = 0);
 
-    void loadLevel(TexamLevel level);
+    void loadLevel(TexamLevel &level);
     void saveLevel(TexamLevel &level);
 
 signals:
@@ -71,7 +71,8 @@ protected:
 private:
     
     QLabel *qLab; // QLabel with 'QUESTION' text
-    TverticalLabel *aLab, *asSoundLab; // TverticalLabel with 'ANSWER' text
+    TverticalLabel *aLab /**asSoundLab*/; // TverticalLabel with 'ANSWER' text
+    QLabel *asSoundLab;
     TquestionAsWdg *asNoteWdg, *asNameWdg, *asFretPosWdg, *asSoundWdg;
     QCheckBox *styleRequiredChB, *octaveRequiredChB, *forceAccChB, *showStrNrChB;
 

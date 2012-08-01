@@ -22,6 +22,8 @@
 #include "texamlevel.h"
 #include "QtGui"
 
+extern bool isNotSaved;
+
 accidSettings::accidSettings(QWidget* parent) :
   QWidget(parent)
 {
@@ -32,8 +34,10 @@ accidSettings::accidSettings(QWidget* parent) :
     QVBoxLayout *accLay = new QVBoxLayout;
     m_sharpsChB = new QCheckBox(tr("# - sharps"),this);
     m_sharpsChB->setStatusTip(tr("Sharps will be uesd in exam's questions and answers.<br>It has to be checked, if keys with sharps are used."));
+    m_sharpsChB->setChecked(true);
     m_flatsChB = new QCheckBox(tr("b - flats"),this);
     m_flatsChB->setStatusTip(tr("Flats will be uesd in exam's questions and answers.<br>It has to be checked, if keys with flats are used."));
+    m_flatsChB->setChecked(true);
     m_doubleAccChB = new QCheckBox(tr("x, bb - double accidentals"),this);
     accLay->addWidget(m_sharpsChB);
     accLay->addWidget(m_flatsChB);
@@ -54,9 +58,10 @@ accidSettings::accidSettings(QWidget* parent) :
     m_singleKeyRadio->setStatusTip(tr("only one, selected key signature<br>for whole exam."));
     m_rangeKeysRadio = new QRadioButton(tr("range of keys"),this);
     m_rangeKeysRadio->setStatusTip(tr("random key signature from selected range."));
-    rangeButGr = new QButtonGroup(this);
-    rangeButGr->addButton(m_singleKeyRadio);
-    rangeButGr->addButton(m_rangeKeysRadio);
+    m_rangeButGr = new QButtonGroup(this);
+    m_rangeButGr->addButton(m_singleKeyRadio);
+    m_rangeButGr->addButton(m_rangeKeysRadio);
+    m_rangeKeysRadio->setChecked(true);
     rangeLay->addWidget(m_singleKeyRadio,0,Qt::AlignCenter);
     rangeLay->addWidget(m_rangeKeysRadio,0,Qt::AlignCenter);
     QHBoxLayout *comboLay = new QHBoxLayout;
@@ -81,7 +86,7 @@ accidSettings::accidSettings(QWidget* parent) :
 
     setLayout(mainLay);    
     
-    connect(rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));
+    connect(m_rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged())); 
     
     connect(m_fromKeyCombo, SIGNAL(activated(int)), this, SLOT(keySignChanged()));
     connect(m_toKeyCombo, SIGNAL(activated(int)), this, SLOT(keySignChanged()));
@@ -101,13 +106,60 @@ accidSettings::accidSettings(QWidget* parent) :
 
 }
 
-void accidSettings::loadLevel ( TexamLevel& level ) {
 
+//#################### PUBLIC METHODS ######################
+
+
+void accidSettings::loadLevel ( TexamLevel& level ) {
+    disconnect(m_rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));
+    
+    m_sharpsChB->setChecked(level.withSharps);
+    m_flatsChB->setChecked(level.withFlats);
+    m_doubleAccChB->setChecked(level.withDblAcc);
+    m_keySignGr->setChecked(level.useKeySign);
+    if (level.isSingleKey)
+        m_singleKeyRadio->setChecked(true);
+    else
+        m_rangeKeysRadio->setChecked(true);
+    m_fromKeyCombo->setKeySignature(level.loKey);
+    m_toKeyCombo->setKeySignature(level.hiKey);
+    m_keyInAnswerChB->setChecked(level.manualKey);
+    keyRangeChanged();
+
+    connect(m_rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));
 }
 
 void accidSettings::saveLevel ( TexamLevel& level ) {
-
+    level.withSharps = m_sharpsChB->isChecked();
+    level.withFlats = m_flatsChB->isChecked();
+    level.withDblAcc = m_doubleAccChB->isChecked();
+    level.useKeySign = m_keySignGr->isChecked();
+    if (m_singleKeyRadio->isChecked()) {
+        level.isSingleKey = true;
+        level.loKey = m_fromKeyCombo->getKeySignature();
+        level.hiKey = m_toKeyCombo->getKeySignature();
+    }
+    else { // range of keys
+        level.isSingleKey = false;
+        if (m_fromKeyCombo->getKeySignature().value() < m_toKeyCombo->getKeySignature().value()) {
+            level.loKey = m_fromKeyCombo->getKeySignature();
+            level.hiKey = m_toKeyCombo->getKeySignature();
+        } else 
+          if (m_fromKeyCombo->getKeySignature().value() > m_toKeyCombo->getKeySignature().value()) {
+            level.loKey = m_toKeyCombo->getKeySignature();
+            level.hiKey = m_fromKeyCombo->getKeySignature();
+          } else { // == means only one key is selected
+            level.isSingleKey = true;
+            level.loKey = m_fromKeyCombo->getKeySignature();
+            level.hiKey = m_toKeyCombo->getKeySignature();
+            }
+        }
+    level.manualKey = m_keyInAnswerChB->isChecked();
 }
+
+
+//#################### PRIVATE METHODS #####################
+
 
 void accidSettings::keyRangeChanged() {
     if (m_keySignGr->isChecked()) {
@@ -128,32 +180,46 @@ void accidSettings::keyRangeChanged() {
 void accidSettings::keySignChanged() {
     if (m_keySignGr->isChecked()) {
       if (m_rangeKeysRadio->isChecked()) {
-        if (m_fromKeyCombo->getKeySignature().value() < 0 ||
+        if (m_fromKeyCombo->getKeySignature().value() < 0 || // keys with flats ?
             m_toKeyCombo->getKeySignature().value() < 0) {
             m_flatsChB->setChecked(true);
             m_flatsChB->setDisabled(true);
+            if (m_fromKeyCombo->getKeySignature().value() > 0 || // keys with sharps also ?
+            m_toKeyCombo->getKeySignature().value() > 0) {
+              m_sharpsChB->setChecked(true);
+              m_sharpsChB->setDisabled(true);
+            } else { // no sharps so unlock
+              m_sharpsChB->setDisabled(false);
+            }
         }
-        if (m_fromKeyCombo->getKeySignature().value() > 0 ||
+        if (m_fromKeyCombo->getKeySignature().value() > 0 || // keys with sharps
             m_toKeyCombo->getKeySignature().value() > 0) {
             m_sharpsChB->setChecked(true);
             m_sharpsChB->setDisabled(true);
+            if (m_fromKeyCombo->getKeySignature().value() < 0 || // keys with flats also ?
+            m_toKeyCombo->getKeySignature().value() < 0) {
+              m_flatsChB->setChecked(true);
+              m_flatsChB->setDisabled(true);
+            } else {
+              m_flatsChB->setDisabled(false);
+            }
         }
         if (m_fromKeyCombo->getKeySignature().value() == 0 &&
             m_toKeyCombo->getKeySignature().value() == 0) {
             m_flatsChB->setDisabled(false);
             m_sharpsChB->setDisabled(false);
         }
-      } else {
-          if (m_fromKeyCombo->getKeySignature().value() < 0) {
+      } else { // single key, so ignore m_toKeyCombo value
+          if (m_fromKeyCombo->getKeySignature().value() < 0) { // flat key
             m_flatsChB->setChecked(true);
             m_flatsChB->setDisabled(true);
             m_sharpsChB->setDisabled(false);
         } else
-            if (m_fromKeyCombo->getKeySignature().value() > 0) {
+            if (m_fromKeyCombo->getKeySignature().value() > 0) { // sharp key
                 m_sharpsChB->setChecked(true);
                 m_sharpsChB->setDisabled(true);
                 m_flatsChB->setDisabled(false);
-            } else {
+            } else { // no key - C-majpr
                 m_flatsChB->setDisabled(false);
                 m_sharpsChB->setDisabled(false);
             }
@@ -166,7 +232,10 @@ void accidSettings::keySignChanged() {
 }
 
 void accidSettings::whenParamsChanged() {
-
+    if (!isNotSaved) {
+        isNotSaved = true;
+        emit accidsChanged();
+    }
 }
 
 

@@ -29,15 +29,15 @@ TquestionAsWdg::TquestionAsWdg(QString title, QGridLayout* gridLay, int row, QWi
     questLab->setStatusTip(tr("Select a type of answers for a question."));
     gridLay->addWidget(questLab, row, 0, Qt::AlignRight);
     enableChBox = new QCheckBox(parent);
-    gridLay->addWidget(enableChBox, row, 1);
+    gridLay->addWidget(enableChBox, row, 1, Qt::AlignCenter);
     asNoteChB = new QCheckBox(parent);
-    gridLay->addWidget(asNoteChB, row, 2);
+    gridLay->addWidget(asNoteChB, row, 2, Qt::AlignCenter);
     asNameChB = new QCheckBox(parent);
-    gridLay->addWidget(asNameChB, row, 3);
+    gridLay->addWidget(asNameChB, row, 3, Qt::AlignCenter);
     asFretPosChB = new QCheckBox(parent);
-    gridLay->addWidget(asFretPosChB, row, 4);
+    gridLay->addWidget(asFretPosChB, row, 4, Qt::AlignCenter);
     asSoundChB = new QCheckBox(parent);
-    gridLay->addWidget(asSoundChB, row, 5);
+    gridLay->addWidget(asSoundChB, row, 5, Qt::AlignCenter);
 
     connect(asNoteChB, SIGNAL(clicked()), this, SLOT(buttonClicked()));
     connect(asNameChB, SIGNAL(clicked()), this, SLOT(buttonClicked()));
@@ -45,12 +45,15 @@ TquestionAsWdg::TquestionAsWdg(QString title, QGridLayout* gridLay, int row, QWi
     connect(asSoundChB, SIGNAL(clicked()), this, SLOT(buttonClicked()));
 
     connect(enableChBox, SIGNAL(clicked()), this, SLOT(groupChecked()));
+    connect(enableChBox, SIGNAL(clicked()), this, SLOT(buttonClicked()));
 }
 
 void TquestionAsWdg::buttonClicked() {
     if (!asNoteChB->isChecked() && !asNameChB->isChecked() &&
       !asFretPosChB->isChecked() && !asSoundChB->isChecked())
             setChecked(false);
+    else
+            setChecked(true);
     emit answerStateChanged();
 }
 
