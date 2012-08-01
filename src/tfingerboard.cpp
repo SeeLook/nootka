@@ -47,7 +47,7 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     setStatusTip(tr("Select string or fret and click to see it in the score."));
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    QGraphicsBlurEffect *blur = new QGraphicsBlurEffect();
+    QGraphicsBlurEffect *blur[6];
 //     blur->setBlurRadius(10);
     for (int i=0; i<6; i++) {
         m_strings[i] = new QGraphicsLineItem();
@@ -63,7 +63,8 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
         m_workStrings[i] = new QGraphicsLineItem();
         m_workStrings[i]->hide();
         m_scene->addItem(m_workStrings[i]);
-        m_workStrings[i]->setGraphicsEffect(blur);
+        blur[i] = new QGraphicsBlurEffect();
+        m_workStrings[i]->setGraphicsEffect(blur[i]);
     }
 
     m_workFinger = new QGraphicsEllipseItem();
