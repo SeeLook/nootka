@@ -100,4 +100,15 @@ void TquestionAsWdg::setQuestionTip(QString tip) {
   asSoundChB->setStatusTip(questionTxt() + ": " + tip + "<br>" + answerTxt() + ": " +asSoundTxt());
 }
 
+void TquestionAsWdg::setChecked(bool checked) {
+  enableChBox->setChecked(checked);
+  if (!checked) {
+    asNoteChB->setChecked(false);
+    asNameChB->setChecked(false);
+    asFretPosChB->setChecked(false);
+    asSoundChB->setChecked(false);
+  }
+
+}
+
 

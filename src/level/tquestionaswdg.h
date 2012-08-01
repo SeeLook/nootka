@@ -50,7 +50,7 @@ public:
     bool answerAsPos() { return asFretPosChB->isChecked(); }
     bool answerAsSound() { return asSoundChB->isChecked(); }
     
-    void setChecked(bool checked) { enableChBox->setChecked(checked); }
+    void setChecked(bool checked);
     bool isChecked() { return enableChBox->isChecked(); }
     void setTitle(QString title); // Text of left label
     void setQuestionTip(QString tip); // First line of Text in statusTip Message
