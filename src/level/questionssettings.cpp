@@ -65,23 +65,37 @@ questionsSettings::questionsSettings(QWidget *parent) :
     asSoundWdg = new TquestionAsWdg(TquestionAsWdg::asSoundTxt(), qaLay, 4, this);
     asSoundWdg->setQuestionTip(TquestionAsWdg::asSoundTxt());
     
-    QLabel *scoreNooLab = new QLabel("s", this);
-    QFont nf("nootka", 20);
+    QLabel *scoreNooLab = new QLabel("s?", this);
+    QFont nf("nootka", qRound((float)fontMetrics().boundingRect("A").height()));
     scoreNooLab->setFont(nf);
-    qaLay->addWidget(scoreNooLab, 1, 6);
-    QLabel *nameNooLab = new QLabel("c", this);
+    qaLay->addWidget(scoreNooLab, 1, 6, Qt::AlignCenter);
+    QLabel *nameNooLab = new QLabel("c?", this);
     nameNooLab->setFont(nf);
-    qaLay->addWidget(nameNooLab, 2, 6);
-    QLabel *guitarNooLab = new QLabel("g", this);
+    qaLay->addWidget(nameNooLab, 2, 6, Qt::AlignCenter);
+    QLabel *guitarNooLab = new QLabel("g?", this);
     guitarNooLab->setFont(nf);
-    qaLay->addWidget(guitarNooLab, 3, 6);
-    QLabel *soundNooLab = new QLabel("n", this);
+    qaLay->addWidget(guitarNooLab, 3, 6, Qt::AlignCenter);
+    QLabel *soundNooLab = new QLabel("n?", this);
     soundNooLab->setFont(nf);
     qaLay->addWidget(soundNooLab, 4, 6);
+    
+    QLabel *qScoreNooLab = new QLabel("s!", this);
+    qScoreNooLab->setFont(nf);
+    qaLay->addWidget(qScoreNooLab, 5, 2, Qt::AlignCenter);
+    QLabel *qNmeNooLab = new QLabel("c!", this);
+    qNmeNooLab->setFont(nf);
+    qaLay->addWidget(qNmeNooLab, 5, 3, Qt::AlignCenter);
+    QLabel *qGuitarNooLab = new QLabel("g!", this);
+    qGuitarNooLab->setFont(nf);
+    qaLay->addWidget(qGuitarNooLab, 5, 4, Qt::AlignCenter);
+    QLabel *qSoundNooLab = new QLabel("n!", this);
+    qSoundNooLab->setFont(nf);
+    qaLay->addWidget(qSoundNooLab, 5, 5);
+    
     qaGr->setLayout(qaLay);
     mainLay->addWidget(qaGr);
     
-  // some check boxes
+  // some checkBoxes
     octaveRequiredChB = new QCheckBox(tr("require octave"),this);
     octaveRequiredChB->setStatusTip(tr("if checked, selecting of valid octave is required"));
     mainLay->addWidget(octaveRequiredChB, 0, Qt::AlignCenter);
@@ -92,7 +106,7 @@ questionsSettings::questionsSettings(QWidget *parent) :
     
     styleRequiredChB = new QCheckBox(tr("use different nameing styles"),this);
     styleRequiredChB->setStatusTip(tr("if checked, nameing style is switched between letters and solfge.<br>It has to be checked if note's name is a question and an answer."));
-    mainLay->addWidget(styleRequiredChB,0,Qt::AlignCenter);
+    mainLay->addWidget(styleRequiredChB, 0, Qt::AlignCenter);
     
     showStrNrChB = new QCheckBox(tr("show string number in questions"), this);
     showStrNrChB->setStatusTip(tr("Shows on which string an answer has to be given.<br>Be careful, when it is needed and when it has no sense"));
