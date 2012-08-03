@@ -1,3 +1,6 @@
+    BUGS FIXES
+    - in Nootka font- fixed look of string numbers under Windows
+
 0.8.2 beta    
     - Added new charts - data sorted by note pitch and fret number
     - improved dilog window to start/continue exams

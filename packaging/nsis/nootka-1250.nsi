@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "Nootka"
-!define PRODUCT_VERSION "0.8.1-beta"
+!define PRODUCT_VERSION "0.8.3-beta"
 !define PRODUCT_PUBLISHER "Nootka"
 !define PRODUCT_WEB_SITE "http://nootka.sf.net"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\nootka.exe"
@@ -17,7 +17,7 @@ SetCompressor lzma
 ; MUI Settings
 !define MUI_ABORTWARNING
 !define MUI_ICON "picts\nootka.ico"
-!define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
+!define MUI_UNICON "picts\pack.ico"
 
 ; Language Selection Dialog Settings
 !define MUI_LANGDLL_REGISTRY_ROOT "${PRODUCT_UNINST_ROOT_KEY}"
@@ -50,7 +50,7 @@ SetCompressor lzma
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "Nootka-Setup-0-8-1-beta.exe"
+OutFile "Nootka-0-8-3-beta-Windows-Installer.exe"
 InstallDir "$PROGRAMFILES\Nootka"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
@@ -121,6 +121,7 @@ Section "GrupaGlowna" SEC01
   File "lang\nootka_pl.qm"
   File "lang\nootka_cs.qm"
   SetOutPath "$INSTDIR\picts"
+  File "picts\accidSettings.png"
   File "picts\about.png"
   File "picts\author.png"
   File "picts\body.png"
@@ -249,6 +250,7 @@ Section Uninstall
   Delete "$INSTDIR\picts\body.png"
   Delete "$INSTDIR\picts\author.png"
   Delete "$INSTDIR\picts\about.png"
+  Delete "$INSTDIR\picts\accidSettings.png"
   Delete "$INSTDIR\lang\nootka_pl.qm"
   Delete "$INSTDIR\lang\nootka_cs.qm"
   Delete "$INSTDIR\fonts\nootka.otf"
