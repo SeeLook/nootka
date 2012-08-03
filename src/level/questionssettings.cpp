@@ -75,7 +75,7 @@ questionsSettings::questionsSettings(QWidget *parent) :
     QLabel *guitarNooLab = new QLabel("g?", this);
     guitarNooLab->setFont(nf);
     qaLay->addWidget(guitarNooLab, 3, 6, Qt::AlignCenter);
-    QLabel *soundNooLab = new QLabel("n?", this);
+    soundNooLab = new QLabel("n?", this);
     soundNooLab->setFont(nf);
     qaLay->addWidget(soundNooLab, 4, 6);
     
@@ -88,7 +88,7 @@ questionsSettings::questionsSettings(QWidget *parent) :
     QLabel *qGuitarNooLab = new QLabel("g!", this);
     qGuitarNooLab->setFont(nf);
     qaLay->addWidget(qGuitarNooLab, 5, 4, Qt::AlignCenter);
-    QLabel *qSoundNooLab = new QLabel("n!", this);
+    qSoundNooLab = new QLabel("n!", this);
     qSoundNooLab->setFont(nf);
     qaLay->addWidget(qSoundNooLab, 5, 5);
     
@@ -183,9 +183,13 @@ void questionsSettings::paintEvent(QPaintEvent* ) {
   pen.setWidth(2);
   painter.setPen(pen);
   painter.drawLine(qLab->geometry().left(), asNoteWdg->enableChBox->geometry().top(), // horizontal line - under 'QUESTION'
-                   asSoundLab->geometry().right(), asNoteWdg->enableChBox->geometry().top());
+                   soundNooLab->geometry().right(), asNoteWdg->enableChBox->geometry().top());
+  painter.drawLine(qLab->geometry().left(), qSoundNooLab->geometry().top(), // horizontal line - under 'QUESTION'
+                   soundNooLab->geometry().right(), qSoundNooLab->geometry().top());
   painter.drawLine(aLab->geometry().right(), aLab->geometry().top(), // vertical line - right to 'ANSWER''
-                   aLab->geometry().right(), asSoundWdg->enableChBox->geometry().bottom() + 3);
+                   aLab->geometry().right(), qSoundNooLab->geometry().bottom());
+  painter.drawLine(soundNooLab->geometry().left(), aLab->geometry().top(), // vertical line - right to All answers
+                   soundNooLab->geometry().left(), qSoundNooLab->geometry().bottom());
 }
 
 

@@ -52,6 +52,9 @@ private:
         /** Returns formated string with problms in given &l level
         * or empty QString if all is right.*/
     QString validateLevel(TexamLevel &l);
+        /** Displays QMessageBox with given text wrapped with:
+         * 'It seems the level has got some mistakes:' */
+    void showValidationMessage(QString message);
 
 private slots:
         /** This slot is called when user is chooseing exam's level.
@@ -68,6 +71,7 @@ private slots:
     void acceptLevel();
         /** Performed when user cliks StartExam Button. */
     void startExam();
+    void checkLevelSlot();
 
 };
 

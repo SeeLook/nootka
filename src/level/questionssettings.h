@@ -72,7 +72,7 @@ private:
     
     QLabel *qLab; // QLabel with 'QUESTION' text
     TverticalLabel *aLab /**asSoundLab*/; // TverticalLabel with 'ANSWER' text
-    QLabel *asSoundLab;
+    QLabel *asSoundLab, *soundNooLab, *qSoundNooLab;
     TquestionAsWdg *asNoteWdg, *asNameWdg, *asFretPosWdg, *asSoundWdg;
     QCheckBox *styleRequiredChB, *octaveRequiredChB, *forceAccChB, *showStrNrChB;
 
