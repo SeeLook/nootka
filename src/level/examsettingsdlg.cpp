@@ -63,7 +63,10 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
 
     navList->setCurrentRow(0);
     cancelBut->setText(tr("Close"));
-    okBut->hide();
+    okBut->setText(tr("Check"));
+    okBut->setStatusTip(tr("Check, Are Your settings of the level possible to perform."));
+    disconnect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
+    connect(okBut, SIGNAL(clicked()), this, SLOT(checkLevelSlot()));
 
     connect(levelSett->levelSelector, SIGNAL(levelChanged(TexamLevel)),
             this, SLOT(levelWasSelected(TexamLevel))); // to load level to widgets
@@ -100,11 +103,11 @@ void TlevelCreatorDlg::saveLevel() {
 void TlevelCreatorDlg::saveToFile() {
     TexamLevel newLevel;
     questSett->saveLevel(newLevel);
+    accSett->saveLevel(newLevel);
     rangeSett->saveLevel(newLevel);
     QString isLevelValid = validateLevel(newLevel);
     if (isLevelValid != "") {
-        isLevelValid.prepend(tr("<center><b>It seems the level has got some mistakes:</b>"));
-        QMessageBox::warning(this, "", isLevelValid);
+        showValidationMessage(isLevelValid);
         return;
     }
     TlevelHeaderWdg *saveDlg = new TlevelHeaderWdg(this);
@@ -173,6 +176,8 @@ QString TlevelCreatorDlg::validateLevel(TexamLevel &l) {
         if ( (acc == 1 && !l.withSharps) || (acc == -1 && !l.withFlats))
             res += tr("<li>In range of notes some accidental is used<br>but not available in this level</li>");
     }
+    if (l.requireStyle && !l.canBeName())
+        res += tr("<li>Nameing styles was checked but neither question nor answers as note name are checked.<br>Check some or uncheck nemeing styles.</li>");
 
     if (res != "") {
         res.prepend("<ul>");
@@ -194,4 +199,23 @@ void TlevelCreatorDlg::startExam() {
 
 TexamLevel TlevelCreatorDlg::selectedLevel() {
     return levelSett->levelSelector->getSelectedLevel();
+}
+
+void TlevelCreatorDlg::checkLevelSlot() {
+    TexamLevel tmpLevel;
+    questSett->saveLevel(tmpLevel);
+    accSett->saveLevel(tmpLevel);
+    rangeSett->saveLevel(tmpLevel);
+    QString validMessage =  validateLevel(tmpLevel);
+    if (validMessage != "")
+      showValidationMessage(validMessage);
+    else
+      QMessageBox::information(this, "", tr("Level seems to be correct"));
+}
+
+void TlevelCreatorDlg::showValidationMessage(QString message) {
+      if (message != "") {
+        message.prepend(tr("<center><b>It seems the level has got some mistakes:</b>"));
+        QMessageBox::warning(this, "", message);
+    }
 }
