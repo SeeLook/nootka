@@ -41,6 +41,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
 {
  
   setWindowTitle(tr("Analyse of an exam results"));
+  setGeometry(parent->geometry());
   QVBoxLayout *lay = new QVBoxLayout;
 // default chart presets
   m_chartSetts.inclWrongAnsw = false;

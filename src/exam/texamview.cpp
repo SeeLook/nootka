@@ -25,7 +25,7 @@ TexamView::TexamView(QWidget *parent) :
     QWidget(parent)
 {
     setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Expanding);
-
+    setStatusTip(tr("Exam results"));
     QHBoxLayout *mainLay = new QHBoxLayout;
 
     mainLay->addStretch(1);
