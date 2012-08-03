@@ -33,6 +33,7 @@ QString row2(QString S1, QString S2) {
 TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *parent) :
   QDialog(parent)
 {
+  setWindowTitle(tr("Exam results"));
   QHBoxLayout *lay = new QHBoxLayout();
 //-------  left layout -----------------------
 	QVBoxLayout *leftLay = new QVBoxLayout();
