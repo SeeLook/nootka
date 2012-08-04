@@ -41,8 +41,6 @@ public:
   TtipChart(TquestionPoint *point);
   virtual ~TtipChart();
   
-      /** Returns string with kind of question/answer text. */
-  static QString qaTypeText(TQAtype::Etype &type);
       /** Returns html sting with note pixmap generated from @param point. */
   static QString wrapPixToHtml( Tnote note, bool clef, TkeySignature key, double factor = 4);
       /** Returns html string with question mark in nootka font. */

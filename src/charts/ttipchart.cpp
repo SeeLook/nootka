@@ -29,18 +29,6 @@
 
 
 /* static */
-QString TtipChart::qaTypeText(TQAtype::Etype &type) {
-  QString txt;
-  switch (type) {
-    case TQAtype::e_asNote : txt = TquestionAsWdg::asNoteTxt(); break;
-    case TQAtype::e_asName : txt = TquestionAsWdg::asNameTxt(); break;
-    case TQAtype::e_asFretPos : txt = TquestionAsWdg::asFretPosTxt(); break;
-    case TQAtype::e_asSound : txt = TquestionAsWdg::asSoundTxt(); break;    
-  }
-  return txt;
-}
-
-
 QString TtipChart::insertQMark() {
     return QString("<span style=\"color: red; font-family: nootka; font-size: 45px;\">?</span>");
 }
@@ -60,8 +48,8 @@ TtipChart::TtipChart(TquestionPoint *point) :
     TgraphicsTextTip(),
     m_point(point)
 {
-  QString txt = TquestionAsWdg::questionTxt() + " " + qaTypeText(point->question()->questionAs) + "<br>" +
-          TquestionAsWdg::answerTxt() + " " + qaTypeText(point->question()->answerAs) + "<br>";
+  QString txt = TquestionAsWdg::questionTxt() + " " + TquestionAsWdg::qaTypeText(point->question()->questionAs) + "<br>" +
+          TquestionAsWdg::answerTxt() + " " + TquestionAsWdg::qaTypeText(point->question()->answerAs) + "<br>";
   QString qS = "", aS = "";
   switch (point->question()->questionAs) {
     case TQAtype::e_asNote :

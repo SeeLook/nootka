@@ -34,7 +34,7 @@ class TquestionAsWdg : public QObject
 {
     Q_OBJECT
 public:
-    explicit TquestionAsWdg(QString title, QGridLayout *gridLay, int row, QWidget *parent = 0);
+    explicit TquestionAsWdg(TQAtype::Etype type, QGridLayout *gridLay, int row, QWidget *parent = 0);
 
     static QString questionTxt() { return tr("question"); } // question
     static QString questionsTxt() { return tr("questions"); } // questions
@@ -44,6 +44,13 @@ public:
     static QString asNameTxt() { return tr("as note's name"); } // as note's name
     static QString asFretPosTxt() { return tr("as position on the fingerboard"); } // as position on the fingerboard
     static QString asSoundTxt() { return tr("as played sound"); } // as played sound
+        /** Returns string with kind of question/answer text. */
+    static QString qaTypeText(TQAtype::Etype type);
+        /** Returns a letter in nootka font with symbol represents type. */
+    static QString qaTypeSymbol(TQAtype::Etype type);
+        /** Returns html span tag with style font to nootka and given size wraping given text. */
+    static QString spanNootka(QString text, int fontSize = 0);
+    
 
     bool answerAsNote() { return asNoteChB->isChecked(); }
     bool answerAsName() { return asNameChB->isChecked(); }
@@ -53,7 +60,6 @@ public:
     void setChecked(bool checked);
     bool isChecked() { return enableChBox->isChecked(); }
     void setTitle(QString title); // Text of left label
-    void setQuestionTip(QString tip); // First line of Text in statusTip Message
     
 
     void setAnswers(TQAtype types);
