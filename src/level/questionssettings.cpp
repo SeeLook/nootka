@@ -54,19 +54,15 @@ questionsSettings::questionsSettings(QWidget *parent) :
     asSoundLab->setAlignment(Qt::AlignCenter);
     qaLay->addWidget(asSoundLab, 0, 5, Qt::AlignBottom);
     
-    asNoteWdg = new TquestionAsWdg(TquestionAsWdg::asNoteTxt(), qaLay, 1, this);
-    asNoteWdg->setQuestionTip(TquestionAsWdg::asNoteTxt());
-    asNameWdg = new TquestionAsWdg(TquestionAsWdg::asNameTxt(), qaLay, 2, this);
-    asNameWdg->setQuestionTip(TquestionAsWdg::asNameTxt());
-    asFretPosWdg = new TquestionAsWdg(TquestionAsWdg::asFretPosTxt(), qaLay, 3, this);
+    asNoteWdg = new TquestionAsWdg(TQAtype::e_asNote, qaLay, 1, this);
+    asNameWdg = new TquestionAsWdg(TQAtype::e_asName, qaLay, 2, this);
+    asFretPosWdg = new TquestionAsWdg(TQAtype::e_asFretPos, qaLay, 3, this);
     asFretPosWdg->asFretPosChB->setDisabled(true);
-    asFretPosWdg->setQuestionTip(TquestionAsWdg::asFretPosTxt());
     asFretPosWdg->asFretPosChB->setStatusTip("not implemented yet");
-    asSoundWdg = new TquestionAsWdg(TquestionAsWdg::asSoundTxt(), qaLay, 4, this);
-    asSoundWdg->setQuestionTip(TquestionAsWdg::asSoundTxt());
+    asSoundWdg = new TquestionAsWdg(TQAtype::e_asSound, qaLay, 4, this);
     
     QLabel *scoreNooLab = new QLabel("s?", this);
-    QFont nf("nootka", qRound((float)fontMetrics().boundingRect("A").height()));
+    QFont nf("nootka", fontMetrics().boundingRect("A").height());
     scoreNooLab->setFont(nf);
     qaLay->addWidget(scoreNooLab, 1, 6, Qt::AlignCenter);
     QLabel *nameNooLab = new QLabel("c?", this);
@@ -96,21 +92,23 @@ questionsSettings::questionsSettings(QWidget *parent) :
     mainLay->addWidget(qaGr);
     
   // some checkBoxes
+    QGridLayout *chLay = new QGridLayout;
     octaveRequiredChB = new QCheckBox(tr("require octave"),this);
     octaveRequiredChB->setStatusTip(tr("if checked, selecting of valid octave is required"));
-    mainLay->addWidget(octaveRequiredChB, 0, Qt::AlignCenter);
+    chLay->addWidget(octaveRequiredChB, 0, 0, Qt::AlignCenter);
     
     forceAccChB = new QCheckBox(tr("force useing appropirate accidental"),this);
     forceAccChB->setStatusTip(tr("if checked, is possible to select a note<br>with given accidental only."));
-    mainLay->addWidget(forceAccChB, 0, Qt::AlignCenter);
+    chLay->addWidget(forceAccChB, 1, 0, Qt::AlignCenter);
     
     styleRequiredChB = new QCheckBox(tr("use different nameing styles"),this);
     styleRequiredChB->setStatusTip(tr("if checked, nameing style is switched between letters and solfge.<br>It has to be checked if note's name is a question and an answer."));
-    mainLay->addWidget(styleRequiredChB, 0, Qt::AlignCenter);
+    chLay->addWidget(styleRequiredChB, 2, 0, Qt::AlignCenter);
     
     showStrNrChB = new QCheckBox(tr("show string number in questions"), this);
     showStrNrChB->setStatusTip(tr("Shows on which string an answer has to be given.<br>Be careful, when it is needed and when it has no sense"));
-    mainLay->addWidget(showStrNrChB, 0, Qt::AlignCenter);
+    chLay->addWidget(showStrNrChB, 3, 0, Qt::AlignCenter);
+    mainLay->addLayout(chLay);
       
     setLayout(mainLay);
 

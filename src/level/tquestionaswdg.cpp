@@ -20,23 +20,81 @@
 #include "tquestionaswdg.h"
 #include <QtGui>
 
+/* static */
+QString TquestionAsWdg::qaTypeText(TQAtype::Etype type) {
+    QString txt;
+    switch (type) {
+      case TQAtype::e_asNote : txt = TquestionAsWdg::asNoteTxt(); break;
+      case TQAtype::e_asName : txt = TquestionAsWdg::asNameTxt(); break;
+      case TQAtype::e_asFretPos : txt = TquestionAsWdg::asFretPosTxt(); break;
+      case TQAtype::e_asSound : txt = TquestionAsWdg::asSoundTxt(); break;    
+    }
+    return txt;
+}
+
+QString TquestionAsWdg::qaTypeSymbol(TQAtype::Etype type) {
+    QString symbol;
+    switch (type) {
+      case TQAtype::e_asNote : symbol = "s"; break;
+      case TQAtype::e_asName : symbol = "c"; break;
+      case TQAtype::e_asFretPos : symbol = "g"; break;
+      case TQAtype::e_asSound : symbol = "n"; break;    
+    }
+    return symbol;
+}
+
+QString TquestionAsWdg::spanNootka(QString text, int fontSize) {
+    QString fs = "";
+    if (fontSize) 
+      fs = QString("font-size: %1px;").arg(fontSize);
+    return QString("<span style=\"font-family: nootka; %1\">").arg (fs) + text + "</span>";
+}
 
 
-TquestionAsWdg::TquestionAsWdg(QString title, QGridLayout* gridLay, int row, QWidget* parent) :
+
+
+TquestionAsWdg::TquestionAsWdg(TQAtype::Etype type, QGridLayout* gridLay, int row, QWidget* parent) :
     QObject(parent)
 {
+    QString title = qaTypeText(type);    
     questLab = new QLabel(title, parent);
     questLab->setStatusTip(tr("Select a type of answers for a question."));
     gridLay->addWidget(questLab, row, 0, Qt::AlignRight);
     enableChBox = new QCheckBox(parent);
+    enableChBox->setStatusTip(questionTxt() + " - " + title);
     gridLay->addWidget(enableChBox, row, 1, Qt::AlignCenter);
+    int nootFontSize = enableChBox->fontMetrics().boundingRect("A").height() * 2;
+    
     asNoteChB = new QCheckBox(parent);
+    asNoteChB->setStatusTip("<table valign=\"middle\" align=\"center\"><tr><td>" + 
+    spanNootka(qaTypeSymbol(type) + "?", nootFontSize) + "</td>" + 
+    "<td align=\"center\">" + questionTxt() + " - " + qaTypeText(type)  + "<br> " + 
+    answerTxt() + " - " + qaTypeText(TQAtype::e_asNote) + " </td> " +
+    "<td>" + spanNootka(qaTypeSymbol(TQAtype::e_asNote) + "!", nootFontSize) + "</td></tr></table>");
     gridLay->addWidget(asNoteChB, row, 2, Qt::AlignCenter);
+    
     asNameChB = new QCheckBox(parent);
+    asNameChB->setStatusTip("<table valign=\"middle\" align=\"center\"><tr><td>" + 
+    spanNootka(qaTypeSymbol(type) + "?", nootFontSize) + "</td>" + 
+    "<td align=\"center\">" + questionTxt() + " - " + qaTypeText(type)  + "<br> " + 
+    answerTxt() + " - " + qaTypeText(TQAtype::e_asName) + " </td> " +
+    "<td>" + spanNootka(qaTypeSymbol(TQAtype::e_asName) + "!", nootFontSize) + "</td></tr></table>");
     gridLay->addWidget(asNameChB, row, 3, Qt::AlignCenter);
+    
     asFretPosChB = new QCheckBox(parent);
+    asFretPosChB->setStatusTip("<table valign=\"middle\" align=\"center\"><tr><td>" + 
+    spanNootka(qaTypeSymbol(type) + "?", nootFontSize) + "</td>" + 
+    "<td align=\"center\">" + questionTxt() + " - " + qaTypeText(type)  + "<br> " + 
+    answerTxt() + " - " + qaTypeText(TQAtype::e_asFretPos) + " </td> " +
+    "<td>" + spanNootka(qaTypeSymbol(TQAtype::e_asFretPos) + "!", nootFontSize) + "</td></tr></table>");
     gridLay->addWidget(asFretPosChB, row, 4, Qt::AlignCenter);
+    
     asSoundChB = new QCheckBox(parent);
+    asSoundChB->setStatusTip("<table valign=\"middle\" align=\"center\"><tr><td>" + 
+    spanNootka(qaTypeSymbol(type) + "?", nootFontSize) + "</td>" + 
+    "<td align=\"center\">" + questionTxt() + " - " + qaTypeText(type)  + "<br> " + 
+    answerTxt() + " - " + qaTypeText(TQAtype::e_asSound) + " </td> " +
+    "<td>" + spanNootka(qaTypeSymbol(TQAtype::e_asSound) + "!", nootFontSize) + "</td></tr></table>");
     gridLay->addWidget(asSoundChB, row, 5, Qt::AlignCenter);
 
     connect(asNoteChB, SIGNAL(clicked()), this, SLOT(buttonClicked()));
@@ -92,13 +150,13 @@ TQAtype TquestionAsWdg::getAnswers() {
 void TquestionAsWdg::setTitle(QString title) {
   questLab->setText(title);
 }
-
+/*
 void TquestionAsWdg::setQuestionTip(QString tip) {
   asNoteChB->setStatusTip(questionTxt() + ": " + tip + "<br>" + answerTxt() + ": " +asNoteTxt());
   asNameChB->setStatusTip(questionTxt() + ": " + tip + "<br>" + answerTxt() + ": " +asNameTxt());
   asFretPosChB->setStatusTip(questionTxt() + ": " + tip + "<br>" + answerTxt() + ": " +asFretPosTxt());
   asSoundChB->setStatusTip(questionTxt() + ": " + tip + "<br>" + answerTxt() + ": " +asSoundTxt());
-}
+}*/
 
 void TquestionAsWdg::setChecked(bool checked) {
   enableChBox->setChecked(checked);

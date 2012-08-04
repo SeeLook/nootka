@@ -58,6 +58,8 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
     stackLayout->addWidget(questSett);
     stackLayout->addWidget(accSett);
     stackLayout->addWidget(rangeSett);
+    
+    hint->setFixedHeight(fontMetrics().boundingRect("A").height() * 4);
 
     connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
 
@@ -178,7 +180,6 @@ QString TlevelCreatorDlg::validateLevel(TexamLevel &l) {
     }
     if (l.requireStyle && !l.canBeName())
         res += tr("<li>Nameing styles was checked but neither question nor answers as note name are checked.<br>Check some or uncheck nemeing styles.</li>");
-
     if (res != "") {
         res.prepend("<ul>");
         res += "</ul></center>";
