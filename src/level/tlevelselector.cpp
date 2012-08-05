@@ -18,6 +18,7 @@
 
 
 #include "tlevelselector.h"
+#include "tquestionaswdg.h"
 #include "tnotename.h"
 #include "tglobals.h"
 #include <QtGui>
@@ -356,7 +357,7 @@ TlevelSummaryWdg::TlevelSummaryWdg(QWidget *parent) :
 
 }
 
-void TlevelSummaryWdg::setLevel(TexamLevel tl) {
+void TlevelSummaryWdg::setLevel(TexamLevel& tl) {
     QString S;
     S = "<center><b>" + tl.name + "</b>";
     S += "<table border=\"1\">";
@@ -388,6 +389,40 @@ void TlevelSummaryWdg::setLevel(TexamLevel tl) {
         if (tl.withDblAcc) S += " <i>x bb</i>";
     }
     S += "</td></tr>";
+    S += "<tr><td>" + TquestionAsWdg::questionsTxt() + ": </td><td>"; // QUESTIONS
+    QString tmp;
+    if (tl.questionAs.isNote())
+      tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asNote) + " ";
+    if (tl.questionAs.isName())
+      tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asName) + " ";
+    if (tl.questionAs.isFret())
+      tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asFretPos) + " ";
+    if (tl.questionAs.isSound())
+      tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asSound);
+    int fontSize = fontMetrics().boundingRect("A").height() * 1.3;
+    S += TquestionAsWdg::spanNootka(tmp, fontSize);
+    S += "</td></tr>";
+    tmp   = "";
+    S += "<tr><td>" + TquestionAsWdg::answersTxt() + ": </td><td>"; // ANSWERS
+    if (tl.answersAs[TQAtype::e_asNote].isNote() || tl.answersAs[TQAtype::e_asName].isNote() ||
+      tl.answersAs[TQAtype::e_asFretPos].isNote() || tl.answersAs[TQAtype::e_asSound].isNote() )
+            tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asNote) + " ";
+    if (tl.answersAs[TQAtype::e_asNote].isName() || tl.answersAs[TQAtype::e_asName].isName() ||
+      tl.answersAs[TQAtype::e_asFretPos].isName() || tl.answersAs[TQAtype::e_asSound].isName() )
+            tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asName) + " ";
+    if (tl.answersAs[TQAtype::e_asNote].isFret() || tl.answersAs[TQAtype::e_asName].isFret() ||
+      tl.answersAs[TQAtype::e_asFretPos].isFret() || tl.answersAs[TQAtype::e_asSound].isFret() )
+            tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asFretPos) + " ";
+    if (tl.answersAs[TQAtype::e_asNote].isSound() || tl.answersAs[TQAtype::e_asName].isSound() ||
+      tl.answersAs[TQAtype::e_asFretPos].isSound() || tl.answersAs[TQAtype::e_asSound].isSound() )
+            tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asSound);
+    S += TquestionAsWdg::spanNootka(tmp, fontSize);
+    S += "</td></tr>";
+    S += "<tr><td colspan=\"2\" align=\"center\">";
+    if (tl.requireOctave)
+      S += tr("propper octave required");
+    else
+      S += tr("octave no matter");
     S += "</table></center>";
     summLab->setText(S);
 }
