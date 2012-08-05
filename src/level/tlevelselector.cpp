@@ -420,10 +420,11 @@ void TlevelSummaryWdg::setLevel(TexamLevel& tl) {
     S += "</td></tr>";
     S += "<tr><td colspan=\"2\" align=\"center\">";
     if (tl.requireOctave)
-      S += tr("propper octave required");
+      S += tr("propper octave is required");
     else
-      S += tr("octave no matter");
+      S += tr("octave has no matter");
     S += "</table></center>";
+    S += "<center>" + tl.desc + "</center>";
     summLab->setText(S);
 }
 

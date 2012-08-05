@@ -155,6 +155,11 @@ void TlevelCreatorDlg::acceptLevel() {
 
 QString TlevelCreatorDlg::validateLevel(TexamLevel &l) {
     QString res = "";
+  // Check has a level sence - are there an questions and answers
+    if (!l.canBeScore() && ! l.canBeName() && !l.canBeGuitar() && !l.canBeSound()) {
+        res = "There are not any questions nor answers selected.<br>Level has no sence";
+        return res;
+    }      
   // checking range
     // determine the highest note of frets' range on available strings
     int hiAvailStr, loAvailStr, cnt=-1;
@@ -178,8 +183,19 @@ QString TlevelCreatorDlg::validateLevel(TexamLevel &l) {
         if ( (acc == 1 && !l.withSharps) || (acc == -1 && !l.withFlats))
             res += tr("<li>In range of notes some accidental is used<br>but not available in this level</li>");
     }
+  // Check is posible of useing nameing style
     if (l.requireStyle && !l.canBeName())
         res += tr("<li>Nameing styles was checked but neither question nor answers as note name are checked.<br>Check some or uncheck nemeing styles.</li>");
+  // Check are questions and answers as note in the score have sence (are different)
+    if (l.questionAs.isNote() && l.answersAs[TQAtype::e_asNote].isNote())
+      if (!l.manualKey && !l.forceAccids)
+        res += tr("<li>Questions and answers as note in the score will be the same. Manual selecting keys or forceing accidentals has to be selected to avoid that.</li>");
+  // Check is posible of manualKey
+    if (l.manualKey)
+      if (!l.answersAs[TQAtype::e_asNote].isNote() || !l.answersAs[TQAtype::e_asName].isNote() ||
+        !l.answersAs[TQAtype::e_asFretPos].isNote() || !l.answersAs[TQAtype::e_asSound].isNote() )
+          res += tr("<li>Manual selecting of a key signature was checked but any answer as note in the score was not checked.</li>");
+  // Resume warrings
     if (res != "") {
         res.prepend("<ul>");
         res += "</ul></center>";
@@ -216,7 +232,12 @@ void TlevelCreatorDlg::checkLevelSlot() {
 
 void TlevelCreatorDlg::showValidationMessage(QString message) {
       if (message != "") {
-        message.prepend(tr("<center><b>It seems the level has got some mistakes:</b>"));
-        QMessageBox::warning(this, "", message);
+        if (message.contains("</li>")) { // when <li> exist - warring
+          message.prepend(tr("<center><b>It seems the level has got some mistakes:</b>"));
+          QMessageBox::warning(this, "", message); 
+        }
+        else { // no questions nor answers
+          QMessageBox::critical(this, "", message); 
+        }
     }
 }
