@@ -31,13 +31,14 @@ class TquestionAsWdg;
 class QRadioButton;
 class QGroupBox;
 
-
+/**
+ * This class paints 90deg. roteted text as a Label 
+ * It supports clean text only, not HTML
+*/
 class TverticalLabel : public QWidget
-{
-  
+{ 
 public:
     explicit TverticalLabel(QString text, QWidget* parent = 0);
-    
     QString text() { return m_text; }
     
 protected:
@@ -63,152 +64,26 @@ public:
     void saveLevel(TexamLevel &level);
 
 signals:
+      /** If any GUI element changes this signal is emited. */
     void questSettChanged();
     
 protected:
+      /** Paints lines of a table*/
     void paintEvent(QPaintEvent*);
 
 private:
     
     QLabel *qLab; // QLabel with 'QUESTION' text
-    TverticalLabel *aLab /**asSoundLab*/; // TverticalLabel with 'ANSWER' text
+    TverticalLabel *aLab; // TverticalLabel with 'ANSWER' text
     QLabel *asSoundLab, *soundNooLab, *qSoundNooLab;
     TquestionAsWdg *asNoteWdg, *asNameWdg, *asFretPosWdg, *asSoundWdg;
     QCheckBox *styleRequiredChB, *octaveRequiredChB, *forceAccChB, *showStrNrChB;
 
 private slots:
+      /** Every element calls this when clicked. */
     void whenParamsChanged();
 
 };
 
-
-/*
-class TasNoteWdg : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit TasNoteWdg(QWidget *parent = 0);
-
-    void loadLevel(TexamLevel level);
-    void saveLevel(TexamLevel &level);
-
-signals:
-    void asNoteChanged();
-
-
-private:
-    TquestionAsWdg *asNoteGr;
-    QGroupBox *accidGr, *keySignGr;
-    QRadioButton *singleKeyRadio, *rangeKeysRadio;
-    QButtonGroup *rangeButGr;
-    QCheckBox *sharpsChB, *flatsChB, *doubleAccChB;
-    TkeySignComboBox *fromKeyCombo, *toKeyCombo;
-    QCheckBox *keyInAnswerChB;
-
-private slots:
-        /** is called when radio button are checked
-        * to enable/disable second TkeySignComboBox. 
-    void keyRangeChanged();
-        /** Is called when user changes any parameter.
-            It emits asNoteChanged() signal. 
-    void whenParamsChanged();
-        /** It is called when user changes TkeySignComboBox-es
-        * and goal is to check sharps or flats, otherwiese exam level
-        * has no sense.
-    void keySignChanged();
-};
-
-
-
-class TasNameWdg : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit TasNameWdg(QWidget *parent = 0);
-
-    void loadLevel(TexamLevel level);
-    void saveLevel(TexamLevel &level);
-
-signals:
-    void asNameChanged();
-    
-  friend class questionsSettings;
-
-protected:
-  QCheckBox *octaveRequiredChB;
-  
-protected slots:
-  void checkOctaveChB(bool check);
-    
-private:
-    TquestionAsWdg *asNameGr;
-    QCheckBox *styleRequiredChB;
-
-private slots:
-        /** Is called to block styleRequiredChB when note name is
-            either question and answer.
-    void disableStyleChBox();
-        /** Is called when user changes any parameter.
-            It emits asNameChanged signal. 
-    void whenParamsChanged();
-
-};
-
-
-
-class TasFretPosWdg : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit TasFretPosWdg(QWidget *parent = 0);
-
-    void loadLevel(TexamLevel level);
-    void saveLevel(TexamLevel &level);
-
-signals:
-    void asFretPosChanged();
-
-private:
-    TquestionAsWdg *asPosGr;
-    QCheckBox *forceAccChB, *showStrNrChB;
-
-private slots:
-        /** Is called when user changes any parameter.
-            It emits asNameChanged signal. 
-    void whenParamsChanged();
-
-};
-
-class TasPlayedSound : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit TasPlayedSound(QWidget *parent = 0);
-
-    void loadLevel(TexamLevel level);
-    void saveLevel(TexamLevel &level);
-
-signals:
-    void asPlayedSoundChanged();
-    
-  friend class questionsSettings;
-    
-protected:
-    QCheckBox *octaveRequiredChB; // this is connected with octaveRequiredChB in TasNameWdg
-  
-protected slots:
-    void checkOctaveChB(bool check);
-
-private:
-    TquestionAsWdg *asSoundGr;
-
-private slots:
-        /** Is called when user changes any parameter.
-            It emits asNameChanged signal. 
-    void whenParamsChanged();
-
-};
-
-*/
 
 #endif // QUESTIONSSETTINGS_H

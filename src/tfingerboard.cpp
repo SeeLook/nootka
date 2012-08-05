@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -241,8 +241,8 @@ void TfingerBoard::paint() {
 }
 
 void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
-	if (m_isDisabled)
-		return;
+    if (m_isDisabled)
+        return;
     int strNr = 7, fretNr = 99;
     if ( (event->y() >= fbRect.y()) && (event->y() <= (height()-fbRect.y()-4)) ) {
         int tx, ty = event->y();
@@ -457,11 +457,13 @@ void TfingerBoard::createRangeBox(char loFret, char hiFret) {
     m_hiFret = hiFret;
     if (!m_rangeBox1) {
         m_rangeBox1 = new QGraphicsRectItem();
+        m_rangeBox1->setGraphicsEffect(new QGraphicsBlurEffect());
         m_scene->addItem(m_rangeBox1);
         m_rangeBox1->setBrush(QBrush(Qt::NoBrush));
     }
     if (!m_rangeBox2 && m_loFret == 0 && m_hiFret > 0 && m_hiFret < gl->GfretsNumber) {
         m_rangeBox2 = new QGraphicsRectItem();
+        m_rangeBox2->setGraphicsEffect(new QGraphicsBlurEffect());
         m_scene->addItem(m_rangeBox2);
         m_rangeBox2->setBrush(QBrush(Qt::NoBrush));
     }
@@ -473,7 +475,7 @@ void TfingerBoard::resizeRangeBox() {
         QColor C = gl->EanswerColor;
         C.setAlpha(200);
         QPen pen = QPen(C, strGap/3);
-	pen.setJoinStyle(Qt::RoundJoin);
+        pen.setJoinStyle(Qt::RoundJoin);
         int xxB, xxE;
         if (m_loFret == 0 || m_loFret == 1)
             xxB = xxB = fbRect.x() - 4;
