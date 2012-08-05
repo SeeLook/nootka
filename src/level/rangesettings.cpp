@@ -39,6 +39,8 @@ rangeSettings::rangeSettings(QWidget *parent) :
 //    scoreRang->setStatusTip(tr("If selected notes are either the lowest or the highest<br>possible sounds in the current guitar tune,<br>they are automatically adjusted to another tune."));
     scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()),
                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
+    scoreRang->setNote(0, Tnote(1, 0));
+    scoreRang->setNote(1, Tnote(1, 1));
     QGroupBox *notesRangGr = new QGroupBox(TlevelSummaryWdg::notesRangeTxt(), this);
     scoreLay->addWidget(scoreRang);
     notesRangGr->setLayout(scoreLay);
