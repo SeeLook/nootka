@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -49,46 +49,45 @@ public:
     void createRangeBox(char loFret, char hiFret);
     void prepareAnswer();
     void deleteRangeBox();
-	void setGuitarDisabled(bool disabled);
+    void setGuitarDisabled(bool disabled);
+        /** Highlights given string */
+    void setHighlitedString(char realStrNr);
+    void clearHighLight();
 
 
 signals:
     void guitarClicked(Tnote note);
 
-public slots:
 
 protected:
-
-    void paint();
-    Tnote posToNote(int str, int fret);
-
     void resizeEvent(QResizeEvent *);
     void mouseMoveEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *event);
     bool event(QEvent *event);
+    
+    void paint();
+    Tnote posToNote(int str, int fret);
 
 private:
-    // I HAVE TOO SHORT HANDS TO PLAY WITH 'm_' BEFORE EACH PRIVATE VARIABLE :((((
-
         /** Represents top left positions and size of fingerboard */
-    QRect fbRect;
+    QRect m_fbRect;
         /** Distance between strings */
-    short strGap;
+    short m_strGap;
         /** Average width of fret */
-    short fretWidth;
+    short m_fretWidth;
         /** Position of the last fret (in whole widget coordinates) */
     short lastFret;
         /** Actual position of cursor over the guitar in strings/frets coordinates */
-    short curStr, curFret;
+    short m_curStr, m_curFret;
         /** It keeps position of selected fingerprint.*/
     TfingerPos m_fingerPos;
         /** @param fretsPos  stores X positions of frets in global widget coordinates */
-    short fretsPos[24];
+    short m_fretsPos[24];
 
     QGraphicsScene *m_scene;
     QGraphicsEllipseItem *m_workFinger, *m_fingers[6], *m_questFinger;
-    int m_strNr, m_fretNr, m_curStr, m_curFret;
-    QGraphicsLineItem *m_workStrings[6], *m_strings[6], *m_questString;
+    int m_strNr, m_fretNr;
+    QGraphicsLineItem *m_workStrings[6], *m_strings[6], *m_questString, *m_highString;
     QGraphicsSimpleTextItem *m_questMark;
         /** Keeps selected note*/
     Tnote m_selNote;
@@ -98,7 +97,8 @@ private:
         /** Frets range in an exam*/
     char m_loFret, m_hiFret;
     QGraphicsRectItem *m_rangeBox1, *m_rangeBox2;
-	bool m_isDisabled;
+    bool m_isDisabled;
+    int m_hilightedStrNr;
 
 
     void paintFinger(QGraphicsEllipseItem *f, char strNr, char fretNr);

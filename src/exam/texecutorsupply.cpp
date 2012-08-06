@@ -198,6 +198,19 @@ Tnote::EnameStyle TexecutorSupply::randomNameStyle() {
     }
 }
 
+void TexecutorSupply::getTheSamePos(TfingerPos& fingerPos, QList< TfingerPos >& posList) {
+  qDebug() << "-------" << fingerPos.str() << fingerPos.fret() << (int)gl->strOrder(fingerPos.str()-1) + 1;
+  int chStr = gl->Gtune()[gl->strOrder(fingerPos.str()-1) + 1].getChromaticNrOfNote();
+  for (int i = 0; i < 6; i++)
+    if (i != gl->strOrder(fingerPos.str()-1)) {
+      int fret = chStr - gl->Gtune()[gl->strOrder(i) + 1].getChromaticNrOfNote();
+      if (fret >= m_level->loFret && fret <= m_level->hiFret) {
+        posList << TfingerPos(gl->strOrder(i) + 1, fret);
+        qDebug() << gl->strOrder(i) + 1 << fret;
+      }
+    }
+}
+
 
 //##########################################################################################
 //#######################     EVENTS        ################################################

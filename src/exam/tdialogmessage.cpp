@@ -237,7 +237,7 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
             quest += tr("Give name of");
           } else
             if (question.answerAs == TQAtype::e_asFretPos) {
-              quest += "not implemented";
+              quest += tr("Sound in position:<br>%1<br>show on %2 string.").arg(question.qa.pos.toHtml()).arg(onStringTxt(question.qa_2.pos.str()));
             } else
               if (question.answerAs == TQAtype::e_asSound) {
                   quest += tr("Play or sing");
