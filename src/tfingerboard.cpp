@@ -258,10 +258,11 @@ void TfingerBoard::setGuitarDisabled(bool disabled) {
 
 
 void TfingerBoard::setHighlitedString(char realStrNr) {
-  if (!m_highString)
+  if (!m_highString) {
       m_highString = new QGraphicsLineItem();
+      m_scene->addItem(m_highString);
+  }
   m_hilightedStrNr = realStrNr;
-  m_scene->addItem(m_highString);
   m_highString->setZValue(40);
   QGraphicsBlurEffect *hiBlur = new QGraphicsBlurEffect();
   m_highString->setGraphicsEffect(hiBlur);
@@ -270,8 +271,8 @@ void TfingerBoard::setHighlitedString(char realStrNr) {
   pen.setColor(Qt::darkYellow);
   pen.setWidth(pen.width() * 3);
   m_highString->setPen(pen);
-  m_highString->setPos(m_strings[realStrNr-1]->pos());
-
+  m_highString->setLine(m_strings[realStrNr-1]->line());
+  m_highString->show();
 }
 
 void TfingerBoard::clearHighLight() {
