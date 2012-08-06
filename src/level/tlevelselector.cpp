@@ -424,7 +424,7 @@ void TlevelSummaryWdg::setLevel(TexamLevel& tl) {
     else
       S += tr("octave has no matter");
     S += "</table></center>";
-    S += "<center>" + tl.desc + "</center>";
+//     S += "<center>" + tl.desc + "</center>";
     summLab->setText(S);
 }
 

@@ -40,6 +40,8 @@ public:
   Tnote forceEnharmAccid(Tnote n);
   Tnote::EnameStyle randomNameStyle();
   
+  void getTheSamePos(TfingerPos &fingerPos, QList<TfingerPos> &posList);
+  
 signals:
   void rightButtonClicked();
   

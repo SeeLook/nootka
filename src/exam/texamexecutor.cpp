@@ -293,6 +293,7 @@ void TexamExecutor::askQuestion() {
             m_answRequire.accid = false;
             m_answRequire.octave = true;
         }
+        
     }
 
     if (curQ.questionAs == TQAtype::e_asSound) {
@@ -376,6 +377,16 @@ void TexamExecutor::askQuestion() {
         mW->guitar->setGuitarDisabled(false);
         mW->guitar->prepareAnswer();
         m_answRequire.accid = false;  // Ignored in checking, positions are comparing
+        if (curQ.questionAs == TQAtype::e_asFretPos) {
+          QList<TfingerPos> posList;
+          m_supp->getTheSamePos(curQ.qa.pos, posList);
+          if (posList.isEmpty())
+            qDebug() << "Blind question";
+          else {
+            curQ.qa_2.pos = posList[qrand() % posList.size()];
+            mW->guitar->setHighlitedString(curQ.qa_2.pos.str());
+          }
+        }
     }
     
     if (curQ.answerAs == TQAtype::e_asSound) {
@@ -439,8 +450,13 @@ void TexamExecutor::checkAnswer(bool showResults) {
       retN = mW->sound->note();
     }
     if (curQ.answerAs == TQAtype::e_asFretPos) { // Comparing positions
+      if (curQ.questionAs != TQAtype::e_asFretPos) {
         if (curQ.qa.pos != mW->guitar->getfingerPos())
             curQ.setMistake(TQAunit::e_wrongPos);
+      } else {
+        if (curQ.qa_2.pos != mW->guitar->getfingerPos())
+            curQ.setMistake(TQAunit::e_wrongString);
+      }
     } else { // we check are the notes the same
 //        qDebug() << QString::fromStdString(retN.getName()) << QString::fromStdString(exN.getName());
       if (retN.note) {

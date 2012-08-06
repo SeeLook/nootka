@@ -57,6 +57,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
     QLabel *toLab = new QLabel(tr("to"),this);
     toSpinB = new QSpinBox(this);
     toSpinB->setMaximum(gl->GfretsNumber);
+    toSpinB->setValue(3);
     fretLay->addWidget(fromLab);
     fretLay->addWidget(fromSpinB);
     fretLay->addStretch(1);

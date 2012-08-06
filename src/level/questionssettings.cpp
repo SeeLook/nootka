@@ -57,8 +57,8 @@ questionsSettings::questionsSettings(QWidget *parent) :
     asNoteWdg = new TquestionAsWdg(TQAtype::e_asNote, qaLay, 1, this);
     asNameWdg = new TquestionAsWdg(TQAtype::e_asName, qaLay, 2, this);
     asFretPosWdg = new TquestionAsWdg(TQAtype::e_asFretPos, qaLay, 3, this);
-    asFretPosWdg->asFretPosChB->setDisabled(true);
-    asFretPosWdg->asFretPosChB->setStatusTip("not implemented yet");
+//     asFretPosWdg->asFretPosChB->setDisabled(true);
+//     asFretPosWdg->asFretPosChB->setStatusTip("not implemented yet");
     asSoundWdg = new TquestionAsWdg(TQAtype::e_asSound, qaLay, 4, this);
   // Labels on the right side of the table with symbols of types - related to questions
     QLabel *scoreNooLab = new QLabel("s?", this);
@@ -147,7 +147,7 @@ void questionsSettings::whenParamsChanged() {
     }
     else styleRequiredChB->setDisabled(false);
     
-    asFretPosWdg->asFretPosChB->setChecked(false); // @TODO until it is unimplemented
+//     asFretPosWdg->asFretPosChB->setChecked(false); // @TODO until it is unimplemented
     
     if (!isNotSaved) {
         isNotSaved = true;
