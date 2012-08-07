@@ -66,6 +66,10 @@ public:
 signals:
       /** If any GUI element changes this signal is emited. */
     void questSettChanged();
+      /** emited when note in score are diablled. */
+    void scoreEnabled(bool);
+      /** emited when note in score and names are all disabled or all enabled.  */
+    void accidEnabled(bool);
     
 protected:
       /** Paints lines of a table*/

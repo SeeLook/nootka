@@ -67,8 +67,10 @@ accidSettings::accidSettings(QWidget* parent) :
     QHBoxLayout *comboLay = new QHBoxLayout;
     m_fromKeyCombo = new TkeySignComboBox(this);
     m_fromKeyCombo->setStatusTip(tr("Select a key signature.<br>Apropirate accidentals used in exam<br>will be automatically selected !"));
+    m_fromKeyCombo->setKeySignature(TkeySignature(0));
     m_toKeyCombo = new TkeySignComboBox(this);
     m_toKeyCombo->setStatusTip(m_fromKeyCombo->statusTip());
+    m_fromKeyCombo->setKeySignature(TkeySignature(0));
     comboLay->addWidget(m_fromKeyCombo);
     QLabel *ll = new QLabel(" - ", this);
     comboLay->addWidget(ll);
@@ -82,6 +84,7 @@ accidSettings::accidSettings(QWidget* parent) :
     keyLay->addStretch(1);
 
     m_keySignGr->setLayout(keyLay);
+    m_keySignGr->setChecked(false);
     mainLay->addWidget(m_keySignGr, 1, Qt::AlignCenter);
 
     setLayout(mainLay);    
@@ -130,9 +133,16 @@ void accidSettings::loadLevel ( TexamLevel& level ) {
 }
 
 void accidSettings::saveLevel ( TexamLevel& level ) {
+  if (m_accidGr->isEnabled()) {
     level.withSharps = m_sharpsChB->isChecked();
     level.withFlats = m_flatsChB->isChecked();
     level.withDblAcc = m_doubleAccChB->isChecked();
+  } else { // ignore checking when groupbox is disabled
+    level.withSharps = false;
+    level.withFlats = false;
+    level.withDblAcc = false;
+  }
+  if (m_keySignGr->isEnabled()) {
     level.useKeySign = m_keySignGr->isChecked();
     if (m_singleKeyRadio->isChecked()) {
         level.isSingleKey = true;
@@ -155,6 +165,38 @@ void accidSettings::saveLevel ( TexamLevel& level ) {
             }
         }
     level.manualKey = m_keyInAnswerChB->isChecked();
+  } else {
+    level.useKeySign = false;
+    level.manualKey = false;
+  }
+}
+
+//#################### PUBLIC SLOTS #####################
+
+void accidSettings::enableAccids(bool enable) {
+    if (enable) { // score and note names are enabled in the level
+       m_keySignGr->setDisabled(false);
+       m_accidGr->setDisabled(false);
+       setStatusTip("");
+    } else {
+      m_keySignGr->setDisabled(true);
+      m_accidGr->setDisabled(true);
+      setStatusTip("<b>" + tr("Elements are disabled because appropirate types of questions or answers are not selected.") 
+        + "</b>");
+    }
+}
+
+void accidSettings::enableKeys(bool enable)
+{
+    if (enable) { // score is enabled in the level
+       m_keySignGr->setDisabled(false);
+       if (m_accidGr->isEnabled())
+          setStatusTip("");
+    } else {
+      m_keySignGr->setDisabled(true);
+      setStatusTip("<b>" + tr("Elements are disabled because appropirate types of questions or answers are not selected.") 
+        + "</b>");
+    }
 }
 
 

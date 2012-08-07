@@ -44,6 +44,11 @@ public:
 signals:
     void accidsChanged();
     
+public slots:
+      /** Slots invoked when score becames disable or enable in level*/
+    void enableAccids(bool enable);
+    void enableKeys(bool enable);
+    
 private:
     
     QGroupBox *m_accidGr, *m_keySignGr;
