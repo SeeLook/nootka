@@ -386,7 +386,9 @@ void TexamExecutor::askQuestion() {
             curQ.qa_2.pos = posList[qrand() % posList.size()];
             mW->guitar->setHighlitedString(curQ.qa_2.pos.str());
           }
-        }
+        } else 
+          if (m_level.showStrNr)
+            mW->guitar->setHighlitedString(curQ.qa.pos.str());
     }
     
     if (curQ.answerAs == TQAtype::e_asSound) {
@@ -453,9 +455,10 @@ void TexamExecutor::checkAnswer(bool showResults) {
       if (curQ.questionAs != TQAtype::e_asFretPos) {
         if (curQ.qa.pos != mW->guitar->getfingerPos())
             curQ.setMistake(TQAunit::e_wrongPos);
+        // TODO: search all pos mayby sound is good but string wrong only
       } else {
         if (curQ.qa_2.pos != mW->guitar->getfingerPos())
-            curQ.setMistake(TQAunit::e_wrongString);
+            curQ.setMistake(TQAunit::e_wrongPos);
       }
     } else { // we check are the notes the same
 //        qDebug() << QString::fromStdString(retN.getName()) << QString::fromStdString(exN.getName());
@@ -854,7 +857,7 @@ void TexamExecutor::showMessage(QString htmlText, TfingerPos& curPos, int time, 
         m_messageItem = new TgraphicsTextTip();
         m_messageItem->hide();
         mW->guitar->scene()->addItem(m_messageItem);
-        m_messageItem->setZValue(30);
+        m_messageItem->setZValue(100);
         if (!gl->GisRightHanded) {
             m_messageItem->scale(-1, 1);
         }

@@ -129,7 +129,7 @@ void TdialogMessage::paintEvent(QPaintEvent *) {
     painter.setBrush(QBrush(bc));
     painter.drawRoundedRect(rect.x() + 7, rect.y() +7, rect.width(), rect.height(), 12, 12);
   // solid background
-    painter.setBrush(QBrush(palette().window().color()));
+    painter.setBrush(QBrush(palette().base().color()));
     painter.drawRoundedRect(rect, 12, 12);
   // gradient backround in question color
     QColor c = gl->EquestionColor;
@@ -237,7 +237,8 @@ QString TdialogMessage::getQuestion(TQAunit &question, int questNr, TexamLevel* 
             quest += tr("Give name of");
           } else
             if (question.answerAs == TQAtype::e_asFretPos) {
-              quest += tr("Sound in position:<br>%1<br>show on %2 string.").arg(question.qa.pos.toHtml()).arg(onStringTxt(question.qa_2.pos.str()));
+              quest += tr("Show sound from position:", "... and string + fret numbers folowing");
+              apendix = "<br><b> " + onStringTxt(question.qa_2.pos.str()) + "</b>";
             } else
               if (question.answerAs == TQAtype::e_asSound) {
                   quest += tr("Play or sing");

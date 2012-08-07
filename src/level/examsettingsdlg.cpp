@@ -78,7 +78,9 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
     connect(levelSett->saveBut, SIGNAL(clicked()), this, SLOT(saveToFile()));
     connect(levelSett->levelSelector, SIGNAL(levelToLoad()), this, SLOT(loadFromFile()));
     connect(levelSett->startExamBut, SIGNAL(clicked()), this, SLOT(startExam()));
-
+    
+    connect(questSett, SIGNAL(scoreEnabled(bool)), accSett, SLOT(enableKeys(bool)));
+    connect(questSett, SIGNAL(accidEnabled(bool)), accSett, SLOT(enableAccids(bool)));
 }
 
 void TlevelCreatorDlg::levelWasSelected(TexamLevel level) {

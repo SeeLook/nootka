@@ -71,6 +71,7 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     }
 
     m_workFinger = new QGraphicsEllipseItem();
+    m_workFinger->setZValue(75);
     m_workFinger->hide();
 //    m_workFinger->setPen(QPen(gl->GfingerColor));
     m_workFinger->setPen(QPen(QBrush(Qt::transparent), 5));
@@ -267,12 +268,10 @@ void TfingerBoard::setHighlitedString(char realStrNr) {
   QGraphicsBlurEffect *hiBlur = new QGraphicsBlurEffect();
   m_highString->setGraphicsEffect(hiBlur);
   QPen pen = m_strings[realStrNr-1]->pen();
-//   pen.setColor(gl->EanswerColor);
-  pen.setColor(Qt::darkYellow);
+  pen.setColor(gl->EanswerColor.name());
   pen.setWidth(pen.width() * 3);
   m_highString->setPen(pen);
   m_highString->setLine(m_strings[realStrNr-1]->line());
-  m_highString->show();
 }
 
 void TfingerBoard::clearHighLight() {

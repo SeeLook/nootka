@@ -57,8 +57,6 @@ questionsSettings::questionsSettings(QWidget *parent) :
     asNoteWdg = new TquestionAsWdg(TQAtype::e_asNote, qaLay, 1, this);
     asNameWdg = new TquestionAsWdg(TQAtype::e_asName, qaLay, 2, this);
     asFretPosWdg = new TquestionAsWdg(TQAtype::e_asFretPos, qaLay, 3, this);
-//     asFretPosWdg->asFretPosChB->setDisabled(true);
-//     asFretPosWdg->asFretPosChB->setStatusTip("not implemented yet");
     asSoundWdg = new TquestionAsWdg(TQAtype::e_asSound, qaLay, 4, this);
   // Labels on the right side of the table with symbols of types - related to questions
     QLabel *scoreNooLab = new QLabel("s?", this);
@@ -146,8 +144,27 @@ void questionsSettings::whenParamsChanged() {
         styleRequiredChB->setDisabled(true);
     }
     else styleRequiredChB->setDisabled(false);
+  // disable show string if needed
+    if (asFretPosWdg->isChecked() && asFretPosWdg->answerAsPos()) {
+      showStrNrChB->setChecked(true);
+      showStrNrChB->setDisabled(true);
+    }
+    else showStrNrChB->setDisabled(false);
     
-//     asFretPosWdg->asFretPosChB->setChecked(false); // @TODO until it is unimplemented
+  // Is score enabled in a level
+    if (!asNoteWdg->isChecked() && !asNameWdg->answerAsNote() && !asFretPosWdg->answerAsNote() && !asSoundWdg->answerAsNote()) {
+        emit scoreEnabled(false);
+        // Are score and names enabled
+        if (!asNameWdg->isChecked() && !asNoteWdg->answerAsName() && !asFretPosWdg->answerAsName() && 
+          !asSoundWdg->answerAsName()) 
+              emit accidEnabled(false);    
+            else 
+              emit accidEnabled(true);
+    } else {
+        emit scoreEnabled(true);
+        emit accidEnabled(true);
+    }
+    
     
     if (!isNotSaved) {
         isNotSaved = true;
