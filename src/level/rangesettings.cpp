@@ -91,22 +91,11 @@ rangeSettings::rangeSettings(QWidget *parent) :
     mainLay->addLayout(allLay);
     mainLay->addStretch(1);
 
-//     lowPosOnlyChBox = new QCheckBox(tr("notes in the lowest position only"),this);
-//     lowPosOnlyChBox->setStatusTip(tr("if checked, the lowest position in selected frets' range are required,<br>otherwise all possible positions of the note are taken.<br>To use this, all strings have to be available !!"));
-//     mainLay->addWidget(lowPosOnlyChBox, 0, Qt::AlignCenter);
-//     mainLay->addStretch(1);
-//     currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);
-//     currKeySignChBox->setStatusTip(tr("Only notes from current key signature are taken.<br>If key signature is disabled accidentals are not used."));
-//     mainLay->addWidget(currKeySignChBox, 0, Qt::AlignCenter);
-    mainLay->addStretch(1);
-
     setLayout(mainLay);
 
     connect (scoreRang, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenParamsChanged()));
     connect (fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
     connect (toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
-//     connect (lowPosOnlyChBox, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
-//     connect (currKeySignChBox, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 }
 
 void rangeSettings::stringSelected() {
@@ -115,19 +104,6 @@ void rangeSettings::stringSelected() {
         && !stringBut[4]->isChecked() && !stringBut[5]->isChecked() ) {
         stringBut[0]->setChecked(true);
     }
-//     if ( !stringBut[0]->isChecked() || !stringBut[1]->isChecked()
-//         || !stringBut[2]->isChecked() || !stringBut[3]->isChecked()
-//         || !stringBut[4]->isChecked() || !stringBut[5]->isChecked() ) {
-//         lowPosOnlyChBox->setDisabled(true);
-//         lowPosOnlyChBox->setChecked(false);
-        /** It has two reasons:
-         1. when questions list is created there is no conditions to check
-            unavailable (unchecked) strings
-         2. in level validation method is hard to determine dependecy unchecked
-            strings between range of frets and notes. */
-//     }
-//     else
-//         lowPosOnlyChBox->setDisabled(false);
 }
 
 void rangeSettings::loadLevel(TexamLevel level) {
@@ -139,8 +115,6 @@ void rangeSettings::loadLevel(TexamLevel level) {
     toSpinB->setValue(level.hiFret);
     for (int i=0; i<6; i++)
         stringBut[i]->setChecked(level.usedStrings[i]);
-//     lowPosOnlyChBox->setChecked(level.onlyLowPos);
-//     currKeySignChBox->setChecked(level.onlyCurrKey);
     stringSelected();
     connect (fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
     connect (toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
@@ -151,6 +125,17 @@ void rangeSettings::whenParamsChanged() {
         isNotSaved = true;
         emit rangeChanged();
     }
+    if (!stringBut[0]->isChecked() || !stringBut[1]->isChecked()
+        || !stringBut[2]->isChecked() || !stringBut[3]->isChecked()
+        || !stringBut[4]->isChecked() || !stringBut[5]->isChecked() )
+      emit allStringsChecked(false);
+    else
+      emit allStringsChecked(true);
+        /** It has two reasons:
+         1. when questions list is created there is no conditions to check
+            unavailable (unchecked) strings
+         2. in level validation method is hard to determine dependecy unchecked
+            strings between range of frets and notes. */
 }
 
 void rangeSettings::saveLevel(TexamLevel &level) {
@@ -163,15 +148,6 @@ void rangeSettings::saveLevel(TexamLevel &level) {
         level.loNote = scoreRang->getNote(1);
         level.hiNote = scoreRang->getNote(0);
     }
-//    if (level.loNote.getChromaticNrOfNote() == gl->loString().getChromaticNrOfNote())
-//        level.isNoteLo = true;
-//    else
-//        level.isNoteLo = false;
-//    if (level.hiNote.getChromaticNrOfNote() == (gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber))
-//        level.isNoteHi = true;
-//    else
-//        level.isNoteHi = false;
-
     if (fromSpinB->value() <= toSpinB->value()) {
         level.loFret = fromSpinB->value();
         level.hiFret = toSpinB->value();
@@ -180,14 +156,8 @@ void rangeSettings::saveLevel(TexamLevel &level) {
         level.loFret = toSpinB->value();
         level.hiFret = fromSpinB->value();
     }
-//    if (level.hiFret == gl->GfretsNumber)
-//        level.isFretHi = true;
-//    else
-//        level.isFretHi = true;
 
     for (int i=0; i<6; i++)
         level.usedStrings[i] = stringBut[i]->isChecked();
-//     level.onlyLowPos = lowPosOnlyChBox->isChecked();
-//     level.onlyCurrKey = currKeySignChBox->isChecked();
 
 }

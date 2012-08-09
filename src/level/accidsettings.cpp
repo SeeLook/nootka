@@ -175,11 +175,9 @@ void accidSettings::saveLevel ( TexamLevel& level ) {
 
 void accidSettings::enableAccids(bool enable) {
     if (enable) { // score and note names are enabled in the level
-       m_keySignGr->setDisabled(false);
        m_accidGr->setDisabled(false);
        setStatusTip("");
     } else {
-      m_keySignGr->setDisabled(true);
       m_accidGr->setDisabled(true);
       setStatusTip("<b>" + tr("Elements are disabled because appropirate types of questions or answers are not selected.") 
         + "</b>");

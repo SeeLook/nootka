@@ -173,15 +173,17 @@ void questionsSettings::whenParamsChanged() {
   // Is score enabled in a level
     if (!asNoteWdg->isChecked() && !asNameWdg->answerAsNote() && !asFretPosWdg->answerAsNote() && !asSoundWdg->answerAsNote()) {
         emit scoreEnabled(false);
-        // Are score and names enabled
-        if (!asNameWdg->isChecked() && !asNoteWdg->answerAsName() && !asFretPosWdg->answerAsName() && 
-          !asSoundWdg->answerAsName()) 
-              emit accidEnabled(false);    
-            else 
-              emit accidEnabled(true);
     } else {
         emit scoreEnabled(true);
-        emit accidEnabled(true);
+    }
+  // Are score and names enabled
+    if (!asNameWdg->isChecked() && !asNoteWdg->answerAsName() && !asFretPosWdg->answerAsName() && 
+          !asSoundWdg->answerAsName() && !asNoteWdg->isChecked() && !asNameWdg->answerAsNote() && 
+          !asFretPosWdg->answerAsNote() && !asSoundWdg->answerAsNote()) {
+              emit accidEnabled(false);    
+    }
+    else {
+          emit accidEnabled(true);
     }
     
     
@@ -205,6 +207,8 @@ void questionsSettings::saveLevel(TexamLevel &level) {
     level.forceAccids = forceAccChB->isChecked();
     level.requireStyle = styleRequiredChB->isChecked();
     level.showStrNr = showStrNrChB->isChecked();
+    level.onlyLowPos = lowPosOnlyChBox->isChecked();
+    level.onlyCurrKey = currKeySignChBox->isChecked();
 }
 
 void questionsSettings::paintEvent(QPaintEvent* ) {
@@ -220,6 +224,15 @@ void questionsSettings::paintEvent(QPaintEvent* ) {
                    aLab->geometry().right(), qSoundNooLab->geometry().bottom());
   painter.drawLine(soundNooLab->geometry().left(), aLab->geometry().top(), // vertical line - right to All answers
                    soundNooLab->geometry().left(), qSoundNooLab->geometry().bottom());
+}
+
+void questionsSettings::stringsCheckedSlot(bool checked) {
+  if (checked)
+    lowPosOnlyChBox->setDisabled(false);
+  else {
+    lowPosOnlyChBox->setChecked(false);
+    lowPosOnlyChBox->setDisabled(true);    
+  }
 }
 
 

@@ -389,7 +389,7 @@ void TlevelSummaryWdg::setLevel(TexamLevel& tl) {
         if (tl.withDblAcc) S += " <i>x bb</i>";
     }
     S += "</td></tr>";
-    S += "<tr><td>" + TquestionAsWdg::questionsTxt() + ": </td><td>"; // QUESTIONS
+    S += "<tr><td>" + TquestionAsWdg::questionsTxt() + ": </td><td align=\"center\">"; // QUESTIONS
     QString tmp;
     if (tl.questionAs.isNote())
       tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asNote) + " ";
@@ -403,7 +403,7 @@ void TlevelSummaryWdg::setLevel(TexamLevel& tl) {
     S += TquestionAsWdg::spanNootka(tmp, fontSize);
     S += "</td></tr>";
     tmp   = "";
-    S += "<tr><td>" + TquestionAsWdg::answersTxt() + ": </td><td>"; // ANSWERS
+    S += "<tr><td>" + TquestionAsWdg::answersTxt() + ": </td><td align=\"center\">"; // ANSWERS
     if (tl.answersAs[TQAtype::e_asNote].isNote() || tl.answersAs[TQAtype::e_asName].isNote() ||
       tl.answersAs[TQAtype::e_asFretPos].isNote() || tl.answersAs[TQAtype::e_asSound].isNote() )
             tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asNote) + " ";
@@ -423,6 +423,7 @@ void TlevelSummaryWdg::setLevel(TexamLevel& tl) {
       S += tr("propper octave is required");
     else
       S += tr("octave has no matter");
+    S += "</td></tr>";
     S += "</table></center>";
 //     S += "<center>" + tl.desc + "</center>";
     summLab->setText(S);

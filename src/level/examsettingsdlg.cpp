@@ -81,6 +81,7 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
     
     connect(questSett, SIGNAL(scoreEnabled(bool)), accSett, SLOT(enableKeys(bool)));
     connect(questSett, SIGNAL(accidEnabled(bool)), accSett, SLOT(enableAccids(bool)));
+    connect(rangeSett, SIGNAL(allStringsChecked(bool)), questSett, SLOT(stringsCheckedSlot(bool)));
 }
 
 void TlevelCreatorDlg::levelWasSelected(TexamLevel level) {
@@ -109,6 +110,9 @@ void TlevelCreatorDlg::saveToFile() {
     questSett->saveLevel(newLevel);
     accSett->saveLevel(newLevel);
     rangeSett->saveLevel(newLevel);
+    if (!newLevel.canBeGuitar()) {
+      //TODO adjust fret range - validator will ignore it
+    }
     QString isLevelValid = validateLevel(newLevel);
     if (isLevelValid != "") {
         showValidationMessage(isLevelValid);
@@ -163,20 +167,22 @@ QString TlevelCreatorDlg::validateLevel(TexamLevel &l) {
         return res;
     }      
   // checking range
-    // determine the highest note of frets' range on available strings
-    int hiAvailStr, loAvailStr, cnt=-1;
-    do {
-        cnt ++;
-    } while (!l.usedStrings[gl->strOrder(cnt)] && cnt < 6);
-    hiAvailStr = gl->strOrder(cnt);
-    cnt = 6;
-    do {
-        cnt--;
-    } while (!l.usedStrings[gl->strOrder(cnt)] && cnt >= 0);
-    loAvailStr = gl->strOrder(cnt);
-    if (l.loNote.getChromaticNrOfNote() > gl->Gtune()[hiAvailStr+1].getChromaticNrOfNote()+l.hiFret ||
-        l.hiNote.getChromaticNrOfNote() < gl->Gtune()[loAvailStr+1].getChromaticNrOfNote()+l.loFret)
-        res += tr("<li>Range of frets is beyond scale of this level</li>");
+  // determine the highest note of frets' range on available strings
+    if (l.canBeGuitar()) { // only when guitar is enabled
+      int hiAvailStr, loAvailStr, cnt=-1;
+      do {
+          cnt ++;
+      } while (!l.usedStrings[gl->strOrder(cnt)] && cnt < 6);
+      hiAvailStr = gl->strOrder(cnt);
+      cnt = 6;
+      do {
+          cnt--;
+      } while (!l.usedStrings[gl->strOrder(cnt)] && cnt >= 0);
+      loAvailStr = gl->strOrder(cnt);
+      if (l.loNote.getChromaticNrOfNote() > gl->Gtune()[hiAvailStr+1].getChromaticNrOfNote()+l.hiFret ||
+          l.hiNote.getChromaticNrOfNote() < gl->Gtune()[loAvailStr+1].getChromaticNrOfNote()+l.loFret)
+          res += tr("<li>Range of frets is beyond scale of this level</li>");
+    }
   // checking are accids needed because of hi and low notes in range
     char acc = 0;
     if (l.loNote.acidental) acc = l.loNote.acidental;
