@@ -38,6 +38,7 @@ public:
 
 signals:
     void rangeChanged();
+    void allStringsChecked(bool);
 
 public slots:
 
@@ -45,7 +46,6 @@ private:
     TscoreWidgetSimple *scoreRang;
     QSpinBox *fromSpinB, *toSpinB;
     QCheckBox *stringBut[6];
-//     QCheckBox *lowPosOnlyChBox, *currKeySignChBox;
 
 private slots:
     void stringSelected();

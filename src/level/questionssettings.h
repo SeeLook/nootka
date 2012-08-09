@@ -71,6 +71,9 @@ signals:
       /** emited when note in score and names are all disabled or all enabled.  */
     void accidEnabled(bool);
     
+public slots:
+    void stringsCheckedSlot(bool checked);
+    
 protected:
       /** Paints lines of a table*/
     void paintEvent(QPaintEvent*);
