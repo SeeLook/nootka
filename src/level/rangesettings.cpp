@@ -29,6 +29,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
     QWidget(parent)
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
+    mainLay->addStretch(1);
     mainLay->setAlignment(Qt::AlignCenter);
 
     QHBoxLayout *allLay = new QHBoxLayout;
@@ -73,6 +74,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
     for (int i=0; i<6; i++) {
         stringBut[i] = new QCheckBox(QString("%1").arg(i+1),this);
         stringBut[i]->setFont(QFont("nootka", qRound(font().pointSize()*1.5), QFont::Normal));
+        stringBut[i]->setChecked(true);
         connect(stringBut[i], SIGNAL(clicked()), this, SLOT(stringSelected()));
         connect(stringBut[i], SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
         if (i<3)
@@ -89,13 +91,13 @@ rangeSettings::rangeSettings(QWidget *parent) :
     mainLay->addLayout(allLay);
     mainLay->addStretch(1);
 
-    lowPosOnlyChBox = new QCheckBox(tr("notes in the lowest position only"),this);
-    lowPosOnlyChBox->setStatusTip(tr("if checked, the lowest position in selected frets' range are required,<br>otherwise all possible positions of the note are taken.<br>To use this, all strings have to be available !!"));
-    mainLay->addWidget(lowPosOnlyChBox, 0, Qt::AlignCenter);
-    mainLay->addStretch(1);
-    currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);
-    currKeySignChBox->setStatusTip(tr("Only notes from current key signature are taken.<br>If key signature is disabled accidentals are not used."));
-    mainLay->addWidget(currKeySignChBox, 0, Qt::AlignCenter);
+//     lowPosOnlyChBox = new QCheckBox(tr("notes in the lowest position only"),this);
+//     lowPosOnlyChBox->setStatusTip(tr("if checked, the lowest position in selected frets' range are required,<br>otherwise all possible positions of the note are taken.<br>To use this, all strings have to be available !!"));
+//     mainLay->addWidget(lowPosOnlyChBox, 0, Qt::AlignCenter);
+//     mainLay->addStretch(1);
+//     currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);
+//     currKeySignChBox->setStatusTip(tr("Only notes from current key signature are taken.<br>If key signature is disabled accidentals are not used."));
+//     mainLay->addWidget(currKeySignChBox, 0, Qt::AlignCenter);
     mainLay->addStretch(1);
 
     setLayout(mainLay);
@@ -103,8 +105,8 @@ rangeSettings::rangeSettings(QWidget *parent) :
     connect (scoreRang, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenParamsChanged()));
     connect (fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
     connect (toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
-    connect (lowPosOnlyChBox, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
-    connect (currKeySignChBox, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+//     connect (lowPosOnlyChBox, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+//     connect (currKeySignChBox, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 }
 
 void rangeSettings::stringSelected() {
@@ -113,19 +115,19 @@ void rangeSettings::stringSelected() {
         && !stringBut[4]->isChecked() && !stringBut[5]->isChecked() ) {
         stringBut[0]->setChecked(true);
     }
-    if ( !stringBut[0]->isChecked() || !stringBut[1]->isChecked()
-        || !stringBut[2]->isChecked() || !stringBut[3]->isChecked()
-        || !stringBut[4]->isChecked() || !stringBut[5]->isChecked() ) {
-        lowPosOnlyChBox->setDisabled(true);
-        lowPosOnlyChBox->setChecked(false);
+//     if ( !stringBut[0]->isChecked() || !stringBut[1]->isChecked()
+//         || !stringBut[2]->isChecked() || !stringBut[3]->isChecked()
+//         || !stringBut[4]->isChecked() || !stringBut[5]->isChecked() ) {
+//         lowPosOnlyChBox->setDisabled(true);
+//         lowPosOnlyChBox->setChecked(false);
         /** It has two reasons:
          1. when questions list is created there is no conditions to check
             unavailable (unchecked) strings
          2. in level validation method is hard to determine dependecy unchecked
             strings between range of frets and notes. */
-    }
-    else
-        lowPosOnlyChBox->setDisabled(false);
+//     }
+//     else
+//         lowPosOnlyChBox->setDisabled(false);
 }
 
 void rangeSettings::loadLevel(TexamLevel level) {
@@ -137,8 +139,8 @@ void rangeSettings::loadLevel(TexamLevel level) {
     toSpinB->setValue(level.hiFret);
     for (int i=0; i<6; i++)
         stringBut[i]->setChecked(level.usedStrings[i]);
-    lowPosOnlyChBox->setChecked(level.onlyLowPos);
-    currKeySignChBox->setChecked(level.onlyCurrKey);
+//     lowPosOnlyChBox->setChecked(level.onlyLowPos);
+//     currKeySignChBox->setChecked(level.onlyCurrKey);
     stringSelected();
     connect (fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
     connect (toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
@@ -185,7 +187,7 @@ void rangeSettings::saveLevel(TexamLevel &level) {
 
     for (int i=0; i<6; i++)
         level.usedStrings[i] = stringBut[i]->isChecked();
-    level.onlyLowPos = lowPosOnlyChBox->isChecked();
-    level.onlyCurrKey = currKeySignChBox->isChecked();
+//     level.onlyLowPos = lowPosOnlyChBox->isChecked();
+//     level.onlyCurrKey = currKeySignChBox->isChecked();
 
 }

@@ -82,6 +82,7 @@ private:
     QLabel *asSoundLab, *soundNooLab, *qSoundNooLab;
     TquestionAsWdg *asNoteWdg, *asNameWdg, *asFretPosWdg, *asSoundWdg;
     QCheckBox *styleRequiredChB, *octaveRequiredChB, *forceAccChB, *showStrNrChB;
+    QCheckBox *lowPosOnlyChBox, *currKeySignChBox;
 
 private slots:
       /** Every element calls this when clicked. */

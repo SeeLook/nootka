@@ -45,7 +45,7 @@ private:
     TscoreWidgetSimple *scoreRang;
     QSpinBox *fromSpinB, *toSpinB;
     QCheckBox *stringBut[6];
-    QCheckBox *lowPosOnlyChBox, *currKeySignChBox;
+//     QCheckBox *lowPosOnlyChBox, *currKeySignChBox;
 
 private slots:
     void stringSelected();
