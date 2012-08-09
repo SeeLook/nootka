@@ -93,20 +93,28 @@ questionsSettings::questionsSettings(QWidget *parent) :
     QGridLayout *chLay = new QGridLayout;
     octaveRequiredChB = new QCheckBox(tr("require octave"),this);
     octaveRequiredChB->setStatusTip(tr("if checked, selecting of valid octave is required"));
-    chLay->addWidget(octaveRequiredChB, 0, 0, Qt::AlignCenter);
+    chLay->addWidget(octaveRequiredChB, 0, 0, Qt::AlignLeft);
     
     forceAccChB = new QCheckBox(tr("force useing appropirate accidental"),this);
     forceAccChB->setStatusTip(tr("if checked, is possible to select a note<br>with given accidental only."));
-    chLay->addWidget(forceAccChB, 1, 0, Qt::AlignCenter);
+    chLay->addWidget(forceAccChB, 1, 0, Qt::AlignLeft);
     
     styleRequiredChB = new QCheckBox(tr("use different nameing styles"),this);
     styleRequiredChB->setStatusTip(tr("if checked, nameing style is switched between letters and solfge.<br>It has to be checked if note's name is a question and an answer."));
-    chLay->addWidget(styleRequiredChB, 2, 0, Qt::AlignCenter);
+    chLay->addWidget(styleRequiredChB, 2, 0, Qt::AlignLeft);
     
     showStrNrChB = new QCheckBox(tr("show string number in questions"), this);
     showStrNrChB->setStatusTip(tr("Shows on which string an answer has to be given.<br>Be careful, when it is needed and when it has no sense"));
-    chLay->addWidget(showStrNrChB, 3, 0, Qt::AlignCenter);
+    chLay->addWidget(showStrNrChB, 0, 1, Qt::AlignLeft);
     mainLay->addLayout(chLay);
+    
+    lowPosOnlyChBox = new QCheckBox(tr("notes in the lowest position only"),this);
+    lowPosOnlyChBox->setStatusTip(tr("if checked, the lowest position in selected frets' range are required,<br>otherwise all possible positions of the note are taken.<br>To use this, all strings have to be available !!"));
+    chLay->addWidget(lowPosOnlyChBox, 1, 1, Qt::AlignLeft);
+    
+    currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);
+    currKeySignChBox->setStatusTip(tr("Only notes from current key signature are taken.<br>If key signature is disabled accidentals are not used."));
+    chLay->addWidget(currKeySignChBox, 2, 1, Qt::AlignLeft);
       
     setLayout(mainLay);
 
@@ -119,6 +127,8 @@ questionsSettings::questionsSettings(QWidget *parent) :
     connect(forceAccChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
     connect(styleRequiredChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
     connect(showStrNrChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+    connect(lowPosOnlyChBox, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+    connect(currKeySignChBox, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 }
 
 void questionsSettings::loadLevel(TexamLevel& level) {
@@ -135,6 +145,8 @@ void questionsSettings::loadLevel(TexamLevel& level) {
     forceAccChB->setChecked(level.forceAccids);
     styleRequiredChB->setChecked(level.requireStyle);
     showStrNrChB->setChecked(level.showStrNr);
+    lowPosOnlyChBox->setChecked(level.onlyLowPos);
+    currKeySignChBox->setChecked(level.onlyCurrKey);
 }
 
 
@@ -142,15 +154,22 @@ void questionsSettings::whenParamsChanged() {
     if (asNameWdg->answerAsName() && asNameWdg->isChecked()) {
         styleRequiredChB->setChecked(true);
         styleRequiredChB->setDisabled(true);
-    }
-    else styleRequiredChB->setDisabled(false);
+    } else 
+        styleRequiredChB->setDisabled(false);
   // disable show string if needed
     if (asFretPosWdg->isChecked() && asFretPosWdg->answerAsPos()) {
       showStrNrChB->setChecked(true);
       showStrNrChB->setDisabled(true);
+    } else 
+        showStrNrChB->setDisabled(false);
+  // disable lowPosOnlyChBox when question and answer are frepos
+    if (asFretPosWdg->isChecked() && asFretPosWdg->answerAsPos()) {
+      lowPosOnlyChBox->setChecked(false);
+      lowPosOnlyChBox->setDisabled(true);
+    } else {
+      lowPosOnlyChBox->setDisabled(false);
     }
-    else showStrNrChB->setDisabled(false);
-    
+      
   // Is score enabled in a level
     if (!asNoteWdg->isChecked() && !asNameWdg->answerAsNote() && !asFretPosWdg->answerAsNote() && !asSoundWdg->answerAsNote()) {
         emit scoreEnabled(false);

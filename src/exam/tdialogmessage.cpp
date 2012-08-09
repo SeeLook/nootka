@@ -133,7 +133,7 @@ void TdialogMessage::paintEvent(QPaintEvent *) {
     painter.drawRoundedRect(rect, 12, 12);
   // gradient backround in question color
     QColor c = gl->EquestionColor;
-    c.setAlpha(30);
+    c.setAlpha(15);
     QLinearGradient grad(rect.topLeft(), rect.bottomRight());
     grad.setColorAt(0.1, c);
     c.setAlpha(60);
