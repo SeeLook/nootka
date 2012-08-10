@@ -80,8 +80,8 @@ protected:
 
 private:
     
-    QLabel *qLab; // QLabel with 'QUESTION' text
-    TverticalLabel *aLab; // TverticalLabel with 'ANSWER' text
+    QLabel *m_questLab; // QLabel with 'QUESTION' text
+    TverticalLabel *m_answLab; // TverticalLabel with 'ANSWER' text
     QLabel *asSoundLab, *soundNooLab, *qSoundNooLab;
     TquestionAsWdg *asNoteWdg, *asNameWdg, *asFretPosWdg, *asSoundWdg;
     QCheckBox *styleRequiredChB, *octaveRequiredChB, *forceAccChB, *showStrNrChB;

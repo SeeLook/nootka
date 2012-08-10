@@ -99,13 +99,23 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
 //                << (int)list[i].pos.fret() << " note: "
 //                << QString::fromStdString(list[i].note.getName());
 
-//     qsrand(100);
-     qsrand(QDateTime::currentDateTime().toTime_t());
+  // generate m_fretFretList if needed
+    m_fretFretList.clear();
+    if (m_level->questionAs.isFret() && m_level->answersAs[TQAtype::e_asFretPos].isFret()) {
+      QList<TfingerPos> tmpSameList;
+      for (int i = 0; i < list.size(); i++) {
+        tmpSameList.clear();
+        getTheSamePos(list[i].pos, tmpSameList);
+          if (!tmpSameList.isEmpty())
+            m_fretFretList << (quint16)i;
+      }
+    }
+    
+    qsrand(QDateTime::currentDateTime().toTime_t());
 
 }
 
 Tnote TexecutorSupply::determineAccid(Tnote n) {
-//     qDebug() << "determineAccid";
     Tnote nA = n;
     bool notFound = true;
     if (m_level->withSharps || m_level->withFlats || m_level->withDblAcc) {
@@ -198,10 +208,12 @@ Tnote::EnameStyle TexecutorSupply::randomNameStyle() {
     }
 }
 
-void TexecutorSupply::getTheSamePos(TfingerPos& fingerPos, QList< TfingerPos >& posList) {
+void TexecutorSupply::getTheSamePos(TfingerPos& fingerPos, QList< TfingerPos >& posList, bool strCheck) {
   int chStr = gl->Gtune()[gl->strOrder(fingerPos.str()-1) + 1].getChromaticNrOfNote();
   for (int i = 0; i < 6; i++)
-    if (i != gl->strOrder(fingerPos.str()-1)) {
+    if (i != gl->strOrder(fingerPos.str()-1)) { 
+      if (strCheck && !m_level->usedStrings[i])
+          continue; // skip unavailable strings when strCheck is true
       int fret = chStr + fingerPos.fret() - gl->Gtune()[gl->strOrder(i) + 1].getChromaticNrOfNote();
       if (fret >= m_level->loFret && fret <= m_level->hiFret) {
         posList << TfingerPos(gl->strOrder(i) + 1, fret);

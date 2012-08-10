@@ -157,6 +157,14 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
     if (m_exam->fileName() == "" && gl->E->showHelpOnStart)
       showExamHelp();
     m_supp->createQuestionsList(m_questList);
+    if (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isFret()) {
+      if (!m_supp->isGuitarOnlyPossible()) {
+          qDebug("Something stiupid !!!\n Level has question and answer as position on guitar but any question is available.");
+          mW->clearAfterExam();
+          if (m_exam) delete m_exam;
+            return;
+      }
+    }
     
 //     qDebug() << "questions number:" << m_questList.size();
 
@@ -213,7 +221,6 @@ void TexamExecutor::askQuestion() {
     }
     m_isAnswered = false;
     m_incorrectRepeated = false;
-//     mW->setMessageBg(gl->EquestionColor);
     m_answRequire.octave = m_level.requireOctave;
     m_answRequire.accid = m_level.forceAccids;
     m_answRequire.key = false;

@@ -34,13 +34,13 @@ questionsSettings::questionsSettings(QWidget *parent) :
     qaLay->setAlignment(Qt::AlignCenter);
     qaLay->setSpacing(10);
   // Labels describing answers types
-    qLab = new QLabel("<b>" + TquestionAsWdg::questionTxt().toUpper() + "</b>", this);
-    qaLay->addWidget(qLab, 0, 0, Qt::AlignBottom | Qt::AlignRight);
-    aLab = new TverticalLabel(TquestionAsWdg::answerTxt().toUpper(), this);
+    m_questLab = new QLabel("<b>" + TquestionAsWdg::questionTxt().toUpper() + "</b>", this);
+    qaLay->addWidget(m_questLab, 0, 0, Qt::AlignBottom | Qt::AlignRight);
+    m_answLab = new TverticalLabel(TquestionAsWdg::answerTxt().toUpper(), this);
     QFont f = font();
     f.setBold(true);
-    aLab->setFont(f);
-    qaLay->addWidget(aLab, 0, 1, Qt::AlignBottom);
+    m_answLab->setFont(f);
+    qaLay->addWidget(m_answLab, 0, 1, Qt::AlignBottom);
     QLabel *asNoteLab = new QLabel(TquestionAsWdg::asNoteTxt().replace(" ", "<br>"), this);
     asNoteLab->setAlignment(Qt::AlignCenter);
     qaLay->addWidget(asNoteLab, 0, 2, Qt::AlignBottom);
@@ -156,35 +156,29 @@ void questionsSettings::whenParamsChanged() {
         styleRequiredChB->setDisabled(true);
     } else 
         styleRequiredChB->setDisabled(false);
-  // disable show string if needed
+  // disable showStrNrChB & lowPosOnlyChBox  if question and answer are on guitar
     if (asFretPosWdg->isChecked() && asFretPosWdg->answerAsPos()) {
       showStrNrChB->setChecked(true);
       showStrNrChB->setDisabled(true);
-    } else 
-        showStrNrChB->setDisabled(false);
-  // disable lowPosOnlyChBox when question and answer are frepos
-    if (asFretPosWdg->isChecked() && asFretPosWdg->answerAsPos()) {
       lowPosOnlyChBox->setChecked(false);
       lowPosOnlyChBox->setDisabled(true);
     } else {
-      lowPosOnlyChBox->setDisabled(false);
-    }
-      
+        showStrNrChB->setDisabled(false);
+        lowPosOnlyChBox->setDisabled(false);
+    }      
   // Is score enabled in a level
-    if (!asNoteWdg->isChecked() && !asNameWdg->answerAsNote() && !asFretPosWdg->answerAsNote() && !asSoundWdg->answerAsNote()) {
+    if (!asNoteWdg->isChecked() && !asNameWdg->answerAsNote() && !asFretPosWdg->answerAsNote() && !asSoundWdg->answerAsNote())
         emit scoreEnabled(false);
-    } else {
+    else
         emit scoreEnabled(true);
-    }
   // Are score and names enabled
     if (!asNameWdg->isChecked() && !asNoteWdg->answerAsName() && !asFretPosWdg->answerAsName() && 
           !asSoundWdg->answerAsName() && !asNoteWdg->isChecked() && !asNameWdg->answerAsNote() && 
           !asFretPosWdg->answerAsNote() && !asSoundWdg->answerAsNote()) {
               emit accidEnabled(false);    
     }
-    else {
+    else
           emit accidEnabled(true);
-    }
     
     
     if (!isNotSaved) {
@@ -216,13 +210,13 @@ void questionsSettings::paintEvent(QPaintEvent* ) {
   QPen pen = painter.pen();
   pen.setWidth(2);
   painter.setPen(pen);
-  painter.drawLine(qLab->geometry().left(), asNoteWdg->enableChBox->geometry().top(), // horizontal line - under 'QUESTION'
+  painter.drawLine(m_questLab->geometry().left(), asNoteWdg->enableChBox->geometry().top(), // horizontal line - under 'QUESTION'
                    soundNooLab->geometry().right(), asNoteWdg->enableChBox->geometry().top());
-  painter.drawLine(qLab->geometry().left(), qSoundNooLab->geometry().top(), // horizontal line - under 'QUESTION'
+  painter.drawLine(m_questLab->geometry().left(), qSoundNooLab->geometry().top(), // horizontal line - under 'QUESTION'
                    soundNooLab->geometry().right(), qSoundNooLab->geometry().top());
-  painter.drawLine(aLab->geometry().right(), aLab->geometry().top(), // vertical line - right to 'ANSWER''
-                   aLab->geometry().right(), qSoundNooLab->geometry().bottom());
-  painter.drawLine(soundNooLab->geometry().left(), aLab->geometry().top(), // vertical line - right to All answers
+  painter.drawLine(m_answLab->geometry().right(), m_answLab->geometry().top(), // vertical line - right to 'ANSWER''
+                   m_answLab->geometry().right(), qSoundNooLab->geometry().bottom());
+  painter.drawLine(soundNooLab->geometry().left(), m_answLab->geometry().top(), // vertical line - right to All answers
                    soundNooLab->geometry().left(), qSoundNooLab->geometry().bottom());
 }
 

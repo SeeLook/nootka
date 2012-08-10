@@ -19,7 +19,7 @@
 #include "tglobals.h"
 #include "settingsdialog.h"
 #include "mainwindow.h"
-#include "examsettingsdlg.h"
+#include "tlevelcreatordlg.h"
 #include "tlevelselector.h"
 #include "taboutnootka.h"
 #include "tfirstrunwizzard.h"

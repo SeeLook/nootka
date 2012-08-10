@@ -17,7 +17,7 @@
  ***************************************************************************/
 
 
-#include "examsettingsdlg.h"
+#include "tlevelcreatordlg.h"
 #include "tglobals.h"
 #include "tlevelheaderwdg.h"
 #include "questionssettings.h"
@@ -110,9 +110,14 @@ void TlevelCreatorDlg::saveToFile() {
     questSett->saveLevel(newLevel);
     accSett->saveLevel(newLevel);
     rangeSett->saveLevel(newLevel);
-    if (!newLevel.canBeGuitar()) {
-      //TODO adjust fret range - validator will ignore it
-    }
+//     if (!newLevel.canBeGuitar()) {  //TODO adjust frets' range - validator will skip it for non guitar level
+//       char loFret, hiFret;
+//       for (int str = 0; str < 6; str++) {
+//           loFret = newLevel.hiNote.getChromaticNrOfNote() - gl->Gtune()[gl->strOrder(str)].getChromaticNrOfNote();
+//           if (loFret >= 0 && loFret <= gl->GfretsNumber)
+//             break;
+//       }
+//     }
     QString isLevelValid = validateLevel(newLevel);
     if (isLevelValid != "") {
         showValidationMessage(isLevelValid);
@@ -168,7 +173,7 @@ QString TlevelCreatorDlg::validateLevel(TexamLevel &l) {
     }      
   // checking range
   // determine the highest note of frets' range on available strings
-    if (l.canBeGuitar()) { // only when guitar is enabled
+    if (l.canBeGuitar()) { // only when guitar is enabled otherwise frets range was adjusted automatically
       int hiAvailStr, loAvailStr, cnt=-1;
       do {
           cnt ++;

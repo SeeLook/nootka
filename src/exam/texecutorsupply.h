@@ -39,8 +39,14 @@ public:
         /** */
   Tnote forceEnharmAccid(Tnote n);
   Tnote::EnameStyle randomNameStyle();
-  
-  void getTheSamePos(TfingerPos &fingerPos, QList<TfingerPos> &posList);
+    /** Returns list with possible positions of a note on given position.
+     * Given fingerPos (position) is not included.
+     * If strCheck is true it is excluding strings unvailable in a level. */
+  void getTheSamePos(TfingerPos &fingerPos, QList<TfingerPos> &posList, bool strCheck = true);
+    /** Returns randomized number in questions list proper for question and answer on the guitar. */
+  quint16 getQAnrForGuitarOnly() { return m_fretFretList[qrand() % m_fretFretList.size()]; }
+    /** Returns true when qustions and answers as guitar are possible. */
+  bool isGuitarOnlyPossible() { return !m_fretFretList.isEmpty(); }
   
 signals:
   void rightButtonClicked();
@@ -52,7 +58,7 @@ protected:
 private:
   TexamLevel *m_level;
   
-      /** Previous accidentals used*/
+      /** Previous accidental used. */
   Tnote::Eacidentals m_prevAccid;
       /** intervals between asking about double accidentals.
         * By default every forth question is with double adccid.*/
@@ -64,6 +70,11 @@ private:
         /** to switch nameing style between "do re mi" and "c d e"
         * when question and answer are note name.*/
   bool m_isSolfege;
+      /** List of numbers of questions in the questions list that can be 
+       * either question as position or answer. 
+       * The list is initialised in createQuestionsList() method if level has that settings. */
+  QList<quint16> m_fretFretList;
+      
 };
 
 #endif // TEXECUTORSUPPLY_H
