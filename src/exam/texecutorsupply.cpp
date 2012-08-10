@@ -109,6 +109,8 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
           if (!tmpSameList.isEmpty())
             m_fretFretList << (quint16)i;
       }
+      qDebug() << "question list for only guitar created\nnumber:" << m_fretFretList.size() <<
+          " amoung:" << list.size();
     }
     
     qsrand(QDateTime::currentDateTime().toTime_t());
