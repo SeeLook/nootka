@@ -177,6 +177,8 @@ QString wasAnswerOKtext(TQAunit* answer, QColor textColor, int fontSize) {
             else {
                 txt += QApplication::translate("AnswerText", "Not so bad, but:") + "<br>";
                 QString misMes = ""; // Message with mistakes
+                if (answer->wrongString())
+                    misMes = QApplication::translate("AnswerText", "wrong string");
                 if (answer->wrongAccid())
                     misMes = QApplication::translate("AnswerText", "wrong accidental");
                 if (answer->wrongKey()) {

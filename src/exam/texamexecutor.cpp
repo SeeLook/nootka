@@ -229,6 +229,9 @@ void TexamExecutor::askQuestion() {
     curQ.qa = m_questList[qrand() % m_questList.size()];
     curQ.questionAs = m_level.questionAs.next();
     curQ.answerAs = m_level.answersAs[curQ.questionAs].next();
+    if (curQ.questionAs == TQAtype::e_asFretPos && curQ.answerAs == TQAtype::e_asFretPos) {
+      curQ.qa  = m_questList[m_supp->getQAnrForGuitarOnly()];      
+    }
 
     if (curQ.questionAs == TQAtype::e_asNote || curQ.answerAs == TQAtype::e_asNote) {
         if (m_level.useKeySign) {
@@ -460,9 +463,19 @@ void TexamExecutor::checkAnswer(bool showResults) {
     }
     if (curQ.answerAs == TQAtype::e_asFretPos) { // Comparing positions
       if (curQ.questionAs != TQAtype::e_asFretPos) {
-        if (curQ.qa.pos != mW->guitar->getfingerPos())
-            curQ.setMistake(TQAunit::e_wrongPos);
-        // TODO: search all pos mayby sound is good but string wrong only
+        if (curQ.qa.pos != mW->guitar->getfingerPos()) {
+          TfingerPos ansPos = mW->guitar->getfingerPos();
+          QList <TfingerPos> posList;
+          m_supp->getTheSamePos(ansPos, posList, false);
+          for (int i = 0; i < posList.size(); i++) {
+              if (posList[i] == ansPos) {
+                curQ.setMistake(TQAunit::e_wrongString);
+                break;
+              }
+              curQ.setMistake(TQAunit::e_wrongPos);
+          }
+        }
+        
       } else {
         if (curQ.qa_2.pos != mW->guitar->getfingerPos())
             curQ.setMistake(TQAunit::e_wrongPos);
