@@ -468,17 +468,34 @@ void TexamExecutor::checkAnswer(bool showResults) {
           QList <TfingerPos> posList;
           m_supp->getTheSamePos(ansPos, posList, false);
           for (int i = 0; i < posList.size(); i++) {
-              if (posList[i] == ansPos) {
+              if (posList[i] == curQ.qa.pos) {
                 curQ.setMistake(TQAunit::e_wrongString);
+                qDebug() << "wrong string";
                 break;
               }
               curQ.setMistake(TQAunit::e_wrongPos);
+              qDebug("wrong pos");
+          }
+        }        
+      } else {
+        if (curQ.qa_2.pos != mW->guitar->getfingerPos()) {
+        TfingerPos ansPos = mW->guitar->getfingerPos();
+          QList <TfingerPos> posList;
+          m_supp->getTheSamePos(ansPos, posList, false);
+          for (int i = 0; i < posList.size(); i++) {
+              if (posList[i] == curQ.qa_2.pos /*&& posList[i] != curQ.qa.pos*/) {
+                curQ.setMistake(TQAunit::e_wrongString);
+                qDebug() << "wrong string 2";
+                break;
+              }
+              curQ.setMistake(TQAunit::e_wrongPos);
+              qDebug("wrong pos 2");
           }
         }
-        
-      } else {
-        if (curQ.qa_2.pos != mW->guitar->getfingerPos())
-            curQ.setMistake(TQAunit::e_wrongPos);
+        if (curQ.wrongString())
+          qDebug("STRING");
+        if (curQ.wrongPos())
+          qDebug("POS");
       }
     } else { // we check are the notes the same
 //        qDebug() << QString::fromStdString(retN.getName()) << QString::fromStdString(exN.getName());
@@ -539,7 +556,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
           answColor = gl->EanswerColor;
       }
       else {
-        if (curQ.wrongNote() || curQ.wrongPos()) {
+        if (curQ.isWrong()) {
             answTxt = wasAnswerOKtext(&curQ, gl->EquestionColor, mW->getFontSize()*fc);
             answColor = gl->EquestionColor;
         }
@@ -877,7 +894,7 @@ void TexamExecutor::showMessage(QString htmlText, TfingerPos& curPos, int time, 
         m_messageItem = new TgraphicsTextTip();
         m_messageItem->hide();
         mW->guitar->scene()->addItem(m_messageItem);
-        m_messageItem->setZValue(100);
+        m_messageItem->setZValue(115);
         if (!gl->GisRightHanded) {
             m_messageItem->scale(-1, 1);
         }

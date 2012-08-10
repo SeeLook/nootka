@@ -65,19 +65,18 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
         m_workStrings[i] = new QGraphicsLineItem();
         m_workStrings[i]->hide();
         m_scene->addItem(m_workStrings[i]);
-        m_workStrings[i]->setZValue(75);
+        m_workStrings[i]->setZValue(112);
         blur[i] = new QGraphicsBlurEffect();
         m_workStrings[i]->setGraphicsEffect(blur[i]);
     }
 
     m_workFinger = new QGraphicsEllipseItem();
-    m_workFinger->setZValue(75);
     m_workFinger->hide();
 //    m_workFinger->setPen(QPen(gl->GfingerColor));
     m_workFinger->setPen(QPen(QBrush(Qt::transparent), 5));
     m_workFinger->setBrush(QBrush(gl->GfingerColor, Qt::SolidPattern));
     m_scene->addItem(m_workFinger);
-    m_workFinger->setZValue(75);
+    m_workFinger->setZValue(112);
 
     m_curStr = 7; // none
     m_curFret = 99; // none
@@ -167,6 +166,7 @@ void TfingerBoard::askQuestion(TfingerPos pos) {
             m_questFinger->setPen(QPen(qC));
             m_questFinger->setBrush(QBrush(qC, Qt::SolidPattern));
             m_scene->addItem(m_questFinger);
+            m_questFinger->setZValue(110);
             m_questFinger->setRect(0,0, m_fretWidth/1.6, qRound(0.7*m_strGap));
             paintFinger(m_questFinger, pos.str()-1, pos.fret());
         }
@@ -176,6 +176,7 @@ void TfingerBoard::askQuestion(TfingerPos pos) {
             m_questString->setPen(QPen(qC, m_strings[pos.str()-1]->pen().width(),
                                        Qt::SolidLine));
             m_scene->addItem(m_questString);
+            m_questString->setZValue(110);
             m_questString->setLine(m_strings[pos.str()-1]->line());
         }
     }
