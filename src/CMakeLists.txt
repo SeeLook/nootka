@@ -28,7 +28,7 @@ SET( NOOTKA_SRCS level/accidsettings.cpp
   settings/examsettings.cpp
   settings/tcolorbutton.cpp
 ###### Level
-  level/examsettingsdlg.cpp
+  level/tlevelcreatordlg.cpp
   level/texamlevel.cpp
   level/levelsettings.cpp
   level/questionssettings.cpp
@@ -127,7 +127,7 @@ SET( NOOTKA_MOC_SRCS
   settings/examsettings.h
   settings/tcolorbutton.h
 ###### Level
-  level/examsettingsdlg.h
+  level/tlevelcreatordlg.h
   level/levelsettings.h
   level/questionssettings.h
   level/accidsettings.h
