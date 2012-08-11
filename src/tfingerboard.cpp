@@ -539,6 +539,7 @@ void TfingerBoard::paintQuestMark() {
         m_questMark = new QGraphicsSimpleTextItem();
         m_questMark->setBrush(QBrush(qC));
         m_scene->addItem(m_questMark);
+        m_questMark->setZValue(110);
         m_questMark->setText("?");
     }
 #if defined(Q_OS_MACX)

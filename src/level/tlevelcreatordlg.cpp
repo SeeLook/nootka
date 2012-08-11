@@ -110,14 +110,13 @@ void TlevelCreatorDlg::saveToFile() {
     questSett->saveLevel(newLevel);
     accSett->saveLevel(newLevel);
     rangeSett->saveLevel(newLevel);
-//     if (!newLevel.canBeGuitar()) {  //TODO adjust frets' range - validator will skip it for non guitar level
-//       char loFret, hiFret;
-//       for (int str = 0; str < 6; str++) {
-//           loFret = newLevel.hiNote.getChromaticNrOfNote() - gl->Gtune()[gl->strOrder(str)].getChromaticNrOfNote();
-//           if (loFret >= 0 && loFret <= gl->GfretsNumber)
-//             break;
-//       }
-//     }
+    if (!newLevel.canBeGuitar()) {  // adjust frets' range - validator will skip it for non guitar level
+      newLevel.loFret = 0; // Set range to frets number and rest will do function prepearing questions list
+      newLevel.hiFret = gl->GfretsNumber;
+    // set all strings as available
+      for (int str = 0; str < 6; str++)
+        newLevel.usedStrings[str] = true;
+    }
     QString isLevelValid = validateLevel(newLevel);
     if (isLevelValid != "") {
         showValidationMessage(isLevelValid);
