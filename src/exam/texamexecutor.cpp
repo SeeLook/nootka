@@ -473,29 +473,32 @@ void TexamExecutor::checkAnswer(bool showResults) {
                 qDebug() << "wrong string";
                 break;
               }
-              curQ.setMistake(TQAunit::e_wrongPos);
-              qDebug("wrong pos");
+          }
+          if (!curQ.wrongString()) {
+            curQ.setMistake(TQAunit::e_wrongPos);
+            qDebug("wrong pos");
           }
         }        
       } else {
         if (curQ.qa_2.pos != mW->guitar->getfingerPos()) {
-        TfingerPos ansPos = mW->guitar->getfingerPos();
-          QList <TfingerPos> posList;
-          m_supp->getTheSamePos(ansPos, posList, false);
-          for (int i = 0; i < posList.size(); i++) {
-              if (posList[i] == curQ.qa_2.pos /*&& posList[i] != curQ.qa.pos*/) {
-                curQ.setMistake(TQAunit::e_wrongString);
-                qDebug() << "wrong string 2";
-                break;
-              }
+          if (mW->guitar->getfingerPos() != curQ.qa.pos) { // don't cheat - answer the same as question is wrong
+            TfingerPos ansPos = mW->guitar->getfingerPos();
+            QList <TfingerPos> posList;
+            m_supp->getTheSamePos(ansPos, posList, false);
+            for (int i = 0; i < posList.size(); i++) {
+                if (posList[i] == curQ.qa_2.pos) {
+                    curQ.setMistake(TQAunit::e_wrongString);
+                    break;
+                }
+            }
+            if (!curQ.wrongString()) {
               curQ.setMistake(TQAunit::e_wrongPos);
-              qDebug("wrong pos 2");
+            }
+          } else {
+            curQ.setMistake(TQAunit::e_wrongPos);
+              qDebug("cheater");
           }
         }
-        if (curQ.wrongString())
-          qDebug("STRING");
-        if (curQ.wrongPos())
-          qDebug("POS");
       }
     } else { // we check are the notes the same
 //        qDebug() << QString::fromStdString(retN.getName()) << QString::fromStdString(exN.getName());
@@ -554,15 +557,18 @@ void TexamExecutor::checkAnswer(bool showResults) {
       if (curQ.isCorrect()) {
           answTxt = wasAnswerOKtext(&curQ, gl->EanswerColor, mW->getFontSize()*fc);
           answColor = gl->EanswerColor;
+          qDebug("correct");
       }
       else {
         if (curQ.isWrong()) {
             answTxt = wasAnswerOKtext(&curQ, gl->EquestionColor, mW->getFontSize()*fc);
             answColor = gl->EquestionColor;
+            qDebug("wrong");
         }
         else {
             answTxt = wasAnswerOKtext(&curQ, Qt::darkMagenta, mW->getFontSize()*fc);
             answColor = QColor(124, 0 ,124, 30);
+            qDebug("not so bad");
         }
       }
       if (gl->hintsEnabled && !gl->E->autoNextQuest) {
@@ -896,13 +902,16 @@ void TexamExecutor::showMessage(QString htmlText, TfingerPos& curPos, int time, 
         mW->guitar->scene()->addItem(m_messageItem);
         m_messageItem->setZValue(115);
         if (!gl->GisRightHanded) {
-            m_messageItem->scale(-1, 1);
+            m_messageItem->scale(-1, 1); //FIXME: What it means??
         }
     }
     QString txt = QString("<p>") + htmlText + "</p>";
 
     m_messageItem->setBgColor(bgColor);
     m_messageItem->setHtml(txt);
+    double factor = (double)mW->guitar->geometry().height() / ((double)m_messageItem->boundingRect().height()+5);
+    factor = qMax(2.0, factor);
+    m_messageItem->setScale(factor);;
 
     bool onRightSide;
     if (curPos.fret() > 0 && curPos.fret() < 11) { // on which widget side
@@ -911,10 +920,10 @@ void TexamExecutor::showMessage(QString htmlText, TfingerPos& curPos, int time, 
         onRightSide = !gl->GisRightHanded;
     int xPos = 0;
     if (onRightSide)
-        xPos = mW->guitar->width() / 2;
-    xPos += (mW->guitar->width() / 2 - m_messageItem->document()->size().width()) / 2;
-    m_messageItem->setPos(xPos,
-       (mW->guitar->height() - m_messageItem->document()->size().height()) / 2 );
+        xPos = mW->guitar->width() / 4;
+    xPos += (mW->guitar->width() / 2 - /*m_messageItem->document()->size().width()*/m_messageItem->boundingRect().width() ) / 2;
+    m_messageItem->setPos(xPos, 0
+       /*(mW->guitar->height() - m_messageItem->document()->size().height()) / 2*/ );
     m_messageItem->show();
     if (time)
         QTimer::singleShot(time, this, SLOT(clearMessage()));
