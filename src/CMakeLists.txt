@@ -2,7 +2,7 @@
 
 INCLUDE_DIRECTORIES (. exam info level score settings sound charts)
 
-SET( NOOTKA_SRCS level/accidsettings.cpp
+SET( NOOTKA_SRCS
   main.cpp
   mainwindow.cpp
   tglobals.cpp
@@ -49,6 +49,7 @@ SET( NOOTKA_SRCS level/accidsettings.cpp
   exam/texamparams.h
   exam/texecutorsupply.cpp
   exam/tdialogmessage.cpp
+  exam/tcanvas.cpp
 ###### Info
   info/taboutnootka.cpp
   info/tfirstrunwizzard.cpp
