@@ -35,11 +35,15 @@
 #include "tnotepixmap.h"
 #include "tgraphicstexttip.h"
 #include "tdialogmessage.h"
+#include "tcanvas.h"
 #include <QtGui>
 #include <QDebug>
 
 #define WAIT_TIME (600) //[ms]
 #define SOUND_DURATION (1500) //[ms]
+
+
+Tcanvas *m_canvas;
 
 extern Tglobals *gl;
 
@@ -727,6 +731,12 @@ void TexamExecutor::prepareToExam() {
         TfingerPos pos(1, 0);
         showMessage(getNextQuestionTxt(), pos, 5000);
     }
+    m_canvas = new Tcanvas(mW->centralWidget());
+    TgraphicsTextTip *hallo = new TgraphicsTextTip("Welcome in Nootka");
+    m_canvas->addTip(hallo);
+    hallo->setPos(50, 100);
+    hallo->setScale(3);
+    m_canvas->show();
 }
 
 void TexamExecutor::restoreAfterExam() {
