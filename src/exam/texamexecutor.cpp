@@ -222,6 +222,7 @@ void TexamExecutor::askQuestion() {
     if (!gl->E->autoNextQuest) {
         mW->startExamAct->setDisabled(true);
         clearMessage();//if auto message is cleaned after 1 sec.
+        m_canvas->clearCanvas();
     }
     m_isAnswered = false;
     m_incorrectRepeated = false;
@@ -474,13 +475,11 @@ void TexamExecutor::checkAnswer(bool showResults) {
           for (int i = 0; i < posList.size(); i++) {
               if (posList[i] == curQ.qa.pos) {
                 curQ.setMistake(TQAunit::e_wrongString);
-                qDebug() << "wrong string";
                 break;
               }
           }
           if (!curQ.wrongString()) {
             curQ.setMistake(TQAunit::e_wrongPos);
-            qDebug("wrong pos");
           }
         }        
       } else {
@@ -556,25 +555,23 @@ void TexamExecutor::checkAnswer(bool showResults) {
       }
       if (!gl->hintsEnabled || gl->E->autoNextQuest)
           fc = 2; // font size factor to have enought room for text over guitar
-      QString answTxt;
+      QString answTxt = "";
       QColor answColor;
-      if (curQ.isCorrect()) {
-          answTxt = wasAnswerOKtext(&curQ, gl->EanswerColor, mW->getFontSize()*fc);
-          answColor = gl->EanswerColor;
-          qDebug("correct");
-      }
-      else {
-        if (curQ.isWrong()) {
-            answTxt = wasAnswerOKtext(&curQ, gl->EquestionColor, mW->getFontSize()*fc);
-            answColor = gl->EquestionColor;
-            qDebug("wrong");
-        }
-        else {
-            answTxt = wasAnswerOKtext(&curQ, Qt::darkMagenta, mW->getFontSize()*fc);
-            answColor = QColor(124, 0 ,124, 30);
-            qDebug("not so bad");
-        }
-      }
+//       if (curQ.isCorrect()) {
+//           answTxt = wasAnswerOKtext(&curQ, gl->EanswerColor, mW->getFontSize()*fc);
+//           answColor = gl->EanswerColor;
+//       }
+//       else {
+//         if (curQ.isWrong()) {
+//             answTxt = wasAnswerOKtext(&curQ, gl->EquestionColor, mW->getFontSize()*fc);
+//             answColor = gl->EquestionColor;
+//         }
+//         else {
+//             answTxt = wasAnswerOKtext(&curQ, Qt::darkMagenta, mW->getFontSize()*fc);
+//             answColor = QColor(124, 0 ,124, 30);
+//         }
+//       }
+      m_canvas->resultTip(&curQ);
       if (gl->hintsEnabled && !gl->E->autoNextQuest) {
           answTxt += getNextQuestionTxt();
           if (!curQ.isCorrect())
@@ -625,11 +622,11 @@ void TexamExecutor::repeatQuestion() {
     m_incorrectRepeated = true;
     m_isAnswered = false;
 		TQAunit curQ = m_exam->curQ();
-//     QString m = mW->statusMessage();
-//     m.replace(0, m.indexOf("</b>"), QString("<b>%1.").arg(m_exam->count()+1));
-//     mW->setStatusMessage(m);
-    if (!gl->E->autoNextQuest)
+
+    if (!gl->E->autoNextQuest) {
         clearMessage();
+        m_canvas->clearCanvas();
+    }
     curQ.setMistake(TQAunit::e_correct);
     if (curQ.answerAs == TQAtype::e_asNote)
         mW->score->unLockScore();
@@ -731,11 +728,7 @@ void TexamExecutor::prepareToExam() {
         TfingerPos pos(1, 0);
         showMessage(getNextQuestionTxt(), pos, 5000);
     }
-    m_canvas = new Tcanvas(mW->centralWidget());
-    TgraphicsTextTip *hallo = new TgraphicsTextTip("Welcome in Nootka");
-    m_canvas->addTip(hallo);
-    hallo->setPos(50, 100);
-    hallo->setScale(3);
+    m_canvas = new Tcanvas(mW);
     m_canvas->show();
 }
 
@@ -774,6 +767,8 @@ void TexamExecutor::restoreAfterExam() {
     
     qApp->removeEventFilter(m_supp);
 
+    if (m_canvas)
+      delete m_canvas;
     if (m_messageItem)
         delete m_messageItem;
     if (m_questMessage) {
@@ -851,6 +846,7 @@ void TexamExecutor::stopExamSlot() {
     mW->setStatusMessage(tr("so a pity"), 5000);
 
     clearMessage();
+    m_canvas->clearCanvas();
     clearWidgets();
     restoreAfterExam();
 }

@@ -22,20 +22,33 @@
 
 #include <QGraphicsView>
 
+class MainWindow;
+class TQAunit;
 class TgraphicsTextTip;
 
 class Tcanvas : public QGraphicsView
 {
 
+  Q_OBJECT
+  
 public:
-    Tcanvas(QWidget *parent);
+    Tcanvas(MainWindow *parent);
     virtual ~Tcanvas();
     
     void addTip(TgraphicsTextTip *tip);
+    void resultTip(TQAunit *answer);
+    
+    void clearCanvas();
+    
+    int bigFont();
+    
+protected slots:
+    void sizeChanged(QSize newSize);
     
 private:
-    QWidget *m_parent;
+    MainWindow *m_parent;
     QGraphicsScene *m_scene;
+    double m_scale;
 };
 
 #endif // TCANVAS_H

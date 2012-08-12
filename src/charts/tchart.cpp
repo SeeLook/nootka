@@ -92,6 +92,6 @@ bool Tchart::event(QEvent* event)
 
 
 void Tchart::resizeEvent(QResizeEvent* event ) {
-//   double coef = event->oldSize().height() / event->size().height();
+//   double coef = (double)event->oldSize().height() / (double)event->size().height();
 //   scale(coef, coef);
 }

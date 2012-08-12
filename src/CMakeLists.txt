@@ -144,6 +144,7 @@ SET( NOOTKA_MOC_SRCS
   exam/texamsummary.h
   exam/texecutorsupply.h
   exam/tdialogmessage.h
+  exam/tcanvas.h
 ###### Info
   info/taboutnootka.h
   info/tfirstrunwizzard.h
