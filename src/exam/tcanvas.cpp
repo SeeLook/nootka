@@ -18,11 +18,19 @@
 
 
 #include "tcanvas.h"
+#include "tqaunit.h"
 #include "tgraphicstexttip.h"
+#include "mainwindow.h"
+#include "tnotepixmap.h"
+#include "tglobals.h"
 
-Tcanvas::Tcanvas(QWidget* parent) :
+
+extern Tglobals *gl;
+
+Tcanvas::Tcanvas(MainWindow* parent) :
   QGraphicsView(parent),
-  m_parent(parent)
+  m_parent(parent),
+  m_scale(1)
 {
   setAttribute(Qt::WA_TransparentForMouseEvents);
   setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -31,16 +39,62 @@ Tcanvas::Tcanvas(QWidget* parent) :
   setStyleSheet(("background: transparent"));
   setRenderHint(QPainter::TextAntialiasing, true);
     
-  setGeometry(parent->geometry());
+  setGeometry(parent->centralWidget()->geometry());
   m_scene = new QGraphicsScene();
   setScene(m_scene);
+  m_scene->setSceneRect(geometry());
+  sizeChanged(parent->centralWidget()->size());
+  
+  connect(parent, SIGNAL(sizeChanged(QSize)), this, SLOT(sizeChanged(QSize)));
 }
 
 Tcanvas::~Tcanvas()
 {}
 
+int Tcanvas::bigFont() {
+  return fontMetrics().boundingRect("A").height() * 2;
+}
+
+
+void Tcanvas::resultTip(TQAunit* answer) {
+  QColor answColor;
+  if (answer->isCorrect())
+      answColor = gl->EanswerColor;
+  else
+    if (answer->isWrong())
+        answColor = gl->EquestionColor;
+    else
+        answColor = QColor(124, 0 ,124, 30);
+    
+  TgraphicsTextTip *resTip = new TgraphicsTextTip(wasAnswerOKtext(answer, answColor, bigFont()), answColor);
+  m_scene->addItem(resTip);
+  resTip->setPos((m_parent->centralWidget()->width() - resTip->boundingRect().width()) / 2,
+                  qRound((double)m_parent->centralWidget()->height() * 0.7) - resTip->boundingRect().height());  
+}
+
+
 void Tcanvas::addTip(TgraphicsTextTip* tip)
 {
   m_scene->addItem(tip);  
 }
+
+void Tcanvas::clearCanvas() {
+  m_scene->clear();
+}
+
+
+/****************************************************************************
+** PROTECTED
+****************************************************************************/
+
+void Tcanvas::sizeChanged(QSize newSize) {
+  m_scale = (double)newSize.height() / 580.0;
+  scale(m_scale, m_scale);
+
+}
+
+
+
+
+
 
