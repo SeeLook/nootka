@@ -25,6 +25,7 @@
 #include "tglobals.h"
 
 
+
 extern Tglobals *gl;
 
 Tcanvas::Tcanvas(MainWindow* parent) :
@@ -56,7 +57,7 @@ int Tcanvas::bigFont() {
 }
 
 
-void Tcanvas::resultTip(TQAunit* answer) {
+void Tcanvas::resultTip(TQAunit* answer, int time) {
   QColor answColor;
   if (answer->isCorrect())
       answColor = gl->EanswerColor;
@@ -66,10 +67,10 @@ void Tcanvas::resultTip(TQAunit* answer) {
     else
         answColor = QColor(124, 0 ,124, 30);
     
-  TgraphicsTextTip *resTip = new TgraphicsTextTip(wasAnswerOKtext(answer, answColor, bigFont()), answColor);
-  m_scene->addItem(resTip);
-  resTip->setPos((m_parent->centralWidget()->width() - resTip->boundingRect().width()) / 2,
-                  qRound((double)m_parent->centralWidget()->height() * 0.7) - resTip->boundingRect().height());  
+  TgraphicsTextTip *m_resultTip = new TgraphicsTextTip(wasAnswerOKtext(answer, answColor, bigFont()), answColor);
+  m_scene->addItem(m_resultTip);
+  m_resultTip->setPos((m_parent->centralWidget()->width() - m_resultTip->boundingRect().width()) / 2,
+                  qRound((double)m_parent->centralWidget()->height() * 0.7) - m_resultTip->boundingRect().height());  
 }
 
 
@@ -88,13 +89,19 @@ void Tcanvas::clearCanvas() {
 ****************************************************************************/
 
 void Tcanvas::sizeChanged(QSize newSize) {
-  m_scale = (double)newSize.height() / 580.0;
+  m_scale = (double)newSize.height() / 580.0 / m_scale;
   scale(m_scale, m_scale);
+  for (int i = 0; i < m_scene->items().size(); i++)
+    m_scene->items().operator[](i)->setPos(m_scene->items().operator[](i)->pos().x() / m_scale, 
+                m_scene->items().operator[](i)->pos().y() / m_scale);
 
 }
 
 
 
+void Tcanvas::clearResultTip() {
+
+}
 
 
 

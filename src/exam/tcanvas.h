@@ -36,7 +36,7 @@ public:
     virtual ~Tcanvas();
     
     void addTip(TgraphicsTextTip *tip);
-    void resultTip(TQAunit *answer);
+    void resultTip(TQAunit *answer, int time = 0);
     
     void clearCanvas();
     
@@ -49,6 +49,10 @@ private:
     MainWindow *m_parent;
     QGraphicsScene *m_scene;
     double m_scale;
+    TgraphicsTextTip *m_resultTip;
+    
+private slots:
+    void clearResultTip();
 };
 
 #endif // TCANVAS_H
