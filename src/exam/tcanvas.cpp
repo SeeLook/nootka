@@ -23,6 +23,7 @@
 #include "mainwindow.h"
 #include "tnotepixmap.h"
 #include "tglobals.h"
+#include <QDebug>
 
 
 
@@ -69,8 +70,8 @@ void Tcanvas::resultTip(TQAunit* answer, int time) {
     
   TgraphicsTextTip *m_resultTip = new TgraphicsTextTip(wasAnswerOKtext(answer, answColor, bigFont()), answColor);
   m_scene->addItem(m_resultTip);
-  m_resultTip->setPos((m_parent->centralWidget()->width() - m_resultTip->boundingRect().width()) / 2,
-                  qRound((double)m_parent->centralWidget()->height() * 0.7) - m_resultTip->boundingRect().height());  
+  m_resultTip->setPos(mapToScene((m_parent->centralWidget()->width() - m_resultTip->boundingRect().width()) / 2,
+                  qRound((double)m_parent->centralWidget()->height() * 0.5)));  
 }
 
 
@@ -91,9 +92,10 @@ void Tcanvas::clearCanvas() {
 void Tcanvas::sizeChanged(QSize newSize) {
   m_scale = (double)newSize.height() / 580.0 / m_scale;
   scale(m_scale, m_scale);
+  qDebug() << transform();
   for (int i = 0; i < m_scene->items().size(); i++)
-    m_scene->items().operator[](i)->setPos(m_scene->items().operator[](i)->pos().x() / m_scale, 
-                m_scene->items().operator[](i)->pos().y() / m_scale);
+    m_scene->items().operator[](i)->setPos(m_scene->items().operator[](i)->pos().x() * m_scale, 
+                m_scene->items().operator[](i)->pos().y() * m_scale);
 
 }
 
