@@ -46,6 +46,7 @@ Tcanvas::Tcanvas(MainWindow* parent) :
     
   m_scene = new QGraphicsScene();
   setScene(m_scene);
+//   m_scale = (double)parent->centralWidget()->height() / 580.0;
   sizeChanged(parent->centralWidget()->size());
   
   connect(parent, SIGNAL(sizeChanged(QSize)), this, SLOT(sizeChanged(QSize)));
@@ -89,9 +90,12 @@ void Tcanvas::whatNextTip(bool isCorrect, bool onRight) {
       whatNextText += "<br>" + tr("To correct an answer") + " " + TexamHelp::clickSomeButtonTxt(gl->path+"picts/prev-icon.png") +
       " " + TexamHelp::orPressBkSTxt();
   
-  m_whatTip = new TgraphicsTextTip(whatNextText, palette().window().color());
+  m_whatTip = new TgraphicsTextTip(whatNextText, palette().highlight().color());
   m_scene->addItem(m_whatTip);
-  m_whatTip->setScale(m_scale /** ((m_scene->height() / 3) / m_whatTip->boundingRect().height())*/);
+  QFont f = font();
+  f.setPointSize(qRound((double)bigFont() * 0.35));
+  m_whatTip->setFont(f);
+  m_whatTip->setScale(m_scale);
   setPosOfWhatTip();
 }
 
@@ -115,8 +119,15 @@ void Tcanvas::clearCanvas() {
 
 void Tcanvas::sizeChanged(QSize newSize) {
   setGeometry(geometry().x(), geometry().y(), newSize.width(), newSize.height());
+  int hi;
+  if (m_scene->height())
+    hi = m_scene->height();
+  else
+    hi = 580;
+//   m_scale = m_scale * (newSize.height() / );
   m_scene->setSceneRect(geometry());
-  m_scale = ((double)newSize.height() / 580.0) / m_scale;
+//   m_scale = ((double)newSize.height() / 580.0) / m_scale;
+  m_scale =m_scale * ((double)newSize.height() / hi);
   if (m_resultTip) {
       m_resultTip->setScale(m_scale);;
       setPosOfResultTip();
@@ -141,7 +152,7 @@ void Tcanvas::setPosOfWhatTip() {
 //   qDebug() << m_whatTip->mapToScene(m_whatTip->boundingRect().width(), m_whatTip->boundingRect().height()) << m_whatTip->boundingRect().size();
 //   QPointF ss = m_whatTip->mapToScene(m_whatTip->boundingRect().width(), m_whatTip->boundingRect().width());
   m_whatTip->setPos((m_scene->width() - m_scale * (m_whatTip->boundingRect().width())) / 2,
-                  m_scene->height() - (m_scale * (m_whatTip->boundingRect().height() + 3)));
+                  m_scene->height() - (m_scale * (m_whatTip->boundingRect().height())) - 10);
 //   m_whatTip->setPos((m_scene->width() - (ss.x())) / 2,
 //                   m_scene->height() - ((ss.y() + 3)));  
 }
