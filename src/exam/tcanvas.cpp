@@ -23,6 +23,7 @@
 #include "mainwindow.h"
 #include "tnotepixmap.h"
 #include "tglobals.h"
+#include <texamhelp.h>
 #include <QDebug>
 
 
@@ -32,6 +33,8 @@ extern Tglobals *gl;
 Tcanvas::Tcanvas(MainWindow* parent) :
   QGraphicsView(parent),
   m_parent(parent),
+  m_resultTip(0),
+  m_whatTip(0),
   m_scale(1)
 {
   setAttribute(Qt::WA_TransparentForMouseEvents);
@@ -41,10 +44,8 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   setStyleSheet(("background: transparent"));
   setRenderHint(QPainter::TextAntialiasing, true);
     
-  setGeometry(parent->centralWidget()->geometry());
   m_scene = new QGraphicsScene();
   setScene(m_scene);
-  m_scene->setSceneRect(geometry());
   sizeChanged(parent->centralWidget()->size());
   
   connect(parent, SIGNAL(sizeChanged(QSize)), this, SLOT(sizeChanged(QSize)));
@@ -53,8 +54,12 @@ Tcanvas::Tcanvas(MainWindow* parent) :
 Tcanvas::~Tcanvas()
 {}
 
+//######################################################################
+//#################################### PUBLIC #########################
+//######################################################################
+
 int Tcanvas::bigFont() {
-  return fontMetrics().boundingRect("A").height() * 2;
+  return (fontMetrics().boundingRect("A").height() * 2);
 }
 
 
@@ -68,41 +73,86 @@ void Tcanvas::resultTip(TQAunit* answer, int time) {
     else
         answColor = QColor(124, 0 ,124, 30);
     
-  TgraphicsTextTip *m_resultTip = new TgraphicsTextTip(wasAnswerOKtext(answer, answColor, bigFont()), answColor);
+  m_resultTip = new TgraphicsTextTip(wasAnswerOKtext(answer, answColor, bigFont())/*, answColor*/);
   m_scene->addItem(m_resultTip);
-  m_resultTip->setPos(mapToScene((m_parent->centralWidget()->width() - m_resultTip->boundingRect().width()) / 2,
-                  qRound((double)m_parent->centralWidget()->height() * 0.5)));  
+  m_resultTip->setScale(m_scale);
+  setPosOfResultTip();
+  if (time)
+    QTimer::singleShot(time, this, SLOT(clearResultTip()));
 }
 
 
-void Tcanvas::addTip(TgraphicsTextTip* tip)
-{
+void Tcanvas::whatNextTip(bool isCorrect, bool onRight) {
+  QString whatNextText = TexamHelp::toGetQuestTxt() + ":<br>" + TexamHelp::clickSomeButtonTxt(gl->path+"picts/next-icon.png") + 
+  ",<br>" + TexamHelp::pressSpaceKey() + " " + TexamHelp::orRightButtTxt();
+  if (!isCorrect)
+      whatNextText += "<br>" + tr("To correct an answer") + " " + TexamHelp::clickSomeButtonTxt(gl->path+"picts/prev-icon.png") +
+      " " + TexamHelp::orPressBkSTxt();
+  
+  m_whatTip = new TgraphicsTextTip(whatNextText, palette().window().color());
+  m_scene->addItem(m_whatTip);
+  m_whatTip->setScale(m_scale /** ((m_scene->height() / 3) / m_whatTip->boundingRect().height())*/);
+  setPosOfWhatTip();
+}
+
+
+void Tcanvas::addTip(TgraphicsTextTip* tip) {
   m_scene->addItem(tip);  
 }
 
 void Tcanvas::clearCanvas() {
-  m_scene->clear();
+  clearResultTip();
+  if (m_whatTip) {
+    delete m_whatTip;
+    m_whatTip = 0;
+  }
 }
 
 
-/****************************************************************************
-** PROTECTED
-****************************************************************************/
+//######################################################################
+//#################################### PROTECTED #######################
+//######################################################################
 
 void Tcanvas::sizeChanged(QSize newSize) {
-  m_scale = (double)newSize.height() / 580.0 / m_scale;
-  scale(m_scale, m_scale);
-  qDebug() << transform();
-  for (int i = 0; i < m_scene->items().size(); i++)
-    m_scene->items().operator[](i)->setPos(m_scene->items().operator[](i)->pos().x() * m_scale, 
-                m_scene->items().operator[](i)->pos().y() * m_scale);
+  setGeometry(geometry().x(), geometry().y(), newSize.width(), newSize.height());
+  m_scene->setSceneRect(geometry());
+  m_scale = ((double)newSize.height() / 580.0) / m_scale;
+  if (m_resultTip) {
+      m_resultTip->setScale(m_scale);;
+      setPosOfResultTip();
+  }
+  if (m_whatTip) {
+      m_whatTip->setScale(m_scale);
+      setPosOfWhatTip();
+  }
 
+}
+
+//######################################################################
+//#################################### PRIVATE #########################
+//######################################################################
+
+void Tcanvas::setPosOfResultTip() {
+  m_resultTip->setPos((m_scene->width() - m_scale * m_resultTip->boundingRect().width()) / 2,
+                  qRound((double)m_scene->height() * 0.7 ) -(m_scale * m_resultTip->boundingRect().height()));  
+}
+
+void Tcanvas::setPosOfWhatTip() {
+//   qDebug() << m_whatTip->mapToScene(m_whatTip->boundingRect().width(), m_whatTip->boundingRect().height()) << m_whatTip->boundingRect().size();
+//   QPointF ss = m_whatTip->mapToScene(m_whatTip->boundingRect().width(), m_whatTip->boundingRect().width());
+  m_whatTip->setPos((m_scene->width() - m_scale * (m_whatTip->boundingRect().width())) / 2,
+                  m_scene->height() - (m_scale * (m_whatTip->boundingRect().height() + 3)));
+//   m_whatTip->setPos((m_scene->width() - (ss.x())) / 2,
+//                   m_scene->height() - ((ss.y() + 3)));  
 }
 
 
 
 void Tcanvas::clearResultTip() {
-
+    if (m_resultTip) {
+      delete m_resultTip;
+      m_resultTip = 0;
+    }
 }
 
 
