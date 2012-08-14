@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
 #else
     TpushButton::setCheckColor(palette().highlight().color().name(), palette().highlightedText().color() );
     TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()), Qt::darkMagenta,
-        palette().shadow().color(), palette().window().color());
+        palette().shadow().color(), palette().base().color());
 #endif
 #if defined(Q_OS_LINUX)
     setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
