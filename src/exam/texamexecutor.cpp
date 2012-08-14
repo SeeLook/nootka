@@ -108,8 +108,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
           showExamSummary(true);
           mW->examResults->startExam(m_exam->totalTime(), m_exam->count(), m_exam->averageReactonTime(),
                           m_exam->mistakes());
-//           TfingerPos fp(1, 0);
-//           showMessage(QString("START"), fp, 2000);
+
         } else {
             if (err == Texam::e_file_not_valid)
                 QMessageBox::critical(mW, "", tr("File: %1 \n is not valid exam file !!!")
@@ -218,10 +217,9 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
 void TexamExecutor::askQuestion() {
     m_lockRightButt = false; // release mouse button events
     clearWidgets();
-//     mW->setStatusMessage("");
     if (!gl->E->autoNextQuest) {
         mW->startExamAct->setDisabled(true);
-        clearMessage();//if auto message is cleaned after 1 sec.
+        clearMessage(); // if auto message is cleaned after 1 sec.
         m_canvas->clearCanvas();
     }
     m_isAnswered = false;
@@ -321,20 +319,9 @@ void TexamExecutor::askQuestion() {
     if (curQ.answerAs == TQAtype::e_asNote) {
         if (m_level.useKeySign) {
             if (m_level.manualKey) { // user have to manually secect a key
-//                 QString keyTxt;
-//                 if (qrand() % 2) // randomize: ask for minor or major key ?
-//                     keyTxt = curQ.key.getMajorName();
-//                 else {
-//                     keyTxt = curQ.key.getMinorName();
-//                     curQ.key.setMinor(true);
-//                 }
                 curQ.key.setMinor(bool(qrand() % 2));
-//                 mW->score->prepareKeyToAnswer(// we randomize some key to cover this expected one
-//                    (qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) +
-//                                                 m_level.loKey.value(), keyTxt);
                 mW->score->prepareKeyToAnswer(// we randomize some key to cover this expected one
-                   (qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) + m_level.loKey.value(),
-                                              curQ.key.getName());
+                   (qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) + m_level.loKey.value(), curQ.key.getName());
                 m_answRequire.key = true;
             } else {
                 mW->score->setKeySignature(curQ.key);
@@ -571,16 +558,17 @@ void TexamExecutor::checkAnswer(bool showResults) {
 //             answColor = QColor(124, 0 ,124, 30);
 //         }
 //       }
-      m_canvas->resultTip(&curQ);
+      m_canvas->resultTip(&curQ, mesgTime);
       if (gl->hintsEnabled && !gl->E->autoNextQuest) {
-          answTxt += getNextQuestionTxt();
-          if (!curQ.isCorrect())
-              answTxt += "<br>" + tr("To correct an answer") + " " + 
-                  TexamHelp::clickSomeButtonTxt(gl->path+"picts/prev-icon.png") + 
-                  " " + TexamHelp::orPressBkSTxt();
+        m_canvas->whatNextTip(curQ.isCorrect());
+//           answTxt += getNextQuestionTxt();
+//           if (!curQ.isCorrect())
+//               answTxt += "<br>" + tr("To correct an answer") + " " + 
+//                   TexamHelp::clickSomeButtonTxt(gl->path+"picts/prev-icon.png") + 
+//                   " " + TexamHelp::orPressBkSTxt();
 //          answTxt += "</span>";
       }
-	  showMessage(answTxt, pp, mesgTime, answColor);
+// 	  showMessage(answTxt, pp, mesgTime, answColor);
     }
     if (!gl->E->autoNextQuest) {
         if (!curQ.isCorrect())
@@ -948,6 +936,7 @@ void TexamExecutor::autoRepeatStateChanged(bool enable) {
     gl->E->autoNextQuest = enable;
     if (enable) {
         mW->startExamAct->setDisabled(false);
+        m_canvas->clearCanvas();
     }
 }
 
