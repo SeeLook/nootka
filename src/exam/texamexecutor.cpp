@@ -34,7 +34,6 @@
 #include "tanalysdialog.h"
 #include "tnotepixmap.h"
 #include "tgraphicstexttip.h"
-#include "tdialogmessage.h"
 #include "tcanvas.h"
 #include <QtGui>
 #include <QDebug>

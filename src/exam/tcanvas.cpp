@@ -100,10 +100,12 @@ QString Tcanvas::startTipText() {
 
 
 void Tcanvas::startTip() {
-  m_startTip = new TgraphicsTextTip(startTipText(), palette().highlight().color());
+  m_startTip = new TgraphicsTextTip();
   m_scene->addItem(m_startTip);
-  m_startTip->setFont(tipFont(1));
-  m_startTip->setScale(m_scale);
+  m_startTip->setFont(tipFont(1 * m_scale));
+  m_startTip->setHtml(startTipText());
+  m_startTip->setBgColor(palette().highlight().color());
+//   m_startTip->setScale(m_scale);
   setPosOfStartTip();;
 }
 
@@ -131,8 +133,9 @@ void Tcanvas::questionTip(Texam* exam, Tnote::EnameStyle style) {
     delete m_questionTip;
   m_questionTip = new TquestionTip(exam, style);
   m_scene->addItem(m_questionTip);
-  m_questionTip->setFont(tipFont(0.4));
-  m_questionTip->setScale(m_scale);
+  m_questionTip->setFont(tipFont(0.5 * m_scale));
+  m_questionTip->setHtml(m_questionTip->toHtml());
+//   m_questionTip->setScale(m_scale);
   setPosOfQuestionTip();
 }
 
@@ -182,11 +185,14 @@ void Tcanvas::sizeChanged(QSize newSize) {
       setPosOfWhatTip();
   }
   if (m_startTip) {
-    m_startTip->setScale(m_scale);
+    m_startTip->setFont(tipFont(1 * m_scale));
+    m_startTip->setHtml(startTipText());
     setPosOfStartTip();
   }
   if (m_questionTip) {
-    m_questionTip->setScale(m_scale);
+//     m_questionTip->setScale(m_scale);
+    m_questionTip->setFont(tipFont(0.5 * m_scale));
+    m_questionTip->setHtml(m_questionTip->toHtml());
     setPosOfQuestionTip();
   }
 
