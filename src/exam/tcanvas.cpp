@@ -100,13 +100,10 @@ QString Tcanvas::startTipText() {
 
 
 void Tcanvas::startTip() {
-  m_startTip = new TgraphicsTextTip();
+  m_startTip = new TgraphicsTextTip(QString("<p style=\"font-size: %1px;\">").arg(bigFont()) + startTipText() + "</p>", palette().highlight().color());
   m_scene->addItem(m_startTip);
-  m_startTip->setFont(tipFont(1 * m_scale));
-  m_startTip->setHtml(startTipText());
-  m_startTip->setBgColor(palette().highlight().color());
-//   m_startTip->setScale(m_scale);
-  setPosOfStartTip();;
+  m_startTip->setScale(m_scale);
+  setPosOfStartTip();
 }
 
 
@@ -125,16 +122,16 @@ void Tcanvas::whatNextTip(bool isCorrect, bool onRight) {
 
 
 void Tcanvas::questionTip(Texam* exam, Tnote::EnameStyle style) {
+  m_exam = exam;
+  m_style = style;
   if (m_startTip) {
     delete m_startTip;
     m_startTip = 0;
   }
   if (m_questionTip)
     delete m_questionTip;
-  m_questionTip = new TquestionTip(exam, style);
+  m_questionTip = new TquestionTip(exam, style, m_scale);
   m_scene->addItem(m_questionTip);
-  m_questionTip->setFont(tipFont(0.5 * m_scale));
-  m_questionTip->setHtml(m_questionTip->toHtml());
 //   m_questionTip->setScale(m_scale);
   setPosOfQuestionTip();
 }
@@ -185,14 +182,16 @@ void Tcanvas::sizeChanged(QSize newSize) {
       setPosOfWhatTip();
   }
   if (m_startTip) {
-    m_startTip->setFont(tipFont(1 * m_scale));
-    m_startTip->setHtml(startTipText());
+//     m_startTip->setFont(tipFont(1 * m_scale));
+//     m_startTip->setHtml(startTipText());
+    m_startTip->setScale(m_scale);
     setPosOfStartTip();
   }
   if (m_questionTip) {
 //     m_questionTip->setScale(m_scale);
-    m_questionTip->setFont(tipFont(0.5 * m_scale));
-    m_questionTip->setHtml(m_questionTip->toHtml());
+    delete m_questionTip;
+    m_questionTip = new TquestionTip(m_exam, m_style, m_scale);
+    m_scene->addItem(m_questionTip);
     setPosOfQuestionTip();
   }
 
@@ -224,9 +223,10 @@ void Tcanvas::setPosOfStartTip() {
 
 void Tcanvas::setPosOfQuestionTip() {
   QPoint pos;
-  if (m_questionTip->freeGuitar())
-      pos = QPoint((m_scene->width() - m_scale * (m_questionTip->boundingRect().width())) / 2, 
-                   m_scene->height() - (m_scale * (m_questionTip->boundingRect().height())) - 10);
+  if (m_questionTip->freeGuitar()) {
+      pos = QPoint((m_scene->width() - /*m_scale **/ (m_questionTip->boundingRect().width())) / 2, 
+                   m_scene->height() - (/*m_scale **/ (m_questionTip->boundingRect().height())) - 10);
+  }
     else
       if (m_questionTip->freeName())
         pos = QPoint((m_scene->width() / 2), (m_scene->height() /4));
