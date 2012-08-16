@@ -1,3 +1,5 @@
+    - improved level creator and validation of levels
+    - improved hints during an exam
     BUGS FIXES
     - in Nootka font- fixed look of string numbers under Windows
 
