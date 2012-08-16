@@ -940,7 +940,7 @@ void TexamExecutor::autoRepeatStateChanged(bool enable) {
     gl->E->autoNextQuest = enable;
     if (enable) {
         mW->startExamAct->setDisabled(false);
-        m_canvas->clearCanvas();
+//         m_canvas->clearCanvas();
     }
 }
 

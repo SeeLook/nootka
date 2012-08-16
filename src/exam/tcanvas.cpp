@@ -75,6 +75,8 @@ QFont Tcanvas::tipFont(qreal factor) {
 
 
 void Tcanvas::resultTip(TQAunit* answer, int time) {
+  if (m_resultTip)
+    delete m_resultTip;    
   QColor answColor;
   if (answer->isCorrect())
       answColor = gl->EanswerColor;
@@ -100,7 +102,7 @@ QString Tcanvas::startTipText() {
 
 
 void Tcanvas::startTip() {
-  m_startTip = new TgraphicsTextTip(QString("<p style=\"font-size: %1px;\">").arg(bigFont()) + startTipText() + "</p>", palette().highlight().color());
+  m_startTip = new TgraphicsTextTip(QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75)) + startTipText() + "</p>", palette().highlight().color());
   m_scene->addItem(m_startTip);
   m_startTip->setScale(m_scale);
   setPosOfStartTip();
@@ -108,6 +110,10 @@ void Tcanvas::startTip() {
 
 
 void Tcanvas::whatNextTip(bool isCorrect, bool onRight) {
+  if (m_questionTip) {
+    delete m_questionTip;
+    m_questionTip = 0;
+  }
   QString whatNextText = startTipText();
   if (!isCorrect)
       whatNextText += "<br>" + tr("To correct an answer") + " " + TexamHelp::clickSomeButtonTxt(gl->path+"picts/prev-icon.png") +
@@ -128,11 +134,14 @@ void Tcanvas::questionTip(Texam* exam, Tnote::EnameStyle style) {
     delete m_startTip;
     m_startTip = 0;
   }
+  if (m_whatTip) {
+    delete m_whatTip;
+    m_whatTip = 0;
+  }
   if (m_questionTip)
     delete m_questionTip;
   m_questionTip = new TquestionTip(exam, style, m_scale);
   m_scene->addItem(m_questionTip);
-//   m_questionTip->setScale(m_scale);
   setPosOfQuestionTip();
 }
 
@@ -182,13 +191,10 @@ void Tcanvas::sizeChanged(QSize newSize) {
       setPosOfWhatTip();
   }
   if (m_startTip) {
-//     m_startTip->setFont(tipFont(1 * m_scale));
-//     m_startTip->setHtml(startTipText());
     m_startTip->setScale(m_scale);
     setPosOfStartTip();
   }
   if (m_questionTip) {
-//     m_questionTip->setScale(m_scale);
     delete m_questionTip;
     m_questionTip = new TquestionTip(m_exam, m_style, m_scale);
     m_scene->addItem(m_questionTip);
@@ -222,16 +228,19 @@ void Tcanvas::setPosOfStartTip() {
 
 
 void Tcanvas::setPosOfQuestionTip() {
+  if (m_questionTip->boundingRect().height() > (m_scene->height() * 0.3))
+    m_questionTip->setScale((m_scene->height() * 0.3) / m_questionTip->boundingRect().height());
   QPoint pos;
   if (m_questionTip->freeGuitar()) {
-      pos = QPoint((m_scene->width() - /*m_scale **/ (m_questionTip->boundingRect().width())) / 2, 
-                   m_scene->height() - (/*m_scale **/ (m_questionTip->boundingRect().height())) - 10);
+      pos = QPoint((m_scene->width() - (m_questionTip->boundingRect().width())) / 2, 
+                   (double)m_scene->height() * 0.67);
   }
     else
       if (m_questionTip->freeName())
         pos = QPoint((m_scene->width() / 2), (m_scene->height() /4));
       else // on the score
-        pos = QPoint(2, m_scene->height() / 10);
+        pos = QPoint(((double)m_scene->width() * 0.42 - m_questionTip->boundingRect().width()) / 2 ,
+                     m_scene->height() / 10 + (m_scene->height() / 2 - m_questionTip->boundingRect().height()) /2 );
       
   m_questionTip->setPos(pos);
 }

@@ -54,7 +54,8 @@ TANALYSEDIALOG
 FOR WINDOWS
     - style ???
 
-    
+TNOTEPIXMAP
+  - make it resizable - factor doesn't work with clef and accidentals
     
     
     
