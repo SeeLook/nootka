@@ -60,6 +60,8 @@ private:
     double m_scale;
     TgraphicsTextTip *m_resultTip, *m_whatTip, *m_startTip;
     TquestionTip *m_questionTip;
+    Texam *m_exam;
+    Tnote::EnameStyle m_style;
     
 private slots:
     void clearResultTip();

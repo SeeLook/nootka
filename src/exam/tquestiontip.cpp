@@ -48,14 +48,11 @@ QString TquestionTip::onStringTxt(quint8 strNr) {
 //#################################### CONSTRUCTOR #########################################
 //##########################################################################################
 
-TquestionTip::TquestionTip(Texam* exam, Tnote::EnameStyle style) :
-  TgraphicsTextTip(),
-  m_scoreFree(true),
-  m_nameFree(true),
-  m_guitarFree(true)
+TquestionTip::TquestionTip(Texam* exam, Tnote::EnameStyle style, double scale) :
+  TgraphicsTextTip(getQuestion(exam->qusetion(exam->count()-1), exam->count(), exam->level(), style, scale))
 {
   setBgColor(gl->EquestionColor);
-  setHtml(getQuestion(exam->qusetion(exam->count()-1), exam->count(), exam->level(), style));
+//   setHtml(getQuestion(exam->qusetion(exam->count()-1), exam->count(), exam->level(), style, scale));
 }
 
 TquestionTip::~TquestionTip() {}
@@ -70,8 +67,17 @@ QString TquestionTip::getNiceNoteName(Tnote note) {
             TnoteName::noteToRichText(note) + " </span></b>";
 }
 
-QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* level, Tnote::EnameStyle style) {
-  QString quest = QString("<b><u>&nbsp;%1.&nbsp;</u></b><br>").arg(questNr);
+QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* level, Tnote::EnameStyle style, double scale) {
+  m_scoreFree = true;
+  m_nameFree = true;
+  m_guitarFree = true;
+  QString quest;
+  double sc = 4.0;
+  if (scale) {
+    quest = QString("<p style=\"font-size: %1px;\">").arg(qRound(scale * 22.0));
+//     sc = 4.0 * scale;     
+  }
+  quest += QString("<b><u>&nbsp;%1.&nbsp;</u></b><br>").arg(questNr);
     QString apendix = "";
     QString noteStr;
     switch (question.questionAs) {
@@ -102,9 +108,9 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* le
                 quest += tr("Play or sing");
               }
         if (level->useKeySign && level->manualKey) // hide key signature
-            quest += "<br>" + TtipChart::wrapPixToHtml(question.qa.note, true, TkeySignature(0));
+            quest += "<br>" + TtipChart::wrapPixToHtml(question.qa.note, true, TkeySignature(0), sc);
         else
-            quest += "<br>" + TtipChart::wrapPixToHtml(question.qa.note, true, question.key);
+            quest += "<br>" + TtipChart::wrapPixToHtml(question.qa.note, true, question.key, sc);
         if (apendix != "")
           quest += apendix;
       break;
@@ -202,7 +208,8 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* le
               }
       break;
     }
-    
+    if (scale)
+      quest += "</p>";
     return quest;
   
 }
