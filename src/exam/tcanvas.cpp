@@ -19,11 +19,13 @@
 
 #include "tcanvas.h"
 #include "tqaunit.h"
+#include "texam.h"
+#include "tquestiontip.h"
 #include "tgraphicstexttip.h"
 #include "mainwindow.h"
 #include "tnotepixmap.h"
 #include "tglobals.h"
-#include <texamhelp.h>
+#include "texamhelp.h"
 #include <QDebug>
 
 
@@ -34,7 +36,9 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   QGraphicsView(parent),
   m_parent(parent),
   m_resultTip(0),
+  m_startTip(0),
   m_whatTip(0),
+  m_questionTip(0),
   m_scale(1)
 {
   setAttribute(Qt::WA_TransparentForMouseEvents);
@@ -46,7 +50,6 @@ Tcanvas::Tcanvas(MainWindow* parent) :
     
   m_scene = new QGraphicsScene();
   setScene(m_scene);
-//   m_scale = (double)parent->centralWidget()->height() / 580.0;
   sizeChanged(parent->centralWidget()->size());
   
   connect(parent, SIGNAL(sizeChanged(QSize)), this, SLOT(sizeChanged(QSize)));
@@ -62,6 +65,13 @@ Tcanvas::~Tcanvas()
 int Tcanvas::bigFont() {
   return (fontMetrics().boundingRect("A").height() * 2);
 }
+
+QFont Tcanvas::tipFont(qreal factor) {
+  QFont f = font();
+  f.setPointSize(qRound((qreal)bigFont() * factor));
+  return f;
+}
+
 
 
 void Tcanvas::resultTip(TQAunit* answer, int time) {
@@ -83,20 +93,47 @@ void Tcanvas::resultTip(TQAunit* answer, int time) {
 }
 
 
-void Tcanvas::whatNextTip(bool isCorrect, bool onRight) {
-  QString whatNextText = TexamHelp::toGetQuestTxt() + ":<br>" + TexamHelp::clickSomeButtonTxt(gl->path+"picts/next-icon.png") + 
+QString Tcanvas::startTipText() {
+  return TexamHelp::toGetQuestTxt() + ":<br>" + TexamHelp::clickSomeButtonTxt(gl->path+"picts/next-icon.png") + 
   ",<br>" + TexamHelp::pressSpaceKey() + " " + TexamHelp::orRightButtTxt();
+}
+
+
+void Tcanvas::startTip() {
+  m_startTip = new TgraphicsTextTip(startTipText(), palette().highlight().color());
+  m_scene->addItem(m_startTip);
+  m_startTip->setFont(tipFont(1));
+  m_startTip->setScale(m_scale);
+  setPosOfStartTip();;
+}
+
+
+void Tcanvas::whatNextTip(bool isCorrect, bool onRight) {
+  QString whatNextText = startTipText();
   if (!isCorrect)
       whatNextText += "<br>" + tr("To correct an answer") + " " + TexamHelp::clickSomeButtonTxt(gl->path+"picts/prev-icon.png") +
       " " + TexamHelp::orPressBkSTxt();
   
   m_whatTip = new TgraphicsTextTip(whatNextText, palette().highlight().color());
   m_scene->addItem(m_whatTip);
-  QFont f = font();
-  f.setPointSize(qRound((double)bigFont() * 0.35));
-  m_whatTip->setFont(f);
+  m_whatTip->setFont(tipFont(0.35));
   m_whatTip->setScale(m_scale);
   setPosOfWhatTip();
+}
+
+
+void Tcanvas::questionTip(Texam* exam, Tnote::EnameStyle style) {
+  if (m_startTip) {
+    delete m_startTip;
+    m_startTip = 0;
+  }
+  if (m_questionTip)
+    delete m_questionTip;
+  m_questionTip = new TquestionTip(exam, style);
+  m_scene->addItem(m_questionTip);
+  m_questionTip->setFont(tipFont(0.4));
+  m_questionTip->setScale(m_scale);
+  setPosOfQuestionTip();
 }
 
 
@@ -109,6 +146,14 @@ void Tcanvas::clearCanvas() {
   if (m_whatTip) {
     delete m_whatTip;
     m_whatTip = 0;
+  }
+  if (m_startTip) {
+    delete m_startTip;
+    m_startTip = 0;
+  }
+  if (m_questionTip) {
+    delete m_questionTip;
+    m_questionTip = 0;
   }
 }
 
@@ -136,6 +181,14 @@ void Tcanvas::sizeChanged(QSize newSize) {
       m_whatTip->setScale(m_scale);
       setPosOfWhatTip();
   }
+  if (m_startTip) {
+    m_startTip->setScale(m_scale);
+    setPosOfStartTip();
+  }
+  if (m_questionTip) {
+    m_questionTip->setScale(m_scale);
+    setPosOfQuestionTip();
+  }
 
 }
 
@@ -144,19 +197,38 @@ void Tcanvas::sizeChanged(QSize newSize) {
 //######################################################################
 
 void Tcanvas::setPosOfResultTip() {
+    // in the middle over guitar
   m_resultTip->setPos((m_scene->width() - m_scale * m_resultTip->boundingRect().width()) / 2,
                   qRound((double)m_scene->height() * 0.7 ) -(m_scale * m_resultTip->boundingRect().height()));  
 }
 
 void Tcanvas::setPosOfWhatTip() {
-//   qDebug() << m_whatTip->mapToScene(m_whatTip->boundingRect().width(), m_whatTip->boundingRect().height()) << m_whatTip->boundingRect().size();
-//   QPointF ss = m_whatTip->mapToScene(m_whatTip->boundingRect().width(), m_whatTip->boundingRect().width());
+    // in the middle on guitar
   m_whatTip->setPos((m_scene->width() - m_scale * (m_whatTip->boundingRect().width())) / 2,
-                  m_scene->height() - (m_scale * (m_whatTip->boundingRect().height())) - 10);
-//   m_whatTip->setPos((m_scene->width() - (ss.x())) / 2,
-//                   m_scene->height() - ((ss.y() + 3)));  
+                  m_scene->height() - (m_scale * (m_whatTip->boundingRect().height())) - 10);  
 }
 
+
+void Tcanvas::setPosOfStartTip() {
+    // in the middle
+  m_startTip->setPos((m_scene->width() - m_scale * (m_startTip->boundingRect().width())) / 2,
+                  (m_scene->height() - m_scale * (m_startTip->boundingRect().height())) / 2 );  
+}
+
+
+void Tcanvas::setPosOfQuestionTip() {
+  QPoint pos;
+  if (m_questionTip->freeGuitar())
+      pos = QPoint((m_scene->width() - m_scale * (m_questionTip->boundingRect().width())) / 2, 
+                   m_scene->height() - (m_scale * (m_questionTip->boundingRect().height())) - 10);
+    else
+      if (m_questionTip->freeName())
+        pos = QPoint((m_scene->width() / 2), (m_scene->height() /4));
+      else // on the score
+        pos = QPoint(2, m_scene->height() / 10);
+      
+  m_questionTip->setPos(pos);
+}
 
 
 void Tcanvas::clearResultTip() {
