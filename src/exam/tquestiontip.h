@@ -16,3 +16,42 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
  
+#ifndef TQUESTIONTIP_H
+#define TQUESTIONTIP_H
+
+#include "tgraphicstexttip.h"
+#include "tnote.h"
+
+class Texam;
+class TexamLevel;
+class TQAunit;
+
+
+class TquestionTip : public TgraphicsTextTip
+{
+   
+public:
+        /** Constructs tip with question content. */
+    TquestionTip(Texam *exam, Tnote::EnameStyle style);
+    ~TquestionTip();
+    
+    static QString getTextHowAccid(Tnote::Eacidentals accid);
+        /** Returns translated text on (strNr) string in Nootka font. */
+    static QString onStringTxt(quint8 strNr);
+    
+    bool freeScore() { return m_scoreFree; } // true when question is not on score
+    bool freeName() { return m_nameFree; } // true when question is not on note name
+    bool freeGuitar() { return m_guitarFree; } // true when question is not on guitar
+    
+protected:    
+        /** Returns html-formated question text. */
+    QString getQuestion(TQAunit &question, int questNr, TexamLevel *level, Tnote::EnameStyle style);
+    QString getNiceNoteName(Tnote note);
+        
+    
+private:
+    bool m_scoreFree, m_nameFree, m_guitarFree; // Indicate where has to be tip
+};
+
+
+#endif // TQUESTIONTIP_H

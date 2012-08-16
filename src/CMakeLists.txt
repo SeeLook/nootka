@@ -48,7 +48,7 @@ SET( NOOTKA_SRCS
   exam/texamsummary.cpp
   exam/texamparams.h
   exam/texecutorsupply.cpp
-  exam/tdialogmessage.cpp
+  exam/tquestiontip.cpp
   exam/tcanvas.cpp
 ###### Info
   info/taboutnootka.cpp
@@ -143,7 +143,6 @@ SET( NOOTKA_MOC_SRCS
   exam/texamexecutor.h
   exam/texamsummary.h
   exam/texecutorsupply.h
-  exam/tdialogmessage.h
   exam/tcanvas.h
 ###### Info
   info/taboutnootka.h
