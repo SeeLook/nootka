@@ -36,12 +36,16 @@ void TgraphicsTextTip::alignCenter(QGraphicsTextItem* tip) {
     tip->setTextCursor(cursor);
 }
 
-void TgraphicsTextTip::setDropShadow(QGraphicsTextItem* tip) {
+void TgraphicsTextTip::setDropShadow(QGraphicsTextItem* tip, QColor shadowColor) {
   //NOTE: Be sure that shadow instance is deleted with item - otherwise You get memory leaks
   QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect();
-  shadow->setBlurRadius(5);
-  shadow->setOffset(5, 5);
-  shadow->setColor(TquestionPoint::shadowColor());
+  shadow->setBlurRadius(15);
+  shadow->setOffset(0, 0);
+  if (shadowColor != -1)
+    shadow->setColor(QColor(shadowColor.name()));
+  else
+//     shadow->setColor(Qt::red);
+    shadow->setColor(TquestionPoint::shadowColor());
   tip->setGraphicsEffect(shadow);
 
 }
@@ -57,7 +61,7 @@ TgraphicsTextTip::TgraphicsTextTip(QString text, QColor bgColor) :
   m_bgColor(bgColor)
 {
   setHtml(text);
-  setDropShadow(this);  
+  setDropShadow(this, bgColor);  
 }
 
 TgraphicsTextTip::TgraphicsTextTip() :
@@ -77,6 +81,11 @@ void TgraphicsTextTip::setHtml(QString htmlText) {
   alignCenter(this);
 }
 
+void TgraphicsTextTip::setBgColor(QColor col) {
+  m_bgColor = col; 
+  delete graphicsEffect();
+  setDropShadow(this, QColor(col.name()));
+}
 
 //#############################################################################
 //###################  virtual ################################################
