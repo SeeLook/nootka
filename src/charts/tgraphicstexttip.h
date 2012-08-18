@@ -43,13 +43,13 @@ public:
   
       /** Background color of tip */
   QColor bgColor() { return m_bgColor; }
-  void setBgColor(QColor col) { m_bgColor = col; }
+  void setBgColor(QColor col);
   
       /** This method align center content of item.
        * Put text before call it. */
   static void alignCenter(QGraphicsTextItem *tip);
       /** Adds drop shadow with defaults color/blur to an item. */
-  static void setDropShadow(QGraphicsTextItem *tip);
+  static void setDropShadow(QGraphicsTextItem *tip, QColor shadowColor = -1);
   
 private:
   QColor m_bgColor;
