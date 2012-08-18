@@ -126,6 +126,10 @@ void Tcanvas::whatNextTip(bool isCorrect, bool onRight) {
   setPosOfWhatTip();
 }
 
+void Tcanvas::noteTip(int time) {
+
+}
+
 
 void Tcanvas::questionTip(Texam* exam, Tnote::EnameStyle style) {
   m_exam = exam;
@@ -167,6 +171,19 @@ void Tcanvas::clearCanvas() {
 }
 
 
+void Tcanvas::clearResultTip() {
+    if (m_resultTip) {
+      delete m_resultTip;
+      m_resultTip = 0;
+    }
+}
+
+
+void Tcanvas::clearNoteTip() {
+
+}
+
+
 //######################################################################
 //#################################### PROTECTED #######################
 //######################################################################
@@ -178,9 +195,7 @@ void Tcanvas::sizeChanged(QSize newSize) {
     hi = m_scene->height();
   else
     hi = 580;
-//   m_scale = m_scale * (newSize.height() / );
   m_scene->setSceneRect(geometry());
-//   m_scale = ((double)newSize.height() / 580.0) / m_scale;
   m_scale =m_scale * ((double)newSize.height() / hi);
   if (m_resultTip) {
       m_resultTip->setScale(m_scale);;
@@ -215,8 +230,10 @@ void Tcanvas::setPosOfResultTip() {
 
 void Tcanvas::setPosOfWhatTip() {
     // in the middle on guitar
-  m_whatTip->setPos((m_scene->width() - m_scale * (m_whatTip->boundingRect().width())) / 2,
-                  m_scene->height() - (m_scale * (m_whatTip->boundingRect().height())) - 10);  
+  if (m_whatTip->boundingRect().height() < (m_scene->height() * 0.27))
+      m_whatTip->setScale((m_scene->height() * 0.27) / m_whatTip->boundingRect().height());
+  m_whatTip->setPos((m_scene->width() - (m_whatTip->scale() * m_whatTip->boundingRect().width())) / 2,
+                  m_scene->height() * 0.68);
 }
 
 
@@ -233,7 +250,7 @@ void Tcanvas::setPosOfQuestionTip() {
   QPoint pos;
   if (m_questionTip->freeGuitar()) {
       pos = QPoint((m_scene->width() - (m_questionTip->boundingRect().width())) / 2, 
-                   (double)m_scene->height() * 0.67);
+                   m_scene->height() * 0.68);
   }
     else
       if (m_questionTip->freeName())
@@ -245,13 +262,6 @@ void Tcanvas::setPosOfQuestionTip() {
   m_questionTip->setPos(pos);
 }
 
-
-void Tcanvas::clearResultTip() {
-    if (m_resultTip) {
-      delete m_resultTip;
-      m_resultTip = 0;
-    }
-}
 
 
 
