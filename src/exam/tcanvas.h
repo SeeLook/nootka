@@ -23,12 +23,16 @@
 #include <QGraphicsView>
 #include <tnote.h>
 
+class QTimer;
 class Texam;
 class TquestionTip;
 class MainWindow;
 class TQAunit;
 class TgraphicsTextTip;
 
+
+/** This is view/scene widget laying over centralWidget() 
+* to show notifications during an exam.  */
 class Tcanvas : public QGraphicsView
 {
 
@@ -38,11 +42,12 @@ public:
     Tcanvas(MainWindow *parent);
     virtual ~Tcanvas();
     
-    void addTip(TgraphicsTextTip *tip);
-    void resultTip(TQAunit *answer, int time = 0);
-    void startTip();
-    void whatNextTip(bool isCorrect, bool onRight = true);
-    void questionTip(Texam *exam, Tnote::EnameStyle style);
+    void addTip(TgraphicsTextTip *tip); // add any TgraphicsTextTip object
+    void resultTip(TQAunit *answer, int time = 0); // show was question correct text, hides after given time
+    void startTip(); // Text with help on an exam start
+    void whatNextTip(bool isCorrect, bool onRight = true); // Text with what to click after an answer
+    void questionTip(Texam *exam, Tnote::EnameStyle style); // Text with question context
+    void noteTip(int time); // note symbol when sound was detected
     
     void clearCanvas();
         /** Returns point size of 'A' letttter multipled by 2. */
@@ -50,6 +55,10 @@ public:
         /** Returns default font with point size scaled to 'A' letter multipled by given factor. */
     QFont tipFont(qreal factor = 1);
     QString startTipText();
+    
+public slots:
+    void clearResultTip(); // cleanes tip with results
+    void clearNoteTip();
     
 protected slots:
     void sizeChanged(QSize newSize);
@@ -62,9 +71,8 @@ private:
     TquestionTip *m_questionTip;
     Texam *m_exam;
     Tnote::EnameStyle m_style;
+    QTimer *m_noteTimer;
     
-private slots:
-    void clearResultTip();
     
 private:
     void setPosOfResultTip();
