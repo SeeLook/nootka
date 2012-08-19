@@ -2,7 +2,7 @@
 
 INCLUDE_DIRECTORIES (. exam info level score settings sound charts)
 
-SET( NOOTKA_SRCS
+SET( NOOTKA_SRCS 
   main.cpp
   mainwindow.cpp
   tglobals.cpp
@@ -50,6 +50,7 @@ SET( NOOTKA_SRCS
   exam/texecutorsupply.cpp
   exam/tquestiontip.cpp
   exam/tcanvas.cpp
+  exam/tprogresswidget.cpp
 ###### Info
   info/taboutnootka.cpp
   info/tfirstrunwizzard.cpp

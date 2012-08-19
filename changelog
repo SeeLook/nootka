@@ -1,3 +1,5 @@
+    - implemented questin and answer as position on a guitar
+    - recognizeing answers with proper sound but wrong string
     - simpler level creator and improved validation of levels
     - improved hints during an exam
     BUGS FIXES
