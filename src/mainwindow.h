@@ -28,6 +28,7 @@
 #include "texamexecutor.h"
 #include <QMainWindow>
 
+class TprogressWidget;
 class TpitchView;
 class Tsound;
 class QCheckBox;
@@ -79,6 +80,7 @@ protected:
     TexamExecutor *ex;
     QCheckBox *autoRepeatChB, *expertAnswChB;
     TpitchView *pitchView;
+    TprogressWidget *progress;
 
     QToolBar *nootBar;
     QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct, *analyseAct;

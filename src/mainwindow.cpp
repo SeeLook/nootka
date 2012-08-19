@@ -27,12 +27,13 @@
 #include "examsettings.h"
 #include "tsound.h"
 #include "tpushbutton.h"
-#include <QtGui>
 #include "texam.h"
+#include "tprogresswidget.h"
 #include "taudioparams.h"
 #include "taudioout.h"
 #include "tpitchview.h"
 #include "tanalysdialog.h"
+#include <QtGui>
 
 
 extern Tglobals *gl;
@@ -127,6 +128,9 @@ MainWindow::MainWindow(QWidget *parent)
     expertAnswChB->setToolTip(ExamSettings::expertsAnswerTxt());
     statLay->addLayout(chBlay);
     nameLay->addLayout(statLay);
+    
+    progress = new TprogressWidget(innerWidget);
+    nameLay->addWidget(progress);
 
     examResults = new TexamView(innerWidget);
     examResults->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -468,9 +472,11 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
     m_statLab->setFont(f);
     guitar->setFixedHeight((centralWidget()->height()-nootBar->height())/3);
     examResults->setFontSize(m_statFontSize);
-    noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(centralWidget()->height() * 0.4)));
+//     noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(centralWidget()->height() * 0.4)));
+    noteName->setGeometry(examResults->geometry().left(), examResults->geometry().bottom(), centralWidget()->width()- score->width() -2, qRound(centralWidget()->height() * 0.4));
     noteName->resize(m_statFontSize);
     pitchView->resize(m_statFontSize);
+    progress->resize(m_statFontSize);
     setUpdatesEnabled(true);
     emit sizeChanged(event->size());
 }
