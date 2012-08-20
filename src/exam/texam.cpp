@@ -28,6 +28,8 @@
 /*static*/
 const qint32 Texam::examVersion = 0x95121702;
 
+const quint16 Texam::maxAnswerTime = 65500;
+
 
 
 Texam::Texam(TexamLevel* l, QString userName):
@@ -35,14 +37,18 @@ Texam::Texam(TexamLevel* l, QString userName):
 	m_userName(userName),
 	m_fileName(""),
 	m_mistNr(0),
-	m_workTime(0)
+	m_workTime(0),
+	m_penaltysNr(0)
 {
 
 }
 
 
 Texam::~Texam()
-{}
+{
+  m_answList.clear();
+  m_blackList.clear();  
+}
 
 
 Texam::EerrorType Texam::loadFromFile(QString& fileName) {
@@ -128,6 +134,18 @@ void Texam::setAnswer(TQAunit& answer) {
     if (!answer.isCorrect())
       m_mistNr++;
     m_workTime += answer.time;
+}
+
+//############################### PROTECTED ########################################
+
+
+
+void Texam::updatePenaltiesNumber() {
+  m_penaltysNr = 0;
+  if (m_blackList.size()) {
+    for (int i = 0; i < m_blackList.size(); i++)
+    m_penaltysNr += (m_blackList[i].time - maxAnswerTime);
+  }
 }
 
 

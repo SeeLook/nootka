@@ -70,26 +70,36 @@ public:
   QString userName() { return m_userName; }
   QString fileName() { return m_fileName; }
   void setFileName(QString fileName) { m_fileName = fileName; }
-
+ 
+    /** Reference to list of mistakes. */
+  QList<TQAunit>* blacList() { return &m_blackList; }
+  int penalty() { return m_penaltysNr; } // Number of penaltys
 
   EerrorType loadFromFile(QString &fileName);
   EerrorType saveToFile(QString fileName = "");
 
     /** Magic number in exam file to identify it.*/
   static const qint32 examVersion;
+    /** Maximal time of an answer = 65500. Values over are equal to it.
+     * 65501 & 65502 are for counting probes in blackList */
+  static const quint16 maxAnswerTime;
     /** Returns a reference to question/answer unit nr @param index.
      * Be Aware !!! index has to be less than m_answList.size() */
   TQAunit &qusetion(unsigned int index) { return m_answList[index]; }
 
+protected:
+  void updatePenaltiesNumber();
+  
 
 private:
 	QString m_fileName, m_userName;
 	TexamLevel *m_level;
 	QList<TQAunit> m_answList;
+  QList<TQAunit> m_blackList;
 	Ttune m_tune;
 	quint32 m_totalTime;
 	quint16 m_mistNr, m_averReactTime, m_workTime;
-		
+  int m_penaltysNr; 		
 		
 		
 };

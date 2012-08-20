@@ -42,11 +42,19 @@ TprogressWidget::TprogressWidget(QWidget* parent) :
 TprogressWidget::~TprogressWidget()
 {}
 
-void TprogressWidget::activate(int answers, int total) {
+void TprogressWidget::activate(int answers, int total, int penaltys) {
   setDisabled(false);
+  m_answLab->setText(QString("%1 + %2").arg(answers).arg(total + penaltys - answers));
+  m_answLab->setStatusTip(tr("Answered questions") + QString(": %1").arg(answers) +
+    "<br>" + tr("Remained") + QString(": %1 ").arg(total + penaltys - answers)
+  );
+  m_totalLab->setText(QString(" %1 (%2)").arg(total + penaltys).arg(penaltys));
+  m_bar->setMinimum(0);
+  m_bar->setMaximum(total + penaltys);
+  m_bar->setValue(answers);
 }
 
-void TprogressWidget::progress(int total) {
+void TprogressWidget::progress(int total, int penaltys) {
 
 }
 
@@ -60,7 +68,7 @@ void TprogressWidget::resize(int fontSize) {
 }
 
 QString TprogressWidget::zeroLabTxt() {
-  return "0<span style=\"color: transparent;\">000</span>";
+  return "<span style=\"color: transparent;\">(000) + </span>0<span style=\"color: transparent;\">000</span>";
 }
 
 

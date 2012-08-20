@@ -114,6 +114,9 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
     }
     
     qsrand(QDateTime::currentDateTime().toTime_t());
+    
+    m_obligQuestNr = list.size() * 3;
+//     m_obligQuestNr = qMax(m_obligQuestNr, (m_level->hiKey.value() - m_level->loKey.value())* 3);
 
 }
 
@@ -209,6 +212,7 @@ Tnote::EnameStyle TexecutorSupply::randomNameStyle() {
         return Tnote::e_italiano_Si;
     }
 }
+
 
 void TexecutorSupply::getTheSamePos(TfingerPos& fingerPos, QList< TfingerPos >& posList, bool strCheck) {
   int chStr = gl->Gtune()[gl->strOrder(fingerPos.str()-1) + 1].getChromaticNrOfNote();
