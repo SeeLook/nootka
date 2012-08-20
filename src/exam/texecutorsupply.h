@@ -47,6 +47,9 @@ public:
   quint16 getQAnrForGuitarOnly() { return m_fretFretList[qrand() % m_fretFretList.size()]; }
     /** Returns true when qustions and answers as guitar are possible. */
   bool isGuitarOnlyPossible() { return !m_fretFretList.isEmpty(); }
+    /** Useing level settings calculates number of mandatory questions in exam.
+     * It is stored in m_totalQuestNr. */
+  int obligQuestions() { return m_obligQuestNr; }
   
 signals:
   void rightButtonClicked();
@@ -57,7 +60,8 @@ protected:
   
 private:
   TexamLevel *m_level;
-  
+      /** Total number of questions to answer in exam (without penaltys) */
+  int m_obligQuestNr;   
       /** Previous accidental used. */
   Tnote::Eacidentals m_prevAccid;
       /** intervals between asking about double accidentals.

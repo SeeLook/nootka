@@ -34,6 +34,7 @@
 #include "tanalysdialog.h"
 #include "tgraphicstexttip.h"
 #include "tcanvas.h"
+#include "tprogresswidget.h"
 #include <QtGui>
 #include <QDebug>
 
@@ -151,12 +152,12 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
     
    // ---------- End of checking ----------------------------------
 
-    m_messageItem = 0;
     m_supp = new TexecutorSupply(&m_level, this);
+    m_supp->createQuestionsList(m_questList);
     prepareToExam();
     if (m_exam->fileName() == "" && gl->E->showHelpOnStart)
       showExamHelp();
-    m_supp->createQuestionsList(m_questList);
+//     m_supp->createQuestionsList(m_questList);
     if (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isFret()) {
       if (!m_supp->isGuitarOnlyPossible()) {
           qDebug("Something stiupid !!!\n Level has question and answer as position on guitar but any question is available.");
@@ -422,10 +423,6 @@ void TexamExecutor::checkAnswer(bool showResults) {
         mW->startExamAct->setDisabled(false);
     m_isAnswered = true;
     disconnect(mW->sound->player, 0, this, 0);
-//     if (m_questMessage) {
-//       delete m_questMessage;
-//       m_questMessage = 0;
-//     }    
 // Let's check
     Tnote exN, retN; // example note & returned note
     // First we determine what have to be checked
@@ -621,6 +618,7 @@ void TexamExecutor::prepareToExam() {
     mW->autoRepeatChB->setChecked(gl->E->autoNextQuest);
     mW->expertAnswChB->show();
     mW->expertAnswChB->setChecked(gl->E->expertsAnswerEnable);
+    mW->progress->activate(m_exam->count(), m_supp->obligQuestions(), m_exam->penalty());
 //    if (gl->E->expertsAnswerEnable)
 //      connectForExpert();
     disableWidgets();

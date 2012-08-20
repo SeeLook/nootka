@@ -34,8 +34,8 @@ public:
     
     static QString progressExamTxt() { return tr("Progress of the exam"); }
     
-    void activate(int answers, int total);
-    void progress(int total);
+    void activate(int answers, int total, int penaltys);
+    void progress(int total, int penaltys);
     void terminate();
     int total() { return m_totalNr; }
     
