@@ -77,27 +77,40 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
           TQAunit qaUnit;
           if (!getTQAunitFromStream(in, qaUnit))
               isExamFileOk = false;
-          m_answList << qaUnit;
-//           qDebug() << m_answList.size() << QString::fromStdString(qaUnit.qa.note.getName());
-          m_workTime += qaUnit.time; // 
-          if ( !qaUnit.isCorrect() )
-              tmpMist++;
-//                     qDebug() << isExamFileOk << m_answList.size() <<
-//                             (int)qaUnit.key.value() << qaUnit.key.isMinor();
+          if (qaUnit.time <= maxAnswerTime) {
+              m_answList << qaUnit;
+              m_workTime += qaUnit.time; 
+              if ( !qaUnit.isCorrect() )
+                  tmpMist++;
+          } else {
+              m_blackList << qaUnit;
           }
-          if (tmpMist != m_mistNr || questNr != m_answList.size()) {
-            isExamFileOk = false;
+      }
+      if (tmpMist != m_mistNr || questNr != m_answList.size()) {
+        isExamFileOk = false;
 //             qDebug() << "mistakes:" << tmpMist << m_mistNr << "questions:" << questNr << m_answList.size();
-            m_mistNr = tmpMist; //we try to fix exam file to give proper number of mistakes
-          }
-          m_averReactTime = m_workTime / count();
+        m_mistNr = tmpMist; //we try to fix exam file to give proper number of mistakes
+      }
+      m_averReactTime = m_workTime / count();
 //           m_workTime = qRound((qreal)m_workTime / 10.0);
-          if (!isExamFileOk)
-              result = e_file_corrupted;        
+      if (!isExamFileOk)
+          result = e_file_corrupted;        
      } else {
          TlevelSelector::fileIOerrorMsg(file, 0);
 				 result = e_cant_open;
      }
+   // Grab penaltys number stored in userName string
+     QStringList tmpL = m_userName.split("|", QString::SkipEmptyParts);
+     if (tmpL.size() > 1) {
+        m_penaltysNr = tmpL.last().toInt();
+        QString name;
+        for (int i = 0; i < tmpL.size()-1; i++)
+          name += tmpL[i];
+        m_userName = name;
+     } else
+       m_penaltysNr = 0; // no penaltys uuuin name sting
+     updateBlackCount();
+     
      return result;
 }
 
@@ -109,6 +122,7 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
 		return e_noFileName;
 	QFile file(m_fileName);
 	if (file.open(QIODevice::WriteOnly)) {
+    m_userName += QString("|%1").arg(m_penaltysNr);
 		QDataStream out(&file);
 		out.setVersion(QDataStream::Qt_4_7);
 		out << examVersion;
@@ -130,21 +144,33 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
 }
 
 void Texam::setAnswer(TQAunit& answer) {
+    answer.time = qMax(maxAnswerTime, answer.time); // when user think too much
     m_answList.last() = answer;
-    if (!answer.isCorrect())
+    if (!answer.isCorrect()) {
       m_mistNr++;
+      m_blackList << answer;
+      if (answer.isNotSoBad()) {
+        m_blackList.last().time = 65501;
+        m_penaltysNr++;
+      }
+      else {
+        m_blackList.last().time = 65502;
+        m_penaltysNr += 2;
+      }
+    }
     m_workTime += answer.time;
+    updateBlackCount();
 }
 
 //############################### PROTECTED ########################################
 
 
 
-void Texam::updatePenaltiesNumber() {
-  m_penaltysNr = 0;
+void Texam::updateBlackCount() {
+  m_blackCount = 0;
   if (m_blackList.size()) {
     for (int i = 0; i < m_blackList.size(); i++)
-    m_penaltysNr += (m_blackList[i].time - maxAnswerTime);
+    m_blackCount += (m_blackList[i].time - maxAnswerTime);
   }
 }
 
