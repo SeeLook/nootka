@@ -73,7 +73,8 @@ public:
  
     /** Reference to list of mistakes. */
   QList<TQAunit>* blacList() { return &m_blackList; }
-  int penalty() { return m_penaltysNr; } // Number of penaltys
+  int penalty() { return m_penaltysNr; } // Number of penaltys during whole exam
+  int blackCount() { return m_blackCount; } // Remained questions in black list
 
   EerrorType loadFromFile(QString &fileName);
   EerrorType saveToFile(QString fileName = "");
@@ -88,7 +89,8 @@ public:
   TQAunit &qusetion(unsigned int index) { return m_answList[index]; }
 
 protected:
-  void updatePenaltiesNumber();
+    /** Iterates through m_blackList to calculate number */
+  void updateBlackCount();
   
 
 private:
@@ -99,7 +101,8 @@ private:
 	Ttune m_tune;
 	quint32 m_totalTime;
 	quint16 m_mistNr, m_averReactTime, m_workTime;
-  int m_penaltysNr; 		
+  int m_penaltysNr;
+  int m_blackCount;
 		
 		
 };

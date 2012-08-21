@@ -50,18 +50,23 @@ public:
     /** Useing level settings calculates number of mandatory questions in exam.
      * It is stored in m_totalQuestNr. */
   int obligQuestions() { return m_obligQuestNr; }
+  int qaPossibilitys() { return m_qaPoossib; }
+  
   
 signals:
   void rightButtonClicked();
   
 protected:
   virtual bool eventFilter(QObject* obj, QEvent* event);
-
+      /** Calculates how many question/answer combinations are posible fffor different types
+       * enabled in a level. */
+  void calcQAPossibleCount();
   
 private:
   TexamLevel *m_level;
       /** Total number of questions to answer in exam (without penaltys) */
-  int m_obligQuestNr;   
+  int m_obligQuestNr;
+  int m_qaPoossib;
       /** Previous accidental used. */
   Tnote::Eacidentals m_prevAccid;
       /** intervals between asking about double accidentals.

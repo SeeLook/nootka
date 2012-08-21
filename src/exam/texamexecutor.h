@@ -26,8 +26,7 @@
 #include <QList>
 #include <QColor>
 
-class TdialogMessage;
-class TgraphicsTextTip;
+class Tcanvas;
 class QTimer;
 class TexecutorSupply;
 class Texam;
@@ -70,7 +69,6 @@ public:
       e_saveing,
       e_finished
     };
-    QString getNextQuestionTxt();
     bool closeNootka();
     bool isAnswered() { return m_isAnswered; }
 
@@ -86,8 +84,6 @@ protected slots:
     void stopExamSlot();
     void repeatQuestion();
     void repeatSound();
-        /** Clears message over the guitar.*/
-    void clearMessage();
     void autoRepeatStateChanged(bool enable);
     void showExamSummary(bool cont);
     void showExamHelp();
@@ -109,14 +105,7 @@ private:
     void connectForExpert();
     
 private:
-//     QString getTextHowAccid(Tnote::Eacidentals accid);
     QString saveExamToFile();
-        /** Displays message with given @param htmlText over the fingerboard widget
-        * for given @param time in [ms] or forever if 0.
-        * To calculate position it has to have curent selected positions
-        * by @param curPos. */
-    void showMessage(QString htmlText, TfingerPos &curPos, int time = 0, QColor bgColor = QColor(0, 0, 0, 0));
-
     TexecutorSupply *m_supp; 
     Texam *m_exam;
           /** main instance of TexamLevel, others are poiters or references to it */
@@ -129,7 +118,6 @@ private:
     TglStore m_glStore;
     TanswerRequire m_answRequire;
     bool m_shouldBeTerminated, m_isAnswered, m_incorrectRepeated;
-    TgraphicsTextTip *m_messageItem;
           /** If it is sets to TRUE locks invokeing event of right mouse button.
           * It has to be set before singleShot() method caled on askQuestion() 
           * to avoid user click button and call askQuestion() again during time of delay.*/
@@ -140,8 +128,7 @@ private:
           /** stores note if question and answeer are Note Name to restore it if question is repeated
           It is to restorrre buttons state in NoteName widget whitch are uncheced by disableWidget() */
     Tnote m_prevNoteIfName;
-          /** Frameless dialog with question instance. */
-    TdialogMessage *m_questMessage;
+    Tcanvas *m_canvas;
 
 
 };

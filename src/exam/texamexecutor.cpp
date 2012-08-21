@@ -42,7 +42,6 @@
 #define SOUND_DURATION (1500) //[ms]
 
 
-Tcanvas *m_canvas;
 
 extern Tglobals *gl;
 
@@ -568,7 +567,6 @@ void TexamExecutor::repeatQuestion() {
 		TQAunit curQ = m_exam->curQ();
 
     if (!gl->E->autoNextQuest) {
-//         clearMessage();
         m_canvas->clearCanvas();
     }
     curQ.setMistake(TQAunit::e_correct);
@@ -595,7 +593,6 @@ void TexamExecutor::repeatQuestion() {
         mW->nootBar->addAction(repeatSndAct);
         repeatSound();
     }
-//     m_questMessage = new TdialogMessage(m_exam, mW, m_prevStyle);
     m_canvas->questionTip(m_exam, m_prevStyle);
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
@@ -838,50 +835,6 @@ void TexamExecutor::repeatSound() {
   }
 }
 
-void TexamExecutor::showMessage(QString htmlText, TfingerPos& curPos, int time, QColor bgColor) {
-    qDebug("showMessage");
-//     if (!m_messageItem) {
-//         m_messageItem = new TgraphicsTextTip();
-//         m_messageItem->hide();
-//         mW->guitar->scene()->addItem(m_messageItem);
-//         m_messageItem->setZValue(115);
-//         if (!gl->GisRightHanded) {
-//             m_messageItem->scale(-1, 1); //FIXME: What it means??
-//         }
-//     }
-//     QString txt = QString("<p>") + htmlText + "</p>";
-// 
-//     m_messageItem->setBgColor(bgColor);
-//     m_messageItem->setHtml(txt);
-//     double factor = (double)mW->guitar->geometry().height() / ((double)m_messageItem->boundingRect().height()+5);
-//     factor = qMax(2.0, factor);
-//     m_messageItem->setScale(factor);;
-// 
-//     bool onRightSide;
-//     if (curPos.fret() > 0 && curPos.fret() < 11) { // on which widget side
-//         onRightSide = gl->GisRightHanded;
-//     } else
-//         onRightSide = !gl->GisRightHanded;
-//     int xPos = 0;
-//     if (onRightSide)
-//         xPos = mW->guitar->width() / 4;
-//     xPos += (mW->guitar->width() / 2 - /*m_messageItem->document()->size().width()*/m_messageItem->boundingRect().width() ) / 2;
-//     m_messageItem->setPos(xPos, 0
-//        /*(mW->guitar->height() - m_messageItem->document()->size().height()) / 2*/ );
-//     m_messageItem->show();
-//     if (time)
-//         QTimer::singleShot(time, this, SLOT(clearMessage()));
-}
-
-void TexamExecutor::clearMessage() {
-    qDebug("clearMessage()");
-//     if (m_messageItem) {
-//         if (m_messageItem->isVisible()) {
-//             m_messageItem->hide();
-//             m_messageItem->setHtml("");
-//         }
-//     }
-}
 
 void TexamExecutor::autoRepeatStateChanged(bool enable) {
     gl->E->autoNextQuest = enable;
@@ -891,11 +844,6 @@ void TexamExecutor::autoRepeatStateChanged(bool enable) {
     }
 }
 
-QString TexamExecutor::getNextQuestionTxt() {
-    qDebug("getNextQuestionTxt");
-//     return TexamHelp::toGetQuestTxt() + ":<br>" + TexamHelp::clickSomeButtonTxt(gl->path+"picts/next-icon.png") + ",<br>" +
-//                 TexamHelp::pressSpaceKey() + " " + TexamHelp::orRightButtTxt();
-}
 
 void TexamExecutor::showExamSummary(bool cont) {
   TexamSummary *ES = new TexamSummary(m_exam, gl->path, cont, mW);

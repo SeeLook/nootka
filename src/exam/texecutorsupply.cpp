@@ -33,7 +33,7 @@ TexecutorSupply::TexecutorSupply(TexamLevel* level, QObject* parent) :
   m_dblAccidsCntr(0),
   m_eisCesCntr(0)
 {
-
+  calcQAPossibleCount();
 }
 
 //##########################################################################################
@@ -115,10 +115,14 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
     
     qsrand(QDateTime::currentDateTime().toTime_t());
     
-    m_obligQuestNr = list.size() * 3;
-//     m_obligQuestNr = qMax(m_obligQuestNr, (m_level->hiKey.value() - m_level->loKey.value())* 3);
+    
+    m_obligQuestNr = qMax(list.size() * 3, 20);
+    if (m_level->useKeySign && !m_level->isSingleKey)
+        m_obligQuestNr = qMax(m_obligQuestNr, (m_level->hiKey.value() - m_level->loKey.value() + 1)* 3);
+    m_obligQuestNr = qMax(qaPossibilitys() * 5, m_obligQuestNr);
 
 }
+
 
 Tnote TexecutorSupply::determineAccid(Tnote n) {
     Tnote nA = n;
@@ -225,6 +229,51 @@ void TexecutorSupply::getTheSamePos(TfingerPos& fingerPos, QList< TfingerPos >& 
         posList << TfingerPos(gl->strOrder(i) + 1, fret);
       }
     }
+}
+
+
+void TexecutorSupply::calcQAPossibleCount() {
+  m_qaPoossib = 0;
+  if (m_level->questionAs.isNote()) {
+    if (m_level->answersAs[TQAtype::e_asNote].isNote())
+      m_qaPoossib++;
+    if (m_level->answersAs[TQAtype::e_asNote].isName())
+      m_qaPoossib++;
+    if (m_level->answersAs[TQAtype::e_asNote].isFret())
+      m_qaPoossib++;
+    if (m_level->answersAs[TQAtype::e_asNote].isSound())
+      m_qaPoossib++;
+  }
+  if (m_level->questionAs.isName()) {
+    if (m_level->answersAs[TQAtype::e_asName].isNote())
+      m_qaPoossib++;
+    if (m_level->answersAs[TQAtype::e_asName].isName())
+      m_qaPoossib++;
+    if (m_level->answersAs[TQAtype::e_asName].isFret())
+      m_qaPoossib++;
+    if (m_level->answersAs[TQAtype::e_asName].isSound())
+      m_qaPoossib++;
+  }
+  if (m_level->questionAs.isFret()) {
+    if (m_level->answersAs[TQAtype::e_asFretPos].isNote())
+      m_qaPoossib++;
+    if (m_level->answersAs[TQAtype::e_asFretPos].isName())
+      m_qaPoossib++;
+    if (m_level->answersAs[TQAtype::e_asFretPos].isFret())
+      m_qaPoossib++;
+    if (m_level->answersAs[TQAtype::e_asFretPos].isSound())
+      m_qaPoossib++;
+  }
+  if (m_level->questionAs.isSound()) {
+    if (m_level->answersAs[TQAtype::e_asSound].isNote())
+      m_qaPoossib++;
+    if (m_level->answersAs[TQAtype::e_asSound].isName())
+      m_qaPoossib++;
+    if (m_level->answersAs[TQAtype::e_asSound].isFret())
+      m_qaPoossib++;
+    if (m_level->answersAs[TQAtype::e_asSound].isSound())
+      m_qaPoossib++;
+  }
 }
 
 
