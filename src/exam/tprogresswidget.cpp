@@ -44,27 +44,38 @@ TprogressWidget::~TprogressWidget()
 
 void TprogressWidget::activate(int answers, int total, int penaltys) {
   setDisabled(false);
-  int remained = qMax(0, total + penaltys - answers);
-  m_answLab->setText(QString("%1 + %2").arg(answers).arg(remained));
-  m_answLab->setStatusTip(tr("Answered questions") + QString(": %1").arg(answers) +
+  m_totalNr = total;
+  m_answersNr = answers;
+  updateLabels(penaltys);
+}
+
+void TprogressWidget::progress(int penaltys) {
+  m_answersNr++;
+  updateLabels(penaltys);
+
+}
+
+void TprogressWidget::updateLabels(int penaltys) {
+  int remained = qMax(0, m_totalNr + penaltys - m_answersNr);
+  m_answLab->setText(QString("%1 + %2").arg(m_answersNr).arg(remained));
+  m_answLab->setStatusTip(tr("Answered questions") + QString(": %1").arg(m_answersNr) +
     "<br>" + tr("Remained") + QString(": %1 ").arg(remained)
   );
-  m_totalLab->setText(QString(" %1 (%2)").arg(total + penaltys).arg(penaltys));
+  m_totalLab->setText(QString(" %1 (%2)").arg(m_totalNr + penaltys).arg(penaltys));
   m_bar->setMinimum(0);
-  m_bar->setMaximum(total + penaltys);
+  m_bar->setMaximum(m_totalNr + penaltys);
   if (remained)
-    m_bar->setValue(answers);
+    m_bar->setValue(m_answersNr);
   else
-    m_bar->setValue(total + penaltys);
+    m_bar->setValue(m_totalNr + penaltys);
 }
 
-void TprogressWidget::progress(int total, int penaltys) {
-
-}
 
 void TprogressWidget::terminate() {
+  m_answLab->setText(zeroLabTxt());
+  m_totalLab->setText(zeroLabTxt());
+  m_bar->reset();
   setDisabled(true);
-
 }
 
 void TprogressWidget::resize(int fontSize) {

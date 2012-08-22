@@ -35,7 +35,7 @@ public:
     static QString progressExamTxt() { return tr("Progress of the exam"); }
     
     void activate(int answers, int total, int penaltys);
-    void progress(int total, int penaltys);
+    void progress(int penaltys);
     void terminate();
     int total() { return m_totalNr; }
     
@@ -43,6 +43,7 @@ public:
     
 protected:
     QString zeroLabTxt();
+    void updateLabels(int penaltys);
     
 private:
     int m_answersNr, m_totalNr;
