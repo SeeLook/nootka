@@ -135,6 +135,10 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
 		out << m_mistNr; // number of mistakes (quint16)
 		for (int i = 0; i < m_answList.size(); i++)
 				out << m_answList[i]; // and obviously answers
+	  if (m_blackList.size()) {
+      for (int i = 0; i < m_blackList.size(); i++)
+        out << m_blackList[i]; // and black list
+    }
 	} else {
 		QMessageBox::critical(0, "",
            QObject::tr("Cannot save exam file:\n%1").arg(QString::fromLocal8Bit(qPrintable(file.errorString()))));

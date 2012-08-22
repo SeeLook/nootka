@@ -170,6 +170,10 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
     m_shouldBeTerminated = false;
     m_incorrectRepeated = false;
     m_isAnswered = true;
+    m_examIsFinished = false;
+    m_blackQuestNr = -1;
+    m_penalCount = 0;
+    updatePenalStep();
     
     m_level.questionAs.randNext(); // Randomize question and answer type
     if (m_level.questionAs.isNote()) m_level.answersAs[TQAtype::e_asNote].randNext();
@@ -224,14 +228,27 @@ void TexamExecutor::askQuestion() {
     m_answRequire.key = false;
 
     TQAunit curQ = TQAunit(); // current question
-    curQ.qa = m_questList[qrand() % m_questList.size()];
-    curQ.questionAs = m_level.questionAs.next();
-    curQ.answerAs = m_level.answersAs[curQ.questionAs].next();
-    if (curQ.questionAs == TQAtype::e_asFretPos && curQ.answerAs == TQAtype::e_asFretPos) {
+    
+    m_penalCount++;
+    if (m_exam->blackCount() && m_penalCount > m_penalStep) {
+      qDebug("penalty");
+      m_penalCount = 0;
+      m_blackQuestNr = qrand() % m_exam->blacList()->size();
+      curQ = m_exam->blacList()->operator[](m_blackQuestNr);
+      curQ.time = 0;
+      curQ.setMistake(TQAunit::e_correct);
+    } else {
+        m_blackQuestNr = -1; // reset
+        curQ.qa = m_questList[qrand() % m_questList.size()];
+        curQ.questionAs = m_level.questionAs.next();
+        curQ.answerAs = m_level.answersAs[curQ.questionAs].next();
+    }
+    
+    if (m_blackQuestNr == -1 && curQ.questionAs == TQAtype::e_asFretPos && curQ.answerAs == TQAtype::e_asFretPos) {
       curQ.qa  = m_questList[m_supp->getQAnrForGuitarOnly()];      
     }
 
-    if (curQ.questionAs == TQAtype::e_asNote || curQ.answerAs == TQAtype::e_asNote) {
+    if (m_blackQuestNr == -1 && curQ.questionAs == TQAtype::e_asNote || curQ.answerAs == TQAtype::e_asNote) {
         if (m_level.useKeySign) {
             Tnote tmpNote = curQ.qa.note;
             if (m_level.isSingleKey) { //for single key
@@ -314,7 +331,8 @@ void TexamExecutor::askQuestion() {
     if (curQ.answerAs == TQAtype::e_asNote) {
         if (m_level.useKeySign) {
             if (m_level.manualKey) { // user have to manually secect a key
-                curQ.key.setMinor(bool(qrand() % 2));
+                if (m_blackQuestNr == -1) // if black question key mode is defined
+                    curQ.key.setMinor(bool(qrand() % 2));
                 mW->score->prepareKeyToAnswer(// we randomize some key to cover this expected one
                    (qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) + m_level.loKey.value(), curQ.key.getName());
                 m_answRequire.key = true;
@@ -324,7 +342,8 @@ void TexamExecutor::askQuestion() {
             }
         }
         if (curQ.questionAs == TQAtype::e_asNote) {// note has to be another than question
-            curQ.qa_2.note = m_supp->forceEnharmAccid(curQ.qa.note); // curQ.qa_2.note is expected note
+            if (m_blackQuestNr == -1)
+                curQ.qa_2.note = m_supp->forceEnharmAccid(curQ.qa.note); // curQ.qa_2.note is expected note
             if (curQ.qa_2.note == curQ.qa.note) {
                 qDebug() << "Blind question";
                 //                    askQuestion();
@@ -348,7 +367,7 @@ void TexamExecutor::askQuestion() {
 
     if (curQ.answerAs == TQAtype::e_asName) {
         Tnote tmpNote = Tnote(0,0,0); // is used to show which accid has to be used (if any)
-        if (curQ.questionAs == TQAtype::e_asName) {
+        if (m_blackQuestNr == -1 && curQ.questionAs == TQAtype::e_asName) { // TODO: what with black styles ????
             m_prevStyle = gl->NnameStyleInNoteName; // to keep user prefered style for other issues
             Tnote::EnameStyle tmpStyle = m_supp->randomNameStyle();
             curQ.qa_2.note = m_supp->forceEnharmAccid(curQ.qa.note); // force other name of note - expected note
@@ -362,7 +381,8 @@ void TexamExecutor::askQuestion() {
             *       switch it (letters/solfege)
             * 2. If Note Name is question and answer this is only way that it has sense    
            */
-        if (m_level.requireStyle && curQ.questionAs != TQAtype::e_asName) { // switch style if not switched before
+        if (m_level.requireStyle && curQ.questionAs != TQAtype::e_asName) { // switch style if not switched before 
+          // TODO: what with black styles ????
             Tnote::EnameStyle tmpStyle = m_supp->randomNameStyle();
             mW->noteName->setNoteNamesOnButt(tmpStyle);
             gl->NnameStyleInNoteName = tmpStyle;
@@ -380,7 +400,8 @@ void TexamExecutor::askQuestion() {
           if (posList.isEmpty())
             qDebug() << "Blind question";
           else {
-            curQ.qa_2.pos = posList[qrand() % posList.size()];
+            if (m_blackQuestNr == -1)
+                curQ.qa_2.pos = posList[qrand() % posList.size()];
             mW->guitar->setHighlitedString(curQ.qa_2.pos.str());
           }
         } else 
@@ -532,7 +553,16 @@ void TexamExecutor::checkAnswer(bool showResults) {
     }
     disableWidgets();
     mW->examResults->setAnswer(curQ.isCorrect());
+    if (m_blackQuestNr != -1 && curQ.isCorrect()) { // decrese black list
+      if (m_exam->blacList()->operator[](m_blackQuestNr).time == 65502)
+        m_exam->blacList()->operator[](m_blackQuestNr).time--; // remains one penalty
+      else
+        m_exam->blacList()->removeAt(m_blackQuestNr); // delete - penaltys cleared
+    }
     m_exam->setAnswer(curQ);
+    mW->progress->progress(m_exam->penalty());
+    if (!curQ.isCorrect())
+      updatePenalStep();      
 
     if (gl->E->autoNextQuest) {
         if (curQ.isCorrect()) {
@@ -695,6 +725,7 @@ void TexamExecutor::restoreAfterExam() {
     mW->noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
     mW->guitar->acceptSettings();
     mW->noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
+    mW->progress->terminate();
 
     mW->settingsAct->setDisabled(false);
     mW->analyseAct->setVisible(true);
@@ -917,3 +948,19 @@ void TexamExecutor::rightButtonSlot() {
     else
         checkAnswer();
 }
+
+
+void TexamExecutor::updatePenalStep() {
+    if (m_exam->blacList()->isEmpty())
+      m_penalStep = 65535;
+    else
+    if ((m_supp->obligQuestions() + m_exam->penalty() - m_questList.count()) > 0)
+          m_penalStep = (m_supp->obligQuestions() + m_exam->penalty() - m_questList.count()) / m_exam->blackCount();
+    else
+          m_penalStep = 0; // only penaltys questions
+    qDebug() << "m_penalStep" << m_penalStep;
+}
+
+
+
+

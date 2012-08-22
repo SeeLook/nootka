@@ -106,6 +106,8 @@ private:
     
 private:
     QString saveExamToFile();
+    void updatePenalStep();
+    
     TexecutorSupply *m_supp; 
     Texam *m_exam;
           /** main instance of TexamLevel, others are poiters or references to it */
@@ -129,6 +131,13 @@ private:
           It is to restorrre buttons state in NoteName widget whitch are uncheced by disableWidget() */
     Tnote m_prevNoteIfName;
     Tcanvas *m_canvas;
+    bool m_examIsFinished;
+        /** -1 if no black, otherwise points question in blackList list. */
+    int m_blackQuestNr;
+        /** Interval of questions, after it penalty question is asked */
+    int m_penalStep;
+        /** Counts questions to ask penaltys one. */
+    int m_penalCount;
 
 
 };
