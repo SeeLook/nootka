@@ -23,7 +23,7 @@ I) Recommended method - translation with Qt Linguist
     - When You selected custom type of instalation deselect all components in next window
       and select only Qt Linguist (QtCreator is mandatory).
     - approve license and wait a while for finish the instalation.
-  2. Download Nootka language file: http://code.google.com/p/nootka/source/browse/lang/nootka_xx.ts
+  2. Download Nootka language file: http://nootka.googlecode.com/hg/lang/nootka_xx.ts
       and change that xx in file name to Your language code to get file name like f.e.: nootka_en.ts
   3. Open this file by Qt Linguist and translate - this is very easy.
   4. In every moment You can generate a "lang package" form menu File->Release (file with *.qm extension)
