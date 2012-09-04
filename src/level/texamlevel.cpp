@@ -157,7 +157,7 @@ bool TexamLevel::canBeSound() {
   if (questionAs.isSound() || 
     (questionAs.isName() && answersAs[TQAtype::e_asName].isSound()) || 
     (questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isSound()) ||
-    (questionAs.isSound() && answersAs[TQAtype::e_asNote].isSound())  )
+    (questionAs.isNote() && answersAs[TQAtype::e_asNote].isSound())  )
       return true;
   else
       return false;
