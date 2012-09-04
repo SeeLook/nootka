@@ -20,6 +20,7 @@
 #include "tglobals.h"
 #include "texamlevel.h"
 #include <QMouseEvent>
+#include <QMessageBox>
 #include <QDateTime>
 #include <QDebug>
 
@@ -39,6 +40,11 @@ TexecutorSupply::TexecutorSupply(TexamLevel* level, QObject* parent) :
 //##########################################################################################
 //#######################     METHODS       ################################################
 //##########################################################################################
+
+void TexecutorSupply::examFinished() {
+    QMessageBox::information(0, "", tr("Finished"));
+}
+
 
 void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
     char openStr[6];

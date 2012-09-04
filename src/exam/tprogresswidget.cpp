@@ -29,6 +29,7 @@ TprogressWidget::TprogressWidget(QWidget* parent) :
   m_answLab = new QLabel(zeroLabTxt(), this);
   lay->addWidget(m_answLab);
   m_bar = new QProgressBar(this);
+  m_bar->setValue(0);
   lay->addWidget(m_bar);
   m_totalLab = new QLabel(zeroLabTxt(), this);
   lay->addWidget(m_totalLab);

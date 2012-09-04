@@ -27,18 +27,21 @@
 
 /*static*/
 const qint32 Texam::examVersion = 0x95121702;
+const qint32 Texam::examVersion2 = 0x95121704;
 
 const quint16 Texam::maxAnswerTime = 65500;
 
 
 
 Texam::Texam(TexamLevel* l, QString userName):
-	m_level(l),
-	m_userName(userName),
-	m_fileName(""),
-	m_mistNr(0),
-	m_workTime(0),
-	m_penaltysNr(0)
+  m_level(l),
+  m_userName(userName),
+  m_fileName(""),
+  m_mistNr(0),
+  m_workTime(0),
+  m_penaltysNr(0),
+  m_isFinished(false),
+  m_halfMistNr(0)
 {
 
 }
@@ -58,12 +61,13 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
     m_workTime = 0;
     m_mistNr = 0;
     EerrorType result = e_file_OK;
+    quint32 ev; //exam template version
     if (file.open(QIODevice::ReadOnly)) {
       QDataStream in(&file);
       in.setVersion(QDataStream::Qt_4_7);
-      quint32 ev; //exam template version
       in >> ev;
-      if (ev != examVersion)
+      qDebug() << ev << examVersion << examVersion2;
+      if (ev != examVersion && ev != examVersion2)
           return e_file_not_valid;
 
       in >> m_userName;
@@ -71,26 +75,43 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
       in >> m_tune;
       in >> m_totalTime;
       in >> questNr >> m_averReactTime >> m_mistNr;
+      if (ev == examVersion2) {
+        in >> m_halfMistNr >> m_penaltysNr >> m_isFinished;
+      } else {
+        m_halfMistNr = 0;
+        m_penaltysNr = 0;
+        m_isFinished = false;
+      }
       bool isExamFileOk = true;
       int tmpMist = 0;
+      int tmpHalf = 0;
       while (!in.atEnd()) {
           TQAunit qaUnit;
           if (!getTQAunitFromStream(in, qaUnit))
               isExamFileOk = false;
-          if (qaUnit.time <= maxAnswerTime) {
+          if (qaUnit.time <= maxAnswerTime) { // add to m_answList
               m_answList << qaUnit;
               m_workTime += qaUnit.time; 
-              if ( !qaUnit.isCorrect() )
+              if ( !qaUnit.isCorrect() ) {
+                if (qaUnit.isWrong())
                   tmpMist++;
-          } else {
+                else
+                  tmpHalf++; // not so bad answer
+              }
+          } else { // add to m_blackList
               m_blackList << qaUnit;
           }
       }
-      if (tmpMist != m_mistNr || questNr != m_answList.size()) {
-        isExamFileOk = false;
-//             qDebug() << "mistakes:" << tmpMist << m_mistNr << "questions:" << questNr << m_answList.size();
-        m_mistNr = tmpMist; //we try to fix exam file to give proper number of mistakes
+      if (questNr != m_answList.size()) {
+        isExamFileOk = false;        
       }
+      if (ev == examVersion2 && (tmpMist != m_mistNr || tmpHalf != m_halfMistNr)) {
+        m_mistNr = tmpMist; //we try to fix exam file to give proper number of mistakes
+        m_halfMistNr = tmpHalf;
+        isExamFileOk = false;
+      } else 
+        m_mistNr = tmpMist; // transistion to examVersion2
+      m_halfMistNr = tmpHalf;
       m_averReactTime = m_workTime / count();
 //           m_workTime = qRound((qreal)m_workTime / 10.0);
       if (!isExamFileOk)
@@ -99,16 +120,6 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
          TlevelSelector::fileIOerrorMsg(file, 0);
 				 result = e_cant_open;
      }
-   // Grab penaltys number stored in userName string
-     QStringList tmpL = m_userName.split("|", QString::SkipEmptyParts);
-     if (tmpL.size() > 1) {
-        m_penaltysNr = tmpL.last().toInt();
-        QString name;
-        for (int i = 0; i < tmpL.size()-1; i++)
-          name += tmpL[i];
-        m_userName = name;
-     } else
-       m_penaltysNr = 0; // no penaltys uuuin name sting
      updateBlackCount();
      
      return result;
@@ -122,10 +133,9 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
 		return e_noFileName;
 	QFile file(m_fileName);
 	if (file.open(QIODevice::WriteOnly)) {
-    m_userName += QString("|%1").arg(m_penaltysNr);
 		QDataStream out(&file);
 		out.setVersion(QDataStream::Qt_4_7);
-		out << examVersion;
+		out << examVersion2;
 		out << m_userName << *m_level << m_tune;
 		out << m_totalTime; // elapsed exam time (quint32)
 			// data for file preview
@@ -133,6 +143,8 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
 		out << m_averReactTime; // average time of answer (quint16)
 			// that's all
 		out << m_mistNr; // number of mistakes (quint16)
+      /** Those were added in examVersion2 */
+		out << m_halfMistNr << m_penaltysNr << m_isFinished;
 		for (int i = 0; i < m_answList.size(); i++)
 				out << m_answList[i]; // and obviously answers
 	  if (m_blackList.size()) {
@@ -148,18 +160,20 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
 }
 
 void Texam::setAnswer(TQAunit& answer) {
-    answer.time = qMax(maxAnswerTime, answer.time); // when user think too much
+    answer.time = qMin(maxAnswerTime, answer.time); // when user think too much
     m_answList.last() = answer;
     if (!answer.isCorrect()) {
-      m_mistNr++;
+//       m_mistNr++;
       m_blackList << answer;
       if (answer.isNotSoBad()) {
         m_blackList.last().time = 65501;
         m_penaltysNr++;
+        m_halfMistNr++;
       }
       else {
         m_blackList.last().time = 65502;
         m_penaltysNr += 2;
+        m_mistNr++;
       }
     }
     m_workTime += answer.time;

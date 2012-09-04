@@ -24,8 +24,9 @@
 #include <QTime>
 #include <QTimer>
 
-
+class TQAunit;
 class QLabel;
+
 
     /** A @class TexamView represents status of exam.
     * It displays times and numbers of valid/invalid questions.
@@ -43,6 +44,7 @@ public:
     static const QString totalTimetxt() { return tr("Total time of an exam"); } // Total time of an exam
     static const QString corrAnswersNrTxt() { return tr("Number of correct answers"); } // Number of correct answers
     static const QString effectTxt() { return tr("Effectiveness"); } // Effectiveness
+    static const QString halfMistakenTxt() { return tr("Number of 'not so bad' answers (counted as half of a mistake)"); } // Number of not so bad answers (counted as half of a mistake)
     
       /** Returns time given in milisec. in format h:mm:ss */
     static QString formatedTotalTime(int t) { return QString("%1:%2:%3")
@@ -50,10 +52,10 @@ public:
             .arg((t%3600000)/60000, 2, 'f', 0, '0')
             .arg((t%60000)/1000, 2, 'f', 0, '0'); }
 
-    void startExam( int passTimeInSec = 0, int questNumber = 0,int averTime = 0, int mistakes = 0);
+    void startExam( int passTimeInSec = 0, int questNumber = 0,int averTime = 0, int mistakes = 0, int halfMist = 0);
     void questionStart();
     quint16 questionStop();
-    void setAnswer(bool wasCorrect);
+    void setAnswer(TQAunit *answer = 0);
     void setFontSize(int s);
 
     void stopExam() { m_timer->stop(); }
@@ -61,6 +63,7 @@ public:
     quint16 getAverageTime() { return (quint16)qRound(m_averTime); }
     quint32 getTotalTime() {return m_totElapsedTime + quint32(m_totalTime.elapsed() / 1000); }
     quint16 getMistakesNumber() {return (quint16)m_mistakes; }
+    quint16 getHalfMistakesNr() { return (quint16)m_halfMistakes; }
     void clearResults();
         /** Sets background of mistakes/correct answers number Qlabel.
          * Backgroun color is directly inserted to setStyleSheet so 
@@ -76,9 +79,9 @@ private:
     bool m_showReact;
 
     QLabel *m_reactTimeLab, *m_averTimeLab, *m_totalTimeLab;
-    QLabel *m_mistLab, *m_corrLab, *m_effLab;
+    QLabel *m_mistLab, *m_corrLab, *m_effLab, *m_halfLab;
     QTime m_reactTime;
-    int m_questNr, m_mistakes, m_totElapsedTime;
+    int m_questNr, m_mistakes, m_totElapsedTime, m_halfMistakes;
     qreal m_averTime;
     QTimer *m_timer;
     QTime m_totalTime;

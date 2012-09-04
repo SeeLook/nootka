@@ -104,7 +104,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
             // ---------- End of checking ----------------------------------
           showExamSummary(true);
           mW->examResults->startExam(m_exam->totalTime(), m_exam->count(), m_exam->averageReactonTime(),
-                          m_exam->mistakes());
+                          m_exam->mistakes(), m_exam->halfMistaken());
 
         } else {
             if (err == Texam::e_file_not_valid)
@@ -535,10 +535,10 @@ void TexamExecutor::checkAnswer(bool showResults) {
         TfingerPos pp = mW->guitar->getfingerPos();
       if (gl->E->autoNextQuest) {
           mesgTime = 1500; // show temporary message
-          if (gl->GisRightHanded)
-            pp = TfingerPos(1, 14); // show it on the left side of a fingerboard - onnnnnn the right is question dialog
-          else
-            pp = TfingerPos(1, 11); // left side foor lefthanded
+//           if (gl->GisRightHanded)
+//             pp = TfingerPos(1, 14); // show it on the left side of a fingerboard - onnnnnn the right is question dialog
+//           else
+//             pp = TfingerPos(1, 11); // left side foor lefthanded
       }
 
       m_canvas->resultTip(&curQ, mesgTime);
@@ -552,7 +552,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
         mW->nootBar->addAction(nextQuestAct);
     }
     disableWidgets();
-    mW->examResults->setAnswer(curQ.isCorrect());
+    mW->examResults->setAnswer(&curQ);
     if (m_blackQuestNr != -1 && curQ.isCorrect()) { // decrese black list
       if (m_exam->blacList()->operator[](m_blackQuestNr).time == 65502)
         m_exam->blacList()->operator[](m_blackQuestNr).time--; // remains one penalty
@@ -613,7 +613,10 @@ void TexamExecutor::repeatQuestion() {
         // *** When question is sound it is playe again (repeatSound()) 
         // and than startSniffing is called
 
-		m_exam->addQuestion(curQ);
+    m_exam->addQuestion(curQ);
+    m_blackQuestNr = m_exam->blacList()->count() - 1;
+        // Previus answer was wroong or not so bad and it was added at the end of blacList
+        // When an answer will be correct the list will be decresed
 
     if (!gl->E->autoNextQuest)
         mW->startExamAct->setDisabled(true);
