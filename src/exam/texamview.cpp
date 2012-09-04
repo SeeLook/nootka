@@ -18,6 +18,7 @@
 
 
 #include "texamview.h"
+#include "tqaunit.h"
 #include <QtGui>
 
 
@@ -32,6 +33,9 @@ TexamView::TexamView(QWidget *parent) :
     QHBoxLayout *okMistLay = new QHBoxLayout;
     m_corrLab = new QLabel(this);
     okMistLay->addWidget(m_corrLab, 0, Qt::AlignRight);
+    okMistLay->addSpacing(10);
+    m_halfLab = new QLabel(this);
+    okMistLay->addWidget(m_halfLab, 0, Qt::AlignRight);
     okMistLay->addSpacing(10);
     m_mistLab = new QLabel(this);
     okMistLay->addWidget(m_mistLab, 0, Qt::AlignRight);
@@ -78,6 +82,7 @@ TexamView::TexamView(QWidget *parent) :
     clearResults();
 
     m_corrLab->setStatusTip(corrAnswersNrTxt());
+    m_halfLab->setStatusTip(halfMistakenTxt());
     m_mistLab->setStatusTip(mistakesNrTxt());
     m_effLab->setStatusTip(effectTxt());
     m_averTimeLab->setStatusTip(averAnsverTimeTxt() + " " + inSecondsTxt());
@@ -93,9 +98,9 @@ TexamView::TexamView(QWidget *parent) :
 }
 
 void TexamView::setStyleBg(QString okBg, QString wrongBg, QString notBadBg) {
-    Q_UNUSED(notBadBg)
     m_corrLab->setStyleSheet(okBg);
-    m_mistLab->setStyleSheet(wrongBg);    
+    m_mistLab->setStyleSheet(wrongBg);
+    m_halfLab->setStyleSheet(notBadBg);
 }
 
 void TexamView::questionStart() {
@@ -114,28 +119,36 @@ quint16 TexamView::questionStop() {
     return t;
 }
 
-void TexamView::startExam(int passTimeInSec, int questNumber, int averTime, int mistakes) {
+void TexamView::startExam(int passTimeInSec, int questNumber, int averTime, int mistakes, int halfMist) {
     m_questNr = questNumber;
     m_totElapsedTime = passTimeInSec;
     m_totalTime = QTime(0, 0);
     m_averTime = averTime;
     m_mistakes = mistakes;
+    m_halfMistakes = halfMist;
     m_showReact = false;
     m_totalTime.start();
     m_totalTime.restart();
     m_timer->start(1000);
     countTime();
-    setAnswer(true);
+    setAnswer();
     m_averTimeLab->setText(QString("%1").arg((qreal)qRound(m_averTime)/10));
 }
 
-void TexamView::setAnswer(bool wasCorrect) {
-    if (!wasCorrect) {
-        m_mistakes++;
+void TexamView::setAnswer(TQAunit* answer) {
+    if (answer) {
+      if (!answer->isCorrect()) {
+        if (answer->isWrong())
+          m_mistakes++;
+        else
+          m_halfMistakes++;
+      }
     }
     m_mistLab->setText(QString("%1").arg(m_mistakes));
     m_corrLab->setText(QString("%1").arg(m_questNr - m_mistakes));
-    qreal eff = (((qreal)m_questNr - (qreal)m_mistakes) / (qreal)m_questNr) * 100;
+    // without halfMistakes - obsolete
+//     qreal eff = (((qreal)m_questNr - (qreal)m_mistakes) / (qreal)m_questNr) * 100;
+    qreal eff = (((qreal)m_questNr - (qreal)(m_mistakes + m_halfMistakes)) / (qreal)m_questNr) * 100;
     m_effLab->setText(QString("<b>%1 %</b>").arg(qRound(eff)));
 }
 
@@ -147,6 +160,7 @@ void TexamView::setFontSize(int s) {
     m_totalTimeLab->setFont(f);
     m_mistLab->setFont(f);
     m_corrLab->setFont(f);
+    m_halfLab->setFont(f);
     m_effLab->setFont(f);
     m_reactTimeLab->setFixedWidth(s * 3);
     m_averTimeLab->setFixedWidth(s * 3);
@@ -162,9 +176,9 @@ void TexamView::countTime() {
 void TexamView::clearResults() {
     m_corrLab->setText("0");
     m_mistLab->setText("0");
+    m_halfLab->setText("0");
     m_effLab->setText("<b>100%</b>");
     m_averTimeLab->setText("0.0");
     m_reactTimeLab->setText("0.0");
-    m_totalTimeLab->setText("0:00:00");
-
+    m_totalTimeLab->setText("0:00:00");    
 }

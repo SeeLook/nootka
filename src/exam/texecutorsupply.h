@@ -61,6 +61,8 @@ protected:
       /** Calculates how many question/answer combinations are posible fffor different types
        * enabled in a level. */
   void calcQAPossibleCount();
+      /** Displays message when exam can be finished. */
+  void examFinished();
   
 private:
   TexamLevel *m_level;

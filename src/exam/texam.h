@@ -63,6 +63,7 @@ public:
   int count() { return m_answList.size(); }
     /** Returns number of commited mistakes in en exam. */
   quint16 mistakes() { return m_mistNr; }
+  quint16 halfMistaken() { return m_halfMistNr; }
   quint16 averageReactonTime() { return m_averReactTime; }
   void setAverageReactonTime(quint16 avTime) { m_averReactTime = avTime; }
     /** Total time spent for answering without breaks between questions */
@@ -75,12 +76,16 @@ public:
   QList<TQAunit>* blacList() { return &m_blackList; }
   int penalty() { return m_penaltysNr; } // Number of penaltys during whole exam
   int blackCount() { return m_blackCount; } // Remained questions in black list
+  bool isFinished() { return m_isFinished; }
+    /** Sets exam as finished and there is no way backk. */
+  void setFinished() { m_isFinished = true; }
 
   EerrorType loadFromFile(QString &fileName);
   EerrorType saveToFile(QString fileName = "");
 
     /** Magic number in exam file to identify it.*/
   static const qint32 examVersion;
+  static const qint32 examVersion2;
     /** Maximal time of an answer = 65500. Values over are equal to it.
      * 65501 & 65502 are for counting probes in blackList */
   static const quint16 maxAnswerTime;
@@ -100,11 +105,12 @@ private:
   QList<TQAunit> m_blackList;
 	Ttune m_tune;
 	quint32 m_totalTime;
-	quint16 m_mistNr, m_averReactTime, m_workTime;
+	quint16 m_mistNr, m_averReactTime, m_workTime, m_halfMistNr;
+  bool m_isFinished;
   int m_penaltysNr;
-  int m_blackCount;
-		
-		
+  int m_blackCount;  
+
+  
 };
 
 #endif // TEXAM_H

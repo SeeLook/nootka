@@ -134,7 +134,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     examResults = new TexamView(innerWidget);
     examResults->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
-    examResults->setStyleBg(gl->getBGcolorText(gl->EanswerColor), gl->getBGcolorText(gl->EquestionColor));
+    examResults->setStyleBg(gl->getBGcolorText(gl->EanswerColor), gl->getBGcolorText(gl->EquestionColor),
+                            gl->getBGcolorText(Qt::magenta));
     nameLay->addWidget(examResults);
     noteName = new TnoteName(innerWidget);
     noteName->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
@@ -281,7 +282,7 @@ void MainWindow::openFile(QString runArg) {
         }
         runArg = QDir(file.fileName()).absolutePath();
         file.close();
-        if (hdr == Texam::examVersion)
+        if (hdr == Texam::examVersion || hdr == Texam::examVersion2)
             ex = new TexamExecutor(this, runArg);
         else if (hdr == TlevelSelector::levelVersion)
             openLevelCreator(runArg);
@@ -300,7 +301,8 @@ void MainWindow::createSettingsDialog() {
         noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
         noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
           // set new colors in exam view
-        examResults->setStyleBg(gl->getBGcolorText(gl->EanswerColor), gl->getBGcolorText(gl->EquestionColor));
+        examResults->setStyleBg(gl->getBGcolorText(gl->EanswerColor), gl->getBGcolorText(gl->EquestionColor)/*, 
+                                gl->getBGcolorText(Qt::magenta)*/);
         noteName->setAmbitus(gl->loString(),
                                Tnote(gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber));
         noteWasClicked(0, noteName->getNoteName(0)); //refresh name
