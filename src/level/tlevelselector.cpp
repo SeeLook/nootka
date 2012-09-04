@@ -34,6 +34,7 @@ QList<TexamLevel> getExampleLevels() {
     l.questionAs.setAsSound(false);
     l.answersAs[0] = TQAtype(false, true, true, false);
     l.answersAs[1] = TQAtype(true, false, true, false);
+    l.answersAs[3] = TQAtype(false, false, false, false);
     l.withSharps = false;
     l.withFlats = false;
     l.withDblAcc = false;
@@ -413,8 +414,10 @@ void TlevelSummaryWdg::setLevel(TexamLevel& tl) {
     if (tl.answersAs[TQAtype::e_asNote].isFret() || tl.answersAs[TQAtype::e_asName].isFret() ||
       tl.answersAs[TQAtype::e_asFretPos].isFret() || tl.answersAs[TQAtype::e_asSound].isFret() )
             tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asFretPos) + " ";
-    if (tl.answersAs[TQAtype::e_asNote].isSound() || tl.answersAs[TQAtype::e_asName].isSound() ||
-      tl.answersAs[TQAtype::e_asFretPos].isSound() || tl.answersAs[TQAtype::e_asSound].isSound() )
+    if ( (tl.questionAs.isNote() && tl.answersAs[TQAtype::e_asNote].isSound()) ||
+      (tl.questionAs.isName() &&  tl.answersAs[TQAtype::e_asName].isSound()) ||
+      (tl.questionAs.isFret() && tl.answersAs[TQAtype::e_asFretPos].isSound()) ||
+      (tl.questionAs.isSound() && tl.answersAs[TQAtype::e_asSound].isSound()) )
             tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asSound);
     S += TquestionAsWdg::spanNootka(tmp, fontSize);
     S += "</td></tr>";
