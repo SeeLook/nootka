@@ -147,9 +147,9 @@ void TexamView::setAnswer(TQAunit* answer) {
     m_mistLab->setText(QString("%1").arg(m_mistakes));
     m_corrLab->setText(QString("%1").arg(m_questNr - m_mistakes));
     // without halfMistakes - obsolete
-//     qreal eff = (((qreal)m_questNr - (qreal)m_mistakes) / (qreal)m_questNr) * 100;
-    qreal eff = (((qreal)m_questNr - (qreal)(m_mistakes + m_halfMistakes)) / (qreal)m_questNr) * 100;
-    m_effLab->setText(QString("<b>%1 %</b>").arg(qRound(eff)));
+//     m_effect = (((qreal)m_questNr - (qreal)m_mistakes) / (qreal)m_questNr) * 100;
+    m_effect = (((qreal)m_questNr - (qreal)(m_mistakes + m_halfMistakes)) / (qreal)m_questNr) * 100;
+    m_effLab->setText(QString("<b>%1 %</b>").arg(qRound(m_effect)));
 }
 
 void TexamView::setFontSize(int s) {

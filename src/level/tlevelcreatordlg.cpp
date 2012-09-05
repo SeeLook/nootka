@@ -203,7 +203,7 @@ QString TlevelCreatorDlg::validateLevel(TexamLevel &l) {
       if (!l.manualKey && !l.forceAccids)
         res += tr("<li>Questions and answers as note in the score will be the same. Manual selecting keys or forceing accidentals has to be selected to avoid that.</li>");
   // Check is posible of manualKey
-    if (l.manualKey)
+    if (l.useKeySign && l.manualKey)
       if (!l.answersAs[TQAtype::e_asNote].isNote() || !l.answersAs[TQAtype::e_asName].isNote() ||
         !l.answersAs[TQAtype::e_asFretPos].isNote() || !l.answersAs[TQAtype::e_asSound].isNote() )
           res += tr("<li>Manual selecting of a key signature was checked but any answer as note in the score was not checked.</li>");

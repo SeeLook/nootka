@@ -239,46 +239,46 @@ void TexecutorSupply::getTheSamePos(TfingerPos& fingerPos, QList< TfingerPos >& 
 
 
 void TexecutorSupply::calcQAPossibleCount() {
-  m_qaPoossib = 0;
+  m_qaPossib = 0;
   if (m_level->questionAs.isNote()) {
     if (m_level->answersAs[TQAtype::e_asNote].isNote())
-      m_qaPoossib++;
+      m_qaPossib++;
     if (m_level->answersAs[TQAtype::e_asNote].isName())
-      m_qaPoossib++;
+      m_qaPossib++;
     if (m_level->answersAs[TQAtype::e_asNote].isFret())
-      m_qaPoossib++;
+      m_qaPossib++;
     if (m_level->answersAs[TQAtype::e_asNote].isSound())
-      m_qaPoossib++;
+      m_qaPossib++;
   }
   if (m_level->questionAs.isName()) {
     if (m_level->answersAs[TQAtype::e_asName].isNote())
-      m_qaPoossib++;
+      m_qaPossib++;
     if (m_level->answersAs[TQAtype::e_asName].isName())
-      m_qaPoossib++;
+      m_qaPossib++;
     if (m_level->answersAs[TQAtype::e_asName].isFret())
-      m_qaPoossib++;
+      m_qaPossib++;
     if (m_level->answersAs[TQAtype::e_asName].isSound())
-      m_qaPoossib++;
+      m_qaPossib++;
   }
   if (m_level->questionAs.isFret()) {
     if (m_level->answersAs[TQAtype::e_asFretPos].isNote())
-      m_qaPoossib++;
+      m_qaPossib++;
     if (m_level->answersAs[TQAtype::e_asFretPos].isName())
-      m_qaPoossib++;
+      m_qaPossib++;
     if (m_level->answersAs[TQAtype::e_asFretPos].isFret())
-      m_qaPoossib++;
+      m_qaPossib++;
     if (m_level->answersAs[TQAtype::e_asFretPos].isSound())
-      m_qaPoossib++;
+      m_qaPossib++;
   }
   if (m_level->questionAs.isSound()) {
     if (m_level->answersAs[TQAtype::e_asSound].isNote())
-      m_qaPoossib++;
+      m_qaPossib++;
     if (m_level->answersAs[TQAtype::e_asSound].isName())
-      m_qaPoossib++;
+      m_qaPossib++;
     if (m_level->answersAs[TQAtype::e_asSound].isFret())
-      m_qaPoossib++;
+      m_qaPossib++;
     if (m_level->answersAs[TQAtype::e_asSound].isSound())
-      m_qaPoossib++;
+      m_qaPossib++;
   }
 }
 

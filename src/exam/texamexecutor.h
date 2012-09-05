@@ -131,7 +131,6 @@ private:
           It is to restorrre buttons state in NoteName widget whitch are uncheced by disableWidget() */
     Tnote m_prevNoteIfName;
     Tcanvas *m_canvas;
-    bool m_examIsFinished;
         /** -1 if no black, otherwise points question in blackList list. */
     int m_blackQuestNr;
         /** Interval of questions, after it penalty question is asked */

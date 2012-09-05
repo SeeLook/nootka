@@ -170,7 +170,6 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
     m_shouldBeTerminated = false;
     m_incorrectRepeated = false;
     m_isAnswered = true;
-    m_examIsFinished = false;
     m_blackQuestNr = -1;
     m_penalCount = 0;
     updatePenalStep();
@@ -564,6 +563,16 @@ void TexamExecutor::checkAnswer(bool showResults) {
     if (!curQ.isCorrect())
       updatePenalStep();      
 
+    if (m_exam->count() >= (m_supp->obligQuestions() + m_exam->penalty())) { // maybe enought
+      if (mW->examResults->effectiveness() < 50)
+        mW->progress->setState(TprogressWidget::e_poorEffect);
+      else {
+        mW->progress->setState(TprogressWidget::e_finished);
+        m_supp->examFinished();
+        m_exam->setFinished();
+      }
+    }
+    
     if (gl->E->autoNextQuest) {
         if (curQ.isCorrect()) {
             if (m_shouldBeTerminated)
