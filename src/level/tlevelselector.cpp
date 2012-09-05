@@ -405,19 +405,27 @@ void TlevelSummaryWdg::setLevel(TexamLevel& tl) {
     S += "</td></tr>";
     tmp   = "";
     S += "<tr><td>" + TquestionAsWdg::answersTxt() + ": </td><td align=\"center\">"; // ANSWERS
-    if (tl.answersAs[TQAtype::e_asNote].isNote() || tl.answersAs[TQAtype::e_asName].isNote() ||
-      tl.answersAs[TQAtype::e_asFretPos].isNote() || tl.answersAs[TQAtype::e_asSound].isNote() )
+      /** Checking questions would be skiped because Level creator avoids selecting answer without question.
+       * Unfortunaletly built-in leves are not so perfect.*/
+    if (  (tl.questionAs.isNote() && tl.answersAs[TQAtype::e_asNote].isNote()) ||
+          (tl.questionAs.isName() && tl.answersAs[TQAtype::e_asName].isNote()) ||
+          (tl.questionAs.isFret() && tl.answersAs[TQAtype::e_asFretPos].isNote()) ||
+          (tl.questionAs.isSound() && tl.answersAs[TQAtype::e_asSound].isNote()) )
             tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asNote) + " ";
-    if (tl.answersAs[TQAtype::e_asNote].isName() || tl.answersAs[TQAtype::e_asName].isName() ||
-      tl.answersAs[TQAtype::e_asFretPos].isName() || tl.answersAs[TQAtype::e_asSound].isName() )
+    if (  (tl.questionAs.isNote() && tl.answersAs[TQAtype::e_asNote].isName()) ||
+          (tl.questionAs.isName() && tl.answersAs[TQAtype::e_asName].isName()) ||
+          (tl.questionAs.isFret() && tl.answersAs[TQAtype::e_asFretPos].isName()) ||
+          (tl.questionAs.isSound() && tl.answersAs[TQAtype::e_asSound].isName()) )
             tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asName) + " ";
-    if (tl.answersAs[TQAtype::e_asNote].isFret() || tl.answersAs[TQAtype::e_asName].isFret() ||
-      tl.answersAs[TQAtype::e_asFretPos].isFret() || tl.answersAs[TQAtype::e_asSound].isFret() )
+    if (  (tl.questionAs.isNote() && tl.answersAs[TQAtype::e_asNote].isFret()) ||
+          (tl.questionAs.isName() && tl.answersAs[TQAtype::e_asName].isFret()) ||
+          (tl.questionAs.isFret() && tl.answersAs[TQAtype::e_asFretPos].isFret()) ||
+          (tl.questionAs.isSound() && tl.answersAs[TQAtype::e_asSound].isFret()) )
             tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asFretPos) + " ";
-    if ( (tl.questionAs.isNote() && tl.answersAs[TQAtype::e_asNote].isSound()) ||
-      (tl.questionAs.isName() &&  tl.answersAs[TQAtype::e_asName].isSound()) ||
-      (tl.questionAs.isFret() && tl.answersAs[TQAtype::e_asFretPos].isSound()) ||
-      (tl.questionAs.isSound() && tl.answersAs[TQAtype::e_asSound].isSound()) )
+    if (  (tl.questionAs.isNote() && tl.answersAs[TQAtype::e_asNote].isSound()) ||
+          (tl.questionAs.isName() &&  tl.answersAs[TQAtype::e_asName].isSound()) ||
+          (tl.questionAs.isFret() && tl.answersAs[TQAtype::e_asFretPos].isSound()) ||
+          (tl.questionAs.isSound() && tl.answersAs[TQAtype::e_asSound].isSound()) )
             tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asSound);
     S += TquestionAsWdg::spanNootka(tmp, fontSize);
     S += "</td></tr>";

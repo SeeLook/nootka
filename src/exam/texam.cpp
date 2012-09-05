@@ -66,7 +66,6 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
       QDataStream in(&file);
       in.setVersion(QDataStream::Qt_4_7);
       in >> ev;
-      qDebug() << ev << examVersion << examVersion2;
       if (ev != examVersion && ev != examVersion2)
           return e_file_not_valid;
 

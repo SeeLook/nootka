@@ -64,6 +64,7 @@ public:
     quint32 getTotalTime() {return m_totElapsedTime + quint32(m_totalTime.elapsed() / 1000); }
     quint16 getMistakesNumber() {return (quint16)m_mistakes; }
     quint16 getHalfMistakesNr() { return (quint16)m_halfMistakes; }
+    int effectiveness() { return qRound(m_effect); }
     void clearResults();
         /** Sets background of mistakes/correct answers number Qlabel.
          * Backgroun color is directly inserted to setStyleSheet so 
@@ -82,7 +83,7 @@ private:
     QLabel *m_mistLab, *m_corrLab, *m_effLab, *m_halfLab;
     QTime m_reactTime;
     int m_questNr, m_mistakes, m_totElapsedTime, m_halfMistakes;
-    qreal m_averTime;
+    qreal m_averTime, m_effect;
     QTimer *m_timer;
     QTime m_totalTime;
 
