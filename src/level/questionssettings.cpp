@@ -36,7 +36,7 @@ questionsSettings::questionsSettings(QWidget *parent) :
   // Labels describing answers types
     m_questLab = new QLabel("<b>" + TquestionAsWdg::questionTxt().toUpper() + "</b>", this);
     qaLay->addWidget(m_questLab, 0, 0, Qt::AlignBottom | Qt::AlignRight);
-    m_answLab = new TverticalLabel(TquestionAsWdg::answerTxt().toUpper(), this);
+    m_answLab = new TverticalLabel(" " + TquestionAsWdg::answerTxt().toUpper() + " ", this);
     QFont f = font();
     f.setBold(true);
     m_answLab->setFont(f);
@@ -208,16 +208,20 @@ void questionsSettings::saveLevel(TexamLevel &level) {
 void questionsSettings::paintEvent(QPaintEvent* ) {
   QPainter painter(this);
   QPen pen = painter.pen();
+  int macOff = 0;
+#if defined (Q_OS_MACX)
+  macOff = 5;
+#endif
   pen.setWidth(2);
   painter.setPen(pen);
-  painter.drawLine(m_questLab->geometry().left(), asNoteWdg->enableChBox->geometry().top(), // horizontal line - under 'QUESTION'
-                   soundNooLab->geometry().right(), asNoteWdg->enableChBox->geometry().top());
-  painter.drawLine(m_questLab->geometry().left(), qSoundNooLab->geometry().top(), // horizontal line - under 'QUESTION'
-                   soundNooLab->geometry().right(), qSoundNooLab->geometry().top());
-  painter.drawLine(m_answLab->geometry().right(), m_answLab->geometry().top(), // vertical line - right to 'ANSWER''
-                   m_answLab->geometry().right(), qSoundNooLab->geometry().bottom());
-  painter.drawLine(soundNooLab->geometry().left(), m_answLab->geometry().top(), // vertical line - right to All answers
-                   soundNooLab->geometry().left(), qSoundNooLab->geometry().bottom());
+  painter.drawLine(m_questLab->geometry().left(), asNoteWdg->enableChBox->geometry().top() + macOff, // horizontal line - under 'QUESTION'
+                   soundNooLab->geometry().right(), asNoteWdg->enableChBox->geometry().top() + macOff);
+  painter.drawLine(m_questLab->geometry().left(), qSoundNooLab->geometry().top() + macOff, // horizontal line - under 'QUESTION'
+                   soundNooLab->geometry().right(), qSoundNooLab->geometry().top() + macOff);
+  painter.drawLine(m_answLab->geometry().right() - 3 * macOff, m_answLab->geometry().top(), // vertical line - right to 'ANSWER''
+                   m_answLab->geometry().right() - 3 * macOff, qSoundNooLab->geometry().bottom() + 3 * macOff);
+  painter.drawLine(soundNooLab->geometry().left() + macOff, m_answLab->geometry().top(), // vertical line - right to All answers
+                   soundNooLab->geometry().left() + macOff, qSoundNooLab->geometry().bottom() + 3 * macOff);
 }
 
 void questionsSettings::stringsCheckedSlot(bool checked) {
