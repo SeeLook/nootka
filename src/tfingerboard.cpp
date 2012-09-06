@@ -543,7 +543,7 @@ void TfingerBoard::paintQuestMark() {
         m_questMark->setText("?");
     }
 #if defined(Q_OS_MACX)
-    QFont f = QFont("nootka", 4*strGap, QFont::Normal);
+    QFont f = QFont("nootka", 4*m_strGap, QFont::Normal);
 #else
     QFont f = QFont("nootka", 2*m_strGap, QFont::Normal);
 #endif
