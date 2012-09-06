@@ -24,7 +24,7 @@ TprogressWidget::TprogressWidget(QWidget* parent) :
   QWidget(parent),
   m_totalNr(0),
   m_answersNr(0),
-  m_state(e_disabled)
+  m_isFinished(false)
 {
   QHBoxLayout *lay = new QHBoxLayout;
   m_answLab = new QLabel(zeroLabTxt(), this);
@@ -44,9 +44,9 @@ TprogressWidget::TprogressWidget(QWidget* parent) :
 TprogressWidget::~TprogressWidget()
 {}
 
-void TprogressWidget::activate(int answers, int total, int penaltys) {
+void TprogressWidget::activate(int answers, int total, int penaltys, bool finished) {
   setDisabled(false);
-  setState(e_inProgress);
+  setFinished(finished);
   m_totalNr = total;
   m_answersNr = answers;
   updateLabels(penaltys);
@@ -74,9 +74,7 @@ void TprogressWidget::updateLabels(int penaltys) {
     m_bar->setStatusTip(progressExamTxt() + "<br>" + m_bar->text());
   } else {
     m_bar->setValue(m_totalNr + penaltys);
-    if (m_state == e_poorEffect) 
-      m_bar->setStatusTip(tr("Exam would be finished but effectiveness has to be improved."));
-    else // e_finished
+    if (m_isFinished) 
       m_bar->setStatusTip(examFinishedTxt());
   }
 }
@@ -91,7 +89,7 @@ void TprogressWidget::terminate() {
   m_bar->setValue(0);
   m_bar->setStatusTip(progressExamTxt());
   setDisabled(true);
-  setState(e_disabled);
+  setFinished(false);
 }
 
 void TprogressWidget::resize(int fontSize) {

@@ -32,7 +32,8 @@ TexecutorSupply::TexecutorSupply(TexamLevel* level, QObject* parent) :
   m_prevAccid(Tnote::e_Natural),
   m_isSolfege(false),
   m_dblAccidsCntr(0),
-  m_eisCesCntr(0)
+  m_eisCesCntr(0),
+  m_wasFinished(false)
 {
   calcQAPossibleCount();
 }
@@ -43,6 +44,7 @@ TexecutorSupply::TexecutorSupply(TexamLevel* level, QObject* parent) :
 
 void TexecutorSupply::examFinished() {
     QMessageBox::information(0, "", tr("Finished"));
+    setFinished();
 }
 
 

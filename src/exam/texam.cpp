@@ -31,6 +31,18 @@ const qint32 Texam::examVersion2 = 0x95121704;
 
 const quint16 Texam::maxAnswerTime = 65500;
 
+bool Texam::areQuestTheSame(TQAunit& q1, TQAunit& q2) {
+  if (q1.questionAs == q2.questionAs && // the same questions
+      q1.answerAs == q2.answerAs && // the same answers
+      q1.qa.note == q2.qa.note && // ths same notes
+      q1.qa.pos == q2.qa.pos // ths same pos
+    )
+        return true;
+  else
+        return false;
+}
+
+
 
 
 Texam::Texam(TexamLevel* l, QString userName):
@@ -88,7 +100,7 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
           TQAunit qaUnit;
           if (!getTQAunitFromStream(in, qaUnit))
               isExamFileOk = false;
-          if (qaUnit.time <= maxAnswerTime) { // add to m_answList
+          if (qaUnit.time <= maxAnswerTime || ev == examVersion) { // add to m_answList
               m_answList << qaUnit;
               m_workTime += qaUnit.time; 
               if ( !qaUnit.isCorrect() ) {
@@ -108,8 +120,11 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
         m_mistNr = tmpMist; //we try to fix exam file to give proper number of mistakes
         m_halfMistNr = tmpHalf;
         isExamFileOk = false;
-      } else 
+      } else {
         m_mistNr = tmpMist; // transistion to examVersion2
+      }
+      if (ev == examVersion)
+          convertToVersion2();
       m_halfMistNr = tmpHalf;
       m_averReactTime = m_workTime / count();
 //           m_workTime = qRound((qreal)m_workTime / 10.0);
@@ -119,9 +134,9 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
          TlevelSelector::fileIOerrorMsg(file, 0);
 				 result = e_cant_open;
      }
-     updateBlackCount();
-     
-     return result;
+  updateBlackCount();
+  qDebug() << "black questions:" << blackCount();
+  return result;
 }
 
 
@@ -162,21 +177,26 @@ void Texam::setAnswer(TQAunit& answer) {
     answer.time = qMin(maxAnswerTime, answer.time); // when user think too much
     m_answList.last() = answer;
     if (!answer.isCorrect()) {
-//       m_mistNr++;
-      m_blackList << answer;
+      if (!isFinished()) // finished exam has got no black list
+          m_blackList << answer;
       if (answer.isNotSoBad()) {
-        m_blackList.last().time = 65501;
-        m_penaltysNr++;
+        if (!isFinished()) {
+            m_blackList.last().time = 65501;
+            m_penaltysNr++;
+        }
         m_halfMistNr++;
       }
       else {
-        m_blackList.last().time = 65502;
-        m_penaltysNr += 2;
+        if (!isFinished()) {
+            m_blackList.last().time = 65502;
+            m_penaltysNr += 2;
+        }
         m_mistNr++;
       }
     }
     m_workTime += answer.time;
-    updateBlackCount();
+    if (!isFinished())
+        updateBlackCount();
 }
 
 //############################### PROTECTED ########################################
@@ -190,5 +210,44 @@ void Texam::updateBlackCount() {
     m_blackCount += (m_blackList[i].time - maxAnswerTime);
   }
 }
+
+
+void Texam::convertToVersion2() {
+  qDebug() << "convert from ver.1!  black list:" << m_blackList.size() << "penaltys:" << m_penaltysNr;
+  for (int i = 0; i < m_answList.size(); i++) {
+    if (m_answList[i].time > maxAnswerTime) // fix too long times in ver1 if any
+        m_answList[i].time = maxAnswerTime;
+    if (!m_answList[i].isCorrect()) {
+      m_blackList << m_answList[i];
+//       m_blackList.last().time = maxAnswerTime;
+      quint16 penCnt = 0; // counts of penaltys
+      if (m_blackList.last().isWrong()) {
+        if (i < (m_answList.size() -1) && areQuestTheSame(m_answList[i], m_answList[i+1])) {
+          // there was next question repeated
+          if (m_answList[i+1].isCorrect()) // and was correct
+            penCnt = 65501; // so add one penalty
+          else // when again wrong
+            penCnt = 65502; // add two
+          // The next loop will add next two penaltys !!
+        } else // question was not repeated
+            penCnt = 65502;
+      } else { // not so bad
+        if (i < (m_answList.size() -1) && areQuestTheSame(m_blackList.last(), m_answList[i+1])) {
+          // there was next question repeated
+          if (m_answList[i+1].isCorrect()) // and was correct
+            m_blackList.removeLast(); // remove it from black list - corrected
+          else
+            penCnt = 65501;
+        }
+      }
+      if (penCnt) {
+        m_blackList.last().time = penCnt;
+        m_penaltysNr += (penCnt - 65500);
+      }
+    }
+  }
+  qDebug() << "Done!!!  black list:" << m_blackList.size() << "penaltys:" << m_penaltysNr;
+}
+
 
 

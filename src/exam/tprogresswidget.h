@@ -32,23 +32,16 @@ public:
     TprogressWidget(QWidget *parent = 0);
     virtual ~TprogressWidget();
     
-      /** Describes state of an exam progress. */
-    enum Estate {
-      e_disabled,
-      e_inProgress,
-      e_poorEffect, // enought questions but effectivenes is poor
-      e_finished
-    };
     
     static QString progressExamTxt() { return tr("Progress of the exam"); } // Progress of the exam
     static QString examFinishedTxt() { return tr("Exam was finished"); } // Exam was finished
     
-    void activate(int answers, int total, int penaltys);
+    void activate(int answers, int total, int penaltys, bool finished);
     void progress(int penaltys);
     void terminate();
     int total() { return m_totalNr; }
-    void setState(Estate state) { m_state = state; }
-    Estate state() { return m_state; }
+    void setFinished(bool finished) { m_isFinished = finished; }
+    bool isFinished() { return m_isFinished; }
     
     void resize(int fontSize);
     
@@ -60,7 +53,7 @@ private:
     int m_answersNr, m_totalNr;
     QLabel *m_answLab, *m_totalLab;
     QProgressBar *m_bar;
-    Estate m_state;
+    bool m_isFinished;
     
 };
 
