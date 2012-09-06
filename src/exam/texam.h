@@ -77,18 +77,20 @@ public:
   int penalty() { return m_penaltysNr; } // Number of penaltys during whole exam
   int blackCount() { return m_blackCount; } // Remained questions in black list
   bool isFinished() { return m_isFinished; }
-    /** Sets exam as finished and there is no way backk. */
+    /** Sets exam as finished and there is no way back. */
   void setFinished() { m_isFinished = true; }
 
   EerrorType loadFromFile(QString &fileName);
   EerrorType saveToFile(QString fileName = "");
 
-    /** Magic number in exam file to identify it.*/
+    /** Magic numbers in exam file to identify it.*/
   static const qint32 examVersion;
   static const qint32 examVersion2;
     /** Maximal time of an answer = 65500. Values over are equal to it.
      * 65501 & 65502 are for counting probes in blackList */
   static const quint16 maxAnswerTime;
+    /** Compares given questions are they the same. */
+  static bool areQuestTheSame(TQAunit &q1, TQAunit &q2);
     /** Returns a reference to question/answer unit nr @param index.
      * Be Aware !!! index has to be less than m_answList.size() */
   TQAunit &qusetion(unsigned int index) { return m_answList[index]; }
@@ -96,6 +98,8 @@ public:
 protected:
     /** Iterates through m_blackList to calculate number */
   void updateBlackCount();
+    /** Grabs answers with mistakes and creates blacList */
+  void convertToVersion2();
   
 
 private:

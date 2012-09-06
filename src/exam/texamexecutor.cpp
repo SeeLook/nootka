@@ -172,7 +172,10 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
     m_isAnswered = true;
     m_blackQuestNr = -1;
     m_penalCount = 0;
-    updatePenalStep();
+    if (m_exam->isFinished()) {
+      m_supp->setFinished();
+    } else 
+        updatePenalStep();
     
     m_level.questionAs.randNext(); // Randomize question and answer type
     if (m_level.questionAs.isNote()) m_level.answersAs[TQAtype::e_asNote].randNext();
@@ -563,14 +566,10 @@ void TexamExecutor::checkAnswer(bool showResults) {
     if (!curQ.isCorrect())
       updatePenalStep();      
 
-    if (m_exam->count() >= (m_supp->obligQuestions() + m_exam->penalty())) { // maybe enought
-      if (mW->examResults->effectiveness() < 50)
-        mW->progress->setState(TprogressWidget::e_poorEffect);
-      else {
-        mW->progress->setState(TprogressWidget::e_finished);
+    if (!m_supp->wasFinished() && m_exam->count() >= (m_supp->obligQuestions() + m_exam->penalty()) ) { // maybe enought      
+        mW->progress->setFinished(true);
         m_supp->examFinished();
         m_exam->setFinished();
-      }
     }
     
     if (gl->E->autoNextQuest) {
@@ -657,7 +656,7 @@ void TexamExecutor::prepareToExam() {
     mW->autoRepeatChB->setChecked(gl->E->autoNextQuest);
     mW->expertAnswChB->show();
     mW->expertAnswChB->setChecked(gl->E->expertsAnswerEnable);
-    mW->progress->activate(m_exam->count(), m_supp->obligQuestions(), m_exam->penalty());
+    mW->progress->activate(m_exam->count(), m_supp->obligQuestions(), m_exam->penalty(), m_exam->isFinished());
 //    if (gl->E->expertsAnswerEnable)
 //      connectForExpert();
     disableWidgets();
@@ -963,6 +962,8 @@ void TexamExecutor::rightButtonSlot() {
 
 
 void TexamExecutor::updatePenalStep() {
+    if (m_supp->wasFinished())
+        return;
     if (m_exam->blacList()->isEmpty())
       m_penalStep = 65535;
     else

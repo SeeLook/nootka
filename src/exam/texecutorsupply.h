@@ -53,6 +53,8 @@ public:
   int qaPossibilitys() { return m_qaPossib; }
       /** Displays message when exam can be finished. */
   void examFinished();
+  void setFinished() { m_wasFinished = true;}
+  bool wasFinished() { return m_wasFinished; }
   
   
 signals:
@@ -85,6 +87,8 @@ private:
        * either question as position or answer. 
        * The list is initialised in createQuestionsList() method if level has that settings. */
   QList<quint16> m_fretFretList;
+      /** True when message about finished exam was shown. */
+  bool m_wasFinished;
       
 };
 
