@@ -1,4 +1,7 @@
-    - implemented questin and answer as position on a guitar
+    - exams can be finished after answering specifed number of questions
+    - displaying progress of an exam end details
+    - mistakes are stored and are asked oftener
+    - implemented question and answer as position on a guitar
     - recognizeing answers with proper sound but wrong string
     - simpler level creator and improved validation of levels
     - improved hints during an exam

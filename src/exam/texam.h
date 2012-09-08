@@ -79,6 +79,7 @@ public:
   bool isFinished() { return m_isFinished; }
     /** Sets exam as finished and there is no way back. */
   void setFinished() { m_isFinished = true; }
+  void increasePenaltys(int penaltyNr) { m_penaltysNr += penaltyNr; }
 
   EerrorType loadFromFile(QString &fileName);
   EerrorType saveToFile(QString fileName = "");

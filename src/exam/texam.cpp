@@ -199,6 +199,8 @@ void Texam::setAnswer(TQAunit& answer) {
         updateBlackCount();
 }
 
+
+
 //############################### PROTECTED ########################################
 
 
@@ -218,10 +220,9 @@ void Texam::convertToVersion2() {
     if (m_answList[i].time > maxAnswerTime) // fix too long times in ver1 if any
         m_answList[i].time = maxAnswerTime;
     if (!m_answList[i].isCorrect()) {
-      m_blackList << m_answList[i];
-//       m_blackList.last().time = maxAnswerTime;
+//       m_blackList << m_answList[i];
       quint16 penCnt = 0; // counts of penaltys
-      if (m_blackList.last().isWrong()) {
+      if (m_answList[i].isWrong()) {
         if (i < (m_answList.size() -1) && areQuestTheSame(m_answList[i], m_answList[i+1])) {
           // there was next question repeated
           if (m_answList[i+1].isCorrect()) // and was correct
@@ -232,15 +233,17 @@ void Texam::convertToVersion2() {
         } else // question was not repeated
             penCnt = 65502;
       } else { // not so bad
-        if (i < (m_answList.size() -1) && areQuestTheSame(m_blackList.last(), m_answList[i+1])) {
+        if (i < (m_answList.size() -1) && areQuestTheSame(m_answList[i], m_answList[i+1])) {
           // there was next question repeated
           if (m_answList[i+1].isCorrect()) // and was correct
-            m_blackList.removeLast(); // remove it from black list - corrected
+//             m_blackList.removeLast(); // remove it from black list - corrected
+            penCnt = 0;
           else
             penCnt = 65501;
         }
       }
       if (penCnt) {
+        m_blackList << m_answList[i];
         m_blackList.last().time = penCnt;
         m_penaltysNr += (penCnt - 65500);
       }
