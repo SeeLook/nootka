@@ -156,7 +156,6 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
     prepareToExam();
     if (m_exam->fileName() == "" && gl->E->showHelpOnStart)
       showExamHelp();
-//     m_supp->createQuestionsList(m_questList);
     if (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isFret()) {
       if (!m_supp->isGuitarOnlyPossible()) {
           qDebug("Something stiupid !!!\n Level has question and answer as position on guitar but any question is available.");
@@ -174,6 +173,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
     m_penalCount = 0;
     if (m_exam->isFinished()) {
       m_supp->setFinished();
+      qDebug() << "Exam was finished";
     } else 
         updatePenalStep();
     
@@ -566,10 +566,14 @@ void TexamExecutor::checkAnswer(bool showResults) {
     if (!curQ.isCorrect())
       updatePenalStep();      
 
-    if (!m_supp->wasFinished() && m_exam->count() >= (m_supp->obligQuestions() + m_exam->penalty()) ) { // maybe enought      
+    if (!m_supp->wasFinished() && m_exam->count() >= (m_supp->obligQuestions() + m_exam->penalty()) ) { // maybe enought 
+      if (m_exam->blackCount()) {
+        m_exam->increasePenaltys(m_exam->blackCount());
+      } else {
         mW->progress->setFinished(true);
         m_supp->examFinished();
         m_exam->setFinished();
+      }
     }
     
     if (gl->E->autoNextQuest) {
@@ -967,8 +971,8 @@ void TexamExecutor::updatePenalStep() {
     if (m_exam->blacList()->isEmpty())
       m_penalStep = 65535;
     else
-    if ((m_supp->obligQuestions() + m_exam->penalty() - m_questList.count()) > 0)
-          m_penalStep = (m_supp->obligQuestions() + m_exam->penalty() - m_questList.count()) / m_exam->blackCount();
+    if ((m_supp->obligQuestions() + m_exam->penalty() - m_exam->count()) > 0)
+          m_penalStep = (m_supp->obligQuestions() + m_exam->penalty() - m_exam->count()) / m_exam->blackCount();
     else
           m_penalStep = 0; // only penaltys questions
     qDebug() << "m_penalStep" << m_penalStep;
