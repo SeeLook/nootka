@@ -58,25 +58,11 @@ void TprogressWidget::progress(int penaltys) {
 
 }
 
-void TprogressWidget::updateLabels(int penaltys) {
-  int remained = qMax(0, m_totalNr + penaltys - m_answersNr);
-  m_answLab->setText(QString("%1 + %2").arg(m_answersNr).arg(remained));
-  m_answLab->setStatusTip(tr("Answered questions") + QString(": %1").arg(m_answersNr) +
-    "<br>" + tr("Remained") + QString(": %1 ").arg(remained)
-  );
-  m_totalLab->setText(QString(" %1 (%2)").arg(m_totalNr + penaltys).arg(penaltys));
-  m_totalLab->setStatusTip(tr("Total questions in this exam") + QString(": %1 ").arg(m_totalNr + penaltys) +
-    "<br>(" + tr("penaltys") + QString(": %1)").arg(penaltys));
-  m_bar->setMinimum(0);
-  m_bar->setMaximum(m_totalNr + penaltys);
-  if (remained) {
-    m_bar->setValue(m_answersNr);
-    m_bar->setStatusTip(progressExamTxt() + "<br>" + m_bar->text());
-  } else {
-    m_bar->setValue(m_totalNr + penaltys);
-    if (m_isFinished) 
-      m_bar->setStatusTip(examFinishedTxt());
-  }
+
+void TprogressWidget::setFinished(bool finished) {
+   m_isFinished = finished;
+   if (m_isFinished)
+     m_bar->setStatusTip(examFinishedTxt());
 }
 
 
@@ -93,8 +79,36 @@ void TprogressWidget::terminate() {
 }
 
 void TprogressWidget::resize(int fontSize) {
-
+    QFont f = font();
+    f.setPixelSize(fontSize);
+    m_answLab->setFont(f);
+    m_totalLab->setFont(f);
 }
+
+//#############################################################################
+// PROTECTED
+//#############################################################################
+
+void TprogressWidget::updateLabels(int penaltys) {
+  int remained = qMax(0, m_totalNr + penaltys - m_answersNr);
+  m_answLab->setText(QString("%1 + %2").arg(m_answersNr).arg(remained));
+  m_answLab->setStatusTip(tr("Answered questions") + QString(": %1").arg(m_answersNr) +
+        "<br>" + tr("Remained") + QString(": %1 ").arg(remained)  );
+  m_totalLab->setText(QString(" %1 (%2)").arg(m_totalNr + penaltys).arg(penaltys));
+  m_totalLab->setStatusTip(tr("Total questions in this exam") + QString(": %1 ").arg(m_totalNr + penaltys) +
+    "<br>(" + tr("penaltys") + QString(": %1)").arg(penaltys));
+  m_bar->setMinimum(0);
+  m_bar->setMaximum(m_totalNr + penaltys);
+  if (remained) {
+    m_bar->setValue(m_answersNr);
+    m_bar->setStatusTip(progressExamTxt() + "<br>" + m_bar->text());
+  } else {
+    m_bar->setValue(m_totalNr + penaltys);
+    if (m_isFinished) 
+      m_bar->setStatusTip(examFinishedTxt());
+  }
+}
+
 
 QString TprogressWidget::zeroLabTxt() {
   return "<span style=\"color: transparent;\">(000) + </span>0<span style=\"color: transparent;\">000</span>";

@@ -23,16 +23,20 @@
 #include "tlevelselector.h"
 #include "taboutnootka.h"
 #include "tfirstrunwizzard.h"
-#include <tsupportnootka.h>
+#include "tsupportnootka.h"
 #include "examsettings.h"
 #include "tsound.h"
 #include "tpushbutton.h"
+#include <tscorewidget.h>
 #include "texam.h"
 #include "tprogresswidget.h"
+#include <texamview.h>
 #include "taudioparams.h"
 #include "taudioout.h"
 #include "tpitchview.h"
 #include "tanalysdialog.h"
+#include "tnotename.h"
+#include "tfingerboard.h"
 #include <QtGui>
 
 

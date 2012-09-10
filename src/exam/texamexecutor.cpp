@@ -19,7 +19,6 @@
 #include "texamexecutor.h"
 #include "tglobals.h"
 #include "tstartexamdlg.h"
-#include "tquestionaswdg.h"
 #include "tlevelselector.h"
 #include "tsound.h"
 #include "mainwindow.h"
@@ -35,6 +34,10 @@
 #include "tgraphicstexttip.h"
 #include "tcanvas.h"
 #include "tprogresswidget.h"
+#include "texamview.h"
+#include <tscorewidget.h>
+#include <tfingerboard.h>
+#include <tnotename.h>
 #include <QtGui>
 #include <QDebug>
 
@@ -174,8 +177,22 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
     if (m_exam->isFinished()) {
       m_supp->setFinished();
       qDebug() << "Exam was finished";
-    } else 
+    } else {
+        int remained = (m_supp->obligQuestions() + m_exam->penalty()) - m_exam->count();
+        remained = qMax(0, remained);
+        if (remained < m_exam->blackCount()) {
+          m_exam->increasePenaltys(m_exam->blackCount() - remained);
+          qDebug() << "penaltys number adjusted:" << m_exam->blackCount() - remained;
+          mW->progress->activate(m_exam->count(), m_supp->obligQuestions(), m_exam->penalty(), m_exam->isFinished());
+        }
+        if (remained == 0 && m_exam->blackCount() == 0) {
+          mW->progress->setFinished(true);
+          m_supp->setFinished();
+          m_exam->setFinished();
+          qDebug() << "Finished exam was detected";
+        }
         updatePenalStep();
+    }
     
     m_level.questionAs.randNext(); // Randomize question and answer type
     if (m_level.questionAs.isNote()) m_level.answersAs[TQAtype::e_asNote].randNext();
@@ -569,6 +586,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
     if (!m_supp->wasFinished() && m_exam->count() >= (m_supp->obligQuestions() + m_exam->penalty()) ) { // maybe enought 
       if (m_exam->blackCount()) {
         m_exam->increasePenaltys(m_exam->blackCount());
+        qDebug() << "penaltys increased. It is not good place for it";
       } else {
         mW->progress->setFinished(true);
         m_supp->examFinished();

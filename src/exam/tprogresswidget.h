@@ -40,7 +40,7 @@ public:
     void progress(int penaltys);
     void terminate();
     int total() { return m_totalNr; }
-    void setFinished(bool finished) { m_isFinished = finished; }
+    void setFinished(bool finished);
     bool isFinished() { return m_isFinished; }
     
     void resize(int fontSize);
