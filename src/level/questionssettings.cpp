@@ -218,8 +218,8 @@ void questionsSettings::paintEvent(QPaintEvent* ) {
                    soundNooLab->geometry().right(), asNoteWdg->enableChBox->geometry().top() + macOff);
   painter.drawLine(m_questLab->geometry().left(), qSoundNooLab->geometry().top() + macOff, // horizontal line - under 'QUESTION'
                    soundNooLab->geometry().right(), qSoundNooLab->geometry().top() + macOff);
-  painter.drawLine(m_answLab->geometry().right() - 3 * macOff, m_answLab->geometry().top(), // vertical line - right to 'ANSWER''
-                   m_answLab->geometry().right() - 3 * macOff, qSoundNooLab->geometry().bottom() + 3 * macOff);
+  painter.drawLine(m_answLab->geometry().right() + 3 * macOff, m_answLab->geometry().top(), // vertical line - right to 'ANSWER''
+                   m_answLab->geometry().right() + 3 * macOff, qSoundNooLab->geometry().bottom() + 3 * macOff);
   painter.drawLine(soundNooLab->geometry().left() + macOff, m_answLab->geometry().top(), // vertical line - right to All answers
                    soundNooLab->geometry().left() + macOff, qSoundNooLab->geometry().bottom() + 3 * macOff);
 }
