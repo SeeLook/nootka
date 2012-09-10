@@ -22,6 +22,12 @@
 #include <QtGui>
 
 
+const QString TexamView::halfMistakenTxt() { return tr("'Not So Bad' answers"); } 
+const QString TexamView::halfMistakenAddTxt() { return tr("(counted as half of a mistake)"); }
+
+
+
+
 TexamView::TexamView(QWidget *parent) :
     QWidget(parent)
 {
@@ -82,7 +88,7 @@ TexamView::TexamView(QWidget *parent) :
     clearResults();
 
     m_corrLab->setStatusTip(corrAnswersNrTxt());
-    m_halfLab->setStatusTip(halfMistakenTxt());
+    m_halfLab->setStatusTip(halfMistakenTxt() + "<br>" + halfMistakenAddTxt());
     m_mistLab->setStatusTip(mistakesNrTxt());
     m_effLab->setStatusTip(effectTxt());
     m_averTimeLab->setStatusTip(averAnsverTimeTxt() + " " + inSecondsTxt());
@@ -145,10 +151,11 @@ void TexamView::setAnswer(TQAunit* answer) {
       }
     }
     m_mistLab->setText(QString("%1").arg(m_mistakes));
-    m_corrLab->setText(QString("%1").arg(m_questNr - m_mistakes));
+    m_halfLab->setText(QString("%1").arg(m_halfMistakes));
+    m_corrLab->setText(QString("%1").arg(m_questNr - m_mistakes - m_halfMistakes));
     // without halfMistakes - obsolete
 //     m_effect = (((qreal)m_questNr - (qreal)m_mistakes) / (qreal)m_questNr) * 100;
-    m_effect = (((qreal)m_questNr - (qreal)(m_mistakes + m_halfMistakes)) / (qreal)m_questNr) * 100;
+    m_effect = (((qreal)m_questNr - (qreal)(m_mistakes + m_halfMistakes / 2)) / (qreal)m_questNr) * 100;
     m_effLab->setText(QString("<b>%1 %</b>").arg(qRound(m_effect)));
 }
 

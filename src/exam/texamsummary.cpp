@@ -33,18 +33,22 @@ QString row2(QString S1, QString S2) {
 TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *parent) :
   QDialog(parent)
 {
-  setWindowTitle(tr("Exam results"));
-  QHBoxLayout *lay = new QHBoxLayout();
-//-------  left layout -----------------------
-	QVBoxLayout *leftLay = new QVBoxLayout();
-	
-	QLabel *studentLab = new QLabel(tr("student:"), this);
-	leftLay->addWidget(studentLab);
-    QLabel *userNameLab = new QLabel(QString("<b style=\"font-size: 20px\">%1</b>").arg(exam->userName()), this);
+    setWindowTitle(tr("Exam results"));
+    QHBoxLayout *lay = new QHBoxLayout();
+  //-------  left layout -----------------------
+    QVBoxLayout *leftLay = new QVBoxLayout();
+    QString font20 = "<b style=\"font-size: 20px\">";
+//     QLabel *studentLab = new QLabel(tr("student:"), this);
+//     leftLay->addWidget(studentLab);
+    QLabel *userNameLab = new QLabel(tr("student:") + QString("  %2<u>%1</u></b>").arg(exam->userName()).arg(font20), this);
     leftLay->addWidget(userNameLab, 0, Qt::AlignCenter);
-	QLabel *questNrLAb = new QLabel(tr("Questions number:") + 
-                    QString("<b style=\"font-size: 20px\">  %1</b>").arg(exam->count()), this);
-	leftLay->addWidget(questNrLAb);
+    QLabel *questNrLab = new QLabel("<center>" + tr("Questions number:") + QString("%2  %1</b>").arg(exam->count()).arg(font20) +
+                      QString("<br>%1: %2%3</b>").arg(TexamView::corrAnswersNrTxt()).arg(font20).
+                          arg(exam->count() - exam->mistakes() - exam->halfMistaken()) +
+                      QString("<br>%1: %2%3</b>").arg(TexamView::mistakesNrTxt()).arg(font20).arg(exam->mistakes()) +
+                      QString("<br>%1: %2%3</b>").arg(TexamView::halfMistakenTxt()).arg(font20).arg(exam->halfMistaken())
+        ,this);
+    leftLay->addWidget(questNrLab);
     QVBoxLayout *timeLay = new QVBoxLayout();
     QGroupBox *timeGr = new QGroupBox(tr("times:"), this);
     QLabel *timeLab = new QLabel("<table>" +
@@ -87,11 +91,12 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
 	levelWdg->setLevel(*(exam->level()));
 	QVBoxLayout *resLay = new QVBoxLayout();
 	QGroupBox *resGr = new QGroupBox(tr("Results:"), this);
-	qreal eff = (((qreal)exam->count() - (qreal)exam->mistakes()) / (qreal)exam->count()) * 100;
+  qreal eff = (((qreal)exam->count() - (qreal)(exam->mistakes() + exam->halfMistaken() / 2)) / 
+      (qreal)exam->count()) * 100;
   QString effStr = "";
   if (exam->mistakes()) {
-    effStr = row2(TexamView::mistakesNrTxt(), QString::number(exam->mistakes()));
-    effStr += row2(TexamView::corrAnswersNrTxt(), QString::number(exam->count()-exam->mistakes()));
+//     effStr = row2(TexamView::mistakesNrTxt(), QString::number(exam->mistakes()));
+//     effStr += row2(TexamView::corrAnswersNrTxt(), QString::number(exam->count()-exam->mistakes()));
     float wAccid = 0.0, wKey = 0.0, wNote = 0.0, wOctave = 0.0, wStyle = 0.0, wPos = 0.0, wTotal;
     for(int i=0; i<exam->count(); i++) {
       if (!exam->qusetion(i).isCorrect()) {

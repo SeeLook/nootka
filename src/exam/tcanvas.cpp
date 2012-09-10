@@ -27,6 +27,7 @@
 #include "tglobals.h"
 #include "texamhelp.h"
 #include <QDebug>
+#include <QTimer>
 
 
 

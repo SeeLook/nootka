@@ -123,9 +123,10 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
       } else {
         m_mistNr = tmpMist; // transistion to examVersion2
       }
-      if (ev == examVersion)
+      if (ev == examVersion) {
           convertToVersion2();
-      m_halfMistNr = tmpHalf;
+          m_halfMistNr = tmpHalf;
+      }
       m_averReactTime = m_workTime / count();
 //           m_workTime = qRound((qreal)m_workTime / 10.0);
       if (!isExamFileOk)
@@ -135,7 +136,7 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
 				 result = e_cant_open;
      }
   updateBlackCount();
-  qDebug() << "black questions:" << blackCount();
+  qDebug() << "black questions:" << blackCount() << "Mistakes:" << m_mistNr << "Not so bad:" << m_halfMistNr;
   return result;
 }
 
@@ -215,7 +216,7 @@ void Texam::updateBlackCount() {
 
 
 void Texam::convertToVersion2() {
-  qDebug() << "convert from ver.1!  black list:" << m_blackList.size() << "penaltys:" << m_penaltysNr;
+  qDebug() << "converting from ver.1!  black list:" << m_blackList.size() << "penaltys:" << m_penaltysNr;
   for (int i = 0; i < m_answList.size(); i++) {
     if (m_answList[i].time > maxAnswerTime) // fix too long times in ver1 if any
         m_answList[i].time = maxAnswerTime;
@@ -249,7 +250,7 @@ void Texam::convertToVersion2() {
       }
     }
   }
-  qDebug() << "Done!!!  black list:" << m_blackList.size() << "penaltys:" << m_penaltysNr;
+  qDebug() << "Conversion done!!!  black list:" << m_blackList.size() << "penaltys:" << m_penaltysNr;
 }
 
 

@@ -44,7 +44,8 @@ public:
     static const QString totalTimetxt() { return tr("Total time of an exam"); } // Total time of an exam
     static const QString corrAnswersNrTxt() { return tr("Number of correct answers"); } // Number of correct answers
     static const QString effectTxt() { return tr("Effectiveness"); } // Effectiveness
-    static const QString halfMistakenTxt() { return tr("Number of 'not so bad' answers (counted as half of a mistake)"); } // Number of not so bad answers (counted as half of a mistake)
+    static const QString halfMistakenTxt(); // Number of not so bad answers
+    static const QString halfMistakenAddTxt(); // (counted as half of a mistake)
     
       /** Returns time given in milisec. in format h:mm:ss */
     static QString formatedTotalTime(int t) { return QString("%1:%2:%3")
