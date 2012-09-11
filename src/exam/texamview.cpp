@@ -19,7 +19,10 @@
 
 #include "texamview.h"
 #include "tqaunit.h"
+#include "texam.h"
 #include <QtGui>
+
+#define SPACE_GAP (5)
 
 
 const QString TexamView::halfMistakenTxt() { return tr("'Not So Bad' answers"); } 
@@ -39,10 +42,10 @@ TexamView::TexamView(QWidget *parent) :
     QHBoxLayout *okMistLay = new QHBoxLayout;
     m_corrLab = new QLabel(this);
     okMistLay->addWidget(m_corrLab, 0, Qt::AlignRight);
-    okMistLay->addSpacing(10);
+    okMistLay->addSpacing(SPACE_GAP);
     m_halfLab = new QLabel(this);
     okMistLay->addWidget(m_halfLab, 0, Qt::AlignRight);
-    okMistLay->addSpacing(10);
+    okMistLay->addSpacing(SPACE_GAP);
     m_mistLab = new QLabel(this);
     okMistLay->addWidget(m_mistLab, 0, Qt::AlignRight);
 //     okMistLay->addStretch(1);
@@ -155,7 +158,7 @@ void TexamView::setAnswer(TQAunit* answer) {
     m_corrLab->setText(QString("%1").arg(m_questNr - m_mistakes - m_halfMistakes));
     // without halfMistakes - obsolete
 //     m_effect = (((qreal)m_questNr - (qreal)m_mistakes) / (qreal)m_questNr) * 100;
-    m_effect = (((qreal)m_questNr - (qreal)(m_mistakes + m_halfMistakes / 2)) / (qreal)m_questNr) * 100;
+    m_effect = Texam::effectiveness(m_questNr, m_mistakes, m_halfMistakes);
     m_effLab->setText(QString("<b>%1 %</b>").arg(qRound(m_effect)));
 }
 

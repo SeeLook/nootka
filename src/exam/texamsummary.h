@@ -32,8 +32,17 @@ public:
   TexamSummary(Texam *exam, QString &path, bool cont = false, QWidget *parent = 0);
   virtual ~TexamSummary();
   
+  enum Eactions { e_continue, e_analyse, e_discard };
+  Eactions exec();
+  
+protected slots:
+  void closeSlot();
+  void analyseSlot();
+  void continueSlot();
+  
 private:
   Texam *m_exam;
+  Eactions m_state;
 };
 
 #endif // TEXAMSUMMARY_H

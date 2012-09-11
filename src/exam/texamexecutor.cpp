@@ -105,7 +105,11 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
                   if (changesMessage != "")
                         QMessageBox::warning(mW, "", changesMessage);
             // ---------- End of checking ----------------------------------
-          showExamSummary(true);
+          if (!showExamSummary(true)) {
+            mW->clearAfterExam();
+            if (m_exam) delete m_exam;
+            return;
+          }
           mW->examResults->startExam(m_exam->totalTime(), m_exam->count(), m_exam->averageReactonTime(),
                           m_exam->mistakes(), m_exam->halfMistaken());
 
@@ -909,14 +913,19 @@ void TexamExecutor::autoRepeatStateChanged(bool enable) {
 }
 
 
-void TexamExecutor::showExamSummary(bool cont) {
+bool TexamExecutor::showExamSummary(bool cont) {
   TexamSummary *ES = new TexamSummary(m_exam, gl->path, cont, mW);
-  if (ES->exec() == QDialog::Accepted) {
+  TexamSummary::Eactions respond = ES->exec();
+  if (respond == TexamSummary::e_analyse) {
      TanalysDialog *AD = new TanalysDialog(m_exam, mW);
      AD->exec();
      delete AD;
-  }  
+  }
   delete ES;
+  if (respond == TexamSummary::e_discard)
+    return false;
+  else
+    return true;
 }
 
 void TexamExecutor::showExamHelp() {

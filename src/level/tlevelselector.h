@@ -23,29 +23,13 @@
 #include "texamlevel.h"
 #include <QWidget>
 
-class QLabel;
+class QListWidget;
+class TlevelPreview;
 class QListWidget;
 class QPushButton;
 class QFile;
 
 
-class TlevelSummaryWdg : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit TlevelSummaryWdg(QWidget *parent = 0);
-
-    static QString notesRangeTxt() { return tr("notes' range:"); }
-    static QString fretsRangeTxt() { return tr("frets' range:"); }
-
-    void setLevel(TexamLevel &tl);
-
-public slots:
-
-private:
-    QLabel *summLab;
-
-};
 
 //#######################################################################
         /** Returns list of predefined levels. */
@@ -96,14 +80,16 @@ signals:
     void levelToLoad();
 
 private:
-    QListWidget *levelsList;
-    QList <TexamLevel> levList;
-    TlevelSummaryWdg *summWdg;
-    QPushButton *loadBut;
+    QListWidget *m_levelsList;
+    QList <TexamLevel> m_levList;
+    TlevelPreview *m_levelPreview;
+    QPushButton *m_loadBut;
+    
+    
     TexamLevel getLevelFromFile(QFile &file);
 
 private slots:
-    void m_loadFromFile();
+    void loadFromFilePrivate();
 
 };
 

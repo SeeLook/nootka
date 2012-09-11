@@ -42,7 +42,10 @@ bool Texam::areQuestTheSame(TQAunit& q1, TQAunit& q2) {
         return false;
 }
 
-
+qreal Texam::effectiveness(int questNumber, int mistakes, int notBad) {
+    return (((qreal)questNumber - (qreal)(mistakes + ((qreal)notBad / 2))) / (qreal)questNumber) * 100.0;   
+}
+/*end of static*/
 
 
 Texam::Texam(TexamLevel* l, QString userName):

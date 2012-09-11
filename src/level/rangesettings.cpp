@@ -19,7 +19,7 @@
 
 #include "rangesettings.h"
 #include "tglobals.h"
-#include "tlevelselector.h"
+#include "tlevelpreview.h"
 #include <QtGui>
 
 extern Tglobals *gl;
@@ -42,14 +42,14 @@ rangeSettings::rangeSettings(QWidget *parent) :
                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
     scoreRang->setNote(0, Tnote(1, 0));
     scoreRang->setNote(1, Tnote(1, 1));
-    QGroupBox *notesRangGr = new QGroupBox(TlevelSummaryWdg::notesRangeTxt(), this);
+    QGroupBox *notesRangGr = new QGroupBox(TlevelPreview::notesRangeTxt(), this);
     scoreLay->addWidget(scoreRang);
     notesRangGr->setLayout(scoreLay);
 
     allLay->addWidget(notesRangGr);
 
     QVBoxLayout *guitLay = new QVBoxLayout;
-    QGroupBox *fretGr = new QGroupBox(TlevelSummaryWdg::fretsRangeTxt(), this);
+    QGroupBox *fretGr = new QGroupBox(TlevelPreview::fretsRangeTxt(), this);
 //    fretGr->setStatusTip(tr("If selected fret is the highest, it is automatically<br>changed to the highest possible fret<br>for any frets number in a guitar."));
     QHBoxLayout *fretLay = new QHBoxLayout;
     QLabel *fromLab = new QLabel(tr("from"),this);

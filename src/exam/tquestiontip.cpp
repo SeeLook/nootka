@@ -49,7 +49,7 @@ QString TquestionTip::onStringTxt(quint8 strNr) {
 //##########################################################################################
 
 TquestionTip::TquestionTip(Texam* exam, Tnote::EnameStyle style, double scale) :
-  TgraphicsTextTip(getQuestion(exam->qusetion(exam->count()-1), exam->count(), exam->level(), style, scale))
+  TgraphicsTextTip(getQuestion(exam->question(exam->count()-1), exam->count(), exam->level(), style, scale))
 {
   setBgColor(gl->EquestionColor);
 //   setHtml(getQuestion(exam->qusetion(exam->count()-1), exam->count(), exam->level(), style, scale));
