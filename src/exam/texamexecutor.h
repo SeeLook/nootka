@@ -85,7 +85,8 @@ protected slots:
     void repeatQuestion();
     void repeatSound();
     void autoRepeatStateChanged(bool enable);
-    void showExamSummary(bool cont);
+        /** Shows exam summary. If returns false - user don't want to continue an exam */
+    bool showExamSummary(bool cont);
     void showExamHelp();
     void expertAnswersSlot();
     void expertAnswersStateChanged(bool enable);

@@ -2,7 +2,7 @@
 
 INCLUDE_DIRECTORIES (. exam info level score settings sound charts)
 
-SET( NOOTKA_SRCS 
+SET( NOOTKA_SRCS  
   main.cpp
   mainwindow.cpp
   tglobals.cpp
@@ -38,6 +38,7 @@ SET( NOOTKA_SRCS
   level/tquestionaswdg.cpp
   level/tkeysigncombobox.cpp
   level/tlevelheaderwdg.cpp
+  level/tlevelpreview.cpp
 ###### Exam
   exam/tqatype.cpp
   exam/texamexecutor.cpp

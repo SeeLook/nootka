@@ -20,9 +20,10 @@
 #include "texamsummary.h"
 #include <QtGui>
 #include "texam.h"
-#include "tlevelselector.h"
 #include "texamview.h"
 #include "tqaunit.h"
+#include "tlevelpreview.h"
+
 
   /** returns 2 columns row of table */
 QString row2(QString S1, QString S2) {
@@ -31,7 +32,9 @@ QString row2(QString S1, QString S2) {
 
 
 TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *parent) :
-  QDialog(parent)
+  QDialog(parent),
+  m_exam(exam),
+  m_state(e_discard)
 {
     setWindowTitle(tr("Exam results"));
     QHBoxLayout *lay = new QHBoxLayout();
@@ -64,6 +67,7 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
 	
     QHBoxLayout *buttLay =new QHBoxLayout;
 
+    QPushButton *closeButt;
     QPushButton *analyseButt = new QPushButton(tr("Analyse"), this);
     analyseButt->setIcon(QIcon(path + "picts/charts.png"));
     analyseButt->setIconSize(QSize(48, 48));
@@ -71,6 +75,10 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
     if (cont) {
         okButt->setText(tr("Continue"));
         okButt->setIcon(QIcon(path + "picts/startExam.png"));
+        closeButt = new QPushButton(tr("Discard"), this);
+        closeButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
+        closeButt->setIconSize(QSize(48, 48));
+        connect(closeButt, SIGNAL(clicked()), this, SLOT(closeSlot()));
     } else
         okButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
     okButt->setIconSize(QSize(48, 48));
@@ -81,35 +89,36 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
 
     leftLay->addStretch(1);
     leftLay->addLayout(buttLay);
+    if (cont)
+      leftLay->addWidget(closeButt);
 
 	lay->addLayout(leftLay);
   
 //-------  right layout -----------------------	
 	QVBoxLayout *rightLay = new QVBoxLayout();
-	TlevelSummaryWdg *levelWdg = new TlevelSummaryWdg(this);
+	TlevelPreview *levelWdg = new TlevelPreview(this);
 	rightLay->addWidget(levelWdg);
 	levelWdg->setLevel(*(exam->level()));
 	QVBoxLayout *resLay = new QVBoxLayout();
 	QGroupBox *resGr = new QGroupBox(tr("Results:"), this);
-  qreal eff = (((qreal)exam->count() - (qreal)(exam->mistakes() + exam->halfMistaken() / 2)) / 
-      (qreal)exam->count()) * 100;
   QString effStr = "";
   if (exam->mistakes()) {
 //     effStr = row2(TexamView::mistakesNrTxt(), QString::number(exam->mistakes()));
 //     effStr += row2(TexamView::corrAnswersNrTxt(), QString::number(exam->count()-exam->mistakes()));
-    float wAccid = 0.0, wKey = 0.0, wNote = 0.0, wOctave = 0.0, wStyle = 0.0, wPos = 0.0, wTotal;
+    float wAccid = 0.0, wKey = 0.0, wNote = 0.0, wOctave = 0.0, wStyle = 0.0, wPos = 0.0, wString = 0.0, wTotal;
     for(int i=0; i<exam->count(); i++) {
-      if (!exam->qusetion(i).isCorrect()) {
-          if(exam->qusetion(i).wrongAccid())  wAccid++;
-          if(exam->qusetion(i).wrongKey())    wKey++;
-          if(exam->qusetion(i).wrongNote())   wNote++;
-          if(exam->qusetion(i).wrongOctave()) wOctave++;
-          if(exam->qusetion(i).wrongStyle())  wStyle++;
-          if(exam->qusetion(i).wrongPos())    wPos++;
+      if (!exam->question(i).isCorrect()) {
+          if(exam->question(i).wrongAccid())  wAccid++;
+          if(exam->question(i).wrongKey())    wKey++;
+          if(exam->question(i).wrongNote())   wNote++;
+          if(exam->question(i).wrongOctave()) wOctave++;
+          if(exam->question(i).wrongStyle())  wStyle++;
+          if(exam->question(i).wrongPos())    wPos++;
+          if(exam->question(i).wrongString()) wString++;
       }
     }
     effStr += "<tr><td colspan=\"2\">----- " + tr("Kinds of mistakes") + ": -----</td></tr>";
-    wTotal = wAccid + wKey + wNote + wOctave + wStyle + wPos;
+    wTotal = wAccid + wKey + wNote + wOctave + wStyle + wPos + wString;
     if (wNote)
       effStr += row2(tr("Wrong notes"), QString("%1 (").arg(wNote) + QString::number(qRound(wNote*100.0 / wTotal)) + "%)");
     if (wAccid)
@@ -122,23 +131,52 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
       effStr += row2(tr("Wrong note name-calling"), QString("%1 (").arg(wStyle)) + 
           QString::number(qRound(wStyle*100.0 /wTotal)) + "%)";
     if (wPos)
-      effStr += row2(tr("Wrong frets or strings"), QString("%1 (").arg(wPos) + QString::number(qRound(wPos*100.0 / wTotal)) + "%)");
+      effStr += row2(tr("Wrong positions on guitar"), QString("%1 (").arg(wPos) + QString::number(qRound(wPos*100.0 / wTotal)) + "%)");
+    if (wString)
+      effStr += row2(tr("Wrong strings"), QString("%1 (").arg(wString) + QString::number(qRound(wString*100.0 /wTotal)) + "%)");
   }
 	QLabel *resLab = new QLabel("<table>" +
-    row2(TexamView::effectTxt(), QString::number(qRound(eff)) + "%") + effStr + "</table>", this);
+    row2(TexamView::effectTxt(), QString::number(qRound(exam->effectiveness())) + "%") + effStr + "</table>", this);
 	resLay->addWidget(resLab);
 	
 	resGr->setLayout(resLay);
 	rightLay->addWidget(resGr);
 	
 	lay->addLayout(rightLay);
-	
   setLayout(lay);
   
-  connect(okButt, SIGNAL(clicked()), this, SLOT(close()));
-  connect(analyseButt, SIGNAL(clicked()), this, SLOT(accept()));
-  
+  connect(analyseButt, SIGNAL(clicked()), this, SLOT(analyseSlot()));
+  connect(okButt, SIGNAL(clicked()), this, SLOT(continueSlot()));
 }
 
 TexamSummary::~TexamSummary() {}
+
+TexamSummary::Eactions TexamSummary::exec() {
+  QDialog::exec();
+  return m_state;
+}
+
+//#################################################################
+//               SLOTS
+//#################################################################
+
+void TexamSummary::analyseSlot() {
+  m_state = e_analyse;
+  close();
+}
+
+void TexamSummary::closeSlot() {
+  m_state = e_discard;
+  close();
+}
+
+void TexamSummary::continueSlot() {
+  m_state = e_continue;
+  close();
+}
+
+
+
+
+
 

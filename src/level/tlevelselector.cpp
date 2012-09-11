@@ -19,6 +19,7 @@
 
 #include "tlevelselector.h"
 #include "tquestionaswdg.h"
+#include "tlevelpreview.h"
 #include "tnotename.h"
 #include "tglobals.h"
 #include <QtGui>
@@ -201,31 +202,31 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
     QVBoxLayout *levLay = new QVBoxLayout;
     QLabel *levLab = new QLabel(levelFilterTxt() + ":",this);
     levLay->addWidget(levLab);
-    levelsList = new QListWidget(this);
-    levelsList->setMouseTracking(true);
-    levelsList->setFixedWidth(200);
-    levLay->addWidget(levelsList);
-    loadBut = new QPushButton(tr("Load"), this);
-    loadBut->setStatusTip(tr("Load exam's level from file"));
+    m_levelsList = new QListWidget(this);
+    m_levelsList->setMouseTracking(true);
+    m_levelsList->setFixedWidth(200);
+    levLay->addWidget(m_levelsList);
+    m_loadBut = new QPushButton(tr("Load"), this);
+    m_loadBut->setStatusTip(tr("Load exam's level from file"));
     levLay->addStretch(1);
-    levLay->addWidget(loadBut);
+    levLay->addWidget(m_loadBut);
 
     mainLay->addLayout(levLay);
 
-    summWdg = new TlevelSummaryWdg(this);
-    mainLay->addWidget(summWdg);
+    m_levelPreview = new TlevelPreview(this);
+    mainLay->addWidget(m_levelPreview);
 
     setLayout(mainLay);
 
     findLevels();
 
-    connect(levelsList, SIGNAL(currentRowChanged(int)), this, SLOT(levelSelected(int)));
-    connect(loadBut, SIGNAL(clicked()), this, SLOT(m_loadFromFile()));
+    connect(m_levelsList, SIGNAL(currentRowChanged(int)), this, SLOT(levelSelected(int)));
+    connect(m_loadBut, SIGNAL(clicked()), this, SLOT(loadFromFilePrivate()));
 }
 
 void TlevelSelector::levelSelected(int id) {
-    summWdg->setLevel(levList[id]);
-    emit levelChanged(levList[id]);
+    m_levelPreview->setLevel(m_levList[id]);
+    emit levelChanged(m_levList[id]);
 }
 
 void TlevelSelector::findLevels() {
@@ -256,9 +257,9 @@ void TlevelSelector::findLevels() {
 }
 
 void TlevelSelector::addLevel(const TexamLevel &lev) {
-    levelsList->addItem(lev.name);
-    levList << lev;
-    levelsList->item(levList.size()-1)->setStatusTip(lev.desc);
+    m_levelsList->addItem(lev.name);
+    m_levList << lev;
+    m_levelsList->item(m_levList.size()-1)->setStatusTip(lev.desc);
 }
 
 bool TlevelSelector::isSuitable(TexamLevel &l) {
@@ -269,9 +270,9 @@ bool TlevelSelector::isSuitable(TexamLevel &l) {
  )
     if (l.hiFret > gl->GfretsNumber ||
         l.loNote.getChromaticNrOfNote() < gl->loString().getChromaticNrOfNote() ) {
-        levelsList->item(levList.size()-1)->setStatusTip("<span style=\"color: red;\">" +
+        m_levelsList->item(m_levList.size()-1)->setStatusTip("<span style=\"color: red;\">" +
                 tr("Level is not suitable for current tune and/or frets number") + "</span>");
-        levelsList->item(levList.size()-1)->setFlags(Qt::NoItemFlags);
+        m_levelsList->item(m_levList.size()-1)->setFlags(Qt::NoItemFlags);
         return false;
     } else
         return true;
@@ -279,15 +280,15 @@ bool TlevelSelector::isSuitable(TexamLevel &l) {
 
 
 void TlevelSelector::selectLevel(int id) {
-    if (id >= 0 && id < levelsList->count())
-        levelsList->setCurrentRow(id);
+    if (id >= 0 && id < m_levelsList->count())
+        m_levelsList->setCurrentRow(id);
 }
 
 void TlevelSelector::selectLevel() {
-    levelsList->setCurrentRow(levelsList->count()-1);
+    m_levelsList->setCurrentRow(m_levelsList->count()-1);
 }
 
-void TlevelSelector::m_loadFromFile() {
+void TlevelSelector::loadFromFilePrivate() {
     emit levelToLoad();
 }
 
@@ -327,12 +328,12 @@ TexamLevel TlevelSelector::getLevelFromFile(QFile &file) {
 }
 
 TexamLevel TlevelSelector::getSelectedLevel() {
-    if (levelsList->currentRow() == -1 ) {
+    if (m_levelsList->currentRow() == -1 ) {
         TexamLevel l = TexamLevel();
         l.name = ""; l.desc = "";
         return l;
     } else
-        return levList[levelsList->currentRow()];
+        return m_levList[m_levelsList->currentRow()];
 }
 
 void TlevelSelector::updateRecentLevels(QString levelFile) {
@@ -340,103 +341,5 @@ void TlevelSelector::updateRecentLevels(QString levelFile) {
     recentLevels.removeAll(levelFile);
     recentLevels.prepend(levelFile);
     gl->config->setValue("recentLevels", recentLevels);
-}
-
-//#########################  TlevelSummaryWdg ################################################
-
-TlevelSummaryWdg::TlevelSummaryWdg(QWidget *parent) :
-    QWidget(parent)
-{
-    QVBoxLayout *mainLay = new QVBoxLayout;
-    QLabel *headLab = new QLabel(tr("Level summary:"),this);
-    mainLay->addWidget(headLab);
-    summLab = new QLabel(tr("\n no level selected"), this);
-    summLab->setFixedWidth(300);
-    mainLay->addWidget(summLab);
-    mainLay->addStretch(1);
-    setLayout(mainLay);
-
-}
-
-void TlevelSummaryWdg::setLevel(TexamLevel& tl) {
-    QString S;
-    S = "<center><b>" + tl.name + "</b>";
-    S += "<table border=\"1\">";
-    S += "<tr><td>" + notesRangeTxt() + " </td>";
-    S += "<td>" + TnoteName::noteToRichText(tl.loNote) + " - "
-         + TnoteName::noteToRichText(tl.hiNote) + "</td></tr>";
-    if (tl.questionAs.isFret() || tl.answersAs[0].isFret()
-        || tl.answersAs[1].isFret() || tl.answersAs[2].isFret()
-        || tl.answersAs[3].isFret()) { // level uses guitar
-        S += "<tr><td>" + fretsRangeTxt() + " </td>";
-        S += QString("<td>%1 - %2").arg(int(tl.loFret)).arg(int(tl.hiFret)) + "</td></tr>";
-    }
-    if (tl.useKeySign) {
-        S += "<tr><td>" + tr("key signature:") + " </td><td>";
-        S += tl.loKey.getMajorName().remove("-"+gl->SmajKeyNameSufix);
-        S += " (" + tl.loKey.accidNumber(true) +")";
-        if (!tl.isSingleKey) {
-            S += " - " + tl.hiKey.getMajorName().remove("-"+gl->SmajKeyNameSufix);
-            S += " (" + tl.hiKey.accidNumber(true) + ")";
-        }
-        S += "</td></tr>";
-    }
-    S += "<tr><td>" + tr("accidentals:") + " </td><td>";
-    if (!tl.withSharps && !tl.withFlats && !tl.withDblAcc)
-        S += tr("none");
-    else {
-        if (tl.withSharps) S += " <i>#</i>";
-        if (tl.withFlats) S += " <i>b</i>";
-        if (tl.withDblAcc) S += " <i>x bb</i>";
-    }
-    S += "</td></tr>";
-    S += "<tr><td>" + TquestionAsWdg::questionsTxt() + ": </td><td align=\"center\">"; // QUESTIONS
-    QString tmp;
-    if (tl.questionAs.isNote())
-      tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asNote) + " ";
-    if (tl.questionAs.isName())
-      tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asName) + " ";
-    if (tl.questionAs.isFret())
-      tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asFretPos) + " ";
-    if (tl.questionAs.isSound())
-      tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asSound);
-    int fontSize = fontMetrics().boundingRect("A").height() * 1.3;
-    S += TquestionAsWdg::spanNootka(tmp, fontSize);
-    S += "</td></tr>";
-    tmp   = "";
-    S += "<tr><td>" + TquestionAsWdg::answersTxt() + ": </td><td align=\"center\">"; // ANSWERS
-      /** Checking questions would be skiped because Level creator avoids selecting answer without question.
-       * Unfortunaletly built-in leves are not so perfect.*/
-    if (  (tl.questionAs.isNote() && tl.answersAs[TQAtype::e_asNote].isNote()) ||
-          (tl.questionAs.isName() && tl.answersAs[TQAtype::e_asName].isNote()) ||
-          (tl.questionAs.isFret() && tl.answersAs[TQAtype::e_asFretPos].isNote()) ||
-          (tl.questionAs.isSound() && tl.answersAs[TQAtype::e_asSound].isNote()) )
-            tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asNote) + " ";
-    if (  (tl.questionAs.isNote() && tl.answersAs[TQAtype::e_asNote].isName()) ||
-          (tl.questionAs.isName() && tl.answersAs[TQAtype::e_asName].isName()) ||
-          (tl.questionAs.isFret() && tl.answersAs[TQAtype::e_asFretPos].isName()) ||
-          (tl.questionAs.isSound() && tl.answersAs[TQAtype::e_asSound].isName()) )
-            tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asName) + " ";
-    if (  (tl.questionAs.isNote() && tl.answersAs[TQAtype::e_asNote].isFret()) ||
-          (tl.questionAs.isName() && tl.answersAs[TQAtype::e_asName].isFret()) ||
-          (tl.questionAs.isFret() && tl.answersAs[TQAtype::e_asFretPos].isFret()) ||
-          (tl.questionAs.isSound() && tl.answersAs[TQAtype::e_asSound].isFret()) )
-            tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asFretPos) + " ";
-    if (  (tl.questionAs.isNote() && tl.answersAs[TQAtype::e_asNote].isSound()) ||
-          (tl.questionAs.isName() &&  tl.answersAs[TQAtype::e_asName].isSound()) ||
-          (tl.questionAs.isFret() && tl.answersAs[TQAtype::e_asFretPos].isSound()) ||
-          (tl.questionAs.isSound() && tl.answersAs[TQAtype::e_asSound].isSound()) )
-            tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asSound);
-    S += TquestionAsWdg::spanNootka(tmp, fontSize);
-    S += "</td></tr>";
-    S += "<tr><td colspan=\"2\" align=\"center\">";
-    if (tl.requireOctave)
-      S += tr("propper octave is required");
-    else
-      S += tr("octave has no matter");
-    S += "</td></tr>";
-    S += "</table></center>";
-//     S += "<center>" + tl.desc + "</center>";
-    summLab->setText(S);
 }
 

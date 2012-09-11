@@ -40,7 +40,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
 // Determine maximal rection time to prepare Y axis
   quint16 maxTime = 0;
   for(int i = 0; i < m_exam->count(); i++)
-      maxTime = qMax(maxTime, m_exam->qusetion(i).time);
+      maxTime = qMax(maxTime, m_exam->question(i).time);
   yAxis->setMaxValue((double)maxTime / 10.0);
   
   if (m_settings.order == e_byNumber) {

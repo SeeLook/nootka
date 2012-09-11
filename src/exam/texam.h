@@ -80,6 +80,8 @@ public:
     /** Sets exam as finished and there is no way back. */
   void setFinished() { m_isFinished = true; }
   void increasePenaltys(int penaltyNr) { m_penaltysNr += penaltyNr; }
+      /** Effectiveness of an exam.  */
+  qreal effectiveness() { return effectiveness(count(), m_mistNr, m_halfMistNr); }
 
   EerrorType loadFromFile(QString &fileName);
   EerrorType saveToFile(QString fileName = "");
@@ -92,9 +94,12 @@ public:
   static const quint16 maxAnswerTime;
     /** Compares given questions are they the same. */
   static bool areQuestTheSame(TQAunit &q1, TQAunit &q2);
+    /** Static method  calculates effectiveness from given values
+     * (((qreal)questNumber - (qreal)(mistakes + (notBad / 2))) / (qreal)questNumber) * 100 */
+  static qreal effectiveness(int questNumber, int mistakes, int notBad);
     /** Returns a reference to question/answer unit nr @param index.
      * Be Aware !!! index has to be less than m_answList.size() */
-  TQAunit &qusetion(unsigned int index) { return m_answList[index]; }
+  TQAunit &question(unsigned int index) { return m_answList[index]; }
 
 protected:
     /** Iterates through m_blackList to calculate number */
