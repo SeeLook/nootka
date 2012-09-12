@@ -45,12 +45,14 @@ public:
     
 protected:    
         /** Returns html-formated question text. */
-    QString getQuestion(TQAunit &question, int questNr, TexamLevel *level, Tnote::EnameStyle style, double scale = 0);
+    QString getQuestion(TQAunit &question, int questNr, TexamLevel *level, 
+                        Tnote::EnameStyle style, double scale = 0);
     QString getNiceNoteName(Tnote note);
         
     
 private:
     bool m_scoreFree, m_nameFree, m_guitarFree; // Indicate where has to be tip
+    Tnote::Eacidentals m_forcedAccid; // When different than Tnote::e_Natural text is shown
 };
 
 

@@ -343,15 +343,25 @@ void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
 
 void TnoteName::resize(int fontSize) {
     nameLabel->setFixedSize(qRound(width()*0.88), qRound(height() * 0.3));
+    nameLabel->setGeometry((geometry().left() - qRound(width()*0.88)) / 2, geometry().top() + 2,
+      qRound(width()*0.88), qRound(height() * 0.3)
+    );
     nameLabel->setFont(QFont(nameLabel->font().family(), qRound(nameLabel->height() * 0.55), 50));
     nameLabel->setText(nameLabel->text());
     if (fontSize) {
         QFont f = QFont(noteButtons[0]->font().family());
         f.setPixelSize(fontSize);
-        for (int i=0; i<7; i++)
+        for (int i=0; i<7; i++) {
             noteButtons[i]->setFont(f);
-        for (int i=0; i<6; i++)
+            noteButtons[i]->setGeometry(noteButtons[i]->geometry().left(), nameLabel->geometry().bottom() + 2,
+                noteButtons[i]->width(), noteButtons[i]->height() );
+        }
+        for (int i=0; i<6; i++) {
             octaveButtons[i]->setFont(f);
+            octaveButtons[i]->setGeometry(octaveButtons[i]->geometry().left(),
+                                          geometry().bottom() - octaveButtons[i]->height(),
+                                          octaveButtons[i]->width(), octaveButtons[i]->height() );
+        }
         f = QFont(dblFlatButt->font().family());
         f.setPixelSize(fontSize);
         dblFlatButt->setFont(f);

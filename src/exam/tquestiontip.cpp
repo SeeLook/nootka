@@ -91,7 +91,7 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* le
           if (level->useKeySign && level->manualKey) {
             apendix = tr("<br><b>in %1 key.</b>", "in key signature").arg(question.key.getName());
           }
-          if (level->forceAccids)
+//           if (level->forceAccids)
             quest += getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);
         } else
           if (question.answerAs == TQAtype::e_asName) {
