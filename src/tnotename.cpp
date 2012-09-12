@@ -132,6 +132,7 @@ TnoteName::TnoteName(QWidget *parent) :
 //      mainGr->setLayout(mainLay);
 //      lay->addWidget(mainGr);
 //      setLayout(lay);
+    mainLay->addSpacing(5);
    setLayout(mainLay);
 
     setNoteNamesOnButt(gl->NnameStyleInNoteName);
@@ -353,17 +354,17 @@ void TnoteName::resize(int fontSize) {
         f.setPixelSize(fontSize);
         for (int i=0; i<7; i++) {
             noteButtons[i]->setFont(f);
-            noteButtons[i]->setGeometry(noteButtons[i]->geometry().left(), nameLabel->geometry().bottom() + 2,
-                noteButtons[i]->width(), noteButtons[i]->height() );
+//             noteButtons[i]->setGeometry(noteButtons[i]->geometry().left(), nameLabel->geometry().bottom() + 2,
+//                 noteButtons[i]->width(), noteButtons[i]->height() );
         }
         for (int i=0; i<6; i++) {
             octaveButtons[i]->setFont(f);
-            octaveButtons[i]->setGeometry(octaveButtons[i]->geometry().left(),
-                                          geometry().bottom() - octaveButtons[i]->height(),
-                                          octaveButtons[i]->width(), octaveButtons[i]->height() );
+//             octaveButtons[i]->setGeometry(octaveButtons[i]->geometry().left(),
+//                                           geometry().bottom() - octaveButtons[i]->height(),
+//                                           octaveButtons[i]->width(), octaveButtons[i]->height() );
         }
         f = QFont(dblFlatButt->font().family());
-        f.setPixelSize(fontSize);
+        f.setPointSize(fontSize);
         dblFlatButt->setFont(f);
         flatButt->setFont(f);
         sharpButt->setFont(f);

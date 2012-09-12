@@ -52,7 +52,7 @@ TexamView::TexamView(QWidget *parent) :
     QGroupBox *okGr = new QGroupBox(this);
     okGr->setLayout(okMistLay);
     mainLay->addWidget(okGr);
-    mainLay->addStretch(1);
+//     mainLay->addStretch(1);
 
     m_effLab = new QLabel(this);
     QVBoxLayout *effLay = new QVBoxLayout;
@@ -60,7 +60,7 @@ TexamView::TexamView(QWidget *parent) :
     QGroupBox *effGr = new QGroupBox(this);
     effGr->setLayout(effLay);
     mainLay->addWidget(effGr);
-    mainLay->addStretch(1);
+//     mainLay->addStretch(1);
 
     m_averTimeLab = new QLabel(this);
     QVBoxLayout *averLay = new QVBoxLayout;
@@ -68,7 +68,7 @@ TexamView::TexamView(QWidget *parent) :
     QGroupBox *averGr = new QGroupBox(this);
     averGr->setLayout(averLay);
     mainLay->addWidget(averGr);
-    mainLay->addStretch(1);
+//     mainLay->addStretch(1);
 
     m_reactTimeLab = new QLabel(this);
     QVBoxLayout *reactLay = new QVBoxLayout;
@@ -76,7 +76,7 @@ TexamView::TexamView(QWidget *parent) :
     QGroupBox *reactGr = new QGroupBox(this);
     reactGr->setLayout(reactLay);
     mainLay->addWidget(reactGr);
-    mainLay->addStretch(1);
+//     mainLay->addStretch(1);
 
     m_totalTimeLab = new QLabel(this);
     QVBoxLayout *totalLay = new QVBoxLayout;
@@ -174,7 +174,7 @@ void TexamView::setFontSize(int s) {
     m_effLab->setFont(f);
     m_reactTimeLab->setFixedWidth(s * 3);
     m_averTimeLab->setFixedWidth(s * 3);
-    m_totalTimeLab->setFixedWidth(s * 5);
+    m_totalTimeLab->setFixedWidth(s * 4);
 }
 
 void TexamView::countTime() {

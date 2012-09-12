@@ -143,7 +143,7 @@ MainWindow::MainWindow(QWidget *parent)
     nameLay->addWidget(examResults);
     noteName = new TnoteName(innerWidget);
     noteName->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-//     nameLay->addWidget(noteName);
+    nameLay->addWidget(noteName);
     nameLay->addStretch(1);
     scoreAndNameLay->addLayout(nameLay);
     mainLay->addLayout(scoreAndNameLay);
@@ -478,10 +478,13 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
     m_statLab->setFont(f);
     guitar->setFixedHeight((centralWidget()->height()-nootBar->height())/3);
     examResults->setFontSize(m_statFontSize);
-//     noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(centralWidget()->height() * 0.4)));
-    noteName->setGeometry(score->width() + 2,
-                          centralWidget()->height() - guitar->height() - qRound(centralWidget()->height() * 0.4),
-                          centralWidget()->width()- score->width() -2, qRound(centralWidget()->height() * 0.4));
+//     examResults->setGeometry(centralWidget()->width()- score->width() -2,
+//             centralWidget()->height() - guitar->height() - qRound(centralWidget()->height() * 0.4) - examResults->height(),
+//               examResults->width(), examResults->height()  );
+    noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(centralWidget()->height() * 0.4)));
+//     noteName->setGeometry(score->width() + 2,
+//                           centralWidget()->height() - guitar->height() - qRound(centralWidget()->height() * 0.4),
+//                           centralWidget()->width()- score->width() -2, qRound(centralWidget()->height() * 0.4));
     noteName->resize(m_statFontSize);
     pitchView->resize(m_statFontSize);
     progress->resize(m_statFontSize);
