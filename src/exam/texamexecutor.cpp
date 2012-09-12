@@ -253,6 +253,7 @@ void TexamExecutor::askQuestion() {
     TQAunit curQ = TQAunit(); // current question
     
     m_penalCount++;
+    qDebug() << "penalCount" << m_penalCount;
     if (m_exam->blackCount() && m_penalCount > m_penalStep) {
       qDebug("penalty");
       m_penalCount = 0;

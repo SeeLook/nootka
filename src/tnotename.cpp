@@ -60,7 +60,7 @@ TnoteName::TnoteName(QWidget *parent) :
 //#endif
     mainLay->addWidget(nameLabel, 0, Qt::AlignCenter);
 //#if !defined (Q_OS_MAC)
-    mainLay->addStretch(1);
+//     mainLay->addStretch(1);
 //#endif
 // BUTTONS WITH NOTES TOOLBAR
     QHBoxLayout *noteLay = new QHBoxLayout();
@@ -127,12 +127,12 @@ TnoteName::TnoteName(QWidget *parent) :
 	m_prevOctButton = -1;
     connect(octaveGroup, SIGNAL(buttonClicked(int)), this, SLOT(octaveWasChanged(int)));
     
-     QVBoxLayout *lay = new QVBoxLayout;
-     QGroupBox *mainGr = new QGroupBox(this);
-     mainGr->setLayout(mainLay);
-     lay->addWidget(mainGr);
-     setLayout(lay);
-//    setLayout(mainLay);
+//      QVBoxLayout *lay = new QVBoxLayout;
+//      QGroupBox *mainGr = new QGroupBox(this);
+//      mainGr->setLayout(mainLay);
+//      lay->addWidget(mainGr);
+//      setLayout(lay);
+   setLayout(mainLay);
 
     setNoteNamesOnButt(gl->NnameStyleInNoteName);
 //    octaveButtons[2]->setChecked(true);
@@ -343,7 +343,7 @@ void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
 
 void TnoteName::resize(int fontSize) {
     nameLabel->setFixedSize(qRound(width()*0.88), qRound(height() * 0.3));
-    nameLabel->setGeometry((geometry().left() - qRound(width()*0.88)) / 2, geometry().top() + 2,
+    nameLabel->setGeometry(geometry().left() + qRound(width()*0.06), geometry().top() + 2,
       qRound(width()*0.88), qRound(height() * 0.3)
     );
     nameLabel->setFont(QFont(nameLabel->font().family(), qRound(nameLabel->height() * 0.55), 50));
