@@ -56,7 +56,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
           xAxis->mapValue(m_exam->count()) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime()/10.0));
   }
   
-  if (m_settings.order == e_byNote || m_settings.order == e_byFret) {
+  if (m_settings.order == e_byNote || m_settings.order == e_byFret || m_settings.order == e_byKey) {
       TanswerListPtr goodAnsw, badAnsw;
       QList<TanswerListPtr> sortedLists;
       int goodSize; // number of lists with good answers
@@ -67,12 +67,18 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
           else 
             if (m_settings.order == e_byFret)
               sortedLists = sortByFret(goodAnsw);
+            else
+              if (m_settings.order == e_byKey)
+                sortedLists = sortByKeySignature(goodAnsw);
           goodSize = sortedLists.size(); // number without wrong answers
           if (m_settings.order == e_byNote)
             sortedLists.append(sortByNote(badAnsw));
           else
             if (m_settings.order == e_byFret)
               sortedLists.append(sortByFret(badAnsw));
+            else
+              if (m_settings.order == e_byKey)
+              sortedLists.append(sortByKeySignature(badAnsw));
       }
       else {
           TanswerListPtr convList = convertToPointers(m_exam->answList());
@@ -81,6 +87,9 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
           else
             if (m_settings.order == e_byFret)
               sortedLists = sortByFret(convList);
+            else
+              if (m_settings.order == e_byKey)
+                sortedLists = sortByKeySignature(convList);
           goodSize = sortedLists.size();
       }
 
@@ -106,6 +115,10 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
           if (m_settings.order == e_byFret)
             lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2 s</p>").arg(tr("for a fret:", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>  " + 
             QString::number(sortedLists[i].operator[](0)->qa.pos.fret()) + "</b>").arg(aTime);
+          else
+            if (m_settings.order == e_byKey)
+              lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2 s</p>").arg(tr("for a key:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + 
+              sortedLists[i].operator[](0)->key.getName() + "</b>").arg(aTime);
         
         averTimeLine->setText(lineText);
         scene->addItem(averTimeLine);
@@ -275,6 +288,7 @@ QList<TanswerListPtr> TmainChart::sortByNote(TanswerListPtr& answList) {
   return result;
 }
 
+
 QList< TanswerListPtr > TmainChart::sortByFret(TanswerListPtr& answList) {
   QList<TanswerListPtr> result;
   TanswerListPtr unrelatedList;
@@ -288,7 +302,7 @@ QList< TanswerListPtr > TmainChart::sortByFret(TanswerListPtr& answList) {
         if (f == answList.operator[](i)->qa.pos.fret())
             fretList << answList.operator[](i);
       } else {
-          if (!f)
+          if (f == m_exam->level()->loFret) // feed unrelated in first loop only
               unrelatedList << answList.operator[](i);
       }
     }
@@ -301,6 +315,50 @@ QList< TanswerListPtr > TmainChart::sortByFret(TanswerListPtr& answList) {
   }
   return result;
 }
+
+
+QList< TanswerListPtr > TmainChart::sortByKeySignature(TanswerListPtr& answList) {
+  QList<TanswerListPtr> result;
+  TanswerListPtr unrelatedList;
+  for (int k = m_exam->level()->loKey.value(); k <= m_exam->level()->hiKey.value(); k++) {
+        TanswerListPtr majors, minors;
+    for (int i = 0; i < answList.size(); i++) {
+        if (answList.operator[](i)->questionAs == TQAtype::e_asNote || answList.operator[](i)->answerAs == TQAtype::e_asNote) {
+            if (answList.operator[](i)->key.value() == k) {
+              if (answList.operator[](i)->key.isMinor())
+                  minors << answList.operator[](i);
+              else
+                  majors << answList.operator[](i);
+            }
+        } else {
+          if (k == m_exam->level()->loKey.value())
+            unrelatedList << answList.operator[](i);
+        }
+    }
+    if (!majors.isEmpty()) {
+      QList<TanswerListPtr> majSorted = sortByNote(majors);
+      TanswerListPtr mS;
+      for (int i = 0; i < majSorted.size(); i++)
+        for (int j = 0; j < majSorted[i].size(); j++)
+          mS << majSorted[i].operator[](j);
+      result << mS;
+    }
+    if (!minors.isEmpty()) {
+      QList<TanswerListPtr> minSorted = sortByNote(minors);
+      TanswerListPtr mS;
+      for (int i = 0; i < minSorted.size(); i++)
+        for (int j = 0; j < minSorted[i].size(); j++)
+          mS << minSorted[i].operator[](j);
+      result << mS;
+    }
+  }
+  if (!unrelatedList.isEmpty()) {
+      result << unrelatedList; // add unrelatedList at the end of list
+      m_hasListUnrelated = true;
+  }
+  return result;
+}
+
 
 
 TanswerListPtr TmainChart::mergeListOfLists(QList<TanswerListPtr>& listOfLists) {

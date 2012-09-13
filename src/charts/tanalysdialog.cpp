@@ -61,6 +61,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   m_chartListCombo->addItem(tr("question number", "see coment in 'ordered by:' entry"));
   m_chartListCombo->addItem(tr("note pitch"));
   m_chartListCombo->addItem(tr("fret number"));
+  m_chartListCombo->addItem(tr("key signature"));
   headLay->addWidget(m_chartListCombo, 1, 0, Qt::AlignCenter);
   m_userLab = new QLabel(" ", this);
   headLay->addWidget(m_userLab, 1, 1, Qt::AlignCenter);
@@ -81,7 +82,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   
   createActions();
   
-//   QTimer::singleShot(100, this, SLOT(testSlot()));
+  QTimer::singleShot(100, this, SLOT(testSlot()));
   if (exam) {
     m_wasExamCreated = false;
     m_openExamAct->setVisible(false); // hide "open exam file" acction
@@ -123,12 +124,13 @@ void TanalysDialog::setExam(Texam* exam) {
   m_levelLab->setText(m_exam->level()->name);
   m_questNrLab->setText(tr("Questions number:") + QString(" %1").arg(exam->count()) );
   m_effectLab->setText(TexamView::effectTxt() + QString(": %1%")
-                       .arg( qRound(( (double)((exam->count() - exam->mistakes())) / (double)exam->count() ) * 100 )) );
-  if (m_exam->level()->canBeScore())
+                       .arg(m_exam->effectiveness()) );
+  // sort by note
+  if (m_exam->level()->canBeScore() || m_exam->level()->canBeName() || m_exam->level()->canBeSound())
         enableComboItem(1, true);
     else
         enableComboItem(1, false);
-    
+  // sort by fret  
   if (m_exam->level()->canBeGuitar() ||
       m_exam->level()->answersAs[TQAtype::e_asNote].isSound() || // answers as played sound are also important
       m_exam->level()->answersAs[TQAtype::e_asName].isSound() ||
@@ -136,8 +138,11 @@ void TanalysDialog::setExam(Texam* exam) {
         enableComboItem(2, true);
     else
         enableComboItem(2, false);
-    
-  
+  // sort by key signature
+  if (m_exam->level()->canBeScore() && m_exam->level()->useKeySign)
+      enableComboItem(3, true);
+  else
+      enableComboItem(3, false);
   
   createChart(m_chartSetts);
 }
@@ -250,6 +255,10 @@ void TanalysDialog::analyseChanged(int index) {
       break;
     case 2:
       m_chartSetts.order = TmainChart::e_byFret;
+      m_settButt->setDisabled(false);
+      break;
+    case 3:
+      m_chartSetts.order = TmainChart::e_byKey;
       m_settButt->setDisabled(false);
       break;
   }

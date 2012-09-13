@@ -60,6 +60,8 @@ public:
   
   QList<TanswerListPtr> sortByFret(TanswerListPtr &answList);
   
+  QList<TanswerListPtr> sortByKeySignature(TanswerListPtr &answList);
+  
   
 private:
       /** Performs common elements for all kinds of charts. */
