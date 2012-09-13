@@ -137,7 +137,7 @@ MainWindow::MainWindow(QWidget *parent)
     nameLay->addWidget(progress);
 
     examResults = new TexamView(innerWidget);
-    examResults->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+//     examResults->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     examResults->setStyleBg(gl->getBGcolorText(gl->EanswerColor), gl->getBGcolorText(gl->EquestionColor),
                             gl->getBGcolorText(Qt::magenta));
     nameLay->addWidget(examResults);
@@ -171,7 +171,7 @@ MainWindow::MainWindow(QWidget *parent)
     if (gl->A->OUTenabled && !sound->isPlayable())
         QMessageBox::warning(this, "", tr("Problems with sound output"));
     
-//     QTimer::singleShot(100, this, SLOT(analyseSlot()));
+    QTimer::singleShot(100, this, SLOT(analyseSlot()));
     
 }
 
@@ -478,6 +478,7 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
     m_statLab->setFont(f);
     guitar->setFixedHeight((centralWidget()->height()-nootBar->height())/3);
     examResults->setFontSize(m_statFontSize);
+//     examResults->setFixedHeight(qRound(centralWidget()->height() * 0.12));
 //     noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(centralWidget()->height() * 0.4)));
     noteName->setGeometry(score->width() + 2,
                           centralWidget()->height() - guitar->height() - qRound(centralWidget()->height() * 0.4),
