@@ -201,6 +201,7 @@ GlobalSettings::GlobalSettings(QWidget *parent) :
 	langList[""] = tr("default");
 	langList["cs"] = QString::fromUtf8("český");
 	langList["en"] = "english";
+  langList["fr"] = QString::fromUtf8("français");
 	langList["pl"] = "polski";
 	QMapIterator<QString, QString> i(langList);
 	int id = 0;
