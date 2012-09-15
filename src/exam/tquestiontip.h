@@ -29,6 +29,7 @@ class TQAunit;
 
 class TquestionTip : public TgraphicsTextTip
 {
+   Q_OBJECT
    
 public:
         /** Constructs tip with question content. */

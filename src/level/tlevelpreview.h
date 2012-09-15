@@ -27,6 +27,8 @@ class QLabel;
 class TlevelPreview : public QWidget
 {
 
+  Q_OBJECT
+  
 public:
   explicit TlevelPreview(QWidget *parent = 0);
   virtual ~TlevelPreview();

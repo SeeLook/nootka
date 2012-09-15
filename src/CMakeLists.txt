@@ -139,6 +139,7 @@ SET( NOOTKA_MOC_SRCS
   level/tquestionaswdg.h
   level/tkeysigncombobox.h
   level/tlevelheaderwdg.h
+  level/tlevelpreview.h
 ###### Exam
   exam/tstartexamdlg.h
   exam/texamview.h
@@ -146,6 +147,8 @@ SET( NOOTKA_MOC_SRCS
   exam/texamsummary.h
   exam/texecutorsupply.h
   exam/tcanvas.h
+  exam/tprogresswidget.h
+  exam/tquestiontip.h
 ###### Info
   info/taboutnootka.h
   info/tfirstrunwizzard.h

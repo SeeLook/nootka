@@ -28,6 +28,7 @@ class QLabel;
 class TprogressWidget : public QWidget
 {
 
+  Q_OBJECT
 public:
     TprogressWidget(QWidget *parent = 0);
     virtual ~TprogressWidget();
