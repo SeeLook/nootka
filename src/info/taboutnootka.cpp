@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -66,8 +66,18 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     Tabout *m_about = new Tabout();
     QWidget *wi = new QWidget();
     QVBoxLayout *wiLLay = new QVBoxLayout;
-    QLabel *authorsLab = new QLabel(("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>" + authorsTxt() + "</b></p></center><br><br>Tomasz Bojczuk    <a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a><br><br><center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>" + tr("Translators") + "</b></p></center>" + QString::fromUtf8("český") + ": Pavel Fric        <a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a><br><br>polski: Tomasz Bojczuk    <a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a><br><br><br>" + 
-       tr("Althougth this application could not exist without various open source projects.<br>Especially:") + "<ul><li><a href=\"http://qt.nokia.com\">Qt</a></li><li><a href=\"http://www.fftw.org\">FFTW</a></li><li><a href=\"http://www.music.mcgill.ca/~gary/rtmidi/\">RtMidi</a></li><li><a href=\"http://miracle.otago.ac.nz/tartini/index.html\">Tartini</a></li></ul>"));
+  // AUTHORS
+    QString authorStr = "<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>" + authorsTxt() + "</b></p></center><br><br>Tomasz Bojczuk    <a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a><br><br>";
+  // TRANSLATORS
+    QString translStr = "<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>" + tr("Translators") + "</b></p></center>";
+  // czech
+    translStr += QString::fromUtf8("český") + ": Pavel Fric        <a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a><br>";
+  // french
+    translStr += QString::fromUtf8("français") + ": Olivier Devineau<br>";
+  // polish
+    translStr += "polski: Tomasz Bojczuk    <a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a><br>";
+    QLabel *authorsLab = new QLabel(authorStr + translStr + "<br><br>" + 
+       tr("However this application could not exist without various open source projects.<br>Especially:") + "<ul><li><a href=\"http://qt.nokia.com\">Qt</a></li><li><a href=\"http://www.fftw.org\">FFTW</a></li><li><a href=\"http://www.music.mcgill.ca/~gary/rtmidi/\">RtMidi</a></li><li><a href=\"http://miracle.otago.ac.nz/tartini/index.html\">Tartini</a></li></ul>");
     authorsLab->setOpenExternalLinks(true);
     wiLLay->addWidget(authorsLab);
     wiLLay->addStretch(1);
