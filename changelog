@@ -1,3 +1,6 @@
+0.8.3 beta 
+  Nootka says: I speak French
+    - French translation added
     - exams can be finished after answering specifed number of questions
     - displaying progress of an exam end details
     - mistakes are stored and are asked oftener
@@ -22,6 +25,7 @@
     - implementation of chart engine
 
 0.8 final	  
+  Nootka says: I can hear You
     - added support for MacOs and related issues
     - during exams double accids buttons in Note Name are hiden if no needed
     - GUI texts improved
@@ -50,6 +54,7 @@
     - ported audio lib to "Qt native" QtMultimedia
 
 0.7.8
+  Nootka says: I speak Czech
     - added Czech translation
     - added language selector to settings
     - added translations for associated Nootka files under Windows 
@@ -60,6 +65,7 @@
       platforms (Fedora, Debian)
 
 0.7.7
+   Nootka says: I can play
     - !!! Sound output added, also questions as played sound !!!
     - added midi playback
     - added playback with natural sound of classical guitar

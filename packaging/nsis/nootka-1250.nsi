@@ -43,6 +43,7 @@ SetCompressor lzma
 !insertmacro MUI_LANGUAGE "English"
 !insertmacro MUI_LANGUAGE "Czech"
 !insertmacro MUI_LANGUAGE "Polish"
+!insertmacro MUI_LANGUAGE "French"
 
 ; Reserve files
 !insertmacro MUI_RESERVEFILE_INSTALLOPTIONS
@@ -50,7 +51,7 @@ SetCompressor lzma
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "Nootka-0-8-3-beta-Windows-Installer.exe"
+OutFile "Nootka-${PRODUCT_VERSION}-Windows-Installer.exe"
 InstallDir "$PROGRAMFILES\Nootka"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
@@ -59,15 +60,17 @@ ShowUnInstDetails show
 LangString NelDesc ${LANG_ENGLISH} "Nootka exam's level"
 LangString NelDesc ${LANG_POLISH} "Poziom egzaminu programu Nootka"
 LangString NelDesc ${LANG_CZECH} "Úroveò zkoušky programu Nootka"
+LangString NelDesc ${LANG_FRENCH} "Fichier de niveau Nootka"
 
 LangString NootkaAct ${LANG_ENGLISH} "Open with nootka"
 LangString NootkaAct ${LANG_POLISH} "Otwórz w programie Nootka"
 LangString NootkaAct ${LANG_CZECH} "Otevøít v Nootka"
+LangString NootkaAct ${LANG_FRENCH} "Ouvrir avec Nootka"
 
 LangString NooDesc ${LANG_ENGLISH} "Nootka exam file"
 LangString NooDesc ${LANG_POLISH} "Plik egzaminu programu Nootka"
 LangString NooDesc ${LANG_CZECH} "Zkušební soubor programu Nootka"
-
+LangString NooDesc ${LANG_FRENCH} "Fichier d'examen Nootka"
 
 Section -AssociateMime
 ;FILE ASSOCIATION
@@ -197,7 +200,7 @@ SectionEnd
 
 Function un.onInit
 !insertmacro MUI_UNGETLANGUAGE
-  ;MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Czy na pewno chcesz usun¹æ program $(^Name) i wszystkie jego komponenty?" IDYES +2
+  ;MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Do You realy want to remove $(^Name) and all its components?" IDYES +2
   ;Abort
 FunctionEnd
 

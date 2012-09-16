@@ -20,6 +20,7 @@ cat <<EOF
     <sub-class-of type="application/bin"/>
     <comment>Nootka exam file</comment>
     <comment xml:lang="cs">Zkušební soubor programu Nootka</comment>
+	<comment xml:lang="fr">Fichier d'examen Nootka</comment>
     <comment xml:lang="pl">Plik egzaminu programu Nootka</comment>
     <icon name="nootka-exam">$1/share/pixmaps/nootka-exam.png</icon>
     <glob pattern="*.noo" />
