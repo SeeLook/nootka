@@ -135,7 +135,7 @@ MainWindow::MainWindow(QWidget *parent)
     
     progress = new TprogressWidget(innerWidget);
     nameLay->addWidget(progress);
-    nameLay->addStretch(1);
+//     nameLay->addStretch();
 
     examResults = new TexamView(innerWidget);
 //     examResults->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -144,8 +144,8 @@ MainWindow::MainWindow(QWidget *parent)
     nameLay->addWidget(examResults);
     noteName = new TnoteName(innerWidget);
     noteName->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-    nameLay->addWidget(noteName);
-//     nameLay->addStretch(1);
+//     nameLay->addWidget(noteName);
+    nameLay->addStretch(2);
     scoreAndNameLay->addLayout(nameLay);
     mainLay->addLayout(scoreAndNameLay);
 //-------------------------------------------------------------------
@@ -481,12 +481,15 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
     examResults->setFontSize(m_statFontSize);
 //     examResults->setFixedHeight(qRound(centralWidget()->height() * 0.12));
     noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(centralWidget()->height() * 0.4)));
-//     noteName->setGeometry(score->width() + 2,
-//                           centralWidget()->height() - guitar->height() - qRound(centralWidget()->height() * 0.4),
-//                           centralWidget()->width()- score->width() -2, qRound(centralWidget()->height() * 0.4));
+    noteName->setGeometry(score->width() + 2,
+                          centralWidget()->height() - guitar->height() - qRound(centralWidget()->height() * 0.4),
+                          centralWidget()->width()- score->width() -2, qRound(centralWidget()->height() * 0.4));
     noteName->resize(m_statFontSize);
     pitchView->resize(m_statFontSize);
     progress->resize(m_statFontSize);
+//     progress->setGeometry(score->width() + 2,
+//                           centralWidget()->height() - guitar->height() - qRound(centralWidget()->height() * 0.5),
+//                           centralWidget()->width()- score->width() -2, qRound(centralWidget()->height() * 0.1));
     setUpdatesEnabled(true);
     emit sizeChanged(event->size());
 }

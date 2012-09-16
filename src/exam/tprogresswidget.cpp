@@ -35,7 +35,12 @@ TprogressWidget::TprogressWidget(QWidget* parent) :
   m_totalLab = new QLabel(zeroLabTxt(), this);
   lay->addWidget(m_totalLab);
   
-  setLayout(lay);
+  QHBoxLayout *mainLay = new QHBoxLayout;
+  QGroupBox *gr = new QGroupBox(this);
+  gr->setLayout(lay);
+  mainLay->addWidget(gr);
+//   setLayout(lay);
+  setLayout(mainLay);
   
   setStatusTip(progressExamTxt());
   setDisabled(true);
