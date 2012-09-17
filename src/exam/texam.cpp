@@ -61,7 +61,8 @@ Texam::Texam(TexamLevel* l, QString userName):
   m_workTime(0),
   m_penaltysNr(0),
   m_isFinished(false),
-  m_halfMistNr(0)
+  m_halfMistNr(0),
+  m_blackCount(0)
 {
 
 }
@@ -80,6 +81,9 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
     quint16 questNr;
     m_workTime = 0;
     m_mistNr = 0;
+    m_blackCount = 0;
+    m_blackList.clear();
+    m_answList.clear();
     EerrorType result = e_file_OK;
     quint32 ev; //exam template version
     if (file.open(QIODevice::ReadOnly)) {
