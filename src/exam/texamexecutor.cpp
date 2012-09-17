@@ -326,10 +326,17 @@ void TexamExecutor::askQuestion() {
     }
 
     if (curQ.questionAs == TQAtype::e_asName) {
+        if (m_blackQuestNr != -1) { // penalty - restore its style
+          m_prevStyle = gl->NnameStyleInNoteName;
+          gl->NnameStyleInNoteName = curQ.styleOfQuestion();
+        } else
+          curQ.setStyle(gl->NnameStyleInNoteName, gl->NnameStyleInNoteName); // save current style
         if (curQ.answerAs == TQAtype::e_asFretPos && m_level.showStrNr)
             mW->noteName->askQuestion(curQ.qa.note, curQ.qa.pos.str());
         else
             mW->noteName->askQuestion(curQ.qa.note);
+        if (m_blackQuestNr != -1) // restore style after asking question
+          gl->NnameStyleInNoteName = m_prevStyle;
         if (curQ.answerAs  == TQAtype::e_asSound)
             m_answRequire.accid = false; // checking octave determined by level
     }
@@ -391,25 +398,30 @@ void TexamExecutor::askQuestion() {
 
     if (curQ.answerAs == TQAtype::e_asName) {
         Tnote tmpNote = Tnote(0,0,0); // is used to show which accid has to be used (if any)
-        if (m_blackQuestNr == -1 && curQ.questionAs == TQAtype::e_asName) { // TODO: what with black styles ????
+        if (m_blackQuestNr == -1 && curQ.questionAs == TQAtype::e_asName) {
             m_prevStyle = gl->NnameStyleInNoteName; // to keep user prefered style for other issues
             Tnote::EnameStyle tmpStyle = m_supp->randomNameStyle();
             curQ.qa_2.note = m_supp->forceEnharmAccid(curQ.qa.note); // force other name of note - expected note
             tmpNote = curQ.qa_2.note;
+            curQ.setStyle(gl->NnameStyleInNoteName, tmpStyle); // save style in current question
             mW->noteName->setNoteNamesOnButt(tmpStyle);
             gl->NnameStyleInNoteName = tmpStyle;
             m_answRequire.accid = true;
-        }
+        }         
            /** During an exam Note name style is changed in two cases:
             * 1. If level.requireStyle = true every question or answer with Note Name
             *       switch it (letters/solfege)
             * 2. If Note Name is question and answer this is only way that it has sense    
            */
         if (m_level.requireStyle && curQ.questionAs != TQAtype::e_asName) { // switch style if not switched before 
-          // TODO: what with black styles ????
-            Tnote::EnameStyle tmpStyle = m_supp->randomNameStyle();
-            mW->noteName->setNoteNamesOnButt(tmpStyle);
-            gl->NnameStyleInNoteName = tmpStyle;
+          Tnote::EnameStyle tmpStyle;
+          if (m_blackQuestNr == -1) {
+            tmpStyle = m_supp->randomNameStyle();
+            curQ.setStyle(gl->NnameStyleInNoteName, tmpStyle);
+          } else 
+              tmpStyle = curQ.styleOfQuestion();
+          mW->noteName->setNoteNamesOnButt(tmpStyle);
+          gl->NnameStyleInNoteName = tmpStyle;
         }
         mW->noteName->prepAnswer(tmpNote);
     }
@@ -586,7 +598,9 @@ void TexamExecutor::checkAnswer(bool showResults) {
     m_exam->setAnswer(curQ);
     mW->progress->progress(m_exam->penalty());
     if (!curQ.isCorrect())
-      updatePenalStep();      
+      updatePenalStep();
+    if (m_blackQuestNr != -1)
+      gl->NnameStyleInNoteName = m_prevStyle;
 
     if (!m_supp->wasFinished() && m_exam->count() >= (m_supp->obligQuestions() + m_exam->penalty()) ) { // maybe enought 
       if (m_exam->blackCount()) {
