@@ -20,10 +20,15 @@
 #include "texam.h"
 #include "texamlevel.h"
 #include "tlevelselector.h"
+#include "tglobals.h"
 #include <QFile>
 #include <QDataStream>
 #include <QMessageBox>
 #include <QDebug>
+#include <QDateTime>
+
+
+extern Tglobals *gl;
 
 /*static*/
 const qint32 Texam::examVersion = 0x95121702;
@@ -219,12 +224,51 @@ void Texam::updateBlackCount() {
 
 
 void Texam::convertToVersion2() {
-  qDebug() << "converting from ver.1!  black list:" << m_blackList.size() << "penaltys:" << m_penaltysNr;
+  bool hasStyle = false;
+  Tnote::EnameStyle randStyles[3];
+  if (m_level->canBeName()) {
+    // ver. 1 didn't put proper Tnote::EnameStyle to file - we fixing it
+    hasStyle = true;
+    qDebug("Fixing styles of note names in file");
+    qsrand(QDateTime::currentDateTime().toTime_t());
+    if (m_level->requireStyle) { // prepare styles array to imitate switching
+      randStyles[0] = Tnote::e_italiano_Si;
+      if (gl->seventhIs_B) {
+        randStyles[1] = Tnote::e_english_Bb;
+        randStyles[2] = Tnote::e_nederl_Bis;
+      } else {
+        randStyles[1] = Tnote::e_norsk_Hb;
+        randStyles[2] = Tnote::e_deutsch_His;
+      }
+    }
+  }
+  
   for (int i = 0; i < m_answList.size(); i++) {
     if (m_answList[i].time > maxAnswerTime) // fix too long times in ver1 if any
         m_answList[i].time = maxAnswerTime;
+  // ver. 1 didn't put proper Tnote::EnameStyle to file - we fixing it
+    if (hasStyle) {
+      if (m_level->requireStyle) {
+        if (m_answList[i].questionAs == TQAtype::e_asName && m_answList[i].answerAs == TQAtype::e_asName) {
+          Tnote::EnameStyle qSt = randStyles[qrand() % 3];
+          Tnote::EnameStyle aSt;
+          if (qSt == Tnote::e_italiano_Si)
+            aSt = randStyles[(qrand() % 2) +1];
+          else
+            aSt = Tnote::e_italiano_Si;
+          m_answList[i].setStyle(qSt, aSt);
+        } else
+          if (m_answList[i].questionAs == TQAtype::e_asName) {
+            m_answList[i].setStyle(randStyles[qrand() % 3], gl->NnameStyleInNoteName);
+          } else
+            if (m_answList[i].questionAs == TQAtype::e_asName) {
+              m_answList[i].setStyle(gl->NnameStyleInNoteName, randStyles[qrand() % 3]);
+            }
+      } else // fixed style - we changeing to user prefered
+          m_answList[i].setStyle(gl->NnameStyleInNoteName, gl->NnameStyleInNoteName);
+    }
+      
     if (!m_answList[i].isCorrect()) {
-//       m_blackList << m_answList[i];
       quint16 penCnt = 0; // counts of penaltys
       if (m_answList[i].isWrong()) {
         if (i < (m_answList.size() -1) && areQuestTheSame(m_answList[i], m_answList[i+1])) {
@@ -253,7 +297,7 @@ void Texam::convertToVersion2() {
       }
     }
   }
-  qDebug() << "Conversion done!!!  black list:" << m_blackList.size() << "penaltys:" << m_penaltysNr;
+  qDebug() << "Converted to exam version 2!!!  black list:" << m_blackList.size() << "penaltys:" << m_penaltysNr;
 }
 
 

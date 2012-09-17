@@ -64,7 +64,11 @@ public:
     TQAgroup qa;
     TQAtype::Etype questionAs;
     TQAtype::Etype answerAs;
-    Tnote::EnameStyle style;
+        
+    Tnote::EnameStyle styleOfQuestion() { return Tnote::EnameStyle(style / 16 - 1);  }
+    Tnote::EnameStyle styleOfAnswer() { return Tnote::EnameStyle(style % 16);  }
+    void setStyle(Tnote::EnameStyle questionStyle, Tnote::EnameStyle answerStyle) {
+      style = ((quint8)questionStyle + 1) * 16 + (quint8)answerStyle;  }
     TkeySignature key;
     quint16 time; // time of answer multiple by 10
     TQAgroup qa_2; // espected answers when question and answer types are the same
@@ -73,22 +77,23 @@ public:
 //    friend QDataStream &operator>> (QDataStream &in, TQAunit &qaUnit);
     friend bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit);
     
-    bool isCorrect() { return m_valid == 0; }
-    bool wrongAccid() { return m_valid & 1; }
-    bool wrongKey() { return m_valid & 2;}
-    bool wrongOctave() { return m_valid & 4; }
-    bool wrongStyle() { return m_valid & 8; }
-    bool wrongPos() { return m_valid & 16; }
-    bool wrongString() { return m_valid & 32; }
-    bool wrongNote() {return m_valid & 64; }
+    bool isCorrect() { return valid == 0; }
+    bool wrongAccid() { return valid & 1; }
+    bool wrongKey() { return valid & 2;}
+    bool wrongOctave() { return valid & 4; }
+    bool wrongStyle() { return valid & 8; }
+    bool wrongPos() { return valid & 16; }
+    bool wrongString() { return valid & 32; }
+    bool wrongNote() {return valid & 64; }
     
     bool isWrong() { return wrongNote() | wrongPos(); }
-    bool isNotSoBad() { if (m_valid && !wrongNote() && !wrongPos()) return true;
+    bool isNotSoBad() { if (valid && !wrongNote() && !wrongPos()) return true;
                             else return false;
     }
     
 protected:
-    quint8 m_valid;
+    quint8 valid;
+    quint8 style;
 
 };
 

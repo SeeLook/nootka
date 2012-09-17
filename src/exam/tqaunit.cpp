@@ -23,8 +23,8 @@ TQAunit::TQAunit()
 {
     qa.pos = TfingerPos();
     qa.note = Tnote(0,0,0);
-    style = Tnote::e_italiano_Si;
-    m_valid = 0; // correct a priori
+    style = 50; // (2+1) * 16 + 2 // 2 is e_italiano_Si casted to int
+    valid = 0; // correct a priori
     qa_2.note = Tnote(0,0,0);
     qa_2.pos = TfingerPos();
 }
@@ -33,14 +33,14 @@ TQAunit::~TQAunit() {}
 
 void TQAunit::setMistake(Emistake mis) {
     switch (mis) {
-    case e_correct : m_valid = 0; break;
-    case e_wrongAccid : m_valid |= 1; break;
-    case e_wrongKey : m_valid |= 2; break;
-    case e_wrongOctave : m_valid |= 4; break;
-    case e_wrongStyle : m_valid |= 8; break;
-    case e_wrongPos : m_valid |= 16; break;
-    case e_wrongString : m_valid |= 32; break;
-    case e_wrongNote : m_valid = 64; break; // If this kind of mistake is commited
+    case e_correct : valid = 0; break;
+    case e_wrongAccid : valid |= 1; break;
+    case e_wrongKey : valid |= 2; break;
+    case e_wrongOctave : valid |= 4; break;
+    case e_wrongStyle : valid |= 8; break;
+    case e_wrongPos : valid |= 16; break;
+    case e_wrongString : valid |= 32; break;
+    case e_wrongNote : valid = 64; break; // If this kind of mistake is commited
         //  all above has no sence so '=' instead '|=' is correct
     }
 }
@@ -48,11 +48,11 @@ void TQAunit::setMistake(Emistake mis) {
 QDataStream &operator<< (QDataStream &out, TQAunit &qaUnit) {
     out << qaUnit.qa.note << qaUnit.qa.pos;
     out << (qint8)qaUnit.questionAs << (qint8)qaUnit.answerAs;
-    out << (qint8)qaUnit.style;
+    out << qaUnit.style;
     out << qaUnit.key;
     out << qaUnit.time;
     out << qaUnit.qa_2.note << qaUnit.qa_2.pos;
-    out << qaUnit.m_valid;
+    out << qaUnit.valid;
     return out;
 }
 
@@ -67,9 +67,7 @@ bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit) {
     in >> qu >> an;
     qaUnit.questionAs = (TQAtype::Etype)qu;
     qaUnit.answerAs = (TQAtype::Etype)an;
-    qint8 st;
-    in >> st;
-    qaUnit.style = (Tnote::EnameStyle)st;
+    in >> qaUnit.style;
     ok = getKeyFromStream(in, qaUnit.key);
     in >> qaUnit.time;
   // getNoteFromStream is too smart and doesn't allow null Tnote(0,0,0)
@@ -78,7 +76,7 @@ bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit) {
     if (!ok2)
         qaUnit.qa_2.note = Tnote(0,0,0);
     in >> qaUnit.qa_2.pos;
-    in >> qaUnit.m_valid;
+    in >> qaUnit.valid;
     return ok;
 }
 
