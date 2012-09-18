@@ -71,7 +71,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
   // TRANSLATORS
     QString translStr = "<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>" + tr("Translators") + "</b></p></center>";
   // czech
-    translStr += QString::fromUtf8("český") + ": Pavel Fric        <a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a><br>";
+    translStr += QString::fromUtf8("český") + QString(" <img src=\"%1\">").arg(gl->path + "picts/flags/cs.png") + " : Pavel Fric        <a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a><br>";
   // french
     translStr += QString::fromUtf8("français") + ": Olivier Devineau<br>";
   // polish
