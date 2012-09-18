@@ -60,9 +60,11 @@ TtipChart::TtipChart(TquestionPoint *point) :
       }
       break;
     case TQAtype::e_asName:
-      qS = "<span style=\"font-size: 25px;\">" + TnoteName::noteToRichText(point->question()->qa.note) + "</span>";
+      qS = "<span style=\"font-size: 25px;\">" + point->question()->qa.note.toRichText(point->question()->styleOfQuestion())
+            + "</span>";
       if (point->question()->answerAs == TQAtype::e_asName)
-          aS = "<span style=\"font-size: 25px;\">" + TnoteName::noteToRichText(point->question()->qa_2.note) + "</span>";
+          aS = "<span style=\"font-size: 25px;\">" + point->question()->qa_2.note.toRichText(point->question()->styleOfAnswer())
+                + "</span>";
       break;
     case TQAtype::e_asFretPos:
         qS = point->question()->qa.pos.toHtml();
@@ -79,7 +81,8 @@ TtipChart::TtipChart(TquestionPoint *point) :
           aS = wrapPixToHtml(point->question()->qa.note, true, point->question()->key);
           break;
         case TQAtype::e_asName:
-          aS = "<span style=\"font-size: 25px;\">" + TnoteName::noteToRichText(point->question()->qa.note) + "</span>";
+          aS = "<span style=\"font-size: 25px;\">" + point->question()->qa.note.toRichText(point->question()->styleOfQuestion())
+              + "</span>";
           break;
         case TQAtype::e_asFretPos:
            aS = point->question()->qa.pos.toHtml();

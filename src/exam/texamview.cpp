@@ -35,7 +35,7 @@ TexamView::TexamView(QWidget *parent) :
     QWidget(parent)
 {
 //     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Maximum);
-//     setStatusTip(tr("Exam results"));
+    setStatusTip(tr("Exam results"));
     
     QHBoxLayout *mainLay = new QHBoxLayout;
 
@@ -100,12 +100,16 @@ TexamView::TexamView(QWidget *parent) :
     m_corrLab->setStatusTip(corrAnswersNrTxt());
     m_halfLab->setStatusTip(halfMistakenTxt() + "<br>" + halfMistakenAddTxt());
     m_mistLab->setStatusTip(mistakesNrTxt());
-    m_effLab->setStatusTip(effectTxt());
-    m_averTimeLab->setStatusTip(averAnsverTimeTxt() + " " + inSecondsTxt());
+//     m_effLab->setStatusTip(effectTxt());
+    effGr->setStatusTip(effectTxt());
+//     m_averTimeLab->setStatusTip(averAnsverTimeTxt() + " " + inSecondsTxt());
+    averGr->setStatusTip(averAnsverTimeTxt() + " " + inSecondsTxt());
     m_averTimeLab->setAlignment(Qt::AlignCenter);
-    m_reactTimeLab->setStatusTip(reactTimeTxt() + " " + inSecondsTxt());
+//     m_reactTimeLab->setStatusTip(reactTimeTxt() + " " + inSecondsTxt());
+    reactGr->setStatusTip(reactTimeTxt() + " " + inSecondsTxt());
     m_reactTimeLab->setAlignment(Qt::AlignCenter);
-    m_totalTimeLab->setStatusTip(totalTimetxt());
+//     m_totalTimeLab->setStatusTip(totalTimetxt());
+    totalGr->setStatusTip(totalTimetxt());
     m_totalTimeLab->setAlignment(Qt::AlignCenter);
     
     m_timer = new QTimer(this);

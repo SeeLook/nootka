@@ -253,7 +253,6 @@ void TexamExecutor::askQuestion() {
     TQAunit curQ = TQAunit(); // current question
     
     m_penalCount++;
-    qDebug() << "penalCount" << m_penalCount;
     if (m_exam->blackCount() && m_penalCount > m_penalStep) {
       qDebug("penalty");
       m_penalCount = 0;
@@ -338,7 +337,7 @@ void TexamExecutor::askQuestion() {
         if (m_blackQuestNr != -1) // restore style after asking question
           gl->NnameStyleInNoteName = m_prevStyle;
         if (curQ.answerAs  == TQAtype::e_asSound)
-            m_answRequire.accid = false; // checking octave determined by level
+            m_answRequire.accid = false; // checking accidentals determined by level
     }
 
     if (curQ.questionAs == TQAtype::e_asFretPos) {
@@ -464,7 +463,8 @@ void TexamExecutor::askQuestion() {
         mW->nootBar->addAction(repeatSndAct);
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
-    m_canvas->questionTip(m_exam, m_prevStyle);
+//     m_canvas->questionTip(m_exam, m_prevStyle);
+    m_canvas->questionTip(m_exam, curQ.styleOfQuestion());
     
 }
 
@@ -649,10 +649,23 @@ void TexamExecutor::repeatQuestion() {
         m_canvas->clearCanvas();
     }
     curQ.setMistake(TQAunit::e_correct);
+//     if (curQ.questionAs == TQAtype::e_asName) {
+//       m_prevStyle = gl->NnameStyleInNoteName;
+//       gl->NnameStyleInNoteName = curQ.styleOfQuestion();
+//       if (curQ.answerAs == TQAtype::e_asFretPos && m_level.showStrNr)
+//             mW->noteName->askQuestion(curQ.qa.note, curQ.qa.pos.str());
+//         else
+//             mW->noteName->askQuestion(curQ.qa.note);
+//       gl->NnameStyleInNoteName = m_prevStyle;
+//     }
     if (curQ.answerAs == TQAtype::e_asNote)
         mW->score->unLockScore();
     if (curQ.answerAs == TQAtype::e_asName) {
         mW->noteName->setNameDisabled(false);
+//         if (curQ.questionAs == TQAtype::e_asName)
+//           mW->noteName->prepAnswer(curQ.qa_2.note);
+//         else
+//           mW->noteName->prepAnswer(curQ.qa.note);
         mW->noteName->setNoteName(m_prevNoteIfName); // restore previous answered name (and button state)
     }
     if (curQ.answerAs == TQAtype::e_asFretPos)

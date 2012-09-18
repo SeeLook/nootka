@@ -62,6 +62,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   m_chartListCombo->addItem(tr("note pitch"));
   m_chartListCombo->addItem(tr("fret number"));
   m_chartListCombo->addItem(tr("key signature"));
+  m_chartListCombo->addItem(tr("accidentals"));
   headLay->addWidget(m_chartListCombo, 1, 0, Qt::AlignCenter);
   m_userLab = new QLabel(" ", this);
   headLay->addWidget(m_userLab, 1, 1, Qt::AlignCenter);

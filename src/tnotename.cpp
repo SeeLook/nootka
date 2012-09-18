@@ -118,6 +118,7 @@ TnoteName::TnoteName(QWidget *parent) :
     for (int i=0; i<6; i++) {
         octaveButtons[i] = new TpushButton(tr(octaves[i]), this);
         octaveButtons[i]->setToolTip(tr(octavesFull[i]));
+        octaveButtons[i]->setStatusTip(octaveButtons[i]->toolTip());
         octLay->addWidget(octaveButtons[i]);
         octaveGroup->addButton(octaveButtons[i],i);
     }

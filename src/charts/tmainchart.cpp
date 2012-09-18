@@ -260,11 +260,9 @@ QList<TanswerListPtr> TmainChart::sortByNote(TanswerListPtr& answList) {
       TanswerListPtr noteList;
       for (int k = 0; k < answList.size(); k++) {
         if (answList.operator[](k)->qa.note == theSame[j]) {
-            if (answList.operator[](k)->questionAs == TQAtype::e_asFretPos && 
-              answList.operator[](k)->answerAs == TQAtype::e_asFretPos)
-                qDebug("guitar -> guitar: not implemented");
-            else
-                noteList << answList.operator[](k);   
+            if (answList.operator[](k)->questionAs != TQAtype::e_asFretPos || 
+              answList.operator[](k)->answerAs != TQAtype::e_asFretPos)
+                           noteList << answList.operator[](k);   
         }
       }
       if (!noteList.isEmpty()) {
