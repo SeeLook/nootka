@@ -104,14 +104,17 @@ MainWindow::MainWindow(QWidget *parent)
 //-------------------------------------------------------------------
     QVBoxLayout *nameLay = new QVBoxLayout;
 //     QGroupBox *statGr = new QGroupBox(widget);
+ // Hints - label with clues
     QHBoxLayout *statLay = new QHBoxLayout;
     m_statLab = new QLabel(innerWidget);
     m_statLab->setWordWrap(true);
     m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
-    statLay->addWidget(m_statLab);
+//     statLay->addWidget(m_statLab);
+ // Expert corner
     QVBoxLayout *chBlay = new QVBoxLayout;
     m_hintsChB = new QCheckBox(innerWidget);
 //    statLay->addWidget(m_hintsChB, 0, Qt::AlignRight);
+    chBlay->addStretch();
     chBlay->addWidget(m_hintsChB);
     m_hintsChB->setChecked(gl->hintsEnabled);
     m_hintsChB->setStatusTip(tr("show or hide the hints"));
@@ -122,7 +125,6 @@ MainWindow::MainWindow(QWidget *parent)
     chBlay->addWidget(autoRepeatChB);
     autoRepeatChB->setStatusTip(ExamSettings::autoNextQuestTxt());
     autoRepeatChB->setToolTip(ExamSettings::autoNextQuestTxt());
-//     autoRepeatChB->setChecked(gl->EautoNextQuest);
     autoRepeatChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     expertAnswChB = new QCheckBox(innerWidget);
     expertAnswChB->hide();
@@ -130,11 +132,19 @@ MainWindow::MainWindow(QWidget *parent)
     expertAnswChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     expertAnswChB->setStatusTip(ExamSettings::expertsAnswerTxt());
     expertAnswChB->setToolTip(ExamSettings::expertsAnswerTxt());
+    chBlay->addStretch();
+//     statLay->addLayout(chBlay);
+//     nameLay->addLayout(statLay);
+    
+    QVBoxLayout *progresStatLay = new QVBoxLayout;
+    progresStatLay->addWidget(m_statLab);
+    progress = new TprogressWidget(innerWidget);
+    progresStatLay->addWidget(progress);
+    statLay->addLayout(progresStatLay);
     statLay->addLayout(chBlay);
     nameLay->addLayout(statLay);
     
-    progress = new TprogressWidget(innerWidget);
-    nameLay->addWidget(progress);
+//     nameLay->addWidget(progress);
 //     nameLay->addStretch();
 
     examResults = new TexamView(innerWidget);

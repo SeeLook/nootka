@@ -255,7 +255,7 @@ void Tcanvas::setPosOfQuestionTip() {
   }
     else
       if (m_questionTip->freeName())
-        pos = QPoint((m_scene->width() / 2), (m_scene->height() /4));
+        pos = QPoint((m_scene->width() / 2), (m_scene->height() * 0.68) - m_questionTip->boundingRect().height());
       else // on the score
         pos = QPoint(((double)m_scene->width() * 0.42 - m_questionTip->boundingRect().width()) / 2 ,
                      m_scene->height() / 10 + (m_scene->height() / 2 - m_questionTip->boundingRect().height()) /2 );
