@@ -24,6 +24,12 @@
 
 extern Tglobals *gl;
 
+
+QString transRow (QString flag, QString lang, QString name, QString mailAndSite) {
+  return QString("<tr valign=\"middle\" align=\"center\"><td> <img src=\"%1\"> </td><td> %2 </td><td> <b>%3</b> </td><td> %4 </td></tr>").
+      arg(gl->path + "picts/flags/" + flag + ".png").arg(lang).arg(name).arg(mailAndSite);
+}
+
 TaboutNootka::TaboutNootka(QWidget *parent) :
     QDialog(parent)
 {
@@ -70,12 +76,16 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     QString authorStr = "<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>" + authorsTxt() + "</b></p></center><br><br>Tomasz Bojczuk    <a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a><br><br>";
   // TRANSLATORS
     QString translStr = "<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>" + tr("Translators") + "</b></p></center>";
+    translStr += "<table valign=\"middle\" align=\"center\">";
   // czech
-    translStr += QString::fromUtf8("český") + QString(" <img src=\"%1\">").arg(gl->path + "picts/flags/cs.png") + " : Pavel Fric        <a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a><br>";
+    translStr += transRow("cs", QString::fromUtf8("český"), "Pavel Fric",
+                          "<a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a>");
   // french
-    translStr += QString::fromUtf8("français") + ": Olivier Devineau<br>";
+    translStr += transRow("fr", QString::fromUtf8("français"), "Olivier Devineau", "");
   // polish
-    translStr += "polski: Tomasz Bojczuk    <a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a><br>";
+    translStr += transRow("pl", "polski", "Tomasz Bojczuk", 
+                          "<a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a>");
+    translStr += "</table>";
     QLabel *authorsLab = new QLabel(authorStr + translStr + "<br><br>" + 
        tr("However this application could not exist without various open source projects.<br>Especially:") + "<ul><li><a href=\"http://qt.nokia.com\">Qt</a></li><li><a href=\"http://www.fftw.org\">FFTW</a></li><li><a href=\"http://www.music.mcgill.ca/~gary/rtmidi/\">RtMidi</a></li><li><a href=\"http://miracle.otago.ac.nz/tartini/index.html\">Tartini</a></li></ul>");
     authorsLab->setOpenExternalLinks(true);

@@ -23,10 +23,6 @@
 
 class TexamLevel;
 class Tnote;
-
-typedef QList<TQAunit*> TanswerListPtr; // definition of TQAunit list type
-
-
 class Texam;
 
 /** This class paints different types of charts with an exam data.
@@ -41,26 +37,6 @@ public:
   
   TmainChart(Texam *exam, Tsettings &settings, QWidget* parent = 0);
   virtual ~TmainChart();
-  
-  
-  QList<Tnote> getTheSame(short noteNr, TexamLevel *level = 0);
-      /** Calculates average reaction time of a given list.
-       * If skipWrong = true, wrong answers are not taken to average. */
-  double calcAverTime(TanswerListPtr &answers, bool skipWrong = false);
-      /** Merges elements of each list ti single list of poiters to TQAunit. */
-  TanswerListPtr mergeListOfLists(QList<TanswerListPtr> &listOfLists);
-      /** converts QList with TQAunit to QList with pointer to them*/
-  TanswerListPtr convertToPointers(QList<TQAunit> *examList);
-  
-      /** Divides given list on lists with correct & almost good answers and wrong ones. */
-  void divideGoodAndBad(QList<TQAunit> *list, TanswerListPtr &goodList, TanswerListPtr &badList);
-      /** Returns the lists of list of the same notes. 
-       * The last list is a list of ignored answers - no notes eighter in answer nor questions. */
-  QList<TanswerListPtr> sortByNote(TanswerListPtr &answList);
-  
-  QList<TanswerListPtr> sortByFret(TanswerListPtr &answList);
-  
-  QList<TanswerListPtr> sortByKeySignature(TanswerListPtr &answList);
   
   
 private:

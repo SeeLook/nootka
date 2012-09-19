@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -25,8 +25,9 @@
 #include "tstafflinechart.h"
 #include "tgraphicsline.h"
 #include "ttipchart.h"
-#include <texamlevel.h>
-#include <tnotename.h>
+#include "sorting.h"
+#include "texamlevel.h"
+#include "tnotename.h"
 #include <QDebug>
 
 TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
@@ -63,33 +64,33 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
       if (m_settings.separateWrong) {
           divideGoodAndBad(m_exam->answList(), goodAnsw, badAnsw);
           if (m_settings.order == e_byNote)
-            sortedLists = sortByNote(goodAnsw);
+            sortedLists = sortByNote(goodAnsw, m_exam->level(), m_hasListUnrelated);
           else 
             if (m_settings.order == e_byFret)
-              sortedLists = sortByFret(goodAnsw);
+              sortedLists = sortByFret(goodAnsw, m_exam->level(), m_hasListUnrelated);
             else
               if (m_settings.order == e_byKey)
-                sortedLists = sortByKeySignature(goodAnsw);
+                sortedLists = sortByKeySignature(goodAnsw, m_exam->level(), m_hasListUnrelated);
           goodSize = sortedLists.size(); // number without wrong answers
           if (m_settings.order == e_byNote)
-            sortedLists.append(sortByNote(badAnsw));
+            sortedLists.append(sortByNote(badAnsw, m_exam->level(), m_hasListUnrelated));
           else
             if (m_settings.order == e_byFret)
-              sortedLists.append(sortByFret(badAnsw));
+              sortedLists.append(sortByFret(badAnsw, m_exam->level(), m_hasListUnrelated));
             else
               if (m_settings.order == e_byKey)
-              sortedLists.append(sortByKeySignature(badAnsw));
+              sortedLists.append(sortByKeySignature(badAnsw, m_exam->level(), m_hasListUnrelated));
       }
       else {
           TanswerListPtr convList = convertToPointers(m_exam->answList());
           if (m_settings.order == e_byNote)
-            sortedLists = sortByNote(convList);
+            sortedLists = sortByNote(convList, m_exam->level(), m_hasListUnrelated);
           else
             if (m_settings.order == e_byFret)
-              sortedLists = sortByFret(convList);
+              sortedLists = sortByFret(convList, m_exam->level(), m_hasListUnrelated);
             else
               if (m_settings.order == e_byKey)
-                sortedLists = sortByKeySignature(convList);
+                sortedLists = sortByKeySignature(convList, m_exam->level(), m_hasListUnrelated);
           goodSize = sortedLists.size();
       }
 
@@ -129,7 +130,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
         cnt += sortedLists[i].size();
       }
       cnt = 1;
-  // paint highlights under grouped notes
+  // paint highlights under grouped items
       for (int i = 0; i < sortedLists.size(); i++) {
           QGraphicsRectItem *groupBg = new QGraphicsRectItem();
           scene->addItem(groupBg);
@@ -168,6 +169,10 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
         cnt += sortedLists[i].size();
       }      
     }
+  // key signature names over the chart
+    if (m_settings.order == e_byKey) {
+      
+    }
   }
 
 }
@@ -180,200 +185,10 @@ TmainChart::~TmainChart()
 //##################### public method ################################################
 //####################################################################################
 
-double TmainChart::calcAverTime(TanswerListPtr& answers, bool skipWrong) {
-  if (answers.isEmpty())
-    return 0.0;
-  double result = 0.0;
-  int cnt = 0; // number of answers in average
-  for (int i = 0; i < answers.size(); i++) {
-    if (skipWrong && (answers.operator[](i)->wrongNote() || answers.operator[](i)->wrongPos()) ) 
-      continue; // skip wrong answer
-    else {
-      result += answers.operator[](i)->time;
-      cnt++;
-    }
-  }
-  return result / cnt;
-}
-
-QList<Tnote> TmainChart::getTheSame(short int noteNr, TexamLevel* level) {
-  Tnote workNote(noteNr); // natural or sharp by default
-//   qDebug() << "main:" << QString::fromStdString(workNote.getName());
-  QList<Tnote> nList;
-  nList << workNote;
-  bool doFlats = true, doDblAcc = true, doSharps = true;
-  if (level){
-    doFlats = level->withFlats;
-    doDblAcc = level->withDblAcc;
-    doSharps = level->withSharps;
-  }
-  Tnote xNote;
-  if (doSharps) {
-    xNote = workNote.showWithSharp();
-    if (workNote != xNote) {
-      nList.prepend(xNote);
-//       qDebug() << QString::fromStdString(xNote.getName());
-    }
-  }
-  if (nList.size() == 1) { // sharp not found
-    if (doDblAcc) {
-      xNote = workNote.showWithDoubleSharp();
-      if (workNote != xNote) {
-        nList.prepend(xNote);
-//         qDebug() << QString::fromStdString(xNote.getName());
-      }
-    }
-  }
-  if (doFlats) {
-    xNote = workNote.showWithFlat();
-    if (workNote != xNote) {
-      nList.append(xNote);
-//       qDebug() << QString::fromStdString(xNote.getName());
-    }
-  }
-  if (doDblAcc && nList.last().acidental != -1) { // flat not found
-    xNote = workNote.showWithDoubleFlat();
-    if (workNote != xNote) {
-      nList.append(xNote);
-//       qDebug() << QString::fromStdString(xNote.getName());
-    }
-  }
-  return nList;
-}
-
-
-void TmainChart::divideGoodAndBad(QList< TQAunit >* list, TanswerListPtr& goodList, TanswerListPtr& badList) {
-  for (int i = 0; i < list->size(); i++) {
-    if (list->operator[](i).wrongNote() || list->operator[](i).wrongPos())
-      badList << &list->operator[](i);
-    else
-      goodList << &list->operator[](i);
-  }
-}
-
-
-QList<TanswerListPtr> TmainChart::sortByNote(TanswerListPtr& answList) {
-  QList<TanswerListPtr> result;
-  for (short i = m_exam->level()->loNote.getChromaticNrOfNote(); i <= m_exam->level()->hiNote.getChromaticNrOfNote(); i++) {
-    QList<Tnote> theSame = getTheSame(i, m_exam->level());
-    for (int j = 0; j < theSame.size(); j++) {
-      TanswerListPtr noteList;
-      for (int k = 0; k < answList.size(); k++) {
-        if (answList.operator[](k)->qa.note == theSame[j]) {
-            if (answList.operator[](k)->questionAs != TQAtype::e_asFretPos || 
-              answList.operator[](k)->answerAs != TQAtype::e_asFretPos)
-                           noteList << answList.operator[](k);   
-        }
-      }
-      if (!noteList.isEmpty()) {
-        result << noteList;
-//         qDebug() << QString::fromStdString(theSame[j].getName()) << noteList.size();
-      }
-    }
-  }
-  if (m_exam->level()->questionAs.isFret() && m_exam->level()->answersAs[2].isFret()) {
-      TanswerListPtr ignoredList; // ignore answers without notes
-      for (int k = 0; k < answList.size(); k++)
-            if (answList.operator[](k)->questionAs == TQAtype::e_asFretPos && 
-              answList.operator[](k)->questionAs == TQAtype::e_asFretPos)
-                      ignoredList << answList.operator[](k);
-      if (!ignoredList.isEmpty()) {
-        result << ignoredList; // add ignoredList at the end
-        m_hasListUnrelated = true;
-        qDebug() << ignoredList.size();
-      }
-  }
-  return result;
-}
-
-
-QList< TanswerListPtr > TmainChart::sortByFret(TanswerListPtr& answList) {
-  QList<TanswerListPtr> result;
-  TanswerListPtr unrelatedList;
-  for (int f = m_exam->level()->loFret; f <= m_exam->level()->hiFret; f++) {
-    // search all list for each fret in level's fret range
-    TanswerListPtr fretList;
-    for (int i = 0; i < answList.size(); i++) {
-      if (answList.operator[](i)->questionAs == TQAtype::e_asFretPos ||
-          answList.operator[](i)->answerAs == TQAtype::e_asFretPos ||
-          answList.operator[](i)->answerAs == TQAtype::e_asSound) { // is a question related to guitar
-        if (f == answList.operator[](i)->qa.pos.fret())
-            fretList << answList.operator[](i);
-      } else {
-          if (f == m_exam->level()->loFret) // feed unrelated in first loop only
-              unrelatedList << answList.operator[](i);
-      }
-    }
-    if (!fretList.isEmpty())
-      result << fretList;
-  }
-  if (!unrelatedList.isEmpty()) {
-      result << unrelatedList; // add unrelatedList at the end of list
-      m_hasListUnrelated = true;
-  }
-  return result;
-}
-
-
-QList< TanswerListPtr > TmainChart::sortByKeySignature(TanswerListPtr& answList) {
-  QList<TanswerListPtr> result;
-  TanswerListPtr unrelatedList;
-  for (int k = m_exam->level()->loKey.value(); k <= m_exam->level()->hiKey.value(); k++) {
-        TanswerListPtr majors, minors;
-    for (int i = 0; i < answList.size(); i++) {
-        if (answList.operator[](i)->questionAs == TQAtype::e_asNote || answList.operator[](i)->answerAs == TQAtype::e_asNote) {
-            if (answList.operator[](i)->key.value() == k) {
-              if (answList.operator[](i)->key.isMinor())
-                  minors << answList.operator[](i);
-              else
-                  majors << answList.operator[](i);
-            }
-        } else {
-          if (k == m_exam->level()->loKey.value())
-            unrelatedList << answList.operator[](i);
-        }
-    }
-    if (!majors.isEmpty()) {
-      QList<TanswerListPtr> majSorted = sortByNote(majors);
-      TanswerListPtr mS;
-      for (int i = 0; i < majSorted.size(); i++)
-        for (int j = 0; j < majSorted[i].size(); j++)
-          mS << majSorted[i].operator[](j);
-      result << mS;
-    }
-    if (!minors.isEmpty()) {
-      QList<TanswerListPtr> minSorted = sortByNote(minors);
-      TanswerListPtr mS;
-      for (int i = 0; i < minSorted.size(); i++)
-        for (int j = 0; j < minSorted[i].size(); j++)
-          mS << minSorted[i].operator[](j);
-      result << mS;
-    }
-  }
-  if (!unrelatedList.isEmpty()) {
-      result << unrelatedList; // add unrelatedList at the end of list
-      m_hasListUnrelated = true;
-  }
-  return result;
-}
 
 
 
-TanswerListPtr TmainChart::mergeListOfLists(QList<TanswerListPtr>& listOfLists) {
-  TanswerListPtr result;
-  for (int i = 0; i < listOfLists.size(); i++)
-    for (int j = 0; j < listOfLists[i].size(); j++)
-      result << listOfLists[i].operator[](j);
-    
-    return result;
-}
 
-TanswerListPtr TmainChart::convertToPointers(QList<TQAunit> *examList) {
-    TanswerListPtr result;
-    for (int i = 0; i< examList->size(); i++)
-        result << &examList->operator [](i);
-    return result;
-}
 
 
 //####################################################################################

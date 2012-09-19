@@ -2,7 +2,7 @@
 
 INCLUDE_DIRECTORIES (. exam info level score settings sound charts)
 
-SET( NOOTKA_SRCS  
+SET( NOOTKA_SRCS   
   main.cpp
   mainwindow.cpp
   tglobals.cpp
@@ -73,6 +73,7 @@ SET( NOOTKA_SRCS
   charts/tnotepixmap.cpp
   charts/tgraphicstexttip.cpp
   charts/tgraphicsline.cpp
+  charts/sorting.cpp
 ###### Sound
   sound/tsound.cpp
   sound/taudioout.cpp

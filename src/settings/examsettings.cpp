@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -61,14 +61,18 @@ ExamSettings::ExamSettings(TexamParams* params, QColor* qColor, QColor* aColor, 
     lay->addStretch(1);
 
     QGridLayout *colLay = new QGridLayout;
-    QLabel *questLab = new QLabel(tr("color of questions"), this);
+    QLabel *questLab = new QLabel(tr("color of questions") + " / " + tr("color of wrong answers"), this);
     questColorBut = new TcolorButton(*(m_qColor), this);
     colLay->addWidget(questLab, 0, 0);
     colLay->addWidget(questColorBut, 0, 1);
-    QLabel *answLab = new QLabel(tr("color of answers"), this);
+    QLabel *answLab = new QLabel(tr("color of answers") + " / " + tr("color of correct answers"), this);
     answColorBut = new TcolorButton(*(m_aColor), this);
     colLay->addWidget(answLab, 1, 0);
     colLay->addWidget(answColorBut, 1, 1);
+    QLabel *notBadLab = new QLabel(tr("color of 'not so bad' answers"), this);
+    TcolorButton *notBadButt = new TcolorButton(Qt::magenta, this);
+    colLay->addWidget(notBadLab, 2, 0);
+    colLay->addWidget(notBadButt, 2, 1);
 
     lay->addLayout(colLay);
     lay->addStretch(1);
