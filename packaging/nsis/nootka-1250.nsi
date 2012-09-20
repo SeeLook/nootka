@@ -16,13 +16,15 @@ SetCompressor lzma
 
 ; MUI Settings
 !define MUI_ABORTWARNING
-!define MUI_ICON "picts\nootka.ico"
+!define MUI_ICON "picts\pack.ico"
 !define MUI_UNICON "picts\pack.ico"
 
 ; Language Selection Dialog Settings
 !define MUI_LANGDLL_REGISTRY_ROOT "${PRODUCT_UNINST_ROOT_KEY}"
 !define MUI_LANGDLL_REGISTRY_KEY "${PRODUCT_UNINST_KEY}"
 !define MUI_LANGDLL_REGISTRY_VALUENAME "NSIS:Language"
+!define MUI_LANGDLL_ALLLANGUAGES
+
 
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
@@ -41,12 +43,14 @@ SetCompressor lzma
 
 ; Language files
 !insertmacro MUI_LANGUAGE "English"
+!insertmacro MUI_LANGUAGE "French"
 !insertmacro MUI_LANGUAGE "Czech"
 !insertmacro MUI_LANGUAGE "Polish"
-!insertmacro MUI_LANGUAGE "French"
+
 
 ; Reserve files
-!insertmacro MUI_RESERVEFILE_INSTALLOPTIONS
+!insertmacro MUI_RESERVEFILE_LANGDLL
+;!insertmacro MUI_RESERVEFILE_INSTALLOPTIONS
 
 ; MUI end ------
 
@@ -78,23 +82,6 @@ Section -AssociateMime
 !include fileasoc.nsh
 !insertmacro APP_ASSOCIATE "nel" "nootka.level" "$(NelDesc)" "$INSTDIR\picts\nootka-levels.ico"     "$(NootkaAct)" "$INSTDIR\nootka.exe $\"%1$\""
 !insertmacro APP_ASSOCIATE "noo" "nootka.exam" "$(NooDesc)" "$INSTDIR\picts\nootka-exam.ico"     "$(NootkaAct)" "$INSTDIR\nootka.exe $\"%1$\""
-;WriteRegStr HKCR ".nel" "" "Nootka.level"
-;WriteRegStr HKCR "Nootka.level" "" "Nootka level file"
-;WriteRegStr HKCR "Nootka.level\DefaultIcon" "" \
-;      "$INSTDIR\picts\nootka-levels.ico"
-;WriteRegStr HKCR "Nootka.level\shell\open\command" "" \
-;      '"$INSTDIR\nootka.exe" "%1"'
-;WriteRegStr HKCR "Nootka.level\shell\print\command" "" \
-;      '"$INSTDIR\nootka.exe" /p "%1"'
-;WriteRegStr HKCR ".noo" "" "Nootka.exam"
-;WriteRegStr HKCR "Nootka.exam" "" \
-;      "Nootka exam file"
-;WriteRegStr HKCR "Nootka.level\DefaultIcon" "" \
-;      "$INSTDIR\picts\nootka-exam.ico"
-;WriteRegStr HKCR "Nootka.level\shell\open\command" "" \
-;      '"$INSTDIR\nootka.exe" "%1"'
-;WriteRegStr HKCR "Nootka.level\shell\print\command" "" \
-;      '"$INSTDIR\nootka.exe" /p "%1"'
 SectionEnd
 
 
@@ -256,6 +243,7 @@ Section Uninstall
   Delete "$INSTDIR\picts\accidSettings.png"
   Delete "$INSTDIR\lang\nootka_pl.qm"
   Delete "$INSTDIR\lang\nootka_cs.qm"
+  Delete "$INSTDIR\lang\nootka_fr.qm"
   Delete "$INSTDIR\fonts\nootka.otf"
   Delete "$INSTDIR\fonts\README"
   Delete "$INSTDIR\libgcc_s_dw2-1.dll"
