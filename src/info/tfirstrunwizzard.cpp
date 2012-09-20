@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -132,6 +132,7 @@ void TfirstRunWizzard::nextSlot() {
 Tpage_3::Tpage_3(QWidget *parent) :
         QWidget(parent)
 {
+    QString keyNameStyle = tr("letters", "DO NOT TRANSLATE IT DIRECTLY. Put here 'letters' or 'solfege' This is country prefered style of nameing key signatures. 'letters' means C-major/a-minor names ('major' & 'minor' also are translated by You), 'solfege' means Do-major/La-minor names");
     QVBoxLayout *lay = new QVBoxLayout;
     lay->setAlignment(Qt::AlignCenter);
     QLabel *seventhLab = new QLabel(tr("<center>7-th note can be B or H, depends on country<br>Which one is Yours?<br></center>"), this);

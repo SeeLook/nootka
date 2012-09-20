@@ -117,9 +117,14 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
             lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2 s</p>").arg(tr("for a fret:", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>  " + 
             QString::number(sortedLists[i].operator[](0)->qa.pos.fret()) + "</b>").arg(aTime, 0, 'f', 1);
           else
-            if (m_settings.order == e_byKey)
-              lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2 s</p>").arg(tr("for a key:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + 
-              sortedLists[i].operator[](0)->key.getName() + "</b>").arg(aTime, 0, 'f', 1);
+            if (m_settings.order == e_byKey) {
+              QString wereKeys = "";
+              if (m_exam->level()->manualKey && sortedLists[i].operator[](0)->answerAs == TQAtype::e_asNote)
+                wereKeys = "<br>" + tr("Key signatures gave by user");
+                
+              lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2 s%3</p>").arg(tr("for a key:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + 
+              sortedLists[i].operator[](0)->key.getName() + "</b></span>").arg(aTime, 0, 'f', 1).arg(wereKeys);
+            }
         
         averTimeLine->setText(lineText);
         scene->addItem(averTimeLine);
@@ -171,8 +176,37 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
     }
   // key signature names over the chart
     if (m_settings.order == e_byKey) {
-      
+      cnt = 1;
+      for (int i = 0; i < goodSize; i++) { 
+        QGraphicsTextItem *keyText = new QGraphicsTextItem();
+        QFont f;
+        f.setPixelSize(16);
+        keyText->setFont(f);
+        QString hintText = "<b style=\"color: rgba(200, 200, 200, 180); \">";
+        if (goodOffset && (i == goodSize -1))
+          hintText += tr("questions unrelated<br>with chart type") + "</b>";
+        else {
+            hintText += QString("%1").arg(sortedLists[i].operator[](0)->key.getName());
+            hintText += "<br><span style=\"font-family: nootka; font-size: 20px\">";
+            if (sortedLists[i].operator[](0)->questionAs == TQAtype::e_asNote)
+              hintText += "?";
+            else
+              hintText += "!";
+            hintText += "</span></b>";
+        }
+        keyText->setHtml(hintText);
+        scene->addItem(keyText);
+        TgraphicsTextTip::alignCenter(keyText);
+        keyText->setPos(xAxis->mapValue(cnt) + 
+        (sortedLists[i].size() * xAxis->questWidth() - keyText->boundingRect().width()) / 2, 
+                         yAxis->mapValue(yAxis->maxValue()));        
+        keyText->setZValue(3);
+        
+        cnt += sortedLists[i].size();
+      }
     }
+    
+    
   }
 
 }
