@@ -1,8 +1,11 @@
 0.8.5 stable:
+- Implement 'not so bad' color, add to Tglobals
+- Country prefered style of name in key signatures, also add to Tglobals
 - Key signature text adjust to wudth of TkeySignatuteView
 - Scordatute text layout
 - Multilanguage uninstall text in NSIS
-
+- Line grid in level creator
+- positions and look of prets numbers and key names in charts
 
 BUGS
     

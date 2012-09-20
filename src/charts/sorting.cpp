@@ -19,7 +19,7 @@
 #include "sorting.h"
 #include "tqaunit.h"
 #include "texamlevel.h"
-
+#include <QDebug>
 
 double calcAverTime(TanswerListPtr& answers, bool skipWrong) {
   if (answers.isEmpty())
@@ -175,19 +175,13 @@ QList< TanswerListPtr > sortByKeySignature(TanswerListPtr& answList, TexamLevel 
     bool tmpBool;
     if (!majors.isEmpty()) {
       QList<TanswerListPtr> majSorted = sortByNote(majors, level, tmpBool);
-      TanswerListPtr mS;
-      for (int i = 0; i < majSorted.size(); i++)
-        for (int j = 0; j < majSorted[i].size(); j++)
-          mS << majSorted[i].operator[](j);
-      result << mS;
+      TanswerListPtr mS = mergeListOfLists(majSorted);
+      divideQuestionsAndAnswers(result, mS, TQAtype::e_asNote);
     }
     if (!minors.isEmpty()) {
       QList<TanswerListPtr> minSorted = sortByNote(minors, level, tmpBool);
-      TanswerListPtr mS;
-      for (int i = 0; i < minSorted.size(); i++)
-        for (int j = 0; j < minSorted[i].size(); j++)
-          mS << minSorted[i].operator[](j);
-      result << mS;
+      TanswerListPtr mS = mergeListOfLists(minSorted);
+      divideQuestionsAndAnswers(result, mS, TQAtype::e_asNote);
     }
   }
   if (!unrelatedList.isEmpty()) {
@@ -196,6 +190,22 @@ QList< TanswerListPtr > sortByKeySignature(TanswerListPtr& answList, TexamLevel 
   }
   return result;
 }
+
+
+void divideQuestionsAndAnswers(QList< TanswerListPtr >& result, TanswerListPtr& someList, TQAtype::Etype type) {
+  TanswerListPtr inQuest, inAnsw; 
+  for (int i = 0; i < someList.size(); i++) {
+    if (someList[i]->answerAs == type)
+      inAnsw << someList[i];
+    else 
+      inQuest << someList[i];
+  }
+  if (!inQuest.isEmpty())
+    result << inQuest;
+  if (!inAnsw.isEmpty())
+    result << inAnsw;
+}
+
 
 
 QList< TanswerListPtr > sortByAccidental(TanswerListPtr& answList, bool& hasListUnrelated) {
@@ -207,8 +217,9 @@ TanswerListPtr mergeListOfLists(QList<TanswerListPtr>& listOfLists) {
   TanswerListPtr result;
   for (int i = 0; i < listOfLists.size(); i++)
     for (int j = 0; j < listOfLists[i].size(); j++)
-      result << listOfLists[i].operator[](j);    
-    return result;
+      result << listOfLists[i].operator[](j);
+    
+  return result;
 }
 
 

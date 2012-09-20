@@ -148,7 +148,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, QWidget *parent) :
     QApplication::translate("File association entries", "Nootka level file", "for file brrrowsers");
     QApplication::translate("File association entries", "Open with nootka");
     QApplication::translate("File association entries", "Nootka exam file");
-
+    QApplication::translate("Windows installer entries", "Do You realy want to remove Nootka and all its components?");
 }
 
 TstartExamDlg::Eactions TstartExamDlg::showDialog(QString &txt, TexamLevel &lev) {
