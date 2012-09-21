@@ -65,7 +65,7 @@ QColor Tglobals::invertColor(QColor C) {
 
 Tglobals::Tglobals() {
 
-    version = "0.8.3-alpha";
+    version = "0.8.3-beta";
 //    path ; Is declared in main()
 
     qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
@@ -95,13 +95,12 @@ Tglobals::Tglobals() {
                                                            (int)Tnote::e_english_Bb).toInt());
         SmajKeyNameSufix = config->value("majorKeysSufix", "").toString();
         SminKeyNameSufix = config->value("minorKeysSufix", "").toString();
-	if (config->contains("pointerColor"))
-	    SpointerColor = config->value("pointerColor").value<QColor>(); //-1;
-	else 
-	    SpointerColor = -1;
+    if (config->contains("pointerColor"))
+        SpointerColor = config->value("pointerColor").value<QColor>(); //-1;
+    else 
+        SpointerColor = -1;
     config->endGroup();
 
-//     TkeySignature::setNameStyle(SnameStyleInKeySign, SmajKeyNameSufix, SminKeyNameSufix);
 
 //common for score widget and note name
     config->beginGroup("common");
@@ -185,6 +184,9 @@ Tglobals::Tglobals() {
 
 Tglobals::~Tglobals() {
     storeSettings();
+    delete config;
+    delete E;
+    delete A;
 }
 
 void Tglobals::setTune(Ttune t) {

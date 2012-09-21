@@ -1,4 +1,5 @@
 0.8.5 stable:
+- After repeating a question name style doesn't come back proprely 
 - Implement 'not so bad' color, add to Tglobals
 - Country prefered style of name in key signatures, also add to Tglobals
 - Key signature text adjust to wudth of TkeySignatuteView
@@ -6,6 +7,7 @@
 - Multilanguage uninstall text in NSIS
 - Line grid in level creator
 - positions and look of prets numbers and key names in charts
+- look of analyse dialog 
 
 BUGS
     

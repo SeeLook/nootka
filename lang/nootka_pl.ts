@@ -345,12 +345,12 @@
     <message>
         <location filename="../src/settings/examsettings.cpp" line="68"/>
         <source>color of correct answers</source>
-        <translation type="unfinished"></translation>
+        <translation>kolor poprawnych odpowiedzi</translation>
     </message>
     <message>
         <location filename="../src/settings/examsettings.cpp" line="72"/>
         <source>color of &apos;not so bad&apos; answers</source>
-        <translation type="unfinished"></translation>
+        <translation>kolor &quot;nie złych&quot; odpowiedzi</translation>
     </message>
 </context>
 <context>
@@ -526,10 +526,6 @@
         <translation>Rozpocznij egzamin</translation>
     </message>
     <message>
-        <source>Note was detected !!</source>
-        <translation type="obsolete">Dźwięk zosał wykryty !!</translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.cpp" line="219"/>
         <source>about</source>
         <translation>o programie</translation>
@@ -561,14 +557,6 @@
         <location filename="../src/settings/namesettings.cpp" line="49"/>
         <source>Shows formated note&apos;s name. For small octave - the name is small letter,&lt;br&gt;for great octave - the name starts with a capital letter,&lt;br&gt;for one-line, digit &lt;sup&gt;1&lt;/sup&gt; is added, and so on.</source>
         <translation>Pokazuje sformatowaną nazwę nuty. Dla oktawy małej - nazwa to mała litera,&lt;br&gt;dla oktawy wielkiej - nazwa zaczyna się od wielkiej litery.&lt;br&gt;dla razkreślnej - dodana jest cyfra&lt;sup&gt;1&lt;/sup&gt;, itd.</translation>
-    </message>
-</context>
-<context>
-    <name>QApplication</name>
-    <message>
-        <source> Don&apos;t use accidentals!</source>
-        <comment>TquestionTip</comment>
-        <translation type="obsolete">Nie używaj znaków!</translation>
     </message>
 </context>
 <context>
@@ -686,19 +674,6 @@
 %1</translation>
     </message>
     <message>
-        <source> Don&apos;t use accidentals!</source>
-        <comment>TquestionTip</comment>
-        <translation type="obsolete">Nie używaj znaków!</translation>
-    </message>
-    <message>
-        <source>You also can help with makeing Notka better&lt;/b&gt;</source>
-        <translation type="obsolete">Ty także możesz pomóc w ulepszaniu programu Nootka</translation>
-    </message>
-    <message>
-        <source>You also can help with makeing Notka better</source>
-        <translation type="obsolete">Ty także możesz pomóc w ulepszaniu programu Nootka</translation>
-    </message>
-    <message>
         <location filename="../src/info/tsupportnootka.cpp" line="29"/>
         <source>You also can help with makeing Notka better.</source>
         <translation>Ty także możesz pomóc w ulepszaniu programu Nootka.</translation>
@@ -710,8 +685,8 @@
     </message>
     <message>
         <location filename="../src/info/tsupportnootka.cpp" line="65"/>
-        <source>This window will not disturb You.&lt;br&gt;Further, You can find it in &apos;About Nootka&apos; dialog</source>
-        <translation>Ten tekst nie biedzie Ci przeszkadzać. Później, znajdziesz go w oknie &apos;O aplikacji Nootka&apos; </translation>
+        <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
+        <translation>Nie martw się. To okno.pojawia się tylko raz na wydanie programu. Zawsze znajdziesz je w oknie &apos;O aplikacji Nootka&apos;</translation>
     </message>
 </context>
 <context>
@@ -860,10 +835,6 @@
         <translation>Jednakże ta aplikacja nie mogła by istnieć bez różnych projektów open source,&lt;br&gt;a w szczególności:</translation>
     </message>
     <message>
-        <source>Althougth this application could not exist without various open source projects.&lt;br&gt;Especially:</source>
-        <translation type="obsolete">Jednakże ta aplikacja nie mogła by istnieć bez różnych projektów open source,&lt;br&gt;a w szczególności:</translation>
-    </message>
-    <message>
         <location filename="../src/info/taboutnootka.h" line="34"/>
         <source>Authors</source>
         <translation>Autorzy</translation>
@@ -919,10 +890,6 @@
         <translation>tonacji</translation>
     </message>
     <message>
-        <source>accidental</source>
-        <translation type="obsolete">znak</translation>
-    </message>
-    <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="65"/>
         <source>accidentals</source>
         <translation>znaków</translation>
@@ -974,204 +941,11 @@
     </message>
 </context>
 <context>
-    <name>TasFretPosWdg</name>
-    <message>
-        <source>force useing appropirate accidental</source>
-        <translation type="obsolete">wymuś używanie odpowiedniego znaku</translation>
-    </message>
-    <message>
-        <source>if checked, is possible to select a note&lt;br&gt;with given accidental only.</source>
-        <translation type="obsolete">Gdy zaznaczone, możliwe jest podanie nuty&lt;br&gt;tylko z podanym znakiem.</translation>
-    </message>
-    <message>
-        <source>show string number in questions</source>
-        <translation type="obsolete">pokazuj numer struny w pytaniu</translation>
-    </message>
-    <message>
-        <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, when it is needed and when it has no sense</source>
-        <translation type="obsolete">Pokazuje, na której strunie ma być odpowiedź.&lt;br&gt;Ostrożnie z tym, kiedy ta opcja jest potzrebna, a kiedy nie ma sensu</translation>
-    </message>
-</context>
-<context>
-    <name>TasNameWdg</name>
-    <message>
-        <source>require octave</source>
-        <translation type="obsolete">wymagana oktawa</translation>
-    </message>
-    <message>
-        <source>if checked, selecting of valid octave is required</source>
-        <translation type="obsolete">Gdy zaznaczone, wymagane jest podanie właściwej oktawy</translation>
-    </message>
-    <message>
-        <source>use different nameing styles</source>
-        <translation type="obsolete">używaj różnych nazw nut</translation>
-    </message>
-    <message>
-        <source>if checked, nameing style is switched between letters and solfge.&lt;br&gt;It has to be checked if note&apos;s name is a question and an answer.</source>
-        <translation type="obsolete">Gdy zaznaczone, nazwy nut zmieniają się między solmizacją a literami.&lt;br&gt;Musi być zaznaczone jeżeli nazwa nuty jest pytaniem i odpowiedzią.</translation>
-    </message>
-</context>
-<context>
-    <name>TasNoteWdg</name>
-    <message>
-        <source># - sharps</source>
-        <translation type="obsolete"># - krzyżyki</translation>
-    </message>
-    <message>
-        <source>Sharps will be uesd in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
-        <translation type="obsolete">Krzyżyki będa używane w pytaniach i odpowiedziach.&lt;br&gt;Musi być zaznaczone gdy są używane tonacje z krzyżykami.</translation>
-    </message>
-    <message>
-        <source>b - flats</source>
-        <translation type="obsolete">b - bemole</translation>
-    </message>
-    <message>
-        <source>Flats will be uesd in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
-        <translation type="obsolete">Bemole będa używane w pytaniach i odpowiedziach.&lt;br&gt;Musi być zaznaczone gdy są używane tonacje z bemolami.</translation>
-    </message>
-    <message>
-        <source>x, bb - double accidentals</source>
-        <translation type="obsolete">x, bb - podwójne znaki</translation>
-    </message>
-    <message>
-        <source>accidentals</source>
-        <translation type="obsolete">znaki</translation>
-    </message>
-    <message>
-        <source>Accidentals used in exam.</source>
-        <translation type="obsolete">Znaki używane podczas egzaminu.</translation>
-    </message>
-    <message>
-        <source>use keys singature</source>
-        <translation type="obsolete">używaj tonacji</translation>
-    </message>
-    <message>
-        <source>single key</source>
-        <translation type="obsolete">pojedyncza tonacja</translation>
-    </message>
-    <message>
-        <source>only one, selected key signature&lt;br&gt;for whole exam.</source>
-        <translation type="obsolete">tylko jedna, wybrana tonacja&lt;br&gt;dla całego egzaminu.</translation>
-    </message>
-    <message>
-        <source>range of keys</source>
-        <translation type="obsolete">zakres tonacji</translation>
-    </message>
-    <message>
-        <source>random key signature from selected range.</source>
-        <translation type="obsolete">losowo wybrana tonacja z zaznaczonego zakresu.</translation>
-    </message>
-    <message>
-        <source>Select a key signature.&lt;br&gt;Apropirate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
-        <translation type="obsolete">Wybierz tonację.&lt;br&gt;Odpowiednie znaki używane podczas egzaminu&lt;br&gt;zostaną zaznaczone automatycznie!</translation>
-    </message>
-    <message>
-        <source>select a key signature manually</source>
-        <translation type="obsolete">podaj tonację samodzielnie</translation>
-    </message>
-    <message>
-        <source>if checked, in exam user have to select a key signature,&lt;br&gt;otherwise it is shown by application.</source>
-        <translation type="obsolete">Gdy zaznaczone, podczas egzaminu użytkownik sam musi wprowadzić tonację,&lt;br&gt;gdy nie zaznaczone, wyświetli ją program.</translation>
-    </message>
-</context>
-<context>
-    <name>TasPlayedSound</name>
-    <message>
-        <source>require octave</source>
-        <translation type="obsolete">wymagana oktawa</translation>
-    </message>
-    <message>
-        <source>if checked, playing or singing in valid octave is required</source>
-        <translation type="obsolete">gdy zaznaczone, gra lub śpiew musi być w zadanej oktawie</translation>
-    </message>
-</context>
-<context>
     <name>Tcanvas</name>
     <message>
         <location filename="../src/exam/tcanvas.cpp" line="120"/>
         <source>To correct an answer</source>
         <translation>Żeby poprawić odpowiedź</translation>
-    </message>
-</context>
-<context>
-    <name>TdialogMessage</name>
-    <message>
-        <source>Use %1</source>
-        <translation type="obsolete">Użyj %1</translation>
-    </message>
-    <message>
-        <source> Don&apos;t use accidentals!</source>
-        <translation type="obsolete">Nie używaj znaków!</translation>
-    </message>
-    <message>
-        <source>Change enharmonicaly and show in the score</source>
-        <translation type="obsolete">Zamień enharmonicznie i pokaż w nutach</translation>
-    </message>
-    <message>
-        <source>Given note show in the score</source>
-        <translation type="obsolete">Podaną nutę pokaż na pięciolini</translation>
-    </message>
-    <message>
-        <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
-        <comment>in key signature</comment>
-        <translation type="obsolete">&lt;br&gt;&lt;b&gt;w tonacji %1.&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>Give name of</source>
-        <translation type="obsolete">Podaj nazwę</translation>
-    </message>
-    <message>
-        <source> on &lt;span style=&quot;font-family: nootka;&quot;&gt;%1&lt;/span&gt; string.</source>
-        <translation type="obsolete"> na &lt;span style=&quot;font-family: nootka;&quot;&gt;%1&lt;/span&gt; strunie.</translation>
-    </message>
-    <message>
-        <source>Show in the score</source>
-        <translation type="obsolete">Pokaż w nutach</translation>
-    </message>
-    <message>
-        <source>Change enharmonicaly and give name of</source>
-        <translation type="obsolete">Zamień enharmonicznie i podaj nazwę</translation>
-    </message>
-    <message>
-        <source>Use another style to give name of</source>
-        <translation type="obsolete">Użyj innego stylu żeby podać nazwę</translation>
-    </message>
-    <message>
-        <source>Play or sing</source>
-        <translation type="obsolete">Zagraj lub zaśpiewaj</translation>
-    </message>
-    <message>
-        <source>on &lt;span style=&quot;font-family: nootka;&quot;&gt;%1&lt;/span&gt; string.</source>
-        <translation type="obsolete">na &lt;span style=&quot;font-family: nootka;&quot;&gt;%1&lt;/span&gt; strunie.</translation>
-    </message>
-    <message>
-        <source>Show on the score note played on</source>
-        <translation type="obsolete">Pokaż w nutach dźwięk grany na</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;in %1 key.&lt;/b&gt;</source>
-        <comment>in key signature</comment>
-        <translation type="obsolete">&lt;b&gt;w tonacji %1.&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>Listened sound show in the score</source>
-        <translation type="obsolete">Usłyszany dźwięk pokaż w nutach</translation>
-    </message>
-    <message>
-        <source>Give name of listened sound</source>
-        <translation type="obsolete">Podaj nazwę usłyszanego dźwięku</translation>
-    </message>
-    <message>
-        <source>Listened sound show on the guitar</source>
-        <translation type="obsolete">Usłyszany dźwięk pokaż na gitarze</translation>
-    </message>
-    <message>
-        <source>Play or sing listened sound</source>
-        <translation type="obsolete">Zagraj lub zaśpiewaj usłyszany dźwięk</translation>
-    </message>
-    <message>
-        <source>Show on the guitar</source>
-        <translation type="obsolete">Pokaż na gitarze</translation>
     </message>
 </context>
 <context>
@@ -1233,35 +1007,6 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>Poziom &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nie ma sensu, bo nie ma w nim żadnego pytania, które można zadać.&lt;br&gt;Możliwe, że nie jest dopasowany do bieżącego stroju gitary.&lt;br&gt;Napraw to w Kreatorze Poziomów i spróbuj ponownie.</translation>
     </message>
     <message>
-        <source>Given note show </source>
-        <translation type="obsolete">Podaną nutę pokaż </translation>
-    </message>
-    <message>
-        <source>Given note name show </source>
-        <translation type="obsolete">Podaną nazwę pokaż </translation>
-    </message>
-    <message>
-        <source>Given position show </source>
-        <translation type="obsolete">Podaną pozycję pokaż </translation>
-    </message>
-    <message>
-        <source>Played sound show </source>
-        <translation type="obsolete">Usłyszany dźwięk pokaż </translation>
-    </message>
-    <message>
-        <source> &lt;b&gt;in %1 key.&lt;/b&gt;</source>
-        <comment>in key signature</comment>
-        <translation type="obsolete"> &lt;b&gt;w tonacji %1.&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>Play or sing given note</source>
-        <translation type="obsolete">Zagraj lub zaśpiewaj podaną nutę</translation>
-    </message>
-    <message>
-        <source>To correct an answer</source>
-        <translation type="obsolete">Żeby poprawić odpowiedź</translation>
-    </message>
-    <message>
         <location filename="../src/exam/texamexecutor.cpp" line="704"/>
         <source>help</source>
         <translation>pomoc</translation>
@@ -1307,17 +1052,9 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>Jeżeli nie zapiszesz do pliku&lt;br&gt;stracisz dotychczasowe wyniki!!</translation>
     </message>
     <message>
-        <source>Give name of</source>
-        <translation type="obsolete">Podaj nazwę</translation>
-    </message>
-    <message>
         <location filename="../src/exam/texamexecutor.cpp" line="152"/>
         <source>An exam requires sound input but&lt;br&gt;it is not available !!!</source>
         <translation>Egzamin wymaga sygnału wejściowego&lt;br&gt;ale nie jest on dostępny !!!</translation>
-    </message>
-    <message>
-        <source> on &lt;span style=&quot;font-family: nootka; font-size:%1px;&quot;&gt;%2&lt;/span&gt; string.</source>
-        <translation type="obsolete"> na &lt;span style=&quot;font-family: nootka; font-size:%1px;&quot;&gt;%2&lt;/span&gt; strunie.</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="698"/>
@@ -1335,14 +1072,6 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>jaka szkoda</translation>
     </message>
     <message>
-        <source>Use %1</source>
-        <translation type="obsolete">Użyj %1</translation>
-    </message>
-    <message>
-        <source> Don&apos;t use accidentals!</source>
-        <translation type="obsolete">Nie używaj znaków!</translation>
-    </message>
-    <message>
         <location filename="../src/exam/texamexecutor.cpp" line="909"/>
         <source>Save exam&apos;s results as:</source>
         <translation>Zapisz wyniki egzaminu jako:</translation>
@@ -1351,22 +1080,22 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
 <context>
     <name>TexamHelp</name>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="33"/>
+        <location filename="../src/info/texamhelp.cpp" line="34"/>
         <source>Exam&apos;s help</source>
         <translation>Pomoc egzaminu</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="45"/>
+        <location filename="../src/info/texamhelp.cpp" line="46"/>
         <source>Questions are marked with this color and &quot;?&quot; mark.</source>
         <translation>Pytania oznaczone są tym kolorem i znakiem &quot;?&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="46"/>
+        <location filename="../src/info/texamhelp.cpp" line="47"/>
         <source>To give an answer, select it on &lt;span style=&quot;%1&quot;&gt;Nootka&apos;s element pointed with that color.&lt;/span&gt;&lt;br&gt;</source>
         <translation>Wskaż odpowiedź na &lt;span style=&quot;%1&quot;&gt;elemencie okna Nootki zaznzczonym tym kolorem.&lt;/span&gt;&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="38"/>
+        <location filename="../src/info/texamhelp.cpp" line="39"/>
         <source>How does an exam work ?</source>
         <translation>Jak działa egzamin?</translation>
     </message>
@@ -1391,12 +1120,12 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>lub klawisz &lt;b&gt;Bakspace&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="43"/>
+        <location filename="../src/info/texamhelp.cpp" line="44"/>
         <source>Select 2-nd check box to get the question automaticaly.</source>
         <translation>Zaznacz 2-gie pole wyboru żeby pytania były zadawane automatycznie.</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="49"/>
+        <location filename="../src/info/texamhelp.cpp" line="50"/>
         <source>To check the answer confirm it:</source>
         <translation>Aby sprawdzić odpowiedź, potwierdź ją:</translation>
     </message>
@@ -1406,37 +1135,52 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>naciśnij &lt;b&gt;Enter&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="52"/>
+        <location filename="../src/info/texamhelp.cpp" line="53"/>
         <source>If You made a mistake and You want to repeat the question:</source>
         <translation>Gdy popełnisz błąd i chcesz powtórzyć pytanie:</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="54"/>
+        <location filename="../src/info/texamhelp.cpp" line="55"/>
         <source>By selecting 3-rd check box, the answers will be checking immediately without confirmation.</source>
         <translation>Zaznzczając 3-cie pole wyboru, odpowiedzi będą sprawdzane od razu, bez potwierdzenia.</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="55"/>
+        <location filename="../src/info/texamhelp.cpp" line="56"/>
         <source>To stop the exam click &lt;img src=&quot;%1&quot;&gt; button.</source>
         <translation>Aby zatrzymać egzamin kliknij przycisk &lt;img src=&quot;%1&quot;&gt; .</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="57"/>
+        <location filename="../src/info/texamhelp.cpp" line="58"/>
+        <source>Exam will be complete when You give answers on all questions.&lt;br&gt;Their number depends on a level of the exam.</source>
+        <translation>Egzamin zostanie zdany kiedy odpowiesz na wszystkie pytania.&lt;br&gt;Ich liczba zależy od poziomu.</translation>
+    </message>
+    <message>
+        <location filename="../src/info/texamhelp.cpp" line="59"/>
+        <source>If You made mistake, such a questions will asked two times more and the total number of questions will be increased. Those are penaltys qustions.</source>
+        <translation>Jeżeli popełnisz błąd, takie pytanie będzie zadane jeszcze dwa razy a całkowita liczba pytań w egzaminie zwiększona. To właśnie są karne pytania.</translation>
+    </message>
+    <message>
+        <location filename="../src/info/texamhelp.cpp" line="60"/>
+        <source>When answer is &apos;not so bad&apos;, You get one penalty more.</source>
+        <translation>Kiedy odpowiedź jest &quot;nie zła&quot;, otrzymasz jedno karne pytanie.</translation>
+    </message>
+    <message>
+        <location filename="../src/info/texamhelp.cpp" line="62"/>
         <source>GOOD LUCK !!!</source>
         <translation>POWODZENIA !!!</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="58"/>
+        <location filename="../src/info/texamhelp.cpp" line="63"/>
         <source>Experts&apos; corner</source>
         <translation>Kącik eksperta</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="60"/>
+        <location filename="../src/info/texamhelp.cpp" line="65"/>
         <source>show or hide the hints</source>
         <translation>pokaż lub ukryj podpowiedzi</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="73"/>
+        <location filename="../src/info/texamhelp.cpp" line="79"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -1537,10 +1281,6 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <location filename="../src/exam/texamsummary.cpp" line="136"/>
         <source>Wrong strings</source>
         <translation>Zła struna</translation>
-    </message>
-    <message>
-        <source>Wrong frets or strings</source>
-        <translation type="obsolete">Nieprawidłowe progi lub struny</translation>
     </message>
 </context>
 <context>
@@ -1743,22 +1483,22 @@ ale nie zapisany !!</translation>
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="200"/>
         <source>&lt;li&gt;Nameing styles was checked but neither question nor answers as note name are checked.&lt;br&gt;Check some or uncheck nemeing styles.&lt;/li&gt;</source>
-        <translation type="unfinished">&lt;li&gt;Nameing styles was checked but neither question nor answers as note name are checked.&lt;br&gt;Check some or uncheck nemeing styles.&lt;/li&gt;</translation>
+        <translation>&lt;li&gt;Zaznaczono style nazw nut ale ani pytanie ani odpowiedź jako nazwa nuty nie została wybrana.&lt;br&gt;Wybierz któreś lub odznacz style nazw.&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="204"/>
         <source>&lt;li&gt;Questions and answers as note in the score will be the same. Manual selecting keys or forceing accidentals has to be selected to avoid that.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Odpowiedź jako nuta na pięciolini będzie taka sama jak pytanie. Żeby tego uniknąć &quot;ręczny wybór tonacji&quot; lub &quot;wymuszanie znaku&quot; muszą być zaznaczone.&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="209"/>
         <source>&lt;li&gt;Manual selecting of a key signature was checked but any answer as note in the score was not checked.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Został zaznzczony ręczny wybór tonacji ale żadna odpowiedź jako nuta na pięciolini nie została wybrana.&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="242"/>
         <source>Level seems to be correct</source>
-        <translation type="unfinished"></translation>
+        <translation>Poziom wygląda na poprawny</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="248"/>
@@ -1924,45 +1664,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     </message>
 </context>
 <context>
-    <name>TlevelSummaryWdg</name>
-    <message>
-        <source>Level summary:</source>
-        <translation type="obsolete">Właściwości poziomu:</translation>
-    </message>
-    <message>
-        <source>
- no level selected</source>
-        <translation type="obsolete">
- nie wybrano poziomu</translation>
-    </message>
-    <message>
-        <source>key signature:</source>
-        <translation type="obsolete">tonacja:</translation>
-    </message>
-    <message>
-        <source>accidentals:</source>
-        <translation type="obsolete">znaki:</translation>
-    </message>
-    <message>
-        <source>none</source>
-        <translation type="obsolete">brak</translation>
-    </message>
-    <message>
-        <source>notes&apos; range:</source>
-        <translation type="obsolete">zakres dźwięków:</translation>
-    </message>
-    <message>
-        <source>frets&apos; range:</source>
-        <translation type="obsolete">zakres progów:</translation>
-    </message>
-</context>
-<context>
     <name>TmainChart</name>
-    <message>
-        <source>for a note:  </source>
-        <comment>average reaction time for...</comment>
-        <translation type="obsolete">dla nuty: </translation>
-    </message>
     <message>
         <location filename="../src/charts/tmainchart.cpp" line="114"/>
         <source>for a note:</source>
@@ -1976,13 +1678,19 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation>dla progu:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tmainchart.cpp" line="121"/>
+        <location filename="../src/charts/tmainchart.cpp" line="123"/>
+        <source>Key signatures gave by user</source>
+        <translation>Tonacja podana przez użytkownika</translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tmainchart.cpp" line="125"/>
         <source>for a key:</source>
         <comment>average reaction time for...</comment>
         <translation>dla tonacji:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tmainchart.cpp" line="157"/>
+        <location filename="../src/charts/tmainchart.cpp" line="162"/>
+        <location filename="../src/charts/tmainchart.cpp" line="187"/>
         <source>questions unrelated&lt;br&gt;with chart type</source>
         <translation>pytania niezwiązane&lt;br&gt;z rodzajem wykresu</translation>
     </message>
@@ -2110,7 +1818,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="135"/>
         <source>letters</source>
         <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country prefered style of nameing key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by You), &apos;solfege&apos; means Do-major/La-minor names</comment>
-        <translation type="unfinished"></translation>
+        <translation>letters</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="147"/>
@@ -2417,14 +2125,6 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation>Wybierz poprzedni egzamin lub wczytaj go z pliku.</translation>
     </message>
     <message>
-        <source>Start</source>
-        <translation type="obsolete">Zacznij</translation>
-    </message>
-    <message>
-        <source>Start or continue exam.</source>
-        <translation type="obsolete">Rozpocznij lub kontynuuj egzamin.</translation>
-    </message>
-    <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="92"/>
         <source>Discard</source>
         <translation>Porzuć</translation>
@@ -2466,7 +2166,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="151"/>
         <source>Do You realy want to remove Nootka and all its components?</source>
-        <translation type="unfinished"></translation>
+        <translation>Czy rzeczwiście chcesz usunąć Nutkę i jej składniki ?</translation>
     </message>
 </context>
 <context>
@@ -2683,22 +2383,6 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/level/rangesettings.cpp" line="72"/>
         <source>uncheck strings if You want to skip them&lt;br&gt;in an exam.</source>
         <translation>odznacz struny jeżeli chcesz pominąć je&lt;br&gt;podczas egzaminu.</translation>
-    </message>
-    <message>
-        <source>notes in the lowest position only</source>
-        <translation type="obsolete">dźwięki tylko w najniższej pozycji</translation>
-    </message>
-    <message>
-        <source>if checked, the lowest position in selected frets&apos; range are required,&lt;br&gt;otherwise all possible positions of the note are taken.&lt;br&gt;To use this, all strings have to be available !!</source>
-        <translation type="obsolete">Gdy zaznaczone, wymagana jest najniższa pozycja dźwięku w wybranym zakresie progów,&lt;br&gt;jeżeli nie - używane są wszystkie możliwe pozycje zadanej nuty.&lt;br&gt;Dla tego wszystkie struny muszą być używane !!</translation>
-    </message>
-    <message>
-        <source>Only notes from current key signature are taken.&lt;br&gt;If key signature is disabled accidentals are not used.</source>
-        <translation type="obsolete">Używane będą dźwięki tylko z aktualnej tonacji.&lt;br&gt;Jeżeli tonacja nie jest używana, znaki także nie będą wykorzystywane.</translation>
-    </message>
-    <message>
-        <source>notes in current key signature only</source>
-        <translation type="obsolete">tylko dźwięki z aktualnej tonacji</translation>
     </message>
 </context>
 </TS>

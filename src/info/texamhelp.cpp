@@ -29,7 +29,8 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt,
     QDialog(parent),
     m_showHelp(showHelp)
 {
-  setMaximumSize((parent->width()/3)*2, (parent->height()/3)*2);
+//   setMaximumSize((parent->width()/3)*2, (parent->height()/3)*2);
+  resize((parent->width()/3)*2, (parent->height()/3)*2);
   setWindowTitle(tr("Exam's help"));
   
   QVBoxLayout *lay = new QVBoxLayout();
@@ -53,6 +54,10 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt,
     clickSomeButtonTxt(path+"picts/prev-icon.png") + "<br>- " + orPressBkSTxt() + "<br>" +
     tr("By selecting 3-rd check box, the answers will be checking immediately without confirmation.") + "<br><br>" +
     tr("To stop the exam click <img src=\"%1\"> button.").arg(path+"picts/stopExam-icon.png") + 
+    "<br><br>" + 
+    tr("Exam will be complete when You give answers on all questions.<br>Their number depends on a level of the exam.") + "<br>" +
+    tr("If You made mistake, such a questions will asked two times more and the total number of questions will be increased. Those are penaltys qustions.") + "<br>" +
+    tr("When answer is 'not so bad', You get one penalty more.") +
     "<br><br><span style=\"font-size: 20px;\"><b>" +
     tr("GOOD LUCK !!!") + "</b></span>" + "<br><hr><table><tr><th colspan=2>" +
     tr("Experts' corner") + "</th></tr><tr><td rowspan=3>" +
@@ -61,7 +66,8 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt,
     ExamSettings::autoNextQuestTxt() + "</td></tr><tr><td><br>3. " + 
     ExamSettings::expertsAnswerTxt() + "</td></tr></table>", this);
   ed->setReadOnly(true);
-  ed->setFixedSize((parent->width()/3)*2, (parent->height()/5)*3);
+//   ed->setFixedSize((parent->width()/3)*2, (parent->height()/5)*3);
+  ed->resize((parent->width()/3)*2, (parent->height()/5)*3);
   ed->setAlignment(Qt::AlignCenter);
   lay->addWidget(ed);
   
