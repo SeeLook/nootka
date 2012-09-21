@@ -124,9 +124,9 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
     qsrand(QDateTime::currentDateTime().toTime_t());
     
     
-    m_obligQuestNr = qMax(list.size() * 3, 20);
+    m_obligQuestNr = qMax(list.size() * 5, 20);
     if (m_level->useKeySign && !m_level->isSingleKey)
-        m_obligQuestNr = qMax(m_obligQuestNr, (m_level->hiKey.value() - m_level->loKey.value() + 1)* 3);
+        m_obligQuestNr = qMax(m_obligQuestNr, (m_level->hiKey.value() - m_level->loKey.value() + 1) * 5);
     m_obligQuestNr = qMax(qaPossibilitys() * 5, m_obligQuestNr);
 
 }

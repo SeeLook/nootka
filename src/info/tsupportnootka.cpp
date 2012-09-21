@@ -36,7 +36,7 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
     QString supp;
     supp += "<ul>";
     supp += "<li><b>Translate Nootka</b><br>It does not require any programming skills. Just read <a href=\"http://code.google.com/p/nootka/source/browse/lang/how-to-translate.txt\">the instructions</a>,<br>tramslate and send Your work.<br></li>";
-    supp += "<li><b>Test Nootka intensively</b><br>When You will produce a big exam file, let's say 500 or more questions, it doesn't matter how many mistakes You did, send me the file please. It will help to improve analyse of exams.<br></li>";
+    supp += "<li><b>Test Nootka intensively</b><br>When You will produce a big exam file, let's say 200 or more questions, it doesn't matter how many mistakes You did, send me the file please. It will help to improve analyse of exams.<br></li>";
     supp += "<li><b>Maintain Nootka package</b><br>Windows, MacOs and various Linux distibutions 32 or 64 bits.<br>Life is too short...<br>If You know how to compile Nootka from sources You would be keep Nootka version for Your platform.<br></li>";
     supp += "<li><b>Make a donation</b><br>Nootka is free of charge but it requires some expenses. To make donation by PayPal:<br> use <a href=\"http://nootka.sourceforge.net/index.php?L=en&C=sup\"> Nootka site</a><br></li>";
     supp += "<li><b>Vote on Nootka</b><br>There are a lot of services. For example:<br><a href=\"http://kde-apps.org/content/show.php/Nootka?content=143598\">Kde-Apps</a>, <a href=\"http://qt-apps.org/content/show.php/Nootka?content=148705\">Qt-Apps</a>, <a href=\"http://www.softpedia.com/get/Others/Home-Education/Nootka.shtml\">Softpedia</a><br></li>";
@@ -62,7 +62,7 @@ TsupportStandalone::TsupportStandalone(QString& path, QWidget* parent) :
 //     lay->addWidget(headLab, 1, Qt::AlignCenter);
     TsupportNootka *suppWdg = new TsupportNootka(this);
     lay->addWidget(suppWdg);
-    QLabel *neverLab = new QLabel(QObject::tr("This window will not disturb You.<br>Further, You can find it in 'About Nootka' dialog"), this);
+    QLabel *neverLab = new QLabel(QObject::tr("Don't worry. This window appears only once per Nootka release.<br>You can find it always in 'About Nootka' dialog"), this);
     neverLab->setAlignment(Qt::AlignCenter);
     neverLab->setStyleSheet("border-radius: 5px 5px; background-color: palette(highlight); color: palette(highlightedText)");
     lay->addWidget(neverLab, 1, Qt::AlignCenter);
