@@ -1,7 +1,6 @@
 0.8.5 stable:
 - After repeating a question name style doesn't come back proprely 
 - Implement 'not so bad' color, add to Tglobals
-- Country prefered style of name in key signatures, also add to Tglobals
 - Key signature text adjust to wudth of TkeySignatuteView
 - Scordatute text layout
 - Multilanguage uninstall text in NSIS
