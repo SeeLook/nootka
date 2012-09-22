@@ -64,7 +64,8 @@ TsupportStandalone::TsupportStandalone(QString& path, QWidget* parent) :
     lay->addWidget(suppWdg);
     QLabel *neverLab = new QLabel(QObject::tr("Don't worry. This window appears only once per Nootka release.<br>You can find it always in 'About Nootka' dialog"), this);
     neverLab->setAlignment(Qt::AlignCenter);
-    neverLab->setStyleSheet("border-radius: 5px 5px; background-color: palette(highlight); color: palette(highlightedText)");
+    neverLab->setStyleSheet("border-radius: 5px 5px; background-color: palette(base); color: palette(highlightedText)");
+//     neverLab->setWordWrap(true);
     lay->addWidget(neverLab, 1, Qt::AlignCenter);
     QPushButton *butt = new QPushButton(QIcon(path + "picts/nootka.png"), "  Thanks", this);
     butt->setIconSize(QSize(48, 48));

@@ -26,8 +26,8 @@ extern Tglobals *gl;
 
 
 QString transRow (QString flag, QString lang, QString name, QString mailAndSite) {
-  return QString("<tr valign=\"middle\" align=\"center\"><td> <img src=\"%1\"> </td><td> %2 </td><td> <b>%3</b> </td><td> %4 </td></tr>").
-      arg(gl->path + "picts/flags/" + flag + ".png").arg(lang).arg(name).arg(mailAndSite);
+  return QString("<tr valign=\"middle\" align=\"center\"><td> <img src=\"%1\">&nbsp;&nbsp;&nbsp;</td><td> %2 &nbsp;&nbsp;&nbsp;</td><td> <b>%3</b> </td><td>&nbsp;&nbsp;&nbsp; %4 </td></tr>").
+      arg(gl->path + "picts/flags-" + flag + ".png").arg(lang).arg(name).arg(mailAndSite);
 }
 
 TaboutNootka::TaboutNootka(QWidget *parent) :
@@ -73,9 +73,9 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     QWidget *wi = new QWidget();
     QVBoxLayout *wiLLay = new QVBoxLayout;
   // AUTHORS
-    QString authorStr = "<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>" + authorsTxt() + "</b></p></center><br><br>Tomasz Bojczuk    <a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a><br><br>";
+    QString authorStr = "<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>" + authorsTxt() + "</b></p></center><br>Tomasz Bojczuk    <a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a><br><br>";
   // TRANSLATORS
-    QString translStr = "<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>" + tr("Translators") + "</b></p></center>";
+    QString translStr = "<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>" + tr("Translators") + "</b></p></center><br>";
     translStr += "<table valign=\"middle\" align=\"center\">";
   // czech
     translStr += transRow("cs", QString::fromUtf8("český"), "Pavel Fric",
