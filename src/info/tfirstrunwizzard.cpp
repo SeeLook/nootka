@@ -30,14 +30,15 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
     QDialog(parent)
 {
     // grab 7-th note from translation
-    if (Tpage_3::note7txt().toLower() == "b")
-        gl->seventhIs_B = true; // rest (NnameStyleInNoteName
-        // SnameStyleInKeySign) matched by default
-    else {
-        gl->seventhIs_B = false;
-        gl->NnameStyleInNoteName = Tnote::e_norsk_Hb;
-        gl->SnameStyleInKeySign = Tnote::e_norsk_Hb;
-    }
+//     if (Tpage_3::note7txt().toLower() == "b") {
+//         gl->seventhIs_B = true; // rest (NnameStyleInNoteName
+//         // SnameStyleInKeySign) matched by default
+//     }
+//     else {
+//         gl->seventhIs_B = false;
+//         gl->NnameStyleInNoteName = Tnote::e_norsk_Hb;
+//         gl->SnameStyleInKeySign = Tnote::e_norsk_Hb;
+//     }
   
     setWindowTitle("Nootka   "+tr("First run wizzard"));
     QVBoxLayout *lay = new QVBoxLayout;
@@ -71,6 +72,23 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
     pagesLay->addWidget(notationLab);
     pagesLay->addWidget(page3);
     pagesLay->addWidget(page4);
+    
+    // grab 7-th note from translation
+    if (Tpage_3::note7txt().toLower() == "b") {
+        gl->seventhIs_B = true; // rest (NnameStyleInNoteName
+        if (page3->keyNameStyle == "solfege")
+          gl->SnameStyleInKeySign = Tnote::e_italiano_Si;
+        else
+          gl->SnameStyleInKeySign = Tnote::e_nederl_Bis;
+    }
+    else {
+        gl->seventhIs_B = false;
+        gl->NnameStyleInNoteName = Tnote::e_norsk_Hb;
+        if (page3->keyNameStyle == "solfege")
+          gl->SnameStyleInKeySign = Tnote::e_italiano_Si;
+        else
+          gl->SnameStyleInKeySign = Tnote::e_deutsch_His;
+    }
 
     connect(skipButt, SIGNAL(clicked()), this, SLOT(close()));
     connect(prevButt, SIGNAL(clicked()), this, SLOT(prevSlot()));
@@ -112,12 +130,19 @@ void TfirstRunWizzard::nextSlot() {
         if (page3->select7->is7th_B()) {
             gl->seventhIs_B = true;
             gl->NnameStyleInNoteName = Tnote::e_english_Bb;
-            gl->SnameStyleInKeySign = Tnote::e_english_Bb;
+            if (page3->keyNameStyle == "solfege")
+              gl->SnameStyleInKeySign = Tnote::e_italiano_Si;
+            else
+              gl->SnameStyleInKeySign = Tnote::e_nederl_Bis;
+        
         }
         else {
             gl->seventhIs_B = false;
             gl->NnameStyleInNoteName = Tnote::e_norsk_Hb;
-            gl->SnameStyleInKeySign = Tnote::e_norsk_Hb;
+            if (page3->keyNameStyle == "solfege")
+              gl->SnameStyleInKeySign = Tnote::e_italiano_Si;
+            else
+              gl->SnameStyleInKeySign = Tnote::e_deutsch_His;
         }
         gl->doubleAccidentalsEnabled = page3->dblAccChB->isChecked();
         gl->showEnharmNotes = page3->enharmChB->isChecked();
@@ -132,7 +157,7 @@ void TfirstRunWizzard::nextSlot() {
 Tpage_3::Tpage_3(QWidget *parent) :
         QWidget(parent)
 {
-    QString keyNameStyle = tr("letters", "DO NOT TRANSLATE IT DIRECTLY. Put here 'letters' or 'solfege' This is country prefered style of nameing key signatures. 'letters' means C-major/a-minor names ('major' & 'minor' also are translated by You), 'solfege' means Do-major/La-minor names");
+    keyNameStyle = tr("letters", "DO NOT TRANSLATE IT DIRECTLY. Put here 'letters' or 'solfege' This is country prefered style of nameing key signatures. 'letters' means C-major/a-minor names ('major' & 'minor' also are translated by You), 'solfege' means Do-major/La-minor names");
     QVBoxLayout *lay = new QVBoxLayout;
     lay->setAlignment(Qt::AlignCenter);
     QLabel *seventhLab = new QLabel(tr("<center>7-th note can be B or H, depends on country<br>Which one is Yours?<br></center>"), this);
@@ -140,7 +165,10 @@ Tpage_3::Tpage_3(QWidget *parent) :
 
     select7 = new Select7note(this);
     lay->addWidget(select7);
-    select7->set7th_B(gl->seventhIs_B);
+    if (Tpage_3::note7txt().toLower() == "b")
+      select7->set7th_B(true);
+    else
+      select7->set7th_B(false);
 
     lay->addStretch(1);
 
