@@ -63,17 +63,17 @@ ShowUnInstDetails show
 
 LangString NelDesc ${LANG_ENGLISH} "Nootka exam's level"
 LangString NelDesc ${LANG_POLISH} "Poziom egzaminu programu Nootka"
-LangString NelDesc ${LANG_CZECH} "⁄roveÚ zkouöky programu Nootka"
+LangString NelDesc ${LANG_CZECH} "√örove√≤ zkou≈°ky programu Nootka"
 LangString NelDesc ${LANG_FRENCH} "Fichier de niveau Nootka"
 
 LangString NootkaAct ${LANG_ENGLISH} "Open with nootka"
-LangString NootkaAct ${LANG_POLISH} "OtwÛrz w programie Nootka"
-LangString NootkaAct ${LANG_CZECH} "Otev¯Ìt v Nootka"
+LangString NootkaAct ${LANG_POLISH} "Otw√≥rz w programie Nootka"
+LangString NootkaAct ${LANG_CZECH} "Otev√∏√≠t v Nootka"
 LangString NootkaAct ${LANG_FRENCH} "Ouvrir avec Nootka"
 
 LangString NooDesc ${LANG_ENGLISH} "Nootka exam file"
 LangString NooDesc ${LANG_POLISH} "Plik egzaminu programu Nootka"
-LangString NooDesc ${LANG_CZECH} "ZkuöebnÌ soubor programu Nootka"
+LangString NooDesc ${LANG_CZECH} "Zku≈°ebn√≠ soubor programu Nootka"
 LangString NooDesc ${LANG_FRENCH} "Fichier d'examen Nootka"
 
 Section -AssociateMime
@@ -182,14 +182,14 @@ SectionEnd
 
 ;Function un.onUninstSuccess
 ;  HideWindow
-;  MessageBox MB_ICONINFORMATION|MB_OK "Program $(^Name) zosta≥ pomyúlnie usuniÍty."
+;  MessageBox MB_ICONINFORMATION|MB_OK "Program $(^Name) zosta¬≥ pomy≈ìlnie usuni√™ty."
 ;FunctionEnd
 
 Function un.onInit
 !insertmacro MUI_UNGETLANGUAGE
    LangString UninstallMess ${LANG_ENGLISH} "Do You realy want to remove $(^Name) and all its components?"
-   LangString UninstallMess ${LANG_POLISH} "Czy rzeczwi?cie chcesz usun?? Nutk? i jej sk?adniki?"
-   LangString UninstallMess ${LANG_CZECH} "Opravdu chcete odstranit Nootku a vöechny jejÌ sou?·sti?"
+   LangString UninstallMess ${LANG_POLISH} "Czy rzeczwi≈õcie chcesz usunƒÖƒá Nutkƒô i jej sk≈Çadniki?"
+   LangString UninstallMess ${LANG_CZECH} "Opravdu chcete odstranit Nootku a v≈°echny jej√≠ souƒç√°sti?"
    LangString UninstallMess ${LANG_POLISH} "Voulez-vous vraiment supprimer Nootka et tous ses composants?"
    MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "$(UninstallMess)" IDYES +2
    Abort

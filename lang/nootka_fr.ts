@@ -1401,7 +1401,7 @@
     <message>
         <location filename="../src/tfingerboard.cpp" line="47"/>
         <source>Select string or fret and click to see it in the score.</source>
-        <translation>Sélectionnez une corde ou une frette et cliquez pour afficher la note correspondante sur la portée.</translation>
+        <translation>Sélectionnez une corde / frette et cliquez pour afficher la note correspondante sur la portée.</translation>
     </message>
 </context>
 <context>
@@ -1746,32 +1746,32 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/tnotename.cpp" line="31"/>
         <source>Contra</source>
-        <translation>Contre</translation>
+        <translation>do -1 / C1</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="31"/>
         <source>Great</source>
-        <translation>Grande</translation>
+        <translation>do1 / C2</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="31"/>
         <source>Small</source>
-        <translation>Petite</translation>
+        <translation>do2 / C3</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="32"/>
         <source>1-line</source>
-        <translation>2e petite</translation>
+        <translation>do3 / C4</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="32"/>
         <source>2-line</source>
-        <translation>3e petite</translation>
+        <translation>do4 / C5</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="32"/>
         <source>3-line</source>
-        <translation>4e petite</translation>
+        <translation>do5 / C6</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="33"/>
@@ -1913,42 +1913,42 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/level/tquestionaswdg.h" line="39"/>
         <source>question</source>
-        <translation>Question</translation>
+        <translation>Question: </translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.h" line="40"/>
         <source>questions</source>
-        <translation>Questions</translation>
+        <translation>Questions: </translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.h" line="41"/>
         <source>answer</source>
-        <translation>Réponse</translation>
+        <translation>Réponse: </translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.h" line="42"/>
         <source>answers</source>
-        <translation>Réponse</translation>
+        <translation>Réponse: </translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.h" line="43"/>
         <source>as note in the score</source>
-        <translation>La question est une note sur la portée</translation>
+        <translation>note sur la portée</translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.h" line="44"/>
         <source>as note&apos;s name</source>
-        <translation>La question est le nom d&apos;une note</translation>
+        <translation>nom de note</translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.h" line="45"/>
         <source>as position on the fingerboard</source>
-        <translation>La question est une position sur la touche de la guitare</translation>
+        <translation>position sur la touche</translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.h" line="46"/>
         <source>as played sound</source>
-        <translation>La question est un son joué par Nootka</translation>
+        <translation>son joué</translation>
     </message>
 </context>
 <context>
@@ -2183,7 +2183,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <location filename="../src/info/taboutnootka.cpp" line="96"/>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; Your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
-        <translatorcomment>Olivier Devineau</translatorcomment>
+        <translatorcomment>Olivier Devineau &lt;br&gt; olivier.devineau@gmail.com</translatorcomment>
         <translation></translation>
     </message>
 </context>
