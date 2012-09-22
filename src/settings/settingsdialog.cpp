@@ -207,7 +207,7 @@ GlobalSettings::GlobalSettings(QWidget *parent) :
 	int id = 0;
 	while (i.hasNext()) {
 		i.next();
-		langCombo->addItem(QIcon(gl->path + "picts/flags/" + i.key() + ".png"), i.value());
+		langCombo->addItem(QIcon(gl->path + "picts/flags-" + i.key() + ".png"), i.value());
 		if (i.key() == gl->lang)
 			langCombo->setCurrentIndex(id);
 		id++;

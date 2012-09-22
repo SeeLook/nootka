@@ -21,22 +21,22 @@
     <message>
         <location filename="../src/charts/tnotepixmap.cpp" line="181"/>
         <source>wrong string</source>
-        <translation type="unfinished"></translation>
+        <translation>Nesprávná struna</translation>
     </message>
     <message>
         <location filename="../src/charts/tnotepixmap.cpp" line="183"/>
         <source>wrong accidental</source>
-        <translation>nesprávná posuvka</translation>
+        <translation>Nesprávná posuvka</translation>
     </message>
     <message>
         <location filename="../src/charts/tnotepixmap.cpp" line="187"/>
         <source>wrong key signature</source>
-        <translation>nesprávná tónina</translation>
+        <translation>Nesprávné předznamenání</translation>
     </message>
     <message>
         <location filename="../src/charts/tnotepixmap.cpp" line="194"/>
         <source>wrong octave</source>
-        <translation>Chybná oktáva</translation>
+        <translation>Nesprávná oktáva</translation>
     </message>
 </context>
 <context>
@@ -335,7 +335,7 @@
     <message>
         <location filename="../src/settings/examsettings.cpp" line="64"/>
         <source>color of wrong answers</source>
-        <translation type="unfinished"></translation>
+        <translation>Barva nesprávných odpovědí</translation>
     </message>
     <message>
         <location filename="../src/settings/examsettings.cpp" line="68"/>
@@ -345,12 +345,12 @@
     <message>
         <location filename="../src/settings/examsettings.cpp" line="68"/>
         <source>color of correct answers</source>
-        <translation type="unfinished"></translation>
+        <translation>Barva správných odpovědí</translation>
     </message>
     <message>
         <location filename="../src/settings/examsettings.cpp" line="72"/>
         <source>color of &apos;not so bad&apos; answers</source>
-        <translation type="unfinished"></translation>
+        <translation>Barva ne zas tak špatných odpovědí</translation>
     </message>
 </context>
 <context>
@@ -526,10 +526,6 @@
         <translation>Spustit zkoušku</translation>
     </message>
     <message>
-        <source>Note was detected !!</source>
-        <translation type="obsolete">Byla zjištěna nota!</translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.cpp" line="219"/>
         <source>about</source>
         <translation>O programu</translation>
@@ -680,17 +676,17 @@
     <message>
         <location filename="../src/info/tsupportnootka.cpp" line="29"/>
         <source>You also can help with makeing Notka better.</source>
-        <translation type="unfinished"></translation>
+        <translation>I vy můžete pomoci s vylepšením Nootky.</translation>
     </message>
     <message>
         <location filename="../src/info/tsupportnootka.cpp" line="30"/>
         <source>It requires little bit english, so if You can read a text below there will be something You may get involved.</source>
-        <translation type="unfinished"></translation>
+        <translation>Chce to alespoň trochu umět angličtinu, takže pokud dokážete přečíst text níže, najdete tam něco, do čeho se můžete zapojit.</translation>
     </message>
     <message>
         <location filename="../src/info/tsupportnootka.cpp" line="65"/>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Nedělejte si starosti. Toto okno se při vydání Nootky objeví jen jednou.&lt;br&gt;Naleznete je vždy v dialogovém okně O programu Nootka</translation>
     </message>
 </context>
 <context>
@@ -836,11 +832,7 @@
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="90"/>
         <source>However this application could not exist without various open source projects.&lt;br&gt;Especially:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Althougth this application could not exist without various open source projects.&lt;br&gt;Especially:</source>
-        <translation type="obsolete">Tento program by nemohl být bez dalších různých projektů s otevřeným zdrojovým kódem.&lt;br&gt;Obzvláště:</translation>
+        <translation>Tento program by nebyl bez různých projektů s otevřeným zdrojovým kódem.&lt;br&gt;Obzvláště:</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.h" line="34"/>
@@ -895,12 +887,12 @@
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="64"/>
         <source>key signature</source>
-        <translation type="unfinished"></translation>
+        <translation>Předznamenání</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="65"/>
         <source>accidentals</source>
-        <translation type="unfinished">Posuvky</translation>
+        <translation>Posuvky</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="98"/>
@@ -949,200 +941,11 @@
     </message>
 </context>
 <context>
-    <name>TasFretPosWdg</name>
-    <message>
-        <source>force useing appropirate accidental</source>
-        <translation type="obsolete">Vynutit používání náležitých posuvek</translation>
-    </message>
-    <message>
-        <source>if checked, is possible to select a note&lt;br&gt;with given accidental only.</source>
-        <translation type="obsolete">Je-li zaškrtnuto, je možné vybrat notu&lt;br&gt;jen s danou posuvkou.</translation>
-    </message>
-    <message>
-        <source>show string number in questions</source>
-        <translation type="obsolete">Ukázat číslo struny v otázkách</translation>
-    </message>
-    <message>
-        <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, when it is needed and when it has no sense</source>
-        <translation type="obsolete">Ukazuje, na které struně má být dána odpověď.&lt;br&gt;U tohoto buďte opatrní, kdy je to potřeba a kdy to nedává smysl</translation>
-    </message>
-</context>
-<context>
-    <name>TasNameWdg</name>
-    <message>
-        <source>require octave</source>
-        <translation type="obsolete">Požadována oktáva</translation>
-    </message>
-    <message>
-        <source>if checked, selecting of valid octave is required</source>
-        <translation type="obsolete">Je-li zaškrtnuto, je požadován výběr platné oktávy</translation>
-    </message>
-    <message>
-        <source>use different nameing styles</source>
-        <translation type="obsolete">Používat různé názvy not</translation>
-    </message>
-    <message>
-        <source>if checked, nameing style is switched between letters and solfge.&lt;br&gt;It has to be checked if note&apos;s name is a question and an answer.</source>
-        <translation type="obsolete">Je-li zaškrtnuto, jsou názvy not přepínány mezi písmeny a solmizací.&lt;br&gt;Musí to být zaškrtnuto, když je název noty otázkou i odpovědí.</translation>
-    </message>
-</context>
-<context>
-    <name>TasNoteWdg</name>
-    <message>
-        <source># - sharps</source>
-        <translation type="obsolete"># - křížky</translation>
-    </message>
-    <message>
-        <source>Sharps will be uesd in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
-        <translation type="obsolete">Ve zkušebních otázkách a odpovědích se budou používat křížky.&lt;br&gt;Musí to být zaškrtnuto, když se používají tóniny s křížky.</translation>
-    </message>
-    <message>
-        <source>b - flats</source>
-        <translation type="obsolete">b - béčka</translation>
-    </message>
-    <message>
-        <source>Flats will be uesd in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
-        <translation type="obsolete">Ve zkušebních otázkách a odpovědích se budou používat béčka.&lt;br&gt;Musí to být zaškrtnuto, když se používají tóniny s béčky.</translation>
-    </message>
-    <message>
-        <source>x, bb - double accidentals</source>
-        <translation type="obsolete">x, bb - dvojité posuvky</translation>
-    </message>
-    <message>
-        <source>accidentals</source>
-        <translation type="obsolete">Posuvky</translation>
-    </message>
-    <message>
-        <source>Accidentals used in exam.</source>
-        <translation type="obsolete">Posuvky používané během zkoušky.</translation>
-    </message>
-    <message>
-        <source>use keys singature</source>
-        <translation type="obsolete">Používat předznamenání</translation>
-    </message>
-    <message>
-        <source>single key</source>
-        <translation type="obsolete">Jednoduchá tónina</translation>
-    </message>
-    <message>
-        <source>only one, selected key signature&lt;br&gt;for whole exam.</source>
-        <translation type="obsolete">Pouze jedna vybraná tónina&lt;br&gt;pro celou zkoušku.</translation>
-    </message>
-    <message>
-        <source>range of keys</source>
-        <translation type="obsolete">Rozsah tónin</translation>
-    </message>
-    <message>
-        <source>random key signature from selected range.</source>
-        <translation type="obsolete">Náhodně vybraná tónina z vybraného rozsahu.</translation>
-    </message>
-    <message>
-        <source>Select a key signature.&lt;br&gt;Apropirate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
-        <translation type="obsolete">Vybrat tóninu.&lt;br&gt;Příslušné posuvky používané během zkoušky&lt;br&gt;budou vybrány automaticky!</translation>
-    </message>
-    <message>
-        <source>select a key signature manually</source>
-        <translation type="obsolete">Vybrat tóninu ručně</translation>
-    </message>
-    <message>
-        <source>if checked, in exam user have to select a key signature,&lt;br&gt;otherwise it is shown by application.</source>
-        <translation type="obsolete">Je-li zaškrtnuto, musí tóninu ve zkoušce vybrat uživatel,&lt;br&gt;jinak je ukázána programem.</translation>
-    </message>
-</context>
-<context>
-    <name>TasPlayedSound</name>
-    <message>
-        <source>require octave</source>
-        <translation type="obsolete">Požadována oktáva</translation>
-    </message>
-    <message>
-        <source>if checked, playing or singing in valid octave is required</source>
-        <translation type="obsolete">Je-li zaškrtnuto, je požadována hra nebo zpěv v platné oktávě</translation>
-    </message>
-</context>
-<context>
     <name>Tcanvas</name>
     <message>
         <location filename="../src/exam/tcanvas.cpp" line="120"/>
         <source>To correct an answer</source>
-        <translation type="unfinished">Pro opravu odpovědi</translation>
-    </message>
-</context>
-<context>
-    <name>TdialogMessage</name>
-    <message>
-        <source>Use %1</source>
-        <translation type="obsolete">Použít %1</translation>
-    </message>
-    <message>
-        <source> Don&apos;t use accidentals!</source>
-        <translation type="obsolete">Nepoužívat posuvky!</translation>
-    </message>
-    <message>
-        <source>on &lt;span style=&quot;font-family: nootka;&quot;&gt;%1&lt;/span&gt; string.</source>
-        <translation type="obsolete">na &lt;span style=&quot;font-family: nootka;&quot;&gt;%1&lt;/span&gt; struně.</translation>
-    </message>
-    <message>
-        <source>Change enharmonicaly and show in the score</source>
-        <translation type="obsolete">Změnit enharmonicky a ukázat v notovém zápisu</translation>
-    </message>
-    <message>
-        <source>Given note show in the score</source>
-        <translation type="obsolete">Ukázání dané noty v notovém zápisu</translation>
-    </message>
-    <message>
-        <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
-        <comment>in key signature</comment>
-        <translation type="obsolete">&lt;br&gt;&lt;b&gt;v tónině %1.&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>Give name of</source>
-        <translation type="obsolete">Udejte název</translation>
-    </message>
-    <message>
-        <source>Show on the guitar</source>
-        <translation type="obsolete">Ukázat na kytaře</translation>
-    </message>
-    <message>
-        <source>Show in the score</source>
-        <translation type="obsolete">Ukázat v notovém zápisu</translation>
-    </message>
-    <message>
-        <source>Change enharmonicaly and give name of</source>
-        <translation type="obsolete">Změnit enharmonicky a udat název</translation>
-    </message>
-    <message>
-        <source>Use another style to give name of</source>
-        <translation type="obsolete">Použít jiný styl pro udání názvu</translation>
-    </message>
-    <message>
-        <source>Play or sing</source>
-        <translation type="obsolete">Přehrát nebo zazpívat</translation>
-    </message>
-    <message>
-        <source>Show on the score note played on</source>
-        <translation type="obsolete">Ukázat přehranou notu v notovém zápisu</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;in %1 key.&lt;/b&gt;</source>
-        <comment>in key signature</comment>
-        <translation type="obsolete">&lt;b&gt;v tónině %1.&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>Listened sound show in the score</source>
-        <translation type="obsolete">Ukázání poslechnutého zvuku v notovém zápisu</translation>
-    </message>
-    <message>
-        <source>Give name of listened sound</source>
-        <translation type="obsolete">Udat název poslechnutého zvuku</translation>
-    </message>
-    <message>
-        <source>Listened sound show on the guitar</source>
-        <translation type="obsolete">Ukázání poslechnutého zvuku na kytaře</translation>
-    </message>
-    <message>
-        <source>Play or sing listened sound</source>
-        <translation type="obsolete">Zahrajte nebo zazpívejte poslechnutý zvuk</translation>
+        <translation>Pro opravu odpovědi</translation>
     </message>
 </context>
 <context>
@@ -1204,35 +1007,6 @@ není platným souborem zkoušky!</translation>
         <translation>Úroveň &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nemá smysl, protože nemá žádnou otázku, kterou by bylo možné zadat.&lt;br&gt;Může být nenastavena na nynější ladění.&lt;br&gt;Opravte to v tvůrci úrovní a zkuste to znovu.</translation>
     </message>
     <message>
-        <source>Given note show </source>
-        <translation type="obsolete">Ukažte zadanou notu </translation>
-    </message>
-    <message>
-        <source>Given note name show </source>
-        <translation type="obsolete">Ukažte název zadané noty </translation>
-    </message>
-    <message>
-        <source>Given position show </source>
-        <translation type="obsolete">Ukažte zadanou polohu </translation>
-    </message>
-    <message>
-        <source>Played sound show </source>
-        <translation type="obsolete">Ukažte přehraný zvuk </translation>
-    </message>
-    <message>
-        <source> &lt;b&gt;in %1 key.&lt;/b&gt;</source>
-        <comment>in key signature</comment>
-        <translation type="obsolete"> &lt;b&gt;v tónině %1.&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source> Wrong octave.</source>
-        <translation type="obsolete"> Chybná oktáva.</translation>
-    </message>
-    <message>
-        <source>&lt;br&gt;Try again !</source>
-        <translation type="obsolete">&lt;br&gt;Zkuste to znovu!</translation>
-    </message>
-    <message>
         <location filename="../src/exam/texamexecutor.cpp" line="916"/>
         <source>Save</source>
         <translation>Uložit</translation>
@@ -1273,49 +1047,9 @@ není platným souborem zkoušky!</translation>
         <translation>Pokud soubor neuložíte&lt;br&gt;ztratíte všechny výsledky!</translation>
     </message>
     <message>
-        <source>Give name of</source>
-        <translation type="obsolete">Udejte název</translation>
-    </message>
-    <message>
         <location filename="../src/exam/texamexecutor.cpp" line="152"/>
         <source>An exam requires sound input but&lt;br&gt;it is not available !!!</source>
         <translation>Zkouška vyžaduje vstup zvuku,&lt;br&gt;ale zvukový vstup není dostupný!</translation>
-    </message>
-    <message>
-        <source>Level &lt;b&gt;%1&lt;b&gt;&lt;br&gt;has no sense till there are no any possible question to ask.&lt;br&gt;It can be unadjusted to current tune.&lt;br&gt;Repair it in Level Creator and try again.</source>
-        <translation type="obsolete">Úroveň &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nemá smysl, protože nemá žádnou otázku, kterou by bylo možné zadat.&lt;br&gt;Může být nenastavena na nynější ladění.&lt;br&gt;Opravte to v tvůrci úrovní a zkuste to znovu.</translation>
-    </message>
-    <message>
-        <source> on &lt;span style=&quot;font-family: nootka; font-size:%1px;&quot;&gt;%2&lt;/span&gt; string.</source>
-        <translation type="obsolete"> na &lt;span style=&quot;font-family: nootka; font-size:%1px;&quot;&gt;%2&lt;/span&gt; struně.</translation>
-    </message>
-    <message>
-        <source>Play or sing given note</source>
-        <translation type="obsolete">Zahrajte nebo zazpívejte danou notu</translation>
-    </message>
-    <message>
-        <source>Exelent !!</source>
-        <translation type="obsolete">Výborně!</translation>
-    </message>
-    <message>
-        <source>Wrong note.</source>
-        <translation type="obsolete">Nesprávná nota.</translation>
-    </message>
-    <message>
-        <source> Wrong key signature.</source>
-        <translation type="obsolete"> Nesprávná tónina.</translation>
-    </message>
-    <message>
-        <source> Wrong accidental.</source>
-        <translation type="obsolete"> Nesprávná posuvka.</translation>
-    </message>
-    <message>
-        <source> Wrong position.</source>
-        <translation type="obsolete"> Nesprávná poloha.</translation>
-    </message>
-    <message>
-        <source>To correct an answer</source>
-        <translation type="obsolete">Pro opravu odpovědi</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="698"/>
@@ -1336,14 +1070,6 @@ není platným souborem zkoušky!</translation>
         <location filename="../src/exam/texamexecutor.cpp" line="877"/>
         <source>so a pity</source>
         <translation>Jaká škoda</translation>
-    </message>
-    <message>
-        <source>Use %1</source>
-        <translation type="obsolete">Použít %1</translation>
-    </message>
-    <message>
-        <source> Don&apos;t use accidentals!</source>
-        <translation type="obsolete">Nepoužívat posuvky!</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="909"/>
@@ -1401,17 +1127,17 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="58"/>
         <source>Exam will be complete when You give answers on all questions.&lt;br&gt;Their number depends on a level of the exam.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zkouška bude hotova, když odpovíte na všechny otázky.&lt;br&gt;Jejich počet závisí naúrovni zkoušky.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="59"/>
         <source>If You made mistake, such a questions will asked two times more and the total number of questions will be increased. Those are penaltys qustions.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokud se spletete, bude taková otázka položena ještě dvakrát a celkový počet otázek bude navýšen. To jsou pokutové otázky.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="60"/>
         <source>When answer is &apos;not so bad&apos;, You get one penalty more.</source>
-        <translation type="unfinished"></translation>
+        <translation>Když odpověď není zas tak špatná, dostanete jednu pokutovou navíc.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="62"/>
@@ -1469,7 +1195,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="39"/>
         <source>Exam results</source>
-        <translation type="unfinished"></translation>
+        <translation>Výsledky zkoušky</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="46"/>
@@ -1509,7 +1235,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="78"/>
         <source>Discard</source>
-        <translation type="unfinished">Odmítnout</translation>
+        <translation>Zahodit</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="103"/>
@@ -1534,7 +1260,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="127"/>
         <source>Wrong key signatures</source>
-        <translation>Nesprávná  předznamenání</translation>
+        <translation>Nesprávná předznamenání</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="129"/>
@@ -1549,16 +1275,12 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="134"/>
         <source>Wrong positions on guitar</source>
-        <translation type="unfinished"></translation>
+        <translation> Nesprávné polohy na kytaře</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="136"/>
         <source>Wrong strings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Wrong frets or strings</source>
-        <translation type="obsolete">Nesprávné pražce nebo struny</translation>
+        <translation>Nesprávné struna</translation>
     </message>
 </context>
 <context>
@@ -1601,17 +1323,17 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/exam/texamview.cpp" line="28"/>
         <source>&apos;Not So Bad&apos; answers</source>
-        <translation type="unfinished"></translation>
+        <translation>Ne zas tak špatné odpovědi</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.cpp" line="29"/>
         <source>(counted as half of a mistake)</source>
-        <translation type="unfinished"></translation>
+        <translation>(počítáno za půl chyby)</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.cpp" line="38"/>
         <source>Exam results</source>
-        <translation type="unfinished"></translation>
+        <translation>Výsledky zkoušky</translation>
     </message>
 </context>
 <context>
@@ -1619,7 +1341,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/exam/texecutorsupply.cpp" line="46"/>
         <source>CONGRATULATIONS!!!&lt;br&gt;You have passed the exam.&lt;br&gt;&lt;br&gt;About prizes speak with parents or another sponsors :-)&lt;br&gt;You can still play with it and improve effectivenes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Blahopřání&lt;br&gt;Udělal jste zkoušku.&lt;br&gt;&lt;br&gt;O odměně si promluvte s rodiči nebo jinými sponzory :-)&lt;br&gt;Můžete si s tím hrát dál a zlepšit účinnost.</translation>
     </message>
 </context>
 <context>
@@ -1724,7 +1446,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="45"/>
         <source>Accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>Posuvky</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="48"/>
@@ -1739,12 +1461,12 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="68"/>
         <source>Check</source>
-        <translation type="unfinished"></translation>
+        <translation>Ověřit</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="69"/>
         <source>Check, Are Your settings of the level possible to perform.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ověřit, zda je možné vaše nastavení úrovně provést.</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="98"/>
@@ -1761,22 +1483,22 @@ ale nebyla uložena!</translation>
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="200"/>
         <source>&lt;li&gt;Nameing styles was checked but neither question nor answers as note name are checked.&lt;br&gt;Check some or uncheck nemeing styles.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Byly zaškrtnuty styly názvů, ale není zaškrtnuta ani otázka ani odpověď jako název noty.&lt;br&gt;Zaškrtněte nějaký, nebo zrušte zaškrtnutí stylů názvů.&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="204"/>
         <source>&lt;li&gt;Questions and answers as note in the score will be the same. Manual selecting keys or forceing accidentals has to be selected to avoid that.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Otázky a odpovědi jako nota v notovém zápisu budou stejné. Musí být vybrán ruční výběr předznamenání nebo vynucení posuvek, aby se tomu zabránilo.&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="209"/>
         <source>&lt;li&gt;Manual selecting of a key signature was checked but any answer as note in the score was not checked.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Byl vybrán vybrán ruční výběr předznamenání, ale nebyla zaškrtnuta žádná odpověď jako nota v notovém zápisu.&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="242"/>
         <source>Level seems to be correct</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdá se, že úroveň je správná</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="248"/>
@@ -1839,49 +1561,49 @@ ale nebyla uložena!</translation>
     <message>
         <location filename="../src/level/tlevelpreview.cpp" line="33"/>
         <source>Level summary:</source>
-        <translation type="unfinished">Přehled úrovně:</translation>
+        <translation>Přehled úrovně:</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelpreview.cpp" line="35"/>
         <source>
  no level selected</source>
-        <translation type="unfinished">
+        <translation>
  Nebyla vybrána žádná úroveň</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelpreview.cpp" line="58"/>
         <source>key signature:</source>
-        <translation type="unfinished">Předznamenání:</translation>
+        <translation>Předznamenání:</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelpreview.cpp" line="67"/>
         <source>accidentals:</source>
-        <translation type="unfinished">Posuvky:</translation>
+        <translation>Posuvky:</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelpreview.cpp" line="69"/>
         <source>none</source>
-        <translation type="unfinished">Žádné</translation>
+        <translation>Žádné</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelpreview.cpp" line="118"/>
         <source>propper octave is required</source>
-        <translation type="unfinished"></translation>
+        <translation>Je požadována správná oktáva</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelpreview.cpp" line="120"/>
         <source>octave has no matter</source>
-        <translation type="unfinished"></translation>
+        <translation>Na oktávě nezáleží</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelpreview.h" line="36"/>
         <source>notes&apos; range:</source>
-        <translation type="unfinished">Rozsah not:</translation>
+        <translation>Rozsah not:</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelpreview.h" line="37"/>
         <source>frets&apos; range:</source>
-        <translation type="unfinished">Rozsah pražců:</translation>
+        <translation>Rozsah pražců:</translation>
     </message>
 </context>
 <context>
@@ -1942,39 +1664,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
 </context>
 <context>
-    <name>TlevelSummaryWdg</name>
-    <message>
-        <source>Level summary:</source>
-        <translation type="obsolete">Přehled úrovně:</translation>
-    </message>
-    <message>
-        <source>
- no level selected</source>
-        <translation type="obsolete">
- Nebyla vybrána žádná úroveň</translation>
-    </message>
-    <message>
-        <source>key signature:</source>
-        <translation type="obsolete">Předznamenání:</translation>
-    </message>
-    <message>
-        <source>accidentals:</source>
-        <translation type="obsolete">Posuvky:</translation>
-    </message>
-    <message>
-        <source>none</source>
-        <translation type="obsolete">Žádné</translation>
-    </message>
-    <message>
-        <source>notes&apos; range:</source>
-        <translation type="obsolete">Rozsah not:</translation>
-    </message>
-    <message>
-        <source>frets&apos; range:</source>
-        <translation type="obsolete">Rozsah pražců:</translation>
-    </message>
-</context>
-<context>
     <name>TmainChart</name>
     <message>
         <location filename="../src/charts/tmainchart.cpp" line="114"/>
@@ -1991,13 +1680,13 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/charts/tmainchart.cpp" line="123"/>
         <source>Key signatures gave by user</source>
-        <translation type="unfinished"></translation>
+        <translation>Předznamenání dáno uživatelem</translation>
     </message>
     <message>
         <location filename="../src/charts/tmainchart.cpp" line="125"/>
         <source>for a key:</source>
         <comment>average reaction time for...</comment>
-        <translation type="unfinished"></translation>
+        <translation>Pro tóninu:</translation>
     </message>
     <message>
         <location filename="../src/charts/tmainchart.cpp" line="162"/>
@@ -2129,7 +1818,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/info/tfirstrunwizzard.cpp" line="135"/>
         <source>letters</source>
         <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country prefered style of nameing key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by You), &apos;solfege&apos; means Do-major/La-minor names</comment>
-        <translation type="unfinished"></translation>
+        <translation>letters</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="147"/>
@@ -2178,32 +1867,32 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/exam/tprogresswidget.cpp" line="100"/>
         <source>Answered questions</source>
-        <translation type="unfinished"></translation>
+        <translation>Zodpovězené otázky</translation>
     </message>
     <message>
         <location filename="../src/exam/tprogresswidget.cpp" line="101"/>
         <source>Remained</source>
-        <translation type="unfinished"></translation>
+        <translation>Zbývá</translation>
     </message>
     <message>
         <location filename="../src/exam/tprogresswidget.cpp" line="103"/>
         <source>Total questions in this exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Celkem otázek v této zkoušce</translation>
     </message>
     <message>
         <location filename="../src/exam/tprogresswidget.cpp" line="104"/>
         <source>penaltys</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokuty</translation>
     </message>
     <message>
         <location filename="../src/exam/tprogresswidget.h" line="37"/>
         <source>Progress of the exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Postup zkoušky</translation>
     </message>
     <message>
         <location filename="../src/exam/tprogresswidget.h" line="38"/>
         <source>Exam was finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Zkouška byla dokončena</translation>
     </message>
 </context>
 <context>
@@ -2259,27 +1948,27 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="36"/>
         <source>Use %1</source>
-        <translation type="unfinished">Použít %1</translation>
+        <translation>Použít %1</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="37"/>
         <source> Don&apos;t use accidentals!</source>
-        <translation type="unfinished">Nepoužívat posuvky!</translation>
+        <translation>Nepoužívat posuvky!</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="44"/>
         <source>on &lt;span style=&quot;font-family: nootka;&quot;&gt;%1&lt;/span&gt; string.</source>
-        <translation type="unfinished">na &lt;span style=&quot;font-family: nootka;&quot;&gt;%1&lt;/span&gt; struně.</translation>
+        <translation>na &lt;span style=&quot;font-family: nootka;&quot;&gt;%1&lt;/span&gt; struně.</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="88"/>
         <source>Change enharmonicaly and show in the score</source>
-        <translation type="unfinished">Změnit enharmonicky a ukázat v notovém zápisu</translation>
+        <translation>Změnit enharmonicky a ukázat v notovém zápisu</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="90"/>
         <source>Given note show in the score</source>
-        <translation type="unfinished">Ukázání dané noty v notovém zápisu</translation>
+        <translation>Ukázání dané noty v notovém zápisu</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="92"/>
@@ -2287,78 +1976,78 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/exam/tquestiontip.cpp" line="189"/>
         <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
-        <translation type="unfinished">&lt;br&gt;&lt;b&gt;v tónině %1.&lt;/b&gt;</translation>
+        <translation>&lt;br&gt;&lt;b&gt;v tónině %1.&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="99"/>
         <location filename="../src/exam/tquestiontip.cpp" line="165"/>
         <source>Give name of</source>
-        <translation type="unfinished">Udejte název</translation>
+        <translation>Udejte název</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="103"/>
         <location filename="../src/exam/tquestiontip.cpp" line="144"/>
         <source>Show on the guitar</source>
-        <translation type="unfinished">Ukázat na kytaře</translation>
+        <translation>Ukázat na kytaře</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="108"/>
         <location filename="../src/exam/tquestiontip.cpp" line="149"/>
         <location filename="../src/exam/tquestiontip.cpp" line="172"/>
         <source>Play or sing</source>
-        <translation type="unfinished">Přehrát nebo zazpívat</translation>
+        <translation>Přehrát nebo zazpívat</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="123"/>
         <source>Show in the score</source>
-        <translation type="unfinished">Ukázat v notovém zápisu</translation>
+        <translation>Ukázat v notovém zápisu</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="134"/>
         <source>Change enharmonicaly and give name of</source>
-        <translation type="unfinished">Změnit enharmonicky a udat název</translation>
+        <translation>Změnit enharmonicky a udat název</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="136"/>
         <source>Use another style to give name of</source>
-        <translation type="unfinished">Použít jiný styl pro udání názvu</translation>
+        <translation>Použít jiný styl pro udání názvu</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="158"/>
         <source>Show on the score note played on</source>
-        <translation type="unfinished">Ukázat přehranou notu v notovém zápisu</translation>
+        <translation>Ukázat přehranou notu v notovém zápisu</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="160"/>
         <source>&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
-        <translation type="unfinished">&lt;b&gt;v tónině %1.&lt;/b&gt;</translation>
+        <translation>&lt;b&gt;v tónině %1.&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="168"/>
         <source>Show sound from position:</source>
         <comment>... and string + fret numbers folowing</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat zvuk z polohy:</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="187"/>
         <source>Listened sound show in the score</source>
-        <translation type="unfinished">Ukázání poslechnutého zvuku v notovém zápisu</translation>
+        <translation>Ukázání poslechnutého zvuku v notovém zápisu</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="196"/>
         <source>Give name of listened sound</source>
-        <translation type="unfinished">Udat název poslechnutého zvuku</translation>
+        <translation>Udat název poslechnutého zvuku</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="202"/>
         <source>Listened sound show on the guitar</source>
-        <translation type="unfinished">Ukázání poslechnutého zvuku na kytaře</translation>
+        <translation>Ukázání poslechnutého zvuku na kytaře</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="207"/>
         <source>Play or sing listened sound</source>
-        <translation type="unfinished">Zahrajte nebo zazpívejte poslechnutý zvuk</translation>
+        <translation>Zahrajte nebo zazpívejte poslechnutý zvuk</translation>
     </message>
 </context>
 <context>
@@ -2436,14 +2125,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Vyberte předchozí zkoušku, nebo ji dostaňte ze souboru.</translation>
     </message>
     <message>
-        <source>Start</source>
-        <translation type="obsolete">Začít</translation>
-    </message>
-    <message>
-        <source>Start or continue exam.</source>
-        <translation type="obsolete">Spustit nebo pokračovat ve zkoušce.</translation>
-    </message>
-    <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="92"/>
         <source>Discard</source>
         <translation>Odmítnout</translation>
@@ -2485,7 +2166,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="151"/>
         <source>Do You realy want to remove Nootka and all its components?</source>
-        <translation type="unfinished"></translation>
+        <translation>Opravdu chcete odstranit Nootku a všechny její součásti?</translation>
     </message>
 </context>
 <context>
@@ -2502,83 +2183,83 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/level/accidsettings.cpp" line="35"/>
         <source># - sharps</source>
-        <translation type="unfinished"># - křížky</translation>
+        <translation># - křížky</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="36"/>
         <source>Sharps will be uesd in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
-        <translation type="unfinished">Ve zkušebních otázkách a odpovědích se budou používat křížky.&lt;br&gt;Musí to být zaškrtnuto, když se používají tóniny s křížky.</translation>
+        <translation>Ve zkušebních otázkách a odpovědích se budou používat křížky.&lt;br&gt;Musí to být zaškrtnuto, když se používají tóniny s křížky.</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="38"/>
         <source>b - flats</source>
-        <translation type="unfinished">b - béčka</translation>
+        <translation>b - béčka</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="39"/>
         <source>Flats will be uesd in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
-        <translation type="unfinished">Ve zkušebních otázkách a odpovědích se budou používat béčka.&lt;br&gt;Musí to být zaškrtnuto, když se používají tóniny s béčky.</translation>
+        <translation>Ve zkušebních otázkách a odpovědích se budou používat béčka.&lt;br&gt;Musí to být zaškrtnuto, když se používají tóniny s béčky.</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="41"/>
         <source>x, bb - double accidentals</source>
-        <translation type="unfinished">x, bb - dvojité posuvky</translation>
+        <translation>x, bb - dvojité posuvky</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="47"/>
         <source>Accidentals used in exam.</source>
-        <translation type="unfinished">Posuvky používané během zkoušky.</translation>
+        <translation>Posuvky používané během zkoušky.</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="52"/>
         <source>use keys singature</source>
-        <translation type="unfinished">Používat předznamenání</translation>
+        <translation>Používat předznamenání</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="57"/>
         <source>single key</source>
-        <translation type="unfinished">Jednoduchá tónina</translation>
+        <translation>Jednoduchá tónina</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="58"/>
         <source>only one, selected key signature&lt;br&gt;for whole exam.</source>
-        <translation type="unfinished">Pouze jedna vybraná tónina&lt;br&gt;pro celou zkoušku.</translation>
+        <translation>Pouze jedna vybraná tónina&lt;br&gt;pro celou zkoušku.</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="59"/>
         <source>range of keys</source>
-        <translation type="unfinished">Rozsah tónin</translation>
+        <translation>Rozsah tónin</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="60"/>
         <source>random key signature from selected range.</source>
-        <translation type="unfinished">Náhodně vybraná tónina z vybraného rozsahu.</translation>
+        <translation>Náhodně vybraná tónina z vybraného rozsahu.</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="69"/>
         <source>Select a key signature.&lt;br&gt;Apropirate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
-        <translation type="unfinished">Vybrat tóninu.&lt;br&gt;Příslušné posuvky používané během zkoušky&lt;br&gt;budou vybrány automaticky!</translation>
+        <translation>Vybrat tóninu.&lt;br&gt;Příslušné posuvky používané během zkoušky&lt;br&gt;budou vybrány automaticky!</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="80"/>
         <source>select a key signature manually</source>
-        <translation type="unfinished">Vybrat tóninu ručně</translation>
+        <translation>Vybrat tóninu ručně</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="81"/>
         <source>if checked, in exam user have to select a key signature,&lt;br&gt;otherwise it is shown by application.</source>
-        <translation type="unfinished">Je-li zaškrtnuto, musí tóninu ve zkoušce vybrat uživatel,&lt;br&gt;jinak je ukázána programem.</translation>
+        <translation>Je-li zaškrtnuto, musí tóninu ve zkoušce vybrat uživatel,&lt;br&gt;jinak je ukázána programem.</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="182"/>
         <location filename="../src/level/accidsettings.cpp" line="195"/>
         <source>Elements are disabled because appropirate types of questions or answers are not selected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Prvky jsou zakázány, protože příslušné typy otázek nebo odpovědí nejsou vybrány.</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.h" line="39"/>
         <source>accidentals</source>
-        <translation type="unfinished">Posuvky</translation>
+        <translation>Posuvky</translation>
     </message>
 </context>
 <context>
@@ -2622,62 +2303,62 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/level/questionssettings.cpp" line="94"/>
         <source>require octave</source>
-        <translation type="unfinished">Požadována oktáva</translation>
+        <translation>Požadována oktáva</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="95"/>
         <source>if checked, selecting of valid octave is required</source>
-        <translation type="unfinished">Je-li zaškrtnuto, je požadován výběr platné oktávy</translation>
+        <translation>Je-li zaškrtnuto, je požadován výběr platné oktávy</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="98"/>
         <source>force useing appropirate accidental</source>
-        <translation type="unfinished">Vynutit používání náležitých posuvek</translation>
+        <translation>Vynutit používání náležitých posuvek</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="99"/>
         <source>if checked, is possible to select a note&lt;br&gt;with given accidental only.</source>
-        <translation type="unfinished">Je-li zaškrtnuto, je možné vybrat notu&lt;br&gt;jen s danou posuvkou.</translation>
+        <translation>Je-li zaškrtnuto, je možné vybrat notu&lt;br&gt;jen s danou posuvkou.</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="102"/>
         <source>use different nameing styles</source>
-        <translation type="unfinished">Používat různé názvy not</translation>
+        <translation>Používat různé názvy not</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="103"/>
         <source>if checked, nameing style is switched between letters and solfge.&lt;br&gt;It has to be checked if note&apos;s name is a question and an answer.</source>
-        <translation type="unfinished">Je-li zaškrtnuto, jsou názvy not přepínány mezi písmeny a solmizací.&lt;br&gt;Musí to být zaškrtnuto, když je název noty otázkou i odpovědí.</translation>
+        <translation>Je-li zaškrtnuto, jsou názvy not přepínány mezi písmeny a solmizací.&lt;br&gt;Musí to být zaškrtnuto, když je název noty otázkou i odpovědí.</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="106"/>
         <source>show string number in questions</source>
-        <translation type="unfinished">Ukázat číslo struny v otázkách</translation>
+        <translation>Ukázat číslo struny v otázkách</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="107"/>
         <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, when it is needed and when it has no sense</source>
-        <translation type="unfinished">Ukazuje, na které struně má být dána odpověď.&lt;br&gt;U tohoto buďte opatrní, kdy je to potřeba a kdy to nedává smysl</translation>
+        <translation>Ukazuje, na které struně má být dána odpověď.&lt;br&gt;U tohoto buďte opatrní, kdy je to potřeba a kdy to nedává smysl</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="111"/>
         <source>notes in the lowest position only</source>
-        <translation type="unfinished">Pouze noty v nejnižší poloze</translation>
+        <translation>Pouze noty v nejnižší poloze</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="112"/>
         <source>if checked, the lowest position in selected frets&apos; range are required,&lt;br&gt;otherwise all possible positions of the note are taken.&lt;br&gt;To use this, all strings have to be available !!</source>
-        <translation type="unfinished">Je-li zaškrtnuto, jsou v rozsahu vybraných pražců vyžadovány nejnižší polohy, &lt;br&gt;jinak jsou používány všechny možné polohy noty.&lt;br&gt;Aby se to dalo použít, je třeba, aby byly dostupné všechny noty!</translation>
+        <translation>Je-li zaškrtnuto, jsou v rozsahu vybraných pražců vyžadovány nejnižší polohy, &lt;br&gt;jinak jsou používány všechny možné polohy noty.&lt;br&gt;Aby se to dalo použít, je třeba, aby byly dostupné všechny noty!</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="115"/>
         <source>notes in current key signature only</source>
-        <translation type="unfinished">Pouze noty z nynější tóniny</translation>
+        <translation>Pouze noty z nynější tóniny</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="116"/>
         <source>Only notes from current key signature are taken.&lt;br&gt;If key signature is disabled accidentals are not used.</source>
-        <translation type="unfinished">Používají se pouze noty z nynější tóniny.&lt;br&gt;Pokud je předznamenání zakázáno, posuvky se nepoužívají.</translation>
+        <translation>Používají se pouze noty z nynější tóniny.&lt;br&gt;Pokud je předznamenání zakázáno, posuvky se nepoužívají.</translation>
     </message>
 </context>
 <context>
@@ -2701,22 +2382,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/level/rangesettings.cpp" line="72"/>
         <source>uncheck strings if You want to skip them&lt;br&gt;in an exam.</source>
         <translation>Odznačte struny, pokud je &lt;br&gt;při zkoušce chcete přeskočit.</translation>
-    </message>
-    <message>
-        <source>notes in the lowest position only</source>
-        <translation type="obsolete">Pouze noty v nejnižší poloze</translation>
-    </message>
-    <message>
-        <source>if checked, the lowest position in selected frets&apos; range are required,&lt;br&gt;otherwise all possible positions of the note are taken.&lt;br&gt;To use this, all strings have to be available !!</source>
-        <translation type="obsolete">Je-li zaškrtnuto, jsou v rozsahu vybraných pražců vyžadovány nejnižší polohy, &lt;br&gt;jinak jsou používány všechny možné polohy noty.&lt;br&gt;Aby se to dalo použít, je třeba, aby byly dostupné všechny noty!</translation>
-    </message>
-    <message>
-        <source>Only notes from current key signature are taken.&lt;br&gt;If key signature is disabled accidentals are not used.</source>
-        <translation type="obsolete">Používají se pouze noty z nynější tóniny.&lt;br&gt;Pokud je předznamenání zakázáno, posuvky se nepoužívají.</translation>
-    </message>
-    <message>
-        <source>notes in current key signature only</source>
-        <translation type="obsolete">Pouze noty z nynější tóniny</translation>
     </message>
 </context>
 </TS>
