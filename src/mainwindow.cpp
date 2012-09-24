@@ -475,7 +475,7 @@ bool MainWindow::event(QEvent *event) {
 }
 
 void MainWindow::resizeEvent(QResizeEvent * event) {
-    setUpdatesEnabled(false);
+//     setUpdatesEnabled(false);
     nootBar->setIconSize(QSize(height()/21, height()/21));
     score->setFixedWidth((centralWidget()->width()/14)*6);
     m_statLab->setFixedHeight(centralWidget()->height()/9);
@@ -492,7 +492,7 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
     examResults->setFontSize(m_statFontSize);
     
 //     examResults->setFixedHeight(qRound(centralWidget()->height() * 0.12));
-    noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(centralWidget()->height() * 0.4)));
+//     noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(centralWidget()->height() * 0.4)));
 //     noteName->setGeometry(score->width() + 2,
 //                           centralWidget()->height() - guitar->height() - qRound(centralWidget()->height() * 0.4),
 //                           centralWidget()->width()- score->width() -2, qRound(centralWidget()->height() * 0.4));
@@ -502,7 +502,8 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
 //     progress->setGeometry(score->width() + 2,
 //                           centralWidget()->height() - guitar->height() - qRound(centralWidget()->height() * 0.5),
 //                           centralWidget()->width()- score->width() -2, qRound(centralWidget()->height() * 0.1));
-    setUpdatesEnabled(true);
+//     setUpdatesEnabled(true);
+    qDebug() << m_statLab->geometry() << progress->geometry() << examResults->geometry() << noteName->geometry();
     emit sizeChanged(event->size());
 }
 

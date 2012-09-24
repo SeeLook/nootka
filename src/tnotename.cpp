@@ -344,10 +344,11 @@ void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
 }
 
 void TnoteName::resize(int fontSize) {
-    nameLabel->setFixedSize(qRound(width()*0.88), qRound(height() * 0.3));
-    nameLabel->setGeometry(geometry().left() + qRound(width()*0.06), geometry().top() + 2,
-      qRound(width()*0.88), qRound(height() * 0.3)
-    );
+//     nameLabel->setFixedSize(qRound(width()*0.88), qRound(height() * 0.3));
+    nameLabel->setFixedSize(parentWidget()->width() * 0.45, parentWidget()->height() / 11 );
+//     nameLabel->setGeometry(geometry().left() + qRound(width()*0.06), geometry().top() + 2,
+//       qRound(width()*0.88), qRound(height() * 0.3)
+//     );
     nameLabel->setFont(QFont(nameLabel->font().family(), qRound(nameLabel->height() * 0.55), 50));
     nameLabel->setText(nameLabel->text());
     if (fontSize) {

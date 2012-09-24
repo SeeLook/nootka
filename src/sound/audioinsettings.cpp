@@ -93,13 +93,18 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   upLay->addLayout(devDetLay);
   QVBoxLayout *tunLay = new QVBoxLayout(); //middle A & threshold layout
   
-  midABox = new QGroupBox(tr("middle A")+" (a1)", this);
+  midABox = new QGroupBox(this);
 //   midABox->setStatusTip(tr("Base frequency of note a<sup>1</sup>"));
   QVBoxLayout *midLay = new QVBoxLayout();
+  QLabel *headLab = new QLabel(tr("middle A")/* + QString(" <img src=\"%1\">").arg()*/, this);
+  midLay->addWidget(headLab, 0, Qt::AlignCenter);
+  QGridLayout *midGrLay = new QGridLayout;
   QLabel *frLab = new QLabel(tr("frequency:"), this);
-  midLay->addWidget(frLab);
+//   midLay->addWidget(frLab);
+  midGrLay->addWidget(frLab, 0, 0);
   freqSpin = new QSpinBox(this);
-  midLay->addWidget(freqSpin);
+//   midLay->addWidget(freqSpin);
+  midGrLay->addWidget(freqSpin, 0, 1);
   freqSpin->setStatusTip(tr("A pitch of detecting notes is related to this value. It also affects played sounds - for midi exaclty and for real audio it is rounded to semitones."));
   freqSpin->setMinimum(400);
   freqSpin->setMaximum(480);
@@ -108,9 +113,11 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   freqSpin->setSuffix(" Hz");
   
   QLabel *intLab = new QLabel(tr("interval:"), this);
-  midLay->addWidget(intLab);
+//   midLay->addWidget(intLab);
+  midGrLay->addWidget(intLab, 1, 0);
   intervalCombo = new QComboBox(this);
-  midLay->addWidget(intervalCombo);
+//   midLay->addWidget(intervalCombo);
+  midGrLay->addWidget(intervalCombo, 1, 1);
   intervalCombo->addItem(tr("semitone up"));
   intervalCombo->addItem(tr("none"));
   intervalCombo->addItem(tr("semitone down"));
@@ -121,6 +128,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
       intervalCombo->setCurrentIndex(0);
     else
       intervalCombo->setCurrentIndex(1);
+  midLay->addLayout(midGrLay);
   
   midABox->setLayout(midLay);
   tunLay->addWidget(midABox);
