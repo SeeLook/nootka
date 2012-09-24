@@ -29,7 +29,7 @@ const QString TexamView::halfMistakenTxt() { return tr("'Not So Bad' answers"); 
 const QString TexamView::halfMistakenAddTxt() { return tr("(counted as half of a mistake)"); }
 
 
-
+QGroupBox *okGr;
 
 TexamView::TexamView(QWidget *parent) :
     QWidget(parent)
@@ -50,7 +50,7 @@ TexamView::TexamView(QWidget *parent) :
     m_mistLab = new QLabel(this);
     okMistLay->addWidget(m_mistLab, 0, Qt::AlignRight);
 //     okMistLay->addStretch(1);
-    QGroupBox *okGr = new QGroupBox(this);
+    okGr = new QGroupBox(this);
     okGr->setLayout(okMistLay);
     mainLay->addWidget(okGr);
 //     mainLay->addLayout(okMistLay);
@@ -187,6 +187,7 @@ void TexamView::setFontSize(int s) {
     m_reactTimeLab->setFixedWidth(s * 3);
     m_averTimeLab->setFixedWidth(s * 3);
     m_totalTimeLab->setFixedWidth(s * 5);
+//     setMinimumHeight(okGr->height() + 5);
 }
 
 void TexamView::countTime() {
