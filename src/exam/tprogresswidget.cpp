@@ -88,6 +88,7 @@ void TprogressWidget::resize(int fontSize) {
     f.setPixelSize(fontSize);
     m_answLab->setFont(f);
     m_totalLab->setFont(f);
+//     setMinimumHeight(m_answLab->height() + 5);
 }
 
 //#############################################################################

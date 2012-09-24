@@ -351,6 +351,7 @@ void TnoteName::resize(int fontSize) {
 //     );
     nameLabel->setFont(QFont(nameLabel->font().family(), qRound(nameLabel->height() * 0.55), 50));
     nameLabel->setText(nameLabel->text());
+    updateGeometry();
     if (fontSize) {
         QFont f = QFont(noteButtons[0]->font().family());
         f.setPixelSize(fontSize);
