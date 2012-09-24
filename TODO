@@ -3,10 +3,11 @@
 - Implement 'not so bad' color, add to Tglobals
 - Key signature text adjust to wudth of TkeySignatuteView
 - Scordatute text layout
-- Multilanguage uninstall text in NSIS
 - Line grid in level creator
-- positions and look of prets numbers and key names in charts
+- positions and look of frets numbers and key names in charts
 - look of analyse dialog 
+- implement sort by accidentals
+
 
 BUGS
     

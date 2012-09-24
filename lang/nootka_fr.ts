@@ -87,7 +87,7 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="96"/>
         <source>middle A</source>
-        <translation>LA de référence (La3 / A4)</translation>
+        <translation>LA central (la&lt;sub&gt;3&lt;/sub&gt; / A&lt;sub&gt;4&lt;/sub&gt;)</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="99"/>
@@ -1746,62 +1746,68 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/tnotename.cpp" line="31"/>
         <source>Contra</source>
-        <translation>do -1 / C1</translation>
+        <translation>contre</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="31"/>
         <source>Great</source>
-        <translation>do1 / C2</translation>
+        <translation>grande</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="31"/>
         <source>Small</source>
-        <translation>do2 / C3</translation>
+        <translation>petite</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="32"/>
         <source>1-line</source>
-        <translation>do3 / C4</translation>
+        <translation>2e</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="32"/>
         <source>2-line</source>
-        <translation>do4 / C5</translation>
+        <translation>3e</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="32"/>
         <source>3-line</source>
-        <translation>do5 / C6</translation>
+        <translation>4e</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="33"/>
         <source>Contra octave</source>
-        <translation>Contre-octave</translation>
+        <translation>Contre octave 
+ (do-1 / C1)</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="34"/>
         <source>Great octave</source>
-        <translation>Grande octave</translation>
+        <translation>Grande octave 
+ (do1 / C2)</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="34"/>
         <source>Small octave</source>
-        <translation>Petite octave</translation>
+        <translation>Petite octave 
+ (do2 / C3)</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="35"/>
         <source>One-line octave</source>
-        <translation>Deuxième petite octave</translation>
+        <translation>Deuxième petite octave 
+ (do3 / C4)</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="35"/>
         <source>Two-line octave</source>
-        <translation>Troisième petite octave</translation>
+        <translation>Troisième petite octave 
+ (do4 / C5)</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="36"/>
         <source>Three-line octave</source>
-        <translation>Quatrième petite octave</translation>
+        <translation>Quatrième petite octave 
+ (do5 / C6)</translation>
     </message>
     <message>
         <location filename="../src/tnotename.cpp" line="190"/>
