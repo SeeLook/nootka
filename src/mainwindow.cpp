@@ -136,7 +136,7 @@ MainWindow::MainWindow(QWidget *parent)
 //     statLay->addLayout(chBlay);
 //     nameLay->addLayout(statLay);
     
-    QVBoxLayout *progresStatLay = new QVBoxLayout;
+//    QVBoxLayout *progresStatLay = new QVBoxLayout;
 //     progresStatLay->addWidget(m_statLab);
     progress = new TprogressWidget(innerWidget);
 //     progresStatLay->addWidget(progress);
@@ -155,6 +155,7 @@ MainWindow::MainWindow(QWidget *parent)
 //     nameLay->addWidget(examResults);
     noteName = new TnoteName(innerWidget);
     noteName->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
 //     nameLay->addWidget(noteName);
 //     nameLay->addStretch(2);
     scoreAndNameLay->addLayout(nameLay);
@@ -500,7 +501,7 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
     examResults->setFontSize(m_statFontSize);
     examResults->setGeometry(posX, progress->geometry().bottom() + gapY, centralWidget()->width()- score->width() -2, 
       centralWidget()->height() * 0.1);
-    examResults->setFixedHeight(centralWidget()->height() * 0.1);
+    examResults->setFixedHeight(centralWidget()->height() * 0.08);
     noteName->resize(m_statFontSize);
 //     examResults->setFixedHeight(qRound(centralWidget()->height() * 0.12));
 //     noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(centralWidget()->height() * 0.4)));
@@ -511,9 +512,9 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
 //     examResults->show();
     
 //     setUpdatesEnabled(true);
-    qDebug() << centralWidget()->height() << m_statLab->geometry().height() << progress->geometry().height()
-    << examResults->geometry().height() << noteName->geometry().height() << guitar->height() 
-    << "tot" << centralWidget()->height() - guitar->height() << "wdg" << m_statLab->geometry().height() + progress->geometry().height() + examResults->geometry().height() + noteName->geometry().height();
+//    qDebug() << centralWidget()->height() << m_statLab->geometry().height() << progress->geometry().height()
+//    << examResults->geometry().height() << noteName->geometry().height() << guitar->height()
+//    << "tot" << centralWidget()->height() - guitar->height() << "wdg" << m_statLab->geometry().height() + progress->geometry().height() + examResults->geometry().height() + noteName->geometry().height();
     emit sizeChanged(event->size());
 }
 

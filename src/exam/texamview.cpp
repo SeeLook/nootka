@@ -29,7 +29,7 @@ const QString TexamView::halfMistakenTxt() { return tr("'Not So Bad' answers"); 
 const QString TexamView::halfMistakenAddTxt() { return tr("(counted as half of a mistake)"); }
 
 
-QGroupBox *okGr;
+//QGroupBox *okGr;
 
 TexamView::TexamView(QWidget *parent) :
     QWidget(parent)
@@ -50,47 +50,47 @@ TexamView::TexamView(QWidget *parent) :
     m_mistLab = new QLabel(this);
     okMistLay->addWidget(m_mistLab, 0, Qt::AlignRight);
 //     okMistLay->addStretch(1);
-    okGr = new QGroupBox(this);
-    okGr->setLayout(okMistLay);
-    mainLay->addWidget(okGr);
-//     mainLay->addLayout(okMistLay);
+//    okGr = new QGroupBox(this);
+//    okGr->setLayout(okMistLay);
+//    mainLay->addWidget(okGr);
+     mainLay->addLayout(okMistLay);
     
     mainLay->addStretch();
 
     m_effLab = new QLabel(this);
     QVBoxLayout *effLay = new QVBoxLayout;
     effLay->addWidget(m_effLab, 0, Qt::AlignCenter);
-    QGroupBox *effGr = new QGroupBox(this);
-    effGr->setLayout(effLay);
-//     mainLay->addWidget(m_effLab);
-    mainLay->addWidget(effGr);
+//    QGroupBox *effGr = new QGroupBox(this);
+//    effGr->setLayout(effLay);
+     mainLay->addWidget(m_effLab);
+//    mainLay->addWidget(effGr);
     mainLay->addStretch();
 
     m_averTimeLab = new QLabel(this);
     QVBoxLayout *averLay = new QVBoxLayout;
     averLay->addWidget(m_averTimeLab);
-    QGroupBox *averGr = new QGroupBox(this);
-    averGr->setLayout(averLay);
-//     mainLay->addWidget(m_averTimeLab);
-    mainLay->addWidget(averGr);
+//    QGroupBox *averGr = new QGroupBox(this);
+//    averGr->setLayout(averLay);
+     mainLay->addWidget(m_averTimeLab);
+//    mainLay->addWidget(averGr);
     mainLay->addStretch();
 
     m_reactTimeLab = new QLabel(this);
     QVBoxLayout *reactLay = new QVBoxLayout;
     reactLay->addWidget(m_reactTimeLab);
-    QGroupBox *reactGr = new QGroupBox(this);
-    reactGr->setLayout(reactLay);
-//     mainLay->addWidget(m_reactTimeLab);
-    mainLay->addWidget(reactGr);
+//    QGroupBox *reactGr = new QGroupBox(this);
+//    reactGr->setLayout(reactLay);
+     mainLay->addWidget(m_reactTimeLab);
+//    mainLay->addWidget(reactGr);
     mainLay->addStretch();
 
     m_totalTimeLab = new QLabel(this);
     QVBoxLayout *totalLay = new QVBoxLayout;
     totalLay->addWidget(m_totalTimeLab);
-    QGroupBox *totalGr = new QGroupBox(this);
-    totalGr->setLayout(totalLay);
-//     mainLay->addWidget(m_totalTimeLab);
-    mainLay->addWidget(totalGr);
+//    QGroupBox *totalGr = new QGroupBox(this);
+//    totalGr->setLayout(totalLay);
+     mainLay->addWidget(m_totalTimeLab);
+//    mainLay->addWidget(totalGr);
     mainLay->addStretch();
 
     setLayout(mainLay);
@@ -100,16 +100,16 @@ TexamView::TexamView(QWidget *parent) :
     m_corrLab->setStatusTip(corrAnswersNrTxt());
     m_halfLab->setStatusTip(halfMistakenTxt() + "<br>" + halfMistakenAddTxt());
     m_mistLab->setStatusTip(mistakesNrTxt());
-//     m_effLab->setStatusTip(effectTxt());
-    effGr->setStatusTip(effectTxt());
-//     m_averTimeLab->setStatusTip(averAnsverTimeTxt() + " " + inSecondsTxt());
-    averGr->setStatusTip(averAnsverTimeTxt() + " " + inSecondsTxt());
+     m_effLab->setStatusTip(effectTxt());
+//    effGr->setStatusTip(effectTxt());
+     m_averTimeLab->setStatusTip(averAnsverTimeTxt() + " " + inSecondsTxt());
+//    averGr->setStatusTip(averAnsverTimeTxt() + " " + inSecondsTxt());
     m_averTimeLab->setAlignment(Qt::AlignCenter);
-//     m_reactTimeLab->setStatusTip(reactTimeTxt() + " " + inSecondsTxt());
-    reactGr->setStatusTip(reactTimeTxt() + " " + inSecondsTxt());
+     m_reactTimeLab->setStatusTip(reactTimeTxt() + " " + inSecondsTxt());
+//    reactGr->setStatusTip(reactTimeTxt() + " " + inSecondsTxt());
     m_reactTimeLab->setAlignment(Qt::AlignCenter);
-//     m_totalTimeLab->setStatusTip(totalTimetxt());
-    totalGr->setStatusTip(totalTimetxt());
+     m_totalTimeLab->setStatusTip(totalTimetxt());
+//    totalGr->setStatusTip(totalTimetxt());
     m_totalTimeLab->setAlignment(Qt::AlignCenter);
     
     m_timer = new QTimer(this);
@@ -197,9 +197,9 @@ void TexamView::countTime() {
 }
 
 void TexamView::clearResults() {
-    m_corrLab->setText("0");
-    m_mistLab->setText("0");
-    m_halfLab->setText("0");
+    m_corrLab->setText("00");
+    m_mistLab->setText("00");
+    m_halfLab->setText("00");
     m_effLab->setText("<b>100%</b>");
     m_averTimeLab->setText("0.0");
     m_reactTimeLab->setText("0.0");
