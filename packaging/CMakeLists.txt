@@ -73,7 +73,7 @@ set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Application to help with learning classica
  levels creator with wide range of settings
  .
  http://nootka.sf.net") #CPACK_PACKAGE_DESCRIPTION_SUMMARY
-set(CPACK_DEBIAN_PACKAGE_SECTION "Education/Sound")
+set(CPACK_DEBIAN_PACKAGE_SECTION "Audio")
 # CPACK_DEBIAN_PACKAGE_PRIORITY #optional
 set(CPACK_DEBIAN_PACKAGE_HOMEPAGE "http://nootka.sf.net")
 set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "timidity")
