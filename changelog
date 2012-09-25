@@ -4,6 +4,7 @@
     - exams can be finished after answering specifed number of questions
     - displaying progress of an exam end details
     - mistakes are stored and are asked oftener
+    - New chart - ordered by key signatures
     - implemented question and answer as position on a guitar
     - recognizeing answers with proper sound but wrong string
     - simpler level creator and improved validation of levels
