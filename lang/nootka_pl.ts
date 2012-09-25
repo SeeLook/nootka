@@ -686,7 +686,7 @@
     <message>
         <location filename="../src/info/tsupportnootka.cpp" line="65"/>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
-        <translation>Nie martw się. To okno.pojawia się tylko raz na wydanie programu. Zawsze znajdziesz je w oknie &apos;O aplikacji Nootka&apos;</translation>
+        <translation>Nie martw się. To okno.pojawia się tylko raz na wydanie programu.&lt;br&gt;Zawsze znajdziesz je w oknie &apos;O aplikacji Nootka&apos;</translation>
     </message>
 </context>
 <context>

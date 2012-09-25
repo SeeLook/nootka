@@ -82,97 +82,97 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="96"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="99"/>
         <source>middle A</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="99"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="102"/>
         <source>frequency:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="103"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="108"/>
         <source>A pitch of detecting notes is related to this value. It also affects played sounds - for midi exaclty and for real audio it is rounded to semitones.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="110"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="115"/>
         <source>interval:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="114"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="121"/>
         <source>semitone up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="115"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="122"/>
         <source>none</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="116"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="123"/>
         <source>semitone down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="117"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="124"/>
         <source>Shifts the frequency of base a&lt;sup&gt;1&lt;/sup&gt; on semitone.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="130"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="138"/>
         <source>noise level:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="140"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="148"/>
         <source>Only sounds louder than noise level are taken to pitch analyse. It can improve the pitch detection accuracy.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="141"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="149"/>
         <source>Calculate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="143"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="151"/>
         <source>Click to automatically detect noise level.&lt;br&gt;Keep silence during 2 seconds to determine it properly.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="151"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="159"/>
         <source>Test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="152"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="160"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="157"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="165"/>
         <source>Check, are audio input settings appropirate for You,&lt;br&gt;and does pitch detection work?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="169"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="177"/>
         <source>Detected pitch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="260"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="268"/>
         <source>no devices found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="267"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="275"/>
         <source>Frequency of detected note. You can use it for tune</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="327"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="335"/>
         <source>There isn&apos;t any noise !?!&lt;br&gt;It seems, Your audio input&lt;br&gt;is not configured properly.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -511,37 +511,37 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="183"/>
+        <location filename="../src/mainwindow.cpp" line="185"/>
         <source>Problems with sound output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="202"/>
+        <location filename="../src/mainwindow.cpp" line="204"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="203"/>
+        <location filename="../src/mainwindow.cpp" line="205"/>
         <source>Application preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="216"/>
+        <location filename="../src/mainwindow.cpp" line="218"/>
         <source>Analyse of an exam results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="219"/>
+        <location filename="../src/mainwindow.cpp" line="221"/>
         <source>about</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="220"/>
+        <location filename="../src/mainwindow.cpp" line="222"/>
         <source>About Nootka</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="239"/>
+        <location filename="../src/mainwindow.cpp" line="241"/>
         <source>Start an exam</source>
         <translation type="unfinished"></translation>
     </message>
@@ -683,7 +683,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/tsupportnootka.cpp" line="65"/>
+        <location filename="../src/info/tsupportnootka.cpp" line="66"/>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
         <translation type="unfinished"></translation>
     </message>
@@ -894,47 +894,47 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="98"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="99"/>
         <source>Select an exam from a file&lt;br&gt;Use %1 + mouse wheel to zoom a chart.&lt;br&gt;Drag a cursor to move the chart.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="126"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="127"/>
         <source>Questions number:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="169"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="170"/>
         <source>Open an exam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="172"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="173"/>
         <source>Close analyser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="175"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="176"/>
         <source>zoom in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="178"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="179"/>
         <source>zoom out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="181"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="182"/>
         <source>include time of wrong answers to average</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="183"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="184"/>
         <source>show wrong answers separately</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="238"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="239"/>
         <source>Load an exam file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -942,7 +942,7 @@
 <context>
     <name>Tcanvas</name>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="120"/>
+        <location filename="../src/exam/tcanvas.cpp" line="121"/>
         <source>To correct an answer</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1326,11 +1326,6 @@
         <source>(counted as half of a mistake)</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="../src/exam/texamview.cpp" line="38"/>
-        <source>Exam results</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>TexecutorSupply</name>
@@ -1394,27 +1389,27 @@
 <context>
     <name>TfirstRunWizzard</name>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="42"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="43"/>
         <source>First run wizzard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="49"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="50"/>
         <source>skip wizzard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="52"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="53"/>
         <source>prev</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="63"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="64"/>
         <source>&lt;center&gt;Guitar notation uses treble clef with &quot;eight&quot; digit below (even if some editors are forgeting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; &lt;img src=&quot;%1&quot;&gt; &lt;img src=&quot;%2&quot;&gt;&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note c in one-line octave)&lt;/center&gt;&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="108"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="126"/>
         <source>Finish</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1790,28 +1785,28 @@ Check please, are its parameters as expected.</source>
 <context>
     <name>Tpage_3</name>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="135"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="160"/>
         <source>letters</source>
         <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country prefered style of nameing key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by You), &apos;solfege&apos; means Do-major/La-minor names</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="138"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="163"/>
         <source>&lt;center&gt;7-th note can be B or H, depends on country&lt;br&gt;Which one is Yours?&lt;br&gt;&lt;/center&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="147"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="175"/>
         <source>I know about double sharps (x) and double flats (bb)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="152"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="180"/>
         <source>I know that e# is the same as f</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="157"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="185"/>
         <source>I know about key signatures</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1825,7 +1820,7 @@ Check please, are its parameters as expected.</source>
 <context>
     <name>Tpage_4</name>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="173"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="201"/>
         <source>Nootka can recognize played or sung sound&lt;br&gt;but it requires adjustment and some practise.&lt;br&gt;All needed settings are in &lt;b&gt;Preferences-&gt;Sound&lt;b&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1851,22 +1846,22 @@ Check please, are its parameters as expected.</source>
 <context>
     <name>TprogressWidget</name>
     <message>
-        <location filename="../src/exam/tprogresswidget.cpp" line="100"/>
+        <location filename="../src/exam/tprogresswidget.cpp" line="101"/>
         <source>Answered questions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/tprogresswidget.cpp" line="101"/>
+        <location filename="../src/exam/tprogresswidget.cpp" line="102"/>
         <source>Remained</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/tprogresswidget.cpp" line="103"/>
+        <location filename="../src/exam/tprogresswidget.cpp" line="104"/>
         <source>Total questions in this exam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/tprogresswidget.cpp" line="104"/>
+        <location filename="../src/exam/tprogresswidget.cpp" line="105"/>
         <source>penaltys</source>
         <translation type="unfinished"></translation>
     </message>
