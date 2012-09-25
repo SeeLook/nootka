@@ -492,7 +492,7 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
     QFont f = m_statLab->font();
     f.setPointSize(m_statFontSize);
     m_statLab->setFont(f);
-    guitar->setFixedHeight((centralWidget()->height() - nootBar->height()) * 0.3);
+    guitar->setFixedHeight((centralWidget()->height() - nootBar->height()) * 0.32);
     progress->resize(m_statFontSize);
     progress->setGeometry(posX, m_statLab->geometry().bottom() + gapY,
                           centralWidget()->width()- score->width() -2, centralWidget()->height() * 0.15);

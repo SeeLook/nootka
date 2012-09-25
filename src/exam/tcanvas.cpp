@@ -89,6 +89,7 @@ void Tcanvas::resultTip(TQAunit* answer, int time) {
     
   m_resultTip = new TgraphicsTextTip(wasAnswerOKtext(answer, answColor, bigFont())/*, answColor*/);
   m_scene->addItem(m_resultTip);
+  m_resultTip->setZValue(100);
   m_resultTip->setScale(m_scale);
   setPosOfResultTip();
   if (time)
@@ -234,7 +235,7 @@ void Tcanvas::setPosOfWhatTip() {
   if (m_whatTip->boundingRect().height() < (m_scene->height() * 0.27))
       m_whatTip->setScale((m_scene->height() * 0.27) / m_whatTip->boundingRect().height());
   m_whatTip->setPos((m_scene->width() - (m_whatTip->scale() * m_whatTip->boundingRect().width())) / 2,
-                  m_scene->height() * 0.68);
+                  m_scene->height() * 0.7);
 }
 
 
@@ -251,11 +252,11 @@ void Tcanvas::setPosOfQuestionTip() {
   QPoint pos;
   if (m_questionTip->freeGuitar()) {
       pos = QPoint((m_scene->width() - (m_questionTip->boundingRect().width())) / 2, 
-                   m_scene->height() * 0.68);
+                   m_scene->height() * 0.7);
   }
     else
       if (m_questionTip->freeName())
-        pos = QPoint((m_scene->width() / 2), (m_scene->height() * 0.68) - m_questionTip->boundingRect().height());
+        pos = QPoint((m_scene->width() / 2), (m_scene->height() * 0.7) - m_questionTip->boundingRect().height());
       else // on the score
         pos = QPoint(((double)m_scene->width() * 0.42 - m_questionTip->boundingRect().width()) / 2 ,
                      m_scene->height() / 10 + (m_scene->height() / 2 - m_questionTip->boundingRect().height()) /2 );

@@ -36,6 +36,7 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
     QString supp;
     supp += "<ul>";
     supp += "<li><b>Translate Nootka</b><br>It does not require any programming skills. Just read <a href=\"http://code.google.com/p/nootka/source/browse/lang/how-to-translate.txt\">the instructions</a>,<br>tramslate and send Your work.<br></li>";
+    supp += "<li><b>Check this version</b><br>If You used any previous version on Nootka, put attention please, are continued exams as You expected. There were many changes in this realm ant it has to be tested.<br></li>";
     supp += "<li><b>Test Nootka intensively</b><br>When You will produce a big exam file, let's say 200 or more questions, it doesn't matter how many mistakes You did, send me the file please. It will help to improve analyse of exams.<br></li>";
     supp += "<li><b>Maintain Nootka package</b><br>Windows, MacOs and various Linux distibutions 32 or 64 bits.<br>Life is too short...<br>If You know how to compile Nootka from sources You would be keep Nootka version for Your platform.<br></li>";
     supp += "<li><b>Make a donation</b><br>Nootka is free of charge but it requires some expenses. To make donation by PayPal:<br> use <a href=\"http://nootka.sourceforge.net/index.php?L=en&C=sup\"> Nootka site</a><br></li>";

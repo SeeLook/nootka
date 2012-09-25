@@ -35,7 +35,7 @@ TexamView::TexamView(QWidget *parent) :
     QWidget(parent)
 {
 //     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Maximum);
-    setStatusTip(tr("Exam results"));
+//     setStatusTip(tr("Exam results"));
     
     QHBoxLayout *mainLay = new QHBoxLayout;
 
