@@ -117,6 +117,10 @@ Section "GrupaGlowna" SEC01
   File "picts\body.png"
   File "picts\c1-trebe.png"
   File "picts\c1-treble_8.png"
+  File "picts\flags-cs.png"
+  File "picts\flags-en.png"
+  File "picts\flags-fr.png"
+  File "picts\flags-pl.png"
   File "picts\check-icon.png"
   File "picts\check.png"
   File "picts\charts.png"
@@ -185,12 +189,13 @@ SectionEnd
 ;  MessageBox MB_ICONINFORMATION|MB_OK "Program $(^Name) zosta³ pomyœlnie usuniêty."
 ;FunctionEnd
 
+   LangString UninstallMess ${LANG_ENGLISH} "Do You realy want to remove $(^Name) and all its components?"
+   LangString UninstallMess ${LANG_POLISH} "Czy rzeczwiœcie chcesz usun¹æ Nutkê i jej sk³adniki?"
+   LangString UninstallMess ${LANG_CZECH} "Opravdu chcete odstranit Nootku a všechny její souèásti?"
+   LangString UninstallMess ${LANG_FRENCH} "Voulez-vous vraiment supprimer Nootka et tous ses composants?"
+
 Function un.onInit
 !insertmacro MUI_UNGETLANGUAGE
-   LangString UninstallMess ${LANG_ENGLISH} "Do You realy want to remove $(^Name) and all its components?"
-   LangString UninstallMess ${LANG_POLISH} "Czy rzeczwi?cie chcesz usun?? Nutk? i jej sk?adniki?"
-   LangString UninstallMess ${LANG_CZECH} "Opravdu chcete odstranit Nootku a všechny její sou?ásti?"
-   LangString UninstallMess ${LANG_POLISH} "Voulez-vous vraiment supprimer Nootka et tous ses composants?"
    MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "$(UninstallMess)" IDYES +2
    Abort
 FunctionEnd
@@ -239,6 +244,10 @@ Section Uninstall
   Delete "$INSTDIR\picts\charts.png"
   Delete "$INSTDIR\picts\zoom-in.png"
   Delete "$INSTDIR\picts\zoom-out.png"
+  Delete "$INSTDIR\picts\flags-cs.png"
+  Delete "$INSTDIR\picts\flags-en.png"
+  Delete "$INSTDIR\picts\flags-fr.png"
+  Delete "$INSTDIR\picts\flags-pl.png"
   Delete "$INSTDIR\picts\c1-treble_8.png"
   Delete "$INSTDIR\picts\c1-trebe.png"
   Delete "$INSTDIR\picts\body.png"
