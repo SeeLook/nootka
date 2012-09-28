@@ -26,7 +26,7 @@
 #include "tnotename.h"
 
 
-AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
+AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* parent) :
   QWidget(parent),
   m_audioIn(0),
   m_glParams(params),
@@ -96,7 +96,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QWidget* parent) :
   midABox = new QGroupBox(this);
 //   midABox->setStatusTip(tr("Base frequency of note a<sup>1</sup>"));
   QVBoxLayout *midLay = new QVBoxLayout();
-  QLabel *headLab = new QLabel(tr("middle A")/* + QString(" <img src=\"%1\">").arg()*/, this);
+  QLabel *headLab = new QLabel("<table><tr><td valign=\"middle\">" + tr("middle A") + QString("&nbsp;&nbsp;&nbsp;<img src=\"%1\"></td></tr></table>").arg(path + "picts/middleA.png"), this);
   midLay->addWidget(headLab, 0, Qt::AlignCenter);
   QGridLayout *midGrLay = new QGridLayout;
   QLabel *frLab = new QLabel(tr("frequency:"), this);

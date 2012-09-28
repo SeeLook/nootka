@@ -8,8 +8,9 @@
 - positions and look of frets numbers and key names in charts
 - look of analyse dialog 
 - implement sort by accidentals
-- add middle a image to audioInsettings
 - prevent to show the same files in level selector
+- avoid 0.0s answer time 
+- time > 60s show as min.
 
 
 

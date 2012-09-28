@@ -208,6 +208,8 @@ void questionsSettings::saveLevel(TexamLevel &level) {
 void questionsSettings::paintEvent(QPaintEvent* ) {
   QPainter painter(this);
   QPen pen = painter.pen();
+  pen.setColor(palette().text().color());
+  pen.setStyle(Qt::DotLine);
   int macOff = 0;
 #if defined (Q_OS_MACX)
   macOff = 5;
@@ -218,8 +220,11 @@ void questionsSettings::paintEvent(QPaintEvent* ) {
                    soundNooLab->geometry().right(), asNoteWdg->enableChBox->geometry().top() + macOff);
   painter.drawLine(m_questLab->geometry().left(), qSoundNooLab->geometry().top() + macOff, // horizontal line - under 'QUESTION'
                    soundNooLab->geometry().right(), qSoundNooLab->geometry().top() + macOff);
-  painter.drawLine(m_answLab->geometry().right() + 3 + 3 * macOff, m_answLab->geometry().top(), // vertical line - right to 'ANSWER''
-                   m_answLab->geometry().right() + 3 + 3 * macOff, qSoundNooLab->geometry().bottom() + 3 * macOff);
+  int xOff = (asNoteWdg->asNoteChB->geometry().left() - asNoteWdg->enableChBox->geometry().right()) / 2;
+  painter.drawLine(asNoteWdg->enableChBox->geometry().right() + xOff + 3 * macOff,
+                   m_answLab->geometry().top(), // vertical line - right to 'ANSWER''
+                   asNoteWdg->enableChBox->geometry().right() + xOff + 3 * macOff,
+                   qSoundNooLab->geometry().bottom() + 3 * macOff);
   painter.drawLine(soundNooLab->geometry().left() + macOff, m_answLab->geometry().top(), // vertical line - right to All answers
                    soundNooLab->geometry().left() + macOff, qSoundNooLab->geometry().bottom() + 3 * macOff);
 }
