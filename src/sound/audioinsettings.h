@@ -38,7 +38,7 @@ class AudioInSettings: public QWidget
   Q_OBJECT
 public:
   
-  explicit AudioInSettings(TaudioParams *params, QWidget *parent = 0);
+  explicit AudioInSettings(TaudioParams *params, QString path, QWidget *parent = 0);
   virtual ~AudioInSettings();
   
   QString testTxt, stopTxt;

@@ -100,15 +100,17 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, QWidget *parent) :
 
     mainLay->addWidget(examGr);
 
-    QGroupBox *hGr = new QGroupBox(this);
-    QVBoxLayout *hLay = new QVBoxLayout;
+//     QGroupBox *hGr = new QGroupBox(this);
+//     QVBoxLayout *hLay = new QVBoxLayout;
     m_hintLabel = new QLabel(this);
-    hLay->addWidget(m_hintLabel);
-    hGr->setLayout(hLay);
+//     hLay->addWidget(m_hintLabel);
+//     hGr->setLayout(hLay);
     m_hintLabel->setFixedHeight(70);
     m_hintLabel->setWordWrap(true);
+    m_hintLabel->setStyleSheet("border: 1px solid palette(Text); border-radius: 10px; background-color: palette(Base)");
 
-    mainLay->addWidget(hGr);
+//     mainLay->addWidget(hGr);
+    mainLay->addWidget(m_hintLabel);
     setLayout(mainLay);
     
     setStatusTip("<b>" + tr("Would You like to start new exam or continue previous one ?<br>To start new one, put your name and select a level.<br>To continue previous, select it from the list or load from file.") + "</b>" );

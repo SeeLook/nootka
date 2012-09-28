@@ -42,6 +42,9 @@
 
 extern Tglobals *gl;
 
+
+QLabel *nootLab;
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
@@ -165,6 +168,10 @@ MainWindow::MainWindow(QWidget *parent)
     mainLay->addWidget(guitar);
     innerWidget->setLayout(mainLay);
     setCentralWidget(innerWidget);
+    
+    progress->hide();
+    examResults->hide();
+    nootLab = new QLabel(QString("<center><img src=\"%1\"></center>").arg(gl->path + "picts/logo.png"), innerWidget);
 //-------------------------------------------------------------------
     m_statusText = "";
     m_prevBg = -1;
@@ -279,6 +286,9 @@ void MainWindow::clearAfterExam(TexamExecutor::Estate examState) {
 	openLevelCreator();
     else
 	sound->go();
+  progress->hide();
+  examResults->hide();
+  nootLab->show();
 }
 
 //##########################################################################################
@@ -354,6 +364,9 @@ void MainWindow::openLevelCreator(QString levelFile) {
 
 void MainWindow::startExamSlot() {
     sound->stopPlaying();
+    nootLab->hide();
+    progress->show();
+    examResults->show();
     ex = new TexamExecutor(this);
 }
 
@@ -509,6 +522,8 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
                           centralWidget()->width() - score->width() -2, qRound(centralWidget()->height() * 0.4));
     noteName->resize(m_statFontSize);
     pitchView->resize(m_statFontSize);
+    nootLab->setGeometry(posX, qRound(centralWidget()->height() * 0.12), centralWidget()->width()- score->width() -2,
+          qRound(centralWidget()->height() * 0.25));
 //     examResults->show();
     
 //     setUpdatesEnabled(true);

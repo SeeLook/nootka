@@ -276,7 +276,11 @@ void TexamExecutor::askQuestion() {
             Tnote tmpNote = curQ.qa.note;
             if (m_level.isSingleKey) { //for single key
                 curQ.key = m_level.loKey;
-                tmpNote = m_level.loKey.inKey(curQ.qa.note);
+                if (m_level.onlyCurrKey) {
+                    tmpNote = m_level.loKey.inKey(curQ.qa.note);
+                    if (tmpNote == Tnote(0, 0, 0))
+                      qDebug() << "No note from questions list in single key. It should never happend!!" << tmpNote.toText();
+                }
             } else { // for multi keys
                 curQ.key = TkeySignature((qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) +
                                          m_level.loKey.value());
@@ -300,12 +304,13 @@ void TexamExecutor::askQuestion() {
             }
             curQ.qa.note = tmpNote;
         }
-        if ( !m_level.onlyCurrKey) // if key dosen't determine accidentals, we do this
+        if (!m_level.onlyCurrKey) { // if key dosen't determine accidentals, we do this
             curQ.qa.note = m_supp->determineAccid(curQ.qa.note);
+        }
     }
 
-//    qDebug() << QString::fromStdString(curQ.qa.note.getName()) << "Q" << (int)curQ.questionAs
-//            << "A" << (int)curQ.answerAs << curQ.key.getMajorName()
+//    qDebug() << curQ.qa.note.toText() << "Q" << (int)curQ.questionAs
+//            << "A" << (int)curQ.answerAs << curQ.key.getName()
 //            << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
 
   // ASKING QUESIONS
