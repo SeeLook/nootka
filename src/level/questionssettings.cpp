@@ -86,8 +86,9 @@ questionsSettings::questionsSettings(QWidget *parent) :
     qSoundNooLab->setFont(nf);
     qaLay->addWidget(qSoundNooLab, 5, 5);
     
-    qaGr->setLayout(qaLay);
-    mainLay->addWidget(qaGr);
+//     qaGr->setLayout(qaLay);
+//     mainLay->addWidget(qaGr);
+    mainLay->addLayout(qaLay);
     
   // some checkBoxes
     QGridLayout *chLay = new QGridLayout;
@@ -209,7 +210,6 @@ void questionsSettings::paintEvent(QPaintEvent* ) {
   QPainter painter(this);
   QPen pen = painter.pen();
   pen.setColor(palette().text().color());
-  pen.setStyle(Qt::DotLine);
   int macOff = 0;
 #if defined (Q_OS_MACX)
   macOff = 5;
