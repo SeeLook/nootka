@@ -292,7 +292,7 @@ void TfingerBoard::clearHighLight() {
 
 void TfingerBoard::paint() {
 //     m_fbRect = QRect(10, height()/8, (6*width())/7, height()-height()/4);
-    m_fbRect = QRect(10, 5, (6*width())/7, height() - 6);
+    m_fbRect = QRect(10, 5, (6*width())/7, height() - 4);
     m_fretWidth = ((m_fbRect.width() + ((gl->GfretsNumber / 2)*(gl->GfretsNumber / 2 +1))
                   + gl->GfretsNumber / 4) / (gl->GfretsNumber+1)) +1;
     m_strGap = (height()-2*m_fbRect.y()) / 6;

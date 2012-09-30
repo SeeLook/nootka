@@ -106,6 +106,7 @@ private:
         * and stops any status messages in this time.*/
     bool m_lockStat;
     QColor m_prevBg, m_curBG;
+    QPixmap m_guitarBg;
     int m_statFontSize;
     QCheckBox *m_hintsChB;
          /** Keeps true when Dialog windows is opened, to avoid opening another file. */

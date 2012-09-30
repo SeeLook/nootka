@@ -191,6 +191,8 @@ MainWindow::MainWindow(QWidget *parent)
     if (gl->A->OUTenabled && !sound->isPlayable())
         QMessageBox::warning(this, "", tr("Problems with sound output"));
     
+    m_guitarBg.load(gl->path + "picts/guitar.png");
+    
 //     QTimer::singleShot(100, this, SLOT(analyseSlot()));
     
 }
@@ -505,7 +507,7 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
     QFont f = m_statLab->font();
     f.setPointSize(m_statFontSize);
     m_statLab->setFont(f);
-    guitar->setFixedHeight((centralWidget()->height() - nootBar->height()) * 0.32);
+    guitar->setFixedHeight((centralWidget()->height() - nootBar->height()) * 0.25);
     progress->resize(m_statFontSize);
     progress->setGeometry(posX, m_statLab->geometry().bottom() + gapY,
                           centralWidget()->width()- score->width() -2, centralWidget()->height() * 0.15);
@@ -544,12 +546,9 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 
 void MainWindow::paintEvent(QPaintEvent* ) {
     QPainter painter(this);
-    QPixmap guitarPix(gl->path + "picts/guitar.png");
-    QSize guitarSize;
-    guitarSize.setHeight(qRound(((double)guitar->height() / 234.0) * (double)guitarPix.height()));
-    guitarSize.setWidth(centralWidget()->width() * 0.35);
+    int guitH = qRound(((double)guitar->height() / 234.0) * (double)m_guitarBg.height());
 //     qDebug() << guitarSize;
-    guitarPix.scaled(guitarSize, Qt::IgnoreAspectRatio);
+    QPixmap guitarPix = m_guitarBg.scaledToHeight(guitH);
     painter.drawPixmap(centralWidget()->width() * 0.65,
                              centralWidget()->height() - guitarPix.height(), 
                              guitarPix);
