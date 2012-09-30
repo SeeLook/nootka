@@ -291,7 +291,8 @@ void TfingerBoard::clearHighLight() {
 
 
 void TfingerBoard::paint() {
-    m_fbRect = QRect(10, height()/8, (6*width())/7, height()-height()/4);
+//     m_fbRect = QRect(10, height()/8, (6*width())/7, height()-height()/4);
+    m_fbRect = QRect(10, 5, (6*width())/7, height() - 6);
     m_fretWidth = ((m_fbRect.width() + ((gl->GfretsNumber / 2)*(gl->GfretsNumber / 2 +1))
                   + gl->GfretsNumber / 4) / (gl->GfretsNumber+1)) +1;
     m_strGap = (height()-2*m_fbRect.y()) / 6;
@@ -315,12 +316,12 @@ void TfingerBoard::paint() {
         scale(-1, 1);
     }
   // Guitar body
-    painter.setPen(QPen(QColor("#ECC93E")));
-    painter.setBrush(QBrush(QPixmap(gl->path+"picts/body.png")));
-    painter.drawRect(m_fretsPos[11], 0, width()-m_fretsPos[11]-37, height());
-    painter.setPen(QPen(Qt::red,10,Qt::SolidLine));
-    painter.setBrush(QBrush(QColor("#404040"),Qt::SolidPattern));
-    painter.drawEllipse(lastFret,0-m_fbRect.y(),height()+2*m_fbRect.y(),height()+2*m_fbRect.y());
+//     painter.setPen(QPen(QColor("#ECC93E")));
+//     painter.setBrush(QBrush(QPixmap(gl->path+"picts/body.png")));
+//     painter.drawRect(m_fretsPos[11], 0, width()-m_fretsPos[11]-37, height());
+//     painter.setPen(QPen(Qt::red,10,Qt::SolidLine));
+//     painter.setBrush(QBrush(QColor("#404040"),Qt::SolidPattern));
+//     painter.drawEllipse(lastFret,0-m_fbRect.y(),height()+2*m_fbRect.y(),height()+2*m_fbRect.y());
   // FINGERBOARD
     painter.setPen(QPen(Qt::black,0,Qt::NoPen));
     painter.setBrush(QBrush(Qt::black,Qt::SolidPattern));

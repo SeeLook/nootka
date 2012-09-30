@@ -544,7 +544,14 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 
 void MainWindow::paintEvent(QPaintEvent* ) {
     QPainter painter(this);
-//     QImage guitarPix(gl->path + "picts/guitar.png");    
+    QPixmap guitarPix(gl->path + "picts/guitar.png");
+    QSize guitarSize;
+    guitarSize.setHeight(qRound(guitar->height() / 234) * guitarPix.height());
+    guitarSize.setWidth(centralWidget()->width() * 0.3);
+    guitarPix.scaled(guitarSize, Qt::IgnoreAspectRatio);
+    painter.drawPixmap(centralWidget()->width() * 0.7,
+                             centralWidget()->height() - guitarPix.height(), 
+                             guitarPix);
 }
 
 
