@@ -546,10 +546,11 @@ void MainWindow::paintEvent(QPaintEvent* ) {
     QPainter painter(this);
     QPixmap guitarPix(gl->path + "picts/guitar.png");
     QSize guitarSize;
-    guitarSize.setHeight(qRound(guitar->height() / 234) * guitarPix.height());
-    guitarSize.setWidth(centralWidget()->width() * 0.3);
+    guitarSize.setHeight(qRound(((double)guitar->height() / 234.0) * (double)guitarPix.height()));
+    guitarSize.setWidth(centralWidget()->width() * 0.35);
+//     qDebug() << guitarSize;
     guitarPix.scaled(guitarSize, Qt::IgnoreAspectRatio);
-    painter.drawPixmap(centralWidget()->width() * 0.7,
+    painter.drawPixmap(centralWidget()->width() * 0.65,
                              centralWidget()->height() - guitarPix.height(), 
                              guitarPix);
 }
