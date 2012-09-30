@@ -91,6 +91,7 @@ protected:
     bool event(QEvent *event);
     void closeEvent(QCloseEvent *event);
     bool eventFilter(QObject* obj, QEvent* event);
+    void paintEvent(QPaintEvent *);
         
 protected slots:
     void restoreMessage();
