@@ -542,6 +542,12 @@ void MainWindow::closeEvent(QCloseEvent *event) {
     }
 }
 
+void MainWindow::paintEvent(QPaintEvent* ) {
+    QPainter painter(this);
+//     QImage guitarPix(gl->path + "picts/guitar.png");    
+}
+
+
 
 bool MainWindow::eventFilter(QObject* obj, QEvent* event) {
     if (event->type() == QEvent::FileOpen)
