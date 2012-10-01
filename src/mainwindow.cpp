@@ -533,7 +533,7 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
     int guitW = centralWidget()->width() / 2;
 //     m_bgPixmap = bgPix.scaledToHeight(guitH);
     m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
-    qDebug() << m_bgPixmap.size() << centralWidget()->width() << guitar->geometry().x() << guitar->posX12fret();
+//    qDebug() << m_bgPixmap.size() << centralWidget()->width() << guitar->geometry().x() << guitar->posX12fret();
     repaint();
     
 //     examResults->show();
@@ -543,6 +543,8 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
 //    << examResults->geometry().height() << noteName->geometry().height() << guitar->height()
 //    << "tot" << centralWidget()->height() - guitar->height() << "wdg" << m_statLab->geometry().height() + progress->geometry().height() + examResults->geometry().height() + noteName->geometry().height();
     emit sizeChanged(event->size());
+    guitar->paint();
+    noteName->repaint();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
@@ -555,10 +557,17 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 }
 
 void MainWindow::paintEvent(QPaintEvent* ) {
+//    noteName->repaint();
+//    guitar->scene()->update(guitar->rect());
     QPainter painter(this);
+    if (!gl->GisRightHanded) {
+        painter.translate(width(), 0);
+        painter.scale(-1, 1);
+    }
     painter.drawPixmap(guitar->posX12fret(),
                              guitar->geometry().bottom() - m_bgPixmap.height(), 
                              m_bgPixmap);
+
 }
 
 

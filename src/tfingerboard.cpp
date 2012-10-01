@@ -329,9 +329,9 @@ void TfingerBoard::paint() {
     QPolygon a;
     a.setPoints(5, m_fbRect.x()+2, m_fbRect.y()-m_strGap/3,
                 m_fbRect.x()+m_fbRect.width()+m_strGap/3, m_fbRect.y()-m_strGap/3,
-                m_fbRect.x()+m_fbRect.width()+m_strGap/3, height()-m_fbRect.y()-m_strGap/3,
-                m_fbRect.x()+m_fbRect.width(), height()-m_fbRect.y(),
-                m_fbRect.x(), height()-m_fbRect.y());
+                m_fbRect.x()+m_fbRect.width()+m_strGap/3, height() - m_strGap/3,
+                m_fbRect.x()+m_fbRect.width(), height(),
+                m_fbRect.x(), height());
     painter.drawPolygon(a);
     painter.setBrush(QBrush(QPixmap(gl->path+"picts/fingbg.png")));
     painter.drawRect(m_fbRect);
@@ -350,7 +350,7 @@ void TfingerBoard::paint() {
         //white color for circles marking 5,7,9... frets
     painter.setBrush(QBrush(Qt::white, Qt::SolidPattern));
     for (int i=0; i<gl->GfretsNumber; i++) {
-        painter.drawLine(m_fretsPos[i], m_fbRect.y()+2, m_fretsPos[i], height()-m_fbRect.y()-1);
+        painter.drawLine(m_fretsPos[i], m_fbRect.y() + 2, m_fretsPos[i], height() - 1);
         if ( i==4 || i==6 || i==8 || i==11 || i==14 || i==16)	{
             painter.setPen(QPen(Qt::black,0,Qt::NoPen));
             painter.drawEllipse(m_fretsPos[i]-4-(m_fretsPos[i]-m_fretsPos[i-1])/2,
@@ -395,6 +395,7 @@ void TfingerBoard::paint() {
         m_strings[i]->setLine(m_workStrings[i]->line());
   // drawing digits of strings in circles
         painter.setPen(QPen(strColor, 1, Qt::SolidLine));
+        painter.setBrush(QBrush(QColor(100, 100, 100, 200)));
         int wd40;
         if (!gl->GisRightHanded) {
             painter.scale (-1, 1);

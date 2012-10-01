@@ -57,7 +57,7 @@ public:
     int posX12fret() { return m_fretsPos[11]; }
         /** Returns width of a string. */
     qreal stringWidth(int strNr) { return m_strWidth[qBound(1, strNr + 1, 6)]; }
-
+void paint();
 
 signals:
     void guitarClicked(Tnote note);
@@ -69,7 +69,7 @@ protected:
     void mousePressEvent(QMouseEvent *event);
     bool event(QEvent *event);
     
-    void paint();
+//    void paint();
     Tnote posToNote(int str, int fret);
 
 private:
