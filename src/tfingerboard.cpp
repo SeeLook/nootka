@@ -292,15 +292,16 @@ void TfingerBoard::clearHighLight() {
 
 void TfingerBoard::paint() {
 //     m_fbRect = QRect(10, height()/8, (6*width())/7, height()-height()/4);
-    m_fbRect = QRect(10, 5, (6*width())/7, height() - 4);
-    m_fretWidth = ((m_fbRect.width() + ((gl->GfretsNumber / 2)*(gl->GfretsNumber / 2 +1))
-                  + gl->GfretsNumber / 4) / (gl->GfretsNumber+1)) +1;
-    m_strGap = (height()-2*m_fbRect.y()) / 6;
+    m_fbRect = QRect(10, height() / 18, (6 * width()) / 7, height() - height() / 18);
+    m_fretWidth = ((m_fbRect.width() + ((gl->GfretsNumber / 2)*(gl->GfretsNumber / 2 + 1))
+                  + gl->GfretsNumber / 4) / (gl->GfretsNumber+1)) + 1;
+//     m_strGap = (height() - 2 * m_fbRect.y()) / 6;
+    m_strGap = m_fbRect.height() / 6;
     m_fretsPos[0] = m_fbRect.x() + m_fretWidth;
-    for (int i=2; i<gl->GfretsNumber+1; i++)
-        m_fretsPos[i-1] = m_fretsPos[i-2]+(m_fretWidth-(i/2));
-    lastFret = m_fretsPos[gl->GfretsNumber-1];
-    if (lastFret > (m_fbRect.width()+10))
+    for (int i = 2; i < gl->GfretsNumber + 1; i++)
+        m_fretsPos[i - 1] = m_fretsPos[i - 2] + (m_fretWidth-(i / 2));
+    lastFret = m_fretsPos[gl->GfretsNumber - 1];
+    if (lastFret > (m_fbRect.width() + 10))
         m_fbRect.setWidth(lastFret - 8);
   // Let's paint
     QPixmap pixmap(size());
@@ -309,7 +310,7 @@ void TfingerBoard::paint() {
     QPainter painter(&pixmap);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setRenderHint(QPainter::TextAntialiasing, true);
-    painter.setWindow(0,0,width(),height());
+    painter.setWindow(0 , 0, width(), height());
     resetTransform();
     if (!gl->GisRightHanded) {
         translate(width(), 0);
@@ -362,35 +363,35 @@ void TfingerBoard::paint() {
     strFont.setPixelSize((int)qRound(0.75*m_strGap));//setting font for digits
     painter.setFont(strFont);
     QColor strColor;
-    int strWidth; //width of the string depends on its number
+//     int strWidth; //width of the string depends on its number
     painter.setBrush(QBrush(Qt::NoBrush));
     for (int i=0; i<6; i++) {
         if (i < 2) {
             strColor = Qt::white;
             strColor.setAlpha(175);
-            strWidth = 1;
+//             strWidth = 1;
         } else
             if (i==2) {
                 strColor = Qt::white;
                 strColor.setAlpha(125);
-                strWidth = 2;
+//                 strWidth = 2;
             } else
                 if ( (i==3) || (i==4) ) {
                     strColor = QColor("#C29432"); //#C29432 gold color for bass strings
                     strColor.setAlpha(255);
-                    strWidth = 2;
+//                     strWidth = 2;
                 } else {
                     strColor = QColor("#C29432");
-                    strWidth = 3;
+//                     strWidth = 3;
                 }
 //     drawing main strings
-        painter.setPen(QPen(strColor,strWidth,Qt::SolidLine));
+        painter.setPen(QPen(strColor, m_strWidth[i], Qt::SolidLine));
         painter.drawLine(1, m_fbRect.y()+m_strGap/2+i*m_strGap,
                          width()-1-m_strGap, m_fbRect.y()+m_strGap/2+i*m_strGap);
-        m_workStrings[i]->setPen(QPen(gl->GfingerColor, strWidth+2, Qt::SolidLine));
+        m_workStrings[i]->setPen(QPen(gl->GfingerColor, m_strWidth[i] + 2, Qt::SolidLine));
         m_workStrings[i]->setLine(1, m_fbRect.y()+m_strGap/2+i*m_strGap, width()-1-m_strGap,
                                   m_fbRect.y()+m_strGap/2+i*m_strGap);
-        m_strings[i]->setPen(QPen(gl->GselectedColor, strWidth, Qt::SolidLine));
+        m_strings[i]->setPen(QPen(gl->GselectedColor, m_strWidth[i], Qt::SolidLine));
         m_strings[i]->setLine(m_workStrings[i]->line());
   // drawing digits of strings in circles
         painter.setPen(QPen(strColor, 1, Qt::SolidLine));
@@ -413,14 +414,14 @@ void TfingerBoard::paint() {
               painter.scale (-1, 1);
           }
   // shadow of the strings
-          painter.setPen(QPen(Qt::black,strWidth,Qt::SolidLine));
-          painter.drawLine(m_fbRect.x()+1, m_fbRect.y()+m_strGap/2+i*m_strGap+3+strWidth,
-                           m_fbRect.x()+m_fbRect.width()-1, m_fbRect.y()+m_strGap/2+i*m_strGap+3+strWidth);
-          painter.setPen(QPen(Qt::black,1,Qt::SolidLine)); //on the fingerboard
-          painter.drawLine(m_fbRect.x()-8, m_fbRect.y()+m_strGap/2+i*m_strGap-2,
-                           m_fbRect.x(), m_fbRect.y()+m_strGap/2+i*m_strGap-2);
-          painter.drawLine(m_fbRect.x()-8, m_fbRect.y()+m_strGap/2+i*m_strGap+strWidth-1,
-                           m_fbRect.x()-1, m_fbRect.y()+m_strGap/2+i*m_strGap+strWidth-1);
+          painter.setPen(QPen(Qt::black, m_strWidth[i], Qt::SolidLine));
+          painter.drawLine(m_fbRect.x() + 1, m_fbRect.y() + m_strGap / 2 + i * m_strGap+3 + m_strWidth[i],
+                           m_fbRect.x() + m_fbRect.width() - 1, m_fbRect.y() + m_strGap / 2 + i * m_strGap + 3 + m_strWidth[i]);
+          painter.setPen(QPen(Qt::black, 1, Qt::SolidLine)); //on the fingerboard
+          painter.drawLine(m_fbRect.x() - 8, m_fbRect.y() + m_strGap / 2 + i * m_strGap - 2,
+                           m_fbRect.x(), m_fbRect.y() + m_strGap / 2 + i * m_strGap - 2);
+          painter.drawLine(m_fbRect.x() - 8, m_fbRect.y() + m_strGap / 2 + i * m_strGap + m_strWidth[i] - 1,
+                           m_fbRect.x() - 1, m_fbRect.y() + m_strGap / 2 + i * m_strGap + m_strWidth[i] - 1);
 
     }
 //    m_workFinger->setRect(0,0, fretWidth/1.7, qRound(0.6*strGap));
@@ -453,7 +454,14 @@ Tnote TfingerBoard::posToNote(int str, int fret) {
 //################################################################################################
 
 void TfingerBoard::resizeEvent(QResizeEvent *){
-    m_scene->setSceneRect(0,0,width(),height());
+    m_scene->setSceneRect(0, 0, width(), height());
+    qreal wFactor = height() / 150.0;
+    m_strWidth[0] = 1 * wFactor;
+    m_strWidth[1] = 2 * wFactor;
+    m_strWidth[2] = 2 * wFactor;
+    m_strWidth[3] = 2 * wFactor;
+    m_strWidth[4] = 2 * wFactor;
+    m_strWidth[5] = 3 * wFactor;
     paint();
 }
 
