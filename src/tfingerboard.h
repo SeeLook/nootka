@@ -53,6 +53,10 @@ public:
         /** Highlights given string */
     void setHighlitedString(char realStrNr);
     void clearHighLight();
+        /** Returns x coordinate of 12th fret where guitar body starts. */
+    int posX12fret() { return m_fretsPos[11]; }
+        /** Returns width of a string. */
+    qreal stringWidth(int strNr) { return m_strWidth[qBound(1, strNr + 1, 6)]; }
 
 
 signals:
@@ -83,6 +87,8 @@ private:
     TfingerPos m_fingerPos;
         /** @param fretsPos  stores X positions of frets in global widget coordinates */
     short m_fretsPos[24];
+        /** Array of width each string. Width depends on fretboard height. */
+    qreal m_strWidth[6];
 
     QGraphicsScene *m_scene;
     QGraphicsEllipseItem *m_workFinger, *m_fingers[6], *m_questFinger;

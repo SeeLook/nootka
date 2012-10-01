@@ -11,6 +11,7 @@
 - prevent to show the same files in level selector
 - avoid 0.0s answer time 
 - time > 60s show as min.
+- load qt translations
 
 
 

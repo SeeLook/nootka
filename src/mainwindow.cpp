@@ -191,8 +191,6 @@ MainWindow::MainWindow(QWidget *parent)
     if (gl->A->OUTenabled && !sound->isPlayable())
         QMessageBox::warning(this, "", tr("Problems with sound output"));
     
-    m_guitarBg.load(gl->path + "picts/guitar.png");
-    
 //     QTimer::singleShot(100, this, SLOT(analyseSlot()));
     
 }
@@ -520,12 +518,24 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
     noteName->resize(m_statFontSize);
 //     examResults->setFixedHeight(qRound(centralWidget()->height() * 0.12));
 //     noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(centralWidget()->height() * 0.4)));
-    noteName->setGeometry(posX, qRound(centralWidget()->height() * 0.3),
+    noteName->setGeometry(posX, qRound(centralWidget()->height() * 0.35),
                           centralWidget()->width() - score->width() -2, qRound(centralWidget()->height() * 0.4));
     noteName->resize(m_statFontSize);
     pitchView->resize(m_statFontSize);
     nootLab->setGeometry(posX, qRound(centralWidget()->height() * 0.12), centralWidget()->width()- score->width() -2,
           qRound(centralWidget()->height() * 0.25));
+    
+    guitar->show();
+    QPixmap bgPix(gl->path + "picts/guitar.png");
+    int guitH = qRound(((double)guitar->height() / 300.0) * 774.0);
+//     int posX12fr = qMax(guitar->posX12fret(), qRound(centralWidget()->width() / 2.2));
+//     int guitW = centralWidget()->width() - (posX12fr);
+    int guitW = centralWidget()->width() / 2;
+//     m_bgPixmap = bgPix.scaledToHeight(guitH);
+    m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
+    qDebug() << m_bgPixmap.size() << centralWidget()->width() << guitar->geometry().x() << guitar->posX12fret();
+    repaint();
+    
 //     examResults->show();
     
 //     setUpdatesEnabled(true);
@@ -546,12 +556,9 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 
 void MainWindow::paintEvent(QPaintEvent* ) {
     QPainter painter(this);
-    int guitH = qRound(((double)guitar->height() / 234.0) * (double)m_guitarBg.height());
-//     qDebug() << guitarSize;
-    QPixmap guitarPix = m_guitarBg.scaledToHeight(guitH);
-    painter.drawPixmap(centralWidget()->width() * 0.65,
-                             centralWidget()->height() - guitarPix.height(), 
-                             guitarPix);
+    painter.drawPixmap(guitar->posX12fret(),
+                             guitar->geometry().bottom() - m_bgPixmap.height(), 
+                             m_bgPixmap);
 }
 
 
