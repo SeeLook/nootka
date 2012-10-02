@@ -53,7 +53,7 @@ TnoteName::TnoteName(QWidget *parent) :
     nameLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Expanding);
     nameLabel->setAlignment(Qt::AlignCenter);
     QColor lbg = palette().base().color();
-    lbg.setAlpha(230);
+    lbg.setAlpha(220);
     nameLabel->setStyleSheet(gl->getBGcolorText(lbg) + styleTxt);
     resize();
 
