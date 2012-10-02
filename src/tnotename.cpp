@@ -48,11 +48,13 @@ TnoteName::TnoteName(QWidget *parent) :
     QVBoxLayout *mainLay = new QVBoxLayout();
     mainLay->setAlignment(Qt::AlignCenter);
 
-    nameLabel = new QLabel("<b><span style=\"font-size: 24px; color: green;\">Nootka " +
+    nameLabel = new QLabel("<b><span style=\"font-size: 24px; color: green;\">" +
                            gl->version + "</span></b>",this);
     nameLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Expanding);
     nameLabel->setAlignment(Qt::AlignCenter);
-    nameLabel->setStyleSheet("background-color: palette(Base); " + styleTxt);
+    QColor lbg = palette().base().color();
+    lbg.setAlpha(230);
+    nameLabel->setStyleSheet(gl->getBGcolorText(lbg) + styleTxt);
     resize();
 
 //#if !defined (Q_OS_MAC)
