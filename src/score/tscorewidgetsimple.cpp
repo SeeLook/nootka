@@ -92,7 +92,7 @@ void TscoreWidgetSimple::paintEvent(QPaintEvent *) {
     painter.setPen(QPen(palette().color(palette().currentColorGroup(), QPalette::Foreground)));
 //    painter.setBrush(QBrush(palette().base().color(),Qt::SolidPattern));
     QColor bg = palette().base().color();
-    bg.setAlpha(230);
+    bg.setAlpha(220);
 //     painter.setBrush(QBrush(palette().color(palette().currentColorGroup(), QPalette::Base), Qt::SolidPattern));
     painter.setBrush(QBrush(bg));
     painter.drawRoundedRect(1, 1, width()-55, height()-2, coeff,coeff);
