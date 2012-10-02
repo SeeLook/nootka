@@ -357,6 +357,9 @@ void MainWindow::openLevelCreator(QString levelFile) {
     delete levelCreator;
     m_levelCreatorExist = false;
     if (shallExamStart) {
+        nootLab->hide();
+        progress->show();
+        examResults->show();
         ex = new TexamExecutor(this, "", &m_level); // start exam
     } else
         sound->go(); // restore pitch detection
@@ -527,7 +530,7 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
     
     guitar->show();
     QPixmap bgPix(gl->path + "picts/guitar.png");
-    int guitH = qRound(((double)guitar->height() / 300.0) * 774.0);
+    int guitH = qRound(((double)guitar->height() / 350.0) * 856.0);
 //     int posX12fr = qMax(guitar->posX12fret(), qRound(centralWidget()->width() / 2.2));
 //     int guitW = centralWidget()->width() - (posX12fr);
     int guitW = centralWidget()->width() / 2;
