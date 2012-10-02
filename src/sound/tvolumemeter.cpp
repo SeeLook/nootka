@@ -56,7 +56,7 @@ void TvolumeMeter::paintEvent(QPaintEvent* )
 //       painter.setBrush(QBrush(cc));
       painter.drawRoundedRect(painter.viewport(), 4, 4);
       painter.setPen(palette().highlightedText().color());
-      painter.setFont(QFont("nootka", painter.viewport().height() - 2));
+      painter.setFont(QFont("nootka", painter.viewport().height() - 3));
       painter.drawText(painter.viewport(), Qt::AlignRight, "n");
 //       painter.drawText(painter.viewport(), Qt::AlignCenter, "nnnnnnnnnn");
       painter.setPen(Qt::NoPen);

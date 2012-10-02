@@ -535,19 +535,16 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
     int guitW = centralWidget()->width() / 2;
 //     m_bgPixmap = bgPix.scaledToHeight(guitH);
     m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
-//    qDebug() << m_bgPixmap.size() << centralWidget()->width() << guitar->geometry().x() << guitar->posX12fret();
-    
-    
-//     examResults->show();
+//    qDebug() << m_bgPixmap.size() /*<< centralWidget()->width() << guitar->geometry().x() << guitar->posX12fret()*/;
     
 //     setUpdatesEnabled(true);
 //    qDebug() << centralWidget()->height() << m_statLab->geometry().height() << progress->geometry().height()
 //    << examResults->geometry().height() << noteName->geometry().height() << guitar->height()
 //    << "tot" << centralWidget()->height() - guitar->height() << "wdg" << m_statLab->geometry().height() + progress->geometry().height() + examResults->geometry().height() + noteName->geometry().height();
     emit sizeChanged(event->size());
-    guitar->paint();
-    guitar->repaint();
-    noteName->repaint();
+//     guitar->paint();
+//     noteName->resize(m_statFontSize);
+    QTimer::singleShot(2, this, SLOT(update()));
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
@@ -560,8 +557,6 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 }
 
 void MainWindow::paintEvent(QPaintEvent* ) {
-//    noteName->repaint();
-//    guitar->scene()->update(guitar->rect());
     QPainter painter(this);
     if (!gl->GisRightHanded) {
         painter.translate(width(), 0);
