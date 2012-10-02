@@ -528,7 +528,6 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
     nootLab->setGeometry(posX, qRound(centralWidget()->height() * 0.12), centralWidget()->width()- score->width() -2,
           qRound(centralWidget()->height() * 0.25));
     
-    guitar->show();
     QPixmap bgPix(gl->path + "picts/guitar.png");
     int guitH = qRound(((double)guitar->height() / 350.0) * 856.0);
 //     int posX12fr = qMax(guitar->posX12fret(), qRound(centralWidget()->width() / 2.2));
@@ -537,7 +536,7 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
 //     m_bgPixmap = bgPix.scaledToHeight(guitH);
     m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
 //    qDebug() << m_bgPixmap.size() << centralWidget()->width() << guitar->geometry().x() << guitar->posX12fret();
-    repaint();
+    
     
 //     examResults->show();
     
@@ -547,6 +546,7 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
 //    << "tot" << centralWidget()->height() - guitar->height() << "wdg" << m_statLab->geometry().height() + progress->geometry().height() + examResults->geometry().height() + noteName->geometry().height();
     emit sizeChanged(event->size());
     guitar->paint();
+    guitar->repaint();
     noteName->repaint();
 }
 
