@@ -76,7 +76,7 @@ private:
   QSpinBox *freqSpin;
   QDoubleSpinBox *noiseSpin;
   QPushButton *calcButt, *testButt;
-  QLabel *pitchLab, *freqLab;
+  QLabel *pitchLab, *freqLab, *tuneFreqlab;
   bool m_testDisabled, m_listGenerated;
   TpitchView *volMeter;
   TaudioIN *m_audioIn;

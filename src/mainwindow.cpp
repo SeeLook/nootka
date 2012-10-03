@@ -44,6 +44,7 @@ extern Tglobals *gl;
 
 
 QLabel *nootLab;
+bool m_isPlayerFree = true;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -322,6 +323,7 @@ void MainWindow::createSettingsDialog() {
     sound->prepareToConf();
 //     qDebug("prepared");
     if (settings->exec() == QDialog::Accepted) {
+        m_isPlayerFree = false;
         sound->acceptSettings();
         score->acceptSettings();
         noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
@@ -332,9 +334,26 @@ void MainWindow::createSettingsDialog() {
                                 gl->getBGcolorText(Qt::magenta)*/);
         noteName->setAmbitus(gl->loString(),
                                Tnote(gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber));
-        noteWasClicked(0, noteName->getNoteName(0)); //refresh name
+        TnotesList nList;
+        nList = score->getNote(0).getTheSameNotes(gl->doubleAccidentalsEnabled);
+        if (gl->showEnharmNotes) { // refresh note name and score
+            noteName->setNoteName(nList);
+            if (nList.size() > 1)
+                score->setNote(1, nList[1]);
+            else {
+                score->clearNote(1);
+                score->clearNote(2);
+            }
+            if (nList.size() > 2)
+                score->setNote(2, nList[2]);
+            else
+                score->clearNote(2);
+        }
+        else
+            noteName->setNoteName(nList[0]);
         guitar->acceptSettings(); //refresh guitar
         m_hintsChB->setChecked(gl->hintsEnabled);
+        m_isPlayerFree = true;
     } else
       sound->restoreAfterConf();
     delete settings;
@@ -395,7 +414,9 @@ void MainWindow::analyseSlot() {
 
 
 void MainWindow::noteWasClicked(int index, Tnote note) {
-    sound->play(note);
+    Q_UNUSED(index)
+    if (m_isPlayerFree)
+        sound->play(note);
     if (gl->showEnharmNotes){
         TnotesList noteList;
         noteList.push_back(note);
