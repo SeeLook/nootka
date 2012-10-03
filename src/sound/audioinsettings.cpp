@@ -77,7 +77,10 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* pa
     voiceRadio->setChecked(true);
   else
     instrRadio->setChecked(true);
-  
+  tuneFreqlab = new QLabel(this);
+  tuneFreqlab->setWordWrap(true);
+  tuneFreqlab->setAlignment(Qt::AlignCenter);
+  devDetLay->addWidget(tuneFreqlab);
   devDetLay->addStretch(1);
   
   /*QVBoxLayout *tarLay = new QVBoxLayout();
@@ -272,14 +275,14 @@ void AudioInSettings::generateDevicesList() {
 }
 
 void AudioInSettings::getFreqStatusTip() {
-    freqLab->setStatusTip(tr("Frequency of detected note. You can use it for tune") + 
-      QString("<br><span style=\"font-family: nootka;\">6</span>E = %1Hz, ").arg(getFreq(82.5)) +
-      QString("<span style=\"font-family: nootka;\">5</span>A = %1Hz, ").arg(getFreq(110.0)) +
-      QString("<span style=\"font-family: nootka;\">4</span>d = %1Hz, ").arg(getFreq(146.0)) +
-      QString("<span style=\"font-family: nootka;\">3</span>g = %1Hz, ").arg(getFreq(195.0)) +
-      QString("<span style=\"font-family: nootka;\">2</span>h = %1Hz, ").arg(getFreq(245.0)) +
-      QString("<span style=\"font-family: nootka;\">1</span>e<sup>1</sup> = %1Hz").arg(getFreq(330.0))
-    );
+    QString freqTxt = QString("<br><span style=\"font-family: nootka;\">6</span>E = %1Hz, ").arg(getFreq(82.5)) +
+            QString("<span style=\"font-family: nootka;\">5</span>A = %1Hz, ").arg(getFreq(110.0)) +
+            QString("<span style=\"font-family: nootka;\">4</span>d = %1Hz, ").arg(getFreq(146.0)) + "<br>" +
+            QString("<span style=\"font-family: nootka;\">3</span>g = %1Hz, ").arg(getFreq(195.0)) +
+            QString("<span style=\"font-family: nootka;\">2</span>h = %1Hz, ").arg(getFreq(245.0)) +
+            QString("<span style=\"font-family: nootka;\">1</span>e<sup>1</sup> = %1Hz").arg(getFreq(330.0));
+    freqLab->setStatusTip(tr("Frequency of detected note. You can use it for tune") + freqTxt);
+    tuneFreqlab->setText(freqTxt);
 }
 
 int AudioInSettings::getFreq(double freq) {
