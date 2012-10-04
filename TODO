@@ -4,7 +4,6 @@
 - Key signature text adjust to wudth of TkeySignatuteView
 - Scordatute text layout
 - Line grid in level creator and rotated label text not allways whole visible(french)
-- TexamView - status tips
 - positions and look of frets numbers and key names in charts
 - look of analyse dialog 
 - implement sort by accidentals
@@ -12,6 +11,7 @@
 - avoid 0.0s answer time 
 - time > 60s show as min.
 - load qt translations
+- bug 'float point operation' after continuing finished exam
 
 
 

@@ -48,7 +48,6 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     QGraphicsBlurEffect *blur[6];
-//     blur->setBlurRadius(10);
     for (int i=0; i<6; i++) {
         m_strings[i] = new QGraphicsLineItem();
         m_strings[i]->hide();
@@ -160,11 +159,13 @@ void TfingerBoard::askQuestion(TfingerPos pos) {
     m_questPos = pos;
     QColor qC = gl->EquestionColor;
     qC.setAlpha(200); //it is too much opaque
+//     QGraphicsBlurEffect *blur = new QGraphicsBlurEffect();
     if (pos.fret()) { // some fret
         if (!m_questFinger) {
             m_questFinger = new QGraphicsEllipseItem();
             m_questFinger->setPen(QPen(qC));
             m_questFinger->setBrush(QBrush(qC, Qt::SolidPattern));
+//             m_questFinger->setGraphicsEffect(blur);
             m_scene->addItem(m_questFinger);
             m_questFinger->setZValue(110);
             m_questFinger->setRect(0,0, m_fretWidth/1.6, qRound(0.7*m_strGap));
@@ -175,6 +176,7 @@ void TfingerBoard::askQuestion(TfingerPos pos) {
             m_questString = new QGraphicsLineItem();
             m_questString->setPen(QPen(qC, m_strings[pos.str()-1]->pen().width(),
                                        Qt::SolidLine));
+//             m_questString->setGraphicsEffect(blur);
             m_scene->addItem(m_questString);
             m_questString->setZValue(110);
             m_questString->setLine(m_strings[pos.str()-1]->line());
@@ -385,7 +387,7 @@ void TfingerBoard::paint() {
         painter.drawLine(1, m_fbRect.y() + m_strGap / 2 + i * m_strGap,
                          width() - 1 - m_strGap, m_fbRect.y() + m_strGap / 2 + i * m_strGap);
         m_workStrings[i]->setPen(QPen(gl->GfingerColor, m_strWidth[i] + 2, Qt::SolidLine));
-        m_workStrings[i]->setLine(1, m_fbRect.y()+m_strGap/2+i*m_strGap, width()-1-m_strGap,
+        m_workStrings[i]->setLine(1, m_fbRect.y() + m_strGap / 2 + i * m_strGap, width() - 1 - m_strGap,
                                   m_fbRect.y()+m_strGap/2+i*m_strGap);
         m_strings[i]->setPen(QPen(gl->GselectedColor, m_strWidth[i], Qt::SolidLine));
         m_strings[i]->setLine(m_workStrings[i]->line());
@@ -548,11 +550,11 @@ void TfingerBoard::paintQuestMark() {
         m_questMark->setZValue(110);
         m_questMark->setText("?");
     }
-#if defined(Q_OS_MACX)
+// #if defined(Q_OS_MACX)
+//     QFont f = QFont("nootka", 3 * m_strGap, QFont::Normal);
+// #else
     QFont f = QFont("nootka", 3 * m_strGap, QFont::Normal);
-#else
-    QFont f = QFont("nootka", 2 * m_strGap, QFont::Normal);
-#endif
+// #endif
     m_questMark->setFont(f);
     int off = -1, off2 = 0;
     if (!gl->GisRightHanded) {
@@ -562,14 +564,26 @@ void TfingerBoard::paintQuestMark() {
         else
             off2 = m_fretWidth/2;
     }
-    if (m_questPos.fret())
-        m_questMark->setPos(m_fretsPos[m_questPos.fret() + off] - off2, (m_questPos.str()-1) * m_strGap );
-    else {
-        if (m_questPos.str() < 4)
-            m_questMark->setPos(lastFret + m_fretWidth, (m_questPos.str()+1) * m_strGap);
+    QPoint markPoint(0, 0);
+    if (m_questPos.fret()) {
+//         m_questMark->setPos(m_fretsPos[m_questPos.fret() + off] - off2, (m_questPos.str()-1) * m_strGap );
+        markPoint.setX(m_fretsPos[m_questPos.fret() + off] - off2);
+        if (m_questPos.str() == 1)
+          markPoint.setY(0);
+        else if (m_questPos.str() == 6)
+          markPoint.setY(height() - m_questMark->boundingRect().height() - 2);
         else
-            m_questMark->setPos(lastFret + m_fretWidth, (m_questPos.str()-2) * m_strGap - m_strGap/2);
+          markPoint.setY((m_questPos.str() - 2) * m_strGap);
+    } else {
+        if (m_questPos.str() < 4)
+            markPoint = QPoint(lastFret + m_fretWidth, m_fbRect.y() + m_questPos.str() * m_strGap - m_strGap / 2);
+        else
+            markPoint = QPoint(lastFret + m_fretWidth, 
+                               m_fbRect.y() + (m_questPos.str()) * m_strGap 
+                               - m_questMark->boundingRect().height() - m_strGap/2);
     }
+    if (!markPoint.isNull())
+      m_questMark->setPos(markPoint);
 }
 
 void TfingerBoard::resizeRangeBox() {
