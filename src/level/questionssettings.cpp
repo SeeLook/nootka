@@ -29,14 +29,14 @@ questionsSettings::questionsSettings(QWidget *parent) :
 {
     QVBoxLayout *mainLay = new QVBoxLayout;    
 
-    QGroupBox *qaGr = new QGroupBox(this);
+//    QGroupBox *qaGr = new QGroupBox(this);
     QGridLayout *qaLay = new QGridLayout(); // Questions & Answers table
     qaLay->setAlignment(Qt::AlignCenter);
     qaLay->setSpacing(10);
   // Labels describing answers types
     m_questLab = new QLabel("<b>" + TquestionAsWdg::questionTxt().toUpper() + "</b>", this);
     qaLay->addWidget(m_questLab, 0, 0, Qt::AlignBottom | Qt::AlignRight);
-    m_answLab = new TverticalLabel(" " + TquestionAsWdg::answerTxt().toUpper() + " ", this);
+    m_answLab = new TverticalLabel(TquestionAsWdg::answerTxt().toUpper() + "  ", this);
     QFont f = font();
     f.setBold(true);
     m_answLab->setFont(f);
@@ -61,6 +61,9 @@ questionsSettings::questionsSettings(QWidget *parent) :
   // Labels on the right side of the table with symbols of types - related to questions
     QLabel *scoreNooLab = new QLabel("s?", this);
     QFont nf("nootka", fontMetrics().boundingRect("A").height());
+#if defined(Q_OS_MACX)
+    nf.setPointSize(fontMetrics().boundingRect("A").height() * 2);
+#endif
     scoreNooLab->setFont(nf);
     qaLay->addWidget(scoreNooLab, 1, 6, Qt::AlignCenter);
     QLabel *nameNooLab = new QLabel("c?", this);
@@ -210,23 +213,19 @@ void questionsSettings::paintEvent(QPaintEvent* ) {
   QPainter painter(this);
   QPen pen = painter.pen();
   pen.setColor(palette().text().color());
-  int macOff = 0;
-#if defined (Q_OS_MACX)
-  macOff = 5;
-#endif
   pen.setWidth(2);
   painter.setPen(pen);
-  painter.drawLine(m_questLab->geometry().left(), asNoteWdg->enableChBox->geometry().top() + macOff, // horizontal line - under 'QUESTION'
-                   soundNooLab->geometry().right(), asNoteWdg->enableChBox->geometry().top() + macOff);
-  painter.drawLine(m_questLab->geometry().left(), qSoundNooLab->geometry().top() + macOff, // horizontal line - under 'QUESTION'
-                   soundNooLab->geometry().right(), qSoundNooLab->geometry().top() + macOff);
+  painter.drawLine(m_questLab->geometry().left(), asNoteWdg->enableChBox->geometry().top(), // horizontal line - under 'QUESTION'
+                   soundNooLab->geometry().right(), asNoteWdg->enableChBox->geometry().top());
+  painter.drawLine(m_questLab->geometry().left(), qSoundNooLab->geometry().top(), // horizontal line - under 'QUESTION'
+                   soundNooLab->geometry().right(), qSoundNooLab->geometry().top());
   int xOff = (asNoteWdg->asNoteChB->geometry().left() - asNoteWdg->enableChBox->geometry().right()) / 2;
-  painter.drawLine(asNoteWdg->enableChBox->geometry().right() + xOff + 3 * macOff,
+  painter.drawLine(asNoteWdg->enableChBox->geometry().right() + xOff,
                    m_answLab->geometry().top(), // vertical line - right to 'ANSWER''
-                   asNoteWdg->enableChBox->geometry().right() + xOff + 3 * macOff,
-                   qSoundNooLab->geometry().bottom() + 3 * macOff);
-  painter.drawLine(soundNooLab->geometry().left() + macOff, m_answLab->geometry().top(), // vertical line - right to All answers
-                   soundNooLab->geometry().left() + macOff, qSoundNooLab->geometry().bottom() + 3 * macOff);
+                   asNoteWdg->enableChBox->geometry().right() + xOff,
+                   qSoundNooLab->geometry().bottom());
+  painter.drawLine(soundNooLab->geometry().left() , m_answLab->geometry().top(), // vertical line - right to All answers
+                   soundNooLab->geometry().left() , qSoundNooLab->geometry().bottom());
 }
 
 void questionsSettings::stringsCheckedSlot(bool checked) {
@@ -249,7 +248,7 @@ TverticalLabel::TverticalLabel(QString text, QWidget* parent) :
 {
     QFontMetrics metrics = fontMetrics();
     m_rect = metrics.boundingRect(m_text);
-    setFixedSize(m_rect.height() * 2, m_rect.width());
+    setFixedSize(m_rect.height() * 2.5, m_rect.width() * 1.2);
 }
 
 void TverticalLabel::paintEvent(QPaintEvent* ) {

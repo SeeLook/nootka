@@ -53,7 +53,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
   m_exam(0),
   mW(mainW),
   m_lockRightButt(false),
-  m_goingClosed(false)
+  m_goingClosed(false),
+  m_penalStep(65535)
 {
     QString resultText;
     TstartExamDlg::Eactions userAct;

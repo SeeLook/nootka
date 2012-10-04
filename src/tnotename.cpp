@@ -397,7 +397,7 @@ void TnoteName::prepAnswer(Tnote backNote) {
     if (backNote.acidental) {
         QString accTxt = QString(" <sub><i><span style=\"color: %1;\">(%2)</span></i></sub>").arg(gl->GfingerColor.name()).arg(QString::fromStdString(signsAcid[backNote.acidental + 2]));
         nameLabel->setText(nameLabel->text() + accTxt);
-        /** @todo press accccid button */
+        /** @todo press accid button */
     }
     setNameDisabled(false);
     m_notes[0] = Tnote(0,0,0); // Reset, otherwise getNoteName() returns it
@@ -438,7 +438,10 @@ void TnoteName::uncheckAccidButtons() {
 
 void TnoteName::clearNoteName() {
     setNoteName(Tnote());
-    nameLabel->setStyleSheet("background-color: palette(Base); " + styleTxt);
+//    nameLabel->setStyleSheet("background-color: palette(Base); " + styleTxt);
+    QColor lbg = palette().base().color();
+    lbg.setAlpha(220);
+    nameLabel->setStyleSheet(gl->getBGcolorText(lbg) + styleTxt);
 }
 
 void TnoteName::uncheckAllButtons() {
