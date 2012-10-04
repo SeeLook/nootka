@@ -11,7 +11,7 @@
 - avoid 0.0s answer time 
 - time > 60s show as min.
 - load qt translations
-- bug 'float point operation' after continuing finished exam
+- icons size under Windows 7
 
 
 

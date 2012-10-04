@@ -227,7 +227,7 @@ void Tcanvas::sizeChanged(QSize newSize) {
 void Tcanvas::setPosOfResultTip() {
     // in the middle over guitar
   m_resultTip->setPos((m_scene->width() - m_scale * m_resultTip->boundingRect().width()) / 2,
-                  qRound((double)m_scene->height() * 0.8 ) -(m_scale * m_resultTip->boundingRect().height()));  
+                  qRound((double)m_scene->height() * 0.76 ) -(m_scale * m_resultTip->boundingRect().height()));
 }
 
 void Tcanvas::setPosOfWhatTip() {
@@ -256,7 +256,7 @@ void Tcanvas::setPosOfQuestionTip() {
   }
     else
       if (m_questionTip->freeName())
-        pos = QPoint((m_scene->width() / 2), (m_scene->height() * 0.75) - m_questionTip->boundingRect().height());
+        pos = QPoint((m_scene->width() / 2), (m_scene->height() * 0.73) - m_questionTip->boundingRect().height());
       else // on the score
         pos = QPoint(((double)m_scene->width() * 0.42 - m_questionTip->boundingRect().width()) / 2 ,
                      m_scene->height() / 10 + (m_scene->height() / 2 - m_questionTip->boundingRect().height()) /2 );
