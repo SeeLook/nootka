@@ -19,6 +19,9 @@
 
 #include "tprogresswidget.h"
 #include <QtGui>
+#include "tglobals.h"
+
+extern Tglobals *gl;
 
 TprogressWidget::TprogressWidget(QWidget* parent) :
   QWidget(parent),
@@ -28,11 +31,14 @@ TprogressWidget::TprogressWidget(QWidget* parent) :
 {
   QHBoxLayout *lay = new QHBoxLayout;
   m_answLab = new QLabel(zeroLabTxt(), this);
+//   m_answLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+  m_answLab->setStyleSheet("border: 1px solid palette(Text); border-radius: 4px;" + gl->getBGcolorText(gl->EnotBadColor));
   lay->addWidget(m_answLab);
   m_bar = new QProgressBar(this);
   m_bar->setValue(0);
   lay->addWidget(m_bar);
   m_totalLab = new QLabel(zeroLabTxt(), this);
+  m_totalLab->setStyleSheet("border: 1px solid palette(Text); border-radius: 4px;" + gl->getBGcolorText(gl->EanswerColor));
   lay->addWidget(m_totalLab);
   
 //   QHBoxLayout *mainLay = new QHBoxLayout;
@@ -85,10 +91,9 @@ void TprogressWidget::terminate() {
 
 void TprogressWidget::resize(int fontSize) {
     QFont f = font();
-    f.setPixelSize(fontSize);
+    f.setPointSize(fontSize);
     m_answLab->setFont(f);
     m_totalLab->setFont(f);
-//     setMinimumHeight(m_answLab->height() + 5);
 }
 
 //#############################################################################

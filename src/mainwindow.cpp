@@ -533,10 +533,10 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
     progress->resize(m_statFontSize);
     progress->setGeometry(posX, m_statLab->geometry().bottom() + gapY,
                           centralWidget()->width()- score->width() -2, centralWidget()->height() * 0.15);
-    progress->setFixedHeight(centralWidget()->height() * 0.15);
+    progress->setFixedHeight(centralWidget()->height() * 0.08);
 //     examResults->setFixedHeight(centralWidget()->height() / 10);
     examResults->setFontSize(m_statFontSize);
-    examResults->setGeometry(posX, progress->geometry().bottom() + gapY, centralWidget()->width()- score->width() -2, 
+    examResults->setGeometry(posX, progress->geometry().bottom() + gapY * 3, centralWidget()->width()- score->width() -2, 
       centralWidget()->height() * 0.1);
     examResults->setFixedHeight(centralWidget()->height() * 0.08);
     noteName->resize(m_statFontSize);

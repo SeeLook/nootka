@@ -159,13 +159,13 @@ void TfingerBoard::askQuestion(TfingerPos pos) {
     m_questPos = pos;
     QColor qC = gl->EquestionColor;
     qC.setAlpha(200); //it is too much opaque
-//     QGraphicsBlurEffect *blur = new QGraphicsBlurEffect();
+    QGraphicsBlurEffect *blur = new QGraphicsBlurEffect();
     if (pos.fret()) { // some fret
         if (!m_questFinger) {
             m_questFinger = new QGraphicsEllipseItem();
-            m_questFinger->setPen(QPen(qC));
+            m_questFinger->setPen(QPen(qC, 2));
             m_questFinger->setBrush(QBrush(qC, Qt::SolidPattern));
-//             m_questFinger->setGraphicsEffect(blur);
+            m_questFinger->setGraphicsEffect(blur);
             m_scene->addItem(m_questFinger);
             m_questFinger->setZValue(110);
             m_questFinger->setRect(0,0, m_fretWidth/1.6, qRound(0.7*m_strGap));
@@ -176,7 +176,7 @@ void TfingerBoard::askQuestion(TfingerPos pos) {
             m_questString = new QGraphicsLineItem();
             m_questString->setPen(QPen(qC, m_strings[pos.str()-1]->pen().width(),
                                        Qt::SolidLine));
-//             m_questString->setGraphicsEffect(blur);
+            m_questString->setGraphicsEffect(blur);
             m_scene->addItem(m_questString);
             m_questString->setZValue(110);
             m_questString->setLine(m_strings[pos.str()-1]->line());
@@ -589,8 +589,7 @@ void TfingerBoard::paintQuestMark() {
 void TfingerBoard::resizeRangeBox() {
     if (m_rangeBox1) {
 //         QColor C = gl->EanswerColor;
-        QColor C = Qt::blue;
-        C.setAlpha(200);
+        QColor C(0, 182, 182, 200);
         QPen pen = QPen(C, m_strGap / 3);
         pen.setJoinStyle(Qt::RoundJoin);
         int xxB, xxE;
