@@ -35,8 +35,9 @@ public:
        * TexamParams @param params - is obvious
        * QColor @param qColor - is pointer to gl->EquestionColor
        * QColor @param aColor - is pointer to gl->EanswerColor
+       * QColor @param nbColor - is pointer to gl->EnotBadColor
        */
-  explicit ExamSettings(TexamParams *params, QColor *qColor, QColor *aColor, QWidget *parent = 0);
+  explicit ExamSettings(TexamParams *params, QColor *qColor, QColor *aColor, QColor *nbColor, QWidget *parent = 0);
 
   static QString autoNextQuestTxt() { return tr("ask next question automatically"); }
   static QString expertsAnswerTxt() { return tr("check answers without confirm"); }
@@ -48,11 +49,11 @@ public slots:
   void expertAnswersChanged(bool enabled);
   
 private:
-    QCheckBox *autoNextChB, *repeatIncorChB, *expertAnswChB, *showHelpChB;
-    TcolorButton *questColorBut, *answColorBut;
-    QLineEdit *nameEdit;
+    QCheckBox *m_autoNextChB, *m_repeatIncorChB, *m_expertAnswChB, *m_showHelpChB;
+    TcolorButton *m_questColorBut, *m_answColorBut, *m_notBadButt;
+    QLineEdit *m_nameEdit;
     TexamParams *m_params;
-    QColor *m_qColor, *m_aColor;
+    QColor *m_qColor, *m_aColor, *m_nbColor;
 
 };
 

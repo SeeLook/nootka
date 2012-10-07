@@ -44,11 +44,13 @@ void TcolorButton::setColor(QColor col) {
 
 void TcolorButton::paintEvent(QPaintEvent* event) {
     QPushButton::paintEvent(event);
-	QPainter painter(this);
-	painter.setRenderHint(QPainter::Antialiasing, true);
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setWindow(0, 0, width(), height());
     painter.setPen(Qt::NoPen);
-	painter.setBrush(QBrush(m_color));
+    painter.setBrush(QBrush(palette().text().color()));
+    painter.drawEllipse(5, 5, width()-8, height()-10);
+    painter.setBrush(QBrush(m_color));
     painter.drawEllipse(4, 4, width()-8, height()-10);
 }
 
