@@ -85,7 +85,7 @@ void Tcanvas::resultTip(TQAunit* answer, int time) {
     if (answer->isWrong())
         answColor = gl->EquestionColor;
     else
-        answColor = QColor(124, 0 ,124, 30);
+        answColor = gl->EnotBadColor;
     
   m_resultTip = new TgraphicsTextTip(wasAnswerOKtext(answer, answColor, bigFont())/*, answColor*/);
   m_scene->addItem(m_resultTip);

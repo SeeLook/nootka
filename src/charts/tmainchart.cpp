@@ -30,6 +30,9 @@
 #include "tnotename.h"
 #include <QDebug>
 
+
+QColor averColor = QColor(0, 192, 192);
+
 TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
   Tchart(parent),
   m_exam(exam),
@@ -52,7 +55,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
           TexamView::averAnsverTimeTxt() + QString("<br><span style=\"font-size: 20px;\">%1 s</span></p>").arg(m_exam->averageReactonTime() / 10.0));
       scene->addItem(averLine);
       averLine->setZValue(20);
-      averLine->setPen(QPen(QColor(255, 153, 57), 3));
+      averLine->setPen(QPen(averColor, 3));
       averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime()/10.0),
           xAxis->mapValue(m_exam->count()) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime()/10.0));
   }
@@ -129,7 +132,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
         averTimeLine->setText(lineText);
         scene->addItem(averTimeLine);
         averTimeLine->setZValue(46);
-        averTimeLine->setPen(QPen(QColor(255, 153, 57), 3)); // orange
+        averTimeLine->setPen(QPen(QColor(0, 192, 192), 3)); // sea blue
         averTimeLine->setLine(xAxis->mapValue(cnt - 0.4) + xAxis->pos().x(), yAxis->mapValue(aTime),
           xAxis->mapValue(cnt + sortedLists[i].size() -0.6) + xAxis->pos().x(), yAxis->mapValue(aTime));
         cnt += sortedLists[i].size();

@@ -22,16 +22,13 @@
 #include "texam.h"
 #include <QtGui>
 
-#define SPACE_GAP (5)
+#define SPACE_GAP (7)
 
 
 const QString TexamView::halfMistakenTxt() { return tr("'Not So Bad' answers"); } 
 const QString TexamView::halfMistakenAddTxt() { return tr("(counted as half of a mistake)"); }
 
-QString styleTxt(QColor bgCol) { 
-  return QString("border: 1px solid rgba; border-radius: 10px;");
-  
-}
+QString borderStyleTxt = "border: 1px solid palette(Text); border-radius: 4px;";
 
 //QGroupBox *okGr;
 
@@ -39,7 +36,7 @@ TexamView::TexamView(QWidget *parent) :
     QWidget(parent)
 {
 //     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Maximum);
-//     setStatusTip(tr("Exam results"));
+    setStatusTip(tr("Exam results"));
     
     QHBoxLayout *mainLay = new QHBoxLayout;
 
@@ -57,13 +54,13 @@ TexamView::TexamView(QWidget *parent) :
 //    okGr = new QGroupBox(this);
 //    okGr->setLayout(okMistLay);
 //    mainLay->addWidget(okGr);
-     mainLay->addLayout(okMistLay);
-    
+    mainLay->addLayout(okMistLay);    
     mainLay->addStretch();
 
     m_effLab = new QLabel(this);
-    QVBoxLayout *effLay = new QVBoxLayout;
-    effLay->addWidget(m_effLab, 0, Qt::AlignCenter);
+    m_effLab->setStyleSheet(borderStyleTxt);
+//     QVBoxLayout *effLay = new QVBoxLayout;
+//     effLay->addWidget(m_effLab, 0, Qt::AlignCenter);
 //    QGroupBox *effGr = new QGroupBox(this);
 //    effGr->setLayout(effLay);
      mainLay->addWidget(m_effLab);
@@ -71,8 +68,9 @@ TexamView::TexamView(QWidget *parent) :
     mainLay->addStretch();
 
     m_averTimeLab = new QLabel(this);
-    QVBoxLayout *averLay = new QVBoxLayout;
-    averLay->addWidget(m_averTimeLab);
+    m_averTimeLab->setStyleSheet(borderStyleTxt);
+//     QVBoxLayout *averLay = new QVBoxLayout;
+//     averLay->addWidget(m_averTimeLab);
 //    QGroupBox *averGr = new QGroupBox(this);
 //    averGr->setLayout(averLay);
      mainLay->addWidget(m_averTimeLab);
@@ -80,8 +78,9 @@ TexamView::TexamView(QWidget *parent) :
     mainLay->addStretch();
 
     m_reactTimeLab = new QLabel(this);
-    QVBoxLayout *reactLay = new QVBoxLayout;
-    reactLay->addWidget(m_reactTimeLab);
+    m_reactTimeLab->setStyleSheet(borderStyleTxt);
+//     QVBoxLayout *reactLay = new QVBoxLayout;
+//     reactLay->addWidget(m_reactTimeLab);
 //    QGroupBox *reactGr = new QGroupBox(this);
 //    reactGr->setLayout(reactLay);
      mainLay->addWidget(m_reactTimeLab);
@@ -89,8 +88,9 @@ TexamView::TexamView(QWidget *parent) :
     mainLay->addStretch();
 
     m_totalTimeLab = new QLabel(this);
-    QVBoxLayout *totalLay = new QVBoxLayout;
-    totalLay->addWidget(m_totalTimeLab);
+    m_totalTimeLab->setStyleSheet(borderStyleTxt);
+//     QVBoxLayout *totalLay = new QVBoxLayout;
+//     totalLay->addWidget(m_totalTimeLab);
 //    QGroupBox *totalGr = new QGroupBox(this);
 //    totalGr->setLayout(totalLay);
      mainLay->addWidget(m_totalTimeLab);
@@ -104,27 +104,27 @@ TexamView::TexamView(QWidget *parent) :
     m_corrLab->setStatusTip(corrAnswersNrTxt());
     m_halfLab->setStatusTip(halfMistakenTxt() + "<br>" + halfMistakenAddTxt());
     m_mistLab->setStatusTip(mistakesNrTxt());
-     m_effLab->setStatusTip(effectTxt());
-//    effGr->setStatusTip(effectTxt());
-     m_averTimeLab->setStatusTip(averAnsverTimeTxt() + " " + inSecondsTxt());
-//    averGr->setStatusTip(averAnsverTimeTxt() + " " + inSecondsTxt());
+    m_effLab->setStatusTip(effectTxt());
+    //    effGr->setStatusTip(effectTxt());
+    m_averTimeLab->setStatusTip(averAnsverTimeTxt() + " " + inSecondsTxt());
+    //    averGr->setStatusTip(averAnsverTimeTxt() + " " + inSecondsTxt());
     m_averTimeLab->setAlignment(Qt::AlignCenter);
-     m_reactTimeLab->setStatusTip(reactTimeTxt() + " " + inSecondsTxt());
-//    reactGr->setStatusTip(reactTimeTxt() + " " + inSecondsTxt());
+    m_reactTimeLab->setStatusTip(reactTimeTxt() + " " + inSecondsTxt());
+    //    reactGr->setStatusTip(reactTimeTxt() + " " + inSecondsTxt());
     m_reactTimeLab->setAlignment(Qt::AlignCenter);
-     m_totalTimeLab->setStatusTip(totalTimetxt());
-//    totalGr->setStatusTip(totalTimetxt());
+    m_totalTimeLab->setStatusTip(totalTimetxt());
+    //    totalGr->setStatusTip(totalTimetxt());
     m_totalTimeLab->setAlignment(Qt::AlignCenter);
-    
+
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(countTime()));
 
 }
 
 void TexamView::setStyleBg(QString okBg, QString wrongBg, QString notBadBg) {
-    m_corrLab->setStyleSheet(okBg);
-    m_mistLab->setStyleSheet(wrongBg);
-    m_halfLab->setStyleSheet(notBadBg);
+    m_corrLab->setStyleSheet(okBg + borderStyleTxt);
+    m_mistLab->setStyleSheet(wrongBg + borderStyleTxt);
+    m_halfLab->setStyleSheet(notBadBg + borderStyleTxt);
 }
 
 void TexamView::questionStart() {

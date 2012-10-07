@@ -265,7 +265,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     m_scoreSett = new ScoreSettings();
     m_nameSett = new NameSettings();
     m_guitarSett = new GuitarSettings();
-    m_examSett = new ExamSettings(gl->E, &gl->EquestionColor, &gl->EanswerColor);
+    m_examSett = new ExamSettings(gl->E, &gl->EquestionColor, &gl->EanswerColor, &gl->EnotBadColor);
     m_sndOutSett = new AudioOutSettings(gl->A);
     m_sndInSett = new AudioInSettings(gl->A, gl->path);
     QTabWidget *sndTTab = new QTabWidget();

@@ -24,82 +24,85 @@
 #include <QtGui>
 
 
-ExamSettings::ExamSettings(TexamParams* params, QColor* qColor, QColor* aColor, QWidget* parent) :
+ExamSettings::ExamSettings(TexamParams* params, QColor* qColor, QColor* aColor, QColor* nbColor, QWidget* parent) :
     QWidget(parent),
     m_params(params),
     m_qColor(qColor),
-    m_aColor(aColor)
+    m_aColor(aColor),
+    m_nbColor(nbColor)
 {
     QVBoxLayout *lay = new QVBoxLayout;
 
-    autoNextChB = new QCheckBox(autoNextQuestTxt(), this);
-    lay->addWidget(autoNextChB, 0, Qt::AlignCenter);
-    autoNextChB->setChecked(m_params->autoNextQuest);
-    repeatIncorChB = new QCheckBox(tr("repeat a question when an answer was incorrect."), this);
-    lay->addWidget(repeatIncorChB, 0, Qt::AlignCenter);
-    repeatIncorChB->setChecked(m_params->repeatIncorrect);
-    repeatIncorChB->setStatusTip(tr("A question with incorrect answer will be asked once again."));
-    expertAnswChB = new QCheckBox(expertsAnswerTxt(), this);
-    expertAnswChB->setChecked(m_params->expertsAnswerEnable);
-    lay->addWidget(expertAnswChB, 0, Qt::AlignCenter);
+    m_autoNextChB = new QCheckBox(autoNextQuestTxt(), this);
+    lay->addWidget(m_autoNextChB, 0, Qt::AlignCenter);
+    m_autoNextChB->setChecked(m_params->autoNextQuest);
+    m_repeatIncorChB = new QCheckBox(tr("repeat a question when an answer was incorrect."), this);
+    lay->addWidget(m_repeatIncorChB, 0, Qt::AlignCenter);
+    m_repeatIncorChB->setChecked(m_params->repeatIncorrect);
+    m_repeatIncorChB->setStatusTip(tr("A question with incorrect answer will be asked once again."));
+    m_expertAnswChB = new QCheckBox(expertsAnswerTxt(), this);
+    m_expertAnswChB->setChecked(m_params->expertsAnswerEnable);
+    lay->addWidget(m_expertAnswChB, 0, Qt::AlignCenter);
     lay->addStretch(1);
     
-    showHelpChB = new QCheckBox(showHelpWindowTxt(), this);
-    showHelpChB->setChecked(m_params->showHelpOnStart);
-    lay->addWidget(showHelpChB, 0, Qt::AlignCenter);
-    showHelpChB->setStatusTip(tr("Shows window with help when new exam begins."));
+    m_showHelpChB = new QCheckBox(showHelpWindowTxt(), this);
+    m_showHelpChB->setChecked(m_params->showHelpOnStart);
+    lay->addWidget(m_showHelpChB, 0, Qt::AlignCenter);
+    m_showHelpChB->setStatusTip(tr("Shows window with help when new exam begins."));
     lay->addStretch(1);
     
     QHBoxLayout *nameLay = new QHBoxLayout();
     QLabel *nameLab = new QLabel(tr("student's name:"), this);
     nameLay->addWidget(nameLab);
-    nameEdit = new QLineEdit(m_params->studentName, this);
-    nameEdit->setMaxLength(30);
-    nameLay->addWidget(nameEdit);
-    nameEdit->setStatusTip(tr("Default name for every new exam."));
+    m_nameEdit = new QLineEdit(m_params->studentName, this);
+    m_nameEdit->setMaxLength(30);
+    nameLay->addWidget(m_nameEdit);
+    m_nameEdit->setStatusTip(tr("Default name for every new exam."));
     lay->addLayout(nameLay);
     lay->addStretch(1);
 
     QGridLayout *colLay = new QGridLayout;
     QLabel *questLab = new QLabel(tr("color of questions") + " / " + tr("color of wrong answers"), this);
-    questColorBut = new TcolorButton(*(m_qColor), this);
+    m_questColorBut = new TcolorButton(*(m_qColor), this);
     colLay->addWidget(questLab, 0, 0);
-    colLay->addWidget(questColorBut, 0, 1);
+    colLay->addWidget(m_questColorBut, 0, 1);
     QLabel *answLab = new QLabel(tr("color of answers") + " / " + tr("color of correct answers"), this);
-    answColorBut = new TcolorButton(*(m_aColor), this);
+    m_answColorBut = new TcolorButton(*(m_aColor), this);
     colLay->addWidget(answLab, 1, 0);
-    colLay->addWidget(answColorBut, 1, 1);
+    colLay->addWidget(m_answColorBut, 1, 1);
     QLabel *notBadLab = new QLabel(tr("color of 'not so bad' answers"), this);
-    TcolorButton *notBadButt = new TcolorButton(Qt::magenta, this);
+    m_notBadButt = new TcolorButton(*(m_nbColor), this);
     colLay->addWidget(notBadLab, 2, 0);
-    colLay->addWidget(notBadButt, 2, 1);
+    colLay->addWidget(m_notBadButt, 2, 1);
 
     lay->addLayout(colLay);
     lay->addStretch(1);
 
     setLayout(lay);
     
-    connect(expertAnswChB, SIGNAL(clicked(bool)), this, SLOT(expertAnswersChanged(bool)));
+    connect(m_expertAnswChB, SIGNAL(clicked(bool)), this, SLOT(expertAnswersChanged(bool)));
 }
 
 
 void ExamSettings::saveSettings() {
-    m_params->autoNextQuest = autoNextChB->isChecked();
-    m_params->repeatIncorrect = repeatIncorChB->isChecked();
-    m_params->expertsAnswerEnable = expertAnswChB->isChecked();
-    m_params->showHelpOnStart = showHelpChB->isChecked();
-    m_params->studentName = nameEdit->text();
+    m_params->autoNextQuest = m_autoNextChB->isChecked();
+    m_params->repeatIncorrect = m_repeatIncorChB->isChecked();
+    m_params->expertsAnswerEnable = m_expertAnswChB->isChecked();
+    m_params->showHelpOnStart = m_showHelpChB->isChecked();
+    m_params->studentName = m_nameEdit->text();
         
-    *m_qColor = questColorBut->getColor();
+    *m_qColor = m_questColorBut->getColor();
     m_qColor->setAlpha(40);
-    *m_aColor = answColorBut->getColor();
+    *m_aColor = m_answColorBut->getColor();
     m_aColor->setAlpha(40);
+    *m_nbColor = m_notBadButt->getColor();
+    m_nbColor->setAlpha(40);
 }
 
 
 void ExamSettings::expertAnswersChanged(bool enabled) {
   if (enabled) {
       if (!showExpertAnswersHelpDlg(m_params->askAboutExpert, this, false))
-        expertAnswChB->setChecked(false);
+        m_expertAnswChB->setChecked(false);
   }
 }
