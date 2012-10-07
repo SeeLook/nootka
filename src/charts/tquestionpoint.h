@@ -47,7 +47,7 @@ public:
   QColor color() { return m_color; }
   
   static void setColors(QColor goodColor = Qt::green, QColor wrongColor = Qt::red,
-                        QColor notBadColor = Qt::darkMagenta, QColor shadowColor = QColor(63, 63, 63, 180),
+                        QColor notBadColor = QColor("#FF8000"), QColor shadowColor = QColor(63, 63, 63, 180),
                         QColor bgColor = Qt::white);
   
   static QColor bgColor() { return m_bgColor; }

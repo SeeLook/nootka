@@ -52,12 +52,12 @@ MainWindow::MainWindow(QWidget *parent)
     Ttune::prepareDefinedTunes();
 #if defined(Q_OS_MAC)
     TpushButton::setCheckColor(gl->SpointerColor, palette().base().color());
-    TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()), Qt::darkMagenta,
-        QColor(100, 100, 100, 180), palette().window().color());
+    TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()), 
+                              QColor(gl->EnotBadColor), QColor(100, 100, 100, 180), palette().window().color());
 #else
     TpushButton::setCheckColor(palette().highlight().color().name(), palette().highlightedText().color() );
-    TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()), Qt::darkMagenta,
-        palette().shadow().color(), palette().base().color());
+    TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()),
+                              QColor(gl->EnotBadColor.name()), palette().shadow().color(), palette().base().color());
 #endif
 #if defined(Q_OS_LINUX)
     setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
@@ -155,7 +155,7 @@ MainWindow::MainWindow(QWidget *parent)
     examResults = new TexamView(innerWidget);
 //     examResults->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     examResults->setStyleBg(gl->getBGcolorText(gl->EanswerColor), gl->getBGcolorText(gl->EquestionColor),
-                            gl->getBGcolorText(Qt::magenta));
+                            gl->getBGcolorText(gl->EnotBadColor));
 //     nameLay->addWidget(examResults);
     noteName = new TnoteName(innerWidget);
     noteName->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
@@ -330,8 +330,8 @@ void MainWindow::createSettingsDialog() {
         noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
         noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
           // set new colors in exam view
-        examResults->setStyleBg(gl->getBGcolorText(gl->EanswerColor), gl->getBGcolorText(gl->EquestionColor)/*, 
-                                gl->getBGcolorText(Qt::magenta)*/);
+        examResults->setStyleBg(gl->getBGcolorText(gl->EanswerColor), gl->getBGcolorText(gl->EquestionColor), 
+                                gl->getBGcolorText(gl->EnotBadColor));
         noteName->setAmbitus(gl->loString(),
                                Tnote(gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber));
         TnotesList nList;

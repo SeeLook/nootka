@@ -36,7 +36,7 @@ void TquestionPoint::setColors(QColor goodColor, QColor wrongColor, QColor notBa
 }
 QColor TquestionPoint::m_goodColor = Qt::darkGreen;
 QColor TquestionPoint::m_wrongColor = Qt::red;
-QColor TquestionPoint::m_notBadColor = Qt::darkMagenta;
+QColor TquestionPoint::m_notBadColor = QColor("#FF8000");
 QColor TquestionPoint::m_shadowColor = QColor(63, 63, 63, 180); // gray with transparency
 QColor TquestionPoint::m_bgColor = Qt::white;
 

@@ -28,6 +28,10 @@
 const QString TexamView::halfMistakenTxt() { return tr("'Not So Bad' answers"); } 
 const QString TexamView::halfMistakenAddTxt() { return tr("(counted as half of a mistake)"); }
 
+QString styleTxt(QColor bgCol) { 
+  return QString("border: 1px solid rgba; border-radius: 10px;");
+  
+}
 
 //QGroupBox *okGr;
 

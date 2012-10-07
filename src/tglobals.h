@@ -124,8 +124,9 @@ public:
 
 
     TexamParams *E; /** Exam parameters */
-    QColor EquestionColor;
-    QColor EanswerColor;
+    QColor EquestionColor; // red
+    QColor EanswerColor; // green
+    QColor EnotBadColor; // #ff8000 (orange)
 
     TaudioParams *A;  /** Audio parameters */
     
