@@ -157,6 +157,12 @@ Tglobals::Tglobals() {
                 EanswerColor = QColor("green");
                EanswerColor.setAlpha(40);
            }
+        if (config->contains("notBadColor"))
+            EnotBadColor = config->value("notBadColor").value<QColor>();
+        else {
+                EnotBadColor = QColor("#FF8000");
+               EnotBadColor.setAlpha(40);
+           }
         E->autoNextQuest = config->value("autoNextQuest", true).toBool();
         E->repeatIncorrect = config->value("repeatIncorrect", true).toBool();
         E->expertsAnswerEnable = config->value("expertsAnswerEnable", false).toBool();
@@ -251,6 +257,7 @@ void Tglobals::storeSettings() {
     config->beginGroup("exam");
         config->setValue("questionColor", EquestionColor);
         config->setValue("answerColor", EanswerColor);
+        config->setValue("notBadColor", EnotBadColor);
         config->setValue("autoNextQuest", E->autoNextQuest);
         config->setValue("repeatIncorrect", E->repeatIncorrect);
         config->setValue("expertsAnswerEnable", E->expertsAnswerEnable);
