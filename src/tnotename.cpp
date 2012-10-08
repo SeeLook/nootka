@@ -347,7 +347,7 @@ void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
 
 void TnoteName::resize(int fontSize) {
 //     nameLabel->setFixedSize(qRound(width()*0.88), qRound(height() * 0.3));
-    nameLabel->setFixedSize(parentWidget()->width() * 0.5, parentWidget()->height() / 9 );
+    nameLabel->setFixedSize(width() * 0.9, parentWidget()->height() / 9 );
 //     nameLabel->setGeometry(geometry().left() + qRound(width()*0.06), geometry().top() + 2,
 //       qRound(width()*0.88), qRound(height() * 0.3)
 //     );

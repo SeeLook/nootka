@@ -517,12 +517,8 @@ bool MainWindow::event(QEvent *event) {
 void MainWindow::updsateSize() {
   //     setUpdatesEnabled(false);
     nootBar->setIconSize(QSize(height()/21, height()/21));
-    int scoreWidthFactor = 22;
-    if (gl->SkeySignatureEnabled)
-      scoreWidthFactor = 30;
-    int estimScoreHghFactor = (centralWidget()->height() - nootBar->height() - pitchView->height() - 
-            ((centralWidget()->height() - nootBar->height()) * 0.25)) / 36;
-    score->setFixedWidth(estimScoreHghFactor * scoreWidthFactor + 56);
+    score->setFixedWidth((centralWidget()->height() - nootBar->height() - pitchView->height() -
+                          ((centralWidget()->height() - nootBar->height()) * 0.25))  / 1.3 + 56);
     int posX = score->width() + 2;
     int gapY = centralWidget()->height() / 100;
 //     m_statLab->setFixedHeight(centralWidget()->height()/9);
