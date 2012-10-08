@@ -66,14 +66,18 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
         m_scene->addItem(m_workStrings[i]);
         m_workStrings[i]->setZValue(112);
         blur[i] = new QGraphicsBlurEffect();
+        blur[i]->setBlurRadius(3);
         m_workStrings[i]->setGraphicsEffect(blur[i]);
     }
 
     m_workFinger = new QGraphicsEllipseItem();
     m_workFinger->hide();
-//    m_workFinger->setPen(QPen(gl->GfingerColor));
-    m_workFinger->setPen(QPen(QBrush(Qt::transparent), 5));
+    QGraphicsBlurEffect *workBlur = new QGraphicsBlurEffect();
+    workBlur->setBlurRadius(3);
+    m_workFinger->setPen(QPen(gl->GfingerColor, 2));
+//     m_workFinger->setPen(QPen(QBrush(Qt::transparent), 5));
     m_workFinger->setBrush(QBrush(gl->GfingerColor, Qt::SolidPattern));
+    m_workFinger->setGraphicsEffect(workBlur);
     m_scene->addItem(m_workFinger);
     m_workFinger->setZValue(112);
 
@@ -159,13 +163,11 @@ void TfingerBoard::askQuestion(TfingerPos pos) {
     m_questPos = pos;
     QColor qC = gl->EquestionColor;
     qC.setAlpha(200); //it is too much opaque
-    QGraphicsBlurEffect *blur = new QGraphicsBlurEffect();
     if (pos.fret()) { // some fret
         if (!m_questFinger) {
             m_questFinger = new QGraphicsEllipseItem();
             m_questFinger->setPen(QPen(qC, 2));
             m_questFinger->setBrush(QBrush(qC, Qt::SolidPattern));
-            m_questFinger->setGraphicsEffect(blur);
             m_scene->addItem(m_questFinger);
             m_questFinger->setZValue(110);
             m_questFinger->setRect(0,0, m_fretWidth/1.6, qRound(0.7*m_strGap));
@@ -174,9 +176,7 @@ void TfingerBoard::askQuestion(TfingerPos pos) {
     } else { // open strring
         if (!m_questString) {
             m_questString = new QGraphicsLineItem();
-            m_questString->setPen(QPen(qC, m_strings[pos.str()-1]->pen().width(),
-                                       Qt::SolidLine));
-            m_questString->setGraphicsEffect(blur);
+            m_questString->setPen(QPen(qC, m_strings[pos.str()-1]->pen().width() + 2, Qt::SolidLine));
             m_scene->addItem(m_questString);
             m_questString->setZValue(110);
             m_questString->setLine(m_strings[pos.str()-1]->line());
@@ -268,12 +268,12 @@ void TfingerBoard::setHighlitedString(char realStrNr) {
   }
   m_hilightedStrNr = realStrNr;
   m_highString->setZValue(40);
-  QGraphicsBlurEffect *hiBlur = new QGraphicsBlurEffect();
-  m_highString->setGraphicsEffect(hiBlur);
-  QPen pen = m_strings[realStrNr-1]->pen();
-  pen.setColor(gl->EanswerColor.name());
-  pen.setWidth(pen.width() * 3);
-  m_highString->setPen(pen);
+//   QGraphicsBlurEffect *hiBlur = new QGraphicsBlurEffect();
+//   m_highString->setGraphicsEffect(hiBlur);
+//   QPen pen = m_strings[realStrNr-1]->pen();
+//   pen.setColor(gl->EanswerColor.name());
+//   pen.setWidth(pen.width() * 3);
+  m_highString->setPen(QPen(QColor(gl->EanswerColor.name()), m_strWidth[realStrNr - 1] + 2));
   m_highString->setLine(m_strings[realStrNr-1]->line());
 }
 
