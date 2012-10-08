@@ -334,6 +334,7 @@ void MainWindow::createSettingsDialog() {
                                 gl->getBGcolorText(gl->EnotBadColor));
         noteName->setAmbitus(gl->loString(),
                                Tnote(gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber));
+        updsateSize();
         TnotesList nList;
         nList = score->getNote(0).getTheSameNotes(gl->doubleAccidentalsEnabled);
         if (gl->showEnharmNotes) { // refresh note name and score
@@ -513,12 +514,12 @@ bool MainWindow::event(QEvent *event) {
     return QMainWindow::event(event);
 }
 
-void MainWindow::resizeEvent(QResizeEvent * event) {
-//     setUpdatesEnabled(false);
+void MainWindow::updsateSize() {
+  //     setUpdatesEnabled(false);
     nootBar->setIconSize(QSize(height()/21, height()/21));
-    int scoreWidthFactor = 24;
+    int scoreWidthFactor = 22;
     if (gl->SkeySignatureEnabled)
-      scoreWidthFactor = 32;
+      scoreWidthFactor = 30;
     int estimScoreHghFactor = (centralWidget()->height() - nootBar->height() - pitchView->height() - 
             ((centralWidget()->height() - nootBar->height()) * 0.25)) / 36;
     score->setFixedWidth(estimScoreHghFactor * scoreWidthFactor + 56);
@@ -561,8 +562,14 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
 //    qDebug() << m_bgPixmap.size() /*<< centralWidget()->width() << guitar->geometry().x() << guitar->posX12fret()*/;
     
 //     setUpdatesEnabled(true);
-    emit sizeChanged(event->size());
     QTimer::singleShot(2, this, SLOT(update()));
+}
+
+
+
+void MainWindow::resizeEvent(QResizeEvent * event) {
+    updsateSize();
+    emit sizeChanged(event->size());    
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {

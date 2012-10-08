@@ -116,6 +116,8 @@ private:
     void createActions();
         /** it sets icon and status text in startExamAct. */
     void setStartExamActParams();
+        /** Updates position and sizes of the widgets. */
+    void updsateSize();
 
 };
 
