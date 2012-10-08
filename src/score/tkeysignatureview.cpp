@@ -107,11 +107,10 @@ void TkeySignatureView::resize(int co) {
     if (gl->SshowKeySignName) {
         m_keyNameText->setPos(1, 8*m_coeff);
     // All calculation below is to have enaught space for key name
-//        m_keyNameText->setFont(this->font());
         m_keyNameText->setFont(QFont(this->font().family(), m_coeff*4));
         m_keyNameText->hide();
         QString S = m_keyNameText->text();
-        m_keyNameText->setText("Cis-minor");//simple text to determine max width
+        m_keyNameText->setText("Ges-" + gl->SminKeyNameSufix); //simple text to determine max width
         while (m_keyNameText->boundingRect().width() > width()) {
             QFont f = m_keyNameText->font();
             f.setPointSize(f.pointSize()-1);
@@ -163,9 +162,14 @@ void TkeySignatureView::wheelEvent(QWheelEvent * event) {
                 }
             *(m_accInKeyPtr+(26-m_posOfAccid[qAbs(base - qAbs(prevKey))-1])%7) = 0;
         }
-        if (gl->SshowKeySignName)
-            m_keyNameText->setText(TkeySignature::getMajorName(m_keySignature) + "\n" +
-                                   TkeySignature::getMinorName(m_keySignature));
+//         if (gl->SshowKeySignName) {
+//             m_keyNameText->setText(TkeySignature::getMajorName(m_keySignature) + "\n" +
+//                                    TkeySignature::getMinorName(m_keySignature));
+//             if (m_keyNameText->boundingRect().width() > width()) {
+//               m_keyNameText->font().setPixelSize();
+//             }
+//         }
+        showKeyName();
         emit keySignWasChanged();
     }
 
@@ -200,6 +204,11 @@ void TkeySignatureView::showKeyName() {
     if (gl->SshowKeySignName) {
         m_keyNameText->setText(TkeySignature::getMajorName(m_keySignature) + "\n" +
                                TkeySignature::getMinorName(m_keySignature));
+        if (m_keyNameText->boundingRect().width() > width()) {
+            QFont f = m_keyNameText->font();
+            f.setPointSize(f.pointSize() - 1);
+            m_keyNameText->setFont(f);
+        }
         m_keyNameText->show();
     }
     else m_keyNameText->hide();

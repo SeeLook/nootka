@@ -58,12 +58,13 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
 //     aLay->addWidget(scrollWidget);
 //     aLay->addWidget(scrollArea);
 
-    QGroupBox *hGr = new QGroupBox(this);
-    QVBoxLayout *hLay = new QVBoxLayout;
+//     QGroupBox *hGr = new QGroupBox(this);
+//     QVBoxLayout *hLay = new QVBoxLayout;
     hint = new QLabel(this);
-    hLay->addWidget(hint);
-    hGr->setLayout(hLay);
-    aLay->addWidget(hGr);
+//     hLay->addWidget(hint);
+//     hGr->setLayout(hLay);
+//     aLay->addWidget(hGr);
+    aLay->addWidget(hint);
     hint->setFixedHeight(70);
     hint->setWordWrap(true);
     hint->setStyleSheet("border-radius: 10px; background-color: palette(Text); color: palette(Base)");

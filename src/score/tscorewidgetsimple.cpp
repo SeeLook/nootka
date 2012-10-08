@@ -86,19 +86,17 @@ TscoreWidgetSimple::TscoreWidgetSimple(unsigned char _notesCount, QWidget *paren
 void TscoreWidgetSimple::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
-    painter.setWindow(0,0,width(),height());
+    painter.setWindow(0, 0, width(), height());
 
-//    painter.setPen(QPen(palette().foreground().color()));
-    painter.setPen(QPen(palette().color(palette().currentColorGroup(), QPalette::Foreground)));
-//    painter.setBrush(QBrush(palette().base().color(),Qt::SolidPattern));
-    QColor bg = palette().base().color();
+    painter.setPen(QPen(palette().color(palette().currentColorGroup(), QPalette::Text)));
+    QColor bg = palette().color(palette().currentColorGroup(), QPalette::Base); //.base().color();
     bg.setAlpha(220);
 //     painter.setBrush(QBrush(palette().color(palette().currentColorGroup(), QPalette::Base), Qt::SolidPattern));
     painter.setBrush(QBrush(bg));
-    painter.drawRoundedRect(1, 1, width()-55, height()-2, coeff,coeff);
+    painter.drawRoundedRect(1, 1, width() - 55, height() - 2, coeff, coeff);
 
-    for (int i=16; i < 26; i += 2)
-        painter.drawLine(5,(i*coeff),width()-55,(i*coeff));
+    for (int i = 16; i < 26; i += 2)
+        painter.drawLine(5, (i * coeff), width() - 55, (i * coeff));
 //    painter.setFont(QFont("nootka",coeff*12.5,QFont::Normal));
 //    painter.drawText(QRect(1, qRound(12.2*coeff), coeff*6,coeff*18), Qt::AlignLeft, QString(QChar(0xe1a7)));
 }
@@ -109,21 +107,20 @@ void TscoreWidgetSimple::resizeEvent(QResizeEvent *) {
 
 void TscoreWidgetSimple::resize() {
     coeff = geometry().height() / _C;
-    m_clef->setGeometry(1, 0, 5.5*coeff, height());
+    m_clef->setGeometry(1, 0, 5.5 * coeff, height());
     m_clef->resize(coeff);
-    int shift = 6*coeff;
+    int shift = 6 * coeff;
     if (m_hasScord)
         if (shift < 85) shift = 85;
     if (keySignView) {
         keySignView->setGeometry(5*coeff, 0, 8*coeff, height());
         keySignView->resize(coeff);
-        shift = 14*coeff;
+        shift = 14 * coeff;
     }
-    for (int i=0; i<noteViews.size(); i++) {
-        noteViews[i]->setGeometry(shift+(i*6)*coeff, 0, 6*coeff, height());
+    for (int i = 0; i < noteViews.size(); i++) {
+        noteViews[i]->setGeometry(shift + (i * 6) * coeff, 0, 6 * coeff, height());
         noteViews[i]->resize(coeff);
     }
-
 }
 
 

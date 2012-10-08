@@ -516,9 +516,14 @@ bool MainWindow::event(QEvent *event) {
 void MainWindow::resizeEvent(QResizeEvent * event) {
 //     setUpdatesEnabled(false);
     nootBar->setIconSize(QSize(height()/21, height()/21));
-    score->setFixedWidth((centralWidget()->width()/14)*6);
+    int scoreWidthFactor = 24;
+    if (gl->SkeySignatureEnabled)
+      scoreWidthFactor = 32;
+    int estimScoreHghFactor = (centralWidget()->height() - nootBar->height() - pitchView->height() - 
+            ((centralWidget()->height() - nootBar->height()) * 0.25)) / 36;
+    score->setFixedWidth(estimScoreHghFactor * scoreWidthFactor + 56);
     int posX = score->width() + 2;
-    int gapY = 5;
+    int gapY = centralWidget()->height() / 100;
 //     m_statLab->setFixedHeight(centralWidget()->height()/9);
     m_statLab->setGeometry(posX, 7, centralWidget()->width() * 0.5, centralWidget()->height()/9);
 #if defined(Q_OS_MAC)
@@ -531,7 +536,7 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
     m_statLab->setFont(f);
     guitar->setFixedHeight((centralWidget()->height() - nootBar->height()) * 0.25);
     progress->resize(m_statFontSize);
-    progress->setGeometry(posX, m_statLab->geometry().bottom() + gapY,
+    progress->setGeometry(posX, m_statLab->geometry().bottom() + gapY * 2,
                           centralWidget()->width()- score->width() -2, centralWidget()->height() * 0.15);
     progress->setFixedHeight(centralWidget()->height() * 0.08);
 //     examResults->setFixedHeight(centralWidget()->height() / 10);
