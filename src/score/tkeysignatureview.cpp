@@ -131,46 +131,7 @@ void TkeySignatureView::wheelEvent(QWheelEvent * event) {
         if (m_keySignature > m_flatKeyFuse) m_keySignature--;
     }
     if (m_keySignature != prevKey) {
-        /** @todo What's about replacing all above on
-        * setKeySignature(m_keySignature) method ??? */
-        char sign;
-        if (m_keySignature > 0) { //sharp
-            m_accidentals[qAbs(m_keySignature)-1]->setText(TnoteView::getAccid(1));
-            sign = 1;
-            base = 0;
-        }
-        else
-            if (m_keySignature < 0) { //flat
-            m_accidentals[qAbs(m_keySignature)-1]->setText(TnoteView::getAccid(-1));
-            sign = -1;
-            base = 8;
-        }
-
-        if (qAbs(m_keySignature) > (qAbs(prevKey))) {
-            m_accidentals[qAbs(m_keySignature)-1]->setPos(
-                    (qAbs(m_keySignature)-1)*m_coeff+1,
-                    qreal(m_posOfAccid[qAbs(base -
-                                            qAbs(m_keySignature))-1]*m_coeff)-m_accTextOffset);
-            m_accidentals[qAbs(m_keySignature)-1]->show();
-            *(m_accInKeyPtr+(26-m_posOfAccid[qAbs(base - qAbs(m_keySignature))-1])%7) = sign;
-        }
-        else {
-            m_accidentals[qAbs(prevKey)-1]->hide();
-            if (m_keySignature == 0) {
-                if (prevKey == -1) base = 8;
-                    else base = 0;
-                }
-            *(m_accInKeyPtr+(26-m_posOfAccid[qAbs(base - qAbs(prevKey))-1])%7) = 0;
-        }
-//         if (gl->SshowKeySignName) {
-//             m_keyNameText->setText(TkeySignature::getMajorName(m_keySignature) + "\n" +
-//                                    TkeySignature::getMinorName(m_keySignature));
-//             if (m_keyNameText->boundingRect().width() > width()) {
-//               m_keyNameText->font().setPixelSize();
-//             }
-//         }
-        showKeyName();
-        emit keySignWasChanged();
+        setKeySignature(m_keySignature);
     }
 
 }
@@ -215,4 +176,5 @@ void TkeySignatureView::showKeyName() {
 }
 
 
-/** @todo TkeySignatureView::setKeysFuse() */
+/** @todo TkeySignatureView::setKeysFuse() 
+ * Untill now it has no use...*/

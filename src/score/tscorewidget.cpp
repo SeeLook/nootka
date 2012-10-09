@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -21,6 +21,7 @@
 #include "tkeysignatureview.h"
 #include "tglobals.h"
 #include "tkeysignature.h"
+#include "tgraphicstexttip.h"
 #include <QtGui>
 
 
@@ -87,7 +88,8 @@ void TscoreWidget::setEnableEnharmNotes(bool isEnabled) {
 }
 
 void TscoreWidget::resizeEvent(QResizeEvent *event) {
-    TscoreWidgetSimple::resizeEvent(event);
+    setMinimumWidth(qRound((qreal)height() / 1.15) + 56);
+    TscoreWidgetSimple::resizeEvent(event);    
     if (m_questMark) {
         resizeQuestMark();
     }
@@ -106,7 +108,10 @@ void TscoreWidget::paintEvent(QPaintEvent *event) {
     /** @todo Its size has to depends on @param coeff */
     QFont f = QFont("Arial");
     f.setPixelSize(11);
-    painter.setFont(f);
+    f.setBold(true);
+//     painter.setFont(f);
+    QFont nF = QFont("nootka");
+    nF.setPointSize(fontMetrics().boundingRect("A").height());
 //    Ttune sT = Ttune::stdTune;
     int nL = 0;
     for (int i=1; i<7; i++) {
@@ -128,11 +133,13 @@ void TscoreWidget::paintEvent(QPaintEvent *event) {
         }
         c++;
         int fa =15;
+        painter.setFont(nF);
         painter.drawText(QRectF(5+xOff,29*coeff+17*yOff, fa, fa), Qt::AlignCenter,
                QString("%1").arg(i));
+        painter.setFont(f);
         painter.drawText(QRectF(5+xOff+fa, 29*coeff+17*yOff, 60, fa),Qt::AlignLeft,
              " =" + gl->Gtune()[i].toText(gl->NnameStyleInNoteName, false));
-        painter.drawEllipse(5+xOff,29*coeff+17*yOff,fa,fa);
+//         painter.drawEllipse(5+xOff,29*coeff+17*yOff,fa,fa);
       }
     }
   }
@@ -237,31 +244,25 @@ void TscoreWidget::forceAccidental(Tnote::Eacidentals accid) {
 void TscoreWidget::prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName) {
     setKeySignature(fakeKey);
     setKeyViewBg(gl->EanswerColor);
-    m_questKey->setHtml(QString("<center style=\"color: %1;\"><span style=\"font-family: nootka;\">?</span><br>").arg(gl->EquestionColor.name()) + expectKeyName + "</center>");
+    m_questKey->setHtml(QString("<span style=\"color: %1;\"><span style=\"font-family: nootka;\">?</span><br>").arg(gl->EquestionColor.name()) + expectKeyName + "</span>");
+    TgraphicsTextTip::alignCenter(m_questKey);
     resizeKeyText();
     m_questKey->show();
 }
 
 void TscoreWidget::resizeQuestMark() {
 #if defined(Q_OS_MACX)
-    m_questMark->setFont(QFont("nootka", coeff*7));
+    m_questMark->setFont(QFont("nootka", coeff * 7));
 #else
-    m_questMark->setFont(QFont("nootka", coeff*5));
+    m_questMark->setFont(QFont("nootka", coeff * 5));
 #endif
-    m_questMark->setPos(0, coeff*16);
+    m_questMark->setPos(0, coeff * 16);
 }
 
 void TscoreWidget::resizeKeyText() {
-	m_questKey->document()->setTextWidth(-1);
-    int fs = coeff*2;
-    do {
-        fs--;
-        m_questKey->setFont(QFont(font().family(), fs));
-    } while (m_questKey->document()->size().width() > keySignView->width());
-// 	m_questKey->document()->setTextWidth(m_questKey->document()->size().width());
-// 	m_questKey->setHtml(m_questKey->toHtml());
-    m_questKey->setPos(0, coeff*5);
-// 	m_questKey->document()->setTextWidth(-1);
+  qreal sc = keySignView->width() / m_questKey->boundingRect().width();
+  m_questKey->setScale(sc);
+  m_questKey->setPos(0, coeff * 5);
 }
 
 void TscoreWidget::expertNoteChanged() {

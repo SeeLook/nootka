@@ -516,38 +516,38 @@ bool MainWindow::event(QEvent *event) {
 
 void MainWindow::updsateSize() {
   //     setUpdatesEnabled(false);
-    nootBar->setIconSize(QSize(height()/21, height()/21));
+    m_statFontSize = (centralWidget()->height() / 9) / 4 - 2;
+    nootBar->setIconSize(QSize(height() / 21, height() / 21));
+    pitchView->resize(m_statFontSize);
+    
     score->setFixedWidth((centralWidget()->height() - nootBar->height() - pitchView->height() -
-                          ((centralWidget()->height() - nootBar->height()) * 0.25))  / 1.3 + 56);
+                          ((centralWidget()->height() - nootBar->height()) * 0.25))  / 1.2 + 56);
+    
     int posX = score->width() + 2;
     int gapY = centralWidget()->height() / 100;
-//     m_statLab->setFixedHeight(centralWidget()->height()/9);
-    m_statLab->setGeometry(posX, 7, centralWidget()->width() * 0.5, centralWidget()->height()/9);
-#if defined(Q_OS_MAC)
-   m_statFontSize = m_statLab->height()/4-2;
-#else
-    m_statFontSize = m_statLab->height()/4 - 2;
-#endif
+
+    m_statLab->setGeometry(posX, 7, centralWidget()->width() - posX - m_hintsChB->width(), centralWidget()->height() / 9);
+
     QFont f = m_statLab->font();
     f.setPointSize(m_statFontSize);
     m_statLab->setFont(f);
     guitar->setFixedHeight((centralWidget()->height() - nootBar->height()) * 0.25);
     progress->resize(m_statFontSize);
     progress->setGeometry(posX, m_statLab->geometry().bottom() + gapY * 2,
-                          centralWidget()->width()- score->width() -2, centralWidget()->height() * 0.15);
+                          centralWidget()->width() - posX, centralWidget()->height() * 0.15);
     progress->setFixedHeight(centralWidget()->height() * 0.08);
 //     examResults->setFixedHeight(centralWidget()->height() / 10);
     examResults->setFontSize(m_statFontSize);
-    examResults->setGeometry(posX, progress->geometry().bottom() + gapY * 3, centralWidget()->width()- score->width() -2, 
+    examResults->setGeometry(posX, progress->geometry().bottom() + gapY * 3, centralWidget()->width() - posX, 
       centralWidget()->height() * 0.1);
     examResults->setFixedHeight(centralWidget()->height() * 0.08);
     noteName->resize(m_statFontSize);
 //     examResults->setFixedHeight(qRound(centralWidget()->height() * 0.12));
 //     noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(centralWidget()->height() * 0.4)));
     noteName->setGeometry(posX, qRound(centralWidget()->height() * 0.35),
-                          centralWidget()->width() - score->width() -2, qRound(centralWidget()->height() * 0.4));
+                          centralWidget()->width() - posX, qRound(centralWidget()->height() * 0.4));
     noteName->resize(m_statFontSize);
-    pitchView->resize(m_statFontSize);
+    
     nootLab->setGeometry(posX, qRound(centralWidget()->height() * 0.12), centralWidget()->width()- score->width() -2,
           qRound(centralWidget()->height() * 0.25));
     
