@@ -742,7 +742,7 @@
     <message>
         <location filename="../src/info/select7note.cpp" line="37"/>
         <source>7-th note is &lt;b&gt;H&lt;/b&gt; and with flat is &lt;b&gt;Hb&lt;/b&gt; or &lt;b&gt;B&lt;/b&gt;</source>
-        <translation>7 nuta to &lt;b&gt;H&lt;/b&gt; z a bemolem to &lt;b&gt;Hb&lt;/b&gt; lub &lt;b&gt;B&lt;/b&gt;</translation>
+        <translation>7 nuta to &lt;b&gt;H&lt;/b&gt; a z bemolem to &lt;b&gt;Hb&lt;/b&gt; lub &lt;b&gt;B&lt;/b&gt;</translation>
     </message>
 </context>
 <context>

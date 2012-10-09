@@ -111,7 +111,8 @@ void TscoreWidget::paintEvent(QPaintEvent *event) {
     f.setBold(true);
 //     painter.setFont(f);
     QFont nF = QFont("nootka");
-    nF.setPointSize(fontMetrics().boundingRect("A").height());
+    QFontMetrics fMetr(f);
+    nF.setPointSize(fMetr.boundingRect("A").height());
 //    Ttune sT = Ttune::stdTune;
     int nL = 0;
     for (int i=1; i<7; i++) {
