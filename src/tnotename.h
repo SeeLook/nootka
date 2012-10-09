@@ -55,7 +55,8 @@ signals:
     void noteNameWasChanged(Tnote note);
     void noteButtonClicked();
 
-public slots:
+protected:
+    void resizeEvent(QResizeEvent *);
 
 private:
     QLabel *nameLabel;

@@ -345,15 +345,20 @@ void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
     }
 }
 
+void TnoteName::resizeEvent(QResizeEvent* ) {
+    nameLabel->setFixedSize(width() * 0.9, parentWidget()->height() / 9 );
+}
+
+
 void TnoteName::resize(int fontSize) {
 //     nameLabel->setFixedSize(qRound(width()*0.88), qRound(height() * 0.3));
-    nameLabel->setFixedSize(width() * 0.9, parentWidget()->height() / 9 );
+//     nameLabel->setFixedSize(width() * 0.9, parentWidget()->height() / 9 );
 //     nameLabel->setGeometry(geometry().left() + qRound(width()*0.06), geometry().top() + 2,
 //       qRound(width()*0.88), qRound(height() * 0.3)
 //     );
     nameLabel->setFont(QFont(nameLabel->font().family(), qRound(nameLabel->height() * 0.55), 50));
     nameLabel->setText(nameLabel->text());
-    updateGeometry();
+    
     if (fontSize) {
         QFont f = QFont(noteButtons[0]->font().family());
         f.setPixelSize(fontSize);
