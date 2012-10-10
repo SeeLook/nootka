@@ -25,7 +25,7 @@
 
 
 extern Tglobals *gl;
-QString styleTxt = "border: 1px solid palette(Text); border-radius: 10px;";
+QString styleTxt, styleBgImg;
 
 /**static*/
 const char * const TnoteName::octaves[6] = { QT_TR_NOOP("Contra"), QT_TR_NOOP("Great"), QT_TR_NOOP("Small"),
@@ -42,6 +42,8 @@ const char * const TnoteName::octavesFull[6] = { QT_TR_NOOP("Contra octave"),
 TnoteName::TnoteName(QWidget *parent) :
     QWidget(parent)
 {
+    styleTxt = "border: 1px solid palette(Text); border-radius: 10px;";
+    styleBgImg = QString("background-image: url(%1);").arg(gl->path + "picts/bg.png");
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
 
 // NAME LABEL
@@ -54,8 +56,7 @@ TnoteName::TnoteName(QWidget *parent) :
     nameLabel->setAlignment(Qt::AlignCenter);
     QColor lbg = palette().base().color();
     lbg.setAlpha(220);
-    nameLabel->setStyleSheet(gl->getBGcolorText(lbg) + styleTxt + 
-      QString("background-image: url(%1)").arg(gl->path + "picts/bg.png"));
+    nameLabel->setStyleSheet(gl->getBGcolorText(lbg) + styleTxt);
     resize();
 
 //#if !defined (Q_OS_MAC)
@@ -384,14 +385,16 @@ void TnoteName::askQuestion(Tnote note, char strNr) {
     if (strNr) sN = QString("  %1").arg((int)strNr);
     nameLabel->setText(nameLabel->text() +
                        QString(" <span style=\"color: %1; font-family: nootka;\">?%2</span>").arg(gl->EquestionColor.name()).arg(sN));
-    nameLabel->setStyleSheet(gl->getBGcolorText(gl->EquestionColor) + styleTxt + 
-        QString("background-image: url(%1)").arg(gl->path + "picts/bg.png"));
+    QColor questBg = gl->EquestionColor;
+    questBg.setAlpha(200);
+    nameLabel->setStyleSheet(styleTxt + styleBgImg + gl->getBGcolorText(questBg));
     uncheckAllButtons();    
 }
 
 void TnoteName::prepAnswer(Tnote backNote) {
-    nameLabel->setStyleSheet(gl->getBGcolorText(gl->EanswerColor) + styleTxt +
-      QString("background-image: url(%1)").arg(gl->path + "picts/bg.png"));
+    QColor answBg = gl->EanswerColor;
+    answBg.setAlpha(200);
+    nameLabel->setStyleSheet(styleTxt + styleBgImg + gl->getBGcolorText(answBg));
     if (backNote.acidental) {
         QString accTxt = QString(" <sub><i><span style=\"color: %1;\">(%2)</span></i></sub>").arg(gl->GfingerColor.name()).arg(QString::fromStdString(signsAcid[backNote.acidental + 2]));
         nameLabel->setText(nameLabel->text() + accTxt);
@@ -439,8 +442,7 @@ void TnoteName::clearNoteName() {
 //    nameLabel->setStyleSheet("background-color: palette(Base); " + styleTxt);
     QColor lbg = palette().base().color();
     lbg.setAlpha(220);
-    nameLabel->setStyleSheet(gl->getBGcolorText(lbg) + styleTxt + 
-      QString("background-image: url(%1)").arg(gl->path + "picts/bg.png"));
+    nameLabel->setStyleSheet(gl->getBGcolorText(lbg) + styleTxt);
 }
 
 void TnoteName::uncheckAllButtons() {
