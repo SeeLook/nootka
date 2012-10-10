@@ -43,6 +43,12 @@ QString styleTxt, styleBgImg;
 
 //    (r1*x+r2*(1-x), g1*x+g2*(1-x), b1*x+b2*(1-x))
 
+QColor mergeColors(QColor C1, QColor C2) {
+  int  alp = qRound(255 * ((C1.alpha() / 255.0) + (C2.alpha() / 255.0) * (1 - (C1.alpha() / 255.0))));
+  return QColor( (C1.red() + C2.red()) / 2, (C1.green() + C2.green()) / 2, 
+    (C1.blue() + C2.blue()) / 2, alp);
+}
+
 
 /**static*/
 const char * const TnoteName::octaves[6] = { QT_TR_NOOP("Contra"), QT_TR_NOOP("Great"), QT_TR_NOOP("Small"),
@@ -404,14 +410,14 @@ void TnoteName::askQuestion(Tnote note, char strNr) {
                        QString(" <span style=\"color: %1; font-family: nootka;\">?%2</span>").arg(gl->EquestionColor.name()).arg(sN));
     QColor questBg = gl->EquestionColor;
     questBg.setAlpha(200);
-    nameLabel->setStyleSheet(styleTxt + styleBgImg + gl->getBGcolorText(questBg));
+    nameLabel->setStyleSheet(styleTxt + gl->getBGcolorText(mergeColors(gl->EquestionColor, palette().base().color())));
     uncheckAllButtons();    
 }
 
 void TnoteName::prepAnswer(Tnote backNote) {
     QColor answBg = gl->EanswerColor;
     answBg.setAlpha(200);
-    nameLabel->setStyleSheet(styleTxt + styleBgImg + gl->getBGcolorText(answBg));
+    nameLabel->setStyleSheet(styleTxt + gl->getBGcolorText(mergeColors(gl->EanswerColor, palette().base().color())));
     if (backNote.acidental) {
         QString accTxt = QString(" <sub><i><span style=\"color: %1;\">(%2)</span></i></sub>").arg(gl->GfingerColor.name()).arg(QString::fromStdString(signsAcid[backNote.acidental + 2]));
         nameLabel->setText(nameLabel->text() + accTxt);
