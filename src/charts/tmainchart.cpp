@@ -27,6 +27,7 @@
 #include "ttipchart.h"
 #include "sorting.h"
 #include "texamlevel.h"
+#include "tquestionaswdg.h"
 #include "tnotename.h"
 #include <QDebug>
 
@@ -60,7 +61,8 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
           xAxis->mapValue(m_exam->count()) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime()/10.0));
   }
   
-  if (m_settings.order == e_byNote || m_settings.order == e_byFret || m_settings.order == e_byKey) {
+  if (m_settings.order == e_byNote || m_settings.order == e_byFret ||
+          m_settings.order == e_byKey || m_settings.order == e_byAccid) {
       TanswerListPtr goodAnsw, badAnsw;
       QList<TanswerListPtr> sortedLists;
       int goodSize; // number of lists with good answers
@@ -74,6 +76,9 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
             else
               if (m_settings.order == e_byKey)
                 sortedLists = sortByKeySignature(goodAnsw, m_exam->level(), m_hasListUnrelated);
+              else
+                if (m_settings.order == e_byAccid)
+                sortedLists = sortByAccidental(goodAnsw, m_exam->level(), m_hasListUnrelated);
           goodSize = sortedLists.size(); // number without wrong answers
           if (m_settings.order == e_byNote)
             sortedLists.append(sortByNote(badAnsw, m_exam->level(), m_hasListUnrelated));
@@ -82,7 +87,11 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
               sortedLists.append(sortByFret(badAnsw, m_exam->level(), m_hasListUnrelated));
             else
               if (m_settings.order == e_byKey)
-              sortedLists.append(sortByKeySignature(badAnsw, m_exam->level(), m_hasListUnrelated));
+                sortedLists.append(sortByKeySignature(badAnsw, m_exam->level(), m_hasListUnrelated));
+              else
+                if (m_settings.order == e_byAccid)
+                sortedLists.append(sortByAccidental(badAnsw, m_exam->level(), m_hasListUnrelated));
+                
       }
       else {
           TanswerListPtr convList = convertToPointers(m_exam->answList());
@@ -94,6 +103,9 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
             else
               if (m_settings.order == e_byKey)
                 sortedLists = sortByKeySignature(convList, m_exam->level(), m_hasListUnrelated);
+              else
+                if (m_settings.order == e_byAccid)
+                  sortedLists = sortByAccidental(convList, m_exam->level(), m_hasListUnrelated);
           goodSize = sortedLists.size();
       }
 
@@ -127,7 +139,31 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
                 
               lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2 s%3</p>").arg(tr("for a key:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + 
               sortedLists[i].operator[](0)->key.getName() + "</b></span>").arg(aTime, 0, 'f', 1).arg(wereKeys);
-            }
+            } else
+              if (m_settings.order == e_byAccid) {
+                char accid;
+                if (sortedLists[i].operator[](0)->answerAs != TQAtype::e_asSound &&
+                  sortedLists[i].operator[](0)->answerAs == sortedLists[i].operator[](0)->questionAs)
+                    accid = sortedLists[i].operator[](0)->qa_2.note.acidental;
+                else
+                    accid = sortedLists[i].operator[](0)->qa.note.acidental;
+                QString accStr;
+                switch (accid) {
+                  case -2:
+                    accStr = TquestionAsWdg::spanNootka("B", 20); break;
+                  case -1:
+                    accStr = TquestionAsWdg::spanNootka("b", 20); break;
+                  case 0:
+                    accStr = tr("none"); break;
+                  case 1:
+                    accStr = TquestionAsWdg::spanNootka("#", 20); break;
+                  case 2:
+                    accStr = TquestionAsWdg::spanNootka("x", 20); break;
+                }
+                lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2 s</p>").arg(tr("for an accidental:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  " +
+                accStr + "</span>"
+                ).arg(aTime, 0, 'f', 1);
+              }
         
         averTimeLine->setText(lineText);
         scene->addItem(averTimeLine);

@@ -63,7 +63,6 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   m_chartListCombo->addItem(tr("fret number"));
   m_chartListCombo->addItem(tr("key signature"));
   m_chartListCombo->addItem(tr("accidentals"));
-  enableComboItem(4, false); // TODO implement that kinda sorting
   headLay->addWidget(m_chartListCombo, 1, 0, Qt::AlignCenter);
   m_userLab = new QLabel(" ", this);
   headLay->addWidget(m_userLab, 1, 1, Qt::AlignCenter);
@@ -145,6 +144,11 @@ void TanalysDialog::setExam(Texam* exam) {
       enableComboItem(3, true);
   else
       enableComboItem(3, false);
+  // sort by accidentals
+  if (m_exam->level()->canBeScore() || m_exam->level()->canBeName() || m_exam->level()->canBeSound())
+    enableComboItem(4, true);
+  else
+    enableComboItem(4, false);
   
   createChart(m_chartSetts);
 }
@@ -261,6 +265,10 @@ void TanalysDialog::analyseChanged(int index) {
       break;
     case 3:
       m_chartSetts.order = TmainChart::e_byKey;
+      m_settButt->setDisabled(false);
+      break;
+    case 4:
+      m_chartSetts.order = TmainChart::e_byAccid;
       m_settButt->setDisabled(false);
       break;
   }

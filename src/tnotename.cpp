@@ -25,7 +25,7 @@
 
 
 extern Tglobals *gl;
-QString styleTxt = "border: 1px solid palette(Text); border-radius: 10px";
+QString styleTxt = "border: 1px solid palette(Text); border-radius: 10px;";
 
 /**static*/
 const char * const TnoteName::octaves[6] = { QT_TR_NOOP("Contra"), QT_TR_NOOP("Great"), QT_TR_NOOP("Small"),
@@ -54,7 +54,8 @@ TnoteName::TnoteName(QWidget *parent) :
     nameLabel->setAlignment(Qt::AlignCenter);
     QColor lbg = palette().base().color();
     lbg.setAlpha(220);
-    nameLabel->setStyleSheet(gl->getBGcolorText(lbg) + styleTxt);
+    nameLabel->setStyleSheet(gl->getBGcolorText(lbg) + styleTxt + 
+      QString("background-image: url(%1)").arg(gl->path + "picts/bg.png"));
     resize();
 
 //#if !defined (Q_OS_MAC)
@@ -347,31 +348,21 @@ void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
 
 void TnoteName::resizeEvent(QResizeEvent* ) {
     nameLabel->setFixedSize(width() * 0.9, parentWidget()->height() / 9 );
+    nameLabel->setFont(QFont(nameLabel->font().family(), qRound(nameLabel->height() * 0.55), 50));
+    nameLabel->setText(nameLabel->text());
 }
 
 
 void TnoteName::resize(int fontSize) {
-//     nameLabel->setFixedSize(qRound(width()*0.88), qRound(height() * 0.3));
-//     nameLabel->setFixedSize(width() * 0.9, parentWidget()->height() / 9 );
-//     nameLabel->setGeometry(geometry().left() + qRound(width()*0.06), geometry().top() + 2,
-//       qRound(width()*0.88), qRound(height() * 0.3)
-//     );
-    nameLabel->setFont(QFont(nameLabel->font().family(), qRound(nameLabel->height() * 0.55), 50));
-    nameLabel->setText(nameLabel->text());
     
     if (fontSize) {
         QFont f = QFont(noteButtons[0]->font().family());
         f.setPixelSize(fontSize);
         for (int i=0; i<7; i++) {
             noteButtons[i]->setFont(f);
-//             noteButtons[i]->setGeometry(noteButtons[i]->geometry().left(), nameLabel->geometry().bottom() + 2,
-//                 noteButtons[i]->width(), noteButtons[i]->height() );
         }
         for (int i=0; i<6; i++) {
             octaveButtons[i]->setFont(f);
-//             octaveButtons[i]->setGeometry(octaveButtons[i]->geometry().left(),
-//                                           geometry().bottom() - octaveButtons[i]->height(),
-//                                           octaveButtons[i]->width(), octaveButtons[i]->height() );
         }
         f = QFont(dblFlatButt->font().family());
         f.setPointSize(fontSize);
@@ -393,12 +384,14 @@ void TnoteName::askQuestion(Tnote note, char strNr) {
     if (strNr) sN = QString("  %1").arg((int)strNr);
     nameLabel->setText(nameLabel->text() +
                        QString(" <span style=\"color: %1; font-family: nootka;\">?%2</span>").arg(gl->EquestionColor.name()).arg(sN));
-    nameLabel->setStyleSheet(gl->getBGcolorText(gl->EquestionColor) + styleTxt);
+    nameLabel->setStyleSheet(gl->getBGcolorText(gl->EquestionColor) + styleTxt + 
+        QString("background-image: url(%1)").arg(gl->path + "picts/bg.png"));
     uncheckAllButtons();    
 }
 
 void TnoteName::prepAnswer(Tnote backNote) {
-    nameLabel->setStyleSheet(gl->getBGcolorText(gl->EanswerColor) + styleTxt);
+    nameLabel->setStyleSheet(gl->getBGcolorText(gl->EanswerColor) + styleTxt +
+      QString("background-image: url(%1)").arg(gl->path + "picts/bg.png"));
     if (backNote.acidental) {
         QString accTxt = QString(" <sub><i><span style=\"color: %1;\">(%2)</span></i></sub>").arg(gl->GfingerColor.name()).arg(QString::fromStdString(signsAcid[backNote.acidental + 2]));
         nameLabel->setText(nameLabel->text() + accTxt);
@@ -446,7 +439,8 @@ void TnoteName::clearNoteName() {
 //    nameLabel->setStyleSheet("background-color: palette(Base); " + styleTxt);
     QColor lbg = palette().base().color();
     lbg.setAlpha(220);
-    nameLabel->setStyleSheet(gl->getBGcolorText(lbg) + styleTxt);
+    nameLabel->setStyleSheet(gl->getBGcolorText(lbg) + styleTxt + 
+      QString("background-image: url(%1)").arg(gl->path + "picts/bg.png"));
 }
 
 void TnoteName::uncheckAllButtons() {

@@ -2,7 +2,7 @@
 
 INCLUDE_DIRECTORIES (. exam info level score settings sound charts)
 
-SET( NOOTKA_SRCS   
+SET( NOOTKA_SRCS 
   main.cpp
   mainwindow.cpp
   tglobals.cpp
@@ -19,6 +19,7 @@ SET( NOOTKA_SRCS
   score/tkeysignature.cpp
   score/tclefview.cpp
   score/tpushbutton.cpp
+#  score/tscordatureview.cpp
 ###### Settings
   settings/settingsdialog.cpp
   settings/tsettingsdialogbase.cpp
@@ -59,6 +60,7 @@ SET( NOOTKA_SRCS
   info/texamhelp.cpp
   info/texpertanswerhelp.cpp
   info/tsupportnootka.cpp
+#  info/tnootkalabel.cpp
 ###### Charts
   charts/tanalysdialog.cpp
   charts/tchart.cpp

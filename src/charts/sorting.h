@@ -54,7 +54,7 @@ typedef QList<TQAunit*> TanswerListPtr; // definition of TQAunit list type
   
   QList<TanswerListPtr> sortByKeySignature(TanswerListPtr& answList, TexamLevel* level, bool& hasListUnrelated);
   
-  QList<TanswerListPtr> sortByAccidental(TanswerListPtr &answList, bool& hasListUnrelated);
+  QList<TanswerListPtr> sortByAccidental(TanswerListPtr& answList, TexamLevel* level, bool& hasListUnrelated);
   
 //   QList<TanswerListPtr> divideQuestionsAndAnswers(TanswerListPtr &answList);
   

@@ -192,6 +192,40 @@ QList< TanswerListPtr > sortByKeySignature(TanswerListPtr& answList, TexamLevel 
 }
 
 
+QList< TanswerListPtr > sortByAccidental(TanswerListPtr& answList, TexamLevel *level, bool& hasListUnrelated) {
+  QList<TanswerListPtr> result;
+  TanswerListPtr accidsArray[6]; // 0 - bb, 1 - b, 2 - none, 3 - #, 4 - x, 5 - unrelated
+  for (int i = 0; i < answList.size(); i++) {
+        // First check was an answer a appropirate type
+    if (answList[i]->answerAs != TQAtype::e_asFretPos) {
+          // if question & answer are the same type (note or name), accid from qa_2
+      if (answList[i]->answerAs != TQAtype::e_asSound && answList[i]->answerAs == answList[i]->questionAs)
+          accidsArray[answList[i]->qa_2.note.acidental + 2] << answList[i];
+      else // otherwise accid from qa
+          accidsArray[answList[i]->qa.note.acidental + 2] << answList[i];
+    } else { // do the same with question
+        if (answList[i]->questionAs != TQAtype::e_asFretPos) {
+          accidsArray[answList[i]->qa.note.acidental + 2] << answList[i];
+        } else // unrelated
+            accidsArray[5] << answList[i];      
+    }
+  }
+  bool tmpBool;
+  for (int i = 0; i < 6; i++) {
+    if (!accidsArray[i].isEmpty()) {
+      QList<TanswerListPtr> sorted = sortByNote(accidsArray[i], level, tmpBool);
+      result << mergeListOfLists(sorted);
+    }
+  }
+  if (accidsArray[5].isEmpty())
+    hasListUnrelated = false;
+  else
+    hasListUnrelated = true;
+  return result;
+}
+
+
+
 void divideQuestionsAndAnswers(QList< TanswerListPtr >& result, TanswerListPtr& someList, TQAtype::Etype type) {
   TanswerListPtr inQuest, inAnsw; 
   for (int i = 0; i < someList.size(); i++) {
@@ -204,12 +238,6 @@ void divideQuestionsAndAnswers(QList< TanswerListPtr >& result, TanswerListPtr& 
     result << inQuest;
   if (!inAnsw.isEmpty())
     result << inAnsw;
-}
-
-
-
-QList< TanswerListPtr > sortByAccidental(TanswerListPtr& answList, bool& hasListUnrelated) {
-
 }
 
 
