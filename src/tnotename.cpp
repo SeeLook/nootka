@@ -27,6 +27,23 @@
 extern Tglobals *gl;
 QString styleTxt, styleBgImg;
 
+//var rgbaSum = function(c1, c2){
+//       var a = c1.a + c2.a*(1-c1.a);
+//       return {
+//         r: (c1.r * c1.a  + c2.r * c2.a * (1 - c1.a)) / a,
+//         g: (c1.g * c1.a  + c2.g * c2.a * (1 - c1.a)) / a,
+//         b: (c1.b * c1.a  + c2.b * c2.a * (1 - c1.a)) / a,
+//         a: a
+//       }
+//     }
+
+//    ((r1+r2)/2, (g1+g2)/2, (b1+b2)/2)
+
+//  Or more generally, x of color1 and 1-x of color2 (eg. ¾ of first color, ¼ of second):
+
+//    (r1*x+r2*(1-x), g1*x+g2*(1-x), b1*x+b2*(1-x))
+
+
 /**static*/
 const char * const TnoteName::octaves[6] = { QT_TR_NOOP("Contra"), QT_TR_NOOP("Great"), QT_TR_NOOP("Small"),
                                  QT_TR_NOOP("1-line"), QT_TR_NOOP("2-line"), QT_TR_NOOP("3-line") };
