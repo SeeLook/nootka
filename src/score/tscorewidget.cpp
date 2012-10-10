@@ -188,7 +188,11 @@ void TscoreWidget::clearScore() {
     if (keySignView) {
         setKeySignature(TkeySignature());
         setKeyViewBg(-1);
-        m_questKey->hide();
+//         m_questKey->hide();
+        if (m_questKey) {
+          delete m_questKey;
+          m_questKey = 0;
+        }
     }
     changeAccidButtonsState(0); // reset buttons with accidentals
     m_questMark->hide();
@@ -207,11 +211,11 @@ void TscoreWidget::isExamExecuting(bool isIt) {
         m_questMark->setBrush(QBrush(c));
         m_questMark->setText("?");
         resizeQuestMark();
-        if (keySignView) {
-            m_questKey = new QGraphicsTextItem();
-            m_questKey->hide();
-            keySignView->scene()->addItem(m_questKey);
-        }
+//         if (keySignView) {
+//             m_questKey = new QGraphicsTextItem();
+//             m_questKey->hide();
+//             keySignView->scene()->addItem(m_questKey);
+//         }
     }
     else {
         connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
@@ -245,10 +249,13 @@ void TscoreWidget::forceAccidental(Tnote::Eacidentals accid) {
 void TscoreWidget::prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName) {
     setKeySignature(fakeKey);
     setKeyViewBg(gl->EanswerColor);
+    m_questKey = new QGraphicsTextItem();
+//     m_questKey->hide();
+    keySignView->scene()->addItem(m_questKey);
     m_questKey->setHtml(QString("<span style=\"color: %1;\"><span style=\"font-family: nootka;\">?</span><br>").arg(gl->EquestionColor.name()) + expectKeyName + "</span>");
     TgraphicsTextTip::alignCenter(m_questKey);
     resizeKeyText();
-    m_questKey->show();
+//     m_questKey->show();
 }
 
 void TscoreWidget::resizeQuestMark() {
@@ -261,6 +268,8 @@ void TscoreWidget::resizeQuestMark() {
 }
 
 void TscoreWidget::resizeKeyText() {
+  if (!m_questKey)
+    return;
   qreal sc = keySignView->width() / m_questKey->boundingRect().width();
   m_questKey->setScale(sc);
   m_questKey->setPos(0, coeff * 5);
