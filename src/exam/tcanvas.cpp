@@ -228,8 +228,9 @@ void Tcanvas::setPosOfResultTip() {
     // in the middle over guitar
 //   m_resultTip->setPos((m_scene->width() - m_scale * m_resultTip->boundingRect().width()) / 2,
 //                   qRound((double)m_scene->height() * 0.76 ) -(m_scale * m_resultTip->boundingRect().height()));
-  m_resultTip->setPos(m_scene->width() / 2 + ((m_scene->width() / 2 - m_scale * m_resultTip->boundingRect().width())) / 2,
-                  qRound((double)m_scene->height() * 0.33 ));
+  m_resultTip->setPos(m_parent->relatedPoint().x() + (((m_scene->width() - m_parent->relatedPoint().x()) -
+                                                       m_scale * m_resultTip->boundingRect().width())) / 2,
+                      m_parent->relatedPoint().y() - 5);
 }
 
 void Tcanvas::setPosOfWhatTip() {

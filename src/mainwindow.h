@@ -54,6 +54,8 @@ public:
     int getFontSize() {return m_statFontSize; }
     QString statusMessage() { return m_statusText; }
     QWidget *innerWidget;
+        /** Returns point of bottomLeft examResults.*/
+    QPoint relatedPoint();
 
 public slots:
     void openFile(QString runArg); // opens *.nel or *.noo file
