@@ -25,28 +25,17 @@
 
 
 extern Tglobals *gl;
-QString styleTxt, styleBgImg;
+QString styleTxt, bgColorTxt;
 
-//var rgbaSum = function(c1, c2){
-//       var a = c1.a + c2.a*(1-c1.a);
-//       return {
-//         r: (c1.r * c1.a  + c2.r * c2.a * (1 - c1.a)) / a,
-//         g: (c1.g * c1.a  + c2.g * c2.a * (1 - c1.a)) / a,
-//         b: (c1.b * c1.a  + c2.b * c2.a * (1 - c1.a)) / a,
-//         a: a
-//       }
-//     }
 
-//    ((r1+r2)/2, (g1+g2)/2, (b1+b2)/2)
-
-//  Or more generally, x of color1 and 1-x of color2 (eg. ¾ of first color, ¼ of second):
-
-//    (r1*x+r2*(1-x), g1*x+g2*(1-x), b1*x+b2*(1-x))
+qreal iC(int ch) { return ch / 255.0; } // inverts value (0 - 255) to 0.0 - 1.0
 
 QColor mergeColors(QColor C1, QColor C2) {
-  int  alp = qRound(255 * ((C1.alpha() / 255.0) + (C2.alpha() / 255.0) * (1 - (C1.alpha() / 255.0))));
-  return QColor( (C1.red() + C2.red()) / 2, (C1.green() + C2.green()) / 2, 
-    (C1.blue() + C2.blue()) / 2, alp);
+    qreal al = iC(C1.alpha()) + iC(C2.alpha() * (1 - iC(C1.alpha())));
+    return QColor(((iC(C1.red()) * iC(C1.alpha()) + iC(C2.red()) * iC(C2.alpha()) * (1 - iC(C1.alpha()))) / al) * 255,
+                  ((iC(C1.green()) * iC(C1.alpha()) + iC(C2.green()) * iC(C2.alpha()) * (1 - iC(C1.alpha()))) / al) * 255,
+                  ((iC(C1.blue()) * iC(C1.alpha()) + iC(C2.blue()) * iC(C2.alpha()) * (1 - iC(C1.alpha()))) / al) * 255,
+                  qMin(255, (int)(255 * al)));
 }
 
 
@@ -66,7 +55,9 @@ TnoteName::TnoteName(QWidget *parent) :
     QWidget(parent)
 {
     styleTxt = "border: 1px solid palette(Text); border-radius: 10px;";
-    styleBgImg = QString("background-image: url(%1);").arg(gl->path + "picts/bg.png");
+    QColor lbg = palette().base().color();
+    lbg.setAlpha(220);
+    bgColorTxt = gl->getBGcolorText(lbg);
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
 
 // NAME LABEL
@@ -77,9 +68,7 @@ TnoteName::TnoteName(QWidget *parent) :
                            gl->version + "</span></b>",this);
     nameLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Expanding);
     nameLabel->setAlignment(Qt::AlignCenter);
-    QColor lbg = palette().base().color();
-    lbg.setAlpha(220);
-    nameLabel->setStyleSheet(gl->getBGcolorText(lbg) + styleTxt);
+    nameLabel->setStyleSheet(bgColorTxt + styleTxt);
     resize();
 
 //#if !defined (Q_OS_MAC)
@@ -408,16 +397,16 @@ void TnoteName::askQuestion(Tnote note, char strNr) {
     if (strNr) sN = QString("  %1").arg((int)strNr);
     nameLabel->setText(nameLabel->text() +
                        QString(" <span style=\"color: %1; font-family: nootka;\">?%2</span>").arg(gl->EquestionColor.name()).arg(sN));
-    QColor questBg = gl->EquestionColor;
-    questBg.setAlpha(200);
-    nameLabel->setStyleSheet(styleTxt + gl->getBGcolorText(mergeColors(gl->EquestionColor, palette().base().color())));
+    QColor questBg = mergeColors(gl->EquestionColor, palette().window().color());
+    questBg.setAlpha(220);
+    nameLabel->setStyleSheet(styleTxt + gl->getBGcolorText(questBg));
     uncheckAllButtons();    
 }
 
 void TnoteName::prepAnswer(Tnote backNote) {
-    QColor answBg = gl->EanswerColor;
-    answBg.setAlpha(200);
-    nameLabel->setStyleSheet(styleTxt + gl->getBGcolorText(mergeColors(gl->EanswerColor, palette().base().color())));
+    QColor answBg = mergeColors(gl->EanswerColor, palette().window().color());
+    answBg.setAlpha(220);
+    nameLabel->setStyleSheet(styleTxt + gl->getBGcolorText(answBg));
     if (backNote.acidental) {
         QString accTxt = QString(" <sub><i><span style=\"color: %1;\">(%2)</span></i></sub>").arg(gl->GfingerColor.name()).arg(QString::fromStdString(signsAcid[backNote.acidental + 2]));
         nameLabel->setText(nameLabel->text() + accTxt);
@@ -439,7 +428,6 @@ void TnoteName::setNameDisabled(bool isDisabled) {
         flatButt->setDisabled(true);
         sharpButt->setDisabled(true);
         dblSharpButt->setDisabled(true);
-//        nameLabel->setStyleSheet(gl->getBGcolorText(-1) + styleTxt);
     } else {
         for (int i=0; i<7; i++)
             noteButtons[i]->setDisabled(false);
@@ -449,7 +437,6 @@ void TnoteName::setNameDisabled(bool isDisabled) {
         flatButt->setDisabled(false);
         sharpButt->setDisabled(false);
         dblSharpButt->setDisabled(false);
-//        nameLabel->setStyleSheet("background-color: palette(Base); " + styleTxt);
     }
 }
 
@@ -462,10 +449,7 @@ void TnoteName::uncheckAccidButtons() {
 
 void TnoteName::clearNoteName() {
     setNoteName(Tnote());
-//    nameLabel->setStyleSheet("background-color: palette(Base); " + styleTxt);
-    QColor lbg = palette().base().color();
-    lbg.setAlpha(220);
-    nameLabel->setStyleSheet(gl->getBGcolorText(lbg) + styleTxt);
+    nameLabel->setStyleSheet(bgColorTxt + styleTxt);
 }
 
 void TnoteName::uncheckAllButtons() {

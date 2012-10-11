@@ -268,11 +268,6 @@ void TfingerBoard::setHighlitedString(char realStrNr) {
   }
   m_hilightedStrNr = realStrNr;
   m_highString->setZValue(40);
-//   QGraphicsBlurEffect *hiBlur = new QGraphicsBlurEffect();
-//   m_highString->setGraphicsEffect(hiBlur);
-//   QPen pen = m_strings[realStrNr-1]->pen();
-//   pen.setColor(gl->EanswerColor.name());
-//   pen.setWidth(pen.width() * 3);
   m_highString->setPen(QPen(QColor(gl->EanswerColor.name()), m_strWidth[realStrNr - 1] + 2));
   m_highString->setLine(m_strings[realStrNr-1]->line());
 }
@@ -383,7 +378,11 @@ void TfingerBoard::paint() {
                     strColor = QColor("#C29432");
                 }
 //     drawing main strings
-        painter.setPen(QPen(strColor, m_strWidth[i], Qt::SolidLine));
+        QLinearGradient strGrad(1.0, m_fbRect.y() + m_strGap / 2 + i * m_strGap - m_strWidth[i] / 2,
+                         1.0, m_fbRect.y() + m_strGap / 2 + i * m_strGap + m_strWidth[i] / 2);
+        strGrad.setColorAt(0.0, strColor);
+        strGrad.setColorAt(0.5, strColor.darker());
+        painter.setPen(QPen(QBrush(strGrad), m_strWidth[i], Qt::SolidLine));
         painter.drawLine(1, m_fbRect.y() + m_strGap / 2 + i * m_strGap,
                          width() - 1 - m_strGap, m_fbRect.y() + m_strGap / 2 + i * m_strGap);
         m_workStrings[i]->setPen(QPen(gl->GfingerColor, m_strWidth[i] + 2, Qt::SolidLine));
