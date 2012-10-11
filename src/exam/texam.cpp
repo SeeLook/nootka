@@ -113,8 +113,15 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
           if (!getTQAunitFromStream(in, qaUnit))
               isExamFileOk = false;
           if (qaUnit.time <= maxAnswerTime || ev == examVersion) { // add to m_answList
+              int fixedNr = 0;
+              if (qaUnit.styleOfQuestion() < 0) {
+                  qaUnit.setStyle(gl->NnameStyleInNoteName, qaUnit.styleOfAnswer());
+                  fixedNr++;
+              }
+              if (fixedNr)
+                  qDebug() << "fixed style in questions:" << fixedNr;
               m_answList << qaUnit;
-              m_workTime += qaUnit.time; 
+//              m_workTime += qaUnit.time;
               if ( !qaUnit.isCorrect() ) {
                 if (qaUnit.isWrong())
                   tmpMist++;
@@ -235,7 +242,7 @@ void Texam::convertToVersion2() {
     hasStyle = true;
     qDebug("Fixing styles of note names in file");
     qsrand(QDateTime::currentDateTime().toTime_t());
-    if (m_level->requireStyle) { // prepare styles array to imitate switching
+//    if (m_level->requireStyle) { // prepare styles array to imitate switching
       randStyles[0] = Tnote::e_italiano_Si;
       if (gl->seventhIs_B) {
         randStyles[1] = Tnote::e_english_Bb;
@@ -244,7 +251,7 @@ void Texam::convertToVersion2() {
         randStyles[1] = Tnote::e_norsk_Hb;
         randStyles[2] = Tnote::e_deutsch_His;
       }
-    }
+//    }
   }
   
   for (int i = 0; i < m_answList.size(); i++) {

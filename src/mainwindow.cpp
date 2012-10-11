@@ -53,7 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
 #if defined(Q_OS_MAC)
     TpushButton::setCheckColor(gl->SpointerColor, palette().base().color());
     TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()), 
-                              QColor(gl->EnotBadColor), QColor(100, 100, 100, 180), palette().window().color());
+                              QColor(gl->EnotBadColor.name()), QColor(100, 100, 100, 180), palette().window().color());
 #else
     TpushButton::setCheckColor(palette().highlight().color().name(), palette().highlightedText().color() );
     TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()),
@@ -290,6 +290,10 @@ void MainWindow::clearAfterExam(TexamExecutor::Estate examState) {
   progress->hide();
   examResults->hide();
   nootLab->show();
+}
+
+QPoint MainWindow::relatedPoint() {
+    return examResults->geometry().bottomLeft();
 }
 
 //##########################################################################################

@@ -576,7 +576,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
         int mesgTime = 0;
         TfingerPos pp = mW->guitar->getfingerPos();
       if (gl->E->autoNextQuest) {
-          mesgTime = 1500; // show temporary message
+          mesgTime = 2000; // show temporary message
 //           if (gl->GisRightHanded)
 //             pp = TfingerPos(1, 14); // show it on the left side of a fingerboard - onnnnnn the right is question dialog
 //           else
