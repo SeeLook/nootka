@@ -549,11 +549,7 @@ void TfingerBoard::paintQuestMark() {
         m_questMark->setZValue(110);
         m_questMark->setText("?");
     }
-// #if defined(Q_OS_MACX)
-//     QFont f = QFont("nootka", 3 * m_strGap, QFont::Normal);
-// #else
     QFont f = QFont("nootka", 3 * m_strGap, QFont::Normal);
-// #endif
     m_questMark->setFont(f);
     int off = -1, off2 = 0;
     if (!gl->GisRightHanded) {
@@ -565,12 +561,11 @@ void TfingerBoard::paintQuestMark() {
     }
     QPoint markPoint(0, 0);
     if (m_questPos.fret()) {
-//         m_questMark->setPos(m_fretsPos[m_questPos.fret() + off] - off2, (m_questPos.str()-1) * m_strGap );
         markPoint.setX(m_fretsPos[m_questPos.fret() + off] - off2);
         if (m_questPos.str() == 1)
           markPoint.setY(0);
         else if (m_questPos.str() == 6)
-          markPoint.setY(height() - m_questMark->boundingRect().height() - 2);
+          markPoint.setY(m_fbRect.bottom() - m_questMark->boundingRect().height() - 2);
         else
           markPoint.setY((m_questPos.str() - 2) * m_strGap);
     } else {

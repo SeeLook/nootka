@@ -87,7 +87,7 @@ void Tcanvas::resultTip(TQAunit* answer, int time) {
     else
         answColor = gl->EnotBadColor;
     
-  m_resultTip = new TgraphicsTextTip(wasAnswerOKtext(answer, answColor, bigFont())/*, answColor*/);
+  m_resultTip = new TgraphicsTextTip(wasAnswerOKtext(answer, answColor, bigFont()));
   m_scene->addItem(m_resultTip);
   m_resultTip->setZValue(100);
   m_resultTip->setScale(m_scale);
@@ -234,10 +234,10 @@ void Tcanvas::setPosOfResultTip() {
 
 void Tcanvas::setPosOfWhatTip() {
     // in the middle on guitar
-  if (m_whatTip->boundingRect().height() < (m_scene->height() * 0.24))
+  if (m_whatTip->boundingRect().height() < (m_scene->height() * 0.26))
       m_whatTip->setScale((m_scene->height() * 0.24) / m_whatTip->boundingRect().height());
   m_whatTip->setPos((m_scene->width() - (m_whatTip->scale() * m_whatTip->boundingRect().width())) / 2,
-                  m_scene->height() * 0.75);
+                  m_scene->height() * 0.74);
 }
 
 
@@ -255,7 +255,7 @@ void Tcanvas::setPosOfQuestionTip() {
   if (m_questionTip->freeGuitar()) {
       int off = 0;
       if (m_exam->curQ().answerAs == TQAtype::e_asSound)
-        off = m_scene->width() / 10;
+        off = m_scene->width() / 8;
       pos = QPoint((m_scene->width() - (m_questionTip->boundingRect().width())) / 2 + off, 
                    m_scene->height() * 0.76 + (m_scene->height() * 0.24 - m_questionTip->boundingRect().height()) / 2);
   }
