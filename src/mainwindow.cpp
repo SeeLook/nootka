@@ -544,9 +544,9 @@ void MainWindow::updsateSize() {
     noteName->resize(m_statFontSize);
 //     examResults->setFixedHeight(qRound(centralWidget()->height() * 0.12));
 //     noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(centralWidget()->height() * 0.4)));
-    noteName->setGeometry(posX, qRound(centralWidget()->height() * 0.33),
+    noteName->setGeometry(posX, qRound(centralWidget()->height() * 0.35),
                           centralWidget()->width() - posX, qRound(centralWidget()->height() * 0.4));
-    noteName->resize(m_statFontSize);
+//     noteName->resize(m_statFontSize);
     
     nootLab->setGeometry(posX, qRound(centralWidget()->height() * 0.12), centralWidget()->width()- score->width() -2,
           qRound(centralWidget()->height() * 0.25));

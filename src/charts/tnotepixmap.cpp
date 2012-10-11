@@ -189,7 +189,7 @@ QString wasAnswerOKtext(TQAunit* answer, QColor textColor, int fontSize) {
                 if (answer->wrongOctave()) {
                     if (misMes != "")
                         misMes += ", ";
-                    if (misMes.length() > 25)
+                    if (misMes.length() > 20)
                         misMes += "<br>";
                     misMes += QApplication::translate("AnswerText", "wrong octave");
                 }
