@@ -226,8 +226,10 @@ void Tcanvas::sizeChanged(QSize newSize) {
 
 void Tcanvas::setPosOfResultTip() {
     // in the middle over guitar
-  m_resultTip->setPos((m_scene->width() - m_scale * m_resultTip->boundingRect().width()) / 2,
-                  qRound((double)m_scene->height() * 0.76 ) -(m_scale * m_resultTip->boundingRect().height()));
+//   m_resultTip->setPos((m_scene->width() - m_scale * m_resultTip->boundingRect().width()) / 2,
+//                   qRound((double)m_scene->height() * 0.76 ) -(m_scale * m_resultTip->boundingRect().height()));
+  m_resultTip->setPos(m_scene->width() / 2 + ((m_scene->width() / 2 - m_scale * m_resultTip->boundingRect().width())) / 2,
+                  qRound((double)m_scene->height() * 0.33 ));
 }
 
 void Tcanvas::setPosOfWhatTip() {
@@ -235,7 +237,7 @@ void Tcanvas::setPosOfWhatTip() {
   if (m_whatTip->boundingRect().height() < (m_scene->height() * 0.24))
       m_whatTip->setScale((m_scene->height() * 0.24) / m_whatTip->boundingRect().height());
   m_whatTip->setPos((m_scene->width() - (m_whatTip->scale() * m_whatTip->boundingRect().width())) / 2,
-                  m_scene->height() * 0.8);
+                  m_scene->height() * 0.75);
 }
 
 
@@ -251,8 +253,11 @@ void Tcanvas::setPosOfQuestionTip() {
     m_questionTip->setScale((m_scene->height() * 0.24) / m_questionTip->boundingRect().height());
   QPoint pos;
   if (m_questionTip->freeGuitar()) {
-      pos = QPoint((m_scene->width() - (m_questionTip->boundingRect().width())) / 2, 
-                   m_scene->height() * 0.75);
+      int off = 0;
+      if (m_exam->curQ().answerAs == TQAtype::e_asSound)
+        off = m_scene->width() / 10;
+      pos = QPoint((m_scene->width() - (m_questionTip->boundingRect().width())) / 2 + off, 
+                   m_scene->height() * 0.76 + (m_scene->height() * 0.24 - m_questionTip->boundingRect().height()) / 2);
   }
     else
       if (m_questionTip->freeName())

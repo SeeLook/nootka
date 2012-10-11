@@ -533,7 +533,7 @@ void MainWindow::updsateSize() {
     m_statLab->setFont(f);
     guitar->setFixedHeight((centralWidget()->height() - nootBar->height()) * 0.25);
     progress->resize(m_statFontSize);
-    progress->setGeometry(posX, m_statLab->geometry().bottom() + gapY * 2,
+    progress->setGeometry(posX, m_statLab->geometry().bottom() + gapY * 4,
                           centralWidget()->width() - posX, centralWidget()->height() * 0.15);
     progress->setFixedHeight(centralWidget()->height() * 0.08);
 //     examResults->setFixedHeight(centralWidget()->height() / 10);
