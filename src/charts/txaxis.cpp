@@ -20,7 +20,7 @@
 #include "tqaunit.h"
 #include "texam.h"
 #include "tnotename.h"
-#include <texamlevel.h>
+#include "texamlevel.h"
 #include "tgraphicstexttip.h"
 #include <QPainter>
 #include <QGraphicsScene>
