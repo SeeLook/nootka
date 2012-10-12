@@ -35,9 +35,9 @@
 #include "tcanvas.h"
 #include "tprogresswidget.h"
 #include "texamview.h"
-#include <tscorewidget.h>
-#include <tfingerboard.h>
-#include <tnotename.h>
+#include "tscorewidget.h"
+#include "tfingerboard.h"
+#include "tnotename.h"
 #include <QtGui>
 #include <QDebug>
 
@@ -502,7 +502,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
     if (curQ.answerAs == TQAtype::e_asName) {
         if (curQ.questionAs == TQAtype::e_asName)
             exN = curQ.qa_2.note;
-        m_prevNoteIfName = mW->noteName->getNoteName();
+        m_prevNoteIfName = mW->noteName->getNoteName(); // store note to restore it if will be repeated
         retN = mW->noteName->getNoteName();
     }
     if (curQ.answerAs == TQAtype::e_asSound) {
@@ -574,15 +574,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
 
     if (showResults) {
         int mesgTime = 0;
-        TfingerPos pp = mW->guitar->getfingerPos();
-      if (gl->E->autoNextQuest) {
+      if (gl->E->autoNextQuest)
           mesgTime = 2000; // show temporary message
-//           if (gl->GisRightHanded)
-//             pp = TfingerPos(1, 14); // show it on the left side of a fingerboard - onnnnnn the right is question dialog
-//           else
-//             pp = TfingerPos(1, 11); // left side foor lefthanded
-      }
-
       m_canvas->resultTip(&curQ, mesgTime);
       if (gl->hintsEnabled && !gl->E->autoNextQuest) {
         m_canvas->whatNextTip(curQ.isCorrect());
@@ -611,7 +604,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
     if (!m_supp->wasFinished() && m_exam->count() >= (m_supp->obligQuestions() + m_exam->penalty()) ) { // maybe enought 
       if (m_exam->blackCount()) {
         m_exam->increasePenaltys(m_exam->blackCount());
-        qDebug() << "penaltys increased. It is not good place for it";
+        qDebug() << "penaltys increased. Can't finish an egzam yet.";
       } else {
         mW->progress->setFinished(true);
         m_supp->examFinished();
@@ -655,9 +648,12 @@ void TexamExecutor::repeatQuestion() {
         m_canvas->clearCanvas();
     }
     curQ.setMistake(TQAunit::e_correct);
+    
 //     if (curQ.questionAs == TQAtype::e_asName) {
 //       m_prevStyle = gl->NnameStyleInNoteName;
 //       gl->NnameStyleInNoteName = curQ.styleOfQuestion();
+      // We don't show question again. It remains on Tcanvas tip
+//     }
 //       if (curQ.answerAs == TQAtype::e_asFretPos && m_level.showStrNr)
 //             mW->noteName->askQuestion(curQ.qa.note, curQ.qa.pos.str());
 //         else
@@ -667,12 +663,17 @@ void TexamExecutor::repeatQuestion() {
     if (curQ.answerAs == TQAtype::e_asNote)
         mW->score->unLockScore();
     if (curQ.answerAs == TQAtype::e_asName) {
-        mW->noteName->setNameDisabled(false);
+      m_prevStyle = gl->NnameStyleInNoteName;
+      gl->NnameStyleInNoteName = curQ.styleOfAnswer();
+      mW->noteName->setNoteName(m_prevNoteIfName); // restore previous answered name (and button state)
+      mW->noteName->setNoteNamesOnButt(curQ.styleOfAnswer());
+      mW->noteName->setNameDisabled(false);
 //         if (curQ.questionAs == TQAtype::e_asName)
 //           mW->noteName->prepAnswer(curQ.qa_2.note);
 //         else
 //           mW->noteName->prepAnswer(curQ.qa.note);
-        mW->noteName->setNoteName(m_prevNoteIfName); // restore previous answered name (and button state)
+//         tmpStyle = curQ.styleOfQuestion();
+            
     }
     if (curQ.answerAs == TQAtype::e_asFretPos)
         mW->guitar->setGuitarDisabled(false);
