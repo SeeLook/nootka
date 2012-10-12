@@ -35,6 +35,8 @@ public:
     static const char * const octaves[6];
     static const char * const octavesFull[6];
 
+        /** Sets names on buttons to given style.
+         * Doesn't refresh note name label. */
     void setNoteNamesOnButt(Tnote::EnameStyle nameStyle);
     void setEnabledDblAccid(bool isEnabled);
     void setEnabledEnharmNotes(bool isEnabled);
@@ -49,6 +51,11 @@ public:
     void prepAnswer(Tnote backNote = Tnote(0,0,0));
     void setNameDisabled(bool isDisabled);
     void clearNoteName();
+    void setStyle(Tnote::EnameStyle style); // Sets style. Doesn't refresh name label
+    Tnote::EnameStyle style() { return m_style; } // Style used in note name
+        /** Sets note name text but doesn't set buttons.
+         * Uses given style or m_style if empty. */
+    void setNameOnly(Tnote note, int style = -1);
 //    void setButtonsWithOctaves
 
 signals:
@@ -64,9 +71,10 @@ private:
     TpushButton *octaveButtons[6];
     TpushButton *dblFlatButt, *flatButt, *sharpButt, *dblSharpButt;
     QButtonGroup *noteGroup, *octaveGroup;
-		/** Keeps index of previous selected octave Button.
-		 * none if -1 */
-	int m_prevOctButton;
+      /** Keeps index of previous selected octave Button.
+      * none if -1 */
+    int m_prevOctButton;
+    static Tnote::EnameStyle m_style;
 
     TnotesList m_notes;
     short m_ambitMin, m_ambitMax;
@@ -74,7 +82,7 @@ private:
     void setNameText();
     void setButtons(Tnote note);
     void uncheckAccidButtons();
-    void  uncheckAllButtons();
+    void uncheckAllButtons();
 
 private slots:
     void noteWasChanged(int noteNr);

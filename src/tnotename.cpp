@@ -40,6 +40,7 @@ QColor mergeColors(QColor C1, QColor C2) {
 
 
 /**static*/
+Tnote::EnameStyle TnoteName::m_style = Tnote::e_italiano_Si;
 const char * const TnoteName::octaves[6] = { QT_TR_NOOP("Contra"), QT_TR_NOOP("Great"), QT_TR_NOOP("Small"),
                                  QT_TR_NOOP("1-line"), QT_TR_NOOP("2-line"), QT_TR_NOOP("3-line") };
 const char * const TnoteName::octavesFull[6] = { QT_TR_NOOP("Contra octave"),
@@ -71,13 +72,8 @@ TnoteName::TnoteName(QWidget *parent) :
     nameLabel->setStyleSheet(bgColorTxt + styleTxt);
     resize();
 
-//#if !defined (Q_OS_MAC)
     mainLay->addStretch(1);
-//#endif
     mainLay->addWidget(nameLabel, 0, Qt::AlignCenter);
-//#if !defined (Q_OS_MAC)
-//     mainLay->addStretch(1);
-//#endif
 // BUTTONS WITH NOTES TOOLBAR
     QHBoxLayout *noteLay = new QHBoxLayout();
     noteLay->addStretch(1);
@@ -140,19 +136,14 @@ TnoteName::TnoteName(QWidget *parent) :
     }
     octLay->addStretch(1);
     mainLay->addLayout(octLay);
-//     mainLay->addStretch(1);
-	m_prevOctButton = -1;
+    m_prevOctButton = -1;
     connect(octaveGroup, SIGNAL(buttonClicked(int)), this, SLOT(octaveWasChanged(int)));
     
-//      QVBoxLayout *lay = new QVBoxLayout;
-//      QGroupBox *mainGr = new QGroupBox(this);
-//      mainGr->setLayout(mainLay);
-//      lay->addWidget(mainGr);
-//      setLayout(lay);
     mainLay->addSpacing(5);
-   setLayout(mainLay);
+    setLayout(mainLay);
 
-    setNoteNamesOnButt(gl->NnameStyleInNoteName);
+    setStyle(gl->NnameStyleInNoteName);
+    setNoteNamesOnButt(style());
 //    octaveButtons[2]->setChecked(true);
     for (int i=0; i<3; i++) m_notes.push_back(Tnote());
     setAmbitus(gl->loString(),
@@ -163,8 +154,12 @@ TnoteName::TnoteName(QWidget *parent) :
 
 void TnoteName::setNoteNamesOnButt(Tnote::EnameStyle nameStyle) {
     for (int i=0; i<7; i++) {
-        noteButtons[i]->setText(Tnote(i+1,0,0).toText(nameStyle,false));
+        noteButtons[i]->setText(Tnote(i+1,0,0).toText(nameStyle, false));
     }
+}
+
+void TnoteName::setStyle(Tnote::EnameStyle style) {
+    m_style = style;
 }
 
 
@@ -227,6 +222,11 @@ void TnoteName::setNoteName(Tnote note) {
     }
     setNameText();
 }
+
+void TnoteName::setNameOnly(Tnote note, int style) {
+
+}
+
 
 void TnoteName::setNoteName(TnotesList notes) {
     TnotesList::iterator it = notes.begin();
@@ -310,10 +310,10 @@ void TnoteName::octaveWasChanged(int octNr) { // octNr is button nr in the group
 
 /*static*/
 QString TnoteName::noteToRichText(Tnote note) {
-    QString nameTxt = note.toText(gl->NnameStyleInNoteName,false);
-    if (gl->NnameStyleInNoteName == Tnote::e_italiano_Si ||
-        gl->NnameStyleInNoteName == Tnote::e_english_Bb ||
-        gl->NnameStyleInNoteName == Tnote::e_norsk_Hb ) {
+    QString nameTxt = note.toText(m_style, false);
+    if (m_style == Tnote::e_italiano_Si ||
+        m_style == Tnote::e_english_Bb ||
+        m_style == Tnote::e_norsk_Hb ) {
         if (note.acidental) {
             int a = 1;
             if (note.acidental == -2) a = 2;
