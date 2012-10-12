@@ -24,8 +24,8 @@
 #include <QFile>
 #include <QDataStream>
 #include <QMessageBox>
-#include <QDebug>
 #include <QDateTime>
+#include <QDebug>
 
 
 extern Tglobals *gl;
@@ -108,20 +108,22 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
       bool isExamFileOk = true;
       int tmpMist = 0;
       int tmpHalf = 0;
+      int fixedNr = 0;
       while (!in.atEnd()) {
           TQAunit qaUnit;
           if (!getTQAunitFromStream(in, qaUnit))
               isExamFileOk = false;
-          if (qaUnit.time <= maxAnswerTime || ev == examVersion) { // add to m_answList
-              int fixedNr = 0;
-              if (qaUnit.styleOfQuestion() < 0) {
+          if ((qaUnit.questionAs == TQAtype::e_asName || qaUnit.answerAs == TQAtype::e_asName) 
+                && qaUnit.styleOfQuestion() < 0) {
                   qaUnit.setStyle(gl->NnameStyleInNoteName, qaUnit.styleOfAnswer());
                   fixedNr++;
-              }
-              if (fixedNr)
-                  qDebug() << "fixed style in questions:" << fixedNr;
+              } /** In old versions style was set to 0 so now it gives styleOfQuestion = -1
+                * Also in transistional Nootka versios it was left unchanged.
+                * Unfixed it involes stiupid namse in charts.
+                * We are fixing it by insert user prefered style of nameing */
+          if (qaUnit.time <= maxAnswerTime || ev == examVersion) { // add to m_answList
               m_answList << qaUnit;
-//              m_workTime += qaUnit.time;
+              m_workTime += qaUnit.time;
               if ( !qaUnit.isCorrect() ) {
                 if (qaUnit.isWrong())
                   tmpMist++;
@@ -146,13 +148,14 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
           convertToVersion2();
           m_halfMistNr = tmpHalf;
       }
+      if (fixedNr)
+          qDebug() << "fixed style in questions:" << fixedNr;
       m_averReactTime = m_workTime / count();
-//           m_workTime = qRound((qreal)m_workTime / 10.0);
       if (!isExamFileOk)
           result = e_file_corrupted;        
      } else {
          TlevelSelector::fileIOerrorMsg(file, 0);
-				 result = e_cant_open;
+          result = e_cant_open;
      }
   updateBlackCount();
   qDebug() << "black questions:" << blackCount() << "Mistakes:" << m_mistNr << "Not so bad:" << m_halfMistNr;
@@ -242,7 +245,7 @@ void Texam::convertToVersion2() {
     hasStyle = true;
     qDebug("Fixing styles of note names in file");
     qsrand(QDateTime::currentDateTime().toTime_t());
-//    if (m_level->requireStyle) { // prepare styles array to imitate switching
+   if (m_level->requireStyle) { // prepare styles array to imitate switching
       randStyles[0] = Tnote::e_italiano_Si;
       if (gl->seventhIs_B) {
         randStyles[1] = Tnote::e_english_Bb;
@@ -251,7 +254,7 @@ void Texam::convertToVersion2() {
         randStyles[1] = Tnote::e_norsk_Hb;
         randStyles[2] = Tnote::e_deutsch_His;
       }
-//    }
+   }
   }
   
   for (int i = 0; i < m_answList.size(); i++) {

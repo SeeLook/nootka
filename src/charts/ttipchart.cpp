@@ -25,7 +25,7 @@
 #include "tnotepixmap.h"
 #include <QApplication>
 #include <QBuffer>
-// #include <QDebug>
+#include <QDebug>
 
 
 /* static */
@@ -48,10 +48,12 @@ TtipChart::TtipChart(TquestionPoint *point) :
     TgraphicsTextTip(),
     m_point(point)
 {
-  if ((int)point->question()->styleOfQuestion() < 0)
-    point->question()->setStyle(point->question()->styleOfAnswer(), point->question()->styleOfAnswer());
-    //TODO: this is bug that styleOfQuestion gets -1, I don't know is it from old exam format or ordinary bug in tqaunit storing style
-  
+  if ((point->question()->questionAs == TQAtype::e_asName || point->question()->answerAs == TQAtype::e_asName) 
+    && (int)point->question()->styleOfQuestion() < 0) {
+        point->question()->setStyle(point->question()->styleOfAnswer(), point->question()->styleOfAnswer());
+        qDebug("!!! It still has got wrong style !!!");
+  }
+ 
   QString txt = TquestionAsWdg::questionTxt() + " " + TquestionAsWdg::qaTypeText(point->question()->questionAs) + "<br>" +
           TquestionAsWdg::answerTxt() + " " + TquestionAsWdg::qaTypeText(point->question()->answerAs) + "<br>";
   QString qS = "", aS = "";
