@@ -223,10 +223,6 @@ void TnoteName::setNoteName(Tnote note) {
     setNameText();
 }
 
-void TnoteName::setNameOnly(Tnote note, int style) {
-
-}
-
 
 void TnoteName::setNoteName(TnotesList notes) {
     TnotesList::iterator it = notes.begin();
@@ -391,7 +387,9 @@ void TnoteName::setAmbitus(Tnote lo, Tnote hi) {
     m_ambitMax = hi.getChromaticNrOfNote();
 }
 
-void TnoteName::askQuestion(Tnote note, char strNr) {
+void TnoteName::askQuestion(Tnote note, Tnote::EnameStyle questStyle, char strNr) {
+    Tnote::EnameStyle tmpStyle = m_style;
+    setStyle(questStyle);
     setNoteName(note);
     QString sN = "";
     if (strNr) sN = QString("  %1").arg((int)strNr);
@@ -400,13 +398,15 @@ void TnoteName::askQuestion(Tnote note, char strNr) {
     QColor questBg = mergeColors(gl->EquestionColor, palette().window().color());
     questBg.setAlpha(220);
     nameLabel->setStyleSheet(styleTxt + gl->getBGcolorText(questBg));
-    uncheckAllButtons();    
+    uncheckAllButtons();
+    setStyle(tmpStyle);
 }
 
-void TnoteName::prepAnswer(Tnote backNote) {
+void TnoteName::prepAnswer(Tnote::EnameStyle answStyle, Tnote backNote) {
     QColor answBg = mergeColors(gl->EanswerColor, palette().window().color());
     answBg.setAlpha(220);
     nameLabel->setStyleSheet(styleTxt + gl->getBGcolorText(answBg));
+    setNoteNamesOnButt(answStyle);
     if (backNote.acidental) {
         QString accTxt = QString(" <sub><i><span style=\"color: %1;\">(%2)</span></i></sub>").arg(gl->GfingerColor.name()).arg(QString::fromStdString(signsAcid[backNote.acidental + 2]));
         nameLabel->setText(nameLabel->text() + accTxt);
