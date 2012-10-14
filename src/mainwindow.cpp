@@ -333,6 +333,7 @@ void MainWindow::createSettingsDialog() {
         noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
         noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
         noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
+        noteName->setStyle(gl->NnameStyleInNoteName);
           // set new colors in exam view
         examResults->setStyleBg(gl->getBGcolorText(gl->EanswerColor), gl->getBGcolorText(gl->EquestionColor), 
                                 gl->getBGcolorText(gl->EnotBadColor));

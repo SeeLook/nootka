@@ -75,6 +75,8 @@ private:
 
     TnotesList m_notes;
     short m_ambitMin, m_ambitMax;
+    
+    
     void setNoteName(char noteNr, char octNr, char accNr);
     void setNameText();
     void setButtons(Tnote note);

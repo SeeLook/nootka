@@ -21,7 +21,6 @@
 #define TCANVAS_H
 
 #include <QGraphicsView>
-#include <tnote.h>
 
 class QTimer;
 class Texam;
@@ -46,7 +45,7 @@ public:
     void resultTip(TQAunit *answer, int time = 0); // show was question correct text, hides after given time
     void startTip(); // Text with help on an exam start
     void whatNextTip(bool isCorrect, bool onRight = true); // Text with what to click after an answer
-    void questionTip(Texam *exam, Tnote::EnameStyle style); // Text with question context
+    void questionTip(Texam *exam); // Text with question context
     void noteTip(int time); // note symbol when sound was detected
     
     void clearCanvas();
@@ -70,7 +69,6 @@ private:
     TgraphicsTextTip *m_resultTip, *m_whatTip, *m_startTip;
     TquestionTip *m_questionTip;
     Texam *m_exam;
-    Tnote::EnameStyle m_style;
     QTimer *m_noteTimer;
     
     

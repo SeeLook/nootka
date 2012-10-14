@@ -45,6 +45,11 @@
 #define SOUND_DURATION (1500) //[ms]
 
 
+void debugStyle(TQAunit &qa) {
+    qDebug("styles debugging");
+    qDebug() << "Q:" << qa.styleOfQuestion() << "A:" << qa.styleOfAnswer();
+}
+
 
 extern Tglobals *gl;
 
@@ -314,12 +319,6 @@ void TexamExecutor::askQuestion() {
 //            << "A" << (int)curQ.answerAs << curQ.key.getName()
 //            << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
 
-//     qDebug("Test styles");
-//     TQAunit un = TQAunit();
-//     qDebug() << "Q:" << un.styleOfQuestion() << "A:" << un.styleOfAnswer();
-//     un.setStyle(Tnote::e_deutsch_His, Tnote::e_nederl_Bis);
-//     qDebug() << "Q:" << un.styleOfQuestion() << "A:" << un.styleOfAnswer();
-
   // ASKING QUESIONS
     if (curQ.questionAs == TQAtype::e_asNote) {
         char strNr = 0;
@@ -349,7 +348,6 @@ void TexamExecutor::askQuestion() {
             curQ.setStyle(gl->NnameStyleInNoteName, gl->NnameStyleInNoteName);
         }
 //         mW->noteName->setStyle(curQ.styleOfQuestion());
-        qDebug() << curQ.styleOfQuestion();
         // Show question on TnoteName widget
         if (curQ.answerAs == TQAtype::e_asFretPos && m_level.showStrNr)
             mW->noteName->askQuestion(curQ.qa.note, curQ.styleOfQuestion(), curQ.qa.pos.str());
@@ -417,7 +415,7 @@ void TexamExecutor::askQuestion() {
     }
 
     if (curQ.answerAs == TQAtype::e_asName) {
-        Tnote tmpNote = Tnote(0,0,0); // is used to show which accid has to be used (if any)
+        Tnote tmpNote = curQ.qa.note; // is used to show which accid has to be used (if any)
         if (m_blackQuestNr == -1 && curQ.questionAs == TQAtype::e_asName) {
             m_prevStyle = gl->NnameStyleInNoteName; // to keep user prefered style for other issues
             Tnote::EnameStyle tmpStyle = m_supp->randomNameStyle();
@@ -434,7 +432,6 @@ void TexamExecutor::askQuestion() {
             *       switch it (letters/solfege)
             * 2. If Note Name is question and answer this is only way that it has sense    
            */
-         qDebug() << curQ.styleOfQuestion();
         if (m_level.requireStyle && curQ.questionAs != TQAtype::e_asName) { // switch style if not switched before 
           Tnote::EnameStyle tmpStyle;
           if (m_blackQuestNr == -1) { // regular answer as note name
@@ -447,6 +444,7 @@ void TexamExecutor::askQuestion() {
 //           mW->noteName->setStyle(tmpStyle);
         }
         mW->noteName->prepAnswer(curQ.styleOfAnswer(), tmpNote);
+        mW->noteName->setStyle(curQ.styleOfAnswer());
     }
 
     if (curQ.answerAs == TQAtype::e_asFretPos) {
@@ -487,9 +485,7 @@ void TexamExecutor::askQuestion() {
         mW->nootBar->addAction(repeatSndAct);
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
-//     m_canvas->questionTip(m_exam, m_prevStyle);
-    qDebug() << curQ.styleOfQuestion();
-    m_canvas->questionTip(m_exam, curQ.styleOfQuestion());
+    m_canvas->questionTip(m_exam);
     
 }
 
@@ -556,6 +552,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
       if (retN.note) {
         Tnote nE = exN.showAsNatural();
         Tnote nR = retN.showAsNatural();
+        qDebug() << "Q:" << exN.toText(curQ.styleOfQuestion()) << "A:" << retN.toText(curQ.styleOfAnswer());
         if (exN != retN) {
             if (m_answRequire.octave) {
 //                qDebug() << "1." << QString::fromStdString(nR.getName()) << QString::fromStdString(nE.getName());
@@ -618,7 +615,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
     if (!curQ.isCorrect())
       updatePenalStep();
 //     if (m_blackQuestNr != -1)
-      gl->NnameStyleInNoteName = m_prevStyle;
+//       gl->NnameStyleInNoteName = m_prevStyle;
+      mW->noteName->setStyle(m_prevStyle);
 
     if (!m_supp->wasFinished() && m_exam->count() >= (m_supp->obligQuestions() + m_exam->penalty()) ) { // maybe enought 
       if (m_exam->blackCount()) {
@@ -688,10 +686,11 @@ void TexamExecutor::repeatQuestion() {
       mW->noteName->setNoteName(m_prevNoteIfName); // restore previous answered name (and button state)
 //       mW->noteName->setNoteNamesOnButt(curQ.styleOfAnswer());
       mW->noteName->setNameDisabled(false);
-//         if (curQ.questionAs == TQAtype::e_asName)
-//           mW->noteName->prepAnswer(curQ.qa_2.note);
-//         else
-//           mW->noteName->prepAnswer(curQ.qa.note);
+        if (curQ.questionAs == TQAtype::e_asName)
+          mW->noteName->prepAnswer(curQ.styleOfAnswer(), curQ.qa_2.note);
+        else
+          mW->noteName->prepAnswer(curQ.styleOfAnswer(), curQ.qa.note);
+          mW->noteName->setStyle(curQ.styleOfAnswer());
 //         tmpStyle = curQ.styleOfQuestion();
             
     }
@@ -699,7 +698,7 @@ void TexamExecutor::repeatQuestion() {
         mW->guitar->setGuitarDisabled(false);
     if (curQ.answerAs == TQAtype::e_asSound && curQ.questionAs != TQAtype::e_asSound)
         startSniffing();
-        // *** When question is sound it is playe again (repeatSound()) 
+        // *** When question is sound it is played again (repeatSound()) 
         // and than startSniffing is called
 
     m_exam->addQuestion(curQ);
@@ -715,7 +714,7 @@ void TexamExecutor::repeatQuestion() {
         mW->nootBar->addAction(repeatSndAct);
         repeatSound();
     }
-    m_canvas->questionTip(m_exam, m_prevStyle);
+    m_canvas->questionTip(m_exam);
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
 }
@@ -761,8 +760,9 @@ void TexamExecutor::prepareToExam() {
             SLOT(autoRepeatStateChanged(bool)));
     connect(mW->expertAnswChB, SIGNAL(clicked(bool)), this, SLOT(expertAnswersStateChanged(bool)));
 
-    m_prevStyle = gl->NnameStyleInNoteName;
-    m_glStore.nameStyleInNoteName = gl->NnameStyleInNoteName;
+//     m_prevStyle = gl->NnameStyleInNoteName;
+    m_prevStyle = mW->noteName->style();
+    m_glStore.nameStyleInNoteName = mW->noteName->style();
     m_glStore.showEnharmNotes = gl->showEnharmNotes;
     m_glStore.showKeySignName = gl->SshowKeySignName;
     m_glStore.showOtherPos = gl->GshowOtherPos;
