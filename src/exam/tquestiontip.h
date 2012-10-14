@@ -33,7 +33,7 @@ class TquestionTip : public TgraphicsTextTip
    
 public:
         /** Constructs tip with question content. */
-    TquestionTip(Texam *exam, Tnote::EnameStyle style, double scale = 0);
+    TquestionTip(Texam *exam, double scale = 0);
     ~TquestionTip();
     
     static QString getTextHowAccid(Tnote::Eacidentals accid);
@@ -46,9 +46,8 @@ public:
     
 protected:    
         /** Returns html-formated question text. */
-    QString getQuestion(TQAunit &question, int questNr, TexamLevel *level, 
-                        Tnote::EnameStyle style, double scale = 0);
-    QString getNiceNoteName(Tnote note);
+    QString getQuestion(TQAunit &question, int questNr, TexamLevel *level, double scale = 0);
+    QString getNiceNoteName(Tnote note, Tnote::EnameStyle style);
         
     
 private:

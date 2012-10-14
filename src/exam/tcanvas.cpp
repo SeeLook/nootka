@@ -133,9 +133,8 @@ void Tcanvas::noteTip(int time) {
 }
 
 
-void Tcanvas::questionTip(Texam* exam, Tnote::EnameStyle style) {
+void Tcanvas::questionTip(Texam* exam) {
   m_exam = exam;
-  m_style = style;
   if (m_startTip) {
     delete m_startTip;
     m_startTip = 0;
@@ -146,7 +145,7 @@ void Tcanvas::questionTip(Texam* exam, Tnote::EnameStyle style) {
   }
   if (m_questionTip)
     delete m_questionTip;
-  m_questionTip = new TquestionTip(exam, style, m_scale);
+  m_questionTip = new TquestionTip(exam, m_scale);
   m_scene->addItem(m_questionTip);
   setPosOfQuestionTip();
 }
@@ -213,7 +212,7 @@ void Tcanvas::sizeChanged(QSize newSize) {
   }
   if (m_questionTip) {
     delete m_questionTip;
-    m_questionTip = new TquestionTip(m_exam, m_style, m_scale);
+    m_questionTip = new TquestionTip(m_exam, m_scale);
     m_scene->addItem(m_questionTip);
     setPosOfQuestionTip();
   }

@@ -48,11 +48,10 @@ QString TquestionTip::onStringTxt(quint8 strNr) {
 //#################################### CONSTRUCTOR #########################################
 //##########################################################################################
 
-TquestionTip::TquestionTip(Texam* exam, Tnote::EnameStyle style, double scale) :
-  TgraphicsTextTip(getQuestion(exam->question(exam->count()-1), exam->count(), exam->level(), style, scale))
+TquestionTip::TquestionTip(Texam* exam, double scale) :
+  TgraphicsTextTip(getQuestion(exam->question(exam->count()-1), exam->count(), exam->level(), scale))
 {
   setBgColor(gl->EquestionColor);
-//   setHtml(getQuestion(exam->qusetion(exam->count()-1), exam->count(), exam->level(), style, scale));
 }
 
 TquestionTip::~TquestionTip() {}
@@ -62,12 +61,12 @@ TquestionTip::~TquestionTip() {}
 //#################################### PROTECTED ###########################################
 //##########################################################################################
 
-QString TquestionTip::getNiceNoteName(Tnote note) {
-  return QString("<b><span style=\"%1\">&nbsp;").arg(gl->getBGcolorText(gl->EquestionColor)) +
-            TnoteName::noteToRichText(note) + " </span></b>";
+QString TquestionTip::getNiceNoteName(Tnote note, Tnote::EnameStyle style) {
+    return QString("<b><span style=\"%1\">&nbsp;").arg(gl->getBGcolorText(gl->EquestionColor)) +
+            note.toRichText(style) + " </span></b>";
 }
 
-QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* level, Tnote::EnameStyle style, double scale) {
+QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* level, double scale) {
   m_scoreFree = true;
   m_nameFree = true;
   m_guitarFree = true;
@@ -117,7 +116,7 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* le
       
       case TQAtype::e_asName:
         m_nameFree = false;
-        noteStr = "<br>" + getNiceNoteName(question.qa.note);
+        noteStr = "<br>" + getNiceNoteName(question.qa.note, question.styleOfQuestion());
         if (question.answerAs == TQAtype::e_asNote) {
           m_nameFree = false;
           quest += tr("Show in the score") + noteStr;
@@ -127,17 +126,12 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* le
         } else
           if (question.answerAs == TQAtype::e_asName) {
             m_nameFree = false;
-            Tnote::EnameStyle tmpStyle = gl->NnameStyleInNoteName;
-            gl->NnameStyleInNoteName = style;
-            noteStr = "<br>" + getNiceNoteName(question.qa.note);
+            noteStr = "<br>" + getNiceNoteName(question.qa.note, question.styleOfQuestion());
             if (question.qa.note.acidental != question.qa_2.note.acidental)
                 quest += tr("Change enharmonicaly and give name of");
             else
                 quest += tr("Use another style to give name of");
             quest += noteStr + getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);
-            gl->NnameStyleInNoteName = tmpStyle;
-            // It is not so elegant to get note name in different style this way
-            // but there is no other way
           } else
             if (question.answerAs == TQAtype::e_asFretPos) {
               m_guitarFree = false;
