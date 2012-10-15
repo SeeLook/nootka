@@ -315,7 +315,7 @@ void TnoteName::prepAnswer(Tnote::EnameStyle answStyle, Tnote backNote) {
     setNoteNamesOnButt(answStyle);
     if (backNote.acidental) {
         QString accTxt = QString(" <sub><i><span style=\"color: %1;\">(%2)</span></i></sub>").arg(gl->GfingerColor.name()).arg(QString::fromStdString(signsAcid[backNote.acidental + 2]));
-        nameLabel->setText(nameLabel->text() + accTxt);
+        nameLabel->setText(QString("<span style=\"color: %1; font-family: nootka;\">!</span> ").arg(gl->EanswerColor.name()) + nameLabel->text() + accTxt);
         /** @todo press accid button */
     }
     setNameDisabled(false);

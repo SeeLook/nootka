@@ -106,7 +106,7 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* le
               if (question.answerAs == TQAtype::e_asSound) {
                 quest += tr("Play or sing");
               }
-        if (level->useKeySign && level->manualKey) // hide key signature
+        if (level->useKeySign && level->manualKey && question.answerAs == TQAtype::e_asNote) // hide key signature
             quest += "<br>" + TtipChart::wrapPixToHtml(question.qa.note, true, TkeySignature(0), sc);
         else
             quest += "<br>" + TtipChart::wrapPixToHtml(question.qa.note, true, question.key, sc);

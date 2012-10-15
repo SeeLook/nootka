@@ -336,25 +336,34 @@ void TexamExecutor::askQuestion() {
     }
 
     if (curQ.questionAs == TQAtype::e_asName) {
-//         if (m_blackQuestNr != -1) { // penalty - restore its style
-          m_prevStyle = gl->NnameStyleInNoteName;
-//           mW->noteName->setStyle(curQ.styleOfAnswer());
-//           gl->NnameStyleInNoteName = curQ.styleOfQuestion();
-//         } else 
+        int styleSwitcher = 0; // counts how many times syle was changed
         if (m_blackQuestNr == -1) { // regular question
-          if (m_level.requireStyle)
-            curQ.setStyle(m_supp->randomNameStyle(), gl->NnameStyleInNoteName);
-          else
-            curQ.setStyle(gl->NnameStyleInNoteName, gl->NnameStyleInNoteName);
+          if (curQ.answerAs == TQAtype::e_asName) { // prepare answer
+            curQ.qa_2.note = m_supp->forceEnharmAccid(curQ.qa.note); // force other enharm name of note - expected note
+            if (m_level.requireStyle || curQ.qa.note == curQ.qa_2.note) {
+              // when user (level) wants different names or only way to have different answer and question is
+              // style (note are the same)
+                curQ.setStyle(gl->NnameStyleInNoteName, m_supp->randomNameStyle()); // randomize style
+                styleSwitcher++;
+            }
+            else 
+                curQ.setStyle(gl->NnameStyleInNoteName, gl->NnameStyleInNoteName);
+            m_answRequire.accid = true;
+          }
+          if (m_level.requireStyle) {
+            curQ.setStyle(m_supp->randomNameStyle(), curQ.styleOfAnswer());
+            styleSwitcher++;
+          }
+          else 
+            curQ.setStyle(gl->NnameStyleInNoteName, curQ.styleOfAnswer());
         }
-//         mW->noteName->setStyle(curQ.styleOfQuestion());
+        if (styleSwitcher == 2)
+          m_supp->randomNameStyle(); // switch style again to have different next time
         // Show question on TnoteName widget
         if (curQ.answerAs == TQAtype::e_asFretPos && m_level.showStrNr)
             mW->noteName->askQuestion(curQ.qa.note, curQ.styleOfQuestion(), curQ.qa.pos.str());
         else
             mW->noteName->askQuestion(curQ.qa.note, curQ.styleOfQuestion());
-//         if (m_blackQuestNr != -1) // restore style after asking question
-//           gl->NnameStyleInNoteName = m_prevStyle;
         if (curQ.answerAs  == TQAtype::e_asSound)
             m_answRequire.accid = false; // reset checking accidentals determined by level
     }
@@ -415,35 +424,15 @@ void TexamExecutor::askQuestion() {
     }
 
     if (curQ.answerAs == TQAtype::e_asName) {
-        Tnote tmpNote = curQ.qa.note; // is used to show which accid has to be used (if any)
-        if (m_blackQuestNr == -1 && curQ.questionAs == TQAtype::e_asName) {
-            m_prevStyle = gl->NnameStyleInNoteName; // to keep user prefered style for other issues
-            Tnote::EnameStyle tmpStyle = m_supp->randomNameStyle();
-//             mW->noteName->setStyle(tmpStyle);
-            curQ.qa_2.note = m_supp->forceEnharmAccid(curQ.qa.note); // force other name of note - expected note
-            tmpNote = curQ.qa_2.note;
-            curQ.setStyle(curQ.styleOfQuestion(), tmpStyle); // save style in current question
-//             mW->noteName->setNoteNamesOnButt(tmpStyle);
-//             gl->NnameStyleInNoteName = tmpStyle;
-            m_answRequire.accid = true;
-        }         
            /** During an exam Note name style is changed in two cases:
             * 1. If level.requireStyle = true every question or answer with Note Name
             *       switch it (letters/solfege)
-            * 2. If Note Name is question and answer this is only way that it has sense    
+            * 2. If Note Name is question and answer and are the same - this is only way that it has sense    
            */
-        if (m_level.requireStyle && curQ.questionAs != TQAtype::e_asName) { // switch style if not switched before 
-          Tnote::EnameStyle tmpStyle;
-          if (m_blackQuestNr == -1) { // regular answer as note name
-            tmpStyle = m_supp->randomNameStyle();
-            curQ.setStyle(curQ.styleOfQuestion(), tmpStyle);
-          } else // penalty
-              tmpStyle = curQ.styleOfQuestion();
-//           mW->noteName->setNoteNamesOnButt(tmpStyle);
-//           gl->NnameStyleInNoteName = tmpStyle;
-//           mW->noteName->setStyle(tmpStyle);
-        }
-        mW->noteName->prepAnswer(curQ.styleOfAnswer(), tmpNote);
+        if (curQ.questionAs == TQAtype::e_asName)
+          mW->noteName->prepAnswer(curQ.styleOfAnswer(), curQ.qa_2.note);
+        else
+          mW->noteName->prepAnswer(curQ.styleOfAnswer(), curQ.qa.note);
         mW->noteName->setStyle(curQ.styleOfAnswer());
     }
 
@@ -552,7 +541,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
       if (retN.note) {
         Tnote nE = exN.showAsNatural();
         Tnote nR = retN.showAsNatural();
-        qDebug() << "Q:" << exN.toText(curQ.styleOfQuestion()) << "A:" << retN.toText(curQ.styleOfAnswer());
+//         qDebug() << "Q:" << exN.toText(curQ.styleOfQuestion()) << "A:" << retN.toText(curQ.styleOfAnswer());
         if (exN != retN) {
             if (m_answRequire.octave) {
 //                qDebug() << "1." << QString::fromStdString(nR.getName()) << QString::fromStdString(nE.getName());
@@ -614,9 +603,9 @@ void TexamExecutor::checkAnswer(bool showResults) {
     mW->progress->progress(m_exam->penalty());
     if (!curQ.isCorrect())
       updatePenalStep();
-//     if (m_blackQuestNr != -1)
-//       gl->NnameStyleInNoteName = m_prevStyle;
-      mW->noteName->setStyle(m_prevStyle);
+
+    mW->noteName->setStyle(gl->NnameStyleInNoteName);
+    mW->noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
 
     if (!m_supp->wasFinished() && m_exam->count() >= (m_supp->obligQuestions() + m_exam->penalty()) ) { // maybe enought 
       if (m_exam->blackCount()) {
@@ -656,6 +645,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 
 
 void TexamExecutor::repeatQuestion() {
+    m_canvas->tryAgainTip(3000);
     m_lockRightButt = false;
     m_incorrectRepeated = true;
     m_isAnswered = false;
@@ -666,31 +656,22 @@ void TexamExecutor::repeatQuestion() {
     }
     curQ.setMistake(TQAunit::e_correct);
     
-//     if (curQ.questionAs == TQAtype::e_asName) {
-//       m_prevStyle = gl->NnameStyleInNoteName;
-//       gl->NnameStyleInNoteName = curQ.styleOfQuestion();
-      // We don't show question again. It remains on Tcanvas tip
-//     }
-//       if (curQ.answerAs == TQAtype::e_asFretPos && m_level.showStrNr)
-//             mW->noteName->askQuestion(curQ.qa.note, curQ.qa.pos.str());
-//         else
-//             mW->noteName->askQuestion(curQ.qa.note);
-//       gl->NnameStyleInNoteName = m_prevStyle;
-//     }
     if (curQ.answerAs == TQAtype::e_asNote)
         mW->score->unLockScore();
-    if (curQ.answerAs == TQAtype::e_asName) {
-//       m_prevStyle = gl->NnameStyleInNoteName;
-//       gl->NnameStyleInNoteName = curQ.styleOfAnswer();
-//       mW->noteName->setStyle(curQ.styleOfAnswer());
-      mW->noteName->setNoteName(m_prevNoteIfName); // restore previous answered name (and button state)
-//       mW->noteName->setNoteNamesOnButt(curQ.styleOfAnswer());
-      mW->noteName->setNameDisabled(false);
-        if (curQ.questionAs == TQAtype::e_asName)
-          mW->noteName->prepAnswer(curQ.styleOfAnswer(), curQ.qa_2.note);
+    if (curQ.questionAs == TQAtype::e_asName) { // rrefresh question on MoteName
+      if (curQ.answerAs == TQAtype::e_asFretPos && m_level.showStrNr)
+            mW->noteName->askQuestion(curQ.qa.note, curQ.styleOfQuestion(), curQ.qa.pos.str());
         else
+            mW->noteName->askQuestion(curQ.qa.note, curQ.styleOfQuestion());
+    }
+    if (curQ.answerAs == TQAtype::e_asName) {
+//       mW->noteName->setNoteName(m_prevNoteIfName); // restore previous answered name (and button state)
+      mW->noteName->setNameDisabled(false);
+      if (curQ.questionAs == TQAtype::e_asName)
+          mW->noteName->prepAnswer(curQ.styleOfAnswer(), curQ.qa_2.note);
+      else
           mW->noteName->prepAnswer(curQ.styleOfAnswer(), curQ.qa.note);
-          mW->noteName->setStyle(curQ.styleOfAnswer());
+      mW->noteName->setStyle(curQ.styleOfAnswer());
 //         tmpStyle = curQ.styleOfQuestion();
             
     }
