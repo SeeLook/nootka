@@ -432,11 +432,10 @@ void TexamExecutor::askQuestion() {
            */
         if (curQ.questionAs == TQAtype::e_asName) {
           mW->noteName->prepAnswer(curQ.styleOfAnswer(), curQ.qa_2.note);
-          m_prevStyle = curQ.styleOfAnswer();
-        }
-        else {
-          mW->noteName->prepAnswer(curQ.styleOfAnswer(), curQ.qa.note);
+//          m_prevStyle = curQ.styleOfAnswer();
           m_prevStyle = m_supp->randomNameStyle();
+        } else {
+          mW->noteName->prepAnswer(curQ.styleOfAnswer(), curQ.qa.note);
         }
         mW->noteName->setStyle(curQ.styleOfAnswer());
     }

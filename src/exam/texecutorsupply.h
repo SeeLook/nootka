@@ -38,7 +38,7 @@ public:
   Tnote determineAccid(Tnote n);
         /** */
   Tnote forceEnharmAccid(Tnote n);
-  Tnote::EnameStyle randomNameStyle();
+  Tnote::EnameStyle randomNameStyle(int style = -1);
     /** Returns list with possible positions of a note on given position.
      * Given fingerPos (position) is not included.
      * If strCheck is true it is excluding strings unvailable in a level. */
