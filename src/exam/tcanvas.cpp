@@ -40,6 +40,7 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   m_startTip(0),
   m_whatTip(0),
   m_questionTip(0),
+  m_tryAgainTip(0),
   m_scale(1)
 {
   setAttribute(Qt::WA_TransparentForMouseEvents);
@@ -94,6 +95,17 @@ void Tcanvas::resultTip(TQAunit* answer, int time) {
   setPosOfResultTip();
   if (time)
     QTimer::singleShot(time, this, SLOT(clearResultTip()));
+}
+
+
+void Tcanvas::tryAgainTip(int time) {
+  m_tryAgainTip = new TgraphicsTextTip(QString("<span style=\"color: %1; font-size: %2px;\">")
+      .arg(gl->EquestionColor.name()).arg(bigFont()) + tr("Try again!") + "</span>");
+  m_scene->addItem(m_tryAgainTip);
+  m_tryAgainTip->setZValue(100);
+  m_tryAgainTip->setScale(m_scale);
+  setPosOfTryAgainTip();
+  QTimer::singleShot(time, this, SLOT(clearTryAgainTip()));
 }
 
 
@@ -179,6 +191,13 @@ void Tcanvas::clearResultTip() {
     }
 }
 
+void Tcanvas::clearTryAgainTip() {
+    if (m_tryAgainTip){
+      delete m_tryAgainTip;
+      m_tryAgainTip = 0;
+    }
+}
+
 
 void Tcanvas::clearNoteTip() {
 
@@ -202,6 +221,10 @@ void Tcanvas::sizeChanged(QSize newSize) {
       m_resultTip->setScale(m_scale);;
       setPosOfResultTip();
   }
+  if (m_tryAgainTip) {
+    m_tryAgainTip->setScale(m_scale);
+    setPosOfTryAgainTip();
+  }
   if (m_whatTip) {
       m_whatTip->setScale(m_scale);
       setPosOfWhatTip();
@@ -224,13 +247,19 @@ void Tcanvas::sizeChanged(QSize newSize) {
 //######################################################################
 
 void Tcanvas::setPosOfResultTip() {
-    // in the middle over guitar
-//   m_resultTip->setPos((m_scene->width() - m_scale * m_resultTip->boundingRect().width()) / 2,
-//                   qRound((double)m_scene->height() * 0.76 ) -(m_scale * m_resultTip->boundingRect().height()));
   m_resultTip->setPos(m_parent->relatedPoint().x() + (((m_scene->width() - m_parent->relatedPoint().x()) -
                                                        m_scale * m_resultTip->boundingRect().width())) / 2,
                       m_parent->relatedPoint().y() - 5);
 }
+
+
+void Tcanvas::setPosOfTryAgainTip() {
+  m_tryAgainTip->setPos(m_parent->relatedPoint().x() + (((m_scene->width() - m_parent->relatedPoint().x()) -
+                                                       m_scale * m_tryAgainTip->boundingRect().width())) / 2,
+                      m_parent->relatedPoint().y() - m_scale * m_tryAgainTip->boundingRect().height());
+}
+
+
 
 void Tcanvas::setPosOfWhatTip() {
     // in the middle on guitar
@@ -268,7 +297,6 @@ void Tcanvas::setPosOfQuestionTip() {
       
   m_questionTip->setPos(pos);
 }
-
 
 
 

@@ -1,5 +1,4 @@
 0.8.5 stable:
-- After repeating a question name style doesn't come back proprely 
 - Scordatute text layout
 - Line grid in level creator and rotated label text not allways whole visible(french)
 - positions and look of frets numbers and key names in charts
@@ -10,7 +9,6 @@
 - time > 60s show as min.
 - load qt translations
 - icons size under Windows 7
-- strings circle shape imitation
 - in TtipChart remove checking style when will be solved
 
 

@@ -104,7 +104,7 @@ questionsSettings::questionsSettings(QWidget *parent) :
     chLay->addWidget(forceAccChB, 1, 0, Qt::AlignLeft);
     
     styleRequiredChB = new QCheckBox(tr("use different nameing styles"),this);
-    styleRequiredChB->setStatusTip(tr("if checked, nameing style is switched between letters and solfge.<br>It has to be checked if note's name is a question and an answer."));
+    styleRequiredChB->setStatusTip(tr("if checked, note names are switched between letters and solfge."));
     chLay->addWidget(styleRequiredChB, 2, 0, Qt::AlignLeft);
     
     showStrNrChB = new QCheckBox(tr("show string number in questions"), this);
@@ -155,11 +155,11 @@ void questionsSettings::loadLevel(TexamLevel& level) {
 
 
 void questionsSettings::whenParamsChanged() {
-    if (asNameWdg->answerAsName() && asNameWdg->isChecked()) {
-        styleRequiredChB->setChecked(true);
-        styleRequiredChB->setDisabled(true);
-    } else 
-        styleRequiredChB->setDisabled(false);
+//     if (asNameWdg->answerAsName() && asNameWdg->isChecked()) {
+//         styleRequiredChB->setChecked(true);
+//         styleRequiredChB->setDisabled(true);
+//     } else 
+//         styleRequiredChB->setDisabled(false);
   // disable showStrNrChB & lowPosOnlyChBox  if question and answer are on guitar
     if (asFretPosWdg->isChecked() && asFretPosWdg->answerAsPos()) {
       showStrNrChB->setChecked(true);

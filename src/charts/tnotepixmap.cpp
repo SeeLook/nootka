@@ -37,9 +37,10 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
             if (note.acidental == TkeySignature::scalesDefArr[key.value()+7][note.note-1])
                 accidString = ""; // accid in key signature
         }
-    } else // no accids
+    } else { // no accids
         if (TkeySignature::scalesDefArr[key.value()+7][note.note-1] != 0)
-                        accidString = TnoteView::getAccid(3); // so paint natural
+              accidString = TnoteView::getAccid(3); // so paint natural
+    }
 
     int h = factor * 18; // height
     int w = factor * 13; // width
@@ -144,7 +145,7 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
     // note
     painter.drawEllipse( xPosOfNote * factor, (hiLinePos + noteOffset) * factor, factor * 3, factor * 2);
     // accidental
-    if (note.acidental) {
+    if (accidString != "") {
       double accWidth = metrics.width(accidString);
 #if defined(Q_OS_WIN32)
         painter.drawText(QRectF((xPosOfNote) * factor - accWidth / 2,

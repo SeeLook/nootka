@@ -47,9 +47,10 @@ public:
     void whatNextTip(bool isCorrect, bool onRight = true); // Text with what to click after an answer
     void questionTip(Texam *exam); // Text with question context
     void noteTip(int time); // note symbol when sound was detected
+    void tryAgainTip(int time); // "Try again" text"
     
     void clearCanvas();
-        /** Returns point size of 'A' letttter multipled by 2. */
+        /** Returns point size of 'A' letter multipled by 2. */
     int bigFont();
         /** Returns default font with point size scaled to 'A' letter multipled by given factor. */
     QFont tipFont(qreal factor = 1);
@@ -58,6 +59,7 @@ public:
 public slots:
     void clearResultTip(); // cleanes tip with results
     void clearNoteTip();
+    void clearTryAgainTip();
     
 protected slots:
     void sizeChanged(QSize newSize);
@@ -66,7 +68,7 @@ private:
     MainWindow *m_parent;
     QGraphicsScene *m_scene;
     double m_scale;
-    TgraphicsTextTip *m_resultTip, *m_whatTip, *m_startTip;
+    TgraphicsTextTip *m_resultTip, *m_whatTip, *m_startTip, *m_tryAgainTip;
     TquestionTip *m_questionTip;
     Texam *m_exam;
     QTimer *m_noteTimer;
@@ -77,6 +79,7 @@ private:
     void setPosOfWhatTip();
     void setPosOfStartTip();
     void setPosOfQuestionTip();
+    void setPosOfTryAgainTip();
  
 };
 
