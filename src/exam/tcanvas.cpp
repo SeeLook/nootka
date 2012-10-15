@@ -79,6 +79,7 @@ QFont Tcanvas::tipFont(qreal factor) {
 void Tcanvas::resultTip(TQAunit* answer, int time) {
   if (m_resultTip)
     delete m_resultTip;    
+  clearTryAgainTip();
   QColor answColor;
   if (answer->isCorrect())
       answColor = gl->EanswerColor;
