@@ -205,7 +205,12 @@ Tnote TexecutorSupply::forceEnharmAccid(Tnote n) {
     else return n;
 }
 
-Tnote::EnameStyle TexecutorSupply::randomNameStyle() {
+Tnote::EnameStyle TexecutorSupply::randomNameStyle(int style) {
+    if (style != -1)
+        if ((Tnote::EnameStyle)style == Tnote::e_italiano_Si)
+            m_isSolfege = true;
+        else
+            m_isSolfege = false;
     if (m_isSolfege) {
         m_isSolfege = false;
         if (qrand() % 2) { // full name like cis, gisis
