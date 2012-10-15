@@ -203,6 +203,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
         }
         updatePenalStep();
     }
+    m_prevStyle = m_supp->randomNameStyle();
     
     m_level.questionAs.randNext(); // Randomize question and answer type
     if (m_level.questionAs.isNote()) m_level.answersAs[TQAtype::e_asNote].randNext();
@@ -336,7 +337,7 @@ void TexamExecutor::askQuestion() {
     }
 
     if (curQ.questionAs == TQAtype::e_asName) {
-        int styleSwitcher = 0; // counts how many times syle was changed
+//         int styleSwitcher = 0; // counts how many times syle was changed
         if (m_blackQuestNr == -1) { // regular question
           if (curQ.answerAs == TQAtype::e_asName) { // prepare answer
             curQ.qa_2.note = m_supp->forceEnharmAccid(curQ.qa.note); // force other enharm name of note - expected note
@@ -344,21 +345,21 @@ void TexamExecutor::askQuestion() {
               // when user (level) wants different names or only way to have different answer and question is
               // style (note are the same)
                 curQ.setStyle(gl->NnameStyleInNoteName, m_supp->randomNameStyle()); // randomize style
-                styleSwitcher++;
+//                 styleSwitcher++;
             }
             else 
                 curQ.setStyle(gl->NnameStyleInNoteName, gl->NnameStyleInNoteName);
             m_answRequire.accid = true;
           }
           if (m_level.requireStyle) {
-            curQ.setStyle(m_supp->randomNameStyle(), curQ.styleOfAnswer());
-            styleSwitcher++;
+            curQ.setStyle(m_prevStyle, curQ.styleOfAnswer());
+//             styleSwitcher++;
           }
           else 
             curQ.setStyle(gl->NnameStyleInNoteName, curQ.styleOfAnswer());
         }
-        if (styleSwitcher == 2)
-          m_supp->randomNameStyle(); // switch style again to have different next time
+//         if (styleSwitcher == 2)
+//           m_supp->randomNameStyle(); // switch style again to have different next time
         // Show question on TnoteName widget
         if (curQ.answerAs == TQAtype::e_asFretPos && m_level.showStrNr)
             mW->noteName->askQuestion(curQ.qa.note, curQ.styleOfQuestion(), curQ.qa.pos.str());
@@ -429,10 +430,14 @@ void TexamExecutor::askQuestion() {
             *       switch it (letters/solfege)
             * 2. If Note Name is question and answer and are the same - this is only way that it has sense    
            */
-        if (curQ.questionAs == TQAtype::e_asName)
+        if (curQ.questionAs == TQAtype::e_asName) {
           mW->noteName->prepAnswer(curQ.styleOfAnswer(), curQ.qa_2.note);
-        else
+          m_prevStyle = curQ.styleOfAnswer();
+        }
+        else {
           mW->noteName->prepAnswer(curQ.styleOfAnswer(), curQ.qa.note);
+          m_prevStyle = m_supp->randomNameStyle();
+        }
         mW->noteName->setStyle(curQ.styleOfAnswer());
     }
 
@@ -741,8 +746,6 @@ void TexamExecutor::prepareToExam() {
             SLOT(autoRepeatStateChanged(bool)));
     connect(mW->expertAnswChB, SIGNAL(clicked(bool)), this, SLOT(expertAnswersStateChanged(bool)));
 
-//     m_prevStyle = gl->NnameStyleInNoteName;
-    m_prevStyle = mW->noteName->style();
     m_glStore.nameStyleInNoteName = mW->noteName->style();
     m_glStore.showEnharmNotes = gl->showEnharmNotes;
     m_glStore.showKeySignName = gl->SshowKeySignName;
