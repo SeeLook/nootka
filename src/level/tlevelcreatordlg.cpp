@@ -113,6 +113,7 @@ void TlevelCreatorDlg::saveToFile() {
     if (!newLevel.canBeGuitar()) {  // adjust frets' range - validator will skip it for non guitar level
       newLevel.loFret = 0; // Set range to frets number and rest will do function prepearing questions list
       newLevel.hiFret = gl->GfretsNumber;
+      newLevel.onlyLowPos = true; // otherwise the above invokes doubled/tripled questions in the list
     // set all strings as available
       for (int str = 0; str < 6; str++)
         newLevel.usedStrings[str] = true;

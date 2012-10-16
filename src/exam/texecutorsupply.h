@@ -38,6 +38,8 @@ public:
   Tnote determineAccid(Tnote n);
         /** */
   Tnote forceEnharmAccid(Tnote n);
+    /** Switches given style to opposite (letters or solfege).
+     * If none specified, gives oppositte to previous returned. */
   Tnote::EnameStyle randomNameStyle(int style = -1);
     /** Returns list with possible positions of a note on given position.
      * Given fingerPos (position) is not included.
