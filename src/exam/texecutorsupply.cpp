@@ -52,6 +52,13 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
     char openStr[6];
       for (int i=0; i<6; i++)
         openStr[i] = gl->Gtune()[i+1].getChromaticNrOfNote();
+      
+      /** FIXING MISTAKE RELATED WITH A NEW VALIDATIN WAY DURING SAVING NEW LEVEL 
+       * When there in no guitar in a level,
+       * add to question list only the lowest position sounds. */
+    if (!m_level->canBeGuitar()) {  // adjust frets' range 
+      m_level->onlyLowPos = true;
+    }
 
 // searching all frets in range, string by string
     for(int s = 0; s < 6; s++) {
@@ -125,8 +132,10 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
     
     
     m_obligQuestNr = qMax(list.size() * 5, 20);
+//     qDebug() << "question number:" << list.size();
     if (m_level->useKeySign && !m_level->isSingleKey)
         m_obligQuestNr = qMax(m_obligQuestNr, (m_level->hiKey.value() - m_level->loKey.value() + 1) * 5);
+//     qDebug() << "possible x 5" << qaPossibilitys() * 5;
     m_obligQuestNr = qMax(qaPossibilitys() * 5, m_obligQuestNr);
 
 }
