@@ -139,7 +139,8 @@ quint16 TexamView::questionStop() {
     quint16 t = qRound(m_reactTime.elapsed() / 100);
     m_reactTimeLab->setText(QString("%1").arg((qreal) t /10, 0, 'f', 1));
     m_averTime = (m_averTime * (m_questNr-1) + t) / m_questNr;
-    m_averTimeLab->setText(QString("%1").arg((qreal)qRound(m_averTime)/10));
+//    m_averTimeLab->setText(QString("%1").arg((qreal)qRound(m_averTime)/10));
+    m_averTimeLab->setText(formatReactTime(t));
     return t;
 }
 
@@ -153,7 +154,7 @@ void TexamView::startExam(int passTimeInSec, int questNumber, int averTime, int 
     m_showReact = false;
     m_totalTime.start();
     m_totalTime.restart();
-    m_timer->start(1000);
+    m_timer->start(100);
     countTime();
     setAnswer();
     m_averTimeLab->setText(QString("%1").arg((qreal)qRound(m_averTime)/10));
@@ -174,7 +175,8 @@ void TexamView::setAnswer(TQAunit* answer) {
     // without halfMistakes - obsolete
 //     m_effect = (((qreal)m_questNr - (qreal)m_mistakes) / (qreal)m_questNr) * 100;
     m_effect = Texam::effectiveness(m_questNr, m_mistakes, m_halfMistakes);
-    m_effLab->setText(QString("<b>%1 %</b>").arg(qRound(m_effect)));
+//    m_effLab->setText(QString("<b>%1 %</b>").arg(qRound(m_effect)));
+    m_effLab->setText(formatReactTime(qRound(m_effect * 10)));
 }
 
 void TexamView::setFontSize(int s) {
@@ -188,16 +190,31 @@ void TexamView::setFontSize(int s) {
     m_corrLab->setFont(f);
     m_halfLab->setFont(f);
     m_effLab->setFont(f);
-    m_reactTimeLab->setFixedWidth(s * 3);
-    m_averTimeLab->setFixedWidth(s * 3);
+//    m_reactTimeLab->setFixedWidth(s * 3);
+//    m_averTimeLab->setFixedWidth(s * 3);
     m_totalTimeLab->setFixedWidth(s * 5);
 //     setMinimumHeight(okGr->height() + 5);
 }
 
 void TexamView::countTime() {
     if (m_showReact)
-        m_reactTimeLab->setText(QString("%1").arg(m_reactTime.elapsed() / 1000, 0, 'f', 1, '0'));
+        m_reactTimeLab->setText(QString("%1").arg(formatReactTime(m_reactTime.elapsed() / 100)));
     m_totalTimeLab->setText(formatedTotalTime(m_totElapsedTime*1000 + m_totalTime.elapsed()));
+}
+
+QString TexamView::formatReactTime(quint16 timeX10) {
+    QString hh = "", mm = "", ss = "";
+    if (timeX10 / 36000)
+        hh = QString("%1").arg(timeX10 / 36000, 2, 'i', 0, '0');
+    if ((timeX10 % 36000) / 600)
+        mm = QString("%1").arg((timeX10 % 36000) / 600, 2, 'i', 0, '0');
+    ss =QString("%1").arg(((timeX10 % 36000) % 600) / 10, 2, 'i', 0, '0' );
+    QString res = "";
+    if (hh != "")
+        res = hh + ":";
+    if (mm != "")
+        res += mm + ":";
+    return res + ss + QString(".%1").arg(timeX10 % 10);
 }
 
 void TexamView::clearResults() {
@@ -205,7 +222,7 @@ void TexamView::clearResults() {
     m_mistLab->setText("00");
     m_halfLab->setText("00");
     m_effLab->setText("<b>100%</b>");
-    m_averTimeLab->setText("0.0");
-    m_reactTimeLab->setText("0.0");
+    m_averTimeLab->setText("00.0");
+    m_reactTimeLab->setText("00.0");
     m_totalTimeLab->setText("0:00:00");    
 }
