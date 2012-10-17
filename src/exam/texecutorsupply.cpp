@@ -56,7 +56,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
       /** FIXING MISTAKE RELATED WITH A NEW VALIDATIN WAY DURING SAVING NEW LEVEL 
        * When there in no guitar in a level,
        * add to question list only the lowest position sounds. */
-    if (!m_level->canBeGuitar()) {  // adjust frets' range 
+    if (!m_level->canBeGuitar() && !m_level->canBeSound()) {  // adjust frets' range
       m_level->onlyLowPos = true;
     }
 

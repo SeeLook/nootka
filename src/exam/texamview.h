@@ -52,6 +52,7 @@ public:
             .arg(t/3600000)
             .arg((t%3600000)/60000, 2, 'f', 0, '0')
             .arg((t%60000)/1000, 2, 'f', 0, '0'); }
+    static QString formatReactTime(quint16 timeX10);
 
     void startExam( int passTimeInSec = 0, int questNumber = 0,int averTime = 0, int mistakes = 0, int halfMist = 0);
     void questionStart();
