@@ -203,7 +203,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
         }
         updatePenalStep();
     }
-    m_prevStyle = m_supp->randomNameStyle(gl->NnameStyleInNoteName);
+    m_prevQuestStyle = m_supp->randomNameStyle(gl->NnameStyleInNoteName);
+    m_prevAnswStyle = m_supp->randomNameStyle(m_prevQuestStyle);
     
     m_level.questionAs.randNext(); // Randomize question and answer type
     if (m_level.questionAs.isNote()) m_level.answersAs[TQAtype::e_asNote].randNext();
@@ -351,20 +352,23 @@ void TexamExecutor::askQuestion() {
             if (m_level.requireStyle || curQ.qa.note == curQ.qa_2.note) {
               // when user (level) wants different names or only way to have different answer and question is
               // to change the style (note are the same)
-                curQ.setStyle(m_prevStyle, m_supp->randomNameStyle(m_prevStyle)); // randomize style
-//                 m_prevStyle = curQ.styleOfAnswer(); 
-            }
-            else // enharmonic notes in the same style
+                curQ.setStyle(m_prevQuestStyle, m_supp->randomNameStyle(m_prevQuestStyle)); // randomize style
+                m_prevAnswStyle= curQ.styleOfAnswer(); 
+            } else { // enharmonic notes in the same style
                 curQ.setStyle(gl->NnameStyleInNoteName, gl->NnameStyleInNoteName);
+                m_prevAnswStyle = gl->NnameStyleInNoteName;
+                m_prevQuestStyle = gl->NnameStyleInNoteName;
+            }
           } else // note name only in question
               if (m_level.requireStyle) { // switch previous used style
-                curQ.setStyle(m_supp->randomNameStyle(m_prevStyle), gl->NnameStyleInNoteName);
-                if (m_level.answersAs[TQAtype::e_asName].isName()) // to better switch styles
-                    m_prevStyle = m_supp->randomNameStyle(curQ.styleOfQuestion());
-                else
-                    m_prevStyle = m_supp->randomNameStyle(m_prevStyle);
-              } else 
-                  curQ.setStyle(gl->NnameStyleInNoteName, curQ.styleOfAnswer());
+                curQ.setStyle(m_supp->randomNameStyle(m_prevQuestStyle), gl->NnameStyleInNoteName);
+                m_prevQuestStyle = m_supp->randomNameStyle(curQ.styleOfQuestion());
+//                 if (m_level.answersAs[TQAtype::e_asName].isName()) // to better switch styles
+//                     m_prevQuestStyle = m_supp->randomNameStyle(curQ.styleOfQuestion());
+//                 else
+//                     m_prevQuestStyle = m_supp->randomNameStyle(m_prevQuestStyle);
+              } // else 
+//                   curQ.setStyle(gl->NnameStyleInNoteName, curQ.styleOfAnswer());
         }
         // Show question on TnoteName widget
         if (curQ.answerAs == TQAtype::e_asFretPos && m_level.showStrNr)
@@ -438,8 +442,11 @@ void TexamExecutor::askQuestion() {
            */
         if (curQ.questionAs == TQAtype::e_asName)
             mW->noteName->prepAnswer(curQ.styleOfAnswer(), curQ.qa_2.note);
-        else
+        else {
+            m_prevAnswStyle = m_supp->randomNameStyle(m_prevAnswStyle);
+            curQ.setStyle(curQ.styleOfQuestion(), m_prevAnswStyle);
             mW->noteName->prepAnswer(curQ.styleOfAnswer(), curQ.qa.note);
+        }
         mW->noteName->setStyle(curQ.styleOfAnswer());
     }
 
