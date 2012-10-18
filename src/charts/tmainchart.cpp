@@ -53,12 +53,12 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
       prepareChart(m_exam->count());
       m_mainLine = new TmainLine(m_exam->answList(), this);
       TgraphicsLine *averLine = new TgraphicsLine("<p>" +
-          TexamView::averAnsverTimeTxt() + QString("<br><span style=\"font-size: 20px;\">%1 s</span></p>").arg(m_exam->averageReactonTime() / 10.0));
+          TexamView::averAnsverTimeTxt() + QString("<br><span style=\"font-size: 20px;\">%1 s</span></p>").arg(TexamView::formatReactTime(m_exam->averageReactonTime())) );
       scene->addItem(averLine);
       averLine->setZValue(20);
       averLine->setPen(QPen(averColor, 3));
-      averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime()/10.0),
-          xAxis->mapValue(m_exam->count()) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime()/10.0));
+      averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime() / 10.0),
+          xAxis->mapValue(m_exam->count()) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime() / 10.0));
   }
   
   if (m_settings.order == e_byNote || m_settings.order == e_byFret ||
@@ -122,23 +122,24 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
       int cnt = 1;
   // paint lines with average time of all the same notes/frets
       for (int i = 0; i < goodSize + goodOffset; i++) { // skip wrong answers if separeted
-        double aTime = calcAverTime(sortedLists[i], !m_settings.inclWrongAnsw) / 10.0;
+        double aTime = calcAverTime(sortedLists[i], !m_settings.inclWrongAnsw);
+        QString aTimeText = TexamView::formatReactTime(qRound(aTime));
         TgraphicsLine *averTimeLine = new TgraphicsLine();
         QString lineText = "";
         if (m_settings.order == e_byNote)
-          lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2 s</p>").arg(tr("for a note:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + TnoteName::noteToRichText(sortedLists[i].operator[](0)->qa.note) + "</b>").arg(aTime, 0, 'f', 1);
+          lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(tr("for a note:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + TnoteName::noteToRichText(sortedLists[i].operator[](0)->qa.note) + "</b>").arg(aTimeText);
         else
           if (m_settings.order == e_byFret)
-            lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2 s</p>").arg(tr("for a fret:", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>  " + 
-            QString::number(sortedLists[i].operator[](0)->qa.pos.fret()) + "</b>").arg(aTime, 0, 'f', 1);
+            lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(tr("for a fret:", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>  " + 
+            QString::number(sortedLists[i].operator[](0)->qa.pos.fret()) + "</b>").arg(aTimeText);
           else
             if (m_settings.order == e_byKey) {
               QString wereKeys = "";
               if (m_exam->level()->manualKey && sortedLists[i].operator[](0)->answerAs == TQAtype::e_asNote)
                 wereKeys = "<br>" + tr("Key signatures gave by user");
                 
-              lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2 s%3</p>").arg(tr("for a key:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + 
-              sortedLists[i].operator[](0)->key.getName() + "</b></span>").arg(aTime, 0, 'f', 1).arg(wereKeys);
+              lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2%3</p>").arg(tr("for a key:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + 
+              sortedLists[i].operator[](0)->key.getName() + "</b></span>").arg(aTimeText).arg(wereKeys);
             } else
               if (m_settings.order == e_byAccid) {
                 char accid;
@@ -160,17 +161,17 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
                   case 2:
                     accStr = TquestionAsWdg::spanNootka("x", 20); break;
                 }
-                lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2 s</p>").arg(tr("for an accidental:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  " +
+                lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(tr("for an accidental:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  " +
                 accStr + "</span>"
-                ).arg(aTime, 0, 'f', 1);
+                ).arg(aTimeText);
               }
         
         averTimeLine->setText(lineText);
         scene->addItem(averTimeLine);
         averTimeLine->setZValue(46);
         averTimeLine->setPen(QPen(QColor(0, 192, 192), 3)); // sea blue
-        averTimeLine->setLine(xAxis->mapValue(cnt - 0.4) + xAxis->pos().x(), yAxis->mapValue(aTime),
-          xAxis->mapValue(cnt + sortedLists[i].size() -0.6) + xAxis->pos().x(), yAxis->mapValue(aTime));
+        averTimeLine->setLine(xAxis->mapValue(cnt - 0.4) + xAxis->pos().x(), yAxis->mapValue(aTime / 10),
+          xAxis->mapValue(cnt + sortedLists[i].size() -0.6) + xAxis->pos().x(), yAxis->mapValue(aTime / 10));
         cnt += sortedLists[i].size();
       }
       cnt = 1;

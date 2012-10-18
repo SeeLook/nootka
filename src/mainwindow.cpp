@@ -531,7 +531,7 @@ void MainWindow::updsateSize() {
     int posX = score->width() + 2;
     int gapY = centralWidget()->height() / 100;
 
-    m_statLab->setGeometry(posX, 7, centralWidget()->width() - posX - m_hintsChB->width(), centralWidget()->height() / 9);
+    m_statLab->setGeometry(posX, 7, centralWidget()->width() - posX - m_hintsChB->width() * 2, centralWidget()->height() / 9);
 
     QFont f = m_statLab->font();
     f.setPointSize(m_statFontSize);

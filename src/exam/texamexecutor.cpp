@@ -352,19 +352,19 @@ void TexamExecutor::askQuestion() {
               // when user (level) wants different names or only way to have different answer and question is
               // to change the style (note are the same)
                 curQ.setStyle(m_prevStyle, m_supp->randomNameStyle(m_prevStyle)); // randomize style
-                m_prevStyle = curQ.styleOfAnswer(); 
+//                 m_prevStyle = curQ.styleOfAnswer(); 
             }
             else // enharmonic notes in the same style
                 curQ.setStyle(gl->NnameStyleInNoteName, gl->NnameStyleInNoteName);
           } else // note name only in question
               if (m_level.requireStyle) { // switch previous used style
                 curQ.setStyle(m_supp->randomNameStyle(m_prevStyle), gl->NnameStyleInNoteName);
-                if (m_level.answersAs[TQAtype::e_asName].isName()) //  to better switch styles
-                  m_prevStyle = m_supp->randomNameStyle(curQ.styleOfQuestion());
+                if (m_level.answersAs[TQAtype::e_asName].isName()) // to better switch styles
+                    m_prevStyle = m_supp->randomNameStyle(curQ.styleOfQuestion());
                 else
-                  m_prevStyle = m_supp->randomNameStyle(m_prevStyle);
+                    m_prevStyle = m_supp->randomNameStyle(m_prevStyle);
               } else 
-                curQ.setStyle(gl->NnameStyleInNoteName, curQ.styleOfAnswer());
+                  curQ.setStyle(gl->NnameStyleInNoteName, curQ.styleOfAnswer());
         }
         // Show question on TnoteName widget
         if (curQ.answerAs == TQAtype::e_asFretPos && m_level.showStrNr)
