@@ -117,7 +117,7 @@ private:
           /** Invokes startSniffing() and stopPlaying() after delay
            * to avoid feedback betwen played question and listened answer. */
     QTimer *m_soundTimer;
-    Tnote::EnameStyle m_prevStyle;
+    Tnote::EnameStyle m_prevQuestStyle, m_prevAnswStyle;
     TglStore m_glStore;
     TanswerRequire m_answRequire;
     bool m_shouldBeTerminated, m_isAnswered, m_incorrectRepeated;

@@ -127,11 +127,12 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* le
           if (question.answerAs == TQAtype::e_asName) {
             m_nameFree = false;
             noteStr = "<br>" + getNiceNoteName(question.qa.note, question.styleOfQuestion());
-            if (question.qa.note.acidental != question.qa_2.note.acidental)
+            if (question.qa.note.acidental != question.qa_2.note.acidental) {
                 quest += tr("Change enharmonicaly and give name of");
-            else
-                quest += tr("Use another style to give name of");
-            quest += noteStr + getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);
+                quest += noteStr + getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);
+            } else
+                quest += tr("Use another style to give name of") + noteStr;
+//             quest += noteStr + getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);
           } else
             if (question.answerAs == TQAtype::e_asFretPos) {
               m_guitarFree = false;
