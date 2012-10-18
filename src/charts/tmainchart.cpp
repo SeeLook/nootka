@@ -59,6 +59,20 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
       averLine->setPen(QPen(averColor, 3));
       averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime() / 10.0),
           xAxis->mapValue(m_exam->count()) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime() / 10.0));
+      QPolygonF polygon;
+      double aTime = 0;
+      for(int i = 0; i < m_exam->count(); i++) {
+        aTime = (aTime * (i) + (m_exam->question(i).time / 10)) / (i + 1);
+        polygon << QPointF(xAxis->mapValue(i + 1), yAxis->mapValue(aTime));        
+      }
+      polygon << QPointF(averLine->line().p1());
+      QGraphicsPolygonItem *averProgress = new QGraphicsPolygonItem;
+      scene->addItem(averProgress);
+      averProgress->setPen(QPen(averColor, 0.5));
+      averColor.setAlpha(200);
+      averProgress->setBrush(averColor);
+      averProgress->setPolygon(polygon);
+      averProgress->setZValue(10);      
   }
   
   if (m_settings.order == e_byNote || m_settings.order == e_byFret ||
