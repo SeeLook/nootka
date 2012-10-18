@@ -105,7 +105,7 @@ TtipChart::TtipChart(TquestionPoint *point) :
   txt += "<table valign=\"middle\" align=\"center\"><tr><td> " + qS + " </td><td>" + insertQMark() + " </td><td> " + aS + " </td></tr></table>";
   txt += wasAnswerOKtext(point->question(), point->color());
   txt += TexamView::reactTimeTxt() +
-        QString("<span style=\"font-size: 20px\">  %1s</span>").arg(point->question()->timeText());
+        QString("<span style=\"font-size: 20px\">  %1</span>").arg(TexamView::formatReactTime(point->question()->time));
   
   setBgColor(point->color());
   setHtml(txt);

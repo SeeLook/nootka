@@ -31,7 +31,6 @@ TprogressWidget::TprogressWidget(QWidget* parent) :
 {
   QHBoxLayout *lay = new QHBoxLayout;
   m_answLab = new QLabel(zeroLabTxt(), this);
-//   m_answLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
   m_answLab->setStyleSheet("border: 1px solid palette(Text); border-radius: 4px;" + gl->getBGcolorText(gl->EnotBadColor));
   lay->addWidget(m_answLab);
   m_bar = new QProgressBar(this);
@@ -41,12 +40,7 @@ TprogressWidget::TprogressWidget(QWidget* parent) :
   m_totalLab->setStyleSheet("border: 1px solid palette(Text); border-radius: 4px;" + gl->getBGcolorText(gl->EanswerColor));
   lay->addWidget(m_totalLab);
   
-//   QHBoxLayout *mainLay = new QHBoxLayout;
-//   QGroupBox *gr = new QGroupBox(this);
-//   gr->setLayout(lay);
-//   mainLay->addWidget(gr);
   setLayout(lay);
-//   setLayout(mainLay);
   
   setStatusTip(progressExamTxt());
   setDisabled(true);
@@ -122,7 +116,7 @@ void TprogressWidget::updateLabels(int penaltys) {
 
 
 QString TprogressWidget::zeroLabTxt() {
-  return "<span style=\"color: transparent;\">(000) + </span>0<span style=\"color: transparent;\">000</span>";
+  return "<span style=\"color: transparent;\">0 + </span>0<span style=\"color: transparent;\">0</span>";
 }
 
 

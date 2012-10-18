@@ -55,8 +55,13 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
       
       /** FIXING MISTAKE RELATED WITH A NEW VALIDATIN WAY DURING SAVING NEW LEVEL 
        * When there in no guitar in a level,
-       * add to question list only the lowest position sounds. */
-    if (!m_level->canBeGuitar() && !m_level->canBeSound()) {  // adjust frets' range
+       * add to question list only the lowest position sounds. 
+       * In this way question list contains propper number of questions. */
+    if (!m_level->canBeGuitar() && 
+        !( m_level->answersAs[TQAtype::e_asNote].isSound() ||
+          m_level->answersAs[TQAtype::e_asName].isSound() ||
+          m_level->answersAs[TQAtype::e_asFretPos].isSound() ||
+          m_level->answersAs[TQAtype::e_asSound].isSound()) ) {  // adjust frets' range
       m_level->onlyLowPos = true;
     }
 
