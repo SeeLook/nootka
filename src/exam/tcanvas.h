@@ -55,7 +55,11 @@ public:
         /** Returns default font with point size scaled to 'A' letter multipled by given factor. */
     QFont tipFont(qreal factor = 1);
     QString startTipText();
-    
+    void setScoreRect(QRect &rect) { m_scoreRect = rect; }
+    void setNameRect(QRect &rect) { m_nameRect = rect; }
+    void setGuitarRect(QRect &rect) { m_guitarRect = rect; }
+    void setSoundRect(QRect &rect) { m_sounRect = rect; }
+
 public slots:
     void clearResultTip(); // cleanes tip with results
     void clearNoteTip();
@@ -72,6 +76,7 @@ private:
     TquestionTip *m_questionTip;
     Texam *m_exam;
     QTimer *m_noteTimer;
+    QRect m_scoreRect, m_nameRect, m_guitarRect, m_sounRect;
     
     
 private:
