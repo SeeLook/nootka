@@ -26,6 +26,10 @@
 #include "tnotepixmap.h"
 #include "tglobals.h"
 #include "texamhelp.h"
+#include "tscorewidget.h"
+#include "tnotename.h"
+#include "tfingerboard.h"
+#include "tpitchview.h"
 #include <QDebug>
 #include <QTimer>
 
@@ -36,12 +40,10 @@ extern Tglobals *gl;
 Tcanvas::Tcanvas(MainWindow* parent) :
   QGraphicsView(parent),
   m_parent(parent),
-  m_resultTip(0),
-  m_startTip(0),
-  m_whatTip(0),
-  m_questionTip(0),
-  m_tryAgainTip(0),
-  m_scale(1)
+  m_resultTip(0), m_startTip(0), m_whatTip(0),
+  m_questionTip(0), m_tryAgainTip(0),
+  m_scale(1), 
+  m_questRect(0), m_answRect(0)
 {
   setAttribute(Qt::WA_TransparentForMouseEvents);
   setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -161,6 +163,7 @@ void Tcanvas::questionTip(Texam* exam) {
   m_questionTip = new TquestionTip(exam, m_scale);
   m_scene->addItem(m_questionTip);
   setPosOfQuestionTip();
+  markQuestion(exam->curQ().questionAs);
 }
 
 
@@ -198,6 +201,45 @@ void Tcanvas::clearTryAgainTip() {
       m_tryAgainTip = 0;
     }
 }
+
+void Tcanvas::markAnswer(TQAtype::Etype kindOf) {
+
+}
+
+
+void Tcanvas::markQuestion(TQAtype::Etype kindOf) {
+  m_kindOfQuest = kindOf;
+  if (!m_questRect) {
+    m_questRect = new QGraphicsRectItem;
+    m_scene->addItem(m_questRect);
+    QColor qC = gl->EquestionColor.name();
+    qC.setAlpha(200);
+    m_questRect->setPen(QPen(qC, 3));
+    m_questRect->pen().setJoinStyle(Qt::RoundJoin);;
+    m_questRect->setBrush(Qt::NoBrush);
+  }
+  m_questRect->setRect(getRect(kindOf));  
+  m_parent->update();
+}
+  
+const QRect& Tcanvas::getRect(TQAtype::Etype kindOf) {
+  switch (kindOf) {
+    case TQAtype::e_asNote:
+      return m_parent->score->geometry();
+    case TQAtype::e_asName:
+      return m_parent->noteName->geometry();
+    case TQAtype::e_asFretPos:
+      return m_parent->guitar->geometry();
+    case TQAtype::e_asSound:
+      return m_parent->pitchView->geometry();
+  }
+}
+
+
+void Tcanvas::delayedAnswer() { // [slot]
+
+}
+
 
 
 void Tcanvas::clearNoteTip() {
@@ -239,6 +281,9 @@ void Tcanvas::sizeChanged(QSize newSize) {
     m_questionTip = new TquestionTip(m_exam, m_scale);
     m_scene->addItem(m_questionTip);
     setPosOfQuestionTip();
+  }
+  if (m_questRect) {
+    m_questRect->setRect(getRect(m_kindOfQuest));
   }
 
 }

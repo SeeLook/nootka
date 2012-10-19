@@ -38,6 +38,7 @@ class QCheckBox;
 class MainWindow : public QMainWindow
 {
     friend class TexamExecutor;
+    friend class Tcanvas;
 
     Q_OBJECT
 
