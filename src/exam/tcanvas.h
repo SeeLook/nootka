@@ -21,6 +21,7 @@
 #define TCANVAS_H
 
 #include <QGraphicsView>
+#include "tqatype.h"
 
 class QTimer;
 class Texam;
@@ -55,15 +56,18 @@ public:
         /** Returns default font with point size scaled to 'A' letter multipled by given factor. */
     QFont tipFont(qreal factor = 1);
     QString startTipText();
-    void setScoreRect(QRect &rect) { m_scoreRect = rect; }
-    void setNameRect(QRect &rect) { m_nameRect = rect; }
-    void setGuitarRect(QRect &rect) { m_guitarRect = rect; }
-    void setSoundRect(QRect &rect) { m_sounRect = rect; }
-
+        /** Paints rect around given type of widget to mark where is question. */
+    void markQuestion(TQAtype::Etype kindOf);
+        /** Paints rect around given type of widget to mark where is answer. */
+    void markAnswer(TQAtype::Etype kindOf);
+        /** Returns a geometry of given type of Nootka GUI. */
+    const QRect& getRect(TQAtype::Etype kindOf);
+    
 public slots:
     void clearResultTip(); // cleanes tip with results
     void clearNoteTip();
     void clearTryAgainTip();
+    void delayedAnswer();
     
 protected slots:
     void sizeChanged(QSize newSize);
@@ -76,7 +80,9 @@ private:
     TquestionTip *m_questionTip;
     Texam *m_exam;
     QTimer *m_noteTimer;
-    QRect m_scoreRect, m_nameRect, m_guitarRect, m_sounRect;
+    QGraphicsRectItem *m_questRect, *m_answRect;
+    QGraphicsSimpleTextItem *m_flyQuestion, *m_flyAbswer;
+    TQAtype::Etype m_kindOfQuest, m_kindOfAnsw;
     
     
 private:

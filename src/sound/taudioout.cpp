@@ -61,7 +61,7 @@ QStringList TaudioOUT::getMidiPortsList() {
       error.printMessage();
   }
   QStringList portList;
-  if (midiOut->getPortCount())
+  if (midiOut && midiOut->getPortCount())
     for (int i = 0; i < midiOut->getPortCount(); i++)
       portList << QString::fromStdString(midiOut->getPortName(i));
   delete midiOut;
