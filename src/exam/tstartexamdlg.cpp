@@ -108,7 +108,8 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, QWidget *parent) :
     m_hintLabel->setFixedHeight(70);
     m_hintLabel->setWordWrap(true);
 //     m_hintLabel->setStyleSheet("border: 1px solid palette(Text); border-radius: 10px; background-color: palette(Base)");
-    m_hintLabel->setStyleSheet("border-radius: 10px; background-color: palette(Text); color: palette(Base)");
+//     m_hintLabel->setStyleSheet("border-radius: 10px; background-color: palette(Text); color: palette(Base)");
+    m_hintLabel->setStyleSheet("border-radius: 10px; background-color: palette(Window);");
 
 //     mainLay->addWidget(hGr);
     mainLay->addWidget(m_hintLabel);

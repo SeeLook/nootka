@@ -65,16 +65,22 @@ TnoteView::TnoteView(int _index, TscoreWidgetSimple * parent) :
     m_mainNote->hide();
     m_scene->addItem(m_mainNote);
 
+    QGraphicsBlurEffect *blur = new QGraphicsBlurEffect;
+    blur->setBlurRadius(3);
     m_workNote = new QGraphicsEllipseItem();
     m_workNote->hide();
     m_workNote->setPen(QPen(m_workColor));
-    m_workNote->setBrush(QBrush(m_workColor,Qt::SolidPattern));
+    m_workNote->setBrush(QBrush(m_workColor, Qt::SolidPattern));
+    m_workNote->setGraphicsEffect(blur);
     m_scene->addItem(m_workNote);
 
+    QGraphicsBlurEffect *accidBlur = new QGraphicsBlurEffect;
+    accidBlur->setBlurRadius(2);
     m_mainAccid = new QGraphicsSimpleTextItem();
     m_scene->addItem(m_mainAccid);
     m_workAccid = new QGraphicsSimpleTextItem();
     m_workAccid->setBrush(QBrush(m_workColor));
+    m_workAccid->setGraphicsEffect(accidBlur);
     m_scene->addItem(m_workAccid);
     m_workAccid->hide();
 
