@@ -17,9 +17,29 @@
  ***************************************************************************/
 
 #include "tnootkalabel.h"
+#include <QGraphicsPixmapItem>
+#include <QGraphicsColorizeEffect>
 
-TnootkaLabel::TnootkaLabel()
+TnootkaLabel::TnootkaLabel(QString pixmapPath, QWidget* parent) :
+  QGraphicsView(parent)
 {
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setFrameShape(QFrame::NoFrame);
+    setStyleSheet(("background: transparent"));
+    setRenderHint(QPainter::TextAntialiasing, true);
+
+    m_scene = new QGraphicsScene();
+    setScene(m_scene);
+    
+    QGraphicsPixmapItem *pixItem = new QGraphicsPixmapItem(QPixmap(pixmapPath));
+    m_scene->addItem(pixItem);
+    resize(pixItem->pixmap().size());
+    QGraphicsColorizeEffect *effect = new QGraphicsColorizeEffect();
+    QColor bg = palette().window().color();
+//     bg.setAlpha(220);
+    effect->setColor(bg);
+    pixItem->setGraphicsEffect(effect);
 
 }
 
