@@ -1,6 +1,5 @@
 0.8.5 stable:
 - Scordatute text layout
-- Line grid in level creator and rotated label text not allways whole visible(french)
 - positions and look of frets numbers and key names in charts
 - look of analyse dialog 
 - implement sort by accidentals

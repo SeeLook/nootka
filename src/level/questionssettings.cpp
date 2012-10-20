@@ -28,7 +28,13 @@ questionsSettings::questionsSettings(QWidget *parent) :
     QWidget(parent)
 {
     QVBoxLayout *mainLay = new QVBoxLayout;    
+    mainLay->addStretch();
 
+    m_tableWdg = new QWidget(this);
+    QHBoxLayout *tabLay = new QHBoxLayout;
+    tabLay->addStretch();
+    tabLay->addWidget(m_tableWdg);
+    tabLay->addStretch();
 //    QGroupBox *qaGr = new QGroupBox(this);
     QGridLayout *qaLay = new QGridLayout(); // Questions & Answers table
     qaLay->setAlignment(Qt::AlignCenter);
@@ -91,7 +97,9 @@ questionsSettings::questionsSettings(QWidget *parent) :
     
 //     qaGr->setLayout(qaLay);
 //     mainLay->addWidget(qaGr);
-    mainLay->addLayout(qaLay);
+    m_tableWdg->setLayout(qaLay);
+    mainLay->addLayout(tabLay);
+    mainLay->addStretch();
     
   // some checkBoxes
     QGridLayout *chLay = new QGridLayout;
@@ -215,17 +223,18 @@ void questionsSettings::paintEvent(QPaintEvent* ) {
   pen.setColor(palette().text().color());
   pen.setWidth(2);
   painter.setPen(pen);
-  painter.drawLine(m_questLab->geometry().left(), asNoteWdg->enableChBox->geometry().top(), // horizontal line - under 'QUESTION'
-                   soundNooLab->geometry().right(), asNoteWdg->enableChBox->geometry().top());
-  painter.drawLine(m_questLab->geometry().left(), qSoundNooLab->geometry().top(), // horizontal line - under 'QUESTION'
-                   soundNooLab->geometry().right(), qSoundNooLab->geometry().top());
-  int xOff = (asNoteWdg->asNoteChB->geometry().left() - asNoteWdg->enableChBox->geometry().right()) / 2;
-  painter.drawLine(asNoteWdg->enableChBox->geometry().right() + xOff,
-                   m_answLab->geometry().top(), // vertical line - right to 'ANSWER''
-                   asNoteWdg->enableChBox->geometry().right() + xOff,
-                   qSoundNooLab->geometry().bottom());
-  painter.drawLine(soundNooLab->geometry().left() , m_answLab->geometry().top(), // vertical line - right to All answers
-                   soundNooLab->geometry().left() , qSoundNooLab->geometry().bottom());
+  int vertLineUpY = m_tableWdg->geometry().y() + m_questLab->geometry().bottom() + 
+      (asNoteWdg->enableChBox->geometry().top() - m_questLab->geometry().bottom()) / 2;
+  painter.drawLine(m_tableWdg->geometry().left(), vertLineUpY, m_tableWdg->geometry().right(), vertLineUpY);
+  int vertLineDownY = m_tableWdg->geometry().y() +  asSoundWdg->enableChBox->geometry().bottom() + 
+      (qSoundNooLab->geometry().top() - asSoundWdg->enableChBox->geometry().bottom()) / 2;
+  painter.drawLine(m_tableWdg->geometry().left(), vertLineDownY, m_tableWdg->geometry().right(), vertLineDownY);
+  int horLineLeftX = m_tableWdg->geometry().x() + asNoteWdg->enableChBox->geometry().right() + 
+      (asNoteWdg->asNoteChB->geometry().left() - asNoteWdg->enableChBox->geometry().right()) / 2;
+  painter.drawLine(horLineLeftX, m_tableWdg->geometry().top(), horLineLeftX, m_tableWdg->geometry().bottom());
+  int horLineRightX = m_tableWdg->geometry().x() + asSoundLab->geometry().right() + 
+      (soundNooLab->geometry().left() - asSoundLab->geometry().right()) / 2;
+  painter.drawLine(horLineRightX , m_tableWdg->geometry().top(), horLineRightX, m_tableWdg->geometry().bottom());
 }
 
 void questionsSettings::stringsCheckedSlot(bool checked) {

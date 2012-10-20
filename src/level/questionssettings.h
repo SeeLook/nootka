@@ -79,7 +79,7 @@ protected:
     void paintEvent(QPaintEvent*);
 
 private:
-    
+    QWidget *m_tableWdg;
     QLabel *m_questLab; // QLabel with 'QUESTION' text
     TverticalLabel *m_answLab; // TverticalLabel with 'ANSWER' text
     QLabel *asSoundLab, *soundNooLab, *qSoundNooLab;
