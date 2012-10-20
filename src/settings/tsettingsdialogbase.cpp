@@ -67,7 +67,8 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     aLay->addWidget(hint);
     hint->setFixedHeight(70);
     hint->setWordWrap(true);
-    hint->setStyleSheet("border-radius: 10px; background-color: palette(Text); color: palette(Base)");
+    QColor bg = palette().window().color().lighter(105);
+    hint->setStyleSheet(QString("border-radius: 10px; background-color: %1;").arg(bg.name()));
     contLay->addLayout(aLay);
 
     mainLay->addLayout(contLay);

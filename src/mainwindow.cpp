@@ -114,6 +114,8 @@ MainWindow::MainWindow(QWidget *parent)
     m_statLab = new QLabel(innerWidget);
     m_statLab->setWordWrap(true);
     m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
+    QColor bgLight = palette().window().color().lighter(105);
+    m_statLab->setStyleSheet(gl->getBGcolorText(bgLight) + "border-radius: 10px;");
 //     statLay->addWidget(m_statLab);
  // Expert corner
     QVBoxLayout *chBlay = new QVBoxLayout;
@@ -269,10 +271,12 @@ void MainWindow::setStatusMessage(QString msg, int time) {
 }
 
 void MainWindow::setMessageBg(QColor bg) {
-    if (bg == -1)
-        m_statLab->setStyleSheet("background: transparent");
+    if (bg == -1) {
+        QColor bgLight = palette().window().color().lighter(105);
+        m_statLab->setStyleSheet(gl->getBGcolorText(bgLight) + "border-radius: 10px;");
+    }
     else
-        m_statLab->setStyleSheet(gl->getBGcolorText(bg));
+        m_statLab->setStyleSheet(gl->getBGcolorText(bg) + "border-radius: 10px;");
 //    m_prevBg = m_curBG;
     m_curBG = bg;
 }
@@ -532,7 +536,7 @@ void MainWindow::updsateSize() {
     int posX = score->width() + 2;
     int gapY = centralWidget()->height() / 100;
 
-    m_statLab->setGeometry(posX, 7, centralWidget()->width() - posX -20, centralWidget()->height() / 9);
+    m_statLab->setGeometry(posX, 7, centralWidget()->width() - posX - 30, centralWidget()->height() / 9);
 
     QFont f = m_statLab->font();
     f.setPointSize(m_statFontSize);
