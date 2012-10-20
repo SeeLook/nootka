@@ -20,14 +20,18 @@
 #define TNOOTKALABEL_H
 
 #include <QWidget>
+#include <QGraphicsView>
 
 
-class TnootkaLabel : public QWidget
+class TnootkaLabel : public QGraphicsView
 {
 
 public:
-    TnootkaLabel();
+    TnootkaLabel(QString pixmapPath, QWidget *parent = 0);
     virtual ~TnootkaLabel();
+    
+private:
+    QGraphicsScene *m_scene;
 };
 
 #endif // TNOOTKALABEL_H

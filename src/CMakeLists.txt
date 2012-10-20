@@ -61,7 +61,7 @@ SET( NOOTKA_SRCS
   info/texamhelp.cpp
   info/texpertanswerhelp.cpp
   info/tsupportnootka.cpp
-#  info/tnootkalabel.cpp
+  info/tnootkalabel.cpp
 ###### Charts
   charts/tanalysdialog.cpp
   charts/tchart.cpp

@@ -24,13 +24,14 @@
 #include "taboutnootka.h"
 #include "tfirstrunwizzard.h"
 #include "tsupportnootka.h"
+#include "tnootkalabel.h"
 #include "examsettings.h"
 #include "tsound.h"
 #include "tpushbutton.h"
-#include <tscorewidget.h>
+#include "tscorewidget.h"
 #include "texam.h"
 #include "tprogresswidget.h"
-#include <texamview.h>
+#include "texamview.h"
 #include "taudioparams.h"
 #include "taudioout.h"
 #include "tpitchview.h"
@@ -43,7 +44,7 @@
 extern Tglobals *gl;
 
 
-QLabel *nootLab;
+TnootkaLabel *nootLab;
 bool m_isPlayerFree = true;
 
 MainWindow::MainWindow(QWidget *parent)
@@ -172,7 +173,7 @@ MainWindow::MainWindow(QWidget *parent)
     
     progress->hide();
     examResults->hide();
-    nootLab = new QLabel(QString("<center><img src=\"%1\"></center>").arg(gl->path + "picts/logo.png"), innerWidget);
+    nootLab = new TnootkaLabel(gl->path + "picts/logo.png", innerWidget);
 //-------------------------------------------------------------------
     m_statusText = "";
     m_prevBg = -1;

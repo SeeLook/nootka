@@ -173,7 +173,7 @@ QString TlevelCreatorDlg::validateLevel(TexamLevel &l) {
     QString res = "";
   // Check has a level sence - are there an questions and answers
     if (!l.canBeScore() && ! l.canBeName() && !l.canBeGuitar() && !l.canBeSound()) {
-        res = "There are not any questions nor answers selected.<br>Level has no sence";
+        res = tr("There are not any questions nor answers selected.<br>Level has no sence");
         return res;
     }      
   // checking range
