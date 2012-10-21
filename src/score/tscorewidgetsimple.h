@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -77,6 +77,8 @@ public:
         /** It disables accids buttons and locks editing,
         * but dasn't make score gray like standard setDisabled() method. */
     void setScoreDisabled(bool disabled);
+        /** Sets background color. Alpha value will be overriden. */
+    void setBGcolor(QColor bgColor);
 
 
 signals:
@@ -117,6 +119,7 @@ private:
     TnotesList m_notes;
     bool m_hasScord;
     TclefView *m_clef;
+    QColor m_bgColor;
 
 
 };

@@ -163,7 +163,7 @@ void Tcanvas::questionTip(Texam* exam) {
   m_questionTip = new TquestionTip(exam, m_scale);
   m_scene->addItem(m_questionTip);
   setPosOfQuestionTip();
-  markQuestion(exam->curQ().questionAs);
+//   markQuestion(exam->curQ().questionAs);
 }
 
 

@@ -47,6 +47,8 @@ public:
     static QString getBGcolorText(QColor C);
 
     static QColor invertColor(QColor C);
+    static qreal iV(int ch) { return ch / 255.0; } // inverts value (0 - 255) to 0.0 - 1.0
+    static QColor mergeColors(QColor C1, QColor C2);
 
     void storeSettings();
 
@@ -60,6 +62,8 @@ public:
     QString lang;
         /** Pointer to QSettings instance of Nootka */
     QSettings *config;
+        /** to show GUI animations. */
+    bool useAnimations;
 
         /** Let's have a convention:
         * globals settings for @class TnoteName will started from 'N' letter

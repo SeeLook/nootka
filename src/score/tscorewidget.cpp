@@ -166,7 +166,8 @@ void TscoreWidget::acceptSettings() {
 
 void TscoreWidget::askQuestion(Tnote note, char realStr) {
     setNote(1, note);
-    setNoteViewBg(1, gl->EquestionColor);
+//     setNoteViewBg(1, gl->EquestionColor);
+    setBGcolor(gl->mergeColors(gl->EquestionColor, palette().window().color()));
     m_questMark->show();
     if (realStr) 
       noteViews[1]->setString(realStr);
@@ -174,20 +175,20 @@ void TscoreWidget::askQuestion(Tnote note, char realStr) {
 
 void TscoreWidget::askQuestion(Tnote note, TkeySignature key, char realStr) {
     setKeySignature(key);
-    setKeyViewBg(gl->EquestionColor);
+//     setKeyViewBg(gl->EquestionColor);
     askQuestion(note, realStr);
 }
 
 void TscoreWidget::clearScore() {
     clearNote(0);
-    setNoteViewBg(0, -1);;
+//     setNoteViewBg(0, -1);;
     clearNote(1);
-    setNoteViewBg(1, -1);
+//     setNoteViewBg(1, -1);
     noteViews[1]->removeString(); // so far string number to remove occur only on this view
     clearNote(2); // also hide question mark when will be implemented
     if (keySignView) {
         setKeySignature(TkeySignature());
-        setKeyViewBg(-1);
+//         setKeyViewBg(-1);
 //         m_questKey->hide();
         if (m_questKey) {
           delete m_questKey;
@@ -196,6 +197,7 @@ void TscoreWidget::clearScore() {
     }
     changeAccidButtonsState(0); // reset buttons with accidentals
     m_questMark->hide();
+    setBGcolor(palette().base().color());
 }
 
 void TscoreWidget::isExamExecuting(bool isIt) {
@@ -211,11 +213,6 @@ void TscoreWidget::isExamExecuting(bool isIt) {
         m_questMark->setBrush(QBrush(c));
         m_questMark->setText("?");
         resizeQuestMark();
-//         if (keySignView) {
-//             m_questKey = new QGraphicsTextItem();
-//             m_questKey->hide();
-//             keySignView->scene()->addItem(m_questKey);
-//         }
     }
     else {
         connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
@@ -231,6 +228,8 @@ void TscoreWidget::unLockScore() {
     setScoreDisabled(false);
     noteViews[1]->setDisabled(true);
     noteViews[2]->setDisabled(true);
+    if (m_questMark)
+      setBGcolor(gl->mergeColors(gl->EanswerColor, palette().window().color()));
 }
 
 void TscoreWidget::setKeyViewBg(QColor C) {
@@ -248,7 +247,7 @@ void TscoreWidget::forceAccidental(Tnote::Eacidentals accid) {
 
 void TscoreWidget::prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName) {
     setKeySignature(fakeKey);
-    setKeyViewBg(gl->EanswerColor);
+//     setKeyViewBg(gl->EanswerColor);
     m_questKey = new QGraphicsTextItem();
 //     m_questKey->hide();
     keySignView->scene()->addItem(m_questKey);

@@ -22,21 +22,20 @@
 #include "tnoteview.h"
 #include "tkeysignatureview.h"
 #include "tkeysignature.h"
-#include "tglobals.h"
 #include <QtGui>
 //#include <QDebug>
 
-extern Tglobals *gl;
 
 
 /** This is count of notes witch can be shown on the whole widget*/
 const char _C = 36;
 
-TscoreWidgetSimple::TscoreWidgetSimple(unsigned char _notesCount, QWidget *parent):
+TscoreWidgetSimple::TscoreWidgetSimple(unsigned char _notesCount, QWidget *parent) :
     QWidget(parent)
 {
     setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Ignored);
     setMinimumHeight(180);
+    setBGcolor(palette().base().color());
 
     m_clef = new TclefView(this);
 
@@ -89,10 +88,10 @@ void TscoreWidgetSimple::paintEvent(QPaintEvent *) {
     painter.setWindow(0, 0, width(), height());
 
     painter.setPen(QPen(palette().color(palette().currentColorGroup(), QPalette::Text)));
-    QColor bg = palette().color(palette().currentColorGroup(), QPalette::Base); //.base().color();
-    bg.setAlpha(220);
+//     QColor bg = palette().color(palette().currentColorGroup(), QPalette::Base); //.base().color();
+//     bg.setAlpha(220);
 //     painter.setBrush(QBrush(palette().color(palette().currentColorGroup(), QPalette::Base), Qt::SolidPattern));
-    painter.setBrush(QBrush(bg));
+    painter.setBrush(QBrush(m_bgColor));
     painter.drawRoundedRect(1, 1, width() - 55, height() - 2, coeff, coeff);
 
     for (int i = 16; i < 26; i += 2)
@@ -268,7 +267,6 @@ void TscoreWidgetSimple::setKeySignature(TkeySignature keySign) {
 
 void TscoreWidgetSimple::setScoreDisabled(bool disabled) {
     if (disabled) {
-//        setDisabled(true);
         m_sharpBut->setDisabled(true);
         m_flatBut->setDisabled(true);
         m_dblSharpBut->setDisabled(true);
@@ -277,9 +275,8 @@ void TscoreWidgetSimple::setScoreDisabled(bool disabled) {
             noteViews[i]->setDisabled(true);
         if (keySignView)
             keySignView->setDisabled(true);
-		noteViews[0]->hideWorkNote();
+        noteViews[0]->hideWorkNote();
     } else {
-//        setDisabled(false);
         m_sharpBut->setDisabled(false);
         m_flatBut->setDisabled(false);
         m_dblSharpBut->setDisabled(false);
@@ -292,3 +289,8 @@ void TscoreWidgetSimple::setScoreDisabled(bool disabled) {
 }
 
 
+void TscoreWidgetSimple::setBGcolor(QColor bgColor) {
+  m_bgColor = bgColor;
+  m_bgColor.setAlpha(220);
+  update();
+}
