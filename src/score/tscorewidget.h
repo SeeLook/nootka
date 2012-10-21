@@ -21,6 +21,7 @@
 
 #include "tscorewidgetsimple.h"
 
+class TexclamationItem;
 class Tnote;
 class TkeySignature;
 class QGraphicsSimpleTextItem;
@@ -42,7 +43,7 @@ class TscoreWidget : public TscoreWidgetSimple
 {
     Q_OBJECT
 public:
-    explicit TscoreWidget(unsigned char _notesCount =1, QWidget* parent = 0);
+    explicit TscoreWidget(unsigned char _notesCount = 1, QWidget* parent = 0);
 
     void setEnableEnharmNotes(bool isEnabled);
     void acceptSettings();
@@ -63,6 +64,8 @@ public:
     void setNoteViewBg(int id, QColor C);
         /** Sets given accidental*/
     void forceAccidental(Tnote::Eacidentals accid);
+        /** Shows mark(s) on noteView and keyView. */
+    void showExclamationMarks(bool onNote = true, bool onKey = false);
 
 signals:
     void noteChanged(int index, Tnote note);
@@ -80,6 +83,7 @@ protected:
 private:
     QGraphicsSimpleTextItem *m_questMark;
     QGraphicsTextItem *m_questKey;
+    TexclamationItem *m_exclamOnNote, *m_exclamOnKey;
     void resizeQuestMark();
     void resizeKeyText();
 
