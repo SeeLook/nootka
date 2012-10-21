@@ -60,6 +60,14 @@ QColor Tglobals::invertColor(QColor C) {
     return C;
 }
 
+QColor Tglobals::mergeColors(QColor C1, QColor C2) {
+    qreal al = iV(C1.alpha()) + iV(C2.alpha() * (1 - iV(C1.alpha())));
+    return QColor(((iV(C1.red()) * iV(C1.alpha()) + iV(C2.red()) * iV(C2.alpha()) * (1 - iV(C1.alpha()))) / al) * 255,
+                  ((iV(C1.green()) * iV(C1.alpha()) + iV(C2.green()) * iV(C2.alpha()) * (1 - iV(C1.alpha()))) / al) * 255,
+                  ((iV(C1.blue()) * iV(C1.alpha()) + iV(C2.blue()) * iV(C2.alpha()) * (1 - iV(C1.alpha()))) / al) * 255,
+                  qMin(255, (int)(255 * al)));
+}
+
 /*end static*/
 
 
@@ -84,6 +92,7 @@ Tglobals::Tglobals() {
     config->beginGroup("common");
         hintsEnabled = config->value("enableHints", true).toBool(); //true;
         isFirstRun = config->value("isFirstRun", true).toBool();
+        useAnimations = config->value("useAnimations", true).toBool();
         lang = config->value("language", "").toString();
     config->endGroup();
 
@@ -218,6 +227,7 @@ void Tglobals::storeSettings() {
     config->beginGroup("common");
         config->setValue("enableHints", hintsEnabled);
         config->setValue("isFirstRun", isFirstRun);
+        config->setValue("useAnimations", useAnimations);
         config->setValue("doubleAccidentals", doubleAccidentalsEnabled);
         config->setValue("showEnaharmonicNotes", showEnharmNotes);
         config->setValue("enharmonicNotesColor", enharmNotesColor);

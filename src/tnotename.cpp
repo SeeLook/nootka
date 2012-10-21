@@ -28,17 +28,6 @@ extern Tglobals *gl;
 QString styleTxt, bgColorTxt;
 
 
-qreal iC(int ch) { return ch / 255.0; } // inverts value (0 - 255) to 0.0 - 1.0
-
-QColor mergeColors(QColor C1, QColor C2) {
-    qreal al = iC(C1.alpha()) + iC(C2.alpha() * (1 - iC(C1.alpha())));
-    return QColor(((iC(C1.red()) * iC(C1.alpha()) + iC(C2.red()) * iC(C2.alpha()) * (1 - iC(C1.alpha()))) / al) * 255,
-                  ((iC(C1.green()) * iC(C1.alpha()) + iC(C2.green()) * iC(C2.alpha()) * (1 - iC(C1.alpha()))) / al) * 255,
-                  ((iC(C1.blue()) * iC(C1.alpha()) + iC(C2.blue()) * iC(C2.alpha()) * (1 - iC(C1.alpha()))) / al) * 255,
-                  qMin(255, (int)(255 * al)));
-}
-
-
 /**static*/
 Tnote::EnameStyle TnoteName::m_style = Tnote::e_italiano_Si;
 const char * const TnoteName::octaves[6] = { QT_TR_NOOP("Contra"), QT_TR_NOOP("Great"), QT_TR_NOOP("Small"),
@@ -301,7 +290,7 @@ void TnoteName::askQuestion(Tnote note, Tnote::EnameStyle questStyle, char strNr
     if (strNr) sN = QString("  %1").arg((int)strNr);
     nameLabel->setText(nameLabel->text() +
                        QString(" <span style=\"color: %1; font-family: nootka;\">?%2</span>").arg(gl->EquestionColor.name()).arg(sN));
-    QColor questBg = mergeColors(gl->EquestionColor, palette().window().color());
+    QColor questBg = gl->mergeColors(gl->EquestionColor, palette().window().color());
     questBg.setAlpha(220);
     nameLabel->setStyleSheet(styleTxt + gl->getBGcolorText(questBg));
     uncheckAllButtons();
@@ -309,7 +298,7 @@ void TnoteName::askQuestion(Tnote note, Tnote::EnameStyle questStyle, char strNr
 }
 
 void TnoteName::prepAnswer(Tnote::EnameStyle answStyle, Tnote backNote) {
-    QColor answBg = mergeColors(gl->EanswerColor, palette().window().color());
+    QColor answBg = gl->mergeColors(gl->EanswerColor, palette().window().color());
     answBg.setAlpha(220);
     nameLabel->setStyleSheet(styleTxt + gl->getBGcolorText(answBg));
     setNoteNamesOnButt(answStyle);
