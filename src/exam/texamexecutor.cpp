@@ -398,7 +398,7 @@ void TexamExecutor::askQuestion() {
 
 // PREPARING ANSWERS
     if (curQ.answerAs == TQAtype::e_asNote) {
-        bool showExclamOnKEy = false;
+//         bool showExclamOnKEy = false;
         if (m_level.useKeySign) {
             if (m_level.manualKey) { // user have to manually secect a key
                 if (m_blackQuestNr == -1) // if black question key mode is defined
@@ -406,7 +406,7 @@ void TexamExecutor::askQuestion() {
                 mW->score->prepareKeyToAnswer(// we randomize some key to cover this expected one
                    (qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) + m_level.loKey.value(), curQ.key.getName());
                 m_answRequire.key = true;
-                showExclamOnKEy = true;
+//                 showExclamOnKEy = true;
             } else {
                 mW->score->setKeySignature(curQ.key);
 //                 mW->score->setKeyViewBg(gl->EquestionColor);
@@ -434,7 +434,7 @@ void TexamExecutor::askQuestion() {
         }
         mW->score->unLockScore();
 //         mW->score->setNoteViewBg(0, gl->EanswerColor);
-        mW->score->showExclamationMarks(true, showExclamOnKEy);
+//         mW->score->showExclamationMarks(true, showExclamOnKEy);
     }
 
     if (curQ.answerAs == TQAtype::e_asName) {
