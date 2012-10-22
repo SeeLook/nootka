@@ -199,14 +199,14 @@ void Tsound::stopPlaying() {
 //------------  private  methods     --------------------------------------------------
 //------------------------------------------------------------------------------------
 
-//  QThread *m_thread = 0;
+  QThread *m_thread = 0;
 
 void Tsound::createPlayer() {
-//   if (!m_thread)
-//       m_thread = new  QThread;
+   if (!m_thread)
+       m_thread = new  QThread;
   player = new TaudioOUT(gl->A, gl->path);
-//   player->moveToThread(m_thread);
-//   m_thread->start(QThread::HighPriority);
+   player->moveToThread(m_thread);
+   m_thread->start(QThread::HighPriority);
   connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinished()));
 }
 

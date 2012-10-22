@@ -174,7 +174,7 @@ void TexamView::setFontSize(int s) {
 //    m_averTimeLab->setFixedWidth(s * 3);
     m_totalTimeLab->setFixedWidth(s * 5);
 //     setMinimumHeight(okGr->height() + 5);
-    qDebug() << "TexamView:" << (qreal)width() / (qreal)height();
+
 }
 
 void TexamView::countTime() {
