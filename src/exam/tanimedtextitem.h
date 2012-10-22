@@ -28,12 +28,16 @@ class TanimedTextItem : public QObject, public QGraphicsSimpleTextItem
     Q_OBJECT
     Q_PROPERTY(int alpha READ alpha WRITE setAlpha)
     Q_PROPERTY(qreal scale READ scale WRITE setScale)
+    Q_PROPERTY(QPointF pos READ pos WRITE setPos)
     
 public:
   TanimedTextItem();
   virtual ~TanimedTextItem();
   int alpha();
   void setAlpha(int al);
+  
+protected:
+  virtual void hoverEnterEvent(QGraphicsSceneHoverEvent*);
 };
 
 #endif // TANIMEDTEXTITEM_H
