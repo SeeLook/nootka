@@ -21,6 +21,7 @@
 #include "tqaunit.h"
 #include "texam.h"
 #include "tquestiontip.h"
+#include "tanimedtextitem.h"
 #include "tgraphicstexttip.h"
 #include "mainwindow.h"
 #include "tnotepixmap.h"
@@ -32,6 +33,7 @@
 #include "tpitchview.h"
 #include <QDebug>
 #include <QTimer>
+#include <qpropertyanimation.h>
 
 
 
@@ -42,15 +44,16 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   m_parent(parent),
   m_resultTip(0), m_startTip(0), m_whatTip(0),
   m_questionTip(0), m_tryAgainTip(0),
-  m_scale(1), 
-  m_questRect(0), m_answRect(0)
+  m_scale(1),
+  m_flyQuestion(0), m_flyAnswer(0)
 {
-  setAttribute(Qt::WA_TransparentForMouseEvents);
+//   setAttribute(Qt::WA_TransparentForMouseEvents);
   setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setFrameShape(QFrame::NoFrame);
   setStyleSheet(("background: transparent"));
   setRenderHint(QPainter::TextAntialiasing, true);
+  setMouseTracking(true);
     
   m_scene = new QGraphicsScene();
   setScene(m_scene);
@@ -163,7 +166,7 @@ void Tcanvas::questionTip(Texam* exam) {
   m_questionTip = new TquestionTip(exam, m_scale);
   m_scene->addItem(m_questionTip);
   setPosOfQuestionTip();
-//   markQuestion(exam->curQ().questionAs);
+  markQuestion(exam->curQ().questionAs, exam->curQ().answerAs);
 }
 
 
@@ -202,24 +205,28 @@ void Tcanvas::clearTryAgainTip() {
     }
 }
 
-void Tcanvas::markAnswer(TQAtype::Etype kindOf) {
 
-}
-
-
-void Tcanvas::markQuestion(TQAtype::Etype kindOf) {
-  m_kindOfQuest = kindOf;
-  if (!m_questRect) {
-    m_questRect = new QGraphicsRectItem;
-    m_scene->addItem(m_questRect);
-    QColor qC = gl->EquestionColor.name();
-    qC.setAlpha(200);
-    m_questRect->setPen(QPen(qC, 3));
-    m_questRect->pen().setJoinStyle(Qt::RoundJoin);;
-    m_questRect->setBrush(Qt::NoBrush);
-  }
-  m_questRect->setRect(getRect(kindOf));  
-  m_parent->update();
+TQAtype::Etype m_aType;
+void Tcanvas::markQuestion(TQAtype::Etype qType, TQAtype::Etype aType) {
+  m_flyQuestion = new TanimedTextItem();
+  m_flyQuestion->setText("?");
+  m_flyQuestion->setFont(QFont("nootka", width() / 18));
+  m_flyQuestion->setBrush(QColor(gl->EquestionColor.name()));
+  scene()->addItem(m_flyQuestion);
+  QPropertyAnimation *movPos = new QPropertyAnimation(m_flyQuestion, "pos");
+  movPos->setDuration(500);
+  movPos->setStartValue(getRect(qType).center());
+  movPos->setEndValue(geometry().center());
+  movPos->setEasingCurve(QEasingCurve::InCirc);
+  QPropertyAnimation *movScale = new QPropertyAnimation(m_flyQuestion, "scale");
+  movScale->setDuration(500);
+  movScale->setStartValue(3);
+  movScale->setEndValue(1.5);
+  movScale->setEasingCurve(QEasingCurve::InBack);
+  movPos->start();
+  movScale->start();
+  m_aType = aType;
+  QTimer::singleShot(550, this, SLOT(delayedAnswer()));
 }
   
 const QRect& Tcanvas::getRect(TQAtype::Etype kindOf) {
@@ -237,7 +244,25 @@ const QRect& Tcanvas::getRect(TQAtype::Etype kindOf) {
 
 
 void Tcanvas::delayedAnswer() { // [slot]
-
+//     if (m_flyQuestion)
+//         delete m_flyQuestion;
+    m_flyAnswer = new TanimedTextItem();
+    m_flyAnswer->setText("!");
+    m_flyAnswer->setFont(QFont("nootka", width() / 18));
+    m_flyAnswer->setBrush(QColor(gl->EanswerColor.name()));
+    scene()->addItem(m_flyAnswer);
+    QPropertyAnimation *movPos = new QPropertyAnimation(m_flyAnswer, "pos");
+    movPos->setDuration(500);
+    movPos->setStartValue(geometry().center());
+    movPos->setEndValue(getRect(m_aType).center());
+    movPos->setEasingCurve(QEasingCurve::OutCirc);
+    QPropertyAnimation *movScale = new QPropertyAnimation(m_flyAnswer, "scale");
+    movScale->setDuration(500);
+    movScale->setStartValue(1.5);
+    movScale->setEndValue(3);
+    movScale->setEasingCurve(QEasingCurve::OutBack);
+    movPos->start();
+    movScale->start();
 }
 
 
@@ -282,9 +307,10 @@ void Tcanvas::sizeChanged(QSize newSize) {
     m_scene->addItem(m_questionTip);
     setPosOfQuestionTip();
   }
-  if (m_questRect) {
-    m_questRect->setRect(getRect(m_kindOfQuest));
-  }
+  if (m_flyQuestion)
+    delete m_flyQuestion;
+  if  (m_flyAnswer)
+    delete m_flyAnswer;
 
 }
 

@@ -19,15 +19,14 @@
 #include "tanimedtextitem.h"
 #include <QPen>
 
-TanimedTextItem::TanimedTextItem()
+TanimedTextItem::TanimedTextItem() :
+  QGraphicsSimpleTextItem()
 {
-
+  setAcceptHoverEvents(true);
 }
 
 TanimedTextItem::~TanimedTextItem()
-{
-
-}
+{}
 
 int TanimedTextItem::alpha() {
   return pen().color().alpha();
@@ -35,6 +34,11 @@ int TanimedTextItem::alpha() {
 
 void TanimedTextItem::setAlpha(int al) {
   pen().color().setAlpha(al);
+}
+
+
+void TanimedTextItem::hoverEnterEvent(QGraphicsSceneHoverEvent* ) {
+  hide();
 }
 
 

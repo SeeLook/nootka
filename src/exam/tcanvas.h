@@ -23,6 +23,7 @@
 #include <QGraphicsView>
 #include "tqatype.h"
 
+class TanimedTextItem;
 class QTimer;
 class Texam;
 class TquestionTip;
@@ -57,10 +58,8 @@ public:
     QFont tipFont(qreal factor = 1);
     QString startTipText();
         /** Paints rect around given type of widget to mark where is question. */
-    void markQuestion(TQAtype::Etype kindOf);
+    void markQuestion(TQAtype::Etype qType, TQAtype::Etype aType);
         /** Paints rect around given type of widget to mark where is answer. */
-    void markAnswer(TQAtype::Etype kindOf);
-        /** Returns a geometry of given type of Nootka GUI. */
     const QRect& getRect(TQAtype::Etype kindOf);
     
 public slots:
@@ -80,9 +79,8 @@ private:
     TquestionTip *m_questionTip;
     Texam *m_exam;
     QTimer *m_noteTimer;
-    QGraphicsRectItem *m_questRect, *m_answRect;
-    QGraphicsSimpleTextItem *m_flyQuestion, *m_flyAbswer;
-    TQAtype::Etype m_kindOfQuest, m_kindOfAnsw;
+    TanimedTextItem *m_flyQuestion, *m_flyAnswer;
+//     TQAtype::Etype m_kindOfQuest, m_kindOfAnsw;
     
     
 private:

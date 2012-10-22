@@ -21,7 +21,6 @@
 #include "tkeysignatureview.h"
 #include "tglobals.h"
 #include "tkeysignature.h"
-#include "texclamationitem.h"
 #include "tgraphicstexttip.h"
 #include <QtGui>
 
@@ -180,14 +179,6 @@ void TscoreWidget::askQuestion(Tnote note, TkeySignature key, char realStr) {
     askQuestion(note, realStr);
 }
 
-void TscoreWidget::showExclamationMarks(bool onNote, bool onKey) {
-    if (onNote) {
-      m_exclamOnNote = new TexclamationItem(noteViews[0]->scene(), gl->EanswerColor);
-    }
-    if (onKey && keySignView) {
-      m_exclamOnKey = new TexclamationItem(keySignView->scene(), gl->EanswerColor);
-    }
-}
 
 
 void TscoreWidget::clearScore() {
@@ -205,18 +196,10 @@ void TscoreWidget::clearScore() {
           delete m_questKey;
           m_questKey = 0;
         }
-        if (m_exclamOnKey) {
-          delete m_exclamOnKey;
-          m_exclamOnKey = 0;
-        }
     }
     changeAccidButtonsState(0); // reset buttons with accidentals
     m_questMark->hide();
     setBGcolor(palette().base().color());
-    if (m_exclamOnNote) {
-        delete m_exclamOnNote;
-        m_exclamOnNote = 0;
-    }
 }
 
 void TscoreWidget::isExamExecuting(bool isIt) {
@@ -232,8 +215,6 @@ void TscoreWidget::isExamExecuting(bool isIt) {
         m_questMark->setBrush(QBrush(c));
         m_questMark->setText("?");
         resizeQuestMark();
-        m_exclamOnKey = 0;
-        m_exclamOnNote = 0;
     }
     else {
         connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));

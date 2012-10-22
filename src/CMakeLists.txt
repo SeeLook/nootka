@@ -19,7 +19,7 @@ SET( NOOTKA_SRCS
   score/tkeysignature.cpp
   score/tclefview.cpp
   score/tpushbutton.cpp
-  score/texclamationitem.cpp
+#   score/texclamationitem.cpp
 #  score/tscordatureview.cpp
 ###### Settings
   settings/settingsdialog.cpp
@@ -53,7 +53,7 @@ SET( NOOTKA_SRCS
   exam/texecutorsupply.cpp
   exam/tquestiontip.cpp
   exam/tcanvas.cpp
-#  exam/tanimedtextitem.cpp
+  exam/tanimedtextitem.cpp
   exam/tprogresswidget.cpp
 ###### Info
   info/taboutnootka.cpp
@@ -154,6 +154,7 @@ SET( NOOTKA_MOC_SRCS
   exam/tcanvas.h
   exam/tprogresswidget.h
   exam/tquestiontip.h
+  exam/tanimedtextitem.h
 ###### Info
   info/taboutnootka.h
   info/tfirstrunwizzard.h
