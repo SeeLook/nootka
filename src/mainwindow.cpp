@@ -533,10 +533,10 @@ void MainWindow::updsateSize() {
     score->setFixedWidth((centralWidget()->height() - nootBar->height() - pitchView->height() -
                           ((centralWidget()->height() - nootBar->height()) * 0.25))  / 1.2 + 56);
     
-    int posX = score->width() + 2;
+    int posX = score->x() + score->width() + 20;
     int gapY = centralWidget()->height() / 100;
 
-    m_statLab->setGeometry(posX, 7, centralWidget()->width() - posX - 30, centralWidget()->height() / 9);
+    m_statLab->setGeometry(posX, 7, centralWidget()->width() - posX - 40 - score->x(), centralWidget()->height() / 9);
 
     QFont f = m_statLab->font();
     f.setPointSize(m_statFontSize);

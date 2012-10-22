@@ -33,7 +33,9 @@ int TanimedTextItem::alpha() {
 }
 
 void TanimedTextItem::setAlpha(int al) {
-  pen().color().setAlpha(al);
+  QColor cc = brush().color();
+  cc.setAlpha(al);
+  setBrush(cc);
 }
 
 

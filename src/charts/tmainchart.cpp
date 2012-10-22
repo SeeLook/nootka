@@ -59,20 +59,33 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
       averLine->setPen(QPen(averColor, 3));
       averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime() / 10.0),
           xAxis->mapValue(m_exam->count()) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime() / 10.0));
-      QPolygonF polygon;
-      double aTime = 0;
+//      QPolygonF polygon;
+      double aTime = 0 , prev = m_exam->question(0).time / 10.0;
       for(int i = 0; i < m_exam->count(); i++) {
         aTime = (aTime * (i) + (m_exam->question(i).time / 10)) / (i + 1);
-        polygon << QPointF(xAxis->mapValue(i + 1), yAxis->mapValue(aTime));        
+        if (i == 0)
+            continue;
+//        polygon << QPointF(xAxis->mapValue(i + 1), yAxis->mapValue(aTime));
+      QGraphicsLineItem *averProgress = new QGraphicsLineItem;
+            scene->addItem(averProgress);
+            averProgress->setPen(QPen(averColor, 1));
+//            averColor.setAlpha(200);
+//            averProgress->setBrush(averColor);
+            averProgress->setLine(xAxis->mapValue(i) + xAxis->pos().x(), yAxis->mapValue(prev),
+                                  xAxis->mapValue(i + 1) + xAxis->pos().x(), yAxis->mapValue(aTime));
+      //      averProgress->setPolygon(polygon);
+            averProgress->setZValue(10);
+            prev = aTime;
       }
-      polygon << QPointF(averLine->line().p1());
-      QGraphicsPolygonItem *averProgress = new QGraphicsPolygonItem;
-      scene->addItem(averProgress);
-      averProgress->setPen(QPen(averColor, 0.5));
-      averColor.setAlpha(200);
-      averProgress->setBrush(averColor);
-      averProgress->setPolygon(polygon);
-      averProgress->setZValue(10);      
+      qDebug() << aTime << m_exam->averageReactonTime() / 10.0;
+//      polygon << QPointF(averLine->line().p1());
+//      QGraphicsPolygonItem *averProgress = new QGraphicsPolygonItem;
+//      scene->addItem(averProgress);
+//      averProgress->setPen(QPen(averColor, 1));
+//      averColor.setAlpha(200);
+//      averProgress->setBrush(averColor);
+//      averProgress->setPolygon(polygon);
+//      averProgress->setZValue(10);
   }
   
   if (m_settings.order == e_byNote || m_settings.order == e_byFret ||
