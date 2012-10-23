@@ -55,17 +55,16 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   setStyleSheet(("background: transparent"));
   setRenderHint(QPainter::TextAntialiasing, true);
 //  setMouseTracking(true);
-    
   m_scene = new QGraphicsScene();
   setScene(m_scene);
   sizeChanged(parent->centralWidget()->size());
-  qDebug("constr");
   m_animation = new QParallelAnimationGroup(this);
   m_flyAnswer = new TanimedTextItem();
   m_flyAnswer->setText("!");
   m_flyAnswer->setFont(QFont("nootka", width() / 18));
   m_flyAnswer->setBrush(QColor(gl->EanswerColor.name()));
   scene()->addItem(m_flyAnswer);
+  m_flyAnswer->hide();
   QPropertyAnimation *movPos = new QPropertyAnimation(m_flyAnswer, "pos");
     movPos->setDuration(1000);
     movPos->setEasingCurve(QEasingCurve::OutCirc);
@@ -82,7 +81,6 @@ Tcanvas::Tcanvas(MainWindow* parent) :
     m_animation->addAnimation(movPos);
     m_animation->addAnimation(movScale);
     m_animation->addAnimation(movAlpha);
-    qDebug("done");
   
   connect(parent, SIGNAL(sizeChanged(QSize)), this, SLOT(sizeChanged(QSize)));
 }
@@ -147,6 +145,7 @@ QString Tcanvas::startTipText() {
 
 
 void Tcanvas::startTip() {
+  qDebug("startTip");
   m_startTip = new TgraphicsTextTip(QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75)) + startTipText() + "</p>", palette().highlight().color());
   m_scene->addItem(m_startTip);
   m_startTip->setScale(m_scale);
@@ -232,7 +231,7 @@ void Tcanvas::clearTryAgainTip() {
 
 
 void Tcanvas::markAnswer(TQAtype::Etype qType, TQAtype::Etype aType) {
-  qDebug("markAnswer");
+    m_flyAnswer->show();
     QPoint qCenter, anCenter;
     qCenter = getRect(qType).center();
     anCenter = getRect(aType).center();
@@ -297,7 +296,10 @@ void Tcanvas::sizeChanged(QSize newSize) {
     m_scene->addItem(m_questionTip);
     setPosOfQuestionTip();
   }
-  m_animation->stop();
+  if (m_flyAnswer) {
+    m_flyAnswer->hide();
+    m_flyAnswer->setFont(QFont("nootka", width() / 18));
+  }
 }
 
 //######################################################################
@@ -336,7 +338,6 @@ void Tcanvas::setPosOfStartTip() {
 
 
 void Tcanvas::setPosOfQuestionTip() {
-  qDebug("setPosOfQuestionTip");
   if (m_questionTip->boundingRect().height() * m_scale > m_parent->guitar->geometry().height())
     m_questionTip->setScale(m_parent->guitar->geometry().height() / (m_questionTip->boundingRect().height() * m_scale));
   QPoint pos;
@@ -346,7 +347,7 @@ void Tcanvas::setPosOfQuestionTip() {
         off = m_scene->width() / 8;
       pos = QPoint((m_scene->width() - (m_questionTip->boundingRect().width())) / 2 + off, 
                    m_parent->guitar->geometry().y() + 
-                   (m_parent->guitar->geometry().height() * m_scale - m_questionTip->boundingRect().height()) / 2);
+                   (m_parent->guitar->geometry().height() - m_scale * m_questionTip->boundingRect().height()) / 2);
   }
     else
       if (m_questionTip->freeName())

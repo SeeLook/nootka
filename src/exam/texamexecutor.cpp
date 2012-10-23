@@ -719,7 +719,6 @@ void TexamExecutor::repeatQuestion() {
 
 
 void TexamExecutor::prepareToExam() {
-    m_canvas = new Tcanvas(mW);
     mW->setWindowTitle(tr("EXAM!!") + " " + m_exam->userName() + " - " + m_level.name);
     mW->setStatusMessage(tr("exam started on level") + ":<br><b>" + m_level.name + "</b>");
 
@@ -786,6 +785,7 @@ void TexamExecutor::prepareToExam() {
     m_soundTimer = new QTimer(this);
     connect(m_soundTimer, SIGNAL(timeout()), this, SLOT(startSniffing()));
 
+    m_canvas = new Tcanvas(mW);
     m_canvas->show();
     if(gl->hintsEnabled)
         m_canvas->startTip();
