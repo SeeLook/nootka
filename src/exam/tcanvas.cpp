@@ -33,7 +33,8 @@
 #include "tpitchview.h"
 #include <QDebug>
 #include <QTimer>
-#include <qpropertyanimation.h>
+#include <QPropertyAnimation>
+#include <QParallelAnimationGroup>
 
 
 
@@ -45,7 +46,7 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   m_resultTip(0), m_startTip(0), m_whatTip(0),
   m_questionTip(0), m_tryAgainTip(0),
   m_scale(1),
-  m_flyQuestion(0), m_flyAnswer(0)
+  m_flyAnswer(0), m_animation(0)
 {
   setAttribute(Qt::WA_TransparentForMouseEvents);
   setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -58,6 +59,30 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   m_scene = new QGraphicsScene();
   setScene(m_scene);
   sizeChanged(parent->centralWidget()->size());
+  qDebug("constr");
+  m_animation = new QParallelAnimationGroup(this);
+  m_flyAnswer = new TanimedTextItem();
+  m_flyAnswer->setText("!");
+  m_flyAnswer->setFont(QFont("nootka", width() / 18));
+  m_flyAnswer->setBrush(QColor(gl->EanswerColor.name()));
+  scene()->addItem(m_flyAnswer);
+  QPropertyAnimation *movPos = new QPropertyAnimation(m_flyAnswer, "pos");
+    movPos->setDuration(1000);
+    movPos->setEasingCurve(QEasingCurve::OutCirc);
+    QPropertyAnimation *movScale = new QPropertyAnimation(m_flyAnswer, "scale");
+    movScale->setDuration(1000);
+    movScale->setStartValue(4.0);
+    movScale->setEndValue(0.3);
+//    movScale->setEasingCurve(QEasingCurve::InCirc);
+    QPropertyAnimation *movAlpha = new QPropertyAnimation(m_flyAnswer, "alpha");
+    movAlpha->setDuration(1200);
+    movAlpha->setStartValue(255);
+    movAlpha->setEndValue(0);
+    movAlpha->setEasingCurve(QEasingCurve::InExpo);
+    m_animation->addAnimation(movPos);
+    m_animation->addAnimation(movScale);
+    m_animation->addAnimation(movAlpha);
+    qDebug("done");
   
   connect(parent, SIGNAL(sizeChanged(QSize)), this, SLOT(sizeChanged(QSize)));
 }
@@ -84,8 +109,6 @@ QFont Tcanvas::tipFont(qreal factor) {
 void Tcanvas::resultTip(TQAunit* answer, int time) {
   if (m_resultTip)
     delete m_resultTip;
-  if (m_flyAnswer)
-      delete m_flyAnswer;
   clearTryAgainTip();
   QColor answColor;
   if (answer->isCorrect())
@@ -168,7 +191,7 @@ void Tcanvas::questionTip(Texam* exam) {
   m_questionTip = new TquestionTip(exam, m_scale);
   m_scene->addItem(m_questionTip);
   setPosOfQuestionTip();
-  markQuestion(exam->curQ().questionAs, exam->curQ().answerAs);
+  markAnswer(exam->curQ().questionAs, exam->curQ().answerAs);
 }
 
 
@@ -208,29 +231,17 @@ void Tcanvas::clearTryAgainTip() {
 }
 
 
-TQAtype::Etype m_aType;
-void Tcanvas::markQuestion(TQAtype::Etype qType, TQAtype::Etype aType) {
-  m_flyQuestion = new TanimedTextItem();
-  m_flyQuestion->setText("?");
-  m_flyQuestion->setFont(QFont("nootka", width() / 18));
-  m_flyQuestion->setBrush(QColor(gl->EquestionColor.name()));
-  scene()->addItem(m_flyQuestion);
-//  QPropertyAnimation *movPos = new QPropertyAnimation(m_flyQuestion, "pos");
-//  movPos->setDuration(500);
-//  movPos->setStartValue(getRect(qType).center());
-//  movPos->setEndValue(geometry().center());
-//  movPos->setEasingCurve(QEasingCurve::InCirc);
-  QPoint pp = getRect(qType).center();
-  m_flyQuestion->setPos(pp.x() - m_flyQuestion->boundingRect().width() * 1.5, pp.y() - m_flyQuestion->boundingRect().height() * 1.5);
-  QPropertyAnimation *movScale = new QPropertyAnimation(m_flyQuestion, "scale");
-  movScale->setDuration(500);
-  movScale->setStartValue(3.0);
-  movScale->setEndValue(0.5);
-//  movScale->setEasingCurve(QEasingCurve::InBack);
-//  movPos->start();
-  movScale->start();
-  m_aType = aType;
-  QTimer::singleShot(550, this, SLOT(delayedAnswer()));
+void Tcanvas::markAnswer(TQAtype::Etype qType, TQAtype::Etype aType) {
+  qDebug("markAnswer");
+    QPoint qCenter, anCenter;
+    qCenter = getRect(qType).center();
+    anCenter = getRect(aType).center();
+    QPropertyAnimation* anim = static_cast<QPropertyAnimation*>(m_animation->animationAt(0));
+    anim->setStartValue(QPoint(qCenter.x() - (m_flyAnswer->boundingRect().width() * 2),
+                                qCenter.y() - (m_flyAnswer->boundingRect().height() * 2)));
+    anim->setEndValue(QPoint(anCenter.x() - (m_flyAnswer->boundingRect().width() * 0.15),
+                                anCenter.y() - (m_flyAnswer->boundingRect().height() * 0.15)));
+    m_animation->start();
 }
   
 const QRect& Tcanvas::getRect(TQAtype::Etype kindOf) {
@@ -245,41 +256,6 @@ const QRect& Tcanvas::getRect(TQAtype::Etype kindOf) {
       return m_parent->pitchView->geometry();
   }
 }
-
-
-void Tcanvas::delayedAnswer() { // [slot]
-     if (m_flyQuestion)
-         delete m_flyQuestion;
-    m_flyAnswer = new TanimedTextItem();
-    m_flyAnswer->setText("!");
-    m_flyAnswer->setFont(QFont("nootka", width() / 18));
-    m_flyAnswer->setBrush(QColor(gl->EanswerColor.name()));
-    scene()->addItem(m_flyAnswer);
-//    QPropertyAnimation *movPos = new QPropertyAnimation(m_flyAnswer, "pos");
-//    movPos->setDuration(1000);
-//    movPos->setStartValue(geometry().center());
-//    QPoint cent = getRect(m_aType).center();
-//    movPos->setEndValue(QPoint(cent.x() - (m_flyAnswer->boundingRect().width() * 1.5),
-//                               cent.y() - (m_flyAnswer->boundingRect().height() * 1.5)));
-//    movPos->setEasingCurve(QEasingCurve::OutCirc);
-    QPoint cent = getRect(m_aType).center();
-    m_flyAnswer->setPos(cent.x() - (m_flyAnswer->boundingRect().width() * 1.5), cent.y() - (m_flyAnswer->boundingRect().height() * 1.5));
-    QPropertyAnimation *movScale = new QPropertyAnimation(m_flyAnswer, "scale");
-    movScale->setDuration(1000);
-    movScale->setStartValue(0.5);
-    movScale->setEndValue(3.0);
-//    movScale->setEasingCurve(QEasingCurve::InCirc);
-    QPropertyAnimation *movAlpha = new QPropertyAnimation(m_flyAnswer, "alpha");
-    movAlpha->setDuration(1000);
-    movAlpha->setStartValue(250);
-    movAlpha->setEndValue(1);
-    movAlpha->setEasingCurve(QEasingCurve::InExpo);
-    movAlpha->start();
-    movScale->start();
-//    movPos->start();
-}
-
-
 
 void Tcanvas::clearNoteTip() {
 
@@ -321,11 +297,7 @@ void Tcanvas::sizeChanged(QSize newSize) {
     m_scene->addItem(m_questionTip);
     setPosOfQuestionTip();
   }
-//  if (m_flyQuestion)
-//    m_flyQuestion->deleteLater();
-//  if  (m_flyAnswer)
-//    m_flyAnswer->deleteLater();
-
+  m_animation->stop();
 }
 
 //######################################################################
@@ -364,15 +336,17 @@ void Tcanvas::setPosOfStartTip() {
 
 
 void Tcanvas::setPosOfQuestionTip() {
-  if (m_questionTip->boundingRect().height() > m_parent->guitar->geometry().height())
-    m_questionTip->setScale(m_parent->guitar->geometry().height() / m_questionTip->boundingRect().height());
+  qDebug("setPosOfQuestionTip");
+  if (m_questionTip->boundingRect().height() * m_scale > m_parent->guitar->geometry().height())
+    m_questionTip->setScale(m_parent->guitar->geometry().height() / (m_questionTip->boundingRect().height() * m_scale));
   QPoint pos;
   if (m_questionTip->freeGuitar()) {
       int off = 0;
       if (m_exam->curQ().answerAs == TQAtype::e_asSound)
         off = m_scene->width() / 8;
       pos = QPoint((m_scene->width() - (m_questionTip->boundingRect().width())) / 2 + off, 
-                   m_parent->guitar->geometry().y() + (m_parent->guitar->geometry().height() - m_questionTip->boundingRect().height()) / 2);
+                   m_parent->guitar->geometry().y() + 
+                   (m_parent->guitar->geometry().height() * m_scale - m_questionTip->boundingRect().height()) / 2);
   }
     else
       if (m_questionTip->freeName())
