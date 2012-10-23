@@ -50,7 +50,7 @@ Tsound::~Tsound()
   deleteSniffer();
   deletePlayer();
   m_thread->quit();
-  delete m_thread;
+  m_thread->deleteLater();
 }
 
 //------------------------------------------------------------------------------------
