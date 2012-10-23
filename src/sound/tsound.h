@@ -21,6 +21,7 @@
 #include <QObject>
 #include "tnote.h"
 
+class QThread;
 class TpitchView;
 class TaudioIN;
 class TaudioOUT;
@@ -79,6 +80,7 @@ private:
   
   TpitchView *m_pitchView;
   Tnote m_detNote; // detected note
+  QThread *m_thread;
   
 private slots:
     /** Is performed when note stops playing, then sniffing is unlocked */

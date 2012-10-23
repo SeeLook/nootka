@@ -23,6 +23,7 @@
 #include <QGraphicsView>
 #include "tqatype.h"
 
+class QParallelAnimationGroup;
 class TanimedTextItem;
 class QTimer;
 class Texam;
@@ -57,8 +58,8 @@ public:
         /** Returns default font with point size scaled to 'A' letter multipled by given factor. */
     QFont tipFont(qreal factor = 1);
     QString startTipText();
-        /** Paints rect around given type of widget to mark where is question. */
-    void markQuestion(TQAtype::Etype qType, TQAtype::Etype aType);
+        /** Paints animated exclamation mark over answering widged. */
+    void markAnswer(TQAtype::Etype qType, TQAtype::Etype aType);
         /** Paints rect around given type of widget to mark where is answer. */
     const QRect& getRect(TQAtype::Etype kindOf);
     
@@ -66,7 +67,6 @@ public slots:
     void clearResultTip(); // cleanes tip with results
     void clearNoteTip();
     void clearTryAgainTip();
-    void delayedAnswer();
     
 protected slots:
     void sizeChanged(QSize newSize);
@@ -79,8 +79,8 @@ private:
     TquestionTip *m_questionTip;
     Texam *m_exam;
     QTimer *m_noteTimer;
-    TanimedTextItem *m_flyQuestion, *m_flyAnswer;
-//     TQAtype::Etype m_kindOfQuest, m_kindOfAnsw;
+    TanimedTextItem *m_flyAnswer;
+    QParallelAnimationGroup *m_animation;
     
     
 private:

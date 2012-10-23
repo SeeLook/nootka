@@ -30,7 +30,8 @@
 extern Tglobals *gl;
 
 Tsound::Tsound(QObject* parent) :
-  QObject(parent)
+  QObject(parent),
+  m_thread(0)
 {
   if (gl->A->OUTenabled)
       createPlayer();
@@ -199,15 +200,15 @@ void Tsound::stopPlaying() {
 //------------  private  methods     --------------------------------------------------
 //------------------------------------------------------------------------------------
 
-  QThread *m_thread = 0;
+  
 
 void Tsound::createPlayer() {
-   if (!m_thread)
-       m_thread = new  QThread;
-  player = new TaudioOUT(gl->A, gl->path);
+    if (!m_thread)
+        m_thread = new  QThread;
+    player = new TaudioOUT(gl->A, gl->path);
    player->moveToThread(m_thread);
    m_thread->start(QThread::HighPriority);
-  connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinished()));
+   connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinished()));
 }
 
 void Tsound::createSniffer() {
@@ -222,10 +223,11 @@ void Tsound::createSniffer() {
 }
 
 void Tsound::deletePlayer() {
-//   if (m_thread) {
-//     m_thread->quit();
-//     delete m_thread;
-//   }
+  if (m_thread) {
+    m_thread->quit();
+    delete m_thread;
+    m_thread = 0;
+  }
   delete player;
   player = 0;
 }
