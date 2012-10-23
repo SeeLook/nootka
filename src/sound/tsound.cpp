@@ -22,6 +22,7 @@
 #include "taudioparams.h"
 #include "tpitchview.h"
 #include <QPushButton>
+// #include <QApplication>
 #include <QThread>
 #include <QTimer>
 #include <QAudioInput>
@@ -31,7 +32,7 @@ extern Tglobals *gl;
 
 Tsound::Tsound(QObject* parent) :
   QObject(parent),
-  m_thread(0)
+  m_thread(new QThread())
 {
   if (gl->A->OUTenabled)
       createPlayer();
@@ -48,6 +49,8 @@ Tsound::~Tsound()
 { //They have not a prent
   deleteSniffer();
   deletePlayer();
+  m_thread->quit();
+  delete m_thread;
 }
 
 //------------------------------------------------------------------------------------
@@ -72,7 +75,9 @@ void Tsound::acceptSettings() {
     if (!player)
         createPlayer();
     else {
-        player->setAudioOutParams(gl->A);
+//         player->setAudioOutParams(gl->A);
+        deletePlayer();
+        createPlayer();
         if (!player->isPlayable())
           deletePlayer();
     }
@@ -203,12 +208,10 @@ void Tsound::stopPlaying() {
   
 
 void Tsound::createPlayer() {
-    if (!m_thread)
-        m_thread = new  QThread;
     player = new TaudioOUT(gl->A, gl->path);
-   player->moveToThread(m_thread);
-   m_thread->start(QThread::HighPriority);
-   connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinished()));
+    player->moveToThread(m_thread);
+    m_thread->start(QThread::HighPriority);
+    connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinished()));
 }
 
 void Tsound::createSniffer() {
@@ -223,12 +226,10 @@ void Tsound::createSniffer() {
 }
 
 void Tsound::deletePlayer() {
-  if (m_thread) {
-    m_thread->quit();
-    delete m_thread;
-    m_thread = 0;
-  }
-  delete player;
+  player->stop();
+  m_thread->quit();
+//   delete player;
+  player->deleteLater();
   player = 0;
 }
 
