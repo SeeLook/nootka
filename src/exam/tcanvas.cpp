@@ -46,7 +46,8 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   m_resultTip(0), m_startTip(0), m_whatTip(0),
   m_questionTip(0), m_tryAgainTip(0),
   m_scale(1),
-  m_flyAnswer(0), m_animation(0)
+  m_flyAnswer(0), m_animation(0),
+  m_flyNote(0)
 {
   setAttribute(Qt::WA_TransparentForMouseEvents);
   setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -66,15 +67,15 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   scene()->addItem(m_flyAnswer);
   m_flyAnswer->hide();
   QPropertyAnimation *movPos = new QPropertyAnimation(m_flyAnswer, "pos");
-    movPos->setDuration(1000);
+    movPos->setDuration(800);
     movPos->setEasingCurve(QEasingCurve::OutCirc);
     QPropertyAnimation *movScale = new QPropertyAnimation(m_flyAnswer, "scale");
-    movScale->setDuration(1000);
+    movScale->setDuration(800);
     movScale->setStartValue(4.0);
     movScale->setEndValue(0.3);
-//    movScale->setEasingCurve(QEasingCurve::InCirc);
+    movScale->setEasingCurve(QEasingCurve::InCirc);
     QPropertyAnimation *movAlpha = new QPropertyAnimation(m_flyAnswer, "alpha");
-    movAlpha->setDuration(1200);
+    movAlpha->setDuration(1000);
     movAlpha->setStartValue(255);
     movAlpha->setEndValue(0);
     movAlpha->setEasingCurve(QEasingCurve::InExpo);
@@ -145,7 +146,6 @@ QString Tcanvas::startTipText() {
 
 
 void Tcanvas::startTip() {
-  qDebug("startTip");
   m_startTip = new TgraphicsTextTip(QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75)) + startTipText() + "</p>", palette().highlight().color());
   m_scene->addItem(m_startTip);
   m_startTip->setScale(m_scale);
@@ -170,8 +170,35 @@ void Tcanvas::whatNextTip(bool isCorrect, bool onRight) {
   setPosOfWhatTip();
 }
 
-void Tcanvas::noteTip(int time) {
 
+void Tcanvas::noteTip(int time) {
+  if (m_flyNote)
+    delete m_flyNote;
+  QParallelAnimationGroup *animation = new QParallelAnimationGroup(this);
+  m_flyNote = new TanimedTextItem();
+  m_flyNote->setText("n");
+  m_flyNote->setFont(QFont("nootka", width() / 18));
+  m_flyNote->setBrush(palette().highlight().color());
+  scene()->addItem(m_flyNote);
+  QPropertyAnimation *movPos = new QPropertyAnimation(m_flyNote, "pos");
+    movPos->setDuration(time);
+    movPos->setStartValue(QPoint(width() + 10, 10));
+    movPos->setEndValue(getRect(TQAtype::e_asSound).center());
+    movPos->setEasingCurve(QEasingCurve::OutCirc);
+    QPropertyAnimation *movScale = new QPropertyAnimation(m_flyNote, "scale");
+    movScale->setDuration(time);
+    movScale->setStartValue(5.0);
+    movScale->setEndValue(0.1);
+    movScale->setEasingCurve(QEasingCurve::InCirc);
+//     QPropertyAnimation *movAlpha = new QPropertyAnimation(m_flyAnswer, "alpha");
+//     movAlpha->setDuration(time);
+//     movAlpha->setStartValue(255);
+//     movAlpha->setEndValue(0);
+//     movAlpha->setEasingCurve(QEasingCurve::InExpo);
+    animation->addAnimation(movPos);
+    animation->addAnimation(movScale);
+//     animation->addAnimation(movAlpha);
+    animation->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
 
@@ -256,10 +283,6 @@ const QRect& Tcanvas::getRect(TQAtype::Etype kindOf) {
   }
 }
 
-void Tcanvas::clearNoteTip() {
-
-}
-
 
 //######################################################################
 //#################################### PROTECTED #######################
@@ -300,6 +323,8 @@ void Tcanvas::sizeChanged(QSize newSize) {
     m_flyAnswer->hide();
     m_flyAnswer->setFont(QFont("nootka", width() / 18));
   }
+  if (m_flyNote)
+    m_flyNote->hide();
 }
 
 //######################################################################
@@ -338,16 +363,15 @@ void Tcanvas::setPosOfStartTip() {
 
 
 void Tcanvas::setPosOfQuestionTip() {
-  if (m_questionTip->boundingRect().height() * m_scale > m_parent->guitar->geometry().height())
-    m_questionTip->setScale(m_parent->guitar->geometry().height() / (m_questionTip->boundingRect().height() * m_scale));
+  if (m_questionTip->boundingRect().height() > (m_scene->height() * 0.24))
+    m_questionTip->setScale((m_scene->height() * 0.24) / m_questionTip->boundingRect().height());
   QPoint pos;
   if (m_questionTip->freeGuitar()) {
       int off = 0;
       if (m_exam->curQ().answerAs == TQAtype::e_asSound)
         off = m_scene->width() / 8;
       pos = QPoint((m_scene->width() - (m_questionTip->boundingRect().width())) / 2 + off, 
-                   m_parent->guitar->geometry().y() + 
-                   (m_parent->guitar->geometry().height() - m_scale * m_questionTip->boundingRect().height()) / 2);
+                   m_scene->height() * 0.76 + (m_scene->height() * 0.24 - m_questionTip->boundingRect().height()) / 2);
   }
     else
       if (m_questionTip->freeName())

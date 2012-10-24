@@ -100,18 +100,12 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, QWidget *parent) :
 
     mainLay->addWidget(examGr);
 
-//     QGroupBox *hGr = new QGroupBox(this);
-//     QVBoxLayout *hLay = new QVBoxLayout;
     m_hintLabel = new QLabel(this);
-//     hLay->addWidget(m_hintLabel);
-//     hGr->setLayout(hLay);
     m_hintLabel->setFixedHeight(70);
     m_hintLabel->setWordWrap(true);
-//     m_hintLabel->setStyleSheet("border: 1px solid palette(Text); border-radius: 10px; background-color: palette(Base)");
-//     m_hintLabel->setStyleSheet("border-radius: 10px; background-color: palette(Text); color: palette(Base)");
-    m_hintLabel->setStyleSheet("border-radius: 10px; background-color: palette(Window);");
+    QColor bgLight = palette().window().color().lighter(105);
+    m_hintLabel->setStyleSheet(QString("background-color: %1; border-radius: 10px;").arg(bgLight.name()));
 
-//     mainLay->addWidget(hGr);
     mainLay->addWidget(m_hintLabel);
     setLayout(mainLay);
     

@@ -52,14 +52,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
       xAxis->setAnswersList(exam->answList(), exam->level());
       prepareChart(m_exam->count());
       m_mainLine = new TmainLine(m_exam->answList(), this);
-      TgraphicsLine *averLine = new TgraphicsLine("<p>" +
-          TexamView::averAnsverTimeTxt() + QString("<br><span style=\"font-size: 20px;\">%1 s</span></p>").arg(TexamView::formatReactTime(m_exam->averageReactonTime())) );
-      scene->addItem(averLine);
-      averLine->setZValue(20);
-      averLine->setPen(QPen(averColor, 3));
-      averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime() / 10.0),
-          xAxis->mapValue(m_exam->count()) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime() / 10.0));
-//      QPolygonF polygon;
+      //      QPolygonF polygon;
       double aTime = 0 , prev = m_exam->question(0).time / 10.0;
       for(int i = 0; i < m_exam->count(); i++) {
         aTime = (aTime * (i) + (m_exam->question(i).time / 10)) / (i + 1);
@@ -86,6 +79,14 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
 //      averProgress->setBrush(averColor);
 //      averProgress->setPolygon(polygon);
 //      averProgress->setZValue(10);
+      
+      TgraphicsLine *averLine = new TgraphicsLine("<p>" +
+          TexamView::averAnsverTimeTxt() + QString("<br><span style=\"font-size: 20px;\">%1 s</span></p>").arg(TexamView::formatReactTime(m_exam->averageReactonTime())) );
+      scene->addItem(averLine);
+      averLine->setZValue(20);
+      averLine->setPen(QPen(averColor, 3));
+      averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(aTime),
+          xAxis->mapValue(m_exam->count()) + xAxis->pos().x(), yAxis->mapValue(aTime));
   }
   
   if (m_settings.order == e_byNote || m_settings.order == e_byFret ||

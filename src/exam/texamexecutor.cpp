@@ -1030,6 +1030,8 @@ void TexamExecutor::expertAnswersSlot() {
      * Calling checkAnswer() from here invokes stoping and deleting TaudioIN.
      * It finishs with crash. To avoid this checkAnswer() has to be called
      * from outside - by timer event. */
+    if (m_exam->curQ().answerAs == TQAtype::e_asSound)
+      m_canvas->noteTip(600);
   QTimer::singleShot(10, this, SLOT(checkAnswer()));
 }
 
