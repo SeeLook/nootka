@@ -65,7 +65,6 @@ public:
     
 public slots:
     void clearResultTip(); // cleanes tip with results
-    void clearNoteTip();
     void clearTryAgainTip();
     
 protected slots:
@@ -78,8 +77,7 @@ private:
     TgraphicsTextTip *m_resultTip, *m_whatTip, *m_startTip, *m_tryAgainTip;
     TquestionTip *m_questionTip;
     Texam *m_exam;
-    QTimer *m_noteTimer;
-    TanimedTextItem *m_flyAnswer;
+    TanimedTextItem *m_flyAnswer, *m_flyNote;
     QParallelAnimationGroup *m_animation;
     
     
