@@ -81,15 +81,20 @@ void TquestionPoint::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
 #endif
   painter->setPen(m_color);
   rect.translate(-1, -1);
+//   if (m_question->isWrong())
+//     setRotation(180);
+  QString glyph = "n";
   if (m_question->isWrong())
-    setRotation(180);
-  painter->drawText(rect, Qt::AlignCenter, "n");
+    glyph = "N";
+  painter->drawText(rect, Qt::AlignCenter, glyph);
 }
   
 QRectF TquestionPoint::boundingRect() const {
 //   QFontMetrics metrics = QFont("nootka", 25);
 //   QRectF rect = metrics.boundingRect("n");
-  QRectF rect(-11, -29, 24, 41); // values calculated from above, hardcoded for speedy
+  QRectF rect(-9, -29, 24, 41); // values calculated from above, hardcoded for speedy
+  if (m_question->isWrong())
+    rect.setRect(-11, -10, 24, 41);;
   return rect;
 }
   
