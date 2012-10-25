@@ -339,4 +339,8 @@ void TanalysDialog::includeWrongSlot() {
 void TanalysDialog::resizeEvent(QResizeEvent* )
 {
     m_toolBar->setIconSize(QSize(height()/21, height()/21));
+    m_openButton->setIconSize(m_toolBar->iconSize());
+    m_settButt->setIconSize(m_toolBar->iconSize());     
 }
+
+

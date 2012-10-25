@@ -66,7 +66,7 @@ void TXaxis::setTicText(QGraphicsTextItem *tic, TQAunit &unit, int questNr) {
         txt = QString("%1.<br>").arg(questNr);
     txt += QString("<b>%2</b>").arg(TnoteName::noteToRichText(unit.qa.note));
     if (unit.questionAs == TQAtype::e_asFretPos || unit.answerAs == TQAtype::e_asFretPos || unit.answerAs == TQAtype::e_asSound)
-        txt += "<br>" + QString("<span style=\"font-size: 20px; font-family: nootka\">%1</span><span style=\"font-size: 20px;\">%2</span>").
+        txt += "<br>" + QString("<span style=\"font-size: 15px; font-family: nootka\">%1</span><span style=\"font-size: 15px;\">%2</span>").
                 arg((int)unit.qa.pos.str()).arg(TfingerPos::romanFret(unit.qa.pos.fret()));
     if (m_level->useKeySign &&
       (unit.questionAs == TQAtype::e_asNote || unit.answerAs == TQAtype::e_asNote)) {
