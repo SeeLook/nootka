@@ -173,7 +173,8 @@ void Tcanvas::whatNextTip(bool isCorrect, bool onRight) {
 
 void Tcanvas::noteTip(int time) {
   if (m_flyNote)
-    delete m_flyNote;
+//     delete m_flyNote;
+    m_flyNote->deleteLater();
   QParallelAnimationGroup *animation = new QParallelAnimationGroup(this);
   m_flyNote = new TanimedTextItem();
   m_flyNote->setText("n");
@@ -182,7 +183,7 @@ void Tcanvas::noteTip(int time) {
   scene()->addItem(m_flyNote);
   QPropertyAnimation *movPos = new QPropertyAnimation(m_flyNote, "pos");
     movPos->setDuration(time);
-    movPos->setStartValue(QPoint(width() + 10, 10));
+    movPos->setStartValue(QPoint(width() + 10, qrand() % height()));
     movPos->setEndValue(getRect(TQAtype::e_asSound).center());
     movPos->setEasingCurve(QEasingCurve::OutCirc);
     QPropertyAnimation *movScale = new QPropertyAnimation(m_flyNote, "scale");
