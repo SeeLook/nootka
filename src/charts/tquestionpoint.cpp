@@ -81,6 +81,8 @@ void TquestionPoint::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
 #endif
   painter->setPen(m_color);
   rect.translate(-1, -1);
+  if (m_question->isWrong())
+    setRotation(180);
   painter->drawText(rect, Qt::AlignCenter, "n");
 }
   

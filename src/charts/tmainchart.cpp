@@ -53,38 +53,41 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
       prepareChart(m_exam->count());
       m_mainLine = new TmainLine(m_exam->answList(), this);
       //      QPolygonF polygon;
-      double aTime = 0 , prev = m_exam->question(0).time / 10.0;
-      for(int i = 0; i < m_exam->count(); i++) {
-        aTime = (aTime * (i) + (m_exam->question(i).time / 10)) / (i + 1);
-        if (i == 0)
-            continue;
-//        polygon << QPointF(xAxis->mapValue(i + 1), yAxis->mapValue(aTime));
-      QGraphicsLineItem *averProgress = new QGraphicsLineItem;
-            scene->addItem(averProgress);
-            averProgress->setPen(QPen(averColor, 1));
-//            averColor.setAlpha(200);
-//            averProgress->setBrush(averColor);
-            averProgress->setLine(xAxis->mapValue(i) + xAxis->pos().x(), yAxis->mapValue(prev),
-                                  xAxis->mapValue(i + 1) + xAxis->pos().x(), yAxis->mapValue(aTime));
-      //      averProgress->setPolygon(polygon);
-            averProgress->setZValue(10);
-            prev = aTime;
+      double aTime = 0 , prev = 0;
+      int firstCorrect = 0, okCount = 0;
+      for(int i = 0; i < m_exam->count(); i++) { // looking for first correct answer
+        if (!m_exam->question(i).isWrong()) {
+          firstCorrect = i;
+          prev = m_exam->question(i).time / 10.0;
+          okCount++;
+          aTime = prev;
+          break;
+        }
       }
-      qDebug() << aTime << m_exam->averageReactonTime() / 10.0;
-//      polygon << QPointF(averLine->line().p1());
-//      QGraphicsPolygonItem *averProgress = new QGraphicsPolygonItem;
-//      scene->addItem(averProgress);
-//      averProgress->setPen(QPen(averColor, 1));
-//      averColor.setAlpha(200);
-//      averProgress->setBrush(averColor);
-//      averProgress->setPolygon(polygon);
-//      averProgress->setZValue(10);
-      
+      int prevX = firstCorrect + 1;
+      for(int i = firstCorrect + 1; i < m_exam->count(); i++) {
+        if (m_exam->question(i).isWrong())
+          continue; // skip wrong answers in aver time
+        else 
+          aTime = (aTime * okCount + (m_exam->question(i).time / 10)) / (okCount + 1);
+        
+        okCount++;        
+//        polygon << QPointF(xAxis->mapValue(i + 1), yAxis->mapValue(aTime));
+        QGraphicsLineItem *averProgress = new QGraphicsLineItem;
+        scene->addItem(averProgress);
+        averProgress->setPen(QPen(averColor, 1));
+        averProgress->setLine(xAxis->mapValue(prevX) + xAxis->pos().x(), yAxis->mapValue(prev),
+                              xAxis->mapValue(i + 1) + xAxis->pos().x(), yAxis->mapValue(aTime));
+        prevX = i + 1;
+        averProgress->setZValue(10);
+        prev = aTime;
+      }
+      qDebug() << aTime << m_exam->averageReactonTime() / 10.0;      
       TgraphicsLine *averLine = new TgraphicsLine("<p>" +
-          TexamView::averAnsverTimeTxt() + QString("<br><span style=\"font-size: 20px;\">%1 s</span></p>").arg(TexamView::formatReactTime(m_exam->averageReactonTime())) );
+          TexamView::averAnsverTimeTxt() + QString("<br><span style=\"font-size: 20px;\">%1 s</span></p>").arg(TexamView::formatReactTime(aTime * 10)) );
       scene->addItem(averLine);
       averLine->setZValue(20);
-      averLine->setPen(QPen(averColor, 3));
+      averLine->setPen(QPen(averColor, 1));
       averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(aTime),
           xAxis->mapValue(m_exam->count()) + xAxis->pos().x(), yAxis->mapValue(aTime));
   }
