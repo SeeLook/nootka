@@ -41,6 +41,7 @@ public:
 protected:
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
   virtual QRectF boundingRect();
+  void setTicText(QGraphicsTextItem* tic, TQAunit &unit, int questNr = 0);
   
 private:
   const int m_qWidth; // pixel width of question on the axis
