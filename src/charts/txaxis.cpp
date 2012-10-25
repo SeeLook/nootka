@@ -52,19 +52,28 @@ void TXaxis::setAnswersList(QList< TQAunit >* answers, TexamLevel* level) {
   update(boundingRect());
   m_ticTips.clear();
   for (int i = 0; i < m_answers->size(); i++) {
-      QString txt = QString("%1.<br><b>%2</b>").arg(i+1).
-      arg(TnoteName::noteToRichText(m_answers->operator[](i).qa.note));
-      if (m_level->useKeySign && 
-        (m_answers->operator[](i).questionAs == TQAtype::e_asNote || m_answers->operator[](i).answerAs == TQAtype::e_asNote)) {
-          txt += "<br><i>" + m_answers->operator[](i).key.getName() + "</i>";
-      }
       QGraphicsTextItem *ticTip = new QGraphicsTextItem();
-      ticTip->setHtml(txt);
-      TgraphicsTextTip::alignCenter(ticTip);
+      setTicText(ticTip, m_answers->operator[](i), i + 1);
       scene()->addItem(ticTip);
       ticTip->setPos(pos().x() + mapValue(i+1) - ticTip->boundingRect().width() / 2 , pos().y() + 15);
       m_ticTips << ticTip;
   }
+}
+
+void TXaxis::setTicText(QGraphicsTextItem *tic, TQAunit &unit, int questNr) {
+    QString txt;
+    if (questNr)
+        txt = QString("%1.<br>").arg(questNr);
+    txt += QString("<b>%2</b>").arg(TnoteName::noteToRichText(unit.qa.note));
+    if (unit.questionAs == TQAtype::e_asFretPos || unit.answerAs == TQAtype::e_asFretPos || unit.answerAs == TQAtype::e_asSound)
+        txt += "<br>" + QString("<span style=\"font-size: 20px; font-family: nootka\">%1</span><span style=\"font-size: 20px;\">%2</span>").
+                arg((int)unit.qa.pos.str()).arg(TfingerPos::romanFret(unit.qa.pos.fret()));
+    if (m_level->useKeySign &&
+      (unit.questionAs == TQAtype::e_asNote || unit.answerAs == TQAtype::e_asNote)) {
+        txt += "<br><i>" + unit.key.getName() + "</i>";
+    }
+    tic->setHtml(txt);
+    TgraphicsTextTip::alignCenter(tic);
 }
 
 void TXaxis::setAnswersLists(QList< QList< TQAunit* > >& listOfLists, TexamLevel* level) {
@@ -79,15 +88,8 @@ void TXaxis::setAnswersLists(QList< QList< TQAunit* > >& listOfLists, TexamLevel
   for (int i = 0; i < listOfLists.size(); i++) {
     for (int j = 0; j < listOfLists[i].size(); j++) {
       cnt++;
-      QString txt = QString("<b>%1</b>").arg(TnoteName::noteToRichText(listOfLists[i].operator[](j)->qa.note));
-      if (m_level->useKeySign && 
-        (listOfLists[i].operator[](j)->questionAs == TQAtype::e_asNote || 
-        listOfLists[i].operator[](j)->answerAs == TQAtype::e_asNote)) {
-          txt += "<br><i>" + listOfLists[i].operator[](j)->key.getName() + "</i>";
-      }
       QGraphicsTextItem *ticTip = new QGraphicsTextItem();
-      ticTip->setHtml(txt);
-      TgraphicsTextTip::alignCenter(ticTip);
+      setTicText(ticTip, *listOfLists[i].operator[](j));
       scene()->addItem(ticTip);
       ticTip->setPos(pos().x() + mapValue(cnt) - ticTip->boundingRect().width() / 2 , pos().y() + 15);
       m_ticTips << ticTip;

@@ -86,7 +86,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
 //   QTimer::singleShot(100, this, SLOT(testSlot()));
   if (exam) {
     m_wasExamCreated = false;
-    m_openExamAct->setVisible(false); // hide "open exam file" acction
+    m_openButton->setDisabled(true); // disable "open exam file" acction
     setExam(exam);
   } else { // show help in tip
     QString modKey = "";
@@ -171,8 +171,26 @@ void TanalysDialog::loadExam(QString& examFile) {
 //##########  PRIVATE METHODS #####################
 
 void TanalysDialog::createActions() {
-    m_openExamAct = new QAction(QIcon(gl->path + "picts/nootka-exam.png"), tr("Open an exam"), this);
-    connect(m_openExamAct, SIGNAL(triggered()), this, SLOT(loadExamSlot()));
+    QMenu *openMenu = new QMenu("open exam file", this);
+    QAction *openAct = new QAction(tr("Open an exam"), this);
+    openMenu->addAction(openAct);
+    connect(openAct, SIGNAL(triggered()), this, SLOT(loadExamSlot()));
+    openMenu->addAction(tr("recent opened exams:"));
+    QStringList recentExams = gl->config->value("recentExams").toStringList();
+    for (int i = recentExams.size() - 1; i >= 0; i--) {
+        QFileInfo fi(recentExams[i]);
+        if (fi.exists()) {
+            QAction *act = new QAction(recentExams[i], this);
+            openMenu->addAction(act);
+            connect(act, SIGNAL(triggered()), this, SLOT(openRecentExam()));
+        }
+    }
+    m_openButton = new QToolButton(this);
+    m_openButton->setIcon(QIcon(gl->path + "picts/nootka-exam.png"));
+    m_openButton->setMenu(openMenu);
+    m_openButton->setPopupMode(QToolButton::InstantPopup);
+    QWidgetAction* openToolButtonAction = new QWidgetAction(this);
+    openToolButtonAction->setDefaultWidget(m_openButton);
 
     m_closeAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)), tr("Close analyser"), this);
     connect(m_closeAct, SIGNAL(triggered()), this, SLOT(close()));
@@ -204,7 +222,7 @@ void TanalysDialog::createActions() {
     QWidgetAction* toolButtonAction = new QWidgetAction(this);
     toolButtonAction->setDefaultWidget(m_settButt);
 
-    m_toolBar->addAction(m_openExamAct);
+    m_toolBar->addAction(openToolButtonAction);
     m_toolBar->addAction(toolButtonAction);
     m_toolBar->addSeparator();
     m_toolBar->addAction(m_zoomOutAct);
@@ -245,6 +263,13 @@ void TanalysDialog::loadExamSlot() {
   loadExam(fileName);
 }
 
+void TanalysDialog::openRecentExam() {
+    QAction *action = qobject_cast<QAction *>(sender());
+        if (action) {
+            QString file = action->text();
+            loadExam(file);
+        }
+}
 
 void TanalysDialog::analyseChanged(int index) {
   if (!m_exam)

@@ -55,13 +55,14 @@ protected slots:
   void wrongSeparateSlot();
   void includeWrongSlot();
   void analyseChanged(int index);
+  void openRecentExam();
 
 private:
   QToolBar *m_toolBar;
-  QAction *m_openExamAct, *m_closeAct, *m_zoomInAct, *m_zoomOutAct, *m_inclWrongAct, *m_wrongSeparateAct;
+  QAction *m_closeAct, *m_zoomInAct, *m_zoomOutAct, *m_inclWrongAct, *m_wrongSeparateAct;
   QLabel *m_levelLab, *m_userLab, *m_effectLab, *m_questNrLab;
   QComboBox *m_chartListCombo;
-  QToolButton *m_settButt;
+  QToolButton *m_settButt, *m_openButton;
   
   Tchart *m_chart;
   Texam *m_exam;
