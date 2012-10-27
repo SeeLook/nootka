@@ -45,22 +45,15 @@ TSTARTEXAMDLG
   - also other instances of TexamLevel
 
 
-TSOUND
-	- it crash when no devices are found and settings dialog is opening (problem is the rights to device)
-
 
 TEXAMVIEW
 
 TEXAMEXECUTOR
 	- check is possible to given exam file
 	- show hints in non expert mode after clicking answer
-	- enable/disable sniffing durning exams (specially when no inpur is required)
-  - store name style state in questions
+	- enable/disable sniffing durning exams (specially when no input is required)
   - think about hide octave in note name format when octaves are not required in answers. 
-     Also for qustions in "hint" - don't show octave when only name is required
-
-TANALYSEDIALOG
-  - settings button icon when disabled is not resized with window size
+     Also for questions in "hint" - don't show octave when only name is required
 
 
 
