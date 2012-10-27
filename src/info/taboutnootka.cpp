@@ -19,6 +19,7 @@
 
 #include "taboutnootka.h"
 #include "tsupportnootka.h"
+#include "tnootkalabel.h"
 #include "tglobals.h"
 #include <QtGui>
 
@@ -121,7 +122,9 @@ Tabout::Tabout(QWidget *parent) :
         QWidget(parent)
 {
     QVBoxLayout *lay = new QVBoxLayout;
-    m_aboutLab = new QLabel(QString("<center><img src=\"%1\"><br><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>Nootka " + gl->version + "</b></p></center>").arg(gl->path+"picts/logo.png") + tr("<p> Welcome on the board.<br> Nootka is open source application to help You learning (and teaching also) classical score notation. It is specially dedicated for guitarists but others can find something usable as well.<br>This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features. Inspite of that You are welcome to try it !!</p><p>See a <a href=\"http://nootka.sourceforge.net\">program site</a> for more details and further releaces.</p><p>Any bugs, sugestions, translations and so on, report to: <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><p/><p>with respects<br>Author</p><br>")
+    TnootkaLabel *nootkaLab = new TnootkaLabel(gl->path + "picts/logo.png", this, palette().highlight().color());
+    lay->addWidget(nootkaLab);
+    m_aboutLab = new QLabel("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>Nootka " + gl->version + "</b></p></center>" + tr("<p> Welcome on the board.<br> Nootka is open source application to help You learning (and teaching also) classical score notation. It is specially dedicated for guitarists but others can find something usable as well.<br>This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features. Inspite of that You are welcome to try it !!</p><p>See a <a href=\"http://nootka.sourceforge.net\">program site</a> for more details and further releaces.</p><p>Any bugs, sugestions, translations and so on, report to: <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><p/><p>with respects<br>Author</p><br>")
 #if defined(Q_OS_WIN32)
 	  + tr("<br>To support project and also to avoid infection of Your PC<br><b>PLEASE, use project site to download updates, new releases and to see news.</b>")
 #endif
@@ -129,6 +132,6 @@ Tabout::Tabout(QWidget *parent) :
     m_aboutLab->setWordWrap(true);
     m_aboutLab->setOpenExternalLinks(true);
     lay->addWidget(m_aboutLab);
-
+    lay->addStretch();
     setLayout(lay);
 }

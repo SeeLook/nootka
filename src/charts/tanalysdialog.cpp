@@ -172,9 +172,11 @@ void TanalysDialog::loadExam(QString& examFile) {
 
 void TanalysDialog::createActions() {
     QMenu *openMenu = new QMenu("open exam file", this);
-    QAction *openAct = new QAction(tr("Open an exam"), this);
+    QAction *openAct = new QAction(tr("Open an exam to analyse"), this);
+    openAct->setIcon(QIcon(gl->path + "picts/charts.png"));
     openMenu->addAction(openAct);
     connect(openAct, SIGNAL(triggered()), this, SLOT(loadExamSlot()));
+    openMenu->addSeparator();
     openMenu->addAction(tr("recent opened exams:"));
     QStringList recentExams = gl->config->value("recentExams").toStringList();
     for (int i = recentExams.size() - 1; i >= 0; i--) {
@@ -186,6 +188,7 @@ void TanalysDialog::createActions() {
         }
     }
     m_openButton = new QToolButton(this);
+    m_openButton->setToolTip(openAct->text());
     m_openButton->setIcon(QIcon(gl->path + "picts/nootka-exam.png"));
     m_openButton->setMenu(openMenu);
     m_openButton->setPopupMode(QToolButton::InstantPopup);
@@ -215,6 +218,7 @@ void TanalysDialog::createActions() {
     
     m_settButt = new QToolButton(this);
     m_settButt->setIcon(QIcon(gl->path+"picts/systemsettings.png"));
+    m_settButt->setToolTip(tr("Settings of a chart"));
     m_settButt->setMenu(menu);
     m_settButt->setPopupMode(QToolButton::InstantPopup);
     m_settButt->setDisabled(true); // that options have no sense for default chart

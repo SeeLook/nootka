@@ -20,7 +20,7 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsColorizeEffect>
 
-TnootkaLabel::TnootkaLabel(QString pixmapPath, QWidget* parent) :
+TnootkaLabel::TnootkaLabel(QString pixmapPath, QWidget* parent, QColor bgColor) :
   QGraphicsView(parent)
 {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -35,16 +35,14 @@ TnootkaLabel::TnootkaLabel(QString pixmapPath, QWidget* parent) :
     QGraphicsPixmapItem *pixItem = new QGraphicsPixmapItem(QPixmap(pixmapPath));
     m_scene->addItem(pixItem);
     resize(pixItem->pixmap().size());
-    QGraphicsColorizeEffect *effect = new QGraphicsColorizeEffect();
-    QColor bg = palette().window().color();
-//     bg.setAlpha(220);
-    effect->setColor(bg);
-    pixItem->setGraphicsEffect(effect);
+    QGraphicsColorizeEffect *m_effect = new QGraphicsColorizeEffect();
+    if (bgColor == -1)
+        bgColor = palette().window().color();
+    m_effect->setColor(bgColor);
+    pixItem->setGraphicsEffect(m_effect);
 
 }
 
-TnootkaLabel::~TnootkaLabel()
-{
+TnootkaLabel::~TnootkaLabel() {}
 
-}
 

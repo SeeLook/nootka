@@ -22,12 +22,13 @@
 #include <QWidget>
 #include <QGraphicsView>
 
+class QGraphicsColorizeEffect;
 
 class TnootkaLabel : public QGraphicsView
 {
 
 public:
-    TnootkaLabel(QString pixmapPath, QWidget *parent = 0);
+    TnootkaLabel(QString pixmapPath, QWidget *parent = 0, QColor bgColor= -1);
     virtual ~TnootkaLabel();
     
 private:
