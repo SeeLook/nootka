@@ -41,7 +41,6 @@ int main(int argc, char *argv[])
     qtTranslator.load("qt_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     a.installTranslator(&qtTranslator);
 
-
     QTranslator nooTranslator;
     nooTranslator.load("nootka_" + ll, gl->path + "lang");
     a.installTranslator(&nooTranslator);

@@ -33,7 +33,8 @@ TcolorButton::TcolorButton(QColor col, QWidget* parent):
 
 
 void TcolorButton::whenClicked() {
-	setColor(QColorDialog::getColor(m_color, this));
+    setColor(QColorDialog::getColor(m_color, this,
+"", QColorDialog::DontUseNativeDialog));
 }
 
 void TcolorButton::setColor(QColor col) {
