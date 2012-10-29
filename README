@@ -61,8 +61,8 @@ http://qt.nokia.com/downloads/qt-for-open-source-cpp-development-on-mac-os-x/
 4. Now You can go to to Building section
 
 5. make install under MacOs generates independent boundle with all needed frameworks inside
-   however You mast to put during invokeing cmake -DFFTW3_LIBRARIES=/path_to_real_file_with_libfftw3f
-   (cmake autoagicaly finds only symbolic link)
+   however You mast put during invokeing cmake -DFFTW3_LIBRARIES=/path_to_real_file_with_libfftw3f
+   (cmake automagicaly finds only symbolic link)
 
 
  

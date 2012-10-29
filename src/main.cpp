@@ -38,7 +38,11 @@ int main(int argc, char *argv[])
   if (ll == "")
     ll = QLocale::system().name();
     QTranslator qtTranslator;
+#if defined(Q_OS_LINUX)
     qtTranslator.load("qt_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+#else
+    qtTranslator.load("qt_" + ll, gl->path + "lang");
+#endif
     a.installTranslator(&qtTranslator);
 
     QTranslator nooTranslator;
