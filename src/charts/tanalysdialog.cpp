@@ -262,9 +262,8 @@ void TanalysDialog::enableComboItem(int index, bool enable) {
 
 void TanalysDialog::loadExamSlot() {
   
-  QString fileName = QFileDialog::getOpenFileName(this, tr("Load an exam file"),
-                               QDir::homePath(),
-TstartExamDlg::examFilterTxt(), 0, QFileDialog::DontUseNativeDialog);
+  QString fileName = QFileDialog::getOpenFileName(this, TstartExamDlg::loadExamFileTxt(), QDir::homePath(),
+												  TstartExamDlg::examFilterTxt(), 0, QFileDialog::DontUseNativeDialog);
   loadExam(fileName);
 }
 

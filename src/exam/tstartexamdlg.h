@@ -51,7 +51,8 @@ public:
         * and returns secected level. */
     Eactions showDialog(QString &txt, TexamLevel &lev);
         /** exam file extension and its description */
-    static const QString examFilterTxt() { return tr("Exams' results")  + "(*.noo)" ; }
+    static const QString examFilterTxt() { return tr("Exams' results")  + " (*.noo)" ; }
+    static const QString loadExamFileTxt() { return tr("Load an exam's file"); }
         /** Returns system user name (login name)  */
     static QString systemUserName();
 

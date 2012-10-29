@@ -135,7 +135,7 @@ void TlevelCreatorDlg::saveToFile() {
   // Saving to file
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save exam's level"),
                        QDir::toNativeSeparators(QDir::homePath()+"/"+newLevel.name),
-                                              TlevelSelector::levelFilterTxt() + "(*.nel)");
+                                              TlevelSelector::levelFilterTxt() + " (*.nel)", 0 , QFileDialog::DontUseNativeDialog);
     QFile file(fileName);
     if (file.open(QIODevice::WriteOnly)) {
         QDataStream out(&file);

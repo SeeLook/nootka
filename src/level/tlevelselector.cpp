@@ -187,9 +187,13 @@ QList<TexamLevel> getExampleLevels() {
 const qint32 TlevelSelector::levelVersion = 0x95121701;
 
 void TlevelSelector::fileIOerrorMsg(QFile &f, QWidget *parent) {
-    QMessageBox::critical(parent, "",
-                          tr("Cannot open file\n %1 \n for reading\n%2 ").arg(
-                                  f.fileName()).arg(QString::fromLocal8Bit(qPrintable(f.errorString()))));
+	if (f.fileName() != "") {
+	  QMessageBox::critical(parent, "", tr("Cannot open file\n %1 \n for reading").arg(f.fileName()));
+	} else
+	  QMessageBox::critical(parent, "", tr("No file name specified"));
+//     QMessageBox::critical(parent, "",
+//                           tr("Cannot open file\n %1 \n for reading\n%2 ").arg(
+//                                   f.fileName()).arg(QString::fromLocal8Bit(qPrintable(f.errorString()))));
 }
 
 /*end static*/
@@ -295,7 +299,7 @@ void TlevelSelector::loadFromFilePrivate() {
 void TlevelSelector::loadFromFile(QString levelFile) {
     if (levelFile == "")
         levelFile = QFileDialog::getOpenFileName(this, tr("Load exam's level"),
-                                        QDir::homePath(), levelFilterTxt() + "(*.nel)");
+                                        QDir::homePath(), levelFilterTxt() + " (*.nel)", 0 , QFileDialog::DontUseNativeDialog);
     QFile file(levelFile);
     TexamLevel level = getLevelFromFile(file);
     if (level.name != "") {
