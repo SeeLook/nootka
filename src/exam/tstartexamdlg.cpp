@@ -127,7 +127,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, QWidget *parent) :
         else
             m_recentExams.removeAt(i);
     }
-    m_examCombo->addItem(tr("load exam from file"));
+    m_examCombo->addItem(loadExamFileTxt());
     if (m_recentExams.size()) {
         sett.setValue("recentExams", m_recentExams);
         m_examCombo->setCurrentIndex(0);
@@ -210,8 +210,8 @@ void TstartExamDlg::startAccepted() {
 }
 
 void TstartExamDlg::loadExam() {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Load an exam's' file"),
-                               QDir::homePath(), examFilterTxt());
+    QString fileName = QFileDialog::getOpenFileName(this, loadExamFileTxt(),
+                               QDir::homePath(), examFilterTxt(), 0, QFileDialog::DontUseNativeDialog);
     if (fileName != "") {
         m_examCombo->insertItem(0, fileName);
         m_recentExams.prepend(fileName);

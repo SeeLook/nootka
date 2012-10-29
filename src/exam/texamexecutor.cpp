@@ -928,11 +928,10 @@ bool TexamExecutor::closeNootka() {
 }
 
 QString TexamExecutor::saveExamToFile() {
-//    qDebug() << m_exam->userName() << m_level.name;
     QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam's results as:"),
                          QDir::toNativeSeparators(QDir::homePath()+ "/" +
                          m_exam->userName() + "-" + m_level.name),
-                         TstartExamDlg::examFilterTxt());
+                         TstartExamDlg::examFilterTxt(), 0 , QFileDialog::DontUseNativeDialog);
     if (fileName == "") {
 		QMessageBox *msg = new QMessageBox(mW);
 		msg->setText(tr("If You don't save to file<br>You lost all results !!"));
