@@ -21,6 +21,7 @@
 
 #include "tscorewidgetsimple.h"
 
+class TscordatureView;
 class Tnote;
 class TkeySignature;
 class QGraphicsSimpleTextItem;
@@ -49,6 +50,8 @@ public:
     void askQuestion(Tnote note, char realStr = 0);
     void askQuestion(Tnote note, TkeySignature key, char realStr = 0);
     void clearScore();
+        /** Sets scordature to value keeps in Tglobal. */
+    void setScordature();
         /** It sets TkeySignatureView background to question color, sets fake key signature
         * and invokes askQuestion in TkeySignatureView */
     void prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName);
@@ -74,12 +77,12 @@ public slots:
     void expertNoteChanged();
 
 protected:
-    void paintEvent(QPaintEvent *event);
     void resizeEvent(QResizeEvent *event);
     
 private:
     QGraphicsSimpleTextItem *m_questMark;
     QGraphicsTextItem *m_questKey;
+    TscordatureView *m_scordature;
     void resizeQuestMark();
     void resizeKeyText();
 
