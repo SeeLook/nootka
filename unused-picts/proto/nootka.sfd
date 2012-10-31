@@ -20,7 +20,7 @@ OS2Version: 4
 OS2_WeightWidthSlopeOnly: 0
 OS2_UseTypoMetrics: 1
 CreationTime: 1307821124
-ModificationTime: 1351190303
+ModificationTime: 1351720085
 PfmFamily: 17
 TTFWeight: 500
 TTFWidth: 5
@@ -85,8 +85,8 @@ NameList: Adobe Glyph List
 DisplaySize: -96
 AntiAlias: 1
 FitToEm: 1
-WinInfo: 60 10 3
-BeginChars: 65539 32
+WinInfo: 40 10 3
+BeginChars: 65539 33
 
 StartChar: .notdef
 Encoding: 65536 -1 0
@@ -2046,6 +2046,28 @@ SplineSet
  100.686523438 539.75 l 1,40,41
  101.059570312 608.188476562 101.059570312 608.188476562 183.336914062 657.208007812 c 0,42,43
  229.716796875 685.55078125 229.716796875 685.55078125 277.025390625 685.55078125 c 0,0,1
+EndSplineSet
+EndChar
+
+StartChar: equal
+Encoding: 61 61 32
+Width: 1155
+VWidth: 2048
+Flags: W
+HStem: 253.939 45.9199<215.5 938.43> 436.5 45.9199<215.5 938.43>
+LayerCount: 2
+Fore
+SplineSet
+215.5 482.419921875 m 5,0,-1
+ 938.4296875 482.419921875 l 5,1,-1
+ 938.4296875 436.5 l 5,2,-1
+ 215.5 436.5 l 5,3,-1
+ 215.5 482.419921875 l 5,0,-1
+215.5 299.859375 m 5,4,-1
+ 938.4296875 299.859375 l 5,5,-1
+ 938.4296875 253.939453125 l 5,6,-1
+ 215.5 253.939453125 l 5,7,-1
+ 215.5 299.859375 l 5,4,-1
 EndSplineSet
 EndChar
 EndChars

@@ -99,7 +99,7 @@ void TscoreWidget::resizeEvent(QResizeEvent *event) {
     if (m_questKey && m_questKey->isVisible())
         resizeKeyText();
     if (m_scordature)
-        m_scordature->setGeometry(0, 29 * coeff, 10 * coeff, 6 * coeff);
+        m_scordature->setGeometry(0, 29 * coeff, 12 * coeff, 6 * coeff);
 }
 
 void TscoreWidget::setScordature() {
@@ -108,9 +108,10 @@ void TscoreWidget::setScordature() {
           delete m_scordature;
         setHasScord(true);
         m_scordature = new TscordatureView(this);
-        m_scordature->setGeometry(0, 29 * coeff, 10 * coeff, 6 * coeff);
+        m_scordature->setGeometry(0, 29 * coeff, 12 * coeff, 6 * coeff);
         m_scordature->show();
         m_scordature->setTune(gl->Gtune(), gl->NnameStyleInNoteName);
+        m_scordature->update();
     } else { // resizing is done in setEnableKeySign() method;
         setHasScord(false);
         if (m_scordature) {
