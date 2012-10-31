@@ -18,7 +18,6 @@
 
 #include "tscordatureview.h"
 #include "ttune.h"
-#include "tgraphicstexttip.h"
 #include <QGraphicsTextItem>
 
 
@@ -39,8 +38,8 @@ TscordatureView::TscordatureView(QWidget* parent) :
 void TscordatureView::setTune(Ttune tune, Tnote::EnameStyle nameStyle) {
   if (tune != Ttune::stdTune) {
     m_hasScord = true;
-    int fSize = height() / 3 - 2;
-//     int fSize = fontMetrics().boundingRect("A").height();
+//     int fSize = height() / 3 - 2;
+    int fSize = fontMetrics().boundingRect("A").height() - 2;
     int nL = 0;
     for (int i = 1; i < 7; i++) {
         if ( tune[i] != Ttune::stdTune[i])
@@ -59,8 +58,8 @@ void TscordatureView::setTune(Ttune tune, Tnote::EnameStyle nameStyle) {
               } else // single text in row, so line break after
                 scordText += "<br>";
           }
-          scordText += QString("<span style=\"font-family: nootka; font-size: %1px;\">%2</span>").arg(fSize).arg(i);
-          scordText += QString("<span style=\"font-size: %1px;\">=%2</span>").arg(fSize).
+          scordText += QString("<span style=\"font-family: nootka; font-size: %1px;\">%2=</span>").arg(fSize).arg(i);
+          scordText += QString("<span style=\"font-size: %1px;\">%2</span>").arg(fSize).
               arg(tune[i].toText(nameStyle, false));
           c++;
         }
@@ -69,9 +68,8 @@ void TscordatureView::setTune(Ttune tune, Tnote::EnameStyle nameStyle) {
         delete m_text;
     m_text = new QGraphicsTextItem();
     m_scene->addItem(m_text);
-    m_text->setPos(-5, -5);
+    m_text->setPos(0, 0);
     m_text->setHtml(scordText);
-    TgraphicsTextTip::alignCenter(m_text);
     resizeEvent(0);
   } else {
     m_hasScord = false;
