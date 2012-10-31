@@ -19,20 +19,40 @@
 #ifndef TSCORDATUREVIEW_H
 #define TSCORDATUREVIEW_H
 
-#include <QtGui/QGraphicsView>
+#include <QGraphicsView>
+#include <tnote.h>
 
+/**
+ * This class represents scordature in a score.
+ * Its position has to be set externaly by @fn setGeometry()
+ * and by heigt() is the fonts size are determined
+ * Scordatute is set by @fn setTune()
+ * with tune and note name style in params.
+  @author Tomasz Bojczuk  <tomaszbojczuk@gmail.com>
+*/
+
+class QResizeEvent;
+class QGraphicsTextItem;
+class Ttune;
 
 class TscordatureView : public QGraphicsView
 {
 
 public:
-    TscordatureView();
+    TscordatureView(QWidget *parent = 0);
     virtual ~TscordatureView();
+      /** Sets tune and displays in given style. */
+    void setTune(Ttune tune, Tnote::EnameStyle nameStyle);
   
   
 protected:
-    virtual void resizeEvent(QResizeEvent* event);
-
+    virtual void resizeEvent(QResizeEvent*);
+    
+private:
+    QGraphicsScene *m_scene;
+    QGraphicsTextItem *m_text; // dispalyed scoedature text
+    bool m_hasScord;
 };
 
 #endif // TSCORDATUREVIEW_H
+

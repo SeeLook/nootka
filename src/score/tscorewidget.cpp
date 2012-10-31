@@ -21,6 +21,7 @@
 #include "tkeysignatureview.h"
 #include "tglobals.h"
 #include "tkeysignature.h"
+#include "tscordatureview.h"
 #include "tgraphicstexttip.h"
 #include <QtGui>
 
@@ -28,7 +29,8 @@
 extern Tglobals *gl;
 
 TscoreWidget::TscoreWidget(unsigned char _notesCount, QWidget *parent) :
-    TscoreWidgetSimple(_notesCount, parent)
+    TscoreWidgetSimple(_notesCount, parent),
+    m_scordature(0)
 {
 
 
@@ -47,6 +49,7 @@ TscoreWidget::TscoreWidget(unsigned char _notesCount, QWidget *parent) :
     noteViews[2]->setDisabled(true);
     noteViews[2]->setColor(gl->enharmNotesColor);
 
+    setScordature();
     setEnabledDblAccid(gl->doubleAccidentalsEnabled);
     setEnableKeySign(gl->SkeySignatureEnabled);
     
@@ -95,63 +98,32 @@ void TscoreWidget::resizeEvent(QResizeEvent *event) {
     }
     if (m_questKey && m_questKey->isVisible())
         resizeKeyText();
+    if (m_scordature)
+        m_scordature->setGeometry(0, 29 * coeff, 10 * coeff, 6 * coeff);
 }
 
-void TscoreWidget::paintEvent(QPaintEvent *event) {
-  TscoreWidgetSimple::paintEvent(event);
-  if (gl->Gtune() != Ttune::stdTune) {
-    QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.setWindow(0,0,width(),height());
-    painter.setPen(QPen(palette().foreground().color()));
-//    I HATE THIS PART... BUT IT WORKS
-    /** @todo Its size has to depends on @param coeff */
-    QFont f = QFont("Arial");
-    f.setPixelSize(11);
-    f.setBold(true);
-//     painter.setFont(f);
-    QFont nF = QFont("nootka");
-    QFontMetrics fMetr(f);
-    nF.setPointSize(fMetr.boundingRect("A").height());
-//    Ttune sT = Ttune::stdTune;
-    int nL = 0;
-    for (int i=1; i<7; i++) {
-        if ( gl->Gtune()[i] != Ttune::stdTune[i])
-            nL++;
-    }
-    int xOffBase = coeff;
-    if (nL>3) xOffBase = 0;
-    int xOff = xOffBase;
-    int yOff = -1;
-    int c = 0;
-    for (int i=1; i<7; i++) {
-        if ( gl->Gtune()[i] != Ttune::stdTune[i]) {
-        if ( nL>3 && c%2 == 1 ) {
-            xOff = 45;
-        } else {
-            yOff++;
-            xOff = xOffBase;
+void TscoreWidget::setScordature() {
+    if (gl->Gtune() != Ttune::stdTune) {
+        if (m_scordature)
+          delete m_scordature;
+        setHasScord(true);
+        m_scordature = new TscordatureView(this);
+        m_scordature->setGeometry(0, 29 * coeff, 10 * coeff, 6 * coeff);
+        m_scordature->show();
+        m_scordature->setTune(gl->Gtune(), gl->NnameStyleInNoteName);
+    } else { // resizing is done in setEnableKeySign() method;
+        setHasScord(false);
+        if (m_scordature) {
+          delete m_scordature;
+          m_scordature = 0;
         }
-        c++;
-        int fa =15;
-        painter.setFont(nF);
-        painter.drawText(QRectF(5+xOff,29*coeff+17*yOff, fa, fa), Qt::AlignCenter,
-               QString("%1").arg(i));
-        painter.setFont(f);
-        painter.drawText(QRectF(5+xOff+fa, 29*coeff+17*yOff, 60, fa),Qt::AlignLeft,
-             " =" + gl->Gtune()[i].toText(gl->NnameStyleInNoteName, false));
-//         painter.drawEllipse(5+xOff,29*coeff+17*yOff,fa,fa);
-      }
     }
-  }
 }
+
 
 void TscoreWidget::acceptSettings() {
     setEnabledDblAccid(gl->doubleAccidentalsEnabled);
-    if (gl->Gtune() != Ttune::stdTune)
-        setHasScord(true);
-    else // resizing is done in setEnableKeySign() method;
-        setHasScord(false);
+    setScordature();
     setEnableKeySign(gl->SkeySignatureEnabled);
     if (!gl->doubleAccidentalsEnabled) clearNote(2);
     noteViews[0]->setPointedColor(gl->SpointerColor);

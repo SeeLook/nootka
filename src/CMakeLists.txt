@@ -19,8 +19,7 @@ SET( NOOTKA_SRCS
   score/tkeysignature.cpp
   score/tclefview.cpp
   score/tpushbutton.cpp
-#   score/texclamationitem.cpp
-#  score/tscordatureview.cpp
+  score/tscordatureview.cpp
 ###### Settings
   settings/settingsdialog.cpp
   settings/tsettingsdialogbase.cpp
@@ -123,7 +122,6 @@ SET( NOOTKA_MOC_SRCS
   score/tscorewidget.h
   score/tscorewidgetsimple.h
   score/tkeysignatureview.h
-#   score/tkeysignatureview.h
   score/tclefview.h
   score/tpushbutton.h
 ###### Settings

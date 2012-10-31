@@ -1,8 +1,10 @@
     BUGS FIXES
-     - fixed proper note pitch in single key exams
+     - fixed proper note pitch in exams with single key
      - fixed seg. fault after settings aproved
+     - fixed crash when no midi devices found
      - fixed displaing natural signs in questions preview
      - proper counting of number of mandatory questions in exams
+     - fixed translation of color/open/save dialogs
 
 0.8.3 beta 
   Nootka says: I speak French
