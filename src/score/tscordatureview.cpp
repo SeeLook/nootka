@@ -68,7 +68,7 @@ void TscordatureView::setTune(Ttune tune, Tnote::EnameStyle nameStyle) {
         delete m_text;
     m_text = new QGraphicsTextItem();
     m_scene->addItem(m_text);
-    m_text->setPos(0, 0);
+    m_text->setPos(0, -2);
     m_text->setHtml(scordText);
     resizeEvent(0);
   } else {
