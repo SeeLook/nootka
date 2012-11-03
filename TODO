@@ -9,10 +9,6 @@
 - add string numbers to pixmap
 
 
-
-
-BUGS
-    
 TGLOBALS & TTUNE
     - let setTune has reference Ttune& as parameter
 
@@ -25,15 +21,8 @@ SETTINGS DIALOG
 TSCOREWIDGETSIMPLE
     - use enableDblAcc in TscoreWidgetSimple to avoid waste hiding or showing dbl accid buttons
 
-TSCOREWIDGET
-    - expected key signature text has to be centered
-
 TNOTENAME
       
-
-TFINGERBOARD
-
-TFIRSTRUNWIZZARD & NAMESETTINGS
 
 !!!!! LEVELS
   - validation has to be improved

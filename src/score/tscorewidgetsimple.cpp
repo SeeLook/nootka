@@ -110,7 +110,8 @@ void TscoreWidgetSimple::resize() {
     m_clef->resize(coeff);
     int shift = 6 * coeff;
     if (m_hasScord)
-        if (shift < 85) shift = 85;
+//         if (shift < 85) shift = 85;
+        shift = 12 * coeff;
     if (keySignView) {
         keySignView->setGeometry(5*coeff, 0, 8*coeff, height());
         keySignView->resize(coeff);

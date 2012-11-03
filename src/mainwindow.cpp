@@ -560,6 +560,7 @@ void MainWindow::updsateSize() {
     
     nootLab->setGeometry(posX, qRound(centralWidget()->height() * 0.12), centralWidget()->width()- score->width() -2,
           qRound(centralWidget()->height() * 0.25));
+    score->setScordature();
     
     QPixmap bgPix(gl->path + "picts/body.png");
     int guitH = qRound(((double)guitar->height() / 350.0) * 856.0);
