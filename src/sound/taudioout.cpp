@@ -222,7 +222,7 @@ bool TaudioOUT::play(int noteNr) {
     }
     if (m_audioOutput && m_audioOutput->state() == QAudio::StoppedState) {
       qDebug("is stoped so let it reset");
-      /** Mostly it occurs uder MacOs (let's say only)
+      /** Mostly it occurs under MacOs (let's say only)
        * Maybe it is not so elegant to restore output in this way
        * but it works and quite fast. */
       delete m_audioOutput;
@@ -231,8 +231,12 @@ bool TaudioOUT::play(int noteNr) {
     } 
     m_doPlay = true;
     m_samplesCnt = 0;
+    int fasterOffset = 1000;
+    if (noteNr + 11 == 0)
+      fasterOffset = 0;
     // note pos in array is shifted 1000 samples before to start from silence
-    m_noteOffset = (noteNr + 11)*SAMPLE_RATE - 1000;
+    // but not for first note in array (C in Contra)
+    m_noteOffset = (noteNr + 11) * SAMPLE_RATE - fasterOffset;
     timeForAudio();
     m_timer->start(m_period);
   }

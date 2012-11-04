@@ -121,11 +121,11 @@ void TanalysDialog::setExam(Texam* exam) {
   if (exam == 0)
       return;
   m_exam = exam;
-  m_userLab->setText(m_exam->userName());
-  m_levelLab->setText(m_exam->level()->name);
-  m_questNrLab->setText(tr("Questions number:") + QString(" %1").arg(exam->count()) );
-  m_effectLab->setText(TexamView::effectTxt() + QString(": %1%")
-                       .arg(m_exam->effectiveness()) );
+  m_userLab->setText("<b>" + m_exam->userName() + "</b>");
+  m_levelLab->setText("<b>" + m_exam->level()->name + "</b>");
+  m_questNrLab->setText(tr("Questions number:") + QString(" <b>%1</b>").arg(exam->count()) );
+  m_effectLab->setText(TexamView::effectTxt() + QString(": <b>%1%</b>")
+                       .arg(m_exam->effectiveness(), 0, 'f', 1, '0') );
   // sort by note
   if (m_exam->level()->canBeScore() || m_exam->level()->canBeName() || m_exam->level()->canBeSound())
         enableComboItem(1, true);
