@@ -347,21 +347,23 @@ void MainWindow::createSettingsDialog() {
         updsateSize();
         TnotesList nList;
         nList = score->getNote(0).getTheSameNotes(gl->doubleAccidentalsEnabled);
-        if (gl->showEnharmNotes) { // refresh note name and score
-            noteName->setNoteName(nList);
-            if (nList.size() > 1)
-                score->setNote(1, nList[1]);
-            else {
-                score->clearNote(1);
-                score->clearNote(2);
-            }
-            if (nList.size() > 2)
-                score->setNote(2, nList[2]);
-            else
-                score->clearNote(2);
+        if (nList[0].getChromaticNrOfNote() >= gl->loString().getChromaticNrOfNote() && 
+          nList[0].getChromaticNrOfNote() <= gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber ) {
+            if (gl->showEnharmNotes) { // refresh note name and score
+                noteName->setNoteName(nList);
+                if (nList.size() > 1)
+                    score->setNote(1, nList[1]);
+                else {
+                    score->clearNote(1);
+                    score->clearNote(2);
+                }
+                if (nList.size() > 2)
+                    score->setNote(2, nList[2]);
+                else
+                    score->clearNote(2);
+            } else
+                noteName->setNoteName(nList[0]);
         }
-        else
-            noteName->setNoteName(nList[0]);
         guitar->acceptSettings(); //refresh guitar
         m_hintsChB->setChecked(gl->hintsEnabled);
         m_isPlayerFree = true;
