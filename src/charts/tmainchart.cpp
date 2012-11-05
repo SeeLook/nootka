@@ -94,6 +94,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
   
   if (m_settings.order == e_byNote || m_settings.order == e_byFret ||
           m_settings.order == e_byKey || m_settings.order == e_byAccid) {
+      QList<char> kindOfAccids;
       TanswerListPtr goodAnsw, badAnsw;
       QList<TanswerListPtr> sortedLists;
       int goodSize; // number of lists with good answers
@@ -109,7 +110,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
                 sortedLists = sortByKeySignature(goodAnsw, m_exam->level(), m_hasListUnrelated);
               else
                 if (m_settings.order == e_byAccid)
-                sortedLists = sortByAccidental(goodAnsw, m_exam->level(), m_hasListUnrelated);
+                sortedLists = sortByAccidental(goodAnsw, m_exam->level(), m_hasListUnrelated, kindOfAccids);
           goodSize = sortedLists.size(); // number without wrong answers
           if (m_settings.order == e_byNote)
             sortedLists.append(sortByNote(badAnsw, m_exam->level(), m_hasListUnrelated));
@@ -121,7 +122,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
                 sortedLists.append(sortByKeySignature(badAnsw, m_exam->level(), m_hasListUnrelated));
               else
                 if (m_settings.order == e_byAccid)
-                sortedLists.append(sortByAccidental(badAnsw, m_exam->level(), m_hasListUnrelated));
+                sortedLists.append(sortByAccidental(badAnsw, m_exam->level(), m_hasListUnrelated, kindOfAccids));
                 
       }
       else {
@@ -136,7 +137,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
                 sortedLists = sortByKeySignature(convList, m_exam->level(), m_hasListUnrelated);
               else
                 if (m_settings.order == e_byAccid)
-                  sortedLists = sortByAccidental(convList, m_exam->level(), m_hasListUnrelated);
+                  sortedLists = sortByAccidental(convList, m_exam->level(), m_hasListUnrelated, kindOfAccids);
           goodSize = sortedLists.size();
       }
 
@@ -173,28 +174,15 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
               sortedLists[i].operator[](0)->key.getName() + "</b></span>").arg(aTimeText).arg(wereKeys);
             } else
               if (m_settings.order == e_byAccid) {
-                char accid;
-                if (sortedLists[i].operator[](0)->answerAs != TQAtype::e_asSound &&
-                  sortedLists[i].operator[](0)->answerAs == sortedLists[i].operator[](0)->questionAs)
-                    accid = sortedLists[i].operator[](0)->qa_2.note.acidental;
+                QString accStr, accidClue;
+                accStr = accidToNotka(kindOfAccids[i]);
+                if (kindOfAccids[i])
+                    accidClue = tr("for an accidental:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  " +
+                        accStr + "</span>";
                 else
-                    accid = sortedLists[i].operator[](0)->qa.note.acidental;
-                QString accStr;
-                switch (accid) {
-                  case -2:
-                    accStr = TquestionAsWdg::spanNootka("B", 20); break;
-                  case -1:
-                    accStr = TquestionAsWdg::spanNootka("b", 20); break;
-                  case 0:
-                    accStr = tr("none"); break;
-                  case 1:
-                    accStr = TquestionAsWdg::spanNootka("#", 20); break;
-                  case 2:
-                    accStr = TquestionAsWdg::spanNootka("x", 20); break;
-                }
-                lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(tr("for an accidental:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  " +
-                accStr + "</span>"
-                ).arg(aTimeText);
+                    accidClue = tr("for notes without accidentals"); 
+                lineText += "<p>" + TexamView::averAnsverTimeTxt() + 
+                QString("<br><span style=\"font-size: 20px;\">%1<br>%2</span></p>").arg(accidClue).arg(aTimeText);
               }
         
         averTimeLine->setText(lineText);
@@ -228,7 +216,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
         QFont f;
         f.setPixelSize(30);
         fretText->setFont(f);
-        QString hintText = "<b style=\"color: rgba(200, 200, 200, 180); \">";
+        QString hintText = "<b style=\"color: rgba(200, 200, 200, 200); \">";
         if (goodOffset && (i == goodSize -1))
           hintText += tr("questions unrelated<br>with chart type");
         else
@@ -253,7 +241,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
         QFont f;
         f.setPixelSize(16);
         keyText->setFont(f);
-        QString hintText = "<b style=\"color: rgba(200, 200, 200, 180); \">";
+        QString hintText = "<b style=\"color: rgba(200, 200, 200, 200); \">";
         if (goodOffset && (i == goodSize -1))
           hintText += tr("questions unrelated<br>with chart type") + "</b>";
         else {
@@ -272,10 +260,37 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
         (sortedLists[i].size() * xAxis->questWidth() - keyText->boundingRect().width()) / 2, 
                          yAxis->mapValue(yAxis->maxValue()));        
         keyText->setZValue(3);
-        
         cnt += sortedLists[i].size();
       }
     }
+// accidentals over the chart
+    if (m_settings.order == e_byAccid) {
+      cnt = 1;
+      for (int i = 0; i < goodSize; i++) { 
+        QGraphicsTextItem *accidentalText = new QGraphicsTextItem();
+        QFont f;
+        f.setPixelSize(30);
+        accidentalText->setFont(f);
+        QString hintText = "<span style=\"color: rgba(200, 200, 200, 200); \">";
+        if (goodOffset && (i == goodSize -1))
+          hintText += tr("questions unrelated<br>with chart type") + "</span>";
+        else 
+          if (kindOfAccids[i])
+            hintText += QString("%1").arg(accidToNotka(kindOfAccids[i], 40));
+          else
+            hintText += tr("without accidentals");
+        hintText += "</span>";
+        accidentalText->setHtml(hintText);
+        scene->addItem(accidentalText);
+        TgraphicsTextTip::alignCenter(accidentalText);
+        accidentalText->setPos(xAxis->mapValue(cnt) + 
+        (sortedLists[i].size() * xAxis->questWidth() - accidentalText->boundingRect().width()) / 2, 
+                         yAxis->mapValue(yAxis->maxValue()));        
+        accidentalText->setZValue(3);
+        cnt += sortedLists[i].size();
+      }      
+    }
+  
     
     
   }

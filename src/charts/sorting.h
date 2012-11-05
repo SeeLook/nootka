@@ -54,7 +54,14 @@ typedef QList<TQAunit*> TanswerListPtr; // definition of TQAunit list type
   
   QList<TanswerListPtr> sortByKeySignature(TanswerListPtr& answList, TexamLevel* level, bool& hasListUnrelated);
   
-  QList<TanswerListPtr> sortByAccidental(TanswerListPtr& answList, TexamLevel* level, bool& hasListUnrelated);
+      /** kindOfAccidList is created during sorrting by accidental.
+       * Each element coresponds with elemnt of sortByAccidental List
+       * and keeps appropirate accidental.
+       * For unrelated its value is 3*/
+  QList<TanswerListPtr> sortByAccidental(TanswerListPtr& answList, TexamLevel* level,
+                                         bool& hasListUnrelated, QList<char> &kindOfAccidList);
+      /** converts given value to nootka string. */
+  QString accidToNotka(char acc, int fontSize = 20);
   
 //   QList<TanswerListPtr> divideQuestionsAndAnswers(TanswerListPtr &answList);
   

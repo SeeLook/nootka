@@ -19,6 +19,7 @@
 #include "sorting.h"
 #include "tqaunit.h"
 #include "texamlevel.h"
+#include "tquestionaswdg.h"
 #include <QDebug>
 
 double calcAverTime(TanswerListPtr& answers, bool skipWrong) {
@@ -192,29 +193,26 @@ QList< TanswerListPtr > sortByKeySignature(TanswerListPtr& answList, TexamLevel 
 }
 
 
-QList< TanswerListPtr > sortByAccidental(TanswerListPtr& answList, TexamLevel *level, bool& hasListUnrelated) {
+QList< TanswerListPtr > sortByAccidental(TanswerListPtr& answList, TexamLevel* level,
+                                         bool& hasListUnrelated, QList< char >& kindOfAccidList) {
   QList<TanswerListPtr> result;
   TanswerListPtr accidsArray[6]; // 0 - bb, 1 - b, 2 - none, 3 - #, 4 - x, 5 - unrelated
   for (int i = 0; i < answList.size(); i++) {
-        // First check was an answer a appropirate type
-    if (answList[i]->answerAs != TQAtype::e_asFretPos) {
-          // if question & answer are the same type (note or name), accid from qa_2
-      if (answList[i]->answerAs != TQAtype::e_asSound && answList[i]->answerAs == answList[i]->questionAs)
-          accidsArray[answList[i]->qa_2.note.acidental + 2] << answList[i];
-      else // otherwise accid from qa
-          accidsArray[answList[i]->qa.note.acidental + 2] << answList[i];
-    } else { // do the same with question
-        if (answList[i]->questionAs != TQAtype::e_asFretPos) {
-          accidsArray[answList[i]->qa.note.acidental + 2] << answList[i];
-        } else // unrelated
-            accidsArray[5] << answList[i];      
-    }
+    bool accidFound = false;
+    if (answList[i]->questionAs == TQAtype::e_asNote || answList[i]->questionAs == TQAtype::e_asName ||
+      answList[i]->answerAs == TQAtype::e_asNote || answList[i]->answerAs == TQAtype::e_asName) {
+        accidsArray[answList[i]->qa.note.acidental + 2] << answList[i];
+        if (answList[i]->qa_2.note.note && answList[i]->qa_2.note.acidental != answList[i]->qa.note.acidental)
+            accidsArray[answList[i]->qa_2.note.acidental + 2] << answList[i];
+    } else
+        accidsArray[5] << answList[i];
   }
   bool tmpBool;
   for (int i = 0; i < 6; i++) {
     if (!accidsArray[i].isEmpty()) {
       QList<TanswerListPtr> sorted = sortByNote(accidsArray[i], level, tmpBool);
       result << mergeListOfLists(sorted);
+      kindOfAccidList << (i - 2);
     }
   }
   if (accidsArray[5].isEmpty())
@@ -260,6 +258,22 @@ TanswerListPtr convertToPointers(QList<TQAunit> *examList) {
 }
 
 
+QString accidToNotka(char acc, int fontSize) {
+  QString result = "";
+  switch (acc) {
+      case -2:
+        result = TquestionAsWdg::spanNootka("B", fontSize); break;
+      case -1:
+        result = TquestionAsWdg::spanNootka("b", fontSize); break;
+      case 0:
+        break;
+      case 1:
+        result = TquestionAsWdg::spanNootka("#", fontSize); break;
+      case 2:
+        result = TquestionAsWdg::spanNootka("x", fontSize); break;
+  }
+  return result;
+}
 
 
 
