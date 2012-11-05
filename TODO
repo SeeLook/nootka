@@ -1,12 +1,12 @@
 0.8.5 stable:
 - positions and look of frets numbers and key names in charts
 - look of analyse dialog 
-- implement sort by accidentals
 - prevent to show the same files in level selector
 - avoid 0.0s answer time 
 - icons size under Windows 7
 - in TtipChart remove checking style when will be solved
 - add string numbers to pixmap
+- average time without wrong answers
 
 
 TGLOBALS & TTUNE
