@@ -29,6 +29,7 @@ const QString TexamView::halfMistakenTxt() { return tr("'Not So Bad' answers"); 
 const QString TexamView::halfMistakenAddTxt() { return tr("(counted as half of a mistake)"); }
 
 QString borderStyleTxt = "border: 1px solid palette(Text); border-radius: 4px;";
+int m_okCount = 0;
 
 //QGroupBox *okGr;
 
@@ -111,9 +112,9 @@ quint16 TexamView::questionStop() {
     m_showReact = false;
     quint16 t = qRound(m_reactTime.elapsed() / 100);
     m_reactTimeLab->setText(" " + formatReactTime(t) + " ");
-    m_averTime = (m_averTime * (m_questNr-1) + t) / m_questNr;
+//     m_averTime = (m_averTime * (m_questNr-1) + t) / m_questNr; // OBSOLETE
 //    m_averTimeLab->setText(QString("%1").arg((qreal)qRound(m_averTime)/10));
-    m_averTimeLab->setText(" " + formatReactTime(qRound(m_averTime)) + " ");
+//     m_averTimeLab->setText(" " + formatReactTime(qRound(m_averTime)) + " ");
     return t;
 }
 
@@ -124,6 +125,7 @@ void TexamView::startExam(int passTimeInSec, int questNumber, int averTime, int 
     m_averTime = averTime;
     m_mistakes = mistakes;
     m_halfMistakes = halfMist;
+    m_okCount = m_questNr - m_mistakes;
     m_showReact = false;
     m_totalTime.start();
     m_totalTime.restart();
@@ -141,6 +143,10 @@ void TexamView::setAnswer(TQAunit* answer) {
         else
           m_halfMistakes++;
       }
+      if (!answer->isWrong()) {
+      m_okCount++;
+      m_averTime = (m_averTime * (m_okCount -1) + answer->time) / m_okCount;
+    }
     }
     m_mistLab->setText(QString("%1").arg(m_mistakes));
     if (m_halfMistakes) {
@@ -152,6 +158,7 @@ void TexamView::setAnswer(TQAunit* answer) {
 //     m_effect = (((qreal)m_questNr - (qreal)m_mistakes) / (qreal)m_questNr) * 100;
     m_effect = Texam::effectiveness(m_questNr, m_mistakes, m_halfMistakes);
    m_effLab->setText(QString("<b>%1 %</b>").arg(qRound(m_effect)));
+   m_averTimeLab->setText(" " + formatReactTime(qRound(m_averTime)) + " ");
 }
 
 void TexamView::resizeEvent(QResizeEvent* ) {

@@ -52,6 +52,11 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
       xAxis->setAnswersList(exam->answList(), exam->level());
       prepareChart(m_exam->count());
       m_mainLine = new TmainLine(m_exam->answList(), this);
+      /** NOTE
+       * I'm not sure for now what to do with curve shows a progress
+       * Let's see...
+       * code below has wrong counting of average time
+       * 
       //      QPolygonF polygon;
       double aTime = 0 , prev = 0;
       int firstCorrect = 0, okCount = 0;
@@ -82,14 +87,16 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
         averProgress->setZValue(10);
         prev = aTime;
       }
-      qDebug() << aTime << m_exam->averageReactonTime() / 10.0;      
+      qDebug() << aTime << m_exam->averageReactonTime() / 10.0;
+      */
       TgraphicsLine *averLine = new TgraphicsLine("<p>" +
-          TexamView::averAnsverTimeTxt() + QString("<br><span style=\"font-size: 20px;\">%1 s</span></p>").arg(TexamView::formatReactTime(aTime * 10)) );
+          TexamView::averAnsverTimeTxt() + 
+          QString("<br><span style=\"font-size: 20px;\">%1 s</span></p>").arg(TexamView::formatReactTime(m_exam->averageReactonTime())) );
       scene->addItem(averLine);
       averLine->setZValue(20);
-      averLine->setPen(QPen(averColor, 1));
-      averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(aTime),
-          xAxis->mapValue(m_exam->count()) + xAxis->pos().x(), yAxis->mapValue(aTime));
+      averLine->setPen(QPen(averColor, 3));
+      averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime() / 10.0),
+          xAxis->mapValue(m_exam->count()) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime() / 10.0));
   }
   
   if (m_settings.order == e_byNote || m_settings.order == e_byFret ||
