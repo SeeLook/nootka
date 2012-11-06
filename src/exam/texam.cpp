@@ -109,6 +109,7 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
       int tmpMist = 0;
       int tmpHalf = 0;
       int fixedNr = 0;
+      int okTime = 0; // time of correct and notBad answers to calculate average
       while (!in.atEnd()) {
           TQAunit qaUnit;
           if (!getTQAunitFromStream(in, qaUnit))
@@ -133,6 +134,8 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
           } else { // add to m_blackList
               m_blackList << qaUnit;
           }
+          if (!qaUnit.isWrong())
+            okTime += qaUnit.time;
       }
       if (questNr != m_answList.size()) {
         isExamFileOk = false;        
@@ -150,7 +153,8 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
       }
       if (fixedNr)
           qDebug() << "fixed style in questions:" << fixedNr;
-      m_averReactTime = m_workTime / count();
+//       m_averReactTime = m_workTime / count(); // OBSOLETE
+      m_averReactTime = okTime / (count() - tmpMist);
       if (!isExamFileOk)
           result = e_file_corrupted;        
      } else {
