@@ -134,22 +134,27 @@ void TlevelCreatorDlg::saveToFile() {
     newLevel.desc = nameList[1];
   // Saving to file
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save exam's level"),
-                       QDir::toNativeSeparators(QDir::homePath()+"/"+newLevel.name),
+                                                    QDir::toNativeSeparators(QDir::homePath() + "/" + newLevel.name + ".nel"),
                                               TlevelSelector::levelFilterTxt() + " (*.nel)", 0 , QFileDialog::DontUseNativeDialog);
+    if (fileName == "")
+        return;
+    bool levelAdded;
     QFile file(fileName);
     if (file.open(QIODevice::WriteOnly)) {
         QDataStream out(&file);
         out.setVersion(QDataStream::Qt_4_7);
         out << TlevelSelector::levelVersion << newLevel;
-        levelSett->levelSelector->updateRecentLevels(fileName);
+        levelAdded = levelSett->levelSelector->updateRecentLevels(fileName);
     }
-    else
-        QMessageBox::critical(this, "", tr("Cannot open file for writing\n%1")
-		.arg(QString::fromLocal8Bit(qPrintable(file.errorString()))));
+    else {
+        QMessageBox::critical(this, "", tr("Cannot open file for writing"));
+        return;
+    }
     isNotSaved = false;
-
-    levelSett->levelSelector->addLevel(newLevel);
+    if (!levelAdded) {
+        levelSett->levelSelector->addLevel(newLevel);
     levelSett->levelSelector->selectLevel(); // select the last
+    }
     levelSaved();
 }
 
