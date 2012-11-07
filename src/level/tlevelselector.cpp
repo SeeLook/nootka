@@ -340,10 +340,17 @@ TexamLevel TlevelSelector::getSelectedLevel() {
         return m_levList[m_levelsList->currentRow()];
 }
 
-void TlevelSelector::updateRecentLevels(QString levelFile) {
+bool TlevelSelector::updateRecentLevels(QString levelFile) {
+    bool removed;
     QStringList recentLevels = gl->config->value("recentLevels").toStringList();
-    recentLevels.removeAll(levelFile);
+    if (recentLevels.contains(levelFile)) {
+        removed = true;
+        recentLevels.removeAll(levelFile);
+    }
+    else
+        removed = false;
     recentLevels.prepend(levelFile);
     gl->config->setValue("recentLevels", recentLevels);
+    return removed;
 }
 

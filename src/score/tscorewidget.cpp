@@ -99,7 +99,11 @@ void TscoreWidget::resizeEvent(QResizeEvent *event) {
     if (m_questKey && m_questKey->isVisible())
         resizeKeyText();
     if (m_scordature)
+#if defined(Q_OS_MAC)
+        m_scordature->setGeometry(0, 29 * coeff, 13 * coeff, 6 * coeff);
+#else
         m_scordature->setGeometry(0, 29 * coeff, 12 * coeff, 6 * coeff);
+#endif
 }
 
 void TscoreWidget::setScordature() {
@@ -108,7 +112,12 @@ void TscoreWidget::setScordature() {
           delete m_scordature;
         setHasScord(true);
         m_scordature = new TscordatureView(this);
+#if defined(Q_OS_MAC)
+        m_scordature->setGeometry(0, 29 * coeff, 13 * coeff, 6 * coeff);
+#else
         m_scordature->setGeometry(0, 29 * coeff, 12 * coeff, 6 * coeff);
+#endif
+
         m_scordature->show();
         m_scordature->setTune(gl->Gtune(), gl->NnameStyleInNoteName);
         m_scordature->update();

@@ -61,7 +61,9 @@ public:
     void selectLevel();
         /** Returns current level*/
     TexamLevel getSelectedLevel();
-    void updateRecentLevels(QString levelFile);
+        /** Updates config file with new levels list.
+        * Returns true when given level file was added to config. */
+    bool updateRecentLevels(QString levelFile);
         /** Checks is given level is in range of current tune and frets number.
         * If not, it disables the latest entry in the list - BE SURE to call this
         * only after addLevel() method whtch puts the last level on the list.*/
