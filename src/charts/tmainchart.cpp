@@ -254,10 +254,10 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
         else {
             hintText += QString("%1").arg(sortedLists[i].operator[](0)->key.getName());
             hintText += "<br><span style=\"font-family: nootka; font-size: 20px\">";
-            if (sortedLists[i].operator[](0)->questionAs == TQAtype::e_asNote)
-              hintText += "?";
-            else
+            if (sortedLists[i].operator[](0)->answerAs == TQAtype::e_asNote)
               hintText += "!";
+            else
+              hintText += "?";
             hintText += "</span></b>";
         }
         keyText->setHtml(hintText);

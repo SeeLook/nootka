@@ -586,9 +586,9 @@ void TfingerBoard::resizeRangeBox() {
         QColor C(0, 182, 182, 200);
         QPen pen = QPen(C, m_strGap / 3);
         pen.setJoinStyle(Qt::RoundJoin);
-        int xxB, xxE;
+        int xxB, xxE; // begin and end points of a box
         if (m_loFret == 0 || m_loFret == 1)
-            xxB = xxB = m_fbRect.x() - 4;
+            xxB = m_fbRect.x() - 4;
         else
             xxB = m_fretsPos[m_loFret-2] - 4;
         if (m_loFret == 0) {//  surely box for open strings
@@ -600,12 +600,12 @@ void TfingerBoard::resizeRangeBox() {
                 m_rangeBox2->setPen(pen);
                 m_rangeBox2->setRect(0, 0, width() - lastFret - 2 * m_strGap, m_fbRect.height());
                 m_rangeBox2->setPos(lastFret + m_strGap , m_fbRect.y() - 4);
-                xxE = m_fretsPos[m_hiFret-1] + 4;
+                xxE = m_fretsPos[m_hiFret - 1] + 10;
             } else { // one - over whole guitar
                 xxE = width() - m_strGap;
             }
         } else { //one
-            xxE = m_fretsPos[m_hiFret-1] + 4;
+            xxE = m_fretsPos[m_hiFret - 1] + 10;
         }
         m_rangeBox1->setPen(pen);
         m_rangeBox1->setRect(0, 0, xxE - xxB, m_fbRect.height());

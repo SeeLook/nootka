@@ -131,11 +131,11 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
                 else
                   tmpHalf++; // not so bad answer
               }
+              if (!qaUnit.isWrong())
+                  okTime += qaUnit.time;
           } else { // add to m_blackList
               m_blackList << qaUnit;
           }
-          if (!qaUnit.isWrong())
-            okTime += qaUnit.time;
       }
       if (questNr != m_answList.size()) {
         isExamFileOk = false;        
@@ -154,7 +154,7 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
       if (fixedNr)
           qDebug() << "fixed style in questions:" << fixedNr;
 //       m_averReactTime = m_workTime / count(); // OBSOLETE
-      m_averReactTime = okTime / (count() - tmpMist);
+      m_averReactTime = okTime / (count() - mistakes());
       if (!isExamFileOk)
           result = e_file_corrupted;        
      } else {
