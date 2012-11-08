@@ -138,6 +138,8 @@ void TlevelCreatorDlg::saveToFile() {
                                               TlevelSelector::levelFilterTxt() + " (*.nel)", 0 , QFileDialog::DontUseNativeDialog);
     if (fileName == "")
         return;
+    if (fileName.right(4) != ".nel")
+      fileName += ".nel";
     bool levelAdded;
     QFile file(fileName);
     if (file.open(QIODevice::WriteOnly)) {
@@ -151,10 +153,8 @@ void TlevelCreatorDlg::saveToFile() {
         return;
     }
     isNotSaved = false;
-    if (!levelAdded) {
-        levelSett->levelSelector->addLevel(newLevel);
+    levelSett->levelSelector->addLevel(newLevel);
     levelSett->levelSelector->selectLevel(); // select the last
-    }
     levelSaved();
 }
 
