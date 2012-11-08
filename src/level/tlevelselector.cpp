@@ -228,9 +228,14 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
     connect(m_loadBut, SIGNAL(clicked()), this, SLOT(loadFromFilePrivate()));
 }
 
+TlevelSelector::~TlevelSelector() {
+    updateRecentLevels();
+}
+
+
 void TlevelSelector::levelSelected(int id) {
-    m_levelPreview->setLevel(m_levList[id]);
-    emit levelChanged(m_levList[id]);
+    m_levelPreview->setLevel(m_levels[id].level);
+    emit levelChanged(m_levels[id].level);
 }
 
 void TlevelSelector::findLevels() {
@@ -250,7 +255,7 @@ void TlevelSelector::findLevels() {
         if (file.exists()) {
             TexamLevel level = getLevelFromFile(file);
             if (level.name != "") {
-                addLevel(level);
+                addLevel(level, file.fileName());
                 isSuitable(level);
             } else
                 recentLevels.removeAt(i);
@@ -258,16 +263,26 @@ void TlevelSelector::findLevels() {
             recentLevels.removeAt(i);
     }
     gl->config->setValue("recentLevels", recentLevels);
+    qDebug() << m_levels.size();
 }
 
-void TlevelSelector::addLevel(const TexamLevel& lev, QString& levelFile) {
+void TlevelSelector::addLevel(const TexamLevel& lev, QString levelFile, bool check) {
+    if (check && levelFile != "") {
+      for (int i = 0; i < m_levels.size(); i++) {
+        if (m_levels[i].file == levelFile) { // file and level exist
+          m_levelsListWdg->removeItemWidget(m_levels[i].item);
+          m_levels.removeAt(i);
+          break;
+        }
+      }
+    }
     SlevelContener l;
     m_levelsListWdg->addItem(lev.name);
 //     m_levList << lev;
     l.level = lev;
     l.file = levelFile;
-    l.id = m_levelsListWdg->count() - 1;
-    m_levelsListWdg->item(l.id)->setStatusTip(lev.desc);
+    l.item = m_levelsListWdg->item(m_levelsListWdg->count() - 1);
+    l.item->setStatusTip(lev.desc);
     m_levels << l;
 }
 
@@ -279,9 +294,9 @@ bool TlevelSelector::isSuitable(TexamLevel &l) {
  )
     if (l.hiFret > gl->GfretsNumber ||
         l.loNote.getChromaticNrOfNote() < gl->loString().getChromaticNrOfNote() ) {
-        m_levelsListWdg->item(m_levList.size()-1)->setStatusTip("<span style=\"color: red;\">" +
+        m_levels.last().item->setStatusTip("<span style=\"color: red;\">" +
                 tr("Level is not suitable for current tune and/or frets number") + "</span>");
-        m_levelsListWdg->item(m_levList.size()-1)->setFlags(Qt::NoItemFlags);
+        m_levels.last().item->setFlags(Qt::NoItemFlags);
         return false;
     } else
         return true;
@@ -308,10 +323,10 @@ void TlevelSelector::loadFromFile(QString levelFile) {
     QFile file(levelFile);
     TexamLevel level = getLevelFromFile(file);
     if (level.name != "") {
-        addLevel(level);
+        addLevel(level, levelFile, true);
         if (isSuitable(level))
             selectLevel(); // select the last
-        updateRecentLevels(levelFile);
+//         updateRecentLevels(levelFile);
     }
 }
 
@@ -342,20 +357,27 @@ TexamLevel TlevelSelector::getSelectedLevel() {
         l.name = ""; l.desc = "";
         return l;
     } else
-        return m_levList[m_levelsListWdg->currentRow()];
+        return m_levels[m_levelsListWdg->currentRow()].level;
 }
 
-bool TlevelSelector::updateRecentLevels(QString levelFile) {
-    bool removed;
-    QStringList recentLevels = gl->config->value("recentLevels").toStringList();
-    if (recentLevels.contains(levelFile)) {
-        removed = true;
-        recentLevels.removeAll(levelFile);
+void TlevelSelector::updateRecentLevels() {
+//     bool removed;
+//     QStringList recentLevels = gl->config->value("recentLevels").toStringList();
+//     if (recentLevels.contains(levelFile)) {
+//         removed = true;
+//         recentLevels.removeAll(levelFile);
+//     }
+//     else
+//         removed = false;
+//     recentLevels.prepend(levelFile);
+//     gl->config->setValue("recentLevels", recentLevels);
+//     return removed;
+    QStringList recentLevels;
+    for (int i = m_levels.size() - 1; i > 0; i++) {
+      if (m_levels[i].file != "")
+        recentLevels << m_levels[i].file;
     }
-    else
-        removed = false;
-    recentLevels.prepend(levelFile);
     gl->config->setValue("recentLevels", recentLevels);
-    return removed;
+    
 }
 

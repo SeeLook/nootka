@@ -23,6 +23,7 @@
 #include "texamlevel.h"
 #include <QWidget>
 
+class QListWidgetItem;
 class QListWidget;
 class TlevelPreview;
 class QListWidget;
@@ -41,6 +42,7 @@ class TlevelSelector : public QWidget
     Q_OBJECT
 public:
     explicit TlevelSelector(QWidget *parent = 0);
+    virtual ~TlevelSelector();
         /** It's looking for levels:
         * 1. in TexamLevel constructor
         * 2. In default install dir
@@ -55,10 +57,12 @@ public:
     struct SlevelContener {
         TexamLevel level;
         QString file; // file name of a level
-        int id; // position in QListWidget (m_levelsListWdg)
+        QListWidgetItem *item; // coresponding entry in QListWidget (m_levelsListWdg)
     };    
-        /** Adds level @param lev to list.*/
-    void addLevel(const TexamLevel &lev, QString &levelFile = "");
+        /** Adds level @param lev to list. 
+         * Also coresponding file name.
+         * when @param check is true it checks list for duplicates*/
+    void addLevel(const TexamLevel &lev, QString levelFile = "", bool check = false);
         /** Selects @param id level on the list,
         * and shows its summary.*/
     void selectLevel(int id);
@@ -68,7 +72,7 @@ public:
     TexamLevel getSelectedLevel();
         /** Updates config file with new levels list.
         * Returns true when given level file was added to config. */
-    bool updateRecentLevels(QString levelFile);
+    void updateRecentLevels();
         /** Checks is given level is in range of current tune and frets number.
         * If not, it disables the latest entry in the list - BE SURE to call this
         * only after addLevel() method whtch puts the last level on the list.*/
