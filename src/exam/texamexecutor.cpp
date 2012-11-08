@@ -940,7 +940,9 @@ QString TexamExecutor::saveExamToFile() {
 		msg->exec();
         if (msg->clickedButton() == saveButt)
             fileName = saveExamToFile();
-	}
+    }
+    if (fileName.right(4) != ".noo")
+        fileName += ".noo";
     return fileName;
 }
 

@@ -206,10 +206,10 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
     QVBoxLayout *levLay = new QVBoxLayout;
     QLabel *levLab = new QLabel(levelFilterTxt() + ":",this);
     levLay->addWidget(levLab);
-    m_levelsList = new QListWidget(this);
-    m_levelsList->setMouseTracking(true);
-    m_levelsList->setFixedWidth(200);
-    levLay->addWidget(m_levelsList);
+    m_levelsListWdg = new QListWidget(this);
+    m_levelsListWdg->setMouseTracking(true);
+    m_levelsListWdg->setFixedWidth(200);
+    levLay->addWidget(m_levelsListWdg);
     m_loadBut = new QPushButton(tr("Load"), this);
     m_loadBut->setStatusTip(tr("Load exam's level from file"));
     levLay->addStretch(1);
@@ -224,7 +224,7 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
 
     findLevels();
 
-    connect(m_levelsList, SIGNAL(currentRowChanged(int)), this, SLOT(levelSelected(int)));
+    connect(m_levelsListWdg, SIGNAL(currentRowChanged(int)), this, SLOT(levelSelected(int)));
     connect(m_loadBut, SIGNAL(clicked()), this, SLOT(loadFromFilePrivate()));
 }
 
@@ -241,7 +241,7 @@ void TlevelSelector::findLevels() {
         addLevel(llist[i]);
         isSuitable(llist[i]);
     }
-  // from constructor
+  // from constructor (Master of Masters)
     addLevel(lev);
   // from setting file - recent load/saved levels
     QStringList recentLevels = gl->config->value("recentLevels").toStringList();
@@ -260,10 +260,15 @@ void TlevelSelector::findLevels() {
     gl->config->setValue("recentLevels", recentLevels);
 }
 
-void TlevelSelector::addLevel(const TexamLevel &lev) {
-    m_levelsList->addItem(lev.name);
-    m_levList << lev;
-    m_levelsList->item(m_levList.size()-1)->setStatusTip(lev.desc);
+void TlevelSelector::addLevel(const TexamLevel& lev, QString& levelFile) {
+    SlevelContener l;
+    m_levelsListWdg->addItem(lev.name);
+//     m_levList << lev;
+    l.level = lev;
+    l.file = levelFile;
+    l.id = m_levelsListWdg->count() - 1;
+    m_levelsListWdg->item(l.id)->setStatusTip(lev.desc);
+    m_levels << l;
 }
 
 bool TlevelSelector::isSuitable(TexamLevel &l) {
@@ -274,9 +279,9 @@ bool TlevelSelector::isSuitable(TexamLevel &l) {
  )
     if (l.hiFret > gl->GfretsNumber ||
         l.loNote.getChromaticNrOfNote() < gl->loString().getChromaticNrOfNote() ) {
-        m_levelsList->item(m_levList.size()-1)->setStatusTip("<span style=\"color: red;\">" +
+        m_levelsListWdg->item(m_levList.size()-1)->setStatusTip("<span style=\"color: red;\">" +
                 tr("Level is not suitable for current tune and/or frets number") + "</span>");
-        m_levelsList->item(m_levList.size()-1)->setFlags(Qt::NoItemFlags);
+        m_levelsListWdg->item(m_levList.size()-1)->setFlags(Qt::NoItemFlags);
         return false;
     } else
         return true;
@@ -284,12 +289,12 @@ bool TlevelSelector::isSuitable(TexamLevel &l) {
 
 
 void TlevelSelector::selectLevel(int id) {
-    if (id >= 0 && id < m_levelsList->count())
-        m_levelsList->setCurrentRow(id);
+    if (id >= 0 && id < m_levelsListWdg->count())
+        m_levelsListWdg->setCurrentRow(id);
 }
 
 void TlevelSelector::selectLevel() {
-    m_levelsList->setCurrentRow(m_levelsList->count()-1);
+    m_levelsListWdg->setCurrentRow(m_levelsListWdg->count()-1);
 }
 
 void TlevelSelector::loadFromFilePrivate() {
@@ -332,12 +337,12 @@ TexamLevel TlevelSelector::getLevelFromFile(QFile &file) {
 }
 
 TexamLevel TlevelSelector::getSelectedLevel() {
-    if (m_levelsList->currentRow() == -1 ) {
+    if (m_levelsListWdg->currentRow() == -1 ) {
         TexamLevel l = TexamLevel();
         l.name = ""; l.desc = "";
         return l;
     } else
-        return m_levList[m_levelsList->currentRow()];
+        return m_levList[m_levelsListWdg->currentRow()];
 }
 
 bool TlevelSelector::updateRecentLevels(QString levelFile) {

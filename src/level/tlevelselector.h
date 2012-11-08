@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -52,8 +52,13 @@ public:
         /** Shows message box with error if file cannot be opened.*/
     static void fileIOerrorMsg(QFile &f, QWidget *parent = 0);
 
+    struct SlevelContener {
+        TexamLevel level;
+        QString file; // file name of a level
+        int id; // position in QListWidget (m_levelsListWdg)
+    };    
         /** Adds level @param lev to list.*/
-    void addLevel(const TexamLevel &lev );
+    void addLevel(const TexamLevel &lev, QString &levelFile = "");
         /** Selects @param id level on the list,
         * and shows its summary.*/
     void selectLevel(int id);
@@ -82,8 +87,9 @@ signals:
     void levelToLoad();
 
 private:
-    QListWidget *m_levelsList;
-    QList <TexamLevel> m_levList;
+    QListWidget *m_levelsListWdg;
+//     QList <TexamLevel> m_levList;
+    QList <SlevelContener> m_levels;
     TlevelPreview *m_levelPreview;
     QPushButton *m_loadBut;
     
