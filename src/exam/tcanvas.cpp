@@ -31,6 +31,7 @@
 #include "tnotename.h"
 #include "tfingerboard.h"
 #include "tpitchview.h"
+#include "tquestionaswdg.h"
 #include <QDebug>
 #include <QTimer>
 #include <QPropertyAnimation>
@@ -67,15 +68,15 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   scene()->addItem(m_flyAnswer);
   m_flyAnswer->hide();
   QPropertyAnimation *movPos = new QPropertyAnimation(m_flyAnswer, "pos");
-    movPos->setDuration(800);
+    movPos->setDuration(600);
     movPos->setEasingCurve(QEasingCurve::OutCirc);
     QPropertyAnimation *movScale = new QPropertyAnimation(m_flyAnswer, "scale");
-    movScale->setDuration(800);
+    movScale->setDuration(600);
     movScale->setStartValue(4.0);
     movScale->setEndValue(0.3);
     movScale->setEasingCurve(QEasingCurve::InCirc);
     QPropertyAnimation *movAlpha = new QPropertyAnimation(m_flyAnswer, "alpha");
-    movAlpha->setDuration(1000);
+    movAlpha->setDuration(600);
     movAlpha->setStartValue(255);
     movAlpha->setEndValue(0);
     movAlpha->setEasingCurve(QEasingCurve::InExpo);
@@ -259,6 +260,7 @@ void Tcanvas::clearTryAgainTip() {
 
 
 void Tcanvas::markAnswer(TQAtype::Etype qType, TQAtype::Etype aType) {
+    m_flyAnswer->setText(TquestionAsWdg::qaTypeSymbol(qType));
     m_flyAnswer->show();
     QPoint qCenter, anCenter;
     qCenter = getRect(qType).center();

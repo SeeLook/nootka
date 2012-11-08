@@ -140,13 +140,11 @@ void TlevelCreatorDlg::saveToFile() {
         return;
     if (fileName.right(4) != ".nel")
       fileName += ".nel";
-//     bool levelAdded;
     QFile file(fileName);
     if (file.open(QIODevice::WriteOnly)) {
         QDataStream out(&file);
         out.setVersion(QDataStream::Qt_4_7);
         out << TlevelSelector::levelVersion << newLevel;
-//         levelAdded = levelSett->levelSelector->updateRecentLevels(fileName);
     }
     else {
         QMessageBox::critical(this, "", tr("Cannot open file for writing"));

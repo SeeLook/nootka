@@ -263,22 +263,21 @@ void TlevelSelector::findLevels() {
             recentLevels.removeAt(i);
     }
     gl->config->setValue("recentLevels", recentLevels);
-    qDebug() << m_levels.size();
 }
 
 void TlevelSelector::addLevel(const TexamLevel& lev, QString levelFile, bool check) {
     if (check && levelFile != "") {
-      for (int i = 0; i < m_levels.size(); i++) {
-        if (m_levels[i].file == levelFile) { // file and level exist
-          m_levelsListWdg->removeItemWidget(m_levels[i].item);
-          m_levels.removeAt(i);
-          break;
-        }
-      }
+      int pos = -1;
+      for (int i = 0; i < m_levels.size(); i++)
+        if (m_levels[i].file == levelFile) // file and level exist
+            pos = i;
+
+      QListWidgetItem *it = m_levelsListWdg->takeItem(pos);
+      delete it;
+      m_levels.removeAt(pos);
     }
     SlevelContener l;
     m_levelsListWdg->addItem(lev.name);
-//     m_levList << lev;
     l.level = lev;
     l.file = levelFile;
     l.item = m_levelsListWdg->item(m_levelsListWdg->count() - 1);
@@ -326,7 +325,6 @@ void TlevelSelector::loadFromFile(QString levelFile) {
         addLevel(level, levelFile, true);
         if (isSuitable(level))
             selectLevel(); // select the last
-//         updateRecentLevels(levelFile);
     }
 }
 
@@ -361,19 +359,8 @@ TexamLevel TlevelSelector::getSelectedLevel() {
 }
 
 void TlevelSelector::updateRecentLevels() {
-//     bool removed;
-//     QStringList recentLevels = gl->config->value("recentLevels").toStringList();
-//     if (recentLevels.contains(levelFile)) {
-//         removed = true;
-//         recentLevels.removeAll(levelFile);
-//     }
-//     else
-//         removed = false;
-//     recentLevels.prepend(levelFile);
-//     gl->config->setValue("recentLevels", recentLevels);
-//     return removed;
     QStringList recentLevels;
-    for (int i = m_levels.size() - 1; i > 0; i++) {
+    for (int i = m_levels.size() - 1; i > 1; i--) {
       if (m_levels[i].file != "")
         recentLevels << m_levels[i].file;
     }
