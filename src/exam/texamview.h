@@ -58,6 +58,8 @@ public:
     void startExam( int passTimeInSec = 0, int questNumber = 0,int averTime = 0, int mistakes = 0, int halfMist = 0);
     void questionStart();
     quint16 questionStop();
+      /** Elapsed time for an answer. */
+    quint16 questionTime();
     void setAnswer(TQAunit *answer = 0);
     void setFontSize(int s);
 

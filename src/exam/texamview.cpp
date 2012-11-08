@@ -108,6 +108,10 @@ void TexamView::questionStart() {
     countTime();
 }
 
+quint16 TexamView::questionTime() {
+     return qRound(m_reactTime.elapsed() / 100);
+}
+
 quint16 TexamView::questionStop() {
     m_showReact = false;
     quint16 t = qRound(m_reactTime.elapsed() / 100);
