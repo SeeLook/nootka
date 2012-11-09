@@ -68,7 +68,6 @@ private slots:
             @param isNotSaved value to @p false and window title.*/
     void levelSaved();
     void loadFromFile();
-    void acceptLevel();
         /** Performed when user cliks StartExam Button. */
     void startExam();
     void checkLevelSlot();

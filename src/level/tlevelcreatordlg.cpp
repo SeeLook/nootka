@@ -168,9 +168,6 @@ void TlevelCreatorDlg::loadFromFile() {
     levelSett->levelSelector->loadFromFile();
 }
 
-void TlevelCreatorDlg::acceptLevel() {
-//    mainLevel = levelSett->levelSelector->getSelectedLevel();
-}
 
 QString TlevelCreatorDlg::validateLevel(TexamLevel &l) {
     QString res = "";

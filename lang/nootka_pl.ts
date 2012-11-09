@@ -667,7 +667,7 @@
         <translation>Kouyanbaba: D A D A D F </translation>
     </message>
     <message>
-        <location filename="../src/exam/texam.cpp" line="193"/>
+        <location filename="../src/exam/texam.cpp" line="197"/>
         <source>Cannot save exam file:
 %1</source>
         <translation>Nie mogę zapisać pliku z egzaminem:
@@ -956,12 +956,12 @@
 <context>
     <name>Tcanvas</name>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="133"/>
+        <location filename="../src/exam/tcanvas.cpp" line="135"/>
         <source>Try again!</source>
         <translation>Spróbuj jeszcze raz!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="163"/>
+        <location filename="../src/exam/tcanvas.cpp" line="166"/>
         <source>To correct an answer</source>
         <translation>Żeby poprawić odpowiedź</translation>
     </message>
@@ -1030,12 +1030,12 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>pomoc</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="938"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="939"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="939"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="940"/>
         <source>Discard</source>
         <translation>Porzuć</translation>
     </message>
@@ -1045,27 +1045,27 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>egzamin uruchomiony na poziomie</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="873"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="874"/>
         <source>Give an answer first!&lt;br&gt;Then the exam&apos;ll be finished</source>
         <translation>Najpierw odpowiedz!&lt;br&gt;Potem egzamin zostanie zakończony</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="910"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="911"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
         <translation>Psssst... Trwa egzamin.&lt;br&gt;&lt;br&gt;&lt;b&gt;Kontynuuj&lt;/b&gt; go &lt;br&gt;lub&lt;br&gt;&lt;b&gt;Zakończ&lt;/b&gt; żeby sprawdzić, zapisać i wyjść&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="911"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="912"/>
         <source>Continue</source>
         <translation>Kontynuuj</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="912"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="913"/>
         <source>Terminate</source>
         <translation>Zakończ</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="937"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="938"/>
         <source>If You don&apos;t save to file&lt;br&gt;You lost all results !!</source>
         <translation>Jeżeli nie zapiszesz do pliku&lt;br&gt;stracisz dotychczasowe wyniki!!</translation>
     </message>
@@ -1085,12 +1085,12 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>zatrzymaj egzamin</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="900"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="901"/>
         <source>so a pity</source>
         <translation>jaka szkoda</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="931"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="932"/>
         <source>Save exam&apos;s results as:</source>
         <translation>Zapisz wyniki egzaminu jako:</translation>
     </message>
@@ -1163,42 +1163,42 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>Zaznzczając 3-cie pole wyboru, odpowiedzi będą sprawdzane od razu, bez potwierdzenia.</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="56"/>
+        <location filename="../src/info/texamhelp.h" line="47"/>
         <source>To stop the exam click &lt;img src=&quot;%1&quot;&gt; button.</source>
         <translation>Aby zatrzymać egzamin kliknij przycisk &lt;img src=&quot;%1&quot;&gt; .</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="58"/>
+        <location filename="../src/info/texamhelp.cpp" line="57"/>
         <source>Exam will be complete when You give answers on all questions.&lt;br&gt;Their number depends on a level of the exam.</source>
         <translation>Egzamin zostanie zdany kiedy odpowiesz na wszystkie pytania.&lt;br&gt;Ich liczba zależy od poziomu.</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="59"/>
+        <location filename="../src/info/texamhelp.cpp" line="58"/>
         <source>If You made mistake, such a questions will asked two times more and the total number of questions will be increased. Those are penaltys qustions.</source>
         <translation>Jeżeli popełnisz błąd, takie pytanie będzie zadane jeszcze dwa razy a całkowita liczba pytań w egzaminie zwiększona. To właśnie są karne pytania.</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="60"/>
+        <location filename="../src/info/texamhelp.cpp" line="59"/>
         <source>When answer is &apos;not so bad&apos;, You get one penalty more.</source>
         <translation>Kiedy odpowiedź jest &quot;nie zła&quot;, otrzymasz jedno karne pytanie.</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="62"/>
+        <location filename="../src/info/texamhelp.cpp" line="61"/>
         <source>GOOD LUCK !!!</source>
         <translation>POWODZENIA !!!</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="63"/>
+        <location filename="../src/info/texamhelp.cpp" line="62"/>
         <source>Experts&apos; corner</source>
         <translation>Kącik eksperta</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="65"/>
+        <location filename="../src/info/texamhelp.cpp" line="64"/>
         <source>show or hide the hints</source>
         <translation>pokaż lub ukryj podpowiedzi</translation>
     </message>
     <message>
-        <location filename="../src/info/texamhelp.cpp" line="79"/>
+        <location filename="../src/info/texamhelp.cpp" line="78"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -1349,7 +1349,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>(liczone jako pół błędu)</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamview.cpp" line="38"/>
+        <location filename="../src/exam/texamview.cpp" line="39"/>
         <source>Exam results</source>
         <translation>Wyniki egzaminu</translation>
     </message>
@@ -1499,6 +1499,11 @@ and not saved !!</source>
 ale nie zapisany !!</translation>
     </message>
     <message>
+        <location filename="../src/level/tlevelcreatordlg.cpp" line="150"/>
+        <source>Cannot open file for writing</source>
+        <translation>Nie mogę otworzyć pliku żeby zapisać</translation>
+    </message>
+    <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="176"/>
         <source>There are not any questions nor answers selected.&lt;br&gt;Level has no sence</source>
         <translation>Ani pytania ani odpowiedzi nie są zaznaczone&lt;br&gt;Poziom nie ma sensu</translation>
@@ -1534,10 +1539,9 @@ ale nie zapisany !!</translation>
         <translation>Zapisz poziom egzaminu</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelcreatordlg.cpp" line="147"/>
         <source>Cannot open file for writing
 %1</source>
-        <translation>Nie mogę otworzyć pliku żeby zapisać
+        <translation type="obsolete">Nie mogę otworzyć pliku żeby zapisać
 %1</translation>
     </message>
     <message>
@@ -1642,7 +1646,7 @@ ale nie zapisany !!</translation>
 %2 </translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="192"/>
+        <location filename="../src/level/tlevelselector.cpp" line="191"/>
         <source>Cannot open file
  %1 
  for reading</source>
@@ -1651,39 +1655,39 @@ ale nie zapisany !!</translation>
  do odczytu</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="194"/>
+        <location filename="../src/level/tlevelselector.cpp" line="193"/>
         <source>No file name specified</source>
         <translation>Nie podano nazwy pliku</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="214"/>
+        <location filename="../src/level/tlevelselector.cpp" line="209"/>
         <source>Load</source>
         <translation>Wczytaj</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="215"/>
+        <location filename="../src/level/tlevelselector.cpp" line="210"/>
         <source>Load exam&apos;s level from file</source>
         <translation>Wczytaj poziom egzaminu z pliku</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="279"/>
+        <location filename="../src/level/tlevelselector.cpp" line="293"/>
         <source>Level is not suitable for current tune and/or frets number</source>
         <translation>Poziom nie jest odpowiedni dla aktualnego stroju i/lub liczby progów</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="302"/>
+        <location filename="../src/level/tlevelselector.cpp" line="316"/>
         <source>Load exam&apos;s level</source>
         <translation>Wczytaj poziom egzaminu</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="324"/>
+        <location filename="../src/level/tlevelselector.cpp" line="337"/>
         <source>File: %1 
  is not Nootka level file !!!</source>
         <translation>Plik: %1 
  nie jest plikiem poziomu programu Nootka !!!</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="328"/>
+        <location filename="../src/level/tlevelselector.cpp" line="341"/>
         <source>Level file
  %1 
  was corrupted and repaired !!
@@ -1694,7 +1698,7 @@ Check please, are its parameters as expected.</source>
 Sprawdź czy jego parametry są właściwe..</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.h" line="51"/>
+        <location filename="../src/level/tlevelselector.h" line="53"/>
         <source>Levels</source>
         <translation>Poziomy</translation>
     </message>
@@ -1702,42 +1706,52 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>TmainChart</name>
     <message>
-        <location filename="../src/charts/tmainchart.cpp" line="161"/>
+        <location filename="../src/charts/tmainchart.cpp" line="169"/>
         <source>for a note:</source>
         <comment>average reaction time for...</comment>
         <translation>dla nuty:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tmainchart.cpp" line="164"/>
+        <location filename="../src/charts/tmainchart.cpp" line="172"/>
         <source>for a fret:</source>
         <comment>average reaction time for...</comment>
         <translation>dla progu:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tmainchart.cpp" line="170"/>
+        <location filename="../src/charts/tmainchart.cpp" line="178"/>
         <source>Key signatures gave by user</source>
         <translation>Tonacja podana przez użytkownika</translation>
     </message>
     <message>
-        <location filename="../src/charts/tmainchart.cpp" line="172"/>
+        <location filename="../src/charts/tmainchart.cpp" line="180"/>
         <source>for a key:</source>
         <comment>average reaction time for...</comment>
         <translation>dla tonacji:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tmainchart.cpp" line="189"/>
-        <source>none</source>
-        <translation>brak</translation>
+        <location filename="../src/charts/tmainchart.cpp" line="288"/>
+        <source>without accidentals</source>
+        <translation>bez znaków</translation>
     </message>
     <message>
-        <location filename="../src/charts/tmainchart.cpp" line="195"/>
+        <source>none</source>
+        <translation type="obsolete">brak</translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tmainchart.cpp" line="187"/>
         <source>for an accidental:</source>
         <comment>average reaction time for...</comment>
         <translation>dla znaku:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tmainchart.cpp" line="233"/>
-        <location filename="../src/charts/tmainchart.cpp" line="258"/>
+        <location filename="../src/charts/tmainchart.cpp" line="190"/>
+        <source>for notes without accidentals</source>
+        <translation>dla nut bez znaków</translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tmainchart.cpp" line="228"/>
+        <location filename="../src/charts/tmainchart.cpp" line="253"/>
+        <location filename="../src/charts/tmainchart.cpp" line="283"/>
         <source>questions unrelated&lt;br&gt;with chart type</source>
         <translation>pytania niezwiązane&lt;br&gt;z rodzajem wykresu</translation>
     </message>
@@ -2100,7 +2114,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>TscoreWidget</name>
     <message>
-        <location filename="../src/score/tscorewidget.cpp" line="35"/>
+        <location filename="../src/score/tscorewidget.cpp" line="37"/>
         <source>Click to sellect a note, use mouse wheel to change accidentals.</source>
         <translation>Kilknij, żeby wybrać nutę, użyj kółka myszy, żeby zmienić znak.</translation>
     </message>
@@ -2344,7 +2358,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="53"/>
+        <location filename="../src/main.cpp" line="57"/>
         <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.otf manually.&lt;/center&gt;</source>
         <translation>&lt;center&gt;Nie mogę wczytać czcionki.&lt;br&gt;Spróbuj ręcznie zainstalować nootka.otf.&lt;/center&gt;</translation>
     </message>

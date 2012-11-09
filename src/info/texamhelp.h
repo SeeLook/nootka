@@ -43,6 +43,9 @@ public:
   static QString pressSpaceKey() { return tr("press <b>space</b> key"); } // press <b>space</b> key
   static QString pressEnterKey() { return tr("press <b>Enter</b> key"); } // press <b>Enter</b> key
   static QString orPressBkSTxt() { return tr("or <b>Backspace</b> key"); } // or <b>Backspace</b> key
+  static QString toStopExamTxt(QString pathToImg) 
+      { return tr("To stop the exam click <img src=\"%1\"> button.").arg(pathToImg); }
+      // To stop the exam click button
   
 protected slots:
   void closeHelp();

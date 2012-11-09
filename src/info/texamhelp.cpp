@@ -53,8 +53,7 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt,
     tr("If You made a mistake and You want to repeat the question:") + "<br>- " + 
     clickSomeButtonTxt(path+"picts/prev-icon.png") + "<br>- " + orPressBkSTxt() + "<br>" +
     tr("By selecting 3-rd check box, the answers will be checking immediately without confirmation.") + "<br><br>" +
-    tr("To stop the exam click <img src=\"%1\"> button.").arg(path+"picts/stopExam-icon.png") + 
-    "<br><br>" + 
+    toStopExamTxt(path + "picts/stopExam-icon.png") + "<br><br>" + 
     tr("Exam will be complete when You give answers on all questions.<br>Their number depends on a level of the exam.") + "<br>" +
     tr("If You made mistake, such a questions will asked two times more and the total number of questions will be increased. Those are penaltys qustions.") + "<br>" +
     tr("When answer is 'not so bad', You get one penalty more.") +

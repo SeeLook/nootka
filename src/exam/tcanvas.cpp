@@ -48,7 +48,8 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   m_questionTip(0), m_tryAgainTip(0),
   m_scale(1),
   m_flyAnswer(0), m_animation(0),
-  m_flyNote(0)
+  m_flyNote(0),
+  m_qaPossib(1)
 {
   setAttribute(Qt::WA_TransparentForMouseEvents);
   setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -147,7 +148,8 @@ QString Tcanvas::startTipText() {
 
 
 void Tcanvas::startTip() {
-  m_startTip = new TgraphicsTextTip(QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75)) + startTipText() + "</p>", palette().highlight().color());
+  m_startTip = new TgraphicsTextTip(QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75)) + startTipText() + "<br>" + TexamHelp::toStopExamTxt(gl->path +
+      "picts/stopExam-icon.png") + "</p>", palette().highlight().color());
   m_scene->addItem(m_startTip);
   m_startTip->setScale(m_scale);
   setPosOfStartTip();
@@ -161,8 +163,9 @@ void Tcanvas::whatNextTip(bool isCorrect, bool onRight) {
   }
   QString whatNextText = startTipText();
   if (!isCorrect)
-      whatNextText += "<br>" + tr("To correct an answer") + " " + TexamHelp::clickSomeButtonTxt(gl->path+"picts/prev-icon.png") +
-      " " + TexamHelp::orPressBkSTxt();
+      whatNextText += "<br>" + tr("To correct an answer") + " " + TexamHelp::clickSomeButtonTxt(gl->path + "picts/prev-icon.png")
+      + " " + TexamHelp::orPressBkSTxt();
+  whatNextText += "<br>" + TexamHelp::toStopExamTxt(gl->path + "picts/stopExam-icon.png");
   
   m_whatTip = new TgraphicsTextTip(whatNextText, palette().highlight().color());
   m_scene->addItem(m_whatTip);
@@ -174,11 +177,10 @@ void Tcanvas::whatNextTip(bool isCorrect, bool onRight) {
 
 void Tcanvas::noteTip(int time) {
   if (m_flyNote)
-//     delete m_flyNote;
-    m_flyNote->deleteLater();
+      m_flyNote->deleteLater();
   QParallelAnimationGroup *animation = new QParallelAnimationGroup(this);
   m_flyNote = new TanimedTextItem();
-  m_flyNote->setText("n");
+  m_flyNote->setText("N");
   m_flyNote->setFont(QFont("nootka", width() / 18));
   m_flyNote->setBrush(palette().highlight().color());
   scene()->addItem(m_flyNote);
@@ -219,7 +221,8 @@ void Tcanvas::questionTip(Texam* exam) {
   m_questionTip = new TquestionTip(exam, m_scale);
   m_scene->addItem(m_questionTip);
   setPosOfQuestionTip();
-  markAnswer(exam->curQ().questionAs, exam->curQ().answerAs);
+  if (m_qaPossib > 1)
+      markAnswer(exam->curQ().questionAs, exam->curQ().answerAs);
 }
 
 
@@ -261,6 +264,13 @@ void Tcanvas::clearTryAgainTip() {
 
 void Tcanvas::markAnswer(TQAtype::Etype qType, TQAtype::Etype aType) {
     m_flyAnswer->setText(TquestionAsWdg::qaTypeSymbol(qType));
+    if (qType == TQAtype::e_asFretPos) {
+      if (gl->GisRightHanded)
+        m_flyAnswer->setRotation(-90);
+      else 
+        m_flyAnswer->setRotation(90);
+    } else
+      m_flyAnswer->setRotation(0);
     m_flyAnswer->show();
     QPoint qCenter, anCenter;
     qCenter = getRect(qType).center();
