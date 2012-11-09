@@ -191,11 +191,7 @@ void TlevelSelector::fileIOerrorMsg(QFile &f, QWidget *parent) {
 	  QMessageBox::critical(parent, "", tr("Cannot open file\n %1 \n for reading").arg(f.fileName()));
 	} else
 	  QMessageBox::critical(parent, "", tr("No file name specified"));
-//     QMessageBox::critical(parent, "",
-//                           tr("Cannot open file\n %1 \n for reading\n%2 ").arg(
-//                                   f.fileName()).arg(QString::fromLocal8Bit(qPrintable(f.errorString()))));
 }
-
 /*end static*/
 
 TlevelSelector::TlevelSelector(QWidget *parent) :
@@ -344,8 +340,10 @@ TexamLevel TlevelSelector::getLevelFromFile(QFile &file) {
          if (!getLevelFromStream(in, level))
              QMessageBox::warning(0, "", tr("Level file\n %1 \n was corrupted and repaired !!\nCheck please, are its parameters as expected.").arg(file.fileName()));
          file.close();
-    } else
+    } else {
+      if (file.fileName() != "") // skip empty file names (ignored by user)
         fileIOerrorMsg(file, this);
+    }
     return level;
 }
 
@@ -364,7 +362,6 @@ void TlevelSelector::updateRecentLevels() {
       if (m_levels[i].file != "")
         recentLevels << m_levels[i].file;
     }
-    gl->config->setValue("recentLevels", recentLevels);
-    
+    gl->config->setValue("recentLevels", recentLevels);    
 }
 

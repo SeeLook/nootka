@@ -787,6 +787,7 @@ void TexamExecutor::prepareToExam() {
 
     m_canvas = new Tcanvas(mW);
     m_canvas->show();
+    m_canvas->setQApossibilities(m_supp->qaPossibilitys());
     if(gl->hintsEnabled)
         m_canvas->startTip();
 }

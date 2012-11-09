@@ -92,7 +92,6 @@ signals:
 
 private:
     QListWidget *m_levelsListWdg;
-//     QList <TexamLevel> m_levList;
     QList <SlevelContener> m_levels;
     TlevelPreview *m_levelPreview;
     QPushButton *m_loadBut;

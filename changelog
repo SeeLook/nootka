@@ -1,8 +1,9 @@
+0.8.4
+     - tons of visual changes to fix, adjust and improve
     BUGS FIXES
      - fixed proper note pitch in exams with single key
-     - fixed seg. fault after aproved the settings
-     - fixed crash when no midi devices found
-     - fixed displaing natural signs in questions preview
+     - fixed crashes related with preferences window
+     - proper displaying natural signs in questions preview
      - proper counting of number of mandatory questions in exams
      - fixed translation of color/open/save dialogs
 

@@ -62,6 +62,9 @@ public:
     void markAnswer(TQAtype::Etype qType, TQAtype::Etype aType);
         /** Paints rect around given type of widget to mark where is answer. */
     const QRect& getRect(TQAtype::Etype kindOf);
+        /** Sets number of combination of question/answer types.
+         * It is used to determine are animations needed. */
+    void setQApossibilities(int qaPos) { m_qaPossib = qaPos; }
     
 public slots:
     void clearResultTip(); // cleanes tip with results
@@ -79,6 +82,7 @@ private:
     Texam *m_exam;
     TanimedTextItem *m_flyAnswer, *m_flyNote;
     QParallelAnimationGroup *m_animation;
+    int m_qaPossib;
     
     
 private:
