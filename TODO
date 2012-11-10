@@ -1,7 +1,5 @@
 0.8.5 stable:
-- note names are still switched when no that option in level was selacted
 - put icons of tips to table to adjust
-- first phase of an animation is not visible - change curve
 - positions and look of frets numbers and key names in charts
 - look of analyse dialog 
 - avoid 0.0s answer time 
