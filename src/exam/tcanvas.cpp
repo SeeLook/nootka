@@ -70,12 +70,12 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   m_flyAnswer->hide();
   QPropertyAnimation *movPos = new QPropertyAnimation(m_flyAnswer, "pos");
     movPos->setDuration(600);
-    movPos->setEasingCurve(QEasingCurve::InOutExpo);
+//     movPos->setEasingCurve(QEasingCurve::InOutExpo);
     QPropertyAnimation *movScale = new QPropertyAnimation(m_flyAnswer, "scale");
     movScale->setDuration(600);
     movScale->setStartValue(4.0);
     movScale->setEndValue(0.3);
-    movScale->setEasingCurve(QEasingCurve::InCirc);
+//     movScale->setEasingCurve(QEasingCurve::InCirc);
     QPropertyAnimation *movAlpha = new QPropertyAnimation(m_flyAnswer, "alpha");
     movAlpha->setDuration(600);
     movAlpha->setStartValue(255);
@@ -273,11 +273,17 @@ void Tcanvas::markAnswer(TQAtype::Etype qType, TQAtype::Etype aType) {
       m_flyAnswer->setRotation(0);
     m_flyAnswer->show();
     QPoint qCenter, anCenter;
-    qCenter = getRect(qType).center();
+    int adj = - m_flyAnswer->boundingRect().height();
+    if (qType == TQAtype::e_asFretPos)
+      qCenter = QPoint(width() / 2, height() * 0.85);
+    else {
+      qCenter = getRect(qType).center();
+      adj = m_flyAnswer->boundingRect().height() * 2;
+    }
     anCenter = getRect(aType).center();
     QPropertyAnimation* anim = static_cast<QPropertyAnimation*>(m_animation->animationAt(0));
     anim->setStartValue(QPoint(qCenter.x() - (m_flyAnswer->boundingRect().width() * 2),
-                                qCenter.y() - (m_flyAnswer->boundingRect().height()) * 0.5));
+                                qCenter.y() - adj));
     anim->setEndValue(QPoint(anCenter.x() - (m_flyAnswer->boundingRect().width() * 0.15),
                                 anCenter.y() - (m_flyAnswer->boundingRect().height() * 0.15)));
     m_animation->start();
