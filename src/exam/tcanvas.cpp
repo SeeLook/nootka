@@ -63,14 +63,14 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   sizeChanged(parent->centralWidget()->size());
   m_animation = new QParallelAnimationGroup(this);
   m_flyAnswer = new TanimedTextItem();
-  m_flyAnswer->setText("!");
   m_flyAnswer->setFont(QFont("nootka", width() / 18));
   m_flyAnswer->setBrush(QColor(gl->EanswerColor.name()));
   scene()->addItem(m_flyAnswer);
+  m_flyAnswer->setZValue(100);
   m_flyAnswer->hide();
   QPropertyAnimation *movPos = new QPropertyAnimation(m_flyAnswer, "pos");
     movPos->setDuration(600);
-    movPos->setEasingCurve(QEasingCurve::OutCirc);
+    movPos->setEasingCurve(QEasingCurve::InOutExpo);
     QPropertyAnimation *movScale = new QPropertyAnimation(m_flyAnswer, "scale");
     movScale->setDuration(600);
     movScale->setStartValue(4.0);
@@ -148,7 +148,7 @@ QString Tcanvas::startTipText() {
 
 
 void Tcanvas::startTip() {
-  m_startTip = new TgraphicsTextTip(QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75)) + startTipText() + "<br>" + TexamHelp::toStopExamTxt(gl->path +
+  m_startTip = new TgraphicsTextTip(QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75)) + startTipText() + ".<br>" + TexamHelp::toStopExamTxt(gl->path +
       "picts/stopExam-icon.png") + "</p>", palette().highlight().color());
   m_scene->addItem(m_startTip);
   m_startTip->setScale(m_scale);
@@ -277,7 +277,7 @@ void Tcanvas::markAnswer(TQAtype::Etype qType, TQAtype::Etype aType) {
     anCenter = getRect(aType).center();
     QPropertyAnimation* anim = static_cast<QPropertyAnimation*>(m_animation->animationAt(0));
     anim->setStartValue(QPoint(qCenter.x() - (m_flyAnswer->boundingRect().width() * 2),
-                                qCenter.y() - (m_flyAnswer->boundingRect().height() * 2)));
+                                qCenter.y() - (m_flyAnswer->boundingRect().height()) * 0.5));
     anim->setEndValue(QPoint(anCenter.x() - (m_flyAnswer->boundingRect().width() * 0.15),
                                 anCenter.y() - (m_flyAnswer->boundingRect().height() * 0.15)));
     m_animation->start();
@@ -361,7 +361,7 @@ void Tcanvas::setPosOfTryAgainTip() {
 
 void Tcanvas::setPosOfWhatTip() {
     // in the middle on guitar
-  if (m_whatTip->boundingRect().height() < (m_scene->height() * 0.26))
+  if (m_whatTip->boundingRect().height() != (m_scene->height() * 0.26))
       m_whatTip->setScale((m_scene->height() * 0.24) / m_whatTip->boundingRect().height());
   m_whatTip->setPos((m_scene->width() - (m_whatTip->scale() * m_whatTip->boundingRect().width())) / 2,
                   m_scene->height() * 0.74);
