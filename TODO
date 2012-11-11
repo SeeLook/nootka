@@ -1,9 +1,6 @@
 0.8.5 stable:
-- put icons of tips to table to adjust
 - positions and look of frets numbers and key names in charts
 - look of analyse dialog 
-- avoid 0.0s answer time 
-- icons size under Windows 7
 - in TtipChart remove checking style when will be solved
 - add string numbers to pixmap
 

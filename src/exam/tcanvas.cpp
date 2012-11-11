@@ -61,30 +61,30 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   m_scene = new QGraphicsScene();
   setScene(m_scene);
   sizeChanged(parent->centralWidget()->size());
-  m_animation = new QParallelAnimationGroup(this);
-  m_flyAnswer = new TanimedTextItem();
-  m_flyAnswer->setFont(QFont("nootka", width() / 18));
-  m_flyAnswer->setBrush(QColor(gl->EanswerColor.name()));
-  scene()->addItem(m_flyAnswer);
-  m_flyAnswer->setZValue(100);
-  m_flyAnswer->hide();
-  QPropertyAnimation *movPos = new QPropertyAnimation(m_flyAnswer, "pos");
-    movPos->setDuration(600);
-//     movPos->setEasingCurve(QEasingCurve::InOutExpo);
-    QPropertyAnimation *movScale = new QPropertyAnimation(m_flyAnswer, "scale");
-    movScale->setDuration(600);
-    movScale->setStartValue(4.0);
-    movScale->setEndValue(0.3);
-//     movScale->setEasingCurve(QEasingCurve::InCirc);
-    QPropertyAnimation *movAlpha = new QPropertyAnimation(m_flyAnswer, "alpha");
-    movAlpha->setDuration(600);
-    movAlpha->setStartValue(255);
-    movAlpha->setEndValue(0);
-    movAlpha->setEasingCurve(QEasingCurve::InExpo);
-    m_animation->addAnimation(movPos);
-    m_animation->addAnimation(movScale);
-    m_animation->addAnimation(movAlpha);
-  
+//   m_animation = new QParallelAnimationGroup(this);
+//   m_flyAnswer = new TanimedTextItem();
+//   m_flyAnswer->setFont(QFont("nootka", width() / 18));
+//   m_flyAnswer->setBrush(QColor(gl->EanswerColor.name()));
+//   scene()->addItem(m_flyAnswer);
+//   m_flyAnswer->setZValue(100);
+//   m_flyAnswer->hide();
+//   QPropertyAnimation *movPos = new QPropertyAnimation(m_flyAnswer, "pos");
+//     movPos->setDuration(600);
+// //     movPos->setEasingCurve(QEasingCurve::InOutExpo);
+//     QPropertyAnimation *movScale = new QPropertyAnimation(m_flyAnswer, "scale");
+//     movScale->setDuration(600);
+//     movScale->setStartValue(4.0);
+//     movScale->setEndValue(0.3);
+// //     movScale->setEasingCurve(QEasingCurve::InCirc);
+//     QPropertyAnimation *movAlpha = new QPropertyAnimation(m_flyAnswer, "alpha");
+//     movAlpha->setDuration(600);
+//     movAlpha->setStartValue(255);
+//     movAlpha->setEndValue(0);
+//     movAlpha->setEasingCurve(QEasingCurve::InExpo);
+//     m_animation->addAnimation(movPos);
+//     m_animation->addAnimation(movScale);
+//     m_animation->addAnimation(movAlpha);
+//   
   connect(parent, SIGNAL(sizeChanged(QSize)), this, SLOT(sizeChanged(QSize)));
 }
 
@@ -221,8 +221,8 @@ void Tcanvas::questionTip(Texam* exam) {
   m_questionTip = new TquestionTip(exam, m_scale);
   m_scene->addItem(m_questionTip);
   setPosOfQuestionTip();
-  if (m_qaPossib > 1)
-      markAnswer(exam->curQ().questionAs, exam->curQ().answerAs);
+//   if (m_qaPossib > 1)
+//       markAnswer(exam->curQ().questionAs, exam->curQ().answerAs);
 }
 
 
@@ -263,30 +263,30 @@ void Tcanvas::clearTryAgainTip() {
 
 
 void Tcanvas::markAnswer(TQAtype::Etype qType, TQAtype::Etype aType) {
-    m_flyAnswer->setText(TquestionAsWdg::qaTypeSymbol(qType));
-    if (qType == TQAtype::e_asFretPos) {
-      if (gl->GisRightHanded)
-        m_flyAnswer->setRotation(-90);
-      else 
-        m_flyAnswer->setRotation(90);
-    } else
-      m_flyAnswer->setRotation(0);
-    m_flyAnswer->show();
-    QPoint qCenter, anCenter;
-    int adj = - m_flyAnswer->boundingRect().height();
-    if (qType == TQAtype::e_asFretPos)
-      qCenter = QPoint(width() / 2, height() * 0.85);
-    else {
-      qCenter = getRect(qType).center();
-      adj = m_flyAnswer->boundingRect().height() * 2;
-    }
-    anCenter = getRect(aType).center();
-    QPropertyAnimation* anim = static_cast<QPropertyAnimation*>(m_animation->animationAt(0));
-    anim->setStartValue(QPoint(qCenter.x() - (m_flyAnswer->boundingRect().width() * 2),
-                                qCenter.y() - adj));
-    anim->setEndValue(QPoint(anCenter.x() - (m_flyAnswer->boundingRect().width() * 0.15),
-                                anCenter.y() - (m_flyAnswer->boundingRect().height() * 0.15)));
-    m_animation->start();
+//     m_flyAnswer->setText(TquestionAsWdg::qaTypeSymbol(qType));
+//     if (qType == TQAtype::e_asFretPos) {
+//       if (gl->GisRightHanded)
+//         m_flyAnswer->setRotation(-90);
+//       else 
+//         m_flyAnswer->setRotation(90);
+//     } else
+//       m_flyAnswer->setRotation(0);
+//     m_flyAnswer->show();
+//     QPoint qCenter, anCenter;
+//     int adj = - m_flyAnswer->boundingRect().height();
+//     if (qType == TQAtype::e_asFretPos)
+//       qCenter = QPoint(width() / 2, height() * 0.85);
+//     else {
+//       qCenter = getRect(qType).center();
+//       adj = m_flyAnswer->boundingRect().height() * 2;
+//     }
+//     anCenter = getRect(aType).center();
+//     QPropertyAnimation* anim = static_cast<QPropertyAnimation*>(m_animation->animationAt(0));
+//     anim->setStartValue(QPoint(qCenter.x() - (m_flyAnswer->boundingRect().width() * 2),
+//                                 qCenter.y() - adj));
+//     anim->setEndValue(QPoint(anCenter.x() - (m_flyAnswer->boundingRect().width() * 0.15),
+//                                 anCenter.y() - (m_flyAnswer->boundingRect().height() * 0.15)));
+//     m_animation->start();
 }
   
 const QRect& Tcanvas::getRect(TQAtype::Etype kindOf) {
@@ -338,10 +338,10 @@ void Tcanvas::sizeChanged(QSize newSize) {
     m_scene->addItem(m_questionTip);
     setPosOfQuestionTip();
   }
-  if (m_flyAnswer) {
-    m_flyAnswer->hide();
-    m_flyAnswer->setFont(QFont("nootka", width() / 18));
-  }
+//   if (m_flyAnswer) {
+//     m_flyAnswer->hide();
+//     m_flyAnswer->setFont(QFont("nootka", width() / 18));
+//   }
   if (m_flyNote)
     m_flyNote->hide();
 }
@@ -390,12 +390,12 @@ void Tcanvas::setPosOfQuestionTip() {
       if (m_exam->curQ().answerAs == TQAtype::e_asSound)
         off = m_scene->width() / 8;
       pos = QPoint((m_scene->width() - (m_questionTip->boundingRect().width())) / 2 + off, 
-                   m_scene->height() * 0.76 + (m_scene->height() * 0.24 - m_questionTip->boundingRect().height()) / 2);
+                   m_scene->height() * 0.76 + (m_scene->height() * 0.25 - m_questionTip->boundingRect().height()) / 2);
   }
     else
       if (m_questionTip->freeName())
           pos = QPoint(m_parent->noteName->geometry().x() + (m_parent->noteName->width() - m_questionTip->boundingRect().width()) / 2,
-                       m_parent->noteName->geometry().y() + (m_parent->noteName->height() - m_questionTip->boundingRect().height()) / 2);
+                       m_parent->noteName->geometry().y() + (m_parent->noteName->height() - m_questionTip->boundingRect().height()));
       else // on the score
         pos = QPoint(((double)m_scene->width() * 0.42 - m_questionTip->boundingRect().width()) / 2 ,
                      m_scene->height() / 10 + (m_scene->height() / 2 - m_questionTip->boundingRect().height()) /2 );

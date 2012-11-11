@@ -165,15 +165,12 @@ void TscoreWidget::askQuestion(Tnote note, TkeySignature key, char realStr) {
 
 void TscoreWidget::clearScore() {
     clearNote(0);
-//     setNoteViewBg(0, -1);;
     clearNote(1);
-//     setNoteViewBg(1, -1);
     noteViews[1]->removeString(); // so far string number to remove occur only on this view
     clearNote(2); // also hide question mark when will be implemented
     if (keySignView) {
         setKeySignature(TkeySignature());
-//         setKeyViewBg(-1);
-//         m_questKey->hide();
+        keySignView->setStyleSheet("background: transparent");
         if (m_questKey) {
           delete m_questKey;
           m_questKey = 0;
@@ -181,6 +178,7 @@ void TscoreWidget::clearScore() {
     }
     changeAccidButtonsState(0); // reset buttons with accidentals
     m_questMark->hide();
+    noteViews[0]->setStyleSheet("background: transparent");
     setBGcolor(palette().base().color());
 }
 
@@ -212,8 +210,11 @@ void TscoreWidget::unLockScore() {
     setScoreDisabled(false);
     noteViews[1]->setDisabled(true);
     noteViews[2]->setDisabled(true);
-    if (m_questMark)
+    if (m_questMark) {
       setBGcolor(gl->mergeColors(gl->EanswerColor, palette().window().color()));
+//       noteViews[0]->setStyleSheet(QString("background: transparent; border: 1px solid %1; border-radius: 10px;").arg(gl->EanswerColor.name()));
+      noteViews[0]->setStyleSheet(gl->getBGcolorText(gl->EanswerColor) + "border-radius: 10px;");
+    }
 }
 
 void TscoreWidget::setKeyViewBg(QColor C) {
@@ -231,14 +232,13 @@ void TscoreWidget::forceAccidental(Tnote::Eacidentals accid) {
 
 void TscoreWidget::prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName) {
     setKeySignature(fakeKey);
-//     setKeyViewBg(gl->EanswerColor);
     m_questKey = new QGraphicsTextItem();
-//     m_questKey->hide();
     keySignView->scene()->addItem(m_questKey);
     m_questKey->setHtml(QString("<span style=\"color: %1;\"><span style=\"font-family: nootka;\">?</span><br>").arg(gl->EquestionColor.name()) + expectKeyName + "</span>");
     TgraphicsTextTip::alignCenter(m_questKey);
     resizeKeyText();
-//     m_questKey->show();
+//     keySignView->setStyleSheet(QString("background: transparent; border: 1px solid %1; border-radius: 10px;").arg(gl->EanswerColor.name()));
+    keySignView->setStyleSheet(gl->getBGcolorText(gl->EanswerColor) + "border-radius: 10px;");
 }
 
 void TscoreWidget::resizeQuestMark() {

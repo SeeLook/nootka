@@ -920,10 +920,6 @@
         <translation>Ustawienia wykresu</translation>
     </message>
     <message>
-        <source>Open an exam</source>
-        <translation type="obsolete">Otwórz egzamin</translation>
-    </message>
-    <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="198"/>
         <source>Close analyser</source>
         <translation>Zamknij   okno analizy</translation>
@@ -947,10 +943,6 @@
         <location filename="../src/charts/tanalysdialog.cpp" line="209"/>
         <source>show wrong answers separately</source>
         <translation>pokaż niepoprawne odpowiedzi oddzielnie</translation>
-    </message>
-    <message>
-        <source>Load an exam file</source>
-        <translation type="obsolete">Wczytaj plik egzaminu</translation>
     </message>
 </context>
 <context>
@@ -1025,47 +1017,47 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>Poziom &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nie ma sensu, bo nie ma w nim żadnego pytania, które można zadać.&lt;br&gt;Możliwe, że nie jest dopasowany do bieżącego stroju gitary.&lt;br&gt;Napraw to w Kreatorze Poziomów i spróbuj ponownie.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="728"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="727"/>
         <source>help</source>
         <translation>pomoc</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="939"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="938"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="940"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="939"/>
         <source>Discard</source>
         <translation>Porzuć</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="723"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="722"/>
         <source>exam started on level</source>
         <translation>egzamin uruchomiony na poziomie</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="874"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="873"/>
         <source>Give an answer first!&lt;br&gt;Then the exam&apos;ll be finished</source>
         <translation>Najpierw odpowiedz!&lt;br&gt;Potem egzamin zostanie zakończony</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="911"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="910"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
         <translation>Psssst... Trwa egzamin.&lt;br&gt;&lt;br&gt;&lt;b&gt;Kontynuuj&lt;/b&gt; go &lt;br&gt;lub&lt;br&gt;&lt;b&gt;Zakończ&lt;/b&gt; żeby sprawdzić, zapisać i wyjść&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="912"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="911"/>
         <source>Continue</source>
         <translation>Kontynuuj</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="913"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="912"/>
         <source>Terminate</source>
         <translation>Zakończ</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="938"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="937"/>
         <source>If You don&apos;t save to file&lt;br&gt;You lost all results !!</source>
         <translation>Jeżeli nie zapiszesz do pliku&lt;br&gt;stracisz dotychczasowe wyniki!!</translation>
     </message>
@@ -1075,22 +1067,22 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>Egzamin wymaga sygnału wejściowego&lt;br&gt;ale nie jest on dostępny !!!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="722"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="721"/>
         <source>EXAM!!</source>
         <translation>EGZAMIN!!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="731"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="730"/>
         <source>stop the exam</source>
         <translation>zatrzymaj egzamin</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="901"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="900"/>
         <source>so a pity</source>
         <translation>jaka szkoda</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="932"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="931"/>
         <source>Save exam&apos;s results as:</source>
         <translation>Zapisz wyniki egzaminu jako:</translation>
     </message>
@@ -1539,12 +1531,6 @@ ale nie zapisany !!</translation>
         <translation>Zapisz poziom egzaminu</translation>
     </message>
     <message>
-        <source>Cannot open file for writing
-%1</source>
-        <translation type="obsolete">Nie mogę otworzyć pliku żeby zapisać
-%1</translation>
-    </message>
-    <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="194"/>
         <source>&lt;li&gt;Range of frets is beyond scale of this level&lt;/li&gt;</source>
         <translation>&lt;li&gt;Zakres progów jest poza skalą tego poziomu&lt;/li&gt;</translation>
@@ -1636,16 +1622,6 @@ ale nie zapisany !!</translation>
 <context>
     <name>TlevelSelector</name>
     <message>
-        <source>Cannot open file
- %1 
- for reading
-%2 </source>
-        <translation type="obsolete">Nie mogę otworzyć pliku
- %1 
- do odczytu
-%2 </translation>
-    </message>
-    <message>
         <location filename="../src/level/tlevelselector.cpp" line="191"/>
         <source>Cannot open file
  %1 
@@ -1732,10 +1708,6 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/charts/tmainchart.cpp" line="288"/>
         <source>without accidentals</source>
         <translation>bez znaków</translation>
-    </message>
-    <message>
-        <source>none</source>
-        <translation type="obsolete">brak</translation>
     </message>
     <message>
         <location filename="../src/charts/tmainchart.cpp" line="187"/>
@@ -2176,10 +2148,6 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation>kontynuuj egzamin</translation>
     </message>
     <message>
-        <source>load exam from file</source>
-        <translation type="obsolete">wczytaj egzamin z pliku</translation>
-    </message>
-    <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="98"/>
         <source>Select previous exam, or get it from a file.</source>
         <translation>Wybierz poprzedni egzamin lub wczytaj go z pliku.</translation>
@@ -2209,10 +2177,6 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/exam/tstartexamdlg.cpp" line="208"/>
         <source>Any exam wasn&apos;t selected !!</source>
         <translation>Nie został wybrany żaden egzamin !!</translation>
-    </message>
-    <message>
-        <source>Load an exam&apos;s&apos; file</source>
-        <translation type="obsolete">Wczytaj plik egazminu</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.h" line="54"/>
@@ -2389,10 +2353,6 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/level/questionssettings.cpp" line="114"/>
         <source>use different nameing styles</source>
         <translation>używaj różnych nazw nut</translation>
-    </message>
-    <message>
-        <source>if checked, nameing style is switched between letters and solfge.&lt;br&gt;It has to be checked if note&apos;s name is a question and an answer.</source>
-        <translation type="obsolete">Gdy zaznaczone, nazwy nut zmieniają się między solmizacją a literami.&lt;br&gt;Musi być zaznaczone jeżeli nazwa nuty jest pytaniem i odpowiedzią.</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="115"/>
