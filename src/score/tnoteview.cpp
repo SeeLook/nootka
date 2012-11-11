@@ -315,7 +315,7 @@ void TnoteView::setStringPos() {
     if (m_strNr) {
         int yy = 28*m_coeff;
         if (m_mainPosY > 20) yy = 10*m_coeff;
-        m_strNr->setPos(1, yy-3*m_coeff);
+        m_strNr->setPos((width() - m_strNr->boundingRect().width()) / 2 , yy-3*m_coeff);
     }
 }
 

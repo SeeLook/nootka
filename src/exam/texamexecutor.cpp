@@ -1028,7 +1028,7 @@ void TexamExecutor::startSniffing() {
 
 void TexamExecutor::expertAnswersSlot() {
     if (mW->examResults->questionTime() < 3) { // answer time less than 0.3 s (not human...)
-        qDebug("answer time too short !!!");
+//         qDebug("answer time too short !!!");
         return;
     }
     /** expertAnswersSlot() is invoked also by TaudioIN/TpitchFinder.
