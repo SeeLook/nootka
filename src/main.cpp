@@ -24,9 +24,9 @@ Tglobals *gl;
 
 int main(int argc, char *argv[])
 {
-#if defined(Q_OS_WIN32)
-    QApplication::setStyle("plastique");  
-#endif
+// #if defined(Q_OS_WIN32)
+//     QApplication::setStyle("plastique");  
+// #endif
     
   QApplication a(argc, argv);
 
