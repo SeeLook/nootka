@@ -54,6 +54,8 @@ void debugStyle(TQAunit &qa) {
 extern Tglobals *gl;
 
 
+bool m_isSniffing = false;
+
 TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *lev) :
   m_exam(0),
   mW(mainW),
@@ -855,6 +857,7 @@ void TexamExecutor::disableWidgets() {
     mW->score->setScoreDisabled(true);
     mW->guitar->setGuitarDisabled(true);
     mW->sound->wait();
+    m_isSniffing = false;
 }
 
 void TexamExecutor::clearWidgets() {
@@ -878,6 +881,7 @@ void TexamExecutor::stopExamSlot() {
         m_soundTimer->stop();
     mW->sound->stopPlaying();
     mW->sound->wait();
+    m_isSniffing = false;
     if (m_exam->fileName() == "" && m_exam->count())
         m_exam->setFileName(saveExamToFile());
     if (m_exam->fileName() != "") {
@@ -980,11 +984,10 @@ bool TexamExecutor::showExamSummary(bool cont) {
     return true;
 }
 
-void TexamExecutor::showExamHelp() {
-      TexamHelp *hlp = new TexamHelp(gl->getBGcolorText(gl->EquestionColor), gl->getBGcolorText(gl->EanswerColor), 
-        gl->path, gl->E->showHelpOnStart, mW);
-      hlp->exec();
-      delete hlp;
+void TexamExecutor::showExamHelp() {      
+  TexamHelp *hlp = new TexamHelp(gl->getBGcolorText(gl->EquestionColor), gl->getBGcolorText(gl->EanswerColor), gl->path, gl->E->showHelpOnStart, mW);
+  hlp->exec();
+  delete hlp;
 }
 
 void TexamExecutor::connectForExpert() {
@@ -1022,6 +1025,7 @@ void TexamExecutor::startSniffing() {
 //    mW->sound->stopPlaying();
     if (m_soundTimer->isActive())
       m_soundTimer->stop();
+    m_isSniffing = true;
     mW->sound->go();
 }
 
