@@ -363,7 +363,7 @@ void TanalysDialog::moreLevelInfo() {
         levelView->setLevel(*m_exam->level());
     QVBoxLayout *lay = new QVBoxLayout;
     lay->addWidget(levelView);
-    QPushButton *okButt = new QPushButton(tr("Ok"), dialog);
+    QPushButton *okButt = new QPushButton(tr("OK"), dialog);
     lay->addWidget(okButt, 1, Qt::AlignCenter);
     dialog->setLayout(lay);
     connect(okButt, SIGNAL(clicked()), dialog, SLOT(accept()));
