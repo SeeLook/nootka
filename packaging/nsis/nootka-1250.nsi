@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "Nootka"
-!define PRODUCT_VERSION "0.8.3-beta"
+!define PRODUCT_VERSION "0.8.4-rc1"
 !define PRODUCT_PUBLISHER "Nootka"
 !define PRODUCT_WEB_SITE "http://nootka.sf.net"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\nootka.exe"
@@ -63,17 +63,17 @@ ShowUnInstDetails show
 
 LangString NelDesc ${LANG_ENGLISH} "Nootka exam's level"
 LangString NelDesc ${LANG_POLISH} "Poziom egzaminu programu Nootka"
-LangString NelDesc ${LANG_CZECH} "Úroveò zkoušky programu Nootka"
+LangString NelDesc ${LANG_CZECH} "ÃšroveÃ² zkouÂšky programu Nootka"
 LangString NelDesc ${LANG_FRENCH} "Fichier de niveau Nootka"
 
 LangString NootkaAct ${LANG_ENGLISH} "Open with nootka"
-LangString NootkaAct ${LANG_POLISH} "Otwórz w programie Nootka"
-LangString NootkaAct ${LANG_CZECH} "Otevøít v Nootka"
+LangString NootkaAct ${LANG_POLISH} "OtwÃ³rz w programie Nootka"
+LangString NootkaAct ${LANG_CZECH} "OtevÃ¸Ã­t v Nootka"
 LangString NootkaAct ${LANG_FRENCH} "Ouvrir avec Nootka"
 
 LangString NooDesc ${LANG_ENGLISH} "Nootka exam file"
 LangString NooDesc ${LANG_POLISH} "Plik egzaminu programu Nootka"
-LangString NooDesc ${LANG_CZECH} "Zkušební soubor programu Nootka"
+LangString NooDesc ${LANG_CZECH} "ZkuÂšebnÃ­ soubor programu Nootka"
 LangString NooDesc ${LANG_FRENCH} "Fichier d'examen Nootka"
 
 Section -AssociateMime
@@ -186,12 +186,12 @@ SectionEnd
 
 ;Function un.onUninstSuccess
 ;  HideWindow
-;  MessageBox MB_ICONINFORMATION|MB_OK "Program $(^Name) zosta³ pomyœlnie usuniêty."
+;  MessageBox MB_ICONINFORMATION|MB_OK "Program $(^Name) zostaÂ³ pomyÂœlnie usuniÃªty."
 ;FunctionEnd
 
    LangString UninstallMess ${LANG_ENGLISH} "Do You realy want to remove $(^Name) and all its components?"
-   LangString UninstallMess ${LANG_POLISH} "Czy rzeczwiœcie chcesz usun¹æ Nutkê i jej sk³adniki?"
-   LangString UninstallMess ${LANG_CZECH} "Opravdu chcete odstranit Nootku a všechny její souèásti?"
+   LangString UninstallMess ${LANG_POLISH} "Czy rzeczwiÂœcie chcesz usunÂ¹Ã¦ NutkÃª i jej skÂ³adniki?"
+   LangString UninstallMess ${LANG_CZECH} "Opravdu chcete odstranit Nootku a vÂšechny jejÃ­ souÃ¨Ã¡sti?"
    LangString UninstallMess ${LANG_FRENCH} "Voulez-vous vraiment supprimer Nootka et tous ses composants?"
 
 Function un.onInit
