@@ -21,6 +21,7 @@
 #include "tanalysdialog.h"
 #include "texam.h"
 #include "texamlevel.h"
+#include "tlevelpreview.h"
 #include "tstartexamdlg.h"
 #include "texamview.h"
 #include "tchart.h"
@@ -67,7 +68,14 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   m_userLab = new QLabel(" ", this);
   headLay->addWidget(m_userLab, 1, 1, Qt::AlignCenter);
   m_levelLab = new QLabel(" ", this);
-  headLay->addWidget(m_levelLab, 1, 2, Qt::AlignCenter);
+  m_moreButton = new QPushButton("...", this);
+  m_moreButton->setDisabled(true);
+  m_moreButton->setToolTip(tr("Level summary:"));
+  QHBoxLayout *levLay = new QHBoxLayout;
+  levLay->addWidget(m_levelLab);
+  levLay->addWidget(m_moreButton);
+//  headLay->addWidget(m_levelLab, 1, 2, Qt::AlignCenter);
+  headLay->addLayout(levLay, 1, 2, Qt::AlignCenter);
   m_questNrLab = new QLabel(" ", this);
   headLay->addWidget(m_questNrLab, 0, 3, Qt::AlignCenter);
   m_effectLab = new QLabel(" ", this);
@@ -126,6 +134,8 @@ void TanalysDialog::setExam(Texam* exam) {
   m_questNrLab->setText(tr("Questions number:") + QString(" <b>%1</b>").arg(exam->count()) );
   m_effectLab->setText(TexamView::effectTxt() + QString(": <b>%1%</b>")
                        .arg(m_exam->effectiveness(), 0, 'f', 1, '0') );
+  m_moreButton->setDisabled(false);
+  connect(m_moreButton, SIGNAL(clicked()), this, SLOT(moreLevelInfo()));
   // sort by note
   if (m_exam->level()->canBeScore() || m_exam->level()->canBeName() || m_exam->level()->canBeSound())
         enableComboItem(1, true);
@@ -164,8 +174,14 @@ void TanalysDialog::loadExam(QString& examFile) {
     else {
       delete m_exam;
       m_exam = 0;
+      m_userLab->setText("");
+      m_levelLab->setText("");
+      m_questNrLab->setText("");
+              m_effectLab->setText("");
+      m_moreButton->setDisabled(true);
+      createChart(m_chartSetts);
     }
-      
+
 }
 
 //##########  PRIVATE METHODS #####################
@@ -179,7 +195,7 @@ void TanalysDialog::createActions() {
     openMenu->addSeparator();
     openMenu->addAction(tr("recent opened exams:"));
     QStringList recentExams = gl->config->value("recentExams").toStringList();
-    for (int i = recentExams.size() - 1; i >= 0; i--) {
+    for (int i = 0; i < recentExams.size(); i++) {
         QFileInfo fi(recentExams[i]);
         if (fi.exists()) {
             QAction *act = new QAction(recentExams[i], this);
@@ -264,7 +280,8 @@ void TanalysDialog::loadExamSlot() {
   
   QString fileName = QFileDialog::getOpenFileName(this, TstartExamDlg::loadExamFileTxt(), QDir::homePath(),
 												  TstartExamDlg::examFilterTxt(), 0, QFileDialog::DontUseNativeDialog);
-  loadExam(fileName);
+  if (fileName != "")
+      loadExam(fileName);
 }
 
 void TanalysDialog::openRecentExam() {
@@ -337,6 +354,21 @@ void TanalysDialog::wrongSeparateSlot() {
 void TanalysDialog::includeWrongSlot() {
   m_chartSetts.inclWrongAnsw = m_inclWrongAct->isChecked();
   createChart(m_chartSetts);
+}
+
+void TanalysDialog::moreLevelInfo() {
+    QDialog *dialog = new QDialog(this, Qt::CustomizeWindowHint | Qt::Dialog);
+    TlevelPreview *levelView = new TlevelPreview(dialog);
+    if (m_exam)
+        levelView->setLevel(*m_exam->level());
+    QVBoxLayout *lay = new QVBoxLayout;
+    lay->addWidget(levelView);
+    QPushButton *okButt = new QPushButton(tr("Ok"), dialog);
+    lay->addWidget(okButt, 1, Qt::AlignCenter);
+    dialog->setLayout(lay);
+    connect(okButt, SIGNAL(clicked()), dialog, SLOT(accept()));
+    dialog->exec();
+    delete dialog;
 }
 
 //##########  EVENTS #####################
