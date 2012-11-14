@@ -196,11 +196,17 @@ void TexamView::countTime() {
 
 QString TexamView::formatReactTime(quint16 timeX10) {
     QString hh = "", mm = "", ss = "";
-    if (timeX10 / 36000)
+    int dig = 0;
+    if (timeX10 / 36000) {
         hh = QString("%1").arg(timeX10 / 36000);
-    if ((timeX10 % 36000) / 600)
-        mm = QString("%1").arg((timeX10 % 36000) / 600, 2, 'i', 0, '0');
-    ss = QString("%1").arg(((timeX10 % 36000) % 600) / 10, 2, 'i', 0, '0' );
+        dig = 2;
+    }
+    int dig2 = 0;
+    if ((timeX10 % 36000) / 600) {
+        mm = QString("%1").arg((timeX10 % 36000) / 600, dig, 'i', 0, '0');
+        dig2 = 2;
+    }
+    ss = QString("%1").arg(((timeX10 % 36000) % 600) / 10, dig2, 'i', 0, '0' );
     QString res = "";
     if (hh != "")
         res = hh + ":";

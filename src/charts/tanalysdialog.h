@@ -56,6 +56,7 @@ protected slots:
   void includeWrongSlot();
   void analyseChanged(int index);
   void openRecentExam();
+  void moreLevelInfo();
 
 private:
   QToolBar *m_toolBar;
@@ -63,6 +64,7 @@ private:
   QLabel *m_levelLab, *m_userLab, *m_effectLab, *m_questNrLab;
   QComboBox *m_chartListCombo;
   QToolButton *m_settButt, *m_openButton;
+  QPushButton *m_moreButton;
   
   Tchart *m_chart;
   Texam *m_exam;
