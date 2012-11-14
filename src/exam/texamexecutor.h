@@ -120,6 +120,9 @@ private:
     Tnote::EnameStyle m_prevQuestStyle, m_prevAnswStyle;
     TglStore m_glStore;
     TanswerRequire m_answRequire;
+        /** Indicates when sniffing has to be ignored, 
+         * because some dilaog window exist over exam. */
+    bool m_snifferLocked;
     bool m_shouldBeTerminated, m_isAnswered, m_incorrectRepeated;
           /** If it is sets to TRUE locks invokeing event of right mouse button.
           * It has to be set before singleShot() method caled on askQuestion() 

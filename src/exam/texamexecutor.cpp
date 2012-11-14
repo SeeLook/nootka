@@ -59,7 +59,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
   mW(mainW),
   m_lockRightButt(false),
   m_goingClosed(false),
-  m_penalStep(65535)
+  m_penalStep(65535),
+  m_snifferLocked(false)
 {
     QString resultText;
     TstartExamDlg::Eactions userAct;
@@ -628,9 +629,11 @@ void TexamExecutor::checkAnswer(bool showResults) {
         m_exam->increasePenaltys(m_exam->blackCount());
         qDebug() << "penaltys increased. Can't finish an egzam yet.";
       } else {
+        m_snifferLocked = true;
         mW->progress->setFinished(true);
         m_supp->examFinished();
         m_exam->setFinished();
+        m_snifferLocked = false;
       }
     }
     
@@ -784,6 +787,7 @@ void TexamExecutor::prepareToExam() {
     m_soundTimer = new QTimer(this);
     connect(m_soundTimer, SIGNAL(timeout()), this, SLOT(startSniffing()));
 
+    m_snifferLocked = false;
     m_canvas = new Tcanvas(mW);
     m_canvas->show();
     m_canvas->setQApossibilities(m_supp->qaPossibilitys());
@@ -906,12 +910,14 @@ void TexamExecutor::stopExamSlot() {
 
 
 bool TexamExecutor::closeNootka() {
+    m_snifferLocked = true;
     QMessageBox *msg = new QMessageBox(mW);
     msg->setText(tr("Psssst... Exam is going.<br><br><b>Continue</b> it<br>or<br><b>Terminate</b> to check, save and exit<br>"));
     QAbstractButton *contBut = msg->addButton(tr("Continue"), QMessageBox::ApplyRole);
     msg->addButton(tr("Terminate"), QMessageBox::RejectRole);
     msg->exec();
     if (msg->clickedButton() == contBut) {
+        m_snifferLocked = false;
         return false;
     } else {
         m_goingClosed = true;
@@ -981,9 +987,11 @@ bool TexamExecutor::showExamSummary(bool cont) {
 }
 
 void TexamExecutor::showExamHelp() {
+  m_snifferLocked = true;
   TexamHelp *hlp = new TexamHelp(gl->getBGcolorText(gl->EquestionColor), gl->getBGcolorText(gl->EanswerColor), gl->path, gl->E->showHelpOnStart, mW);
   hlp->exec();
   delete hlp;
+  m_snifferLocked = false;
 }
 
 void TexamExecutor::connectForExpert() {
@@ -1024,6 +1032,8 @@ void TexamExecutor::startSniffing() {
 
 
 void TexamExecutor::expertAnswersSlot() {
+    if (m_snifferLocked) // ignore slot when some dialog window apears
+        return;
     if (mW->examResults->questionTime() < 3) { // answer time less than 0.3 s (not human...)
 //         qDebug("answer time too short !!!");
         return;
