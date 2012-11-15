@@ -115,7 +115,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_statLab->setWordWrap(true);
     m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
 #if defined(Q_OS_WIN32)
-    QColor bgLight = palette().window().color().lighter();
+    QColor bgLight = palette().window().color().lighter(101);
 #else
     QColor bgLight = palette().window().color().lighter(105);
 #endif
@@ -276,7 +276,11 @@ void MainWindow::setStatusMessage(QString msg, int time) {
 
 void MainWindow::setMessageBg(QColor bg) {
     if (bg == -1) {
+      #if defined(Q_OS_WIN32)
+        QColor bgLight = palette().window().color().lighter(101);
+      #else
         QColor bgLight = palette().window().color().lighter(105);
+      #endif
         m_statLab->setStyleSheet(gl->getBGcolorText(bgLight) + "border-radius: 10px;");
     }
     else
