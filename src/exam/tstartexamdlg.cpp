@@ -103,7 +103,11 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, QWidget *parent) :
     m_hintLabel = new QLabel(this);
     m_hintLabel->setFixedHeight(70);
     m_hintLabel->setWordWrap(true);
+#if defined(Q_OS_WIN32)
+    QColor bgLight = palette().window().color().lighter(101);
+#else
     QColor bgLight = palette().window().color().lighter(105);
+#endif
     m_hintLabel->setStyleSheet(QString("background-color: %1; border-radius: 10px;").arg(bgLight.name()));
 
     mainLay->addWidget(m_hintLabel);
