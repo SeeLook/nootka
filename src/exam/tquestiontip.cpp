@@ -21,6 +21,7 @@
 #include "tqaunit.h"
 #include "texam.h"
 #include <tnotename.h>
+#include "tquestionaswdg.h"
 #include "tglobals.h"
 #include <texamlevel.h>
 #include <ttipchart.h>
@@ -205,6 +206,11 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* le
     }
     if (scale)
       quest += "</p>";
+    quest = "<table><tr><td valign=\"middle\" style=\"font-family: nootka; color: transparent; font-size: 30px;\">" +
+            TquestionAsWdg::qaTypeSymbol(question.questionAs) + "</td><td valign=\"middle\" align=\"center\">" + quest + "</td>" +
+            "<td valign=\"middle\" style=\"font-family: nootka; color: transparent; font-size: 30px;\">" +
+            TquestionAsWdg::qaTypeSymbol(question.answerAs) +
+            "</td></tr></table>";
     return quest;
   
 }

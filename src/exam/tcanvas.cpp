@@ -390,12 +390,12 @@ void Tcanvas::setPosOfQuestionTip() {
       if (m_exam->curQ().answerAs == TQAtype::e_asSound)
         off = m_scene->width() / 8;
       pos = QPoint((m_scene->width() - (m_questionTip->boundingRect().width())) / 2 + off, 
-                   m_scene->height() * 0.76 + (m_scene->height() * 0.25 - m_questionTip->boundingRect().height()) / 2);
+                   m_scene->height() * 0.75 + (m_scene->height() * 0.25 - m_questionTip->scale() * m_questionTip->boundingRect().height()) / 2);
   }
     else
       if (m_questionTip->freeName())
           pos = QPoint(m_parent->noteName->geometry().x() + (m_parent->noteName->width() - m_questionTip->boundingRect().width()) / 2,
-                       m_parent->noteName->geometry().y() + (m_parent->noteName->height() - m_questionTip->boundingRect().height()));
+                       m_parent->noteName->geometry().y() + (m_parent->noteName->height() - m_questionTip->scale() * m_questionTip->boundingRect().height()) - 5);
       else // on the score
         pos = QPoint(((double)m_scene->width() * 0.42 - m_questionTip->boundingRect().width()) / 2 ,
                      m_scene->height() / 10 + (m_scene->height() / 2 - m_questionTip->boundingRect().height()) /2 );
