@@ -114,7 +114,11 @@ MainWindow::MainWindow(QWidget *parent)
     m_statLab = new QLabel(innerWidget);
     m_statLab->setWordWrap(true);
     m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
+#if defined(Q_OS_WIN32)
+    QColor bgLight = palette().window().color().lighter();
+#else
     QColor bgLight = palette().window().color().lighter(105);
+#endif
     m_statLab->setStyleSheet(gl->getBGcolorText(bgLight) + "border-radius: 10px;");
 //     statLay->addWidget(m_statLab);
  // Expert corner
