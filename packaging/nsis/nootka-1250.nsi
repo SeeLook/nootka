@@ -194,8 +194,8 @@ SectionEnd
 ;FunctionEnd
 
    LangString UninstallMess ${LANG_ENGLISH} "Do You realy want to remove $(^Name) and all its components?"
-   LangString UninstallMess ${LANG_POLISH} "Czy rzeczwiÂœcie chcesz usunÂ¹Ã¦ NutkÃª i jej skÂ³adniki?"
-   LangString UninstallMess ${LANG_CZECH} "Opravdu chcete odstranit Nootku a vÂšechny jejÃ­ souÃ¨Ã¡sti?"
+   LangString UninstallMess ${LANG_POLISH} "Czy rzeczywiœcie chcesz usun¹æ Nootkê i jej sk³adniki?"
+   LangString UninstallMess ${LANG_CZECH} "Opravdu chcete odstranit Nootku a vsechny její soueásti?"
    LangString UninstallMess ${LANG_FRENCH} "Voulez-vous vraiment supprimer Nootka et tous ses composants?"
 
 Function un.onInit
