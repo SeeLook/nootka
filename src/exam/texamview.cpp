@@ -183,7 +183,7 @@ void TexamView::setFontSize(int s) {
     m_effLab->setFont(f);
 //    m_reactTimeLab->setFixedWidth(s * 3);
 //    m_averTimeLab->setFixedWidth(s * 3);
-    m_totalTimeLab->setFixedWidth(s * 5);
+//     m_totalTimeLab->setFixedWidth(s * 5);
 //     setMinimumHeight(okGr->height() + 5);
 
 }
@@ -191,7 +191,7 @@ void TexamView::setFontSize(int s) {
 void TexamView::countTime() {
     if (m_showReact)
         m_reactTimeLab->setText(QString(" %1 ").arg(formatReactTime(m_reactTime.elapsed() / 100)));
-    m_totalTimeLab->setText(formatedTotalTime(m_totElapsedTime*1000 + m_totalTime.elapsed()));
+    m_totalTimeLab->setText(" " + formatedTotalTime(m_totElapsedTime*1000 + m_totalTime.elapsed()) + " ");
 }
 
 QString TexamView::formatReactTime(quint16 timeX10) {
@@ -222,5 +222,5 @@ void TexamView::clearResults() {
     m_effLab->setText("<b>100%</b>");
     m_averTimeLab->setText(" 0.0 ");
     m_reactTimeLab->setText(" 0.0 ");
-    m_totalTimeLab->setText("0:00:00");    
+    m_totalTimeLab->setText(" 0:00:00 ");
 }
