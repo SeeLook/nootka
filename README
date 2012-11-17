@@ -1,4 +1,5 @@
-Nootka 0.8.2
+Nootka
+HOW TO COMPILE
 
 ##########################################################
 #############   Requirements:                #############
@@ -41,6 +42,9 @@ You can easyly generate rpm and deb package.
 1. For deb call:
   fakeroot cpack -G DEB
   (obviously packages for build debian packages are needed)
+  !!! Some versions of cmake case problems with 
+  !!! propper rights to files in creating deb package
+  !!! check it by lintian
 2. For rpm call
   cpack -G RPM
 
