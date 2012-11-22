@@ -271,6 +271,7 @@ void TnoteName::resize(int fontSize) {
         f = QFont(dblFlatButt->font().family());
         f.setPointSize(fontSize);
         dblFlatButt->setFont(f);
+//        dblFlatButt->setFixedSize(f.pointSize() * 2, f.pointSize() * 2);
         flatButt->setFont(f);
         sharpButt->setFont(f);
         dblSharpButt->setFont(f);
