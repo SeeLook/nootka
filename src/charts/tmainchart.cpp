@@ -91,7 +91,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
       */
       TgraphicsLine *averLine = new TgraphicsLine("<p>" +
           TexamView::averAnsverTimeTxt() + 
-          QString("<br><span style=\"font-size: 20px;\">%1 s</span></p>").arg(TexamView::formatReactTime(m_exam->averageReactonTime())) );
+          QString("<br><span style=\"font-size: 20px;\">%1</span></p>").arg(TexamView::formatReactTime(m_exam->averageReactonTime(), true)) );
       scene->addItem(averLine);
       averLine->setZValue(20);
       averLine->setPen(QPen(averColor, 3));
@@ -162,7 +162,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
   // paint lines with average time of all the same notes/frets
       for (int i = 0; i < goodSize + goodOffset; i++) { // skip wrong answers if separeted
         double aTime = calcAverTime(sortedLists[i], !m_settings.inclWrongAnsw);
-        QString aTimeText = TexamView::formatReactTime(qRound(aTime));
+        QString aTimeText = TexamView::formatReactTime(qRound(aTime), true);
         TgraphicsLine *averTimeLine = new TgraphicsLine();
         QString lineText = "";
         if (m_settings.order == e_byNote)

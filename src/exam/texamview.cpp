@@ -194,7 +194,7 @@ void TexamView::countTime() {
     m_totalTimeLab->setText(" " + formatedTotalTime(m_totElapsedTime*1000 + m_totalTime.elapsed()) + " ");
 }
 
-QString TexamView::formatReactTime(quint16 timeX10) {
+QString TexamView::formatReactTime(quint16 timeX10, bool withUnit) {
     QString hh = "", mm = "", ss = "";
     int dig = 0;
     if (timeX10 / 36000) {
@@ -212,7 +212,10 @@ QString TexamView::formatReactTime(quint16 timeX10) {
         res = hh + ":";
     if (mm != "")
         res += mm + ":";
-    return res + ss + QString(".%1").arg(timeX10 % 10);
+    QString unitS = "";
+    if (withUnit && timeX10 < 600)
+        unitS = " s";
+    return res + ss + QString(".%1").arg(timeX10 % 10) + unitS;
 }
 
 void TexamView::clearResults() {
