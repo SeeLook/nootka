@@ -76,6 +76,7 @@ fi
 "/usr/share/nootka/gpl"
 "/usr/share/nootka/lang/nootka_cs.qm"
 "/usr/share/nootka/lang/nootka_pl.qm"
+"/usr/share/nootka/lang/nootka_fr.qm"
 "/usr/share/nootka/fonts/README"
 "/usr/share/nootka/fonts/nootka.otf"
 "/usr/share/nootka/fonts/nootka.ttf"
