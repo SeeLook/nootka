@@ -88,7 +88,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
                           "<a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a>");
     translStr += "</table>";
     QLabel *authorsLab = new QLabel(authorStr + translStr + "<br><br>" + 
-       tr("However this application could not exist without various open source projects.<br>Especially:") + "<ul><li><a href=\"http://qt.nokia.com\">Qt</a></li><li><a href=\"http://www.fftw.org\">FFTW</a></li><li><a href=\"http://www.music.mcgill.ca/~gary/rtmidi/\">RtMidi</a></li><li><a href=\"http://miracle.otago.ac.nz/tartini/index.html\">Tartini</a></li></ul>");
+       tr("However this application could not exist without various open source projects.<br>Especially:") + "<ul><li><a href=\"http://qt-project.org/\">Qt</a></li><li><a href=\"http://www.fftw.org\">FFTW</a></li><li><a href=\"http://www.music.mcgill.ca/~gary/rtmidi/\">RtMidi</a></li><li><a href=\"http://miracle.otago.ac.nz/tartini/index.html\">Tartini</a></li></ul>");
     authorsLab->setOpenExternalLinks(true);
     wiLLay->addWidget(authorsLab);
     wiLLay->addStretch(1);
