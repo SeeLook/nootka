@@ -70,7 +70,6 @@ fi
 %defattr(-,root,root,-)
 "/usr/bin/nootka"
 "/usr/share/doc/nootka/copyright"
-"/usr/share/doc/nootka/changelog.gz"
 "/usr/share/man/man1/nootka.1.gz*"
 "/usr/share/mime/packages/nootka.xml"
 "/usr/share/nootka/gpl"
@@ -122,6 +121,13 @@ fi
 "/usr/share/nootka/picts/zoom-in.png"
 "/usr/share/nootka/picts/zoom-out.png"
 "/usr/share/nootka/picts/support.png"
+"/usr/share/doc/nootka/changelog.Debian.gz"
+"/usr/share/nootka/picts/flags-cs.png"
+"/usr/share/nootka/picts/flags-en.png"
+"/usr/share/nootka/picts/flags-fr.png"
+"/usr/share/nootka/picts/flags-pl.png"
+"/usr/share/nootka/picts/middleA.png"
+
 "/usr/share/nootka/sounds/classical-guitar.wav"
 "/usr/share/applications/nootka.desktop"
 "/usr/share/pixmaps/levelCreator.png"
