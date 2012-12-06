@@ -541,10 +541,10 @@ void TexamExecutor::checkAnswer(bool showResults) {
       } else
         questPos = curQ.qa.pos;
       if (questPos != answPos && curQ.isCorrect()) { // if no cheater give him a chance
-        QList <TfingerPos> tmpPosList; // Mayby hi gave correct note but on incorrect string only
+        QList <TfingerPos> tmpPosList; // Maybe hi gave correct note but on incorrect string only
         m_supp->getTheSamePos(answPos, tmpPosList); // get other positions
         for (int i = 0; i < tmpPosList.size(); i++) {
-              if (tmpPosList[i] == curQ.qa_2.pos) { // and compare it with expected
+              if (tmpPosList[i] == questPos) { // and compare it with expected
                 curQ.setMistake(TQAunit::e_wrongString);
                 break;
               }
@@ -631,7 +631,9 @@ void TexamExecutor::checkAnswer(bool showResults) {
       } else {
         m_snifferLocked = true;
         mW->progress->setFinished(true);
+        qApp->removeEventFilter(m_supp); // stop grabbing right button and calling checkAnswer()
         m_supp->examFinished();
+        qApp->installEventFilter(m_supp); // restore grabing right mouse button
         m_exam->setFinished();
         m_snifferLocked = false;
       }
@@ -935,7 +937,7 @@ bool TexamExecutor::closeNootka() {
 }
 
 QString TexamExecutor::saveExamToFile() {
-//     qApp->removeEventFilter(m_supp);
+      //     
     QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam's results as:"),
                          QDir::toNativeSeparators(QDir::homePath()+ "/" +
                                                   m_exam->userName() + "-" + m_level.name + ".noo"),
