@@ -1,3 +1,8 @@
+0.8.5 stable
+    BUGS FIXES
+     - right click on exam help window invoked crash - fixed
+     - fixed proper clef position on Linux & MacOS
+
 0.8.4 rc1
      - tons of visual changes to fix, adjust and improve
      - time of wrong aswers is no more included to average

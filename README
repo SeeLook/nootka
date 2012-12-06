@@ -1,5 +1,6 @@
-Nootka
-HOW TO COMPILE
+
+                N O O T K A
+              HOW TO COMPILE
 
 ##########################################################
 #############   Requirements:                #############
@@ -29,8 +30,21 @@ HOW TO COMPILE
       -DQTMULTIMEDIAKIT_LIBRARY=/path_to_dir_with/libqtmultimedia.la(dll)
       -DQTMULTIMEDIA_INCLUDE_DIRS=/path_to_dir_with/qaudio.h
       -DQTMOBILITY_INCLUDE_DIRS=/path_to_dir_with/qmobilityglobal.h (Ubuntu only)
-- make
+    also
+      -DCMAKE_INSTALL_PREFIX=/install/dir to change instalation target
+      -DCMAKE_BUILD_TYPE=debug to build Nootka in debug mode
+    so You can invoke:
+      cmake -DCMAKE_INSTALL_PREFIX=/my/special/dir ../
+      or do the same in GUI
+      
+- then call
+  make 
+  or 
+  make -j[number of CPU cores], fe.: make -j4
 - make install (usually as root)
+  alternatively You can invoke 
+     make install DESTDIR=/Your/Dir
+  and push the instalation wherever You want (similary to -DCMAKE_INSTALL_PREFIX)
 
 to remove (uninstall)
 - make uninstall (usually as root)
@@ -47,6 +61,9 @@ You can easyly generate rpm and deb package.
   !!! check it by lintian
 2. For rpm call
   cpack -G RPM
+  
+  
+  !!!!!!!!!!!! GOOD LUCK !!!!!!!!!
 
 ##########################################################
 #### How to prepare developement enviroment under MacOs ##
@@ -59,8 +76,11 @@ You can easyly generate rpm and deb package.
   alternatively You can use Fink
 
 
-3. Download and install QT librares:
-http://qt.nokia.com/downloads/qt-for-open-source-cpp-development-on-mac-os-x/
+3. Download and install QT libraries:
+  go to 
+    http://qt-project.org/downloads
+    and take Qt libraries version 4.8 for Mac (not 5.0 nor 4.8)
+    and install.
 
 4. Now You can go to to Building section
 

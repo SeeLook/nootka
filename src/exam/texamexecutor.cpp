@@ -829,7 +829,7 @@ void TexamExecutor::restoreAfterExam() {
       expertAnswersStateChanged(false);
     mW->expertAnswChB->hide();
     
-    qApp->removeEventFilter(m_supp);
+//     qApp->removeEventFilter(m_supp);
 
     if (m_canvas)
       delete m_canvas;
@@ -882,6 +882,7 @@ void TexamExecutor::stopExamSlot() {
         m_soundTimer->stop();
     mW->sound->stopPlaying();
     mW->sound->wait();
+    qApp->removeEventFilter(m_supp);
     if (m_exam->fileName() == "" && m_exam->count())
         m_exam->setFileName(saveExamToFile());
     if (m_exam->fileName() != "") {
@@ -934,6 +935,7 @@ bool TexamExecutor::closeNootka() {
 }
 
 QString TexamExecutor::saveExamToFile() {
+//     qApp->removeEventFilter(m_supp);
     QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam's results as:"),
                          QDir::toNativeSeparators(QDir::homePath()+ "/" +
                                                   m_exam->userName() + "-" + m_level.name + ".noo"),
@@ -947,7 +949,7 @@ QString TexamExecutor::saveExamToFile() {
         if (msg->clickedButton() == saveButt)
             fileName = saveExamToFile();
     }
-    if (fileName.right(4) != ".noo")
+    if (!fileName.isEmpty() && fileName.right(4) != ".noo")
         fileName += ".noo";
     return fileName;
 }
@@ -988,9 +990,11 @@ bool TexamExecutor::showExamSummary(bool cont) {
 
 void TexamExecutor::showExamHelp() {
   m_snifferLocked = true;
+  qApp->removeEventFilter(m_supp);
   TexamHelp *hlp = new TexamHelp(gl->getBGcolorText(gl->EquestionColor), gl->getBGcolorText(gl->EanswerColor), gl->path, gl->E->showHelpOnStart, mW);
   hlp->exec();
   delete hlp;
+  qApp->installEventFilter(m_supp);
   m_snifferLocked = false;
 }
 
