@@ -1,7 +1,9 @@
 0.8.5 stable
+     - components of binary packages updated to the newest versions (Windows and Mac)
     BUGS FIXES
-     - right click on exam help window invoked crash - fixed
+     - fixed crash after right click on exam help window
      - fixed proper clef position on Linux & MacOS
+     - proper recognizeing answers on wrong strings
 
 0.8.4 rc1
      - tons of visual changes to fix, adjust and improve

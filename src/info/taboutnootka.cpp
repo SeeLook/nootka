@@ -130,7 +130,7 @@ Tabout::Tabout(QWidget *parent) :
     betaInfo = ""; // comment it to show info in beta releases
     m_aboutLab = new QLabel("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>Nootka " + gl->version + "</b></p></center><p><br>" + info + "</p><p>" + betaInfo + "</p><p>" + moreInfo + "</p><br>"
 #if defined(Q_OS_WIN32)
-	  + tr("<br>To support project and also to avoid infection of Your PC<br><b>PLEASE, use project site to download updates, new releases and to see news.</b>")
+	  + tr("<br><br><br>To support project and also to avoid infection of Your PC<br><b>PLEASE, use project site to download updates, new releases and to see news.</b><br><br>")
 #endif
 							, this);
     m_aboutLab->setWordWrap(true);

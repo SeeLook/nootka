@@ -18,11 +18,10 @@ This process is very easy and doesn't require any programming skills,
 
 I) Recommended method - translation with Qt Linguist
   1. Install Qt Linguist:
-    - form http://qt.nokia.com/downloads/ download QT online installer appropirate for Your system and run it.
-    - Go with creator and select 'custom' type of instalation.
-    - When You selected custom type of instalation deselect all components in next window
-      and select only Qt Linguist (QtCreator is mandatory).
-    - approve license and wait a while for finish the instalation.
+    Linux users will prefer useing package manager of their Linux distibution. Linguist will be there.
+    For Mac and Win users:
+      - form http://qt-project.org/downloads download Qt libraries version 4.8 appropriate for Your system and install it.
+      - You will find Qtlinguist in Your programms menu (Windows) or in /Developer/Tools in root file system (Mac).
   2. Download Nootka language file: http://nootka.googlecode.com/hg/lang/nootka_xx.ts
       and change that xx in file name to Your language code to get file name like f.e.: nootka_en.ts
   3. Open this file by Qt Linguist and translate - this is very easy.
