@@ -21,6 +21,7 @@
 #include "taboutnootka.h"
 #include "tglobals.h"
 #include "select7note.h"
+#include "tpixmaker.h"
 #include <QtGui>
 
 extern Tglobals *gl;
@@ -192,16 +193,37 @@ Tpage_3::Tpage_3(QWidget *parent) :
 
 //###############################################  Tpage_4  ###############################################
 
+#define PIXSIZE (28)
+
 Tpage_4::Tpage_4(QWidget* parent) :
     QWidget(parent)
 { 
   QVBoxLayout *lay = new QVBoxLayout;
-  lay->addStretch(1);
-  QLabel *lab = new QLabel(QString("<center><img src=\"%1\"><br><br><br>").arg(gl->path+"picts/pitch.png") +
-    tr("Nootka can recognize played or sung sound<br>but it requires adjustment and some practise.<br>All needed settings are in <b>Preferences->Sound<b>.")
-    , this );
-  lay->addWidget(lab);
-  lay->addStretch(1);
+//   QLabel *lab = new QLabel(QString("<center><img src=\"%1\"><br><br><br>").arg(gl->path+"picts/pitch.png") +
+//     tr("Nootka can recognize played or sung sound<br>but it requires adjustment and some practise.<br>All needed settings are in <b>Preferences->Sound<b>.")
+//     , this );
+  QString helpTxt = "<br><b>" + tr("A play with Nootka we can divide on three stages:", "Don't try to translate the entries in this context/ section too strict, rather use some nice words into Your language to describe it. '%1' are images in text");
+  helpTxt += "</b><table><tr><td>&nbsp;</td><td><hr><b>";
+  
+  helpTxt += tr("I. Discovering") + "</b><br>";
+  helpTxt += tr("Either an application interface and how score works. Just click on elements of the interface see and get to know. Also You can play or sing if You have any mike or web-cam.") + "<br>";
+  helpTxt += tr("Take %1 button to glimpse this help and %2 button to adjust the application to yourself.").
+      arg(" &nbsp; " + pixToHtml(gl->path+"picts/about.png", PIXSIZE) + " <span style=\"font-size: 25px;\"> + </span> " + pixToHtml(gl->path+"picts/help.png", PIXSIZE)  + " &nbsp; ").
+      arg(" &nbsp; " + pixToHtml(gl->path+"picts/systemsettings.png", PIXSIZE) + " &nbsp; ");
+      
+  helpTxt += "<hr><b>" + tr("II. Playing with Nootka") + "</b><br>";
+  helpTxt += tr("Literally and metaphorically. The application will be Your strict and \"old school\" master. Take %1 button, select some level and try to pass an exam by answering on questions. To answer You can play, sing, put a name of a note and so on. Depends on chosen level.<br>When You miss, You got penalties...", "hmmm, 'play' has doble meaning (a fun and performing) in english only, so adjust it as You feel").arg(" &nbsp; " + pixToHtml(gl->path+"picts/startExam.png", PIXSIZE) + " &nbsp; ");
+  helpTxt += "<br>" + tr("Take %1 button to create Your own questions set (a level).").
+    arg(" &nbsp; " + pixToHtml(gl->path+"picts/levelCreator.png", PIXSIZE) + " &nbsp; ");
+  
+  helpTxt += "<hr><b>" + tr("III. Analyseing") + "</b><br>";
+  helpTxt += tr("Nootka will tell You what do You think about so long...<br>Take %1 button to watch and to analyse results of Your exams. Find Your weak points and improve.").
+    arg(" &nbsp; " + pixToHtml(gl->path+"picts/charts.png", PIXSIZE) + " &nbsp; ");;
+  helpTxt += "</td></tr></table>";
+  helpTxt += "<hr><b><span style=\"font-size: 25px;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + tr("Have a good fun!") + "</span></b>";
+  QTextEdit *helpEdit = new QTextEdit(this);
+  helpEdit->setHtml(helpTxt);
+  lay->addWidget(helpEdit);
   setLayout(lay);
 }
 

@@ -20,6 +20,7 @@
 #include "taboutnootka.h"
 #include "tsupportnootka.h"
 #include "tnootkalabel.h"
+#include "tfirstrunwizzard.h"
 #include "tglobals.h"
 #include <QtGui>
 
@@ -58,19 +59,23 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     navList->addItem(tr("About"));
     navList->item(0)->setIcon(QIcon(gl->path+"picts/nootka.png"));
     navList->item(0)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(authorsTxt());
-    navList->item(1)->setIcon(QIcon(gl->path+"picts/author.png"));
+    navList->addItem(tr("Help"));
+    navList->item(1)->setIcon(QIcon(gl->path+"picts/help.png"));
     navList->item(1)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(tr("License"));
-    navList->item(2)->setIcon(QIcon(gl->path+"picts/license.png"));
+    navList->addItem(authorsTxt());
+    navList->item(2)->setIcon(QIcon(gl->path+"picts/author.png"));
     navList->item(2)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(tr("Support"));
-    navList->item(3)->setIcon(QIcon(gl->path+"picts/support.png"));
+    navList->addItem(tr("License"));
+    navList->item(3)->setIcon(QIcon(gl->path+"picts/license.png"));
     navList->item(3)->setTextAlignment(Qt::AlignCenter);
+    navList->addItem(tr("Support"));
+    navList->item(4)->setIcon(QIcon(gl->path+"picts/support.png"));
+    navList->item(4)->setTextAlignment(Qt::AlignCenter);
 
 
 
     Tabout *m_about = new Tabout();
+    Tpage_4 *help = new Tpage_4();
     QWidget *wi = new QWidget();
     QVBoxLayout *wiLLay = new QVBoxLayout;
   // AUTHORS
@@ -98,6 +103,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 
 
     QTextEdit *licenseTxt = new QTextEdit();
+    licenseTxt->setReadOnly(true);
     QFile file(gl->path + "gpl");
     if(file.open(QFile::ReadOnly | QFile::Text)) {
 	      QTextStream in(&file);
@@ -108,7 +114,8 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     TsupportNootka *support = new TsupportNootka(this);
 
     stackLayout->addWidget(m_about);
-
+    
+    stackLayout->addWidget(help);    
     stackLayout->addWidget(wi);
     stackLayout->addWidget(licenseTxt);
     stackLayout->addWidget(support);

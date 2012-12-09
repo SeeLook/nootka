@@ -17,25 +17,17 @@
  ***************************************************************************/
 
 
-#ifndef TEXCLAMATIONITEM_H
-#define TEXCLAMATIONITEM_H
-
-#include <QGraphicsSimpleTextItem>
-
-class QGraphicsSceneHoverEvent;
+#ifndef TPIXMAKER_H
+#define TPIXMAKER_H
 
 
-/** This clas is a exclamation mark whitch disapears after mouse on. 
- * Alpha channel of will be overvriten. */
-class TexclamationItem : public QGraphicsSimpleTextItem
-{
+#include <QPixmap>
 
-public:
-    TexclamationItem(QGraphicsScene *scene, QColor color);
-    virtual ~TexclamationItem();
-    
-protected:
-    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent*);
-};
+    /** Changes given sting to pixmap in given font size. 
+     * Nootka font is used and current palette colors. */
+QPixmap pixFromString(QString glif, QFont font);
+    /** Returns html img statements with image scaled to given height.*/
+QString pixToHtml(QString imageFile, int width = 0);
 
-#endif // TEXCLAMATIONITEM_H
+
+#endif
