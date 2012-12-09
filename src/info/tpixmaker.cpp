@@ -17,29 +17,42 @@
  ***************************************************************************/
 
 
-#include "texclamationitem.h"
-#include <QGraphicsScene>
+#include "tpixmaker.h"
+#include <QFont>
+#include <QFontMetricsF>
+#include <QPainter>
+#include <QApplication>
+#include <QPalette>
+#include <QBuffer>
+#include <QDebug>
 
 
-TexclamationItem::TexclamationItem(QGraphicsScene* scene, QColor color) :
-  QGraphicsSimpleTextItem()
-{
-    setAcceptHoverEvents(true);
-    scene->addItem(this);
-    color.setAlpha(220);
-    setBrush(color);
-// #if defined (Q_OS_MACX)
-//     setFont("nootka", 20);
-// #else
-    setFont(QFont("nootka", scene->height() / 5));
-// #endif
-    setText("!");
-    setPos((scene->width() - boundingRect().width()) / 2, (scene->height() - boundingRect().height()) / 2);
-    setZValue(150);
+QPixmap pixFromString(QString glif, QFont font) {
+  QFontMetricsF metrics(font);
+  QPixmap pix(metrics.boundingRect(glif).width(), metrics.boundingRect(glif).height());
+  pix.fill(Qt::transparent);
+  QPainter painter(&pix);
+  painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
+  painter.setWindow(0, 0, pix.width(), pix.height());
+  painter.setPen(qApp->palette().text().color());
+  painter.setBrush(QBrush(painter.pen().color()));
+  painter.setFont(font);
+  painter.drawText(0, 0, pix.width(), pix.height(), Qt::AlignCenter, glif);
+  return pix;
 }
 
-TexclamationItem::~TexclamationItem() {}
-
-void TexclamationItem::hoverEnterEvent(QGraphicsSceneHoverEvent*) {
-    hide();
+QString pixToHtml(QString imageFile, int width) {
+  if (!width)
+    return QString("<img src=\"%1\">").arg(imageFile);
+  else {
+    QPixmap orgPix;
+    if (!orgPix.load(imageFile))
+      return "";
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+    QPixmap scaledPix = orgPix.scaled(width, width);
+    scaledPix.save(&buffer, "PNG");
+    return QString("<img src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/>";
+  }
 }
+

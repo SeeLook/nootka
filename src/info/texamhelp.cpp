@@ -17,12 +17,15 @@
  ***************************************************************************/
 
 #include "texamhelp.h"
+#include "tpixmaker.h"
 #include "examsettings.h"
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QTextEdit>
 #include <QCheckBox>
 
+
+#define PIXICONSIZE (32)
 
 TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt, 
                      QString& path, bool& showHelp, QWidget* parent) :
@@ -39,7 +42,7 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt,
     tr("How does an exam work ?") +
     QString(" </span><img src=\"%1\"> ").arg(path+"picts/startExam.png") + "<br><br>" +
     "<style type=\"text/css\">img { border-style: solid; border-color: palette(text); border-width: 2px; background-color: palette(window); }</style>" +
-    toGetQuestTxt() + ":<br>- " + clickSomeButtonTxt(path+"picts/next-icon.png") + "<br>- " +
+    toGetQuestTxt() + ":<br>- " + clickSomeButtonTxt(pixToHtml(path + "picts/nextQuest.png", PIXICONSIZE)) + "<br>- " +
     pressSpaceKey() + "<br>- " + orRightButtTxt() + "<br>" + 
     tr("Select 2-nd check box to get the question automaticaly.") + 
     QString("<br><br><span style=\"%1\">").arg(questColorTxt) +
@@ -48,10 +51,10 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt,
       .arg(answColorTxt) +
     QString("<br><br><img src=\"%1\"><br><br>").arg(path+"picts/scr.png") +
     tr("To check the answer confirm it:") + "<br>- " + 
-    clickSomeButtonTxt(path+"picts/check-icon.png") + "<br>- " +
+    clickSomeButtonTxt(pixToHtml(path + "picts/check.png", PIXICONSIZE)) + "<br>- " +
     pressEnterKey() + "<br>- " + orRightButtTxt() + "<br><br>" +
     tr("If You made a mistake and You want to repeat the question:") + "<br>- " + 
-    clickSomeButtonTxt(path+"picts/prev-icon.png") + "<br>- " + orPressBkSTxt() + "<br>" +
+    clickSomeButtonTxt(pixToHtml(path+"picts/prevQuest.png", PIXICONSIZE)) + "<br>- " + orPressBkSTxt() + "<br>" +
     tr("By selecting 3-rd check box, the answers will be checking immediately without confirmation.") + "<br><br>" +
     toStopExamTxt(path + "picts/stopExam-icon.png") + "<br><br>" + 
     tr("Exam will be complete when You give answers on all questions.<br>Their number depends on a level of the exam.") + "<br>" +

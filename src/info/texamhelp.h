@@ -37,14 +37,14 @@ public:
             QString &path, bool &showHelp, QWidget *parent = 0);
   
   static QString orRightButtTxt() { return tr("or right mouse button"); } // or right mouse button
-  static QString clickSomeButtonTxt(QString pathToImg) 
-      { return tr("click <img src=\"%1\"> button").arg(pathToImg); } // click <button-icon> button
+  static QString clickSomeButtonTxt(QString imgHtmlTag) 
+      { return tr("click %1 button").arg(imgHtmlTag); } // click <button-icon> button
   static QString toGetQuestTxt() { return tr("To get question"); } // To get question
   static QString pressSpaceKey() { return tr("press <b>space</b> key"); } // press <b>space</b> key
   static QString pressEnterKey() { return tr("press <b>Enter</b> key"); } // press <b>Enter</b> key
   static QString orPressBkSTxt() { return tr("or <b>Backspace</b> key"); } // or <b>Backspace</b> key
-  static QString toStopExamTxt(QString pathToImg) 
-      { return tr("To stop the exam click <img src=\"%1\"> button.").arg(pathToImg); }
+  static QString toStopExamTxt(QString imgHtmlTag) 
+      { return tr("To stop the exam click %1 button.").arg(imgHtmlTag); }
       // To stop the exam click button
   
 protected slots:

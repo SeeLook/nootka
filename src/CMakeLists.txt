@@ -62,6 +62,7 @@ SET( NOOTKA_SRCS
   info/texpertanswerhelp.cpp
   info/tsupportnootka.cpp
   info/tnootkalabel.cpp
+  info/tpixmaker.cpp
 ###### Charts
   charts/tanalysdialog.cpp
   charts/tchart.cpp

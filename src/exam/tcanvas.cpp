@@ -27,6 +27,7 @@
 #include "tnotepixmap.h"
 #include "tglobals.h"
 #include "texamhelp.h"
+#include "tpixmaker.h"
 #include "tscorewidget.h"
 #include "tnotename.h"
 #include "tfingerboard.h"
@@ -37,7 +38,7 @@
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
 
-
+#define PIXICONSIZE (32)
 
 extern Tglobals *gl;
 
@@ -142,14 +143,13 @@ void Tcanvas::tryAgainTip(int time) {
 
 
 QString Tcanvas::startTipText() {
-  return TexamHelp::toGetQuestTxt() + ":<br>" + TexamHelp::clickSomeButtonTxt(gl->path+"picts/next-icon.png") + 
+  return TexamHelp::toGetQuestTxt() + ":<br>" + TexamHelp::clickSomeButtonTxt(pixToHtml(gl->path + "picts/nextQuest.png", PIXICONSIZE)) + 
   ",<br>" + TexamHelp::pressSpaceKey() + " " + TexamHelp::orRightButtTxt();
 }
 
 
 void Tcanvas::startTip() {
-  m_startTip = new TgraphicsTextTip(QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75)) + startTipText() + ".<br>" + TexamHelp::toStopExamTxt(gl->path +
-      "picts/stopExam-icon.png") + "</p>", palette().highlight().color());
+  m_startTip = new TgraphicsTextTip(QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75)) + startTipText() + ".<br>" + TexamHelp::toStopExamTxt(pixToHtml(gl->path + "picts/stopExam.png", PIXICONSIZE)) + "</p>", palette().highlight().color());
   m_scene->addItem(m_startTip);
   m_startTip->setScale(m_scale);
   setPosOfStartTip();
@@ -163,9 +163,9 @@ void Tcanvas::whatNextTip(bool isCorrect, bool onRight) {
   }
   QString whatNextText = startTipText();
   if (!isCorrect)
-      whatNextText += "<br>" + tr("To correct an answer") + " " + TexamHelp::clickSomeButtonTxt(gl->path + "picts/prev-icon.png")
-      + " " + TexamHelp::orPressBkSTxt();
-  whatNextText += "<br>" + TexamHelp::toStopExamTxt(gl->path + "picts/stopExam-icon.png");
+      whatNextText += "<br>" + tr("To correct an answer") + " " + TexamHelp::clickSomeButtonTxt(pixToHtml(gl->path + "picts/prevQuest.png", PIXICONSIZE)) +
+      " " + TexamHelp::orPressBkSTxt();
+  whatNextText += "<br>" + TexamHelp::toStopExamTxt(pixToHtml(gl->path + "picts/stopExam.png", PIXICONSIZE));
   
   m_whatTip = new TgraphicsTextTip(whatNextText, palette().highlight().color());
   m_scene->addItem(m_whatTip);
