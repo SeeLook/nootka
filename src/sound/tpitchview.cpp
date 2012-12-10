@@ -19,6 +19,7 @@
 
 #include "tpitchview.h"
 #include "tvolumemeter.h"
+#include "tpixmaker.h"
 #include <QTimer>
 #include <QLabel>
 #include <QHBoxLayout>
@@ -58,11 +59,11 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
   m_volMeter->setStatusTip(tr("Shows volume level of input sound and indicates when note was detected"));
   
   if (m_withButtons) {
-      pauseButt = new QPushButton("n", this);
-      pauseButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+      pauseButt = new QPushButton(this);
+      pauseButt->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
       lay->addWidget(pauseButt);
       pauseButt->setStatusTip(tr("Switch on/off the pitch detection"));
-      pauseButt->setFont(QFont("nootka", 15));
+//      pauseButt->setFont(QFont("nootka", 15));
   }
   setLayout(lay);  
   
@@ -107,15 +108,19 @@ void TpitchView::resize(int fontSize) {
   if (m_withButtons) {
 #if defined(Q_OS_MAC)
     voiceButt->setFont(QFont("nootka", (fontSize*3)/2));
-    pauseButt->setFont(QFont("nootka", (fontSize*3)/2));
+//    pauseButt->setFont(QFont("nootka", (fontSize*3)/2));
     voiceButt->setFixedHeight(3*fontSize/2);
-    pauseButt->setFixedHeight(3*fontSize/2);
+//    pauseButt->setFixedHeight(3*fontSize/2);
 #else
     voiceButt->setFont(QFont("nootka", fontSize));
     pauseButt->setFont(QFont("nootka", fontSize));
 #endif
     voiceButt->setFixedWidth(3*fontSize/2);
-    pauseButt->setFixedWidth(3*fontSize/2);
+    QPixmap pix = pixFromString("n", voiceButt->font());
+    pauseButt->setIcon(QIcon(pix));
+    pauseButt->setIconSize(pix.size());
+    pauseButt->setFixedSize(QSize(pix.width() + 4, pix.height() + 4));
+//    pauseButt->setFixedWidth(3*fontSize/2);
   }
   m_volMeter->setFixedHeight(qRound((float)fontSize * 1.2));
 }
@@ -161,13 +166,13 @@ void TpitchView::updateLevel() {
 
 void TpitchView::pauseClicked() {
     if (m_isPaused) {
-      pauseButt->setText("n"); // note symbol
+//      pauseButt->setText("n"); // note symbol
       m_isPaused = false;
       m_volMeter->setDisabled(false);
       m_audioIN->startListening();
       m_volTimer->start(75);
     } else {
-      pauseButt->setText("o"); // stroked note symbol
+//      pauseButt->setText("o"); // stroked note symbol
       m_isPaused = true;
       m_audioIN->stopListening();
       stopVolume();

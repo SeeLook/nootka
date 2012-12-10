@@ -29,14 +29,15 @@
 
 QPixmap pixFromString(QString glif, QFont font) {
   QFontMetricsF metrics(font);
-  QPixmap pix(metrics.boundingRect(glif).width(), metrics.boundingRect(glif).height());
+  QPixmap pix(metrics.width(glif), metrics.height());
   pix.fill(Qt::transparent);
   QPainter painter(&pix);
   painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
   painter.setWindow(0, 0, pix.width(), pix.height());
   painter.setPen(qApp->palette().text().color());
-  painter.setBrush(QBrush(painter.pen().color()));
+  painter.setBrush(QBrush(Qt::NoBrush));
   painter.setFont(font);
+//  painter.drawRect(0, 0, pix.width(), pix.height());
   painter.drawText(0, 0, pix.width(), pix.height(), Qt::AlignCenter, glif);
   return pix;
 }
