@@ -35,11 +35,9 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
     QLabel *lab = new QLabel(this);
     QString supp;
     supp += "<ul>";
-    supp += "<li><b>Translate Nootka</b><br>It does not require any programming skills. Just read <a href=\"http://code.google.com/p/nootka/source/browse/lang/how-to-translate.txt\">the instructions</a>,<br>tramslate and send Your work.<br></li>";
-    supp += "<li><b>Fix english texts</b><br>English in Nootka is clumsy sometimes. Let me know you would like improve it. Technically it will be very easy.<br></li>";
-    supp += "<li><b>Check this version</b><br>If You used any previous version of Nootka, put attention please, Are continued exams such as You expected. There were many changes in this realm and it has to be tested.<br></li>";
+    supp += "<li><b>Translate Nootka</b><br>It does not require any programming skills. Just read <a href=\"http://nootka.googlecode.com/hg/lang/how-to-translate.txt\">the instructions</a>,<br>tramslate and send Your work.<br>Also You could fix existing exglish entries.<br></li>";
     supp += "<li><b>Test Nootka intensively</b><br>When You will produce a big exam file, let's say 200 or more questions, it doesn't matter how many mistakes You did, send me the file please. It will help to improve analyse of exams.<br></li>";
-    supp += "<li><b>Maintain Nootka package</b><br>Windows, MacOs and various Linux distibutions 32 or 64 bits.<br>Life is too short...<br>If You know how to compile Nootka from sources You would be keep Nootka version for Your platform.<br></li>";
+    supp += "<li><b>Maintain Nootka package</b><br>Windows, MacOs and various Linux distibutions 32 or 64 bits.<br>Life is too short...<br>If You know how to compile Nootka from sources You could keep Nootka version for Your platform.<br></li>";
     supp += "<li><b>Make a donation</b><br>Nootka is free of charge but it requires some expenses. To make donation by PayPal:<br> use <a href=\"http://nootka.sourceforge.net/index.php?L=en&C=sup\"> Nootka site</a><br></li>";
     supp += "<li><b>Vote on Nootka</b><br>There are a lot of services. For example:<br><a href=\"http://kde-apps.org/content/show.php/Nootka?content=143598\">Kde-Apps</a>, <a href=\"http://qt-apps.org/content/show.php/Nootka?content=148705\">Qt-Apps</a>, <a href=\"http://www.softpedia.com/get/Others/Home-Education/Nootka.shtml\">Softpedia</a><br></li>";
     supp += "<li><b>Express Your opinion</b><br>Simply <a href=\"mailto:seelook.gmail.com\">send an email</a></li>";
