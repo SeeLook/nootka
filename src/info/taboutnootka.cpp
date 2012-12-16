@@ -41,7 +41,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     QHBoxLayout *abLay = new QHBoxLayout;
     navList = new QListWidget(this);
     navList->setIconSize(QSize(80,80));
-    navList->setFixedWidth(100);
+    navList->setFixedWidth(110);
     navList->setViewMode(QListView::IconMode);
 //     navList->setFlow(QListView::TopToBottom);
     abLay->addWidget(navList);
@@ -137,7 +137,7 @@ Tabout::Tabout(QWidget *parent) :
     betaInfo = ""; // comment it to show info in beta releases
     m_aboutLab = new QLabel("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>Nootka " + gl->version + "</b></p></center><p><br>" + info + "</p><p>" + betaInfo + "</p><p>" + moreInfo + "</p><br>"
 #if defined(Q_OS_WIN32)
-	  + tr("<br><br><br>To support project and also to avoid infection of Your PC<br><b>PLEASE, use project site to download updates, new releases and to see news.</b><br><br>")
+	  + tr("<br>To support project and also to avoid infection of Your PC<br><b>PLEASE, use project site to download updates, new releases and to see news.</b>")
 #endif
 							, this);
     m_aboutLab->setWordWrap(true);
