@@ -43,7 +43,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     navList->setIconSize(QSize(80,80));
     navList->setFixedWidth(100);
     navList->setViewMode(QListView::IconMode);
-    navList->setFlow(QListView::TopToBottom);
+//     navList->setFlow(QListView::TopToBottom);
     abLay->addWidget(navList);
 
     stackLayout = new QStackedLayout;
