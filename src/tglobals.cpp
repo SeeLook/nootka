@@ -73,7 +73,7 @@ QColor Tglobals::mergeColors(QColor C1, QColor C2) {
 
 Tglobals::Tglobals() {
 
-    version = "0.8.4-rc1";
+    version = "0.8.5";
 //    path ; Is declared in main()
 
     qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
@@ -98,7 +98,7 @@ Tglobals::Tglobals() {
 
 //score widget settings
     config->beginGroup("score");
-        SkeySignatureEnabled = config->value("keySignature", true).toBool(); //true;
+        SkeySignatureEnabled = config->value("keySignature", false).toBool();
         SshowKeySignName = config->value("keyName", true).toBool(); //true;
         SnameStyleInKeySign = Tnote::EnameStyle(config->value("nameStyleInKey",
                                                            (int)Tnote::e_english_Bb).toInt());
@@ -113,8 +113,8 @@ Tglobals::Tglobals() {
 
 //common for score widget and note name
     config->beginGroup("common");
-        doubleAccidentalsEnabled = config->value("doubleAccidentals", true).toBool(); //true;
-        showEnharmNotes = config->value("showEnaharmonicNotes", true).toBool(); //true;
+        doubleAccidentalsEnabled = config->value("doubleAccidentals", false).toBool();
+        showEnharmNotes = config->value("showEnaharmonicNotes", false).toBool();
         if (config->contains("enharmonicNotesColor"))
             enharmNotesColor = config->value("enharmonicNotesColor").value<QColor>(); //-1;
         else
@@ -134,7 +134,7 @@ Tglobals::Tglobals() {
     config->beginGroup("guitar");
         GfretsNumber = config->value("fretNumber", 19).toInt();
         GisRightHanded = config->value("rightHanded", true).toBool(); //true;
-        GshowOtherPos = config->value("showOtherPos", true).toBool(); //true;
+        GshowOtherPos = config->value("showOtherPos", false).toBool();
         if (config->contains("fingerColor"))
             GfingerColor = config->value("fingerColor").value<QColor>();
         else
