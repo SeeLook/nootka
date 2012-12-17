@@ -1,5 +1,5 @@
 
-l********************************************************************
+********************************************************************
 	HOW TO TRANSLATE NOOTKA
 ********************************************************************
 
@@ -18,32 +18,38 @@ This process is very easy and doesn't require any programming skills,
 
 I) Recommended method - translation with Qt Linguist
   1. Install Qt Linguist:
-    Linux users will prefer useing package manager of their Linux distibution. Linguist will be there.
-    For Mac and Win users:
+    Linux users will prefer useing package manager of their distibution. Linguist will be there.
+    For Mac and Windows users:
       - form http://qt-project.org/downloads download Qt libraries version 4.8 appropriate for Your system and install it.
-      - You will find Qtlinguist in Your programms menu (Windows) or in /Developer/Tools in root file system (Mac).
+      - You will find Qtlinguist in Your programms menu (Windows) or in /Developer/Applications/Qt in root file system (Mac).
+	NOTE: There is also standalone version of Qt Linguist for Windows (7MB only): 
+	http://sourceforge.net/projects/gns-3/files/GNS3/Translations/Qt%20Linguist%20for%20Windows.zip/download
+	You need just unpack downloaded file and run linguist.exe
   2. Download Nootka language file: http://nootka.googlecode.com/hg/lang/nootka_xx.ts
       and change that xx in file name to Your language code to get file name like f.e.: nootka_en.ts
   3. Open this file by Qt Linguist and translate - this is very easy.
   4. In every moment You can generate a "lang package" form menu File->Release (file with *.qm extension)
-      and put that file in Nootka instalation dir in lang directory 
+      and put that file in Nootka instalation dir into the lang directory 
       f.e.: path_to_nootka/lang/nootka_en.qm
       and run Nootka to see effects of the translation
   
+  ***************************************************************
   ************* A Few Hints *************************************
     * To approve transtaled entry You can use [CTRL+Enter] - it will be automatically marked as finished.
-    * Do note remove any special characters like \n %1 or HTML tags like <br> and <whatever>.
+    * Do not remove any special characters like \n %1 or HTML tags like <br> and <whatever>.
     * To copy oryginal entry use [CTRL+b] and then just translate.
       Obviously You can move this mischievous characters and tags
-      to make proper whole transtaled sentence in Your language
+      to make whole transtaled sentence proper in Your language
     * Often use [CTRL+s] to save Your work
     * PLEASE BE RESPONSIBLE !!! USE KIND WORDS AND OFFICIAL MUSICAL TERMS.
       DO NOT USE SOME SLANG WORDS EVEN MUSICAL. Nootka is used by children and pupils 
+  ***************************************************************
+  ***************************************************************
 
   =====================================================================
 When translation will be ready or You give up :-( , send me what You have:
 		seelook@gmail.com
-      How to give some info about translator(You) You will find during translation
+      How to give some info about translator (You) You will find during translation
       Have good fun !!!!!!!!!!!!!
   
       

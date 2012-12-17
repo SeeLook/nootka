@@ -1,4 +1,5 @@
 0.8.5 stable
+     - added detailed description of an application in first run wizzard
      - components of binary packages updated to the newest versions (Windows and Mac)
     BUGS FIXES
      - fixed crash after right click on exam help window

@@ -836,7 +836,7 @@
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="62"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Nápověda</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="71"/>
@@ -1940,53 +1940,53 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/info/tfirstrunwizzard.cpp" line="205"/>
         <source>A play with Nootka we can divide on three stages:</source>
         <comment>Don&apos;t try to translate the entries in this context/section too strict, rather use some nice words into Your language to describe it. The statements like &apos;%1&apos; are images(icons) in text</comment>
-        <translation type="unfinished"></translation>
+        <translation>Hru s Nootkou lze rozdělit do tří etap:</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="208"/>
         <source>I. Discovering</source>
-        <translation type="unfinished"></translation>
+        <translation>I. Objevování</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="209"/>
         <source>Either an application interface and how score works. Just click on elements of the interface see and get to know. Also You can play or sing if You have any mike or web-cam.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zkoumáte rozhraní programu a to, jak pracuje zápis not. Jednoduše klepněte na prvek rozhraní a sledujte, co se děje. Můžete také zahrát na nástroj nebo zazpívat, jestliže máte mikrofon nebo webovou kameru.</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="210"/>
         <source>Press %1 buttons to glimpse this help and %2 button to adjust the application to yourself.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stiskněte tlačítko %1, abyste si zběžně prohlédli tuto nápovědu, a tlačítko %2, abyste program přizpůsobili svým potřebám.</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="214"/>
         <source>II. Playing with Nootka</source>
-        <translation type="unfinished"></translation>
+        <translation>II. Hraní si s Nootkou</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="215"/>
         <source>Literally and metaphorically. The application will be Your strict and &quot;old school&quot; master. Press %1 button, select some level and try to pass an exam by answering on questions. To answer You can play, sing, put a name of a note and so on. Depends on chosen level.&lt;br&gt;When You miss, You got penalties...</source>
         <comment>hmmm, &apos;play&apos; has doble meaning (a fun and performing) in english only, so adjust it as You feel</comment>
-        <translation type="unfinished"></translation>
+        <translation>myšleno je to doslova i metaforicky. Program se stane vaším přísným učitelem (jak ze staré školy). Stiskněte tlačítko %1, vyberte úroveň a pokuste se udělat zkoušku tím, že zodpovíte otázky. K tomu, abyste odpověděli na otázku, hrajte, zpívejte, zadejte název noty a tak podobně. To, co děláte, závisí na zvolené úrovni.&lt;br&gt;Když se spletete, přijde postih...</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="216"/>
         <source>Press %1 button to create Your own questions set (a level).</source>
-        <translation type="unfinished"></translation>
+        <translation>Stiskněte tlačítko %1, abyste vytvořili svůj vlastní soubor otázek (úroveň).</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="219"/>
         <source>III. Analyseing</source>
-        <translation type="unfinished"></translation>
+        <translation>III. Rozbor</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="220"/>
         <source>Nootka will tell You what do You think about so long...&lt;br&gt;Press %1 button to watch and to analyse results of Your exams. Find Your weak points and improve.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nootka vám poví to, co už dlouho tušíte...&lt;br&gt;Stiskněte tlačítko %1, abyste se podívali na výsledky zkoušek a mohli se jimi zaobírat. Najděte své slabé stránky a zlepšete se.</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="223"/>
         <source>Have a good fun!</source>
-        <translation type="unfinished"></translation>
+        <translation>Užijte si spoustu zábavy!</translation>
     </message>
 </context>
 <context>
