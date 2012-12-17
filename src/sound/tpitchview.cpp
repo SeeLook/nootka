@@ -108,8 +108,8 @@ void TpitchView::resize(int fontSize) {
 #if defined(Q_OS_MAC)
     voiceButt->setFont(QFont("nootka", (fontSize*3)/2));
     pauseButt->setFont(QFont("nootka", (fontSize*3)/2));
-    voiceButt->setFixedHeight(3*fontSize/2);
-    pauseButt->setFixedHeight(3*fontSize/2);
+    voiceButt->setFixedHeight(2*fontSize);
+    pauseButt->setFixedHeight(2*fontSize);
 #else
     voiceButt->setFont(QFont("nootka", fontSize));
     pauseButt->setFont(QFont("nootka", fontSize));
