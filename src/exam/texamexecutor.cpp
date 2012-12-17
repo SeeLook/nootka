@@ -234,7 +234,9 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
 
     if (m_level.questionAs.isSound()) {
         repeatSndAct = new QAction(tr("play sound again"), this);
-        repeatSndAct->setStatusTip(repeatSndAct->text());
+        repeatSndAct->setStatusTip(repeatSndAct->text() + ",<br>" + TexamHelp::pressSpaceKey());
+        repeatSndAct->setText(repeatSndAct->text() + ",\n" + TexamHelp::pressSpaceKey().remove("<b>").remove("</b>"));
+        repeatSndAct->setShortcut(QKeySequence(Qt::Key_Space));
         repeatSndAct->setIcon(QIcon(gl->path+"picts/repeatSound.png"));
         connect(repeatSndAct, SIGNAL(triggered()), this, SLOT(repeatSound()));
     }
