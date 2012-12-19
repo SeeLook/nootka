@@ -192,7 +192,7 @@ void Tcanvas::noteTip(int time) {
     QPropertyAnimation *movScale = new QPropertyAnimation(m_flyNote, "scale");
     movScale->setDuration(time);
     movScale->setStartValue(5.0);
-    movScale->setEndValue(0.1);
+    movScale->setEndValue(0.01);
     movScale->setEasingCurve(QEasingCurve::InCirc);
 //     QPropertyAnimation *movAlpha = new QPropertyAnimation(m_flyAnswer, "alpha");
 //     movAlpha->setDuration(time);

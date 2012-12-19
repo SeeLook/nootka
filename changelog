@@ -5,6 +5,7 @@
      - fixed crash after right click on exam help window
      - fixed proper clef position on Linux & MacOS
      - proper recognizeing answers on wrong strings
+     - a few smaller bugs were fixed
 
 0.8.4 rc1
      - tons of visual changes to fix, adjust and improve

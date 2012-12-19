@@ -836,7 +836,7 @@
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="62"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Aide</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="68"/>
@@ -1953,53 +1953,56 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <location filename="../src/info/tfirstrunwizzard.cpp" line="205"/>
         <source>A play with Nootka we can divide on three stages:</source>
         <comment>Don&apos;t try to translate the entries in this context/section too strict, rather use some nice words into Your language to describe it. The statements like &apos;%1&apos; are images(icons) in text</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Avec Nootka, on peut distinguer plusieurs étapes:</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="208"/>
         <source>I. Discovering</source>
-        <translation type="unfinished"></translation>
+        <translation>I. Découverte</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="209"/>
         <source>Either an application interface and how score works. Just click on elements of the interface see and get to know. Also You can play or sing if You have any mike or web-cam.</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>--- the english (1st) phrase actually makes little sense. Maybe something like &quot;Explore the interface of the application and how musical scores work&quot; would be more appropriate?</translatorcomment>
+        <translation type="unfinished">Explorez l&apos;interface et le fonctionnement des portées. Cliquez sur les éléments de l&apos;interface pour vous faire une idée. Vous pouvez également jouer ou chanter si vous avez un micro ou une webcam. </translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="210"/>
         <source>Press %1 buttons to glimpse this help and %2 button to adjust the application to yourself.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cliquez sur %1 pour accéder à cette page d&apos;aide et sur %2 pour ajuster les paramètres de l&apos;application. </translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="214"/>
         <source>II. Playing with Nootka</source>
-        <translation type="unfinished"></translation>
+        <translation>II. Jouer avec Nootka</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="215"/>
         <source>Literally and metaphorically. The application will be Your strict and &quot;old school&quot; master. Press %1 button, select some level and try to pass an exam by answering on questions. To answer You can play, sing, put a name of a note and so on. Depends on chosen level.&lt;br&gt;When You miss, You got penalties...</source>
         <comment>hmmm, &apos;play&apos; has doble meaning (a fun and performing) in english only, so adjust it as You feel</comment>
-        <translation type="unfinished"></translation>
+        <translatorcomment>&quot;jouer&quot; the literal translation of &quot;play&quot; in French also has the meaning of perform and of having fun...</translatorcomment>
+        <translation type="unfinished">Litéralement et métaphoriquement. Nootka peut être votre maitre &quot;strict et vieille école&quot;. Cliquez sur %1, sélectionnez un niveau et passez un examen en répondant aux questions. Pour répondre, vous devez jouer à la guitare, chanter, nommer une note etc., selon le niveau que vous choississez. &lt;br&gt;En cas d&apos;erreur, vous recevez une pénalité... </translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="216"/>
         <source>Press %1 button to create Your own questions set (a level).</source>
-        <translation type="unfinished"></translation>
+        <translation>Cliquez %1 pour créeer votre propre jeu de questions (un niveau d&apos;examen).</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="219"/>
         <source>III. Analyseing</source>
-        <translation type="unfinished"></translation>
+        <translation>III. Analyser</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="220"/>
         <source>Nootka will tell You what do You think about so long...&lt;br&gt;Press %1 button to watch and to analyse results of Your exams. Find Your weak points and improve.</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>--- what did you want to say with the 1st sentence? </translatorcomment>
+        <translation type="unfinished">Nootka vous indique vos performances et votre progression...&lt;br&gt; Cliquez %1 pour analyser les résultats des examens. Déterminez les points à améliorer. </translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="223"/>
         <source>Have a good fun!</source>
-        <translation type="unfinished"></translation>
+        <translation>Amusez-vous bien!</translation>
     </message>
 </context>
 <context>

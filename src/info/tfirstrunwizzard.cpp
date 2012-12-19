@@ -206,7 +206,7 @@ Tpage_4::Tpage_4(QWidget* parent) :
   helpTxt += "</b><table><tr><td>&nbsp;</td><td><hr><b>";
   
   helpTxt += tr("I. Discovering") + "</b><br>";
-  helpTxt += tr("Either an application interface and how score works. Just click on elements of the interface see and get to know. Also You can play or sing if You have any mike or web-cam.") + "<br>";
+  helpTxt += tr("Explore the interface of the application and how musical scores work. Just click on elements of the interface see and get to know. Also You can play or sing if You have any mike or web-cam.") + "<br>";
   helpTxt += tr("Press %1 buttons to glimpse this help and %2 button to adjust the application to yourself.").
       arg(" &nbsp; " + pixToHtml(gl->path+"picts/about.png", PIXSIZE) + " <span style=\"font-size: 25px;\"> + </span> " + pixToHtml(gl->path+"picts/help.png", PIXSIZE)  + " &nbsp; ").
       arg(" &nbsp; " + pixToHtml(gl->path+"picts/systemsettings.png", PIXSIZE) + " &nbsp; ");
@@ -217,7 +217,7 @@ Tpage_4::Tpage_4(QWidget* parent) :
     arg(" &nbsp; " + pixToHtml(gl->path+"picts/levelCreator.png", PIXSIZE) + " &nbsp; ");
   
   helpTxt += "<hr><b>" + tr("III. Analyseing") + "</b><br>";
-  helpTxt += tr("Nootka will tell You what do You think about so long...<br>Press %1 button to watch and to analyse results of Your exams. Find Your weak points and improve.").
+  helpTxt += tr("Nootka will tell You about what You are thinking so long...<br>Press %1 button to watch and to analyse results of Your exams. Find Your weak points and improve.").
     arg(" &nbsp; " + pixToHtml(gl->path+"picts/charts.png", PIXSIZE) + " &nbsp; ");;
   helpTxt += "</td></tr></table>";
   helpTxt += "<hr><b><span style=\"font-size: 25px;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + tr("Have a good fun!") + "</span></b>";
