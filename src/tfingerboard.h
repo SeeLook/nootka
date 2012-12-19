@@ -57,6 +57,8 @@ public:
     int posX12fret();
         /** Returns width of a string. */
     qreal stringWidth(int strNr) { return m_strWidth[qBound(1, strNr + 1, 6)]; }
+        /** Returns @param true when cursor is over the widget. */
+    bool isCursorOverGuitar() { return m_isCursorOverGuitar; }
 
 signals:
     void guitarClicked(Tnote note);
@@ -104,11 +106,13 @@ private:
     QGraphicsRectItem *m_rangeBox1, *m_rangeBox2;
     bool m_isDisabled;
     int m_hilightedStrNr;
+    bool m_isCursorOverGuitar;
 
 
     void paintFinger(QGraphicsEllipseItem *f, char strNr, char fretNr);
     void paintQuestMark();
     void resizeRangeBox();
+    void paintFingerAtPoint(QPoint p);
 
 
 };
