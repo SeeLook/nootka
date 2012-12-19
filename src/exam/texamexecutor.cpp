@@ -596,6 +596,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
           curQ.setMistake(TQAunit::e_wrongNote);
     }
 
+    disableWidgets();
     if (showResults) {
         int mesgTime = 0;
       if (gl->E->autoNextQuest)
@@ -604,15 +605,14 @@ void TexamExecutor::checkAnswer(bool showResults) {
       if (gl->hintsEnabled && !gl->E->autoNextQuest) {
         m_canvas->whatNextTip(curQ.isCorrect());
       }
+      if (!gl->E->autoNextQuest) {
+          if (!curQ.isCorrect())
+              mW->nootBar->addAction(prevQuestAct);
+          mW->nootBar->addAction(nextQuestAct);
+      }
     }
-    if (!gl->E->autoNextQuest) {
-        if (!curQ.isCorrect())
-            mW->nootBar->addAction(prevQuestAct);
-        mW->nootBar->addAction(nextQuestAct);
-    }
-    disableWidgets();
     mW->examResults->setAnswer(&curQ);
-    if (m_blackQuestNr != -1 && curQ.isCorrect()) { // decrese black list
+    if (m_blackQuestNr != -1) { // decrease black list
       if (m_exam->blacList()->operator[](m_blackQuestNr).time == 65502)
         m_exam->blacList()->operator[](m_blackQuestNr).time--; // remains one penalty
       else
@@ -629,7 +629,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
     if (!m_supp->wasFinished() && m_exam->count() >= (m_supp->obligQuestions() + m_exam->penalty()) ) { // maybe enought 
       if (m_exam->blackCount()) {
         m_exam->increasePenaltys(m_exam->blackCount());
-        qDebug() << "penaltys increased. Can't finish an egzam yet.";
+        qDebug() << "penaltys increased. Can't finish this exam yet.";
       } else {
         m_snifferLocked = true;
         mW->progress->setFinished(true);
@@ -641,28 +641,23 @@ void TexamExecutor::checkAnswer(bool showResults) {
       }
     }
     
-    if (gl->E->autoNextQuest) {
-        if (curQ.isCorrect()) {
-            if (m_shouldBeTerminated)
-                stopExamSlot();
-            else {
-                m_lockRightButt = true; // to avoid nervous users click mouse during WAIT_TIME
+    if (showResults && gl->E->autoNextQuest) {
+      if (curQ.isCorrect()) {
+        m_lockRightButt = true; // to avoid nervous users click mouse during WAIT_TIME
+        if (m_shouldBeTerminated)
+            stopExamSlot();
+        else
+            QTimer::singleShot(WAIT_TIME, this, SLOT(askQuestion()));
+      } else {
+        if (m_shouldBeTerminated)
+            stopExamSlot();
+        else {
+            if (gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
+                QTimer::singleShot(WAIT_TIME, this, SLOT(repeatQuestion()));
+            else
                 QTimer::singleShot(WAIT_TIME, this, SLOT(askQuestion()));
-            }
-        } else {
-            if (m_shouldBeTerminated)
-                stopExamSlot();
-            else {
-                if (gl->E->repeatIncorrect && !m_incorrectRepeated) { // repeat only once if any
-                    m_lockRightButt = true;
-                    QTimer::singleShot(WAIT_TIME, this, SLOT(repeatQuestion()));
-                }
-                else {
-                    m_lockRightButt = true;
-                    QTimer::singleShot(WAIT_TIME, this, SLOT(askQuestion()));
-                }
-            }
         }
+      }
     }
 }
 
@@ -896,7 +891,6 @@ void TexamExecutor::stopExamSlot() {
       if (!m_goingClosed) // if Nootka is closeing don't show summary 
           showExamSummary(false);
 			if (m_exam->saveToFile() == Texam::e_file_OK) {
-
           QStringList recentExams = gl->config->value("recentExams").toStringList();
           recentExams.removeAll(m_exam->fileName());
           recentExams.prepend(m_exam->fileName());
@@ -916,26 +910,26 @@ void TexamExecutor::stopExamSlot() {
 
 bool TexamExecutor::closeNootka() {
     m_snifferLocked = true;
+    qApp->removeEventFilter(m_supp);
     QMessageBox *msg = new QMessageBox(mW);
     msg->setText(tr("Psssst... Exam is going.<br><br><b>Continue</b> it<br>or<br><b>Terminate</b> to check, save and exit<br>"));
     QAbstractButton *contBut = msg->addButton(tr("Continue"), QMessageBox::ApplyRole);
     msg->addButton(tr("Terminate"), QMessageBox::RejectRole);
     msg->exec();
+    bool result;
     if (msg->clickedButton() == contBut) {
         m_snifferLocked = false;
-        return false;
+        qApp->installEventFilter(m_supp);
+        result = false;
     } else {
         m_goingClosed = true;
-        if (m_isAnswered) {
-            stopExamSlot();
-            return true;
-        } else {
-            checkAnswer(false);
-            m_isAnswered = true;
-            stopExamSlot();
-            return true;
-        }
+        if (!m_isAnswered)
+          checkAnswer(false);
+        stopExamSlot();
+        result = true;
     }
+    delete msg;
+    return result;
 }
 
 QString TexamExecutor::saveExamToFile() {
