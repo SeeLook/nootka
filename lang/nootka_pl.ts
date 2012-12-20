@@ -797,10 +797,6 @@
 <context>
     <name>Tabout</name>
     <message>
-        <source>&lt;p&gt; Welcome on the board.&lt;br&gt; Nootka is open source application to help You learning (and teaching also) classical score notation. It is specially dedicated for guitarists but others can find something usable as well.&lt;br&gt;This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features. Inspite of that You are welcome to try it !!&lt;/p&gt;&lt;p&gt;See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releaces.&lt;/p&gt;&lt;p&gt;Any bugs, sugestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author&lt;/p&gt;&lt;br&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Witamy na pokładzie.&lt;br&gt; Nootka to aplikacja open source pomagająca w nauce (a także w nauczaniu) klasycznego zapisu nutowego. Jest szczególnie dedykowana gitarzystom ale inni także znajdą w niej coś użytecznego.&lt;br&gt;Ta wersja to beta. Chociaz dziala stabilnie, posiada nieukończone funkcje. Mimo wszystko zapraszam do wypróbowania !!&lt;/p&gt;&lt;p&gt;Po więcej szczegółów i po następne wydania zajrzyj na &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;stronę programu&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Błędy, sugestie, tłumaczenia itp., proszę zgłaszać do: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;z poważaniem&lt;br&gt;Autor&lt;/p&gt;&lt;br&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/info/taboutnootka.cpp" line="134"/>
         <source>Welcome on the board.&lt;br&gt; Nootka is open source application to help You learning (and teaching also) classical score notation.&lt;br&gt;It is specially dedicated for guitarists but others can find many usable features as well.</source>
         <translation>Witamy na pokładzie.&lt;br&gt; Nootka to aplikacja open source pomagająca w nauce (a także w nauczaniu) klasycznego zapisu nutowego. Jest szczególnie dedykowana gitarzystom ale inni także znajdą w niej coś użytecznego.</translation>
@@ -1041,52 +1037,52 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>ponownie zagraj dźwięk</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="243"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="245"/>
         <source>Level &lt;b&gt;%1&lt;b&gt;&lt;br&gt;has no sense till there are no any possible questions to ask.&lt;br&gt;It can be unadjusted to current tune.&lt;br&gt;Repair it in Level Creator and try again.</source>
         <translation>Poziom &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nie ma sensu, bo nie ma w nim żadnego pytania, które można zadać.&lt;br&gt;Możliwe, że nie jest dopasowany do bieżącego stroju gitary.&lt;br&gt;Napraw to w Kreatorze Poziomów i spróbuj ponownie.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="732"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="729"/>
         <source>help</source>
         <translation>pomoc</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="948"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="944"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="949"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="945"/>
         <source>Discard</source>
         <translation>Porzuć</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="727"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="724"/>
         <source>exam started on level</source>
         <translation>egzamin uruchomiony na poziomie</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="879"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="876"/>
         <source>Give an answer first!&lt;br&gt;Then the exam&apos;ll be finished</source>
         <translation>Najpierw odpowiedz!&lt;br&gt;Potem egzamin zostanie zakończony</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="918"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="915"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
         <translation>Psssst... Trwa egzamin.&lt;br&gt;&lt;br&gt;&lt;b&gt;Kontynuuj&lt;/b&gt; go &lt;br&gt;lub&lt;br&gt;&lt;b&gt;Zakończ&lt;/b&gt; żeby sprawdzić, zapisać i wyjść&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="919"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="916"/>
         <source>Continue</source>
         <translation>Kontynuuj</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="920"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="917"/>
         <source>Terminate</source>
         <translation>Zakończ</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="947"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="943"/>
         <source>If You don&apos;t save to file&lt;br&gt;You lost all results !!</source>
         <translation>Jeżeli nie zapiszesz do pliku&lt;br&gt;stracisz dotychczasowe wyniki!!</translation>
     </message>
@@ -1096,22 +1092,22 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>Egzamin wymaga sygnału wejściowego&lt;br&gt;ale nie jest on dostępny !!!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="726"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="723"/>
         <source>EXAM!!</source>
         <translation>EGZAMIN!!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="735"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="732"/>
         <source>stop the exam</source>
         <translation>zatrzymaj egzamin</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="907"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="903"/>
         <source>so a pity</source>
         <translation>jaka szkoda</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="941"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="937"/>
         <source>Save exam&apos;s results as:</source>
         <translation>Zapisz wyniki egzaminu jako:</translation>
     </message>
@@ -1137,10 +1133,6 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <location filename="../src/info/texamhelp.cpp" line="42"/>
         <source>How does an exam work ?</source>
         <translation>Jak działa egzamin?</translation>
-    </message>
-    <message>
-        <source>click &lt;img src=&quot;%1&quot;&gt; button</source>
-        <translation type="obsolete">naciśnij przycisk &lt;img src=&quot;%1&quot;&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.h" line="41"/>
@@ -1191,10 +1183,6 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <location filename="../src/info/texamhelp.cpp" line="58"/>
         <source>By selecting 3-rd check box, the answers will be checking immediately without confirmation.</source>
         <translation>Zaznzczając 3-cie pole wyboru, odpowiedzi będą sprawdzane od razu, bez potwierdzenia.</translation>
-    </message>
-    <message>
-        <source>To stop the exam click &lt;img src=&quot;%1&quot;&gt; button.</source>
-        <translation type="obsolete">Aby zatrzymać egzamin kliknij przycisk &lt;img src=&quot;%1&quot;&gt; .</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="60"/>
@@ -1437,7 +1425,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
 <context>
     <name>TfingerBoard</name>
     <message>
-        <location filename="../src/tfingerboard.cpp" line="47"/>
+        <location filename="../src/tfingerboard.cpp" line="48"/>
         <source>Select string or fret and click to see it in the score.</source>
         <translation>Wybierz strunę lub próg i kliknij żeby zobaczyć w nutach.</translation>
     </message>
@@ -1909,10 +1897,6 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>Tpage_4</name>
     <message>
-        <source>Nootka can recognize played or sung sound&lt;br&gt;but it requires adjustment and some practise.&lt;br&gt;All needed settings are in &lt;b&gt;Preferences-&gt;Sound&lt;b&gt;.</source>
-        <translation type="obsolete">Nootka może rozpoznawać grane lub śpiewane dźwięki&lt;br&gt;ale wymaga to dopasowania i odrobiny praktyki.&lt;br&gt;Wszystkie potrzebne ustawienia znajdują się w &lt;b&gt;Preferencje-&gt;Dźwięk&lt;/b&gt;.</translation>
-    </message>
-    <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="205"/>
         <source>A play with Nootka we can divide on three stages:</source>
         <comment>Don&apos;t try to translate the entries in this context/section too strict, rather use some nice words into Your language to describe it. The statements like &apos;%1&apos; are images(icons) in text</comment>
@@ -1925,7 +1909,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="209"/>
-        <source>Either an application interface and how score works. Just click on elements of the interface see and get to know. Also You can play or sing if You have any mike or web-cam.</source>
+        <source>Explore the interface of the application and how musical scores work. Just click on elements of the interface see and get to know. Also You can play or sing if You have any mike or web-cam.</source>
         <translation>Zarówno interfejsu programu jak i działania zapisu nutowego. Po prostu klikaj w elementy okna programu i ucz się. Jeżeli masz jakiś mikrofon lub kamerę internetową.również możesz grać lub śpiewać.</translation>
     </message>
     <message>
@@ -1942,12 +1926,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="216"/>
         <source>Press %1 button to create Your own questions set (a level).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="220"/>
-        <source>Nootka will tell You what do You think about so long...&lt;br&gt;Press %1 button to watch and to analyse results of Your exams. Find Your weak points and improve.</source>
-        <translation type="unfinished"></translation>
+        <translation>Naciśnij przycisk %1 aby utworzyć swój własny zestaw pytań (poziom).</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="214"/>
@@ -1958,6 +1937,11 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="219"/>
         <source>III. Analyseing</source>
         <translation>III. Analizowanie</translation>
+    </message>
+    <message>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="220"/>
+        <source>Nootka will tell You about what You&apos;ve been thinking for so long...&lt;br&gt;Press %1 button to watch and to analyse results of Your exams. Find Your weak points and improve.</source>
+        <translation>Nootka powie Ci o czym tak długo myślisz...&lt;br&gt;Naciśnij przycisk %1 żeby obejrzeć i przeanalizować wyniki swoich egzaminów. Znajdź swoje słabe punkty i popraw je.</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="223"/>
