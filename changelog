@@ -1,10 +1,11 @@
 0.8.5 stable
-     - added detailed description of an application in first run wizzard
+  Nootka says: I will tell You about what You've been thinking for so long...
+     - added detailed description of an application in first run wizard
      - components of binary packages updated to the newest versions (Windows and Mac)
     BUGS FIXES
      - fixed crash after right click on exam help window
-     - fixed proper clef position on Linux & MacOS
-     - proper recognizeing answers on wrong strings
+     - fixed proper clef position on Linux & Mac OS
+     - proper recognizing answers on wrong strings
      - a few smaller bugs were fixed
 
 0.8.4 rc1
@@ -25,7 +26,7 @@
     - mistakes are stored and are asked oftener
     - New chart - ordered by key signatures
     - implemented question and answer as position on a guitar
-    - recognizeing answers with proper sound but wrong string
+    - recognizing answers with proper sound but wrong string
     - simpler level creator and improved validation of levels
     - improved hints during an exam
     BUGS FIXES

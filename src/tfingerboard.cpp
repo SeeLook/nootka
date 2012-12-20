@@ -488,36 +488,6 @@ void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
     if (m_isDisabled)
         return;
     paintFingerAtPoint(event->pos());
-//     int strNr = 7, fretNr = 99;
-//     if ( (event->y() >= m_fbRect.y()) && (event->y() <= (height()-m_fbRect.y()-4)) ) {
-//         int tx, ty = event->y();
-//         tx = mapToScene(event->x(), event->y()).x();
-//         strNr = (ty-m_fbRect.y())/m_strGap;
-//         if (tx < m_fbRect.x() || tx > lastFret /*or some mouse button*/ )
-//             fretNr = 0;
-//         else {
-//             for (int i=0; i<gl->GfretsNumber; i++) {
-//                 if (tx <= m_fretsPos[i]) {
-//                     fretNr = i+1;
-//                     break;
-//                 }
-//             }
-//         }
-//     }
-//     if (m_curStr != strNr || m_curFret != fretNr) {
-//         if ( fretNr > 0 && fretNr < 99) { // show finger
-//             paintFinger(m_workFinger, strNr, fretNr);
-//             if (!m_workFinger->isVisible())
-//                 m_workFinger->show();
-//             if (m_curStr != 7) m_workStrings[m_curStr]->hide();
-//         } else { // show string line
-//             m_workFinger->hide();
-//             if (m_curStr != 7) m_workStrings[m_curStr]->hide();
-//             if (strNr != 7) m_workStrings[strNr]->show();
-//         }
-//         m_curStr = strNr;
-//         m_curFret = fretNr;
-//     }
 }
 
 void TfingerBoard::mousePressEvent(QMouseEvent *event) {

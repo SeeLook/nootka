@@ -48,11 +48,11 @@ TtipChart::TtipChart(TquestionPoint *point) :
     TgraphicsTextTip(),
     m_point(point)
 {
-  if ((point->question()->questionAs == TQAtype::e_asName || point->question()->answerAs == TQAtype::e_asName) 
-    && (int)point->question()->styleOfQuestion() < 0) {
-        point->question()->setStyle(point->question()->styleOfAnswer(), point->question()->styleOfAnswer());
-        qDebug("!!! It still has got wrong style !!!");
-  }
+//   if ((point->question()->questionAs == TQAtype::e_asName || point->question()->answerAs == TQAtype::e_asName) 
+//     && (int)point->question()->styleOfQuestion() < 0) {
+//         point->question()->setStyle(point->question()->styleOfAnswer(), point->question()->styleOfAnswer());
+//         qDebug("!!! It still has got wrong style !!!");
+//   }
  
   QString txt = TquestionAsWdg::questionTxt() + " " + TquestionAsWdg::qaTypeText(point->question()->questionAs) + "<br>" +
           TquestionAsWdg::answerTxt() + " " + TquestionAsWdg::qaTypeText(point->question()->answerAs) + "<br>";

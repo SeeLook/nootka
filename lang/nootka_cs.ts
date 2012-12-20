@@ -797,10 +797,6 @@
 <context>
     <name>Tabout</name>
     <message>
-        <source>&lt;p&gt; Welcome on the board.&lt;br&gt; Nootka is open source application to help You learning (and teaching also) classical score notation. It is specially dedicated for guitarists but others can find something usable as well.&lt;br&gt;This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features. Inspite of that You are welcome to try it !!&lt;/p&gt;&lt;p&gt;See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releaces.&lt;/p&gt;&lt;p&gt;Any bugs, sugestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author&lt;/p&gt;&lt;br&gt;</source>
-        <translation type="obsolete">&lt;p&gt;Vítejte na palubě.&lt;br&gt; Nootka je program s otevřeným zdrojovým kódem, která vám má pomoci při učení (a také vyučování) klasického notového zápisu. Je určen obzvláště kytaristům ale i jiní na něm můžou najít něco pro ně užitečného.&lt;br&gt;Toto je betaverze a může obsahovat chyby nebo se chovat neočekávaně. Také má nedodělané vlastnosti, ale přesto jste zváni, abyste ji vyzkoušeli!&lt;/p&gt;&lt;p&gt;Podívejte se na stránky programu &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;&lt;/a&gt;, kde naleznete více podrobností a informace o dalších vydáních.&lt;/p&gt;&lt;p&gt;Jakékoli chyby programu, návrhy, překlady a tak dále posílejte na adresu: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com.&lt;/a&gt;&lt;p/&gt;&lt;p&gt;V úctě autor&lt;br&gt;&lt;/p&gt;&lt;br&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/info/taboutnootka.cpp" line="134"/>
         <source>Welcome on the board.&lt;br&gt; Nootka is open source application to help You learning (and teaching also) classical score notation.&lt;br&gt;It is specially dedicated for guitarists but others can find many usable features as well.</source>
         <translation>Vítejte.&lt;br&gt; Nootka je program s otevřeným zdojovým kódem, který vám má pomoci se naučit (a učit) klasický notový zápis.&lt;br&gt;Je zvláště určen kytaristům, ale i ostatní zde najdou mnoho užitečných funkcí.</translation>
@@ -949,10 +945,6 @@
         <translation>OK</translation>
     </message>
     <message>
-        <source>Open an exam</source>
-        <translation type="obsolete">Otevřít zkoušku</translation>
-    </message>
-    <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="215"/>
         <source>Close analyser</source>
         <translation>Zavřít analyzátor</translation>
@@ -976,10 +968,6 @@
         <location filename="../src/charts/tanalysdialog.cpp" line="226"/>
         <source>show wrong answers separately</source>
         <translation>Ukázat nesprávné odpovědi každou zvlášť</translation>
-    </message>
-    <message>
-        <source>Load an exam file</source>
-        <translation type="obsolete">Nahrát soubor se zkouškou</translation>
     </message>
 </context>
 <context>
@@ -1049,47 +1037,47 @@ není platným souborem zkoušky!</translation>
         <translation>Přehrát zvuk znovu</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="243"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="245"/>
         <source>Level &lt;b&gt;%1&lt;b&gt;&lt;br&gt;has no sense till there are no any possible questions to ask.&lt;br&gt;It can be unadjusted to current tune.&lt;br&gt;Repair it in Level Creator and try again.</source>
         <translation>Úroveň &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nemá smysl, protože nemá žádnou otázku, kterou by bylo možné zadat.&lt;br&gt;Může být nenastavena na nynější ladění.&lt;br&gt;Opravte to v tvůrci úrovní a zkuste to znovu.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="948"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="944"/>
         <source>Save</source>
         <translation>Uložit</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="949"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="945"/>
         <source>Discard</source>
         <translation>Odmítnout</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="727"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="724"/>
         <source>exam started on level</source>
         <translation>Zkouška začala na úrovni</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="879"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="876"/>
         <source>Give an answer first!&lt;br&gt;Then the exam&apos;ll be finished</source>
         <translation>Nejprve odpovězte!&lt;br&gt;Potom bude zkouška dokončena</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="918"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="915"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
         <translation>Pssst... Zkouška trvá.&lt;br&gt;&lt;br&gt;&lt;b&gt;Pokračujte&lt;/b&gt; &lt;br&gt;nebo&lt;br&gt;&lt;b&gt;skončete&lt;/b&gt; pro ověření, uložení a ukončení&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="919"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="916"/>
         <source>Continue</source>
         <translation>Pokračovat</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="920"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="917"/>
         <source>Terminate</source>
         <translation>Ukončit</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="947"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="943"/>
         <source>If You don&apos;t save to file&lt;br&gt;You lost all results !!</source>
         <translation>Pokud soubor neuložíte&lt;br&gt;ztratíte všechny výsledky!</translation>
     </message>
@@ -1099,27 +1087,27 @@ není platným souborem zkoušky!</translation>
         <translation>Zkouška vyžaduje vstup zvuku,&lt;br&gt;ale zvukový vstup není dostupný!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="726"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="723"/>
         <source>EXAM!!</source>
         <translation>ZKOUŠKA!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="732"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="729"/>
         <source>help</source>
         <translation>Nápověda</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="735"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="732"/>
         <source>stop the exam</source>
         <translation>Zastavit zkoušku</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="907"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="903"/>
         <source>so a pity</source>
         <translation>Jaká škoda</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="941"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="937"/>
         <source>Save exam&apos;s results as:</source>
         <translation>Uložit výsledky zkoušky jako:</translation>
     </message>
@@ -1167,10 +1155,6 @@ není platným souborem zkoušky!</translation>
         <translation>Vybráním třetího zaškrtávacího okénka se budou odpovědi ověřovat okamžitě bez potvrzení.</translation>
     </message>
     <message>
-        <source>To stop the exam click &lt;img src=&quot;%1&quot;&gt; button.</source>
-        <translation type="obsolete">Pro zastavení zkoušky klepněte na tlačítko &lt;img src=&quot;%1&quot;&gt;.</translation>
-    </message>
-    <message>
         <location filename="../src/info/texamhelp.cpp" line="60"/>
         <source>Exam will be complete when You give answers on all questions.&lt;br&gt;Their number depends on a level of the exam.</source>
         <translation>Zkouška bude hotova, když odpovíte na všechny otázky.&lt;br&gt;Jejich počet závisí naúrovni zkoušky.</translation>
@@ -1209,10 +1193,6 @@ není platným souborem zkoušky!</translation>
         <location filename="../src/info/texamhelp.h" line="39"/>
         <source>or right mouse button</source>
         <translation>nebo pravé tlačítko myši</translation>
-    </message>
-    <message>
-        <source>click &lt;img src=&quot;%1&quot;&gt; button</source>
-        <translation type="obsolete">Klepněte na tlačítko &lt;img src=&quot;%1&quot;&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.h" line="41"/>
@@ -1445,7 +1425,7 @@ není platným souborem zkoušky!</translation>
 <context>
     <name>TfingerBoard</name>
     <message>
-        <location filename="../src/tfingerboard.cpp" line="47"/>
+        <location filename="../src/tfingerboard.cpp" line="48"/>
         <source>Select string or fret and click to see it in the score.</source>
         <translation>Vyberte strunu nebo pražec a klepněte, abyste ji/jej uviděli v notách.</translation>
     </message>
@@ -1576,12 +1556,6 @@ ale nebyla uložena!</translation>
         <translation>Uložit úroveň zkoušky</translation>
     </message>
     <message>
-        <source>Cannot open file for writing
-%1</source>
-        <translation type="obsolete">Nelze otevřít soubor pro zápis
-%1</translation>
-    </message>
-    <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="194"/>
         <source>&lt;li&gt;Range of frets is beyond scale of this level&lt;/li&gt;</source>
         <translation>&lt;li&gt;Rozmezí pražců je za rozsahem této úrovně&lt;/li&gt;</translation>
@@ -1672,16 +1646,6 @@ ale nebyla uložena!</translation>
 </context>
 <context>
     <name>TlevelSelector</name>
-    <message>
-        <source>Cannot open file
- %1 
- for reading
-%2 </source>
-        <translation type="obsolete">Nelze otevřít soubor
- %1 
- pro čtení
-%2 </translation>
-    </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="191"/>
         <source>Cannot open file
@@ -1933,10 +1897,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>Tpage_4</name>
     <message>
-        <source>Nootka can recognize played or sung sound&lt;br&gt;but it requires adjustment and some practise.&lt;br&gt;All needed settings are in &lt;b&gt;Preferences-&gt;Sound&lt;b&gt;.</source>
-        <translation type="obsolete">Nootka dokáže rozpoznat zahraný nebo zazpívaný zvuk,&lt;br&gt;ale vyžaduje to nastavení a nějaké to cvičení.&lt;br&gt;Všechna potřebná nastavení jsou v &lt;b&gt;Nastavení-&gt;Zvuk&lt;b&gt;.</translation>
-    </message>
-    <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="205"/>
         <source>A play with Nootka we can divide on three stages:</source>
         <comment>Don&apos;t try to translate the entries in this context/section too strict, rather use some nice words into Your language to describe it. The statements like &apos;%1&apos; are images(icons) in text</comment>
@@ -1949,7 +1909,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="209"/>
-        <source>Either an application interface and how score works. Just click on elements of the interface see and get to know. Also You can play or sing if You have any mike or web-cam.</source>
+        <source>Explore the interface of the application and how musical scores work. Just click on elements of the interface see and get to know. Also You can play or sing if You have any mike or web-cam.</source>
         <translation>Zkoumáte rozhraní programu a to, jak pracuje zápis not. Jednoduše klepněte na prvek rozhraní a sledujte, co se děje. Můžete také zahrát na nástroj nebo zazpívat, jestliže máte mikrofon nebo webovou kameru.</translation>
     </message>
     <message>
@@ -1980,7 +1940,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="220"/>
-        <source>Nootka will tell You what do You think about so long...&lt;br&gt;Press %1 button to watch and to analyse results of Your exams. Find Your weak points and improve.</source>
+        <source>Nootka will tell You about what You&apos;ve been thinking for so long...&lt;br&gt;Press %1 button to watch and to analyse results of Your exams. Find Your weak points and improve.</source>
         <translation>Nootka vám poví to, co už dlouho tušíte...&lt;br&gt;Stiskněte tlačítko %1, abyste se podívali na výsledky zkoušek a mohli se jimi zaobírat. Najděte své slabé stránky a zlepšete se.</translation>
     </message>
     <message>
@@ -2260,10 +2220,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Pokračovat ve zkoušce</translation>
     </message>
     <message>
-        <source>load exam from file</source>
-        <translation type="obsolete">Nahrát zkoušku ze souboru</translation>
-    </message>
-    <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="98"/>
         <source>Select previous exam, or get it from a file.</source>
         <translation>Vyberte předchozí zkoušku, nebo ji dostaňte ze souboru.</translation>
@@ -2293,10 +2249,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/exam/tstartexamdlg.cpp" line="212"/>
         <source>Any exam wasn&apos;t selected !!</source>
         <translation>Nebyla vybrána žádná zkouška!</translation>
-    </message>
-    <message>
-        <source>Load an exam&apos;s&apos; file</source>
-        <translation type="obsolete">Nahrát soubor se zkouškou</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.h" line="54"/>
@@ -2472,10 +2424,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/level/questionssettings.cpp" line="114"/>
         <source>use different nameing styles</source>
         <translation>Používat různé názvy not</translation>
-    </message>
-    <message>
-        <source>if checked, nameing style is switched between letters and solfge.&lt;br&gt;It has to be checked if note&apos;s name is a question and an answer.</source>
-        <translation type="obsolete">Je-li zaškrtnuto, jsou názvy not přepínány mezi písmeny a solmizací.&lt;br&gt;Musí to být zaškrtnuto, když je název noty otázkou i odpovědí.</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="115"/>

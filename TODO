@@ -1,6 +1,5 @@
 0.8.5 stable:
 - positions and look of frets numbers and key names in charts
-- in TtipChart remove checking style when will be solved
 - add string numbers to pixmap
 
 

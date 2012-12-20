@@ -108,7 +108,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 //-------------------------------------------------------------------
     QVBoxLayout *nameLay = new QVBoxLayout;
-//     QGroupBox *statGr = new QGroupBox(widget);
  // Hints - label with clues
     QHBoxLayout *statLay = new QHBoxLayout;
     m_statLab = new QLabel(innerWidget);
@@ -120,12 +119,9 @@ MainWindow::MainWindow(QWidget *parent)
     QColor bgLight = palette().window().color().lighter(105);
 #endif
     m_statLab->setStyleSheet(gl->getBGcolorText(bgLight) + "border-radius: 10px;");
-//     statLay->addWidget(m_statLab);
  // Expert corner
     QVBoxLayout *chBlay = new QVBoxLayout;
     m_hintsChB = new QCheckBox(innerWidget);
-//    statLay->addWidget(m_hintsChB, 0, Qt::AlignRight);
-//     chBlay->addStretch();
     chBlay->addWidget(m_hintsChB);
     m_hintsChB->setChecked(gl->hintsEnabled);
     m_hintsChB->setStatusTip(tr("show or hide the hints"));
@@ -144,31 +140,18 @@ MainWindow::MainWindow(QWidget *parent)
     expertAnswChB->setStatusTip(ExamSettings::expertsAnswerTxt());
     expertAnswChB->setToolTip(ExamSettings::expertsAnswerTxt());
     chBlay->addStretch(1);
-//     statLay->addLayout(chBlay);
-//     nameLay->addLayout(statLay);
     
-//    QVBoxLayout *progresStatLay = new QVBoxLayout;
-//     progresStatLay->addWidget(m_statLab);
     progress = new TprogressWidget(innerWidget);
-//     progresStatLay->addWidget(progress);
-//     statLay->addLayout(progresStatLay);
     statLay->addStretch(1);
     statLay->addLayout(chBlay);
     nameLay->addLayout(statLay);
     
-//     nameLay->addWidget(progress);
-//     nameLay->addStretch();
-
     examResults = new TexamView(innerWidget);
-//     examResults->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     examResults->setStyleBg(gl->getBGcolorText(gl->EanswerColor), gl->getBGcolorText(gl->EquestionColor),
                             gl->getBGcolorText(gl->EnotBadColor));
-//     nameLay->addWidget(examResults);
     noteName = new TnoteName(innerWidget);
     noteName->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
-//     nameLay->addWidget(noteName);
-//     nameLay->addStretch(2);
     scoreAndNameLay->addLayout(nameLay);
     mainLay->addLayout(scoreAndNameLay);
 //-------------------------------------------------------------------
@@ -535,7 +518,7 @@ bool MainWindow::event(QEvent *event) {
 }
 
 void MainWindow::updsateSize() {
-  //     setUpdatesEnabled(false);
+    setUpdatesEnabled(false);
     m_statFontSize = (centralWidget()->height() / 9) / 4 - 2;
     nootBar->setIconSize(QSize(height() / 21, height() / 21));
     pitchView->resize(m_statFontSize);
@@ -556,17 +539,13 @@ void MainWindow::updsateSize() {
     progress->setGeometry(posX, m_statLab->geometry().bottom() + gapY * 4,
                           centralWidget()->width() - posX, centralWidget()->height() * 0.15);
     progress->setFixedHeight(centralWidget()->height() * 0.08);
-//     examResults->setFixedHeight(centralWidget()->height() / 10);
     examResults->setFontSize(m_statFontSize);
     examResults->setGeometry(posX, progress->geometry().bottom() + gapY * 3, centralWidget()->width() - posX, 
       centralWidget()->height() * 0.1);
     examResults->setFixedHeight(centralWidget()->height() * 0.08);
     noteName->resize(m_statFontSize);
-//     examResults->setFixedHeight(qRound(centralWidget()->height() * 0.12));
-//     noteName->setFixedSize (QSize(centralWidget()->width()- score->width() -2, qRound(centralWidget()->height() * 0.4)));
     noteName->setGeometry(posX, qRound(centralWidget()->height() * 0.35),
                           centralWidget()->width() - posX, qRound(centralWidget()->height() * 0.4));
-//     noteName->resize(m_statFontSize);
     
     nootLab->setGeometry(posX, qRound(centralWidget()->height() * 0.12), centralWidget()->width()- score->width() -2,
           qRound(centralWidget()->height() * 0.25));
@@ -578,7 +557,7 @@ void MainWindow::updsateSize() {
     m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
 //    qDebug() << m_bgPixmap.size() /*<< centralWidget()->width() << guitar->geometry().x() << guitar->posX12fret()*/;
     
-//     setUpdatesEnabled(true);
+    setUpdatesEnabled(true);
     QTimer::singleShot(2, this, SLOT(update()));
 }
 

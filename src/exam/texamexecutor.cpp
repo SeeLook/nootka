@@ -800,8 +800,6 @@ void TexamExecutor::restoreAfterExam() {
     mW->examResults->clearResults();
     mW->score->isExamExecuting(false);
 
-// It has to be restored before the exam summary is shown
-    //     gl->NnameStyleInNoteName = m_glStore.nameStyleInNoteName;
     gl->showEnharmNotes = m_glStore.showEnharmNotes;
     gl->SshowKeySignName = m_glStore.showKeySignName;
     gl->GshowOtherPos = m_glStore.showOtherPos;
@@ -827,8 +825,6 @@ void TexamExecutor::restoreAfterExam() {
     if (gl->E->expertsAnswerEnable) // disconnect check box 
       expertAnswersStateChanged(false);
     mW->expertAnswChB->hide();
-    
-//     qApp->removeEventFilter(m_supp);
 
     if (m_canvas)
       delete m_canvas;
