@@ -10,12 +10,15 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="633.76544"
-   height="565.8299"
+   width="639.35706"
+   height="567.85022"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.1 r9760"
-   sodipodi:docname="nootka.svg">
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="nootka.svg"
+   inkscape:export-filename="/home/tom/DEVELOP/QT4/nootka/picts/nootka.png"
+   inkscape:export-xdpi="35.151909"
+   inkscape:export-ydpi="35.151909">
   <defs
      id="defs4">
     <linearGradient
@@ -569,15 +572,15 @@
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:zoom="0.49497475"
-     inkscape:cx="631.82981"
-     inkscape:cy="289.73224"
+     inkscape:cx="633.85015"
+     inkscape:cy="291.75256"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1600"
-     inkscape:window-height="1176"
-     inkscape:window-x="-2"
-     inkscape:window-y="-3"
+     inkscape:window-height="1179"
+     inkscape:window-x="-4"
+     inkscape:window-y="-7"
      inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -601,9 +604,9 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-52.489955,-257.45591)">
+     transform="translate(-50.46962,-257.45591)">
     <rect
-       style="fill:#ececec;fill-opacity:1;stroke:none"
+       style="fill:#ececec;fill-opacity:1;stroke:none;stroke-opacity:1"
        id="rect3236"
        width="639.35706"
        height="567.70575"
