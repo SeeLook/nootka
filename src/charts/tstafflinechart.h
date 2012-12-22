@@ -39,7 +39,7 @@ public:
   virtual QRectF boundingRect() const;
   
 private:
-  QPointF m_vector;
+  QPoint m_vector;
 };
 
 #endif // TSTAFFLINECHART_H

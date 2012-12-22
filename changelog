@@ -1,11 +1,11 @@
 0.8.5 stable
   Nootka says: I will tell You about what You've been thinking for so long...
      - added detailed description of an application in first run wizard
-     - components of binary packages updated to the newest versions (Windows and Mac)
     BUGS FIXES
      - fixed crash after right click on exam help window
      - fixed proper clef position on Linux & Mac OS
      - proper recognizing answers on wrong strings
+     - fixed cut sound ouput under Windows
      - a few smaller bugs were fixed
 
 0.8.4 rc1

@@ -60,8 +60,8 @@ TquestionPoint::TquestionPoint(TmainLine* parent, TQAunit* question):
       m_color = m_notBadColor;
   }
   QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect();
-  shadow->setBlurRadius(2);
-  shadow->setOffset(2, 2);
+  shadow->setBlurRadius(10);
+  shadow->setOffset(1, 1);
   shadow->setColor(shadowColor());
   setGraphicsEffect(shadow);
   

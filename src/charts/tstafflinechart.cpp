@@ -31,15 +31,15 @@ TstaffLineChart::TstaffLineChart()
 }
 
 void TstaffLineChart::setLine(QPointF from, QPointF to) {
-  m_vector.setX(to.x() - from.x());
-  m_vector.setY(to.y() - from.y());
+  m_vector.setX(qRound(to.x() - from.x()));
+  m_vector.setY(qRound(to.y() - from.y()));
   setPos(from);
 }
 
 
 void TstaffLineChart::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
   Q_UNUSED(widget)
-  painter->setRenderHint(QPainter::Antialiasing, true);
+  painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
   painter->setPen(QPen(option->palette.text().color(), 0.5));
   for(double i = -2.0; i < 3.0; i++) {
     painter->drawLine(0.0, i*DISTANCE, m_vector.x(), m_vector.y() + i*DISTANCE);
