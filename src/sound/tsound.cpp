@@ -209,13 +209,17 @@ void Tsound::stopPlaying() {
 
 void Tsound::createPlayer() {
     player = new TaudioOUT(gl->A, gl->path);
+#if defined(Q_OS_WIN32)
+    // Windows has problems with plaing it in separate thread - cuted sound
+    // so we skip
+#else
     player->moveToThread(m_thread);
     m_thread->start(QThread::HighPriority);
+#endif
     connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinished()));
 }
 
 void Tsound::createSniffer() {
-//  m_thread = new QThread();
   sniffer = new TaudioIN(gl->A);
 //   sniffer->moveToThread(m_thread);
 //   m_thread->start(QThread::HighPriority);
@@ -240,7 +244,8 @@ void Tsound::deleteSniffer() {
 //    m_thread->terminate();
 //     delete m_thread;
 //   }
-  delete sniffer;
+//  delete sniffer;
+  sniffer->deleteLater();
   sniffer = 0;
 }
 

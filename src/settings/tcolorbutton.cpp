@@ -24,23 +24,23 @@
 TcolorButton::TcolorButton(QColor col, QWidget* parent): 
 	QPushButton(parent)
 {
-	m_color = col;
+    m_color = col;
     m_color.setAlpha(255);
-	setFixedSize(40, 30);
-	
-	connect(this, SIGNAL(clicked()), this, SLOT(whenClicked()));
+    setFixedSize(40, 30);
+    connect(this, SIGNAL(clicked()), this, SLOT(whenClicked()));
 }
 
 
 void TcolorButton::whenClicked() {
-    setColor(QColorDialog::getColor(m_color, this,
-"", QColorDialog::DontUseNativeDialog));
+    QColor userColor = QColorDialog::getColor(m_color, this, "", QColorDialog::DontUseNativeDialog);
+    if (userColor.isValid())
+        setColor(userColor);
 }
 
 void TcolorButton::setColor(QColor col) {
-	m_color = col;
+    m_color = col;
     m_color.setAlpha(255);
-	repaint();
+    repaint();
 }
 
 void TcolorButton::paintEvent(QPaintEvent* event) {
