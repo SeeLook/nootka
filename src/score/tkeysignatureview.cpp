@@ -91,7 +91,10 @@ void TkeySignatureView::resize(int co) {
     fontFactor = fontFactor*1.4;
  #endif
     QFont font(QFont("nootka"));
-    font.setPointSizeF(fontFactor*m_coeff);
+    font.setPointSizeF(fontFactor * m_coeff);
+    QFontMetricsF fMetrics(font);
+    qreal fact = (qreal)(co * 1.3) / fMetrics.boundingRect(QChar(0xe11a)).width();
+    font.setPointSize(qRound(font.pointSize() * fact));
     int base;
     if (m_accidentals[0]->text() == "")
         m_accidentals[0]->setText(QString(QChar(0xe11a)));

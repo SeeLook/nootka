@@ -68,13 +68,13 @@ MainWindow::MainWindow(QWidget *parent)
     
     setMinimumSize(640, 480);
     
-    gl->config->beginGroup("General");
-#if defined(Q_OS_MAC)
-    setGeometry(gl->config->value("geometry", QRect(50, 50, 960, 720)).toRect());
-#else
-    setGeometry(gl->config->value("geometry", QRect(50, 50, 800, 600)).toRect());
-#endif
-    gl->config->endGroup();
+//     gl->config->beginGroup("General");
+// #if defined(Q_OS_MAC)
+//     setGeometry(gl->config->value("geometry", QRect(50, 50, 960, 720)).toRect());
+// #else
+//     setGeometry(gl->config->value("geometry", QRect(50, 50, 800, 600)).toRect());
+// #endif
+//     gl->config->endGroup();
 
     if (gl->isFirstRun) {
         TfirstRunWizzard *firstWizz = new TfirstRunWizzard();
