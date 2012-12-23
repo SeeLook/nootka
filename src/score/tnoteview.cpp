@@ -103,7 +103,7 @@ void TnoteView::resize(int co) {
     m_scene->setSceneRect(0,0,6*m_coeff,height());
     m_workNote->setRect(0,0,m_coeff*3,m_coeff*2-2);
     m_mainNote->setRect(0,0,m_coeff*3,m_coeff*2-2);
-    for (int i=0; i<7; i++) {
+    for (int i = 0; i < 7; i++) {
         m_upLines[i]->setLine((qreal)2*m_coeff,(qreal)m_coeff*2*(i+1),
                               (qreal)width(),(qreal)m_coeff*2*(i+1));
         m_mainUpLines[i]->setLine((qreal)2*m_coeff,(qreal)m_coeff*2*(i+1),
@@ -115,12 +115,15 @@ void TnoteView::resize(int co) {
                                         (qreal)width(),(qreal)m_coeff*2*(i+13));
         }
     }
-    qreal fontFactor = 3.8;
+    qreal fontFactor = 3.6;
  #if defined(Q_OS_MAC)
-    fontFactor = fontFactor*1.4;
+    fontFactor = fontFactor * 1.4;
  #endif
     QFont font(QFont("nootka"));
-    font.setPointSizeF(fontFactor*m_coeff);
+    font.setPointSizeF(fontFactor * m_coeff);
+    QFontMetrics fMetr(font);
+    qreal fact = font.pointSizeF() / fMetr.boundingRect(QChar(0xe11a)).height();
+    font.setPointSizeF(font.pointSizeF() * fact);
     m_workAccid->setFont(font);
     m_mainAccid->setFont(font);
     bool reset = false;

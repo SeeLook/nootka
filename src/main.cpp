@@ -52,7 +52,11 @@ int main(int argc, char *argv[])
     MainWindow w;
 
     QFontDatabase fd;
+#if defined(Q_OS_WIN32)
+    int fid = fd.addApplicationFont(gl->path + "fonts/nootka.ttf");
+#else
     int fid = fd.addApplicationFont(gl->path + "fonts/nootka.otf");
+#endif
     if (fid == -1) {
         QMessageBox::critical(0, "", QCoreApplication::translate("main", "<center>Can not load a font.<br>Try to install nootka.otf manually.</center>"));
         return 111;

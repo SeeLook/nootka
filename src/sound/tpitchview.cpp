@@ -114,8 +114,8 @@ void TpitchView::resize(int fontSize) {
     voiceButt->setFont(QFont("nootka", fontSize));
     pauseButt->setFont(QFont("nootka", fontSize));
 #endif
-    voiceButt->setFixedWidth(3*fontSize);
-    pauseButt->setFixedWidth(3*fontSize);
+    voiceButt->setFixedWidth(2 *fontSize);
+    pauseButt->setFixedWidth(2 *fontSize);
   }
   m_volMeter->setFixedHeight(qRound((float)fontSize * 1.2));
 }

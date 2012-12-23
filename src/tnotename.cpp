@@ -253,7 +253,11 @@ void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
 
 void TnoteName::resizeEvent(QResizeEvent* ) {
     nameLabel->setFixedSize(width() * 0.9, parentWidget()->height() / 9 );
-    nameLabel->setFont(QFont(nameLabel->font().family(), qRound(nameLabel->height() * 0.55), 50));
+    QFont f(QFont(nameLabel->font().family(), qRound(nameLabel->height() * 0.55), 50));
+    QFontMetrics fMetr(f);
+    qreal fact = (nameLabel->height() * 0.95) / fMetr.boundingRect("A").height();
+    f.setPointSize(f.pointSize() * fact);
+    nameLabel->setFont(f);
     nameLabel->setText(nameLabel->text());
 }
 
@@ -270,8 +274,10 @@ void TnoteName::resize(int fontSize) {
         }
         f = QFont(dblFlatButt->font().family());
         f.setPointSize(fontSize);
+        QFontMetrics fMetr(f);
+        qreal fact = ((qreal)fontSize / (qreal)fMetr.boundingRect("b").height()) * 1.4;
+        f.setPointSize(f.pointSize() * fact);
         dblFlatButt->setFont(f);
-//        dblFlatButt->setFixedSize(f.pointSize() * 2, f.pointSize() * 2);
         flatButt->setFont(f);
         sharpButt->setFont(f);
         dblSharpButt->setFont(f);

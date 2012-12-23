@@ -58,6 +58,6 @@ void TclefView::resize(int co) {
 #if defined(Q_OS_UNIX)
     m_clefText->setPos(0, 20 * co - (0.52 * m_clefText->boundingRect().height()));
 #else
-    m_clefText->setPos(0, 20 * co - (0.53 * m_clefText->boundingRect().height()));
+    m_clefText->setPos(0, 20 * co - (0.52 * m_clefText->boundingRect().height()));
 #endif
 }

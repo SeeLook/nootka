@@ -22,7 +22,7 @@
 #include <qstyleoption.h>
 
 
-#define DISTANCE (2)
+#define DISTANCE (3)
 
 TstaffLineChart::TstaffLineChart()
 {
@@ -42,13 +42,13 @@ void TstaffLineChart::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
   painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
   painter->setPen(QPen(option->palette.text().color(), 0.5));
   for(double i = -2.0; i < 3.0; i++) {
-    painter->drawLine(0.0, i*DISTANCE, m_vector.x(), m_vector.y() + i*DISTANCE);
+    painter->drawLine(0.0, i * DISTANCE, m_vector.x(), m_vector.y() + i * DISTANCE);
   }
 
 }
 
 QRectF TstaffLineChart::boundingRect() const {
-    QRectF rect(0, -2*DISTANCE, m_vector.x(), m_vector.y() + DISTANCE*4);
+    QRectF rect(0, -2 * DISTANCE, m_vector.x(), m_vector.y() + DISTANCE * 4);
     return rect;
 }
 
