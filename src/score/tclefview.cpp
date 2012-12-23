@@ -49,6 +49,10 @@ void TclefView::resize(int co) {
     font.setPointSize(co * 19);
 #else
     font.setPointSize(co * 14);
+    QFontMetricsF fMetrics(font);
+    qreal fact = (qreal)(width() - 3) / fMetrics.boundingRect(QChar(0xe1a7)).width();
+//     if (fact < 1 || fact > 1.1)
+      font.setPointSize(qRound(font.pointSize() * fact));
 #endif
     m_clefText->setFont(font);
 #if defined(Q_OS_UNIX)
