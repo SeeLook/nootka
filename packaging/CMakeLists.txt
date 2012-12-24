@@ -26,8 +26,8 @@ if(NOT PACKAGE_ARCHITECTURE)
       execute_process(COMMAND "${DPKG_CMD}" --print-architecture
         OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
         OUTPUT_STRIP_TRAILING_WHITESPACE
-        add_definitions(-D_FORTIFY_SOURCE=2)
       )
+      add_definitions(-D_FORTIFY_SOURCE=2)
    endif(NOT DPKG_CMD)
 endif(NOT PACKAGE_ARCHITECTURE)
 #message(STATUS "C Flags (${CMAKE_C_FLAGS_RELEASE}) CXX flags (${CMAKE_CXX_FLAGS_RELEASE})")
