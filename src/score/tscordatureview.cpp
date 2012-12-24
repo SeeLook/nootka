@@ -90,9 +90,9 @@ void TscordatureView::resizeEvent(QResizeEvent*) {
   if (m_text) {
     if (m_text->boundingRect().height() != height()) // adjust by height
       m_text->setScale(height() / m_text->boundingRect().height());
-    qreal sc = width() / m_text->boundingRect().width();
+    qreal sc = width() / (m_text->boundingRect().width() * m_text->scale());
     if (sc < 1.0) // when too wide
-      m_text->setScale(sc);
+      m_text->setScale(sc * m_text->scale());
   }
 }
 
