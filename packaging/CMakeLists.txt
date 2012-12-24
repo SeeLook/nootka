@@ -26,11 +26,11 @@ if(NOT PACKAGE_ARCHITECTURE)
       execute_process(COMMAND "${DPKG_CMD}" --print-architecture
         OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
         OUTPUT_STRIP_TRAILING_WHITESPACE
-        
+        add_definitions(-D_FORTIFY_SOURCE=2)
       )
    endif(NOT DPKG_CMD)
 endif(NOT PACKAGE_ARCHITECTURE)
-message(STATUS "C Flags (${CMAKE_C_FLAGS_RELEASE}) CXX flags (${CMAKE_CXX_FLAGS_RELEASE})")
+#message(STATUS "C Flags (${CMAKE_C_FLAGS_RELEASE}) CXX flags (${CMAKE_CXX_FLAGS_RELEASE})")
 
 ##########################################################################################
 #			COMMON SETTINGS  ##########################################################
@@ -75,7 +75,7 @@ set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Application to help with learning classica
  levels creator with wide range of settings
  .
  http://nootka.sf.net") #CPACK_PACKAGE_DESCRIPTION_SUMMARY
-set(CPACK_DEBIAN_PACKAGE_SECTION "Audio")
+set(CPACK_DEBIAN_PACKAGE_SECTION "science")
 # CPACK_DEBIAN_PACKAGE_PRIORITY #optional
 set(CPACK_DEBIAN_PACKAGE_HOMEPAGE "http://nootka.sf.net")
 set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "timidity")
