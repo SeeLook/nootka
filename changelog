@@ -3,7 +3,6 @@
      - added detailed description of an application in first run wizard
     BUGS FIXES
      - fixed crash after right click on exam help window
-     - fixed proper clef position on Linux & Mac OS
      - proper recognizing answers on wrong strings
      - fixed cut sound ouput under Windows
      - a few smaller bugs were fixed

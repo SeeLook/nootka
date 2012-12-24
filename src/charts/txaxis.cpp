@@ -74,6 +74,9 @@ void TXaxis::setTicText(QGraphicsTextItem *tic, TQAunit &unit, int questNr) {
     }
     tic->setHtml(txt);
     TgraphicsTextTip::alignCenter(tic);
+    if ((tic->boundingRect().width() * scale()) > m_qWidth)
+      tic->setScale(((qreal)m_qWidth * scale()) / tic->boundingRect().width());
+      
 }
 
 void TXaxis::setAnswersLists(QList< QList< TQAunit* > >& listOfLists, TexamLevel* level) {

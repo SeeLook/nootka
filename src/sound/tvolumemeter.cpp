@@ -62,10 +62,11 @@ void TvolumeMeter::paintEvent(QPaintEvent* )
 #else
       nf.setPointSizeF(painter.viewport().height() * 0.85);
 #endif
-
+      QFontMetricsF fMetr(nf);
+      nf.setPointSizeF(nf.pointSizeF() * (painter.viewport().height() / fMetr.boundingRect("n").height()));
 //       painter.setFont(QFont("nootka", painter.viewport().height() - 5));
       painter.setFont(nf);
-      painter.drawText(0, -2, painter.viewport().width(), painter.viewport().height(), Qt::AlignRight, "n");
+      painter.drawText(0, 0, painter.viewport().width(), painter.viewport().height(), Qt::AlignRight, "n");
 //       painter.drawText(painter.viewport(), Qt::AlignCenter, "nnnnnnnnnn");
       painter.setPen(Qt::NoPen);
   }
