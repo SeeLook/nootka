@@ -3,8 +3,9 @@
      - added detailed description of an application in first run wizard
     BUGS FIXES
      - fixed crash after right click on exam help window
+     - made application more proof on abnormal DPI settings
      - proper recognizing answers on wrong strings
-     - fixed cut sound ouput under Windows
+     - fixed shortened sound ouput under Windows
      - a few smaller bugs were fixed
 
 0.8.4 rc1

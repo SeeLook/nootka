@@ -529,7 +529,10 @@ void TfingerBoard::paintQuestMark() {
         m_questMark->setZValue(110);
         m_questMark->setText("?");
     }
-    QFont f = QFont("nootka", 3 * m_strGap, QFont::Normal);
+    QFont f = QFont("nootka");
+    f.setPointSizeF(3 * m_strGap);
+    QFontMetricsF fMetr(f);
+    f.setPointSizeF(f.pointSizeF() * ((qreal)(3 * m_strGap) / fMetr.boundingRect("?").height()));
     m_questMark->setFont(f);
     int off = -1, off2 = 0;
     if (!gl->GisRightHanded) {

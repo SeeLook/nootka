@@ -38,7 +38,8 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
     m_exam(0),
     m_level(new TexamLevel()),
     m_chart(0),
-    m_wasExamCreated(false)
+    m_wasExamCreated(false),
+    m_isMaximized(false)
 {
  
   setWindowTitle(tr("Analyse of an exam results"));
@@ -242,12 +243,16 @@ void TanalysDialog::createActions() {
     
     QWidgetAction* toolButtonAction = new QWidgetAction(this);
     toolButtonAction->setDefaultWidget(m_settButt);
+    
+    m_maximizeAct = new QAction(QIcon(gl->path + "picts/fullscreen.png"), tr("Maximize"), this);
+    connect(m_maximizeAct, SIGNAL(triggered()), this, SLOT(maximizeWindow()));
 
     m_toolBar->addAction(openToolButtonAction);
     m_toolBar->addAction(toolButtonAction);
     m_toolBar->addSeparator();
     m_toolBar->addAction(m_zoomOutAct);
     m_toolBar->addAction(m_zoomInAct);
+    m_toolBar->addAction(m_maximizeAct);
     m_toolBar->addSeparator();
     m_toolBar->addAction(m_closeAct);
 }
@@ -335,6 +340,15 @@ void TanalysDialog::zoomInSlot() {
 void TanalysDialog::zoomOutSlot() {
     m_chart->zoom(false);
 }
+
+void TanalysDialog::maximizeWindow() {
+  if (m_isMaximized)
+    showNormal();
+  else
+    showMaximized();
+  m_isMaximized = !m_isMaximized;
+}
+
 
 void TanalysDialog::wrongSeparateSlot() {
   m_chartSetts.separateWrong = m_wrongSeparateAct->isChecked();
