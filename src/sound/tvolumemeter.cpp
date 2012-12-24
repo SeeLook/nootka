@@ -51,9 +51,6 @@ void TvolumeMeter::paintEvent(QPaintEvent* )
   if (m_alpha) { // m_alpha==0 means transparent - no sense to paint background
       m_pitchColor.setAlpha(m_alpha);
       painter.setBrush(QBrush(m_pitchColor));
-//       QColor cc = palette().highlightedText().color();
-//       cc.setAlpha(m_alpha);
-//       painter.setBrush(QBrush(cc));
       painter.drawRoundedRect(painter.viewport(), 4, 4);
       painter.setPen(palette().highlightedText().color());
       QFont nf = QFont("nootka");
@@ -64,7 +61,6 @@ void TvolumeMeter::paintEvent(QPaintEvent* )
 #endif
       QFontMetricsF fMetr(nf);
       nf.setPointSizeF(nf.pointSizeF() * (painter.viewport().height() / fMetr.boundingRect("n").height()));
-//       painter.setFont(QFont("nootka", painter.viewport().height() - 5));
       painter.setFont(nf);
       painter.drawText(0, 0, painter.viewport().width(), painter.viewport().height(), Qt::AlignRight, "n");
 //       painter.drawText(painter.viewport(), Qt::AlignCenter, "nnnnnnnnnn");

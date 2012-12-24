@@ -57,10 +57,11 @@ protected slots:
   void analyseChanged(int index);
   void openRecentExam();
   void moreLevelInfo();
+  void maximizeWindow();
 
 private:
   QToolBar *m_toolBar;
-  QAction *m_closeAct, *m_zoomInAct, *m_zoomOutAct, *m_inclWrongAct, *m_wrongSeparateAct;
+  QAction *m_closeAct, *m_zoomInAct, *m_zoomOutAct, *m_inclWrongAct, *m_wrongSeparateAct, *m_maximizeAct;
   QLabel *m_levelLab, *m_userLab, *m_effectLab, *m_questNrLab;
   QComboBox *m_chartListCombo;
   QToolButton *m_settButt, *m_openButton;
@@ -72,6 +73,7 @@ private:
   QVBoxLayout *m_plotLay;
   bool m_wasExamCreated; // true if exam instance was created by TanalysDialog, false when exam was given as param
   Tchart::Tsettings m_chartSetts;
+  bool m_isMaximized;
   
   
 private:
