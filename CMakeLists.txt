@@ -18,6 +18,44 @@ SET(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
 SET(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
 
 ###########################################################################
+########   Detecting architecture
+###########################################################################
+if(WIN32)
+  set(PACKAGE_ARCHITECTURE x86)
+endif(WIN32)
+if(APPLE)
+  set(PACKAGE_ARCHITECTURE x86_64)
+endif(APPLE)
+
+if(NOT PACKAGE_ARCHITECTURE)
+   find_program(DPKG_CMD dpkg)
+   if(NOT DPKG_CMD)
+      find_program(RPM_CMD rpm)
+      if(NOT RPM_CMD)
+#         message(STATUS "Can not find any program to determine architecture, default to i386.")
+#         set(PACKAGE_ARCHITECTURE i386)
+        execute_process(COMMAND uname -m
+          OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
+          OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+      else(NOT RPM_CMD)
+        execute_process(COMMAND "${RPM_CMD}" --eval %_target_cpu
+          OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
+          OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+      endif(NOT RPM_CMD)
+   else(NOT DPKG_CMD)
+      execute_process(COMMAND "${DPKG_CMD}" --print-architecture
+        OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+      )
+      add_definitions(-D_FORTIFY_SOURCE=2) # for lintian DEB_BUILD_HARDENING_FORTIFY
+   endif(NOT DPKG_CMD)
+endif(NOT PACKAGE_ARCHITECTURE)
+message(STATUS "Architecture is ${PACKAGE_ARCHITECTURE}")
+
+
+###########################################################################
 ########   Looking for QtMultimedia
 ###########################################################################
 if(QTMULTIMEDIA_LIBRARIES AND QTMULTIMEDIA_INCLUDE_DIRS AND QTMOBILITY_INCLUDE_DIRS)
