@@ -37,6 +37,7 @@
 #include <QTimer>
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
+#include <QEvent>
 
 #define PIXICONSIZE (32)
 
@@ -52,13 +53,13 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   m_flyNote(0),
   m_qaPossib(1)
 {
-  setAttribute(Qt::WA_TransparentForMouseEvents);
+//   setAttribute(Qt::WA_TransparentForMouseEvents);
+  setInteractive(true);
   setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setFrameShape(QFrame::NoFrame);
   setStyleSheet(("background: transparent"));
   setRenderHint(QPainter::TextAntialiasing, true);
-//  setMouseTracking(true);
   m_scene = new QGraphicsScene();
   setScene(m_scene);
   sizeChanged(parent->centralWidget()->size());
@@ -143,8 +144,9 @@ void Tcanvas::tryAgainTip(int time) {
 
 
 QString Tcanvas::startTipText() {
-  return TexamHelp::toGetQuestTxt() + ":<br>" + TexamHelp::clickSomeButtonTxt(pixToHtml(gl->path + "picts/nextQuest.png", PIXICONSIZE)) + 
-  ",<br>" + TexamHelp::pressSpaceKey() + " " + TexamHelp::orRightButtTxt();
+  return TexamHelp::toGetQuestTxt() + ":<br>" + 
+    TexamHelp::clickSomeButtonTxt("<a href=\"nextQuest\">" + pixToHtml(gl->path + "picts/nextQuest.png", PIXICONSIZE) + "</a>") + 
+    ",<br>" + TexamHelp::pressSpaceKey() + " " + TexamHelp::orRightButtTxt();
 }
 
 
@@ -152,6 +154,8 @@ void Tcanvas::startTip() {
   m_startTip = new TgraphicsTextTip(QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75)) + startTipText() + ".<br>" + TexamHelp::toStopExamTxt(pixToHtml(gl->path + "picts/stopExam.png", PIXICONSIZE)) + "</p>", palette().highlight().color());
   m_scene->addItem(m_startTip);
   m_startTip->setScale(m_scale);
+  m_startTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
+  connect(m_startTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
   setPosOfStartTip();
 }
 
@@ -163,14 +167,17 @@ void Tcanvas::whatNextTip(bool isCorrect, bool onRight) {
   }
   QString whatNextText = startTipText();
   if (!isCorrect)
-      whatNextText += "<br>" + tr("To correct an answer") + " " + TexamHelp::clickSomeButtonTxt(pixToHtml(gl->path + "picts/prevQuest.png", PIXICONSIZE)) +
+      whatNextText += "<br>" + tr("To correct an answer") + " " + 
+      TexamHelp::clickSomeButtonTxt("<a href=\"prevQuest\">" + pixToHtml(gl->path + "picts/prevQuest.png", PIXICONSIZE) + "</a>") +
       " " + TexamHelp::orPressBkSTxt();
-  whatNextText += "<br>" + TexamHelp::toStopExamTxt(pixToHtml(gl->path + "picts/stopExam.png", PIXICONSIZE));
+  whatNextText += "<br>" + TexamHelp::toStopExamTxt("<a href=\"stopExam\">" + pixToHtml(gl->path + "picts/stopExam.png", PIXICONSIZE) + "</a>");
   
   m_whatTip = new TgraphicsTextTip(whatNextText, palette().highlight().color());
   m_scene->addItem(m_whatTip);
   m_whatTip->setFont(tipFont(0.35));
   m_whatTip->setScale(m_scale);
+  m_whatTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
+  connect(m_whatTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
   setPosOfWhatTip();
 }
 
@@ -345,6 +352,14 @@ void Tcanvas::sizeChanged(QSize newSize) {
   if (m_flyNote)
     m_flyNote->hide();
 }
+
+
+void Tcanvas::linkActivatedSlot(QString link) {
+    qDebug() << "link is:" <<  link;
+    emit buttonClicked(link);
+}
+
+
 
 //######################################################################
 //#################################### PRIVATE #########################
