@@ -257,6 +257,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
 
 void TexamExecutor::askQuestion() {
     m_lockRightButt = false; // release mouse button events
+    m_canvas->setAttribute(Qt::WA_TransparentForMouseEvents, true);
     clearWidgets();
     if (!gl->E->autoNextQuest) {
         mW->startExamAct->setDisabled(true);
@@ -499,6 +500,7 @@ void TexamExecutor::askQuestion() {
 
 
 void TexamExecutor::checkAnswer(bool showResults) {
+    m_canvas->setAttribute(Qt::WA_TransparentForMouseEvents, false);
     TQAunit curQ = m_exam->curQ();
     curQ.time = mW->examResults->questionStop();
     mW->nootBar->removeAction(checkAct);
@@ -663,6 +665,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 
 
 void TexamExecutor::repeatQuestion() {
+    m_canvas->setAttribute(Qt::WA_TransparentForMouseEvents, true);
     m_canvas->tryAgainTip(3000);
     m_lockRightButt = false;
     m_incorrectRepeated = true;
@@ -790,6 +793,7 @@ void TexamExecutor::prepareToExam() {
     m_canvas = new Tcanvas(mW);
     m_canvas->show();
     m_canvas->setQApossibilities(m_supp->qaPossibilitys());
+    connect(m_canvas, SIGNAL(buttonClicked(QString)), this, SLOT(tipButtonSlot(QString)));
     if(gl->hintsEnabled)
         m_canvas->startTip();
 }
@@ -827,7 +831,8 @@ void TexamExecutor::restoreAfterExam() {
     mW->expertAnswChB->hide();
 
     if (m_canvas)
-      delete m_canvas;
+//       delete m_canvas;
+        m_canvas->deleteLater();
 
     connect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
     connect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
@@ -1069,5 +1074,14 @@ void TexamExecutor::updatePenalStep() {
 }
 
 
+void TexamExecutor::tipButtonSlot(QString name) {
+    if (name == "nextQuest")
+        askQuestion();
+    else if (name == "stopExam")
+        stopExamSlot();
+    else if (name == "prevQuest")
+        repeatQuestion();
+
+}
 
 

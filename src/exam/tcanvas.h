@@ -69,6 +69,12 @@ public:
 public slots:
     void clearResultTip(); // cleanes tip with results
     void clearTryAgainTip();
+    void linkActivatedSlot(QString link);
+  
+signals:
+      /** This signal is emited when user click image button on the some tip.*/
+    void buttonClicked(QString name);
+      
     
 protected slots:
     void sizeChanged(QSize newSize);

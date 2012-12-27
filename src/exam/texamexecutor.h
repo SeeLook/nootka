@@ -95,6 +95,7 @@ protected slots:
         /** Starts sniffing when asked note is finished */
     void sniffAfterPlaying();
     void rightButtonSlot();
+    void tipButtonSlot(QString name);
 
 private:
     void prepareToExam();
