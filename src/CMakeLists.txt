@@ -54,6 +54,7 @@ SET( NOOTKA_SRCS
   exam/tcanvas.cpp
   exam/tanimedtextitem.cpp
   exam/tprogresswidget.cpp
+  exam/tgroupedqaunit.cpp
 ###### Info
   info/taboutnootka.cpp
   info/tfirstrunwizzard.cpp

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,43 +12,52 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TMAINCHART_H
-#define TMAINCHART_H
 
-#include "tchart.h"
+#ifndef TGROUPEDQAUNIT_H
+#define TGROUPEDQAUNIT_H
 
-class TexamLevel;
-class Tnote;
-class Texam;
+#include <QList>
 
-/** This class paints different types of charts with an exam data.
- */
+class TQAunit;
 
 
-class TmainChart : public Tchart
-{
-  Q_OBJECT
-  
-public:
-  
-  TmainChart(Texam *exam, Tsettings &settings, QWidget* parent = 0);
-  virtual ~TmainChart();
-  
-  
-private:
-      /** Performs common elements for all kinds of charts. */
-  void prepareChart(int maxX);
-  
-private:
-  Texam *m_exam;
-  TmainLine *m_mainLine;
-  Tsettings &m_settings;
-  /** Returns true if list contains unrelated list of questions. */
-  bool m_hasListUnrelated;
+
+struct TqaPtr {
+  TQAunit *qaPtr; // pointer to question in Texam
+  unsigned int nr; // question number in global exam
 };
 
-#endif // TMAINCHART_H
+
+
+/** This class sescribes question/asnwer unit (TQAunit) grouped by some features.
+ */
+class TgroupedQAunit
+{
+  TgroupedQAunit();
+  ~TgroupedQAunit();
+  
+  QList<TqaPtr> list;
+  QString description() { return m_desc; }
+  void setDescription(QString &desc) { m_desc = desc; }
+  void addQAunit(TQAunit *qaUnit, unsigned int questNr); // appends TQAunit to the list
+  TQAunit* first() { if (list.size()) 
+                        return list[0].qaPtr;
+                      else
+                        return 0;
+  } // Returns pointer to first element in the list or 0 when empty
+  bool isEmpty() { return list.isEmpty(); }
+  
+  void resume(); // calculates mistakes and average time after appending all questions to the list
+  
+private:
+  QString m_desc;
+  quint16 m_mistakes, m_halfMist;
+  
+  
+};
+
+#endif // TGROUPEDQAUNIT_H

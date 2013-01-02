@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,43 +12,36 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TMAINCHART_H
-#define TMAINCHART_H
 
-#include "tchart.h"
-
-class TexamLevel;
-class Tnote;
-class Texam;
-
-/** This class paints different types of charts with an exam data.
- */
+#include "tgroupedqaunit.h"
 
 
-class TmainChart : public Tchart
+
+TgroupedQAunit::TgroupedQAunit() :
+  m_desc(""),
+  m_mistakes(0),
+  m_halfMist(0)
 {
-  Q_OBJECT
-  
-public:
-  
-  TmainChart(Texam *exam, Tsettings &settings, QWidget* parent = 0);
-  virtual ~TmainChart();
-  
-  
-private:
-      /** Performs common elements for all kinds of charts. */
-  void prepareChart(int maxX);
-  
-private:
-  Texam *m_exam;
-  TmainLine *m_mainLine;
-  Tsettings &m_settings;
-  /** Returns true if list contains unrelated list of questions. */
-  bool m_hasListUnrelated;
-};
 
-#endif // TMAINCHART_H
+}
+
+TgroupedQAunit::~TgroupedQAunit()
+{
+    list.clear();
+}
+
+
+void TgroupedQAunit::addQAunit(TQAunit* qaUnit, unsigned int questNr) {
+
+}
+
+
+void TgroupedQAunit::resume() {
+
+}
+
+
