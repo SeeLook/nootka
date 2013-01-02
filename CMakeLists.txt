@@ -203,6 +203,8 @@ ENDIF(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
 
 include_directories(${FFTW3_INCLUDE_DIRS})
 
+message("Qt is in: ${QT_BINARY_DIR}")
+
 ###########################################################################
 #libraries and compiller definitions for RtMidi
 ###########################################################################
