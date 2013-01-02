@@ -8,7 +8,7 @@
 #B_PATH=$1/nootka.app/Contents/Resurces
 B_PATH=$1/src/nootka.app
 # QT_PATH=$(dirname $2)
-MACDEPOLOYQT=$3/macdeployqt
+MACDEPOLOYQT=$2/macdeployqt
 FFTW_LIB=$3
 
 echo "Preparing bundle to install"

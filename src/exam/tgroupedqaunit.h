@@ -21,9 +21,9 @@
 #define TGROUPEDQAUNIT_H
 
 #include <QList>
+#include <QString>
 
 class TQAunit;
-
 
 
 struct TqaPtr {
