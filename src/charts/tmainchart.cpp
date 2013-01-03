@@ -19,7 +19,6 @@
 #include "tmainchart.h"
 #include "texam.h"
 #include "texamview.h"
-#include <tgroupedqaunit.h>
 #include "tmainline.h"
 #include "txaxis.h"
 #include "tyaxis.h"
@@ -37,22 +36,23 @@ QColor averColor = QColor(0, 192, 192);
 
 TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
   Tchart(parent),
-  m_exam(exam),
-  m_settings(settings),
-  m_hasListUnrelated(false)
+  currExam(exam),
+  chartSett(settings),
+  hasListUnrelated(false),
+  goodSize(0)
 {
   setMouseTracking(true);
-
+//  sortedLists.clear();
 // Determine maximal rection time to prepare Y axis
   quint16 maxTime = 0;
-  for(int i = 0; i < m_exam->count(); i++)
-      maxTime = qMax(maxTime, m_exam->question(i).time);
+  for(int i = 0; i < exam->count(); i++)
+      maxTime = qMax(maxTime, exam->question(i).time);
   yAxis->setMaxValue((double)maxTime / 10.0);
   
-  if (m_settings.order == e_byNumber) {
+  if (settings.order == e_byNumber) {
       xAxis->setAnswersList(exam->answList(), exam->level());
-      prepareChart(m_exam->count());
-      m_mainLine = new TmainLine(m_exam->answList(), this);
+      prepareChart(exam->count());
+      m_mainLine = new TmainLine(exam->answList(), this);
       /** NOTE
        * I'm not sure for now what to do with curve shows a progress
        * Let's see...
@@ -92,66 +92,66 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
       */
       TgraphicsLine *averLine = new TgraphicsLine("<p>" +
           TexamView::averAnsverTimeTxt() + 
-          QString("<br><span style=\"font-size: 20px;\">%1</span></p>").arg(TexamView::formatReactTime(m_exam->averageReactonTime(), true)) );
+          QString("<br><span style=\"font-size: 20px;\">%1</span></p>").arg(TexamView::formatReactTime(exam->averageReactonTime(), true)) );
       scene->addItem(averLine);
       averLine->setZValue(20);
       averLine->setPen(QPen(averColor, 3));
-      averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime() / 10.0),
-          xAxis->mapValue(m_exam->count()) + xAxis->pos().x(), yAxis->mapValue(m_exam->averageReactonTime() / 10.0));
+      averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(exam->averageReactonTime() / 10.0),
+          xAxis->mapValue(exam->count()) + xAxis->pos().x(), yAxis->mapValue(exam->averageReactonTime() / 10.0));
   }
   
-  if (m_settings.order == e_byNote || m_settings.order == e_byFret ||
-          m_settings.order == e_byKey || m_settings.order == e_byAccid) {
-      QList<char> kindOfAccids;
-//        goodAnsw, badAnsw;
-      TgroupedQAunit goodAnsw, badAnsw;
-//       QList<TanswerListPtr> sortedLists;
-      QList<TgroupedQAunit> sortedLists;
-      int goodSize; // number of lists with good answers
-      if (m_settings.separateWrong) {
-          divideGoodAndBad(m_exam->answList(), goodAnsw, badAnsw);
-          if (m_settings.order == e_byNote)
-            sortedLists = sortByNote(goodAnsw, m_exam->level(), m_hasListUnrelated);
-          else 
-            if (m_settings.order == e_byFret)
-              sortedLists = sortByFret(goodAnsw, m_exam->level(), m_hasListUnrelated);
-            else
-              if (m_settings.order == e_byKey)
-                sortedLists = sortByKeySignature(goodAnsw, m_exam->level(), m_hasListUnrelated);
-              else
-                if (m_settings.order == e_byAccid)
-                sortedLists = sortByAccidental(goodAnsw, m_exam->level(), m_hasListUnrelated, kindOfAccids);
-          goodSize = sortedLists.size(); // number without wrong answers
-          if (m_settings.order == e_byNote)
-            sortedLists.append(sortByNote(badAnsw, m_exam->level(), m_hasListUnrelated));
-          else
-            if (m_settings.order == e_byFret)
-              sortedLists.append(sortByFret(badAnsw, m_exam->level(), m_hasListUnrelated));
-            else
-              if (m_settings.order == e_byKey)
-                sortedLists.append(sortByKeySignature(badAnsw, m_exam->level(), m_hasListUnrelated));
-              else
-                if (m_settings.order == e_byAccid)
-                sortedLists.append(sortByAccidental(badAnsw, m_exam->level(), m_hasListUnrelated, kindOfAccids));
+  if (settings.order == e_byNote || settings.order == e_byFret ||
+          settings.order == e_byKey || settings.order == e_byAccid)
+      sort();
+//      QList<char> kindOfAccids;
+////        goodAnsw, badAnsw;
+//      TgroupedQAunit goodAnsw, badAnsw;
+////       QList<TanswerListPtr> sortedLists;
+//      QList<TgroupedQAunit> sortedLists;
+//      int goodSize; // number of lists with good answers
+//      if (settings.separateWrong) {
+//          divideGoodAndBad(exam->answList(), goodAnsw, badAnsw);
+//          if (settings.order == e_byNote)
+//            sortedLists = sortByNote(goodAnsw, exam->level(), hasListUnrelated);
+//          else
+//            if (settings.order == e_byFret)
+//              sortedLists = sortByFret(goodAnsw, exam->level(), hasListUnrelated);
+//            else
+//              if (settings.order == e_byKey)
+//                sortedLists = sortByKeySignature(goodAnsw, exam->level(), hasListUnrelated);
+//              else
+//                if (settings.order == e_byAccid)
+//                sortedLists = sortByAccidental(goodAnsw, exam->level(), hasListUnrelated, kindOfAccids);
+//          goodSize = sortedLists.size(); // number without wrong answers
+//          if (settings.order == e_byNote)
+//            sortedLists.append(sortByNote(badAnsw, exam->level(), hasListUnrelated));
+//          else
+//            if (settings.order == e_byFret)
+//              sortedLists.append(sortByFret(badAnsw, exam->level(), hasListUnrelated));
+//            else
+//              if (settings.order == e_byKey)
+//                sortedLists.append(sortByKeySignature(badAnsw, exam->level(), hasListUnrelated));
+//              else
+//                if (settings.order == e_byAccid)
+//                sortedLists.append(sortByAccidental(badAnsw, exam->level(), hasListUnrelated, kindOfAccids));
                 
-      }
-      else {
-          TgroupedQAunit convList = convertToPointers(m_exam->answList());
-          if (m_settings.order == e_byNote)
-            sortedLists = sortByNote(convList, m_exam->level(), m_hasListUnrelated);
-          else
-            if (m_settings.order == e_byFret)
-              sortedLists = sortByFret(convList, m_exam->level(), m_hasListUnrelated);
-            else
-              if (m_settings.order == e_byKey)
-                sortedLists = sortByKeySignature(convList, m_exam->level(), m_hasListUnrelated);
-              else
-                if (m_settings.order == e_byAccid)
-                  sortedLists = sortByAccidental(convList, m_exam->level(), m_hasListUnrelated, kindOfAccids);
-          goodSize = sortedLists.size();
-      }
-
-      xAxis->setAnswersLists(sortedLists, m_exam->level());
+//      }
+//      else {
+//          TgroupedQAunit convList = convertToPointers(exam->answList());
+//          if (settings.order == e_byNote)
+//            sortedLists = sortByNote(convList, exam->level(), hasListUnrelated);
+//          else
+//            if (settings.order == e_byFret)
+//              sortedLists = sortByFret(convList, exam->level(), hasListUnrelated);
+//            else
+//              if (settings.order == e_byKey)
+//                sortedLists = sortByKeySignature(convList, exam->level(), hasListUnrelated);
+//              else
+//                if (settings.order == e_byAccid)
+//                  sortedLists = sortByAccidental(convList, exam->level(), hasListUnrelated, kindOfAccids);
+//          goodSize = sortedLists.size();
+//      }
+      xAxis->setAnswersLists(sortedLists, exam->level());
       int ln = 0;
       for (int i = 0; i < sortedLists.size(); i++)
         ln += sortedLists[i].size();
@@ -159,31 +159,32 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
       m_mainLine = new TmainLine(sortedLists, this);
       
       int goodOffset = 0; // 0 when not unrelated question list inside
-      if (m_hasListUnrelated)
+      if (hasListUnrelated)
         goodOffset = -1; // do not perform a last loop 
       int cnt = 1;
   // paint lines with average time of all the same notes/frets
-      for (int i = 0; i < goodSize + goodOffset; i++) { // skip wrong answers if separeted
-        double aTime = calcAverTime(sortedLists[i], !m_settings.inclWrongAnsw);
+//      for (int i = 0; i < goodSize + goodOffset; i++) { // skip wrong answers if separeted
+      for (int i = 0; i < sortedLists.size(); i++) { // skip wrong answers if separeted
+        double aTime = calcAverTime(sortedLists[i], !settings.inclWrongAnsw);
         QString aTimeText = TexamView::formatReactTime(qRound(aTime), true);
         TgraphicsLine *averTimeLine = new TgraphicsLine();
         QString lineText = "";
-        if (m_settings.order == e_byNote)
+        if (settings.order == e_byNote)
           lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(tr("for a note:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + TnoteName::noteToRichText(sortedLists[i].first()->qa.note) + "</b>").arg(aTimeText);
         else
-          if (m_settings.order == e_byFret)
+          if (settings.order == e_byFret)
             lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(tr("for a fret:", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>  " + 
             QString::number(sortedLists[i].first()->qa.pos.fret()) + "</b>").arg(aTimeText);
           else
-            if (m_settings.order == e_byKey) {
+            if (settings.order == e_byKey) {
               QString wereKeys = "";
-              if (m_exam->level()->manualKey && sortedLists[i].first()->answerAs == TQAtype::e_asNote)
+              if (exam->level()->manualKey && sortedLists[i].first()->answerAs == TQAtype::e_asNote)
                 wereKeys = "<br>" + tr("Key signatures gave by user");
                 
               lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2%3</p>").arg(tr("for a key:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + 
               sortedLists[i].first()->key.getName() + "</b></span>").arg(aTimeText).arg(wereKeys);
             } else
-              if (m_settings.order == e_byAccid) {
+              if (settings.order == e_byAccid) {
                 QString accStr, accidClue;
                 accStr = accidToNotka(kindOfAccids[i]);
                 if (kindOfAccids[i])
@@ -219,7 +220,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
           cnt += sortedLists[i].size();
       }
   // fret number over the chart
-    if (m_settings.order == e_byFret) {
+    if (settings.order == e_byFret) {
       cnt = 1;
       for (int i = 0; i < goodSize; i++) { 
         QGraphicsTextItem *fretText = new QGraphicsTextItem();
@@ -244,7 +245,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
       }      
     }
   // key signature names over the chart
-    if (m_settings.order == e_byKey) {
+    if (settings.order == e_byKey) {
       cnt = 1;
       for (int i = 0; i < goodSize; i++) { 
         QGraphicsTextItem *keyText = new QGraphicsTextItem();
@@ -274,7 +275,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
       }
     }
 // accidentals over the chart
-    if (m_settings.order == e_byAccid) {
+    if (settings.order == e_byAccid) {
       cnt = 1;
       for (int i = 0; i < goodSize; i++) { 
         QGraphicsTextItem *accidentalText = new QGraphicsTextItem();
@@ -303,7 +304,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
   
     
     
-  }
+
 
 }
 
@@ -315,7 +316,48 @@ TmainChart::~TmainChart()
 //##################### public method ################################################
 //####################################################################################
 
-
+void TmainChart::sort() {
+        if (chartSett.separateWrong) {
+            divideGoodAndBad(currExam->answList(), goodAnsw, badAnsw);
+            if (chartSett.order == e_byNote)
+              sortedLists = sortByNote(goodAnsw, currExam->level(), hasListUnrelated);
+            else
+              if (chartSett.order == e_byFret)
+                sortedLists = sortByFret(goodAnsw, currExam->level(), hasListUnrelated);
+              else
+                if (chartSett.order == e_byKey)
+                  sortedLists = sortByKeySignature(goodAnsw, currExam->level(), hasListUnrelated);
+                else
+                  if (chartSett.order == e_byAccid)
+                  sortedLists = sortByAccidental(goodAnsw, currExam->level(), hasListUnrelated, kindOfAccids);
+            goodSize = sortedLists.size(); // number without wrong answers
+            if (chartSett.order == e_byNote)
+              sortedLists.append(sortByNote(badAnsw, currExam->level(), hasListUnrelated));
+            else
+              if (chartSett.order == e_byFret)
+                sortedLists.append(sortByFret(badAnsw, currExam->level(), hasListUnrelated));
+              else
+                if (chartSett.order == e_byKey)
+                  sortedLists.append(sortByKeySignature(badAnsw, currExam->level(), hasListUnrelated));
+                else
+                  if (chartSett.order == e_byAccid)
+                  sortedLists.append(sortByAccidental(badAnsw, currExam->level(), hasListUnrelated, kindOfAccids));
+        } else {
+            TgroupedQAunit convList = convertToPointers(currExam->answList());
+            if (chartSett.order == e_byNote)
+              sortedLists = sortByNote(convList, currExam->level(), hasListUnrelated);
+            else
+              if (chartSett.order == e_byFret)
+                sortedLists = sortByFret(convList, currExam->level(), hasListUnrelated);
+              else
+                if (chartSett.order == e_byKey)
+                  sortedLists = sortByKeySignature(convList, currExam->level(), hasListUnrelated);
+                else
+                  if (chartSett.order == e_byAccid)
+                    sortedLists = sortByAccidental(convList, currExam->level(), hasListUnrelated, kindOfAccids);
+            goodSize = sortedLists.size();
+        }
+}
 
 
 
