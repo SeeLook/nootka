@@ -20,6 +20,7 @@
 #define TMAINCHART_H
 
 #include "tchart.h"
+#include "tgroupedqaunit.h"
 
 class TexamLevel;
 class Tnote;
@@ -35,20 +36,28 @@ class TmainChart : public Tchart
   
 public:
   
-  TmainChart(Texam *exam, Tsettings &settings, QWidget* parent = 0);
+  TmainChart(Texam *currExam, Tsettings &chartSett, QWidget* parent = 0);
   virtual ~TmainChart();
   
-  
+
+protected:
+  void sort();
+  Tsettings &chartSett;
+  Texam *currExam;
+  TmainLine *m_mainLine;
+  /** Returns true if list contains unrelated list of questions. */
+  bool hasListUnrelated;
+  TgroupedQAunit goodAnsw, badAnsw;
+  QList<TgroupedQAunit> sortedLists;
+  int goodSize; // number of lists with good answers
+  QList<char> kindOfAccids;
+
 private:
       /** Performs common elements for all kinds of charts. */
   void prepareChart(int maxX);
   
 private:
-  Texam *m_exam;
-  TmainLine *m_mainLine;
-  Tsettings &m_settings;
-  /** Returns true if list contains unrelated list of questions. */
-  bool m_hasListUnrelated;
+
 };
 
 #endif // TMAINCHART_H

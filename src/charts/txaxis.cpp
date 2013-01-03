@@ -46,7 +46,7 @@ TXaxis::~TXaxis()
 {}
 
 
-void TXaxis::setAnswersList(QList< TQAunit >* answers, TexamLevel* level) {
+void TXaxis::setAnswersList(QList<TQAunit> *answers, TexamLevel* level) {
   m_answers = answers;
   m_level = level;
   setLength(m_qWidth * (m_answers->size() + 1));
@@ -103,8 +103,7 @@ void TXaxis::setAnswersLists(QList<TgroupedQAunit>& listOfLists, TexamLevel* lev
 
 
 
-void TXaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-  
+void TXaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {  
     Q_UNUSED(option)
     Q_UNUSED(widget)
       
@@ -113,7 +112,7 @@ void TXaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
   drawArrow(painter, QPointF(length(), half), true);
   
   int b = length() / m_qWidth -1;
-  for (int i=1; i <= b; i++) {
+  for (int i = 1; i <= b; i++) {
     painter->drawLine(i*m_qWidth, half, i*m_qWidth, half + tickSize);
   }
   
