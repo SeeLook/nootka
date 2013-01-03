@@ -21,6 +21,7 @@
 
 #include <QList>
 #include "tqatype.h"
+#include "tgroupedqaunit.h"
 
 class Tnote;
 class TQAunit;
@@ -32,33 +33,33 @@ typedef QList<TQAunit*> TanswerListPtr; // definition of TQAunit list type
   QList<Tnote> getTheSame(short noteNr, TexamLevel *level = 0);
       /** Calculates average reaction time of a given list.
        * If skipWrong = true, wrong answers are not taken to average. */
-  double calcAverTime(TanswerListPtr &answers, bool skipWrong = false);
+  double calcAverTime(TgroupedQAunit &answers, bool skipWrong = false);
       /** Merges elements of each list to single list of pointers to TQAunit. */
-  TanswerListPtr mergeListOfLists(QList<TanswerListPtr> &listOfLists);
+  TgroupedQAunit mergeListOfLists(QList<TgroupedQAunit> &listOfLists);
       /** converts QList with TQAunit to QList with pointer to them*/
-  TanswerListPtr convertToPointers(QList<TQAunit> *examList);
+  TgroupedQAunit convertToPointers(QList< TQAunit >* examList);
   
       /** Given TanswerListPtr someList divides on two lists. 
        * First with questions of given type, second with answers. If both - answer has priority.
        * Then, two lists are added to result list.
        * We have to be sure that all given TQAunits have question or answer of given type. */
-  void divideQuestionsAndAnswers(QList<TanswerListPtr> &result, TanswerListPtr &someList, TQAtype::Etype type);
+  void divideQuestionsAndAnswers(QList<TgroupedQAunit> &result, TgroupedQAunit &someList, TQAtype::Etype type);
   
       /** Divides given list on lists with correct & almost good answers and wrong ones. */
-  void divideGoodAndBad(QList<TQAunit> *list, TanswerListPtr &goodList, TanswerListPtr &badList);
+  void divideGoodAndBad(QList< TQAunit >* list, TgroupedQAunit& goodList, TgroupedQAunit& badList);
       /** Returns the lists of list of the same notes. 
        * The last list is a list of ignored answers - no notes eighter in answer nor questions.*/
-  QList<TanswerListPtr> sortByNote(TanswerListPtr& answList, TexamLevel* level, bool& hasListUnrelated);
+  QList<TgroupedQAunit> sortByNote(TgroupedQAunit& answList, TexamLevel* level, bool& hasListUnrelated);
   
-  QList<TanswerListPtr> sortByFret(TanswerListPtr& answList, TexamLevel* level, bool& hasListUnrelated);
+  QList<TgroupedQAunit> sortByFret(TgroupedQAunit& answList, TexamLevel* level, bool& hasListUnrelated);
   
-  QList<TanswerListPtr> sortByKeySignature(TanswerListPtr& answList, TexamLevel* level, bool& hasListUnrelated);
+  QList<TgroupedQAunit> sortByKeySignature(TgroupedQAunit& answList, TexamLevel* level, bool& hasListUnrelated);
   
       /** kindOfAccidList is created during sorrting by accidental.
        * Each element coresponds with elemnt of sortByAccidental List
        * and keeps appropirate accidental.
        * For unrelated its value is 3*/
-  QList<TanswerListPtr> sortByAccidental(TanswerListPtr& answList, TexamLevel* level,
+  QList<TgroupedQAunit> sortByAccidental(TgroupedQAunit& answList, TexamLevel* level,
                                          bool& hasListUnrelated, QList<char> &kindOfAccidList);
       /** converts given value to nootka string. */
   QString accidToNotka(char acc, int fontSize = 20);

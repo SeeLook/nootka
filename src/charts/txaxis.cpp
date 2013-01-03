@@ -19,6 +19,7 @@
 #include "txaxis.h"
 #include "tqaunit.h"
 #include "texam.h"
+#include "tgroupedqaunit.h"
 #include "tnotename.h"
 #include "texamlevel.h"
 #include "tgraphicstexttip.h"
@@ -79,7 +80,7 @@ void TXaxis::setTicText(QGraphicsTextItem *tic, TQAunit &unit, int questNr) {
       
 }
 
-void TXaxis::setAnswersLists(QList< QList< TQAunit* > >& listOfLists, TexamLevel* level) {
+void TXaxis::setAnswersLists(QList<TgroupedQAunit>& listOfLists, TexamLevel* level) {
   int ln = 0, cnt = 0;
   m_level = level;
   for (int i = 0; i < listOfLists.size(); i++) {
@@ -92,7 +93,7 @@ void TXaxis::setAnswersLists(QList< QList< TQAunit* > >& listOfLists, TexamLevel
     for (int j = 0; j < listOfLists[i].size(); j++) {
       cnt++;
       QGraphicsTextItem *ticTip = new QGraphicsTextItem();
-      setTicText(ticTip, *listOfLists[i].operator[](j));
+      setTicText(ticTip, *listOfLists[i].operator[](j).qaPtr);
       scene()->addItem(ticTip);
       ticTip->setPos(pos().x() + mapValue(cnt) - ticTip->boundingRect().width() / 2 , pos().y() + 15);
       m_ticTips << ticTip;
