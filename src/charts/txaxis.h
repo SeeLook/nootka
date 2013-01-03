@@ -21,6 +21,7 @@
 
 #include "tabstractaxis.h"
 
+class TgroupedQAunit;
 class TexamLevel;
 class TQAunit;
 
@@ -35,7 +36,7 @@ public:
   virtual ~TXaxis();
   
   void setAnswersList(QList<TQAunit> *answers = 0, TexamLevel *level = 0);
-  void setAnswersLists(QList< QList<TQAunit*> > &listOfLists, TexamLevel *level = 0);
+  void setAnswersLists(QList<TgroupedQAunit> &listOfLists, TexamLevel *level = 0);
   int questWidth() { return m_qWidth; } // pixel width of question on the axisz
   
 protected:

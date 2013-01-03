@@ -37,6 +37,9 @@ struct TqaPtr {
  */
 class TgroupedQAunit
 {
+  
+public:
+  
   TgroupedQAunit();
   ~TgroupedQAunit();
   
@@ -44,14 +47,23 @@ class TgroupedQAunit
   QString description() { return m_desc; }
   void setDescription(QString &desc) { m_desc = desc; }
   void addQAunit(TQAunit *qaUnit, unsigned int questNr); // appends TQAunit to the list
+  void addQAunit(TqaPtr& qaPtr) { list << qaPtr; }
   TQAunit* first() { if (list.size()) 
                         return list[0].qaPtr;
                       else
                         return 0;
   } // Returns pointer to first element in the list or 0 when empty
   bool isEmpty() { return list.isEmpty(); }
+  int size() { return list.size() ;}
   
   void resume(); // calculates mistakes and average time after appending all questions to the list
+  
+  TqaPtr& operator[] (unsigned int index) { 
+    if (index < list.size())
+      return list[index];
+//     else return 0;
+  }
+  
   
 private:
   QString m_desc;
@@ -59,5 +71,6 @@ private:
   
   
 };
+
 
 #endif // TGROUPEDQAUNIT_H

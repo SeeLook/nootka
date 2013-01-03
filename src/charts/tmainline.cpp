@@ -18,6 +18,7 @@
 
 #include "tmainline.h"
 #include "texam.h"
+#include "tgroupedqaunit.h"
 #include "txaxis.h"
 #include "tyaxis.h"
 #include "tchart.h"
@@ -59,7 +60,7 @@ TmainLine::TmainLine(QList< TQAunit >* answers, Tchart* chart) :
   }  
 }
 
-TmainLine::TmainLine(QList< QList< TQAunit* > >& listOfLists, Tchart* chart) :
+TmainLine::TmainLine(QList<TgroupedQAunit>& listOfLists, Tchart* chart) :
   m_chart(chart),
   m_tip(0)
 {
@@ -74,10 +75,10 @@ TmainLine::TmainLine(QList< QList< TQAunit* > >& listOfLists, Tchart* chart) :
   for(int i = 0; i < listOfLists.size(); i++) {
     for (int j = 0; j < listOfLists[i].size(); j++) {
         double xPos = m_chart->xAxis->mapValue(cnt+1) + m_chart->xAxis->pos().x();
-        m_points <<  new TquestionPoint(this, listOfLists[i].operator[](j));
+        m_points <<  new TquestionPoint(this, listOfLists[i].operator[](j).qaPtr);
         m_chart->scene->addItem(m_points[cnt]);
         m_points[cnt]->setZValue(50);
-        m_points[cnt]->setPos(xPos, m_chart->yAxis->mapValue(listOfLists[i].operator[](j)->getTime()));
+        m_points[cnt]->setPos(xPos, m_chart->yAxis->mapValue(listOfLists[i].operator[](j).qaPtr->getTime()));
         if (cnt) {
          TstaffLineChart *line = new TstaffLineChart();
 //           ll[i-1] = new QGraphicsLineItem();

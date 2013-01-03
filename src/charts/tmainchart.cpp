@@ -19,6 +19,7 @@
 #include "tmainchart.h"
 #include "texam.h"
 #include "texamview.h"
+#include <tgroupedqaunit.h>
 #include "tmainline.h"
 #include "txaxis.h"
 #include "tyaxis.h"
@@ -102,8 +103,10 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
   if (m_settings.order == e_byNote || m_settings.order == e_byFret ||
           m_settings.order == e_byKey || m_settings.order == e_byAccid) {
       QList<char> kindOfAccids;
-      TanswerListPtr goodAnsw, badAnsw;
-      QList<TanswerListPtr> sortedLists;
+//        goodAnsw, badAnsw;
+      TgroupedQAunit goodAnsw, badAnsw;
+//       QList<TanswerListPtr> sortedLists;
+      QList<TgroupedQAunit> sortedLists;
       int goodSize; // number of lists with good answers
       if (m_settings.separateWrong) {
           divideGoodAndBad(m_exam->answList(), goodAnsw, badAnsw);
@@ -133,7 +136,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
                 
       }
       else {
-          TanswerListPtr convList = convertToPointers(m_exam->answList());
+          TgroupedQAunit convList = convertToPointers(m_exam->answList());
           if (m_settings.order == e_byNote)
             sortedLists = sortByNote(convList, m_exam->level(), m_hasListUnrelated);
           else
@@ -166,19 +169,19 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
         TgraphicsLine *averTimeLine = new TgraphicsLine();
         QString lineText = "";
         if (m_settings.order == e_byNote)
-          lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(tr("for a note:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + TnoteName::noteToRichText(sortedLists[i].operator[](0)->qa.note) + "</b>").arg(aTimeText);
+          lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(tr("for a note:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + TnoteName::noteToRichText(sortedLists[i].first()->qa.note) + "</b>").arg(aTimeText);
         else
           if (m_settings.order == e_byFret)
             lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(tr("for a fret:", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>  " + 
-            QString::number(sortedLists[i].operator[](0)->qa.pos.fret()) + "</b>").arg(aTimeText);
+            QString::number(sortedLists[i].first()->qa.pos.fret()) + "</b>").arg(aTimeText);
           else
             if (m_settings.order == e_byKey) {
               QString wereKeys = "";
-              if (m_exam->level()->manualKey && sortedLists[i].operator[](0)->answerAs == TQAtype::e_asNote)
+              if (m_exam->level()->manualKey && sortedLists[i].first()->answerAs == TQAtype::e_asNote)
                 wereKeys = "<br>" + tr("Key signatures gave by user");
                 
               lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2%3</p>").arg(tr("for a key:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + 
-              sortedLists[i].operator[](0)->key.getName() + "</b></span>").arg(aTimeText).arg(wereKeys);
+              sortedLists[i].first()->key.getName() + "</b></span>").arg(aTimeText).arg(wereKeys);
             } else
               if (m_settings.order == e_byAccid) {
                 QString accStr, accidClue;
@@ -227,7 +230,7 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
         if (goodOffset && (i == goodSize -1))
           hintText += tr("questions unrelated<br>with chart type");
         else
-          hintText += QString("%1</b>").arg(TfingerPos::romanFret(sortedLists[i].operator[](0)->qa.pos.fret()));
+          hintText += QString("%1</b>").arg(TfingerPos::romanFret(sortedLists[i].first()->qa.pos.fret()));
         hintText += "</b>";          
         fretText->setHtml(hintText);
         scene->addItem(fretText);
@@ -252,9 +255,9 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
         if (goodOffset && (i == goodSize -1))
           hintText += tr("questions unrelated<br>with chart type") + "</b>";
         else {
-            hintText += QString("%1").arg(sortedLists[i].operator[](0)->key.getName());
+            hintText += QString("%1").arg(sortedLists[i].first()->key.getName());
             hintText += "<br><span style=\"font-family: nootka; font-size: 20px\">";
-            if (sortedLists[i].operator[](0)->answerAs == TQAtype::e_asNote)
+            if (sortedLists[i].operator[](0).qaPtr->answerAs == TQAtype::e_asNote)
               hintText += "!";
             else
               hintText += "?";

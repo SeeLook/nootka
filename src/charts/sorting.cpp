@@ -22,16 +22,16 @@
 #include "tquestionaswdg.h"
 #include <QDebug>
 
-double calcAverTime(TanswerListPtr& answers, bool skipWrong) {
+double calcAverTime(TgroupedQAunit& answers, bool skipWrong) {
   if (answers.isEmpty())
     return 0.0;
   double result = 0.0;
   int cnt = 0; // number of answers in average
   for (int i = 0; i < answers.size(); i++) {
-    if (skipWrong && (answers.operator[](i)->wrongNote() || answers.operator[](i)->wrongPos()) ) 
+    if (skipWrong && (answers[i].qaPtr->wrongNote() || answers[i].qaPtr->wrongPos()) ) 
       continue; // skip wrong answer
     else {
-      result += answers.operator[](i)->time;
+      result += answers[i].qaPtr->time;
       cnt++;
     }
   }
@@ -80,28 +80,33 @@ QList<Tnote> getTheSame(short int noteNr, TexamLevel* level) {
 }
 
 
-void divideGoodAndBad(QList< TQAunit >* list, TanswerListPtr& goodList, TanswerListPtr& badList) {
+// void divideGoodAndBad(QList< TQAunit >* list, TanswerListPtr& goodList, TanswerListPtr& badList) {
+void divideGoodAndBad(QList<TQAunit> *list, TgroupedQAunit& goodList, TgroupedQAunit& badList) {
   for (int i = 0; i < list->size(); i++) {
     if (list->operator[](i).wrongNote() || list->operator[](i).wrongPos())
-      badList << &list->operator[](i);
+//       badList << &list->operator[](i);
+      badList.addQAunit(&list->operator[](i), i);
     else
-      goodList << &list->operator[](i);
+//       goodList << &list->operator[](i);
+      goodList.addQAunit(&list->operator[](i), i);
   }
 }
 
 
 
-QList<TanswerListPtr> sortByNote(TanswerListPtr& answList, TexamLevel *level, bool &hasListUnrelated) {
-  QList<TanswerListPtr> result;
+// QList<TanswerListPtr> sortByNote(TanswerListPtr& answList, TexamLevel *level, bool &hasListUnrelated) {
+QList<TgroupedQAunit> sortByNote(TgroupedQAunit& answList, TexamLevel *level, bool &hasListUnrelated) {
+  QList<TgroupedQAunit> result;
   for (short i = level->loNote.getChromaticNrOfNote(); i <= level->hiNote.getChromaticNrOfNote(); i++) {
     QList<Tnote> theSame = getTheSame(i, level);
     for (int j = 0; j < theSame.size(); j++) {
-      TanswerListPtr noteList;
+      TgroupedQAunit noteList;
       for (int k = 0; k < answList.size(); k++) {
-        if (answList.operator[](k)->qa.note == theSame[j]) {
-            if (answList.operator[](k)->questionAs != TQAtype::e_asFretPos || 
-              answList.operator[](k)->answerAs != TQAtype::e_asFretPos)
-                           noteList << answList.operator[](k);   
+        if (answList[k].qaPtr->qa.note == theSame[j]) {
+            if (answList[k].qaPtr->questionAs != TQAtype::e_asFretPos || 
+              answList[k].qaPtr->answerAs != TQAtype::e_asFretPos)
+                      noteList.addQAunit(answList[k].qaPtr, answList[k].nr);
+//                            noteList << answList[k];   
         }
       }
       if (!noteList.isEmpty()) {
@@ -110,11 +115,11 @@ QList<TanswerListPtr> sortByNote(TanswerListPtr& answList, TexamLevel *level, bo
     }
   }
   if (level->questionAs.isFret() && level->answersAs[2].isFret()) {
-      TanswerListPtr ignoredList; // ignore answers without notes
+      TgroupedQAunit ignoredList; // ignore answers without notes
       for (int k = 0; k < answList.size(); k++)
-            if (answList.operator[](k)->questionAs == TQAtype::e_asFretPos && 
-              answList.operator[](k)->questionAs == TQAtype::e_asFretPos)
-                      ignoredList << answList.operator[](k);
+            if (answList[k].qaPtr->questionAs == TQAtype::e_asFretPos && 
+              answList[k].qaPtr->questionAs == TQAtype::e_asFretPos)
+                      ignoredList.addQAunit(answList[k]);
       if (!ignoredList.isEmpty()) {
         result << ignoredList; // add ignoredList at the end
         hasListUnrelated = true;
@@ -126,21 +131,22 @@ QList<TanswerListPtr> sortByNote(TanswerListPtr& answList, TexamLevel *level, bo
 
 
 
-QList< TanswerListPtr > sortByFret(TanswerListPtr& answList, TexamLevel *level, bool& hasListUnrelated) {
-  QList<TanswerListPtr> result;
-  TanswerListPtr unrelatedList;
+// QList< TanswerListPtr > sortByFret(TanswerListPtr& answList, TexamLevel *level, bool& hasListUnrelated) {
+QList<TgroupedQAunit> sortByFret(TgroupedQAunit& answList, TexamLevel *level, bool& hasListUnrelated) {
+  QList<TgroupedQAunit> result;
+  TgroupedQAunit unrelatedList;
   for (int f = level->loFret; f <= level->hiFret; f++) {
     // search all list for each fret in level's fret range
-    TanswerListPtr fretList;
+    TgroupedQAunit fretList;
     for (int i = 0; i < answList.size(); i++) {
-      if (answList.operator[](i)->questionAs == TQAtype::e_asFretPos ||
-          answList.operator[](i)->answerAs == TQAtype::e_asFretPos ||
-          answList.operator[](i)->answerAs == TQAtype::e_asSound) { // is a question related to guitar
-        if (f == answList.operator[](i)->qa.pos.fret())
-            fretList << answList.operator[](i);
+      if (answList[i].qaPtr->questionAs == TQAtype::e_asFretPos ||
+          answList[i].qaPtr->answerAs == TQAtype::e_asFretPos ||
+          answList[i].qaPtr->answerAs == TQAtype::e_asSound) { // is a question related to guitar
+        if (f == answList[i].qaPtr->qa.pos.fret())
+            fretList.addQAunit(answList[i]);
       } else {
           if (f == level->loFret) // feed unrelated in first loop only
-              unrelatedList << answList.operator[](i);
+              unrelatedList.addQAunit(answList[i]);
       }
     }
     if (!fretList.isEmpty())
@@ -155,33 +161,34 @@ QList< TanswerListPtr > sortByFret(TanswerListPtr& answList, TexamLevel *level, 
 
 
 
-QList< TanswerListPtr > sortByKeySignature(TanswerListPtr& answList, TexamLevel *level, bool &hasListUnrelated) {
-  QList<TanswerListPtr> result;
-  TanswerListPtr unrelatedList;
+// QList< TanswerListPtr > sortByKeySignature(TanswerListPtr& answList, TexamLevel *level, bool &hasListUnrelated) {
+QList<TgroupedQAunit> sortByKeySignature(TgroupedQAunit& answList, TexamLevel *level, bool &hasListUnrelated) {
+  QList<TgroupedQAunit> result;
+  TgroupedQAunit unrelatedList;
   for (int k = level->loKey.value(); k <= level->hiKey.value(); k++) {
-        TanswerListPtr majors, minors;
+        TgroupedQAunit majors, minors;
     for (int i = 0; i < answList.size(); i++) {
-        if (answList.operator[](i)->questionAs == TQAtype::e_asNote || answList.operator[](i)->answerAs == TQAtype::e_asNote) {
-            if (answList.operator[](i)->key.value() == k) {
-              if (answList.operator[](i)->key.isMinor())
-                  minors << answList.operator[](i);
+        if (answList[i].qaPtr->questionAs == TQAtype::e_asNote || answList[i].qaPtr->answerAs == TQAtype::e_asNote) {
+            if (answList[i].qaPtr->key.value() == k) {
+              if (answList[i].qaPtr->key.isMinor())
+                  minors.addQAunit(answList[i]);
               else
-                  majors << answList.operator[](i);
+                  majors.addQAunit(answList[i]);
             }
         } else {
           if (k == level->loKey.value())
-            unrelatedList << answList.operator[](i);
+            unrelatedList.addQAunit(answList[i]);
         }
     }
     bool tmpBool;
     if (!majors.isEmpty()) {
-      QList<TanswerListPtr> majSorted = sortByNote(majors, level, tmpBool);
-      TanswerListPtr mS = mergeListOfLists(majSorted);
+      QList<TgroupedQAunit> majSorted = sortByNote(majors, level, tmpBool);
+      TgroupedQAunit mS = mergeListOfLists(majSorted);
       divideQuestionsAndAnswers(result, mS, TQAtype::e_asNote);
     }
     if (!minors.isEmpty()) {
-      QList<TanswerListPtr> minSorted = sortByNote(minors, level, tmpBool);
-      TanswerListPtr mS = mergeListOfLists(minSorted);
+      QList<TgroupedQAunit> minSorted = sortByNote(minors, level, tmpBool);
+      TgroupedQAunit mS = mergeListOfLists(minSorted);
       divideQuestionsAndAnswers(result, mS, TQAtype::e_asNote);
     }
   }
@@ -193,24 +200,26 @@ QList< TanswerListPtr > sortByKeySignature(TanswerListPtr& answList, TexamLevel 
 }
 
 
-QList< TanswerListPtr > sortByAccidental(TanswerListPtr& answList, TexamLevel* level,
+// QList< TanswerListPtr > sortByAccidental(TanswerListPtr& answList, TexamLevel* level,
+//                                          bool& hasListUnrelated, QList< char >& kindOfAccidList) {
+QList<TgroupedQAunit> sortByAccidental(TgroupedQAunit& answList, TexamLevel* level,
                                          bool& hasListUnrelated, QList< char >& kindOfAccidList) {
-  QList<TanswerListPtr> result;
-  TanswerListPtr accidsArray[6]; // 0 - bb, 1 - b, 2 - none, 3 - #, 4 - x, 5 - unrelated
+  QList<TgroupedQAunit> result;
+  TgroupedQAunit accidsArray[6]; // 0 - bb, 1 - b, 2 - none, 3 - #, 4 - x, 5 - unrelated
   for (int i = 0; i < answList.size(); i++) {
     bool accidFound = false;
-    if (answList[i]->questionAs == TQAtype::e_asNote || answList[i]->questionAs == TQAtype::e_asName ||
-      answList[i]->answerAs == TQAtype::e_asNote || answList[i]->answerAs == TQAtype::e_asName) {
-        accidsArray[answList[i]->qa.note.acidental + 2] << answList[i];
-        if (answList[i]->qa_2.note.note && answList[i]->qa_2.note.acidental != answList[i]->qa.note.acidental)
-            accidsArray[answList[i]->qa_2.note.acidental + 2] << answList[i];
+    if (answList[i].qaPtr->questionAs == TQAtype::e_asNote || answList[i].qaPtr->questionAs == TQAtype::e_asName ||
+      answList[i].qaPtr->answerAs == TQAtype::e_asNote || answList[i].qaPtr->answerAs == TQAtype::e_asName) {
+        accidsArray[answList[i].qaPtr->qa.note.acidental + 2].addQAunit(answList[i]);
+        if (answList[i].qaPtr->qa_2.note.note && answList[i].qaPtr->qa_2.note.acidental != answList[i].qaPtr->qa.note.acidental)
+            accidsArray[answList[i].qaPtr->qa_2.note.acidental + 2].addQAunit(answList[i]);
     } else
-        accidsArray[5] << answList[i];
+        accidsArray[5].addQAunit(answList[i]);
   }
   bool tmpBool;
   for (int i = 0; i < 6; i++) {
     if (!accidsArray[i].isEmpty()) {
-      QList<TanswerListPtr> sorted = sortByNote(accidsArray[i], level, tmpBool);
+      QList<TgroupedQAunit> sorted = sortByNote(accidsArray[i], level, tmpBool);
       result << mergeListOfLists(sorted);
       kindOfAccidList << (i - 2);
     }
@@ -224,13 +233,13 @@ QList< TanswerListPtr > sortByAccidental(TanswerListPtr& answList, TexamLevel* l
 
 
 
-void divideQuestionsAndAnswers(QList< TanswerListPtr >& result, TanswerListPtr& someList, TQAtype::Etype type) {
-  TanswerListPtr inQuest, inAnsw; 
+void divideQuestionsAndAnswers(QList<TgroupedQAunit>& result, TgroupedQAunit& someList, TQAtype::Etype type) {
+  TgroupedQAunit inQuest, inAnsw; 
   for (int i = 0; i < someList.size(); i++) {
-    if (someList[i]->answerAs == type)
-      inAnsw << someList[i];
+    if (someList[i].qaPtr->answerAs == type)
+      inAnsw.addQAunit(someList[i]);
     else 
-      inQuest << someList[i];
+      inQuest.addQAunit(someList[i]);
   }
   if (!inQuest.isEmpty())
     result << inQuest;
@@ -239,21 +248,24 @@ void divideQuestionsAndAnswers(QList< TanswerListPtr >& result, TanswerListPtr& 
 }
 
 
-TanswerListPtr mergeListOfLists(QList<TanswerListPtr>& listOfLists) {
-  TanswerListPtr result;
+// TanswerListPtr mergeListOfLists(QList<TanswerListPtr>& listOfLists) {
+TgroupedQAunit mergeListOfLists(QList<TgroupedQAunit>& listOfLists) {
+  TgroupedQAunit result;
   for (int i = 0; i < listOfLists.size(); i++)
     for (int j = 0; j < listOfLists[i].size(); j++)
-      result << listOfLists[i].operator[](j);
+      result.addQAunit(listOfLists[i].operator[](j));
     
   return result;
 }
 
 
 
-TanswerListPtr convertToPointers(QList<TQAunit> *examList) {
-    TanswerListPtr result;
+// TanswerListPtr convertToPointers(QList<TQAunit> *examList) {
+TgroupedQAunit convertToPointers(QList<TQAunit> *examList) {
+    TgroupedQAunit result;
     for (int i = 0; i< examList->size(); i++)
-        result << &examList->operator [](i);
+        result.addQAunit(&examList->operator[](i), i);
+//         result << &examList->operator [](i);
     return result;
 }
 

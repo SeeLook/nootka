@@ -23,6 +23,7 @@
 #include <qlist.h>
 #include "tquestionpoint.h"
 
+class TgroupedQAunit;
 class TstaffLineChart;
 class TtipChart;
 class Tchart;
@@ -42,7 +43,7 @@ class TmainLine : public QObject
   
 public:
   TmainLine(QList<TQAunit> *answers, Tchart *chart);
-  TmainLine(QList< QList<TQAunit*> > &listOfLists, Tchart *chart);
+  TmainLine(QList<TgroupedQAunit> &listOfLists, Tchart *chart);
   virtual ~TmainLine();
   
 protected:
