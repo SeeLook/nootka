@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -99,6 +99,20 @@ void TXaxis::setAnswersLists(QList<TgroupedQAunit>& listOfLists, TexamLevel* lev
       m_ticTips << ticTip;
     }
   }      
+}
+
+void TXaxis::setAnswersForBarChart(QList<TgroupedQAunit>& listOfLists) {
+  setLength(m_qWidth * (listOfLists.size() + 1));
+  update(boundingRect());
+  m_ticTips.clear();
+  for (int i = 0; i < listOfLists.size(); i++) {
+    QGraphicsTextItem *ticTip = new QGraphicsTextItem();
+    ticTip->setHtml(listOfLists[i].description());
+    scene()->addItem(ticTip);
+    //TODO: scale it
+    ticTip->setPos(pos().x() + mapValue(i + 1) - ticTip->boundingRect().width() / 2 , pos().y() + 15);
+    m_ticTips << ticTip;
+  }
 }
 
 

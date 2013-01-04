@@ -73,6 +73,7 @@ SET( NOOTKA_SRCS
   charts/tmainline.cpp
   charts/tquestionpoint.cpp
   charts/tmainchart.cpp
+  charts/tlinearchart.cpp
   charts/tstafflinechart.cpp
   charts/ttipchart.cpp
   charts/tnotepixmap.cpp

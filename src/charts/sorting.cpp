@@ -80,21 +80,16 @@ QList<Tnote> getTheSame(short int noteNr, TexamLevel* level) {
 }
 
 
-// void divideGoodAndBad(QList< TQAunit >* list, TanswerListPtr& goodList, TanswerListPtr& badList) {
 void divideGoodAndBad(QList<TQAunit> *list, TgroupedQAunit& goodList, TgroupedQAunit& badList) {
   for (int i = 0; i < list->size(); i++) {
     if (list->operator[](i).wrongNote() || list->operator[](i).wrongPos())
-//       badList << &list->operator[](i);
       badList.addQAunit(&list->operator[](i), i);
     else
-//       goodList << &list->operator[](i);
       goodList.addQAunit(&list->operator[](i), i);
   }
 }
 
 
-
-// QList<TanswerListPtr> sortByNote(TanswerListPtr& answList, TexamLevel *level, bool &hasListUnrelated) {
 QList<TgroupedQAunit> sortByNote(TgroupedQAunit& answList, TexamLevel *level, bool &hasListUnrelated) {
   QList<TgroupedQAunit> result;
   for (short i = level->loNote.getChromaticNrOfNote(); i <= level->hiNote.getChromaticNrOfNote(); i++) {
@@ -103,10 +98,8 @@ QList<TgroupedQAunit> sortByNote(TgroupedQAunit& answList, TexamLevel *level, bo
       TgroupedQAunit noteList;
       for (int k = 0; k < answList.size(); k++) {
         if (answList[k].qaPtr->qa.note == theSame[j]) {
-            if (answList[k].qaPtr->questionAs != TQAtype::e_asFretPos || 
-              answList[k].qaPtr->answerAs != TQAtype::e_asFretPos)
-                      noteList.addQAunit(answList[k].qaPtr, answList[k].nr);
-//                            noteList << answList[k];   
+            if (answList[k].qaPtr->questionAs != TQAtype::e_asFretPos || answList[k].qaPtr->answerAs != TQAtype::e_asFretPos)
+                noteList.addQAunit(answList[k].qaPtr, answList[k].nr);
         }
       }
       if (!noteList.isEmpty()) {

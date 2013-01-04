@@ -55,8 +55,9 @@ public:
   } // Returns pointer to first element in the list or 0 when empty
   bool isEmpty() { return list.isEmpty(); }
   int size() { return list.size() ;}
-  
-  void resume(); // calculates mistakes and average time after appending all questions to the list
+      /** Calculates mistakes and average time after appending all questions to the list.
+       * Sets description. */
+  void resume(QString& desc);
   
   TqaPtr& operator[] (unsigned int index) { 
     if (index < list.size())
@@ -68,8 +69,7 @@ public:
 private:
   QString m_desc;
   quint16 m_mistakes, m_halfMist;
-  
-  
+    
 };
 
 
