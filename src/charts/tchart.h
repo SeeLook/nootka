@@ -52,11 +52,17 @@ public:
       e_byStyle,
       e_byClef
     };
+    
+      /** Types of charts. */
+    enum EchartType {
+      e_linear, e_bar, e_pie
+    };
 
     struct Tsettings {
         bool inclWrongAnsw; // include wrong answers to average time of sorted group of answers
         bool separateWrong; // separate wrong answers and correct/almost good ones
         EanswersOrder order;
+        EchartType type;
     };
 
     Tchart(QWidget* parent = 0);

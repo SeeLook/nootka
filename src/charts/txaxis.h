@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -37,6 +37,7 @@ public:
   
   void setAnswersList(QList<TQAunit> *answers = 0, TexamLevel *level = 0);
   void setAnswersLists(QList<TgroupedQAunit> &listOfLists, TexamLevel *level = 0);
+  void setAnswersForBarChart(QList<TgroupedQAunit> &listOfLists);
   int questWidth() { return m_qWidth; } // pixel width of question on the axisz
   
 protected:

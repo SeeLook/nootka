@@ -26,37 +26,34 @@ class TexamLevel;
 class Tnote;
 class Texam;
 
-/** This class paints different types of charts with an exam data.
+/** This is global class for bar and linear charts.
+ * It performs some common methods
  */
-
-
 class TmainChart : public Tchart
 {
-  Q_OBJECT
-  
+  Q_OBJECT 
 public:
   
-  TmainChart(Texam *currExam, Tsettings &chartSett, QWidget* parent = 0);
+  TmainChart(Texam *exam, Tsettings &settings, QWidget* parent = 0);
   virtual ~TmainChart();
   
 
 protected:
+    /** Sorts exam data by params given in chartSett. 
+     * Initialises sortedLists, hasListUnrelated and kindOfAccids. */
   void sort();
-  Tsettings &chartSett;
+      /** Performs common elements for all kinds of charts. */
+  void prepareChart(int maxX);
+    
+  Tsettings chartSett;
   Texam *currExam;
   TmainLine *m_mainLine;
-  /** Returns true if list contains unrelated list of questions. */
+      /** Returns true if list contains unrelated list of questions. */
   bool hasListUnrelated;
   TgroupedQAunit goodAnsw, badAnsw;
   QList<TgroupedQAunit> sortedLists;
   int goodSize; // number of lists with good answers
   QList<char> kindOfAccids;
-
-private:
-      /** Performs common elements for all kinds of charts. */
-  void prepareChart(int maxX);
-  
-private:
 
 };
 

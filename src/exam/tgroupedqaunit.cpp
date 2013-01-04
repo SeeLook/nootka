@@ -18,6 +18,7 @@
 
 
 #include "tgroupedqaunit.h"
+#include "tqaunit.h"
 
 
 
@@ -43,8 +44,25 @@ void TgroupedQAunit::addQAunit(TQAunit* qaUnit, unsigned int questNr) {
 }
 
 
-void TgroupedQAunit::resume() {
-
+void TgroupedQAunit::resume(QString& desc) {
+    setDescription(desc);
+    m_mistakes = 0;
+    m_halfMist = 0;
+    double aver = 0.0;
+    int cnt = 0; // number of answers in average
+    for (int i = 0; i < list.size(); i++) {
+      if (list[i].qaPtr->isWrong())
+        m_mistakes++;
+      else if (list[i].qaPtr->isNotSoBad())
+        m_halfMist++;
+      if (list[i].qaPtr->wrongNote() || list[i].qaPtr->wrongPos()) 
+          continue; // skip wrong answer
+      else {
+        aver += list[i].qaPtr->time;
+        cnt++;
+      }
+      
+    }
 }
 
 

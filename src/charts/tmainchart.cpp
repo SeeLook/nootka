@@ -32,9 +32,9 @@
 #include <QDebug>
 
 
-QColor averColor = QColor(0, 192, 192);
 
-TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
+
+TmainChart::TmainChart(Texam* exam, Tchart::Tsettings& settings, QWidget* parent):
   Tchart(parent),
   currExam(exam),
   chartSett(settings),
@@ -43,269 +43,11 @@ TmainChart::TmainChart(Texam* exam, Tsettings &settings, QWidget* parent):
 {
   setMouseTracking(true);
 //  sortedLists.clear();
-// Determine maximal rection time to prepare Y axis
-  quint16 maxTime = 0;
-  for(int i = 0; i < exam->count(); i++)
-      maxTime = qMax(maxTime, exam->question(i).time);
-  yAxis->setMaxValue((double)maxTime / 10.0);
-  
-  if (settings.order == e_byNumber) {
-      xAxis->setAnswersList(exam->answList(), exam->level());
-      prepareChart(exam->count());
-      m_mainLine = new TmainLine(exam->answList(), this);
-      /** NOTE
-       * I'm not sure for now what to do with curve shows a progress
-       * Let's see...
-       * code below has wrong counting of average time
-       * 
-      //      QPolygonF polygon;
-      double aTime = 0 , prev = 0;
-      int firstCorrect = 0, okCount = 0;
-      for(int i = 0; i < m_exam->count(); i++) { // looking for first correct answer
-        if (!m_exam->question(i).isWrong()) {
-          firstCorrect = i;
-          prev = m_exam->question(i).time / 10.0;
-          okCount++;
-          aTime = prev;
-          break;
-        }
-      }
-      int prevX = firstCorrect + 1;
-      for(int i = firstCorrect + 1; i < m_exam->count(); i++) {
-        if (m_exam->question(i).isWrong())
-          continue; // skip wrong answers in aver time
-        else 
-          aTime = (aTime * okCount + (m_exam->question(i).time / 10)) / (okCount + 1);
-        
-        okCount++;        
-//        polygon << QPointF(xAxis->mapValue(i + 1), yAxis->mapValue(aTime));
-        QGraphicsLineItem *averProgress = new QGraphicsLineItem;
-        scene->addItem(averProgress);
-        averProgress->setPen(QPen(averColor, 1));
-        averProgress->setLine(xAxis->mapValue(prevX) + xAxis->pos().x(), yAxis->mapValue(prev),
-                              xAxis->mapValue(i + 1) + xAxis->pos().x(), yAxis->mapValue(aTime));
-        prevX = i + 1;
-        averProgress->setZValue(10);
-        prev = aTime;
-      }
-      qDebug() << aTime << m_exam->averageReactonTime() / 10.0;
-      */
-      TgraphicsLine *averLine = new TgraphicsLine("<p>" +
-          TexamView::averAnsverTimeTxt() + 
-          QString("<br><span style=\"font-size: 20px;\">%1</span></p>").arg(TexamView::formatReactTime(exam->averageReactonTime(), true)) );
-      scene->addItem(averLine);
-      averLine->setZValue(20);
-      averLine->setPen(QPen(averColor, 3));
-      averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(exam->averageReactonTime() / 10.0),
-          xAxis->mapValue(exam->count()) + xAxis->pos().x(), yAxis->mapValue(exam->averageReactonTime() / 10.0));
-  }
-  
   if (settings.order == e_byNote || settings.order == e_byFret ||
-          settings.order == e_byKey || settings.order == e_byAccid)
-      sort();
-//      QList<char> kindOfAccids;
-////        goodAnsw, badAnsw;
-//      TgroupedQAunit goodAnsw, badAnsw;
-////       QList<TanswerListPtr> sortedLists;
-//      QList<TgroupedQAunit> sortedLists;
-//      int goodSize; // number of lists with good answers
-//      if (settings.separateWrong) {
-//          divideGoodAndBad(exam->answList(), goodAnsw, badAnsw);
-//          if (settings.order == e_byNote)
-//            sortedLists = sortByNote(goodAnsw, exam->level(), hasListUnrelated);
-//          else
-//            if (settings.order == e_byFret)
-//              sortedLists = sortByFret(goodAnsw, exam->level(), hasListUnrelated);
-//            else
-//              if (settings.order == e_byKey)
-//                sortedLists = sortByKeySignature(goodAnsw, exam->level(), hasListUnrelated);
-//              else
-//                if (settings.order == e_byAccid)
-//                sortedLists = sortByAccidental(goodAnsw, exam->level(), hasListUnrelated, kindOfAccids);
-//          goodSize = sortedLists.size(); // number without wrong answers
-//          if (settings.order == e_byNote)
-//            sortedLists.append(sortByNote(badAnsw, exam->level(), hasListUnrelated));
-//          else
-//            if (settings.order == e_byFret)
-//              sortedLists.append(sortByFret(badAnsw, exam->level(), hasListUnrelated));
-//            else
-//              if (settings.order == e_byKey)
-//                sortedLists.append(sortByKeySignature(badAnsw, exam->level(), hasListUnrelated));
-//              else
-//                if (settings.order == e_byAccid)
-//                sortedLists.append(sortByAccidental(badAnsw, exam->level(), hasListUnrelated, kindOfAccids));
-                
-//      }
-//      else {
-//          TgroupedQAunit convList = convertToPointers(exam->answList());
-//          if (settings.order == e_byNote)
-//            sortedLists = sortByNote(convList, exam->level(), hasListUnrelated);
-//          else
-//            if (settings.order == e_byFret)
-//              sortedLists = sortByFret(convList, exam->level(), hasListUnrelated);
-//            else
-//              if (settings.order == e_byKey)
-//                sortedLists = sortByKeySignature(convList, exam->level(), hasListUnrelated);
-//              else
-//                if (settings.order == e_byAccid)
-//                  sortedLists = sortByAccidental(convList, exam->level(), hasListUnrelated, kindOfAccids);
-//          goodSize = sortedLists.size();
-//      }
-      xAxis->setAnswersLists(sortedLists, exam->level());
-      int ln = 0;
-      for (int i = 0; i < sortedLists.size(); i++)
-        ln += sortedLists[i].size();
-      prepareChart(ln);
-      m_mainLine = new TmainLine(sortedLists, this);
-      
-      int goodOffset = 0; // 0 when not unrelated question list inside
-      if (hasListUnrelated)
-        goodOffset = -1; // do not perform a last loop 
-      int cnt = 1;
-  // paint lines with average time of all the same notes/frets
-//      for (int i = 0; i < goodSize + goodOffset; i++) { // skip wrong answers if separeted
-      for (int i = 0; i < sortedLists.size(); i++) { // skip wrong answers if separeted
-        double aTime = calcAverTime(sortedLists[i], !settings.inclWrongAnsw);
-        QString aTimeText = TexamView::formatReactTime(qRound(aTime), true);
-        TgraphicsLine *averTimeLine = new TgraphicsLine();
-        QString lineText = "";
-        if (settings.order == e_byNote)
-          lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(tr("for a note:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + TnoteName::noteToRichText(sortedLists[i].first()->qa.note) + "</b>").arg(aTimeText);
-        else
-          if (settings.order == e_byFret)
-            lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(tr("for a fret:", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>  " + 
-            QString::number(sortedLists[i].first()->qa.pos.fret()) + "</b>").arg(aTimeText);
-          else
-            if (settings.order == e_byKey) {
-              QString wereKeys = "";
-              if (exam->level()->manualKey && sortedLists[i].first()->answerAs == TQAtype::e_asNote)
-                wereKeys = "<br>" + tr("Key signatures gave by user");
-                
-              lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2%3</p>").arg(tr("for a key:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + 
-              sortedLists[i].first()->key.getName() + "</b></span>").arg(aTimeText).arg(wereKeys);
-            } else
-              if (settings.order == e_byAccid) {
-                QString accStr, accidClue;
-                accStr = accidToNotka(kindOfAccids[i]);
-                if (kindOfAccids[i])
-                    accidClue = tr("for an accidental:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  " +
-                        accStr + "</span>";
-                else
-                    accidClue = tr("for notes without accidentals"); 
-                lineText += "<p>" + TexamView::averAnsverTimeTxt() + 
-                QString("<br><span style=\"font-size: 20px;\">%1<br>%2</span></p>").arg(accidClue).arg(aTimeText);
-              }
-        
-        averTimeLine->setText(lineText);
-        scene->addItem(averTimeLine);
-        averTimeLine->setZValue(46);
-        averTimeLine->setPen(QPen(QColor(0, 192, 192), 3)); // sea blue
-        averTimeLine->setLine(xAxis->mapValue(cnt - 0.4) + xAxis->pos().x(), yAxis->mapValue(aTime / 10),
-          xAxis->mapValue(cnt + sortedLists[i].size() -0.6) + xAxis->pos().x(), yAxis->mapValue(aTime / 10));
-        cnt += sortedLists[i].size();
-      }
-      cnt = 1;
-  // paint highlights under grouped items
-      for (int i = 0; i < sortedLists.size(); i++) {
-          QGraphicsRectItem *groupBg = new QGraphicsRectItem();
-          scene->addItem(groupBg);
-          QColor hiCol = palette().highlight().color();
-          hiCol.setAlpha(30);
-          if (i%2) {
-            groupBg->setBrush(QBrush(hiCol));
-            groupBg->setPen(Qt::NoPen);
-            groupBg->setRect(xAxis->mapValue(cnt), 0, sortedLists[i].size() * xAxis->questWidth(), yAxis->boundingRect().height());
-            groupBg->setZValue(-1);
-          }
-          cnt += sortedLists[i].size();
-      }
-  // fret number over the chart
-    if (settings.order == e_byFret) {
-      cnt = 1;
-      for (int i = 0; i < goodSize; i++) { 
-        QGraphicsTextItem *fretText = new QGraphicsTextItem();
-        QFont f;
-        f.setPixelSize(30);
-        fretText->setFont(f);
-        QString hintText = "<b style=\"color: rgba(200, 200, 200, 200); \">";
-        if (goodOffset && (i == goodSize -1))
-          hintText += tr("questions unrelated<br>with chart type");
-        else
-          hintText += QString("%1</b>").arg(TfingerPos::romanFret(sortedLists[i].first()->qa.pos.fret()));
-        hintText += "</b>";          
-        fretText->setHtml(hintText);
-        scene->addItem(fretText);
-        TgraphicsTextTip::alignCenter(fretText);
-        fretText->setPos(xAxis->mapValue(cnt) + 
-        (sortedLists[i].size() * xAxis->questWidth() - fretText->boundingRect().width()) / 2, 
-                         yAxis->mapValue(yAxis->maxValue()));        
-        fretText->setZValue(3);
-        
-        cnt += sortedLists[i].size();
-      }      
-    }
-  // key signature names over the chart
-    if (settings.order == e_byKey) {
-      cnt = 1;
-      for (int i = 0; i < goodSize; i++) { 
-        QGraphicsTextItem *keyText = new QGraphicsTextItem();
-        QFont f;
-        f.setPixelSize(16);
-        keyText->setFont(f);
-        QString hintText = "<b style=\"color: rgba(200, 200, 200, 200); \">";
-        if (goodOffset && (i == goodSize -1))
-          hintText += tr("questions unrelated<br>with chart type") + "</b>";
-        else {
-            hintText += QString("%1").arg(sortedLists[i].first()->key.getName());
-            hintText += "<br><span style=\"font-family: nootka; font-size: 20px\">";
-            if (sortedLists[i].operator[](0).qaPtr->answerAs == TQAtype::e_asNote)
-              hintText += "!";
-            else
-              hintText += "?";
-            hintText += "</span></b>";
-        }
-        keyText->setHtml(hintText);
-        scene->addItem(keyText);
-        TgraphicsTextTip::alignCenter(keyText);
-        keyText->setPos(xAxis->mapValue(cnt) + 
-        (sortedLists[i].size() * xAxis->questWidth() - keyText->boundingRect().width()) / 2, 
-                         yAxis->mapValue(yAxis->maxValue()));        
-        keyText->setZValue(3);
-        cnt += sortedLists[i].size();
-      }
-    }
-// accidentals over the chart
-    if (settings.order == e_byAccid) {
-      cnt = 1;
-      for (int i = 0; i < goodSize; i++) { 
-        QGraphicsTextItem *accidentalText = new QGraphicsTextItem();
-        QFont f;
-        f.setPixelSize(30);
-        accidentalText->setFont(f);
-        QString hintText = "<span style=\"color: rgba(200, 200, 200, 200); \">";
-        if (goodOffset && (i == goodSize -1))
-          hintText += tr("questions unrelated<br>with chart type") + "</span>";
-        else 
-          if (kindOfAccids[i])
-            hintText += QString("%1").arg(accidToNotka(kindOfAccids[i], 40));
-          else
-            hintText += tr("without accidentals");
-        hintText += "</span>";
-        accidentalText->setHtml(hintText);
-        scene->addItem(accidentalText);
-        TgraphicsTextTip::alignCenter(accidentalText);
-        accidentalText->setPos(xAxis->mapValue(cnt) + 
-        (sortedLists[i].size() * xAxis->questWidth() - accidentalText->boundingRect().width()) / 2, 
-                         yAxis->mapValue(yAxis->maxValue()));        
-        accidentalText->setZValue(3);
-        cnt += sortedLists[i].size();
-      }      
-    }
+          settings.order == e_byKey || settings.order == e_byAccid ||
+          settings.type == e_bar)
+      sort();  
   
-    
-    
-
-
 }
 
 
@@ -313,7 +55,7 @@ TmainChart::~TmainChart()
 {}
 
 //####################################################################################
-//##################### public method ################################################
+//##################### protected methods ############################################
 //####################################################################################
 
 void TmainChart::sort() {
@@ -359,13 +101,6 @@ void TmainChart::sort() {
         }
 }
 
-
-
-
-
-//####################################################################################
-//##################### private method ###############################################
-//####################################################################################
 
 void TmainChart::prepareChart(int maxX) {
   // Grid lines
