@@ -20,14 +20,25 @@
 #ifndef TBAR_H
 #define TBAR_H
 
-#include <qgraphicsitem.h>
+#include <QGraphicsItem>
 
+class TgroupedQAunit;
 
-class Tbar : public QGraphicsRectItem
+class Tbar : public QGraphicsItem
 {
 
 public:
-    Tbar(qreal x, qreal y, qreal w, qreal h, QGraphicsItem* parent = 0, QGraphicsScene* scene = 0);
+  
+    Tbar(qreal height_, TgroupedQAunit* qaGroup);
+//     setHeight(qreal h); // height of the bar
+    
+    
+protected:
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+    virtual QRectF boundingRect() const;
+  
+private:
+    qreal m_height;
 };
 
 #endif // TBAR_H

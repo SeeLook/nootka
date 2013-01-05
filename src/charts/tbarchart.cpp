@@ -18,11 +18,28 @@
 
 
 #include "tbarchart.h"
+#include "tyaxis.h"
+#include "txaxis.h"
+#include "tbar.h"
+#include "texam.h"
 
 TbarChart::TbarChart(Texam* exam, Tchart::Tsettings& settings, QWidget* parent) :
   TmainChart(exam, settings, parent)
 {
-
+    sort();
+    qreal maxTime = 0;
+    for(int i = 0; i < sortedLists.size(); i++)
+      maxTime = qMax(maxTime, sortedLists[i].averTime());
+    yAxis->setMaxValue((double)maxTime / 10.0);
+    
+    xAxis->setAnswersForBarChart(sortedLists);
+    prepareChart(sortedLists.size());
+    
+    for(int i = 0; i < sortedLists.size(); i++) {
+      Tbar *bar = new Tbar(yAxis->mapValue(sortedLists[i].averTime() / 10.0), &sortedLists[i]);
+      scene->addItem(bar);
+      bar->setPos(xAxis->mapValue(i + 1) + xAxis->pos().x(), yAxis->boundingRect().height());
+    }
 }
 
 TbarChart::~TbarChart(){}

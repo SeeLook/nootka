@@ -56,8 +56,10 @@ public:
   bool isEmpty() { return list.isEmpty(); }
   int size() { return list.size() ;}
       /** Calculates mistakes and average time after appending all questions to the list.
-       * Sets description. */
-  void resume(QString& desc);
+       * Sets description. It doesn't add mistakes to average. 
+       * If group contains only mistakes average time is calculated from mistakes time. */
+  void resume(QString desc);
+  qreal averTime() { return m_averTime; }
   
   TqaPtr& operator[] (unsigned int index) { 
     if (index < list.size())
@@ -69,6 +71,7 @@ public:
 private:
   QString m_desc;
   quint16 m_mistakes, m_halfMist;
+  qreal m_averTime;
     
 };
 

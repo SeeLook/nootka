@@ -28,6 +28,7 @@
 #include "tmainchart.h"
 #include "tgraphicstexttip.h"
 #include "tlinearchart.h"
+#include "tbarchart.h"
 #include "tglobals.h"
 
 
@@ -264,7 +265,10 @@ void TanalysDialog::createChart(Tchart::Tsettings& chartSett) {
       m_chart = 0;
     }
     if (m_exam)
-      m_chart = new TlinearChart(m_exam, m_chartSetts, this);
+      if (chartSett.order != Tchart::e_byNote)
+        m_chart = new TlinearChart(m_exam, m_chartSetts, this);
+      else
+        m_chart = new TbarChart(m_exam, m_chartSetts, this);
     else
       m_chart = new Tchart(this); // empty chart by default
     m_plotLay->addWidget(m_chart);

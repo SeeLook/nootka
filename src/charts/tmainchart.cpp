@@ -43,10 +43,10 @@ TmainChart::TmainChart(Texam* exam, Tchart::Tsettings& settings, QWidget* parent
 {
   setMouseTracking(true);
 //  sortedLists.clear();
-  if (settings.order == e_byNote || settings.order == e_byFret ||
-          settings.order == e_byKey || settings.order == e_byAccid ||
-          settings.type == e_bar)
-      sort();  
+//   if (settings.order == e_byNote || settings.order == e_byFret ||
+//           settings.order == e_byKey || settings.order == e_byAccid ||
+//           settings.type == e_bar)
+//       sort();  
   
 }
 
