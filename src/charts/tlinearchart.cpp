@@ -93,7 +93,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
   
   if (settings.order == e_byNote || settings.order == e_byFret ||
           settings.order == e_byKey || settings.order == e_byAccid) {
-      
+      sort();
       xAxis->setAnswersLists(sortedLists, exam->level());
       int ln = 0;
       for (int i = 0; i < sortedLists.size(); i++)

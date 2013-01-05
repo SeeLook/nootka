@@ -20,7 +20,7 @@
 #ifndef TBARCHART_H
 #define TBARCHART_H
 
-#include <tmainchart.h>
+#include "tmainchart.h"
 
 
 class TbarChart : public TmainChart

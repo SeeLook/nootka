@@ -44,11 +44,12 @@ void TgroupedQAunit::addQAunit(TQAunit* qaUnit, unsigned int questNr) {
 }
 
 
-void TgroupedQAunit::resume(QString& desc) {
+void TgroupedQAunit::resume(QString desc) {
     setDescription(desc);
     m_mistakes = 0;
     m_halfMist = 0;
-    double aver = 0.0;
+    double okTime = 0.0;
+    double badTime = 0.0;
     int cnt = 0; // number of answers in average
     for (int i = 0; i < list.size(); i++) {
       if (list[i].qaPtr->isWrong())
@@ -56,13 +57,16 @@ void TgroupedQAunit::resume(QString& desc) {
       else if (list[i].qaPtr->isNotSoBad())
         m_halfMist++;
       if (list[i].qaPtr->wrongNote() || list[i].qaPtr->wrongPos()) 
-          continue; // skip wrong answer
+          badTime += list[i].qaPtr->time;
       else {
-        aver += list[i].qaPtr->time;
+        okTime += list[i].qaPtr->time;
         cnt++;
       }
-      
     }
+    if (cnt)
+      m_averTime = okTime / cnt;
+    else
+      m_averTime = badTime / list.size();
 }
 
 

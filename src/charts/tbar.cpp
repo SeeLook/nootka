@@ -18,9 +18,32 @@
 
 
 #include "tbar.h"
+#include <QPainter>
 
-Tbar::Tbar(qreal x, qreal y, qreal w, qreal h, QGraphicsItem* parent, QGraphicsScene* scene): QGraphicsRectItem(parent, scene)
+
+#define WIDTH (40) // default width of a bar
+
+Tbar::Tbar(qreal height_, TgroupedQAunit *qaGroup) :
+    m_height(height_)
 {
 
 }
+
+void Tbar::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
+    
+    painter->setBrush(Qt::red);
+    QRectF rect = boundingRect();
+    rect.translate(1, -1);
+    painter->drawRoundedRect(rect, 3, 3);
+    
+}
+
+
+QRectF Tbar::boundingRect() const {
+    QRectF rect(WIDTH / -2, m_height * -1, WIDTH, m_height); // orign is in the centre on the bottom
+    return rect;
+}
+
 

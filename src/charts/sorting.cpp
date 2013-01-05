@@ -103,6 +103,7 @@ QList<TgroupedQAunit> sortByNote(TgroupedQAunit& answList, TexamLevel *level, bo
         }
       }
       if (!noteList.isEmpty()) {
+        noteList.resume(theSame[j].toRichText());
         result << noteList;
       }
     }
@@ -123,8 +124,6 @@ QList<TgroupedQAunit> sortByNote(TgroupedQAunit& answList, TexamLevel *level, bo
 }
 
 
-
-// QList< TanswerListPtr > sortByFret(TanswerListPtr& answList, TexamLevel *level, bool& hasListUnrelated) {
 QList<TgroupedQAunit> sortByFret(TgroupedQAunit& answList, TexamLevel *level, bool& hasListUnrelated) {
   QList<TgroupedQAunit> result;
   TgroupedQAunit unrelatedList;
@@ -153,8 +152,6 @@ QList<TgroupedQAunit> sortByFret(TgroupedQAunit& answList, TexamLevel *level, bo
 }
 
 
-
-// QList< TanswerListPtr > sortByKeySignature(TanswerListPtr& answList, TexamLevel *level, bool &hasListUnrelated) {
 QList<TgroupedQAunit> sortByKeySignature(TgroupedQAunit& answList, TexamLevel *level, bool &hasListUnrelated) {
   QList<TgroupedQAunit> result;
   TgroupedQAunit unrelatedList;
@@ -193,8 +190,6 @@ QList<TgroupedQAunit> sortByKeySignature(TgroupedQAunit& answList, TexamLevel *l
 }
 
 
-// QList< TanswerListPtr > sortByAccidental(TanswerListPtr& answList, TexamLevel* level,
-//                                          bool& hasListUnrelated, QList< char >& kindOfAccidList) {
 QList<TgroupedQAunit> sortByAccidental(TgroupedQAunit& answList, TexamLevel* level,
                                          bool& hasListUnrelated, QList< char >& kindOfAccidList) {
   QList<TgroupedQAunit> result;
@@ -241,7 +236,6 @@ void divideQuestionsAndAnswers(QList<TgroupedQAunit>& result, TgroupedQAunit& so
 }
 
 
-// TanswerListPtr mergeListOfLists(QList<TanswerListPtr>& listOfLists) {
 TgroupedQAunit mergeListOfLists(QList<TgroupedQAunit>& listOfLists) {
   TgroupedQAunit result;
   for (int i = 0; i < listOfLists.size(); i++)
@@ -252,8 +246,6 @@ TgroupedQAunit mergeListOfLists(QList<TgroupedQAunit>& listOfLists) {
 }
 
 
-
-// TanswerListPtr convertToPointers(QList<TQAunit> *examList) {
 TgroupedQAunit convertToPointers(QList<TQAunit> *examList) {
     TgroupedQAunit result;
     for (int i = 0; i< examList->size(); i++)
