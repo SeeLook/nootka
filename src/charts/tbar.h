@@ -29,7 +29,7 @@ class Tbar : public QGraphicsItem
 
 public:
   
-    Tbar(qreal height_, TgroupedQAunit* qaGroup);
+    Tbar(qreal height, TgroupedQAunit* qaGroup);
 //     setHeight(qreal h); // height of the bar
     
     
@@ -39,6 +39,8 @@ protected:
   
 private:
     qreal m_height;
+    TgroupedQAunit *m_qaGroup;
+    qreal m_wrongAt, m_notBadAt; // Keeps position of color gradient for mistakes
 };
 
 #endif // TBAR_H

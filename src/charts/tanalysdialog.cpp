@@ -95,7 +95,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   
   createActions();
   
-//   QTimer::singleShot(100, this, SLOT(testSlot()));
+  QTimer::singleShot(100, this, SLOT(testSlot()));
   if (exam) {
     m_wasExamCreated = false;
     m_openButton->setDisabled(true); // disable "open exam file" acction
@@ -334,7 +334,7 @@ void TanalysDialog::analyseChanged(int index) {
 
 
 void TanalysDialog::testSlot() {
-  QString testFile = "../nootka/test.noo";
+  QString testFile = gl->path + "/../../test.noo";
   loadExam(testFile);
 }
 

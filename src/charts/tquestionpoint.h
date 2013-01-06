@@ -52,6 +52,9 @@ public:
   
   static QColor bgColor() { return m_bgColor; }
   static QColor shadowColor() { return m_shadowColor; } // shadow of tip and point
+  static QColor wrongColor() { return m_wrongColor; }
+  static QColor notBadColor() { return m_notBadColor; }
+  static QColor goodColor() { return m_goodColor; }
   
 protected:
   void hoverEnterEvent(QGraphicsSceneHoverEvent *);

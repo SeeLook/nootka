@@ -60,6 +60,8 @@ public:
        * If group contains only mistakes average time is calculated from mistakes time. */
   void resume(QString desc);
   qreal averTime() { return m_averTime; }
+  quint16 mistakes() { return m_mistakes; }
+  quint16 notBad() { return m_halfMist; }
   
   TqaPtr& operator[] (unsigned int index) { 
     if (index < list.size())
