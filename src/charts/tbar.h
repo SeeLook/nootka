@@ -22,6 +22,8 @@
 
 #include <QGraphicsItem>
 
+class TgraphicsTextTip;
+class QGraphicsSceneHoverEvent;
 class TgroupedQAunit;
 
 class Tbar : public QGraphicsItem
@@ -30,17 +32,21 @@ class Tbar : public QGraphicsItem
 public:
   
     Tbar(qreal height, TgroupedQAunit* qaGroup);
-//     setHeight(qreal h); // height of the bar
+    QString getTipText();
     
     
 protected:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
     virtual QRectF boundingRect() const;
+    
+    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* );
+    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* );
   
 private:
     qreal m_height;
     TgroupedQAunit *m_qaGroup;
     qreal m_wrongAt, m_notBadAt; // Keeps position of color gradient for mistakes
+    TgraphicsTextTip *m_tip;
 };
 
 #endif // TBAR_H
