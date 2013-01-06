@@ -19,23 +19,43 @@
 
 #include "tbar.h"
 #include <QPainter>
+#include <QGraphicsColorizeEffect>
+#include "tquestionpoint.h"
+#include "tgroupedqaunit.h"
 
 
-#define WIDTH (40) // default width of a bar
+#define WIDTH (30) // default width of a bar
 
-Tbar::Tbar(qreal height_, TgroupedQAunit *qaGroup) :
-    m_height(height_)
+
+Tbar::Tbar(qreal height, TgroupedQAunit* qaGroup) :
+    m_height(height),
+    m_qaGroup(qaGroup)
 {
-
+    m_wrongAt = (qreal)m_qaGroup->mistakes() / (qreal)m_qaGroup->size();
+    m_notBadAt = (qreal)m_qaGroup->notBad() / (qreal)m_qaGroup->size();
+    QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect();
+    shadow->setBlurRadius(10);
+    shadow->setOffset(1, 1);
+    shadow->setColor(TquestionPoint::shadowColor());
+    setGraphicsEffect(shadow);
 }
 
 void Tbar::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
     Q_UNUSED(option)
     Q_UNUSED(widget)
     
-    painter->setBrush(Qt::red);
     QRectF rect = boundingRect();
     rect.translate(1, -1);
+    QLinearGradient grad(WIDTH / 2, -rect.height(), 0, 0);
+    if (m_wrongAt)
+      grad.setColorAt(0.0, TquestionPoint::wrongColor());
+    else if (m_notBadAt)
+      grad.setColorAt(0.0, TquestionPoint::notBadColor());
+    if (m_qaGroup->notBad())
+      grad.setColorAt(m_wrongAt + m_notBadAt, TquestionPoint::notBadColor());
+    grad.setColorAt(1.0 - m_wrongAt - m_notBadAt, TquestionPoint::goodColor());
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(QBrush(grad));
     painter->drawRoundedRect(rect, 3, 3);
     
 }

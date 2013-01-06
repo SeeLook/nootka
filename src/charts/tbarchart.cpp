@@ -26,6 +26,7 @@
 TbarChart::TbarChart(Texam* exam, Tchart::Tsettings& settings, QWidget* parent) :
   TmainChart(exam, settings, parent)
 {
+    chartSett.separateWrong = false;
     sort();
     qreal maxTime = 0;
     for(int i = 0; i < sortedLists.size(); i++)
