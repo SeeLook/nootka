@@ -17,31 +17,17 @@
  ***************************************************************************/
 
 
-#include "tbarchart.h"
-#include "tyaxis.h"
-#include "txaxis.h"
-#include "tbar.h"
-#include "texam.h"
+#ifndef TDROPSHADOWEFFECT_H
+#define TDROPSHADOWEFFECT_H
 
-TbarChart::TbarChart(Texam* exam, Tchart::Tsettings& settings, QWidget* parent) :
-  TmainChart(exam, settings, parent)
+#include <QGraphicsEffect>
+
+/** Shadow effect used for all tips */
+class TdropShadowEffect : public QGraphicsDropShadowEffect
 {
-    chartSett.separateWrong = false;
-    sort();
-    qreal maxTime = 0;
-    for(int i = 0; i < sortedLists.size(); i++)
-      maxTime = qMax(maxTime, sortedLists[i].averTime());
-    yAxis->setMaxValue((double)maxTime / 10.0);
-    
-    xAxis->setAnswersForBarChart(sortedLists);
-    prepareChart(sortedLists.size());
-    
-    for(int i = 0; i < sortedLists.size(); i++) {
-      Tbar *bar = new Tbar(yAxis->axisFactor() * (sortedLists[i].averTime() / 10.0), &sortedLists[i]);
-      scene->addItem(bar);
-      bar->setPos(xAxis->mapValue(i + 1) + xAxis->pos().x(), yAxis->boundingRect().height());
-    }
-}
 
-TbarChart::~TbarChart(){}
+public:
+    TdropShadowEffect(QColor color = -1);
+};
 
+#endif // TDROPSHADOWEFFECT_H

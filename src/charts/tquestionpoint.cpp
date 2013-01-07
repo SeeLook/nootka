@@ -19,6 +19,7 @@
 
 #include "tquestionpoint.h"
 #include "tmainline.h"
+#include "tdropshadoweffect.h"
 #include "tqaunit.h"
 #include <QGraphicsSceneHoverEvent>
 #include <QPainter>
@@ -59,10 +60,7 @@ TquestionPoint::TquestionPoint(TmainLine* parent, TQAunit* question):
     else
       m_color = m_notBadColor;
   }
-  QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect();
-  shadow->setBlurRadius(10);
-  shadow->setOffset(1, 1);
-  shadow->setColor(shadowColor());
+  TdropShadowEffect *shadow = new TdropShadowEffect(shadowColor());
   setGraphicsEffect(shadow);
   
 }

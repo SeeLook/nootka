@@ -135,6 +135,7 @@ void TmainLine::delayedDelete() {
         m_chart->scene->removeItem(m_tip);
         delete m_tip;
         m_tip = 0;
+        m_chart->scene->update();
     }
 }
 

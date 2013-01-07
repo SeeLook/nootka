@@ -62,6 +62,7 @@ protected slots:
 private:
   QToolBar *m_toolBar;
   QAction *m_closeAct, *m_zoomInAct, *m_zoomOutAct, *m_inclWrongAct, *m_wrongSeparateAct, *m_maximizeAct;
+  QAction *m_linearAct, *m_barAct;
   QLabel *m_levelLab, *m_userLab, *m_effectLab, *m_questNrLab;
   QComboBox *m_chartListCombo;
   QToolButton *m_settButt, *m_openButton;
