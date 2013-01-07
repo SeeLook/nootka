@@ -44,7 +44,7 @@ protected:
   void sort();
       /** Performs common elements for all kinds of charts. */
   void prepareChart(int maxX);
-    
+
   Tsettings chartSett;
   Texam *currExam;
   TmainLine *m_mainLine;
