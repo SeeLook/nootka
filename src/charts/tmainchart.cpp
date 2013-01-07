@@ -46,8 +46,8 @@ TmainChart::TmainChart(Texam* exam, Tchart::Tsettings& settings, QWidget* parent
 //   if (settings.order == e_byNote || settings.order == e_byFret ||
 //           settings.order == e_byKey || settings.order == e_byAccid ||
 //           settings.type == e_bar)
-//       sort();  
-  
+//       sort();
+
 }
 
 
