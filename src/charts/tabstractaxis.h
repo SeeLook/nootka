@@ -42,13 +42,14 @@ public:
     virtual double mapValue(double val) { return axisScale * val; }
         /** Paints arrow at the end of axis. */
     static void drawArrow(QPainter *painter, QPointF endPoint, bool isHorizontal = true);
+    double axisFactor() { return axisScale; } // factor of the axis
 
 protected:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) {}
         /** Default QRectF - is valid for horizontal layout. */
     virtual QRectF boundingRect() const { return QRectF(0 ,0, m_length, axisWidth); }
-    double axisScale;
     static const int axisWidth, arrowSize, tickSize;
+    double axisScale;
 
 
 private:

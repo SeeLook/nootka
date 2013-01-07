@@ -17,31 +17,17 @@
  ***************************************************************************/
 
 
-#include "tbarchart.h"
-#include "tyaxis.h"
-#include "txaxis.h"
-#include "tbar.h"
-#include "texam.h"
+#include "tdropshadoweffect.h"
+#include "tquestionpoint.h"
+#include <QDebug>
 
-TbarChart::TbarChart(Texam* exam, Tchart::Tsettings& settings, QWidget* parent) :
-  TmainChart(exam, settings, parent)
+TdropShadowEffect::TdropShadowEffect(QColor color)
 {
-    chartSett.separateWrong = false;
-    sort();
-    qreal maxTime = 0;
-    for(int i = 0; i < sortedLists.size(); i++)
-      maxTime = qMax(maxTime, sortedLists[i].averTime());
-    yAxis->setMaxValue((double)maxTime / 10.0);
-    
-    xAxis->setAnswersForBarChart(sortedLists);
-    prepareChart(sortedLists.size());
-    
-    for(int i = 0; i < sortedLists.size(); i++) {
-      Tbar *bar = new Tbar(yAxis->axisFactor() * (sortedLists[i].averTime() / 10.0), &sortedLists[i]);
-      scene->addItem(bar);
-      bar->setPos(xAxis->mapValue(i + 1) + xAxis->pos().x(), yAxis->boundingRect().height());
-    }
+    setBlurRadius(10);
+    setOffset(1, 1);
+    if (color == -1)
+      setColor(TquestionPoint::shadowColor());
+    else
+      setColor(color);
 }
-
-TbarChart::~TbarChart(){}
 

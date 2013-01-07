@@ -248,13 +248,20 @@ void TanalysDialog::createActions() {
     
     m_maximizeAct = new QAction(QIcon(gl->path + "picts/fullscreen.png"), tr("Maximize"), this);
     connect(m_maximizeAct, SIGNAL(triggered()), this, SLOT(maximizeWindow()));
-
+    
+    m_linearAct = new QAction(QIcon(gl->path + "picts/linearChart.png"), tr("linear chart"), this);
+    m_barAct = new QAction(QIcon(gl->path + "picts/barChart.png"), tr("bar chart"), this);
+    
     m_toolBar->addAction(openToolButtonAction);
     m_toolBar->addAction(toolButtonAction);
     m_toolBar->addSeparator();
     m_toolBar->addAction(m_zoomOutAct);
     m_toolBar->addAction(m_zoomInAct);
     m_toolBar->addAction(m_maximizeAct);
+    m_toolBar->addSeparator();
+    m_toolBar->addAction(m_linearAct);
+    m_toolBar->addAction(m_barAct);
+    m_toolBar->addSeparator();
     m_toolBar->addSeparator();
     m_toolBar->addAction(m_closeAct);
 }
