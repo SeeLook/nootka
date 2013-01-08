@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -58,6 +58,7 @@ protected slots:
   void openRecentExam();
   void moreLevelInfo();
   void maximizeWindow();
+  void chartTypeChanged();
 
 private:
   QToolBar *m_toolBar;

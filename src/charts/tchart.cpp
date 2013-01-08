@@ -41,6 +41,7 @@ Tchart::Tchart(QWidget* parent) :
   yAxis->setLength(300);
   yAxis->setMaxValue(3);
   yAxis->setPos(20, 0);
+  yAxis->setZValue(150);
 	
   xAxis = new TXaxis();
   scene->addItem(xAxis);

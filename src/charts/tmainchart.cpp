@@ -30,6 +30,7 @@
 #include "tquestionaswdg.h"
 #include "tnotename.h"
 #include <QDebug>
+#include <QScrollBar>
 
 
 
@@ -42,12 +43,7 @@ TmainChart::TmainChart(Texam* exam, Tchart::Tsettings& settings, QWidget* parent
   goodSize(0)
 {
   setMouseTracking(true);
-//  sortedLists.clear();
-//   if (settings.order == e_byNote || settings.order == e_byFret ||
-//           settings.order == e_byKey || settings.order == e_byAccid ||
-//           settings.type == e_bar)
-//       sort();
-
+  connect(horizontalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(sceneMoved()));
 }
 
 
@@ -119,11 +115,26 @@ void TmainChart::prepareChart(int maxX) {
         xAxis->pos().x() + xAxis->length(), listY[i],
                      QPen(QBrush(lineColor), 1, Qt::DashLine));
   }  
-  QGraphicsSimpleTextItem *axisUnit = new QGraphicsSimpleTextItem();
-  axisUnit->setBrush(QColor(palette().text().color()));
-  scene->addItem(axisUnit);
-  axisUnit->setText("[s]");
-  axisUnit->setPos(xAxis->pos().x() + 7, -5);
-
+//   QGraphicsSimpleTextItem *axisUnit = new QGraphicsSimpleTextItem();
+//   axisUnit->setBrush(QColor(palette().text().color()));
+//   scene->addItem(axisUnit);
+//   axisUnit->setText("[s]");
+//   axisUnit->setPos(xAxis->pos().x() + 7, -5);
 }
+
+
+//####################################################################################
+//##################### protected slots ##############################################
+//####################################################################################
+
+void TmainChart::sceneMoved() {
+    qreal xOff = mapToScene(0, 0).x();
+    xOff = qMax(0.0, xOff);
+    yAxis->setX(20 + xOff);  
+    yAxis->update();
+}
+
+
+
+
 

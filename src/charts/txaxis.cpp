@@ -118,10 +118,10 @@ void TXaxis::setAnswersForBarChart(QList<TgroupedQAunit>& listOfLists) {
 
 
 void TXaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {  
-    Q_UNUSED(option)
-    Q_UNUSED(widget)
+  Q_UNUSED(option)
       
   qreal half = axisWidth /  2.0;
+  painter->setPen(QPen(widget->palette().text().color(), 2));
   painter->drawLine(0, half, length(), half);
   drawArrow(painter, QPointF(length(), half), true);
   

@@ -115,7 +115,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
       helpTip->setPos(200, 80);
   }
   
-  connect(m_chartListCombo, SIGNAL(activated(int)), this, SLOT(analyseChanged(int)) );
+  connect(m_chartListCombo, SIGNAL(activated(int)), this, SLOT(analyseChanged(int)));
 
 }
 
@@ -248,20 +248,29 @@ void TanalysDialog::createActions() {
     
     m_maximizeAct = new QAction(QIcon(gl->path + "picts/fullscreen.png"), tr("Maximize"), this);
     connect(m_maximizeAct, SIGNAL(triggered()), this, SLOT(maximizeWindow()));
-    
+
+    QActionGroup *chartTypeGroup = new QActionGroup(this);
     m_linearAct = new QAction(QIcon(gl->path + "picts/linearChart.png"), tr("linear chart"), this);
+    m_linearAct->setCheckable(true);
+    chartTypeGroup->addAction(m_linearAct);
+//     connect(m_linearAct, SIGNAL(triggered()), this, SLOT(chartTypeChanged()));
     m_barAct = new QAction(QIcon(gl->path + "picts/barChart.png"), tr("bar chart"), this);
+    m_barAct->setCheckable(true);
+    chartTypeGroup->addAction(m_barAct);
+    connect(chartTypeGroup, SIGNAL(triggered()), this, SLOT(chartTypeChanged()));
+    
+//     connect(m_barAct, SIGNAL(triggered()), this, SLOT(chartTypeChanged()));
     
     m_toolBar->addAction(openToolButtonAction);
     m_toolBar->addAction(toolButtonAction);
     m_toolBar->addSeparator();
     m_toolBar->addAction(m_zoomOutAct);
     m_toolBar->addAction(m_zoomInAct);
-    m_toolBar->addAction(m_maximizeAct);
     m_toolBar->addSeparator();
     m_toolBar->addAction(m_linearAct);
     m_toolBar->addAction(m_barAct);
     m_toolBar->addSeparator();
+    m_toolBar->addAction(m_maximizeAct);
     m_toolBar->addSeparator();
     m_toolBar->addAction(m_closeAct);
 }
@@ -397,6 +406,24 @@ void TanalysDialog::moreLevelInfo() {
     dialog->exec();
     delete dialog;
 }
+
+void TanalysDialog::chartTypeChanged() {
+//   if (sender() == m_linearAct) {
+//     if (!m_linearAct->isChecked()) {
+//       m_linearAct->setChecked(true);
+//       m_barAct->setChecked(false);
+//     }
+//   } else 
+//     if (sender() == m_barAct) {
+//       if (!m_barAct->isChecked()) {
+//         m_barAct->setChecked(true);
+//         m_linearAct->setChecked(false);
+//       }
+//     }
+
+}
+
+
 
 //##########  EVENTS #####################
 void TanalysDialog::resizeEvent(QResizeEvent* )
