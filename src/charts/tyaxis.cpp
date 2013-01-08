@@ -19,6 +19,7 @@
 #include "tyaxis.h"
 #include "tqaunit.h"
 #include <QPainter>
+#include <QWidget>
 #include <QDebug>
 
 
@@ -54,9 +55,14 @@ void TYaxis::setMaxValue(qreal val) {
 void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     Q_UNUSED(option)
-    Q_UNUSED(widget)
 
     qreal half = axisWidth / 2;
+    QColor bg = widget->palette().base().color();
+    bg.setAlpha(200);
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(bg);
+    painter->drawRect(0, 0, axisWidth * 3, length() - 1);
+    painter->setPen(QPen(widget->palette().text().color(), 2));
     painter->drawLine(half, 0, half, length());
     drawArrow(painter, QPointF(half, 0), false);
     
@@ -71,7 +77,7 @@ void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
     // paint top tick only if there is free room
     if ( ((mapValue(m_loop*m_multi*m_multi2) - mapValue(m_top*m_multi)) ) > m_textPosOffset*4) {
         painter->drawLine(half, mapValue(m_top*m_multi), half - tickSize, mapValue(m_top*m_multi));
-        painter->drawText(half + 3, mapValue(m_top*m_multi) + m_textPosOffset, QString::number(m_top*m_multi));
+        painter->drawText(half + 3, mapValue(m_top*m_multi) + m_textPosOffset, QString("%1[s]").arg(m_top*m_multi));
     }
 }
 

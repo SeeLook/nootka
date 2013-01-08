@@ -76,7 +76,7 @@ void Tbar::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWid
     }
     grad.setColorAt(1.0, endColor);
     if (m_tip)
-        painter->setPen(QPen(QColor(0, 192, 192), 3));
+        painter->setPen(QPen(TquestionPoint::shadowColor(), 1));
     else
         painter->setPen(Qt::NoPen);
     painter->setBrush(QBrush(grad));

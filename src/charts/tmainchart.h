@@ -54,6 +54,9 @@ protected:
   QList<TgroupedQAunit> sortedLists;
   int goodSize; // number of lists with good answers
   QList<char> kindOfAccids;
+  
+protected slots:
+  void sceneMoved();
 
 };
 
