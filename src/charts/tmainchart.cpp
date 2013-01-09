@@ -115,11 +115,6 @@ void TmainChart::prepareChart(int maxX) {
         xAxis->pos().x() + xAxis->length(), listY[i],
                      QPen(QBrush(lineColor), 1, Qt::DashLine));
   }  
-//   QGraphicsSimpleTextItem *axisUnit = new QGraphicsSimpleTextItem();
-//   axisUnit->setBrush(QColor(palette().text().color()));
-//   scene->addItem(axisUnit);
-//   axisUnit->setText("[s]");
-//   axisUnit->setPos(xAxis->pos().x() + 7, -5);
 }
 
 
@@ -132,7 +127,18 @@ void TmainChart::sceneMoved() {
     xOff = qMax(0.0, xOff);
     yAxis->setX(20 + xOff);  
     yAxis->update();
+#if defined (Q_OS_MAC)
+    // Mac has problem with update and this solves it.
+    // It cases blinking but it is accteptable
+    QTimer::singleShot(2, this, SLOT(updateSceneAfterMove()));
+#endif
 }
+
+
+void TmainChart::updateSceneAfterMove() {
+    scene->update();
+}
+
 
 
 
