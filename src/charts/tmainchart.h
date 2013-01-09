@@ -57,6 +57,7 @@ protected:
   
 protected slots:
   void sceneMoved();
+  void updateSceneAfterMove();
 
 };
 

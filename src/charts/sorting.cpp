@@ -20,6 +20,7 @@
 #include "tqaunit.h"
 #include "texamlevel.h"
 #include "tquestionaswdg.h"
+#include "tfingerpos.h"
 #include <QDebug>
 
 double calcAverTime(TgroupedQAunit& answers, bool skipWrong) {
@@ -141,8 +142,10 @@ QList<TgroupedQAunit> sortByFret(TgroupedQAunit& answList, TexamLevel *level, bo
               unrelatedList.addQAunit(answList[i]);
       }
     }
-    if (!fretList.isEmpty())
+    if (!fretList.isEmpty()) {
+      fretList.resume(TfingerPos::romanFret(f));
       result << fretList;
+    }
   }
   if (!unrelatedList.isEmpty()) {
       result << unrelatedList; // add unrelatedList at the end of list
@@ -195,7 +198,7 @@ QList<TgroupedQAunit> sortByAccidental(TgroupedQAunit& answList, TexamLevel* lev
   QList<TgroupedQAunit> result;
   TgroupedQAunit accidsArray[6]; // 0 - bb, 1 - b, 2 - none, 3 - #, 4 - x, 5 - unrelated
   for (int i = 0; i < answList.size(); i++) {
-    bool accidFound = false;
+//    bool accidFound = false;
     if (answList[i].qaPtr->questionAs == TQAtype::e_asNote || answList[i].qaPtr->questionAs == TQAtype::e_asName ||
       answList[i].qaPtr->answerAs == TQAtype::e_asNote || answList[i].qaPtr->answerAs == TQAtype::e_asName) {
         accidsArray[answList[i].qaPtr->qa.note.acidental + 2].addQAunit(answList[i]);
@@ -208,7 +211,9 @@ QList<TgroupedQAunit> sortByAccidental(TgroupedQAunit& answList, TexamLevel* lev
   for (int i = 0; i < 6; i++) {
     if (!accidsArray[i].isEmpty()) {
       QList<TgroupedQAunit> sorted = sortByNote(accidsArray[i], level, tmpBool);
-      result << mergeListOfLists(sorted);
+      TgroupedQAunit accidList = mergeListOfLists(sorted);
+      accidList.resume(accidToNotka(i - 2));
+      result << accidList;
       kindOfAccidList << (i - 2);
     }
   }
