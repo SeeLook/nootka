@@ -83,7 +83,6 @@ SET( NOOTKA_SRCS
   charts/tgraphicsline.cpp
   charts/sorting.cpp
   charts/tdropshadoweffect.cpp
-#   charts/tyaxistips.cpp
 ###### Sound
   sound/tsound.cpp
   sound/taudioout.cpp
