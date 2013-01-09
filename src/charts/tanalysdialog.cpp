@@ -52,6 +52,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   m_chartSetts.inclWrongAnsw = false;
   m_chartSetts.separateWrong = true;
   m_chartSetts.order = Tchart::e_byNumber;
+  m_chartSetts.type = Tchart::e_linear; // TODO: remember previous type selected by user
 
   lay = new QVBoxLayout;
   
@@ -253,13 +254,14 @@ void TanalysDialog::createActions() {
     m_linearAct = new QAction(QIcon(gl->path + "picts/linearChart.png"), tr("linear chart"), this);
     m_linearAct->setCheckable(true);
     chartTypeGroup->addAction(m_linearAct);
-//     connect(m_linearAct, SIGNAL(triggered()), this, SLOT(chartTypeChanged()));
     m_barAct = new QAction(QIcon(gl->path + "picts/barChart.png"), tr("bar chart"), this);
     m_barAct->setCheckable(true);
     chartTypeGroup->addAction(m_barAct);
-    connect(chartTypeGroup, SIGNAL(triggered()), this, SLOT(chartTypeChanged()));
-    
-//     connect(m_barAct, SIGNAL(triggered()), this, SLOT(chartTypeChanged()));
+    if (m_chartSetts.type == Tchart::e_linear)
+      m_linearAct->setChecked(true);
+    else
+      m_barAct->setChecked(true);
+    connect(chartTypeGroup, SIGNAL(triggered(QAction*)), this, SLOT(chartTypeChanged()));
     
     m_toolBar->addAction(openToolButtonAction);
     m_toolBar->addAction(toolButtonAction);
@@ -280,11 +282,12 @@ void TanalysDialog::createChart(Tchart::Tsettings& chartSett) {
       delete m_chart;
       m_chart = 0;
     }
-    if (m_exam)
-      if (chartSett.order != Tchart::e_byNote)
+    if (m_exam) {
+      if (chartSett.type == Tchart::e_linear)
         m_chart = new TlinearChart(m_exam, m_chartSetts, this);
       else
         m_chart = new TbarChart(m_exam, m_chartSetts, this);
+    }
     else
       m_chart = new Tchart(this); // empty chart by default
     m_plotLay->addWidget(m_chart);
@@ -408,19 +411,23 @@ void TanalysDialog::moreLevelInfo() {
 }
 
 void TanalysDialog::chartTypeChanged() {
-//   if (sender() == m_linearAct) {
-//     if (!m_linearAct->isChecked()) {
-//       m_linearAct->setChecked(true);
-//       m_barAct->setChecked(false);
-//     }
-//   } else 
-//     if (sender() == m_barAct) {
-//       if (!m_barAct->isChecked()) {
-//         m_barAct->setChecked(true);
-//         m_linearAct->setChecked(false);
-//       }
-//     }
-
+    if (m_linearAct->isChecked()) { // linear chart
+      if (m_chartSetts.type != Tchart::e_linear) {
+        m_chartSetts.type = Tchart::e_linear;
+        enableComboItem(0, true);
+        createChart(m_chartSetts);
+      }        
+    } else { // bar chart
+        if (m_chartSetts.type != Tchart::e_bar) {
+          m_chartSetts.type = Tchart::e_bar;
+          if (m_chartSetts.order == Tchart::e_byNumber) { // not suported by barChart (no sense)
+            m_chartSetts.order = Tchart::e_byNote;
+            m_chartListCombo->setCurrentIndex(1);
+            enableComboItem(0, false);
+          }
+          createChart(m_chartSetts);
+        }
+      }
 }
 
 
