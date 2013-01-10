@@ -863,7 +863,7 @@
 <context>
     <name>TanalysDialog</name>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="64"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="65"/>
         <source>level:</source>
         <translation>poziom:</translation>
     </message>
@@ -873,104 +873,114 @@
         <translation>Analiza wyników egzaminu</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="63"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="64"/>
         <source>student name:</source>
         <translation>imię ucznia:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="62"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="63"/>
         <source>ordered by:</source>
         <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
         <translation>kolejność według:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="66"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="67"/>
         <source>question number</source>
         <comment>see coment in &apos;ordered by:&apos; entry</comment>
         <translation>zadawnych pytań</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="67"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="68"/>
         <source>note pitch</source>
         <translation>wysokości dźwięku</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="68"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="69"/>
         <source>fret number</source>
         <translation>progów</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="69"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="70"/>
         <source>key signature</source>
         <translation>tonacji</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="70"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="71"/>
         <source>accidentals</source>
         <translation>znaków</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="77"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="78"/>
         <source>Level summary:</source>
         <translation>Właściwości poziomu:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="110"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="111"/>
         <source>Select an exam from a file&lt;br&gt;Use %1 + mouse wheel to zoom a chart.&lt;br&gt;Drag a cursor to move the chart.</source>
         <translation>Wybierz plik egzaminu&lt;br&gt;Użyj %1 + kółko myszy żeby powiększyć wykres.&lt;br&gt;Przeciągnij kursor myszy żeby przesunąć wykres..</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="138"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="139"/>
         <source>Questions number:</source>
         <translation>Liczba pytań:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="195"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="196"/>
         <source>Open an exam to analyse</source>
         <translation>Otwórz egzamin do analizy</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="200"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="201"/>
         <source>recent opened exams:</source>
         <translation>ostatnio otwierane egzaminy:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="241"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="242"/>
         <source>Settings of a chart</source>
         <translation>Ustawienia wykresu</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="249"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="250"/>
         <source>Maximize</source>
         <translation>Maksymalizuj</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="386"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="254"/>
+        <source>linear chart</source>
+        <translation>wykres liniowy</translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="257"/>
+        <source>bar chart</source>
+        <translation>wykres słupkowy</translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="405"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="218"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="219"/>
         <source>Close analyser</source>
         <translation>Zamknij   okno analizy</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="221"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="222"/>
         <source>zoom in</source>
         <translation>powiększ</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="224"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="225"/>
         <source>zoom out</source>
         <translation>pomniejsz</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="227"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="228"/>
         <source>include time of wrong answers to average</source>
         <translation>dodaj czas niepoprawnych odpowiedzi do średniej</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="229"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="230"/>
         <source>show wrong answers separately</source>
         <translation>pokaż niepoprawne odpowiedzi oddzielnie</translation>
     </message>
@@ -978,7 +988,7 @@
 <context>
     <name>Tbar</name>
     <message>
-        <location filename="../src/charts/tbar.cpp" line="94"/>
+        <location filename="../src/charts/tbar.cpp" line="95"/>
         <source>Statistics for:</source>
         <translation>Statystyki dla:</translation>
     </message>
@@ -1720,48 +1730,48 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>TlinearChart</name>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="116"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="117"/>
         <source>for a note:</source>
         <comment>average reaction time for...</comment>
         <translation>dla nuty:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="119"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="120"/>
         <source>for a fret:</source>
         <comment>average reaction time for...</comment>
         <translation>dla progu:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="125"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="126"/>
         <source>Key signatures gave by user</source>
         <translation>Tonacja podana przez użytkownika</translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="127"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="128"/>
         <source>for a key:</source>
         <comment>average reaction time for...</comment>
         <translation>dla tonacji:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="134"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="135"/>
         <source>for an accidental:</source>
         <comment>average reaction time for...</comment>
         <translation>dla znaku:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="137"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="138"/>
         <source>for notes without accidentals</source>
         <translation>dla nut bez znaków</translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="175"/>
-        <location filename="../src/charts/tlinearchart.cpp" line="200"/>
-        <location filename="../src/charts/tlinearchart.cpp" line="230"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="176"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="201"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="231"/>
         <source>questions unrelated&lt;br&gt;with chart type</source>
         <translation>pytania niezwiązane&lt;br&gt;z rodzajem wykresu</translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="235"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="236"/>
         <source>without accidentals</source>
         <translation>bez znaków</translation>
     </message>
