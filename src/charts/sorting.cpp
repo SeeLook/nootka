@@ -21,6 +21,7 @@
 #include "texamlevel.h"
 #include "tquestionaswdg.h"
 #include "tfingerpos.h"
+#include <QApplication>
 #include <QDebug>
 
 double calcAverTime(TgroupedQAunit& answers, bool skipWrong) {
@@ -104,7 +105,7 @@ QList<TgroupedQAunit> sortByNote(TgroupedQAunit& answList, TexamLevel *level, bo
         }
       }
       if (!noteList.isEmpty()) {
-        noteList.resume(theSame[j].toRichText());
+        noteList.resume(theSame[j].toRichText(), QApplication::translate("TlinearChart", "for a note:", "average reaction time for..."));
         result << noteList;
       }
     }

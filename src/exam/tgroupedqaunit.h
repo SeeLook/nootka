@@ -44,8 +44,10 @@ public:
   ~TgroupedQAunit();
   
   QList<TqaPtr> list;
+    /** Short description, usualy for X axis tips. */
   QString description() { return m_desc; }
   void setDescription(QString &desc) { m_desc = desc; }
+  QString fullDescription() { return m_fullDesc; }
   void addQAunit(TQAunit *qaUnit, unsigned int questNr); // appends TQAunit to the list
   void addQAunit(TqaPtr& qaPtr) { list << qaPtr; }
   TQAunit* first() { if (list.size()) 
@@ -58,10 +60,11 @@ public:
       /** Calculates mistakes and average time after appending all questions to the list.
        * Sets description. It doesn't add mistakes to average. 
        * If group contains only mistakes average time is calculated from mistakes time. */
-  void resume(QString desc);
+  void resume(QString desc, QString fullDesc = "");
   qreal averTime() { return m_averTime; }
   quint16 mistakes() { return m_mistakes; }
   quint16 notBad() { return m_halfMist; }
+  qreal effectiveness() { return m_effectiveness; }
   
   TqaPtr& operator[] (unsigned int index) { 
     if (index < list.size())
@@ -71,9 +74,9 @@ public:
   
   
 private:
-  QString m_desc;
+  QString m_desc, m_fullDesc;
   quint16 m_mistakes, m_halfMist;
-  qreal m_averTime;
+  qreal m_averTime, m_effectiveness;
     
 };
 
