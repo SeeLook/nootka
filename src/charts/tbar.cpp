@@ -22,12 +22,13 @@
 #include <QGraphicsColorizeEffect>
 #include <QGraphicsScene>
 #include <QApplication>
+#include <QGraphicsView>
 #include "tquestionpoint.h"
 #include "tgraphicstexttip.h"
 #include "tdropshadoweffect.h"
 #include "tgroupedqaunit.h"
 #include <texamview.h>
-// #include <QDebug>
+ #include <QDebug>
 
 #define WIDTH (30) // default width of a bar
 
@@ -93,8 +94,9 @@ QRectF Tbar::boundingRect() const {
 
 QString Tbar::getTipText() {
     QString tipText = QApplication::translate("Tbar", "Statistics for:") + "<br>";
-    tipText += "<span style=\"font-size: 20px;\"><b>" + m_qaGroup->description() + "</b></span><hr>";
+    tipText += "<b>" + m_qaGroup->fullDescription() + "</b><hr>";
     tipText += "<table><tr><td>";
+    tipText += TexamView::effectTxt() + ": </td><td> <b>" + QString("%1 %").arg(m_qaGroup->effectiveness(), 2, 'f', 0, '0') + "</b></td></tr><tr><td>";
     tipText += TexamView::averAnsverTimeTxt() + ": </td><td> <b>" + TexamView::formatReactTime(m_qaGroup->averTime(), true) + "</b></td></tr><tr><td>";
     tipText += ("Tbar", "Questions number:") + QString(" </td><td> <b>%1</b></td></tr><tr><td>").arg(m_qaGroup->size());
     tipText += TexamView::corrAnswersNrTxt() + QString(": </td><td> <b>%1</b></td></tr>")
@@ -113,7 +115,18 @@ void Tbar::hoverEnterEvent(QGraphicsSceneHoverEvent* )
     if (!m_tip) {
       m_tip = new TgraphicsTextTip(getTipText(), QColor(0, 192, 192));
       scene()->addItem(m_tip);
-      m_tip->setPos(pos().x(), pos().y() - m_height / 2);
+      QPointF p = pos();
+      QSize s = scene()->views()[0]->size();
+      p.setY(p.y() - m_height / 2);
+      QPointF mapedP = scene()->views()[0]->mapFromScene(p);
+      // determine where to display tip when point is near a view boundaries
+      if (mapedP.x() > (s.width() / 2) ) // tip on the left
+          p.setX(p.x() - m_tip->boundingRect().width() / scale());
+//      if (mapedP.y() > (s.height() / 2) )
+//          p.setY(p.y() + m_height / transform().m22());
+      m_tip->setPos(p);
+//      m_tip->setPos(pos().x(), pos().y() - m_height / 2);
+//      qDebug() << scene()->views()[0]->mapFromScene(mapToScene(m_tip->pos()));
       m_tip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
       update();
     }
@@ -125,7 +138,7 @@ void Tbar::hoverLeaveEvent(QGraphicsSceneHoverEvent* )
     if (m_tip) {
       m_tip->deleteLater();
       m_tip = 0;
-      update();
+      scene()->update();
     }
 }
 
