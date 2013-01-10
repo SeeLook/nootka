@@ -27,6 +27,7 @@
 #include "texam.h"
 #include "tnotename.h"
 #include "texamlevel.h"
+#include <QApplication>
 
 
 QColor averColor = QColor(0, 192, 192);
@@ -113,28 +114,28 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
         TgraphicsLine *averTimeLine = new TgraphicsLine();
         QString lineText = "";
         if (settings.order == e_byNote)
-          lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(tr("for a note:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + TnoteName::noteToRichText(sortedLists[i].first()->qa.note) + "</b>").arg(aTimeText);
+          lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(QApplication::translate("TlinearChart", "for a note:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + TnoteName::noteToRichText(sortedLists[i].first()->qa.note) + "</b>").arg(aTimeText);
         else
           if (settings.order == e_byFret)
-            lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(tr("for a fret:", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>  " + 
+            lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(QApplication::translate("TlinearChart", "for a fret:", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>  " + 
             QString::number(sortedLists[i].first()->qa.pos.fret()) + "</b>").arg(aTimeText);
           else
             if (settings.order == e_byKey) {
               QString wereKeys = "";
               if (exam->level()->manualKey && sortedLists[i].first()->answerAs == TQAtype::e_asNote)
-                wereKeys = "<br>" + tr("Key signatures gave by user");
+                wereKeys = "<br>" + QApplication::translate("TlinearChart", "Key signatures gave by user");
                 
-              lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2%3</p>").arg(tr("for a key:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + 
+              lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2%3</p>").arg(QApplication::translate("TlinearChart", "for a key:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + 
               sortedLists[i].first()->key.getName() + "</b></span>").arg(aTimeText).arg(wereKeys);
             } else
               if (settings.order == e_byAccid) {
                 QString accStr, accidClue;
                 accStr = accidToNotka(kindOfAccids[i]);
                 if (kindOfAccids[i])
-                    accidClue = tr("for an accidental:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  " +
+                    accidClue = QApplication::translate("TlinearChart", "for an accidental:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  " +
                         accStr + "</span>";
                 else
-                    accidClue = tr("for notes without accidentals"); 
+                    accidClue = QApplication::translate("TlinearChart", "for notes without accidentals"); 
                 lineText += "<p>" + TexamView::averAnsverTimeTxt() + 
                 QString("<br><span style=\"font-size: 20px;\">%1<br>%2</span></p>").arg(accidClue).arg(aTimeText);
               }
@@ -172,7 +173,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
         fretText->setFont(f);
         QString hintText = "<b style=\"color: rgba(200, 200, 200, 200); \">";
         if (goodOffset && (i == goodSize -1))
-          hintText += tr("questions unrelated<br>with chart type");
+          hintText += QApplication::translate("TlinearChart", "questions unrelated<br>with chart type");
         else
           hintText += QString("%1</b>").arg(TfingerPos::romanFret(sortedLists[i].first()->qa.pos.fret()));
         hintText += "</b>";          
@@ -197,7 +198,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
         keyText->setFont(f);
         QString hintText = "<b style=\"color: rgba(200, 200, 200, 200); \">";
         if (goodOffset && (i == goodSize -1))
-          hintText += tr("questions unrelated<br>with chart type") + "</b>";
+          hintText += QApplication::translate("TlinearChart", "questions unrelated<br>with chart type") + "</b>";
         else {
             hintText += QString("%1").arg(sortedLists[i].first()->key.getName());
             hintText += "<br><span style=\"font-family: nootka; font-size: 20px\">";
@@ -227,12 +228,12 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
         accidentalText->setFont(f);
         QString hintText = "<span style=\"color: rgba(200, 200, 200, 200); \">";
         if (goodOffset && (i == goodSize -1))
-          hintText += tr("questions unrelated<br>with chart type") + "</span>";
+          hintText += QApplication::translate("TlinearChart", "questions unrelated<br>with chart type") + "</span>";
         else 
           if (kindOfAccids[i])
             hintText += QString("%1").arg(accidToNotka(kindOfAccids[i], 40));
           else
-            hintText += tr("without accidentals");
+            hintText += QApplication::translate("TlinearChart", "without accidentals");
         hintText += "</span>";
         accidentalText->setHtml(hintText);
         scene->addItem(accidentalText);
