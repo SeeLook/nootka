@@ -117,6 +117,7 @@ void TmainLine::showTip(TquestionPoint *point) {
     if (m_chart->mapFromScene(point->pos()).y() > (m_chart->height() / 2) )
         p.setY(p.y() - m_tip->boundingRect().height()/m_chart->transform().m22());
     m_tip->setPos(p);
+    m_tip->setZValue(70);
     m_curPoint = point;
 }
 

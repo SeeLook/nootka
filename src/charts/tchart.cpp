@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -41,7 +41,7 @@ Tchart::Tchart(QWidget* parent) :
   yAxis->setLength(300);
   yAxis->setMaxValue(3);
   yAxis->setPos(20, 0);
-  yAxis->setZValue(150);
+  yAxis->setZValue(55);
 	
   xAxis = new TXaxis();
   scene->addItem(xAxis);

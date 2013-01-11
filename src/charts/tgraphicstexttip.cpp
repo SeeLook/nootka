@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,9 +18,9 @@
 
 #include "tgraphicstexttip.h"
 #include "tquestionpoint.h"
+#include "tdropshadoweffect.h"
 #include <QTextBlockFormat>
 #include <QTextCursor>
-#include <QGraphicsEffect>
 #include <QPainter>
 
 
@@ -37,17 +37,12 @@ void TgraphicsTextTip::alignCenter(QGraphicsTextItem* tip) {
 }
 
 void TgraphicsTextTip::setDropShadow(QGraphicsTextItem* tip, QColor shadowColor) {
-  //NOTE: Be sure that shadow instance is deleted with item - otherwise You get memory leaks
-  QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect();
-  shadow->setBlurRadius(15);
-  shadow->setOffset(0, 0);
+  TdropShadowEffect *shadow = new TdropShadowEffect();
   if (shadowColor != -1)
     shadow->setColor(QColor(shadowColor.name()));
   else
-//     shadow->setColor(Qt::red);
     shadow->setColor(TquestionPoint::shadowColor());
   tip->setGraphicsEffect(shadow);
-
 }
 
 

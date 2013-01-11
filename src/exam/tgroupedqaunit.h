@@ -22,6 +22,7 @@
 
 #include <QList>
 #include <QString>
+#include <QApplication>
 
 class TQAunit;
 
@@ -71,6 +72,19 @@ public:
       return list[index];
 //     else return 0;
   }
+      /** Text: 
+       *for a note: */
+  static QString for_a_note()  { return QApplication::translate("chartStats", "for a note:", "average reaction time for..."); }
+      /** Text: 
+      *for a fret: */
+  static QString for_a_fret()  { return QApplication::translate("chartStats", "for a fret:", "average reaction time for..."); }
+      /** Text: 
+      *for a key: */
+  static QString for_a_key()  { return QApplication::translate("chartStats", "for a note:", "average reaction time for..."); }
+      /** Text: 
+      *for an accidental: */
+  static QString for_an_accid()  { return QApplication::translate("chartStats", "for an accidental:", "average reaction time for..."); }
+  
   
   
 private:

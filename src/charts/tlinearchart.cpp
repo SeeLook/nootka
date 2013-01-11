@@ -23,6 +23,7 @@
 #include "sorting.h"
 #include "tgraphicstexttip.h"
 #include "tyaxis.h"
+#include "tstatisticstip.h"
 #include "texamview.h"
 #include "texam.h"
 #include "tnotename.h"
@@ -107,17 +108,19 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
         goodOffset = -1; // do not perform a last loop 
       int cnt = 1;
   // paint lines with average time of all the same notes/frets
-//      for (int i = 0; i < goodSize + goodOffset; i++) { // skip wrong answers if separeted
-      for (int i = 0; i < sortedLists.size(); i++) { // skip wrong answers if separeted
+     for (int i = 0; i < goodSize + goodOffset; i++) { // skip wrong answers if separeted
+//       for (int i = 0; i < sortedLists.size(); i++) { // skip wrong answers if separeted
         double aTime = calcAverTime(sortedLists[i], !settings.inclWrongAnsw);
         QString aTimeText = TexamView::formatReactTime(qRound(aTime), true);
         TgraphicsLine *averTimeLine = new TgraphicsLine();
         QString lineText = "";
         if (settings.order == e_byNote)
-          lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(QApplication::translate("TlinearChart", "for a note:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + TnoteName::noteToRichText(sortedLists[i].first()->qa.note) + "</b>").arg(aTimeText);
+//           lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(TgroupedQAunit::for_a_note() + "<span style=\"font-size: 20px;\">  <b>" + TnoteName::noteToRichText(sortedLists[i].first()->qa.note) + "</b>").arg(aTimeText);
+            lineText = TstatisticsTip::getTipText(&sortedLists[i]);
         else
           if (settings.order == e_byFret)
-            lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(QApplication::translate("TlinearChart", "for a fret:", "average reaction time for...") + "<span style=\"font-size: 20px;\"><b>  " + 
+            lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(TgroupedQAunit::for_a_fret() +
+            "<span style=\"font-size: 20px;\"><b>  " + 
             QString::number(sortedLists[i].first()->qa.pos.fret()) + "</b>").arg(aTimeText);
           else
             if (settings.order == e_byKey) {
@@ -125,14 +128,15 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
               if (exam->level()->manualKey && sortedLists[i].first()->answerAs == TQAtype::e_asNote)
                 wereKeys = "<br>" + QApplication::translate("TlinearChart", "Key signatures gave by user");
                 
-              lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2%3</p>").arg(QApplication::translate("TlinearChart", "for a key:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  <b>" + 
+              lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2%3</p>").arg(TgroupedQAunit::for_a_key() + 
+              "<span style=\"font-size: 20px;\">  <b>" + 
               sortedLists[i].first()->key.getName() + "</b></span>").arg(aTimeText).arg(wereKeys);
             } else
               if (settings.order == e_byAccid) {
                 QString accStr, accidClue;
                 accStr = accidToNotka(kindOfAccids[i]);
                 if (kindOfAccids[i])
-                    accidClue = QApplication::translate("TlinearChart", "for an accidental:", "average reaction time for...") + "<span style=\"font-size: 20px;\">  " +
+                    accidClue = TgroupedQAunit::for_an_accid() + "<span style=\"font-size: 20px;\">  " +
                         accStr + "</span>";
                 else
                     accidClue = QApplication::translate("TlinearChart", "for notes without accidentals"); 
