@@ -105,7 +105,7 @@ QList<TgroupedQAunit> sortByNote(TgroupedQAunit& answList, TexamLevel *level, bo
         }
       }
       if (!noteList.isEmpty()) {
-        noteList.resume(theSame[j].toRichText(), QApplication::translate("TlinearChart", "for a note:", "average reaction time for..."));
+        noteList.resume(theSame[j].toRichText(), noteList.for_a_note());
         result << noteList;
       }
     }
@@ -144,7 +144,7 @@ QList<TgroupedQAunit> sortByFret(TgroupedQAunit& answList, TexamLevel *level, bo
       }
     }
     if (!fretList.isEmpty()) {
-      fretList.resume(TfingerPos::romanFret(f));
+      fretList.resume(TfingerPos::romanFret(f), fretList.for_a_fret());
       result << fretList;
     }
   }
@@ -213,7 +213,7 @@ QList<TgroupedQAunit> sortByAccidental(TgroupedQAunit& answList, TexamLevel* lev
     if (!accidsArray[i].isEmpty()) {
       QList<TgroupedQAunit> sorted = sortByNote(accidsArray[i], level, tmpBool);
       TgroupedQAunit accidList = mergeListOfLists(sorted);
-      accidList.resume(accidToNotka(i - 2));
+      accidList.resume(accidToNotka(i - 2), accidList.for_an_accid());
       result << accidList;
       kindOfAccidList << (i - 2);
     }
@@ -269,11 +269,13 @@ QString accidToNotka(char acc, int fontSize) {
       case -1:
         result = TquestionAsWdg::spanNootka("b", fontSize); break;
       case 0:
-        break;
+        result = QApplication::translate("chartStats", "none"); break;
       case 1:
         result = TquestionAsWdg::spanNootka("#", fontSize); break;
       case 2:
         result = TquestionAsWdg::spanNootka("x", fontSize); break;
+      case 3:
+        result = QApplication::translate("chartStats", "none"); break;
   }
   return result;
 }

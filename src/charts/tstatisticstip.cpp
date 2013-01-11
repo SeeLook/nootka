@@ -1,0 +1,58 @@
+/***************************************************************************
+ *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   tomaszbojczuk@gmail.com                                               *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *  You should have received a copy of the GNU General Public License      *
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
+ ***************************************************************************/
+
+
+#include "tstatisticstip.h"
+#include "tgroupedqaunit.h"
+#include "texamview.h"
+#include <QApplication>
+
+/*static*/
+QString TstatisticsTip::getTipText(TgroupedQAunit* qaGroup)  {
+    QString tipText = QApplication::translate("TstatisticTip", "Statistics") + "<br>";
+    tipText += "<b>" + qaGroup->fullDescription() + "</b><hr>";
+    tipText += "<table><tr><td>";
+    tipText += TexamView::effectTxt() + ": </td><td> <b>" + QString("%1 %").arg(qaGroup->effectiveness(), 2, 'f', 0, '0') + "</b></td></tr><tr><td>";
+    tipText += TexamView::averAnsverTimeTxt() + ": </td><td> <b>" + TexamView::formatReactTime(qaGroup->averTime(), true) + "</b></td></tr><tr><td>";
+    tipText += QApplication::translate("TstatisticTip", "Questions number:") + QString(" </td><td> <b>%1</b></td></tr><tr><td>").arg(qaGroup->size());
+    tipText += TexamView::corrAnswersNrTxt() + QString(": </td><td> <b>%1</b></td></tr>")
+        .arg(qaGroup->size() - qaGroup->mistakes() - qaGroup->notBad());
+    if (qaGroup->mistakes())
+      tipText += "<tr><td>" + TexamView::mistakesNrTxt() + QString(": </td><td> <b>%1</b></td></tr>").arg(qaGroup->mistakes());
+    if (qaGroup->notBad())
+      tipText += "<tr><td>" + TexamView::halfMistakenTxt() + QString(": </td><td> <b>%1</b></td></tr>").arg(qaGroup->notBad());
+    tipText += "</table>";
+    return tipText;
+}
+
+
+
+
+TstatisticsTip::TstatisticsTip(TgroupedQAunit* qaGroup) :
+    TgraphicsTextTip(),
+    m_qaGroup(qaGroup)
+{
+    setBgColor(QColor(0, 192, 192)); // light blue
+    setHtml(getTipText(qaGroup));
+}
+
+TstatisticsTip::~TstatisticsTip() {}
+
+
+
+

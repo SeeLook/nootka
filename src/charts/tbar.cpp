@@ -26,9 +26,10 @@
 #include "tquestionpoint.h"
 #include "tgraphicstexttip.h"
 #include "tdropshadoweffect.h"
+#include "tstatisticstip.h"
 #include "tgroupedqaunit.h"
-#include <texamview.h>
- #include <QDebug>
+#include "texamview.h"
+#include <QDebug>
 
 #define WIDTH (30) // default width of a bar
 
@@ -77,7 +78,7 @@ void Tbar::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWid
     }
     grad.setColorAt(1.0, endColor);
     if (m_tip)
-        painter->setPen(QPen(TquestionPoint::shadowColor(), 1));
+        painter->setPen(QPen(TquestionPoint::notBadColor(), 1));
     else
         painter->setPen(Qt::NoPen);
     painter->setBrush(QBrush(grad));
@@ -92,42 +93,24 @@ QRectF Tbar::boundingRect() const {
 }
 
 
-QString Tbar::getTipText() {
-    QString tipText = QApplication::translate("Tbar", "Statistics for:") + "<br>";
-    tipText += "<b>" + m_qaGroup->fullDescription() + "</b><hr>";
-    tipText += "<table><tr><td>";
-    tipText += TexamView::effectTxt() + ": </td><td> <b>" + QString("%1 %").arg(m_qaGroup->effectiveness(), 2, 'f', 0, '0') + "</b></td></tr><tr><td>";
-    tipText += TexamView::averAnsverTimeTxt() + ": </td><td> <b>" + TexamView::formatReactTime(m_qaGroup->averTime(), true) + "</b></td></tr><tr><td>";
-    tipText += ("Tbar", "Questions number:") + QString(" </td><td> <b>%1</b></td></tr><tr><td>").arg(m_qaGroup->size());
-    tipText += TexamView::corrAnswersNrTxt() + QString(": </td><td> <b>%1</b></td></tr>")
-        .arg(m_qaGroup->size() - m_qaGroup->mistakes() - m_qaGroup->notBad());
-    if (m_qaGroup->mistakes())
-      tipText += "<tr><td>" + TexamView::mistakesNrTxt() + QString(": </td><td> <b>%1</b></td></tr>").arg(m_qaGroup->mistakes());
-    if (m_qaGroup->notBad())
-      tipText += "<tr><td>" + TexamView::halfMistakenTxt() + QString(": </td><td> <b>%1</b></td></tr>").arg(m_qaGroup->notBad());
-    tipText += "</table>";
-    return tipText;
-}
-
 
 void Tbar::hoverEnterEvent(QGraphicsSceneHoverEvent* )
 {
     if (!m_tip) {
-      m_tip = new TgraphicsTextTip(getTipText(), QColor(0, 192, 192));
+      m_tip = new TstatisticsTip(m_qaGroup);
       scene()->addItem(m_tip);
+      m_tip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
       QPointF p = pos();
       QSize s = scene()->views()[0]->size();
       p.setY(p.y() - m_height / 2);
       QPointF mapedP = scene()->views()[0]->mapFromScene(p);
       // determine where to display tip when point is near a view boundaries
       if (mapedP.x() > (s.width() / 2) ) // tip on the left
-          p.setX(p.x() - m_tip->boundingRect().width() / scale());
-//      if (mapedP.y() > (s.height() / 2) )
-//          p.setY(p.y() + m_height / transform().m22());
+          p.setX(p.x() - m_tip->boundingRect().width() / scene()->views()[0]->transform().m22());
+     if (mapedP.y() > (s.height() / 2) )
+         p.setY(p.y() - m_height / scene()->views()[0]->transform().m22());
       m_tip->setPos(p);
-//      m_tip->setPos(pos().x(), pos().y() - m_height / 2);
-//      qDebug() << scene()->views()[0]->mapFromScene(mapToScene(m_tip->pos()));
-      m_tip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
+      m_tip->setZValue(70);
       update();
     }
 }
@@ -138,6 +121,7 @@ void Tbar::hoverLeaveEvent(QGraphicsSceneHoverEvent* )
     if (m_tip) {
       m_tip->deleteLater();
       m_tip = 0;
+      update();
       scene()->update();
     }
 }

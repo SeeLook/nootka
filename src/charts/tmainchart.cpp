@@ -125,6 +125,8 @@ void TmainChart::prepareChart(int maxX) {
 void TmainChart::sceneMoved() {
     qreal xOff = mapToScene(0, 0).x();
     xOff = qMax(0.0, xOff);
+    if (xOff > 20)
+      xOff = xOff - 20;
     yAxis->setX(20 + xOff);  
     yAxis->update();
 #if defined (Q_OS_MAC)

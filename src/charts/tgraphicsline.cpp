@@ -64,6 +64,7 @@ void TgraphicsLine::delayedDelete() {
       scene()->removeItem(m_tip);
       delete m_tip;
       m_tip = 0;
+      scene()->update();
   }
 }
 

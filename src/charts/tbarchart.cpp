@@ -39,7 +39,7 @@ TbarChart::TbarChart(Texam* exam, Tchart::Tsettings& settings, QWidget* parent) 
     for(int i = 0; i < sortedLists.size(); i++) {
       Tbar *bar = new Tbar(yAxis->axisFactor() * (sortedLists[i].averTime() / 10.0), &sortedLists[i]);
       scene->addItem(bar);
-      bar->setPos(xAxis->mapValue(i + 1) + xAxis->pos().x(), yAxis->boundingRect().height());
+      bar->setPos(xAxis->mapValue(i + 1) + xAxis->pos().x(), yAxis->boundingRect().height() - 2);
     }
 }
 

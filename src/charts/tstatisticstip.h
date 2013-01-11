@@ -17,35 +17,26 @@
  ***************************************************************************/
 
 
-#ifndef TBAR_H
-#define TBAR_H
+#ifndef TSTATISTICSTIP_H
+#define TSTATISTICSTIP_H
 
-#include <QGraphicsItem>
+#include <tgraphicstexttip.h>
 
-class TgraphicsTextTip;
-class QGraphicsSceneHoverEvent;
 class TgroupedQAunit;
 
-class Tbar : public QGraphicsItem
+
+/** This class represents a tip chart with statistics of grouped questions.*/
+class TstatisticsTip : public TgraphicsTextTip
 {
 
 public:
-  
-    Tbar(qreal height, TgroupedQAunit* qaGroup);
+    TstatisticsTip(TgroupedQAunit *qaGroup);
+    virtual ~TstatisticsTip();
+    static QString getTipText(TgroupedQAunit *qaGroup);
     
-    
-protected:
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
-    virtual QRectF boundingRect() const;
-    
-    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* );
-    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* );
-  
 private:
-    qreal m_height;
     TgroupedQAunit *m_qaGroup;
-    qreal m_wrongAt, m_notBadAt; // Keeps position of color gradient for mistakes
-    TgraphicsTextTip *m_tip;
+    
 };
 
-#endif // TBAR_H
+#endif // TSTATISTICSTIP_H

@@ -41,9 +41,8 @@ public:
       /** Overwrites QGraphicsTextItem method and make given text centered. */
   void setHtml(QString htmlText);
   
-      /** Background color of tip */
-  QColor bgColor() { return m_bgColor; }
-  void setBgColor(QColor col);
+  QColor bgColor() { return m_bgColor; } // Background color of tip
+  void setBgColor(QColor col); // Background color of tip
   
       /** This method align center content of item.
        * Put text before call it. */
