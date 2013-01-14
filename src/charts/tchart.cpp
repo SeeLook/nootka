@@ -54,7 +54,7 @@ Tchart::Tchart(QWidget* parent) :
   scene->addItem(el);
   el->setRect(0, 0, 15, xAxis->rectBoundText("X").height()*4);
   el->setPos(27, yAxis->boundingRect().height() + 15);
-  
+
 }
 
 Tchart::~Tchart()
