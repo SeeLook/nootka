@@ -22,7 +22,7 @@
 #include <qstyleoption.h>
 
 
-#define DISTANCE (3)
+#define DISTANCE (2)
 
 TstaffLineChart::TstaffLineChart()
 {

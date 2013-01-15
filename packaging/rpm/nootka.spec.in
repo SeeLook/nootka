@@ -114,6 +114,8 @@ fi
 "/usr/share/nootka/picts/fullscreen.png"
 "/usr/share/nootka/picts/help.png"
 "/usr/share/nootka/picts/charts.png"
+"/usr/share/nootka/picts/barChart.png"
+"/usr/share/nootka/picts/linearChart.png"
 "/usr/share/nootka/picts/zoom-in.png"
 "/usr/share/nootka/picts/zoom-out.png"
 "/usr/share/nootka/picts/support.png"

@@ -129,8 +129,8 @@ void TmainChart::sceneMoved() {
       xOff = xOff - 20;
     yAxis->setX(20 + xOff);  
     yAxis->update();
-#if defined (Q_OS_MAC)
-    // Mac has problem with update and this solves it.
+#if not defined (Q_OS_LINUX)
+    // Mac and Windows have problem with update and this solves it.
     // It cases blinking but it is accteptable
     QTimer::singleShot(2, this, SLOT(updateSceneAfterMove()));
 #endif

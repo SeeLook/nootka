@@ -60,7 +60,9 @@ public:
   int size() { return list.size() ;}
       /** Calculates mistakes and average time after appending all questions to the list.
        * Sets description. It doesn't add mistakes to average. 
-       * If group contains only mistakes average time is calculated from mistakes time. */
+       * If group contains only mistakes average time is calculated from mistakes time. 
+       * @param desc - is short, single line description (html is accepted),
+       * @param fullDesc - full description, multi lines accepted. */
   void resume(QString desc, QString fullDesc = "");
   qreal averTime() { return m_averTime; }
   quint16 mistakes() { return m_mistakes; }

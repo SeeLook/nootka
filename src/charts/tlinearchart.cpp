@@ -115,8 +115,8 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
         TgraphicsLine *averTimeLine = new TgraphicsLine();
         QString lineText = "";
         if (settings.order == e_byNote)
-//           lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(TgroupedQAunit::for_a_note() + "<span style=\"font-size: 20px;\">  <b>" + TnoteName::noteToRichText(sortedLists[i].first()->qa.note) + "</b>").arg(aTimeText);
-            lineText = TstatisticsTip::getTipText(&sortedLists[i]);
+          lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(TgroupedQAunit::for_a_note() + "<span style=\"font-size: 20px;\">  <b>" + TnoteName::noteToRichText(sortedLists[i].first()->qa.note) + "</b>").arg(aTimeText);
+//             lineText = TstatisticsTip::getTipText(&sortedLists[i]);
         else
           if (settings.order == e_byFret)
             lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(TgroupedQAunit::for_a_fret() +
@@ -205,12 +205,13 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
           hintText += QApplication::translate("TlinearChart", "questions unrelated<br>with chart type") + "</b>";
         else {
             hintText += QString("%1").arg(sortedLists[i].first()->key.getName());
-            hintText += "<br><span style=\"font-family: nootka; font-size: 20px\">";
-            if (sortedLists[i].operator[](0).qaPtr->answerAs == TQAtype::e_asNote)
-              hintText += "!";
-            else
-              hintText += "?";
-            hintText += "</span></b>";
+            hintText += "<br>" + getWasInAnswOrQuest(TQAtype::e_asNote, sortedLists[i].operator[](0).qaPtr);
+//             hintText += "<br><span style=\"font-family: nootka; font-size: 20px\">";
+//             if (sortedLists[i].operator[](0).qaPtr->answerAs == TQAtype::e_asNote)
+//               hintText += "!";
+//             else
+//               hintText += "?";
+//             hintText += "</span></b>";
         }
         keyText->setHtml(hintText);
         scene->addItem(keyText);
