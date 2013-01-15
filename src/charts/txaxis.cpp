@@ -108,8 +108,10 @@ void TXaxis::setAnswersForBarChart(QList<TgroupedQAunit>& listOfLists) {
   for (int i = 0; i < listOfLists.size(); i++) {
     QGraphicsTextItem *ticTip = new QGraphicsTextItem();
     ticTip->setHtml(listOfLists[i].description());
+    TgraphicsTextTip::alignCenter(ticTip);
+    if ((ticTip->boundingRect().width() * scale()) > m_qWidth)
+      ticTip->setScale(((qreal)m_qWidth * scale()) / ticTip->boundingRect().width());
     scene()->addItem(ticTip);
-    //TODO: scale it
     ticTip->setPos(pos().x() + mapValue(i + 1) - ticTip->boundingRect().width() / 2 , pos().y() + 15);
     m_ticTips << ticTip;
   }

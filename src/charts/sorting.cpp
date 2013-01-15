@@ -186,6 +186,12 @@ QList<TgroupedQAunit> sortByKeySignature(TgroupedQAunit& answList, TexamLevel *l
       divideQuestionsAndAnswers(result, mS, TQAtype::e_asNote);
     }
   }
+  for (int i = 0; i < result.size(); i++) {
+//     if (level->manualKey && result[i].first()->answerAs == TQAtype::e_asNote)
+      
+    result[i].resume(result[i].list.first().qaPtr->key.getName() + "<br>" + getWasInAnswOrQuest(TQAtype::e_asNote, result[i].first()),
+                     TgroupedQAunit::for_a_key());
+  }
   if (!unrelatedList.isEmpty()) {
       result << unrelatedList; // add unrelatedList at the end of list
       hasListUnrelated = true;
@@ -281,6 +287,15 @@ QString accidToNotka(char acc, int fontSize) {
 }
 
 
+QString getWasInAnswOrQuest(TQAtype::Etype type, TQAunit* question) {
+    QString hintText = "<span style=\"font-family: nootka; font-size: 20px\">";
+    if (question->answerAs == type)
+      hintText += "!";
+    else
+      hintText += "?";
+    hintText += "</span></b>";
+    return hintText;
+}
 
 
 

@@ -28,7 +28,6 @@ class TQAunit;
 class TexamLevel;
 
 
-typedef QList<TQAunit*> TanswerListPtr; // definition of TQAunit list type
 
   QList<Tnote> getTheSame(short noteNr, TexamLevel *level = 0);
       /** Calculates average reaction time of a given list.
@@ -39,8 +38,10 @@ typedef QList<TQAunit*> TanswerListPtr; // definition of TQAunit list type
       /** converts QList with TQAunit to QList with pointer to them*/
   TgroupedQAunit convertToPointers(QList< TQAunit >* examList);
   
-      /** Given TanswerListPtr someList divides on two lists. 
-       * First with questions of given type, second with answers. If both - answer has priority.
+      /** Given TgroupedQAunit someList is divided on two lists:
+       * - First with questions of given type
+       * - second with answers.
+       * !!! If both - answer has priority !!!
        * Then, two lists are added to result list.
        * We have to be sure that all given TQAunits have question or answer of given type. */
   void divideQuestionsAndAnswers(QList<TgroupedQAunit> &result, TgroupedQAunit &someList, TQAtype::Etype type);
@@ -63,6 +64,8 @@ typedef QList<TQAunit*> TanswerListPtr; // definition of TQAunit list type
                                          bool& hasListUnrelated, QList<char> &kindOfAccidList);
       /** converts given value to nootka string. */
   QString accidToNotka(char acc, int fontSize = 20);
+      /** Returns '?' or '!' depends on answer type. */
+  QString getWasInAnswOrQuest(TQAtype::Etype type, TQAunit* question);
   
 //   QList<TanswerListPtr> divideQuestionsAndAnswers(TanswerListPtr &answList);
   
