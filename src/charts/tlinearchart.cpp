@@ -29,6 +29,7 @@
 #include "tnotename.h"
 #include "texamlevel.h"
 #include <QApplication>
+#include <QDebug>
 
 
 QColor averColor = QColor(0, 192, 192);
@@ -83,7 +84,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
       }
       qDebug() << aTime << m_exam->averageReactonTime() / 10.0;
       */
-      TgraphicsLine *averLine = new TgraphicsLine("<p>" +
+      TgraphicsLine *averLine = new TgraphicsLine(0, "<p>" +
           TexamView::averAnsverTimeTxt() + 
           QString("<br><span style=\"font-size: 20px;\">%1</span></p>").arg(TexamView::formatReactTime(exam->averageReactonTime(), true)) );
       scene->addItem(averLine);
@@ -109,47 +110,40 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
       int cnt = 1;
   // paint lines with average time of all the same notes/frets
      for (int i = 0; i < goodSize + goodOffset; i++) { // skip wrong answers if separeted
-//       for (int i = 0; i < sortedLists.size(); i++) { // skip wrong answers if separeted
-        double aTime = calcAverTime(sortedLists[i], !settings.inclWrongAnsw);
-        QString aTimeText = TexamView::formatReactTime(qRound(aTime), true);
-        TgraphicsLine *averTimeLine = new TgraphicsLine();
+//         double aTime = calcAverTime(sortedLists[i], !settings.inclWrongAnsw); OBSOLETE
+//         QString aTimeText = TexamView::formatReactTime(qRound(aTime), true);
+        TgraphicsLine *averTimeLine = new TgraphicsLine(&sortedLists[i]);
         QString lineText = "";
-        if (settings.order == e_byNote)
-          lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(TgroupedQAunit::for_a_note() + "<span style=\"font-size: 20px;\">  <b>" + TnoteName::noteToRichText(sortedLists[i].first()->qa.note) + "</b>").arg(aTimeText);
-//             lineText = TstatisticsTip::getTipText(&sortedLists[i]);
-        else
-          if (settings.order == e_byFret)
-            lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2</p>").arg(TgroupedQAunit::for_a_fret() +
-            "<span style=\"font-size: 20px;\"><b>  " + 
-            QString::number(sortedLists[i].first()->qa.pos.fret()) + "</b>").arg(aTimeText);
-          else
-            if (settings.order == e_byKey) {
-              QString wereKeys = "";
-              if (exam->level()->manualKey && sortedLists[i].first()->answerAs == TQAtype::e_asNote)
+        switch (settings.order) {
+          case e_byNote :
+            lineText = TgroupedQAunit::for_a_note() + "<span style=\"font-size: 20px;\">  <b>" + 
+                TnoteName::noteToRichText(sortedLists[i].first()->qa.note) + "</b>";
+            break;
+          case e_byFret:
+            lineText = TgroupedQAunit::for_a_fret() + "<span style=\"font-size: 20px;\"><b>  " + 
+                QString::number(sortedLists[i].first()->qa.pos.fret()) + "</b>";
+            break;
+          case e_byKey: {
+            QString wereKeys = "";
+            if (exam->level()->manualKey && sortedLists[i].first()->answerAs == TQAtype::e_asNote)
                 wereKeys = "<br>" + QApplication::translate("TlinearChart", "Key signatures gave by user");
-                
-              lineText += "<p>" + TexamView::averAnsverTimeTxt() + QString("<br>%1<br>%2%3</p>").arg(TgroupedQAunit::for_a_key() + 
-              "<span style=\"font-size: 20px;\">  <b>" + 
-              sortedLists[i].first()->key.getName() + "</b></span>").arg(aTimeText).arg(wereKeys);
-            } else
-              if (settings.order == e_byAccid) {
-                QString accStr, accidClue;
-                accStr = accidToNotka(kindOfAccids[i]);
-                if (kindOfAccids[i])
-                    accidClue = TgroupedQAunit::for_an_accid() + "<span style=\"font-size: 20px;\">  " +
-                        accStr + "</span>";
-                else
-                    accidClue = QApplication::translate("TlinearChart", "for notes without accidentals"); 
-                lineText += "<p>" + TexamView::averAnsverTimeTxt() + 
-                QString("<br><span style=\"font-size: 20px;\">%1<br>%2</span></p>").arg(accidClue).arg(aTimeText);
-              }
-        
+            lineText = TgroupedQAunit::for_a_key() + "<span style=\"font-size: 20px;\">  <b>" + 
+                sortedLists[i].first()->key.getName() + "</b></span><br>" + wereKeys;
+            break;
+          }
+          case e_byAccid:
+            if (kindOfAccids[i])
+              lineText = TgroupedQAunit::for_an_accid() + "<span style=\"font-size: 20px;\">  " + accidToNotka(kindOfAccids[i]) + "</span>";
+            else
+              lineText = QApplication::translate("TlinearChart", "for notes without accidentals"); 
+            break;
+        }        
         averTimeLine->setText(lineText);
         scene->addItem(averTimeLine);
         averTimeLine->setZValue(46);
-        averTimeLine->setPen(QPen(QColor(0, 192, 192), 3)); // sea blue
-        averTimeLine->setLine(xAxis->mapValue(cnt - 0.4) + xAxis->pos().x(), yAxis->mapValue(aTime / 10),
-          xAxis->mapValue(cnt + sortedLists[i].size() -0.6) + xAxis->pos().x(), yAxis->mapValue(aTime / 10));
+        averTimeLine->setPen(QPen(averColor, 3)); // sea blue
+        averTimeLine->setLine(xAxis->mapValue(cnt - 0.4) + xAxis->pos().x(), yAxis->mapValue(sortedLists[i].averTime() / 10.0),
+          xAxis->mapValue(cnt + sortedLists[i].size() -0.6) + xAxis->pos().x(), yAxis->mapValue(sortedLists[i].averTime() / 10.0));
         cnt += sortedLists[i].size();
       }
       cnt = 1;
@@ -206,12 +200,6 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
         else {
             hintText += QString("%1").arg(sortedLists[i].first()->key.getName());
             hintText += "<br>" + getWasInAnswOrQuest(TQAtype::e_asNote, sortedLists[i].operator[](0).qaPtr);
-//             hintText += "<br><span style=\"font-family: nootka; font-size: 20px\">";
-//             if (sortedLists[i].operator[](0).qaPtr->answerAs == TQAtype::e_asNote)
-//               hintText += "!";
-//             else
-//               hintText += "?";
-//             hintText += "</span></b>";
         }
         keyText->setHtml(hintText);
         scene->addItem(keyText);

@@ -22,6 +22,10 @@
 #include "texam.h"
 
 
+/*static*/
+bool TgroupedQAunit::m_skipWrong = true;
+
+
 
 TgroupedQAunit::TgroupedQAunit() :
   m_desc(""),
@@ -58,7 +62,7 @@ void TgroupedQAunit::resume(QString desc, QString fullDesc) {
         m_mistakes++;
       else if (list[i].qaPtr->isNotSoBad())
         m_halfMist++;
-      if (list[i].qaPtr->wrongNote() || list[i].qaPtr->wrongPos()) 
+      if (skipWrong() && (list[i].qaPtr->wrongNote() || list[i].qaPtr->wrongPos()) ) 
           badTime += list[i].qaPtr->time;
       else {
         okTime += list[i].qaPtr->time;

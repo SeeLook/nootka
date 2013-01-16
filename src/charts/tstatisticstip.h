@@ -28,11 +28,25 @@ class TgroupedQAunit;
 /** This class represents a tip chart with statistics of grouped questions.*/
 class TstatisticsTip : public TgraphicsTextTip
 {
-
+  
 public:
-    TstatisticsTip(TgroupedQAunit *qaGroup);
+      
+        /** Determines how many data are shown in tip
+        * e_full - (default) average time, questions number and all kinds of mistakes.
+        * e_simple - average time only (It is nessesary to give description in constructor). 
+        */
+    enum Ekind { e_full, e_simple };
+  
+    TstatisticsTip(TgroupedQAunit *qaGroup, Ekind kind = e_full, QString desc = "");
     virtual ~TstatisticsTip();
+        /** Returns html-formated full information aobout grouped questions. */
     static QString getTipText(TgroupedQAunit *qaGroup);
+        /** Returns:
+        * Average reaction time
+        * of something
+        *      0.0 s
+        */
+    static QString getAverTimeStat(TgroupedQAunit *qaGroup, QString ofSomething);
     
 private:
     TgroupedQAunit *m_qaGroup;

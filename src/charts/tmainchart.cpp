@@ -55,57 +55,60 @@ TmainChart::~TmainChart()
 //####################################################################################
 
 void TmainChart::sort() {
-        if (chartSett.separateWrong) {
-            divideGoodAndBad(currExam->answList(), goodAnsw, badAnsw);
-            if (chartSett.order == e_byNote)
-              sortedLists = sortByNote(goodAnsw, currExam->level(), hasListUnrelated);
+    TgroupedQAunit::setSkipWrong(!chartSett.inclWrongAnsw);
+    if (chartSett.separateWrong) {
+        divideGoodAndBad(currExam->answList(), goodAnsw, badAnsw);
+        if (chartSett.order == e_byNote)
+          sortedLists = sortByNote(goodAnsw, currExam->level(), hasListUnrelated);
+        else
+          if (chartSett.order == e_byFret)
+            sortedLists = sortByFret(goodAnsw, currExam->level(), hasListUnrelated);
+          else
+            if (chartSett.order == e_byKey)
+              sortedLists = sortByKeySignature(goodAnsw, currExam->level(), hasListUnrelated);
             else
-              if (chartSett.order == e_byFret)
-                sortedLists = sortByFret(goodAnsw, currExam->level(), hasListUnrelated);
-              else
-                if (chartSett.order == e_byKey)
-                  sortedLists = sortByKeySignature(goodAnsw, currExam->level(), hasListUnrelated);
-                else
-                  if (chartSett.order == e_byAccid)
-                  sortedLists = sortByAccidental(goodAnsw, currExam->level(), hasListUnrelated, kindOfAccids);
-            goodSize = sortedLists.size(); // number without wrong answers
-            if (chartSett.order == e_byNote)
-              sortedLists.append(sortByNote(badAnsw, currExam->level(), hasListUnrelated));
+              if (chartSett.order == e_byAccid)
+              sortedLists = sortByAccidental(goodAnsw, currExam->level(), hasListUnrelated, kindOfAccids);
+        goodSize = sortedLists.size(); // number without wrong answers
+        if (chartSett.order == e_byNote)
+          sortedLists.append(sortByNote(badAnsw, currExam->level(), hasListUnrelated));
+        else
+          if (chartSett.order == e_byFret)
+            sortedLists.append(sortByFret(badAnsw, currExam->level(), hasListUnrelated));
+          else
+            if (chartSett.order == e_byKey)
+              sortedLists.append(sortByKeySignature(badAnsw, currExam->level(), hasListUnrelated));
             else
-              if (chartSett.order == e_byFret)
-                sortedLists.append(sortByFret(badAnsw, currExam->level(), hasListUnrelated));
-              else
-                if (chartSett.order == e_byKey)
-                  sortedLists.append(sortByKeySignature(badAnsw, currExam->level(), hasListUnrelated));
-                else
-                  if (chartSett.order == e_byAccid)
-                  sortedLists.append(sortByAccidental(badAnsw, currExam->level(), hasListUnrelated, kindOfAccids));
-        } else {
-            TgroupedQAunit convList = convertToPointers(currExam->answList());
-            if (chartSett.order == e_byNote)
-              sortedLists = sortByNote(convList, currExam->level(), hasListUnrelated);
+              if (chartSett.order == e_byAccid)
+              sortedLists.append(sortByAccidental(badAnsw, currExam->level(), hasListUnrelated, kindOfAccids));
+    } else {
+        TgroupedQAunit convList = convertToPointers(currExam->answList());
+        if (chartSett.order == e_byNote)
+          sortedLists = sortByNote(convList, currExam->level(), hasListUnrelated);
+        else
+          if (chartSett.order == e_byFret)
+            sortedLists = sortByFret(convList, currExam->level(), hasListUnrelated);
+          else
+            if (chartSett.order == e_byKey)
+              sortedLists = sortByKeySignature(convList, currExam->level(), hasListUnrelated);
             else
-              if (chartSett.order == e_byFret)
-                sortedLists = sortByFret(convList, currExam->level(), hasListUnrelated);
-              else
-                if (chartSett.order == e_byKey)
-                  sortedLists = sortByKeySignature(convList, currExam->level(), hasListUnrelated);
-                else
-                  if (chartSett.order == e_byAccid)
-                    sortedLists = sortByAccidental(convList, currExam->level(), hasListUnrelated, kindOfAccids);
-            goodSize = sortedLists.size();
-        }
+              if (chartSett.order == e_byAccid)
+                sortedLists = sortByAccidental(convList, currExam->level(), hasListUnrelated, kindOfAccids);
+        goodSize = sortedLists.size();
+    }
 }
 
 
 void TmainChart::prepareChart(int maxX) {
-  // Grid lines
+// Grid lines
   QColor lineColor = palette().foreground().color();
-  for(int i = 5; i < maxX; i++) {
-    if (i%5 == 0)
-      scene->addLine(xAxis->mapValue(i) + xAxis->pos().x(), 0,
-        xAxis->mapValue(i) + xAxis->pos().x(), yAxis->length(), 
-                     QPen(QBrush(lineColor), 1, Qt::DashLine));
+  if (chartSett.type != e_bar) { // vertical lines only for linear chart
+      for(int i = 5; i < maxX; i++) {
+        if (i%5 == 0)
+          scene->addLine(xAxis->mapValue(i) + xAxis->pos().x(), 0,
+            xAxis->mapValue(i) + xAxis->pos().x(), yAxis->length(), 
+                        QPen(QBrush(lineColor), 1, Qt::DashLine));
+      }
   }
   QList<double> listY;
   yAxis->getYforGrid(listY);
