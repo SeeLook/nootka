@@ -21,7 +21,14 @@
 #include "tgroupedqaunit.h"
 #include "texamview.h"
 #include "tqaunit.h"
+#include "tquestionpoint.h"
+#include "tglobals.h"
 #include <QApplication>
+
+QString trStyle(QColor c) {
+    c.setAlpha(30);
+    return QString("style=\"%1\"").arg(Tglobals::getBGcolorText(c));
+}
 
 /*static*/
 QString TstatisticsTip::getTipText(TgroupedQAunit* qaGroup)  {
@@ -30,13 +37,16 @@ QString TstatisticsTip::getTipText(TgroupedQAunit* qaGroup)  {
     tipText += "<table><tr><td>";
     tipText += TexamView::effectTxt() + ": </td><td> <b>" + QString("%1 %").arg(qaGroup->effectiveness(), 2, 'f', 0, '0') + "</b></td></tr><tr><td>";
     tipText += TexamView::averAnsverTimeTxt() + ": </td><td> <b>" + TexamView::formatReactTime(qaGroup->averTime(), true) + "</b></td></tr><tr><td>";
-    tipText += QApplication::translate("TstatisticTip", "Questions number:") + QString(" </td><td> <b>%1</b></td></tr><tr><td>").arg(qaGroup->size());
+    tipText += QApplication::translate("TstatisticTip", "Questions number:") + QString(" </td><td> <b>%1</b></td></tr>").arg(qaGroup->size());
+    tipText += "<tr " + trStyle(TquestionPoint::goodColor()) + "><td>";
     tipText += TexamView::corrAnswersNrTxt() + QString(": </td><td> <b>%1</b></td></tr>")
         .arg(qaGroup->size() - qaGroup->mistakes() - qaGroup->notBad());
     if (qaGroup->mistakes())
-      tipText += "<tr><td>" + TexamView::mistakesNrTxt() + QString(": </td><td> <b>%1</b></td></tr>").arg(qaGroup->mistakes());
+      tipText += "<tr " + trStyle(TquestionPoint::wrongColor())  + "><td>" + TexamView::mistakesNrTxt() +
+              QString(": </td><td> <b>%1</b></td></tr>").arg(qaGroup->mistakes());
     if (qaGroup->notBad())
-      tipText += "<tr><td>" + TexamView::halfMistakenTxt() + QString(": </td><td> <b>%1</b></td></tr>").arg(qaGroup->notBad());
+      tipText += "<tr " + trStyle(TquestionPoint::notBadColor()) + "><td>" + TexamView::halfMistakenTxt() +
+              QString(": </td><td> <b>%1</b></td></tr>").arg(qaGroup->notBad());
     tipText += "</table>";
     return tipText;
 }
