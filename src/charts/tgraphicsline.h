@@ -21,7 +21,8 @@
 
 #include <qgraphicsitem.h>
 
-class TgraphicsTextTip;
+class TgroupedQAunit;
+class TstatisticsTip;
 
 
 /** This class represents a line on QGraphicsScene 
@@ -33,8 +34,9 @@ class TgraphicsLine : QObject, public QGraphicsLineItem
   Q_OBJECT
 
 public:
-  TgraphicsLine(QString text = "");
+  TgraphicsLine(TgroupedQAunit* qaGroup, QString text = "");
   virtual ~TgraphicsLine();
+    /** Sets a text of a tip appearing on hover event. */
   void setText(QString text) { m_text = text; }
   
 protected:
@@ -46,8 +48,9 @@ protected slots:
   
 private:
   QString m_text;
-  TgraphicsTextTip *m_tip;
+  TstatisticsTip *m_tip;
   QTimer *m_delTimer;
+  TgroupedQAunit *m_qaGroup;
 };
 
 #endif // TGRAPHICSLINE_H

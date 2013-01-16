@@ -17,15 +17,17 @@
  ***************************************************************************/
 
 #include "tgraphicsline.h"
-#include "tgraphicstexttip.h"
+#include "tstatisticstip.h"
+#include "tgroupedqaunit.h"
 #include <QGraphicsScene>
 #include <QGraphicsSceneHoverEvent>
 #include <QTimer>
 
-TgraphicsLine::TgraphicsLine(QString text) :
+TgraphicsLine::TgraphicsLine(TgroupedQAunit* qaGroup, QString text) :
   QGraphicsLineItem(),
   m_tip(0),
-  m_text(text)
+  m_text(text),
+  m_qaGroup(qaGroup)
 {
   setAcceptHoverEvents(true);
   m_delTimer = new QTimer();
@@ -42,7 +44,7 @@ TgraphicsLine::~TgraphicsLine()
 void TgraphicsLine::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
   if (m_tip || m_text == "")
         return;
-  m_tip = new TgraphicsTextTip(m_text, pen().color());
+  m_tip = new TstatisticsTip(m_qaGroup, TstatisticsTip::e_simple, m_text);
   scene()->addItem(m_tip);
   m_tip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
   m_tip->setZValue(77);

@@ -51,6 +51,10 @@ public:
   QString fullDescription() { return m_fullDesc; }
   void addQAunit(TQAunit *qaUnit, unsigned int questNr); // appends TQAunit to the list
   void addQAunit(TqaPtr& qaPtr) { list << qaPtr; }
+      /** Determines are wrong answers included to average
+       * Default true - not included */
+  static bool skipWrong() { return m_skipWrong; }
+  static void setSkipWrong(bool skip) { m_skipWrong = skip; }
   TQAunit* first() { if (list.size()) 
                         return list[0].qaPtr;
                       else
@@ -82,7 +86,7 @@ public:
   static QString for_a_fret()  { return QApplication::translate("chartStats", "for a fret:", "average reaction time for..."); }
       /** Text: 
       *for a key: */
-  static QString for_a_key()  { return QApplication::translate("chartStats", "for a note:", "average reaction time for..."); }
+  static QString for_a_key()  { return QApplication::translate("chartStats", "for a key:", "average reaction time for..."); }
       /** Text: 
       *for an accidental: */
   static QString for_an_accid()  { return QApplication::translate("chartStats", "for an accidental:", "average reaction time for..."); }
@@ -93,6 +97,7 @@ private:
   QString m_desc, m_fullDesc;
   quint16 m_mistakes, m_halfMist;
   qreal m_averTime, m_effectiveness;
+  static bool m_skipWrong;
     
 };
 

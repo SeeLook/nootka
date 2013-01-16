@@ -20,6 +20,7 @@
 #include "tstatisticstip.h"
 #include "tgroupedqaunit.h"
 #include "texamview.h"
+#include "tqaunit.h"
 #include <QApplication>
 
 /*static*/
@@ -40,15 +41,26 @@ QString TstatisticsTip::getTipText(TgroupedQAunit* qaGroup)  {
     return tipText;
 }
 
+QString TstatisticsTip::getAverTimeStat(TgroupedQAunit* qaGroup, QString ofSomething) {
+    if (qaGroup)
+      return "<p>" + TexamView::averAnsverTimeTxt() + "<br>" + ofSomething + "<br>" + 
+        TexamView::formatReactTime(qRound(qaGroup->averTime()), true) +"</p>";
+    else 
+      return ofSomething;
+}
 
 
 
-TstatisticsTip::TstatisticsTip(TgroupedQAunit* qaGroup) :
+
+TstatisticsTip::TstatisticsTip(TgroupedQAunit* qaGroup, Ekind kind, QString desc) :
     TgraphicsTextTip(),
     m_qaGroup(qaGroup)
 {
     setBgColor(QColor(0, 192, 192)); // light blue
-    setHtml(getTipText(qaGroup));
+    if (kind == e_full)
+      setHtml(getTipText(qaGroup));
+    else
+      setHtml(getAverTimeStat(qaGroup, desc));
 }
 
 TstatisticsTip::~TstatisticsTip() {}
