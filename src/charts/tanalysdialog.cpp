@@ -29,6 +29,7 @@
 #include "tgraphicstexttip.h"
 #include "tlinearchart.h"
 #include "tbarchart.h"
+#include "tpixmaker.h"
 #include "tglobals.h"
 
 
@@ -96,7 +97,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   
   createActions();
   
-  QTimer::singleShot(100, this, SLOT(testSlot()));
+//  QTimer::singleShot(100, this, SLOT(testSlot()));
   if (exam) {
     m_wasExamCreated = false;
     m_openButton->setDisabled(true); // disable "open exam file" acction
@@ -108,12 +109,15 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
 #else
     modKey = "CTRL";
 #endif
-      TgraphicsTextTip *helpTip = new TgraphicsTextTip("<br>" + tr("Select an exam from a file<br>Use %1 + mouse wheel to zoom a chart.<br>Drag a cursor to move the chart.").arg(modKey)  + "<br>", TquestionPoint::bgColor());
+    m_chart->setInteractive(true);
+    TgraphicsTextTip *helpTip = new TgraphicsTextTip("<br>" + tr("Press %1 button<br> to select an exam from a file<br>Use %2 + mouse wheel to zoom a chart.<br>Drag a cursor to move the chart.").arg("<a href=\"charts\"> " + pixToHtml(gl->path + "picts/nootka-exam.png", 38) + " </a>").arg(modKey)  + "<br>", TquestionPoint::bgColor());
       m_chart->scene->addItem(helpTip);
       helpTip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
 //       helpTip->setPos((m_chart->width() - helpTip->boundingRect().width()) / 2, 
 //                       (m_chart->height() - helpTip->boundingRect().height()) / 2 );
       helpTip->setPos(200, 80);
+      helpTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
+      connect(helpTip, SIGNAL(linkActivated(QString)), this, SLOT(loadExamSlot()));
   }
   
   connect(m_chartListCombo, SIGNAL(activated(int)), this, SLOT(analyseChanged(int)));
@@ -310,8 +314,13 @@ void TanalysDialog::loadExamSlot() {
   
   QString fileName = QFileDialog::getOpenFileName(this, TstartExamDlg::loadExamFileTxt(), QDir::homePath(),
 												  TstartExamDlg::examFilterTxt(), 0, QFileDialog::DontUseNativeDialog);
-  if (fileName != "")
+  if (fileName != "") {
+      if (m_chart) {
+        m_chart->deleteLater();
+        m_chart = 0;
+      }
       loadExam(fileName);
+  }
 }
 
 void TanalysDialog::openRecentExam() {
