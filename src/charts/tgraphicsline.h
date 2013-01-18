@@ -19,38 +19,38 @@
 #ifndef TGRAPHICSLINE_H
 #define TGRAPHICSLINE_H
 
-#include <qgraphicsitem.h>
+#include <QGraphicsLineItem>
+#include <QPen>
+#include "ttiphandler.h"
 
 class TgroupedQAunit;
-class TstatisticsTip;
 
 
 /** This class represents a line on QGraphicsScene 
  * but it captures hover events and shows description text 
  * in TgraphicsTextTip. 
  * When text is empty, events are ignored. */
-class TgraphicsLine : QObject, public QGraphicsLineItem
+class TgraphicsLine : public TtipHandler
 {
-  Q_OBJECT
 
 public:
   TgraphicsLine(TgroupedQAunit* qaGroup, QString text = "");
   virtual ~TgraphicsLine();
     /** Sets a text of a tip appearing on hover event. */
   void setText(QString text) { m_text = text; }
+  void setPen(QPen pen) { m_line->setPen(pen); }
+  void setLine(qreal x1, qreal y1, qreal x2, qreal y2) { m_line->setLine(x1, y1, x2, y2); }
   
 protected:
   virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
-  virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+  virtual QRectF boundingRect() const;
   
-protected slots:
-  void delayedDelete();
   
 private:
   QString m_text;
-  TstatisticsTip *m_tip;
-  QTimer *m_delTimer;
   TgroupedQAunit *m_qaGroup;
+  QGraphicsLineItem *m_line;
 };
 
 #endif // TGRAPHICSLINE_H

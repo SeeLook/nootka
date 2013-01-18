@@ -23,8 +23,8 @@
 #include <QGraphicsScene>
 #include <QApplication>
 #include <QGraphicsView>
+#include <QGraphicsSceneHoverEvent>
 #include "tquestionpoint.h"
-#include "tgraphicstexttip.h"
 #include "tdropshadoweffect.h"
 #include "tstatisticstip.h"
 #include "tgroupedqaunit.h"
@@ -35,11 +35,10 @@
 
 
 Tbar::Tbar(qreal height, TgroupedQAunit* qaGroup) :
+    TtipHandler(),
     m_height(height),
-    m_qaGroup(qaGroup),
-    m_tip(0)
+    m_qaGroup(qaGroup)
 {
-    setAcceptHoverEvents(true);
     m_wrongAt = (qreal)m_qaGroup->mistakes() / (qreal)m_qaGroup->size();
     m_notBadAt = (qreal)m_qaGroup->notBad() / (qreal)m_qaGroup->size();
     TdropShadowEffect *shadow = new TdropShadowEffect();
@@ -77,9 +76,9 @@ void Tbar::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWid
       endColor = TquestionPoint::goodColor();
     }
     grad.setColorAt(1.0, endColor);
-    if (m_tip)
-        painter->setPen(QPen(TquestionPoint::notBadColor(), 1));
-    else
+//     if (isUnderMouse())
+//         painter->setPen(QPen(TquestionPoint::notBadColor(), 1));
+//     else
         painter->setPen(Qt::NoPen);
     painter->setBrush(QBrush(grad));
     painter->drawRoundedRect(rect, 1, 1);
@@ -94,37 +93,18 @@ QRectF Tbar::boundingRect() const {
 
 
 
-void Tbar::hoverEnterEvent(QGraphicsSceneHoverEvent* )
-{
-    if (!m_tip) {
-      m_tip = new TstatisticsTip(m_qaGroup);
-      scene()->addItem(m_tip);
-      m_tip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
-      QPointF p = pos();
-      QSize s = scene()->views()[0]->size();
-      p.setY(p.y() - m_height / 2);
-      QPointF mapedP = scene()->views()[0]->mapFromScene(p);
-      // determine where to display tip when point is near a view boundaries
-      if (mapedP.x() > (s.width() / 2) ) // tip on the left
-          p.setX(p.x() - m_tip->boundingRect().width() / scene()->views()[0]->transform().m22());
-     if (mapedP.y() > (s.height() / 2) )
-         p.setY(p.y() - m_height / scene()->views()[0]->transform().m22());
-      m_tip->setPos(p);
-      m_tip->setZValue(70);
-      update();
+void Tbar::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
+    if (!tip) {
+      tip = new TstatisticsTip(m_qaGroup);
+      handleTip(event->scenePos());
     }
 }
 
-
-void Tbar::hoverLeaveEvent(QGraphicsSceneHoverEvent* )
-{
-    if (m_tip) {
-      m_tip->deleteLater();
-      m_tip = 0;
-      update();
-      scene()->update();
-    }
+void Tbar::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
+    if (!tip)
+      hoverEnterEvent(event);
 }
+
 
 
 

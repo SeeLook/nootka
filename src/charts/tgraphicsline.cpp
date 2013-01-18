@@ -19,55 +19,35 @@
 #include "tgraphicsline.h"
 #include "tstatisticstip.h"
 #include "tgroupedqaunit.h"
-#include <QGraphicsScene>
 #include <QGraphicsSceneHoverEvent>
-#include <QTimer>
 
 TgraphicsLine::TgraphicsLine(TgroupedQAunit* qaGroup, QString text) :
-  QGraphicsLineItem(),
-  m_tip(0),
+  TtipHandler(),
   m_text(text),
   m_qaGroup(qaGroup)
 {
-  setAcceptHoverEvents(true);
-  m_delTimer = new QTimer();
-  connect(m_delTimer, SIGNAL(timeout()), this, SLOT(delayedDelete()));
+    m_line = new QGraphicsLineItem();
 }
 
 TgraphicsLine::~TgraphicsLine()
 {
-  if (m_tip)
-    delete m_tip;
-  delete m_delTimer;
+    delete m_line;
 }
+
+QRectF TgraphicsLine::boundingRect() const {
+    return m_line->boundingRect();
+}
+
+void TgraphicsLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+    m_line->paint(painter, option, widget);
+}
+
+
 
 void TgraphicsLine::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
-  if (m_tip || m_text == "")
+  if (tip || m_text == "")
         return;
-  m_tip = new TstatisticsTip(m_qaGroup, TstatisticsTip::e_simple, m_text);
-  scene()->addItem(m_tip);
-  m_tip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
-  m_tip->setZValue(77);
-  m_tip->setPos(event->pos().x() - m_tip->boundingRect().width() / 2, event->pos().y());  
+  tip = new TstatisticsTip(m_qaGroup, TstatisticsTip::e_simple, m_text);
+  handleTip(event->scenePos());
 }
-
-void TgraphicsLine::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
-{
-  if (!m_delTimer->isActive()) {
-        m_delTimer->start(30);
-    }
-}
-
-void TgraphicsLine::delayedDelete() {
-  if (isUnderMouse())
-        return;
-  m_delTimer->stop();
-  if (m_tip) {
-      scene()->removeItem(m_tip);
-      delete m_tip;
-      m_tip = 0;
-      scene()->update();
-  }
-}
-
 
