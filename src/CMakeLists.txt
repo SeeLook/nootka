@@ -84,6 +84,7 @@ SET( NOOTKA_SRCS
   charts/sorting.cpp
   charts/tdropshadoweffect.cpp
   charts/tstatisticstip.cpp
+  charts/ttiphandler.cpp
 ###### Sound
   sound/tsound.cpp
   sound/taudioout.cpp
@@ -172,7 +173,8 @@ SET( NOOTKA_MOC_SRCS
   charts/tchart.h
   charts/tmainchart.h
   charts/tmainline.h
-  charts/tgraphicsline.h
+#   charts/tgraphicsline.h
+  charts/ttiphandler.h
 ###### Sound
   sound/tsound.h
   sound/taudioout.h
