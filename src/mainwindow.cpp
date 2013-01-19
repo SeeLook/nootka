@@ -36,6 +36,7 @@
 #include "taudioout.h"
 #include "tpitchview.h"
 #include "tanalysdialog.h"
+#include <tquestionpoint.h>
 #include "tnotename.h"
 #include "tfingerboard.h"
 #include <QtGui>

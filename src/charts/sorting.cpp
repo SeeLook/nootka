@@ -85,9 +85,9 @@ QList<Tnote> getTheSame(short int noteNr, TexamLevel* level) {
 void divideGoodAndBad(QList<TQAunit> *list, TgroupedQAunit& goodList, TgroupedQAunit& badList) {
   for (int i = 0; i < list->size(); i++) {
     if (list->operator[](i).wrongNote() || list->operator[](i).wrongPos())
-      badList.addQAunit(&list->operator[](i), i);
+      badList.addQAunit(&list->operator[](i), i + 1);
     else
-      goodList.addQAunit(&list->operator[](i), i);
+      goodList.addQAunit(&list->operator[](i), i + 1);
   }
 }
 
@@ -101,7 +101,7 @@ QList<TgroupedQAunit> sortByNote(TgroupedQAunit& answList, TexamLevel *level, bo
       for (int k = 0; k < answList.size(); k++) {
         if (answList[k].qaPtr->qa.note == theSame[j]) {
             if (answList[k].qaPtr->questionAs != TQAtype::e_asFretPos || answList[k].qaPtr->answerAs != TQAtype::e_asFretPos)
-                noteList.addQAunit(answList[k].qaPtr, answList[k].nr);
+                noteList.addQAunit(answList[k]);
         }
       }
       if (!noteList.isEmpty()) {
@@ -261,7 +261,7 @@ TgroupedQAunit mergeListOfLists(QList<TgroupedQAunit>& listOfLists) {
 TgroupedQAunit convertToPointers(QList<TQAunit> *examList) {
     TgroupedQAunit result;
     for (int i = 0; i< examList->size(); i++)
-        result.addQAunit(&examList->operator[](i), i);
+        result.addQAunit(&examList->operator[](i), i + 1);
 //         result << &examList->operator [](i);
     return result;
 }

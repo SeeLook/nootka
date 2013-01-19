@@ -23,25 +23,22 @@
 #include "tyaxis.h"
 #include "tchart.h"
 #include "tstafflinechart.h"
-#include "ttipchart.h"
+#include "tquestionpoint.h"
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include <QDebug>
-#include <QTimer>
+// #include <QDebug>
+
 
 TmainLine::TmainLine(QList< TQAunit >* answers, Tchart* chart) :
   m_answers(answers),
-  m_chart(chart),
-  m_tip(0)
-{
-  m_delTimer = new QTimer();
-  connect(m_delTimer, SIGNAL(timeout()), this, SLOT(delayedDelete()));
-//  TstaffLineChart *lines[m_answers->size() - 1];
-//    QGraphicsLineItem *ll[m_answers->size() - 1];
-  
+  m_chart(chart)
+{  
   for(int i = 0; i < m_answers->size(); i++) {
     double xPos = m_chart->xAxis->mapValue(i+1) + m_chart->xAxis->pos().x();
-    m_points <<  new TquestionPoint(this, &m_answers->operator[](i));
+    TqaPtr tmpQA;
+    tmpQA.qaPtr = &m_answers->operator[](i);
+    tmpQA.nr = i + 1;
+    m_points <<  new TquestionPoint(tmpQA);
     m_chart->scene->addItem(m_points[i]);
     m_points[i]->setZValue(50);
     m_points[i]->setPos(xPos, m_chart->yAxis->mapValue(m_answers->operator[](i).getTime()));
@@ -61,11 +58,8 @@ TmainLine::TmainLine(QList< TQAunit >* answers, Tchart* chart) :
 }
 
 TmainLine::TmainLine(QList<TgroupedQAunit>& listOfLists, Tchart* chart) :
-  m_chart(chart),
-  m_tip(0)
+  m_chart(chart)
 {
-    m_delTimer = new QTimer();
-    connect(m_delTimer, SIGNAL(timeout()), this, SLOT(delayedDelete()));
     int ln = 0, cnt = 0;
     for (int i = 0; i < listOfLists.size(); i++) {
       ln += listOfLists[i].size();
@@ -75,7 +69,7 @@ TmainLine::TmainLine(QList<TgroupedQAunit>& listOfLists, Tchart* chart) :
   for(int i = 0; i < listOfLists.size(); i++) {
     for (int j = 0; j < listOfLists[i].size(); j++) {
         double xPos = m_chart->xAxis->mapValue(cnt+1) + m_chart->xAxis->pos().x();
-        m_points <<  new TquestionPoint(this, listOfLists[i].operator[](j).qaPtr);
+        m_points <<  new TquestionPoint(listOfLists[i].operator[](j));
         m_chart->scene->addItem(m_points[cnt]);
         m_points[cnt]->setZValue(50);
         m_points[cnt]->setPos(xPos, m_chart->yAxis->mapValue(listOfLists[i].operator[](j).qaPtr->getTime()));
@@ -98,47 +92,10 @@ TmainLine::TmainLine(QList<TgroupedQAunit>& listOfLists, Tchart* chart) :
 
 
 TmainLine::~TmainLine() {
-    delete m_delTimer;
     m_points.clear(); // clear a scene from deleted elements
     m_lines.clear();
 }
 
-
-
-void TmainLine::showTip(TquestionPoint *point) {
-    if (m_tip)
-        return;
-    m_tip = new TtipChart(point);
-    m_chart->scene->addItem(m_tip);
-    QPointF p = point->pos();
-    // determine where to display tip when point is near a view boundaries
-    if (m_chart->mapFromScene(point->pos()).x() > (m_chart->width() / 2) )
-        p.setX(p.x() - m_tip->boundingRect().width()/m_chart->transform().m11());
-    if (m_chart->mapFromScene(point->pos()).y() > (m_chart->height() / 2) )
-        p.setY(p.y() - m_tip->boundingRect().height()/m_chart->transform().m22());
-    m_tip->setPos(p);
-    m_tip->setZValue(70);
-    m_curPoint = point;
-}
-
-void TmainLine::deleteTip()
-{
-    if (!m_delTimer->isActive()) {
-        m_delTimer->start(30);
-    }
-}
-
-void TmainLine::delayedDelete() {
-    if (m_curPoint->isUnderMouse())
-        return;
-    m_delTimer->stop();
-    if (m_tip) {
-        m_chart->scene->removeItem(m_tip);
-        delete m_tip;
-        m_tip = 0;
-        m_chart->scene->update();
-    }
-}
 
 
 
