@@ -25,7 +25,7 @@
 #include "tnotepixmap.h"
 #include <QApplication>
 #include <QBuffer>
-#include <QDebug>
+// #include <QDebug>
 
 
 /* static */
@@ -54,7 +54,10 @@ TtipChart::TtipChart(TquestionPoint *point) :
 //         qDebug("!!! It still has got wrong style !!!");
 //   }
  
-  QString txt = TquestionAsWdg::questionTxt() + " " + TquestionAsWdg::qaTypeText(point->question()->questionAs) + "<br>" +
+  QString txt;
+  if (point->nr())
+    txt = QString("<span style=\"font-size: 20px\"><b>%1.</b></span><br>").arg(point->nr());
+  txt += TquestionAsWdg::questionTxt() + " " + TquestionAsWdg::qaTypeText(point->question()->questionAs) + "<br>" +
           TquestionAsWdg::answerTxt() + " " + TquestionAsWdg::qaTypeText(point->question()->answerAs) + "<br>";
   QString qS = "", aS = "";
   switch (point->question()->questionAs) {

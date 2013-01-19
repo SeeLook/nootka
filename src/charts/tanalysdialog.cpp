@@ -29,6 +29,7 @@
 #include "tgraphicstexttip.h"
 #include "tlinearchart.h"
 #include "tbarchart.h"
+#include "tquestionpoint.h"
 #include "tpixmaker.h"
 #include "tglobals.h"
 

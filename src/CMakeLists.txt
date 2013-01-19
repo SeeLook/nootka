@@ -172,8 +172,6 @@ SET( NOOTKA_MOC_SRCS
   charts/tanalysdialog.h
   charts/tchart.h
   charts/tmainchart.h
-  charts/tmainline.h
-#   charts/tgraphicsline.h
   charts/ttiphandler.h
 ###### Sound
   sound/tsound.h

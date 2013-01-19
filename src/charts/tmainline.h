@@ -20,12 +20,12 @@
 #define TMAINLINE_H
 
 
-#include <qlist.h>
-#include "tquestionpoint.h"
+#include <QList>
+// #include "tquestionpoint.h"
 
+class TquestionPoint;
 class TgroupedQAunit;
 class TstaffLineChart;
-class TtipChart;
 class Tchart;
 class TQAunit;
 
@@ -35,32 +35,20 @@ class TQAunit;
  * It paints qustions points TquestionPoint over the scene.
  * It also performs Tips - information about question 
  */
-class TmainLine : public QObject
-{
-    Q_OBJECT
-    
-  friend class TquestionPoint;
-  
+class TmainLine
+{  
 public:
+  
   TmainLine(QList<TQAunit> *answers, Tchart *chart);
   TmainLine(QList<TgroupedQAunit> &listOfLists, Tchart *chart);
   virtual ~TmainLine();
   
-protected:
-  void showTip(TquestionPoint *point); // Shows question/answer data as tip
-  void deleteTip();
   
 private:
   QList<TQAunit> *m_answers; 
   Tchart *m_chart; // Pointer to chart contained this plot
   QList<TquestionPoint*> m_points; // List of points
   QList<TstaffLineChart*> m_lines; // list of lines betwen points
-  TquestionPoint *m_curPoint;
-  QTimer *m_delTimer;
-  TtipChart *m_tip;
-  
-private slots:
-  void delayedDelete();
   
   
 };

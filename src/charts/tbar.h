@@ -40,7 +40,6 @@ protected:
     
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
     virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
-//     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *);
   
 private:
     qreal m_height;

@@ -19,32 +19,29 @@
 #ifndef TQUESTIONPOINT_H
 #define TQUESTIONPOINT_H
 
-#include <QGraphicsItem>
+#include "ttiphandler.h"
+#include "tgroupedqaunit.h"
 
-class TtipChart;
-class TQAunit;
-class TmainLine;
 class QGraphicsSceneHoverEvent;
 
 
-/** This class is a point on a chart. It has shape of note taken from nootka font.
- * It has pointer to question pointed by it and poiter to parent @class TmainLine.
- * It grabs hoverEnterEvent & hoverLeaveEvent and calls to TmainLine::showTip()
- * 
+/** This class is a point on a chart. It has shape of note taken from nootka font. 
  * Also this class keeps colors for all Nootka Chart engine.
  * They are initialised in satic setColors method
  */
-class TquestionPoint : public QGraphicsItem
+class TquestionPoint : public TtipHandler
 {
 
 public:
-  TquestionPoint(TmainLine *parent,  TQAunit *question);
-  virtual ~TquestionPoint() {}
+  TquestionPoint(TqaPtr qaPtr);
+  virtual ~TquestionPoint();
   
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
   virtual QRectF boundingRect() const;
-  TQAunit* question() { return m_question; }
+  TQAunit* question() { return m_qaPtr.qaPtr; }
   QColor color() { return m_color; }
+    /** Number of a question. */
+  unsigned int nr() { return m_qaPtr.nr; }
   
   static void setColors(QColor goodColor = Qt::green, QColor wrongColor = Qt::red,
                         QColor notBadColor = QColor("#FF8000"), QColor shadowColor = QColor(63, 63, 63, 180),
@@ -57,16 +54,17 @@ public:
   static QColor goodColor() { return m_goodColor; }
   
 protected:
-  void hoverEnterEvent(QGraphicsSceneHoverEvent *);
-  void hoverLeaveEvent(QGraphicsSceneHoverEvent *);
+  void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
   
   
 private:
-  TQAunit *m_question;
-  TmainLine *m_parent;
+  TqaPtr m_qaPtr;
   QColor m_color;
   
   static QColor m_goodColor, m_wrongColor, m_notBadColor, m_shadowColor, m_bgColor;
+      /** Common method for constructors.
+       * Determines color of a note point and sets shadow effect. */
+  void setColor();
   
 };
 

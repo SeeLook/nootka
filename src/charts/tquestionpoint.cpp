@@ -18,13 +18,12 @@
 
 
 #include "tquestionpoint.h"
-#include "tmainline.h"
 #include "tdropshadoweffect.h"
+#include "ttipchart.h"
 #include "tqaunit.h"
 #include <QGraphicsSceneHoverEvent>
 #include <QPainter>
 #include <QGraphicsScene>
-#include <QGraphicsEffect>
 
 
 /* static */
@@ -45,27 +44,30 @@ QColor TquestionPoint::m_bgColor = Qt::white;
 
 
 
-TquestionPoint::TquestionPoint(TmainLine* parent, TQAunit* question):
-  QGraphicsItem(),
-  m_question(question),
-  m_parent(parent)
+TquestionPoint::TquestionPoint(TqaPtr qaPtr) :
+  TtipHandler(),
+  m_qaPtr(qaPtr)
 {
-  setAcceptHoverEvents(true);
+    setColor();
+}
+  
+ 
 
-  if (question->isCorrect())
+void TquestionPoint::setColor() {
+  if (m_qaPtr.qaPtr->isCorrect())
     m_color = m_goodColor;
   else {
-    if (question->isWrong())
+    if (m_qaPtr.qaPtr->isWrong())
       m_color = m_wrongColor;
     else
       m_color = m_notBadColor;
   }
   TdropShadowEffect *shadow = new TdropShadowEffect(shadowColor());
   setGraphicsEffect(shadow);
-  
 }
-  
-  
+
+TquestionPoint::~TquestionPoint() {}
+
   
 void TquestionPoint::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
   Q_UNUSED(option)
@@ -82,7 +84,7 @@ void TquestionPoint::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
 //   if (m_question->isWrong())
 //     setRotation(180);
   QString glyph = "n";
-  if (m_question->isWrong())
+  if (m_qaPtr.qaPtr->isWrong())
     glyph = "N";
   painter->drawText(rect, Qt::AlignCenter, glyph);
 }
@@ -91,17 +93,16 @@ QRectF TquestionPoint::boundingRect() const {
 //   QFontMetrics metrics = QFont("nootka", 25);
 //   QRectF rect = metrics.boundingRect("n");
   QRectF rect(-9, -29, 24, 41); // values calculated from above, hardcoded for speedy
-  if (m_question->isWrong())
+  if (m_qaPtr.qaPtr->isWrong())
     rect.setRect(-11, -10, 24, 41);;
   return rect;
 }
   
-void TquestionPoint::hoverEnterEvent(QGraphicsSceneHoverEvent* ) {
-    m_parent->showTip(this);
+void TquestionPoint::hoverEnterEvent(QGraphicsSceneHoverEvent* event ) {
+    if (tip)
+        return;
+    tip = new TtipChart(this);
+    handleTip(event->scenePos());
 }
 
-
-void TquestionPoint::hoverLeaveEvent(QGraphicsSceneHoverEvent* ) {
-  m_parent->deleteTip();
-}
 
