@@ -60,7 +60,7 @@ TkeySignatureView::TkeySignatureView(TscoreWidgetSimple *parent, char _keySign) 
     setMouseTracking(true);
     setStatusTip(tr("Use mouse wheel to change a key signature"));
 
-    m_scene = new QGraphicsScene();
+    m_scene = new QGraphicsScene(this);
     setScene(m_scene);
 
     for (int i=0; i<7; i++) {

@@ -29,7 +29,7 @@ TnootkaLabel::TnootkaLabel(QString pixmapPath, QWidget* parent, QColor bgColor) 
     setStyleSheet(("background: transparent"));
     setRenderHint(QPainter::TextAntialiasing, true);
 
-    m_scene = new QGraphicsScene();
+    m_scene = new QGraphicsScene(this);
     setScene(m_scene);
     
     QGraphicsPixmapItem *pixItem = new QGraphicsPixmapItem(QPixmap(pixmapPath));

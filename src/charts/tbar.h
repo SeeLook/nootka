@@ -32,6 +32,7 @@ class Tbar : public TtipHandler
 public:
   
     Tbar(qreal height, TgroupedQAunit* qaGroup);
+    virtual ~Tbar();
     
     
 protected:

@@ -33,7 +33,7 @@ TnoteView::TnoteView(int _index, TscoreWidgetSimple * parent) :
     setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
     setMouseTracking(true);
 
-    m_scene = new QGraphicsScene();
+    m_scene = new QGraphicsScene(this);
     setScene(m_scene);
 
     m_workColor = palette().highlight().color();

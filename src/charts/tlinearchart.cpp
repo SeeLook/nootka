@@ -248,3 +248,6 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
 
 TlinearChart::~TlinearChart() {}
 
+
+
+
