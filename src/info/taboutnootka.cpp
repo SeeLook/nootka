@@ -71,6 +71,9 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     navList->addItem(tr("Support"));
     navList->item(4)->setIcon(QIcon(gl->path+"picts/support.png"));
     navList->item(4)->setTextAlignment(Qt::AlignCenter);
+    navList->addItem(tr("Changes"));
+    navList->item(5)->setIcon(QIcon(gl->path+"picts/chlog.png"));
+    navList->item(5)->setTextAlignment(Qt::AlignCenter);
 
 
 
@@ -101,17 +104,46 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 	
 	QString trans = QApplication::translate("about translator", "translator", "Do not translate this, just put in 'translator comment field' Your data: Translator's' Name<br>Tramslator's' e-mail(optional)<br>Translator site(optional)");
 
-
+// LICENSE GPL
     QTextEdit *licenseTxt = new QTextEdit();
     licenseTxt->setReadOnly(true);
     QFile file(gl->path + "gpl");
     if(file.open(QFile::ReadOnly | QFile::Text)) {
 	      QTextStream in(&file);
-		  in.setCodec("UTF-8");
+        in.setCodec("UTF-8");
 	      licenseTxt->setPlainText(in.readAll());
     }
 
     TsupportNootka *support = new TsupportNootka(this);
+    
+// CHANGESLOG
+    QTextEdit *chLogTxt = new QTextEdit();
+    chLogTxt->setReadOnly(true);
+    QFile chfile(gl->path + "changelog");
+    if(chfile.open(QFile::ReadOnly | QFile::Text)) {
+        QTextStream in(&chfile);
+        in.setCodec("UTF-8");
+        QStringList htmlText = in.readAll().replace("  ", "&nbsp;&nbsp;").split("\n");
+        for (int i = 0; i < htmlText.size(); i++) {
+          if (htmlText[i].contains("0."))
+            htmlText[i] = "<u><b>&nbsp;" + htmlText[i] + "</b></u>";
+          else if (htmlText[i].contains("BUG"))
+            htmlText[i] = "&nbsp;&nbsp;<u>BUG FIXES</u>";
+          else if (htmlText[i].contains("Under the hood"))
+            htmlText[i] = "&nbsp;&nbsp;<u>Under the hood</u>";
+          else if (!htmlText[i].contains("&nbsp;&nbsp; - "))
+            htmlText[i] = "<b>" + htmlText[i] + "</b>";
+//           if (htmlText[i].isEmpty())
+//             htmlText[i].append("<hr>");
+//           else
+          htmlText[i].append("<br>");
+        }
+//         htmlText.prepend(QString("<div style=\"color: %1; background-color: %2;\">").
+//             arg(palette().highlightedText().color().name()).arg(palette().highlight().color().name()));
+//         htmlText.append("</div>");
+        chLogTxt->setHtml(htmlText.join(""));
+//         chLogTxt->setPlainText(htmlText.join(""));
+    }
 
     stackLayout->addWidget(m_about);
     
@@ -119,6 +151,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     stackLayout->addWidget(wi);
     stackLayout->addWidget(licenseTxt);
     stackLayout->addWidget(support);
+    stackLayout->addWidget(chLogTxt);
 
     connect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
     connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
