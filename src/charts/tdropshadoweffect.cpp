@@ -19,7 +19,6 @@
 
 #include "tdropshadoweffect.h"
 #include "tquestionpoint.h"
-#include <QDebug>
 
 TdropShadowEffect::TdropShadowEffect(QColor color)
 {

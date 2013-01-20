@@ -32,7 +32,7 @@ Tchart::Tchart(QWidget* parent) :
 {
 	setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 	setDragMode(ScrollHandDrag);
-	scene = new QGraphicsScene();
+	scene = new QGraphicsScene(this);
 	setScene(scene);
 	
     
@@ -57,11 +57,7 @@ Tchart::Tchart(QWidget* parent) :
 
 }
 
-Tchart::~Tchart()
-{
-  delete xAxis;
-  delete yAxis;
-}
+Tchart::~Tchart() {}
 
 void Tchart::zoom(bool in) {
     double coef = 1.125;

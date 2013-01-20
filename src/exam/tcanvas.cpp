@@ -33,7 +33,7 @@
 #include "tfingerboard.h"
 #include "tpitchview.h"
 #include "tquestionaswdg.h"
-#include <QDebug>
+// #include <QDebug>
 #include <QTimer>
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
@@ -60,7 +60,7 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   setFrameShape(QFrame::NoFrame);
   setStyleSheet(("background: transparent"));
   setRenderHint(QPainter::TextAntialiasing, true);
-  m_scene = new QGraphicsScene();
+  m_scene = new QGraphicsScene(this);
   setScene(m_scene);
   sizeChanged(parent->centralWidget()->size());
 //   m_animation = new QParallelAnimationGroup(this);
@@ -355,7 +355,7 @@ void Tcanvas::sizeChanged(QSize newSize) {
 
 
 void Tcanvas::linkActivatedSlot(QString link) {
-    qDebug() << "link is:" <<  link;
+//     qDebug() << "link is:" <<  link;
     emit buttonClicked(link);
 }
 

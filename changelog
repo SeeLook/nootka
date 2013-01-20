@@ -1,6 +1,8 @@
 0.8.6 beta
      - added bar chart with another statistics of results
      - many improvements of a chart engine
+    BUGS FIXES
+     - eliminated some memory leaks related with chrts and tips
 
 0.8.5 stable
   Nootka says: I will tell You about what You've been thinking for so long...

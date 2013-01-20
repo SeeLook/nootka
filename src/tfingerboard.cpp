@@ -36,7 +36,7 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
         gl->GselectedColor = palette().highlight().color();
     }
 
-    m_scene = new QGraphicsScene();
+    m_scene = new QGraphicsScene(this);
 
     setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

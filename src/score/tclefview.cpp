@@ -31,7 +31,7 @@ TclefView::TclefView(TscoreWidgetSimple *parent) :
     setStyleSheet(("background: transparent"));
     setRenderHint(QPainter::TextAntialiasing, true);
 
-    m_scene = new QGraphicsScene();
+    m_scene = new QGraphicsScene(this);
     setScene(m_scene);
 
     m_clefText = new QGraphicsSimpleTextItem();
