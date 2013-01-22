@@ -231,6 +231,94 @@ QList<TgroupedQAunit> sortByAccidental(TgroupedQAunit& answList, TexamLevel* lev
   return result;
 }
 
+QList< TgroupedQAunit > sortByQAtype(TgroupedQAunit& answList, TexamLevel* level, bool& hasListUnrelated) {
+  QList<TgroupedQAunit> result;
+  TgroupedQAunit qaTypesArr[4][4]; 
+  for (int i = 0; i < answList.size(); i++) {
+    switch (answList[i].qaPtr->questionAs) {
+      case TQAtype::e_asNote :
+            switch (answList[i].qaPtr->answerAs) {
+              case TQAtype::e_asNote :
+                qaTypesArr[0][0].addQAunit(answList[i]);
+                break;
+              case TQAtype::e_asName :
+                qaTypesArr[0][1].addQAunit(answList[i]);
+                break;
+              case TQAtype::e_asFretPos :
+                qaTypesArr[0][2].addQAunit(answList[i]);
+                break;
+              case TQAtype::e_asSound :
+                qaTypesArr[0][3].addQAunit(answList[i]);
+                break;
+        }
+        break;
+      case TQAtype::e_asName :
+            switch (answList[i].qaPtr->answerAs) {
+              case TQAtype::e_asNote :
+                qaTypesArr[1][0].addQAunit(answList[i]);
+                break;
+              case TQAtype::e_asName :
+                qaTypesArr[1][1].addQAunit(answList[i]);
+                break;
+              case TQAtype::e_asFretPos :
+                qaTypesArr[1][2].addQAunit(answList[i]);
+                break;
+              case TQAtype::e_asSound :
+                qaTypesArr[1][3].addQAunit(answList[i]);
+                break;
+        }
+        break;
+      case TQAtype::e_asFretPos :
+            switch (answList[i].qaPtr->answerAs) {
+              case TQAtype::e_asNote :
+                qaTypesArr[2][0].addQAunit(answList[i]);
+                break;
+              case TQAtype::e_asName :
+                qaTypesArr[2][1].addQAunit(answList[i]);
+                break;
+              case TQAtype::e_asFretPos :
+                qaTypesArr[2][2].addQAunit(answList[i]);
+                break;
+              case TQAtype::e_asSound :
+                qaTypesArr[2][3].addQAunit(answList[i]);
+                break;
+        }
+        break;
+      case TQAtype::e_asSound :
+            switch (answList[i].qaPtr->answerAs) {
+              case TQAtype::e_asNote :
+                qaTypesArr[0][0].addQAunit(answList[i]);
+                break;
+              case TQAtype::e_asName :
+                qaTypesArr[0][1].addQAunit(answList[i]);
+                break;
+              case TQAtype::e_asFretPos :
+                qaTypesArr[0][2].addQAunit(answList[i]);
+                break;
+              case TQAtype::e_asSound :
+                qaTypesArr[0][3].addQAunit(answList[i]);
+                break;
+        }
+        break;
+    }
+  }
+  for (int q = 0; q < 4; q++) {
+    for (int a = 0; a < 4; a++) {
+      if (!qaTypesArr[q][a].isEmpty()) {
+        qaTypesArr[q][a].resume( // short: symbols of types, full: texts
+                TquestionAsWdg::spanNootka(TquestionAsWdg::qaTypeSymbol(qaTypesArr[q][a].first()->questionAs), 25) + "<br>" + 
+                TquestionAsWdg::spanNootka(TquestionAsWdg::qaTypeSymbol(qaTypesArr[q][a].first()->answerAs), 25),
+                TquestionAsWdg::questionsTxt() + " " + TquestionAsWdg::qaTypeText(qaTypesArr[q][a].first()->questionAs) + "<br>" +
+                TquestionAsWdg::answersTxt() + " " + TquestionAsWdg::qaTypeText(qaTypesArr[q][a].first()->answerAs) );
+        result << qaTypesArr[q][a];
+      }
+    }
+  }
+  hasListUnrelated = false;
+  return result;
+}
+
+
 
 
 void divideQuestionsAndAnswers(QList<TgroupedQAunit>& result, TgroupedQAunit& someList, TQAtype::Etype type) {

@@ -21,7 +21,6 @@
 #define TTIPHANDLER_H
 
 #include <qgraphicsitem.h>
-#include <QObject>
 
 class QTimer;
 class TgroupedQAunit;
@@ -35,9 +34,11 @@ class TgraphicsTextTip;
  * - reimplement hoverEnterEvent(QGraphicsSceneHoverEvent *event)
  * and prepare there TgraphicsTextTip *tip
  * - then call handleTip(event->scenePos()) inside 
+ * Static QTimer and TgraphicsTextTip art to have exactly only one instance
+ * of them for all chart elements.
  */
 
-class TtipHandler : public QObject, public QGraphicsItem
+class TtipHandler : public QGraphicsObject
 {  
   Q_OBJECT
   

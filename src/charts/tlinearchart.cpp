@@ -95,7 +95,8 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
   }
   
   if (settings.order == e_byNote || settings.order == e_byFret ||
-          settings.order == e_byKey || settings.order == e_byAccid) {
+          settings.order == e_byKey || settings.order == e_byAccid || 
+          settings.order == e_byQuestAndAnsw) {
       sort();
       xAxis->setAnswersLists(sortedLists, exam->level());
       int ln = 0;
@@ -136,6 +137,10 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
               lineText = TgroupedQAunit::for_an_accid() + "<span style=\"font-size: 20px;\">  " + accidToNotka(kindOfAccids[i]) + "</span>";
             else
               lineText = QApplication::translate("TlinearChart", "for notes without accidentals"); 
+            break;
+          case e_byQuestAndAnsw:
+            lineText = sortedLists[i].fullDescription()/* + "<span style=\"font-size: 20px;\">  <b>" + 
+                TnoteName::noteToRichText(sortedLists[i].first()->qa.note) + "</b>"*/;
             break;
         }        
         averTimeLine->setText(lineText);
