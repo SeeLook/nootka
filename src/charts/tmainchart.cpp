@@ -83,17 +83,34 @@ void TmainChart::sort() {
               sortedLists.append(sortByAccidental(badAnsw, currExam->level(), hasListUnrelated, kindOfAccids));
     } else {
         TgroupedQAunit convList = convertToPointers(currExam->answList());
-        if (chartSett.order == e_byNote)
-          sortedLists = sortByNote(convList, currExam->level(), hasListUnrelated);
-        else
-          if (chartSett.order == e_byFret)
+        switch (chartSett.order) {
+          case e_byNote:
+            sortedLists = sortByNote(convList, currExam->level(), hasListUnrelated);
+            break;
+          case e_byFret:
             sortedLists = sortByFret(convList, currExam->level(), hasListUnrelated);
-          else
-            if (chartSett.order == e_byKey)
-              sortedLists = sortByKeySignature(convList, currExam->level(), hasListUnrelated);
-            else
-              if (chartSett.order == e_byAccid)
-                sortedLists = sortByAccidental(convList, currExam->level(), hasListUnrelated, kindOfAccids);
+            break;
+          case e_byKey:
+            sortedLists = sortByKeySignature(convList, currExam->level(), hasListUnrelated);
+            break;
+          case e_byAccid:
+            sortedLists = sortByAccidental(convList, currExam->level(), hasListUnrelated, kindOfAccids);
+            break;
+          case e_byQuestAndAnsw: // in this case wrong answers aren't separate
+            sortedLists = sortByQAtype(convList, currExam->level(), hasListUnrelated);
+            break;
+        }
+//         if (chartSett.order == e_byNote)
+//           sortedLists = sortByNote(convList, currExam->level(), hasListUnrelated);
+//         else
+//           if (chartSett.order == e_byFret)
+//             sortedLists = sortByFret(convList, currExam->level(), hasListUnrelated);
+//           else
+//             if (chartSett.order == e_byKey)
+//               sortedLists = sortByKeySignature(convList, currExam->level(), hasListUnrelated);
+//             else
+//               if (chartSett.order == e_byAccid)
+//                 sortedLists = sortByAccidental(convList, currExam->level(), hasListUnrelated, kindOfAccids);
         goodSize = sortedLists.size();
     }
 }

@@ -62,6 +62,7 @@ class TexamLevel;
        * For unrelated its value is 3*/
   QList<TgroupedQAunit> sortByAccidental(TgroupedQAunit& answList, TexamLevel* level,
                                          bool& hasListUnrelated, QList<char> &kindOfAccidList);
+  QList<TgroupedQAunit> sortByQAtype(TgroupedQAunit& answList, TexamLevel* level, bool& hasListUnrelated);
       /** converts given value to nootka string. */
   QString accidToNotka(char acc, int fontSize = 20);
       /** Returns '?' or '!' depends on answer type. */

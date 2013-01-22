@@ -71,6 +71,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   m_chartListCombo->addItem(tr("fret number"));
   m_chartListCombo->addItem(tr("key signature"));
   m_chartListCombo->addItem(tr("accidentals"));
+  m_chartListCombo->addItem(tr("question type"));
   headLay->addWidget(m_chartListCombo, 1, 0, Qt::AlignCenter);
   m_userLab = new QLabel(" ", this);
   headLay->addWidget(m_userLab, 1, 1, Qt::AlignCenter);
@@ -338,26 +339,40 @@ void TanalysDialog::analyseChanged(int index) {
     
   switch (index) {
     case 0:
-      m_chartSetts.order = TmainChart::e_byNumber;
+      m_chartSetts.order = Tchart::e_byNumber;
       m_settButt->setDisabled(true);
       break;
     case 1:
-      m_chartSetts.order = TmainChart::e_byNote;
+      m_chartSetts.order = Tchart::e_byNote;
       m_settButt->setDisabled(false);
       break;
     case 2:
-      m_chartSetts.order = TmainChart::e_byFret;
+      m_chartSetts.order = Tchart::e_byFret;
       m_settButt->setDisabled(false);
       break;
     case 3:
-      m_chartSetts.order = TmainChart::e_byKey;
+      m_chartSetts.order = Tchart::e_byKey;
       m_settButt->setDisabled(false);
       break;
     case 4:
-      m_chartSetts.order = TmainChart::e_byAccid;
+      m_chartSetts.order = Tchart::e_byAccid;
+      m_settButt->setDisabled(false);
+      break;
+    case 5:
+      m_chartSetts.order = Tchart::e_byQuestAndAnsw;
       m_settButt->setDisabled(false);
       break;
   }
+  if (m_chartSetts.order == Tchart::e_byQuestAndAnsw) {
+      disconnect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
+      m_wrongSeparateAct->setChecked(false); // this sorting requires it!!
+      m_wrongSeparateAct->setDisabled(true);
+      m_chartSetts.separateWrong = false;
+      m_inclWrongAct->setDisabled(false);
+  } else {
+      m_wrongSeparateAct->setDisabled(false);
+      connect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
+  }  
   createChart(m_chartSetts);
 }
 
