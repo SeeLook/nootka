@@ -96,7 +96,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
   
   if (settings.order == e_byNote || settings.order == e_byFret ||
           settings.order == e_byKey || settings.order == e_byAccid || 
-          settings.order == e_byQuestAndAnsw) {
+          settings.order == e_byQuestAndAnsw || settings.order == e_byMistake) {
       sort();
       xAxis->setAnswersLists(sortedLists, exam->level());
       int ln = 0;
@@ -141,6 +141,9 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
           case e_byQuestAndAnsw:
             lineText = sortedLists[i].fullDescription()/* + "<span style=\"font-size: 20px;\">  <b>" + 
                 TnoteName::noteToRichText(sortedLists[i].first()->qa.note) + "</b>"*/;
+            break;
+          case e_byMistake:
+            lineText = sortedLists[i].fullDescription();
             break;
         }        
         averTimeLine->setText(lineText);

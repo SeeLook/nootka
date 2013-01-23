@@ -105,7 +105,7 @@ QList<TgroupedQAunit> sortByNote(TgroupedQAunit& answList, TexamLevel *level, bo
         }
       }
       if (!noteList.isEmpty()) {
-        noteList.resume(theSame[j].toRichText(), noteList.for_a_note());
+        noteList.resume(theSame[j].toRichText(), noteList.for_a_note() + " <span style=\"font-size: 20px;\">" + theSame[j].toRichText() + "</span>");
         result << noteList;
       }
     }
@@ -144,7 +144,7 @@ QList<TgroupedQAunit> sortByFret(TgroupedQAunit& answList, TexamLevel *level, bo
       }
     }
     if (!fretList.isEmpty()) {
-      fretList.resume(TfingerPos::romanFret(f), fretList.for_a_fret());
+      fretList.resume(TfingerPos::romanFret(f), fretList.for_a_fret() + " <span style=\"font-size: 20px;\">" + QString("%1").arg(f) + "</span>");
       result << fretList;
     }
   }
@@ -188,9 +188,9 @@ QList<TgroupedQAunit> sortByKeySignature(TgroupedQAunit& answList, TexamLevel *l
   }
   for (int i = 0; i < result.size(); i++) {
 //     if (level->manualKey && result[i].first()->answerAs == TQAtype::e_asNote)
-      
-    result[i].resume(result[i].list.first().qaPtr->key.getName() + "<br>" + getWasInAnswOrQuest(TQAtype::e_asNote, result[i].first()),
-                     TgroupedQAunit::for_a_key());
+// TODO: remove marks from full desc
+    QString desc = result[i].list.first().qaPtr->key.getName() + "<br>" + getWasInAnswOrQuest(TQAtype::e_asNote, result[i].first());
+    result[i].resume(desc, TgroupedQAunit::for_a_key() + " <span style=\"font-size: 20px;\">" + desc + "</span>");
   }
   if (!unrelatedList.isEmpty()) {
       result << unrelatedList; // add unrelatedList at the end of list
@@ -219,7 +219,7 @@ QList<TgroupedQAunit> sortByAccidental(TgroupedQAunit& answList, TexamLevel* lev
     if (!accidsArray[i].isEmpty()) {
       QList<TgroupedQAunit> sorted = sortByNote(accidsArray[i], level, tmpBool);
       TgroupedQAunit accidList = mergeListOfLists(sorted);
-      accidList.resume(accidToNotka(i - 2), accidList.for_an_accid());
+      accidList.resume(accidToNotka(i - 2), accidList.for_an_accid() + " <span style=\"font-size: 20px;\">" + accidToNotka(i - 2) + "</span>");
       result << accidList;
       kindOfAccidList << (i - 2);
     }
@@ -231,7 +231,7 @@ QList<TgroupedQAunit> sortByAccidental(TgroupedQAunit& answList, TexamLevel* lev
   return result;
 }
 
-QList< TgroupedQAunit > sortByQAtype(TgroupedQAunit& answList, TexamLevel* level, bool& hasListUnrelated) {
+QList<TgroupedQAunit> sortByQAtype(TgroupedQAunit& answList, TexamLevel* level, bool& hasListUnrelated) {
   QList<TgroupedQAunit> result;
   TgroupedQAunit qaTypesArr[4][4]; 
   for (int i = 0; i < answList.size(); i++) {
@@ -318,6 +318,52 @@ QList< TgroupedQAunit > sortByQAtype(TgroupedQAunit& answList, TexamLevel* level
   return result;
 }
 
+
+QList<TgroupedQAunit> sortByMisakes(TgroupedQAunit& answList, TexamLevel* level, bool& hasListUnrelated) {
+  QList<TgroupedQAunit> result;
+  TgroupedQAunit mistakesArr[8];
+  QStringList mistakesDesc;
+  mistakesDesc << QApplication::translate("AnswerText", "correct")                // 0
+               << QApplication::translate("AnswerText", "wrong accidental")       // 1
+               << QApplication::translate("AnswerText", "wrong key signature")    // 2
+               << QApplication::translate("AnswerText", "wrong octave")           // 3
+               << QApplication::translate("AnswerText", "wrong style")            // 4 NOT IMPLEMENTED
+               << QApplication::translate("AnswerText", "wrong position")         // 5
+               << QApplication::translate("AnswerText", "wrong string")           // 6
+               << QApplication::translate("AnswerText", "wrong note")             // 7
+  ;
+  for (int i = 0; i < answList.size(); i++) {
+    // The order of types of mistakes are taken from TQAunit class
+    if (answList[i].qaPtr->isCorrect())
+      mistakesArr[0].addQAunit(answList[i]);
+    else // correct, wrongNote & wrongPos exclude themself
+     if (answList[i].qaPtr->wrongNote())
+       mistakesArr[7].addQAunit(answList[i]);
+     else
+       if (answList[i].qaPtr->wrongPos())
+        mistakesArr[5].addQAunit(answList[i]);
+       else { // meanwhile rest of mistakes can occur together
+          if (answList[i].qaPtr->wrongAccid())
+            mistakesArr[1].addQAunit(answList[i]);
+          if (answList[i].qaPtr->wrongKey())
+            mistakesArr[2].addQAunit(answList[i]);
+          if (answList[i].qaPtr->wrongOctave())
+            mistakesArr[3].addQAunit(answList[i]);
+          if (answList[i].qaPtr->wrongStyle())
+            mistakesArr[4].addQAunit(answList[i]);
+          if (answList[i].qaPtr->wrongString())
+            mistakesArr[6].addQAunit(answList[i]);
+       }
+  }
+  for (int m = 0; m < 8; m++) {
+    if (!mistakesArr[m].isEmpty()) {
+      mistakesArr[m].resume(mistakesDesc[m].replace(" ", "<br>"), mistakesDesc[m]);
+      result << mistakesArr[m];
+    }
+  }
+  hasListUnrelated = false;
+  return result;
+}
 
 
 

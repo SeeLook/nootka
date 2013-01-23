@@ -51,7 +51,8 @@ void TgroupedQAunit::addQAunit(TQAunit* qaUnit, unsigned int questNr) {
 
 void TgroupedQAunit::resume(QString desc, QString fullDesc) {
     setDescription(desc);
-    m_fullDesc = fullDesc + " <span style=\"font-size: 20px;\">" + desc + "</span>";
+//     m_fullDesc = fullDesc + " <span style=\"font-size: 20px;\">" + desc + "</span>";
+    m_fullDesc = fullDesc;
     m_mistakes = 0;
     m_halfMist = 0;
     double okTime = 0.0;

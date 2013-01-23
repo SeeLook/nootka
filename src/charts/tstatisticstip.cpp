@@ -21,9 +21,13 @@
 #include "tgroupedqaunit.h"
 #include "texamview.h"
 #include "tqaunit.h"
-#include "tquestionpoint.h"
+// #include "tquestionpoint.h"
 #include "tglobals.h"
 #include <QApplication>
+
+
+
+extern Tglobals *gl;
 
 QString trStyle(QColor c) {
     c.setAlpha(30);
@@ -38,14 +42,14 @@ QString TstatisticsTip::getTipText(TgroupedQAunit* qaGroup)  {
     tipText += TexamView::effectTxt() + ": </td><td> <b>" + QString("%1 %").arg(qaGroup->effectiveness(), 2, 'f', 0, '0') + "</b></td></tr><tr><td>";
     tipText += TexamView::averAnsverTimeTxt() + ": </td><td> <b>" + TexamView::formatReactTime(qaGroup->averTime(), true) + "</b></td></tr><tr><td>";
     tipText += QApplication::translate("TstatisticTip", "Questions number:") + QString(" </td><td> <b>%1</b></td></tr>").arg(qaGroup->size());
-    tipText += "<tr " + trStyle(TquestionPoint::goodColor()) + "><td>";
+    tipText += "<tr " + trStyle(gl->EquestionColor) + "><td>";
     tipText += TexamView::corrAnswersNrTxt() + QString(": </td><td> <b>%1</b></td></tr>")
         .arg(qaGroup->size() - qaGroup->mistakes() - qaGroup->notBad());
     if (qaGroup->mistakes())
-      tipText += "<tr " + trStyle(TquestionPoint::wrongColor())  + "><td>" + TexamView::mistakesNrTxt() +
+      tipText += "<tr " + trStyle(gl->EanswerColor)  + "><td>" + TexamView::mistakesNrTxt() +
               QString(": </td><td> <b>%1</b></td></tr>").arg(qaGroup->mistakes());
     if (qaGroup->notBad())
-      tipText += "<tr " + trStyle(TquestionPoint::notBadColor()) + "><td>" + TexamView::halfMistakenTxt() +
+      tipText += "<tr " + trStyle(gl->EnotBadColor) + "><td>" + TexamView::halfMistakenTxt() +
               QString(": </td><td> <b>%1</b></td></tr>").arg(qaGroup->notBad());
     tipText += "</table>";
     return tipText;
