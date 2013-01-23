@@ -122,6 +122,18 @@
            in="SourceGraphic" />
       </feMerge>
     </filter>
+    <filter
+       inkscape:collect="always"
+       id="filter3880"
+       x="-0.038235297"
+       width="1.0764706"
+       y="-0.13928568"
+       height="1.2785714">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.14508925"
+         id="feGaussianBlur3882" />
+    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -131,8 +143,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="22.4"
-     inkscape:cx="16.98785"
-     inkscape:cy="15.357118"
+     inkscape:cx="17.26717"
+     inkscape:cy="18.952498"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -153,7 +165,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -256,7 +268,7 @@
          sodipodi:role="line"
          id="tspan4487" /></text>
     <g
-       transform="matrix(2.2844887,0,0,2.2844887,533.08169,430.67364)"
+       transform="matrix(2.8305787,0,0,2.8305787,533.08169,429.58117)"
        id="g947-3">
       <g
          id="text949-8"
@@ -268,7 +280,7 @@
       </g>
     </g>
     <g
-       transform="matrix(2.2844887,0,0,2.2844887,543.35286,429.47943)"
+       transform="matrix(2.7281868,0,0,2.7281868,542.95107,428.19204)"
        id="g947-3-7">
       <g
          id="text949-8-7"
@@ -281,10 +293,15 @@
     </g>
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;marker-mid:none"
-       d="m 14.6875,19.242474 c 5.267857,7.053571 4.732143,6.160713 4.732143,6.160713 4.375,-6.74107 4.330357,-6.919642 4.330357,-6.919642"
+       d="m 535.55226,432.10142 1.54018,1.74107 7.00893,-0.55804 0.55803,-1.94196"
        id="path3048"
        inkscape:connector-curvature="0"
-       transform="translate(520.68619,413.02269)"
-       sodipodi:nodetypes="ccc" />
+       sodipodi:nodetypes="cccc" />
+    <path
+       style="opacity:0.5;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;marker-mid:none;filter:url(#filter3880)"
+       d="m 536.1103,433.06124 1.54018,1.74107 7.00893,-0.55804 0.55803,-1.94196"
+       id="path3048-1"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc" />
   </g>
 </svg>

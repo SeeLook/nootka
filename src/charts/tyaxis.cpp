@@ -29,6 +29,7 @@ TYaxis::TYaxis() :
   m_halfTick(false)
 {
     m_textPosOffset = (rectBoundText("X").height() / 4);
+    setUnit(e_timeInSec);
 }
 
 void TYaxis::setMaxValue(qreal val) {
@@ -51,6 +52,24 @@ void TYaxis::setMaxValue(qreal val) {
         m_halfTick = true;
 //     qDebug() << m_top << axisScale << m_top*axisScale << length() - (2 * arrowSize) << length() << m_loop << mapValue(m_top) << m_multi << m_multi2;
 }
+
+
+void TYaxis::setUnit(TYaxis::Eunit unit) {
+    switch (unit) {
+      case e_timeInSec:
+        m_unitVal = QObject::tr("s", "seconds - unit of Y axis, usually untranslateable as an international");
+        m_unitDesc = QObject::tr("time");
+        break;
+      case e_questionNr:
+        m_unitDesc = QObject::tr("quest.\ncount", "- unit of Y axis. TRY TO BE SHORT AND USE MAX 2 LINES!!");
+        m_unitVal = " ";
+        break;
+    }
+    m_unitVal.prepend("[");
+    m_unitVal.append("]");
+}
+
+
 
 void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
@@ -77,7 +96,7 @@ void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
     // paint top tick only if there is free room
     if ( ((mapValue(m_loop*m_multi*m_multi2) - mapValue(m_top*m_multi)) ) > m_textPosOffset*4) {
         painter->drawLine(half, mapValue(m_top*m_multi), half - tickSize, mapValue(m_top*m_multi));
-        painter->drawText(half + 3, mapValue(m_top*m_multi) + m_textPosOffset, QString("%1[s]").arg(m_top*m_multi));
+        painter->drawText(half + 3, mapValue(m_top*m_multi) + m_textPosOffset, QString("%1%2").arg(m_top*m_multi).arg(m_unitVal));
     }
 }
 

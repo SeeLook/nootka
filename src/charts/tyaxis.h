@@ -28,6 +28,12 @@ class TYaxis : public TabstractAxis
 
 public:
   
+    /** Unit of an axis values. */
+  enum Eunit {
+    e_timeInSec, // time in seconds (default)
+    e_questionNr // number of questions
+  };
+  
   TYaxis();
   virtual ~TYaxis() {}
   
@@ -39,6 +45,9 @@ public:
   
   virtual QRectF boundingRect();
   
+  void setUnit(Eunit unit); // sets an unit
+  Eunit unit();
+  
   void getYforGrid(QList<double> &yList); // Puts list of Y to yList coordinates to paint grid lines
   
 protected:
@@ -49,7 +58,9 @@ private:
   int m_textPosOffset; // half of text height
   int m_loop, m_top;
   bool m_halfTick;
-  
+  Eunit m_unit;
+  QString m_unitVal; // unit string f.e: [s]
+  QString m_unitDesc; // unit description f.e: time
 
 };
 

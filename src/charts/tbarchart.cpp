@@ -38,6 +38,7 @@ TbarChart::TbarChart(Texam* exam, Tchart::Tsettings& settings, QWidget* parent) 
       for(int i = 0; i < sortedLists.size(); i++)
         maxTime = qMax(maxTime, (qreal)sortedLists[i].size());
       yAxis->setMaxValue((double)maxTime);
+      yAxis->setUnit(TYaxis::e_questionNr);
     }
     
     xAxis->setAnswersForBarChart(sortedLists);
