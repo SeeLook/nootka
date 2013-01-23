@@ -69,6 +69,7 @@ void TmainChart::sort() {
             else
               if (chartSett.order == e_byAccid)
               sortedLists = sortByAccidental(goodAnsw, currExam->level(), hasListUnrelated, kindOfAccids);
+        // e_byQuestAndAnsw & e_byMistake never separate wrong answers
         goodSize = sortedLists.size(); // number without wrong answers
         if (chartSett.order == e_byNote)
           sortedLists.append(sortByNote(badAnsw, currExam->level(), hasListUnrelated));
@@ -99,18 +100,10 @@ void TmainChart::sort() {
           case e_byQuestAndAnsw: // in this case wrong answers aren't separate
             sortedLists = sortByQAtype(convList, currExam->level(), hasListUnrelated);
             break;
+          case e_byMistake:
+            sortedLists = sortByMisakes(convList, currExam->level(), hasListUnrelated);
+            break;
         }
-//         if (chartSett.order == e_byNote)
-//           sortedLists = sortByNote(convList, currExam->level(), hasListUnrelated);
-//         else
-//           if (chartSett.order == e_byFret)
-//             sortedLists = sortByFret(convList, currExam->level(), hasListUnrelated);
-//           else
-//             if (chartSett.order == e_byKey)
-//               sortedLists = sortByKeySignature(convList, currExam->level(), hasListUnrelated);
-//             else
-//               if (chartSett.order == e_byAccid)
-//                 sortedLists = sortByAccidental(convList, currExam->level(), hasListUnrelated, kindOfAccids);
         goodSize = sortedLists.size();
     }
 }

@@ -46,8 +46,7 @@ public:
       e_byFret,
       e_byAccid,
       e_byKey,
-      e_byQuestion,
-      e_byAnswer,
+      e_byMistake,
       e_byQuestAndAnsw, // both above
       e_byStyle,
       e_byClef

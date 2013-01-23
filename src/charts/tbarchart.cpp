@@ -29,15 +29,26 @@ TbarChart::TbarChart(Texam* exam, Tchart::Tsettings& settings, QWidget* parent) 
     chartSett.separateWrong = false;
     sort();
     qreal maxTime = 0;
-    for(int i = 0; i < sortedLists.size(); i++)
-      maxTime = qMax(maxTime, sortedLists[i].averTime());
-    yAxis->setMaxValue((double)maxTime / 10.0);
+    if (chartSett.order != Tchart::e_byMistake) {
+      for(int i = 0; i < sortedLists.size(); i++)
+        maxTime = qMax(maxTime, sortedLists[i].averTime());
+      yAxis->setMaxValue((double)maxTime / 10.0);
+    }
+    else { // For e_byMistake we are looking for highest amount of questions in a group
+      for(int i = 0; i < sortedLists.size(); i++)
+        maxTime = qMax(maxTime, (qreal)sortedLists[i].size());
+      yAxis->setMaxValue((double)maxTime);
+    }
     
     xAxis->setAnswersForBarChart(sortedLists);
     prepareChart(sortedLists.size());
     
     for(int i = 0; i < sortedLists.size(); i++) {
-      Tbar *bar = new Tbar(yAxis->axisFactor() * (sortedLists[i].averTime() / 10.0), &sortedLists[i]);
+      Tbar *bar;
+      if (chartSett.order != Tchart::e_byMistake)
+        bar = new Tbar(yAxis->axisFactor() * (sortedLists[i].averTime() / 10.0), &sortedLists[i]);
+      else
+        bar = new Tbar(yAxis->axisFactor() * (sortedLists[i].size()), &sortedLists[i]);
       scene->addItem(bar);
       bar->setPos(xAxis->mapValue(i + 1) + xAxis->pos().x(), yAxis->boundingRect().height() - 2);
     }

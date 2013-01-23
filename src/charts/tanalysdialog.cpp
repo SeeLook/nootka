@@ -72,6 +72,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   m_chartListCombo->addItem(tr("key signature"));
   m_chartListCombo->addItem(tr("accidentals"));
   m_chartListCombo->addItem(tr("question type"));
+  m_chartListCombo->addItem(tr("mistake"));
   headLay->addWidget(m_chartListCombo, 1, 0, Qt::AlignCenter);
   m_userLab = new QLabel(" ", this);
   headLay->addWidget(m_userLab, 1, 1, Qt::AlignCenter);
@@ -362,10 +363,14 @@ void TanalysDialog::analyseChanged(int index) {
       m_chartSetts.order = Tchart::e_byQuestAndAnsw;
       m_settButt->setDisabled(false);
       break;
+    case 6:
+      m_chartSetts.order = Tchart::e_byMistake;
+      m_settButt->setDisabled(false);
+      break;
   }
-  if (m_chartSetts.order == Tchart::e_byQuestAndAnsw) {
+  if (m_chartSetts.order == Tchart::e_byQuestAndAnsw || m_chartSetts.order == Tchart::e_byMistake) {
       disconnect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
-      m_wrongSeparateAct->setChecked(false); // this sorting requires it!!
+      m_wrongSeparateAct->setChecked(false); // this sorting types require it!!
       m_wrongSeparateAct->setDisabled(true);
       m_chartSetts.separateWrong = false;
       m_inclWrongAct->setDisabled(false);
