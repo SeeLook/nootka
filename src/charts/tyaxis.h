@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -59,8 +59,7 @@ private:
   int m_loop, m_top;
   bool m_halfTick;
   Eunit m_unit;
-  QString m_unitVal; // unit string f.e: [s]
-  QString m_unitDesc; // unit description f.e: time
+  QString m_unitDesc; // unit description string f.e: time [s]
 
 };
 

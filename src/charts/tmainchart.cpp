@@ -138,9 +138,9 @@ void TmainChart::prepareChart(int maxX) {
 void TmainChart::sceneMoved() {
     qreal xOff = mapToScene(0, 0).x();
     xOff = qMax(0.0, xOff);
-    if (xOff > 20)
-      xOff = xOff - 20;
-    yAxis->setX(20 + xOff);  
+    if (xOff > 16)
+//       xOff = xOff - 20;
+    yAxis->setX(16 + xOff);  
     yAxis->update();
 #if not defined (Q_OS_LINUX)
     // Mac and Windows have problem with update and this solves it.
