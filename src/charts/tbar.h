@@ -22,6 +22,7 @@
 
 
 #include "ttiphandler.h"
+#include "tstatisticstip.h"
 
 class QGraphicsSceneHoverEvent;
 class TgroupedQAunit;
@@ -31,7 +32,7 @@ class Tbar : public TtipHandler
 
 public:
   
-    Tbar(qreal height, TgroupedQAunit* qaGroup);
+    Tbar(qreal height, TgroupedQAunit* qaGroup, TstatisticsTip::Ekind tipType = TstatisticsTip::e_full);
     virtual ~Tbar();
     
     
@@ -46,6 +47,8 @@ private:
     qreal m_height;
     TgroupedQAunit *m_qaGroup;
     qreal m_wrongAt, m_notBadAt; // Keeps position of color gradient for mistakes
+        /** Static type of a tip. Described in TstatisticsTip class. */
+    static TstatisticsTip::Ekind m_tipType;
 };
 
 #endif // TBAR_H

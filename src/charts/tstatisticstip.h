@@ -34,8 +34,9 @@ public:
         /** Determines how many data are shown in tip
         * e_full - (default) average time, questions number and all kinds of mistakes.
         * e_simple - average time only (It is nessesary to give description in constructor). 
+        * e_mistakes - sort by mistakes, skips effectivenes and questions number
         */
-    enum Ekind { e_full, e_simple };
+    enum Ekind { e_full, e_simple, e_mistakes };
   
     TstatisticsTip(TgroupedQAunit *qaGroup, Ekind kind = e_full, QString desc = "");
     virtual ~TstatisticsTip();
@@ -50,6 +51,7 @@ public:
     
 private:
     TgroupedQAunit *m_qaGroup;
+    static Ekind m_kind;
     
 };
 

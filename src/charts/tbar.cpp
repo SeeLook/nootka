@@ -33,12 +33,15 @@
 
 #define WIDTH (30) // default width of a bar
 
+TstatisticsTip::Ekind Tbar::m_tipType = TstatisticsTip::e_full;
 
-Tbar::Tbar(qreal height, TgroupedQAunit* qaGroup) :
+
+Tbar::Tbar(qreal height, TgroupedQAunit* qaGroup, TstatisticsTip::Ekind tipType) :
     TtipHandler(),
     m_height(height),
     m_qaGroup(qaGroup)
 {
+    m_tipType = tipType;
     m_wrongAt = (qreal)m_qaGroup->mistakes() / (qreal)m_qaGroup->size();
     m_notBadAt = (qreal)m_qaGroup->notBad() / (qreal)m_qaGroup->size();
     TdropShadowEffect *shadow = new TdropShadowEffect();
@@ -99,7 +102,7 @@ QRectF Tbar::boundingRect() const {
 
 void Tbar::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
     if (!tip) {
-      tip = new TstatisticsTip(m_qaGroup);
+      tip = new TstatisticsTip(m_qaGroup, m_tipType);
       handleTip(event->scenePos());
     }
 }
