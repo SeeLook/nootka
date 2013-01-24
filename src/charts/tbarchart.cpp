@@ -48,8 +48,8 @@ TbarChart::TbarChart(Texam* exam, Tchart::Tsettings& settings, QWidget* parent) 
       Tbar *bar;
       if (chartSett.order != Tchart::e_byMistake)
         bar = new Tbar(yAxis->axisFactor() * (sortedLists[i].averTime() / 10.0), &sortedLists[i]);
-      else
-        bar = new Tbar(yAxis->axisFactor() * (sortedLists[i].size()), &sortedLists[i]);
+      else // Y value is number of questions, bar generates tip and has to know about type to skip some data
+        bar = new Tbar(yAxis->axisFactor() * (sortedLists[i].size()), &sortedLists[i], TstatisticsTip::e_mistakes);
       scene->addItem(bar);
       bar->setPos(xAxis->mapValue(i + 1) + xAxis->pos().x(), yAxis->boundingRect().height() - 2);
     }
