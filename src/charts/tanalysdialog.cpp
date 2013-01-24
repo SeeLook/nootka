@@ -113,7 +113,10 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
     modKey = "CTRL";
 #endif
     m_chart->setInteractive(true);
-    TgraphicsTextTip *helpTip = new TgraphicsTextTip("<br>" + tr("Press %1 button<br> to select an exam from a file<br>Use %2 + mouse wheel to zoom a chart.<br>Drag a cursor to move the chart.").arg("<a href=\"charts\"> " + pixToHtml(gl->path + "picts/nootka-exam.png", 38) + " </a>").arg(modKey)  + "<br>", TquestionPoint::bgColor());
+    TgraphicsTextTip *helpTip = new TgraphicsTextTip("<br>" + tr("Press %1 button<br> to select an exam from a file<br>Use %2 + mouse wheel or %3 buttons to zoom a chart.<br>Drag a cursor to move the chart.").
+      arg("<a href=\"charts\"> " + pixToHtml(gl->path + "picts/nootka-exam.png", 38) + " </a>").
+      arg(modKey).arg(pixToHtml(gl->path + "picts/zoom-in.png", 30) + " " + pixToHtml(gl->path + "picts/zoom-out.png", 30))  + 
+      "<br>", gl->EanswerColor);
       m_chart->scene->addItem(helpTip);
       helpTip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
 //       helpTip->setPos((m_chart->width() - helpTip->boundingRect().width()) / 2, 
@@ -143,7 +146,7 @@ void TanalysDialog::setExam(Texam* exam) {
   m_exam = exam;
   m_userLab->setText("<b>" + m_exam->userName() + "</b>");
   m_levelLab->setText("<b>" + m_exam->level()->name + "</b>");
-  m_questNrLab->setText(tr("Questions number:") + QString(" <b>%1</b>").arg(exam->count()) );
+  m_questNrLab->setText(tr("Questions number") + QString(": <b>%1</b>").arg(exam->count()) );
   m_effectLab->setText(TexamView::effectTxt() + QString(": <b>%1%</b>")
                        .arg(m_exam->effectiveness(), 0, 'f', 1, '0') );
   m_moreButton->setDisabled(false);
@@ -284,6 +287,7 @@ void TanalysDialog::createActions() {
     m_toolBar->addAction(m_closeAct);
 }
 
+
 void TanalysDialog::createChart(Tchart::Tsettings& chartSett) {
     if (m_chart) {
       delete m_chart;
@@ -299,6 +303,7 @@ void TanalysDialog::createChart(Tchart::Tsettings& chartSett) {
       m_chart = new Tchart(this); // empty chart by default
     m_plotLay->addWidget(m_chart);
 }
+
 
 void TanalysDialog::enableComboItem(int index, bool enable) {
     QModelIndex ind = m_chartListCombo->model()->index(index, 0);
@@ -326,6 +331,7 @@ void TanalysDialog::loadExamSlot() {
   }
 }
 
+
 void TanalysDialog::openRecentExam() {
     QAction *action = qobject_cast<QAction *>(sender());
         if (action) {
@@ -333,6 +339,7 @@ void TanalysDialog::openRecentExam() {
             loadExam(file);
         }
 }
+
 
 void TanalysDialog::analyseChanged(int index) {
   if (!m_exam)
@@ -387,13 +394,16 @@ void TanalysDialog::testSlot() {
   loadExam(testFile);
 }
 
+
 void TanalysDialog::zoomInSlot() {
     m_chart->zoom(true);
 }
 
+
 void TanalysDialog::zoomOutSlot() {
     m_chart->zoom(false);
 }
+
 
 void TanalysDialog::maximizeWindow() {
   if (m_isMaximized)
@@ -420,10 +430,12 @@ void TanalysDialog::wrongSeparateSlot() {
   createChart(m_chartSetts);
 }
 
+
 void TanalysDialog::includeWrongSlot() {
   m_chartSetts.inclWrongAnsw = m_inclWrongAct->isChecked();
   createChart(m_chartSetts);
 }
+
 
 void TanalysDialog::moreLevelInfo() {
     QDialog *dialog = new QDialog(this, Qt::CustomizeWindowHint | Qt::Dialog);
@@ -439,6 +451,7 @@ void TanalysDialog::moreLevelInfo() {
     dialog->exec();
     delete dialog;
 }
+
 
 void TanalysDialog::chartTypeChanged() {
     if (m_linearAct->isChecked()) { // linear chart

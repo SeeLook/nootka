@@ -40,13 +40,13 @@ Tchart::Tchart(QWidget* parent) :
   scene->addItem(yAxis);
   yAxis->setLength(300);
   yAxis->setMaxValue(3);
-  yAxis->setPos(20, 0);
+  yAxis->setPos(45, 0);
   yAxis->setZValue(55);
 	
   xAxis = new TXaxis();
   scene->addItem(xAxis);
   xAxis->setLength(600);
-  xAxis->setPos(27, yAxis->boundingRect().height() - 7);
+  xAxis->setPos(52, yAxis->boundingRect().height() - 7);
 
   // stupid trick to make room for further tips of ticks of x axis
   QGraphicsEllipseItem *el = new QGraphicsEllipseItem();
