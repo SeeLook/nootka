@@ -83,7 +83,8 @@ void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
     drawArrow(painter, QPointF(half, 0), false);
     
     double shift = 1.0;
-    if (m_halfTick) shift = 0.5;
+    if (m_halfTick && (m_unit == e_timeInSec || m_multi2 >= 10))
+        shift = 0.5;
     for (double i = shift; i <= m_loop; i=i+shift) {
         double v= i*m_multi*m_multi2;
 //         qDebug() << i << v << mapValue(v);

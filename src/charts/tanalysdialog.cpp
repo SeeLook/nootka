@@ -113,10 +113,12 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
     modKey = "CTRL";
 #endif
     m_chart->setInteractive(true);
-    TgraphicsTextTip *helpTip = new TgraphicsTextTip("<br>" + tr("Press %1 button<br> to select an exam from a file<br>Use %2 + mouse wheel or %3 buttons to zoom a chart.<br>Drag a cursor to move the chart.").
-      arg("<a href=\"charts\"> " + pixToHtml(gl->path + "picts/nootka-exam.png", 38) + " </a>").
-      arg(modKey).arg(pixToHtml(gl->path + "picts/zoom-in.png", 30) + " " + pixToHtml(gl->path + "picts/zoom-out.png", 30))  + 
-      "<br>", gl->EanswerColor);
+    QString helpTipText = "<br>" + tr("Press %1 button to select an exam from a file.").
+            arg("<a href=\"charts\"> " + pixToHtml(gl->path + "picts/nootka-exam.png", 38) + " </a>") + "<br>" +
+            tr("Use %1 + mouse wheel or %2 buttons to zoom a chart.").
+            arg(modKey).arg(pixToHtml(gl->path + "picts/zoom-in.png", 26) + " " + pixToHtml(gl->path + "picts/zoom-out.png", 26)) + "<br>" +
+            tr("Drag a cursor to move the chart.") + "<br>";
+    TgraphicsTextTip *helpTip = new TgraphicsTextTip(helpTipText, gl->EanswerColor);
       m_chart->scene->addItem(helpTip);
       helpTip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
 //       helpTip->setPos((m_chart->width() - helpTip->boundingRect().width()) / 2, 
@@ -289,7 +291,9 @@ void TanalysDialog::createActions() {
 
 
 void TanalysDialog::createChart(Tchart::Tsettings& chartSett) {
+    qreal scaleFactor = 1;
     if (m_chart) {
+      scaleFactor = m_chart->transform().m11();
       delete m_chart;
       m_chart = 0;
     }
@@ -301,6 +305,7 @@ void TanalysDialog::createChart(Tchart::Tsettings& chartSett) {
     }
     else
       m_chart = new Tchart(this); // empty chart by default
+    m_chart->scale(scaleFactor, scaleFactor);
     m_plotLay->addWidget(m_chart);
 }
 

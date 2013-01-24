@@ -328,8 +328,8 @@ QList<TgroupedQAunit> sortByMisakes(TgroupedQAunit& answList, TexamLevel* level,
                << QApplication::translate("AnswerText", "wrong key signature")    // 2
                << QApplication::translate("AnswerText", "wrong octave")           // 3
                << QApplication::translate("AnswerText", "wrong style")            // 4 NOT IMPLEMENTED
-               << QApplication::translate("AnswerText", "wrong position")         // 5
-               << QApplication::translate("AnswerText", "wrong string")           // 6
+               << QApplication::translate("AnswerText", "wrong string")           // 5
+               << QApplication::translate("AnswerText", "wrong position")         // 6
                << QApplication::translate("AnswerText", "wrong note")             // 7
   ;
   for (int i = 0; i < answList.size(); i++) {
@@ -341,7 +341,7 @@ QList<TgroupedQAunit> sortByMisakes(TgroupedQAunit& answList, TexamLevel* level,
        mistakesArr[7].addQAunit(answList[i]);
      else
        if (answList[i].qaPtr->wrongPos())
-        mistakesArr[5].addQAunit(answList[i]);
+        mistakesArr[6].addQAunit(answList[i]);
        else { // meanwhile rest of mistakes can occur together
           if (answList[i].qaPtr->wrongAccid())
             mistakesArr[1].addQAunit(answList[i]);
@@ -352,7 +352,7 @@ QList<TgroupedQAunit> sortByMisakes(TgroupedQAunit& answList, TexamLevel* level,
           if (answList[i].qaPtr->wrongStyle())
             mistakesArr[4].addQAunit(answList[i]);
           if (answList[i].qaPtr->wrongString())
-            mistakesArr[6].addQAunit(answList[i]);
+            mistakesArr[5].addQAunit(answList[i]);
        }
   }
   for (int m = 0; m < 8; m++) {
