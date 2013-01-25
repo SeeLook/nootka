@@ -321,41 +321,55 @@ QList<TgroupedQAunit> sortByQAtype(TgroupedQAunit& answList, TexamLevel* level, 
 
 QList<TgroupedQAunit> sortByMisakes(TgroupedQAunit& answList, TexamLevel* level, bool& hasListUnrelated) {
   QList<TgroupedQAunit> result;
-  TgroupedQAunit mistakesArr[8];
+  TgroupedQAunit mistakesArr[11];
   QStringList mistakesDesc;
-  mistakesDesc << QApplication::translate("AnswerText", "correct")                // 0
-               << QApplication::translate("AnswerText", "wrong accidental")       // 1
-               << QApplication::translate("AnswerText", "wrong key signature")    // 2
-               << QApplication::translate("AnswerText", "wrong octave")           // 3
-               << QApplication::translate("AnswerText", "wrong style")            // 4 NOT IMPLEMENTED
-               << QApplication::translate("AnswerText", "wrong string")           // 5
-               << QApplication::translate("AnswerText", "wrong position")         // 6
-               << QApplication::translate("AnswerText", "wrong note")             // 7
+  mistakesDesc << QApplication::translate("AnswerText", "correct notes")           // 0
+               << QApplication::translate("AnswerText", "wrong notes")             // 1
+               << QApplication::translate("AnswerText", "wrong accidentals")       // 2
+               << QApplication::translate("AnswerText", "wrong octaves")           // 3
+               << QApplication::translate("AnswerText", "correct key signatures")  // 4
+               << QApplication::translate("AnswerText", "wrong key signatures")    // 5
+               << "correct styles"                                                 // 6 NOT IMPLEMENTED
+               << "wrong styles"                                                   // 7 NOT IMPLEMENTED
+               << QApplication::translate("AnswerText", "correct positions")       // 8
+               << QApplication::translate("AnswerText", "wrong positions")         // 9
+               << QApplication::translate("AnswerText", "wrong strings")           // 10
   ;
   for (int i = 0; i < answList.size(); i++) {
-    // The order of types of mistakes are taken from TQAunit class
-    if (answList[i].qaPtr->isCorrect())
-      mistakesArr[0].addQAunit(answList[i]);
+    if (answList[i].qaPtr->isCorrect()) {
+      if (answList[i].qaPtr->answerAs == TQAtype::e_asNote || 
+          answList[i].qaPtr->answerAs == TQAtype::e_asName || 
+          answList[i].qaPtr->answerAs == TQAtype::e_asSound) {
+          mistakesArr[0].addQAunit(answList[i]); // correct note
+          if (level->useKeySign && level->manualKey && answList[i].qaPtr->answerAs == TQAtype::e_asNote)
+            mistakesArr[4].addQAunit(answList[i]); // correct key signature
+          // TODO grab correct style here
+      }
+      else
+          mistakesArr[8].addQAunit(answList[i]); // correct position
+    }
     else // correct, wrongNote & wrongPos exclude themself
      if (answList[i].qaPtr->wrongNote())
-       mistakesArr[7].addQAunit(answList[i]);
+       mistakesArr[1].addQAunit(answList[i]);
+       /** TODO Unfortunately, when a mistake is cardinal it doesn't store was key signature correct
+       * To have correct key but wrong note, TexamExecutor::checkAnswer() has to implement this discimination */
      else
        if (answList[i].qaPtr->wrongPos())
-        mistakesArr[6].addQAunit(answList[i]);
+        mistakesArr[9].addQAunit(answList[i]);
        else { // meanwhile rest of mistakes can occur together
           if (answList[i].qaPtr->wrongAccid())
-            mistakesArr[1].addQAunit(answList[i]);
-          if (answList[i].qaPtr->wrongKey())
             mistakesArr[2].addQAunit(answList[i]);
+          if (answList[i].qaPtr->wrongKey())
+            mistakesArr[5].addQAunit(answList[i]);
           if (answList[i].qaPtr->wrongOctave())
             mistakesArr[3].addQAunit(answList[i]);
           if (answList[i].qaPtr->wrongStyle())
-            mistakesArr[4].addQAunit(answList[i]);
+            mistakesArr[7].addQAunit(answList[i]);
           if (answList[i].qaPtr->wrongString())
-            mistakesArr[5].addQAunit(answList[i]);
+            mistakesArr[10].addQAunit(answList[i]);
        }
   }
-  for (int m = 0; m < 8; m++) {
+  for (int m = 0; m < 11; m++) {
     if (!mistakesArr[m].isEmpty()) {
       mistakesArr[m].resume(mistakesDesc[m].replace(" ", "<br>"), mistakesDesc[m]);
       result << mistakesArr[m];

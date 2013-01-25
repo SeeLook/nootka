@@ -154,7 +154,10 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
       if (fixedNr)
           qDebug() << "fixed style in questions:" << fixedNr;
 //       m_averReactTime = m_workTime / count(); // OBSOLETE
-      m_averReactTime = okTime / (count() - mistakes());
+      if ((count() - mistakes()))
+        m_averReactTime = okTime / (count() - mistakes());
+      else 
+        m_averReactTime = 0.0;
       if (!isExamFileOk)
           result = e_file_corrupted;        
      } else {

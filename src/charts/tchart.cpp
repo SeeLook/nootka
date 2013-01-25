@@ -38,7 +38,7 @@ Tchart::Tchart(QWidget* parent) :
     
   yAxis = new TYaxis();
   scene->addItem(yAxis);
-  yAxis->setLength(300);
+  yAxis->setLength(400);
   yAxis->setMaxValue(3);
   yAxis->setPos(45, 0);
   yAxis->setZValue(55);

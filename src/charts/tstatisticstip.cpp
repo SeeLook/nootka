@@ -65,8 +65,8 @@ QString TstatisticsTip::getTipText(TgroupedQAunit* qaGroup)  {
 
 QString TstatisticsTip::getAverTimeStat(TgroupedQAunit* qaGroup, QString ofSomething) {
     if (qaGroup)
-      return "<p>" + TexamView::averAnsverTimeTxt() + "<br>" + ofSomething + "<br>" + 
-        TexamView::formatReactTime(qRound(qaGroup->averTime()), true) +"</p>";
+      return "<p>" + ofSomething + "<br>" + TexamView::averAnsverTimeTxt() + "<br>" + "<span style=\"font-size: 20px;\"><b>" +
+        TexamView::formatReactTime(qRound(qaGroup->averTime()), true) +"</b></span></p>";
     else 
       return ofSomething;
 }
