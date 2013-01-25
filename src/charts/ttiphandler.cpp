@@ -56,7 +56,7 @@ TtipHandler::~TtipHandler() {
 
 
 void TtipHandler::handleTip(QPointF scenePos) {
-    if (m_delTimer->isActive()) {
+    if (m_delTimer && m_delTimer->isActive()) {
       m_delTimer->stop();
     }
     if (tip) {
@@ -77,13 +77,13 @@ void TtipHandler::handleTip(QPointF scenePos) {
 
 
 void TtipHandler::hoverLeaveEvent(QGraphicsSceneHoverEvent*) {
-    if (!m_delTimer->isActive()) {
+    if (m_delTimer && !m_delTimer->isActive()) {
         m_delTimer->start(20);
     }
 }
 
 void TtipHandler::delayedDelete() {
-    if (isUnderMouse() || (tip && tip->isUnderMouse()))
+    if (isUnderMouse())
         return;
     m_delTimer->stop();
     if (tip) {

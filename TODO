@@ -1,4 +1,8 @@
-0.8.5 stable:
+BUGS for stable re-release
+- QGraphicsScene(some object)
+- crash (division by zero) when exam has no correct answers (the same count of mistakes and correct answers)
+
+0.8.X
 - positions and look of frets numbers and key names in charts
 - add string numbers to pixmap
 

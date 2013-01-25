@@ -84,14 +84,16 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
       }
       qDebug() << aTime << m_exam->averageReactonTime() / 10.0;
       */
-      TgraphicsLine *averLine = new TgraphicsLine(0, "<p>" +
-          TexamView::averAnsverTimeTxt() + 
-          QString("<br><span style=\"font-size: 20px;\">%1</span></p>").arg(TexamView::formatReactTime(exam->averageReactonTime(), true)) );
-      scene->addItem(averLine);
-      averLine->setZValue(20);
-      averLine->setPen(QPen(averColor, 3));
-      averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(exam->averageReactonTime() / 10.0),
-          xAxis->mapValue(exam->count()) + xAxis->pos().x(), yAxis->mapValue(exam->averageReactonTime() / 10.0));
+      if (exam->averageReactonTime() > 0) {
+          TgraphicsLine *averLine = new TgraphicsLine(0, "<p>" +
+              TexamView::averAnsverTimeTxt() + 
+              QString("<br><span style=\"font-size: 20px;\">%1</span></p>").arg(TexamView::formatReactTime(exam->averageReactonTime(), true)) );
+          scene->addItem(averLine);
+          averLine->setZValue(20);
+          averLine->setPen(QPen(averColor, 3));
+          averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(exam->averageReactonTime() / 10.0),
+              xAxis->mapValue(exam->count()) + xAxis->pos().x(), yAxis->mapValue(exam->averageReactonTime() / 10.0));
+      }
   }
   
   if (settings.order == e_byNote || settings.order == e_byFret ||
@@ -118,18 +120,18 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
         switch (settings.order) {
           case e_byNote :
             lineText = TgroupedQAunit::for_a_note() + "<span style=\"font-size: 20px;\">  <b>" + 
-                TnoteName::noteToRichText(sortedLists[i].first()->qa.note) + "</b>";
+                TnoteName::noteToRichText(sortedLists[i].first()->qa.note) + "</b></span>";
             break;
           case e_byFret:
             lineText = TgroupedQAunit::for_a_fret() + "<span style=\"font-size: 20px;\"><b>  " + 
-                QString::number(sortedLists[i].first()->qa.pos.fret()) + "</b>";
+                QString::number(sortedLists[i].first()->qa.pos.fret()) + "</b></span>";
             break;
           case e_byKey: {
             QString wereKeys = "";
             if (exam->level()->manualKey && sortedLists[i].first()->answerAs == TQAtype::e_asNote)
-                wereKeys = "<br>" + QApplication::translate("TlinearChart", "Key signatures gave by user");
+                wereKeys = "<br>(" + QApplication::translate("TlinearChart", "Key signatures gave by user") + ")";
             lineText = TgroupedQAunit::for_a_key() + "<span style=\"font-size: 20px;\">  <b>" + 
-                sortedLists[i].first()->key.getName() + "</b></span><br>" + wereKeys;
+                sortedLists[i].first()->key.getName() + "</b></span>" + wereKeys;
             break;
           }
           case e_byAccid:

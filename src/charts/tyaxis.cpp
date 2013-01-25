@@ -109,7 +109,10 @@ QRectF TYaxis::boundingRect()
 
  void TYaxis::getYforGrid(QList< double >& yList) {
   yList.clear();
-  for (double i = 1; i <= m_loop; i++) {
+  double step = 1.0;
+  if (qAbs(mapValue(2*m_multi*m_multi2) - mapValue(m_multi*m_multi2)) > 30)
+    step = 0.5;
+  for (double i = step; i <= m_loop; i += step) {
     yList << mapValue(i*m_multi*m_multi2);
   }
 }
