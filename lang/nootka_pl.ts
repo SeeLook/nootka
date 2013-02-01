@@ -19,48 +19,85 @@
         <translation>Nie źle, ale:</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="332"/>
         <location filename="../src/charts/tnotepixmap.cpp" line="182"/>
         <source>wrong string</source>
         <translation>zła struna</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="327"/>
         <location filename="../src/charts/tnotepixmap.cpp" line="184"/>
         <source>wrong accidental</source>
         <translation>zły znak</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="326"/>
         <source>correct</source>
-        <translation>poprawnie</translation>
+        <translation type="obsolete">poprawnie</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="328"/>
         <location filename="../src/charts/tnotepixmap.cpp" line="188"/>
         <source>wrong key signature</source>
         <translation>zła tonacja</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="329"/>
         <location filename="../src/charts/tnotepixmap.cpp" line="195"/>
         <source>wrong octave</source>
         <translation>zła oktawa</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="330"/>
         <source>wrong style</source>
-        <translation>zły styl</translation>
+        <translation type="obsolete">zły styl</translation>
+    </message>
+    <message>
+        <source>wrong position</source>
+        <translation type="obsolete">zła pozycja</translation>
+    </message>
+    <message>
+        <source>wrong note</source>
+        <translation type="obsolete">zła nuta</translation>
+    </message>
+    <message>
+        <location filename="../src/charts/sorting.cpp" line="326"/>
+        <source>correct notes</source>
+        <translation>poprawne nuty</translation>
+    </message>
+    <message>
+        <location filename="../src/charts/sorting.cpp" line="327"/>
+        <source>wrong notes</source>
+        <translation>złe nuty</translation>
+    </message>
+    <message>
+        <location filename="../src/charts/sorting.cpp" line="328"/>
+        <source>wrong accidentals</source>
+        <translation>złe znaki</translation>
+    </message>
+    <message>
+        <location filename="../src/charts/sorting.cpp" line="329"/>
+        <source>wrong octaves</source>
+        <translation>złe oktawy</translation>
+    </message>
+    <message>
+        <location filename="../src/charts/sorting.cpp" line="330"/>
+        <source>correct key signatures</source>
+        <translation>poprawne tonacje</translation>
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="331"/>
-        <source>wrong position</source>
-        <translation>zła pozycja</translation>
+        <source>wrong key signatures</source>
+        <translation>złe tonacje</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="333"/>
-        <source>wrong note</source>
-        <translation>zła nuta</translation>
+        <location filename="../src/charts/sorting.cpp" line="334"/>
+        <source>correct positions</source>
+        <translation>poprawne pozycje</translation>
+    </message>
+    <message>
+        <location filename="../src/charts/sorting.cpp" line="335"/>
+        <source>wrong positions</source>
+        <translation>złe pozycje</translation>
+    </message>
+    <message>
+        <location filename="../src/charts/sorting.cpp" line="336"/>
+        <source>wrong strings</source>
+        <translation>złe struny</translation>
     </message>
 </context>
 <context>
@@ -691,7 +728,7 @@
         <translation>Kouyanbaba: D A D A D F </translation>
     </message>
     <message>
-        <location filename="../src/exam/texam.cpp" line="197"/>
+        <location filename="../src/exam/texam.cpp" line="200"/>
         <source>Cannot save exam file:
 %1</source>
         <translation>Nie mogę zapisać pliku z egzaminem:
@@ -834,7 +871,7 @@
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="168"/>
         <source>This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features.&lt;br&gt;Inspite of that You are welcome to try it!!</source>
-        <translation>Ta wersja to beta. Chociaz dziala stabilnie, posiada nieukończone funkcje. Mimo wszystko zapraszam do wypróbowania!!</translation>
+        <translation>Ta wersja beta i może zawierać błędy lub działać w niezamierzony sposób, także, posiada nieukończone funkcje.&lt;br&gt;Mimo wszystko zapraszam do wypróbowania!!</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="169"/>
@@ -960,6 +997,21 @@
         <translation>Właściwości poziomu:</translation>
     </message>
     <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="116"/>
+        <source>Press %1 button to select an exam from a file.</source>
+        <translation>Naciśnij przycisk %1 żeby wybrać plik egzaminu.</translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="118"/>
+        <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
+        <translation>Użyj %1 i kółka myszy lub przycisków %2 aby zmienić rozmiar wykresu. </translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="120"/>
+        <source>Drag a cursor to move the chart.</source>
+        <translation>Przeciągnij kursor żeby przesunąć wykres.</translation>
+    </message>
+    <message>
         <source>Select an exam from a file&lt;br&gt;Use %1 + mouse wheel to zoom a chart.&lt;br&gt;Drag a cursor to move the chart.</source>
         <translation type="obsolete">Wybierz plik egzaminu&lt;br&gt;Użyj %1 + kółko myszy żeby powiększyć wykres.&lt;br&gt;Przeciągnij kursor myszy żeby przesunąć wykres..</translation>
     </message>
@@ -968,73 +1020,69 @@
         <translation type="obsolete">Liczba pytań:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="206"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="208"/>
         <source>Open an exam to analyse</source>
         <translation>Otwórz egzamin do analizy</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="211"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="213"/>
         <source>recent opened exams:</source>
         <translation>ostatnio otwierane egzaminy:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="252"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="254"/>
         <source>Settings of a chart</source>
         <translation>Ustawienia wykresu</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="260"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="262"/>
         <source>Maximize</source>
         <translation>Maksymalizuj</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="264"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="266"/>
         <source>linear chart</source>
         <translation>wykres liniowy</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="267"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="269"/>
         <source>bar chart</source>
         <translation>wykres słupkowy</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="447"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="452"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="229"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="231"/>
         <source>Close analyser</source>
         <translation>Zamknij   okno analizy</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="116"/>
-        <source>Press %1 button&lt;br&gt; to select an exam from a file&lt;br&gt;Use %2 + mouse wheel or %3 buttons to zoom a chart.&lt;br&gt;Drag a cursor to move the chart.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="149"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="151"/>
+        <location filename="../src/charts/tstatisticstip.cpp" line="50"/>
         <location filename="../src/charts/tyaxis.cpp" line="64"/>
         <source>Questions number</source>
         <translation>Liczba pytań</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="232"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="234"/>
         <source>zoom in</source>
         <translation>powiększ</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="235"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="237"/>
         <source>zoom out</source>
         <translation>pomniejsz</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="238"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="240"/>
         <source>include time of wrong answers to average</source>
         <translation>dodaj czas niepoprawnych odpowiedzi do średniej</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="240"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="242"/>
         <source>show wrong answers separately</source>
         <translation>pokaż niepoprawne odpowiedzi oddzielnie</translation>
     </message>
@@ -1793,7 +1841,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation type="obsolete">dla progu:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="130"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="132"/>
         <source>Key signatures gave by user</source>
         <translation>Tonacja podana przez użytkownika</translation>
     </message>
@@ -1808,19 +1856,19 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation type="obsolete">dla znaku:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="139"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="141"/>
         <source>for notes without accidentals</source>
         <translation>dla nut bez znaków</translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="182"/>
-        <location filename="../src/charts/tlinearchart.cpp" line="207"/>
-        <location filename="../src/charts/tlinearchart.cpp" line="232"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="184"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="209"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="234"/>
         <source>questions unrelated&lt;br&gt;with chart type</source>
         <translation>pytania niezwiązane&lt;br&gt;z rodzajem wykresu</translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="237"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="239"/>
         <source>without accidentals</source>
         <translation>bez znaków</translation>
     </message>
@@ -2336,14 +2384,13 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>TstatisticTip</name>
     <message>
-        <location filename="../src/charts/tstatisticstip.cpp" line="39"/>
+        <location filename="../src/charts/tstatisticstip.cpp" line="40"/>
         <source>Statistics</source>
         <translation>Statystyki</translation>
     </message>
     <message>
-        <location filename="../src/charts/tstatisticstip.cpp" line="44"/>
         <source>Questions number:</source>
-        <translation>Liczba pytań:</translation>
+        <translation type="obsolete">Liczba pytań:</translation>
     </message>
 </context>
 <context>
@@ -2451,8 +2498,8 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>chartStats</name>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="412"/>
-        <location filename="../src/charts/sorting.cpp" line="418"/>
+        <location filename="../src/charts/sorting.cpp" line="426"/>
+        <location filename="../src/charts/sorting.cpp" line="432"/>
         <source>none</source>
         <translation>brak</translation>
     </message>

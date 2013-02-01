@@ -22,6 +22,8 @@
 #include <QTextBlockFormat>
 #include <QTextCursor>
 #include <QPainter>
+#include <QGraphicsSceneHoverEvent>
+#include <QDebug>
 
 
 /* static */
@@ -76,11 +78,13 @@ void TgraphicsTextTip::setHtml(QString htmlText) {
   alignCenter(this);
 }
 
+
 void TgraphicsTextTip::setBgColor(QColor col) {
   m_bgColor = col; 
   delete graphicsEffect();
   setDropShadow(this, QColor(col.name()));
 }
+
 
 //#############################################################################
 //###################  virtual ################################################
