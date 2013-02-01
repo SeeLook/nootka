@@ -75,6 +75,8 @@ public:
 protected:
     MainWindow *mW;
     QAction *nextQuestAct, *prevQuestAct, *checkAct, *repeatSndAct;
+    
+    bool event(QEvent *event);
 
 protected slots:
     void askQuestion();

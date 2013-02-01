@@ -62,7 +62,6 @@ void Tbar::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWid
     Q_UNUSED(widget)
     
     QRectF rect = boundingRect();
-//     rect.translate(1, -1);
     qreal nextAt = 0.0;
     QColor endColor;
     QLinearGradient grad(0, -rect.height(), 0, 0);
@@ -86,10 +85,17 @@ void Tbar::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWid
 //     if (isUnderMouse())
 //         painter->setPen(QPen(TquestionPoint::notBadColor(), 1));
 //     else
-        painter->setPen(Qt::NoPen);
+    painter->setPen(Qt::NoPen);
     painter->setBrush(QBrush(grad));
     painter->drawRoundedRect(rect, 1, 1);
-    
+//     QLinearGradient shad(0, 0, rect.width(), 0);
+//     QColor shCol = TquestionPoint::bgColor();
+//     shCol.setAlpha(255);
+//     grad.setColorAt(0.0, shCol);
+//     shCol.setAlpha(50);
+//     grad.setColorAt(1.0, shCol);
+//     painter->setBrush(QBrush(shad));
+//     painter->drawRoundedRect(rect, 1, 1);
 }
 
 

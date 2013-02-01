@@ -60,7 +60,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
   m_lockRightButt(false),
   m_goingClosed(false),
   m_penalStep(65535),
-  m_snifferLocked(false)
+  m_snifferLocked(false),
+  m_canvas(0)
 {
     QString resultText;
     TstartExamDlg::Eactions userAct;
@@ -257,7 +258,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
 
 void TexamExecutor::askQuestion() {
     m_lockRightButt = false; // release mouse button events
-    m_canvas->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+//     m_canvas->setAttribute(Qt::WA_TransparentForMouseEvents, true);
     clearWidgets();
     if (!gl->E->autoNextQuest) {
         mW->startExamAct->setDisabled(true);
@@ -500,7 +501,7 @@ void TexamExecutor::askQuestion() {
 
 
 void TexamExecutor::checkAnswer(bool showResults) {
-    m_canvas->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+//     m_canvas->setAttribute(Qt::WA_TransparentForMouseEvents, false);
     TQAunit curQ = m_exam->curQ();
     curQ.time = mW->examResults->questionStop();
     mW->nootBar->removeAction(checkAct);
@@ -665,7 +666,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 
 
 void TexamExecutor::repeatQuestion() {
-    m_canvas->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+//     m_canvas->setAttribute(Qt::WA_TransparentForMouseEvents, true);
     m_canvas->tryAgainTip(3000);
     m_lockRightButt = false;
     m_incorrectRepeated = true;
@@ -743,7 +744,7 @@ void TexamExecutor::prepareToExam() {
 //      connectForExpert();
     disableWidgets();
 
-    if (gl->E->expertsAnswerEnable)
+//     if (gl->E->expertsAnswerEnable)
       connectForExpert();
     
     qApp->installEventFilter(m_supp);
@@ -1007,14 +1008,15 @@ void TexamExecutor::connectForExpert() {
 void TexamExecutor::expertAnswersStateChanged(bool enable) {
   if (enable) {
       if (!gl->E->askAboutExpert || showExpertAnswersHelpDlg(gl->E->askAboutExpert, mW))
-          connectForExpert();
+//           connectForExpert();
+      {}
       else
           mW->expertAnswChB->setChecked(false);
   } else {
-    disconnect(mW->score, SIGNAL(noteClicked()), this, SLOT(expertAnswersSlot()));
-    disconnect(mW->noteName, SIGNAL(noteButtonClicked()), this, SLOT(expertAnswersSlot()));
-    disconnect(mW->guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(expertAnswersSlot()));
-    disconnect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(expertAnswersSlot()));
+//     disconnect(mW->score, SIGNAL(noteClicked()), this, SLOT(expertAnswersSlot()));
+//     disconnect(mW->noteName, SIGNAL(noteButtonClicked()), this, SLOT(expertAnswersSlot()));
+//     disconnect(mW->guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(expertAnswersSlot()));
+//     disconnect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(expertAnswersSlot()));
   }
   gl->E->expertsAnswerEnable = mW->expertAnswChB->isChecked();
 }
@@ -1035,6 +1037,10 @@ void TexamExecutor::startSniffing() {
 
 
 void TexamExecutor::expertAnswersSlot() {
+    if (!mW->expertAnswChB->isChecked() && gl->hintsEnabled) {
+      m_canvas->confirmTip(5000);
+      return;
+    }
     if (m_snifferLocked) // ignore slot when some dialog window apears
         return;
     if (mW->examResults->questionTime() < 3) { // answer time less than 0.3 s (not human...)
@@ -1083,5 +1089,14 @@ void TexamExecutor::tipButtonSlot(QString name) {
         repeatQuestion();
 
 }
+
+
+bool TexamExecutor::event(QEvent* event) {
+    if (m_canvas)
+      if (event->type() == QEvent::MouseButtonPress)
+        m_canvas->event(event);
+    return QObject::event(event);
+}
+
 
 

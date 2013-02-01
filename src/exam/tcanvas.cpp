@@ -33,27 +33,32 @@
 #include "tfingerboard.h"
 #include "tpitchview.h"
 #include "tquestionaswdg.h"
-// #include <QDebug>
+#include <QDebug>
 #include <QTimer>
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
 #include <QEvent>
+#include <QMouseEvent>
+
+
 
 #define PIXICONSIZE (32)
 
 extern Tglobals *gl;
 
 Tcanvas::Tcanvas(MainWindow* parent) :
-  QGraphicsView(parent),
+  QGraphicsView(parent->centralWidget()),
   m_parent(parent),
   m_resultTip(0), m_startTip(0), m_whatTip(0),
-  m_questionTip(0), m_tryAgainTip(0),
+  m_questionTip(0), m_tryAgainTip(0), m_confirmTip(0),
   m_scale(1),
   m_flyAnswer(0), m_animation(0),
   m_flyNote(0),
-  m_qaPossib(1)
+  m_qaPossib(1),
+  m_scene(0)
 {
-//   setAttribute(Qt::WA_TransparentForMouseEvents);
+  setAttribute(Qt::WA_TransparentForMouseEvents);
+  setMouseTracking(true);
   setInteractive(true);
   setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -151,7 +156,8 @@ QString Tcanvas::startTipText() {
 
 
 void Tcanvas::startTip() {
-    m_startTip = new TgraphicsTextTip(QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75)) + startTipText() + ".<br>" + TexamHelp::toStopExamTxt("<a href=\"stopExam\"> " + pixToHtml(gl->path + "picts/stopExam.png", PIXICONSIZE) + "</a>") + "</p>", palette().highlight().color());
+  m_startTip = new TgraphicsTextTip(QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75)) + startTipText() + ".<br>" +
+    TexamHelp::toStopExamTxt("<a href=\"stopExam\"> " + pixToHtml(gl->path + "picts/stopExam.png", PIXICONSIZE) + "</a>") + "</p>", palette().highlight().color());
   m_scene->addItem(m_startTip);
   m_startTip->setScale(m_scale);
   m_startTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
@@ -213,6 +219,23 @@ void Tcanvas::noteTip(int time) {
 }
 
 
+void Tcanvas::confirmTip(int time) {
+  if (m_confirmTip)
+    return;
+  m_confirmTip = new TgraphicsTextTip(tr("To check the answer confirm it:") + "<br>- " + 
+    TexamHelp::clickSomeButtonTxt(pixToHtml(gl->path + "picts/check.png", PIXICONSIZE)) + "<br>- " +
+    TexamHelp::pressEnterKey() + "<br>- " + TexamHelp::orRightButtTxt() + "<br>" +
+    tr("Have a look to exam help %1 to do it automaticaly.").arg(pixToHtml(gl->path + "picts/help.png", PIXICONSIZE))
+    
+    , gl->EanswerColor);
+  m_confirmTip->setScale(m_scale);
+  m_scene->addItem(m_confirmTip);
+  setPosOfConfirmTip();
+  if (time)
+    QTimer::singleShot(time, this, SLOT(clearConfirmTip()));
+}
+
+
 void Tcanvas::questionTip(Texam* exam) {
   m_exam = exam;
   if (m_startTip) {
@@ -267,6 +290,14 @@ void Tcanvas::clearTryAgainTip() {
       m_tryAgainTip = 0;
     }
 }
+
+void Tcanvas::clearConfirmTip() {
+    if (m_confirmTip){
+      delete m_confirmTip;
+      m_confirmTip = 0;
+    }
+}
+
 
 
 void Tcanvas::markAnswer(TQAtype::Etype qType, TQAtype::Etype aType) {
@@ -351,12 +382,60 @@ void Tcanvas::sizeChanged(QSize newSize) {
 //   }
   if (m_flyNote)
     m_flyNote->hide();
+  if (m_confirmTip) {
+    m_confirmTip->setScale(m_scale);
+    setPosOfConfirmTip();
+  }
+  
 }
 
 
 void Tcanvas::linkActivatedSlot(QString link) {
-//     qDebug() << "link is:" <<  link;
     emit buttonClicked(link);
+}
+
+// void Tcanvas::wheelEvent(QWheelEvent* event)
+// {
+//     event->ignore();
+//     QGraphicsView::wheelEvent(event);
+//     event->ignore();
+// }
+// 
+// void Tcanvas::mouseMoveEvent(QMouseEvent* event) {
+//     event->ignore();
+//     QGraphicsView::mouseMoveEvent(event);
+//     event->ignore();
+// }
+// 
+// void Tcanvas::mouseReleaseEvent(QMouseEvent* event) {
+//     event->ignore();
+//     QGraphicsView::mouseReleaseEvent(event);
+//     event->ignore();
+//     qApp->sendEvent(m_parent->centralWidget(), event);
+// }
+// 
+// 
+// void Tcanvas::mousePressEvent(QMouseEvent* event) {
+//     qDebug() << "mousePressEvent" << event->pos();
+//     event->ignore();
+//     QGraphicsView::mousePressEvent(event);
+//     event->ignore();
+//     qApp->sendEvent(m_parent->centralWidget(), event);
+// }
+
+
+bool Tcanvas::event(QEvent* event) {
+  if (event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseButtonRelease) {
+    event->setAccepted(false);
+//     qDebug() << event->type() << event->isAccepted();
+    QMouseEvent *me = static_cast<QMouseEvent *>(event);
+    me->setAccepted(false);
+    if (event->type() == QEvent::MouseButtonPress)
+        QGraphicsView::mousePressEvent(me);
+    else
+        QGraphicsView::mouseReleaseEvent(me);
+  }     
+  return QGraphicsView::event(event);
 }
 
 
@@ -393,6 +472,13 @@ void Tcanvas::setPosOfStartTip() {
     // in the middle
   m_startTip->setPos((m_scene->width() - m_scale * (m_startTip->boundingRect().width())) / 2,
                   (m_scene->height() - m_scale * (m_startTip->boundingRect().height())) / 2 );  
+}
+
+
+void Tcanvas::setPosOfConfirmTip() {
+    m_confirmTip->setPos(m_parent->relatedPoint().x() + (((m_scene->width() - m_parent->relatedPoint().x()) -
+                          m_scale * m_confirmTip->boundingRect().width())) / 2,
+                  m_scene->height() / 8);  
 }
 
 

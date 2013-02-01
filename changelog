@@ -1,8 +1,12 @@
 0.8.6 beta
-     - added bar chart with another statistics of results
-     - many improvements of a chart engine
+     - added bar charts
+     - new charts: sorted by question/answer type and by mistakes
+     - many improvements in a chart engine
+
+0.8.51 stable
     BUGS FIXES
-     - eliminated some memory leaks related with chrts and tips
+     - eliminated some memory leaks related with charts and tips
+     - fixed crash for exams with all answers incorrect
 
 0.8.5 stable
   Nootka says: I will tell You about what You've been thinking for so long...

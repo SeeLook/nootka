@@ -40,7 +40,7 @@
 - then call
   make 
   or 
-  make -j[number of CPU cores], fe.: make -j4
+  make -j[number of CPU cores], f.e.: make -j4
 - make install (usually as root)
   alternatively You can invoke 
      make install DESTDIR=/Your/Dir
@@ -54,11 +54,8 @@ to remove (uninstall)
 ##########################################################
 You can easyly generate rpm and deb package.
 1. For deb call:
-  fakeroot cpack -G DEB
+  cpack -G DEB
   (obviously packages for build debian packages are needed)
-  !!! Some versions of cmake case problems with 
-  !!! propper rights to files in creating deb package
-  !!! check it by lintian
 2. For rpm call
   cpack -G RPM
   

@@ -52,6 +52,7 @@ SET( NOOTKA_SRCS
   exam/texecutorsupply.cpp
   exam/tquestiontip.cpp
   exam/tcanvas.cpp
+#   exam/ttipscene.cpp
   exam/tanimedtextitem.cpp
   exam/tprogresswidget.cpp
   exam/tgroupedqaunit.cpp

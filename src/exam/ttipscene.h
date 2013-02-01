@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,43 +16,28 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TGRAPHICSTEXTTIP_H
-#define TGRAPHICSTEXTTIP_H
 
-#include <qgraphicsitem.h>
+#ifndef TTIPSCENE_H
+#define TTIPSCENE_H
 
+#include <QGraphicsScene>
 
-/** This is baase class for tips. 
- * It centering html text, paints background rounded rect in given color
- * and drops shadow. If bgColor is -1 the shadow is on a text.
-*/
-class TgraphicsTextTip : public QGraphicsTextItem
+class QGraphicsSceneMouseEvent;
+class QGraphicsSceneWheelEvent;
+
+class TtipScene : public QGraphicsScene
 {
 
 public:
-  TgraphicsTextTip(QString text, QColor bgColor = -1);
-  TgraphicsTextTip();
-  
-  virtual ~TgraphicsTextTip();
-  
-  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
-  virtual QRectF boundingRect() const;
-  
-      /** Overwrites QGraphicsTextItem method and make given text centered. */
-  void setHtml(QString htmlText);
-  
-  QColor bgColor() { return m_bgColor; } // Background color of tip
-  void setBgColor(QColor col); // Background color of tip
-  
-      /** This method align center content of item.
-       * Put text before call it. */
-  static void alignCenter(QGraphicsTextItem *tip);
-      /** Adds drop shadow with defaults color/blur to an item. */
-  static void setDropShadow(QGraphicsTextItem *tip, QColor shadowColor = -1);
-  
-  
-private:
-  QColor m_bgColor;
+    TtipScene(QObject *parent = 0);
+    virtual ~TtipScene();
+    
+protected:
+//     virtual bool event(QEvent* event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void wheelEvent(QGraphicsSceneWheelEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 };
 
-#endif // TGRAPHICSTEXTTIP_H
+#endif // TTIPSCENE_H

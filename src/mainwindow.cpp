@@ -49,7 +49,8 @@ TnootkaLabel *nootLab;
 bool m_isPlayerFree = true;
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+    : QMainWindow(parent),
+    ex(0)
 {
     Ttune::prepareDefinedTunes();
 #if defined(Q_OS_MAC)
@@ -169,7 +170,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_prevBg = -1;
     m_curBG = -1;
     m_lockStat = false;
-    ex = 0;
+//     ex = 0;
     m_levelCreatorExist = false;
 
     createActions();
@@ -183,7 +184,7 @@ MainWindow::MainWindow(QWidget *parent)
     if (gl->A->OUTenabled && !sound->isPlayable())
         QMessageBox::warning(this, "", tr("Problems with sound output"));
     
-    QTimer::singleShot(100, this, SLOT(analyseSlot()));
+//     QTimer::singleShot(100, this, SLOT(analyseSlot()));
     
 }
 
@@ -502,7 +503,7 @@ void MainWindow::showSupportDialog() {
 //#######################     EVENTS       ################################################
 //##########################################################################################
 
-bool MainWindow::event(QEvent *event) {  
+bool MainWindow::event(QEvent *event) {
     if (gl->hintsEnabled && event->type() == QEvent::StatusTip && !m_lockStat) {
         QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
         if (se->tip() == "") {
@@ -514,9 +515,14 @@ bool MainWindow::event(QEvent *event) {
             setMessageBg(-1);
             m_statLab->setText("<center>"+se->tip()+"</center>");
         }
-    } 
+    } else
+      if (ex && (event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseButtonRelease)) {
+        ex->event(event);
+      }
     return QMainWindow::event(event);
 }
+
+
 
 void MainWindow::updsateSize() {
     setUpdatesEnabled(false);

@@ -23,6 +23,8 @@
 #include <QGraphicsView>
 #include "tqatype.h"
 
+class TtipScene;
+class TexamExecutor;
 class QParallelAnimationGroup;
 class TanimedTextItem;
 class QTimer;
@@ -38,6 +40,8 @@ class TgraphicsTextTip;
 class Tcanvas : public QGraphicsView
 {
 
+  friend class TexamExecutor;
+  
   Q_OBJECT
   
 public:
@@ -51,6 +55,7 @@ public:
     void questionTip(Texam *exam); // Text with question context
     void noteTip(int time); // note symbol when sound was detected
     void tryAgainTip(int time); // "Try again" text"
+    void confirmTip(int time = 0); // confirm an answer
     
     void clearCanvas();
         /** Returns point size of 'A' letter multipled by 2. */
@@ -70,20 +75,29 @@ public slots:
     void clearResultTip(); // cleanes tip with results
     void clearTryAgainTip();
     void linkActivatedSlot(QString link);
+    void clearConfirmTip();
   
 signals:
       /** This signal is emited when user click image button on the some tip.*/
     void buttonClicked(QString name);
       
     
+protected:
+    bool event(QEvent *event);
+//     void mousePressEvent(QMouseEvent *event);
+//     void mouseMoveEvent(QMouseEvent *event);
+//     void wheelEvent(QWheelEvent *event);
+//     void mouseReleaseEvent (QMouseEvent * event);
+    
 protected slots:
     void sizeChanged(QSize newSize);
+    
     
 private:
     MainWindow *m_parent;
     QGraphicsScene *m_scene;
     double m_scale;
-    TgraphicsTextTip *m_resultTip, *m_whatTip, *m_startTip, *m_tryAgainTip;
+    TgraphicsTextTip *m_resultTip, *m_whatTip, *m_startTip, *m_tryAgainTip, *m_confirmTip;
     TquestionTip *m_questionTip;
     Texam *m_exam;
     TanimedTextItem *m_flyAnswer, *m_flyNote;
@@ -97,6 +111,7 @@ private:
     void setPosOfStartTip();
     void setPosOfQuestionTip();
     void setPosOfTryAgainTip();
+    void setPosOfConfirmTip();
  
 };
 
