@@ -179,6 +179,7 @@ Tglobals::Tglobals() {
         E->showHelpOnStart = config->value("showHelpOnStart", true).toBool();
         E->studentName = config->value("studentName", "").toString();
         E->examsDir = config->value("examsDir", QDir::homePath()).toString();
+        E->levelsDir = config->value("levelsDir", QDir::homePath()).toString();
     config->endGroup();
 
 // Sound settings
@@ -276,6 +277,7 @@ void Tglobals::storeSettings() {
         config->setValue("showHelpOnStart", E->showHelpOnStart);
         config->setValue("studentName", E->studentName);
         config->setValue("examsDir", E->examsDir);
+        config->setValue("levelsDir", E->examsDir);
     config->endGroup();
 
     config->beginGroup("sound");

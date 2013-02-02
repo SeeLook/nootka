@@ -22,6 +22,7 @@
 #include "tlevelpreview.h"
 #include "tnotename.h"
 #include "tglobals.h"
+#include <texamparams.h>
 #include <QtGui>
 
 extern Tglobals *gl;
@@ -314,10 +315,11 @@ void TlevelSelector::loadFromFilePrivate() {
 void TlevelSelector::loadFromFile(QString levelFile) {
     if (levelFile == "")
         levelFile = QFileDialog::getOpenFileName(this, tr("Load exam's level"),
-                                        QDir::homePath(), levelFilterTxt() + " (*.nel)", 0 , QFileDialog::DontUseNativeDialog);
+                                        gl->E->levelsDir, levelFilterTxt() + " (*.nel)", 0 , QFileDialog::DontUseNativeDialog);
     QFile file(levelFile);
     TexamLevel level = getLevelFromFile(file);
     if (level.name != "") {
+        gl->E->levelsDir = QFileInfo(levelFile).absoluteDir().absolutePath();
         addLevel(level, levelFile, true);
         if (isSuitable(level))
             selectLevel(); // select the last

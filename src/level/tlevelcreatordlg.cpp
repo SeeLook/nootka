@@ -24,6 +24,7 @@
 #include "accidsettings.h"
 #include "levelsettings.h"
 #include "rangesettings.h"
+#include <texamparams.h>
 #include <QtGui>
 
 extern Tglobals *gl;
@@ -134,12 +135,13 @@ void TlevelCreatorDlg::saveToFile() {
     newLevel.desc = nameList[1];
   // Saving to file
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save exam's level"),
-                                                    QDir::toNativeSeparators(QDir::homePath() + "/" + newLevel.name + ".nel"),
+                                                    QDir::toNativeSeparators(gl->E->levelsDir + "/" + newLevel.name + ".nel"),
                                               TlevelSelector::levelFilterTxt() + " (*.nel)", 0 , QFileDialog::DontUseNativeDialog);
     if (fileName == "")
         return;
     if (fileName.right(4) != ".nel")
       fileName += ".nel";
+    gl->E->levelsDir = QFileInfo(fileName).absoluteDir().absolutePath();
     QFile file(fileName);
     if (file.open(QIODevice::WriteOnly)) {
         QDataStream out(&file);

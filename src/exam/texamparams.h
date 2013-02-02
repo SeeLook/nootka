@@ -40,6 +40,7 @@ public:
   bool showHelpOnStart; /** shows dialog with help on start en exam @def true */
   QString studentName; /** @def empty */
   QString examsDir; /** Path to dir with recent opened exam file. @def system_home_path */
+  QString levelsDir; /** Path to dir with recent opened level file. @def system_home_path */
   
   //   bool repeatUntilcorrect; /** or until correct answer will be given. */
 };
