@@ -29,6 +29,15 @@ TgraphicsLine::TgraphicsLine(TgroupedQAunit* qaGroup, QString text) :
     m_line = new QGraphicsLineItem();
 }
 
+TgraphicsLine::TgraphicsLine(QString text) :
+  TtipHandler(),
+  m_text(text),
+  m_qaGroup(0)
+{
+    m_line = new QGraphicsLineItem();
+}
+
+
 TgraphicsLine::~TgraphicsLine()
 {
     delete m_line;
@@ -47,7 +56,10 @@ void TgraphicsLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
 void TgraphicsLine::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
   if (tip || m_text == "")
         return;
-  tip = new TstatisticsTip(m_qaGroup, TstatisticsTip::e_simple, m_text);
+  if (m_qaGroup)
+    tip = new TstatisticsTip(m_qaGroup, TstatisticsTip::e_simple, m_text);
+  else
+    tip = new TgraphicsTextTip(m_text, QColor(0, 192, 192));
   handleTip(event->scenePos());
 }
 

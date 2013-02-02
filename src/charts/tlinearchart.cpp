@@ -47,10 +47,6 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
       xAxis->setAnswersList(currExam->answList(), currExam->level());
       prepareChart(currExam->count());
       m_mainLine = new TmainLine(currExam->answList(), this);
-      /** NOTE
-       * I'm not sure for now what to do with curve shows a progress
-       * Let's see...
-       */ 
       //      QPolygonF polygon;
       double aTime = 0 , prev = 0;
       int firstCorrect = 0, okCount = 0;
@@ -72,7 +68,15 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
         
         okCount++;        
 //        polygon << QPointF(xAxis->mapValue(i + 1), yAxis->mapValue(aTime));
-        QGraphicsLineItem *averProgress = new QGraphicsLineItem;
+        TgraphicsLine *averProgress = new TgraphicsLine("<b>" + QApplication::translate("TlinearChart", "PROGRESS LINE") + "</b><br>" +
+          QString("<span style=\"color: %1; font-size: 20px;\"><b> \\ </b></span>").arg(averColor.name()) +
+          QApplication::translate("TlinearChart", "descending - you go better") + "<br>" + 
+          QString("<span style=\"color: %1; font-size: 20px;\"><b> / </b></span>").arg(averColor.name()) +
+          QApplication::translate("TlinearChart", "acending - you thinking much") + "<hr>" + TexamView::averAnsverTimeTxt() + "<br>" +
+//           QApplication::translate("TlinearChart", "for answer nr") + QString(" <b>%1</b>: <b>%2 s</b>").arg(i + 1).arg(aTime / 10.0) +"<br>" + 
+          QApplication::translate("TlinearChart", "for whole exam:") +
+          QString(" <span style=\"font-size: 20px;\">%1</span></p>").arg(TexamView::formatReactTime(exam->averageReactonTime(), true))
+        );
         scene->addItem(averProgress);
         averProgress->setPen(QPen(averColor, 3));
         averProgress->setLine(xAxis->mapValue(prevX) + xAxis->pos().x(), yAxis->mapValue(prev / 10.0),
@@ -84,16 +88,16 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
 //       qDebug() << aTime << exam->averageReactonTime() / 10.0;
       
       
-//       if (exam->averageReactonTime() > 0) {
-//           TgraphicsLine *averLine = new TgraphicsLine(0, "<p>" +
-//               TexamView::averAnsverTimeTxt() + 
-//               QString("<br><span style=\"font-size: 20px;\">%1</span></p>").arg(TexamView::formatReactTime(exam->averageReactonTime(), true)) );
-//           scene->addItem(averLine);
-//           averLine->setZValue(20);
-//           averLine->setPen(QPen(averColor, 3));
-//           averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(exam->averageReactonTime() / 10.0),
-//               xAxis->mapValue(exam->count()) + xAxis->pos().x(), yAxis->mapValue(exam->averageReactonTime() / 10.0));
-//       }
+      if (exam->averageReactonTime() > 0) {
+          TgraphicsLine *averLine = new TgraphicsLine(0, "<p>" +
+              TexamView::averAnsverTimeTxt() + 
+              QString("<br><span style=\"font-size: 20px;\">%1</span></p>").arg(TexamView::formatReactTime(exam->averageReactonTime(), true)) );
+          scene->addItem(averLine);
+          averLine->setZValue(20);
+          averLine->setPen(QPen(averColor.darker(120), 1));
+          averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(exam->averageReactonTime() / 10.0),
+              xAxis->mapValue(exam->count()) + xAxis->pos().x(), yAxis->mapValue(exam->averageReactonTime() / 10.0));
+      }
   }
   
   if (settings.order == e_byNote || settings.order == e_byFret ||
@@ -114,7 +118,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
   // paint lines with average time of all the same notes/frets
      for (int i = 0; i < goodSize + goodOffset; i++) { // skip wrong answers if separeted
 //         double aTime = calcAverTime(sortedLists[i], !settings.inclWrongAnsw); OBSOLETE
-//         QString aTimeText = TexamView::formatReactTime(qRound(aTime), true);
+        if (sortedLists[i].size() > 1) {
         TgraphicsLine *averTimeLine = new TgraphicsLine(&sortedLists[i]);
         QString lineText = "";
         switch (settings.order) {
@@ -154,6 +158,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
         averTimeLine->setPen(QPen(averColor, 3)); // sea blue
         averTimeLine->setLine(xAxis->mapValue(cnt - 0.4) + xAxis->pos().x(), yAxis->mapValue(sortedLists[i].averTime() / 10.0),
           xAxis->mapValue(cnt + sortedLists[i].size() -0.6) + xAxis->pos().x(), yAxis->mapValue(sortedLists[i].averTime() / 10.0));
+        }
         cnt += sortedLists[i].size();
       }
       cnt = 1;

@@ -2,6 +2,8 @@
      - added bar charts
      - new charts: sorted by question/answer type and by mistakes
      - many improvements in a chart engine
+     - added tip how to confirm an answer
+     - images on tips are clickable to simpler navigate through an exam
 
 0.8.51 stable
     BUGS FIXES

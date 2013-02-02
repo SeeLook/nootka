@@ -24,6 +24,7 @@
 #include "tlevelpreview.h"
 #include "tstartexamdlg.h"
 #include "texamview.h"
+#include <texamparams.h>
 #include "tchart.h"
 #include "tmainchart.h"
 #include "tgraphicstexttip.h"
@@ -325,13 +326,14 @@ void TanalysDialog::enableComboItem(int index, bool enable) {
 
 void TanalysDialog::loadExamSlot() {
   
-  QString fileName = QFileDialog::getOpenFileName(this, TstartExamDlg::loadExamFileTxt(), QDir::homePath(),
+  QString fileName = QFileDialog::getOpenFileName(this, TstartExamDlg::loadExamFileTxt(), gl->E->examsDir,
 												  TstartExamDlg::examFilterTxt(), 0, QFileDialog::DontUseNativeDialog);
   if (fileName != "") {
       if (m_chart) {
         m_chart->deleteLater();
         m_chart = 0;
       }
+      gl->E->examsDir = QFileInfo(fileName).absoluteDir().absolutePath();
       loadExam(fileName);
   }
 }

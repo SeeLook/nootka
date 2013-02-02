@@ -35,6 +35,7 @@ class TgraphicsLine : public TtipHandler
 
 public:
   TgraphicsLine(TgroupedQAunit* qaGroup, QString text = "");
+  TgraphicsLine(QString text = "");
   virtual ~TgraphicsLine();
     /** Sets a text of a tip appearing on hover event. */
   void setText(QString text) { m_text = text; }
