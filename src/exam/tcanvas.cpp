@@ -55,7 +55,8 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   m_flyAnswer(0), m_animation(0),
   m_flyNote(0),
   m_qaPossib(1),
-  m_scene(0)
+  m_scene(0),
+  m_timerToConfirm(new QTimer(this))
 {
   setAttribute(Qt::WA_TransparentForMouseEvents);
   setMouseTracking(true);
@@ -68,6 +69,7 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   m_scene = new QGraphicsScene(this);
   setScene(m_scene);
   sizeChanged(parent->centralWidget()->size());
+//   m_timerToConfirm->setSingleShot(true);
 //   m_animation = new QParallelAnimationGroup(this);
 //   m_flyAnswer = new TanimedTextItem();
 //   m_flyAnswer->setFont(QFont("nootka", width() / 18));
@@ -93,13 +95,14 @@ Tcanvas::Tcanvas(MainWindow* parent) :
 //     m_animation->addAnimation(movAlpha);
 //   
   connect(parent, SIGNAL(sizeChanged(QSize)), this, SLOT(sizeChanged(QSize)));
+  connect(m_timerToConfirm, SIGNAL(timeout()), this, SLOT(showConfirmTip()));
 }
 
 Tcanvas::~Tcanvas()
 {}
 
 //######################################################################
-//#################################### PUBLIC #########################
+//##################################### TIPS #########################
 //######################################################################
 
 int Tcanvas::bigFont() {
@@ -113,8 +116,8 @@ QFont Tcanvas::tipFont(qreal factor) {
 }
 
 
-
 void Tcanvas::resultTip(TQAunit* answer, int time) {
+  clearConfirmTip();
   if (m_resultTip)
     delete m_resultTip;
   clearTryAgainTip();
@@ -182,6 +185,7 @@ void Tcanvas::whatNextTip(bool isCorrect, bool onRight) {
   m_scene->addItem(m_whatTip);
   m_whatTip->setFont(tipFont(0.35));
   m_whatTip->setScale(m_scale);
+  m_parent->guitar->setAttribute(Qt::WA_TransparentForMouseEvents, true); // to acctivate click on tip
   m_whatTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
   connect(m_whatTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
   setPosOfWhatTip();
@@ -220,19 +224,22 @@ void Tcanvas::noteTip(int time) {
 
 
 void Tcanvas::confirmTip(int time) {
-  if (m_confirmTip)
-    return;
+  m_timerToConfirm->start(time + 1); // add 1 to show it immediately when time = 0
+}
+
+
+void Tcanvas::showConfirmTip() {
+  m_timerToConfirm->stop();
   m_confirmTip = new TgraphicsTextTip(tr("To check the answer confirm it:") + "<br>- " + 
-    TexamHelp::clickSomeButtonTxt(pixToHtml(gl->path + "picts/check.png", PIXICONSIZE)) + "<br>- " +
+    TexamHelp::clickSomeButtonTxt("<a href=\"checkAnswer\">" + pixToHtml(gl->path + "picts/check.png", PIXICONSIZE) + "</a>") + "<br>- " +
     TexamHelp::pressEnterKey() + "<br>- " + TexamHelp::orRightButtTxt() + "<br>" +
-    tr("Have a look to exam help %1 to do it automaticaly.").arg(pixToHtml(gl->path + "picts/help.png", PIXICONSIZE))
-    
+    tr("Have a look to exam help %1<br>how to do it automatically.").arg("<a href=\"examHelp\">" + pixToHtml(gl->path + "picts/help.png", PIXICONSIZE) + "</a>")    
     , gl->EanswerColor);
   m_confirmTip->setScale(m_scale);
   m_scene->addItem(m_confirmTip);
+  m_confirmTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
+  connect(m_confirmTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
   setPosOfConfirmTip();
-  if (time)
-    QTimer::singleShot(time, this, SLOT(clearConfirmTip()));
 }
 
 
@@ -260,9 +267,17 @@ void Tcanvas::addTip(TgraphicsTextTip* tip) {
   m_scene->addItem(tip);  
 }
 
+
+//######################################################################
+//##################################### PUBLIC METHODS #################
+//######################################################################
+
+
 void Tcanvas::clearCanvas() {
+  clearConfirmTip();
   clearResultTip();
   if (m_whatTip) {
+    m_parent->guitar->setAttribute(Qt::WA_TransparentForMouseEvents, false); // unlock guitar for mouse
     delete m_whatTip;
     m_whatTip = 0;
   }
@@ -292,6 +307,7 @@ void Tcanvas::clearTryAgainTip() {
 }
 
 void Tcanvas::clearConfirmTip() {
+    m_timerToConfirm->stop();
     if (m_confirmTip){
       delete m_confirmTip;
       m_confirmTip = 0;
@@ -334,7 +350,7 @@ const QRect& Tcanvas::getRect(TQAtype::Etype kindOf) {
     case TQAtype::e_asName:
       return m_parent->noteName->geometry();
     case TQAtype::e_asFretPos:
-      return m_parent->guitar->geometry();
+          return m_parent->guitar->geometry();
     case TQAtype::e_asSound:
       return m_parent->pitchView->geometry();
   }
@@ -394,40 +410,10 @@ void Tcanvas::linkActivatedSlot(QString link) {
     emit buttonClicked(link);
 }
 
-// void Tcanvas::wheelEvent(QWheelEvent* event)
-// {
-//     event->ignore();
-//     QGraphicsView::wheelEvent(event);
-//     event->ignore();
-// }
-// 
-// void Tcanvas::mouseMoveEvent(QMouseEvent* event) {
-//     event->ignore();
-//     QGraphicsView::mouseMoveEvent(event);
-//     event->ignore();
-// }
-// 
-// void Tcanvas::mouseReleaseEvent(QMouseEvent* event) {
-//     event->ignore();
-//     QGraphicsView::mouseReleaseEvent(event);
-//     event->ignore();
-//     qApp->sendEvent(m_parent->centralWidget(), event);
-// }
-// 
-// 
-// void Tcanvas::mousePressEvent(QMouseEvent* event) {
-//     qDebug() << "mousePressEvent" << event->pos();
-//     event->ignore();
-//     QGraphicsView::mousePressEvent(event);
-//     event->ignore();
-//     qApp->sendEvent(m_parent->centralWidget(), event);
-// }
-
 
 bool Tcanvas::event(QEvent* event) {
   if (event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseButtonRelease) {
     event->setAccepted(false);
-//     qDebug() << event->type() << event->isAccepted();
     QMouseEvent *me = static_cast<QMouseEvent *>(event);
     me->setAccepted(false);
     if (event->type() == QEvent::MouseButtonPress)
@@ -437,7 +423,6 @@ bool Tcanvas::event(QEvent* event) {
   }     
   return QGraphicsView::event(event);
 }
-
 
 
 //######################################################################
@@ -476,9 +461,7 @@ void Tcanvas::setPosOfStartTip() {
 
 
 void Tcanvas::setPosOfConfirmTip() {
-    m_confirmTip->setPos(m_parent->relatedPoint().x() + (((m_scene->width() - m_parent->relatedPoint().x()) -
-                          m_scale * m_confirmTip->boundingRect().width())) / 2,
-                  m_scene->height() / 8);  
+    m_confirmTip->setPos(m_parent->relatedPoint().x() + 5, m_scene->height() / 7);  
 }
 
 

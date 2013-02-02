@@ -26,7 +26,7 @@ class TexamLevel;
 class TQAunit;
 
 /** This is X axis of charts. It represents qustions.
- * Its size is (length) is calcutaled automaticaly by questions number.
+ * Its size is (length) is calcutaled automatically by questions number.
  */
 class TXaxis : public TabstractAxis
 {

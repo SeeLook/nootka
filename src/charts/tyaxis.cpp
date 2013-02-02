@@ -96,6 +96,9 @@ void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
         painter->drawLine(half, mapValue(m_top*m_multi), half - tickSize, mapValue(m_top*m_multi));
         painter->drawText(half + 3, mapValue(m_top*m_multi) + m_textPosOffset, QString("%1").arg(m_top*m_multi));
     }
+    QFont f = painter->font();
+    f.setBold(true);
+    painter->setFont(f);
     painter->rotate(270);
     painter->drawText(QRectF(-length(), -3 * m_textPosOffset, length(), m_textPosOffset * 3), Qt::AlignCenter, m_unitDesc);
 }

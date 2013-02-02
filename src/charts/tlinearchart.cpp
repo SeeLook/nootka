@@ -50,50 +50,50 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
       /** NOTE
        * I'm not sure for now what to do with curve shows a progress
        * Let's see...
-       * code below has wrong counting of average time
-       * 
+       */ 
       //      QPolygonF polygon;
       double aTime = 0 , prev = 0;
       int firstCorrect = 0, okCount = 0;
-      for(int i = 0; i < m_exam->count(); i++) { // looking for first correct answer
-        if (!m_exam->question(i).isWrong()) {
+      for(int i = 0; i < exam->count(); i++) { // looking for first correct answer
+        if (!exam->question(i).isWrong() || (!exam->question(i).isWrong() && settings.inclWrongAnsw)) {
           firstCorrect = i;
-          prev = m_exam->question(i).time / 10.0;
+          prev = exam->question(i).time;
           okCount++;
           aTime = prev;
           break;
         }
       }
       int prevX = firstCorrect + 1;
-      for(int i = firstCorrect + 1; i < m_exam->count(); i++) {
-        if (m_exam->question(i).isWrong())
+      for(int i = firstCorrect + 1; i < exam->count(); i++) {
+        if (exam->question(i).isWrong())
           continue; // skip wrong answers in aver time
         else 
-          aTime = (aTime * okCount + (m_exam->question(i).time / 10)) / (okCount + 1);
+          aTime = (aTime * okCount + (exam->question(i).time)) / (okCount + 1);
         
         okCount++;        
 //        polygon << QPointF(xAxis->mapValue(i + 1), yAxis->mapValue(aTime));
         QGraphicsLineItem *averProgress = new QGraphicsLineItem;
         scene->addItem(averProgress);
-        averProgress->setPen(QPen(averColor, 1));
-        averProgress->setLine(xAxis->mapValue(prevX) + xAxis->pos().x(), yAxis->mapValue(prev),
-                              xAxis->mapValue(i + 1) + xAxis->pos().x(), yAxis->mapValue(aTime));
+        averProgress->setPen(QPen(averColor, 3));
+        averProgress->setLine(xAxis->mapValue(prevX) + xAxis->pos().x(), yAxis->mapValue(prev / 10.0),
+                              xAxis->mapValue(i + 1) + xAxis->pos().x(), yAxis->mapValue(aTime / 10.0));
         prevX = i + 1;
         averProgress->setZValue(10);
         prev = aTime;
       }
-      qDebug() << aTime << m_exam->averageReactonTime() / 10.0;
-      */
-      if (exam->averageReactonTime() > 0) {
-          TgraphicsLine *averLine = new TgraphicsLine(0, "<p>" +
-              TexamView::averAnsverTimeTxt() + 
-              QString("<br><span style=\"font-size: 20px;\">%1</span></p>").arg(TexamView::formatReactTime(exam->averageReactonTime(), true)) );
-          scene->addItem(averLine);
-          averLine->setZValue(20);
-          averLine->setPen(QPen(averColor, 3));
-          averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(exam->averageReactonTime() / 10.0),
-              xAxis->mapValue(exam->count()) + xAxis->pos().x(), yAxis->mapValue(exam->averageReactonTime() / 10.0));
-      }
+//       qDebug() << aTime << exam->averageReactonTime() / 10.0;
+      
+      
+//       if (exam->averageReactonTime() > 0) {
+//           TgraphicsLine *averLine = new TgraphicsLine(0, "<p>" +
+//               TexamView::averAnsverTimeTxt() + 
+//               QString("<br><span style=\"font-size: 20px;\">%1</span></p>").arg(TexamView::formatReactTime(exam->averageReactonTime(), true)) );
+//           scene->addItem(averLine);
+//           averLine->setZValue(20);
+//           averLine->setPen(QPen(averColor, 3));
+//           averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(exam->averageReactonTime() / 10.0),
+//               xAxis->mapValue(exam->count()) + xAxis->pos().x(), yAxis->mapValue(exam->averageReactonTime() / 10.0));
+//       }
   }
   
   if (settings.order == e_byNote || settings.order == e_byFret ||

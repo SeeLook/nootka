@@ -23,6 +23,7 @@
 #include <QGraphicsView>
 #include "tqatype.h"
 
+class QTimer;
 class TtipScene;
 class TexamExecutor;
 class QParallelAnimationGroup;
@@ -55,7 +56,7 @@ public:
     void questionTip(Texam *exam); // Text with question context
     void noteTip(int time); // note symbol when sound was detected
     void tryAgainTip(int time); // "Try again" text"
-    void confirmTip(int time = 0); // confirm an answer
+    void confirmTip(int time = 0); // tip about confirm an answer appears after given time
     
     void clearCanvas();
         /** Returns point size of 'A' letter multipled by 2. */
@@ -76,6 +77,7 @@ public slots:
     void clearTryAgainTip();
     void linkActivatedSlot(QString link);
     void clearConfirmTip();
+    void showConfirmTip();
   
 signals:
       /** This signal is emited when user click image button on the some tip.*/
@@ -84,10 +86,6 @@ signals:
     
 protected:
     bool event(QEvent *event);
-//     void mousePressEvent(QMouseEvent *event);
-//     void mouseMoveEvent(QMouseEvent *event);
-//     void wheelEvent(QWheelEvent *event);
-//     void mouseReleaseEvent (QMouseEvent * event);
     
 protected slots:
     void sizeChanged(QSize newSize);
@@ -103,6 +101,7 @@ private:
     TanimedTextItem *m_flyAnswer, *m_flyNote;
     QParallelAnimationGroup *m_animation;
     int m_qaPossib;
+    QTimer *m_timerToConfirm;
     
     
 private:
