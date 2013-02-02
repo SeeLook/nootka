@@ -1,8 +1,6 @@
-BUGS for stable re-release
-- QGraphicsScene(some object)
-- crash (division by zero) when exam has no correct answers (the same count of mistakes and correct answers)
-
 0.8.X
+- stop exam icon
+- be sure are tips removed after mouse leave
 - positions and look of frets numbers and key names in charts
 - add string numbers to pixmap
 

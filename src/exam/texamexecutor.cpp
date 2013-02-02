@@ -77,7 +77,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
         userAct = TstartExamDlg::e_newLevel;
     } else {
         if (examFile == "") { // start exam dialog
-            TstartExamDlg *startDlg = new TstartExamDlg(gl->E->studentName, gl->path, mW);
+            TstartExamDlg *startDlg = new TstartExamDlg(gl->E->studentName, gl->path, gl->E, mW);
             userAct = startDlg->showDialog(resultText, m_level);
             delete startDlg;
         } else { // command line arg with given filename
@@ -884,8 +884,11 @@ void TexamExecutor::stopExamSlot() {
     mW->sound->stopPlaying();
     mW->sound->wait();
     qApp->removeEventFilter(m_supp);
-    if (m_exam->fileName() == "" && m_exam->count())
+    if (m_exam->fileName() == "" && m_exam->count()) {
         m_exam->setFileName(saveExamToFile());
+        if (m_exam->fileName() != "")
+          gl->E->examsDir = QFileInfo(m_exam->fileName()).absoluteDir().absolutePath();
+    }
     if (m_exam->fileName() != "") {
 			m_exam->setTotalTime(mW->examResults->getTotalTime());
 			m_exam->setAverageReactonTime(mW->examResults->getAverageTime());

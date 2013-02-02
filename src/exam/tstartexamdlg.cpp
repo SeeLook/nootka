@@ -18,6 +18,7 @@
 
 
 #include "tstartexamdlg.h"
+#include "texamparams.h"
 #include "tlevelselector.h"
 #include "levelsettings.h"
 #include <QtGui>
@@ -33,9 +34,10 @@ QString TstartExamDlg::systemUserName() {
 
 
 
-TstartExamDlg::TstartExamDlg(QString& nick, QString &path, QWidget *parent) :
+TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examParams, QWidget *parent) :
     QDialog(parent),
-    m_Acction(e_none)
+    m_Acction(e_none),
+    m_examParams(examParams)
 {
     setWindowTitle(tr("Start en exam"));
     QVBoxLayout *mainLay = new QVBoxLayout;
@@ -215,8 +217,9 @@ void TstartExamDlg::startAccepted() {
 
 void TstartExamDlg::loadExam() {
     QString fileName = QFileDialog::getOpenFileName(this, loadExamFileTxt(),
-                               QDir::homePath(), examFilterTxt(), 0, QFileDialog::DontUseNativeDialog);
+                               m_examParams->examsDir, examFilterTxt(), 0, QFileDialog::DontUseNativeDialog);
     if (fileName != "") {
+        m_examParams->examsDir = QFileInfo(fileName).absoluteDir().absolutePath();
         m_examCombo->insertItem(0, fileName);
         m_recentExams.prepend(fileName);
         m_examCombo->setCurrentIndex(0);

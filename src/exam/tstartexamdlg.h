@@ -24,6 +24,7 @@
 #include "texamlevel.h"
 
 
+class TexamParams;
 class TlevelSelector;
 class QRadioButton;
 class QGroupBox;
@@ -36,7 +37,7 @@ class TstartExamDlg : public QDialog
     Q_OBJECT
 public:
       /** QString @param &nick is student Name  */
-    explicit TstartExamDlg(QString &nick, QString &path, QWidget *parent = 0);
+    explicit TstartExamDlg(QString &nick, QString &path, TexamParams *examParams, QWidget *parent = 0);
 
         /** Describes actions commited by user.
         * @param e_none - dialog discarded,
@@ -72,6 +73,7 @@ private:
     QComboBox *m_examCombo;
     QStringList m_recentExams;
     Eactions m_Acction;
+    TexamParams *m_examParams;
 
 private slots:
     void levelToLoad();
