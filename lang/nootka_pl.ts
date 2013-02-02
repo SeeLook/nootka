@@ -411,7 +411,7 @@
     <message>
         <location filename="../src/settings/examsettings.cpp" line="73"/>
         <source>color of &apos;not so bad&apos; answers</source>
-        <translation>kolor &quot;nie złych&quot; odpowiedzi</translation>
+        <translation>kolor &quot;niezłych&quot; odpowiedzi</translation>
     </message>
 </context>
 <context>
@@ -1321,7 +1321,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="62"/>
         <source>When answer is &apos;not so bad&apos;, You get one penalty more.</source>
-        <translation>Kiedy odpowiedź jest &quot;nie zła&quot;, otrzymasz jedno karne pytanie.</translation>
+        <translation>Kiedy odpowiedź jest &quot;niezła&quot;, otrzymasz jedno karne pytanie.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="64"/>
@@ -1482,7 +1482,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamview.cpp" line="28"/>
         <source>&apos;Not So Bad&apos; answers</source>
-        <translation>&quot;nie złe&quot; odpowiedzi</translation>
+        <translation>&quot;niezłe&quot; odpowiedzi</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.cpp" line="29"/>

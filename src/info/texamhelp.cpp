@@ -44,7 +44,7 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt,
     "<style type=\"text/css\">img { border-style: solid; border-color: palette(text); border-width: 2px; background-color: palette(window); }</style>" +
     toGetQuestTxt() + ":<br>- " + clickSomeButtonTxt(pixToHtml(path + "picts/nextQuest.png", PIXICONSIZE)) + "<br>- " +
     pressSpaceKey() + "<br>- " + orRightButtTxt() + "<br>" + 
-    tr("Select 2-nd check box to get the question automaticaly.") + 
+    tr("Select 2-nd check box to get the question automatically.") + 
     QString("<br><br><span style=\"%1\">").arg(questColorTxt) +
     tr("Questions are marked with this color and \"?\" mark.") + "</span><br>" + 
     tr("To give an answer, select it on <span style=\"%1\">Nootka's element pointed with that color.</span><br>")

@@ -1038,7 +1038,7 @@ void TexamExecutor::startSniffing() {
 
 void TexamExecutor::expertAnswersSlot() {
     if (!mW->expertAnswChB->isChecked() && gl->hintsEnabled) {
-      m_canvas->confirmTip(5000);
+      m_canvas->confirmTip(1500);
       return;
     }
     if (m_snifferLocked) // ignore slot when some dialog window apears
@@ -1053,7 +1053,7 @@ void TexamExecutor::expertAnswersSlot() {
      * from outside - by timer event. */
     if (m_exam->curQ().answerAs == TQAtype::e_asSound)
       m_canvas->noteTip(600);
-  QTimer::singleShot(10, this, SLOT(checkAnswer()));
+    QTimer::singleShot(10, this, SLOT(checkAnswer()));
 }
 
 void TexamExecutor::rightButtonSlot() {
@@ -1087,13 +1087,16 @@ void TexamExecutor::tipButtonSlot(QString name) {
         stopExamSlot();
     else if (name == "prevQuest")
         repeatQuestion();
-
+    else if (name == "checkAnswer")
+        checkAnswer();
+    else if (name == "examHelp")
+        showExamHelp();
 }
 
 
 bool TexamExecutor::event(QEvent* event) {
     if (m_canvas)
-      if (event->type() == QEvent::MouseButtonPress)
+      if (event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseButtonRelease)
         m_canvas->event(event);
     return QObject::event(event);
 }
