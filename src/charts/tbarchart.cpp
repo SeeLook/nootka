@@ -44,7 +44,10 @@ TbarChart::TbarChart(Texam* exam, Tchart::Tsettings& settings, QWidget* parent) 
     xAxis->setAnswersForBarChart(sortedLists);
     prepareChart(sortedLists.size());
     
-    for(int i = 0; i < sortedLists.size(); i++) {
+    int lastItem = sortedLists.size();
+    if (hasListUnrelated)
+      lastItem--; // don't show unrelated
+    for(int i = 0; i < lastItem; i++) {
       Tbar *bar;
       if (chartSett.order != Tchart::e_byMistake)
         bar = new Tbar(yAxis->axisFactor() * (sortedLists[i].averTime() / 10.0), &sortedLists[i]);

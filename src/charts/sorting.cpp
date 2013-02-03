@@ -105,7 +105,7 @@ QList<TgroupedQAunit> sortByNote(TgroupedQAunit& answList, TexamLevel *level, bo
         }
       }
       if (!noteList.isEmpty()) {
-        noteList.resume(theSame[j].toRichText(), noteList.for_a_note() + " <span style=\"font-size: 20px;\">" + theSame[j].toRichText() + "</span>");
+        noteList.resume(theSame[j].toRichText(), "<b>" + noteList.for_a_note() + " <span style=\"font-size: 20px;\">" + theSame[j].toRichText() + "</span></b>");
         result << noteList;
       }
     }
@@ -144,7 +144,7 @@ QList<TgroupedQAunit> sortByFret(TgroupedQAunit& answList, TexamLevel *level, bo
       }
     }
     if (!fretList.isEmpty()) {
-      fretList.resume(TfingerPos::romanFret(f), fretList.for_a_fret() + " <span style=\"font-size: 20px;\">" + QString("%1").arg(f) + "</span>");
+      fretList.resume(TfingerPos::romanFret(f), "<b>" + fretList.for_a_fret() + " <span style=\"font-size: 20px;\">" + QString("%1").arg(f) + "</span></b>");
       result << fretList;
     }
   }
@@ -187,16 +187,24 @@ QList<TgroupedQAunit> sortByKeySignature(TgroupedQAunit& answList, TexamLevel *l
     }
   }
   for (int i = 0; i < result.size(); i++) {
-//     if (level->manualKey && result[i].first()->answerAs == TQAtype::e_asNote)
-// TODO: remove marks from full desc
     QString desc = result[i].list.first().qaPtr->key.getName() + "<br>" + getWasInAnswOrQuest(TQAtype::e_asNote, result[i].first());
-    result[i].resume(desc, TgroupedQAunit::for_a_key() + " <span style=\"font-size: 20px;\">" + desc + "</span>");
+    result[i].resume(desc, "<b>" + TgroupedQAunit::for_a_key() + "<span style=\"font-size: 20px;\">  " + 
+                result[i].first()->key.getName() + "</span></b>" +
+    wereKeys(level->manualKey, result[i].list.first().qaPtr->answerAs));
   }
   if (!unrelatedList.isEmpty()) {
       result << unrelatedList; // add unrelatedList at the end of list
       hasListUnrelated = true;
   }
   return result;
+}
+
+
+QString wereKeys(bool manualKeys, TQAtype::Etype answerType) {
+  QString wereK = "";
+  if (manualKeys && answerType == TQAtype::e_asNote)
+    wereK = "<br><i>(" + QApplication::translate("TlinearChart", "Key signatures gave by user") + ")</i>";
+  return wereK;
 }
 
 
@@ -219,7 +227,12 @@ QList<TgroupedQAunit> sortByAccidental(TgroupedQAunit& answList, TexamLevel* lev
     if (!accidsArray[i].isEmpty()) {
       QList<TgroupedQAunit> sorted = sortByNote(accidsArray[i], level, tmpBool);
       TgroupedQAunit accidList = mergeListOfLists(sorted);
-      accidList.resume(accidToNotka(i - 2), accidList.for_an_accid() + " <span style=\"font-size: 20px;\">" + accidToNotka(i - 2) + "</span>");
+      QString fullDesc;
+      if (i - 2)
+        fullDesc = "<b>" + TgroupedQAunit::for_an_accid() + "</b><span style=\"font-size: 20px;\">  " + accidToNotka(i -2) + "</span>";
+            else
+        fullDesc = "<b>" + QApplication::translate("TlinearChart", "for notes without accidentals") + "</b>"; 
+      accidList.resume(accidToNotka(i - 2), fullDesc);
       result << accidList;
       kindOfAccidList << (i - 2);
     }
@@ -308,8 +321,8 @@ QList<TgroupedQAunit> sortByQAtype(TgroupedQAunit& answList, TexamLevel* level, 
         qaTypesArr[q][a].resume( // short: symbols of types, full: texts
                 TquestionAsWdg::spanNootka(TquestionAsWdg::qaTypeSymbol(qaTypesArr[q][a].first()->questionAs), 25) + "<br>" + 
                 TquestionAsWdg::spanNootka(TquestionAsWdg::qaTypeSymbol(qaTypesArr[q][a].first()->answerAs), 25),
-                TquestionAsWdg::questionsTxt() + " " + TquestionAsWdg::qaTypeText(qaTypesArr[q][a].first()->questionAs) + "<br>" +
-                TquestionAsWdg::answersTxt() + " " + TquestionAsWdg::qaTypeText(qaTypesArr[q][a].first()->answerAs) );
+                "<b>" + TquestionAsWdg::questionsTxt() + " " + TquestionAsWdg::qaTypeText(qaTypesArr[q][a].first()->questionAs) + "<br>" +
+                TquestionAsWdg::answersTxt() + " " + TquestionAsWdg::qaTypeText(qaTypesArr[q][a].first()->answerAs) + "</b>" );
         result << qaTypesArr[q][a];
       }
     }
