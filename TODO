@@ -1,6 +1,7 @@
 0.8.X
-- stop exam icon
 - be sure are tips removed after mouse leave
+- fix score symbol in font
+- remove comments in TlinearChart
 - positions and look of frets numbers and key names in charts
 - add string numbers to pixmap
 
@@ -33,7 +34,6 @@ TEXAMVIEW
 
 TEXAMEXECUTOR
 	- check is possible to given exam file
-	- show hints in non expert mode after clicking answer
 	- enable/disable sniffing durning exams (specially when no input is required)
   - think about hide octave in note name format when octaves are not required in answers. 
      Also for questions in "hint" - don't show octave when only name is required

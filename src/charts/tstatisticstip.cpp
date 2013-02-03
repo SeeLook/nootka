@@ -38,7 +38,7 @@ TstatisticsTip::Ekind TstatisticsTip::m_kind = e_full;
 
 QString TstatisticsTip::getTipText(TgroupedQAunit* qaGroup)  {
     QString tipText = QApplication::translate("TstatisticTip", "Statistics") + "<br>";
-    tipText += "<b>" + qaGroup->fullDescription() + "</b><hr>";
+    tipText += qaGroup->fullDescription() + "<hr>";
     tipText += "<table>";
     if (m_kind != e_mistakes)
         tipText += "<tr><td>" + 

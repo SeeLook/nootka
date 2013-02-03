@@ -68,6 +68,8 @@ class TexamLevel;
   QString accidToNotka(char acc, int fontSize = 20);
       /** Returns '?' or '!' depends on answer type. */
   QString getWasInAnswOrQuest(TQAtype::Etype type, TQAunit* question);
+      /** Returns a text 'Key signatures gave by user' when all cases are fulfilled or empty string */
+  QString wereKeys(bool manualKeys, TQAtype::Etype answerType);
   
 //   QList<TanswerListPtr> divideQuestionsAndAnswers(TanswerListPtr &answList);
   

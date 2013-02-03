@@ -67,16 +67,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
           aTime = (aTime * okCount + (exam->question(i).time)) / (okCount + 1);
         
         okCount++;        
-//        polygon << QPointF(xAxis->mapValue(i + 1), yAxis->mapValue(aTime));
-        TgraphicsLine *averProgress = new TgraphicsLine("<b>" + QApplication::translate("TlinearChart", "PROGRESS LINE") + "</b><br>" +
-          QString("<span style=\"color: %1; font-size: 20px;\"><b> \\ </b></span>").arg(averColor.name()) +
-          QApplication::translate("TlinearChart", "descending - you go better") + "<br>" + 
-          QString("<span style=\"color: %1; font-size: 20px;\"><b> / </b></span>").arg(averColor.name()) +
-          QApplication::translate("TlinearChart", "acending - you thinking much") + "<hr>" + TexamView::averAnsverTimeTxt() + "<br>" +
-//           QApplication::translate("TlinearChart", "for answer nr") + QString(" <b>%1</b>: <b>%2 s</b>").arg(i + 1).arg(aTime / 10.0) +"<br>" + 
-          QApplication::translate("TlinearChart", "for whole exam:") +
-          QString(" <span style=\"font-size: 20px;\">%1</span></p>").arg(TexamView::formatReactTime(exam->averageReactonTime(), true))
-        );
+        TgraphicsLine *averProgress = new TgraphicsLine();
         scene->addItem(averProgress);
         averProgress->setPen(QPen(averColor, 3));
         averProgress->setLine(xAxis->mapValue(prevX) + xAxis->pos().x(), yAxis->mapValue(prev / 10.0),
@@ -85,8 +76,6 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
         averProgress->setZValue(10);
         prev = aTime;
       }
-//       qDebug() << aTime << exam->averageReactonTime() / 10.0;
-      
       
       if (exam->averageReactonTime() > 0) {
           TgraphicsLine *averLine = new TgraphicsLine(0, "<p>" +
@@ -120,7 +109,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
 //         double aTime = calcAverTime(sortedLists[i], !settings.inclWrongAnsw); OBSOLETE
         if (sortedLists[i].size() > 1) {
         TgraphicsLine *averTimeLine = new TgraphicsLine(&sortedLists[i]);
-        QString lineText = "";
+/*        QString lineText = "";
         switch (settings.order) {
           case e_byNote :
             lineText = TgroupedQAunit::for_a_note() + "<span style=\"font-size: 20px;\">  <b>" + 
@@ -131,11 +120,12 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
                 QString::number(sortedLists[i].first()->qa.pos.fret()) + "</b></span>";
             break;
           case e_byKey: {
-            QString wereKeys = "";
-            if (exam->level()->manualKey && sortedLists[i].first()->answerAs == TQAtype::e_asNote)
-                wereKeys = "<br>(" + QApplication::translate("TlinearChart", "Key signatures gave by user") + ")";
-            lineText = TgroupedQAunit::for_a_key() + "<span style=\"font-size: 20px;\">  <b>" + 
-                sortedLists[i].first()->key.getName() + "</b></span>" + wereKeys;
+//             QString wereKeys = "";
+//             if (exam->level()->manualKey && sortedLists[i].first()->answerAs == TQAtype::e_asNote)
+//                 wereKeys = "<br>(" + QApplication::translate("TlinearChart", "Key signatures gave by user") + ")";
+//             lineText = TgroupedQAunit::for_a_key() + "<span style=\"font-size: 20px;\">  <b>" + 
+//                 sortedLists[i].first()->key.getName() + "</b></span>" + wereKeys(exam->level()->manualKey, sortedLists[i].first()->answerAs);
+               lineText = sortedLists[i].fullDescription();
             break;
           }
           case e_byAccid:
@@ -146,13 +136,14 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
             break;
           case e_byQuestAndAnsw:
             lineText = sortedLists[i].fullDescription()/* + "<span style=\"font-size: 20px;\">  <b>" + 
-                TnoteName::noteToRichText(sortedLists[i].first()->qa.note) + "</b>"*/;
+                TnoteName::noteToRichText(sortedLists[i].first()->qa.note) + "</b>";
             break;
           case e_byMistake:
             lineText = sortedLists[i].fullDescription();
             break;
         }        
-        averTimeLine->setText(lineText);
+//      averTimeLine->setText(lineText); */
+        averTimeLine->setText(sortedLists[i].fullDescription());
         scene->addItem(averTimeLine);
         averTimeLine->setZValue(46);
         averTimeLine->setPen(QPen(averColor, 3)); // sea blue

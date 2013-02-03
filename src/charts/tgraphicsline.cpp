@@ -19,6 +19,7 @@
 #include "tgraphicsline.h"
 #include "tstatisticstip.h"
 #include "tgroupedqaunit.h"
+#include <texamview.h>
 #include <QGraphicsSceneHoverEvent>
 
 TgraphicsLine::TgraphicsLine(TgroupedQAunit* qaGroup, QString text) :
@@ -54,12 +55,28 @@ void TgraphicsLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
 
 
 void TgraphicsLine::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
-  if (tip || m_text == "")
+  if (tip)
         return;
   if (m_qaGroup)
     tip = new TstatisticsTip(m_qaGroup, TstatisticsTip::e_simple, m_text);
-  else
-    tip = new TgraphicsTextTip(m_text, QColor(0, 192, 192));
+  else {
+    QColor averColor = QColor(0, 192, 192);
+    if (m_text == "") {
+      tip = new TgraphicsTextTip("<b>" + QApplication::translate("TgraphicsLine", "progress line").toUpper() + "</b><br>" +
+          QString("<span style=\"color: %1; font-size: 20px; font-family: 'Courier New', Courier, monospace;\"><b> \\ </b></span>").arg(averColor.name()) +
+          QApplication::translate("TgraphicsLine", "descending - you go better") + "<br>" + 
+          QString("<span style=\"color: %1; font-size: 20px; font-family: 'Courier New', Courier, monospace;\"><b> / </b></span>").arg(averColor.name()) +
+          QApplication::translate("TgraphicsLine", "acending - you thinking much") /*+ "<hr>" + TexamView::averAnsverTimeTxt() + "<br>" +*/
+//           QApplication::translate("TlinearChart", "for answer nr") + QString(" <b>%1</b>: <b>%2 s</b>").arg(i + 1).arg(aTime / 10.0) +"<br>" + 
+//           QApplication::translate("TlinearChart", "for whole exam:") +
+//           QString(" <span style=\"font-size: 20px;\">%1</span></p>").arg(TexamView::formatReactTime(exam->averageReactonTime(), true))
+          , averColor);
+    } else
+      tip = new TgraphicsTextTip(m_text, averColor);
+  }
   handleTip(event->scenePos());
 }
+
+
+
 
