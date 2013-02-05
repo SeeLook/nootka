@@ -41,47 +41,47 @@
     <message>
         <location filename="../src/charts/sorting.cpp" line="339"/>
         <source>correct notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Správné noty</translation>
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="340"/>
         <source>wrong notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Nesprávné noty</translation>
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="341"/>
         <source>wrong accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>Nesprávné posuvky</translation>
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="342"/>
         <source>wrong octaves</source>
-        <translation type="unfinished"></translation>
+        <translation>Nesprávné oktávy</translation>
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="343"/>
         <source>correct key signatures</source>
-        <translation type="unfinished"></translation>
+        <translation>Správná předznamenání</translation>
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="344"/>
         <source>wrong key signatures</source>
-        <translation type="unfinished"></translation>
+        <translation>Nesprávná předznamenání</translation>
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="347"/>
         <source>correct positions</source>
-        <translation type="unfinished"></translation>
+        <translation>Správné polohy</translation>
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="348"/>
         <source>wrong positions</source>
-        <translation type="unfinished"></translation>
+        <translation> Nesprávné polohy</translation>
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="349"/>
         <source>wrong strings</source>
-        <translation type="unfinished"></translation>
+        <translation>Nesprávné struny</translation>
     </message>
 </context>
 <context>
@@ -737,7 +737,7 @@
         <location filename="../src/charts/tyaxis.cpp" line="61"/>
         <source>time [s]</source>
         <comment>unit of Y axis</comment>
-        <translation type="unfinished"></translation>
+        <translation>čas [s]</translation>
     </message>
 </context>
 <context>
@@ -893,7 +893,7 @@
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="74"/>
         <source>Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Změny</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="87"/>
@@ -968,25 +968,17 @@
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="75"/>
         <source>question type</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ otázky</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="76"/>
         <source>mistake</source>
-        <translation type="unfinished"></translation>
+        <translation>Omyl</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="83"/>
         <source>Level summary:</source>
         <translation>Přehled úrovně:</translation>
-    </message>
-    <message>
-        <source>Select an exam from a file&lt;br&gt;Use %1 + mouse wheel to zoom a chart.&lt;br&gt;Drag a cursor to move the chart.</source>
-        <translation type="obsolete">Vyberte zkoušku ze souboru&lt;br&gt;Použijte %1 + kolečko myši pro přiblížená/oddálení grafu.&lt;br&gt;Táhněte ukazovátkem pro přesun grafu.</translation>
-    </message>
-    <message>
-        <source>Questions number:</source>
-        <translation type="obsolete">Číslo otázky:</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="209"/>
@@ -1006,17 +998,17 @@
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="263"/>
         <source>Maximize</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvětšit</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="267"/>
         <source>linear chart</source>
-        <translation type="unfinished"></translation>
+        <translation>Lineární graf</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="270"/>
         <source>bar chart</source>
-        <translation type="unfinished"></translation>
+        <translation>Sloupcový graf</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="454"/>
@@ -1031,24 +1023,24 @@
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="117"/>
         <source>Press %1 button to select an exam from a file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stiskněte tlačítko %1, abyste vybrali zkoušku ze souboru.</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="119"/>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
-        <translation type="unfinished"></translation>
+        <translation>Použijte %1 + kolečko myši nebo tlačítka %2 pro přiblížení grafu.</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="121"/>
         <source>Drag a cursor to move the chart.</source>
-        <translation type="unfinished"></translation>
+        <translation>Táhněte ukazovátko pro posun grafu.</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="152"/>
         <location filename="../src/charts/tstatisticstip.cpp" line="50"/>
         <location filename="../src/charts/tyaxis.cpp" line="64"/>
         <source>Questions number</source>
-        <translation type="unfinished"></translation>
+        <translation>Číslo otázky</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="235"/>
@@ -1086,12 +1078,12 @@
     <message>
         <location filename="../src/exam/tcanvas.cpp" line="233"/>
         <source>To check the answer confirm it:</source>
-        <translation type="unfinished">Pro prověření odpovědi ji potvrďte:</translation>
+        <translation>Pro prověření odpovědi ji potvrďte:</translation>
     </message>
     <message>
         <location filename="../src/exam/tcanvas.cpp" line="236"/>
         <source>Check in exam help %1 how to do it automatically</source>
-        <translation type="unfinished"></translation>
+        <translation>Prověřte v nápovědě ke zkoušce %1, jak to dělat automaticky</translation>
     </message>
 </context>
 <context>
@@ -1236,13 +1228,9 @@ není platným souborem zkoušky!</translation>
         <translation>Jak zkouška pracuje?</translation>
     </message>
     <message>
-        <source>Select 2-nd check box to get the question automaticaly.</source>
-        <translation type="obsolete">Vyberte druhé zaškrtávací okénko, abyste otázku dostali automaticky.</translation>
-    </message>
-    <message>
         <location filename="../src/info/texamhelp.cpp" line="47"/>
         <source>Select 2-nd check box to get the question automatically.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyberte druhé zaškrtávací okénko, abyste otázku dostali automaticky.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="49"/>
@@ -1430,7 +1418,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="136"/>
         <source>Wrong strings</source>
-        <translation>Nesprávné struna</translation>
+        <translation>Nesprávné struny</translation>
     </message>
 </context>
 <context>
@@ -1583,17 +1571,17 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/charts/tgraphicsline.cpp" line="65"/>
         <source>progress line</source>
-        <translation type="unfinished"></translation>
+        <translation>Čára postupu</translation>
     </message>
     <message>
         <location filename="../src/charts/tgraphicsline.cpp" line="67"/>
         <source>descending - you go better</source>
-        <translation type="unfinished"></translation>
+        <translation>Sestupná - překonáte</translation>
     </message>
     <message>
         <location filename="../src/charts/tgraphicsline.cpp" line="69"/>
         <source>acending - you thinking much</source>
-        <translation type="unfinished"></translation>
+        <translation>Vzestupná - rozmýšlíte se</translation>
     </message>
 </context>
 <context>
@@ -1842,63 +1830,24 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/charts/sorting.cpp" line="206"/>
         <source>Key signatures gave by user</source>
-        <translation type="unfinished">Předznamenání dáno uživatelem</translation>
+        <translation>Předznamenání dáno uživatelem</translation>
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="234"/>
         <source>for notes without accidentals</source>
-        <translation type="unfinished">Pro noty bez posuvek</translation>
+        <translation>Pro noty bez posuvek</translation>
     </message>
     <message>
         <location filename="../src/charts/tlinearchart.cpp" line="180"/>
         <location filename="../src/charts/tlinearchart.cpp" line="205"/>
         <location filename="../src/charts/tlinearchart.cpp" line="230"/>
         <source>questions unrelated&lt;br&gt;with chart type</source>
-        <translation type="unfinished">Otázky nesouvisející&lt;br&gt;s typem grafu</translation>
+        <translation>Otázky nesouvisející&lt;br&gt;s typem grafu</translation>
     </message>
     <message>
         <location filename="../src/charts/tlinearchart.cpp" line="235"/>
         <source>without accidentals</source>
-        <translation type="unfinished">Bez posuvek</translation>
-    </message>
-</context>
-<context>
-    <name>TmainChart</name>
-    <message>
-        <source>for a note:</source>
-        <comment>average reaction time for...</comment>
-        <translation type="obsolete">Pro notu:</translation>
-    </message>
-    <message>
-        <source>for a fret:</source>
-        <comment>average reaction time for...</comment>
-        <translation type="obsolete">Pro pražec:</translation>
-    </message>
-    <message>
-        <source>Key signatures gave by user</source>
-        <translation type="obsolete">Předznamenání dáno uživatelem</translation>
-    </message>
-    <message>
-        <source>for a key:</source>
-        <comment>average reaction time for...</comment>
-        <translation type="obsolete">Pro tóninu:</translation>
-    </message>
-    <message>
-        <source>for an accidental:</source>
-        <comment>average reaction time for...</comment>
-        <translation type="obsolete">Pro posuvku:</translation>
-    </message>
-    <message>
-        <source>for notes without accidentals</source>
-        <translation type="obsolete">Pro noty bez posuvek</translation>
-    </message>
-    <message>
-        <source>questions unrelated&lt;br&gt;with chart type</source>
-        <translation type="obsolete">Otázky nesouvisející&lt;br&gt;s typem grafu</translation>
-    </message>
-    <message>
-        <source>without accidentals</source>
-        <translation type="obsolete">Bez posuvek</translation>
+        <translation>Bez posuvek</translation>
     </message>
 </context>
 <context>
@@ -2414,7 +2363,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/charts/tstatisticstip.cpp" line="40"/>
         <source>Statistics</source>
-        <translation type="unfinished"></translation>
+        <translation>Statistika</translation>
     </message>
 </context>
 <context>
@@ -2524,31 +2473,31 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/charts/sorting.cpp" line="439"/>
         <location filename="../src/charts/sorting.cpp" line="445"/>
         <source>none</source>
-        <translation type="unfinished">Žádné</translation>
+        <translation>Žádná</translation>
     </message>
     <message>
         <location filename="../src/exam/tgroupedqaunit.h" line="83"/>
         <source>for a note:</source>
         <comment>average reaction time for...</comment>
-        <translation type="unfinished">Pro notu:</translation>
+        <translation>Pro notu:</translation>
     </message>
     <message>
         <location filename="../src/exam/tgroupedqaunit.h" line="86"/>
         <source>for a fret:</source>
         <comment>average reaction time for...</comment>
-        <translation type="unfinished">Pro pražec:</translation>
+        <translation>Pro pražec:</translation>
     </message>
     <message>
         <location filename="../src/exam/tgroupedqaunit.h" line="89"/>
         <source>for a key:</source>
         <comment>average reaction time for...</comment>
-        <translation type="unfinished">Pro tóninu:</translation>
+        <translation>Pro tóninu:</translation>
     </message>
     <message>
         <location filename="../src/exam/tgroupedqaunit.h" line="92"/>
         <source>for an accidental:</source>
         <comment>average reaction time for...</comment>
-        <translation type="unfinished">Pro posuvku:</translation>
+        <translation>Pro posuvku:</translation>
     </message>
 </context>
 <context>

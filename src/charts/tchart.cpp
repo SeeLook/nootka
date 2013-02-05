@@ -23,6 +23,7 @@
 #include "txaxis.h"
 #include "tyaxis.h"
 #include "tabstractaxis.h"
+// #include "ttiphandler.h"
 #include <QDebug>
 
 
@@ -83,6 +84,8 @@ bool Tchart::event(QEvent* event)
       return true;
     }
   }
+//   if (event->type() == QEvent::Leave) // To give a last posibility to remove undeleted tip
+//       TtipHandler::delayedDelete(); 
   return QGraphicsView::event(event);
 }
 
