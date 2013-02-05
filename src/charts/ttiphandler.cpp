@@ -78,7 +78,7 @@ void TtipHandler::handleTip(QPointF scenePos) {
 
 void TtipHandler::hoverLeaveEvent(QGraphicsSceneHoverEvent*) {
     if (m_delTimer && !m_delTimer->isActive()) {
-        m_delTimer->start(150);
+        m_delTimer->start(350);
     }
 }
 
