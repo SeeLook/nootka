@@ -46,6 +46,11 @@ TtipHandler::~TtipHandler() {
     delete m_delTimer;
     m_delTimer = 0;
   }
+  deleteTip();
+}
+
+
+void TtipHandler::deleteTip() {
   if (tip) {
     delete tip;
     tip = 0;
@@ -87,8 +92,7 @@ void TtipHandler::delayedDelete() {
         return;
     m_delTimer->stop();
     if (tip) {
-        delete tip;
-        tip = 0;
+        deleteTip();
         update();
         scene()->update();
     }

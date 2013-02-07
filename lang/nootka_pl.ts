@@ -871,7 +871,7 @@
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="168"/>
         <source>This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features.&lt;br&gt;Inspite of that You are welcome to try it!!</source>
-        <translation>Ta wersja beta i może zawierać błędy lub działać w niezamierzony sposób, także, posiada nieukończone funkcje.&lt;br&gt;Mimo wszystko zapraszam do wypróbowania!!</translation>
+        <translation>Ta wersja beta i może zawierać błędy lub działać w niezamierzony sposób, posiada także nieukończone funkcje.&lt;br&gt;Mimo tego, zapraszam do wypróbowania!!</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="169"/>
@@ -1791,7 +1791,7 @@ ale nie zapisany !!</translation>
     <message>
         <location filename="../src/level/tlevelpreview.cpp" line="120"/>
         <source>octave has no matter</source>
-        <translation>oktawa nie istotna</translation>
+        <translation>oktawa nieistotna</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelpreview.h" line="36"/>

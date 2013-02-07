@@ -23,7 +23,7 @@
 #include "txaxis.h"
 #include "tyaxis.h"
 #include "tabstractaxis.h"
-// #include "ttiphandler.h"
+#include "ttiphandler.h"
 #include <QDebug>
 
 
@@ -46,7 +46,7 @@ Tchart::Tchart(QWidget* parent) :
 	
   xAxis = new TXaxis();
   scene->addItem(xAxis);
-  xAxis->setLength(600);
+  xAxis->setLength(550);
   xAxis->setPos(52, yAxis->boundingRect().height() - 7);
 
   // stupid trick to make room for further tips of ticks of x axis
@@ -84,8 +84,8 @@ bool Tchart::event(QEvent* event)
       return true;
     }
   }
-//   if (event->type() == QEvent::Leave) // To give a last posibility to remove undeleted tip
-//       TtipHandler::delayedDelete(); 
+  if (event->type() == QEvent::Leave) // To give a last posibility to remove undeleted tip
+      TtipHandler::deleteTip(); 
   return QGraphicsView::event(event);
 }
 

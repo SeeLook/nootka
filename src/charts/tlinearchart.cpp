@@ -47,7 +47,6 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
       xAxis->setAnswersList(currExam->answList(), currExam->level());
       prepareChart(currExam->count());
       m_mainLine = new TmainLine(currExam->answList(), this);
-      //      QPolygonF polygon;
       double aTime = 0 , prev = 0;
       int firstCorrect = 0, okCount = 0;
       for(int i = 0; i < exam->count(); i++) { // looking for first correct answer
@@ -106,43 +105,9 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
       int cnt = 1;
   // paint lines with average time of all the same notes/frets
      for (int i = 0; i < goodSize + goodOffset; i++) { // skip wrong answers if separeted
-//         double aTime = calcAverTime(sortedLists[i], !settings.inclWrongAnsw); OBSOLETE
         if (sortedLists[i].size() > 1) {
         TgraphicsLine *averTimeLine = new TgraphicsLine(&sortedLists[i]);
-/*        QString lineText = "";
-        switch (settings.order) {
-          case e_byNote :
-            lineText = TgroupedQAunit::for_a_note() + "<span style=\"font-size: 20px;\">  <b>" + 
-                TnoteName::noteToRichText(sortedLists[i].first()->qa.note) + "</b></span>";
-            break;
-          case e_byFret:
-            lineText = TgroupedQAunit::for_a_fret() + "<span style=\"font-size: 20px;\"><b>  " + 
-                QString::number(sortedLists[i].first()->qa.pos.fret()) + "</b></span>";
-            break;
-          case e_byKey: {
-//             QString wereKeys = "";
-//             if (exam->level()->manualKey && sortedLists[i].first()->answerAs == TQAtype::e_asNote)
-//                 wereKeys = "<br>(" + QApplication::translate("TlinearChart", "Key signatures gave by user") + ")";
-//             lineText = TgroupedQAunit::for_a_key() + "<span style=\"font-size: 20px;\">  <b>" + 
-//                 sortedLists[i].first()->key.getName() + "</b></span>" + wereKeys(exam->level()->manualKey, sortedLists[i].first()->answerAs);
-               lineText = sortedLists[i].fullDescription();
-            break;
-          }
-          case e_byAccid:
-            if (kindOfAccids[i])
-              lineText = TgroupedQAunit::for_an_accid() + "<span style=\"font-size: 20px;\">  " + accidToNotka(kindOfAccids[i]) + "</span>";
-            else
-              lineText = QApplication::translate("TlinearChart", "for notes without accidentals"); 
-            break;
-          case e_byQuestAndAnsw:
-            lineText = sortedLists[i].fullDescription()/* + "<span style=\"font-size: 20px;\">  <b>" + 
-                TnoteName::noteToRichText(sortedLists[i].first()->qa.note) + "</b>";
-            break;
-          case e_byMistake:
-            lineText = sortedLists[i].fullDescription();
-            break;
-        }        
-//      averTimeLine->setText(lineText); */
+
         averTimeLine->setText(sortedLists[i].fullDescription());
         scene->addItem(averTimeLine);
         averTimeLine->setZValue(46);

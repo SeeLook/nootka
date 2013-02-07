@@ -740,12 +740,13 @@ void TexamExecutor::prepareToExam() {
     mW->expertAnswChB->show();
     mW->expertAnswChB->setChecked(gl->E->expertsAnswerEnable);
     mW->progress->activate(m_exam->count(), m_supp->obligQuestions(), m_exam->penalty(), m_exam->isFinished());
-//    if (gl->E->expertsAnswerEnable)
-//      connectForExpert();
-    disableWidgets();
 
-//     if (gl->E->expertsAnswerEnable)
-      connectForExpert();
+    disableWidgets();
+// connect all events to check an answer or display tip how to check
+    connect(mW->score, SIGNAL(noteClicked()), this, SLOT(expertAnswersSlot()));
+    connect(mW->noteName, SIGNAL(noteButtonClicked()), this, SLOT(expertAnswersSlot()));
+    connect(mW->guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(expertAnswersSlot()));
+    connect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(expertAnswersSlot()));
     
     qApp->installEventFilter(m_supp);
     connect(m_supp, SIGNAL(rightButtonClicked()), this, SLOT(rightButtonSlot()));
@@ -827,8 +828,9 @@ void TexamExecutor::restoreAfterExam() {
     mW->noteName->setNameDisabled(false);
     mW->guitar->setGuitarDisabled(false);
     mW->autoRepeatChB->hide();
-    if (gl->E->expertsAnswerEnable) // disconnect check box 
-      expertAnswersStateChanged(false);
+//     if (gl->E->expertsAnswerEnable) // disconnect check box 
+//       expertAnswersStateChanged(false);
+      
     mW->expertAnswChB->hide();
 
     if (m_canvas)
@@ -1001,25 +1003,13 @@ void TexamExecutor::showExamHelp() {
   m_snifferLocked = false;
 }
 
-void TexamExecutor::connectForExpert() {
-  connect(mW->score, SIGNAL(noteClicked()), this, SLOT(expertAnswersSlot()));
-  connect(mW->noteName, SIGNAL(noteButtonClicked()), this, SLOT(expertAnswersSlot()));
-  connect(mW->guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(expertAnswersSlot()));
-  connect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(expertAnswersSlot()));
-}
 
 void TexamExecutor::expertAnswersStateChanged(bool enable) {
   if (enable) {
       if (!gl->E->askAboutExpert || showExpertAnswersHelpDlg(gl->E->askAboutExpert, mW))
-//           connectForExpert();
       {}
       else
-          mW->expertAnswChB->setChecked(false);
-  } else {
-//     disconnect(mW->score, SIGNAL(noteClicked()), this, SLOT(expertAnswersSlot()));
-//     disconnect(mW->noteName, SIGNAL(noteButtonClicked()), this, SLOT(expertAnswersSlot()));
-//     disconnect(mW->guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(expertAnswersSlot()));
-//     disconnect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(expertAnswersSlot()));
+          mW->expertAnswChB->setChecked(false); // ignore it, user resigned
   }
   gl->E->expertsAnswerEnable = mW->expertAnswChB->isChecked();
 }
