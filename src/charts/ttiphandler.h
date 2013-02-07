@@ -45,6 +45,10 @@ class TtipHandler : public QGraphicsObject
 public:
     TtipHandler();
     virtual ~TtipHandler();
+    
+        /** Simply deletes tip. 
+         * It is static to give possibility remove TgraphicsTextTip outside of a class. */
+    static void deleteTip();
 
 protected:
         /** This method should be called after creating a tip instance

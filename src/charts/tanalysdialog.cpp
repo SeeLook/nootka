@@ -78,7 +78,8 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   m_userLab = new QLabel(" ", this);
   headLay->addWidget(m_userLab, 1, 1, Qt::AlignCenter);
   m_levelLab = new QLabel(" ", this);
-  m_moreButton = new QPushButton("...", this);
+  m_moreButton = new QPushButton(QIcon(gl->path + "picts/levelCreator.png"), "...", this);
+  m_moreButton->setIconSize(QSize(24, 24));
   m_moreButton->setDisabled(true);
   m_moreButton->setToolTip(tr("Level summary:"));
   QHBoxLayout *levLay = new QHBoxLayout;
@@ -465,11 +466,22 @@ void TanalysDialog::chartTypeChanged() {
       if (m_chartSetts.type != Tchart::e_linear) {
         m_chartSetts.type = Tchart::e_linear;
         enableComboItem(0, true);
+        disconnect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
+        m_wrongSeparateAct->setDisabled(false);
+        connect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
         createChart(m_chartSetts);
       }        
     } else { // bar chart
         if (m_chartSetts.type != Tchart::e_bar) {
           m_chartSetts.type = Tchart::e_bar;
+          m_settButt->setDisabled(false); // unlock settings
+          disconnect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
+          m_wrongSeparateAct->setDisabled(true);
+          m_wrongSeparateAct->setChecked(false);
+          m_chartSetts.separateWrong = false;
+          m_inclWrongAct->setDisabled(false);
+          connect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
+          connect(m_inclWrongAct, SIGNAL(changed()), this, SLOT(includeWrongSlot()));
           if (m_chartSetts.order == Tchart::e_byNumber) { // not suported by barChart (no sense)
             m_chartSetts.order = Tchart::e_byNote;
             m_chartListCombo->setCurrentIndex(1);

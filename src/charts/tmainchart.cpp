@@ -141,12 +141,12 @@ void TmainChart::sceneMoved() {
     if (xOff > 16)
 //       xOff = xOff - 20;
     yAxis->setX(16 + xOff);  
-    yAxis->update();
-#if not defined (Q_OS_LINUX)
+//     yAxis->update();
+    // Unfortunately some QT styles and 
     // Mac and Windows have problem with update and this solves it.
     // It cases blinking but it is accteptable
-    QTimer::singleShot(2, this, SLOT(updateSceneAfterMove()));
-#endif
+//     QTimer::singleShot(1, this, SLOT(updateSceneAfterMove()));
+    scene->update();
 }
 
 

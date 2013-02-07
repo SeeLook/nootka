@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -105,9 +105,7 @@ private:
         /** Disables score, noteName and guitar*/
     void disableWidgets();
     void clearWidgets();
-        /** Connects all Nootka widgets signals to expertAnswersSlot() */
-    void connectForExpert();
-    
+        
 private:
     QString saveExamToFile();
     void updatePenalStep();

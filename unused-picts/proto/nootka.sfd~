@@ -15,6 +15,8 @@ LayerCount: 2
 Layer: 0 1 "Warstwa t+AUIA-a"  1
 Layer: 1 1 "Plan pierwszy"  0
 XUID: [1021 905 4475020 9871967]
+BaseHoriz: 1 'ideo'
+BaseScript: 'latn' 0  0
 FSType: 0
 OS2Version: 4
 OS2_WeightWidthSlopeOnly: 0
@@ -85,7 +87,7 @@ NameList: Adobe Glyph List
 DisplaySize: -96
 AntiAlias: 1
 FitToEm: 1
-WinInfo: 40 10 3
+WinInfo: 90 10 3
 BeginChars: 65539 33
 
 StartChar: .notdef
