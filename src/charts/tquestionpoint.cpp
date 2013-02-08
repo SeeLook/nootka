@@ -100,7 +100,10 @@ QRectF TquestionPoint::boundingRect() const {
   
 void TquestionPoint::hoverEnterEvent(QGraphicsSceneHoverEvent* event ) {
     if (tip)
-        return;
+        if (tip == initObject())
+          return;
+        else
+          deleteTip();
     tip = new TtipChart(this);
     handleTip(event->scenePos());
 }

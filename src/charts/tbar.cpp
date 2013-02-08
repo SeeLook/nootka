@@ -107,10 +107,13 @@ QRectF Tbar::boundingRect() const {
 
 
 void Tbar::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
-    if (!tip) {
-      tip = new TstatisticsTip(m_qaGroup, m_tipType);
-      handleTip(event->scenePos());
-    }
+  if (tip)
+    if (tip == initObject())
+        return;
+    else
+      deleteTip();
+  tip = new TstatisticsTip(m_qaGroup, m_tipType);
+  handleTip(event->scenePos());
 }
 
 void Tbar::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {

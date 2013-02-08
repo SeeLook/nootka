@@ -331,7 +331,8 @@ void TanalysDialog::loadExamSlot() {
 												  TstartExamDlg::examFilterTxt(), 0, QFileDialog::DontUseNativeDialog);
   if (fileName != "") {
       if (m_chart) {
-        m_chart->deleteLater();
+//         m_chart->deleteLater();
+        delete m_chart;
         m_chart = 0;
       }
       gl->E->examsDir = QFileInfo(fileName).absoluteDir().absolutePath();
@@ -483,8 +484,13 @@ void TanalysDialog::chartTypeChanged() {
           connect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
           connect(m_inclWrongAct, SIGNAL(changed()), this, SLOT(includeWrongSlot()));
           if (m_chartSetts.order == Tchart::e_byNumber) { // not suported by barChart (no sense)
-            m_chartSetts.order = Tchart::e_byNote;
-            m_chartListCombo->setCurrentIndex(1);
+            if (m_chartListCombo->model()->index(1, 0).flags() == Qt::NoItemFlags) { // notes don't occur'
+                m_chartSetts.order = Tchart::e_byFret;
+                m_chartListCombo->setCurrentIndex(2);
+            } else {
+                m_chartSetts.order = Tchart::e_byNote;
+                m_chartListCombo->setCurrentIndex(1);
+            }
             enableComboItem(0, false);
           }
           createChart(m_chartSetts);
