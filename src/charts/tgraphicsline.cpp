@@ -56,7 +56,10 @@ void TgraphicsLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
 
 void TgraphicsLine::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
   if (tip)
+    if (tip == initObject())
         return;
+    else
+      deleteTip();
   if (m_qaGroup)
     tip = new TstatisticsTip(m_qaGroup, TstatisticsTip::e_simple, m_text);
   else {

@@ -47,8 +47,9 @@ public:
     virtual ~TtipHandler();
     
         /** Simply deletes tip. 
-         * It is static to give possibility remove TgraphicsTextTip outside of a class. */
-    static void deleteTip();
+         * It is static to give possibility remove TgraphicsTextTip outside of a class. 
+         * It returns true when tip existed and was deleted. */
+    static bool deleteTip();
 
 protected:
         /** This method should be called after creating a tip instance
@@ -57,9 +58,12 @@ protected:
     void handleTip(QPointF scenePos);
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent*);
     static TgraphicsTextTip *tip;
+        /** Returns poiter to object that created this tip. */
+    static const QGraphicsObject* initObject() { return m_initObject; }
     
 private:
     static QTimer *m_delTimer;
+    static QGraphicsObject* m_initObject; 
   
 private slots:
     void delayedDelete();

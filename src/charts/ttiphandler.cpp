@@ -30,6 +30,7 @@
 /*static*/
 TgraphicsTextTip* TtipHandler::tip = 0;
 QTimer* TtipHandler::m_delTimer = 0;
+QGraphicsObject* TtipHandler::m_initObject = 0;
 
 
 TtipHandler::TtipHandler()
@@ -50,11 +51,13 @@ TtipHandler::~TtipHandler() {
 }
 
 
-void TtipHandler::deleteTip() {
+bool TtipHandler::deleteTip() {
   if (tip) {
     delete tip;
     tip = 0;
+    return true;
   }
+  return false;
 }
 
 
@@ -65,6 +68,7 @@ void TtipHandler::handleTip(QPointF scenePos) {
       m_delTimer->stop();
     }
     if (tip) {
+      m_initObject = this;
       scene()->addItem(tip);
       tip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
       QSize s = scene()->views()[0]->size();
@@ -82,7 +86,7 @@ void TtipHandler::handleTip(QPointF scenePos) {
 
 
 void TtipHandler::hoverLeaveEvent(QGraphicsSceneHoverEvent*) {
-    if (m_delTimer && !m_delTimer->isActive()) {
+    if (m_delTimer /*&& !m_delTimer->isActive()*/) {
         m_delTimer->start(350);
     }
 }

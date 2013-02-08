@@ -85,7 +85,8 @@ bool Tchart::event(QEvent* event)
     }
   }
   if (event->type() == QEvent::Leave) // To give a last posibility to remove undeleted tip
-      TtipHandler::deleteTip(); 
+      if (TtipHandler::deleteTip())
+        scene->update(); 
   return QGraphicsView::event(event);
 }
 
