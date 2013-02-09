@@ -29,7 +29,6 @@
 #include "tstatisticstip.h"
 #include "tgroupedqaunit.h"
 #include "texamview.h"
-#include <QDebug>
 
 #define WIDTH (30) // default width of a bar
 

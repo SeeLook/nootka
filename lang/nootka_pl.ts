@@ -29,10 +29,6 @@
         <translation>zły znak</translation>
     </message>
     <message>
-        <source>correct</source>
-        <translation type="obsolete">poprawnie</translation>
-    </message>
-    <message>
         <location filename="../src/charts/tnotepixmap.cpp" line="188"/>
         <source>wrong key signature</source>
         <translation>zła tonacja</translation>
@@ -41,18 +37,6 @@
         <location filename="../src/charts/tnotepixmap.cpp" line="195"/>
         <source>wrong octave</source>
         <translation>zła oktawa</translation>
-    </message>
-    <message>
-        <source>wrong style</source>
-        <translation type="obsolete">zły styl</translation>
-    </message>
-    <message>
-        <source>wrong position</source>
-        <translation type="obsolete">zła pozycja</translation>
-    </message>
-    <message>
-        <source>wrong note</source>
-        <translation type="obsolete">zła nuta</translation>
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="339"/>
@@ -728,7 +712,7 @@
         <translation>Kouyanbaba: D A D A D F </translation>
     </message>
     <message>
-        <location filename="../src/exam/texam.cpp" line="200"/>
+        <location filename="../src/exam/texam.cpp" line="201"/>
         <source>Cannot save exam file:
 %1</source>
         <translation>Nie mogę zapisać pliku z egzaminem:
@@ -864,22 +848,22 @@
 <context>
     <name>Tabout</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="167"/>
+        <location filename="../src/info/taboutnootka.cpp" line="169"/>
         <source>Welcome on the board.&lt;br&gt; Nootka is open source application to help You learning (and teaching also) classical score notation.&lt;br&gt;It is specially dedicated for guitarists but others can find many usable features as well.</source>
         <translation>Witamy na pokładzie.&lt;br&gt; Nootka to aplikacja open source pomagająca w nauce (a także w nauczaniu) klasycznego zapisu nutowego. Jest szczególnie dedykowana gitarzystom ale inni także znajdą w niej coś użytecznego.</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="168"/>
+        <location filename="../src/info/taboutnootka.cpp" line="170"/>
         <source>This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features.&lt;br&gt;Inspite of that You are welcome to try it!!</source>
         <translation>Ta wersja beta i może zawierać błędy lub działać w niezamierzony sposób, posiada także nieukończone funkcje.&lt;br&gt;Mimo tego, zapraszam do wypróbowania!!</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="169"/>
+        <location filename="../src/info/taboutnootka.cpp" line="171"/>
         <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, sugestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
         <translation>Po więcej szczegółów i po następne wydania zajrzyj na &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;stronę programu&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Błędy, sugestie, tłumaczenia itp., proszę zgłaszać do: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;z poważaniem&lt;br&gt;Autor</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="173"/>
+        <location filename="../src/info/taboutnootka.cpp" line="175"/>
         <source>&lt;br&gt;To support project and also to avoid infection of Your PC&lt;br&gt;&lt;b&gt;PLEASE, use project site to download updates, new releases and to see news.&lt;/b&gt;</source>
         <translation>&lt;br&gt;Żeby wesprzeć projekt, a także uniknąć zarażenia Twojego komputera&lt;br&gt;&lt;b&gt;do pobierania aktualizacji, nowych wersji i czytania o nowościach, proszę używać strony www projektu&lt;/b&gt;</translation>
     </message>
@@ -992,106 +976,98 @@
         <translation>błędów</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="83"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="84"/>
         <source>Level summary:</source>
         <translation>Właściwości poziomu:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="117"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="118"/>
         <source>Press %1 button to select an exam from a file.</source>
         <translation>Naciśnij przycisk %1 żeby wybrać plik egzaminu.</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="119"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="120"/>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
         <translation>Użyj %1 i kółka myszy lub przycisków %2 aby zmienić rozmiar wykresu. </translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="121"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="122"/>
         <source>Drag a cursor to move the chart.</source>
         <translation>Przeciągnij kursor żeby przesunąć wykres.</translation>
     </message>
     <message>
-        <source>Select an exam from a file&lt;br&gt;Use %1 + mouse wheel to zoom a chart.&lt;br&gt;Drag a cursor to move the chart.</source>
-        <translation type="obsolete">Wybierz plik egzaminu&lt;br&gt;Użyj %1 + kółko myszy żeby powiększyć wykres.&lt;br&gt;Przeciągnij kursor myszy żeby przesunąć wykres..</translation>
-    </message>
-    <message>
-        <source>Questions number:</source>
-        <translation type="obsolete">Liczba pytań:</translation>
-    </message>
-    <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="209"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="214"/>
         <source>Open an exam to analyse</source>
         <translation>Otwórz egzamin do analizy</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="214"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="219"/>
         <source>recent opened exams:</source>
         <translation>ostatnio otwierane egzaminy:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="255"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="260"/>
         <source>Settings of a chart</source>
         <translation>Ustawienia wykresu</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="263"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="268"/>
         <source>Maximize</source>
         <translation>Maksymalizuj</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="267"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="272"/>
         <source>linear chart</source>
         <translation>wykres liniowy</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="270"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="275"/>
         <source>bar chart</source>
         <translation>wykres słupkowy</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="454"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="459"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="232"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="237"/>
         <source>Close analyser</source>
         <translation>Zamknij   okno analizy</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="152"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="153"/>
         <location filename="../src/charts/tstatisticstip.cpp" line="50"/>
         <location filename="../src/charts/tyaxis.cpp" line="64"/>
         <source>Questions number</source>
         <translation>Liczba pytań</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="235"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="202"/>
+        <source>File: %1 
+ is not valid exam file !!!</source>
+        <translation>Plik: %1 
+nie jest poprawnym plikiem egzaminu !!!</translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="240"/>
         <source>zoom in</source>
         <translation>powiększ</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="238"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="243"/>
         <source>zoom out</source>
         <translation>pomniejsz</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="241"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="246"/>
         <source>include time of wrong answers to average</source>
         <translation>dodaj czas niepoprawnych odpowiedzi do średniej</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="243"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="248"/>
         <source>show wrong answers separately</source>
         <translation>pokaż niepoprawne odpowiedzi oddzielnie</translation>
-    </message>
-</context>
-<context>
-    <name>Tbar</name>
-    <message>
-        <source>Statistics for:</source>
-        <translation type="obsolete">Statystyki dla:</translation>
     </message>
 </context>
 <context>
@@ -1115,10 +1091,6 @@
         <location filename="../src/exam/tcanvas.cpp" line="236"/>
         <source>Check in exam help %1 how to do it automatically</source>
         <translation>Sprawdź w pomocy %1 jak zrobić to automatycznie</translation>
-    </message>
-    <message>
-        <source>To do it automatically,&lt;br&gt;have a look to exam help %1</source>
-        <translation type="obsolete">Żeby zrobić to automatycznie&lt;br&gt;zajrzyj do pomocy egzaminu %1 </translation>
     </message>
 </context>
 <context>
@@ -1185,12 +1157,12 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>pomoc</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="949"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="951"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="950"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="952"/>
         <source>Discard</source>
         <translation>Porzuć</translation>
     </message>
@@ -1200,27 +1172,27 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>egzamin uruchomiony na poziomie</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="878"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="880"/>
         <source>Give an answer first!&lt;br&gt;Then the exam&apos;ll be finished</source>
         <translation>Najpierw odpowiedz!&lt;br&gt;Potem egzamin zostanie zakończony</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="920"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="922"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
         <translation>Psssst... Trwa egzamin.&lt;br&gt;&lt;br&gt;&lt;b&gt;Kontynuuj&lt;/b&gt; go &lt;br&gt;lub&lt;br&gt;&lt;b&gt;Zakończ&lt;/b&gt; żeby sprawdzić, zapisać i wyjść&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="921"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="923"/>
         <source>Continue</source>
         <translation>Kontynuuj</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="922"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="924"/>
         <source>Terminate</source>
         <translation>Zakończ</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="948"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="950"/>
         <source>If You don&apos;t save to file&lt;br&gt;You lost all results !!</source>
         <translation>Jeżeli nie zapiszesz do pliku&lt;br&gt;stracisz dotychczasowe wyniki!!</translation>
     </message>
@@ -1240,12 +1212,12 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>zatrzymaj egzamin</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="908"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="910"/>
         <source>so a pity</source>
         <translation>jaka szkoda</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="942"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="944"/>
         <source>Save exam&apos;s results as:</source>
         <translation>Zapisz wyniki egzaminu jako:</translation>
     </message>
@@ -1301,10 +1273,6 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <location filename="../src/info/texamhelp.h" line="47"/>
         <source>To stop the exam click %1 button.</source>
         <translation>Aby zatrzymać egzamin kliknij przycisk %1 .</translation>
-    </message>
-    <message>
-        <source>Select 2-nd check box to get the question automaticaly.</source>
-        <translation type="obsolete">Zaznacz 2-gie pole wyboru żeby pytania były zadawane automatycznie.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="53"/>
@@ -1608,17 +1576,17 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
 <context>
     <name>TgraphicsLine</name>
     <message>
-        <location filename="../src/charts/tgraphicsline.cpp" line="65"/>
+        <location filename="../src/charts/tgraphicsline.cpp" line="68"/>
         <source>progress line</source>
         <translation>linia postępu</translation>
     </message>
     <message>
-        <location filename="../src/charts/tgraphicsline.cpp" line="67"/>
+        <location filename="../src/charts/tgraphicsline.cpp" line="70"/>
         <source>descending - you go better</source>
         <translation>opadająca - jesteś lepszy</translation>
     </message>
     <message>
-        <location filename="../src/charts/tgraphicsline.cpp" line="69"/>
+        <location filename="../src/charts/tgraphicsline.cpp" line="72"/>
         <source>acending - you thinking much</source>
         <translation>wznosząca - dużo myślisz</translation>
     </message>
@@ -1867,29 +1835,9 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>TlinearChart</name>
     <message>
-        <source>for a note:</source>
-        <comment>average reaction time for...</comment>
-        <translation type="obsolete">dla nuty:</translation>
-    </message>
-    <message>
-        <source>for a fret:</source>
-        <comment>average reaction time for...</comment>
-        <translation type="obsolete">dla progu:</translation>
-    </message>
-    <message>
         <location filename="../src/charts/sorting.cpp" line="206"/>
         <source>Key signatures gave by user</source>
         <translation>Tonacja podana przez użytkownika</translation>
-    </message>
-    <message>
-        <source>for a key:</source>
-        <comment>average reaction time for...</comment>
-        <translation type="obsolete">dla tonacji:</translation>
-    </message>
-    <message>
-        <source>for an accidental:</source>
-        <comment>average reaction time for...</comment>
-        <translation type="obsolete">dla znaku:</translation>
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="234"/>
@@ -1897,14 +1845,14 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation>dla nut bez znaków</translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="180"/>
-        <location filename="../src/charts/tlinearchart.cpp" line="205"/>
-        <location filename="../src/charts/tlinearchart.cpp" line="230"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="145"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="170"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="195"/>
         <source>questions unrelated&lt;br&gt;with chart type</source>
         <translation>pytania niezwiązane&lt;br&gt;z rodzajem wykresu</translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="235"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="200"/>
         <source>without accidentals</source>
         <translation>bez znaków</translation>
     </message>
@@ -2423,10 +2371,6 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/charts/tstatisticstip.cpp" line="40"/>
         <source>Statistics</source>
         <translation>Statystyki</translation>
-    </message>
-    <message>
-        <source>Questions number:</source>
-        <translation type="obsolete">Liczba pytań:</translation>
     </message>
 </context>
 <context>

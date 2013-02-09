@@ -35,7 +35,9 @@ class TgraphicsTextTip;
  * and prepare there TgraphicsTextTip *tip
  * - then call handleTip(event->scenePos()) inside 
  * Static QTimer and TgraphicsTextTip art to have exactly only one instance
- * of them for all chart elements.
+ * of them for all chart elements. 
+ * m_initObject keeps an object that invoked a tip.
+ * It is used to delete prevoius tip when another object gets enterEvent.
  */
 
 class TtipHandler : public QGraphicsObject
@@ -58,7 +60,7 @@ protected:
     void handleTip(QPointF scenePos);
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent*);
     static TgraphicsTextTip *tip;
-        /** Returns poiter to object that created this tip. */
+        /** Returns pointer to graphics object that created this tip. */
     static const QGraphicsObject* initObject() { return m_initObject; }
     
 private:
