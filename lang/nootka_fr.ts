@@ -607,7 +607,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/exam/texam.cpp" line="200"/>
+        <location filename="../src/exam/texam.cpp" line="201"/>
         <source>Cannot save exam file:
 %1</source>
         <translation>Impossible d&apos;enregistrer le fichier examen:
@@ -848,22 +848,22 @@
 <context>
     <name>Tabout</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="167"/>
+        <location filename="../src/info/taboutnootka.cpp" line="169"/>
         <source>Welcome on the board.&lt;br&gt; Nootka is open source application to help You learning (and teaching also) classical score notation.&lt;br&gt;It is specially dedicated for guitarists but others can find many usable features as well.</source>
         <translation>Bienvenue à bord !&lt;br&gt; Nootka est une application libre vous permettant d&apos;apprendre (et aussi d&apos;enseigner) la notation de la musique sur partitions. &lt;br&gt;Cette application est tout particulièrement destinée aux guitaristes mais elle peut également être utile à d&apos;autres instrumentistes.</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="168"/>
+        <location filename="../src/info/taboutnootka.cpp" line="170"/>
         <source>This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features.&lt;br&gt;Inspite of that You are welcome to try it!!</source>
         <translation>Ceci est une version beta qui peut présenter des bugs ou se comporter de manière inattendue. Le développement de certaines fonctionnalités n&apos;est pas terminé. Vous pouvez malgré tout l&apos;essayer si vous le souhaitez!!</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="169"/>
+        <location filename="../src/info/taboutnootka.cpp" line="171"/>
         <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, sugestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
         <translation>Voir le site &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;&lt;/a&gt; pour plus de détails et pour les version futures.&lt;/p&gt;&lt;p&gt;Veuillez nous faire part de vos bugs, suggestions, traductions etc.  à: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;Cordialement&lt;br&gt;Auteur</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="173"/>
+        <location filename="../src/info/taboutnootka.cpp" line="175"/>
         <source>&lt;br&gt;To support project and also to avoid infection of Your PC&lt;br&gt;&lt;b&gt;PLEASE, use project site to download updates, new releases and to see news.&lt;/b&gt;</source>
         <translation>&lt;br&gt;Afin de soutenir le projet et d&apos;éviter l&apos;infection de votre PC&lt;br&gt;&lt;b&gt;S&apos;il vous plait, utilisez le site du projet pour télécharges les mises à jour ou les nouvelles versions, et pour vous tenir informés des nouvelles.&lt;/b&gt;</translation>
     </message>
@@ -976,7 +976,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="83"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="84"/>
         <source>Level summary:</source>
         <translation>Résumé du niveau:</translation>
     </message>
@@ -989,84 +989,91 @@
         <translation type="obsolete">Numéro de question:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="209"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="214"/>
         <source>Open an exam to analyse</source>
         <translation>Ouvrir un examen pour analyse</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="214"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="219"/>
         <source>recent opened exams:</source>
         <translation>Examens ouverts récemment:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="255"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="260"/>
         <source>Settings of a chart</source>
         <translation>Paramètres du graphique</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="263"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="268"/>
         <source>Maximize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="267"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="272"/>
         <source>linear chart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="270"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="275"/>
         <source>bar chart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="454"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="459"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="232"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="237"/>
         <source>Close analyser</source>
         <translation>Fermer la fenêtre d&apos;analyse</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="117"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="118"/>
         <source>Press %1 button to select an exam from a file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="119"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="120"/>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="121"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="122"/>
         <source>Drag a cursor to move the chart.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="152"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="153"/>
         <location filename="../src/charts/tstatisticstip.cpp" line="50"/>
         <location filename="../src/charts/tyaxis.cpp" line="64"/>
         <source>Questions number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="235"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="202"/>
+        <source>File: %1 
+ is not valid exam file !!!</source>
+        <translation>Le fichier: %1 
+ n&apos;est pas un fichier examen valide!!!</translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="240"/>
         <source>zoom in</source>
         <translation>Zoomer</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="238"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="243"/>
         <source>zoom out</source>
         <translation>Dézoomer</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="241"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="246"/>
         <source>include time of wrong answers to average</source>
         <translation>Inclure le temps des mauvaises réponses dans la moyenne</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="243"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="248"/>
         <source>show wrong answers separately</source>
         <translation>Afficher séparément les réponses incorrectes</translation>
     </message>
@@ -1086,7 +1093,7 @@
     <message>
         <location filename="../src/exam/tcanvas.cpp" line="233"/>
         <source>To check the answer confirm it:</source>
-        <translation type="unfinished">Pour vérifier votre la réponse:</translation>
+        <translation>Pour vérifier votre la réponse:</translation>
     </message>
     <message>
         <location filename="../src/exam/tcanvas.cpp" line="236"/>
@@ -1178,47 +1185,47 @@
         <translation>Arrêter l&apos;examen</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="878"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="880"/>
         <source>Give an answer first!&lt;br&gt;Then the exam&apos;ll be finished</source>
         <translation>Donnez d&apos;abord une réponse!&lt;br&gt;Ensuite l&apos;examen s&apos;arrêtera</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="908"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="910"/>
         <source>so a pity</source>
         <translation>Quel dommage!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="920"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="922"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
         <translation>Psssst... Examen en cours.&lt;br&gt;Cliquez sur:&lt;br&gt;&lt;b&gt;Continuer&lt;/b&gt; pour poursuivre l&apos;examen&lt;br&gt;ou sur &lt;br&gt;&lt;br&gt;&lt;b&gt;Arrêter&lt;/b&gt; Pour vérifier, enregistrer et sortir. &lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="921"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="923"/>
         <source>Continue</source>
         <translation>Continuer</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="922"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="924"/>
         <source>Terminate</source>
         <translation>Arrêter</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="942"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="944"/>
         <source>Save exam&apos;s results as:</source>
         <translation>Enregistrer les résultats d&apos;examen sous:</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="948"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="950"/>
         <source>If You don&apos;t save to file&lt;br&gt;You lost all results !!</source>
         <translation>Si vous n&apos;enregistrez pas le fichier&lt;br&gt;vous perdez tous les résultats!!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="949"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="951"/>
         <source>Save</source>
         <translation>Enregistrer</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="950"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="952"/>
         <source>Discard</source>
         <translation>Annuler</translation>
     </message>
@@ -1581,17 +1588,17 @@
 <context>
     <name>TgraphicsLine</name>
     <message>
-        <location filename="../src/charts/tgraphicsline.cpp" line="65"/>
+        <location filename="../src/charts/tgraphicsline.cpp" line="68"/>
         <source>progress line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tgraphicsline.cpp" line="67"/>
+        <location filename="../src/charts/tgraphicsline.cpp" line="70"/>
         <source>descending - you go better</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tgraphicsline.cpp" line="69"/>
+        <location filename="../src/charts/tgraphicsline.cpp" line="72"/>
         <source>acending - you thinking much</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1841,24 +1848,24 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/charts/sorting.cpp" line="206"/>
         <source>Key signatures gave by user</source>
-        <translation type="unfinished">Armatures fournies par l&apos;utilisateur</translation>
+        <translation>Armatures fournies par l&apos;utilisateur</translation>
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="234"/>
         <source>for notes without accidentals</source>
-        <translation type="unfinished">pour les notes sans altérations</translation>
+        <translation>pour les notes sans altérations</translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="180"/>
-        <location filename="../src/charts/tlinearchart.cpp" line="205"/>
-        <location filename="../src/charts/tlinearchart.cpp" line="230"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="145"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="170"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="195"/>
         <source>questions unrelated&lt;br&gt;with chart type</source>
-        <translation type="unfinished">Questions sans rapport &lt;br&gt; avec le type de graphique</translation>
+        <translation>Questions sans rapport &lt;br&gt; avec le type de graphique</translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="235"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="200"/>
         <source>without accidentals</source>
-        <translation type="unfinished">Sans altérations</translation>
+        <translation>Sans altérations</translation>
     </message>
 </context>
 <context>
@@ -2531,31 +2538,31 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <location filename="../src/charts/sorting.cpp" line="439"/>
         <location filename="../src/charts/sorting.cpp" line="445"/>
         <source>none</source>
-        <translation type="unfinished">Aucun</translation>
+        <translation>Aucun</translation>
     </message>
     <message>
         <location filename="../src/exam/tgroupedqaunit.h" line="83"/>
         <source>for a note:</source>
         <comment>average reaction time for...</comment>
-        <translation type="unfinished">Pour une note:</translation>
+        <translation>Pour une note:</translation>
     </message>
     <message>
         <location filename="../src/exam/tgroupedqaunit.h" line="86"/>
         <source>for a fret:</source>
         <comment>average reaction time for...</comment>
-        <translation type="unfinished">Pour une frette:</translation>
+        <translation>Pour une frette:</translation>
     </message>
     <message>
         <location filename="../src/exam/tgroupedqaunit.h" line="89"/>
         <source>for a key:</source>
         <comment>average reaction time for...</comment>
-        <translation type="unfinished">Pour une tonalité:</translation>
+        <translation>Pour une tonalité:</translation>
     </message>
     <message>
         <location filename="../src/exam/tgroupedqaunit.h" line="92"/>
         <source>for an accidental:</source>
         <comment>average reaction time for...</comment>
-        <translation type="unfinished">pour une altération:</translation>
+        <translation>pour une altération:</translation>
     </message>
 </context>
 <context>

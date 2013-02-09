@@ -159,7 +159,8 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
       else 
         m_averReactTime = 0.0;
       if (!isExamFileOk)
-          result = e_file_corrupted;        
+          result = e_file_corrupted;
+      file.close();
      } else {
          TlevelSelector::fileIOerrorMsg(file, 0);
           result = e_cant_open;

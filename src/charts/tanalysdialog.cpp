@@ -199,6 +199,10 @@ void TanalysDialog::loadExam(QString& examFile) {
               m_effectLab->setText("");
       m_moreButton->setDisabled(true);
       createChart(m_chartSetts);
+      TgraphicsTextTip *wrongFileTip = new TgraphicsTextTip("<h3>" + tr("File: %1 \n is not valid exam file !!!").arg(examFile).replace("\n", "<br>") + "</h3>",
+                                                            gl->EquestionColor);
+      m_chart->scene->addItem(wrongFileTip);
+      wrongFileTip->setPos(100, 180);
     }
 
 }
@@ -330,11 +334,10 @@ void TanalysDialog::loadExamSlot() {
   QString fileName = QFileDialog::getOpenFileName(this, TstartExamDlg::loadExamFileTxt(), gl->E->examsDir,
 												  TstartExamDlg::examFilterTxt(), 0, QFileDialog::DontUseNativeDialog);
   if (fileName != "") {
-      if (m_chart) {
-//         m_chart->deleteLater();
-        delete m_chart;
-        m_chart = 0;
-      }
+//       if (m_chart) {
+//         delete m_chart;
+//         m_chart = 0;
+//       }
       gl->E->examsDir = QFileInfo(fileName).absoluteDir().absolutePath();
       loadExam(fileName);
   }

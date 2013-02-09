@@ -113,6 +113,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
         in.setCodec("UTF-8");
 	      licenseTxt->setPlainText(in.readAll());
     }
+    file.close();
 
     TsupportNootka *support = new TsupportNootka(this);
     
@@ -144,6 +145,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
         chLogTxt->setHtml(htmlText.join(""));
 //         chLogTxt->setPlainText(htmlText.join(""));
     }
+    chfile.close();
 
     stackLayout->addWidget(m_about);
     
