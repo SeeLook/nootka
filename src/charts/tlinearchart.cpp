@@ -68,11 +68,11 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
         okCount++;        
         TgraphicsLine *averProgress = new TgraphicsLine();
         scene->addItem(averProgress);
-        averProgress->setPen(QPen(averColor, 3));
+        averProgress->setPen(QPen(averColor.darker(120), 3, Qt::DotLine));
         averProgress->setLine(xAxis->mapValue(prevX) + xAxis->pos().x(), yAxis->mapValue(prev / 10.0),
                               xAxis->mapValue(i + 1) + xAxis->pos().x(), yAxis->mapValue(aTime / 10.0));
         prevX = i + 1;
-        averProgress->setZValue(10);
+        averProgress->setZValue(20);
         prev = aTime;
       }
       
@@ -81,8 +81,8 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
               TexamView::averAnsverTimeTxt() + 
               QString("<br><span style=\"font-size: 20px;\">%1</span></p>").arg(TexamView::formatReactTime(exam->averageReactonTime(), true)) );
           scene->addItem(averLine);
-          averLine->setZValue(20);
-          averLine->setPen(QPen(averColor.darker(120), 1));
+          averLine->setZValue(15);
+          averLine->setPen(QPen(averColor, 2));
           averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(exam->averageReactonTime() / 10.0),
               xAxis->mapValue(exam->count()) + xAxis->pos().x(), yAxis->mapValue(exam->averageReactonTime() / 10.0));
       }

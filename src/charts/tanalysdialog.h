@@ -59,6 +59,7 @@ protected slots:
   void moreLevelInfo();
   void maximizeWindow();
   void chartTypeChanged();
+  void linkOnTipClicked();
 
 private:
   QToolBar *m_toolBar;
