@@ -70,14 +70,6 @@ MainWindow::MainWindow(QWidget *parent)
     
     setMinimumSize(640, 480);
     
-//     gl->config->beginGroup("General");
-// #if defined(Q_OS_MAC)
-//     setGeometry(gl->config->value("geometry", QRect(50, 50, 960, 720)).toRect());
-// #else
-//     setGeometry(gl->config->value("geometry", QRect(50, 50, 800, 600)).toRect());
-// #endif
-//     gl->config->endGroup();
-
     if (gl->isFirstRun) {
         TfirstRunWizzard *firstWizz = new TfirstRunWizzard();
         firstWizz->exec();
@@ -170,7 +162,6 @@ MainWindow::MainWindow(QWidget *parent)
     m_prevBg = -1;
     m_curBG = -1;
     m_lockStat = false;
-//     ex = 0;
     m_levelCreatorExist = false;
 
     createActions();
@@ -184,7 +175,7 @@ MainWindow::MainWindow(QWidget *parent)
     if (gl->A->OUTenabled && !sound->isPlayable())
         QMessageBox::warning(this, "", tr("Problems with sound output"));
     
-    QTimer::singleShot(100, this, SLOT(analyseSlot()));
+//     QTimer::singleShot(100, this, SLOT(analyseSlot()));
     
 }
 

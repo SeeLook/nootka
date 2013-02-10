@@ -102,7 +102,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   
   createActions();
   
- QTimer::singleShot(100, this, SLOT(testSlot()));
+//  QTimer::singleShot(100, this, SLOT(testSlot()));
   if (exam) {
     m_wasExamCreated = false;
     m_openButton->setDisabled(true); // disable "open exam file" acction
@@ -127,7 +127,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
 //                       (m_chart->height() - helpTip->boundingRect().height()) / 2 );
       helpTip->setPos(100, 80);
       helpTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
-      connect(helpTip, SIGNAL(linkActivated(QString)), this, SLOT(loadExamSlot()));
+      connect(helpTip, SIGNAL(linkActivated(QString)), this, SLOT(linkOnTipClicked()));
   }
   
   connect(m_chartListCombo, SIGNAL(activated(int)), this, SLOT(analyseChanged(int)));
@@ -328,6 +328,13 @@ void TanalysDialog::enableComboItem(int index, bool enable) {
 
 
 //##########  SLOTS #####################
+
+void TanalysDialog::linkOnTipClicked() {
+    // loadExamSlot() deletes Tchart and cases crash when is invoked by tip signal linkActivated().
+    // To avoid this we call it outside by QTimer
+    QTimer::singleShot(10, this, SLOT(loadExamSlot()));
+}
+
 
 void TanalysDialog::loadExamSlot() {
   
