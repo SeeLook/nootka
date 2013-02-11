@@ -50,6 +50,7 @@ private:
     qreal m_wrongAt, m_notBadAt; // Keeps position of color gradient for mistakes
         /** Static type of a tip. Described in TstatisticsTip class. */
     static TstatisticsTip::Ekind m_tipType;
+    bool m_isUnderMouse;
 };
 
 #endif // TBAR_H
