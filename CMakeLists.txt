@@ -311,8 +311,8 @@ if(UNIX AND NOT APPLE)
       execute_process(COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/doc )
       execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/make-chlog.sh ${Nootka_VERSION_FULL} ${CMAKE_CURRENT_BINARY_DIR}/doc/changelog ${CMAKE_CURRENT_SOURCE_DIR})
 	" )
-	if (DPKG_CMD) #Denian chlog
-      INSTALL(FILES "${CMAKE_CURRENT_BINARY_DIR}/doc/changelog.gz" DESTINATION share/doc/nootka)
+	if (DPKG_CMD) # Debian changelog
+      INSTALL(FILES "${CMAKE_CURRENT_BINARY_DIR}/doc/changelog.Debian.gz" DESTINATION share/doc/nootka)
   endif (DPKG_CMD)
 	INSTALL(FILES copyright DESTINATION share/doc/nootka)
 	INSTALL(FILES packaging/nootka.1.gz DESTINATION share/man/man1)
