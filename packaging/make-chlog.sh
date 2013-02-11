@@ -22,7 +22,7 @@ printf "Nootka ($VERSION) all-deb; urgency=low\n" > $DEST_FILE
 echo "
   * Changes set:
 " >> $DEST_FILE
-$SRC_DIR/packaging/getLastChangesSet.sh $SRC_DIR/changelog >> $DEST_FILE
+$SRC_DIR/packaging/getLastChangesSet.sh $SRC_DIR/changes >> $DEST_FILE
 # echo " -- See Look <seelook@gmail.com>  $(date +%G-%m-%d)" >> $DEST_FILE
 echo "
  -- See Look <seelook@gmail.com>  $(date -R)" >> $DEST_FILE
