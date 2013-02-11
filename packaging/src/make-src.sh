@@ -29,7 +29,7 @@ mkdir $DST_DIR/sounds
 mkdir -p $DST_DIR/.hg/cache
 cp $SRC_DIR/sounds/classical-guitar.wav $DST_DIR/sounds/
 cp -r $SRC_DIR/src $DST_DIR
-cp $SRC_DIR/changelog $DST_DIR
+cp $SRC_DIR/changes $DST_DIR
 cp $SRC_DIR/copyright $DST_DIR
 cp $SRC_DIR/CMakeLists.txt $DST_DIR
 cp $SRC_DIR/gpl $DST_DIR
