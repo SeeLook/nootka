@@ -97,7 +97,7 @@ void TtipHandler::delayedDelete() {
     m_delTimer->stop();
     if (tip) {
         deleteTip();
-        update();
+//         update();
         scene()->update();
     }
 }

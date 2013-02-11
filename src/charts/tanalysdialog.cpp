@@ -330,7 +330,7 @@ void TanalysDialog::enableComboItem(int index, bool enable) {
 //##########  SLOTS #####################
 
 void TanalysDialog::linkOnTipClicked() {
-    // loadExamSlot() deletes Tchart and cases crash when is invoked by tip signal linkActivated().
+    // loadExamSlot() deletes Tchart and cases crash when is invoked directly by tip signal linkActivated().
     // To avoid this we call it outside by QTimer
     QTimer::singleShot(10, this, SLOT(loadExamSlot()));
 }
@@ -341,10 +341,6 @@ void TanalysDialog::loadExamSlot() {
   QString fileName = QFileDialog::getOpenFileName(this, TstartExamDlg::loadExamFileTxt(), gl->E->examsDir,
 												  TstartExamDlg::examFilterTxt(), 0, QFileDialog::DontUseNativeDialog);
   if (fileName != "") {
-//       if (m_chart) {
-//         delete m_chart;
-//         m_chart = 0;
-//       }
       gl->E->examsDir = QFileInfo(fileName).absoluteDir().absolutePath();
       loadExam(fileName);
   }

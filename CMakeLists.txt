@@ -280,7 +280,7 @@ if(APPLE)
 endif(APPLE)
 
 INSTALL(FILES gpl DESTINATION "${INS_PREF}")
-INSTALL(FILES changelog DESTINATION "${INS_PREF}")
+INSTALL(FILES changelog DESTINATION "${INS_PREF}/changes")
 #INSTALL(DIRECTORY picts DESTINATION "${INS_PREF}")
 FILE(GLOB ICONS_PNG "${CMAKE_CURRENT_SOURCE_DIR}/picts/*.png") #png-s for all
 INSTALL(FILES ${ICONS_PNG} DESTINATION "${INS_PREF}/picts")
@@ -295,7 +295,7 @@ INSTALL(FILES ${snds} DESTINATION "${INS_PREF}/sounds")
 
 if(NOT UNIX) # Windows icons
   INSTALL(FILES picts/nootka-exam.ico picts/nootka.ico picts/nootka-icon.rc picts/nootka-levels.ico picts/pack.ico picts/nootka.rc DESTINATION "${INS_PREF}/picts") #ico for windows
-  INSTALL(FILES packaging/nsis/nootka-1250.nsi DESTINATION "${INS_PREF}" )
+  INSTALL(FILES packaging/nsis/nootka-1250.nsi packaging/nsis/fileasoc.nsh DESTINATION "${INS_PREF}" )
 endif(NOT UNIX)
 
 # files related with Linux (mime, desktop entry, icons)
@@ -311,7 +311,9 @@ if(UNIX AND NOT APPLE)
       execute_process(COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/doc )
       execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/make-chlog.sh ${Nootka_VERSION_FULL} ${CMAKE_CURRENT_BINARY_DIR}/doc/changelog ${CMAKE_CURRENT_SOURCE_DIR})
 	" )
-	INSTALL(FILES "${CMAKE_CURRENT_BINARY_DIR}/doc/changelog.gz" DESTINATION share/doc/nootka)
+	if (DPKG_CMD) #Denian chlog
+      INSTALL(FILES "${CMAKE_CURRENT_BINARY_DIR}/doc/changelog.gz" DESTINATION share/doc/nootka)
+  endif (DPKG_CMD)
 	INSTALL(FILES copyright DESTINATION share/doc/nootka)
 	INSTALL(FILES packaging/nootka.1.gz DESTINATION share/man/man1)
     
