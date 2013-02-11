@@ -14,7 +14,7 @@ SRC_DIR=$3
 
 #This is for RPM
 echo "* $(LANG=en date +'%a %b %d %Y') See Look <seelook@gmail.com> " > $DEST_FILE-rpm
-$SRC_DIR/packaging/getLastChangesSet.sh $SRC_DIR/changelog >> $DEST_FILE-rpm
+$SRC_DIR/packaging/getLastChangesSet.sh $SRC_DIR/changes >> $DEST_FILE-rpm
 
 #This is for DEB
 DEST_FILE=$(echo $DEST_FILE)
