@@ -280,7 +280,7 @@ if(APPLE)
 endif(APPLE)
 
 INSTALL(FILES gpl DESTINATION "${INS_PREF}")
-INSTALL(FILES changelog DESTINATION "${INS_PREF}/changes")
+INSTALL(FILES changes DESTINATION ${INS_PREF})
 #INSTALL(DIRECTORY picts DESTINATION "${INS_PREF}")
 FILE(GLOB ICONS_PNG "${CMAKE_CURRENT_SOURCE_DIR}/picts/*.png") #png-s for all
 INSTALL(FILES ${ICONS_PNG} DESTINATION "${INS_PREF}/picts")
@@ -334,3 +334,4 @@ configure_file(
 
 # add_subdirectory(mime) # target for make install-mime
 add_subdirectory(packaging) # cpack rules
+
