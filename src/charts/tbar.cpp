@@ -81,10 +81,10 @@ void Tbar::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWid
       endColor = TquestionPoint::goodColor();
     }
     grad.setColorAt(1.0, endColor);
-//     if (isUnderMouse())
-//         painter->setPen(QPen(TquestionPoint::notBadColor(), 1));
-//     else
-    painter->setPen(Qt::NoPen);
+    if (isUnderMouse())
+        painter->setPen(QPen(QColor(0, 192, 192), 2));
+    else
+        painter->setPen(Qt::NoPen);
     painter->setBrush(QBrush(grad));
     painter->drawRoundedRect(rect, 1, 1);
 //     QLinearGradient shad(0, 0, rect.width(), 0);
@@ -114,6 +114,13 @@ void Tbar::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
   tip = new TstatisticsTip(m_qaGroup, m_tipType);
   handleTip(event->scenePos());
 }
+
+
+void Tbar::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
+    update();
+    TtipHandler::hoverLeaveEvent(event);
+}
+
 
 void Tbar::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
     if (!tip)

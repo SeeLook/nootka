@@ -120,7 +120,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 // CHANGESLOG
     QTextEdit *chLogTxt = new QTextEdit();
     chLogTxt->setReadOnly(true);
-    QFile chfile(gl->path + "changelog");
+    QFile chfile(gl->path + "changes");
     if(chfile.open(QFile::ReadOnly | QFile::Text)) {
         QTextStream in(&chfile);
         in.setCodec("UTF-8");
