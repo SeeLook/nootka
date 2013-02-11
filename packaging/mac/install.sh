@@ -14,8 +14,11 @@ FFTW_LIB=$3
 echo "Preparing bundle to install"
 
 if [ -L $FFTW_LIB ]; then
-	printf "\033[01;31m $FFTW_LIB is a link but regular file was expected. Run cmake again and give proper file !!!\033[01;00m\n"
-	FFTW_LIB=$(realpath $FFTW_LIB)
+	printf "\033[01;31m Converting $FFTW_LIB to regular file !!!\033[01;00m\n"
+	FF_DIR=$(dirname $FFTW_LIB)
+	FF_FILE=$(readlink $FFTW_LIB)
+	FFTW_LIB=$(echo "$FF_DIR/$FF_FILE")
+	echo $FFTW_LIB
 else
 	mkdir $B_PATH/Contents/Frameworks
 	cp $FFTW_LIB $B_PATH/Contents/Frameworks/
