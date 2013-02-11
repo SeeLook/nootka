@@ -1,10 +1,13 @@
-0.8.6 beta
+0.8.60 beta
      - added bar charts
-     - new charts: sorted by question/answer type and by mistakes
-     - many improvements in a chart engine
+     - new types of chart: sorted by question type and by mistakes
+     - line on a chart showing progress of an exam
      - added tip how to confirm an answer
      - images on tips are clickable to simpler navigate through an exam
-
+     - changelog preview
+    Under the hood
+     - many improvements in a chart engine
+    
 0.8.51 stable
     BUGS FIXES
      - eliminated some memory leaks related with charts and tips
@@ -54,7 +57,7 @@
      - !!! Added analyse of an exam results - first chart !!!
      - opening Level Creator from starting exam dialog
      - starting exams from Level Creator dialog
-  Under the hood
+    Under the hood
      - implementation of chart engine
 
 0.8 final	  

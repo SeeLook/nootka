@@ -38,7 +38,8 @@ TstatisticsTip::Ekind Tbar::m_tipType = TstatisticsTip::e_full;
 Tbar::Tbar(qreal height, TgroupedQAunit* qaGroup, TstatisticsTip::Ekind tipType) :
     TtipHandler(),
     m_height(height),
-    m_qaGroup(qaGroup)
+    m_qaGroup(qaGroup),
+    m_isUnderMouse(false)
 {
     m_tipType = tipType;
     m_wrongAt = (qreal)m_qaGroup->mistakes() / (qreal)m_qaGroup->size();
@@ -81,7 +82,7 @@ void Tbar::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWid
       endColor = TquestionPoint::goodColor();
     }
     grad.setColorAt(1.0, endColor);
-    if (isUnderMouse())
+    if (m_isUnderMouse)
         painter->setPen(QPen(QColor(0, 192, 192), 2));
     else
         painter->setPen(Qt::NoPen);
@@ -106,6 +107,7 @@ QRectF Tbar::boundingRect() const {
 
 
 void Tbar::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
+  m_isUnderMouse = true;
   if (tip)
     if (tip == initObject())
         return;
@@ -117,6 +119,7 @@ void Tbar::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 
 
 void Tbar::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
+    m_isUnderMouse = false;
     update();
     TtipHandler::hoverLeaveEvent(event);
 }
