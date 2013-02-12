@@ -104,7 +104,7 @@ Section "GrupaGlowna" SEC01
   File "libgcc_s_dw2-1.dll"
   File "libstdc++-6.dll"
   File "gpl"
-  File "changelog"
+  File "changes"
   SetOutPath "$INSTDIR\fonts"
   SetOverwrite try
   File "fonts\README"
@@ -275,7 +275,7 @@ Section Uninstall
   Delete "$INSTDIR\QtGui4.dll"
   Delete "$INSTDIR\nootka.exe"
   Delete "$INSTDIR\gpl"
-  Delete "$INSTDIR\changelog"
+  Delete "$INSTDIR\changes"
 
   Delete "$SMPROGRAMS\Nootka\Uninstall.lnk"
   Delete "$SMPROGRAMS\Nootka\Website.lnk"
