@@ -895,14 +895,14 @@ void TexamExecutor::stopExamSlot() {
 			m_exam->setTotalTime(mW->examResults->getTotalTime());
 			m_exam->setAverageReactonTime(mW->examResults->getAverageTime());
       gl->NnameStyleInNoteName = m_glStore.nameStyleInNoteName; // restore to show in user defined style  
-      if (!m_goingClosed) // if Nootka is closeing don't show summary 
-          showExamSummary(false);
-			if (m_exam->saveToFile() == Texam::e_file_OK) {
+      if (m_exam->saveToFile() == Texam::e_file_OK) {
           QStringList recentExams = gl->config->value("recentExams").toStringList();
           recentExams.removeAll(m_exam->fileName());
           recentExams.prepend(m_exam->fileName());
           gl->config->setValue("recentExams", recentExams);
-			}
+      }
+      if (!m_goingClosed) // if Nootka is closeing don't show summary 
+          showExamSummary(false);
     }
 
     mW->setMessageBg(-1);
