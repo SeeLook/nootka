@@ -12,7 +12,7 @@ include_directories(${QT_INCLUDES})
 
 SET(Nootka_VERSION_MAJOR  "0")
 SET(Nootka_VERSION_MINOR  "8")
-SET(Nootka_VERSION_PATCH  "60-beta")
+SET(Nootka_VERSION_PATCH  "70-alpha")
 
 SET(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
 SET(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
