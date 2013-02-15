@@ -73,7 +73,7 @@ QColor Tglobals::mergeColors(QColor C1, QColor C2) {
 
 Tglobals::Tglobals() {
 
-    version = "0.8.60-beta";
+    version = "0.8.70-alpha";
 //    path ; Is declared in main()
 
     qRegisterMetaTypeStreamOperators<Ttune>("Ttune");

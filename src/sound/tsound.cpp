@@ -25,6 +25,7 @@
 // #include <QApplication>
 #include <QThread>
 #include <QTimer>
+#include <QLibrary>
 #include <QAudioInput>
 
 
@@ -33,7 +34,7 @@ extern Tglobals *gl;
 Tsound::Tsound(QObject* parent) :
   QObject(parent),
   m_thread(new QThread())
-{
+{  
   if (gl->A->OUTenabled)
       createPlayer();
   else
@@ -46,7 +47,7 @@ Tsound::Tsound(QObject* parent) :
 }
 
 Tsound::~Tsound()
-{ //They have not a prent
+{ //They have not a parent
   deleteSniffer();
   deletePlayer();
   m_thread->quit();
