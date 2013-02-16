@@ -22,19 +22,48 @@
 #include "taudioparams.h"
 #include "tpitchview.h"
 #include <QPushButton>
-// #include <QApplication>
+#include <QApplication>
 #include <QThread>
 #include <QTimer>
-#include <QLibrary>
-#include <QAudioInput>
+
+#if defined (Q_OS_LINUX)
+  #include <QAudioInput>
+  #include <QDir>
+#endif
+
+#include <QDebug>
 
 
 extern Tglobals *gl;
 
 Tsound::Tsound(QObject* parent) :
   QObject(parent),
-  m_thread(new QThread())
-{  
+  m_thread(new QThread()),
+  player(0),
+  sniffer(0)  
+{ 
+#if defined (Q_OS_LINUX)
+  QStringList pluginPaths = qApp->libraryPaths();
+  for (int i=0; i < pluginPaths.size(); i++) {
+    if (pluginPaths[i].contains("plugin")) {
+      QDir plugDir(pluginPaths[i]);
+      QFileInfoList dirList = plugDir.entryInfoList();
+      for (int j = 0; j < dirList.size(); j++) {
+        QFileInfo fileInfo = dirList.at(j);
+        if (fileInfo.fileName().contains("audio")) {
+          QDir audioDir(pluginPaths[i] + "/" + fileInfo.fileName());
+          qDebug() << audioDir.absolutePath();
+          QFileInfoList plugList = audioDir.entryInfoList();
+          for (int k = 0; k < plugList.size(); k++) {
+            QFileInfo plugInfo = plugList.at(k);
+            if (plugInfo.fileName().contains("pulse"))
+              qDebug() << plugInfo.absoluteFilePath();
+          }
+        }
+      }
+    }
+  }
+#endif
   if (gl->A->OUTenabled)
       createPlayer();
   else
