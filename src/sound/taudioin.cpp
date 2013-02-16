@@ -170,9 +170,11 @@ void TaudioIN::startListening() {
 
 void TaudioIN::stopListening() {
 //    qDebug("listening stoped");
-  m_audioInput->stop();
-  m_pitch->resetFinder();
-  m_noteStarted = false;
+  if (m_audioInput) {
+      m_audioInput->stop();
+      m_pitch->resetFinder();
+      m_noteStarted = false;
+  }
 }
 
 void TaudioIN::wait() {
