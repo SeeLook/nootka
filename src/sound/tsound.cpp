@@ -22,16 +22,14 @@
 #include "taudioparams.h"
 #include "tpitchview.h"
 #include <QPushButton>
-#include <QApplication>
 #include <QThread>
 #include <QTimer>
+#include <QDebug>
 
 #if defined (Q_OS_LINUX)
-  #include <QAudioInput>
-  #include <QDir>
-#endif
+  #include "pulseprober.h"
+#endif  
 
-#include <QDebug>
 
 
 extern Tglobals *gl;
@@ -41,27 +39,13 @@ Tsound::Tsound(QObject* parent) :
   m_thread(new QThread()),
   player(0),
   sniffer(0)  
-{ 
+{
 #if defined (Q_OS_LINUX)
-  QStringList pluginPaths = qApp->libraryPaths();
-  for (int i=0; i < pluginPaths.size(); i++) {
-    if (pluginPaths[i].contains("plugin")) {
-      QDir plugDir(pluginPaths[i]);
-      QFileInfoList dirList = plugDir.entryInfoList();
-      for (int j = 0; j < dirList.size(); j++) {
-        QFileInfo fileInfo = dirList.at(j);
-        if (fileInfo.fileName().contains("audio")) {
-          QDir audioDir(pluginPaths[i] + "/" + fileInfo.fileName());
-          qDebug() << audioDir.absolutePath();
-          QFileInfoList plugList = audioDir.entryInfoList();
-          for (int k = 0; k < plugList.size(); k++) {
-            QFileInfo plugInfo = plugList.at(k);
-            if (plugInfo.fileName().contains("pulse"))
-              qDebug() << plugInfo.absoluteFilePath();
-          }
-        }
-      }
-    }
+  if (checkForPulse())
+    qDebug() << "pulseaudio works or is not nessesary";
+  else {
+    gl->A->midiEnabled = true;
+    gl->A->INenabled = false;
   }
 #endif
   if (gl->A->OUTenabled)
