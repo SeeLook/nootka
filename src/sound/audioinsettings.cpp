@@ -24,6 +24,10 @@
 #include <QtGui>
 #include "taudioparams.h"
 #include "tnotename.h"
+#if defined (Q_OS_LINUX)
+  #include "pulseprober.h"
+#endif  
+
 
 
 AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* parent) :

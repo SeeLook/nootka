@@ -19,6 +19,7 @@
 #include "taudioout.h"
 #include "taudioparams.h"
 #include "RtMidi.h"
+#include "pulseprober.h"
 #include <QTimer>
 #include <QFile>
 #include <QStringList>
@@ -86,8 +87,6 @@ TaudioOUT::TaudioOUT(TaudioParams* params, QString& path, QObject* parent) :
   m_period(20)
 //   m_thread(new QThread)
 {
-//   moveToThread(m_thread);
-//   m_thread->start(QThread::HighPriority);
   prepTemplFormat();
   m_timer = new QTimer(this);
   setAudioOutParams(params);

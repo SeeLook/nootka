@@ -116,6 +116,10 @@ SET( NOOTKA_SRCS
   sound/tartini/filters/GrowingAveragingFilter.cpp
   sound/tartini/filters/IIR_Filter.cpp
   )
+  
+if(UNIX AND NOT APPLE)
+  LIST(APPEND NOOTKA_SRCS "sound/pulseprober.cpp" )
+endif(UNIX AND NOT APPLE)
 
 #SET( NOOTKA_HEADERS
 #    tfingerpos.h
