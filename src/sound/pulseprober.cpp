@@ -59,15 +59,16 @@ bool hasPulsePlugin() {
 
 bool checkForPulse() {
     if (hasPulsePlugin()) {
-      qDebug() << "QT complied with pulse.\nChecking is pulseaudio running...";
-      QProcess *ps = new QProcess();
-      QStringList args;
-      args << "pulse";
-      ps->start("pgrep", args);
-      ps->waitForFinished();
-      QString exitText(ps->readAllStandardOutput());
-      delete ps;
-      if (exitText != "")  
+      qDebug() << "QT complied with pulse.\nChecking is pulseaudio available...";
+//       QProcess *ps = new QProcess();
+//       QStringList args;
+//       args << "pulse";
+//       ps->start("pgrep", args);
+//       ps->waitForFinished();
+//       QString exitText(ps->readAllStandardOutput());
+//       delete ps;
+      QFileInfo pulseBin("/usr/bin/pulseaudio");
+      if (pulseBin.exists())  
         return true;
       else {
         qDebug() << "PULSEAUDIO IS NOT RUNNING !!!!!!";
