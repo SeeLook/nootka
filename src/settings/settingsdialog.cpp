@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -21,6 +21,9 @@
 #include "tnoteview.h"
 #include "examsettings.h"
 #include "tcolorbutton.h"
+#if defined (Q_OS_LINUX)
+  #include "pulseprober.h"
+#endif
 #include <QtGui>
 #include <audioinsettings.h>
 #include <audiooutsettings.h>
@@ -261,15 +264,29 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     navList->item(5)->setIcon(QIcon(gl->path+"picts/soundSettings.png"));
     navList->item(5)->setTextAlignment(Qt::AlignCenter);
     
+    
     m_globalSett = new GlobalSettings();
     m_scoreSett = new ScoreSettings();
     m_nameSett = new NameSettings();
     m_guitarSett = new GuitarSettings();
     m_examSett = new ExamSettings(gl->E, &gl->EquestionColor, &gl->EanswerColor, &gl->EnotBadColor);
-    m_sndOutSett = new AudioOutSettings(gl->A);
+#if defined (Q_OS_LINUX)
+    TpulseWarring *pulseLab = 0;
+    if (checkForPulse())
+      m_sndInSett = new AudioInSettings(gl->A, gl->path);
+    else {
+      m_sndInSett = 0;
+      pulseLab = new TpulseWarring();
+    }
+#else  
     m_sndInSett = new AudioInSettings(gl->A, gl->path);
+#endif
+    m_sndOutSett = new AudioOutSettings(gl->A, m_sndInSett); // m_sndInSett is bool - true when exist
     QTabWidget *sndTTab = new QTabWidget();
-    sndTTab->addTab(m_sndInSett, tr("listening"));
+    if (m_sndInSett)
+        sndTTab->addTab(m_sndInSett, tr("listening"));
+    else
+        sndTTab->addTab(pulseLab, tr("listening"));
     sndTTab->addTab(m_sndOutSett, tr("playing"));    
 
     stackLayout->addWidget(m_globalSett);
@@ -292,7 +309,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
      * When user first time opens Sound settings widget.*/
 void SettingsDialog::changeSettingsWidget(int index) {
   stackLayout->setCurrentIndex(index);
-  if (index == 5) { // generate devices list for sound settings
+  if (index == 5 && m_sndInSett) { // generate devices list for sound settings if sound is available
       m_sndInSett->generateDevicesList();
       m_sndOutSett->generateDevicesList();
   }
@@ -307,7 +324,8 @@ void SettingsDialog::saveSettings() {
     m_guitarSett->saveSettings();
     m_examSett->saveSettings();
     m_sndOutSett->saveSettings();
-    m_sndInSett->saveSettings();
+    if (m_sndInSett)
+      m_sndInSett->saveSettings();
 }
 
 
