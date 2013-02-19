@@ -20,11 +20,31 @@
 #ifndef PULSEPROBER_H
 #define PULSEPROBER_H
 
-#include <QString>
+#include <QLabel>
 
+    /** Search dir @param dirName with @param keyWord
+     * and returns whole path to found dir or empty string. */
 QString searchDir(QString dirName, QString keyWord);
+    /** Checks for pulseaudio plugin library in Qt plugins dirs. */
 bool hasPulsePlugin();
+    /** Checks Linux system for necessarity of runnung PulseAudio.
+     * Returns true when pulse works or is not need 
+     * or false when audio won't work without it. */
 bool checkForPulse();
+
+//##########################################################################################
+//#######################     TpulseWarring ################################################
+//##########################################################################################
+
+/** TpulseWarring is a widget with information about broken pulseaudio. */
+class TpulseWarring : public QLabel
+{
+  
+public:
+    explicit TpulseWarring(QWidget* parent = 0);
+    virtual ~TpulseWarring() {}
+  
+};
 
 
 #endif // PULSEPROBER_H

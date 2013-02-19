@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -24,10 +24,11 @@
 // #include <QDebug>
 
 
-AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
+AudioOutSettings::AudioOutSettings(TaudioParams* aParams, bool pulseOK, QWidget* parent) :
     QWidget(parent),
     m_params(aParams),
-    m_listGenerated(false)
+    m_listGenerated(false),
+    m_pulseOK(pulseOK)
 {
     QVBoxLayout *lay = new QVBoxLayout;
 
@@ -117,11 +118,18 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
     QButtonGroup *radioGr = new QButtonGroup(this);
     radioGr->addButton(audioRadioButt);
     radioGr->addButton(midiRadioButt);
-    audioRadioButt->setChecked(!m_params->midiEnabled);
-    midiRadioButt->setChecked(m_params->midiEnabled);
+    if (m_pulseOK) {
+        audioRadioButt->setChecked(!m_params->midiEnabled);
+        midiRadioButt->setChecked(m_params->midiEnabled);
+    } else {
+        audioRadioButt->setChecked(false);
+        midiRadioButt->setChecked(true);
+        audioRadioButt->setDisabled(true);
+    }
     audioOrMidiChanged();
     
-    connect(radioGr, SIGNAL(buttonClicked(int)), this, SLOT(audioOrMidiChanged()));
+    if (m_pulseOK)
+        connect(radioGr, SIGNAL(buttonClicked(int)), this, SLOT(audioOrMidiChanged()));
     
     setFocusPolicy(Qt::StrongFocus);
     

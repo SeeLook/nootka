@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -42,7 +42,7 @@ Tsound::Tsound(QObject* parent) :
 {
 #if defined (Q_OS_LINUX)
   if (checkForPulse())
-    qDebug() << "pulseaudio works or is not nessesary";
+    qDebug() << "pulseaudio works or is not necessary";
   else {
     gl->A->midiEnabled = true;
     gl->A->INenabled = false;
