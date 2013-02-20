@@ -41,9 +41,7 @@ Tsound::Tsound(QObject* parent) :
   sniffer(0)  
 {
 #if defined (Q_OS_LINUX)
-  if (checkForPulse())
-    qDebug() << "pulseaudio works or is not necessary";
-  else {
+  if (!checkForPulse()) { // checks is PulseAudio needed and works
     gl->A->midiEnabled = true;
     gl->A->INenabled = false;
   }
@@ -79,7 +77,6 @@ void Tsound::play(Tnote note) {
         m_pitchView->stopVolume();
       }
     }
-//     player->play(note.getChromaticNrOfNote());
   }
 }
 
@@ -89,7 +86,6 @@ void Tsound::acceptSettings() {
     if (!player)
         createPlayer();
     else {
-//         player->setAudioOutParams(gl->A);
         deletePlayer();
         createPlayer();
         if (!player->isPlayable())

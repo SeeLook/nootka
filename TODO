@@ -1,7 +1,15 @@
-0.8.X
-- be sure are tips removed after mouse leave
-- fix score symbol in font
-- remove comments in TlinearChart
+Plan for the Nootka One
+
+- keep exam file in /tmp and restore it when crash or so
+- improve pitch detection
+?? Kodaly names
+?? keyboard input for note name widget
+- look of upper bridge
+- accid buttons descr.
+- splash screen
+- pack sound to ogg, add notyfications
+- finish egzam tip
+
 - positions and look of frets numbers and key names in charts
 - add string numbers to pixmap
 
@@ -18,11 +26,7 @@ SETTINGS DIALOG
 TSCOREWIDGETSIMPLE
     - use enableDblAcc in TscoreWidgetSimple to avoid waste hiding or showing dbl accid buttons
 
-TNOTENAME
       
-
-!!!!! LEVELS
-  - validation has to be improved
 
 TSTARTEXAMDLG
   - TexamLevel has to be pointer or reference
@@ -30,18 +34,12 @@ TSTARTEXAMDLG
 
 
 
-TEXAMVIEW
-
 TEXAMEXECUTOR
 	- check is possible to given exam file
 	- enable/disable sniffing durning exams (specially when no input is required)
   - think about hide octave in note name format when octaves are not required in answers. 
      Also for questions in "hint" - don't show octave when only name is required
 
-
-
-FOR WINDOWS
-    - style ???
 
 TNOTEPIXMAP
   - make it resizable - factor doesn't work with clef and accidentals
