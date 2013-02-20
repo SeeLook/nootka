@@ -107,10 +107,14 @@ void TpitchFinder::searchIn(float* chunk) {
           std::copy(m_workChunk, m_workChunk+aGl()->framesPerChunk-1, m_channel->end() - aGl()->framesPerChunk);
       run();
   } else {
+      qDebug("reset chanell");
       resetFinder();
-//      qDebug("reset chanell");
   }
 }
+
+double m_tmpLength = 0;
+#define MAX_CHUNKS_FOR_PLAY (3)
+#define MAX_CHUNKS_FOR_SING (6)
 
 void TpitchFinder::resetFinder() {
   delete m_channel;
@@ -118,6 +122,7 @@ void TpitchFinder::resetFinder() {
   myTransforms.uninit();
   m_channel = new Channel(this, aGl()->windowSize);
   myTransforms.init(aGl(), aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
+  m_shown = false;
 }
 
 
@@ -127,8 +132,25 @@ void TpitchFinder::run() {
 	m_channel->processNewChunk(&filterState);
 	AnalysisData *data = m_channel->dataAtCurrentChunk();
 	if (data) {
-	  if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)) {
-      if (m_isVoice) { // average pitch
+      if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)) {
+          incrementChunk();
+//          qDebug() << "pitch:" << data->pitch << "reason:" << data->reason;
+          NoteData *curNote = m_channel->getCurrentNote();
+//          qDebug() << "pitch" << curNote->avgPitch() << "dur:" << curNote->noteLength();
+          if (curNote->noteLength() > m_tmpLength) { // note continued
+              if (m_chunkNum > MAX_CHUNKS_FOR_PLAY) {
+                  if (!m_shown) {
+                      m_shown = true;
+                      m_tmpLength = curNote->noteLength();
+                      emit found(curNote->avgPitch(), curNote->avgFreq());
+                      qDebug("found");
+                  }
+              }
+          } else { // new note
+            m_shown = false;
+            m_tmpLength = 0;
+          }
+     /** if (m_isVoice) { // average pitch
         if (!m_noteNoticed) {
         m_noteNoticed = true;
         m_noticedChunk = currentChunk();
@@ -155,9 +177,10 @@ void TpitchFinder::run() {
       }
       emit noteStoped();
 //      qDebug("TpitchFinder: stopped");
+*/
       }
-	}
-	incrementChunk();
+    }
+/**	incrementChunk(); */
 	m_isBussy = false;
 //    qDebug() << "TpitchFinder:" << m_chunkNum ;
 }	

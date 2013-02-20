@@ -285,8 +285,10 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     QTabWidget *sndTTab = new QTabWidget();
     if (m_sndInSett)
         sndTTab->addTab(m_sndInSett, tr("listening"));
+#if defined (Q_OS_LINUX)
     else
         sndTTab->addTab(pulseLab, tr("listening"));
+#endif
     sndTTab->addTab(m_sndOutSett, tr("playing"));    
 
     stackLayout->addWidget(m_globalSett);
