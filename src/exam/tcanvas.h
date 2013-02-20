@@ -23,6 +23,7 @@
 #include <QGraphicsView>
 #include "tqatype.h"
 
+class TfinishTip;
 class QTimer;
 class TtipScene;
 class TexamExecutor;
@@ -57,6 +58,7 @@ public:
     void noteTip(int time); // note symbol when sound was detected
     void tryAgainTip(int time); // "Try again" text"
     void confirmTip(int time = 0); // tip about confirm an answer appears after given time
+    void finishTip(); // paper like exam report when finished
     
     void clearCanvas();
         /** Returns point size of 'A' letter multipled by 2. */
@@ -97,6 +99,7 @@ private:
     double m_scale;
     TgraphicsTextTip *m_resultTip, *m_whatTip, *m_startTip, *m_tryAgainTip, *m_confirmTip;
     TquestionTip *m_questionTip;
+    TfinishTip *m_finishTip;
     Texam *m_exam;
     TanimedTextItem *m_flyAnswer, *m_flyNote;
     QParallelAnimationGroup *m_animation;
@@ -111,6 +114,7 @@ private:
     void setPosOfQuestionTip();
     void setPosOfTryAgainTip();
     void setPosOfConfirmTip();
+    void setPosOfFinishTip();
  
 };
 

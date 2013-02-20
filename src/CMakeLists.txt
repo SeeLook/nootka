@@ -55,6 +55,7 @@ SET( NOOTKA_SRCS
   exam/tanimedtextitem.cpp
   exam/tprogresswidget.cpp
   exam/tgroupedqaunit.cpp
+  exam/tfinishtip.cpp
 ###### Info
   info/taboutnootka.cpp
   info/tfirstrunwizzard.cpp
@@ -165,6 +166,7 @@ SET( NOOTKA_MOC_SRCS
   exam/tprogresswidget.h
   exam/tquestiontip.h
   exam/tanimedtextitem.h
+  exam/tfinishtip.h
 ###### Info
   info/taboutnootka.h
   info/tfirstrunwizzard.h

@@ -22,6 +22,7 @@
 #include "texam.h"
 #include "tquestiontip.h"
 #include "tanimedtextitem.h"
+#include "tfinishtip.h"
 #include "tgraphicstexttip.h"
 #include "mainwindow.h"
 #include "tnotepixmap.h"
@@ -51,6 +52,7 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   m_parent(parent),
   m_resultTip(0), m_startTip(0), m_whatTip(0),
   m_questionTip(0), m_tryAgainTip(0), m_confirmTip(0),
+  m_finishTip(0),
   m_scale(1),
   m_flyAnswer(0), m_animation(0),
   m_flyNote(0),
@@ -159,14 +161,25 @@ QString Tcanvas::startTipText() {
 
 
 void Tcanvas::startTip() {
-  m_startTip = new TgraphicsTextTip(QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75)) + startTipText() + ".<br>" +
-    TexamHelp::toStopExamTxt("<a href=\"stopExam\"> " + pixToHtml(gl->path + "picts/stopExam.png", PIXICONSIZE) + "</a>") + "</p>", palette().highlight().color());
-  m_scene->addItem(m_startTip);
-  m_startTip->setScale(m_scale);
-  m_startTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
-  connect(m_startTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
-  setPosOfStartTip();
+  finishTip();
+//   m_startTip = new TgraphicsTextTip(QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75)) + startTipText() + ".<br>" +
+//     TexamHelp::toStopExamTxt("<a href=\"stopExam\"> " + pixToHtml(gl->path + "picts/stopExam.png", PIXICONSIZE) + "</a>") + "</p>", palette().highlight().color());
+//   m_scene->addItem(m_startTip);
+//   m_startTip->setScale(m_scale);
+//   m_startTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
+//   connect(m_startTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
+//   setPosOfStartTip();
 }
+
+
+void Tcanvas::finishTip() {
+  m_finishTip = new TfinishTip(m_exam);
+  m_scene->addItem(m_finishTip);
+  m_finishTip->setScale(m_scale);
+  setPosOfFinishTip();
+  m_finishTip->rotate(-7);
+}
+
 
 
 void Tcanvas::whatNextTip(bool isCorrect, bool onRight) {
@@ -289,6 +302,10 @@ void Tcanvas::clearCanvas() {
     delete m_questionTip;
     m_questionTip = 0;
   }
+  if (m_finishTip) {
+    delete m_finishTip;
+    m_finishTip = 0;
+  }
 }
 
 
@@ -402,7 +419,10 @@ void Tcanvas::sizeChanged(QSize newSize) {
     m_confirmTip->setScale(m_scale);
     setPosOfConfirmTip();
   }
-  
+  if (m_finishTip) {
+    m_finishTip->setScale(m_scale);
+    setPosOfFinishTip();
+  }
 }
 
 
@@ -487,5 +507,9 @@ void Tcanvas::setPosOfQuestionTip() {
   m_questionTip->setPos(pos);
 }
 
+void Tcanvas::setPosOfFinishTip() {
+  m_finishTip->setPos((m_scene->width() - m_scale * m_finishTip->boundingRect().width()) / 2,
+                      (m_scene->height() - m_scale * m_finishTip->boundingRect().height()) / 2);
+}
 
 
