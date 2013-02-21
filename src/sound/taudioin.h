@@ -55,6 +55,13 @@ public:
 	bool setAudioDevice(const QString &devN);
 	void startListening();
 	void stopListening();
+      /** Stops emiting signals about pitch detection,
+       * but detection is still performed. 
+       * It helps to sniff whole sound/note from begin to its end. */
+  void pause() { m_paused = true; }
+      /** Starts emiting @param noteDetected and @param fundamentalFreq signals again. */
+  void unPause() { m_paused = false; }
+  bool isPaused() { return m_paused; }
 	qint16 maxPeak() { return m_maxPeak; }
 	  /** Starts capturing audio to calculate max level. 
 	   * After 1000ms singleShot of Qtimer calls calc(),
@@ -68,6 +75,7 @@ public:
   void wait();
     /** Wakes up TaudioIN after pause called by wait() */
   void go();
+//   void pause();
   void setIsVoice(bool isV);
     /** Sets range of notes which are detected. */
   void setAmbitus(Tnote loNote, Tnote hiNote);
@@ -107,6 +115,7 @@ private:
   TaudioParams *m_params;
   QString m_devName;
   bool m_gotNote;
+  bool m_paused;
 	
 };
 
