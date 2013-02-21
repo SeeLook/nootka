@@ -41,7 +41,7 @@
 #include <QtGui>
 #include <QDebug>
 
-#define WAIT_TIME (600) //[ms]
+#define WAIT_TIME (60) //[ms]
 #define SOUND_DURATION (1500) //[ms]
 
 
@@ -861,7 +861,8 @@ void TexamExecutor::disableWidgets() {
     mW->noteName->setNameDisabled(true);
     mW->score->setScoreDisabled(true);
     mW->guitar->setGuitarDisabled(true);
-    mW->sound->wait();
+//    if (!mW->sound->isSnifferPaused()) // stop sniffing only when is not paused
+//        mW->sound->wait();
 }
 
 void TexamExecutor::clearWidgets() {
@@ -1025,7 +1026,11 @@ void TexamExecutor::sniffAfterPlaying() {
 void TexamExecutor::startSniffing() {
     if (m_soundTimer->isActive())
       m_soundTimer->stop();
-    mW->sound->go();
+    if (mW->sound->isSnifferPaused()) {
+//        qDebug("unPaused");
+        mW->sound->unPauseSniffing();
+    } else
+        mW->sound->go();
 }
 
 
@@ -1036,16 +1041,20 @@ void TexamExecutor::expertAnswersSlot() {
     }
     if (m_snifferLocked) // ignore slot when some dialog window apears
         return;
-    if (mW->examResults->questionTime() < 3) { // answer time less than 0.3 s (not human...)
+//    if (mW->examResults->questionTime() < 3) { // answer time less than 0.3 s (not human...)
 //         qDebug("answer time too short !!!");
-        return;
-    }
+//        return;
+//    }
     /** expertAnswersSlot() is invoked also by TaudioIN/TpitchFinder.
      * Calling checkAnswer() from here invokes stoping and deleting TaudioIN.
      * It finishs with crash. To avoid this checkAnswer() has to be called
      * from outside - by timer event. */
-    if (m_exam->curQ().answerAs == TQAtype::e_asSound)
-      m_canvas->noteTip(600);
+//    if (m_exam->curQ().answerAs == TQAtype::e_asSound)
+//      m_canvas->noteTip(600);
+    if (m_exam->curQ().answerAs == TQAtype::e_asSound) {
+//        qDebug("paused");
+        mW->sound->pauseSinffing();
+    }
     QTimer::singleShot(10, this, SLOT(checkAnswer()));
 }
 

@@ -142,8 +142,6 @@ void TpitchFinder::run() {
 	AnalysisData *data = m_channel->dataAtCurrentChunk();
 	if (data) {
       if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)) {
-          
-//          qDebug() << "pitch:" << data->pitch << "reason:" << data->reason;
           NoteData *curNote = m_channel->getCurrentNote();
           if (curNote->noteLength() > MIN_SND_TIME) {
             if (m_isVoice) {
@@ -152,7 +150,8 @@ void TpitchFinder::run() {
             } else {
               if (!m_emited) {
                 m_emited = true;
-                emit found(curNote->avgPitch(), curNote->avgFreq());
+//                qDebug() << curNote->avgPitch() << data->pitch;
+                emit found(data->pitch, data->fundamentalFreq);
               }
             }
           } else { // note too short - new sound started
@@ -162,7 +161,7 @@ void TpitchFinder::run() {
               m_emited = false;
             }
           }
-//          qDebug() << "pitch" << curNote->avgPitch() << "dur:" << curNote->noteLength();
+          qDebug() << "pitch" << curNote->avgPitch() << "dur:" << curNote->noteLength();
           
      /** if (m_isVoice) { // average pitch
         if (!m_noteNoticed) {

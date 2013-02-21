@@ -61,6 +61,9 @@ public:
   void go();
     /** Returns recently detected note. */
   Tnote note() { return m_detNote; }
+  void pauseSinffing();
+  void unPauseSniffing();
+  bool isSnifferPaused();
   void prepareToExam();
   void restoreAfterExam();
     /** Sets bg color to question color and enables TpitchView. */
