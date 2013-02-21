@@ -162,6 +162,7 @@ void Tsound::restoreAfterConf() {
 }
 
 void Tsound::wait() {
+    qDebug("wait");
   if (sniffer) {
     sniffer->stopListening();
 //     sniffer->wait();
@@ -170,6 +171,7 @@ void Tsound::wait() {
 }
 
 void Tsound::go() {
+    qDebug("go");
   if (sniffer && !m_pitchView->isPaused()) {
     sniffer->startListening();
 //     sniffer->go();
@@ -181,6 +183,23 @@ void Tsound::prepareAnswer() {
   m_pitchView->setBgColor(gl->EanswerColor);
   m_pitchView->setDisabled(false);
 //   m_pitchView->update();
+}
+
+void Tsound::pauseSinffing() {
+    if (sniffer)
+        sniffer->pause();
+}
+
+void Tsound::unPauseSniffing() {
+    if (sniffer)
+        sniffer->unPause();
+}
+
+bool Tsound::isSnifferPaused() {
+    if (sniffer)
+        return sniffer->isPaused();
+    else
+        return false;
 }
 
 void Tsound::restoreAfterAnswer() {
@@ -201,6 +220,7 @@ void Tsound::restoreAfterExam() {
     connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinished()));
   if (sniffer) {
      m_pitchView->setDisabled(false);
+     unPauseSniffing();
      go();
   }
 }
