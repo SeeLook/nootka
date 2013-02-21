@@ -96,8 +96,15 @@ protected:
 	void run();
 	
 private:
+      /** Checks was note detected but signal not sent
+       * and emits found(m_prevPitch, m_prevFreq) */
+  void emitFound();
+  
   float           *m_filteredChunk, *m_workChunk;
-  bool            m_shown;
+  double m_prevPitch, m_prevFreq;
+
+/**  bool            m_shown; */
+  bool            m_emited;
   bool            m_noteNoticed;
   int             m_noticedChunk; // chunk nr where note was started
 	TartiniParams   *m_aGl; 

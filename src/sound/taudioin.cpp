@@ -68,7 +68,8 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     m_deviceInfo(QAudioDeviceInfo::defaultInputDevice()),
     m_pitch(new TpitchFinder(this)),
     m_params(params), // points on gl->A or tmpParams in AudioInSettings
-    m_devName("any")
+    m_devName("any"),
+    m_paused(false)
 {    
   prepTemplFormat();
   setParameters(params);
@@ -303,8 +304,10 @@ void TaudioIN::readToCalc() {
 void TaudioIN::pitchFreqFound(float pitch, float freq) {
 //  if(!m_gotNote) {
 //     qDebug() << QString::fromStdString(Tnote(qRound(pitch - m_params->a440diff)-47).getName());
+  if (!m_paused) {
        emit noteDetected(Tnote(qRound(pitch - m_params->a440diff)-47));
        emit fundamentalFreq(freq);
+  }
 //       m_gotNote = true;
 //  }
 }
