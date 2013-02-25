@@ -295,14 +295,11 @@ void TnoteView::markNote(QColor blurColor) {
     if (blurColor == -1) {
       m_mainNote->setPen(Qt::NoPen);
       m_mainNote->setGraphicsEffect(0);
+      m_mainNote->setBrush(QBrush(m_mainColor));
     } else {
       m_mainNote->setPen(QPen(blurColor, 2));
-//       QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect;
-//       effect->setColor(blurColor);
-//       effect->setBlurRadius(10);
-//       effect->setOffset(0, 0);
-//       m_mainNote->setGraphicsEffect(effect);
       m_mainNote->setGraphicsEffect(new QGraphicsBlurEffect());
+      m_mainNote->setBrush(QBrush(blurColor));
     }
 }
 
