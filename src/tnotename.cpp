@@ -319,6 +319,12 @@ void TnoteName::prepAnswer(Tnote::EnameStyle answStyle, Tnote backNote) {
     /** @todo prepare octave button*/
 }
 
+void TnoteName::markNameLabel(QColor markColor) {
+    nameLabel->setStyleSheet(styleTxt + gl->getBGcolorText(markColor));
+}
+
+
+
 void TnoteName::setNameDisabled(bool isDisabled) {
     if (isDisabled) {
         uncheckAllButtons();

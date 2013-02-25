@@ -98,6 +98,7 @@ protected slots:
     void sniffAfterPlaying();
     void rightButtonSlot();
     void tipButtonSlot(QString name);
+    void markAnswer(TQAunit &curQ);
 
 private:
     void prepareToExam();

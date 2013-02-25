@@ -162,7 +162,7 @@ void Tsound::restoreAfterConf() {
 }
 
 void Tsound::wait() {
-    qDebug("wait");
+//     qDebug("wait");
   if (sniffer) {
     sniffer->stopListening();
 //     sniffer->wait();
@@ -171,7 +171,7 @@ void Tsound::wait() {
 }
 
 void Tsound::go() {
-    qDebug("go");
+//     qDebug("go");
   if (sniffer && !m_pitchView->isPaused()) {
     sniffer->startListening();
 //     sniffer->go();

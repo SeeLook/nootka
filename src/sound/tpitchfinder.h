@@ -112,6 +112,7 @@ private:
 	int             m_chunkNum;
 	bool            m_isBussy;
   bool            m_isVoice; // calculates average pitch in chunks range instead pitch in single chunk
+  int             m_prevNoteIndex;
 	
 };
 

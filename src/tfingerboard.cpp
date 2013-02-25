@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -188,6 +188,18 @@ void TfingerBoard::askQuestion(TfingerPos pos) {
 
 
 void TfingerBoard::clearFingerBoard() {
+  // Clear marks
+    if (m_curFret != 99) {
+      if (m_curFret) {
+        m_fingers[gl->strOrder(m_curStr)]->setPen(Qt::NoPen);
+        m_fingers[gl->strOrder(m_curStr)]->setGraphicsEffect(0);
+      }
+      else
+        if (m_curStr != 7) {
+          m_strings[gl->strOrder(m_curStr)]->setPen(QPen(gl->GselectedColor, m_strWidth[m_curStr]));
+          m_strings[gl->strOrder(m_curStr)]->setGraphicsEffect(0);
+        }
+    } // done
     if (m_questFinger) {
         delete m_questFinger;
         m_questFinger = 0;
@@ -290,6 +302,28 @@ int TfingerBoard::posX12fret() {
      return m_fretsPos[qMin(11, 12 - (19 - gl->GfretsNumber))];
 }
 
+
+void TfingerBoard::markAnswer(QColor blurColor) {
+  if (m_curFret != 99) {
+    if (m_curFret) {
+      m_fingers[gl->strOrder(m_curStr)]->setPen(QPen(blurColor, 3));
+      m_fingers[gl->strOrder(m_curStr)]->setGraphicsEffect(new QGraphicsBlurEffect());
+    }
+    else
+      if (m_curStr != 7) {
+        m_strings[gl->strOrder(m_curStr)]->setPen(QPen(blurColor, 5));
+        m_strings[gl->strOrder(m_curStr)]->setGraphicsEffect(new QGraphicsBlurEffect());
+      }
+  }
+}
+
+
+void TfingerBoard::markQuestion(QColor blurColor) {
+    if (m_questFinger)
+      m_questFinger->setPen(QPen(blurColor, 3));
+    if (m_questString)
+      m_questString->setPen(QPen(blurColor, 5));
+}
 
 
 //################################################################################################

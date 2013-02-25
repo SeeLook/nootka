@@ -50,11 +50,13 @@ public:
     void setString(int realNr);
     void removeString();
     void hideNote();
-	void hideWorkNote();
+    void hideWorkNote();
         /** Sets color of main note. */
     void setColor(QColor color);
         /** Sets color of pointing (work) note. */
     void setPointedColor(QColor color);
+        /** Adds blur effect to main note. If blurColor is -1 deletes the effect. */
+    void markNote(QColor blurColor);
 
 
         /** This return value of @li -2 is bb @li 1 is #

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -59,6 +59,10 @@ public:
     qreal stringWidth(int strNr) { return m_strWidth[qBound(1, strNr + 1, 6)]; }
         /** Returns @param true when cursor is over the widget. */
     bool isCursorOverGuitar() { return m_isCursorOverGuitar; }
+        /** Marks selected string or fret. Marking is cleaned when clearFingerBoard() is invoked. */
+    void markAnswer(QColor blurColor);
+        /** Highlights m_questString or m_questFinger after answering. */
+    void markQuestion(QColor blurColor);
 
 signals:
     void guitarClicked(Tnote note);

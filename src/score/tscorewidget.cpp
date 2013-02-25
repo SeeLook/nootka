@@ -182,6 +182,15 @@ void TscoreWidget::clearScore() {
     setBGcolor(palette().base().color());
 }
 
+void TscoreWidget::markAnswered(QColor blurColor) {
+    noteViews[0]->markNote(blurColor);
+}
+
+void TscoreWidget::markQuestion(QColor blurColor) {
+    noteViews[1]->markNote(blurColor);
+}
+
+
 void TscoreWidget::isExamExecuting(bool isIt) {
     if (isIt) {
         disconnect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));

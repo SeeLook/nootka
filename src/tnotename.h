@@ -54,6 +54,8 @@ public:
     void setStyle(Tnote::EnameStyle style); // Sets style. Doesn't refresh name label
     Tnote::EnameStyle style() { return m_style; } // Style used in note name
 //    void setButtonsWithOctaves
+        /** Marks nameLabel with given color. When clearNoteName() is invoked - marks are cleared. */
+    void markNameLabel(QColor markColor);
 
 signals:
     void noteNameWasChanged(Tnote note);
