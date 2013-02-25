@@ -41,7 +41,7 @@
 #include <QtGui>
 #include <QDebug>
 
-#define WAIT_TIME (60) //[ms]
+#define WAIT_TIME (150) //[ms]
 #define SOUND_DURATION (1500) //[ms]
 
 
@@ -501,7 +501,6 @@ void TexamExecutor::askQuestion() {
 
 
 void TexamExecutor::checkAnswer(bool showResults) {
-//     m_canvas->setAttribute(Qt::WA_TransparentForMouseEvents, false);
     TQAunit curQ = m_exam->curQ();
     curQ.time = mW->examResults->questionStop();
     mW->nootBar->removeAction(checkAct);
@@ -638,35 +637,66 @@ void TexamExecutor::checkAnswer(bool showResults) {
         mW->progress->setFinished(true);
         qApp->removeEventFilter(m_supp); // stop grabbing right button and calling checkAnswer()
         m_supp->examFinished();
-        qApp->installEventFilter(m_supp); // restore grabing right mouse button
+        qApp->installEventFilter(m_supp); // restore grabbing right mouse button
         m_exam->setFinished();
         m_snifferLocked = false;
       }
     }
     
     if (showResults && gl->E->autoNextQuest) {
+      m_lockRightButt = true; // to avoid nervous users click mouse during WAIT_TIME
+      markAnswer(curQ);
+      if (m_shouldBeTerminated)
+          stopExamSlot();
+      else {
       if (curQ.isCorrect()) {
-        m_lockRightButt = true; // to avoid nervous users click mouse during WAIT_TIME
-        if (m_shouldBeTerminated)
-            stopExamSlot();
-        else
-            QTimer::singleShot(WAIT_TIME, this, SLOT(askQuestion()));
+          QTimer::singleShot(WAIT_TIME, this, SLOT(askQuestion()));
       } else {
-        if (m_shouldBeTerminated)
-            stopExamSlot();
-        else {
-            if (gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
-                QTimer::singleShot(WAIT_TIME, this, SLOT(repeatQuestion()));
-            else
-                QTimer::singleShot(WAIT_TIME, this, SLOT(askQuestion()));
+          if (gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
+              QTimer::singleShot(WAIT_TIME, this, SLOT(repeatQuestion()));
+          else
+              QTimer::singleShot(WAIT_TIME, this, SLOT(askQuestion()));
         }
       }
     }
 }
 
 
+void TexamExecutor::markAnswer(TQAunit& curQ) {
+  QColor markColor;
+  if (curQ.isCorrect())
+    markColor = gl->EanswerColor;
+  else if (curQ.isNotSoBad())
+    markColor = gl->EnotBadColor;
+  else
+    markColor = gl->EquestionColor.lighter();
+  switch (curQ.answerAs) {
+    case TQAtype::e_asNote:
+      mW->score->markAnswered(QColor(markColor.name()));
+      break;
+    case TQAtype::e_asFretPos:
+      mW->guitar->markAnswer(QColor(markColor.name()));
+      break;
+    case TQAtype::e_asName:
+      mW->noteName->markNameLabel(markColor.name());      
+      break;
+  }
+  switch (curQ.questionAs) {
+    case TQAtype::e_asNote:
+      mW->score->markQuestion(QColor(markColor.name()));
+      break;
+    case TQAtype::e_asFretPos:
+      mW->guitar->markQuestion(QColor(markColor.name()));
+      break;
+    case TQAtype::e_asName:
+      mW->noteName->markNameLabel(markColor.name());      
+      break;
+  }
+  
+}
+
+
 void TexamExecutor::repeatQuestion() {
-//     m_canvas->setAttribute(Qt::WA_TransparentForMouseEvents, true);
     m_canvas->tryAgainTip(3000);
     m_lockRightButt = false;
     m_incorrectRepeated = true;

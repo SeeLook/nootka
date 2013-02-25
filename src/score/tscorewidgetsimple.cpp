@@ -243,6 +243,7 @@ void TscoreWidgetSimple::setNote(int index, Tnote note) {
 }
 
 void TscoreWidgetSimple::clearNote(int index) {
+    noteViews[index]->markNote(-1);
     noteViews[index]->hideNote();
     m_notes[index] = Tnote(0,0,0);
 }

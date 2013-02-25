@@ -291,6 +291,22 @@ bool TnoteView::event(QEvent *event) {
 }
 
 
+void TnoteView::markNote(QColor blurColor) {
+    if (blurColor == -1) {
+      m_mainNote->setPen(Qt::NoPen);
+      m_mainNote->setGraphicsEffect(0);
+    } else {
+      m_mainNote->setPen(QPen(blurColor, 2));
+//       QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect;
+//       effect->setColor(blurColor);
+//       effect->setBlurRadius(10);
+//       effect->setOffset(0, 0);
+//       m_mainNote->setGraphicsEffect(effect);
+      m_mainNote->setGraphicsEffect(new QGraphicsBlurEffect());
+    }
+}
+
+
 void TnoteView::hideWorkNote() {
     m_workNote->hide();
     m_workAccid->hide();

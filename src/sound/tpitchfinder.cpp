@@ -35,6 +35,7 @@ TpitchFinder::TpitchFinder(QObject* parent) :
 /**  m_shown(true), */
   m_emited(false),
   m_prevPitch(0), m_prevFreq(0),
+  m_prevNoteIndex(-1),
   m_noteNoticed(false),
   m_noticedChunk(0),
   m_isVoice(false)
@@ -118,12 +119,14 @@ void TpitchFinder::searchIn(float* chunk) {
 
 
 void TpitchFinder::resetFinder() {
-  delete m_channel;
-  m_chunkNum = 0;
-  myTransforms.uninit();
-  m_channel = new Channel(this, aGl()->windowSize);
-  myTransforms.init(aGl(), aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
-/**  m_shown = false; */
+  if (m_channel) {
+      delete m_channel;
+      m_chunkNum = 0;
+      myTransforms.uninit();
+      m_channel = new Channel(this, aGl()->windowSize);
+      myTransforms.init(aGl(), aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
+    /**  m_shown = false; */
+  }
 }
 
 void TpitchFinder::emitFound() {
@@ -143,7 +146,20 @@ void TpitchFinder::run() {
 	if (data) {
       if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)) {
           NoteData *curNote = m_channel->getCurrentNote();
-          if (curNote->noteLength() > MIN_SND_TIME) {
+          if (m_isVoice) {
+//             NoteData *curNote = m_channel->getCurrentNote();
+            if (curNote->noteLength() > MIN_SND_TIME) {
+                m_prevPitch = curNote->avgPitch();
+                m_prevFreq = curNote->avgFreq();
+            }
+          } else {
+              if (data->noteIndex != m_prevNoteIndex) {
+                m_prevNoteIndex = data->noteIndex;
+//                 qDebug() << data->noteIndex << data->pitch << curNote->noteLength();
+                emit found(data->pitch, data->fundamentalFreq);
+              }
+          }
+   /*       if (curNote->noteLength() > MIN_SND_TIME) {
             if (m_isVoice) {
                 m_prevPitch = curNote->avgPitch();
                 m_prevFreq = curNote->avgFreq();
@@ -151,6 +167,7 @@ void TpitchFinder::run() {
               if (!m_emited) {
                 m_emited = true;
 //                qDebug() << curNote->avgPitch() << data->pitch;
+                qDebug() << data->noteIndex << data->periodRatio;
                 emit found(data->pitch, data->fundamentalFreq);
               }
             }
@@ -161,7 +178,8 @@ void TpitchFinder::run() {
               m_emited = false;
             }
           }
-          qDebug() << "pitch" << curNote->avgPitch() << "dur:" << curNote->noteLength();
+//           qDebug() << "pitch" << curNote->avgPitch() << "dur:" << curNote->noteLength();
+    */
           
      /** if (m_isVoice) { // average pitch
         if (!m_noteNoticed) {
@@ -191,8 +209,14 @@ void TpitchFinder::run() {
       emit noteStoped();
 //      qDebug("TpitchFinder: stopped");
 */
+      } else {
+        if (m_isVoice)
+          emitFound();
+        else
+          m_prevNoteIndex = -1;
       }
-    }
+    } 
+  
 	incrementChunk();
 	m_isBussy = false;
 //    qDebug() << "TpitchFinder:" << m_chunkNum ;

@@ -66,6 +66,10 @@ public:
     void setNoteViewBg(int id, QColor C);
         /** Sets given accidental*/
     void forceAccidental(Tnote::Eacidentals accid);
+        /** Marks note with border and blur.
+         * it is used to show was answer correct or not. */
+    void markAnswered(QColor blurColor);
+    void markQuestion(QColor blurColor);
 
 signals:
     void noteChanged(int index, Tnote note);
