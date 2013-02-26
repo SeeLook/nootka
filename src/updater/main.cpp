@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,55 +17,39 @@
  ***************************************************************************/
 
 #include <QtGui>
-#include "mainwindow.h"
-#include "tglobals.h"
+#include "tupdatechecker.h"
 
-Tglobals *gl;
+// #include "tglobals.h"
+// 
+// Tglobals *gl;
 
 int main(int argc, char *argv[])
 {
-// #if defined(Q_OS_WIN32)
-//     QApplication::setStyle("plastique");  
-// #endif
-    
   QApplication a(argc, argv);
 
   
-  gl = new Tglobals();
-  gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
-      
-  QString ll = gl->lang;
-  if (ll == "")
-    ll = QLocale::system().name();
-    QTranslator qtTranslator;
-#if defined(Q_OS_LINUX)
-    qtTranslator.load("qt_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-#else
-    qtTranslator.load("qt_" + ll, gl->path + "lang");
-#endif
-    a.installTranslator(&qtTranslator);
+//   gl = new Tglobals();
+//   gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
+//       
+//   QString ll = gl->lang;
+//   if (ll == "")
+//       ll = QLocale::system().name();
+//     QTranslator qtTranslator;
+// #if defined(Q_OS_LINUX)
+//     qtTranslator.load("qt_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+// #else
+//     qtTranslator.load("qt_" + ll, gl->path + "lang");
+// #endif
+//     a.installTranslator(&qtTranslator);
 
-    QTranslator nooTranslator;
-    nooTranslator.load("nootka_" + ll, gl->path + "lang");
-    a.installTranslator(&nooTranslator);
-	
-    MainWindow w;
+//     QTranslator nooTranslator;
+//     nooTranslator.load("nootka_" + ll, gl->path + "lang");
+//     a.installTranslator(&nooTranslator);
+//   
+    TupdateChecker u;
 
-    QFontDatabase fd;
-#if defined(Q_OS_WIN32)
-    int fid = fd.addApplicationFont(gl->path + "fonts/nootka.ttf");
-#else
-    int fid = fd.addApplicationFont(gl->path + "fonts/nootka.otf");
-#endif
-    if (fid == -1) {
-        QMessageBox::critical(0, "", QCoreApplication::translate("main", "<center>Can not load a font.<br>Try to install nootka.otf manually.</center>"));
-        return 111;
-    }
-#if defined (Q_OS_MAC)
-    a.installEventFilter(&w);
-#endif
-    w.show();
-    if (argc > 1)
-        w.openFile(QString::fromLocal8Bit(argv[argc-1]));
+//     w.show();
+//     if (argc > 1)
+//         w.openFile(QString::fromLocal8Bit(argv[argc-1]));
     return a.exec();
 }

@@ -18,6 +18,7 @@
 
 #include "tnoteview.h"
 #include "tscorewidgetsimple.h"
+#include <tdropshadoweffect.h>
 #include <QtGui>
 //#include <QDebug>
 
@@ -295,11 +296,11 @@ void TnoteView::markNote(QColor blurColor) {
     if (blurColor == -1) {
       m_mainNote->setPen(Qt::NoPen);
       m_mainNote->setGraphicsEffect(0);
-      m_mainNote->setBrush(QBrush(m_mainColor));
+//       m_mainNote->setBrush(QBrush(m_mainColor));
     } else {
       m_mainNote->setPen(QPen(blurColor, 2));
-      m_mainNote->setGraphicsEffect(new QGraphicsBlurEffect());
-      m_mainNote->setBrush(QBrush(blurColor));
+      m_mainNote->setGraphicsEffect(new TdropShadowEffect(blurColor));
+//       m_mainNote->setBrush(QBrush(blurColor));
     }
 }
 
