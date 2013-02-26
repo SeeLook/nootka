@@ -41,7 +41,7 @@
 #include <QtGui>
 #include <QDebug>
 
-#define WAIT_TIME (200) //[ms]
+#define WAIT_TIME (150) //[ms]
 #define SOUND_DURATION (1500) //[ms]
 
 
@@ -482,7 +482,7 @@ void TexamExecutor::askQuestion() {
               connect(mW->sound->player, SIGNAL(noteFinished()), this, SLOT(sniffAfterPlaying()));
               // sniffing after finished sound
           } else
-              QTimer::singleShot(WAIT_TIME, this, SLOT(startSniffing()));
+              QTimer::singleShot(2 * WAIT_TIME, this, SLOT(startSniffing()));
               // Give a student some time to prepare for next question in expert mode
               // It avoids capture previous played sound as current answer
     }
@@ -1071,7 +1071,7 @@ void TexamExecutor::expertAnswersSlot() {
     }
     if (m_snifferLocked) // ignore slot when some dialog window apears
         return;
-    if (mW->examResults->questionTime() <= 1) { // answer time less than 0.1 s (not human...)
+    if (mW->examResults->questionTime() <= 2) { // answer time less than 0.1 s (not human...)
          qDebug("answer time too short !!!");
         return;
     }

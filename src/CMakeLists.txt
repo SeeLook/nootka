@@ -274,3 +274,4 @@ else(UNIX AND NOT APPLE)
   endif(WIN32)
 endif(UNIX AND NOT APPLE)
 
+add_subdirectory(updater)

@@ -1,21 +1,12 @@
-project(nootka-updater)
-cmake_minimum_required(VERSION 2.8)
-# if (NOT CMAKE_BUILD_TYPE)
-#   set(CMAKE_BUILD_TYPE release)
-# endif (NOT CMAKE_BUILD_TYPE)
-find_package(Qt4 REQUIRED)
-INCLUDE( ${QT_USE_FILE} )
-add_definitions(${QT_DEFINITIONS})
-
-
-#INCLUDE_DIRECTORIES (. exam info level score settings sound charts)
 
 SET( UPDATER_SRCS
+  main.cpp
+  tupdatechecker.cpp
   )
   
   
 SET( UPDATER_MOC_SRCS
-  
+  tupdatechecker.h
   )
 
 
@@ -42,18 +33,20 @@ if(MINGW)
 	TARGET_LINK_LIBRARIES(nootka-updater
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
+        ${QT_QTNETWORK_LIBRARY}
 	)
 endif(MINGW)
 
 if(UNIX AND NOT APPLE) #Linux
     ADD_EXECUTABLE( nootka-updater
         ${UPDATER_SRCS}
-        ${UPDATER_MOCS_MOCS}
+        ${UPDATER_MOCS}
     #        ${NOOTKA_RCC_SRCS}
     )
 	TARGET_LINK_LIBRARIES(nootka-updater
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
+        ${QT_QTNETWORK_LIBRARY}
 	)
 endif(UNIX AND NOT APPLE)
 
@@ -69,12 +62,13 @@ if(APPLE)
 #    set (MACOSX_BUNDLE_BUNDLE_VERSION ${Nootka_VERSION_FULL})
 #    set (MACOSX_BUNDLE_COPYRIGHT nootka.sf.net)
     ADD_EXECUTABLE(  nootka-updater # ${ExeName}
-        ${NOOTKA_SRCS}
-        ${NOOTKA_MOCS}
+        ${UPDATER_SRCS}
+        ${UPDATER_MOCS}
     )
   TARGET_LINK_LIBRARIES(nootka-updater
         ${QT_QTCORE_LIBRARY}
-        ${QT_QTGUI_LIBRARY}  
+        ${QT_QTGUI_LIBRARY}
+        ${QT_QTNETWORK_LIBRARY}
   )
 endif(APPLE)
 
@@ -87,7 +81,8 @@ else(UNIX AND NOT APPLE)
   if(WIN32) 			# Windows
     install(TARGETS nootka-updater DESTINATION .)
   else(WIN32) 			# MacOs
-    install(TARGETS nootka-updater BUNDLE DESTINATION ${CMAKE_INSTALL_PREFIX})
+#     install(TARGETS nootka-updater BUNDLE DESTINATION ${CMAKE_INSTALL_PREFIX})
+    install(TARGETS nootka-updater DESTINATION "nootka.app/Contents/MacOS/")
   endif(WIN32)
 endif(UNIX AND NOT APPLE)
 
