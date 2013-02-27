@@ -295,7 +295,7 @@ void Tsound::playingFinished() {
 
 void Tsound::noteDetectedSlot(Tnote note) {
   m_detNote = note;
-//   qDebug("Tsound: got note");
+//  qDebug() << "Tsound: got note" << note.toText();
   emit detectedNote(note);
 }
 

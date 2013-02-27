@@ -250,6 +250,7 @@ if(APPLE)
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
         ${QTMULTIMEDIA_LIBRARIES}
+        ${QT_QTNETWORK_LIBRARY} # for macdeployqt
         ${FFTW3_LIBRARIES}
         ${CoreAudio_LIB}
         ${CoreMidi_LIB}
