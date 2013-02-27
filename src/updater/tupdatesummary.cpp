@@ -18,14 +18,36 @@
 
 
 #include "tupdatesummary.h"
+#include "tupdateruleswdg.h"
+#include <QVBoxLayout>
+#include <QLabel>
 
-TupdateSummary::TupdateSummary(QWidget* parent)
+TupdateSummary::TupdateSummary(QString version, QString changes, TupdateRules* updateRules, QWidget* parent): 
+  QDialog(parent),
+  m_updateRules(updateRules)
 {
-
+    QVBoxLayout *mainLay = new QVBoxLayout;
+    QLabel *lab = new QLabel(this);
+    mainLay->addWidget(lab);
+    if (version != "") {
+      changes.replace("\n", "<br>");
+      lab->setText(tr("New Nootka %1 is available.").arg(version) + "<br><br><b>" + tr("News:") + 
+        "</b>" + changes);
+    } else {
+      lab->setText(tr("No changes found.<br>This version is up to date."));
+    }
+    if (m_updateRules) {
+      m_rulesWidget = new TupdateRulesWdg(m_updateRules, this);
+      mainLay->addWidget(m_rulesWidget);
+    }
+    
+    setLayout(mainLay);
 }
 
-TupdateSummary::~TupdateSummary()
-{
+
+
+TupdateSummary::~TupdateSummary() {}
+
+void TupdateSummary::okButtonSlot() {
 
 }
-

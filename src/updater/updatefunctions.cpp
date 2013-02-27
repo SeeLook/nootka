@@ -19,6 +19,7 @@
 
 #include <QSettings>
 #include "updatefunctions.h"
+#include "tupdatesummary.h"
 
 
 void getUpdateRules(TupdateRules& updateRules) {
@@ -81,7 +82,9 @@ bool isNewVersionStable(QString version) {
 }
 
 void showUpdateSummary(QString version, QString changes, TupdateRules* rules) {
-
+    TupdateSummary *sumaryDlg = new TupdateSummary(version, changes, rules);
+    sumaryDlg->exec();
+    delete sumaryDlg;
 }
 
 

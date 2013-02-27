@@ -50,7 +50,8 @@ void TupdateChecker::replySlot(QNetworkReply* netReply) {
   if (m_updateRules.curentVersion != newVersion) {
     if (m_updateRules.checkForAll || isNewVersionStable(newVersion)) {
       qDebug() << newVersion;
-      qDebug() << changes ;
+      qDebug() << changes;
+      showUpdateSummary(newVersion, changes, &m_updateRules);
     }
   }
   exit(0);
