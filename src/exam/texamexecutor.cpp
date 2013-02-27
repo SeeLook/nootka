@@ -1057,7 +1057,7 @@ void TexamExecutor::startSniffing() {
     if (m_soundTimer->isActive())
       m_soundTimer->stop();
     if (mW->sound->isSnifferPaused()) {
-        qDebug("unPaused");
+//        qDebug("unPaused");
         mW->sound->unPauseSniffing();
     } else
         mW->sound->go();
@@ -1071,10 +1071,10 @@ void TexamExecutor::expertAnswersSlot() {
     }
     if (m_snifferLocked) // ignore slot when some dialog window apears
         return;
-    if (mW->examResults->questionTime() <= 2) { // answer time less than 0.1 s (not human...)
-         qDebug("answer time too short !!!");
-        return;
-    }
+//    if (mW->examResults->questionTime() <= 2) { // answer time less than 0.1 s (not human...)
+//         qDebug("answer time too short !!!");
+//        return;
+//    }
     /** expertAnswersSlot() is invoked also by TaudioIN/TpitchFinder.
      * Calling checkAnswer() from here invokes stoping and deleting TaudioIN.
      * It finishs with crash. To avoid this checkAnswer() has to be called

@@ -40,11 +40,12 @@ if [ -f $MACDEPOLOYQT ]; then
      if [ -d $B_PATH/Contents/Frameworks/QtSvg.framework ]; then
         rm -r $B_PATH/Contents/Frameworks/QtSvg.framework
         rm -r $B_PATH/Contents/Frameworks/QtDeclarative.framework
-        rm -r $B_PATH/Contents/Frameworks/QtNetwork.framework
+#        rm -r $B_PATH/Contents/Frameworks/QtNetwork.framework
         rm -r $B_PATH/Contents/Frameworks/QtScript.framework
         rm -r $B_PATH/Contents/Frameworks/QtSql.framework
         rm -r $B_PATH/Contents/Frameworks/QtXmlPatterns.framework
         rm -r $B_PATH/Contents/Plugins
+        rm -r $B_PATH/Contents/Pluglns
     fi
 else
 	echo "Can not find macdeployqt executable"

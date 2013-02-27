@@ -92,7 +92,7 @@ void TpitchFinder::setIsVoice(bool voice) {
   m_isVoice = voice;
   if (voice)
     m_aGl->analysisType = e_MPM_MODIFIED_CEPSTRUM;
-  else 
+  else
     m_aGl->analysisType = e_AUTOCORRELATION;
 }
 
@@ -154,9 +154,9 @@ void TpitchFinder::run() {
             }
           } else {
               if (data->noteIndex != m_prevNoteIndex) {
-                m_prevNoteIndex = data->noteIndex;
-//                 qDebug() << data->noteIndex << data->pitch << curNote->noteLength();
-                emit found(data->pitch, data->fundamentalFreq);
+                  m_prevNoteIndex = data->noteIndex;
+//                  qDebug() << data->noteIndex << data->pitch << curNote->noteLength();
+                  emit found(data->pitch, data->fundamentalFreq);
               }
           }
    /*       if (curNote->noteLength() > MIN_SND_TIME) {
@@ -212,8 +212,11 @@ void TpitchFinder::run() {
       } else {
         if (m_isVoice)
           emitFound();
-        else
+        else {
+//          if (m_prevNoteIndex != -1)
+//            qDebug("not visible");
           m_prevNoteIndex = -1;
+        }
       }
     } 
   
