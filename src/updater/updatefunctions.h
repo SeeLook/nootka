@@ -16,36 +16,37 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#ifndef UPDATEFUNCTIONS_H
+#define UPDATEFUNCTIONS_H
 
-#ifndef TUPDATECHECKER_H
-#define TUPDATECHECKER_H
-
-#include <QtCore/QObject>
-#include "updatefunctions.h"
-
-class QNetworkReply;
-class QNetworkAccessManager;
+#include <QDate>
 
 
-class TupdateChecker : public QObject
-{
-  Q_OBJECT
-  
-public:
-  TupdateChecker(bool hasRules = true, QObject *parent = 0);
-  virtual ~TupdateChecker();
-  
-  static QString getVersion();
-  static void showUpdateDialog(QString version, QString changes);
-  
-protected slots:
-  void replySlot(QNetworkReply* netReply);
-  
-private:
-  QNetworkAccessManager *m_netManager;
-  QString m_curVersion;
-  bool m_hasRules;
-  TupdateRules m_updateRules;
+
+enum EupdatePeriod { e_daily = 0, e_weekly = 1, e_monthly = 2 };
+
+
+struct TupdateRules {
+  bool enable; // is updateing enabled
+  QDate recentDate; // date of recent update
+  EupdatePeriod period; // how ofen checking has to be perform
+  bool checkForAll; // if true check for all versions (beta, rc)
+  QString curentVersion; // current Nootka version taken from config 
 };
 
-#endif // TUPDATECHECKER_H
+    /** Fullfils &updateRules with config file content. */
+void getUpdateRules(TupdateRules &updateRules);
+
+    /** Compares date of recent checking, current date, update period
+     and determine is update necessary. */
+bool isUpdateNecessary(TupdateRules &updateRules);
+
+bool isNewVersionStable(QString version);
+
+    /** Stores rules in Nootka config file */
+void saveUpdateRules(TupdateRules &updateRules);
+
+void showUpdateSummary(QString version, QString changes, TupdateRules *rules = 0);
+
+
+#endif // UPDATEFUNCTIONS_H

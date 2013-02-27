@@ -2,11 +2,16 @@
 SET( UPDATER_SRCS
   main.cpp
   tupdatechecker.cpp
+  updatefunctions.cpp
+  tupdateruleswdg.cpp
+  tupdatesummary.cpp
   )
   
   
 SET( UPDATER_MOC_SRCS
   tupdatechecker.h
+  tupdateruleswdg.h
+  tupdatesummary.h
   )
 
 

@@ -17,35 +17,15 @@
  ***************************************************************************/
 
 
-#ifndef TUPDATECHECKER_H
-#define TUPDATECHECKER_H
+#include "tupdateprocess.h"
 
-#include <QtCore/QObject>
-#include "updatefunctions.h"
-
-class QNetworkReply;
-class QNetworkAccessManager;
-
-
-class TupdateChecker : public QObject
+TupdateProcess::TupdateProcess()
 {
-  Q_OBJECT
-  
-public:
-  TupdateChecker(bool hasRules = true, QObject *parent = 0);
-  virtual ~TupdateChecker();
-  
-  static QString getVersion();
-  static void showUpdateDialog(QString version, QString changes);
-  
-protected slots:
-  void replySlot(QNetworkReply* netReply);
-  
-private:
-  QNetworkAccessManager *m_netManager;
-  QString m_curVersion;
-  bool m_hasRules;
-  TupdateRules m_updateRules;
-};
 
-#endif // TUPDATECHECKER_H
+}
+
+TupdateProcess::~TupdateProcess()
+{
+
+}
+

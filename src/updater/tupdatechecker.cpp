@@ -23,12 +23,16 @@
 #include <QNetworkReply>
 #include <QDebug>
 
-TupdateChecker::TupdateChecker(QObject* parent) :
-  QObject()
+TupdateChecker::TupdateChecker(bool hasRules, QObject* parent) :
+  QObject(),
+  m_hasRules(hasRules)
 {
-    m_netManager = new QNetworkAccessManager(this);
-    connect(m_netManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replySlot(QNetworkReply*)));
-    m_netManager->get(QNetworkRequest(QUrl("http://nootka.sourceforge.net/ch/version")));
+    getUpdateRules(m_updateRules);
+    if (!m_hasRules || (m_updateRules.enable && isUpdateNecessary(m_updateRules))) {
+        m_netManager = new QNetworkAccessManager(this);
+        connect(m_netManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replySlot(QNetworkReply*)));
+        m_netManager->get(QNetworkRequest(QUrl("http://nootka.sourceforge.net/ch/version")));
+    }
 }
 
 TupdateChecker::~TupdateChecker()
@@ -36,10 +40,20 @@ TupdateChecker::~TupdateChecker()
 
 void TupdateChecker::replySlot(QNetworkReply* netReply) {
   QString replyString(netReply->readAll());
-  qDebug() << replyString;
+  netReply->abort();
+  netReply->close();
   netReply->deleteLater();
-  
-  
+  QStringList replyLines = replyString.split(";", QString::SkipEmptyParts);
+  QString newVersion = replyLines.at(0);
+  replyLines.removeFirst();
+  QString changes = replyLines.join("");
+  if (m_updateRules.curentVersion != newVersion) {
+    if (m_updateRules.checkForAll || isNewVersionStable(newVersion)) {
+      qDebug() << newVersion;
+      qDebug() << changes ;
+    }
+  }
+  exit(0);
 }
 
 

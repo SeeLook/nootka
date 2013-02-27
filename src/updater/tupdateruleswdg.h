@@ -17,35 +17,31 @@
  ***************************************************************************/
 
 
-#ifndef TUPDATECHECKER_H
-#define TUPDATECHECKER_H
+#ifndef TUPDATERULESWDG_H
+#define TUPDATERULESWDG_H
 
-#include <QtCore/QObject>
-#include "updatefunctions.h"
+#include <QWidget>
 
-class QNetworkReply;
-class QNetworkAccessManager;
+struct TupdateRules;
+class QButtonGroup;
+class QRadioButton;
 
-
-class TupdateChecker : public QObject
+class TupdateRulesWdg : public QWidget
 {
+
   Q_OBJECT
   
 public:
-  TupdateChecker(bool hasRules = true, QObject *parent = 0);
-  virtual ~TupdateChecker();
-  
-  static QString getVersion();
-  static void showUpdateDialog(QString version, QString changes);
-  
-protected slots:
-  void replySlot(QNetworkReply* netReply);
-  
+    TupdateRulesWdg(TupdateRules *updateRules, QWidget *parent = 0);
+    virtual ~TupdateRulesWdg();
+        /** Stores settnigs to Nootka config file. */
+    void saveSettings();
+    
+    
 private:
-  QNetworkAccessManager *m_netManager;
-  QString m_curVersion;
-  bool m_hasRules;
-  TupdateRules m_updateRules;
+    QRadioButton *m_dailyRadio, *m_weeklyRadio, *m_monthlyRadio, *m_stableRadio, *m_allRadio;
+    QButtonGroup *m_periodGroup, *m_stableAllGroup;
+    TupdateRules *m_updateRules;
 };
 
-#endif // TUPDATECHECKER_H
+#endif // TUPDATERULESWDG_H
