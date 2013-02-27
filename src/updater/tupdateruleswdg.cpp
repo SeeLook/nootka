@@ -61,11 +61,14 @@ TupdateRulesWdg::TupdateRulesWdg(TupdateRules* updateRules, QWidget* parent) :
   m_stableAllGroup = new QButtonGroup(this);
   m_stableAllGroup->addButton(m_allRadio);
   m_stableAllGroup->addButton(m_stableRadio);
+  updatesEnableGr->setLayout(inLay);
   
   if (m_updateRules->checkForAll)
     m_allRadio->setCheckable(true);
   else
     m_stableRadio->setChecked(true);
+  
+  setLayout(mainLay);
   
 }
 

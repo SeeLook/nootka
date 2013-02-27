@@ -22,6 +22,9 @@
 
 #include <QDialog>
 
+class QPushButton;
+class TupdateRulesWdg;
+class TupdateRules;
 
 class TupdateSummary : public QDialog
 {
@@ -29,8 +32,16 @@ class TupdateSummary : public QDialog
   Q_OBJECT
   
 public:
-    TupdateSummary(QWidget *parent = 0);
+    TupdateSummary(QString version, QString changes, TupdateRules *updateRules = 0, QWidget *parent = 0);
     virtual ~TupdateSummary();
+    
+protected slots:
+    void okButtonSlot();
+    
+private:
+    TupdateRules *m_updateRules;
+    TupdateRulesWdg *m_rulesWidget;
+    QPushButton *m_okButton;
 };
 
 #endif // TUPDATESUMMARY_H
