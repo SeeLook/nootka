@@ -27,7 +27,9 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
 
-  
+  QCoreApplication::setOrganizationName("Nootka");
+  QCoreApplication::setOrganizationDomain("nootka.sf.net");
+  QCoreApplication::setApplicationName("Nootka");
 //   gl = new Tglobals();
 //   gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
 //       

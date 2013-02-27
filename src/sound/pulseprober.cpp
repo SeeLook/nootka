@@ -77,7 +77,7 @@ TpulseWarring::TpulseWarring(QWidget* parent):
     QLabel(parent)
 {
     setAlignment(Qt::AlignCenter);
-    setText("<b><span style=\"font-size: 20px; color: #ff0000;\">PulseAudio is not installed or doesn't work.<br>Only MIDI output can be available</span></b>");
+    setText("<b><span style=\"font-size: 20px; color: #ff0000;\">Qt libraries in your system depend on PulseAudio<br>but it is not installed or doesn't work.<br>Only MIDI output can be available</span></b>");
     setWordWrap(true);
 }
 
