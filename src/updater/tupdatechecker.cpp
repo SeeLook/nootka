@@ -28,9 +28,10 @@ TupdateChecker::TupdateChecker(bool hasRules, QObject* parent) :
   m_hasRules(hasRules)
 {
     getUpdateRules(m_updateRules);
+
+    m_netManager = new QNetworkAccessManager(this);
+    connect(m_netManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replySlot(QNetworkReply*)));
     if (!m_hasRules || (m_updateRules.enable && isUpdateNecessary(m_updateRules))) {
-        m_netManager = new QNetworkAccessManager(this);
-        connect(m_netManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replySlot(QNetworkReply*)));
         m_netManager->get(QNetworkRequest(QUrl("http://nootka.sourceforge.net/ch/version")));
     } else {
       qDebug("No need for update");
@@ -42,6 +43,7 @@ TupdateChecker::~TupdateChecker()
 {}
 
 void TupdateChecker::replySlot(QNetworkReply* netReply) {
+    qDebug("finished");
   QString replyString(netReply->readAll());
   netReply->abort();
   netReply->close();
@@ -50,10 +52,12 @@ void TupdateChecker::replySlot(QNetworkReply* netReply) {
   QString newVersion = replyLines.at(0);
   replyLines.removeFirst();
   QString changes = replyLines.join("");
+  qDebug() << newVersion;
+  qDebug() << changes;
   if (m_updateRules.curentVersion != newVersion) {
     if (m_updateRules.checkForAll || isNewVersionStable(newVersion)) {
-      qDebug() << newVersion;
-      qDebug() << changes;
+//      qDebug() << newVersion;
+//      qDebug() << changes;
       showUpdateSummary(newVersion, changes, &m_updateRules);
     }
   }

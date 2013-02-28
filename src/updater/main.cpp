@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     QDir d = QDir(qApp->applicationDirPath());
 #if defined(Q_OS_WIN32) // I hate mess in Win registry
     QSettings settings(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
-    p = d.path() + "/";
+    path = d.path() + "/";
 #elif defined(Q_OS_LINUX)
     d.cdUp();
     path = d.path() + "/share/nootka/";  // Linux
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 #else
     QSettings settings;
     d.cdUp();
-    p = d.path() + "/Resources/";     // MacOs
+    path = d.path() + "/Resources/";     // MacOs
 #endif
     settings.beginGroup("common");
       QString ll = settings.value("language", "").toString();
@@ -54,10 +54,11 @@ int main(int argc, char *argv[])
     nooTranslator.load("nootka_" + ll, path + "lang");
     a.installTranslator(&nooTranslator);
   
-    if (argc)
-      TupdateChecker u(true);
-    else
-      TupdateChecker u(false);
+//    if (argc > 1)
+//      TupdateChecker u(true);
+//    else
+//      TupdateChecker u(false);
+    TupdateChecker u(false);
 
     return a.exec();
 }
