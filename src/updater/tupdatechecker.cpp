@@ -32,6 +32,9 @@ TupdateChecker::TupdateChecker(bool hasRules, QObject* parent) :
         m_netManager = new QNetworkAccessManager(this);
         connect(m_netManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replySlot(QNetworkReply*)));
         m_netManager->get(QNetworkRequest(QUrl("http://nootka.sourceforge.net/ch/version")));
+    } else {
+      qDebug("No need for update");
+      exit(0);
     }
 }
 

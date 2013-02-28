@@ -21,6 +21,8 @@
 #include "tupdateruleswdg.h"
 #include <QVBoxLayout>
 #include <QLabel>
+#include <QPushButton>
+#include <QTextEdit>
 
 TupdateSummary::TupdateSummary(QString version, QString changes, TupdateRules* updateRules, QWidget* parent): 
   QDialog(parent),
@@ -30,9 +32,14 @@ TupdateSummary::TupdateSummary(QString version, QString changes, TupdateRules* u
     QLabel *lab = new QLabel(this);
     mainLay->addWidget(lab);
     if (version != "") {
-      changes.replace("\n", "<br>");
-      lab->setText(tr("New Nootka %1 is available.").arg(version) + "<br><br><b>" + tr("News:") + 
-        "</b>" + changes);
+//       changes.replace("\n", "<br>");
+      lab->setText(tr("New Nootka %1 is available.").arg(version) + "<br><br>" +
+        tr("To get it visit <a href=\"http://nootka.sourceforge.net/index.php?C=down\">Nootka site</a>."));
+      lab->setOpenExternalLinks(true);
+      QTextEdit *news = new QTextEdit(this);
+      news->setReadOnly(true);
+      mainLay->addWidget(news);
+      news->setText(tr("News:") + changes);
     } else {
       lab->setText(tr("No changes found.<br>This version is up to date."));
     }
@@ -40,14 +47,22 @@ TupdateSummary::TupdateSummary(QString version, QString changes, TupdateRules* u
       m_rulesWidget = new TupdateRulesWdg(m_updateRules, this);
       mainLay->addWidget(m_rulesWidget);
     }
+    mainLay->addSpacing(10);
+    m_okButton = new QPushButton(tr("Ok"), this);
+    mainLay->addWidget(m_okButton, 0, Qt::AlignCenter);
     
     setLayout(mainLay);
+    
+    connect(m_okButton, SIGNAL(clicked()), this, SLOT(okButtonSlot()));
 }
 
 
 
 TupdateSummary::~TupdateSummary() {}
 
-void TupdateSummary::okButtonSlot() {
 
+void TupdateSummary::okButtonSlot() {
+  if (m_rulesWidget)
+    m_rulesWidget->saveSettings();
+  accept();
 }

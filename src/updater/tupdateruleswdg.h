@@ -22,6 +22,7 @@
 
 #include <QWidget>
 
+class QGroupBox;
 struct TupdateRules;
 class QButtonGroup;
 class QRadioButton;
@@ -39,6 +40,7 @@ public:
     
     
 private:
+    QGroupBox *m_updatesEnableGr;
     QRadioButton *m_dailyRadio, *m_weeklyRadio, *m_monthlyRadio, *m_stableRadio, *m_allRadio;
     QButtonGroup *m_periodGroup, *m_stableAllGroup;
     TupdateRules *m_updateRules;
