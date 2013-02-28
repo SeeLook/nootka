@@ -32,7 +32,8 @@ TupdateChecker::TupdateChecker(bool hasRules, QObject* parent) :
     m_netManager = new QNetworkAccessManager(this);
     connect(m_netManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replySlot(QNetworkReply*)));
     if (!m_hasRules || (m_updateRules.enable && isUpdateNecessary(m_updateRules))) {
-        m_netManager->get(QNetworkRequest(QUrl("http://nootka.sourceforge.net/ch/version")));
+        QNetworkReply *rep = m_netManager->get(QNetworkRequest(QUrl("http://nootka.sourceforge.net/ch/version")));
+        connect(rep, SIGNAL(error(QNetworkReply::NetworkError)), SLOT(errorSlot(QNetworkReply::NetworkError)));
     } else {
       qDebug("No need for update");
       exit(0);
@@ -41,6 +42,11 @@ TupdateChecker::TupdateChecker(bool hasRules, QObject* parent) :
 
 TupdateChecker::~TupdateChecker()
 {}
+
+void TupdateChecker::errorSlot(QNetworkReply::NetworkError err) {
+    qDebug() << err;
+}
+
 
 void TupdateChecker::replySlot(QNetworkReply* netReply) {
     qDebug("finished");

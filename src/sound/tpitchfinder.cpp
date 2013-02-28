@@ -137,7 +137,7 @@ void TpitchFinder::emitFound() {
   }
 }
 
-float averVol = 0;
+//float averVol = 0;
 
 void TpitchFinder::run() {
 	m_isBussy = true;
@@ -157,12 +157,12 @@ void TpitchFinder::run() {
               if (data->noteIndex != m_prevNoteIndex) {
                   m_prevNoteIndex = data->noteIndex;
 //                  qDebug() << data->noteIndex << data->pitch << curNote->noteLength();
-                  qDebug() << data->noteIndex << data->pitch << curNote->volume() << "aver:" << averVol;
+//                  qDebug() << data->noteIndex << data->pitch << curNote->volume() << "aver:" << averVol;
                   emit found(data->pitch, data->fundamentalFreq);
-                  if (averVol)
-                      averVol = (averVol + curNote->volume()) / 2;
-                  else
-                      averVol = curNote->volume();
+//                  if (averVol)
+//                      averVol = (averVol + curNote->volume()) / 2;
+//                  else
+//                      averVol = curNote->volume();
               }
           }
    /*       if (curNote->noteLength() > MIN_SND_TIME) {
@@ -224,7 +224,7 @@ void TpitchFinder::run() {
           m_prevNoteIndex = -1;
         }
       }
-    } 
+    }
   
 	incrementChunk();
 	m_isBussy = false;

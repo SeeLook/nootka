@@ -46,7 +46,7 @@ void saveUpdateRules(TupdateRules& updateRules) {
 #else
     QSettings settings;
 #endif
-    updateRules.recentDate = QDate::currentDate();
+//    updateRules.recentDate = QDate::currentDate();
     settings.beginGroup("Updates");
       settings.setValue("enableUpdates", updateRules.enable);
       settings.setValue("recentDate", updateRules.recentDate);
