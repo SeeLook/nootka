@@ -21,6 +21,7 @@
 #define TUPDATECHECKER_H
 
 #include <QtCore/QObject>
+#include <QNetworkReply>
 #include "updatefunctions.h"
 
 class QNetworkReply;
@@ -40,6 +41,7 @@ public:
   
 protected slots:
   void replySlot(QNetworkReply* netReply);
+  void errorSlot(QNetworkReply::NetworkError err);
   
 private:
   QNetworkAccessManager *m_netManager;
