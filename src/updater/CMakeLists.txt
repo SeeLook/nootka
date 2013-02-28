@@ -57,7 +57,7 @@ endif(UNIX AND NOT APPLE)
 
 if(APPLE)
 #     set (MACOSX_BUNDLE_INFO_PLIST "${CMAKE_SOURCE_DIR}/packaging/mac/info.plist")
-#    set (ExeName nootka MACOSX_BUNDLE)
+#    set (ExeUpName nootka-updater MACOSX_BUNDLE)
 #    set (MACOSX_BUNDLE_INFO_STRING Nootka release for Mac OSX)
 #    set (MACOSX_BUNDLE_ICON_FILE      "nootka.icns")
 #    set (MACOSX_BUNDLE_GUI_IDENTIFIER net.sourceforge.nootka)
@@ -66,7 +66,7 @@ if(APPLE)
 #    set (MACOSX_BUNDLE_SHORT_VERSION_STRING ${Nootka_VERSION_FULL})
 #    set (MACOSX_BUNDLE_BUNDLE_VERSION ${Nootka_VERSION_FULL})
 #    set (MACOSX_BUNDLE_COPYRIGHT nootka.sf.net)
-    ADD_EXECUTABLE(  nootka-updater # ${ExeName}
+    ADD_EXECUTABLE( nootka-updater # ${ExeUpName} # nootka-updater # ${ExeName}
         ${UPDATER_SRCS}
         ${UPDATER_MOCS}
     )
