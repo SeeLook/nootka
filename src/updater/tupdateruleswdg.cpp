@@ -26,10 +26,10 @@ TupdateRulesWdg::TupdateRulesWdg(TupdateRules* updateRules, QWidget* parent) :
   m_updateRules(updateRules)
 {  
   QHBoxLayout *mainLay = new QHBoxLayout;
-  QGroupBox *updatesEnableGr = new QGroupBox(tr("check for Nootka updates"), this);
-  updatesEnableGr->setCheckable(true);
-  updatesEnableGr->setChecked(m_updateRules->enable);
-  mainLay->addWidget(updatesEnableGr);
+  m_updatesEnableGr = new QGroupBox(tr("check for Nootka updates"), this);
+  m_updatesEnableGr->setCheckable(true);
+  m_updatesEnableGr->setChecked(m_updateRules->enable);
+  mainLay->addWidget(m_updatesEnableGr);
  
   QHBoxLayout *inLay = new QHBoxLayout;
   QVBoxLayout *periodLay = new QVBoxLayout;
@@ -52,19 +52,21 @@ TupdateRulesWdg::TupdateRulesWdg(TupdateRules* updateRules, QWidget* parent) :
   else
     m_monthlyRadio->setChecked(true);
   
+  inLay->addSpacing(15);
   QVBoxLayout *stableLay = new QVBoxLayout;
   m_allRadio = new QRadioButton(tr("all new versions"), this);
   stableLay->addWidget(m_allRadio);
   m_stableRadio = new QRadioButton(tr("stable versions only"), this);
   stableLay->addWidget(m_stableRadio);
+  stableLay->addStretch();
   inLay->addLayout(stableLay);
   m_stableAllGroup = new QButtonGroup(this);
   m_stableAllGroup->addButton(m_allRadio);
   m_stableAllGroup->addButton(m_stableRadio);
-  updatesEnableGr->setLayout(inLay);
+  m_updatesEnableGr->setLayout(inLay);
   
   if (m_updateRules->checkForAll)
-    m_allRadio->setCheckable(true);
+    m_allRadio->setChecked(true);
   else
     m_stableRadio->setChecked(true);
   
@@ -75,6 +77,16 @@ TupdateRulesWdg::TupdateRulesWdg(TupdateRules* updateRules, QWidget* parent) :
 TupdateRulesWdg::~TupdateRulesWdg() {}
 
 void TupdateRulesWdg::saveSettings() {
+  m_updateRules->enable = m_updatesEnableGr->isChecked();
+  
+  if (m_dailyRadio->isChecked())
+    m_updateRules->period = e_daily;
+  else if (m_weeklyRadio->isChecked())
+    m_updateRules->period = e_weekly;
+  else
+    m_updateRules->period = e_monthly;
+  
+  m_updateRules->checkForAll = m_allRadio->isChecked();  
   saveUpdateRules(*m_updateRules);
 }
 

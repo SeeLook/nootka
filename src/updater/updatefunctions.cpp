@@ -20,6 +20,7 @@
 #include <QSettings>
 #include "updatefunctions.h"
 #include "tupdatesummary.h"
+#include <QDebug>
 
 
 void getUpdateRules(TupdateRules& updateRules) {
@@ -45,6 +46,7 @@ void saveUpdateRules(TupdateRules& updateRules) {
 #else
     QSettings settings;
 #endif
+    updateRules.recentDate = QDate::currentDate();
     settings.beginGroup("Updates");
       settings.setValue("enableUpdates", updateRules.enable);
       settings.setValue("recentDate", updateRules.recentDate);
@@ -56,6 +58,7 @@ void saveUpdateRules(TupdateRules& updateRules) {
 
 bool isUpdateNecessary(TupdateRules& updateRules) {
   int passedDays = updateRules.recentDate.daysTo(QDate::currentDate());
+  qDebug() << passedDays;
   bool necessariness = false;
   if (passedDays) {
     switch(updateRules.period) {

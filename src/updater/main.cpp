@@ -25,33 +25,39 @@
 
 int main(int argc, char *argv[])
 {
-  QApplication a(argc, argv);
+    QApplication a(argc, argv);
 
-  QCoreApplication::setOrganizationName("Nootka");
-  QCoreApplication::setOrganizationDomain("nootka.sf.net");
-  QCoreApplication::setApplicationName("Nootka");
-//   gl = new Tglobals();
-//   gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
-//       
-//   QString ll = gl->lang;
-//   if (ll == "")
-//       ll = QLocale::system().name();
-//     QTranslator qtTranslator;
-// #if defined(Q_OS_LINUX)
-//     qtTranslator.load("qt_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-// #else
-//     qtTranslator.load("qt_" + ll, gl->path + "lang");
-// #endif
-//     a.installTranslator(&qtTranslator);
+    QCoreApplication::setOrganizationName("Nootka");
+    QCoreApplication::setOrganizationDomain("nootka.sf.net");
+    QCoreApplication::setApplicationName("Nootka");
+  
+    QString path;
+    QDir d = QDir(qApp->applicationDirPath());
+#if defined(Q_OS_WIN32) // I hate mess in Win registry
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
+    p = d.path() + "/";
+#elif defined(Q_OS_LINUX)
+    d.cdUp();
+    path = d.path() + "/share/nootka/";  // Linux
+    QSettings settings;
+#else
+    QSettings settings;
+    d.cdUp();
+    p = d.path() + "/Resources/";     // MacOs
+#endif
+    settings.beginGroup("common");
+      QString ll = settings.value("language", "").toString();
+    settings.endGroup();
+    if (ll == "") ll = QLocale::system().name();
 
-//     QTranslator nooTranslator;
-//     nooTranslator.load("nootka_" + ll, gl->path + "lang");
-//     a.installTranslator(&nooTranslator);
-//   
-    TupdateChecker u;
+    QTranslator nooTranslator;
+    nooTranslator.load("nootka_" + ll, path + "lang");
+    a.installTranslator(&nooTranslator);
+  
+    if (argc)
+      TupdateChecker u(true);
+    else
+      TupdateChecker u(false);
 
-//     w.show();
-//     if (argc > 1)
-//         w.openFile(QString::fromLocal8Bit(argv[argc-1]));
     return a.exec();
 }
