@@ -62,7 +62,7 @@ TupdateSummary::~TupdateSummary() {}
 
 
 void TupdateSummary::okButtonSlot() {
-  if (m_rulesWidget)
+  if (m_updateRules)
     m_rulesWidget->saveSettings();
   accept();
 }

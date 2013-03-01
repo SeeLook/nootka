@@ -24,7 +24,6 @@
 #include <QNetworkReply>
 #include "updatefunctions.h"
 
-class QNetworkReply;
 class QNetworkAccessManager;
 
 
@@ -36,6 +35,8 @@ public:
   TupdateChecker(bool hasRules = true, QObject *parent = 0);
   virtual ~TupdateChecker();
   
+  void check(bool checkRules = true);
+  
   static QString getVersion();
   static void showUpdateDialog(QString version, QString changes);
   
@@ -45,6 +46,7 @@ protected slots:
   
 private:
   QNetworkAccessManager *m_netManager;
+  QNetworkReply *m_reply;
   QString m_curVersion;
   bool m_hasRules;
   TupdateRules m_updateRules;

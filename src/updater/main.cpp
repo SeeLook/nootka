@@ -54,11 +54,12 @@ int main(int argc, char *argv[])
     nooTranslator.load("nootka_" + ll, path + "lang");
     a.installTranslator(&nooTranslator);
   
-//    if (argc > 1)
-//      TupdateChecker u(true);
-//    else
-//      TupdateChecker u(false);
-    TupdateChecker u(false);
+    TupdateChecker u;
+   if (argc > 1)
+     u.check(true);
+   else
+     u.check(false);
+    
 
     return a.exec();
 }
