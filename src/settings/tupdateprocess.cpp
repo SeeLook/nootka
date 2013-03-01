@@ -17,18 +17,43 @@
  ***************************************************************************/
 
 
-#ifndef TUPDATEPROCESS_H
-#define TUPDATEPROCESS_H
+#include "tupdateprocess.h"
+#include <QProcess>
+#include <QFileInfo>
+#include <QApplication>
+#include <QDebug>
+#include <QDir>
 
-#include <QObject>
+TupdateProcess::TupdateProcess(bool respectRules, QObject* parent) : 
+  QObject(parent),
+  m_respectRules(respectRules)
+{
+  m_process = new QProcess(this);
+  m_exec = qApp->applicationDirPath() + "/" + "nootka-updater";
+  QFileInfo fi(m_exec);
+  if (fi.exists()) {
+    m_isPossible = true;
+  } else
+    m_isPossible = false;
+}
 
 
-class TupdateProcess : public QObject
+
+TupdateProcess::~TupdateProcess()
+{
+  delete m_process;
+}
+
+void TupdateProcess::start() {
+  if (m_isPossible) {
+    QStringList args;
+    if (m_respectRules)
+      args << "1";
+    m_process->start(m_exec, args);
+  }
+}
+
+void TupdateProcess::timeOut()
 {
 
-public:
-    TupdateProcess();
-    virtual ~TupdateProcess();
-};
-
-#endif // TUPDATEPROCESS_H
+}

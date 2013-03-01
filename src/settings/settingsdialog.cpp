@@ -21,13 +21,13 @@
 #include "tnoteview.h"
 #include "examsettings.h"
 #include "tcolorbutton.h"
+#include "tupdateprocess.h"
 #if defined (Q_OS_LINUX)
   #include "pulseprober.h"
 #endif
 #include <QtGui>
 #include <audioinsettings.h>
 #include <audiooutsettings.h>
-
 
 
 extern Tglobals *gl;
@@ -218,7 +218,17 @@ GlobalSettings::GlobalSettings(QWidget *parent) :
 	langCombo->insertSeparator(1);
 	lay->addLayout(langLay);
 	lay->addStretch(1);
-    setLayout(lay);
+  
+  QGroupBox *updateBox = new QGroupBox(this);
+  QVBoxLayout *upLay = new QVBoxLayout;
+  updateButton = new QPushButton(tr("Check for updates"), this);
+  upLay->addWidget(updateButton);
+  updateBox->setLayout(upLay);
+  lay->addWidget(updateBox);
+  lay->addStretch(1);
+  connect(updateButton, SIGNAL(clicked()), this, SLOT(updateSlot()));
+  
+  setLayout(lay);
 }
 
 void GlobalSettings::saveSettings() {
@@ -234,6 +244,14 @@ void GlobalSettings::saveSettings() {
 			break;
 		}
 	}
+}
+
+void GlobalSettings::updateSlot() {
+  TupdateProcess *proces = new TupdateProcess(false, this);
+  if (proces->isPossible()) {
+    updateButton->setDisabled(true);
+    proces->start();
+  }
 }
 
 

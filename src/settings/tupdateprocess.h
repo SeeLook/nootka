@@ -17,15 +17,36 @@
  ***************************************************************************/
 
 
-#include "tupdateprocess.h"
+#ifndef TUPDATEPROCESS_H
+#define TUPDATEPROCESS_H
 
-TupdateProcess::TupdateProcess()
+#include <QObject>
+
+class QTimer;
+class QProcess;
+
+class TupdateProcess : public QObject
 {
+  
+  Q_OBJECT
+  
+public:
+    TupdateProcess(bool respectRules, QObject *parent = 0);
+    virtual ~TupdateProcess();
+    
+    void start();
+    bool isPossible() { return m_isPossible; }
+    
+    
+protected slots:
+  void timeOut();
+  
+private:
+  bool m_respectRules, m_isPossible;
+  QProcess *m_process;
+  QTimer *m_timer;
+  QString m_exec;
+  
+};
 
-}
-
-TupdateProcess::~TupdateProcess()
-{
-
-}
-
+#endif // TUPDATEPROCESS_H

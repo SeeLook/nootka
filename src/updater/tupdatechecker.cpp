@@ -23,28 +23,21 @@
 #include <QNetworkReply>
 #include <QDebug>
 
-TupdateChecker::TupdateChecker(bool hasRules, QObject* parent) :
+TupdateChecker::TupdateChecker(QObject* parent) :
   QObject(),
-  m_hasRules(hasRules),
+  m_respectRules(false),
   m_reply(0)
 {
     getUpdateRules(m_updateRules);
 
     m_netManager = new QNetworkAccessManager(this);
     connect(m_netManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replySlot(QNetworkReply*)));
-//     if (!m_hasRules || (m_updateRules.enable && isUpdateNecessary(m_updateRules))) {
-//         QNetworkReply *rep = m_netManager->get(QNetworkRequest(QUrl("http://nootka.sourceforge.net/ch/version")));
-//         connect(rep, SIGNAL(error(QNetworkReply::NetworkError)), SLOT(errorSlot(QNetworkReply::NetworkError)));
-//     } else {
-//       qDebug("No need for update");
-//       exit(0);
-//     }
 }
 
 
 void TupdateChecker::check(bool checkRules){ 
-  m_hasRules = checkRules;
-  if (!m_hasRules || (m_updateRules.enable && isUpdateNecessary(m_updateRules))) {
+  m_respectRules = checkRules;
+  if (!m_respectRules || (m_updateRules.enable && isUpdateNecessary(m_updateRules))) {
         m_reply = m_netManager->get(QNetworkRequest(QUrl("http://nootka.sourceforge.net/ch/version")));
         connect(m_reply, SIGNAL(error(QNetworkReply::NetworkError)), SLOT(errorSlot(QNetworkReply::NetworkError)));
   } else {
@@ -65,26 +58,34 @@ void TupdateChecker::errorSlot(QNetworkReply::NetworkError err) {
 
 
 void TupdateChecker::replySlot(QNetworkReply* netReply) {
-    qDebug("finished");
   QString replyString(netReply->readAll());
   netReply->abort();
   netReply->close();
   netReply->deleteLater();
   QStringList replyLines = replyString.split(";", QString::SkipEmptyParts);
   QString newVersion = replyLines.at(0);
-  replyLines.removeFirst();
-  QString changes = replyLines.join("");
-  qDebug() << newVersion;
-  qDebug() << changes;
-  if (m_updateRules.curentVersion != newVersion) {
-    if (m_hasRules) {
-      if (m_updateRules.checkForAll || isNewVersionStable(newVersion)) {
-        showUpdateSummary(newVersion, changes, &m_updateRules);
-      }
-    } else
-      showUpdateSummary(newVersion, changes);
-  } else 
-      showUpdateSummary("", "");
+  bool success = true;
+  if (newVersion.contains("Nootka:"))
+    newVersion.replace("Nootka:", "");
+  else 
+    success = false;
+  if (success) {
+      replyLines.removeFirst();
+      QString changes = replyLines.join("");
+      qDebug() << newVersion;
+      qDebug() << changes;
+      if (m_updateRules.curentVersion != newVersion) {
+        if (m_respectRules) {
+          if (m_updateRules.checkForAll || isNewVersionStable(newVersion)) {
+            showUpdateSummary(newVersion, changes, &m_updateRules);
+          }
+        } else
+          showUpdateSummary(newVersion, changes, &m_updateRules);
+      } else if (!m_respectRules)
+          showUpdateSummary("", "", &m_updateRules);
+//       m_updateRules.recentDate = QDate::currentDate();
+      saveUpdateRules(m_updateRules);
+  }
   exit(0);
 }
 
