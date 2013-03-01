@@ -34,7 +34,7 @@ TupdateSummary::TupdateSummary(QString version, QString changes, TupdateRules* u
     if (version != "") {
 //       changes.replace("\n", "<br>");
       lab->setText(tr("New Nootka %1 is available.").arg(version) + "<br><br>" +
-        tr("To get it visit <a href=\"http://nootka.sourceforge.net/index.php?C=down\">Nootka site</a>."));
+        tr("To get it, visit <a href=\"http://nootka.sourceforge.net/index.php?C=down\">Nootka site</a>."));
       lab->setOpenExternalLinks(true);
       QTextEdit *news = new QTextEdit(this);
       news->setReadOnly(true);

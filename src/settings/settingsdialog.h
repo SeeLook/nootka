@@ -43,10 +43,14 @@ public:
 
     void saveSettings();
 private:
-    QCheckBox *otherEnharmChBox, *dblAccChBox, *hintsEnabledChBox;
+  QCheckBox *otherEnharmChBox, *dblAccChBox, *hintsEnabledChBox;
 	TcolorButton *enharmColorBut;
 	QComboBox *langCombo;
 	QMap<QString, QString> langList;
+  QPushButton *updateButton;
+  
+private slots:
+  void updateSlot();
 };
 
 

@@ -32,7 +32,7 @@ class TupdateChecker : public QObject
   Q_OBJECT
   
 public:
-  TupdateChecker(bool hasRules = true, QObject *parent = 0);
+  TupdateChecker(QObject *parent = 0);
   virtual ~TupdateChecker();
   
   void check(bool checkRules = true);
@@ -48,7 +48,7 @@ private:
   QNetworkAccessManager *m_netManager;
   QNetworkReply *m_reply;
   QString m_curVersion;
-  bool m_hasRules;
+  bool m_respectRules;
   TupdateRules m_updateRules;
 };
 
