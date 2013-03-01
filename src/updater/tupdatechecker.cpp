@@ -25,26 +25,42 @@
 
 TupdateChecker::TupdateChecker(bool hasRules, QObject* parent) :
   QObject(),
-  m_hasRules(hasRules)
+  m_hasRules(hasRules),
+  m_reply(0)
 {
     getUpdateRules(m_updateRules);
 
     m_netManager = new QNetworkAccessManager(this);
     connect(m_netManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replySlot(QNetworkReply*)));
-    if (!m_hasRules || (m_updateRules.enable && isUpdateNecessary(m_updateRules))) {
-        QNetworkReply *rep = m_netManager->get(QNetworkRequest(QUrl("http://nootka.sourceforge.net/ch/version")));
-        connect(rep, SIGNAL(error(QNetworkReply::NetworkError)), SLOT(errorSlot(QNetworkReply::NetworkError)));
-    } else {
-      qDebug("No need for update");
-      exit(0);
-    }
+//     if (!m_hasRules || (m_updateRules.enable && isUpdateNecessary(m_updateRules))) {
+//         QNetworkReply *rep = m_netManager->get(QNetworkRequest(QUrl("http://nootka.sourceforge.net/ch/version")));
+//         connect(rep, SIGNAL(error(QNetworkReply::NetworkError)), SLOT(errorSlot(QNetworkReply::NetworkError)));
+//     } else {
+//       qDebug("No need for update");
+//       exit(0);
+//     }
 }
 
+
+void TupdateChecker::check(bool checkRules){ 
+  m_hasRules = checkRules;
+  if (!m_hasRules || (m_updateRules.enable && isUpdateNecessary(m_updateRules))) {
+        m_reply = m_netManager->get(QNetworkRequest(QUrl("http://nootka.sourceforge.net/ch/version")));
+        connect(m_reply, SIGNAL(error(QNetworkReply::NetworkError)), SLOT(errorSlot(QNetworkReply::NetworkError)));
+  } else {
+    qDebug("No need for update");
+    exit(0);
+  }
+}
+
+
 TupdateChecker::~TupdateChecker()
-{}
+{
+  delete m_reply;  
+}
 
 void TupdateChecker::errorSlot(QNetworkReply::NetworkError err) {
-    qDebug() << err;
+    qDebug() << "Error:" << err;
 }
 
 
@@ -61,12 +77,14 @@ void TupdateChecker::replySlot(QNetworkReply* netReply) {
   qDebug() << newVersion;
   qDebug() << changes;
   if (m_updateRules.curentVersion != newVersion) {
-    if (m_updateRules.checkForAll || isNewVersionStable(newVersion)) {
-//      qDebug() << newVersion;
-//      qDebug() << changes;
-      showUpdateSummary(newVersion, changes, &m_updateRules);
-    }
-  }
+    if (m_hasRules) {
+      if (m_updateRules.checkForAll || isNewVersionStable(newVersion)) {
+        showUpdateSummary(newVersion, changes, &m_updateRules);
+      }
+    } else
+      showUpdateSummary(newVersion, changes);
+  } else 
+      showUpdateSummary("", "");
   exit(0);
 }
 
