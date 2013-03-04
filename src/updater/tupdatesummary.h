@@ -26,6 +26,12 @@ class QPushButton;
 class TupdateRulesWdg;
 class TupdateRules;
 
+
+
+/** Displays dialog with summary of nootka-updater. 
+ * If @param version is emty - displays no updates found.
+ * When TupdateRules is given - it shows config widget inside. 
+ */
 class TupdateSummary : public QDialog
 {
 

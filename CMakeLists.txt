@@ -69,10 +69,12 @@ else(QTMULTIMEDIA_LIBRARIES AND QTMULTIMEDIA_INCLUDE_DIRS AND QTMOBILITY_INCLUDE
           qaudio.h
         PATHS
           /usr/include
+          /usr/include/qt4
           /usr/local/include
           /opt/local/include
           /sw/include
           /usr/include/QtMultimedia
+          /usr/include/qt4/QtMultimedia
           /usr/include/QtMultimediaKit
           /usr/include/QtMobility
     )
@@ -134,7 +136,7 @@ else(QTMULTIMEDIA_LIBRARIES AND QTMULTIMEDIA_INCLUDE_DIRS AND QTMOBILITY_INCLUDE
       message(STATUS "QtMultimedia was Found in:\n${QTMULTIMEDIA_LIBRARIES}\n${QTMULTIMEDIA_INCLUDE_DIRS}\n${QTMOBILITY_INCLUDE_DIRS} ")
   else(QTMULTIMEDIA_FOUND)
       message(FATAL_ERROR 
-        "Could not find QtMultimedia\nTry call cmake with args:\n-DQTMULTIMEDIA_LIBRARIES=/path_to/libQtMultimedia(Kit).la(dll) -DQTMULTIMEDIA_INCLUDE_DIRS=/path_to_dir_with/qaudio.h -DQTMOBILITY_INCLUDE_DIRS=/path_to_dir_with/qmobilityglobal.h")
+        "Could not find QtMultimedia\nTry call cmake with args:\n-DQTMULTIMEDIA_LIBRARIES=/path_to/libQtMultimedia(Kit).la(dll) -DQTMULTIMEDIA_INCLUDE_DIR=/path_to_dir_with/qaudio.h -DQTMOBILITY_INCLUDE_DIR=/path_to_dir_with/qmobilityglobal.h")
   endif(QTMULTIMEDIA_FOUND)
 
 endif(QTMULTIMEDIA_LIBRARIES AND QTMULTIMEDIA_INCLUDE_DIRS AND QTMOBILITY_INCLUDE_DIRS)

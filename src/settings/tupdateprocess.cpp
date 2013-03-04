@@ -23,6 +23,7 @@
 #include <QApplication>
 #include <QDebug>
 #include <QDir>
+#include <QTimer>
 
 TupdateProcess::TupdateProcess(bool respectRules, QObject* parent) : 
   QObject(parent),
@@ -35,6 +36,8 @@ TupdateProcess::TupdateProcess(bool respectRules, QObject* parent) :
     m_isPossible = true;
   } else
     m_isPossible = false;
+  connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(processSays()));
+//   connect(m_process, SIGNAL(readChannelFinished()), this, SLOT(processSays()));
 }
 
 
@@ -46,6 +49,9 @@ TupdateProcess::~TupdateProcess()
 
 void TupdateProcess::start() {
   if (m_isPossible) {
+    m_timer = new QTimer(this);
+    m_timer->start(7000); // 7 sec for check updates
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(processTimeOut()));
     QStringList args;
     if (m_respectRules)
       args << "1";
@@ -53,7 +59,28 @@ void TupdateProcess::start() {
   }
 }
 
-void TupdateProcess::timeOut()
-{
 
+void TupdateProcess::processSays() {
+  QString out = QString(m_process->readAllStandardOutput());
+  if (out != "") {
+    if (out == "success\n")
+      m_timer->stop();
+    else {
+      qDebug() << "processSays: " << out;
+      emit updateOutput(QString(out));
+    }
+  }
+}
+
+
+
+void TupdateProcess::processTimeOut() {
+//   if (m_process->state() == QProcess::NotRunning)
+//     return;
+//   else {
+    m_timer->stop();
+    qDebug() << "processSays: time expired";
+    emit updateOutput("time expired");
+    m_process->kill();
+//   }
 }

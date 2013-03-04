@@ -48,9 +48,11 @@ private:
 	QComboBox *langCombo;
 	QMap<QString, QString> langList;
   QPushButton *updateButton;
+  QLabel* updateLabel;
   
 private slots:
   void updateSlot();
+  void processOutputSlot(QString output);
 };
 
 

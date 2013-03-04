@@ -26,6 +26,7 @@
 #include "tsupportnootka.h"
 #include "tnootkalabel.h"
 #include "examsettings.h"
+#include <tupdateprocess.h>
 #include "tsound.h"
 #include "tpushbutton.h"
 #include "tscorewidget.h"
@@ -80,6 +81,14 @@ MainWindow::MainWindow(QWidget *parent)
         setGeometry(gl->config->value("geometry", QRect(50, 50, 800, 600)).toRect());
         if (gl->config->value("version", "").toString() != gl->version)
           QTimer::singleShot(200, this, SLOT(showSupportDialog()));
+        else { // check for updates
+          gl->config->endGroup();
+          gl->config->beginGroup("Updates");
+          if (gl->config->value("enableUpdates", true).toBool()) {
+              TupdateProcess *process = new TupdateProcess(true, this);
+              process->start();
+          }
+        }
         gl->config->endGroup();
     }
     TkeySignature::setNameStyle(gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);

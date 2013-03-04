@@ -32,6 +32,7 @@ TupdateRulesWdg::TupdateRulesWdg(TupdateRules* updateRules, QWidget* parent) :
   mainLay->addWidget(m_updatesEnableGr);
  
   QHBoxLayout *inLay = new QHBoxLayout;
+  inLay->addStretch();
   QVBoxLayout *periodLay = new QVBoxLayout;
   m_dailyRadio = new QRadioButton(tr("daily"), this);
   periodLay->addWidget(m_dailyRadio);
@@ -52,7 +53,7 @@ TupdateRulesWdg::TupdateRulesWdg(TupdateRules* updateRules, QWidget* parent) :
   else
     m_monthlyRadio->setChecked(true);
   
-  inLay->addSpacing(15);
+  inLay->addStretch();
   QVBoxLayout *stableLay = new QVBoxLayout;
   m_allRadio = new QRadioButton(tr("all new versions"), this);
   stableLay->addWidget(m_allRadio);
@@ -63,6 +64,7 @@ TupdateRulesWdg::TupdateRulesWdg(TupdateRules* updateRules, QWidget* parent) :
   m_stableAllGroup = new QButtonGroup(this);
   m_stableAllGroup->addButton(m_allRadio);
   m_stableAllGroup->addButton(m_stableRadio);
+  inLay->addStretch();
   m_updatesEnableGr->setLayout(inLay);
   
   if (m_updateRules->checkForAll)
