@@ -47,7 +47,7 @@ void TupdateChecker::check(bool checkRules){
 #elif defined(Q_OS_LINUX)
         request.setRawHeader("User-Agent", "Mozilla/5.0 (X11; U; Linux i686 (x86_64); ");
 #else
-        request.setRawHeader("User-Agent", "");
+        request.setRawHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/534.57.2 (KHTML, like Gecko) ");
 #endif
         m_reply = m_netManager->get(request);
         connect(m_reply, SIGNAL(error(QNetworkReply::NetworkError)), SLOT(errorSlot(QNetworkReply::NetworkError)));

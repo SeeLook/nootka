@@ -142,9 +142,9 @@ void TpitchFinder::emitFound() {
 void TpitchFinder::run() {
 	m_isBussy = true;
 	FilterState filterState;
-	m_channel->processNewChunk(&filterState);
+    m_channel->processNewChunk(&filterState);
 	AnalysisData *data = m_channel->dataAtCurrentChunk();
-	if (data) {
+    if (data) {
       if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)) {
           NoteData *curNote = m_channel->getCurrentNote();
           if (m_isVoice) {
