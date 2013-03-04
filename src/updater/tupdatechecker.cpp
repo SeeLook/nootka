@@ -83,7 +83,7 @@ void TupdateChecker::replySlot(QNetworkReply* netReply) {
       else 
         m_success = false;
       if (m_success) {
-          if (!m_respectRules)
+//           if (!m_respectRules)
             std::cout << "success" << std::endl;
           replyLines.removeFirst();
           QString changes = replyLines.join("");
