@@ -19,9 +19,6 @@
 #include <QtGui>
 #include "tupdatechecker.h"
 
-// #include "tglobals.h"
-// 
-// Tglobals *gl;
 
 int main(int argc, char *argv[])
 {

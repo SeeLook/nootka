@@ -28,20 +28,23 @@ TupdateSummary::TupdateSummary(QString version, QString changes, TupdateRules* u
   QDialog(parent),
   m_updateRules(updateRules)
 {
+//     resize(450, 600);
     QVBoxLayout *mainLay = new QVBoxLayout;
     QLabel *lab = new QLabel(this);
     mainLay->addWidget(lab);
+    lab->setAlignment(Qt::AlignCenter);
     if (version != "") {
 //       changes.replace("\n", "<br>");
-      lab->setText(tr("New Nootka %1 is available.").arg(version) + "<br><br>" +
-        tr("To get it, visit <a href=\"http://nootka.sourceforge.net/index.php?C=down\">Nootka site</a>."));
+      lab->setText("<br><p style=\"font-size: 20px;\">" +
+        tr("New Nootka %1 is available.").arg(version) + "<br>" +
+        tr("To get it, visit <a href=\"http://nootka.sourceforge.net/index.php?C=down\">Nootka site</a>.") + "</p><br>");
       lab->setOpenExternalLinks(true);
       QTextEdit *news = new QTextEdit(this);
       news->setReadOnly(true);
       mainLay->addWidget(news);
       news->setText(tr("News:") + changes);
     } else {
-      lab->setText(tr("No changes found.<br>This version is up to date."));
+      lab->setText("<br><p style=\"font-size: 20px;\">" + tr("No changes found.<br>This version is up to date.") + "</p><br>");
     }
     if (m_updateRules) {
       m_rulesWidget = new TupdateRulesWdg(m_updateRules, this);

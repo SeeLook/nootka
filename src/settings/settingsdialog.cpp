@@ -223,6 +223,8 @@ GlobalSettings::GlobalSettings(QWidget *parent) :
   QVBoxLayout *upLay = new QVBoxLayout;
   updateButton = new QPushButton(tr("Check for updates"), this);
   upLay->addWidget(updateButton);
+  updateLabel = new QLabel(" ", this);
+  upLay->addWidget(updateLabel);
   updateBox->setLayout(upLay);
   lay->addWidget(updateBox);
   lay->addStretch(1);
@@ -247,11 +249,17 @@ void GlobalSettings::saveSettings() {
 }
 
 void GlobalSettings::updateSlot() {
-  TupdateProcess *proces = new TupdateProcess(false, this);
-  if (proces->isPossible()) {
+  TupdateProcess *process = new TupdateProcess(false, this);
+  if (process->isPossible()) {
     updateButton->setDisabled(true);
-    proces->start();
+    connect(process, SIGNAL(updateOutput(QString)), this, SLOT(processOutputSlot(QString)));
+    process->start();
   }
+}
+
+
+void GlobalSettings::processOutputSlot(QString output) {
+    updateLabel->setText(output);
 }
 
 
