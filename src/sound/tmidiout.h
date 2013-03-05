@@ -29,7 +29,9 @@ class RtMidiOut;
 class TaudioParams;
 class QTimer;
 
-
+/**
+ * Midi is played by RtMidi class.
+ */
 class TmidiOut : public QObject
 {
   
