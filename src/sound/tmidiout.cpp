@@ -51,21 +51,17 @@ TmidiOut::TmidiOut(TaudioParams* params, QObject* parent) :
   m_prevMidiNote(0),
   m_doEmit(false)
 {
-  m_timer = new QTimer(this);
-//   m_timer->disconnect();
-//   if (params->midiEnabled) {
-//     if (!m_midiOut) { // prepare midi
+  m_timer = new QTimer();
     setMidiParams();
     if (m_playable)
         connect(m_timer, SIGNAL(timeout()), this, SLOT(midiNoteOff()));
-//     }    
-//   }
 }
 
 
 TmidiOut::~TmidiOut()
 {
   deleteMidi();
+  delete m_timer;
 }
 
 
@@ -123,7 +119,6 @@ void TmidiOut::setMidiParams() {
       m_message[1] = 7;
       m_message[2] = 100; // volume 100;
       m_midiOut->sendMessage(&m_message);
-      
   } else
       m_playable = false;
 }
@@ -175,11 +170,9 @@ bool TmidiOut::play(int noteNr) {
       m_message[2] = msb;
       m_midiOut->sendMessage(&m_message);
   }
-//   if (m_timer->isActive())
-//       m_timer->stop();
-//   connect(m_timer, SIGNAL(timeout()), this, SLOT(midiNoteOff()));
+  if (m_timer->isActive())
+      m_timer->stop();
   m_timer->start(1500);
-//   m_timer->singleShot(1500, this, SLOT(midiNoteOff()));
   return true;   
 }
 
@@ -197,7 +190,7 @@ void TmidiOut::stop() {
 //---------------------------------------------------------------------------------------
 
 void TmidiOut::midiNoteOff() {
-  qDebug("midiNoteOff");
+//   qDebug("midiNoteOff");
   m_timer->stop();
   m_message[0] = 128; // note Off
   m_message[1] = m_prevMidiNote;

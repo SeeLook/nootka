@@ -36,8 +36,6 @@ class QTimer;
  * Trick is that data is mono 22050 but output is stereo 44100. 
  * All this magicis in timeForAudio() because some of audio devices supports only 44100/16/2 format.
  * So far playing is bounded to range C in Contra octave to e in 3-line.
- * 
- * Midi is played by RtMidi class.
 */
 class TaudioOUT: public QObject
 {
