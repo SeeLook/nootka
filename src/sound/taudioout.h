@@ -20,16 +20,12 @@
 #ifndef TAUDIOOUT_H
 #define TAUDIOOUT_H
 
-
-#include <vector>
 #include <QString>
 #include <QObject>
 #include <QAudioFormat>
 #include <QAudioDeviceInfo>
 #include <QAudioOutput>
 
-class QThread;
-class RtMidiOut;
 class TaudioParams;
 class QTimer;
 
@@ -53,7 +49,7 @@ public:
     ~TaudioOUT();
 
   static QStringList getAudioDevicesList();
-  static QStringList getMidiPortsList();
+//   static QStringList getMidiPortsList();
       /** Template audio format is 
       * 2 chanells (stereo) 
       * 44100 samples per second
@@ -66,15 +62,8 @@ public:
   void setAudioOutParams(TaudioParams *params);
       /** It sets audio device to value taken from */
   bool setAudioDevice(QString &name);
-    /** Sets midi parameters:
-    * @param portName, if empty system prefered is set (Timidity under Linux) 
-    * @param instrNr for instrument number in midi nomenclature. */
-  void setMidiParams();
+   
   bool isPlayable() { return m_playable; }
-    /** Deletes midi device if exists. 
-     * Midi device usually blocks audio devices, 
-     * so when it exists getAudioDevicesList() doesn't work */
-  void deleteMidi();
     /** Immediately stops playing. Emits nothing */
   void stop();
   
@@ -92,7 +81,6 @@ private:
   bool m_playable;
   QTimer *m_timer;
   TaudioParams *m_params;
-  QThread *m_thread;
   
 //########## audio #############
 	QAudioDeviceInfo m_deviceInfo;
@@ -111,16 +99,8 @@ private:
       /** Period of audio timer loop depends on QAudioOutput::periodSize() unit [ms] */
   quint16 m_period;
 
-//########## midi #############
-  RtMidiOut *m_midiOut;
-  unsigned char m_prevMidiNote;
-  std::vector<unsigned char> m_message;
-  bool m_doEmit;
   
 private slots:
-    /** Turns off played @param m_prevMidiNote
-     * If @param m_doEmit is true emits noteFinished() signal. */
-  void midiNoteOff();
     /** m_timer calls this to prepare audio for device*/
   void timeForAudio();
   void deviceStateSlot(QAudio::State auStat);

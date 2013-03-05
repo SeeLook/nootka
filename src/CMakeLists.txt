@@ -90,6 +90,7 @@ SET( NOOTKA_SRCS
 ###### Sound
   sound/tsound.cpp
   sound/taudioout.cpp
+  sound/tmidiout.cpp
   sound/taudioin.cpp
   sound/audiooutsettings.cpp
   sound/audioinsettings.cpp
@@ -184,6 +185,7 @@ SET( NOOTKA_MOC_SRCS
 ###### Sound
   sound/tsound.h
   sound/taudioout.h
+  sound/tmidiout.h
   sound/taudioin.h
   sound/audiooutsettings.h
   sound/audioinsettings.h

@@ -21,14 +21,58 @@
 #define TMIDIOUT_H
 
 #include <QObject>
+#include <QStringList>
+#include <vector>
+
+
+class RtMidiOut;
+class TaudioParams;
+class QTimer;
 
 
 class TmidiOut : public QObject
 {
-
+  
+  Q_OBJECT
+  
 public:
-    TmidiOut();
+    TmidiOut(TaudioParams *params, QObject *parent = 0);
     virtual ~TmidiOut();
+    
+    static QStringList getMidiPortsList();
+    
+    bool play(int noteNr);
+    
+        /** Sets midi parameters:
+        * @param portName, if empty system prefered is set (Timidity under Linux) 
+        * @param instrNr for instrument number in midi nomenclature. */
+    void setMidiParams();
+    bool isPlayable() { return m_playable; }
+        /** Deletes midi device if exists. 
+        * Midi device usually blocks audio devices, 
+        * so when it exists getAudioDevicesList() doesn't work */
+    void deleteMidi();
+        /** Immediately stops playing. Emits nothing */
+    void stop();
+    
+signals:
+        /** This signal is emited when playing of a note is finished. */
+    void noteFinished();
+    
+private:
+    bool m_playable;
+    QTimer *m_timer;
+    TaudioParams *m_params;
+    
+    RtMidiOut *m_midiOut;
+    unsigned char m_prevMidiNote;
+    std::vector<unsigned char> m_message;
+    bool m_doEmit;
+  
+private slots:
+      /** Turns off played @param m_prevMidiNote
+      * If @param m_doEmit is true emits noteFinished() signal. */
+    void midiNoteOff();
 };
 
 #endif // TMIDIOUT_H

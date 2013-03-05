@@ -18,14 +18,194 @@
 
 
 #include "tmidiout.h"
+#include "taudioparams.h"
+#include "RtMidi.h"
+#include <QTimer>
+#include <QDebug>
 
-TmidiOut::TmidiOut()
+//------------------ static methods ------------------------------------------------------
+QStringList TmidiOut::getMidiPortsList()
 {
-
+  RtMidiOut *midiOut = 0;
+  try {
+    midiOut = new RtMidiOut();
+  }
+  catch ( RtError &error ) {
+      error.printMessage();
+  }
+  QStringList portList;
+  if (midiOut && midiOut->getPortCount())
+    for (int i = 0; i < midiOut->getPortCount(); i++)
+      portList << QString::fromStdString(midiOut->getPortName(i));
+  delete midiOut;
+  return portList;  
 }
+
+
+
+TmidiOut::TmidiOut(TaudioParams* params, QObject* parent) :
+  QObject(parent),
+  m_playable(false),
+  m_midiOut(0),
+  m_params(params),
+  m_prevMidiNote(0),
+  m_doEmit(false)
+{
+  m_timer = new QTimer(this);
+//   m_timer->disconnect();
+//   if (params->midiEnabled) {
+//     if (!m_midiOut) { // prepare midi
+    setMidiParams();
+    if (m_playable)
+        connect(m_timer, SIGNAL(timeout()), this, SLOT(midiNoteOff()));
+//     }    
+//   }
+}
+
 
 TmidiOut::~TmidiOut()
 {
-
+  deleteMidi();
 }
+
+
+void TmidiOut::setMidiParams() {
+  deleteMidi();
+  m_timer->disconnect();
+  m_playable = true;
+  try {
+    m_midiOut = new RtMidiOut();
+  }
+  catch ( RtError &error ) {
+    error.printMessage();
+    m_playable = false;
+    return;
+  }
+  
+  if (m_midiOut && m_midiOut->getPortCount() > 0) {
+      unsigned int portNr = 0;
+#if defined(Q_OS_LINUX)
+      if(m_params->midiPortName == "")
+      m_params->midiPortName = "TiMidity";  // TiMidity port is prefered under Linux
+#endif
+      if (m_params->midiPortName != "") {
+          for (int i = 0; i < m_midiOut->getPortCount(); i++) {
+            if (QString::fromStdString(m_midiOut->getPortName(i)).contains(m_params->midiPortName)) {
+              portNr = i;
+              break;
+            }
+          }
+      }
+
+      try {
+          m_midiOut->openPort(portNr);
+      }
+      catch (RtError &error){
+          error.printMessage();
+          m_playable = false;
+          return;
+      }
+      m_params->midiPortName = QString::fromStdString(m_midiOut->getPortName(portNr));
+      qDebug() << "midi device:" << m_params->midiPortName << "instr:" << (int)m_params->midiInstrNr;
+      // midi program (instrument) change
+      m_message.clear();
+      m_message.push_back(192);
+      m_message.push_back(m_params->midiInstrNr); // instrument number
+      m_midiOut->sendMessage(&m_message);
+      // some spacial signals
+      m_message[0] = 241;
+      m_message[1] = 60;
+      m_midiOut->sendMessage(&m_message);
+        
+      m_message.push_back(0); // third message param
+
+      m_message[0] = 176;
+      m_message[1] = 7;
+      m_message[2] = 100; // volume 100;
+      m_midiOut->sendMessage(&m_message);
+      
+  } else
+      m_playable = false;
+}
+
+
+void TmidiOut::deleteMidi() {
+//   qDebug("deleteMidi");
+  if (m_midiOut) {
+    if (m_timer->isActive())
+      m_timer->stop();
+    m_midiOut->closePort();
+    delete m_midiOut;
+    m_midiOut = 0;
+  }
+  m_playable = false;
+}
+
+
+bool TmidiOut::play(int noteNr) {
+  if (!m_playable)
+      return false;
+  if (m_prevMidiNote) {  // note is played and has to be turned off. Volume is pushed.
+      m_doEmit = false;
+      midiNoteOff();
+  }
+  m_doEmit = true;
+  int semiToneOff = 0; // "whole" semitone offset
+  quint16 midiBend = 0;
+  if (m_params->a440diff != 0.0) {
+      semiToneOff = (int)m_params->a440diff; 
+      float fineOff = qAbs(m_params->a440diff) - qAbs((float)semiToneOff); // float part of offset
+      if (fineOff) { // if exist midi bend message is needed
+          if (m_params->a440diff < 0) // restore bend direction
+            fineOff *= -1;
+          midiBend = 8192 + (quint16)qRound(4192.0 * fineOff); // calculate 14-bit bend value
+      }
+  }
+  m_prevMidiNote = noteNr + 47 + semiToneOff;
+  m_message[0] = 144; // note On
+  m_message[1] = m_prevMidiNote;
+  m_message[2] = 100; // volume
+  m_midiOut->sendMessage(&m_message);
+  if (midiBend) { // let's send bend message
+      char msb, lsb;
+      lsb = (char)(midiBend % 128); // calculate 7 bits lsb&msb
+      msb = (char)(midiBend / 128);
+      m_message[0] = 224; // pitch bend
+      m_message[1] = lsb;
+      m_message[2] = msb;
+      m_midiOut->sendMessage(&m_message);
+  }
+//   if (m_timer->isActive())
+//       m_timer->stop();
+//   connect(m_timer, SIGNAL(timeout()), this, SLOT(midiNoteOff()));
+  m_timer->start(1500);
+//   m_timer->singleShot(1500, this, SLOT(midiNoteOff()));
+  return true;   
+}
+
+
+void TmidiOut::stop() {
+  if (m_timer->isActive()) {
+    m_timer->stop();
+    m_doEmit = false;
+    midiNoteOff();
+  }
+}
+
+//---------------------------------------------------------------------------------------
+//-------------------------------- slots ------------------------------------------------
+//---------------------------------------------------------------------------------------
+
+void TmidiOut::midiNoteOff() {
+  qDebug("midiNoteOff");
+  m_timer->stop();
+  m_message[0] = 128; // note Off
+  m_message[1] = m_prevMidiNote;
+  m_message[2] = 0; // volume
+  m_midiOut->sendMessage(&m_message);
+  m_prevMidiNote = 0;
+  if (m_doEmit)
+    emit noteFinished();
+}
+
 

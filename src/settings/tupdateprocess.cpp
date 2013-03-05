@@ -63,7 +63,7 @@ void TupdateProcess::start() {
 void TupdateProcess::processSays() {
   QString out = QString(m_process->readAllStandardOutput());
   if (out != "") {
-    if (out == "success\n")
+    if (out == "success\n" || out.contains("need"))
       m_timer->stop();
     else {
       qDebug() << "processSays: " << out;

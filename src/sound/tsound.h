@@ -21,6 +21,7 @@
 #include <QObject>
 #include "tnote.h"
 
+class TmidiOut;
 class QThread;
 class TpitchView;
 class TaudioIN;
@@ -40,11 +41,12 @@ public:
   explicit Tsound(QObject *parent = 0);
   virtual ~Tsound();
   
-  TaudioOUT *player;
+  TaudioOUT *audioPlayer;
+  TmidiOut  *midiPlayer;
   TaudioIN  *sniffer;
   
   void play(Tnote note);
-  bool isPlayable() { return (player ? true : false) ; }
+  bool isPlayable();
   bool isSniffable() { return (sniffer ? true : false) ; }
     /** Before Nootka config dialog is created a few things have to be done.
      * stop sniffing, playing
@@ -74,6 +76,7 @@ public:
   
 signals:
   void detectedNote(Tnote note);
+  void plaingFinished();
   
 private:
   void createPlayer();
@@ -84,10 +87,11 @@ private:
   TpitchView *m_pitchView;
   Tnote m_detNote; // detected note
   QThread *m_thread;
+  bool m_examMode;
   
 private slots:
     /** Is performed when note stops playing, then sniffing is unlocked */
-  void playingFinished();
+  void playingFinishedSlot();
   void noteDetectedSlot(Tnote note);
 
 
