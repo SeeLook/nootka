@@ -29,7 +29,6 @@
 #include "texpertanswerhelp.h"
 #include "texamparams.h"
 #include "texecutorsupply.h"
-#include "taudioout.h"
 #include "tanalysdialog.h"
 #include "tgraphicstexttip.h"
 #include "tcanvas.h"
@@ -479,7 +478,7 @@ void TexamExecutor::askQuestion() {
     if (curQ.answerAs == TQAtype::e_asSound) {
       mW->sound->prepareAnswer();
           if (curQ.questionAs == TQAtype::e_asSound) {
-              connect(mW->sound->player, SIGNAL(noteFinished()), this, SLOT(sniffAfterPlaying()));
+              connect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
               // sniffing after finished sound
           } else
               QTimer::singleShot(2 * WAIT_TIME, this, SLOT(startSniffing()));
@@ -509,7 +508,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
     if (!gl->E->autoNextQuest)
         mW->startExamAct->setDisabled(false);
     m_isAnswered = true;
-    disconnect(mW->sound->player, 0, this, 0);
+//     disconnect(mW->sound->audioPlayer, 0, this, 0);
+    disconnect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
 // Let's check
     Tnote exN, retN; // example note & returned note
     // First we determine what have to be checked
@@ -995,7 +995,7 @@ void TexamExecutor::repeatSound() {
     if (m_soundTimer->isActive())
         m_soundTimer->stop();
     if (m_exam->curQ().answerAs == TQAtype::e_asSound) {
-        connect(mW->sound->player, SIGNAL(noteFinished()), this, SLOT(sniffAfterPlaying()));
+        connect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
   }
 }
 
@@ -1047,7 +1047,8 @@ void TexamExecutor::expertAnswersStateChanged(bool enable) {
 
 
 void TexamExecutor::sniffAfterPlaying() {
-    disconnect(mW->sound->player, 0, this, 0);
+//     disconnect(mW->sound->audioPlayer, 0, this, 0);
+    disconnect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
     if (m_soundTimer->isActive())
       m_soundTimer->stop();
     m_soundTimer->start(100);

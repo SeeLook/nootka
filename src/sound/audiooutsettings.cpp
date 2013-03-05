@@ -21,6 +21,7 @@
 #include "taudioout.h"
 #include <QtGui>
 #include "taudioparams.h"
+#include "tmidiout.h"
 // #include <QDebug>
 
 
@@ -65,7 +66,7 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, bool pulseOK, QWidget*
     midiParamLay->addWidget(midiPortsLab, 0, 0);
     midiPortsCombo = new QComboBox(this);
     midiParamLay->addWidget(midiPortsCombo, 1, 0);
-    midiPortsCombo->addItems(TaudioOUT::getMidiPortsList());
+    midiPortsCombo->addItems(TmidiOut::getMidiPortsList());
     if (m_params->midiPortName != "") {
       if (midiPortsCombo->count()) {
         int id = midiPortsCombo->findText(m_params->midiPortName);

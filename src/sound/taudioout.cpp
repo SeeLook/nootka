@@ -18,13 +18,9 @@
 
 #include "taudioout.h"
 #include "taudioparams.h"
-#include "RtMidi.h"
-#include "pulseprober.h"
 #include <QTimer>
 #include <QFile>
-#include <QStringList>
 #include <QAudio>
-#include <QThread>
 #include <QDebug>
 
 #define SAMPLE_RATE (44100)
@@ -53,23 +49,6 @@ QStringList TaudioOUT::getAudioDevicesList() {
   return devList;
 }
 
-QStringList TaudioOUT::getMidiPortsList() {
-  RtMidiOut *midiOut = 0;
-  try {
-    midiOut = new RtMidiOut();
-  }
-  catch ( RtError &error ) {
-      error.printMessage();
-  }
-  QStringList portList;
-  if (midiOut && midiOut->getPortCount())
-    for (int i = 0; i < midiOut->getPortCount(); i++)
-      portList << QString::fromStdString(midiOut->getPortName(i));
-  delete midiOut;
-  return portList;  
-}
-
-
 
 //---------------------------------------------------------------------------------------
 //                CONSTRUCTOR
@@ -78,14 +57,12 @@ TaudioOUT::TaudioOUT(TaudioParams* params, QString& path, QObject* parent) :
   QObject(parent),
   m_wavFile(path + "sounds/classical-guitar.wav"),
   m_playable(false),
-  m_midiOut(0),
   m_audioOutput(0),
   m_IOaudioDevice(0),
   m_devName("anything"),
   m_audioArr(0),
   m_params(params),
   m_period(20)
-//   m_thread(new QThread)
 {
   prepTemplFormat();
   m_timer = new QTimer(this);
@@ -95,7 +72,6 @@ TaudioOUT::TaudioOUT(TaudioParams* params, QString& path, QObject* parent) :
 TaudioOUT::~TaudioOUT()
 {
   deleteAudio();
-  deleteMidi();
 }
 
 
@@ -103,32 +79,23 @@ TaudioOUT::~TaudioOUT()
 //              METHODS
 //---------------------------------------------------------------------------------------
 void TaudioOUT::setAudioOutParams(TaudioParams* params) {
-  m_timer->disconnect();
-  if (params->midiEnabled) { // Midi output
-    if (!m_midiOut) { // prepare midi and delete audio
-      setMidiParams();
-      if (m_playable)
-          connect(m_timer, SIGNAL(timeout()), this, SLOT(midiNoteOff()));
-    }    
-  } else { // Audio output
-      deleteMidi();
-      if (m_devName != params->OUTdevName || !m_audioOutput) { //device doesn't exists or name changed
-          if (setAudioDevice(params->OUTdevName))
-            m_playable = loadAudioData();
-          else
-            m_playable = false;
-      }
-      if (m_playable) {
-          connect(m_timer, SIGNAL(timeout()), this, SLOT(timeForAudio()));
-          m_IOaudioDevice = m_audioOutput->start();
+    m_timer->disconnect();
+    if (m_devName != params->OUTdevName || !m_audioOutput) { //device doesn't exists or name changed
+        if (setAudioDevice(params->OUTdevName))
+          m_playable = loadAudioData();
+        else
+          m_playable = false;
+    }
+    if (m_playable) {
+        connect(m_timer, SIGNAL(timeout()), this, SLOT(timeForAudio()));
+        m_IOaudioDevice = m_audioOutput->start();
 //          qDebug() << (m_IOaudioDevice); // device memory address
-          m_buffer.resize(m_audioOutput->periodSize()*2);
-          m_period = (SAMPLE_RATE*2) / m_audioOutput->periodSize() - 10;
-          // m_period has to be smaller in case of QtMultimedia bug
-          // to deliver data to m_IOaudioDevice in time
+        m_buffer.resize(m_audioOutput->periodSize()*2);
+        m_period = (SAMPLE_RATE*2) / m_audioOutput->periodSize() - 10;
+        // m_period has to be smaller in case of QtMultimedia bug
+        // to deliver data to m_IOaudioDevice in time
 //           qDebug() << "period [ms]" << m_period;
-      }
-  }
+    }
 }
 
 
@@ -173,45 +140,6 @@ bool TaudioOUT::play(int noteNr) {
   if (!m_playable)
         return false;
   
-//   qDebug() << "Thread" << m_thread->isRunning();
-  if (m_params->midiEnabled) {
-    if (m_prevMidiNote) {  // note is played and has to be turned off. Volume is pushed.
-        m_doEmit = false;
-        midiNoteOff();
-    }
-    m_doEmit = true;
-    int semiToneOff = 0; // "whole" semitone offset
-    quint16 midiBend = 0;
-    if (m_params->a440diff != 0.0) {
-      semiToneOff = (int)m_params->a440diff; 
-      float fineOff = qAbs(m_params->a440diff) - qAbs((float)semiToneOff); // float part of offset
-      if (fineOff) { // if exist midi bend message is needed
-          if (m_params->a440diff < 0) // restore bend direction
-            fineOff *= -1;
-          midiBend = 8192 + (quint16)qRound(4192.0 * fineOff); // calculate 14-bit bend value
-      }
-    }
-    m_prevMidiNote = noteNr + 47 + semiToneOff;
-    m_message[0] = 144; // note On
-    m_message[1] = m_prevMidiNote;
-    m_message[2] = 100; // volume
-    m_midiOut->sendMessage(&m_message);
-    if (midiBend) { // let's send bend message
-      char msb, lsb;
-      lsb = (char)(midiBend % 128); // calculate 7 bits lsb&msb
-      msb = (char)(midiBend / 128);
-      m_message[0] = 224; // pitch bend
-      m_message[1] = lsb;
-      m_message[2] = msb;
-      m_midiOut->sendMessage(&m_message);
-    }
-    if (m_timer->isActive())
-      m_timer->stop();
-//     connect(m_timer, SIGNAL(timeout()), this, SLOT(midiNoteOff()));
-    m_timer->start(1500);
-      return true;
-      
-  } else { // play audio
     noteNr = noteNr + qRound(m_params->a440diff);
     if (noteNr < -11 || noteNr > 41)
         return false;
@@ -238,18 +166,13 @@ bool TaudioOUT::play(int noteNr) {
     m_noteOffset = (noteNr + 11) * SAMPLE_RATE - fasterOffset;
     timeForAudio();
     m_timer->start(m_period);
-  }
+//   }
   return true;
 }
 
 void TaudioOUT::stop() {
     if (m_timer->isActive()) {
       m_timer->stop();
-      if (m_params->midiEnabled) {
-        m_doEmit = false;
-        midiNoteOff();
-      }
-//       else
 //         m_audioOutput->stop();
     } //else
 //       qDebug("stoped already");
@@ -268,77 +191,6 @@ void TaudioOUT::deleteAudio() {
     delete m_audioArr;
     m_audioArr = 0;
   }
-}
-
-
-void TaudioOUT::deleteMidi() {
-  if (m_midiOut) {
-    if (m_timer->isActive())
-      m_timer->stop();
-    m_midiOut->closePort();
-    delete m_midiOut;
-    m_midiOut = 0;
-  }
-}
-
-
-void TaudioOUT::setMidiParams() {
-  deleteMidi();
-  deleteAudio();
-  m_playable = true;
-  try {
-    m_midiOut = new RtMidiOut();
-  }
-  catch ( RtError &error ) {
-    error.printMessage();
-    m_playable = false;
-    return;
-  }
-  
-  if (m_midiOut->getPortCount() > 0) {
-      unsigned int portNr = 0;
-  #if defined(Q_OS_LINUX)
-      if(m_params->midiPortName == "")
-      m_params->midiPortName = "TiMidity";  // TiMidity port is prefered under Linux
-  #endif
-      if (m_params->midiPortName != "") {
-          for (int i = 0; i < m_midiOut->getPortCount(); i++) {
-            if (QString::fromStdString(m_midiOut->getPortName(i)).contains(m_params->midiPortName)) {
-              portNr = i;
-              break;
-            }
-          }
-      }
-
-      try {
-          m_midiOut->openPort(portNr);
-      }
-      catch (RtError &error){
-          error.printMessage();
-          m_playable = false;
-          return;
-      }
-      m_params->midiPortName = QString::fromStdString(m_midiOut->getPortName(portNr));
-      qDebug() << "midi device:" << m_params->midiPortName << "instr:" << (int)m_params->midiInstrNr;
-      // midi program (instrument) change
-      m_message.clear();
-      m_message.push_back(192);
-      m_message.push_back(m_params->midiInstrNr); // instrument number
-      m_midiOut->sendMessage(&m_message);
-      // some spacial signals
-      m_message[0] = 241;
-      m_message[1] = 60;
-      m_midiOut->sendMessage(&m_message);
-        
-      m_message.push_back(0); // third message param
-
-      m_message[0] = 176;
-      m_message[1] = 7;
-      m_message[2] = 100; // volume 100;
-      m_midiOut->sendMessage(&m_message);
-      
-  } else
-      m_playable = false;
 }
 
 
@@ -427,16 +279,6 @@ void TaudioOUT::timeForAudio() {
 }
 
 
-void TaudioOUT::midiNoteOff() {
-  m_timer->stop();
-  m_message[0] = 128; // note Off
-  m_message[1] = m_prevMidiNote;
-  m_message[2] = 0; // volume
-  m_midiOut->sendMessage(&m_message);
-  m_prevMidiNote = 0;
-  if (m_doEmit)
-    emit noteFinished();
-}
 
 void TaudioOUT::deviceStateSlot(QAudio::State auStat) {
   QString statTxt = "output state: ";
