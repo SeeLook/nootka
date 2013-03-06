@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,6 +22,7 @@
 #include "tpitchfinder.h"
 #include "taudioparams.h"
 #include <QTimer>
+#include <QThread>
 
 
 /*static */
@@ -55,6 +56,7 @@ QStringList TaudioIN::getAudioDevicesList() {
 //------------          constructor     ----------------------------------------------
 //------------------------------------------------------------------------------------
 
+QThread *m_thread;
 
 TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     QObject(parent),
@@ -66,11 +68,13 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     m_floatBuff(0),
     m_noteStarted(false),
     m_deviceInfo(QAudioDeviceInfo::defaultInputDevice()),
-    m_pitch(new TpitchFinder(this)),
+    m_pitch(new TpitchFinder()),
     m_params(params), // points on gl->A or tmpParams in AudioInSettings
     m_devName("any"),
     m_paused(false)
 {    
+  m_thread = new QThread();
+  m_pitch->moveToThread(m_thread);
   prepTemplFormat();
   setParameters(params);
   m_buffer.resize(8192*4); // calculated by hand, can be not enought
@@ -87,6 +91,7 @@ TaudioIN::~TaudioIN()
     delete m_audioInput;
   }
   m_buffer.clear();
+  m_thread->terminate();
   delete m_pitch;
   if (m_floatBuff)
       delete[] (m_floatBuff);
