@@ -261,7 +261,7 @@ void Tsound::createPlayer() {
   else
     audioPlayer = new TaudioOUT(gl->A, gl->path);
 #if defined(Q_OS_WIN32)
-    // Windows has problems with plaing it in separate thread - cuted sound
+    // Windows has problems with playing it in separate thread - cuted sound
     // so we skip
 #else
   if (audioPlayer)

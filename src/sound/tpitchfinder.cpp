@@ -112,7 +112,6 @@ void TpitchFinder::searchIn(float* chunk) {
       run();
   } else {
       emitFound();
-//       qDebug("reset chanell");
       resetFinder();
   }
 }
@@ -125,6 +124,7 @@ void TpitchFinder::resetFinder() {
       myTransforms.uninit();
       m_channel = new Channel(this, aGl()->windowSize);
       myTransforms.init(aGl(), aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
+//       qDebug("reset chanell");
     /**  m_shown = false; */
   }
 }
@@ -142,12 +142,12 @@ void TpitchFinder::emitFound() {
 void TpitchFinder::run() {
 	m_isBussy = true;
 	FilterState filterState;
-    m_channel->processNewChunk(&filterState);
+  m_channel->processNewChunk(&filterState);
 	AnalysisData *data = m_channel->dataAtCurrentChunk();
     if (data) {
       if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)) {
           NoteData *curNote = m_channel->getCurrentNote();
-          if (m_isVoice) {
+   /*       if (m_isVoice) {
 //             NoteData *curNote = m_channel->getCurrentNote();
             if (curNote->noteLength() > MIN_SND_TIME) {
                 m_prevPitch = curNote->avgPitch();
@@ -164,8 +164,8 @@ void TpitchFinder::run() {
 //                  else
 //                      averVol = curNote->volume();
               }
-          }
-   /*       if (curNote->noteLength() > MIN_SND_TIME) {
+          }*/
+          if (curNote->noteLength() > MIN_SND_TIME) {
             if (m_isVoice) {
                 m_prevPitch = curNote->avgPitch();
                 m_prevFreq = curNote->avgFreq();
@@ -173,8 +173,9 @@ void TpitchFinder::run() {
               if (!m_emited) {
                 m_emited = true;
 //                qDebug() << curNote->avgPitch() << data->pitch;
-                qDebug() << data->noteIndex << data->periodRatio;
-                emit found(data->pitch, data->fundamentalFreq);
+                qDebug() << data->noteIndex << data->longTermMean;
+//                 emit found(data->pitch, data->fundamentalFreq);
+                emit found(data->pitch, data->longTermMean);
               }
             }
           } else { // note too short - new sound started
@@ -185,7 +186,7 @@ void TpitchFinder::run() {
             }
           }
 //           qDebug() << "pitch" << curNote->avgPitch() << "dur:" << curNote->noteLength();
-    */
+    
           
      /** if (m_isVoice) { // average pitch
         if (!m_noteNoticed) {
