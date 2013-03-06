@@ -124,8 +124,8 @@ void TpitchFinder::resetFinder() {
       myTransforms.uninit();
       m_channel = new Channel(this, aGl()->windowSize);
       myTransforms.init(aGl(), aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
-//       qDebug("reset chanell");
-    /**  m_shown = false; */
+       qDebug("reset chanell");
+//    /**  m_shown = false; */
   }
 }
 
@@ -147,7 +147,7 @@ void TpitchFinder::run() {
     if (data) {
       if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)) {
           NoteData *curNote = m_channel->getCurrentNote();
-   /*       if (m_isVoice) {
+       if (m_isVoice) {
 //             NoteData *curNote = m_channel->getCurrentNote();
             if (curNote->noteLength() > MIN_SND_TIME) {
                 m_prevPitch = curNote->avgPitch();
@@ -156,7 +156,7 @@ void TpitchFinder::run() {
           } else {
               if (data->noteIndex != m_prevNoteIndex) {
                   m_prevNoteIndex = data->noteIndex;
-//                  qDebug() << data->noteIndex << data->pitch << curNote->noteLength();
+                  qDebug() << data->noteIndex << data->pitch << curNote->noteLength();
 //                  qDebug() << data->noteIndex << data->pitch << curNote->volume() << "aver:" << averVol;
                   emit found(data->pitch, data->fundamentalFreq);
 //                  if (averVol)
@@ -164,8 +164,8 @@ void TpitchFinder::run() {
 //                  else
 //                      averVol = curNote->volume();
               }
-          }*/
-          if (curNote->noteLength() > MIN_SND_TIME) {
+          }
+       /*   if (curNote->noteLength() > MIN_SND_TIME) {
             if (m_isVoice) {
                 m_prevPitch = curNote->avgPitch();
                 m_prevFreq = curNote->avgFreq();
@@ -184,7 +184,7 @@ void TpitchFinder::run() {
             } else {
               m_emited = false;
             }
-          }
+          } */
 //           qDebug() << "pitch" << curNote->avgPitch() << "dur:" << curNote->noteLength();
     
           
@@ -224,6 +224,7 @@ void TpitchFinder::run() {
 //            qDebug("not visible");
           m_prevNoteIndex = -1;
         }
+//        resetFinder();
       }
     }
   
