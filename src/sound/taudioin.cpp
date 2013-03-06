@@ -93,6 +93,7 @@ TaudioIN::~TaudioIN()
   m_buffer.clear();
   m_thread->terminate();
   delete m_pitch;
+  delete m_thread;
   if (m_floatBuff)
       delete[] (m_floatBuff);
 }
@@ -154,6 +155,7 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
 
 
 void TaudioIN::initInput() {
+//    this->moveToThread(m_thread);
   m_floatsWriten = 0;
   m_maxPeak = 0;
   m_IOaudioDevice = m_audioInput->start();
@@ -261,7 +263,7 @@ void TaudioIN::audioDataReady() {
 
 	  if (m_floatsWriten == m_pitch->aGl()->framesPerChunk-1) {
 		m_maxPeak = m_maxP;
-        if (m_maxPeak > m_params->noiseLevel) {
+//        if (m_maxPeak > m_params->noiseLevel) {
           if (m_pitch->isBussy())
         qDebug() << "data ignored";
           else {
@@ -269,13 +271,13 @@ void TaudioIN::audioDataReady() {
         if (!m_noteStarted) {
           m_noteStarted = true;
         }
-		  }
-        } else {
-          if (m_noteStarted) {
-        m_pitch->searchIn(0);
-        m_noteStarted = false;
-        m_gotNote = false;
-          }
+//		  }
+//        } else {
+//          if (m_noteStarted) {
+//        m_pitch->searchIn(0);
+//        m_noteStarted = false;
+//        m_gotNote = false;
+//          }
     }
     m_floatsWriten = -1;
     m_maxP = 0;
@@ -326,7 +328,8 @@ void TaudioIN::noteStopedSlot() {
 
 
 void TaudioIN::resetSlot() {
-    wait();
+    m_audioInput->suspend();
+//    wait();
     go();
 }
 
