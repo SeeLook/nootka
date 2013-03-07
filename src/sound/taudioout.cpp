@@ -54,9 +54,8 @@ QStringList TaudioOUT::getAudioDevicesList() {
 //                CONSTRUCTOR
 //---------------------------------------------------------------------------------------
 TaudioOUT::TaudioOUT(TaudioParams* params, QString& path, QObject* parent) :
-  QObject(parent),
+  TabstractPlayer(parent),
   m_wavFile(path + "sounds/classical-guitar.wav"),
-  m_playable(false),
   m_audioOutput(0),
   m_IOaudioDevice(0),
   m_devName("anything"),
@@ -82,11 +81,11 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
     m_timer->disconnect();
     if (m_devName != params->OUTdevName || !m_audioOutput) { //device doesn't exists or name changed
         if (setAudioDevice(params->OUTdevName))
-          m_playable = loadAudioData();
+          playable = loadAudioData();
         else
-          m_playable = false;
+          playable = false;
     }
-    if (m_playable) {
+    if (playable) {
         connect(m_timer, SIGNAL(timeout()), this, SLOT(timeForAudio()));
         m_IOaudioDevice = m_audioOutput->start();
 //          qDebug() << (m_IOaudioDevice); // device memory address
@@ -137,7 +136,7 @@ bool TaudioOUT::setAudioDevice(QString& name) {
 
 
 bool TaudioOUT::play(int noteNr) {
-  if (!m_playable)
+  if (!playable)
         return false;
   
     noteNr = noteNr + qRound(m_params->a440diff);

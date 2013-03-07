@@ -17,16 +17,18 @@
  ***************************************************************************/
 
 
-#include "tabstarctplayer.h"
-#include <QTimer>
+#include "tabstractplayer.h"
 
-TabstarctPlayer::TabstarctPlayer(QObject* parent) :
+TabstractPlayer::TabstractPlayer(QObject* parent) :
   QObject(parent),
-  playable(true)
+  playable(false)
 {
 }
 
-TabstarctPlayer::~TabstarctPlayer()
-{
-}
+TabstractPlayer::~TabstractPlayer() {}
+
+bool TabstractPlayer::play(int noteNr) {}
+
+void TabstractPlayer::stop() {}
+
 

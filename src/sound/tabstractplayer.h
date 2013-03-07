@@ -17,18 +17,20 @@
  ***************************************************************************/
 
 
-#ifndef TABSTARCTPLAYER_H
-#define TABSTARCTPLAYER_H
+#ifndef TABSTRACTPLAYER_H
+#define TABSTRACTPLAYER_H
 
 #include <QObject>
 
 
-class TabstarctPlayer : public QObject
+
+/** Base abstract class for sound output (plaing scale). */
+class TabstractPlayer : public QObject
 {
 
 public:
-    TabstarctPlayer(QObject *parent = 0);
-    virtual ~TabstarctPlayer();
+    TabstractPlayer(QObject *parent = 0);
+    virtual ~TabstractPlayer();
     
     bool isPlayable() { return playable; }
     
@@ -47,4 +49,4 @@ protected:
     
 };
 
-#endif // TABSTARCTPLAYER_H
+#endif // TABSTRACTPLAYER_H
