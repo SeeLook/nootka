@@ -20,9 +20,9 @@
 #ifndef TMIDIOUT_H
 #define TMIDIOUT_H
 
-#include <QObject>
 #include <QStringList>
 #include <vector>
+#include "tabstractplayer.h"
 
 
 class RtMidiOut;
@@ -32,7 +32,7 @@ class QTimer;
 /**
  * Midi is played by RtMidi class.
  */
-class TmidiOut : public QObject
+class TmidiOut : public TabstractPlayer
 {
   
   Q_OBJECT

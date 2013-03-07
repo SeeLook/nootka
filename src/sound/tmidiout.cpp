@@ -44,8 +44,7 @@ QStringList TmidiOut::getMidiPortsList()
 
 
 TmidiOut::TmidiOut(TaudioParams* params, QObject* parent) :
-  QObject(parent),
-  m_playable(false),
+  TabstractPlayer(parent),
   m_midiOut(0),
   m_params(params),
   m_prevMidiNote(0),

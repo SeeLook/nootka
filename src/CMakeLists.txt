@@ -100,6 +100,7 @@ SET( NOOTKA_SRCS
   sound/tvolumemeter.cpp
   sound/tpitchview.cpp
   sound/tartiniparams.h
+  sound/tabstractplayer.cpp
 # tartini
   sound/tartini/channel.cpp
   sound/tartini/analysisdata.cpp

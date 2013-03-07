@@ -21,7 +21,7 @@
 #define TAUDIOOUT_H
 
 #include <QString>
-#include <QObject>
+#include "tabstractplayer.h"
 #include <QAudioFormat>
 #include <QAudioDeviceInfo>
 #include <QAudioOutput>
@@ -37,7 +37,7 @@ class QTimer;
  * All this magicis in timeForAudio() because some of audio devices supports only 44100/16/2 format.
  * So far playing is bounded to range C in Contra octave to e in 3-line.
 */
-class TaudioOUT: public QObject
+class TaudioOUT: public TabstractPlayer
 {
   
   Q_OBJECT
@@ -61,7 +61,7 @@ public:
       /** It sets audio device to value taken from */
   bool setAudioDevice(QString &name);
    
-  bool isPlayable() { return m_playable; }
+//   bool isPlayable() { return playable; }
     /** Immediately stops playing. Emits nothing */
   void stop();
   
@@ -76,7 +76,7 @@ private:
       /** Sets template values to templAudioFormat*/
   static void prepTemplFormat();
   
-  bool m_playable;
+//   bool playable;
   QTimer *m_timer;
   TaudioParams *m_params;
   

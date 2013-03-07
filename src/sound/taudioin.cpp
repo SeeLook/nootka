@@ -247,8 +247,8 @@ void TaudioIN::audioDataReady() {
 	qint64 bSize = m_buffer.size();
 	qint64 toRead = qMin(bytesReady, bSize);	
 	qint64 dataRead = m_IOaudioDevice->read(m_buffer.data(), toRead) / 2;
-	if (dataRead > bSize/2) {
-		dataRead = bSize/2;
+	if (dataRead > bSize / 2) {
+		dataRead = bSize / 2;
 		qDebug() << dataRead << "Audio data was cut off. Buffer is too small !!!!";
 	}
 //    qDebug() << "read data" << dataRead*2 ;
@@ -264,9 +264,9 @@ void TaudioIN::audioDataReady() {
 	  if (m_floatsWriten == m_pitch->aGl()->framesPerChunk-1) {
 		m_maxPeak = m_maxP;
 //        if (m_maxPeak > m_params->noiseLevel) {
-          if (m_pitch->isBussy())
+    if (m_pitch->isBussy())
         qDebug() << "data ignored";
-          else {
+    else {
         m_pitch->searchIn(m_floatBuff);
         if (!m_noteStarted) {
           m_noteStarted = true;
@@ -334,7 +334,7 @@ void TaudioIN::resetSlot() {
 }
 
 void TaudioIN::deviceStateSlot(QAudio::State auStat) {
-  QString statTxt = "innput state: ";
+//   QString statTxt = "innput state: ";
    switch (auStat) {
 //    case QAudio::ActiveState : statTxt += "active"; break;
     /** Iddle state occurs mostly under Mac and it shouldn't. 
@@ -342,7 +342,7 @@ void TaudioIN::deviceStateSlot(QAudio::State auStat) {
      * On old machines it can occurs as well so let it be. */
     case QAudio::IdleState :
 #if !defined(Q_OS_MAC)
-      statTxt += "iddle";
+//       statTxt += "iddle";
 //       qDebug() << statTxt;
 #endif
        resetSlot();
