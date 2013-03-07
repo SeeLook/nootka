@@ -24,11 +24,9 @@ TabstarctPlayer::TabstarctPlayer(QObject* parent) :
   QObject(parent),
   playable(true)
 {
-  timer = new QTimer(); // Without parent - QThread doesn't like it'
 }
 
 TabstarctPlayer::~TabstarctPlayer()
 {
-  delete timer;
 }
 

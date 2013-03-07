@@ -30,14 +30,17 @@ TupdateProcess::TupdateProcess(bool respectRules, QObject* parent) :
   m_respectRules(respectRules)
 {
   m_process = new QProcess(this);
-  m_exec = qApp->applicationDirPath() + "/" + "nootka-updater";
+  m_exec = QDir::fromNativeSeparators(qApp->applicationDirPath() + "/" + "nootka-updater");
+#if defined(Q_OS_WIN32)
+  m_exec += ".exe";
+#endif
   QFileInfo fi(m_exec);
   if (fi.exists()) {
     m_isPossible = true;
   } else
     m_isPossible = false;
   connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(processSays()));
-//   connect(m_process, SIGNAL(readChannelFinished()), this, SLOT(processSays()));
+
 }
 
 
@@ -63,7 +66,7 @@ void TupdateProcess::start() {
 void TupdateProcess::processSays() {
   QString out = QString(m_process->readAllStandardOutput());
   if (out != "") {
-    if (out == "success\n" || out.contains("need"))
+    if (out.contains("success") || out.contains("need"))
       m_timer->stop();
     else {
       qDebug() << "processSays: " << out;
@@ -75,12 +78,8 @@ void TupdateProcess::processSays() {
 
 
 void TupdateProcess::processTimeOut() {
-//   if (m_process->state() == QProcess::NotRunning)
-//     return;
-//   else {
     m_timer->stop();
     qDebug() << "processSays: time expired";
     emit updateOutput("time expired");
     m_process->kill();
-//   }
 }

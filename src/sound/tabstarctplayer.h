@@ -22,7 +22,6 @@
 
 #include <QObject>
 
-class QTimer;
 
 class TabstarctPlayer : public QObject
 {
@@ -32,6 +31,9 @@ public:
     virtual ~TabstarctPlayer();
     
     bool isPlayable() { return playable; }
+    
+        /** Starts plaing given note and then returns true, otherwise gets false. */
+    virtual bool play(int noteNr);
         /** Immediately stops playing. Emits nothing */
     virtual void stop();
     
@@ -39,8 +41,8 @@ signals:
       /** This signal is emited when playing of a note is finished. */
   void noteFinished();
     
+  
 protected:
-    QTimer *timer;
     bool playable;
     
 };
