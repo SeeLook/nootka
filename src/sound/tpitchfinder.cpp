@@ -25,7 +25,7 @@
 #include <QDebug>
 // #include <stdio.h>
 
-#define MIN_SND_TIME (0.1) // minimal time of sound to detect its pitch
+#define MIN_SND_TIME (0.2) // minimal time of sound to detect its pitch
 
 TpitchFinder::TpitchFinder(QObject* parent) :
   QObject(parent),
@@ -226,7 +226,8 @@ void TpitchFinder::run() {
         }
 //        resetFinder();
       }
-    }
+    } else
+        qDebug("no data");
   
 	incrementChunk();
 	m_isBussy = false;

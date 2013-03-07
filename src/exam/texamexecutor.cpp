@@ -481,7 +481,7 @@ void TexamExecutor::askQuestion() {
               connect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
               // sniffing after finished sound
           } else
-              QTimer::singleShot(2 * WAIT_TIME, this, SLOT(startSniffing()));
+              QTimer::singleShot( WAIT_TIME, this, SLOT(startSniffing()));
               // Give a student some time to prepare for next question in expert mode
               // It avoids capture previous played sound as current answer
     }
