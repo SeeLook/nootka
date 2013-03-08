@@ -101,6 +101,7 @@ SET( NOOTKA_SRCS
   sound/tpitchview.cpp
   sound/tartiniparams.h
   sound/tabstractplayer.cpp
+  sound/tscalefile.cpp
 # tartini
   sound/tartini/channel.cpp
   sound/tartini/analysisdata.cpp

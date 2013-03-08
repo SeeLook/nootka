@@ -7,11 +7,15 @@ Plan for the Nootka One
 - look of upper bridge
 - accid buttons descr.
 - splash screen
-- pack sound to ogg, add notyfications
-- finish egzam tip
+- pack sound to ogg, add notifications
+- finish exam tip
 
 - positions and look of frets numbers and key names in charts
 - add string numbers to pixmap
+
+=====
+Mac issues:
+- check audioout thread
 
 
 TGLOBALS & TTUNE
