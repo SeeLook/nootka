@@ -59,18 +59,19 @@ TaudioOUT::TaudioOUT(TaudioParams* params, QString& path, QObject* parent) :
   m_audioOutput(0),
   m_IOaudioDevice(0),
   m_devName("anything"),
-  m_audioArr(0),
+//   m_audioArr(0),
   m_params(params),
   m_period(20)
 {
   prepTemplFormat();
-  m_timer = new QTimer(this);
+  m_timer = new QTimer();
   setAudioOutParams(params);
 }
 
 TaudioOUT::~TaudioOUT()
 {
   deleteAudio();
+  delete m_timer;
 }
 
 
@@ -81,7 +82,7 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
     m_timer->disconnect();
     if (m_devName != params->OUTdevName || !m_audioOutput) { //device doesn't exists or name changed
         if (setAudioDevice(params->OUTdevName))
-          playable = loadAudioData();
+          playable = loadAudioData(m_wavFile);
         else
           playable = false;
     }
@@ -121,7 +122,7 @@ bool TaudioOUT::setAudioDevice(QString& name) {
   if (fnd) {
     if (m_deviceInfo.isFormatSupported(templAudioFormat)) {
         qDebug() << "out:" << m_deviceInfo.deviceName();
-        m_devName = m_deviceInfo.deviceName(); //TODO: save device name to globals ?!
+        m_devName = m_deviceInfo.deviceName(); 
         m_audioOutput = new QAudioOutput(m_deviceInfo, templAudioFormat, this);
 //        connect(m_audioOutput, SIGNAL(stateChanged(QAudio::State)), this, SLOT(deviceStateSlot(QAudio::State)));
     } else {
@@ -186,51 +187,9 @@ void TaudioOUT::deleteAudio() {
     delete m_audioOutput;
     m_audioOutput = 0;
   }
-  if (m_audioArr) {
-    delete m_audioArr;
-    m_audioArr = 0;
-  }
+  deleteData();
 }
 
-
-bool TaudioOUT::loadAudioData() {
-  QFile wavFile(m_wavFile);
-  if (!wavFile.exists())
-      return false;
-  wavFile.open(QIODevice::ReadOnly);
-  QDataStream wavStream(&wavFile);
-  
-  int fmtSize;
-  char *chunkName = new char[4];
-  wavStream.skipRawData(16);
-  wavStream.readRawData(chunkName, 4);
-  fmtSize = *((int*)chunkName);
-  wavStream.readRawData(chunkName, 2);
-  short wavFormat = *((short*)chunkName);
-  
-  quint32 dataSizeFromChunk;
-  wavStream.readRawData(chunkName, 2);
-  unsigned short m_chanels = *((unsigned short*)chunkName);
-  wavStream.readRawData(chunkName, 4);
-  quint32 sampleRate = *((quint32*)chunkName);
-  wavStream.skipRawData(fmtSize - 8 + 4);
-  wavStream.readRawData(chunkName, 4);
-  dataSizeFromChunk = *((quint32*)chunkName);
-//   qDebug() << "data size: " << dataSizeFromChunk << 4740768;
-  // we check is wav file this proper one ? 4740766
-  if (m_chanels != 1 || wavFormat != 1 || sampleRate != 22050 || dataSizeFromChunk != 4740766) {
-      qDebug() << "wav file error occured " << dataSizeFromChunk << m_chanels
-              << wavFormat << sampleRate;
-      return false;
-  }
-  
-  m_audioArr = new qint16[dataSizeFromChunk/2];
-  wavStream.readRawData((char*)m_audioArr, dataSizeFromChunk);
-  //TODO: make 1000 bytes space on the begining and fill it with 0
-
-  wavFile.close();
-  return true;
-}
 
 //---------------------------------------------------------------------------------------
 //-------------------------------- slots ----------------------------------------------------
@@ -255,7 +214,7 @@ void TaudioOUT::timeForAudio() {
       while (m_doPlay && chunks) {
         qint16 *out = (qint16*)m_buffer.data();
         for(int i=0; i < perSize/8; i++) {
-            sample = m_audioArr[m_noteOffset + m_samplesCnt];
+            sample = getSample(m_noteOffset + m_samplesCnt);
             *out++ = sample;
             *out++ = sample;
             *out++ = sample;

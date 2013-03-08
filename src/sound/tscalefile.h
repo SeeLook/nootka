@@ -20,12 +20,31 @@
 #ifndef TSCALEFILE_H
 #define TSCALEFILE_H
 
+
+#include <QString>
+
+
+/** Takes care about file with musical scale.
+ * Constructor does nothing. File is loaded by invokeing loadAudioData() 
+ */
 class TscaleFile
 {
 
 public:
     TscaleFile();
     virtual ~TscaleFile();
+    
+        /** Loads wav file with scale to m_audioArr. If everything is ok returns true */
+    bool loadAudioData(QString &path);
+        /** Unloads audio data from an array m_audioArr */
+    void deleteData();
+    
+        /** Returns single wav sample (16 bit) from array.
+         * !!! It doesn't check does element exist in array !!!*/
+    qint16 getSample(int offset) { return m_audioArr[offset]; }
+    
+private:
+    qint16 *m_audioArr;
 };
 
 #endif // TSCALEFILE_H

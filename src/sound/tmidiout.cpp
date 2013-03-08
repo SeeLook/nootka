@@ -50,9 +50,9 @@ TmidiOut::TmidiOut(TaudioParams* params, QObject* parent) :
   m_prevMidiNote(0),
   m_doEmit(false)
 {
-  m_timer = new QTimer();
+    m_timer = new QTimer();
     setMidiParams();
-    if (m_playable)
+    if (playable)
         connect(m_timer, SIGNAL(timeout()), this, SLOT(midiNoteOff()));
 }
 
@@ -67,13 +67,13 @@ TmidiOut::~TmidiOut()
 void TmidiOut::setMidiParams() {
   deleteMidi();
   m_timer->disconnect();
-  m_playable = true;
+  playable = true;
   try {
     m_midiOut = new RtMidiOut();
   }
   catch ( RtError &error ) {
     error.printMessage();
-    m_playable = false;
+    playable = false;
     return;
   }
   
@@ -97,7 +97,7 @@ void TmidiOut::setMidiParams() {
       }
       catch (RtError &error){
           error.printMessage();
-          m_playable = false;
+          playable = false;
           return;
       }
       m_params->midiPortName = QString::fromStdString(m_midiOut->getPortName(portNr));
@@ -119,7 +119,7 @@ void TmidiOut::setMidiParams() {
       m_message[2] = 100; // volume 100;
       m_midiOut->sendMessage(&m_message);
   } else
-      m_playable = false;
+      playable = false;
 }
 
 
@@ -132,12 +132,12 @@ void TmidiOut::deleteMidi() {
     delete m_midiOut;
     m_midiOut = 0;
   }
-  m_playable = false;
+  playable = false;
 }
 
 
 bool TmidiOut::play(int noteNr) {
-  if (!m_playable)
+  if (!playable)
       return false;
   if (m_prevMidiNote) {  // note is played and has to be turned off. Volume is pushed.
       m_doEmit = false;

@@ -22,6 +22,7 @@
 
 #include <QString>
 #include "tabstractplayer.h"
+#include "tscalefile.h"
 #include <QAudioFormat>
 #include <QAudioDeviceInfo>
 #include <QAudioOutput>
@@ -37,7 +38,7 @@ class QTimer;
  * All this magicis in timeForAudio() because some of audio devices supports only 44100/16/2 format.
  * So far playing is bounded to range C in Contra octave to e in 3-line.
 */
-class TaudioOUT: public TabstractPlayer
+class TaudioOUT: public TabstractPlayer, public TscaleFile
 {
   
   Q_OBJECT
@@ -60,9 +61,7 @@ public:
   void setAudioOutParams(TaudioParams *params);
       /** It sets audio device to value taken from */
   bool setAudioDevice(QString &name);
-   
-//   bool isPlayable() { return playable; }
-    /** Immediately stops playing. Emits nothing */
+      /** Immediately stops playing. Emits nothing */
   void stop();
   
 signals:
@@ -70,13 +69,10 @@ signals:
   void noteFinished();
 
 private:
-      /** Loads wav file with scale to m_audioArr. If everything is ok returns true */
-  bool loadAudioData();
   void deleteAudio();
       /** Sets template values to templAudioFormat*/
   static void prepTemplFormat();
   
-//   bool playable;
   QTimer *m_timer;
   TaudioParams *m_params;
   
@@ -88,7 +84,6 @@ private:
   QString m_devName;
       /** Path to wav file with sounds */
   QString m_wavFile;
-  qint16 *m_audioArr;
       /** position of a note in @param m_audioArr */
   int m_noteOffset;
       /** Number of performed samples. */

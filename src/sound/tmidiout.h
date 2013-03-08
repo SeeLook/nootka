@@ -49,7 +49,7 @@ public:
         * @param portName, if empty system prefered is set (Timidity under Linux) 
         * @param instrNr for instrument number in midi nomenclature. */
     void setMidiParams();
-    bool isPlayable() { return m_playable; }
+//     bool isPlayable() { return playable; }
         /** Deletes midi device if exists. 
         * Midi device usually blocks audio devices, 
         * so when it exists getAudioDevicesList() doesn't work */
@@ -62,7 +62,7 @@ signals:
     void noteFinished();
     
 private:
-    bool m_playable;
+//     bool playable;
     QTimer *m_timer;
     TaudioParams *m_params;
     
