@@ -48,7 +48,6 @@ public:
     ~TaudioOUT();
 
   static QStringList getAudioDevicesList();
-//   static QStringList getMidiPortsList();
       /** Template audio format is 
       * 2 chanells (stereo) 
       * 44100 samples per second
@@ -56,7 +55,7 @@ public:
       * pcm data */
 	static QAudioFormat templAudioFormat;
 
-    /** Starts plaing given note and then returns true, otherwise gets false. */
+      /** Starts playing given note and then returns true, otherwise gets false. */
   bool play(int noteNr);
   void setAudioOutParams(TaudioParams *params);
       /** It sets audio device to value taken from */
@@ -64,9 +63,6 @@ public:
       /** Immediately stops playing. Emits nothing */
   void stop();
   
-signals:
-    /** This signal is emited when playing of a note is finished. */
-  void noteFinished();
 
 private:
   void deleteAudio();
@@ -82,9 +78,7 @@ private:
   QIODevice *m_IOaudioDevice;
   QByteArray m_buffer;
   QString m_devName;
-      /** Path to wav file with sounds */
-  QString m_wavFile;
-      /** position of a note in @param m_audioArr */
+      
   int m_noteOffset;
       /** Number of performed samples. */
   int m_samplesCnt;

@@ -19,7 +19,7 @@
 
 #include "tmidiout.h"
 #include "taudioparams.h"
-#include "RtMidi.h"
+#include "rt/RtMidi.h"
 #include <QTimer>
 #include <QDebug>
 

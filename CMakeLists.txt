@@ -205,7 +205,7 @@ ENDIF(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
 
 include_directories(${FFTW3_INCLUDE_DIRS})
 
-message("Qt is in: ${QT_BINARY_DIR}")
+# message("Qt is in: ${QT_BINARY_DIR}")
 
 ###########################################################################
 #libraries and compiller definitions for RtMidi
@@ -252,7 +252,6 @@ if (CMAKE_BUILD_TYPE MATCHES 'release')
 # set (CMAKE_CXX_FLAGS_RELEASE "-DQT_NO_DEBUG")
   add_definitions(-DQT_NO_DEBUG)
 endif (CMAKE_BUILD_TYPE MATCHES 'release')
-
 
 add_subdirectory(src)
 

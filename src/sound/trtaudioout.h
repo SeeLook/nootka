@@ -17,59 +17,56 @@
  ***************************************************************************/
 
 
-#ifndef TMIDIOUT_H
-#define TMIDIOUT_H
+#ifndef TRTAUDIOOUT_H
+#define TRTAUDIOOUT_H
 
-#include <QStringList>
-#include <vector>
+
 #include "tabstractplayer.h"
+#include "tscalefile.h"
+#include "rt/RtAudio.h"
+#include <QStringList>
 
-
-class RtMidiOut;
 class TaudioParams;
-class QTimer;
 
-/**
- * Midi is played by RtMidi class.
- */
-class TmidiOut : public TabstractPlayer
+class TaudioOUT : public TabstractPlayer, public TscaleFile
 {
-  
   Q_OBJECT
   
 public:
-    TmidiOut(TaudioParams *params, QObject *parent = 0);
-    virtual ~TmidiOut();
+    TaudioOUT(TaudioParams *params, QString &path, QObject *parent = 0);
+    virtual ~TaudioOUT();
     
-    static QStringList getMidiPortsList();
+    static QStringList getAudioDevicesList();
     
+          /** Starts playing given note and then returns true, otherwise gets false. */
     bool play(int noteNr);
-    
-        /** Sets midi parameters:
-        * @param portName, if empty system prefered is set (Timidity under Linux) 
-        * @param instrNr for instrument number in midi nomenclature. */
-    void setMidiParams();
-        /** Deletes midi device if exists. 
-        * Midi device usually blocks audio devices, 
-        * so when it exists getAudioDevicesList() doesn't work */
-    void deleteMidi();
+    void setAudioOutParams(TaudioParams *params);
+        /** It sets audio device to value taken from */
+    bool setAudioDevice(QString &name);
         /** Immediately stops playing. Emits nothing */
     void stop();
-    
+
     
 private:
-    QTimer *m_timer;
-    TaudioParams *m_params;
-    
-    RtMidiOut *m_midiOut;
-    unsigned char m_prevMidiNote;
-    std::vector<unsigned char> m_message;
-    bool m_doEmit;
+  void deleteAudio();
+  static int outCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void *userData);
+  void emitNoteFinished();
   
-private slots:
-      /** Turns off played @param m_prevMidiNote
-      * If @param m_doEmit is true emits noteFinished() signal. */
-    void midiNoteOff();
+  
+  TaudioParams *m_params;
+  RtAudio *m_rtAudio;
+  QString m_devName;
+
+  static int m_noteOffset;
+      /** Number of performed samples. */
+  static int m_samplesCnt;
+      /** Duration of a sound counted in callBack loops */
+  static int m_maxCBloops;
+      /** Size of a buffer */
+  static unsigned int m_bufferFrames;
+      /** Pointer to this class instance to emit signal from static callBack method. */
+  static TaudioOUT *m_this;
+
 };
 
-#endif // TMIDIOUT_H
+#endif // TRTAUDIOOUT_H

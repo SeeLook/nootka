@@ -1,5 +1,28 @@
 ################################################
 
+add_subdirectory(sound/rt)
+    if(UNIX AND NOT APPLE)
+    if(ALSA_LIBRARY)
+      add_definitions(-D__LINUX_ALSA__)
+      message(STATUS "support for ALSA\t\t TRUE")
+    else(ALSA_LIBRARY)
+      message(STATUS "support for ALSA\t\t FALSE")
+    endif(ALSA_LIBRARY)
+    if(JACK_INCLUDE_DIR)
+      add_definitions(-D__UNIX_JACK__)
+      include_directories(${JACK_INCLUDE_DIR})
+      message(STATUS "support for JACK\t\t TRUE")
+    else(JACK_INCLUDE_DIR)
+      message(STATUS "support for JACK\t\t FALSE")
+    endif(JACK_INCLUDE_DIR)
+    # if(ENABLE_PULSEAUDIO)
+    #   add_definitions(-D__LINUX_PULSE__)
+    #   message(STATUS "support for PulseAudio\t\t TRUE")
+    # else(ENABLE_PULSEAUDIO)
+    #   message(STATUS "support for PulseAudio\t\t FALSE")
+    # endif(ENABLE_PULSEAUDIO)
+endif(UNIX AND NOT APPLE)
+
 INCLUDE_DIRECTORIES (. exam info level score settings sound charts)
 
 SET( NOOTKA_SRCS
@@ -89,12 +112,11 @@ SET( NOOTKA_SRCS
   charts/ttiphandler.cpp
 ###### Sound
   sound/tsound.cpp
-  sound/taudioout.cpp
   sound/tmidiout.cpp
   sound/taudioin.cpp
   sound/audiooutsettings.cpp
   sound/audioinsettings.cpp
-  sound/RtMidi.cpp
+  sound/rt/RtMidi.cpp
   sound/taudioparams.h
   sound/tpitchfinder.cpp
   sound/tvolumemeter.cpp
@@ -123,7 +145,10 @@ SET( NOOTKA_SRCS
   )
   
 if(UNIX AND NOT APPLE)
-  LIST(APPEND NOOTKA_SRCS "sound/pulseprober.cpp" )
+#   LIST(APPEND NOOTKA_SRCS "sound/pulseprober.cpp" )
+  LIST(APPEND NOOTKA_SRCS "sound/trtaudioout.cpp" "sound/rt/RtAudio.cpp")
+else(UNIX AND NOT APPLE)
+  LIST(APPEND NOOTKA_SRCS "sound/taudioout.cpp" )
 endif(UNIX AND NOT APPLE)
 
 #SET( NOOTKA_HEADERS
@@ -186,7 +211,6 @@ SET( NOOTKA_MOC_SRCS
   charts/ttiphandler.h
 ###### Sound
   sound/tsound.h
-  sound/taudioout.h
   sound/tmidiout.h
   sound/taudioin.h
   sound/audiooutsettings.h
@@ -194,8 +218,17 @@ SET( NOOTKA_MOC_SRCS
   sound/tpitchfinder.h
   sound/tvolumemeter.h
   sound/tpitchview.h
+  sound/tabstractplayer.h
   )
+  
+if(UNIX AND NOT APPLE)
+#   LIST(APPEND NOOTKA_SRCS "sound/pulseprober.cpp" )
+  LIST(APPEND NOOTKA_MOC_SRCS "sound/trtaudioout.h" )
+else(UNIX AND NOT APPLE)
+  LIST(APPEND NOOTKA_MOC_SRCS "sound/taudioout.h" )
+endif(UNIX AND NOT APPLE)
 
+# message(STATUS "${NOOTKA_MOC_SRCS} ${NOOTKA_SRCS}" )
 
 QT4_WRAP_CPP( NOOTKA_MOCS ${NOOTKA_MOC_SRCS} )
 
@@ -234,6 +267,9 @@ if(UNIX AND NOT APPLE) #Linux
         ${QTMULTIMEDIA_LIBRARIES}
         ${FFTW3_LIBRARIES}
         ${ALSA_LIBRARY} ${PTHREAD_LIBRARY}
+        ${JACK_LIBRARY}
+#         ${PULSE_LIBRARY}
+        
 	)
 endif(UNIX AND NOT APPLE)
 

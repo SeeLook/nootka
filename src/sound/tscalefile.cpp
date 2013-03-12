@@ -22,8 +22,9 @@
 #include <QDataStream>
 #include <QDebug>
 
-TscaleFile::TscaleFile() :
-  m_audioArr(0)
+TscaleFile::TscaleFile(QString& path) :
+  m_audioArr(0),
+  m_wavFile(path + "sounds/classical-guitar.wav")
 {}
 
 TscaleFile::~TscaleFile()
@@ -32,8 +33,11 @@ TscaleFile::~TscaleFile()
 }
 
 
-bool TscaleFile::loadAudioData(QString& path) {
-  QFile wavFile(path);
+bool TscaleFile::loadAudioData() {
+  if (m_audioArr)
+    return true;
+  
+  QFile wavFile(m_wavFile);
   if (!wavFile.exists())
       return false;
   wavFile.open(QIODevice::ReadOnly);
