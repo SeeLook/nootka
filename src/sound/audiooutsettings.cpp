@@ -18,10 +18,15 @@
 
 
 #include "audiooutsettings.h"
-#include "taudioout.h"
 #include <QtGui>
 #include "taudioparams.h"
 #include "tmidiout.h"
+#if defined (Q_OS_LINUX)
+  #include "trtaudioout.h"
+#else
+  #include "taudioout.h"
+#endif
+
 // #include <QDebug>
 
 

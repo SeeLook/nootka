@@ -17,7 +17,6 @@
  ***************************************************************************/
 #include "tsound.h"
 #include "tglobals.h"
-#include "taudioout.h"
 #include "taudioin.h"
 #include "taudioparams.h"
 #include "tpitchview.h"
@@ -28,8 +27,12 @@
 #include <QDebug>
 
 #if defined (Q_OS_LINUX)
-  #include "pulseprober.h"
-#endif  
+//   #include "pulseprober.h"
+  #include "trtaudioout.h"
+#else
+  #include "taudioout.h"
+#endif
+
 
 
 
@@ -43,12 +46,12 @@ Tsound::Tsound(QObject* parent) :
   sniffer(0),
   m_examMode(false)
 {
-#if defined (Q_OS_LINUX)
-  if (!checkForPulse()) { // checks is PulseAudio needed and works
-    gl->A->midiEnabled = true;
-    gl->A->INenabled = false;
-  }
-#endif
+// #if defined (Q_OS_LINUX)
+//   if (!checkForPulse()) { // checks is PulseAudio needed and works
+//     gl->A->midiEnabled = true;
+//     gl->A->INenabled = false;
+//   }
+// #endif
   if (gl->A->OUTenabled)
       createPlayer();
   else {
@@ -265,8 +268,9 @@ void Tsound::createPlayer() {
     // so we skip
 #else
   if (audioPlayer)
-    audioPlayer->moveToThread(m_thread);
-  else if (midiPlayer)
+//     audioPlayer->moveToThread(m_thread);
+//   else 
+    if (midiPlayer)
     midiPlayer->moveToThread(m_thread);
   m_thread->start(QThread::HighPriority);
 #endif

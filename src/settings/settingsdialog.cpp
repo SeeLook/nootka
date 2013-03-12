@@ -22,9 +22,9 @@
 #include "examsettings.h"
 #include "tcolorbutton.h"
 #include "tupdateprocess.h"
-#if defined (Q_OS_LINUX)
-  #include "pulseprober.h"
-#endif
+// #if defined (Q_OS_LINUX)
+//   #include "pulseprober.h"
+// #endif
 #include <QtGui>
 #include <audioinsettings.h>
 #include <audiooutsettings.h>
@@ -296,25 +296,25 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     m_nameSett = new NameSettings();
     m_guitarSett = new GuitarSettings();
     m_examSett = new ExamSettings(gl->E, &gl->EquestionColor, &gl->EanswerColor, &gl->EnotBadColor);
-#if defined (Q_OS_LINUX)
-    TpulseWarring *pulseLab = 0;
-    if (checkForPulse())
-      m_sndInSett = new AudioInSettings(gl->A, gl->path);
-    else {
-      m_sndInSett = 0;
-      pulseLab = new TpulseWarring();
-    }
-#else  
+// #if defined (Q_OS_LINUX)
+//     TpulseWarring *pulseLab = 0;
+//     if (checkForPulse())
+//       m_sndInSett = new AudioInSettings(gl->A, gl->path);
+//     else {
+//       m_sndInSett = 0;
+//       pulseLab = new TpulseWarring();
+//     }
+// #else  
     m_sndInSett = new AudioInSettings(gl->A, gl->path);
-#endif
+// #endif
     m_sndOutSett = new AudioOutSettings(gl->A, m_sndInSett); // m_sndInSett is bool - true when exist
     QTabWidget *sndTTab = new QTabWidget();
     if (m_sndInSett)
         sndTTab->addTab(m_sndInSett, tr("listening"));
-#if defined (Q_OS_LINUX)
-    else
-        sndTTab->addTab(pulseLab, tr("listening"));
-#endif
+// #if defined (Q_OS_LINUX)
+//     else
+//         sndTTab->addTab(pulseLab, tr("listening"));
+// #endif
     sndTTab->addTab(m_sndOutSett, tr("playing"));    
 
     stackLayout->addWidget(m_globalSett);

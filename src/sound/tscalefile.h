@@ -31,13 +31,14 @@ class TscaleFile
 {
 
 public:
-    TscaleFile();
+    TscaleFile(QString &path);
     virtual ~TscaleFile();
     
         /** Loads wav file with scale to m_audioArr. If everything is ok returns true */
-    bool loadAudioData(QString &path);
+    bool loadAudioData();
         /** Unloads audio data from an array m_audioArr */
     void deleteData();
+    qint16 *audioArr() { return m_audioArr; }
     
         /** Returns single wav sample (16 bit) from array.
          * !!! It doesn't check does element exist in array !!!*/
@@ -45,6 +46,8 @@ public:
     
 private:
     qint16 *m_audioArr;
+        /** Path to wav file with sounds */
+    QString m_wavFile;
 };
 
 #endif // TSCALEFILE_H

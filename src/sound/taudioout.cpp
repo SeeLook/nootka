@@ -55,7 +55,7 @@ QStringList TaudioOUT::getAudioDevicesList() {
 //---------------------------------------------------------------------------------------
 TaudioOUT::TaudioOUT(TaudioParams* params, QString& path, QObject* parent) :
   TabstractPlayer(parent),
-  m_wavFile(path + "sounds/classical-guitar.wav"),
+  TscaleFile(path),
   m_audioOutput(0),
   m_IOaudioDevice(0),
   m_devName("anything"),
@@ -82,7 +82,7 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
     m_timer->disconnect();
     if (m_devName != params->OUTdevName || !m_audioOutput) { //device doesn't exists or name changed
         if (setAudioDevice(params->OUTdevName))
-          playable = loadAudioData(m_wavFile);
+          playable = loadAudioData();
         else
           playable = false;
     }

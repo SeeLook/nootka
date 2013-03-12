@@ -28,6 +28,8 @@
 class TabstractPlayer : public QObject
 {
 
+  Q_OBJECT
+  
 public:
     TabstractPlayer(QObject *parent = 0);
     virtual ~TabstractPlayer();
