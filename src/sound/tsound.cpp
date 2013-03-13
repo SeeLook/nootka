@@ -17,7 +17,6 @@
  ***************************************************************************/
 #include "tsound.h"
 #include "tglobals.h"
-#include "taudioin.h"
 #include "taudioparams.h"
 #include "tpitchview.h"
 #include "tmidiout.h"
@@ -29,8 +28,10 @@
 #if defined (Q_OS_LINUX)
 //   #include "pulseprober.h"
   #include "trtaudioout.h"
+  #include "trtaudioin.h"
 #else
   #include "taudioout.h"
+  #include "taudioin.h"
 #endif
 
 

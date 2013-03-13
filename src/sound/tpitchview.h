@@ -21,8 +21,14 @@
 #define TPITCHVIEW_H
 
 #include <QWidget>
-#include "taudioin.h"
 #include "tnote.h"
+#if defined (Q_OS_LINUX)
+  #include "trtaudioin.h"
+//   #include "pulseprober.h"
+#else
+  #include "taudioin.h"
+#endif  
+
 
 class QPushButton;
 class QTimer;

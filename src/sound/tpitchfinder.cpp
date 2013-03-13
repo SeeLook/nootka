@@ -147,8 +147,7 @@ void TpitchFinder::run() {
     if (data) {
       if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)) {
           NoteData *curNote = m_channel->getCurrentNote();
-       if (m_isVoice) {
-//             NoteData *curNote = m_channel->getCurrentNote();
+        if (m_isVoice) {
             if (curNote->noteLength() > MIN_SND_TIME) {
                 m_prevPitch = curNote->avgPitch();
                 m_prevFreq = curNote->avgFreq();
@@ -159,12 +158,9 @@ void TpitchFinder::run() {
                   qDebug() << data->noteIndex << data->pitch << curNote->noteLength();
 //                  qDebug() << data->noteIndex << data->pitch << curNote->volume() << "aver:" << averVol;
                   emit found(data->pitch, data->fundamentalFreq);
-//                  if (averVol)
-//                      averVol = (averVol + curNote->volume()) / 2;
-//                  else
-//                      averVol = curNote->volume();
               }
           }
+          
        /*   if (curNote->noteLength() > MIN_SND_TIME) {
             if (m_isVoice) {
                 m_prevPitch = curNote->avgPitch();
@@ -188,34 +184,7 @@ void TpitchFinder::run() {
 //           qDebug() << "pitch" << curNote->avgPitch() << "dur:" << curNote->noteLength();
     
           
-     /** if (m_isVoice) { // average pitch
-        if (!m_noteNoticed) {
-        m_noteNoticed = true;
-        m_noticedChunk = currentChunk();
-        }
-      } else { // pitch in single chunk
-        if (m_shown && data->pitch > m_aGl->loPitch) {
-          m_shown = false;
-//          qDebug("TpitchFinder: founded");
-          emit found(data->pitch, data->fundamentalFreq);
-        }
-      }
-      } else {
-      if (m_isVoice) { // average pitch - shown when note is stoped
-        if(m_noteNoticed) {
-        m_noteNoticed = false;
-        float nn = m_channel->averagePitch(m_noticedChunk, currentChunk());
-        if (nn > m_aGl->loPitch) {
-//            qDebug("TpitchFinder: founded");
-          emit found(nn, pitch2freq(nn));
-        }
-        }
-      } else { // pitch in single chunk 
-        m_shown = true;
-      }
-      emit noteStoped();
-//      qDebug("TpitchFinder: stopped");
-*/
+   
       } else {
         if (m_isVoice)
           emitFound();
@@ -226,11 +195,8 @@ void TpitchFinder::run() {
         }
 //        resetFinder();
       }
-    } else
-        qDebug("no data");
-  
+    }
 	incrementChunk();
 	m_isBussy = false;
-//    qDebug() << "TpitchFinder:" << m_chunkNum ;
 }	
 

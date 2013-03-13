@@ -27,6 +27,7 @@
 QStringList TaudioOUT::getAudioDevicesList() {
     QStringList devList;
     RtAudio rta;
+//     rta.showWarnings(false);
     int devCnt = rta.getDeviceCount();
     if (devCnt < 1)
         return devList;
@@ -117,25 +118,13 @@ bool TaudioOUT::setAudioDevice(QString &name) {
         devInfo = m_rtAudio->getDeviceInfo(i);
         if (devInfo.probed) {
           if (QString::fromStdString(devInfo.name) == name) { // Here it is !!
-            qDebug() << "found" << name;
             devId = i;
             break;
           }
         }
     }
     if (devId == -1) { // no device on the list - load default
-      for(int i = 0; i < devCount; i++) {
         devId = m_rtAudio->getDefaultOutputDevice();
-//         if (m_rtAudio->getDeviceInfo(i).outputChannels > 0) {
-//           devId = i;
-//           qDebug() << "out Id:" << QString::fromStdString(m_rtAudio->getDeviceInfo(i).name) << devId << "ch:" <<m_rtAudio->getDeviceInfo(devId).outputChannels;
-//           break;
-//         } else {
-//           if (m_rtAudio->getDeviceInfo(i).inputChannels > 0) {
-//             qDebug() << "in Id:" << QString::fromStdString(m_rtAudio->getDeviceInfo(i).name) << i << "ch:" <<m_rtAudio->getDeviceInfo(i).inputChannels;
-//           }
-//         }
-      }
     }
   }
   RtAudio::StreamParameters outParams;
@@ -151,7 +140,7 @@ bool TaudioOUT::setAudioDevice(QString &name) {
   }
   if (m_rtAudio->isStreamOpen()) {
       m_maxCBloops = SAMPLE_RATE / (m_bufferFrames / 2);
-      qDebug() << "Rtout:" << QString::fromStdString(m_rtAudio->getDeviceInfo(devId).name) << m_maxCBloops << audioArr();
+      qDebug() << "RtOUT:" << QString::fromStdString(m_rtAudio->getDeviceInfo(devId).name);
       return true;
   } else
     return false;
