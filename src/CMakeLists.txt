@@ -113,7 +113,6 @@ SET( NOOTKA_SRCS
 ###### Sound
   sound/tsound.cpp
   sound/tmidiout.cpp
-  sound/taudioin.cpp
   sound/audiooutsettings.cpp
   sound/audioinsettings.cpp
   sound/rt/RtMidi.cpp
@@ -146,9 +145,9 @@ SET( NOOTKA_SRCS
   
 if(UNIX AND NOT APPLE)
 #   LIST(APPEND NOOTKA_SRCS "sound/pulseprober.cpp" )
-  LIST(APPEND NOOTKA_SRCS "sound/trtaudioout.cpp" "sound/rt/RtAudio.cpp")
+  LIST(APPEND NOOTKA_SRCS "sound/trtaudioout.cpp" "sound/rt/RtAudio.cpp" "sound/trtaudioin.cpp")
 else(UNIX AND NOT APPLE)
-  LIST(APPEND NOOTKA_SRCS "sound/taudioout.cpp" )
+  LIST(APPEND NOOTKA_SRCS "sound/taudioout.cpp" "sound/taudioin.cpp")
 endif(UNIX AND NOT APPLE)
 
 #SET( NOOTKA_HEADERS
@@ -212,7 +211,6 @@ SET( NOOTKA_MOC_SRCS
 ###### Sound
   sound/tsound.h
   sound/tmidiout.h
-  sound/taudioin.h
   sound/audiooutsettings.h
   sound/audioinsettings.h
   sound/tpitchfinder.h
@@ -223,9 +221,9 @@ SET( NOOTKA_MOC_SRCS
   
 if(UNIX AND NOT APPLE)
 #   LIST(APPEND NOOTKA_SRCS "sound/pulseprober.cpp" )
-  LIST(APPEND NOOTKA_MOC_SRCS "sound/trtaudioout.h" )
+  LIST(APPEND NOOTKA_MOC_SRCS "sound/trtaudioout.h" "sound/trtaudioin.h")
 else(UNIX AND NOT APPLE)
-  LIST(APPEND NOOTKA_MOC_SRCS "sound/taudioout.h" )
+  LIST(APPEND NOOTKA_MOC_SRCS "sound/taudioout.h" "sound/taudioin.h")
 endif(UNIX AND NOT APPLE)
 
 # message(STATUS "${NOOTKA_MOC_SRCS} ${NOOTKA_SRCS}" )
