@@ -31,7 +31,16 @@ IF(UNIX AND NOT APPLE)
       /sw/include
       
   )
-  find_library(PULSE_LIBRARY
+  find_library(PULSESIMPLE_LIBRARY
+      NAMES
+      pulse-simple
+      PATHS
+      /usr/lib
+      /usr/lib/x86_64-linux-gnu
+      /usr/local/lib
+      /opt/local/lib
+  )
+  find_library(PULSEERROR_LIBRARY
       NAMES
       pulse
       PATHS
@@ -41,7 +50,17 @@ IF(UNIX AND NOT APPLE)
       /opt/local/lib
   )
   
-# option(ENABLE_PULSEAUDIO "Enable support for PulseAudio" ON)
+if (${PULSE_INCLUDE_DIR})
+    option(ENABLE_PULSEAUDIO "Enable support for PulseAudio" ON)
+else(${PULSE_INCLUDE_DIR})
+    option(ENABLE_PULSEAUDIO "Enable support for PulseAudio" OFF)
+endif (${PULSE_INCLUDE_DIR})
+
+if (${JACK_INCLUDE_DIR})
+    option(ENABLE_JACK "Enable support for JACK (Jack Audio Connection Kit)" ON)
+else (${JACK_INCLUDE_DIR})    
+    option(ENABLE_JACK "Enable support for JACK (Jack Audio Connection Kit)" ON)
+endif (${JACK_INCLUDE_DIR})
 # if(ALSA_LIBRARY)
 #   add_definitions(-D__LINUX_ALSA__)
 #   message(STATUS "support for ALSA\t\t TRUE")
@@ -57,6 +76,7 @@ IF(UNIX AND NOT APPLE)
 # endif(JACK_INCLUDE_DIR)
 # if(ENABLE_PULSEAUDIO)
 #   add_definitions(-D__LINUX_PULSE__)
+#   include_directories(${PULSE_INCLUDE_DIR})
 #   message(STATUS "support for PulseAudio\t\t TRUE")
 # else(ENABLE_PULSEAUDIO)
 #   message(STATUS "support for PulseAudio\t\t FALSE")

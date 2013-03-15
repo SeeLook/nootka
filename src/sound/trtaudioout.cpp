@@ -48,17 +48,19 @@ int TaudioOUT::m_noteOffset = 0;
 TaudioOUT* TaudioOUT::m_this = 0;
 
 
-int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void* userData) {
+int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames, double streamTime, 
+                           RtAudioStreamStatus status, void* userData) {
   if ( status )
     qDebug() << "Stream underflow detected!";
   m_samplesCnt++;
   if (m_samplesCnt < m_maxCBloops - 10) {
-      qint16 *data = (qint16*)userData;
+//       qint16 *data = (qint16*)userData;
       qint16 *out = (qint16*)outBuffer;
       int off = m_samplesCnt * nBufferFrames / 2;
       qint16 sample;
       for (int i = 0; i < nBufferFrames / 2; i++) {
-          sample = data[m_noteOffset + i + off];
+          sample = m_this->getSample(m_noteOffset + i + off);
+//           sample = data[m_noteOffset + i + off];
           *out++ = sample;
           *out++ = sample;
           *out++ = sample;
@@ -80,7 +82,8 @@ TaudioOUT::TaudioOUT(TaudioParams *params, QString &path, QObject *parent) :
   TscaleFile(path),
   m_devName("anything"),
   m_rtAudio(0),
-  m_params(params)
+  m_params(params),
+  m_streamOptions(0)
 {
   setAudioOutParams(params);
   m_this = this;
@@ -89,10 +92,13 @@ TaudioOUT::TaudioOUT(TaudioParams *params, QString &path, QObject *parent) :
 
 TaudioOUT::~TaudioOUT() 
 {
+  delete m_streamOptions;
   delete m_rtAudio;
 }
 
 void TaudioOUT::emitNoteFinished() {
+  if (m_rtAudio->isStreamRunning())
+    m_rtAudio->stopStream();
   emit noteFinished();
 }
 
@@ -116,6 +122,7 @@ bool TaudioOUT::setAudioDevice(QString &name) {
     RtAudio::DeviceInfo devInfo;
     for(int i = 0; i < devCount; i++) { // Is there device on the list ??
         devInfo = m_rtAudio->getDeviceInfo(i);
+//         qDebug() << i << "got";
         if (devInfo.probed) {
           if (QString::fromStdString(devInfo.name) == name) { // Here it is !!
             devId = i;
@@ -127,12 +134,30 @@ bool TaudioOUT::setAudioDevice(QString &name) {
         devId = m_rtAudio->getDefaultOutputDevice();
     }
   }
+  RtAudio::DeviceInfo devInfo = m_rtAudio->getDeviceInfo(devId);
+//   qDebug() << "samples" << "got";
+  bool rateFound = false;
+  for (int i = 0; i < devInfo.sampleRates.size(); i++) {
+    if (devInfo.sampleRates.at(i) == SAMPLE_RATE) {
+      rateFound = true;
+      break;
+    }
+  }
+  if (!rateFound) {
+    qDebug() << "This device doesn't support 44100 sampling and resampling is not implemented yet.";
+    return false;
+  }
   RtAudio::StreamParameters outParams;
   outParams.deviceId = devId;
   outParams.nChannels = 2;
   outParams.firstChannel = 0;
+  if (m_rtAudio->getCurrentApi() == RtAudio::UNIX_JACK) {
+    if (!m_streamOptions)
+      m_streamOptions = new RtAudio::StreamOptions;
+    m_streamOptions->streamName = "nootkaOUT";
+  }
   try {
-    m_rtAudio->openStream(&outParams, NULL, RTAUDIO_SINT16, SAMPLE_RATE, &m_bufferFrames, &outCallBack, audioArr());
+    m_rtAudio->openStream(&outParams, NULL, RTAUDIO_SINT16, SAMPLE_RATE, &m_bufferFrames, &outCallBack, 0, m_streamOptions);
   }
   catch ( RtError& e ) {
     e.printMessage();

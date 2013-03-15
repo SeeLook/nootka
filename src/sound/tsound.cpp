@@ -79,12 +79,12 @@ Tsound::~Tsound()
 //------------------------------------------------------------------------------------
 
 void Tsound::play(Tnote note) {
-  bool plaing;
+  bool playing;
   if(audioPlayer)
-    plaing = audioPlayer->play(note.getChromaticNrOfNote());
+    playing = audioPlayer->play(note.getChromaticNrOfNote());
   else if (midiPlayer)
-    plaing = midiPlayer->play(note.getChromaticNrOfNote());
-  if (plaing) { // true if plaing was started
+    playing = midiPlayer->play(note.getChromaticNrOfNote());
+  if (playing) { // true if plaing was started
     if (sniffer) { // pause sniffer if note was started
       sniffer->wait();
       m_pitchView->stopVolume();
@@ -269,8 +269,8 @@ void Tsound::createPlayer() {
     // so we skip
 #else
   if (audioPlayer)
-//     audioPlayer->moveToThread(m_thread);
-//   else 
+    audioPlayer->moveToThread(m_thread);
+  else 
     if (midiPlayer)
     midiPlayer->moveToThread(m_thread);
   m_thread->start(QThread::HighPriority);

@@ -141,6 +141,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* pa
   
   midABox->setLayout(midLay);
   tunLay->addWidget(midABox);
+  tunLay->addStretch();
   
 //   noisGr = new QGroupBox(this);
 //   QVBoxLayout *noisLay = new QVBoxLayout();
