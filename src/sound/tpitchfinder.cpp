@@ -32,13 +32,13 @@ TpitchFinder::TpitchFinder(QObject* parent) :
   m_chunkNum(0),
   m_channel(0),
   m_filteredChunk(0),
-/**  m_shown(true), */
   m_emited(false),
   m_prevPitch(0), m_prevFreq(0),
   m_prevNoteIndex(-1),
   m_noteNoticed(false),
   m_noticedChunk(0),
-  m_isVoice(false)
+  m_isVoice(false),
+  m_doReset(false)
 {
     m_aGl = new TartiniParams();
     m_aGl->chanells = 1;
@@ -72,12 +72,14 @@ TpitchFinder::TpitchFinder(QObject* parent) :
     myTransforms.init(m_aGl, aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
     if (aGl()->equalLoudness)
       m_filteredChunk = new float[aGl()->framesPerChunk];
+    m_prevChunk = new float[aGl()->framesPerChunk];
 }
 
 TpitchFinder::~TpitchFinder()
 {
     if (m_filteredChunk)
         delete m_filteredChunk;
+    delete m_prevChunk;
     myTransforms.uninit();
     if(m_channel)
       delete m_channel;
@@ -97,18 +99,31 @@ void TpitchFinder::setIsVoice(bool voice) {
 }
 
 
+void TpitchFinder::setSampleRate(unsigned int sRate) {
+    m_aGl->rate = sRate;
+    resetFinder();
+}
+
+
 void TpitchFinder::searchIn(float* chunk) {
   if (chunk) {
-//      qDebug("searching");
+      if (m_doReset) { // copy last chunk to keep capturing data continous
+        if (aGl()->equalLoudness)
+            std::copy(m_filteredChunk, m_filteredChunk + aGl()->framesPerChunk - 1, m_prevChunk);
+        else
+            std::copy(m_workChunk, m_workChunk + aGl()->framesPerChunk - 1, m_prevChunk);
+        resetFinder();
+        std::copy(m_prevChunk, m_prevChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
+      }
       m_workChunk = chunk;
       m_channel->shift_left(aGl()->framesPerChunk); // make palce in channel for new audio data
       if (aGl()->equalLoudness) { // filter it and copy  too channel
         m_channel->highPassFilter->filter(m_workChunk, m_filteredChunk, aGl()->framesPerChunk);
         for(int i = 0; i < aGl()->framesPerChunk; i++)
             m_filteredChunk[i] = bound(m_filteredChunk[i], -1.0f, 1.0f);
-        std::copy(m_filteredChunk, m_filteredChunk+aGl()->framesPerChunk-1, m_channel->end() - aGl()->framesPerChunk);
+        std::copy(m_filteredChunk, m_filteredChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
       } else // copy without filtering
-          std::copy(m_workChunk, m_workChunk+aGl()->framesPerChunk-1, m_channel->end() - aGl()->framesPerChunk);
+          std::copy(m_workChunk, m_workChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
       run();
   } else {
       emitFound();
@@ -118,14 +133,14 @@ void TpitchFinder::searchIn(float* chunk) {
 
 
 void TpitchFinder::resetFinder() {
+  m_doReset = false;
   if (m_channel) {
       delete m_channel;
       m_chunkNum = 0;
       myTransforms.uninit();
       m_channel = new Channel(this, aGl()->windowSize);
       myTransforms.init(aGl(), aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
-       qDebug("reset chanell");
-//    /**  m_shown = false; */
+      qDebug("reset channel");
   }
 }
 
@@ -137,7 +152,6 @@ void TpitchFinder::emitFound() {
   }
 }
 
-//float averVol = 0;
 
 void TpitchFinder::run() {
 	m_isBussy = true;
@@ -186,14 +200,15 @@ void TpitchFinder::run() {
           
    
       } else {
-        if (m_isVoice)
-          emitFound();
-        else {
-//          if (m_prevNoteIndex != -1)
-//            qDebug("not visible");
-          m_prevNoteIndex = -1;
-        }
-//        resetFinder();
+          if (m_isVoice)
+            emitFound();
+          else {
+            m_prevNoteIndex = -1;
+          }
+          if (m_chunkNum > 100 && !m_channel->isVisibleNote(data->noteIndex)) {
+            m_doReset = true;
+//               qDebug() << m_channel->isVisibleNote(data->noteIndex) << m_channel->isLabelNote(data->noteIndex);
+          }
       }
     }
 	incrementChunk();

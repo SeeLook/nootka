@@ -22,7 +22,6 @@
 #include "taudioparams.h"
 #include <QThread>
 
-#define SAMPLE_RATE (44100)
 
 /*static */
 QStringList TaudioIN::getAudioDevicesList() {
@@ -63,8 +62,9 @@ int TaudioIN::inCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFr
 }
 
 TpitchFinder* TaudioIN::m_pitch = 0;
-unsigned int TaudioIN::m_bufferFrames = 1024;
 float* TaudioIN::m_floatBuff = 0;
+int TaudioIN::m_instancesNr = 0;
+unsigned int TaudioIN::m_bufferFrames = 1024;
 qint16 TaudioIN::m_maxPeak = 0;
 qint16 TaudioIN::m_maxP = 0;
 quint32 TaudioIN::m_floatsWriten = 0;
@@ -80,9 +80,13 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     m_rtAudio(0),
     m_params(params), // points on gl->A or tmpParams in AudioInSettings
     m_devName("any"),
-    m_paused(false)
-{    
-  m_pitch = new TpitchFinder();
+    m_paused(false),
+    m_sampleRate(44100),
+    m_streamOptions(0)
+{
+  m_instancesNr++;
+  if (!m_pitch)
+    m_pitch = new TpitchFinder();
 //  m_thread = new QThread();
 //  m_pitch->moveToThread(m_thread);
   setParameters(params);
@@ -93,13 +97,19 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
 
 TaudioIN::~TaudioIN()
 {
-  
+  disconnect(m_pitch, SIGNAL(found(float,float)), this, SLOT(pitchFreqFound(float,float)));
+  stopListening();
 //  m_thread->terminate();
-  delete m_pitch;
-//  delete m_thread;
-  if (m_floatBuff)
-      delete[] (m_floatBuff);
   delete m_rtAudio;
+  if (m_instancesNr == 1) {
+    delete m_streamOptions;
+    delete m_pitch;
+    if (m_floatBuff)
+      delete[] (m_floatBuff);
+  }
+  m_instancesNr--;
+//  delete m_thread;
+//   delete m_rtAudio;
 }
 
 //------------------------------------------------------------------------------------
@@ -108,16 +118,18 @@ TaudioIN::~TaudioIN()
 
 
 void TaudioIN::setParameters(TaudioParams* params) {
-  setAudioDevice(params->INdevName);
   m_pitch->setIsVoice(params->isVoice);
+  setAudioDevice(params->INdevName);
   m_params = params;
 }
 
 /** Device name is saved to globals and to config file only after changed the Nootka preferences.
 * In other cases the default device is loaded. */
 bool TaudioIN::setAudioDevice(const QString& devN) {
-  if (devN == m_devName)
+  if (devN == m_devName) {
+//     startListening();
     return true;
+  }
   if (!m_rtAudio)
     m_rtAudio = new RtAudio;
   int devId = -1;
@@ -128,7 +140,6 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
         devInfo = m_rtAudio->getDeviceInfo(i);
         if (devInfo.probed) {
           if (QString::fromStdString(devInfo.name) == devN) { // Here it is !!
-            qDebug() << "found" << devN;
             devId = i;
             break;
           }
@@ -137,19 +148,28 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
     if (devId == -1) { // no device on the list - load default
         devId = m_rtAudio->getDefaultInputDevice();
     }
-  }
+  } else 
+    return false;
   m_inParams.deviceId = devId;
   m_inParams.nChannels = 1;
   m_inParams.firstChannel = 0;
+  RtAudio::DeviceInfo devInfo = m_rtAudio->getDeviceInfo(devId);
+  m_sampleRate = devInfo.sampleRates.at(devInfo.sampleRates.size() - 1);
+  m_pitch->setSampleRate(m_sampleRate);
+  if (m_rtAudio->getCurrentApi() == RtAudio::UNIX_JACK) {
+    if (!m_streamOptions)
+      m_streamOptions = new RtAudio::StreamOptions;
+    m_streamOptions->streamName = "nootkaIN";
+  }
   try {
-    m_rtAudio->openStream(NULL ,&m_inParams, RTAUDIO_SINT16, SAMPLE_RATE, &m_bufferFrames, &inCallBack, 0);
+    m_rtAudio->openStream(NULL ,&m_inParams, RTAUDIO_SINT16, m_sampleRate, &m_bufferFrames, &inCallBack, 0, m_streamOptions);
   }
   catch ( RtError& e ) {
     e.printMessage();
     return false;
   }
   if (m_rtAudio->isStreamOpen()) {
-      qDebug() << "RtIN:" << QString::fromStdString(m_rtAudio->getDeviceInfo(devId).name);
+      qDebug() << "RtIN:" << QString::fromStdString(m_rtAudio->getDeviceInfo(devId).name) << "rate:" << m_sampleRate;
       return true;
   } else
       return false;
@@ -168,8 +188,10 @@ void TaudioIN::startListening() {
     if (!m_floatBuff)
         m_floatBuff = new float[m_pitch->aGl()->framesPerChunk]; // 1024
     initInput();
-    if (!m_rtAudio->isStreamOpen())
-        m_rtAudio->openStream(NULL ,&m_inParams, RTAUDIO_SINT16, SAMPLE_RATE, &m_bufferFrames, &inCallBack, 0);
+    if (!m_rtAudio->isStreamOpen()) {
+        m_rtAudio->openStream(NULL, &m_inParams, RTAUDIO_SINT16, m_sampleRate, &m_bufferFrames, &inCallBack, 0, m_streamOptions);
+        qDebug() << "openStream";
+    }
     go();
   }
 }

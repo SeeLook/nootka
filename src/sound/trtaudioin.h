@@ -94,15 +94,21 @@ private:
   static int inCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void *userData);
   
   static float *m_floatBuff;
+  static TpitchFinder *m_pitch;
+      /** Number of TaudioIN instances in Nootka. 
+       * It avoids deleting m_floatBuff and m_pitch when other insatnces are deleted. */
+  static int m_instancesNr;
+  
   static quint32 m_floatsWriten;
   static qint16 m_maxPeak, m_maxP;
-  static TpitchFinder *m_pitch;
       /** Size of a buffer */
   static unsigned int m_bufferFrames;
   
 //   QList<qint16> m_peakList;
+  unsigned int m_sampleRate;
   RtAudio *m_rtAudio;
   RtAudio::StreamParameters m_inParams;
+  RtAudio::StreamOptions *m_streamOptions;
   TaudioParams *m_params;
   QString m_devName;
 

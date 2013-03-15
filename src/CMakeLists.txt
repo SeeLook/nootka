@@ -8,19 +8,20 @@ add_subdirectory(sound/rt)
     else(ALSA_LIBRARY)
       message(STATUS "support for ALSA\t\t FALSE")
     endif(ALSA_LIBRARY)
-    if(JACK_INCLUDE_DIR)
+    if(ENABLE_JACK AND JACK_INCLUDE_DIR)
       add_definitions(-D__UNIX_JACK__)
       include_directories(${JACK_INCLUDE_DIR})
       message(STATUS "support for JACK\t\t TRUE")
-    else(JACK_INCLUDE_DIR)
+    else(ENABLE_JACK AND JACK_INCLUDE_DIR)
       message(STATUS "support for JACK\t\t FALSE")
-    endif(JACK_INCLUDE_DIR)
-    # if(ENABLE_PULSEAUDIO)
-    #   add_definitions(-D__LINUX_PULSE__)
-    #   message(STATUS "support for PulseAudio\t\t TRUE")
-    # else(ENABLE_PULSEAUDIO)
-    #   message(STATUS "support for PulseAudio\t\t FALSE")
-    # endif(ENABLE_PULSEAUDIO)
+    endif(ENABLE_JACK AND JACK_INCLUDE_DIR)
+    if(ENABLE_PULSEAUDIO AND PULSE_INCLUDE_DIR)
+      add_definitions(-D__LINUX_PULSE__)
+      include_directories(${PULSE_INCLUDE_DIR})
+      message(STATUS "support for PulseAudio\t\ TRUE")
+    else(ENABLE_PULSEAUDIO AND PULSE_INCLUDE_DIR)
+      message(STATUS "support for PulseAudio\t FALSE")
+    endif(ENABLE_PULSEAUDIO AND PULSE_INCLUDE_DIR)
 endif(UNIX AND NOT APPLE)
 
 INCLUDE_DIRECTORIES (. exam info level score settings sound charts)
@@ -266,7 +267,7 @@ if(UNIX AND NOT APPLE) #Linux
         ${FFTW3_LIBRARIES}
         ${ALSA_LIBRARY} ${PTHREAD_LIBRARY}
         ${JACK_LIBRARY}
-#         ${PULSE_LIBRARY}
+        ${PULSESIMPLE_LIBRARY} ${PULSEERROR_LIBRARY}
         
 	)
 endif(UNIX AND NOT APPLE)

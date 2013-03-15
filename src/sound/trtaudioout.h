@@ -49,13 +49,15 @@ public:
     
 private:
   void deleteAudio();
-  static int outCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void *userData);
+  static int outCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime,
+                         RtAudioStreamStatus status, void *userData);
   void emitNoteFinished();
   
   
   TaudioParams *m_params;
   RtAudio *m_rtAudio;
   QString m_devName;
+  RtAudio::StreamOptions *m_streamOptions;
 
   static int m_noteOffset;
       /** Number of performed samples. */

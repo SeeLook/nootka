@@ -65,26 +65,29 @@ class TpitchFinder : public QObject
 public:
     explicit TpitchFinder(QObject *parent = 0);
     virtual ~TpitchFinder();
-	
+  
     MyTransforms myTransforms;
-	  /** global settings for pitch recognize. */
+        /** global settings for pitch recognize. */
     TartiniParams* aGl() { return m_aGl; }
-	
-	  /** Starts thread searching in @param chunk,
-	   * whitch is pointer to array of floats of audio data. 
-	   * First copy it to channel obiect. */
-	void searchIn(float *chunk);
-	bool isBussy() { return m_isBussy; }
-	
-	int currentChunk() { return m_chunkNum; }
-	void setCurrentChunk(int curCh) { m_chunkNum = curCh; }
-	void incrementChunk() { m_chunkNum++; }
-	void setIsVoice(bool voice);
-    /** Cleans all buffers, sets m_chunkNum to 0. */
-  void resetFinder();
-  void setAmbitus(qint16 loPitch, double topPitch) { 
-        m_aGl->loPitch = loPitch; m_aGl->topPitch = topPitch; }
-	
+  
+        /** Starts thread searching in @param chunk,
+        * whitch is pointer to array of floats of audio data. 
+        * First copy it to channel obiect. */
+    void searchIn(float *chunk);
+    bool isBussy() { return m_isBussy; }
+    
+    int currentChunk() { return m_chunkNum; }
+    void setCurrentChunk(int curCh) { m_chunkNum = curCh; }
+    void incrementChunk() { m_chunkNum++; }
+    void setIsVoice(bool voice);
+        /** Changes default 44100 sample rate to given. It takes effect only after resetFinder().
+        * Better don't call this during processing. */
+    void setSampleRate(unsigned int sRate);
+      /** Cleans all buffers, sets m_chunkNum to 0. */
+    void resetFinder();
+    void setAmbitus(qint16 loPitch, double topPitch) { 
+          m_aGl->loPitch = loPitch; m_aGl->topPitch = topPitch; }
+    
 signals:
       /** Signal emited when pitch is detected. 
       * @param pitch is float type of midi note.
@@ -100,11 +103,11 @@ private:
        * and emits found(m_prevPitch, m_prevFreq) */
   void emitFound();
   
-  float           *m_filteredChunk, *m_workChunk;
-  double m_prevPitch, m_prevFreq;
+  float           *m_filteredChunk, *m_workChunk, *m_prevChunk;
+  double           m_prevPitch, m_prevFreq;
 
-/**  bool            m_shown; */
   bool            m_emited;
+  bool            m_doReset;
   bool            m_noteNoticed;
   int             m_noticedChunk; // chunk nr where note was started
 	TartiniParams   *m_aGl; 
