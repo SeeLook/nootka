@@ -22,9 +22,8 @@
 
 #include <QWidget>
 #include "tnote.h"
-#if defined (Q_OS_LINUX)
+#if defined(__LINUX_ALSA__)
   #include "trtaudioin.h"
-//   #include "pulseprober.h"
 #else
   #include "taudioin.h"
 #endif  

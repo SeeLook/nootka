@@ -21,7 +21,7 @@
 #include <QtGui>
 #include "taudioparams.h"
 #include "tmidiout.h"
-#if defined (Q_OS_LINUX)
+#if defined(__LINUX_ALSA__)
   #include "trtaudioout.h"
 #else
   #include "taudioout.h"

@@ -34,7 +34,6 @@
 #include "tprogresswidget.h"
 #include "texamview.h"
 #include "taudioparams.h"
-#include "taudioout.h"
 #include "tpitchview.h"
 #include "tanalysdialog.h"
 #include <tquestionpoint.h>

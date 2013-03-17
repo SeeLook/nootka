@@ -41,8 +41,9 @@ if(NOT PACKAGE_ARCHITECTURE)
       else(NOT RPM_CMD)
         execute_process(COMMAND "${RPM_CMD}" --eval %_target_cpu
           OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
-          OUTPUT_STRIP_TRAILING_WHITESPACE
+          OUTPUT_STRIP_TRAILING_WHITESPACE 
         )
+        set(RPM_CMD_FOUND TRUE)
       endif(NOT RPM_CMD)
    else(NOT DPKG_CMD)
       execute_process(COMMAND "${DPKG_CMD}" --print-architecture
@@ -54,96 +55,133 @@ if(NOT PACKAGE_ARCHITECTURE)
 endif(NOT PACKAGE_ARCHITECTURE)
 message(STATUS "Architecture is ${PACKAGE_ARCHITECTURE}")
 
+# if(NOT PACKAGE_ARCHITECTURE AND NOT ARCH_CMD)
+#    find_program(ARCH_CMD dpkg) # Debian/Ubuntu and derivatives
+#    if(ARCH_CMD)
+#       execute_process(COMMAND "${ARCH_CMD}" --print-architecture
+#         OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
+#         OUTPUT_STRIP_TRAILING_WHITESPACE
+#       )
+#       add_definitions(-D_FORTIFY_SOURCE=2) # for lintian DEB_BUILD_HARDENING_FORTIFY
+#    endif(ARCH_CMD)
+#    
+#    if(NOT ARCH_CMD) # Mandriva/Suse and others RPM-based
+#      if(ARCH_CMD)
+#       find_program(ARCH_CMD rpm)
+#       execute_process(COMMAND "${ARCH_CMD}" --eval %_target_cpu
+#           OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
+#           OUTPUT_STRIP_TRAILING_WHITESPACE
+#         )
+#       endif(ARCH_CMD)
+#    endif(NOT ARCH_CMD)
+#    
+#    if(NOT ARCH_CMD) # Arch Linux, Gentoo and others
+#         find_program(ARCH_CMD uname)
+#         execute_process(COMMAND uname -m
+#           OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
+#           OUTPUT_STRIP_TRAILING_WHITESPACE
+#         )
+#    endif(NOT ARCH_CMD)   
+# endif(NOT PACKAGE_ARCHITECTURE AND NOT ARCH_CMD)
+# message(STATUS "Architecture is ${PACKAGE_ARCHITECTURE}")
 
 ###########################################################################
 ########   Looking for QtMultimedia
 ###########################################################################
-if(QTMULTIMEDIA_LIBRARIES AND QTMULTIMEDIA_INCLUDE_DIRS AND QTMOBILITY_INCLUDE_DIRS)
-  set(QTMULTIMEDIA_FOUND TRUE)
-else(QTMULTIMEDIA_LIBRARIES AND QTMULTIMEDIA_INCLUDE_DIRS AND QTMOBILITY_INCLUDE_DIRS)
-  if(WIN32)
-    set(QTMULTIMEDIA_FOUND TRUE)
-  else(WIN32) 
-    find_path(QTMULTIMEDIA_INCLUDE_DIR
-        NAMES
-          qaudio.h
-        PATHS
-          /usr/include
-          /usr/include/qt4
-          /usr/local/include
-          /opt/local/include
-          /sw/include
-          /usr/include/QtMultimedia
-          /usr/include/qt4/QtMultimedia
-          /usr/include/QtMultimediaKit
-          /usr/include/QtMobility
-    )
-    find_path(QTMOBILITY_INCLUDE_DIR
-        NAMES
-          qmobilityglobal.h
-        PATHS
-          /usr/include
-          /usr/local/include
-          /opt/local/include
-          /sw/include
-          /usr/include/QtMultimedia
-          /usr/include/QtMultimediaKit
-          /usr/include/QtMobility
-    )
-	if(NOT QTMOBILITY_INCLUDE_DIR) # Dostros other than Ubuntu/Mint haven't qmobilityglobal dependices
-	  set(QTMOBILITY_INCLUDE_DIR /usr/include) # and this var is unused
-	endif(NOT QTMOBILITY_INCLUDE_DIR)
+if (UNIX AND NOT APPLE)
+option(ENABLE_QTMULTIMEDIA "Use QtMultimedia framework instead of RtAudio" OFF)
+else (UNIX AND NOT APPLE)
+  set(ENABLE_QTMULTIMEDIA ON)
+endif (UNIX AND NOT APPLE)
 
-  endif(WIN32)
+if (ENABLE_QTMULTIMEDIA)
+    if(QTMULTIMEDIA_LIBRARIES AND QTMULTIMEDIA_INCLUDE_DIRS AND QTMOBILITY_INCLUDE_DIRS)
+      set(QTMULTIMEDIA_FOUND TRUE)
+    else(QTMULTIMEDIA_LIBRARIES AND QTMULTIMEDIA_INCLUDE_DIRS AND QTMOBILITY_INCLUDE_DIRS)
+      if(WIN32)
+        set(QTMULTIMEDIA_FOUND TRUE)
+      else(WIN32) 
+        find_path(QTMULTIMEDIA_INCLUDE_DIR
+            NAMES
+              qaudio.h
+            PATHS
+              /usr/include
+              /usr/include/qt4
+              /usr/local/include
+              /opt/local/include
+              /sw/include
+              /usr/include/QtMultimedia
+              /usr/include/qt4/QtMultimedia
+              /usr/include/QtMultimediaKit
+              /usr/include/QtMobility
+        )
+        find_path(QTMOBILITY_INCLUDE_DIR
+            NAMES
+              qmobilityglobal.h
+            PATHS
+              /usr/include
+              /usr/local/include
+              /opt/local/include
+              /sw/include
+              /usr/include/QtMultimedia
+              /usr/include/QtMultimediaKit
+              /usr/include/QtMobility
+        )
+      if(NOT QTMOBILITY_INCLUDE_DIR) # Dostros other than Ubuntu/Mint haven't qmobilityglobal dependices
+        set(QTMOBILITY_INCLUDE_DIR /usr/include) # and this var is unused
+        set(QTMOBILITY_INCLUDE_DIR_FOUND TRUE)
+      endif(NOT QTMOBILITY_INCLUDE_DIR)
 
-    find_library(QTMULTIMEDIA_LIBRARY
-                  NAMES
-                        QtMultimediaKit
-                  PATHS
-                        /usr/lib
-                        /usr/lib64
-                        /usr/local/lib
-                        /opt/local/lib
-    )
+      endif(WIN32)
 
-  if (NOT QTMULTIMEDIA_LIBRARY)
-    find_library(QTMULTIMEDIA_LIBRARY
-                  NAMES
-                        QtMultimedia
-                  PATHS
-                        /usr/lib
-                        /usr/lib64
-                        /usr/local/lib
-                        /opt/local/lib
-    )
-  endif(NOT QTMULTIMEDIA_LIBRARY)
+        find_library(QTMULTIMEDIA_LIBRARY
+                      NAMES
+                            QtMultimediaKit
+                      PATHS
+                            /usr/lib
+                            /usr/lib64
+                            /usr/local/lib
+                            /opt/local/lib
+        )
 
-  set(QTMULTIMEDIA_INCLUDE_DIRS 
-      ${QTMULTIMEDIA_INCLUDE_DIR} 
-    )
-  set(QTMULTIMEDIA_LIBRARIES
-      ${QTMULTIMEDIA_LIBRARY} 
-    )
-  set(QTMOBILITY_INCLUDE_DIRS
-      ${QTMOBILITY_INCLUDE_DIR}
-  )
+      if (NOT QTMULTIMEDIA_LIBRARY)
+        find_library(QTMULTIMEDIA_LIBRARY
+                      NAMES
+                            QtMultimedia
+                      PATHS
+                            /usr/lib
+                            /usr/lib64
+                            /usr/local/lib
+                            /opt/local/lib
+        )
+      endif(NOT QTMULTIMEDIA_LIBRARY)
 
-  if(QTMULTIMEDIA_INCLUDE_DIRS AND QTMULTIMEDIA_LIBRARIES AND QTMOBILITY_INCLUDE_DIRS)
-    set(QTMULTIMEDIA_FOUND TRUE)
-  endif(QTMULTIMEDIA_INCLUDE_DIRS AND QTMULTIMEDIA_LIBRARIES AND QTMOBILITY_INCLUDE_DIRS)
+      set(QTMULTIMEDIA_INCLUDE_DIRS 
+          ${QTMULTIMEDIA_INCLUDE_DIR} 
+        )
+      set(QTMULTIMEDIA_LIBRARIES
+          ${QTMULTIMEDIA_LIBRARY} 
+        )
+      set(QTMOBILITY_INCLUDE_DIRS
+          ${QTMOBILITY_INCLUDE_DIR}
+      )
 
-  if(QTMULTIMEDIA_FOUND)
-      message(STATUS "QtMultimedia was Found in:\n${QTMULTIMEDIA_LIBRARIES}\n${QTMULTIMEDIA_INCLUDE_DIRS}\n${QTMOBILITY_INCLUDE_DIRS} ")
-  else(QTMULTIMEDIA_FOUND)
-      message(FATAL_ERROR 
-        "Could not find QtMultimedia\nTry call cmake with args:\n-DQTMULTIMEDIA_LIBRARIES=/path_to/libQtMultimedia(Kit).la(dll) -DQTMULTIMEDIA_INCLUDE_DIR=/path_to_dir_with/qaudio.h -DQTMOBILITY_INCLUDE_DIR=/path_to_dir_with/qmobilityglobal.h")
-  endif(QTMULTIMEDIA_FOUND)
+      if(QTMULTIMEDIA_INCLUDE_DIRS AND QTMULTIMEDIA_LIBRARIES AND QTMOBILITY_INCLUDE_DIRS)
+        set(QTMULTIMEDIA_FOUND TRUE)
+      endif(QTMULTIMEDIA_INCLUDE_DIRS AND QTMULTIMEDIA_LIBRARIES AND QTMOBILITY_INCLUDE_DIRS)
 
-endif(QTMULTIMEDIA_LIBRARIES AND QTMULTIMEDIA_INCLUDE_DIRS AND QTMOBILITY_INCLUDE_DIRS)
+      if(QTMULTIMEDIA_FOUND)
+          message(STATUS "QtMultimedia was Found in:\n${QTMULTIMEDIA_LIBRARY}\n${QTMULTIMEDIA_INCLUDE_DIRS}\n${QTMOBILITY_INCLUDE_DIRS} ")
+      else(QTMULTIMEDIA_FOUND)
+          message(FATAL_ERROR 
+            "Could not find QtMultimedia\nTry call cmake with args:\n-DQTMULTIMEDIA_LIBRARY=/path_to/libQtMultimedia(Kit).la(dll) -DQTMULTIMEDIA_INCLUDE_DIR=/path_to_dir_with/qaudio.h -DQTMOBILITY_INCLUDE_DIR=/path_to_dir_with/qmobilityglobal.h")
+      endif(QTMULTIMEDIA_FOUND)
 
-include_directories(${QTMULTIMEDIA_INCLUDE_DIRS})
-include_directories(${QTMOBILITY_INCLUDE_DIRS}) 
+    endif(QTMULTIMEDIA_LIBRARIES AND QTMULTIMEDIA_INCLUDE_DIRS AND QTMOBILITY_INCLUDE_DIRS)
 
+    include_directories(${QTMULTIMEDIA_INCLUDE_DIRS})
+    include_directories(${QTMOBILITY_INCLUDE_DIRS}) 
+endif (ENABLE_QTMULTIMEDIA)
 ###########################################################################
 ########   Looking for fftw3
 ###########################################################################
@@ -310,11 +348,12 @@ if(UNIX AND NOT APPLE)
       execute_process(COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/doc )
       execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/make-chlog.sh ${Nootka_VERSION_FULL} ${CMAKE_CURRENT_BINARY_DIR}/doc/changelog ${CMAKE_CURRENT_SOURCE_DIR})
 	" )
-	if (DPKG_CMD) # Debian changelog
+  if (DPKG_CMD) # Debian changelog
       INSTALL(FILES "${CMAKE_CURRENT_BINARY_DIR}/doc/changelog.Debian.gz" DESTINATION share/doc/nootka)
   endif (DPKG_CMD)
 	INSTALL(FILES copyright DESTINATION share/doc/nootka)
 	INSTALL(FILES packaging/nootka.1.gz DESTINATION share/man/man1)
+	INSTALL(FILES packaging/nootka-updater.1.gz DESTINATION share/man/man1)
     
 endif(UNIX AND NOT APPLE)
 
