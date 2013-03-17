@@ -20,22 +20,24 @@
 #include <QDebug>
 #include "tpitchfinder.h"
 #include "taudioparams.h"
+#include "rt/rtcreator.h"
 #include <QThread>
 
 
 /*static */
 QStringList TaudioIN::getAudioDevicesList() {
     QStringList devList;
-    RtAudio rta;
-    int devCnt = rta.getDeviceCount();
+    RtAudio *rta = getRtAudio();
+    int devCnt = rta->getDeviceCount();
     if (devCnt < 1)
         return devList;
     for (int i = 0; i < devCnt; i++) {
         RtAudio::DeviceInfo devInfo;
-        devInfo = rta.getDeviceInfo(i);
+        devInfo = rta->getDeviceInfo(i);
         if (devInfo.probed && devInfo.inputChannels > 0)
           devList << QString::fromStdString(devInfo.name);
     }
+    delete rta;
     return devList;
 }
 
@@ -131,7 +133,7 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
     return true;
   }
   if (!m_rtAudio)
-    m_rtAudio = new RtAudio;
+    m_rtAudio = getRtAudio();
   int devId = -1;
   int devCount = m_rtAudio->getDeviceCount();
   if (devCount) {
@@ -164,7 +166,7 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
   try {
     m_rtAudio->openStream(NULL ,&m_inParams, RTAUDIO_SINT16, m_sampleRate, &m_bufferFrames, &inCallBack, 0, m_streamOptions);
   }
-  catch ( RtError& e ) {
+  catch (RtError& e) {
     e.printMessage();
     return false;
   }

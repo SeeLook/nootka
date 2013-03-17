@@ -24,7 +24,6 @@
 #include "tnote.h"
 #include "rt/RtAudio.h"
 
-class RtAudio;
 class TaudioParams;
 class TpitchFinder;
 

@@ -19,6 +19,7 @@
 
 #include "trtaudioout.h"
 #include "taudioparams.h"
+#include "rt/rtcreator.h"
 #include <QDebug>
 
 #define SAMPLE_RATE (44100)
@@ -26,17 +27,18 @@
 /*static*/
 QStringList TaudioOUT::getAudioDevicesList() {
     QStringList devList;
-    RtAudio rta;
+    RtAudio *rta = getRtAudio();
 //     rta.showWarnings(false);
-    int devCnt = rta.getDeviceCount();
+    int devCnt = rta->getDeviceCount();
     if (devCnt < 1)
         return devList;
     for (int i = 0; i < devCnt; i++) {
         RtAudio::DeviceInfo devInfo;
-        devInfo = rta.getDeviceInfo(i);
+        devInfo = rta->getDeviceInfo(i);
         if (devInfo.probed && devInfo.outputChannels > 0)
           devList << QString::fromStdString(devInfo.name);
     }
+    delete rta;
     return devList;
 }
 
@@ -115,7 +117,7 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
 
 bool TaudioOUT::setAudioDevice(QString &name) {
   if (!m_rtAudio)
-    m_rtAudio = new RtAudio;
+    m_rtAudio = getRtAudio();
   int devId = -1;
   int devCount = m_rtAudio->getDeviceCount();
   if (devCount) {

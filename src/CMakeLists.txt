@@ -154,7 +154,7 @@ if(ENABLE_QTMULTIMEDIA)
   LIST(APPEND NOOTKA_SRCS "sound/taudioout.cpp" "sound/taudioin.cpp")
 else(ENABLE_QTMULTIMEDIA)
   #   LIST(APPEND NOOTKA_SRCS "sound/pulseprober.cpp" )
-  LIST(APPEND NOOTKA_SRCS "sound/trtaudioout.cpp" "sound/rt/RtAudio.cpp" "sound/trtaudioin.cpp")
+  LIST(APPEND NOOTKA_SRCS "sound/trtaudioout.cpp" "sound/rt/RtAudio.cpp" "sound/trtaudioin.cpp" "sound/rt/rtcreator.cpp")
 endif(ENABLE_QTMULTIMEDIA)
 
 #SET( NOOTKA_HEADERS
