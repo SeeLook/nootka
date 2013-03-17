@@ -52,12 +52,14 @@ private:
   static int outCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime,
                          RtAudioStreamStatus status, void *userData);
   void emitNoteFinished();
+  bool openStream();
   
   
   TaudioParams *m_params;
   RtAudio *m_rtAudio;
   QString m_devName;
   RtAudio::StreamOptions *m_streamOptions;
+  RtAudio::StreamParameters m_outParams;
 
   static int m_noteOffset;
       /** Number of performed samples. */

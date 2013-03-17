@@ -23,7 +23,7 @@
 #include <QtGui>
 #include "taudioparams.h"
 #include "tnotename.h"
-#if defined (Q_OS_LINUX)
+#if defined(__LINUX_ALSA__)
   #include "trtaudioin.h"
 //   #include "pulseprober.h"
 #else

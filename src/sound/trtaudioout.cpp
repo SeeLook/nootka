@@ -97,8 +97,8 @@ TaudioOUT::~TaudioOUT()
 }
 
 void TaudioOUT::emitNoteFinished() {
-  if (m_rtAudio->isStreamRunning())
-    m_rtAudio->stopStream();
+//   if (m_rtAudio->isStreamRunning())
+//     m_rtAudio->stopStream();
   emit noteFinished();
 }
 
@@ -147,21 +147,16 @@ bool TaudioOUT::setAudioDevice(QString &name) {
     qDebug() << "This device doesn't support 44100 sampling and resampling is not implemented yet.";
     return false;
   }
-  RtAudio::StreamParameters outParams;
-  outParams.deviceId = devId;
-  outParams.nChannels = 2;
-  outParams.firstChannel = 0;
+  m_outParams.deviceId = devId;
+  m_outParams.nChannels = 2;
+  m_outParams.firstChannel = 0;
   if (m_rtAudio->getCurrentApi() == RtAudio::UNIX_JACK) {
     if (!m_streamOptions)
       m_streamOptions = new RtAudio::StreamOptions;
     m_streamOptions->streamName = "nootkaOUT";
   }
-  try {
-    m_rtAudio->openStream(&outParams, NULL, RTAUDIO_SINT16, SAMPLE_RATE, &m_bufferFrames, &outCallBack, 0, m_streamOptions);
-  }
-  catch ( RtError& e ) {
-    e.printMessage();
-    return false;
+  if (!openStream()) {
+      return false;
   }
   if (m_rtAudio->isStreamOpen()) {
       m_maxCBloops = SAMPLE_RATE / (m_bufferFrames / 2);
@@ -171,9 +166,27 @@ bool TaudioOUT::setAudioDevice(QString &name) {
     return false;
 }
 
+
+bool TaudioOUT::openStream() {
+  if (m_rtAudio) {
+    try {
+        m_rtAudio->openStream(&m_outParams, NULL, RTAUDIO_SINT16, SAMPLE_RATE, &m_bufferFrames, &outCallBack, 0, m_streamOptions);
+    }
+    catch ( RtError& e ) {
+        e.printMessage();
+        return false;
+    }
+    return true;
+  }
+  return false;
+}
+
+
 bool TaudioOUT::play(int noteNr) {
   if (!playable)
       return false;
+  if (!m_rtAudio->isStreamOpen())
+    openStream();
   
   noteNr = noteNr + qRound(m_params->a440diff);
   if (noteNr < -11 || noteNr > 41)

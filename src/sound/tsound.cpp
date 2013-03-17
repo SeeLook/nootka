@@ -25,7 +25,7 @@
 #include <QTimer>
 #include <QDebug>
 
-#if defined (Q_OS_LINUX)
+#if defined(__LINUX_ALSA__)
 //   #include "pulseprober.h"
   #include "trtaudioout.h"
   #include "trtaudioin.h"
