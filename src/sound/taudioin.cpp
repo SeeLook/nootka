@@ -135,12 +135,16 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
 	}
 	
   if (fnd) {
+//     templAudioFormat.setSampleRate(m_deviceInfo.supportedSampleRates().last());
+    qDebug() << m_deviceInfo.supportedSampleRates();
+//     templAudioFormat = m_deviceInfo.nearestFormat(templAudioFormat);
     if (m_deviceInfo.isFormatSupported(templAudioFormat)) {
-      qDebug() << "in:" << m_deviceInfo.deviceName();
 //       m_params->INdevName = m_deviceInfo.deviceName();
       m_devName = m_deviceInfo.deviceName();
+      m_pitch->setSampleRate(templAudioFormat.sampleRate());
       m_audioInput = new QAudioInput(m_deviceInfo, templAudioFormat, this);
       m_audioInput->setBufferSize(m_buffer.size());
+      qDebug() << "in:" << m_deviceInfo.deviceName() << "rate:" << templAudioFormat.sampleRate();
     } else {
 		  qDebug() << m_deviceInfo.deviceName() << "format unsupported !!";
       fnd = false;
@@ -202,7 +206,7 @@ void TaudioIN::setIsVoice(bool isV) {
   m_pitch->setIsVoice(isV);
 }
 
-
+/*
 void TaudioIN::calculateNoiseLevel()
 {
   if (m_audioInput) {
@@ -223,6 +227,7 @@ void TaudioIN::calc() {
 	noise = qMax(noise, m_peakList[i]);
   emit noiseLevel(noise);
 }
+*/
 
 /** Range of notes is increased one note down and up.
  * This 46 and 48 are its sign. 
@@ -236,12 +241,12 @@ void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
 //------------          slots       --------------------------------------------------
 //------------------------------------------------------------------------------------
 
-//int cntr = 0;
+// int cntr = 0;
 
 void TaudioIN::audioDataReady() {
 //    qDebug() << cntr << ": " << m_audioInput->bytesReady(); cntr++;
-//	if (m_audioInput->state() != QAudio::ActiveState && m_audioInput->state() != QAudio::IdleState)
-//	  qDebug() << "Input device in state:" << (int)m_audioInput->state();
+// 	if (m_audioInput->state() != QAudio::ActiveState && m_audioInput->state() != QAudio::IdleState)
+// 	  qDebug() << "Input device in state:" << (int)m_audioInput->state();
   
 	qint64 bytesReady = m_audioInput->bytesReady();
 	qint64 bSize = m_buffer.size();
@@ -263,7 +268,6 @@ void TaudioIN::audioDataReady() {
 
 	  if (m_floatsWriten == m_pitch->aGl()->framesPerChunk-1) {
 		m_maxPeak = m_maxP;
-//        if (m_maxPeak > m_params->noiseLevel) {
     if (m_pitch->isBussy())
         qDebug() << "data ignored";
     else {
@@ -271,13 +275,6 @@ void TaudioIN::audioDataReady() {
         if (!m_noteStarted) {
           m_noteStarted = true;
         }
-//		  }
-//        } else {
-//          if (m_noteStarted) {
-//        m_pitch->searchIn(0);
-//        m_noteStarted = false;
-//        m_gotNote = false;
-//          }
     }
     m_floatsWriten = -1;
     m_maxP = 0;
@@ -286,7 +283,7 @@ void TaudioIN::audioDataReady() {
 	}
 }
 
-
+/*
 void TaudioIN::readToCalc() {
   qint64 bytesReady = m_audioInput->bytesReady();
   qint64 bSize = m_buffer.size();
@@ -306,20 +303,16 @@ void TaudioIN::readToCalc() {
 	m_floatsWriten++;
   }
 }
-
+*/
 
 void TaudioIN::pitchFreqFound(float pitch, float freq) {
-//  if(!m_gotNote) {
-//     qDebug() << QString::fromStdString(Tnote(qRound(pitch - m_params->a440diff)-47).getName());
+
   if (!m_paused) {
 //       qDebug() << QString::fromStdString(Tnote(qRound(pitch - m_params->a440diff)-47).getName());
        emit noteDetected(Tnote(qRound(pitch - m_params->a440diff)-47));
        emit fundamentalFreq(freq);
   } else {
-//      qDebug("pitch found skipped");
   }
-//       m_gotNote = true;
-//  }
 }
 
 void TaudioIN::noteStopedSlot() {
@@ -329,7 +322,6 @@ void TaudioIN::noteStopedSlot() {
 
 void TaudioIN::resetSlot() {
     m_audioInput->suspend();
-//    wait();
     go();
 }
 

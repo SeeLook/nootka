@@ -22,11 +22,11 @@
 
 #include <QWidget>
 #include "tnote.h"
-#if defined(__LINUX_ALSA__)
+// #if defined(__LINUX_ALSA__)
   #include "trtaudioin.h"
-#else
-  #include "taudioin.h"
-#endif  
+// #else
+//   #include "taudioin.h"
+// #endif  
 
 
 class QPushButton;

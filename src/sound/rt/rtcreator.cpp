@@ -17,23 +17,23 @@
  ***************************************************************************/
 
 #include "rtcreator.h"
+#include <QFileInfo>
 
 RtAudio* getRtAudio() {
   RtAudio *rta = new RtAudio();
-// #if defined(__LINUX_PULSE__)
-//   if (rta->getCurrentApi() != RtAudio::UNIX_JACK) {
-//     bool isPulse = true;
-//     RtAudio *rtPulse;
-//     try {
-//       rtPulse = new RtAudio(RtAudio::LINUX_PULSE);
-//     } catch (RtError& e) {
-//         isPulse = false;
-//     }
-//       if (isPulse && rtPulse->getDeviceCount() > 0) {
-//         delete rta;
-//         rta = rtPulse;
-//       }
-//   }
-// #endif
+#if defined(__LINUX_PULSE__)
+  if (rta->getCurrentApi() != RtAudio::UNIX_JACK) {
+    QFileInfo pulseBin("/usr/bin/pulseaudio");
+    if (pulseBin.exists()) {
+    RtAudio *rtPulse = new RtAudio(RtAudio::LINUX_PULSE);
+      if (rtPulse->getCurrentApi() == RtAudio::LINUX_PULSE) {
+        if (rtPulse->getDeviceCount() > 0) {
+            delete rta;
+            rta = rtPulse;
+        }
+      }
+    }
+  }
+#endif
   return rta;
 }

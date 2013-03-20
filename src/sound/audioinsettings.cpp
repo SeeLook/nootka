@@ -23,12 +23,12 @@
 #include <QtGui>
 #include "taudioparams.h"
 #include "tnotename.h"
-#if defined(__LINUX_ALSA__)
+// #if defined(__LINUX_ALSA__)
   #include "trtaudioin.h"
 //   #include "pulseprober.h"
-#else
-  #include "taudioin.h"
-#endif  
+// #else
+//   #include "taudioin.h"
+// #endif  
 
 
 

@@ -21,11 +21,11 @@
 #include <QtGui>
 #include "taudioparams.h"
 #include "tmidiout.h"
-#if defined(__LINUX_ALSA__)
+// #if defined(__LINUX_ALSA__)
   #include "trtaudioout.h"
-#else
-  #include "taudioout.h"
-#endif
+// #else
+//   #include "taudioout.h"
+// #endif
 
 // #include <QDebug>
 
