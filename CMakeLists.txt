@@ -90,11 +90,11 @@ message(STATUS "Architecture is ${PACKAGE_ARCHITECTURE}")
 ###########################################################################
 ########   Looking for QtMultimedia
 ###########################################################################
-if (UNIX AND NOT APPLE)
+# if (UNIX AND NOT APPLE)
 option(ENABLE_QTMULTIMEDIA "Use QtMultimedia framework instead of RtAudio" OFF)
-else (UNIX AND NOT APPLE)
-  set(ENABLE_QTMULTIMEDIA ON)
-endif (UNIX AND NOT APPLE)
+# else (UNIX AND NOT APPLE)
+#   set(ENABLE_QTMULTIMEDIA ON)
+# endif (UNIX AND NOT APPLE)
 
 if (ENABLE_QTMULTIMEDIA)
     if(QTMULTIMEDIA_LIBRARIES AND QTMULTIMEDIA_INCLUDE_DIRS AND QTMOBILITY_INCLUDE_DIRS)
@@ -282,6 +282,8 @@ ENDIF(UNIX AND NOT APPLE)
 
 IF(WIN32)
   add_definitions(-D__WINDOWS_MM__)
+  add_definitions(-D__WINDOWS_DS__)
+  add_definitions(-D__WINDOWS_ASIO__)
 ENDIF(WIN32)
 
 if(APPLE)

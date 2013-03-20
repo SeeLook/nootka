@@ -154,6 +154,9 @@ if(ENABLE_QTMULTIMEDIA)
   LIST(APPEND NOOTKA_SRCS "sound/taudioout.cpp" "sound/taudioin.cpp")
 else(ENABLE_QTMULTIMEDIA)
   #   LIST(APPEND NOOTKA_SRCS "sound/pulseprober.cpp" )
+  if(MINGW)
+    LIST(APPEND NOOTKA_SRCS "sound/rt/asio.cpp"  "sound/rt/asiodrivers.cpp"  "sound/rt/asiolist.cpp"  "sound/rt/iasiothiscallresolver.cpp")
+  endif(MINGW)
   LIST(APPEND NOOTKA_SRCS "sound/trtaudioout.cpp" "sound/rt/RtAudio.cpp" "sound/trtaudioin.cpp" "sound/rt/rtcreator.cpp")
 endif(ENABLE_QTMULTIMEDIA)
 
@@ -256,7 +259,7 @@ if(MINGW)
         ${QT_QTGUI_LIBRARY}
         ${QTMULTIMEDIA_LIBRARIES}
         ${FFTW3_LIBRARIES}
-        winmm
+        winmm dsound
 	)
 endif(MINGW)
 

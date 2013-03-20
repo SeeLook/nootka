@@ -66,7 +66,7 @@ public:
 	  /** Starts capturing audio to calculate max level. 
 	   * After 1000ms singleShot of Qtimer calls calc(),
 	   * and signal noiseLevel(qint16 level) with max peak is emited. */
-	void calculateNoiseLevel();
+// 	void calculateNoiseLevel();
 	  /** Sets device parameters stores in struct SaudioInParams. 
 	   * SaudioInParams::deviceName is ignored. It have to be set separately
 	   * by setAudioDevice() method. 	   */
@@ -88,8 +88,8 @@ signals:
 
 private slots:
 	void audioDataReady();
-	void readToCalc();
-	void calc();
+// 	void readToCalc();
+// 	void calc();
   void pitchFreqFound(float pitch, float freq);
   void noteStopedSlot();
   void resetSlot(); // resets audio input
