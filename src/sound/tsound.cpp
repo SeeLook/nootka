@@ -20,20 +20,12 @@
 #include "taudioparams.h"
 #include "tpitchview.h"
 #include "tmidiout.h"
+#include "trtaudioout.h"
+#include "trtaudioin.h"
 #include <QPushButton>
 #include <QThread>
 #include <QTimer>
 #include <QDebug>
-
-// #if defined(__LINUX_ALSA__)
-//   #include "pulseprober.h"
-  #include "trtaudioout.h"
-  #include "trtaudioin.h"
-// #else
-//   #include "taudioout.h"
-//   #include "taudioin.h"
-// #endif
-
 
 
 
