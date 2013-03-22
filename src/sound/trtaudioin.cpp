@@ -33,7 +33,14 @@ QStringList TaudioIN::getAudioDevicesList() {
         return devList;
     for (int i = 0; i < devCnt; i++) {
         RtAudio::DeviceInfo devInfo;
-        devInfo = rta->getDeviceInfo(i);
+        try {
+          devInfo = rta->getDeviceInfo(i);
+        }
+        catch (RtError& e) {
+          qDebug() << "error when probing input device" << i;
+          e.printMessage();
+          continue;
+        }
         if (devInfo.probed && devInfo.inputChannels > 0)
           devList << QString::fromStdString(devInfo.name);
     }
@@ -44,32 +51,28 @@ QStringList TaudioIN::getAudioDevicesList() {
 int TaudioIN::inCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void* userData) {
     if ( status )
         qDebug() << "Stream over detected!";
+    
     qint16 *in = (qint16*)inBuffer;
     for (int i = 0; i < nBufferFrames; i++) {
         qint16 value = *(in + i);
-        m_maxP = qMax(m_maxP, value);
-        *(m_floatBuff + m_floatsWriten) = float(value) / 32768.0f;
-        if (m_floatsWriten == m_pitch->aGl()->framesPerChunk-1) {
-          m_maxPeak = m_maxP;
-          if (m_pitch->isBussy())
+        instance()->m_maxP = qMax(instance()->m_maxP, value);
+        *(instance()->m_floatBuff + instance()->m_floatsWriten) = float(value) / 32768.0f;
+        if (instance()->m_floatsWriten == instance()->m_pitch->aGl()->framesPerChunk-1) {
+          instance()->m_maxPeak = instance()->m_maxP;
+          if (instance()->m_pitch->isBussy())
               qDebug() << "data ignored";
           else
-              m_pitch->searchIn(m_floatBuff);
-          m_floatsWriten = -1;
-        m_maxP = 0;
+              instance()->m_pitch->searchIn(instance()->m_floatBuff);
+          instance()->m_floatsWriten = -1;
+        instance()->m_maxP = 0;
       }
-      m_floatsWriten++;
+      instance()->m_floatsWriten++;
     }
     return 0;
 }
 
-TpitchFinder* TaudioIN::m_pitch = 0;
-float* TaudioIN::m_floatBuff = 0;
-int TaudioIN::m_instancesNr = 0;
-unsigned int TaudioIN::m_bufferFrames = 1024;
-qint16 TaudioIN::m_maxPeak = 0;
-qint16 TaudioIN::m_maxP = 0;
-quint32 TaudioIN::m_floatsWriten = 0;
+QList<TaudioIN*> TaudioIN::m_instances = QList<TaudioIN*>();
+int TaudioIN::m_thisInstance = -1;
 
 //------------------------------------------------------------------------------------
 //------------          constructor     ----------------------------------------------
@@ -84,17 +87,24 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     m_devName("any"),
     m_paused(false),
     m_sampleRate(44100),
-    m_streamOptions(0)
+    m_streamOptions(0),
+    m_floatBuff(0),
+    m_pitch(0),
+    m_bufferFrames(1024),
+    m_maxPeak(0),
+    m_maxP(0),
+    m_floatsWriten(0)
 {
-  m_instancesNr++;
-  if (!m_pitch)
-    m_pitch = new TpitchFinder();
+  m_instances << this;
+//   if (!m_pitch)
+  m_pitch = new TpitchFinder();
+  m_thisInstance = m_instances.size() - 1;
 //  m_thread = new QThread();
 //  m_pitch->moveToThread(m_thread);
   setParameters(params);
   
   connect(m_pitch, SIGNAL(found(float,float)), this, SLOT(pitchFreqFound(float,float)));
-//   connect(m_pitch, SIGNAL(noteStoped()), this, SLOT(noteStopedSlot()));
+//   qDebug() << m_instances << m_pitch << instance()->m_pitch;
 }
 
 TaudioIN::~TaudioIN()
@@ -103,13 +113,13 @@ TaudioIN::~TaudioIN()
   stopListening();
 //  m_thread->terminate();
   delete m_rtAudio;
-  if (m_instancesNr == 1) {
-    delete m_streamOptions;
-    delete m_pitch;
-    if (m_floatBuff)
-      delete[] (m_floatBuff);
-  }
-  m_instancesNr--;
+  
+  delete m_streamOptions;
+  delete m_pitch;
+  if (m_floatBuff)
+    delete (m_floatBuff);
+  m_thisInstance = m_instances.size() - 1;
+  
 //  delete m_thread;
 //   delete m_rtAudio;
 }
@@ -171,7 +181,7 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
     return false;
   }
   if (m_rtAudio->isStreamOpen()) {
-      qDebug() << "RtIN:" << QString::fromStdString(m_rtAudio->getDeviceInfo(devId).name) << "rate:" << m_sampleRate;
+      qDebug() << "RtIN:" << QString::fromStdString(m_rtAudio->getDeviceInfo(devId).name) << "samplerate:" << m_sampleRate << "buffer:" << m_bufferFrames;
       return true;
   } else
       return false;
@@ -229,11 +239,6 @@ void TaudioIN::setIsVoice(bool isV) {
 }
 
 
-void TaudioIN::calculateNoiseLevel()
-{
-  
-}
-
 
 /** Range of notes is increased one note down and up.
  * This 46 and 48 are its sign. 
@@ -258,13 +263,3 @@ void TaudioIN::pitchFreqFound(float pitch, float freq) {
   }
 }
 
-
-// void TaudioIN::calc() {
-//   
-// }
-
-
-
-// void TaudioIN::readToCalc() {
-//   
-// }

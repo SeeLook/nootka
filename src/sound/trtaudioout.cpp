@@ -34,7 +34,14 @@ QStringList TaudioOUT::getAudioDevicesList() {
         return devList;
     for (int i = 0; i < devCnt; i++) {
         RtAudio::DeviceInfo devInfo;
-        devInfo = rta->getDeviceInfo(i);
+        try {
+          devInfo = rta->getDeviceInfo(i);
+        }
+        catch (RtError& e) {
+          qDebug() << "error when probing output device" << i;
+          e.printMessage();
+          continue;
+        }
         if (devInfo.probed && devInfo.outputChannels > 0)
           devList << QString::fromStdString(devInfo.name);
     }

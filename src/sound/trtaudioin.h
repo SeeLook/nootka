@@ -57,10 +57,6 @@ public:
   void unPause() { m_paused = false; }
   bool isPaused() { return m_paused; }
 	qint16 maxPeak() { return m_maxPeak; }
-	  /** Starts capturing audio to calculate max level. 
-	   * After 1000ms singleShot of Qtimer calls calc(),
-	   * and signal noiseLevel(qint16 level) with max peak is emited. */
-	void calculateNoiseLevel();
 	  /** Sets device parameters stores in struct SaudioInParams. 
 	   * SaudioInParams::deviceName is ignored. It have to be set separately
 	   * by setAudioDevice() method. 	   */
@@ -79,11 +75,12 @@ signals:
 	void noiseLevel(qint16 level);
 	void fundamentalFreq(float freq);
 
+  
+protected:
+  static TaudioIN* instance() { return m_instances[m_thisInstance] ; }
 
 private slots:
 	
-// 	void readToCalc();
-// 	void calc();
   void pitchFreqFound(float pitch, float freq);
   
   
@@ -91,19 +88,19 @@ private:
   void initInput();
   
   static int inCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void *userData);
+      /** Keeps pointers for all (two) created instances of TaudioIN
+       * ststic inCallBack uses it to has access. */
+  static QList<TaudioIN*> m_instances;
+  static int m_thisInstance;
   
-  static float *m_floatBuff;
-  static TpitchFinder *m_pitch;
-      /** Number of TaudioIN instances in Nootka. 
-       * It avoids deleting m_floatBuff and m_pitch when other insatnces are deleted. */
-  static int m_instancesNr;
-  
-  static quint32 m_floatsWriten;
-  static qint16 m_maxPeak, m_maxP;
+  float *m_floatBuff;
+  TpitchFinder *m_pitch;
+      
+  quint32 m_floatsWriten;
+  qint16 m_maxPeak, m_maxP;
       /** Size of a buffer */
-  static unsigned int m_bufferFrames;
+  unsigned int m_bufferFrames;  
   
-//   QList<qint16> m_peakList;
   unsigned int m_sampleRate;
   RtAudio *m_rtAudio;
   RtAudio::StreamParameters m_inParams;

@@ -130,6 +130,10 @@ SET( NOOTKA_SRCS
   sound/tartiniparams.h
   sound/tabstractplayer.cpp
   sound/tscalefile.cpp
+  sound/trtaudioout.cpp
+  sound/trtaudioin.cpp
+  sound/rt/rtcreator.cpp
+  sound/rt/RtAudio.cpp
 # tartini
   sound/tartini/channel.cpp
   sound/tartini/analysisdata.cpp
@@ -150,15 +154,15 @@ SET( NOOTKA_SRCS
   sound/tartini/filters/IIR_Filter.cpp
   )
   
-if(ENABLE_QTMULTIMEDIA)
-  LIST(APPEND NOOTKA_SRCS "sound/taudioout.cpp" "sound/taudioin.cpp")
-else(ENABLE_QTMULTIMEDIA)
+# if(ENABLE_QTMULTIMEDIA)
+#   LIST(APPEND NOOTKA_SRCS "sound/taudioout.cpp" "sound/taudioin.cpp")
+# else(ENABLE_QTMULTIMEDIA)
   #   LIST(APPEND NOOTKA_SRCS "sound/pulseprober.cpp" )
   if(MINGW)
     LIST(APPEND NOOTKA_SRCS "sound/rt/asio.cpp"  "sound/rt/asiodrivers.cpp"  "sound/rt/asiolist.cpp"  "sound/rt/iasiothiscallresolver.cpp")
   endif(MINGW)
-  LIST(APPEND NOOTKA_SRCS "sound/trtaudioout.cpp" "sound/rt/RtAudio.cpp" "sound/trtaudioin.cpp" "sound/rt/rtcreator.cpp")
-endif(ENABLE_QTMULTIMEDIA)
+#   LIST(APPEND NOOTKA_SRCS "sound/trtaudioout.cpp" "sound/rt/RtAudio.cpp" "sound/trtaudioin.cpp" "sound/rt/rtcreator.cpp")
+# endif(ENABLE_QTMULTIMEDIA)
 
 #SET( NOOTKA_HEADERS
 #    tfingerpos.h
@@ -227,14 +231,16 @@ SET( NOOTKA_MOC_SRCS
   sound/tvolumemeter.h
   sound/tpitchview.h
   sound/tabstractplayer.h
+  sound/trtaudioout.h
+  sound/trtaudioin.h
   )
   
-if(ENABLE_QTMULTIMEDIA)
-  LIST(APPEND NOOTKA_MOC_SRCS "sound/taudioout.h" "sound/taudioin.h")
-else(ENABLE_QTMULTIMEDIA)
+# if(ENABLE_QTMULTIMEDIA)
+#   LIST(APPEND NOOTKA_MOC_SRCS "sound/taudioout.h" "sound/taudioin.h")
+# else(ENABLE_QTMULTIMEDIA)
   #   LIST(APPEND NOOTKA_SRCS "sound/pulseprober.cpp" )
-  LIST(APPEND NOOTKA_MOC_SRCS "sound/trtaudioout.h" "sound/trtaudioin.h")
-endif(ENABLE_QTMULTIMEDIA)
+#   LIST(APPEND NOOTKA_MOC_SRCS "sound/trtaudioout.h" "sound/trtaudioin.h")
+# endif(ENABLE_QTMULTIMEDIA)
 
 # message(STATUS "${NOOTKA_MOC_SRCS} ${NOOTKA_SRCS}" )
 
@@ -257,7 +263,7 @@ if(MINGW)
 	TARGET_LINK_LIBRARIES(nootka
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
-        ${QTMULTIMEDIA_LIBRARIES}
+#         ${QTMULTIMEDIA_LIBRARIES}
         ${FFTW3_LIBRARIES}
         winmm dsound
 	)
@@ -272,7 +278,7 @@ if(UNIX AND NOT APPLE) #Linux
 	TARGET_LINK_LIBRARIES(nootka
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
-        ${QTMULTIMEDIA_LIBRARIES}
+#         ${QTMULTIMEDIA_LIBRARIES}
         ${FFTW3_LIBRARIES}
         ${ALSA_LIBRARY} ${PTHREAD_LIBRARY}
         ${JACK_LIBRARY}
@@ -299,7 +305,7 @@ if(APPLE)
   TARGET_LINK_LIBRARIES(nootka
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
-        ${QTMULTIMEDIA_LIBRARIES}
+#         ${QTMULTIMEDIA_LIBRARIES}
         ${QT_QTNETWORK_LIBRARY} # for macdeployqt
         ${FFTW3_LIBRARIES}
         ${CoreAudio_LIB}
