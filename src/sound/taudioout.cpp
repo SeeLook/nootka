@@ -58,9 +58,9 @@ TaudioOUT::TaudioOUT(TaudioParams* params, QString& path, QObject* parent) :
   TscaleFile(path),
   m_audioOutput(0),
   m_IOaudioDevice(0),
-  m_devName("anything"),
+  deviceName("anything"),
 //   m_audioArr(0),
-  m_params(params),
+  audioParams(params),
   m_period(20)
 {
   prepTemplFormat();
@@ -80,7 +80,7 @@ TaudioOUT::~TaudioOUT()
 //---------------------------------------------------------------------------------------
 void TaudioOUT::setAudioOutParams(TaudioParams* params) {
     m_timer->disconnect();
-    if (m_devName != params->OUTdevName || !m_audioOutput) { //device doesn't exists or name changed
+    if (deviceName != params->OUTdevName || !m_audioOutput) { //device doesn't exists or name changed
         if (setAudioDevice(params->OUTdevName))
           playable = loadAudioData();
         else
@@ -122,7 +122,7 @@ bool TaudioOUT::setAudioDevice(QString& name) {
   if (fnd) {
     if (m_deviceInfo.isFormatSupported(templAudioFormat)) {
         qDebug() << "out:" << m_deviceInfo.deviceName();
-        m_devName = m_deviceInfo.deviceName(); 
+        deviceName = m_deviceInfo.deviceName(); 
         m_audioOutput = new QAudioOutput(m_deviceInfo, templAudioFormat, this);
 //        connect(m_audioOutput, SIGNAL(stateChanged(QAudio::State)), this, SLOT(deviceStateSlot(QAudio::State)));
     } else {
@@ -140,7 +140,7 @@ bool TaudioOUT::play(int noteNr) {
   if (!playable)
         return false;
   
-    noteNr = noteNr + qRound(m_params->a440diff);
+    noteNr = noteNr + qRound(audioParams->a440diff);
     if (noteNr < -11 || noteNr > 41)
         return false;
     

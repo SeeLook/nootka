@@ -28,7 +28,6 @@
 QStringList TaudioOUT::getAudioDevicesList() {
     QStringList devList;
     RtAudio *rta = getRtAudio();
-//     rta.showWarnings(false);
     int devCnt = rta->getDeviceCount();
     if (devCnt < 1)
         return devList;
@@ -39,7 +38,7 @@ QStringList TaudioOUT::getAudioDevicesList() {
         }
         catch (RtError& e) {
           qDebug() << "error when probing output device" << i;
-          e.printMessage();
+//           e.printMessage();
           continue;
         }
         if (devInfo.probed && devInfo.outputChannels > 0)
@@ -86,34 +85,32 @@ int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBuffer
 //---------------------------------------------------------------------------------------
 //                CONSTRUCTOR
 //---------------------------------------------------------------------------------------
-TaudioOUT::TaudioOUT(TaudioParams *params, QString &path, QObject *parent) :
+TaudioOUT::TaudioOUT(TaudioParams *_params, QString &path, QObject *parent) :
   TabstractPlayer(parent),
-  TscaleFile(path),
-  m_devName("anything"),
-  m_rtAudio(0),
-  m_params(params),
-  m_streamOptions(0)
+  TrtAudioAbstract(_params),
+  TscaleFile(path)
 {
-  setAudioOutParams(params);
+  setAudioOutParams(_params);
   m_this = this;
 }
 
 
 TaudioOUT::~TaudioOUT() 
 {
-  delete m_streamOptions;
-  delete m_rtAudio;
+  delete streamOptions;
+  delete rtDevice;
 }
 
 void TaudioOUT::emitNoteFinished() {
 //   if (m_rtAudio->isStreamRunning())
 //     m_rtAudio->stopStream();
+//   closeStram();
   emit noteFinished();
 }
 
 
 void TaudioOUT::setAudioOutParams(TaudioParams* params) {
-  if (m_devName != params->OUTdevName || !m_rtAudio) {
+  if (deviceName != params->OUTdevName || !rtDevice) {
     playable = loadAudioData();
     if (playable && setAudioDevice(params->OUTdevName))
         playable = true;
@@ -123,38 +120,36 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
 }
 
 bool TaudioOUT::setAudioDevice(QString &name) {
-  if (!m_rtAudio)
-    m_rtAudio = getRtAudio();
+  if (!rtDevice)
+    rtDevice = getRtAudio();
   int devId = -1;
-  int devCount = m_rtAudio->getDeviceCount();
+  int devCount = rtDevice->getDeviceCount();
   if (devCount) {
     RtAudio::DeviceInfo devInfo;
     for(int i = 0; i < devCount; i++) { // Is there device on the list ??
-        try {
-          devInfo = m_rtAudio->getDeviceInfo(i);
-        }
-        catch (RtError& e) {
-          qDebug() << "error when probing output device" << i;
-          e.printMessage();
-          continue;
-        }
-        if (devInfo.probed) {
-          if (QString::fromStdString(devInfo.name) == name) { // Here it is !!
-            devId = i;
-            break;
+        if (getDeviceInfo(devInfo , i)) {        
+          if (devInfo.probed) {
+            if (QString::fromStdString(devInfo.name) == name) { // Here it is !!
+              devId = i;
+              break;
+            }
           }
         }
     }
     if (devId == -1) { // no device on the list - load default
-        devId = m_rtAudio->getDefaultOutputDevice();
-        if (m_rtAudio->getDeviceInfo(devId).outputChannels <= 0) {
+        devId = rtDevice->getDefaultOutputDevice();
+        if (rtDevice->getDeviceInfo(devId).outputChannels <= 0) {
           qDebug("wrong default output device");
           playable = false;
           return false;
         }
     }
   }
-  RtAudio::DeviceInfo devInfo = m_rtAudio->getDeviceInfo(devId);
+  RtAudio::DeviceInfo devInfo;
+  if (!getDeviceInfo(devInfo, devId)) {
+    playable = false;
+    return false;
+  }
   bool rateFound = false;
   for (int i = 0; i < devInfo.sampleRates.size(); i++) {
     if (devInfo.sampleRates.at(i) == SAMPLE_RATE) {
@@ -170,47 +165,31 @@ bool TaudioOUT::setAudioDevice(QString &name) {
   m_outParams.deviceId = devId;
   m_outParams.nChannels = 2;
   m_outParams.firstChannel = 0;
-  if (m_rtAudio->getCurrentApi() == RtAudio::UNIX_JACK) {
-    if (!m_streamOptions)
-      m_streamOptions = new RtAudio::StreamOptions;
-    m_streamOptions->streamName = "nootkaOUT";
+  if (rtDevice->getCurrentApi() == RtAudio::UNIX_JACK) {
+    if (!streamOptions)
+      streamOptions = new RtAudio::StreamOptions;
+    streamOptions->streamName = "nootkaOUT";
   }
-  if (!openStream()) {
+  if (!openStream(&m_outParams, NULL, RTAUDIO_SINT16, SAMPLE_RATE, &m_bufferFrames, &outCallBack, 0, streamOptions)) {
       playable = false;
       return false;
   }
-  if (m_rtAudio->isStreamOpen()) {
+  if (rtDevice->isStreamOpen()) {
       m_maxCBloops = SAMPLE_RATE / (m_bufferFrames / 2);
-      qDebug() << "RtOUT:" << QString::fromStdString(m_rtAudio->getDeviceInfo(devId).name);
-      m_devName = QString::fromStdString(m_rtAudio->getDeviceInfo(devId).name);
+      qDebug() << "RtOUT:" << QString::fromStdString(rtDevice->getDeviceInfo(devId).name);
+      deviceName = QString::fromStdString(rtDevice->getDeviceInfo(devId).name);
       return true;
   } else
     return false;
 }
 
 
-bool TaudioOUT::openStream() {
-  if (m_rtAudio) {
-    try {
-        m_rtAudio->openStream(&m_outParams, NULL, RTAUDIO_SINT16, SAMPLE_RATE, &m_bufferFrames, &outCallBack, 0, m_streamOptions);
-    }
-    catch ( RtError& e ) {
-        e.printMessage();
-        return false;
-    }
-    return true;
-  }
-  return false;
-}
-
-
 bool TaudioOUT::play(int noteNr) {
   if (!playable)
       return false;
-  if (!m_rtAudio->isStreamOpen())
-    openStream();
+  openStream(&m_outParams, NULL, RTAUDIO_SINT16, SAMPLE_RATE, &m_bufferFrames, &outCallBack, 0, streamOptions);
   
-  noteNr = noteNr + qRound(m_params->a440diff);
+  noteNr = noteNr + qRound(audioParams->a440diff);
   if (noteNr < -11 || noteNr > 41)
       return false;
   
@@ -219,22 +198,13 @@ bool TaudioOUT::play(int noteNr) {
   if (noteNr + 11 == 0)
     fasterOffset = 0;
   m_noteOffset = (noteNr + 11) * SAMPLE_RATE - fasterOffset;
-  if (!m_rtAudio->isStreamRunning()) {
-      try {
-        m_rtAudio->startStream();
-      }
-      catch ( RtError& e ) {
-        e.printMessage();
-        return false;
-      }
-  }
-  return true;   
+  return startStream();
 }
 
 
 void TaudioOUT::stop() {
-  if (m_rtAudio->isStreamOpen())
-      m_rtAudio->closeStream();
+  if (rtDevice->isStreamOpen())
+      rtDevice->closeStream();
 }
 
 
