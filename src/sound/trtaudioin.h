@@ -23,8 +23,8 @@
 #include <QStringList>
 #include "tnote.h"
 #include "rt/RtAudio.h"
+#include "trtaudioabstract.h"
 
-class TaudioParams;
 class TpitchFinder;
 
 
@@ -32,7 +32,7 @@ class TpitchFinder;
  * It emits noteDetected(Tnote) signal when some note is detected
  * and fundamentalFreq(float) with freq of detected note.
  * @method calculateNoiseLevel() can be used to obtain noise. */
-class TaudioIN : public QObject
+class TaudioIN : public QObject, public TrtAudioAbstract
 {
     Q_OBJECT
 public:
@@ -41,8 +41,6 @@ public:
         /** Returns list of audio input devices 
         * filtered by template audio format */
 	static QStringList getAudioDevicesList();
-		
-	QString deviceName() { return m_devName; }
 	
 // 	bool isAvailable() {return (m_IOaudioDevice ? true : false) ; }
 
@@ -102,14 +100,10 @@ private:
   unsigned int m_bufferFrames;  
   
   unsigned int m_sampleRate;
-  RtAudio *m_rtAudio;
   RtAudio::StreamParameters m_inParams;
-  RtAudio::StreamOptions *m_streamOptions;
-  TaudioParams *m_params;
-  QString m_devName;
-
   bool m_paused;
 	
 };
 
 #endif // TRTAUDIOIN_H
+

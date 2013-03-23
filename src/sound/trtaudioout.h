@@ -23,17 +23,17 @@
 
 #include "tabstractplayer.h"
 #include "tscalefile.h"
-#include "rt/RtAudio.h"
+#include "trtaudioabstract.h"
 #include <QStringList>
 
 class TaudioParams;
 
-class TaudioOUT : public TabstractPlayer, public TscaleFile
+class TaudioOUT : public TabstractPlayer, public TrtAudioAbstract ,public TscaleFile
 {
   Q_OBJECT
   
 public:
-    TaudioOUT(TaudioParams *params, QString &path, QObject *parent = 0);
+    TaudioOUT(TaudioParams *_params, QString &path, QObject *parent = 0);
     virtual ~TaudioOUT();
     
     static QStringList getAudioDevicesList();
@@ -46,19 +46,14 @@ public:
         /** Immediately stops playing. Emits nothing */
     void stop();
 
+private slots:
+  void emitNoteFinished();
     
 private:
   void deleteAudio();
   static int outCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime,
                          RtAudioStreamStatus status, void *userData);
-  void emitNoteFinished();
-  bool openStream();
-  
-  
-  TaudioParams *m_params;
-  RtAudio *m_rtAudio;
-  QString m_devName;
-  RtAudio::StreamOptions *m_streamOptions;
+
   RtAudio::StreamParameters m_outParams;
 
   static int m_noteOffset;

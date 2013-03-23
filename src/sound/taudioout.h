@@ -70,14 +70,14 @@ private:
   static void prepTemplFormat();
   
   QTimer *m_timer;
-  TaudioParams *m_params;
+  TaudioParams *audioParams;
   
 //########## audio #############
 	QAudioDeviceInfo m_deviceInfo;
   QAudioOutput *m_audioOutput;
   QIODevice *m_IOaudioDevice;
   QByteArray m_buffer;
-  QString m_devName;
+  QString deviceName;
       
   int m_noteOffset;
       /** Number of performed samples. */

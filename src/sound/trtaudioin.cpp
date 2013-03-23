@@ -38,7 +38,7 @@ QStringList TaudioIN::getAudioDevicesList() {
         }
         catch (RtError& e) {
           qDebug() << "error when probing input device" << i;
-          e.printMessage();
+//           e.printMessage();
           continue;
         }
         if (devInfo.probed && devInfo.inputChannels > 0)
@@ -81,12 +81,9 @@ int TaudioIN::m_thisInstance = -1;
 
 TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     QObject(parent),
-    m_rtAudio(0),
-    m_params(params), // points on gl->A or tmpParams in AudioInSettings
-    m_devName("any"),
+    TrtAudioAbstract(params),
     m_paused(false),
     m_sampleRate(44100),
-    m_streamOptions(0),
     m_floatBuff(0),
     m_pitch(0),
     m_bufferFrames(1024),
@@ -95,7 +92,6 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     m_floatsWriten(0)
 {
   m_instances << this;
-//   if (!m_pitch)
   m_pitch = new TpitchFinder();
   m_thisInstance = m_instances.size() - 1;
 //  m_thread = new QThread();
@@ -103,15 +99,14 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
   setParameters(params);
   
   connect(m_pitch, SIGNAL(found(float,float)), this, SLOT(pitchFreqFound(float,float)));
-//   qDebug() << m_instances << m_pitch << instance()->m_pitch;
 }
 
 TaudioIN::~TaudioIN()
 {
   disconnect(m_pitch, SIGNAL(found(float,float)), this, SLOT(pitchFreqFound(float,float)));
 //  m_thread->terminate();
-  delete m_rtAudio;
-  delete m_streamOptions;
+  delete rtDevice;
+  delete streamOptions;
   delete m_pitch;
   if (m_floatBuff)
     delete (m_floatBuff);
@@ -130,40 +125,34 @@ TaudioIN::~TaudioIN()
 void TaudioIN::setParameters(TaudioParams* params) {
   m_pitch->setIsVoice(params->isVoice);
   setAudioDevice(params->INdevName);
-  m_params = params;
+  audioParams = params;
 }
 
 /** Device name is saved to globals and to config file only after changed the Nootka preferences.
 * In other cases the default device is loaded. */
 bool TaudioIN::setAudioDevice(const QString& devN) {
-  if (devN == m_devName) {
+  if (devN == deviceName) {
     return true;
   }
-  if (!m_rtAudio)
-    m_rtAudio = getRtAudio();
+  if (!rtDevice)
+    rtDevice = getRtAudio();
   int devId = -1;
-  int devCount = m_rtAudio->getDeviceCount();
+  int devCount = rtDevice->getDeviceCount();
   if (devCount) {
     RtAudio::DeviceInfo devInfo;
     for(int i = 0; i < devCount; i++) { // Is there device on the list ??
-        try {
-          devInfo = m_rtAudio->getDeviceInfo(i);
-        }
-        catch (RtError& e) {
-          qDebug() << "error when probing input device" << i;
-          e.printMessage();
-          continue;
-        }
-        if (devInfo.probed) {
-          if (QString::fromStdString(devInfo.name) == devN) { // Here it is !!
-            devId = i;
-            break;
+        if (getDeviceInfo(devInfo, i)) {
+          if (devInfo.probed) {
+              if (QString::fromStdString(devInfo.name) == devN) { // Here it is !!
+                devId = i;
+                break;
+              }
           }
         }
     }
     if (devId == -1) { // no device on the list - load default
-        devId = m_rtAudio->getDefaultInputDevice();
-        if (m_rtAudio->getDeviceInfo(devId).inputChannels <= 0) {
+        devId = rtDevice->getDefaultInputDevice();
+        if (rtDevice->getDeviceInfo(devId).inputChannels <= 0) {
           // check has default input got channels
           qDebug("wrong default input device");
           return false;
@@ -174,24 +163,20 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
   m_inParams.deviceId = devId;
   m_inParams.nChannels = 1;
   m_inParams.firstChannel = 0;
-  RtAudio::DeviceInfo devInfo = m_rtAudio->getDeviceInfo(devId);
-  m_sampleRate = devInfo.sampleRates.at(devInfo.sampleRates.size() - 1);
+  RtAudio::DeviceInfo devInfo;
+  getDeviceInfo(devInfo, devId);
+  m_sampleRate = devInfo.sampleRates.at(devInfo.sampleRates.size() - 1); //TODO > 48000 not supported
   m_pitch->setSampleRate(m_sampleRate);
-  if (m_rtAudio->getCurrentApi() == RtAudio::UNIX_JACK) {
-    if (!m_streamOptions)
-      m_streamOptions = new RtAudio::StreamOptions;
-    m_streamOptions->streamName = "nootkaIN";
+  if (rtDevice->getCurrentApi() == RtAudio::UNIX_JACK) {
+    if (!streamOptions)
+      streamOptions = new RtAudio::StreamOptions;
+    streamOptions->streamName = "nootkaIN";
   }
-  try {
-    m_rtAudio->openStream(NULL ,&m_inParams, RTAUDIO_SINT16, m_sampleRate, &m_bufferFrames, &inCallBack, 0, m_streamOptions);
-  }
-  catch (RtError& e) {
-    e.printMessage();
+  if (!openStream(NULL ,&m_inParams, RTAUDIO_SINT16, m_sampleRate, &m_bufferFrames, &inCallBack, 0, streamOptions))
     return false;
-  }
-  if (m_rtAudio->isStreamOpen()) {
-      qDebug() << "RtIN:" << QString::fromStdString(m_rtAudio->getDeviceInfo(devId).name) << "samplerate:" << m_sampleRate << "buffer:" << m_bufferFrames;
-      m_devName = QString::fromStdString(m_rtAudio->getDeviceInfo(devId).name);
+  if (rtDevice->isStreamOpen()) {
+      qDebug() << "RtIN:" << QString::fromStdString(rtDevice->getDeviceInfo(devId).name) << "samplerate:" << m_sampleRate << "buffer:" << m_bufferFrames;
+      deviceName = QString::fromStdString(rtDevice->getDeviceInfo(devId).name);
       return true;
   } else
       return false;
@@ -205,41 +190,25 @@ void TaudioIN::initInput() {
 
 
 void TaudioIN::startListening() {
-  if (m_rtAudio) {
+  if (rtDevice) {
     if (!m_floatBuff)
         m_floatBuff = new float[m_pitch->aGl()->framesPerChunk]; // 1024
     initInput();
-    if (!m_rtAudio->isStreamOpen()) {
-        m_rtAudio->openStream(NULL, &m_inParams, RTAUDIO_SINT16, m_sampleRate, &m_bufferFrames, &inCallBack, 0, m_streamOptions);
-    }
-    go();
+    if (openStream(NULL, &m_inParams, RTAUDIO_SINT16, m_sampleRate, &m_bufferFrames, &inCallBack, NULL, streamOptions))
+      go();
   }
 }
 
 void TaudioIN::stopListening() {
-//    qDebug("listening stoped");
-    if (m_rtAudio) {
-      wait();
-      if (m_rtAudio->isStreamOpen())
-        m_rtAudio->closeStream();
-    }
+  closeStram();
 }
 
 void TaudioIN::wait() {
-//    qDebug("listening suspended");
-//   if (isAvailable()) {
-    if (m_rtAudio) {
-      if (m_rtAudio->isStreamRunning()) {
-          m_rtAudio->stopStream();
-//           m_pitch->resetFinder();
-      }        
-    } 
+  stopStream();
 }
 
 void TaudioIN::go() {
-  if (m_rtAudio)
-    if (!m_rtAudio->isStreamRunning())
-      m_rtAudio->startStream();  
+  startStream();
 }
 
 void TaudioIN::setIsVoice(bool isV) {
@@ -266,7 +235,7 @@ void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
 void TaudioIN::pitchFreqFound(float pitch, float freq) {
   if (!m_paused) {
 //       qDebug() << QString::fromStdString(Tnote(qRound(pitch - m_params->a440diff)-47).getName());
-       emit noteDetected(Tnote(qRound(pitch - m_params->a440diff)-47));
+       emit noteDetected(Tnote(qRound(pitch - audioParams->a440diff)-47));
        emit fundamentalFreq(freq);
   }
 }

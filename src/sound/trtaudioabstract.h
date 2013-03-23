@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,13 +16,43 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef RTCREATOR_H
-#define RTCREATOR_H
+
+#ifndef TRTAUDIOABSTRACT_H
+#define TRTAUDIOABSTRACT_H
+
 
 #include "rt/RtAudio.h"
+#include <QString>
 
-    /** Returns pointer to RtAudio instance.
-     * Checks for JACK and then for PulseAudio. */
-RtAudio* getRtAudio();
+class TaudioParams;
 
-#endif // RTCREATOR_H
+
+/** Abstract class for RtAudio input/outpus classes.
+* It doesn't provide destructor, so inherit classes have to
+* delete rtDevice, streamOptions and audioParams themself. */
+class TrtAudioAbstract
+{
+
+public:
+    TrtAudioAbstract(TaudioParams *params);
+    QString devName() { return deviceName; }
+    static RtAudio* getRtAudio();
+    
+protected:
+    RtAudio* rtDevice;
+    RtAudio::StreamOptions *streamOptions;
+    TaudioParams *audioParams;
+    QString deviceName;
+    
+    bool openStream(RtAudio::StreamParameters *outParams,  RtAudio::StreamParameters *inParams, 
+                    RtAudioFormat frm, unsigned int rate, unsigned int *buffFrames,
+                    RtAudioCallback callBack, void *userData = 0 , RtAudio::StreamOptions *options = 0);
+    bool startStream();
+    void stopStream();
+    void closeStram();
+    
+    bool getDeviceInfo(RtAudio::DeviceInfo &devInfo, int id);
+        
+};
+
+#endif // TRTAUDIOABSTRACT_H

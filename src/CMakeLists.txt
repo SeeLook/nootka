@@ -125,9 +125,10 @@ SET( NOOTKA_SRCS
   sound/tartiniparams.h
   sound/tabstractplayer.cpp
   sound/tscalefile.cpp
+  sound/trtaudioabstract.cpp
   sound/trtaudioout.cpp
   sound/trtaudioin.cpp
-  sound/rt/rtcreator.cpp
+#   sound/rt/rtcreator.cpp
   sound/rt/RtAudio.cpp
 # tartini
   sound/tartini/channel.cpp
