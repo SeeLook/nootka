@@ -22,9 +22,6 @@
 #include "examsettings.h"
 #include "tcolorbutton.h"
 #include "tupdateprocess.h"
-// #if defined (Q_OS_LINUX)
-//   #include "pulseprober.h"
-// #endif
 #include <QtGui>
 #include <audioinsettings.h>
 #include <audiooutsettings.h>

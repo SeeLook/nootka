@@ -39,12 +39,6 @@ Tsound::Tsound(QObject* parent) :
   sniffer(0),
   m_examMode(false)
 {
-// #if defined (Q_OS_LINUX)
-//   if (!checkForPulse()) { // checks is PulseAudio needed and works
-//     gl->A->midiEnabled = true;
-//     gl->A->INenabled = false;
-//   }
-// #endif
   if (gl->A->OUTenabled)
       createPlayer();
   else {
@@ -306,8 +300,8 @@ void Tsound::deleteSniffer() {
 //    m_thread->terminate();
 //     delete m_thread;
 //   }
-//  delete sniffer;
-  sniffer->deleteLater();
+ delete sniffer;
+//   sniffer->deleteLater();
   sniffer = 0;
 }
 

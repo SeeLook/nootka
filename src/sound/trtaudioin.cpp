@@ -51,7 +51,6 @@ QStringList TaudioIN::getAudioDevicesList() {
 int TaudioIN::inCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void* userData) {
     if ( status )
         qDebug() << "Stream over detected!";
-    
     qint16 *in = (qint16*)inBuffer;
     for (int i = 0; i < nBufferFrames; i++) {
         qint16 value = *(in + i);
@@ -110,14 +109,13 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
 TaudioIN::~TaudioIN()
 {
   disconnect(m_pitch, SIGNAL(found(float,float)), this, SLOT(pitchFreqFound(float,float)));
-  stopListening();
 //  m_thread->terminate();
   delete m_rtAudio;
-  
   delete m_streamOptions;
   delete m_pitch;
   if (m_floatBuff)
     delete (m_floatBuff);
+  m_instances.removeLast();
   m_thisInstance = m_instances.size() - 1;
   
 //  delete m_thread;
@@ -139,7 +137,6 @@ void TaudioIN::setParameters(TaudioParams* params) {
 * In other cases the default device is loaded. */
 bool TaudioIN::setAudioDevice(const QString& devN) {
   if (devN == m_devName) {
-//     startListening();
     return true;
   }
   if (!m_rtAudio)
@@ -149,7 +146,14 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
   if (devCount) {
     RtAudio::DeviceInfo devInfo;
     for(int i = 0; i < devCount; i++) { // Is there device on the list ??
-        devInfo = m_rtAudio->getDeviceInfo(i);
+        try {
+          devInfo = m_rtAudio->getDeviceInfo(i);
+        }
+        catch (RtError& e) {
+          qDebug() << "error when probing input device" << i;
+          e.printMessage();
+          continue;
+        }
         if (devInfo.probed) {
           if (QString::fromStdString(devInfo.name) == devN) { // Here it is !!
             devId = i;
@@ -159,6 +163,11 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
     }
     if (devId == -1) { // no device on the list - load default
         devId = m_rtAudio->getDefaultInputDevice();
+        if (m_rtAudio->getDeviceInfo(devId).inputChannels <= 0) {
+          // check has default input got channels
+          qDebug("wrong default input device");
+          return false;
+        }
     }
   } else 
     return false;
@@ -182,6 +191,7 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
   }
   if (m_rtAudio->isStreamOpen()) {
       qDebug() << "RtIN:" << QString::fromStdString(m_rtAudio->getDeviceInfo(devId).name) << "samplerate:" << m_sampleRate << "buffer:" << m_bufferFrames;
+      m_devName = QString::fromStdString(m_rtAudio->getDeviceInfo(devId).name);
       return true;
   } else
       return false;
@@ -195,14 +205,12 @@ void TaudioIN::initInput() {
 
 
 void TaudioIN::startListening() {
-//    qDebug("listening started");
   if (m_rtAudio) {
     if (!m_floatBuff)
         m_floatBuff = new float[m_pitch->aGl()->framesPerChunk]; // 1024
     initInput();
     if (!m_rtAudio->isStreamOpen()) {
         m_rtAudio->openStream(NULL, &m_inParams, RTAUDIO_SINT16, m_sampleRate, &m_bufferFrames, &inCallBack, 0, m_streamOptions);
-        qDebug() << "openStream";
     }
     go();
   }
