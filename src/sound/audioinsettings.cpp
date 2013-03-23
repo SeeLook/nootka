@@ -23,13 +23,7 @@
 #include <QtGui>
 #include "taudioparams.h"
 #include "tnotename.h"
-// #if defined(__LINUX_ALSA__)
-  #include "trtaudioin.h"
-//   #include "pulseprober.h"
-// #else
-//   #include "taudioin.h"
-// #endif  
-
+#include "trtaudioin.h"
 
 
 AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* parent) :
@@ -142,26 +136,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* pa
   midABox->setLayout(midLay);
   tunLay->addWidget(midABox);
   tunLay->addStretch();
-  
-//   noisGr = new QGroupBox(this);
-//   QVBoxLayout *noisLay = new QVBoxLayout();
-//   QLabel *threLab = new QLabel(tr("noise level:"), this);
-//   noisLay->addWidget(threLab, 1, Qt::AlignCenter);
-//   noiseSpin = new QDoubleSpinBox(this);
-//   noiseSpin->setMinimum(0.2);
-//   noiseSpin->setMaximum(98.0);
-//   noiseSpin->setDecimals(1);
-//   noiseSpin->setSingleStep(0.2);
-//   noiseSpin->setSuffix(" %");
-//   noiseSpin->setValue((double)((double)m_glParams->noiseLevel/32768.0)*100.0);
-//   noisLay->addWidget(noiseSpin);
-//   noiseSpin->setStatusTip(tr("Only sounds louder than noise level are taken to pitch analyse. It can improve the pitch detection accuracy."));
-//   calcButt = new QPushButton(tr("Calculate"), this);
-//   noisLay->addWidget(calcButt, 1, Qt::AlignCenter);
-//   calcButt->setStatusTip(tr("Click to automatically detect noise level.<br>Keep silence during 2 seconds to determine it properly."));
-//   noisGr->setLayout(noisLay);
-//   tunLay->addWidget(noisGr);
-  
+    
   upLay->addLayout(tunLay);
   
   inLay->addLayout(upLay);
@@ -207,7 +182,6 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* pa
   enableInBox->setChecked(m_glParams->INenabled);
   
   connect(testButt, SIGNAL(clicked()), this, SLOT(testSlot()));
-//   connect(calcButt, SIGNAL(clicked()), this, SLOT(calcSlot()));
   connect(intervalCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(intervalChanged(int)));
   connect(freqSpin, SIGNAL(valueChanged(int)), this, SLOT(baseFreqChanged(int)));
   
@@ -215,8 +189,11 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* pa
 
 AudioInSettings::~AudioInSettings()
 {
-  if (m_audioIn)
+  volMeter->stopVolume();
+  if (m_audioIn) {
+    m_audioIn->stopListening();
     delete m_audioIn;
+  }
   delete m_tmpParams;
 }
 
@@ -234,14 +211,12 @@ void AudioInSettings::setTestDisabled(bool disabled) {
     inDeviceCombo->setDisabled(false);
     modeGr->setDisabled(false);
     midABox->setDisabled(false);
-//     noisGr->setDisabled(false);	
   } else {
     pitchLab->setDisabled(false);
     freqLab->setDisabled(false);
     // disable the rest of widget
     inDeviceCombo->setDisabled(true);
     midABox->setDisabled(true);
-//     noisGr->setDisabled(true);
     modeGr->setDisabled(true);
   }
 }
@@ -256,12 +231,18 @@ void AudioInSettings::grabParams(TaudioParams *params) {
       params->isVoice = true;
   else
       params->isVoice = false;
-//   params->noiseLevel = qRound((noiseSpin->value()/100) * 32768.0);
   params->INenabled = enableInBox->isChecked();
 }
 
 
 void AudioInSettings::saveSettings() {
+  qDebug() << "AudioInSettings::saveSettings";
+//   if (m_audioIn) {
+//     volMeter->stopVolume();
+//     m_audioIn->stopListening();
+//     delete m_audioIn;
+//     m_audioIn = 0;
+//   }
   if (m_listGenerated)
       grabParams(m_glParams);
 }
@@ -305,16 +286,7 @@ float AudioInSettings::getDiff(int freq) {
 //------------          slots       --------------------------------------------------
 //------------------------------------------------------------------------------------
 
-void AudioInSettings::calcSlot() {
-//   grabParams(m_tmpParams);
-//   if (!m_audioIn) {
-//     m_audioIn = new TaudioIN(m_tmpParams, this);
-//   } else
-//     m_audioIn->setAudioDevice(inDeviceCombo->currentText());
-//     //TODO check is devide aviable, if not dialog......
-//   connect(m_audioIn, SIGNAL(noiseLevel(qint16)), this, SLOT(noiseDetected(qint16)));
-//   m_audioIn->calculateNoiseLevel();
-}
+
 
 void AudioInSettings::testSlot() {
   setTestDisabled(!m_testDisabled);
@@ -339,17 +311,6 @@ void AudioInSettings::testSlot() {
   }
 }
 
-void AudioInSettings::noiseDetected(qint16 noise) {
-//   if (noise < 10) {
-//     QMessageBox::warning(this, "", 
-//       tr("There isn't any noise !?!<br>It seems, Your audio input<br>is not configured properly."));
-//     m_noiseLevel = 70;
-//   } else
-//   m_noiseLevel = noise;
-//   double nVal = (noise/32768.0f)*100;
-//   disconnect(m_audioIn, SIGNAL(noiseLevel(qint16)), this, SLOT(noiseDetected(qint16)));
-//   noiseSpin->setValue(nVal);
-}
 
 void AudioInSettings::noteSlot(Tnote note) {
   pitchLab->setText("<b>" + TnoteName::noteToRichText(note) + "</b>");

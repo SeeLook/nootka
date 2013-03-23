@@ -53,8 +53,6 @@ protected:
   
 protected slots:
   void testSlot();
-  void calcSlot();
-  void noiseDetected(qint16 noise);
   void noteSlot(Tnote note);
   void freqSlot(float freq);
   void intervalChanged(int index);
@@ -71,7 +69,7 @@ private:
   float getDiff(int freq); 
   
   QComboBox *inDeviceCombo, *intervalCombo;
-  QGroupBox *enableInBox, *modeGr, *midABox, *noisGr;
+  QGroupBox *enableInBox, *modeGr, *midABox;
   QRadioButton *voiceRadio, *instrRadio;
   QSpinBox *freqSpin;
   QDoubleSpinBox *noiseSpin;

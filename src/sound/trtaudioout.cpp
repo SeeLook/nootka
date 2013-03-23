@@ -130,8 +130,14 @@ bool TaudioOUT::setAudioDevice(QString &name) {
   if (devCount) {
     RtAudio::DeviceInfo devInfo;
     for(int i = 0; i < devCount; i++) { // Is there device on the list ??
-        devInfo = m_rtAudio->getDeviceInfo(i);
-//         qDebug() << i << "got";
+        try {
+          devInfo = m_rtAudio->getDeviceInfo(i);
+        }
+        catch (RtError& e) {
+          qDebug() << "error when probing output device" << i;
+          e.printMessage();
+          continue;
+        }
         if (devInfo.probed) {
           if (QString::fromStdString(devInfo.name) == name) { // Here it is !!
             devId = i;
@@ -141,10 +147,14 @@ bool TaudioOUT::setAudioDevice(QString &name) {
     }
     if (devId == -1) { // no device on the list - load default
         devId = m_rtAudio->getDefaultOutputDevice();
+        if (m_rtAudio->getDeviceInfo(devId).outputChannels <= 0) {
+          qDebug("wrong default output device");
+          playable = false;
+          return false;
+        }
     }
   }
   RtAudio::DeviceInfo devInfo = m_rtAudio->getDeviceInfo(devId);
-//   qDebug() << "samples" << "got";
   bool rateFound = false;
   for (int i = 0; i < devInfo.sampleRates.size(); i++) {
     if (devInfo.sampleRates.at(i) == SAMPLE_RATE) {
@@ -154,6 +164,7 @@ bool TaudioOUT::setAudioDevice(QString &name) {
   }
   if (!rateFound) {
     qDebug() << "This device doesn't support 44100 sampling and resampling is not implemented yet.";
+    playable = false;
     return false;
   }
   m_outParams.deviceId = devId;
@@ -165,11 +176,13 @@ bool TaudioOUT::setAudioDevice(QString &name) {
     m_streamOptions->streamName = "nootkaOUT";
   }
   if (!openStream()) {
+      playable = false;
       return false;
   }
   if (m_rtAudio->isStreamOpen()) {
       m_maxCBloops = SAMPLE_RATE / (m_bufferFrames / 2);
       qDebug() << "RtOUT:" << QString::fromStdString(m_rtAudio->getDeviceInfo(devId).name);
+      m_devName = QString::fromStdString(m_rtAudio->getDeviceInfo(devId).name);
       return true;
   } else
     return false;

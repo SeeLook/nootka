@@ -324,6 +324,7 @@ void MainWindow::createSettingsDialog() {
     sound->prepareToConf();
 //     qDebug("prepared");
     if (settings->exec() == QDialog::Accepted) {
+        delete settings;
         m_isPlayerFree = false;
         sound->acceptSettings();
         score->acceptSettings();
@@ -359,9 +360,10 @@ void MainWindow::createSettingsDialog() {
         guitar->acceptSettings(); //refresh guitar
         m_hintsChB->setChecked(gl->hintsEnabled);
         m_isPlayerFree = true;
-    } else
+    } else {
+      delete settings;
       sound->restoreAfterConf();
-    delete settings;
+    }
 }
 
 

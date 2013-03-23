@@ -26,22 +26,20 @@ set(CPACK_DEBIAN_PACKAGE_NAME "nootka") #default CPACK_PACKAGE_NAME
 # CPACK_DEBIAN_PACKAGE_VERSION #CPACK_PACKAGE_VERSION
 # PACKAGE_ARCHITECTURE #dpkg --print-architecture or i386
 # set(CPACK_DEBIAN_PACKAGE_NAME "nootka" )
-# if (ENABLE_QTMULTIMEDIA)
-#   set(DEB_DEPENDS "libqtmultimediakit1")
-# else (ENABLE_QTMULTIMEDIA)
+
 if (ENABLE_JACK)
-  set(DEB_DEPENDS "libjack0 | libjack-jackd2-0")
+  set(DEB_DEPENDS "libjack0 | libjack-jackd2-0,")
   if (ENABLE_PULSEAUDIO)
-    set(DEB_DEPENDS "libjack | libjack-jackd2-0, libpulse0")
+    set(DEB_DEPENDS "libjack | libjack-jackd2-0, libpulse0,")
   endif (ENABLE_PULSEAUDIO)
 else (ENABLE_JACK)
   if (ENABLE_PULSEAUDIO)
-    set(DEB_DEPENDS "libpulse0")
+    set(DEB_DEPENDS "libpulse0,")
   endif (ENABLE_PULSEAUDIO)
 endif (ENABLE_JACK)
-# endif (ENABLE_QTMULTIMEDIA)
 
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.9), libqtcore4 | libqt4-core, libqtgui4 | libqt4-gui, ${DEB_DEPENDS}, libfftw3-3")
+
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.9), libqtcore4 | libqt4-core, libqtgui4 | libqt4-gui, ${DEB_DEPENDS} libfftw3-3")
 #CPACK_DEBIAN_PACKAGE_MAINTAINER #CPACK_PACKAGE_CONTACT
 set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Application to help with learning classical score notation.
  Mostly it is for guitarists,

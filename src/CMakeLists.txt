@@ -3,31 +3,26 @@
 add_subdirectory(sound/rt)
 
 if(UNIX AND NOT APPLE)
-  if(ENABLE_QTMULTIMEDIA)
-    message(STATUS "support for QtMultimedia\t\t TRUE")
-  else(ENABLE_QTMULTIMEDIA)
-    if(ALSA_LIBRARY)
-      add_definitions(-D__LINUX_ALSA__)
-      message(STATUS "support for ALSA\t\t TRUE")
-    else(ALSA_LIBRARY)
-      message(STATUS "support for ALSA\t\t FALSE")
-    endif(ALSA_LIBRARY)
-    if(ENABLE_JACK AND JACK_INCLUDE_DIR)
-      add_definitions(-D__UNIX_JACK__)
-      include_directories(${JACK_INCLUDE_DIR})
-      message(STATUS "support for JACK\t\t TRUE")
-    else(ENABLE_JACK AND JACK_INCLUDE_DIR)
-      message(STATUS "support for JACK\t\t FALSE")
-    endif(ENABLE_JACK AND JACK_INCLUDE_DIR)
-    if(ENABLE_PULSEAUDIO AND PULSE_INCLUDE_DIR)
-      add_definitions(-D__LINUX_PULSE__)
-      include_directories(${PULSE_INCLUDE_DIR})
-      message(STATUS "support for PulseAudio\t TRUE")
-    else(ENABLE_PULSEAUDIO AND PULSE_INCLUDE_DIR)
-      message(STATUS "support for PulseAudio\t FALSE")
-    endif(ENABLE_PULSEAUDIO AND PULSE_INCLUDE_DIR)
-    message(STATUS "support for QtMultimedia\t\t FALSE")
-  endif(ENABLE_QTMULTIMEDIA)
+  if(ALSA_LIBRARY)
+    add_definitions(-D__LINUX_ALSA__)
+    message(STATUS "support for ALSA\t\t TRUE")
+  else(ALSA_LIBRARY)
+    message(STATUS "support for ALSA\t\t FALSE")
+  endif(ALSA_LIBRARY)
+  if(ENABLE_JACK AND JACK_INCLUDE_DIR)
+    add_definitions(-D__UNIX_JACK__)
+    include_directories(${JACK_INCLUDE_DIR})
+    message(STATUS "support for JACK\t\t TRUE")
+  else(ENABLE_JACK AND JACK_INCLUDE_DIR)
+    message(STATUS "support for JACK\t\t FALSE")
+  endif(ENABLE_JACK AND JACK_INCLUDE_DIR)
+  if(ENABLE_PULSEAUDIO AND PULSE_INCLUDE_DIR)
+    add_definitions(-D__LINUX_PULSE__)
+    include_directories(${PULSE_INCLUDE_DIR})
+    message(STATUS "support for PulseAudio\t TRUE")
+  else(ENABLE_PULSEAUDIO AND PULSE_INCLUDE_DIR)
+    message(STATUS "support for PulseAudio\t FALSE")
+  endif(ENABLE_PULSEAUDIO AND PULSE_INCLUDE_DIR)
 endif(UNIX AND NOT APPLE)
 
 INCLUDE_DIRECTORIES (. exam info level score settings sound charts)
@@ -154,20 +149,11 @@ SET( NOOTKA_SRCS
   sound/tartini/filters/IIR_Filter.cpp
   )
   
-# if(ENABLE_QTMULTIMEDIA)
-#   LIST(APPEND NOOTKA_SRCS "sound/taudioout.cpp" "sound/taudioin.cpp")
-# else(ENABLE_QTMULTIMEDIA)
-  #   LIST(APPEND NOOTKA_SRCS "sound/pulseprober.cpp" )
-  if(MINGW)
-    LIST(APPEND NOOTKA_SRCS "sound/rt/asio.cpp"  "sound/rt/asiodrivers.cpp"  "sound/rt/asiolist.cpp"  "sound/rt/iasiothiscallresolver.cpp")
-  endif(MINGW)
-#   LIST(APPEND NOOTKA_SRCS "sound/trtaudioout.cpp" "sound/rt/RtAudio.cpp" "sound/trtaudioin.cpp" "sound/rt/rtcreator.cpp")
-# endif(ENABLE_QTMULTIMEDIA)
+if(MINGW)
+  LIST(APPEND NOOTKA_SRCS "sound/rt/asio.cpp"  "sound/rt/asiodrivers.cpp"  "sound/rt/asiolist.cpp"  "sound/rt/iasiothiscallresolver.cpp")
+endif(MINGW)
 
-#SET( NOOTKA_HEADERS
-#    tfingerpos.h
-#)
-  
+
 SET( NOOTKA_MOC_SRCS
   mainwindow.h
   tnotename.h
@@ -235,14 +221,6 @@ SET( NOOTKA_MOC_SRCS
   sound/trtaudioin.h
   )
   
-# if(ENABLE_QTMULTIMEDIA)
-#   LIST(APPEND NOOTKA_MOC_SRCS "sound/taudioout.h" "sound/taudioin.h")
-# else(ENABLE_QTMULTIMEDIA)
-  #   LIST(APPEND NOOTKA_SRCS "sound/pulseprober.cpp" )
-#   LIST(APPEND NOOTKA_MOC_SRCS "sound/trtaudioout.h" "sound/trtaudioin.h")
-# endif(ENABLE_QTMULTIMEDIA)
-
-# message(STATUS "${NOOTKA_MOC_SRCS} ${NOOTKA_SRCS}" )
 
 QT4_WRAP_CPP( NOOTKA_MOCS ${NOOTKA_MOC_SRCS} )
 
@@ -263,7 +241,6 @@ if(MINGW)
 	TARGET_LINK_LIBRARIES(nootka
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
-#         ${QTMULTIMEDIA_LIBRARIES}
         ${FFTW3_LIBRARIES}
         winmm dsound
 	)
@@ -278,7 +255,6 @@ if(UNIX AND NOT APPLE) #Linux
 	TARGET_LINK_LIBRARIES(nootka
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
-#         ${QTMULTIMEDIA_LIBRARIES}
         ${FFTW3_LIBRARIES}
         ${ALSA_LIBRARY} ${PTHREAD_LIBRARY}
         ${JACK_LIBRARY}
@@ -305,7 +281,6 @@ if(APPLE)
   TARGET_LINK_LIBRARIES(nootka
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
-#         ${QTMULTIMEDIA_LIBRARIES}
         ${QT_QTNETWORK_LIBRARY} # for macdeployqt
         ${FFTW3_LIBRARIES}
         ${CoreAudio_LIB}
