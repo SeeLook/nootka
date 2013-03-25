@@ -54,8 +54,6 @@ private:
   static int outCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime,
                          RtAudioStreamStatus status, void *userData);
 
-  RtAudio::StreamParameters m_outParams;
-
   static int m_noteOffset;
       /** Number of performed samples. */
   static int m_samplesCnt;

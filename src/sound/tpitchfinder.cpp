@@ -197,7 +197,7 @@ void TpitchFinder::run() {
           } */
 //           qDebug() << "pitch" << curNote->avgPitch() << "dur:" << curNote->noteLength();
     
-          
+          emit pichInChunk(data->pitch);
    
       } else {
           if (m_isVoice)
@@ -209,6 +209,7 @@ void TpitchFinder::run() {
             m_doReset = true;
 //               qDebug() << m_channel->isVisibleNote(data->noteIndex) << m_channel->isLabelNote(data->noteIndex);
           }
+          emit pichInChunk(0.0);
       }
     }
 	incrementChunk();
