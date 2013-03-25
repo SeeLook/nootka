@@ -93,7 +93,7 @@ signals:
       * @param pitch is float type of midi note.
       * @param freq if current frequency. */
   void found(float pitch, float freq);
-  void noteStoped();
+  void pichInChunk(float pitch);
 	
 protected:
 	void run();

@@ -72,6 +72,7 @@ signals:
 	void noteDetected(Tnote note);
 	void noiseLevel(qint16 level);
 	void fundamentalFreq(float freq);
+  void chunkPitch(float pitch);
 
   
 protected:
@@ -80,6 +81,7 @@ protected:
 private slots:
 	
   void pitchFreqFound(float pitch, float freq);
+  void pitchInChunkSlot(float pitch) { emit chunkPitch(pitch); }
   
   
 private:
@@ -100,7 +102,6 @@ private:
   unsigned int m_bufferFrames;  
   
   unsigned int m_sampleRate;
-  RtAudio::StreamParameters m_inParams;
   bool m_paused;
 	
 };

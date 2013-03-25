@@ -20,8 +20,7 @@
 #include <QDebug>
 #include "tpitchfinder.h"
 #include "taudioparams.h"
-#include "rt/rtcreator.h"
-#include <QThread>
+// #include <QThread>
 
 
 /*static */
@@ -77,7 +76,6 @@ int TaudioIN::m_thisInstance = -1;
 //------------          constructor     ----------------------------------------------
 //------------------------------------------------------------------------------------
 
-//QThread *m_thread;
 
 TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     QObject(parent),
@@ -99,6 +97,7 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
   setParameters(params);
   
   connect(m_pitch, SIGNAL(found(float,float)), this, SLOT(pitchFreqFound(float,float)));
+  connect(m_pitch, SIGNAL(pichInChunk(float)), this, SLOT(pitchInChunkSlot(float)));
 }
 
 TaudioIN::~TaudioIN()
@@ -114,7 +113,6 @@ TaudioIN::~TaudioIN()
   m_thisInstance = m_instances.size() - 1;
   
 //  delete m_thread;
-//   delete m_rtAudio;
 }
 
 //------------------------------------------------------------------------------------
@@ -160,9 +158,9 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
     }
   } else 
     return false;
-  m_inParams.deviceId = devId;
-  m_inParams.nChannels = 1;
-  m_inParams.firstChannel = 0;
+  streamParams.deviceId = devId;
+  streamParams.nChannels = 1;
+  streamParams.firstChannel = 0;
   RtAudio::DeviceInfo devInfo;
   getDeviceInfo(devInfo, devId);
   m_sampleRate = devInfo.sampleRates.at(devInfo.sampleRates.size() - 1); //TODO > 48000 not supported
@@ -172,7 +170,7 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
       streamOptions = new RtAudio::StreamOptions;
     streamOptions->streamName = "nootkaIN";
   }
-  if (!openStream(NULL ,&m_inParams, RTAUDIO_SINT16, m_sampleRate, &m_bufferFrames, &inCallBack, 0, streamOptions))
+  if (!openStream(NULL ,&streamParams, RTAUDIO_SINT16, m_sampleRate, &m_bufferFrames, &inCallBack, 0, streamOptions))
     return false;
   if (rtDevice->isStreamOpen()) {
       qDebug() << "RtIN:" << QString::fromStdString(rtDevice->getDeviceInfo(devId).name) << "samplerate:" << m_sampleRate << "buffer:" << m_bufferFrames;
@@ -194,7 +192,7 @@ void TaudioIN::startListening() {
     if (!m_floatBuff)
         m_floatBuff = new float[m_pitch->aGl()->framesPerChunk]; // 1024
     initInput();
-    if (openStream(NULL, &m_inParams, RTAUDIO_SINT16, m_sampleRate, &m_bufferFrames, &inCallBack, NULL, streamOptions))
+    if (openStream(NULL, &streamParams, RTAUDIO_SINT16, m_sampleRate, &m_bufferFrames, &inCallBack, NULL, streamOptions))
       go();
   }
 }

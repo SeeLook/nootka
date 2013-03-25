@@ -19,6 +19,7 @@
 
 #include "tpitchview.h"
 #include "tvolumemeter.h"
+#include "tintonationview.h"
 #include <QTimer>
 #include <QLabel>
 #include <QHBoxLayout>
@@ -53,9 +54,16 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
     voiceButt = 0;
     pauseButt = 0;
   }
+  QVBoxLayout *viewLay = new QVBoxLayout;
+  
+  m_intoView = new TintonationView(1, this);
+  viewLay->addWidget(m_intoView);
+  
   m_volMeter = new TvolumeMeter(this);
-  lay->addWidget(m_volMeter);
+  viewLay->addWidget(m_volMeter);
   m_volMeter->setStatusTip(tr("Shows volume level of input sound and indicates when note was detected"));
+  
+  lay->addLayout(viewLay);
   
   if (m_withButtons) {
       pauseButt = new QPushButton("n", this);
@@ -87,8 +95,8 @@ void TpitchView::startVolume() {
   if (m_audioIN) {
     connect(m_audioIN, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
     m_volMeter->setDisabled(false);
-    
     m_volTimer->start(75);
+    connect(m_audioIN, SIGNAL(chunkPitch(float)), m_intoView, SLOT(pitchSlot(float)));
   }
 }
 
@@ -195,5 +203,7 @@ void TpitchView::paintEvent(QPaintEvent* )
 void TpitchView::stopTimerDelayed() {
    m_volTimer->stop();
    m_volMeter->setVolume(0.0);
+   disconnect(m_audioIN, SIGNAL(chunkPitch(float)), m_intoView, SLOT(pitchSlot(float)));
+   m_intoView->pitchSlot(0.0);
 }
 

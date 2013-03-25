@@ -17,43 +17,48 @@
  ***************************************************************************/
 
 
-#ifndef TRTAUDIOABSTRACT_H
-#define TRTAUDIOABSTRACT_H
+#ifndef TINTONATIONVIEW_H
+#define TINTONATIONVIEW_H
+
+#include <QWidget>
 
 
-#include "rt/RtAudio.h"
-#include <QString>
-
-class TaudioParams;
-
-
-/** Abstract class for RtAudio input/outpus classes.
-* It doesn't provide destructor, so inherit classes have to
-* delete rtDevice, streamOptions and audioParams themself. */
-class TrtAudioAbstract
+class TintonationView : public QWidget
 {
-
+  
+  Q_OBJECT
+  
 public:
-    TrtAudioAbstract(TaudioParams *params);
-    QString devName() { return deviceName; }
-    static RtAudio* getRtAudio();
+    enum Eaccuracy {
+      e_perfect, 
+      e_normal,
+      e_sufficient
+    };
+  
+    TintonationView(int accuracy, QWidget *parent = 0);
+    virtual ~TintonationView();
+    
+    void setAccuracy(int accuracy);
+    QColor gradColorAtPoint(float lineX1, float lineX2, QColor startC, QColor endC, float posC);
+  
+public slots:
+    void pitchSlot(float pitch);
     
 protected:
-    RtAudio* rtDevice;
-    RtAudio::StreamOptions *streamOptions;
-    RtAudio::StreamParameters streamParams;
-    TaudioParams *audioParams;
-    QString deviceName;
+    virtual void paintEvent(QPaintEvent* );
+    virtual void resizeEvent(QResizeEvent* );
     
-    bool openStream(RtAudio::StreamParameters *outParams,  RtAudio::StreamParameters *inParams, 
-                    RtAudioFormat frm, unsigned int rate, unsigned int *buffFrames,
-                    RtAudioCallback callBack, void *userData = 0 , RtAudio::StreamOptions *options = 0);
-    bool startStream();
-    void stopStream();
-    void closeStram();
+private:
+    QList<QColor>   m_thickColors;
+    QFont           m_nooFont;
+    int             m_thicksCount;
+    float           m_pitchDiff;
+    int             m_noteX;
+    float           m_hiThickStep;
     
-    bool getDeviceInfo(RtAudio::DeviceInfo &devInfo, int id);
-        
+    Eaccuracy       m_accuracy;
+    float           m_accurValue;
+
 };
 
-#endif // TRTAUDIOABSTRACT_H
+#endif // TINTONATIONVIEW_H

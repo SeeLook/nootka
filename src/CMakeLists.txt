@@ -122,13 +122,13 @@ SET( NOOTKA_SRCS
   sound/tpitchfinder.cpp
   sound/tvolumemeter.cpp
   sound/tpitchview.cpp
+  sound/tintonationview.cpp
   sound/tartiniparams.h
   sound/tabstractplayer.cpp
   sound/tscalefile.cpp
   sound/trtaudioabstract.cpp
   sound/trtaudioout.cpp
   sound/trtaudioin.cpp
-#   sound/rt/rtcreator.cpp
   sound/rt/RtAudio.cpp
 # tartini
   sound/tartini/channel.cpp
@@ -216,6 +216,7 @@ SET( NOOTKA_MOC_SRCS
   sound/audioinsettings.h
   sound/tpitchfinder.h
   sound/tvolumemeter.h
+  sound/tintonationview.h
   sound/tpitchview.h
   sound/tabstractplayer.h
   sound/trtaudioout.h

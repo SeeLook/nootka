@@ -23,7 +23,7 @@ TvolumeMeter::TvolumeMeter(QWidget* parent):
   QWidget(parent),
   m_volume(0),
   m_pitchColor(Qt::red),
-  m_noiseLevel(0.02)
+  m_noiseLevel(0.0f)
 {
   setBackgroundRole(QPalette::Background);
   setAutoFillBackground(true);
@@ -67,8 +67,8 @@ void TvolumeMeter::paintEvent(QPaintEvent* )
       painter.setPen(Qt::NoPen);
   }
   QLinearGradient grad = QLinearGradient(0, 5, painter.viewport().right()-20, 5);
-  grad.setColorAt(0.0, Qt::darkGreen);
-  grad.setColorAt(m_noiseLevel, Qt::green);
+  grad.setColorAt(0.0, Qt::green);
+//   grad.setColorAt(m_noiseLevel, Qt::green);
   grad.setColorAt(0.7, Qt::yellow);
   grad.setColorAt(1.0, Qt::red);
   painter.setBrush(grad);

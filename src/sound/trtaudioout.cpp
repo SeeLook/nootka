@@ -19,7 +19,6 @@
 
 #include "trtaudioout.h"
 #include "taudioparams.h"
-#include "rt/rtcreator.h"
 #include <QDebug>
 
 #define SAMPLE_RATE (44100)
@@ -77,7 +76,7 @@ int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBuffer
       return 0;
   } else {
       m_this->emitNoteFinished();
-      return 1;
+      return 0;
   }
 }
 /*end static*/
@@ -162,15 +161,15 @@ bool TaudioOUT::setAudioDevice(QString &name) {
     playable = false;
     return false;
   }
-  m_outParams.deviceId = devId;
-  m_outParams.nChannels = 2;
-  m_outParams.firstChannel = 0;
+  streamParams.deviceId = devId;
+  streamParams.nChannels = 2;
+  streamParams.firstChannel = 0;
   if (rtDevice->getCurrentApi() == RtAudio::UNIX_JACK) {
     if (!streamOptions)
       streamOptions = new RtAudio::StreamOptions;
     streamOptions->streamName = "nootkaOUT";
   }
-  if (!openStream(&m_outParams, NULL, RTAUDIO_SINT16, SAMPLE_RATE, &m_bufferFrames, &outCallBack, 0, streamOptions)) {
+  if (!openStream(&streamParams, NULL, RTAUDIO_SINT16, SAMPLE_RATE, &m_bufferFrames, &outCallBack, 0, streamOptions)) {
       playable = false;
       return false;
   }
@@ -187,7 +186,7 @@ bool TaudioOUT::setAudioDevice(QString &name) {
 bool TaudioOUT::play(int noteNr) {
   if (!playable)
       return false;
-  openStream(&m_outParams, NULL, RTAUDIO_SINT16, SAMPLE_RATE, &m_bufferFrames, &outCallBack, 0, streamOptions);
+  openStream(&streamParams, NULL, RTAUDIO_SINT16, SAMPLE_RATE, &m_bufferFrames, &outCallBack, 0, streamOptions);
   
   noteNr = noteNr + qRound(audioParams->a440diff);
   if (noteNr < -11 || noteNr > 41)

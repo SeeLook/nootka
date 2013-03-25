@@ -28,6 +28,7 @@
 //   #include "taudioin.h"
 // #endif  
 
+class TintonationView;
 
 class QPushButton;
 class QTimer;
@@ -71,6 +72,7 @@ protected:
   
 private:
   TvolumeMeter *m_volMeter;
+  TintonationView *m_intoView;
   TaudioIN *m_audioIN;
   QTimer *m_volTimer;
   QColor m_pitchColor, m_bgColor;
