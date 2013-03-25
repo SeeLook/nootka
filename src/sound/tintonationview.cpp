@@ -23,8 +23,8 @@
 #include <math.h>
 
 
-#define THWIDTH (3)
-#define THGAP (4)
+#define THWIDTH (5)
+#define THGAP (3)
 
 TintonationView::TintonationView(int accuracy, QWidget* parent) :
   QWidget(parent),
@@ -105,20 +105,20 @@ void TintonationView::paintEvent(QPaintEvent* ) {
 
 void TintonationView::resizeEvent(QResizeEvent* ) {
   m_nooFont = QFont("nootka");
-  m_nooFont.setPointSizeF(height() * 0.7);
+  m_nooFont.setPointSizeF(height());
   QFontMetrics fm(m_nooFont);
   QRect noteBound = fm.boundingRect("n");
-  float factor = (float)height() / (float)noteBound.height();
-  m_nooFont.setPointSizeF(m_nooFont.pointSizeF() * factor);
-  noteBound = fm.boundingRect("n");
+//   float factor = (float)height() / (float)noteBound.height();
+//   m_nooFont.setPointSizeF(m_nooFont.pointSizeF() * factor);
+//   noteBound = fm.boundingRect("n");
   m_noteX = (width() - noteBound.width() * 2) / 2;
   m_thicksCount = m_noteX / (THWIDTH + THGAP);
   m_hiThickStep = ((float)height() * 0.66) / m_thicksCount;
   m_thickColors.clear();
   for (int i = 0; i < m_thicksCount; i++) {
-    if (i <= m_thicksCount/5) {
-      m_thickColors << Qt::green;
-//       m_thickColors << gradColorAtPoint(0, m_noteX, Qt::green, Qt::yellow, (i + 1) * m_noteX / m_thicksCount);
+    if (i <= m_thicksCount*m_accurValue) {
+//       m_thickColors << Qt::green;
+      m_thickColors << gradColorAtPoint(0, m_noteX, Qt::darkGreen, Qt::green, (i + 1) * m_noteX / m_thicksCount);
     }
     else if (i <= m_thicksCount*0.4)
       m_thickColors << gradColorAtPoint(0, m_noteX, Qt::green, Qt::yellow, (i + 1) * m_noteX / m_thicksCount);

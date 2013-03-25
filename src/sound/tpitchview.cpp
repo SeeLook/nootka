@@ -56,7 +56,7 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
   }
   QVBoxLayout *viewLay = new QVBoxLayout;
   
-  m_intoView = new TintonationView(1, this);
+  m_intoView = new TintonationView(0, this);
   viewLay->addWidget(m_intoView);
   
   m_volMeter = new TvolumeMeter(this);
