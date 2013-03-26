@@ -34,17 +34,14 @@ extern Tglobals *gl;
 Tsound::Tsound(QObject* parent) :
   QObject(parent),
   m_thread(new QThread()),
-  audioPlayer(0),
-  midiPlayer(0),
   sniffer(0),
+  player(0),
   m_examMode(false)
 {
   if (gl->A->OUTenabled)
       createPlayer();
-  else {
-      audioPlayer = 0;
-      midiPlayer = 0;
-  }
+  else
+      player = 0;
   if (gl->A->INenabled) {
     createSniffer();
   } else {
@@ -66,10 +63,8 @@ Tsound::~Tsound()
 
 void Tsound::play(Tnote note) {
   bool playing;
-  if(audioPlayer)
-    playing = audioPlayer->play(note.getChromaticNrOfNote());
-  else if (midiPlayer)
-    playing = midiPlayer->play(note.getChromaticNrOfNote());
+  if (player)
+    playing = player->play(note.getChromaticNrOfNote());
   if (playing) { // true if plaing was started
     if (sniffer) { // pause sniffer if note was started
       sniffer->wait();
@@ -81,20 +76,15 @@ void Tsound::play(Tnote note) {
 void Tsound::acceptSettings() {
   // for output
   if (gl->A->OUTenabled) {
-    if (!audioPlayer && !midiPlayer)
+    if (!player)
         createPlayer();
     else {
         deletePlayer();
         createPlayer();
-        if (audioPlayer)
-          if (!audioPlayer->isPlayable())
-            deletePlayer();
-        if (midiPlayer)
-          if (!midiPlayer->isPlayable())
-            deletePlayer();
-    }
+        if (player)
+          if (!player->isPlayable())
+            deletePlayer();    }
   } else {
-    if (audioPlayer || midiPlayer)
       deletePlayer();
   }
   // for input
@@ -140,8 +130,8 @@ void Tsound::setPitchView(TpitchView* pView) {
 
 void Tsound::prepareToConf() {
   stopPlaying();
-  if (midiPlayer)
-    midiPlayer->deleteMidi();
+  if (player)
+    player->deleteMidi();
   if (sniffer) {
     sniffer->stopListening();
     m_pitchView->stopVolume();
@@ -149,9 +139,9 @@ void Tsound::prepareToConf() {
 }
 
 void Tsound::restoreAfterConf() {
-  if (midiPlayer) {
-    if (gl->A->midiEnabled)
-      midiPlayer->setMidiParams();
+  if (gl->A->midiEnabled) {
+    if (player)
+      player->setMidiParams();
   }
   if (sniffer) {
     if (!m_pitchView->isPaused()) {
@@ -165,7 +155,6 @@ void Tsound::wait() {
 //     qDebug("wait");
   if (sniffer) {
     sniffer->stopListening();
-//     sniffer->wait();
     m_pitchView->stopVolume();
   }
 }
@@ -174,7 +163,6 @@ void Tsound::go() {
 //     qDebug("go");
   if (sniffer && !m_pitchView->isPaused()) {
     sniffer->startListening();
-//     sniffer->go();
     m_pitchView->startVolume();
   }
 }
@@ -205,7 +193,6 @@ bool Tsound::isSnifferPaused() {
 void Tsound::restoreAfterAnswer() {
   m_pitchView->setBgColor(Qt::transparent);
   m_pitchView->setDisabled(true);
-//   m_pitchView->update();
 }
 
 void Tsound::prepareToExam() {
@@ -224,14 +211,12 @@ void Tsound::restoreAfterExam() {
 }
 
 void Tsound::stopPlaying() {
-    if (audioPlayer)
-      audioPlayer->stop();
-    else if (midiPlayer)
-      midiPlayer->stop();
+  if (player)
+    player->stop();
 }
 
 bool Tsound::isPlayable() {
-  if (audioPlayer || midiPlayer)
+  if (player)
    return true;
   else
     return false;
@@ -247,24 +232,17 @@ bool Tsound::isPlayable() {
 
 void Tsound::createPlayer() {
   if (gl->A->midiEnabled)
-    midiPlayer = new TmidiOut(gl->A);
+    player = new TmidiOut(gl->A);
   else
-    audioPlayer = new TaudioOUT(gl->A, gl->path);
-#if defined(Q_OS_WIN32)
+    player = new TaudioOUT(gl->A, gl->path);
+// #if defined(Q_OS_WIN32)
     // Windows has problems with playing it in separate thread - cuted sound
     // so we skip
-#else
-  if (audioPlayer)
-    audioPlayer->moveToThread(m_thread);
-  else 
-    if (midiPlayer)
-    midiPlayer->moveToThread(m_thread);
+// #else
+  player->moveToThread(m_thread);
   m_thread->start(QThread::HighPriority);
-#endif
-  if (audioPlayer)
-    connect(audioPlayer, SIGNAL(noteFinished()), this, SLOT(playingFinishedSlot()));
-  else if (midiPlayer)
-    connect(midiPlayer, SIGNAL(noteFinished()), this, SLOT(playingFinishedSlot()));
+// #endif
+  connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinishedSlot()));
 }
 
 
@@ -279,17 +257,12 @@ void Tsound::createSniffer() {
 }
 
 void Tsound::deletePlayer() {
-  if (audioPlayer)
-    audioPlayer->stop();
-  else if (midiPlayer)
-    midiPlayer->stop();
+  if (player)
+    player->stop();
   m_thread->quit();
-  if (audioPlayer) {
-    audioPlayer->deleteLater();
-    audioPlayer = 0;
-  } else if (midiPlayer) {
-    midiPlayer->deleteLater();
-    midiPlayer = 0;
+  if (player) {
+    player->deleteLater();
+    player = 0;
   }
 }
 
@@ -310,7 +283,7 @@ void Tsound::deleteSniffer() {
 //------------  slots               --------------------------------------------------
 //------------------------------------------------------------------------------------
 void Tsound::playingFinishedSlot() {
-//  qDebug("playingFinished");
+//   qDebug("playingFinished");
   if (!m_examMode && sniffer) {
     sniffer->go();
     m_pitchView->startVolume();

@@ -20,6 +20,7 @@
 #include "trtaudioout.h"
 #include "taudioparams.h"
 #include <QDebug>
+#include <QTimer>
 
 #define SAMPLE_RATE (44100)
 
@@ -74,10 +75,9 @@ int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBuffer
           *out++ = sample;
       }
       return 0;
-  } else {
-      m_this->emitNoteFinished();
-      return 0;
-  }
+  } 
+  else
+      return 1;
 }
 /*end static*/
 
@@ -91,6 +91,8 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QString &path, QObject *parent) :
 {
   setAudioOutParams(_params);
   m_this = this;
+  offTimer = new QTimer();
+  connect(offTimer, SIGNAL(timeout()), this, SLOT(stopSlot()));
 }
 
 
@@ -98,14 +100,12 @@ TaudioOUT::~TaudioOUT()
 {
   delete streamOptions;
   delete rtDevice;
+  delete offTimer;
 }
 
-void TaudioOUT::emitNoteFinished() {
-//   if (m_rtAudio->isStreamRunning())
-//     m_rtAudio->stopStream();
-//   closeStram();
-  emit noteFinished();
-}
+// void TaudioOUT::emitNoteFinished() {
+//   emit noteFinished();
+// }
 
 
 void TaudioOUT::setAudioOutParams(TaudioParams* params) {
@@ -192,18 +192,32 @@ bool TaudioOUT::play(int noteNr) {
   if (noteNr < -11 || noteNr > 41)
       return false;
   
+  doEmit = true;
   m_samplesCnt = -1;
   int fasterOffset = 1000;
   if (noteNr + 11 == 0)
     fasterOffset = 0;
   m_noteOffset = (noteNr + 11) * SAMPLE_RATE - fasterOffset;
+  if (offTimer->isActive())
+      offTimer->stop();
+  offTimer->start(1700);
   return startStream();
 }
 
 
 void TaudioOUT::stop() {
-  if (rtDevice->isStreamOpen())
-      rtDevice->closeStream();
+  if (offTimer->isActive()) {
+    offTimer->stop();
+    doEmit = false;
+    stopSlot();
+  }
 }
 
+
+void TaudioOUT::stopSlot() {
+  offTimer->stop();
+  closeStram();
+  if (doEmit)
+    emit noteFinished();
+}
 

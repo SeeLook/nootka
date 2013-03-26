@@ -39,7 +39,7 @@ public:
     virtual ~TintonationView();
     
     void setAccuracy(int accuracy);
-    QColor gradColorAtPoint(float lineX1, float lineX2, QColor startC, QColor endC, float posC);
+    QColor gradColorAtPoint(float lineX1, float lineX2, QColor endC, QColor startC, float posC);
   
 public slots:
     void pitchSlot(float pitch);
@@ -49,12 +49,12 @@ protected:
     virtual void resizeEvent(QResizeEvent* );
     
 private:
-    QList<QColor>   m_thickColors;
+    QList<QColor>   m_tickColors;
     QFont           m_nooFont;
-    int             m_thicksCount;
+    int             m_ticksCount;
     float           m_pitchDiff;
     int             m_noteX;
-    float           m_hiThickStep;
+    float           m_hiTickStep;
     
     Eaccuracy       m_accuracy;
     float           m_accurValue;

@@ -47,26 +47,25 @@ TmidiOut::TmidiOut(TaudioParams* params, QObject* parent) :
   TabstractPlayer(parent),
   m_midiOut(0),
   m_params(params),
-  m_prevMidiNote(0),
-  m_doEmit(false)
+  m_prevMidiNote(0)
 {
-    m_timer = new QTimer();
+    offTimer = new QTimer();
     setMidiParams();
     if (playable)
-        connect(m_timer, SIGNAL(timeout()), this, SLOT(midiNoteOff()));
+        connect(offTimer, SIGNAL(timeout()), this, SLOT(midiNoteOff()));
 }
 
 
 TmidiOut::~TmidiOut()
 {
   deleteMidi();
-  delete m_timer;
+  delete offTimer;
 }
 
 
 void TmidiOut::setMidiParams() {
   deleteMidi();
-  m_timer->disconnect();
+  offTimer->disconnect();
   playable = true;
   try {
     m_midiOut = new RtMidiOut();
@@ -126,8 +125,8 @@ void TmidiOut::setMidiParams() {
 void TmidiOut::deleteMidi() {
 //   qDebug("deleteMidi");
   if (m_midiOut) {
-    if (m_timer->isActive())
-      m_timer->stop();
+    if (offTimer->isActive())
+      offTimer->stop();
     m_midiOut->closePort();
     delete m_midiOut;
     m_midiOut = 0;
@@ -140,10 +139,10 @@ bool TmidiOut::play(int noteNr) {
   if (!playable)
       return false;
   if (m_prevMidiNote) {  // note is played and has to be turned off. Volume is pushed.
-      m_doEmit = false;
+      doEmit = false;
       midiNoteOff();
   }
-  m_doEmit = true;
+  doEmit = true;
   int semiToneOff = 0; // "whole" semitone offset
   quint16 midiBend = 0;
   if (m_params->a440diff != 0.0) {
@@ -169,17 +168,17 @@ bool TmidiOut::play(int noteNr) {
       m_message[2] = msb;
       m_midiOut->sendMessage(&m_message);
   }
-  if (m_timer->isActive())
-      m_timer->stop();
-  m_timer->start(1500);
+  if (offTimer->isActive())
+      offTimer->stop();
+  offTimer->start(1500);
   return true;   
 }
 
 
 void TmidiOut::stop() {
-  if (m_timer->isActive()) {
-    m_timer->stop();
-    m_doEmit = false;
+  if (offTimer->isActive()) {
+    offTimer->stop();
+    doEmit = false;
     midiNoteOff();
   }
 }
@@ -190,13 +189,13 @@ void TmidiOut::stop() {
 
 void TmidiOut::midiNoteOff() {
 //   qDebug("midiNoteOff");
-  m_timer->stop();
+  offTimer->stop();
   m_message[0] = 128; // note Off
   m_message[1] = m_prevMidiNote;
   m_message[2] = 0; // volume
   m_midiOut->sendMessage(&m_message);
   m_prevMidiNote = 0;
-  if (m_doEmit)
+  if (doEmit)
     emit noteFinished();
 }
 

@@ -22,6 +22,7 @@
 
 #include <QObject>
 
+class QTimer;
 
 
 /** Base abstract class for sound output (plaing scale). */
@@ -40,6 +41,10 @@ public:
     virtual bool play(int noteNr);
         /** Immediately stops playing. Emits nothing */
     virtual void stop();
+        /**Does nothing in audio player subclass. */
+    virtual void deleteMidi(); 
+    
+    virtual void setMidiParams();
     
 signals:
       /** This signal is emited when playing of a note is finished. */
@@ -48,6 +53,10 @@ signals:
   
 protected:
     bool playable;
+        /** Determines whether noteFinished() signal is emited in offTimer timeOut() slot.
+         * Slot is also called by stop() method and then signal can't be emited. */
+    bool doEmit;
+    QTimer *offTimer;
     
 };
 

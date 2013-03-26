@@ -23,15 +23,17 @@
 #include <math.h>
 
 
-#define THWIDTH (5)
+#define THWIDTH (2)
 #define THGAP (3)
+QColor tc = Qt::black;
 
 TintonationView::TintonationView(int accuracy, QWidget* parent) :
   QWidget(parent),
   m_pitchDiff(0.0f)
 {
   setAccuracy(accuracy);
-  setMinimumHeight(15);
+  setMinimumSize(200, 17);
+  tc = palette().text().color();
   resizeEvent(0);
 }
 
@@ -69,36 +71,38 @@ void TintonationView::pitchSlot(float pitch) {
 
 
 void TintonationView::paintEvent(QPaintEvent* ) {
-  int lastColorThick = (qAbs(m_pitchDiff) / 0.5) * m_thicksCount;
+  int lastColorThick = (qAbs(m_pitchDiff) / 0.5) * m_ticksCount;
   QPainter painter(this);
   painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
   painter.setPen(Qt::NoPen);
   painter.setBrush(QBrush(palette().window().color()));
+//   painter.setBrush(QBrush(Qt::white));
   painter.drawRoundedRect(painter.viewport(), 4, 4);
   if (m_pitchDiff == 0.0)
-    painter.setPen(QPen(Qt::darkGray));
+    painter.setPen(QPen(tc));
   else
-    painter.setPen(QPen(m_thickColors[lastColorThick]));
+    painter.setPen(QPen(m_tickColors[lastColorThick]));
   painter.setFont(m_nooFont);
   painter.drawText(0, 0, width(), height(), Qt::AlignCenter, "n");
-  for (int i = 0; i < m_thicksCount - 1; i++) {
+  for (int i = 0; i < m_ticksCount - 1; i++) {
     QColor thickColor, leftThickColor, rightThickColor;
     if (i < lastColorThick)
-      thickColor = m_thickColors[i];
+      thickColor = m_tickColors[i];
     else
-      thickColor = Qt::darkGray;
+      thickColor = tc;
     if (m_pitchDiff < 0) {
-      leftThickColor = thickColor; rightThickColor = Qt::darkGray;
+      leftThickColor = thickColor; rightThickColor = tc;
     } else {
-      leftThickColor = Qt::darkGray; rightThickColor = thickColor;
+      leftThickColor = tc; rightThickColor = thickColor;
     }
     int xx = m_noteX - ((i + 1) * (THGAP + THWIDTH));
-    int yy = qRound((float)(m_thicksCount - i) * m_hiThickStep);
+    float yy = (float)(m_ticksCount - i) * m_hiTickStep + 1;
+//     int yy = 1;
     painter.setPen(QPen(leftThickColor, THWIDTH, Qt::SolidLine, Qt::RoundCap));
-    painter.drawLine(xx, yy, xx, height());
+    painter.drawLine(QLineF(xx, yy, xx, height() - 2));
     painter.setPen(QPen(rightThickColor, THWIDTH, Qt::SolidLine, Qt::RoundCap));
     xx = (width() - m_noteX) + ((i + 1) * (THGAP + THWIDTH)) - THWIDTH;
-    painter.drawLine(xx, yy, xx, height());
+    painter.drawLine(QLineF(xx, yy, xx, height() - 2));
   }
 }
 
@@ -112,34 +116,30 @@ void TintonationView::resizeEvent(QResizeEvent* ) {
 //   m_nooFont.setPointSizeF(m_nooFont.pointSizeF() * factor);
 //   noteBound = fm.boundingRect("n");
   m_noteX = (width() - noteBound.width() * 2) / 2;
-  m_thicksCount = m_noteX / (THWIDTH + THGAP);
-  m_hiThickStep = ((float)height() * 0.66) / m_thicksCount;
-  m_thickColors.clear();
-  for (int i = 0; i < m_thicksCount; i++) {
-    if (i <= m_thicksCount*m_accurValue) {
-//       m_thickColors << Qt::green;
-      m_thickColors << gradColorAtPoint(0, m_noteX, Qt::darkGreen, Qt::green, (i + 1) * m_noteX / m_thicksCount);
+  m_ticksCount = m_noteX / (THWIDTH + THGAP);
+  m_hiTickStep = ((float)height() * 0.66) / m_ticksCount;
+  m_tickColors.clear();
+  for (int i = 0; i < m_ticksCount; i++) {
+    if (i <= m_ticksCount*m_accurValue) {
+//       m_tickColors << Qt::green;
+//       qDebug("green");
+      m_tickColors << gradColorAtPoint(0, m_noteX, Qt::green, Qt::yellow, (i + 1) * m_noteX / m_ticksCount);
     }
-    else if (i <= m_thicksCount*0.4)
-      m_thickColors << gradColorAtPoint(0, m_noteX, Qt::green, Qt::yellow, (i + 1) * m_noteX / m_thicksCount);
-//       m_thickColors << Qt::yellow;
-    else
-      m_thickColors << gradColorAtPoint(0, m_noteX, Qt::yellow, Qt::red, (i + 1) * m_noteX / m_thicksCount);
+    else if (i <= m_ticksCount*0.5) {
+//       qDebug("yellow");
+//       m_tickColors << gradColorAtPoint(0, m_noteX, Qt::green, Qt::yellow, (i + 1) * m_noteX / m_ticksCount);
+      m_tickColors << Qt::yellow;
+      } else {
+//           qDebug("red");
+          m_tickColors << gradColorAtPoint(0, m_noteX, Qt::yellow, Qt::red, (i + 1) * m_noteX / m_ticksCount);
 //       m_thickColors << Qt::red;
+        }
   }
 }
 
-/*
- http://www.qtcentre.org/threads/14307-How-to-get-the-specified-position-s-QColor-in-QLinearGradient
- You can do a linear interpolation and build the QColor. Let's assume you want the color at the point P, which is on the line between startP and endP.
-             double segmentLength = sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
-            double pdist = sqrt((xp-x1)*(xp-x1) + (yp-y1)*(yp-y1));
-            double ratio = pdist/segmentLength;
-            int red = (int)(ratio*startRedVal + (1-ratio)*endRedValue); //in your case, the values are 12 and 122
-            int green = (int)(ratio*startGreenVal + (1-ratio)*endGreenValue); //in your case, the values are 23 and 233
-            int blue = (int)(ratio*startBlueVal + (1-ratio)*endBlueValue); //in your case, the values are 24 and 244
- */
-QColor TintonationView::gradColorAtPoint(float lineX1, float lineX2, QColor startC, QColor endC, float posC) {
+/** Implementation of linear gradient color at given point taken from:
+ http://www.qtcentre.org/threads/14307-How-to-get-the-specified-position-s-QColor-in-QLinearGradient */
+QColor TintonationView::gradColorAtPoint(float lineX1, float lineX2, QColor endC, QColor startC, float posC) {
   float segmentLength = sqrt((lineX2 - lineX1) * (lineX2 - lineX1));
   double pdist = sqrt((posC - lineX1) * (posC - lineX1));
   double ratio = pdist / segmentLength;

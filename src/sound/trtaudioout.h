@@ -47,7 +47,8 @@ public:
     void stop();
 
 private slots:
-  void emitNoteFinished();
+//   void emitNoteFinished();
+  void stopSlot();
     
 private:
   void deleteAudio();
@@ -63,6 +64,7 @@ private:
   static unsigned int m_bufferFrames;
       /** Pointer to this class instance to emit signal from static callBack method. */
   static TaudioOUT *m_this;
+  
 
 };
 
