@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,11 +21,10 @@
 #include <QObject>
 #include "tnote.h"
 
-class TmidiOut;
+class TabstractPlayer;
 class QThread;
 class TpitchView;
 class TaudioIN;
-class TaudioOUT;
 
 /** Tsound is a wrapper of TaudioIN & TaudioOUT classes
  * to manage them. It enables/disables them depends on Tglobals,
@@ -41,8 +40,7 @@ public:
   explicit Tsound(QObject *parent = 0);
   virtual ~Tsound();
   
-  TaudioOUT *audioPlayer;
-  TmidiOut  *midiPlayer;
+  TabstractPlayer *player;
   TaudioIN  *sniffer;
   
   void play(Tnote note);

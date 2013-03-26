@@ -56,7 +56,7 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
   }
   QVBoxLayout *viewLay = new QVBoxLayout;
   
-  m_intoView = new TintonationView(0, this);
+  m_intoView = new TintonationView(1, this);
   viewLay->addWidget(m_intoView);
   
   m_volMeter = new TvolumeMeter(this);
@@ -116,16 +116,19 @@ void TpitchView::resize(int fontSize) {
 #if defined(Q_OS_MAC)
     voiceButt->setFont(QFont("nootka", (fontSize*3)/2));
     pauseButt->setFont(QFont("nootka", (fontSize*3)/2));
-    voiceButt->setFixedHeight(2*fontSize);
-    pauseButt->setFixedHeight(2*fontSize);
+//     voiceButt->setFixedHeight(2*fontSize);
+//     pauseButt->setFixedHeight(2*fontSize);
 #else
     voiceButt->setFont(QFont("nootka", fontSize));
     pauseButt->setFont(QFont("nootka", fontSize));
 #endif
     voiceButt->setFixedWidth(2 *fontSize);
     pauseButt->setFixedWidth(2 *fontSize);
+    voiceButt->setFixedHeight(3 * fontSize);
+    pauseButt->setFixedHeight(3 * fontSize);
   }
   m_volMeter->setFixedHeight(qRound((float)fontSize * 1.2));
+  m_intoView->setFixedHeight(qRound((float)fontSize * 1.2));
 }
 
 void TpitchView::setIsVoice(bool isVoice) {

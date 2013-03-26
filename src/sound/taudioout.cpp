@@ -64,14 +64,14 @@ TaudioOUT::TaudioOUT(TaudioParams* params, QString& path, QObject* parent) :
   m_period(20)
 {
   prepTemplFormat();
-  m_timer = new QTimer();
+  offTimer = new QTimer();
   setAudioOutParams(params);
 }
 
 TaudioOUT::~TaudioOUT()
 {
   deleteAudio();
-  delete m_timer;
+  delete offTimer;
 }
 
 
@@ -79,7 +79,7 @@ TaudioOUT::~TaudioOUT()
 //              METHODS
 //---------------------------------------------------------------------------------------
 void TaudioOUT::setAudioOutParams(TaudioParams* params) {
-    m_timer->disconnect();
+    offTimer->disconnect();
     if (deviceName != params->OUTdevName || !m_audioOutput) { //device doesn't exists or name changed
         if (setAudioDevice(params->OUTdevName))
           playable = loadAudioData();
@@ -87,7 +87,7 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
           playable = false;
     }
     if (playable) {
-        connect(m_timer, SIGNAL(timeout()), this, SLOT(timeForAudio()));
+        connect(offTimer, SIGNAL(timeout()), this, SLOT(timeForAudio()));
         m_IOaudioDevice = m_audioOutput->start();
 //          qDebug() << (m_IOaudioDevice); // device memory address
         m_buffer.resize(m_audioOutput->periodSize()*2);
@@ -144,8 +144,8 @@ bool TaudioOUT::play(int noteNr) {
     if (noteNr < -11 || noteNr > 41)
         return false;
     
-    if (m_timer->isActive()) {
-      m_timer->stop();
+    if (offTimer->isActive()) {
+      offTimer->stop();
     }
     if (m_audioOutput && m_audioOutput->state() == QAudio::StoppedState) {
       qDebug("is stoped so let it reset");
@@ -165,14 +165,14 @@ bool TaudioOUT::play(int noteNr) {
     // but not for first note in array (C in Contra)
     m_noteOffset = (noteNr + 11) * SAMPLE_RATE - fasterOffset;
     timeForAudio();
-    m_timer->start(m_period);
+    offTimer->start(m_period);
 //   }
   return true;
 }
 
 void TaudioOUT::stop() {
-    if (m_timer->isActive()) {
-      m_timer->stop();
+    if (offTimer->isActive()) {
+      offTimer->stop();
 //         m_audioOutput->stop();
     } //else
 //       qDebug("stoped already");
@@ -181,8 +181,8 @@ void TaudioOUT::stop() {
 
 void TaudioOUT::deleteAudio() {
   if (m_audioOutput) {
-    if (m_timer->isActive())
-      m_timer->stop();
+    if (offTimer->isActive())
+      offTimer->stop();
     m_audioOutput->stop();
     delete m_audioOutput;
     m_audioOutput = 0;
@@ -229,7 +229,7 @@ void TaudioOUT::timeForAudio() {
         chunks--;
       }
       if (!m_doPlay) {
-        m_timer->stop();
+        offTimer->stop();
         emit noteFinished();
       }
   } // else

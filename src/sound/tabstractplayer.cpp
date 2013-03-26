@@ -21,7 +21,8 @@
 
 TabstractPlayer::TabstractPlayer(QObject* parent) :
   QObject(parent),
-  playable(false)
+  playable(false),
+  doEmit(false)
 {
 }
 
@@ -30,5 +31,11 @@ TabstractPlayer::~TabstractPlayer() {}
 bool TabstractPlayer::play(int noteNr) {}
 
 void TabstractPlayer::stop() {}
+
+void TabstractPlayer::deleteMidi() {}
+
+void TabstractPlayer::setMidiParams() {}
+
+
 
 

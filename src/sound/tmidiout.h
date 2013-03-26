@@ -27,7 +27,6 @@
 
 class RtMidiOut;
 class TaudioParams;
-class QTimer;
 
 /**
  * Midi is played by RtMidi class.
@@ -58,13 +57,11 @@ public:
     
     
 private:
-    QTimer *m_timer;
     TaudioParams *m_params;
     
     RtMidiOut *m_midiOut;
     unsigned char m_prevMidiNote;
     std::vector<unsigned char> m_message;
-    bool m_doEmit;
   
 private slots:
       /** Turns off played @param m_prevMidiNote

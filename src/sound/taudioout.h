@@ -69,7 +69,7 @@ private:
       /** Sets template values to templAudioFormat*/
   static void prepTemplFormat();
   
-  QTimer *m_timer;
+  QTimer *offTimer;
   TaudioParams *audioParams;
   
 //########## audio #############
