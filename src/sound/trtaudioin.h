@@ -59,11 +59,13 @@ public:
 	   * SaudioInParams::deviceName is ignored. It have to be set separately
 	   * by setAudioDevice() method. 	   */
 	void setParameters(TaudioParams *params);	
-    /** Pauses TaudioIN */
-  void wait();
-    /** Wakes up TaudioIN after pause called by wait() */
-  void go();
-//   void pause();
+    /** Do the same as @param startListening() but for backword compatibility 
+     * with QtMultimedia that function remains  */
+  void wait() { stopListening(); }
+    /** Do the same as @param stopListening() but for backword compatibility 
+     * with QtMultimedia that function remains  */
+  void go() { startListening(); }
+
   void setIsVoice(bool isV);
     /** Sets range of notes which are detected. */
   void setAmbitus(Tnote loNote, Tnote hiNote);

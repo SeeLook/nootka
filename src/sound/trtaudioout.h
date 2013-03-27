@@ -47,7 +47,7 @@ public:
     void stop();
 
 private slots:
-//   void emitNoteFinished();
+//   void emitNoteFinished() { emit noteFinished(); }
   void stopSlot();
     
 private:

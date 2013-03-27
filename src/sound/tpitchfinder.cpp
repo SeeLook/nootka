@@ -31,7 +31,7 @@ TpitchFinder::TpitchFinder(QObject* parent) :
   QObject(parent),
   m_chunkNum(0),
   m_channel(0),
-  m_filteredChunk(0),
+  m_filteredChunk(0), m_prevChunk(0),
   m_emited(false),
   m_prevPitch(0), m_prevFreq(0),
   m_prevNoteIndex(-1),
@@ -67,12 +67,14 @@ TpitchFinder::TpitchFinder(QObject* parent) :
     
     
     m_isBussy = false;
-    
+//     m_channel = new Channel(this, aGl()->windowSize);
+//     myTransforms.init(m_aGl, aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
+//     if (aGl()->equalLoudness)
+//       m_filteredChunk = new float[aGl()->framesPerChunk];
+//     m_prevChunk = new float[aGl()->framesPerChunk];
+    setSampleRate(m_aGl->rate);
     m_channel = new Channel(this, aGl()->windowSize);
     myTransforms.init(m_aGl, aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
-    if (aGl()->equalLoudness)
-      m_filteredChunk = new float[aGl()->framesPerChunk];
-    m_prevChunk = new float[aGl()->framesPerChunk];
 }
 
 TpitchFinder::~TpitchFinder()
@@ -95,12 +97,27 @@ void TpitchFinder::setIsVoice(bool voice) {
   if (voice)
     m_aGl->analysisType = e_MPM_MODIFIED_CEPSTRUM;
   else
-    m_aGl->analysisType = e_AUTOCORRELATION;
+    m_aGl->analysisType = e_MPM /*e_AUTOCORRELATION*/;
 }
 
 
 void TpitchFinder::setSampleRate(unsigned int sRate) {
     m_aGl->rate = sRate;
+    if (sRate > 48000) {
+      m_aGl->framesPerChunk = 2048;
+      m_aGl->windowSize = 4096;
+    } else if (sRate > 96000) {
+      m_aGl->framesPerChunk = 4096;
+      m_aGl->windowSize = 8192;
+    } else {
+      m_aGl->framesPerChunk = 1024;
+      m_aGl->windowSize = 2048;
+    }
+    delete m_prevChunk;
+    delete m_filteredChunk;
+    if (aGl()->equalLoudness)
+      m_filteredChunk = new float[aGl()->framesPerChunk];
+    m_prevChunk = new float[aGl()->framesPerChunk];
     resetFinder();
 }
 
@@ -166,39 +183,17 @@ void TpitchFinder::run() {
                 m_prevPitch = curNote->avgPitch();
                 m_prevFreq = curNote->avgFreq();
             }
+            emit pichInChunk(data->pitch);
           } else {
               if (data->noteIndex != m_prevNoteIndex) {
                   m_prevNoteIndex = data->noteIndex;
                   qDebug() << data->noteIndex << data->pitch << curNote->noteLength();
 //                  qDebug() << data->noteIndex << data->pitch << curNote->volume() << "aver:" << averVol;
-                  emit found(data->pitch, data->fundamentalFreq);
+                  emit found(/*data->pitch*/curNote->avgPitch(), data->fundamentalFreq);
               }
-          }
-          
-       /*   if (curNote->noteLength() > MIN_SND_TIME) {
-            if (m_isVoice) {
-                m_prevPitch = curNote->avgPitch();
-                m_prevFreq = curNote->avgFreq();
-            } else {
-              if (!m_emited) {
-                m_emited = true;
-//                qDebug() << curNote->avgPitch() << data->pitch;
-                qDebug() << data->noteIndex << data->longTermMean;
-//                 emit found(data->pitch, data->fundamentalFreq);
-                emit found(data->pitch, data->longTermMean);
-              }
-            }
-          } else { // note too short - new sound started
-            if (m_isVoice) {
-                emitFound();
-            } else {
-              m_emited = false;
-            }
-          } */
-//           qDebug() << "pitch" << curNote->avgPitch() << "dur:" << curNote->noteLength();
-    
-          emit pichInChunk(data->pitch);
-   
+              emit pichInChunk(curNote->avgPitch());
+          }    
+//           emit pichInChunk(data->pitch);
       } else {
           if (m_isVoice)
             emitFound();
