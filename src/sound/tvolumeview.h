@@ -17,46 +17,39 @@
  ***************************************************************************/
 
 
-#ifndef TINTONATIONVIEW_H
-#define TINTONATIONVIEW_H
+#ifndef TVOLUMEVIEW_H
+#define TVOLUMEVIEW_H
 
 #include "tabstractsoundview.h"
 
 
-class TintonationView : public TabstractSoundView
+class TvolumeView : public TabstractSoundView
 {
-  
-  Q_OBJECT
-  
+
 public:
-    enum Eaccuracy {
-      e_perfect, 
-      e_normal,
-      e_sufficient
-    };
-  
-    explicit TintonationView(int accuracy, QWidget *parent = 0);
-    virtual ~TintonationView();
+    explicit TvolumeView(QWidget *parent = 0);
+    virtual ~TvolumeView();
     
-    void setAccuracy(int accuracy);
+        /** @param alpha is alpha value of background color
+        * to manage of the animation of detected pitch */
+    void setVolume(qreal vol, int alpha = 0);
+    void setPitchColor (QColor col) { m_pitchColor = col; }
   
-public slots:
-    void pitchSlot(float pitch);
-    
+  
 protected:
     virtual void paintEvent(QPaintEvent* );
     virtual void resizeEvent(QResizeEvent*);
     
 private:
+    qreal           m_volume;
+    QColor          m_pitchColor;
+    int             m_alpha; // aplha value of m_pitchColor
     QList<QColor>   m_tickColors;
     int             m_ticksCount;
-    float           m_pitchDiff;
-    int             m_noteX;
+    int             m_noteWidth;
     float           m_hiTickStep;
-    
-    Eaccuracy       m_accuracy;
-    float           m_accurValue;
+
 
 };
 
-#endif // TINTONATIONVIEW_H
+#endif // TVOLUMEVIEW_H

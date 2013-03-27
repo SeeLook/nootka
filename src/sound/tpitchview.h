@@ -28,11 +28,10 @@
 //   #include "taudioin.h"
 // #endif  
 
+class TvolumeView;
 class TintonationView;
-
 class QPushButton;
 class QTimer;
-class TvolumeMeter;
 
   /** This class represents volume meter of audio signal
    * and displays note symbol when TaudioIN detected it.
@@ -71,7 +70,7 @@ protected:
   virtual void paintEvent(QPaintEvent* );
   
 private:
-  TvolumeMeter *m_volMeter;
+  TvolumeView *m_volMeter;
   TintonationView *m_intoView;
   TaudioIN *m_audioIN;
   QTimer *m_volTimer;

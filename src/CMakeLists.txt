@@ -27,7 +27,7 @@ endif(UNIX AND NOT APPLE)
 
 INCLUDE_DIRECTORIES (. exam info level score settings sound charts)
 
-SET( NOOTKA_SRCS
+SET( NOOTKA_SRCS sound/tvolumeview.cpp
   main.cpp
   mainwindow.cpp
   tglobals.cpp
@@ -120,9 +120,11 @@ SET( NOOTKA_SRCS
   sound/rt/RtMidi.cpp
   sound/taudioparams.h
   sound/tpitchfinder.cpp
-  sound/tvolumemeter.cpp
+#   sound/tvolumemeter.cpp
+  sound/tabstractsoundview.cpp
   sound/tpitchview.cpp
   sound/tintonationview.cpp
+  sound/tvolumeview.cpp
   sound/tartiniparams.h
   sound/tabstractplayer.cpp
   sound/tscalefile.cpp
@@ -215,8 +217,9 @@ SET( NOOTKA_MOC_SRCS
   sound/audiooutsettings.h
   sound/audioinsettings.h
   sound/tpitchfinder.h
-  sound/tvolumemeter.h
+#   sound/tvolumemeter.h
   sound/tintonationview.h
+#   sound/tvolumeview.h
   sound/tpitchview.h
   sound/tabstractplayer.h
   sound/trtaudioout.h

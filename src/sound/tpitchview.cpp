@@ -18,7 +18,8 @@
 
 
 #include "tpitchview.h"
-#include "tvolumemeter.h"
+// #include "tvolumemeter.h"
+#include "tvolumeview.h"
 #include "tintonationview.h"
 #include <QTimer>
 #include <QLabel>
@@ -59,7 +60,7 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
   m_intoView = new TintonationView(1, this);
   viewLay->addWidget(m_intoView);
   
-  m_volMeter = new TvolumeMeter(this);
+  m_volMeter = new TvolumeView(this);
   viewLay->addWidget(m_volMeter);
   m_volMeter->setStatusTip(tr("Shows volume level of input sound and indicates when note was detected"));
   
