@@ -103,10 +103,6 @@ TaudioOUT::~TaudioOUT()
   delete offTimer;
 }
 
-// void TaudioOUT::emitNoteFinished() {
-//   emit noteFinished();
-// }
-
 
 void TaudioOUT::setAudioOutParams(TaudioParams* params) {
   if (deviceName != params->OUTdevName || !rtDevice) {

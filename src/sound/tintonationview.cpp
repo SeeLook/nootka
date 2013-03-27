@@ -23,8 +23,8 @@
 #include <math.h>
 
 
-#define THWIDTH (2)
-#define THGAP (3)
+#define TICK_WIDTH (2)
+#define TICK_GAP (3)
 QColor tc = Qt::black;
 
 TintonationView::TintonationView(int accuracy, QWidget* parent) :
@@ -95,13 +95,13 @@ void TintonationView::paintEvent(QPaintEvent* ) {
     } else {
       leftThickColor = tc; rightThickColor = thickColor;
     }
-    int xx = m_noteX - ((i + 1) * (THGAP + THWIDTH));
+    int xx = m_noteX - ((i + 1) * (TICK_GAP + TICK_WIDTH));
     float yy = (float)(m_ticksCount - i) * m_hiTickStep + 1;
 //     int yy = 1;
-    painter.setPen(QPen(leftThickColor, THWIDTH, Qt::SolidLine, Qt::RoundCap));
+    painter.setPen(QPen(leftThickColor, TICK_WIDTH, Qt::SolidLine, Qt::RoundCap));
     painter.drawLine(QLineF(xx, yy, xx, height() - 2));
-    painter.setPen(QPen(rightThickColor, THWIDTH, Qt::SolidLine, Qt::RoundCap));
-    xx = (width() - m_noteX) + ((i + 1) * (THGAP + THWIDTH)) - THWIDTH;
+    painter.setPen(QPen(rightThickColor, TICK_WIDTH, Qt::SolidLine, Qt::RoundCap));
+    xx = (width() - m_noteX) + ((i + 1) * (TICK_GAP + TICK_WIDTH)) - TICK_WIDTH;
     painter.drawLine(QLineF(xx, yy, xx, height() - 2));
   }
 }
@@ -116,22 +116,22 @@ void TintonationView::resizeEvent(QResizeEvent* ) {
 //   m_nooFont.setPointSizeF(m_nooFont.pointSizeF() * factor);
 //   noteBound = fm.boundingRect("n");
   m_noteX = (width() - noteBound.width() * 2) / 2;
-  m_ticksCount = m_noteX / (THWIDTH + THGAP);
+  m_ticksCount = m_noteX / (TICK_WIDTH + TICK_GAP);
   m_hiTickStep = ((float)height() * 0.66) / m_ticksCount;
   m_tickColors.clear();
   for (int i = 0; i < m_ticksCount; i++) {
     if (i <= m_ticksCount*m_accurValue) {
 //       m_tickColors << Qt::green;
 //       qDebug("green");
-      m_tickColors << gradColorAtPoint(0, m_noteX, Qt::green, Qt::yellow, (i + 1) * m_noteX / m_ticksCount);
+      m_tickColors << gradColorAtPoint(TICK_GAP, m_noteX * m_accurValue * 2, Qt::green, Qt::yellow, (i + 1) * (m_noteX / m_ticksCount));
     }
     else if (i <= m_ticksCount*0.5) {
 //       qDebug("yellow");
-//       m_tickColors << gradColorAtPoint(0, m_noteX, Qt::green, Qt::yellow, (i + 1) * m_noteX / m_ticksCount);
-      m_tickColors << Qt::yellow;
+      m_tickColors << gradColorAtPoint(m_noteX * m_accurValue, m_noteX * 0.6, Qt::yellow, Qt::red, (i + 1) * m_noteX / m_ticksCount);
+//       m_tickColors << Qt::yellow;
       } else {
 //           qDebug("red");
-          m_tickColors << gradColorAtPoint(0, m_noteX, Qt::yellow, Qt::red, (i + 1) * m_noteX / m_ticksCount);
+          m_tickColors << gradColorAtPoint(m_noteX * 0.5, m_noteX, Qt::red, Qt::darkRed, (i + 1) * (m_noteX / m_ticksCount));
 //       m_thickColors << Qt::red;
         }
   }

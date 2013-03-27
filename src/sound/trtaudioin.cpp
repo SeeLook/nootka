@@ -163,8 +163,19 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
   streamParams.firstChannel = 0;
   RtAudio::DeviceInfo devInfo;
   getDeviceInfo(devInfo, devId);
-  m_sampleRate = devInfo.sampleRates.at(devInfo.sampleRates.size() - 1); //TODO > 48000 not supported
+  bool rateFound = false;
+  for (int i = 0; i < devInfo.sampleRates.size(); i++) {
+    unsigned int &sr = devInfo.sampleRates.at(i);
+    if ( sr == 44100 || sr == 48000 || sr == 88200 || sr == 96000 || sr == 176400 || sr == 192000) {
+      rateFound = true;
+      m_sampleRate = devInfo.sampleRates.at(i);
+      break;
+    }
+  }
+  if (!rateFound) // take the last one
+      m_sampleRate = devInfo.sampleRates.at(devInfo.sampleRates.size() - 1); 
   m_pitch->setSampleRate(m_sampleRate);
+  m_bufferFrames = m_pitch->aGl()->framesPerChunk;
   if (rtDevice->getCurrentApi() == RtAudio::UNIX_JACK) {
     if (!streamOptions)
       streamOptions = new RtAudio::StreamOptions;
@@ -193,7 +204,7 @@ void TaudioIN::startListening() {
         m_floatBuff = new float[m_pitch->aGl()->framesPerChunk]; // 1024
     initInput();
     if (openStream(NULL, &streamParams, RTAUDIO_SINT16, m_sampleRate, &m_bufferFrames, &inCallBack, NULL, streamOptions))
-      go();
+      startStream();
   }
 }
 
@@ -201,13 +212,13 @@ void TaudioIN::stopListening() {
   closeStram();
 }
 
-void TaudioIN::wait() {
-  stopStream();
-}
-
-void TaudioIN::go() {
-  startStream();
-}
+// void TaudioIN::wait() {
+//   stopStream();
+// }
+// 
+// void TaudioIN::go() {
+//   startStream();
+// }
 
 void TaudioIN::setIsVoice(bool isV) {
   m_pitch->setIsVoice(isV);
