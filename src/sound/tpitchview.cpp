@@ -175,6 +175,7 @@ void TpitchView::pauseClicked() {
       pauseButt->setText("n"); // note symbol
       m_isPaused = false;
       m_volMeter->setDisabled(false);
+      m_intoView->setDisabled(false);
       m_audioIN->startListening();
       m_volTimer->start(75);
     } else {
@@ -183,6 +184,7 @@ void TpitchView::pauseClicked() {
       m_audioIN->stopListening();
       stopVolume();
       m_volMeter->setDisabled(true);
+      m_intoView->setDisabled(true);
     }
 
 }

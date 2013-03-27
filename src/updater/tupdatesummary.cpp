@@ -25,7 +25,7 @@
 #include <QTextEdit>
 
 TupdateSummary::TupdateSummary(QString version, QString changes, TupdateRules* updateRules, QWidget* parent): 
-  QDialog(parent),
+  QDialog(parent, Qt::WindowStaysOnTopHint),
   m_updateRules(updateRules)
 {
 //     resize(450, 600);
