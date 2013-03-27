@@ -25,15 +25,15 @@
 
 #define TICK_WIDTH (2)
 #define TICK_GAP (3)
-QColor tc = Qt::black;
 
 TintonationView::TintonationView(int accuracy, QWidget* parent) :
-  QWidget(parent),
+  TabstractSoundView(parent),
   m_pitchDiff(0.0f)
 {
+  setBackgroundRole(QPalette::Background);
+  setAutoFillBackground(true);
   setAccuracy(accuracy);
   setMinimumSize(200, 17);
-  tc = palette().text().color();
   resizeEvent(0);
 }
 
@@ -82,7 +82,7 @@ void TintonationView::paintEvent(QPaintEvent* ) {
     painter.setPen(QPen(tc));
   else
     painter.setPen(QPen(m_tickColors[lastColorThick]));
-  painter.setFont(m_nooFont);
+  painter.setFont(nootFont);
   painter.drawText(0, 0, width(), height(), Qt::AlignCenter, "n");
   for (int i = 0; i < m_ticksCount - 1; i++) {
     QColor thickColor, leftThickColor, rightThickColor;
@@ -108,45 +108,22 @@ void TintonationView::paintEvent(QPaintEvent* ) {
 
 
 void TintonationView::resizeEvent(QResizeEvent* ) {
-  m_nooFont = QFont("nootka");
-  m_nooFont.setPointSizeF(height());
-  QFontMetrics fm(m_nooFont);
-  QRect noteBound = fm.boundingRect("n");
-//   float factor = (float)height() / (float)noteBound.height();
-//   m_nooFont.setPointSizeF(m_nooFont.pointSizeF() * factor);
-//   noteBound = fm.boundingRect("n");
+  resizeIt(height());
+//   qDebug() << "TintonationView" << height() << nootFont;
   m_noteX = (width() - noteBound.width() * 2) / 2;
   m_ticksCount = m_noteX / (TICK_WIDTH + TICK_GAP);
   m_hiTickStep = ((float)height() * 0.66) / m_ticksCount;
   m_tickColors.clear();
   for (int i = 0; i < m_ticksCount; i++) {
     if (i <= m_ticksCount*m_accurValue) {
-//       m_tickColors << Qt::green;
-//       qDebug("green");
       m_tickColors << gradColorAtPoint(TICK_GAP, m_noteX * m_accurValue * 2, Qt::green, Qt::yellow, (i + 1) * (m_noteX / m_ticksCount));
     }
     else if (i <= m_ticksCount*0.5) {
-//       qDebug("yellow");
-      m_tickColors << gradColorAtPoint(m_noteX * m_accurValue, m_noteX * 0.6, Qt::yellow, Qt::red, (i + 1) * m_noteX / m_ticksCount);
-//       m_tickColors << Qt::yellow;
+      m_tickColors << gradColorAtPoint(m_noteX * m_accurValue, m_noteX * 0.6, Qt::yellow, Qt::red, (i + 1) * (m_noteX / m_ticksCount));
       } else {
-//           qDebug("red");
           m_tickColors << gradColorAtPoint(m_noteX * 0.5, m_noteX, Qt::red, Qt::darkRed, (i + 1) * (m_noteX / m_ticksCount));
-//       m_thickColors << Qt::red;
         }
   }
-}
-
-/** Implementation of linear gradient color at given point taken from:
- http://www.qtcentre.org/threads/14307-How-to-get-the-specified-position-s-QColor-in-QLinearGradient */
-QColor TintonationView::gradColorAtPoint(float lineX1, float lineX2, QColor endC, QColor startC, float posC) {
-  float segmentLength = sqrt((lineX2 - lineX1) * (lineX2 - lineX1));
-  double pdist = sqrt((posC - lineX1) * (posC - lineX1));
-  double ratio = pdist / segmentLength;
-  int red = (int)(ratio * startC.red() + ( 1 - ratio) * endC.red()); //in your case, the values are 12 and 122
-  int green = (int)(ratio * startC.green() + (1 - ratio) * endC.green()); //in your case, the values are 23 and 233
-  int blue = (int)(ratio * startC.blue() + (1 - ratio) * endC.blue()); //in your case, the values are 24 and 244
-  return QColor(red, green, blue);
 }
 
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,39 +16,33 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TVOLUMEMETER_H
-#define TVOLUMEMETER_H
 
-#include <QWidget>
+#ifndef TABSTRACTSOUNDVIEW_H
+#define TABSTRACTSOUNDVIEW_H
+
+#include <QtGui/QWidget>
+#include <math.h>
 
 
-/** Volume meter is volume meter. What we can say more ??
- * resize() method has to be called from outside. */
-class TvolumeMeter : public QWidget
-{
-  Q_OBJECT
+class TabstractSoundView : public QWidget {
   
 public:
   
-  explicit TvolumeMeter(QWidget *parent = 0);
-  virtual ~TvolumeMeter();
+    explicit TabstractSoundView(QWidget* parent = 0);
     
-    /** @param alpha is alpha value of background color
-     * to manage of the animation of detected pitch */
-  void setVolume(qreal vol, int alpha = 0);
-  void setPitchColor (QColor col) { m_pitchColor = col; }
-    /** Level bar is painted in gray color till this value */
-  void setNoiseLevel(float level) { m_noiseLevel = level; }
-
+    QColor gradColorAtPoint(float lineX1, float lineX2, QColor startC, QColor endC, float posC);
+    
+    static QColor tc;
+    
 protected:
-  void paintEvent(QPaintEvent* );
-
-private:  
-  qreal m_volume;
-  QColor m_pitchColor;
-  int m_alpha; // aplha value of m_pitchColor
-  float m_noiseLevel; // 0 - 100 - the same as in TaudioParams
-	
+    virtual void resizeIt(int myHeight);
+    
+protected:
+    QFont           nootFont;
+    QRect           noteBound;
+  
 };
 
-#endif // TVOLUMEMETER_H
+
+
+#endif // TABSTRACTSOUNDVIEW_H
