@@ -60,7 +60,6 @@ private:
   static int outCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime,
                          RtAudioStreamStatus status, void *userData);
 
-  static int m_noteOffset;
       /** Number of performed samples. */
   static int m_samplesCnt;
       /** Duration of a sound counted in callBack loops */

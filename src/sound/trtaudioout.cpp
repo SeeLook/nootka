@@ -21,7 +21,15 @@
 #include "taudioparams.h"
 #include <QDebug>
 #include <QTimer>
-#include <QThread>
+#include <unistd.h>
+
+
+#if defined(Q_OS_WIN32)
+  #include <windows.h>
+  #define SLEEP(msecs) Sleep(msecs)
+#else
+  #define SLEEP(msecs) usleep(msecs * 1000)
+#endif
 
 #define SAMPLE_RATE (44100)
 
@@ -52,7 +60,6 @@ QStringList TaudioOUT::getAudioDevicesList() {
 
 int TaudioOUT::m_samplesCnt = 0;
 unsigned int TaudioOUT::m_bufferFrames = 1024;
-// int TaudioOUT::m_maxCBloops = SAMPLE_RATE / m_bufferFrames;
 int TaudioOUT::m_maxCBloops = SAMPLE_RATE / m_bufferFrames * 2;
 int TaudioOUT::m_noteOffset = 0;
 TaudioOUT* TaudioOUT::instance = 0;
@@ -63,8 +70,8 @@ int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBuffer
   if ( status )
     qDebug() << "Stream underflow detected!";
   m_samplesCnt++;
-  if (m_samplesCnt == 0)
-    qDebug("outCallBack");
+//   if (m_samplesCnt == 0)
+//     qDebug("outCallBack");
   if (m_samplesCnt < m_maxCBloops - 10) {
       qint16 *out = (qint16*)outBuffer;
       int off = m_samplesCnt * nBufferFrames;
@@ -191,14 +198,10 @@ bool TaudioOUT::play(int noteNr) {
   
   doEmit = true;
   m_samplesCnt = -1;
-  double fasterOffset = 1000;
-  if (noteNr + 11 == 0)
-    fasterOffset = 0;
-  m_noteOffset = (noteNr + 11) * SAMPLE_RATE * 2 - fasterOffset;
-    
-  oggScale->setPos(m_noteOffset);
-  qDebug() << "ok";
-//   setPos((noteNr + 11) * 2 - fasterOffset);
+  oggScale->setNote(noteNr);
+//   SLEEP(1);
+  while (!oggScale->isReady())
+      SLEEP(1);
   
   if (offTimer->isActive())
       offTimer->stop();

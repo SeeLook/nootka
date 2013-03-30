@@ -29,6 +29,7 @@
 
 class ToggScale : public QObject
 {
+  Q_OBJECT
   
 public:
   
@@ -41,21 +42,25 @@ public:
     void deleteData();
     
     
-  /* To read ogg data from RAM */
+        /** To read ogg data from RAM */
     struct SoggFile {
         qint8* curPtr;
         qint8* filePtr;
         size_t fileSize;
     };
     
-    void setPos(ogg_int64_t offset);
+    void setPos(ogg_int64_t offset); /** DEPRECATED */
+        /** Prepares m_pcmBuffer */
+    void setNote(int noteNr);
     qint16 getSample(int offset);
+    void setSampleRate(unsigned int rate);
+    unsigned int sampleRate() { return m_sampleRate; }
+        /** TRUE when appropirate data amount in a buffer is ready. */
+    bool isReady() { return m_isReady; }
+    
     
 public slots:
-    void readFromOgg();
-    
-signals:
-    void decodingDone();
+    void decodeOgg();
     
 private:
     static size_t readOggStatic(void* dst, size_t size1, size_t size2, void* fh);
@@ -64,11 +69,17 @@ private:
     static long   tellOggStatic(void *fh );
     
 private:
-    qint8             *m_oggBuffer;
-    QString           m_oggFile; /** Path to ogg file with sounds */
-    OggVorbis_File    m_ogg;
-    qint16            *m_pcmBuffer;
-    SoggFile          m_oggWrap;
+    qint8             *m_oggInMemory;
+    QString           m_oggFileName; /** Path to ogg file with sounds */
+    OggVorbis_File    m_ogg; /** ogg vorbis handler */
+    qint16            *m_pcmBuffer; /** buffer with decompressed data of selected note. */
+    SoggFile          m_oggWrap; /** Structure wraped m_oggInMemory used by ogg vorbis. */
+    QThread           *m_thread;
+    unsigned int      m_sampleRate;
+    int               m_prevNote;
+    bool              m_doDecode; /** If new note is going to be decoded it goes to FALSE - then stops decoding loop */
+    bool              m_isDecoding; /** TRUE during decoding/resampling process. */
+    bool              m_isReady;
 };
 
 #endif // TOGGSCALE_H

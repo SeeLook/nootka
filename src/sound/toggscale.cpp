@@ -21,8 +21,17 @@
 #include <QFile>
 #include <QDataStream>
 #include <QDebug>
-#include <stdlib.h>
-// #include <unistd.h>
+#include <QThread>
+// #include <stdlib.h>
+#include <unistd.h>
+
+
+#if defined(Q_OS_WIN32)
+  #include <windows.h>
+  #define SLEEP(msecs) Sleep(msecs)
+#else
+  #define SLEEP(msecs) usleep(msecs * 1000)
+#endif
 
 /*Static*/
 size_t ToggScale::readOggStatic(void* dst, size_t size1, size_t size2, void* fh) {
@@ -33,7 +42,6 @@ size_t ToggScale::readOggStatic(void* dst, size_t size1, size_t size2, void* fh)
     }
     memcpy( dst, of->curPtr, len );
     of->curPtr += len;
-//     qDebug() << len;
     return len;
 }
 
@@ -41,24 +49,19 @@ int ToggScale::seekOggStatic(void* fh, ogg_int64_t offset, int type) {
     SoggFile* of = reinterpret_cast<SoggFile*>(fh);
     switch(type) {
       case SEEK_SET:
-          of->curPtr = of->filePtr + offset;
-          break;
+            of->curPtr = of->filePtr + offset; break;
         case SEEK_CUR:
-          of->curPtr += offset;
-          break;
+            of->curPtr += offset; break;
         case SEEK_END:
-          of->curPtr = of->filePtr + of->fileSize - offset;
-          break;
+            of->curPtr = of->filePtr + of->fileSize - offset; break;
         default:
-          return -1;
+            return -1;
     }
     if ( of->curPtr < of->filePtr ) {
-        of->curPtr = of->filePtr;
-        return -1;
+        of->curPtr = of->filePtr; return -1;
     }
     if ( of->curPtr > of->filePtr + of->fileSize ) {
-        of->curPtr = of->filePtr + of->fileSize;
-        return -1;
+        of->curPtr = of->filePtr + of->fileSize; return -1;
     }
     return 0;
 }
@@ -79,11 +82,16 @@ long int ToggScale::tellOggStatic(void* fh) {
 
 ToggScale::ToggScale(QString& path) :
   QObject(),
-  m_oggFile(path + "sounds/classical-guitar.ogg"),
-  m_oggBuffer(0),
-  m_pcmBuffer(0)
+  m_oggFileName(path + "sounds/classical-guitar.ogg"),
+  m_oggInMemory(0),
+  m_pcmBuffer(0),
+  m_thread(new QThread),
+  m_sampleRate(44100),
+  m_prevNote(-1),
+  m_doDecode(true), m_isDecoding(false), m_isReady(true)
 {
-
+  moveToThread(m_thread);
+  connect(m_thread, SIGNAL(started()), this, SLOT(decodeOgg()));
 }
 
 
@@ -94,73 +102,105 @@ ToggScale::~ToggScale()
 
 
 void ToggScale::deleteData() {
-  if (m_oggBuffer) {
-    delete m_oggBuffer;
-    m_oggBuffer = 0;
+  if (m_thread->isRunning())
+    m_thread->quit();
+  if (m_oggInMemory) {
+    delete m_oggInMemory;
+    m_oggInMemory = 0;
   }
   delete m_pcmBuffer;
   m_pcmBuffer = 0;
+  delete m_thread;
 }
 
 
 qint16 ToggScale::getSample(int offset) {
-//   if (offset < 1024)
     return m_pcmBuffer[offset];
-//   else {
-//     qDebug() << "no data";
-//     return 0;
-//   }
 }
 
 void ToggScale::setPos(ogg_int64_t offset) {
   int ret = ov_pcm_seek(&m_ogg, offset);
-//   qDebug() << "seek back:" << ret;
   if (!ret)
-    readFromOgg();
+    decodeOgg();
 }
 
-void ToggScale::readFromOgg() {
-  int bitStream;
-  long int read = 0;
-  int loops = 0;
-  int pos = 0;
-  while (loops < 1000 && pos < 170000) {
-    read = ov_read(&m_ogg, (char*)m_pcmBuffer + pos, 176000, 0, 2, 1, &bitStream);
-    pos += read;
-    loops++;
-//     sleep(1);
+
+void ToggScale::setNote(int noteNr) {
+  if (noteNr == m_prevNote)
+    return;
+  m_isReady = false;
+  int fasterOffset = 1000;
+  if (noteNr + 11 == 0)
+    fasterOffset = 0;
+  if (m_isDecoding) {
+      qDebug("decoding in progress");
+      m_doDecode = false;
+      do {
+        SLEEP(1);
+      } while (m_isDecoding);
+      m_doDecode = true;
   }
-//   qDebug() << "readFromOgg" << read << "loops" << loops;
+  m_prevNote = noteNr;
+  int ret = ov_pcm_seek(&m_ogg, (noteNr + 11) * 44100 * 2 - fasterOffset);
+  m_thread->start();
 }
+
+
+
+void ToggScale::decodeOgg() {
+  int bitStream;
+  m_isDecoding = true;
+  long int read = 0;
+  long int maxSize = m_sampleRate * 4 - 4096; // 2 for two seconds of note * 2 for two bytes of sample - silence at the end of note
+  int loops = 0;
+  long int pos = 0;
+  while (m_doDecode && loops < 500 && pos < maxSize) {
+    read = ov_read(&m_ogg, (char*)m_pcmBuffer + pos, maxSize - pos, 0, 2, 1, &bitStream);
+    pos += read;
+    if (pos > 2048) // amount of data needed by single loop of rtAudio outCallBack
+      m_isReady = true;
+    loops++;
+//     SLEEP(1);
+  }
+  m_isDecoding = false;
+  qDebug() << "readFromOgg" << pos << "loops" << loops;
+  m_thread->quit();
+}
+
+
+
+void ToggScale::setSampleRate(unsigned int rate) {
+  //TODO: resampling
+}
+
 
 
 bool ToggScale::loadAudioData() {
-  if (m_oggBuffer)
+  if (m_oggInMemory)
     return true;
-  QFile oggFile(m_oggFile);
+  QFile oggFile(m_oggFileName);
   if (!oggFile.exists())
       return false;
   
   oggFile.open(QIODevice::ReadOnly);
   QDataStream oggStream(&oggFile);
-  m_oggBuffer = new qint8[oggFile.size()];
-  oggStream.readRawData((char*)m_oggBuffer, oggFile.size());
+  m_oggInMemory = new qint8[oggFile.size()];
+  oggStream.readRawData((char*)m_oggInMemory, oggFile.size());
   
   ov_callbacks myCallBacks;
-  m_oggWrap.curPtr = m_oggBuffer;
-  m_oggWrap.filePtr = m_oggBuffer;
+  m_oggWrap.curPtr = m_oggInMemory;
+  m_oggWrap.filePtr = m_oggInMemory;
   m_oggWrap.fileSize = oggFile.size();
   
-  qDebug() << "ogg file size:" << m_oggWrap.fileSize << "addr" << m_oggWrap.filePtr << "size" << sizeof(m_oggBuffer);
+  qDebug() << "ogg file size:" << m_oggWrap.fileSize << "addr" << m_oggWrap.filePtr << "size" << sizeof(m_oggInMemory);
   oggFile.close();
-  m_pcmBuffer = new qint16[88200];
+  m_pcmBuffer = new qint16[2 * m_sampleRate];
   myCallBacks.read_func = readOggStatic;
   myCallBacks.seek_func = seekOggStatic;
   myCallBacks.close_func = closeOggStatic;
   myCallBacks.tell_func = tellOggStatic;
   
   int ret = ov_open_callbacks((void*)&m_oggWrap, &m_ogg, NULL, 0, myCallBacks);
-//   int ret = ov_open_callbacks((void*)m_oggBuffer, &m_ogg, NULL, 0, OV_CALLBACKS_NOCLOSE);
   
   if (ret < 0) {
     qDebug() << "cant open ogg stream";
