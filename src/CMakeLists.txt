@@ -27,7 +27,7 @@ endif(UNIX AND NOT APPLE)
 
 INCLUDE_DIRECTORIES (. exam info level score settings sound charts)
 
-SET( NOOTKA_SRCS sound/tvolumeview.cpp
+SET( NOOTKA_SRCS
   main.cpp
   mainwindow.cpp
   tglobals.cpp
@@ -120,14 +120,14 @@ SET( NOOTKA_SRCS sound/tvolumeview.cpp
   sound/rt/RtMidi.cpp
   sound/taudioparams.h
   sound/tpitchfinder.cpp
-#   sound/tvolumemeter.cpp
   sound/tabstractsoundview.cpp
   sound/tpitchview.cpp
   sound/tintonationview.cpp
   sound/tvolumeview.cpp
   sound/tartiniparams.h
   sound/tabstractplayer.cpp
-  sound/tscalefile.cpp
+  sound/toggscale.cpp
+#   sound/tscalefile.cpp
   sound/trtaudioabstract.cpp
   sound/trtaudioout.cpp
   sound/trtaudioin.cpp
@@ -217,9 +217,7 @@ SET( NOOTKA_MOC_SRCS
   sound/audiooutsettings.h
   sound/audioinsettings.h
   sound/tpitchfinder.h
-#   sound/tvolumemeter.h
   sound/tintonationview.h
-#   sound/tvolumeview.h
   sound/tpitchview.h
   sound/tabstractplayer.h
   sound/trtaudioout.h
@@ -264,6 +262,7 @@ if(UNIX AND NOT APPLE) #Linux
         ${ALSA_LIBRARY} ${PTHREAD_LIBRARY}
         ${JACK_LIBRARY}
         ${PULSESIMPLE_LIBRARY} ${PULSEERROR_LIBRARY}
+        ${OGG_LIBRARIES}
         
 	)
 endif(UNIX AND NOT APPLE)

@@ -21,7 +21,6 @@
 #define TABSTRACTSOUNDVIEW_H
 
 #include <QtGui/QWidget>
-#include <math.h>
 
 
 class TabstractSoundView : public QWidget {

@@ -22,13 +22,14 @@
 
 
 #include "tabstractplayer.h"
-#include "tscalefile.h"
+// #include "tscalefile.h"
 #include "trtaudioabstract.h"
+#include "toggscale.h"
 #include <QStringList>
 
 class TaudioParams;
 
-class TaudioOUT : public TabstractPlayer, public TrtAudioAbstract ,public TscaleFile
+class TaudioOUT : public TabstractPlayer, public TrtAudioAbstract
 {
   Q_OBJECT
   
@@ -45,6 +46,10 @@ public:
     bool setAudioDevice(QString &name);
         /** Immediately stops playing. Emits nothing */
     void stop();
+    
+protected:
+    static TaudioOUT *instance;
+    ToggScale *oggScale;
 
 private slots:
 //   void emitNoteFinished() { emit noteFinished(); }
@@ -62,9 +67,7 @@ private:
   static int m_maxCBloops;
       /** Size of a buffer */
   static unsigned int m_bufferFrames;
-      /** Pointer to this class instance to emit signal from static callBack method. */
-  static TaudioOUT *m_this;
-  
+      /** Pointer to this class instance to emit signal from static callBack method. */  
 
 };
 

@@ -17,7 +17,7 @@
  ***************************************************************************/
 
 #include "tabstractsoundview.h"
-#include <QResizeEvent>
+#include <math.h>
 
 
 QColor TabstractSoundView::tc = Qt::black;
