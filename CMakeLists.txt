@@ -151,6 +151,63 @@ include_directories(${FFTW3_INCLUDE_DIRS})
 # message("Qt is in: ${QT_BINARY_DIR}")
 
 ###########################################################################
+########   Looking for libVorbis (ogg decoder)
+###########################################################################
+IF(OGG_LIBRARIES AND OGG_INCLUDE_DIRS)
+  set(OGG_FOUND TRUE)
+ELSE(OGG_LIBRARIES AND OGG_INCLUDE_DIRS)
+  find_path(OGG_INCLUDE_DIR
+    NAMES
+      vorbisfile.h
+    PATHS
+      /usr/include
+      /usr/include/vorbis
+      /usr/local/include
+      /opt/local/include
+      /sw/include
+      "${CMAKE_CURRENT_SOURCE_DIR}/vorbis"
+      "${CMAKE_CURRENT_BINARY_DIR}/vorbis"
+  )
+  IF(WIN32)
+    find_library(OGG_LIBRARY
+      NAMES
+        vorbisfile.dll
+      PATHS
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_BINARY_DIR}
+    )
+  ELSE(WIN32)
+    find_library(OGG_LIBRARY
+      NAMES
+        vorbisfile
+      PATHS
+        /usr/lib
+        /usr/lib64
+        /usr/local/lib
+        /opt/local/lib
+        /sw/lib
+        ${CMAKE_CURRENT_BINARY_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}
+  )
+  ENDIF(WIN32)
+
+  set(OGG_INCLUDE_DIRS    ${OGG_INCLUDE_DIR} )
+  set(OGG_LIBRARIES  ${OGG_LIBRARY})
+
+  IF(OGG_INCLUDE_DIRS AND OGG_LIBRARIES)
+     set(OGG_FOUND TRUE)
+  ENDIF(OGG_INCLUDE_DIRS AND OGG_LIBRARIES)
+
+  IF(OGG_FOUND)
+      message(STATUS "Fftw3 was Found in:\n${OGG_LIBRARIES}\n${OGG_INCLUDE_DIRS}")
+  ELSE(OGG_FOUND)
+      message(FATAL_ERROR "Could not find libvorbis\nTry call cmake with args:\n-DOGG_LIBRARIES=/path_to/libvorbisfile.la(dll) -DOGG_INCLUDE_DIRS=/path_to_dir_with/vorbisfile.h\nor put those files in build dir or source dir")
+  ENDIF(OGG_FOUND)
+
+ENDIF(OGG_LIBRARIES AND OGG_INCLUDE_DIRS)
+# include_directories(${OGG_INCLUDE_DIRS})
+
+###########################################################################
 #libraries and compiller definitions for RtMidi
 ###########################################################################
 if (APPLE)

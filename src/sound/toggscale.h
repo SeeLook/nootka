@@ -17,37 +17,58 @@
  ***************************************************************************/
 
 
-#ifndef TSCALEFILE_H
-#define TSCALEFILE_H
-
+#ifndef TOGGSCALE_H
+#define TOGGSCALE_H
 
 #include <QString>
+#include <QObject>
+#include "vorbis/codec.h"
+#include "vorbis/vorbisfile.h"
 
 
-/** Takes care about file with musical scale.
- * Constructor does nothing. File is loaded by invokeing loadAudioData() 
- */
-class TscaleFile
+
+class ToggScale : public QObject
 {
-
+  
 public:
-    TscaleFile(QString &path);
-    virtual ~TscaleFile();
+  
+    ToggScale(QString &path); 
+    virtual ~ToggScale();
     
-        /** Loads wav file with scale to m_audioArr. If everything is ok returns true */
+        /** Loads ogg file with scale to RAM. If everything is ok returns true */
     bool loadAudioData();
-        /** Unloads audio data from an array m_audioArr */
+        /** Unloads audio data from buffer. */
     void deleteData();
-    qint16 *audioArr() { return m_audioArr; }
     
-        /** Returns single wav sample (16 bit) from array.
-         * !!! It doesn't check does element exist in array !!!*/
-    qint16 getSample(int offset) { return m_audioArr[offset]; }
+    
+  /* To read ogg data from RAM */
+    struct SoggFile {
+        qint8* curPtr;
+        qint8* filePtr;
+        size_t fileSize;
+    };
+    
+    void setPos(ogg_int64_t offset);
+    qint16 getSample(int offset);
+    
+public slots:
+    void readFromOgg();
+    
+signals:
+    void decodingDone();
     
 private:
-    qint16 *m_audioArr;
-        /** Path to wav file with sounds */
-    QString m_wavFile;
+    static size_t readOggStatic(void* dst, size_t size1, size_t size2, void* fh);
+    static int    seekOggStatic(void *fh, ogg_int64_t to, int type );
+    static int    closeOggStatic(void* fh);
+    static long   tellOggStatic(void *fh );
+    
+private:
+    qint8             *m_oggBuffer;
+    QString           m_oggFile; /** Path to ogg file with sounds */
+    OggVorbis_File    m_ogg;
+    qint16            *m_pcmBuffer;
+    SoggFile          m_oggWrap;
 };
 
-#endif // TSCALEFILE_H
+#endif // TOGGSCALE_H

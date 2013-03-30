@@ -21,6 +21,7 @@
 #include "taudioparams.h"
 #include <QDebug>
 #include <QTimer>
+#include <QThread>
 
 #define SAMPLE_RATE (44100)
 
@@ -51,9 +52,10 @@ QStringList TaudioOUT::getAudioDevicesList() {
 
 int TaudioOUT::m_samplesCnt = 0;
 unsigned int TaudioOUT::m_bufferFrames = 1024;
-int TaudioOUT::m_maxCBloops = SAMPLE_RATE / m_bufferFrames;
+// int TaudioOUT::m_maxCBloops = SAMPLE_RATE / m_bufferFrames;
+int TaudioOUT::m_maxCBloops = SAMPLE_RATE / m_bufferFrames * 2;
 int TaudioOUT::m_noteOffset = 0;
-TaudioOUT* TaudioOUT::m_this = 0;
+TaudioOUT* TaudioOUT::instance = 0;
 
 
 int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames, double streamTime, 
@@ -61,16 +63,14 @@ int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBuffer
   if ( status )
     qDebug() << "Stream underflow detected!";
   m_samplesCnt++;
+  if (m_samplesCnt == 0)
+    qDebug("outCallBack");
   if (m_samplesCnt < m_maxCBloops - 10) {
-//       qint16 *data = (qint16*)userData;
       qint16 *out = (qint16*)outBuffer;
-      int off = m_samplesCnt * nBufferFrames / 2;
+      int off = m_samplesCnt * nBufferFrames;
       qint16 sample;
-      for (int i = 0; i < nBufferFrames / 2; i++) {
-          sample = m_this->getSample(m_noteOffset + i + off);
-//           sample = data[m_noteOffset + i + off];
-          *out++ = sample;
-          *out++ = sample;
+      for (int i = 0; i < nBufferFrames; i++) {
+          sample = instance->oggScale->getSample(off + i);
           *out++ = sample;
           *out++ = sample;
       }
@@ -87,10 +87,10 @@ int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBuffer
 TaudioOUT::TaudioOUT(TaudioParams *_params, QString &path, QObject *parent) :
   TabstractPlayer(parent),
   TrtAudioAbstract(_params),
-  TscaleFile(path)
+  oggScale(new ToggScale(path))
 {
   setAudioOutParams(_params);
-  m_this = this;
+  instance = this;
   offTimer = new QTimer();
   connect(offTimer, SIGNAL(timeout()), this, SLOT(stopSlot()));
 }
@@ -101,12 +101,13 @@ TaudioOUT::~TaudioOUT()
   delete streamOptions;
   delete rtDevice;
   delete offTimer;
+  delete oggScale;
 }
 
 
 void TaudioOUT::setAudioOutParams(TaudioParams* params) {
   if (deviceName != params->OUTdevName || !rtDevice) {
-    playable = loadAudioData();
+    playable = oggScale->loadAudioData();
     if (playable && setAudioDevice(params->OUTdevName))
         playable = true;
     else
@@ -171,7 +172,7 @@ bool TaudioOUT::setAudioDevice(QString &name) {
   }
   if (rtDevice->isStreamOpen()) {
       m_maxCBloops = SAMPLE_RATE / (m_bufferFrames / 2);
-      qDebug() << "RtOUT:" << QString::fromStdString(rtDevice->getDeviceInfo(devId).name);
+      qDebug() << "RtOUT:" << QString::fromStdString(rtDevice->getDeviceInfo(devId).name) << "buffer:" << m_bufferFrames;
       deviceName = QString::fromStdString(rtDevice->getDeviceInfo(devId).name);
       return true;
   } else
@@ -190,13 +191,18 @@ bool TaudioOUT::play(int noteNr) {
   
   doEmit = true;
   m_samplesCnt = -1;
-  int fasterOffset = 1000;
+  double fasterOffset = 1000;
   if (noteNr + 11 == 0)
     fasterOffset = 0;
-  m_noteOffset = (noteNr + 11) * SAMPLE_RATE - fasterOffset;
+  m_noteOffset = (noteNr + 11) * SAMPLE_RATE * 2 - fasterOffset;
+    
+  oggScale->setPos(m_noteOffset);
+  qDebug() << "ok";
+//   setPos((noteNr + 11) * 2 - fasterOffset);
+  
   if (offTimer->isActive())
       offTimer->stop();
-  offTimer->start(1700);
+  offTimer->start(1600);
   return startStream();
 }
 
