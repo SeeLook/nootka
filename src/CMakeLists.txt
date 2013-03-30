@@ -127,7 +127,6 @@ SET( NOOTKA_SRCS
   sound/tartiniparams.h
   sound/tabstractplayer.cpp
   sound/toggscale.cpp
-#   sound/tscalefile.cpp
   sound/trtaudioabstract.cpp
   sound/trtaudioout.cpp
   sound/trtaudioin.cpp
@@ -217,6 +216,7 @@ SET( NOOTKA_MOC_SRCS
   sound/audiooutsettings.h
   sound/audioinsettings.h
   sound/tpitchfinder.h
+  sound/toggscale.h
   sound/tintonationview.h
   sound/tpitchview.h
   sound/tabstractplayer.h
