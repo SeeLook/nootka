@@ -86,13 +86,13 @@ void TvolumeView::resizeEvent(QResizeEvent* ) {
   m_tickColors.clear();
   for (int i = 0; i < m_ticksCount; i++) {
     if (i <= m_ticksCount * 0.33)
-      m_tickColors << gradColorAtPoint(0, (width() - m_noteWidth) * 0.35, Qt::green, Qt::yellow, (i + 1) * ((width() - m_noteWidth) / m_ticksCount));
+      m_tickColors << gradColorAtPoint(0, (width() - m_noteWidth) * 0.35, startColor, middleColor, (i + 1) * ((width() - m_noteWidth) / m_ticksCount));
     else if ( i <= m_ticksCount * 0.66)
       m_tickColors << gradColorAtPoint((width() - m_noteWidth) * 0.35, (width() - m_noteWidth) * 0.68,
-                                       Qt::yellow, Qt::red, (i + 1) * ((width() - m_noteWidth) / m_ticksCount));
+                                       middleColor, endColor, (i + 1) * ((width() - m_noteWidth) / m_ticksCount));
       else 
           m_tickColors << gradColorAtPoint((width() - m_noteWidth) * 0.68, (width() - m_noteWidth),
-                                       Qt::red, Qt::darkRed, (i + 1) * ((width() - m_noteWidth) / m_ticksCount));
+                                       endColor, totalColor, (i + 1) * ((width() - m_noteWidth) / m_ticksCount));
   }
 }
 

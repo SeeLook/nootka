@@ -18,16 +18,36 @@
 
 #include "tabstractsoundview.h"
 #include <math.h>
+// #include <QDebug>
 
+#define MAX_DARK (2)
 
 QColor TabstractSoundView::tc = Qt::black;
+QColor TabstractSoundView::startColor = Qt::darkGreen;
+// QColor TabstractSoundView::startColor = Qt::green;
+// QColor TabstractSoundView::middleColor = Qt::darkYellow;
+QColor TabstractSoundView::middleColor = Qt::yellow;
+// QColor TabstractSoundView::endColor = Qt::darkRed;
+QColor TabstractSoundView::endColor = Qt::red;
+QColor TabstractSoundView::totalColor = QColor(117, 21, 86); // brown
 
 
 TabstractSoundView::TabstractSoundView(QWidget* parent) :
   QWidget(parent)
 {
   nootFont = QFont("nootka");
-  tc = palette().text().color();
+//   qDebug() << palette().window().color();
+  if (palette().window().color().red() <= MAX_DARK && palette().window().color().green() <= MAX_DARK &&
+    palette().window().color().blue() <= MAX_DARK) {
+//         tc = palette().window().color().lighter(150);
+        tc = palette().text().color();
+//         qDebug() << tc;
+        startColor = Qt::green;
+//         middleColor = Qt::yellow;
+//         endColor = Qt::red;
+  }
+  else
+        tc = palette().window().color().darker(120);
 }
 
 

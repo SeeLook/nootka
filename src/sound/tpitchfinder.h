@@ -87,6 +87,7 @@ public:
     void resetFinder();
     void setAmbitus(qint16 loPitch, double topPitch) { 
           m_aGl->loPitch = loPitch; m_aGl->topPitch = topPitch; }
+    void setMinimalVolume(qint16 level) { m_minVolume = (float)level / 32768.0f; }
     
 signals:
       /** Signal emited when pitch is detected. 
@@ -106,16 +107,15 @@ private:
   float           *m_filteredChunk, *m_workChunk, *m_prevChunk;
   double           m_prevPitch, m_prevFreq;
 
-  bool            m_emited;
   bool            m_doReset;
-  bool            m_noteNoticed;
-  int             m_noticedChunk; // chunk nr where note was started
 	TartiniParams   *m_aGl; 
 	Channel         *m_channel;
 	int             m_chunkNum;
 	bool            m_isBussy;
   bool            m_isVoice; // calculates average pitch in chunks range instead pitch in single chunk
   int             m_prevNoteIndex;
+  int             m_noticedIndex;
+  float           m_minVolume;
 	
 };
 

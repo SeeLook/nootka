@@ -291,7 +291,7 @@ if(APPLE OR WIN32)
   LIST(APPEND langs "${QT_TRANSLATIONS_DIR}/qt_cs.qm" "${QT_TRANSLATIONS_DIR}/qt_fr.qm" "${QT_TRANSLATIONS_DIR}/qt_pl.qm" )
 endif(APPLE OR WIN32)
 INSTALL(FILES ${langs} DESTINATION "${INS_PREF}/lang")
-FILE(GLOB snds "${CMAKE_CURRENT_SOURCE_DIR}/sounds/classical-guitar.wav")
+FILE(GLOB snds "${CMAKE_CURRENT_SOURCE_DIR}/sounds/classical-guitar.ogg")
 INSTALL(FILES ${snds} DESTINATION "${INS_PREF}/sounds")
 
 if(NOT UNIX) # Windows icons
