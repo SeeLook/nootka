@@ -245,6 +245,7 @@ if(MINGW)
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
         ${FFTW3_LIBRARIES}
+        ${OGG_LIBRARIES}
         winmm dsound
 	)
 endif(MINGW)
@@ -289,7 +290,8 @@ if(APPLE)
         ${FFTW3_LIBRARIES}
         ${CoreAudio_LIB}
         ${CoreMidi_LIB}
-        ${CoreFoundation_LIB}        
+        ${CoreFoundation_LIB}
+        ${OGG_LIBRARIES}
   )
 endif(APPLE)
 

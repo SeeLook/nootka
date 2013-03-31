@@ -31,7 +31,7 @@ public:
     
     QColor gradColorAtPoint(float lineX1, float lineX2, QColor startC, QColor endC, float posC);
     
-    static QColor tc;
+    static QColor tc, startColor, middleColor, endColor, totalColor;
     
 protected:
     virtual void resizeIt(int myHeight);

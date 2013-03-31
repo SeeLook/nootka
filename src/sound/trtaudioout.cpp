@@ -61,7 +61,6 @@ QStringList TaudioOUT::getAudioDevicesList() {
 int TaudioOUT::m_samplesCnt = 0;
 unsigned int TaudioOUT::m_bufferFrames = 1024;
 int TaudioOUT::m_maxCBloops = SAMPLE_RATE / m_bufferFrames * 2;
-int TaudioOUT::m_noteOffset = 0;
 TaudioOUT* TaudioOUT::instance = 0;
 
 

@@ -32,11 +32,9 @@ TpitchFinder::TpitchFinder(QObject* parent) :
   m_chunkNum(0),
   m_channel(0),
   m_filteredChunk(0), m_prevChunk(0),
-  m_emited(false),
+  m_minVolume(0.4),
   m_prevPitch(0), m_prevFreq(0),
-  m_prevNoteIndex(-1),
-  m_noteNoticed(false),
-  m_noticedChunk(0),
+  m_prevNoteIndex(-1), m_noticedIndex(-1),
   m_isVoice(false),
   m_doReset(false)
 {
@@ -157,7 +155,7 @@ void TpitchFinder::resetFinder() {
       myTransforms.uninit();
       m_channel = new Channel(this, aGl()->windowSize);
       myTransforms.init(aGl(), aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
-      qDebug("reset channel");
+      qDebug() << "reset channel" << m_minVolume;
   }
 }
 
@@ -178,23 +176,33 @@ void TpitchFinder::run() {
     if (data) {
       if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)) {
           NoteData *curNote = m_channel->getCurrentNote();
-        if (m_isVoice) {
-            if (curNote->noteLength() > MIN_SND_TIME) {
-                m_prevPitch = curNote->avgPitch();
-                m_prevFreq = curNote->avgFreq();
+          bool watchNoote = true;
+        if (data->noteIndex != m_noticedIndex) {
+          if (curNote->volume() >= m_minVolume) {
+            m_noticedIndex = data->noteIndex;
+            watchNoote = true;
+          } else
+            watchNoote = false;
+        }
+        if (watchNoote) {
+            if (m_isVoice) {
+                if (curNote->noteLength() > MIN_SND_TIME) {
+                    m_prevPitch = curNote->avgPitch();
+                    m_prevFreq = curNote->avgFreq();
+                }
+                emit pichInChunk(data->pitch);
+              } else {
+                  if (data->noteIndex != m_prevNoteIndex) {
+                      m_prevNoteIndex = data->noteIndex;
+                      qDebug() << data->noteIndex << data->pitch << curNote->noteLength() << curNote->volume();
+    //                  qDebug() << data->noteIndex << data->pitch << curNote->volume() << "aver:" << averVol;
+                      emit found(/*data->pitch*/curNote->avgPitch(), data->fundamentalFreq);
+                  }
+                  emit pichInChunk(curNote->avgPitch());
             }
-            emit pichInChunk(data->pitch);
-          } else {
-              if (data->noteIndex != m_prevNoteIndex) {
-                  m_prevNoteIndex = data->noteIndex;
-                  qDebug() << data->noteIndex << data->pitch << curNote->noteLength() << curNote->volume();
-//                  qDebug() << data->noteIndex << data->pitch << curNote->volume() << "aver:" << averVol;
-                  emit found(/*data->pitch*/curNote->avgPitch(), data->fundamentalFreq);
-              }
-              emit pichInChunk(curNote->avgPitch());
-          }    
-//           emit pichInChunk(data->pitch);
+        }
       } else {
+          m_noticedIndex = -1;
           if (m_isVoice)
             emitFound();
           else {
