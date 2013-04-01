@@ -84,6 +84,7 @@ private slots:
 	
   void pitchFreqFound(float pitch, float freq);
   void pitchInChunkSlot(float pitch) { emit chunkPitch(pitch); }
+  void volumeSlot(float vol) { m_maxPeak = vol * 32768.0f; }
   
   
 private:

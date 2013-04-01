@@ -56,7 +56,7 @@ int TaudioIN::inCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFr
         instance()->m_maxP = qMax(instance()->m_maxP, value);
         *(instance()->m_floatBuff + instance()->m_floatsWriten) = float(value) / 32768.0f;
         if (instance()->m_floatsWriten == instance()->m_pitch->aGl()->framesPerChunk-1) {
-          instance()->m_maxPeak = instance()->m_maxP;
+//           instance()->m_maxPeak = instance()->m_maxP;
           if (instance()->m_pitch->isBussy())
               qDebug() << "data ignored";
           else
@@ -98,6 +98,7 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
   
   connect(m_pitch, SIGNAL(found(float,float)), this, SLOT(pitchFreqFound(float,float)));
   connect(m_pitch, SIGNAL(pichInChunk(float)), this, SLOT(pitchInChunkSlot(float)));
+  connect(m_pitch, SIGNAL(volume(float)), this, SLOT(volumeSlot(float)));
 }
 
 TaudioIN::~TaudioIN()
