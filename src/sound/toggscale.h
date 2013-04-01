@@ -26,7 +26,11 @@
 #include "vorbis/vorbisfile.h"
 
 
-
+/** @class ToggScale manages audio data (musical scale) taken from ogg file.
+ * It keeps it in m_oggInMemory array and decode it when setNote is called.
+* Decompressed data are available through getSample() method. 
+* Data is decompressed in separate thread and smoe SLEEP calls are performed 
+* if data is not ready. */
 class ToggScale : public QObject
 {
   Q_OBJECT
@@ -60,9 +64,12 @@ public:
     
     
 public slots:
+        /** Preforms decoding. Usually is invoked by m_thread.start() 
+         * called from setNote() method. */
     void decodeOgg();
     
 private:
+      /** Methods needed by vorbisfile library. */
     static size_t readOggStatic(void* dst, size_t size1, size_t size2, void* fh);
     static int    seekOggStatic(void *fh, ogg_int64_t to, int type );
     static int    closeOggStatic(void* fh);

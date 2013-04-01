@@ -177,6 +177,7 @@ void TpitchFinder::run() {
       if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)) {
           NoteData *curNote = m_channel->getCurrentNote();
           bool watchNoote = true;
+          emit volume(curNote->volume());
         if (data->noteIndex != m_noticedIndex) {
           if (curNote->volume() >= m_minVolume) {
             m_noticedIndex = data->noteIndex;
@@ -213,6 +214,7 @@ void TpitchFinder::run() {
 //               qDebug() << m_channel->isVisibleNote(data->noteIndex) << m_channel->isLabelNote(data->noteIndex);
           }
           emit pichInChunk(0.0);
+          emit volume(0.0);
       }
     }
 	incrementChunk();

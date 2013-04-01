@@ -102,7 +102,9 @@ Section "GrupaGlowna" SEC01
   File "mingwm10.dll"
   File "QtNetwork4.dll"
   File "libfftw3f-3.dll"	
-  File "QtMultimedia4.dll"
+  File "libogg.dll"
+  File "libvorbis.dll"
+  File "libvorbisfile.dll"
   File "libgcc_s_dw2-1.dll"
   File "libstdc++-6.dll"
   File "gpl"
@@ -169,7 +171,7 @@ Section "GrupaGlowna" SEC01
   File "picts\support.png"
   File "picts\systemsettings.png"
   SetOutPath "$INSTDIR\sounds"
-  File "sounds\classical-guitar.wav"
+  File "sounds\classical-guitar.ogg"
 SectionEnd
 
 Section -AdditionalIcons
@@ -210,7 +212,7 @@ FunctionEnd
 Section Uninstall
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
-  Delete "$INSTDIR\sounds\classical-guitar.wav"
+  Delete "$INSTDIR\sounds\classical-guitar.ogg"
   Delete "$INSTDIR\picts\systemsettings.png"
   Delete "$INSTDIR\picts\support.png"
   Delete "$INSTDIR\picts\stopExam.png"
@@ -269,7 +271,9 @@ Section Uninstall
   Delete "$INSTDIR\fonts\nootka.ttf"
   Delete "$INSTDIR\fonts\README"
   Delete "$INSTDIR\libgcc_s_dw2-1.dll"
-  Delete "$INSTDIR\QtMultimedia4.dll"
+  Delete "$INSTDIR\libogg.dll"
+  Delete "$INSTDIR\libvorbis.dll"
+  Delete "$INSTDIR\libvorbisfile.dll""
   Delete "$INSTDIR\libfftw3f-3.dll"
   Delete "$INSTDIR\libstdc++-6.dll"
   Delete "$INSTDIR\mingwm10.dll"

@@ -95,6 +95,7 @@ signals:
       * @param freq if current frequency. */
   void found(float pitch, float freq);
   void pichInChunk(float pitch);
+  void volume(float volume);
 	
 protected:
 	void run();
