@@ -54,7 +54,7 @@ public:
       /** Starts emiting @param noteDetected and @param fundamentalFreq signals again. */
   void unPause() { m_paused = false; }
   bool isPaused() { return m_paused; }
-	qint16 maxPeak() { return m_maxPeak; }
+	float maxPeak() { return m_maxPeak; }
 	  /** Sets device parameters stores in struct SaudioInParams. 
 	   * SaudioInParams::deviceName is ignored. It have to be set separately
 	   * by setAudioDevice() method. 	   */
@@ -84,7 +84,7 @@ private slots:
 	
   void pitchFreqFound(float pitch, float freq);
   void pitchInChunkSlot(float pitch) { emit chunkPitch(pitch); }
-  void volumeSlot(float vol) { m_maxPeak = vol * 32768.0f; }
+  void volumeSlot(float vol) { m_maxPeak = vol; }
   
   
 private:
@@ -100,7 +100,8 @@ private:
   TpitchFinder *m_pitch;
       
   quint32 m_floatsWriten;
-  qint16 m_maxPeak, m_maxP;
+  qint16 m_maxP;
+  float m_maxPeak;
       /** Size of a buffer */
   unsigned int m_bufferFrames;  
   

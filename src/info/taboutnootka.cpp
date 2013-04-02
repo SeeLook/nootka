@@ -27,6 +27,10 @@
 extern Tglobals *gl;
 
 
+QString createLink(QString desc, QString href) {
+  return "<a href=\"" + href + "\">" + desc + "</a>";
+}
+
 QString transRow (QString flag, QString lang, QString name, QString mailAndSite) {
   return QString("<tr valign=\"middle\" align=\"center\"><td> <img src=\"%1\">&nbsp;&nbsp;&nbsp;</td><td> %2 &nbsp;&nbsp;&nbsp;</td><td> <b>%3</b> </td><td>&nbsp;&nbsp;&nbsp; %4 </td></tr>").
       arg(gl->path + "picts/flags-" + flag + ".png").arg(lang).arg(name).arg(mailAndSite);
@@ -96,7 +100,13 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
                           "<a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a>");
     translStr += "</table>";
     QLabel *authorsLab = new QLabel(authorStr + translStr + "<br><br>" + 
-       tr("However this application could not exist without various open source projects.<br>Especially:") + "<ul><li><a href=\"http://qt-project.org/\">Qt</a></li><li><a href=\"http://www.fftw.org\">FFTW</a></li><li><a href=\"http://www.music.mcgill.ca/~gary/rtmidi/\">RtMidi</a></li><li><a href=\"http://miracle.otago.ac.nz/tartini/index.html\">Tartini</a></li></ul>");
+       tr("However this application could not exist without various open source projects.<br>Especially:") + 
+       "<ul><li>" + createLink("Qt", "http://qt-project.org/") + " by Digia</li>" +
+       "<li>" + createLink("FFTW", "http://www.fftw.org") + " by M. Frigo & S. G. Johnson</li>" +
+       "<li>" + createLink("ogg vorbis", "http://vorbis.com") + " by XIPH</li>" +
+       "<li>" + createLink("RtAudio & RtMidi", "http://www.music.mcgill.ca/~gary/") + " by G. P. Scavone</li>" +
+       "<li>" + createLink("Tartini", "http://miracle.otago.ac.nz/tartini/index.html") + " by P. McLeod</li>" +
+       "</ul>");
     authorsLab->setOpenExternalLinks(true);
     wiLLay->addWidget(authorsLab);
     wiLLay->addStretch(1);

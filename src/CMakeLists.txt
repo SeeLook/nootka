@@ -1,5 +1,6 @@
 ################################################
 
+add_subdirectory(updater)
 add_subdirectory(sound/rt)
 
 if(UNIX AND NOT APPLE)
@@ -245,7 +246,7 @@ if(MINGW)
         ${QT_QTCORE_LIBRARY}
         ${QT_QTGUI_LIBRARY}
         ${FFTW3_LIBRARIES}
-        ${OGG_LIBRARIES}
+        ${VORBIS_LIBRARIES}
         winmm dsound
 	)
 endif(MINGW)
@@ -263,7 +264,7 @@ if(UNIX AND NOT APPLE) #Linux
         ${ALSA_LIBRARY} ${PTHREAD_LIBRARY}
         ${JACK_LIBRARY}
         ${PULSESIMPLE_LIBRARY} ${PULSEERROR_LIBRARY}
-        ${OGG_LIBRARIES}
+        ${VORBIS_LIBRARIES}
         
 	)
 endif(UNIX AND NOT APPLE)
@@ -291,7 +292,7 @@ if(APPLE)
         ${CoreAudio_LIB}
         ${CoreMidi_LIB}
         ${CoreFoundation_LIB}
-        ${OGG_LIBRARIES}
+        ${VORBIS_LIBRARIES}
   )
 endif(APPLE)
 
@@ -312,4 +313,3 @@ else(UNIX AND NOT APPLE)
   endif(WIN32)
 endif(UNIX AND NOT APPLE)
 
-add_subdirectory(updater)

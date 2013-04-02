@@ -32,7 +32,7 @@ public:
     
         /** @param alpha is alpha value of background color
         * to manage of the animation of detected pitch */
-    void setVolume(qreal vol, int alpha = 0);
+    void setVolume(float vol, int alpha = 0);
     void setPitchColor (QColor col) { m_pitchColor = col; }
   
   
@@ -41,7 +41,7 @@ protected:
     virtual void resizeEvent(QResizeEvent*);
     
 private:
-    qreal           m_volume;
+    float           m_volume, m_prevVol;
     QColor          m_pitchColor;
     int             m_alpha; // aplha value of m_pitchColor
     QList<QColor>   m_tickColors;
