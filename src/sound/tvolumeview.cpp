@@ -27,7 +27,7 @@
 
 TvolumeView::TvolumeView(QWidget* parent) :
   TabstractSoundView(parent),
-  m_volume(0),
+  m_volume(0.0f), m_prevVol(0.0f),
   m_pitchColor(Qt::red)
 {
   setBackgroundRole(QPalette::Background);
@@ -39,10 +39,13 @@ TvolumeView::TvolumeView(QWidget* parent) :
 TvolumeView::~TvolumeView() {}
 
 
-void TvolumeView::setVolume(qreal volume, int alpha) {
-  m_volume = volume;
+void TvolumeView::setVolume(float vol, int alpha) {
+  m_volume = vol;
+  if (m_volume == 0.0) // skip first 0.0 volume to avoid flickering
+    m_volume = m_prevVol;
   m_alpha = alpha;
   update();
+  m_prevVol = vol;
 }
 
 //################################################################################
@@ -64,6 +67,8 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
       noteColor = tc;
   }
   painter.drawRoundedRect(painter.viewport(), 4, 4);
+  painter.setPen(QPen(Qt::magenta, 1));
+  painter.drawLine(width() * 0.48, 1, width() * 0.48, height() - 2);
   painter.setPen(noteColor);
   painter.setFont(nootFont);
   painter.drawText(0, 0, width(), height(), Qt::AlignRight, "n");
@@ -85,13 +90,18 @@ void TvolumeView::resizeEvent(QResizeEvent* ) {
   m_hiTickStep = ((float)height() * 0.66) / m_ticksCount;
   m_tickColors.clear();
   for (int i = 0; i < m_ticksCount; i++) {
-    if (i <= m_ticksCount * 0.5)
-      m_tickColors << gradColorAtPoint(0, (width() - m_noteWidth) * 0.55, startColor, middleColor, (i + 1) * ((width() - m_noteWidth) / m_ticksCount));
-    else if ( i <= m_ticksCount * 0.7)
-      m_tickColors << gradColorAtPoint((width() - m_noteWidth) * 0.5, (width() - m_noteWidth) * 0.75,
+    if (i <= m_ticksCount * 0.2)
+      m_tickColors << startColor;
+      else if (i <= m_ticksCount * 0.5)
+        m_tickColors << gradColorAtPoint((width() - m_noteWidth) * 0.2, (width() - m_noteWidth) * 0.55, startColor, middleColor, 
+                                         (i + 1) * ((width() - m_noteWidth) / m_ticksCount));
+      else if (i <= m_ticksCount * 0.6)
+          m_tickColors << middleColor;
+      else if ( i <= m_ticksCount * 0.8)
+          m_tickColors << gradColorAtPoint((width() - m_noteWidth) * 0.6, (width() - m_noteWidth) * 0.82,
                                        middleColor, endColor, (i + 1) * ((width() - m_noteWidth) / m_ticksCount));
       else 
-          m_tickColors << gradColorAtPoint((width() - m_noteWidth) * 0.7, (width() - m_noteWidth),
+          m_tickColors << gradColorAtPoint((width() - m_noteWidth) * 0.8, (width() - m_noteWidth),
                                        endColor, totalColor, (i + 1) * ((width() - m_noteWidth) / m_ticksCount));
   }
 }

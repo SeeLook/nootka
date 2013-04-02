@@ -139,7 +139,7 @@ ELSE(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
   ENDIF(FFTW3_INCLUDE_DIRS AND FFTW3_LIBRARIES)
 
   IF(FFTW3_FOUND)
-      message(STATUS "Fftw3 was Found in:\n${FFTW3_LIBRARIES}\n${FFTW3_INCLUDE_DIRS}")
+      message(STATUS "Fftw3 was Found in:\n${FFTW3_LIBRARIES}\nheaders are in: ${FFTW3_INCLUDE_DIRS}")
   ELSE(FFTW3_FOUND)
       message(FATAL_ERROR "Could not find Fftw3\nTry call cmake with args:\n-DFFTW3_LIBRARIES=/path_to/libfftw3.la(dll) -DFFTW3_INCLUDE_DIRS=/path_to_dir_with/fftw3.h\nor put those files in build dir or source dir")
   ENDIF(FFTW3_FOUND)
@@ -153,23 +153,33 @@ include_directories(${FFTW3_INCLUDE_DIRS})
 ###########################################################################
 ########   Looking for libVorbis (ogg decoder)
 ###########################################################################
-IF(OGG_LIBRARIES AND OGG_INCLUDE_DIRS)
+IF(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
   set(OGG_FOUND TRUE)
-ELSE(OGG_LIBRARIES AND OGG_INCLUDE_DIRS)
-  find_path(OGG_INCLUDE_DIR
+ELSE(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
+  find_path(VORBIS_INCLUDE_DIR
     NAMES
-      vorbisfile.h
+      "vorbis/vorbisfile.h"
     PATHS
       /usr/include
-      /usr/include/vorbis
       /usr/local/include
       /opt/local/include
       /sw/include
-      "${CMAKE_CURRENT_SOURCE_DIR}/vorbis"
-      "${CMAKE_CURRENT_BINARY_DIR}/vorbis"
+      "${CMAKE_CURRENT_SOURCE_DIR}"
+      "${CMAKE_CURRENT_BINARY_DIR}"
+  )
+  find_path(OGG_INCLUDE_DIR
+    NAMES
+      "ogg/ogg.h"
+    PATHS
+      /usr/include
+      /usr/local/include
+      /opt/local/include
+      /sw/include
+      "${CMAKE_CURRENT_SOURCE_DIR}"
+      "${CMAKE_CURRENT_BINARY_DIR}"
   )
   IF(WIN32)
-    find_library(OGG_LIBRARY
+    find_library(VORBIS_LIBRARY
       NAMES
         vorbisfile.dll
       PATHS
@@ -177,7 +187,7 @@ ELSE(OGG_LIBRARIES AND OGG_INCLUDE_DIRS)
         ${CMAKE_CURRENT_BINARY_DIR}
     )
   ELSE(WIN32)
-    find_library(OGG_LIBRARY
+    find_library(VORBIS_LIBRARY
       NAMES
         vorbisfile
       PATHS
@@ -191,21 +201,24 @@ ELSE(OGG_LIBRARIES AND OGG_INCLUDE_DIRS)
   )
   ENDIF(WIN32)
 
-  set(OGG_INCLUDE_DIRS    ${OGG_INCLUDE_DIR} )
-  set(OGG_LIBRARIES  ${OGG_LIBRARY})
+  set(VORBIS_INCLUDE_DIRS    ${VORBIS_INCLUDE_DIR} )
+  set(OGG_INCLUDE_DIRS       ${OGG_INCLUDE_DIR})
+  set(VORBIS_LIBRARIES       ${VORBIS_LIBRARY}) 
 
-  IF(OGG_INCLUDE_DIRS AND OGG_LIBRARIES)
+  IF(VORBIS_INCLUDE_DIRS AND OGG_INCLUDE_DIRS AND VORBIS_LIBRARIES)
      set(OGG_FOUND TRUE)
-  ENDIF(OGG_INCLUDE_DIRS AND OGG_LIBRARIES)
+  ENDIF(VORBIS_INCLUDE_DIRS AND OGG_INCLUDE_DIRS AND VORBIS_LIBRARIES)
 
   IF(OGG_FOUND)
-      message(STATUS "Fftw3 was Found in:\n${OGG_LIBRARIES}\n${OGG_INCLUDE_DIRS}")
+      message(STATUS "Ogg Vorbis was Found in:\n${VORBIS_LIBRARIES}\nheaders are in: ${OGG_INCLUDE_DIRS} ${VORBIS_INCLUDE_DIRS}")
   ELSE(OGG_FOUND)
-      message(FATAL_ERROR "Could not find libvorbis\nTry call cmake with args:\n-DOGG_LIBRARIES=/path_to/libvorbisfile.la(dll) -DOGG_INCLUDE_DIRS=/path_to_dir_with/vorbisfile.h\nor put those files in build dir or source dir")
+      message(FATAL_ERROR "Could not find libvorbis\nTry call cmake with args:\n-DVORBIS_LIBRARIES =/path_to/libvorbisfile.so(dll) -DVORBIS_INCLUDE_DIRS=/path_to_dir_with/vorbis/vorbisfile.h\n-DOGG_INCLUDE_DIRS=/path_to_dir_with/ogg/ogg.h\nor put those files in build dir or source dir")
   ENDIF(OGG_FOUND)
 
-ENDIF(OGG_LIBRARIES AND OGG_INCLUDE_DIRS)
-# include_directories(${OGG_INCLUDE_DIRS})
+ENDIF(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
+
+include_directories(${OGG_INCLUDE_DIRS})
+include_directories(${VORBIS_INCLUDE_DIR})
 
 ###########################################################################
 #libraries and compiller definitions for RtMidi
