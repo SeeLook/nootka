@@ -23,8 +23,8 @@
 #define MAX_DARK (2)
 
 QColor TabstractSoundView::tc = Qt::black;
-QColor TabstractSoundView::startColor = Qt::darkGreen;
-// QColor TabstractSoundView::startColor = Qt::green;
+// QColor TabstractSoundView::startColor = Qt::darkGreen;
+QColor TabstractSoundView::startColor = Qt::green;
 // QColor TabstractSoundView::middleColor = Qt::darkYellow;
 QColor TabstractSoundView::middleColor = Qt::yellow;
 // QColor TabstractSoundView::endColor = Qt::darkRed;

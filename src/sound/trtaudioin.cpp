@@ -183,6 +183,7 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
       streamOptions = new RtAudio::StreamOptions;
     streamOptions->streamName = "nootkaIN";
   }
+  showSupportedFormats(devInfo);
   if (!openStream(NULL ,&streamParams, RTAUDIO_SINT16, m_sampleRate, &m_bufferFrames, &inCallBack, 0, streamOptions))
     return false;
   if (rtDevice->isStreamOpen()) {

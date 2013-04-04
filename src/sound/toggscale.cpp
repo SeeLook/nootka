@@ -88,10 +88,14 @@ ToggScale::ToggScale(QString& path) :
   m_thread(new QThread),
   m_sampleRate(44100),
   m_prevNote(-1),
-  m_doDecode(true), m_isDecoding(false), m_isReady(true)
+  m_doDecode(true), m_isDecoding(false), m_isReady(true),
+  m_pitchOffset(0.5f)
 {
+  m_touch = new soundtouch::SoundTouch();
+  initTouch();
   moveToThread(m_thread);
-  connect(m_thread, SIGNAL(started()), this, SLOT(decodeOgg()));
+//   connect(m_thread, SIGNAL(started()), this, SLOT(decodeOgg()));
+  connect(m_thread, SIGNAL(started()), this, SLOT(decodeAndResample()));
 }
 
 
@@ -151,7 +155,7 @@ void ToggScale::decodeOgg() {
   int bitStream;
   m_isDecoding = true;
   long int read = 0;
-  long int maxSize = m_sampleRate * 4 - 4096; // 2 for two seconds of note * 2 for two bytes of sample - silence at the end of note
+  int maxSize = 44100 * 4 - 4096; // 2 for two seconds of note * 2 for two bytes of sample - silence at the end of note
   int loops = 0;
   long int pos = 0;
   while (m_doDecode && loops < 500 && pos < maxSize) {
@@ -168,9 +172,39 @@ void ToggScale::decodeOgg() {
 }
 
 
+void ToggScale::decodeAndResample() {
+  int bitStream;
+  m_isDecoding = true;
+  int maxSize = m_sampleRate * 2 - 4096;
+  long int tmpPos = 0, tmpRead = 0;
+  uint pos = 0, read = 0;
+  int samplesReady = 0;
+  char* tmpBuff = new char[2048];
+  while (pos < maxSize) {
+    if (tmpPos < 172000) {
+        tmpRead = ov_read(&m_ogg, tmpBuff, 2048, 0, 2, 1, &bitStream);
+        tmpPos += tmpRead;
+    }
+    samplesReady = m_touch->numSamples();
+    if (samplesReady > 0) {
+      read = m_touch->receiveSamples(m_pcmBuffer + pos, samplesReady);
+      pos += read;
+    }
+    if (pos > 4096)
+      m_isReady = true;
+    if (tmpRead > 0) {
+      m_touch->putSamples((SAMPLETYPE*)tmpBuff, tmpRead / 2);
+    }
+  }
+  m_isDecoding = false;
+  qDebug() << "readFromOgg" << pos;
+  m_thread->quit();
+}
+
+
 
 void ToggScale::setSampleRate(unsigned int rate) {
-  //TODO: resampling
+  
 }
 
 
@@ -218,4 +252,14 @@ bool ToggScale::loadAudioData() {
 //   
   return true;  
 }
+
+
+void ToggScale::initTouch() {
+  m_touch->setChannels(1);
+  m_touch->setSampleRate(44100);
+  m_touch->setPitch(1.0 + m_pitchOffset);
+}
+
+
+
 

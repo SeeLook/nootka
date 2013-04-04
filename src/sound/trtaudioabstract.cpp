@@ -52,6 +52,24 @@ RtAudio* TrtAudioAbstract::getRtAudio() {
 }
 
 
+void TrtAudioAbstract::showSupportedFormats(RtAudio::DeviceInfo& devInfo) {
+  QString fmt;
+  if (devInfo.nativeFormats & 0x1)
+    fmt += " RTAUDIO_SINT8";
+  if (devInfo.nativeFormats & 0x2)
+    fmt += " RTAUDIO_SINT16";
+  if (devInfo.nativeFormats & 0x4)
+    fmt += " RTAUDIO_SINT24";
+  if (devInfo.nativeFormats & 0x8)
+    fmt += " RTAUDIO_SINT32";
+  if (devInfo.nativeFormats & 0x10)
+    fmt += " RTAUDIO_FLOAT32";
+  if (devInfo.nativeFormats & 0x20)
+    fmt += " RTAUDIO_FLOAT32";
+  qDebug() << "suported formats:" << fmt;
+}
+
+
 
 bool TrtAudioAbstract::getDeviceInfo(RtAudio::DeviceInfo& devInfo, int id) {
   try {

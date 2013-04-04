@@ -172,6 +172,7 @@ bool TaudioOUT::setAudioDevice(QString &name) {
       streamOptions = new RtAudio::StreamOptions;
     streamOptions->streamName = "nootkaOUT";
   }
+  showSupportedFormats(devInfo);
   if (!openStream(&streamParams, NULL, RTAUDIO_SINT16, SAMPLE_RATE, &m_bufferFrames, &outCallBack, 0, streamOptions)) {
       playable = false;
       return false;
@@ -199,9 +200,10 @@ bool TaudioOUT::play(int noteNr) {
   m_samplesCnt = -1;
   oggScale->setNote(noteNr);
 //   SLEEP(1);
-  while (!oggScale->isReady())
+  while (!oggScale->isReady()) {
       SLEEP(1);
-  
+      qDebug("waiting");
+  }
   if (offTimer->isActive())
       offTimer->stop();
   offTimer->start(1600);

@@ -24,6 +24,9 @@
 #include <QObject>
 #include "vorbis/codec.h"
 #include "vorbis/vorbisfile.h"
+#include "stouch/SoundTouch.h"
+
+using namespace soundtouch;
 
 
 /** @class ToggScale manages audio data (musical scale) taken from ogg file.
@@ -67,6 +70,7 @@ public slots:
         /** Preforms decoding. Usually is invoked by m_thread.start() 
          * called from setNote() method. */
     void decodeOgg();
+    void decodeAndResample();
     
 private:
       /** Methods needed by vorbisfile library. */
@@ -74,6 +78,8 @@ private:
     static int    seekOggStatic(void *fh, ogg_int64_t to, int type );
     static int    closeOggStatic(void* fh);
     static long   tellOggStatic(void *fh );
+    
+    void initTouch(); // sets SoundTouch parameters
     
 private:
     qint8             *m_oggInMemory;
@@ -87,6 +93,9 @@ private:
     bool              m_doDecode; /** If new note is going to be decoded it goes to FALSE - then stops decoding loop */
     bool              m_isDecoding; /** TRUE during decoding/resampling process. */
     bool              m_isReady;
+    SoundTouch        *m_touch;
+    float             m_pitchOffset;
+
 };
 
 #endif // TOGGSCALE_H
