@@ -37,6 +37,7 @@ public:
     TrtAudioAbstract(TaudioParams *params);
     QString devName() { return deviceName; }
     static RtAudio* getRtAudio();
+    static void showSupportedFormats(RtAudio::DeviceInfo &devInfo);
     
 protected:
     RtAudio* rtDevice;

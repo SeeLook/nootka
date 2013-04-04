@@ -118,7 +118,6 @@ SET( NOOTKA_SRCS
   sound/tmidiout.cpp
   sound/audiooutsettings.cpp
   sound/audioinsettings.cpp
-  sound/rt/RtMidi.cpp
   sound/taudioparams.h
   sound/tpitchfinder.cpp
   sound/tabstractsoundview.cpp
@@ -132,6 +131,15 @@ SET( NOOTKA_SRCS
   sound/trtaudioout.cpp
   sound/trtaudioin.cpp
   sound/rt/RtAudio.cpp
+  sound/rt/RtMidi.cpp
+  sound/stouch/SoundTouch.cpp
+  sound/stouch/TDStretch.cpp
+  sound/stouch/RateTransposer.cpp
+  sound/stouch/AAFilter.cpp
+  sound/stouch/FIRFilter.cpp
+  sound/stouch/FIFOSampleBuffer.cpp
+  sound/stouch/cpu_detect_x86.cpp
+  sound/stouch/mmx_optimized.cpp
 # tartini
   sound/tartini/channel.cpp
   sound/tartini/analysisdata.cpp
@@ -247,6 +255,7 @@ if(MINGW)
         ${QT_QTGUI_LIBRARY}
         ${FFTW3_LIBRARIES}
         ${VORBIS_LIBRARIES}
+#         ${SOUNDTOUCH_LIBRARIES}
         winmm dsound
 	)
 endif(MINGW)
@@ -265,7 +274,7 @@ if(UNIX AND NOT APPLE) #Linux
         ${JACK_LIBRARY}
         ${PULSESIMPLE_LIBRARY} ${PULSEERROR_LIBRARY}
         ${VORBIS_LIBRARIES}
-        
+#         ${SOUNDTOUCH_LIBRARIES}
 	)
 endif(UNIX AND NOT APPLE)
 
@@ -293,6 +302,7 @@ if(APPLE)
         ${CoreMidi_LIB}
         ${CoreFoundation_LIB}
         ${VORBIS_LIBRARIES}
+#         ${SOUNDTOUCH_LIBRARIES}
   )
 endif(APPLE)
 

@@ -151,7 +151,7 @@ include_directories(${FFTW3_INCLUDE_DIRS})
 # message("Qt is in: ${QT_BINARY_DIR}")
 
 ###########################################################################
-########   Looking for libVorbis (ogg decoder)
+########   Looking for Ogg Vorbis (ogg decoder)
 ###########################################################################
 IF(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
   set(OGG_FOUND TRUE)
@@ -219,6 +219,71 @@ ENDIF(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
 
 include_directories(${OGG_INCLUDE_DIRS})
 include_directories(${VORBIS_INCLUDE_DIR})
+
+###########################################################################
+########   Looking for SoundTouch
+###########################################################################
+# IF(SOUNDTOUCH_LIBRARIES AND SOUNDTOUCH_INCLUDE_DIRS)
+#   set(SOUNDTOUCH_FOUND TRUE)
+# ELSE(SOUNDTOUCH_LIBRARIES AND SOUNDTOUCH_INCLUDE_DIRS)
+#   find_path(SOUNDTOUCH_INCLUDE_DIR
+#     NAMES
+#       SoundTouch.h
+#     PATHS
+#       /usr/include
+#       /usr/include/soundtouch
+#       /usr/local/include
+#       /usr/local/soundtouch
+#       /opt/local/include
+#       /opt/local/include/soundtouch
+#       /sw/include
+#       "${CMAKE_CURRENT_SOURCE_DIR}/soundtouch"
+#       "${CMAKE_CURRENT_BINARY_DIR}/soundtouch"
+#   )
+#   IF(WIN32)
+#     find_library(SOUNDTOUCH_LIBRARY
+#       NAMES
+#         SoundTouch.dll
+#       PATHS
+#         "${CMAKE_CURRENT_SOURCE_DIR}/soundtouch"
+#         "${CMAKE_CURRENT_BINARY_DIR}/soundtouch"
+#     )
+#   ELSE(WIN32)
+#     find_library(SOUNDTOUCH_LIBRARY
+#       NAMES
+#         SoundTouch
+#       PATHS
+#         /usr/lib
+#         /usr/lib64
+#         /usr/local/lib
+#         /opt/local/lib
+#         /sw/lib
+#         ${CMAKE_CURRENT_BINARY_DIR}
+#         ${CMAKE_CURRENT_SOURCE_DIR}
+#   )
+#   ENDIF(WIN32)
+# 
+#   set(SOUNDTOUCH_INCLUDE_DIRS
+#     ${SOUNDTOUCH_INCLUDE_DIR}
+#   )
+#   set(SOUNDTOUCH_LIBRARIES
+#     ${SOUNDTOUCH_LIBRARY}
+# )
+# 
+#   IF(SOUNDTOUCH_INCLUDE_DIRS AND SOUNDTOUCH_LIBRARIES)
+#      set(SOUNDTOUCH_FOUND TRUE)
+#   ENDIF(SOUNDTOUCH_INCLUDE_DIRS AND SOUNDTOUCH_LIBRARIES)
+# 
+#   IF(SOUNDTOUCH_FOUND)
+#       message(STATUS "SoundTouch was Found in:\n${SOUNDTOUCH_LIBRARIES}\nheaders are in: ${SOUNDTOUCH_INCLUDE_DIRS}")
+#   ELSE(SOUNDTOUCH_FOUND)
+#       message(FATAL_ERROR "Could not find SoundTouch\nTry call cmake with args:\n-DSOUNDTOUCH_LIBRARIES=/path_to/libSoundTouch.la(dll) -DSOUNDTOUCH_INCLUDE_DIRS=/path_to_dir_with/libSoundTouch.h\nor put those files in build dir or source dir")
+#   ENDIF(SOUNDTOUCH_FOUND)
+# 
+# ENDIF(SOUNDTOUCH_LIBRARIES AND SOUNDTOUCH_INCLUDE_DIRS)
+# 
+# include_directories(${SOUNDTOUCH_INCLUDE_DIRS})
+# 
 
 ###########################################################################
 #libraries and compiller definitions for RtMidi
