@@ -93,20 +93,18 @@ private:
   static int inCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void *userData);
       /** Keeps pointers for all (two) created instances of TaudioIN
        * ststic inCallBack uses it to has access. */
-  static QList<TaudioIN*> m_instances;
-  static int m_thisInstance;
+  static        QList<TaudioIN*> m_instances;
+  static        int m_thisInstance;
   
-  float *m_floatBuff;
-  TpitchFinder *m_pitch;
+  float         *m_floatBuff;
+  TpitchFinder  *m_pitch;
       
-  quint32 m_floatsWriten;
-  qint16 m_maxP;
-  float m_maxPeak;
+  quint32       m_floatsWriten;
+  qint16        m_maxP;
+  float         m_maxPeak;
       /** Size of a buffer */
-  unsigned int m_bufferFrames;  
-  
-  unsigned int m_sampleRate;
-  bool m_paused;
+  unsigned int  m_bufferFrames;  
+  bool          m_paused;
 	
 };
 

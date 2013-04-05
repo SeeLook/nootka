@@ -81,7 +81,6 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     QObject(parent),
     TrtAudioAbstract(params),
     m_paused(false),
-    m_sampleRate(44100),
     m_floatBuff(0),
     m_pitch(0),
     m_bufferFrames(1024),
@@ -165,29 +164,20 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
   streamParams.firstChannel = 0;
   RtAudio::DeviceInfo devInfo;
   getDeviceInfo(devInfo, devId);
-  bool rateFound = false;
-  for (int i = 0; i < devInfo.sampleRates.size(); i++) {
-    unsigned int &sr = devInfo.sampleRates.at(i);
-    if ( sr == 44100 || sr == 48000 || sr == 88200 || sr == 96000 || sr == 176400 || sr == 192000) {
-      rateFound = true;
-      m_sampleRate = devInfo.sampleRates.at(i);
-      break;
-    }
-  }
-  if (!rateFound) // take the last one
-      m_sampleRate = devInfo.sampleRates.at(devInfo.sampleRates.size() - 1); 
-  m_pitch->setSampleRate(m_sampleRate);
+  determineSampleRate(devInfo);
+  m_pitch->setSampleRate(sampleRate);
   m_bufferFrames = m_pitch->aGl()->framesPerChunk;
   if (rtDevice->getCurrentApi() == RtAudio::UNIX_JACK) {
     if (!streamOptions)
       streamOptions = new RtAudio::StreamOptions;
     streamOptions->streamName = "nootkaIN";
   }
-  showSupportedFormats(devInfo);
-  if (!openStream(NULL ,&streamParams, RTAUDIO_SINT16, m_sampleRate, &m_bufferFrames, &inCallBack, 0, streamOptions))
+  printSupportedFormats(devInfo);
+  printSupportedSampleRates(devInfo);
+  if (!openStream(NULL ,&streamParams, RTAUDIO_SINT16, sampleRate, &m_bufferFrames, &inCallBack, 0, streamOptions))
     return false;
   if (rtDevice->isStreamOpen()) {
-      qDebug() << "RtIN:" << QString::fromStdString(rtDevice->getDeviceInfo(devId).name) << "samplerate:" << m_sampleRate << "buffer:" << m_bufferFrames;
+      qDebug() << "RtIN:" << QString::fromStdString(rtDevice->getDeviceInfo(devId).name) << "samplerate:" << sampleRate << "buffer:" << m_bufferFrames;
       deviceName = QString::fromStdString(rtDevice->getDeviceInfo(devId).name);
       return true;
   } else
@@ -206,7 +196,7 @@ void TaudioIN::startListening() {
     if (!m_floatBuff)
         m_floatBuff = new float[m_pitch->aGl()->framesPerChunk]; // 1024
     initInput();
-    if (openStream(NULL, &streamParams, RTAUDIO_SINT16, m_sampleRate, &m_bufferFrames, &inCallBack, NULL, streamOptions))
+    if (openStream(NULL, &streamParams, RTAUDIO_SINT16, sampleRate, &m_bufferFrames, &inCallBack, NULL, streamOptions))
       startStream();
   }
 }

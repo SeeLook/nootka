@@ -31,7 +31,6 @@
   #define SLEEP(msecs) usleep(msecs * 1000)
 #endif
 
-#define SAMPLE_RATE (44100)
 
 /*static*/
 QStringList TaudioOUT::getAudioDevicesList() {
@@ -60,7 +59,7 @@ QStringList TaudioOUT::getAudioDevicesList() {
 
 int TaudioOUT::m_samplesCnt = 0;
 unsigned int TaudioOUT::m_bufferFrames = 1024;
-int TaudioOUT::m_maxCBloops = SAMPLE_RATE / m_bufferFrames * 2;
+int TaudioOUT::m_maxCBloops = 44100 / m_bufferFrames * 2;
 TaudioOUT* TaudioOUT::instance = 0;
 
 
@@ -152,18 +151,7 @@ bool TaudioOUT::setAudioDevice(QString &name) {
     playable = false;
     return false;
   }
-  bool rateFound = false;
-  for (int i = 0; i < devInfo.sampleRates.size(); i++) {
-    if (devInfo.sampleRates.at(i) == SAMPLE_RATE) {
-      rateFound = true;
-      break;
-    }
-  }
-  if (!rateFound) {
-    qDebug() << "This device doesn't support 44100 sampling and resampling is not implemented yet.";
-    playable = false;
-    return false;
-  }
+  determineSampleRate(devInfo);
   streamParams.deviceId = devId;
   streamParams.nChannels = 2;
   streamParams.firstChannel = 0;
@@ -172,14 +160,18 @@ bool TaudioOUT::setAudioDevice(QString &name) {
       streamOptions = new RtAudio::StreamOptions;
     streamOptions->streamName = "nootkaOUT";
   }
-  showSupportedFormats(devInfo);
-  if (!openStream(&streamParams, NULL, RTAUDIO_SINT16, SAMPLE_RATE, &m_bufferFrames, &outCallBack, 0, streamOptions)) {
+  printSupportedFormats(devInfo);
+  printSupportedSampleRates(devInfo);
+//   sampleRate = devInfo.sampleRates.at(devInfo.sampleRates.size() - 1);
+  oggScale->setSampleRate(sampleRate);
+  oggScale->setPitchOffset(audioParams->a440diff);
+  if (!openStream(&streamParams, NULL, RTAUDIO_SINT16, sampleRate, &m_bufferFrames, &outCallBack, 0, streamOptions)) {
       playable = false;
       return false;
   }
   if (rtDevice->isStreamOpen()) {
-      m_maxCBloops = SAMPLE_RATE / (m_bufferFrames / 2);
-      qDebug() << "RtOUT:" << QString::fromStdString(rtDevice->getDeviceInfo(devId).name) << "buffer:" << m_bufferFrames;
+      m_maxCBloops = sampleRate / (m_bufferFrames / 2);
+      qDebug() << "RtOUT:" << QString::fromStdString(rtDevice->getDeviceInfo(devId).name) << "samplerate:" << sampleRate << "buffer:" << m_bufferFrames;
       deviceName = QString::fromStdString(rtDevice->getDeviceInfo(devId).name);
       return true;
   } else
@@ -190,7 +182,7 @@ bool TaudioOUT::setAudioDevice(QString &name) {
 bool TaudioOUT::play(int noteNr) {
   if (!playable)
       return false;
-  openStream(&streamParams, NULL, RTAUDIO_SINT16, SAMPLE_RATE, &m_bufferFrames, &outCallBack, 0, streamOptions);
+  openStream(&streamParams, NULL, RTAUDIO_SINT16, sampleRate, &m_bufferFrames, &outCallBack, 0, streamOptions);
   
   noteNr = noteNr + qRound(audioParams->a440diff);
   if (noteNr < -11 || noteNr > 41)

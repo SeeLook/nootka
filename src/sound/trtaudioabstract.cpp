@@ -25,7 +25,8 @@ TrtAudioAbstract::TrtAudioAbstract(TaudioParams* params) :
   deviceName("anything"),
   rtDevice(0),
   audioParams(params),
-  streamOptions(0)
+  streamOptions(0),
+  sampleRate(44100)
 {
 
 }
@@ -52,7 +53,7 @@ RtAudio* TrtAudioAbstract::getRtAudio() {
 }
 
 
-void TrtAudioAbstract::showSupportedFormats(RtAudio::DeviceInfo& devInfo) {
+void TrtAudioAbstract::printSupportedFormats(RtAudio::DeviceInfo& devInfo) {
   QString fmt;
   if (devInfo.nativeFormats & 0x1)
     fmt += " RTAUDIO_SINT8";
@@ -66,9 +67,15 @@ void TrtAudioAbstract::showSupportedFormats(RtAudio::DeviceInfo& devInfo) {
     fmt += " RTAUDIO_FLOAT32";
   if (devInfo.nativeFormats & 0x20)
     fmt += " RTAUDIO_FLOAT32";
-  qDebug() << "suported formats:" << fmt;
+  qDebug() << "supported sample formats:" << fmt;
 }
 
+void TrtAudioAbstract::printSupportedSampleRates(RtAudio::DeviceInfo& devInfo) {
+  QString sRates;
+  for (int i = 0; i < devInfo.sampleRates.size(); i++)
+    sRates += QString("%1 ").arg(devInfo.sampleRates.at(i));
+  qDebug() << "supported sample rates:"<< sRates;
+}
 
 
 bool TrtAudioAbstract::getDeviceInfo(RtAudio::DeviceInfo& devInfo, int id) {
@@ -133,6 +140,25 @@ void TrtAudioAbstract::closeStram() {
     qDebug() << "can't close stream";
   }
 }
+
+
+void TrtAudioAbstract::determineSampleRate(RtAudio::DeviceInfo& devInfo) {
+  bool rateFound = false;
+  for (int i = 0; i < devInfo.sampleRates.size(); i++) {
+    unsigned int &sr = devInfo.sampleRates.at(i);
+    if ( sr == 44100 || sr == 48000 || sr == 88200 || sr == 96000 || sr == 176400 || sr == 192000) {
+      rateFound = true;
+      break;
+    }
+  }
+  if (!rateFound)
+    sampleRate = devInfo.sampleRates.at(devInfo.sampleRates.size() - 1);
+}
+
+
+
+
+
 
 
 

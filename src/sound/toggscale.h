@@ -56,17 +56,20 @@ public:
         size_t fileSize;
     };
     
-    void setPos(ogg_int64_t offset); /** DEPRECATED */
+//     void setPos(ogg_int64_t offset); /** DEPRECATED */
         /** Prepares m_pcmBuffer */
     void setNote(int noteNr);
     qint16 getSample(int offset);
-    void setSampleRate(unsigned int rate);
     unsigned int sampleRate() { return m_sampleRate; }
         /** TRUE when appropirate data amount in a buffer is ready. */
     bool isReady() { return m_isReady; }
     
+    void setSampleRate(unsigned int rate);
+        /** Sets decimal offset of a pitch -0.99 to +0.99 */
+    void setPitchOffset(float pitchOff);
     
-public slots:
+    
+protected slots:
         /** Preforms decoding. Usually is invoked by m_thread.start() 
          * called from setNote() method. */
     void decodeOgg();

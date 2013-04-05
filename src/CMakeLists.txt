@@ -256,7 +256,6 @@ if(MINGW)
         ${QT_QTGUI_LIBRARY}
         ${FFTW3_LIBRARIES}
         ${VORBIS_LIBRARIES}
-#         ${SOUNDTOUCH_LIBRARIES}
         winmm dsound
 	)
 endif(MINGW)
@@ -275,7 +274,6 @@ if(UNIX AND NOT APPLE) #Linux
         ${JACK_LIBRARY}
         ${PULSESIMPLE_LIBRARY} ${PULSEERROR_LIBRARY}
         ${VORBIS_LIBRARIES}
-#         ${SOUNDTOUCH_LIBRARIES}
 	)
 endif(UNIX AND NOT APPLE)
 
@@ -303,7 +301,6 @@ if(APPLE)
         ${CoreMidi_LIB}
         ${CoreFoundation_LIB}
         ${VORBIS_LIBRARIES}
-#         ${SOUNDTOUCH_LIBRARIES}
   )
 endif(APPLE)
 
