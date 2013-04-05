@@ -199,11 +199,13 @@ bool TaudioOUT::play(int noteNr) {
   doEmit = true;
   m_samplesCnt = -1;
   oggScale->setNote(noteNr);
-//   SLEEP(1);
-  while (!oggScale->isReady()) {
+  int loops = 0;
+  while (!oggScale->isReady() && loops < 20) { // 20ms - max latency
       SLEEP(1);
-      qDebug("waiting");
+      loops++;
   }
+  if (loops)
+      qDebug() << "latency:" << loops << "ms";
   if (offTimer->isActive())
       offTimer->stop();
   offTimer->start(1600);

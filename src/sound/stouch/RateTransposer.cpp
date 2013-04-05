@@ -125,7 +125,7 @@ RateTransposer *RateTransposer::newInstance()
 RateTransposer::RateTransposer() : FIFOProcessor(&outputBuffer)
 {
     numChannels = 2;
-    bUseAAFilter = TRUE;
+    bUseAAFilter = true;
     fRate = 0;
 
     // Instantiates the anti-alias filter with default tap length
@@ -143,14 +143,14 @@ RateTransposer::~RateTransposer()
 
 
 /// Enables/disables the anti-alias filter. Zero to disable, nonzero to enable
-void RateTransposer::enableAAFilter(BOOL newMode)
+void RateTransposer::enableAAFilter(bool newMode)
 {
     bUseAAFilter = newMode;
 }
 
 
 /// Returns nonzero if anti-alias filter is enabled.
-BOOL RateTransposer::isAAFilterEnabled() const
+bool RateTransposer::isAAFilterEnabled() const
 {
     return bUseAAFilter;
 }
@@ -286,7 +286,7 @@ void RateTransposer::processSamples(const SAMPLETYPE *src, uint nSamples)
 
     // If anti-alias filter is turned off, simply transpose without applying
     // the filter
-    if (bUseAAFilter == FALSE) 
+    if (bUseAAFilter == false) 
     {
         sizeReq = (uint)((float)nSamples / fRate + 1.0f);
         count = transpose(outputBuffer.ptrEnd(sizeReq), src, nSamples);

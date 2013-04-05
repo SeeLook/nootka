@@ -81,7 +81,7 @@ protected:
     /// Output sample buffer
     FIFOSampleBuffer outputBuffer;
 
-    BOOL bUseAAFilter;
+    bool bUseAAFilter;
 
     virtual void resetRegisters() = 0;
 
@@ -131,10 +131,10 @@ public:
     AAFilter *getAAFilter();
 
     /// Enables/disables the anti-alias filter. Zero to disable, nonzero to enable
-    void enableAAFilter(BOOL newMode);
+    void enableAAFilter(bool newMode);
 
     /// Returns nonzero if anti-alias filter is enabled.
-    BOOL isAAFilterEnabled() const;
+    bool isAAFilterEnabled() const;
 
     /// Sets new target rate. Normal rate = 1.0, smaller values represent slower 
     /// rate, larger faster rates.
