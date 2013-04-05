@@ -89,13 +89,12 @@ ToggScale::ToggScale(QString& path) :
   m_sampleRate(44100),
   m_prevNote(-1),
   m_doDecode(true), m_isDecoding(false), m_isReady(true),
-  m_pitchOffset(0.04f)
+  m_touch(0),
+  m_pitchOffset(0.0f)
 {
-  m_touch = new soundtouch::SoundTouch();
-  initTouch();
+//   initTouch();
   moveToThread(m_thread);
   connect(m_thread, SIGNAL(started()), this, SLOT(decodeOgg()));
-//   connect(m_thread, SIGNAL(started()), this, SLOT(decodeAndResample()));
 }
 
 
@@ -114,6 +113,8 @@ void ToggScale::deleteData() {
   }
   delete m_pcmBuffer;
   m_pcmBuffer = 0;
+  delete m_touch;
+  m_touch = 0;
   delete m_thread;
 }
 
@@ -122,11 +123,11 @@ qint16 ToggScale::getSample(int offset) {
     return m_pcmBuffer[offset];
 }
 
-void ToggScale::setPos(ogg_int64_t offset) {
-  int ret = ov_pcm_seek(&m_ogg, offset);
-  if (!ret)
-    decodeOgg();
-}
+// void ToggScale::setPos(ogg_int64_t offset) {
+//   int ret = ov_pcm_seek(&m_ogg, offset);
+//   if (!ret)
+//     decodeOgg();
+// }
 
 
 void ToggScale::setNote(int noteNr) {
@@ -180,7 +181,7 @@ void ToggScale::decodeAndResample() {
   uint pos = 0, read = 0;
   int samplesReady = 0;
   char* tmpBuff = new char[2048];
-  while (pos < maxSize) {
+  while (m_doDecode && pos < maxSize) {
     if (tmpPos < 172000) {
         tmpRead = ov_read(&m_ogg, tmpBuff, 2048, 0, 2, 1, &bitStream);
         tmpPos += tmpRead;
@@ -190,7 +191,7 @@ void ToggScale::decodeAndResample() {
       read = m_touch->receiveSamples(m_pcmBuffer + pos, samplesReady);
       pos += read;
     }
-    if (pos > 4096)
+    if (pos > 2048)
       m_isReady = true;
     if (tmpRead > 0) {
       m_touch->putSamples((SAMPLETYPE*)tmpBuff, tmpRead / 2);
@@ -199,12 +200,26 @@ void ToggScale::decodeAndResample() {
   m_isDecoding = false;
   qDebug() << "readFromOgg" << pos;
   m_thread->quit();
+  m_touch->clear();
+  m_touch->flush();
+  delete tmpBuff;
 }
 
 
 
 void ToggScale::setSampleRate(unsigned int rate) {
-  
+  if (m_sampleRate != rate) {
+    m_sampleRate = rate;
+    initTouch();
+  }
+}
+
+
+void ToggScale::setPitchOffset(float pitchOff) {
+  if (pitchOff != m_pitchOffset) {
+    m_pitchOffset = pitchOff;
+    initTouch();
+  }
 }
 
 
@@ -229,6 +244,7 @@ bool ToggScale::loadAudioData() {
   qDebug() << "ogg file size:" << m_oggWrap.fileSize << "addr" << m_oggWrap.filePtr << "size" << sizeof(m_oggInMemory);
   oggFile.close();
   m_pcmBuffer = new qint16[2 * m_sampleRate];
+  std::fill(m_pcmBuffer, m_pcmBuffer + 2 * m_sampleRate - 1, 0);
   myCallBacks.read_func = readOggStatic;
   myCallBacks.seek_func = seekOggStatic;
   myCallBacks.close_func = closeOggStatic;
@@ -255,9 +271,29 @@ bool ToggScale::loadAudioData() {
 
 
 void ToggScale::initTouch() {
-  m_touch->setChannels(1);
-  m_touch->setSampleRate(44100);
-  m_touch->setPitch(1.0 + m_pitchOffset);
+  if (m_pitchOffset != 0.0 || m_sampleRate != 44100) { // SoundTouch has got a job
+    if (!m_touch)
+      m_touch = new soundtouch::SoundTouch();
+    m_touch->setChannels(1);
+    m_touch->setSampleRate(44100);
+    m_touch->setPitchSemiTones(m_pitchOffset);
+    if (m_sampleRate != 44100) {
+      float newRate = (float)m_sampleRate / 44100.0f;
+      m_touch->setRate(newRate);
+      delete m_pcmBuffer;
+      m_pcmBuffer = new qint16[2 * m_sampleRate];
+      qDebug() << newRate << m_pitchOffset;
+    }
+    connect(m_thread, SIGNAL(started()), this, SLOT(decodeAndResample()));
+    disconnect(m_thread, SIGNAL(started()), this, SLOT(decodeOgg()));
+  } else {
+    delete m_touch;
+    m_touch = 0;
+    delete m_pcmBuffer;
+    m_pcmBuffer = new qint16[2 * m_sampleRate];
+    connect(m_thread, SIGNAL(started()), this, SLOT(decodeOgg()));
+    disconnect(m_thread, SIGNAL(started()), this, SLOT(decodeAndResample()));
+  }
 }
 
 

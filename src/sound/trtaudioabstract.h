@@ -37,7 +37,9 @@ public:
     TrtAudioAbstract(TaudioParams *params);
     QString devName() { return deviceName; }
     static RtAudio* getRtAudio();
-    static void showSupportedFormats(RtAudio::DeviceInfo &devInfo);
+        /** Prints in console suported audio formats. */
+    static void printSupportedFormats(RtAudio::DeviceInfo &devInfo);
+    static void printSupportedSampleRates(RtAudio::DeviceInfo &devInfo);
     
 protected:
     RtAudio* rtDevice;
@@ -45,6 +47,12 @@ protected:
     RtAudio::StreamParameters streamParams;
     TaudioParams *audioParams;
     QString deviceName;
+    quint32 sampleRate;
+        /** Examines available samplerates to check more appropirate. 
+         * 44100 48000 88200 ... 192000. If not the latest from the list is taken. 
+         * @param sampleRate is setting. */
+    void determineSampleRate(RtAudio::DeviceInfo &devInfo);
+    
     
     bool openStream(RtAudio::StreamParameters *outParams,  RtAudio::StreamParameters *inParams, 
                     RtAudioFormat frm, unsigned int rate, unsigned int *buffFrames,

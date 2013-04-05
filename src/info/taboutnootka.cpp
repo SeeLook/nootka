@@ -106,6 +106,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
        "<li>" + createLink("ogg vorbis", "http://vorbis.com") + " by XIPH</li>" +
        "<li>" + createLink("RtAudio & RtMidi", "http://www.music.mcgill.ca/~gary/") + " by G. P. Scavone</li>" +
        "<li>" + createLink("Tartini", "http://miracle.otago.ac.nz/tartini/index.html") + " by P. McLeod</li>" +
+       "<li>" + createLink("SoundTouch", "http://www.surina.net/soundtouch/") + " by Olli Parviainen</li>" +
        "</ul>");
     authorsLab->setOpenExternalLinks(true);
     wiLLay->addWidget(authorsLab);

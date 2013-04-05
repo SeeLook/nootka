@@ -48,6 +48,7 @@ public:
     void stop();
     
 protected:
+        /** Pointer to this class instance to emit signal from static callBack method. */ 
     static TaudioOUT *instance;
     ToggScale *oggScale;
 
@@ -66,7 +67,6 @@ private:
   static int m_maxCBloops;
       /** Size of a buffer */
   static unsigned int m_bufferFrames;
-      /** Pointer to this class instance to emit signal from static callBack method. */  
 
 };
 
