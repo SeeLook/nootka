@@ -125,14 +125,14 @@ protected:
     float skipFract;
     FIFOSampleBuffer outputBuffer;
     FIFOSampleBuffer inputBuffer;
-    BOOL bQuickSeek;
+    bool bQuickSeek;
 
     int sampleRate;
     int sequenceMs;
     int seekWindowMs;
     int overlapMs;
-    BOOL bAutoSeqSetting;
-    BOOL bAutoSeekSetting;
+    bool bAutoSeqSetting;
+    bool bAutoSeekSetting;
 
     void acceptNewOverlapLength(int newOverlapLength);
 
@@ -193,10 +193,10 @@ public:
 
     /// Enables/disables the quick position seeking algorithm. Zero to disable, 
     /// nonzero to enable
-    void enableQuickSeek(BOOL enable);
+    void enableQuickSeek(bool enable);
 
     /// Returns nonzero if the quick seeking algorithm is enabled.
-    BOOL isQuickSeekEnabled() const;
+    bool isQuickSeekEnabled() const;
 
     /// Sets routine control parameters. These control are certain time constants
     /// defining how the sound is stretched to the desired duration.

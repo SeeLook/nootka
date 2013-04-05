@@ -60,15 +60,16 @@ typedef unsigned long   ulong;
     #include "soundtouch_config.h"
 #endif
 
-#ifndef _WINDEF_
+// #ifndef _WINDEF_
     // if these aren't defined already by Windows headers, define now
 
-    typedef int BOOL;
+//     typedef int BOOL;
+//     typedef bool BOOL;
 
-    #define FALSE   0
-    #define TRUE    1
+//     #define FALSE   0
+//     #define TRUE    1
 
-#endif  // _WINDEF_
+// #endif  // _WINDEF_
 
 
 namespace soundtouch
@@ -112,9 +113,11 @@ namespace soundtouch
         /// these routines, so if you're having difficulties getting the optimized 
         /// routines compiled for whatever reason, you may disable these optimizations 
         /// to make the library compile.
-
+    #if defined(Q_OS_WIN32)
+//         #define SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS     1
+    #else
         #define SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS     1
-
+    #endif
         /// In GNU environment, allow the user to override this setting by
         /// giving the following switch to the configure script:
         /// ./configure --disable-x86-optimizations

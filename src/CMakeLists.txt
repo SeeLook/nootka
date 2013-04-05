@@ -244,6 +244,7 @@ endif(UNIX AND NOT APPLE)
 
 
 if(MINGW)
+    add_definitions(-D__MMX__)
  # dress up win executable in nice nootka icon ONLY FOR MINGW !!!!!!!!!!!!!
     ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/nootico.o
                        COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -i${CMAKE_CURRENT_SOURCE_DIR}/../picts/nootka-icon.rc

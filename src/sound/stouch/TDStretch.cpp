@@ -86,15 +86,15 @@ static const short _scanOffsets[5][24]={
 
 TDStretch::TDStretch() : FIFOProcessor(&outputBuffer)
 {
-    bQuickSeek = FALSE;
+    bQuickSeek = false;
     channels = 2;
 
     pMidBuffer = NULL;
     pMidBufferUnaligned = NULL;
     overlapLength = 0;
 
-    bAutoSeqSetting = TRUE;
-    bAutoSeekSetting = TRUE;
+    bAutoSeqSetting = true;
+    bAutoSeekSetting = true;
 
 //    outDebt = 0;
     skipFract = 0;
@@ -134,23 +134,23 @@ void TDStretch::setParameters(int aSampleRate, int aSequenceMS,
     if (aSequenceMS > 0)
     {
         this->sequenceMs = aSequenceMS;
-        bAutoSeqSetting = FALSE;
+        bAutoSeqSetting = false;
     } 
     else if (aSequenceMS == 0)
     {
         // if zero, use automatic setting
-        bAutoSeqSetting = TRUE;
+        bAutoSeqSetting = true;
     }
 
     if (aSeekWindowMS > 0) 
     {
         this->seekWindowMs = aSeekWindowMS;
-        bAutoSeekSetting = FALSE;
+        bAutoSeekSetting = false;
     } 
     else if (aSeekWindowMS == 0) 
     {
         // if zero, use automatic setting
-        bAutoSeekSetting = TRUE;
+        bAutoSeekSetting = true;
     }
 
     calcSeqParameters();
@@ -234,14 +234,14 @@ void TDStretch::clear()
 
 // Enables/disables the quick position seeking algorithm. Zero to disable, nonzero
 // to enable
-void TDStretch::enableQuickSeek(BOOL enable)
+void TDStretch::enableQuickSeek(bool enable)
 {
     bQuickSeek = enable;
 }
 
 
 // Returns nonzero if the quick seeking algorithm is enabled.
-BOOL TDStretch::isQuickSeekEnabled() const
+bool TDStretch::isQuickSeekEnabled() const
 {
     return bQuickSeek;
 }

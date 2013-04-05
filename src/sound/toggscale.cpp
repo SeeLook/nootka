@@ -89,13 +89,13 @@ ToggScale::ToggScale(QString& path) :
   m_sampleRate(44100),
   m_prevNote(-1),
   m_doDecode(true), m_isDecoding(false), m_isReady(true),
-  m_pitchOffset(0.5f)
+  m_pitchOffset(0.04f)
 {
   m_touch = new soundtouch::SoundTouch();
   initTouch();
   moveToThread(m_thread);
-//   connect(m_thread, SIGNAL(started()), this, SLOT(decodeOgg()));
-  connect(m_thread, SIGNAL(started()), this, SLOT(decodeAndResample()));
+  connect(m_thread, SIGNAL(started()), this, SLOT(decodeOgg()));
+//   connect(m_thread, SIGNAL(started()), this, SLOT(decodeAndResample()));
 }
 
 
