@@ -163,6 +163,7 @@ bool TaudioOUT::setAudioDevice(QString &name) {
   printSupportedFormats(devInfo);
   printSupportedSampleRates(devInfo);
 //   sampleRate = devInfo.sampleRates.at(devInfo.sampleRates.size() - 1);
+//   sampleRate = 48000;
   oggScale->setSampleRate(sampleRate);
   oggScale->setPitchOffset(audioParams->a440diff);
   if (!openStream(&streamParams, NULL, RTAUDIO_SINT16, sampleRate, &m_bufferFrames, &outCallBack, 0, streamOptions)) {
@@ -170,7 +171,7 @@ bool TaudioOUT::setAudioDevice(QString &name) {
       return false;
   }
   if (rtDevice->isStreamOpen()) {
-      m_maxCBloops = sampleRate / (m_bufferFrames / 2);
+      m_maxCBloops = sampleRate / (m_bufferFrames / 2) * (44100.0f / (float)sampleRate);
       qDebug() << "RtOUT:" << QString::fromStdString(rtDevice->getDeviceInfo(devId).name) << "samplerate:" << sampleRate << "buffer:" << m_bufferFrames;
       deviceName = QString::fromStdString(rtDevice->getDeviceInfo(devId).name);
       return true;
@@ -184,13 +185,15 @@ bool TaudioOUT::play(int noteNr) {
       return false;
   openStream(&streamParams, NULL, RTAUDIO_SINT16, sampleRate, &m_bufferFrames, &outCallBack, 0, streamOptions);
   
-  noteNr = noteNr + qRound(audioParams->a440diff);
+//   noteNr = noteNr + qRound(audioParams->a440diff);
+  noteNr = noteNr + int(audioParams->a440diff);
   if (noteNr < -11 || noteNr > 41)
       return false;
   
   doEmit = true;
   m_samplesCnt = -1;
   oggScale->setNote(noteNr);
+//   SLEEP(1);
   int loops = 0;
   while (!oggScale->isReady() && loops < 20) { // 20ms - max latency
       SLEEP(1);
