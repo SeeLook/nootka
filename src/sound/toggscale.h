@@ -98,6 +98,7 @@ private:
     bool              m_isReady;
     SoundTouch        *m_touch;
     float             m_pitchOffset;
+    bool              m_oggConnected, m_touchConnected;
 
 };
 
