@@ -24,6 +24,7 @@
 #include "taudioparams.h"
 #include "tnotename.h"
 #include "trtaudioin.h"
+#include <tvolumeslider.h>
 
 
 AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* parent) :
@@ -136,7 +137,10 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* pa
   midABox->setLayout(midLay);
   tunLay->addWidget(midABox);
   tunLay->addStretch();
-    
+  
+  m_volSlider = new TvolumeSlider(this);
+  tunLay->addWidget(m_volSlider);
+  tunLay->addStretch();    
   upLay->addLayout(tunLay);
   
   inLay->addLayout(upLay);

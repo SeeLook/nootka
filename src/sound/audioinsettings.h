@@ -21,10 +21,10 @@
 #include <QWidget>
 #include "tnote.h"
 
+class TvolumeSlider;
 class QRadioButton;
 class TaudioParams;
 class TpitchView;
-class QDoubleSpinBox;
 class TaudioIN;
 class QLabel;
 class QPushButton;
@@ -72,8 +72,8 @@ private:
   QGroupBox *enableInBox, *modeGr, *midABox;
   QRadioButton *voiceRadio, *instrRadio;
   QSpinBox *freqSpin;
-  QDoubleSpinBox *noiseSpin;
-  QPushButton *calcButt, *testButt;
+  TvolumeSlider *m_volSlider;
+  QPushButton *testButt;
   QLabel *pitchLab, *freqLab, *tuneFreqlab;
   bool m_testDisabled, m_listGenerated;
   TpitchView *volMeter;

@@ -6,11 +6,10 @@
 #############   Requirements:                #############
 ##########################################################
 - Qt libraries (at least 4.7 version)
-- QtMultimedia
-  uder Windows and MacOs it is included with Qt/Qt-SDK package
-  but under Linux it is separate package:
-    - rpm based (Suse, Fedora) it is in qt-devel
-    - deb based (Ubuntu, Mint) it is qtmultimediakit and qtmibility-dev
+- Ogg Vorbis (http://www.xiph.org/downloads/) 
+  both ogg and vorbis. Libraries are in vorbis-tools 
+  and headers are in libogg and libvorbis.
+  Under Linux libvorbis-dev (or similar)
 - FFTW libraries (http://www.fftw.org/)
     libfftw3-dev
 - libasound-dev under linux
@@ -23,20 +22,26 @@
 - create some dir (f. e. "build")
 - go to build dir
 - cmake ../ (or ccmake or qtcmake with GUI)
-  if You get error about not found libfftw or libQtMultimedia(Kit1)
+  if You get error about not found libfftw or libvorbis
   put it manually:
       -DFFTW3_LIBRARIES=/path_to/libfftw3f.la(dll)
       -DFFTW3_INCLUDE_DIRS=/path_to_dir_with/fftw3.h
-      -DQTMULTIMEDIAKIT_LIBRARY=/path_to_dir_with/libqtmultimedia.la(dll)
-      -DQTMULTIMEDIA_INCLUDE_DIRS=/path_to_dir_with/qaudio.h
-      -DQTMOBILITY_INCLUDE_DIRS=/path_to_dir_with/qmobilityglobal.h (Ubuntu only)
+      -DVORBIS_LIBRARIES =/path_to/libvorbisfile.so(dll) 
+      -DVORBIS_INCLUDE_DIRS=/path_to_dir_with/vorbis/vorbisfile.h
+      -DOGG_INCLUDE_DIRS=/path_to_dir_with/ogg/ogg.h      
     also
       -DCMAKE_INSTALL_PREFIX=/install/dir to change instalation target
       -DCMAKE_BUILD_TYPE=debug to build Nootka in debug mode
     so You can invoke:
       cmake -DCMAKE_INSTALL_PREFIX=/my/special/dir ../
       or do the same in GUI
-      
+- There is an option for building Nootka with checking for new versions
+  Also under Linux are options to build Nootka with native support for:
+   - Jack Audio Connection Kit support (requires libjack-dev)
+   - PulseAudio (requires libpulse-dev)
+    When those headers/libs are found - options are selected automaticaly
+    They can be controled by:
+	-DENABLE_JACK=OFF -DENABLE_PULSEAUDIO=OFF (OFF or ON)
 - then call
   make 
   or 
@@ -69,7 +74,7 @@ You can easyly generate rpm and deb package.
 2. Install MacPorts 
 	http://www.macports.org/install.php
 	and in terminal type:
-    sudo port install pkgconfig cmake mercurial fftw-3-single
+    sudo port install pkgconfig cmake mercurial fftw-3-single libvorbis
   alternatively You can use Fink
 
 
@@ -83,6 +88,7 @@ You can easyly generate rpm and deb package.
 
 5. make install under MacOs generates independent boundle with all needed frameworks inside
    however You mast put during invokeing cmake -DFFTW3_LIBRARIES=/path_to_real_file_with_libfftw3f
+   and -DVORBIS_LIBRARIES=/path_to_real_file_with_libvorbisfile
    (cmake automagicaly finds only symbolic link)
 
 

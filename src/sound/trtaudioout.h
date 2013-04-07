@@ -49,8 +49,9 @@ public:
     
 protected:
         /** Pointer to this class instance to emit signal from static callBack method. */ 
-    static TaudioOUT *instance;
+    static    TaudioOUT *instance;
     ToggScale *oggScale;
+    int     ratioOfRate; // ratio of current sample rate to 44100
 
 private slots:
 //   void emitNoteFinished() { emit noteFinished(); }
