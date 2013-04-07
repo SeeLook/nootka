@@ -77,7 +77,9 @@ long int ToggScale::tellOggStatic(void* fh) {
     return (of->curPtr - of->filePtr);
 }
 
-/*************************************************************************/
+//###########################################################################
+//########################## PUBLIC #########################################
+//###########################################################################
 
 
 ToggScale::ToggScale(QString& path) :
@@ -107,6 +109,7 @@ ToggScale::~ToggScale()
 
 
 void ToggScale::deleteData() {
+  stopDecoding();
   if (m_thread->isRunning()) {
     m_thread->terminate();
     m_thread->quit();
@@ -128,11 +131,6 @@ qint16 ToggScale::getSample(int offset) {
     return m_pcmBuffer[offset];
 }
 
-// void ToggScale::setPos(ogg_int64_t offset) {
-//   int ret = ov_pcm_seek(&m_ogg, offset);
-//   if (!ret)
-//     decodeOgg();
-// }
 
 
 void ToggScale::setNote(int noteNr) {
@@ -142,74 +140,11 @@ void ToggScale::setNote(int noteNr) {
   int fasterOffset = 1000;
   if (noteNr + 11 == 0)
     fasterOffset = 0;
-  if (m_isDecoding) {
-      qDebug("decoding in progress");
-      m_doDecode = false;
-      do {
-        SLEEP(1);
-      } while (m_isDecoding);
-      m_doDecode = true;
-  }
+  stopDecoding();
   m_prevNote = noteNr;
   int ret = ov_pcm_seek(&m_ogg, (noteNr + 11) * 44100 * 2 - fasterOffset);
   m_thread->start();
 }
-
-
-
-void ToggScale::decodeOgg() {
-  int bitStream;
-  m_isDecoding = true;
-  long int read = 0;
-  int maxSize = 44100 * 4 - 4096; // 2 for two seconds of note * 2 for two bytes of sample - silence at the end of note
-  int loops = 0;
-  long int pos = 0;
-  while (m_doDecode && loops < 500 && pos < maxSize) {
-    read = ov_read(&m_ogg, (char*)m_pcmBuffer + pos, maxSize - pos, 0, 2, 1, &bitStream);
-    pos += read;
-    if (pos > 2048) // amount of data needed by single loop of rtAudio outCallBack
-      m_isReady = true;
-    loops++;
-//     SLEEP(1);
-  }
-  m_isDecoding = false;
-  qDebug() << "readFromOgg" << pos << "loops" << loops;
-  m_thread->quit();
-}
-
-
-void ToggScale::decodeAndResample() {
-  int bitStream;
-  m_isDecoding = true;
-//   int maxSize = m_sampleRate * 2 - m_sampleRate / 5;
-  int maxSize = 44100 * 2 - 8192;
-  long int tmpPos = 0, tmpRead = 0;
-  uint pos = 0, read = 0;
-  int samplesReady = 0;
-  char* tmpBuff = new char[2048];
-  while (m_doDecode && pos < maxSize) {
-    if (tmpPos < 172000) {
-        tmpRead = ov_read(&m_ogg, tmpBuff, 2048, 0, 2, 1, &bitStream);
-        tmpPos += tmpRead;
-        if (tmpRead > 0) {
-            m_touch->putSamples((SAMPLETYPE*)tmpBuff, tmpRead / 2);
-        }
-    }    
-    samplesReady = m_touch->numSamples();
-    if (samplesReady > 0) {
-      read = m_touch->receiveSamples(m_pcmBuffer + pos, samplesReady);
-      pos += read;
-    }
-    if (pos > 10000)
-      m_isReady = true;
-  }
-  m_isDecoding = false;
-  qDebug() << "decodeAndResample finished" << pos;
-  m_touch->clear();
-  delete tmpBuff;
-  m_thread->quit();
-}
-
 
 
 void ToggScale::setSampleRate(unsigned int rate) {
@@ -274,6 +209,80 @@ bool ToggScale::loadAudioData() {
   return true;  
 }
 
+
+//###########################################################################
+//########################## PROTECTED ######################################
+//###########################################################################
+
+void ToggScale::stopDecoding() {
+  if (m_isDecoding) {
+      qDebug("decoding in progress");
+      m_doDecode = false;
+      do {
+        SLEEP(1);
+      } while (m_isDecoding);
+      m_doDecode = true;
+  }
+}
+
+
+
+void ToggScale::decodeOgg() {
+  int bitStream;
+  m_isDecoding = true;
+  long int read = 0;
+  int maxSize = 44100 * 4 - 4096; // 2 for two seconds of note * 2 for two bytes of sample - silence at the end of note
+  int loops = 0;
+  long int pos = 0;
+  while (m_doDecode && loops < 500 && pos < maxSize) {
+    read = ov_read(&m_ogg, (char*)m_pcmBuffer + pos, maxSize - pos, 0, 2, 1, &bitStream);
+    pos += read;
+    if (pos > 2048) // amount of data needed by single loop of rtAudio outCallBack
+      m_isReady = true;
+    loops++;
+//     SLEEP(1);
+  }
+  m_isDecoding = false;
+//   qDebug() << "readFromOgg" << pos << "loops" << loops;
+  m_thread->quit();
+}
+
+
+void ToggScale::decodeAndResample() {
+  int bitStream;
+  m_isDecoding = true;
+//   int maxSize = m_sampleRate * 2 - m_sampleRate / 5;
+  int maxSize = 44100 * 2 - 8192; // two sec. of audio minus some silence on the end
+  long int tmpPos = 0, tmpRead = 0;
+  uint pos = 0, read = 0;
+  int samplesReady = 0;
+  char* tmpBuff = new char[2048];
+  while (m_doDecode && pos < maxSize) {
+    if (tmpPos < 172000) { // almost 2 sec. of a note
+        tmpRead = ov_read(&m_ogg, tmpBuff, 2048, 0, 2, 1, &bitStream);
+        tmpPos += tmpRead;
+        if (tmpRead > 0) {
+            m_touch->putSamples((SAMPLETYPE*)tmpBuff, tmpRead / 2);
+        }
+    }    
+    samplesReady = m_touch->numSamples();
+    if (samplesReady > 0) {
+      read = m_touch->receiveSamples(m_pcmBuffer + pos, samplesReady);
+      pos += read;
+    }
+    if (pos > 10000) // below this value SoundTouch is not able to prepare data
+      m_isReady = true;
+  }
+  m_isDecoding = false;
+//   qDebug() << "decodeAndResample finished" << pos;
+  m_touch->clear();
+  delete tmpBuff;
+  m_thread->quit();
+}
+
+//###########################################################################
+//########################## PRIVATE ########################################
+//###########################################################################
 
 void ToggScale::initTouch() {
   if (m_pitchOffset != 0.0 || m_sampleRate != 44100) { // SoundTouch has got a job

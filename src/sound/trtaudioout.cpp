@@ -72,12 +72,14 @@ int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBuffer
 //     qDebug("outCallBack");
   if (m_samplesCnt < m_maxCBloops - 10) {
       qint16 *out = (qint16*)outBuffer;
-      int off = m_samplesCnt * nBufferFrames;
+      int off = m_samplesCnt * (nBufferFrames / instance->ratioOfRate);
       qint16 sample;
-      for (int i = 0; i < nBufferFrames; i++) {
+      for (int i = 0; i < nBufferFrames / instance->ratioOfRate; i++) {
           sample = instance->oggScale->getSample(off + i);
-          *out++ = sample;
-          *out++ = sample;
+          for (int r = 0; r < instance->ratioOfRate; r++) {
+              *out++ = sample; // left channel
+              *out++ = sample; // right channel
+          }
       }
       return 0;
   } 
@@ -92,7 +94,8 @@ int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBuffer
 TaudioOUT::TaudioOUT(TaudioParams *_params, QString &path, QObject *parent) :
   TabstractPlayer(parent),
   TrtAudioAbstract(_params),
-  oggScale(new ToggScale(path))
+  oggScale(new ToggScale(path)),
+  ratioOfRate(1)
 {
   setAudioOutParams(_params);
   instance = this;
@@ -160,19 +163,29 @@ bool TaudioOUT::setAudioDevice(QString &name) {
       streamOptions = new RtAudio::StreamOptions;
     streamOptions->streamName = "nootkaOUT";
   }
-  printSupportedFormats(devInfo);
-  printSupportedSampleRates(devInfo);
+//   printSupportedFormats(devInfo);
+//   printSupportedSampleRates(devInfo);
 //   sampleRate = devInfo.sampleRates.at(devInfo.sampleRates.size() - 1);
-//   sampleRate = 48000;
+//   sampleRate = 192000;  
+  ratioOfRate = sampleRate / 44100;
+  if (ratioOfRate > 1) { // from here sample rate is sampleRate * ratioOfRate
+    if (sampleRate == 88200 || sampleRate == 176400)
+      sampleRate = 44100;
+    else if (sampleRate == 96000 || sampleRate == 192000)
+      sampleRate = 48000;
+    m_bufferFrames = m_bufferFrames * ratioOfRate; // increase buffer to give time for resampling in oggScale
+  }
   oggScale->setSampleRate(sampleRate);
   oggScale->setPitchOffset(audioParams->a440diff);
-  if (!openStream(&streamParams, NULL, RTAUDIO_SINT16, sampleRate, &m_bufferFrames, &outCallBack, 0, streamOptions)) {
+  if (!openStream(&streamParams, NULL, RTAUDIO_SINT16, sampleRate * ratioOfRate, &m_bufferFrames, &outCallBack, 0, streamOptions)) {
       playable = false;
       return false;
   }
   if (rtDevice->isStreamOpen()) {
-      m_maxCBloops = sampleRate / (m_bufferFrames / 2) * (44100.0f / (float)sampleRate);
-      qDebug() << "RtOUT:" << QString::fromStdString(rtDevice->getDeviceInfo(devId).name) << "samplerate:" << sampleRate << "buffer:" << m_bufferFrames;
+//       m_maxCBloops = (sampleRate / (m_bufferFrames / 2) * (44100.0f / (float)sampleRate)) * ratioOfRate;
+      m_maxCBloops = (88200 * ratioOfRate) / m_bufferFrames;
+      qDebug() << "RtOUT:" << QString::fromStdString(rtDevice->getDeviceInfo(devId).name) << "samplerate:" << sampleRate * ratioOfRate 
+            << "buffer:" << m_bufferFrames;
       deviceName = QString::fromStdString(rtDevice->getDeviceInfo(devId).name);
       return true;
   } else
@@ -183,7 +196,7 @@ bool TaudioOUT::setAudioDevice(QString &name) {
 bool TaudioOUT::play(int noteNr) {
   if (!playable)
       return false;
-  openStream(&streamParams, NULL, RTAUDIO_SINT16, sampleRate, &m_bufferFrames, &outCallBack, 0, streamOptions);
+  openStream(&streamParams, NULL, RTAUDIO_SINT16, sampleRate * ratioOfRate, &m_bufferFrames, &outCallBack, 0, streamOptions);
   
 //   noteNr = noteNr + qRound(audioParams->a440diff);
   noteNr = noteNr + int(audioParams->a440diff);
@@ -195,7 +208,7 @@ bool TaudioOUT::play(int noteNr) {
   oggScale->setNote(noteNr);
 //   SLEEP(1);
   int loops = 0;
-  while (!oggScale->isReady() && loops < 20) { // 20ms - max latency
+  while (!oggScale->isReady() && loops < 40) { // 40ms - max latency
       SLEEP(1);
       loops++;
   }

@@ -56,8 +56,10 @@ public:
         size_t fileSize;
     };
     
-//     void setPos(ogg_int64_t offset); /** DEPRECATED */
-        /** Prepares m_pcmBuffer */
+        /** Prepares m_pcmBuffer:
+         * - seek ogg 
+         * - starts decoding (resampling). 
+         * - stops previous decoding if performed. */
     void setNote(int noteNr);
     qint16 getSample(int offset);
     unsigned int sampleRate() { return m_sampleRate; }
@@ -73,7 +75,11 @@ protected slots:
         /** Preforms decoding. Usually is invoked by m_thread.start() 
          * called from setNote() method. */
     void decodeOgg();
+        /** Decoding and resampling or/and pitch shifting */
     void decodeAndResample();
+        /** Checks is decoding performed and stops it
+         * by setting m_doDecode=false and waiting for stop. */
+    void stopDecoding();
     
 private:
       /** Methods needed by vorbisfile library. */

@@ -55,6 +55,7 @@ SET( NOOTKA_SRCS
   settings/examsettings.cpp
   settings/tcolorbutton.cpp
   settings/tupdateprocess.cpp
+  settings/tvolumeslider.cpp
 ###### Level
   level/tlevelcreatordlg.cpp
   level/texamlevel.cpp
@@ -185,6 +186,7 @@ SET( NOOTKA_MOC_SRCS
   settings/examsettings.h
   settings/tcolorbutton.h
   settings/tupdateprocess.h
+  settings/tvolumeslider.h
 ###### Level
   level/tlevelcreatordlg.h
   level/levelsettings.h
