@@ -37,6 +37,52 @@ SET( NOOTKA_SRCS
   tfingerboard.cpp
   ttune.cpp
   tfingerpos.cpp
+###### Sound
+  sound/tsound.cpp
+  sound/tmidiout.cpp
+  sound/audiooutsettings.cpp
+  sound/audioinsettings.cpp
+  sound/taudioparams.h
+  sound/tpitchfinder.cpp
+  sound/tabstractsoundview.cpp
+  sound/tpitchview.cpp
+  sound/tintonationview.cpp
+  sound/tvolumeview.cpp
+  sound/tartiniparams.h
+  sound/tabstractplayer.cpp
+  sound/toggscale.cpp
+  sound/trtaudioabstract.cpp
+  sound/trtaudioout.cpp
+  sound/trtaudioin.cpp
+  sound/rt/RtAudio.cpp
+  sound/rt/RtMidi.cpp
+# SoundTouch
+  sound/stouch/SoundTouch.cpp
+  sound/stouch/TDStretch.cpp
+  sound/stouch/RateTransposer.cpp
+  sound/stouch/AAFilter.cpp
+  sound/stouch/FIRFilter.cpp
+  sound/stouch/FIFOSampleBuffer.cpp
+  sound/stouch/cpu_detect_x86.cpp
+  sound/stouch/mmx_optimized.cpp
+# tartini
+  sound/tartini/channel.cpp
+  sound/tartini/analysisdata.cpp
+  sound/tartini/mytransforms.cpp
+  sound/tartini/notedata.cpp
+  sound/tartini/bspline.cpp
+  sound/tartini/conversions.cpp
+  sound/tartini/useful.cpp
+  sound/tartini/fast_smooth.cpp
+  sound/tartini/array1d.h
+  sound/tartini/large_vector.h
+  sound/tartini/SmartPtr.h
+ # filters
+  sound/tartini/filters/Filter.h
+  sound/tartini/filters/FastSmoothedAveragingFilter.cpp
+  sound/tartini/filters/FixedAveragingFilter.cpp
+  sound/tartini/filters/GrowingAveragingFilter.cpp
+  sound/tartini/filters/IIR_Filter.cpp
 ###### Score
   score/tnoteview.cpp
   score/tscorewidget.cpp
@@ -114,51 +160,6 @@ SET( NOOTKA_SRCS
   charts/tdropshadoweffect.cpp
   charts/tstatisticstip.cpp
   charts/ttiphandler.cpp
-###### Sound
-  sound/tsound.cpp
-  sound/tmidiout.cpp
-  sound/audiooutsettings.cpp
-  sound/audioinsettings.cpp
-  sound/taudioparams.h
-  sound/tpitchfinder.cpp
-  sound/tabstractsoundview.cpp
-  sound/tpitchview.cpp
-  sound/tintonationview.cpp
-  sound/tvolumeview.cpp
-  sound/tartiniparams.h
-  sound/tabstractplayer.cpp
-  sound/toggscale.cpp
-  sound/trtaudioabstract.cpp
-  sound/trtaudioout.cpp
-  sound/trtaudioin.cpp
-  sound/rt/RtAudio.cpp
-  sound/rt/RtMidi.cpp
-  sound/stouch/SoundTouch.cpp
-  sound/stouch/TDStretch.cpp
-  sound/stouch/RateTransposer.cpp
-  sound/stouch/AAFilter.cpp
-  sound/stouch/FIRFilter.cpp
-  sound/stouch/FIFOSampleBuffer.cpp
-  sound/stouch/cpu_detect_x86.cpp
-  sound/stouch/mmx_optimized.cpp
-# tartini
-  sound/tartini/channel.cpp
-  sound/tartini/analysisdata.cpp
-  sound/tartini/mytransforms.cpp
-  sound/tartini/notedata.cpp
-  sound/tartini/bspline.cpp
-  sound/tartini/conversions.cpp
-  sound/tartini/useful.cpp
-  sound/tartini/fast_smooth.cpp
-  sound/tartini/array1d.h
-  sound/tartini/large_vector.h
-  sound/tartini/SmartPtr.h
- # filters
-  sound/tartini/filters/Filter.h
-  sound/tartini/filters/FastSmoothedAveragingFilter.cpp
-  sound/tartini/filters/FixedAveragingFilter.cpp
-  sound/tartini/filters/GrowingAveragingFilter.cpp
-  sound/tartini/filters/IIR_Filter.cpp
   )
   
 if(MINGW)
@@ -170,6 +171,18 @@ SET( NOOTKA_MOC_SRCS
   mainwindow.h
   tnotename.h
   tfingerboard.h
+###### Sound
+  sound/tsound.h
+  sound/tmidiout.h
+  sound/audiooutsettings.h
+  sound/audioinsettings.h
+  sound/tpitchfinder.h
+  sound/toggscale.h
+  sound/tintonationview.h
+  sound/tpitchview.h
+  sound/tabstractplayer.h
+  sound/trtaudioout.h
+  sound/trtaudioin.h
 ###### Score
   score/tnoteview.h
   score/tscorewidget.h
@@ -221,19 +234,7 @@ SET( NOOTKA_MOC_SRCS
   charts/tchart.h
   charts/tmainchart.h
   charts/ttiphandler.h
-###### Sound
-  sound/tsound.h
-  sound/tmidiout.h
-  sound/audiooutsettings.h
-  sound/audioinsettings.h
-  sound/tpitchfinder.h
-  sound/toggscale.h
-  sound/tintonationview.h
-  sound/tpitchview.h
-  sound/tabstractplayer.h
-  sound/trtaudioout.h
-  sound/trtaudioin.h
-  )
+)
   
 
 QT4_WRAP_CPP( NOOTKA_MOCS ${NOOTKA_MOC_SRCS} )
@@ -247,6 +248,7 @@ endif(UNIX AND NOT APPLE)
 
 if(MINGW)
     add_definitions(-D__MMX__)
+    set(CMAKE_CXX_FLAGS "-O2 -march=pentium3m")
  # dress up win executable in nice nootka icon ONLY FOR MINGW !!!!!!!!!!!!!
     ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/nootico.o
                        COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -i${CMAKE_CURRENT_SOURCE_DIR}/../picts/nootka-icon.rc

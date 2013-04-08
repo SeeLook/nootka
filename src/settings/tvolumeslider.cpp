@@ -34,6 +34,8 @@ TvolumeSlider::TvolumeSlider(QWidget* parent) :
     
     m_spinBox->setMinimum(10);
     m_spinBox->setMaximum(80);
+    m_spinBox->setSuffix(" %");
+    m_spinBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
 //     m_spinBox->setRange(0, 100);
     
 //     m_slider->setMinimum(10);
@@ -41,6 +43,7 @@ TvolumeSlider::TvolumeSlider(QWidget* parent) :
     m_slider->setRange(0, 100);
     m_slider->setTickPosition(QSlider::TicksBelow);
     m_slider->setTickInterval(10);
+    m_slider->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
     
     connect(m_slider, SIGNAL(valueChanged(int)), m_spinBox, SLOT(setValue(int)));
     connect(m_spinBox, SIGNAL(valueChanged(int)), m_slider, SLOT(setValue(int)));
@@ -49,13 +52,13 @@ TvolumeSlider::TvolumeSlider(QWidget* parent) :
 }
 
 
-void TvolumeSlider::setValue(int val) {
-    m_slider->setValue(val);
+void TvolumeSlider::setValue(float val) {
+    m_slider->setValue(val * 100);
 }
 
 
-int TvolumeSlider::value() {
-    return m_slider->value();
+float TvolumeSlider::value() {
+    return (float)m_spinBox->value() / 100.0f;
 }
 
 
@@ -64,6 +67,7 @@ void TvolumeSlider::sliderSlot(int val) {
     m_slider->setValue(80);
   else if (val < 10)
     m_slider->setValue(10);
+  emit valueChanged(value());
 }
 /*
 void TvolumeSlider::spinSlot(int val)

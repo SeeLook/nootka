@@ -122,7 +122,7 @@ TaudioIN::~TaudioIN()
 
 void TaudioIN::setParameters(TaudioParams* params) {
   m_pitch->setIsVoice(params->isVoice);
-  m_pitch->setMinimalVolume(params->noiseLevel);
+  m_pitch->setMinimalVolume(params->minimalVol);
   setAudioDevice(params->INdevName);
   audioParams = params;
 }
@@ -173,7 +173,7 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
     streamOptions->streamName = "nootkaIN";
   }
 //   printSupportedFormats(devInfo);
-//   printSupportedSampleRates(devInfo);
+  printSupportedSampleRates(devInfo);
   if (!openStream(NULL ,&streamParams, RTAUDIO_SINT16, sampleRate, &m_bufferFrames, &inCallBack, 0, streamOptions))
     return false;
   if (rtDevice->isStreamOpen()) {

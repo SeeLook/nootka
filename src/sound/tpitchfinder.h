@@ -87,7 +87,9 @@ public:
     void resetFinder();
     void setAmbitus(qint16 loPitch, double topPitch) { 
           m_aGl->loPitch = loPitch; m_aGl->topPitch = topPitch; }
-    void setMinimalVolume(qint16 level) { m_minVolume = (float)level / 32768.0f; }
+          /** Only notes with volume above this value are sending. 
+           * If note has got such volume it is observed till its end - even below. */
+    void setMinimalVolume(float vol) { m_minVolume = vol; }
     
 signals:
       /** Signal emited when pitch is detected. 

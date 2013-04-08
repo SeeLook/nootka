@@ -25,6 +25,10 @@
 class QSpinBox;
 class QSlider;
 
+
+/** There are QSlider and QSpinBox joined in one widget.
+ * It has got range 0 - 100 but 10 - 80 is configurable.
+ * It gets and returns float value 0.0 - 1.0  */
 class TvolumeSlider : public QWidget
 {
   
@@ -33,9 +37,11 @@ class TvolumeSlider : public QWidget
 public:
     TvolumeSlider(QWidget * parent = 0);
     
-    void setValue(int val);
-    int value();
+    void setValue(float val);
+    float value();
     
+signals:
+    void valueChanged(float);
     
 private slots:
 //     void spinSlot(int val);

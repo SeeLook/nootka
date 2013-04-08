@@ -34,6 +34,7 @@ public:
         * to manage of the animation of detected pitch */
     void setVolume(float vol, int alpha = 0);
     void setPitchColor (QColor col) { m_pitchColor = col; }
+    void setMinimalVolume(float vol) { m_minVolume = vol; update(); }
   
   
 protected:
@@ -48,7 +49,7 @@ private:
     int             m_ticksCount;
     int             m_noteWidth;
     float           m_hiTickStep;
-
+    float           m_minVolume; // tick poits minimal vol for pitch detection
 
 };
 
