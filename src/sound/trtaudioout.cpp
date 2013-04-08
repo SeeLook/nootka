@@ -164,7 +164,7 @@ bool TaudioOUT::setAudioDevice(QString &name) {
     streamOptions->streamName = "nootkaOUT";
   }
 //   printSupportedFormats(devInfo);
-//   printSupportedSampleRates(devInfo);
+  printSupportedSampleRates(devInfo);
 //   sampleRate = devInfo.sampleRates.at(devInfo.sampleRates.size() - 1);
 //   sampleRate = 192000;  
   ratioOfRate = sampleRate / 44100;

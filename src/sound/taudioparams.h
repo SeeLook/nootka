@@ -32,7 +32,7 @@ public:
   bool INenabled; // is audio input enabled
   QString INdevName; // input device name
   float a440diff; // difference betwen standard a1 440Hz and user prefered base pitch
-  qint16 noiseLevel; // default 70 -- 0.2% of 32768 - smallest noise
+  float minimalVol; // only above this value detected note is sending to Nootka
     /** If true - pitch is average of all visible pitches
      * if false - the first detected in sound over noise is taken.  */
   bool isVoice; 

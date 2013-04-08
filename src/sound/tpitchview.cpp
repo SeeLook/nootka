@@ -18,7 +18,6 @@
 
 
 #include "tpitchview.h"
-// #include "tvolumemeter.h"
 #include "tvolumeview.h"
 #include "tintonationview.h"
 #include <QTimer>
@@ -101,16 +100,25 @@ void TpitchView::startVolume() {
   }
 }
 
+
 void TpitchView::stopVolume() {
 // 	m_volTimer->stop();
 // 	m_volMeter->setVolume(0.0);
    QTimer::singleShot(600, this, SLOT(stopTimerDelayed()));
 }
 
+
 void TpitchView::setPitchColor(QColor col) {
   m_pitchColor = col;
   m_volMeter->setPitchColor(col);
 }
+
+
+void TpitchView::setMinimalVolume(float vol) {
+  m_volMeter->setMinimalVolume(vol);
+}
+
+
 
 void TpitchView::resize(int fontSize) {
   if (m_withButtons) {

@@ -45,19 +45,20 @@ public:
   virtual ~TpitchView();
   
   void setAudioInput(TaudioIN *audioIn) { m_audioIN = audioIn; }
-	/** Starts grabbing of peak level*/
+      /** Starts grabbing of peak level*/
   void startVolume();
   void stopVolume();
   void setPitchColor(QColor col);
-    /** Button to toggle between voice/instrument mode in TaudioIN */
+      /** Button to toggle between voice/instrument mode in TaudioIN */
   QPushButton *voiceButt;
-    /** Button to pause or activate pitch detection */
+      /** Button to pause or activate pitch detection */
   QPushButton *pauseButt;
   bool isPaused() { return m_isPaused; }
   bool isVoice() { return m_isVoice; }
   void setIsVoice(bool isVoice);
   void resize(int fontSize);
   void setBgColor(QColor col) { m_bgColor = col; }
+  void setMinimalVolume(float vol);
   
 protected slots:
   void noteSlot(Tnote note);

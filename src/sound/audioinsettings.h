@@ -57,6 +57,7 @@ protected slots:
   void freqSlot(float freq);
   void intervalChanged(int index);
   void baseFreqChanged(int bFreq);
+  void minimalVolChanged(float vol);
   
 private:
     /** Calculates frequencies of strings related to a440diff 
@@ -72,13 +73,12 @@ private:
   QGroupBox *enableInBox, *modeGr, *midABox;
   QRadioButton *voiceRadio, *instrRadio;
   QSpinBox *freqSpin;
-  TvolumeSlider *m_volSlider;
+  TvolumeSlider *volumeSlider;
   QPushButton *testButt;
   QLabel *pitchLab, *freqLab, *tuneFreqlab;
   bool m_testDisabled, m_listGenerated;
-  TpitchView *volMeter;
+  TpitchView *pitchView;
   TaudioIN *m_audioIn;
-  qint16 m_noiseLevel;
   TaudioParams *m_glParams, *m_tmpParams; 
   
 };

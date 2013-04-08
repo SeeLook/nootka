@@ -138,8 +138,8 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* pa
   tunLay->addWidget(midABox);
   tunLay->addStretch();
   
-  m_volSlider = new TvolumeSlider(this);
-  tunLay->addWidget(m_volSlider);
+  volumeSlider = new TvolumeSlider(this);
+  tunLay->addWidget(volumeSlider);
   tunLay->addStretch();    
   upLay->addLayout(tunLay);
   
@@ -154,10 +154,11 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* pa
   testButt->setStatusTip(tr("Check, are audio input settings appropirate for You,<br>and does pitch detection work?"));
   testLay->addWidget(testButt);
   testLay->addStretch(1);
-  volMeter = new TpitchView(m_audioIn, this, false);
-  volMeter->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-  testLay->addWidget(volMeter);
-  volMeter->setPitchColor(palette().highlight().color());
+  pitchView = new TpitchView(m_audioIn, this, false);
+  pitchView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+  testLay->addWidget(pitchView);
+  pitchView->setPitchColor(palette().highlight().color());
+  pitchView->setMinimalVolume(params->minimalVol);
   testLay->addStretch(1);
   QVBoxLayout *freqLay = new QVBoxLayout();
   freqLay->setAlignment(Qt::AlignCenter);
@@ -188,12 +189,13 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* pa
   connect(testButt, SIGNAL(clicked()), this, SLOT(testSlot()));
   connect(intervalCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(intervalChanged(int)));
   connect(freqSpin, SIGNAL(valueChanged(int)), this, SLOT(baseFreqChanged(int)));
+  connect(volumeSlider, SIGNAL(valueChanged(float)), this, SLOT(minimalVolChanged(float)));
   
 }
 
 AudioInSettings::~AudioInSettings()
 {
-  volMeter->stopVolume();
+  pitchView->stopVolume();
   if (m_audioIn) {
     m_audioIn->stopListening();
     delete m_audioIn;
@@ -215,6 +217,7 @@ void AudioInSettings::setTestDisabled(bool disabled) {
     inDeviceCombo->setDisabled(false);
     modeGr->setDisabled(false);
     midABox->setDisabled(false);
+    volumeSlider->setDisabled(false);
   } else {
     pitchLab->setDisabled(false);
     freqLab->setDisabled(false);
@@ -222,6 +225,7 @@ void AudioInSettings::setTestDisabled(bool disabled) {
     inDeviceCombo->setDisabled(true);
     midABox->setDisabled(true);
     modeGr->setDisabled(true);
+    volumeSlider->setDisabled(true);
   }
 }
 
@@ -236,11 +240,12 @@ void AudioInSettings::grabParams(TaudioParams *params) {
   else
       params->isVoice = false;
   params->INenabled = enableInBox->isChecked();
+  params->minimalVol = volumeSlider->value();
 }
 
 
 void AudioInSettings::saveSettings() {
-  qDebug() << "AudioInSettings::saveSettings";
+//   qDebug() << "AudioInSettings::saveSettings";
 //   if (m_audioIn) {
 //     volMeter->stopVolume();
 //     m_audioIn->stopListening();
@@ -291,6 +296,11 @@ float AudioInSettings::getDiff(int freq) {
 //------------------------------------------------------------------------------------
 
 
+void AudioInSettings::minimalVolChanged(float vol) {
+  pitchView->setMinimalVolume(vol);
+}
+
+
 
 void AudioInSettings::testSlot() {
   setTestDisabled(!m_testDisabled);
@@ -301,14 +311,14 @@ void AudioInSettings::testSlot() {
     else 
       m_audioIn->setParameters(m_tmpParams);
     testButt->setText(stopTxt);
-    volMeter->setAudioInput(m_audioIn);
+    pitchView->setAudioInput(m_audioIn);
     m_audioIn->startListening();
-    volMeter->startVolume();
+    pitchView->startVolume();
     connect(m_audioIn, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
     connect(m_audioIn, SIGNAL(fundamentalFreq(float)), this, SLOT(freqSlot(float)));
   } 
   else { // stop a test
-    volMeter->stopVolume();
+    pitchView->stopVolume();
     m_audioIn->stopListening();
     testButt->setText(testTxt);
     setTestDisabled(true);

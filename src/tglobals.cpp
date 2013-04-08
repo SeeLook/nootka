@@ -73,7 +73,7 @@ QColor Tglobals::mergeColors(QColor C1, QColor C2) {
 
 Tglobals::Tglobals() {
 
-    version = "0.8.70-alpha";
+    version = "0.8.70-prebeta";
 //    path ; Is declared in main()
 
     qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
@@ -193,7 +193,7 @@ Tglobals::Tglobals() {
       A->INenabled = config->value("inSoundEnabled", true).toBool();
       A->INdevName = config->value("inDeviceName", "").toString();
       A->isVoice = config->value("isVoice", false).toBool();
-      A->noiseLevel = (qint16)config->value("noiseLevel", 70).toInt();
+      A->minimalVol = config->value("minimalVolume", 0.4).toFloat();
       A->a440diff = config->value("a440Offset", 0).toFloat();
     config->endGroup();
 
@@ -289,7 +289,7 @@ void Tglobals::storeSettings() {
         config->setValue("inSoundEnabled", A->INenabled);
         config->setValue("inDeviceName", A->INdevName);
         config->setValue("isVoice", A->isVoice);
-        config->setValue("noiseLevel", A->noiseLevel);      
+        config->setValue("minimalVolume", A->minimalVol);
         config->setValue("a440Offset", A->a440diff);
     config->endGroup();
 }

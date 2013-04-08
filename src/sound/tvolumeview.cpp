@@ -67,16 +67,19 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
       noteColor = tc;
   }
   painter.drawRoundedRect(painter.viewport(), 4, 4);
-  painter.setPen(QPen(Qt::magenta, 1));
-  painter.drawLine(width() * 0.48, 1, width() * 0.48, height() - 2);
+//   painter.setPen(QPen(Qt::magenta, 1));
+//   painter.drawLine(width() * m_minVolume, 1, width() * m_minVolume, height() - 2);
   painter.setPen(noteColor);
   painter.setFont(nootFont);
   painter.drawText(0, 0, width(), height(), Qt::AlignRight, "n");
+  qreal tickWidth = TICK_WIDTH - 1.0;
   for (int i = 1; i < m_ticksCount - 1; i++) {
+    if (i >= m_ticksCount * m_minVolume)
+      tickWidth = TICK_WIDTH;
     if (m_volume * m_ticksCount >= i)
-      painter.setPen(QPen(m_tickColors[i], TICK_WIDTH, Qt::SolidLine, Qt::RoundCap));
+      painter.setPen(QPen(m_tickColors[i], tickWidth, Qt::SolidLine, Qt::RoundCap));
     else 
-      painter.setPen(QPen(tc, TICK_WIDTH, Qt::SolidLine, Qt::RoundCap));
+      painter.setPen(QPen(tc, tickWidth, Qt::SolidLine, Qt::RoundCap));
     painter.drawLine(QLineF((i + 1) * (TICK_GAP + TICK_WIDTH) - TICK_WIDTH, (float)(m_ticksCount - i) * m_hiTickStep + 1,
                             (i + 1) * (TICK_GAP + TICK_WIDTH) - TICK_WIDTH, height() - 2));
   }
