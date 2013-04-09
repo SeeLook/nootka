@@ -140,6 +140,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* pa
   
   volumeSlider = new TvolumeSlider(this);
   tunLay->addWidget(volumeSlider);
+  volumeSlider->setValue(m_glParams->minimalVol);
   tunLay->addStretch();    
   upLay->addLayout(tunLay);
   
@@ -158,7 +159,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* pa
   pitchView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
   testLay->addWidget(pitchView);
   pitchView->setPitchColor(palette().highlight().color());
-  pitchView->setMinimalVolume(params->minimalVol);
+  pitchView->setMinimalVolume(m_glParams->minimalVol);
   testLay->addStretch(1);
   QVBoxLayout *freqLay = new QVBoxLayout();
   freqLay->setAlignment(Qt::AlignCenter);
@@ -273,9 +274,9 @@ void AudioInSettings::generateDevicesList() {
 
 void AudioInSettings::getFreqStatusTip() {
     QString freqTxt = QString("<br><span style=\"font-family: nootka;\">6</span>E = %1Hz, ").arg(getFreq(82.5)) +
-            QString("<span style=\"font-family: nootka;\">5</span>A = %1Hz, ").arg(getFreq(110.0)) +
-            QString("<span style=\"font-family: nootka;\">4</span>d = %1Hz, ").arg(getFreq(146.0)) + "<br>" +
-            QString("<span style=\"font-family: nootka;\">3</span>g = %1Hz, ").arg(getFreq(195.0)) +
+            QString("<span style=\"font-family: nootka;\">5</span>A = %1Hz, ").arg(getFreq(110.0)) + "<br>" +
+            QString("<span style=\"font-family: nootka;\">4</span>d = %1Hz, ").arg(getFreq(146.0)) + 
+            QString("<span style=\"font-family: nootka;\">3</span>g = %1Hz, ").arg(getFreq(195.0)) + "<br>" +
             QString("<span style=\"font-family: nootka;\">2</span>h = %1Hz, ").arg(getFreq(245.0)) +
             QString("<span style=\"font-family: nootka;\">1</span>e<sup>1</sup> = %1Hz").arg(getFreq(330.0));
     freqLab->setStatusTip(tr("Frequency of detected note. You can use it for tune") + freqTxt);

@@ -76,7 +76,8 @@
 /* #undef SOUNDTOUCH_FLOAT_SAMPLES */
 
 /* Use Integer as Sample type */
-#define SOUNDTOUCH_INTEGER_SAMPLES 1
+// #define SOUNDTOUCH_INTEGER_SAMPLES 1
+#define SOUNDTOUCH_FLOAT_SAMPLES 1
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
