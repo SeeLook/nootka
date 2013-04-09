@@ -35,7 +35,7 @@ TvolumeSlider::TvolumeSlider(QWidget* parent) :
     m_spinBox->setMinimum(10);
     m_spinBox->setMaximum(80);
     m_spinBox->setSuffix(" %");
-    m_spinBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+    m_spinBox->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
 //     m_spinBox->setRange(0, 100);
     
 //     m_slider->setMinimum(10);
@@ -43,12 +43,13 @@ TvolumeSlider::TvolumeSlider(QWidget* parent) :
     m_slider->setRange(0, 100);
     m_slider->setTickPosition(QSlider::TicksBelow);
     m_slider->setTickInterval(10);
-    m_slider->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+//     m_slider->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
     
     connect(m_slider, SIGNAL(valueChanged(int)), m_spinBox, SLOT(setValue(int)));
     connect(m_spinBox, SIGNAL(valueChanged(int)), m_slider, SLOT(setValue(int)));
     connect(m_slider, SIGNAL(valueChanged(int)), this, SLOT(sliderSlot(int)));
     m_slider->setValue(40);
+    setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
 }
 
 

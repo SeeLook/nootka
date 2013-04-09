@@ -196,17 +196,19 @@ bool TaudioOUT::setAudioDevice(QString &name) {
 bool TaudioOUT::play(int noteNr) {
   if (!playable)
       return false;
-  openStream(&streamParams, NULL, RTAUDIO_SINT16, sampleRate * ratioOfRate, &m_bufferFrames, &outCallBack, 0, streamOptions);
   
-//   noteNr = noteNr + qRound(audioParams->a440diff);
+  if (offTimer->isActive())
+      offTimer->stop();
+  
   noteNr = noteNr + int(audioParams->a440diff);
   if (noteNr < -11 || noteNr > 41)
       return false;
   
+  openStream(&streamParams, NULL, RTAUDIO_SINT16, sampleRate * ratioOfRate, &m_bufferFrames, &outCallBack, 0, streamOptions);
+  
   doEmit = true;
   m_samplesCnt = -1;
   oggScale->setNote(noteNr);
-//   SLEEP(1);
   int loops = 0;
   while (!oggScale->isReady() && loops < 40) { // 40ms - max latency
       SLEEP(1);
@@ -214,8 +216,7 @@ bool TaudioOUT::play(int noteNr) {
   }
   if (loops)
       qDebug() << "latency:" << loops << "ms";
-  if (offTimer->isActive())
-      offTimer->stop();
+  
   offTimer->start(1600);
   return startStream();
 }

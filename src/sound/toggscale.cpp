@@ -251,23 +251,36 @@ void ToggScale::decodeOgg() {
 void ToggScale::decodeAndResample() {
   int bitStream;
   m_isDecoding = true;
-//   int maxSize = m_sampleRate * 2 - m_sampleRate / 5;
   int maxSize = 44100 * 2 - 8192; // two sec. of audio minus some silence on the end
   long int tmpPos = 0, tmpRead = 0;
   uint pos = 0, read = 0;
   int samplesReady = 0;
   char* tmpBuff = new char[2048];
+  
+  float **floatBuff;
+  float *right, *left = new float[2048];
+  float *tmpTouch = new float[8192];
+  
   while (m_doDecode && pos < maxSize) {
     if (tmpPos < 172000) { // almost 2 sec. of a note
-        tmpRead = ov_read(&m_ogg, tmpBuff, 2048, 0, 2, 1, &bitStream);
+//         tmpRead = ov_read(&m_ogg, tmpBuff, 2048, 0, 2, 1, &bitStream);
+        tmpRead = ov_read_float(&m_ogg, &floatBuff, 2048, 0);
+//         qDebug() << tmpRead;
         tmpPos += tmpRead;
+        left = floatBuff[0];
         if (tmpRead > 0) {
-            m_touch->putSamples((SAMPLETYPE*)tmpBuff, tmpRead / 2);
+            m_touch->putSamples((SAMPLETYPE*)left, tmpRead);
+//             m_touch->putSamples((SAMPLETYPE*)tmpBuff, tmpRead / 2);
         }
     }    
     samplesReady = m_touch->numSamples();
     if (samplesReady > 0) {
-      read = m_touch->receiveSamples(m_pcmBuffer + pos, samplesReady);
+//       read = m_touch->receiveSamples(m_pcmBuffer + pos, samplesReady);
+      read = m_touch->receiveSamples((SAMPLETYPE*)tmpTouch, samplesReady);
+      
+      for (int i = 0; i < read; i++)
+        *(m_pcmBuffer + pos + i) = qint16(*(tmpTouch + i) * 32768);
+      
       pos += read;
     }
     if (pos > 10000) // below this value SoundTouch is not able to prepare data

@@ -64,7 +64,8 @@ SET( NOOTKA_SRCS
   sound/stouch/FIRFilter.cpp
   sound/stouch/FIFOSampleBuffer.cpp
   sound/stouch/cpu_detect_x86.cpp
-  sound/stouch/mmx_optimized.cpp
+  sound/stouch/sse_optimized.cpp
+#   sound/stouch/mmx_optimized.cpp
 # tartini
   sound/tartini/channel.cpp
   sound/tartini/analysisdata.cpp
