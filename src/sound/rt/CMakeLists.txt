@@ -21,15 +21,17 @@ IF(UNIX AND NOT APPLE)
           /sw/include
           
       )
-      find_library(JACK_LIBRARY
-          NAMES
-          jack
-          PATHS
-          /usr/lib
-          /usr/lib/x86_64-linux-gnu
-          /usr/local/lib
-          /opt/local/lib
-      )
+      if (JACK_INCLUDE_DIR)
+          find_library(JACK_LIBRARY
+              NAMES
+              jack
+              PATHS
+              /usr/lib
+              /usr/lib/x86_64-linux-gnu
+              /usr/local/lib
+              /opt/local/lib
+          )
+      endif (JACK_INCLUDE_DIR)
     ##### PulseAudio ###########################################
       find_path(PULSE_INCLUDE_DIR
         NAMES
@@ -42,24 +44,26 @@ IF(UNIX AND NOT APPLE)
           /sw/include
           
       )
-      find_library(PULSESIMPLE_LIBRARY
-          NAMES
-          pulse-simple
-          PATHS
-          /usr/lib
-          /usr/lib/x86_64-linux-gnu
-          /usr/local/lib
-          /opt/local/lib
-      )
-      find_library(PULSEERROR_LIBRARY
-          NAMES
-          pulse
-          PATHS
-          /usr/lib
-          /usr/lib/x86_64-linux-gnu
-          /usr/local/lib
-          /opt/local/lib
-      )
+      if (PULSE_INCLUDE_DIR)
+          find_library(PULSESIMPLE_LIBRARY
+              NAMES
+              pulse-simple
+              PATHS
+              /usr/lib
+              /usr/lib/x86_64-linux-gnu
+              /usr/local/lib
+              /opt/local/lib
+          )
+          find_library(PULSEERROR_LIBRARY
+              NAMES
+              pulse
+              PATHS
+              /usr/lib
+              /usr/lib/x86_64-linux-gnu
+              /usr/local/lib
+              /opt/local/lib
+          )
+      endif (PULSE_INCLUDE_DIR)
       
     if (PULSE_INCLUDE_DIR)
         option(ENABLE_PULSEAUDIO "Enable support for PulseAudio" ON)
