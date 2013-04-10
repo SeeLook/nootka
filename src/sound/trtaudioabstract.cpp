@@ -95,8 +95,15 @@ bool TrtAudioAbstract::openStream(RtAudio::StreamParameters* outParams, RtAudio:
                                   RtAudioFormat frm, unsigned int rate, unsigned int* buffFrames, RtAudioCallback callBack,
                                   void* userData, RtAudio::StreamOptions* options) {
   try {
-    if (rtDevice && !rtDevice->isStreamOpen())
+    if (rtDevice && !rtDevice->isStreamOpen()) {
+//       QString oo = "XX";
+//       if (outParams)
+//         oo = "out";
+//       if (inParams)
+//         oo = "in";
+//       qDebug() << "openning stream" << oo ;
       rtDevice->openStream(outParams, inParams, frm, rate, buffFrames, callBack, userData, options);
+    }
   }
   catch (RtError& e) {
     qDebug() << "can't open stream";
