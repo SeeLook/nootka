@@ -7,9 +7,11 @@
 ##########################################################
 - Qt libraries (at least 4.7 version)
 - Ogg Vorbis (http://www.xiph.org/downloads/) 
-  both ogg and vorbis. Libraries are in vorbis-tools 
+  both ogg and vorbis. Libraries are on a site in vorbis-tools 
   and headers are in libogg and libvorbis.
-  Under Linux libvorbis-dev (or similar)
+  Under Linux libvorbis-dev & libogg-dev (or similar)
+- SoundTouch library (http://www.surina.net/soundtouch/)
+  (libsoundtouch and libsoundtouch-dev)
 - FFTW libraries (http://www.fftw.org/)
     libfftw3-dev
 - libasound-dev under linux

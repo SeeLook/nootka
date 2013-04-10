@@ -56,16 +56,6 @@ SET( NOOTKA_SRCS
   sound/trtaudioin.cpp
   sound/rt/RtAudio.cpp
   sound/rt/RtMidi.cpp
-# SoundTouch
-#   sound/stouch/SoundTouch.cpp
-#   sound/stouch/TDStretch.cpp
-#   sound/stouch/RateTransposer.cpp
-#   sound/stouch/AAFilter.cpp
-#   sound/stouch/FIRFilter.cpp
-#   sound/stouch/FIFOSampleBuffer.cpp
-#   sound/stouch/cpu_detect_x86.cpp
-#   sound/stouch/sse_optimized.cpp
-#   sound/stouch/mmx_optimized.cpp
 # tartini
   sound/tartini/channel.cpp
   sound/tartini/analysisdata.cpp
@@ -248,8 +238,8 @@ endif(UNIX AND NOT APPLE)
 
 
 if(MINGW)
-    add_definitions(-D__MMX__)
-    set(CMAKE_CXX_FLAGS "-O2 -march=pentium3m")
+#     add_definitions(-D__MMX__)
+#     set(CMAKE_CXX_FLAGS "-O2 -march=pentium3m")
  # dress up win executable in nice nootka icon ONLY FOR MINGW !!!!!!!!!!!!!
     ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/nootico.o
                        COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -i${CMAKE_CURRENT_SOURCE_DIR}/../picts/nootka-icon.rc
