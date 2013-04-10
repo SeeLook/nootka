@@ -237,10 +237,9 @@ void ToggScale::decodeOgg() {
   while (m_doDecode && loops < 500 && pos < maxSize) {
     read = ov_read(&m_ogg, (char*)m_pcmBuffer + pos, maxSize - pos, 0, 2, 1, &bitStream);
     pos += read;
-    if (pos > 2048) // amount of data needed by single loop of rtAudio outCallBack
+    if (pos > 4096) // amount of data needed by single loop of rtAudio outCallBack
       m_isReady = true;
     loops++;
-//     SLEEP(1);
   }
   m_isDecoding = false;
 //   qDebug() << "readFromOgg" << pos << "loops" << loops;
@@ -255,9 +254,9 @@ void ToggScale::decodeAndResample() {
   long int tmpPos = 0, tmpRead = 0;
   uint pos = 0, read = 0;
   int samplesReady = 0;
-  char* tmpBuff = new char[2048];
+//   char* tmpBuff = new char[2048];
   
-  float **floatBuff;
+  float **floatBuff; // TODO: class wide range
   float *right, *left = new float[2048];
   float *tmpTouch = new float[8192];
   
@@ -265,7 +264,6 @@ void ToggScale::decodeAndResample() {
     if (tmpPos < 172000) { // almost 2 sec. of a note
 //         tmpRead = ov_read(&m_ogg, tmpBuff, 2048, 0, 2, 1, &bitStream);
         tmpRead = ov_read_float(&m_ogg, &floatBuff, 2048, 0);
-//         qDebug() << tmpRead;
         tmpPos += tmpRead;
         left = floatBuff[0];
         if (tmpRead > 0) {
@@ -276,11 +274,9 @@ void ToggScale::decodeAndResample() {
     samplesReady = m_touch->numSamples();
     if (samplesReady > 0) {
 //       read = m_touch->receiveSamples(m_pcmBuffer + pos, samplesReady);
-      read = m_touch->receiveSamples((SAMPLETYPE*)tmpTouch, samplesReady);
-      
-      for (int i = 0; i < read; i++)
-        *(m_pcmBuffer + pos + i) = qint16(*(tmpTouch + i) * 32768);
-      
+      read = m_touch->receiveSamples((SAMPLETYPE*)tmpTouch, samplesReady);      
+      for (int i = 0; i < read; i++) // convert samples to 16bit integer
+          *(m_pcmBuffer + pos + i) = qint16(*(tmpTouch + i) * 32768);
       pos += read;
     }
     if (pos > 10000) // below this value SoundTouch is not able to prepare data
@@ -289,8 +285,11 @@ void ToggScale::decodeAndResample() {
   m_isDecoding = false;
 //   qDebug() << "decodeAndResample finished" << pos;
   m_touch->clear();
-  delete tmpBuff;
+//   delete tmpBuff;
   m_thread->quit();
+  delete floatBuff;
+  delete right, left;
+  delete tmpTouch;
 }
 
 //###########################################################################
@@ -307,10 +306,8 @@ void ToggScale::initTouch() {
     if (m_sampleRate != 44100) {
       float newRate =  44100.0f / (float)m_sampleRate;
       m_touch->setRate(newRate);
-//       delete m_pcmBuffer;
-//       m_pcmBuffer = new qint16[2 * m_sampleRate];
     }
-    qDebug() << "sampleRate" << m_sampleRate << "m_pitchOffset" << m_pitchOffset;
+    qDebug() << "SoundTouch sampleRate" << m_sampleRate << "pitch offset" << m_pitchOffset;
     if (!m_touchConnected)
         connect(m_thread, SIGNAL(started()), this, SLOT(decodeAndResample()));
     m_touchConnected = true;
@@ -320,8 +317,6 @@ void ToggScale::initTouch() {
   } else {
     delete m_touch;
     m_touch = 0;
-//     delete m_pcmBuffer;
-//     m_pcmBuffer = new qint16[2 * m_sampleRate];
     if (!m_oggConnected)
       connect(m_thread, SIGNAL(started()), this, SLOT(decodeOgg()));
     m_oggConnected = true;
