@@ -256,9 +256,9 @@ void ToggScale::decodeAndResample() {
   int samplesReady = 0;
 //   char* tmpBuff = new char[2048];
   
-  float **floatBuff; // TODO: class wide range
-  float *right, *left = new float[2048];
-  float *tmpTouch = new float[8192];
+  float **floatBuff;
+  float *left ;
+  float *tmpTouch = new float[8192]; // TODO: class wide range
   
   while (m_doDecode && pos < maxSize) {
     if (tmpPos < 172000) { // almost 2 sec. of a note
@@ -287,8 +287,6 @@ void ToggScale::decodeAndResample() {
   m_touch->clear();
 //   delete tmpBuff;
   m_thread->quit();
-  delete floatBuff;
-  delete right, left;
   delete tmpTouch;
 }
 
