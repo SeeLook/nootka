@@ -24,7 +24,8 @@
 #include <QObject>
 #include "vorbis/codec.h"
 #include "vorbis/vorbisfile.h"
-#include "stouch/SoundTouch.h"
+// #include "stouch/SoundTouch.h"
+#include "soundtouch/SoundTouch.h"
 
 using namespace soundtouch;
 

@@ -242,8 +242,8 @@ void Tsound::createPlayer() {
     // Windows has problems with playing it in separate thread - cuted sound
     // so we skip
 // #else
-  player->moveToThread(m_thread);
-  m_thread->start(QThread::HighPriority);
+//   player->moveToThread(m_thread);
+//   m_thread->start(QThread::HighPriority);
 // #endif
   connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinishedSlot()));
 }
