@@ -87,245 +87,220 @@
 <context>
     <name>AudioInSettings</name>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="40"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="41"/>
         <source>enable pitch detection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="48"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="49"/>
         <source>input device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="52"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="53"/>
         <source>Be sure Your input device (a mike, a webcam, an instrument pluged to line-in) is properly configured by Your operating system.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="56"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="57"/>
         <source>pitch detection mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="63"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="64"/>
         <source>for playing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="66"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="67"/>
         <source>This mode is faster and good enought for guitars and other instruments.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="70"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="71"/>
         <source>for singing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="73"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="74"/>
         <source>This mode is more accurate but slower. It is recommended for singing and for instruments with &quot;wobbly&quot; intonation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="102"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="103"/>
         <source>middle A</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="105"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="106"/>
         <source>frequency:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="111"/>
-        <source>A pitch of detecting notes is related to this value. It also affects played sounds - for midi exaclty and for real audio it is rounded to semitones.</source>
+        <location filename="../src/sound/audioinsettings.cpp" line="112"/>
+        <source>A pitch of detecting notes is related to this value. It also affects played sounds.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="118"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="119"/>
         <source>interval:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="124"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="125"/>
         <source>semitone up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="125"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="126"/>
         <source>none</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="126"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="127"/>
         <source>semitone down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="127"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="128"/>
         <source>Shifts the frequency of base a&lt;sup&gt;1&lt;/sup&gt; on semitone.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="141"/>
-        <source>noise level:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="151"/>
-        <source>Only sounds louder than noise level are taken to pitch analyse. It can improve the pitch detection accuracy.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="152"/>
-        <source>Calculate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="154"/>
-        <source>Click to automatically detect noise level.&lt;br&gt;Keep silence during 2 seconds to determine it properly.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="162"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="149"/>
         <source>Test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="163"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="150"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="168"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="155"/>
         <source>Check, are audio input settings appropirate for You,&lt;br&gt;and does pitch detection work?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="180"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="168"/>
         <source>Detected pitch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="271"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="269"/>
         <source>no devices found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="284"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="282"/>
         <source>Frequency of detected note. You can use it for tune</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="338"/>
-        <source>There isn&apos;t any noise !?!&lt;br&gt;It seems, Your audio input&lt;br&gt;is not configured properly.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>AudioOutSettings</name>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="34"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="41"/>
         <source>play sound</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="35"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="42"/>
         <source>Selected notes and guitar positions will be played.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="41"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="48"/>
         <source>real audio playback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="42"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="49"/>
         <source>Natural, high quality sound of classical guitar&lt;br&gt;but limited to scale &lt;b&gt;from C&lt;sub&gt;1&lt;/sub&gt; to e&lt;sup&gt;3&lt;/sup&gt;&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="47"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="54"/>
         <source>audio device for output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="56"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="63"/>
         <source>midi playback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="57"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="64"/>
         <source>Artificial, low quality sound (depends on hardware)&lt;br&gt;but there is possibility to select an instrument&lt;br&gt;and whole scale can be played.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="63"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="70"/>
         <source>midi port</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="74"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="81"/>
         <source>no midi ports</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="78"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="85"/>
         <source>instrument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="82"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="89"/>
         <source>Grand Piano</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="83"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="90"/>
         <source>Harpsichord</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="84"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="91"/>
         <source>Classical Guitar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="85"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="92"/>
         <source>Acoustic Guitar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="86"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="93"/>
         <source>Electric Guitar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="87"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="94"/>
         <source>Electric Guitar (Overdriven)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="88"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="95"/>
         <source>Bass Guitar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="89"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="96"/>
         <source>Violin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="90"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="97"/>
         <source>Sax</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="91"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="98"/>
         <source>Flute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="139"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="153"/>
         <source>no devices found</source>
         <translation type="unfinished"></translation>
     </message>
@@ -469,6 +444,11 @@
         <source>default</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/settings/settingsdialog.cpp" line="221"/>
+        <source>Check for updates</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>GuitarSettings</name>
@@ -556,37 +536,37 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="185"/>
+        <location filename="../src/mainwindow.cpp" line="184"/>
         <source>Problems with sound output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="204"/>
+        <location filename="../src/mainwindow.cpp" line="203"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="205"/>
+        <location filename="../src/mainwindow.cpp" line="204"/>
         <source>Application preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="218"/>
+        <location filename="../src/mainwindow.cpp" line="217"/>
         <source>Analyse of an exam results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="221"/>
+        <location filename="../src/mainwindow.cpp" line="220"/>
         <source>about</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="222"/>
+        <location filename="../src/mainwindow.cpp" line="221"/>
         <source>About Nootka</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="241"/>
+        <location filename="../src/mainwindow.cpp" line="240"/>
         <source>Start an exam</source>
         <translation type="unfinished"></translation>
     </message>
@@ -607,7 +587,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/exam/texam.cpp" line="200"/>
+        <location filename="../src/exam/texam.cpp" line="201"/>
         <source>Cannot save exam file:
 %1</source>
         <translation type="unfinished"></translation>
@@ -728,7 +708,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/tsupportnootka.cpp" line="65"/>
+        <location filename="../src/info/tsupportnootka.cpp" line="67"/>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
         <translation type="unfinished"></translation>
     </message>
@@ -798,48 +778,48 @@
 <context>
     <name>SettingsDialog</name>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="242"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="271"/>
         <source>application&apos;s settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="245"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="274"/>
         <source>Common</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="248"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="277"/>
         <source>Score</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="251"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="280"/>
         <source>Names</source>
         <comment>name-calling</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="254"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="283"/>
         <source>Guitar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="257"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="286"/>
         <source>Exam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="260"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="289"/>
         <source>Sound</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="272"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="313"/>
         <source>listening</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="273"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="318"/>
         <source>playing</source>
         <translation type="unfinished"></translation>
     </message>
@@ -847,22 +827,22 @@
 <context>
     <name>Tabout</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="167"/>
+        <location filename="../src/info/taboutnootka.cpp" line="180"/>
         <source>Welcome on the board.&lt;br&gt; Nootka is open source application to help You learning (and teaching also) classical score notation.&lt;br&gt;It is specially dedicated for guitarists but others can find many usable features as well.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="168"/>
+        <location filename="../src/info/taboutnootka.cpp" line="181"/>
         <source>This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features.&lt;br&gt;Inspite of that You are welcome to try it!!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="169"/>
+        <location filename="../src/info/taboutnootka.cpp" line="182"/>
         <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, sugestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="173"/>
+        <location filename="../src/info/taboutnootka.cpp" line="186"/>
         <source>&lt;br&gt;To support project and also to avoid infection of Your PC&lt;br&gt;&lt;b&gt;PLEASE, use project site to download updates, new releases and to see news.&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -870,42 +850,42 @@
 <context>
     <name>TaboutNootka</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="39"/>
+        <location filename="../src/info/taboutnootka.cpp" line="43"/>
         <source>About Nootka</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="59"/>
+        <location filename="../src/info/taboutnootka.cpp" line="63"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="62"/>
+        <location filename="../src/info/taboutnootka.cpp" line="66"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="68"/>
+        <location filename="../src/info/taboutnootka.cpp" line="72"/>
         <source>License</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="71"/>
+        <location filename="../src/info/taboutnootka.cpp" line="75"/>
         <source>Support</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="74"/>
+        <location filename="../src/info/taboutnootka.cpp" line="78"/>
         <source>Changes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="87"/>
+        <location filename="../src/info/taboutnootka.cpp" line="91"/>
         <source>Translators</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="99"/>
+        <location filename="../src/info/taboutnootka.cpp" line="103"/>
         <source>However this application could not exist without various open source projects.&lt;br&gt;Especially:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -975,89 +955,95 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="83"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="84"/>
         <source>Level summary:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="209"/>
-        <source>Open an exam to analyse</source>
+        <location filename="../src/charts/tanalysdialog.cpp" line="202"/>
+        <source>File: %1 
+ is not valid exam file !!!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="214"/>
+        <source>Open an exam to analyse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="219"/>
         <source>recent opened exams:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="255"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="260"/>
         <source>Settings of a chart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="263"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="268"/>
         <source>Maximize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="267"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="272"/>
         <source>linear chart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="270"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="275"/>
         <source>bar chart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="454"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="462"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="232"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="237"/>
         <source>Close analyser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="117"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="118"/>
         <source>Press %1 button to select an exam from a file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="119"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="120"/>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="121"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="122"/>
         <source>Drag a cursor to move the chart.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="152"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="153"/>
         <location filename="../src/charts/tstatisticstip.cpp" line="50"/>
         <location filename="../src/charts/tyaxis.cpp" line="64"/>
         <source>Questions number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="235"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="240"/>
         <source>zoom in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="238"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="243"/>
         <source>zoom out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="241"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="246"/>
         <source>include time of wrong answers to average</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="243"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="248"/>
         <source>show wrong answers separately</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1065,148 +1051,148 @@
 <context>
     <name>Tcanvas</name>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="145"/>
+        <location filename="../src/exam/tcanvas.cpp" line="147"/>
         <source>Try again!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="179"/>
+        <location filename="../src/exam/tcanvas.cpp" line="192"/>
         <source>To correct an answer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="233"/>
+        <location filename="../src/exam/tcanvas.cpp" line="246"/>
         <source>To check the answer confirm it:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="236"/>
-        <source>To do it automatically,&lt;br&gt;have a look to exam help %1</source>
+        <location filename="../src/exam/tcanvas.cpp" line="249"/>
+        <source>Check in exam help %1 how to do it automatically</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>TexamExecutor</name>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="102"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="101"/>
         <source>&lt;b&gt;Exam file seems to be corrupted&lt;/b&gt;&lt;br&gt;Better start new exam on the same level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="107"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="106"/>
         <source>Tune of the guitar was changed in this exam !!.&lt;br&gt;Now it is:&lt;br&gt;&lt;b&gt;%1&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="110"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="109"/>
         <source>&lt;br&gt;&lt;br&gt;This exam requires more frets,&lt;br&gt;so frets number in the guitar will be changed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="126"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="125"/>
         <source>File: %1 
  is not valid exam file !!!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="146"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="145"/>
         <source>An exam requires sound but&lt;br&gt;sound output is not available !!!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="160"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="159"/>
         <source>An exam requires sound input but&lt;br&gt;it is not available !!!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="217"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="216"/>
         <source>next question
 (space %1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="224"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="223"/>
         <source>repeat prevoius question (backspace)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="230"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="229"/>
         <source>check answer
 (enter %1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="237"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="236"/>
         <source>play sound again</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="246"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="245"/>
         <source>Level &lt;b&gt;%1&lt;b&gt;&lt;br&gt;has no sense till there are no any possible questions to ask.&lt;br&gt;It can be unadjusted to current tune.&lt;br&gt;Repair it in Level Creator and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="727"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="757"/>
         <source>EXAM!!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="728"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="758"/>
         <source>exam started on level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="733"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="763"/>
         <source>help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="736"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="766"/>
         <source>stop the exam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="878"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="911"/>
         <source>Give an answer first!&lt;br&gt;Then the exam&apos;ll be finished</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="908"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="941"/>
         <source>so a pity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="920"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="953"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="921"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="954"/>
         <source>Continue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="922"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="955"/>
         <source>Terminate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="942"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="975"/>
         <source>Save exam&apos;s results as:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="948"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="981"/>
         <source>If You don&apos;t save to file&lt;br&gt;You lost all results !!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="949"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="982"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="950"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="983"/>
         <source>Discard</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1565,17 +1551,17 @@
 <context>
     <name>TgraphicsLine</name>
     <message>
-        <location filename="../src/charts/tgraphicsline.cpp" line="65"/>
+        <location filename="../src/charts/tgraphicsline.cpp" line="68"/>
         <source>progress line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tgraphicsline.cpp" line="67"/>
+        <location filename="../src/charts/tgraphicsline.cpp" line="70"/>
         <source>descending - you go better</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tgraphicsline.cpp" line="69"/>
+        <location filename="../src/charts/tgraphicsline.cpp" line="72"/>
         <source>acending - you thinking much</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1826,14 +1812,14 @@ Check please, are its parameters as expected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="180"/>
-        <location filename="../src/charts/tlinearchart.cpp" line="205"/>
-        <location filename="../src/charts/tlinearchart.cpp" line="230"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="145"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="170"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="195"/>
         <source>questions unrelated&lt;br&gt;with chart type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="235"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="200"/>
         <source>without accidentals</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1939,7 +1925,7 @@ Check please, are its parameters as expected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="390"/>
+        <location filename="../src/tnotename.cpp" line="396"/>
         <source>The note is beyond&lt;br&gt;scale of the guitar</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2037,17 +2023,22 @@ Check please, are its parameters as expected.</source>
 <context>
     <name>TpitchView</name>
     <message>
-        <location filename="../src/sound/tpitchview.cpp" line="46"/>
+        <location filename="../src/sound/tpitchview.cpp" line="47"/>
         <source>Toggles between pitch detection for singing and for playing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/tpitchview.cpp" line="58"/>
+        <location filename="../src/sound/tpitchview.cpp" line="61"/>
+        <source>Intonation - clarity of the sound. Is it in tune?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/sound/tpitchview.cpp" line="65"/>
         <source>Shows volume level of input sound and indicates when note was detected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/tpitchview.cpp" line="64"/>
+        <location filename="../src/sound/tpitchview.cpp" line="73"/>
         <source>Switch on/off the pitch detection</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2355,6 +2346,75 @@ Check please, are its parameters as expected.</source>
     </message>
 </context>
 <context>
+    <name>TupdateChecker</name>
+    <message>
+        <location filename="../src/updater/tupdatechecker.cpp" line="42"/>
+        <source>Checking for updates. Please wait...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TupdateRulesWdg</name>
+    <message>
+        <location filename="../src/updater/tupdateruleswdg.cpp" line="29"/>
+        <source>check for Nootka updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/updater/tupdateruleswdg.cpp" line="37"/>
+        <source>daily</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/updater/tupdateruleswdg.cpp" line="39"/>
+        <source>weekly</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/updater/tupdateruleswdg.cpp" line="41"/>
+        <source>monthly</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/updater/tupdateruleswdg.cpp" line="58"/>
+        <source>all new versions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/updater/tupdateruleswdg.cpp" line="60"/>
+        <source>stable versions only</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TupdateSummary</name>
+    <message>
+        <location filename="../src/updater/tupdatesummary.cpp" line="39"/>
+        <source>New Nootka %1 is available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/updater/tupdatesummary.cpp" line="40"/>
+        <source>To get it, visit &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/updater/tupdatesummary.cpp" line="45"/>
+        <source>News:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/updater/tupdatesummary.cpp" line="47"/>
+        <source>No changes found.&lt;br&gt;This version is up to date.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/updater/tupdatesummary.cpp" line="54"/>
+        <source>Ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Windows installer entries</name>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="155"/>
@@ -2365,7 +2425,7 @@ Check please, are its parameters as expected.</source>
 <context>
     <name>about translator</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="105"/>
+        <location filename="../src/info/taboutnootka.cpp" line="116"/>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; Your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
         <translation type="unfinished"></translation>

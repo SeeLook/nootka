@@ -1,6 +1,12 @@
-     - added intonation view
-     - new audio engine
-     - online checking for new versions
+0.8.70 beta
+     - added intonation view of played sound
+     - checking for new versions of an application
+     - improved reaction on detected pitch (faster and fluid)
+     - audio output supports change of base frequency
+    Under the hood
+     - audio layer ported to RtAudio
+     - support for JACK & PulseAudio (Linux)
+     - sound data compressed to ogg
 
 0.8.60 beta
      - added bar charts
