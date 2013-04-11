@@ -109,7 +109,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* pa
   freqSpin = new QSpinBox(this);
 //   midLay->addWidget(freqSpin);
   midGrLay->addWidget(freqSpin, 0, 1);
-  freqSpin->setStatusTip(tr("A pitch of detecting notes is related to this value. It also affects played sounds - for midi exaclty and for real audio it is rounded to semitones."));
+  freqSpin->setStatusTip(tr("A pitch of detecting notes is related to this value. It also affects played sounds."));
   freqSpin->setMinimum(400);
   freqSpin->setMaximum(480);
 //   freqSpin->setValue(int(pitch2freq(freq2pitch(440.0) + m_glParams->a440diff)));
