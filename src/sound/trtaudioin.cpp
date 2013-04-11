@@ -231,13 +231,16 @@ void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
 //------------          slots       --------------------------------------------------
 //------------------------------------------------------------------------------------
 
+void TaudioIN::pitchInChunkSlot(float pitch) {
+  emit chunkPitch(pitch - audioParams->a440diff); 
+}
 
 
 
 void TaudioIN::pitchFreqFound(float pitch, float freq) {
   if (!m_paused) {
 //       qDebug() << QString::fromStdString(Tnote(qRound(pitch - m_params->a440diff)-47).getName());
-       emit noteDetected(Tnote(qRound(pitch - audioParams->a440diff)-47));
+       emit noteDetected(Tnote(qRound(pitch - audioParams->a440diff) - 47));
        emit fundamentalFreq(freq);
   }
 }

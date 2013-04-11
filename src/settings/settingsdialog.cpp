@@ -225,7 +225,10 @@ GlobalSettings::GlobalSettings(QWidget *parent) :
   updateBox->setLayout(upLay);
   lay->addWidget(updateBox);
   lay->addStretch(1);
-  connect(updateButton, SIGNAL(clicked()), this, SLOT(updateSlot()));
+  if (TupdateProcess::isPossible())
+    connect(updateButton, SIGNAL(clicked()), this, SLOT(updateSlot()));
+  else 
+    updateBox->hide();
   
   setLayout(lay);
 }

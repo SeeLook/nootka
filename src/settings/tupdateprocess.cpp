@@ -25,20 +25,33 @@
 #include <QDir>
 #include <QTimer>
 
+
+/*static*/
+bool TupdateProcess::isPossible() {
+  QString exec = QDir::fromNativeSeparators(qApp->applicationDirPath() + "/" + "nootka-updater");
+#if defined(Q_OS_WIN32)
+  exec += ".exe";
+#endif
+  QFileInfo fi(exec);
+  if (fi.exists()) {
+    return true;
+  } else
+    return false;
+}
+
+
+
 TupdateProcess::TupdateProcess(bool respectRules, QObject* parent) : 
   QObject(parent),
   m_respectRules(respectRules)
 {
   m_process = new QProcess(this);
+  if (!isPossible())
+        return;
   m_exec = QDir::fromNativeSeparators(qApp->applicationDirPath() + "/" + "nootka-updater");
 #if defined(Q_OS_WIN32)
   m_exec += ".exe";
 #endif
-  QFileInfo fi(m_exec);
-  if (fi.exists()) {
-    m_isPossible = true;
-  } else
-    m_isPossible = false;
   connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(processSays()));
 
 }
@@ -51,7 +64,7 @@ TupdateProcess::~TupdateProcess()
 }
 
 void TupdateProcess::start() {
-  if (m_isPossible) {
+  if (isPossible()) {
     m_timer = new QTimer(this);
     m_timer->start(7000); // 7 sec for check updates
     connect(m_timer, SIGNAL(timeout()), this, SLOT(processTimeOut()));

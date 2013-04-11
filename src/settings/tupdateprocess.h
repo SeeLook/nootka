@@ -43,7 +43,8 @@ public:
     virtual ~TupdateProcess();
     
     void start();
-    bool isPossible() { return m_isPossible; }
+        /** Returns TRUE when nootka-updater file exist. */
+    static bool isPossible();
     
 signals:
     void updateOutput(QString);
@@ -54,7 +55,7 @@ protected slots:
   void processSays();
   
 private:
-  bool m_respectRules, m_isPossible;
+  bool m_respectRules;
   QProcess *m_process;
   QTimer *m_timer;
   QString m_exec;
