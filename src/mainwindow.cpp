@@ -83,7 +83,7 @@ MainWindow::MainWindow(QWidget *parent)
         else { // check for updates
           gl->config->endGroup();
           gl->config->beginGroup("Updates");
-          if (gl->config->value("enableUpdates", true).toBool()) {
+          if (gl->config->value("enableUpdates", true).toBool() && TupdateProcess::isPossible()) {
               TupdateProcess *process = new TupdateProcess(true, this);
               process->start();
           }

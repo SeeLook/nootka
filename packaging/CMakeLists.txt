@@ -39,7 +39,7 @@ else (ENABLE_JACK)
 endif (ENABLE_JACK)
 
 
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.9), libqtcore4 | libqt4-core, libqtgui4 | libqt4-gui, ${DEB_DEPENDS} libfftw3-3 libvorbisfile3 libsoundtouch0")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.9), libqtcore4 | libqt4-core, libqtgui4 | libqt4-gui, ${DEB_DEPENDS} libfftw3-3, libvorbisfile3, libsoundtouch0")
 #CPACK_DEBIAN_PACKAGE_MAINTAINER #CPACK_PACKAGE_CONTACT
 set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Application to help with learning classical score notation.
  Mostly it is for guitarists,

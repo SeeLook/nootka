@@ -12,7 +12,7 @@ include_directories(${QT_INCLUDES})
 
 SET(Nootka_VERSION_MAJOR  "0")
 SET(Nootka_VERSION_MINOR  "8")
-SET(Nootka_VERSION_PATCH  "70-alpha")
+SET(Nootka_VERSION_PATCH  "70-prebeta")
 
 SET(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
 SET(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
@@ -27,65 +27,69 @@ if(APPLE)
   set(PACKAGE_ARCHITECTURE x86_64)
 endif(APPLE)
 
-# if(NOT PACKAGE_ARCHITECTURE)
-#    find_program(DPKG_CMD dpkg)
-#    if(NOT DPKG_CMD)
-#       find_program(RPM_CMD rpm)
-#       if(NOT RPM_CMD)
-# #         message(STATUS "Can not find any program to determine architecture, default to i386.")
-# #         set(PACKAGE_ARCHITECTURE i386)
-#         execute_process(COMMAND uname -m
-#           OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
-#           OUTPUT_STRIP_TRAILING_WHITESPACE
-#         )
-#       else(NOT RPM_CMD)
-#         execute_process(COMMAND "${RPM_CMD}" --eval %_target_cpu
-#           OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
-#           OUTPUT_STRIP_TRAILING_WHITESPACE 
-#         )
-#         set(RPM_CMD_FOUND TRUE)
-#       endif(NOT RPM_CMD)
-#    else(NOT DPKG_CMD)
-#       execute_process(COMMAND "${DPKG_CMD}" --print-architecture
-#         OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
-#         OUTPUT_STRIP_TRAILING_WHITESPACE
-#       )
-#       add_definitions(-D_FORTIFY_SOURCE=2) # for lintian DEB_BUILD_HARDENING_FORTIFY
-#    endif(NOT DPKG_CMD)
-# endif(NOT PACKAGE_ARCHITECTURE)
-# message(STATUS "Architecture is ${PACKAGE_ARCHITECTURE}")
-
-if(NOT PACKAGE_ARCHITECTURE AND NOT ARCH_CMD)
-   find_program(ARCH_CMD dpkg) # Debian/Ubuntu and derivatives
-   if(ARCH_CMD)
-      execute_process(COMMAND "${ARCH_CMD}" --print-architecture
-        OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-      )
-      add_definitions(-D_FORTIFY_SOURCE=2) # for lintian DEB_BUILD_HARDENING_FORTIFY
-      set (ISDEB TRUE)
-   endif(ARCH_CMD)
-   
-   if(NOT ARCH_CMD) # Mandriva/Suse and others RPM-based
-     set (ISDEB FALSE)
-#      if(ARCH_CMD)
-      find_program(ARCH_CMD rpm)
-      execute_process(COMMAND "${ARCH_CMD}" --eval %_target_cpu
-          OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
-          OUTPUT_STRIP_TRAILING_WHITESPACE
-        )
-#       endif(ARCH_CMD)
-   endif(NOT ARCH_CMD)
-   
-   if(NOT ARCH_CMD) # Arch Linux, Gentoo and others
-        find_program(ARCH_CMD uname)
+if(NOT PACKAGE_ARCHITECTURE)
+   find_program(DPKG_CMD dpkg)
+   if(NOT DPKG_CMD)
+      find_program(RPM_CMD rpm)
+      if(NOT RPM_CMD)
+#         message(STATUS "Can not find any program to determine architecture, default to i386.")
+#         set(PACKAGE_ARCHITECTURE i386)
         execute_process(COMMAND uname -m
           OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
           OUTPUT_STRIP_TRAILING_WHITESPACE
         )
-   endif(NOT ARCH_CMD)   
-endif(NOT PACKAGE_ARCHITECTURE AND NOT ARCH_CMD)
+      else(NOT RPM_CMD)
+        execute_process(COMMAND "${RPM_CMD}" --eval %_target_cpu
+          OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
+          OUTPUT_STRIP_TRAILING_WHITESPACE 
+        )
+        set(RPM_CMD_FOUND TRUE)
+      endif(NOT RPM_CMD)
+   else(NOT DPKG_CMD)
+      execute_process(COMMAND "${DPKG_CMD}" --print-architecture
+        OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+      )
+      message(STATUS "-D_FORTIFY_SOURCE=2")
+      add_definitions(-D_FORTIFY_SOURCE=2) # for lintian DEB_BUILD_HARDENING_FORTIFY
+   endif(NOT DPKG_CMD)
+endif(NOT PACKAGE_ARCHITECTURE)
 message(STATUS "Architecture is ${PACKAGE_ARCHITECTURE}")
+if (NOT DPKG_CMD)
+    unset(DPKG_CMD)
+endif (NOT DPKG_CMD)
+
+# if(NOT PACKAGE_ARCHITECTURE AND NOT ARCH_CMD)
+#    find_program(ARCH_CMD dpkg) # Debian/Ubuntu and derivatives
+#    if(ARCH_CMD)
+#       execute_process(COMMAND "${ARCH_CMD}" --print-architecture
+#         OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
+#         OUTPUT_STRIP_TRAILING_WHITESPACE
+#       )
+#       add_definitions(-D_FORTIFY_SOURCE=2) # for lintian DEB_BUILD_HARDENING_FORTIFY
+#       set (ISDEB TRUE)
+#    endif(ARCH_CMD)
+#    
+#    if(NOT ARCH_CMD) # Mandriva/Suse and others RPM-based
+#      set (ISDEB FALSE)
+# #      if(ARCH_CMD)
+#       find_program(ARCH_CMD rpm)
+#       execute_process(COMMAND "${ARCH_CMD}" --eval %_target_cpu
+#           OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
+#           OUTPUT_STRIP_TRAILING_WHITESPACE
+#         )
+# #       endif(ARCH_CMD)
+#    endif(NOT ARCH_CMD)
+#    
+#    if(NOT ARCH_CMD) # Arch Linux, Gentoo and others
+#         find_program(ARCH_CMD uname)
+#         execute_process(COMMAND uname -m
+#           OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
+#           OUTPUT_STRIP_TRAILING_WHITESPACE
+#         )
+#    endif(NOT ARCH_CMD)   
+# endif(NOT PACKAGE_ARCHITECTURE AND NOT ARCH_CMD)
+# message(STATUS "Architecture is ${PACKAGE_ARCHITECTURE}")
 
 ###########################################################################
 ########   Looking for fftw3
@@ -410,9 +414,10 @@ if(UNIX AND NOT APPLE)
       execute_process(COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/doc )
       execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/make-chlog.sh ${Nootka_VERSION_FULL} ${CMAKE_CURRENT_BINARY_DIR}/doc/changelog ${CMAKE_CURRENT_SOURCE_DIR})
 	" )
-  if (ISDEB) # Debian changelog
+  if (DPKG_CMD) # Debian changelog
+      message(STATUS "Debian changelog OK")
       INSTALL(FILES "${CMAKE_CURRENT_BINARY_DIR}/doc/changelog.Debian.gz" DESTINATION share/doc/nootka)
-  endif (ISDEB)
+  endif (DPKG_CMD)
 	INSTALL(FILES copyright DESTINATION share/doc/nootka)
 	INSTALL(FILES packaging/nootka.1.gz DESTINATION share/man/man1)
 	INSTALL(FILES packaging/nootka-updater.1.gz DESTINATION share/man/man1)

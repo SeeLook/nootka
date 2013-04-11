@@ -254,28 +254,25 @@ void ToggScale::decodeAndResample() {
   long int tmpPos = 0, tmpRead = 0;
   uint pos = 0, read = 0;
   int samplesReady = 0;
-//   char* tmpBuff = new char[2048];
   
-  float **floatBuff;
+  float **oggChannels;
   float *left ;
   float *tmpTouch = new float[8192]; // TODO: class wide range
   
   while (m_doDecode && pos < maxSize) {
+    /// 1. Grab audio data from ogg
     if (tmpPos < 172000) { // almost 2 sec. of a note
-//         tmpRead = ov_read(&m_ogg, tmpBuff, 2048, 0, 2, 1, &bitStream);
-        tmpRead = ov_read_float(&m_ogg, &floatBuff, 2048, 0);
+        tmpRead = ov_read_float(&m_ogg, &oggChannels, 2048, 0);
         tmpPos += tmpRead;
-        left = floatBuff[0];
-        if (tmpRead > 0) {
+        left = oggChannels[0]; // pointer to lefta channel chunk
+        if (tmpRead > 0) { /// 2. push data to SoundTouch
             m_touch->putSamples((SAMPLETYPE*)left, tmpRead);
-//             m_touch->putSamples((SAMPLETYPE*)tmpBuff, tmpRead / 2);
         }
     }    
     samplesReady = m_touch->numSamples();
-    if (samplesReady > 0) {
-//       read = m_touch->receiveSamples(m_pcmBuffer + pos, samplesReady);
+    if (samplesReady > 0) { /// 3. Get resampled/offseted data from SoundTouch
       read = m_touch->receiveSamples((SAMPLETYPE*)tmpTouch, samplesReady);      
-      for (int i = 0; i < read; i++) // convert samples to 16bit integer
+      for (int i = 0; i < read; i++) /// 4. Convert samples to 16bit integer
           *(m_pcmBuffer + pos + i) = qint16(*(tmpTouch + i) * 32768);
       pos += read;
     }
@@ -285,7 +282,6 @@ void ToggScale::decodeAndResample() {
   m_isDecoding = false;
 //   qDebug() << "decodeAndResample finished" << pos;
   m_touch->clear();
-//   delete tmpBuff;
   m_thread->quit();
   delete tmpTouch;
 }
