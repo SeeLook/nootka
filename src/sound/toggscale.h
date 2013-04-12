@@ -24,8 +24,14 @@
 #include <QObject>
 #include "vorbis/codec.h"
 #include "vorbis/vorbisfile.h"
-// #include "stouch/SoundTouch.h"
-#include "soundtouch/SoundTouch.h"
+#if defined(Q_OS_LINUX)
+  // Linux uses distribution package of SoundTouch
+  #include "soundtouch/SoundTouch.h"
+#else
+  // Mac & Win has compiled-in SoundTouch
+  #include "stouch/SoundTouch.h"
+#endif
+
 
 using namespace soundtouch;
 

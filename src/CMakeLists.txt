@@ -157,6 +157,11 @@ if(MINGW)
   LIST(APPEND NOOTKA_SRCS "sound/rt/asio.cpp"  "sound/rt/asiodrivers.cpp"  "sound/rt/asiolist.cpp"  "sound/rt/iasiothiscallresolver.cpp")
 endif(MINGW)
 
+if(APPLE OR MINGW) # SoundTouch
+  LIST(APPEND NOOTKA_SRCS "sound/stouch/SoundTouch.cpp" "sound/stouch/TDStretch.cpp" "sound/stouch/RateTransposer.cpp"
+    "sound/stouch/AAFilter.cpp" "sound/stouch/FIRFilter.cpp" "sound/stouch/FIFOSampleBuffer.cpp"
+    "sound/stouch/cpu_detect_x86.cpp" "sound/stouch/sse_optimized.cpp")
+endif(APPLE OR MINGW)
 
 SET( NOOTKA_MOC_SRCS
   mainwindow.h
@@ -238,6 +243,7 @@ endif(UNIX AND NOT APPLE)
 
 
 if(MINGW)
+  set(CMAKE_CXX_FLAGS "-O2 -march=pentium3m") # SoundTouch require it
  # dress up win executable in nice nootka icon ONLY FOR MINGW !!!!!!!!!!!!!
     ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/nootico.o
                        COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -i${CMAKE_CURRENT_SOURCE_DIR}/../picts/nootka-icon.rc
@@ -249,7 +255,7 @@ if(MINGW)
         ${QT_QTGUI_LIBRARY}
         ${FFTW3_LIBRARIES}
         ${VORBIS_LIBRARIES}
-        ${SOUNDTOUCH_LIBRARY}
+#         ${SOUNDTOUCH_LIBRARY}
         winmm dsound
 	)
 endif(MINGW)
@@ -296,7 +302,7 @@ if(APPLE)
         ${CoreMidi_LIB}
         ${CoreFoundation_LIB}
         ${VORBIS_LIBRARIES}
-        ${SOUNDTOUCH_LIBRARY}
+#         ${SOUNDTOUCH_LIBRARY}
   )
 endif(APPLE)
 
