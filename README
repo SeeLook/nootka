@@ -10,7 +10,8 @@
   both ogg and vorbis. Libraries are on a site in vorbis-tools 
   and headers are in libogg and libvorbis.
   Under Linux libvorbis-dev & libogg-dev (or similar)
-- SoundTouch library (http://www.surina.net/soundtouch/)
+- under Linux 
+  SoundTouch library (http://www.surina.net/soundtouch/)
   (libsoundtouch and libsoundtouch-dev)
 - FFTW libraries (http://www.fftw.org/)
     libfftw3-dev
