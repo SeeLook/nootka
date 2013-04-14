@@ -41,7 +41,7 @@ QStringList TaudioIN::getAudioDevicesList() {
           continue;
         }
         if (devInfo.probed && devInfo.inputChannels > 0)
-          devList << QString::fromStdString(devInfo.name);
+          devList << QString::fromLocal8Bit(devInfo.name.data());
     }
     delete rta;
     return devList;

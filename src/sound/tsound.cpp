@@ -33,7 +33,7 @@ extern Tglobals *gl;
 
 Tsound::Tsound(QObject* parent) :
   QObject(parent),
-  m_thread(new QThread()),
+//   m_thread(new QThread()),
   sniffer(0),
   player(0),
   m_examMode(false)
@@ -53,8 +53,8 @@ Tsound::~Tsound()
 { //They have not a parent
   deleteSniffer();
   deletePlayer();
-  m_thread->quit();
-  m_thread->deleteLater();
+//   m_thread->quit();
+//   m_thread->deleteLater();
 }
 
 //------------------------------------------------------------------------------------
@@ -262,7 +262,7 @@ void Tsound::createSniffer() {
 void Tsound::deletePlayer() {
   if (player)
     player->stop();
-  m_thread->quit();
+//   m_thread->quit();
   if (player) {
     player->deleteLater();
     player = 0;
@@ -288,8 +288,10 @@ void Tsound::deleteSniffer() {
 void Tsound::playingFinishedSlot() {
 //   qDebug("playingFinished");
   if (!m_examMode && sniffer) {
-    sniffer->go();
-    m_pitchView->startVolume();
+    if (!m_pitchView->isPaused()) {
+        sniffer->go();
+        m_pitchView->startVolume();
+    }
   }
   emit plaingFinished();
 //   go();

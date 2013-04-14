@@ -28,7 +28,8 @@
 TvolumeView::TvolumeView(QWidget* parent) :
   TabstractSoundView(parent),
   m_volume(0.0f), m_prevVol(0.0f),
-  m_pitchColor(Qt::red)
+  m_pitchColor(Qt::red),
+  m_alpha(0)
 {
   setBackgroundRole(QPalette::Background);
   setAutoFillBackground(true);

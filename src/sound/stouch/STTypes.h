@@ -113,10 +113,10 @@ namespace soundtouch
         /// these routines, so if you're having difficulties getting the optimized 
         /// routines compiled for whatever reason, you may disable these optimizations 
         /// to make the library compile.
-//     #if defined(Q_OS_WIN32)
+//     #if defined(Q_OS_MAC)
 //         #define SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS     1
 //     #else
-        #define SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS     1
+//         #define SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS     1
 //     #endif
         /// In GNU environment, allow the user to override this setting by
         /// giving the following switch to the configure script:
