@@ -272,13 +272,24 @@ void AudioInSettings::generateDevicesList() {
   m_listGenerated = true;
 }
 
+
+float AudioInSettings::offPitch(float pitch) {
+  return pitch2freq(pitch - m_tmpParams->a440diff);
+}
+
 void AudioInSettings::getFreqStatusTip() {
-    QString freqTxt = QString("<br><span style=\"font-family: nootka;\">6</span>E = %1Hz, ").arg(getFreq(82.5)) +
-            QString("<span style=\"font-family: nootka;\">5</span>A = %1Hz, ").arg(getFreq(110.0)) + "<br>" +
-            QString("<span style=\"font-family: nootka;\">4</span>d = %1Hz, ").arg(getFreq(146.0)) + 
-            QString("<span style=\"font-family: nootka;\">3</span>g = %1Hz, ").arg(getFreq(195.0)) + "<br>" +
-            QString("<span style=\"font-family: nootka;\">2</span>h = %1Hz, ").arg(getFreq(245.0)) +
-            QString("<span style=\"font-family: nootka;\">1</span>e<sup>1</sup> = %1Hz").arg(getFreq(330.0));
+//     QString freqTxt = QString("<br><span style=\"font-family: nootka;\">6</span>E = %1Hz, ").arg(getFreq(82.5)) +
+//             QString("<span style=\"font-family: nootka;\">5</span>A = %1Hz, ").arg(getFreq(110.0)) + "<br>" +
+//             QString("<span style=\"font-family: nootka;\">4</span>d = %1Hz, ").arg(getFreq(146.0)) + 
+//             QString("<span style=\"font-family: nootka;\">3</span>g = %1Hz, ").arg(getFreq(195.0)) + "<br>" +
+//             QString("<span style=\"font-family: nootka;\">2</span>h = %1Hz, ").arg(getFreq(245.0)) +
+//             QString("<span style=\"font-family: nootka;\">1</span>e<sup>1</sup> = %1Hz").arg(getFreq(330.0));
+  QString freqTxt = QString("<br><span style=\"font-family: nootka;\">6</span>E = %1Hz, ").arg(offPitch(40.0f)) +
+            QString("<span style=\"font-family: nootka;\">5</span>A = %1Hz, ").arg(offPitch(45.0f)) + "<br>" +
+            QString("<span style=\"font-family: nootka;\">4</span>d = %1Hz, ").arg(offPitch(50.0f)) + 
+            QString("<span style=\"font-family: nootka;\">3</span>g = %1Hz, ").arg(offPitch(55.0f)) + "<br>" +
+            QString("<span style=\"font-family: nootka;\">2</span>h = %1Hz, ").arg(offPitch(59.0f)) +
+            QString("<span style=\"font-family: nootka;\">1</span>e<sup>1</sup> = %1Hz").arg(offPitch(64.0f));
     freqLab->setStatusTip(tr("Frequency of detected note. You can use it for tune") + freqTxt);
     tuneFreqlab->setText(freqTxt);
 }

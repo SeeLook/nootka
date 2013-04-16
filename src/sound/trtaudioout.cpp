@@ -233,7 +233,10 @@ void TaudioOUT::stop() {
 
 void TaudioOUT::stopSlot() {
   offTimer->stop();
-  closeStram();
+  if (rtDevice->getCurrentApi() == RtAudio::LINUX_PULSE)
+    stopStream();
+  else
+    closeStram();
   if (doEmit)
     emit noteFinished();
 }

@@ -56,7 +56,7 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
   }
   QVBoxLayout *viewLay = new QVBoxLayout;
   
-  m_intoView = new TintonationView(1, this);
+  m_intoView = new TintonationView(TintonationView::e_perfect, this);
   viewLay->addWidget(m_intoView);
   m_intoView->setStatusTip(tr("Intonation - clarity of the sound. Is it in tune?"));
   
@@ -145,9 +145,11 @@ void TpitchView::setIsVoice(bool isVoice) {
   if (isVoice) {
       voiceButt->setText("v"); // singer symbol for voice mode
       m_isVoice = true;
+      m_intoView->setAccuracy(TintonationView::e_sufficient);
     } else {
       voiceButt->setText("g"); // guitar symbol for instruments mode
       m_isVoice = false;
+      m_intoView->setAccuracy(TintonationView::e_perfect);
     }
     if (m_audioIN)
       m_audioIN->setIsVoice(m_isVoice);
