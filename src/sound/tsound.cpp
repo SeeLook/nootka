@@ -251,12 +251,9 @@ void Tsound::createPlayer() {
 
 void Tsound::createSniffer() {
   sniffer = new TaudioIN(gl->A);
-//   sniffer->moveToThread(m_thread);
-//   m_thread->start(QThread::HighPriority);
   sniffer->setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
-
   sniffer->startListening();
-  connect(sniffer, SIGNAL(noteDetected(Tnote)), this, SLOT(noteDetectedSlot(Tnote)), Qt::QueuedConnection);
+  connect(sniffer, SIGNAL(noteDetected(Tnote)), this, SLOT(noteDetectedSlot(Tnote)));
 }
 
 void Tsound::deletePlayer() {

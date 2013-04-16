@@ -86,6 +86,7 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
   }
 }
 
+
 void TvolumeView::resizeEvent(QResizeEvent* ) {
   resizeIt(height());
 //   qDebug() << "TvolumeView" << height() << nootFont;
