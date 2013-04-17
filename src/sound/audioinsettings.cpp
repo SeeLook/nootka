@@ -284,12 +284,12 @@ void AudioInSettings::getFreqStatusTip() {
 //             QString("<span style=\"font-family: nootka;\">3</span>g = %1Hz, ").arg(getFreq(195.0)) + "<br>" +
 //             QString("<span style=\"font-family: nootka;\">2</span>h = %1Hz, ").arg(getFreq(245.0)) +
 //             QString("<span style=\"font-family: nootka;\">1</span>e<sup>1</sup> = %1Hz").arg(getFreq(330.0));
-  QString freqTxt = QString("<br><span style=\"font-family: nootka;\">6</span>E = %1Hz, ").arg(offPitch(40.0f)) +
-            QString("<span style=\"font-family: nootka;\">5</span>A = %1Hz, ").arg(offPitch(45.0f)) + "<br>" +
-            QString("<span style=\"font-family: nootka;\">4</span>d = %1Hz, ").arg(offPitch(50.0f)) + 
-            QString("<span style=\"font-family: nootka;\">3</span>g = %1Hz, ").arg(offPitch(55.0f)) + "<br>" +
-            QString("<span style=\"font-family: nootka;\">2</span>h = %1Hz, ").arg(offPitch(59.0f)) +
-            QString("<span style=\"font-family: nootka;\">1</span>e<sup>1</sup> = %1Hz").arg(offPitch(64.0f));
+  QString freqTxt = QString("<br><span style=\"font-family: nootka;\">6</span>E = %1 Hz, ").arg(offPitch(40.0f), 0, 'f', 1) +
+            QString("<span style=\"font-family: nootka;\">5</span>A = %1 Hz, ").arg(offPitch(45.0f), 0, 'f', 1) + "<br>" +
+            QString("<span style=\"font-family: nootka;\">4</span>d = %1 Hz, ").arg(offPitch(50.0f), 0, 'f', 1) + 
+            QString("<span style=\"font-family: nootka;\">3</span>g = %1 Hz, ").arg(offPitch(55.0f), 0, 'f', 1) + "<br>" +
+            QString("<span style=\"font-family: nootka;\">2</span>h = %1 Hz, ").arg(offPitch(59.0f), 0, 'f', 1) +
+            QString("<span style=\"font-family: nootka;\">1</span>e<sup>1</sup> = %1 Hz").arg(offPitch(64.0f), 0, 'f', 1);
     freqLab->setStatusTip(tr("Frequency of detected note. You can use it for tune") + freqTxt);
     tuneFreqlab->setText(freqTxt);
 }
