@@ -117,10 +117,10 @@ void TintonationView::resizeEvent(QResizeEvent* ) {
   m_tickColors.clear();
   for (int i = 0; i < m_ticksCount; i++) {
     if (i <= m_ticksCount*m_accurValue) {
-      m_tickColors << gradColorAtPoint(0, m_noteX * m_accurValue * 1.2, startColor, middleColor, (i + 1) * (m_noteX / m_ticksCount));
+      m_tickColors << gradColorAtPoint(0, m_noteX * m_accurValue * 2, startColor, middleColor, (i + 1) * (m_noteX / m_ticksCount));
     }
-    else if (i <= m_ticksCount*0.5) {
-      m_tickColors << gradColorAtPoint(m_noteX * m_accurValue, m_noteX * 0.55, middleColor, endColor, (i + 1) * (m_noteX / m_ticksCount));
+    else if (i <= m_ticksCount*0.6) {
+      m_tickColors << gradColorAtPoint(m_noteX * m_accurValue, m_noteX * 0.7, middleColor, endColor, (i + 1) * (m_noteX / m_ticksCount));
       } else {
           m_tickColors << gradColorAtPoint(m_noteX * 0.5, m_noteX, endColor, totalColor, (i + 1) * (m_noteX / m_ticksCount));
         }
