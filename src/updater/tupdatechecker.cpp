@@ -39,7 +39,7 @@ TupdateChecker::TupdateChecker(QObject* parent) :
 void TupdateChecker::check(bool checkRules){
   m_respectRules = checkRules;
   if (!m_respectRules)
-    std::cout << tr("Checking for updates. Please wait...").toStdString() << std::endl;
+    std::cout << qPrintable(tr("Checking for updates. Please wait...")) << std::endl;
   if (!m_respectRules || (m_updateRules.enable && isUpdateNecessary(m_updateRules))) {
         QNetworkRequest request(QUrl("http://nootka.sourceforge.net/ch/version.php"));
 #if defined(Q_OS_WIN32)
