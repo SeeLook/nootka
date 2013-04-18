@@ -58,7 +58,7 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
   
   m_intoView = new TintonationView(TintonationView::e_perfect, this);
   viewLay->addWidget(m_intoView);
-  m_intoView->setStatusTip(tr("Intonation - clarity of the sound. Is it in tune?"));
+  m_intoView->setStatusTip(tr("Intonation - clarity of the sound. Is it in tune."));
   
   m_volMeter = new TvolumeView(this);
   viewLay->addWidget(m_volMeter);

@@ -127,72 +127,72 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="103"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="93"/>
         <source>middle A</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="106"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="96"/>
         <source>frequency:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="112"/>
-        <source>A pitch of detecting notes is related to this value. It also affects played sounds.</source>
+        <location filename="../src/sound/audioinsettings.cpp" line="102"/>
+        <source>A base frequency of &lt;i&gt;middle a&lt;/i&gt;.&lt;br&gt;The pitch of detecting notes depends on this value. It also affects played sounds.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="119"/>
+        <source>Shifts the frequency of &lt;i&gt;middle a&lt;/i&gt; on semitone.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/sound/audioinsettings.cpp" line="110"/>
         <source>interval:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="125"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="116"/>
         <source>semitone up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="126"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="117"/>
         <source>none</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="127"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="118"/>
         <source>semitone down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="128"/>
-        <source>Shifts the frequency of base a&lt;sup&gt;1&lt;/sup&gt; on semitone.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="149"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="141"/>
         <source>Test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="150"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="142"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="155"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="147"/>
         <source>Check, are audio input settings appropirate for You,&lt;br&gt;and does pitch detection work?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="168"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="160"/>
         <source>Detected pitch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="269"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="261"/>
         <source>no devices found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="282"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="285"/>
         <source>Frequency of detected note. You can use it for tune</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2029,7 +2029,7 @@ Check please, are its parameters as expected.</source>
     </message>
     <message>
         <location filename="../src/sound/tpitchview.cpp" line="61"/>
-        <source>Intonation - clarity of the sound. Is it in tune?</source>
+        <source>Intonation - clarity of the sound. Is it in tune.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

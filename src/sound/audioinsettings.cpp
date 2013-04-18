@@ -84,16 +84,6 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* pa
   devDetLay->addWidget(tuneFreqlab);
   devDetLay->addStretch(1);
   
-  /*QVBoxLayout *tarLay = new QVBoxLayout();
-  QGroupBox *tarGr = new QGroupBox(this);
-  QLabel *tartiniLab = new QLabel(tr("Pitch detection methods are taken from the <a href=\"http://miracle.otago.ac.nz/tartini/index.html\">Tartini Project</a> developed by<br>Philip McLeod"), this);
-  tartiniLab->setWordWrap(true);
-  tartiniLab->setAlignment(Qt::AlignCenter);
-  tarLay->addWidget(tartiniLab);
-  tarGr->setLayout(tarLay);
-  devDetLay->addWidget(tarGr);
-  devDetLay->addStretch(1);*/
-  
   upLay->addLayout(devDetLay);
   QVBoxLayout *tunLay = new QVBoxLayout(); //middle A & threshold layout
   
@@ -109,12 +99,13 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* pa
   freqSpin = new QSpinBox(this);
 //   midLay->addWidget(freqSpin);
   midGrLay->addWidget(freqSpin, 0, 1);
-  freqSpin->setStatusTip(tr("A pitch of detecting notes is related to this value. It also affects played sounds."));
+  freqSpin->setStatusTip(tr("A base frequency of <i>middle a</i>.<br>The pitch of detecting notes depends on this value. It also affects played sounds."));
   freqSpin->setMinimum(400);
   freqSpin->setMaximum(480);
 //   freqSpin->setValue(int(pitch2freq(freq2pitch(440.0) + m_glParams->a440diff)));
   freqSpin->setValue(getFreq(440.0));
   freqSpin->setSuffix(" Hz");
+  frLab->setStatusTip(freqSpin->statusTip());
   
   QLabel *intLab = new QLabel(tr("interval:"), this);
 //   midLay->addWidget(intLab);
@@ -125,7 +116,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* pa
   intervalCombo->addItem(tr("semitone up"));
   intervalCombo->addItem(tr("none"));
   intervalCombo->addItem(tr("semitone down"));
-  intervalCombo->setStatusTip(tr("Shifts the frequency of base a<sup>1</sup> on semitone."));
+  intervalCombo->setStatusTip(tr("Shifts the frequency of <i>middle a</i> on semitone."));
   if (freqSpin->value() <= 415)
       intervalCombo->setCurrentIndex(2);
     else if (freqSpin->value() >= 465)
@@ -133,6 +124,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* pa
     else
       intervalCombo->setCurrentIndex(1);
   midLay->addLayout(midGrLay);
+  intLab->setStatusTip(intervalCombo->statusTip());
   
   midABox->setLayout(midLay);
   tunLay->addWidget(midABox);

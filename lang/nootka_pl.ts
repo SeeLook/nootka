@@ -87,245 +87,248 @@
 <context>
     <name>AudioInSettings</name>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="48"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="49"/>
         <source>input device</source>
         <translation>urządzenie wejściowe</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="52"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="53"/>
         <source>Be sure Your input device (a mike, a webcam, an instrument pluged to line-in) is properly configured by Your operating system.</source>
         <translation>Upewnij się, że twoje urządzenie wejściowe (mikrofon, kamera internetowa, instrument podłączony do wejścia liniowego) jest właściwie skonfigurowane przez system operacyjny.</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="56"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="57"/>
         <source>pitch detection mode</source>
         <translation>Tryb wykrywania wysokości dźwięku</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="63"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="64"/>
         <source>for playing</source>
         <translation>dla grania</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="66"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="67"/>
         <source>This mode is faster and good enought for guitars and other instruments.</source>
         <translation>Ten tryb jest szybszy i wystarczająco dobry dla gitar i innych instrumentów.</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="70"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="71"/>
         <source>for singing</source>
         <translation>dla śpiewu</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="73"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="74"/>
         <source>This mode is more accurate but slower. It is recommended for singing and for instruments with &quot;wobbly&quot; intonation.</source>
         <translation>Ten tryb jest bardziej dokładny ale wolniejszy. Rekomendowany jest dla śpiewu i dla instrumentów z &quot;rozchwianą&quot; intonacją.</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="102"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="93"/>
         <source>middle A</source>
         <translation>środkowe A</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="105"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="96"/>
         <source>frequency:</source>
         <translation>częstotliwość:</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="118"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="102"/>
+        <source>A base frequency of &lt;i&gt;middle a&lt;/i&gt;.&lt;br&gt;The pitch of detecting notes depends on this value. It also affects played sounds.</source>
+        <translation>Podstawowa częstotliwość &lt;i&gt;środkowego a&lt;/i&gt;.&lt;br&gt;Od tej wartości zależy wysokość rozpoznawanych dźwięków. Wpływa ona także na odtwarzane dźwięki.</translation>
+    </message>
+    <message>
+        <location filename="../src/sound/audioinsettings.cpp" line="110"/>
         <source>interval:</source>
         <translation>interwał:</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="124"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="116"/>
         <source>semitone up</source>
         <translation>pół tonu w górę</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="125"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="117"/>
         <source>none</source>
         <translation>brak</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="126"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="118"/>
         <source>semitone down</source>
         <translation>pół tonu w dół</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="127"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="119"/>
+        <source>Shifts the frequency of &lt;i&gt;middle a&lt;/i&gt; on semitone.</source>
+        <translation>Zmienia częstotliwość &lt;i&gt;środkowego a&lt;/i&gt; o pół tonu.</translation>
+    </message>
+    <message>
         <source>Shifts the frequency of base a&lt;sup&gt;1&lt;/sup&gt; on semitone.</source>
-        <translation>Zmienia częstotliwość dźwięku bazowego a&lt;sup&gt;1&lt;/sup&gt; o pół tonu.</translation>
+        <translation type="obsolete">Zmienia częstotliwość dźwięku bazowego a&lt;sup&gt;1&lt;/sup&gt; o pół tonu.</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="141"/>
         <source>noise level:</source>
-        <translation>poziom szumu:</translation>
+        <translation type="obsolete">poziom szumu:</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="151"/>
         <source>Only sounds louder than noise level are taken to pitch analyse. It can improve the pitch detection accuracy.</source>
-        <translation>Do analizy wysokości brane są tylko dżwięki głośniejsze niż poziom szumu. Może to poprawić dokładność rozpoznawania dźwięku.</translation>
+        <translation type="obsolete">Do analizy wysokości brane są tylko dżwięki głośniejsze niż poziom szumu. Może to poprawić dokładność rozpoznawania dźwięku.</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="168"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="147"/>
         <source>Check, are audio input settings appropirate for You,&lt;br&gt;and does pitch detection work?</source>
         <translation>Sprawdź, czy ustawienia wejścia audio są właściwe,&lt;br&gt; oraz czy działa rozpozawanie wysokości dźwięku?</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="284"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="285"/>
         <source>Frequency of detected note. You can use it for tune</source>
         <translation>Częstotliwość wykrytego dźwięku. Można jej użyć do strojenia</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="152"/>
         <source>Calculate</source>
-        <translation>Oblicz</translation>
+        <translation type="obsolete">Oblicz</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="40"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="41"/>
         <source>enable pitch detection</source>
         <translation>włącz rozpoznawanie dźwięków</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="111"/>
         <source>A pitch of detecting notes is related to this value. It also affects played sounds - for midi exaclty and for real audio it is rounded to semitones.</source>
-        <translation>Od tej wartości zależy wysokość rozpoznawanych dźwięków. Wpływa ona także na odtwarzane dźwięki - dokładnie na midi, a dla wyjścia audio jest zaokrąglana do półtonów.</translation>
+        <translation type="obsolete">Od tej wartości zależy wysokość rozpoznawanych dźwięków. Wpływa ona także na odtwarzane dźwięki - dokładnie na midi, a dla wyjścia audio jest zaokrąglana do półtonów.</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="154"/>
         <source>Click to automatically detect noise level.&lt;br&gt;Keep silence during 2 seconds to determine it properly.</source>
-        <translation>Kliknij żeby automatycznie wyznaczyć poziom szumu.&lt;br&gt;Zachowaj ciszę przez 2 sekundy.</translation>
+        <translation type="obsolete">Kliknij żeby automatycznie wyznaczyć poziom szumu.&lt;br&gt;Zachowaj ciszę przez 2 sekundy.</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="162"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="141"/>
         <source>Test</source>
         <translation>Próba</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="163"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="142"/>
         <source>Stop</source>
         <translation>Stop</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="180"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="160"/>
         <source>Detected pitch</source>
         <translation>Wykryty dźwięk</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="271"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="261"/>
         <source>no devices found</source>
         <translation>nie znaleziono urządzenia</translation>
     </message>
     <message>
-        <location filename="../src/sound/audioinsettings.cpp" line="338"/>
         <source>There isn&apos;t any noise !?!&lt;br&gt;It seems, Your audio input&lt;br&gt;is not configured properly.</source>
-        <translation>Nie słychać szumu!?!&lt;br&gt;Wygląda na to, że wejście audio&lt;br&gt;nie jest poprawnie skonfigurowane.</translation>
+        <translation type="obsolete">Nie słychać szumu!?!&lt;br&gt;Wygląda na to, że wejście audio&lt;br&gt;nie jest poprawnie skonfigurowane.</translation>
     </message>
 </context>
 <context>
     <name>AudioOutSettings</name>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="34"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="41"/>
         <source>play sound</source>
         <translation>odtwarzaj dźwięk</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="35"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="42"/>
         <source>Selected notes and guitar positions will be played.</source>
         <translation>Zaznaczone dźwięki i pozycje na gitarze będą odtwarzane.</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="41"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="48"/>
         <source>real audio playback</source>
         <translation>prawdziwy dźwięk</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="42"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="49"/>
         <source>Natural, high quality sound of classical guitar&lt;br&gt;but limited to scale &lt;b&gt;from C&lt;sub&gt;1&lt;/sub&gt; to e&lt;sup&gt;3&lt;/sup&gt;&lt;/b&gt;</source>
         <translation>Naturalny, wysokiej jakości dźwięk gitary klasycznej&lt;br&gt;ale ograniczony do skali&lt;b&gt; od C&lt;sub&gt;1&lt;/sub&gt; do e&lt;sup&gt;3&lt;/sup&gt;&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="47"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="54"/>
         <source>audio device for output</source>
         <translation>urzadzenie dżwiękowe do odtwarzania</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="139"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="153"/>
         <source>no devices found</source>
         <translation>nie znaleziono urządzenia</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="56"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="63"/>
         <source>midi playback</source>
         <translation>dźwięk midi</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="57"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="64"/>
         <source>Artificial, low quality sound (depends on hardware)&lt;br&gt;but there is possibility to select an instrument&lt;br&gt;and whole scale can be played.</source>
         <translation>Sztuczny, niskiej jakości dźwięk (w zależności od sprzętu)&lt;br&gt;ale z możliwością wyboru instrumentu&lt;br&gt;i odtwarzania całej skali.</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="63"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="70"/>
         <source>midi port</source>
         <translation>port midi</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="74"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="81"/>
         <source>no midi ports</source>
         <translation>brak portów midi</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="78"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="85"/>
         <source>instrument</source>
         <translation>instrument</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="82"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="89"/>
         <source>Grand Piano</source>
         <translation>Fortepian</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="83"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="90"/>
         <source>Harpsichord</source>
         <translation>Klawesyn</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="84"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="91"/>
         <source>Classical Guitar</source>
         <translation>Gitara klasyczna</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="85"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="92"/>
         <source>Acoustic Guitar</source>
         <translation>Gitara akustyczna</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="86"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="93"/>
         <source>Electric Guitar</source>
         <translation>Gitara elektryczna</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="87"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="94"/>
         <source>Electric Guitar (Overdriven)</source>
         <translation>Gitara elektryczna (przesterowana)</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="88"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="95"/>
         <source>Bass Guitar</source>
         <translation>Gitara basowa</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="89"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="96"/>
         <source>Violin</source>
         <translation>Skrzypce</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="90"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="97"/>
         <source>Sax</source>
         <translation>Saksofon</translation>
     </message>
     <message>
-        <location filename="../src/sound/audiooutsettings.cpp" line="91"/>
+        <location filename="../src/sound/audiooutsettings.cpp" line="98"/>
         <source>Flute</source>
         <translation>Flet</translation>
     </message>
@@ -469,6 +472,11 @@
         <source>default</source>
         <translation>domyślny</translation>
     </message>
+    <message>
+        <location filename="../src/settings/settingsdialog.cpp" line="221"/>
+        <source>Check for updates</source>
+        <translation>Sprawdź uaktualnienia</translation>
+    </message>
 </context>
 <context>
     <name>GuitarSettings</name>
@@ -551,37 +559,37 @@
         <translation>pokaż lub ukryj podpowiedzi</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="204"/>
+        <location filename="../src/mainwindow.cpp" line="203"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="205"/>
+        <location filename="../src/mainwindow.cpp" line="204"/>
         <source>Application preferences</source>
         <translation>Preferencje aplikacji</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="218"/>
+        <location filename="../src/mainwindow.cpp" line="217"/>
         <source>Analyse of an exam results</source>
         <translation>Analiza wyników egzaminu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="241"/>
+        <location filename="../src/mainwindow.cpp" line="240"/>
         <source>Start an exam</source>
         <translation>Rozpocznij egzamin</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="221"/>
+        <location filename="../src/mainwindow.cpp" line="220"/>
         <source>about</source>
         <translation>o programie</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="185"/>
+        <location filename="../src/mainwindow.cpp" line="184"/>
         <source>Problems with sound output</source>
         <translation>Problemy z odtwarzaniem dźwięku</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="222"/>
+        <location filename="../src/mainwindow.cpp" line="221"/>
         <source>About Nootka</source>
         <translation>O aplikacji Nootka</translation>
     </message>
@@ -729,7 +737,7 @@
         <translation>Wymaga to nieco angielskiego, więc jeżeli możesz przeczytać poniższy tekst będzie tam coś w co mógłbyś się zaangażować.</translation>
     </message>
     <message>
-        <location filename="../src/info/tsupportnootka.cpp" line="65"/>
+        <location filename="../src/info/tsupportnootka.cpp" line="67"/>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
         <translation>Nie martw się. To okno.pojawia się tylko raz na wydanie programu.&lt;br&gt;Zawsze znajdziesz je w oknie &apos;O aplikacji Nootka&apos;</translation>
     </message>
@@ -799,48 +807,48 @@
 <context>
     <name>SettingsDialog</name>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="242"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="271"/>
         <source>application&apos;s settings</source>
         <translation>Ustawienia aplikacji</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="245"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="274"/>
         <source>Common</source>
         <translation>Wspólne</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="248"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="277"/>
         <source>Score</source>
         <translation>Zapis</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="251"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="280"/>
         <source>Names</source>
         <comment>name-calling</comment>
         <translation>Nazwy</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="254"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="283"/>
         <source>Guitar</source>
         <translation>Gitara</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="257"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="286"/>
         <source>Exam</source>
         <translation>Egzamin</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="260"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="289"/>
         <source>Sound</source>
         <translation>Dżwięk</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="272"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="313"/>
         <source>listening</source>
         <translation>słuchanie</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="273"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="318"/>
         <source>playing</source>
         <translation>odtwarzanie</translation>
     </message>
@@ -848,22 +856,22 @@
 <context>
     <name>Tabout</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="169"/>
+        <location filename="../src/info/taboutnootka.cpp" line="180"/>
         <source>Welcome on the board.&lt;br&gt; Nootka is open source application to help You learning (and teaching also) classical score notation.&lt;br&gt;It is specially dedicated for guitarists but others can find many usable features as well.</source>
         <translation>Witamy na pokładzie.&lt;br&gt; Nootka to aplikacja open source pomagająca w nauce (a także w nauczaniu) klasycznego zapisu nutowego. Jest szczególnie dedykowana gitarzystom ale inni także znajdą w niej coś użytecznego.</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="170"/>
+        <location filename="../src/info/taboutnootka.cpp" line="181"/>
         <source>This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features.&lt;br&gt;Inspite of that You are welcome to try it!!</source>
         <translation>Ta wersja beta i może zawierać błędy lub działać w niezamierzony sposób, posiada także nieukończone funkcje.&lt;br&gt;Mimo tego, zapraszam do wypróbowania!!</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="171"/>
+        <location filename="../src/info/taboutnootka.cpp" line="182"/>
         <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, sugestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
         <translation>Po więcej szczegółów i po następne wydania zajrzyj na &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;stronę programu&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Błędy, sugestie, tłumaczenia itp., proszę zgłaszać do: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;z poważaniem&lt;br&gt;Autor</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="175"/>
+        <location filename="../src/info/taboutnootka.cpp" line="186"/>
         <source>&lt;br&gt;To support project and also to avoid infection of Your PC&lt;br&gt;&lt;b&gt;PLEASE, use project site to download updates, new releases and to see news.&lt;/b&gt;</source>
         <translation>&lt;br&gt;Żeby wesprzeć projekt, a także uniknąć zarażenia Twojego komputera&lt;br&gt;&lt;b&gt;do pobierania aktualizacji, nowych wersji i czytania o nowościach, proszę używać strony www projektu&lt;/b&gt;</translation>
     </message>
@@ -871,37 +879,37 @@
 <context>
     <name>TaboutNootka</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="39"/>
+        <location filename="../src/info/taboutnootka.cpp" line="43"/>
         <source>About Nootka</source>
         <translation>O aplikacji Nootka</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="59"/>
+        <location filename="../src/info/taboutnootka.cpp" line="63"/>
         <source>About</source>
         <translation>O</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="62"/>
+        <location filename="../src/info/taboutnootka.cpp" line="66"/>
         <source>Help</source>
         <translation>Pomoc</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="71"/>
+        <location filename="../src/info/taboutnootka.cpp" line="75"/>
         <source>Support</source>
         <translation>Wsparcie</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="74"/>
+        <location filename="../src/info/taboutnootka.cpp" line="78"/>
         <source>Changes</source>
         <translation>Zmiany</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="87"/>
+        <location filename="../src/info/taboutnootka.cpp" line="91"/>
         <source>Translators</source>
         <translation>Tłumacze</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="99"/>
+        <location filename="../src/info/taboutnootka.cpp" line="103"/>
         <source>However this application could not exist without various open source projects.&lt;br&gt;Especially:</source>
         <translation>Jednakże ta aplikacja nie mogła by istnieć bez różnych projektów open source,&lt;br&gt;a w szczególności:</translation>
     </message>
@@ -911,7 +919,7 @@
         <translation>Autorzy</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="68"/>
+        <location filename="../src/info/taboutnootka.cpp" line="72"/>
         <source>License</source>
         <translation>Licencja</translation>
     </message>
@@ -1026,7 +1034,7 @@
         <translation>wykres słupkowy</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="459"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="462"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -1073,22 +1081,22 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
 <context>
     <name>Tcanvas</name>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="145"/>
+        <location filename="../src/exam/tcanvas.cpp" line="147"/>
         <source>Try again!</source>
         <translation>Spróbuj jeszcze raz!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="179"/>
+        <location filename="../src/exam/tcanvas.cpp" line="192"/>
         <source>To correct an answer</source>
         <translation>Żeby poprawić odpowiedź</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="233"/>
+        <location filename="../src/exam/tcanvas.cpp" line="246"/>
         <source>To check the answer confirm it:</source>
         <translation>Aby sprawdzić odpowiedź, potwierdź ją:</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="236"/>
+        <location filename="../src/exam/tcanvas.cpp" line="249"/>
         <source>Check in exam help %1 how to do it automatically</source>
         <translation>Sprawdź w pomocy %1 jak zrobić to automatycznie</translation>
     </message>
@@ -1096,128 +1104,128 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
 <context>
     <name>TexamExecutor</name>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="126"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="125"/>
         <source>File: %1 
  is not valid exam file !!!</source>
         <translation>Plik: %1 
 nie jest poprawnym plikiem egzaminu !!!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="102"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="101"/>
         <source>&lt;b&gt;Exam file seems to be corrupted&lt;/b&gt;&lt;br&gt;Better start new exam on the same level</source>
         <translation>&lt;b&gt;Plik egzaminu wygląda na uszkodzony&lt;/b&gt;&lt;br&gt;Lepiej zacznij nowy na tym samym poziomie</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="107"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="106"/>
         <source>Tune of the guitar was changed in this exam !!.&lt;br&gt;Now it is:&lt;br&gt;&lt;b&gt;%1&lt;/b&gt;</source>
         <translation>W tym egazminie zmiena się strój gitary !!&lt;br&gt;Teraz jest to:&lt;br&gt;&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="110"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="109"/>
         <source>&lt;br&gt;&lt;br&gt;This exam requires more frets,&lt;br&gt;so frets number in the guitar will be changed.</source>
         <translation>&lt;br&gt;&lt;br&gt;Ten egzamin wymaga więcej progów,&lt;br&gt;więc ich liczba zostanie zmieniona.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="146"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="145"/>
         <source>An exam requires sound but&lt;br&gt;sound output is not available !!!</source>
         <translation>Egzamin wymaga dźwięku&lt;br&gt;ale nie jest on włączony !!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="224"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="223"/>
         <source>repeat prevoius question (backspace)</source>
         <translation>powtórz poprzednie pytanie (backspace)</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="217"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="216"/>
         <source>next question
 (space %1)</source>
         <translation>następne pytanie
 (spacja %1)</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="230"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="229"/>
         <source>check answer
 (enter %1)</source>
         <translation>sprawdź odpowiedź
 (enter %1)</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="237"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="236"/>
         <source>play sound again</source>
         <translation>ponownie zagraj dźwięk</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="246"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="245"/>
         <source>Level &lt;b&gt;%1&lt;b&gt;&lt;br&gt;has no sense till there are no any possible questions to ask.&lt;br&gt;It can be unadjusted to current tune.&lt;br&gt;Repair it in Level Creator and try again.</source>
         <translation>Poziom &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nie ma sensu, bo nie ma w nim żadnego pytania, które można zadać.&lt;br&gt;Możliwe, że nie jest dopasowany do bieżącego stroju gitary.&lt;br&gt;Napraw to w Kreatorze Poziomów i spróbuj ponownie.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="733"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="763"/>
         <source>help</source>
         <translation>pomoc</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="951"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="982"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="952"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="983"/>
         <source>Discard</source>
         <translation>Porzuć</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="728"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="758"/>
         <source>exam started on level</source>
         <translation>egzamin uruchomiony na poziomie</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="880"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="911"/>
         <source>Give an answer first!&lt;br&gt;Then the exam&apos;ll be finished</source>
         <translation>Najpierw odpowiedz!&lt;br&gt;Potem egzamin zostanie zakończony</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="922"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="953"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
         <translation>Psssst... Trwa egzamin.&lt;br&gt;&lt;br&gt;&lt;b&gt;Kontynuuj&lt;/b&gt; go &lt;br&gt;lub&lt;br&gt;&lt;b&gt;Zakończ&lt;/b&gt; żeby sprawdzić, zapisać i wyjść&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="923"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="954"/>
         <source>Continue</source>
         <translation>Kontynuuj</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="924"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="955"/>
         <source>Terminate</source>
         <translation>Zakończ</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="950"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="981"/>
         <source>If You don&apos;t save to file&lt;br&gt;You lost all results !!</source>
         <translation>Jeżeli nie zapiszesz do pliku&lt;br&gt;stracisz dotychczasowe wyniki!!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="160"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="159"/>
         <source>An exam requires sound input but&lt;br&gt;it is not available !!!</source>
         <translation>Egzamin wymaga sygnału wejściowego&lt;br&gt;ale nie jest on dostępny !!!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="727"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="757"/>
         <source>EXAM!!</source>
         <translation>EGZAMIN!!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="736"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="766"/>
         <source>stop the exam</source>
         <translation>zatrzymaj egzamin</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="910"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="941"/>
         <source>so a pity</source>
         <translation>jaka szkoda</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="944"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="975"/>
         <source>Save exam&apos;s results as:</source>
         <translation>Zapisz wyniki egzaminu jako:</translation>
     </message>
@@ -1958,7 +1966,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation>oktawa Trzykreślna</translation>
     </message>
     <message>
-        <location filename="../src/tnotename.cpp" line="390"/>
+        <location filename="../src/tnotename.cpp" line="396"/>
         <source>The note is beyond&lt;br&gt;scale of the guitar</source>
         <translation>Dźwięk jest poza&lt;br&gt;skalą gitary</translation>
     </message>
@@ -2056,17 +2064,26 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>TpitchView</name>
     <message>
-        <location filename="../src/sound/tpitchview.cpp" line="46"/>
+        <location filename="../src/sound/tpitchview.cpp" line="47"/>
         <source>Toggles between pitch detection for singing and for playing</source>
         <translation>Przełącza między wykrywaniem dźwięku dla śpiewania lub dla grania</translation>
     </message>
     <message>
-        <location filename="../src/sound/tpitchview.cpp" line="58"/>
+        <source>Intonation - clarity of the sound. Is it in tune?</source>
+        <translation type="obsolete">Intonacja - czystość dźwięku. Czy stroi?</translation>
+    </message>
+    <message>
+        <location filename="../src/sound/tpitchview.cpp" line="61"/>
+        <source>Intonation - clarity of the sound. Is it in tune.</source>
+        <translation>Intonacja - czystość dźwięku. Czy stroi.</translation>
+    </message>
+    <message>
+        <location filename="../src/sound/tpitchview.cpp" line="65"/>
         <source>Shows volume level of input sound and indicates when note was detected</source>
         <translation>Pokazuje gośność dźwięku wejściowego i sygnalizuje kiedy nuta jest rozpoznana</translation>
     </message>
     <message>
-        <location filename="../src/sound/tpitchview.cpp" line="64"/>
+        <location filename="../src/sound/tpitchview.cpp" line="73"/>
         <source>Switch on/off the pitch detection</source>
         <translation>Włącz/wyłącz rozpoznawanie dźwięku</translation>
     </message>
@@ -2374,6 +2391,75 @@ Sprawdź czy jego parametry są właściwe..</translation>
     </message>
 </context>
 <context>
+    <name>TupdateChecker</name>
+    <message>
+        <location filename="../src/updater/tupdatechecker.cpp" line="42"/>
+        <source>Checking for updates. Please wait...</source>
+        <translation>Sprawdzanie uaktualnień. Proszę czekać...</translation>
+    </message>
+</context>
+<context>
+    <name>TupdateRulesWdg</name>
+    <message>
+        <location filename="../src/updater/tupdateruleswdg.cpp" line="29"/>
+        <source>check for Nootka updates</source>
+        <translation>sprawdzaj czy są nowe wersje programu</translation>
+    </message>
+    <message>
+        <location filename="../src/updater/tupdateruleswdg.cpp" line="37"/>
+        <source>daily</source>
+        <translation>codziennie</translation>
+    </message>
+    <message>
+        <location filename="../src/updater/tupdateruleswdg.cpp" line="39"/>
+        <source>weekly</source>
+        <translation>co tydzień</translation>
+    </message>
+    <message>
+        <location filename="../src/updater/tupdateruleswdg.cpp" line="41"/>
+        <source>monthly</source>
+        <translation>co miesiąc</translation>
+    </message>
+    <message>
+        <location filename="../src/updater/tupdateruleswdg.cpp" line="58"/>
+        <source>all new versions</source>
+        <translation>wszystkie nowe wersje</translation>
+    </message>
+    <message>
+        <location filename="../src/updater/tupdateruleswdg.cpp" line="60"/>
+        <source>stable versions only</source>
+        <translation>tylko wersje stabilne</translation>
+    </message>
+</context>
+<context>
+    <name>TupdateSummary</name>
+    <message>
+        <location filename="../src/updater/tupdatesummary.cpp" line="39"/>
+        <source>New Nootka %1 is available.</source>
+        <translation>Dostępna jest Nootka %1.</translation>
+    </message>
+    <message>
+        <location filename="../src/updater/tupdatesummary.cpp" line="40"/>
+        <source>To get it, visit &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
+        <translation>Żeby ją pobrać, odwiedź &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;stronę programu&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location filename="../src/updater/tupdatesummary.cpp" line="45"/>
+        <source>News:</source>
+        <translation>Nowości:</translation>
+    </message>
+    <message>
+        <location filename="../src/updater/tupdatesummary.cpp" line="47"/>
+        <source>No changes found.&lt;br&gt;This version is up to date.</source>
+        <translation>Żadnych zmian.&lt;br&gt;Ta wersja jest aktualna.</translation>
+    </message>
+    <message>
+        <location filename="../src/updater/tupdatesummary.cpp" line="54"/>
+        <source>Ok</source>
+        <translation>Ok</translation>
+    </message>
+</context>
+<context>
     <name>Windows installer entries</name>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="155"/>
@@ -2384,7 +2470,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>about translator</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="105"/>
+        <location filename="../src/info/taboutnootka.cpp" line="116"/>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; Your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
         <translatorcomment>o przecież wiesz o co chodzi :-)</translatorcomment>

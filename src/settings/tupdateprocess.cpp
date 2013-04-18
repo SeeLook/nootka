@@ -77,7 +77,8 @@ void TupdateProcess::start() {
 
 
 void TupdateProcess::processSays() {
-  QString out = QString(m_process->readAllStandardOutput());
+  QTextStream stream(m_process);
+  QString out = stream.readLine();
   if (out != "") {
     if (out.contains("success") || out.contains("need"))
       m_timer->stop();
