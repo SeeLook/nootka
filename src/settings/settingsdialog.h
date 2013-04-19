@@ -93,16 +93,18 @@ public slots:
 
 private:
 
-    GlobalSettings *m_globalSett;
-    ScoreSettings *m_scoreSett;
-    NameSettings *m_nameSett;
-    GuitarSettings *m_guitarSett;
-    ExamSettings   *m_examSett;
-    AudioOutSettings *m_sndOutSett;
-    AudioInSettings *m_sndInSett;
+    GlobalSettings    *m_globalSett;
+    ScoreSettings     *m_scoreSett;
+    NameSettings      *m_nameSett;
+    GuitarSettings    *m_guitarSett;
+    ExamSettings      *m_examSett;
+    AudioOutSettings  *m_sndOutSett;
+    AudioInSettings   *m_sndInSett;
+    QCheckBox         *m_jackChBox;
     
 private slots:
     void changeSettingsWidget(int index);
+    void changeUseJack();
 
 };
 

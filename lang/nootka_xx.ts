@@ -814,12 +814,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="313"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="311"/>
         <source>listening</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="318"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="312"/>
         <source>playing</source>
         <translation type="unfinished"></translation>
     </message>
