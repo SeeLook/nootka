@@ -129,7 +129,7 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="93"/>
         <source>middle A</source>
-        <translation>Střední A</translation>
+        <translation>Komorní A</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="96"/>
@@ -139,16 +139,12 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="102"/>
         <source>A base frequency of &lt;i&gt;middle a&lt;/i&gt;.&lt;br&gt;The pitch of detecting notes depends on this value. It also affects played sounds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Základní kmitočet &lt;i&gt;komorního a&lt;/i&gt;.&lt;br&gt;Na této hodnotě závisí výška tónu při zjišťování not. Také ovlivňuje přehrávané zvuky.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="119"/>
         <source>Shifts the frequency of &lt;i&gt;middle a&lt;/i&gt; on semitone.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>A pitch of detecting notes is related to this value. It also affects played sounds - for midi exaclty and for real audio it is rounded to semitones.</source>
-        <translation type="obsolete">Výška zjišťování not je spojena s touto hodnotou. Také ovlivňuje přehrávané zvuky - pro MIDI přesně a pro skutečný zvuk je zaokrouhlena na půltóny.</translation>
+        <translation>Posune kmitočet &lt;sup&gt;komorního a&lt;/sup&gt; o půltón.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="110"/>
@@ -169,26 +165,6 @@
         <location filename="../src/sound/audioinsettings.cpp" line="118"/>
         <source>semitone down</source>
         <translation>Půltón dolů</translation>
-    </message>
-    <message>
-        <source>Shifts the frequency of base a&lt;sup&gt;1&lt;/sup&gt; on semitone.</source>
-        <translation type="obsolete">Posune kmitočet základního a&lt;sup&gt;1&lt;/sup&gt; o půltón.</translation>
-    </message>
-    <message>
-        <source>noise level:</source>
-        <translation type="obsolete">Úroveň šumu:</translation>
-    </message>
-    <message>
-        <source>Only sounds louder than noise level are taken to pitch analyse. It can improve the pitch detection accuracy.</source>
-        <translation type="obsolete">Pro rozbor výšky tónu se berou pouze zvuky, které jsou hlasitější než úroveň šumu. Může to zlepšit přesnost zjištění výšky tónu.</translation>
-    </message>
-    <message>
-        <source>Calculate</source>
-        <translation type="obsolete">Spočítat</translation>
-    </message>
-    <message>
-        <source>Click to automatically detect noise level.&lt;br&gt;Keep silence during 2 seconds to determine it properly.</source>
-        <translation type="obsolete">Klepněte pro automatické zjištění úrovně šumu.&lt;br&gt;Po dobu dvou sekund zachovejte ticho, aby byla úroveň šumu určena správně.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="141"/>
@@ -219,10 +195,6 @@
         <location filename="../src/sound/audioinsettings.cpp" line="261"/>
         <source>no devices found</source>
         <translation>Nebylo nalezeno žádné zařízení</translation>
-    </message>
-    <message>
-        <source>There isn&apos;t any noise !?!&lt;br&gt;It seems, Your audio input&lt;br&gt;is not configured properly.</source>
-        <translation type="obsolete">Není tu žádný šum!&lt;br&gt;Zdá se, že vstup zvuku&lt;br&gt;není nastaven správně.</translation>
     </message>
 </context>
 <context>
@@ -475,7 +447,7 @@
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="221"/>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Prověřit, zda již je novější vydání</translation>
     </message>
 </context>
 <context>
@@ -843,12 +815,12 @@
         <translation>Zvuk</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="313"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="311"/>
         <source>listening</source>
         <translation>Poslech</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="318"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="312"/>
         <source>playing</source>
         <translation>Hra</translation>
     </message>
@@ -2071,7 +2043,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/sound/tpitchview.cpp" line="61"/>
         <source>Intonation - clarity of the sound. Is it in tune.</source>
-        <translation type="unfinished"></translation>
+        <translation>Intonace - jasnost zvuku. Zda je to čistý tón.</translation>
     </message>
     <message>
         <location filename="../src/sound/tpitchview.cpp" line="65"/>
@@ -2391,7 +2363,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/updater/tupdatechecker.cpp" line="42"/>
         <source>Checking for updates. Please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation>Prověřuje se, zda již je novější vydání. Počkejte, prosím...</translation>
     </message>
 </context>
 <context>
@@ -2399,32 +2371,32 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/updater/tupdateruleswdg.cpp" line="29"/>
         <source>check for Nootka updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Prověřovat, zda již je novější vydání Nootky</translation>
     </message>
     <message>
         <location filename="../src/updater/tupdateruleswdg.cpp" line="37"/>
         <source>daily</source>
-        <translation type="unfinished"></translation>
+        <translation>Denně</translation>
     </message>
     <message>
         <location filename="../src/updater/tupdateruleswdg.cpp" line="39"/>
         <source>weekly</source>
-        <translation type="unfinished"></translation>
+        <translation>Týdně</translation>
     </message>
     <message>
         <location filename="../src/updater/tupdateruleswdg.cpp" line="41"/>
         <source>monthly</source>
-        <translation type="unfinished"></translation>
+        <translation>Měsíčně</translation>
     </message>
     <message>
         <location filename="../src/updater/tupdateruleswdg.cpp" line="58"/>
         <source>all new versions</source>
-        <translation type="unfinished"></translation>
+        <translation>Všechny nové verze</translation>
     </message>
     <message>
         <location filename="../src/updater/tupdateruleswdg.cpp" line="60"/>
         <source>stable versions only</source>
-        <translation type="unfinished"></translation>
+        <translation>Pouze stabilní verze</translation>
     </message>
 </context>
 <context>
@@ -2432,27 +2404,27 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/updater/tupdatesummary.cpp" line="39"/>
         <source>New Nootka %1 is available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Je dostupná nová Nootka %1.</translation>
     </message>
     <message>
         <location filename="../src/updater/tupdatesummary.cpp" line="40"/>
         <source>To get it, visit &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro její získání navštivte &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;stránky Nootky&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../src/updater/tupdatesummary.cpp" line="45"/>
         <source>News:</source>
-        <translation type="unfinished"></translation>
+        <translation>Novinky:</translation>
     </message>
     <message>
         <location filename="../src/updater/tupdatesummary.cpp" line="47"/>
         <source>No changes found.&lt;br&gt;This version is up to date.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nebyly nalezeny žádné změny.&lt;br&gt;Tato verze je nejnovější.</translation>
     </message>
     <message>
         <location filename="../src/updater/tupdatesummary.cpp" line="54"/>
         <source>Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>

@@ -41,47 +41,47 @@
     <message>
         <location filename="../src/charts/sorting.cpp" line="339"/>
         <source>correct notes</source>
-        <translation type="unfinished"></translation>
+        <translation>notes correctes</translation>
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="340"/>
         <source>wrong notes</source>
-        <translation type="unfinished"></translation>
+        <translation>notes fausses</translation>
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="341"/>
         <source>wrong accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>mauvaises altérations</translation>
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="342"/>
         <source>wrong octaves</source>
-        <translation type="unfinished"></translation>
+        <translation>mauvaises octaves</translation>
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="343"/>
         <source>correct key signatures</source>
-        <translation type="unfinished"></translation>
+        <translation>armures correctes</translation>
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="344"/>
         <source>wrong key signatures</source>
-        <translation type="unfinished"></translation>
+        <translation>mauvaises armures</translation>
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="347"/>
         <source>correct positions</source>
-        <translation type="unfinished"></translation>
+        <translation>positions correctes</translation>
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="348"/>
         <source>wrong positions</source>
-        <translation type="unfinished"></translation>
+        <translation>mauvaises positions</translation>
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="349"/>
         <source>wrong strings</source>
-        <translation type="unfinished"></translation>
+        <translation>mauvaises cordes</translation>
     </message>
 </context>
 <context>
@@ -139,16 +139,12 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="102"/>
         <source>A base frequency of &lt;i&gt;middle a&lt;/i&gt;.&lt;br&gt;The pitch of detecting notes depends on this value. It also affects played sounds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Une fréquence de base de &lt;i&gt;LA central (la&lt;sub&gt;3&lt;/sub&gt; / A&lt;sub&gt;4&lt;/sub&gt;)&lt;/i&gt;. La dédection de notes dépend de cette valeur qui affecte également les sons joués.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="119"/>
         <source>Shifts the frequency of &lt;i&gt;middle a&lt;/i&gt; on semitone.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>A pitch of detecting notes is related to this value. It also affects played sounds - for midi exaclty and for real audio it is rounded to semitones.</source>
-        <translation type="obsolete">La hauteur des notes détectées dépend de cette valeur qui affecte aussi les sons joués par Nootka, de manière exacte pour les sons MIDI, et arrondi au demi-ton pour les sons réels.</translation>
+        <translation>Change la fréquence du &lt;i&gt;LA central&lt;/i&gt; d&apos;un demi ton.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="110"/>
@@ -169,26 +165,6 @@
         <location filename="../src/sound/audioinsettings.cpp" line="118"/>
         <source>semitone down</source>
         <translation>Demi-ton inférieur</translation>
-    </message>
-    <message>
-        <source>Shifts the frequency of base a&lt;sup&gt;1&lt;/sup&gt; on semitone.</source>
-        <translation type="obsolete">Ajuste la fréquence du LA de référence (la&lt;sub&gt;3&lt;/sub&gt; / A&lt;sub&gt;4&lt;/sub&gt;) d&apos;un demi-ton.</translation>
-    </message>
-    <message>
-        <source>noise level:</source>
-        <translation type="obsolete">Niveau de bruit de fond:</translation>
-    </message>
-    <message>
-        <source>Only sounds louder than noise level are taken to pitch analyse. It can improve the pitch detection accuracy.</source>
-        <translation type="obsolete">Seuls les sons plus forts que ce niveau de bruit sont analysés. &lt;br&gt;Ce paramètre peut améliorer la précision de la détection des notes. </translation>
-    </message>
-    <message>
-        <source>Calculate</source>
-        <translation type="obsolete">Calcul auto</translation>
-    </message>
-    <message>
-        <source>Click to automatically detect noise level.&lt;br&gt;Keep silence during 2 seconds to determine it properly.</source>
-        <translation type="obsolete">Calcul automatique du niveau de bruit de fond. &lt;br&gt; Nécessite 2 secondes de silence pour évaluer correctement le bruit de fond. </translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="141"/>
@@ -219,10 +195,6 @@
         <location filename="../src/sound/audioinsettings.cpp" line="285"/>
         <source>Frequency of detected note. You can use it for tune</source>
         <translation>Fréquence de la note détectée. Vous pouvez l&apos;utiliser pour accorder votre instrument </translation>
-    </message>
-    <message>
-        <source>There isn&apos;t any noise !?!&lt;br&gt;It seems, Your audio input&lt;br&gt;is not configured properly.</source>
-        <translation type="obsolete">Il n&apos;y a pas de bruit de fond !?!&lt;br&gt;Il semble que votre entrée audio &lt;br&gt;n&apos;est pas configurée correctement. </translation>
     </message>
 </context>
 <context>
@@ -475,7 +447,7 @@
     <message>
         <location filename="../src/settings/settingsdialog.cpp" line="221"/>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Vérifier les mises à jour</translation>
     </message>
 </context>
 <context>
@@ -745,7 +717,7 @@
         <location filename="../src/charts/tyaxis.cpp" line="61"/>
         <source>time [s]</source>
         <comment>unit of Y axis</comment>
-        <translation type="unfinished"></translation>
+        <translation>temps [s]</translation>
     </message>
 </context>
 <context>
@@ -843,12 +815,12 @@
         <translation>Son</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="313"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="311"/>
         <source>listening</source>
         <translation>Écoute</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="318"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="312"/>
         <source>playing</source>
         <translation>Jeu</translation>
     </message>
@@ -906,7 +878,7 @@
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="78"/>
         <source>Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifications</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="91"/>
@@ -976,25 +948,17 @@
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="75"/>
         <source>question type</source>
-        <translation type="unfinished"></translation>
+        <translation>type de question</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="76"/>
         <source>mistake</source>
-        <translation type="unfinished"></translation>
+        <translation>erreur</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="84"/>
         <source>Level summary:</source>
         <translation>Résumé du niveau:</translation>
-    </message>
-    <message>
-        <source>Select an exam from a file&lt;br&gt;Use %1 + mouse wheel to zoom a chart.&lt;br&gt;Drag a cursor to move the chart.</source>
-        <translation type="obsolete">Sélectionnez un fichier examen&lt;br&gt; Utilisez %1 + molette souris pour zoomer un graphique&lt;br&gt; Glissez le curseur pour déplacer le graphique.</translation>
-    </message>
-    <message>
-        <source>Questions number:</source>
-        <translation type="obsolete">Numéro de question:</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="214"/>
@@ -1014,17 +978,17 @@
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="268"/>
         <source>Maximize</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximiser</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="272"/>
         <source>linear chart</source>
-        <translation type="unfinished"></translation>
+        <translation>Graphique linéaire</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="275"/>
         <source>bar chart</source>
-        <translation type="unfinished"></translation>
+        <translation>Graphique en barres</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="462"/>
@@ -1039,24 +1003,24 @@
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="118"/>
         <source>Press %1 button to select an exam from a file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Presser le bouton %1 pour sélectionner un examen dans un fichier. </translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="120"/>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
-        <translation type="unfinished"></translation>
+        <translation>Utiliser le bouton %1 + molette de la souris ou le bouton %2 pour zoomer un graphique. </translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="122"/>
         <source>Drag a cursor to move the chart.</source>
-        <translation type="unfinished"></translation>
+        <translation>Glisser le curseur pour déplacer le graphique.</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="153"/>
         <location filename="../src/charts/tstatisticstip.cpp" line="50"/>
         <location filename="../src/charts/tyaxis.cpp" line="64"/>
         <source>Questions number</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de questions</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="202"/>
@@ -1106,7 +1070,7 @@
     <message>
         <location filename="../src/exam/tcanvas.cpp" line="249"/>
         <source>Check in exam help %1 how to do it automatically</source>
-        <translation type="unfinished"></translation>
+        <translation>Voir l&apos;aide de l&apos;examen %1 pour le faire automatiquement</translation>
     </message>
 </context>
 <context>
@@ -1251,13 +1215,9 @@
         <translation>Comment un examen fonctionne-t-il?</translation>
     </message>
     <message>
-        <source>Select 2-nd check box to get the question automaticaly.</source>
-        <translation type="obsolete">Cochez la 2e case pour obtenir la question automatiquement. </translation>
-    </message>
-    <message>
         <location filename="../src/info/texamhelp.cpp" line="47"/>
         <source>Select 2-nd check box to get the question automatically.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionnez la 2e case pour afficher automatiquement la question.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="49"/>
@@ -1598,17 +1558,17 @@
     <message>
         <location filename="../src/charts/tgraphicsline.cpp" line="68"/>
         <source>progress line</source>
-        <translation type="unfinished"></translation>
+        <translation>Barre de progression</translation>
     </message>
     <message>
         <location filename="../src/charts/tgraphicsline.cpp" line="70"/>
         <source>descending - you go better</source>
-        <translation type="unfinished"></translation>
+        <translation>Décroissante - vous vous améliorez</translation>
     </message>
     <message>
         <location filename="../src/charts/tgraphicsline.cpp" line="72"/>
         <source>acending - you thinking much</source>
-        <translation type="unfinished"></translation>
+        <translation>Croissante - vous pensez beaucoup</translation>
     </message>
 </context>
 <context>
@@ -1877,45 +1837,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     </message>
 </context>
 <context>
-    <name>TmainChart</name>
-    <message>
-        <source>for a note:</source>
-        <comment>average reaction time for...</comment>
-        <translation type="obsolete">Pour une note:</translation>
-    </message>
-    <message>
-        <source>for a fret:</source>
-        <comment>average reaction time for...</comment>
-        <translation type="obsolete">Pour une frette:</translation>
-    </message>
-    <message>
-        <source>Key signatures gave by user</source>
-        <translation type="obsolete">Armatures fournies par l&apos;utilisateur</translation>
-    </message>
-    <message>
-        <source>for a key:</source>
-        <comment>average reaction time for...</comment>
-        <translation type="obsolete">Pour une tonalité:</translation>
-    </message>
-    <message>
-        <source>without accidentals</source>
-        <translation type="obsolete">Sans altérations</translation>
-    </message>
-    <message>
-        <source>for an accidental:</source>
-        <comment>average reaction time for...</comment>
-        <translation type="obsolete">pour une altération:</translation>
-    </message>
-    <message>
-        <source>for notes without accidentals</source>
-        <translation type="obsolete">pour les notes sans altérations</translation>
-    </message>
-    <message>
-        <source>questions unrelated&lt;br&gt;with chart type</source>
-        <translation type="obsolete">Questions sans rapport &lt;br&gt; avec le type de graphique</translation>
-    </message>
-</context>
-<context>
     <name>TnotationRadioGroup</name>
     <message>
         <location filename="../src/settings/tnotationradiogroup.cpp" line="37"/>
@@ -2128,7 +2049,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/sound/tpitchview.cpp" line="61"/>
         <source>Intonation - clarity of the sound. Is it in tune.</source>
-        <translation type="unfinished"></translation>
+        <translation>Intonation - clarté du son. Est-il juste?</translation>
     </message>
     <message>
         <location filename="../src/sound/tpitchview.cpp" line="65"/>
@@ -2440,7 +2361,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/charts/tstatisticstip.cpp" line="40"/>
         <source>Statistics</source>
-        <translation type="unfinished"></translation>
+        <translation>Statistiques</translation>
     </message>
 </context>
 <context>
@@ -2448,7 +2369,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/updater/tupdatechecker.cpp" line="42"/>
         <source>Checking for updates. Please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation>Vérification des mises à jour. Veuillez patienter ...</translation>
     </message>
 </context>
 <context>
@@ -2456,32 +2377,32 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/updater/tupdateruleswdg.cpp" line="29"/>
         <source>check for Nootka updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Vérifier les mises à jour de Nootka</translation>
     </message>
     <message>
         <location filename="../src/updater/tupdateruleswdg.cpp" line="37"/>
         <source>daily</source>
-        <translation type="unfinished"></translation>
+        <translation>Chaque jour</translation>
     </message>
     <message>
         <location filename="../src/updater/tupdateruleswdg.cpp" line="39"/>
         <source>weekly</source>
-        <translation type="unfinished"></translation>
+        <translation>Chaque semaine</translation>
     </message>
     <message>
         <location filename="../src/updater/tupdateruleswdg.cpp" line="41"/>
         <source>monthly</source>
-        <translation type="unfinished"></translation>
+        <translation>Chaque mois</translation>
     </message>
     <message>
         <location filename="../src/updater/tupdateruleswdg.cpp" line="58"/>
         <source>all new versions</source>
-        <translation type="unfinished"></translation>
+        <translation>Toutes les nouvelles versions</translation>
     </message>
     <message>
         <location filename="../src/updater/tupdateruleswdg.cpp" line="60"/>
         <source>stable versions only</source>
-        <translation type="unfinished"></translation>
+        <translation>Uniquement les versions stables</translation>
     </message>
 </context>
 <context>
@@ -2489,27 +2410,27 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/updater/tupdatesummary.cpp" line="39"/>
         <source>New Nootka %1 is available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Une nouvelle version %1 de Nootka est disponible.</translation>
     </message>
     <message>
         <location filename="../src/updater/tupdatesummary.cpp" line="40"/>
         <source>To get it, visit &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pour l&apos;obtenir, visitez &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;site Nootka&lt;/a&gt;. </translation>
     </message>
     <message>
         <location filename="../src/updater/tupdatesummary.cpp" line="45"/>
         <source>News:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouveautés:</translation>
     </message>
     <message>
         <location filename="../src/updater/tupdatesummary.cpp" line="47"/>
         <source>No changes found.&lt;br&gt;This version is up to date.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun changement trouvé. &lt;br&gt; Cette version est à jour.</translation>
     </message>
     <message>
         <location filename="../src/updater/tupdatesummary.cpp" line="54"/>
         <source>Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>Ok</translation>
     </message>
 </context>
 <context>

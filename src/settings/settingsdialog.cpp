@@ -297,32 +297,29 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     m_guitarSett = new GuitarSettings();
     m_examSett = new ExamSettings(gl->E, &gl->EquestionColor, &gl->EanswerColor, &gl->EnotBadColor);
 // #if defined (Q_OS_LINUX)
-//     TpulseWarring *pulseLab = 0;
-//     if (checkForPulse())
-//       m_sndInSett = new AudioInSettings(gl->A, gl->path);
-//     else {
-//       m_sndInSett = 0;
-//       pulseLab = new TpulseWarring();
-//     }
-// #else  
     m_sndInSett = new AudioInSettings(gl->A, gl->path);
-// #endif
     m_sndOutSett = new AudioOutSettings(gl->A, m_sndInSett); // m_sndInSett is bool - true when exist
-    QTabWidget *sndTTab = new QTabWidget();
+    QWidget *audioSettingsPage = new QWidget();
+    QTabWidget *sndTTab = new QTabWidget(audioSettingsPage);
+    QVBoxLayout *audioLay = new QVBoxLayout;
+    audioLay->addWidget(sndTTab);
+#if defined(__UNIX_JACK__)
+    m_jackChBox = new QCheckBox(tr("use JACK (Jack Audio Connection Kit"), audioSettingsPage);
+    audioLay->addWidget(m_jackChBox, 0, Qt::AlignCenter);
+    m_jackChBox->setStatusTip("EXPERIMENTAL, not tested.<br>Let me know when you will get this working.");
+    connect(m_jackChBox, SIGNAL(toggled(bool)), this, SLOT(changeUseJack()));
+#endif
     if (m_sndInSett)
         sndTTab->addTab(m_sndInSett, tr("listening"));
-// #if defined (Q_OS_LINUX)
-//     else
-//         sndTTab->addTab(pulseLab, tr("listening"));
-// #endif
-    sndTTab->addTab(m_sndOutSett, tr("playing"));    
+    sndTTab->addTab(m_sndOutSett, tr("playing"));
+    audioSettingsPage->setLayout(audioLay);
 
     stackLayout->addWidget(m_globalSett);
     stackLayout->addWidget(m_scoreSett);
     stackLayout->addWidget(m_nameSett);
     stackLayout->addWidget(m_guitarSett);
     stackLayout->addWidget(m_examSett);
-    stackLayout->addWidget(sndTTab);
+    stackLayout->addWidget(audioSettingsPage);
 
     connect(navList, SIGNAL(currentRowChanged(int)), this, SLOT(changeSettingsWidget(int)));
     connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
@@ -341,6 +338,13 @@ void SettingsDialog::changeSettingsWidget(int index) {
       m_sndInSett->generateDevicesList();
       m_sndOutSett->generateDevicesList();
   }
+}
+
+
+void SettingsDialog::changeUseJack() {
+#if defined(__UNIX_JACK__)
+  
+#endif
 }
 
 

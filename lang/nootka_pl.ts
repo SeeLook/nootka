@@ -162,18 +162,6 @@
         <translation>Zmienia częstotliwość &lt;i&gt;środkowego a&lt;/i&gt; o pół tonu.</translation>
     </message>
     <message>
-        <source>Shifts the frequency of base a&lt;sup&gt;1&lt;/sup&gt; on semitone.</source>
-        <translation type="obsolete">Zmienia częstotliwość dźwięku bazowego a&lt;sup&gt;1&lt;/sup&gt; o pół tonu.</translation>
-    </message>
-    <message>
-        <source>noise level:</source>
-        <translation type="obsolete">poziom szumu:</translation>
-    </message>
-    <message>
-        <source>Only sounds louder than noise level are taken to pitch analyse. It can improve the pitch detection accuracy.</source>
-        <translation type="obsolete">Do analizy wysokości brane są tylko dżwięki głośniejsze niż poziom szumu. Może to poprawić dokładność rozpoznawania dźwięku.</translation>
-    </message>
-    <message>
         <location filename="../src/sound/audioinsettings.cpp" line="147"/>
         <source>Check, are audio input settings appropirate for You,&lt;br&gt;and does pitch detection work?</source>
         <translation>Sprawdź, czy ustawienia wejścia audio są właściwe,&lt;br&gt; oraz czy działa rozpozawanie wysokości dźwięku?</translation>
@@ -184,21 +172,9 @@
         <translation>Częstotliwość wykrytego dźwięku. Można jej użyć do strojenia</translation>
     </message>
     <message>
-        <source>Calculate</source>
-        <translation type="obsolete">Oblicz</translation>
-    </message>
-    <message>
         <location filename="../src/sound/audioinsettings.cpp" line="41"/>
         <source>enable pitch detection</source>
         <translation>włącz rozpoznawanie dźwięków</translation>
-    </message>
-    <message>
-        <source>A pitch of detecting notes is related to this value. It also affects played sounds - for midi exaclty and for real audio it is rounded to semitones.</source>
-        <translation type="obsolete">Od tej wartości zależy wysokość rozpoznawanych dźwięków. Wpływa ona także na odtwarzane dźwięki - dokładnie na midi, a dla wyjścia audio jest zaokrąglana do półtonów.</translation>
-    </message>
-    <message>
-        <source>Click to automatically detect noise level.&lt;br&gt;Keep silence during 2 seconds to determine it properly.</source>
-        <translation type="obsolete">Kliknij żeby automatycznie wyznaczyć poziom szumu.&lt;br&gt;Zachowaj ciszę przez 2 sekundy.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="141"/>
@@ -219,10 +195,6 @@
         <location filename="../src/sound/audioinsettings.cpp" line="261"/>
         <source>no devices found</source>
         <translation>nie znaleziono urządzenia</translation>
-    </message>
-    <message>
-        <source>There isn&apos;t any noise !?!&lt;br&gt;It seems, Your audio input&lt;br&gt;is not configured properly.</source>
-        <translation type="obsolete">Nie słychać szumu!?!&lt;br&gt;Wygląda na to, że wejście audio&lt;br&gt;nie jest poprawnie skonfigurowane.</translation>
     </message>
 </context>
 <context>
@@ -843,12 +815,12 @@
         <translation>Dżwięk</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="313"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="311"/>
         <source>listening</source>
         <translation>słuchanie</translation>
     </message>
     <message>
-        <location filename="../src/settings/settingsdialog.cpp" line="318"/>
+        <location filename="../src/settings/settingsdialog.cpp" line="312"/>
         <source>playing</source>
         <translation>odtwarzanie</translation>
     </message>
@@ -2067,10 +2039,6 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/sound/tpitchview.cpp" line="47"/>
         <source>Toggles between pitch detection for singing and for playing</source>
         <translation>Przełącza między wykrywaniem dźwięku dla śpiewania lub dla grania</translation>
-    </message>
-    <message>
-        <source>Intonation - clarity of the sound. Is it in tune?</source>
-        <translation type="obsolete">Intonacja - czystość dźwięku. Czy stroi?</translation>
     </message>
     <message>
         <location filename="../src/sound/tpitchview.cpp" line="61"/>
