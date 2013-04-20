@@ -123,6 +123,7 @@ TaudioIN::~TaudioIN()
 void TaudioIN::setParameters(TaudioParams* params) {
   m_pitch->setIsVoice(params->isVoice);
   m_pitch->setMinimalVolume(params->minimalVol);
+  setUseJACK(params->useJACK);
   setAudioDevice(params->INdevName);
   audioParams = params;
 }

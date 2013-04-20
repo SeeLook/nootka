@@ -36,7 +36,11 @@ class TrtAudioAbstract
 public:
     TrtAudioAbstract(TaudioParams *params);
     QString devName() { return deviceName; }
+        /** Creates RtAudio instance. 
+         * When withJACK is FALSE it skips JACK API even it is running. */
     static RtAudio* getRtAudio();
+    static void setUseJACK(bool jack) { m_useJACK = jack; }
+    static bool useJack() { return m_useJACK; }
         /** Prints in console suported audio formats. */
     static void printSupportedFormats(RtAudio::DeviceInfo &devInfo);
     static void printSupportedSampleRates(RtAudio::DeviceInfo &devInfo);
@@ -62,6 +66,9 @@ protected:
     void closeStram();
     
     bool getDeviceInfo(RtAudio::DeviceInfo &devInfo, int id);
+    
+private:
+    static bool m_useJACK;
         
 };
 
