@@ -208,7 +208,7 @@ void TpitchFinder::run() {
           else {
             m_prevNoteIndex = -1;
           }
-          if (m_chunkNum > 100 && !m_channel->isVisibleNote(data->noteIndex)) {
+          if (m_chunkNum > 1000 && !m_channel->isVisibleNote(data->noteIndex)) {
             m_doReset = true;
 //               qDebug() << m_channel->isVisibleNote(data->noteIndex) << m_channel->isLabelNote(data->noteIndex);
           }
