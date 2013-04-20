@@ -53,6 +53,7 @@ QStringList TaudioOUT::getAudioDevicesList() {
           devList << QString::fromLocal8Bit(devInfo.name.data());
     }
     delete rta;
+    qDebug() << devList;
     return devList;
 }
 

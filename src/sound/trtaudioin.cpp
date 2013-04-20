@@ -233,7 +233,10 @@ void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
 //------------------------------------------------------------------------------------
 
 void TaudioIN::pitchInChunkSlot(float pitch) {
-  emit chunkPitch(pitch - audioParams->a440diff); 
+  if (pitch == 0.0)
+    emit chunkPitch(0.0); 
+  else
+    emit chunkPitch(pitch - audioParams->a440diff); 
 }
 
 
