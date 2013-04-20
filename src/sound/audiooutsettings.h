@@ -41,11 +41,13 @@ public:
 		QString name;
 		unsigned char progNr;
 	};
-		/** A list of midi instruments used in Nootka */
+      /** A list of midi instruments used in Nootka */
 	QList<TmidiInstrListStruct> instruments;
   
-  /** Generates devices list for inDeviceCombo QComboBox.*/
+      /** Generates devices list for inDeviceCombo QComboBox.*/
   void generateDevicesList();
+      /** Grabs devices list from AudioOut and fill audioOutDevListCombo */
+  void setDevicesCombo();
   
 protected:
 

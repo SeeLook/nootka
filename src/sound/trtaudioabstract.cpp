@@ -18,6 +18,7 @@
 
 
 #include "trtaudioabstract.h"
+#include "taudioparams.h"
 #include <QDebug>
 #include <QFileInfo>
 
@@ -28,14 +29,24 @@ TrtAudioAbstract::TrtAudioAbstract(TaudioParams* params) :
   streamOptions(0),
   sampleRate(44100)
 {
-
+  setUseJACK(params->useJACK);
 }
 
 /*static*/
+bool TrtAudioAbstract::m_useJACK = true;
+
 RtAudio* TrtAudioAbstract::getRtAudio() {
+  RtAudio *rta;
+#if defined(Q_OS_LINUX)
+    if (m_useJACK)
+      rta = new RtAudio(); // check is JACK posible end allow it
+    else
+      rta = new RtAudio(RtAudio::LINUX_ALSA); // force ALSA
+#else
     RtAudio *rta = new RtAudio();
+#endif
 #if defined(__LINUX_PULSE__)
-    if (rta->getCurrentApi() != RtAudio::UNIX_JACK) {
+    if (!m_useJACK /*&& rta->getCurrentApi() != RtAudio::UNIX_JACK*/) { // PulseAudio only when user don't want JACK'
       QFileInfo pulseBin("/usr/bin/pulseaudio");
       if (pulseBin.exists()) {
       RtAudio *rtPulse = new RtAudio(RtAudio::LINUX_PULSE);

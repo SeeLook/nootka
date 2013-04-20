@@ -25,6 +25,8 @@
 #include <QtGui>
 #include <audioinsettings.h>
 #include <audiooutsettings.h>
+#include <taudioparams.h>
+#include <trtaudioabstract.h>
 
 
 extern Tglobals *gl;
@@ -305,8 +307,9 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     audioLay->addWidget(sndTTab);
 #if defined(__UNIX_JACK__)
     m_jackChBox = new QCheckBox(tr("use JACK (Jack Audio Connection Kit"), audioSettingsPage);
+    m_jackChBox->setChecked(gl->A->useJACK);
     audioLay->addWidget(m_jackChBox, 0, Qt::AlignCenter);
-    m_jackChBox->setStatusTip("EXPERIMENTAL, not tested.<br>Let me know when you will get this working.");
+    m_jackChBox->setStatusTip("Uses JACK if it is run or other sound backend if not.<br>EXPERIMENTAL and not tested.<br>Let me know when you will get this working.");
     connect(m_jackChBox, SIGNAL(toggled(bool)), this, SLOT(changeUseJack()));
 #endif
     if (m_sndInSett)
@@ -343,7 +346,9 @@ void SettingsDialog::changeSettingsWidget(int index) {
 
 void SettingsDialog::changeUseJack() {
 #if defined(__UNIX_JACK__)
-  
+  TrtAudioAbstract::setUseJACK(m_jackChBox->isChecked());
+  m_sndInSett->setDevicesCombo();
+  m_sndOutSett->setDevicesCombo();
 #endif
 }
 
@@ -358,6 +363,9 @@ void SettingsDialog::saveSettings() {
     m_sndOutSett->saveSettings();
     if (m_sndInSett)
       m_sndInSett->saveSettings();
+#if defined(__UNIX_JACK__)
+    gl->A->useJACK = m_jackChBox->isChecked();
+#endif
 }
 
 

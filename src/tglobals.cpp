@@ -185,6 +185,7 @@ Tglobals::Tglobals() {
 // Sound settings
     A = new TaudioParams();
     config->beginGroup("sound");
+      A->useJACK = config->value("useJACK", false).toBool();
       A->OUTenabled = config->value("outSoundEnabled", true).toBool();
       A->OUTdevName = config->value("outDeviceName", "").toString();
       A->midiEnabled = config->value("midiEnabled", false).toBool();
@@ -281,6 +282,9 @@ void Tglobals::storeSettings() {
     config->endGroup();
 
     config->beginGroup("sound");
+    #if defined(__UNIX_JACK__) // save this only when JACK was compiled in
+        config->setValue("useJACK", A->useJACK);
+    #endif
         config->setValue("outSoundEnabled", A->OUTenabled);
         config->setValue("outDeviceName", A->OUTdevName);
         config->setValue("midiEnabled", A->midiEnabled);

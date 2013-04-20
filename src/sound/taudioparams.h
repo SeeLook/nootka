@@ -28,6 +28,7 @@ class TaudioParams
 {
   
 public:
+  bool useJACK; // TRUE - prefer JACK over ALSA or PulseAudio, FALSE - take PA (if available) or ALSA
 // audio input settings
   bool INenabled; // is audio input enabled
   QString INdevName; // input device name

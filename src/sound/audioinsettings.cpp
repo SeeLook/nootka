@@ -252,6 +252,22 @@ void AudioInSettings::saveSettings() {
 void AudioInSettings::generateDevicesList() {
   if (m_listGenerated)
     return;
+  setDevicesCombo();
+//   inDeviceCombo->addItems(TaudioIN::getAudioDevicesList());
+//   if (inDeviceCombo->count()) {
+//         int id = inDeviceCombo->findText(m_glParams->INdevName);
+//         if (id != -1)
+//             inDeviceCombo->setCurrentIndex(id);
+//     } else {
+//         inDeviceCombo->addItem(tr("no devices found"));
+//         inDeviceCombo->setDisabled(true);
+//   }
+  m_listGenerated = true;
+}
+
+
+void AudioInSettings::setDevicesCombo() {
+  inDeviceCombo->clear();
   inDeviceCombo->addItems(TaudioIN::getAudioDevicesList());
   if (inDeviceCombo->count()) {
         int id = inDeviceCombo->findText(m_glParams->INdevName);
@@ -261,7 +277,6 @@ void AudioInSettings::generateDevicesList() {
         inDeviceCombo->addItem(tr("no devices found"));
         inDeviceCombo->setDisabled(true);
   }
-  m_listGenerated = true;
 }
 
 

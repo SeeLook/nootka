@@ -114,6 +114,7 @@ TaudioOUT::~TaudioOUT()
 
 
 void TaudioOUT::setAudioOutParams(TaudioParams* params) {
+  setUseJACK(params->useJACK);
   if (deviceName != params->OUTdevName || !rtDevice) {
     playable = oggScale->loadAudioData();
     if (playable && setAudioDevice(params->OUTdevName))

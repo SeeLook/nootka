@@ -45,6 +45,8 @@ public:
   void saveSettings();
     /** Generates devices list for inDeviceCombo QComboBox.*/
   void generateDevicesList();
+      /** Grabs (refresh) devices list from AudioIn and fill audioOutDevListCombo */
+  void setDevicesCombo();
   
 protected:
   void setTestDisabled(bool disabled);
