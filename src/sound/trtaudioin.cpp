@@ -131,11 +131,12 @@ void TaudioIN::setParameters(TaudioParams* params) {
 /** Device name is saved to globals and to config file only after changed the Nootka preferences.
 * In other cases the default device is loaded. */
 bool TaudioIN::setAudioDevice(const QString& devN) {
-  if (devN == deviceName) {
+  if (devN == deviceName)
     return true;
-  }
-  if (!rtDevice)
-    rtDevice = getRtAudio();
+  
+  if (rtDevice)
+    delete rtDevice;
+  rtDevice = getRtAudio();
   int devId = -1;
   int devCount = rtDevice->getDeviceCount();
   if (devCount) {
@@ -174,12 +175,12 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
     streamOptions->streamName = "nootkaIN";
   }
 //   printSupportedFormats(devInfo);
-  printSupportedSampleRates(devInfo);
+//   printSupportedSampleRates(devInfo);
   if (!openStream(NULL ,&streamParams, RTAUDIO_SINT16, sampleRate, &m_bufferFrames, &inCallBack, 0, streamOptions))
     return false;
   if (rtDevice->isStreamOpen()) {
-      qDebug() << "RtIN:" << QString::fromStdString(rtDevice->getDeviceInfo(devId).name) << "samplerate:" << sampleRate << "buffer:" << m_bufferFrames;
-      deviceName = QString::fromStdString(rtDevice->getDeviceInfo(devId).name);
+      deviceName = QString::fromLocal8Bit(rtDevice->getDeviceInfo(devId).name.data());
+      qDebug() << "IN:" << deviceName << "samplerate:" << sampleRate << "buffer:" << m_bufferFrames;
       return true;
   } else
       return false;

@@ -84,7 +84,6 @@ private:
   
   TpitchView *m_pitchView;
   Tnote m_detNote; // detected note
-  QThread *m_thread;
   bool m_examMode;
   
 private slots:

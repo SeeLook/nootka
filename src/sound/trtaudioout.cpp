@@ -53,7 +53,6 @@ QStringList TaudioOUT::getAudioDevicesList() {
           devList << QString::fromLocal8Bit(devInfo.name.data());
     }
     delete rta;
-    qDebug() << devList;
     return devList;
 }
 
@@ -98,6 +97,7 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QString &path, QObject *parent) :
   oggScale(new ToggScale(path)),
   ratioOfRate(1)
 {
+  setType(e_audio);
   setAudioOutParams(_params);
   instance = this;
   offTimer = new QTimer();
@@ -123,11 +123,13 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
     else
         playable = false;
   }
+  oggScale->setPitchOffset(audioParams->a440diff);
 }
 
 bool TaudioOUT::setAudioDevice(QString &name) {
-  if (!rtDevice)
-    rtDevice = getRtAudio();
+  if (rtDevice)
+    delete rtDevice;
+  rtDevice = getRtAudio();
   int devId = -1;
   int devCount = rtDevice->getDeviceCount();
   if (devCount) {
@@ -166,7 +168,7 @@ bool TaudioOUT::setAudioDevice(QString &name) {
     streamOptions->streamName = "nootkaOUT";
   }
 //   printSupportedFormats(devInfo);
-  printSupportedSampleRates(devInfo);
+//   printSupportedSampleRates(devInfo);
 //   sampleRate = devInfo.sampleRates.at(devInfo.sampleRates.size() - 1);
 //   sampleRate = 192000;  
   ratioOfRate = sampleRate / 44100;
@@ -178,17 +180,18 @@ bool TaudioOUT::setAudioDevice(QString &name) {
     m_bufferFrames = m_bufferFrames * ratioOfRate; // increase buffer to give time for resampling in oggScale
   }
   oggScale->setSampleRate(sampleRate);
-  oggScale->setPitchOffset(audioParams->a440diff);
+//   oggScale->setPitchOffset(audioParams->a440diff);
   if (!openStream(&streamParams, NULL, RTAUDIO_SINT16, sampleRate * ratioOfRate, &m_bufferFrames, &outCallBack, 0, streamOptions)) {
       playable = false;
       return false;
   }
   if (rtDevice->isStreamOpen()) {
-//       m_maxCBloops = (sampleRate / (m_bufferFrames / 2) * (44100.0f / (float)sampleRate)) * ratioOfRate;
       m_maxCBloops = (88200 * ratioOfRate) / m_bufferFrames;
-      qDebug() << "RtOUT:" << QString::fromStdString(rtDevice->getDeviceInfo(devId).name) << "samplerate:" << sampleRate * ratioOfRate 
+      deviceName = QString::fromLocal8Bit(rtDevice->getDeviceInfo(devId).name.data());
+      qDebug() << "OUT:" << deviceName << "samplerate:" << sampleRate * ratioOfRate 
             << "buffer:" << m_bufferFrames;
-      deviceName = QString::fromStdString(rtDevice->getDeviceInfo(devId).name);
+      if (rtDevice->getCurrentApi() != RtAudio::LINUX_PULSE || rtDevice->getCurrentApi() != RtAudio::UNIX_JACK)
+          closeStram(); // otherwise devices are blocked (not appears in settings dialog)
       return true;
   } else
     return false;
@@ -216,8 +219,8 @@ bool TaudioOUT::play(int noteNr) {
       SLEEP(1);
       loops++;
   }
-  if (loops)
-      qDebug() << "latency:" << loops << "ms";
+//   if (loops)
+//       qDebug() << "latency:" << loops << "ms";
   
   offTimer->start(1600);
   return startStream();

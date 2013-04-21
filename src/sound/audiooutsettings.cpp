@@ -145,15 +145,6 @@ void AudioOutSettings::generateDevicesList() {
   if (m_listGenerated)
     return;
   setDevicesCombo();
-//   audioOutDevListCombo->addItems(TaudioOUT::getAudioDevicesList());
-//     if (audioOutDevListCombo->count()) {
-//         int id = audioOutDevListCombo->findText(m_params->OUTdevName);
-//         if (id != -1)
-//             audioOutDevListCombo->setCurrentIndex(id);
-//     } else {
-//         audioOutDevListCombo->addItem(tr("no devices found"));
-//         audioOutDevListCombo->setDisabled(true);
-//   }
   m_listGenerated = true;
 }
 

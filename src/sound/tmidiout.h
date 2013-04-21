@@ -57,11 +57,16 @@ public:
     
     
 private:
-    TaudioParams *m_params;
+    TaudioParams                  *m_params;
     
-    RtMidiOut *m_midiOut;
-    unsigned char m_prevMidiNote;
-    std::vector<unsigned char> m_message;
+    RtMidiOut                     *m_midiOut;
+    unsigned char                 m_prevMidiNote;
+    std::vector<unsigned char>    m_message;
+    unsigned int                  m_portNr;
+    bool                          m_portOpened;
+    
+private:
+    void openMidiPort();
   
 private slots:
       /** Turns off played @param m_prevMidiNote

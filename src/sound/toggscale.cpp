@@ -181,10 +181,8 @@ bool ToggScale::loadAudioData() {
   m_oggWrap.filePtr = m_oggInMemory;
   m_oggWrap.fileSize = oggFile.size();
   
-//   qDebug() << "ogg file size:" << m_oggWrap.fileSize << "addr" << m_oggWrap.filePtr << "size" << sizeof(m_oggInMemory);
   oggFile.close();
   m_pcmBuffer = new qint16[2 * m_sampleRate];
-//   std::fill(m_pcmBuffer, m_pcmBuffer + 2 * m_sampleRate - 1, 0);
   myCallBacks.read_func = readOggStatic;
   myCallBacks.seek_func = seekOggStatic;
   myCallBacks.close_func = closeOggStatic;
