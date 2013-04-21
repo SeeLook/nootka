@@ -83,7 +83,7 @@ void TupdateProcess::processSays() {
     if (out.contains("success") || out.contains("need"))
       m_timer->stop();
     else {
-      qDebug() << "processSays: " << out;
+//       qDebug() << "processSays: " << out;
       emit updateOutput(QString(out));
     }
   }

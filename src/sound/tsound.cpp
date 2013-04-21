@@ -23,7 +23,6 @@
 #include "trtaudioout.h"
 #include "trtaudioin.h"
 #include <QPushButton>
-#include <QThread>
 #include <QTimer>
 #include <QDebug>
 
@@ -33,7 +32,6 @@ extern Tglobals *gl;
 
 Tsound::Tsound(QObject* parent) :
   QObject(parent),
-//   m_thread(new QThread()),
   sniffer(0),
   player(0),
   m_examMode(false)
@@ -53,8 +51,6 @@ Tsound::~Tsound()
 { //They have not a parent
   deleteSniffer();
   deletePlayer();
-//   m_thread->quit();
-//   m_thread->deleteLater();
 }
 
 //------------------------------------------------------------------------------------
@@ -73,17 +69,29 @@ void Tsound::play(Tnote note) {
   }
 }
 
+
 void Tsound::acceptSettings() {
   // for output
   if (gl->A->OUTenabled) {
     if (!player)
         createPlayer();
     else {
-        deletePlayer();
-        createPlayer();
+        if (gl->A->midiEnabled) {
+          deletePlayer(); // it is safe to delete midi
+          createPlayer(); // and create it again
+        } else { // avoids deleting TaudioOUT instance and loading ogg file every acceptSettings call
+          if (player->type() == TabstractPlayer::e_midi) {
+              deletePlayer(); // player was midi so delete
+              createPlayer();
+          } else { // just set new params to TaudioOUT
+              TaudioOUT *aOut = static_cast<TaudioOUT*>(player);
+              aOut->setAudioOutParams(gl->A);
+          }
+        }
         if (player)
           if (!player->isPlayable())
-            deletePlayer();    }
+            deletePlayer();
+    }
   } else {
       deletePlayer();
   }
@@ -105,7 +113,6 @@ void Tsound::acceptSettings() {
     else {
       sniffer->setParameters(gl->A);
       sniffer->setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
-//       m_pitchView->setAudioInput(sniffer);
       m_pitchView->setIsVoice(gl->A->isVoice);
       m_pitchView->setMinimalVolume(gl->A->minimalVol);
       if (!m_pitchView->isPaused()) { // and pause button
@@ -120,6 +127,7 @@ void Tsound::acceptSettings() {
   }
 }
 
+
 void Tsound::setPitchView(TpitchView* pView) {
   m_pitchView = pView;
   m_pitchView->setPitchColor(gl->EanswerColor);
@@ -131,6 +139,7 @@ void Tsound::setPitchView(TpitchView* pView) {
     m_pitchView->setDisabled(true);
 }
 
+
 void Tsound::prepareToConf() {
   stopPlaying();
   if (player)
@@ -140,6 +149,7 @@ void Tsound::prepareToConf() {
     m_pitchView->stopVolume();
   }
 }
+
 
 void Tsound::restoreAfterConf() {
   if (gl->A->midiEnabled) {
@@ -154,6 +164,7 @@ void Tsound::restoreAfterConf() {
   }
 }
 
+
 void Tsound::wait() {
 //     qDebug("wait");
   if (sniffer) {
@@ -161,6 +172,7 @@ void Tsound::wait() {
     m_pitchView->stopVolume();
   }
 }
+
 
 void Tsound::go() {
 //     qDebug("go");
@@ -170,16 +182,18 @@ void Tsound::go() {
   }
 }
 
+
 void Tsound::prepareAnswer() {
   m_pitchView->setBgColor(gl->EanswerColor);
   m_pitchView->setDisabled(false);
-//   m_pitchView->update();
 }
+
 
 void Tsound::pauseSinffing() {
     if (sniffer)
         sniffer->pause();
 }
+
 
 void Tsound::unPauseSniffing() {
     if (sniffer)
@@ -193,16 +207,19 @@ bool Tsound::isSnifferPaused() {
         return false;
 }
 
+
 void Tsound::restoreAfterAnswer() {
   m_pitchView->setBgColor(Qt::transparent);
   m_pitchView->setDisabled(true);
 }
+
 
 void Tsound::prepareToExam() {
   m_examMode = true;
   if (sniffer)
      m_pitchView->setDisabled(true);
 }
+
 
 void Tsound::restoreAfterExam() {
   m_examMode = false;
@@ -213,10 +230,12 @@ void Tsound::restoreAfterExam() {
   }
 }
 
+
 void Tsound::stopPlaying() {
   if (player)
     player->stop();
 }
+
 
 bool Tsound::isPlayable() {
   if (player)
@@ -238,13 +257,6 @@ void Tsound::createPlayer() {
     player = new TmidiOut(gl->A);
   else
     player = new TaudioOUT(gl->A, gl->path);
-// #if defined(Q_OS_WIN32)
-    // Windows has problems with playing it in separate thread - cuted sound
-    // so we skip
-// #else
-//   player->moveToThread(m_thread);
-//   m_thread->start(QThread::HighPriority);
-// #endif
   connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinishedSlot()));
 }
 
@@ -259,7 +271,6 @@ void Tsound::createSniffer() {
 void Tsound::deletePlayer() {
   if (player)
     player->stop();
-//   m_thread->quit();
   if (player) {
     player->deleteLater();
     player = 0;
@@ -268,13 +279,7 @@ void Tsound::deletePlayer() {
 
 
 void Tsound::deleteSniffer() {
-//    if (m_thread) {
-//     m_thread->quit();
-//    m_thread->terminate();
-//     delete m_thread;
-//   }
  delete sniffer;
-//   sniffer->deleteLater();
   sniffer = 0;
 }
 

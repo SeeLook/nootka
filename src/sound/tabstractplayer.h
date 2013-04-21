@@ -46,17 +46,23 @@ public:
     
     virtual void setMidiParams();
     
+    enum EplayerType { e_audio, e_midi };
+    
+    EplayerType type() { return playerType; }
+    
 signals:
       /** This signal is emited when playing of a note is finished. */
   void noteFinished();
     
   
 protected:
-    bool playable;
+    void setType(EplayerType type) { playerType = type; }
+    bool          playable;
         /** Determines whether noteFinished() signal is emited in offTimer timeOut() slot.
          * Slot is also called by stop() method and then signal can't be emited. */
-    bool doEmit;
-    QTimer *offTimer;
+    bool          doEmit;
+    QTimer        *offTimer;
+    EplayerType   playerType;
     
 };
 

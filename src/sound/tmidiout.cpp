@@ -47,8 +47,10 @@ TmidiOut::TmidiOut(TaudioParams* params, QObject* parent) :
   TabstractPlayer(parent),
   m_midiOut(0),
   m_params(params),
-  m_prevMidiNote(0)
+  m_prevMidiNote(0),
+  m_portOpened(false)
 {
+    setType(e_midi);
     offTimer = new QTimer();
     setMidiParams();
     if (playable)
@@ -68,16 +70,17 @@ void TmidiOut::setMidiParams() {
   offTimer->disconnect();
   playable = true;
   try {
-    m_midiOut = new RtMidiOut();
+    m_midiOut = new RtMidiOut(RtMidi::UNSPECIFIED, "Nootka_MIDI_out");
   }
   catch ( RtError &error ) {
-    error.printMessage();
+//     error.printMessage();
+    qDebug() << "can't initialise MIDI";
     playable = false;
     return;
   }
   
   if (m_midiOut && m_midiOut->getPortCount() > 0) {
-      unsigned int portNr = 0;
+      m_portNr = 0;
 #if defined(Q_OS_LINUX)
       if(m_params->midiPortName == "")
       m_params->midiPortName = "TiMidity";  // TiMidity port is prefered under Linux
@@ -85,38 +88,41 @@ void TmidiOut::setMidiParams() {
       if (m_params->midiPortName != "") {
           for (int i = 0; i < m_midiOut->getPortCount(); i++) {
             if (QString::fromStdString(m_midiOut->getPortName(i)).contains(m_params->midiPortName)) {
-              portNr = i;
+              m_portNr = i;
               break;
             }
           }
       }
 
-      try {
-          m_midiOut->openPort(portNr);
-      }
-      catch (RtError &error){
-          error.printMessage();
-          playable = false;
-          return;
-      }
-      m_params->midiPortName = QString::fromStdString(m_midiOut->getPortName(portNr));
+      openMidiPort();
       qDebug() << "midi device:" << m_params->midiPortName << "instr:" << (int)m_params->midiInstrNr;
-      // midi program (instrument) change
-      m_message.clear();
-      m_message.push_back(192);
-      m_message.push_back(m_params->midiInstrNr); // instrument number
-      m_midiOut->sendMessage(&m_message);
-      // some spacial signals
-      m_message[0] = 241;
-      m_message[1] = 60;
-      m_midiOut->sendMessage(&m_message);
-        
-      m_message.push_back(0); // third message param
-
-      m_message[0] = 176;
-      m_message[1] = 7;
-      m_message[2] = 100; // volume 100;
-      m_midiOut->sendMessage(&m_message);
+//       try {
+//           m_midiOut->openPort(m_portNr, "Nootka_MIDI_out");
+//       }
+//       catch (RtError &error){
+// //           error.printMessage();
+//           qDebug() << "can't open MIDI port";
+//           playable = false;
+//           return;
+//       }
+//       m_params->midiPortName = QString::fromStdString(m_midiOut->getPortName(m_portNr));
+//       qDebug() << "midi device:" << m_params->midiPortName << "instr:" << (int)m_params->midiInstrNr;
+//       // midi program (instrument) change
+//       m_message.clear();
+//       m_message.push_back(192);
+//       m_message.push_back(m_params->midiInstrNr); // instrument number
+//       m_midiOut->sendMessage(&m_message);
+//       // some spacial signals
+//       m_message[0] = 241;
+//       m_message[1] = 60;
+//       m_midiOut->sendMessage(&m_message);
+//         
+//       m_message.push_back(0); // third message param
+// 
+//       m_message[0] = 176;
+//       m_message[1] = 7;
+//       m_message[2] = 100; // volume 100;
+//       m_midiOut->sendMessage(&m_message);
   } else
       playable = false;
 }
@@ -127,7 +133,9 @@ void TmidiOut::deleteMidi() {
   if (m_midiOut) {
     if (offTimer->isActive())
       offTimer->stop();
-    m_midiOut->closePort();
+    if (m_portOpened)
+      m_midiOut->closePort();
+    m_portOpened = false;
     delete m_midiOut;
     m_midiOut = 0;
   }
@@ -142,6 +150,8 @@ bool TmidiOut::play(int noteNr) {
       doEmit = false;
       midiNoteOff();
   }
+  if (!m_portOpened)
+    openMidiPort();
   doEmit = true;
   int semiToneOff = 0; // "whole" semitone offset
   quint16 midiBend = 0;
@@ -179,9 +189,49 @@ void TmidiOut::stop() {
   if (offTimer->isActive()) {
     offTimer->stop();
     doEmit = false;
+    if (m_portOpened) {
+        m_midiOut->closePort();
+        m_portOpened = false;
+    }
     midiNoteOff();
   }
 }
+
+
+void TmidiOut::openMidiPort() {
+    if (m_portOpened)
+      return;
+    try {
+          m_midiOut->openPort(m_portNr, "Nootka_MIDI_out");
+      }
+      catch (RtError &error){
+//           error.printMessage();
+          qDebug() << "can't open MIDI port";
+          playable = false;
+          return;
+      }
+      m_portOpened = true;
+      m_params->midiPortName = QString::fromStdString(m_midiOut->getPortName(m_portNr));
+//       qDebug() << "midi device:" << m_params->midiPortName << "instr:" << (int)m_params->midiInstrNr;
+      // midi program (instrument) change
+      m_message.clear();
+      m_message.push_back(192);
+      m_message.push_back(m_params->midiInstrNr); // instrument number
+      m_midiOut->sendMessage(&m_message);
+      // some spacial signals
+      m_message[0] = 241;
+      m_message[1] = 60;
+      m_midiOut->sendMessage(&m_message);
+        
+      m_message.push_back(0); // third message param
+
+      m_message[0] = 176;
+      m_message[1] = 7;
+      m_message[2] = 100; // volume 100;
+      m_midiOut->sendMessage(&m_message);
+}
+
+
 
 //---------------------------------------------------------------------------------------
 //-------------------------------- slots ------------------------------------------------
@@ -196,6 +246,10 @@ void TmidiOut::midiNoteOff() {
   m_midiOut->sendMessage(&m_message);
   m_prevMidiNote = 0;
   if (doEmit)
+    if (m_portOpened) {
+        m_midiOut->closePort();
+        m_portOpened = false;
+    }
     emit noteFinished();
 }
 

@@ -47,7 +47,8 @@ TabstractSoundView::TabstractSoundView(QWidget* parent) :
 //         endColor = Qt::red;
   }
   else
-        tc = palette().window().color().darker(120);
+    tc = palette().text().color();
+//         tc = palette().window().color().darker(120);
 }
 
 
