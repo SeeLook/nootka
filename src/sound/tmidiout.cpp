@@ -70,7 +70,14 @@ void TmidiOut::setMidiParams() {
   offTimer->disconnect();
   playable = true;
   try {
+#if defined(__UNIX_JACK__)
+    if (m_params->useJACK)
+        m_midiOut = new RtMidiOut(RtMidi::UNIX_JACK, "Nootka_MIDI_out");
+    else
+        m_midiOut = new RtMidiOut(RtMidi::UNSPECIFIED, "Nootka_MIDI_out");
+#else
     m_midiOut = new RtMidiOut(RtMidi::UNSPECIFIED, "Nootka_MIDI_out");
+#endif
   }
   catch ( RtError &error ) {
 //     error.printMessage();

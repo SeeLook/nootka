@@ -10,6 +10,7 @@ B_PATH=$1/src/nootka.app
 # QT_PATH=$(dirname $2)
 MACDEPOLOYQT=$2/macdeployqt
 FFTW_LIB=$3
+OGG_LIB=$4
 
 echo "Preparing bundle to install"
 
@@ -19,12 +20,23 @@ if [ -L $FFTW_LIB ]; then
 	FF_FILE=$(readlink $FFTW_LIB)
 	FFTW_LIB=$(echo "$FF_DIR/$FF_FILE")
 	echo $FFTW_LIB
-else
+fi
 	mkdir $B_PATH/Contents/Frameworks
 	cp $FFTW_LIB $B_PATH/Contents/Frameworks/
+
+
+OGG_DIR=$(dirname $OGG_LIB)
+if [ -L $OGG_LIB ]; then
+  printf "\033[01;31m Converting $OGG_LIB to regular file !!!\033[01;00m\n"
+  OGG_FILE=$(readlink $OGG_LIB)
+  OGG_LIB=$(echo "$OGG_DIR/$OGG_FILE")
+  echo $OGG_LIB
 fi
-
-
+cp $OGG_LIB $B_PATH/Contents/Frameworks/
+# cp $OGG_DIR/ogg $B_PATH/Contents/Frameworks/
+# cp $OGG_LIB/vorbis $B_PATH/Contents/Frameworks/
+  
+  
 if [ -d "$B_PATH/Contents/Resources" ]; then
         echo "Cleaning Resurces Dir"
          rm $B_PATH/Contents/Resources/* # There are only links
