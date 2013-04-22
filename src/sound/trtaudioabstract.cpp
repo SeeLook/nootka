@@ -43,7 +43,7 @@ RtAudio* TrtAudioAbstract::getRtAudio() {
     else
       rta = new RtAudio(RtAudio::LINUX_ALSA); // force ALSA
 #else
-    RtAudio *rta = new RtAudio();
+    rta = new RtAudio();
 #endif
 #if defined(__LINUX_PULSE__)
     if (!m_useJACK /*&& rta->getCurrentApi() != RtAudio::UNIX_JACK*/) { // PulseAudio only when user don't want JACK'
