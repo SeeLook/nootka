@@ -117,7 +117,7 @@ namespace soundtouch
         #define SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS     1
 //     #else
 //         #define SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS     1
-//     #endif
+     #endif
         /// In GNU environment, allow the user to override this setting by
         /// giving the following switch to the configure script:
         /// ./configure --disable-x86-optimizations
