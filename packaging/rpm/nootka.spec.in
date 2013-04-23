@@ -69,6 +69,7 @@ fi
 %files
 %defattr(-,root,root,-)
 "/usr/bin/nootka"
+"/usr/bin/nootka-updater"
 "/usr/share/doc/nootka/copyright"
 "/usr/share/man/man1/nootka.1.gz*"
 "/usr/share/mime/packages/nootka.xml"
@@ -126,7 +127,7 @@ fi
 "/usr/share/nootka/picts/flags-pl.png"
 "/usr/share/nootka/picts/middleA.png"
 
-"/usr/share/nootka/sounds/classical-guitar.wav"
+"/usr/share/nootka/sounds/classical-guitar.ogg"
 "/usr/share/applications/nootka.desktop"
 "/usr/share/pixmaps/levelCreator.png"
 "/usr/share/pixmaps/nootka-exam.png"
