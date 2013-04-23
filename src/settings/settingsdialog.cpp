@@ -27,6 +27,7 @@
 #include <audiooutsettings.h>
 #include <taudioparams.h>
 #include <trtaudioabstract.h>
+#include <tmidiout.h>
 
 
 extern Tglobals *gl;
@@ -347,6 +348,7 @@ void SettingsDialog::changeSettingsWidget(int index) {
 void SettingsDialog::changeUseJack() {
 #if defined(__UNIX_JACK__)
   TrtAudioAbstract::setUseJACK(m_jackChBox->isChecked());
+  TmidiOut::setUseJack(m_jackChBox->isChecked());
   m_sndInSett->setDevicesCombo();
   m_sndOutSett->setDevicesCombo();
 #endif

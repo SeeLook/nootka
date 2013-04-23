@@ -31,7 +31,7 @@ class AudioOutSettings : public QWidget
 {
     Q_OBJECT
 public:
-    explicit AudioOutSettings(TaudioParams *aParams, bool pulseOK = true, QWidget *parent = 0);
+    explicit AudioOutSettings(TaudioParams *aParams, QWidget *parent = 0);
 
     void saveSettings();
 		/** The structure describes midi program (instrument).
@@ -60,7 +60,6 @@ private:
   QRadioButton *midiRadioButt, *audioRadioButt;
   TaudioParams *m_params;
   bool m_listGenerated;
-  bool m_pulseOK;
 	
 private slots:
 	void audioOrMidiChanged();

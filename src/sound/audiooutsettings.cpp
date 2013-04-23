@@ -21,20 +21,13 @@
 #include <QtGui>
 #include "taudioparams.h"
 #include "tmidiout.h"
-// #if defined(__LINUX_ALSA__)
-  #include "trtaudioout.h"
-// #else
-//   #include "taudioout.h"
-// #endif
-
-// #include <QDebug>
+#include "trtaudioout.h"
 
 
-AudioOutSettings::AudioOutSettings(TaudioParams* aParams, bool pulseOK, QWidget* parent) :
+AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
     QWidget(parent),
     m_params(aParams),
-    m_listGenerated(false),
-    m_pulseOK(pulseOK)
+    m_listGenerated(false)
 {
     QVBoxLayout *lay = new QVBoxLayout;
 
@@ -72,16 +65,16 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, bool pulseOK, QWidget*
     midiPortsCombo = new QComboBox(this);
     midiParamLay->addWidget(midiPortsCombo, 1, 0);
     midiPortsCombo->addItems(TmidiOut::getMidiPortsList());
-    if (m_params->midiPortName != "") {
-      if (midiPortsCombo->count()) {
-        int id = midiPortsCombo->findText(m_params->midiPortName);
-        if (id != -1)
-          midiPortsCombo->setCurrentIndex(id);		
-      } else {
-        midiPortsCombo->addItem(tr("no midi ports"));
-        midiPortsCombo->setDisabled(true);
-      }
-    }
+//     if (m_params->midiPortName != "") {
+//       if (midiPortsCombo->count()) {
+//         int id = midiPortsCombo->findText(m_params->midiPortName);
+//         if (id != -1)
+//           midiPortsCombo->setCurrentIndex(id);		
+//       } else {
+//         midiPortsCombo->addItem(tr("no midi ports"));
+//         midiPortsCombo->setDisabled(true);
+//       }
+//     }
     QLabel *midiInstrLab = new QLabel(tr("instrument"), this);
     midiParamLay->addWidget(midiInstrLab, 2, 0);
     midiInstrCombo = new QComboBox(this);
@@ -124,18 +117,12 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, bool pulseOK, QWidget*
     QButtonGroup *radioGr = new QButtonGroup(this);
     radioGr->addButton(audioRadioButt);
     radioGr->addButton(midiRadioButt);
-    if (m_pulseOK) {
-        audioRadioButt->setChecked(!m_params->midiEnabled);
-        midiRadioButt->setChecked(m_params->midiEnabled);
-    } else {
-        audioRadioButt->setChecked(false);
-        midiRadioButt->setChecked(true);
-        audioRadioButt->setDisabled(true);
-    }
+    audioRadioButt->setChecked(!m_params->midiEnabled);
+    midiRadioButt->setChecked(m_params->midiEnabled);
+    
     audioOrMidiChanged();
     
-    if (m_pulseOK)
-        connect(radioGr, SIGNAL(buttonClicked(int)), this, SLOT(audioOrMidiChanged()));
+    connect(radioGr, SIGNAL(buttonClicked(int)), this, SLOT(audioOrMidiChanged()));
     
     setFocusPolicy(Qt::StrongFocus);
     
@@ -160,6 +147,16 @@ void AudioOutSettings::setDevicesCombo() {
         audioOutDevListCombo->addItem(tr("no devices found"));
         audioOutDevListCombo->setDisabled(true);
   }
+  if (m_params->midiPortName != "") {
+      if (midiPortsCombo->count()) {
+        int id = midiPortsCombo->findText(m_params->midiPortName);
+        if (id != -1)
+          midiPortsCombo->setCurrentIndex(id);    
+      } else {
+        midiPortsCombo->addItem(tr("no midi ports"));
+        midiPortsCombo->setDisabled(true);
+      }
+    }
 }
 
 

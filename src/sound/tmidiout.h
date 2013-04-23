@@ -41,6 +41,7 @@ public:
     virtual ~TmidiOut();
     
     static QStringList getMidiPortsList();
+    static void setUseJack(bool jack) { m_useJACK = jack; }
     
     bool play(int noteNr);
     
@@ -64,6 +65,7 @@ private:
     std::vector<unsigned char>    m_message;
     unsigned int                  m_portNr;
     bool                          m_portOpened;
+    static bool                   m_useJACK;
     
 private:
     void openMidiPort();
