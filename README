@@ -39,12 +39,12 @@
       cmake -DCMAKE_INSTALL_PREFIX=/my/special/dir ../
       or do the same in GUI
 - There is an option for building Nootka with checking for new versions
-  Also under Linux are options to build Nootka with native support for:
+- Also under Linux are options to build Nootka with native support for:
    - Jack Audio Connection Kit support (requires libjack-dev)
    - PulseAudio (requires libpulse-dev)
     When those headers/libs are found - options are selected automaticaly
     They can be controled by:
-	-DENABLE_JACK=OFF -DENABLE_PULSEAUDIO=OFF (OFF or ON)
+	  -DENABLE_JACK=OFF -DENABLE_PULSEAUDIO=OFF (OFF or ON)
 - then call
   make 
   or 

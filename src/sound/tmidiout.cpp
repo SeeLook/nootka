@@ -28,10 +28,18 @@ QStringList TmidiOut::getMidiPortsList()
 {
   RtMidiOut *midiOut = 0;
   try {
+#if defined(__UNIX_JACK__)
+    if (m_useJACK)
+        midiOut = new RtMidiOut(RtMidi::UNIX_JACK);
+    else
+        midiOut = new RtMidiOut();
+#else
     midiOut = new RtMidiOut();
+#endif
   }
   catch ( RtError &error ) {
-      error.printMessage();
+    qDebug() << "no midi devices available";
+//       error.printMessage();
   }
   QStringList portList;
   if (midiOut && midiOut->getPortCount())
@@ -41,6 +49,7 @@ QStringList TmidiOut::getMidiPortsList()
   return portList;  
 }
 
+bool TmidiOut::m_useJACK = false;
 
 
 TmidiOut::TmidiOut(TaudioParams* params, QObject* parent) :
@@ -67,6 +76,7 @@ TmidiOut::~TmidiOut()
 
 void TmidiOut::setMidiParams() {
   deleteMidi();
+  m_useJACK = m_params->useJACK;
   offTimer->disconnect();
   playable = true;
   try {

@@ -1,11 +1,11 @@
-0.8.70 beta
+0.8.77 beta
      - added intonation view of played sound
      - checking for new versions of an application
      - improved reaction on detected pitch (faster and fluid)
      - audio output supports change of base frequency
     Under the hood
      - audio layer ported to RtAudio
-     - support for JACK & PulseAudio (Linux)
+     - under Linux added support for PulseAudio & JACK (experimental) 
      - sound data compressed to ogg
 
 0.8.60 beta
