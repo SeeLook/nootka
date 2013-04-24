@@ -10,13 +10,13 @@ Vendor:         @CPACK_RPM_PACKAGE_VENDOR@
 @TMP_RPM_URL@
 # My three cents about requirements
 %if 0%{?suse_version}
-Requires: libqt4 >= 4.6, libqt4-devel, fftw3
+Requires: libqt4 >= 4.6, libqt4-devel, fftw3, libpulse0, libjack0, libSoundTouch0
 %endif
 %if 0%{?fedora}
-Requires: qt-devel, fftw
+Requires: qt-devel, fftw, soundtouch, jack-audio-connection-kit, pulseaudio-libs
 %endif
 %if 0%{?mandriva_version}
-Requires: libqtmultimedia, libfftw3
+Requires: libfftw3
 %endif
 
 @TMP_RPM_PROVIDES@
