@@ -80,3 +80,12 @@ else
 	echo "Can not find macdeployqt executable"
 fi
 
+
+#install_name_tool -id @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore nootka.app/Contents/Frameworks/QtCore.framework/Versions/4/QtCore
+#install_name_tool -id @executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui  nootka.app/Contents/Frameworks/QtGui.framework/Versions/4/QtGui
+#install_name_tool -id @executable_path/../Frameworks/QtNetwork.framework/Versions/4/QtNetwork nootka.app/Contents/Frameworks/QtNetwork.framework/Versions/4/QtNetwork
+
+#install_name_tool -change QtCore.framework/Versions/4/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore nootka.app/Contents/MacOS/nootka-updater
+#install_name_tool -change QtGui.framework/Versions/4/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui  nootka.app/Contents/MacOS/nootka-updater
+#install_name_tool -change QtNetwork.framework/Versions/4/QtNetwork @executable_path/../Frameworks/QtNetwork.framework/Versions/4/QtNetwork nootka.app/Contents/MacOS/nootka-updater
+#hdiutil create -format UDBZ -quiet -srcfolder nootka.app nootka.dmg
