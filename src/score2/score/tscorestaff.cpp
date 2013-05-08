@@ -16,27 +16,33 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
-#include "tsimplescore.h"
-#include "tscorescene.h"
 #include "tscorestaff.h"
+#include <QDebug>
+#include <QGraphicsScene>
+#include <QGraphicsView>
 
-TsimpleScore::TsimpleScore(QWidget* parent) :
-  QGraphicsView(parent)
+TscoreStaff::TscoreStaff() :
+  QGraphicsObject()
 {
-  setGeometry(parent->geometry());
-//   m_scene = new TscoreScene(this);
-  m_scene = new QGraphicsScene(this);
-  setScene(m_scene);
+//   m_palette = scene()->views()[0]->palette();
   
-  m_staff = new TscoreStaff();
-  m_scene->addItem(m_staff);
+  for (int i = 0; i < 5; i++) {
+    m_lines[i] = new QGraphicsLineItem();
+    scene()->addItem(m_lines[i]);
+    m_lines[i]->setPen(QPen(scene()->views()[0]->palette().text().color(), 0.5));
+    m_lines[i]->setLine(1, 16 + i * 2, boundingRect().width() - 2, 16 + i * 2);
+  }
 }
 
-TsimpleScore::~TsimpleScore()
-{}
 
-
-int TsimpleScore::heightForWidth(int w ) const {
-  return w * 8;
+TscoreStaff::~TscoreStaff()
+{
+  qDebug("staff deleting");
 }
+
+
+QRectF TscoreStaff::boundingRect() {
+  return QRectF(0, 0, 80, 40);
+}
+
+

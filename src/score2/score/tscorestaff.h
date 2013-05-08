@@ -17,26 +17,29 @@
  ***************************************************************************/
 
 
-#include "tsimplescore.h"
-#include "tscorescene.h"
-#include "tscorestaff.h"
+#ifndef TSCORESTAFF_H
+#define TSCORESTAFF_H
 
-TsimpleScore::TsimpleScore(QWidget* parent) :
-  QGraphicsView(parent)
+#include <QGraphicsObject>
+
+class QPalette;
+
+
+class TscoreStaff : QGraphicsObject
 {
-  setGeometry(parent->geometry());
-//   m_scene = new TscoreScene(this);
-  m_scene = new QGraphicsScene(this);
-  setScene(m_scene);
-  
-  m_staff = new TscoreStaff();
-  m_scene->addItem(m_staff);
-}
+    Q_OBJECT
 
-TsimpleScore::~TsimpleScore()
-{}
+public:
+    TscoreStaff();
+    virtual ~TscoreStaff();
+    
+//     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
+    virtual QRectF boundingRect();
 
+private:
+    const QPalette *m_palette;
+    QGraphicsLineItem *m_lines[5];
 
-int TsimpleScore::heightForWidth(int w ) const {
-  return w * 8;
-}
+};
+
+#endif // TSCORESTAFF_H
