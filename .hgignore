@@ -1,5 +1,6 @@
 syntax: glob
 .kdev4
 nootka.kdev4
+src/score2/score2.kdev4
 .directory
 CMakeLists.txt.user

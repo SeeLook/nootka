@@ -17,26 +17,43 @@
  ***************************************************************************/
 
 
-#include "tsimplescore.h"
-#include "tscorescene.h"
-#include "tscorestaff.h"
+#ifndef TCLEF_H
+#define TCLEF_H
 
-TsimpleScore::TsimpleScore(QWidget* parent) :
-  QGraphicsView(parent)
+// #include <QDataStream>
+
+
+class Tclef
 {
-  setGeometry(parent->geometry());
-//   m_scene = new TscoreScene(this);
-  m_scene = new QGraphicsScene(this);
-  setScene(m_scene);
   
-  m_staff = new TscoreStaff();
-  m_scene->addItem(m_staff);
+public:
+    enum EclefType {
+      e_treble_G = 1, // common treble clef
+      e_bass_F = 2, // bass clef
+      e_alt_C = 4,
+      e_treble_G_8down = 8, // treble clef with "8" digit below (guitar)
+      e_bass_F_8down // bass clef with "8" digit below (bass guitar)
+    }
+  
+    Tclef(EclefType type = e_treble_G);
+    
+//     friend QDataStream &operator<< (QDataStream &out, const TfingerPos &fPos) {
+//         out << fPos.m_pos;
+//         return out;
+//     }
+//     friend QDataStream &operator>> (QDataStream &in, TfingerPos &fPos) {
+//         in >> fPos.m_pos;
+//         return in;
+//     }
+
+private:
+    EclefType m_type;
+    
+};
+
+Tclef::EclefType Tclef::Tclef(Tclef::EclefType type) {
+  m_type = type;
 }
 
-TsimpleScore::~TsimpleScore()
-{}
 
-
-int TsimpleScore::heightForWidth(int w ) const {
-  return w * 8;
-}
+#endif // TCLEF_H

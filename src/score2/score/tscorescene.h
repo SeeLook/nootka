@@ -16,27 +16,22 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#ifndef TSCORESCENE_H
+#define TSCORESCENE_H
 
-#include "tsimplescore.h"
-#include "tscorescene.h"
-#include "tscorestaff.h"
+#include <QGraphicsScene>
 
-TsimpleScore::TsimpleScore(QWidget* parent) :
-  QGraphicsView(parent)
+class TscoreScene : QGraphicsScene
 {
-  setGeometry(parent->geometry());
-//   m_scene = new TscoreScene(this);
-  m_scene = new QGraphicsScene(this);
-  setScene(m_scene);
   
-  m_staff = new TscoreStaff();
-  m_scene->addItem(m_staff);
-}
+public:
+    TscoreScene(QObject* parent = 0);
+    
+    
+    
+protected:
+    virtual void helpEvent(QGraphicsSceneHelpEvent* event);
 
-TsimpleScore::~TsimpleScore()
-{}
+};
 
-
-int TsimpleScore::heightForWidth(int w ) const {
-  return w * 8;
-}
+#endif // TSCORESCENE_H

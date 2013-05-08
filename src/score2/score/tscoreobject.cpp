@@ -16,27 +16,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#include "tscoreobject.h"
 
-#include "tsimplescore.h"
-#include "tscorescene.h"
-#include "tscorestaff.h"
-
-TsimpleScore::TsimpleScore(QWidget* parent) :
-  QGraphicsView(parent)
+TscoreObject::TscoreObject() :
+  QGraphicsObject()
 {
-  setGeometry(parent->geometry());
-//   m_scene = new TscoreScene(this);
-  m_scene = new QGraphicsScene(this);
-  setScene(m_scene);
-  
-  m_staff = new TscoreStaff();
-  m_scene->addItem(m_staff);
-}
 
-TsimpleScore::~TsimpleScore()
-{}
-
-
-int TsimpleScore::heightForWidth(int w ) const {
-  return w * 8;
 }

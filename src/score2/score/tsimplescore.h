@@ -22,7 +22,10 @@
 
 #include <QtGui/QGraphicsView>
 
-class TsimpleScore :  QGraphicsView
+class TscoreStaff;
+// class TscoreScene;
+
+class TsimpleScore : QGraphicsView
 {
   Q_OBJECT
   
@@ -30,6 +33,14 @@ public:
     TsimpleScore(QWidget *parent = 0);
     ~TsimpleScore();
 
+    
+protected:
+    virtual int heightForWidth(int w) const;
+  
+private:
+    QGraphicsScene *m_scene;
+    TscoreStaff *m_staff;
+  
 };
 
 #endif // TSIMPLESCORE_H
