@@ -17,7 +17,7 @@
  ***************************************************************************/
 
 #include <QtGui>
-#include "score/tsimplescore.h"
+#include "mainwindow.h"
 
 int main(int argc, char *argv[])
 {
@@ -49,9 +49,8 @@ int main(int argc, char *argv[])
 //     QTranslator nooTranslator;
 //     nooTranslator.load("nootka_" + ll, path + "lang");
 //     a.installTranslator(&nooTranslator);
-    QMainWindow w;
-    TsimpleScore sc(&w);
-//     w.setCentralWidget(&sc);
+    MainWindow w;
+    
     w.show();
     
 

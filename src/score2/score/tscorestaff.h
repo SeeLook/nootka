@@ -22,19 +22,28 @@
 
 #include <QGraphicsObject>
 
+class QGraphicsScene;
 class QPalette;
 
 
-class TscoreStaff : QGraphicsObject
+class TscoreStaff : public QGraphicsObject
 {
     Q_OBJECT
 
 public:
-    TscoreStaff();
+    TscoreStaff(QGraphicsScene *scene);
     virtual ~TscoreStaff();
     
-//     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
-    virtual QRectF boundingRect();
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+    virtual QRectF boundingRect() const;
+    
+signals:
+    void statusTip(QString);
+    
+private:
+    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
+    virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
+    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 
 private:
     const QPalette *m_palette;

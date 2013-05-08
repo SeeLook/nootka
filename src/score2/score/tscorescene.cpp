@@ -17,7 +17,10 @@
  ***************************************************************************/
 
 #include "tscorescene.h"
-
+#include "tscorestaff.h"
+#include <QGraphicsSceneHoverEvent>
+#include <QGraphicsView>
+#include <QDebug>
 
 TscoreScene::TscoreScene(QObject* parent) :
   QGraphicsScene(parent)
@@ -26,7 +29,13 @@ TscoreScene::TscoreScene(QObject* parent) :
 }
 
 
-void TscoreScene::helpEvent(QGraphicsSceneHelpEvent* event)
-{
+void TscoreScene::addScoreItem(TscoreStaff* it) {
+  addItem(it);
+  connect(it, SIGNAL(statusTip(QString)), this, SLOT(statusTipChanged(QString)));
+}
 
+
+
+void TscoreScene::helpEvent(QGraphicsSceneHelpEvent* event) {
+//   qDebug() << ;
 }

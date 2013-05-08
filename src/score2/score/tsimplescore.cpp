@@ -20,17 +20,26 @@
 #include "tsimplescore.h"
 #include "tscorescene.h"
 #include "tscorestaff.h"
+#include <QDebug>
 
 TsimpleScore::TsimpleScore(QWidget* parent) :
   QGraphicsView(parent)
 {
   setGeometry(parent->geometry());
-//   m_scene = new TscoreScene(this);
-  m_scene = new QGraphicsScene(this);
+  m_scene = new TscoreScene(this);
+  connect(m_scene, SIGNAL(statusTip(QString)), this, SLOT(statusTipChanged(QString)));
+//   m_scene = new QGraphicsScene(this);
   setScene(m_scene);
   
-  m_staff = new TscoreStaff();
-  m_scene->addItem(m_staff);
+  
+  m_staff = new TscoreStaff(m_scene);
+  m_scene->addScoreItem(m_staff);
+  
+  qreal factor = (qreal)height() / 40.0;
+//   qDebug() << factor << geometry();
+  scale(factor, factor);
+  
+//   setStatusTip("Hallo");
 }
 
 TsimpleScore::~TsimpleScore()
