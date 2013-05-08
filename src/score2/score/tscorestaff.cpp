@@ -21,15 +21,14 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 
-TscoreStaff::TscoreStaff() :
-  QGraphicsObject()
+TscoreStaff::TscoreStaff(QGraphicsScene* scene)
 {
 //   m_palette = scene()->views()[0]->palette();
-  
+  setAcceptHoverEvents(true);
   for (int i = 0; i < 5; i++) {
     m_lines[i] = new QGraphicsLineItem();
-    scene()->addItem(m_lines[i]);
-    m_lines[i]->setPen(QPen(scene()->views()[0]->palette().text().color(), 0.5));
+    scene->addItem(m_lines[i]);
+    m_lines[i]->setPen(QPen(scene->views()[0]->palette().text().color(), 0.1));
     m_lines[i]->setLine(1, 16 + i * 2, boundingRect().width() - 2, 16 + i * 2);
   }
 }
@@ -37,11 +36,31 @@ TscoreStaff::TscoreStaff() :
 
 TscoreStaff::~TscoreStaff()
 {
-  qDebug("staff deleting");
 }
 
 
-QRectF TscoreStaff::boundingRect() {
+void TscoreStaff::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
+  emit statusTip("TscoreStaff");
+}
+
+void TscoreStaff::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
+  emit statusTip("");
+}
+
+
+void TscoreStaff::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
+{
+QGraphicsItem::hoverMoveEvent(event);
+}
+
+
+
+void TscoreStaff::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+
+}
+
+
+QRectF TscoreStaff::boundingRect() const {
   return QRectF(0, 0, 80, 40);
 }
 

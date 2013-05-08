@@ -14,16 +14,17 @@ INCLUDE_DIRECTORIES (. score)
 
 SET( SCORE_SRCS
   main.cpp
-  
+  mainwindow.cpp
   score/tsimplescore.cpp
   score/tscorestaff.cpp
-#   score/tscorescene.cpp
+  score/tscorescene.cpp
 #   score/tscoreobject.cpp
 )
 
 SET( SCORE_MOC_SRCS
+  mainwindow.h
   score/tsimplescore.h
-#   score/tscorescene.h
+  score/tscorescene.h
   score/tscorestaff.h
 )
 

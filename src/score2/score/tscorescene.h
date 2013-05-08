@@ -21,16 +21,28 @@
 
 #include <QGraphicsScene>
 
-class TscoreScene : QGraphicsScene
+class TscoreStaff;
+
+
+class TscoreScene : public QGraphicsScene
 {
+  
+  Q_OBJECT
   
 public:
     TscoreScene(QObject* parent = 0);
     
+    void addScoreItem(TscoreStaff* it);
     
+signals:
+    void statusTip(QString);
+    
+protected slots:
+    void statusTipChanged(QString status) { emit statusTip(status); }
     
 protected:
     virtual void helpEvent(QGraphicsSceneHelpEvent* event);
+    
 
 };
 

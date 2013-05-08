@@ -23,9 +23,9 @@
 #include <QtGui/QGraphicsView>
 
 class TscoreStaff;
-// class TscoreScene;
+class TscoreScene;
 
-class TsimpleScore : QGraphicsView
+class TsimpleScore : public QGraphicsView
 {
   Q_OBJECT
   
@@ -34,11 +34,17 @@ public:
     ~TsimpleScore();
 
     
+signals:
+    void statusTip(QString);
+    
 protected:
     virtual int heightForWidth(int w) const;
+    
+protected slots:
+    void statusTipChanged(QString status) { emit statusTip(status); }
   
 private:
-    QGraphicsScene *m_scene;
+    TscoreScene *m_scene;
     TscoreStaff *m_staff;
   
 };
