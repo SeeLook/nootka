@@ -20,13 +20,10 @@
 #include "tscorestaff.h"
 #include <QGraphicsSceneHoverEvent>
 #include <QGraphicsView>
-#include <QDebug>
 
 TscoreScene::TscoreScene(QObject* parent) :
   QGraphicsScene(parent)
-{
-
-}
+{}
 
 
 void TscoreScene::addScoreItem(TscoreStaff* it) {
@@ -35,7 +32,3 @@ void TscoreScene::addScoreItem(TscoreStaff* it) {
 }
 
 
-
-void TscoreScene::helpEvent(QGraphicsSceneHelpEvent* event) {
-//   qDebug() << ;
-}

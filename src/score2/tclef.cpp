@@ -16,32 +16,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TSCORESCENE_H
-#define TSCORESCENE_H
 
-#include <QGraphicsScene>
+#include "tclef.h"
 
-class TscoreStaff;
-
-
-class TscoreScene : public QGraphicsScene
+Tclef::Tclef(Tclef::Etype type)
 {
-  
-  Q_OBJECT
-  
-public:
-    TscoreScene(QObject* parent = 0);
-    
-    void addScoreItem(TscoreStaff* it);
-    
-signals:
-    void statusTip(QString);
-    
-protected slots:
-    void statusTipChanged(QString status) { emit statusTip(status); }
-    
-    
-
-};
-
-#endif // TSCORESCENE_H
+    m_type = type;
+}

@@ -32,9 +32,9 @@ TsimpleScore::TsimpleScore(QWidget* parent) :
   
   
   m_staff = new TscoreStaff(m_scene);
-  m_staff->setStatusTip(tr("This is staff"));
   
   qreal factor = (qreal)height() / 40.0;
+  factor = factor / 2;
   scale(factor, factor);
   
 }

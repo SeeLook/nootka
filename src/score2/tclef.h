@@ -27,15 +27,19 @@ class Tclef
 {
   
 public:
-    enum EclefType {
+    enum Etype {
+      e_none = 0, // cleff not defined
       e_treble_G = 1, // common treble clef
       e_bass_F = 2, // bass clef
       e_alt_C = 4,
       e_treble_G_8down = 8, // treble clef with "8" digit below (guitar)
-      e_bass_F_8down // bass clef with "8" digit below (bass guitar)
-    }
+      e_bass_F_8down = 16 // bass clef with "8" digit below (bass guitar)
+    };
   
-    Tclef(EclefType type = e_treble_G);
+    Tclef(Etype type = e_treble_G);
+    
+    Etype type() { return m_type; }
+    void setClef(Etype type) { m_type = type; }
     
 //     friend QDataStream &operator<< (QDataStream &out, const TfingerPos &fPos) {
 //         out << fPos.m_pos;
@@ -47,13 +51,9 @@ public:
 //     }
 
 private:
-    EclefType m_type;
+    Etype m_type;
     
 };
-
-Tclef::EclefType Tclef::Tclef(Tclef::EclefType type) {
-  m_type = type;
-}
 
 
 #endif // TCLEF_H

@@ -27,11 +27,11 @@ int main(int argc, char *argv[])
 //     QCoreApplication::setOrganizationDomain("nootka.sf.net");
 //     QCoreApplication::setApplicationName("Nootka");
 //   
-//     QString path;
-//     QDir d = QDir(qApp->applicationDirPath());
+    QString path;
+    QDir d = QDir(qApp->applicationDirPath());
 // #if defined(Q_OS_WIN32) // I hate mess in Win registry
 //     QSettings settings(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
-//     path = d.path() + "/";
+    path = d.path() + "/";
 // #elif defined(Q_OS_LINUX)
 //     d.cdUp();
 //     path = d.path() + "/share/nootka/";  // Linux
@@ -49,6 +49,14 @@ int main(int argc, char *argv[])
 //     QTranslator nooTranslator;
 //     nooTranslator.load("nootka_" + ll, path + "lang");
 //     a.installTranslator(&nooTranslator);
+    QFontDatabase fd;
+
+    int fid = fd.addApplicationFont(path + "nootka.otf");
+    if (fid == -1) {
+        QMessageBox::critical(0, "", path + "/nootka.otf" + "<center>Can not load a font.<br>Try to install nootka.otf manually.</center>");
+        return 111;
+    }
+    
     MainWindow w;
     
     w.show();
