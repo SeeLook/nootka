@@ -20,31 +20,24 @@
 #ifndef TSCORESTAFF_H
 #define TSCORESTAFF_H
 
-#include <QGraphicsObject>
+#include "tscoreitem.h"
 
-class QGraphicsScene;
+class TscoreScene;
 class QPalette;
 
 
-class TscoreStaff : public QGraphicsObject
+class TscoreStaff : public TscoreItem
 {
     Q_OBJECT
 
 public:
-    TscoreStaff(QGraphicsScene *scene);
+    TscoreStaff(TscoreScene *scene);
     virtual ~TscoreStaff();
     
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
     virtual QRectF boundingRect() const;
     
-signals:
-    void statusTip(QString);
     
-private:
-    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
-    virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
-    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
-
 private:
     const QPalette *m_palette;
     QGraphicsLineItem *m_lines[5];

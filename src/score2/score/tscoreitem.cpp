@@ -16,10 +16,37 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tscoreobject.h"
+#include "tscoreitem.h"
+#include "tscorescene.h"
 
-TscoreObject::TscoreObject() :
-  QGraphicsObject()
+TscoreItem::TscoreItem(TscoreScene* scene) :
+  m_scene(scene),
+  m_statusTip("")
 {
-
+  m_scene->addItem(this);
+  setAcceptHoverEvents(true);
 }
+
+void TscoreItem::setStatusTip(QString status) {
+  m_statusTip = status;
+  if (m_statusTip == "")
+      disconnect(this, SIGNAL(statusTip(QString)), m_scene, SLOT(statusTipChanged(QString)));
+  else
+      connect(this, SIGNAL(statusTip(QString)), m_scene, SLOT(statusTipChanged(QString)));
+}
+
+//####################################################################################
+//###############################  PROTECTED #########################################
+//####################################################################################
+
+
+void TscoreItem::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
+  if (m_statusTip != "")
+    emit statusTip(m_statusTip);
+}
+
+void TscoreItem::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
+  emit statusTip("");
+}
+
+

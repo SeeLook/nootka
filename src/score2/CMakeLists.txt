@@ -18,13 +18,14 @@ SET( SCORE_SRCS
   score/tsimplescore.cpp
   score/tscorestaff.cpp
   score/tscorescene.cpp
-#   score/tscoreobject.cpp
+  score/tscoreitem.cpp
 )
 
 SET( SCORE_MOC_SRCS
   mainwindow.h
   score/tsimplescore.h
   score/tscorescene.h
+  score/tscoreitem.h
   score/tscorestaff.h
 )
 
