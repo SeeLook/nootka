@@ -16,20 +16,36 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TSCOREOBJECT_H
-#define TSCOREOBJECT_H
+#ifndef TSCOREITEM_H
+#define TSCOREITEM_H
 
-#include <QtGui/qgraphicsitem.h>
+#include <QGraphicsObject>
 
-class TscoreObject :  QGraphicsObject
+class TscoreScene;
+
+
+class TscoreItem : public QGraphicsObject
 {
-  
+    Q_OBJECT
+
 public:
-    TscoreObject();
-  
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {}
-    virtual QRectF boundingRect() {}
+    TscoreItem(TscoreScene *scene);
+    
+    QString statusTip() { return m_statusTip; }
+    void setStatusTip(QString status);
+    TscoreScene* scoreScene() { return m_scene; }
+    
+signals:
+    void statusTip(QString);
+
+protected:
+    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
+    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+
+private:
+    QString         m_statusTip;
+    TscoreScene     *m_scene;
 
 };
 
-#endif // TSCOREOBJECT_H
+#endif // TSCOREITEM_H

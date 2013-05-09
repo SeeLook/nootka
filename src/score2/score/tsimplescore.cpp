@@ -28,18 +28,15 @@ TsimpleScore::TsimpleScore(QWidget* parent) :
   setGeometry(parent->geometry());
   m_scene = new TscoreScene(this);
   connect(m_scene, SIGNAL(statusTip(QString)), this, SLOT(statusTipChanged(QString)));
-//   m_scene = new QGraphicsScene(this);
   setScene(m_scene);
   
   
   m_staff = new TscoreStaff(m_scene);
-  m_scene->addScoreItem(m_staff);
+  m_staff->setStatusTip(tr("This is staff"));
   
   qreal factor = (qreal)height() / 40.0;
-//   qDebug() << factor << geometry();
   scale(factor, factor);
   
-//   setStatusTip("Hallo");
 }
 
 TsimpleScore::~TsimpleScore()
