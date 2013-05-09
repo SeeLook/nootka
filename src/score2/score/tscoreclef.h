@@ -16,32 +16,34 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TSCORESCENE_H
-#define TSCORESCENE_H
+#ifndef TSCORECLEF_H
+#define TSCORECLEF_H
 
-#include <QGraphicsScene>
+#include "tscoreitem.h"
+#include "tclef.h"
 
-class TscoreStaff;
-
-
-class TscoreScene : public QGraphicsScene
+class TscoreClef : public TscoreItem
 {
-  
-  Q_OBJECT
-  
+    Q_OBJECT    
+
 public:
-    TscoreScene(QObject* parent = 0);
-    
-    void addScoreItem(TscoreStaff* it);
-    
-signals:
-    void statusTip(QString);
-    
-protected slots:
-    void statusTipChanged(QString status) { emit statusTip(status); }
+    TscoreClef(TscoreScene *scene, Tclef clef);
+    ~TscoreClef();
+
+    Tclef clef() { return m_clef; }
+    void setClef(Tclef clef);
     
     
+    static QChar clefToChar(Tclef::Etype clef);
+    
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+    virtual QRectF boundingRect() const;
+    
+
+private:
+    Tclef                     m_clef;
+    QGraphicsSimpleTextItem   *m_textClef;
 
 };
 
-#endif // TSCORESCENE_H
+#endif // TSCORECLEF_H

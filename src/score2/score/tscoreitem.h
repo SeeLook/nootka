@@ -23,7 +23,13 @@
 
 class TscoreScene;
 
-
+/** TscoreItem is base class for all items on the score:
+* staff, clef, key signature, notes, scordature etc..
+* It automaticaly adds created item to the TscoreScene 
+* given as constructor parameter.
+* Also this class manages status tips. 
+* If the status is set, it emits statusTip(QString) signal.
+*/
 class TscoreItem : public QGraphicsObject
 {
     Q_OBJECT
@@ -39,6 +45,10 @@ signals:
     void statusTip(QString);
 
 protected:
+      /** If status tip is set it sends signal.
+       * Notice!! 
+       * Any subclass has to call this when hoverEnterEvent is overriden
+       * and statusTip funcionality is expected. */
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 

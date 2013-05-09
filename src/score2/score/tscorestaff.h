@@ -22,6 +22,7 @@
 
 #include "tscoreitem.h"
 
+class TscoreClef;
 class TscoreScene;
 class QPalette;
 
@@ -39,8 +40,11 @@ public:
     
     
 private:
-    const QPalette *m_palette;
-    QGraphicsLineItem *m_lines[5];
+    const QPalette          *m_palette;
+    
+    QGraphicsLineItem       *m_lines[5];
+    TscoreClef              *m_clef;
+    
 
 };
 
