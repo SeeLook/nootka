@@ -21,6 +21,7 @@
 #include "tclef.h"
 #include <QDebug>
 #include <QPainter>
+#include <QGraphicsSceneHoverEvent>
 
 /*static*/
 QChar TscoreClef::clefToChar(Tclef::Etype clef) {
@@ -35,13 +36,15 @@ QChar TscoreClef::clefToChar(Tclef::Etype clef) {
     case Tclef::e_alt_C:
       ch = QChar(0xe16e); break;
     case Tclef::e_treble_G_8down:
-      ch = QChar(0xe1a7); break;  
+      ch = QChar(0xe172); break;
+    case Tclef::e_bass_F_8down:
+      ch = QChar(0xe170); break;  
   }
 //   qDebug() /*<< QString(ch) << ch.digitValue()*/ << (int)clef ;
   return ch;
 }
 
-QList<Tclef::Etype> TscoreClef::m_typesList = QList<Tclef::Etype>;
+QList<Tclef::Etype> TscoreClef::m_typesList = QList<Tclef::Etype>();
 
 
 
@@ -62,11 +65,7 @@ TscoreClef::TscoreClef(TscoreScene* scene, Tclef clef) :
   m_textClef->setFont(f);
   
   setClef(clef);
-  setPos(1, 10); // alto
-//   setPos(1, 12); // treble
-//   setPos(1, 8); // bass
   
-  setStatusTip(tr("This is a clef"));
 }
   
 
@@ -78,7 +77,13 @@ TscoreClef::~TscoreClef()
 void TscoreClef::setClef(Tclef clef) {
   if (clef.type() != m_clef.type()) { 
     m_clef = clef;
+    m_currClefInList = getClefPosInList(m_clef);
     m_textClef->setText(QString(clefToChar(m_clef.type())));
+//     if (m_clef.type() == Tclef::e_bass_F_8down || m_clef.type() == Tclef::e_treble_G_8down)
+//       m_textClef->setText(m_textClef->text() + "\n" + QString(QChar(0xe173)));
+    setPos(1, getYclefPos(m_clef));
+    setStatusTip(m_clef.name());
+    emit statusTip(statusTip());
   }
 }
 
@@ -90,15 +95,48 @@ QRectF TscoreClef::boundingRect() const {
       return QRectF(0, 0, 6, 40);
 }
 
-void TscoreClef::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-//   painter->setBrush(QBrush(QColor(5, 5, 5, 100)));
-//   painter->drawRect(boundingRect());
-  
-}
+void TscoreClef::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {}
+
+
 
 void TscoreClef::wheelEvent(QGraphicsSceneWheelEvent* event) {
-//   emit clefChanged();
+  if (event->delta() > 0) {
+    m_currClefInList++;
+    if (m_currClefInList >= m_typesList.size())
+      m_currClefInList = 0;
+  } else {
+    m_currClefInList--;
+    if (m_currClefInList < 0)
+      m_currClefInList = m_typesList.size() - 1;
+  }
+  setClef(Tclef(m_typesList[m_currClefInList]));
+  emit clefChanged(m_clef.type());
 }
+
+
+//##########################################################################################################
+//########################################## PRIVATE     ###################################################
+//##########################################################################################################
+
+int TscoreClef::getYclefPos(Tclef clef) {
+  int pos = 0;
+  if (clef.type() == Tclef::e_treble_G || clef.type() == Tclef::e_treble_G_8down)
+    pos = 12;
+  else if (clef.type() == Tclef::e_bass_F|| clef.type() == Tclef::e_bass_F_8down)
+    pos = 8;
+  else if (clef.type() == Tclef::e_alt_C)
+    pos = 10;
+  return pos;
+}
+
+
+int TscoreClef::getClefPosInList(Tclef clef) {
+  for (int i = 0; i < m_typesList.size(); i++)
+    if (m_typesList[i] == clef.type()) {
+      return i;
+    }
+}
+
 
 
 

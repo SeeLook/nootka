@@ -21,6 +21,7 @@
 #define TCLEF_H
 
 // #include <QDataStream>
+#include <QString>
 
 
 class Tclef
@@ -40,6 +41,8 @@ public:
     
     Etype type() { return m_type; }
     void setClef(Etype type) { m_type = type; }
+    
+    QString name();
     
 //     friend QDataStream &operator<< (QDataStream &out, const TfingerPos &fPos) {
 //         out << fPos.m_pos;
