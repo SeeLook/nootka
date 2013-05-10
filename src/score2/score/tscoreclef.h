@@ -39,10 +39,18 @@ public:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
     virtual QRectF boundingRect() const;
     
+signals:
+    void clefChanged(Tclef::Etype);
+    
+protected:
+    void wheelEvent(QGraphicsSceneWheelEvent* event);
 
 private:
-    Tclef                     m_clef;
-    QGraphicsSimpleTextItem   *m_textClef;
+    Tclef                             m_clef;
+    QGraphicsSimpleTextItem           *m_textClef;
+        /** List of all clef types exept empty (none clef) */
+    static QList<Tclef::Etype>        m_typesList;
+    int                               m_currClefInList;
 
 };
 

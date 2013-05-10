@@ -35,7 +35,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene) :
     m_lines[i]->setLine(1, 16 + i * 2, boundingRect().width() - 2, 16 + i * 2);
     m_lines[i]->setParentItem(this);
   }
-  m_clef = new TscoreClef(scene, Tclef());
+  m_clef = new TscoreClef(scene, Tclef(Tclef::e_alt_C));
  
   setStatusTip(tr("This is a staff"));
 }

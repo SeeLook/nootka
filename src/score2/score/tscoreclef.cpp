@@ -37,10 +37,11 @@ QChar TscoreClef::clefToChar(Tclef::Etype clef) {
     case Tclef::e_treble_G_8down:
       ch = QChar(0xe1a7); break;  
   }
-  qDebug() /*<< QString(ch) << ch.digitValue()*/ << (int)clef ;
+//   qDebug() /*<< QString(ch) << ch.digitValue()*/ << (int)clef ;
   return ch;
 }
 
+QList<Tclef::Etype> TscoreClef::m_typesList = QList<Tclef::Etype>;
 
 
 
@@ -49,16 +50,21 @@ TscoreClef::TscoreClef(TscoreScene* scene, Tclef clef) :
   m_clef(Tclef(Tclef::e_none)),
   m_textClef(0)
 {
+  if (m_typesList.size() == 0) // initialize types list
+    m_typesList << Tclef::e_treble_G << Tclef::e_bass_F << Tclef::e_alt_C << Tclef::e_treble_G_8down << Tclef::e_bass_F_8down;
+  
   m_textClef = new QGraphicsSimpleTextItem();
   scene->addItem(m_textClef);
   m_textClef->setParentItem(this);
   
   QFont f("nootka");
-  f.setPixelSize(14);
+  f.setPixelSize(8);
   m_textClef->setFont(f);
   
   setClef(clef);
-//   m_textClef->setPos(0, boundingRect().center().y());
+  setPos(1, 10); // alto
+//   setPos(1, 12); // treble
+//   setPos(1, 8); // bass
   
   setStatusTip(tr("This is a clef"));
 }
@@ -85,9 +91,14 @@ QRectF TscoreClef::boundingRect() const {
 }
 
 void TscoreClef::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-  painter->setBrush(QBrush(QColor(5, 5, 5, 100)));
-  painter->drawRect(boundingRect());
+//   painter->setBrush(QBrush(QColor(5, 5, 5, 100)));
+//   painter->drawRect(boundingRect());
   
 }
+
+void TscoreClef::wheelEvent(QGraphicsSceneWheelEvent* event) {
+//   emit clefChanged();
+}
+
 
 
