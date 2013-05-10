@@ -44,13 +44,19 @@ signals:
     
 protected:
     void wheelEvent(QGraphicsSceneWheelEvent* event);
+    
+private:
+    int getYclefPos(Tclef clef);
+    int getClefPosInList(Tclef clef);
 
 private:
     Tclef                             m_clef;
     QGraphicsSimpleTextItem           *m_textClef;
         /** List of all clef types exept empty (none clef) */
-    static QList<Tclef::Etype>        m_typesList;
+    
     int                               m_currClefInList;
+    
+    static QList<Tclef::Etype>        m_typesList;
 
 };
 

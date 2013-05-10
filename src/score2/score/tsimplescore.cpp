@@ -26,6 +26,9 @@ TsimpleScore::TsimpleScore(QWidget* parent) :
   QGraphicsView(parent)
 {
   setGeometry(parent->geometry());
+  
+  setMouseTracking(true);
+  
   m_scene = new TscoreScene(this);
   connect(m_scene, SIGNAL(statusTip(QString)), this, SLOT(statusTipChanged(QString)));
   setScene(m_scene);
