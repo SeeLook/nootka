@@ -28,6 +28,7 @@ TsimpleScore::TsimpleScore(QWidget* parent) :
   setGeometry(parent->geometry());
   
   setMouseTracking(true);
+  setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
   
   m_scene = new TscoreScene(this);
   connect(m_scene, SIGNAL(statusTip(QString)), this, SLOT(statusTipChanged(QString)));

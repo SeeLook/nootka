@@ -19,28 +19,29 @@
 #include "tscoreclef.h"
 #include "tscorescene.h"
 #include "tclef.h"
-#include <QDebug>
-#include <QPainter>
+// #include <QDebug>
 #include <QGraphicsSceneHoverEvent>
+#include <QGraphicsView>
 
 /*static*/
-QChar TscoreClef::clefToChar(Tclef::Etype clef) {
+QChar TscoreClef::clefToChar(Tclef clef) {
   QChar ch;
-  switch(clef) {
+  switch(clef.type()) {
     case Tclef::e_none:
       ch = QChar(0); break;
     case Tclef::e_treble_G:
       ch = QChar(0xe172); break;
     case Tclef::e_bass_F:
       ch = QChar(0xe170); break;
-    case Tclef::e_alt_C:
+    case Tclef::e_alto_C:
       ch = QChar(0xe16e); break;
     case Tclef::e_treble_G_8down:
-      ch = QChar(0xe172); break;
+      ch = QChar(0xe173); break;
     case Tclef::e_bass_F_8down:
-      ch = QChar(0xe170); break;  
+      ch = QChar(0xe171); break;
+    case Tclef::e_tenor_C:
+      ch = QChar(0xe16e); break;  
   }
-//   qDebug() /*<< QString(ch) << ch.digitValue()*/ << (int)clef ;
   return ch;
 }
 
@@ -54,11 +55,13 @@ TscoreClef::TscoreClef(TscoreScene* scene, Tclef clef) :
   m_textClef(0)
 {
   if (m_typesList.size() == 0) // initialize types list
-    m_typesList << Tclef::e_treble_G << Tclef::e_bass_F << Tclef::e_alt_C << Tclef::e_treble_G_8down << Tclef::e_bass_F_8down;
+    m_typesList << Tclef::e_treble_G << Tclef::e_bass_F << Tclef::e_bass_F_8down << Tclef::e_alto_C << Tclef::e_tenor_C
+    << Tclef::e_treble_G_8down;
   
   m_textClef = new QGraphicsSimpleTextItem();
   scene->addItem(m_textClef);
   m_textClef->setParentItem(this);
+  m_textClef->setBrush(scene->views()[0]->palette().windowText().color());
   
   QFont f("nootka");
   f.setPixelSize(8);
@@ -79,8 +82,6 @@ void TscoreClef::setClef(Tclef clef) {
     m_clef = clef;
     m_currClefInList = getClefPosInList(m_clef);
     m_textClef->setText(QString(clefToChar(m_clef.type())));
-//     if (m_clef.type() == Tclef::e_bass_F_8down || m_clef.type() == Tclef::e_treble_G_8down)
-//       m_textClef->setText(m_textClef->text() + "\n" + QString(QChar(0xe173)));
     setPos(1, getYclefPos(m_clef));
     setStatusTip(m_clef.name());
     emit statusTip(statusTip());
@@ -124,8 +125,10 @@ int TscoreClef::getYclefPos(Tclef clef) {
     pos = 12;
   else if (clef.type() == Tclef::e_bass_F|| clef.type() == Tclef::e_bass_F_8down)
     pos = 8;
-  else if (clef.type() == Tclef::e_alt_C)
+  else if (clef.type() == Tclef::e_alto_C)
     pos = 10;
+  else if (clef.type() == Tclef::e_tenor_C)
+    pos = 8;
   return pos;
 }
 

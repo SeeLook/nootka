@@ -22,9 +22,9 @@
 
 #include "tscoreitem.h"
 
+class TscoreNote;
 class TscoreClef;
 class TscoreScene;
-class QPalette;
 
 
 class TscoreStaff : public TscoreItem
@@ -39,11 +39,10 @@ public:
     virtual QRectF boundingRect() const;
     
     
-private:
-    const QPalette          *m_palette;
-    
+private:    
     QGraphicsLineItem       *m_lines[5];
     TscoreClef              *m_clef;
+    QList<TscoreNote*>      m_notes;
     
 
 };

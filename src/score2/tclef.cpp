@@ -36,8 +36,10 @@ QString Tclef::name() {
       return QApplication::translate("Tclef", "clef F (bass)");
     case e_bass_F_8down:
       return QApplication::translate("Tclef", "clef F (bass) dropped octave down");
-    case e_alt_C:
-      return QApplication::translate("Tclef", "clef C (alt)");
+    case e_alto_C:
+      return QApplication::translate("Tclef", "clef C (alto)");
+    case e_tenor_C:
+      return QApplication::translate("Tclef", "clef C (tenor)");
   }
-
+  return "";
 }
