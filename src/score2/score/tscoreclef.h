@@ -34,7 +34,7 @@ public:
     void setClef(Tclef clef);
     
     
-    static QChar clefToChar(Tclef::Etype clef);
+    static QChar clefToChar(Tclef clef);
     
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
     virtual QRectF boundingRect() const;
@@ -52,10 +52,9 @@ private:
 private:
     Tclef                             m_clef;
     QGraphicsSimpleTextItem           *m_textClef;
+    
+    int                               m_currClefInList;    
         /** List of all clef types exept empty (none clef) */
-    
-    int                               m_currClefInList;
-    
     static QList<Tclef::Etype>        m_typesList;
 
 };

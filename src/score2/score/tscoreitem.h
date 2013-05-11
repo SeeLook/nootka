@@ -51,10 +51,10 @@ protected:
        * and statusTip funcionality is expected. */
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
-
+    
 private:
-    QString         m_statusTip;
-    TscoreScene     *m_scene;
+    QString                   m_statusTip;
+    TscoreScene               *m_scene;
 
 };
 

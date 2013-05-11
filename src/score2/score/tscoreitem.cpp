@@ -18,6 +18,7 @@
 
 #include "tscoreitem.h"
 #include "tscorescene.h"
+#include <QGraphicsView>
 
 TscoreItem::TscoreItem(TscoreScene* scene) :
   m_scene(scene),

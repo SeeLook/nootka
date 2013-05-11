@@ -32,9 +32,11 @@ public:
       e_none = 0, // cleff not defined
       e_treble_G = 1, // common treble clef
       e_bass_F = 2, // bass clef
-      e_alt_C = 4,
+      e_alto_C = 4,
       e_treble_G_8down = 8, // treble clef with "8" digit below (guitar)
-      e_bass_F_8down = 16 // bass clef with "8" digit below (bass guitar)
+      e_bass_F_8down = 16, // bass clef with "8" digit below (bass guitar)
+      e_tenor_C = 32,
+      e_pianoStaff = 128 // exacly is not a clef 
     };
   
     Tclef(Etype type = e_treble_G);

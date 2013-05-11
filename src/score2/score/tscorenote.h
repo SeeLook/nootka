@@ -16,45 +16,44 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tscorestaff.h"
-#include "tscorescene.h"
-#include "tscoreclef.h"
-#include "tscorenote.h"
-#include <QGraphicsView>
+#ifndef TSCORENOTE_H
+#define TSCORENOTE_H
 
-#include <QDebug>
+#include "tscoreitem.h"
 
-TscoreStaff::TscoreStaff(TscoreScene* scene) :
-  TscoreItem(scene)
+
+class TscoreScene;
+
+
+class TscoreNote : public TscoreItem
 {
-  setAcceptHoverEvents(true);
-  for (int i = 0; i < 5; i++) {
-    m_lines[i] = new QGraphicsLineItem();
-    scene->addItem(m_lines[i]);
-    m_lines[i]->setPen(QPen(scene->views()[0]->palette().windowText().color(), 0.2));
-    m_lines[i]->setLine(1, 16 + i * 2, boundingRect().width() - 2, 16 + i * 2);
-    m_lines[i]->setParentItem(this);
-  }
+  Q_OBJECT
   
-  m_clef = new TscoreClef(scene, Tclef());
-  
-  m_notes << new TscoreNote(scene);
-  m_notes[0]->setPos(m_clef->boundingRect().width() + 2, 0);
- 
-  setStatusTip(tr("This is a staff"));
-}
+public:
+    TscoreNote(TscoreScene *scene);
+    ~TscoreNote();
+    
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
+    virtual QRectF boundingRect() const;
 
+protected:
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
+    virtual void wheelEvent(QGraphicsSceneWheelEvent* event);
+    
+    void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+    void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
 
-TscoreStaff::~TscoreStaff() {}
+private:
+    QGraphicsEllipseItem *m_workNote, *m_mainNote;
+    QColor m_workColor, m_mainColor;
+    
+    int m_workPosY, m_mainPosY;
+    
+private:
+        /** Prepares noteHead (elipse) */
+    QGraphicsEllipseItem* createNoteHead();
+    
+};
 
-
-
-
-void TscoreStaff::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {}
-
-
-QRectF TscoreStaff::boundingRect() const {
-  return QRectF(0, 0, 80, 40);
-}
-
-
+#endif // TSCORENOTE_H

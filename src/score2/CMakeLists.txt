@@ -16,20 +16,24 @@ SET( SCORE_SRCS
   main.cpp
   mainwindow.cpp
   tclef.cpp
+  
   score/tsimplescore.cpp
   score/tscorescene.cpp
   score/tscoreitem.cpp
   score/tscorestaff.cpp
   score/tscoreclef.cpp
+  score/tscorenote.cpp
 )
 
 SET( SCORE_MOC_SRCS
   mainwindow.h
+  
   score/tsimplescore.h
   score/tscorescene.h
   score/tscoreitem.h
   score/tscorestaff.h
   score/tscoreclef.h
+  score/tscorenote.h
 )
 
 
