@@ -21,7 +21,9 @@
 #define TSCORESTAFF_H
 
 #include "tscoreitem.h"
+#include <tclef.h>
 
+class TscoreKeySignature;
 class TscoreNote;
 class TscoreClef;
 class TscoreScene;
@@ -35,13 +37,18 @@ public:
     TscoreStaff(TscoreScene *scene);
     virtual ~TscoreStaff();
     
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) {};
     virtual QRectF boundingRect() const;
     
+    char accidInKeyArray[7];
+    
+protected slots:
+    void onClefChanged(Tclef::Etype);
     
 private:    
     QGraphicsLineItem       *m_lines[5];
     TscoreClef              *m_clef;
+    TscoreKeySignature      *m_keySignature;
     QList<TscoreNote*>      m_notes;
     
 
