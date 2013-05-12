@@ -59,8 +59,7 @@ TscoreClef::TscoreClef(TscoreScene* scene, Tclef clef) :
     << Tclef::e_treble_G_8down;
   
   m_textClef = new QGraphicsSimpleTextItem();
-  scene->addItem(m_textClef);
-  m_textClef->setParentItem(this);
+  registryItem(m_textClef);
   m_textClef->setBrush(scene->views()[0]->palette().windowText().color());
   
   QFont f("nootka");

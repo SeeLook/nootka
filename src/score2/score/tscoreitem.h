@@ -51,6 +51,10 @@ protected:
        * and statusTip funcionality is expected. */
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+      /** Adds QGraphicsItem to current scene and 
+       * sets the ownership of this object on it.
+       * It is for QGraphicsItem-s only !!!! */
+    void registryItem(QGraphicsItem *item);
     
 private:
     QString                   m_statusTip;
