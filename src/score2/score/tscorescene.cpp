@@ -23,12 +23,23 @@
 
 TscoreScene::TscoreScene(QObject* parent) :
   QGraphicsScene(parent)
-{}
+{
+  setDoubleAccidsEnabled(true);
+  
+}
 
 
 void TscoreScene::addScoreItem(TscoreStaff* it) {
   addItem(it);
   connect(it, SIGNAL(statusTip(QString)), this, SLOT(statusTipChanged(QString)));
+}
+
+
+void TscoreScene::setDoubleAccidsEnabled(bool enable) {
+  if (enable)
+    m_dblAccFuse = 2;
+  else
+    m_dblAccFuse = 1;
 }
 
 

@@ -16,40 +16,18 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TSCORESCENE_H
-#define TSCORESCENE_H
 
-#include <QGraphicsScene>
+#ifndef TDROPSHADOWEFFECT_H
+#define TDROPSHADOWEFFECT_H
 
-class TscoreStaff;
+#include <QGraphicsEffect>
 
-
-class TscoreScene : public QGraphicsScene
+/** Shadow effect used for all tips */
+class TdropShadowEffect : public QGraphicsDropShadowEffect
 {
-  
-  Q_OBJECT
-  
-public:
-    TscoreScene(QObject* parent = 0);
-    
-    void addScoreItem(TscoreStaff* it);
-    
-    void setDoubleAccidsEnabled(bool enable);
-      /** Returns value 2 when double accidentals are enabled and 1 if not. */
-    qint8 doubleAccidsFuse() { return m_dblAccFuse; }
-    
-signals:
-    void statusTip(QString);
-    
-protected slots:
-    void statusTipChanged(QString status) { emit statusTip(status); }
-    
-private:
-      /** It is @p 2 if double accidentals are enabled and @p 1 if not*/
-    qint8 m_dblAccFuse;
-    
-    
 
+public:
+    TdropShadowEffect(QColor color = -1);
 };
 
-#endif // TSCORESCENE_H
+#endif // TDROPSHADOWEFFECT_H

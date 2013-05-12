@@ -30,10 +30,9 @@ TscoreStaff::TscoreStaff(TscoreScene* scene) :
   setAcceptHoverEvents(true);
   for (int i = 0; i < 5; i++) {
     m_lines[i] = new QGraphicsLineItem();
-    scene->addItem(m_lines[i]);
+    registryItem(m_lines[i]);
     m_lines[i]->setPen(QPen(scene->views()[0]->palette().windowText().color(), 0.2));
     m_lines[i]->setLine(1, 16 + i * 2, boundingRect().width() - 2, 16 + i * 2);
-    m_lines[i]->setParentItem(this);
   }
   
   m_clef = new TscoreClef(scene, Tclef());

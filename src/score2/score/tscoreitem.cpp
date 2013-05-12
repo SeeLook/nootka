@@ -51,3 +51,10 @@ void TscoreItem::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 }
 
 
+void TscoreItem::registryItem(QGraphicsItem* item) {
+  scene()->addItem(item);
+  item->setParentItem(this);
+}
+
+
+

@@ -16,6 +16,7 @@ SET( SCORE_SRCS
   main.cpp
   mainwindow.cpp
   tclef.cpp
+  tdropshadoweffect.cpp
   
   score/tsimplescore.cpp
   score/tscorescene.cpp
