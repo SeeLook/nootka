@@ -20,6 +20,7 @@
 #include "tscorescene.h"
 #include "tscoreclef.h"
 #include "tscorenote.h"
+#include "tscorekeysignature.h"
 #include <QGraphicsView>
 
 #include <QDebug>
@@ -36,9 +37,17 @@ TscoreStaff::TscoreStaff(TscoreScene* scene) :
   }
   
   m_clef = new TscoreClef(scene, Tclef());
+  connect(m_clef, SIGNAL(clefChanged(Tclef::Etype)), this, SLOT(onClefChanged(Tclef::Etype)));
+  
+  m_keySignature = new TscoreKeySignature(scene);
+  m_keySignature->setPos(m_clef->boundingRect().width() + 0.5, 0);
+  m_keySignature->setClef(m_clef->clef());
   
   m_notes << new TscoreNote(scene);
-  m_notes[0]->setPos(m_clef->boundingRect().width() + 2, 0);
+  m_notes[0]->setPos(m_clef->boundingRect().width() + m_keySignature->boundingRect().width() + 1, 0);
+  
+  for (int i = 0; i < 7; i++)
+    accidInKeyArray[i] = 0;
  
   setStatusTip(tr("This is a staff"));
 }
@@ -47,13 +56,14 @@ TscoreStaff::TscoreStaff(TscoreScene* scene) :
 TscoreStaff::~TscoreStaff() {}
 
 
-
-
-void TscoreStaff::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {}
-
-
 QRectF TscoreStaff::boundingRect() const {
   return QRectF(0, 0, 80, 40);
+}
+
+
+void TscoreStaff::onClefChanged(Tclef::Etype ) {
+  if (m_keySignature)
+    m_keySignature->setClef(m_clef->clef());
 }
 
 

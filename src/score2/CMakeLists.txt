@@ -24,6 +24,7 @@ SET( SCORE_SRCS
   score/tscorestaff.cpp
   score/tscoreclef.cpp
   score/tscorenote.cpp
+  score/tscorekeysignature.cpp
 )
 
 SET( SCORE_MOC_SRCS
@@ -35,6 +36,7 @@ SET( SCORE_MOC_SRCS
   score/tscorestaff.h
   score/tscoreclef.h
   score/tscorenote.h
+  score/tscorekeysignature.h
 )
 
 
