@@ -42,6 +42,7 @@ protected:
     
 protected slots:
     void statusTipChanged(QString status) { emit statusTip(status); }
+    void resizeEvent(QResizeEvent* event);
   
 private:
     TscoreScene *m_scene;

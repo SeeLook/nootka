@@ -33,7 +33,7 @@ class TscoreKeySignature : public TscoreItem
   Q_OBJECT
   
 public:
-    TscoreKeySignature(TscoreScene *scene, char keySign = 0);
+    TscoreKeySignature(TscoreScene *scene, TscoreStaff *staff, char keySign = 0);
     ~TscoreKeySignature();
     
         /** This metods get and set the key signature, and are called
@@ -42,7 +42,6 @@ public:
     void setKeySignature(char keySign);
     char keySignature() { return m_keySignature; }
     void setClef(Tclef clef);
-    void setAccidInKeyPointer(char *accInKeyPtr) { m_accInKeyPtr = accInKeyPtr; }
   
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {};
     virtual QRectF boundingRect() const;
@@ -53,12 +52,14 @@ signals:
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
     virtual void wheelEvent(QGraphicsSceneWheelEvent* event);
+        /** Adds @param step to key value. Only 1 or -1 values are accepted. */
+    void increaseKey(int step);
 
 private:
         /** Array of text items with # or b signs*/
     QGraphicsSimpleTextItem *m_accidentals[7];
     char m_keySignature;
-    char *m_accInKeyPtr;
+    qreal m_height;
     
         /** It keeps array of accidental symbol (# or b) positions
         * (in PosY coordinates from TnoteView)

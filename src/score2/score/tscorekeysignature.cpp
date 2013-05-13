@@ -19,8 +19,10 @@
 #include "tscorekeysignature.h"
 #include "tscorescene.h"
 #include "tscorenote.h"
+#include "tscorestaff.h"
 #include <QGraphicsView>
 #include <QGraphicsSceneHoverEvent>
+#include <QDebug>
 
 char TscoreKeySignature::m_posOfAccid[7] = {
     16, // Fes & Fis (F#)
@@ -33,18 +35,14 @@ char TscoreKeySignature::m_posOfAccid[7] = {
 };
 
 
-TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, char keySign) :
+TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, TscoreStaff* staff, char keySign) :
   TscoreItem(scene),
-  m_keySignature(keySign),
-  m_accInKeyPtr(0)
+  m_keySignature(keySign)
 {
-  
-  qreal fontFactor = 3.8;
-  QFont font(QFont("nootka"));
-  font.setPointSizeF(fontFactor);
-  QFontMetrics fMetr(font);
-  qreal fact = font.pointSizeF() / fMetr.boundingRect(QChar(0xe11a)).height();
-  font.setPointSizeF(font.pointSizeF() * fact);
+  setStaff(staff);
+  m_height = staff->height();
+
+  QFont font(TscoreNote::getAccidFont());
   for (int i = 0; i < 7; i++) {
         m_accidentals[i] = new QGraphicsSimpleTextItem();
         registryItem(m_accidentals[i]);
@@ -52,6 +50,8 @@ TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, char keySign) :
         m_accidentals[i]->setFont(font);
         m_accidentals[i]->hide();
     }
+    
+    setStatusTip(tr("Key signature - to change it, click above or below the staff or use mouse wheel."));
 }
 
 
@@ -69,17 +69,18 @@ void TscoreKeySignature::setKeySignature(char keySign) {
         }
         if (i <= qAbs(keySign)) {// show accid
             m_accidentals[i - 1]->setText(TscoreNote::getAccid(sign));
-            m_accidentals[i - 1]->setPos( i - 1, m_posOfAccid[qAbs(base - i)-1] - 3.5 + 15);
-            if (m_accInKeyPtr)
-              *(m_accInKeyPtr + (base - i) - 1) = sign;
+            m_accidentals[i - 1]->setPos( (i - 1) * 1.1, m_posOfAccid[qAbs(base - i)-1] - 4.35 + 15);
+            staff()->accidInKeyArray[(24 - m_posOfAccid[qAbs(base - i) - 1]) % 7] = sign;
             m_accidentals[i-1]->show();
         }
         else { // hide
             m_accidentals[i-1]->hide();
-            if (m_accInKeyPtr)
-                *(m_accInKeyPtr + (base - i) - 1) = 0;
+            staff()->accidInKeyArray[(24 - m_posOfAccid[qAbs(base - i) - 1]) % 7] = 0;
         }
     }
+      qDebug() << (int)staff()->accidInKeyArray[0] << (int)staff()->accidInKeyArray[1] << 
+      (int)staff()->accidInKeyArray[2] << (int)staff()->accidInKeyArray[3] << 
+      (int)staff()->accidInKeyArray[4] << (int)staff()->accidInKeyArray[5] << (int)staff()->accidInKeyArray[6];
     m_keySignature = keySign;
 //     showKeyName();
     emit keySignatureChanged();
@@ -123,12 +124,10 @@ void TscoreKeySignature::setClef(Tclef clef) {
       m_posOfAccid[6] = 4;
   }
   setKeySignature(keySignature());
-//   for (int i = 0; i < 7; i++)
-//     m_accidentals[i]->setPos();
 }
 
 QRectF TscoreKeySignature::boundingRect() const{
-  return QRectF(0, 0, 8, 40);
+  return QRectF(0, 0, 8, m_height);
 }
 
 
@@ -137,20 +136,32 @@ QRectF TscoreKeySignature::boundingRect() const{
 //##########################################################################################################
 
 void TscoreKeySignature::mousePressEvent(QGraphicsSceneMouseEvent* event) {
+  if (event->button() == Qt::LeftButton) {
+    if (event->pos().y() > 20.0)
+      increaseKey(-1);
+    else
+      increaseKey(1);
+  }
 }
 
 
 void TscoreKeySignature::wheelEvent(QGraphicsSceneWheelEvent* event) {
+    if (event->delta() > 0)
+        increaseKey(1);
+    else
+        increaseKey(-1);
+}
+
+
+void TscoreKeySignature::increaseKey(int step) {
   char prevKey = m_keySignature;
-    if (event->delta() > 0) {
-        if (m_keySignature < 7) m_keySignature++;
-    }
-    else {
-        if (m_keySignature > -7) m_keySignature--;
-    }
-    if (m_keySignature != prevKey) {
-        setKeySignature(m_keySignature);
-    }
+  if (step == 1) {
+      if (m_keySignature < 7) m_keySignature++;
+  } else {
+      if (m_keySignature > -7) m_keySignature--;
+  }
+  if (m_keySignature != prevKey)
+    setKeySignature(m_keySignature);
 }
 
 

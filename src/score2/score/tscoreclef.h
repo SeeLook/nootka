@@ -27,7 +27,7 @@ class TscoreClef : public TscoreItem
     Q_OBJECT    
 
 public:
-    TscoreClef(TscoreScene *scene, Tclef clef);
+    TscoreClef(TscoreScene *scene, TscoreStaff *staff, Tclef clef);
     ~TscoreClef();
 
     Tclef clef() { return m_clef; }

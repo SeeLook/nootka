@@ -19,6 +19,7 @@
 
 #include "tscorenote.h"
 #include "tscorescene.h"
+#include "tscorestaff.h"
 #include "tdropshadoweffect.h"
 #include <QGraphicsEffect>
 #include <QGraphicsSceneHoverEvent>
@@ -35,14 +36,25 @@ QString TscoreNote::getAccid(int accNr) {
 }
 
 
+QFont TscoreNote::getAccidFont() {
+  qreal fontFactor = 4.5;
+  QFont font(QFont("nootka"));
+  font.setPointSizeF(fontFactor);
+  QFontMetrics fMetr(font);
+  qreal fact = font.pointSizeF() / fMetr.boundingRect(QChar(0xe11a)).height();
+  font.setPointSizeF(font.pointSizeF() * fact);
+  return font;
+}
 
-TscoreNote::TscoreNote(TscoreScene* scene) :
+
+TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   TscoreItem(scene),
   m_workPosY(0.0), m_mainPosY(0.0),
   m_curentAccid(0), m_accidental(0),
-  m_index(0)
+  m_index(index)
 {
-
+  setStaff(staff);
+  m_height = staff->height();
   m_workColor = scene->views()[0]->palette().highlight().color();
   m_workColor.setAlpha(200);
   m_mainColor = scene->views()[0]->palette().windowText().color();
@@ -50,26 +62,24 @@ TscoreNote::TscoreNote(TscoreScene* scene) :
   for (int i = 0; i < 7; i++) {
       m_upLines[i] = new QGraphicsLineItem();
       m_upLines[i]->hide();
-//       m_upLines[i]->setPen(QPen(m_workColor));
       registryItem(m_upLines[i]);
 
       m_mainUpLines[i] = new QGraphicsLineItem();
       m_mainUpLines[i]->hide();
       registryItem(m_mainUpLines[i]);
       
-      m_upLines[i]->setLine(2, 2 * (i + 1), boundingRect().width(), 2 * (i + 1));
+      m_upLines[i]->setLine(2.5, 2 * (i + 1), boundingRect().width(), 2 * (i + 1));
       m_mainUpLines[i]->setLine(m_upLines[i]->line());
       if (i < 5) {
           m_downLines[i] = new QGraphicsLineItem();
           m_downLines[i]->hide();
-//           m_downLines[i]->setPen(QPen(m_workColor));
           registryItem(m_downLines[i]);
 
           m_mainDownLines[i] = new QGraphicsLineItem();
           m_mainDownLines[i]->hide();
           registryItem(m_mainDownLines[i]);
           
-          m_downLines[i]->setLine(2, 2 * (i + 13), boundingRect().width(), 2 * (i + 13));
+          m_downLines[i]->setLine(2.5, 2 * (i + 13), boundingRect().width(), 2 * (i + 13));
           m_mainDownLines[i]->setLine(m_downLines[i]->line());
       }
   }
@@ -92,12 +102,7 @@ TscoreNote::TscoreNote(TscoreScene* scene) :
   registryItem(m_workAccid);
   m_workAccid->hide();
   
-  qreal fontFactor = 3.8;
-  QFont font(QFont("nootka"));
-  font.setPointSizeF(fontFactor);
-  QFontMetrics fMetr(font);
-  qreal fact = font.pointSizeF() / fMetr.boundingRect(QChar(0xe11a)).height();
-  font.setPointSizeF(font.pointSizeF() * fact);
+  QFont font(getAccidFont());
   m_workAccid->setFont(font);
   m_mainAccid->setFont(font);
   
@@ -119,6 +124,7 @@ TscoreNote::~TscoreNote() {}
 //##########################################################################################################
 //#################### PUBLIC METHODS    ###################################################################
 //##########################################################################################################
+
 void TscoreNote::setColor(QColor color) {
     m_mainColor = color;
     m_mainNote->setPen(QPen(m_mainColor));
@@ -147,15 +153,19 @@ void TscoreNote::setPointedColor(QColor color) {
 void TscoreNote::moveNote(int pos) {
     m_mainNote->setPos(m_workNote->pos());
     m_mainAccid->setPos(m_workAccid->pos());
-//     if (*(m_accInKeyPtr+(39-pos)%7)) {
-//       if ( m_accidental == 0 ) m_mainAccid->setText(getAccid(3));
-//       else
-//         if (*(m_accInKeyPtr+(39-pos)%7) == m_accidental ) m_mainAccid->setText(getAccid(0));
-//         else
-            m_mainAccid->setText(getAccid(m_accidental));
-//     } 
-//     else
-//         m_mainAccid->setText(getAccid(m_accidental));
+
+    if (staff()->accidInKeyArray[(39 - pos) % 7]) {
+      if ( m_accidental == 0 ) 
+        m_mainAccid->setText(getAccid(3)); // TODO animation of neutral
+      else
+
+        if (staff()->accidInKeyArray[(39 - pos) % 7] == m_accidental)
+          m_mainAccid->setText(getAccid(0)); // TODO animation
+        else
+          m_mainAccid->setText(getAccid(m_accidental));
+    } else
+        m_mainAccid->setText(getAccid(m_accidental));
+    
     if (!m_mainNote->isVisible()) {
         m_mainNote->show();
         m_mainAccid->show();
@@ -209,12 +219,15 @@ void TscoreNote::markNote(QColor blurColor) {
 
 
 QRectF TscoreNote::boundingRect() const{
-  return QRectF(0, 0, 6, 40);
+//   if (staff()->kindOfStaff() == TscoreStaff::e_normal)
+    return QRectF(0, 0, 7, m_height);
+//   else
+//     return QRectF(0, 0, 7, 20);
 }
 
 
 void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-  painter->setBrush(QColor(1, 1, 1, 50));
+  painter->setBrush(QColor(m_index, m_index, m_index, 50));
   painter->setPen(Qt::NoPen);
   painter->drawRect(boundingRect());
 }
@@ -225,8 +238,10 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 //##########################################################################################################
 
 void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
-  m_workNote->show();
-  m_workAccid->show();
+  if ((event->pos().y() > m_ambitMax) && (event->pos().y() < m_ambitMin)) {
+      m_workNote->show();
+      m_workAccid->show();
+  }
   TscoreItem::hoverEnterEvent(event);
 }
 
@@ -237,11 +252,11 @@ void TscoreNote::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 }
 
 void TscoreNote::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
-  if ((event->pos().y() > m_ambitMax) && (event->pos().y() < m_ambitMin) ) {
+  if ((event->pos().y() > m_ambitMax) && (event->pos().y() < m_ambitMin)) {
     if (event->pos().y() != m_workPosY) {
       m_workPosY = event->pos().y();
-      m_workNote->setPos(2.5, m_workPosY);
-      m_workAccid->setPos(0.0, m_workPosY - 3.5);
+      m_workNote->setPos(3, m_workPosY);
+      m_workAccid->setPos(0.0, m_workPosY - 4.35);
       
       for (int i=0; i < 7; i++) {
         if (m_workPosY < (2 * (i + 1))) m_upLines[i]->show();
@@ -291,7 +306,7 @@ void TscoreNote::wheelEvent(QGraphicsSceneWheelEvent* event) {
 QGraphicsEllipseItem* TscoreNote::createNoteHead() {
   QGraphicsEllipseItem *noteHead = new QGraphicsEllipseItem();
   registryItem(noteHead);
-  noteHead->setRect(0, 0, 3, 2);
+  noteHead->setRect(0, 0, 3.5, 2);
   noteHead->hide();
   return noteHead;
 }

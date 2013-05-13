@@ -25,26 +25,38 @@
 
 #include <QDebug>
 
-TscoreStaff::TscoreStaff(TscoreScene* scene) :
-  TscoreItem(scene)
+TscoreStaff::TscoreStaff(TscoreScene* scene, Ekind kindOfStaff) :
+  TscoreItem(scene),
+  m_kindOfStaff(kindOfStaff)
 {
+  if (m_kindOfStaff == e_normal) {
+    m_height = 40;
+    m_upperLinePos = 16;
+  } else {
+    m_height = 20; 
+    if (m_kindOfStaff == e_upper)
+      m_upperLinePos = 10;
+    else if (m_kindOfStaff == e_lower)
+      m_upperLinePos = 2;
+  }
   setAcceptHoverEvents(true);
   for (int i = 0; i < 5; i++) {
     m_lines[i] = new QGraphicsLineItem();
     registryItem(m_lines[i]);
     m_lines[i]->setPen(QPen(scene->views()[0]->palette().windowText().color(), 0.2));
-    m_lines[i]->setLine(1, 16 + i * 2, boundingRect().width() - 2, 16 + i * 2);
+    m_lines[i]->setLine(1, upperLinePos() + i * 2, boundingRect().width() - 2, upperLinePos() + i * 2);
   }
   
-  m_clef = new TscoreClef(scene, Tclef());
+  m_clef = new TscoreClef(scene, this, Tclef());
   connect(m_clef, SIGNAL(clefChanged(Tclef::Etype)), this, SLOT(onClefChanged(Tclef::Etype)));
   
-  m_keySignature = new TscoreKeySignature(scene);
+  m_keySignature = new TscoreKeySignature(scene, this);
   m_keySignature->setPos(m_clef->boundingRect().width() + 0.5, 0);
   m_keySignature->setClef(m_clef->clef());
   
-  m_notes << new TscoreNote(scene);
+  m_notes << new TscoreNote(scene, this, 0) << new TscoreNote(scene, this, 1);
   m_notes[0]->setPos(m_clef->boundingRect().width() + m_keySignature->boundingRect().width() + 1, 0);
+  m_notes[1]->setPos(m_notes[0]->pos().x() + m_notes[0]->boundingRect().width(), 0);
   
   for (int i = 0; i < 7; i++)
     accidInKeyArray[i] = 0;
@@ -57,7 +69,7 @@ TscoreStaff::~TscoreStaff() {}
 
 
 QRectF TscoreStaff::boundingRect() const {
-  return QRectF(0, 0, 80, 40);
+  return QRectF(0, 0, 80, m_height);
 }
 
 

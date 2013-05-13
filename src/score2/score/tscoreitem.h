@@ -21,6 +21,7 @@
 
 #include <QGraphicsObject>
 
+class TscoreStaff;
 class TscoreScene;
 
 /** TscoreItem is base class for all items on the score:
@@ -55,10 +56,16 @@ protected:
        * sets the ownership of this object on it.
        * It is for QGraphicsItem-s only !!!! */
     void registryItem(QGraphicsItem *item);
+      /** Returns pointer to TscoreStaff. 
+       * Most of the TscoreItem-s are tied with it,
+       * but by default is set to 0. */
+    TscoreStaff* staff() { return m_staff; }
+    void setStaff(TscoreStaff *staff) { m_staff = staff; }
     
 private:
     QString                   m_statusTip;
     TscoreScene               *m_scene;
+    TscoreStaff               *m_staff;
 
 };
 
