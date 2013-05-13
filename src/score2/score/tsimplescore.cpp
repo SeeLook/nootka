@@ -36,10 +36,10 @@ TsimpleScore::TsimpleScore(QWidget* parent) :
   
   
   m_staff = new TscoreStaff(m_scene);
-  
+  /*
   qreal factor = (qreal)height() / 40.0;
 //   factor = factor / 3;
-  scale(factor, factor);
+  scale(factor, factor);*/
   
 }
 
@@ -50,3 +50,10 @@ TsimpleScore::~TsimpleScore()
 int TsimpleScore::heightForWidth(int w ) const {
   return w * 8;
 }
+
+void TsimpleScore::resizeEvent(QResizeEvent* event) {
+  qreal factor = ((qreal)height() / 40.0) / transform().m11();
+//   factor = factor / 3;
+  scale(factor, factor);
+}
+

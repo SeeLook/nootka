@@ -49,11 +49,12 @@ QList<Tclef::Etype> TscoreClef::m_typesList = QList<Tclef::Etype>();
 
 
 
-TscoreClef::TscoreClef(TscoreScene* scene, Tclef clef) :
+TscoreClef::TscoreClef(TscoreScene* scene, TscoreStaff* staff, Tclef clef) :
   TscoreItem(scene),
   m_clef(Tclef(Tclef::e_none)),
   m_textClef(0)
 {
+  setStaff(staff);
   if (m_typesList.size() == 0) // initialize types list
     m_typesList << Tclef::e_treble_G << Tclef::e_bass_F << Tclef::e_bass_F_8down << Tclef::e_alto_C << Tclef::e_tenor_C
     << Tclef::e_treble_G_8down;

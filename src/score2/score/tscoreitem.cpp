@@ -22,7 +22,8 @@
 
 TscoreItem::TscoreItem(TscoreScene* scene) :
   m_scene(scene),
-  m_statusTip("")
+  m_statusTip(""),
+  m_staff(0)
 {
   m_scene->addItem(this);
   setAcceptHoverEvents(true);

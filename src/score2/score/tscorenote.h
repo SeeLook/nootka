@@ -30,7 +30,7 @@ class TscoreNote : public TscoreItem
   Q_OBJECT
   
 public:
-    TscoreNote(TscoreScene *scene);
+    TscoreNote(TscoreScene *scene, TscoreStaff *staff, int index);
     ~TscoreNote();
     
         /** Hides main note */
@@ -54,6 +54,7 @@ public:
     int notePos() { return m_mainPosY; }
         /** Returns QString with accidental symbol*/
     static QString getAccid(int accNr);
+    static QFont getAccidFont();
     
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     virtual QRectF boundingRect() const;
@@ -80,6 +81,7 @@ private:
     int m_index;
         /** Represents range (ambitus) of notes on score */
     int m_ambitMin, m_ambitMax;
+    qreal m_height;
     
 private:
         /** Prepares noteHead (elipse) */

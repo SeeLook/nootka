@@ -35,6 +35,8 @@ MainWindow::MainWindow(QWidget *parent) :
   m_bar->showMessage("ready");
   
   connect(m_score, SIGNAL(statusTip(QString)), this, SLOT(updateStatusTip(QString)));
+  
+  resize(600, 480);
 }
 
 void MainWindow::updateStatusTip(QString status) {
