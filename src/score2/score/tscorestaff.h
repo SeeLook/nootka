@@ -29,6 +29,17 @@ class TscoreClef;
 class TscoreScene;
 
 
+class TnoteOffset
+{
+public:
+  TnoteOffset(int noteOff, int octaveOff);
+  
+  int note;
+  int octave;
+  int total() { return octave * 7 + note; }
+};
+
+
 class TscoreStaff : public TscoreItem
 {
     Q_OBJECT
@@ -60,7 +71,9 @@ public:
     Ekind kindOfStaff() { return m_kindOfStaff; }
     
 protected slots:
-    void onClefChanged(Tclef::Etype);
+    void onClefChanged();
+    void onKeyChanged();
+    void onNoteClicked(int noteIndex);
     
 private:    
     QGraphicsLineItem       *m_lines[5];
@@ -70,6 +83,7 @@ private:
     qreal                   m_upperLinePos;
     qreal                   m_height;
     Ekind                   m_kindOfStaff;
+    TnoteOffset             m_offset;
 };
 
 #endif // TSCORESTAFF_H

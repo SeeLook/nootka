@@ -111,7 +111,7 @@ void TscoreClef::wheelEvent(QGraphicsSceneWheelEvent* event) {
       m_currClefInList = m_typesList.size() - 1;
   }
   setClef(Tclef(m_typesList[m_currClefInList]));
-  emit clefChanged(m_clef.type());
+  emit clefChanged();
 }
 
 

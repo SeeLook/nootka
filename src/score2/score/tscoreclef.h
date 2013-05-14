@@ -40,7 +40,7 @@ public:
     virtual QRectF boundingRect() const;
     
 signals:
-    void clefChanged(Tclef::Etype);
+    void clefChanged();
     
 protected:
     void wheelEvent(QGraphicsSceneWheelEvent* event);

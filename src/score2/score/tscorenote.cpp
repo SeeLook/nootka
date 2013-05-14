@@ -151,8 +151,9 @@ void TscoreNote::setPointedColor(QColor color) {
 
 
 void TscoreNote::moveNote(int pos) {
-    m_mainNote->setPos(m_workNote->pos());
-    m_mainAccid->setPos(m_workAccid->pos());
+    m_mainPosY = pos;
+    m_mainNote->setPos(3.0, pos);
+    m_mainAccid->setPos(0.0, pos - 4.35);
 
     if (staff()->accidInKeyArray[(39 - pos) % 7]) {
       if ( m_accidental == 0 ) 
@@ -255,8 +256,12 @@ void TscoreNote::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
   if ((event->pos().y() > m_ambitMax) && (event->pos().y() < m_ambitMin)) {
     if (event->pos().y() != m_workPosY) {
       m_workPosY = event->pos().y();
-      m_workNote->setPos(3, m_workPosY);
+      m_workNote->setPos(3.0, m_workPosY);
       m_workAccid->setPos(0.0, m_workPosY - 4.35);
+      if (!m_workNote->isVisible()) {
+        m_workNote->show();
+        m_workAccid->show();
+      }
       
       for (int i=0; i < 7; i++) {
         if (m_workPosY < (2 * (i + 1))) m_upLines[i]->show();
