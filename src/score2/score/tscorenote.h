@@ -60,7 +60,7 @@ public:
     virtual QRectF boundingRect() const;
     
 signals:
-    void noteWasClicked (int);
+    void noteWasClicked(int);
 
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);

@@ -36,10 +36,6 @@ TsimpleScore::TsimpleScore(QWidget* parent) :
   
   
   m_staff = new TscoreStaff(m_scene);
-  /*
-  qreal factor = (qreal)height() / 40.0;
-//   factor = factor / 3;
-  scale(factor, factor);*/
   
 }
 

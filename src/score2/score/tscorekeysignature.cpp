@@ -78,9 +78,9 @@ void TscoreKeySignature::setKeySignature(char keySign) {
             staff()->accidInKeyArray[(24 - m_posOfAccid[qAbs(base - i) - 1]) % 7] = 0;
         }
     }
-      qDebug() << (int)staff()->accidInKeyArray[0] << (int)staff()->accidInKeyArray[1] << 
-      (int)staff()->accidInKeyArray[2] << (int)staff()->accidInKeyArray[3] << 
-      (int)staff()->accidInKeyArray[4] << (int)staff()->accidInKeyArray[5] << (int)staff()->accidInKeyArray[6];
+//       qDebug() << (int)staff()->accidInKeyArray[0] << (int)staff()->accidInKeyArray[1] << 
+//       (int)staff()->accidInKeyArray[2] << (int)staff()->accidInKeyArray[3] << 
+//       (int)staff()->accidInKeyArray[4] << (int)staff()->accidInKeyArray[5] << (int)staff()->accidInKeyArray[6];
     m_keySignature = keySign;
 //     showKeyName();
     emit keySignatureChanged();
