@@ -59,23 +59,23 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_workColor.setAlpha(200);
   m_mainColor = scene->views()[0]->palette().windowText().color();
   
-  int i = 1;
-  while (i < staff->upperLinePos() && i < 20) {
+  int i = staff->upperLinePos() - 2;
+  while (i > 0) {
     QGraphicsLineItem *upLine = new QGraphicsLineItem();
     upLine->hide();
     registryItem(upLine);
-    upLine->setLine(2.5, 2 * (i), boundingRect().width(), 2 * (i));
+    upLine->setLine(2.5, i, boundingRect().width(), i);
     m_upLines << upLine;
     
     QGraphicsLineItem *mainUpLine = new QGraphicsLineItem();
     mainUpLine->hide();
     registryItem(mainUpLine);
-    mainUpLine->setLine(2.5, 2 * (i), boundingRect().width(), 2 * (i));
+    mainUpLine->setLine(2.5, i, boundingRect().width(), i);
     m_mainUpLines << mainUpLine;    
-    i += 2;
+    i -= 2;
   }
-  i = staff->upperLinePos() + 2;
-  while (i < m_height && i < 20) {
+  i = staff->upperLinePos() + 10;
+  while (i < m_height) {
     QGraphicsLineItem *downLine = new QGraphicsLineItem();
     downLine->hide();
     registryItem(downLine);
@@ -89,34 +89,6 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
     m_mainDownLines << mainDownLine;    
     i += 2;
   }
-//   for (int i = 0; i < 7; i++) {
-// //       m_upLines[i] = new QGraphicsLineItem();
-// //       m_upLines[i]->hide();
-// //       registryItem(m_upLines[i]);
-// 
-//       m_mainUpLines[i] = new QGraphicsLineItem();
-//       m_mainUpLines[i]->hide();
-//       registryItem(m_mainUpLines[i]);
-//       
-//       if (staff->upperLinePos() > 2 * (i + 1)) {
-//           m_upLines[i]->setLine(2.5, 2 * (i + 1), boundingRect().width(), 2 * (i + 1));
-//           m_mainUpLines[i]->setLine(m_upLines[i]->line());
-//       }
-//       if (i < 5) {
-//           m_downLines[i] = new QGraphicsLineItem();
-//           m_downLines[i]->hide();
-//           registryItem(m_downLines[i]);
-// 
-//           m_mainDownLines[i] = new QGraphicsLineItem();
-//           m_mainDownLines[i]->hide();
-//           registryItem(m_mainDownLines[i]);
-//           
-// //           if (staff->upperLinePos() + 10 < 2 * (i + 13)) {
-//               m_downLines[i]->setLine(2.5, 2 * (i + 13), boundingRect().width(), 2 * (i + 13));
-//               m_mainDownLines[i]->setLine(m_downLines[i]->line());
-// //           }
-//       }
-//   }
   
   m_workNote = createNoteHead();
   QGraphicsBlurEffect *blur = new QGraphicsBlurEffect;
@@ -171,9 +143,9 @@ void TscoreNote::setColor(QColor color) {
     m_mainNote->setBrush(QBrush(m_mainColor, Qt::SolidPattern));
     m_mainAccid->setBrush(QBrush(m_mainColor));
     for (int i = 0; i < m_mainUpLines.size(); i++)
-        m_upLines[i]->setPen(QPen(color));
+        m_mainUpLines[i]->setPen(QPen(color, 0.2));
     for (int i = 0; i < m_mainDownLines.size(); i++)
-      m_downLines[i]->setPen(QPen(color));
+      m_downLines[i]->setPen(QPen(color, 0.2));
 //     if (m_strNr)
 //         m_strNr->setBrush(QBrush(m_mainColor));
 }
@@ -184,9 +156,9 @@ void TscoreNote::setPointedColor(QColor color) {
     m_workNote->setBrush(QBrush(m_workColor, Qt::SolidPattern));
     m_workAccid->setBrush(QBrush(m_workColor));
     for (int i = 0; i < m_upLines.size(); i++)
-        m_upLines[i]->setPen(QPen(color));
+        m_upLines[i]->setPen(QPen(color, 0.2));
     for (int i = 0; i < m_downLines.size(); i++)
-      m_downLines[i]->setPen(QPen(color));
+      m_downLines[i]->setPen(QPen(color, 0.2));
 }
 
 
@@ -213,27 +185,17 @@ void TscoreNote::moveNote(int pos) {
     }
 //     setStringPos();
     for (int i = 0; i < m_mainUpLines.size(); i++) {
-      if (pos < ( 2 * (i + 1)))
+      if (pos < m_mainUpLines[i]->line().y1())
         m_mainUpLines[i]->show();
       else 
         m_mainUpLines[i]->hide();
     }
-//     for (int i = 0; i < 7; i++) {
-//         if (pos < ( 2 * (i + 1)))
-//             m_mainUpLines[i]->show();
-//         else m_mainUpLines[i]->hide();
-//     }
     for (int i = 0; i < m_mainDownLines.size(); i++) {
-      if (pos > (staff()->upperLinePos() + (2 * (i))) )
+      if (pos > m_mainDownLines[i]->line().y1() - 2)
         m_mainDownLines[i]->show();
       else 
         m_mainDownLines[i]->hide();
     }
-//     for (int i = 0; i < 5; i++) {
-//         if (pos > (2 * (i + 12)))
-//             m_mainDownLines[i]->show();
-//       else m_mainDownLines[i]->hide();
-//     }
 // #if defined(Q_OS_MAC) // others Os-es has no problem with this. Mac lives trash.
 //     scoreScene()->update();
 // #endif
@@ -314,14 +276,17 @@ void TscoreNote::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
         m_workNote->show();
         m_workAccid->show();
       }
-      
-      for (int i=0; i < m_upLines.size(); i++) {
-        if (m_workPosY < (2 * (i + 1))) m_upLines[i]->show();
-        else m_upLines[i]->hide();
+      for (int i = 0; i < m_upLines.size(); i++) {
+        if (m_workPosY < m_upLines[i]->line().y1())
+          m_upLines[i]->show();
+        else 
+          m_upLines[i]->hide();
       }
-      for (int i=0; i < m_downLines.size(); i++) {
-        if (m_workPosY > staff()->upperLinePos() + (2 * (i))) m_downLines[i]->show();
-        else m_downLines[i]->hide();
+      for (int i = 0; i < m_downLines.size(); i++) {
+        if (m_workPosY > m_downLines[i]->line().y1() - 2) 
+          m_downLines[i]->show();
+        else 
+          m_downLines[i]->hide();
       }
     }
   }
