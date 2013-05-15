@@ -52,11 +52,11 @@ public:
       e_lower // placed down - left hand of piano staff
     }; // Kind of staff (normal or upper (right hand) or lower(left hand))
       
-    TscoreStaff(TscoreScene *scene, Ekind kindOfStaff = e_normal);
+    TscoreStaff(TscoreScene *scene, int notesNr, Ekind kindOfStaff = e_normal);
     virtual ~TscoreStaff();
     
     
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) {};
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
     virtual QRectF boundingRect() const;
         /** This array keeps values (-1, 0 or 1) for accidentals in key sign.
          * It is common for TscoreKeySignature and all TscoreNote. 
@@ -69,6 +69,8 @@ public:
     qreal height() { return m_height; }
         /** Kind of staff (normal or upper (right hand) or lower(left hand)) */
     Ekind kindOfStaff() { return m_kindOfStaff; }
+    int notePosRelatedToClef(int pos, TnoteOffset off) {
+      return off.octave * 7 - (pos + 1 - (int)upperLinePos() - off.note);  }
     
 protected slots:
     void onClefChanged();
