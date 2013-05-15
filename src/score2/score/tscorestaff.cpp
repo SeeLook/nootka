@@ -33,7 +33,7 @@ TnoteOffset::TnoteOffset(int noteOff, int octaveOff) :
 
 
 
-TscoreStaff::TscoreStaff(TscoreScene* scene, Ekind kindOfStaff) :
+TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kindOfStaff) :
   TscoreItem(scene),
   m_kindOfStaff(kindOfStaff),
   m_offset(TnoteOffset(3, 2))
@@ -49,27 +49,31 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, Ekind kindOfStaff) :
       m_upperLinePos = 2;
   }
   setAcceptHoverEvents(true);
+// Staff lines
   for (int i = 0; i < 5; i++) {
     m_lines[i] = new QGraphicsLineItem();
     registryItem(m_lines[i]);
     m_lines[i]->setPen(QPen(scene->views()[0]->palette().windowText().color(), 0.2));
     m_lines[i]->setLine(1, upperLinePos() + i * 2, boundingRect().width() - 2, upperLinePos() + i * 2);
   }
-  
-  m_clef = new TscoreClef(scene, this, Tclef());
+// Clef
+  Tclef cl = Tclef();
+  if (kindOfStaff == e_lower)
+    cl = Tclef(Tclef::e_bass_F);
+  m_clef = new TscoreClef(scene, this, cl);
   connect(m_clef, SIGNAL(clefChanged()), this, SLOT(onClefChanged()));
-//   m_offset = TnoteOffset(1, 0);
-  
+// Key signature
   m_keySignature = new TscoreKeySignature(scene, this);
   m_keySignature->setPos(m_clef->boundingRect().width() + 0.5, 0);
   m_keySignature->setClef(m_clef->clef());
   connect(m_keySignature, SIGNAL(keySignatureChanged()), this, SLOT(onKeyChanged()));
-  
-  m_notes << new TscoreNote(scene, this, 0) << new TscoreNote(scene, this, 1);
-  m_notes[0]->setPos(m_clef->boundingRect().width() + m_keySignature->boundingRect().width() + 1, 0);
-  connect(m_notes[0], SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
-  m_notes[1]->setPos(m_notes[0]->pos().x() + m_notes[0]->boundingRect().width(), 0);
-  connect(m_notes[1], SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
+// Notes
+  for (int i = 0; i < notesNr; i++) {
+      m_notes << new TscoreNote(scene, this, i);
+      m_notes[i]->setPos(m_clef->boundingRect().width() + m_keySignature->boundingRect().width() + 1 + 
+          i * m_notes[i]->boundingRect().width(), 0);
+      connect(m_notes[i], SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
+  }
   
   for (int i = 0; i < 7; i++)
     accidInKeyArray[i] = 0;
@@ -85,6 +89,13 @@ QRectF TscoreStaff::boundingRect() const {
   return QRectF(0, 0, 80, m_height);
 }
 
+void TscoreStaff::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+  painter->setBrush(QColor(255, 0, 0, 30));
+  painter->setPen(Qt::NoPen);
+  painter->drawRect(boundingRect());
+}
+
+
 
 //##########################################################################################################
 //########################################## PROTECTED   ###################################################
@@ -94,7 +105,7 @@ void TscoreStaff::onClefChanged( ) {
   if (m_keySignature)
     m_keySignature->setClef(m_clef->clef());
   
-  int globalNr = m_offset.octave * 7 - (m_notes[0]->notePos() + 1 - (int)upperLinePos() - m_offset.note);
+  int globalNr = notePosRelatedToClef(m_notes[0]->notePos(), m_offset);
   switch(m_clef->clef().type()) {
     case Tclef::e_treble_G:
       m_offset = TnoteOffset(3, 2); break;
@@ -109,8 +120,10 @@ void TscoreStaff::onClefChanged( ) {
     case Tclef::e_tenor_C:
       m_offset = TnoteOffset(2, 1); break;
   }
-  int newNr = m_offset.octave * 7 - (m_notes[0]->notePos() + 1 - (int)upperLinePos() - m_offset.note);
-  m_notes[0]->moveNote(m_notes[0]->notePos() - (globalNr - newNr));
+  int newNr = notePosRelatedToClef(m_notes[0]->notePos(), m_offset);
+  for (int i = 0; i < m_notes.size(); i++) {
+    m_notes[i]->moveNote(m_notes[i]->notePos() - (globalNr - newNr));
+  }
 }
 
 
@@ -123,9 +136,11 @@ void TscoreStaff::onKeyChanged() {
 
 
 void TscoreStaff::onNoteClicked(int noteIndex) {
-  int globalNr = m_offset.octave * 7 - (m_notes[noteIndex]->notePos() + 1 - (int)upperLinePos() - m_offset.note);
+  int globalNr = notePosRelatedToClef(m_notes[noteIndex]->notePos(), m_offset);;
 
-  qDebug() << noteIndex << (int)upperLinePos() - globalNr + 1 << "NOTE:" << (56 + globalNr) % 7 + 1 << "OCTAVE:" << (56 + globalNr) / 7 - 8;
+  qDebug() << noteIndex << (int)upperLinePos() - globalNr + 1 
+  << "NOTE:" << (56 + globalNr) % 7 + 1 
+  << "OCTAVE:" << (56 + globalNr) / 7 - 8;
 }
 
 

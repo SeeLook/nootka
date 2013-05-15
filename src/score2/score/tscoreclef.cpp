@@ -18,6 +18,7 @@
 
 #include "tscoreclef.h"
 #include "tscorescene.h"
+#include "tscorestaff.h"
 #include "tclef.h"
 // #include <QDebug>
 #include <QGraphicsSceneHoverEvent>
@@ -82,7 +83,7 @@ void TscoreClef::setClef(Tclef clef) {
     m_clef = clef;
     m_currClefInList = getClefPosInList(m_clef);
     m_textClef->setText(QString(clefToChar(m_clef.type())));
-    setPos(1, getYclefPos(m_clef));
+    setPos(1, getYclefPos(m_clef) - (16 - staff()->upperLinePos()));
     setStatusTip(m_clef.name());
     emit statusTip(statusTip());
   }
@@ -96,7 +97,11 @@ QRectF TscoreClef::boundingRect() const {
       return QRectF(0, 0, 6, 40);
 }
 
-void TscoreClef::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {}
+void TscoreClef::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+  painter->setBrush(QColor(0, 255, 0, 30));
+  painter->setPen(Qt::NoPen);
+  painter->drawRect(boundingRect());  
+}
 
 
 

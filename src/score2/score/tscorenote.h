@@ -46,7 +46,7 @@ public:
     void markNote(QColor blurColor);    
     void moveNote(int pos);
         /** Min and Max values of Y coefficient on the staff */
-    void setAmbitus(int min, int max){ m_ambitMin = min; m_ambitMax = max; }
+    void setAmbitus(int min, int max){ m_ambitMin = qMax(min, 0); m_ambitMax = qMin(max, (int)m_height); }
 
         /** This return value of @li -2 is bb @li 1 is #
          * @li etc... */
@@ -73,7 +73,7 @@ protected:
 private:
     QGraphicsEllipseItem *m_workNote, *m_mainNote;
     QGraphicsSimpleTextItem *m_workAccid, *m_mainAccid;
-    QGraphicsLineItem *m_upLines[7], *m_mainUpLines[7], *m_mainDownLines[5], *m_downLines[5];
+    QList<QGraphicsLineItem*> m_upLines, m_mainUpLines, m_mainDownLines, m_downLines;
     QColor m_workColor, m_mainColor;
     
     int m_workPosY, m_mainPosY;

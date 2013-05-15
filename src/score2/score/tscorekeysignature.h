@@ -43,7 +43,7 @@ public:
     char keySignature() { return m_keySignature; }
     void setClef(Tclef clef);
   
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {};
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     virtual QRectF boundingRect() const;
     
 signals:
