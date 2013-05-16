@@ -53,7 +53,8 @@ QList<Tclef::Etype> TscoreClef::m_typesList = QList<Tclef::Etype>();
 TscoreClef::TscoreClef(TscoreScene* scene, TscoreStaff* staff, Tclef clef) :
   TscoreItem(scene),
   m_clef(Tclef(Tclef::e_none)),
-  m_textClef(0)
+  m_textClef(0),
+  m_readOnly(false)
 {
   setStaff(staff);
   if (m_typesList.size() == 0) // initialize types list
@@ -106,6 +107,8 @@ void TscoreClef::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 
 
 void TscoreClef::wheelEvent(QGraphicsSceneWheelEvent* event) {
+  if (m_readOnly)
+    return;
   if (event->delta() > 0) {
     m_currClefInList++;
     if (m_currClefInList >= m_typesList.size())

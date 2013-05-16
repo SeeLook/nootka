@@ -127,7 +127,7 @@ void TscoreKeySignature::setClef(Tclef clef) {
 }
 
 QRectF TscoreKeySignature::boundingRect() const{
-  return QRectF(0, 0, 8, m_height);
+  return QRectF(0, 0, 9, m_height);
 }
 
 

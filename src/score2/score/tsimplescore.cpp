@@ -35,7 +35,7 @@ TsimpleScore::TsimpleScore(QWidget* parent) :
   setScene(m_scene);
   
   
-  m_staff = new TscoreStaff(m_scene, 3, TscoreStaff::e_upper);
+  m_staff = new TscoreStaff(m_scene, 3, TscoreStaff::e_normal);
   
 }
 
