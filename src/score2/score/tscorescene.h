@@ -38,6 +38,11 @@ public:
       /** Returns value 2 when double accidentals are enabled and 1 if not. */
     qint8 doubleAccidsFuse() { return m_dblAccFuse; }
     
+      /** Working accidental in TscoreNote segment.
+       * also changed by buttons. */
+    void setCurrentAccid(char accid) { m_currentAccid = (char)qBound(-2, (int)accid, 2);}
+    char currentAccid() { return m_currentAccid; }
+    
 signals:
     void statusTip(QString);
     
@@ -47,6 +52,7 @@ protected slots:
 private:
       /** It is @p 2 if double accidentals are enabled and @p 1 if not*/
     qint8 m_dblAccFuse;
+    char  m_currentAccid;
     
     
 

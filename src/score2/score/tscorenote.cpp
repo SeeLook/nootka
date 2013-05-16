@@ -61,32 +61,14 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   
   int i = staff->upperLinePos() - 2;
   while (i > 0) {
-    QGraphicsLineItem *upLine = new QGraphicsLineItem();
-    upLine->hide();
-    registryItem(upLine);
-    upLine->setLine(2.5, i, boundingRect().width(), i);
-    m_upLines << upLine;
-    
-    QGraphicsLineItem *mainUpLine = new QGraphicsLineItem();
-    mainUpLine->hide();
-    registryItem(mainUpLine);
-    mainUpLine->setLine(2.5, i, boundingRect().width(), i);
-    m_mainUpLines << mainUpLine;    
+    m_upLines << createNoteLine(i);
+    m_mainUpLines << createNoteLine(i);    
     i -= 2;
   }
   i = staff->upperLinePos() + 10;
   while (i < m_height) {
-    QGraphicsLineItem *downLine = new QGraphicsLineItem();
-    downLine->hide();
-    registryItem(downLine);
-    downLine->setLine(2.5, i, boundingRect().width(), i);
-    m_downLines << downLine;
-    
-    QGraphicsLineItem *mainDownLine = new QGraphicsLineItem();
-    mainDownLine->hide();
-    registryItem(mainDownLine);
-    mainDownLine->setLine(2.5, i, boundingRect().width(), i);
-    m_mainDownLines << mainDownLine;    
+    m_downLines << createNoteLine(i);
+    m_mainDownLines << createNoteLine(i);    
     i += 2;
   }
   
@@ -163,6 +145,8 @@ void TscoreNote::setPointedColor(QColor color) {
 
 
 void TscoreNote::moveNote(int pos) {
+    if (pos > m_ambitMin || pos < m_ambitMax)
+      return;
     m_mainPosY = pos;
     m_mainNote->setPos(3.0, pos);
     m_mainAccid->setPos(0.0, pos - 4.35);
@@ -206,8 +190,8 @@ void TscoreNote::moveNote(int pos) {
 void TscoreNote::hideNote() {
     m_mainNote->hide();
     m_mainAccid->hide();
-    for (int i=0; i < m_mainUpLines.size(); i++) m_mainUpLines[i]->hide();
-    for (int i=0; i < m_mainDownLines.size(); i++) m_mainDownLines[i]->hide();
+    hideLines(m_mainUpLines);
+    hideLines(m_mainDownLines);
     m_mainPosY = 0.0;
     m_accidental = 0;
 }
@@ -216,8 +200,8 @@ void TscoreNote::hideNote() {
 void TscoreNote::hideWorkNote() {
     m_workNote->hide();
     m_workAccid->hide();
-    for (int i=0; i < m_upLines.size(); i++) m_upLines[i]->hide();
-    for (int i=0; i < m_downLines.size(); i++) m_downLines[i]->hide();
+    hideLines(m_upLines);
+    hideLines(m_downLines);
     m_workPosY = 0.0;
 }
 
@@ -234,10 +218,7 @@ void TscoreNote::markNote(QColor blurColor) {
 
 
 QRectF TscoreNote::boundingRect() const{
-//   if (staff()->kindOfStaff() == TscoreStaff::e_normal)
     return QRectF(0, 0, 7, m_height);
-//   else
-//     return QRectF(0, 0, 7, 20);
 }
 
 
@@ -253,6 +234,10 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 //##########################################################################################################
 
 void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
+  if (m_curentAccid != scoreScene()->currentAccid()) { // update accidental symbol
+      m_curentAccid = scoreScene()->currentAccid();
+      m_workAccid->setText(getAccid(m_curentAccid));
+  }
   if ((event->pos().y() >= m_ambitMax) && (event->pos().y() <= m_ambitMin)) {
       m_workNote->show();
       m_workAccid->show();
@@ -317,6 +302,7 @@ void TscoreNote::wheelEvent(QGraphicsSceneWheelEvent* event) {
     }
     if (prevAcc != m_curentAccid) {
         m_workAccid->setText(getAccid(m_curentAccid));
+        scoreScene()->setCurrentAccid(m_curentAccid);
 //         emit accidWasChanged(m_curentAccid);
     }
 }
@@ -331,6 +317,21 @@ QGraphicsEllipseItem* TscoreNote::createNoteHead() {
   noteHead->setRect(0, 0, 3.5, 2);
   noteHead->hide();
   return noteHead;
+}
+
+
+QGraphicsLineItem* TscoreNote::createNoteLine(int yPos) {
+    QGraphicsLineItem *line = new QGraphicsLineItem();
+    line->hide();
+    registryItem(line);
+    line->setLine(2.5, yPos, boundingRect().width(), yPos);
+    return line;
+}
+
+
+void TscoreNote::hideLines(QList< QGraphicsLineItem* >& linesList) {
+    for (int i=0; i < linesList.size(); i++) 
+      linesList[i]->hide();
 }
 
 

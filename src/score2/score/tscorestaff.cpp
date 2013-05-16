@@ -62,6 +62,8 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
     cl = Tclef(Tclef::e_bass_F);
   m_clef = new TscoreClef(scene, this, cl);
   connect(m_clef, SIGNAL(clefChanged()), this, SLOT(onClefChanged()));
+  if (kindOfStaff != e_normal)
+    m_clef->setReadOnly(true);
 // Key signature
   m_keySignature = new TscoreKeySignature(scene, this);
   m_keySignature->setPos(m_clef->boundingRect().width() + 0.5, 0);
@@ -70,7 +72,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
 // Notes
   for (int i = 0; i < notesNr; i++) {
       m_notes << new TscoreNote(scene, this, i);
-      m_notes[i]->setPos(m_clef->boundingRect().width() + m_keySignature->boundingRect().width() + 1 + 
+      m_notes[i]->setPos(m_clef->boundingRect().width() + m_keySignature->boundingRect().width() + 0.5 + 
           i * m_notes[i]->boundingRect().width(), 0);
       connect(m_notes[i], SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
   }

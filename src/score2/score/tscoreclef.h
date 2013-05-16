@@ -39,6 +39,9 @@ public:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
     virtual QRectF boundingRect() const;
     
+    void setReadOnly(bool ro) { m_readOnly = ro; }
+    bool readOnly() { return m_readOnly; }
+    
 signals:
     void clefChanged();
     
@@ -56,6 +59,7 @@ private:
     int                               m_currClefInList;    
         /** List of all clef types exept empty (none clef) */
     static QList<Tclef::Etype>        m_typesList;
+    bool                              m_readOnly;
 
 };
 

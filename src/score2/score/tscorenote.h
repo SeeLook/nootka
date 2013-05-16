@@ -71,21 +71,23 @@ protected:
     void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
 
 private:
-    QGraphicsEllipseItem *m_workNote, *m_mainNote;
-    QGraphicsSimpleTextItem *m_workAccid, *m_mainAccid;
-    QList<QGraphicsLineItem*> m_upLines, m_mainUpLines, m_mainDownLines, m_downLines;
-    QColor m_workColor, m_mainColor;
+    QGraphicsEllipseItem          *m_workNote, *m_mainNote;
+    QGraphicsSimpleTextItem       *m_workAccid, *m_mainAccid;
+    QList<QGraphicsLineItem*>     m_upLines, m_mainUpLines, m_mainDownLines, m_downLines;
+    QColor                        m_workColor, m_mainColor;
     
-    int m_workPosY, m_mainPosY;
-    int m_curentAccid, m_accidental;
-    int m_index;
-        /** Represents range (ambitus) of notes on score */
-    int m_ambitMin, m_ambitMax;
-    qreal m_height;
+    int                           m_workPosY, m_mainPosY;
+    int                           m_curentAccid, m_accidental;
+    int                           m_index;
+                  /** Represents range (ambitus) of notes on score */
+    int                           m_ambitMin, m_ambitMax;
+    qreal                         m_height;
     
 private:
         /** Prepares noteHead (elipse) */
     QGraphicsEllipseItem* createNoteHead();
+    QGraphicsLineItem*    createNoteLine(int yPos);
+    void hideLines(QList<QGraphicsLineItem*> &linesList);
     
 };
 

@@ -25,7 +25,7 @@ TscoreScene::TscoreScene(QObject* parent) :
   QGraphicsScene(parent)
 {
   setDoubleAccidsEnabled(true);
-  
+  setCurrentAccid(0);
 }
 
 
