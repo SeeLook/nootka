@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
- *   tomaszbojczuk@gmail.com                                               *
+ *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
+ *   tomaszbojczuk@gmail.com   						   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,44 +12,38 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
+ *  You should have received a copy of the GNU General Public License	   *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
- 
 
-#ifndef TSIMPLESCORE_H
-#define TSIMPLESCORE_H
+#ifndef TPUSHBUTTON_H
+#define TPUSHBUTTON_H
 
-#include <QtGui/QGraphicsView>
+#include <QPushButton>
 
-class TscoreControl;
-class TscoreStaff;
-class TscoreScene;
-
-class TsimpleScore : public QGraphicsView
+/** This is replacement for standard QPushButton.
+ * The aim is to override setChecked() and isChecked() method
+ * to be frendly with Bespin style witch looks bad with checkable buttons
+*/
+class TpushButton : public QPushButton
 {
-  Q_OBJECT
-  
+	Q_OBJECT
 public:
-    TsimpleScore(QWidget *parent = 0);
-    ~TsimpleScore();
-
-    
-signals:
-    void statusTip(QString);
-    
-protected:
-    virtual int heightForWidth(int w) const;
-    
-protected slots:
-    void statusTipChanged(QString status) { emit statusTip(status); }
-    void resizeEvent(QResizeEvent* event);
-  
+    TpushButton(QString text = "", QWidget *parent = 0);
+	void setChecked(bool isChecked);
+	bool isChecked() { return m_Ichecked; }
+		/** Sets colors for checked button. 
+		 * It has influence on all buttons in the application.	 */
+	static void setCheckColor(QColor background = Qt::black, QColor text = Qt::white);
+	
+private slots:
+	
 private:
-    TscoreScene     *m_scene;
-    TscoreStaff     *m_staff;
-    TscoreControl   *m_scoreControl;
-  
+	bool m_Ichecked;
+	static QColor m_textColor;
+	static QColor m_backColor;
+	
+	
 };
 
-#endif // TSIMPLESCORE_H
+#endif // TPUSHBUTTON_H

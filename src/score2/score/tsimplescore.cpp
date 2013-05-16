@@ -20,7 +20,9 @@
 #include "tsimplescore.h"
 #include "tscorescene.h"
 #include "tscorestaff.h"
+#include "tscorecontrol.h"
 #include <QDebug>
+#include <QGraphicsProxyWidget>
 
 TsimpleScore::TsimpleScore(QWidget* parent) :
   QGraphicsView(parent)
@@ -37,6 +39,10 @@ TsimpleScore::TsimpleScore(QWidget* parent) :
   
   m_staff = new TscoreStaff(m_scene, 3, TscoreStaff::e_normal);
   
+  m_scoreControl = new TscoreControl(m_scene);
+  m_scoreControl->proxy()->setPos(m_staff->boundingRect().width(), 0);
+  
+  
 }
 
 TsimpleScore::~TsimpleScore()
@@ -51,5 +57,6 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
   qreal factor = ((qreal)height() / 40.0) / transform().m11();
 //   factor = factor / 3;
   scale(factor, factor);
+  m_scoreControl->setFixedSize(50, m_staff->boundingRect().height() * factor);
 }
 

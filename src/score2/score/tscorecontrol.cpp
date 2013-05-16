@@ -15,41 +15,48 @@
  *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
- 
 
-#ifndef TSIMPLESCORE_H
-#define TSIMPLESCORE_H
+#include "tscorecontrol.h"
+#include "tpushbutton.h"
+#include "tscorescene.h"
+#include <QVBoxLayout>
+#include <QGraphicsProxyWidget>
 
-#include <QtGui/QGraphicsView>
-
-class TscoreControl;
-class TscoreStaff;
-class TscoreScene;
-
-class TsimpleScore : public QGraphicsView
+TscoreControl::TscoreControl(TscoreScene* scene):
+  QWidget()
 {
-  Q_OBJECT
-  
-public:
-    TsimpleScore(QWidget *parent = 0);
-    ~TsimpleScore();
+    m_proxy = scene->addWidget(this);
+    m_proxy->setFlag(QGraphicsItem::ItemIgnoresTransformations);
+    
+    m_dblSharpBut = new TpushButton("x");
+    setButtons(m_dblSharpBut);
+    m_sharpBut = new TpushButton("#");
+    setButtons(m_sharpBut);
+    m_flatBut = new TpushButton("b");
+    setButtons(m_flatBut);
+    m_dblFlatBut = new TpushButton("B");
+    setButtons(m_dblFlatBut);
+    QVBoxLayout *butLay = new QVBoxLayout;
+    butLay->addStretch(1);
+    butLay->addWidget(m_dblSharpBut);
+    butLay->addWidget(m_sharpBut);
+    butLay->addSpacing(5);
+    butLay->addWidget(m_flatBut);
+    butLay->addWidget(m_dblFlatBut);
+    butLay->addStretch(1);
+    setLayout(butLay);
+    
+}
 
-    
-signals:
-    void statusTip(QString);
-    
-protected:
-    virtual int heightForWidth(int w) const;
-    
-protected slots:
-    void statusTipChanged(QString status) { emit statusTip(status); }
-    void resizeEvent(QResizeEvent* event);
-  
-private:
-    TscoreScene     *m_scene;
-    TscoreStaff     *m_staff;
-    TscoreControl   *m_scoreControl;
-  
-};
 
-#endif // TSIMPLESCORE_H
+void TscoreControl::setButtons(TpushButton* button) {
+    button->setFixedSize(40, 45);
+#if defined(Q_OS_MAC)
+    button->setFont(QFont("nootka", 25, QFont::Normal));
+#else
+    button->setFont(QFont("nootka", 20, QFont::Normal));
+#endif
+
+
+}
+

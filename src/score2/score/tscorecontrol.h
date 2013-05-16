@@ -15,41 +15,34 @@
  *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
- 
 
-#ifndef TSIMPLESCORE_H
-#define TSIMPLESCORE_H
+#ifndef TSCORECONTROL_H
+#define TSCORECONTROL_H
 
-#include <QtGui/QGraphicsView>
+#include <QWidget>
 
-class TscoreControl;
-class TscoreStaff;
+class QGraphicsProxyWidget;
 class TscoreScene;
+class TpushButton;
 
-class TsimpleScore : public QGraphicsView
+
+class TscoreControl : public QWidget
 {
-  Q_OBJECT
-  
-public:
-    TsimpleScore(QWidget *parent = 0);
-    ~TsimpleScore();
+    Q_OBJECT
 
+public:
+  
+    TscoreControl(TscoreScene *scene);
     
-signals:
-    void statusTip(QString);
-    
+    QGraphicsProxyWidget* proxy() { return m_proxy;}
+
 protected:
-    virtual int heightForWidth(int w) const;
+    void setButtons(TpushButton *button);
     
-protected slots:
-    void statusTipChanged(QString status) { emit statusTip(status); }
-    void resizeEvent(QResizeEvent* event);
-  
+
 private:
-    TscoreScene     *m_scene;
-    TscoreStaff     *m_staff;
-    TscoreControl   *m_scoreControl;
-  
+    TpushButton *m_sharpBut, *m_flatBut, *m_dblSharpBut, *m_dblFlatBut;
+    QGraphicsProxyWidget *m_proxy;
 };
 
-#endif // TSIMPLESCORE_H
+#endif // TSCORECONTROL_H

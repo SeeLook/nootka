@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -15,41 +15,43 @@
  *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
- 
 
-#ifndef TSIMPLESCORE_H
-#define TSIMPLESCORE_H
+#include "tpushbutton.h"
 
-#include <QtGui/QGraphicsView>
+/*static*/
+QColor TpushButton::m_backColor = Qt::black;
+QColor TpushButton::m_textColor = Qt::white;
+void TpushButton::setCheckColor(QColor background, QColor text) {
+	m_backColor = background;
+	m_textColor = text;
+}
 
-class TscoreControl;
-class TscoreStaff;
-class TscoreScene;
 
-class TsimpleScore : public QGraphicsView
+
+TpushButton::TpushButton(QString text, QWidget* parent):
+	 QPushButton(text, parent),
+	 m_Ichecked(false)
 {
-  Q_OBJECT
-  
-public:
-    TsimpleScore(QWidget *parent = 0);
-    ~TsimpleScore();
+#if defined(Q_OS_MAC)
+  setCheckable(true);
+#endif
+}
 
-    
-signals:
-    void statusTip(QString);
-    
-protected:
-    virtual int heightForWidth(int w) const;
-    
-protected slots:
-    void statusTipChanged(QString status) { emit statusTip(status); }
-    void resizeEvent(QResizeEvent* event);
-  
-private:
-    TscoreScene     *m_scene;
-    TscoreStaff     *m_staff;
-    TscoreControl   *m_scoreControl;
-  
-};
+void TpushButton::setChecked(bool isChecked) {
+#if defined(Q_OS_MAC)
+  QPushButton::setChecked(isChecked);
+  if (isChecked)
+      setStyleSheet(QString("color: %1; ").arg(m_textColor.name()));
+  else
+      setStyleSheet("color: native");
+#else
+	if (isChecked)
+		setStyleSheet(QString("background-color: %1; color: %2; ")
+			.arg(m_backColor.name()).arg(m_textColor.name()));
+	else
+		setStyleSheet("background-color: native; color: native");
+#endif 
+	m_Ichecked = isChecked;
+}
 
-#endif // TSIMPLESCORE_H
+
