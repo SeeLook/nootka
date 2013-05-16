@@ -21,6 +21,7 @@
 
 #include <QGraphicsScene>
 
+
 class TscoreStaff;
 
 
@@ -53,8 +54,7 @@ private:
       /** It is @p 2 if double accidentals are enabled and @p 1 if not*/
     qint8 m_dblAccFuse;
     char  m_currentAccid;
-    
-    
+        
 
 };
 

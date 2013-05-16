@@ -83,7 +83,7 @@ private:
     TscoreKeySignature      *m_keySignature;
     QList<TscoreNote*>      m_notes;
     qreal                   m_upperLinePos;
-    qreal                   m_height;
+    qreal                   m_height, m_width;
     Ekind                   m_kindOfStaff;
     TnoteOffset             m_offset;
 };

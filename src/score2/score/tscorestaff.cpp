@@ -49,13 +49,6 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
       m_upperLinePos = 2;
   }
   setAcceptHoverEvents(true);
-// Staff lines
-  for (int i = 0; i < 5; i++) {
-    m_lines[i] = new QGraphicsLineItem();
-    registryItem(m_lines[i]);
-    m_lines[i]->setPen(QPen(scene->views()[0]->palette().windowText().color(), 0.2));
-    m_lines[i]->setLine(1, upperLinePos() + i * 2, boundingRect().width() - 2, upperLinePos() + i * 2);
-  }
 // Clef
   Tclef cl = Tclef();
   if (kindOfStaff == e_lower)
@@ -76,10 +69,20 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
           i * m_notes[i]->boundingRect().width(), 0);
       connect(m_notes[i], SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
   }
+  m_width = m_clef->boundingRect().width() + m_keySignature->boundingRect().width() +
+      m_notes.size() * m_notes[0]->boundingRect().width() + 1;  
+// Staff lines
+  for (int i = 0; i < 5; i++) {
+    m_lines[i] = new QGraphicsLineItem();
+    registryItem(m_lines[i]);
+    m_lines[i]->setPen(QPen(scene->views()[0]->palette().windowText().color(), 0.2));
+    m_lines[i]->setLine(1, upperLinePos() + i * 2, boundingRect().width() - 2, upperLinePos() + i * 2);
+    m_lines[i]->setZValue(5);
+  }
   
   for (int i = 0; i < 7; i++)
     accidInKeyArray[i] = 0;
- 
+  
   setStatusTip(tr("This is a staff"));
 }
 
@@ -88,7 +91,7 @@ TscoreStaff::~TscoreStaff() {}
 
 
 QRectF TscoreStaff::boundingRect() const {
-  return QRectF(0, 0, 80, m_height);
+  return QRectF(0, 0, m_width, m_height);
 }
 
 void TscoreStaff::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
