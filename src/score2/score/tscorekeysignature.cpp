@@ -25,19 +25,21 @@
 #include <QDebug>
 
 char TscoreKeySignature::m_posOfAccid[7] = {
-    16, // Fes & Fis (F#)
-    19, // Ces (C#)
-    15, // Ges (G#)
-    18, // Des (D#)
-    21, // As  (A#)
-    17, // ES  (E#)
-    20 // B   (H#)  (Bb - B#) in west
+    0, // Fes & Fis (F#)
+    3, // Ces (C#)
+    -1, // Ges (G#)
+    2, // Des (D#)
+    5, // As  (A#)
+    1, // ES  (E#)
+    4 // B   (H#)  (Bb - B#) in west
 };
 
+char TscoreKeySignature::m_posOfAccidFlats[7] = { 4, 1, 5, 2, 6, 3, 7 };
 
 TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, TscoreStaff* staff, char keySign) :
   TscoreItem(scene),
-  m_keySignature(keySign)
+  m_keySignature(keySign),
+  m_clef(Tclef())
 {
   setStaff(staff);
   m_height = staff->height();
@@ -63,14 +65,21 @@ void TscoreKeySignature::setKeySignature(char keySign) {
   for (int i = 1; i < 8; i++) {
         int base = 0;
         char sign = 1;
+        bool isFlat = false;
         if (keySign < 0) {
             base = 8;
             sign = -1;
+            isFlat = true;
         }
         if (i <= qAbs(keySign)) {// show accid
             m_accidentals[i - 1]->setText(TscoreNote::getAccid(sign));
-            m_accidentals[i - 1]->setPos( (i - 1) * 1.1, m_posOfAccid[qAbs(base - i)-1] - 4.35 + 15);
-            staff()->accidInKeyArray[(24 - m_posOfAccid[qAbs(base - i) - 1]) % 7] = sign;
+//             m_accidentals[i - 1]->setPos( (i - 1) * 1.1, m_posOfAccid[qAbs(base - i)-1] - 4.35 + 15);
+            m_accidentals[i - 1]->setPos( (i - 1) * 1.1, getPosOfAccid(i - 1, isFlat) - 5.35);
+            qDebug() << 
+            (93 - (int)staff()->upperLinePos() - staff()->noteOffset() + m_posOfAccid[qAbs(base - i)]) % 7;
+            staff()->
+            accidInKeyArray[(90 - (int)staff()->upperLinePos() - staff()->noteOffset() + m_posOfAccid[qAbs(base - i)]) % 7]
+              = sign;
             m_accidentals[i-1]->show();
         }
         else { // hide
@@ -78,51 +87,29 @@ void TscoreKeySignature::setKeySignature(char keySign) {
             staff()->accidInKeyArray[(24 - m_posOfAccid[qAbs(base - i) - 1]) % 7] = 0;
         }
     }
-//       qDebug() << (int)staff()->accidInKeyArray[0] << (int)staff()->accidInKeyArray[1] << 
-//       (int)staff()->accidInKeyArray[2] << (int)staff()->accidInKeyArray[3] << 
-//       (int)staff()->accidInKeyArray[4] << (int)staff()->accidInKeyArray[5] << (int)staff()->accidInKeyArray[6];
+      qDebug() << (int)staff()->accidInKeyArray[0] << (int)staff()->accidInKeyArray[1] << 
+      (int)staff()->accidInKeyArray[2] << (int)staff()->accidInKeyArray[3] << 
+      (int)staff()->accidInKeyArray[4] << (int)staff()->accidInKeyArray[5] << (int)staff()->accidInKeyArray[6];
     m_keySignature = keySign;
 //     showKeyName();
     emit keySignatureChanged();
 }
 
 
+char TscoreKeySignature::getPosOfAccid(int noteNr, bool flatKey) {
+  char yPos;
+  if (flatKey)
+    yPos = m_posOfAccidFlats[noteNr] + staff()->upperLinePos() + (staff()->noteOffset() - 3);
+  else
+    yPos = m_posOfAccid[noteNr] + staff()->upperLinePos() + (staff()->noteOffset() - 3);
+  if (!flatKey && m_clef.type() == Tclef::e_tenor_C && (noteNr == 0 || noteNr == 2))
+    yPos += 7;
+  return yPos;
+}
 
 
 void TscoreKeySignature::setClef(Tclef clef) {
-  if (clef.type() == Tclef::e_treble_G || clef.type() == Tclef::e_treble_G_8down) {
-      m_posOfAccid[0] = 0;
-      m_posOfAccid[1] = 3;
-      m_posOfAccid[2] = -1;
-      m_posOfAccid[3] = 2;
-      m_posOfAccid[4] = 5;
-      m_posOfAccid[5] = 1;
-      m_posOfAccid[6] = 4;
-  } else if (clef.type() == Tclef::e_bass_F || clef.type() == Tclef::e_bass_F_8down) {
-      m_posOfAccid[0] = 2;
-      m_posOfAccid[1] = 5;
-      m_posOfAccid[2] = 1;
-      m_posOfAccid[3] = 4;
-      m_posOfAccid[4] = 7;
-      m_posOfAccid[5] = 3;
-      m_posOfAccid[6] = 6;
-  } else if (clef.type() == Tclef::e_alto_C) {
-      m_posOfAccid[0] = 3;
-      m_posOfAccid[1] = 6;
-      m_posOfAccid[2] = 2;
-      m_posOfAccid[3] = 5;
-      m_posOfAccid[4] = 8;
-      m_posOfAccid[5] = 4;
-      m_posOfAccid[6] = 5;
-  } else if (clef.type() == Tclef::e_tenor_C) {
-      m_posOfAccid[0] = 8;
-      m_posOfAccid[1] = 2;
-      m_posOfAccid[2] = 7;
-      m_posOfAccid[3] = 3;
-      m_posOfAccid[4] = 6;
-      m_posOfAccid[5] = 0;
-      m_posOfAccid[6] = 4;
-  }
+  m_clef = clef;
   setKeySignature(keySignature());
 }
 

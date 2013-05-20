@@ -25,16 +25,18 @@ class QGraphicsProxyWidget;
 class TscoreScene;
 class TpushButton;
 
-
+/** This class is to control a score. 
+* It contains buttons with accidentals symbols
+* and octavation changing buttons. */
 class TscoreControl : public QWidget
 {
     Q_OBJECT
 
 public:
   
-    TscoreControl(TscoreScene *scene);
+    TscoreControl(QWidget *parent = 0);
     
-    QGraphicsProxyWidget* proxy() { return m_proxy;}
+//     QGraphicsProxyWidget* proxy() { return m_proxy;}
 
 protected:
     void setButtons(TpushButton *button);
@@ -42,7 +44,7 @@ protected:
 
 private:
     TpushButton *m_sharpBut, *m_flatBut, *m_dblSharpBut, *m_dblFlatBut;
-    QGraphicsProxyWidget *m_proxy;
+//     QGraphicsProxyWidget *m_proxy;
 };
 
 #endif // TSCORECONTROL_H

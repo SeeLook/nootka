@@ -145,21 +145,24 @@ void TscoreNote::setPointedColor(QColor color) {
 
 
 void TscoreNote::moveNote(int pos) {
-    if (pos > m_ambitMin || pos < m_ambitMax)
+    if (pos > m_ambitMin || pos < m_ambitMax) {
+      hideNote();
+      m_mainPosY = 0;
       return;
+    }
     m_mainPosY = pos;
     m_mainNote->setPos(3.0, pos);
     m_mainAccid->setPos(0.0, pos - 4.35);
-
-    if (staff()->accidInKeyArray[(39 - pos) % 7]) {
+    int noteNr = (93 - (int)staff()->upperLinePos() - pos - staff()->noteOffset()) % 7;
+    if (staff()->accidInKeyArray[noteNr]) {
       if ( m_accidental == 0 ) 
         m_mainAccid->setText(getAccid(3)); // TODO animation of neutral
-      else
-
-        if (staff()->accidInKeyArray[(39 - pos) % 7] == m_accidental)
+      else {
+        if (staff()->accidInKeyArray[noteNr] == m_accidental)
           m_mainAccid->setText(getAccid(0)); // TODO animation
         else
           m_mainAccid->setText(getAccid(m_accidental));
+      }
     } else
         m_mainAccid->setText(getAccid(m_accidental));
     

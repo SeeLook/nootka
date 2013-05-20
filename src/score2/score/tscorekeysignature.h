@@ -42,6 +42,9 @@ public:
     void setKeySignature(char keySign);
     char keySignature() { return m_keySignature; }
     void setClef(Tclef clef);
+        /** Returns y coefficient of given note (0 - 7, 0 is c, 1 is d...).
+         * It depends on Tclef value*/
+    char getPosOfAccid(int noteNr, bool flatKey = false);
   
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     virtual QRectF boundingRect() const;
@@ -67,6 +70,8 @@ private:
         * @li [1] c# and
         * @li etc....    */
     static char m_posOfAccid[7];
+    static char m_posOfAccidFlats[7];
+    Tclef  m_clef;
 
 };
 

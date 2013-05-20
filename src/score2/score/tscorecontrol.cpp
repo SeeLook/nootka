@@ -22,11 +22,11 @@
 #include <QVBoxLayout>
 #include <QGraphicsProxyWidget>
 
-TscoreControl::TscoreControl(TscoreScene* scene):
-  QWidget()
+TscoreControl::TscoreControl(QWidget* parent):
+  QWidget(parent)
 {
-    m_proxy = scene->addWidget(this);
-    m_proxy->setFlag(QGraphicsItem::ItemIgnoresTransformations);
+//     m_proxy = scene->addWidget(this);
+//     m_proxy->setFlag(QGraphicsItem::ItemIgnoresTransformations);
     
     m_dblSharpBut = new TpushButton("x");
     setButtons(m_dblSharpBut);
