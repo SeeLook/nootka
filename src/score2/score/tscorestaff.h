@@ -71,6 +71,8 @@ public:
     Ekind kindOfStaff() { return m_kindOfStaff; }
     int notePosRelatedToClef(int pos, TnoteOffset off) {
       return off.octave * 7 - (pos + 1 - (int)upperLinePos() - off.note);  }
+        /** Returns offset of a y coeff. of a note related to current cleff. */
+    int noteOffset() { return m_offset.note; }
     
 protected slots:
     void onClefChanged();

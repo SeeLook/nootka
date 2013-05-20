@@ -20,13 +20,14 @@
 #ifndef TSIMPLESCORE_H
 #define TSIMPLESCORE_H
 
-#include <QtGui/QGraphicsView>
+#include <QWidget>
 
+class QGraphicsView;
 class TscoreControl;
 class TscoreStaff;
 class TscoreScene;
 
-class TsimpleScore : public QGraphicsView
+class TsimpleScore : public QWidget
 {
   Q_OBJECT
   
@@ -49,6 +50,8 @@ private:
     TscoreScene     *m_scene;
     TscoreStaff     *m_staff;
     TscoreControl   *m_scoreControl;
+    QGraphicsView   *m_score;
+    
   
 };
 

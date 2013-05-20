@@ -22,25 +22,32 @@
 #include "tscorestaff.h"
 #include "tscorecontrol.h"
 #include <QDebug>
-#include <QGraphicsProxyWidget>
+#include <QGraphicsView>
+#include <QHBoxLayout>
 
 TsimpleScore::TsimpleScore(QWidget* parent) :
-  QGraphicsView(parent)
+  QWidget(parent)
 {
-  setGeometry(parent->geometry());
+//   setGeometry(parent->geometry());
+  QHBoxLayout *lay = new QHBoxLayout;
+  m_score = new QGraphicsView(this);
+  lay->addWidget(m_score);
   
-  setMouseTracking(true);
-  setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
   
-  m_scene = new TscoreScene(this);
+  m_score->setMouseTracking(true);
+  m_score->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
+  
+  m_scene = new TscoreScene(m_score);
   connect(m_scene, SIGNAL(statusTip(QString)), this, SLOT(statusTipChanged(QString)));
-  setScene(m_scene);
+  m_score->setScene(m_scene);
   
   
   m_staff = new TscoreStaff(m_scene, 3, TscoreStaff::e_normal);
   
-  m_scoreControl = new TscoreControl(m_scene);
-  m_scoreControl->proxy()->setPos(m_staff->boundingRect().width(), 0);
+  m_scoreControl = new TscoreControl(this);
+  lay->addWidget(m_scoreControl);
+  setLayout(lay);
+//   m_scoreControl->proxy()->setPos(m_staff->boundingRect().width(), 0);
   
   
 }
@@ -54,9 +61,9 @@ int TsimpleScore::heightForWidth(int w ) const {
 }
 
 void TsimpleScore::resizeEvent(QResizeEvent* event) {
-  qreal factor = ((qreal)height() / 40.0) / transform().m11();
+  qreal factor = ((qreal)height() / 40.0) / m_score->transform().m11();
 //   factor = factor / 3;
-  scale(factor, factor);
-  m_scoreControl->setFixedSize(50, m_staff->boundingRect().height() * factor);
+  m_score->scale(factor, factor);
+//   m_scoreControl->setFixedSize(50, m_staff->boundingRect().height() * factor);
 }
 

@@ -70,7 +70,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
       connect(m_notes[i], SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
   }
   m_width = m_clef->boundingRect().width() + m_keySignature->boundingRect().width() +
-      m_notes.size() * m_notes[0]->boundingRect().width() + 1;  
+      m_notes.size() * m_notes[0]->boundingRect().width() + 3;  
 // Staff lines
   for (int i = 0; i < 5; i++) {
     m_lines[i] = new QGraphicsLineItem();
@@ -106,10 +106,7 @@ void TscoreStaff::paint(QPainter* painter, const QStyleOptionGraphicsItem* optio
 //########################################## PROTECTED   ###################################################
 //##########################################################################################################
 
-void TscoreStaff::onClefChanged( ) {
-  if (m_keySignature)
-    m_keySignature->setClef(m_clef->clef());
-  
+void TscoreStaff::onClefChanged( ) {  
   int globalNr = notePosRelatedToClef(m_notes[0]->notePos(), m_offset);
   switch(m_clef->clef().type()) {
     case Tclef::e_treble_G:
@@ -125,6 +122,8 @@ void TscoreStaff::onClefChanged( ) {
     case Tclef::e_tenor_C:
       m_offset = TnoteOffset(2, 1); break;
   }
+  if (m_keySignature)
+      m_keySignature->setClef(m_clef->clef());
   int newNr = notePosRelatedToClef(m_notes[0]->notePos(), m_offset);
   for (int i = 0; i < m_notes.size(); i++) {
     m_notes[i]->moveNote(m_notes[i]->notePos() - (globalNr - newNr));
