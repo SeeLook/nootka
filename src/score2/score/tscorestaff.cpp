@@ -46,17 +46,19 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
     if (m_kindOfStaff == e_upper)
       m_upperLinePos = 10;
     else if (m_kindOfStaff == e_lower)
-      m_upperLinePos = 2;
+      m_upperLinePos = 4;
   }
   setAcceptHoverEvents(true);
 // Clef
   Tclef cl = Tclef();
-  if (kindOfStaff == e_lower)
+  if (kindOfStaff == e_lower) {
     cl = Tclef(Tclef::e_bass_F);
+    m_offset = TnoteOffset(5, 0);
+  }
   m_clef = new TscoreClef(scene, this, cl);
   connect(m_clef, SIGNAL(clefChanged()), this, SLOT(onClefChanged()));
-  if (kindOfStaff != e_normal)
-    m_clef->setReadOnly(true);
+//   if (kindOfStaff != e_normal)
+//     m_clef->setReadOnly(true);
 // Key signature
   m_keySignature = new TscoreKeySignature(scene, this);
   m_keySignature->setPos(m_clef->boundingRect().width() + 0.5, 0);

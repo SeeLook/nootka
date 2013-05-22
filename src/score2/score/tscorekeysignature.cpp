@@ -66,30 +66,27 @@ void TscoreKeySignature::setKeySignature(char keySign) {
         int base = 0;
         char sign = 1;
         bool isFlat = false;
+        int startVal = 48;
         if (keySign < 0) {
             base = 8;
             sign = -1;
             isFlat = true;
+            startVal = 38;
         }
         if (i <= qAbs(keySign)) {// show accid
             m_accidentals[i - 1]->setText(TscoreNote::getAccid(sign));
-//             m_accidentals[i - 1]->setPos( (i - 1) * 1.1, m_posOfAccid[qAbs(base - i)-1] - 4.35 + 15);
             m_accidentals[i - 1]->setPos( (i - 1) * 1.1, getPosOfAccid(i - 1, isFlat) - 5.35);
-            qDebug() << 
-            (93 - (int)staff()->upperLinePos() - staff()->noteOffset() + m_posOfAccid[qAbs(base - i)]) % 7;
-            staff()->
-            accidInKeyArray[(90 - (int)staff()->upperLinePos() - staff()->noteOffset() + m_posOfAccid[qAbs(base - i)]) % 7]
-              = sign;
+            staff()->accidInKeyArray[(startVal + sign * (i * 4)) % 7] = sign;
             m_accidentals[i-1]->show();
         }
         else { // hide
-            m_accidentals[i-1]->hide();
-            staff()->accidInKeyArray[(24 - m_posOfAccid[qAbs(base - i) - 1]) % 7] = 0;
+            m_accidentals[i - 1]->hide();
+            staff()->accidInKeyArray[(startVal + sign * (i * 4)) % 7] = 0;
         }
     }
-      qDebug() << (int)staff()->accidInKeyArray[0] << (int)staff()->accidInKeyArray[1] << 
-      (int)staff()->accidInKeyArray[2] << (int)staff()->accidInKeyArray[3] << 
-      (int)staff()->accidInKeyArray[4] << (int)staff()->accidInKeyArray[5] << (int)staff()->accidInKeyArray[6];
+//       qDebug() << (int)staff()->accidInKeyArray[0] << (int)staff()->accidInKeyArray[1] << 
+//       (int)staff()->accidInKeyArray[2] << (int)staff()->accidInKeyArray[3] << 
+//       (int)staff()->accidInKeyArray[4] << (int)staff()->accidInKeyArray[5] << (int)staff()->accidInKeyArray[6];
     m_keySignature = keySign;
 //     showKeyName();
     emit keySignatureChanged();
@@ -100,10 +97,11 @@ char TscoreKeySignature::getPosOfAccid(int noteNr, bool flatKey) {
   char yPos;
   if (flatKey)
     yPos = m_posOfAccidFlats[noteNr] + staff()->upperLinePos() + (staff()->noteOffset() - 3);
-  else
+  else {
     yPos = m_posOfAccid[noteNr] + staff()->upperLinePos() + (staff()->noteOffset() - 3);
-  if (!flatKey && m_clef.type() == Tclef::e_tenor_C && (noteNr == 0 || noteNr == 2))
-    yPos += 7;
+    if (m_clef.type() == Tclef::e_tenor_C && (noteNr == 0 || noteNr == 2))
+        yPos += 7;
+  }
   return yPos;
 }
 
