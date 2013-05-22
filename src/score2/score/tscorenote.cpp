@@ -153,7 +153,7 @@ void TscoreNote::moveNote(int pos) {
     m_mainPosY = pos;
     m_mainNote->setPos(3.0, pos);
     m_mainAccid->setPos(0.0, pos - 4.35);
-    int noteNr = (93 - (int)staff()->upperLinePos() - pos - staff()->noteOffset()) % 7;
+    int noteNr = (56 + staff()->notePosRelatedToClef(pos)) % 7;
     if (staff()->accidInKeyArray[noteNr]) {
       if ( m_accidental == 0 ) 
         m_mainAccid->setText(getAccid(3)); // TODO animation of neutral
