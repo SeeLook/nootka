@@ -45,8 +45,72 @@ TscoreControl::TscoreControl(QWidget* parent):
     butLay->addWidget(m_dblFlatBut);
     butLay->addStretch(1);
     setLayout(butLay);
+		
+		connect(m_dblFlatBut, SIGNAL(clicked()), this, SLOT(onAcidButtonPressed()));
+		connect(m_flatBut, SIGNAL(clicked()), this, SLOT(onAcidButtonPressed()));
+		connect(m_sharpBut, SIGNAL(clicked()), this, SLOT(onAcidButtonPressed()));
+		connect(m_dblSharpBut, SIGNAL(clicked()), this, SLOT(onAcidButtonPressed()));
     
 }
+
+
+void TscoreControl::setAccidental(int accNr) {
+		m_dblSharpBut->setChecked(false);
+    m_sharpBut->setChecked(false);
+    m_flatBut->setChecked(false);
+    m_dblFlatBut->setChecked(false);
+    switch (accNr) {
+				case -2:
+					m_dblFlatBut->setChecked(true); break;
+				case -1: 
+					m_flatBut->setChecked(true); break;
+				case 1: 
+					m_sharpBut->setChecked(true); break;
+				case 2: 
+					m_dblSharpBut->setChecked(true); break;
+		}
+}
+
+
+
+//##########################################################################################################
+//########################################## PROTECTED   ###################################################
+//##########################################################################################################
+
+void TscoreControl::onAcidButtonPressed() {
+		if (sender() != m_sharpBut)
+			m_sharpBut->setChecked(false);
+		if (sender() != m_dblSharpBut)
+			m_dblSharpBut->setChecked(false);
+		if (sender() != m_dblFlatBut)
+			m_dblFlatBut->setChecked(false);
+		if (sender() != m_flatBut)
+			m_flatBut->setChecked(false);
+		int ac;
+		TpushButton *button = static_cast<TpushButton *>(sender());
+		button->setChecked(!button->isChecked());
+			if (sender() == m_flatBut) {
+					if (m_flatBut->isChecked()) 
+						ac = -1;
+					else 
+						ac = 0;
+			} else if (sender() == m_sharpBut) {
+								if (m_sharpBut->isChecked()) 
+									ac = 1;
+								else
+									ac = 0;
+				} else if (sender() == m_dblFlatBut)   {
+									if (m_dblFlatBut->isChecked()) 
+										ac = -2;
+									else 
+										ac = 0;
+							} else if (m_dblSharpBut->isChecked()) 
+										ac = 2;
+									else 
+										ac = 0;
+		emit accidButtonPressed(ac);
+}
+
 
 
 void TscoreControl::setButtons(TpushButton* button) {

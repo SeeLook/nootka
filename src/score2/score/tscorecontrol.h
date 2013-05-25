@@ -38,8 +38,18 @@ public:
     
 //     QGraphicsProxyWidget* proxy() { return m_proxy;}
 
+public slots:
+			/** Checks or unchecks apropirate button. */
+    void setAccidental(int accNr);
+		
+signals:
+		void accidButtonPressed(int accid);
+		
 protected:
     void setButtons(TpushButton *button);
+		
+protected slots:
+		void onAcidButtonPressed();
     
 
 private:
