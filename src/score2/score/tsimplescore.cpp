@@ -21,6 +21,7 @@
 #include "tscorescene.h"
 #include "tscorestaff.h"
 #include "tscorecontrol.h"
+#include "tscorenote.h"
 #include <QDebug>
 #include <QGraphicsView>
 #include <QHBoxLayout>
@@ -41,12 +42,14 @@ TsimpleScore::TsimpleScore(QWidget* parent) :
   connect(m_scene, SIGNAL(statusTip(QString)), this, SLOT(statusTipChanged(QString)));
   m_score->setScene(m_scene);
   
-  
   m_staff = new TscoreStaff(m_scene, 3, TscoreStaff::e_normal);
+	m_staff->noteSegment(2)->setReadOnly(true);
   
   m_scoreControl = new TscoreControl(this);
   lay->addWidget(m_scoreControl);
   setLayout(lay);
+
+	m_staff->setScoreControler(m_scoreControl);
 //   m_scoreControl->proxy()->setPos(m_staff->boundingRect().width(), 0);
   
   

@@ -21,6 +21,7 @@
 
 #include "tscoreitem.h"
 
+class TscoreControl;
 
 class TscoreScene;
 
@@ -55,12 +56,18 @@ public:
         /** Returns QString with accidental symbol*/
     static QString getAccid(int accNr);
     static QFont getAccidFont();
+		
+		void setReadOnly(bool ro);
+		bool isReadOnly() { return m_readOnly; }
+		
+		void setWorkAccid(int accNr);
     
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     virtual QRectF boundingRect() const;
     
 signals:
     void noteWasClicked(int);
+		void accidWasChanged(int);
 
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
@@ -82,12 +89,14 @@ private:
                   /** Represents range (ambitus) of notes on score */
     int                           m_ambitMin, m_ambitMax;
     qreal                         m_height;
+		bool													m_readOnly;
     
 private:
         /** Prepares noteHead (elipse) */
     QGraphicsEllipseItem* createNoteHead();
     QGraphicsLineItem*    createNoteLine(int yPos);
     void hideLines(QList<QGraphicsLineItem*> &linesList);
+		
     
 };
 

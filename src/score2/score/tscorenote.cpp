@@ -51,7 +51,8 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   TscoreItem(scene),
   m_workPosY(0.0), m_mainPosY(0.0),
   m_curentAccid(0), m_accidental(0),
-  m_index(index)
+  m_index(index),
+  m_readOnly(false)
 {
   setStaff(staff);
   m_height = staff->height();
@@ -132,6 +133,7 @@ void TscoreNote::setColor(QColor color) {
 //         m_strNr->setBrush(QBrush(m_mainColor));
 }
 
+
 void TscoreNote::setPointedColor(QColor color) {
     m_workColor = color;
     m_workNote->setPen(QPen(m_workColor));
@@ -141,6 +143,11 @@ void TscoreNote::setPointedColor(QColor color) {
         m_upLines[i]->setPen(QPen(color, 0.2));
     for (int i = 0; i < m_downLines.size(); i++)
       m_downLines[i]->setPen(QPen(color, 0.2));
+}
+
+
+void TscoreNote::setWorkAccid(int accNr) {
+		m_workAccid->setText(getAccid(accNr));
 }
 
 
@@ -218,6 +225,12 @@ void TscoreNote::markNote(QColor blurColor) {
       m_mainNote->setGraphicsEffect(new TdropShadowEffect(blurColor));
     }
 }
+
+void TscoreNote::setReadOnly(bool ro) {
+		setAcceptHoverEvents(!ro);
+		m_readOnly = ro;
+}
+
 
 
 QRectF TscoreNote::boundingRect() const{
@@ -304,9 +317,9 @@ void TscoreNote::wheelEvent(QGraphicsSceneWheelEvent* event) {
           m_curentAccid = scoreScene()->doubleAccidsFuse();
     }
     if (prevAcc != m_curentAccid) {
-        m_workAccid->setText(getAccid(m_curentAccid));
+				setWorkAccid(m_curentAccid);
         scoreScene()->setCurrentAccid(m_curentAccid);
-//         emit accidWasChanged(m_curentAccid);
+        emit accidWasChanged(m_curentAccid);
     }
 }
 

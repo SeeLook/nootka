@@ -21,6 +21,7 @@
 #include "tscoreclef.h"
 #include "tscorenote.h"
 #include "tscorekeysignature.h"
+#include "tscorecontrol.h"
 #include <QGraphicsView>
 
 #include <QDebug>
@@ -35,6 +36,7 @@ TnoteOffset::TnoteOffset(int noteOff, int octaveOff) :
 
 TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kindOfStaff) :
   TscoreItem(scene),
+  m_scoreControl(0),
   m_kindOfStaff(kindOfStaff),
   m_offset(TnoteOffset(3, 2))
 {
@@ -70,7 +72,10 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
       m_notes[i]->setPos(m_clef->boundingRect().width() + m_keySignature->boundingRect().width() + 0.5 + 
           i * m_notes[i]->boundingRect().width(), 0);
       connect(m_notes[i], SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
+			connect(m_notes[i], SIGNAL(accidWasChanged(int)), this, SLOT(noteChangedAccid(int)));
   }
+  
+  
   m_width = m_clef->boundingRect().width() + m_keySignature->boundingRect().width() +
       m_notes.size() * m_notes[0]->boundingRect().width() + 3;  
 // Staff lines
@@ -90,6 +95,13 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
 
 
 TscoreStaff::~TscoreStaff() {}
+
+
+void TscoreStaff::setScoreControler(TscoreControl* scoreControl) {
+	m_scoreControl = scoreControl;
+	connect(scoreControl, SIGNAL(accidButtonPressed(int)), this, SLOT(onAccidButtonPressed(int)));
+}
+
 
 
 QRectF TscoreStaff::boundingRect() const {
@@ -148,5 +160,21 @@ void TscoreStaff::onNoteClicked(int noteIndex) {
   << "NOTE:" << (56 + globalNr) % 7 + 1 
   << "OCTAVE:" << (56 + globalNr) / 7 - 8;
 }
+
+
+void TscoreStaff::noteChangedAccid(int accid) {
+	if (m_scoreControl) {
+			m_scoreControl->setAccidental(accid);
+	}
+}
+
+
+void TscoreStaff::onAccidButtonPressed(int accid) {
+	for (int i = 0; i < m_notes.size(); i++) {
+    if (!m_notes[i]->isReadOnly())
+			m_notes[i]->setWorkAccid(accid);
+	}
+}
+
 
 

@@ -23,6 +23,7 @@
 #include "tscoreitem.h"
 #include <tclef.h>
 
+class TscoreControl;
 class TscoreKeySignature;
 class TscoreNote;
 class TscoreClef;
@@ -55,9 +56,7 @@ public:
     TscoreStaff(TscoreScene *scene, int notesNr, Ekind kindOfStaff = e_normal);
     virtual ~TscoreStaff();
     
-    
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
-    virtual QRectF boundingRect() const;
+   
         /** This array keeps values (-1, 0 or 1) for accidentals in key sign.
          * It is common for TscoreKeySignature and all TscoreNote. 
          * TscoreKeySignature::setAccidInKeyPointer and TscoreNote::setAccidInKeyPointer
@@ -76,10 +75,20 @@ public:
         /** Returns offset of a y coeff. of a note related to current cleff. */
     int noteOffset() { return m_offset.note; }
     
+    void setScoreControler(TscoreControl *scoreControl);
+				/** Returns pointer to TscoreNote element in the score. */
+		TscoreNote* noteSegment(int nr) { return m_notes[nr]; }
+		
+		
+		virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+    virtual QRectF boundingRect() const;
+    
 protected slots:
     void onClefChanged();
     void onKeyChanged();
     void onNoteClicked(int noteIndex);
+		void noteChangedAccid(int accid);
+		void onAccidButtonPressed(int accid);
     
 private:    
     QGraphicsLineItem       *m_lines[5];
@@ -90,6 +99,7 @@ private:
     qreal                   m_height, m_width;
     Ekind                   m_kindOfStaff;
     TnoteOffset             m_offset;
+		TscoreControl						*m_scoreControl;
 };
 
 #endif // TSCORESTAFF_H
