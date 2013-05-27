@@ -42,6 +42,7 @@ TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, TscoreStaff* staff, c
   m_clef(Tclef())
 {
   setStaff(staff);
+	setParentItem(staff);
   m_height = staff->height();
 
   QFont font(TscoreNote::getAccidFont());

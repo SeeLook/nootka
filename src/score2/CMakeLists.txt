@@ -7,8 +7,13 @@ find_package(Qt4 REQUIRED)
 INCLUDE( ${QT_USE_FILE} )
 add_definitions(${QT_DEFINITIONS})
 
-
 include_directories(${QT_INCLUDES})
+
+if (CMAKE_BUILD_TYPE MATCHES 'release')
+# set (CMAKE_CXX_FLAGS_RELEASE "-DQT_NO_DEBUG")
+  add_definitions(-DQT_NO_DEBUG)
+endif (CMAKE_BUILD_TYPE MATCHES 'release')
+
 
 INCLUDE_DIRECTORIES (. score)
 
@@ -20,6 +25,7 @@ SET( SCORE_SRCS
   
   score/tpushbutton.cpp
   score/tsimplescore.cpp
+  score/tmainscore.cpp
   score/tscorescene.cpp
   score/tscoreitem.cpp
   score/tscorestaff.cpp
@@ -34,6 +40,7 @@ SET( SCORE_MOC_SRCS
   
   score/tpushbutton.h
   score/tsimplescore.h
+  score/tmainscore.h
   score/tscorescene.h
   score/tscoreitem.h
   score/tscorestaff.h

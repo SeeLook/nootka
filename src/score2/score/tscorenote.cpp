@@ -55,6 +55,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_readOnly(false)
 {
   setStaff(staff);
+	setParentItem(staff);
   m_height = staff->height();
   m_workColor = scene->views()[0]->palette().highlight().color();
   m_workColor.setAlpha(200);
@@ -147,6 +148,7 @@ void TscoreNote::setPointedColor(QColor color) {
 
 
 void TscoreNote::setWorkAccid(int accNr) {
+		m_curentAccid = accNr;
 		m_workAccid->setText(getAccid(accNr));
 }
 
@@ -239,8 +241,8 @@ QRectF TscoreNote::boundingRect() const{
 
 
 void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-  painter->setBrush(QColor(m_index, m_index, m_index, 50));
-  painter->setPen(Qt::NoPen);
+//   painter->setBrush(QColor(m_index, m_index, m_index, 50));
+//   painter->setPen(Qt::NoPen);
   painter->drawRect(boundingRect());
 }
 

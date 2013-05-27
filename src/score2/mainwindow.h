@@ -24,6 +24,7 @@
 
 #include <QMainWindow>
 
+class TmainScore;
 class QStatusBar;
 class TsimpleScore;
 
@@ -39,7 +40,8 @@ protected slots:
    void updateStatusTip(QString status);
 
 private:
-    TsimpleScore *m_score;
+    TsimpleScore *m_simpleScore;
+		TmainScore *m_mainScore;
     QStatusBar *m_bar;
 
 };

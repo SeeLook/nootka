@@ -57,6 +57,7 @@ TscoreClef::TscoreClef(TscoreScene* scene, TscoreStaff* staff, Tclef clef) :
   m_readOnly(false)
 {
   setStaff(staff);
+	setParentItem(staff);
   if (m_typesList.size() == 0) // initialize types list
     m_typesList << Tclef::e_treble_G << Tclef::e_bass_F << Tclef::e_bass_F_8down << Tclef::e_alto_C << Tclef::e_tenor_C
     << Tclef::e_treble_G_8down;

@@ -21,20 +21,35 @@
 
 #include "mainwindow.h"
 #include "score/tsimplescore.h"
+#include <tmainscore.h>
+#include <tpushbutton.h>
 #include <qstatusbar.h>
+#include <QHBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent)
 {
-  m_score = new TsimpleScore(this);
-  setCentralWidget(m_score);
-  
+	QWidget *w = new QWidget(this);
+	QVBoxLayout *lay = new QVBoxLayout;
+	
+// 	m_mainScore = new TmainScore(w);
+// 	lay->addWidget(m_mainScore);
+  m_simpleScore = new TsimpleScore(w);
+  lay->addWidget(m_simpleScore);
+	m_simpleScore->setPianoStaff(true);
+	w->setLayout(lay);
+	
+  TpushButton::setCheckColor(palette().highlight().color(), palette().highlightedText().color());
+	
+	setCentralWidget(w);
+	
   m_bar = statusBar();
   setStatusBar(m_bar);
   
   m_bar->showMessage("ready");
   
-  connect(m_score, SIGNAL(statusTip(QString)), this, SLOT(updateStatusTip(QString)));
+// 	connect(m_mainScore, SIGNAL(statusTip(QString)), this, SLOT(updateStatusTip(QString)));
+  connect(m_simpleScore, SIGNAL(statusTip(QString)), this, SLOT(updateStatusTip(QString)));
   
   resize(600, 480);
 }
