@@ -27,7 +27,8 @@
 #include <QHBoxLayout>
 
 TsimpleScore::TsimpleScore(QWidget* parent) :
-  QWidget(parent)
+  QWidget(parent),
+  m_isPianoStaff(false)
 {
 //   setGeometry(parent->geometry());
   QHBoxLayout *lay = new QHBoxLayout;
@@ -50,13 +51,34 @@ TsimpleScore::TsimpleScore(QWidget* parent) :
   setLayout(lay);
 
 	m_staff->setScoreControler(m_scoreControl);
-//   m_scoreControl->proxy()->setPos(m_staff->boundingRect().width(), 0);
   
   
 }
 
 TsimpleScore::~TsimpleScore()
 {}
+
+
+void TsimpleScore::setPianoStaff(bool isPiano) {
+	if (isPiano != m_isPianoStaff) {
+		if (isPiano) { // There was a singe staff and we add one staff more
+				delete m_staff;
+				m_staff = new TscoreStaff(m_scene, 3, TscoreStaff::e_upper);
+				m_staff->setScoreControler(m_scoreControl);
+				m_staff->setPos(0, 0);
+				
+				m_lowerStaff = new TscoreStaff(m_scene, 3, TscoreStaff::e_lower);
+				m_lowerStaff->setPos(0, m_staff->boundingRect().height());
+				m_lowerStaff->setScoreControler(m_scoreControl);
+		}
+	}
+}
+
+
+
+//##########################################################################################################
+//########################################## PROTECTED   ###################################################
+//##########################################################################################################
 
 
 int TsimpleScore::heightForWidth(int w ) const {

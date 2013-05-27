@@ -27,6 +27,8 @@ class TscoreControl;
 class TscoreStaff;
 class TscoreScene;
 
+
+/** This class implements score.  */
 class TsimpleScore : public QWidget
 {
   Q_OBJECT
@@ -36,8 +38,16 @@ public:
     ~TsimpleScore();
 
     
+		void setPianoStaff(bool isPiano);
+		bool isPianoStaff() { return m_isPianoStaff; }
+		
 signals:
     void statusTip(QString);
+		
+protected:
+		QGraphicsView* score() { return m_score; }
+		TscoreScene* scene() { return m_scene; }
+		TscoreStaff* staff() { return m_staff; }
     
 protected:
     virtual int heightForWidth(int w) const;
@@ -48,9 +58,11 @@ protected slots:
   
 private:
     TscoreScene     *m_scene;
-    TscoreStaff     *m_staff;
+    TscoreStaff     *m_staff, *m_lowerStaff;
     TscoreControl   *m_scoreControl;
     QGraphicsView   *m_score;
+		
+		bool						m_isPianoStaff;
     
   
 };

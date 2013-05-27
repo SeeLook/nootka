@@ -46,7 +46,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
   } else {
     m_height = 20; 
     if (m_kindOfStaff == e_upper)
-      m_upperLinePos = 10;
+      m_upperLinePos = 8;
     else if (m_kindOfStaff == e_lower)
       m_upperLinePos = 4;
   }
@@ -58,9 +58,10 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
     m_offset = TnoteOffset(5, 0);
   }
   m_clef = new TscoreClef(scene, this, cl);
+	
   connect(m_clef, SIGNAL(clefChanged()), this, SLOT(onClefChanged()));
-//   if (kindOfStaff != e_normal)
-//     m_clef->setReadOnly(true);
+  if (kindOfStaff != e_normal)
+    m_clef->setReadOnly(true);
 // Key signature
   m_keySignature = new TscoreKeySignature(scene, this);
   m_keySignature->setPos(m_clef->boundingRect().width() + 0.5, 0);
@@ -98,8 +99,10 @@ TscoreStaff::~TscoreStaff() {}
 
 
 void TscoreStaff::setScoreControler(TscoreControl* scoreControl) {
-	m_scoreControl = scoreControl;
-	connect(scoreControl, SIGNAL(accidButtonPressed(int)), this, SLOT(onAccidButtonPressed(int)));
+	if (scoreControl) {
+		m_scoreControl = scoreControl;
+		connect(scoreControl, SIGNAL(accidButtonPressed(int)), this, SLOT(onAccidButtonPressed(int)));
+	}
 }
 
 
@@ -170,6 +173,7 @@ void TscoreStaff::noteChangedAccid(int accid) {
 
 
 void TscoreStaff::onAccidButtonPressed(int accid) {
+	scoreScene()->setCurrentAccid(accid);
 	for (int i = 0; i < m_notes.size(); i++) {
     if (!m_notes[i]->isReadOnly())
 			m_notes[i]->setWorkAccid(accid);

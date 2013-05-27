@@ -16,44 +16,15 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TSCORECONTROL_H
-#define TSCORECONTROL_H
+#include "tmainscore.h"
 
-#include <QWidget>
-
-class QGraphicsProxyWidget;
-class TscoreScene;
-class TpushButton;
-
-/** This class is to control a score. 
-* It contains buttons with accidentals symbols
-* and octavation changing buttons. */
-class TscoreControl : public QWidget
+TmainScore::TmainScore(QWidget* parent) :
+	TsimpleScore(parent)
 {
-    Q_OBJECT
+}
 
-public:
-  
-    TscoreControl(QWidget *parent = 0);
-    
+TmainScore::~TmainScore()
+{
+}
 
-public slots:
-			/** Checks or unchecks apropirate button. */
-    void setAccidental(int accNr);
-		
-signals:
-		void accidButtonPressed(int accid);
-		
-protected:
-    void setButtons(TpushButton *button);
-		
-protected slots:
-		void onAcidButtonPressed();
-    
 
-private:
-    TpushButton *m_sharpBut, *m_flatBut, *m_dblSharpBut, *m_dblFlatBut;
-
-};
-
-#endif // TSCORECONTROL_H
