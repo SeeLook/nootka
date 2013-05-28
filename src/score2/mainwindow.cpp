@@ -23,6 +23,7 @@
 #include "score/tsimplescore.h"
 #include <tmainscore.h>
 #include <tpushbutton.h>
+#include <tkeysignature.h>
 #include <qstatusbar.h>
 #include <QHBoxLayout>
 #include <qcheckbox.h>
@@ -32,6 +33,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 	QWidget *w = new QWidget(this);
 	QVBoxLayout *lay = new QVBoxLayout;
+	
+	TkeySignature::setNameStyle(Tnote::e_deutsch_His, "dur", "moll");
 	
 // 	m_mainScore = new TmainScore(w);
 // 	lay->addWidget(m_mainScore);

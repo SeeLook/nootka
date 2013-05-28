@@ -94,10 +94,12 @@ void TsimpleScore::setPianoStaff(bool isPiano) {
 void TsimpleScore::setEnableKeySign(bool isEnabled) {
 	if (isEnabled != (bool)m_staff->scoreKey()) {
 		m_staff->setEnableKeySign(isEnabled);
+		m_staff->scoreKey()->showKeyName(true);
 		if (isEnabled)
 				connect(m_staff->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedInPianoStaff()));
 		if (m_lowerStaff) {
 			m_lowerStaff->setEnableKeySign(isEnabled);
+			m_lowerStaff->scoreKey()->showKeyName(false);
 			if (isEnabled)
 					connect(m_lowerStaff->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedInPianoStaff()));
 		}
