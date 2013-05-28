@@ -56,6 +56,10 @@ public:
     TscoreStaff(TscoreScene *scene, int notesNr, Ekind kindOfStaff = e_normal);
     virtual ~TscoreStaff();
     
+				/** Returns pointer to TscoreNote element in the score. */
+		TscoreNote* noteSegment(int nr) { return m_notes[nr]; }
+		TscoreKeySignature* scoreKey() { return m_keySignature; }
+		void setEnableKeySign(bool isEnabled);
    
         /** This array keeps values (-1, 0 or 1) for accidentals in key sign.
          * It is common for TscoreKeySignature and all TscoreNote. 
@@ -76,8 +80,6 @@ public:
     int noteOffset() { return m_offset.note; }
     
     void setScoreControler(TscoreControl *scoreControl);
-				/** Returns pointer to TscoreNote element in the score. */
-		TscoreNote* noteSegment(int nr) { return m_notes[nr]; }
 		
 		
 		virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
@@ -90,6 +92,10 @@ protected slots:
 		void noteChangedAccid(int accid);
 		void onAccidButtonPressed(int accid);
     
+private:
+				/** Calculates current width of a staff depends on is key sign. enabled. */
+		void updateWidth();
+		
 private:    
     QGraphicsLineItem       *m_lines[5];
     TscoreClef              *m_clef;

@@ -24,6 +24,7 @@
 
 #include <QMainWindow>
 
+class QCheckBox;
 class TmainScore;
 class QStatusBar;
 class TsimpleScore;
@@ -38,11 +39,14 @@ public:
     
 protected slots:
    void updateStatusTip(QString status);
+	 void keySignBoxChanged(bool enable);
+	 void pianoBoxChanged(bool enable);
 
 private:
     TsimpleScore *m_simpleScore;
 		TmainScore *m_mainScore;
     QStatusBar *m_bar;
+		QCheckBox *m_keyBox, *m_pianBox;
 
 };
 

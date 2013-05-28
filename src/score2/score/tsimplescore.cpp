@@ -22,13 +22,14 @@
 #include "tscorestaff.h"
 #include "tscorecontrol.h"
 #include "tscorenote.h"
+#include "tscorekeysignature.h"
 #include <QDebug>
 #include <QGraphicsView>
 #include <QHBoxLayout>
 
 TsimpleScore::TsimpleScore(QWidget* parent) :
   QWidget(parent),
-  m_isPianoStaff(false)
+  m_lowerStaff(0)
 {
 //   setGeometry(parent->geometry());
   QHBoxLayout *lay = new QHBoxLayout;
@@ -60,16 +61,45 @@ TsimpleScore::~TsimpleScore()
 
 
 void TsimpleScore::setPianoStaff(bool isPiano) {
-	if (isPiano != m_isPianoStaff) {
+	if (isPiano != isPianoStaff()) {
+		bool keyEnabled = (bool)m_staff->scoreKey();
 		if (isPiano) { // There was a singe staff and we add one staff more
 				delete m_staff;
 				m_staff = new TscoreStaff(m_scene, 3, TscoreStaff::e_upper);
 				m_staff->setScoreControler(m_scoreControl);
-				m_staff->setPos(0, 0);
-				
+// 				m_staff->setPos(0, 0);
 				m_lowerStaff = new TscoreStaff(m_scene, 3, TscoreStaff::e_lower);
 				m_lowerStaff->setPos(0, m_staff->boundingRect().height());
 				m_lowerStaff->setScoreControler(m_scoreControl);
+				if (keyEnabled) {
+						m_lowerStaff->setEnableKeySign(true);
+						connect(m_lowerStaff->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedInPianoStaff()));
+				}
+		} else {
+				delete m_lowerStaff;
+				m_lowerStaff = 0;
+				delete m_staff;
+				m_staff = new TscoreStaff(m_scene, 3, TscoreStaff::e_normal);
+				m_staff->setScoreControler(m_scoreControl);
+// 				m_staff->setPos(0, 0);
+		}
+		if (keyEnabled) {
+				m_staff->setEnableKeySign(true);
+				connect(m_staff->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedInPianoStaff()));
+		}
+	}
+}
+
+
+void TsimpleScore::setEnableKeySign(bool isEnabled) {
+	if (isEnabled != (bool)m_staff->scoreKey()) {
+		m_staff->setEnableKeySign(isEnabled);
+		if (isEnabled)
+				connect(m_staff->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedInPianoStaff()));
+		if (m_lowerStaff) {
+			m_lowerStaff->setEnableKeySign(isEnabled);
+			if (isEnabled)
+					connect(m_lowerStaff->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedInPianoStaff()));
 		}
 	}
 }
@@ -85,10 +115,25 @@ int TsimpleScore::heightForWidth(int w ) const {
   return w * 8;
 }
 
+
 void TsimpleScore::resizeEvent(QResizeEvent* event) {
   qreal factor = ((qreal)height() / 40.0) / m_score->transform().m11();
 //   factor = factor / 3;
   m_score->scale(factor, factor);
-//   m_scoreControl->setFixedSize(50, m_staff->boundingRect().height() * factor);
 }
+
+
+void TsimpleScore::keyChangedInPianoStaff() {
+	if (sender() == m_staff->scoreKey()) {
+		disconnect(m_lowerStaff->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedInPianoStaff()));
+		m_lowerStaff->scoreKey()->setKeySignature(m_staff->scoreKey()->keySignature());
+		connect(m_lowerStaff->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedInPianoStaff()));
+	}	else if (sender() == m_lowerStaff->scoreKey()) {
+				disconnect(m_staff->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedInPianoStaff()));
+				m_staff->scoreKey()->setKeySignature(m_lowerStaff->scoreKey()->keySignature());
+				connect(m_staff->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedInPianoStaff()));
+	}
+}
+
+
 

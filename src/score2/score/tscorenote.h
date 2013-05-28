@@ -22,7 +22,6 @@
 #include "tscoreitem.h"
 
 class TscoreControl;
-
 class TscoreScene;
 
 
