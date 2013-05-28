@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "tscorekeysignature.h"
+#include "tkeysignature.h"
 #include "tscorescene.h"
 #include "tscorenote.h"
 #include "tscorestaff.h"
@@ -39,7 +40,8 @@ char TscoreKeySignature::m_posOfAccidFlats[7] = { 4, 1, 5, 2, 6, 3, 7 };
 TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, TscoreStaff* staff, char keySign) :
   TscoreItem(scene),
   m_keySignature(keySign),
-  m_clef(Tclef())
+  m_clef(Tclef()),
+  m_keyNameText(0)
 {
   setStaff(staff);
 	setParentItem(staff);
@@ -53,10 +55,7 @@ TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, TscoreStaff* staff, c
         m_accidentals[i]->setFont(font);
         m_accidentals[i]->hide();
 	}
-  m_keyNameText = new QGraphicsSimpleTextItem();
-	registryItem(m_keyNameText);
-	m_keyNameText->setBrush(QBrush(scene->views()[0]->palette().windowText().color()));
-    
+  
     
     setStatusTip(tr("Key signature - to change it, click above or below the staff or use mouse wheel."));
 }
@@ -93,7 +92,7 @@ void TscoreKeySignature::setKeySignature(char keySign) {
 //       (int)staff()->accidInKeyArray[2] << (int)staff()->accidInKeyArray[3] << 
 //       (int)staff()->accidInKeyArray[4] << (int)staff()->accidInKeyArray[5] << (int)staff()->accidInKeyArray[6];
     m_keySignature = keySign;
-//     showKeyName();
+		updateKeyName();
     emit keySignatureChanged();
 }
 
@@ -115,6 +114,22 @@ void TscoreKeySignature::setClef(Tclef clef) {
   m_clef = clef;
   setKeySignature(keySignature());
 }
+
+
+void TscoreKeySignature::showKeyName(bool showIt) {
+	if (showIt) {
+			m_keyNameText = new QGraphicsSimpleTextItem();
+			registryItem(m_keyNameText);
+			m_keyNameText->setBrush(QBrush(scoreScene()->views()[0]->palette().windowText().color()));
+			m_keyNameText->setPos(0, staff()->upperLinePos() - 6);
+			m_keyNameText->setZValue(7);
+			m_keyNameText->show();
+	}	else {
+			delete m_keyNameText;
+			m_keyNameText = 0;
+	}
+}
+
 
 QRectF TscoreKeySignature::boundingRect() const{
   return QRectF(0, 0, 9, m_height);
@@ -159,6 +174,20 @@ void TscoreKeySignature::increaseKey(int step) {
   }
   if (m_keySignature != prevKey)
     setKeySignature(m_keySignature);
+}
+
+
+void TscoreKeySignature::updateKeyName() {
+	if (m_keyNameText) {
+			m_keyNameText->setText(TkeySignature::getMajorName(m_keySignature) + "\n" +
+															TkeySignature::getMinorName(m_keySignature));
+			if (m_keyNameText->boundingRect().width() > boundingRect().width()) {
+					qreal factor = boundingRect().width() / m_keyNameText->boundingRect().width();
+					QFont f = m_keyNameText->font();
+					f.setPointSize(f.pointSize() * factor);
+					m_keyNameText->setFont(f);
+			}
+	}
 }
 
 

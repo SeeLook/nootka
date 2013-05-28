@@ -22,6 +22,7 @@ SET( SCORE_SRCS
   mainwindow.cpp
   tclef.cpp
   tdropshadoweffect.cpp
+  tnote.cpp
   
   score/tpushbutton.cpp
   score/tsimplescore.cpp
@@ -33,6 +34,7 @@ SET( SCORE_SRCS
   score/tscorenote.cpp
   score/tscorekeysignature.cpp
   score/tscorecontrol.cpp
+  score/tkeysignature.cpp
 )
 
 SET( SCORE_MOC_SRCS

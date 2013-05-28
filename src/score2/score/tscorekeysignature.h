@@ -45,6 +45,8 @@ public:
         /** Returns y coefficient of given note (0 - 7, 0 is c, 1 is d...).
          * It depends on Tclef value*/
     char getPosOfAccid(int noteNr, bool flatKey = false);
+		
+		void showKeyName(bool showIt);
   
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     virtual QRectF boundingRect() const;
@@ -57,6 +59,7 @@ protected:
     virtual void wheelEvent(QGraphicsSceneWheelEvent* event);
         /** Adds @param step to key value. Only 1 or -1 values are accepted. */
     void increaseKey(int step);
+		void updateKeyName();
 
 private:
         /** Array of text items with # or b signs*/
