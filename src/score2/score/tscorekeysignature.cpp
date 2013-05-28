@@ -121,9 +121,14 @@ void TscoreKeySignature::showKeyName(bool showIt) {
 			m_keyNameText = new QGraphicsSimpleTextItem();
 			registryItem(m_keyNameText);
 			m_keyNameText->setBrush(QBrush(scoreScene()->views()[0]->palette().windowText().color()));
+//       m_keyNameText->setFlag(QGraphicsItem::ItemIgnoresTransformations);
+//       QFont f = scoreScene()->views()[0]->font();
+//       f.setPointSizeF(1.0);
+//       m_keyNameText->setFont(f);
 			m_keyNameText->setPos(0, staff()->upperLinePos() - 6);
 			m_keyNameText->setZValue(7);
-			m_keyNameText->show();
+      m_keyNameText->setScale(m_keyNameText->scale() / 2);
+			setKeySignature(keySignature());
 	}	else {
 			delete m_keyNameText;
 			m_keyNameText = 0;
