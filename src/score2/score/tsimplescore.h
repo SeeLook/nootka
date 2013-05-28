@@ -37,9 +37,12 @@ public:
     TsimpleScore(QWidget *parent = 0);
     ~TsimpleScore();
 
-    
+				/** Sets TsimpleScore to piano staff view.
+				 * Clefs are unchangeable. */
 		void setPianoStaff(bool isPiano);
-		bool isPianoStaff() { return m_isPianoStaff; }
+		bool isPianoStaff() { return (bool)m_lowerStaff; }
+		
+		void setEnableKeySign(bool isEnabled);
 		
 signals:
     void statusTip(QString);
@@ -55,6 +58,8 @@ protected:
 protected slots:
     void statusTipChanged(QString status) { emit statusTip(status); }
     void resizeEvent(QResizeEvent* event);
+				/** This slot ties key signatutes in two staves. */
+		void keyChangedInPianoStaff();
   
 private:
     TscoreScene     *m_scene;
@@ -62,7 +67,6 @@ private:
     TscoreControl   *m_scoreControl;
     QGraphicsView   *m_score;
 		
-		bool						m_isPianoStaff;
     
   
 };

@@ -52,7 +52,11 @@ TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, TscoreStaff* staff, c
         m_accidentals[i]->setBrush(scene->views()[0]->palette().windowText().color());
         m_accidentals[i]->setFont(font);
         m_accidentals[i]->hide();
-    }
+	}
+  m_keyNameText = new QGraphicsSimpleTextItem();
+	registryItem(m_keyNameText);
+	m_keyNameText->setBrush(QBrush(scene->views()[0]->palette().windowText().color()));
+    
     
     setStatusTip(tr("Key signature - to change it, click above or below the staff or use mouse wheel."));
 }

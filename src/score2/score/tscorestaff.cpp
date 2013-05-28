@@ -38,7 +38,8 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
   TscoreItem(scene),
   m_scoreControl(0),
   m_kindOfStaff(kindOfStaff),
-  m_offset(TnoteOffset(3, 2))
+  m_offset(TnoteOffset(3, 2)),
+  m_keySignature(0)
 {
   if (m_kindOfStaff == e_normal) {
     m_height = 40;
@@ -62,23 +63,16 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
   connect(m_clef, SIGNAL(clefChanged()), this, SLOT(onClefChanged()));
   if (kindOfStaff != e_normal)
     m_clef->setReadOnly(true);
-// Key signature
-  m_keySignature = new TscoreKeySignature(scene, this);
-  m_keySignature->setPos(m_clef->boundingRect().width() + 0.5, 0);
-  m_keySignature->setClef(m_clef->clef());
-  connect(m_keySignature, SIGNAL(keySignatureChanged()), this, SLOT(onKeyChanged()));
+
 // Notes
   for (int i = 0; i < notesNr; i++) {
       m_notes << new TscoreNote(scene, this, i);
-      m_notes[i]->setPos(m_clef->boundingRect().width() + m_keySignature->boundingRect().width() + 0.5 + 
-          i * m_notes[i]->boundingRect().width(), 0);
+      m_notes[i]->setPos(7.0 + i * m_notes[i]->boundingRect().width(), 0);
       connect(m_notes[i], SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
 			connect(m_notes[i], SIGNAL(accidWasChanged(int)), this, SLOT(noteChangedAccid(int)));
   }
   
-  
-  m_width = m_clef->boundingRect().width() + m_keySignature->boundingRect().width() +
-      m_notes.size() * m_notes[0]->boundingRect().width() + 3;  
+  m_width = m_clef->boundingRect().width() + m_notes.size() * m_notes[0]->boundingRect().width() + 3;
 // Staff lines
   for (int i = 0; i < 5; i++) {
     m_lines[i] = new QGraphicsLineItem();
@@ -103,6 +97,30 @@ void TscoreStaff::setScoreControler(TscoreControl* scoreControl) {
 		m_scoreControl = scoreControl;
 		connect(scoreControl, SIGNAL(accidButtonPressed(int)), this, SLOT(onAccidButtonPressed(int)));
 	}
+}
+
+
+void TscoreStaff::setEnableKeySign(bool isEnabled) {
+	if (isEnabled != (bool)m_keySignature) {
+		qreal notesOff = 0.0;
+		if (isEnabled) {
+			m_keySignature = new TscoreKeySignature(scoreScene(), this);
+			m_keySignature->setPos(6.5, 0);
+			m_keySignature->setClef(m_clef->clef());
+			connect(m_keySignature, SIGNAL(keySignatureChanged()), this, SLOT(onKeyChanged()));
+			notesOff = m_keySignature->boundingRect().width();
+		} else {
+					delete m_keySignature;
+					m_keySignature = 0;
+		}
+		updateWidth();
+		for (int i = 0; i < m_notes.size(); i++) // update positions of the notes
+				m_notes[i]->setPos(7.0 + notesOff + i * m_notes[0]->boundingRect().width(), 0);
+		for (int i = 0; i < 5; i++) // adjust staff lines length
+				m_lines[i]->setLine(1, upperLinePos() + i * 2, boundingRect().width() - 2, upperLinePos() + i * 2);
+		scoreScene()->update();
+	}
+
 }
 
 
@@ -174,10 +192,19 @@ void TscoreStaff::noteChangedAccid(int accid) {
 
 void TscoreStaff::onAccidButtonPressed(int accid) {
 	scoreScene()->setCurrentAccid(accid);
-	for (int i = 0; i < m_notes.size(); i++) {
-    if (!m_notes[i]->isReadOnly())
-			m_notes[i]->setWorkAccid(accid);
-	}
+	/** It is enough to do this as long as every TscoreNote handles mouseHoverEvent
+	 * which checks value set above and changes accidental symbol if nessessary. */
+}
+
+//##########################################################################################################
+//########################################## PROTECTED   ###################################################
+//##########################################################################################################
+
+void TscoreStaff::updateWidth() {
+	qreal off = 0.0;
+	if (m_keySignature)
+		off = m_keySignature->boundingRect().width();
+	m_width = 7.0 + off + m_notes.size() * m_notes[0]->boundingRect().width() + 3;
 }
 
 

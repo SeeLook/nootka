@@ -25,6 +25,7 @@
 #include <tpushbutton.h>
 #include <qstatusbar.h>
 #include <QHBoxLayout>
+#include <qcheckbox.h>
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent)
@@ -37,6 +38,17 @@ MainWindow::MainWindow(QWidget *parent) :
   m_simpleScore = new TsimpleScore(w);
   lay->addWidget(m_simpleScore);
 	m_simpleScore->setPianoStaff(true);
+	
+	QHBoxLayout *settLay = new QHBoxLayout;
+	settLay->addStretch();
+	m_keyBox = new QCheckBox("key", w);
+	settLay->addWidget(m_keyBox);
+	settLay->addStretch();
+	m_pianBox = new QCheckBox("piano staff", w);
+	settLay->addWidget(m_pianBox);
+	settLay->addStretch();
+	lay->addLayout(settLay);	
+	
 	w->setLayout(lay);
 	
   TpushButton::setCheckColor(palette().highlight().color(), palette().highlightedText().color());
@@ -47,6 +59,8 @@ MainWindow::MainWindow(QWidget *parent) :
   setStatusBar(m_bar);
   
   m_bar->showMessage("ready");
+	
+	connect(m_keyBox, SIGNAL(toggled(bool)), this, SLOT(keySignBoxChanged(bool)));
   
 // 	connect(m_mainScore, SIGNAL(statusTip(QString)), this, SLOT(updateStatusTip(QString)));
   connect(m_simpleScore, SIGNAL(statusTip(QString)), this, SLOT(updateStatusTip(QString)));
@@ -57,6 +71,17 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::updateStatusTip(QString status) {
   m_bar->showMessage(status);
 }
+
+
+void MainWindow::keySignBoxChanged(bool enable) {
+	m_simpleScore->setEnableKeySign(m_keyBox->isChecked());
+}
+
+void MainWindow::pianoBoxChanged(bool enable)
+{
+
+}
+
 
 
 
