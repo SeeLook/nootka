@@ -19,6 +19,7 @@
 #include "tscoreclef.h"
 #include "tscorescene.h"
 #include "tscorestaff.h"
+#include "tclefselector.h"
 #include "tclef.h"
 // #include <QDebug>
 #include <QGraphicsSceneHoverEvent>
@@ -54,7 +55,8 @@ TscoreClef::TscoreClef(TscoreScene* scene, TscoreStaff* staff, Tclef clef) :
   TscoreItem(scene),
   m_clef(Tclef(Tclef::e_none)),
   m_textClef(0),
-  m_readOnly(false)
+  m_readOnly(false),
+  m_selector(0)
 {
   setStaff(staff);
 	setParentItem(staff);
@@ -122,6 +124,16 @@ void TscoreClef::wheelEvent(QGraphicsSceneWheelEvent* event) {
   setClef(Tclef(m_typesList[m_currClefInList]));
   emit clefChanged();
 }
+
+
+void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
+	if (!m_selector) {
+		m_selector = new TclefSelector();
+		registryItem(m_selector);
+		m_selector->setPos(event->pos());
+	}
+}
+
 
 
 //##########################################################################################################

@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
 // 	lay->addWidget(m_mainScore);
   m_simpleScore = new TsimpleScore(w);
   lay->addWidget(m_simpleScore);
-	m_simpleScore->setPianoStaff(true);
+// 	m_simpleScore->setPianoStaff(true);
 	
 	QHBoxLayout *settLay = new QHBoxLayout;
 	settLay->addStretch();

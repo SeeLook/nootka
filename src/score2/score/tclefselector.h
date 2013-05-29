@@ -16,54 +16,37 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TSCORECLEF_H
-#define TSCORECLEF_H
+#ifndef TCLEFSELECTOR_H
+#define TCLEFSELECTOR_H
 
-#include "tscoreitem.h"
-#include "tclef.h"
+#include <QGraphicsTextItem>
+#include <tclef.h>
 
-class TclefSelector;
-class TscoreClef : public TscoreItem
+class TscoreScene;
+
+/** This class implements QGraphicsObject which appeaars  when usec cliced on clef.
+ * User gets possibility to select a cleff or piano staff. */
+// class TclefSelector : public TscoreItem
+class TclefSelector : public QGraphicsTextItem
 {
-    Q_OBJECT    
+    Q_OBJECT
 
 public:
-    TscoreClef(TscoreScene *scene, TscoreStaff *staff, Tclef clef);
-    ~TscoreClef();
+//     TclefSelector(TscoreScene *scene);
+    TclefSelector();
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
+//     virtual QRectF boundingRect();
 
-    Tclef clef() { return m_clef; }
-    void setClef(Tclef clef);
-    
-    
-    static QChar clefToChar(Tclef clef);
-    
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
-    virtual QRectF boundingRect() const;
-    
-    void setReadOnly(bool ro) { m_readOnly = ro; }
-    bool readOnly() { return m_readOnly; }
-    
-signals:
-    void clefChanged();
-    
-protected:
-    void wheelEvent(QGraphicsSceneWheelEvent* event);
-		void mousePressEvent(QGraphicsSceneMouseEvent* event);
-    
-private:
-    int getYclefPos(Tclef clef);
-    int getClefPosInList(Tclef clef);
+protected slots:
+    void linkActivatedSlot(QString link);
 
 private:
-    Tclef                             m_clef;
-    QGraphicsSimpleTextItem           *m_textClef;
-		TclefSelector											*m_selector;
-    
-    int                               m_currClefInList;    
-        /** List of all clef types exept empty (none clef) */
-    static QList<Tclef::Etype>        m_typesList;
-    bool                              m_readOnly;
+// 		QGraphicsTextItem *m_G, *m_G8;
+    /** Returns html string wrapped with nootka font  */
+    QString clefToHtml(Tclef clef);
+
+// 		void createEntry(QGraphicsTextItem* textItem, Tclef clef);
 
 };
 
-#endif // TSCORECLEF_H
+#endif // TCLEFSELECTOR_H
