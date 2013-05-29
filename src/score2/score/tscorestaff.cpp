@@ -59,17 +59,17 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
     m_offset = TnoteOffset(5, 0);
   }
   m_clef = new TscoreClef(scene, this, cl);
-	
   connect(m_clef, SIGNAL(clefChanged()), this, SLOT(onClefChanged()));
   if (kindOfStaff != e_normal)
     m_clef->setReadOnly(true);
-
+	m_clef->setZValue(55);
 // Notes
   for (int i = 0; i < notesNr; i++) {
       m_notes << new TscoreNote(scene, this, i);
       m_notes[i]->setPos(7.0 + i * m_notes[i]->boundingRect().width(), 0);
       connect(m_notes[i], SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
 			connect(m_notes[i], SIGNAL(accidWasChanged(int)), this, SLOT(noteChangedAccid(int)));
+			m_notes[i]->setZValue(50);
   }
   
   m_width = m_clef->boundingRect().width() + m_notes.size() * m_notes[0]->boundingRect().width() + 3;

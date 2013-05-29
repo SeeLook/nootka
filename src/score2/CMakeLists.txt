@@ -34,6 +34,8 @@ SET( SCORE_SRCS
   score/tscorenote.cpp
   score/tscorekeysignature.cpp
   score/tscorecontrol.cpp
+  score/tclefselector.cpp
+  
   score/tkeysignature.cpp
 )
 
@@ -50,6 +52,7 @@ SET( SCORE_MOC_SRCS
   score/tscorenote.h
   score/tscorekeysignature.h
   score/tscorecontrol.h
+  score/tclefselector.h
 )
 
 
