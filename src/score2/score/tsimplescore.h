@@ -67,6 +67,10 @@ private:
     TscoreControl   *m_scoreControl;
     QGraphicsView   *m_score;
 		
+private:
+				/** Connects TscoreKeySignature in given staff to keyChangedInPianoStaff slot.
+				 * When @param join is false - disconnects. */
+		void connectToKeyChangedSlot(TscoreStaff *staff, bool join = true);
     
   
 };
