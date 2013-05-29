@@ -64,7 +64,7 @@ protected:
 private:
         /** Array of text items with # or b signs*/
     QGraphicsSimpleTextItem *m_accidentals[7];
-		QGraphicsSimpleTextItem *m_keyNameText;
+		QGraphicsTextItem *m_keyNameText;
     char m_keySignature;
     qreal m_height;
     

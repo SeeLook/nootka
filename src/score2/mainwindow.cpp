@@ -64,6 +64,7 @@ MainWindow::MainWindow(QWidget *parent) :
   m_bar->showMessage("ready");
 	
 	connect(m_keyBox, SIGNAL(toggled(bool)), this, SLOT(keySignBoxChanged(bool)));
+	connect(m_pianBox, SIGNAL(toggled(bool)), this, SLOT(pianoBoxChanged(bool)));
   
 // 	connect(m_mainScore, SIGNAL(statusTip(QString)), this, SLOT(updateStatusTip(QString)));
   connect(m_simpleScore, SIGNAL(statusTip(QString)), this, SLOT(updateStatusTip(QString)));
@@ -80,9 +81,8 @@ void MainWindow::keySignBoxChanged(bool enable) {
 	m_simpleScore->setEnableKeySign(m_keyBox->isChecked());
 }
 
-void MainWindow::pianoBoxChanged(bool enable)
-{
-
+void MainWindow::pianoBoxChanged(bool enable) {
+	m_simpleScore->setPianoStaff(m_pianBox->isChecked());
 }
 
 

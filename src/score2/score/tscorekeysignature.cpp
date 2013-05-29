@@ -118,17 +118,13 @@ void TscoreKeySignature::setClef(Tclef clef) {
 
 void TscoreKeySignature::showKeyName(bool showIt) {
 	if (showIt) {
-			m_keyNameText = new QGraphicsSimpleTextItem();
+		if (!m_keyNameText) {
+			m_keyNameText = new QGraphicsTextItem();
 			registryItem(m_keyNameText);
-			m_keyNameText->setBrush(QBrush(scoreScene()->views()[0]->palette().windowText().color()));
-//       m_keyNameText->setFlag(QGraphicsItem::ItemIgnoresTransformations);
-//       QFont f = scoreScene()->views()[0]->font();
-//       f.setPointSizeF(1.0);
-//       m_keyNameText->setFont(f);
-			m_keyNameText->setPos(0, staff()->upperLinePos() - 6);
 			m_keyNameText->setZValue(7);
-      m_keyNameText->setScale(m_keyNameText->scale() / 2);
+      m_keyNameText->setScale(0.12);
 			setKeySignature(keySignature());
+		}
 	}	else {
 			delete m_keyNameText;
 			m_keyNameText = 0;
@@ -184,14 +180,15 @@ void TscoreKeySignature::increaseKey(int step) {
 
 void TscoreKeySignature::updateKeyName() {
 	if (m_keyNameText) {
-			m_keyNameText->setText(TkeySignature::getMajorName(m_keySignature) + "\n" +
+			m_keyNameText->setHtml(TkeySignature::getMajorName(m_keySignature) + "<br>" +
 															TkeySignature::getMinorName(m_keySignature));
-			if (m_keyNameText->boundingRect().width() > boundingRect().width()) {
-					qreal factor = boundingRect().width() / m_keyNameText->boundingRect().width();
-					QFont f = m_keyNameText->font();
-					f.setPointSize(f.pointSize() * factor);
-					m_keyNameText->setFont(f);
-			}
+			m_keyNameText->setPos((boundingRect().width() - m_keyNameText->boundingRect().width() * m_keyNameText->scale()) / 2,
+				staff()->upperLinePos() - 7);
+//TODO center it and scale if needed
+// 			if (m_keyNameText->boundingRect().width() / m_keyNameText->scale() > boundingRect().width()) {
+// 					qreal factor = (boundingRect().width()) / (m_keyNameText->boundingRect().width() / m_keyNameText->scale());
+// 					m_keyNameText->setScale(factor);
+// 			}
 	}
 }
 

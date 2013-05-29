@@ -73,7 +73,7 @@ void TsimpleScore::setPianoStaff(bool isPiano) {
 				m_lowerStaff->setScoreControler(m_scoreControl);
 				if (keyEnabled) {
 						m_lowerStaff->setEnableKeySign(true);
-						connect(m_lowerStaff->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedInPianoStaff()));
+						connectToKeyChangedSlot(m_lowerStaff);
 				}
 		} else {
 				delete m_lowerStaff;
@@ -85,7 +85,9 @@ void TsimpleScore::setPianoStaff(bool isPiano) {
 		}
 		if (keyEnabled) {
 				m_staff->setEnableKeySign(true);
-				connect(m_staff->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedInPianoStaff()));
+				m_staff->scoreKey()->showKeyName(true);
+				if (isPianoStaff())
+						connectToKeyChangedSlot(m_staff);
 		}
 	}
 }
@@ -94,14 +96,16 @@ void TsimpleScore::setPianoStaff(bool isPiano) {
 void TsimpleScore::setEnableKeySign(bool isEnabled) {
 	if (isEnabled != (bool)m_staff->scoreKey()) {
 		m_staff->setEnableKeySign(isEnabled);
-		m_staff->scoreKey()->showKeyName(true);
-		if (isEnabled)
-				connect(m_staff->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedInPianoStaff()));
+		if (isEnabled) {
+				m_staff->scoreKey()->showKeyName(true);
+				connectToKeyChangedSlot(m_staff);
+		}
 		if (m_lowerStaff) {
 			m_lowerStaff->setEnableKeySign(isEnabled);
-			m_lowerStaff->scoreKey()->showKeyName(false);
-			if (isEnabled)
-					connect(m_lowerStaff->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedInPianoStaff()));
+			if (isEnabled) {
+					m_lowerStaff->scoreKey()->showKeyName(false);
+					connectToKeyChangedSlot(m_lowerStaff);
+			}
 		}
 	}
 }
@@ -127,15 +131,29 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 
 void TsimpleScore::keyChangedInPianoStaff() {
 	if (sender() == m_staff->scoreKey()) {
-		disconnect(m_lowerStaff->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedInPianoStaff()));
+		connectToKeyChangedSlot(m_lowerStaff, false);
 		m_lowerStaff->scoreKey()->setKeySignature(m_staff->scoreKey()->keySignature());
-		connect(m_lowerStaff->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedInPianoStaff()));
-	}	else if (sender() == m_lowerStaff->scoreKey()) {
-				disconnect(m_staff->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedInPianoStaff()));
+		connectToKeyChangedSlot(m_lowerStaff);
+	}	else if ( sender() == m_lowerStaff->scoreKey()) {
+				connectToKeyChangedSlot(m_staff, false);
 				m_staff->scoreKey()->setKeySignature(m_lowerStaff->scoreKey()->keySignature());
-				connect(m_staff->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedInPianoStaff()));
+				connectToKeyChangedSlot(m_staff);
 	}
 }
+
+//##########################################################################################################
+//########################################## PRIVATE     ###################################################
+//##########################################################################################################
+
+void TsimpleScore::connectToKeyChangedSlot(TscoreStaff* staff, bool join) {
+	if (join)
+		connect(staff->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedInPianoStaff()));
+	else
+		disconnect(staff->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedInPianoStaff()));
+}
+
+
+
 
 
 
