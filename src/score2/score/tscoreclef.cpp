@@ -56,7 +56,8 @@ TscoreClef::TscoreClef(TscoreScene* scene, TscoreStaff* staff, Tclef clef) :
   m_clef(Tclef(Tclef::e_none)),
   m_textClef(0),
   m_readOnly(false),
-  m_selector(0)
+  m_selector(0),
+  m_isClickable(true)
 {
   setStaff(staff);
 	setParentItem(staff);
@@ -77,9 +78,7 @@ TscoreClef::TscoreClef(TscoreScene* scene, TscoreStaff* staff, Tclef clef) :
 }
   
 
-TscoreClef::~TscoreClef()
-{
-}
+TscoreClef::~TscoreClef() {}
 
 
 void TscoreClef::setClef(Tclef clef) {
@@ -88,7 +87,7 @@ void TscoreClef::setClef(Tclef clef) {
     m_currClefInList = getClefPosInList(m_clef);
     m_textClef->setText(QString(clefToChar(m_clef.type())));
     setPos(1, getYclefPos(m_clef) - (16 - staff()->upperLinePos()));
-    setStatusTip(m_clef.name());
+    setStatusTip(m_clef.name() + " (" + m_clef.desc() + ")");
     emit statusTip(statusTip());
   }
 }
@@ -102,9 +101,9 @@ QRectF TscoreClef::boundingRect() const {
 }
 
 void TscoreClef::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-  painter->setBrush(QColor(0, 255, 0, 30));
-  painter->setPen(Qt::NoPen);
-  painter->drawRect(boundingRect());  
+//   painter->setBrush(QColor(0, 255, 0, 30));
+//   painter->setPen(Qt::NoPen);
+//   painter->drawRect(boundingRect());  
 }
 
 
@@ -127,11 +126,18 @@ void TscoreClef::wheelEvent(QGraphicsSceneWheelEvent* event) {
 
 
 void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-	if (!m_selector) {
-		m_selector = new TclefSelector();
-		registryItem(m_selector);
-		m_selector->setPos(event->pos());
-	}
+	if (m_isClickable && !m_selector) {
+		m_selector = new TclefSelector(scoreScene());
+		m_selector->setPos(0.0, 10.0);
+		connect(m_selector, SIGNAL(clefSelected(Tclef)), this, SLOT(clefSelected(Tclef)));
+	} else
+		TscoreItem::mousePressEvent(event);	
+}
+
+
+void TscoreClef::clefSelected(Tclef clef) {
+	m_selector->deleteLater();
+	m_selector = 0;
 }
 
 

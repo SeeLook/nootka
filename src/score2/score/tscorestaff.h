@@ -59,6 +59,7 @@ public:
 				/** Returns pointer to TscoreNote element in the score. */
 		TscoreNote* noteSegment(int nr) { return m_notes[nr]; }
 		TscoreKeySignature* scoreKey() { return m_keySignature; }
+		TscoreClef* scoreClef() { return m_clef; }
 		void setEnableKeySign(bool isEnabled);
    
         /** This array keeps values (-1, 0 or 1) for accidentals in key sign.
@@ -84,6 +85,7 @@ public:
 		
 		virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
     virtual QRectF boundingRect() const;
+		
     
 protected slots:
     void onClefChanged();
@@ -106,6 +108,7 @@ private:
     Ekind                   m_kindOfStaff;
     TnoteOffset             m_offset;
 		TscoreControl						*m_scoreControl;
+		
 };
 
 #endif // TSCORESTAFF_H

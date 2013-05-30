@@ -72,7 +72,10 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
 			m_notes[i]->setZValue(50);
   }
   
-  m_width = m_clef->boundingRect().width() + m_notes.size() * m_notes[0]->boundingRect().width() + 3;
+  if (m_notes.size())
+		m_width = m_clef->boundingRect().width() + m_notes.size() * m_notes[0]->boundingRect().width() + 3;
+	else 
+		m_width = m_clef->boundingRect().width() + 3;
 // Staff lines
   for (int i = 0; i < 5; i++) {
     m_lines[i] = new QGraphicsLineItem();
@@ -130,9 +133,9 @@ QRectF TscoreStaff::boundingRect() const {
 }
 
 void TscoreStaff::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-  painter->setBrush(QColor(255, 0, 0, 30));
-  painter->setPen(Qt::NoPen);
-  painter->drawRect(boundingRect());
+//   painter->setBrush(QColor(255, 0, 0, 30));
+//   painter->setPen(Qt::NoPen);
+//   painter->drawRect(boundingRect());
 }
 
 
@@ -141,8 +144,10 @@ void TscoreStaff::paint(QPainter* painter, const QStyleOptionGraphicsItem* optio
 //########################################## PROTECTED   ###################################################
 //##########################################################################################################
 
-void TscoreStaff::onClefChanged( ) {  
-  int globalNr = notePosRelatedToClef(m_notes[0]->notePos(), m_offset);
+void TscoreStaff::onClefChanged( ) {
+	int globalNr;
+	if (m_notes.size())
+		globalNr = notePosRelatedToClef(m_notes[0]->notePos(), m_offset);
   switch(m_clef->clef().type()) {
     case Tclef::e_treble_G:
       m_offset = TnoteOffset(3, 2); break;
@@ -159,10 +164,12 @@ void TscoreStaff::onClefChanged( ) {
   }
   if (m_keySignature)
       m_keySignature->setClef(m_clef->clef());
-  int newNr = notePosRelatedToClef(m_notes[0]->notePos(), m_offset);
-  for (int i = 0; i < m_notes.size(); i++) {
-    m_notes[i]->moveNote(m_notes[i]->notePos() - (globalNr - newNr));
-  }
+	if (m_notes.size()) {
+			int newNr = notePosRelatedToClef(m_notes[0]->notePos(), m_offset);
+			for (int i = 0; i < m_notes.size(); i++) {
+				m_notes[i]->moveNote(m_notes[i]->notePos() - (globalNr - newNr));
+			}
+	}
 }
 
 
@@ -196,15 +203,20 @@ void TscoreStaff::onAccidButtonPressed(int accid) {
 	 * which checks value set above and changes accidental symbol if nessessary. */
 }
 
+
+
 //##########################################################################################################
-//########################################## PROTECTED   ###################################################
+//########################################## PRIVATE     ###################################################
 //##########################################################################################################
 
 void TscoreStaff::updateWidth() {
 	qreal off = 0.0;
 	if (m_keySignature)
 		off = m_keySignature->boundingRect().width();
-	m_width = 7.0 + off + m_notes.size() * m_notes[0]->boundingRect().width() + 3;
+	if (m_notes.size())
+		m_width = 10.0 + off + m_notes.size() * m_notes[0]->boundingRect().width();
+	else
+		m_width = 10.0 + off;
 }
 
 

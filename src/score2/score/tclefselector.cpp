@@ -18,56 +18,71 @@
 
 #include "tclefselector.h"
 #include "tscoreclef.h"
+#include "tclefpreview.h"
+#include "tscorestaff.h"
+#include "tscorescene.h"
 #include <QDebug>
 #include <QPainter>
 #include <QStyleOption>
-// #include <QGraphicsEffect>
+#include <QGraphicsScene>
+#include <QGraphicsEffect>
 
-TclefSelector::TclefSelector()
+TclefSelector::TclefSelector(TscoreScene *scene) :
+	TscoreItem(scene)
 {
-// 	createEntry(m_G, Tclef(Tclef::e_treble_G));
-// 		setAcceptHoverEvents(true);
 		setZValue(100);
-		Tclef cl;
-		QString entry = "<style>a:link {text-decoration:none; color: #000;} a:visited {text-decoration:none;} a:hover {text-decoration:none;} a:active {text-decoration:none;} </style>";
-		entry += "<a href=\"treble\">" + clefToHtml(cl) + "&nbsp;" +  cl.name() + "</a>";
-		cl = Tclef(Tclef::e_treble_G_8down);
-		entry += "<br><a href=\"treble_8\">" + clefToHtml(cl) + "&nbsp;" + cl.name() + "</a>";
-		setHtml(entry);
-		setScale(0.1);
-// 		QGraphicsBlurEffect *effect = new QGraphicsBlurEffect;
-// 		setGraphicsEffect(effect);
+		setScale(0.4);
 		
-		setTextInteractionFlags(Qt::TextBrowserInteraction);
-		connect(this, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
+		createEntry(scene, m_treble, Tclef(Tclef::e_treble_G));
+		m_treble->setPos(1, -8);
+		createEntry(scene, m_treble_8, Tclef(Tclef::e_treble_G_8down));
+		m_treble_8->setPos(1, 8);
+		createEntry(scene, m_bass, Tclef(Tclef::e_bass_F));
+		m_bass->setPos(1, 24);
+		createEntry(scene, m_bass_8, Tclef(Tclef::e_bass_F_8down));
+		m_bass_8->setPos(1, 37);
+		createEntry(scene, m_alto, Tclef(Tclef::e_alto_C));
+		m_alto->setPos(50, -8);
+		createEntry(scene, m_tenor, Tclef(Tclef::e_tenor_C));
+		m_tenor->setPos(50, 8);
+		createEntry(scene, m_piano, Tclef(Tclef::e_pianoStaff));
+		m_piano->setPos(50, 24);
+
+		QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect;
+		setGraphicsEffect(effect);
+		
+
+}
+
+void TclefSelector::clefClicked(Tclef clef) {
+		qDebug() << clef.name();
+		emit clefSelected(clef);
 }
 
 
-void TclefSelector::linkActivatedSlot(QString link) {
-	qDebug() << link;
+
+QRectF TclefSelector::boundingRect() const {
+// 		return QRectF(0, 0, m_G->boundingRect().width() + 5, m_G->boundingRect().height() + 5);
+	return QRectF(0, -7.0, 95.0, 70.0);
 }
+
 
 
 void TclefSelector::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-		QColor bg = option->palette.window().color();
+		QColor bg = option->palette.base().color();
 // 		bg.setAlpha(30);
-		painter->setPen(QPen(option->palette.windowText().color(), 5));
+		painter->setPen(QPen(option->palette.windowText().color(), 0.5));
     painter->setBrush(bg);
-		painter->drawRoundedRect(boundingRect(), 10.0, 10.0);
-		QGraphicsTextItem::paint(painter, option, widget);
+		painter->drawRoundedRect(boundingRect(), 2.0, 2.0);
+// 		QGraphicsTextItem::paint(painter, option, widget);
 }
 
 
-QString TclefSelector::clefToHtml(Tclef clef) {
-		return "<span style=\"font-size: 20px; font-family: nootka;\">" + QString(TscoreClef::clefToChar(clef)) + "</span>";
+void TclefSelector::createEntry(TscoreScene* scene, TclefPreview*& clefView, Tclef clef) {
+		clefView = new TclefPreview(scene, clef);
+		clefView->setParentItem(this);
+		connect(clefView, SIGNAL(clicked(Tclef)), this, SLOT(clefClicked(Tclef)));
 }
-
-
-// void TclefSelector::createEntry(QGraphicsTextItem* textItem, Tclef clef) {
-// 	textItem = new QGraphicsTextItem();
-// 	registryItem(textItem);
-// 	textItem->setHtml(clef.name());
-// }
 
 
 

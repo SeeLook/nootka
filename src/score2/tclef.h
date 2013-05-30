@@ -44,7 +44,8 @@ public:
     Etype type() { return m_type; }
     void setClef(Etype type) { m_type = type; }
     
-    QString name();
+    QString name(); // short name ofa clef
+		QString desc(); // a clef description
     
 //     friend QDataStream &operator<< (QDataStream &out, const TfingerPos &fPos) {
 //         out << fPos.m_pos;
