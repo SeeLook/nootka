@@ -50,20 +50,21 @@ TclefSelector::TclefSelector(TscoreScene *scene) :
 
 		QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect;
 		setGraphicsEffect(effect);
-		
-
 }
 
 void TclefSelector::clefClicked(Tclef clef) {
-		qDebug() << clef.name();
 		emit clefSelected(clef);
 }
 
 
 
 QRectF TclefSelector::boundingRect() const {
-// 		return QRectF(0, 0, m_G->boundingRect().width() + 5, m_G->boundingRect().height() + 5);
 	return QRectF(0, -7.0, 95.0, 70.0);
+}
+
+
+void TclefSelector::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
+  emit clefSelected(Tclef(Tclef::e_none));
 }
 
 

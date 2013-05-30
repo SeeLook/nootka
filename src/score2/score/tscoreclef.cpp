@@ -136,6 +136,10 @@ void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 
 
 void TscoreClef::clefSelected(Tclef clef) {
+  if (clef.type() != Tclef::e_none && clef.type() != Tclef::e_pianoStaff) {
+    setClef(clef);
+    emit clefChanged();
+  }
 	m_selector->deleteLater();
 	m_selector = 0;
 }

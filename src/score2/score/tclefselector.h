@@ -38,8 +38,13 @@ public:
     virtual QRectF boundingRect() const;
 		
 signals:
+        /** This signal is emited when user selects a clef and 
+         * when mouse cursor lives this view (Tclef::e_none). */
 		void clefSelected(Tclef);
 
+protected:
+    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+    
 protected slots:
     void clefClicked(Tclef clef);
 
