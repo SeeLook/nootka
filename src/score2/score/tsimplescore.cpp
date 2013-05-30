@@ -59,7 +59,7 @@ TsimpleScore::TsimpleScore(QWidget* parent) :
 TsimpleScore::~TsimpleScore()
 {}
 
-
+qreal m_pianoFactor = 1.0;
 void TsimpleScore::setPianoStaff(bool isPiano) {
 	if (isPiano != isPianoStaff()) {
 		bool keyEnabled = (bool)m_staff->scoreKey();
@@ -75,12 +75,16 @@ void TsimpleScore::setPianoStaff(bool isPiano) {
 						m_lowerStaff->setEnableKeySign(true);
 						connectToKeyChangedSlot(m_lowerStaff);
 				}
+				m_pianoFactor = 0.95;
+				resizeEvent(0);
 		} else {
 				delete m_lowerStaff;
 				m_lowerStaff = 0;
 				delete m_staff;
 				m_staff = new TscoreStaff(m_scene, 3, TscoreStaff::e_normal);
 				m_staff->setScoreControler(m_scoreControl);
+				m_pianoFactor = 1.0;
+				resizeEvent(0);
 // 				m_staff->setPos(0, 0);
 		}
 		if (keyEnabled) {
@@ -125,7 +129,7 @@ int TsimpleScore::heightForWidth(int w ) const {
 void TsimpleScore::resizeEvent(QResizeEvent* event) {
   qreal factor = ((qreal)height() / 40.0) / m_score->transform().m11();
 //   factor = factor / 3;
-  m_score->scale(factor, factor);
+  m_score->scale(factor * m_pianoFactor, factor * m_pianoFactor);
 }
 
 

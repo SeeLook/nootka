@@ -40,8 +40,10 @@ public:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
     virtual QRectF boundingRect() const;
     
-    void setReadOnly(bool ro) { m_readOnly = ro; }
-    bool readOnly() { return m_readOnly; }
+    void setReadOnly(bool ro) { m_readOnly = ro; } // hover mouse events are ignored 
+    bool readOnly() { return m_readOnly; } // when TTRUE, hover mouse events are ignored
+    bool isClickable() { return m_isClickable; } // mouse pressing are ignored
+		void setIsClickable(bool isIt) { m_isClickable = isIt; } // mouse pressing are ignored
     
 signals:
     void clefChanged();
@@ -49,6 +51,9 @@ signals:
 protected:
     void wheelEvent(QGraphicsSceneWheelEvent* event);
 		void mousePressEvent(QGraphicsSceneMouseEvent* event);
+		
+protected slots:
+		void clefSelected(Tclef clef);
     
 private:
     int getYclefPos(Tclef clef);
@@ -62,7 +67,8 @@ private:
     int                               m_currClefInList;    
         /** List of all clef types exept empty (none clef) */
     static QList<Tclef::Etype>        m_typesList;
-    bool                              m_readOnly;
+    bool                              m_readOnly; // hover mouse events are ignored
+		bool 															m_isClickable; // mouse pressing are ignored
 
 };
 

@@ -29,17 +29,45 @@ Tclef::Tclef(Tclef::Etype type)
 QString Tclef::name() {
   switch(m_type) {
     case e_treble_G:
-      return QApplication::translate("Tclef", "clef G (treble)");
+      return QApplication::translate("Tclef", "treble");
     case e_treble_G_8down:
-      return QApplication::translate("Tclef", "clef G (treble) dropped octave down");
+      return QApplication::translate("Tclef", "treble dropped");
     case e_bass_F:
-      return QApplication::translate("Tclef", "clef F (bass)");
+      return QApplication::translate("Tclef", "bass");
     case e_bass_F_8down:
-      return QApplication::translate("Tclef", "clef F (bass) dropped octave down");
+      return QApplication::translate("Tclef", "bass dropped");
     case e_alto_C:
-      return QApplication::translate("Tclef", "clef C (alto)");
+      return QApplication::translate("Tclef", "alto");
     case e_tenor_C:
-      return QApplication::translate("Tclef", "clef C (tenor)");
+      return QApplication::translate("Tclef", "tenor");
+	case e_pianoStaff:
+      return QApplication::translate("Tclef", "piano staff");
   }
   return "";
 }
+
+
+QString Tclef::desc() {
+	switch(m_type) {
+    case e_treble_G:
+      return QApplication::translate("Tclef", "clef G");
+    case e_treble_G_8down:
+      return QApplication::translate("Tclef", "clef G dropped octave down");
+    case e_bass_F:
+      return QApplication::translate("Tclef", "clef F");
+    case e_bass_F_8down:
+      return QApplication::translate("Tclef", "clef F dropped octave down");
+    case e_alto_C:
+      return QApplication::translate("Tclef", "clef C");
+    case e_tenor_C:
+      return QApplication::translate("Tclef", "clef C");
+		case e_pianoStaff:
+      return QApplication::translate("Tclef", "treble and bass clefs");
+  }
+  return "";
+}
+
+
+
+
+

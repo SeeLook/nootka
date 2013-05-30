@@ -16,37 +16,42 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TCLEFSELECTOR_H
-#define TCLEFSELECTOR_H
+#ifndef TCLEFPREVIEW_H
+#define TCLEFPREVIEW_H
 
-#include "tscoreitem.h"
-#include "tclef.h"
+#include "tscorestaff.h"
 
-class TclefPreview;
-class TscoreScene;
 
-/** This class implements QGraphicsObject which appeaars  when user clicked on clef.
- * User gets possibility to select a clef or piano staff. */
-class TclefSelector : public TscoreItem
+class TclefPreview : public TscoreStaff
 {
     Q_OBJECT
 
 public:
-    TclefSelector(TscoreScene *scene);
-
+    TclefPreview(TscoreScene *scene, Tclef clef);
+    ~TclefPreview();
+				
+				/** Highlights a preview */
+		void mark();
+		
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     virtual QRectF boundingRect() const;
+
 		
 signals:
-		void clefSelected(Tclef);
+		void clicked(Tclef);
+		
+protected:
+		void mousePressEvent(QGraphicsSceneMouseEvent* event);
+		virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
+    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 
-protected slots:
-    void clefClicked(Tclef clef);
-
+		
 private:
-		TclefPreview *m_treble, *m_treble_8, *m_bass, *m_bass_8, *m_alto, *m_tenor, *m_piano;
-		void createEntry(TscoreScene *scene, TclefPreview* &clefView, Tclef clef);
+		QColor											m_bgColor;
+		QGraphicsSimpleTextItem 		*m_desc; // a clef description
+		bool 												m_marked;
+		TscoreStaff									*m_lower;
 
 };
 
-#endif // TCLEFSELECTOR_H
+#endif // TCLEFPREVIEW_H
