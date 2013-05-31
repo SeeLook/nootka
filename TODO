@@ -1,5 +1,11 @@
 Plan for the Nootka One
 
+ottava:
+-2: 15mb
+-1: 8vb
+ 1: 8va
+ 2: 15ma
+
 - keep exam file in /tmp and restore it when crash or so
 ?? Kodaly names
 ?? keyboard input for note name widget
@@ -11,10 +17,6 @@ Plan for the Nootka One
 
 - positions and look of frets numbers and key names in charts
 - add string numbers to pixmap
-
-=====
-Mac issues:
-- check audioout thread
 
 
 TGLOBALS & TTUNE
