@@ -21,6 +21,7 @@
 #define TSIMPLESCORE_H
 
 #include <QWidget>
+#include "tclef.h"
 
 class QGraphicsView;
 class TscoreControl;
@@ -60,6 +61,8 @@ protected slots:
     void resizeEvent(QResizeEvent* event);
 				/** This slot ties key signatutes in two staves. */
 		void keyChangedInPianoStaff();
+				/** This is response for user demand to chenge to or from piano staff. */
+		void switchToPianoStaff(Tclef clef);
   
 private:
     TscoreScene     *m_scene;

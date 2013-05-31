@@ -127,7 +127,10 @@ void TscoreClef::wheelEvent(QGraphicsSceneWheelEvent* event) {
 
 void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 	if (m_isClickable && !m_selector) {
-		m_selector = new TclefSelector(scoreScene());
+		if (readOnly()) // occurs in pano staf only
+			m_selector = new TclefSelector(scoreScene(), Tclef(Tclef::e_pianoStaff));
+		else // second parametr is current cleff to mark
+			m_selector = new TclefSelector(scoreScene(), m_clef);
 		m_selector->setPos(0.0, 10.0);
 		connect(m_selector, SIGNAL(clefSelected(Tclef)), this, SLOT(clefSelected(Tclef)));
 	} else
@@ -136,12 +139,25 @@ void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 
 
 void TscoreClef::clefSelected(Tclef clef) {
-  if (clef.type() != Tclef::e_none && clef.type() != Tclef::e_pianoStaff) {
-    setClef(clef);
-    emit clefChanged();
-  }
 	m_selector->deleteLater();
 	m_selector = 0;
+	if (clef.type() == Tclef::e_none)
+		return;
+	// This is hard logic that I love so much...
+	// We supose readOnly() is pointing that staff is piano
+	if (readOnly()) {
+		if (clef.type() != Tclef::e_pianoStaff) // user selected other clef than piano
+			emit switchPianoStaff(clef); // this staff will be deleted and emited clef will set
+		else
+			return; // when user selected piano staff again - do nothing
+	} else // ordinary single staff
+			if (clef.type() != Tclef::e_pianoStaff) { // simply set another clef
+				if (clef.type() != m_clef.type()) {
+						setClef(clef);
+						emit clefChanged();
+				}
+			} else // demand to change it on piano staff
+					emit switchPianoStaff(Tclef(Tclef::e_pianoStaff));
 }
 
 

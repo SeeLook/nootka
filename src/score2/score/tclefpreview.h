@@ -21,7 +21,8 @@
 
 #include "tscorestaff.h"
 
-
+/** This is subclass of TscoreStaff to display previevs of clef.
+* it hasn't got any notes, just staff and clef. */
 class TclefPreview : public TscoreStaff
 {
     Q_OBJECT

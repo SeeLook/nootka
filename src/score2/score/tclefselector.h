@@ -26,13 +26,14 @@ class TclefPreview;
 class TscoreScene;
 
 /** This class implements QGraphicsObject which appeaars  when user clicked on clef.
- * User gets possibility to select a clef or piano staff. */
+ * User gets possibility to select a clef or piano staff. 
+ * When it gets hoverLeaveEvent it emits Tclef::e_none . */
 class TclefSelector : public TscoreItem
 {
     Q_OBJECT
 
 public:
-    TclefSelector(TscoreScene *scene);
+    TclefSelector(TscoreScene *scene, Tclef clefToMark);
 
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     virtual QRectF boundingRect() const;
@@ -44,13 +45,13 @@ signals:
 
 protected:
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+		void createEntry(TscoreScene *scene, TclefPreview* &clefView, Tclef clef);
     
 protected slots:
     void clefClicked(Tclef clef);
 
 private:
 		TclefPreview *m_treble, *m_treble_8, *m_bass, *m_bass_8, *m_alto, *m_tenor, *m_piano;
-		void createEntry(TscoreScene *scene, TclefPreview* &clefView, Tclef clef);
 
 };
 

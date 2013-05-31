@@ -60,7 +60,9 @@ TclefPreview::TclefPreview(TscoreScene* scene, Tclef clef) :
 	}
 }
 
+
 TclefPreview::~TclefPreview() {}
+
 
 void TclefPreview::mark() {
 	m_bgColor.setAlpha(ALPHA);
