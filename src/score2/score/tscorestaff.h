@@ -60,7 +60,8 @@ public:
 		TscoreNote* noteSegment(int nr) { return m_notes[nr]; }
 		TscoreKeySignature* scoreKey() { return m_keySignature; }
 		TscoreClef* scoreClef() { return m_clef; }
-		void setEnableKeySign(bool isEnabled);
+		
+		virtual void setEnableKeySign(bool isEnabled);
    
         /** This array keeps values (-1, 0 or 1) for accidentals in key sign.
          * It is common for TscoreKeySignature and all TscoreNote. 
@@ -71,6 +72,7 @@ public:
         /** Y position of upper line of a staff. */
     qreal upperLinePos() { return m_upperLinePos; }
     qreal height() { return m_height; }
+    qreal width() const { return m_width; }
         /** Kind of staff (normal or upper (right hand) or lower(left hand)) */
     Ekind kindOfStaff() { return m_kindOfStaff; }
     int notePosRelatedToClef(int pos, TnoteOffset off) {
@@ -80,7 +82,7 @@ public:
         /** Returns offset of a y coeff. of a note related to current cleff. */
     int noteOffset() { return m_offset.note; }
     
-    void setScoreControler(TscoreControl *scoreControl);
+    virtual void setScoreControler(TscoreControl *scoreControl);
 		
 		
 		virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
@@ -89,7 +91,7 @@ public:
 signals:
 		void pianoStaffSwitch(Tclef);
 		
-    
+		
 protected slots:
     void onClefChanged();
     void onKeyChanged();

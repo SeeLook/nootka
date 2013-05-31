@@ -38,6 +38,7 @@ TclefPreview::TclefPreview(TscoreScene* scene, Tclef clef) :
 	registryItem(m_desc);
 	m_desc->setParentItem(this);
 	m_desc->setText(clef.name());
+	m_desc->setBrush(scene->views()[0]->palette().windowText().color());
 	m_desc->setScale(0.4);
 	setStatusTip(clef.name() + " (" + clef.desc() + ")");
 	if (clef.type() != Tclef::e_pianoStaff) {
@@ -54,7 +55,9 @@ TclefPreview::TclefPreview(TscoreScene* scene, Tclef clef) :
 			QGraphicsSimpleTextItem *brace = new QGraphicsSimpleTextItem();
 			registryItem(brace);
 			brace->setParentItem(this);
-			brace->setFont(QFont("nootka", 7));
+			QFont ff = QFont("nootka");
+			ff.setPointSizeF(6.9);
+			brace->setFont(ff);
 			brace->setText(QString(QChar(0xe16c)));
 			brace->setPos(0.8, 7);
 	}

@@ -16,46 +16,22 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TCLEFSELECTOR_H
-#define TCLEFSELECTOR_H
+#include "tscoreoctaver.h"
 
-#include "tscoreitem.h"
-#include "tclef.h"
-
-class TclefPreview;
-class TscoreScene;
-
-/** This class implements QGraphicsObject which appeaars  when user clicked on clef.
- * User gets possibility to select a clef or piano staff. 
- * When it gets hoverLeaveEvent it emits Tclef::e_none . */
-class TclefSelector : public TscoreItem
+TscoreOctaver::TscoreOctaver()
 {
-    Q_OBJECT
+}
 
-public:
-    TclefSelector(TscoreScene *scene, Tclef clefToMark);
+TscoreOctaver::TscoreOctaver(const TscoreOctaver& other)
+{
+}
 
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
-    virtual QRectF boundingRect() const;
-		
-signals:
-        /** This signal is emited when user selects a clef and 
-         * when mouse cursor lives this view (Tclef::e_none). */
-		void clefSelected(Tclef);
+void TscoreOctaver::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+{
+}
 
-protected:
-    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
-		void createEntry(TscoreScene *scene, TclefPreview* &clefView, Tclef clef);
-				/** This "blind" method is to stop wheelEvent() under the TclefSelector.
-				 * Otherwise clefs or notes are reacting. */
-		void wheelEvent(QGraphicsSceneWheelEvent* event) {};
-    
-protected slots:
-    void clefClicked(Tclef clef);
+QRectF TscoreOctaver::boundingRect()
+{
+}
 
-private:
-		TclefPreview *m_treble, *m_treble_8, *m_bass, *m_bass_8, *m_alto, *m_tenor, *m_piano;
 
-};
-
-#endif // TCLEFSELECTOR_H

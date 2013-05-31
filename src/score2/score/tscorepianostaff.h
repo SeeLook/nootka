@@ -16,46 +16,33 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TCLEFSELECTOR_H
-#define TCLEFSELECTOR_H
+#ifndef TSCOREPIANOSTAFF_H
+#define TSCOREPIANOSTAFF_H
 
-#include "tscoreitem.h"
-#include "tclef.h"
+#include <tscorestaff.h>
 
-class TclefPreview;
-class TscoreScene;
-
-/** This class implements QGraphicsObject which appeaars  when user clicked on clef.
- * User gets possibility to select a clef or piano staff. 
- * When it gets hoverLeaveEvent it emits Tclef::e_none . */
-class TclefSelector : public TscoreItem
+class TscorePianoStaff : public TscoreStaff
 {
     Q_OBJECT
 
 public:
-    TclefSelector(TscoreScene *scene, Tclef clefToMark);
-
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
-    virtual QRectF boundingRect() const;
+    TscorePianoStaff(TscoreScene *scene, int notesNr);
+    ~TscorePianoStaff();
 		
-signals:
-        /** This signal is emited when user selects a clef and 
-         * when mouse cursor lives this view (Tclef::e_none). */
-		void clefSelected(Tclef);
-
-protected:
-    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
-		void createEntry(TscoreScene *scene, TclefPreview* &clefView, Tclef clef);
-				/** This "blind" method is to stop wheelEvent() under the TclefSelector.
-				 * Otherwise clefs or notes are reacting. */
-		void wheelEvent(QGraphicsSceneWheelEvent* event) {};
-    
+		void setEnableKeySign(bool isEnabled);
+		void setScoreControler(TscoreControl *scoreControl);
+		
+		virtual QRectF boundingRect() const;
+		
+		
 protected slots:
-    void clefClicked(Tclef clef);
+				/** This slots ties key signatutes in two staves. */
+		void upperStaffChangedKey();
+		void lowerStaffChangedKey();
 
 private:
-		TclefPreview *m_treble, *m_treble_8, *m_bass, *m_bass_8, *m_alto, *m_tenor, *m_piano;
+		TscoreStaff 		*m_lower;
 
 };
 
-#endif // TCLEFSELECTOR_H
+#endif // TSCOREPIANOSTAFF_H

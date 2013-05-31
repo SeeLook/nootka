@@ -30,12 +30,14 @@ SET( SCORE_SRCS
   score/tscorescene.cpp
   score/tscoreitem.cpp
   score/tscorestaff.cpp
+  score/tscorepianostaff.cpp
   score/tscoreclef.cpp
   score/tscorenote.cpp
   score/tscorekeysignature.cpp
   score/tscorecontrol.cpp
   score/tclefselector.cpp
   score/tclefpreview.cpp
+#   score/tscoreoctaver.cpp
   
   score/tkeysignature.cpp
 )
@@ -49,6 +51,7 @@ SET( SCORE_MOC_SRCS
   score/tscorescene.h
   score/tscoreitem.h
   score/tscorestaff.h
+  score/tscorepianostaff.h
   score/tscoreclef.h
   score/tscorenote.h
   score/tscorekeysignature.h
