@@ -47,6 +47,7 @@ public:
     
 signals:
     void clefChanged();
+		void switchPianoStaff(Tclef);
     
 protected:
     void wheelEvent(QGraphicsSceneWheelEvent* event);

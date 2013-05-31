@@ -86,6 +86,9 @@ public:
 		virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
     virtual QRectF boundingRect() const;
 		
+signals:
+		void pianoStaffSwitch(Tclef);
+		
     
 protected slots:
     void onClefChanged();
@@ -93,6 +96,7 @@ protected slots:
     void onNoteClicked(int noteIndex);
 		void noteChangedAccid(int accid);
 		void onAccidButtonPressed(int accid);
+		void onPianoStaffChanged(Tclef clef) { emit pianoStaffSwitch(clef); }
     
 private:
 				/** Calculates current width of a staff depends on is key sign. enabled. */

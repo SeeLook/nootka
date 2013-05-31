@@ -23,6 +23,7 @@
 #include "tscorecontrol.h"
 #include "tscorenote.h"
 #include "tscorekeysignature.h"
+#include "tscoreclef.h"
 #include <QDebug>
 #include <QGraphicsView>
 #include <QHBoxLayout>
@@ -52,6 +53,7 @@ TsimpleScore::TsimpleScore(QWidget* parent) :
   setLayout(lay);
 
 	m_staff->setScoreControler(m_scoreControl);
+	connect(m_staff, SIGNAL(pianoStaffSwitch(Tclef)), this, SLOT(switchToPianoStaff(Tclef)));
   
   
 }
@@ -75,6 +77,7 @@ void TsimpleScore::setPianoStaff(bool isPiano) {
 						m_lowerStaff->setEnableKeySign(true);
 						connectToKeyChangedSlot(m_lowerStaff);
 				}
+				connect(m_lowerStaff, SIGNAL(pianoStaffSwitch(Tclef)), this, SLOT(switchToPianoStaff(Tclef)));
 				m_pianoFactor = 0.95;
 				resizeEvent(0);
 		} else {
@@ -93,6 +96,7 @@ void TsimpleScore::setPianoStaff(bool isPiano) {
 				if (isPianoStaff())
 						connectToKeyChangedSlot(m_staff);
 		}
+		connect(m_staff, SIGNAL(pianoStaffSwitch(Tclef)), this, SLOT(switchToPianoStaff(Tclef)));
 	}
 }
 
@@ -102,7 +106,8 @@ void TsimpleScore::setEnableKeySign(bool isEnabled) {
 		m_staff->setEnableKeySign(isEnabled);
 		if (isEnabled) {
 				m_staff->scoreKey()->showKeyName(true);
-				connectToKeyChangedSlot(m_staff);
+				if (m_lowerStaff) // only for piano staves
+					connectToKeyChangedSlot(m_staff);
 		}
 		if (m_lowerStaff) {
 			m_lowerStaff->setEnableKeySign(isEnabled);
@@ -144,6 +149,17 @@ void TsimpleScore::keyChangedInPianoStaff() {
 				connectToKeyChangedSlot(m_staff);
 	}
 }
+
+
+void TsimpleScore::switchToPianoStaff(Tclef clef) {
+	if (isPianoStaff() && clef.type() != Tclef::e_pianoStaff) {
+		setPianoStaff(false);
+		m_staff->scoreClef()->setClef(clef);
+	}
+	if (!isPianoStaff() && clef.type() == Tclef::e_pianoStaff)
+		setPianoStaff(true);
+}
+
 
 //##########################################################################################################
 //########################################## PRIVATE     ###################################################

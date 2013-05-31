@@ -27,46 +27,51 @@
 #include <QGraphicsScene>
 #include <QGraphicsEffect>
 
-TclefSelector::TclefSelector(TscoreScene *scene) :
+TclefSelector::TclefSelector(TscoreScene* scene, Tclef clefToMark) :
 	TscoreItem(scene)
 {
 		setZValue(100);
 		setScale(0.4);
-		
+		// This is two columns table with clef symbols.
 		createEntry(scene, m_treble, Tclef(Tclef::e_treble_G));
 		m_treble->setPos(1, -8);
+		if (clefToMark.type() == Tclef::e_treble_G)
+			m_treble->mark();
 		createEntry(scene, m_treble_8, Tclef(Tclef::e_treble_G_8down));
 		m_treble_8->setPos(1, 8);
+		if (clefToMark.type() == Tclef::e_treble_G_8down)
+			m_treble_8->mark();
 		createEntry(scene, m_bass, Tclef(Tclef::e_bass_F));
 		m_bass->setPos(1, 24);
+		if (clefToMark.type() == Tclef::e_bass_F)
+			m_bass->mark();
 		createEntry(scene, m_bass_8, Tclef(Tclef::e_bass_F_8down));
 		m_bass_8->setPos(1, 37);
+		if (clefToMark.type() == Tclef::e_bass_F_8down)
+			m_bass_8->mark();
 		createEntry(scene, m_alto, Tclef(Tclef::e_alto_C));
 		m_alto->setPos(50, -8);
+		if (clefToMark.type() == Tclef::e_alto_C)
+			m_alto->mark();
 		createEntry(scene, m_tenor, Tclef(Tclef::e_tenor_C));
 		m_tenor->setPos(50, 8);
+		if (clefToMark.type() == Tclef::e_tenor_C)
+			m_tenor->mark();
 		createEntry(scene, m_piano, Tclef(Tclef::e_pianoStaff));
 		m_piano->setPos(50, 24);
+		if (clefToMark.type() == Tclef::e_pianoStaff)
+			m_piano->mark();
 
 		QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect;
+		effect->setOffset(2, 2);
 		setGraphicsEffect(effect);
 }
-
-void TclefSelector::clefClicked(Tclef clef) {
-		emit clefSelected(clef);
-}
-
 
 
 QRectF TclefSelector::boundingRect() const {
 	return QRectF(0, -7.0, 95.0, 70.0);
+	/** Hardcoded values describing rectiangle around clef symbols. */
 }
-
-
-void TclefSelector::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
-  emit clefSelected(Tclef(Tclef::e_none));
-}
-
 
 
 void TclefSelector::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
@@ -78,6 +83,10 @@ void TclefSelector::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
 // 		QGraphicsTextItem::paint(painter, option, widget);
 }
 
+//##########################################################################################################
+//########################################## PROTECTED   ###################################################
+//##########################################################################################################
+
 
 void TclefSelector::createEntry(TscoreScene* scene, TclefPreview*& clefView, Tclef clef) {
 		clefView = new TclefPreview(scene, clef);
@@ -85,5 +94,14 @@ void TclefSelector::createEntry(TscoreScene* scene, TclefPreview*& clefView, Tcl
 		connect(clefView, SIGNAL(clicked(Tclef)), this, SLOT(clefClicked(Tclef)));
 }
 
+
+void TclefSelector::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
+  emit clefSelected(Tclef(Tclef::e_none));
+}
+
+
+void TclefSelector::clefClicked(Tclef clef) {
+		emit clefSelected(clef);
+}
 
 

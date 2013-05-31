@@ -63,6 +63,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
   if (kindOfStaff != e_normal)
     m_clef->setReadOnly(true);
 	m_clef->setZValue(55);
+	connect(m_clef, SIGNAL(switchPianoStaff(Tclef)), this, SLOT(onPianoStaffChanged(Tclef)));
 // Notes
   for (int i = 0; i < notesNr; i++) {
       m_notes << new TscoreNote(scene, this, i);
