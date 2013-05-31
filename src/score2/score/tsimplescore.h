@@ -41,7 +41,7 @@ public:
 				/** Sets TsimpleScore to piano staff view.
 				 * Clefs are unchangeable. */
 		void setPianoStaff(bool isPiano);
-		bool isPianoStaff() { return (bool)m_lowerStaff; }
+		bool isPianoStaff() { return m_isPianoStaff; }
 		
 		void setEnableKeySign(bool isEnabled);
 		
@@ -59,8 +59,6 @@ protected:
 protected slots:
     void statusTipChanged(QString status) { emit statusTip(status); }
     void resizeEvent(QResizeEvent* event);
-				/** This slot ties key signatutes in two staves. */
-		void keyChangedInPianoStaff();
 				/** This is response for user demand to chenge to or from piano staff. */
 		void switchToPianoStaff(Tclef clef);
   
@@ -69,12 +67,7 @@ private:
     TscoreStaff     *m_staff, *m_lowerStaff;
     TscoreControl   *m_scoreControl;
     QGraphicsView   *m_score;
-		
-private:
-				/** Connects TscoreKeySignature in given staff to keyChangedInPianoStaff slot.
-				 * When @param join is false - disconnects. */
-		void connectToKeyChangedSlot(TscoreStaff *staff, bool join = true);
-    
+		bool 						m_isPianoStaff;    
   
 };
 
