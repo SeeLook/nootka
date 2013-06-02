@@ -16,22 +16,27 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tscoreoctaver.h"
+#include "tscoreottava.h"
+#include "tscorestaff.h"
 
-TscoreOctaver::TscoreOctaver()
+TscoreOttava::TscoreOttava(TscoreStaff* staff, int beginNote, int endNote) :
+	TscoreItem(0)
 {
+	setStaff(staff);
+	setParentItem(staff);
 }
 
-TscoreOctaver::TscoreOctaver(const TscoreOctaver& other)
-{
+
+TscoreOttava::~TscoreOttava() {}
+
+
+
+QRectF TscoreOttava::boundingRect() const {
+
 }
 
-void TscoreOctaver::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
-{
-}
+void TscoreOttava::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
 
-QRectF TscoreOctaver::boundingRect()
-{
 }
 
 

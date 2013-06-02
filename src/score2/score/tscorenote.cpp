@@ -46,13 +46,16 @@ QFont TscoreNote::getAccidFont() {
   return font;
 }
 
+//################################################################################################
 
 TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   TscoreItem(scene),
   m_workPosY(0.0), m_mainPosY(0.0),
   m_curentAccid(0), m_accidental(0),
   m_index(index),
-  m_readOnly(false)
+  m_readOnly(false),
+//   m_noteNr(100),
+  m_ottava(0)
 {
   setStaff(staff);
 	setParentItem(staff);
@@ -103,15 +106,13 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_mainNote->setZValue(34); // under
   m_mainAccid->setZValue(m_mainNote->zValue());
   if (staff->kindOfStaff() == TscoreStaff::e_normal)
-      setAmbitus(34, 5);
+      setAmbitus(38, 1);
   else if (staff->kindOfStaff() == TscoreStaff::e_upper)
         setAmbitus(18, 2);
-      else if (staff->kindOfStaff() == TscoreStaff::e_lower)
-              setAmbitus(18, 0);
+	else if (staff->kindOfStaff() == TscoreStaff::e_lower)
+				setAmbitus(18, 1);
   
-  
-  
-  setStatusTip(tr("Click to sellect a note, use mouse wheel to change accidentals."));
+  setStatusTip(tr("Click to select a note, use mouse wheel to change accidentals."));
 }
 
 
@@ -155,9 +156,9 @@ void TscoreNote::setWorkAccid(int accNr) {
 
 void TscoreNote::moveNote(int pos) {
     if (pos > m_ambitMin || pos < m_ambitMax) {
-      hideNote();
-      m_mainPosY = 0;
-      return;
+				m_mainPosY = 0;
+				hideNote();
+				return;
     }
     m_mainPosY = pos;
     m_mainNote->setPos(3.0, pos);
@@ -236,14 +237,14 @@ void TscoreNote::setReadOnly(bool ro) {
 
 
 QRectF TscoreNote::boundingRect() const{
-    return QRectF(0, 0, 7, m_height);
+    return QRectF(0, 0, 7.0, m_height);
 }
 
 
 void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
 //   painter->setBrush(QColor(m_index, m_index, m_index, 50));
 //   painter->setPen(Qt::NoPen);
-  painter->drawRect(boundingRect());
+//   painter->drawRect(boundingRect());
 }
 
 
@@ -351,5 +352,39 @@ void TscoreNote::hideLines(QList< QGraphicsLineItem* >& linesList) {
     for (int i=0; i < linesList.size(); i++) 
       linesList[i]->hide();
 }
+
+
+/*
+void TscoreNote::checkOctavation() {
+	bool notPossible = false;
+			if (pos < m_ambitMax) {
+				m_ottava = -1;
+				pos += 7;
+				if (pos < m_ambitMax) {
+					m_ottava = -2;
+					pos += 7;
+					if (pos < m_ambitMax)
+						notPossible = true;
+				}
+			} else {
+				m_ottava = 1;
+				pos -= 7;
+				if (pos > m_ambitMin) {
+					m_ottava = 2;
+					pos -= 7;
+					if (pos > m_ambitMin)
+						notPossible = true;
+				}
+			}
+			if (notPossible) {
+				m_ottava = 0;
+				m_mainPosY = 0;
+				hideNote();
+				return;
+			}
+			qDebug() << "octavation required" << (int)m_ottava;
+} */
+
+
 
 

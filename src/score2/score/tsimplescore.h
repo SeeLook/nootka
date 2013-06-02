@@ -22,6 +22,7 @@
 
 #include <QWidget>
 #include "tclef.h"
+#include "tnote.h"
 
 class QGraphicsView;
 class TscoreControl;
@@ -35,7 +36,7 @@ class TsimpleScore : public QWidget
   Q_OBJECT
   
 public:
-    TsimpleScore(QWidget *parent = 0);
+    TsimpleScore(int notesNumber, QWidget *parent = 0);
     ~TsimpleScore();
 
 				/** Sets TsimpleScore to piano staff view.
@@ -47,6 +48,10 @@ public:
 		
 signals:
     void statusTip(QString);
+		void noteHasChanged(int index, Tnote note); // TODO change this name - clamsy english
+		
+public slots:
+		void noteWasClicked(int index);
 		
 protected:
 		QGraphicsView* score() { return m_score; }
@@ -67,7 +72,8 @@ private:
     TscoreStaff     *m_staff, *m_lowerStaff;
     TscoreControl   *m_scoreControl;
     QGraphicsView   *m_score;
-		bool 						m_isPianoStaff;    
+		bool 						m_isPianoStaff;
+		int 						m_notesNr;
   
 };
 

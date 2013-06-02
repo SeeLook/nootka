@@ -39,9 +39,12 @@ protected slots:
 				/** This slots ties key signatutes in two staves. */
 		void upperStaffChangedKey();
 		void lowerStaffChangedKey();
-
+				/** */
+		void upperNoteChanged(int noteIndex);
+		void lowerNoteChanged(int noteIndex);
+				
 private:
-		TscoreStaff 		*m_lower;
+		TscoreStaff 		*m_lower; // grand (left hand) staff
 
 };
 

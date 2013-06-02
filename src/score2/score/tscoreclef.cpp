@@ -21,7 +21,6 @@
 #include "tscorestaff.h"
 #include "tclefselector.h"
 #include "tclef.h"
-// #include <QDebug>
 #include <QGraphicsSceneHoverEvent>
 #include <QGraphicsView>
 
@@ -87,7 +86,7 @@ void TscoreClef::setClef(Tclef clef) {
     m_currClefInList = getClefPosInList(m_clef);
     m_textClef->setText(QString(clefToChar(m_clef.type())));
     setPos(1, getYclefPos(m_clef) - (16 - staff()->upperLinePos()));
-    setStatusTip(m_clef.name() + " (" + m_clef.desc() + ")");
+    setStatusTip(m_clef.name() + " (" + m_clef.desc() + ")<br>" + tr("To change clef click it or use mouse wheel."));
     emit statusTip(statusTip());
   }
 }

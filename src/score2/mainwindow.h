@@ -23,6 +23,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "tnote.h"
 
 class QCheckBox;
 class TmainScore;
@@ -41,6 +42,7 @@ protected slots:
    void updateStatusTip(QString status);
 	 void keySignBoxChanged(bool enable);
 	 void pianoBoxChanged(bool enable);
+	 void scoreChangedNote(int index, Tnote note);
 
 private:
     TsimpleScore *m_simpleScore;

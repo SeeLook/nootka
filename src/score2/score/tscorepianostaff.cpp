@@ -18,7 +18,11 @@
 
 #include "tscorepianostaff.h"
 #include "tscorekeysignature.h"
+#include "tscorenote.h"
+#include <tnote.h>
 #include <QFont>
+
+#include <QDebug>
 
 TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
 	TscoreStaff(scene, notesNr, e_upper)
@@ -26,6 +30,11 @@ TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
 	m_lower = new TscoreStaff(scene, notesNr, e_lower);
 	m_lower->setParentItem(this);
 	m_lower->setPos(0, TscoreStaff::boundingRect().height());
+	for (int i = 0; i < notesNr; i++) {
+		connect(noteSegment(i), SIGNAL(noteWasClicked(int)), this, SLOT(upperNoteChanged(int)));
+		connect(m_lower->noteSegment(i), SIGNAL(noteWasClicked(int)), this, SLOT(lowerNoteChanged(int)));
+	}
+// brace (Akolada)
 	QGraphicsSimpleTextItem *brace = new QGraphicsSimpleTextItem();
 	registryItem(brace);
 	brace->setParentItem(this);
@@ -77,6 +86,20 @@ void TscorePianoStaff::lowerStaffChangedKey() {
 	scoreKey()->setKeySignature(m_lower->scoreKey()->keySignature());
 	connect(scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(upperStaffChangedKey()));
 }
+
+void TscorePianoStaff::upperNoteChanged(int noteIndex) {
+	m_lower->noteSegment(noteIndex)->hideNote();
+	// signal noteChanged isemited by ancesor class
+}
+
+void TscorePianoStaff::lowerNoteChanged(int noteIndex) {
+	noteSegment(noteIndex)->hideNote();
+	getNote(noteIndex)->note = m_lower->getNote(noteIndex)->note;
+	getNote(noteIndex)->acidental = m_lower->getNote(noteIndex)->acidental;
+	getNote(noteIndex)->acidental = m_lower->getNote(noteIndex)->acidental;
+	emit noteChanged(noteIndex);
+}
+
 
 
 
