@@ -26,7 +26,7 @@ class TmainScore : public TsimpleScore
     Q_OBJECT
 
 public:
-    TmainScore(QWidget *parent = 0);
+    TmainScore(int noteNumber, QWidget *parent = 0);
     ~TmainScore();
 
 private:

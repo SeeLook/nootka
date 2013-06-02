@@ -22,6 +22,7 @@
 #include "tscorenote.h"
 #include "tscorekeysignature.h"
 #include "tscorecontrol.h"
+#include <tnote.h>
 #include <QGraphicsView>
 
 #include <QDebug>
@@ -66,15 +67,16 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
 	connect(m_clef, SIGNAL(switchPianoStaff(Tclef)), this, SLOT(onPianoStaffChanged(Tclef)));
 // Notes
   for (int i = 0; i < notesNr; i++) {
-      m_notes << new TscoreNote(scene, this, i);
-      m_notes[i]->setPos(7.0 + i * m_notes[i]->boundingRect().width(), 0);
-      connect(m_notes[i], SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
-			connect(m_notes[i], SIGNAL(accidWasChanged(int)), this, SLOT(noteChangedAccid(int)));
-			m_notes[i]->setZValue(50);
+			m_notes << new Tnote(0, 0, 0);
+      m_scoreNotes << new TscoreNote(scene, this, i);
+      m_scoreNotes[i]->setPos(7.0 + i * m_scoreNotes[i]->boundingRect().width(), 0);
+      connect(m_scoreNotes[i], SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
+			connect(m_scoreNotes[i], SIGNAL(accidWasChanged(int)), this, SLOT(noteChangedAccid(int)));
+			m_scoreNotes[i]->setZValue(50);
   }
   
-  if (m_notes.size())
-		m_width = m_clef->boundingRect().width() + m_notes.size() * m_notes[0]->boundingRect().width() + 3;
+  if (m_scoreNotes.size())
+		m_width = m_clef->boundingRect().width() + m_scoreNotes.size() * m_scoreNotes[0]->boundingRect().width() + 3;
 	else 
 		m_width = m_clef->boundingRect().width() + 3;
 // Staff lines
@@ -93,7 +95,11 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
 }
 
 
-TscoreStaff::~TscoreStaff() {}
+TscoreStaff::~TscoreStaff() {
+	for (int i = 0; i < m_notes.size(); i++)
+		delete m_notes[i];
+	m_notes.clear();
+}
 
 
 void TscoreStaff::setScoreControler(TscoreControl* scoreControl) {
@@ -118,8 +124,8 @@ void TscoreStaff::setEnableKeySign(bool isEnabled) {
 					m_keySignature = 0;
 		}
 		updateWidth();
-		for (int i = 0; i < m_notes.size(); i++) // update positions of the notes
-				m_notes[i]->setPos(7.0 + notesOff + i * m_notes[0]->boundingRect().width(), 0);
+		for (int i = 0; i < m_scoreNotes.size(); i++) // update positions of the notes
+				m_scoreNotes[i]->setPos(7.0 + notesOff + i * m_scoreNotes[0]->boundingRect().width(), 0);
 		for (int i = 0; i < 5; i++) // adjust staff lines length
 				m_lines[i]->setLine(1, upperLinePos() + i * 2, boundingRect().width() - 2, upperLinePos() + i * 2);
 		scoreScene()->update();
@@ -147,8 +153,8 @@ void TscoreStaff::paint(QPainter* painter, const QStyleOptionGraphicsItem* optio
 
 void TscoreStaff::onClefChanged( ) {
 	int globalNr;
-	if (m_notes.size())
-		globalNr = notePosRelatedToClef(m_notes[0]->notePos(), m_offset);
+	if (m_scoreNotes.size())
+		globalNr = notePosRelatedToClef(m_scoreNotes[0]->notePos(), m_offset);
   switch(m_clef->clef().type()) {
     case Tclef::e_treble_G:
       m_offset = TnoteOffset(3, 2); break;
@@ -165,29 +171,37 @@ void TscoreStaff::onClefChanged( ) {
   }
   if (m_keySignature)
       m_keySignature->setClef(m_clef->clef());
-	if (m_notes.size()) {
-			int newNr = notePosRelatedToClef(m_notes[0]->notePos(), m_offset);
-			for (int i = 0; i < m_notes.size(); i++) {
-				m_notes[i]->moveNote(m_notes[i]->notePos() - (globalNr - newNr));
+	if (m_scoreNotes.size()) {
+			int newNr = notePosRelatedToClef(m_scoreNotes[0]->notePos(), m_offset);
+			for (int i = 0; i < m_scoreNotes.size(); i++) {
+				if (m_scoreNotes[i]->notePos()) {
+// 						qDebug() << "new note pos of" << i << m_notes[i]->notePos() - (globalNr - newNr);
+						m_scoreNotes[i]->moveNote(m_scoreNotes[i]->notePos() + m_scoreNotes[i]->ottava() * 7 - (globalNr - newNr));
+				}
 			}
 	}
 }
 
 
 void TscoreStaff::onKeyChanged() {
-  for (int i = 0; i < m_notes.size(); i++) {
-    if (m_notes[i]->notePos())
-        m_notes[i]->moveNote(m_notes[i]->notePos());
+  for (int i = 0; i < m_scoreNotes.size(); i++) {
+    if (m_scoreNotes[i]->notePos())
+        m_scoreNotes[i]->moveNote(m_scoreNotes[i]->notePos());
   }
 }
 
 
 void TscoreStaff::onNoteClicked(int noteIndex) {
-  int globalNr = notePosRelatedToClef(m_notes[noteIndex]->notePos(), m_offset);;
+  int globalNr = notePosRelatedToClef(m_scoreNotes[noteIndex]->notePos() + m_scoreNotes[noteIndex]->ottava() * 7, m_offset);
+	m_notes[noteIndex]->note = (char)(56 + globalNr) % 7 + 1;
+	m_notes[noteIndex]->octave = (char)(56 + globalNr) / 7 - 8;
+	m_notes[noteIndex]->acidental = (char)m_scoreNotes[noteIndex]->accidental();
+	emit noteChanged(noteIndex);
 
-  qDebug() << noteIndex << (int)upperLinePos() - globalNr + 1 
-  << "NOTE:" << (56 + globalNr) % 7 + 1 
-  << "OCTAVE:" << (56 + globalNr) / 7 - 8;
+	qDebug() << m_notes[noteIndex]->toText();
+//   qDebug() << noteIndex << (int)upperLinePos() - globalNr + 1 
+//   << "NOTE:" << (56 + globalNr) % 7 + 1 
+//   << "OCTAVE:" << (56 + globalNr) / 7 - 8;
 }
 
 
@@ -214,8 +228,8 @@ void TscoreStaff::updateWidth() {
 	qreal off = 0.0;
 	if (m_keySignature)
 		off = m_keySignature->boundingRect().width();
-	if (m_notes.size())
-		m_width = 10.0 + off + m_notes.size() * m_notes[0]->boundingRect().width();
+	if (m_scoreNotes.size())
+		m_width = 10.0 + off + m_scoreNotes.size() * m_scoreNotes[0]->boundingRect().width();
 	else
 		m_width = 10.0 + off;
 }

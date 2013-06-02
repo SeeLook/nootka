@@ -16,23 +16,27 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TSCOREOCTAVER_H
-#define TSCOREOCTAVER_H
+#ifndef TSCOREOTTAVA_H
+#define TSCOREOTTAVA_H
 
-#include <tscoreitem.h>
+#include "tscoreitem.h"
+
+class TscoreStaff;
 
 /** This class responses for displaing octavation symbol over or below a note */
-class TscoreOctaver : public TscoreItem
+class TscoreOttava : public TscoreItem
 {
-    Q_OBJECT
+//     Q_OBJECT
 
 public:
-    TscoreOctaver();
+    TscoreOttava(TscoreStaff* staff, int beginNote, int endNote);
+    virtual ~TscoreOttava(); 
+		
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
-    virtual QRectF boundingRect();
+    virtual QRectF boundingRect() const;
 
-private:
+// private:
 
 };
 
-#endif // TSCOREOCTAVER_H
+#endif // TSCOREOTTAVA_H

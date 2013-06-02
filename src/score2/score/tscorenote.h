@@ -46,12 +46,14 @@ public:
     void markNote(QColor blurColor);    
     void moveNote(int pos);
         /** Min and Max values of Y coefficient on the staff */
-    void setAmbitus(int min, int max){ m_ambitMin = qMax(min, 0); m_ambitMax = qMin(max, (int)m_height); }
+    void setAmbitus(int min, int max){ m_ambitMin = qMax(min, 1); m_ambitMax = qMin(max, (int)m_height - 1); }
 
         /** This return value of @li -2 is bb @li 1 is #
-         * @li etc... */
+         * @li etc... */ 
     int accidental() {return m_accidental;}
+    int ottava() { return m_ottava; } // NOTE: for thismomentit isunused and set to 0
     int notePos() { return m_mainPosY; }
+//     int noteNumber() { return m_noteNr; } // note number depends on octave.
         /** Returns QString with accidental symbol*/
     static QString getAccid(int accNr);
     static QFont getAccidFont();
@@ -84,7 +86,9 @@ private:
     
     int                           m_workPosY, m_mainPosY;
     int                           m_curentAccid, m_accidental;
-    int                           m_index;
+    int                           m_index; // note index in externl list
+//     int 													m_noteNr; // note number depends on octave
+    int 													m_ottava; // values from -2 (two octaves down), to 2 (two octaves up)
                   /** Represents range (ambitus) of notes on score */
     int                           m_ambitMin, m_ambitMax;
     qreal                         m_height;
@@ -95,6 +99,7 @@ private:
     QGraphicsEllipseItem* createNoteHead();
     QGraphicsLineItem*    createNoteLine(int yPos);
     void hideLines(QList<QGraphicsLineItem*> &linesList);
+		void checkOctavation();
 		
     
 };

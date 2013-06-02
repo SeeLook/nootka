@@ -23,6 +23,17 @@
 #include "tclef.h"
 
 class TclefSelector;
+
+/** It implements clef on the score.
+*	Clef can be changed by mouse scroll (wheel) as long as readOnly is set to @p FALSE (default),
+* and then @p clefChanged() signal is emited.
+* Piano staff can't be selected this way.
+* Also, this class handles mouse click. It displays TclefSelector (window with clefs to select).
+* Piano staff can be selected or deselected then. In this case @p switchPianoStaff(Tclef) is emited,
+* with selected clef as a parameter.
+* @p isClickable() controls when @class TscoreClef can work that way.
+* Static @p clefToChar(Tclef) method converts Tclef::type() to appropirate glyph in nootka font.
+*/
 class TscoreClef : public TscoreItem
 {
     Q_OBJECT    
@@ -34,16 +45,16 @@ public:
     Tclef clef() { return m_clef; }
     void setClef(Tclef clef);
     
-    
+				/** Converts Tclef to appropirate QChar with clef glyph in nootka font. */
     static QChar clefToChar(Tclef clef);
     
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
     virtual QRectF boundingRect() const;
     
     void setReadOnly(bool ro) { m_readOnly = ro; } // hover mouse events are ignored 
-    bool readOnly() { return m_readOnly; } // when TTRUE, hover mouse events are ignored
-    bool isClickable() { return m_isClickable; } // mouse pressing are ignored
-		void setIsClickable(bool isIt) { m_isClickable = isIt; } // mouse pressing are ignored
+    bool readOnly() { return m_readOnly; } // when  TRUE, hover mouse events are ignored
+    bool isClickable() { return m_isClickable; } // mouse pressing is ignored
+		void setIsClickable(bool isIt) { m_isClickable = isIt; } // mouse pressing is ignored
     
 signals:
     void clefChanged();
@@ -66,10 +77,10 @@ private:
 		TclefSelector											*m_selector;
     
     int                               m_currClefInList;    
-        /** List of all clef types exept empty (none clef) */
+        /** List of all clef types exept empty (none clef) and piano staff. */
     static QList<Tclef::Etype>        m_typesList;
     bool                              m_readOnly; // hover mouse events are ignored
-		bool 															m_isClickable; // mouse pressing are ignored
+		bool 															m_isClickable; // mouse pressing is ignored
 
 };
 

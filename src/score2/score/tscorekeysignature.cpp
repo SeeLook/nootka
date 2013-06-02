@@ -138,9 +138,9 @@ QRectF TscoreKeySignature::boundingRect() const{
 
 
 void TscoreKeySignature::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-  painter->setBrush(QColor(0, 0, 255, 30));
-  painter->setPen(Qt::NoPen);
-  painter->drawRect(boundingRect());
+//   painter->setBrush(QColor(0, 0, 255, 30));
+//   painter->setPen(Qt::NoPen);
+//   painter->drawRect(boundingRect());
 }
 
 
@@ -150,7 +150,7 @@ void TscoreKeySignature::paint(QPainter* painter, const QStyleOptionGraphicsItem
 
 void TscoreKeySignature::mousePressEvent(QGraphicsSceneMouseEvent* event) {
   if (event->button() == Qt::LeftButton) {
-    if (event->pos().y() > 20.0)
+    if (event->pos().y() > m_height / 2)
       increaseKey(-1);
     else
       increaseKey(1);
@@ -183,7 +183,7 @@ void TscoreKeySignature::updateKeyName() {
 			m_keyNameText->setHtml(TkeySignature::getMajorName(m_keySignature) + "<br>" +
 															TkeySignature::getMinorName(m_keySignature));
 			m_keyNameText->setPos((boundingRect().width() - m_keyNameText->boundingRect().width() * m_keyNameText->scale()) / 2,
-				staff()->upperLinePos() - 7);
+				staff()->upperLinePos() - 3 - m_keyNameText->boundingRect().height() * m_keyNameText->scale());
 //TODO center it and scale if needed
 // 			if (m_keyNameText->boundingRect().width() / m_keyNameText->scale() > boundingRect().width()) {
 // 					qreal factor = (boundingRect().width()) / (m_keyNameText->boundingRect().width() / m_keyNameText->scale());

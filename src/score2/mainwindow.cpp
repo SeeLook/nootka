@@ -38,8 +38,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	
 // 	m_mainScore = new TmainScore(w);
 // 	lay->addWidget(m_mainScore);
-  m_simpleScore = new TsimpleScore(w);
+  m_simpleScore = new TsimpleScore(3, w);
   lay->addWidget(m_simpleScore);
+	connect(m_simpleScore, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(scoreChangedNote(int,Tnote)));
 // 	m_simpleScore->setPianoStaff(true);
 	
 	QHBoxLayout *settLay = new QHBoxLayout;
@@ -83,6 +84,10 @@ void MainWindow::keySignBoxChanged(bool enable) {
 
 void MainWindow::pianoBoxChanged(bool enable) {
 	m_simpleScore->setPianoStaff(m_pianBox->isChecked());
+}
+
+void MainWindow::scoreChangedNote(int index, Tnote note) {
+	m_bar->showMessage(QString("note nr: %1   %2").arg(index).arg(note.toText()), 2000);
 }
 
 

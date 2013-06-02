@@ -21,7 +21,6 @@
 #include "tclefpreview.h"
 #include "tscorestaff.h"
 #include "tscorescene.h"
-#include <QDebug>
 #include <QPainter>
 #include <QStyleOption>
 #include <QGraphicsScene>
@@ -70,7 +69,7 @@ TclefSelector::TclefSelector(TscoreScene* scene, Tclef clefToMark) :
 
 QRectF TclefSelector::boundingRect() const {
 	return QRectF(0, -7.0, 95.0, 70.0);
-	/** Hardcoded values describing rectiangle around clef symbols. */
+	/** Hardcoded values describing selector rectiangle. */
 }
 
 

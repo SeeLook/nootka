@@ -21,15 +21,17 @@
 #define TSCORESTAFF_H
 
 #include "tscoreitem.h"
-#include <tclef.h>
+#include "tclef.h"
+
 
 class TscoreControl;
 class TscoreKeySignature;
 class TscoreNote;
 class TscoreClef;
 class TscoreScene;
+class Tnote;
 
-
+/** Describes offset of a note. */
 class TnoteOffset
 {
 public:
@@ -40,7 +42,14 @@ public:
   int total() { return octave * 7 + note; }
 };
 
-
+/** @class TscoreStaff manages score items onthe staff.
+ * It has got:
+ * - clef - @p TscoreClef - accessing by @p scoreClef()
+ * - key signature - @p TscoreKeySignature - scoreKey()
+ * - notes (in QList) - @p TscoreNote - @p noteSegment(int nr)
+ * 
+ * If TscoreControl is set (@p setScoreControler(TscoreControl)) it manages of accidentals of notes
+ */
 class TscoreStaff : public TscoreItem
 {
     Q_OBJECT
@@ -49,18 +58,20 @@ public:
   
     enum Ekind {
       e_normal, // normal staff placed in the centre of score
-      e_upper, // placed up - right hand of piano staff
-      e_lower // placed down - left hand of piano staff
+      e_upper, // placed up - right hand of piano staff with treble clef
+      e_lower // placed down - left hand of piano staff with bass clef
     }; // Kind of staff (normal or upper (right hand) or lower(left hand))
       
     TscoreStaff(TscoreScene *scene, int notesNr, Ekind kindOfStaff = e_normal);
     virtual ~TscoreStaff();
     
-				/** Returns pointer to TscoreNote element in the score. */
-		TscoreNote* noteSegment(int nr) { return m_notes[nr]; }
+				/** Returns pointer to TscoreNote element in the score. 
+				 * When it is piano staff - upper notes are returned. */
+		TscoreNote* noteSegment(int nr) { return m_scoreNotes[nr]; }
 		TscoreKeySignature* scoreKey() { return m_keySignature; }
 		TscoreClef* scoreClef() { return m_clef; }
-		
+				/** Returns current @p index note or Tnot(0,0,0) if not set. */
+		Tnote* getNote(int index) { return m_notes[index]; }
 		virtual void setEnableKeySign(bool isEnabled);
    
         /** This array keeps values (-1, 0 or 1) for accidentals in key sign.
@@ -90,30 +101,34 @@ public:
 		
 signals:
 		void pianoStaffSwitch(Tclef);
+		void noteChanged(int index);
 		
+public slots:
+				/** It is connected with clef, but also refresh m_offset appropirate to current clef. */
+		void onClefChanged();
 		
 protected slots:
-    void onClefChanged();
     void onKeyChanged();
     void onNoteClicked(int noteIndex);
-		void noteChangedAccid(int accid);
-		void onAccidButtonPressed(int accid);
-		void onPianoStaffChanged(Tclef clef) { emit pianoStaffSwitch(clef); }
+		void noteChangedAccid(int accid); // TscoreNote wheel event - changes accidental
+		void onAccidButtonPressed(int accid); // TscoreControl accid button pressed
+		void onPianoStaffChanged(Tclef clef) { emit pianoStaffSwitch(clef); } // clef demands piano staff
     
 private:
 				/** Calculates current width of a staff depends on is key sign. enabled. */
 		void updateWidth();
 		
 private:    
-    QGraphicsLineItem       *m_lines[5];
+    QGraphicsLineItem       *m_lines[5]; // five staff lines
     TscoreClef              *m_clef;
     TscoreKeySignature      *m_keySignature;
-    QList<TscoreNote*>      m_notes;
+    QList<TscoreNote*>      m_scoreNotes;
     qreal                   m_upperLinePos;
     qreal                   m_height, m_width;
     Ekind                   m_kindOfStaff;
     TnoteOffset             m_offset;
 		TscoreControl						*m_scoreControl;
+		QList<Tnote*>						m_notes;
 		
 };
 

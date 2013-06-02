@@ -18,8 +18,8 @@
 
 #include "tmainscore.h"
 
-TmainScore::TmainScore(QWidget* parent) :
-	TsimpleScore(parent)
+TmainScore::TmainScore(int noteNumber, QWidget* parent) :
+	TsimpleScore(noteNumber, parent)
 {
 }
 
