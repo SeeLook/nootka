@@ -22,7 +22,6 @@
 #include <tnote.h>
 #include <QFont>
 
-#include <QDebug>
 
 TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
 	TscoreStaff(scene, notesNr, e_upper)
@@ -34,6 +33,7 @@ TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
 		connect(noteSegment(i), SIGNAL(noteWasClicked(int)), this, SLOT(upperNoteChanged(int)));
 		connect(m_lower->noteSegment(i), SIGNAL(noteWasClicked(int)), this, SLOT(lowerNoteChanged(int)));
 	}
+	connect(m_lower, SIGNAL(pianoStaffSwitch(Tclef)), this, SLOT(lowerStaffClefChanged(Tclef)));
 // brace (Akolada)
 	QGraphicsSimpleTextItem *brace = new QGraphicsSimpleTextItem();
 	registryItem(brace);
@@ -89,7 +89,7 @@ void TscorePianoStaff::lowerStaffChangedKey() {
 
 void TscorePianoStaff::upperNoteChanged(int noteIndex) {
 	m_lower->noteSegment(noteIndex)->hideNote();
-	// signal noteChanged isemited by ancesor class
+	// no nessessary to emit noteChanged - this noteChanged is emited by ancesor class
 }
 
 void TscorePianoStaff::lowerNoteChanged(int noteIndex) {
@@ -99,6 +99,11 @@ void TscorePianoStaff::lowerNoteChanged(int noteIndex) {
 	getNote(noteIndex)->acidental = m_lower->getNote(noteIndex)->acidental;
 	emit noteChanged(noteIndex);
 }
+
+void TscorePianoStaff::lowerStaffClefChanged(Tclef clef) {
+  emit pianoStaffSwitch(clef);
+}
+
 
 
 

@@ -24,6 +24,7 @@
 #include <QGraphicsSceneHoverEvent>
 #include <QGraphicsView>
 
+
 /*static*/
 QChar TscoreClef::clefToChar(Tclef clef) {
   QChar ch;
@@ -99,11 +100,7 @@ QRectF TscoreClef::boundingRect() const {
       return QRectF(0, 0, 6, 40);
 }
 
-void TscoreClef::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-//   painter->setBrush(QColor(0, 255, 0, 30));
-//   painter->setPen(Qt::NoPen);
-//   painter->drawRect(boundingRect());  
-}
+void TscoreClef::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {}
 
 
 
@@ -145,9 +142,9 @@ void TscoreClef::clefSelected(Tclef clef) {
 	// This is hard logic that I love so much...
 	// We supose readOnly() is pointing that staff is piano
 	if (readOnly()) {
-		if (clef.type() != Tclef::e_pianoStaff) // user selected other clef than piano
+		if (clef.type() != Tclef::e_pianoStaff) { // user selected other clef than piano
 			emit switchPianoStaff(clef); // this staff will be deleted and emited clef will set
-		else
+    } else
 			return; // when user selected piano staff again - do nothing
 	} else // ordinary single staff
 			if (clef.type() != Tclef::e_pianoStaff) { // simply set another clef
