@@ -36,12 +36,15 @@ public:
 		
 		
 protected slots:
-				/** This slots ties key signatutes in two staves. */
+				/** Those slots ties key signatutes in two staves. */
 		void upperStaffChangedKey();
 		void lowerStaffChangedKey();
-				/** */
+				/** It has doubled noteSegments (for each staff).
+         * Those slots manage this. */
 		void upperNoteChanged(int noteIndex);
 		void lowerNoteChanged(int noteIndex);
+        /** Takes care about signal clefChanged from lower staff. */
+    void lowerStaffClefChanged(Tclef clef);
 				
 private:
 		TscoreStaff 		*m_lower; // grand (left hand) staff

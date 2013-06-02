@@ -62,6 +62,7 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
   setLayout(lay);
 
 	m_staff->setScoreControler(m_scoreControl);  
+  m_scene->setSceneRect(m_staff->boundingRect());
   
 }
 

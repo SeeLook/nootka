@@ -106,7 +106,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_mainNote->setZValue(34); // under
   m_mainAccid->setZValue(m_mainNote->zValue());
   if (staff->kindOfStaff() == TscoreStaff::e_normal)
-      setAmbitus(38, 1);
+      setAmbitus(37, 1);
   else if (staff->kindOfStaff() == TscoreStaff::e_upper)
         setAmbitus(18, 2);
 	else if (staff->kindOfStaff() == TscoreStaff::e_lower)
