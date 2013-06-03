@@ -33,7 +33,8 @@
 TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
   QWidget(parent),
 	m_isPianoStaff(false),
-	m_notesNr(notesNumber)
+	m_notesNr(notesNumber),
+	m_scoreControl(0)
 {
 //   setGeometry(parent->geometry());
   QHBoxLayout *lay = new QHBoxLayout;
@@ -62,7 +63,7 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
   setLayout(lay);
 
 	m_staff->setScoreControler(m_scoreControl);  
-  m_scene->setSceneRect(m_staff->boundingRect());
+//   m_scene->setSceneRect(m_staff->boundingRect());
   
 }
 
@@ -92,6 +93,7 @@ void TsimpleScore::setPianoStaff(bool isPiano) {
 		}
 		connect(m_staff, SIGNAL(pianoStaffSwitch(Tclef)), this, SLOT(switchToPianoStaff(Tclef)));
 		connect(m_staff, SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
+		resizeEvent(0);
 	}
 }
 
@@ -101,8 +103,11 @@ void TsimpleScore::setEnableKeySign(bool isEnabled) {
 		m_staff->setEnableKeySign(isEnabled);
 		if (isEnabled)
 				m_staff->scoreKey()->showKeyName(true);
+		resizeEvent(0);
 	}
 }
+
+
 
 //##########################################################################################################
 //########################################## PUBLIC SLOTS ##################################################
@@ -121,15 +126,17 @@ void TsimpleScore::noteWasClicked(int index) {
 //##########################################################################################################
 
 
-int TsimpleScore::heightForWidth(int w ) const {
-  return w * 8;
-}
-
-
 void TsimpleScore::resizeEvent(QResizeEvent* event) {
-  qreal factor = ((qreal)height() / 40.0) / m_score->transform().m11();
-//   factor = factor / 3;
-  m_score->scale(factor * m_pianoFactor, factor * m_pianoFactor);
+  qreal factor = (((qreal)height() / 40.0) / m_score->transform().m11()) * m_pianoFactor;
+  m_score->scale(factor, factor);
+	m_scene->setSceneRect(0, 0, m_staff->boundingRect().width() * m_score->transform().m11(), 
+		m_staff->boundingRect().height() * m_score->transform().m11()	);
+	m_score->resize(m_scene->sceneRect().width(), m_scene->sceneRect().height());
+	m_staff->setPos(m_score->mapToScene(m_score->transform().m11(), 0));
+	int xOff = 0;
+		if (m_scoreControl)
+			xOff = m_scoreControl->width() + 7; // 7 is space between m_scoreControl and m_score - looks good
+	setMaximumWidth(m_scene->sceneRect().width() + xOff);
 }
 
 

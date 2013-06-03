@@ -197,11 +197,7 @@ void TscoreStaff::onNoteClicked(int noteIndex) {
 	m_notes[noteIndex]->octave = (char)(56 + globalNr) / 7 - 8;
 	m_notes[noteIndex]->acidental = (char)m_scoreNotes[noteIndex]->accidental();
 	emit noteChanged(noteIndex);
-
-	qDebug() << m_notes[noteIndex]->toText();
-//   qDebug() << noteIndex << (int)upperLinePos() - globalNr + 1 
-//   << "NOTE:" << (56 + globalNr) % 7 + 1 
-//   << "OCTAVE:" << (56 + globalNr) / 7 - 8;
+// 	qDebug() << m_notes[noteIndex]->toText();
 }
 
 

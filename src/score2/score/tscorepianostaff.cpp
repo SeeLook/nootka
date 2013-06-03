@@ -21,6 +21,7 @@
 #include "tscorenote.h"
 #include <tnote.h>
 #include <QFont>
+#include <qfontmetrics.h>
 
 
 TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
@@ -39,7 +40,10 @@ TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
 	registryItem(brace);
 	brace->setParentItem(this);
 	QFont ff = QFont("nootka");
-	ff.setPointSizeF(7.5);
+	ff.setPointSizeF(24.5);
+	QFontMetrics fMetr(ff);
+	qreal fact = ff.pointSizeF() / fMetr.boundingRect(QChar(0xe16c)).height();
+	ff.setPointSizeF(ff.pointSizeF() * fact);
 	brace->setFont(ff);
 	brace->setText(QString(QChar(0xe16c)));
 	brace->setPos(0.8, 7);

@@ -127,10 +127,14 @@ void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 			m_selector = new TclefSelector(scoreScene(), Tclef(Tclef::e_pianoStaff));
 		else // second parametr is current cleff to mark
 			m_selector = new TclefSelector(scoreScene(), m_clef);
-		m_selector->setPos(0.0, 10.0);
+		m_selector->setParentItem(this);
+		if (staff()->type() == TscoreStaff::e_lower)
+				m_selector->setPos(-1.0, -17.0);
+		else
+				m_selector->setPos(-1.0, -2.0);
 		connect(m_selector, SIGNAL(clefSelected(Tclef)), this, SLOT(clefSelected(Tclef)));
 	} else
-		TscoreItem::mousePressEvent(event);	
+			TscoreItem::mousePressEvent(event);	
 }
 
 
