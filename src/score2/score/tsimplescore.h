@@ -46,6 +46,7 @@ public:
 		
 		void setEnableKeySign(bool isEnabled);
 		
+		
 signals:
     void statusTip(QString);
 		void noteHasChanged(int index, Tnote note); // TODO change this name - clamsy english
@@ -58,8 +59,6 @@ protected:
 		TscoreScene* scene() { return m_scene; }
 		TscoreStaff* staff() { return m_staff; }
     
-protected:
-    virtual int heightForWidth(int w) const;
     
 protected slots:
     void statusTipChanged(QString status) { emit statusTip(status); }

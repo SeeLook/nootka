@@ -78,20 +78,20 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   }
   
   m_workNote = createNoteHead();
-  QGraphicsBlurEffect *blur = new QGraphicsBlurEffect;
-  blur->setBlurRadius(0.7);
-  m_workNote->setGraphicsEffect(blur);
+//   QGraphicsBlurEffect *blur = new QGraphicsBlurEffect;
+//   blur->setBlurRadius(0.7);
+//   m_workNote->setGraphicsEffect(blur);
   
   m_mainNote = createNoteHead();
   
   m_mainAccid = new QGraphicsSimpleTextItem();
   registryItem(m_mainAccid);
   
-  QGraphicsBlurEffect *accidBlur = new QGraphicsBlurEffect;
-  accidBlur->setBlurRadius(blur->blurRadius());
+//   QGraphicsBlurEffect *accidBlur = new QGraphicsBlurEffect;
+//   accidBlur->setBlurRadius(blur->blurRadius());
   m_workAccid = new QGraphicsSimpleTextItem();
   m_workAccid->setBrush(QBrush(m_workColor));
-  m_workAccid->setGraphicsEffect(accidBlur);
+//   m_workAccid->setGraphicsEffect(accidBlur);
   registryItem(m_workAccid);
   m_workAccid->hide();
   
@@ -118,9 +118,9 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 
 TscoreNote::~TscoreNote() {}
 
-//##########################################################################################################
-//#################### PUBLIC METHODS    ###################################################################
-//##########################################################################################################
+//##############################################################################
+//#################### PUBLIC METHODS    #######################################
+//##############################################################################
 
 void TscoreNote::setColor(QColor color) {
     m_mainColor = color;

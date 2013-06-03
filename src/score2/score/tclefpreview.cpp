@@ -37,18 +37,19 @@ TclefPreview::TclefPreview(TscoreScene* scene, Tclef clef) :
 	m_desc = new QGraphicsSimpleTextItem();
 	registryItem(m_desc);
 	m_desc->setParentItem(this);
-	m_desc->setText(clef.name());
+	m_desc->setText(clef.name().replace(" ", "\n"));
+// 	m_desc->font().setPointSize(3);
 	m_desc->setBrush(scene->views()[0]->palette().windowText().color());
 	m_desc->setScale(0.4);
 	setStatusTip(clef.name() + " (" + clef.desc() + ")");
 	if (clef.type() != Tclef::e_pianoStaff) {
 			scoreClef()->setClef(clef);
-			m_desc->setPos(8.0, upperLinePos() + 2);			
+			m_desc->setPos(8.0, upperLinePos());			
 	} else {
 			m_lower = new TscoreStaff(scene, 0, e_lower);
 			m_lower->setParentItem(this);
 			m_lower->setPos(0, 18);
-			m_desc->setPos(10.0, upperLinePos() + 6);
+			m_desc->setPos(11.0, upperLinePos());
 			m_lower->setStatusTip(clef.name() + " (" + clef.desc() + ")");
 			m_lower->scoreClef()->setIsClickable(false);
 			m_lower->scoreClef()->setAcceptHoverEvents(false);
@@ -56,7 +57,12 @@ TclefPreview::TclefPreview(TscoreScene* scene, Tclef clef) :
 			registryItem(brace);
 			brace->setParentItem(this);
 			QFont ff = QFont("nootka");
-			ff.setPointSizeF(6.9);
+			qreal fontFactor = 22.8;
+			ff.setPointSizeF(fontFactor);
+			QFontMetrics fMetr(ff);
+			qreal fact = ff.pointSizeF() / fMetr.boundingRect(QChar(0xe16c)).height();
+			ff.setPointSizeF(ff.pointSizeF() * fact);
+// 			ff.setPointSizeF(6.9);
 			brace->setFont(ff);
 			brace->setText(QString(QChar(0xe16c)));
 			brace->setPos(0.8, 7);

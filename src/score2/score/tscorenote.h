@@ -51,7 +51,7 @@ public:
         /** This return value of @li -2 is bb @li 1 is #
          * @li etc... */ 
     int accidental() {return m_accidental;}
-    int ottava() { return m_ottava; } // NOTE: for thismomentit isunused and set to 0
+    int ottava() { return m_ottava; } // NOTE: for this moment it is unused and set to 0
     int notePos() { return m_mainPosY; }
 //     int noteNumber() { return m_noteNr; } // note number depends on octave.
         /** Returns QString with accidental symbol*/

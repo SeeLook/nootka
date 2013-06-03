@@ -30,7 +30,7 @@ TclefSelector::TclefSelector(TscoreScene* scene, Tclef clefToMark) :
 	TscoreItem(scene)
 {
 		setZValue(100);
-		setScale(0.4);
+		setScale(0.3);
 		// This is two columns table with clef symbols.
 		createEntry(scene, m_treble, Tclef(Tclef::e_treble_G));
 		m_treble->setPos(1, -8);
