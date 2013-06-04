@@ -19,9 +19,12 @@
 #include "tscorepianostaff.h"
 #include "tscorekeysignature.h"
 #include "tscorenote.h"
+#include "tscorescene.h"
+#include "tscoreclef.h"
 #include <tnote.h>
 #include <QFont>
 #include <qfontmetrics.h>
+#include <QGraphicsView>
 
 
 TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
@@ -29,6 +32,9 @@ TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
 {	
 	m_lower = new TscoreStaff(scene, notesNr, e_lower);
 	m_lower->setParentItem(this);
+	m_lower->setZValue(52); // To allow a clefSelector be above clefs and notes
+	scoreClef()->setZValue(51);
+	m_lower->scoreClef()->setZValue(55);
 	m_lower->setPos(0, TscoreStaff::boundingRect().height());
 	for (int i = 0; i < notesNr; i++) {
 		connect(noteSegment(i), SIGNAL(noteWasClicked(int)), this, SLOT(upperNoteChanged(int)));
@@ -45,6 +51,7 @@ TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
 	qreal fact = ff.pointSizeF() / fMetr.boundingRect(QChar(0xe16c)).height();
 	ff.setPointSizeF(ff.pointSizeF() * fact);
 	brace->setFont(ff);
+	brace->setBrush(scene->views()[0]->palette().windowText().color());
 	brace->setText(QString(QChar(0xe16c)));
 	brace->setPos(0.8, 7);
 }
@@ -70,9 +77,8 @@ void TscorePianoStaff::setScoreControler(TscoreControl* scoreControl) {
 }
 
 
-QRectF TscorePianoStaff::boundingRect() const
-{
-    return QRectF(0, 0, width(), 40);
+QRectF TscorePianoStaff::boundingRect() const {
+    return QRectF(0, 0, width(), TscoreStaff::boundingRect().height() + m_lower->boundingRect().height());
 }
 
 //##########################################################################################################
@@ -98,9 +104,10 @@ void TscorePianoStaff::upperNoteChanged(int noteIndex) {
 
 void TscorePianoStaff::lowerNoteChanged(int noteIndex) {
 	noteSegment(noteIndex)->hideNote();
-	getNote(noteIndex)->note = m_lower->getNote(noteIndex)->note;
-	getNote(noteIndex)->acidental = m_lower->getNote(noteIndex)->acidental;
-	getNote(noteIndex)->acidental = m_lower->getNote(noteIndex)->acidental;
+// 	getNote(noteIndex)->note = m_lower->getNote(noteIndex)->note;
+// 	getNote(noteIndex)->octave = m_lower->getNote(noteIndex)->octave;
+// 	getNote(noteIndex)->acidental = m_lower->getNote(noteIndex)->acidental;
+	*(getNote(noteIndex)) = *(m_lower->getNote(noteIndex));
 	emit noteChanged(noteIndex);
 }
 

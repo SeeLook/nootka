@@ -22,7 +22,7 @@
 #include "tscorenote.h"
 #include "tscorekeysignature.h"
 #include "tscorecontrol.h"
-#include <tnote.h>
+#include "tnote.h"
 #include <QGraphicsView>
 
 #include <QDebug>
@@ -42,13 +42,14 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
   m_offset(TnoteOffset(3, 2)),
   m_keySignature(0)
 {
+	setZValue(10);
   if (m_kindOfStaff == e_normal) {
     m_height = 40;
     m_upperLinePos = 16;
   } else {
-    m_height = 20; 
+    m_height = 26; 
     if (m_kindOfStaff == e_upper)
-      m_upperLinePos = 8;
+      m_upperLinePos = 14;
     else if (m_kindOfStaff == e_lower)
       m_upperLinePos = 4;
   }

@@ -108,9 +108,9 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   if (staff->kindOfStaff() == TscoreStaff::e_normal)
       setAmbitus(37, 1);
   else if (staff->kindOfStaff() == TscoreStaff::e_upper)
-        setAmbitus(18, 2);
+        setAmbitus(m_height - 2, 2);
 	else if (staff->kindOfStaff() == TscoreStaff::e_lower)
-				setAmbitus(18, 1);
+				setAmbitus(m_height - 2, 1);
   
   setStatusTip(tr("Click to select a note, use mouse wheel to change accidentals."));
 }
@@ -130,7 +130,7 @@ void TscoreNote::setColor(QColor color) {
     for (int i = 0; i < m_mainUpLines.size(); i++)
         m_mainUpLines[i]->setPen(QPen(color, 0.2));
     for (int i = 0; i < m_mainDownLines.size(); i++)
-      m_downLines[i]->setPen(QPen(color, 0.2));
+      m_mainDownLines[i]->setPen(QPen(color, 0.2));
 //     if (m_strNr)
 //         m_strNr->setBrush(QBrush(m_mainColor));
 }

@@ -30,18 +30,17 @@
 
 #include <QDebug>
 
-TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
+TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
   QWidget(parent),
 	m_isPianoStaff(false),
 	m_notesNr(notesNumber),
-	m_scoreControl(0)
+	m_scoreControl(0),
+	m_pianoFactor(1.0)
 {
-//   setGeometry(parent->geometry());
   QHBoxLayout *lay = new QHBoxLayout;
   m_score = new QGraphicsView(this);
   lay->addWidget(m_score);
-  
-  
+   
   m_score->setMouseTracking(true);
   m_score->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 	m_score->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -56,37 +55,55 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
   m_staff = new TscoreStaff(m_scene, m_notesNr, TscoreStaff::e_normal);
 	connect(m_staff, SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
 	connect(m_staff, SIGNAL(pianoStaffSwitch(Tclef)), this, SLOT(switchToPianoStaff(Tclef)));
-	m_staff->noteSegment(2)->setReadOnly(true);
   
-  m_scoreControl = new TscoreControl(this);
-  lay->addWidget(m_scoreControl);
+	if (controler) {
+			m_scoreControl = new TscoreControl(this);
+			lay->addStretch();
+			lay->addWidget(m_scoreControl);
+	}
   setLayout(lay);
 
-	m_staff->setScoreControler(m_scoreControl);  
-//   m_scene->setSceneRect(m_staff->boundingRect());
+	m_staff->setScoreControler(m_scoreControl);
+	resizeEvent(0);
   
 }
 
 TsimpleScore::~TsimpleScore() {}
 
-qreal m_pianoFactor = 1.0;
+//####################################################################################################
+//########################################## PUBLIC ##################################################
+//####################################################################################################
+
+void TsimpleScore::setKeySignature(TkeySignature keySign) {
+	if (m_staff->scoreKey())
+		m_staff->scoreKey()->setKeySignature(keySign.value());
+}
+
+
+TkeySignature TsimpleScore::keySignature() {
+	TkeySignature key(0);
+	if (m_staff->scoreKey())
+		key = TkeySignature(m_staff->scoreKey()->keySignature());
+	return key;
+}
+
+
+
 void TsimpleScore::setPianoStaff(bool isPiano) {
 	if (isPiano != isPianoStaff()) {
 		bool keyEnabled = (bool)m_staff->scoreKey();
-		if (isPiano) { // There was a singe staff and we add one staff more
+		if (isPiano) {
 				m_isPianoStaff = true;
 				delete m_staff;
 				m_staff = new TscorePianoStaff(m_scene, m_notesNr);
 				m_staff->setScoreControler(m_scoreControl);
-				m_pianoFactor = 0.95;
-				resizeEvent(0);
+				m_pianoFactor = 0.7;
 		} else {
 				m_isPianoStaff = false;
 				delete m_staff;
 				m_staff = new TscoreStaff(m_scene, m_notesNr, TscoreStaff::e_normal);
 				m_staff->setScoreControler(m_scoreControl);
 				m_pianoFactor = 1.0;
-				resizeEvent(0);
 		}
 		if (keyEnabled) {
 				m_staff->setEnableKeySign(true);
@@ -135,7 +152,7 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 	m_staff->setPos(m_score->mapToScene(m_score->transform().m11(), 0));
 	int xOff = 0;
 		if (m_scoreControl)
-			xOff = m_scoreControl->width() + 7; // 7 is space between m_scoreControl and m_score - looks good
+			xOff = m_scoreControl->width() + 10; // 10 is space between m_scoreControl and m_score - looks good
 	setMaximumWidth(m_scene->sceneRect().width() + xOff);
 }
 
