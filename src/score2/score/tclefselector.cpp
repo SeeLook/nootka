@@ -74,12 +74,18 @@ QRectF TclefSelector::boundingRect() const {
 
 
 void TclefSelector::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-		QColor bg = option->palette.base().color();
-// 		bg.setAlpha(30);
-		painter->setPen(QPen(option->palette.windowText().color(), 0.5));
-    painter->setBrush(bg);
-		painter->drawRoundedRect(boundingRect(), 2.0, 2.0);
-// 		QGraphicsTextItem::paint(painter, option, widget);
+    QColor startColor = option->palette.windowText().color();
+    startColor.setAlpha(25);
+    QColor endColor = startColor;
+    endColor.setAlpha(100);
+    painter->setPen(QPen(option->palette.highlight().color(), 0.5));
+    painter->setBrush(option->palette.window().color());
+    painter->drawRoundedRect(boundingRect(), 2.0, 2.0);
+    QLinearGradient grad(boundingRect().topLeft(), boundingRect().bottomRight());
+    grad.setColorAt(0.1, startColor);
+    grad.setColorAt(1.0, endColor);
+    painter->setBrush(QBrush(grad));
+    painter->drawRoundedRect(boundingRect(), 2.0, 2.0);
 }
 
 //##########################################################################################################

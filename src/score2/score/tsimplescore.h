@@ -23,6 +23,7 @@
 #include <QWidget>
 #include "tclef.h"
 #include "tnote.h"
+#include "tkeysignature.h"
 
 class QGraphicsView;
 class TscoreControl;
@@ -36,18 +37,31 @@ class TsimpleScore : public QWidget
   Q_OBJECT
   
 public:
-    TsimpleScore(int notesNumber, QWidget *parent = 0);
+    TsimpleScore(int notesNumber, QWidget *parent = 0, bool controler = true);
     ~TsimpleScore();
 
-				/** Sets TsimpleScore to piano staff view.
-				 * Clefs are unchangeable. */
-		void setPianoStaff(bool isPiano);
-		bool isPianoStaff() { return m_isPianoStaff; }
-		
+
+				/** This metods returns the key signature if score has got TscoreKeySign item, 
+				 * and key can be:
+         * @li 0 - C-maj (a-min)
+         * @li 1 - G-maj and so on up to 7 (for Cis-maj)
+         * @li -1 - F-maj (d-min) and so on down to -7 (for Ges-maj)    
+				 * When TscoreKeySign doesn't exist 0 - a-min/C-maj is returned. */
+    TkeySignature keySignature();
+    void setKeySignature(TkeySignature keySign);
 		void setEnableKeySign(bool isEnabled);
 		
 		
+		
+				/** Sets TsimpleScore to piano staff view. Clefs are unchangeable. */
+		void setPianoStaff(bool isPiano);
+		bool isPianoStaff() { return m_isPianoStaff; }
+		
+		
 signals:
+				/** As long as QGraphicsScene items haven't got status tips TscoreItems has its own mechanism of tips.
+				 * This signal is emited when any TscoreScene element gots hoverEnterEvent 
+				 * with status tip to display. */
     void statusTip(QString);
 		void noteHasChanged(int index, Tnote note); // TODO change this name - clamsy english
 		
@@ -73,6 +87,7 @@ private:
     QGraphicsView   *m_score;
 		bool 						m_isPianoStaff;
 		int 						m_notesNr;
+		qreal 					m_pianoFactor; // factor of a score size depends on is it piano staff(smaller) or not
   
 };
 

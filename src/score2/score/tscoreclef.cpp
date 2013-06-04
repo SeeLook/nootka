@@ -128,6 +128,7 @@ void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 		else // second parametr is current cleff to mark
 			m_selector = new TclefSelector(scoreScene(), m_clef);
 		m_selector->setParentItem(this);
+		m_selector->setZValue(100);
 		if (staff()->type() == TscoreStaff::e_lower)
 				m_selector->setPos(-1.0, -17.0);
 		else
