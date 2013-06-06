@@ -20,18 +20,13 @@
 #include "tscorestaff.h"
 #include <QGraphicsSceneHoverEvent>
 #include <QGraphicsView>
+#include <QGraphicsEffect>
 
 TscoreScene::TscoreScene(QObject* parent) :
   QGraphicsScene(parent)
 {
   setDoubleAccidsEnabled(true);
   setCurrentAccid(0);
-}
-
-
-void TscoreScene::addScoreItem(TscoreStaff* it) {
-  addItem(it);
-  connect(it, SIGNAL(statusTip(QString)), this, SLOT(statusTipChanged(QString)));
 }
 
 
@@ -43,3 +38,13 @@ void TscoreScene::setDoubleAccidsEnabled(bool enable) {
 }
 
 
+void TscoreScene::setPriority(TscoreItem* item, int z) {
+  item->setZValue(z);
+}
+
+
+void TscoreScene::addBlur(QGraphicsItem* item, qreal radius) {
+  QGraphicsBlurEffect *blur = new QGraphicsBlurEffect();
+  blur->setBlurRadius(radius);
+  item->setGraphicsEffect(blur);
+}
