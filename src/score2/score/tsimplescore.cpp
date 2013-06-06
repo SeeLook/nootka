@@ -58,12 +58,14 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
   
 	if (controler) {
 			m_scoreControl = new TscoreControl(this);
-			lay->addStretch();
+			lay->addSpacing(4);
 			lay->addWidget(m_scoreControl);
 	}
   setLayout(lay);
 
 	m_staff->setScoreControler(m_scoreControl);
+	
+	setBGcolor(palette().base().color());
 	resizeEvent(0);
   
 }
@@ -73,6 +75,20 @@ TsimpleScore::~TsimpleScore() {}
 //####################################################################################################
 //########################################## PUBLIC ##################################################
 //####################################################################################################
+
+Tnote TsimpleScore::getNote(int index) {
+	if (index >= 0 && index < m_notesNr)
+		return *(m_staff->getNote(index));
+	else
+		return Tnote();
+}
+
+
+void TsimpleScore::setNote(int index, Tnote note) {
+		m_staff->setNote(index, note);
+}
+
+
 
 void TsimpleScore::setKeySignature(TkeySignature keySign) {
 	if (m_staff->scoreKey())
@@ -88,6 +104,15 @@ TkeySignature TsimpleScore::keySignature() {
 }
 
 
+void TsimpleScore::setEnableKeySign(bool isEnabled) {
+	if (isEnabled != (bool)m_staff->scoreKey()) {
+		m_staff->setEnableKeySign(isEnabled);
+		if (isEnabled)
+				m_staff->scoreKey()->showKeyName(true);
+		resizeEvent(0);
+	}
+}
+
 
 void TsimpleScore::setPianoStaff(bool isPiano) {
 	if (isPiano != isPianoStaff()) {
@@ -97,7 +122,7 @@ void TsimpleScore::setPianoStaff(bool isPiano) {
 				delete m_staff;
 				m_staff = new TscorePianoStaff(m_scene, m_notesNr);
 				m_staff->setScoreControler(m_scoreControl);
-				m_pianoFactor = 0.7;
+				m_pianoFactor = 0.80;
 		} else {
 				m_isPianoStaff = false;
 				delete m_staff;
@@ -114,15 +139,6 @@ void TsimpleScore::setPianoStaff(bool isPiano) {
 	}
 }
 
-
-void TsimpleScore::setEnableKeySign(bool isEnabled) {
-	if (isEnabled != (bool)m_staff->scoreKey()) {
-		m_staff->setEnableKeySign(isEnabled);
-		if (isEnabled)
-				m_staff->scoreKey()->showKeyName(true);
-		resizeEvent(0);
-	}
-}
 
 
 
@@ -148,17 +164,21 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
   m_score->scale(factor, factor);
 	m_scene->setSceneRect(0, 0, m_staff->boundingRect().width() * m_score->transform().m11(), 
 		m_staff->boundingRect().height() * m_score->transform().m11()	);
-	m_score->resize(m_scene->sceneRect().width(), m_scene->sceneRect().height());
+// 	m_score->resize(m_scene->sceneRect().width(), m_scene->sceneRect().height());
+	m_score->setMaximumSize(m_scene->sceneRect().width(), m_scene->sceneRect().height());
 	m_staff->setPos(m_score->mapToScene(m_score->transform().m11(), 0));
 	int xOff = 0;
 		if (m_scoreControl)
-			xOff = m_scoreControl->width() + 10; // 10 is space between m_scoreControl and m_score - looks good
+			xOff = m_scoreControl->width() + 15; // 15 is space between m_scoreControl and m_score - looks good
 	setMaximumWidth(m_scene->sceneRect().width() + xOff);
 }
 
 
-
 void TsimpleScore::switchToPianoStaff(Tclef clef) {
+	// staff will be deleted so let's store its notes
+	QList<Tnote> tmpList;
+	for (int i = 0; i < m_notesNr; i++)
+		tmpList << *(m_staff->getNote(i));
 	if (isPianoStaff() && clef.type() != Tclef::e_pianoStaff) {
 		setPianoStaff(false);
 		m_staff->scoreClef()->setClef(clef);
@@ -166,6 +186,16 @@ void TsimpleScore::switchToPianoStaff(Tclef clef) {
 	}
 	if (!isPianoStaff() && clef.type() == Tclef::e_pianoStaff)
 		setPianoStaff(true);
+	// restore notes
+	for (int i = 0; i < m_notesNr; i++)
+		if(tmpList[i].note)
+				setNote(i, tmpList[i]);
+}
+
+
+void TsimpleScore::setBGcolor(QColor bgColor) {
+	m_score->setStyleSheet(QString("border: 1px solid palette(Text); border-radius: 10px; background-color: rgba(%1, %2, %3, 220)")
+		.arg(bgColor.red()).arg(bgColor.green()).arg(bgColor.blue()) );
 }
 
 

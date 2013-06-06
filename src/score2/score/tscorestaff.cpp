@@ -47,11 +47,13 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
     m_height = 40;
     m_upperLinePos = 16;
   } else {
-    m_height = 26; 
-    if (m_kindOfStaff == e_upper)
+    if (m_kindOfStaff == e_upper) {
       m_upperLinePos = 14;
-    else if (m_kindOfStaff == e_lower)
+			m_height = 26; 
+		} else if (m_kindOfStaff == e_lower) {
       m_upperLinePos = 4;
+			m_height = 22; 
+		}
   }
   setAcceptHoverEvents(true);
 // Clef
@@ -102,6 +104,9 @@ TscoreStaff::~TscoreStaff() {
 	m_notes.clear();
 }
 
+//####################################################################################################
+//########################################## PUBLIC ##################################################
+//####################################################################################################
 
 void TscoreStaff::setScoreControler(TscoreControl* scoreControl) {
 	if (scoreControl) {
@@ -109,6 +114,25 @@ void TscoreStaff::setScoreControler(TscoreControl* scoreControl) {
 		connect(scoreControl, SIGNAL(accidButtonPressed(int)), this, SLOT(onAccidButtonPressed(int)));
 	}
 }
+
+
+void TscoreStaff::setNote(int index, Tnote& note) {
+	if (index >= 0 && index < m_scoreNotes.size()) {
+// 		qDebug() << "noteOff" << m_offset.octave * 7 + m_offset.note << "note" << - (note.octave * 7 + (note.note - 1)) << "total" << m_offset.octave * 7 + m_offset.note + upperLinePos() -1 - (note.octave * 7 + (note.note - 1));
+		/** Calculation of note position works as folow:
+		 * 1) expr: m_offset.octave * 7 + m_offset.note + upperLinePos() - 1 returns y position of note C in offset octave
+		 * 2) (note.octave * 7 + (note.note - 1)) is number of note to be set.
+		 * 3) Subtraction of them gives pos of the note on staff with current clef and it is displayed 
+		 * when this value is in scale. */
+		m_scoreNotes[index]->setNote(m_offset.octave * 7 + m_offset.note + upperLinePos() - 1 - (note.octave * 7 + (note.note - 1)),
+																 (int)note.acidental);
+		if (m_scoreNotes[index]->notePos()) // store note in the list
+				*(m_notes[index]) = note;
+		else
+				*(m_notes[index]) = Tnote(0, 0, 0);
+	}
+}
+
 
 
 void TscoreStaff::setEnableKeySign(bool isEnabled) {
@@ -131,20 +155,14 @@ void TscoreStaff::setEnableKeySign(bool isEnabled) {
 				m_lines[i]->setLine(1, upperLinePos() + i * 2, boundingRect().width() - 2, upperLinePos() + i * 2);
 		scoreScene()->update();
 	}
-
 }
-
 
 
 QRectF TscoreStaff::boundingRect() const {
   return QRectF(0, 0, m_width, m_height);
 }
 
-void TscoreStaff::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-//   painter->setBrush(QColor(255, 0, 0, 30));
-//   painter->setPen(Qt::NoPen);
-//   painter->drawRect(boundingRect());
-}
+void TscoreStaff::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {}
 
 
 
@@ -176,7 +194,6 @@ void TscoreStaff::onClefChanged( ) {
 			int newNr = notePosRelatedToClef(m_scoreNotes[0]->notePos(), m_offset);
 			for (int i = 0; i < m_scoreNotes.size(); i++) {
 				if (m_scoreNotes[i]->notePos()) {
-// 						qDebug() << "new note pos of" << i << m_notes[i]->notePos() - (globalNr - newNr);
 						m_scoreNotes[i]->moveNote(m_scoreNotes[i]->notePos() + m_scoreNotes[i]->ottava() * 7 - (globalNr - newNr));
 				}
 			}
@@ -198,7 +215,6 @@ void TscoreStaff::onNoteClicked(int noteIndex) {
 	m_notes[noteIndex]->octave = (char)(56 + globalNr) / 7 - 8;
 	m_notes[noteIndex]->acidental = (char)m_scoreNotes[noteIndex]->accidental();
 	emit noteChanged(noteIndex);
-// 	qDebug() << m_notes[noteIndex]->toText();
 }
 
 
@@ -212,10 +228,8 @@ void TscoreStaff::noteChangedAccid(int accid) {
 void TscoreStaff::onAccidButtonPressed(int accid) {
 	scoreScene()->setCurrentAccid(accid);
 	/** It is enough to do this as long as every TscoreNote handles mouseHoverEvent
-	 * which checks value set above and changes accidental symbol if nessessary. */
+	 * which checks value set above and changes accidental symbol if necessary. */
 }
-
-
 
 //##########################################################################################################
 //########################################## PRIVATE     ###################################################

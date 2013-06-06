@@ -21,10 +21,12 @@
 #include "tscorenote.h"
 #include "tscorescene.h"
 #include "tscoreclef.h"
-#include <tnote.h>
+#include "tnote.h"
 #include <QFont>
-#include <qfontmetrics.h>
+#include <QFontMetrics>
 #include <QGraphicsView>
+
+// #include <QDebug>
 
 
 TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
@@ -53,10 +55,28 @@ TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
 	brace->setFont(ff);
 	brace->setBrush(scene->views()[0]->palette().windowText().color());
 	brace->setText(QString(QChar(0xe16c)));
-	brace->setPos(0.8, 7);
+	brace->setPos(0.8, upperLinePos() - 1);
 }
 
 TscorePianoStaff::~TscorePianoStaff() {}
+
+
+void TscorePianoStaff::setNote(int index, Tnote& note) {
+	bool inScale = true;
+	if ((note.octave * 7 + note.note) > 7) {
+		TscoreStaff::setNote(index, note); // set a note
+		if (noteSegment(index)->notePos() == 0) // and check isit inscale
+			inScale = false;			
+	} else {
+		m_lower->setNote(index, note);
+		if (m_lower->noteSegment(index)->notePos() == 0)
+			inScale = false;
+	}
+	if (inScale)
+			*(getNote(index)) = note; // store new note when was set
+	else
+			*(getNote(index)) = Tnote(0, 0, 0); // or store empty note
+}
 
 
 void TscorePianoStaff::setEnableKeySign(bool isEnabled)
@@ -99,14 +119,11 @@ void TscorePianoStaff::lowerStaffChangedKey() {
 
 void TscorePianoStaff::upperNoteChanged(int noteIndex) {
 	m_lower->noteSegment(noteIndex)->hideNote();
-	// no nessessary to emit noteChanged - this noteChanged is emited by ancesor class
+	// no necessary to emit noteChanged - this noteChanged is emited by ancesor class
 }
 
 void TscorePianoStaff::lowerNoteChanged(int noteIndex) {
 	noteSegment(noteIndex)->hideNote();
-// 	getNote(noteIndex)->note = m_lower->getNote(noteIndex)->note;
-// 	getNote(noteIndex)->octave = m_lower->getNote(noteIndex)->octave;
-// 	getNote(noteIndex)->acidental = m_lower->getNote(noteIndex)->acidental;
 	*(getNote(noteIndex)) = *(m_lower->getNote(noteIndex));
 	emit noteChanged(noteIndex);
 }

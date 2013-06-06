@@ -33,6 +33,8 @@ public:
     TscoreNote(TscoreScene *scene, TscoreStaff *staff, int index);
     ~TscoreNote();
     
+				/** Index of this note instance. */
+		int index() { return m_index; }
         /** Hides main note */
     void hideNote();
         /** Hides pointing (work) note */
@@ -45,7 +47,10 @@ public:
         /** Adds blur effect to main note. If blurColor is -1 deletes the effect. */
     void markNote(QColor blurColor);    
     void moveNote(int pos);
-        /** Min and Max values of Y coefficient on the staff */
+				/** Sets noteHead at given position and given accidental accidental. */
+		void setNote(int notePos, int accNr);
+    
+				/** Min and Max values of Y coefficient on the staff */
     void setAmbitus(int min, int max){ m_ambitMin = qMax(min, 1); m_ambitMax = qMin(max, (int)m_height - 1); }
 
         /** This return value of @li -2 is bb @li 1 is #
@@ -56,6 +61,7 @@ public:
 //     int noteNumber() { return m_noteNr; } // note number depends on octave.
         /** Returns QString with accidental symbol*/
     static QString getAccid(int accNr);
+				/** nootka font with well scaled accidental glypt. */
     static QFont getAccidFont();
 		
 		void setReadOnly(bool ro);
@@ -99,7 +105,7 @@ private:
     QGraphicsEllipseItem* createNoteHead();
     QGraphicsLineItem*    createNoteLine(int yPos);
     void hideLines(QList<QGraphicsLineItem*> &linesList);
-		void checkOctavation();
+// 		void checkOctavation();
 		
     
 };

@@ -23,7 +23,7 @@
 #include <QStyleOption>
 #include <QGraphicsView>
 
-#define ALPHA (30)
+#define ALPHA (40)
 
 TclefPreview::TclefPreview(TscoreScene* scene, Tclef clef) :
 	TscoreStaff(scene, 0, e_upper),
@@ -48,7 +48,7 @@ TclefPreview::TclefPreview(TscoreScene* scene, Tclef clef) :
 	} else {
 			m_lower = new TscoreStaff(scene, 0, e_lower);
 			m_lower->setParentItem(this);
-			m_lower->setPos(0, 18);
+			m_lower->setPos(0, 24);
 			m_desc->setPos(10.0, upperLinePos() + 10 - (m_desc->boundingRect().height() * m_desc->scale()) / 2);
 			m_lower->setStatusTip(clef.name() + " (" + clef.desc() + ")");
 			m_lower->scoreClef()->setIsClickable(false);
@@ -63,7 +63,7 @@ TclefPreview::TclefPreview(TscoreScene* scene, Tclef clef) :
 			brace->setFont(ff);
 			brace->setBrush(scene->views()[0]->palette().windowText().color());
 			brace->setText(QString(QChar(0xe16c)));
-			brace->setPos(0.8, 7);
+			brace->setPos(0.8, upperLinePos() - 1);
 	}
 }
 
@@ -87,9 +87,9 @@ void TclefPreview::paint(QPainter* painter, const QStyleOptionGraphicsItem* opti
 
 QRectF TclefPreview::boundingRect() const {
 	if (m_lower)
-    return QRectF(0, 4.0, 43.0, 30.0);
+    return QRectF(-1, 10.0, 43.0, 30.0);
 	else
-		return QRectF(0, 4.0, 43.0, 16.0);
+		return QRectF(0, upperLinePos() - 4, 43.0, 16.0);
 }
 
 

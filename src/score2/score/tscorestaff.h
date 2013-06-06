@@ -70,28 +70,34 @@ public:
 		TscoreNote* noteSegment(int nr) { return m_scoreNotes[nr]; }
 		TscoreKeySignature* scoreKey() { return m_keySignature; }
 		TscoreClef* scoreClef() { return m_clef; }
+		
 				/** Returns current @p index note or Tnot(0,0,0) if not set. */
 		Tnote* getNote(int index) { return m_notes[index]; }
-		virtual void setEnableKeySign(bool isEnabled);
-   
+		virtual void setNote(int index, Tnote &note);
+		
+		virtual void setEnableKeySign(bool isEnabled);   
         /** This array keeps values (-1, 0 or 1) for accidentals in key sign.
          * It is common for TscoreKeySignature and all TscoreNote. 
          * TscoreKeySignature::setAccidInKeyPointer and TscoreNote::setAccidInKeyPointer
          * have to be set to connect them. 
          * When TscoreKeySignature is deleted it should be set to 0. */
     char accidInKeyArray[7];
+		
         /** Y position of upper line of a staff. */
-    qreal upperLinePos() { return m_upperLinePos; }
-    qreal height() { return m_height; }
-    qreal width() const { return m_width; }
+    qreal upperLinePos() const { return m_upperLinePos; }
+    qreal height() const { return m_height; } // staff height
+    qreal width() const { return m_width; } // staff width
         /** Kind of staff (normal or upper (right hand) or lower(left hand)) */
     Ekind kindOfStaff() { return m_kindOfStaff; }
+				/** Returns number of a note. upperLinePos() is note nr 0 but it depends on octave (clef).  */
     int notePosRelatedToClef(int pos, TnoteOffset off) {
       return off.octave * 7 - (pos + 1 - (int)upperLinePos() - off.note);  }
     int notePosRelatedToClef(int pos) {
       return notePosRelatedToClef(pos, m_offset); }
         /** Returns offset of a y coeff. of a note related to current cleff. */
     int noteOffset() { return m_offset.note; }
+				/** octave offset related to middle (one-line) octave. */
+    int octaveOffset() { return m_offset.octave; }
     
     virtual void setScoreControler(TscoreControl *scoreControl);
 		

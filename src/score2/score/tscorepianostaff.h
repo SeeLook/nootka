@@ -29,6 +29,8 @@ public:
     TscorePianoStaff(TscoreScene *scene, int notesNr);
     ~TscorePianoStaff();
 		
+		void setNote(int index, Tnote &note);
+		
 		void setEnableKeySign(bool isEnabled);
 		void setScoreControler(TscoreControl *scoreControl);
 		
