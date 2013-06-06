@@ -98,7 +98,7 @@ void TscorePianoStaff::setScoreControler(TscoreControl* scoreControl) {
 
 
 QRectF TscorePianoStaff::boundingRect() const {
-    return QRectF(0, 0, width(), TscoreStaff::boundingRect().height() + m_lower->boundingRect().height());
+    return QRectF(0, 0, width() + 3, TscoreStaff::boundingRect().height() + m_lower->boundingRect().height());
 }
 
 //##########################################################################################################

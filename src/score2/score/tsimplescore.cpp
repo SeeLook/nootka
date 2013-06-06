@@ -58,7 +58,7 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
   
 	if (controler) {
 			m_scoreControl = new TscoreControl(this);
-			lay->addSpacing(4);
+// 			lay->addSpacing(4);
 			lay->addWidget(m_scoreControl);
 	}
   setLayout(lay);
@@ -164,12 +164,14 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
   m_score->scale(factor, factor);
 	m_scene->setSceneRect(0, 0, m_staff->boundingRect().width() * m_score->transform().m11(), 
 		m_staff->boundingRect().height() * m_score->transform().m11()	);
-// 	m_score->resize(m_scene->sceneRect().width(), m_scene->sceneRect().height());
 	m_score->setMaximumSize(m_scene->sceneRect().width(), m_scene->sceneRect().height());
-	m_staff->setPos(m_score->mapToScene(m_score->transform().m11(), 0));
+  qreal staffOff = 0.0;
+  if (isPianoStaff())
+    staffOff = m_score->transform().m11() * 2;
+	m_staff->setPos(m_score->mapToScene(staffOff, 0));
 	int xOff = 0;
 		if (m_scoreControl)
-			xOff = m_scoreControl->width() + 15; // 15 is space between m_scoreControl and m_score - looks good
+			xOff = m_scoreControl->width() + 10; // 15 is space between m_scoreControl and m_score - looks good
 	setMaximumWidth(m_scene->sceneRect().width() + xOff);
 }
 
