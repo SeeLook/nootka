@@ -156,7 +156,6 @@ void TscoreNote::setWorkAccid(int accNr) {
 
 void TscoreNote::moveNote(int pos) {
     if (pos > m_ambitMin || pos < m_ambitMax) {
-				m_mainPosY = 0;
 				hideNote();
 				return;
     }
@@ -196,6 +195,12 @@ void TscoreNote::moveNote(int pos) {
 // #if defined(Q_OS_MAC) // others Os-es has no problem with this. Mac lives trash.
 //     scoreScene()->update();
 // #endif
+}
+
+
+void TscoreNote::setNote(int notePos, int accNr) {
+	m_accidental = accNr;
+	moveNote(notePos);
 }
 
 
@@ -241,16 +246,12 @@ QRectF TscoreNote::boundingRect() const{
 }
 
 
-void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-//   painter->setBrush(QColor(m_index, m_index, m_index, 50));
-//   painter->setPen(Qt::NoPen);
-//   painter->drawRect(boundingRect());
-}
+void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {}
 
 
-//##########################################################################################################
-//########################################## PROTECTED   ###################################################
-//##########################################################################################################
+//#################################################################################################
+//########################################## PROTECTED   ##########################################
+//#################################################################################################
 
 void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
   if (m_curentAccid != scoreScene()->currentAccid()) { // update accidental symbol
@@ -269,6 +270,7 @@ void TscoreNote::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
   hideWorkNote();
   TscoreItem::hoverLeaveEvent(event);
 }
+
 
 void TscoreNote::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
   if ((event->pos().y() >= m_ambitMax) && (event->pos().y() <= m_ambitMin)) {
@@ -297,12 +299,10 @@ void TscoreNote::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 }
 
 
-
 void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
   if (event->button() == Qt::LeftButton && m_workPosY) {
-        m_mainPosY = m_workPosY;
         m_accidental = m_curentAccid;
-        moveNote(m_mainPosY);
+        moveNote(m_workPosY);
         emit noteWasClicked(m_index);
     }
 }

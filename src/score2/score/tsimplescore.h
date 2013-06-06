@@ -40,22 +40,29 @@ public:
     TsimpleScore(int notesNumber, QWidget *parent = 0, bool controler = true);
     ~TsimpleScore();
 
+		void setNote(int index, Tnote note);
+        /** It returns @p note with hope that index points existed Tnote element. */
+    Tnote getNote(int index);
+        /** It hides pionted note and sets to Tnote(0,0,0)*/
+    void clearNote(int index);		
+		
 
-				/** This metods returns the key signature if score has got TscoreKeySign item, 
-				 * and key can be:
+				/** This method returns the key signature if score has got TscoreKeySign item, 
+				 * key can be:
          * @li 0 - C-maj (a-min)
          * @li 1 - G-maj and so on up to 7 (for Cis-maj)
          * @li -1 - F-maj (d-min) and so on down to -7 (for Ges-maj)    
-				 * When TscoreKeySign doesn't exist 0 - a-min/C-maj is returned. */
+				 * When TscoreKeySign doesn't exist 0: - a-min/C-maj is returned. */
     TkeySignature keySignature();
     void setKeySignature(TkeySignature keySign);
-		void setEnableKeySign(bool isEnabled);
+		void setEnableKeySign(bool isEnabled);		
 		
-		
-		
-				/** Sets TsimpleScore to piano staff view. Clefs are unchangeable. */
+				/** Sets TsimpleScore to piano staff view. Clefs are readOnly. */
 		void setPianoStaff(bool isPiano);
 		bool isPianoStaff() { return m_isPianoStaff; }
+		
+				/** Sets background color. Alpha value will be overriden. */
+    void setBGcolor(QColor bgColor);
 		
 		
 signals:

@@ -33,31 +33,31 @@ TclefSelector::TclefSelector(TscoreScene* scene, Tclef clefToMark) :
 		setScale(0.3);
 		// This is two columns table with clef symbols.
 		createEntry(scene, m_treble, Tclef(Tclef::e_treble_G));
-		m_treble->setPos(1, -8);
+		m_treble->setPos(1, -10);
 		if (clefToMark.type() == Tclef::e_treble_G)
 			m_treble->mark();
 		createEntry(scene, m_treble_8, Tclef(Tclef::e_treble_G_8down));
-		m_treble_8->setPos(1, 8);
+		m_treble_8->setPos(1, 6);
 		if (clefToMark.type() == Tclef::e_treble_G_8down)
 			m_treble_8->mark();
 		createEntry(scene, m_bass, Tclef(Tclef::e_bass_F));
-		m_bass->setPos(1, 24);
+		m_bass->setPos(1, 22);
 		if (clefToMark.type() == Tclef::e_bass_F)
 			m_bass->mark();
 		createEntry(scene, m_bass_8, Tclef(Tclef::e_bass_F_8down));
-		m_bass_8->setPos(1, 37);
+		m_bass_8->setPos(1, 35);
 		if (clefToMark.type() == Tclef::e_bass_F_8down)
 			m_bass_8->mark();
 		createEntry(scene, m_alto, Tclef(Tclef::e_alto_C));
-		m_alto->setPos(50, -8);
+		m_alto->setPos(50, -10);
 		if (clefToMark.type() == Tclef::e_alto_C)
 			m_alto->mark();
 		createEntry(scene, m_tenor, Tclef(Tclef::e_tenor_C));
-		m_tenor->setPos(50, 8);
+		m_tenor->setPos(50, 6);
 		if (clefToMark.type() == Tclef::e_tenor_C)
 			m_tenor->mark();
 		createEntry(scene, m_piano, Tclef(Tclef::e_pianoStaff));
-		m_piano->setPos(50, 24);
+		m_piano->setPos(50, 22);
 		if (clefToMark.type() == Tclef::e_pianoStaff)
 			m_piano->mark();
 
@@ -74,12 +74,12 @@ QRectF TclefSelector::boundingRect() const {
 
 
 void TclefSelector::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-    QColor startColor = option->palette.windowText().color();
+    QColor startColor = option->palette.highlight().color();
     startColor.setAlpha(25);
     QColor endColor = startColor;
     endColor.setAlpha(100);
-    painter->setPen(QPen(option->palette.highlight().color(), 0.5));
-    painter->setBrush(option->palette.window().color());
+    painter->setPen(QPen(option->palette.highlight().color(), 0.2));
+    painter->setBrush(option->palette.base().color());
     painter->drawRoundedRect(boundingRect(), 2.0, 2.0);
     QLinearGradient grad(boundingRect().topLeft(), boundingRect().bottomRight());
     grad.setColorAt(0.1, startColor);
