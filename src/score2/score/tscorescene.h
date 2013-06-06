@@ -21,9 +21,16 @@
 
 #include <QGraphicsScene>
 
+// priority (like z value) of score elements
+#define P_LINES  (5)
+#define P_NOTES  (20)
+#define P_CURSOR (30) // pointing note
+#define P_KEY    (20)
+#define P_CLEF   (50)
+#define P_TIP    (100) // tip (like clef selector) over all elements
 
-class TscoreStaff;
-
+class TscoreItem;
+class QGraphicsItem;
 
 class TscoreScene : public QGraphicsScene
 {
@@ -32,18 +39,32 @@ class TscoreScene : public QGraphicsScene
   
 public:
     TscoreScene(QObject* parent = 0);
-    
-    void addScoreItem(TscoreStaff* it);
-    
+        
+        
     void setDoubleAccidsEnabled(bool enable);
-      /** Returns value 2 when double accidentals are enabled and 1 if not. */
+        /** Returns value 2 when double accidentals are enabled and 1 if not. */
     qint8 doubleAccidsFuse() { return m_dblAccFuse; }
-    
-      /** Working accidental in TscoreNote segment.
-       * also changed by buttons. */
+        /** Working accidental in TscoreNote segment.
+        * also changed by buttons. */
     void setCurrentAccid(char accid) { m_currentAccid = (char)qBound(-2, (int)accid, 2);}
     char currentAccid() { return m_currentAccid; }
     
+        /** This method is simple like QGraphicsItem::setZvalue().
+         * Unfortunately parent-children hierarchy of items breaks its simplicity. 
+         * Every TscoreItem can call this and then setZvalue will called outside
+         * with given priority. Following const are defined: 
+         * P_LINES  (5) 
+         * P_NOTES  (20) 
+         * P_CURSOR (30) - pointing note
+         * P_KEY    (20)
+         * P_CLEF   (50)
+         * P_TIP    (100) // tip (like clef selector) over all elements
+         */
+    void setPriority(TscoreItem* item, int z);
+    
+        /** Adds blur graphics effect. In the contrary to QGraphicsItem::setGraphicsEffect() 
+         * a radius value in global scale.  */
+    void addBlur(QGraphicsItem *item, qreal radius);
 signals:
     void statusTip(QString);
     
@@ -51,7 +72,7 @@ protected slots:
     void statusTipChanged(QString status) { emit statusTip(status); }
     
 private:
-      /** It is @p 2 if double accidentals are enabled and @p 1 if not*/
+        /** It is @p 2 if double accidentals are enabled and @p 1 if not*/
     qint8 m_dblAccFuse;
     char  m_currentAccid;
         

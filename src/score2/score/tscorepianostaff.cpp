@@ -34,9 +34,11 @@ TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
 {	
 	m_lower = new TscoreStaff(scene, notesNr, e_lower);
 	m_lower->setParentItem(this);
-	m_lower->setZValue(52); // To allow a clefSelector be above clefs and notes
-	scoreClef()->setZValue(51);
-	m_lower->scoreClef()->setZValue(55);
+// 	m_lower->setZValue(52); // To allow a clefSelector be above clefs and notes
+// 	scoreClef()->setZValue(51);
+// 	m_lower->scoreClef()->setZValue(55);
+  scoreScene()->setPriority(scoreClef(), P_CLEF);
+  scoreScene()->setPriority(m_lower->scoreClef(), P_CLEF);
 	m_lower->setPos(0, TscoreStaff::boundingRect().height());
 	for (int i = 0; i < notesNr; i++) {
 		connect(noteSegment(i), SIGNAL(noteWasClicked(int)), this, SLOT(upperNoteChanged(int)));

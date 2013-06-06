@@ -81,6 +81,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 //   QGraphicsBlurEffect *blur = new QGraphicsBlurEffect;
 //   blur->setBlurRadius(0.7);
 //   m_workNote->setGraphicsEffect(blur);
+  scoreScene()->addBlur(m_workNote, 3.0);
   
   m_mainNote = createNoteHead();
   
