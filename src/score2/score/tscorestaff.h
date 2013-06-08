@@ -100,9 +100,11 @@ public:
     int octaveOffset() { return m_offset.octave; }
     
     virtual void setScoreControler(TscoreControl *scoreControl);
+				/** Stops/starts capturing any mouse events. */
+		virtual void setDisabled(bool disabled);
 		
 		
-		virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+		virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) {};
     virtual QRectF boundingRect() const;
 		
 signals:

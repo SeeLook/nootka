@@ -38,13 +38,8 @@ void TscoreScene::setDoubleAccidsEnabled(bool enable) {
 }
 
 
-void TscoreScene::setPriority(TscoreItem* item, int z) {
-  item->setZValue(z);
-}
-
-
 void TscoreScene::addBlur(QGraphicsItem* item, qreal radius) {
   QGraphicsBlurEffect *blur = new QGraphicsBlurEffect();
-  blur->setBlurRadius(radius);
+  blur->setBlurRadius(radius / views()[0]->transform().m11());
   item->setGraphicsEffect(blur);
 }
