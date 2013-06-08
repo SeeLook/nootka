@@ -25,7 +25,7 @@
 #include "tscorekeysignature.h"
 #include "tscoreclef.h"
 #include "tscorepianostaff.h"
-#include <QGraphicsView>
+#include "tscoreview.h"
 #include <QHBoxLayout>
 
 #include <QDebug>
@@ -38,7 +38,7 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
 	m_pianoFactor(1.0)
 {
   QHBoxLayout *lay = new QHBoxLayout;
-  m_score = new QGraphicsView(this);
+  m_score = new TscoreView(this);
   lay->addWidget(m_score);
    
   m_score->setMouseTracking(true);
@@ -86,6 +86,13 @@ Tnote TsimpleScore::getNote(int index) {
 
 void TsimpleScore::setNote(int index, Tnote note) {
 		m_staff->setNote(index, note);
+}
+
+
+void TsimpleScore::clearNote(int index) {
+	m_staff->noteSegment(index)->markNote(-1);
+//   m_staff->noteSegment(index)->hideNote();
+  setNote(index, Tnote(0, 0, 0));
 }
 
 
@@ -140,6 +147,12 @@ void TsimpleScore::setPianoStaff(bool isPiano) {
 }
 
 
+void TsimpleScore::setScoreDisabled(bool disabled) {
+	m_score->setMouseTracking(!disabled);
+	if (m_scoreControl)
+		m_scoreControl->setDisabled(disabled);
+	m_staff->setDisabled(disabled);
+}
 
 
 //##########################################################################################################

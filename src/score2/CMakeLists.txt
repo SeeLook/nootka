@@ -37,6 +37,7 @@ SET( SCORE_SRCS
   score/tscorecontrol.cpp
   score/tclefselector.cpp
   score/tclefpreview.cpp
+  score/tscoreview.cpp
   
   score/tkeysignature.cpp
 )

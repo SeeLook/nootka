@@ -35,6 +35,8 @@ class TscoreControl : public QWidget
 public:
   
     TscoreControl(QWidget *parent = 0);
+		
+		
     
 
 public slots:

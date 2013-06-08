@@ -75,7 +75,6 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
       m_scoreNotes[i]->setPos(7.0 + i * m_scoreNotes[i]->boundingRect().width(), 0);
       connect(m_scoreNotes[i], SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
 			connect(m_scoreNotes[i], SIGNAL(accidWasChanged(int)), this, SLOT(noteChangedAccid(int)));
-// 			m_scoreNotes[i]->setZValue(50);
   }
   
   if (m_scoreNotes.size())
@@ -115,24 +114,24 @@ void TscoreStaff::setScoreControler(TscoreControl* scoreControl) {
 	}
 }
 
-
-void TscoreStaff::setNote(int index, Tnote& note) {
-	if (index >= 0 && index < m_scoreNotes.size()) {
-// 		qDebug() << "noteOff" << m_offset.octave * 7 + m_offset.note << "note" << - (note.octave * 7 + (note.note - 1)) << "total" << m_offset.octave * 7 + m_offset.note + upperLinePos() -1 - (note.octave * 7 + (note.note - 1));
-		/** Calculation of note position works as folow:
+		/** Calculation of note position works As folow:
 		 * 1) expr: m_offset.octave * 7 + m_offset.note + upperLinePos() - 1 returns y position of note C in offset octave
 		 * 2) (note.octave * 7 + (note.note - 1)) is number of note to be set.
-		 * 3) Subtraction of them gives pos of the note on staff with current clef and it is displayed 
-		 * when this value is in scale. */
-		m_scoreNotes[index]->setNote(m_offset.octave * 7 + m_offset.note + upperLinePos() - 1 - (note.octave * 7 + (note.note - 1)),
+		 * 3) Subtraction of them gives position of the note on staff with current clef and it is displayed 
+		 * when this value is in staff scale. */
+void TscoreStaff::setNote(int index, Tnote& note) {
+	if (index >= 0 && index < m_scoreNotes.size()) {
+		if (note.note)
+				m_scoreNotes[index]->setNote(m_offset.octave * 7 + m_offset.note + upperLinePos() - 1 - (note.octave * 7 + (note.note - 1)),
 																 (int)note.acidental);
+		else
+				m_scoreNotes[index]->setNote(0, 0);
 		if (m_scoreNotes[index]->notePos()) // store note in the list
 				*(m_notes[index]) = note;
 		else
 				*(m_notes[index]) = Tnote(0, 0, 0);
 	}
 }
-
 
 
 void TscoreStaff::setEnableKeySign(bool isEnabled) {
@@ -158,12 +157,22 @@ void TscoreStaff::setEnableKeySign(bool isEnabled) {
 }
 
 
+void TscoreStaff::setDisabled(bool disabled) {
+	scoreClef()->setReadOnly(disabled);
+	scoreClef()->setIsClickable(!disabled);
+	if (scoreKey()) {
+		scoreKey()->setAcceptHoverEvents(!disabled); // stops displaing status tip
+		scoreKey()->setReadOnly(disabled);
+	}
+	for (int i = 0; i < m_scoreNotes.size(); i++)
+		m_scoreNotes[i]->setReadOnly(disabled);
+}
+
+
+
 QRectF TscoreStaff::boundingRect() const {
   return QRectF(0, 0, m_width, m_height);
 }
-
-void TscoreStaff::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {}
-
 
 
 //##########################################################################################################

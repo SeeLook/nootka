@@ -78,10 +78,14 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   }
   
   m_workNote = createNoteHead();
+// 	m_workNote->setParentItem(0);
+// 	m_workNote->setScale(5);
 //   QGraphicsBlurEffect *blur = new QGraphicsBlurEffect;
-//   blur->setBlurRadius(0.7);
+//   blur->setBlurRadius(0.5);
 //   m_workNote->setGraphicsEffect(blur);
-  scoreScene()->addBlur(m_workNote, 3.0);
+// 	m_workNote->setParentItem(this);
+// 	m_workNote->setScale(1);
+//   scoreScene()->addBlur(m_workNote, 3.0);
   
   m_mainNote = createNoteHead();
   
@@ -310,6 +314,8 @@ void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 
 
 void TscoreNote::wheelEvent(QGraphicsSceneWheelEvent* event) {
+		if (m_readOnly)
+			return;
     int prevAcc = m_curentAccid;
     if (event->delta() < 0) {
         m_curentAccid--;

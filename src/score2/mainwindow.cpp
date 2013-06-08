@@ -41,14 +41,14 @@ MainWindow::MainWindow(QWidget *parent) :
   m_simpleScore = new TsimpleScore(3, w);
   lay->addWidget(m_simpleScore);
 	connect(m_simpleScore, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(scoreChangedNote(int,Tnote)));
-// 	m_simpleScore->setPianoStaff(true);
+
 	
 	QHBoxLayout *settLay = new QHBoxLayout;
 	settLay->addStretch();
 	m_keyBox = new QCheckBox("key", w);
 	settLay->addWidget(m_keyBox);
 	settLay->addStretch();
-	m_pianBox = new QCheckBox("piano staff", w);
+	m_pianBox = new QCheckBox("disable", w);
 	settLay->addWidget(m_pianBox);
 	settLay->addStretch();
 	lay->addLayout(settLay);	
@@ -83,7 +83,7 @@ void MainWindow::keySignBoxChanged(bool enable) {
 }
 
 void MainWindow::pianoBoxChanged(bool enable) {
-	m_simpleScore->setPianoStaff(m_pianBox->isChecked());
+	m_simpleScore->setScoreDisabled(m_pianBox->isChecked());
 }
 
 void MainWindow::scoreChangedNote(int index, Tnote note) {

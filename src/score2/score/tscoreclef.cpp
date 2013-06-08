@@ -62,8 +62,8 @@ TscoreClef::TscoreClef(TscoreScene* scene, TscoreStaff* staff, Tclef clef) :
   setStaff(staff);
 	setParentItem(staff);
   if (m_typesList.size() == 0) // initialize types list
-    m_typesList << Tclef::e_treble_G << Tclef::e_bass_F << Tclef::e_bass_F_8down << Tclef::e_alto_C << Tclef::e_tenor_C
-    << Tclef::e_treble_G_8down;
+    m_typesList << Tclef::e_treble_G << Tclef::e_bass_F << Tclef::e_bass_F_8down <<
+    Tclef::e_alto_C << Tclef::e_tenor_C << Tclef::e_treble_G_8down;
   
   m_textClef = new QGraphicsSimpleTextItem();
   registryItem(m_textClef);
@@ -127,13 +127,10 @@ void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 			m_selector = new TclefSelector(scoreScene(), Tclef(Tclef::e_pianoStaff));
 		else // second parametr is current cleff to mark
 			m_selector = new TclefSelector(scoreScene(), m_clef);
-		m_selector->setParentItem(this);
-// 		m_selector->setZValue(100);
-    scoreScene()->setPriority(m_selector, P_TIP);
 		if (staff()->type() == TscoreStaff::e_lower)
-				m_selector->setPos(-1.0, -17.0);
+				m_selector->setPos(mapToScene(2.0, -17.0));
 		else
-				m_selector->setPos(-1.0, -2.0);
+				m_selector->setPos(mapToScene(0.0, -2.0));
 		connect(m_selector, SIGNAL(clefSelected(Tclef)), this, SLOT(clefSelected(Tclef)));
 	} else
 			TscoreItem::mousePressEvent(event);	

@@ -25,6 +25,7 @@
 #include "tnote.h"
 #include "tkeysignature.h"
 
+class TscoreView;
 class QGraphicsView;
 class TscoreControl;
 class TscoreStaff;
@@ -63,6 +64,9 @@ public:
 		
 				/** Sets background color. Alpha value will be overriden. */
     void setBGcolor(QColor bgColor);
+				/** It disables accids buttons and locks editing,
+					* but doesn't make score gray like standard setDisabled() method. */
+    void setScoreDisabled(bool disabled);
 		
 		
 signals:
@@ -76,7 +80,7 @@ public slots:
 		void noteWasClicked(int index);
 		
 protected:
-		QGraphicsView* score() { return m_score; }
+		TscoreView* score() { return m_score; }
 		TscoreScene* scene() { return m_scene; }
 		TscoreStaff* staff() { return m_staff; }
     
@@ -91,7 +95,7 @@ private:
     TscoreScene     *m_scene;
     TscoreStaff     *m_staff, *m_lowerStaff;
     TscoreControl   *m_scoreControl;
-    QGraphicsView   *m_score;
+    TscoreView		  *m_score;
 		bool 						m_isPianoStaff;
 		int 						m_notesNr;
 		qreal 					m_pianoFactor; // factor of a score size depends on is it piano staff(smaller) or not

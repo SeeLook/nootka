@@ -47,6 +47,9 @@ public:
     char getPosOfAccid(int noteNr, bool flatKey = false);
 		
 		void showKeyName(bool showIt);
+		
+		void setReadOnly(bool readOnly) { m_readOnly = readOnly; }
+		bool readOnly() { return m_readOnly; }
   
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     virtual QRectF boundingRect() const;
@@ -76,6 +79,7 @@ private:
     static char m_posOfAccid[7];
     static char m_posOfAccidFlats[7];
     Tclef  m_clef;
+		bool	m_readOnly;
 
 };
 

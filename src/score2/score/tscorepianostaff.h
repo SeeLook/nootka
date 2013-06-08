@@ -29,10 +29,13 @@ public:
     TscorePianoStaff(TscoreScene *scene, int notesNr);
     ~TscorePianoStaff();
 		
-		void setNote(int index, Tnote &note);
+		virtual void setNote(int index, Tnote &note);
 		
-		void setEnableKeySign(bool isEnabled);
-		void setScoreControler(TscoreControl *scoreControl);
+		virtual void setEnableKeySign(bool isEnabled);
+		
+		virtual void setScoreControler(TscoreControl *scoreControl);
+				
+		virtual void setDisabled(bool disabled);
 		
 		virtual QRectF boundingRect() const;
 		

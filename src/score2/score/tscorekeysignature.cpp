@@ -41,7 +41,8 @@ TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, TscoreStaff* staff, c
   TscoreItem(scene),
   m_keySignature(keySign),
   m_clef(Tclef()),
-  m_keyNameText(0)
+  m_keyNameText(0),
+  m_readOnly(false)
 {
   setStaff(staff);
 	setParentItem(staff);
@@ -149,7 +150,7 @@ void TscoreKeySignature::paint(QPainter* painter, const QStyleOptionGraphicsItem
 //##########################################################################################################
 
 void TscoreKeySignature::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-  if (event->button() == Qt::LeftButton) {
+  if (!m_readOnly && event->button() == Qt::LeftButton) {
     if (event->pos().y() > m_height / 2)
       increaseKey(-1);
     else
@@ -159,6 +160,8 @@ void TscoreKeySignature::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 
 
 void TscoreKeySignature::wheelEvent(QGraphicsSceneWheelEvent* event) {
+		if (m_readOnly)
+			return;
     if (event->delta() > 0)
         increaseKey(1);
     else
