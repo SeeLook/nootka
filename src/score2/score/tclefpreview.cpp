@@ -57,13 +57,13 @@ TclefPreview::TclefPreview(TscoreScene* scene, Tclef clef) :
 			registryItem(brace);
 			brace->setParentItem(this);
 			QFont ff = QFont("nootka");
-			ff.setPointSizeF(22.8);
+			ff.setPointSizeF(22.9);
 			QFontMetrics fMetr(ff);
 			ff.setPointSizeF(ff.pointSizeF() * (ff.pointSizeF() / fMetr.boundingRect(QChar(0xe16c)).height()));
 			brace->setFont(ff);
 			brace->setBrush(scene->views()[0]->palette().text().color());
 			brace->setText(QString(QChar(0xe16c)));
-			brace->setPos(-3.5, upperLinePos());
+			brace->setPos(-3.5, upperLinePos() - 0.2);
 	}
 }
 
