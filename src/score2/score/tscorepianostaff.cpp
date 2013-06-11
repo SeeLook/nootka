@@ -45,14 +45,14 @@ TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
 	registryItem(brace);
 	brace->setParentItem(this);
 	QFont ff = QFont("nootka");
-	ff.setPointSizeF(24.7);
+	ff.setPointSizeF(24.9);
 	QFontMetrics fMetr(ff);
 	qreal fact = ff.pointSizeF() / fMetr.boundingRect(QChar(0xe16c)).height();
 	ff.setPointSizeF(ff.pointSizeF() * fact);
 	brace->setFont(ff);
 	brace->setBrush(scene->views()[0]->palette().text().color());
 	brace->setText(QString(QChar(0xe16c)));
-	brace->setPos(-3.7, upperLinePos() - 0.4);
+	brace->setPos(-3.7, upperLinePos() - 0.35);
 }
 
 TscorePianoStaff::~TscorePianoStaff() {}
@@ -103,6 +103,7 @@ void TscorePianoStaff::setDisabled(bool disabled) {
 		 * In piano staff the lower displays scordature. */
 void TscorePianoStaff::setScordature(Ttune& tune) {
 		m_lower->setScordature(tune);
+//     TscoreStaff::setScordature(Ttunex);
 }
 
 
