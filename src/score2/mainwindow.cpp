@@ -20,10 +20,11 @@
  */
 
 #include "mainwindow.h"
-#include "score/tsimplescore.h"
-#include <tmainscore.h>
-#include <tpushbutton.h>
-#include <tkeysignature.h>
+#include "tsimplescore.h"
+#include "tmainscore.h"
+#include "tpushbutton.h"
+#include "tkeysignature.h"
+#include "ttune.h"
 #include <qstatusbar.h>
 #include <QHBoxLayout>
 #include <qcheckbox.h>
@@ -35,12 +36,15 @@ MainWindow::MainWindow(QWidget *parent) :
 	QVBoxLayout *lay = new QVBoxLayout;
 	
 	TkeySignature::setNameStyle(Tnote::e_deutsch_His, "dur", "moll");
+	TpushButton::setCheckColor(palette().highlight().color(), palette().highlightedText().color());
+	Ttune::prepareDefinedTunes();
 	
-// 	m_mainScore = new TmainScore(w);
-// 	lay->addWidget(m_mainScore);
-  m_simpleScore = new TsimpleScore(3, w);
-  lay->addWidget(m_simpleScore);
-	connect(m_simpleScore, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(scoreChangedNote(int,Tnote)));
+	
+	m_mainScore = new TmainScore(3, w);
+	lay->addWidget(m_mainScore);
+//   m_simpleScore = new TsimpleScore(5, w);
+//   lay->addWidget(m_simpleScore);
+// 	connect(m_simpleScore, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(scoreChangedNote(int,Tnote)));
 
 	
 	QHBoxLayout *settLay = new QHBoxLayout;
@@ -55,8 +59,6 @@ MainWindow::MainWindow(QWidget *parent) :
 	
 	w->setLayout(lay);
 	
-  TpushButton::setCheckColor(palette().highlight().color(), palette().highlightedText().color());
-	
 	setCentralWidget(w);
 	
   m_bar = statusBar();
@@ -67,10 +69,16 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(m_keyBox, SIGNAL(toggled(bool)), this, SLOT(keySignBoxChanged(bool)));
 	connect(m_pianBox, SIGNAL(toggled(bool)), this, SLOT(pianoBoxChanged(bool)));
   
-// 	connect(m_mainScore, SIGNAL(statusTip(QString)), this, SLOT(updateStatusTip(QString)));
-  connect(m_simpleScore, SIGNAL(statusTip(QString)), this, SLOT(updateStatusTip(QString)));
+	connect(m_mainScore, SIGNAL(statusTip(QString)), this, SLOT(updateStatusTip(QString)));
+//   connect(m_simpleScore, SIGNAL(statusTip(QString)), this, SLOT(updateStatusTip(QString)));
   
   resize(600, 480);
+	
+// 	m_simpleScore->setNote(0, Tnote(1, 1, 0));
+	
+// 	m_mainScore->setPianoStaff(true);
+	m_mainScore->setScordature();
+	
 }
 
 void MainWindow::updateStatusTip(QString status) {
@@ -79,7 +87,8 @@ void MainWindow::updateStatusTip(QString status) {
 
 
 void MainWindow::keySignBoxChanged(bool enable) {
-	m_simpleScore->setEnableKeySign(m_keyBox->isChecked());
+// 	m_simpleScore->setEnableKeySign(m_keyBox->isChecked());
+	m_mainScore->setEnableKeySign(m_keyBox->isChecked());
 }
 
 void MainWindow::pianoBoxChanged(bool enable) {

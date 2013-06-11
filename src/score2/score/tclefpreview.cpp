@@ -37,7 +37,7 @@ TclefPreview::TclefPreview(TscoreScene* scene, Tclef clef) :
 	m_desc = new QGraphicsSimpleTextItem();
 	registryItem(m_desc);
 	m_desc->setParentItem(this);
-	m_desc->setBrush(scene->views()[0]->palette().windowText().color());
+	m_desc->setBrush(scene->views()[0]->palette().text().color());
 	m_desc->setText(clef.name().replace(" ", "\n"));
 	QFontMetricsF fm = QFontMetricsF(m_desc->font());
 	m_desc->setScale((7 / fm.boundingRect("A").height())); // fixed font size for any user fonts quirks
@@ -61,9 +61,9 @@ TclefPreview::TclefPreview(TscoreScene* scene, Tclef clef) :
 			QFontMetrics fMetr(ff);
 			ff.setPointSizeF(ff.pointSizeF() * (ff.pointSizeF() / fMetr.boundingRect(QChar(0xe16c)).height()));
 			brace->setFont(ff);
-			brace->setBrush(scene->views()[0]->palette().windowText().color());
+			brace->setBrush(scene->views()[0]->palette().text().color());
 			brace->setText(QString(QChar(0xe16c)));
-			brace->setPos(0.8, upperLinePos() - 1);
+			brace->setPos(-3.5, upperLinePos());
 	}
 }
 

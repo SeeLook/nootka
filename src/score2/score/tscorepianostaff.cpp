@@ -39,20 +39,20 @@ TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
 		connect(noteSegment(i), SIGNAL(noteWasClicked(int)), this, SLOT(upperNoteChanged(int)));
 		connect(m_lower->noteSegment(i), SIGNAL(noteWasClicked(int)), this, SLOT(lowerNoteChanged(int)));
 	}
-	connect(m_lower, SIGNAL(pianoStaffSwitch(Tclef)), this, SLOT(lowerStaffClefChanged(Tclef)));
+	connect(m_lower, SIGNAL(pianoStaffSwitched(Tclef)), this, SLOT(lowerStaffClefChanged(Tclef)));
 // brace (Akolada)
 	QGraphicsSimpleTextItem *brace = new QGraphicsSimpleTextItem();
 	registryItem(brace);
 	brace->setParentItem(this);
 	QFont ff = QFont("nootka");
-	ff.setPointSizeF(24.5);
+	ff.setPointSizeF(24.7);
 	QFontMetrics fMetr(ff);
 	qreal fact = ff.pointSizeF() / fMetr.boundingRect(QChar(0xe16c)).height();
 	ff.setPointSizeF(ff.pointSizeF() * fact);
 	brace->setFont(ff);
-	brace->setBrush(scene->views()[0]->palette().windowText().color());
+	brace->setBrush(scene->views()[0]->palette().text().color());
 	brace->setText(QString(QChar(0xe16c)));
-	brace->setPos(0.8, upperLinePos() - 1);
+	brace->setPos(-3.7, upperLinePos() - 0.4);
 }
 
 TscorePianoStaff::~TscorePianoStaff() {}
@@ -99,6 +99,12 @@ void TscorePianoStaff::setDisabled(bool disabled) {
 		m_lower->setDisabled(disabled);
 }
 
+		/** It overrides that method from TscoreStaff. 
+		 * In piano staff the lower displays scordature. */
+void TscorePianoStaff::setScordature(Ttune& tune) {
+		m_lower->setScordature(tune);
+}
+
 
 
 QRectF TscorePianoStaff::boundingRect() const {
@@ -122,18 +128,24 @@ void TscorePianoStaff::lowerStaffChangedKey() {
 }
 
 void TscorePianoStaff::upperNoteChanged(int noteIndex) {
+	if (m_lower->noteSegment(noteIndex)->stringNumber()) // move string number up
+			noteSegment(noteIndex)->setString(m_lower->noteSegment(noteIndex)->stringNumber());
 	m_lower->noteSegment(noteIndex)->hideNote();
+	m_lower->noteSegment(noteIndex)->removeString();
 	// no necessary to emit noteChanged - this noteChanged is emited by ancesor class
 }
 
 void TscorePianoStaff::lowerNoteChanged(int noteIndex) {
+	if (noteSegment(noteIndex)->stringNumber()) // move string number down
+			m_lower->noteSegment(noteIndex)->setString(noteSegment(noteIndex)->stringNumber());
 	noteSegment(noteIndex)->hideNote();
+	noteSegment(noteIndex)->removeString();
 	*(getNote(noteIndex)) = *(m_lower->getNote(noteIndex));
 	emit noteChanged(noteIndex);
 }
 
 void TscorePianoStaff::lowerStaffClefChanged(Tclef clef) {
-  emit pianoStaffSwitch(clef);
+  emit pianoStaffSwitched(clef);
 }
 
 

@@ -45,7 +45,10 @@ public:
         /** It returns @p note with hope that index points existed Tnote element. */
     Tnote getNote(int index);
         /** It hides pionted note and sets to Tnote(0,0,0)*/
-    void clearNote(int index);		
+    void clearNote(int index);
+				/** Adds string number @p realNr to note @p index.  */
+		void setStringNumber(int index, int realNr);
+		void clearStringNumber(int index); /** Removes string number from note @p index. */
 		
 
 				/** This method returns the key signature if score has got TscoreKeySign item, 
@@ -75,6 +78,8 @@ signals:
 				 * with status tip to display. */
     void statusTip(QString);
 		void noteHasChanged(int index, Tnote note); // TODO change this name - clamsy english
+				/** TsimpleScore takes care about changing staves but also emits this signal when changes are done.*/
+		void pianoStaffSwitched();
 		
 public slots:
 		void noteWasClicked(int index);

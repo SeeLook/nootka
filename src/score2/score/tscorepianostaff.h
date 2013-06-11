@@ -37,6 +37,9 @@ public:
 				
 		virtual void setDisabled(bool disabled);
 		
+		virtual void setScordature(Ttune &tune);
+		virtual bool hasScordature() { return m_lower->hasScordature(); } /** @p TRUE when staff has got scordature. */
+		
 		virtual QRectF boundingRect() const;
 		
 		

@@ -17,14 +17,47 @@
  ***************************************************************************/
 
 #include "tmainscore.h"
+#include "tscorestaff.h"
+#include "ttune.h"
+
+// TODO: change this to gl when merged
+Ttune glTune;
 
 TmainScore::TmainScore(int noteNumber, QWidget* parent) :
 	TsimpleScore(noteNumber, parent)
 {
+	glTune = Ttune::tunes[3];
+	
+	
+	connect(this, SIGNAL(pianoStaffSwitched()), this, SLOT(onPianoSwitch()));
 }
 
 TmainScore::~TmainScore()
 {
 }
+
+
+//####################################################################################################
+//########################################## PUBLIC ##################################################
+//####################################################################################################
+
+void TmainScore::setScordature() {
+	staff()->setScordature(glTune);
+}
+
+
+//####################################################################################################
+//########################################## PROTECTED ###############################################
+//####################################################################################################
+
+void TmainScore::onPianoSwitch() {
+	if (glTune != Ttune::stdTune)
+		staff()->setScordature(glTune);
+}
+
+
+
+
+
 
 

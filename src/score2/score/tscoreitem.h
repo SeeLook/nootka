@@ -21,6 +21,10 @@
 
 #include <QGraphicsObject>
 
+
+#define KEY_WIDTH  (9.0) // key signature width (and scordature)
+#define CLEF_WIDTH (6.0) // how many space in width takes key on the score
+
 class TscoreStaff;
 class TscoreScene;
 

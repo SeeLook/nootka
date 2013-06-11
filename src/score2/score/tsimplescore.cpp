@@ -54,7 +54,7 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
   
   m_staff = new TscoreStaff(m_scene, m_notesNr, TscoreStaff::e_normal);
 	connect(m_staff, SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
-	connect(m_staff, SIGNAL(pianoStaffSwitch(Tclef)), this, SLOT(switchToPianoStaff(Tclef)));
+	connect(m_staff, SIGNAL(pianoStaffSwitched(Tclef)), this, SLOT(switchToPianoStaff(Tclef)));
   
 	if (controler) {
 			m_scoreControl = new TscoreControl(this);
@@ -96,6 +96,17 @@ void TsimpleScore::clearNote(int index) {
 }
 
 
+void TsimpleScore::setStringNumber(int index, int realNr) {
+	if (index >= 0 && index < m_notesNr)
+		m_staff->noteSegment(index)->setString(realNr);
+}
+
+
+void TsimpleScore::clearStringNumber(int index) {
+	if (index >= 0 && index < m_notesNr)
+			m_staff->noteSegment(index)->removeString();
+}
+
 
 void TsimpleScore::setKeySignature(TkeySignature keySign) {
 	if (m_staff->scoreKey())
@@ -124,6 +135,9 @@ void TsimpleScore::setEnableKeySign(bool isEnabled) {
 void TsimpleScore::setPianoStaff(bool isPiano) {
 	if (isPiano != isPianoStaff()) {
 		bool keyEnabled = (bool)m_staff->scoreKey();
+		char key = 0;
+		if (keyEnabled)
+			key = m_staff->scoreKey()->keySignature();
 		if (isPiano) {
 				m_isPianoStaff = true;
 				delete m_staff;
@@ -139,8 +153,9 @@ void TsimpleScore::setPianoStaff(bool isPiano) {
 		}
 		if (keyEnabled) {
 				m_staff->setEnableKeySign(true);
+				m_staff->scoreKey()->setKeySignature(key);
 		}
-		connect(m_staff, SIGNAL(pianoStaffSwitch(Tclef)), this, SLOT(switchToPianoStaff(Tclef)));
+		connect(m_staff, SIGNAL(pianoStaffSwitched(Tclef)), this, SLOT(switchToPianoStaff(Tclef)));
 		connect(m_staff, SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
 		resizeEvent(0);
 	}
@@ -190,10 +205,11 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 
 
 void TsimpleScore::switchToPianoStaff(Tclef clef) {
-	// staff will be deleted so let's store its notes
+// staff will be deleted so let's store its notes
 	QList<Tnote> tmpList;
 	for (int i = 0; i < m_notesNr; i++)
 		tmpList << *(m_staff->getNote(i));
+// Key signature is restored in setPianoStaff method
 	if (isPianoStaff() && clef.type() != Tclef::e_pianoStaff) {
 		setPianoStaff(false);
 		m_staff->scoreClef()->setClef(clef);
@@ -205,6 +221,7 @@ void TsimpleScore::switchToPianoStaff(Tclef clef) {
 	for (int i = 0; i < m_notesNr; i++)
 		if(tmpList[i].note)
 				setNote(i, tmpList[i]);
+	emit pianoStaffSwitched();
 }
 
 
