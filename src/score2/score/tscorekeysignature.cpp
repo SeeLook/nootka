@@ -52,7 +52,7 @@ TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, TscoreStaff* staff, c
   for (int i = 0; i < 7; i++) {
         m_accidentals[i] = new QGraphicsSimpleTextItem();
         registryItem(m_accidentals[i]);
-        m_accidentals[i]->setBrush(scene->views()[0]->palette().windowText().color());
+        m_accidentals[i]->setBrush(scene->views()[0]->palette().text().color());
         m_accidentals[i]->setFont(font);
         m_accidentals[i]->hide();
 	}
@@ -80,7 +80,7 @@ void TscoreKeySignature::setKeySignature(char keySign) {
         }
         if (i <= qAbs(keySign)) {// show accid
             m_accidentals[i - 1]->setText(TscoreNote::getAccid(sign));
-            m_accidentals[i - 1]->setPos( (i - 1) * 1.1, getPosOfAccid(i - 1, isFlat) - 5.35);
+            m_accidentals[i - 1]->setPos( (i - 1) * 1.1, getPosOfAccid(i - 1, isFlat) - 3.4);
             staff()->accidInKeyArray[(startVal + sign * (i * 4)) % 7] = sign;
             m_accidentals[i-1]->show();
         }

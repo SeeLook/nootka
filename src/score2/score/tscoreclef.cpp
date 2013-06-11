@@ -67,10 +67,10 @@ TscoreClef::TscoreClef(TscoreScene* scene, TscoreStaff* staff, Tclef clef) :
   
   m_textClef = new QGraphicsSimpleTextItem();
   registryItem(m_textClef);
-  m_textClef->setBrush(scene->views()[0]->palette().windowText().color());
+  m_textClef->setBrush(scene->views()[0]->palette().text().color());
   
   QFont f("nootka");
-  f.setPixelSize(8);
+  f.setPixelSize(18);
   m_textClef->setFont(f);
   
   setClef(clef);
@@ -86,7 +86,10 @@ void TscoreClef::setClef(Tclef clef) {
     m_clef = clef;
     m_currClefInList = getClefPosInList(m_clef);
     m_textClef->setText(QString(clefToChar(m_clef.type())));
-    setPos(1, getYclefPos(m_clef) - (16 - staff()->upperLinePos()));
+		qreal fineOff = 0.1;
+		if (clef.type() == Tclef::e_bass_F || clef.type() == Tclef::e_bass_F_8down)
+			fineOff = 0.0;
+    setPos(1, getYclefPos(m_clef) - (16 - staff()->upperLinePos()) + fineOff);
     setStatusTip(m_clef.name() + " (" + m_clef.desc() + ")<br>" + tr("To change clef click it or use mouse wheel."));
     emit statusTip(statusTip());
   }
@@ -95,7 +98,7 @@ void TscoreClef::setClef(Tclef clef) {
 
 QRectF TscoreClef::boundingRect() const {
   if (m_textClef)
-      return m_textClef->boundingRect();
+      return QRectF(0, 0, CLEF_WIDTH, m_textClef->boundingRect().height());
   else
       return QRectF(0, 0, 6, 40);
 }
@@ -168,13 +171,13 @@ void TscoreClef::clefSelected(Tclef clef) {
 int TscoreClef::getYclefPos(Tclef clef) {
   int pos = 0;
   if (clef.type() == Tclef::e_treble_G || clef.type() == Tclef::e_treble_G_8down)
-    pos = 12;
+    pos = 11;
   else if (clef.type() == Tclef::e_bass_F|| clef.type() == Tclef::e_bass_F_8down)
-    pos = 8;
+    pos = 11;
   else if (clef.type() == Tclef::e_alto_C)
-    pos = 10;
+    pos = 11;
   else if (clef.type() == Tclef::e_tenor_C)
-    pos = 8;
+    pos = 9;
   return pos;
 }
 

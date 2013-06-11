@@ -23,15 +23,19 @@
 #include "tscoreitem.h"
 #include "tclef.h"
 
-
+class Tnote;
+class Ttune;
 class TscoreControl;
 class TscoreKeySignature;
+class TscoreScordature;
 class TscoreNote;
 class TscoreClef;
 class TscoreScene;
-class Tnote;
 
-/** Describes offset of a note. */
+
+/** 
+ * Describes offset of a note. 
+ */
 class TnoteOffset
 {
 public:
@@ -42,7 +46,8 @@ public:
   int total() { return octave * 7 + note; }
 };
 
-/** @class TscoreStaff manages score items onthe staff.
+/** 
+ * @class TscoreStaff manages score items onthe staff.
  * It has got:
  * - clef - @p TscoreClef - accessing by @p scoreClef()
  * - key signature - @p TscoreKeySignature - scoreKey()
@@ -83,6 +88,11 @@ public:
          * When TscoreKeySignature is deleted it should be set to 0. */
     char accidInKeyArray[7];
 		
+		    /** Sets scordature according to given tune.
+				 * To delete it just call this with Ttune::standardTune.*/
+    virtual void setScordature(Ttune& tune);
+		virtual bool hasScordature() { return (bool)m_scordature; } /** @p TRUE when staff has got scordature. */
+		
         /** Y position of upper line of a staff. */
     qreal upperLinePos() const { return m_upperLinePos; }
     qreal height() const { return m_height; } // staff height
@@ -108,7 +118,7 @@ public:
     virtual QRectF boundingRect() const;
 		
 signals:
-		void pianoStaffSwitch(Tclef);
+		void pianoStaffSwitched(Tclef);
 		void noteChanged(int index);
 		
 public slots:
@@ -120,7 +130,7 @@ protected slots:
     void onNoteClicked(int noteIndex);
 		void noteChangedAccid(int accid); // TscoreNote wheel event - changes accidental
 		void onAccidButtonPressed(int accid); // TscoreControl accid button pressed
-		void onPianoStaffChanged(Tclef clef) { emit pianoStaffSwitch(clef); } // clef demands piano staff
+		void onPianoStaffChanged(Tclef clef) { emit pianoStaffSwitched(clef); } // clef demands piano staff
     
 private:
 				/** Calculates current width of a staff depends on is key sign. enabled. */
@@ -136,6 +146,7 @@ private:
     Ekind                   m_kindOfStaff;
     TnoteOffset             m_offset;
 		TscoreControl						*m_scoreControl;
+		TscoreScordature				*m_scordature;
 		QList<Tnote*>						m_notes;
 		
 };

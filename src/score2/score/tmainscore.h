@@ -28,6 +28,13 @@ class TmainScore : public TsimpleScore
 public:
     TmainScore(int noteNumber, QWidget *parent = 0);
     ~TmainScore();
+		
+				/** Sets scordature to value kept in Tglobal. */
+    void setScordature();
+		
+protected slots:
+				/**  */
+		void onPianoSwitch();
 
 private:
 

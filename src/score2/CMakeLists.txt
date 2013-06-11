@@ -21,8 +21,10 @@ SET( SCORE_SRCS
   main.cpp
   mainwindow.cpp
   tclef.cpp
-  tdropshadoweffect.cpp
   tnote.cpp
+  ttune.cpp
+  
+  tdropshadoweffect.cpp
   
   score/tpushbutton.cpp
   score/tsimplescore.cpp
@@ -37,6 +39,7 @@ SET( SCORE_SRCS
   score/tscorecontrol.cpp
   score/tclefselector.cpp
   score/tclefpreview.cpp
+  score/tscorescordature.cpp
   score/tscoreview.cpp
   
   score/tkeysignature.cpp

@@ -37,23 +37,22 @@ QString TscoreNote::getAccid(int accNr) {
 
 
 QFont TscoreNote::getAccidFont() {
-  qreal fontFactor = 4.5;
   QFont font(QFont("nootka"));
-  font.setPointSizeF(fontFactor);
+  font.setPointSizeF(4.5);
   QFontMetrics fMetr(font);
   qreal fact = font.pointSizeF() / fMetr.boundingRect(QChar(0xe11a)).height();
   font.setPointSizeF(font.pointSizeF() * fact);
   return font;
 }
 
-//################################################################################################
-
+//################################## CONSTRUCTOR ###################################
 TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   TscoreItem(scene),
   m_workPosY(0.0), m_mainPosY(0.0),
   m_curentAccid(0), m_accidental(0),
   m_index(index),
   m_readOnly(false),
+  m_stringText(0), m_stringNr(0),
 //   m_noteNr(100),
   m_ottava(0)
 {
@@ -62,7 +61,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_height = staff->height();
   m_workColor = scene->views()[0]->palette().highlight().color();
   m_workColor.setAlpha(200);
-  m_mainColor = scene->views()[0]->palette().windowText().color();
+  m_mainColor = scene->views()[0]->palette().text().color();
   
   int i = staff->upperLinePos() - 2;
   while (i > 0) {
@@ -166,7 +165,7 @@ void TscoreNote::moveNote(int pos) {
     }
     m_mainPosY = pos;
     m_mainNote->setPos(3.0, pos);
-    m_mainAccid->setPos(0.0, pos - 4.35);
+    m_mainAccid->setPos(0.0, pos - 2.4);
     int noteNr = (56 + staff()->notePosRelatedToClef(pos)) % 7;
     if (staff()->accidInKeyArray[noteNr]) {
       if ( m_accidental == 0 ) 
@@ -184,7 +183,7 @@ void TscoreNote::moveNote(int pos) {
         m_mainNote->show();
         m_mainAccid->show();
     }
-//     setStringPos();
+    setStringPos();
     for (int i = 0; i < m_mainUpLines.size(); i++) {
       if (pos < m_mainUpLines[i]->line().y1())
         m_mainUpLines[i]->show();
@@ -239,11 +238,34 @@ void TscoreNote::markNote(QColor blurColor) {
     }
 }
 
+
+void TscoreNote::setString(int realNr) {
+	if (!m_stringText) {
+        m_stringText = new QGraphicsSimpleTextItem();
+        m_stringText->setFont(m_mainAccid->font());
+        m_stringText->setBrush(QBrush(m_mainColor));
+        m_stringText->setParentItem(this);
+        m_stringText->setZValue(-1);
+    }
+    m_stringText->setText(QString("%1").arg(realNr));
+		m_stringNr = realNr;
+    setStringPos();
+}
+
+
+void TscoreNote::removeString() {
+		if (m_stringText) {
+        delete m_stringText;
+        m_stringText = 0;
+    }
+    m_stringNr = 0;
+}
+
+
 void TscoreNote::setReadOnly(bool ro) {
 		setAcceptHoverEvents(!ro);
 		m_readOnly = ro;
 }
-
 
 
 QRectF TscoreNote::boundingRect() const{
@@ -282,7 +304,7 @@ void TscoreNote::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
     if (event->pos().y() != m_workPosY) {
       m_workPosY = event->pos().y();
       m_workNote->setPos(3.0, m_workPosY);
-      m_workAccid->setPos(0.0, m_workPosY - 4.35);
+      m_workAccid->setPos(0.0, m_workPosY - 2.4);
       if (!m_workNote->isVisible()) {
         m_workNote->show();
         m_workAccid->show();
@@ -358,6 +380,16 @@ QGraphicsLineItem* TscoreNote::createNoteLine(int yPos) {
 void TscoreNote::hideLines(QList< QGraphicsLineItem* >& linesList) {
     for (int i=0; i < linesList.size(); i++) 
       linesList[i]->hide();
+}
+
+
+void TscoreNote::setStringPos() {
+		if (m_stringText) {
+        int yy = staff()->upperLinePos() + 6; // below the staff
+        if (m_mainPosY > staff()->upperLinePos() + 4) 
+						yy = staff()->upperLinePos() - 9; // above the staff 
+        m_stringText->setPos(2 , yy);
+    }
 }
 
 

@@ -64,6 +64,12 @@ public:
 				/** nootka font with well scaled accidental glypt. */
     static QFont getAccidFont();
 		
+				/** It paints string number symbol.
+        * Automaticaly determines above or below staff. */
+    void setString(int realNr);
+    void removeString(); /** Removes string number */
+		int stringNumber() { return m_stringNr; } /* Displayed string number or 0 if not. */
+		
 		void setReadOnly(bool ro);
 		bool isReadOnly() { return m_readOnly; }
 		
@@ -87,6 +93,7 @@ protected:
 private:
     QGraphicsEllipseItem          *m_workNote, *m_mainNote;
     QGraphicsSimpleTextItem       *m_workAccid, *m_mainAccid;
+		QGraphicsSimpleTextItem 			*m_stringText;
     QList<QGraphicsLineItem*>     m_upLines, m_mainUpLines, m_mainDownLines, m_downLines;
     QColor                        m_workColor, m_mainColor;
     
@@ -97,6 +104,7 @@ private:
     int 													m_ottava; // values from -2 (two octaves down), to 2 (two octaves up)
                   /** Represents range (ambitus) of notes on score */
     int                           m_ambitMin, m_ambitMax;
+		int 													m_stringNr;
     qreal                         m_height;
 		bool													m_readOnly;
     
@@ -105,6 +113,8 @@ private:
     QGraphicsEllipseItem* createNoteHead();
     QGraphicsLineItem*    createNoteLine(int yPos);
     void hideLines(QList<QGraphicsLineItem*> &linesList);
+				/** Determines and set string numer position (above or below the staff) depends on note pos */
+		void setStringPos();
 // 		void checkOctavation();
 		
     

@@ -22,6 +22,7 @@
 #include "tscorenote.h"
 #include "tscorekeysignature.h"
 #include "tscorecontrol.h"
+#include "tscorescordature.h"
 #include "tnote.h"
 #include <QGraphicsView>
 
@@ -40,7 +41,8 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
   m_scoreControl(0),
   m_kindOfStaff(kindOfStaff),
   m_offset(TnoteOffset(3, 2)),
-  m_keySignature(0)
+  m_keySignature(0),
+  m_scordature(0)
 {
 	setZValue(10);
   if (m_kindOfStaff == e_normal) {
@@ -85,7 +87,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
   for (int i = 0; i < 5; i++) {
     m_lines[i] = new QGraphicsLineItem();
     registryItem(m_lines[i]);
-    m_lines[i]->setPen(QPen(scene->views()[0]->palette().windowText().color(), 0.2));
+    m_lines[i]->setPen(QPen(scene->views()[0]->palette().text().color(), 0.2));
     m_lines[i]->setLine(1, upperLinePos() + i * 2, boundingRect().width() - 2, upperLinePos() + i * 2);
     m_lines[i]->setZValue(5);
   }
@@ -136,25 +138,40 @@ void TscoreStaff::setNote(int index, Tnote& note) {
 
 void TscoreStaff::setEnableKeySign(bool isEnabled) {
 	if (isEnabled != (bool)m_keySignature) {
-		qreal notesOff = 0.0;
 		if (isEnabled) {
 			m_keySignature = new TscoreKeySignature(scoreScene(), this);
 			m_keySignature->setPos(6.5, 0);
 			m_keySignature->setClef(m_clef->clef());
+			m_keySignature->setZValue(30);
 			connect(m_keySignature, SIGNAL(keySignatureChanged()), this, SLOT(onKeyChanged()));
-			notesOff = m_keySignature->boundingRect().width();
+			if (m_scoreControl && !m_scoreControl->isEnabled()) {
+					/** This is in case when score/staff is disabled and key signature is added.
+					 * TscoreControl::isEnabled() determines availableness state. */
+					m_keySignature->setReadOnly(true);
+					m_keySignature->setAcceptHoverEvents(false);
+			}
 		} else {
 					delete m_keySignature;
 					m_keySignature = 0;
 		}
 		updateWidth();
-		for (int i = 0; i < m_scoreNotes.size(); i++) // update positions of the notes
-				m_scoreNotes[i]->setPos(7.0 + notesOff + i * m_scoreNotes[0]->boundingRect().width(), 0);
-		for (int i = 0; i < 5; i++) // adjust staff lines length
-				m_lines[i]->setLine(1, upperLinePos() + i * 2, boundingRect().width() - 2, upperLinePos() + i * 2);
-		scoreScene()->update();
 	}
 }
+
+
+void TscoreStaff::setScordature(Ttune& tune) {
+	if (!hasScordature()) {
+		m_scordature = new TscoreScordature(scoreScene(), this);
+		m_scordature->setParentItem(this);
+	} 
+	m_scordature->setTune(tune);
+	if (!m_scordature->isScordatured())	{ // nothing to show - standard tune
+			delete m_scordature;
+			m_scordature = 0;
+	}
+	updateWidth();
+}
+
 
 
 void TscoreStaff::setDisabled(bool disabled) {
@@ -247,11 +264,19 @@ void TscoreStaff::onAccidButtonPressed(int accid) {
 void TscoreStaff::updateWidth() {
 	qreal off = 0.0;
 	if (m_keySignature)
-		off = m_keySignature->boundingRect().width();
+			off = KEY_WIDTH;
+	else if (m_scordature)
+			off = KEY_WIDTH / 2;
 	if (m_scoreNotes.size())
-		m_width = 10.0 + off + m_scoreNotes.size() * m_scoreNotes[0]->boundingRect().width();
+			m_width = 10.0 + off + m_scoreNotes.size() * m_scoreNotes[0]->boundingRect().width();
 	else
-		m_width = 10.0 + off;
+			m_width = 10.0 + off;
+	
+	for (int i = 0; i < m_scoreNotes.size(); i++) // update positions of the notes
+				m_scoreNotes[i]->setPos(7.0 + off + i * m_scoreNotes[0]->boundingRect().width(), 0);
+	for (int i = 0; i < 5; i++) // adjust staff lines length
+				m_lines[i]->setLine(1, upperLinePos() + i * 2, boundingRect().width() - 2, upperLinePos() + i * 2);
+	scoreScene()->update();
 }
 
 

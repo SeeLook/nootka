@@ -18,23 +18,31 @@
 
 #include "tscorescordature.h"
 #include "tscorescene.h"
+#include "tscorestaff.h"
+#include "tscoreclef.h"
 #include "ttune.h"
 #include <QGraphicsView>
 
-TscoreScordature::TscoreScordature(TscoreScene* scene) :
+#include <QDebug>
+
+/*static*/
+Tnote::EnameStyle TscoreScordature::nameStyle = Tnote::e_nederl_Bis;
+
+
+
+TscoreScordature::TscoreScordature(TscoreScene* scene, TscoreStaff* staff) :
   TscoreItem(scene),
-  m_scordText(0)
+  m_scordText(0),
+  m_height(1)
 {
-  
+  setStaff(staff);
   setStatusTip(tr("Scordature of a guitar"));
 }
 
 
-void TscoreScordature::setTune(Ttune& tune, Tnote::EnameStyle nameStyle) {
+void TscoreScordature::setTune(Ttune& tune) {
   if (tune != Ttune::stdTune) {
-//     m_hasScord = true;
-//     int fSize = height() / 3 - 2;
-    int fSize = scoreScene()->views()[0]->fontMetrics().boundingRect("A").height() - 2;
+		int fSize = 12;
     int nL = 0;
     for (int i = 1; i < 7; i++) {
         if ( tune[i] != Ttune::stdTune[i])
@@ -63,10 +71,23 @@ void TscoreScordature::setTune(Ttune& tune, Tnote::EnameStyle nameStyle) {
         delete m_scordText;
     m_scordText = new QGraphicsTextItem();
     m_scordText->setParentItem(this);
-    m_scordText->setHtml(scordText);
-//     m_scordText->setPos(0, 0);
+		m_scordText->setHtml(scordText);		
+		qreal xPos = 1.0, extraW = 0.0;
+		qreal yPos = staff()->upperLinePos() + 11.5;
+		if (staff()->kindOfStaff() == TscoreStaff::e_lower) {
+			// This is in case of scordature on piano staff - it needs more space to look well
+			xPos = -1.0;
+			extraW = 2.0;
+			yPos = staff()->upperLinePos() + 7.5;
+		}
+		qreal factor = (CLEF_WIDTH + KEY_WIDTH / 2 + extraW) / m_scordText->boundingRect().width();
+		setScale(factor);
+		m_height = staff()->height() - yPos;
+// 		qDebug() << m_height << m_scordText->boundingRect().height() * scale();
+		if (m_scordText->boundingRect().height() * scale() > m_height)
+			setScale(factor * (m_height / (m_scordText->boundingRect().height() * scale())));
+		setPos(xPos, yPos);
   } else {
-//     m_hasScord = false;
     if (m_scordText) {
       delete m_scordText;
       m_scordText = 0;
@@ -75,11 +96,15 @@ void TscoreScordature::setTune(Ttune& tune, Tnote::EnameStyle nameStyle) {
 }
 
 
-QRectF TscoreScordature::boundingRect() {
+QRectF TscoreScordature::boundingRect() const {
   if (m_scordText)
-      return m_scordText->boundingRect();
-  else
-    return QRectF(0, 0, 1, 1);
+		return QRectF(0, 0, (CLEF_WIDTH + KEY_WIDTH - 1) / scale(), m_height / scale());
+}
+
+
+void TscoreScordature::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+{
+// 	painter->drawRect(boundingRect());
 }
 
 

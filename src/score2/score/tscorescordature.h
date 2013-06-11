@@ -22,28 +22,36 @@
 #include "tscoreitem.h"
 #include "tnote.h"
 
+class Ttune;
 class TscoreScene;
 
 /**
  * This class represents scordature in a score.
- * Scordatute is set by @p setTune() with tune and note name style in params.
+ * Scordatute is set by @p setTune() with tune as a parameter.
+ * Nameing style is controled by stsic nameStyle variable, 
+ * it has to be refreshed (setTune called again) if changed
 */
 class TscoreScordature : public TscoreItem
 {
 
 public:
-    TscoreScordature(TscoreScene* scene);
+	
+    TscoreScordature(TscoreScene* scene, TscoreStaff *staff);
     
-          /** Sets tune and displays it in given style. */
-    void setTune(Ttune &tune, Tnote::EnameStyle nameStyle);
-
+        /** Sets tune and displays it in given style. */
+    void setTune(Ttune& tune);
+				/** Returns @p true when tune was different than standard and something is displayed. */
+		bool isScordatured() { return (bool)m_scordText; }
     
+				/** Static, global name style used by TscoreScordature */
+    static Tnote::EnameStyle nameStyle;
     
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {};
-    virtual QRectF boundingRect();
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
+    virtual QRectF boundingRect() const;
 
 private:
-    QGraphicsTextItem *m_scordText; // dispalyed scordature text
+    QGraphicsTextItem 	*m_scordText; // dispalyed scordature text
+    qreal 							m_height;
 
 };
 
