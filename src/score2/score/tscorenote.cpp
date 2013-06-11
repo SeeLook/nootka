@@ -165,7 +165,7 @@ void TscoreNote::moveNote(int pos) {
     }
     m_mainPosY = pos;
     m_mainNote->setPos(3.0, pos);
-    m_mainAccid->setPos(0.0, pos - 2.4);
+    m_mainAccid->setPos(0.0, pos - 2.35);
     int noteNr = (56 + staff()->notePosRelatedToClef(pos)) % 7;
     if (staff()->accidInKeyArray[noteNr]) {
       if ( m_accidental == 0 ) 
@@ -304,7 +304,7 @@ void TscoreNote::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
     if (event->pos().y() != m_workPosY) {
       m_workPosY = event->pos().y();
       m_workNote->setPos(3.0, m_workPosY);
-      m_workAccid->setPos(0.0, m_workPosY - 2.4);
+      m_workAccid->setPos(0.0, m_workPosY - 2.35);
       if (!m_workNote->isVisible()) {
         m_workNote->show();
         m_workAccid->show();

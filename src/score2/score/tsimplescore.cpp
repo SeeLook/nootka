@@ -153,6 +153,7 @@ void TsimpleScore::setPianoStaff(bool isPiano) {
 		}
 		if (keyEnabled) {
 				m_staff->setEnableKeySign(true);
+        m_staff->scoreKey()->showKeyName(true);
 				m_staff->scoreKey()->setKeySignature(key);
 		}
 		connect(m_staff, SIGNAL(pianoStaffSwitched(Tclef)), this, SLOT(switchToPianoStaff(Tclef)));
