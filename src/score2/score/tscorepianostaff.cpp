@@ -23,7 +23,7 @@
 #include "tscoreclef.h"
 #include "tnote.h"
 #include <QFont>
-// #include <QFontMetrics>
+#include <QFontMetrics>
 #include <QGraphicsView>
 
 // #include <QDebug>
@@ -43,11 +43,14 @@ TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
 // brace (Akolada)
 	QGraphicsSimpleTextItem *brace = new QGraphicsSimpleTextItem();
 	registryItem(brace);
-	QFont ff = QFont("nootka", 25);
-	brace->setFont(ff);
+	QFont ff = QFont("nootka");
+  ff.setPointSizeF(25.2);
+  QFontMetrics fm(ff);
+  ff.setPointSizeF(ff.pointSizeF() * (ff.pointSizeF() / fm.boundingRect(QChar(0xe16c)).height()));
+  brace->setFont(ff);
 	brace->setText(QString(QChar(0xe16c)));
 	qreal distance = m_lower->pos().y() + m_lower->upperLinePos() + 8 - upperLinePos();
-	qreal fact = (distance + 1.2) / brace->boundingRect().height();
+	qreal fact = (distance + 1.4) / brace->boundingRect().height();
 	brace->setScale(fact);
 	brace->setBrush(scene->views()[0]->palette().text().color());
 	brace->setPos(-2.0, upperLinePos() + distance / 2 - (brace->boundingRect().height() * brace->scale()) / 2 + 0.2);
