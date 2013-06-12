@@ -1,10 +1,5 @@
 Plan for the Nootka One
 
-ottava:
--2: 15mb
--1: 8vb
- 1: 8va
- 2: 15ma
 
 - keep exam file in /tmp and restore it when crash or so
 ?? Kodaly names
@@ -52,3 +47,8 @@ TNOTEPIXMAP
     
     
     
+ottava:
+-2: 15mb
+-1: 8vb
+ 1: 8va
+ 2: 15ma
