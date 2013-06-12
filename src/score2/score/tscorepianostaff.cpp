@@ -23,7 +23,7 @@
 #include "tscoreclef.h"
 #include "tnote.h"
 #include <QFont>
-#include <QFontMetrics>
+// #include <QFontMetrics>
 #include <QGraphicsView>
 
 // #include <QDebug>
@@ -43,16 +43,14 @@ TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
 // brace (Akolada)
 	QGraphicsSimpleTextItem *brace = new QGraphicsSimpleTextItem();
 	registryItem(brace);
-	brace->setParentItem(this);
-	QFont ff = QFont("nootka");
-	ff.setPointSizeF(24.9);
-	QFontMetrics fMetr(ff);
-	qreal fact = ff.pointSizeF() / fMetr.boundingRect(QChar(0xe16c)).height();
-	ff.setPointSizeF(ff.pointSizeF() * fact);
+	QFont ff = QFont("nootka", 25);
 	brace->setFont(ff);
-	brace->setBrush(scene->views()[0]->palette().text().color());
 	brace->setText(QString(QChar(0xe16c)));
-	brace->setPos(-3.7, upperLinePos() - 0.35);
+	qreal distance = m_lower->pos().y() + m_lower->upperLinePos() + 8 - upperLinePos();
+	qreal fact = (distance + 1.2) / brace->boundingRect().height();
+	brace->setScale(fact);
+	brace->setBrush(scene->views()[0]->palette().text().color());
+	brace->setPos(-2.0, upperLinePos() + distance / 2 - (brace->boundingRect().height() * brace->scale()) / 2 + 0.2);
 }
 
 TscorePianoStaff::~TscorePianoStaff() {}
@@ -100,10 +98,10 @@ void TscorePianoStaff::setDisabled(bool disabled) {
 }
 
 		/** It overrides that method from TscoreStaff. 
-		 * In piano staff the lower displays scordature. */
+		 * In piano staff the lower displays scordature and upper has got just increased width. */
 void TscorePianoStaff::setScordature(Ttune& tune) {
 		m_lower->setScordature(tune);
-//     TscoreStaff::setScordature(Ttunex);
+		setExtraWidth(KEY_WIDTH / 2);
 }
 
 

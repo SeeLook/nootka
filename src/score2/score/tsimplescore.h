@@ -87,6 +87,10 @@ public slots:
 protected:
 		TscoreView* score() { return m_score; }
 		TscoreScene* scene() { return m_scene; }
+				/** Pointer to TscoreStaff should never go to public !!!!
+				 * TscoreStaff instance is changeable by pianoStaffSwitched() and any connection with its signals will be lost.
+				 * Inner methods of TsimpleScore take care about refreshing 
+				 * connection with newer staff instances and this class emits appropirate signals. */
 		TscoreStaff* staff() { return m_staff; }
     
     

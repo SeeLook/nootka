@@ -192,7 +192,7 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
   qreal factor = (((qreal)height() / 40.0) / m_score->transform().m11()) * m_pianoFactor;
   m_score->scale(factor, factor);
 	m_scene->setSceneRect(0, 0, m_staff->boundingRect().width() * m_score->transform().m11(), 
-		m_staff->boundingRect().height() * m_score->transform().m11()	);
+												m_staff->boundingRect().height() * m_score->transform().m11()	);
 	m_score->setMaximumSize(m_scene->sceneRect().width(), m_scene->sceneRect().height());
   qreal staffOff = 0.0;
   if (isPianoStaff())

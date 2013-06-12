@@ -28,8 +28,8 @@ class TscoreScene;
 /**
  * This class represents scordature in a score.
  * Scordatute is set by @p setTune() with tune as a parameter.
- * Nameing style is controled by stsic nameStyle variable, 
- * it has to be refreshed (setTune called again) if changed
+ * Nameing style is controled by static nameStyle variable, 
+ * it has to be refreshed (setTune called again) if changed nameStyle.
 */
 class TscoreScordature : public TscoreItem
 {
