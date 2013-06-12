@@ -125,6 +125,13 @@ public slots:
 				/** It is connected with clef, but also refresh m_offset appropirate to current clef. */
 		void onClefChanged();
 		
+protected:
+				/** Adds given value to staff width and refresh staff lines.
+				 * This is a bit clumsy but works. 
+				 * When pianoStaff has got a scordature lower staff control it.
+				 * Upper staff has only this width increased. */
+		void setExtraWidth(qreal extraWi);
+		
 protected slots:
     void onKeyChanged();
     void onNoteClicked(int noteIndex);
@@ -143,6 +150,7 @@ private:
     QList<TscoreNote*>      m_scoreNotes;
     qreal                   m_upperLinePos;
     qreal                   m_height, m_width;
+		qreal										m_extraWidth;
     Ekind                   m_kindOfStaff;
     TnoteOffset             m_offset;
 		TscoreControl						*m_scoreControl;

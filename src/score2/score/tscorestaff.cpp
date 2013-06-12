@@ -42,7 +42,8 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
   m_kindOfStaff(kindOfStaff),
   m_offset(TnoteOffset(3, 2)),
   m_keySignature(0),
-  m_scordature(0)
+  m_scordature(0),
+  m_extraWidth(0.0)
 {
 	setZValue(10);
   if (m_kindOfStaff == e_normal) {
@@ -169,7 +170,10 @@ void TscoreStaff::setScordature(Ttune& tune) {
 			delete m_scordature;
 			m_scordature = 0;
 	}
-	updateWidth();
+	if (m_scordature)
+			setExtraWidth(KEY_WIDTH / 2);
+	else
+			updateWidth();
 }
 
 
@@ -195,6 +199,13 @@ QRectF TscoreStaff::boundingRect() const {
 //##########################################################################################################
 //########################################## PROTECTED   ###################################################
 //##########################################################################################################
+
+void TscoreStaff::setExtraWidth(qreal extraWi) {
+		m_extraWidth = extraWi;
+		updateWidth();
+}
+
+
 
 void TscoreStaff::onClefChanged( ) {
 	int globalNr;
@@ -265,8 +276,8 @@ void TscoreStaff::updateWidth() {
 	qreal off = 0.0;
 	if (m_keySignature)
 			off = KEY_WIDTH;
-	else if (m_scordature)
-			off = KEY_WIDTH / 2;
+	else if (m_extraWidth != 0.0)
+			off = m_extraWidth;
 	if (m_scoreNotes.size())
 			m_width = 10.0 + off + m_scoreNotes.size() * m_scoreNotes[0]->boundingRect().width();
 	else
