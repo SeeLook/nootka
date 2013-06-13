@@ -43,6 +43,7 @@ TmainScore::~TmainScore()
 
 void TmainScore::setScordature() {
 	staff()->setScordature(glTune);
+	resizeEvent(0);
 }
 
 
@@ -52,7 +53,7 @@ void TmainScore::setScordature() {
 
 void TmainScore::onPianoSwitch() {
 	if (glTune != Ttune::stdTune)
-		staff()->setScordature(glTune);
+			setScordature();
 }
 
 

@@ -126,11 +126,10 @@ public slots:
 		void onClefChanged();
 		
 protected:
-				/** Adds given value to staff width and refresh staff lines.
-				 * This is a bit clumsy but works. 
-				 * When pianoStaff has got a scordature lower staff control it.
-				 * Upper staff has only this width increased. */
-		void setExtraWidth(qreal extraWi);
+				/** It doesn't add scordature like setScordature() method, 
+				 * just make place (resizes staff width if necessary) for scordature. 
+				 * setScordature calls it itself. */
+		void setEnableScordtature(bool enable);
 		
 protected slots:
     void onKeyChanged();
@@ -156,6 +155,7 @@ private:
 		TscoreControl						*m_scoreControl;
 		TscoreScordature				*m_scordature;
 		QList<Tnote*>						m_notes;
+		bool										m_enableScord;
 		
 };
 

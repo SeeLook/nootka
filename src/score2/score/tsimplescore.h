@@ -96,6 +96,10 @@ protected:
     
 protected slots:
     void statusTipChanged(QString status) { emit statusTip(status); }
+				/** Except response for scaling TscoreView widget to according to new height,
+				 * this method takes care about new width of the score. 
+				 * It is necessary to call it after staff width changed f.e by:
+				 * setPianoStaff(), setEnableKeySign() and setScordature()				 */
     void resizeEvent(QResizeEvent* event);
 				/** This is response for user demand to chenge to or from piano staff. */
 		void switchToPianoStaff(Tclef clef);
