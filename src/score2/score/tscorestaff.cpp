@@ -43,7 +43,8 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
   m_offset(TnoteOffset(3, 2)),
   m_keySignature(0),
   m_scordature(0),
-  m_extraWidth(0.0)
+  m_extraWidth(0.0),
+	m_enableScord(false)
 {
 	setZValue(10);
   if (m_kindOfStaff == e_normal) {
@@ -164,16 +165,18 @@ void TscoreStaff::setScordature(Ttune& tune) {
 	if (!hasScordature()) {
 		m_scordature = new TscoreScordature(scoreScene(), this);
 		m_scordature->setParentItem(this);
-	} 
+		if (kindOfStaff() == e_upper)
+			m_scordature->hide();
+	}
 	m_scordature->setTune(tune);
-	if (!m_scordature->isScordatured())	{ // nothing to show - standard tune
+	if (m_scordature->isScordatured())	{ 
+			m_enableScord = true;
+	} else { // nothing to show - standard tune
 			delete m_scordature;
 			m_scordature = 0;
+			m_enableScord = false;
 	}
-	if (m_scordature)
-			setExtraWidth(KEY_WIDTH / 2);
-	else
-			updateWidth();
+		updateWidth();
 }
 
 
@@ -200,9 +203,11 @@ QRectF TscoreStaff::boundingRect() const {
 //########################################## PROTECTED   ###################################################
 //##########################################################################################################
 
-void TscoreStaff::setExtraWidth(qreal extraWi) {
-		m_extraWidth = extraWi;
+void TscoreStaff::setEnableScordtature(bool enable) {
+	if (enable != m_enableScord) {
+		m_enableScord = enable;
 		updateWidth();
+	}
 }
 
 
@@ -276,8 +281,8 @@ void TscoreStaff::updateWidth() {
 	qreal off = 0.0;
 	if (m_keySignature)
 			off = KEY_WIDTH;
-	else if (m_extraWidth != 0.0)
-			off = m_extraWidth;
+	else if (m_enableScord)
+			off = KEY_WIDTH / 2;
 	if (m_scoreNotes.size())
 			m_width = 10.0 + off + m_scoreNotes.size() * m_scoreNotes[0]->boundingRect().width();
 	else
@@ -286,7 +291,7 @@ void TscoreStaff::updateWidth() {
 	for (int i = 0; i < m_scoreNotes.size(); i++) // update positions of the notes
 				m_scoreNotes[i]->setPos(7.0 + off + i * m_scoreNotes[0]->boundingRect().width(), 0);
 	for (int i = 0; i < 5; i++) // adjust staff lines length
-				m_lines[i]->setLine(1, upperLinePos() + i * 2, boundingRect().width() - 2, upperLinePos() + i * 2);
+				m_lines[i]->setLine(1, upperLinePos() + i * 2, width() - 2, upperLinePos() + i * 2);
 	scoreScene()->update();
 }
 

@@ -25,6 +25,7 @@
 #include <QFont>
 #include <QFontMetrics>
 #include <QGraphicsView>
+#include <qrawfont.h>
 
 // #include <QDebug>
 
@@ -50,10 +51,10 @@ TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
   brace->setFont(ff);
 	brace->setText(QString(QChar(0xe16c)));
 	qreal distance = m_lower->pos().y() + m_lower->upperLinePos() + 8 - upperLinePos();
-	qreal fact = (distance + 1.4) / brace->boundingRect().height();
+	qreal fact = (distance + 2.0) / brace->boundingRect().height();
 	brace->setScale(fact);
 	brace->setBrush(scene->views()[0]->palette().text().color());
-	brace->setPos(-2.0, upperLinePos() + distance / 2 - (brace->boundingRect().height() * brace->scale()) / 2 + 0.2);
+	brace->setPos(-2.0, upperLinePos() + distance / 2 - (brace->boundingRect().height() * brace->scale()) / 2 + 0.4);
 }
 
 TscorePianoStaff::~TscorePianoStaff() {}
@@ -104,7 +105,8 @@ void TscorePianoStaff::setDisabled(bool disabled) {
 		 * In piano staff the lower displays scordature and upper has got just increased width. */
 void TscorePianoStaff::setScordature(Ttune& tune) {
 		m_lower->setScordature(tune);
-		setExtraWidth(KEY_WIDTH / 2);
+		setEnableScordtature(m_lower->hasScordature());
+// 		TscoreStaff::setScordature(tune);
 }
 
 

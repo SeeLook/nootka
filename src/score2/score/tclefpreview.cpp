@@ -63,7 +63,7 @@ TclefPreview::TclefPreview(TscoreScene* scene, Tclef clef) :
 			brace->setFont(ff);
 			brace->setBrush(scene->views()[0]->palette().text().color());
 			brace->setText(QString(QChar(0xe16c)));
-			brace->setPos(-3.5, upperLinePos() - 0.2);
+			brace->setPos(-2.0, upperLinePos() - 1.0);
 	}
 }
 

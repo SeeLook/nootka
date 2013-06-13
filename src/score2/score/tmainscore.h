@@ -33,7 +33,7 @@ public:
     void setScordature();
 		
 protected slots:
-				/**  */
+				/** Refresh some things (scordature) after switch. */
 		void onPianoSwitch();
 
 private:
