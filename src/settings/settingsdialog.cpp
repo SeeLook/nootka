@@ -28,6 +28,7 @@
 #include <taudioparams.h>
 #include <trtaudioabstract.h>
 #include <tmidiout.h>
+#include "tsimplescore.h"
 
 
 extern Tglobals *gl;
@@ -50,10 +51,11 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
     tuneLay->setAlignment(Qt::AlignCenter);
     tuneCombo = new QComboBox(this);
     tuneLay->addWidget(tuneCombo);
-    tuneView = new TscoreWidgetSimple(6,this);
+    tuneView = new TsimpleScore(6, this);
     tuneLay->addWidget(tuneView);
-    tuneView->setFixedWidth(280);
-    tuneView->setAmbitus(Tnote(6,-2,0),Tnote(6,1,0));
+    
+//     tuneView->setFixedWidth(280);
+//     tuneView->setAmbitus(Tnote(6,-2,0),Tnote(6,1,0));
     setTune(gl->Gtune());
     tuneCombo->addItem(Ttune::stdTune.name);
     if (gl->Gtune() == Ttune::stdTune)
@@ -136,7 +138,7 @@ GuitarSettings::GuitarSettings(QWidget *parent) :
 void GuitarSettings::setTune(Ttune tune) {
     for (int i=0; i<6; i++) {
         tuneView->setNote(i,tune[6-i]);
-        tuneView->noteViews[i]->setString(6-i);
+        tuneView->setStringNumber(i, 6 - i);
     }
 }
 

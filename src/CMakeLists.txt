@@ -26,7 +26,7 @@ if(UNIX AND NOT APPLE)
   endif(ENABLE_PULSEAUDIO AND PULSE_INCLUDE_DIR)
 endif(UNIX AND NOT APPLE)
 
-INCLUDE_DIRECTORIES (. exam info level score settings sound charts)
+INCLUDE_DIRECTORIES (. exam info level score settings sound charts score2/score )
 
 SET( NOOTKA_SRCS
   main.cpp
@@ -37,6 +37,7 @@ SET( NOOTKA_SRCS
   tfingerboard.cpp
   ttune.cpp
   tfingerpos.cpp
+  tclef.cpp
 ###### Sound
   sound/tsound.cpp
   sound/tmidiout.cpp
@@ -81,8 +82,25 @@ SET( NOOTKA_SRCS
   score/tkeysignatureview.cpp
   score/tkeysignature.cpp
   score/tclefview.cpp
-  score/tpushbutton.cpp
+#   score/tpushbutton.cpp
   score/tscordatureview.cpp
+###### Score2
+  score2/score/tpushbutton.cpp
+  score2/score/tsimplescore.cpp
+  score2/score/tmainscore.cpp
+  score2/score/tscorescene.cpp
+  score2/score/tscoreitem.cpp
+  score2/score/tscorestaff.cpp
+  score2/score/tscorepianostaff.cpp
+  score2/score/tscoreclef.cpp
+  score2/score/tscorenote.cpp
+  score2/score/tscorekeysignature.cpp
+  score2/score/tscorecontrol.cpp
+  score2/score/tclefselector.cpp
+  score2/score/tclefpreview.cpp
+  score2/score/tscorescordature.cpp
+  score2/score/tscoreview.cpp  
+  
 ###### Settings
   settings/settingsdialog.cpp
   settings/tsettingsdialogbase.cpp
@@ -185,7 +203,21 @@ SET( NOOTKA_MOC_SRCS
   score/tscorewidgetsimple.h
   score/tkeysignatureview.h
   score/tclefview.h
-  score/tpushbutton.h
+#   score/tpushbutton.h
+###### Score2  
+  score2/score/tpushbutton.h
+  score2/score/tsimplescore.h
+  score2/score/tmainscore.h
+  score2/score/tscorescene.h
+  score2/score/tscoreitem.h
+  score2/score/tscorestaff.h
+  score2/score/tscorepianostaff.h
+  score2/score/tscoreclef.h
+  score2/score/tscorenote.h
+  score2/score/tscorekeysignature.h
+  score2/score/tscorecontrol.h
+  score2/score/tclefselector.h
+  score2/score/tclefpreview.h
 ###### Settings
   settings/settingsdialog.h
   settings/tsettingsdialogbase.h
