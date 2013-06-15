@@ -21,12 +21,13 @@
 
 #include "tnote.h"
 #include "ttune.h"
-#include "tscorewidgetsimple.h"
+// #include "tscorewidgetsimple.h"
 #include "tsettingsdialogbase.h"
 #include "namesettings.h"
 #include "scoresettings.h"
 #include <QMap>
 
+class TsimpleScore;
 class AudioOutSettings;
 class AudioInSettings;
 class QCheckBox;
@@ -69,7 +70,7 @@ public:
 private:
     void setTune (Ttune tune);
 
-    TscoreWidgetSimple *tuneView;
+    TsimpleScore *tuneView;
     QCheckBox *righthandCh, *morePosCh;
     QRadioButton *prefFlatBut, *prefSharpBut;
     QSpinBox *fretsNrSpin;
