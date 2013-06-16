@@ -39,45 +39,45 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     tuneGr->setStatusTip(tr("Select appropirate tune from the list or prepare your own."));
     QVBoxLayout *tuneLay = new QVBoxLayout;
     tuneLay->setAlignment(Qt::AlignCenter);
-    tuneCombo = new QComboBox(this);
-    tuneLay->addWidget(tuneCombo);
-    tuneView = new TsimpleScore(6, this);
-    tuneLay->addWidget(tuneView);
-    tuneView->setClef(Tclef(Tclef::e_treble_G)); // TODO global clef !!!!
+    m_tuneCombo = new QComboBox(this);
+    tuneLay->addWidget(m_tuneCombo);
+    m_tuneView = new TsimpleScore(6, this);
+    tuneLay->addWidget(m_tuneView);
+    m_tuneView->setClef(Tclef(Tclef::e_treble_G_8down)); // TODO global clef !!!!
     
 //     tuneView->setFixedWidth(280);
 //     tuneView->setAmbitus(Tnote(6,-2,0),Tnote(6,1,0));
     setTune(gl->Gtune());
-    tuneCombo->addItem(Ttune::stdTune.name);
+    m_tuneCombo->addItem(Ttune::stdTune.name);
     if (gl->Gtune() == Ttune::stdTune)
-        tuneCombo->setCurrentIndex(0);
+        m_tuneCombo->setCurrentIndex(0);
     for (int i=0; i<4; i++) {
-        tuneCombo->addItem(Ttune::tunes[i].name);
+        m_tuneCombo->addItem(Ttune::tunes[i].name);
         if (gl->Gtune() == Ttune::tunes[i])
-            tuneCombo->setCurrentIndex(i+1);
+            m_tuneCombo->setCurrentIndex(i+1);
     }
     QString S = tr("Custom tune");
-    tuneCombo->addItem(S);
+    m_tuneCombo->addItem(S);
     if (gl->Gtune().name == S)
-        tuneCombo->setCurrentIndex(5);
+        m_tuneCombo->setCurrentIndex(5);
     tuneGr->setLayout(tuneLay);
     upLay->addWidget(tuneGr);
 
     QVBoxLayout *hfLay = new QVBoxLayout;
     QGroupBox *hfGr = new QGroupBox;
     hfLay->addStretch(1);
-    righthandCh = new QCheckBox(tr("guitar for right-handed"),this);
-    righthandCh->setChecked(gl->GisRightHanded);
-    righthandCh->setStatusTip(tr("Uncheck this if you are lefthanded<br>and your gitar has changed strings' order"));
-    hfLay->addWidget(righthandCh);
+    m_righthandCh = new QCheckBox(tr("guitar for right-handed"),this);
+    m_righthandCh->setChecked(gl->GisRightHanded);
+    m_righthandCh->setStatusTip(tr("Uncheck this if you are lefthanded<br>and your gitar has changed strings' order"));
+    hfLay->addWidget(m_righthandCh);
     hfLay->addStretch(1);
     QLabel *fretLab = new QLabel(tr("number of frets:"),this);
     hfLay->addWidget(fretLab);
-    fretsNrSpin = new QSpinBox(this);
-    fretsNrSpin->setValue(gl->GfretsNumber);
-    fretsNrSpin->setMaximum(24);
-    fretsNrSpin->setMinimum(15);
-    hfLay->addWidget(fretsNrSpin);
+    m_fretsNrSpin = new QSpinBox(this);
+    m_fretsNrSpin->setValue(gl->GfretsNumber);
+    m_fretsNrSpin->setMaximum(24);
+    m_fretsNrSpin->setMinimum(15);
+    hfLay->addWidget(m_fretsNrSpin);
     hfLay->addStretch(1);
     upLay->addSpacing(3);
     hfGr->setLayout(hfLay);
@@ -89,47 +89,47 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     QVBoxLayout *prefLay = new QVBoxLayout;
     QGroupBox *prefBox = new QGroupBox(tr("prefered accidentals:"),this);
     prefBox->setStatusTip(tr("Choose which accidentals will be shown in the score."));
-    prefSharpBut = new QRadioButton(tr("# - sharps"),this);
-    prefFlatBut = new  QRadioButton(tr("b - flats"),this);
+    m_prefSharpBut = new QRadioButton(tr("# - sharps"),this);
+    m_prefFlatBut = new  QRadioButton(tr("b - flats"),this);
     QButtonGroup *prefGr = new QButtonGroup(this);
-    prefGr->addButton(prefSharpBut);
-    prefGr->addButton(prefFlatBut);
-    prefLay->addWidget(prefSharpBut);
-    prefLay->addWidget(prefFlatBut);
+    prefGr->addButton(m_prefSharpBut);
+    prefGr->addButton(m_prefFlatBut);
+    prefLay->addWidget(m_prefSharpBut);
+    prefLay->addWidget(m_prefFlatBut);
     prefBox->setLayout(prefLay);
-    if (gl->GpreferFlats) prefFlatBut->setChecked(true);
+    if (gl->GpreferFlats) m_prefFlatBut->setChecked(true);
     else
-        prefSharpBut->setChecked(true);
+        m_prefSharpBut->setChecked(true);
     downLay->addWidget(prefBox);
 
-    morePosCh = new QCheckBox(tr("show all possibilities of a note"),this);
-    morePosCh->setStatusTip(tr("As you know, the same note can be played in few places on a fingerboard.<br>If checked, all of them are showed."));
-    downLay->addWidget(morePosCh);
-    morePosCh->setChecked(gl->GshowOtherPos);
+    m_morePosCh = new QCheckBox(tr("show all possibilities of a note"),this);
+    m_morePosCh->setStatusTip(tr("As you know, the same note can be played in few places on a fingerboard.<br>If checked, all of them are showed."));
+    downLay->addWidget(m_morePosCh);
+    m_morePosCh->setChecked(gl->GshowOtherPos);
 
     mainLay->addLayout(downLay);
     QGridLayout *colorLay = new QGridLayout;
     QLabel *pointLab = new QLabel(tr("color of string/fret pointer"), this);
-    pointColorBut = new TcolorButton(gl->GfingerColor, this);
+    m_pointColorBut = new TcolorButton(gl->GfingerColor, this);
     colorLay->addWidget(pointLab, 0, 0);
-    colorLay->addWidget(pointColorBut, 0 ,1);
+    colorLay->addWidget(m_pointColorBut, 0 ,1);
     QLabel *selLab = new QLabel(tr("color of selected string/fret"), this);
-    selColorBut = new TcolorButton(gl->GselectedColor, this);
+    m_selColorBut = new TcolorButton(gl->GselectedColor, this);
     colorLay->addWidget(selLab, 1, 0);
-    colorLay->addWidget(selColorBut, 1, 1);
+    colorLay->addWidget(m_selColorBut, 1, 1);
     mainLay->addLayout(colorLay);
 
     setLayout(mainLay);
 
-    connect(tuneCombo, SIGNAL(activated(int)), this, SLOT(tuneSelected(int)));
-    connect(tuneView, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(userTune(int,Tnote)));
+    connect(m_tuneCombo, SIGNAL(activated(int)), this, SLOT(tuneSelected(int)));
+    connect(m_tuneView, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(userTune(int,Tnote)));
     
 }
 
 void TguitarSettings::setTune(Ttune tune) {
     for (int i = 0; i < 6; i++) {
-        tuneView->setNote(i, tune[6-i]);
-        tuneView->setStringNumber(i, 6 - i);
+        m_tuneView->setNote(i, tune[6-i]);
+        m_tuneView->setStringNumber(i, 6 - i);
     }
 }
 
@@ -137,22 +137,22 @@ void TguitarSettings::tuneSelected(int tuneId) {
     if (tuneId == 0)
         setTune(Ttune::stdTune);
     else
-        if (tuneId != tuneCombo->count() - 1) //the last is custom
+        if (tuneId != m_tuneCombo->count() - 1) //the last is custom
         setTune(Ttune::tunes[tuneId - 1]);
 }
 
 void TguitarSettings::userTune(int, Tnote) {
-    tuneCombo->setCurrentIndex(tuneCombo->count() - 1);
+    m_tuneCombo->setCurrentIndex(m_tuneCombo->count() - 1);
 }
 
 void TguitarSettings::saveSettings() {
-    gl->GisRightHanded = righthandCh->isChecked();
-    gl->GfretsNumber = fretsNrSpin->value();
-    gl->setTune(Ttune(tuneCombo->currentText(), tuneView->getNote(5), tuneView->getNote(4),          tuneView->getNote(3), tuneView->getNote(2), tuneView->getNote(1), tuneView->getNote(0)));
-    gl->GshowOtherPos = morePosCh->isChecked();
-    if (prefFlatBut->isChecked()) gl->GpreferFlats = true;
+    gl->GisRightHanded = m_righthandCh->isChecked();
+    gl->GfretsNumber = m_fretsNrSpin->value();
+    gl->setTune(Ttune(m_tuneCombo->currentText(), m_tuneView->getNote(5), m_tuneView->getNote(4),          m_tuneView->getNote(3), m_tuneView->getNote(2), m_tuneView->getNote(1), m_tuneView->getNote(0)));
+    gl->GshowOtherPos = m_morePosCh->isChecked();
+    if (m_prefFlatBut->isChecked()) gl->GpreferFlats = true;
     else gl->GpreferFlats = false;
-    gl->GfingerColor = pointColorBut->getColor();
+    gl->GfingerColor = m_pointColorBut->getColor();
     gl->GfingerColor.setAlpha(200);
-    gl->GselectedColor = selColorBut->getColor();
+    gl->GselectedColor = m_selColorBut->getColor();
 }

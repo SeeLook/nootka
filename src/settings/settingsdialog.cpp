@@ -18,18 +18,17 @@
 
 #include "settingsdialog.h"
 #include "tglobals.h"
-#include "tnoteview.h"
 #include "examsettings.h"
 #include "tcolorbutton.h"
 #include "tupdateprocess.h"
 #include "tguitarsettings.h"
-#include <QtGui>
 #include <audioinsettings.h>
 #include <audiooutsettings.h>
 #include <taudioparams.h>
 #include <trtaudioabstract.h>
 #include <tmidiout.h>
 #include "tsimplescore.h"
+#include <QtGui>
 
 
 extern Tglobals *gl;
@@ -199,6 +198,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     connect(navList, SIGNAL(currentRowChanged(int)), this, SLOT(changeSettingsWidget(int)));
     connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
     connect(m_nameSett, SIGNAL(seventhIsBChanged(bool)), m_scoreSett, SLOT(seventhIsBChanged(bool)));
+		connect(m_guitarSett->tuneView(), SIGNAL(statusTip(QString)), this, SLOT(scoreStatusTip(QString)));
 
     navList->setCurrentRow(0);
 
@@ -223,6 +223,11 @@ void SettingsDialog::changeUseJack() {
   m_sndInSett->setDevicesCombo();
   m_sndOutSett->setDevicesCombo();
 #endif
+}
+
+
+void SettingsDialog::scoreStatusTip(QString tip) {
+	hint->setText("<center>" + tip + "</center>");
 }
 
 

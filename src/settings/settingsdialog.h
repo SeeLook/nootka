@@ -81,6 +81,7 @@ private:
 private slots:
     void changeSettingsWidget(int index);
     void changeUseJack();
+		void scoreStatusTip(QString tip);
 
 };
 
