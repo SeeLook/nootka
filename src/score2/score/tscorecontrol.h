@@ -36,8 +36,7 @@ public:
   
     TscoreControl(QWidget *parent = 0);
 		
-		
-    
+		void enableDoubleAccidentals(bool isEnabled);
 
 public slots:
 			/** Checks or unchecks apropirate button. */

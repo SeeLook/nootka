@@ -50,6 +50,9 @@ public:
 		
 		void setReadOnly(bool readOnly) { m_readOnly = readOnly; }
 		bool readOnly() { return m_readOnly; }
+		
+				/** It sets background of the note segment. When sets to -1 means transparent - no background. */
+		void setBackgroundColor(QColor bg) { m_bgColor = bg; update(); }
   
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     virtual QRectF boundingRect() const;
@@ -66,20 +69,21 @@ protected:
 
 private:
         /** Array of text items with # or b signs*/
-    QGraphicsSimpleTextItem *m_accidentals[7];
-		QGraphicsTextItem *m_keyNameText;
-    char m_keySignature;
-    qreal m_height;
+    QGraphicsSimpleTextItem 		*m_accidentals[7];
+		QGraphicsTextItem 					*m_keyNameText;
+    char 												m_keySignature;
+    qreal 											m_height;
     
         /** It keeps array of accidental symbol (# or b) positions
         * (in PosY coordinates from TnoteView)
         * @li [0] is position for f# and fb
         * @li [1] c# and
         * @li etc....    */
-    static char m_posOfAccid[7];
-    static char m_posOfAccidFlats[7];
-    Tclef  m_clef;
-		bool	m_readOnly;
+    static char 							m_posOfAccid[7];
+    static char 							m_posOfAccidFlats[7];
+    Tclef  										m_clef;
+		bool											m_readOnly;
+		QColor 										m_bgColor;
 
 };
 

@@ -24,10 +24,7 @@
 
 TscoreControl::TscoreControl(QWidget* parent):
   QWidget(parent)
-{
-//     m_proxy = scene->addWidget(this);
-//     m_proxy->setFlag(QGraphicsItem::ItemIgnoresTransformations);
-    
+{    
     m_dblSharpBut = new TpushButton("x");
     setButtons(m_dblSharpBut);
     m_sharpBut = new TpushButton("#");
@@ -68,6 +65,19 @@ void TscoreControl::setAccidental(int accNr) {
 					m_sharpBut->setChecked(true); break;
 				case 2: 
 					m_dblSharpBut->setChecked(true); break;
+		}
+}
+
+
+void TscoreControl::enableDoubleAccidentals(bool isEnabled) {
+		if (isEnabled) {
+			m_dblFlatBut->setVisible(true);
+			m_dblSharpBut->setVisible(true);
+		} else {
+			m_dblFlatBut->setVisible(false);
+			m_dblFlatBut->setChecked(false);
+			m_dblSharpBut->setVisible(false);
+			m_dblSharpBut->setChecked(false);
 		}
 }
 

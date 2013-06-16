@@ -41,6 +41,20 @@ void TscoreItem::setStatusTip(QString status) {
 //###############################  PROTECTED #########################################
 //####################################################################################
 
+void TscoreItem::paintBackground(QPainter* painter, QColor bgColor) {
+	QLinearGradient gr(boundingRect().topLeft(), boundingRect().topRight());
+	QColor c1 = bgColor;
+	c1.setAlpha(40);
+	QColor c2 = bgColor;
+	c2.setAlpha(80);
+	gr.setColorAt(0.0, c1);
+	gr.setColorAt(0.5, c2);
+	gr.setColorAt(1.0, c1);
+	painter->setBrush(gr);
+	painter->setPen(Qt::NoPen);
+	painter->drawRect(boundingRect());
+}
+
 
 void TscoreItem::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
   if (m_statusTip != "")
