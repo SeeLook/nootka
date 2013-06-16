@@ -42,7 +42,8 @@ TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, TscoreStaff* staff, c
   m_keySignature(keySign),
   m_clef(Tclef()),
   m_keyNameText(0),
-  m_readOnly(false)
+  m_readOnly(false),
+  m_bgColor(-1)
 {
   setStaff(staff);
 	setParentItem(staff);

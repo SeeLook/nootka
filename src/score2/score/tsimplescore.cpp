@@ -66,6 +66,7 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
 	m_staff->setScoreControler(m_scoreControl);
 	
 	setBGcolor(palette().base().color());
+	setEnabledDblAccid(false);
 	resizeEvent(0);
   
 }
@@ -123,6 +124,19 @@ Tclef TsimpleScore::clef() {
 					return m_staff->scoreClef()->clef();
 			else 
 					return Tclef(Tclef::e_none);
+}
+
+
+void TsimpleScore::setClefDisabled(bool isDisabled) {
+	if (m_staff->scoreClef()) {
+		if (isDisabled) {
+			m_staff->scoreClef()->setReadOnly(true);
+			m_staff->scoreClef()->setIsClickable(false);
+		} else {
+			m_staff->scoreClef()->setReadOnly(false);
+			m_staff->scoreClef()->setIsClickable(true);
+		}
+	}
 }
 
 

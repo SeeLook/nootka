@@ -52,6 +52,7 @@ public:
 		
 		void setClef(Tclef clef);
 		Tclef clef();
+		void setClefDisabled(bool isDisabled);
 		
 
 				/** This method returns the key signature if score has got TscoreKeySign item, 
