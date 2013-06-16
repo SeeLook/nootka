@@ -39,17 +39,19 @@ class TguitarSettings : public QWidget
 public:
     explicit TguitarSettings(QWidget *parent = 0);
 
+		TsimpleScore* tuneView() { return m_tuneView; }
+		
     void saveSettings();
 
 private:
     void setTune (Ttune tune);
 
-    TsimpleScore    *tuneView;
-    QCheckBox       *righthandCh, *morePosCh;
-    QRadioButton    *prefFlatBut, *prefSharpBut;
-    QSpinBox        *fretsNrSpin;
-    QComboBox       *tuneCombo;
-    TcolorButton    *pointColorBut, *selColorBut;
+    TsimpleScore    *m_tuneView;
+    QCheckBox       *m_righthandCh, *m_morePosCh;
+    QRadioButton    *m_prefFlatBut, *m_prefSharpBut;
+    QSpinBox        *m_fretsNrSpin;
+    QComboBox       *m_tuneCombo;
+    TcolorButton    *m_pointColorBut, *m_selColorBut;
 
 private slots:
     void tuneSelected(int tuneId);

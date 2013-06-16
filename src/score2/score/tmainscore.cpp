@@ -32,7 +32,9 @@ QColor SpointerColor = -1;
 QColor enharmNotesColor = -1;
 
 TmainScore::TmainScore(QWidget* parent) :
-	TsimpleScore(3, parent)
+	TsimpleScore(3, parent),
+	m_questMark(0),
+	m_questKey(0)
 {
 	glTune = Ttune::tunes[3];
 	
@@ -52,8 +54,6 @@ TmainScore::TmainScore(QWidget* parent) :
     setEnabledDblAccid(doubleAccidentalsEnabled);
     setEnableKeySign(SkeySignatureEnabled);
     
-//     m_questMark = 0;
-//     m_questKey = 0;
 //     setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()-1),
 //                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber+1));
 
@@ -135,10 +135,10 @@ void TmainScore::clearScore() {
 	if (staff()->scoreKey()) {
 			setKeySignature(TkeySignature());
 			staff()->scoreKey()->setBackgroundColor(-1);
-// 			if (m_questKey) {
-// 				delete m_questKey;
-// 				m_questKey = 0;
-// 			}
+			if (m_questKey) {
+				delete m_questKey;
+				m_questKey = 0;
+			}
     }
     if (scoreControler())
 			scoreControler()->setAccidental(0); // reset buttons with accidentals
