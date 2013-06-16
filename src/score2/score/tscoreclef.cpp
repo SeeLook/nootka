@@ -23,6 +23,7 @@
 #include "tclef.h"
 #include <QGraphicsSceneHoverEvent>
 #include <QGraphicsView>
+#include <unistd.h>
 
 
 /*static*/
@@ -90,7 +91,7 @@ void TscoreClef::setClef(Tclef clef) {
 		if (clef.type() == Tclef::e_bass_F || clef.type() == Tclef::e_bass_F_8down)
 			fineOff = 0.0;
     setPos(1, getYclefPos(m_clef) - (16 - staff()->upperLinePos()) + fineOff);
-    setStatusTip(m_clef.name() + " (" + m_clef.desc() + ")<br>" + tr("To change clef click it or use mouse wheel."));
+    getStatusTip();
     emit statusTip(statusTip());
   }
 }
@@ -167,6 +168,22 @@ void TscoreClef::clefSelected(Tclef clef) {
 //##########################################################################################################
 //########################################## PRIVATE     ###################################################
 //##########################################################################################################
+
+void TscoreClef::getStatusTip() {
+	QString tip = "<b>" + m_clef.name() + "</b>  (" + m_clef.desc() + ")";
+	if (!readOnly())
+		tip += "<br>" + tr("Click to select another clef.");
+	if (isClickable()) {
+		tip += "<br>";
+		if (!readOnly())
+			tip += tr("or use scroll button.");
+		else
+			tip += tr("Use scroll button to change a clef.");
+	}
+	setStatusTip(tip);
+}
+
+
 
 int TscoreClef::getYclefPos(Tclef clef) {
   int pos = 0;

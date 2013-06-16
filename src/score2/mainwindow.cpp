@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	Ttune::prepareDefinedTunes();
 	
 	
-	m_mainScore = new TmainScore(3, w);
+	m_mainScore = new TmainScore(w);
 	lay->addWidget(m_mainScore);
 //   m_simpleScore = new TsimpleScore(5, w);
 //   lay->addWidget(m_simpleScore);

@@ -51,10 +51,10 @@ public:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
     virtual QRectF boundingRect() const;
     
-    void setReadOnly(bool ro) { m_readOnly = ro; } // hover mouse events are ignored 
+    void setReadOnly(bool ro) { m_readOnly = ro; getStatusTip(); } // hover mouse events are ignored 
     bool readOnly() { return m_readOnly; } // when  TRUE, hover mouse events are ignored
     bool isClickable() { return m_isClickable; } // mouse pressing is ignored
-		void setIsClickable(bool isIt) { m_isClickable = isIt; } // mouse pressing is ignored
+		void setIsClickable(bool isIt) { m_isClickable = isIt; getStatusTip(); } // mouse pressing is ignored
     
 signals:
     void clefChanged();
@@ -70,6 +70,8 @@ protected slots:
 private:
     int getYclefPos(Tclef clef);
     int getClefPosInList(Tclef clef);
+				/** Generates and refresh status tip depends on readOnly() and isClickable() state. */
+		void getStatusTip();
 
 private:
     Tclef                             m_clef;

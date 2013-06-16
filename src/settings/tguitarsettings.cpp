@@ -43,6 +43,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     tuneLay->addWidget(m_tuneCombo);
     m_tuneView = new TsimpleScore(6, this);
     tuneLay->addWidget(m_tuneView);
+		m_tuneView->setClefDisabled(true);
     m_tuneView->setClef(Tclef(Tclef::e_treble_G_8down)); // TODO global clef !!!!
     
 //     tuneView->setFixedWidth(280);
