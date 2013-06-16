@@ -108,6 +108,23 @@ void TsimpleScore::clearStringNumber(int index) {
 }
 
 
+void TsimpleScore::setClef(Tclef clef) {
+	if (m_staff->scoreClef())
+		m_staff->scoreClef()->setClef(clef);
+}
+
+
+Tclef TsimpleScore::clef() {
+	if (isPianoStaff())
+		return Tclef(Tclef::e_pianoStaff);
+	else if (m_staff->scoreClef())
+					return m_staff->scoreClef()->clef();
+			else 
+					return Tclef(Tclef::e_none);
+}
+
+
+
 void TsimpleScore::setKeySignature(TkeySignature keySign) {
 	if (m_staff->scoreKey())
 		m_staff->scoreKey()->setKeySignature(keySign.value());
@@ -129,6 +146,13 @@ void TsimpleScore::setEnableKeySign(bool isEnabled) {
 				m_staff->scoreKey()->showKeyName(true);
 		resizeEvent(0);
 	}
+}
+
+
+void TsimpleScore::setEnabledDblAccid(bool isEnabled) {
+	if (m_scoreControl)
+		m_scoreControl->enableDoubleAccidentals(isEnabled);
+	m_scene->setDoubleAccidsEnabled(isEnabled);
 }
 
 

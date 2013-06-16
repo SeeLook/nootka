@@ -43,6 +43,8 @@ public:
     void setColor(QColor color);
         /** Sets color of pointing (work) note. */
     void setPointedColor(QColor color);
+				/** It sets background of the note segment. When sets to -1 means transparent - no background. */
+		void setBackgroundColor(QColor bg) { m_bgColor = bg; update(); }
     
         /** Adds blur effect to main note. If blurColor is -1 deletes the effect. */
     void markNote(QColor blurColor);    
@@ -107,6 +109,7 @@ private:
 		int 													m_stringNr;
     qreal                         m_height;
 		bool													m_readOnly;
+		QColor                        m_bgColor;
     
 private:
         /** Prepares noteHead (elipse) */

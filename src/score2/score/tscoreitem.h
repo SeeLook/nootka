@@ -52,7 +52,7 @@ signals:
 protected:
       /** If status tip is set it sends signal.
        * Notice!! 
-       * Any subclass has to call this when hoverEnterEvent is overriden
+       * Any subclass has to call @p TscoreItem::hoverEnterEvent(event) when hoverEnterEvent is overriden
        * and statusTip funcionality is expected. */
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
@@ -65,6 +65,9 @@ protected:
        * but by default is set to 0. */
     TscoreStaff* staff() { return m_staff; }
     void setStaff(TscoreStaff *staff) { m_staff = staff; }
+				/** Paints backround rectangle using boundingRect() with given color
+				 * adding semi-transparency and gradient. */
+    void paintBackground(QPainter *painter, QColor bgColor);
     
 private:
     QString                   m_statusTip;

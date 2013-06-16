@@ -44,11 +44,14 @@ public:
 		void setNote(int index, Tnote note);
         /** It returns @p note with hope that index points existed Tnote element. */
     Tnote getNote(int index);
-        /** It hides pionted note and sets to Tnote(0,0,0)*/
+        /** It hides pionted note and sets note to Tnote(0,0,0)*/
     void clearNote(int index);
 				/** Adds string number @p realNr to note @p index.  */
 		void setStringNumber(int index, int realNr);
 		void clearStringNumber(int index); /** Removes string number from note @p index. */
+		
+		void setClef(Tclef clef);
+		Tclef clef();
 		
 
 				/** This method returns the key signature if score has got TscoreKeySign item, 
@@ -59,7 +62,9 @@ public:
 				 * When TscoreKeySign doesn't exist 0: - a-min/C-maj is returned. */
     TkeySignature keySignature();
     void setKeySignature(TkeySignature keySign);
-		void setEnableKeySign(bool isEnabled);		
+		void setEnableKeySign(bool isEnabled);
+		
+		void setEnabledDblAccid(bool isEnabled);
 		
 				/** Sets TsimpleScore to piano staff view. Clefs are readOnly. */
 		void setPianoStaff(bool isPiano);
@@ -92,6 +97,7 @@ protected:
 				 * Inner methods of TsimpleScore take care about refreshing 
 				 * connection with newer staff instances and this class emits appropirate signals. */
 		TscoreStaff* staff() { return m_staff; }
+		TscoreControl* scoreControler() { return m_scoreControl; }
     
     
 protected slots:

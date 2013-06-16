@@ -54,7 +54,8 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_readOnly(false),
   m_stringText(0), m_stringNr(0),
 //   m_noteNr(100),
-  m_ottava(0)
+  m_ottava(0),
+  m_bgColor(-1)
 {
   setStaff(staff);
 	setParentItem(staff);
@@ -273,7 +274,11 @@ QRectF TscoreNote::boundingRect() const{
 }
 
 
-void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {}
+void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+	if (m_bgColor != -1) {
+			paintBackground();
+	}
+}
 
 
 //#################################################################################################
