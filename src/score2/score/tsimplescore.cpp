@@ -109,8 +109,10 @@ void TsimpleScore::clearStringNumber(int index) {
 
 
 void TsimpleScore::setClef(Tclef clef) {
-	if (m_staff->scoreClef())
+	if (m_staff->scoreClef()) {
 		m_staff->scoreClef()->setClef(clef);
+    m_staff->onClefChanged();
+  }
 }
 
 
