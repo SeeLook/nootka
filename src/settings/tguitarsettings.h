@@ -16,72 +16,44 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef SETTINGSDIALOG_H
-#define SETTINGSDIALOG_H
+#ifndef TGUITARSETTINGS_H
+#define TGUITARSETTINGS_H
 
+#include <QWidget>
 #include "tnote.h"
 #include "ttune.h"
-#include "tsettingsdialogbase.h"
-#include "namesettings.h"
-#include "scoresettings.h"
-#include <QMap>
 
-class TguitarSettings;
-class AudioOutSettings;
-class AudioInSettings;
-class QCheckBox;
-class QSpinBox;
-class QComboBox;
-class ExamSettings;
 class TcolorButton;
+class QComboBox;
+class QSpinBox;
+class QRadioButton;
+class QCheckBox;
+class TsimpleScore;
 
-class GlobalSettings : public QWidget
+/** 
+ * Those are guitar settings in settings window
+ */
+class TguitarSettings : public QWidget
 {
     Q_OBJECT
 public:
-    explicit GlobalSettings(QWidget *parent = 0);
+    explicit TguitarSettings(QWidget *parent = 0);
 
-    void saveSettings();
-private:
-  QCheckBox *otherEnharmChBox, *dblAccChBox, *hintsEnabledChBox;
-	TcolorButton *enharmColorBut;
-	QComboBox *langCombo;
-	QMap<QString, QString> langList;
-  QPushButton *updateButton;
-  QLabel* updateLabel;
-  
-private slots:
-  void updateSlot();
-  void processOutputSlot(QString output);
-};
-
-
-
-//################ SettingsDialog ##############################################
-class SettingsDialog : public TsettingsDialogBase
-{
-    Q_OBJECT
-public:
-    explicit SettingsDialog(QWidget *parent = 0);
-
-public slots:
     void saveSettings();
 
 private:
+    void setTune (Ttune tune);
 
-    GlobalSettings    *m_globalSett;
-    ScoreSettings     *m_scoreSett;
-    NameSettings      *m_nameSett;
-    TguitarSettings    *m_guitarSett;
-    ExamSettings      *m_examSett;
-    AudioOutSettings  *m_sndOutSett;
-    AudioInSettings   *m_sndInSett;
-    QCheckBox         *m_jackChBox;
-    
+    TsimpleScore    *tuneView;
+    QCheckBox       *righthandCh, *morePosCh;
+    QRadioButton    *prefFlatBut, *prefSharpBut;
+    QSpinBox        *fretsNrSpin;
+    QComboBox       *tuneCombo;
+    TcolorButton    *pointColorBut, *selColorBut;
+
 private slots:
-    void changeSettingsWidget(int index);
-    void changeUseJack();
-
+    void tuneSelected(int tuneId);
+    void userTune(int, Tnote);
 };
 
-#endif // SETTINGSDIALOG_H
+#endif // TGUITARSETTINGS_H

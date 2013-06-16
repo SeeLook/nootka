@@ -140,7 +140,7 @@ QRectF TscoreKeySignature::boundingRect() const{
 
 void TscoreKeySignature::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
 		if (m_bgColor != -1) {
-			paintBackground();
+			paintBackground(painter, m_bgColor);
 	}
 }
 

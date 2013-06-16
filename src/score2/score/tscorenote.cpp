@@ -276,7 +276,7 @@ QRectF TscoreNote::boundingRect() const{
 
 void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
 	if (m_bgColor != -1) {
-			paintBackground();
+			paintBackground(painter, m_bgColor);
 	}
 }
 

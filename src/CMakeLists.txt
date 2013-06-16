@@ -108,6 +108,7 @@ SET( NOOTKA_SRCS
   settings/tnotationradiogroup.cpp
   settings/scoresettings.cpp
   settings/examsettings.cpp
+  settings/tguitarsettings.cpp
   settings/tcolorbutton.cpp
   settings/tupdateprocess.cpp
   settings/tvolumeslider.cpp
@@ -223,6 +224,7 @@ SET( NOOTKA_MOC_SRCS
   settings/tsettingsdialogbase.h
   settings/namesettings.h
   settings/tnotationradiogroup.h
+  settings/tguitarsettings.h
   settings/scoresettings.h
   settings/examsettings.h
   settings/tcolorbutton.h
