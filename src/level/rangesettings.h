@@ -21,9 +21,9 @@
 #define RANGESETTINGS_H
 
 #include <QWidget>
-#include "tscorewidgetsimple.h"
 #include "texamlevel.h"
 
+class TsimpleScore;
 class QSpinBox;
 class QCheckBox;
 
@@ -35,19 +35,19 @@ public:
 
     void loadLevel(TexamLevel level);
     void saveLevel(TexamLevel &level);
+		
+		TsimpleScore* scoreRange() { return m_scoreRang; }
 
 signals:
     void rangeChanged();
-      /** Emited when any string is checked or unchecked. 
-       * Sends true when all string are selected, and false when not all. */
+				/** Emited when any string is checked or unchecked. 
+				* Sends true when all string are selected, and false when not all. */
     void allStringsChecked(bool);
 
-public slots:
-
 private:
-    TscoreWidgetSimple *scoreRang;
-    QSpinBox *fromSpinB, *toSpinB;
-    QCheckBox *stringBut[6];
+    TsimpleScore *m_scoreRang;
+    QSpinBox *m_fromSpinB, *m_toSpinB;
+    QCheckBox *m_stringBut[6];
 
 private slots:
     void stringSelected();

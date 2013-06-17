@@ -27,6 +27,8 @@
 #include "tscorepianostaff.h"
 #include "tscoreview.h"
 #include <QHBoxLayout>
+#include <QMouseEvent>
+#include <QApplication>
 
 #include <QDebug>
 
@@ -263,6 +265,12 @@ void TsimpleScore::switchToPianoStaff(Tclef clef) {
 		if(tmpList[i].note)
 				setNote(i, tmpList[i]);
 	emit pianoStaffSwitched();
+}
+
+
+void TsimpleScore::statusTipChanged(QString status) {
+	QStatusTipEvent *tipEvent = new QStatusTipEvent(status);
+	qApp->postEvent(parent(), tipEvent);
 }
 
 
