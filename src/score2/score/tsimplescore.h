@@ -102,7 +102,8 @@ protected:
     
     
 protected slots:
-    void statusTipChanged(QString status) { emit statusTip(status); }
+				/** It grabs TscoreItems statusTips and generates QStatusTipEvent fof parent widget. */
+    void statusTipChanged(QString status);
 				/** Except response for scaling TscoreView widget to according to new height,
 				 * this method takes care about new width of the score. 
 				 * It is necessary to call it after staff width changed f.e by:

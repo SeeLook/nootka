@@ -20,6 +20,7 @@
 #include "rangesettings.h"
 #include "tglobals.h"
 #include "tlevelpreview.h"
+#include "tsimplescore.h"
 #include <QtGui>
 
 extern Tglobals *gl;
@@ -35,15 +36,16 @@ rangeSettings::rangeSettings(QWidget *parent) :
     QHBoxLayout *allLay = new QHBoxLayout;
 
     QVBoxLayout *scoreLay = new QVBoxLayout;
-    scoreRang = new TscoreWidgetSimple(2, this);
-    scoreRang->setFixedSize(200, 220);;
+    m_scoreRang = new TsimpleScore(2, this);
+		m_scoreRang->setClef(Tclef(Tclef::e_treble_G_8down)); // TODO make it globals
+//     m_scoreRang->setFixedSize(200, 220);;
 //    scoreRang->setStatusTip(tr("If selected notes are either the lowest or the highest<br>possible sounds in the current guitar tune,<br>they are automatically adjusted to another tune."));
-    scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()),
-               Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
-    scoreRang->setNote(0, Tnote(1, 0));
-    scoreRang->setNote(1, Tnote(1, 1));
+//     m_scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()),
+//                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
+    m_scoreRang->setNote(0, Tnote(1, 0));
+    m_scoreRang->setNote(1, Tnote(1, 1));
     QGroupBox *notesRangGr = new QGroupBox(TlevelPreview::notesRangeTxt(), this);
-    scoreLay->addWidget(scoreRang);
+    scoreLay->addWidget(m_scoreRang);
     notesRangGr->setLayout(scoreLay);
 
     allLay->addWidget(notesRangGr);
@@ -53,17 +55,17 @@ rangeSettings::rangeSettings(QWidget *parent) :
 //    fretGr->setStatusTip(tr("If selected fret is the highest, it is automatically<br>changed to the highest possible fret<br>for any frets number in a guitar."));
     QHBoxLayout *fretLay = new QHBoxLayout;
     QLabel *fromLab = new QLabel(tr("from"),this);
-    fromSpinB = new QSpinBox(this);
-    fromSpinB->setMaximum(gl->GfretsNumber);
+    m_fromSpinB = new QSpinBox(this);
+    m_fromSpinB->setMaximum(gl->GfretsNumber);
     QLabel *toLab = new QLabel(tr("to"),this);
-    toSpinB = new QSpinBox(this);
-    toSpinB->setMaximum(gl->GfretsNumber);
-    toSpinB->setValue(3);
+    m_toSpinB = new QSpinBox(this);
+    m_toSpinB->setMaximum(gl->GfretsNumber);
+    m_toSpinB->setValue(3);
     fretLay->addWidget(fromLab);
-    fretLay->addWidget(fromSpinB);
+    fretLay->addWidget(m_fromSpinB);
     fretLay->addStretch(1);
     fretLay->addWidget(toLab);
-    fretLay->addWidget(toSpinB);
+    fretLay->addWidget(m_toSpinB);
     fretGr->setLayout(fretLay);
     guitLay->addWidget(fretGr);
     guitLay->addStretch(1);
@@ -72,15 +74,15 @@ rangeSettings::rangeSettings(QWidget *parent) :
     stringsGr->setStatusTip(tr("uncheck strings if You want to skip them<br>in an exam."));
     QGridLayout *strLay = new QGridLayout;
     for (int i=0; i<6; i++) {
-        stringBut[i] = new QCheckBox(QString("%1").arg(i+1),this);
-        stringBut[i]->setFont(QFont("nootka", qRound(font().pointSize()*1.5), QFont::Normal));
-        stringBut[i]->setChecked(true);
-        connect(stringBut[i], SIGNAL(clicked()), this, SLOT(stringSelected()));
-        connect(stringBut[i], SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+        m_stringBut[i] = new QCheckBox(QString("%1").arg(i+1),this);
+        m_stringBut[i]->setFont(QFont("nootka", qRound(font().pointSize()*1.5), QFont::Normal));
+        m_stringBut[i]->setChecked(true);
+        connect(m_stringBut[i], SIGNAL(clicked()), this, SLOT(stringSelected()));
+        connect(m_stringBut[i], SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
         if (i<3)
-            strLay->addWidget(stringBut[i],1,i+1,0);
+            strLay->addWidget(m_stringBut[i],1,i+1,0);
         else
-            strLay->addWidget(stringBut[i],2,i-2,0);
+            strLay->addWidget(m_stringBut[i],2,i-2,0);
     }
     stringsGr->setLayout(strLay);
     guitLay->addWidget(stringsGr);
@@ -93,31 +95,31 @@ rangeSettings::rangeSettings(QWidget *parent) :
 
     setLayout(mainLay);
 
-    connect (scoreRang, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenParamsChanged()));
-    connect (fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
-    connect (toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
+    connect (m_scoreRang, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenParamsChanged()));
+    connect (m_fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
+    connect (m_toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
 }
 
 void rangeSettings::stringSelected() {
-    if ( !stringBut[0]->isChecked() && !stringBut[1]->isChecked()
-        && !stringBut[2]->isChecked() && !stringBut[3]->isChecked()
-        && !stringBut[4]->isChecked() && !stringBut[5]->isChecked() ) {
-        stringBut[0]->setChecked(true);
+    if ( !m_stringBut[0]->isChecked() && !m_stringBut[1]->isChecked()
+        && !m_stringBut[2]->isChecked() && !m_stringBut[3]->isChecked()
+        && !m_stringBut[4]->isChecked() && !m_stringBut[5]->isChecked() ) {
+        m_stringBut[0]->setChecked(true);
     }
 }
 
 void rangeSettings::loadLevel(TexamLevel level) {
-    disconnect (fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
-    disconnect (toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
-    scoreRang->setNote(0, level.loNote);
-    scoreRang->setNote(1, level.hiNote);
-    fromSpinB->setValue(level.loFret);
-    toSpinB->setValue(level.hiFret);
+    disconnect (m_fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
+    disconnect (m_toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
+    m_scoreRang->setNote(0, level.loNote);
+    m_scoreRang->setNote(1, level.hiNote);
+    m_fromSpinB->setValue(level.loFret);
+    m_toSpinB->setValue(level.hiFret);
     for (int i=0; i<6; i++)
-        stringBut[i]->setChecked(level.usedStrings[i]);
+        m_stringBut[i]->setChecked(level.usedStrings[i]);
     stringSelected();
-    connect (fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
-    connect (toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
+    connect (m_fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
+    connect (m_toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
 }
 
 void rangeSettings::whenParamsChanged() {
@@ -125,9 +127,9 @@ void rangeSettings::whenParamsChanged() {
         isNotSaved = true;
         emit rangeChanged();
     }
-    if (!stringBut[0]->isChecked() || !stringBut[1]->isChecked()
-        || !stringBut[2]->isChecked() || !stringBut[3]->isChecked()
-        || !stringBut[4]->isChecked() || !stringBut[5]->isChecked() )
+    if (!m_stringBut[0]->isChecked() || !m_stringBut[1]->isChecked()
+        || !m_stringBut[2]->isChecked() || !m_stringBut[3]->isChecked()
+        || !m_stringBut[4]->isChecked() || !m_stringBut[5]->isChecked() )
       emit allStringsChecked(false);
     else
       emit allStringsChecked(true);
@@ -139,25 +141,25 @@ void rangeSettings::whenParamsChanged() {
 }
 
 void rangeSettings::saveLevel(TexamLevel &level) {
-    if (scoreRang->getNote(0).getChromaticNrOfNote() <=
-        scoreRang->getNote(0).getChromaticNrOfNote()) {
-            level.loNote = scoreRang->getNote(0);
-            level.hiNote = scoreRang->getNote(1);
+    if (m_scoreRang->getNote(0).getChromaticNrOfNote() <=
+        m_scoreRang->getNote(0).getChromaticNrOfNote()) {
+            level.loNote = m_scoreRang->getNote(0);
+            level.hiNote = m_scoreRang->getNote(1);
         }
     else {
-        level.loNote = scoreRang->getNote(1);
-        level.hiNote = scoreRang->getNote(0);
+        level.loNote = m_scoreRang->getNote(1);
+        level.hiNote = m_scoreRang->getNote(0);
     }
-    if (fromSpinB->value() <= toSpinB->value()) {
-        level.loFret = fromSpinB->value();
-        level.hiFret = toSpinB->value();
+    if (m_fromSpinB->value() <= m_toSpinB->value()) {
+        level.loFret = m_fromSpinB->value();
+        level.hiFret = m_toSpinB->value();
     }
     else {
-        level.loFret = toSpinB->value();
-        level.hiFret = fromSpinB->value();
+        level.loFret = m_toSpinB->value();
+        level.hiFret = m_fromSpinB->value();
     }
 
     for (int i=0; i<6; i++)
-        level.usedStrings[i] = stringBut[i]->isChecked();
+        level.usedStrings[i] = m_stringBut[i]->isChecked();
 
 }

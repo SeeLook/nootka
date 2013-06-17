@@ -38,8 +38,6 @@ class TguitarSettings : public QWidget
     Q_OBJECT
 public:
     explicit TguitarSettings(QWidget *parent = 0);
-
-		TsimpleScore* tuneView() { return m_tuneView; }
 		
     void saveSettings();
 
