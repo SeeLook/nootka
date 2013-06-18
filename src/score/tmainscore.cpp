@@ -105,7 +105,6 @@ void TmainScore::setScordature() {
 }
 
 
-
 void TmainScore::unLockScore() {
 	setScoreDisabled(false);
 	staff()->noteSegment(1)->setReadOnly(true);
@@ -121,9 +120,28 @@ void TmainScore::unLockScore() {
 //############################## METHODS RELATED TO EXAMS ############################################
 //####################################################################################################
 
-void TmainScore::isExamExecuting(bool isIt)
-{
-
+void TmainScore::isExamExecuting(bool isIt) {
+	if (isIt) {
+        disconnect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
+        connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
+        m_questMark = new QGraphicsSimpleTextItem();
+        m_questMark->hide();
+//         noteViews[2]->scene()->addItem(m_questMark);
+//         QColor c = gl->EquestionColor;
+//         c.setAlpha(220);
+//         noteViews[1]->setColor(c);
+//         m_questMark->setBrush(QBrush(c));
+//         m_questMark->setText("?");
+//         resizeQuestMark();
+    }
+    else {
+        connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
+        disconnect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
+        delete m_questMark;
+        m_questMark = 0;
+        delete m_questKey;
+        m_questKey = 0;
+    }
 }
 
 
@@ -204,13 +222,13 @@ void TmainScore::whenNoteWasChanged(int index, Tnote note) {
         TnotesList::iterator it = enharmList.begin();
         ++it;
         if (it != enharmList.end())
-            setNote(1,*(it));
+            setNote(1, *(it));
         else
             clearNote(1);
         if (doubleAccidentalsEnabled) {
             ++it;
             if (it != enharmList.end())
-                setNote(2,*(it));
+                setNote(2, *(it));
             else
                 clearNote(2);
         }

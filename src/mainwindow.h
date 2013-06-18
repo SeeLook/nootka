@@ -24,10 +24,10 @@
 #include <texamexecutor.h>
 #include <QMainWindow>
 
+class TmainScore;
 class QLabel;
 class TfingerBoard;
 class TnoteName;
-class TscoreWidget;
 class TexamView;
 class TprogressWidget;
 class TpitchView;
@@ -76,7 +76,7 @@ signals:
 
 
 protected:
-    TscoreWidget *score;
+    TmainScore *score;
     TnoteName *noteName;
     TfingerBoard *guitar;
     Tsound *sound;

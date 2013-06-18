@@ -26,19 +26,23 @@ if(UNIX AND NOT APPLE)
   endif(ENABLE_PULSEAUDIO AND PULSE_INCLUDE_DIR)
 endif(UNIX AND NOT APPLE)
 
-INCLUDE_DIRECTORIES (. exam info level score settings sound charts score2/score )
+INCLUDE_DIRECTORIES (. exam guitar info level music notename score settings sound charts )
 
 SET( NOOTKA_SRCS
   main.cpp
   mainwindow.cpp
-  tglobals.cpp
-  tnote.cpp
-  tnotename.cpp
-  tfingerboard.cpp
-  ttune.cpp
-  tfingerpos.cpp
-  tclef.cpp
-###### Sound
+  tglobals.cpp  
+###### music
+	music/tnote.cpp
+	music/tclef.cpp
+	music/tkeysignature.cpp
+	music/ttune.cpp	
+###### guitar
+	guitar/tfingerboard.cpp
+	guitar/tfingerpos.cpp  
+###### notename
+	notename/tnotename.cpp  
+###### sound
   sound/tsound.cpp
   sound/tmidiout.cpp
   sound/audiooutsettings.cpp
@@ -74,33 +78,23 @@ SET( NOOTKA_SRCS
   sound/tartini/filters/FastSmoothedAveragingFilter.cpp
   sound/tartini/filters/FixedAveragingFilter.cpp
   sound/tartini/filters/GrowingAveragingFilter.cpp
-  sound/tartini/filters/IIR_Filter.cpp
+  sound/tartini/filters/IIR_Filter.cpp  
 ###### Score
-  score/tnoteview.cpp
-  score/tscorewidget.cpp
-  score/tscorewidgetsimple.cpp
-  score/tkeysignatureview.cpp
-  score/tkeysignature.cpp
-  score/tclefview.cpp
-#   score/tpushbutton.cpp
-  score/tscordatureview.cpp
-###### Score2
-  score2/score/tpushbutton.cpp
-  score2/score/tsimplescore.cpp
-  score2/score/tmainscore.cpp
-  score2/score/tscorescene.cpp
-  score2/score/tscoreitem.cpp
-  score2/score/tscorestaff.cpp
-  score2/score/tscorepianostaff.cpp
-  score2/score/tscoreclef.cpp
-  score2/score/tscorenote.cpp
-  score2/score/tscorekeysignature.cpp
-  score2/score/tscorecontrol.cpp
-  score2/score/tclefselector.cpp
-  score2/score/tclefpreview.cpp
-  score2/score/tscorescordature.cpp
-  score2/score/tscoreview.cpp  
-  
+  score/tpushbutton.cpp
+  score/tsimplescore.cpp
+  score/tmainscore.cpp
+  score/tscorescene.cpp
+  score/tscoreitem.cpp
+  score/tscorestaff.cpp
+  score/tscorepianostaff.cpp
+  score/tscoreclef.cpp
+  score/tscorenote.cpp
+  score/tscorekeysignature.cpp
+  score/tscorecontrol.cpp
+  score/tclefselector.cpp
+  score/tclefpreview.cpp
+  score/tscorescordature.cpp
+  score/tscoreview.cpp  
 ###### Settings
   settings/settingsdialog.cpp
   settings/tsettingsdialogbase.cpp
@@ -111,7 +105,7 @@ SET( NOOTKA_SRCS
   settings/tguitarsettings.cpp
   settings/tcolorbutton.cpp
   settings/tupdateprocess.cpp
-  settings/tvolumeslider.cpp
+  settings/tvolumeslider.cpp  
 ###### Level
   level/tlevelcreatordlg.cpp
   level/texamlevel.cpp
@@ -123,7 +117,7 @@ SET( NOOTKA_SRCS
   level/tquestionaswdg.cpp
   level/tkeysigncombobox.cpp
   level/tlevelheaderwdg.cpp
-  level/tlevelpreview.cpp
+  level/tlevelpreview.cpp  
 ###### Exam
   exam/tqatype.cpp
   exam/texamexecutor.cpp
@@ -148,7 +142,7 @@ SET( NOOTKA_SRCS
   info/texpertanswerhelp.cpp
   info/tsupportnootka.cpp
   info/tnootkalabel.cpp
-  info/tpixmaker.cpp
+  info/tpixmaker.cpp  
 ###### Charts
   charts/tanalysdialog.cpp
   charts/tchart.cpp
@@ -183,9 +177,7 @@ if(APPLE OR MINGW) # SoundTouch
 endif(APPLE OR MINGW)
 
 SET( NOOTKA_MOC_SRCS
-  mainwindow.h
-  tnotename.h
-  tfingerboard.h
+  mainwindow.h  
 ###### Sound
   sound/tsound.h
   sound/tmidiout.h
@@ -197,28 +189,25 @@ SET( NOOTKA_MOC_SRCS
   sound/tpitchview.h
   sound/tabstractplayer.h
   sound/trtaudioout.h
-  sound/trtaudioin.h
+  sound/trtaudioin.h  
 ###### Score
-  score/tnoteview.h
-  score/tscorewidget.h
-  score/tscorewidgetsimple.h
-  score/tkeysignatureview.h
-  score/tclefview.h
-#   score/tpushbutton.h
-###### Score2  
-  score2/score/tpushbutton.h
-  score2/score/tsimplescore.h
-  score2/score/tmainscore.h
-  score2/score/tscorescene.h
-  score2/score/tscoreitem.h
-  score2/score/tscorestaff.h
-  score2/score/tscorepianostaff.h
-  score2/score/tscoreclef.h
-  score2/score/tscorenote.h
-  score2/score/tscorekeysignature.h
-  score2/score/tscorecontrol.h
-  score2/score/tclefselector.h
-  score2/score/tclefpreview.h
+  score/tpushbutton.h
+  score/tsimplescore.h
+  score/tmainscore.h
+  score/tscorescene.h
+  score/tscoreitem.h
+  score/tscorestaff.h
+  score/tscorepianostaff.h
+  score/tscoreclef.h
+  score/tscorenote.h
+  score/tscorekeysignature.h
+  score/tscorecontrol.h
+  score/tclefselector.h
+  score/tclefpreview.h  
+###### guitar
+	guitar/tfingerboard.h	
+###### notename
+	notename/tnotename.h	
 ###### Settings
   settings/settingsdialog.h
   settings/tsettingsdialogbase.h
@@ -229,7 +218,7 @@ SET( NOOTKA_MOC_SRCS
   settings/examsettings.h
   settings/tcolorbutton.h
   settings/tupdateprocess.h
-  settings/tvolumeslider.h
+  settings/tvolumeslider.h  
 ###### Level
   level/tlevelcreatordlg.h
   level/levelsettings.h

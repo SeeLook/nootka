@@ -29,7 +29,7 @@
 #include <tupdateprocess.h>
 #include "tsound.h"
 #include "tpushbutton.h"
-#include "tscorewidget.h"
+#include "tmainscore.h"
 #include "texam.h"
 #include "tprogresswidget.h"
 #include "texamview.h"
@@ -101,7 +101,7 @@ MainWindow::MainWindow(QWidget *parent)
     QVBoxLayout *scoreLay = new QVBoxLayout;
     nootBar = new QToolBar(tr("main toolbar"), innerWidget);
     scoreLay->addWidget(nootBar);
-    score = new TscoreWidget(3, innerWidget);
+    score = new TmainScore(innerWidget);
     scoreLay->addWidget(score);
     pitchView = new TpitchView(sound->sniffer, this);
     sound->setPitchView(pitchView);

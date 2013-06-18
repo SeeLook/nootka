@@ -16,18 +16,48 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#ifndef TSCOREPIANOSTAFF_H
+#define TSCOREPIANOSTAFF_H
 
-#ifndef TDROPSHADOWEFFECT_H
-#define TDROPSHADOWEFFECT_H
+#include <tscorestaff.h>
 
-#include <QGraphicsEffect>
-
-/** Shadow effect used for all tips */
-class TdropShadowEffect : public QGraphicsDropShadowEffect
+class TscorePianoStaff : public TscoreStaff
 {
+    Q_OBJECT
 
 public:
-    TdropShadowEffect(QColor color = -1);
+    TscorePianoStaff(TscoreScene *scene, int notesNr);
+    ~TscorePianoStaff();
+		
+		virtual void setNote(int index, Tnote &note);
+		virtual void setNoteDisabled(int index, bool isDisabled);
+		
+		virtual void setEnableKeySign(bool isEnabled);
+		
+		virtual void setScoreControler(TscoreControl *scoreControl);
+				
+		virtual void setDisabled(bool disabled);
+		
+		virtual void setScordature(Ttune &tune);
+		virtual bool hasScordature() { return m_lower->hasScordature(); } /** @p TRUE when staff has got scordature. */
+		
+		virtual QRectF boundingRect() const;
+		
+		
+protected slots:
+				/** Those slots ties key signatutes in two staves. */
+		void upperStaffChangedKey();
+		void lowerStaffChangedKey();
+				/** It has doubled noteSegments (for each staff).
+         * Those slots manage this. */
+		void upperNoteChanged(int noteIndex);
+		void lowerNoteChanged(int noteIndex);
+        /** Takes care about signal clefChanged from lower staff. */
+    void lowerStaffClefChanged(Tclef clef);
+				
+private:
+		TscoreStaff 		*m_lower; // grand (left hand) staff
+
 };
 
-#endif // TDROPSHADOWEFFECT_H
+#endif // TSCOREPIANOSTAFF_H

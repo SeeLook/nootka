@@ -36,7 +36,8 @@ rangeSettings::rangeSettings(QWidget *parent) :
     QHBoxLayout *allLay = new QHBoxLayout;
 
     QVBoxLayout *scoreLay = new QVBoxLayout;
-    m_scoreRang = new TsimpleScore(2, this);
+    m_scoreRang = new TsimpleScore(3, this); // third note is fake
+		m_scoreRang->setNoteDisabled(2, true); // and is disabled and empty
 		m_scoreRang->setClef(Tclef(Tclef::e_treble_G_8down)); // TODO make it globals
 //     m_scoreRang->setFixedSize(200, 220);;
 //    scoreRang->setStatusTip(tr("If selected notes are either the lowest or the highest<br>possible sounds in the current guitar tune,<br>they are automatically adjusted to another tune."));

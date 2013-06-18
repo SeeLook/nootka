@@ -77,6 +77,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
 			m_notes << new Tnote(0, 0, 0);
       m_scoreNotes << new TscoreNote(scene, this, i);
       m_scoreNotes[i]->setPos(7.0 + i * m_scoreNotes[i]->boundingRect().width(), 0);
+			m_scoreNotes[i]->setZValue(50);
       connect(m_scoreNotes[i], SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
 			connect(m_scoreNotes[i], SIGNAL(accidWasChanged(int)), this, SLOT(noteChangedAccid(int)));
   }
@@ -135,6 +136,12 @@ void TscoreStaff::setNote(int index, Tnote& note) {
 		else
 				*(m_notes[index]) = Tnote(0, 0, 0);
 	}
+}
+
+
+void TscoreStaff::setNoteDisabled(int index, bool isDisabled) {
+	if (index >=0 && index < m_scoreNotes.size())
+		m_scoreNotes[index]->setReadOnly(isDisabled);
 }
 
 

@@ -29,11 +29,11 @@
 #include "tglobals.h"
 #include "texamhelp.h"
 #include "tpixmaker.h"
-#include "tscorewidget.h"
 #include "tnotename.h"
 #include "tfingerboard.h"
 #include "tpitchview.h"
 #include "tquestionaswdg.h"
+#include "tmainscore.h"
 #include <QDebug>
 #include <QTimer>
 #include <QPropertyAnimation>

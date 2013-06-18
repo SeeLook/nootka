@@ -34,7 +34,7 @@
 #include "tcanvas.h"
 #include "tprogresswidget.h"
 #include "texamview.h"
-#include "tscorewidget.h"
+#include "tmainscore.h"
 #include "tfingerboard.h"
 #include "tnotename.h"
 #include <QtGui>
