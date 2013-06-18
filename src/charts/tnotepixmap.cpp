@@ -18,20 +18,20 @@
 
 
 #include "tnotepixmap.h"
-#include "tnoteview.h"
 #include "tkeysignature.h"
-#include "tkeysignatureview.h"
 #include "tquestionpoint.h"
-#include <tqaunit.h>
+#include "tqaunit.h"
+#include "tscorenote.h"
 #include <QPainter>
 #include <QApplication>
+#include <QPalette>
 #include <QDebug>
 
 
 QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
   
     int noteNr = note.octave*7 + note.note;  
-    QString accidString = TnoteView::getAccid(note.acidental);
+    QString accidString = TscoreNote::getAccid(note.acidental);
     if (note.acidental) {
         if (qAbs(note.acidental) == 1) { // double accids already assigned
             if (note.acidental == TkeySignature::scalesDefArr[key.value()+7][note.note-1])
@@ -39,7 +39,7 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
         }
     } else { // no accids
         if (TkeySignature::scalesDefArr[key.value()+7][note.note-1] != 0)
-              accidString = TnoteView::getAccid(3); // so paint natural
+              accidString = TscoreNote::getAccid(3); // so paint natural
     }
 
     int h = factor * 18; // height
@@ -120,25 +120,33 @@ QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
         QString keyAccidString;
         char ff;
         if (key.value() < 0) {
-            keyAccidString = TnoteView::getAccid(-1); // flat
+            keyAccidString = TscoreNote::getAccid(-1); // flat
             ff = -1;
         }
         else {
-            keyAccidString = TnoteView::getAccid(1); // sharp
+            keyAccidString = TscoreNote::getAccid(1); // sharp
             ff = 1;
         }
         double accWidth = metrics.width(keyAccidString);
         for (int i = 1; i <= (qAbs(key.value())); i++) {
 #if defined(Q_OS_WIN32)
-            painter.drawText(QRectF( (4 + i*1.7) * factor,
-                                     (TkeySignatureView::getPosOfAccid((7 + ((i)*ff))%8) - 19.5 + hiLinePos) * factor,
+					painter.drawText(QRectF( (4 + i*1.7) * factor,
+                                     (getPosOfAccidental((7 + ((i)*ff))%8) - 19.5 + hiLinePos) * factor,
                                      accWidth, metrics.height()),
                             Qt::AlignCenter, keyAccidString);
+//             painter.drawText(QRectF( (4 + i*1.7) * factor,
+//                                      (TkeySignatureView::getPosOfAccid((7 + ((i)*ff))%8) - 19.5 + hiLinePos) * factor,
+//                                      accWidth, metrics.height()),
+//                             Qt::AlignCenter, keyAccidString);
 #else
-            painter.drawText(QRectF( (4 + i*1.7) * factor,
-                                     (TkeySignatureView::getPosOfAccid((7 + ((i)*ff))%8) - 19 + hiLinePos) * factor,
+					painter.drawText(QRectF( (4 + i*1.7) * factor,
+                                     (getPosOfAccidental((7 + ((i)*ff))%8) - 19 + hiLinePos) * factor,
                                      accWidth, metrics.height()),
                             Qt::AlignCenter, keyAccidString);
+//             painter.drawText(QRectF( (4 + i*1.7) * factor,
+//                                      (TkeySignatureView::getPosOfAccid((7 + ((i)*ff))%8) - 19 + hiLinePos) * factor,
+//                                      accWidth, metrics.height()),
+//                             Qt::AlignCenter, keyAccidString);
 #endif
         }
     }    
@@ -199,3 +207,10 @@ QString wasAnswerOKtext(TQAunit* answer, QColor textColor, int fontSize) {
     txt += "</span><br>";
     return txt;
 }
+
+
+
+qreal getPosOfAccidental(int accid) {
+	return 1.0; // TODO
+}
+

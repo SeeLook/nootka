@@ -37,6 +37,8 @@ QPixmap getNotePixmap(Tnote note, bool clef = true,
  * If @param fontSize remains default - default fontSize is taken. */
 QString wasAnswerOKtext(TQAunit *answer, QColor textColor, int fontSize = -1);
 
+qreal getPosOfAccidental(int accid);
+
 
 
 

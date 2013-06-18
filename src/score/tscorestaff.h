@@ -79,6 +79,7 @@ public:
 				/** Returns current @p index note or Tnot(0,0,0) if not set. */
 		Tnote* getNote(int index) { return m_notes[index]; }
 		virtual void setNote(int index, Tnote &note);
+		virtual void setNoteDisabled(int index, bool isDisabled);
 		
 		virtual void setEnableKeySign(bool isEnabled);   
         /** This array keeps values (-1, 0 or 1) for accidentals in key sign.

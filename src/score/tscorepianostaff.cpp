@@ -62,20 +62,32 @@ TscorePianoStaff::~TscorePianoStaff() {}
 
 void TscorePianoStaff::setNote(int index, Tnote& note) {
 	bool inScale = true;
+	Tnote emptyNote = Tnote(0, 0, 0);
 	if ((note.octave * 7 + note.note) > 7) {
 		TscoreStaff::setNote(index, note); // set a note
-		if (noteSegment(index)->notePos() == 0) // and check isit inscale
-			inScale = false;			
+		if (noteSegment(index)->notePos() == 0) // and check is it in staff scale
+			inScale = false;
+		else // or reset lower staff
+			m_lower->setNote(index, emptyNote);
 	} else {
 		m_lower->setNote(index, note);
 		if (m_lower->noteSegment(index)->notePos() == 0)
 			inScale = false;
+		else // or reset upper staff
+			TscoreStaff::setNote(index, emptyNote);
 	}
 	if (inScale)
 			*(getNote(index)) = note; // store new note when was set
 	else
 			*(getNote(index)) = Tnote(0, 0, 0); // or store empty note
 }
+
+
+void TscorePianoStaff::setNoteDisabled(int index, bool isDisabled) {
+		TscoreStaff::setNoteDisabled(index, isDisabled);
+		m_lower->setNoteDisabled(index, isDisabled);
+}
+
 
 
 void TscorePianoStaff::setEnableKeySign(bool isEnabled)

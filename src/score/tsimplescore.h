@@ -49,6 +49,7 @@ public:
 				/** Adds string number @p realNr to note @p index.  */
 		void setStringNumber(int index, int realNr);
 		void clearStringNumber(int index); /** Removes string number from note @p index. */
+		void setNoteDisabled(int index, bool isDisabled); /** Disables/enables a note. */
 		
 		void setClef(Tclef clef);
 		Tclef clef();

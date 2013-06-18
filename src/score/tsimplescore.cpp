@@ -205,6 +205,12 @@ void TsimpleScore::setPianoStaff(bool isPiano) {
 }
 
 
+void TsimpleScore::setNoteDisabled(int index, bool isDisabled) {
+	m_staff->noteSegment(index)->setReadOnly(isDisabled);
+}
+
+
+
 void TsimpleScore::setScoreDisabled(bool disabled) {
 	m_score->setMouseTracking(!disabled);
 	if (m_scoreControl)

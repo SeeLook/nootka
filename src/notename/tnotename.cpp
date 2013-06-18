@@ -18,7 +18,6 @@
 
 
 #include "tnotename.h"
-#include "tnoteview.h"
 #include "tglobals.h"
 #include "tpushbutton.h"
 #include <QtGui>
