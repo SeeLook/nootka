@@ -172,6 +172,7 @@ void TscoreStaff::setScordature(Ttune& tune) {
 	if (!hasScordature()) {
 		m_scordature = new TscoreScordature(scoreScene(), this);
 		m_scordature->setParentItem(this);
+		m_scordature->setZValue(35); // above key signature
 		if (kindOfStaff() == e_upper)
 			m_scordature->hide();
 	}

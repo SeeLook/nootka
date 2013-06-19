@@ -78,9 +78,13 @@ MainWindow::MainWindow(QWidget *parent)
     } else { // show support window once but not with first run wizzard
         gl->config->beginGroup("General");
         setGeometry(gl->config->value("geometry", QRect(50, 50, 800, 600)).toRect());
-        if (gl->config->value("version", "").toString() != gl->version)
+				QString newVersion = gl->config->value("version", "").toString();
+        if (newVersion != gl->version) {
+					if (newVersion == "0.8.9-beta") { // Transitional behaviour for clef deployment
+						gl->Sclef = Tclef::e_treble_G_8down;
+					}
           QTimer::singleShot(200, this, SLOT(showSupportDialog()));
-        else { // check for updates
+				} else { // check for updates
           gl->config->endGroup();
           gl->config->beginGroup("Updates");
           if (gl->config->value("enableUpdates", true).toBool() && TupdateProcess::isPossible()) {
