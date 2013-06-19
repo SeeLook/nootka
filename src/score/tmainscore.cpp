@@ -21,44 +21,36 @@
 #include "tscorenote.h"
 #include "tscorekeysignature.h"
 #include "tscorecontrol.h"
+#include "tscoreclef.h"
 #include "ttune.h"
+#include "tglobals.h"
 
-// TODO: change this to gl when merged
-Ttune glTune;
-bool showEnharmNotes = true;
-bool doubleAccidentalsEnabled = true;
-bool SkeySignatureEnabled = true;
-QColor SpointerColor = -1;
-QColor enharmNotesColor = -1;
+
+extern Tglobals *gl;
+
 
 TmainScore::TmainScore(QWidget* parent) :
 	TsimpleScore(3, parent),
 	m_questMark(0),
 	m_questKey(0)
 {
-	glTune = Ttune::tunes[3];
+// set prefered clef
+	if (gl->Sclef == Tclef::e_pianoStaff)
+			TsimpleScore::setPianoStaff(true);
+	else
+			staff()->scoreClef()->setClef(Tclef(gl->Sclef));
+// set note colors
+	restoreNotesSettings();
 	
-	if (enharmNotesColor == -1)
-        enharmNotesColor = palette().highlight().color();
-    if (SpointerColor == -1) {
-        SpointerColor = palette().highlightedText().color(); // TODO gl->invertColor(palette().highlight().color());
-        SpointerColor.setAlpha(200);
-    }
-    staff()->noteSegment(0)->setPointedColor(SpointerColor);
-	  staff()->noteSegment(1)->setReadOnly(true);
-		staff()->noteSegment(1)->setColor(enharmNotesColor);
-    staff()->noteSegment(2)->setReadOnly(true);
-		staff()->noteSegment(2)->setColor(enharmNotesColor);
-    
-    setScordature();
-    setEnabledDblAccid(doubleAccidentalsEnabled);
-    setEnableKeySign(SkeySignatureEnabled);
-    
+	setScordature();
+	setEnabledDblAccid(gl->doubleAccidentalsEnabled);
+	setEnableKeySign(gl->SkeySignatureEnabled);
+	
 //     setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()-1),
 //                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber+1));
 
-    isExamExecuting(false);
-	
+	isExamExecuting(false);
+
 	
 	connect(this, SIGNAL(pianoStaffSwitched()), this, SLOT(onPianoSwitch()));
 }
@@ -81,16 +73,16 @@ void TmainScore::setEnableEnharmNotes(bool isEnabled) {
 
 
 void TmainScore::acceptSettings() {
-	setEnabledDblAccid(doubleAccidentalsEnabled);
+	setEnabledDblAccid(gl->doubleAccidentalsEnabled);
 	setScordature();
-	setEnableKeySign(SkeySignatureEnabled);
-	if (!doubleAccidentalsEnabled)
+	setEnableKeySign(gl->SkeySignatureEnabled);
+	if (!gl->doubleAccidentalsEnabled)
 		clearNote(2);
-	staff()->noteSegment(0)->setPointedColor(SpointerColor);
-  staff()->noteSegment(1)->setColor(enharmNotesColor);
-	staff()->noteSegment(2)->setColor(enharmNotesColor);
-	setEnableEnharmNotes(showEnharmNotes);
-	if (SkeySignatureEnabled) // refreshKeySignNameStyle();
+	staff()->noteSegment(0)->setPointedColor(gl->SpointerColor);
+  staff()->noteSegment(1)->setColor(gl->enharmNotesColor);
+	staff()->noteSegment(2)->setColor(gl->enharmNotesColor);
+	setEnableEnharmNotes(gl->showEnharmNotes);
+	if (gl->SkeySignatureEnabled) // refreshKeySignNameStyle();
 		if (staff()->scoreKey())
 			staff()->scoreKey()->showKeyName(true);
 //     setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()-1),
@@ -100,7 +92,8 @@ void TmainScore::acceptSettings() {
 
 
 void TmainScore::setScordature() {
-	staff()->setScordature(glTune);
+	Ttune tmpTune = gl->Gtune();
+	staff()->setScordature(tmpTune);
 	resizeEvent(0);
 }
 
@@ -217,15 +210,15 @@ void TmainScore::setNoteViewBg(int id, QColor C)
 
 void TmainScore::whenNoteWasChanged(int index, Tnote note) {
 	//We are sure that index is 0, cause others are disabled :-)
-    if (showEnharmNotes) {
-        TnotesList enharmList = note.getTheSameNotes(doubleAccidentalsEnabled);
+    if (gl->showEnharmNotes) {
+        TnotesList enharmList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
         TnotesList::iterator it = enharmList.begin();
         ++it;
         if (it != enharmList.end())
             setNote(1, *(it));
         else
             clearNote(1);
-        if (doubleAccidentalsEnabled) {
+        if (gl->doubleAccidentalsEnabled) {
             ++it;
             if (it != enharmList.end())
                 setNote(2, *(it));
@@ -242,9 +235,33 @@ void TmainScore::whenNoteWasChanged(int index, Tnote note) {
 //####################################################################################################
 
 void TmainScore::onPianoSwitch() {
-	if (glTune != Ttune::stdTune)
+	restoreNotesSettings();
+	if (gl->Gtune() != Ttune::stdTune)
 			setScordature();
 }
+
+
+//####################################################################################################
+//########################################## PRIVATE #################################################
+//####################################################################################################
+
+void TmainScore::restoreNotesSettings() {
+	if (gl->enharmNotesColor == -1)
+        gl->enharmNotesColor = palette().highlight().color();
+	if (gl->SpointerColor == -1) {
+			gl->SpointerColor = gl->invertColor(palette().highlight().color());
+			gl->SpointerColor.setAlpha(200);
+	}
+	staff()->noteSegment(0)->setPointedColor(gl->SpointerColor);
+	staff()->noteSegment(1)->setReadOnly(true);
+	staff()->noteSegment(1)->setColor(gl->enharmNotesColor);
+	staff()->noteSegment(2)->setReadOnly(true);
+	staff()->noteSegment(2)->setColor(gl->enharmNotesColor);
+}
+
+
+
+
 
 
 

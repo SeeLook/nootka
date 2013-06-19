@@ -75,8 +75,13 @@ public slots:
 
 		
 protected slots:
-				/** Refresh some things (scordature) after switch. */
+				/** Refresh some things after switch 
+				 * scordature, notes state and color. */
 		void onPianoSwitch();
+		
+private:
+				/** Sets notes colors and readOnlyness according to globals. */
+		void restoreNotesSettings();
 
 private:
 		QGraphicsSimpleTextItem *m_questMark;

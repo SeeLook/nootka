@@ -108,6 +108,7 @@ Tglobals::Tglobals() {
         SpointerColor = config->value("pointerColor").value<QColor>(); //-1;
     else 
         SpointerColor = -1;
+				Sclef = Tclef::Etype(config->value("clef", (int)Tclef::e_treble_G).toInt());
     config->endGroup();
 
 
@@ -250,6 +251,7 @@ void Tglobals::storeSettings() {
 		else minS = "";
         config->setValue("minorKeysSufix", minS);
         config->setValue("pointerColor", SpointerColor);
+				config->setValue("clef", (int)Sclef);
     config->endGroup();
   
     config->beginGroup("noteName");

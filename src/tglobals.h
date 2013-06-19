@@ -24,6 +24,7 @@
 #include <QColor>
 #include "tnote.h"
 #include "ttune.h"
+#include <tclef.h>
 
 class QSettings;
 class TexamParams;
@@ -37,9 +38,7 @@ public:
     Tglobals();
     ~Tglobals();
 
-        /** This method return application install path.
-        * Under Windows is empty,
-        * in Linux is usually /usr/bin or /usr/local/bin */
+        /** This method return application install path - path from whwre Nootka was started. */
     static QString getInstPath(QString appInstPath);
 
         /** Returns string with given color in HTML/CSS style.
@@ -68,7 +67,8 @@ public:
         /** Let's have a convention:
         * globals settings for @class TnoteName will started from 'N' letter
         * for @class TscoreWidget and @class TscoreWidgetSimple
-        * and for guitar (@class TfingerBoard) from 'G' letter */
+        * and for guitar (@class TfingerBoard) from 'G' letter.
+				* For sound and exam there are pointers to appropirete classes with patameters. */
 
 
 //============ score widget settings =============================================================
@@ -86,6 +86,7 @@ public:
     QString SmajKeyNameSufix;
     QString SminKeyNameSufix;
     QColor SpointerColor;
+		Tclef::Etype Sclef; // prefered clef - treble by default
 
 //============= common with score widget and note name ==========================================
     bool doubleAccidentalsEnabled; //default true
