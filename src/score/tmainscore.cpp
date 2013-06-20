@@ -38,7 +38,7 @@ TmainScore::TmainScore(QWidget* parent) :
 	if (gl->Sclef == Tclef::e_pianoStaff)
 			TsimpleScore::setPianoStaff(true);
 	else
-			staff()->scoreClef()->setClef(Tclef(gl->Sclef));
+		setClef(gl->Sclef);
 // set note colors
 	restoreNotesSettings();
 	

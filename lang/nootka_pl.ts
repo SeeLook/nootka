@@ -835,7 +835,7 @@
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="181"/>
         <source>This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features.&lt;br&gt;Inspite of that You are welcome to try it!!</source>
-        <translation>Ta wersja beta i może zawierać błędy lub działać w niezamierzony sposób, posiada także nieukończone funkcje.&lt;br&gt;Mimo tego, zapraszam do wypróbowania!!</translation>
+        <translation>Ta wersja to beta i może zawierać błędy lub działać w niezamierzony sposób, posiada także nieukończone funkcje.&lt;br&gt;Mimo tego, zapraszam do wypróbowania!!</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="182"/>
