@@ -29,12 +29,13 @@ QString styleTxt, bgColorTxt;
 
 /**static*/
 Tnote::EnameStyle TnoteName::m_style = Tnote::e_italiano_Si;
-const char * const TnoteName::octaves[6] = { QT_TR_NOOP("Contra"), QT_TR_NOOP("Great"), QT_TR_NOOP("Small"),
-                                 QT_TR_NOOP("1-line"), QT_TR_NOOP("2-line"), QT_TR_NOOP("3-line") };
-const char * const TnoteName::octavesFull[6] = { QT_TR_NOOP("Contra octave"),
-                    QT_TR_NOOP("Great octave"), QT_TR_NOOP("Small octave"),
+const char * const TnoteName::octaves[9] = { QT_TR_NOOP("Sub-sub"), QT_TR_NOOP("Sub"),
+				QT_TR_NOOP("Contra"), QT_TR_NOOP("Great"), QT_TR_NOOP("Small"),
+				QT_TR_NOOP("1-line"), QT_TR_NOOP("2-line"), QT_TR_NOOP("3-line"), QT_TR_NOOP("4-line") };
+const char * const TnoteName::octavesFull[9] = { QT_TR_NOOP("Sub-subcontra octave"), QT_TR_NOOP("Subcontra octave"), 
+					QT_TR_NOOP("Contra octave"), QT_TR_NOOP("Great octave"), QT_TR_NOOP("Small octave"),
                     QT_TR_NOOP("One-line octave"), QT_TR_NOOP("Two-line octave"),
-                    QT_TR_NOOP("Three-line octave") };
+                    QT_TR_NOOP("Three-line octave"), QT_TR_NOOP("Four-line octave") };
 
 
 QString TnoteName::noteToRichText(Tnote note) {
@@ -140,18 +141,28 @@ TnoteName::TnoteName(QWidget *parent) :
     accLay->addStretch(1);
     mainLay->addLayout(accLay);
 // OCTAVE BUTTONS TOOLBAR
-    QHBoxLayout * octLay = new QHBoxLayout;
-    octLay->addStretch(1);
+    QHBoxLayout * octLayRow1 = new QHBoxLayout;
+		QHBoxLayout * octLayRow2 = new QHBoxLayout;
+    octLayRow1->addStretch(2);
+		octLayRow2->addStretch(1);
     octaveGroup = new QButtonGroup(this);
-    for (int i=0; i<6; i++) {
+    for (int i = 0; i < 9; i++) {
         octaveButtons[i] = new TpushButton(tr(octaves[i]), this);
         octaveButtons[i]->setToolTip(tr(octavesFull[i]));
         octaveButtons[i]->setStatusTip(octaveButtons[i]->toolTip());
-        octLay->addWidget(octaveButtons[i]);
-        octaveGroup->addButton(octaveButtons[i],i);
+				if (i % 2) { // upper: 1, 3, 5, 7
+					octLayRow1->addWidget(octaveButtons[i]);
+					octLayRow1->addStretch(1);
+				} else { // lower: 0, 2, 4, 6, 8
+					octLayRow2->addWidget(octaveButtons[i]);
+					octLayRow2->addStretch(1);
+				}
+        octaveGroup->addButton(octaveButtons[i], i);
     }
-    octLay->addStretch(1);
-    mainLay->addLayout(octLay);
+    octLayRow1->addStretch(2);
+		octLayRow2->addStretch(1);
+    mainLay->addLayout(octLayRow1);
+		mainLay->addLayout(octLayRow2);
     m_prevOctButton = -1;
     connect(octaveGroup, SIGNAL(buttonClicked(int)), this, SLOT(octaveWasChanged(int)));
     
@@ -160,8 +171,7 @@ TnoteName::TnoteName(QWidget *parent) :
 
     setStyle(gl->NnameStyleInNoteName);
     setNoteNamesOnButt(style());
-//    octaveButtons[2]->setChecked(true);
-    for (int i=0; i<3; i++) m_notes.push_back(Tnote());
+    for (int i = 0; i < 3; i++) m_notes.push_back(Tnote());
     setAmbitus(gl->loString(),
                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
     resize();
@@ -169,15 +179,14 @@ TnoteName::TnoteName(QWidget *parent) :
 }
 
 void TnoteName::setNoteNamesOnButt(Tnote::EnameStyle nameStyle) {
-    for (int i=0; i<7; i++) {
-        noteButtons[i]->setText(Tnote(i+1,0,0).toText(nameStyle, false));
+    for (int i = 0; i < 7; i++) {
+        noteButtons[i]->setText(Tnote(i + 1, 0, 0).toText(nameStyle, false));
     }
 }
 
 void TnoteName::setStyle(Tnote::EnameStyle style) {
     m_style = style;
 }
-
 
 
 void TnoteName::setNoteName(Tnote note) {
@@ -231,15 +240,15 @@ void TnoteName::setButtons(Tnote note) {
 
     uncheckAccidButtons();
     switch (note.acidental) {
-    case -2 : dblFlatButt->setChecked(true); break;
-    case -1 : flatButt->setChecked(true); break;
-    case 1 : sharpButt->setChecked(true); break;
-    case 2 : dblSharpButt->setChecked(true); break;
+				case -2 : dblFlatButt->setChecked(true); break;
+				case -1 : flatButt->setChecked(true); break;
+				case 1 : sharpButt->setChecked(true); break;
+				case 2 : dblSharpButt->setChecked(true); break;
     }
-    if (note.octave >= -2 && note.octave <= 3) {
-        octaveButtons[note.octave+2]->setChecked(true);
-		m_prevOctButton = note.octave+2;
-	}
+    if (note.octave >= -4 && note.octave <= 4) {
+        octaveButtons[note.octave + 4]->setChecked(true);
+				m_prevOctButton = note.octave + 4;
+		}
 }
 
 void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
@@ -327,18 +336,18 @@ void TnoteName::markNameLabel(QColor markColor) {
 void TnoteName::setNameDisabled(bool isDisabled) {
     if (isDisabled) {
         uncheckAllButtons();
-        for (int i=0; i<7; i++)
+        for (int i = 0; i < 7; i++)
             noteButtons[i]->setDisabled(true);
-        for (int i=0; i<6; i++)
+        for (int i = 0; i < 9; i++)
             octaveButtons[i]->setDisabled(true);
         dblFlatButt->setDisabled(true);
         flatButt->setDisabled(true);
         sharpButt->setDisabled(true);
         dblSharpButt->setDisabled(true);
     } else {
-        for (int i=0; i<7; i++)
+        for (int i = 0; i < 7; i++)
             noteButtons[i]->setDisabled(false);
-        for (int i=0; i<6; i++)
+        for (int i = 0; i < 6; i++)
             octaveButtons[i]->setDisabled(false);
         dblFlatButt->setDisabled(false);
         flatButt->setDisabled(false);
@@ -365,9 +374,9 @@ void TnoteName::uncheckAllButtons() {
     octaveGroup->setExclusive(false);
     for (int i = 0; i < 7; i++)
         noteButtons[i]->setChecked(false);
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 9; i++)
         octaveButtons[i]->setChecked(false);
-	m_prevOctButton = -1;
+		m_prevOctButton = -1;
     noteGroup->setExclusive(true);
     octaveGroup->setExclusive(true);
 }
@@ -380,8 +389,8 @@ void TnoteName::uncheckAllButtons() {
 
 void TnoteName::setNameText() {
     if (m_notes[0].note) {
-        if (m_notes[0].getChromaticNrOfNote() >= m_ambitMin &&
-            m_notes[0].getChromaticNrOfNote() <= m_ambitMax) {
+//         if (m_notes[0].getChromaticNrOfNote() >= m_ambitMin &&
+//             m_notes[0].getChromaticNrOfNote() <= m_ambitMax) {
         QString txt = noteToRichText(m_notes[0]);
         if (m_notes[1].note) {
             txt = txt + QString("  <span style=\"font-size: %1px; color: %2\">(").arg(nameLabel->font().pointSize()-2).arg(gl->enharmNotesColor.name()) + noteToRichText(m_notes[1]);
@@ -390,12 +399,12 @@ void TnoteName::setNameText() {
             txt = txt + ")</span>";
         }
         nameLabel->setText(txt);
-      } else {
-          nameLabel->setText("<span style=\"font-size: 16px; color: #ff0000;\"><b>" +
-                             tr("The note is beyond<br>scale of the guitar") + "</b></span>");
-//           qDebug("The note is beyond scale of the guitar");
-      }
-    } else nameLabel->setText("");;
+//       } else {
+//           nameLabel->setText("<span style=\"font-size: 16px; color: #ff0000;\"><b>" +
+//                              tr("The note is beyond<br>scale of the guitar") + "</b></span>");
+//       }
+    } else 
+				nameLabel->setText("");;
 }
 
 
@@ -428,8 +437,8 @@ void TnoteName::noteWasChanged(int noteNr) {
   noteButtons[noteNr]->setChecked(true);
     setNoteName(noteNr+1, m_notes[0].octave, m_notes[0].acidental);
   if (octaveGroup->checkedId() == -1 && m_prevOctButton == -1) {
-    octaveButtons[2]->setChecked(true);
-    m_prevOctButton = 2;
+    octaveButtons[4]->setChecked(true);
+    m_prevOctButton = 4;
 //    octaveGroup->setId(2);
   }
   emit noteButtonClicked();
@@ -473,6 +482,6 @@ void TnoteName::octaveWasChanged(int octNr) { // octNr is button nr in the group
     octaveButtons[m_prevOctButton]->setChecked(false);
   m_prevOctButton = octNr;
   octaveButtons[octNr]->setChecked(true);
-    setNoteName(m_notes[0].note, octNr-2, m_notes[0].acidental);
+    setNoteName(m_notes[0].note, octNr - 4, m_notes[0].acidental);
 }
 

@@ -32,8 +32,8 @@ class TnoteName : public QWidget
 public:
     explicit TnoteName(QWidget *parent = 0);
 
-    static const char * const octaves[6];
-    static const char * const octavesFull[6];
+    static const char * const octaves[9];
+    static const char * const octavesFull[9];
 
         /** Sets names on buttons to given style.
          * Doesn't refresh note name label. */
@@ -67,7 +67,7 @@ protected:
 private:
     QLabel *nameLabel;
     TpushButton *noteButtons[7];
-    TpushButton *octaveButtons[6];
+    TpushButton *octaveButtons[9];
     TpushButton *dblFlatButt, *flatButt, *sharpButt, *dblSharpButt;
     QButtonGroup *noteGroup, *octaveGroup;
       /** Keeps index of previous selected octave Button.
