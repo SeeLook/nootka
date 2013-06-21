@@ -24,6 +24,7 @@
 #include "tscoreclef.h"
 #include "ttune.h"
 #include "tglobals.h"
+#include <tgraphicstexttip.h>
 
 
 extern Tglobals *gl;
@@ -102,10 +103,10 @@ void TmainScore::unLockScore() {
 	setScoreDisabled(false);
 	staff()->noteSegment(1)->setReadOnly(true);
 	staff()->noteSegment(2)->setReadOnly(true);
-//     if (m_questMark) {
-//       setBGcolor(gl->mergeColors(gl->EanswerColor, palette().window().color()));
-//       noteViews[0]->setStyleSheet(gl->getBGcolorText(gl->EanswerColor) + "border-radius: 10px;");
-//     }
+    if (m_questMark) {
+      setBGcolor(gl->mergeColors(gl->EanswerColor, palette().window().color()));
+			setNoteViewBg(0, gl->EanswerColor);
+    }
 }
 
 
@@ -115,19 +116,23 @@ void TmainScore::unLockScore() {
 
 void TmainScore::isExamExecuting(bool isIt) {
 	if (isIt) {
-        disconnect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
-        connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
-        m_questMark = new QGraphicsSimpleTextItem();
-        m_questMark->hide();
-//         noteViews[2]->scene()->addItem(m_questMark);
-//         QColor c = gl->EquestionColor;
-//         c.setAlpha(220);
-//         noteViews[1]->setColor(c);
-//         m_questMark->setBrush(QBrush(c));
-//         m_questMark->setText("?");
-//         resizeQuestMark();
-    }
-    else {
+			disconnect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
+			connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
+			m_questMark = new QGraphicsSimpleTextItem();
+			m_questMark->hide();
+		#if defined(Q_OS_MACX)
+			m_questMark->setFont(QFont("nootka", 9));
+		#else
+			m_questMark->setFont(QFont("nootka", 7));
+		#endif
+			m_questMark->setParentItem(staff()->noteSegment(2));
+			QColor c = gl->EquestionColor;
+			c.setAlpha(220);
+			staff()->noteSegment(1)->setColor(c);
+			m_questMark->setBrush(QBrush(c));
+			m_questMark->setText("?");
+			m_questMark->setPos(0, staff()->upperLinePos());
+    } else {
         connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
         disconnect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
         delete m_questMark;
@@ -142,7 +147,6 @@ void TmainScore::clearScore() {
 	clearNote(0);
 	clearNote(1);
 	staff()->noteSegment(1)->removeString(); // so far string number to remove occur only on this view
-  // TODO also hide question mark when will be implemented
 	if (staff()->scoreKey()) {
 			setKeySignature(TkeySignature());
 			staff()->scoreKey()->setBackgroundColor(-1);
@@ -153,55 +157,70 @@ void TmainScore::clearScore() {
     }
     if (scoreControler())
 			scoreControler()->setAccidental(0); // reset buttons with accidentals
-//     m_questMark->hide();
-		staff()->noteSegment(0)->setBackgroundColor(-1);
+    m_questMark->hide();
+		setNoteViewBg(0, -1);
     setBGcolor(palette().base().color());
 }
 
 
-void TmainScore::askQuestion(Tnote note, char realStr) 
-{
-
+void TmainScore::askQuestion(Tnote note, char realStr) {
+		setNote(1, note);
+    setBGcolor(gl->mergeColors(gl->EquestionColor, palette().window().color()));
+    m_questMark->show();
+    if (realStr) 
+			setStringNumber(1, realStr);
 }
 
-void TmainScore::askQuestion(Tnote note, TkeySignature key, char realStr)
-{
 
+void TmainScore::askQuestion(Tnote note, TkeySignature key, char realStr) {
+	setKeySignature(key);
+	askQuestion(note, realStr);
 }
 
-void TmainScore::expertNoteChanged()
-{
-
+void TmainScore::expertNoteChanged() {
+		emit noteClicked();
 }
 
-void TmainScore::forceAccidental(Tnote::Eacidentals accid)
-{
 
+void TmainScore::forceAccidental(Tnote::Eacidentals accid) {
+		if (scoreControler())
+			scoreControler()->setAccidental(accid);
+// 		changeAccidButtonsState(accid);
 }
 
-void TmainScore::markAnswered(QColor blurColor)
-{
 
+void TmainScore::markAnswered(QColor blurColor) {
+		staff()->noteSegment(0)->markNote(blurColor);
 }
 
-void TmainScore::markQuestion(QColor blurColor)
-{
 
+void TmainScore::markQuestion(QColor blurColor) {
+		staff()->noteSegment(1)->markNote(blurColor);
 }
 
-void TmainScore::prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName)
-{
 
+void TmainScore::prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName) {
+		setKeySignature(fakeKey);
+		m_questKey = new QGraphicsTextItem();
+		m_questKey->setParentItem(staff()->scoreKey()); // we are sure that key exist - exam checked that
+		m_questKey->setHtml(QString("<span style=\"color: %1;\"><span style=\"font-family: nootka;\">?</span><br>").
+					arg(gl->EquestionColor.name()) + expectKeyName + "</span>");
+		TgraphicsTextTip::alignCenter(m_questKey);
+		qreal sc = staff()->scoreKey()->boundingRect().width() / m_questKey->boundingRect().width();
+		m_questKey->setScale(sc);
+		m_questKey->setPos(0, staff()->upperLinePos() - 1 - m_questKey->boundingRect().height() * sc);
+		setKeyViewBg(gl->EanswerColor);
 }
 
-void TmainScore::setKeyViewBg(QColor C)
-{
 
+void TmainScore::setKeyViewBg(QColor C) {
+		if (staff()->scoreKey())
+			staff()->scoreKey()->setBackgroundColor(C);
 }
 
-void TmainScore::setNoteViewBg(int id, QColor C)
-{
 
+void TmainScore::setNoteViewBg(int id, QColor C) {
+		staff()->noteSegment(id)->setBackgroundColor(C);
 }
 
 //####################################################################################################
@@ -246,17 +265,17 @@ void TmainScore::onPianoSwitch() {
 //####################################################################################################
 
 void TmainScore::restoreNotesSettings() {
-	if (gl->enharmNotesColor == -1)
-        gl->enharmNotesColor = palette().highlight().color();
-	if (gl->SpointerColor == -1) {
-			gl->SpointerColor = gl->invertColor(palette().highlight().color());
-			gl->SpointerColor.setAlpha(200);
-	}
-	staff()->noteSegment(0)->setPointedColor(gl->SpointerColor);
-	staff()->noteSegment(1)->setReadOnly(true);
-	staff()->noteSegment(1)->setColor(gl->enharmNotesColor);
-	staff()->noteSegment(2)->setReadOnly(true);
-	staff()->noteSegment(2)->setColor(gl->enharmNotesColor);
+		if (gl->enharmNotesColor == -1)
+					gl->enharmNotesColor = palette().highlight().color();
+		if (gl->SpointerColor == -1) {
+				gl->SpointerColor = gl->invertColor(palette().highlight().color());
+				gl->SpointerColor.setAlpha(200);
+		}
+		staff()->noteSegment(0)->setPointedColor(gl->SpointerColor);
+		staff()->noteSegment(1)->setReadOnly(true);
+		staff()->noteSegment(1)->setColor(gl->enharmNotesColor);
+		staff()->noteSegment(2)->setReadOnly(true);
+		staff()->noteSegment(2)->setColor(gl->enharmNotesColor);
 }
 
 
