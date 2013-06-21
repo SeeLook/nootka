@@ -48,7 +48,6 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
 	m_score->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   m_score->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   m_score->setFrameShape(QFrame::NoFrame);
-//   m_score->setStyleSheet(("background: transparent"));
   
   m_scene = new TscoreScene(m_score);
   connect(m_scene, SIGNAL(statusTip(QString)), this, SLOT(statusTipChanged(QString)));
@@ -212,7 +211,7 @@ void TsimpleScore::setNoteDisabled(int index, bool isDisabled) {
 
 
 void TsimpleScore::setScoreDisabled(bool disabled) {
-	m_score->setMouseTracking(!disabled);
+// 	m_score->setMouseTracking(!disabled);
 	if (m_scoreControl)
 		m_scoreControl->setDisabled(disabled);
 	m_staff->setDisabled(disabled);

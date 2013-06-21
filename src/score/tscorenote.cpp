@@ -234,7 +234,7 @@ void TscoreNote::markNote(QColor blurColor) {
       m_mainNote->setPen(Qt::NoPen);
       m_mainNote->setGraphicsEffect(0);
     } else {
-      m_mainNote->setPen(QPen(blurColor, 2));
+      m_mainNote->setPen(QPen(blurColor, 0.2));
       m_mainNote->setGraphicsEffect(new TdropShadowEffect(blurColor));
     }
 }
