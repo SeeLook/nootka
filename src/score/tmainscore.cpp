@@ -77,6 +77,8 @@ void TmainScore::acceptSettings() {
 	setEnabledDblAccid(gl->doubleAccidentalsEnabled);
 	setScordature();
 	setEnableKeySign(gl->SkeySignatureEnabled);
+	if (gl->SkeySignatureEnabled)
+			staff()->scoreKey()->showKeyName(gl->SshowKeySignName);
 	if (!gl->doubleAccidentalsEnabled)
 		clearNote(2);
 	staff()->noteSegment(0)->setPointedColor(gl->SpointerColor);
@@ -131,7 +133,7 @@ void TmainScore::isExamExecuting(bool isIt) {
 			staff()->noteSegment(1)->setColor(c);
 			m_questMark->setBrush(QBrush(c));
 			m_questMark->setText("?");
-			m_questMark->setPos(0, staff()->upperLinePos());
+			m_questMark->setPos(0, staff()->upperLinePos() - 2);
     } else {
         connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
         disconnect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));

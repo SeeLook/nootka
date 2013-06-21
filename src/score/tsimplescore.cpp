@@ -212,6 +212,7 @@ void TsimpleScore::setNoteDisabled(int index, bool isDisabled) {
 
 void TsimpleScore::setScoreDisabled(bool disabled) {
 // 	m_score->setMouseTracking(!disabled);
+	m_staff->noteSegment(0)->hideWorkNote();
 	if (m_scoreControl)
 		m_scoreControl->setDisabled(disabled);
 	m_staff->setDisabled(disabled);
