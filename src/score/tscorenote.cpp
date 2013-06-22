@@ -39,9 +39,10 @@ QString TscoreNote::getAccid(int accNr) {
 QFont TscoreNote::getAccidFont() {
   QFont font(QFont("nootka"));
   font.setPointSizeF(4.5);
-  QFontMetrics fMetr(font);
-  qreal fact = font.pointSizeF() / fMetr.boundingRect(QChar(0xe11a)).height();
-  font.setPointSizeF(font.pointSizeF() * fact);
+//   QFontMetrics fMetr(font);
+//   qreal fact = font.pointSizeF() / fMetr.boundingRect(QChar(0xe11a)).height();
+//   font.setPointSizeF(font.pointSizeF() * fact);
+//   qDebug() << font;
   return font;
 }
 
@@ -103,6 +104,9 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   QFont font(getAccidFont());
   m_workAccid->setFont(font);
   m_mainAccid->setFont(font);
+  m_workAccid->setText(QChar(0xe11a));
+  m_workAccid->setScale(20.0 / m_workAccid->boundingRect().height());
+  m_mainAccid->setScale(m_workAccid->scale());
   
   setColor(m_mainColor);
   setPointedColor(m_workColor);
@@ -136,8 +140,8 @@ void TscoreNote::setColor(QColor color) {
         m_mainUpLines[i]->setPen(QPen(color, 0.2));
     for (int i = 0; i < m_mainDownLines.size(); i++)
       m_mainDownLines[i]->setPen(QPen(color, 0.2));
-//     if (m_strNr)
-//         m_strNr->setBrush(QBrush(m_mainColor));
+    if (m_stringText)
+        m_stringText->setBrush(QBrush(m_mainColor));
 }
 
 
