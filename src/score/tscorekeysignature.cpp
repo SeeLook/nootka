@@ -124,7 +124,7 @@ void TscoreKeySignature::showKeyName(bool showIt) {
 			m_keyNameText = new QGraphicsTextItem();
 			registryItem(m_keyNameText);
 			m_keyNameText->setZValue(7);
-      m_keyNameText->setScale(0.12);
+//       m_keyNameText->setScale(0.12);
 			setKeySignature(keySignature());
 		}
 	}	else {
@@ -186,14 +186,11 @@ void TscoreKeySignature::updateKeyName() {
 	if (m_keyNameText) {
 			m_keyNameText->setHtml(TkeySignature::getMajorName(m_keySignature) + "<br>" +
 															TkeySignature::getMinorName(m_keySignature));
+			qreal factor = (boundingRect().width()) / (m_keyNameText->boundingRect().width());
+			m_keyNameText->setScale(factor);
 			m_keyNameText->setPos((boundingRect().width() - m_keyNameText->boundingRect().width() * m_keyNameText->scale()) / 2,
-				staff()->upperLinePos() - 3 - m_keyNameText->boundingRect().height() * m_keyNameText->scale());
-//TODO center it and scale if needed
-// 			if (m_keyNameText->boundingRect().width() / m_keyNameText->scale() > boundingRect().width()) {
-// 					qreal factor = (boundingRect().width()) / (m_keyNameText->boundingRect().width() / m_keyNameText->scale());
-// 					m_keyNameText->setScale(factor);
-// 			}
-	}
+						staff()->upperLinePos() - 3 - m_keyNameText->boundingRect().height() * m_keyNameText->scale());
+			}
 }
 
 

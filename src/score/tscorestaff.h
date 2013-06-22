@@ -75,6 +75,10 @@ public:
 		TscoreNote* noteSegment(int nr) { return m_scoreNotes[nr]; }
 		TscoreKeySignature* scoreKey() { return m_keySignature; }
 		TscoreClef* scoreClef() { return m_clef; }
+				/** Returns pointer to lower staff if it is piano staff or 0.
+				 * Every time You want to invoke this 
+				 * CHECK IS IT EXIST - different than 0. */
+		TscoreStaff* lower() { return m_lower; }
 		
 				/** Returns current @p index note or Tnot(0,0,0) if not set. */
 		Tnote* getNote(int index) { return m_notes[index]; }
@@ -131,6 +135,8 @@ protected:
 				 * just make place (resizes staff width if necessary) for scordature. 
 				 * setScordature calls it itself. */
 		void setEnableScordtature(bool enable);
+				/** This method adds additional staff under itself end becomes piano staff. */
+		void addLowerStaff();
 		
 protected slots:
     void onKeyChanged();
@@ -157,6 +163,8 @@ private:
 		TscoreScordature				*m_scordature;
 		QList<Tnote*>						m_notes;
 		bool										m_enableScord;
+				/** Grand (left hand) staff. It exist in piano staff only. In normal staff it is 0. */
+		TscoreStaff 						*m_lower;
 		
 };
 

@@ -39,7 +39,7 @@ public:
 		virtual void setDisabled(bool disabled);
 		
 		virtual void setScordature(Ttune &tune);
-		virtual bool hasScordature() { return m_lower->hasScordature(); } /** @p TRUE when staff has got scordature. */
+		virtual bool hasScordature() { return lower()->hasScordature(); } /** @p TRUE when staff has got scordature. */
 		
 		virtual QRectF boundingRect() const;
 		
@@ -54,9 +54,9 @@ protected slots:
 		void lowerNoteChanged(int noteIndex);
         /** Takes care about signal clefChanged from lower staff. */
     void lowerStaffClefChanged(Tclef clef);
-				
+		
 private:
-		TscoreStaff 		*m_lower; // grand (left hand) staff
+		qreal 		m_lowerHeight; // height of lower staff
 
 };
 

@@ -66,6 +66,7 @@ void TscoreControl::setAccidental(int accNr) {
 				case 2: 
 					m_dblSharpBut->setChecked(true); break;
 		}
+		emit accidButtonPressed(accNr);
 }
 
 

@@ -66,14 +66,14 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   
   int i = staff->upperLinePos() - 2;
   while (i > 0) {
+		m_mainUpLines << createNoteLine(i);
     m_upLines << createNoteLine(i);
-    m_mainUpLines << createNoteLine(i);    
     i -= 2;
   }
   i = staff->upperLinePos() + 10;
   while (i < m_height) {
-    m_downLines << createNoteLine(i);
-    m_mainDownLines << createNoteLine(i);    
+		m_mainDownLines << createNoteLine(i);
+    m_downLines << createNoteLine(i);    
     i += 2;
   }
   
