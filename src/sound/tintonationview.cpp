@@ -19,7 +19,7 @@
 
 #include "tintonationview.h"
 #include <QPainter>
-#include <QDebug>
+// #include <QDebug>
 #include <math.h>
 
 

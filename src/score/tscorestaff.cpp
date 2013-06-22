@@ -44,7 +44,8 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
   m_keySignature(0),
   m_scordature(0),
   m_extraWidth(0.0),
-	m_enableScord(false)
+	m_enableScord(false),
+	m_lower(0)
 {
 	setZValue(10);
   if (m_kindOfStaff == e_normal) {
@@ -218,6 +219,12 @@ void TscoreStaff::setEnableScordtature(bool enable) {
 	}
 }
 
+
+void TscoreStaff::addLowerStaff() {
+	if (!m_lower) {
+		m_lower = new TscoreStaff(scoreScene(), m_scoreNotes.size(), e_lower);
+	}
+}
 
 
 void TscoreStaff::onClefChanged( ) {

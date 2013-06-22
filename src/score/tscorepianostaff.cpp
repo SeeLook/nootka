@@ -33,14 +33,15 @@
 TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
 	TscoreStaff(scene, notesNr, e_upper)
 {	
-	m_lower = new TscoreStaff(scene, notesNr, e_lower);
-	m_lower->setParentItem(this);
-	m_lower->setPos(0, TscoreStaff::boundingRect().height());
+	addLowerStaff();
+	lower()->setParentItem(this);
+	lower()->setPos(0, TscoreStaff::boundingRect().height());
+	m_lowerHeight = lower()->height(); // Clumsy, but this way it can be put as boundingRect() param
 	for (int i = 0; i < notesNr; i++) {
 		connect(noteSegment(i), SIGNAL(noteWasClicked(int)), this, SLOT(upperNoteChanged(int)));
-		connect(m_lower->noteSegment(i), SIGNAL(noteWasClicked(int)), this, SLOT(lowerNoteChanged(int)));
+		connect(lower()->noteSegment(i), SIGNAL(noteWasClicked(int)), this, SLOT(lowerNoteChanged(int)));
 	}
-	connect(m_lower, SIGNAL(pianoStaffSwitched(Tclef)), this, SLOT(lowerStaffClefChanged(Tclef)));
+	connect(lower(), SIGNAL(pianoStaffSwitched(Tclef)), this, SLOT(lowerStaffClefChanged(Tclef)));
 // brace (Akolada)
 	QGraphicsSimpleTextItem *brace = new QGraphicsSimpleTextItem();
 	registryItem(brace);
@@ -50,7 +51,7 @@ TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
   ff.setPointSizeF(ff.pointSizeF() * (ff.pointSizeF() / fm.boundingRect(QChar(0xe16c)).height()));
   brace->setFont(ff);
 	brace->setText(QString(QChar(0xe16c)));
-	qreal distance = m_lower->pos().y() + m_lower->upperLinePos() + 8 - upperLinePos();
+	qreal distance = lower()->pos().y() + lower()->upperLinePos() + 8 - upperLinePos();
 	qreal fact = (distance + 2.0) / brace->boundingRect().height();
 	brace->setScale(fact);
 	brace->setBrush(scene->views()[0]->palette().text().color());
@@ -68,10 +69,10 @@ void TscorePianoStaff::setNote(int index, Tnote& note) {
 		if (noteSegment(index)->notePos() == 0) // and check is it in staff scale
 			inScale = false;
 		else // or reset lower staff
-			m_lower->setNote(index, emptyNote);
+			lower()->setNote(index, emptyNote);
 	} else {
-		m_lower->setNote(index, note);
-		if (m_lower->noteSegment(index)->notePos() == 0)
+		lower()->setNote(index, note);
+		if (lower()->noteSegment(index)->notePos() == 0)
 			inScale = false;
 		else // or reset upper staff
 			TscoreStaff::setNote(index, emptyNote);
@@ -85,7 +86,7 @@ void TscorePianoStaff::setNote(int index, Tnote& note) {
 
 void TscorePianoStaff::setNoteDisabled(int index, bool isDisabled) {
 		TscoreStaff::setNoteDisabled(index, isDisabled);
-		m_lower->setNoteDisabled(index, isDisabled);
+		lower()->setNoteDisabled(index, isDisabled);
 }
 
 
@@ -93,38 +94,38 @@ void TscorePianoStaff::setNoteDisabled(int index, bool isDisabled) {
 void TscorePianoStaff::setEnableKeySign(bool isEnabled)
 {
 	TscoreStaff::setEnableKeySign(isEnabled);
-	m_lower->setEnableKeySign(isEnabled);
+	lower()->setEnableKeySign(isEnabled);
 	if (isEnabled) {
 			scoreKey()->showKeyName(true);
 			connect(scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(upperStaffChangedKey()));
-			connect(m_lower->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(lowerStaffChangedKey()));
+			connect(lower()->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(lowerStaffChangedKey()));
 	}
 }
 
 
 void TscorePianoStaff::setScoreControler(TscoreControl* scoreControl) {
 	TscoreStaff::setScoreControler(scoreControl);
-	m_lower->setScoreControler(scoreControl);
+	lower()->setScoreControler(scoreControl);
 }
 
 
 void TscorePianoStaff::setDisabled(bool disabled) {
     TscoreStaff::setDisabled(disabled);
-		m_lower->setDisabled(disabled);
+		lower()->setDisabled(disabled);
 }
 
 		/** It overrides that method from TscoreStaff. 
 		 * In piano staff the lower displays scordature and upper has got just increased width. */
 void TscorePianoStaff::setScordature(Ttune& tune) {
-		m_lower->setScordature(tune);
-		setEnableScordtature(m_lower->hasScordature());
+		lower()->setScordature(tune);
+		setEnableScordtature(lower()->hasScordature());
 // 		TscoreStaff::setScordature(tune);
 }
 
 
 
 QRectF TscorePianoStaff::boundingRect() const {
-    return QRectF(0, 0, width() + 3, TscoreStaff::boundingRect().height() + m_lower->boundingRect().height());
+    return QRectF(0, 0, width() + 9, TscoreStaff::height() + m_lowerHeight);
 }
 
 //##########################################################################################################
@@ -132,31 +133,31 @@ QRectF TscorePianoStaff::boundingRect() const {
 //##########################################################################################################
 
 void TscorePianoStaff::upperStaffChangedKey() {
-	disconnect(m_lower->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(lowerStaffChangedKey()));
-	m_lower->scoreKey()->setKeySignature(scoreKey()->keySignature());
-	connect(m_lower->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(lowerStaffChangedKey()));
+	disconnect(lower()->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(lowerStaffChangedKey()));
+	lower()->scoreKey()->setKeySignature(scoreKey()->keySignature());
+	connect(lower()->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(lowerStaffChangedKey()));
 }
 
 void TscorePianoStaff::lowerStaffChangedKey() {
 	disconnect(scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(upperStaffChangedKey()));
-	scoreKey()->setKeySignature(m_lower->scoreKey()->keySignature());
+	scoreKey()->setKeySignature(lower()->scoreKey()->keySignature());
 	connect(scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(upperStaffChangedKey()));
 }
 
 void TscorePianoStaff::upperNoteChanged(int noteIndex) {
-	if (m_lower->noteSegment(noteIndex)->stringNumber()) // move string number up
-			noteSegment(noteIndex)->setString(m_lower->noteSegment(noteIndex)->stringNumber());
-	m_lower->noteSegment(noteIndex)->hideNote();
-	m_lower->noteSegment(noteIndex)->removeString();
+	if (lower()->noteSegment(noteIndex)->stringNumber()) // move string number up
+			noteSegment(noteIndex)->setString(lower()->noteSegment(noteIndex)->stringNumber());
+	lower()->noteSegment(noteIndex)->hideNote();
+	lower()->noteSegment(noteIndex)->removeString();
 	// no necessary to emit noteChanged - this noteChanged is emited by ancesor class
 }
 
 void TscorePianoStaff::lowerNoteChanged(int noteIndex) {
 	if (noteSegment(noteIndex)->stringNumber()) // move string number down
-			m_lower->noteSegment(noteIndex)->setString(noteSegment(noteIndex)->stringNumber());
+			lower()->noteSegment(noteIndex)->setString(noteSegment(noteIndex)->stringNumber());
 	noteSegment(noteIndex)->hideNote();
 	noteSegment(noteIndex)->removeString();
-	*(getNote(noteIndex)) = *(m_lower->getNote(noteIndex));
+	*(getNote(noteIndex)) = *(lower()->getNote(noteIndex));
 	emit noteChanged(noteIndex);
 }
 

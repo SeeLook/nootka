@@ -95,6 +95,9 @@ void TsimpleScore::clearNote(int index) {
 	m_staff->noteSegment(index)->markNote(-1);
 //   m_staff->noteSegment(index)->hideNote();
   setNote(index, Tnote(0, 0, 0));
+	if (m_staff->lower()) {
+		m_staff->lower()->noteSegment(index)->markNote(-1);
+	}
 }
 
 
@@ -244,7 +247,7 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 	m_score->setMaximumSize(m_scene->sceneRect().width(), m_scene->sceneRect().height());
   qreal staffOff = 0.0;
   if (isPianoStaff())
-    staffOff = m_score->transform().m11() * 2;
+    staffOff = m_score->transform().m11() * 5;
 	m_staff->setPos(m_score->mapToScene(staffOff, 0));
 	int xOff = 0;
 		if (m_scoreControl)
