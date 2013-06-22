@@ -33,6 +33,8 @@ public:
     
     static QColor tc, startColor, middleColor, endColor, totalColor;
     
+    void setDisabled(bool isDisabled);
+    
 protected:
     virtual void resizeIt(int myHeight);
     

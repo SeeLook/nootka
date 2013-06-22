@@ -40,15 +40,23 @@ TabstractSoundView::TabstractSoundView(QWidget* parent) :
   if (palette().window().color().red() <= MAX_DARK && palette().window().color().green() <= MAX_DARK &&
     palette().window().color().blue() <= MAX_DARK) {
 //         tc = palette().window().color().lighter(150);
-        tc = palette().text().color();
+        tc = palette().color(palette().currentColorGroup(), QPalette::Text);
 //         qDebug() << tc;
         startColor = Qt::green;
 //         middleColor = Qt::yellow;
 //         endColor = Qt::red;
   }
   else
-    tc = palette().text().color();
+    tc = palette().color(palette().currentColorGroup(), QPalette::Text);
 //         tc = palette().window().color().darker(120);
+}
+
+void TabstractSoundView::setDisabled(bool isDisabled){
+  QWidget::setDisabled(isDisabled);
+  if (isDisabled)
+    tc = palette().color(QPalette::Disabled, QPalette::Text);
+  else
+    tc = palette().color(QPalette::Active, QPalette::Text);
 }
 
 

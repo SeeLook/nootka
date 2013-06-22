@@ -59,6 +59,7 @@ public:
   void resize(int fontSize);
   void setBgColor(QColor col) { m_bgColor = col; }
   void setMinimalVolume(float vol);
+  void setDisabled(bool isDisabled);
   
 protected slots:
   void noteSlot(Tnote note);

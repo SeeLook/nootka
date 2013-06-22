@@ -120,6 +120,13 @@ void TpitchView::setMinimalVolume(float vol) {
 }
 
 
+void TpitchView::setDisabled(bool isDisabled) {
+  QWidget::setDisabled(isDisabled);
+  m_volMeter->setDisabled(isDisabled);
+  m_intoView->setDisabled(isDisabled);
+}
+
+
 
 void TpitchView::resize(int fontSize) {
   if (m_withButtons) {
