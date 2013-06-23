@@ -41,10 +41,11 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     tuneLay->setAlignment(Qt::AlignCenter);
     m_tuneCombo = new QComboBox(this);
     tuneLay->addWidget(m_tuneCombo);
-    m_tuneView = new TsimpleScore(6, this);
+    m_tuneView = new TsimpleScore(7, this);
     tuneLay->addWidget(m_tuneView);
 		m_tuneView->setClefDisabled(true);
-    m_tuneView->setClef(Tclef(Tclef::e_treble_G_8down)); // TODO global clef !!!!
+    m_tuneView->setClef(gl->Sclef); // TODO global clef !!!!
+    m_tuneView->setNoteDisabled(6, true); // 7-th is dummy to get more space
     
 //     tuneView->setFixedWidth(280);
 //     tuneView->setAmbitus(Tnote(6,-2,0),Tnote(6,1,0));
