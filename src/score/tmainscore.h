@@ -21,6 +21,7 @@
 
 #include "tsimplescore.h"
 
+class QGraphicsRectItem;
 class QGraphicsTextItem;
 class QGraphicsSimpleTextItem;
 
@@ -82,11 +83,14 @@ protected slots:
 private:
 				/** Sets notes colors and readOnlyness according to globals. */
 		void restoreNotesSettings();
+				/** Creates QGraphicsRectItem with answer color, places it under the staff and adds to m_bgRects list.
+				 * clearScore() removes it. */
+		void createBgRect(QColor c, qreal width, QPointF pos);
 
 private:
 		QGraphicsSimpleTextItem *m_questMark;
 		QGraphicsTextItem *m_questKey;
-
+		QList<QGraphicsRectItem*> m_bgRects; // list of rects with hightlights
 };
 
 #endif // TMAINSCORE_H

@@ -104,9 +104,9 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   QFont font(getAccidFont());
   m_workAccid->setFont(font);
   m_mainAccid->setFont(font);
-  m_workAccid->setText(QChar(0xe11a));
-  m_workAccid->setScale(20.0 / m_workAccid->boundingRect().height());
-  m_mainAccid->setScale(m_workAccid->scale());
+//   m_workAccid->setText(QChar(0xe11a));
+//   m_workAccid->setScale(20.0 / m_workAccid->boundingRect().height());
+//   m_mainAccid->setScale(m_workAccid->scale());
   
   setColor(m_mainColor);
   setPointedColor(m_workColor);

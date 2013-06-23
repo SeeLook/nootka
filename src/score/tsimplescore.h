@@ -110,7 +110,7 @@ protected slots:
 				 * It is necessary to call it after staff width changed f.e by:
 				 * setPianoStaff(), setEnableKeySign() and setScordature()				 */
     void resizeEvent(QResizeEvent* event);
-				/** This is response for user demand to chenge to or from piano staff. */
+				/** This is response for user demand to change to or from piano staff. */
 		void switchToPianoStaff(Tclef clef);
   
 private:

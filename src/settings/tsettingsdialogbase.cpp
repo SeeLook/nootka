@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                  				   *
+ *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -35,6 +35,7 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     navList->setIconSize(QSize(80, 80));
     navList->setFixedWidth(100);
     navList->setViewMode(QListView::IconMode);
+		navList->setMovement(QListView::Static);
 //    navList->setFlow(QListView::TopToBottom);
 //    navList->setWrapping(false);
     contLay->addWidget(navList);
