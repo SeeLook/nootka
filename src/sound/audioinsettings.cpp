@@ -206,6 +206,7 @@ void AudioInSettings::setTestDisabled(bool disabled) {
     freqLab->setText("--");
     pitchLab->setDisabled(true);
     freqLab->setDisabled(true);
+    pitchView->setDisabled(true);
     // enable the rest of widget
     inDeviceCombo->setDisabled(false);
     modeGr->setDisabled(false);
@@ -214,6 +215,7 @@ void AudioInSettings::setTestDisabled(bool disabled) {
   } else {
     pitchLab->setDisabled(false);
     freqLab->setDisabled(false);
+    pitchView->setDisabled(false);
     // disable the rest of widget
     inDeviceCombo->setDisabled(true);
     midABox->setDisabled(true);

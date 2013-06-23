@@ -42,7 +42,7 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
 {
   QHBoxLayout *lay = new QHBoxLayout;
   m_score = new TscoreView(this);
-  lay->addWidget(m_score);
+  lay->addWidget(m_score, 0, Qt::AlignLeft);
    
   m_score->setMouseTracking(true);
   m_score->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
@@ -60,8 +60,7 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
   
 	if (controler) {
 			m_scoreControl = new TscoreControl(this);
-// 			lay->addSpacing(4);
-			lay->addWidget(m_scoreControl);
+			lay->addWidget(m_scoreControl, 0, Qt::AlignRight);
 	}
   setLayout(lay);
 
@@ -253,6 +252,7 @@ void TsimpleScore::noteWasClicked(int index) {
 
 void TsimpleScore::resizeEvent(QResizeEvent* event) {
 	qreal bespinOff = 0.0; // bespin style quirks - it steals some space 
+// 	qDebug() << style()->objectName();
 	if (style()->objectName() == "bespin") 
 			bespinOff = 1.0;
   qreal factor = (((qreal)height() / 40.0) / m_score->transform().m11()) * m_pianoFactor;
@@ -260,6 +260,7 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 	m_scene->setSceneRect(0, 0, (m_staff->boundingRect().width() + bespinOff) * m_score->transform().m11(), 
 												m_staff->boundingRect().height() * m_score->transform().m11()	);
 	m_score->setMaximumSize(m_scene->sceneRect().width(), m_scene->sceneRect().height());
+//   m_score->setMinimumSize(m_scene->sceneRect().width(), m_scene->sceneRect().height());
   qreal staffOff = 0.0;
   if (isPianoStaff())
     staffOff = m_score->transform().m11() * 5;
@@ -268,6 +269,7 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 		if (m_scoreControl)
 			xOff = m_scoreControl->width() + 10; // 15 is space between m_scoreControl and m_score - looks good
 	setMaximumWidth(m_scene->sceneRect().width() + xOff);
+  setMinimumWidth(m_scene->sceneRect().width() + xOff);
 }
 
 
