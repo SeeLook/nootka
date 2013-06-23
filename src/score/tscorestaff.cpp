@@ -99,7 +99,6 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
   for (int i = 0; i < 7; i++)
     accidInKeyArray[i] = 0;
   
-  setStatusTip(tr("This is a staff"));
 }
 
 
@@ -299,9 +298,9 @@ void TscoreStaff::updateWidth() {
 	else if (m_enableScord)
 			off = KEY_WIDTH / 2;
 	if (m_scoreNotes.size())
-			m_width = 10.0 + off + m_scoreNotes.size() * m_scoreNotes[0]->boundingRect().width();
+			m_width = 10.0 + off + m_scoreNotes.size() * m_scoreNotes[0]->boundingRect().width() + 2.0;
 	else
-			m_width = 10.0 + off;
+			m_width = 10.0 + off + 2.0;
 	
 	for (int i = 0; i < m_scoreNotes.size(); i++) // update positions of the notes
 				m_scoreNotes[i]->setPos(7.0 + off + i * m_scoreNotes[0]->boundingRect().width(), 0);

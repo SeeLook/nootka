@@ -29,6 +29,7 @@
 #include <QHBoxLayout>
 #include <QMouseEvent>
 #include <QApplication>
+#include <QStyle>
 
 #include <QDebug>
 
@@ -136,9 +137,17 @@ void TsimpleScore::setClefDisabled(bool isDisabled) {
 		if (isDisabled) {
 			m_staff->scoreClef()->setReadOnly(true);
 			m_staff->scoreClef()->setIsClickable(false);
+			if (m_staff->lower()) {
+					m_staff->lower()->scoreClef()->setReadOnly(true);
+					m_staff->lower()->scoreClef()->setIsClickable(false);
+			}
 		} else {
 			m_staff->scoreClef()->setReadOnly(false);
 			m_staff->scoreClef()->setIsClickable(true);
+			if (m_staff->lower()) {
+					m_staff->lower()->scoreClef()->setReadOnly(false);
+					m_staff->lower()->scoreClef()->setIsClickable(true);
+			}
 		}
 	}
 }
@@ -209,13 +218,16 @@ void TsimpleScore::setPianoStaff(bool isPiano) {
 
 void TsimpleScore::setNoteDisabled(int index, bool isDisabled) {
 	m_staff->noteSegment(index)->setReadOnly(isDisabled);
+	if (m_staff->lower())
+			m_staff->lower()->noteSegment(index)->setReadOnly(isDisabled);
 }
 
 
 
 void TsimpleScore::setScoreDisabled(bool disabled) {
 // 	m_score->setMouseTracking(!disabled);
-	m_staff->noteSegment(0)->hideWorkNote();
+// 	qDebug() << "setScoreDisabled" << disabled;
+// 	m_staff->noteSegment(0)->hideWorkNote();
 	if (m_scoreControl)
 		m_scoreControl->setDisabled(disabled);
 	m_staff->setDisabled(disabled);
@@ -240,9 +252,12 @@ void TsimpleScore::noteWasClicked(int index) {
 
 
 void TsimpleScore::resizeEvent(QResizeEvent* event) {
+	qreal bespinOff = 0.0; // bespin style quirks - it steals some space 
+	if (style()->objectName() == "bespin") 
+			bespinOff = 1.0;
   qreal factor = (((qreal)height() / 40.0) / m_score->transform().m11()) * m_pianoFactor;
   m_score->scale(factor, factor);
-	m_scene->setSceneRect(0, 0, m_staff->boundingRect().width() * m_score->transform().m11(), 
+	m_scene->setSceneRect(0, 0, (m_staff->boundingRect().width() + bespinOff) * m_score->transform().m11(), 
 												m_staff->boundingRect().height() * m_score->transform().m11()	);
 	m_score->setMaximumSize(m_scene->sceneRect().width(), m_scene->sceneRect().height());
   qreal staffOff = 0.0;

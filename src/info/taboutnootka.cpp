@@ -47,6 +47,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     navList->setIconSize(QSize(80,80));
     navList->setFixedWidth(110);
     navList->setViewMode(QListView::IconMode);
+		navList->setMovement(QListView::Static);
 //     navList->setFlow(QListView::TopToBottom);
     abLay->addWidget(navList);
 

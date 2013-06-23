@@ -25,6 +25,7 @@
 #include "ttune.h"
 #include "tglobals.h"
 #include <tgraphicstexttip.h>
+#include <QPen>
 
 
 extern Tglobals *gl;
@@ -101,16 +102,13 @@ void TmainScore::setScordature() {
 
 void TmainScore::unLockScore() {
 	setScoreDisabled(false);
-	staff()->noteSegment(1)->setReadOnly(true);
-	staff()->noteSegment(2)->setReadOnly(true);
-	if (staff()->lower()) {
-			staff()->lower()->noteSegment(1)->setReadOnly(true);
-			staff()->lower()->noteSegment(2)->setReadOnly(true);
-	}
+	setNoteDisabled(1, true);
+	setNoteDisabled(2, true);
     if (m_questMark) { // question mark exists only when exam is performing
       setBGcolor(gl->mergeColors(gl->EanswerColor, palette().window().color()));
 			setNoteViewBg(0, gl->EanswerColor);
     }
+  setClefDisabled(true);
 }
 
 
@@ -125,17 +123,21 @@ void TmainScore::isExamExecuting(bool isIt) {
 			m_questMark = new QGraphicsSimpleTextItem();
 			m_questMark->hide();
 		#if defined(Q_OS_MACX)
-			m_questMark->setFont(QFont("nootka", 12));
-		#else
 			m_questMark->setFont(QFont("nootka", 10));
+		#else
+			m_questMark->setFont(QFont("nootka", 8));
 		#endif
 			m_questMark->setParentItem(staff()->noteSegment(2));
 			QColor c = gl->EquestionColor;
 			c.setAlpha(220);
 			staff()->noteSegment(1)->setColor(c);
+			if (staff()->lower()) {
+				staff()->lower()->noteSegment(1)->setColor(c);
+			}
 			m_questMark->setBrush(QBrush(c));
 			m_questMark->setText("?");
 			m_questMark->setPos(0, (staff()->boundingRect().height() - m_questMark->boundingRect().height()) / 2 );
+			setClefDisabled(true);
     } else {
         connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
         disconnect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
@@ -143,6 +145,7 @@ void TmainScore::isExamExecuting(bool isIt) {
         m_questMark = 0;
         delete m_questKey;
         m_questKey = 0;
+				setClefDisabled(false);
     }
 }
 
@@ -150,10 +153,15 @@ void TmainScore::isExamExecuting(bool isIt) {
 void TmainScore::clearScore() {
 	clearNote(0);
 	clearNote(1);
+	clearNote(2);
 	staff()->noteSegment(1)->removeString(); // so far string number to remove occur only on this view
+	staff()->noteSegment(0)->hideWorkNote();
+	if (staff()->lower()) {
+		staff()->lower()->noteSegment(1)->removeString();
+		staff()->lower()->noteSegment(0)->hideWorkNote();
+	}
 	if (staff()->scoreKey()) {
 			setKeySignature(TkeySignature());
-			setKeyViewBg(-1);
 			if (m_questKey) {
 				delete m_questKey;
 				m_questKey = 0;
@@ -161,8 +169,10 @@ void TmainScore::clearScore() {
     }
 	if (scoreControler())
 		scoreControler()->setAccidental(0); // reset buttons with accidentals
+	for(int i = 0; i < m_bgRects.size(); i++)
+		delete m_bgRects[i];
+	m_bgRects.clear();
 	m_questMark->hide();
-	setNoteViewBg(0, -1);
 	setBGcolor(palette().base().color());
 }
 
@@ -217,17 +227,14 @@ void TmainScore::prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName
 
 
 void TmainScore::setKeyViewBg(QColor C) {
-		if (staff()->scoreKey())
-			staff()->scoreKey()->setBackgroundColor(C);
-		if (staff()->lower())
-			staff()->lower()->scoreKey()->setBackgroundColor(C);
+	if (staff()->scoreKey()) {
+			createBgRect(C, staff()->scoreKey()->boundingRect().width(), staff()->scoreKey()->pos());
+	}
 }
 
 
 void TmainScore::setNoteViewBg(int id, QColor C) {
-		staff()->noteSegment(id)->setBackgroundColor(C);
-		if (staff()->lower())
-			staff()->lower()->noteSegment(id)->setBackgroundColor(C);
+		createBgRect(C, staff()->noteSegment(id)->boundingRect().width(), staff()->noteSegment(id)->pos());
 }
 
 //####################################################################################################
@@ -292,6 +299,17 @@ void TmainScore::restoreNotesSettings() {
 		}
 }
 
+
+void TmainScore::createBgRect(QColor c, qreal width, QPointF pos) {
+		QGraphicsRectItem* bgRect = new QGraphicsRectItem;
+		bgRect->setParentItem(staff());
+		bgRect->setRect(0, 0, width, staff()->boundingRect().height());
+		bgRect->setPos(pos);
+		bgRect->setZValue(1);
+		bgRect->setPen(QPen(Qt::NoPen));
+		bgRect->setBrush(c);
+		m_bgRects << bgRect;
+}
 
 
 
