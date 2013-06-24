@@ -24,9 +24,10 @@
 #include "tscorecontrol.h"
 #include "tscorescordature.h"
 #include "tnote.h"
-#include <QGraphicsView>
+#include <QApplication>
+#include <QPalette>
 
-#include <QDebug>
+// #include <QDebug>
 
 
 TnoteOffset::TnoteOffset(int noteOff, int octaveOff) :
@@ -91,7 +92,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
   for (int i = 0; i < 5; i++) {
     m_lines[i] = new QGraphicsLineItem();
     registryItem(m_lines[i]);
-    m_lines[i]->setPen(QPen(scene->views()[0]->palette().text().color(), 0.2));
+    m_lines[i]->setPen(QPen(qApp->palette().text().color(), 0.1));
     m_lines[i]->setLine(1, upperLinePos() + i * 2, boundingRect().width() - 2, upperLinePos() + i * 2);
     m_lines[i]->setZValue(5);
   }

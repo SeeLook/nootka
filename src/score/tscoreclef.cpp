@@ -22,7 +22,8 @@
 #include "tclefselector.h"
 #include "tclef.h"
 #include <QGraphicsSceneHoverEvent>
-#include <QGraphicsView>
+#include <QApplication>
+#include <QPalette>
 #include <unistd.h>
 
 
@@ -68,7 +69,7 @@ TscoreClef::TscoreClef(TscoreScene* scene, TscoreStaff* staff, Tclef clef) :
   
   m_textClef = new QGraphicsSimpleTextItem();
   registryItem(m_textClef);
-  m_textClef->setBrush(scene->views()[0]->palette().text().color());
+  m_textClef->setBrush(qApp->palette().text().color());
   
   QFont f("nootka");
   f.setPixelSize(18);

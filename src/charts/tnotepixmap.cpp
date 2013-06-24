@@ -22,10 +22,43 @@
 #include "tquestionpoint.h"
 #include "tqaunit.h"
 #include "tscorenote.h"
+#include "tscorescene.h"
+#include "tscoreclef.h"
+#include "tscorekeysignature.h"
+#include <tscorepianostaff.h>
 #include <QPainter>
 #include <QApplication>
 #include <QPalette>
 #include <QDebug>
+
+
+QPixmap getNotePixmap(Tnote note, Tclef::Etype clef, TkeySignature key, qreal factor) {
+		TscoreScene *scene = new TscoreScene();
+		int notesCount = 1;
+		if (note.note == 0) // no note in preview
+					notesCount = 0;
+		TscoreStaff *staff; 
+		if (clef == Tclef::e_pianoStaff)
+				staff = new TscorePianoStaff(scene, notesCount);
+		else {
+				staff =	new TscoreStaff(scene, notesCount);
+				staff->scoreClef()->setClef(Tclef(clef));
+		}
+		if (key.value()) {
+				staff->setEnableKeySign(true);
+				staff->scoreKey()->setKeySignature(key.value());
+		}
+		if (notesCount)
+				staff->setNote(0, note);
+		staff->setScale(factor);
+		
+		QPixmap pix(scene->width(), scene->height());    
+		pix.fill(Qt::transparent); // white background
+		QPainter painter(&pix);
+		scene->render(&painter);
+		delete scene;
+		return pix;
+}
 
 
 QPixmap getNotePixmap(Tnote note, bool clef, TkeySignature key, double factor) {
