@@ -56,21 +56,21 @@ QPixmap getNotePixmap(Tnote note, Tclef::Etype clef, TkeySignature key, qreal fa
 				if (staff->noteSegment(0)->notePos()) {
 					if (staff->noteSegment(0)->notePos() < staff->upperLinePos() - 3) { // note above a staff
 						topPix = staff->noteSegment(0)->notePos() - 2;
-						bottomPix = staff->upperLinePos() + 13;
+						bottomPix = staff->upperLinePos() + 14;
 					} else if (staff->noteSegment(0)->notePos() < staff->upperLinePos() + 10) { // note on a staff
-						topPix = staff->upperLinePos() - 3;
-						bottomPix = staff->upperLinePos() + 13;
+						topPix = staff->upperLinePos() - 4;
+						bottomPix = staff->upperLinePos() + 14;
 					} else { // note placed below staff
-						topPix = staff->upperLinePos() - 3;
-						bottomPix = staff->noteSegment(0)->notePos() + 2;
+						topPix = staff->upperLinePos() - 4;
+						bottomPix = staff->noteSegment(0)->notePos() + 3;
 					}
 				} else { // piano staff
 					if (clef == Tclef::e_pianoStaff && staff->lower()) {
-						topPix = staff->upperLinePos() - 3;
+						topPix = staff->upperLinePos() - 4;
 						if (staff->lower()->noteSegment(0)->notePos() < staff->lower()->upperLinePos() + 13)
-								bottomPix = staff->lower()->pos().y() + staff->lower()->upperLinePos() + 13; // note in lower staff
+								bottomPix = staff->lower()->pos().y() + staff->lower()->upperLinePos() + 14; // note in lower staff
 						else // note below lower staff
-								bottomPix = staff->lower()->pos().y() + staff->lower()->noteSegment(0)->notePos() + 2;
+								bottomPix = staff->lower()->pos().y() + staff->lower()->noteSegment(0)->notePos() + 3;
 					}
 					
 				}
