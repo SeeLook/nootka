@@ -44,11 +44,10 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     m_tuneView = new TsimpleScore(7, this);
     tuneLay->addWidget(m_tuneView);
 		m_tuneView->setClefDisabled(true);
-    m_tuneView->setClef(gl->Sclef); // TODO global clef !!!!
+    m_tuneView->setClef(gl->Sclef); 
     m_tuneView->setNoteDisabled(6, true); // 7-th is dummy to get more space
     
-//     tuneView->setFixedWidth(280);
-//     tuneView->setAmbitus(Tnote(6,-2,0),Tnote(6,1,0));
+// TODO    tuneView->setAmbitus(Tnote(6,-2,0),Tnote(6,1,0));
     setTune(gl->Gtune());
     m_tuneCombo->addItem(Ttune::stdTune.name);
     if (gl->Gtune() == Ttune::stdTune)

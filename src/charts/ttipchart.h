@@ -21,6 +21,7 @@
 
 #include <tgraphicstexttip.h>
 #include "tqatype.h"
+#include <tclef.h>
 
 
 class TquestionPoint;
@@ -42,7 +43,8 @@ public:
   virtual ~TtipChart();
   
       /** Returns html sting with note pixmap generated from @param point. */
-  static QString wrapPixToHtml( Tnote note, bool clef, TkeySignature key, double factor = 4);
+  static QString wrapPixToHtml( Tnote note, Tclef::Etype clef, TkeySignature key, qreal factor = 4.0);
+  static QString wrapPixToHtml( Tnote note, bool defaultClef, TkeySignature key, qreal factor = 4.0);
       /** Returns html string with question mark in nootka font. */
   static QString insertQMark();
   

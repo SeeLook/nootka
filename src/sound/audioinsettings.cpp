@@ -207,7 +207,7 @@ void AudioInSettings::setTestDisabled(bool disabled) {
     pitchLab->setDisabled(true);
     freqLab->setDisabled(true);
     pitchView->setDisabled(true);
-    // enable the rest of widget
+// enable the rest of widget
     inDeviceCombo->setDisabled(false);
     modeGr->setDisabled(false);
     midABox->setDisabled(false);
@@ -216,7 +216,7 @@ void AudioInSettings::setTestDisabled(bool disabled) {
     pitchLab->setDisabled(false);
     freqLab->setDisabled(false);
     pitchView->setDisabled(false);
-    // disable the rest of widget
+// disable the rest of widget
     inDeviceCombo->setDisabled(true);
     midABox->setDisabled(true);
     modeGr->setDisabled(true);
@@ -240,13 +240,6 @@ void AudioInSettings::grabParams(TaudioParams *params) {
 
 
 void AudioInSettings::saveSettings() {
-//   qDebug() << "AudioInSettings::saveSettings";
-//   if (m_audioIn) {
-//     volMeter->stopVolume();
-//     m_audioIn->stopListening();
-//     delete m_audioIn;
-//     m_audioIn = 0;
-//   }
   if (m_listGenerated)
       grabParams(m_glParams);
 }

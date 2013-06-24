@@ -33,7 +33,12 @@ QString TtipChart::insertQMark() {
     return QString("<span style=\"color: red; font-family: nootka; font-size: 45px;\">?</span>");
 }
 
-QString TtipChart::wrapPixToHtml(Tnote note, bool clef, TkeySignature key, double factor) {
+QString TtipChart::wrapPixToHtml(Tnote note, bool defaultClef, TkeySignature key, qreal factor) {
+  return wrapPixToHtml(note, Tclef::e_treble_G_8down, key, factor);
+}
+
+
+QString TtipChart::wrapPixToHtml(Tnote note, Tclef::Etype clef, TkeySignature key, qreal factor) {
     QPixmap pixmap = getNotePixmap(note, clef, key, factor);
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
