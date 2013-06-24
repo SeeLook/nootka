@@ -30,9 +30,6 @@ class TQAunit;
 
 			/**  Returns QPixmap with given note. 
 			* @param factor determines its size	*/
-QPixmap getNotePixmap(Tnote note, bool clef = true, 
-                      TkeySignature key = TkeySignature(0), double factor = 4);
-
 QPixmap getNotePixmap(Tnote note, Tclef::Etype clef = Tclef::e_treble_G, 
                       TkeySignature key = TkeySignature(0), qreal factor = 4.0);
 
@@ -41,7 +38,6 @@ QPixmap getNotePixmap(Tnote note, Tclef::Etype clef = Tclef::e_treble_G,
  * If @param fontSize remains default - default fontSize is taken. */
 QString wasAnswerOKtext(TQAunit *answer, QColor textColor, int fontSize = -1);
 
-qreal getPosOfAccidental(int accid);
 
 
 
