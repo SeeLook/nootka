@@ -24,7 +24,8 @@
 #include "tnote.h"
 #include <QFont>
 #include <QFontMetrics>
-#include <QGraphicsView>
+#include <QApplication>
+#include <QPalette>
 #include <qrawfont.h>
 
 // #include <QDebug>
@@ -54,7 +55,7 @@ TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
 	qreal distance = lower()->pos().y() + lower()->upperLinePos() + 8 - upperLinePos();
 	qreal fact = (distance + 2.0) / brace->boundingRect().height();
 	brace->setScale(fact);
-	brace->setBrush(scene->views()[0]->palette().text().color());
+	brace->setBrush(qApp->palette().text().color());
 	brace->setPos(-2.0, upperLinePos() + distance / 2 - (brace->boundingRect().height() * brace->scale()) / 2 + 0.4);
 }
 

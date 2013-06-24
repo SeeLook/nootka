@@ -24,8 +24,9 @@
 #include <QGraphicsEffect>
 #include <QGraphicsSceneHoverEvent>
 #include <QPainter>
-#include <QGraphicsView>
-#include <QDebug>
+#include <QApplication>
+#include <QPalette>
+// #include <QDebug>
 
 
 /*static*/
@@ -61,9 +62,9 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   setStaff(staff);
 	setParentItem(staff);
   m_height = staff->height();
-  m_workColor = scene->views()[0]->palette().highlight().color();
+  m_workColor = qApp->palette().highlight().color();
   m_workColor.setAlpha(200);
-  m_mainColor = scene->views()[0]->palette().text().color();
+  m_mainColor = qApp->palette().text().color();
   
   int i = staff->upperLinePos() - 2;
   while (i > 0) {

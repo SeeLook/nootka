@@ -23,6 +23,7 @@
 #include "tscorestaff.h"
 #include <QGraphicsView>
 #include <QGraphicsSceneHoverEvent>
+#include <QApplication>
 #include <QDebug>
 
 char TscoreKeySignature::m_posOfAccid[7] = {
@@ -53,7 +54,7 @@ TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, TscoreStaff* staff, c
   for (int i = 0; i < 7; i++) {
         m_accidentals[i] = new QGraphicsSimpleTextItem();
         registryItem(m_accidentals[i]);
-        m_accidentals[i]->setBrush(scene->views()[0]->palette().text().color());
+        m_accidentals[i]->setBrush(qApp->palette().text().color());
         m_accidentals[i]->setFont(font);
         m_accidentals[i]->hide();
 	}

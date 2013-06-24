@@ -21,6 +21,7 @@
 #include "tglobals.h"
 #include "tkeysignature.h"
 #include "tcolorbutton.h"
+#include <tnotepixmap.h>
 #include <QtGui>
 
 extern Tglobals *gl;
@@ -85,6 +86,7 @@ ScoreSettings::ScoreSettings(QWidget *parent) :
     notePointColorBut = new TcolorButton(gl->SpointerColor, this);
     colLay->addWidget(colLab);
     colLay->addWidget(notePointColorBut);
+		
     mainLay->addLayout(colLay);
 
     setLayout(mainLay);
