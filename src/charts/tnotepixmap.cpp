@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,6 +29,8 @@
 #include <QPainter>
 #include <QPalette>
 
+#include <QDebug>
+
 
 QPixmap getNotePixmap(Tnote note, Tclef::Etype clef, TkeySignature key, qreal factor) {
 		TscoreScene *scene = new TscoreScene();
@@ -47,14 +49,39 @@ QPixmap getNotePixmap(Tnote note, Tclef::Etype clef, TkeySignature key, qreal fa
 				staff->setEnableKeySign(true);
 				staff->scoreKey()->setKeySignature(key.value());
 		}
-		if (notesCount)
+	// determine pixmap height by note position to avoid empty spaces above or below a staff
+		int topPix = 0, bottomPix = staff->boundingRect().height();
+		if (notesCount) {
 				staff->setNote(0, note);
+				if (staff->noteSegment(0)->notePos()) {
+					if (staff->noteSegment(0)->notePos() < staff->upperLinePos() - 3) { // note above a staff
+						topPix = staff->noteSegment(0)->notePos() - 2;
+						bottomPix = staff->upperLinePos() + 13;
+					} else if (staff->noteSegment(0)->notePos() < staff->upperLinePos() + 10) { // note on a staff
+						topPix = staff->upperLinePos() - 3;
+						bottomPix = staff->upperLinePos() + 13;
+					} else { // note placed below staff
+						topPix = staff->upperLinePos() - 3;
+						bottomPix = staff->noteSegment(0)->notePos() + 2;
+					}
+				} else { // piano staff
+					if (clef == Tclef::e_pianoStaff && staff->lower()) {
+						topPix = staff->upperLinePos() - 3;
+						if (staff->lower()->noteSegment(0)->notePos() < staff->lower()->upperLinePos() + 13)
+								bottomPix = staff->lower()->pos().y() + staff->lower()->upperLinePos() + 13; // note in lower staff
+						else // note below lower staff
+								bottomPix = staff->lower()->pos().y() + staff->lower()->noteSegment(0)->notePos() + 2;
+					}
+					
+				}
+		}
 		staff->setScale(factor);
 		
-		QPixmap pix(scene->width(), scene->height());    
-		pix.fill(Qt::transparent); // white background
+		QPixmap pix(scene->width(), qRound((bottomPix - topPix) * factor));
+		pix.fill(Qt::transparent);
 		QPainter painter(&pix);
-		scene->render(&painter);
+		QRectF rect(0, 0, scene->width(), (bottomPix - topPix) * factor);
+		scene->render(&painter, rect, QRectF(QPointF(0, topPix * factor), pix.size()));
 		delete scene;
 		return pix;
 }
