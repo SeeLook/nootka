@@ -76,7 +76,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
     QGridLayout *strLay = new QGridLayout;
     for (int i=0; i<6; i++) {
         m_stringBut[i] = new QCheckBox(QString("%1").arg(i+1),this);
-        m_stringBut[i]->setFont(QFont("nootka", qRound(font().pointSize()*1.5), QFont::Normal));
+        m_stringBut[i]->setFont(QFont("nootka", qRound(font().pointSize() * 2), QFont::Normal));
         m_stringBut[i]->setChecked(true);
         connect(m_stringBut[i], SIGNAL(clicked()), this, SLOT(stringSelected()));
         connect(m_stringBut[i], SIGNAL(clicked()), this, SLOT(whenParamsChanged()));

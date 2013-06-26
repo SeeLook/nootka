@@ -23,7 +23,7 @@
 #include "ttune.h"
 #include "tsettingsdialogbase.h"
 #include "namesettings.h"
-#include "scoresettings.h"
+#include "tscoresettings.h"
 #include <QMap>
 
 class TguitarSettings;
@@ -70,7 +70,7 @@ public slots:
 private:
 
     GlobalSettings    *m_globalSett;
-    ScoreSettings     *m_scoreSett;
+    TscoreSettings     *m_scoreSett;
     NameSettings      *m_nameSett;
     TguitarSettings    *m_guitarSett;
     ExamSettings      *m_examSett;

@@ -20,24 +20,39 @@
 #define TSELECTCLEF_H
 
 #include <QObject>
+#include <tclef.h>
 
+class QToolBar;
 class QAction;
-class QWidget;
 class QMenu;
+
+
+/** 
+ * This class is to select a clef (or piano staff)
+ * It can be like context menu or like QToolBar depends on constructor parameter.
+ */
 class TselectClef : public QObject
 {
     Q_OBJECT
 
 public:
     TselectClef(QMenu *parent);
-    TselectClef(QWidget *parent);
+    TselectClef(QToolBar *parent);
+		
     ~TselectClef();
+		
+		
+		void selectClef(Tclef clef);
 
 private:
     void createActions();
+		QAction* getAction(Tclef clef);
     
 private:
-    QAction *m_trebleAct, *m_treble_8Act, *m_bassAct, *m_bass_8Act, *m_tenorAct, *m_altoAct, *m_pianoAct;
+		QObject 	*m_parent; // QMenu or QToolBar
+    QAction 	*m_trebleAct, *m_treble_8Act, *m_bassAct, *m_bass_8Act, *m_tenorAct, *m_altoAct, *m_pianoAct;
+		QMenu 		*m_menu;
+		QToolBar 	*m_toolBar;
 
 };
 

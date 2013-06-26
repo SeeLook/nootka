@@ -18,25 +18,76 @@
 
 
 #include "tselectclef.h"
+#include <tnotepixmap.h>
+#include <QAction>
+#include <QMenu>
+#include <qtoolbar.h>
 
 TselectClef::TselectClef(QMenu* parent) :
-  QObject(parent)
+  QObject(parent),
+  m_menu(parent),
+  m_toolBar(0),
+  m_parent(parent)
 {
+	createActions();
+// 	m_menu->set
+// 	menu->setStyleSheet(" QMenu { "
+// "   icon-size: 32px; "
+// " } " );
+// 	QMenu::icon {
+//   padding-left: 20px;
+// }
 }
 
 
-TselectClef::TselectClef(QWidget* parent) :
-  QObject(parent)
+TselectClef::TselectClef(QToolBar* parent) :
+  QObject(parent),
+  m_toolBar(parent),
+  m_menu(0),
+  m_parent(0)
 {
-
+	createActions();
+	m_toolBar->setIconSize(QSize(40, 56));
 }
 
 
 TselectClef::~TselectClef()
+{}
+
+
+void TselectClef::selectClef(Tclef clef)
 {
+
 }
 
+
+//######################################################################
+//#################################### PRIVATE #########################
+//######################################################################
 
 void TselectClef::createActions() {
-
+		m_trebleAct = getAction(Tclef(Tclef::e_treble_G));
+		m_treble_8Act = getAction(Tclef(Tclef::e_treble_G_8down));
+		m_bassAct = getAction(Tclef(Tclef::e_bass_F));
+		m_bass_8Act = getAction(Tclef(Tclef::e_bass_F_8down));
+		m_altoAct = getAction(Tclef(Tclef::e_alto_C));
+		m_tenorAct = getAction(Tclef(Tclef::e_tenor_C));
+		m_pianoAct = getAction(Tclef(Tclef::e_pianoStaff));
 }
+
+
+QAction* TselectClef::getAction(Tclef clef) {
+		QIcon clefIcon(getNotePixmap(Tnote(0, 0, 0), clef.type()));
+		QAction *action = new QAction(clefIcon, clef.name(), m_parent);
+		action->setStatusTip("<b>" + clef.name() + "</b> (" + clef.desc() + ")");
+		action->setCheckable(true);
+		if (m_menu)
+				m_menu->addAction(action);
+		else
+				m_toolBar->addAction(action);
+		return action;
+}
+
+
+
+
