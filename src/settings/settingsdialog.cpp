@@ -165,7 +165,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     
     
     m_globalSett = new GlobalSettings();
-    m_scoreSett = new ScoreSettings();
+    m_scoreSett = new TscoreSettings();
     m_nameSett = new NameSettings();
     m_guitarSett = new TguitarSettings();
     m_examSett = new ExamSettings(gl->E, &gl->EquestionColor, &gl->EanswerColor, &gl->EnotBadColor);

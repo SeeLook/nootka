@@ -248,7 +248,8 @@ void TscoreNote::markNote(QColor blurColor) {
 void TscoreNote::setString(int realNr) {
 	if (!m_stringText) {
         m_stringText = new QGraphicsSimpleTextItem();
-        m_stringText->setFont(m_mainAccid->font());
+//         m_stringText->setFont(m_mainAccid->font());
+				m_stringText->setFont(QFont("nootka", 5, QFont::Normal));
         m_stringText->setBrush(QBrush(m_mainColor));
         m_stringText->setParentItem(this);
         m_stringText->setZValue(-1);
