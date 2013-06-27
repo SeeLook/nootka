@@ -19,35 +19,74 @@
 
 #include "tselectclef.h"
 #include <tnotepixmap.h>
+#include <ttipchart.h>
 #include <QAction>
 #include <QMenu>
 #include <qtoolbar.h>
+#include <QVBoxLayout>
+#include <QLabel>
 
-TselectClef::TselectClef(QMenu* parent) :
-  QObject(parent),
-  m_menu(parent),
-  m_toolBar(0),
-  m_parent(parent)
+
+
+//##################################################################################################
+
+TselectClefPrivate::TselectClefPrivate(bool isMenu, QWidget* parent) :
+	QWidget(parent)
 {
-	createActions();
-// 	m_menu->set
-// 	menu->setStyleSheet(" QMenu { "
-// "   icon-size: 32px; "
-// " } " );
-// 	QMenu::icon {
-//   padding-left: 20px;
-// }
+	treble = new TradioClef(Tclef(Tclef::e_treble_G), parent, isMenu);
+	treble_8 = new TradioClef(Tclef(Tclef::e_treble_G_8down), parent, isMenu);
+	bass = new TradioClef(Tclef(Tclef::e_bass_F), parent, isMenu);
+	bass_8 = new TradioClef(Tclef(Tclef::e_bass_F_8down), parent, isMenu);
+	alto = new TradioClef(Tclef(Tclef::e_alto_C), parent, isMenu);
+	tenor = new TradioClef(Tclef(Tclef::e_tenor_C), parent, isMenu);
+	piano = new TradioClef(Tclef(Tclef::e_pianoStaff), parent, isMenu);
+	
+	QBoxLayout *lay = new QBoxLayout(QBoxLayout::LeftToRight);
+	if (isMenu)
+		lay->setDirection(QBoxLayout::TopToBottom);
+// 	else
+// 		lay->setDirection(Qt::Horizontal);
+	lay->addWidget(treble);
+	lay->addWidget(treble_8);
+	lay->addWidget(bass);
+	lay->addWidget(bass_8);
+	lay->addWidget(alto);
+	lay->addWidget(tenor);
+	lay->addWidget(piano);
+	
+	setLayout(lay);
+}
+
+//####################################################################################################
+
+
+TradioClef::TradioClef(Tclef clef, QWidget* parent, bool isMenu) :
+	QWidget(parent),
+	m_clef(clef)
+{
+		QHBoxLayout *lay = new QHBoxLayout;
+		m_radio = new QRadioButton(this);
+		lay->addWidget(m_radio);
+		
+		QString text = TtipChart::wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0, 2.5);
+		if (isMenu)
+			text += m_clef.name();
+		QLabel *label = new QLabel(text, this);
+		if (isMenu)
+				lay->addWidget(label, 0, Qt::AlignLeft);
+		else 
+				lay->addWidget(label, 0, Qt::AlignHCenter);
+		lay->addStretch();
+		setLayout(lay);
 }
 
 
-TselectClef::TselectClef(QToolBar* parent) :
-  QObject(parent),
-  m_toolBar(parent),
-  m_menu(0),
-  m_parent(0)
+//####################################################################################################
+
+TselectClef::TselectClef(QWidget* parent) :
+	TselectClefPrivate(false, parent)
 {
-	createActions();
-	m_toolBar->setIconSize(QSize(40, 56));
+
 }
 
 
@@ -61,32 +100,15 @@ void TselectClef::selectClef(Tclef clef)
 }
 
 
-//######################################################################
-//#################################### PRIVATE #########################
-//######################################################################
-
-void TselectClef::createActions() {
-		m_trebleAct = getAction(Tclef(Tclef::e_treble_G));
-		m_treble_8Act = getAction(Tclef(Tclef::e_treble_G_8down));
-		m_bassAct = getAction(Tclef(Tclef::e_bass_F));
-		m_bass_8Act = getAction(Tclef(Tclef::e_bass_F_8down));
-		m_altoAct = getAction(Tclef(Tclef::e_alto_C));
-		m_tenorAct = getAction(Tclef(Tclef::e_tenor_C));
-		m_pianoAct = getAction(Tclef(Tclef::e_pianoStaff));
+//####################################################################################################
+TclefMenu::TclefMenu(QWidget* parent) :
+	TselectClefPrivate(true, parent),
+	QMenu(parent)
+{
+	QMenu::setLayout(TselectClefPrivate::layout());
 }
 
 
-QAction* TselectClef::getAction(Tclef clef) {
-		QIcon clefIcon(getNotePixmap(Tnote(0, 0, 0), clef.type()));
-		QAction *action = new QAction(clefIcon, clef.name(), m_parent);
-		action->setStatusTip("<b>" + clef.name() + "</b> (" + clef.desc() + ")");
-		action->setCheckable(true);
-		if (m_menu)
-				m_menu->addAction(action);
-		else
-				m_toolBar->addAction(action);
-		return action;
-}
 
 
 

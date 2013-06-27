@@ -90,9 +90,9 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
 		
 		mainLay->addLayout(colLay);
 		
-		m_clefBar = new QToolBar(this);
-		m_clefSelector = new TselectClef(m_clefBar);
-		mainLay->addWidget(m_clefBar, 0, Qt::AlignCenter);
+// 		m_clefBar = new QToolBar(this);
+		m_clefSelector = new TselectClef(this);
+		mainLay->addWidget(m_clefSelector, 0, Qt::AlignCenter);
 		
 
     setLayout(mainLay);
