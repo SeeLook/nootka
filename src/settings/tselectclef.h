@@ -36,6 +36,9 @@ public:
 		Tclef clef() { return m_clef; }
 		void setChecked(bool checked);
 		
+protected:
+    bool event(QEvent *event);
+    
 private:
 		QRadioButton *m_radio;
 		Tclef					m_clef;
@@ -51,6 +54,7 @@ public:
 		
 protected:
     TradioClef 	*treble, *treble_8, *bass, *bass_8, *tenor, *alto, *piano;
+    
 };
 
 

@@ -25,6 +25,7 @@
 #include <qtoolbar.h>
 #include <QVBoxLayout>
 #include <QLabel>
+#include <QEvent>
 
 
 
@@ -57,6 +58,7 @@ TselectClefPrivate::TselectClefPrivate(bool isMenu, QWidget* parent) :
 	setLayout(lay);
 }
 
+
 //####################################################################################################
 
 
@@ -68,16 +70,22 @@ TradioClef::TradioClef(Tclef clef, QWidget* parent, bool isMenu) :
 		m_radio = new QRadioButton(this);
 		lay->addWidget(m_radio);
 		
-		QString text = TtipChart::wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0, 2.5);
-		if (isMenu)
-			text += m_clef.name();
-		QLabel *label = new QLabel(text, this);
-		if (isMenu)
-				lay->addWidget(label, 0, Qt::AlignLeft);
-		else 
-				lay->addWidget(label, 0, Qt::AlignHCenter);
+		QLabel *pixLabel = new QLabel(TtipChart::wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0, 3.0), this);
+    lay->addWidget(pixLabel);
+    if (isMenu) {
+        QLabel *textLabel = new QLabel(m_clef.name(), this);
+        lay->addWidget(textLabel);
+    }
 		lay->addStretch();
 		setLayout(lay);
+}
+
+bool TradioClef::event(QEvent* event) {
+    if (event->type() == QEvent::Leave)
+        setStyleSheet("background-color: transparent;");
+    else if (event->type() == QEvent::Enter)
+        setStyleSheet("background-color: palette(highlight);");
+    return QWidget::event(event);
 }
 
 
