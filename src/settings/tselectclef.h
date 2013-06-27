@@ -20,40 +20,64 @@
 #define TSELECTCLEF_H
 
 #include <QObject>
+#include <QWidget>
+#include <QRadioButton>
+#include <QMenu>
 #include <tclef.h>
 
-class QToolBar;
-class QAction;
-class QMenu;
+
+class TradioClef : public QWidget
+{
+	
+public:
+		explicit TradioClef(Tclef clef, QWidget* parent = 0, bool isMenu = false);
+		
+		QRadioButton* radio() { return m_radio; }
+		Tclef clef() { return m_clef; }
+		void setChecked(bool checked);
+		
+private:
+		QRadioButton *m_radio;
+		Tclef					m_clef;
+	
+};
+
+//####################################################################################################
+class TselectClefPrivate : public QWidget
+{
+	
+public:
+		TselectClefPrivate(bool isMenu, QWidget *parent);
+		
+protected:
+    TradioClef 	*treble, *treble_8, *bass, *bass_8, *tenor, *alto, *piano;
+};
 
 
+//####################################################################################################
 /** 
  * This class is to select a clef (or piano staff)
- * It can be like context menu or like QToolBar depends on constructor parameter.
  */
-class TselectClef : public QObject
+class TselectClef : public TselectClefPrivate
 {
     Q_OBJECT
 
 public:
-    TselectClef(QMenu *parent);
-    TselectClef(QToolBar *parent);
+    TselectClef(QWidget *parent);
 		
     ~TselectClef();
-		
-		
 		void selectClef(Tclef clef);
-
-private:
-    void createActions();
-		QAction* getAction(Tclef clef);
     
-private:
-		QObject 	*m_parent; // QMenu or QToolBar
-    QAction 	*m_trebleAct, *m_treble_8Act, *m_bassAct, *m_bass_8Act, *m_tenorAct, *m_altoAct, *m_pianoAct;
-		QMenu 		*m_menu;
-		QToolBar 	*m_toolBar;
-
 };
+
+//####################################################################################################
+class TclefMenu : public QMenu, public TselectClefPrivate
+{
+		
+public:
+		TclefMenu(QWidget* parent = 0);
+	
+};
+
 
 #endif // TSELECTCLEF_H

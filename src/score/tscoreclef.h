@@ -61,7 +61,7 @@ signals:
 		void switchPianoStaff(Tclef);
     
 protected:
-    void wheelEvent(QGraphicsSceneWheelEvent* event);
+//     void wheelEvent(QGraphicsSceneWheelEvent* event);
 		void mousePressEvent(QGraphicsSceneMouseEvent* event);
 		
 protected slots:

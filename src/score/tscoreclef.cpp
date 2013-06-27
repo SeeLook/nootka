@@ -21,11 +21,13 @@
 #include "tscorestaff.h"
 #include "tclefselector.h"
 #include "tclef.h"
+#include "tselectclef.h"
 #include <QGraphicsSceneHoverEvent>
 #include <QApplication>
 #include <QPalette>
+#include <QGraphicsView>
 #include <unistd.h>
-
+#include <QDebug>
 
 /*static*/
 QChar TscoreClef::clefToChar(Tclef clef) {
@@ -109,36 +111,44 @@ void TscoreClef::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 
 
 
-void TscoreClef::wheelEvent(QGraphicsSceneWheelEvent* event) {
-  if (m_readOnly)
-    return;
-  if (event->delta() > 0) {
-    m_currClefInList++;
-    if (m_currClefInList >= m_typesList.size())
-      m_currClefInList = 0;
-  } else {
-    m_currClefInList--;
-    if (m_currClefInList < 0)
-      m_currClefInList = m_typesList.size() - 1;
-  }
-  setClef(Tclef(m_typesList[m_currClefInList]));
-  emit clefChanged();
-}
-
+// void TscoreClef::wheelEvent(QGraphicsSceneWheelEvent* event) {
+//   if (m_readOnly)
+//     return;
+//   if (event->delta() > 0) {
+//     m_currClefInList++;
+//     if (m_currClefInList >= m_typesList.size())
+//       m_currClefInList = 0;
+//   } else {
+//     m_currClefInList--;
+//     if (m_currClefInList < 0)
+//       m_currClefInList = m_typesList.size() - 1;
+//   }
+//   setClef(Tclef(m_typesList[m_currClefInList]));
+//   emit clefChanged();
+// }
+// 
 
 void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-	if (m_isClickable && !m_selector) {
-		if (readOnly()) // occurs in pano staf only
-			m_selector = new TclefSelector(scoreScene(), Tclef(Tclef::e_pianoStaff));
-		else // second parametr is current cleff to mark
-			m_selector = new TclefSelector(scoreScene(), m_clef);
-		if (staff()->type() == TscoreStaff::e_lower)
-				m_selector->setPos(mapToScene(2.0, -17.0));
-		else
-				m_selector->setPos(mapToScene(0.0, -2.0));
-		connect(m_selector, SIGNAL(clefSelected(Tclef)), this, SLOT(clefSelected(Tclef)));
-	} else
-			TscoreItem::mousePressEvent(event);	
+		if (m_readOnly) {
+			TscoreItem::mousePressEvent(event);
+		} else {
+			TclefMenu popUpMenu(scoreScene()->views()[0]->parentWidget());
+			
+			popUpMenu.exec(event->screenPos());
+// 			qDebug() << act->text();
+		}
+// 	if (m_isClickable && !m_selector) {
+// 		if (readOnly()) // occurs in pano staf only
+// 			m_selector = new TclefSelector(scoreScene(), Tclef(Tclef::e_pianoStaff));
+// 		else // second parametr is current cleff to mark
+// 			m_selector = new TclefSelector(scoreScene(), m_clef);
+// 		if (staff()->type() == TscoreStaff::e_lower)
+// 				m_selector->setPos(mapToScene(2.0, -17.0));
+// 		else
+// 				m_selector->setPos(mapToScene(0.0, -2.0));
+// 		connect(m_selector, SIGNAL(clefSelected(Tclef)), this, SLOT(clefSelected(Tclef)));
+// 	} else
+// 			TscoreItem::mousePressEvent(event);	
 }
 
 
