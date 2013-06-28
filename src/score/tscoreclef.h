@@ -22,7 +22,8 @@
 #include "tscoreitem.h"
 #include "tclef.h"
 
-class TclefSelector;
+class TclefMenu;
+
 
 /** It implements clef on the score.
 *	Clef can be changed by mouse scroll (wheel) as long as readOnly is set to @p FALSE (default),
@@ -64,8 +65,8 @@ protected:
 //     void wheelEvent(QGraphicsSceneWheelEvent* event);
 		void mousePressEvent(QGraphicsSceneMouseEvent* event);
 		
-protected slots:
-		void clefSelected(Tclef clef);
+// protected slots:
+// 		void clefSelected(Tclef clef);
     
 private:
     int getYclefPos(Tclef clef);
@@ -76,7 +77,7 @@ private:
 private:
     Tclef                             m_clef;
     QGraphicsSimpleTextItem           *m_textClef;
-		TclefSelector											*m_selector;
+		TclefMenu													*m_clefMenu;
     
     int                               m_currClefInList;    
         /** List of all clef types exept empty (none clef) and piano staff. */

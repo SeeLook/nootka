@@ -19,7 +19,6 @@
 #include "tscoreclef.h"
 #include "tscorescene.h"
 #include "tscorestaff.h"
-#include "tclefselector.h"
 #include "tclef.h"
 #include "tselectclef.h"
 #include <QGraphicsSceneHoverEvent>
@@ -27,7 +26,7 @@
 #include <QPalette>
 #include <QGraphicsView>
 #include <unistd.h>
-#include <QDebug>
+// #include <QDebug>
 
 /*static*/
 QChar TscoreClef::clefToChar(Tclef clef) {
@@ -60,7 +59,7 @@ TscoreClef::TscoreClef(TscoreScene* scene, TscoreStaff* staff, Tclef clef) :
   m_clef(Tclef(Tclef::e_none)),
   m_textClef(0),
   m_readOnly(false),
-  m_selector(0),
+  m_clefMenu(0),
   m_isClickable(true)
 {
   setStaff(staff);
@@ -132,29 +131,36 @@ void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 		if (m_readOnly) {
 			TscoreItem::mousePressEvent(event);
 		} else {
-			TclefMenu popUpMenu(scoreScene()->views()[0]->parentWidget());
-			
-			popUpMenu.exec(event->screenPos());
-// 			qDebug() << act->text();
-		}
-// 	if (m_isClickable && !m_selector) {
-// 		if (readOnly()) // occurs in pano staf only
-// 			m_selector = new TclefSelector(scoreScene(), Tclef(Tclef::e_pianoStaff));
-// 		else // second parametr is current cleff to mark
-// 			m_selector = new TclefSelector(scoreScene(), m_clef);
-// 		if (staff()->type() == TscoreStaff::e_lower)
-// 				m_selector->setPos(mapToScene(2.0, -17.0));
-// 		else
-// 				m_selector->setPos(mapToScene(0.0, -2.0));
-// 		connect(m_selector, SIGNAL(clefSelected(Tclef)), this, SLOT(clefSelected(Tclef)));
-// 	} else
-// 			TscoreItem::mousePressEvent(event);	
+			if (!m_clefMenu) {
+					m_clefMenu = new TclefMenu(scoreScene()->views()[0]->parentWidget());
+					m_clefMenu->selectClef(m_clef);
+					Tclef cl = m_clefMenu->exec(event->screenPos());
+					delete m_clefMenu;
+					m_clefMenu = 0;
+					if (cl.type() == Tclef::e_none)
+						return;
+				// This is hard logic that I love so much...
+					if (staff()->lower()) {
+						if (cl.type() != Tclef::e_pianoStaff) { // user selected other clef than piano
+								emit switchPianoStaff(cl); // this staff will be deleted and emited clef will set
+						} else
+								return; // when user selected piano staff again - do nothing
+					} else // ordinary single staff
+						if (cl.type() != Tclef::e_pianoStaff) { // simply set another clef
+							if (cl.type() != m_clef.type()) {
+								setClef(cl);
+								emit clefChanged();
+							}
+						} else // demand to change it on piano staff
+								emit switchPianoStaff(Tclef(Tclef::e_pianoStaff));
+				}
+			}
 }
 
-
+/*
 void TscoreClef::clefSelected(Tclef clef) {
-	m_selector->deleteLater();
-	m_selector = 0;
+// 	m_selector->deleteLater();
+// 	m_selector = 0;
 	if (clef.type() == Tclef::e_none)
 		return;
 	// This is hard logic that I love so much...
@@ -173,7 +179,7 @@ void TscoreClef::clefSelected(Tclef clef) {
 			} else // demand to change it on piano staff
 					emit switchPianoStaff(Tclef(Tclef::e_pianoStaff));
 }
-
+*/
 
 
 //##########################################################################################################

@@ -91,8 +91,6 @@ SET( NOOTKA_SRCS
   score/tscorenote.cpp
   score/tscorekeysignature.cpp
   score/tscorecontrol.cpp
-  score/tclefselector.cpp
-  score/tclefpreview.cpp
   score/tscorescordature.cpp
   score/tscoreview.cpp  
 ###### Settings
@@ -203,8 +201,6 @@ SET( NOOTKA_MOC_SRCS
   score/tscorenote.h
   score/tscorekeysignature.h
   score/tscorecontrol.h
-  score/tclefselector.h
-  score/tclefpreview.h  
 ###### guitar
 	guitar/tfingerboard.h	
 ###### notename

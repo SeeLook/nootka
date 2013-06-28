@@ -24,7 +24,6 @@
 #include "tnote.h"
 
 class TselectClef;
-class QToolBar;
 class QCheckBox;
 class QLabel;
 class QLineEdit;
@@ -60,7 +59,6 @@ private:
     TnotationRadioGroup 	*m_nameStyleGr;
 		Tnote::EnameStyle 		m_workStyle;
     TcolorButton 					*m_notePointColorBut;
-		QToolBar							*m_clefBar;
 		TselectClef						*m_clefSelector;
 };
 

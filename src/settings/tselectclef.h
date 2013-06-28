@@ -25,10 +25,13 @@
 #include <QMenu>
 #include <tclef.h>
 
-
+/** 
+ * This is a QRadioButton, clef pixmap and name.
+ * It is used as a QMenu entry or in some settings widgets
+ */
 class TradioClef : public QWidget
 {
-	
+		Q_OBJECT
 public:
 		explicit TradioClef(Tclef clef, QWidget* parent = 0, bool isMenu = false);
 		
@@ -36,24 +39,38 @@ public:
 		Tclef clef() { return m_clef; }
 		void setChecked(bool checked);
 		
+signals:
+		void selectedClef(Tclef);
+		
 protected:
-    bool event(QEvent *event);
+				/** Event handler for capturing mouse - it manages hihgtlight */
+		virtual bool event(QEvent* event);
+		virtual void paintEvent(QPaintEvent* event);
+		
+protected slots:
+		void clefClickedSlot();
     
 private:
 		QRadioButton *m_radio;
 		Tclef					m_clef;
+		bool 					m_hasMouseOver;
 	
 };
 
 //####################################################################################################
 class TselectClefPrivate : public QWidget
 {
-	
+	Q_OBJECT
 public:
 		TselectClefPrivate(bool isMenu, QWidget *parent);
 		
+		void selectClef(Tclef clef);
+		
 protected:
     TradioClef 	*treble, *treble_8, *bass, *bass_8, *tenor, *alto, *piano;
+		
+protected slots:
+		virtual void clefWasSelected(Tclef clef) {};		
     
 };
 
@@ -65,21 +82,33 @@ protected:
 class TselectClef : public TselectClefPrivate
 {
     Q_OBJECT
-
 public:
     TselectClef(QWidget *parent);
 		
-    ~TselectClef();
-		void selectClef(Tclef clef);
+signals:
+		void clefSelected(Tclef);
+		
+protected slots:
+		virtual void clefWasSelected(Tclef clef);
     
 };
 
 //####################################################################################################
-class TclefMenu : public QMenu, public TselectClefPrivate
+class TclefMenu : public TselectClefPrivate
 {
-		
+		Q_OBJECT
 public:
 		TclefMenu(QWidget* parent = 0);
+		
+		Tclef exec(QPoint pos);
+		
+protected slots:
+		virtual void clefWasSelected(Tclef clef);
+		
+private:
+		Tclef m_curentClef;
+		QMenu *m_menu;
+		
 	
 };
 

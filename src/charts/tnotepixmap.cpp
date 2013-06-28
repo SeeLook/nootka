@@ -50,7 +50,7 @@ QPixmap getNotePixmap(Tnote note, Tclef::Etype clef, TkeySignature key, qreal fa
 				staff->scoreKey()->setKeySignature(key.value());
 		}
 	// determine pixmap height by note position to avoid empty spaces above or below a staff
-		int topPix = 0, bottomPix = staff->boundingRect().height();
+		int topPix = 0, bottomPix = staff->boundingRect().height(), leftPix = 0;
 		if (notesCount) {
 				staff->setNote(0, note);
 				if (staff->noteSegment(0)->notePos()) {
@@ -76,19 +76,24 @@ QPixmap getNotePixmap(Tnote note, Tclef::Etype clef, TkeySignature key, qreal fa
 		} else { // no notes - clef only
 				if (clef == Tclef::e_pianoStaff && staff->lower()) {
 						topPix = staff->upperLinePos() - 3;
-						bottomPix = staff->lower()->pos().y() +  + staff->lower()->upperLinePos() + 12;
+						bottomPix = staff->lower()->pos().y() + staff->lower()->upperLinePos() + 12;
 				} else {
 						topPix = staff->upperLinePos() - 3;
 						bottomPix = staff->upperLinePos() + 12;
 				}
 		}
+		if (clef == Tclef::e_pianoStaff)
+			leftPix = -1;
 		staff->setScale(factor);
+		qreal pixWidth = scene->width();
+		if (notesCount == 0)
+			pixWidth = 13 * factor;
 		
-		QPixmap pix(scene->width(), qRound((bottomPix - topPix) * factor));
+		QPixmap pix(pixWidth, qRound((bottomPix - topPix) * factor));
 		pix.fill(Qt::transparent);
 		QPainter painter(&pix);
 		QRectF rect(0, 0, scene->width(), (bottomPix - topPix) * factor);
-		scene->render(&painter, rect, QRectF(QPointF(0, topPix * factor), pix.size()));
+		scene->render(&painter, rect, QRectF(QPointF(leftPix * factor, topPix * factor), pix.size()));
 		delete scene;
 		return pix;
 }
