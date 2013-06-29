@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
   
   gl = new Tglobals();
   gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
-      
+// loading translations
   QString ll = gl->lang;
   if (ll == "")
     ll = QLocale::system().name();
@@ -48,9 +48,7 @@ int main(int argc, char *argv[])
     QTranslator nooTranslator;
     nooTranslator.load("nootka_" + ll, gl->path + "lang");
     a.installTranslator(&nooTranslator);
-	
-    MainWindow w;
-
+// loading nootla font
     QFontDatabase fd;
 #if defined(Q_OS_WIN32)
     int fid = fd.addApplicationFont(gl->path + "fonts/nootka.ttf");
@@ -61,11 +59,15 @@ int main(int argc, char *argv[])
         QMessageBox::critical(0, "", QCoreApplication::translate("main", "<center>Can not load a font.<br>Try to install nootka.otf manually.</center>"));
         return 111;
     }
+// creating main window
+    MainWindow w;
+
 #if defined (Q_OS_MAC)
+	// to alow opening nootka files by clicking them in MacOs finder
     a.installEventFilter(&w);
 #endif
     w.show();
     if (argc > 1)
-        w.openFile(QString::fromLocal8Bit(argv[argc-1]));
+        w.openFile(QString::fromLocal8Bit(argv[argc - 1]));
     return a.exec();
 }

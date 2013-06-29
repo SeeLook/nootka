@@ -1,3 +1,6 @@
+0.8.90 beta
+     - added possibility to display notes on piano staff
+     - support for different clefs (bass, alto, tenor)
     Under the hood
      - score widget written from scrach
 

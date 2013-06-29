@@ -70,8 +70,6 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
   }
   m_clef = new TscoreClef(scene, this, cl);
   connect(m_clef, SIGNAL(clefChanged()), this, SLOT(onClefChanged()));
-  if (kindOfStaff != e_normal)
-    m_clef->setReadOnly(true);
 	m_clef->setZValue(55);
 	connect(m_clef, SIGNAL(switchPianoStaff(Tclef)), this, SLOT(onPianoStaffChanged(Tclef)));
 // Notes
@@ -192,7 +190,6 @@ void TscoreStaff::setScordature(Ttune& tune) {
 
 void TscoreStaff::setDisabled(bool disabled) {
 	scoreClef()->setReadOnly(disabled);
-	scoreClef()->setIsClickable(!disabled);
 	if (scoreKey()) {
 		scoreKey()->setAcceptHoverEvents(!disabled); // stops displaing status tip
 		scoreKey()->setReadOnly(disabled);

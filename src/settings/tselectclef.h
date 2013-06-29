@@ -26,6 +26,17 @@
 #include <tclef.h>
 
 /** 
+ * Classes below are used to switching a clef.
+ * @class TradioClef is like menu entry
+ * @class TselectClefPrivate is base class for selecting a clef
+ * @class TclefMenu is context menu with clefs list
+ * @class TselectClef is a QWidget with clefs to select 
+ */
+
+
+
+//######################################################################################
+/** 
  * This is a QRadioButton, clef pixmap and name.
  * It is used as a QMenu entry or in some settings widgets
  */
@@ -58,6 +69,8 @@ private:
 };
 
 //####################################################################################################
+/** It keeps all TradioClef-s objects and selects one of them by @p selectClef(Tclef)
+* Virtual method clefWasSelected has to be imlpemented in derived classes. */
 class TselectClefPrivate : public QWidget
 {
 	Q_OBJECT
@@ -77,13 +90,14 @@ protected slots:
 
 //####################################################################################################
 /** 
- * This class is to select a clef (or piano staff)
+ * This class is a QWidget to select a clef (or piano staff)
  */
 class TselectClef : public TselectClefPrivate
 {
     Q_OBJECT
 public:
     TselectClef(QWidget *parent);
+		Tclef selectedClef();
 		
 signals:
 		void clefSelected(Tclef);

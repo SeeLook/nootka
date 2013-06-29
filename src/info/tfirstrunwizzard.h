@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                  				   *
+ *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -26,6 +26,7 @@
 class QStackedLayout;
 class QRadioButton;
 class QCheckBox;
+class Tpage_2;
 class Tpage_3;
 class Tpage_4;
 class Select7note;
@@ -42,10 +43,11 @@ signals:
 public slots:
 
 private:
-    QPushButton *skipButt, *nextButt, *prevButt;
-    QStackedLayout *pagesLay;
+    QPushButton 		*m_skipButt, *m_nextButt, *m_prevButt;
+    QStackedLayout *m_pagesLay;
     Tpage_3 *page3;
     Tpage_4 *page4;
+		Tpage_2 *page2;
 
 private slots:
     void nextSlot();
@@ -55,7 +57,7 @@ private slots:
 };
 
 // page 1 is about dialog
-// page 2 is QLabel
+// page 2 is a QLabel
 
 class Tpage_3 : public QWidget
 {

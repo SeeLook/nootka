@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,7 +24,9 @@
 #include "taudioparams.h"
 #include "tnotename.h"
 #include "trtaudioin.h"
-#include <tvolumeslider.h>
+#include "tvolumeslider.h"
+#include "ttipchart.h"
+#include <tkeysignature.h>
 
 
 AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* parent) :
@@ -90,7 +92,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* pa
   midABox = new QGroupBox(this);
 //   midABox->setStatusTip(tr("Base frequency of note a<sup>1</sup>"));
   QVBoxLayout *midLay = new QVBoxLayout();
-  QLabel *headLab = new QLabel("<table><tr><td valign=\"middle\">" + tr("middle A") + QString("&nbsp;&nbsp;&nbsp;<img src=\"%1\"></td></tr></table>").arg(path + "picts/middleA.png"), this);
+  QLabel *headLab = new QLabel("<table><tr><td valign=\"middle\">" + tr("middle A") + QString("&nbsp;&nbsp;&nbsp;%1</td></tr></table>").arg(TtipChart::wrapPixToHtml(Tnote(6, 1, 0), Tclef::e_treble_G, TkeySignature(0), 4.0)), this);
   midLay->addWidget(headLab, 0, Qt::AlignCenter);
   QGridLayout *midGrLay = new QGridLayout;
   QLabel *frLab = new QLabel(tr("frequency:"), this);
