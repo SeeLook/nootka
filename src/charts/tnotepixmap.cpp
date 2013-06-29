@@ -29,7 +29,7 @@
 #include <QPainter>
 #include <QPalette>
 
-#include <QDebug>
+// #include <QDebug>
 
 
 QPixmap getNotePixmap(Tnote note, Tclef::Etype clef, TkeySignature key, qreal factor) {

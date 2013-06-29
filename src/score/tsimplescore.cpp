@@ -135,17 +135,13 @@ void TsimpleScore::setClefDisabled(bool isDisabled) {
 	if (m_staff->scoreClef()) {
 		if (isDisabled) {
 			m_staff->scoreClef()->setReadOnly(true);
-			m_staff->scoreClef()->setIsClickable(false);
 			if (m_staff->lower()) {
 					m_staff->lower()->scoreClef()->setReadOnly(true);
-					m_staff->lower()->scoreClef()->setIsClickable(false);
 			}
 		} else {
 			m_staff->scoreClef()->setReadOnly(false);
-			m_staff->scoreClef()->setIsClickable(true);
 			if (m_staff->lower()) {
 					m_staff->lower()->scoreClef()->setReadOnly(false);
-					m_staff->lower()->scoreClef()->setIsClickable(true);
 			}
 		}
 	}

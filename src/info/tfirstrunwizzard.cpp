@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,6 +22,9 @@
 #include "tglobals.h"
 #include "select7note.h"
 #include "tpixmaker.h"
+#include "ttipchart.h"
+#include "tkeysignature.h"
+#include <tsimplescore.h>
 #include <QtGui>
 
 extern Tglobals *gl;
@@ -40,39 +43,43 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
 //         gl->NnameStyleInNoteName = Tnote::e_norsk_Hb;
 //         gl->SnameStyleInKeySign = Tnote::e_norsk_Hb;
 //     }
-  
-    setWindowTitle("Nootka   "+tr("First run wizzard"));
+	
+// #if defined(Q_OS_LINUX)
+//     setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
+// #else
+    setWindowIcon(QIcon(gl->path + "picts/about.png"));
+// #endif	
+    setWindowTitle("Nootka   " + tr("First run wizzard"));
     QVBoxLayout *lay = new QVBoxLayout;
-    pagesLay = new QStackedLayout;
-    lay->addLayout(pagesLay);
+    m_pagesLay = new QStackedLayout;
+    lay->addLayout(m_pagesLay);
 
     QHBoxLayout *buttLay = new QHBoxLayout;
     buttLay->addStretch(1);
-    skipButt = new QPushButton(tr("skip wizzard"), this);
-    buttLay->addWidget(skipButt);
+    m_skipButt = new QPushButton(tr("skip wizzard"), this);
+    buttLay->addWidget(m_skipButt);
     buttLay->addStretch(2);
-    prevButt = new QPushButton(tr("prev"), this);
-    prevButt->setDisabled(true);
-    buttLay->addWidget(prevButt);
-    nextButt = new QPushButton(nextText(), this);
-    buttLay->addWidget(nextButt);
+    m_prevButt = new QPushButton(tr("prev"), this);
+    m_prevButt->setDisabled(true);
+    buttLay->addWidget(m_prevButt);
+    m_nextButt = new QPushButton(nextText(), this);
+    buttLay->addWidget(m_nextButt);
     buttLay->addStretch(1);
 
     lay->addLayout(buttLay);
     setLayout(lay);
 
     Tabout *aboutNoot = new Tabout();
-    QTextEdit *notationLab = new QTextEdit(tr("<center>Guitar notation uses treble clef with \"eight\" digit below (even if some editors are forgeting about this digit).<br><br>Try to understand this. <br><br><p> <img src=\"%1\"> <img src=\"%2\"><br><span style=\"font-size:20px;\">Both pictures above show the same note: c<sup>1</sup></span><br>(note c in one-line octave)</center></p>").arg(gl->path+"picts/c1-trebe.png").arg(gl->path+"picts/c1-treble_8.png"));
+    QTextEdit *notationLab = new QTextEdit("<br><br><center>" + tr("Guitar notation uses treble clef with \"eight\" digit below (even if some editors are forgeting about this digit).<br><br>Try to understand this. <br><br><p> %1 %2<br><span style=\"font-size:20px;\">Both pictures above show the same note: c<sup>1</sup></span><br>(note c in one-line octave)</center></p>").arg(TtipChart::wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G, TkeySignature(0), 6.0)).arg(TtipChart::wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G_8down, TkeySignature(0), 6.0)), this);
     notationLab->setWordWrapMode(QTextOption::WordWrap);
-//    notationLab->setWordWrap(true);
 
     page3 = new Tpage_3();
     page4 = new Tpage_4();
 
-    pagesLay->addWidget(aboutNoot);
-    pagesLay->addWidget(notationLab);
-    pagesLay->addWidget(page3);
-    pagesLay->addWidget(page4);
+    m_pagesLay->addWidget(aboutNoot);
+    m_pagesLay->addWidget(notationLab);
+    m_pagesLay->addWidget(page3);
+    m_pagesLay->addWidget(page4);
     
     // grab 7-th note from translation
     if (Tpage_3::note7txt().toLower() == "b") {
@@ -91,41 +98,41 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
           gl->SnameStyleInKeySign = Tnote::e_deutsch_His;
     }
 
-    connect(skipButt, SIGNAL(clicked()), this, SLOT(close()));
-    connect(prevButt, SIGNAL(clicked()), this, SLOT(prevSlot()));
-    connect(nextButt, SIGNAL(clicked()), this, SLOT(nextSlot()));
+    connect(m_skipButt, SIGNAL(clicked()), this, SLOT(close()));
+    connect(m_prevButt, SIGNAL(clicked()), this, SLOT(prevSlot()));
+    connect(m_nextButt, SIGNAL(clicked()), this, SLOT(nextSlot()));
 }
 
 void TfirstRunWizzard::prevSlot() {
-    switch (pagesLay->currentIndex()) {
+    switch (m_pagesLay->currentIndex()) {
     case 0 :
         break;
     case 1 :
-        prevButt->setDisabled(true);
-        pagesLay->setCurrentIndex(0);
+        m_prevButt->setDisabled(true);
+        m_pagesLay->setCurrentIndex(0);
         break;
     case 2 :
-        pagesLay->setCurrentIndex(1);
+        m_pagesLay->setCurrentIndex(1);
         break;
     case 3 :
-        nextButt->setText(nextText());
-        pagesLay->setCurrentIndex(2);
+        m_nextButt->setText(nextText());
+        m_pagesLay->setCurrentIndex(2);
         break;
     }
 }
 
 void TfirstRunWizzard::nextSlot() {
-    switch (pagesLay->currentIndex()) {
+    switch (m_pagesLay->currentIndex()) {
     case 0 :
-        prevButt->setDisabled(false);
-        pagesLay->setCurrentIndex(1);
+        m_prevButt->setDisabled(false);
+        m_pagesLay->setCurrentIndex(1);
         break;
     case 1 :
-        pagesLay->setCurrentIndex(2);
+        m_pagesLay->setCurrentIndex(2);
         break;
     case 2 :
-        nextButt->setText(tr("Finish"));
-        pagesLay->setCurrentIndex(3);
+        m_nextButt->setText(tr("Finish"));
+        m_pagesLay->setCurrentIndex(3);
         break;
     case 3 :
         if (page3->select7->is7th_B()) {

@@ -196,6 +196,24 @@ void TselectClef::clefWasSelected(Tclef clef) {
 }
 
 
+Tclef TselectClef::selectedClef(){
+		if (treble->radio()->isChecked())
+			return Tclef(Tclef::e_treble_G);
+		if (treble_8->radio()->isChecked())
+			return Tclef(Tclef::e_treble_G_8down);
+		if (bass->radio()->isChecked())
+			return Tclef(Tclef::e_bass_F);
+		if (bass_8->radio()->isChecked())
+			return Tclef(Tclef::e_bass_F_8down);
+		if (alto->radio()->isChecked())
+			return Tclef(Tclef::e_alto_C);
+		if (tenor->radio()->isChecked())
+			return Tclef(Tclef::e_tenor_C);
+		if (piano->radio()->isChecked())
+			return Tclef(Tclef::e_pianoStaff);
+}
+
+
 //########### TclefMenu ###########################################################################
 TclefMenu::TclefMenu(QWidget* parent) :
 	m_menu(new QMenu(parent)),

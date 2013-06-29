@@ -25,7 +25,7 @@
 #include <QApplication>
 #include <QPalette>
 #include <QGraphicsView>
-#include <unistd.h>
+// #include <unistd.h>
 // #include <QDebug>
 
 /*static*/
@@ -59,8 +59,7 @@ TscoreClef::TscoreClef(TscoreScene* scene, TscoreStaff* staff, Tclef clef) :
   m_clef(Tclef(Tclef::e_none)),
   m_textClef(0),
   m_readOnly(false),
-  m_clefMenu(0),
-  m_isClickable(true)
+  m_clefMenu(0)
 {
   setStaff(staff);
 	setParentItem(staff);
@@ -72,12 +71,11 @@ TscoreClef::TscoreClef(TscoreScene* scene, TscoreStaff* staff, Tclef clef) :
   registryItem(m_textClef);
   m_textClef->setBrush(qApp->palette().text().color());
   
-  QFont f("nootka");
+  QFont f("nootka", 18, QFont::Normal);
   f.setPixelSize(18);
   m_textClef->setFont(f);
   
   setClef(clef);
-  
 }
   
 
@@ -94,7 +92,7 @@ void TscoreClef::setClef(Tclef clef) {
 			fineOff = 0.0;
     setPos(1, getYclefPos(m_clef) - (16 - staff()->upperLinePos()) + fineOff);
     getStatusTip();
-    emit statusTip(statusTip());
+//     emit statusTip(statusTip());
   }
 }
 
@@ -109,24 +107,6 @@ QRectF TscoreClef::boundingRect() const {
 void TscoreClef::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {}
 
 
-
-// void TscoreClef::wheelEvent(QGraphicsSceneWheelEvent* event) {
-//   if (m_readOnly)
-//     return;
-//   if (event->delta() > 0) {
-//     m_currClefInList++;
-//     if (m_currClefInList >= m_typesList.size())
-//       m_currClefInList = 0;
-//   } else {
-//     m_currClefInList--;
-//     if (m_currClefInList < 0)
-//       m_currClefInList = m_typesList.size() - 1;
-//   }
-//   setClef(Tclef(m_typesList[m_currClefInList]));
-//   emit clefChanged();
-// }
-// 
-
 void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 		if (m_readOnly) {
 			TscoreItem::mousePressEvent(event);
@@ -140,7 +120,7 @@ void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 					if (cl.type() == Tclef::e_none)
 						return;
 				// This is hard logic that I love so much...
-					if (staff()->lower()) {
+					if (staff()->kindOfStaff() != TscoreStaff::e_normal) {
 						if (cl.type() != Tclef::e_pianoStaff) { // user selected other clef than piano
 								emit switchPianoStaff(cl); // this staff will be deleted and emited clef will set
 						} else
@@ -157,31 +137,6 @@ void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 			}
 }
 
-/*
-void TscoreClef::clefSelected(Tclef clef) {
-// 	m_selector->deleteLater();
-// 	m_selector = 0;
-	if (clef.type() == Tclef::e_none)
-		return;
-	// This is hard logic that I love so much...
-	// We supose readOnly() is pointing that staff is piano
-	if (readOnly()) {
-		if (clef.type() != Tclef::e_pianoStaff) { // user selected other clef than piano
-			emit switchPianoStaff(clef); // this staff will be deleted and emited clef will set
-    } else
-			return; // when user selected piano staff again - do nothing
-	} else // ordinary single staff
-			if (clef.type() != Tclef::e_pianoStaff) { // simply set another clef
-				if (clef.type() != m_clef.type()) {
-						setClef(clef);
-						emit clefChanged();
-				}
-			} else // demand to change it on piano staff
-					emit switchPianoStaff(Tclef(Tclef::e_pianoStaff));
-}
-*/
-
-
 //##########################################################################################################
 //########################################## PRIVATE     ###################################################
 //##########################################################################################################
@@ -190,13 +145,6 @@ void TscoreClef::getStatusTip() {
 	QString tip = "<b>" + m_clef.name() + "</b>  (" + m_clef.desc() + ")";
 	if (!readOnly())
 		tip += "<br>" + tr("Click to select another clef.");
-	if (isClickable()) {
-		tip += "<br>";
-		if (!readOnly())
-			tip += tr("or use scroll button.");
-		else
-			tip += tr("Use scroll button to change a clef.");
-	}
 	setStatusTip(tip);
 }
 
