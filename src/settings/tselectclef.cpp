@@ -130,6 +130,7 @@ TradioClef::TradioClef(Tclef clef, QWidget* parent, bool isMenu) :
 		setStatusTip("<b>" + m_clef.name() + "</b>  (" + m_clef.desc() + ")");
 		m_radio->setStatusTip(statusTip());
 		pixLabel->setStatusTip(statusTip());
+    connect(m_radio, SIGNAL(pressed()), this, SLOT(clefClickedSlot()));
 }
 
 
@@ -141,8 +142,9 @@ void TradioClef::setChecked(bool checked) {
 void TradioClef::clefClickedSlot() {
 		if (!m_radio->isChecked()) {
 			m_radio->setChecked(true);
-			emit selectedClef(m_clef);
+// 			emit selectedClef(m_clef);
 		}
+		emit selectedClef(m_clef);
 }
 
 
