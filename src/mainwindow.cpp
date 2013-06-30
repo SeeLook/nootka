@@ -119,6 +119,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_statLab = new QLabel(innerWidget);
     m_statLab->setWordWrap(true);
     m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
+		statLay->addWidget(m_statLab);
 #if defined(Q_OS_WIN32)
     QColor bgLight = palette().window().color().lighter(101);
 #else
@@ -148,16 +149,27 @@ MainWindow::MainWindow(QWidget *parent)
     chBlay->addStretch(1);
     
     progress = new TprogressWidget(innerWidget);
-    statLay->addStretch(1);
+//     statLay->addStretch(1);
     statLay->addLayout(chBlay);
     nameLay->addLayout(statLay);
     
     examResults = new TexamView(innerWidget);
     examResults->setStyleBg(gl->getBGcolorText(gl->EanswerColor), gl->getBGcolorText(gl->EquestionColor),
                             gl->getBGcolorText(gl->EnotBadColor));
+		
+		progress->hide();
+    examResults->hide();
+		nameLay->addWidget(progress);
+		nameLay->addWidget(examResults);
+		
+		nootLab = new TnootkaLabel(gl->path + "picts/logo.png", innerWidget);
+		nameLay->addWidget(nootLab);
+		nameLay->addStretch(1);
+		
     noteName = new TnoteName(innerWidget);
-    noteName->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    noteName->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
+		nameLay->addWidget(noteName);
     scoreAndNameLay->addLayout(nameLay);
     mainLay->addLayout(scoreAndNameLay);
 //-------------------------------------------------------------------
@@ -166,9 +178,6 @@ MainWindow::MainWindow(QWidget *parent)
     innerWidget->setLayout(mainLay);
     setCentralWidget(innerWidget);
     
-    progress->hide();
-    examResults->hide();
-    nootLab = new TnootkaLabel(gl->path + "picts/logo.png", innerWidget);
 //-------------------------------------------------------------------
     m_statusText = "";
     m_prevBg = -1;
@@ -535,14 +544,14 @@ void MainWindow::updsateSize() {
     nootBar->setIconSize(QSize(height() / 21, height() / 21));
     pitchView->resize(m_statFontSize);
     
-    score->setFixedWidth((centralWidget()->height() - nootBar->height() - pitchView->height() -
-                          ((centralWidget()->height() - nootBar->height()) * 0.25))  / 1.2 + 56);
+//     score->setFixedWidth((centralWidget()->height() - nootBar->height() - pitchView->height() -
+//                           ((centralWidget()->height() - nootBar->height()) * 0.25))  / 1.2 + 56);
     
     int posX = score->x() + score->width() + 20;
     int gapY = centralWidget()->height() / 100;
 
-    m_statLab->setGeometry(posX, 7, centralWidget()->width() - posX - 40 - score->x(), centralWidget()->height() / 9);
-
+//     m_statLab->setGeometry(posX, 7, centralWidget()->width() - posX - 40 - score->x(), centralWidget()->height() / 9);
+		m_statLab->setFixedHeight(centralWidget()->height() / 9);
     QFont f = m_statLab->font();
     f.setPointSize(m_statFontSize);
     QFontMetrics fMetr(f);
@@ -551,20 +560,20 @@ void MainWindow::updsateSize() {
     m_statLab->setFont(f);
     guitar->setFixedHeight((centralWidget()->height() - nootBar->height()) * 0.25);
     progress->resize(m_statFontSize);
-    progress->setGeometry(posX, m_statLab->geometry().bottom() + gapY * 4,
-                          centralWidget()->width() - posX, centralWidget()->height() * 0.15);
-    progress->setFixedHeight(centralWidget()->height() * 0.08);
+//     progress->setGeometry(posX, m_statLab->geometry().bottom() + gapY * 4,
+//                           centralWidget()->width() - posX, centralWidget()->height() * 0.15);
+//     progress->setFixedHeight(centralWidget()->height() * 0.08);
     examResults->setFontSize(m_statFontSize);
-    examResults->setGeometry(posX, progress->geometry().bottom() + gapY * 3, centralWidget()->width() - posX, 
-      centralWidget()->height() * 0.1);
-    examResults->setFixedHeight(centralWidget()->height() * 0.08);
+//     examResults->setGeometry(posX, progress->geometry().bottom() + gapY * 3, centralWidget()->width() - posX, 
+//       centralWidget()->height() * 0.1);
+//     examResults->setFixedHeight(centralWidget()->height() * 0.08);
     noteName->resize(m_statFontSize);
-    noteName->setGeometry(posX, qRound(centralWidget()->height() * 0.35),
-                          centralWidget()->width() - posX, qRound(centralWidget()->height() * 0.4));
+//     noteName->setGeometry(posX, qRound(centralWidget()->height() * 0.35),
+//                           centralWidget()->width() - posX, qRound(centralWidget()->height() * 0.4));
     
-    nootLab->setGeometry(posX, qRound(centralWidget()->height() * 0.12), centralWidget()->width()- score->width() -2,
-          qRound(centralWidget()->height() * 0.25));
-    score->setScordature();
+//     nootLab->setGeometry(posX, qRound(centralWidget()->height() * 0.12), centralWidget()->width()- score->width() -2,
+//           qRound(centralWidget()->height() * 0.25));
+//     score->setScordature();
     
     QPixmap bgPix(gl->path + "picts/body.png");
     int guitH = qRound(((double)guitar->height() / 350.0) * 856.0);
@@ -573,7 +582,7 @@ void MainWindow::updsateSize() {
 //    qDebug() << m_bgPixmap.size() /*<< centralWidget()->width() << guitar->geometry().x() << guitar->posX12fret()*/;
     
     setUpdatesEnabled(true);
-    QTimer::singleShot(2, this, SLOT(update()));
+    QTimer::singleShot(2, this, SLOT(update())); 
 }
 
 

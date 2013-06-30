@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,10 +29,9 @@ QString styleTxt, bgColorTxt;
 
 /**static*/
 Tnote::EnameStyle TnoteName::m_style = Tnote::e_italiano_Si;
-const char * const TnoteName::octaves[9] = { QT_TR_NOOP("Sub-sub"), QT_TR_NOOP("Sub"),
-				QT_TR_NOOP("Contra"), QT_TR_NOOP("Great"), QT_TR_NOOP("Small"),
+const char * const TnoteName::octaves[8] = { QT_TR_NOOP("Sub"), 	QT_TR_NOOP("Contra"), QT_TR_NOOP("Great"), QT_TR_NOOP("Small"),
 				QT_TR_NOOP("1-line"), QT_TR_NOOP("2-line"), QT_TR_NOOP("3-line"), QT_TR_NOOP("4-line") };
-const char * const TnoteName::octavesFull[9] = { QT_TR_NOOP("Sub-subcontra octave"), QT_TR_NOOP("Subcontra octave"), 
+const char * const TnoteName::octavesFull[8] = { QT_TR_NOOP("Subcontra octave"), 
 					QT_TR_NOOP("Contra octave"), QT_TR_NOOP("Great octave"), QT_TR_NOOP("Small octave"),
                     QT_TR_NOOP("One-line octave"), QT_TR_NOOP("Two-line octave"),
                     QT_TR_NOOP("Three-line octave"), QT_TR_NOOP("Four-line octave") };
@@ -84,7 +83,7 @@ TnoteName::TnoteName(QWidget *parent) :
 
     nameLabel = new QLabel("<b><span style=\"font-size: 24px; color: green;\">" +
                            gl->version + "</span></b>",this);
-    nameLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Expanding);
+//     nameLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Expanding);
     nameLabel->setAlignment(Qt::AlignCenter);
     nameLabel->setStyleSheet(bgColorTxt + styleTxt);
     resize();
@@ -143,30 +142,32 @@ TnoteName::TnoteName(QWidget *parent) :
 // OCTAVE BUTTONS TOOLBAR
     QHBoxLayout * octLayRow1 = new QHBoxLayout;
 		QHBoxLayout * octLayRow2 = new QHBoxLayout;
-    octLayRow1->addStretch(2);
+// 		octLayRow1->addSpacing(15);
+    octLayRow1->addStretch(3);
 		octLayRow2->addStretch(1);
     octaveGroup = new QButtonGroup(this);
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < 8; i++) {
         octaveButtons[i] = new TpushButton(tr(octaves[i]), this);
         octaveButtons[i]->setToolTip(tr(octavesFull[i]));
         octaveButtons[i]->setStatusTip(octaveButtons[i]->toolTip());
 				if (i % 2) { // upper: 1, 3, 5, 7
 					octLayRow1->addWidget(octaveButtons[i]);
 					octLayRow1->addStretch(1);
-				} else { // lower: 0, 2, 4, 6, 8
+				} else { // lower: 0, 2, 4, 6
 					octLayRow2->addWidget(octaveButtons[i]);
 					octLayRow2->addStretch(1);
 				}
         octaveGroup->addButton(octaveButtons[i], i);
     }
-    octLayRow1->addStretch(2);
+    octLayRow1->addStretch(3);
+// 		octLayRow1->addSpacing(15);
 		octLayRow2->addStretch(1);
     mainLay->addLayout(octLayRow1);
 		mainLay->addLayout(octLayRow2);
     m_prevOctButton = -1;
     connect(octaveGroup, SIGNAL(buttonClicked(int)), this, SLOT(octaveWasChanged(int)));
     
-    mainLay->addSpacing(5);
+//     mainLay->addSpacing(5);
     setLayout(mainLay);
 
     setStyle(gl->NnameStyleInNoteName);
@@ -245,9 +246,9 @@ void TnoteName::setButtons(Tnote note) {
 				case 1 : sharpButt->setChecked(true); break;
 				case 2 : dblSharpButt->setChecked(true); break;
     }
-    if (note.octave >= -4 && note.octave <= 4) {
-        octaveButtons[note.octave + 4]->setChecked(true);
-				m_prevOctButton = note.octave + 4;
+    if (note.octave >= -3 && note.octave <= 4) {
+        octaveButtons[note.octave + 3]->setChecked(true);
+				m_prevOctButton = note.octave + 3;
 		}
 }
 
@@ -274,10 +275,10 @@ void TnoteName::resize(int fontSize) {
     if (fontSize) {
         QFont f = QFont(noteButtons[0]->font().family());
         f.setPixelSize(fontSize);
-        for (int i=0; i<7; i++) {
+        for (int i = 0; i < 7; i++) {
             noteButtons[i]->setFont(f);
         }
-        for (int i=0; i<6; i++) {
+        for (int i = 0; i < 8; i++) {
             octaveButtons[i]->setFont(f);
         }
         f = QFont(dblFlatButt->font().family());
@@ -338,7 +339,7 @@ void TnoteName::setNameDisabled(bool isDisabled) {
         uncheckAllButtons();
         for (int i = 0; i < 7; i++)
             noteButtons[i]->setDisabled(true);
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < 8; i++)
             octaveButtons[i]->setDisabled(true);
         dblFlatButt->setDisabled(true);
         flatButt->setDisabled(true);
@@ -347,7 +348,7 @@ void TnoteName::setNameDisabled(bool isDisabled) {
     } else {
         for (int i = 0; i < 7; i++)
             noteButtons[i]->setDisabled(false);
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 8; i++)
             octaveButtons[i]->setDisabled(false);
         dblFlatButt->setDisabled(false);
         flatButt->setDisabled(false);
@@ -374,7 +375,7 @@ void TnoteName::uncheckAllButtons() {
     octaveGroup->setExclusive(false);
     for (int i = 0; i < 7; i++)
         noteButtons[i]->setChecked(false);
-    for (int i = 0; i < 9; i++)
+    for (int i = 0; i < 8; i++)
         octaveButtons[i]->setChecked(false);
 		m_prevOctButton = -1;
     noteGroup->setExclusive(true);
@@ -437,8 +438,8 @@ void TnoteName::noteWasChanged(int noteNr) {
   noteButtons[noteNr]->setChecked(true);
     setNoteName(noteNr+1, m_notes[0].octave, m_notes[0].acidental);
   if (octaveGroup->checkedId() == -1 && m_prevOctButton == -1) {
-    octaveButtons[4]->setChecked(true);
-    m_prevOctButton = 4;
+    octaveButtons[3]->setChecked(true);
+    m_prevOctButton = 3;
 //    octaveGroup->setId(2);
   }
   emit noteButtonClicked();
@@ -482,6 +483,6 @@ void TnoteName::octaveWasChanged(int octNr) { // octNr is button nr in the group
     octaveButtons[m_prevOctButton]->setChecked(false);
   m_prevOctButton = octNr;
   octaveButtons[octNr]->setChecked(true);
-    setNoteName(m_notes[0].note, octNr - 4, m_notes[0].acidental);
+    setNoteName(m_notes[0].note, octNr - 3, m_notes[0].acidental);
 }
 

@@ -78,6 +78,11 @@ public:
 					* but doesn't make score gray like standard setDisabled() method. */
     void setScoreDisabled(bool disabled);
 		
+				/** Sets the lowest and the highest note in all note segments on the score .*/
+    void setAmbitus(Tnote lo, Tnote hi);
+        /** Sets the lowest and the highest note for @p index of note segment .*/
+    void setAmbitus(int index, Tnote lo, Tnote hi);
+		
 		
 signals:
 				/** As long as QGraphicsScene items haven't got status tips TscoreItems has its own mechanism of tips.

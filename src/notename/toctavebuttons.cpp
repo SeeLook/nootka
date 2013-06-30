@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,45 +16,13 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TGUITARSETTINGS_H
-#define TGUITARSETTINGS_H
+#include "toctavebuttons.h"
 
-#include <QWidget>
-#include "tnote.h"
-#include "ttune.h"
-
-class TcolorButton;
-class QComboBox;
-class QSpinBox;
-class QRadioButton;
-class QCheckBox;
-class TsimpleScore;
-
-/** 
- * Those are guitar settings in settings window
- */
-class TguitarSettings : public QWidget
+ToctaveButtons::ToctaveButtons(QWidget* parent)
 {
-    Q_OBJECT
-public:
-    explicit TguitarSettings(QWidget *parent = 0);
-		
-    void saveSettings();
+}
 
-private:
-    void setTune (Ttune tune);
+ToctaveButtons::~ToctaveButtons()
+{
+}
 
-    TsimpleScore    *m_tuneView;
-    QCheckBox       *m_righthandCh, *m_morePosCh;
-    QRadioButton    *m_prefFlatBut, *m_prefSharpBut;
-    QSpinBox        *m_fretsNrSpin;
-    QComboBox       *m_tuneCombo;
-    TcolorButton    *m_pointColorBut, *m_selColorBut;
-
-private slots:
-    void tuneSelected(int tuneId);
-    void userTune(int, Tnote);
-		void switchedToPianoStaff();
-};
-
-#endif // TGUITARSETTINGS_H

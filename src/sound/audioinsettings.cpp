@@ -157,14 +157,21 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* pa
   testLay->addStretch(1);
   QVBoxLayout *freqLay = new QVBoxLayout();
   freqLay->setAlignment(Qt::AlignCenter);
+	
+	QColor lbg = palette().base().color();
+	lbg.setAlpha(220);
+	QString styleTxt = "background-color: palette(base); border: 1px solid palette(Text); border-radius: 5px;";
+	
   pitchLab = new QLabel("--", this);
   pitchLab->setFixedWidth(70);
+	pitchLab->setStyleSheet(styleTxt);
   pitchLab->setStatusTip(tr("Detected pitch"));
   pitchLab->setAlignment(Qt::AlignCenter);
   freqLay->addWidget(pitchLab);
   
   freqLab = new QLabel("--", this);
   freqLab->setFixedWidth(70);
+	freqLab->setStyleSheet(styleTxt);
   freqLab->setAlignment(Qt::AlignCenter);
   getFreqStatusTip();
   freqLay->addWidget(freqLab);

@@ -112,11 +112,13 @@ void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 			TscoreItem::mousePressEvent(event);
 		} else {
 			if (!m_clefMenu) {
-					m_clefMenu = new TclefMenu(scoreScene()->views()[0]->parentWidget());
+					QMenu *menu = new QMenu(scoreScene()->views()[0]->parentWidget());
+					m_clefMenu = new TclefMenu(menu);
 					m_clefMenu->selectClef(m_clef);
 					Tclef cl = m_clefMenu->exec(event->screenPos());
 					delete m_clefMenu;
 					m_clefMenu = 0;
+					delete menu;
 					if (cl.type() == Tclef::e_none)
 						return;
 				// This is hard logic that I love so much...

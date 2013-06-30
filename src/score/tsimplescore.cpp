@@ -220,14 +220,23 @@ void TsimpleScore::setNoteDisabled(int index, bool isDisabled) {
 
 
 void TsimpleScore::setScoreDisabled(bool disabled) {
-// 	m_score->setMouseTracking(!disabled);
-// 	qDebug() << "setScoreDisabled" << disabled;
-// 	m_staff->noteSegment(0)->hideWorkNote();
 	if (m_scoreControl)
 		m_scoreControl->setDisabled(disabled);
 	m_staff->setDisabled(disabled);
 }
 
+
+void TsimpleScore::setAmbitus(int index, Tnote lo, Tnote hi) {
+		if (index >= 0 && index < m_notesNr) {
+			
+		}			
+}
+
+
+void TsimpleScore::setAmbitus(Tnote lo, Tnote hi) {
+		for (int i = 0; i < m_notesNr; i++)
+			setAmbitus(lo, hi);
+}
 
 //##########################################################################################################
 //########################################## PUBLIC SLOTS ##################################################
