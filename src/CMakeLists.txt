@@ -42,6 +42,7 @@ SET( NOOTKA_SRCS
 	guitar/tfingerpos.cpp  
 ###### notename
 	notename/tnotename.cpp  
+# 	notename/toctavebuttons.cpp
 ###### sound
   sound/tsound.cpp
   sound/tmidiout.cpp
@@ -204,7 +205,8 @@ SET( NOOTKA_MOC_SRCS
 ###### guitar
 	guitar/tfingerboard.h	
 ###### notename
-	notename/tnotename.h	
+	notename/tnotename.h
+# 	notename/toctavebuttons.h
 ###### Settings
   settings/settingsdialog.h
   settings/tsettingsdialogbase.h

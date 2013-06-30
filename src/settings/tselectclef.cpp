@@ -28,6 +28,7 @@
 #include <QButtonGroup>
 #include <QPainter>
 #include <QEvent>
+// #include <QDebug>
 
 
 
@@ -217,9 +218,9 @@ Tclef TselectClef::selectedClef(){
 
 
 //########### TclefMenu ###########################################################################
-TclefMenu::TclefMenu(QWidget* parent) :
-	m_menu(new QMenu(parent)),
-	TselectClefPrivate(true, m_menu)
+TclefMenu::TclefMenu(QMenu* parent) :
+	TselectClefPrivate(true, new QWidget(parent)),
+	m_menu(parent)
 {
 		m_menu->setLayout(TselectClefPrivate::layout());
 		m_curentClef = Tclef(Tclef::e_none);

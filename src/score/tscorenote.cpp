@@ -396,7 +396,7 @@ void TscoreNote::hideLines(QList< QGraphicsLineItem* >& linesList) {
 
 void TscoreNote::setStringPos() {
 		if (m_stringText) {
-        int yy = staff()->upperLinePos() + 8; // below the staff
+        int yy = staff()->upperLinePos() + 9; // below the staff
         if (m_mainPosY > staff()->upperLinePos() + 4) 
 						yy = staff()->upperLinePos() - 7; // above the staff 
         m_stringText->setPos(2 , yy);

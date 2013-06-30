@@ -48,13 +48,13 @@ int main(int argc, char *argv[])
     QTranslator nooTranslator;
     nooTranslator.load("nootka_" + ll, gl->path + "lang");
     a.installTranslator(&nooTranslator);
-// loading nootla font
+// loading nootka font
     QFontDatabase fd;
-#if defined(Q_OS_WIN32)
+// #if defined(Q_OS_WIN32)
     int fid = fd.addApplicationFont(gl->path + "fonts/nootka.ttf");
-#else
-    int fid = fd.addApplicationFont(gl->path + "fonts/nootka.otf");
-#endif
+// #else
+//     int fid = fd.addApplicationFont(gl->path + "fonts/nootka.otf");
+// #endif
     if (fid == -1) {
         QMessageBox::critical(0, "", QCoreApplication::translate("main", "<center>Can not load a font.<br>Try to install nootka.otf manually.</center>"));
         return 111;

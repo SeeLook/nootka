@@ -43,7 +43,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     tuneLay->addWidget(m_tuneCombo);
     m_tuneView = new TsimpleScore(7, this);
     tuneLay->addWidget(m_tuneView);
-		m_tuneView->setClefDisabled(true);
+// 		m_tuneView->setClefDisabled(true);
     m_tuneView->setClef(gl->Sclef); 
     m_tuneView->setNoteDisabled(6, true); // 7-th is dummy to get more space
     
@@ -145,6 +145,13 @@ void TguitarSettings::tuneSelected(int tuneId) {
 void TguitarSettings::userTune(int, Tnote) {
     m_tuneCombo->setCurrentIndex(m_tuneCombo->count() - 1);
 }
+
+
+void TguitarSettings::switchedToPianoStaff()
+{
+
+}
+
 
 void TguitarSettings::saveSettings() {
     gl->GisRightHanded = m_righthandCh->isChecked();

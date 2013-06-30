@@ -108,11 +108,12 @@ protected slots:
 };
 
 //####################################################################################################
+/** Menu (context) to select a clef. */
 class TclefMenu : public TselectClefPrivate
 {
 		Q_OBJECT
 public:
-		TclefMenu(QWidget* parent = 0);
+		TclefMenu(QMenu* parent = 0);
 		
 		Tclef exec(QPoint pos);
 		
