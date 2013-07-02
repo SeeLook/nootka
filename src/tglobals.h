@@ -23,9 +23,10 @@
 #include <QString>
 #include <QColor>
 #include "tnote.h"
-#include "ttune.h"
 #include <tclef.h>
+#include <tinstrument.h>
 
+class Ttune;
 class QSettings;
 class TexamParams;
 class TaudioParams;
@@ -68,7 +69,7 @@ public:
         * globals settings for @class TnoteName will started from 'N' letter
         * for @class TscoreWidget and @class TscoreWidgetSimple
         * and for guitar (@class TfingerBoard) from 'G' letter.
-				* For sound and exam there are pointers to appropirete classes with patameters. */
+				* For sound and exam there are pointers to appropirate classes with theirs parameters. */
 
 
 //============ score widget settings =============================================================
@@ -105,6 +106,8 @@ public:
 //    bool NoctaveNameInNoteName; //default true
 
 //============ guitar settings =============================================================
+				/** Type of instrument - calssical guitar default */
+		Einstrument instrument;
     unsigned char GfretsNumber; //default 19
     bool GisRightHanded; //default true
         /** Shows other posibilities of note (sound) on the fretboard */
@@ -112,16 +115,18 @@ public:
     QColor GfingerColor; // rules the same like in enharmNotesColor
     QColor GselectedColor;
 //--- A Few variables and methods about tune -----
-    //    Ttune Gtune; // default empty
-    Ttune Gtune() { return m_tune; }
-    void setTune(Ttune t);
+		
+				/** Acctual tune of the guitar also with information about strings number
+				 * available by Ttune::stringsNr() */
+    Ttune *Gtune() { return m_tune; }
+    void setTune(Ttune &t);
         /** It returns real string number (0 - 5) when @param strNr
         * is sorted number from highest (0) to lowest (5) */
     char strOrder(char strNr) { return m_order[strNr]; }
-        /** Returns the highest (usually first - 0) and
-        * the lowest (usually last - 5) guitar strings. */
-    Tnote hiString() { return m_tune[m_order[0] + 1]; }
-    Tnote loString() { return m_tune[m_order[5] + 1]; }
+        /** Returns the highest (usually first - 0) string. */
+    Tnote hiString();
+				/** Returns the lowest (usually last) string */
+    Tnote loString();
 //---------------------------------
         /** It says witch accidentals are prafered while user clicks guitar
         * and note is calculated. Default are sharps*/
@@ -138,7 +143,7 @@ public:
 private:
   //--- for tune part ----------------
       /** current guitar tune */
-    Ttune m_tune;
+    Ttune *m_tune;
         /** Strings' order is determined in @param setTune() method */
     char m_order[6];
 

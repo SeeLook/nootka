@@ -16,12 +16,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "settingsdialog.h"
+#include "tsettingsdialog.h"
 #include "tglobals.h"
 #include "examsettings.h"
 #include "tcolorbutton.h"
 #include "tupdateprocess.h"
 #include "tguitarsettings.h"
+#include "tscoresettings.h"
+#include "namesettings.h"
 #include <audioinsettings.h>
 #include <audiooutsettings.h>
 #include <taudioparams.h>
@@ -36,109 +38,109 @@ extern Tglobals *gl;
 
 //############# GlobalSettings IMPLEMENTATION ##################
 
-GlobalSettings::GlobalSettings(QWidget *parent) :
+TglobalSettings::TglobalSettings(QWidget *parent) :
         QWidget(parent)
 {
     QVBoxLayout *lay = new QVBoxLayout();
     lay->setAlignment(Qt::AlignCenter);
-    otherEnharmChBox = new QCheckBox(tr("show other enharmonics variants of a note"),this);
-    otherEnharmChBox->setStatusTip(tr("Shows enharmonical variants of a note.<br>F.e.: E note is also Fb (F flat) and Dx (D with double sharp)."));
-    otherEnharmChBox->setChecked(gl->showEnharmNotes);
-	lay->addWidget(otherEnharmChBox);
+    m_otherEnharmChBox = new QCheckBox(tr("show other enharmonics variants of a note"),this);
+    m_otherEnharmChBox->setStatusTip(tr("Shows enharmonical variants of a note.<br>F.e.: E note is also Fb (F flat) and Dx (D with double sharp)."));
+    m_otherEnharmChBox->setChecked(gl->showEnharmNotes);
+	lay->addWidget(m_otherEnharmChBox);
 	QHBoxLayout *colorLay = new QHBoxLayout;
 	QLabel *colorLab = new QLabel(tr("color of enharminic notes/names"), this);
-	enharmColorBut = new TcolorButton(gl->enharmNotesColor, this);
+	m_enharmColorBut = new TcolorButton(gl->enharmNotesColor, this);
 	colorLay->addWidget(colorLab);
-	colorLay->addWidget(enharmColorBut);
+	colorLay->addWidget(m_enharmColorBut);
 	lay->addLayout(colorLay);
 	lay->addStretch(1);
-    dblAccChBox = new QCheckBox(tr("use double accidentals"),this);
-    dblAccChBox->setStatusTip(tr("If checked, you can use double sharps and double flats."));
-    dblAccChBox->setChecked(gl->doubleAccidentalsEnabled);
-    lay->addWidget(dblAccChBox);
+    m_dblAccChBox = new QCheckBox(tr("use double accidentals"),this);
+    m_dblAccChBox->setStatusTip(tr("If checked, you can use double sharps and double flats."));
+    m_dblAccChBox->setChecked(gl->doubleAccidentalsEnabled);
+    lay->addWidget(m_dblAccChBox);
     lay->addStretch(1);
-    hintsEnabledChBox = new QCheckBox(tr("show hints"), this);
-    hintsEnabledChBox->setChecked(gl->hintsEnabled);
-    hintsEnabledChBox->setStatusTip(tr("Show descriptions of interface's elements."));
-    lay->addWidget(hintsEnabledChBox);
+    m_hintsEnabledChBox = new QCheckBox(tr("show hints"), this);
+    m_hintsEnabledChBox->setChecked(gl->hintsEnabled);
+    m_hintsEnabledChBox->setStatusTip(tr("Show descriptions of interface's elements."));
+    lay->addWidget(m_hintsEnabledChBox);
     lay->addStretch(1);
 	QHBoxLayout *langLay = new QHBoxLayout;
 	langLay->addStretch(1);
 	QLabel *langLab = new QLabel(tr("Application's language"), this);
 	langLay->addWidget(langLab);
 	langLay->addStretch(1);
-	langCombo = new QComboBox(this);
-	langLay->addWidget(langCombo);
+	m_langCombo = new QComboBox(this);
+	langLay->addWidget(m_langCombo);
 	langLay->addStretch(1);
-	langCombo->setStatusTip(tr("Select a language.<br><span style=\"color: red;\">It requires restart of application !!</span>"));
-	langList[""] = tr("default");
-	langList["cs"] = QString::fromUtf8("český");
-	langList["en"] = "english";
-  langList["fr"] = QString::fromUtf8("français");
-	langList["pl"] = "polski";
-	QMapIterator<QString, QString> i(langList);
+	m_langCombo->setStatusTip(tr("Select a language.<br><span style=\"color: red;\">It requires restart of application !!</span>"));
+	m_langList[""] = tr("default");
+	m_langList["cs"] = QString::fromUtf8("český");
+	m_langList["en"] = "english";
+  m_langList["fr"] = QString::fromUtf8("français");
+	m_langList["pl"] = "polski";
+	QMapIterator<QString, QString> i(m_langList);
 	int id = 0;
 	while (i.hasNext()) {
 		i.next();
-		langCombo->addItem(QIcon(gl->path + "picts/flags-" + i.key() + ".png"), i.value());
+		m_langCombo->addItem(QIcon(gl->path + "picts/flags-" + i.key() + ".png"), i.value());
 		if (i.key() == gl->lang)
-			langCombo->setCurrentIndex(id);
+			m_langCombo->setCurrentIndex(id);
 		id++;
 	}
-	langCombo->insertSeparator(1);
+	m_langCombo->insertSeparator(1);
 	lay->addLayout(langLay);
 	lay->addStretch(1);
   
   QGroupBox *updateBox = new QGroupBox(this);
   QVBoxLayout *upLay = new QVBoxLayout;
-  updateButton = new QPushButton(tr("Check for updates"), this);
-  upLay->addWidget(updateButton);
-  updateLabel = new QLabel(" ", this);
-  upLay->addWidget(updateLabel);
+  m_updateButton = new QPushButton(tr("Check for updates"), this);
+  upLay->addWidget(m_updateButton);
+  m_updateLabel = new QLabel(" ", this);
+  upLay->addWidget(m_updateLabel);
   updateBox->setLayout(upLay);
   lay->addWidget(updateBox);
   lay->addStretch(1);
   if (TupdateProcess::isPossible())
-    connect(updateButton, SIGNAL(clicked()), this, SLOT(updateSlot()));
+    connect(m_updateButton, SIGNAL(clicked()), this, SLOT(updateSlot()));
   else 
     updateBox->hide();
   
   setLayout(lay);
 }
 
-void GlobalSettings::saveSettings() {
-	gl->doubleAccidentalsEnabled = dblAccChBox->isChecked();
-	gl->showEnharmNotes = otherEnharmChBox->isChecked();
-	gl->hintsEnabled = hintsEnabledChBox->isChecked();
-	gl->enharmNotesColor = enharmColorBut->getColor();
-	QMapIterator<QString, QString> i(langList);
+void TglobalSettings::saveSettings() {
+	gl->doubleAccidentalsEnabled = m_dblAccChBox->isChecked();
+	gl->showEnharmNotes = m_otherEnharmChBox->isChecked();
+	gl->hintsEnabled = m_hintsEnabledChBox->isChecked();
+	gl->enharmNotesColor = m_enharmColorBut->getColor();
+	QMapIterator<QString, QString> i(m_langList);
 	while (i.hasNext()) {
 		i.next();
-		if (langCombo->currentText() == i.value()) {
+		if (m_langCombo->currentText() == i.value()) {
 			gl->lang = i.key();
 			break;
 		}
 	}
 }
 
-void GlobalSettings::updateSlot() {
+void TglobalSettings::updateSlot() {
   TupdateProcess *process = new TupdateProcess(false, this);
   if (process->isPossible()) {
-    updateButton->setDisabled(true);
+    m_updateButton->setDisabled(true);
     connect(process, SIGNAL(updateOutput(QString)), this, SLOT(processOutputSlot(QString)));
     process->start();
   }
 }
 
 
-void GlobalSettings::processOutputSlot(QString output) {
-    updateLabel->setText(output);
+void TglobalSettings::processOutputSlot(QString output) {
+    m_updateLabel->setText(output);
 }
 
 
 
 //############# SettingsDialog IMPLEMENTATION ##################
-SettingsDialog::SettingsDialog(QWidget *parent) :
+TsettingsDialog::TsettingsDialog(QWidget *parent) :
         TsettingsDialogBase(parent)
 {
     setWindowTitle("Nootka - "+tr("application's settings"));
@@ -164,7 +166,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     navList->item(5)->setTextAlignment(Qt::AlignCenter);
     
     
-    m_globalSett = new GlobalSettings();
+    m_globalSett = new TglobalSettings();
     m_scoreSett = new TscoreSettings();
     m_nameSett = new NameSettings();
     m_guitarSett = new TguitarSettings();
@@ -206,7 +208,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 /** To avoid generating audio devices list every opening Nootka prefereces
      * witch is slow for pulseaudio, the list is generated on demand.
      * When user first time opens Sound settings widget.*/
-void SettingsDialog::changeSettingsWidget(int index) {
+void TsettingsDialog::changeSettingsWidget(int index) {
   stackLayout->setCurrentIndex(index);
   if (index == 5 && m_sndInSett) { // generate devices list for sound settings if sound is available
       m_sndInSett->generateDevicesList();
@@ -215,7 +217,7 @@ void SettingsDialog::changeSettingsWidget(int index) {
 }
 
 
-void SettingsDialog::changeUseJack() {
+void TsettingsDialog::changeUseJack() {
 #if defined(__UNIX_JACK__)
   TrtAudioAbstract::setUseJACK(m_jackChBox->isChecked());
   TmidiOut::setUseJack(m_jackChBox->isChecked());
@@ -225,7 +227,7 @@ void SettingsDialog::changeUseJack() {
 }
 
 
-void SettingsDialog::saveSettings() {
+void TsettingsDialog::saveSettings() {
     m_scoreSett->saveSettings();
     m_globalSett->saveSettings();
     m_nameSett->saveSettings();

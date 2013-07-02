@@ -17,18 +17,18 @@
  ***************************************************************************/
 
 #include "ttune.h"
-
+// #include <QDebug>
 
 /*static*/
 Ttune Ttune::stdTune = Ttune("", Tnote(3,1,0), Tnote(7,0,0),
                                           Tnote(5,0,0), Tnote(2,0,0), Tnote(6,-1,0),Tnote(3,-1,0));
 
 Ttune Ttune::tunes[4];
-Ttune Ttune::bassTunes[];
+Ttune Ttune::bassTunes[4];
 
 void Ttune::prepareDefinedTunes() {
 	stdTune = Ttune(QObject::tr("Standard: E A D G B E "), Tnote(3, 1, 0), Tnote(7, 0, 0),
-					Tnote(5, 0, 0), Tnote(2, 0, 0), Tnote(6, -1, 0),Tnote(3, -1, 0));
+					Tnote(5, 0, 0), Tnote(2, 0, 0), Tnote(6, -1, 0), Tnote(3, -1, 0));
 	
 	tunes[0] = Ttune(QObject::tr("Dropped D: D A D G B E "), Tnote(3, 1, 0), Tnote(7, 0, 0),
 									 Tnote(5, 0, 0), Tnote(2, 0, 0), Tnote(6, -1, 0),Tnote(2, -1, 0));
@@ -41,15 +41,15 @@ void Ttune::prepareDefinedTunes() {
 	
 	bassTunes[0] = Ttune(QObject::tr("Standard bass: E A D G"), Tnote(5, -1, 0), Tnote(2, -1, 0),
 												Tnote(6, -2, 0), Tnote(3, -2, 0), Tnote(0, 0, 0), Tnote(0, 0, 0));
-	bassTunes[0] = Ttune(QObject::tr("Bass in fifths: C G D A"), Tnote(6, -1, 0), Tnote(2, -1, 0),
+	bassTunes[1] = Ttune(QObject::tr("Bass in fifths: C G D A"), Tnote(6, -1, 0), Tnote(2, -1, 0),
 												Tnote(5, -2, 0), Tnote(1, -2, 0), Tnote(0, 0, 0), Tnote(0, 0, 0));
-	bassTunes[1] = Ttune(QObject::tr("5-str. bass: B E A D G"), Tnote(5, -1, 0), Tnote(2, -1, 0),
+	bassTunes[2] = Ttune(QObject::tr("5-str. bass: B E A D G"), Tnote(5, -1, 0), Tnote(2, -1, 0),
 												Tnote(6, -2, 0), Tnote(3, -2, 0), Tnote(7, -3, 0), Tnote(0, 0, 0));
-	bassTunes[2] = Ttune(QObject::tr("6-str. bass: B E A D G C"), Tnote(1, 0, 0), Tnote(5, -1, 0), Tnote(2, -1, 0),
+	bassTunes[3] = Ttune(QObject::tr("6-str. bass: B E A D G C"), Tnote(1, 0, 0), Tnote(5, -1, 0), Tnote(2, -1, 0),
 												Tnote(6, -2, 0), Tnote(3, -2, 0), Tnote(7, -3, 0));
 }
 
-
+//##################################################################################################
 
 Ttune::Ttune(const QString tuneName, Tnote S1, Tnote S2, Tnote S3, Tnote S4, Tnote S5, Tnote S6 ) :
 	name(tuneName),
@@ -81,6 +81,7 @@ void Ttune::determineStringsNumber() {
 		for (int i = 0; i < 6; i++) // copy all to main stringsArray
 			stringsArray[i] = tmpStrings[i];
 		m_strNumber = strCnt; // define number of strings
+// 		qDebug() << "determineStringsNumber:" << m_strNumber;
 }
 
 
@@ -100,6 +101,7 @@ QDataStream &operator>> (QDataStream &in, Ttune &t) {
     for (int i=0; i < 6; i++)
         in >> t.stringsArray[i];
 		t.determineStringsNumber();
+// 		qDebug() << "strings number from file:" << t.stringNr();
     return in;
 }
 

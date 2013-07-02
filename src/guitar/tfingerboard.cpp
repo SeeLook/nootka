@@ -18,6 +18,7 @@
 
 #include "tfingerboard.h"
 #include "tglobals.h"
+#include "ttune.h"
 #include <QtGui>
 //#include <QDebug>
 
@@ -112,8 +113,8 @@ void TfingerBoard::acceptSettings() {
 void TfingerBoard::setFinger(Tnote note) {
     if (note.note) {
         bool doShow = true;
-        for(int i=0; i<6; i++) { // looking for pos to show
-            int diff = note.getChromaticNrOfNote() - gl->Gtune()[gl->strOrder(i)+1].getChromaticNrOfNote();
+        for(int i = 0; i < 6; i++) { // looking for pos to show
+            int diff = note.getChromaticNrOfNote() - gl->Gtune()->str(gl->strOrder(i) + 1).getChromaticNrOfNote();
             if ( doShow && diff >= 0 && diff <= gl->GfretsNumber) { // found
                 if (diff == 0) { // open string
                     m_fingers[gl->strOrder(i)]->hide();
@@ -484,7 +485,7 @@ void TfingerBoard::paint() {
 
 
 Tnote TfingerBoard::posToNote(int str, int fret) {
-    return Tnote(gl->Gtune()[str+1].getChromaticNrOfNote()+fret);
+    return Tnote(gl->Gtune()->str(str + 1).getChromaticNrOfNote() + fret);
 }
 
 
