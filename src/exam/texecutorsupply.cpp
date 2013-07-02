@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,6 +19,7 @@
 #include "texecutorsupply.h"
 #include "tglobals.h"
 #include "texamlevel.h"
+#include <ttune.h>
 #include <QMouseEvent>
 #include <QMessageBox>
 #include <QDateTime>
@@ -50,8 +51,8 @@ void TexecutorSupply::examFinished() {
 
 void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
     char openStr[6];
-      for (int i=0; i<6; i++)
-        openStr[i] = gl->Gtune()[i+1].getChromaticNrOfNote();
+      for (int i = 0; i < 6; i++)
+        openStr[i] = gl->Gtune()->str(i + 1).getChromaticNrOfNote();
       
       /** FIXING MISTAKE RELATED WITH A NEW VALIDATIN WAY DURING SAVING NEW LEVEL 
        * When there in no guitar in a level,
@@ -69,7 +70,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
     for(int s = 0; s < 6; s++) {
         if (m_level->usedStrings[gl->strOrder(s)])// check string by strOrder
             for (int f = m_level->loFret; f <= m_level->hiFret; f++) {
-                Tnote n = Tnote(gl->Gtune()[gl->strOrder(s)+1].getChromaticNrOfNote() + f);
+                Tnote n = Tnote(gl->Gtune()->str(gl->strOrder(s) + 1).getChromaticNrOfNote() + f);
             if (n.getChromaticNrOfNote() >= m_level->loNote.getChromaticNrOfNote() &&
                 n.getChromaticNrOfNote() <= m_level->hiNote.getChromaticNrOfNote()) {
                 bool hope = true; // we stil have hope that note is for an exam
@@ -246,12 +247,12 @@ Tnote::EnameStyle TexecutorSupply::randomNameStyle(int style) {
 
 
 void TexecutorSupply::getTheSamePos(TfingerPos& fingerPos, QList< TfingerPos >& posList, bool strCheck) {
-  int chStr = gl->Gtune()[gl->strOrder(fingerPos.str()-1) + 1].getChromaticNrOfNote();
-  for (int i = 0; i < 6; i++)
+  int chStr = gl->Gtune()->str(gl->strOrder(fingerPos.str()-1) + 1).getChromaticNrOfNote();
+  for (int i = 0; i < gl->Gtune()->stringNr(); i++)
     if (i != gl->strOrder(fingerPos.str()-1)) { 
       if (strCheck && !m_level->usedStrings[i])
           continue; // skip unavailable strings when strCheck is true
-      int fret = chStr + fingerPos.fret() - gl->Gtune()[gl->strOrder(i) + 1].getChromaticNrOfNote();
+      int fret = chStr + fingerPos.fret() - gl->Gtune()->str(gl->strOrder(i) + 1).getChromaticNrOfNote();
       if (fret >= m_level->loFret && fret <= m_level->hiFret) {
         posList << TfingerPos(gl->strOrder(i) + 1, fret);
       }

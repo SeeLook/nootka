@@ -27,24 +27,26 @@
  * @short This class describes a tune of the guitar
  * @author Tomasz Bojczuk <tomaszbojczuk@gmail.com> */
 class Ttune{
+	
 public:
-        /** 
-        * @p tuneName is the name, @p S(1-6) are notes.
+        /** @p tuneName is the name, @p S(1-6) are notes.
 				* Empty notes (Tnote(0,0,0)) can control strings number 
 				* when empty - it is moved to the end of a array and stringNr() is less. 
 				* This way only a number of string [from 1 to 6] is supported. */
     Ttune(const QString tuneName = "", Tnote S1 = Tnote(0,0,0) , Tnote S2 = Tnote(0,0,0),
                     Tnote S3 = Tnote(0,0,0), Tnote S4 = Tnote(0,0,0),
                     Tnote S5 = Tnote(0,0,0), Tnote S6 = Tnote(0,0,0));
-    
+				
 				/** It is a name of the tune*/
     QString name;
 				/** Number of strings for current tune/guitar */
 		quint8 stringNr() { return m_strNumber; }
+				/** Substitute of [] operator - returns note of given string. */
+		Tnote  str(quint8 stringNr) { return stringsArray[stringNr - 1]; }
 
     static Ttune stdTune; // standard tune template
-    static Ttune tunes[4];
-		static Ttune bassTunes[];
+    static Ttune tunes[4]; // templates for guitar tunes
+		static Ttune bassTunes[4]; // templates for bass guitar tunes
         /** Makes transaltions in defined tunes. */
     static void prepareDefinedTunes();
 		
@@ -54,7 +56,7 @@ public:
         /** Overloaded operator [] allows to use statment
         * @li Ttune @p your_variable[number_of_a_string]
         * @p stringNr is real string number (1 to 6) */
-    Tnote &operator[] (unsigned char stringNr) { return stringsArray[stringNr - 1]; }
+    Tnote &operator[] (quint8 stringNr) { return stringsArray[stringNr - 1]; }
     bool operator==(Ttune T2) {
         return ( stringsArray[0]==T2[1] && stringsArray[1]==T2[2] && stringsArray[2]==T2[3] &&
                  stringsArray[3]==T2[4] && stringsArray[4]==T2[5] && stringsArray[5]==T2[6] );

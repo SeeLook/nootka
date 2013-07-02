@@ -84,12 +84,12 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
             userAct = TstartExamDlg::e_continue;
         }
     }
-    m_glStore.tune = gl->Gtune();
+    m_glStore.tune = *gl->Gtune();
     m_glStore.fretsNumber = gl->GfretsNumber;
     if (userAct == TstartExamDlg::e_newLevel) {
         m_exam = new Texam(&m_level, resultText); // resultText is userName
         gl->E->studentName = resultText; // store user name
-        m_exam->setTune(gl->Gtune());
+        m_exam->setTune(*gl->Gtune());
         mW->examResults->startExam();
     } else
       if (userAct == TstartExamDlg::e_continue) {
@@ -101,9 +101,11 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
               tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
       //We check are guitar's params suitable for an exam --------------
                   QString changesMessage = "";
-                  if (m_exam->tune() != gl->Gtune() ) { //Is tune the same ?
-                        gl->setTune(m_exam->tune());
-                        changesMessage = tr("Tune of the guitar was changed in this exam !!.<br>Now it is:<br><b>%1</b>").arg(gl->Gtune().name);
+                  if (m_exam->tune() != *gl->Gtune() ) { //Is tune the same ?
+												Ttune tmpTune = m_exam->tune();
+                        gl->setTune(tmpTune);
+                        changesMessage = tr("Tune of the guitar was changed in this exam !!.<br>Now it is:<br><b>%1</b>").
+												arg(gl->Gtune()->name);
                     }
                   if (m_level.hiFret > gl->GfretsNumber) { //Are enought frets ?
                         changesMessage += tr("<br><br>This exam requires more frets,<br>so frets number in the guitar will be changed.");

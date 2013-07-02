@@ -50,16 +50,16 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
    
     setTune(gl->Gtune());
     m_tuneCombo->addItem(Ttune::stdTune.name);
-    if (gl->Gtune() == Ttune::stdTune)
+    if (*gl->Gtune() == Ttune::stdTune)
         m_tuneCombo->setCurrentIndex(0);
     for (int i=0; i<4; i++) {
         m_tuneCombo->addItem(Ttune::tunes[i].name);
-        if (gl->Gtune() == Ttune::tunes[i])
-            m_tuneCombo->setCurrentIndex(i+1);
+        if (*gl->Gtune() == Ttune::tunes[i])
+            m_tuneCombo->setCurrentIndex(i + 1);
     }
     QString S = tr("Custom tune");
     m_tuneCombo->addItem(S);
-    if (gl->Gtune().name == S)
+    if (gl->Gtune()->name == S)
         m_tuneCombo->setCurrentIndex(5);
     tuneGr->setLayout(tuneLay);
     upLay->addWidget(tuneGr);
@@ -146,8 +146,9 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 void TguitarSettings::saveSettings() {
     gl->GisRightHanded = m_righthandCh->isChecked();
     gl->GfretsNumber = m_fretsNrSpin->value();
-    gl->setTune(Ttune(m_tuneCombo->currentText(), m_tuneView->getNote(5), m_tuneView->getNote(4),
-											m_tuneView->getNote(3), m_tuneView->getNote(2), m_tuneView->getNote(1), m_tuneView->getNote(0)));
+		Ttune tmpTune = Ttune(m_tuneCombo->currentText(), m_tuneView->getNote(5), m_tuneView->getNote(4),
+											m_tuneView->getNote(3), m_tuneView->getNote(2), m_tuneView->getNote(1), m_tuneView->getNote(0));
+    gl->setTune(tmpTune);
     gl->GshowOtherPos = m_morePosCh->isChecked();
     if (m_prefFlatBut->isChecked()) gl->GpreferFlats = true;
     else gl->GpreferFlats = false;
@@ -160,9 +161,9 @@ void TguitarSettings::saveSettings() {
 //########################################## PRIVATE #######################################################
 //##########################################################################################################
 
-void TguitarSettings::setTune(Ttune tune) {
+void TguitarSettings::setTune(Ttune* tune) {
     for (int i = 0; i < 6; i++) {
-        m_tuneView->setNote(i, tune[6-i]);
+        m_tuneView->setNote(i, tune->str(6 - i));
         m_tuneView->setStringNumber(i, 6 - i);
     }
 }
@@ -180,10 +181,10 @@ void TguitarSettings::updateAmbitus() {
 
 void TguitarSettings::tuneSelected(int tuneId) {
     if (tuneId == 0)
-        setTune(Ttune::stdTune);
+        setTune(&Ttune::stdTune);
     else
         if (tuneId != m_tuneCombo->count() - 1) //the last is custom
-        setTune(Ttune::tunes[tuneId - 1]);
+        setTune(&Ttune::tunes[tuneId - 1]);
 }
 
 

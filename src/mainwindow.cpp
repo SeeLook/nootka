@@ -16,9 +16,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tglobals.h"
-#include "settingsdialog.h"
 #include "mainwindow.h"
+#include "tglobals.h"
+#include "tsettingsdialog.h"
 #include "tlevelcreatordlg.h"
 #include "tlevelselector.h"
 #include "taboutnootka.h"
@@ -333,7 +333,7 @@ void MainWindow::openFile(QString runArg) {
 
 
 void MainWindow::createSettingsDialog() {
-    SettingsDialog *settings = new SettingsDialog(this);
+    TsettingsDialog *settings = new TsettingsDialog(this);
     sound->prepareToConf();
 //     qDebug("prepared");
     if (settings->exec() == QDialog::Accepted) {

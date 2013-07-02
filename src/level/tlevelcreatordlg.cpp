@@ -25,6 +25,7 @@
 #include "levelsettings.h"
 #include "rangesettings.h"
 #include <texamparams.h>
+#include <ttune.h>
 #include <QtGui>
 
 extern Tglobals *gl;
@@ -191,8 +192,8 @@ QString TlevelCreatorDlg::validateLevel(TexamLevel &l) {
           cnt--;
       } while (!l.usedStrings[gl->strOrder(cnt)] && cnt >= 0);
       loAvailStr = gl->strOrder(cnt);
-      if (l.loNote.getChromaticNrOfNote() > gl->Gtune()[hiAvailStr+1].getChromaticNrOfNote()+l.hiFret ||
-          l.hiNote.getChromaticNrOfNote() < gl->Gtune()[loAvailStr+1].getChromaticNrOfNote()+l.loFret)
+      if (l.loNote.getChromaticNrOfNote() > gl->Gtune()->str(hiAvailStr + 1).getChromaticNrOfNote() + l.hiFret ||
+          l.hiNote.getChromaticNrOfNote() < gl->Gtune()->str(loAvailStr + 1).getChromaticNrOfNote() + l.loFret)
           res += tr("<li>Range of frets is beyond scale of this level</li>");
     }
   // checking are accids needed because of hi and low notes in range

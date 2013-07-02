@@ -18,6 +18,7 @@
 
 #include "tglobals.h"
 #include "tkeysignature.h"
+#include <ttune.h>
 #include "taudioparams.h"
 #include "texamparams.h"
 #include <QDir>
@@ -71,7 +72,9 @@ QColor Tglobals::mergeColors(QColor C1, QColor C2) {
 /*end static*/
 
 
-Tglobals::Tglobals() {
+Tglobals::Tglobals() :
+	m_tune(0)
+{
 
     version = "0.8.77-beta";
 //    path ; Is declared in main()
@@ -133,6 +136,7 @@ Tglobals::Tglobals() {
 // guitar settings
     Ttune::prepareDefinedTunes();
     config->beginGroup("guitar");
+				instrument = Einstrument(config->value("instrument", (int)e_classicalGuitar).toInt());
         GfretsNumber = config->value("fretNumber", 19).toInt();
         GisRightHanded = config->value("rightHanded", true).toBool(); //true;
         GshowOtherPos = config->value("showOtherPos", false).toBool();
@@ -145,9 +149,11 @@ Tglobals::Tglobals() {
         else
             GselectedColor = -1;
         QVariant tun = config->value("tune");
-        if (tun.isValid())
-            setTune(tun.value<Ttune>());
-        else setTune(Ttune::stdTune);
+        if (tun.isValid()) {
+						Ttune tmpTune = tun.value<Ttune>();
+            setTune(tmpTune);
+				} else
+						setTune(Ttune::stdTune);
         GpreferFlats = config->value("flatsPrefered", false).toBool(); //false;
     config->endGroup();
 
@@ -206,26 +212,44 @@ Tglobals::~Tglobals() {
     delete config;
     delete E;
     delete A;
+		delete m_tune;
 }
 
-void Tglobals::setTune(Ttune t) {
-    m_tune = t;
+
+void Tglobals::setTune(Ttune& t) {
+		delete m_tune;
+    m_tune = new Ttune(t.name, t[1], t[2], t[3], t[4], t[5], t[6]);
 // creating array with guitar strings in order of their height
     char openStr[6];
-    for (int i=0; i<6; i++) {
+    for (int i = 0; i < 6; i++) {
         m_order[i] = i;
-        openStr[i] = m_tune[i+1].getChromaticNrOfNote();
+				if (m_tune->str(i + 1).note != 0)
+					openStr[i] = m_tune->str(i + 1).getChromaticNrOfNote();
+				else // empty note - not such string
+					openStr[i] = -120; // make it lowest
     }
       int i = 4;
       while (i > -1) {
-          for (int j=i; j < 5 && openStr[m_order[j]] < openStr[m_order[j+1]]; j++) {
+          for (int j = i; j < 5 && openStr[m_order[j]] < openStr[m_order[j + 1]]; j++) {
               char tmp = m_order[j];
-              m_order[j] = m_order[j+1];
-              m_order[j+1] = tmp;
+              m_order[j] = m_order[j + 1];
+              m_order[j + 1] = tmp;
           }
           i--;
       }
 }
+
+
+Tnote Tglobals::hiString() {
+		return m_tune->str(m_order[0] + 1); 
+}
+
+
+Tnote Tglobals::loString() {
+		return m_tune->str(m_order[m_tune->stringNr() - 1] + 1);
+}
+
+
 
 void Tglobals::storeSettings() {
     config->beginGroup("common");
@@ -260,12 +284,13 @@ void Tglobals::storeSettings() {
     config->endGroup();
     
     config->beginGroup("guitar");
+				config->setValue("instrument", (int)instrument);
         config->setValue("fretNumber", (int)GfretsNumber);
         config->setValue("rightHanded", GisRightHanded);
         config->setValue("showOtherPos", GshowOtherPos);
         config->setValue("fingerColor", GfingerColor);
         config->setValue("selectedColor", GselectedColor);
-        config->setValue("tune", qVariantFromValue(Gtune()));
+        config->setValue("tune", qVariantFromValue(*Gtune()));
         config->setValue("flatsPrefered", GpreferFlats);
     config->endGroup();
 

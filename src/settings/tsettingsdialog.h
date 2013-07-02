@@ -19,13 +19,11 @@
 #ifndef SETTINGSDIALOG_H
 #define SETTINGSDIALOG_H
 
-#include "tnote.h"
-#include "ttune.h"
 #include "tsettingsdialogbase.h"
-#include "namesettings.h"
-#include "tscoresettings.h"
 #include <QMap>
 
+class TscoreSettings;
+class NameSettings;
 class TguitarSettings;
 class AudioOutSettings;
 class AudioInSettings;
@@ -35,20 +33,21 @@ class QComboBox;
 class ExamSettings;
 class TcolorButton;
 
-class GlobalSettings : public QWidget
+class TglobalSettings : public QWidget
 {
     Q_OBJECT
 public:
-    explicit GlobalSettings(QWidget *parent = 0);
+    explicit TglobalSettings(QWidget *parent = 0);
 
     void saveSettings();
+		
 private:
-  QCheckBox *otherEnharmChBox, *dblAccChBox, *hintsEnabledChBox;
-	TcolorButton *enharmColorBut;
-	QComboBox *langCombo;
-	QMap<QString, QString> langList;
-  QPushButton *updateButton;
-  QLabel* updateLabel;
+  QCheckBox *m_otherEnharmChBox, *m_dblAccChBox, *m_hintsEnabledChBox;
+	TcolorButton *m_enharmColorBut;
+	QComboBox *m_langCombo;
+	QMap<QString, QString> m_langList;
+  QPushButton *m_updateButton;
+  QLabel* m_updateLabel;
   
 private slots:
   void updateSlot();
@@ -58,25 +57,25 @@ private slots:
 
 
 //################ SettingsDialog ##############################################
-class SettingsDialog : public TsettingsDialogBase
+class TsettingsDialog : public TsettingsDialogBase
 {
     Q_OBJECT
 public:
-    explicit SettingsDialog(QWidget *parent = 0);
+    explicit TsettingsDialog(QWidget *parent = 0);
 
 public slots:
     void saveSettings();
 
 private:
 
-    GlobalSettings    *m_globalSett;
-    TscoreSettings     *m_scoreSett;
-    NameSettings      *m_nameSett;
-    TguitarSettings    *m_guitarSett;
-    ExamSettings      *m_examSett;
-    AudioOutSettings  *m_sndOutSett;
-    AudioInSettings   *m_sndInSett;
-    QCheckBox         *m_jackChBox;
+    TglobalSettings    	*m_globalSett;
+    TscoreSettings    	*m_scoreSett;
+    NameSettings	     	*m_nameSett;
+    TguitarSettings    	*m_guitarSett;
+    ExamSettings      	*m_examSett;
+    AudioOutSettings  	*m_sndOutSett;
+    AudioInSettings   	*m_sndInSett;
+    QCheckBox         	*m_jackChBox;
     
 private slots:
     void changeSettingsWidget(int index);

@@ -19,11 +19,10 @@
 #ifndef TFINGERBOARD_H
 #define TFINGERBOARD_H
 
+#include "tnote.h"
+#include "tfingerpos.h"
 #include <QWidget>
 #include <QGraphicsView>
-#include "tnote.h"
-#include "ttune.h"
-#include "tfingerpos.h"
 
 
 class TfingerBoard : public QGraphicsView

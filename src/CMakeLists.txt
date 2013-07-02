@@ -36,7 +36,8 @@ SET( NOOTKA_SRCS
 	music/tnote.cpp
 	music/tclef.cpp
 	music/tkeysignature.cpp
-	music/ttune.cpp	
+	music/ttune.cpp
+	music/tinstrument.h
 ###### guitar
 	guitar/tfingerboard.cpp
 	guitar/tfingerpos.cpp  
@@ -95,7 +96,7 @@ SET( NOOTKA_SRCS
   score/tscorescordature.cpp
   score/tscoreview.cpp  
 ###### Settings
-  settings/settingsdialog.cpp
+  settings/tsettingsdialog.cpp
   settings/tsettingsdialogbase.cpp
   settings/namesettings.cpp
   settings/tnotationradiogroup.cpp
@@ -208,7 +209,7 @@ SET( NOOTKA_MOC_SRCS
 	notename/tnotename.h
 # 	notename/toctavebuttons.h
 ###### Settings
-  settings/settingsdialog.h
+  settings/tsettingsdialog.h
   settings/tsettingsdialogbase.h
   settings/namesettings.h
   settings/tnotationradiogroup.h
