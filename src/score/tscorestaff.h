@@ -125,6 +125,7 @@ public:
 signals:
 		void pianoStaffSwitched(Tclef);
 		void noteChanged(int index);
+		void clefChanged(Tclef);
 		
 public slots:
 				/** It is connected with clef, but also refresh m_offset appropirate to current clef. */

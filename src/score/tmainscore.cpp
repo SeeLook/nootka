@@ -118,8 +118,8 @@ void TmainScore::unLockScore() {
 
 void TmainScore::isExamExecuting(bool isIt) {
 	if (isIt) {
-			disconnect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
-			connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
+			disconnect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
+			connect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
 			m_questMark = new QGraphicsSimpleTextItem();
 			m_questMark->hide();
 		#if defined(Q_OS_MACX)
@@ -139,8 +139,8 @@ void TmainScore::isExamExecuting(bool isIt) {
 			m_questMark->setPos(0, (staff()->boundingRect().height() - m_questMark->boundingRect().height()) / 2 );
 			setClefDisabled(true);
     } else {
-        connect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
-        disconnect(this, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
+        connect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
+        disconnect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
         delete m_questMark;
         m_questMark = 0;
         delete m_questKey;

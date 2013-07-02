@@ -52,6 +52,7 @@ public:
 		
 signals:
 		void selectedClef(Tclef);
+		void statusTipWanted(QString);
 		
 protected:
 				/** Event handler for capturing mouse - it manages hihgtlight */
@@ -79,12 +80,19 @@ public:
 		
 		void selectClef(Tclef clef);
 		
+signals:
+		void statusTipRequired(QString);
+
+		
 protected:
     TradioClef 	*treble, *treble_8, *bass, *bass_8, *tenor, *alto, *piano;
 		
 protected slots:
-		virtual void clefWasSelected(Tclef clef) {};		
+		virtual void clefWasSelected(Tclef clef) {};
+		void onStatusTip(QString tip) { emit statusTipRequired(tip); }
     
+		public slots:
+		
 };
 
 

@@ -59,6 +59,9 @@ signals:
 protected:
 		void mousePressEvent(QGraphicsSceneMouseEvent* event);
 		
+protected slots:
+		void clefMenuStatusTip(QString tip);
+		
 private:
     int getYclefPos(Tclef clef);
     int getClefPosInList(Tclef clef);

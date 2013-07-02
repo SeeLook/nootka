@@ -220,7 +220,7 @@ void TscoreNote::hideNote() {
     m_mainAccid->hide();
     hideLines(m_mainUpLines);
     hideLines(m_mainDownLines);
-    m_mainPosY = 0.0;
+    m_mainPosY = 0;
     m_accidental = 0;
 }
 

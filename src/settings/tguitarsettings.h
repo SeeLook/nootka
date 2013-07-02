@@ -22,6 +22,7 @@
 #include <QWidget>
 #include "tnote.h"
 #include "ttune.h"
+#include <tclef.h>
 
 class TcolorButton;
 class QComboBox;
@@ -43,11 +44,12 @@ public:
 
 private:
     void setTune (Ttune tune);
+		void updateAmbitus();
 
     TsimpleScore    *m_tuneView;
     QCheckBox       *m_righthandCh, *m_morePosCh;
     QRadioButton    *m_prefFlatBut, *m_prefSharpBut;
-    QSpinBox        *m_fretsNrSpin;
+    QSpinBox        *m_fretsNrSpin, *m_stringNrSpin;
     QComboBox       *m_tuneCombo;
     TcolorButton    *m_pointColorBut, *m_selColorBut;
 
@@ -55,6 +57,8 @@ private slots:
     void tuneSelected(int tuneId);
     void userTune(int, Tnote);
 		void switchedToPianoStaff();
+		void onClefChanged(Tclef clef);
+		void stringNrChanged(int strNr);
 };
 
 #endif // TGUITARSETTINGS_H

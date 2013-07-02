@@ -57,6 +57,7 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
   m_staff = new TscoreStaff(m_scene, m_notesNr, TscoreStaff::e_normal);
 	connect(m_staff, SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
 	connect(m_staff, SIGNAL(pianoStaffSwitched(Tclef)), this, SLOT(switchToPianoStaff(Tclef)));
+	connect(m_staff, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
   
 	if (controler) {
 			m_scoreControl = new TscoreControl(this);
@@ -206,6 +207,7 @@ void TsimpleScore::setPianoStaff(bool isPiano) {
 		}
 		connect(m_staff, SIGNAL(pianoStaffSwitched(Tclef)), this, SLOT(switchToPianoStaff(Tclef)));
 		connect(m_staff, SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
+		connect(m_staff, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
 		resizeEvent(0);
 	}
 }
@@ -228,7 +230,11 @@ void TsimpleScore::setScoreDisabled(bool disabled) {
 
 void TsimpleScore::setAmbitus(int index, Tnote lo, Tnote hi) {
 		if (index >= 0 && index < m_notesNr) {
-			
+			int min = staff()->octaveOffset() * 7 + staff()->noteOffset() + staff()->upperLinePos() - 1 - 
+						(lo.octave * 7 + (lo.note - 1) + (int)lo.acidental);
+			int max = staff()->octaveOffset() * 7 + staff()->noteOffset() + staff()->upperLinePos() - 1 - 
+						(hi.octave * 7 + (lo.note - 1) + (int)hi.acidental);
+			staff()->noteSegment(index)->setAmbitus(min, max);
 		}			
 }
 
@@ -238,13 +244,50 @@ void TsimpleScore::setAmbitus(Tnote lo, Tnote hi) {
 			setAmbitus(lo, hi);
 }
 
+/** !!!!All values are hard coded */
+Tnote TsimpleScore::lowestNote() {
+	if (staff()->lower()) // piano staf for sure
+			return Tnote(4, -2);
+	if (staff()->scoreClef()->clef().type() == Tclef::e_treble_G)
+			return Tnote(6, -1);
+	if (staff()->scoreClef()->clef().type() == Tclef::e_treble_G_8down)
+			return Tnote(6, -2);
+	if (staff()->scoreClef()->clef().type() == Tclef::e_bass_F)
+			return Tnote(1, -2);
+	if (staff()->scoreClef()->clef().type() == Tclef::e_bass_F_8down)
+			return Tnote(1, -3);
+	if (staff()->scoreClef()->clef().type() == Tclef::e_alto_C)
+			return Tnote(7, -2);
+	if (staff()->scoreClef()->clef().type() == Tclef::e_tenor_C)
+			return Tnote(5, -2);
+}
+
+
+Tnote TsimpleScore::highestNote() {
+	if (staff()->lower()) // piano staf for sure
+		return Tnote(1, 4);
+	if (staff()->scoreClef()->clef().type() == Tclef::e_treble_G)
+		return Tnote(4, 4);
+	if (staff()->scoreClef()->clef().type() == Tclef::e_treble_G_8down)
+		return Tnote(4, 3);
+	if (staff()->scoreClef()->clef().type() == Tclef::e_bass_F)
+		return Tnote(6, 2);
+	if (staff()->scoreClef()->clef().type() == Tclef::e_bass_F_8down)
+		return Tnote(6, 1);
+	if (staff()->scoreClef()->clef().type() == Tclef::e_alto_C)
+		return Tnote(5, 3);
+	if (staff()->scoreClef()->clef().type() == Tclef::e_tenor_C)
+		return Tnote(3, 3);
+}
+
+
 //##########################################################################################################
 //########################################## PUBLIC SLOTS ##################################################
 //##########################################################################################################
 
 void TsimpleScore::noteWasClicked(int index) {
 	Tnote note = *(m_staff->getNote(index));
-	emit noteHasChanged(index, note);
+	emit noteWasChanged(index, note);
 }
 
 
@@ -309,6 +352,15 @@ void TsimpleScore::setBGcolor(QColor bgColor) {
 	m_score->setStyleSheet(QString("border: 1px solid palette(Text); border-radius: 10px; background-color: rgba(%1, %2, %3, 220)")
 		.arg(bgColor.red()).arg(bgColor.green()).arg(bgColor.blue()) );
 }
+
+
+void TsimpleScore::onClefChanged(Tclef clef) {
+	if (isPianoStaff())
+		emit clefChanged(Tclef(Tclef::e_pianoStaff));
+	else
+		emit clefChanged(staff()->scoreClef()->clef());
+}
+
 
 
 //##########################################################################################################
