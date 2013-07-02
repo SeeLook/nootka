@@ -83,15 +83,19 @@ public:
         /** Sets the lowest and the highest note for @p index of note segment .*/
     void setAmbitus(int index, Tnote lo, Tnote hi);
 		
+		Tnote lowestNote(); // Returns lowest possible note on the staff in current clef
+		Tnote highestNote(); // Returns highest possible note on the staff in current clef
+		
 		
 signals:
 				/** As long as QGraphicsScene items haven't got status tips TscoreItems has its own mechanism of tips.
 				 * This signal is emited when any TscoreScene element gots hoverEnterEvent 
 				 * with status tip to display. */
     void statusTip(QString);
-		void noteHasChanged(int index, Tnote note); // TODO change this name - clamsy english
+		void noteWasChanged(int index, Tnote note);
 				/** TsimpleScore takes care about changing staves but also emits this signal when changes are done.*/
 		void pianoStaffSwitched();
+		void clefChanged(Tclef);
 		
 public slots:
 		void noteWasClicked(int index);
@@ -117,6 +121,7 @@ protected slots:
     void resizeEvent(QResizeEvent* event);
 				/** This is response for user demand to change to or from piano staff. */
 		void switchToPianoStaff(Tclef clef);
+		void onClefChanged(Tclef clef);
   
 private:
     TscoreScene     *m_scene;

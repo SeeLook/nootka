@@ -84,6 +84,14 @@ TselectClefPrivate::TselectClefPrivate(bool isMenu, QWidget* parent) :
 	connect(alto, SIGNAL(selectedClef(Tclef)), this, SLOT(clefWasSelected(Tclef)));
 	connect(tenor, SIGNAL(selectedClef(Tclef)), this, SLOT(clefWasSelected(Tclef)));
 	connect(piano, SIGNAL(selectedClef(Tclef)), this, SLOT(clefWasSelected(Tclef)));
+	
+	connect(treble, SIGNAL(statusTipWanted(QString)), this, SLOT(onStatusTip(QString)));
+	connect(treble_8, SIGNAL(statusTipWanted(QString)), this, SLOT(onStatusTip(QString)));
+	connect(bass, SIGNAL(statusTipWanted(QString)), this, SLOT(onStatusTip(QString)));
+	connect(bass_8, SIGNAL(statusTipWanted(QString)), this, SLOT(onStatusTip(QString)));
+	connect(alto, SIGNAL(statusTipWanted(QString)), this, SLOT(onStatusTip(QString)));
+	connect(tenor, SIGNAL(statusTipWanted(QString)), this, SLOT(onStatusTip(QString)));
+	connect(piano, SIGNAL(statusTipWanted(QString)), this, SLOT(onStatusTip(QString)));
 }
 
 
@@ -123,7 +131,7 @@ TradioClef::TradioClef(Tclef clef, QWidget* parent, bool isMenu) :
 		QLabel *pixLabel = new QLabel(TtipChart::wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0, 3.5), this);
     lay->addWidget(pixLabel);
     if (isMenu) {
-        QLabel *textLabel = new QLabel(m_clef.name(), this);
+        QLabel *textLabel = new QLabel(m_clef.name().replace(" ", "<br>"), this);
         lay->addWidget(textLabel);
     }
 		lay->addStretch();
@@ -153,11 +161,14 @@ bool TradioClef::event(QEvent* event) {
     if (event->type() == QEvent::Leave) {
         m_hasMouseOver = false;
 				update();
+				emit statusTipWanted("");
 		} else if (event->type() == QEvent::Enter) {
 				m_hasMouseOver = true;
 				update();
+				emit statusTipWanted(statusTip());
 		}	else if (event->type() == QEvent::MouseButtonPress)
 				clefClickedSlot();
+		
     return QWidget::event(event);
 }
 

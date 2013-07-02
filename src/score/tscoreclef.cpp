@@ -112,9 +112,13 @@ void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 			TscoreItem::mousePressEvent(event);
 		} else {
 			if (!m_clefMenu) {
-					QMenu *menu = new QMenu(scoreScene()->views()[0]->parentWidget());
+					QMenu *menu = new QMenu(scoreScene()->views()[0]->parentWidget()->parentWidget());
 					m_clefMenu = new TclefMenu(menu);
-					m_clefMenu->selectClef(m_clef);
+					Tclef curClef = m_clef;
+					if (staff()->lower())
+						curClef = Tclef(Tclef::e_pianoStaff);
+					m_clefMenu->selectClef(curClef);
+					connect(m_clefMenu, SIGNAL(statusTipRequired(QString)), this, SLOT(clefMenuStatusTip(QString)));
 					Tclef cl = m_clefMenu->exec(event->screenPos());
 					delete m_clefMenu;
 					m_clefMenu = 0;
@@ -138,6 +142,12 @@ void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 				}
 			}
 }
+
+
+void TscoreClef::clefMenuStatusTip(QString tip) {
+		emit statusTip(tip);
+}
+
 
 //##########################################################################################################
 //########################################## PRIVATE     ###################################################

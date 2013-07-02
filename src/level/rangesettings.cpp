@@ -96,7 +96,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
 
     setLayout(mainLay);
 
-    connect (m_scoreRang, SIGNAL(noteHasChanged(int,Tnote)), this, SLOT(whenParamsChanged()));
+    connect (m_scoreRang, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenParamsChanged()));
     connect (m_fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
     connect (m_toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
 }

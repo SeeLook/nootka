@@ -249,9 +249,12 @@ void TscoreStaff::onClefChanged( ) {
 			for (int i = 0; i < m_scoreNotes.size(); i++) {
 				if (m_scoreNotes[i]->notePos()) {
 						m_scoreNotes[i]->moveNote(m_scoreNotes[i]->notePos() + m_scoreNotes[i]->ottava() * 7 - (globalNr - newNr));
-				}
+						if (m_scoreNotes[i]->notePos() == 0) // reset Tnote list to 0 when new note is not on the staff
+							*(m_notes[i]) = Tnote(0, 0, 0);
+				} 
 			}
 	}
+	emit clefChanged(scoreClef()->clef());
 }
 
 
