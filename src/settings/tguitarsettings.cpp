@@ -65,8 +65,14 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     upLay->addWidget(tuneGr);
 
     QVBoxLayout *hfLay = new QVBoxLayout;
-    QGroupBox *hfGr = new QGroupBox;
-    hfLay->addStretch(1);
+    QGroupBox *hfGr = new QGroupBox(tr("Guitar:"), this);
+	// Selecting guitar type combo
+		m_instrumentTypeCombo = new QComboBox(this);
+		hfLay->addWidget(m_instrumentTypeCombo, 0, Qt::AlignCenter);
+		m_instrumentTypeCombo->addItem(tr("classical guitar"));
+		m_instrumentTypeCombo->addItem(tr("bass guitar"));
+		m_instrumentTypeCombo->addItem(tr("no guitar"));
+		hfLay->addStretch(1);
 	// Righthanded/lefthanded check box
     m_righthandCh = new QCheckBox(tr("guitar for right-handed"),this);
     m_righthandCh->setChecked(gl->GisRightHanded);
@@ -220,3 +226,11 @@ void TguitarSettings::stringNrChanged(int strNr)
 {
 
 }
+
+
+void TguitarSettings::instrumentTypeChanged() {
+
+}
+
+
+

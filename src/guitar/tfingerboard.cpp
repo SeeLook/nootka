@@ -20,7 +20,7 @@
 #include "tglobals.h"
 #include "ttune.h"
 #include <QtGui>
-//#include <QDebug>
+#include <QDebug>
 
 extern Tglobals *gl;
 
@@ -93,6 +93,9 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     m_rangeBox2 = 0;
     m_highString = 0;
     m_isDisabled = false;
+		
+		setTune();
+		
 }
 
 //################################################################################################
@@ -105,6 +108,7 @@ void TfingerBoard::acceptSettings() {
         m_fingers[i]->setBrush(QBrush(gl->GselectedColor, Qt::SolidPattern));
     }
     m_workFinger->setBrush(QBrush(gl->GfingerColor, Qt::SolidPattern));
+		setTune();
     paint();
     setFinger(m_selNote);
 }
@@ -141,6 +145,7 @@ void TfingerBoard::setFinger(Tnote note) {
     m_selNote = note;
 }
 
+
 void TfingerBoard::setFinger(TfingerPos pos) {
     for(int i=0; i<6; i++) {
         if (i != pos.str()-1) { //hide
@@ -158,33 +163,6 @@ void TfingerBoard::setFinger(TfingerPos pos) {
             }
         }
     }
-}
-
-
-void TfingerBoard::askQuestion(TfingerPos pos) {
-    m_questPos = pos;
-    QColor qC = gl->EquestionColor;
-    qC.setAlpha(200); //it is too much opaque
-    if (pos.fret()) { // some fret
-        if (!m_questFinger) {
-            m_questFinger = new QGraphicsEllipseItem();
-            m_questFinger->setPen(QPen(qC, 2));
-            m_questFinger->setBrush(QBrush(qC, Qt::SolidPattern));
-            m_scene->addItem(m_questFinger);
-            m_questFinger->setZValue(110);
-            m_questFinger->setRect(0,0, m_fretWidth/1.6, qRound(0.7*m_strGap));
-            paintFinger(m_questFinger, pos.str()-1, pos.fret());
-        }
-    } else { // open strring
-        if (!m_questString) {
-            m_questString = new QGraphicsLineItem();
-            m_questString->setPen(QPen(qC, m_strings[pos.str()-1]->pen().width() + 2, Qt::SolidLine));
-            m_scene->addItem(m_questString);
-            m_questString->setZValue(110);
-            m_questString->setLine(m_strings[pos.str()-1]->line());
-        }
-    }
-    paintQuestMark();
 }
 
 
@@ -221,6 +199,89 @@ void TfingerBoard::clearFingerBoard() {
     clearHighLight();
 }
 
+
+void TfingerBoard::setGuitarDisabled(bool disabled) {
+  if (disabled) {
+    setMouseTracking(false);
+    m_isDisabled = true;
+    m_workFinger->hide();
+    for(int i = 0; i<6; i++)
+      m_workStrings[i]->hide();
+  } else {
+    setMouseTracking(true);
+    m_isDisabled = false;
+    if (isCursorOverGuitar()) {
+      m_curStr = 7;
+      m_curFret = 99;
+      paintFingerAtPoint(mapFromGlobal(cursor().pos()));
+    }
+  }
+}
+
+
+void TfingerBoard::clearHighLight() {
+  if (m_highString) {
+      delete m_highString;
+      m_highString = 0;
+  }
+}
+
+int TfingerBoard::posX12fret() {
+     return m_fretsPos[qMin(11, 12 - (19 - gl->GfretsNumber))];
+}
+
+//################################################################################################
+//######################### EXAM RELATED #########################################################
+//################################################################################################
+
+void TfingerBoard::askQuestion(TfingerPos pos) {
+    m_questPos = pos;
+    QColor qC = gl->EquestionColor;
+    qC.setAlpha(200); //it is too much opaque
+    if (pos.fret()) { // some fret
+        if (!m_questFinger) {
+            m_questFinger = new QGraphicsEllipseItem();
+            m_questFinger->setPen(QPen(qC, 2));
+            m_questFinger->setBrush(QBrush(qC, Qt::SolidPattern));
+            m_scene->addItem(m_questFinger);
+            m_questFinger->setZValue(110);
+            m_questFinger->setRect(0,0, m_fretWidth/1.6, qRound(0.7*m_strGap));
+            paintFinger(m_questFinger, pos.str()-1, pos.fret());
+        }
+    } else { // open strring
+        if (!m_questString) {
+            m_questString = new QGraphicsLineItem();
+            m_questString->setPen(QPen(qC, m_strings[pos.str()-1]->pen().width() + 2, Qt::SolidLine));
+            m_scene->addItem(m_questString);
+            m_questString->setZValue(110);
+            m_questString->setLine(m_strings[pos.str()-1]->line());
+        }
+    }
+    paintQuestMark();
+}
+
+
+void TfingerBoard::markAnswer(QColor blurColor) {
+  if (m_curFret != 99) {
+    if (m_curFret) {
+      m_fingers[gl->strOrder(m_curStr)]->setPen(QPen(blurColor, 3));
+      m_fingers[gl->strOrder(m_curStr)]->setGraphicsEffect(new QGraphicsBlurEffect());
+    }
+    else
+      if (m_curStr != 7) {
+        m_strings[gl->strOrder(m_curStr)]->setPen(QPen(blurColor, 5));
+        m_strings[gl->strOrder(m_curStr)]->setGraphicsEffect(new QGraphicsBlurEffect());
+      }
+  }
+}
+
+
+void TfingerBoard::markQuestion(QColor blurColor) {
+    if (m_questFinger)
+      m_questFinger->setPen(QPen(blurColor, 3));
+    if (m_questString)
+      m_questString->setPen(QPen(blurColor, 5));
+}
 
 
 void TfingerBoard::createRangeBox(char loFret, char hiFret) {
@@ -262,24 +323,6 @@ void TfingerBoard::deleteRangeBox() {
     }
 }
 
-void TfingerBoard::setGuitarDisabled(bool disabled) {
-  if (disabled) {
-    setMouseTracking(false);
-    m_isDisabled = true;
-    m_workFinger->hide();
-    for(int i = 0; i<6; i++)
-      m_workStrings[i]->hide();
-  } else {
-    setMouseTracking(true);
-    m_isDisabled = false;
-    if (isCursorOverGuitar()) {
-      m_curStr = 7;
-      m_curFret = 99;
-      paintFingerAtPoint(mapFromGlobal(cursor().pos()));
-    }
-  }
-}
-
 
 void TfingerBoard::setHighlitedString(char realStrNr) {
   if (!m_highString) {
@@ -292,44 +335,59 @@ void TfingerBoard::setHighlitedString(char realStrNr) {
   m_highString->setLine(m_strings[realStrNr-1]->line());
 }
 
-void TfingerBoard::clearHighLight() {
-  if (m_highString) {
-      delete m_highString;
-      m_highString = 0;
-  }
-}
-
-int TfingerBoard::posX12fret() {
-     return m_fretsPos[qMin(11, 12 - (19 - gl->GfretsNumber))];
-}
-
-
-void TfingerBoard::markAnswer(QColor blurColor) {
-  if (m_curFret != 99) {
-    if (m_curFret) {
-      m_fingers[gl->strOrder(m_curStr)]->setPen(QPen(blurColor, 3));
-      m_fingers[gl->strOrder(m_curStr)]->setGraphicsEffect(new QGraphicsBlurEffect());
-    }
-    else
-      if (m_curStr != 7) {
-        m_strings[gl->strOrder(m_curStr)]->setPen(QPen(blurColor, 5));
-        m_strings[gl->strOrder(m_curStr)]->setGraphicsEffect(new QGraphicsBlurEffect());
-      }
-  }
-}
-
-
-void TfingerBoard::markQuestion(QColor blurColor) {
-    if (m_questFinger)
-      m_questFinger->setPen(QPen(blurColor, 3));
-    if (m_questString)
-      m_questString->setPen(QPen(blurColor, 5));
-}
-
-
 //################################################################################################
-//################################################   PROTECTED ###################################
+//################################################ PROTECTED #####################################
 //################################################################################################
+
+void TfingerBoard::setTune() {
+	for (int i = 0; i < gl->Gtune()->stringNr(); i++) {
+		if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > 14) { // highest than cis1
+			m_strColors[i] = QColor(255, 255, 255, 175); // are nylon
+			m_widthFromPitch[i] = 1; // and thiner
+		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > 10) { // highest than gis
+				m_strColors[i] = QColor(255, 255, 255, 175); // are nylon
+				m_widthFromPitch[i] = 2; // and more thick
+		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > 4) { // highest than dis
+				m_strColors[i] = QColor(255, 255, 255, 125); // are nylon
+				m_widthFromPitch[i] = 2.5; // and more thick
+		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > 0) { // highest than b-1(contra)
+				m_strColors[i] = QColor("#C29432"); // are gold-plated
+				m_widthFromPitch[i] = 2; // and more thick
+		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > -5) { // highest than g-1(contra) 1-st string of bass
+				m_strColors[i] = QColor("#C29432"); // are gold-plated
+				m_widthFromPitch[i] = 2.5; // and more thick
+		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > -10) { // highest than d-1(contra)
+				m_strColors[i] = QColor("#C29432"); // are gold-plated
+				m_widthFromPitch[i] = 3; // and more thick
+		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > -15) { // highest than gis-2(subcontra)
+				m_strColors[i] = QColor("#C29432"); // are gold-plated
+				m_widthFromPitch[i] = 3.5; // and more thick
+		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > -20) { // highest than dis-1(contra)
+				m_strColors[i] = QColor("#C29432"); // are gold-plated
+				m_widthFromPitch[i] = 4; // and more thick
+		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > -25) { // highest than
+				m_strColors[i] = QColor("#C29432"); // are gold-plated
+				m_widthFromPitch[i] = 4.5; // and more thick
+		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > -30) { // highest than
+				m_strColors[i] = QColor("#C29432"); // are gold-plated
+				m_widthFromPitch[i] = 5; // and more thick
+		}
+// 		qDebug() << gl->Gtune()->str(i +1).toText() << (int)gl->Gtune()->str(i +1).getChromaticNrOfNote() << m_widthFromPitch[i];
+	}
+// 		m_strColors[0] = QColor(255, 255, 255, 175);
+// 		m_strColors[1] = QColor(255, 255, 255, 175);
+// 		m_strColors[2] = QColor(255, 255, 255, 125);
+// 		m_strColors[3] = QColor("#C29432");
+// 		m_strColors[4] = QColor("#C29432");
+// 		m_strColors[5] = QColor("#C29432");
+// 		m_widthFromPitch[0] = 1;
+//     m_widthFromPitch[1] = 2;
+//     m_widthFromPitch[2] = 2.5;
+//     m_widthFromPitch[3] = 2;
+//     m_widthFromPitch[4] = 2.5;
+//     m_widthFromPitch[5] = 3;
+
+}
 
 
 void TfingerBoard::paint() {
@@ -402,28 +460,13 @@ void TfingerBoard::paint() {
     QFont strFont = font();
     strFont.setPixelSize((int)qRound(0.75*m_strGap));//setting font for digits
     painter.setFont(strFont);
-    QColor strColor;
     painter.setBrush(QBrush(Qt::NoBrush));
     for (int i = 0; i < 6; i++) {
-        if (i < 2) {
-            strColor = Qt::white;
-            strColor.setAlpha(175);
-        } else
-            if (i==2) {
-                strColor = Qt::white;
-                strColor.setAlpha(125);
-            } else
-                if ( (i==3) || (i==4) ) {
-                    strColor = QColor("#C29432"); //#C29432 gold color for bass strings
-                    strColor.setAlpha(255);
-                } else {
-                    strColor = QColor("#C29432");
-                }
 //     drawing main strings
         QLinearGradient strGrad(1.0, m_fbRect.y() + m_strGap / 2 + i * m_strGap - m_strWidth[i] / 2,
                          1.0, m_fbRect.y() + m_strGap / 2 + i * m_strGap + m_strWidth[i] / 2);
-        strGrad.setColorAt(0.0, strColor);
-        strGrad.setColorAt(0.5, strColor.darker());
+        strGrad.setColorAt(0.0, m_strColors[i]);
+        strGrad.setColorAt(0.5, m_strColors[i].darker());
         painter.setPen(QPen(QBrush(strGrad), m_strWidth[i], Qt::SolidLine));
         painter.drawLine(1, m_fbRect.y() + m_strGap / 2 + i * m_strGap,
                          width() - 1 - m_strGap, m_fbRect.y() + m_strGap / 2 + i * m_strGap);
@@ -433,7 +476,7 @@ void TfingerBoard::paint() {
         m_strings[i]->setPen(QPen(gl->GselectedColor, m_strWidth[i], Qt::SolidLine));
         m_strings[i]->setLine(m_workStrings[i]->line());
   // drawing digits of strings in circles
-        painter.setPen(QPen(strColor, 1, Qt::SolidLine));
+        painter.setPen(QPen(m_strColors[i], 1, Qt::SolidLine));
         painter.setBrush(QBrush(QColor(100, 100, 100, 200)));
         int wd40;
         if (!gl->GisRightHanded) {
@@ -496,12 +539,12 @@ Tnote TfingerBoard::posToNote(int str, int fret) {
 void TfingerBoard::resizeEvent(QResizeEvent *){
     m_scene->setSceneRect(0, 0, width(), height());
     qreal wFactor = height() / 150.0;
-    m_strWidth[0] = 1 * wFactor;
-    m_strWidth[1] = 2 * wFactor;
-    m_strWidth[2] = 2.5 * wFactor;
-    m_strWidth[3] = 2 * wFactor;
-    m_strWidth[4] = 2.5 * wFactor;
-    m_strWidth[5] = 3 * wFactor;
+    m_strWidth[0] = m_widthFromPitch[0] * wFactor;
+    m_strWidth[1] = m_widthFromPitch[1] * wFactor;
+    m_strWidth[2] = m_widthFromPitch[2] * wFactor;
+    m_strWidth[3] = m_widthFromPitch[3] * wFactor;
+    m_strWidth[4] = m_widthFromPitch[4] * wFactor;
+    m_strWidth[5] = m_widthFromPitch[5] * wFactor;
     paint();
 }
 

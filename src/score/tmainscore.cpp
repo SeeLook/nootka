@@ -76,8 +76,8 @@ void TmainScore::setEnableEnharmNotes(bool isEnabled) {
 
 void TmainScore::acceptSettings() {
 	setEnabledDblAccid(gl->doubleAccidentalsEnabled);
-	setScordature();
 	setEnableKeySign(gl->SkeySignatureEnabled);
+	setScordature();
 	if (!gl->doubleAccidentalsEnabled)
 		clearNote(2);
 	staff()->noteSegment(0)->setPointedColor(gl->SpointerColor);

@@ -73,16 +73,20 @@ void TscoreScordature::setTune(Ttune& tune) {
     m_scordText->setParentItem(this);
 		m_scordText->setHtml(scordText);		
 		qreal xPos = 1.0, extraW = 0.0;
-		qreal yPos = staff()->upperLinePos() + 11.5;
+		qreal yPos = staff()->upperLinePos() + 12;
 		if (staff()->kindOfStaff() == TscoreStaff::e_lower) {
 			// This is in case of scordature on piano staff - it needs more space to look well
 			xPos = -1.0;
 			extraW = 2.0;
 			yPos = staff()->upperLinePos() + 7.5;
 		}
-		qreal factor = (CLEF_WIDTH + KEY_WIDTH / 2 + extraW) / m_scordText->boundingRect().width();
+		if (staff()->scoreKey())
+				extraW += KEY_WIDTH;
+		else
+				extraW += KEY_WIDTH / 2;
+		qreal factor = (CLEF_WIDTH + extraW) / m_scordText->boundingRect().width();
 		setScale(factor);
-		m_height = staff()->height() - yPos;
+		m_height = staff()->height() - yPos - 1;
 // 		qDebug() << m_height << m_scordText->boundingRect().height() * scale();
 		if (m_scordText->boundingRect().height() * scale() > m_height)
 			setScale(factor * (m_height / (m_scordText->boundingRect().height() * scale())));

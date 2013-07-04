@@ -75,6 +75,8 @@ protected:
     
     void paint();
     Tnote posToNote(int str, int fret);
+				/** Determines string width by its note pitch.  */
+		void setTune();
 
 private:
         /** Represents top left positions and size of fingerboard */
@@ -93,6 +95,9 @@ private:
     short m_fretsPos[24];
         /** Array of width each string. Width depends on fretboard height. */
     qreal m_strWidth[6];
+				/** Base values from which m_strWidth is calculated determined from tune. */
+		qreal m_widthFromPitch[6];
+		QColor m_strColors[6];
 
     QGraphicsScene *m_scene;
     QGraphicsEllipseItem *m_workFinger, *m_fingers[6], *m_questFinger;
@@ -111,7 +116,7 @@ private:
     int m_hilightedStrNr;
     bool m_isCursorOverGuitar;
 
-
+private:
     void paintFinger(QGraphicsEllipseItem *f, char strNr, char fretNr);
     void paintQuestMark();
     void resizeRangeBox();
