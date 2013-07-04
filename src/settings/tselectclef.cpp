@@ -136,7 +136,19 @@ TradioClef::TradioClef(Tclef clef, QWidget* parent, bool isMenu) :
     }
 		lay->addStretch();
 		setLayout(lay);
-		setStatusTip("<b>" + m_clef.name() + "</b>  (" + m_clef.desc() + ")");
+    QString clefUsage = "";
+    switch (clef.type()) {
+      case Tclef::e_treble_G:
+        clefUsage = tr("Common used clef (for violin, flute, saxophones, etc.)");
+        break;
+      case Tclef::e_treble_G_8down:
+        clefUsage = tr("Clef for guitars (classical, electric and so)");
+        break;
+      case Tclef::e_bass_F:
+        clefUsage = tr(" Bottom clef in the grand stave also for celo, trombone, etc.");
+        break;
+    }
+		setStatusTip("<b>" + m_clef.name() + "</b>  (" + m_clef.desc() + ")<br>" + clefUsage);
 		m_radio->setStatusTip(statusTip());
 		pixLabel->setStatusTip(statusTip());
     connect(m_radio, SIGNAL(pressed()), this, SLOT(clefClickedSlot()));
@@ -176,10 +188,10 @@ bool TradioClef::event(QEvent* event) {
 void TradioClef::paintEvent(QPaintEvent* event) {
 	if (m_hasMouseOver) {
 		QPainter painter(this);
-		QLinearGradient lg(0, 0, width(), height());
+		QLinearGradient lg(width() / 2, 0, width() / 2, height());
 		QColor bg = palette().highlight().color();
 		bg.setAlpha(100);
-		lg.setColorAt(0.0, bg);
+		lg.setColorAt(0.0, bg.darker());
 		lg.setColorAt(0.9, palette().highlight().color());
 		painter.setPen(Qt::NoPen);
 		painter.setBrush(lg);

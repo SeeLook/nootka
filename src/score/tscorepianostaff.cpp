@@ -53,7 +53,7 @@ TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
   brace->setFont(ff);
 	brace->setText(QString(QChar(0xe16c)));
 	qreal distance = lower()->pos().y() + lower()->upperLinePos() + 8 - upperLinePos();
-	qreal fact = (distance + 2.0) / brace->boundingRect().height();
+	qreal fact = (distance + 0.2) / brace->boundingRect().height();
 	brace->setScale(fact);
 	brace->setBrush(qApp->palette().text().color());
 	brace->setPos(-2.0, upperLinePos() + distance / 2 - (brace->boundingRect().height() * brace->scale()) / 2 + 0.4);
