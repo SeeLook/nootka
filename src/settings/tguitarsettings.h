@@ -50,7 +50,7 @@ private:
     QCheckBox       *m_righthandCh, *m_morePosCh;
     QRadioButton    *m_prefFlatBut, *m_prefSharpBut;
     QSpinBox        *m_fretsNrSpin, *m_stringNrSpin;
-    QComboBox       *m_tuneCombo;
+    QComboBox       *m_tuneCombo, *m_instrumentTypeCombo;
     TcolorButton    *m_pointColorBut, *m_selColorBut;
 
 private slots:
@@ -59,6 +59,7 @@ private slots:
 		void switchedToPianoStaff();
 		void onClefChanged(Tclef clef);
 		void stringNrChanged(int strNr);
+		void instrumentTypeChanged();
 };
 
 #endif // TGUITARSETTINGS_H
