@@ -76,7 +76,7 @@ Tglobals::Tglobals() :
 	m_tune(0)
 {
 
-    version = "0.8.77-beta";
+    version = "0.8.90-alpha";
 //    path ; Is declared in main()
 
     qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
@@ -111,7 +111,7 @@ Tglobals::Tglobals() :
         SpointerColor = config->value("pointerColor").value<QColor>(); //-1;
     else 
         SpointerColor = -1;
-				Sclef = Tclef::Etype(config->value("clef", (int)Tclef::e_treble_G).toInt());
+				Sclef = Tclef::Etype(config->value("clef", (int)Tclef::e_treble_G_8down).toInt());
     config->endGroup();
 
 

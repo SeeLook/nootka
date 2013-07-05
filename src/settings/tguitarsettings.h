@@ -59,7 +59,7 @@ private slots:
 		void switchedToPianoStaff();
 		void onClefChanged(Tclef clef);
 		void stringNrChanged(int strNr);
-		void instrumentTypeChanged();
+		void instrumentTypeChanged(int index);
 };
 
 #endif // TGUITARSETTINGS_H
