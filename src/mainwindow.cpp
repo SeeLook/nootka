@@ -94,6 +94,7 @@ MainWindow::MainWindow(QWidget *parent)
         }
         gl->config->endGroup();
     }
+    
     TkeySignature::setNameStyle(gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
 
     sound = new Tsound(this);
