@@ -91,7 +91,12 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
 		mainLay->addLayout(colLay);
 		
 		m_clefSelector = new TselectClef(this);
-		mainLay->addWidget(m_clefSelector, 0, Qt::AlignCenter);
+		QGroupBox *clefBox = new QGroupBox(this);
+		QHBoxLayout* clefLay = new QHBoxLayout;
+		clefLay->addWidget(m_clefSelector, 0, Qt::AlignCenter);
+		clefBox->setLayout(clefLay);
+		mainLay->addWidget(clefBox);
+		m_clefSelector->selectClef(gl->Sclef);
 		
 
     setLayout(mainLay);

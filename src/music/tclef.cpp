@@ -41,7 +41,7 @@ QString Tclef::name() {
     case e_tenor_C:
       return QApplication::translate("Tclef", "tenor");
 	case e_pianoStaff:
-      return QApplication::translate("Tclef", "piano staff");
+      return QApplication::translate("Tclef", "grand staff");
   }
   return "";
 }

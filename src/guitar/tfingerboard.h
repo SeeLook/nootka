@@ -24,6 +24,7 @@
 #include <QWidget>
 #include <QGraphicsView>
 
+class TgraphicsTextTip;
 
 class TfingerBoard : public QGraphicsView
 {
@@ -75,11 +76,11 @@ protected:
     
     void paint();
     Tnote posToNote(int str, int fret);
-				/** Determines string width by its note pitch.  */
+				/** Determines string width by its note pitch. Sets loNote & hiNote */
 		void setTune();
 
 private:
-        /** Represents top left positions and size of fingerboard */
+        /** Represents top left positions and size of a fingerboard */
     QRect m_fbRect;
         /** Distance between strings */
     short m_strGap;
@@ -89,6 +90,8 @@ private:
     short lastFret;
         /** Actual position of cursor over the guitar in strings/frets coordinates */
     short m_curStr, m_curFret;
+				/** Chromatic numbers of lowest note in tune and highest. */
+		short m_loNote, m_hiNote;
         /** It keeps position of selected fingerprint.*/
     TfingerPos m_fingerPos;
         /** @param fretsPos  stores X positions of frets in global widget coordinates */
@@ -104,6 +107,8 @@ private:
     int m_strNr, m_fretNr;
     QGraphicsLineItem *m_workStrings[6], *m_strings[6], *m_questString, *m_highString;
     QGraphicsSimpleTextItem *m_questMark;
+				/** Tip about a note is imposible to show with current tune. */
+		TgraphicsTextTip *m_beyondTip;
         /** Keeps selected note*/
     Tnote m_selNote;
         /** Position from a question - is needed to calculate size of questioned finger
@@ -121,6 +126,7 @@ private:
     void paintQuestMark();
     void resizeRangeBox();
     void paintFingerAtPoint(QPoint p);
+		void deleteBeyondTip();
 
 
 };

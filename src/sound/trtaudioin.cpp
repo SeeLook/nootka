@@ -225,7 +225,8 @@ void TaudioIN::setIsVoice(bool isV) {
  * This 46 and 48 are its sign. 
  * Normaly 47 is offset of midi note to Nootka Tnote. */
 void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
-  m_pitch->setAmbitus(loNote.getChromaticNrOfNote()+46, hiNote.getChromaticNrOfNote()+48);
+  m_pitch->setAmbitus(loNote.getChromaticNrOfNote() + 46, hiNote.getChromaticNrOfNote() + 48);
+// 	qDebug() << loNote.getChromaticNrOfNote() + 46 << hiNote.getChromaticNrOfNote() + 48;
 }
 
 
@@ -245,8 +246,9 @@ void TaudioIN::pitchInChunkSlot(float pitch) {
 void TaudioIN::pitchFreqFound(float pitch, float freq) {
   if (!m_paused) {
 //       qDebug() << QString::fromStdString(Tnote(qRound(pitch - m_params->a440diff)-47).getName());
-       emit noteDetected(Tnote(qRound(pitch - audioParams->a440diff) - 47));
-       emit fundamentalFreq(freq);
+			if (pitch >= m_pitch->aGl()->loPitch && pitch <= m_pitch->aGl()->topPitch)
+					emit noteDetected(Tnote(qRound(pitch - audioParams->a440diff) - 47));
+			emit fundamentalFreq(freq);
   }
 }
 

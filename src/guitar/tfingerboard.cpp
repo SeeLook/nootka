@@ -19,6 +19,7 @@
 #include "tfingerboard.h"
 #include "tglobals.h"
 #include "ttune.h"
+#include <tgraphicstexttip.h>
 #include <QtGui>
 #include <QDebug>
 
@@ -93,6 +94,7 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     m_rangeBox2 = 0;
     m_highString = 0;
     m_isDisabled = false;
+		m_beyondTip = 0;
 		
 		setTune();
 		
@@ -116,10 +118,12 @@ void TfingerBoard::acceptSettings() {
 
 void TfingerBoard::setFinger(Tnote note) {
     if (note.note) {
+			short noteNr = note.getChromaticNrOfNote();
         bool doShow = true;
-        for(int i = 0; i < 6; i++) { // looking for pos to show
-            int diff = note.getChromaticNrOfNote() - gl->Gtune()->str(gl->strOrder(i) + 1).getChromaticNrOfNote();
+        for(int i = 0; i < gl->Gtune()->stringNr(); i++) { // looking for pos to show
+            int diff = noteNr - gl->Gtune()->str(gl->strOrder(i) + 1).getChromaticNrOfNote();
             if ( doShow && diff >= 0 && diff <= gl->GfretsNumber) { // found
+								deleteBeyondTip();
                 if (diff == 0) { // open string
                     m_fingers[gl->strOrder(i)]->hide();
                     m_strings[gl->strOrder(i)]->show();
@@ -136,8 +140,18 @@ void TfingerBoard::setFinger(Tnote note) {
                 m_strings[gl->strOrder(i)]->hide();
             }
         }
-    } else {
-        for (int i=0; i<6; i++) {
+				if (noteNr < m_loNote || noteNr > m_hiNote) { // note beyond guitar scale
+					if	 (!m_beyondTip) {
+						m_beyondTip = new TgraphicsTextTip(QString("<span style=\"font-size: %1px; color: %2;\"><br><b> ").
+														arg(height() / 7).arg(gl->EquestionColor.name()) +
+														tr("The note is beyond a scale of the guitar") + " </b></span><br>", palette().text().color());
+						m_scene->addItem(m_beyondTip);
+						m_beyondTip->setPos((m_scene->width() - m_beyondTip->boundingRect().width()) / 2,
+												(m_scene->height() - m_beyondTip->boundingRect().height()) / 2);
+				}
+			}
+    } else { // hide highlighted fingers/string if no note
+        for (int i = 0; i < gl->Gtune()->stringNr(); i++) {
             m_fingers[i]->hide();
             m_strings[i]->hide();
         }
@@ -197,6 +211,7 @@ void TfingerBoard::clearFingerBoard() {
         m_rangeBox2->hide();
     setFinger(Tnote(0,0,0));
     clearHighLight();
+		deleteBeyondTip();
 }
 
 
@@ -374,6 +389,8 @@ void TfingerBoard::setTune() {
 		}
 // 		qDebug() << gl->Gtune()->str(i +1).toText() << (int)gl->Gtune()->str(i +1).getChromaticNrOfNote() << m_widthFromPitch[i];
 	}
+	m_loNote = gl->loString().getChromaticNrOfNote();
+	m_hiNote = gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber;
 // 		m_strColors[0] = QColor(255, 255, 255, 175);
 // 		m_strColors[1] = QColor(255, 255, 255, 175);
 // 		m_strColors[2] = QColor(255, 255, 255, 125);
@@ -711,5 +728,9 @@ void TfingerBoard::paintFingerAtPoint(QPoint p) {
 }
 
 
+void TfingerBoard::deleteBeyondTip() {
+		delete m_beyondTip;
+		m_beyondTip = 0;
+}
 
 

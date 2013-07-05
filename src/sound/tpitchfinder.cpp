@@ -196,6 +196,7 @@ void TpitchFinder::run() {
                   if (data->noteIndex != m_prevNoteIndex) {
                       m_prevNoteIndex = data->noteIndex;
 //                       qDebug() << data->noteIndex << data->pitch << curNote->noteLength() << curNote->volume();
+// 											qDebug() << curNote->avgPitch() << aGl()->loPitch << aGl()->topPitch;
                       emit found(/*data->pitch*/curNote->avgPitch(), data->fundamentalFreq);
                   }
                   emit pichInChunk(curNote->avgPitch());

@@ -142,7 +142,6 @@ TnoteName::TnoteName(QWidget *parent) :
 // OCTAVE BUTTONS TOOLBAR
     QHBoxLayout * octLayRow1 = new QHBoxLayout;
 		QHBoxLayout * octLayRow2 = new QHBoxLayout;
-// 		octLayRow1->addSpacing(15);
     octLayRow1->addStretch(3);
 		octLayRow2->addStretch(1);
     octaveGroup = new QButtonGroup(this);
@@ -159,9 +158,8 @@ TnoteName::TnoteName(QWidget *parent) :
 				}
         octaveGroup->addButton(octaveButtons[i], i);
     }
-    octLayRow1->addStretch(3);
-// 		octLayRow1->addSpacing(15);
-		octLayRow2->addStretch(1);
+    octLayRow1->addStretch(1);
+		octLayRow2->addStretch(3);
     mainLay->addLayout(octLayRow1);
 		mainLay->addLayout(octLayRow2);
     m_prevOctButton = -1;
@@ -390,8 +388,6 @@ void TnoteName::uncheckAllButtons() {
 
 void TnoteName::setNameText() {
     if (m_notes[0].note) {
-//         if (m_notes[0].getChromaticNrOfNote() >= m_ambitMin &&
-//             m_notes[0].getChromaticNrOfNote() <= m_ambitMax) {
         QString txt = noteToRichText(m_notes[0]);
         if (m_notes[1].note) {
             txt = txt + QString("  <span style=\"font-size: %1px; color: %2\">(").arg(nameLabel->font().pointSize()-2).arg(gl->enharmNotesColor.name()) + noteToRichText(m_notes[1]);
@@ -400,10 +396,6 @@ void TnoteName::setNameText() {
             txt = txt + ")</span>";
         }
         nameLabel->setText(txt);
-//       } else {
-//           nameLabel->setText("<span style=\"font-size: 16px; color: #ff0000;\"><b>" +
-//                              tr("The note is beyond<br>scale of the guitar") + "</b></span>");
-//       }
     } else 
 				nameLabel->setText("");;
 }
