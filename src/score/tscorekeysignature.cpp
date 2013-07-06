@@ -82,7 +82,7 @@ void TscoreKeySignature::setKeySignature(char keySign) {
         }
         if (i <= qAbs(keySign)) {// show accid
             m_accidentals[i - 1]->setText(TscoreNote::getAccid(sign));
-            m_accidentals[i - 1]->setPos( (i - 1) * 1.1, getPosOfAccid(i - 1, isFlat) - 3.4);
+            m_accidentals[i - 1]->setPos( (i - 1) * 1.3, getPosOfAccid(i - 1, isFlat) - 3.4);
             staff()->accidInKeyArray[(startVal + sign * (i * 4)) % 7] = sign;
             m_accidentals[i-1]->show();
         }
