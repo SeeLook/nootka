@@ -23,6 +23,7 @@
 #include "tnote.h"
 #include "tclef.h"
 
+class QGroupBox;
 class Ttune;
 class TcolorButton;
 class QComboBox;
@@ -45,6 +46,7 @@ public:
 private:
     void setTune (Ttune *tune);
 		void updateAmbitus();
+		void guitarDisabled(bool disabled);
 
     TsimpleScore    *m_tuneView;
     QCheckBox       *m_righthandCh, *m_morePosCh;
@@ -52,6 +54,7 @@ private:
     QSpinBox        *m_fretsNrSpin, *m_stringNrSpin;
     QComboBox       *m_tuneCombo, *m_instrumentTypeCombo;
     TcolorButton    *m_pointColorBut, *m_selColorBut;
+		QGroupBox 			*m_tuneGroup, *m_guitarGroup, *m_accidGroup;
 
 private slots:
     void tuneSelected(int tuneId);

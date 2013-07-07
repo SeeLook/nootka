@@ -50,9 +50,9 @@ void TscoreScordature::setTune(Ttune& tune) {
     }
     QString scordText = "";
     int c = 0;
-    for (int i = 1; i < 7; i++) {
+    for (int i = 1; i <= tune.stringNr(); i++) {
         if ( tune[i] != Ttune::stdTune[i]) {
-          if (c) { // string  changed first was already writen
+          if (c) { // string changed first was already writen
               if (nL > 3) { 
                 if (c % 2 == 0) // add line break to second entry in a row
                   scordText += "<br>";
