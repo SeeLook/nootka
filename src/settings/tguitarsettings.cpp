@@ -35,8 +35,8 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     mainLay->setAlignment(Qt::AlignCenter);
 
     QHBoxLayout *upLay = new QHBoxLayout;
-    QGroupBox *tuneGr = new QGroupBox(tr("tune of the guitar"));
-    tuneGr->setStatusTip(tr("Select appropirate tune from the list or prepare your own.") + "<br>" + 
+    m_tuneGroup = new QGroupBox(tr("tune of the guitar"));
+    m_tuneGroup->setStatusTip(tr("Select appropirate tune from the list or prepare your own.") + "<br>" + 
 				tr("Remember to select appropirate clef in Score settings."));
     QVBoxLayout *tuneLay = new QVBoxLayout;
     tuneLay->setAlignment(Qt::AlignCenter);
@@ -48,52 +48,55 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     m_tuneView->setClef(gl->Sclef); 
     m_tuneView->setNoteDisabled(6, true); // 7-th is dummy to get more space
    
-    tuneGr->setLayout(tuneLay);
-    upLay->addWidget(tuneGr);
+    m_tuneGroup->setLayout(tuneLay);
+    upLay->addWidget(m_tuneGroup);
 
-    QVBoxLayout *hfLay = new QVBoxLayout;
-    QGroupBox *hfGr = new QGroupBox(tr("Guitar:"), this);
+    QVBoxLayout *guitarLay = new QVBoxLayout;
+    m_guitarGroup = new QGroupBox(tr("Guitar:"), this);
 	// Selecting guitar type combo
 		m_instrumentTypeCombo = new QComboBox(this);
-		hfLay->addWidget(m_instrumentTypeCombo, 0, Qt::AlignCenter);
-		m_instrumentTypeCombo->addItem(tr("classical guitar"));
-		m_instrumentTypeCombo->addItem(tr("bass guitar"));
-		m_instrumentTypeCombo->addItem(tr("no guitar"));
-		hfLay->addStretch(1);
+		guitarLay->addWidget(m_instrumentTypeCombo, 0, Qt::AlignCenter);
+		m_instrumentTypeCombo->addItem(tr("none"));
+		m_instrumentTypeCombo->addItem(tr("Classical Guitar"));
+		m_instrumentTypeCombo->addItem(tr("Electric Guitar"));
+		QModelIndex in = m_instrumentTypeCombo->model()->index(2, 0);
+		QVariant v(0);
+		m_instrumentTypeCombo->model()->setData(in, v, Qt::UserRole - 1);
+		m_instrumentTypeCombo->addItem(tr("Bass Guitar"));
+		guitarLay->addStretch(1);
 	// Righthanded/lefthanded check box
     m_righthandCh = new QCheckBox(tr("guitar for right-handed"),this);
     m_righthandCh->setChecked(gl->GisRightHanded);
     m_righthandCh->setStatusTip(tr("Uncheck this if you are lefthanded<br>and your gitar has changed strings' order"));
-    hfLay->addWidget(m_righthandCh);
-    hfLay->addStretch(1);
+    guitarLay->addWidget(m_righthandCh);
+    guitarLay->addStretch(1);
 	// Number of frets
     QLabel *fretLab = new QLabel(tr("number of frets:"),this);
-    hfLay->addWidget(fretLab);
+    guitarLay->addWidget(fretLab);
     m_fretsNrSpin = new QSpinBox(this);
     m_fretsNrSpin->setValue(gl->GfretsNumber);
     m_fretsNrSpin->setMaximum(24);
     m_fretsNrSpin->setMinimum(15);
-    hfLay->addWidget(m_fretsNrSpin);
-    hfLay->addStretch(1);
+    guitarLay->addWidget(m_fretsNrSpin);
+    guitarLay->addStretch(1);
 	// Number of strings
 		QLabel *stringLab = new QLabel(tr("number of strings:"), this);
-		hfLay->addWidget(stringLab);
+		guitarLay->addWidget(stringLab);
 		m_stringNrSpin = new QSpinBox(this);
-		m_stringNrSpin->setValue(6);
 		m_stringNrSpin->setMaximum(6);
-		m_stringNrSpin->setMinimum(4);
-		hfLay->addWidget(m_stringNrSpin);
-		hfLay->addStretch(1);
+		m_stringNrSpin->setMinimum(3);
+		guitarLay->addWidget(m_stringNrSpin);
+		guitarLay->addStretch(1);
     upLay->addSpacing(3);
-    hfGr->setLayout(hfLay);
-    upLay->addWidget(hfGr);
+    m_guitarGroup->setLayout(guitarLay);
+    upLay->addWidget(m_guitarGroup);
 
     mainLay->addLayout(upLay);
 
     QHBoxLayout *downLay = new QHBoxLayout;
     QVBoxLayout *prefLay = new QVBoxLayout;
-    QGroupBox *prefBox = new QGroupBox(tr("prefered accidentals:"),this);
-    prefBox->setStatusTip(tr("Choose which accidentals will be shown in the score."));
+    m_accidGroup = new QGroupBox(tr("prefered accidentals:"),this);
+    m_accidGroup->setStatusTip(tr("Choose which accidentals will be shown in the score."));
     m_prefSharpBut = new QRadioButton(tr("# - sharps"),this);
     m_prefFlatBut = new  QRadioButton(tr("b - flats"),this);
     QButtonGroup *prefGr = new QButtonGroup(this);
@@ -101,11 +104,11 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     prefGr->addButton(m_prefFlatBut);
     prefLay->addWidget(m_prefSharpBut);
     prefLay->addWidget(m_prefFlatBut);
-    prefBox->setLayout(prefLay);
+    m_accidGroup->setLayout(prefLay);
     if (gl->GpreferFlats) m_prefFlatBut->setChecked(true);
     else
         m_prefSharpBut->setChecked(true);
-    downLay->addWidget(prefBox);
+    downLay->addWidget(m_accidGroup);
 
     m_morePosCh = new QCheckBox(tr("show all possibilities of a note"),this);
     m_morePosCh->setStatusTip(tr("As you know, the same note can be played in few places on a fingerboard.<br>If checked, all of them are showed."));
@@ -133,35 +136,27 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 		connect(m_tuneView, SIGNAL(pianoStaffSwitched()), this, SLOT(switchedToPianoStaff()));
 		connect(m_tuneView, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
 		connect(m_instrumentTypeCombo, SIGNAL(activated(int)), this, SLOT(instrumentTypeChanged(int)));
-		int instrumentIndex = 2; // none
-		switch (gl->instrument) {
-			case e_classicalGuitar:
-				instrumentIndex = 0; break;
-			case e_bassGuitar:
-				instrumentIndex = 1; break;
-			case e_none:
-				instrumentIndex = 2; break;
-		}
+		connect(m_stringNrSpin, SIGNAL(valueChanged(int)), this, SLOT(stringNrChanged(int)));
+		int instrumentIndex = (int)gl->instrument;
 		m_instrumentTypeCombo->setCurrentIndex(instrumentIndex);
 		instrumentTypeChanged(instrumentIndex);
 		setTune(gl->Gtune());
-//     m_tuneCombo->addItem(Ttune::stdTune.name);
-    if (*gl->Gtune() == Ttune::stdTune)
-        m_tuneCombo->setCurrentIndex(0);
-    for (int i = 0; i < 4; i++) {
-//         m_tuneCombo->addItem(Ttune::tunes[i].name);
-			if (instrumentIndex = 0) {
-        if (*gl->Gtune() == Ttune::tunes[i])
-            m_tuneCombo->setCurrentIndex(i + 1);
-			} else if (instrumentIndex = 1) {
-					if (*gl->Gtune() == Ttune::bassTunes[i])
-            m_tuneCombo->setCurrentIndex(i);
-			}
-    }
-    QString S = tr("Custom tune");
-//     m_tuneCombo->addItem(S);
-    if (gl->Gtune()->name == S)
-        m_tuneCombo->setCurrentIndex(m_tuneCombo->count() - 1);
+		if (gl->instrument != e_none) {
+				if (*gl->Gtune() == Ttune::stdTune)
+						m_tuneCombo->setCurrentIndex(0);
+				for (int i = 0; i < 4; i++) {
+					if (gl->instrument == e_classicalGuitar) {
+						if (*gl->Gtune() == Ttune::tunes[i])
+								m_tuneCombo->setCurrentIndex(i + 1);
+					} else if (gl->instrument == e_bassGuitar) {
+							if (*gl->Gtune() == Ttune::bassTunes[i])
+								m_tuneCombo->setCurrentIndex(i);
+					}
+				}
+				QString S = tr("Custom tune");
+				if (gl->Gtune()->name == S)
+						m_tuneCombo->setCurrentIndex(m_tuneCombo->count() - 1);
+		}
     
 }
 
@@ -180,16 +175,7 @@ void TguitarSettings::saveSettings() {
     gl->GfingerColor = m_pointColorBut->getColor();
     gl->GfingerColor.setAlpha(200);
     gl->GselectedColor = m_selColorBut->getColor();
-		Einstrument instr;
-		switch (m_instrumentTypeCombo->currentIndex()) {
-			case 0:
-				instr = e_classicalGuitar; break;
-			case 1:
-				instr = e_bassGuitar; break;
-			case 2:
-				instr = e_none; break;
-		}
-		gl->instrument = instr;
+		gl->instrument = (Einstrument)m_instrumentTypeCombo->currentIndex();
 }
 
 //##########################################################################################################
@@ -198,14 +184,14 @@ void TguitarSettings::saveSettings() {
 
 void TguitarSettings::setTune(Ttune* tune) {
     for (int i = 0; i < 6; i++) {
-			if (i < tune->stringNr()) {
-					m_tuneView->setNote(i, tune->str(tune->stringNr() - i));
-					m_tuneView->setStringNumber(i, tune->stringNr() - i);
-			} else {
-					m_tuneView->setNote(i, Tnote(0, 0, 0)); // emptyfy rest
-// 					m_tuneView->rem
-			}
+				m_tuneView->setNote(i, tune->str(6 - i));
+				m_tuneView->setNoteDisabled(i, (bool)tune->str(6 - i).note);
+				if (tune->str(6 - i).note)
+					m_tuneView->setStringNumber(i, 6 - i);
+				else
+					m_tuneView->clearStringNumber(i);
     }
+    m_stringNrSpin->setValue(tune->stringNr());
 }
 
 
@@ -220,13 +206,13 @@ void TguitarSettings::updateAmbitus() {
 //##########################################################################################################
 
 void TguitarSettings::tuneSelected(int tuneId) {
-	if (m_instrumentTypeCombo == 0) { // classical guitar
+	if (m_instrumentTypeCombo->currentIndex() == 1) { // classical guitar
     if (tuneId == 0)
         setTune(&Ttune::stdTune);
     else 
 			if (tuneId != m_tuneCombo->count() - 1) //the last is custom
 						setTune(&Ttune::tunes[tuneId - 1]);
-	} else { // bass guitar
+	} else if (m_instrumentTypeCombo->currentIndex() == 3) { // bass guitar
 			if (tuneId != m_tuneCombo->count() - 1) //the last is custom
 				setTune(&Ttune::bassTunes[tuneId ]);
 	}
@@ -261,46 +247,77 @@ void TguitarSettings::switchedToPianoStaff() {
 }
 
 
-void TguitarSettings::stringNrChanged(int strNr)
-{
-
+void TguitarSettings::stringNrChanged(int strNr) {
+		for (int i = 0; i < 6; i++) {
+			if (m_tuneView->getNote(i).note) {
+				if (i < 6 - strNr) {
+					m_tuneView->setNote(i ,Tnote(0, 0, 0));
+					m_tuneView->clearStringNumber(i);
+					m_tuneView->setNoteDisabled(i, false);
+				}
+			} else {
+				if (i >= 6 - strNr) {
+					m_tuneView->setNote(i, m_tuneView->lowestNote());
+					m_tuneView->setStringNumber(i, 6 - i);
+					m_tuneView->setNoteDisabled(i, true);
+				}
+			}
+		}
+		m_tuneCombo->setCurrentIndex(m_tuneCombo->count() - 1);
 }
 
 
 void TguitarSettings::instrumentTypeChanged(int index) {
-	qDebug() << index;
 	m_tuneCombo->clear();
-	if (index = 0) { // classical guitar
+	if ((Einstrument)index == e_classicalGuitar) {
 		m_tuneCombo->addItem(Ttune::stdTune.name);
-//     if (*gl->Gtune() == Ttune::stdTune)
-//         m_tuneCombo->setCurrentIndex(0);
     for (int i = 0; i < 4; i++) {
         m_tuneCombo->addItem(Ttune::tunes[i].name);
-//         if (*gl->Gtune() == Ttune::tunes[i])
-//             m_tuneCombo->setCurrentIndex(i + 1);
     }
     m_fretsNrSpin->setValue(19);
 		m_tuneView->setClef(Tclef(Tclef::e_treble_G_8down));
 		setTune(&Ttune::stdTune);
+		m_tuneCombo->setCurrentIndex(0);
 		m_stringNrSpin->setValue(Ttune::tunes[0].stringNr());
-	} else if (index = 1) { // bass guitar
+	} else if ((Einstrument)index == e_bassGuitar) { // bass guitar
 			for (int i = 0; i < 4; i++) {
         m_tuneCombo->addItem(Ttune::bassTunes[i].name);
-//         if (*gl->Gtune() == Ttune::bassTunes[i])
-//             m_tuneCombo->setCurrentIndex(i);
 			}
 			m_fretsNrSpin->setValue(20);
 			m_tuneView->setClef(Tclef(Tclef::e_bass_F_8down));
 			setTune(&Ttune::bassTunes[0]);
+			m_tuneCombo->setCurrentIndex(0);
 			m_stringNrSpin->setValue(Ttune::bassTunes[0].stringNr());
 	} else {
-		//disable all
+		guitarDisabled(true);
 	}
-	if (index == 0 || index == 1) {
-		QString S = tr("Custom tune");
-		m_tuneCombo->addItem(S);
-//     if (gl->Gtune()->name == S)
-//         m_tuneCombo->setCurrentIndex(m_tuneCombo->count() - 1);
+	if ((Einstrument)index != e_none) {
+		if (!m_accidGroup->isEnabled())
+				guitarDisabled(false);
+		m_tuneCombo->addItem(tr("Custom tune"));
+	}
+}
+
+
+void TguitarSettings::guitarDisabled(bool disabled) {
+	if (disabled) {
+		m_tuneGroup->setDisabled(true);
+		m_fretsNrSpin->setDisabled(true);
+		m_stringNrSpin->setDisabled(true);
+		m_righthandCh->setDisabled(true);
+		m_accidGroup->setDisabled(true);
+		m_morePosCh->setDisabled(true);
+		m_selColorBut->setDisabled(true);
+		m_pointColorBut->setDisabled(true);
+	} else {
+		m_tuneGroup->setDisabled(false);
+		m_fretsNrSpin->setDisabled(false);
+		m_stringNrSpin->setDisabled(false);
+		m_righthandCh->setDisabled(false);
+		m_accidGroup->setDisabled(false);
+		m_morePosCh->setDisabled(false);
+		m_selColorBut->setDisabled(false);
+		m_pointColorBut->setDisabled(false);
 	}
 }
 

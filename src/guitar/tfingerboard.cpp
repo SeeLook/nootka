@@ -111,7 +111,7 @@ void TfingerBoard::acceptSettings() {
     }
     m_workFinger->setBrush(QBrush(gl->GfingerColor, Qt::SolidPattern));
 		setTune();
-    paint();
+		paint();
     setFinger(m_selNote);
 }
 
@@ -222,7 +222,7 @@ void TfingerBoard::setGuitarDisabled(bool disabled) {
     setMouseTracking(false);
     m_isDisabled = true;
     m_workFinger->hide();
-    for(int i = 0; i < 6; i++)
+    for(int i = 0; i < gl->Gtune()->stringNr(); i++)
       m_workStrings[i]->hide();
   } else {
     setMouseTracking(true);
@@ -389,7 +389,6 @@ void TfingerBoard::setTune() {
 				m_strColors[i] = QColor("#C29432"); // are gold-plated
 				m_widthFromPitch[i] = 6; // and more thick
 		}
-// 		qDebug() << gl->Gtune()->str(i +1).toText() << (int)gl->Gtune()->str(i +1).getChromaticNrOfNote() << m_widthFromPitch[i];
 	}
 	m_loNote = gl->loString().getChromaticNrOfNote();
 	m_hiNote = gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber;
@@ -442,7 +441,7 @@ void TfingerBoard::paint() {
     QPolygon a;
     a.setPoints(5, m_fbRect.x() + 2, m_fbRect.y() - m_strGap/3,
                 m_fbRect.x() + m_fbRect.width() + m_strGap / 3, m_fbRect.y() - m_strGap / 3,
-                m_fbRect.x() + m_fbRect.width() + m_strGap/3, height() - m_strGap / 3,
+                m_fbRect.x() + m_fbRect.width() + m_strGap / 3, height() - m_strGap / 3,
                 m_fbRect.x() + m_fbRect.width(), height(),
                 m_fbRect.x(), height());
     painter.drawPolygon(a);
@@ -471,8 +470,8 @@ void TfingerBoard::paint() {
         if ( i==4 || i==6 || i==8 || i==11 || i==14 || i==16)	{
                 //white color for circles marking 5,7,9... frets
             painter.setBrush(QBrush(Qt::white, Qt::SolidPattern));
-            painter.drawEllipse(m_fretsPos[i] - 4 - (m_fretsPos[i] - m_fretsPos[i-1]) / 2,
-                                m_fbRect.y() + m_strGap * 3 - 2, 8, 8);
+            painter.drawEllipse(m_fretsPos[i] - 4 - (m_fretsPos[i] - m_fretsPos[i - 1]) / 2,
+                                m_fbRect.y() + m_strGap * (int)(gl->Gtune()->stringNr() / 2) - 2, 8, 8);
         }
     }
   // STRINGS
@@ -494,8 +493,7 @@ void TfingerBoard::paint() {
 						m_workStrings[i]->setLine(1, m_fbRect.y() + m_strGap / 2 + i * m_strGap, width() - 1 - m_strGap,
                                   m_fbRect.y()+m_strGap/2+i*m_strGap);
 						m_strings[i]->setPen(QPen(gl->GselectedColor, m_strWidth[i], Qt::SolidLine));
-						m_strings[i]->setLine(m_workStrings[i]->line());
-						
+						m_strings[i]->setLine(m_workStrings[i]->line());						
   // drawing digits of strings in circles
 						painter.setPen(QPen(m_strColors[i], 1, Qt::SolidLine));
 						painter.setBrush(QBrush(QColor(100, 100, 100, 200)));

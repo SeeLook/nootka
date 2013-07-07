@@ -602,13 +602,16 @@ void MainWindow::closeEvent(QCloseEvent *event) {
     }
 }
 
+
 void MainWindow::paintEvent(QPaintEvent* ) {
-    QPainter painter(this);
-    if (!gl->GisRightHanded) {
-        painter.translate(width(), 0);
-        painter.scale(-1, 1);
-    }
-    painter.drawPixmap(guitar->posX12fret(), guitar->geometry().bottom() - m_bgPixmap.height(), m_bgPixmap);
+		if (gl->instrument == e_classicalGuitar) {
+			QPainter painter(this);
+			if (!gl->GisRightHanded) {
+					painter.translate(width(), 0);
+					painter.scale(-1, 1);
+			}
+			painter.drawPixmap(guitar->posX12fret(), guitar->geometry().bottom() - m_bgPixmap.height(), m_bgPixmap);
+		}
 }
 
 

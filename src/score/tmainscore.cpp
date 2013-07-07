@@ -43,8 +43,8 @@ TmainScore::TmainScore(QWidget* parent) :
 			setClef(gl->Sclef);
 // set note colors
 	restoreNotesSettings();
-	
-	setScordature();
+	if (gl->instrument == e_classicalGuitar)
+			setScordature();
 	setEnabledDblAccid(gl->doubleAccidentalsEnabled);
 	setEnableKeySign(gl->SkeySignatureEnabled);
 	
@@ -57,9 +57,9 @@ TmainScore::TmainScore(QWidget* parent) :
 	connect(this, SIGNAL(pianoStaffSwitched()), this, SLOT(onPianoSwitch()));
 }
 
+
 TmainScore::~TmainScore()
-{
-}
+{}
 
 
 //####################################################################################################
@@ -77,7 +77,14 @@ void TmainScore::setEnableEnharmNotes(bool isEnabled) {
 void TmainScore::acceptSettings() {
 	setEnabledDblAccid(gl->doubleAccidentalsEnabled);
 	setEnableKeySign(gl->SkeySignatureEnabled);
-	setScordature();
+	if (gl->instrument == e_classicalGuitar)
+			setScordature();
+	else
+			if (staff()->hasScordature()) {
+				staff()->removeScordatute();
+				if (staff()->lower())
+					staff()->lower()->removeScordatute();
+			}
 	if (!gl->doubleAccidentalsEnabled)
 		clearNote(2);
 	staff()->noteSegment(0)->setPointedColor(gl->SpointerColor);

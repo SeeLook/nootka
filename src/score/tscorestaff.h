@@ -97,6 +97,7 @@ public:
 				 * To delete it just call this with Ttune::standardTune.*/
     virtual void setScordature(Ttune& tune);
 		virtual bool hasScordature() { return (bool)m_scordature; } /** @p TRUE when staff has got scordature. */
+		virtual void removeScordatute();
 		
         /** Y position of upper line of a staff. */
     qreal upperLinePos() const { return m_upperLinePos; }

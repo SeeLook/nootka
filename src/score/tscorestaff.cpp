@@ -187,6 +187,13 @@ void TscoreStaff::setScordature(Ttune& tune) {
 }
 
 
+void TscoreStaff::removeScordatute() {
+	delete m_scordature; 
+	m_scordature = 0; 
+	m_enableScord = false;
+	updateWidth();	
+}
+
 
 void TscoreStaff::setDisabled(bool disabled) {
 	scoreClef()->setReadOnly(disabled);

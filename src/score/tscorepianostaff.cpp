@@ -120,7 +120,6 @@ void TscorePianoStaff::setDisabled(bool disabled) {
 void TscorePianoStaff::setScordature(Ttune& tune) {
 		lower()->setScordature(tune);
 		setEnableScordtature(lower()->hasScordature());
-// 		TscoreStaff::setScordature(tune);
 }
 
 

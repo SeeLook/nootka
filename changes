@@ -1,8 +1,10 @@
 0.8.90 beta
+     - added support for bass guitars
+     - strings number can be changed, width depends on their pitch
      - added possibility to display notes on grand stave
      - support for different clefs (bass, alto, tenor)
     Under the hood
-     - score widget written from scrach and ready for further changes
+     - score widget written from scratch and ready for further changes
 
 0.8.77 beta
      - added intonation view of played sound
