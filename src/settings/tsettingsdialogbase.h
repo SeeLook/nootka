@@ -27,7 +27,7 @@
   * QStackedLayout widget, and
   * QLabel @param hint that shows statusTips captured by
   * reimplementing @param event function.
-@author Tomasz Bojczuk
+  * It has hidden "default" button - @p defaultBut
 */
 
 
@@ -49,10 +49,10 @@ public slots:
 protected:
     bool event(QEvent *event);
 
-    QListWidget *navList;
-    QStackedLayout *stackLayout;
-    QPushButton *cancelBut, *okBut;
-    QLabel *hint;
+    QListWidget     *navList;
+    QStackedLayout  *stackLayout;
+    QPushButton     *cancelBut, *okBut, *defaultBut;
+    QLabel          *hint;
 
 
 };
