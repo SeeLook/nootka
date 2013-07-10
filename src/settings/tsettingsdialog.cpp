@@ -141,7 +141,16 @@ void TglobalSettings::processOutputSlot(QString output) {
 
 //############# SettingsDialog IMPLEMENTATION ##################
 TsettingsDialog::TsettingsDialog(QWidget *parent) :
-        TsettingsDialogBase(parent)
+        TsettingsDialogBase(parent),
+        m_globalSett(0),
+        m_scoreSett(0),
+        m_nameSett(0),
+        m_guitarSett(0),
+        m_examSett(0),
+        m_sndOutSett(0),
+        m_sndInSett(0),
+        m_audioSettingsPage(0),
+        m_jackChBox(0)
 {
     setWindowTitle("Nootka - "+tr("application's settings"));
 
@@ -165,12 +174,14 @@ TsettingsDialog::TsettingsDialog(QWidget *parent) :
     navList->item(5)->setIcon(QIcon(gl->path+"picts/soundSettings.png"));
     navList->item(5)->setTextAlignment(Qt::AlignCenter);
     
+    defaultBut->show();
+    defaultBut->setStatusTip(tr("Restore default settings for above parameters."));
     
     m_globalSett = new TglobalSettings();
-    m_scoreSett = new TscoreSettings();
-    m_nameSett = new NameSettings();
-    m_guitarSett = new TguitarSettings();
-    m_examSett = new ExamSettings(gl->E, &gl->EquestionColor, &gl->EanswerColor, &gl->EnotBadColor);
+//     m_scoreSett = new TscoreSettings();
+//     m_nameSett = new NameSettings();
+//     m_guitarSett = new TguitarSettings();
+//     m_examSett = new ExamSettings(gl->E, &gl->EquestionColor, &gl->EanswerColor, &gl->EnotBadColor);
 // #if defined (Q_OS_LINUX)
     m_sndInSett = new AudioInSettings(gl->A, gl->path);
     m_sndOutSett = new AudioOutSettings(gl->A, m_sndInSett); // m_sndInSett is bool - true when exist
@@ -191,30 +202,132 @@ TsettingsDialog::TsettingsDialog(QWidget *parent) :
     audioSettingsPage->setLayout(audioLay);
 
     stackLayout->addWidget(m_globalSett);
-    stackLayout->addWidget(m_scoreSett);
-    stackLayout->addWidget(m_nameSett);
-    stackLayout->addWidget(m_guitarSett);
-    stackLayout->addWidget(m_examSett);
-    stackLayout->addWidget(audioSettingsPage);
+//     stackLayout->addWidget(m_scoreSett);
+//     stackLayout->addWidget(m_nameSett);
+//     stackLayout->addWidget(m_guitarSett);
+//     stackLayout->addWidget(m_examSett);
+//     stackLayout->addWidget(audioSettingsPage);
 
     connect(navList, SIGNAL(currentRowChanged(int)), this, SLOT(changeSettingsWidget(int)));
     connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
-    connect(m_nameSett, SIGNAL(seventhIsBChanged(bool)), m_scoreSett, SLOT(seventhIsBChanged(bool)));
+//     connect(m_nameSett, SIGNAL(seventhIsBChanged(bool)), m_scoreSett, SLOT(seventhIsBChanged(bool)));
 
     navList->setCurrentRow(0);
 
 }
 
-/** To avoid generating audio devices list every opening Nootka prefereces
+
+void TsettingsDialog::saveSettings() {
+  if (m_scoreSett)
+    m_scoreSett->saveSettings();
+  if (m_globalSett)
+    m_globalSett->saveSettings();
+  if (m_nameSett)
+    m_nameSett->saveSettings();
+  if (m_guitarSett)
+    m_guitarSett->saveSettings();
+  if (m_examSett)
+    m_examSett->saveSettings();
+  if (m_sndOutSett)
+    m_sndOutSett->saveSettings();
+  if (m_sndInSett)
+      m_sndInSett->saveSettings();
+#if defined(__UNIX_JACK__)
+    gl->A->useJACK = m_jackChBox->isChecked();
+#endif
+}
+
+/** Settings pages are created on demand, also 
+     * to avoid generating audio devices list every opening Nootka prefereces
      * witch is slow for pulseaudio, the list is generated on demand.
      * When user first time opens Sound settings widget.*/
 void TsettingsDialog::changeSettingsWidget(int index) {
-  stackLayout->setCurrentIndex(index);
-  if (index == 5 && m_sndInSett) { // generate devices list for sound settings if sound is available
-      m_sndInSett->generateDevicesList();
-      m_sndOutSett->generateDevicesList();
+  QWidget* currentWidget = 0;
+  switch (index) {
+    case 0: {
+      if (!m_globalSett) {
+        m_globalSett = new TglobalSettings();
+        stackLayout->addWidget(m_globalSett);
+      }
+      currentWidget = m_globalSett;
+      break;
+    }
+    case 1: {
+      if (!m_scoreSett) {
+        m_scoreSett = new TscoreSettings();
+        stackLayout->addWidget(m_scoreSett);
+      }
+      if (m_nameSett)
+          connect(m_nameSett, SIGNAL(seventhIsBChanged(bool)), m_scoreSett, SLOT(seventhIsBChanged(bool)));
+      currentWidget = m_scoreSett;
+      break;
+    }
+    case 2: {
+      if (!m_nameSett) {
+        m_nameSett = new NameSettings();
+        stackLayout->addWidget(m_nameSett);        
+      }
+      if (m_scoreSett)
+          connect(m_nameSett, SIGNAL(seventhIsBChanged(bool)), m_scoreSett, SLOT(seventhIsBChanged(bool)));
+      currentWidget = m_nameSett;
+      break;
+    }
+    case 3: {
+      if (!m_guitarSett) {
+        m_guitarSett = new TguitarSettings();
+        stackLayout->addWidget(m_guitarSett);
+      }
+      currentWidget = m_guitarSett;
+      break;
+    }
+    case 4: {
+      if (!m_examSett) {
+        m_examSett = new ExamSettings(gl->E, &gl->EquestionColor, &gl->EanswerColor, &gl->EnotBadColor);
+        stackLayout->addWidget(m_examSett);
+      }
+      currentWidget = m_examSett;
+      break;
+    }
+    case 5: {
+      if (!m_audioSettingsPage) {
+        createAudioPage();
+        stackLayout->addWidget(m_audioSettingsPage);
+        m_sndInSett->generateDevicesList();
+        m_sndOutSett->generateDevicesList();
+      }
+      currentWidget = m_audioSettingsPage;
+      break;
+    }
   }
+  stackLayout->setCurrentWidget(currentWidget);
+//   stackLayout->setCurrentIndex(index);
+//   if (index == 5 && m_sndInSett) { // generate devices list for sound settings if sound is available
+//       m_sndInSett->generateDevicesList();
+//       m_sndOutSett->generateDevicesList();
+//   }
 }
+
+
+void TsettingsDialog::createAudioPage() {
+    m_sndInSett = new AudioInSettings(gl->A, gl->path);
+    m_sndOutSett = new AudioOutSettings(gl->A, m_sndInSett); // m_sndInSett is bool - true when exist
+    m_audioSettingsPage = new QWidget();
+    QTabWidget *sndTTab = new QTabWidget(m_audioSettingsPage);
+    QVBoxLayout *audioLay = new QVBoxLayout;
+    audioLay->addWidget(sndTTab);
+#if defined(__UNIX_JACK__)
+    m_jackChBox = new QCheckBox(tr("use JACK (Jack Audio Connection Kit"), m_audioSettingsPage);
+    m_jackChBox->setChecked(gl->A->useJACK);
+    audioLay->addWidget(m_jackChBox, 0, Qt::AlignCenter);
+    m_jackChBox->setStatusTip("Uses JACK if it is run or other sound backend if not.<br>EXPERIMENTAL and not tested.<br>Let me know when you will get this working.");
+    connect(m_jackChBox, SIGNAL(toggled(bool)), this, SLOT(changeUseJack()));
+#endif
+    if (m_sndInSett)
+        sndTTab->addTab(m_sndInSett, tr("listening"));
+    sndTTab->addTab(m_sndOutSett, tr("playing"));
+    m_audioSettingsPage->setLayout(audioLay);
+}
+
 
 
 void TsettingsDialog::changeUseJack() {
@@ -226,19 +339,5 @@ void TsettingsDialog::changeUseJack() {
 #endif
 }
 
-
-void TsettingsDialog::saveSettings() {
-    m_scoreSett->saveSettings();
-    m_globalSett->saveSettings();
-    m_nameSett->saveSettings();
-    m_guitarSett->saveSettings();
-    m_examSett->saveSettings();
-    m_sndOutSett->saveSettings();
-    if (m_sndInSett)
-      m_sndInSett->saveSettings();
-#if defined(__UNIX_JACK__)
-    gl->A->useJACK = m_jackChBox->isChecked();
-#endif
-}
 
 

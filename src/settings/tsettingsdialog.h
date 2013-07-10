@@ -22,6 +22,7 @@
 #include "tsettingsdialogbase.h"
 #include <QMap>
 
+class QPushButton;
 class TscoreSettings;
 class NameSettings;
 class TguitarSettings;
@@ -56,7 +57,7 @@ private slots:
 
 
 
-//################ SettingsDialog ##############################################
+//################ TsettingsDialog ##############################################
 class TsettingsDialog : public TsettingsDialogBase
 {
     Q_OBJECT
@@ -67,7 +68,6 @@ public slots:
     void saveSettings();
 
 private:
-
     TglobalSettings    	*m_globalSett;
     TscoreSettings    	*m_scoreSett;
     NameSettings	     	*m_nameSett;
@@ -75,11 +75,15 @@ private:
     ExamSettings      	*m_examSett;
     AudioOutSettings  	*m_sndOutSett;
     AudioInSettings   	*m_sndInSett;
+    QWidget             *m_audioSettingsPage;
     QCheckBox         	*m_jackChBox;
     
 private slots:
     void changeSettingsWidget(int index);
     void changeUseJack();
+    
+private:
+    void createAudioPage();
 
 };
 

@@ -21,14 +21,8 @@
 #include <QtGui>
 
 TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
-        QDialog(parent,Qt::CustomizeWindowHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint)
+        QDialog(parent, Qt::CustomizeWindowHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint)
 {
-//    setWindowFlags(Qt::Dialog | Qt::Window);
-//    setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint);
-
-//    if (parent) {
-//        setMaximumSize(parent->width(), parent->height());
-//    }
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *contLay = new QHBoxLayout;
     navList = new QListWidget(this);
@@ -36,35 +30,14 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     navList->setFixedWidth(100);
     navList->setViewMode(QListView::IconMode);
 		navList->setMovement(QListView::Static);
-//    navList->setFlow(QListView::TopToBottom);
-//    navList->setWrapping(false);
+
     contLay->addWidget(navList);
 
     QVBoxLayout *aLay = new QVBoxLayout;
     stackLayout = new QStackedLayout;
-//     QScrollArea *scrollArea = new QScrollArea();
-//     scrollArea->setLayout(stackLayout);
-//     QWidget *scrollWidget = new QWidget(this);
-//     scrollWidget->setLayout(stackLayout);
-//     if (parent)
-//       scrollWidget->setMinimumHeight(parent->height()-110); // 70px for hint + buttons + some decorations
-//     scrollWidget->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-//     scrollArea->setWidget(scrollWidget);
-//     scrollArea->setWidgetResizable(true);
-//     scrollArea->setFixedHeight(parent->height()-150);
-//     stackLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
-//     scrollWidget->layout()->setSizeConstraint(QLayout::SetMinAndMaxSize);
     
     aLay->addLayout(stackLayout);
-//     aLay->addWidget(scrollWidget);
-//     aLay->addWidget(scrollArea);
-
-//     QGroupBox *hGr = new QGroupBox(this);
-//     QVBoxLayout *hLay = new QVBoxLayout;
     hint = new QLabel(this);
-//     hLay->addWidget(hint);
-//     hGr->setLayout(hLay);
-//     aLay->addWidget(hGr);
     aLay->addWidget(hint);
     hint->setFixedHeight(70);
     hint->setWordWrap(true);
@@ -79,11 +52,15 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     mainLay->addLayout(contLay);
 
     QHBoxLayout *butLay = new QHBoxLayout();
-    okBut = new QPushButton(tr("Accept"),this);
+    defaultBut = new QPushButton(tr("Default"), this);
+    okBut = new QPushButton(tr("Accept"), this);
     butLay->addStretch(1);
+    butLay->addWidget(defaultBut);
+    butLay->addStretch(3);
+    defaultBut->hide();
     butLay->addWidget(okBut);
     butLay->addStretch(1);
-    cancelBut = new QPushButton(tr("Discard"),this);
+    cancelBut = new QPushButton(tr("Discard"), this);
     butLay->addWidget(cancelBut);
     butLay->addStretch(1);
     mainLay->addLayout(butLay);
