@@ -358,36 +358,36 @@ void TfingerBoard::setHighlitedString(char realStrNr) {
 
 void TfingerBoard::setTune() {
 	for (int i = 0; i < gl->Gtune()->stringNr(); i++) {
-		if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > 14) { // highest than cis1
+		if (gl->Gtune()->str(i + 1.5).getChromaticNrOfNote() > 14) { // highest than cis1
 			m_strColors[i] = QColor(255, 255, 255, 175); // are nylon
-			m_widthFromPitch[i] = 1; // and thiner
+			m_widthFromPitch[i] = 2; // and thiner
 		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > 10) { // highest than gis
 				m_strColors[i] = QColor(255, 255, 255, 175); // are nylon
-				m_widthFromPitch[i] = 2; // and more thick
+				m_widthFromPitch[i] = 2.5; // and more thick
 		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > 4) { // highest than dis
 				m_strColors[i] = QColor(255, 255, 255, 125); // are nylon
-				m_widthFromPitch[i] = 2.5; // and more thick
+				m_widthFromPitch[i] = 3; // and more thick
 		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > 0) { // highest than b-1(contra)
 				m_strColors[i] = QColor("#C29432"); // are gold-plated
-				m_widthFromPitch[i] = 2; // and more thick
+				m_widthFromPitch[i] = 3; // and more thick
 		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > -5) { // highest than g-1(contra) 1-st string of bass
 				m_strColors[i] = QColor("#C29432"); // are gold-plated
-				m_widthFromPitch[i] = 2.5; // and more thick
+				m_widthFromPitch[i] = 3.5; // and more thick
 		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > -10) { // highest than d-1(contra)
 				m_strColors[i] = QColor("#C29432"); // are gold-plated
-				m_widthFromPitch[i] = 3; // and more thick
+				m_widthFromPitch[i] = 4; // and more thick
 		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > -15) { // highest than gis-2(subcontra)
 				m_strColors[i] = QColor("#C29432"); // are gold-plated
-				m_widthFromPitch[i] = 4; // and more thick
+				m_widthFromPitch[i] = 4.5; // and more thick
 		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > -20) { // highest than dis-1(contra)
 				m_strColors[i] = QColor("#C29432"); // are gold-plated
-				m_widthFromPitch[i] = 4.5; // and more thick
+				m_widthFromPitch[i] = 5; // and more thick
 		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > -25) { // highest than
 				m_strColors[i] = QColor("#C29432"); // are gold-plated
-				m_widthFromPitch[i] = 5; // and more thick
+				m_widthFromPitch[i] = 6; // and more thick
 		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > -30) { // highest than
 				m_strColors[i] = QColor("#C29432"); // are gold-plated
-				m_widthFromPitch[i] = 6; // and more thick
+				m_widthFromPitch[i] = 7; // and more thick
 		}
 	}
 	m_loNote = gl->loString().getChromaticNrOfNote();
@@ -449,16 +449,18 @@ void TfingerBoard::paint() {
     painter.drawRect(m_fbRect);
   // FRETS
    // zero fret (upper bridge or HUESO)
-    painter.setPen(QPen(QColor("#FFFBF0"), 4, Qt::SolidLine)); //#FFFBF0 cream color for hueso
-    painter.setBrush(QBrush(QColor("#FFFBF0"),Qt::SolidPattern));
-    painter.drawRect(m_fbRect.x() - 6, m_fbRect.y() + 6, 5, m_fbRect.height());
-    painter.setPen(QPen(QColor("#FFFBF0"),1,Qt::SolidLine));
-    a.setPoints(4, m_fbRect.x() - 8, m_fbRect.y() + 2, m_fbRect.x() - 1, m_fbRect.y() + 2,
-               m_fbRect.x() + m_strGap / 3 - 1, m_fbRect.y() - m_strGap / 3,
-               m_fbRect.x() + m_strGap / 3 - 8, m_fbRect.y() - m_strGap / 3);
-    painter.drawPolygon(a);
+// 		if (gl->instrument == e_classicalGuitar) {
+				painter.setPen(Qt::NoPen);
+				painter.setBrush(QBrush(QColor("#FFFBF0"),Qt::SolidPattern)); //#FFFBF0 cream color for hueso
+				painter.drawRect(m_fbRect.x() - 8, m_fbRect.y() + 4, 7, m_fbRect.height());
+				a.setPoints(4, m_fbRect.x() - 8,							m_fbRect.y() + 4,
+										m_fbRect.x() - 1, 								m_fbRect.y() + 4,
+										m_fbRect.x() + m_strGap / 3 - 1,	m_fbRect.y() - m_strGap / 3,
+										m_fbRect.x() + m_strGap / 3 - 8,	m_fbRect.y() - m_strGap / 3);
+				painter.setBrush(QBrush(QColor("#FFEEBC"),Qt::SolidPattern)); // a bit darker for its rant
+				painter.drawPolygon(a);
+// 		}
  // others frets
-    painter.setPen(Qt::NoPen);
     for (int i = 0; i < gl->GfretsNumber; i++) {
         QLinearGradient fretGrad(m_fretsPos[i], 10.0, m_fretsPos[i] + 8, 10.0);
         fretGrad.setColorAt(0.0, QColor("#DAE4E4"));
@@ -491,12 +493,13 @@ void TfingerBoard::paint() {
 				if (i < gl->Gtune()->stringNr()) {
 						m_workStrings[i]->setPen(QPen(gl->GfingerColor, m_strWidth[i] + 2, Qt::SolidLine));
 						m_workStrings[i]->setLine(1, m_fbRect.y() + m_strGap / 2 + i * m_strGap, width() - 1 - m_strGap,
-                                  m_fbRect.y()+m_strGap/2+i*m_strGap);
+                                  m_fbRect.y() + m_strGap / 2 + i * m_strGap);
 						m_strings[i]->setPen(QPen(gl->GselectedColor, m_strWidth[i], Qt::SolidLine));
 						m_strings[i]->setLine(m_workStrings[i]->line());						
   // drawing digits of strings in circles
 						painter.setPen(QPen(m_strColors[i], 1, Qt::SolidLine));
-						painter.setBrush(QBrush(QColor(100, 100, 100, 200)));
+// 						painter.setBrush(QBrush(QColor(100, 100, 100, 200)));
+						painter.setBrush(QBrush(QColor(0, 0, 0, 180)));
 						int wd40;
 						if (!gl->GisRightHanded) {
 								painter.scale (-1, 1);
@@ -517,8 +520,9 @@ void TfingerBoard::paint() {
 							}
 			// shadow of the strings
 							painter.setPen(QPen(QColor(0, 0, 0, 150), m_strWidth[i], Qt::SolidLine)); // on the fingerboard
-							painter.drawLine(m_fbRect.x() + 3, m_fbRect.y() + m_strGap / 2 + i * m_strGap - 3 - m_strWidth[i],
-															m_fbRect.x() + m_fbRect.width() - 1, m_fbRect.y() + m_strGap / 2 + i * m_strGap - 3 - m_strWidth[i]);
+// 							int yy = m_fbRect.y() + m_strGap / 2 + (i - 1) * m_strGap - 3 - m_strWidth[i];
+							int yy = m_fbRect.y() + m_strGap / 2 + i * m_strGap + m_strWidth[i] * 1.3;
+							painter.drawLine(m_fbRect.x() + 3, yy, m_fbRect.x() + m_fbRect.width() - 1, yy);
 							painter.setPen(QPen(Qt::black, 1, Qt::SolidLine)); //on upper bridge
 							painter.drawLine(m_fbRect.x() - 8, m_fbRect.y() + m_strGap / 2 + i * m_strGap - 2,
 															m_fbRect.x(), m_fbRect.y() + m_strGap / 2 + i * m_strGap - 2);

@@ -55,6 +55,8 @@ public:
     void clearHighLight();
         /** Returns x coordinate of 12th fret where guitar body starts. */
     int posX12fret();
+				/** Guitar fingerboard rectriangle */
+		QRect fbRect() { return m_fbRect; }
         /** Returns width of a string. */
     qreal stringWidth(int strNr) { return m_strWidth[qBound(1, strNr + 1, 6)]; }
         /** Returns @param true when cursor is over the widget. */

@@ -23,6 +23,7 @@
 #include "tnote.h"
 #include "tclef.h"
 
+class QLabel;
 class QGroupBox;
 class Ttune;
 class TcolorButton;
@@ -55,6 +56,7 @@ private:
     QComboBox       *m_tuneCombo, *m_instrumentTypeCombo;
     TcolorButton    *m_pointColorBut, *m_selColorBut;
 		QGroupBox 			*m_tuneGroup, *m_guitarGroup, *m_accidGroup;
+		QLabel					*m_fretNrLab, *m_stringNrLab, *m_pointerColorLab, *m_selectColorLab;
 
 private slots:
     void tuneSelected(int tuneId);

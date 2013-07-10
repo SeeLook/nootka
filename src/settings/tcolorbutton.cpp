@@ -51,7 +51,10 @@ void TcolorButton::paintEvent(QPaintEvent* event) {
     painter.setPen(Qt::NoPen);
     painter.setBrush(QBrush(palette().text().color()));
     painter.drawEllipse(5, 5, width()-8, height()-10);
-    painter.setBrush(QBrush(m_color));
+		if (isEnabled())
+			painter.setBrush(QBrush(m_color));
+		else
+			painter.setBrush(QBrush(palette().color(QPalette::Disabled, QPalette::Text)));
     painter.drawEllipse(4, 4, width()-8, height()-10);
 }
 

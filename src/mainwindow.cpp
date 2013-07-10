@@ -58,7 +58,7 @@ MainWindow::MainWindow(QWidget *parent)
     TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()), 
                               QColor(gl->EnotBadColor.name()), QColor(100, 100, 100, 180), palette().window().color());
 #else
-    TpushButton::setCheckColor(palette().highlight().color().name(), palette().highlightedText().color() );
+    TpushButton::setCheckColor(palette().highlight().color(), palette().highlightedText().color() );
     TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()),
                               QColor(gl->EnotBadColor.name()), palette().shadow().color(), palette().base().color());
 #endif
@@ -576,11 +576,16 @@ void MainWindow::updsateSize() {
 //           qRound(centralWidget()->height() * 0.25));
 //     score->setScordature();
     
-    QPixmap bgPix(gl->path + "picts/body.png");
-    int guitH = qRound(((double)guitar->height() / 350.0) * 856.0);
-    int guitW = centralWidget()->width() / 2;
-    m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
-//    qDebug() << m_bgPixmap.size() /*<< centralWidget()->width() << guitar->geometry().x() << guitar->posX12fret()*/;
+    QPixmap bgPix(gl->path + "picts/body.png"); // size 800x535
+//     int guitH = qRound(((double)guitar->height() / 350.0) * 856.0);
+//     int guitW = centralWidget()->width() / 2;
+//     m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
+		qreal guitH = guitar->height() * 3.3;
+		qreal ratio = guitH / 535.0;
+		m_bgPixmap = bgPix.scaled(qRound(800.0 * ratio), guitH, Qt::KeepAspectRatio);
+		QPixmap rosePix(gl->path + "picts/rosette.png"); // size 341x281
+		m_rosettePixmap = rosePix.scaled(341 * ratio, 281 * ratio, Qt::KeepAspectRatio);
+		
     
     setUpdatesEnabled(true);
     QTimer::singleShot(2, this, SLOT(update())); 
@@ -610,7 +615,10 @@ void MainWindow::paintEvent(QPaintEvent* ) {
 					painter.translate(width(), 0);
 					painter.scale(-1, 1);
 			}
-			painter.drawPixmap(guitar->posX12fret(), guitar->geometry().bottom() - m_bgPixmap.height(), m_bgPixmap);
+			qreal ratio = (guitar->height() * 3.3) / 535;
+			painter.drawPixmap(guitar->posX12fret() + 7, /*guitar->geometry().bottom()*/height() - m_bgPixmap.height(), m_bgPixmap);
+			painter.drawPixmap(width() - qRound(m_rosettePixmap.width() * 0.75), 
+												 height() - ratio * 250 - (height() - guitar->geometry().bottom()), m_rosettePixmap );
 		}
 }
 

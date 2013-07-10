@@ -39,13 +39,16 @@ QString TscoreNote::getAccid(int accNr) {
 
 QFont TscoreNote::getAccidFont() {
   QFont font(QFont("nootka"));
-  font.setPointSizeF(4.5);
+  font.setPixelSize(5);
 //   QFontMetrics fMetr(font);
 //   qreal fact = font.pointSizeF() / fMetr.boundingRect(QChar(0xe11a)).height();
 //   font.setPointSizeF(font.pointSizeF() * fact);
 //   qDebug() << font;
   return font;
 }
+
+qreal TscoreNote::m_accidYoffset = 0.0;
+qreal TscoreNote::m_accidScale = 1.0;
 
 //################################## CONSTRUCTOR ###################################
 TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
@@ -106,10 +109,12 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_workAccid->setFont(font);
   m_mainAccid->setFont(font);
   m_workAccid->hide();
-  m_workAccid->setText(QChar(0xe11a));
-  qreal factor = 6.0 / m_workAccid->boundingRect().height();
-  m_workAccid->setScale(factor);
-  m_mainAccid->setScale(factor);
+  m_workAccid->setText(getAccid(1));
+  m_accidScale = 6.0 / m_workAccid->boundingRect().height();
+  m_workAccid->setScale(m_accidScale);
+  m_mainAccid->setScale(m_accidScale);
+	m_accidYoffset = m_workAccid->boundingRect().height() * m_accidScale * 0.34;
+	m_workAccid->setText(" ");
 //   m_workAccid->setText(QChar(0xe11a));
 //   m_workAccid->setScale(20.0 / m_workAccid->boundingRect().height());
 //   m_mainAccid->setScale(m_workAccid->scale());
@@ -177,7 +182,7 @@ void TscoreNote::moveNote(int pos) {
     m_mainPosY = pos;
     m_mainNote->setPos(3.0, pos);
 //     m_mainAccid->setPos(0.0, pos - 2.35);
-    m_mainAccid->setPos(0.0, pos - (m_mainAccid->boundingRect().height() * m_mainAccid->scale() * 0.36));
+    m_mainAccid->setPos(0.0, pos - m_accidYoffset);
     int noteNr = (56 + staff()->notePosRelatedToClef(pos)) % 7;
     if (staff()->accidInKeyArray[noteNr]) {
       if ( m_accidental == 0 ) 
@@ -322,7 +327,7 @@ void TscoreNote::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
       m_workPosY = event->pos().y();
       m_workNote->setPos(3.0, m_workPosY);
 //       m_workAccid->setPos(0.0, m_workPosY - 2.35);
-      m_workAccid->setPos(0.0, m_workPosY - (m_workAccid->boundingRect().height() * m_workAccid->scale() * 0.36)  );
+      m_workAccid->setPos(0.0, m_workPosY - m_accidYoffset);
       if (!m_workNote->isVisible()) {
         m_workNote->show();
         m_workAccid->show();

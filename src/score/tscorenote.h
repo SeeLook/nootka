@@ -65,6 +65,9 @@ public:
     static QString getAccid(int accNr);
 				/** nootka font with well scaled accidental glypt. */
     static QFont getAccidFont();
+		static qreal accidYoffset() { return m_accidYoffset; }
+		static qreal accidScale() { return m_accidScale; }
+		
 		
 				/** It paints string number symbol.
         * Automaticaly determines above or below staff. */
@@ -110,6 +113,8 @@ private:
     qreal                         m_height;
 		bool													m_readOnly;
 		QColor                        m_bgColor;
+		static qreal 									m_accidYoffset; // difference to note y position.
+    static qreal									m_accidScale;
     
 private:
         /** Prepares noteHead (elipse) */

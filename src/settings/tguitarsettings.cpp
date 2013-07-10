@@ -71,8 +71,8 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     guitarLay->addWidget(m_righthandCh);
     guitarLay->addStretch(1);
 	// Number of frets
-    QLabel *fretLab = new QLabel(tr("number of frets:"),this);
-    guitarLay->addWidget(fretLab);
+    m_fretNrLab = new QLabel(tr("number of frets:"),this);
+    guitarLay->addWidget(m_fretNrLab);
     m_fretsNrSpin = new QSpinBox(this);
     m_fretsNrSpin->setValue(gl->GfretsNumber);
     m_fretsNrSpin->setMaximum(24);
@@ -80,8 +80,8 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     guitarLay->addWidget(m_fretsNrSpin);
     guitarLay->addStretch(1);
 	// Number of strings
-		QLabel *stringLab = new QLabel(tr("number of strings:"), this);
-		guitarLay->addWidget(stringLab);
+		m_stringNrLab = new QLabel(tr("number of strings:"), this);
+		guitarLay->addWidget(m_stringNrLab);
 		m_stringNrSpin = new QSpinBox(this);
 		m_stringNrSpin->setMaximum(6);
 		m_stringNrSpin->setMinimum(3);
@@ -117,13 +117,13 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 
     mainLay->addLayout(downLay);
     QGridLayout *colorLay = new QGridLayout;
-    QLabel *pointLab = new QLabel(tr("color of string/fret pointer"), this);
+    m_pointerColorLab = new QLabel(tr("color of string/fret pointer"), this);
     m_pointColorBut = new TcolorButton(gl->GfingerColor, this);
-    colorLay->addWidget(pointLab, 0, 0);
+    colorLay->addWidget(m_pointerColorLab, 0, 0);
     colorLay->addWidget(m_pointColorBut, 0 ,1);
-    QLabel *selLab = new QLabel(tr("color of selected string/fret"), this);
+    m_selectColorLab = new QLabel(tr("color of selected string/fret"), this);
     m_selColorBut = new TcolorButton(gl->GselectedColor, this);
-    colorLay->addWidget(selLab, 1, 0);
+    colorLay->addWidget(m_selectColorLab, 1, 0);
     colorLay->addWidget(m_selColorBut, 1, 1);
     mainLay->addLayout(colorLay);
 
@@ -300,25 +300,18 @@ void TguitarSettings::instrumentTypeChanged(int index) {
 
 
 void TguitarSettings::guitarDisabled(bool disabled) {
-	if (disabled) {
-		m_tuneGroup->setDisabled(true);
-		m_fretsNrSpin->setDisabled(true);
-		m_stringNrSpin->setDisabled(true);
-		m_righthandCh->setDisabled(true);
-		m_accidGroup->setDisabled(true);
-		m_morePosCh->setDisabled(true);
-		m_selColorBut->setDisabled(true);
-		m_pointColorBut->setDisabled(true);
-	} else {
-		m_tuneGroup->setDisabled(false);
-		m_fretsNrSpin->setDisabled(false);
-		m_stringNrSpin->setDisabled(false);
-		m_righthandCh->setDisabled(false);
-		m_accidGroup->setDisabled(false);
-		m_morePosCh->setDisabled(false);
-		m_selColorBut->setDisabled(false);
-		m_pointColorBut->setDisabled(false);
-	}
+		m_tuneGroup->setDisabled(disabled);
+		m_fretsNrSpin->setDisabled(disabled);
+		m_fretNrLab->setDisabled(disabled);
+		m_stringNrSpin->setDisabled(disabled);
+		m_stringNrLab->setDisabled(disabled);
+		m_righthandCh->setDisabled(disabled);
+		m_accidGroup->setDisabled(disabled);
+		m_morePosCh->setDisabled(disabled);
+		m_selColorBut->setDisabled(disabled);
+		m_selectColorLab->setDisabled(disabled);
+		m_pointColorBut->setDisabled(disabled);
+		m_pointerColorLab->setDisabled(disabled);
 }
 
 
