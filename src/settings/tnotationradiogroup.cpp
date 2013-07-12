@@ -60,33 +60,47 @@ TnotationRadioGroup::TnotationRadioGroup( Tnote::EnameStyle _notation, QWidget *
     buttonGroup->addButton(nederlButt);
 
     connect (buttonGroup, SIGNAL(buttonClicked(int)) ,this, SLOT(noteNameStyleWasClicked()) );
-        // 			RESTORING SETTINGS
-    switch (notation)	{
-        case Tnote::e_norsk_Hb : norskButt->setChecked(true); break;
-        case Tnote::e_deutsch_His : deutschButt->setChecked(true); break;
-        case Tnote::e_italiano_Si : italianoButt->setChecked(true); break;
-        case Tnote::e_english_Bb : englishButt->setChecked(true); break;
-        case Tnote::e_nederl_Bis : nederlButt->setChecked(true); break;
+    
+		setNameStyle(notation);
+    
+}
+
+
+void TnotationRadioGroup::setNameStyle(Tnote::EnameStyle style) {
+		switch (style)	{
+        case Tnote::e_norsk_Hb : 
+						norskButt->setChecked(true); break;
+        case Tnote::e_deutsch_His : 
+						deutschButt->setChecked(true); break;
+        case Tnote::e_italiano_Si : 
+						italianoButt->setChecked(true); break;
+        case Tnote::e_english_Bb : 
+						englishButt->setChecked(true); break;
+        case Tnote::e_nederl_Bis : 
+						nederlButt->setChecked(true); break;
     }
 }
 
 
 
 Tnote::EnameStyle TnotationRadioGroup::getNameStyle() {
-    if (norskButt->isChecked()) return Tnote::e_norsk_Hb;
-    else
-        if (deutschButt->isChecked()) return Tnote::e_deutsch_His;
-        else
-            if (italianoButt->isChecked()) return Tnote::e_italiano_Si;
-            else
-                if (englishButt->isChecked()) return Tnote::e_english_Bb;
-                else
-                    return Tnote::e_nederl_Bis;
+    if (norskButt->isChecked()) 
+				return Tnote::e_norsk_Hb;
+    else if (deutschButt->isChecked()) 
+				return Tnote::e_deutsch_His;
+    else if (italianoButt->isChecked()) 
+				return Tnote::e_italiano_Si;
+		else if (englishButt->isChecked()) 
+				return Tnote::e_english_Bb;
+		else
+				return Tnote::e_nederl_Bis;
 }
 
+
 void TnotationRadioGroup::noteNameStyleWasClicked() {
-   emit noteNameStyleWasChanged(getNameStyle());
+		emit noteNameStyleWasChanged(getNameStyle());
 }
+
 
 void TnotationRadioGroup::seventhNoteWasChanged(bool isB) {
     if (isB) {
@@ -94,18 +108,23 @@ void TnotationRadioGroup::seventhNoteWasChanged(bool isB) {
         deutschButt->setDisabled(true);
         englishButt->setDisabled(false);
         nederlButt->setDisabled(false);
-        if (deutschButt->isChecked()) nederlButt->setChecked(true);
-        if (norskButt->isChecked()) englishButt->setChecked(true);
+        if (deutschButt->isChecked()) 
+						nederlButt->setChecked(true);
+        if (norskButt->isChecked()) 
+						englishButt->setChecked(true);
     } else {
         norskButt->setDisabled(false);
         deutschButt->setDisabled(false);
         englishButt->setDisabled(true);
         nederlButt->setDisabled(true);
-        if (nederlButt->isChecked()) deutschButt->setChecked(true);
-        if (englishButt->isChecked()) norskButt->setChecked(true);
+        if (nederlButt->isChecked()) 
+						deutschButt->setChecked(true);
+        if (englishButt->isChecked()) 
+						norskButt->setChecked(true);
     }
-
-
 }
+
+
+
 
 

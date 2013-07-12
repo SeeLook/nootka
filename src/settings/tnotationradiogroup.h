@@ -52,6 +52,7 @@ public:
     static QString strNederExampl;
 
     Tnote::EnameStyle getNameStyle();
+		void setNameStyle(Tnote::EnameStyle style);
 
 signals:
     void noteNameStyleWasChanged (Tnote::EnameStyle);

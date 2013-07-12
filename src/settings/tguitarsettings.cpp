@@ -119,12 +119,12 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     QGridLayout *colorLay = new QGridLayout;
     m_pointerColorLab = new QLabel(tr("color of string/fret pointer"), this);
     m_pointColorBut = new TcolorButton(gl->GfingerColor, this);
-    colorLay->addWidget(m_pointerColorLab, 0, 0);
-    colorLay->addWidget(m_pointColorBut, 0 ,1);
+    colorLay->addWidget(m_pointerColorLab, 0, 0, Qt::AlignRight);
+    colorLay->addWidget(m_pointColorBut, 0 ,1, Qt::AlignLeft);
     m_selectColorLab = new QLabel(tr("color of selected string/fret"), this);
     m_selColorBut = new TcolorButton(gl->GselectedColor, this);
-    colorLay->addWidget(m_selectColorLab, 1, 0);
-    colorLay->addWidget(m_selColorBut, 1, 1);
+    colorLay->addWidget(m_selectColorLab, 1, 0, Qt::AlignRight);
+    colorLay->addWidget(m_selColorBut, 1, 1, Qt::AlignLeft);
     mainLay->addLayout(colorLay);
 
     setLayout(mainLay);
@@ -157,7 +157,6 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 				if (gl->Gtune()->name == S)
 						m_tuneCombo->setCurrentIndex(m_tuneCombo->count() - 1);
 		}
-    
 }
 
 
@@ -178,6 +177,17 @@ void TguitarSettings::saveSettings() {
 		gl->instrument = (Einstrument)m_instrumentTypeCombo->currentIndex();
 }
 
+
+void TguitarSettings::restoreDefaults() {
+		instrumentTypeChanged(1); // It will restore tune (standard), frets and strings number and clef
+		m_righthandCh->setChecked(true);
+		m_prefSharpBut->setChecked(true);
+		m_morePosCh->setChecked(false);
+		m_pointColorBut->setColor(gl->invertColor(palette().highlight().color()));
+		m_selColorBut->setColor(palette().highlight().color());
+}
+
+
 //##########################################################################################################
 //########################################## PRIVATE #######################################################
 //##########################################################################################################
@@ -185,7 +195,7 @@ void TguitarSettings::saveSettings() {
 void TguitarSettings::setTune(Ttune* tune) {
     for (int i = 0; i < 6; i++) {
 				m_tuneView->setNote(i, tune->str(6 - i));
-				m_tuneView->setNoteDisabled(i, (bool)tune->str(6 - i).note);
+				m_tuneView->setNoteDisabled(i, !(bool)tune->str(6 - i).note);
 				if (tune->str(6 - i).note)
 					m_tuneView->setStringNumber(i, 6 - i);
 				else
@@ -226,24 +236,20 @@ void TguitarSettings::userTune(int, Tnote) {
 
 void TguitarSettings::onClefChanged(Tclef clef) {
 		// this is not piano staff - we don't need updateAmbitus()
-		for (int i = 0; i < 6; i++) {
-			if (m_tuneView->getNote(i).note == 0){
-				m_tuneView->setNote(i, m_tuneView->lowestNote());
-				userTune(0, Tnote());
-			}
-		}
-}	
+		updateNotesState();
+		emit clefChanged(clef);
+}
 
 
 void TguitarSettings::switchedToPianoStaff() {
 		updateAmbitus();
-		for (int i = 0; i < 6; i++) {
-			if (m_tuneView->getNote(i).note == 0) {
-				m_tuneView->setNote(i, m_tuneView->lowestNote());
-				userTune(0, Tnote());
-			}
-			m_tuneView->setStringNumber(i, 6 - i);
-		}
+		updateNotesState();
+		emit clefChanged(currentClef());
+}
+
+
+Tclef TguitarSettings::currentClef() {
+		return m_tuneView->clef();
 }
 
 
@@ -253,13 +259,13 @@ void TguitarSettings::stringNrChanged(int strNr) {
 				if (i < 6 - strNr) {
 					m_tuneView->setNote(i ,Tnote(0, 0, 0));
 					m_tuneView->clearStringNumber(i);
-					m_tuneView->setNoteDisabled(i, false);
+					m_tuneView->setNoteDisabled(i, true);
 				}
 			} else {
 				if (i >= 6 - strNr) {
 					m_tuneView->setNote(i, m_tuneView->lowestNote());
 					m_tuneView->setStringNumber(i, 6 - i);
-					m_tuneView->setNoteDisabled(i, true);
+					m_tuneView->setNoteDisabled(i, false);
 				}
 			}
 		}
@@ -312,6 +318,23 @@ void TguitarSettings::guitarDisabled(bool disabled) {
 		m_selectColorLab->setDisabled(disabled);
 		m_pointColorBut->setDisabled(disabled);
 		m_pointerColorLab->setDisabled(disabled);
+}
+
+
+void TguitarSettings::updateNotesState() {
+		Ttune tmpTune = Ttune(m_tuneCombo->currentText(), m_tuneView->getNote(5), m_tuneView->getNote(4),
+											m_tuneView->getNote(3), m_tuneView->getNote(2), m_tuneView->getNote(1), m_tuneView->getNote(0));
+		for (int i = 0; i < 6; i++) {
+			if (i >= 6 - tmpTune.stringNr()) {
+					if (m_tuneView->getNote(i).note == 0) {
+						m_tuneView->setNote(i, m_tuneView->lowestNote());
+						userTune(0, Tnote());
+					}
+					m_tuneView->setStringNumber(i, 6 - i);
+			} else {
+					m_tuneView->setNoteDisabled(i, true);
+			}
+		}
 }
 
 

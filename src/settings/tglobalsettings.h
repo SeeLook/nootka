@@ -16,54 +16,46 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef SETTINGSDIALOG_H
-#define SETTINGSDIALOG_H
 
-#include "tsettingsdialogbase.h"
+#ifndef TGLOBALSETTIGS_H
+#define TGLOBALSETTIGS_H
 
+#include <QMap>
+#include <QWidget>
 
-class TglobalSettings;
+class QLabel;
 class QPushButton;
-class TscoreSettings;
-class TnoteNameSettings;
-class TguitarSettings;
-class AudioOutSettings;
-class AudioInSettings;
+class QComboBox;
+class TcolorButton;
 class QCheckBox;
-class TexamSettings;
 
-
-class TsettingsDialog : public TsettingsDialogBase
+class TglobalSettings : public QWidget
 {
     Q_OBJECT
 public:
-    explicit TsettingsDialog(QWidget *parent = 0);
-		
+    explicit TglobalSettings(QWidget *parent = 0);
 
-public slots:
     void saveSettings();
 		void restoreDefaults();
-
+		
+signals:
+				/** Is emited when user click m_restAllDefaultsBut QPushButton. */
+		void restoreAllDefaults();
+		
 private:
-    TglobalSettings   	*m_globalSett;
-    TscoreSettings    	*m_scoreSett;
-    TnoteNameSettings	  *m_nameSett;
-    TguitarSettings    	*m_guitarSett;
-    TexamSettings      	*m_examSett;
-    AudioOutSettings  	*m_sndOutSett;
-    AudioInSettings   	*m_sndInSett;
-    QWidget             *m_audioSettingsPage;
-    QCheckBox         	*m_jackChBox;
-		bool								 m_7thNoteToDefaults;
-    
+  QCheckBox 									*m_otherEnharmChBox, *m_dblAccChBox, *m_hintsEnabledChBox;
+	TcolorButton 								*m_enharmColorBut;
+	QComboBox 									*m_langCombo;
+	QMap<QString, QString> 			 m_langList;
+  QPushButton 								*m_updateButton, *m_restAllDefaultsBut;
+  QLabel 											*m_updateLabel;
+  
 private slots:
-    void changeSettingsWidget(int index);
-    void changeUseJack();
-		void allDefaultsRequired();
-    
-private:
-    void createAudioPage();
-
+  void updateSlot();
+  void processOutputSlot(QString output);
+			/** when user wants to restore all Nootka settings at once */
+	void restoreRequired() { emit restoreAllDefaults(); }
 };
 
-#endif // SETTINGSDIALOG_H
+
+#endif // TGLOBALSETTIGS_H

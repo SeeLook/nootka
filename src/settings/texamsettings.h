@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -27,7 +27,7 @@ class QLineEdit;
 class QCheckBox;
 class TcolorButton;
 
-class ExamSettings : public QWidget
+class TexamSettings : public QWidget
 {
     Q_OBJECT
 public:
@@ -37,23 +37,24 @@ public:
        * QColor @param aColor - is pointer to gl->EanswerColor
        * QColor @param nbColor - is pointer to gl->EnotBadColor
        */
-  explicit ExamSettings(TexamParams *params, QColor *qColor, QColor *aColor, QColor *nbColor, QWidget *parent = 0);
+  explicit TexamSettings(TexamParams *params, QColor *qColor, QColor *aColor, QColor *nbColor, QWidget *parent = 0);
 
   static QString autoNextQuestTxt() { return tr("ask next question automatically"); }
   static QString expertsAnswerTxt() { return tr("check answers without confirm"); }
   static QString showHelpWindowTxt() { return tr("show help when exam starts"); }
 
   void saveSettings();
+	void restoreDefaults();
 
 public slots:
   void expertAnswersChanged(bool enabled);
   
 private:
-    QCheckBox *m_autoNextChB, *m_repeatIncorChB, *m_expertAnswChB, *m_showHelpChB;
-    TcolorButton *m_questColorBut, *m_answColorBut, *m_notBadButt;
-    QLineEdit *m_nameEdit;
-    TexamParams *m_params;
-    QColor *m_qColor, *m_aColor, *m_nbColor;
+    QCheckBox 			*m_autoNextChB, *m_repeatIncorChB, *m_expertAnswChB, *m_showHelpChB;
+    TcolorButton 		*m_questColorBut, *m_answColorBut, *m_notBadButt;
+    QLineEdit 			*m_nameEdit;
+    TexamParams 		*m_params;
+    QColor 					*m_qColor, *m_aColor, *m_nbColor;
 
 };
 

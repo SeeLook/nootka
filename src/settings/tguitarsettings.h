@@ -43,11 +43,21 @@ public:
     explicit TguitarSettings(QWidget *parent = 0);
 		
     void saveSettings();
+		void restoreDefaults();
+		
+		Tclef currentClef();
 
+signals:
+		void clefChanged(Tclef);
+		
 private:
     void setTune (Ttune *tune);
+				/** Sets highest and lowest notes in a segment when selected tune is not appropirate to a clef. */
 		void updateAmbitus();
+				/** Disables or enables all widgets on the page. */
 		void guitarDisabled(bool disabled);
+				/** It sets notes state (disables or enables it or sets highest or lowest) according to curent tune. */
+		void updateNotesState();
 
     TsimpleScore    *m_tuneView;
     QCheckBox       *m_righthandCh, *m_morePosCh;

@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -25,13 +25,15 @@
 class QCheckBox;
 class Select7note;
 
-class NameSettings : public QWidget
+class TnoteNameSettings : public QWidget
 {
     Q_OBJECT
 public:
-    explicit NameSettings(QWidget *parent = 0);
+    explicit TnoteNameSettings(QWidget *parent = 0);
 
     void saveSettings();
+		bool is7th_b();
+		void restoreDefaults();
 
 signals:
     void seventhIsBChanged(bool isB);
@@ -42,8 +44,8 @@ protected slots:
 
 
 private:
-    TnotationRadioGroup *nameStyleGr;
-    QCheckBox *octInNameCh;
-    Select7note *select7;
+    TnotationRadioGroup 	*m_nameStyleGr;
+    QCheckBox 						*m_octInNameCh;
+    Select7note 					*m_select7;
 };
 #endif // NAMESETTINGS_H

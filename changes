@@ -3,6 +3,7 @@
      - strings number can be changed, width depends on their pitch
      - added possibility to display notes on grand stave
      - support for different clefs (bass, alto, tenor)
+     - settings dialog launches faster and takes less memory
     Under the hood
      - score widget written from scratch and ready for further changes
 
