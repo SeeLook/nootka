@@ -52,15 +52,15 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     mainLay->addLayout(contLay);
 
     QHBoxLayout *butLay = new QHBoxLayout();
-    defaultBut = new QPushButton(tr("Default"), this);
-    okBut = new QPushButton(tr("Accept"), this);
+    defaultBut = new QPushButton(QIcon(style()->standardIcon(QStyle::SP_BrowserReload)), tr("Default"), this);
+    okBut = new QPushButton(QIcon(style()->standardIcon(QStyle::SP_DialogApplyButton)), tr("Accept"), this);
     butLay->addStretch(1);
     butLay->addWidget(defaultBut);
     butLay->addStretch(3);
     defaultBut->hide();
     butLay->addWidget(okBut);
     butLay->addStretch(1);
-    cancelBut = new QPushButton(tr("Discard"), this);
+    cancelBut = new QPushButton(QIcon(style()->standardIcon(QStyle::SP_DialogDiscardButton)), tr("Discard"), this);
     butLay->addWidget(cancelBut);
     butLay->addStretch(1);
     mainLay->addLayout(butLay);
