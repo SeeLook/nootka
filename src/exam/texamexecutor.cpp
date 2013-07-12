@@ -24,7 +24,7 @@
 #include "mainwindow.h"
 #include "texam.h"
 #include "texamsummary.h"
-#include "examsettings.h"
+#include "texamsettings.h"
 #include "texamhelp.h"
 #include "texpertanswerhelp.h"
 #include "texamparams.h"

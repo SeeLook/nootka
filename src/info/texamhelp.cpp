@@ -18,7 +18,7 @@
 
 #include "texamhelp.h"
 #include "tpixmaker.h"
-#include "examsettings.h"
+#include "texamsettings.h"
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QTextEdit>
@@ -65,15 +65,15 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt,
     tr("Experts' corner") + "</th></tr><tr><td rowspan=3>" +
     QString("<img style=\"background-color: transparent;\" src=\"%1\">").arg(path+"picts/expertCorner.png") +
     "</td><td><br>1. " + tr("show or hide the hints") + "</td></tr><tr><td><br>2. " + 
-    ExamSettings::autoNextQuestTxt() + "</td></tr><tr><td><br>3. " + 
-    ExamSettings::expertsAnswerTxt() + "</td></tr></table>", this);
+    TexamSettings::autoNextQuestTxt() + "</td></tr><tr><td><br>3. " + 
+    TexamSettings::expertsAnswerTxt() + "</td></tr></table>", this);
   ed->setReadOnly(true);
 //   ed->setFixedSize((parent->width()/3)*2, (parent->height()/5)*3);
   ed->resize((parent->width()/3)*2, (parent->height()/5)*3);
   ed->setAlignment(Qt::AlignCenter);
   lay->addWidget(ed);
   
-  showHelpChB = new QCheckBox(ExamSettings::showHelpWindowTxt(), this);
+  showHelpChB = new QCheckBox(TexamSettings::showHelpWindowTxt(), this);
   lay->addWidget(showHelpChB, 0, Qt::AlignCenter);
   showHelpChB->setChecked(m_showHelp);
   

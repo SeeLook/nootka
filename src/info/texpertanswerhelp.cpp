@@ -17,7 +17,7 @@
  ***************************************************************************/
 
 #include "texpertanswerhelp.h"
-#include "examsettings.h"
+#include "texamsettings.h"
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QHBoxLayout>

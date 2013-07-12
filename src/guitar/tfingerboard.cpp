@@ -535,8 +535,14 @@ void TfingerBoard::paint() {
 				}
 		}
     m_workFinger->setRect(0, 0, m_fretWidth / 1.6, qRound(0.7 * m_strGap));
-    for (int i = 0; i < gl->Gtune()->stringNr(); i++)
+    for (int i = 0; i < 6; i++) {
+			if (i < gl->Gtune()->stringNr()) {
         m_fingers[i]->setRect(m_workFinger->rect());
+				m_fingers[i]->show();
+			}
+			else
+				m_fingers[i]->hide();
+		}
 
     if (m_questFinger) {
         m_questFinger->setRect(m_workFinger->rect());

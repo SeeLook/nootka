@@ -25,7 +25,7 @@
 #include "tfirstrunwizzard.h"
 #include "tsupportnootka.h"
 #include "tnootkalabel.h"
-#include "examsettings.h"
+#include "texamsettings.h"
 #include <tupdateprocess.h>
 #include "tsound.h"
 #include "tpushbutton.h"
@@ -48,8 +48,8 @@ extern Tglobals *gl;
 TnootkaLabel *nootLab;
 bool m_isPlayerFree = true;
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent),
+MainWindow::MainWindow(QWidget *parent) :
+		QMainWindow(parent),
     ex(0)
 {
     Ttune::prepareDefinedTunes();
@@ -138,15 +138,15 @@ MainWindow::MainWindow(QWidget *parent)
     autoRepeatChB = new QCheckBox(innerWidget);
     autoRepeatChB->hide();
     chBlay->addWidget(autoRepeatChB);
-    autoRepeatChB->setStatusTip(ExamSettings::autoNextQuestTxt());
-    autoRepeatChB->setToolTip(ExamSettings::autoNextQuestTxt());
+    autoRepeatChB->setStatusTip(TexamSettings::autoNextQuestTxt());
+    autoRepeatChB->setToolTip(TexamSettings::autoNextQuestTxt());
     autoRepeatChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     expertAnswChB = new QCheckBox(innerWidget);
     expertAnswChB->hide();
     chBlay->addWidget(expertAnswChB);
     expertAnswChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    expertAnswChB->setStatusTip(ExamSettings::expertsAnswerTxt());
-    expertAnswChB->setToolTip(ExamSettings::expertsAnswerTxt());
+    expertAnswChB->setStatusTip(TexamSettings::expertsAnswerTxt());
+    expertAnswChB->setToolTip(TexamSettings::expertsAnswerTxt());
     chBlay->addStretch(1);
     
     progress = new TprogressWidget(innerWidget);
@@ -371,7 +371,11 @@ void MainWindow::createSettingsDialog() {
             } else
                 noteName->setNoteName(nList[0]);
         }
-        guitar->acceptSettings(); //refresh guitar
+        if (gl->instrument != e_none) {
+						guitar->show();
+						guitar->acceptSettings(); //refresh guitar
+				} else
+						guitar->hide();
         m_hintsChB->setChecked(gl->hintsEnabled);
         m_isPlayerFree = true;
     } else {
@@ -575,17 +579,17 @@ void MainWindow::updsateSize() {
 //     nootLab->setGeometry(posX, qRound(centralWidget()->height() * 0.12), centralWidget()->width()- score->width() -2,
 //           qRound(centralWidget()->height() * 0.25));
 //     score->setScordature();
-    
-    QPixmap bgPix(gl->path + "picts/body.png"); // size 800x535
-//     int guitH = qRound(((double)guitar->height() / 350.0) * 856.0);
-//     int guitW = centralWidget()->width() / 2;
-//     m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
-		qreal guitH = guitar->height() * 3.3;
-		qreal ratio = guitH / 535.0;
-		m_bgPixmap = bgPix.scaled(qRound(800.0 * ratio), guitH, Qt::KeepAspectRatio);
-		QPixmap rosePix(gl->path + "picts/rosette.png"); // size 341x281
-		m_rosettePixmap = rosePix.scaled(341 * ratio, 281 * ratio, Qt::KeepAspectRatio);
-		
+				if (gl->instrument == e_classicalGuitar) {
+				QPixmap bgPix(gl->path + "picts/body.png"); // size 800x535
+		//     int guitH = qRound(((double)guitar->height() / 350.0) * 856.0);
+		//     int guitW = centralWidget()->width() / 2;
+		//     m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
+				qreal guitH = guitar->height() * 3.3;
+				qreal ratio = guitH / 535.0;
+				m_bgPixmap = bgPix.scaled(qRound(800.0 * ratio), guitH, Qt::KeepAspectRatio);
+				QPixmap rosePix(gl->path + "picts/rosette.png"); // size 341x281
+				m_rosettePixmap = rosePix.scaled(341 * ratio, 281 * ratio, Qt::KeepAspectRatio);
+		}
     
     setUpdatesEnabled(true);
     QTimer::singleShot(2, this, SLOT(update())); 

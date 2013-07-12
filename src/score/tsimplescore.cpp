@@ -115,10 +115,16 @@ void TsimpleScore::clearStringNumber(int index) {
 
 
 void TsimpleScore::setClef(Tclef clef) {
-	if (m_staff->scoreClef()) {
-		m_staff->scoreClef()->setClef(clef);
-    m_staff->onClefChanged();
-  }
+	if (this->clef().type() != clef.type()) {
+		if (clef.type() == Tclef::e_pianoStaff)
+			setPianoStaff(true);
+		else {
+			if (isPianoStaff())
+				setPianoStaff(false);
+			m_staff->scoreClef()->setClef(clef);
+		}
+		m_staff->onClefChanged();
+	}
 }
 
 
@@ -253,7 +259,7 @@ Tnote TsimpleScore::lowestNote() {
 	if (staff()->scoreClef()->clef().type() == Tclef::e_treble_G_8down)
 			return Tnote(6, -2);
 	if (staff()->scoreClef()->clef().type() == Tclef::e_bass_F)
-			return Tnote(1, -2);
+			return Tnote(6, -2);
 	if (staff()->scoreClef()->clef().type() == Tclef::e_bass_F_8down)
 			return Tnote(1, -3);
 	if (staff()->scoreClef()->clef().type() == Tclef::e_alto_C)

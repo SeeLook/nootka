@@ -98,10 +98,11 @@ SET( NOOTKA_SRCS
 ###### Settings
   settings/tsettingsdialog.cpp
   settings/tsettingsdialogbase.cpp
-  settings/namesettings.cpp
+  settings/tglobalsettings.cpp
+  settings/tnotenamesettings.cpp
   settings/tnotationradiogroup.cpp
   settings/tscoresettings.cpp
-  settings/examsettings.cpp
+  settings/texamsettings.cpp
   settings/tguitarsettings.cpp
   settings/tcolorbutton.cpp
   settings/tupdateprocess.cpp
@@ -211,11 +212,12 @@ SET( NOOTKA_MOC_SRCS
 ###### Settings
   settings/tsettingsdialog.h
   settings/tsettingsdialogbase.h
-  settings/namesettings.h
+  settings/tglobalsettings.h
+  settings/tnotenamesettings.h
   settings/tnotationradiogroup.h
   settings/tguitarsettings.h
   settings/tscoresettings.h
-  settings/examsettings.h
+  settings/texamsettings.h
   settings/tcolorbutton.h
   settings/tupdateprocess.h
   settings/tvolumeslider.h

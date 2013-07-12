@@ -84,7 +84,7 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
     // grab 7-th note from translation
     if (Tpage_3::note7txt().toLower() == "b") {
         gl->seventhIs_B = true; // rest (NnameStyleInNoteName
-        if (page3->keyNameStyle == "solfege")
+        if (page3->keyNameStyle() == "solfege")
           gl->SnameStyleInKeySign = Tnote::e_italiano_Si;
         else
           gl->SnameStyleInKeySign = Tnote::e_nederl_Bis;
@@ -92,7 +92,7 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
     else {
         gl->seventhIs_B = false;
         gl->NnameStyleInNoteName = Tnote::e_norsk_Hb;
-        if (page3->keyNameStyle == "solfege")
+        if (page3->keyNameStyle() == "solfege")
           gl->SnameStyleInKeySign = Tnote::e_italiano_Si;
         else
           gl->SnameStyleInKeySign = Tnote::e_deutsch_His;
@@ -138,7 +138,7 @@ void TfirstRunWizzard::nextSlot() {
         if (page3->select7->is7th_B()) {
             gl->seventhIs_B = true;
             gl->NnameStyleInNoteName = Tnote::e_english_Bb;
-            if (page3->keyNameStyle == "solfege")
+            if (page3->keyNameStyle() == "solfege")
               gl->SnameStyleInKeySign = Tnote::e_italiano_Si;
             else
               gl->SnameStyleInKeySign = Tnote::e_nederl_Bis;
@@ -147,7 +147,7 @@ void TfirstRunWizzard::nextSlot() {
         else {
             gl->seventhIs_B = false;
             gl->NnameStyleInNoteName = Tnote::e_norsk_Hb;
-            if (page3->keyNameStyle == "solfege")
+            if (page3->keyNameStyle() == "solfege")
               gl->SnameStyleInKeySign = Tnote::e_italiano_Si;
             else
               gl->SnameStyleInKeySign = Tnote::e_deutsch_His;
@@ -165,7 +165,7 @@ void TfirstRunWizzard::nextSlot() {
 Tpage_3::Tpage_3(QWidget *parent) :
         QWidget(parent)
 {
-    keyNameStyle = tr("letters", "DO NOT TRANSLATE IT DIRECTLY. Put here 'letters' or 'solfege' This is country prefered style of nameing key signatures. 'letters' means C-major/a-minor names ('major' & 'minor' also are translated by You), 'solfege' means Do-major/La-minor names");
+//     keyNameStyle = tr("letters", "DO NOT TRANSLATE IT DIRECTLY. Put here 'letters' or 'solfege' This is country prefered style of nameing key signatures. 'letters' means C-major/a-minor names ('major' & 'minor' also are translated by You), 'solfege' means Do-major/La-minor names");
     QVBoxLayout *lay = new QVBoxLayout;
     lay->setAlignment(Qt::AlignCenter);
     QLabel *seventhLab = new QLabel(tr("<center>7-th note can be B or H, depends on country<br>Which one is Yours?<br></center>"), this);

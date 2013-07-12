@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,14 +17,14 @@
  ***************************************************************************/
 
 
-#include "examsettings.h"
+#include "texamsettings.h"
 #include "tcolorbutton.h"
 #include "texamparams.h"
 #include "texpertanswerhelp.h"
 #include <QtGui>
 
 
-ExamSettings::ExamSettings(TexamParams* params, QColor* qColor, QColor* aColor, QColor* nbColor, QWidget* parent) :
+TexamSettings::TexamSettings(TexamParams* params, QColor* qColor, QColor* aColor, QColor* nbColor, QWidget* parent) :
     QWidget(parent),
     m_params(params),
     m_qColor(qColor),
@@ -53,10 +53,13 @@ ExamSettings::ExamSettings(TexamParams* params, QColor* qColor, QColor* aColor, 
     
     QHBoxLayout *nameLay = new QHBoxLayout();
     QLabel *nameLab = new QLabel(tr("student's name:"), this);
+		nameLay->addStretch();
     nameLay->addWidget(nameLab);
+		nameLay->addStretch();
     m_nameEdit = new QLineEdit(m_params->studentName, this);
     m_nameEdit->setMaxLength(30);
     nameLay->addWidget(m_nameEdit);
+		nameLay->addStretch();
     m_nameEdit->setStatusTip(tr("Default name for every new exam."));
     lay->addLayout(nameLay);
     lay->addStretch(1);
@@ -64,16 +67,16 @@ ExamSettings::ExamSettings(TexamParams* params, QColor* qColor, QColor* aColor, 
     QGridLayout *colLay = new QGridLayout;
     QLabel *questLab = new QLabel(tr("color of questions") + " / " + tr("color of wrong answers"), this);
     m_questColorBut = new TcolorButton(*(m_qColor), this);
-    colLay->addWidget(questLab, 0, 0);
-    colLay->addWidget(m_questColorBut, 0, 1);
+    colLay->addWidget(questLab, 0, 0, Qt::AlignRight);
+    colLay->addWidget(m_questColorBut, 0, 1, Qt::AlignLeft);
     QLabel *answLab = new QLabel(tr("color of answers") + " / " + tr("color of correct answers"), this);
     m_answColorBut = new TcolorButton(*(m_aColor), this);
-    colLay->addWidget(answLab, 1, 0);
-    colLay->addWidget(m_answColorBut, 1, 1);
+    colLay->addWidget(answLab, 1, 0, Qt::AlignRight);
+    colLay->addWidget(m_answColorBut, 1, 1, Qt::AlignLeft);
     QLabel *notBadLab = new QLabel(tr("color of 'not so bad' answers"), this);
     m_notBadButt = new TcolorButton(*(m_nbColor), this);
-    colLay->addWidget(notBadLab, 2, 0);
-    colLay->addWidget(m_notBadButt, 2, 1);
+    colLay->addWidget(notBadLab, 2, 0, Qt::AlignRight);
+    colLay->addWidget(m_notBadButt, 2, 1, Qt::AlignLeft);
 
     lay->addLayout(colLay);
     lay->addStretch(1);
@@ -84,7 +87,7 @@ ExamSettings::ExamSettings(TexamParams* params, QColor* qColor, QColor* aColor, 
 }
 
 
-void ExamSettings::saveSettings() {
+void TexamSettings::saveSettings() {
     m_params->autoNextQuest = m_autoNextChB->isChecked();
     m_params->repeatIncorrect = m_repeatIncorChB->isChecked();
     m_params->expertsAnswerEnable = m_expertAnswChB->isChecked();
@@ -100,7 +103,20 @@ void ExamSettings::saveSettings() {
 }
 
 
-void ExamSettings::expertAnswersChanged(bool enabled) {
+void TexamSettings::restoreDefaults() {
+		m_autoNextChB->setChecked(true);
+		m_repeatIncorChB->setChecked(true);
+		m_expertAnswChB->setChecked(false);
+		m_showHelpChB->setChecked(true);
+		m_nameEdit->setText("");
+		m_questColorBut->setColor(QColor("red"));
+		m_answColorBut->setColor(QColor("green"));
+		m_notBadButt->setColor(QColor("#FF8000"));
+}
+
+
+
+void TexamSettings::expertAnswersChanged(bool enabled) {
   if (enabled) {
       if (!showExpertAnswersHelpDlg(m_params->askAboutExpert, this, false))
         m_expertAnswChB->setChecked(false);

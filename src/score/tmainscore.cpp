@@ -77,6 +77,7 @@ void TmainScore::setEnableEnharmNotes(bool isEnabled) {
 void TmainScore::acceptSettings() {
 	setEnabledDblAccid(gl->doubleAccidentalsEnabled);
 	setEnableKeySign(gl->SkeySignatureEnabled);
+	setClef(Tclef(gl->Sclef));
 	if (gl->instrument == e_classicalGuitar)
 			setScordature();
 	else

@@ -20,9 +20,14 @@
 #ifndef SCORESETTINGS_H
 #define SCORESETTINGS_H
 
-#include "tnotationradiogroup.h"
 #include "tnote.h"
+#include "tclef.h"
+#include <QWidget>
 
+
+class QGroupBox;
+class TnotationRadioGroup;
+class Tclef;
 class TselectClef;
 class QCheckBox;
 class QLabel;
@@ -40,16 +45,18 @@ public:
 
     QString getMajorExample(Tnote::EnameStyle nameStyle);
     QString getMinorExample(Tnote::EnameStyle nameStyle);
-
-signals:
+		
+		void setDefaultClef(Tclef clef);
+		void saveSettings();
+		void restoreDefaults();
 
 public slots:
     void enableKeySignGroup(bool enable);
     void nameStyleWasChanged(Tnote::EnameStyle nameStyle);
     void majorExtensionChanged();
     void minorExtensionChanged();
-    void saveSettings();
     void seventhIsBChanged(bool isB);
+		void defaultClefChanged(Tclef clef);
 
 private:
     QCheckBox 						*m_enablKeySignCh;
@@ -57,7 +64,7 @@ private:
     QLabel 								*m_majExtLab, *m_minExtLab, *m_majExampl, *m_minExampl;
     QLineEdit 						*m_majEdit, *m_minEdit;
     TnotationRadioGroup 	*m_nameStyleGr;
-		Tnote::EnameStyle 		m_workStyle;
+		Tnote::EnameStyle 		 m_workStyle;
     TcolorButton 					*m_notePointColorBut;
 		TselectClef						*m_clefSelector;
 };
