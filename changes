@@ -4,6 +4,7 @@
      - added possibility to display notes on grand stave
      - support for different clefs (bass, alto, tenor)
      - settings dialog launches faster and takes less memory
+     - default settings can be restored
     Under the hood
      - score widget written from scratch and ready for further changes
 

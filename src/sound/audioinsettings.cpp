@@ -233,6 +233,7 @@ void AudioInSettings::setTestDisabled(bool disabled) {
   }
 }
 
+
 void AudioInSettings::grabParams(TaudioParams *params) {
   if (freqSpin->value() == 440 )
       params->a440diff = 0.0;
@@ -248,10 +249,24 @@ void AudioInSettings::grabParams(TaudioParams *params) {
 }
 
 
+void AudioInSettings::restoreDefaults() {
+	if (!m_testDisabled)
+		testSlot();
+	enableInBox->setChecked(true);
+	freqSpin->setValue(440);
+	intervalCombo->setCurrentIndex(1); // none
+	inDeviceCombo->setCurrentIndex(0);
+	instrRadio->setChecked(true);
+	volumeSlider->setValue(0.4); // It is multipled by 100
+}
+
+
+
 void AudioInSettings::saveSettings() {
   if (m_listGenerated)
       grabParams(m_glParams);
 }
+
 
 void AudioInSettings::generateDevicesList() {
   if (m_listGenerated)
@@ -279,6 +294,7 @@ float AudioInSettings::offPitch(float pitch) {
   return pitch2freq(pitch - m_tmpParams->a440diff);
 }
 
+
 void AudioInSettings::getFreqStatusTip() {
 //     QString freqTxt = QString("<br><span style=\"font-family: nootka;\">6</span>E = %1Hz, ").arg(getFreq(82.5)) +
 //             QString("<span style=\"font-family: nootka;\">5</span>A = %1Hz, ").arg(getFreq(110.0)) + "<br>" +
@@ -296,9 +312,11 @@ void AudioInSettings::getFreqStatusTip() {
     tuneFreqlab->setText(freqTxt);
 }
 
+
 int AudioInSettings::getFreq(double freq) {
     return qRound((pitch2freq(freq2pitch(freq) + m_tmpParams->a440diff)));
 }
+
 
 float AudioInSettings::getDiff(int freq) {
    return float(freq2pitch((double)freq) - freq2pitch(440.0)); // in semitones
@@ -344,9 +362,11 @@ void AudioInSettings::noteSlot(Tnote note) {
   pitchLab->setText("<b>" + TnoteName::noteToRichText(note) + "</b>");
 }
 
+
 void AudioInSettings::freqSlot(float freq) {
 	freqLab->setText(QString("%1 Hz").arg(freq, 0, 'f', 1, '0'));
 }
+
 
 void AudioInSettings::intervalChanged(int index) {
   if (intervalCombo->hasFocus()) {

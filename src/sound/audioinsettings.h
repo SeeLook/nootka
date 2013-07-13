@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -43,6 +43,7 @@ public:
   
   QString testTxt, stopTxt;
   void saveSettings();
+	void restoreDefaults();
     /** Generates devices list for inDeviceCombo QComboBox.*/
   void generateDevicesList();
       /** Grabs (refresh) devices list from AudioIn and fill audioOutDevListCombo */

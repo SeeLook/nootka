@@ -34,6 +34,7 @@ public:
     explicit AudioOutSettings(TaudioParams *aParams, QWidget *parent = 0);
 
     void saveSettings();
+		void restoreDefaults();
 		/** The structure describes midi program (instrument).
 		 * It has @param name 
 		 * and @param progNr which is midi instrument number  */

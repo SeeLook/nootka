@@ -21,6 +21,7 @@
 
 #include "tsettingsdialogbase.h"
 
+class QTabWidget;
 
 class TglobalSettings;
 class QPushButton;
@@ -52,6 +53,7 @@ private:
     TexamSettings      	*m_examSett;
     AudioOutSettings  	*m_sndOutSett;
     AudioInSettings   	*m_sndInSett;
+		QTabWidget 					*m_audioTab;
     QWidget             *m_audioSettingsPage;
     QCheckBox         	*m_jackChBox;
 		bool								 m_7thNoteToDefaults;

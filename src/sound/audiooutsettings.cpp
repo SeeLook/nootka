@@ -97,15 +97,6 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
 
     midilay->addLayout(midiParamLay);
     
-    /*QVBoxLayout *rtLay = new QVBoxLayout();
-    QGroupBox *rtGr = new QGroupBox(this);
-    QLabel *rtLab = new QLabel(tr("Midi output is performed by <a href=\"http://www.music.mcgill.ca/~gary/rtmidi/\">RtMidi</a> developed by<br>Gary P. Scavone"), this);
-    rtLab->setWordWrap(true);
-    rtLab->setAlignment(Qt::AlignCenter);
-    rtLay->addWidget(rtLab);
-    rtGr->setLayout(rtLay);
-    midilay->addWidget(rtGr);*/
-    
     midiGr->setLayout(midilay);
     audioOutLay->addWidget(midiGr);
 
@@ -169,6 +160,17 @@ void AudioOutSettings::saveSettings() {
     m_params->midiPortName = midiPortsCombo->currentText();
   }
 }
+
+
+void AudioOutSettings::restoreDefaults() {
+		audioRadioButt->setChecked(true);
+		audioOutEnableGr->setChecked(true);
+		audioOutDevListCombo->setCurrentIndex(0);
+		midiInstrCombo->setCurrentIndex(2); // classical guitar		
+}
+
+
+
 
 void AudioOutSettings::audioOrMidiChanged() {
 	if (audioRadioButt->isChecked()) {
