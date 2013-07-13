@@ -21,33 +21,45 @@
 #include "tglobals.h"
 
 Tglobals *gl;
+bool resetConfig;
 
 int main(int argc, char *argv[])
-{
-// #if defined(Q_OS_WIN32)
-//     QApplication::setStyle("plastique");  
-// #endif
-    
-  QApplication a(argc, argv);
-
-  
-  gl = new Tglobals();
-  gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
+{    
+	
+	QPointer<QApplication> a = 0;
+	QPointer<MainWindow> w = 0;
+	int exitCode;
+	bool firstTime = true;
+	
+	do {
+		QString confFile;
+		if (!firstTime)
+			confFile = gl->config->fileName();
+		if (w) delete w;
+		if (a) delete a;
+		if (resetConfig) { // delete config file - new Nootka instance will start with first run wizard
+				QFile f(confFile);
+				f.remove();
+		}
+		resetConfig = false;
+		a = new QApplication(argc, argv);  
+		gl = new Tglobals();
+		gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
 // loading translations
-  QString ll = gl->lang;
-  if (ll == "")
-    ll = QLocale::system().name();
+		QString ll = gl->lang;
+		if (ll == "")
+				ll = QLocale::system().name();
     QTranslator qtTranslator;
 #if defined(Q_OS_LINUX)
     qtTranslator.load("qt_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
 #else
     qtTranslator.load("qt_" + ll, gl->path + "lang");
 #endif
-    a.installTranslator(&qtTranslator);
+    a->installTranslator(&qtTranslator);
 
     QTranslator nooTranslator;
     nooTranslator.load("nootka_" + ll, gl->path + "lang");
-    a.installTranslator(&nooTranslator);
+    a->installTranslator(&nooTranslator);
 // loading nootka font
     QFontDatabase fd;
 // #if defined(Q_OS_WIN32)
@@ -60,14 +72,18 @@ int main(int argc, char *argv[])
         return 111;
     }
 // creating main window
-    MainWindow w;
+    w = new MainWindow();
 
 #if defined (Q_OS_MAC)
 	// to alow opening nootka files by clicking them in MacOs finder
-    a.installEventFilter(&w);
+    a->installEventFilter(w);
 #endif
-    w.show();
-    if (argc > 1)
-        w.openFile(QString::fromLocal8Bit(argv[argc - 1]));
-    return a.exec();
+    w->show();
+    if (firstTime && argc > 1)
+        w->openFile(QString::fromLocal8Bit(argv[argc - 1]));
+		firstTime = false;
+		exitCode = a->exec();
+		} while (resetConfig);
+		
+		return exitCode;
 }

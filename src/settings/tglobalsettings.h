@@ -37,6 +37,7 @@ public:
 
     void saveSettings();
 		void restoreDefaults();
+		static QString warringResetConfigTxt() {  return tr("All settings of an application will be deleted!!<br>Nootka will start with first run wizard."); }
 		
 signals:
 				/** Is emited when user click m_restAllDefaultsBut QPushButton. */
@@ -54,7 +55,7 @@ private slots:
   void updateSlot();
   void processOutputSlot(QString output);
 			/** when user wants to restore all Nootka settings at once */
-	void restoreRequired() { emit restoreAllDefaults(); }
+	void restoreRequired();
 };
 
 

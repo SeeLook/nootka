@@ -43,7 +43,7 @@
 
 
 extern Tglobals *gl;
-
+extern bool resetConfig;
 
 TnootkaLabel *nootLab;
 bool m_isPlayerFree = true;
@@ -382,6 +382,9 @@ void MainWindow::createSettingsDialog() {
       delete settings;
       sound->restoreAfterConf();
     }
+    if (resetConfig)
+			close();
+// 			qApp->quit();
 }
 
 
@@ -409,6 +412,7 @@ void MainWindow::openLevelCreator(QString levelFile) {
         sound->go(); // restore pitch detection
 }
 
+
 void MainWindow::startExamSlot() {
     sound->stopPlaying();
     nootLab->hide();
@@ -416,6 +420,7 @@ void MainWindow::startExamSlot() {
     examResults->show();
     ex = new TexamExecutor(this);
 }
+
 
 void MainWindow::aboutSlot() {
     sound->wait();
@@ -579,16 +584,22 @@ void MainWindow::updsateSize() {
 //     nootLab->setGeometry(posX, qRound(centralWidget()->height() * 0.12), centralWidget()->width()- score->width() -2,
 //           qRound(centralWidget()->height() * 0.25));
 //     score->setScordature();
-				if (gl->instrument == e_classicalGuitar) {
-				QPixmap bgPix(gl->path + "picts/body.png"); // size 800x535
+		if (gl->instrument != e_none) {
+			QPixmap bgPix;
+			if (gl->instrument == e_classicalGuitar)				
+				bgPix = QPixmap(gl->path + "picts/body.png"); // size 800x535
+			else
+				bgPix = QPixmap(gl->path + "picts/body-el.png"); // size 
 		//     int guitH = qRound(((double)guitar->height() / 350.0) * 856.0);
 		//     int guitW = centralWidget()->width() / 2;
 		//     m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
-				qreal guitH = guitar->height() * 3.3;
-				qreal ratio = guitH / 535.0;
-				m_bgPixmap = bgPix.scaled(qRound(800.0 * ratio), guitH, Qt::KeepAspectRatio);
+			qreal guitH = guitar->height() * 3.3;
+			qreal ratio = guitH / bgPix.height();
+			m_bgPixmap = bgPix.scaled(qRound(bgPix.width() * ratio), guitH, Qt::KeepAspectRatio);
+			if (gl->instrument == e_classicalGuitar) {
 				QPixmap rosePix(gl->path + "picts/rosette.png"); // size 341x281
 				m_rosettePixmap = rosePix.scaled(341 * ratio, 281 * ratio, Qt::KeepAspectRatio);
+			}
 		}
     
     setUpdatesEnabled(true);
@@ -613,16 +624,19 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 
 
 void MainWindow::paintEvent(QPaintEvent* ) {
-		if (gl->instrument == e_classicalGuitar) {
+		if (gl->instrument != e_none) {
 			QPainter painter(this);
 			if (!gl->GisRightHanded) {
 					painter.translate(width(), 0);
 					painter.scale(-1, 1);
 			}
 			qreal ratio = (guitar->height() * 3.3) / 535;
-			painter.drawPixmap(guitar->posX12fret() + 7, /*guitar->geometry().bottom()*/height() - m_bgPixmap.height(), m_bgPixmap);
-			painter.drawPixmap(width() - qRound(m_rosettePixmap.width() * 0.75), 
-												 height() - ratio * 250 - (height() - guitar->geometry().bottom()), m_rosettePixmap );
+			if (gl->instrument == e_classicalGuitar) {
+				painter.drawPixmap(guitar->posX12fret() + 7, /*guitar->geometry().bottom()*/height() - m_bgPixmap.height(), m_bgPixmap);
+				painter.drawPixmap(width() - qRound(m_rosettePixmap.width() * 0.75), 
+												height() - ratio * 250 - (height() - guitar->geometry().bottom()), m_rosettePixmap );
+			} else
+					painter.drawPixmap(guitar->fbRect().right() - 235 * ratio, height() - m_bgPixmap.height(), m_bgPixmap);
 		}
 }
 

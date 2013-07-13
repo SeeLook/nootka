@@ -33,6 +33,7 @@
 
 
 extern Tglobals *gl;
+extern bool resetConfig;
 
 
 TsettingsDialog::TsettingsDialog(QWidget *parent) :
@@ -129,12 +130,18 @@ void TsettingsDialog::restoreDefaults() {
 			m_guitarSett->restoreDefaults();
 		if (stackLayout->currentWidget() == m_examSett)
 			m_examSett->restoreDefaults();
-
+		if (m_audioSettingsPage) {
+			if (m_audioTab->currentWidget() == m_sndInSett)
+				m_sndInSett->restoreDefaults();
+			else if (m_audioTab->currentWidget() == m_sndOutSett)
+				m_sndOutSett->restoreDefaults();
+		}
 }
 
 
 void TsettingsDialog::allDefaultsRequired() {
-
+		resetConfig = true;
+		close();
 }
 
 
@@ -218,9 +225,9 @@ void TsettingsDialog::createAudioPage() {
     m_sndInSett = new AudioInSettings(gl->A, gl->path);
     m_sndOutSett = new AudioOutSettings(gl->A, m_sndInSett); // m_sndInSett is bool - true when exist
     m_audioSettingsPage = new QWidget();
-    QTabWidget *sndTTab = new QTabWidget(m_audioSettingsPage);
+    m_audioTab = new QTabWidget(m_audioSettingsPage);
     QVBoxLayout *audioLay = new QVBoxLayout;
-    audioLay->addWidget(sndTTab);
+    audioLay->addWidget(m_audioTab);
 #if defined(__UNIX_JACK__)
     m_jackChBox = new QCheckBox(tr("use JACK (Jack Audio Connection Kit"), m_audioSettingsPage);
     m_jackChBox->setChecked(gl->A->useJACK);
@@ -228,9 +235,8 @@ void TsettingsDialog::createAudioPage() {
     m_jackChBox->setStatusTip("Uses JACK if it is run or other sound backend if not.<br>EXPERIMENTAL and not tested.<br>Let me know when you will get this working.");
     connect(m_jackChBox, SIGNAL(toggled(bool)), this, SLOT(changeUseJack()));
 #endif
-    if (m_sndInSett)
-        sndTTab->addTab(m_sndInSett, tr("listening"));
-    sndTTab->addTab(m_sndOutSett, tr("playing"));
+    m_audioTab->addTab(m_sndInSett, tr("listening"));
+    m_audioTab->addTab(m_sndOutSett, tr("playing"));
     m_audioSettingsPage->setLayout(audioLay);
 }
 

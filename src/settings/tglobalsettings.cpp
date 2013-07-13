@@ -100,6 +100,7 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
 		
 		lay->addStretch(1);
 		m_restAllDefaultsBut = new QPushButton(tr("Restore all defaults settings"), this);
+		m_restAllDefaultsBut->setStatusTip(warringResetConfigTxt());
 		lay->addWidget(m_restAllDefaultsBut, 0 , Qt::AlignCenter);
 		
 		setLayout(lay);
@@ -131,6 +132,11 @@ void TglobalSettings::restoreDefaults() {
 	m_enharmColorBut->setColor(palette().highlight().color());
 }
 
+
+void TglobalSettings::restoreRequired() {
+	if (QMessageBox::warning(this, "", warringResetConfigTxt(), QMessageBox::Ok, QMessageBox::Abort) == QMessageBox::Ok )
+			emit restoreAllDefaults();
+}
 
 
 void TglobalSettings::updateSlot() {
