@@ -53,7 +53,7 @@ TpitchFinder::TpitchFinder(QObject* parent) :
     m_aGl->threshold = 93;
     m_aGl->analysisType = e_AUTOCORRELATION;
     m_aGl->topPitch = 140.0;
-    m_aGl->loPitch = 35;
+    m_aGl->loPitch = 15;
     
     m_aGl->ampThresholds[AMPLITUDE_RMS][0]           = -85.0; m_aGl->ampThresholds[AMPLITUDE_RMS][1]           = -0.0;
     m_aGl->ampThresholds[AMPLITUDE_MAX_INTENSITY][0] = -30.0; m_aGl->ampThresholds[AMPLITUDE_MAX_INTENSITY][1] = -20.0;
@@ -195,7 +195,7 @@ void TpitchFinder::run() {
               } else {
                   if (data->noteIndex != m_prevNoteIndex) {
                       m_prevNoteIndex = data->noteIndex;
-//                       qDebug() << data->noteIndex << data->pitch << curNote->noteLength() << curNote->volume();
+                      qDebug() << data->noteIndex << data->pitch << curNote->noteLength() << curNote->volume();
 // 											qDebug() << curNote->avgPitch() << aGl()->loPitch << aGl()->topPitch;
                       emit found(/*data->pitch*/curNote->avgPitch(), data->fundamentalFreq);
                   }

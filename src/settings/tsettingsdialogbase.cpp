@@ -62,7 +62,7 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     butLay->addStretch(1);
     cancelBut = new QPushButton(QIcon(style()->standardIcon(QStyle::SP_DialogDiscardButton)), tr("Discard"), this);
     butLay->addWidget(cancelBut);
-    butLay->addStretch(1);
+//     butLay->addStretch(1);
     mainLay->addLayout(butLay);
 
     setLayout(mainLay);

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,8 +24,7 @@
 #include <QDir>
 #include <QSettings>
 #include <QCoreApplication>
-#include <qset.h>
-//#include <QDebug>
+#include <QDebug>
 
 
 
@@ -305,7 +304,7 @@ void Tglobals::storeSettings() {
         config->setValue("showHelpOnStart", E->showHelpOnStart);
         config->setValue("studentName", E->studentName);
         config->setValue("examsDir", E->examsDir);
-        config->setValue("levelsDir", E->examsDir);
+        config->setValue("levelsDir", E->levelsDir);
     config->endGroup();
 
     config->beginGroup("sound");

@@ -337,7 +337,6 @@ void TanalysDialog::linkOnTipClicked() {
 
 
 void TanalysDialog::loadExamSlot() {
-  
   QString fileName = QFileDialog::getOpenFileName(this, TstartExamDlg::loadExamFileTxt(), gl->E->examsDir,
 												  TstartExamDlg::examFilterTxt(), 0, QFileDialog::DontUseNativeDialog);
   if (fileName != "") {

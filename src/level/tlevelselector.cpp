@@ -31,6 +31,9 @@ extern Tglobals *gl;
 QList<TexamLevel> getExampleLevels() {
     QList<TexamLevel> llist;
     TexamLevel l = TexamLevel();
+		int octaveOffset = 0; // depends on guitar type and for bass drops range octave down
+		if (gl->instrument == e_bassGuitar)
+			octaveOffset = -1;
 //----------------------------------------------------------------------------
     l.name = QObject::tr("open strings");
     l.desc = QObject::tr("The simplest. No key signatures, no double accidentals and no sound.<br>Automatically adjusted to current tune.");
@@ -48,10 +51,12 @@ QList<TexamLevel> getExampleLevels() {
     l.requireOctave = false;
     l.requireStyle = false;
     l.showStrNr = false;
-    l.hiNote = Tnote(gl->hiString().getChromaticNrOfNote()); //loNote is lowest by constructor
-    l.isNoteHi = false;
+		//clef default, user/tune defined
+    l.hiNote = Tnote(gl->hiString().getChromaticNrOfNote()); 
+		//loNote is lowest by constructor
+//     l.isNoteHi = false;
     l.hiFret = 0;// loFret is 0 by constuctor
-    l.isFretHi = false;
+//     l.isFretHi = false;
     for (int i = 1; i < 7; i++) { //accids will be used if current tune requires it
         if (gl->Gtune()->str(i).acidental == 1)
             l.withSharps = true;
@@ -77,9 +82,9 @@ QList<TexamLevel> getExampleLevels() {
     l.requireOctave = true;
     l.requireStyle = false;
     l.showStrNr = false;
-    l.loNote = Tnote(1,0,0);
-    l.hiNote = Tnote(1,1,0);
-    l.hiFret = 3;// loFret is 0 by constuctor
+    l.loNote = Tnote(1, 0 - octaveOffset, 0);
+    l.hiNote = Tnote(1, 1 - octaveOffset, 0);
+    l.hiFret = 3; // loFret is 0 by constuctor
     llist << l;
 //----------------------------------------------------------------------------
     l.name = QObject::tr("All to V fret");
@@ -87,7 +92,7 @@ QList<TexamLevel> getExampleLevels() {
     l.questionAs.setAsSound(false);
     l.answersAs[0] = TQAtype(false, true, true, false);
     l.answersAs[1] = TQAtype(true, false, true, false);
-    l.answersAs[3] = TQAtype(false, false, false,false);
+    l.answersAs[3] = TQAtype(false, false, false, false);
     l.withSharps = true;
     l.withFlats = true;
     l.withDblAcc = false;
@@ -106,13 +111,13 @@ QList<TexamLevel> getExampleLevels() {
 //----------------------------------------------------------------------------
     l = TexamLevel();
     l.name = QObject::tr("Ear training");
-    l.desc = QObject::tr("Played sounds are pointed in score.<br>No guitar, no note names, no key signatures.<br>Scale A - a<sup>1</sup>");
+    l.desc = QObject::tr("Listen a sound and show it in a score.<br>Guitar, note names and key signatures are not used.<br>Scale a - a<sup>2</sup>");
     l.questionAs.setAsFret(false); // no guitar
     l.questionAs.setAsName(false); // no names
     l.questionAs.setAsNote(false); // score only as an question
-    l.answersAs[0] = TQAtype(false, false, false,false);
-    l.answersAs[1] = TQAtype(false, false, false,false);
-    l.answersAs[2] = TQAtype(false, false, false,false);
+    l.answersAs[0] = TQAtype(false, false, false, false);
+    l.answersAs[1] = TQAtype(false, false, false, false);
+    l.answersAs[2] = TQAtype(false, false, false, false);
     l.answersAs[3] = TQAtype(true, false, false, false); // score only
     l.withSharps = true;
     l.withFlats = true;
@@ -125,8 +130,9 @@ QList<TexamLevel> getExampleLevels() {
     l.requireOctave = true;
     l.requireStyle = false;
     l.showStrNr = false;
-    l.loNote = Tnote(6, -1);
-    l.hiNote = Tnote(6, 1);
+		l.clef = Tclef(Tclef::e_treble_G);
+    l.loNote = Tnote(6, 0);
+    l.hiNote = Tnote(6, 2);
     l.hiFret = 19;// loFret is 0 by constuctor
     llist << l;
 //----------------------------------------------------------------------------
@@ -151,6 +157,7 @@ QList<TexamLevel> getExampleLevels() {
     l.requireOctave = true;
     l.requireStyle = false;
     l.showStrNr = false;
+		//clef default, user/tune defined
 //     l.loNote & l.hiNote from constructor
 //     l.hiFret by constuctor
     l.onlyLowPos = true;
@@ -171,14 +178,15 @@ QList<TexamLevel> getExampleLevels() {
     l.withDblAcc = false;
     l.useKeySign = false;
     l.manualKey = false;
+		l.clef = Tclef(Tclef::e_treble_G);
     l.loKey = 0;
     l.hiKey = 0;
     l.forceAccids = false;
     l.requireOctave = false;
     l.requireStyle = false;
     l.showStrNr = false;
-    l.loNote = Tnote(5, -1); // G contra
-    l.hiNote = Tnote(6, 1); // a one-line
+    l.loNote = Tnote(5, 0); // G contra
+    l.hiNote = Tnote(6, 2); // a one-line
 //     l.hiFret by constuctor
     l.onlyLowPos = true;
     llist << l;
@@ -188,6 +196,7 @@ QList<TexamLevel> getExampleLevels() {
 /*static*/
 const qint32 TlevelSelector::levelVersion = 0x95121701;
 
+
 void TlevelSelector::fileIOerrorMsg(QFile &f, QWidget *parent) {
 	if (f.fileName() != "") {
 	  QMessageBox::critical(parent, "", tr("Cannot open file\n %1 \n for reading").arg(f.fileName()));
@@ -195,6 +204,7 @@ void TlevelSelector::fileIOerrorMsg(QFile &f, QWidget *parent) {
 	  QMessageBox::critical(parent, "", tr("No file name specified"));
 }
 /*end static*/
+
 
 TlevelSelector::TlevelSelector(QWidget *parent) :
     QWidget(parent)
@@ -290,7 +300,8 @@ bool TlevelSelector::isSuitable(TexamLevel &l) {
   (l.questionAs.isSound() && l.answersAs[TQAtype::e_asSound].isFret())
  )
     if (l.hiFret > gl->GfretsNumber ||
-        l.loNote.getChromaticNrOfNote() < gl->loString().getChromaticNrOfNote() ) {
+        l.loNote.getChromaticNrOfNote() < gl->loString().getChromaticNrOfNote() ||
+			  l.hiNote.getChromaticNrOfNote() > gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber ) {
         m_levels.last().item->setStatusTip("<span style=\"color: red;\">" +
                 tr("Level is not suitable for current tune and/or frets number") + "</span>");
         m_levels.last().item->setFlags(Qt::NoItemFlags);

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,18 +23,28 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include "tglobals.h"
+#include <ttipchart.h>
+
 
 extern Tglobals *gl;
+
 
 TlevelPreview::TlevelPreview(QWidget* parent) :
   QWidget(parent)
 {
+		setFixedWidth(400);
     QVBoxLayout *mainLay = new QVBoxLayout;
-    QLabel *headLab = new QLabel(tr("Level summary:"),this);
+    QLabel *headLab = new QLabel(tr("Level summary:"), this);
     mainLay->addWidget(headLab);
-    summLab = new QLabel(tr("\n no level selected"), this);
-    summLab->setFixedWidth(300);
-    mainLay->addWidget(summLab);
+		QHBoxLayout *contLay = new QHBoxLayout;
+    m_summLab = new QLabel(tr("\n no level selected"), this);
+//     summLab->setFixedWidth(300);
+    contLay->addWidget(m_summLab);
+		contLay->addSpacing(10);
+		m_clefLabel = new QLabel(this);
+		m_clefLabel->setAlignment(Qt::AlignCenter);
+		contLay->addWidget(m_clefLabel);
+		mainLay->addLayout(contLay);
     mainLay->addStretch(1);
     setLayout(mainLay);
 }
@@ -121,8 +131,10 @@ void TlevelPreview::setLevel(TexamLevel& tl) {
       S += "</td></tr>";
     }
     S += "</table></center>";
-    summLab->setText(S);
-
+    m_summLab->setText(S);
+		m_clefLabel->setText("<center>" + tr("Clef") + 
+				QString(":<br><br><span style=\"font-family: nootka; font-size: 60px;\"> %1</span></center>").
+				arg(TtipChart::wrapPixToHtml(Tnote(0, 0, 0), tl.clef.type(), TkeySignature(0), 5.0)));
 }
 
 
