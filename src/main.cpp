@@ -30,12 +30,10 @@ int main(int argc, char *argv[])
 	QPointer<MainWindow> w = 0;
 	int exitCode;
 	bool firstTime = true;
+	QString confFile;
+	resetConfig = false;
 	
-	do {
-		QString confFile;
-		if (!firstTime)
-			confFile = gl->config->fileName();
-		if (w) delete w;
+	do {		
 		if (a) delete a;
 		if (resetConfig) { // delete config file - new Nootka instance will start with first run wizard
 				QFile f(confFile);
@@ -45,6 +43,7 @@ int main(int argc, char *argv[])
 		a = new QApplication(argc, argv);  
 		gl = new Tglobals();
 		gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
+		confFile = gl->config->fileName();
 // loading translations
 		QString ll = gl->lang;
 		if (ll == "")
@@ -83,6 +82,7 @@ int main(int argc, char *argv[])
         w->openFile(QString::fromLocal8Bit(argv[argc - 1]));
 		firstTime = false;
 		exitCode = a->exec();
+		delete w;
 		} while (resetConfig);
 		
 		return exitCode;

@@ -20,6 +20,8 @@
 
 #include "texamlevel.h"
 #include "tglobals.h"
+#include <ttune.h>
+#include <QDebug>
 
 extern Tglobals *gl;
 
@@ -51,15 +53,22 @@ TexamLevel::TexamLevel()
   // RANGE
    loNote = gl->loString();
    hiNote = Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber);
-   /** variables isNoteLo, isNoteHi and isFretHi are not used - it has no sense.*/
-   isNoteLo = false;
-   isNoteHi = false;
-   isFretHi = false;
+   /** variables isNoteLo, isNoteHi and isFretHi are not used - it has no sense.
+		*  Since version 0.8.90 isNoteLo and isNoteHi are merged into Tclef.
+		*  It can store multiple clefs (mayby somewhen it will be used)
+		*  0 - no clef and up to 15 different clefs	  */
+	 clef = Tclef(gl->Sclef);
+//    isNoteLo = false;   isNoteHi = false;
+   isFretHi = false; // unused
    //-------------------
    loFret = 0;
    hiFret = gl->GfretsNumber;
-   usedStrings[0] = true; usedStrings[1] = true; usedStrings[2] = true;
-   usedStrings[3] = true; usedStrings[4] = true; usedStrings[5] = true;
+	 for (int i = 0; i < 6; i++) {
+		 if (i <= gl->Gtune()->stringNr())
+				usedStrings[i] = true; 
+		 else
+				usedStrings[i] = false; 
+	 }
    onlyLowPos = false;
    onlyCurrKey = false;
 }
@@ -75,7 +84,8 @@ QDataStream &operator << (QDataStream &out, TexamLevel &lev) {
     out <<  lev.requireOctave << lev.requireStyle;
 // RANGE
     out << lev.loNote << lev.hiNote;
-    out << lev.isNoteLo << lev.isNoteHi;
+//     out << lev.isNoteLo << lev.isNoteHi;
+		out << (quint16)lev.clef.type();
     out << (qint8)lev.loFret << (qint8)lev.hiFret;
     out << lev.isFretHi;
     out << lev.usedStrings[0] << lev.usedStrings[1] << lev.usedStrings[2]
@@ -100,8 +110,11 @@ bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
 // RANGE
     ok = getNoteFromStream(in, lev.loNote);
     ok = getNoteFromStream(in, lev.hiNote);
-    in >> lev.isNoteLo >> lev.isNoteHi;
-    qint8 lo,hi;
+//     in >> lev.isNoteLo >> lev.isNoteHi; 
+	/** Merged to quint16 since version 0.8.90 */
+		quint16 testClef;
+		in >> testClef;
+    qint8 lo, hi;
     in >> lo >> hi;
     if (lo < 0 || lo > 24) { // max frets number
         lo = 0;
@@ -117,6 +130,18 @@ bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
     in >> lev.usedStrings[0] >> lev.usedStrings[1] >> lev.usedStrings[2]
             >> lev.usedStrings[3] >> lev.usedStrings[4] >>  lev.usedStrings[5];
     in >> lev.onlyLowPos >> lev.onlyCurrKey >> lev.showStrNr;
+	// determining/fixing a clef
+		if (testClef == 0) // For backword compability - 'no clef' never occurs
+				lev.clef = Tclef(Tclef::e_treble_G_8down); // and versions before 0.8.90 kept here 0
+		else if (testClef == 1) {
+			Tnote lowest(6, -2, 0);
+			if (lev.canBeGuitar() || lev.loNote.getChromaticNrOfNote() < lowest.getChromaticNrOfNote() )
+				lev.clef = Tclef(Tclef::e_treble_G_8down);  // surely - 1 = e_treble_G was not intended here
+		}	else if (testClef == 257) // some previous mess - untill levels won't support multiple clefs
+				lev.clef = Tclef(Tclef::e_treble_G_8down); 
+		else
+				lev.clef = Tclef((Tclef::Etype)testClef);
+		qDebug() << "detected clef is " << testClef << lev.clef.name();
     return ok;
 }
 

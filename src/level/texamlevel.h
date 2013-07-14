@@ -23,6 +23,7 @@
 #include "tqatype.h"
 #include "tnote.h"
 #include "tkeysignature.h"
+#include <tclef.h>
 #include <QString>
 #include <QDataStream>
 
@@ -52,7 +53,9 @@ public:
     bool showStrNr; /** Shows a string number in questions*/
   // RANGE
     Tnote loNote, hiNote;
-    bool isNoteLo, isNoteHi;
+//     bool isNoteLo, isNoteHi; 
+		// since 0.8.90 version those values are changed to Tclef
+		Tclef clef;
     char loFret, hiFret;
     bool isFretHi;
     bool usedStrings[6];

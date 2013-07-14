@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,6 +21,7 @@
 #include "tglobals.h"
 #include "tlevelpreview.h"
 #include "tsimplescore.h"
+#include <ttune.h>
 #include <QtGui>
 
 extern Tglobals *gl;
@@ -36,11 +37,9 @@ rangeSettings::rangeSettings(QWidget *parent) :
     QHBoxLayout *allLay = new QHBoxLayout;
 
     QVBoxLayout *scoreLay = new QVBoxLayout;
-    m_scoreRang = new TsimpleScore(3, this); // third note is fake
+    m_scoreRang = new TsimpleScore(3, this); // third note is dummy
 		m_scoreRang->setNoteDisabled(2, true); // and is disabled and empty
-		m_scoreRang->setClef(Tclef(Tclef::e_treble_G_8down)); // TODO make it globals
-//     m_scoreRang->setFixedSize(200, 220);;
-//    scoreRang->setStatusTip(tr("If selected notes are either the lowest or the highest<br>possible sounds in the current guitar tune,<br>they are automatically adjusted to another tune."));
+		m_scoreRang->setClef(Tclef(gl->Sclef));
 //     m_scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()),
 //                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
     m_scoreRang->setNote(0, Tnote(1, 0));
@@ -53,7 +52,6 @@ rangeSettings::rangeSettings(QWidget *parent) :
 
     QVBoxLayout *guitLay = new QVBoxLayout;
     QGroupBox *fretGr = new QGroupBox(TlevelPreview::fretsRangeTxt(), this);
-//    fretGr->setStatusTip(tr("If selected fret is the highest, it is automatically<br>changed to the highest possible fret<br>for any frets number in a guitar."));
     QHBoxLayout *fretLay = new QHBoxLayout;
     QLabel *fromLab = new QLabel(tr("from"),this);
     m_fromSpinB = new QSpinBox(this);
@@ -74,16 +72,18 @@ rangeSettings::rangeSettings(QWidget *parent) :
     QGroupBox *stringsGr = new QGroupBox(tr("avaiable strings:"),this);
     stringsGr->setStatusTip(tr("uncheck strings if You want to skip them<br>in an exam."));
     QGridLayout *strLay = new QGridLayout;
-    for (int i=0; i<6; i++) {
+    for (int i = 0; i < 6; i++) {
         m_stringBut[i] = new QCheckBox(QString("%1").arg(i+1),this);
-        m_stringBut[i]->setFont(QFont("nootka", qRound(font().pointSize() * 2), QFont::Normal));
+        m_stringBut[i]->setFont(QFont("nootka", qRound(font().pointSize() * 2.5), QFont::Normal));
         m_stringBut[i]->setChecked(true);
         connect(m_stringBut[i], SIGNAL(clicked()), this, SLOT(stringSelected()));
         connect(m_stringBut[i], SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
         if (i<3)
-            strLay->addWidget(m_stringBut[i],1,i+1,0);
+            strLay->addWidget(m_stringBut[i], 1, i + 1, 0);
         else
-            strLay->addWidget(m_stringBut[i],2,i-2,0);
+            strLay->addWidget(m_stringBut[i], 2, i - 2, 0);
+				if (i >= gl->Gtune()->stringNr())
+					m_stringBut[i]->hide();
     }
     stringsGr->setLayout(strLay);
     guitLay->addWidget(stringsGr);
@@ -112,11 +112,12 @@ void rangeSettings::stringSelected() {
 void rangeSettings::loadLevel(TexamLevel level) {
     disconnect (m_fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
     disconnect (m_toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
+		m_scoreRang->setClef(level.clef);
     m_scoreRang->setNote(0, level.loNote);
     m_scoreRang->setNote(1, level.hiNote);
     m_fromSpinB->setValue(level.loFret);
     m_toSpinB->setValue(level.hiFret);
-    for (int i=0; i<6; i++)
+    for (int i = 0; i < gl->Gtune()->stringNr(); i++)
         m_stringBut[i]->setChecked(level.usedStrings[i]);
     stringSelected();
     connect (m_fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
@@ -160,7 +161,8 @@ void rangeSettings::saveLevel(TexamLevel &level) {
         level.hiFret = m_fromSpinB->value();
     }
 
-    for (int i=0; i<6; i++)
+    for (int i = 0; i < gl->Gtune()->stringNr(); i++)
         level.usedStrings[i] = m_stringBut[i]->isChecked();
+		level.clef = m_scoreRang->clef();
 
 }

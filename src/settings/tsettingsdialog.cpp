@@ -135,6 +135,9 @@ void TsettingsDialog::restoreDefaults() {
 				m_sndInSett->restoreDefaults();
 			else if (m_audioTab->currentWidget() == m_sndOutSett)
 				m_sndOutSett->restoreDefaults();
+				#if defined(__UNIX_JACK__)
+						m_jackChBox->setChecked(false);
+				#endif
 		}
 }
 
