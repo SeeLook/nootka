@@ -53,6 +53,8 @@ public:
         Ttune tune;
         bool octaveInName;
         char fretsNumber;
+				Tclef clef;
+				Einstrument instrument;
     };
     struct TanswerRequire {
         bool octave;

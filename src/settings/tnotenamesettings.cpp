@@ -32,6 +32,7 @@ TnoteNameSettings::TnoteNameSettings(QWidget *parent) :
         QWidget(parent)
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
+		mainLay->addStretch(1);
     mainLay->setAlignment(Qt::AlignCenter);
     QHBoxLayout *nLay = new QHBoxLayout;
     m_nameStyleGr = new TnotationRadioGroup(gl->NnameStyleInNoteName, this);

@@ -32,7 +32,7 @@ extern Tglobals *gl;
 TlevelPreview::TlevelPreview(QWidget* parent) :
   QWidget(parent)
 {
-		setFixedWidth(400);
+		setFixedWidth(370);
     QVBoxLayout *mainLay = new QVBoxLayout;
     QLabel *headLab = new QLabel(tr("Level summary:"), this);
     mainLay->addWidget(headLab);
@@ -55,6 +55,7 @@ void TlevelPreview::setLevel(TexamLevel& tl) {
   QString S;
     S = "<center><b>" + tl.name + "</b>";
     S += "<table border=\"1\">";
+		S += "<tr><td colspan=\"2\" align=\"center\">" + instrumentToText(tl.instrument) + "</td></tr>";;
     S += "<tr><td>" + notesRangeTxt() + " </td>";
     S += "<td>" + TnoteName::noteToRichText(tl.loNote) + " - "
          + TnoteName::noteToRichText(tl.hiNote) + "</td></tr>";

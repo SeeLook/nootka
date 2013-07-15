@@ -145,7 +145,13 @@ TradioClef::TradioClef(Tclef clef, QWidget* parent, bool isMenu) :
         clefUsage = tr("Clef for guitars (classical, electric and so)");
         break;
       case Tclef::e_bass_F:
-        clefUsage = tr(" Bottom clef in the grand stave also for celo, trombone, etc.");
+        clefUsage = tr(" Bottom clef in the grand stave but also used for celo, trombone, etc.");
+        break;
+			case Tclef::e_bass_F_8down:
+        clefUsage = tr(" Clef for bass guitar and double bass.");
+        break;
+			case Tclef::e_alto_C:
+        clefUsage = tr("Sometimes is called clef for viola and mostly used for it.");
         break;
     }
 		setStatusTip("<b>" + m_clef.name() + "</b>  (" + m_clef.desc() + ")<br>" + clefUsage);

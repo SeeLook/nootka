@@ -31,6 +31,7 @@
 #include "tlinearchart.h"
 #include "tbarchart.h"
 #include "tquestionpoint.h"
+#include "ttipchart.h"
 #include "tpixmaker.h"
 #include "tglobals.h"
 
@@ -136,6 +137,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
 
 TanalysDialog::~TanalysDialog()
 {
+	TtipChart::defaultClef = gl->Sclef;
   if (m_wasExamCreated) // to avoid memory leaks
     delete m_exam;
 }
@@ -178,7 +180,7 @@ void TanalysDialog::setExam(Texam* exam) {
     enableComboItem(4, true);
   else
     enableComboItem(4, false);
-  
+  TtipChart::defaultClef = m_exam->level()->clef;
   createChart(m_chartSetts);
 }
 
@@ -199,12 +201,11 @@ void TanalysDialog::loadExam(QString& examFile) {
               m_effectLab->setText("");
       m_moreButton->setDisabled(true);
       createChart(m_chartSetts);
-      TgraphicsTextTip *wrongFileTip = new TgraphicsTextTip("<h3>" + tr("File: %1 \n is not valid exam file !!!").arg(examFile).replace("\n", "<br>") + "</h3>",
-                                                            gl->EquestionColor);
+      TgraphicsTextTip *wrongFileTip = new TgraphicsTextTip("<h3>" +
+					tr("File: %1 \n is not valid exam file !!!").arg(examFile).replace("\n", "<br>") + "</h3>", gl->EquestionColor);
       m_chart->scene->addItem(wrongFileTip);
       wrongFileTip->setPos(100, 180);
     }
-
 }
 
 //##########  PRIVATE METHODS #####################

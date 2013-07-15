@@ -56,13 +56,13 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 	// Selecting guitar type combo
 		m_instrumentTypeCombo = new QComboBox(this);
 		guitarLay->addWidget(m_instrumentTypeCombo, 0, Qt::AlignCenter);
-		m_instrumentTypeCombo->addItem(tr("none"));
-		m_instrumentTypeCombo->addItem(tr("Classical Guitar"));
-		m_instrumentTypeCombo->addItem(tr("Electric Guitar"));
+		m_instrumentTypeCombo->addItem(instrumentToText(e_none));
+		m_instrumentTypeCombo->addItem(instrumentToText(e_classicalGuitar));
+		m_instrumentTypeCombo->addItem(instrumentToText(e_electricGuitar));
 		QModelIndex in = m_instrumentTypeCombo->model()->index(2, 0);
 		QVariant v(0);
 		m_instrumentTypeCombo->model()->setData(in, v, Qt::UserRole - 1);
-		m_instrumentTypeCombo->addItem(tr("Bass Guitar"));
+		m_instrumentTypeCombo->addItem(instrumentToText(e_bassGuitar));
 		guitarLay->addStretch(1);
 	// Righthanded/lefthanded check box
     m_righthandCh = new QCheckBox(tr("guitar for right-handed"),this);

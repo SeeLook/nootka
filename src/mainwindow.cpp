@@ -68,7 +68,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowIcon(QIcon(gl->path+"picts/nootka.png"));
 #endif
     
-    setMinimumSize(640, 480);
+    setMinimumSize(740, 480);
     
     if (gl->isFirstRun) {
         TfirstRunWizzard *firstWizz = new TfirstRunWizzard();
@@ -164,6 +164,7 @@ MainWindow::MainWindow(QWidget *parent) :
 		nameLay->addWidget(examResults);
 		
 		nootLab = new TnootkaLabel(gl->path + "picts/logo.png", innerWidget);
+		nameLay->addStretch(1);
 		nameLay->addWidget(nootLab);
 		nameLay->addStretch(1);
 		
@@ -171,6 +172,7 @@ MainWindow::MainWindow(QWidget *parent) :
     noteName->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
 		nameLay->addWidget(noteName);
+		nameLay->addStretch(1);
     scoreAndNameLay->addLayout(nameLay);
     mainLay->addLayout(scoreAndNameLay);
 //-------------------------------------------------------------------
@@ -553,14 +555,6 @@ void MainWindow::updsateSize() {
     m_statFontSize = (centralWidget()->height() / 9) / 4 - 2;
     nootBar->setIconSize(QSize(height() / 21, height() / 21));
     pitchView->resize(m_statFontSize);
-    
-//     score->setFixedWidth((centralWidget()->height() - nootBar->height() - pitchView->height() -
-//                           ((centralWidget()->height() - nootBar->height()) * 0.25))  / 1.2 + 56);
-    
-    int posX = score->x() + score->width() + 20;
-    int gapY = centralWidget()->height() / 100;
-
-//     m_statLab->setGeometry(posX, 7, centralWidget()->width() - posX - 40 - score->x(), centralWidget()->height() / 9);
 		m_statLab->setFixedHeight(centralWidget()->height() / 9);
     QFont f = m_statLab->font();
     f.setPointSize(m_statFontSize);
@@ -570,20 +564,9 @@ void MainWindow::updsateSize() {
     m_statLab->setFont(f);
     guitar->setFixedHeight((centralWidget()->height() - nootBar->height()) * 0.25);
     progress->resize(m_statFontSize);
-//     progress->setGeometry(posX, m_statLab->geometry().bottom() + gapY * 4,
-//                           centralWidget()->width() - posX, centralWidget()->height() * 0.15);
-//     progress->setFixedHeight(centralWidget()->height() * 0.08);
     examResults->setFontSize(m_statFontSize);
-//     examResults->setGeometry(posX, progress->geometry().bottom() + gapY * 3, centralWidget()->width() - posX, 
-//       centralWidget()->height() * 0.1);
-//     examResults->setFixedHeight(centralWidget()->height() * 0.08);
     noteName->resize(m_statFontSize);
-//     noteName->setGeometry(posX, qRound(centralWidget()->height() * 0.35),
-//                           centralWidget()->width() - posX, qRound(centralWidget()->height() * 0.4));
-    
-//     nootLab->setGeometry(posX, qRound(centralWidget()->height() * 0.12), centralWidget()->width()- score->width() -2,
-//           qRound(centralWidget()->height() * 0.25));
-//     score->setScordature();
+		
 		if (gl->instrument != e_none) {
 			QPixmap bgPix;
 			if (gl->instrument == e_classicalGuitar)				
@@ -600,6 +583,8 @@ void MainWindow::updsateSize() {
 				QPixmap rosePix(gl->path + "picts/rosette.png"); // size 341x281
 				m_rosettePixmap = rosePix.scaled(341 * ratio, 281 * ratio, Qt::KeepAspectRatio);
 			}
+		} else {
+			score->setFixedHeight(height() * 0.6);
 		}
     
     setUpdatesEnabled(true);

@@ -31,6 +31,7 @@
 #include "texecutorsupply.h"
 #include "tanalysdialog.h"
 #include "tgraphicstexttip.h"
+#include <ttipchart.h>
 #include "tcanvas.h"
 #include "tprogresswidget.h"
 #include "texamview.h"
@@ -100,7 +101,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
             QMessageBox::warning(mW, "", 
               tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
       //We check are guitar's params suitable for an exam --------------
-                  QString changesMessage = "";
+								QString changesMessage = "";
+								if (m_level.instrument != e_none) {
                   if (m_exam->tune() != *gl->Gtune() ) { //Is tune the same ?
 												Ttune tmpTune = m_exam->tune();
                         gl->setTune(tmpTune);
@@ -111,6 +113,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
                         changesMessage += tr("<br><br>This exam requires more frets,<br>so frets number in the guitar will be changed.");
                         gl->GfretsNumber =  m_level.hiFret;
                     }
+								}
                   if (changesMessage != "")
                         QMessageBox::warning(mW, "", changesMessage);
             // ---------- End of checking ----------------------------------
@@ -803,6 +806,8 @@ void TexamExecutor::prepareToExam() {
     m_glStore.useDblAccids = gl->doubleAccidentalsEnabled;
     m_glStore.useKeySign = gl->SkeySignatureEnabled;
     m_glStore.octaveInName = gl->NoctaveInNoteNameFormat;
+		m_glStore.clef = Tclef(gl->Sclef);
+		m_glStore.instrument = gl->instrument;
 
     gl->showEnharmNotes = false;
     gl->SshowKeySignName = false;
@@ -810,6 +815,8 @@ void TexamExecutor::prepareToExam() {
     gl->doubleAccidentalsEnabled = m_level.withDblAcc;
     gl->SkeySignatureEnabled = m_level.useKeySign;
     gl->NoctaveInNoteNameFormat = true;
+		gl->Sclef = m_level.clef.type();
+		gl->instrument = m_level.instrument;
 
     mW->score->acceptSettings();
     mW->noteName->setEnabledEnharmNotes(false);
@@ -817,6 +824,7 @@ void TexamExecutor::prepareToExam() {
     mW->guitar->acceptSettings();
     mW->score->isExamExecuting(true);
     mW->sound->prepareToExam();
+		TtipChart::defaultClef = m_level.clef;
   // clearing all views/widgets
     clearWidgets();
     mW->guitar->createRangeBox(m_level.loFret, m_level.hiFret);
@@ -832,6 +840,7 @@ void TexamExecutor::prepareToExam() {
         m_canvas->startTip();
 }
 
+
 void TexamExecutor::restoreAfterExam() {
     mW->setWindowTitle(qApp->applicationName());
     mW->nootBar->removeAction(nextQuestAct);
@@ -846,7 +855,10 @@ void TexamExecutor::restoreAfterExam() {
     gl->setTune(m_glStore.tune);
     gl->NoctaveInNoteNameFormat = m_glStore.octaveInName;
     gl->GfretsNumber = m_glStore.fretsNumber;
+		gl->Sclef = m_glStore.clef.type();
+		gl->instrument = m_glStore.instrument;
 
+		TtipChart::defaultClef = gl->Sclef;
     mW->score->acceptSettings();
     mW->noteName->setEnabledEnharmNotes(false);
     mW->noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
@@ -866,7 +878,6 @@ void TexamExecutor::restoreAfterExam() {
     mW->expertAnswChB->hide();
 
     if (m_canvas)
-//       delete m_canvas;
         m_canvas->deleteLater();
 
     connect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));

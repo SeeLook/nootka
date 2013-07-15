@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -59,7 +59,8 @@ TexamLevel::TexamLevel()
 		*  0 - no clef and up to 15 different clefs	  */
 	 clef = Tclef(gl->Sclef);
 //    isNoteLo = false;   isNoteHi = false;
-   isFretHi = false; // unused
+//    isFretHi = false; 
+	 instrument = gl->instrument;
    //-------------------
    loFret = 0;
    hiFret = gl->GfretsNumber;
@@ -87,7 +88,13 @@ QDataStream &operator << (QDataStream &out, TexamLevel &lev) {
 //     out << lev.isNoteLo << lev.isNoteHi;
 		out << (quint16)lev.clef.type();
     out << (qint8)lev.loFret << (qint8)lev.hiFret;
-    out << lev.isFretHi;
+//     out << lev.isFretHi;
+		quint8 instr;
+		if (lev.instrument != e_none)
+			instr = (quint8)lev.instrument;
+		else // // because '0' is reserved for backword compability
+			instr = 255;
+		out << instr;
     out << lev.usedStrings[0] << lev.usedStrings[1] << lev.usedStrings[2]
             << lev.usedStrings[3] << lev.usedStrings[4] <<  lev.usedStrings[5];
     out << lev.onlyLowPos << lev.onlyCurrKey << lev.showStrNr;
@@ -126,7 +133,11 @@ bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
     }
     lev.loFret = char(lo);
     lev.hiFret = char(hi);
-    in >> lev.isFretHi;
+//     in >> lev.isFretHi;
+	/** Previously is was bool type */
+		quint8 instr;
+		in >> instr;
+		
     in >> lev.usedStrings[0] >> lev.usedStrings[1] >> lev.usedStrings[2]
             >> lev.usedStrings[3] >> lev.usedStrings[4] >>  lev.usedStrings[5];
     in >> lev.onlyLowPos >> lev.onlyCurrKey >> lev.showStrNr;
@@ -142,6 +153,21 @@ bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
 		else
 				lev.clef = Tclef((Tclef::Etype)testClef);
 		qDebug() << "detected clef is " << testClef << lev.clef.name();
+	// determining/fixing an instrument in a level
+		if (instr == 0 ||instr == 1) { // Those values occur in versions before 0.8.90 where an instrument doesn't exist
+			if (lev.canBeGuitar()) // try to detect
+					lev.instrument = e_classicalGuitar;
+			else
+					lev.instrument = e_none;
+		} else if (instr < 4) // simple cast to detect an instrument
+			lev.instrument = (Einstrument)instr;
+		else if (instr == 255) // because '0' is reserved for backword compability
+			lev.instrument = e_none;
+		else {
+			qDebug() << "TexamLevel::instrument has some stupid value. FIXED";
+			lev.instrument = e_classicalGuitar;
+		}
+		qDebug() << "detected instrument is " << instr << instrumentToText(lev.instrument);
     return ok;
 }
 

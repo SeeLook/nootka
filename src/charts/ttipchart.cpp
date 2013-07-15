@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,12 +29,14 @@
 
 
 /* static */
+Tclef TtipChart::defaultClef = Tclef(Tclef::e_treble_G_8down);
+
 QString TtipChart::insertQMark() {
     return QString("<span style=\"color: red; font-family: nootka; font-size: 45px;\">?</span>");
 }
 
-QString TtipChart::wrapPixToHtml(Tnote note, bool defaultClef, TkeySignature key, qreal factor) {
-  return wrapPixToHtml(note, Tclef::e_treble_G_8down, key, factor);
+QString TtipChart::wrapPixToHtml(Tnote note, bool defClef, TkeySignature key, qreal factor) {
+  return wrapPixToHtml(note, defaultClef.type(), key, factor);
 }
 
 

@@ -27,12 +27,16 @@ TscoreControl::TscoreControl(QWidget* parent):
 {    
     m_dblSharpBut = new TpushButton("x");
     setButtons(m_dblSharpBut);
+		m_dblSharpBut->setStatusTip(tr("<b>double sharp</b> - raises a note by two semitones (whole tone)<br>On the guitar it is two frets up."));
     m_sharpBut = new TpushButton("#");
     setButtons(m_sharpBut);
+		m_sharpBut->setStatusTip(tr("<b>sharp</b> - raises a note by a half tone<br>On the guitar it is one fret up."));
     m_flatBut = new TpushButton("b");
     setButtons(m_flatBut);
+		m_flatBut->setStatusTip(tr("<b>flat</b> - lowers a note by a half tone<br>On the guitar it is one fret down."));
     m_dblFlatBut = new TpushButton("B");
     setButtons(m_dblFlatBut);
+		m_dblFlatBut->setStatusTip(tr("<b>double flat</b> - lowers a note by two semitones (whole tone)<br>On the guitar it is two frets down."));
     QVBoxLayout *butLay = new QVBoxLayout;
     butLay->addStretch(1);
     butLay->addWidget(m_dblSharpBut);
