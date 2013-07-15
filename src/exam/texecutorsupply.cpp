@@ -51,11 +51,12 @@ void TexecutorSupply::examFinished() {
 
 void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
     char openStr[6];
-      for (int i = 0; i < 6; i++)
+//       for (int i = 0; i < 6; i++)
+			for (int i = 0; i < gl->Gtune()->stringNr(); i++)
         openStr[i] = gl->Gtune()->str(i + 1).getChromaticNrOfNote();
       
       /** FIXING MISTAKE RELATED WITH A NEW VALIDATIN WAY DURING SAVING NEW LEVEL 
-       * When there in no guitar in a level,
+       * When there is no guitar in a level,
        * add to question list only the lowest position sounds. 
        * In this way question list contains propper number of questions. */
     if (!m_level->canBeGuitar() && 
@@ -67,7 +68,8 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
     }
 
 // searching all frets in range, string by string
-    for(int s = 0; s < 6; s++) {
+//     for(int s = 0; s < 6; s++) {
+		for(int s = 0; s < gl->Gtune()->stringNr(); s++) {
         if (m_level->usedStrings[gl->strOrder(s)])// check string by strOrder
             for (int f = m_level->loFret; f <= m_level->hiFret; f++) {
                 Tnote n = Tnote(gl->Gtune()->str(gl->strOrder(s) + 1).getChromaticNrOfNote() + f);

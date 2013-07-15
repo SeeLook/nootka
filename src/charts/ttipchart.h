@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,7 +21,7 @@
 
 #include <tgraphicstexttip.h>
 #include "tqatype.h"
-#include <tclef.h>
+#include "tclef.h"
 
 
 class TquestionPoint;
@@ -42,11 +42,14 @@ public:
   TtipChart(TquestionPoint *point);
   virtual ~TtipChart();
   
-      /** Returns html sting with note pixmap generated from @param point. */
+      /** Returns html sting with note pixmap generated acording to given params. */
   static QString wrapPixToHtml( Tnote note, Tclef::Etype clef, TkeySignature key, qreal factor = 4.0);
-  static QString wrapPixToHtml( Tnote note, bool defaultClef, TkeySignature key, qreal factor = 4.0);
+			/** Overloaded method - clef is taken from static  */
+  static QString wrapPixToHtml( Tnote note, bool defClef, TkeySignature key, qreal factor = 4.0);
       /** Returns html string with question mark in nootka font. */
   static QString insertQMark();
+			/** Controls default clef for all tips. Primary is @p Tclef::e_treble_G_8down */
+	static Tclef defaultClef;
   
 private:
   TquestionPoint *m_point;

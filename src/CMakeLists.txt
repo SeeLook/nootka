@@ -37,7 +37,7 @@ SET( NOOTKA_SRCS
 	music/tclef.cpp
 	music/tkeysignature.cpp
 	music/ttune.cpp
-	music/tinstrument.h
+	music/tinstrument.cpp
 ###### guitar
 	guitar/tfingerboard.cpp
 	guitar/tfingerpos.cpp  

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,7 +23,8 @@
 #include "tqatype.h"
 #include "tnote.h"
 #include "tkeysignature.h"
-#include <tclef.h>
+#include "tclef.h"
+#include "tinstrument.h"
 #include <QString>
 #include <QDataStream>
 
@@ -57,7 +58,9 @@ public:
 		// since 0.8.90 version those values are changed to Tclef
 		Tclef clef;
     char loFret, hiFret;
-    bool isFretHi;
+//     bool isFretHi;
+		// since 0.8.90 version this value is changed to Einstrument
+		Einstrument instrument;
     bool usedStrings[6];
     bool onlyLowPos;
     bool onlyCurrKey;

@@ -130,6 +130,8 @@ void TlevelCreatorDlg::saveToFile() {
         showValidationMessage(isLevelValid);
         return;
     }
+    if (!newLevel.canBeGuitar()) // instrument is taken from user preferences
+				newLevel.instrument = e_none; // but if it is unused let's set to none
     TlevelHeaderWdg *saveDlg = new TlevelHeaderWdg(this);
     QStringList nameList = saveDlg->getLevelName();
     newLevel.name = nameList[0];

@@ -16,24 +16,19 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TINSTRUMENT_H
-#define TINSTRUMENT_H
-#include <QString>
+#include "tinstrument.h"
+#include <QApplication>
 
 
-
-/** Some instruments used in Nootka */
-enum Einstrument {
-	e_none = 0, // however level and exam save it as 255 for backword compability
-	e_classicalGuitar = 1,
-	e_electricGuitar = 2,
-	e_bassGuitar = 3
-};
-
-
-/** Converts Einstrument enum to translated text. */
-QString instrumentToText(Einstrument instr);
-
-
-#endif //TINSTRUMENT_H
-
+QString instrumentToText(Einstrument instr) {
+	if (instr == e_none)
+			return QApplication::translate("Einstrument", "No instrument");
+	if (instr == e_classicalGuitar)
+			return QApplication::translate("Einstrument", "Classical Guitar");
+	if (instr == e_electricGuitar)
+			return QApplication::translate("Einstrument", "Electric Guitar");
+	if (instr == e_bassGuitar)
+			return QApplication::translate("Einstrument", "Bass Guitar");
+	
+	return "";
+}
