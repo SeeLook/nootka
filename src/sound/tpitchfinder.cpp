@@ -36,7 +36,8 @@ TpitchFinder::TpitchFinder(QObject* parent) :
   m_prevPitch(0), m_prevFreq(0),
   m_prevNoteIndex(-1), m_noticedIndex(-1),
   m_isVoice(false),
-  m_doReset(false)
+  m_doReset(false),
+  m_rateRatio(1.0)
 {
     m_aGl = new TartiniParams();
     m_aGl->chanells = 1;
@@ -99,18 +100,28 @@ void TpitchFinder::setIsVoice(bool voice) {
 }
 
 
-void TpitchFinder::setSampleRate(unsigned int sRate) {
+void TpitchFinder::setSampleRate(unsigned int sRate, int range) {
     m_aGl->rate = sRate;
+		switch (range) {
+			case 0: 
+				m_rateRatio = 0.5; break; // e_high - lowest pitch is F small
+			case 2:
+				m_rateRatio = 2.0; break; // e_low - lowest pitch is ... very low
+			default:
+				m_rateRatio = 1.0; break; // e_middle - lowest pitch is F contra
+		}
+		qDebug() << "m_rateRatio is " << m_rateRatio;
     if (sRate > 48000) {
-      m_aGl->framesPerChunk = 2048;
-      m_aGl->windowSize = 4096;
+      m_aGl->framesPerChunk = 2048 * m_rateRatio;
+      m_aGl->windowSize = 4096 * m_rateRatio;
     } else if (sRate > 96000) {
-      m_aGl->framesPerChunk = 4096;
-      m_aGl->windowSize = 8192;
+      m_aGl->framesPerChunk = 4096 * m_rateRatio;
+      m_aGl->windowSize = 8192 * m_rateRatio;
     } else {
-      m_aGl->framesPerChunk = 1024;
-      m_aGl->windowSize = 2048;
+      m_aGl->framesPerChunk = 1024 * m_rateRatio;
+      m_aGl->windowSize = 2048 * m_rateRatio;
     }
+    qDebug() << "framesPerChunk" << m_aGl->framesPerChunk << "windowSize" << m_aGl->windowSize;
     delete m_prevChunk;
     delete m_filteredChunk;
     if (aGl()->equalLoudness)

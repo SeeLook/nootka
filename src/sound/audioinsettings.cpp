@@ -135,9 +135,34 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* pa
   volumeSlider = new TvolumeSlider(this);
   tunLay->addWidget(volumeSlider);
   volumeSlider->setValue(m_glParams->minimalVol);
-  tunLay->addStretch();    
-  upLay->addLayout(tunLay);
-  
+  tunLay->addStretch();
+	
+	QGroupBox *rangeBox = new QGroupBox(tr("Range of pitches:"), this);
+	QHBoxLayout *rangeLay = new QHBoxLayout;
+	lowRadio = new QRadioButton(tr("low", "be short, please"), this);
+	lowRadio->setStatusTip(tr("The lowest notes.<br>For bass guitar."));
+	middleRadio = new QRadioButton(tr("middle"), this);
+	middleRadio->setStatusTip(tr("Notes above <b>A contra</b>.<br>This is for guitar."));
+	highRadio = new QRadioButton(tr("high"), this);
+	highRadio->setStatusTip(tr("Notes above <b>small g</b>.<br>For high pitch instruments like flute, piccolo etc."));
+	QButtonGroup *rangeGr = new QButtonGroup(this);
+	rangeGr->addButton(lowRadio);
+	rangeGr->addButton(middleRadio);
+	rangeGr->addButton(highRadio);
+	if (m_glParams->range == TaudioParams::e_low)
+		lowRadio->setChecked(true);
+	else if (m_glParams->range == TaudioParams::e_middle)
+		middleRadio->setChecked(true);
+	else
+		highRadio->setChecked(true);
+		
+	rangeLay->addWidget(lowRadio);
+	rangeLay->addWidget(middleRadio);
+	rangeLay->addWidget(highRadio);
+	rangeBox->setLayout(rangeLay);
+	tunLay->addWidget(rangeBox);
+
+  upLay->addLayout(tunLay);  
   inLay->addLayout(upLay);
   
   testTxt = tr("Test");
@@ -221,6 +246,9 @@ void AudioInSettings::setTestDisabled(bool disabled) {
     modeGr->setDisabled(false);
     midABox->setDisabled(false);
     volumeSlider->setDisabled(false);
+		lowRadio->setDisabled(false);
+		middleRadio->setDisabled(false);
+		highRadio->setDisabled(false);
   } else {
     pitchLab->setDisabled(false);
     freqLab->setDisabled(false);
@@ -230,6 +258,9 @@ void AudioInSettings::setTestDisabled(bool disabled) {
     midABox->setDisabled(true);
     modeGr->setDisabled(true);
     volumeSlider->setDisabled(true);
+		lowRadio->setDisabled(true);
+		middleRadio->setDisabled(true);
+		highRadio->setDisabled(true);
   }
 }
 
@@ -246,6 +277,12 @@ void AudioInSettings::grabParams(TaudioParams *params) {
       params->isVoice = false;
   params->INenabled = enableInBox->isChecked();
   params->minimalVol = volumeSlider->value();
+	if (lowRadio->isChecked())
+			params->range = TaudioParams::e_low;
+	else if (middleRadio->isChecked())
+			params->range = TaudioParams::e_middle;
+	else
+			params->range = TaudioParams::e_high;
 }
 
 
@@ -333,7 +370,6 @@ void AudioInSettings::minimalVolChanged(float vol) {
 }
 
 
-
 void AudioInSettings::testSlot() {
   setTestDisabled(!m_testDisabled);
   if (!m_testDisabled) { // start a test
@@ -380,6 +416,7 @@ void AudioInSettings::intervalChanged(int index) {
   }
 }
 
+
 void AudioInSettings::baseFreqChanged(int bFreq) {
   if (freqSpin->hasFocus()) {
     if (freqSpin->value() <= 415)
@@ -393,4 +430,14 @@ void AudioInSettings::baseFreqChanged(int bFreq) {
   }
 }
 
+/** This is not so pretty (piano staff invokes low range) */
+void AudioInSettings::whenLowestNoteChanges(Tnote loNote) {
+	char noteNr = loNote.getChromaticNrOfNote();
+	if (noteNr > Tnote(6, 0, 0).getChromaticNrOfNote())
+		highRadio->setChecked(true);
+	else if (noteNr > Tnote(5, -2, 0).getChromaticNrOfNote())
+		middleRadio->setChecked(true);
+	else
+		lowRadio->setChecked(true);
+}
 

@@ -88,8 +88,16 @@ void TsettingsDialog::saveSettings() {
 			m_globalSett->saveSettings();
   if (m_nameSett)
 			m_nameSett->saveSettings();
-  if (m_guitarSett)
+  if (m_guitarSett) {
 			m_guitarSett->saveSettings();
+			if (!m_audioSettingsPage) { // when no audi settings set pitch range according to clef for tune
+				if (m_guitarSett->lowestNote().getChromaticNrOfNote() < Tnote(6, -2, 0).getChromaticNrOfNote())
+						gl->A->range = TaudioParams::e_low;
+				else
+						gl->A->range = TaudioParams::e_middle;
+				/** Infact, even trable clef requires middle scale, so high scale is ignored here*/
+			}
+	}
   if (m_examSett)
 			m_examSett->saveSettings();
   if (m_sndOutSett)
@@ -98,7 +106,7 @@ void TsettingsDialog::saveSettings() {
 				m_sndInSett->saveSettings();
 	if (m_7thNoteToDefaults) {
 		if ((Tpage_3::note7txt().toLower() == "b") != (gl->seventhIs_B)) {
-			/** NOTE As long as TscoreSettings is created at first and allways exist 
+			/** NOTE As long as TscoreSettings is created at first and always exist 
 			 * only adjustement of global note names is required. 
 			 * How: When user opens Name settings and changes 7-th note TscoreSettings changes automatically 
 			 * This condition is called in opposite situation: 
@@ -215,6 +223,10 @@ void TsettingsDialog::changeSettingsWidget(int index) {
         stackLayout->addWidget(m_audioSettingsPage);
         m_sndInSett->generateDevicesList();
         m_sndOutSett->generateDevicesList();
+				if (m_guitarSett) { // update pitches range according to guitar settings state
+					connect(m_guitarSett, SIGNAL(lowestNoteChanged(Tnote)), m_sndInSett, SLOT(whenLowestNoteChanges(Tnote)));
+					m_sndInSett->whenLowestNoteChanges(m_guitarSett->lowestNote());
+				}
       }
       currentWidget = m_audioSettingsPage;
       break;

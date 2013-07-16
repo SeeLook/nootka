@@ -21,7 +21,7 @@
 
 
 QString instrumentToText(Einstrument instr) {
-	if (instr == e_none)
+	if (instr == e_noInstrument)
 			return QApplication::translate("Einstrument", "No instrument");
 	if (instr == e_classicalGuitar)
 			return QApplication::translate("Einstrument", "Classical Guitar");

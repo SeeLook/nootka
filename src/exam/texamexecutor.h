@@ -55,12 +55,15 @@ public:
         char fretsNumber;
 				Tclef clef;
 				Einstrument instrument;
+				int detectRange;
     };
+		
     struct TanswerRequire {
         bool octave;
         bool accid;
         bool key;
     };
+		
       /** Describes state of exam executing */
     enum Estate {
       e_starting,
@@ -71,6 +74,7 @@ public:
       e_saveing,
       e_finished
     };
+		
     bool closeNootka();
     bool isAnswered() { return m_isAnswered; }
 
@@ -83,7 +87,7 @@ protected:
 protected slots:
     void askQuestion();
         /** If it is called by pressing "check answer" it obviously shows results
-        * but if app is closeing it only checks answer and save it without showing.*/
+        * but if app is closeing it only checks answer and save it without showing. */
     void checkAnswer(bool showResults = true);
     void stopExamSlot();
     void repeatQuestion();
@@ -94,7 +98,7 @@ protected slots:
     void showExamHelp();
     void expertAnswersSlot();
     void expertAnswersStateChanged(bool enable);
-        /** Ivokes Tsound::go() */
+        /** Invokes Tsound::go() */
     void startSniffing();
         /** Starts sniffing when asked note is finished */
     void sniffAfterPlaying();
@@ -115,7 +119,7 @@ private:
     
     TexecutorSupply *m_supp; 
     Texam *m_exam;
-          /** main instance of TexamLevel, others are poiters or references to it */
+          /** main instance of TexamLevel, others are pointers or references to it */
     TexamLevel m_level;
     QList<TQAunit::TQAgroup> m_questList;
           /** Invokes startSniffing() and stopPlaying() after delay

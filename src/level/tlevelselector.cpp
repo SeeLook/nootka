@@ -132,7 +132,7 @@ QList<TexamLevel> getExampleLevels() {
     l.requireStyle = false;
     l.showStrNr = false;
 		l.clef = Tclef(Tclef::e_treble_G);
-		l.instrument = e_none;
+		l.instrument = e_noInstrument;
     l.loNote = Tnote(6, 0);
     l.hiNote = Tnote(6, 2);
     l.hiFret = 19;// loFret is 0 by constuctor
@@ -182,7 +182,7 @@ QList<TexamLevel> getExampleLevels() {
     l.useKeySign = false;
     l.manualKey = false;
 		l.clef = Tclef(Tclef::e_treble_G);
-		l.instrument = e_none;
+		l.instrument = e_noInstrument;
     l.loKey = 0;
     l.hiKey = 0;
     l.forceAccids = false;

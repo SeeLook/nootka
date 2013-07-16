@@ -21,6 +21,7 @@
 #include "tstartexamdlg.h"
 #include "tlevelselector.h"
 #include "tsound.h"
+#include <taudioparams.h>
 #include "mainwindow.h"
 #include "texam.h"
 #include "texamsummary.h"
@@ -102,7 +103,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
               tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
       //We check are guitar's params suitable for an exam --------------
 								QString changesMessage = "";
-								if (m_level.instrument != e_none) {
+								if (m_level.instrument != e_noInstrument) {
                   if (m_exam->tune() != *gl->Gtune() ) { //Is tune the same ?
 												Ttune tmpTune = m_exam->tune();
                         gl->setTune(tmpTune);
@@ -808,6 +809,7 @@ void TexamExecutor::prepareToExam() {
     m_glStore.octaveInName = gl->NoctaveInNoteNameFormat;
 		m_glStore.clef = Tclef(gl->Sclef);
 		m_glStore.instrument = gl->instrument;
+		m_glStore.detectRange = (int)gl->A->range;
 
     gl->showEnharmNotes = false;
     gl->SshowKeySignName = false;
@@ -817,12 +819,17 @@ void TexamExecutor::prepareToExam() {
     gl->NoctaveInNoteNameFormat = true;
 		gl->Sclef = m_level.clef.type();
 		gl->instrument = m_level.instrument;
+		if (m_level.instrument == e_bassGuitar)
+				gl->A->range = TaudioParams::e_low;
+		else
+				gl->A->range = TaudioParams::e_middle;
 
     mW->score->acceptSettings();
     mW->noteName->setEnabledEnharmNotes(false);
     mW->noteName->setEnabledDblAccid(m_level.withDblAcc);
     mW->guitar->acceptSettings();
     mW->score->isExamExecuting(true);
+		mW->sound->acceptSettings();
     mW->sound->prepareToExam();
 		TtipChart::defaultClef = m_level.clef;
   // clearing all views/widgets
@@ -857,6 +864,7 @@ void TexamExecutor::restoreAfterExam() {
     gl->GfretsNumber = m_glStore.fretsNumber;
 		gl->Sclef = m_glStore.clef.type();
 		gl->instrument = m_glStore.instrument;
+		gl->A->range = (TaudioParams::Erange)m_glStore.detectRange;
 
 		TtipChart::defaultClef = gl->Sclef;
     mW->score->acceptSettings();
@@ -865,6 +873,7 @@ void TexamExecutor::restoreAfterExam() {
     mW->guitar->acceptSettings();
     mW->noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
     mW->progress->terminate();
+		mW->sound->acceptSettings();
 
     mW->settingsAct->setDisabled(false);
     mW->analyseAct->setVisible(true);
