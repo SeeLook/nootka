@@ -36,6 +36,7 @@ class QComboBox;
 class AudioInSettings: public QWidget
 {
   Q_OBJECT
+  
 public:
   
   explicit AudioInSettings(TaudioParams *params, QString path, QWidget *parent = 0);
@@ -48,6 +49,10 @@ public:
   void generateDevicesList();
       /** Grabs (refresh) devices list from AudioIn and fill audioOutDevListCombo */
   void setDevicesCombo();
+	
+public	slots:
+			/** Occurs when tune of a guitar is changed and range of detecting pitches has to be adjusted. */
+	void whenLowestNoteChanges(Tnote loNote);
   
 protected:
   void setTestDisabled(bool disabled);
@@ -74,17 +79,18 @@ private:
       /** returns difference of @param freq related to 440 Hz in semitones */
   float getDiff(int freq); 
   
-  QComboBox *inDeviceCombo, *intervalCombo;
-  QGroupBox *enableInBox, *modeGr, *midABox;
-  QRadioButton *voiceRadio, *instrRadio;
-  QSpinBox *freqSpin;
-  TvolumeSlider *volumeSlider;
-  QPushButton *testButt;
-  QLabel *pitchLab, *freqLab, *tuneFreqlab;
-  bool m_testDisabled, m_listGenerated;
-  TpitchView *pitchView;
-  TaudioIN *m_audioIn;
-  TaudioParams *m_glParams, *m_tmpParams; 
+  QComboBox 			*inDeviceCombo, *intervalCombo;
+  QGroupBox 			*enableInBox, *modeGr, *midABox;
+  QRadioButton 		*voiceRadio, *instrRadio;
+	QRadioButton		*highRadio, *middleRadio, *lowRadio;
+  QSpinBox 				*freqSpin;
+  TvolumeSlider 	*volumeSlider;
+  QPushButton 		*testButt;
+  QLabel 					*pitchLab, *freqLab, *tuneFreqlab;
+  bool 						m_testDisabled, m_listGenerated;
+  TpitchView 			*pitchView;
+  TaudioIN 				*m_audioIn;
+  TaudioParams 		*m_glParams, *m_tmpParams;
   
 };
 

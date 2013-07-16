@@ -131,11 +131,13 @@ void TaudioIN::setParameters(TaudioParams* params) {
 /** Device name is saved to globals and to config file only after changed the Nootka preferences.
 * In other cases the default device is loaded. */
 bool TaudioIN::setAudioDevice(const QString& devN) {
-  if (devN == deviceName)
-    return true;
+//   if (devN == deviceName)
+//     return true;
   
   if (rtDevice)
     delete rtDevice;
+	delete m_floatBuff;
+	m_floatBuff = 0;
   rtDevice = getRtAudio();
   int devId = -1;
   int devCount = rtDevice->getDeviceCount();
@@ -167,7 +169,7 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
   RtAudio::DeviceInfo devInfo;
   getDeviceInfo(devInfo, devId);
   determineSampleRate(devInfo);
-  m_pitch->setSampleRate(sampleRate);
+  m_pitch->setSampleRate(sampleRate, audioParams->range);
   m_bufferFrames = m_pitch->aGl()->framesPerChunk;
   if (rtDevice->getCurrentApi() == RtAudio::UNIX_JACK) {
     if (!streamOptions)

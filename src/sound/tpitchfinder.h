@@ -80,9 +80,10 @@ public:
     void setCurrentChunk(int curCh) { m_chunkNum = curCh; }
     void incrementChunk() { m_chunkNum++; }
     void setIsVoice(bool voice);
-        /** Changes default 44100 sample rate to given. It takes effect only after resetFinder().
-        * Better don't call this during processing. */
-    void setSampleRate(unsigned int sRate);
+        /** Changes default 44100 sample rate to given value. It takes effect only after resetFinder().
+				 * @p range is TaudioParams::Erange cast. Default is e_middle
+				 * Better don't call this during processing. */
+    void setSampleRate(unsigned int sRate, int range = 1);
       /** Cleans all buffers, sets m_chunkNum to 0. */
     void resetFinder();
     void setAmbitus(qint16 loPitch, double topPitch) { 
@@ -119,6 +120,7 @@ private:
   int             m_prevNoteIndex;
   int             m_noticedIndex;
   float           m_minVolume;
+	float						m_rateRatio; // multiplexer of the sample rate determined from pitch detection range
 	
 };
 

@@ -46,9 +46,12 @@ public:
 		void restoreDefaults();
 		
 		Tclef currentClef();
+				/** Returns lowest note  in current tune. */
+		Tnote lowestNote();
 
 signals:
 		void clefChanged(Tclef);
+		void lowestNoteChanged(Tnote loNote);
 		
 private:
     void setTune (Ttune *tune);

@@ -90,7 +90,7 @@ QDataStream &operator << (QDataStream &out, TexamLevel &lev) {
     out << (qint8)lev.loFret << (qint8)lev.hiFret;
 //     out << lev.isFretHi;
 		quint8 instr;
-		if (lev.instrument != e_none)
+		if (lev.instrument != e_noInstrument)
 			instr = (quint8)lev.instrument;
 		else // // because '0' is reserved for backword compability
 			instr = 255;
@@ -158,11 +158,11 @@ bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
 			if (lev.canBeGuitar()) // try to detect
 					lev.instrument = e_classicalGuitar;
 			else
-					lev.instrument = e_none;
+					lev.instrument = e_noInstrument;
 		} else if (instr < 4) // simple cast to detect an instrument
 			lev.instrument = (Einstrument)instr;
 		else if (instr == 255) // because '0' is reserved for backword compability
-			lev.instrument = e_none;
+			lev.instrument = e_noInstrument;
 		else {
 			qDebug() << "TexamLevel::instrument has some stupid value. FIXED";
 			lev.instrument = e_classicalGuitar;

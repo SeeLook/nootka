@@ -202,6 +202,7 @@ Tglobals::Tglobals() :
       A->isVoice = config->value("isVoice", false).toBool();
       A->minimalVol = config->value("minimalVolume", 0.4).toFloat();
       A->a440diff = config->value("a440Offset", 0).toFloat();
+			A->range = (TaudioParams::Erange)config->value("pitchDetectRange", (int)TaudioParams::e_middle).toInt();
     config->endGroup();
 
 }
@@ -321,5 +322,6 @@ void Tglobals::storeSettings() {
         config->setValue("isVoice", A->isVoice);
         config->setValue("minimalVolume", A->minimalVol);
         config->setValue("a440Offset", A->a440diff);
+				config->setValue("pitchDetectRange", (int)A->range);
     config->endGroup();
 }

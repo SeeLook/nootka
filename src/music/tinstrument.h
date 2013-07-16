@@ -24,7 +24,7 @@
 
 /** Some instruments used in Nootka */
 enum Einstrument {
-	e_none = 0, // however level and exam save it as 255 for backword compability
+	e_noInstrument = 0, // however level and exam save it as 255 for backword compability
 	e_classicalGuitar = 1,
 	e_electricGuitar = 2,
 	e_bassGuitar = 3

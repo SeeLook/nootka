@@ -56,7 +56,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 	// Selecting guitar type combo
 		m_instrumentTypeCombo = new QComboBox(this);
 		guitarLay->addWidget(m_instrumentTypeCombo, 0, Qt::AlignCenter);
-		m_instrumentTypeCombo->addItem(instrumentToText(e_none));
+		m_instrumentTypeCombo->addItem(instrumentToText(e_noInstrument));
 		m_instrumentTypeCombo->addItem(instrumentToText(e_classicalGuitar));
 		m_instrumentTypeCombo->addItem(instrumentToText(e_electricGuitar));
 		QModelIndex in = m_instrumentTypeCombo->model()->index(2, 0);
@@ -141,7 +141,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 		m_instrumentTypeCombo->setCurrentIndex(instrumentIndex);
 		instrumentTypeChanged(instrumentIndex);
 		setTune(gl->Gtune());
-		if (gl->instrument != e_none) {
+		if (gl->instrument != e_noInstrument) {
 				if (*gl->Gtune() == Ttune::stdTune)
 						m_tuneCombo->setCurrentIndex(0);
 				for (int i = 0; i < 4; i++) {
@@ -185,6 +185,26 @@ void TguitarSettings::restoreDefaults() {
 		m_morePosCh->setChecked(false);
 		m_pointColorBut->setColor(gl->invertColor(palette().highlight().color()));
 		m_selColorBut->setColor(palette().highlight().color());
+}
+
+
+Tnote TguitarSettings::lowestNote() {
+// 		int lowest = -1;
+// 		char loNr = 127;
+// 		for (int i = 0; i < 6; i++) {
+// 			if (m_tuneView->getNote(i).note) {
+// 				if (m_tuneView->getNote(i).getChromaticNrOfNote() < loNr) {
+// 					loNr = m_tuneView->getNote(i).getChromaticNrOfNote();
+// 					lowest = i;
+// 				}
+// 			}
+// 		}
+// 		if (lowest > -1)
+// 			return m_tuneView->getNote(lowest);
+// 		else
+			return m_tuneView->lowestNote();
+	/** it should be quite enoght to determine pitch detection range.
+	 * For other purposes enable the above code. */
 }
 
 
@@ -238,6 +258,7 @@ void TguitarSettings::onClefChanged(Tclef clef) {
 		// this is not piano staff - we don't need updateAmbitus()
 		updateNotesState();
 		emit clefChanged(clef);
+		emit lowestNoteChanged(m_tuneView->lowestNote());
 }
 
 
@@ -245,6 +266,7 @@ void TguitarSettings::switchedToPianoStaff() {
 		updateAmbitus();
 		updateNotesState();
 		emit clefChanged(currentClef());
+		emit lowestNoteChanged(m_tuneView->lowestNote());
 }
 
 
@@ -297,7 +319,7 @@ void TguitarSettings::instrumentTypeChanged(int index) {
 	} else {
 		guitarDisabled(true);
 	}
-	if ((Einstrument)index != e_none) {
+	if ((Einstrument)index != e_noInstrument) {
 		if (!m_accidGroup->isEnabled())
 				guitarDisabled(false);
 		m_tuneCombo->addItem(tr("Custom tune"));

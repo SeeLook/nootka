@@ -26,8 +26,24 @@
   /** class describes audio input parameters. */
 class TaudioParams 
 {
-  
+		
 public:
+	
+	/** Those are levels of pitch detection ranges.
+		 * @p e_high - for violin, flute, piccolo - corresponds with treble clef.
+		 * 							It starts form about F in small octave.
+		 * @p e_middle - for guitars, celo and so - corresponds with treble droped and bass clefs
+		 * 							It starts form about F in contra octave.
+		 * @p e_low - for bass guitar and double bass - corresponds with bass dropped clef
+		 * 							It is sufficient to detect lowest notes.
+		 */
+  enum Erange {
+		e_high = 0,
+		e_middle = 1,
+		e_low = 2
+  };
+	
+	
   bool useJACK; // TRUE - prefer JACK over ALSA or PulseAudio, FALSE - take PA (if available) or ALSA
 // audio input settings
   bool INenabled; // is audio input enabled
@@ -36,7 +52,8 @@ public:
   float minimalVol; // only above this value detected note is sending to Nootka
     /** If true - pitch is average of all visible pitches
      * if false - the first detected in sound over noise is taken.  */
-  bool isVoice; 
+  bool isVoice;
+	Erange range; // pitch detection range
 
 // audio output settings
   bool OUTenabled; // audio output enabled

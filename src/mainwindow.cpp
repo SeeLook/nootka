@@ -373,7 +373,7 @@ void MainWindow::createSettingsDialog() {
             } else
                 noteName->setNoteName(nList[0]);
         }
-        if (gl->instrument != e_none) {
+        if (gl->instrument != e_noInstrument) {
 						guitar->show();
 						guitar->acceptSettings(); //refresh guitar
 				} else
@@ -567,7 +567,7 @@ void MainWindow::updsateSize() {
     examResults->setFontSize(m_statFontSize);
     noteName->resize(m_statFontSize);
 		
-		if (gl->instrument != e_none) {
+		if (gl->instrument != e_noInstrument) {
 			QPixmap bgPix;
 			if (gl->instrument == e_classicalGuitar)				
 				bgPix = QPixmap(gl->path + "picts/body.png"); // size 800x535
@@ -609,7 +609,7 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 
 
 void MainWindow::paintEvent(QPaintEvent* ) {
-		if (gl->instrument != e_none) {
+		if (gl->instrument != e_noInstrument) {
 			QPainter painter(this);
 			if (!gl->GisRightHanded) {
 					painter.translate(width(), 0);
