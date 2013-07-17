@@ -16,15 +16,15 @@
       \new Staff {
   \relative c {
     
-      \clef "treble_8"
+      \clef "bass_8"
       \key c \major    
       \time 4/4   
       \tempo 4 = 60
       
-      \set Staff.midiInstrument="acoustic guitar (nylon)"
+      \set Staff.midiInstrument="acoustic bass"
       
       r4 r r r |
-      c,4. \ppp r8 cis4. r8 
+      b,,4. r8 c4. r8 cis4. r8 
       | % 2
       d4. r8 dis4. r8 
       | % 3
@@ -69,20 +69,13 @@
       fis4. r8 g4. r8 
       | % 23
       gis4. r8 a4. r8 
-      | % 24
-      ais4. r8 b4. r8 
-      | % 25
-      c4. r8 cis4. r8 
-      | % 26
-      d4. r8 dis4. r8 
-      | % 27
-      e4. 
+       
     }
   }
   \new Staff {
     \relative c' {
       \set Staff.midiInstrument="xylophone"
-      c8 \f c c c' c, c c c' |
+      c8 \p c c c' c, c c c' |
       c, c c c' c, c c c' |
       c, c c c' c, c c c' |
       c, c c c' c, c c c' |
