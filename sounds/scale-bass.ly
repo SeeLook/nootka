@@ -21,9 +21,9 @@
       \time 4/4   
       \tempo 4 = 60
       
-      \set Staff.midiInstrument="acoustic bass"
+      \set Staff.midiInstrument="electric bass (finger)"
       
-      b,,4. r8 c4. r8 cis4. r8 
+      b,,4. \ff r8 c4. r8 cis4. r8 
       | % 2
       d4. r8 dis4. r8 
       | % 3
