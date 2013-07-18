@@ -64,7 +64,9 @@ public:
   void pauseSinffing();
   void unPauseSniffing();
   bool isSnifferPaused();
-  void prepareToExam();
+			/** Prepares sound to exam.
+			 * Given notes in params are level range notes and are put to sniffer ambitus. */
+  void prepareToExam(Tnote loNote, Tnote hiNote);
   void restoreAfterExam();
     /** Sets bg color to question color and enables TpitchView. */
   void prepareAnswer();
@@ -82,9 +84,10 @@ private:
   void deletePlayer();
   void deleteSniffer();
   
-  TpitchView *m_pitchView;
-  Tnote m_detNote; // detected note
-  bool m_examMode;
+  TpitchView 	*m_pitchView;
+  Tnote 			m_detNote; // detected note
+  bool 				m_examMode;
+	Tnote				m_prevLoNote, m_prevHiNote; // notes form sniffer ambitus stroed during an exam
   
 private slots:
     /** Is performed when note stops playing, then sniffing is unlocked */

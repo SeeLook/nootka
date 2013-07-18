@@ -344,6 +344,9 @@ void MainWindow::createSettingsDialog() {
         m_isPlayerFree = false;
         sound->acceptSettings();
         score->acceptSettings();
+				if (gl->instrument == e_noInstrument) // Tsound sets ambitus to guitar range
+					if (sound->isSniffable()) // but if no guitar - adjust it to score - clef range
+						sound->sniffer->setAmbitus(score->lowestNote(), score->highestNote());
         noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
         noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
         noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);

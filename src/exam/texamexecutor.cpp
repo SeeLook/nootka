@@ -830,7 +830,7 @@ void TexamExecutor::prepareToExam() {
     mW->guitar->acceptSettings();
     mW->score->isExamExecuting(true);
 		mW->sound->acceptSettings();
-    mW->sound->prepareToExam();
+    mW->sound->prepareToExam(m_level.loNote, m_level.hiNote);
 		TtipChart::defaultClef = m_level.clef;
   // clearing all views/widgets
     clearWidgets();

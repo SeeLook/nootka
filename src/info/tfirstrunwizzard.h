@@ -22,14 +22,15 @@
 
 #include <QDialog>
 
+class QTextEdit;
 
 class QStackedLayout;
 class QRadioButton;
 class QCheckBox;
-class Tpage_2;
 class Tpage_3;
 class Tpage_4;
 class Select7note;
+class TselectInstrument;
 
 class TfirstRunWizzard : public QDialog
 {
@@ -43,21 +44,41 @@ signals:
 public slots:
 
 private:
-    QPushButton 		*m_skipButt, *m_nextButt, *m_prevButt;
-    QStackedLayout *m_pagesLay;
-    Tpage_3 *page3;
-    Tpage_4 *page4;
-		Tpage_2 *page2;
+    QPushButton		 		*m_skipButt, *m_nextButt, *m_prevButt;
+    QStackedLayout 		*m_pagesLay;
+    Tpage_3 					*m_page3;
+    Tpage_4 					*m_page4;
+		QTextEdit 				*m_notationNote;
+		TselectInstrument *m_selectInstr;
 
 private slots:
     void nextSlot();
     void prevSlot();
+		void whenInstrumentChanged(int instr);
 
 
 };
 
 // page 1 is about dialog
-// page 2 is a QLabel
+// This is page nr 1.5
+class TselectInstrument : public QWidget
+{
+		Q_OBJECT
+		
+public:
+		explicit TselectInstrument(QWidget* parent = 0);
+		
+		QRadioButton *classicalRadio, *electricRadio, *bassRadio, *otherRadio;
+		
+signals:
+		void instrumentChanged(int);
+		
+private slots:
+		void buttonPressed(int butt);
+		
+};
+
+// page 2 is a QLabel with info about notation
 
 class Tpage_3 : public QWidget
 {

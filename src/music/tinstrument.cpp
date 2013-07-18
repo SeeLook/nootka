@@ -22,7 +22,7 @@
 
 QString instrumentToText(Einstrument instr) {
 	if (instr == e_noInstrument)
-			return QApplication::translate("Einstrument", "No instrument");
+			return QApplication::translate("Einstrument", "other instrument");
 	if (instr == e_classicalGuitar)
 			return QApplication::translate("Einstrument", "Classical Guitar");
 	if (instr == e_electricGuitar)

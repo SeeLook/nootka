@@ -101,7 +101,7 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
 		QLabel *clefUsageLab = new QLabel(tr("Default clef").replace(" ", "<br>"), this);
 		clefUsageLab->setAlignment(Qt::AlignCenter);
 		clefLay->addWidget(clefUsageLab);
-		clefBox->setStatusTip(tr("Select default clef for the application") + "<br><b>" + tr("Remember! Not all clefs are suitable for actual tune or instrument type!") + "<b>");
+		clefBox->setStatusTip(tr("Select default clef for the application.") + "<br><b>" + tr("Remember! Not all clefs are suitable for actual tune or instrument type!") + "<b>");
 		clefLay->addWidget(m_clefSelector, 0, Qt::AlignCenter);
 		clefBox->setLayout(clefLay);
 		mainLay->addWidget(clefBox);

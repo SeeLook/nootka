@@ -56,7 +56,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 	// Selecting guitar type combo
 		m_instrumentTypeCombo = new QComboBox(this);
 		guitarLay->addWidget(m_instrumentTypeCombo, 0, Qt::AlignCenter);
-		m_instrumentTypeCombo->addItem(instrumentToText(e_noInstrument));
+		m_instrumentTypeCombo->addItem(tr("disabled"));
 		m_instrumentTypeCombo->addItem(instrumentToText(e_classicalGuitar));
 		m_instrumentTypeCombo->addItem(instrumentToText(e_electricGuitar));
 		QModelIndex in = m_instrumentTypeCombo->model()->index(2, 0);

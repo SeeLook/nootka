@@ -26,6 +26,7 @@
 #include "tkeysignature.h"
 #include <tsimplescore.h>
 #include <QtGui>
+#include <complex>
 
 extern Tglobals *gl;
 
@@ -33,22 +34,11 @@ extern Tglobals *gl;
 TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
     QDialog(parent)
 {
-    // grab 7-th note from translation
-//     if (Tpage_3::note7txt().toLower() == "b") {
-//         gl->seventhIs_B = true; // rest (NnameStyleInNoteName
-//         // SnameStyleInKeySign) matched by default
-//     }
-//     else {
-//         gl->seventhIs_B = false;
-//         gl->NnameStyleInNoteName = Tnote::e_norsk_Hb;
-//         gl->SnameStyleInKeySign = Tnote::e_norsk_Hb;
-//     }
-	
-// #if defined(Q_OS_LINUX)
-//     setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
-// #else
+#if defined(Q_OS_LINUX)
+    setWindowIcon(QIcon(gl->path + "picts/nootka.svg"));
+#else
     setWindowIcon(QIcon(gl->path + "picts/about.png"));
-// #endif	
+#endif	
     setWindowTitle("Nootka   " + tr("First run wizzard"));
     QVBoxLayout *lay = new QVBoxLayout;
     m_pagesLay = new QStackedLayout;
@@ -68,23 +58,28 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
 
     lay->addLayout(buttLay);
     setLayout(lay);
-
+	// First page
     Tabout *aboutNoot = new Tabout();
-    QTextEdit *notationLab = new QTextEdit("<br><br><center>" + tr("Guitar notation uses treble clef with \"eight\" digit below (even if some editors are forgeting about this digit).<br><br>Try to understand this. <br><br><p> %1 %2<br><span style=\"font-size:20px;\">Both pictures above show the same note: c<sup>1</sup></span><br>(note c in one-line octave)</center></p>").arg(TtipChart::wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G, TkeySignature(0), 6.0)).arg(TtipChart::wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G_8down, TkeySignature(0), 6.0)), this);
-    notationLab->setWordWrapMode(QTextOption::WordWrap);
+	// One and half page
+		m_selectInstr = new TselectInstrument(this);
+	// Second Page
+    m_notationNote = new QTextEdit(this);
+		whenInstrumentChanged(1);
+    m_notationNote->setWordWrapMode(QTextOption::WordWrap);
 
-    page3 = new Tpage_3();
-    page4 = new Tpage_4();
+    m_page3 = new Tpage_3();
+    m_page4 = new Tpage_4();
 
     m_pagesLay->addWidget(aboutNoot);
-    m_pagesLay->addWidget(notationLab);
-    m_pagesLay->addWidget(page3);
-    m_pagesLay->addWidget(page4);
+		m_pagesLay->addWidget(m_selectInstr);
+    m_pagesLay->addWidget(m_notationNote);
+    m_pagesLay->addWidget(m_page3);
+    m_pagesLay->addWidget(m_page4);
     
     // grab 7-th note from translation
     if (Tpage_3::note7txt().toLower() == "b") {
         gl->seventhIs_B = true; // rest (NnameStyleInNoteName
-        if (page3->keyNameStyle() == "solfege")
+        if (m_page3->keyNameStyle() == "solfege")
           gl->SnameStyleInKeySign = Tnote::e_italiano_Si;
         else
           gl->SnameStyleInKeySign = Tnote::e_nederl_Bis;
@@ -92,7 +87,7 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
     else {
         gl->seventhIs_B = false;
         gl->NnameStyleInNoteName = Tnote::e_norsk_Hb;
-        if (page3->keyNameStyle() == "solfege")
+        if (m_page3->keyNameStyle() == "solfege")
           gl->SnameStyleInKeySign = Tnote::e_italiano_Si;
         else
           gl->SnameStyleInKeySign = Tnote::e_deutsch_His;
@@ -101,7 +96,9 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
     connect(m_skipButt, SIGNAL(clicked()), this, SLOT(close()));
     connect(m_prevButt, SIGNAL(clicked()), this, SLOT(prevSlot()));
     connect(m_nextButt, SIGNAL(clicked()), this, SLOT(nextSlot()));
+		connect(m_selectInstr, SIGNAL(instrumentChanged(int)), this, SLOT(whenInstrumentChanged(int)));
 }
+
 
 void TfirstRunWizzard::prevSlot() {
     switch (m_pagesLay->currentIndex()) {
@@ -114,12 +111,20 @@ void TfirstRunWizzard::prevSlot() {
     case 2 :
         m_pagesLay->setCurrentIndex(1);
         break;
-    case 3 :
+		case 3 : {
+				if (m_selectInstr->otherRadio->isChecked()) // skip guita notation theory
+						m_pagesLay->setCurrentIndex(1); // when other instrument is selected
+				else
+						m_pagesLay->setCurrentIndex(2);
+        break;
+		}
+    case 4 :
         m_nextButt->setText(nextText());
-        m_pagesLay->setCurrentIndex(2);
+        m_pagesLay->setCurrentIndex(3);
         break;
     }
 }
+
 
 void TfirstRunWizzard::nextSlot() {
     switch (m_pagesLay->currentIndex()) {
@@ -127,18 +132,25 @@ void TfirstRunWizzard::nextSlot() {
         m_prevButt->setDisabled(false);
         m_pagesLay->setCurrentIndex(1);
         break;
-    case 1 :
-        m_pagesLay->setCurrentIndex(2);
+    case 1 : {
+				if (m_selectInstr->otherRadio->isChecked()) // skip guita notation theory
+						m_pagesLay->setCurrentIndex(3); // when other instrument is selected
+				else
+						m_pagesLay->setCurrentIndex(2);
         break;
-    case 2 :
-        m_nextButt->setText(tr("Finish"));
+		}
+		case 2 :
         m_pagesLay->setCurrentIndex(3);
         break;
     case 3 :
-        if (page3->select7->is7th_B()) {
+        m_nextButt->setText(tr("Finish"));
+        m_pagesLay->setCurrentIndex(4);
+        break;
+    case 4 :
+        if (m_page3->select7->is7th_B()) {
             gl->seventhIs_B = true;
             gl->NnameStyleInNoteName = Tnote::e_english_Bb;
-            if (page3->keyNameStyle() == "solfege")
+            if (m_page3->keyNameStyle() == "solfege")
               gl->SnameStyleInKeySign = Tnote::e_italiano_Si;
             else
               gl->SnameStyleInKeySign = Tnote::e_nederl_Bis;
@@ -147,25 +159,95 @@ void TfirstRunWizzard::nextSlot() {
         else {
             gl->seventhIs_B = false;
             gl->NnameStyleInNoteName = Tnote::e_norsk_Hb;
-            if (page3->keyNameStyle() == "solfege")
+            if (m_page3->keyNameStyle() == "solfege")
               gl->SnameStyleInKeySign = Tnote::e_italiano_Si;
             else
               gl->SnameStyleInKeySign = Tnote::e_deutsch_His;
         }
-        gl->doubleAccidentalsEnabled = page3->dblAccChB->isChecked();
-        gl->showEnharmNotes = page3->enharmChB->isChecked();
-        gl->SkeySignatureEnabled = page3->useKeyChB->isChecked();
+        gl->doubleAccidentalsEnabled = m_page3->dblAccChB->isChecked();
+        gl->showEnharmNotes = m_page3->enharmChB->isChecked();
+        gl->SkeySignatureEnabled = m_page3->useKeyChB->isChecked();
         close();
         break;
     }
 }
+
+// To write notes of bass guitar this application uses <b>bass dropped clef</b> (bass clef with \"eight\" digit below) but common practice is to skip this digit and write it in ordinary bass clef. Remember, bass guitar sounds octave lower than notes written in 'normal' bass clef.
+void TfirstRunWizzard::whenInstrumentChanged(int instr) {
+		if ((Einstrument)instr == e_bassGuitar)
+				m_notationNote->setHtml(QString("<br><br><center>%1<br>").
+				arg(TtipChart::wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F, TkeySignature(0), 5.0)) +
+				tr("To write notes for bass guitat the <b>bass clef</b> is used but played notes sound octave down. The propper clef is <b>bass dropped clef</b> (with \"eight\" digit below) where notes sound exactly as written and this clef is used in Nootka for bass guitar.") +
+					"<br><br>" + TtipChart::wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F_8down, TkeySignature(0), 8.0)	);
+		else
+				m_notationNote->setHtml("<br><br><center>" + tr("Guitar notation uses treble clef with \"eight\" digit below (even if some editors are forgeting about this digit).<br><br>Try to understand this. <br><br><p> %1 %2<br><span style=\"font-size:20px;\">Both pictures above show the same note: c<sup>1</sup></span><br>(note c in one-line octave)</p>").
+				arg(TtipChart::wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G, TkeySignature(0), 6.0)).
+				arg(TtipChart::wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G_8down, TkeySignature(0), 6.0)) + "</center>");
+}
+
+
+//###############################################  TselectInstrument   ######################################
+TselectInstrument::TselectInstrument(QWidget* parent) :
+	QWidget(parent)
+{
+		
+		QLabel *whatLab = 
+						new QLabel("<b><span style=\"font-size: 20px;\">" + tr("What instrument do you play?")  + "</span></b>", this);
+		whatLab->setAlignment(Qt::AlignCenter);
+		classicalRadio = new QRadioButton(instrumentToText(e_classicalGuitar), this);
+		electricRadio = new QRadioButton(instrumentToText(e_electricGuitar), this);
+		electricRadio->hide();
+		bassRadio = new QRadioButton(instrumentToText(e_bassGuitar), this);
+		otherRadio = new QRadioButton(instrumentToText(e_noInstrument), this);
+		QButtonGroup *instrGr = new QButtonGroup(this);
+		instrGr->addButton(classicalRadio);
+		instrGr->addButton(electricRadio);
+		instrGr->addButton(bassRadio);
+		instrGr->addButton(otherRadio);
+	// Layout
+		QVBoxLayout *lay = new QVBoxLayout;
+		lay->addWidget(whatLab, 0, Qt::AlignCenter);
+		lay->addStretch(1);
+		lay->addWidget(classicalRadio, 0, Qt::AlignCenter);
+		lay->addWidget(electricRadio, 0, Qt::AlignCenter);
+		lay->addWidget(bassRadio, 0, Qt::AlignCenter);
+		lay->addWidget(otherRadio, 0, Qt::AlignCenter);
+		
+		QGroupBox *instrBox = new QGroupBox(this);
+		instrBox->setLayout(lay);
+		QVBoxLayout *mainLay = new QVBoxLayout;
+		mainLay->addStretch(1);
+		mainLay->addWidget(instrBox);
+		mainLay->addStretch(1);
+		setLayout(mainLay);
+		
+		classicalRadio->setChecked(true);
+		connect(instrGr, SIGNAL(buttonClicked(int)), this, SLOT(buttonPressed(int)));
+}
+
+
+void TselectInstrument::buttonPressed(int butt) {
+		if (bassRadio->isChecked()) {
+			emit instrumentChanged((int)e_bassGuitar);
+			gl->instrument = e_bassGuitar;
+		}
+		else {
+			emit instrumentChanged((int)e_classicalGuitar);
+			if (classicalRadio->isChecked())
+				gl->instrument = e_classicalGuitar;
+			else if (electricRadio->isChecked())
+				gl->instrument = e_electricGuitar;
+			else
+				gl->instrument = e_noInstrument;
+		}
+}
+
 
 //###############################################  Tpage_3   ###############################################
 
 Tpage_3::Tpage_3(QWidget *parent) :
         QWidget(parent)
 {
-//     keyNameStyle = tr("letters", "DO NOT TRANSLATE IT DIRECTLY. Put here 'letters' or 'solfege' This is country prefered style of nameing key signatures. 'letters' means C-major/a-minor names ('major' & 'minor' also are translated by You), 'solfege' means Do-major/La-minor names");
     QVBoxLayout *lay = new QVBoxLayout;
     lay->setAlignment(Qt::AlignCenter);
     QLabel *seventhLab = new QLabel(tr("<center>7-th note can be B or H, depends on country<br>Which one is Yours?<br></center>"), this);
