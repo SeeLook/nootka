@@ -69,6 +69,8 @@ public:
   void setIsVoice(bool isV);
     /** Sets range of notes which are detected. */
   void setAmbitus(Tnote loNote, Tnote hiNote);
+	Tnote loNote() { return m_loNote; } // Returns lower boundary note of ambitus 
+	Tnote hiNote() { return m_hiNote; } // Returns upper boundary note of ambitus 
 
 signals:
 	void noteDetected(Tnote note);
@@ -105,6 +107,8 @@ private:
       /** Size of a buffer */
   unsigned int  m_bufferFrames;  
   bool          m_paused;
+			/** Boundary notes of the ambitus. */
+	Tnote					m_loNote, m_hiNote;
 	
 };
 

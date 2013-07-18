@@ -244,7 +244,7 @@ void TsettingsDialog::createAudioPage() {
     QVBoxLayout *audioLay = new QVBoxLayout;
     audioLay->addWidget(m_audioTab);
 #if defined(__UNIX_JACK__)
-    m_jackChBox = new QCheckBox(tr("use JACK (Jack Audio Connection Kit"), m_audioSettingsPage);
+    m_jackChBox = new QCheckBox(tr("use JACK", "(Jack Audio Connection Kit)") +" (Jack Audio Connection Kit)", m_audioSettingsPage);
     m_jackChBox->setChecked(gl->A->useJACK);
     audioLay->addWidget(m_jackChBox, 0, Qt::AlignCenter);
     m_jackChBox->setStatusTip("Uses JACK if it is run or other sound backend if not.<br>EXPERIMENTAL and not tested.<br>Let me know when you will get this working.");

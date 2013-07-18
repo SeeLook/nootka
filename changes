@@ -3,6 +3,7 @@
      - strings number can be changed, width depends on their pitch
      - added possibility to display notes on grand stave
      - support for different clefs (bass, alto, tenor)
+     - range of detected pitches was extended and is configurable
      - settings dialog launches faster and takes less memory
      - default settings can be restored
     Under the hood

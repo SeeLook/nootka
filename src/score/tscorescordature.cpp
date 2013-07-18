@@ -36,7 +36,7 @@ TscoreScordature::TscoreScordature(TscoreScene* scene, TscoreStaff* staff) :
   m_height(1)
 {
   setStaff(staff);
-  setStatusTip(tr("Scordature of a guitar"));
+//   setStatusTip(QObject::tr("Scordature of a guitar"));
 }
 
 

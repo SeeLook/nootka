@@ -137,14 +137,14 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* pa
   volumeSlider->setValue(m_glParams->minimalVol);
   tunLay->addStretch();
 	
-	QGroupBox *rangeBox = new QGroupBox(tr("Range of pitches:"), this);
+	QGroupBox *rangeBox = new QGroupBox(tr("Range of note pitches:"), this);
 	QHBoxLayout *rangeLay = new QHBoxLayout;
 	lowRadio = new QRadioButton(tr("low", "be short, please"), this);
-	lowRadio->setStatusTip(tr("The lowest notes.<br>For bass guitar."));
+	lowRadio->setStatusTip(tr("The lowest notes.<br>Suitable for bass guitar, double bass, etc."));
 	middleRadio = new QRadioButton(tr("middle"), this);
-	middleRadio->setStatusTip(tr("Notes above <b>A contra</b>.<br>This is for guitar."));
+	middleRadio->setStatusTip(tr("Notes above <b>A contra</b>.<br>Suitable for guitar, celo human voice, etc."));
 	highRadio = new QRadioButton(tr("high"), this);
-	highRadio->setStatusTip(tr("Notes above <b>small g</b>.<br>For high pitch instruments like flute, piccolo etc."));
+	highRadio->setStatusTip(tr("Notes above <b>small g</b>.<br>Suitable for high pitch instruments like flute, piccolo, etc."));
 	QButtonGroup *rangeGr = new QButtonGroup(this);
 	rangeGr->addButton(lowRadio);
 	rangeGr->addButton(middleRadio);
@@ -295,6 +295,7 @@ void AudioInSettings::restoreDefaults() {
 	inDeviceCombo->setCurrentIndex(0);
 	instrRadio->setChecked(true);
 	volumeSlider->setValue(0.4); // It is multipled by 100
+	middleRadio->setChecked(true);
 }
 
 

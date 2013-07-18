@@ -214,19 +214,23 @@ void Tsound::restoreAfterAnswer() {
 }
 
 
-void Tsound::prepareToExam() {
+void Tsound::prepareToExam(Tnote loNote, Tnote hiNote) {
   m_examMode = true;
-  if (sniffer)
+  if (sniffer) {
      m_pitchView->setDisabled(true);
+		 m_prevLoNote = sniffer->loNote();
+		 m_prevHiNote = sniffer->hiNote();
+	}
 }
 
 
 void Tsound::restoreAfterExam() {
   m_examMode = false;
   if (sniffer) {
-     m_pitchView->setDisabled(false);
-     unPauseSniffing();
-     go();
+		sniffer->setAmbitus(m_prevLoNote, m_prevHiNote);
+		m_pitchView->setDisabled(false);
+		unPauseSniffing();
+		go();
   }
 }
 
