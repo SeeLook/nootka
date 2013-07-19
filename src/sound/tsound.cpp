@@ -220,6 +220,7 @@ void Tsound::prepareToExam(Tnote loNote, Tnote hiNote) {
      m_pitchView->setDisabled(true);
 		 m_prevLoNote = sniffer->loNote();
 		 m_prevHiNote = sniffer->hiNote();
+		 sniffer->setAmbitus(loNote, hiNote);
 	}
 }
 

@@ -68,7 +68,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowIcon(QIcon(gl->path+"picts/nootka.png"));
 #endif
     
-    setMinimumSize(740, 480);
+    setMinimumSize(660, 480);
     
     if (gl->isFirstRun) {
         TfirstRunWizzard *firstWizz = new TfirstRunWizzard();
@@ -377,10 +377,10 @@ void MainWindow::createSettingsDialog() {
                 noteName->setNoteName(nList[0]);
         }
         if (gl->instrument != e_noInstrument) {
-						guitar->show();
+// 						guitar->show();
 						guitar->acceptSettings(); //refresh guitar
-				} else
-						guitar->hide();
+				} /*else*/
+// 						guitar->hide();
         m_hintsChB->setChecked(gl->hintsEnabled);
         m_isPlayerFree = true;
     } else {
