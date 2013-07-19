@@ -149,22 +149,22 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="140"/>
         <source>Range of note pitches:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozsah výšek tónů:</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="143"/>
         <source>The lowest notes.&lt;br&gt;Suitable for bass guitar, double bass, etc.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nejnižší noty.&lt;br&gt;Vhodné pro basovou kytaru, kontrabas atd.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="145"/>
         <source>Notes above &lt;b&gt;A contra&lt;/b&gt;.&lt;br&gt;Suitable for guitar, celo human voice, etc.</source>
-        <translation type="unfinished"></translation>
+        <translation>Noty nad &lt;b&gt;A contra&lt;/b&gt;.&lt;br&gt;Vhodné pro basovou kytaru, violoncello, lidský hlas atd.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="147"/>
         <source>Notes above &lt;b&gt;small g&lt;/b&gt;.&lt;br&gt;Suitable for high pitch instruments like flute, piccolo, etc.</source>
-        <translation type="unfinished"></translation>
+        <translation>Noty nad &lt;b&gt;malé g&lt;/b&gt;.&lt;br&gt;Vhodné pro vysoko položené nástroje jako flétna, pikola atd.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="112"/>
@@ -179,7 +179,7 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="119"/>
         <source>none</source>
-        <translation>Žádné</translation>
+        <translation>Žádný</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="120"/>
@@ -190,17 +190,17 @@
         <location filename="../src/sound/audioinsettings.cpp" line="142"/>
         <source>low</source>
         <comment>be short, please</comment>
-        <translation type="unfinished"></translation>
+        <translation>Nízký</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="144"/>
         <source>middle</source>
-        <translation type="unfinished"></translation>
+        <translation>Střední</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="146"/>
         <source>high</source>
-        <translation type="unfinished"></translation>
+        <translation>Vysoký</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="168"/>
@@ -346,7 +346,7 @@
     <message>
         <location filename="../src/music/tinstrument.cpp" line="25"/>
         <source>other instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Další nástroj</translation>
     </message>
     <message>
         <location filename="../src/music/tinstrument.cpp" line="27"/>
@@ -648,7 +648,7 @@
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="115"/>
         <source>Listen a sound and show it in a score.&lt;br&gt;Guitar, note names and key signatures are not used.&lt;br&gt;Scale a - a&lt;sup&gt;2&lt;/sup&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Poslouchejte zvuk a ukažte jej v notovém zápisu.&lt;br&gt;Kytara, názvy not a předznamenání se nepoužívají.&lt;br&gt;Rozsah a - a&lt;sup&gt;2&lt;/sup&gt;</translation>
     </message>
     <message>
         <source>Played sounds are pointed in score.&lt;br&gt;No guitar, no note names, no key signatures.&lt;br&gt;Scale A - a&lt;sup&gt;1&lt;/sup&gt;</source>
@@ -707,22 +707,22 @@
     <message>
         <location filename="../src/music/ttune.cpp" line="42"/>
         <source>Standard bass: E A D G</source>
-        <translation type="unfinished"></translation>
+        <translation>Standardní bas: E A D G</translation>
     </message>
     <message>
         <location filename="../src/music/ttune.cpp" line="44"/>
         <source>Bass in fifths: C G D A</source>
-        <translation type="unfinished"></translation>
+        <translation>Bas v kvintách: C G D A</translation>
     </message>
     <message>
         <location filename="../src/music/ttune.cpp" line="46"/>
         <source>5-str. bass: B E A D G</source>
-        <translation type="unfinished"></translation>
+        <translation>5 basových strun: B E A D G</translation>
     </message>
     <message>
         <location filename="../src/music/ttune.cpp" line="48"/>
         <source>6-str. bass: B E A D G C</source>
-        <translation type="unfinished"></translation>
+        <translation>6 basových strun: B E A D G C</translation>
     </message>
     <message>
         <location filename="../src/music/tkeysignature.h" line="53"/>
@@ -1105,68 +1105,68 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/music/tclef.cpp" line="32"/>
         <source>treble</source>
-        <translation type="unfinished"></translation>
+        <translation>houslový</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="34"/>
         <source>treble dropped</source>
-        <translation type="unfinished"></translation>
+        <translation>houslový podladěný</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="36"/>
         <source>bass</source>
-        <translation type="unfinished"></translation>
+        <translation>basový</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="38"/>
         <source>bass dropped</source>
-        <translation type="unfinished"></translation>
+        <translation>basový snížený</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="40"/>
         <source>alto</source>
-        <translation type="unfinished"></translation>
+        <translation>violový</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="42"/>
         <source>tenor</source>
-        <translation type="unfinished"></translation>
+        <translation>tenorový</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="44"/>
         <source>grand staff</source>
-        <translation type="unfinished"></translation>
+        <translation>velká osnova</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="53"/>
         <source>clef G</source>
-        <translation type="unfinished"></translation>
+        <translation>G klíč</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="55"/>
         <source>clef G dropped octave down</source>
-        <translation type="unfinished"></translation>
+        <translation>G klíč snížený o oktávu dolů</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="57"/>
         <source>clef F</source>
-        <translation type="unfinished"></translation>
+        <translation>F klíč</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="59"/>
         <source>clef F dropped octave down</source>
-        <translation type="unfinished"></translation>
+        <translation>F klíč snížený o oktávu dolů</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="61"/>
         <location filename="../src/music/tclef.cpp" line="63"/>
         <source>clef C</source>
-        <translation type="unfinished"></translation>
+        <translation>C klíč</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="65"/>
         <source>treble and bass clefs</source>
-        <translation type="unfinished"></translation>
+        <translation>tenorový a basový klíč</translation>
     </message>
 </context>
 <context>
@@ -1709,7 +1709,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="180"/>
         <source>To write notes for bass guitat the &lt;b&gt;bass clef&lt;/b&gt; is used but played notes sound octave down. The propper clef is &lt;b&gt;bass dropped clef&lt;/b&gt; (with &quot;eight&quot; digit below) where notes sound exactly as written and this clef is used in Nootka for bass guitar.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro psaní not pro basovou kytaru se používá &lt;b&gt;basový klíč&lt;/b&gt;, ale zahrané noty zní o oktávu níže. Správným klíčem je &lt;b&gt;basový snížený klíč&lt;/b&gt; (s číslicí &quot;osm&quot; dole), kde znějí noty přesně tak, jak jsou zapsány, a tento klíč se v Nootce používá pro basovou kytaru.</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="183"/>
@@ -1791,12 +1791,12 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/settings/tglobalsettings.cpp" line="102"/>
         <source>Restore all defaults settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Obnovit všechna výchozí nastavení</translation>
     </message>
     <message>
         <location filename="../src/settings/tglobalsettings.h" line="40"/>
         <source>All settings of an application will be deleted!!&lt;br&gt;Nootka will start with first run wizard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Všechna nastavení programu budou smazána!&lt;br&gt;Nootka se spustí s průvodcem prvním spuštěním.</translation>
     </message>
 </context>
 <context>
@@ -1832,7 +1832,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="40"/>
         <source>Remember to select appropirate clef in Score settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pamatujte na to, že máte v nastavení notového zápisu vybrat náležitý klíč.</translation>
     </message>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="55"/>
@@ -1842,7 +1842,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="59"/>
         <source>disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Zakázáno</translation>
     </message>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="68"/>
@@ -1862,7 +1862,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="83"/>
         <source>number of strings:</source>
-        <translation type="unfinished"></translation>
+        <translation>Počet strun:</translation>
     </message>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="98"/>
@@ -2004,7 +2004,7 @@ ale nebyla uložena!</translation>
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="181"/>
         <source>There are not any questions nor answers selected.&lt;br&gt;Level has no sense</source>
-        <translation type="unfinished"></translation>
+        <translation>Nejsou vybrány ani otázky ani odpovědi.&lt;br&gt;Úroveň nemá smysl</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="199"/>
@@ -2087,7 +2087,7 @@ ale nebyla uložena!</translation>
     <message>
         <location filename="../src/level/tlevelpreview.cpp" line="136"/>
         <source>Clef</source>
-        <translation type="unfinished"></translation>
+        <translation>Klíč</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelpreview.h" line="36"/>
@@ -2243,7 +2243,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/notename/tnotename.cpp" line="32"/>
         <source>Sub</source>
-        <translation type="unfinished"></translation>
+        <translation>Sub</translation>
     </message>
     <message>
         <location filename="../src/notename/tnotename.cpp" line="33"/>
@@ -2268,7 +2268,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/notename/tnotename.cpp" line="34"/>
         <source>Subcontra octave</source>
-        <translation type="unfinished"></translation>
+        <translation>Subkontraoktáva</translation>
     </message>
     <message>
         <location filename="../src/notename/tnotename.cpp" line="35"/>
@@ -2303,7 +2303,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/notename/tnotename.cpp" line="37"/>
         <source>Four-line octave</source>
-        <translation type="unfinished"></translation>
+        <translation>Čtyřčárkovaná oktáva</translation>
     </message>
     <message>
         <source>The note is beyond&lt;br&gt;scale of the guitar</source>
@@ -2629,27 +2629,27 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/settings/tselectclef.cpp" line="142"/>
         <source>Common used clef (for violin, flute, saxophones, etc.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Běžně používaný klíč (pro housle, flétnu, saxofony atd.)</translation>
     </message>
     <message>
         <location filename="../src/settings/tselectclef.cpp" line="145"/>
         <source>Clef for guitars (classical, electric and so)</source>
-        <translation type="unfinished"></translation>
+        <translation>Klíč pro kytary (klasická, elektrická atd.)</translation>
     </message>
     <message>
         <location filename="../src/settings/tselectclef.cpp" line="148"/>
         <source> Bottom clef in the grand stave but also used for celo, trombone, etc.</source>
-        <translation type="unfinished"></translation>
+        <translation>Spodní klíč ve velké osnově používaný ale i violoncello, trombón atd.</translation>
     </message>
     <message>
         <location filename="../src/settings/tselectclef.cpp" line="151"/>
         <source> Clef for bass guitar and double bass.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klíč pro basovou kytaru a kontrabas.</translation>
     </message>
     <message>
         <location filename="../src/settings/tselectclef.cpp" line="154"/>
         <source>Sometimes is called clef for viola and mostly used for it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Někdy se nazývá klíčem pro violu a většinou se pro ni používá.</translation>
     </message>
 </context>
 <context>
@@ -2657,7 +2657,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/score/tscoreclef.cpp" line="159"/>
         <source>Click to select another clef.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klepněte pro výběr dalšího klíče.</translation>
     </message>
 </context>
 <context>
@@ -2665,22 +2665,22 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/score/tscorecontrol.cpp" line="30"/>
         <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;dvojitý křížek&lt;/b&gt; - zvýší notu o dva půltóny (celý tón).&lt;br&gt;Na kytaře to je o dva pražce nahoru.</translation>
     </message>
     <message>
         <location filename="../src/score/tscorecontrol.cpp" line="33"/>
         <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone.&lt;br&gt;On the guitar it is one fret up.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;křížek&lt;/b&gt; - zvýší notu o půltón.&lt;br&gt;Na kytaře to je o jeden pražec nahoru.</translation>
     </message>
     <message>
         <location filename="../src/score/tscorecontrol.cpp" line="36"/>
         <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone.&lt;br&gt;On the guitar it is one fret down.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;béčko&lt;/b&gt; - sníží notu o půltón.&lt;br&gt;Na kytaře to je o jeden pražec dolů.</translation>
     </message>
     <message>
         <location filename="../src/score/tscorecontrol.cpp" line="39"/>
         <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;dvojité béčko&lt;/b&gt; - sníží notu o dva půltóny (celý tón).&lt;br&gt;Na kytaře to je o dva pražce dolů.</translation>
     </message>
 </context>
 <context>
@@ -2688,7 +2688,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/score/tscorekeysignature.cpp" line="64"/>
         <source>Key signature - to change it, click above or below the staff or use mouse wheel.</source>
-        <translation type="unfinished"></translation>
+        <translation>Předznamenání - pro jeho změnu klepněte nad nebo pod osnovu nebo použijte kolečko myši.</translation>
     </message>
 </context>
 <context>
@@ -2696,7 +2696,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/score/tscorenote.cpp" line="135"/>
         <source>Click to select a note, use mouse wheel to change accidentals.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klepněte pro výběr noty. Použijte koločko myši pro změnu posuvek.</translation>
     </message>
 </context>
 <context>
@@ -2729,17 +2729,17 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/settings/tscoresettings.cpp" line="101"/>
         <source>Default clef</source>
-        <translation type="unfinished"></translation>
+        <translation>Výchozí klíč</translation>
     </message>
     <message>
         <location filename="../src/settings/tscoresettings.cpp" line="104"/>
         <source>Select default clef for the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyberte výchozí klíč pro program.</translation>
     </message>
     <message>
         <location filename="../src/settings/tscoresettings.cpp" line="104"/>
         <source>Remember! Not all clefs are suitable for actual tune or instrument type!</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapamatujte si! Ne všechny klíče jsou vhodné pro současné ladění nebo typ nástroje!</translation>
     </message>
     <message>
         <location filename="../src/settings/tscoresettings.h" line="43"/>
@@ -2764,7 +2764,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="195"/>
         <source>What instrument do you play?</source>
-        <translation type="unfinished"></translation>
+        <translation>Na jaký nástroj hrajete?</translation>
     </message>
 </context>
 <context>
@@ -2808,13 +2808,13 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/settings/tsettingsdialog.cpp" line="71"/>
         <source>Restore default settings for above parameters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Obnovit výchozí nastavení pro parametry výše.</translation>
     </message>
     <message>
         <location filename="../src/settings/tsettingsdialog.cpp" line="247"/>
         <source>use JACK</source>
         <comment>(Jack Audio Connection Kit)</comment>
-        <translation type="unfinished"></translation>
+        <translation>Použít JACK</translation>
     </message>
     <message>
         <location filename="../src/settings/tsettingsdialog.cpp" line="253"/>
@@ -2832,7 +2832,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/settings/tsettingsdialogbase.cpp" line="55"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Výchozí</translation>
     </message>
     <message>
         <location filename="../src/settings/tsettingsdialogbase.cpp" line="56"/>

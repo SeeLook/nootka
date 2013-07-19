@@ -24,7 +24,9 @@
 #include "tpixmaker.h"
 #include "ttipchart.h"
 #include "tkeysignature.h"
+#include <ttune.h>
 #include <tsimplescore.h>
+#include <taudioparams.h>
 #include <QtGui>
 #include <complex>
 
@@ -167,6 +169,13 @@ void TfirstRunWizzard::nextSlot() {
         gl->doubleAccidentalsEnabled = m_page3->dblAccChB->isChecked();
         gl->showEnharmNotes = m_page3->enharmChB->isChecked();
         gl->SkeySignatureEnabled = m_page3->useKeyChB->isChecked();
+				if (gl->instrument == e_bassGuitar) {
+					gl->setTune(Ttune::bassTunes[0]);
+					gl->A->range = TaudioParams::e_low;
+					gl->Sclef = Tclef::e_bass_F_8down;
+					gl->A->midiEnabled = true;
+					gl->A->midiInstrNr = 33;
+				}
         close();
         break;
     }
@@ -175,10 +184,11 @@ void TfirstRunWizzard::nextSlot() {
 // To write notes of bass guitar this application uses <b>bass dropped clef</b> (bass clef with \"eight\" digit below) but common practice is to skip this digit and write it in ordinary bass clef. Remember, bass guitar sounds octave lower than notes written in 'normal' bass clef.
 void TfirstRunWizzard::whenInstrumentChanged(int instr) {
 		if ((Einstrument)instr == e_bassGuitar)
-				m_notationNote->setHtml(QString("<br><br><center>%1<br>").
+				m_notationNote->setHtml(QString("<br><center>%1<br>").
 				arg(TtipChart::wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F, TkeySignature(0), 5.0)) +
 				tr("To write notes for bass guitat the <b>bass clef</b> is used but played notes sound octave down. The propper clef is <b>bass dropped clef</b> (with \"eight\" digit below) where notes sound exactly as written and this clef is used in Nootka for bass guitar.") +
-					"<br><br>" + TtipChart::wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F_8down, TkeySignature(0), 8.0)	);
+					"<br><br>" + TtipChart::wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F_8down, TkeySignature(0), 8.0)	+ 
+				"<br><br>SUPPORT FOR BASS GUITAR IS UNDER CONSTRUCTION. THERE IS NO REAL AUDIO OUTPUT - WORKS ONLY MIDI. ALSO BASS GUITAR LOOKS CLASSICAL :-).<br>Users feedback is necessary.");
 		else
 				m_notationNote->setHtml("<br><br><center>" + tr("Guitar notation uses treble clef with \"eight\" digit below (even if some editors are forgeting about this digit).<br><br>Try to understand this. <br><br><p> %1 %2<br><span style=\"font-size:20px;\">Both pictures above show the same note: c<sup>1</sup></span><br>(note c in one-line octave)</p>").
 				arg(TtipChart::wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G, TkeySignature(0), 6.0)).

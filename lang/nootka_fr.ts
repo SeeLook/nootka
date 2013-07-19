@@ -154,17 +154,17 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="143"/>
         <source>The lowest notes.&lt;br&gt;Suitable for bass guitar, double bass, etc.</source>
-        <translation type="unfinished"></translation>
+        <translation>Notes les plus basses. &lt;br&gt; Guitare basse, contrebasse etc.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="145"/>
         <source>Notes above &lt;b&gt;A contra&lt;/b&gt;.&lt;br&gt;Suitable for guitar, celo human voice, etc.</source>
-        <translation type="unfinished"></translation>
+        <translation>Notes au-dessus du &lt;b&gt; LA de contre-octave (A1) &lt;/b&gt;.&lt;br&gt; Guitare, violoncelle, voix humaine, etc.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="147"/>
         <source>Notes above &lt;b&gt;small g&lt;/b&gt;.&lt;br&gt;Suitable for high pitch instruments like flute, piccolo, etc.</source>
-        <translation type="unfinished"></translation>
+        <translation>Notes au-dessus du &lt;b&gt;sol petite octave (g3)&lt;/b&gt;.&lt;br&gt; Instrument aigus: flûte, piccolo, etc.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="112"/>
@@ -190,17 +190,17 @@
         <location filename="../src/sound/audioinsettings.cpp" line="142"/>
         <source>low</source>
         <comment>be short, please</comment>
-        <translation type="unfinished"></translation>
+        <translation>Basses</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="144"/>
         <source>middle</source>
-        <translation type="unfinished"></translation>
+        <translation>Medium</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="146"/>
         <source>high</source>
-        <translation type="unfinished"></translation>
+        <translation>Aigus</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="168"/>
@@ -346,7 +346,7 @@
     <message>
         <location filename="../src/music/tinstrument.cpp" line="25"/>
         <source>other instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Autre instrument</translation>
     </message>
     <message>
         <location filename="../src/music/tinstrument.cpp" line="27"/>
@@ -660,7 +660,7 @@
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="115"/>
         <source>Listen a sound and show it in a score.&lt;br&gt;Guitar, note names and key signatures are not used.&lt;br&gt;Scale a - a&lt;sup&gt;2&lt;/sup&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Ecouter un son et le montrer sur une portée. &lt;br&gt; La guitare, les noms de notes et les armures ne sont pas utilisées. &lt;br&gt;Gamme LA-LA grande octave (A-A2)</translation>
     </message>
     <message>
         <source>Played sounds are pointed in score.&lt;br&gt;No guitar, no note names, no key signatures.&lt;br&gt;Scale A - a&lt;sup&gt;1&lt;/sup&gt;</source>
@@ -724,22 +724,22 @@
     <message>
         <location filename="../src/music/ttune.cpp" line="42"/>
         <source>Standard bass: E A D G</source>
-        <translation type="unfinished"></translation>
+        <translation>Basse standard: E A D G</translation>
     </message>
     <message>
         <location filename="../src/music/ttune.cpp" line="44"/>
         <source>Bass in fifths: C G D A</source>
-        <translation type="unfinished"></translation>
+        <translation>A la quinte: C G D A</translation>
     </message>
     <message>
         <location filename="../src/music/ttune.cpp" line="46"/>
         <source>5-str. bass: B E A D G</source>
-        <translation type="unfinished"></translation>
+        <translation>Basse 5 cordes: B E A D G</translation>
     </message>
     <message>
         <location filename="../src/music/ttune.cpp" line="48"/>
         <source>6-str. bass: B E A D G C</source>
-        <translation type="unfinished"></translation>
+        <translation>Basse 6 cordes: B E A D G C</translation>
     </message>
     <message>
         <location filename="../src/info/tsupportnootka.cpp" line="29"/>
@@ -1105,17 +1105,18 @@
     <message>
         <location filename="../src/music/tclef.cpp" line="32"/>
         <source>treble</source>
-        <translation type="unfinished"></translation>
+        <translation>Aigus</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="34"/>
         <source>treble dropped</source>
+        <translatorcomment>not sure how to translate here...  </translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="36"/>
         <source>bass</source>
-        <translation type="unfinished"></translation>
+        <translation>Basses</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="38"/>
@@ -1125,48 +1126,48 @@
     <message>
         <location filename="../src/music/tclef.cpp" line="40"/>
         <source>alto</source>
-        <translation type="unfinished"></translation>
+        <translation>Alto</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="42"/>
         <source>tenor</source>
-        <translation type="unfinished"></translation>
+        <translation>Tenor</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="44"/>
         <source>grand staff</source>
-        <translation type="unfinished"></translation>
+        <translation>Double portée</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="53"/>
         <source>clef G</source>
-        <translation type="unfinished"></translation>
+        <translation>Clé de Sol</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="55"/>
         <source>clef G dropped octave down</source>
-        <translation type="unfinished"></translation>
+        <translation>Clé de sol abaissée d&apos;une octave</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="57"/>
         <source>clef F</source>
-        <translation type="unfinished"></translation>
+        <translation>Clé de Fa</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="59"/>
         <source>clef F dropped octave down</source>
-        <translation type="unfinished"></translation>
+        <translation>Clé de Fa abaissée d&apos;une octave</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="61"/>
         <location filename="../src/music/tclef.cpp" line="63"/>
         <source>clef C</source>
-        <translation type="unfinished"></translation>
+        <translation>Clé de Do</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="65"/>
         <source>treble and bass clefs</source>
-        <translation type="unfinished"></translation>
+        <translation>Clé des basses et clé des aigus</translation>
     </message>
 </context>
 <context>
@@ -1709,7 +1710,8 @@
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="180"/>
         <source>To write notes for bass guitat the &lt;b&gt;bass clef&lt;/b&gt; is used but played notes sound octave down. The propper clef is &lt;b&gt;bass dropped clef&lt;/b&gt; (with &quot;eight&quot; digit below) where notes sound exactly as written and this clef is used in Nootka for bass guitar.</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Not sure here... First English sentence is somewhat unclear. Also, isn&apos;t the &quot;bass clef&quot; the same as the &quot;F clef&quot;? In which case, I might rather use &quot;clé de Fa&quot; (F clef) in French rather than &quot;bass clef&quot; </translatorcomment>
+        <translation type="unfinished">Pour écrire les notes pour la guitare basse, la &lt;b&gt; clé des basses &lt;b&gt; est utilisée mais les notes sont jouées une octave plus bas. La clé appropriée est la &lt;b&gt; clé des basses abaissée &lt;/b&gt; (avec le chiffre &quot;8&quot; noté en dessous) pour laquelle les notes sonnent exactement telles quelles sont écrites. C&apos;est cette clé qui est utilisée dans Nootka. </translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="183"/>
@@ -1791,12 +1793,12 @@
     <message>
         <location filename="../src/settings/tglobalsettings.cpp" line="102"/>
         <source>Restore all defaults settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Réinitialiser tous les réglages</translation>
     </message>
     <message>
         <location filename="../src/settings/tglobalsettings.h" line="40"/>
         <source>All settings of an application will be deleted!!&lt;br&gt;Nootka will start with first run wizard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tous les réglages seront perdus!! &lt;br&gt; Nootka redémarrera avec l&apos;assistant de premier démarrage.</translation>
     </message>
 </context>
 <context>
@@ -1832,7 +1834,7 @@
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="40"/>
         <source>Remember to select appropirate clef in Score settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>N&apos;oubliez pas de sélectionner la clé appropriée dans les réglages de portée.</translation>
     </message>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="55"/>
@@ -1842,7 +1844,7 @@
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="59"/>
         <source>disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Désactivé</translation>
     </message>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="68"/>
@@ -1862,7 +1864,7 @@
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="83"/>
         <source>number of strings:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de cordes</translation>
     </message>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="98"/>
@@ -2003,7 +2005,7 @@ and not saved !!</source>
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="181"/>
         <source>There are not any questions nor answers selected.&lt;br&gt;Level has no sense</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun question ou réponse sélectionnée. &lt;br&gt; Ce niveau n&apos;a aucun sens</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="199"/>
@@ -2086,7 +2088,7 @@ Aucun niveau sélectionné</translation>
     <message>
         <location filename="../src/level/tlevelpreview.cpp" line="136"/>
         <source>Clef</source>
-        <translation type="unfinished"></translation>
+        <translation>Clé</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelpreview.h" line="36"/>
@@ -2242,7 +2244,8 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/notename/tnotename.cpp" line="32"/>
         <source>Sub</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>not sure here</translatorcomment>
+        <translation type="unfinished">Sous-octave</translation>
     </message>
     <message>
         <location filename="../src/notename/tnotename.cpp" line="33"/>
@@ -2267,7 +2270,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/notename/tnotename.cpp" line="34"/>
         <source>Subcontra octave</source>
-        <translation type="unfinished"></translation>
+        <translation>Double contre-octave</translation>
     </message>
     <message>
         <location filename="../src/notename/tnotename.cpp" line="35"/>
@@ -2308,7 +2311,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/notename/tnotename.cpp" line="37"/>
         <source>Four-line octave</source>
-        <translation type="unfinished"></translation>
+        <translation>5eme petite octave</translation>
     </message>
     <message>
         <source>The note is beyond&lt;br&gt;scale of the guitar</source>
@@ -2635,27 +2638,28 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/settings/tselectclef.cpp" line="142"/>
         <source>Common used clef (for violin, flute, saxophones, etc.)</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>did you mean &quot;Commonly used clef&quot; ?</translatorcomment>
+        <translation>Clé usuelle (violon, flûte, saxophones, etc.)</translation>
     </message>
     <message>
         <location filename="../src/settings/tselectclef.cpp" line="145"/>
         <source>Clef for guitars (classical, electric and so)</source>
-        <translation type="unfinished"></translation>
+        <translation>Clé pour guitares (classique, électrique, etc.)</translation>
     </message>
     <message>
         <location filename="../src/settings/tselectclef.cpp" line="148"/>
         <source> Bottom clef in the grand stave but also used for celo, trombone, etc.</source>
-        <translation type="unfinished"></translation>
+        <translation>Clé inférieure sur la double portée mais également utilisée pour le violoncelle, le trombone, etc.</translation>
     </message>
     <message>
         <location filename="../src/settings/tselectclef.cpp" line="151"/>
         <source> Clef for bass guitar and double bass.</source>
-        <translation type="unfinished"></translation>
+        <translation>Clé pour la guitare basse et la contrebasse.</translation>
     </message>
     <message>
         <location filename="../src/settings/tselectclef.cpp" line="154"/>
         <source>Sometimes is called clef for viola and mostly used for it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Parfois nommée clé de viole et principalement utilisée pour cet instrument</translation>
     </message>
 </context>
 <context>
@@ -2663,7 +2667,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/score/tscoreclef.cpp" line="159"/>
         <source>Click to select another clef.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cliquez pour sélectionner une autre clé.</translation>
     </message>
 </context>
 <context>
@@ -2671,22 +2675,22 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/score/tscorecontrol.cpp" line="30"/>
         <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Double dièse&lt;/b&gt; augmente la note de deux demi-tons (un ton). &lt;br&gt; Equivaut à deux frettes vers le haut sur la guitare.</translation>
     </message>
     <message>
         <location filename="../src/score/tscorecontrol.cpp" line="33"/>
         <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone.&lt;br&gt;On the guitar it is one fret up.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Dièse&lt;/b&gt; - augmente la note d&apos;un demi-ton. &lt;br&gt; Equivaut à une frette vers le haut sur la guitare.</translation>
     </message>
     <message>
         <location filename="../src/score/tscorecontrol.cpp" line="36"/>
         <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone.&lt;br&gt;On the guitar it is one fret down.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Bémol&lt;/b&gt; - abaisse la note d&apos;un demi-ton. &lt;br&gt; Equivaut à une frette vers le bas sur la guitare.</translation>
     </message>
     <message>
         <location filename="../src/score/tscorecontrol.cpp" line="39"/>
         <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Double bémol&lt;/b&gt;- abaisse la note de deux demi-tons (un ton). &lt;br&gt; Equivaut à deux frettes vers le bas sur la guitare.</translation>
     </message>
 </context>
 <context>
@@ -2694,7 +2698,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/score/tscorekeysignature.cpp" line="64"/>
         <source>Key signature - to change it, click above or below the staff or use mouse wheel.</source>
-        <translation type="unfinished"></translation>
+        <translation>Armure de clé- Pour la changer, cliquez au-dessus ou au-dessous de la portée ou utilisez la molette de la souris. </translation>
     </message>
 </context>
 <context>
@@ -2702,7 +2706,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/score/tscorenote.cpp" line="135"/>
         <source>Click to select a note, use mouse wheel to change accidentals.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cliques pour sélectionner une note. Utilisez la molette de la souris pour changer les altérations.</translation>
     </message>
 </context>
 <context>
@@ -2735,17 +2739,17 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/settings/tscoresettings.cpp" line="101"/>
         <source>Default clef</source>
-        <translation type="unfinished"></translation>
+        <translation>Clé par défaut</translation>
     </message>
     <message>
         <location filename="../src/settings/tscoresettings.cpp" line="104"/>
         <source>Select default clef for the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionnez la clé par défaut pour l&apos;application</translation>
     </message>
     <message>
         <location filename="../src/settings/tscoresettings.cpp" line="104"/>
         <source>Remember! Not all clefs are suitable for actual tune or instrument type!</source>
-        <translation type="unfinished"></translation>
+        <translation>Souvenez-vous que les clés ne sont pas toutes appropriées pour une mélodie ou un instrument donnés! </translation>
     </message>
     <message>
         <location filename="../src/settings/tscoresettings.h" line="43"/>
@@ -2770,7 +2774,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="195"/>
         <source>What instrument do you play?</source>
-        <translation type="unfinished"></translation>
+        <translation>De quel instrument jouez-vous?</translation>
     </message>
 </context>
 <context>
@@ -2814,13 +2818,13 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/settings/tsettingsdialog.cpp" line="71"/>
         <source>Restore default settings for above parameters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rétablir les réglages par défaut pour les paramètres ci-dessus.</translation>
     </message>
     <message>
         <location filename="../src/settings/tsettingsdialog.cpp" line="247"/>
         <source>use JACK</source>
         <comment>(Jack Audio Connection Kit)</comment>
-        <translation type="unfinished"></translation>
+        <translation>Utiliser JACK</translation>
     </message>
     <message>
         <location filename="../src/settings/tsettingsdialog.cpp" line="253"/>
@@ -2838,7 +2842,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/settings/tsettingsdialogbase.cpp" line="55"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Par défaut</translation>
     </message>
     <message>
         <location filename="../src/settings/tsettingsdialogbase.cpp" line="56"/>
