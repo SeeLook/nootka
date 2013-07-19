@@ -69,6 +69,7 @@ MainWindow::MainWindow(QWidget *parent) :
 #endif
     
     setMinimumSize(660, 480);
+    setGeometry(gl->config->value("geometry", QRect(50, 50, 750, 480)).toRect());
     
     if (gl->isFirstRun) {
         TfirstRunWizzard *firstWizz = new TfirstRunWizzard();
@@ -77,7 +78,7 @@ MainWindow::MainWindow(QWidget *parent) :
         gl->isFirstRun = false;
     } else { // show support window once but not with first run wizzard
         gl->config->beginGroup("General");
-        setGeometry(gl->config->value("geometry", QRect(50, 50, 800, 600)).toRect());
+        setGeometry(gl->config->value("geometry", QRect(50, 50, 660, 480)).toRect());
 				QString newVersion = gl->config->value("version", "").toString();
         if (newVersion != gl->version) {
 					if (newVersion == "0.8.9-beta") { // Transitional behaviour for clef deployment
