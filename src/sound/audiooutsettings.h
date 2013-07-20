@@ -49,9 +49,13 @@ public:
   void generateDevicesList();
       /** Grabs devices list from AudioOut and fill audioOutDevListCombo */
   void setDevicesCombo();
+	
+			/** This static method sets midi instr. or audio depends on given instrument
+			 * and previous midi state. */
+	static void adjustOutToInstrument(TaudioParams *out, int instr);
   
-protected:
-
+public slots:
+	void whenInstrumentChanged(int instr);
 
 private:
 	void addInstrument(QString name, unsigned char midiNr);

@@ -21,11 +21,14 @@
 #include "ttune.h"
 #include "tglobals.h"
 #include "tsimplescore.h"
+#include <tfirstrunwizzard.h>
 #include <QtGui>
 
 
 
 extern Tglobals *gl;
+
+bool bassWarring = true;
 
 TguitarSettings::TguitarSettings(QWidget *parent) :
         QWidget(parent)
@@ -144,6 +147,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 		m_instrumentTypeCombo->setCurrentIndex(instrumentIndex);
 		instrumentTypeChanged(instrumentIndex);
 		setTune(gl->Gtune());
+		m_isBass = false;
 		if (gl->instrument != e_noInstrument) {
 				if (*gl->Gtune() == Ttune::stdTune)
 						m_tuneCombo->setCurrentIndex(0);
@@ -152,6 +156,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 						if (*gl->Gtune() == Ttune::tunes[i])
 								m_tuneCombo->setCurrentIndex(i + 1);
 					} else if (gl->instrument == e_bassGuitar) {
+							m_isBass = true;
 							if (*gl->Gtune() == Ttune::bassTunes[i])
 								m_tuneCombo->setCurrentIndex(i);
 					}
@@ -300,6 +305,7 @@ void TguitarSettings::stringNrChanged(int strNr) {
 
 void TguitarSettings::instrumentTypeChanged(int index) {
 	m_tuneCombo->clear();
+	m_isBass = false;
 	if ((Einstrument)index == e_classicalGuitar) {
 		m_tuneCombo->addItem(Ttune::stdTune.name);
     for (int i = 0; i < 4; i++) {
@@ -311,6 +317,7 @@ void TguitarSettings::instrumentTypeChanged(int index) {
 		m_tuneCombo->setCurrentIndex(0);
 		m_stringNrSpin->setValue(Ttune::tunes[0].stringNr());
 	} else if ((Einstrument)index == e_bassGuitar) { // bass guitar
+			m_isBass = true;
 			for (int i = 0; i < 4; i++) {
         m_tuneCombo->addItem(Ttune::bassTunes[i].name);
 			}
@@ -319,6 +326,9 @@ void TguitarSettings::instrumentTypeChanged(int index) {
 			setTune(&Ttune::bassTunes[0]);
 			m_tuneCombo->setCurrentIndex(0);
 			m_stringNrSpin->setValue(Ttune::bassTunes[0].stringNr());
+			if (bassWarring)
+				QMessageBox::warning(this, "", TfirstRunWizzard::bassForHelpText());
+			bassWarring = false;
 	} else {
 		guitarDisabled(true);
 	}
@@ -327,6 +337,7 @@ void TguitarSettings::instrumentTypeChanged(int index) {
 				guitarDisabled(false);
 		m_tuneCombo->addItem(tr("Custom tune"));
 	}
+	emit instrumentChanged(index);
 }
 
 

@@ -102,9 +102,11 @@ void TmainScore::acceptSettings() {
 
 
 void TmainScore::setScordature() {
-	Ttune tmpTune(*gl->Gtune());
-	staff()->setScordature(tmpTune);
-	resizeEvent(0);
+	if (gl->instrument == e_classicalGuitar || gl->instrument == e_electricGuitar) {
+			Ttune tmpTune(*gl->Gtune());
+			staff()->setScordature(tmpTune);
+			resizeEvent(0);
+	}
 }
 
 
@@ -277,7 +279,8 @@ void TmainScore::whenNoteWasChanged(int index, Tnote note) {
 
 void TmainScore::onPianoSwitch() {
 	restoreNotesSettings();
-	if (*gl->Gtune() != Ttune::stdTune)
+// 	if (gl->instrument == e_classicalGuitar || gl->instrument == e_electricGuitar)
+		if (*gl->Gtune() != Ttune::stdTune)
 			setScordature();
 }
 
