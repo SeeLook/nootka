@@ -57,10 +57,13 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 		m_instrumentTypeCombo = new QComboBox(this);
 		guitarLay->addWidget(m_instrumentTypeCombo, 0, Qt::AlignCenter);
 		m_instrumentTypeCombo->addItem(tr("disabled"));
+		QModelIndex in = m_instrumentTypeCombo->model()->index(0, 0);
+		QVariant v(0);
+		m_instrumentTypeCombo->model()->setData(in, v, Qt::UserRole - 1);
 		m_instrumentTypeCombo->addItem(instrumentToText(e_classicalGuitar));
 		m_instrumentTypeCombo->addItem(instrumentToText(e_electricGuitar));
-		QModelIndex in = m_instrumentTypeCombo->model()->index(2, 0);
-		QVariant v(0);
+		in = m_instrumentTypeCombo->model()->index(2, 0);
+// 		QVariant v(0);
 		m_instrumentTypeCombo->model()->setData(in, v, Qt::UserRole - 1);
 		m_instrumentTypeCombo->addItem(instrumentToText(e_bassGuitar));
 		guitarLay->addStretch(1);

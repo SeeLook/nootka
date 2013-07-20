@@ -75,7 +75,7 @@ Tglobals::Tglobals() :
 	m_tune(0)
 {
 
-    version = "0.8.90-alpha";
+    version = "0.8.89-prebeta";
 //    path ; Is declared in main()
 
     qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
