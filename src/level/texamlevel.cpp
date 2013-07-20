@@ -152,10 +152,10 @@ bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
 				lev.clef = Tclef(Tclef::e_treble_G_8down); 
 		else
 				lev.clef = Tclef((Tclef::Etype)testClef);
-		qDebug() << "detected clef is " << testClef << lev.clef.name();
+// 		qDebug() << "detected clef is " << testClef << lev.clef.name();
 	// determining/fixing an instrument in a level
 		if (instr == 0 ||instr == 1) { // Those values occur in versions before 0.8.90 where an instrument doesn't exist
-			if (lev.canBeGuitar()) // try to detect
+			if (lev.canBeGuitar() || lev.canBeSound()) // try to detect
 					lev.instrument = e_classicalGuitar;
 			else
 					lev.instrument = e_noInstrument;
@@ -167,7 +167,7 @@ bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
 			qDebug() << "TexamLevel::instrument has some stupid value. FIXED";
 			lev.instrument = e_classicalGuitar;
 		}
-		qDebug() << "detected instrument is " << instr << instrumentToText(lev.instrument);
+// 		qDebug() << "detected instrument is " << instr << instrumentToText(lev.instrument);
     return ok;
 }
 

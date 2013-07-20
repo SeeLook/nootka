@@ -110,7 +110,7 @@ void TpitchFinder::setSampleRate(unsigned int sRate, int range) {
 			default:
 				m_rateRatio = 1.0; break; // e_middle - lowest pitch is F contra
 		}
-		qDebug() << "m_rateRatio is " << m_rateRatio;
+// 		qDebug() << "m_rateRatio is " << m_rateRatio;
     if (sRate > 48000) {
       m_aGl->framesPerChunk = 2048 * m_rateRatio;
       m_aGl->windowSize = 4096 * m_rateRatio;
@@ -121,7 +121,7 @@ void TpitchFinder::setSampleRate(unsigned int sRate, int range) {
       m_aGl->framesPerChunk = 1024 * m_rateRatio;
       m_aGl->windowSize = 2048 * m_rateRatio;
     }
-    qDebug() << "framesPerChunk" << m_aGl->framesPerChunk << "windowSize" << m_aGl->windowSize;
+//     qDebug() << "framesPerChunk" << m_aGl->framesPerChunk << "windowSize" << m_aGl->windowSize;
     delete m_prevChunk;
     delete m_filteredChunk;
     if (aGl()->equalLoudness)

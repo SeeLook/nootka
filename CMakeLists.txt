@@ -12,7 +12,7 @@ include_directories(${QT_INCLUDES})
 
 SET(Nootka_VERSION_MAJOR  "0")
 SET(Nootka_VERSION_MINOR  "8")
-SET(Nootka_VERSION_PATCH  "80-alpha")
+SET(Nootka_VERSION_PATCH  "89-prebeta")
 
 SET(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
 SET(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
@@ -50,7 +50,7 @@ if(NOT PACKAGE_ARCHITECTURE)
         OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
         OUTPUT_STRIP_TRAILING_WHITESPACE
       )
-      message(STATUS "-D_FORTIFY_SOURCE=2")
+#       message(STATUS "-D_FORTIFY_SOURCE=2")
       add_definitions(-D_FORTIFY_SOURCE=2) # for lintian DEB_BUILD_HARDENING_FORTIFY
    endif(NOT DPKG_CMD)
 endif(NOT PACKAGE_ARCHITECTURE)
@@ -382,7 +382,7 @@ if(UNIX AND NOT APPLE)
       execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/make-chlog.sh ${Nootka_VERSION_FULL} ${CMAKE_CURRENT_BINARY_DIR}/doc/changelog ${CMAKE_CURRENT_SOURCE_DIR})
 	" )
   if (DPKG_CMD) # Debian changelog
-      message(STATUS "Debian changelog OK")
+#       message(STATUS "Debian changelog OK")
       INSTALL(FILES "${CMAKE_CURRENT_BINARY_DIR}/doc/changelog.Debian.gz" DESTINATION share/doc/nootka)
   endif (DPKG_CMD)
 	INSTALL(FILES copyright DESTINATION share/doc/nootka)

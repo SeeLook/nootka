@@ -69,6 +69,7 @@ MainWindow::MainWindow(QWidget *parent) :
 #endif
     
     setMinimumSize(660, 480);
+		gl->config->beginGroup("General");
     setGeometry(gl->config->value("geometry", QRect(50, 50, 750, 480)).toRect());
     
     if (gl->isFirstRun) {
@@ -77,13 +78,11 @@ MainWindow::MainWindow(QWidget *parent) :
         delete firstWizz;
         gl->isFirstRun = false;
     } else { // show support window once but not with first run wizzard
-        gl->config->beginGroup("General");
-        setGeometry(gl->config->value("geometry", QRect(50, 50, 660, 480)).toRect());
 				QString newVersion = gl->config->value("version", "").toString();
         if (newVersion != gl->version) {
-					if (newVersion == "0.8.9-beta") { // Transitional behaviour for clef deployment
-						gl->Sclef = Tclef::e_treble_G_8down;
-					}
+// 					if (newVersion == "0.8.9-beta") { // Transitional behaviour for clef deployment
+// 						gl->Sclef = Tclef::e_treble_G_8down;
+// 					}
           QTimer::singleShot(200, this, SLOT(showSupportDialog()));
 				} else { // check for updates
           gl->config->endGroup();
@@ -93,9 +92,10 @@ MainWindow::MainWindow(QWidget *parent) :
               process->start();
           }
         }
-        gl->config->endGroup();
+//         gl->config->endGroup();
     }
-    
+		gl->config->endGroup();
+		
     TkeySignature::setNameStyle(gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
 
     sound = new Tsound(this);
@@ -573,23 +573,27 @@ void MainWindow::updsateSize() {
 		
 		if (gl->instrument != e_noInstrument) {
 			QPixmap bgPix;
-			if (gl->instrument == e_classicalGuitar)				
-				bgPix = QPixmap(gl->path + "picts/body.png"); // size 800x535
-			else
-				bgPix = QPixmap(gl->path + "picts/body-el.png"); // size 
-		//     int guitH = qRound(((double)guitar->height() / 350.0) * 856.0);
-		//     int guitW = centralWidget()->width() / 2;
-		//     m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
-			qreal guitH = guitar->height() * 3.3;
-			qreal ratio = guitH / bgPix.height();
-			m_bgPixmap = bgPix.scaled(qRound(bgPix.width() * ratio), guitH, Qt::KeepAspectRatio);
+			qreal guitH;
+			qreal ratio;
 			if (gl->instrument == e_classicalGuitar) {
-				QPixmap rosePix(gl->path + "picts/rosette.png"); // size 341x281
-				m_rosettePixmap = rosePix.scaled(341 * ratio, 281 * ratio, Qt::KeepAspectRatio);
+				bgPix = QPixmap(gl->path + "picts/body.png"); // size 800x535
+				guitH = qRound(((double)guitar->height() / 350.0) * 856.0);
+		    int guitW = centralWidget()->width() / 2;
+		    m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
 			}
-		} else {
-			score->setFixedHeight(height() * 0.6);
-		}
+			else {
+				bgPix = QPixmap(gl->path + "picts/body-el.png"); // size 
+				guitH = guitar->height() * 3.3;
+				ratio = guitH / bgPix.height();
+				m_bgPixmap = bgPix.scaled(qRound(bgPix.width() * ratio), guitH, Qt::KeepAspectRatio);
+// 			if (gl->instrument == e_classicalGuitar) {
+// 				QPixmap rosePix(gl->path + "picts/rosette.png"); // size 341x281
+// 				m_rosettePixmap = rosePix.scaled(341 * ratio, 281 * ratio, Qt::KeepAspectRatio);
+			}
+		} 
+// 		else {
+// 			score->setFixedHeight(height() * 0.6);
+// 		}
     
     setUpdatesEnabled(true);
     QTimer::singleShot(2, this, SLOT(update())); 
@@ -619,13 +623,14 @@ void MainWindow::paintEvent(QPaintEvent* ) {
 					painter.translate(width(), 0);
 					painter.scale(-1, 1);
 			}
-			qreal ratio = (guitar->height() * 3.3) / 535;
 			if (gl->instrument == e_classicalGuitar) {
-				painter.drawPixmap(guitar->posX12fret() + 7, /*guitar->geometry().bottom()*/height() - m_bgPixmap.height(), m_bgPixmap);
-				painter.drawPixmap(width() - qRound(m_rosettePixmap.width() * 0.75), 
-												height() - ratio * 250 - (height() - guitar->geometry().bottom()), m_rosettePixmap );
-			} else
+				painter.drawPixmap(guitar->posX12fret() + 7, guitar->geometry().bottom()/*height()*/ - m_bgPixmap.height(), m_bgPixmap);
+// 				painter.drawPixmap(width() - qRound(m_rosettePixmap.width() * 0.75), 
+// 												height() - ratio * 250 - (height() - guitar->geometry().bottom()), m_rosettePixmap );
+			} else {
+					qreal ratio = (guitar->height() * 3.3) / 535;
 					painter.drawPixmap(guitar->fbRect().right() - 235 * ratio, height() - m_bgPixmap.height(), m_bgPixmap);
+			}
 		}
 }
 
