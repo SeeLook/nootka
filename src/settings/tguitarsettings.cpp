@@ -153,12 +153,16 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 						m_tuneCombo->setCurrentIndex(0);
 				for (int i = 0; i < 4; i++) {
 					if (gl->instrument == e_classicalGuitar) {
-						if (*gl->Gtune() == Ttune::tunes[i])
+						if (*gl->Gtune() == Ttune::tunes[i]) {
 								m_tuneCombo->setCurrentIndex(i + 1);
+								break;
+						}
 					} else if (gl->instrument == e_bassGuitar) {
 							m_isBass = true;
-							if (*gl->Gtune() == Ttune::bassTunes[i])
+							if (*gl->Gtune() == Ttune::bassTunes[i]) {
 								m_tuneCombo->setCurrentIndex(i);
+								break;
+							}
 					}
 				}
 				QString S = tr("Custom tune");

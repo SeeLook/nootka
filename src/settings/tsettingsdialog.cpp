@@ -103,7 +103,7 @@ void TsettingsDialog::saveSettings() {
   if (m_sndOutSett) // if audio outsettings was created
 			m_sndOutSett->saveSettings(); // respect user settings
 	else { // adjust them for bass guitar - MIDI
-			if (gl->instrument = e_bassGuitar) {
+			if (gl->instrument == e_bassGuitar) {
 					gl->A->midiEnabled = true;
 					gl->A->midiInstrNr = 33;
 			}

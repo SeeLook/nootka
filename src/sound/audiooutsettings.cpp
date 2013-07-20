@@ -212,6 +212,7 @@ void AudioOutSettings::whenInstrumentChanged(int instr) {
 		midiRadioButt->setChecked(true);
 	else
 		audioRadioButt->setChecked(true);
+	audioOrMidiChanged();
 }
 
 
