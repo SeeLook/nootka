@@ -44,6 +44,7 @@ public:
 		
     void saveSettings();
 		void restoreDefaults();
+		bool isBass() { return m_isBass; }
 		
 		Tclef currentClef();
 				/** Returns lowest note  in current tune. */
@@ -52,6 +53,8 @@ public:
 signals:
 		void clefChanged(Tclef);
 		void lowestNoteChanged(Tnote loNote);
+				/** Is emited when user changes m_instrumentTypeCombo. Sending value is cast of Einstrument type to int. */
+		void instrumentChanged(int);
 		
 private:
     void setTune (Ttune *tune);
@@ -70,6 +73,7 @@ private:
     TcolorButton    *m_pointColorBut, *m_selColorBut;
 		QGroupBox 			*m_tuneGroup, *m_guitarGroup, *m_accidGroup;
 		QLabel					*m_fretNrLab, *m_stringNrLab, *m_pointerColorLab, *m_selectColorLab;
+		bool						 m_isBass;
 
 private slots:
     void tuneSelected(int tuneId);

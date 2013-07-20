@@ -22,6 +22,7 @@
 #include "taudioparams.h"
 #include "tmidiout.h"
 #include "trtaudioout.h"
+#include <tinstrument.h>
 
 
 AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
@@ -189,5 +190,32 @@ void AudioOutSettings::addInstrument(QString name, unsigned char midiNr) {
 	mi.progNr = midiNr;
 	instruments << mi;
 }
+
+
+void AudioOutSettings::adjustOutToInstrument(TaudioParams* out, int instr) {
+	if ((Einstrument)instr == e_classicalGuitar) {
+// 		if (out->midiEnabled)
+// 			out->midiInstrNr = 24;			
+		out->midiEnabled = false;
+	} else if ((Einstrument)instr == e_bassGuitar) {
+		// no midi support yet
+		out->midiEnabled = true;
+		out->midiInstrNr = 33;
+	}
+}
+
+
+
+void AudioOutSettings::whenInstrumentChanged(int instr) {
+	adjustOutToInstrument(m_params, instr);
+	if (m_params->midiEnabled)
+		midiRadioButt->setChecked(true);
+	else
+		audioRadioButt->setChecked(true);
+}
+
+
+
+
 
 
