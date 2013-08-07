@@ -145,13 +145,70 @@ include (CPack)
 #	packaging targets (make src)
 ###########################################################################
 if(UNIX AND NOT APPLE)
-    execute_process(COMMAND printf "\n\n\nTo build src package call:\n")
-    execute_process(COMMAND printf "\tmake src\n\n\n" )
+	message(STATUS "
+	To build source package, call:
+	make src
+	")
 
 	add_custom_target(src
 	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/src/make-src.sh ${Nootka_VERSION_FULL} ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR}
    )
 ENDIF(UNIX AND NOT APPLE)
+
+###########################################################################
+#	installing target (make noinstall) - copy or link necessary files to run nootka without install
+###########################################################################
+message(STATUS "
+	To enable lunching nootka without installing, call:
+	make noinstall
+	")
+
+if(WIN32)
+	GET_FILENAME_COMPONENT(VORBIS_DIR ${VORBIS_LIBRARIES} PATH)
+	GET_FILENAME_COMPONENT(MAKE_DIR ${CMAKE_MAKE_PROGRAM} PATH)
+	add_custom_target(noinstall
+		COMMAND echo " "
+		COMMAND echo Copying libraries...
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/QtCore4.dll ${CMAKE_BINARY_DIR}/src/.
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/QtGui4.dll ${CMAKE_BINARY_DIR}/src/.
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/QtNetwork4.dll ${CMAKE_BINARY_DIR}/src/.
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${FFTW3_LIBRARIES} ${CMAKE_BINARY_DIR}/src/.
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_LIBRARIES} ${CMAKE_BINARY_DIR}/src/. #libvorbisfile.dll
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_DIR}/libvorbis.dll ${CMAKE_BINARY_DIR}/src/.
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_DIR}/libogg.dll ${CMAKE_BINARY_DIR}/src/.
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MAKE_DIR}/libgcc_s_dw2-1.dll ${CMAKE_BINARY_DIR}/src/.
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MAKE_DIR}/libstdc++-6.dll ${CMAKE_BINARY_DIR}/src/.
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MAKE_DIR}/mingwm10.dll ${CMAKE_BINARY_DIR}/src/.
+		COMMAND echo Copying files...
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_SOURCE_DIR}/gpl ${CMAKE_BINARY_DIR}/src/.
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_SOURCE_DIR}/changes ${CMAKE_BINARY_DIR}/src/.
+		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/src/fonts
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_SOURCE_DIR}/fonts/nootka.ttf ${CMAKE_BINARY_DIR}/src/fonts/.
+		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/src/picts
+		COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/picts ${CMAKE_BINARY_DIR}/src/picts/.
+		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/src/lang
+		COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/lang ${CMAKE_BINARY_DIR}/src/lang/.
+		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/src/sounds
+		COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/sounds ${CMAKE_BINARY_DIR}/src/sounds/.
+		COMMAND echo " "
+   )
+ELSE(WIN32)
+	if (APPLE)
+		set(LINK_PATH "${CMAKE_BINARY_DIR}/nootka.app/Contents/Resources")
+	else (APPLE)
+		set(LINK_PATH "${CMAKE_BINARY_DIR}")
+	endif (APPLE)
+	add_custom_target(noinstall
+# 		COMMAND echo ""
+# 		COMMAND echo "Linking source files necessary to run Nootka"
+		COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/make-noinstall.sh ${CMAKE_SOURCE_DIR} ${LINK_PATH}
+# 		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/share
+# 		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/share/nootka
+# 		COMMAND ${CMAKE_COMMAND} -E create_symlink ${LINK_PATH}/fonts ${CMAKE_SOURCE_DIR}/fonts
+# 		COMMAND echo ""
+	)
+ENDIF(WIN32)
+
 
 ###########################################################################
 # packaging targets (make mac)
@@ -166,20 +223,3 @@ ENDIF(UNIX AND NOT APPLE)
 # ENDIF(${UNIX})
 #${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY}
 
-
-
-#### OBSOLETE ##########################
-###########################################################################
-#	packaging targets (make deb)
-###########################################################################
-# IF(UNIX AND NOT APPLE)
-#     execute_process(COMMAND printf "\n\n\nTo build deb package call:\n")
-#     execute_process(COMMAND printf "\tmake deb\n\n\n" )
-# 
-# 	add_custom_target(deb
-# 	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/build-deb.sh ${Nootka_VERSION_FULL} ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR} "${CMAKE_BINARY_DIR}/debian"
-#    )
-# 	
-# 	add_custom_target(rpm
-# 	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/build-rpm.sh ${Nootka_VERSION_FULL} ${CMAKE_BINARY_DIR} ${CMAKE_SOURCE_DIR} "${CMAKE_BINARY_DIR}/rpm"
-#    )
