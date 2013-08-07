@@ -243,16 +243,18 @@ void Tcanvas::confirmTip(int time) {
 
 void Tcanvas::showConfirmTip() {
   m_timerToConfirm->stop();
-  m_confirmTip = new TgraphicsTextTip(tr("To check the answer confirm it:") + "<br>- " + 
-    TexamHelp::clickSomeButtonTxt("<a href=\"checkAnswer\">" + pixToHtml(gl->path + "picts/check.png", PIXICONSIZE) + "</a>") + "<br>- " +
-    TexamHelp::pressEnterKey() + "<br>- " + TexamHelp::orRightButtTxt() + "<br>" +
-    tr("Check in exam help %1 how to do it automatically").arg("<a href=\"examHelp\">" + pixToHtml(gl->path + "picts/help.png", PIXICONSIZE) + "</a>")    
-    , gl->EanswerColor);
-  m_confirmTip->setScale(m_scale);
-  m_scene->addItem(m_confirmTip);
-  m_confirmTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
-  connect(m_confirmTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
-  setPosOfConfirmTip();
+	if (!m_confirmTip) {
+		m_confirmTip = new TgraphicsTextTip(tr("To check the answer confirm it:") + "<br>- " + 
+			TexamHelp::clickSomeButtonTxt("<a href=\"checkAnswer\">" + pixToHtml(gl->path + "picts/check.png", PIXICONSIZE) + "</a>") +
+			"<br>- " + TexamHelp::pressEnterKey() + "<br>- " + TexamHelp::orRightButtTxt() + "<br>" +
+			tr("Check in exam help %1 how to do it automatically").arg("<a href=\"examHelp\">" + pixToHtml(gl->path + "picts/help.png", PIXICONSIZE) + "</a>")    
+			, gl->EanswerColor);
+		m_confirmTip->setScale(m_scale);
+		m_scene->addItem(m_confirmTip);
+		m_confirmTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
+		connect(m_confirmTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
+		setPosOfConfirmTip();
+	}
 }
 
 

@@ -830,6 +830,8 @@ void TexamExecutor::prepareToExam() {
     mW->guitar->acceptSettings();
     mW->score->isExamExecuting(true);
 		mW->sound->acceptSettings();
+		if (mW->sound->isSniffable())
+			mW->sound->wait();
     mW->sound->prepareToExam(m_level.loNote, m_level.hiNote);
 		TtipChart::defaultClef = m_level.clef;
   // clearing all views/widgets
@@ -917,12 +919,14 @@ void TexamExecutor::disableWidgets() {
 //        mW->sound->wait();
 }
 
+
 void TexamExecutor::clearWidgets() {
     mW->score->clearScore();
     mW->noteName->clearNoteName();
     mW->guitar->clearFingerBoard();
     mW->sound->restoreAfterAnswer();
 }
+
 
 void TexamExecutor::stopExamSlot() {
     if (!m_isAnswered) {
@@ -1088,8 +1092,9 @@ void TexamExecutor::startSniffing() {
 
 
 void TexamExecutor::expertAnswersSlot() {
-    if (!mW->expertAnswChB->isChecked() && gl->hintsEnabled) {
-      m_canvas->confirmTip(1500);
+    if (!mW->expertAnswChB->isChecked()) { // no expert
+			if (gl->hintsEnabled) // show hint how to confirm an answer
+				m_canvas->confirmTip(1500);
       return;
     }
     if (m_snifferLocked) // ignore slot when some dialog window apears
