@@ -1,9 +1,10 @@
 #! /bin/bash
-#
+#################################################################################
 # This script creates links necessary to run Nootka without installation
 # Params are:
 # SRC_DIR - source dir
 # DST_DIR - destination dir
+#################################################################################
 
 SRC_DIR=$1
 DST_DIR=$2
@@ -17,7 +18,7 @@ echo $DST_DIR
 if [ $( echo $DST_DIR| grep 'nootka.app')  ]; then
 	echo "Nac os"
 else
-	echo "Linux"
+# 	echo "Linux"
 	if [ -d $DST_DIR/share ]; then
 		echo "Already done"
 		exit

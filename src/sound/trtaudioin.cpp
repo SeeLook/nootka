@@ -104,6 +104,7 @@ TaudioIN::~TaudioIN()
 {
   disconnect(m_pitch, SIGNAL(found(float,float)), this, SLOT(pitchFreqFound(float,float)));
 //  m_thread->terminate();
+	closeStram();
   delete rtDevice;
   delete streamOptions;
   delete m_pitch;
@@ -111,6 +112,7 @@ TaudioIN::~TaudioIN()
     delete (m_floatBuff);
   m_instances.removeLast();
   m_thisInstance = m_instances.size() - 1;
+	qDebug() << "TaudioIN deleted. Remained instances:" <<  m_thisInstance;
   
 //  delete m_thread;
 }
