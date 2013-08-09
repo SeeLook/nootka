@@ -23,9 +23,11 @@
 #include "tartini/analysisdata.h"
 
 #include <QDebug>
-// #include <stdio.h>
 
-#define MIN_SND_TIME (0.2) // minimal time of sound to detect its pitch
+
+#define MIN_SND_TIME (0.2) // minimal time of sound to detect its pitch in voice mode
+
+
 
 TpitchFinder::TpitchFinder(QObject* parent) :
   QObject(parent),
@@ -66,15 +68,11 @@ TpitchFinder::TpitchFinder(QObject* parent) :
     
     
     m_isBussy = false;
-//     m_channel = new Channel(this, aGl()->windowSize);
-//     myTransforms.init(m_aGl, aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
-//     if (aGl()->equalLoudness)
-//       m_filteredChunk = new float[aGl()->framesPerChunk];
-//     m_prevChunk = new float[aGl()->framesPerChunk];
     setSampleRate(m_aGl->rate);
     m_channel = new Channel(this, aGl()->windowSize);
     myTransforms.init(m_aGl, aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
 }
+
 
 TpitchFinder::~TpitchFinder()
 {
@@ -86,6 +84,11 @@ TpitchFinder::~TpitchFinder()
       delete m_channel;
     delete m_aGl;
 }
+
+//##########################################################################################################
+//########################################## PUBLIC ########################################################
+//##########################################################################################################
+
 
 void TpitchFinder::setIsVoice(bool voice) {
   if (m_isBussy) {
@@ -170,6 +173,10 @@ void TpitchFinder::resetFinder() {
   }
 }
 
+//##########################################################################################################
+//########################################## PRIVATE #######################################################
+//##########################################################################################################
+
 void TpitchFinder::emitFound() {
   if (m_prevPitch) {
     emit found(m_prevPitch, m_prevFreq);
@@ -205,10 +212,13 @@ void TpitchFinder::run() {
                 emit pichInChunk(data->pitch);
               } else {
                   if (data->noteIndex != m_prevNoteIndex) {
-                      m_prevNoteIndex = data->noteIndex;
-                      qDebug() << data->noteIndex << data->pitch << curNote->noteLength() << curNote->volume();
+// 										qDebug() << data->noteIndex << data->pitch << curNote->noteLength() << curNote->volume();
+										if (curNote->noteLength() >= m_minDuration) {
+                      m_prevNoteIndex = data->noteIndex; 
+											qDebug() << data->noteIndex << data->pitch << curNote->noteLength() << curNote->volume() << m_minDuration;
 // 											qDebug() << curNote->avgPitch() << aGl()->loPitch << aGl()->topPitch;
                       emit found(/*data->pitch*/curNote->avgPitch(), data->fundamentalFreq);
+										}
                   }
                   emit pichInChunk(curNote->avgPitch());
             }

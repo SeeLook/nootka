@@ -91,12 +91,14 @@ public:
           /** Only notes with volume above this value are sending. 
            * If note has got such volume it is observed till its end - even below. */
     void setMinimalVolume(float vol) { m_minVolume = vol; }
+    void setMinimalDuration(float dur) { m_minDuration = dur; }
     
 signals:
       /** Signal emited when pitch is detected. 
       * @param pitch is float type of midi note.
       * @param freq if current frequency. */
   void found(float pitch, float freq);
+			/** Pitch in chunk that just has been processed */
   void pichInChunk(float pitch);
   void volume(float volume);
 	
@@ -120,6 +122,7 @@ private:
   int             m_prevNoteIndex;
   int             m_noticedIndex;
   float           m_minVolume;
+	float						m_minDuration;
 	float						m_rateRatio; // multiplexer of the sample rate determined from pitch detection range
 	
 };

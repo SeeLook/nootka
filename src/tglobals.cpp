@@ -201,6 +201,7 @@ Tglobals::Tglobals() :
       A->INdevName = config->value("inDeviceName", "").toString();
       A->isVoice = config->value("isVoice", false).toBool();
       A->minimalVol = config->value("minimalVolume", 0.4).toFloat();
+			A->minDuration = config->value("minimalDuration", 0.09).toFloat();
       A->a440diff = config->value("a440Offset", 0).toFloat();
 			A->range = (TaudioParams::Erange)config->value("pitchDetectRange", (int)TaudioParams::e_middle).toInt();
     config->endGroup();
@@ -321,6 +322,7 @@ void Tglobals::storeSettings() {
         config->setValue("inDeviceName", A->INdevName);
         config->setValue("isVoice", A->isVoice);
         config->setValue("minimalVolume", A->minimalVol);
+				config->setValue("minimalDuration", A->minDuration);
         config->setValue("a440Offset", A->a440diff);
 				config->setValue("pitchDetectRange", (int)A->range);
     config->endGroup();

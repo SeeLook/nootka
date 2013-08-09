@@ -94,7 +94,7 @@ bool TrtAudioAbstract::getDeviceInfo(RtAudio::DeviceInfo& devInfo, int id) {
           devInfo = rtDevice->getDeviceInfo(id);
   }
   catch (RtError& e) {
-    qDebug() << "error when probing input device" << id;
+    qDebug() << "error when probeing input device" << id;
     return false;
   }
   return true;
@@ -107,12 +107,12 @@ bool TrtAudioAbstract::openStream(RtAudio::StreamParameters* outParams, RtAudio:
                                   void* userData, RtAudio::StreamOptions* options) {
   try {
     if (rtDevice && !rtDevice->isStreamOpen()) {
-      QString oo = "XX";
-      if (outParams)
-        oo = "out";
-      if (inParams)
-        oo = "in";
-      qDebug() << "openning stream" << oo ;
+//       QString oo = "XX";
+//       if (outParams)
+//         oo = "out";
+//       if (inParams)
+//         oo = "in";
+//       qDebug() << "openning stream" << oo ;
       rtDevice->openStream(outParams, inParams, frm, rate, buffFrames, callBack, userData, options);
     }
   }
@@ -128,7 +128,7 @@ bool TrtAudioAbstract::startStream() {
   try {
     if (rtDevice && !rtDevice->isStreamRunning())
       rtDevice->startStream();
-		qDebug("stream started");
+// 		qDebug("stream started");
   }
   catch (RtError& e) {
     qDebug() << "can't start stream";
@@ -142,7 +142,7 @@ void TrtAudioAbstract::stopStream() {
   try {
     if (rtDevice && rtDevice->isStreamRunning())
       rtDevice->stopStream();
-		qDebug("stream stoped");
+// 		qDebug("stream stoped");
   }
   catch (RtError& e) {
     qDebug() << "can't stop stream";
@@ -155,7 +155,7 @@ void TrtAudioAbstract::closeStram() {
     stopStream();
     if (rtDevice && rtDevice->isStreamOpen())
       rtDevice->closeStream();
-		qDebug("stream closed");
+// 		qDebug("stream closed");
   }
   catch (RtError& e) {
     qDebug() << "can't close stream";

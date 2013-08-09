@@ -3540,7 +3540,7 @@ static const char* getAsioErrorString( ASIOError result )
 // Various revisions for RtAudio 4.0 by Gary Scavone, April 2007
 // Changed device query structure for RtAudio 4.0.7, January 2010
 
-#include <dsound.h>
+#include "dsound.h"
 #include <assert.h>
 #include <algorithm>
 
@@ -4924,12 +4924,12 @@ void RtApiDs :: callbackEvent()
     // Lock free space in the buffer
     result = dsBuffer->Lock( nextReadPointer, bufferBytes, &buffer1,
                              &bufferSize1, &buffer2, &bufferSize2, 0 );
-    if ( FAILED( result ) ) {
-      errorStream_ << "RtApiDs::callbackEvent: error (" << getErrorString( result ) << ") locking capture buffer!";
-      errorText_ = errorStream_.str();
-      error( RtError::SYSTEM_ERROR );
-      return;
-    }
+//    if ( FAILED( result ) ) {
+//      errorStream_ << "RtApiDs::callbackEvent: error (" << getErrorString( result ) << ") locking capture buffer!";
+//      errorText_ = errorStream_.str();
+//      error( RtError::SYSTEM_ERROR );
+//      return;
+//    }
 
     if ( duplexPrerollBytes <= 0 ) {
       // Copy our buffer into the DS buffer
@@ -4945,12 +4945,12 @@ void RtApiDs :: callbackEvent()
     // Update our buffer offset and unlock sound buffer
     nextReadPointer = ( nextReadPointer + bufferSize1 + bufferSize2 ) % dsBufferSize;
     dsBuffer->Unlock( buffer1, bufferSize1, buffer2, bufferSize2 );
-    if ( FAILED( result ) ) {
-      errorStream_ << "RtApiDs::callbackEvent: error (" << getErrorString( result ) << ") unlocking capture buffer!";
-      errorText_ = errorStream_.str();
-      error( RtError::SYSTEM_ERROR );
-      return;
-    }
+//    if ( FAILED( result ) ) {
+//      errorStream_ << "RtApiDs::callbackEvent: error (" << getErrorString( result ) << ") unlocking capture buffer!";
+//      errorText_ = errorStream_.str();
+//      error( RtError::SYSTEM_ERROR );
+//      return;
+//    }
     handle->bufferPointer[1] = nextReadPointer;
 
     // No byte swapping necessary in DirectSound implementation.

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,7 +23,7 @@
 #include <QString>
 
 
-  /** class describes audio input parameters. */
+  /** class describes audio input and output parameters. */
 class TaudioParams 
 {
 		
@@ -50,6 +50,7 @@ public:
   QString INdevName; // input device name
   float a440diff; // difference betwen standard a1 440Hz and user prefered base pitch
   float minimalVol; // only above this value detected note is sending to Nootka
+  float minDuration; // minimal duration of a sound aove which it is detected
     /** If true - pitch is average of all visible pitches
      * if false - the first detected in sound over noise is taken.  */
   bool isVoice;

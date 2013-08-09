@@ -66,6 +66,7 @@ protected slots:
   void intervalChanged(int index);
   void baseFreqChanged(int bFreq);
   void minimalVolChanged(float vol);
+	void voiceOrInstrumentChanged();
   
 private:
     /** Calculates frequencies of strings related to a440diff 
@@ -77,16 +78,17 @@ private:
   
   float offPitch(float pitch);
       /** returns difference of @param freq related to 440 Hz in semitones */
-  float getDiff(int freq); 
+  float getDiff(int freq);
+	
   
   QComboBox 			*inDeviceCombo, *intervalCombo;
   QGroupBox 			*enableInBox, *modeGr, *midABox;
   QRadioButton 		*voiceRadio, *instrRadio;
 	QRadioButton		*highRadio, *middleRadio, *lowRadio;
-  QSpinBox 				*freqSpin;
+  QSpinBox 				*freqSpin, *durationSpin;
   TvolumeSlider 	*volumeSlider;
   QPushButton 		*testButt;
-  QLabel 					*pitchLab, *freqLab, *tuneFreqlab;
+  QLabel 					*pitchLab, *freqLab, *tuneFreqlab, *durHeadLab;
   bool 						m_testDisabled, m_listGenerated;
   TpitchView 			*pitchView;
   TaudioIN 				*m_audioIn;
