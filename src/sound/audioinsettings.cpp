@@ -57,32 +57,46 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* pa
   devDetLay->addStretch(1);
   
   modeGr = new QGroupBox(tr("pitch detection mode"), this);
-  QGridLayout *modeLay = new QGridLayout();
+  QGridLayout *modeButtonsLay = new QGridLayout();
+	QVBoxLayout *modeLay = new QVBoxLayout;
   QButtonGroup *butGr = new QButtonGroup(this);
   butGr->setExclusive(true);
-  instrRadio = new QRadioButton(this);
-  modeLay->addWidget(instrRadio, 0, 0, Qt::AlignRight);
-  butGr->addButton(instrRadio);
-  QLabel *instrLab = new QLabel(tr("for playing") + 
-        " <span style=\"font-family: nootka; font-size: 25px;\">g</span>", this);
-  modeLay->addWidget(instrLab, 0, 1, Qt::AlignLeft);
-  instrLab->setStatusTip(tr("This mode is faster and good enought for guitars and other instruments."));
   voiceRadio = new QRadioButton(this);
-  modeLay->addWidget(voiceRadio, 1, 0, Qt::AlignRight);
+  modeButtonsLay->addWidget(voiceRadio, 0, 0, Qt::AlignRight);
   butGr->addButton(voiceRadio);
   QLabel *voiceLab = new QLabel(tr("for singing") + 
     " <span style=\"font-family: nootka; font-size: 25px;\">v</span>", this);
-  modeLay->addWidget(voiceLab, 1, 1, Qt::AlignLeft);
+  modeButtonsLay->addWidget(voiceLab, 0, 1, Qt::AlignLeft);
   voiceLab->setStatusTip(tr("This mode is more accurate but slower. It is recommended for singing and for instruments with \"wobbly\" intonation."));
+	instrRadio = new QRadioButton(this);
+  modeButtonsLay->addWidget(instrRadio, 1, 0, Qt::AlignRight);
+  butGr->addButton(instrRadio);
+  QLabel *instrLab = new QLabel(tr("for playing") + 
+        " <span style=\"font-family: nootka; font-size: 25px;\">g</span>", this);
+  modeButtonsLay->addWidget(instrLab, 1, 1, Qt::AlignLeft);
+  instrLab->setStatusTip(tr("This mode is faster and good enought for guitars and other instruments."));
+	modeLay->addLayout(modeButtonsLay);
+	durHeadLab = new QLabel(tr("minimal note duration"), this);
+	modeLay->addStretch(1);
+	modeLay->addWidget(durHeadLab, 0, Qt::AlignCenter);
+	durationSpin = new QSpinBox(this);
+	modeLay->addWidget(durationSpin, 0, Qt::AlignCenter);
+	durationSpin->setMinimum(10);
+	durationSpin->setMaximum(1000);
+	durationSpin->setSuffix("  "  + tr("[milliseconds]"));
+	durationSpin->setSingleStep(50);
+	durationSpin->setValue(m_glParams->minDuration * 1000); // minimal duration is stored in seconds but displayed in milliseconds
+	durationSpin->setStatusTip(tr("Only sounds longer than given time are detected.<br>Longer duration can avoid of capturing some noises or unexpected sounds but decreases a responsiveness"));
   modeGr->setLayout(modeLay);
   devDetLay->addWidget(modeGr);
   if (m_glParams->isVoice)
-    voiceRadio->setChecked(true);
-  else
-    instrRadio->setChecked(true);
+			voiceRadio->setChecked(true);
+	else
+			instrRadio->setChecked(true);
   tuneFreqlab = new QLabel(this);
   tuneFreqlab->setWordWrap(true);
   tuneFreqlab->setAlignment(Qt::AlignCenter);
+	tuneFreqlab->hide();
   devDetLay->addWidget(tuneFreqlab);
   devDetLay->addStretch(1);
   
@@ -217,7 +231,8 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* pa
   connect(intervalCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(intervalChanged(int)));
   connect(freqSpin, SIGNAL(valueChanged(int)), this, SLOT(baseFreqChanged(int)));
   connect(volumeSlider, SIGNAL(valueChanged(float)), this, SLOT(minimalVolChanged(float)));
-  
+	connect(voiceRadio, SIGNAL(clicked(bool)), this, SLOT(voiceOrInstrumentChanged()));
+  connect(instrRadio, SIGNAL(clicked(bool)), this, SLOT(voiceOrInstrumentChanged()));
 }
 
 AudioInSettings::~AudioInSettings()
@@ -236,31 +251,33 @@ AudioInSettings::~AudioInSettings()
 void AudioInSettings::setTestDisabled(bool disabled) {
   m_testDisabled = disabled;
   if (disabled) {
-    pitchLab->setText("--");
-    freqLab->setText("--");
-    pitchLab->setDisabled(true);
-    freqLab->setDisabled(true);
-    pitchView->setDisabled(true);
-// enable the rest of widget
-    inDeviceCombo->setDisabled(false);
-    modeGr->setDisabled(false);
-    midABox->setDisabled(false);
-    volumeSlider->setDisabled(false);
-		lowRadio->setDisabled(false);
-		middleRadio->setDisabled(false);
-		highRadio->setDisabled(false);
+			pitchLab->setText("--");
+			freqLab->setText("--");
+			pitchLab->setDisabled(true);
+			freqLab->setDisabled(true);
+			pitchView->setDisabled(true);
+	// enable the rest of widget
+			inDeviceCombo->setDisabled(false);
+			modeGr->setDisabled(false);
+			midABox->setDisabled(false);
+			volumeSlider->setDisabled(false);
+			lowRadio->setDisabled(false);
+			middleRadio->setDisabled(false);
+			highRadio->setDisabled(false);
+			voiceOrInstrumentChanged();
   } else {
-    pitchLab->setDisabled(false);
-    freqLab->setDisabled(false);
-    pitchView->setDisabled(false);
-// disable the rest of widget
-    inDeviceCombo->setDisabled(true);
-    midABox->setDisabled(true);
-    modeGr->setDisabled(true);
-    volumeSlider->setDisabled(true);
-		lowRadio->setDisabled(true);
-		middleRadio->setDisabled(true);
-		highRadio->setDisabled(true);
+			pitchLab->setDisabled(false);
+			freqLab->setDisabled(false);
+			pitchView->setDisabled(false);
+	// disable the rest of widget
+			inDeviceCombo->setDisabled(true);
+			midABox->setDisabled(true);
+			modeGr->setDisabled(true);
+			volumeSlider->setDisabled(true);
+			lowRadio->setDisabled(true);
+			middleRadio->setDisabled(true);
+			highRadio->setDisabled(true);
+			durationSpin->setDisabled(true);
   }
 }
 
@@ -283,6 +300,7 @@ void AudioInSettings::grabParams(TaudioParams *params) {
 			params->range = TaudioParams::e_middle;
 	else
 			params->range = TaudioParams::e_high;
+	params->minDuration = (float)durationSpin->value() / 1000.0f;
 }
 
 
@@ -296,6 +314,7 @@ void AudioInSettings::restoreDefaults() {
 	instrRadio->setChecked(true);
 	volumeSlider->setValue(0.4); // It is multipled by 100
 	middleRadio->setChecked(true);
+	durationSpin->setValue(90);
 }
 
 
@@ -441,4 +460,16 @@ void AudioInSettings::whenLowestNoteChanges(Tnote loNote) {
 	else
 		lowRadio->setChecked(true);
 }
+
+
+void AudioInSettings::voiceOrInstrumentChanged() {
+	if (instrRadio->isChecked())
+			durationSpin->setDisabled(false);
+	else
+			durationSpin->setDisabled(true);
+}
+
+
+
+
 

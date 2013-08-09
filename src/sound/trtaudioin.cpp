@@ -112,7 +112,6 @@ TaudioIN::~TaudioIN()
     delete (m_floatBuff);
   m_instances.removeLast();
   m_thisInstance = m_instances.size() - 1;
-	qDebug() << "TaudioIN deleted. Remained instances:" <<  m_thisInstance;
   
 //  delete m_thread;
 }
@@ -125,6 +124,7 @@ TaudioIN::~TaudioIN()
 void TaudioIN::setParameters(TaudioParams* params) {
   m_pitch->setIsVoice(params->isVoice);
   m_pitch->setMinimalVolume(params->minimalVol);
+	m_pitch->setMinimalDuration(params->minDuration);
   setUseJACK(params->useJACK);
   setAudioDevice(params->INdevName);
   audioParams = params;
