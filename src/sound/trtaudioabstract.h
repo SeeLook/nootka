@@ -37,10 +37,13 @@ public:
     TrtAudioAbstract(TaudioParams *params);
     QString devName() { return deviceName; }
         /** Creates RtAudio instance. 
-         * When withJACK is FALSE it skips JACK API even it is running. */
+         * When withJACK is FALSE it skips JACK API even it is running. 
+				 * Under Windows when useASIO is true tries it first. */
     static RtAudio* getRtAudio();
     static void setUseJACK(bool jack) { m_useJACK = jack; }
     static bool useJack() { return m_useJACK; }
+    static void setUseASIO(bool asio) { m_useASIO = asio; }
+    static bool useASIO() { return m_useASIO; }    
         /** Prints in console suported audio formats. */
     static void printSupportedFormats(RtAudio::DeviceInfo &devInfo);
     static void printSupportedSampleRates(RtAudio::DeviceInfo &devInfo);
@@ -69,6 +72,7 @@ protected:
     
 private:
     static bool m_useJACK;
+		static bool m_useASIO;
         
 };
 

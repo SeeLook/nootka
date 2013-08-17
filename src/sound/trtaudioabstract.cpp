@@ -39,16 +39,21 @@ RtAudio* TrtAudioAbstract::getRtAudio() {
   RtAudio *rta;
 #if defined(Q_OS_LINUX)
     if (m_useJACK)
-      rta = new RtAudio(); // check is JACK posible end allow it
+      rta = new RtAudio(); // check is JACK posible and allow it
     else
       rta = new RtAudio(RtAudio::LINUX_ALSA); // force ALSA
+#elif defined(Q_OS_WIN32)
+		if (m_useASIO)
+			rta = new RtAudio(RtAudio::WINDOWS_ASIO);
+		else
+			rta = new RtAudio(RtAudio::WINDOWS_DS);
 #else
     rta = new RtAudio();
 #endif
 #if defined(__LINUX_PULSE__)
     if (!m_useJACK /*&& rta->getCurrentApi() != RtAudio::UNIX_JACK*/) { // PulseAudio only when user don't want JACK'
       QFileInfo pulseBin("/usr/bin/pulseaudio");
-      if (pulseBin.exists()) {
+      if (pulseBin.exists()) { // we check is PA possible to run - without check it can hang over.
       RtAudio *rtPulse = new RtAudio(RtAudio::LINUX_PULSE);
         if (rtPulse->getCurrentApi() == RtAudio::LINUX_PULSE) {
           if (rtPulse->getDeviceCount() > 0) {

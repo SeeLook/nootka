@@ -106,15 +106,17 @@ ELSE(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
       /opt/local/include
       /sw/include
       "${CMAKE_CURRENT_SOURCE_DIR}/fftw"
-      "${CMAKE_CURRENT_BINARY_DIR}/fftw"
+      ${CMAKE_CURRENT_BINARY_DIR}/fftw
+	  ${CMAKE_CURRENT_BINARY_DIR}/../fftw
   )
   IF(WIN32)
     find_library(FFTW3_LIBRARY
       NAMES
-        fftw3f.dll
+        libfftw3f-3.dll
       PATHS
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_BINARY_DIR}
+		${CMAKE_CURRENT_BINARY_DIR}/../fftw
     )
   ELSE(WIN32)
     find_library(FFTW3_LIBRARY
@@ -168,8 +170,9 @@ ELSE(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
       /usr/local/include
       /opt/local/include
       /sw/include
-      "${CMAKE_CURRENT_SOURCE_DIR}"
-      "${CMAKE_CURRENT_BINARY_DIR}"
+      ${CMAKE_CURRENT_SOURCE_DIR}
+      ${CMAKE_CURRENT_BINARY_DIR}
+	  ${CMAKE_CURRENT_BINARY_DIR}/../libvorbis/include
   )
   find_path(OGG_INCLUDE_DIR
     NAMES
@@ -179,16 +182,18 @@ ELSE(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
       /usr/local/include
       /opt/local/include
       /sw/include
-      "${CMAKE_CURRENT_SOURCE_DIR}"
-      "${CMAKE_CURRENT_BINARY_DIR}"
+      ${CMAKE_CURRENT_SOURCE_DIR}
+      ${CMAKE_CURRENT_BINARY_DIR}
+	  ${CMAKE_CURRENT_BINARY_DIR}/../libogg/include
   )
   IF(WIN32)
     find_library(VORBIS_LIBRARY
       NAMES
-        vorbisfile.dll
+        libvorbisfile.dll
       PATHS
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_BINARY_DIR}
+		${CMAKE_CURRENT_BINARY_DIR}/../vorbis-tools
     )
   ELSE(WIN32)
     find_library(VORBIS_LIBRARY
