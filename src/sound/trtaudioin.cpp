@@ -20,8 +20,9 @@
 #include <QDebug>
 #include "tpitchfinder.h"
 #include "taudioparams.h"
-// #include <QThread>
+#include <QThread>
 
+QThread *m_thread = 0;
 
 /*static */
 QStringList TaudioIN::getAudioDevicesList() {
@@ -91,8 +92,8 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
   m_instances << this;
   m_pitch = new TpitchFinder();
   m_thisInstance = m_instances.size() - 1;
-//  m_thread = new QThread();
-//  m_pitch->moveToThread(m_thread);
+	m_thread = new QThread();
+	m_pitch->moveToThread(m_thread);
   setParameters(params);
   
   connect(m_pitch, SIGNAL(found(float,float)), this, SLOT(pitchFreqFound(float,float)));
@@ -103,7 +104,7 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
 TaudioIN::~TaudioIN()
 {
   disconnect(m_pitch, SIGNAL(found(float,float)), this, SLOT(pitchFreqFound(float,float)));
-//  m_thread->terminate();
+	m_thread->terminate();
 	closeStram();
   delete rtDevice;
   delete streamOptions;
@@ -113,7 +114,7 @@ TaudioIN::~TaudioIN()
   m_instances.removeLast();
   m_thisInstance = m_instances.size() - 1;
   
-//  delete m_thread;
+ delete m_thread;
 }
 
 //------------------------------------------------------------------------------------

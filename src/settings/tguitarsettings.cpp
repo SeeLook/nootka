@@ -80,7 +80,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     m_fretNrLab = new QLabel(tr("number of frets:"),this);
     guitarLay->addWidget(m_fretNrLab);
     m_fretsNrSpin = new QSpinBox(this);
-    m_fretsNrSpin->setValue(gl->GfretsNumber);
+//     m_fretsNrSpin->setValue(gl->GfretsNumber);
     m_fretsNrSpin->setMaximum(24);
     m_fretsNrSpin->setMinimum(15);
     guitarLay->addWidget(m_fretsNrSpin);
@@ -147,6 +147,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 		m_instrumentTypeCombo->setCurrentIndex(instrumentIndex);
 		instrumentTypeChanged(instrumentIndex);
 		setTune(gl->Gtune());
+		m_fretsNrSpin->setValue(gl->GfretsNumber);
 		m_isBass = false;
 		if (gl->instrument != e_noInstrument) {
 				if (*gl->Gtune() == Ttune::stdTune)
