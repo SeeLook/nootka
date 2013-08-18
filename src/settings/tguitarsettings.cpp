@@ -50,6 +50,9 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 // 		m_tuneView->setClefDisabled(true);
     m_tuneView->setClef(gl->Sclef); 
     m_tuneView->setNoteDisabled(6, true); // 7-th is dummy to get more space
+#if defined(Q_OS_WIN)
+    m_tuneView->setFixedHeight(200);
+#endif
    
     m_tuneGroup->setLayout(tuneLay);
     upLay->addWidget(m_tuneGroup);

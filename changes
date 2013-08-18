@@ -1,3 +1,6 @@
+     - pitch detection improvements - minimal note duration is configurable
+     - compiling under Windows is simpler now, possible launching without install
+
      - added support for bass guitars
      - strings number can be changed, width depends on their pitch
      - added possibility to display notes on grand stave

@@ -1,10 +1,12 @@
 Plan for the Nootka One
 
+urgent:
+- clef menu doesn't disappear after mouse leave under win
+- clef menu position is wrong in some Qt styles
+- add link to wiki about octaves on octave buttons
+
 
 - keep exam file in /tmp and restore it when crash or so
-?? Kodaly names
-?? keyboard input for note name widget
-- accid buttons descr.
 - splash screen
 - add notifications
 - finish exam tip
@@ -19,11 +21,8 @@ TGLOBALS & TTUNE
 
 
 SETTINGS DIALOG
-	- add "restore defaults" button
+	
 	- avoid a size biger than screen resolution
-
-TSCOREWIDGETSIMPLE
-    - use enableDblAcc in TscoreWidgetSimple to avoid waste hiding or showing dbl accid buttons
 
       
 
@@ -37,12 +36,7 @@ TEXAMEXECUTOR
 	- check is possible to given exam file
 	- enable/disable sniffing durning exams (specially when no input is required)
   - think about hide octave in note name format when octaves are not required in answers. 
-     Also for questions in "hint" - don't show octave when only name is required
-
-
-TNOTEPIXMAP
-  - make it resizable - factor doesn't work with clef and accidentals
-    
+     Also for questions in "hint" - don't show octave when only name is required   
     
     
     

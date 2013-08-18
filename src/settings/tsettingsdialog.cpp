@@ -128,6 +128,14 @@ void TsettingsDialog::saveSettings() {
 	if (m_audioSettingsPage)
 			gl->A->useJACK = m_jackChBox->isChecked();
 #endif
+#if defined(Q_OS_WIN)
+  if (m_audioSettingsPage) {
+    if (m_ASIORadio->isChecked())
+      gl->A->useASIO = true;
+    else
+      gl->A->useASIO = false;
+  }
+#endif
 }
 
 
@@ -152,6 +160,9 @@ void TsettingsDialog::restoreDefaults() {
 				#if defined(__UNIX_JACK__)
 						m_jackChBox->setChecked(false);
 				#endif
+        #if defined(Q_OS_WIN)
+            m_ASIORadio->setChecked(true);
+        #endif
 		}
 }
 
@@ -263,7 +274,7 @@ void TsettingsDialog::createAudioPage() {
     m_jackChBox->setStatusTip("Uses JACK if it is run or other sound backend if not.<br>EXPERIMENTAL and not tested.<br>Let me know when you will get this working.");
     connect(m_jackChBox, SIGNAL(toggled(bool)), this, SLOT(changeAudioAPI()));
 #endif
-#if defined(Q_OS_WIN32)
+#if defined(Q_OS_WIN)
 		m_DirectSoundRadio = new QRadioButton(tr("use DirectSound", "... but do not translate DirectSound"), this);
 		m_ASIORadio = new QRadioButton(tr("use ASIO"), this);
 		QHBoxLayout *winSndLay = new QHBoxLayout;

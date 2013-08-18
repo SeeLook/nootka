@@ -482,20 +482,20 @@ void MainWindow::guitarWasClicked(Tnote note) {
         TnotesList noteList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
         noteName->setNoteName(noteList);
         score->setNote(1, noteName->getNoteName(1));
-        score->setNote(2, noteName->getNoteName(2));
+				if (gl->doubleAccidentalsEnabled)
+						score->setNote(2, noteName->getNoteName(2));
     } else
         noteName->setNoteName(note);
     score->setNote(0, note);
 }
 
 void MainWindow::soundWasPlayed(Tnote note) {
-//   if (gl->hintsEnabled)
-//     setStatusMessage(tr("Note was detected !!"), 750);
   if (gl->showEnharmNotes) {
       TnotesList noteList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
       noteName->setNoteName(noteList);
       score->setNote(1, noteName->getNoteName(1));
-      score->setNote(2, noteName->getNoteName(2));
+			if (gl->doubleAccidentalsEnabled)
+					score->setNote(2, noteName->getNoteName(2));
   } else
       noteName->setNoteName(note);
   score->setNote(0, note);
