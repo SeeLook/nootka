@@ -148,6 +148,7 @@ void TfingerBoard::setFinger(Tnote note) {
 														arg(height() / 7).arg(gl->EquestionColor.name()) +
 														tr("The note is beyond a scale of the guitar") + " </b></span><br>", palette().text().color());
 						m_scene->addItem(m_beyondTip);
+						m_beyondTip->setZValue(150);
 						m_beyondTip->setPos((m_scene->width() - m_beyondTip->boundingRect().width()) / 2,
 												(m_scene->height() - m_beyondTip->boundingRect().height()) / 2);
 				}
@@ -589,8 +590,10 @@ bool TfingerBoard::event(QEvent *event) {
         m_curFret = 99;
         m_isCursorOverGuitar = false;
     }
-    if (event->type() == QEvent::Enter)
+    if (event->type() == QEvent::Enter) {
         m_isCursorOverGuitar = true;
+				deleteBeyondTip();
+		}
     return QGraphicsView::event(event);
 }
 
@@ -718,9 +721,9 @@ void TfingerBoard::paintFingerAtPoint(QPoint p) {
         if (tx < m_fbRect.x() || tx > lastFret /*or some mouse button*/ )
             fretNr = 0;
         else {
-            for (int i=0; i<gl->GfretsNumber; i++) {
+            for (int i = 0; i < gl->GfretsNumber; i++) {
                 if (tx <= m_fretsPos[i]) {
-                    fretNr = i+1;
+                    fretNr = i + 1;
                     break;
                 }
             }
@@ -739,6 +742,7 @@ void TfingerBoard::paintFingerAtPoint(QPoint p) {
         }
         m_curStr = strNr;
         m_curFret = fretNr;
+				deleteBeyondTip();
     }
 }
 

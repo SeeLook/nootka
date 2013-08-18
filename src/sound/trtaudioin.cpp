@@ -20,9 +20,9 @@
 #include <QDebug>
 #include "tpitchfinder.h"
 #include "taudioparams.h"
-#include <QThread>
+// #include <QThread>
 
-QThread *m_thread = 0;
+// QThread *m_thread = 0;
 
 /*static */
 QStringList TaudioIN::getAudioDevicesList() {
@@ -49,6 +49,9 @@ QStringList TaudioIN::getAudioDevicesList() {
 }
 
 int TaudioIN::inCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void* userData) {
+    Q_UNUSED(outBuffer)
+    Q_UNUSED(streamTime)
+    Q_UNUSED(userData)
     if ( status )
         qDebug() << "Stream over detected!";
     qint16 *in = (qint16*)inBuffer;
@@ -92,8 +95,8 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
   m_instances << this;
   m_pitch = new TpitchFinder();
   m_thisInstance = m_instances.size() - 1;
-	m_thread = new QThread();
-	m_pitch->moveToThread(m_thread);
+// 	m_thread = new QThread();
+//   m_pitch->moveToThread(m_thread);
   setParameters(params);
   
   connect(m_pitch, SIGNAL(found(float,float)), this, SLOT(pitchFreqFound(float,float)));
@@ -104,7 +107,7 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
 TaudioIN::~TaudioIN()
 {
   disconnect(m_pitch, SIGNAL(found(float,float)), this, SLOT(pitchFreqFound(float,float)));
-	m_thread->terminate();
+// 	m_thread->terminate();
 	closeStram();
   delete rtDevice;
   delete streamOptions;
@@ -114,7 +117,7 @@ TaudioIN::~TaudioIN()
   m_instances.removeLast();
   m_thisInstance = m_instances.size() - 1;
   
- delete m_thread;
+//  delete m_thread;
 }
 
 //------------------------------------------------------------------------------------
@@ -126,7 +129,11 @@ void TaudioIN::setParameters(TaudioParams* params) {
   m_pitch->setIsVoice(params->isVoice);
   m_pitch->setMinimalVolume(params->minimalVol);
 	m_pitch->setMinimalDuration(params->minDuration);
+#if defined (Q_OS_WIN)
+  setUseASIO(params->useASIO);
+#else
   setUseJACK(params->useJACK);
+#endif
   setAudioDevice(params->INdevName);
   audioParams = params;
 }

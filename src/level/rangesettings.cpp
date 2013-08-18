@@ -47,7 +47,9 @@ rangeSettings::rangeSettings(QWidget *parent) :
     QGroupBox *notesRangGr = new QGroupBox(TlevelPreview::notesRangeTxt(), this);
     scoreLay->addWidget(m_scoreRang);
     notesRangGr->setLayout(scoreLay);
-
+#if defined(Q_OS_WIN)
+    m_scoreRang->setFixedHeight(300);
+#endif
     allLay->addWidget(notesRangGr);
 
     QVBoxLayout *guitLay = new QVBoxLayout;

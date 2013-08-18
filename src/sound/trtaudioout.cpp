@@ -65,6 +65,9 @@ TaudioOUT* TaudioOUT::instance = 0;
 
 int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames, double streamTime, 
                            RtAudioStreamStatus status, void* userData) {
+  Q_UNUSED(inBuffer)
+  Q_UNUSED(streamTime)
+  Q_UNUSED(userData)
   if ( status )
     qDebug() << "Stream underflow detected!";
   m_samplesCnt++;
@@ -115,7 +118,11 @@ TaudioOUT::~TaudioOUT()
 
 
 void TaudioOUT::setAudioOutParams(TaudioParams* params) {
+#if defined (Q_OS_WIN)
+  setUseASIO(params->useASIO);
+#else
   setUseJACK(params->useJACK);
+#endif
   if (deviceName != params->OUTdevName || !rtDevice) {
     playable = oggScale->loadAudioData();
     if (playable && setAudioDevice(params->OUTdevName))
@@ -219,8 +226,8 @@ bool TaudioOUT::play(int noteNr) {
       SLEEP(1);
       loops++;
   }
-//   if (loops)
-//       qDebug() << "latency:" << loops << "ms";
+   if (loops)
+       qDebug() << "latency:" << loops << "ms";
   
   offTimer->start(1600);
   return startStream();
