@@ -118,9 +118,7 @@ TaudioOUT::~TaudioOUT()
 
 
 void TaudioOUT::setAudioOutParams(TaudioParams* params) {
-#if defined (Q_OS_WIN)
-  setUseASIO(params->useASIO);
-#else
+#if defined(__UNIX_JACK__)
   setUseJACK(params->useJACK);
 #endif
   if (deviceName != params->OUTdevName || !rtDevice) {
@@ -226,9 +224,8 @@ bool TaudioOUT::play(int noteNr) {
       SLEEP(1);
       loops++;
   }
-   if (loops)
-       qDebug() << "latency:" << loops << "ms";
-  
+//   if (loops)
+//        qDebug() << "latency:" << loops << "ms";  
   offTimer->start(1600);
   return startStream();
 }

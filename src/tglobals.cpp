@@ -191,9 +191,7 @@ Tglobals::Tglobals() :
 // Sound settings
     A = new TaudioParams();
     config->beginGroup("sound");
-		#if defined(Q_OS_WIN32)
-			A->useASIO = config->value("useASIO", false).toBool();
-		#else
+		#if defined(__UNIX_JACK__)
       A->useJACK = config->value("useJACK", false).toBool();
 		#endif
       A->OUTenabled = config->value("outSoundEnabled", true).toBool();
@@ -314,9 +312,6 @@ void Tglobals::storeSettings() {
     config->endGroup();
 
     config->beginGroup("sound");
-		#if defined(Q_OS_WIN32)
-				config->setValue("useASIO", A->useASIO);
-		#endif
 		#if defined(__UNIX_JACK__) // save this only when JACK was compiled in
         config->setValue("useJACK", A->useJACK);
 		#endif
