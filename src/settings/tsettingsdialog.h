@@ -21,7 +21,6 @@
 
 #include "tsettingsdialogbase.h"
 
-class QRadioButton;
 class QTabWidget;
 class TglobalSettings;
 class QPushButton;
@@ -57,9 +56,6 @@ private:
     QWidget             *m_audioSettingsPage;
     QCheckBox         	*m_jackChBox;
 		bool								 m_7thNoteToDefaults;
-#if defined(Q_OS_WIN32)
-		QRadioButton				*m_DirectSoundRadio, *m_ASIORadio;
-#endif
     
 private slots:
     void changeSettingsWidget(int index);
@@ -73,5 +69,3 @@ private:
 };
 
 #endif // SETTINGSDIALOG_H
-
-class QRadioButton;

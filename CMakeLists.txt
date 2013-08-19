@@ -12,7 +12,7 @@ include_directories(${QT_INCLUDES})
 
 SET(Nootka_VERSION_MAJOR  "0")
 SET(Nootka_VERSION_MINOR  "8")
-SET(Nootka_VERSION_PATCH  "89-prebeta")
+SET(Nootka_VERSION_PATCH  "95-beta")
 
 SET(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
 SET(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
@@ -317,7 +317,7 @@ ENDIF(UNIX AND NOT APPLE)
 IF(WIN32)
   add_definitions(-D__WINDOWS_MM__)
   add_definitions(-D__WINDOWS_DS__)
-  add_definitions(-D__WINDOWS_ASIO__)
+#   add_definitions(-D__WINDOWS_ASIO__)
 ENDIF(WIN32)
 
 if(APPLE)

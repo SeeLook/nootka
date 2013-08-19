@@ -45,7 +45,6 @@ public:
 	
 	
   bool useJACK; // TRUE - prefer JACK over ALSA or PulseAudio, FALSE - take PA (if available) or ALSA
-  bool useASIO; // TRUE - prefer ASIO over DirectSound - this is default
 // audio input settings
   bool INenabled; // is audio input enabled
   QString INdevName; // input device name
