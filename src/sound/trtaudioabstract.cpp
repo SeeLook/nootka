@@ -61,11 +61,7 @@ RtAudio* TrtAudioAbstract::getRtAudio() {
       }
     }
 #endif
-#if defined(QT_NO_DEBUG)
     rta->showWarnings(false);
-#else
-		rta->showWarnings(true);
-#endif
     return rta;
 }
 

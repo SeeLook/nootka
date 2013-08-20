@@ -62,6 +62,7 @@ public:
   bool midiEnabled; // default false
   QString midiPortName; // default empty to find system default
   unsigned char midiInstrNr; // default 0 - grand piano
+  int audioInstrNr; // coresponds with Einstrument enum numbers, default 1 classical guitar
 };
 
 

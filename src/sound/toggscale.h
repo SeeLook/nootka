@@ -36,11 +36,20 @@
 using namespace soundtouch;
 
 
-/** @class ToggScale manages audio data (musical scale) taken from ogg file.
- * It keeps it in m_oggInMemory array and decode it when setNote is called.
+/** 
+* @class ToggScale manages audio data (musical scale) taken from ogg file.
+* It keeps it in m_oggInMemory array and decode it when setNote is called.
 * Decompressed data are available through getSample() method. 
-* Data is decompressed in separate thread and smoe SLEEP calls are performed 
-* if data is not ready. */
+* Data is decompressed in separate thread and some SLEEP calls are performed 
+* if data is not ready.
+* 
+* @p setSampleRate() and @p setPitchOffset() control appropirate parameters of note.
+* 
+* To get sample @p setNote has to be caled first. 
+* It starts decoding thread which prepares first portion of data.
+* Data is ready only when @p isReady() returns true.
+* Preparing process takes around 1-10 ms (depends on CPU)
+*/
 class ToggScale : public QObject
 {
   Q_OBJECT
@@ -50,8 +59,11 @@ public:
     ToggScale(QString &path); 
     virtual ~ToggScale();
     
-        /** Loads ogg file with scale to RAM. If everything is ok returns true */
-    bool loadAudioData();
+        /** Loads ogg file with scale of given instrument to RAM.
+				 * If everything is ok returns true.
+				 * Also it is setting loand hi notes of a scale.
+				 * Notes beyond scale are generated with SoundTouch. */
+    bool loadAudioData(int instrument);
         /** Unloads audio data from buffer. */
     void deleteData();
     
@@ -64,6 +76,7 @@ public:
     };
     
         /** Prepares m_pcmBuffer:
+				 * - determines is pitch offset necessary
          * - seek ogg 
          * - starts decoding (resampling). 
          * - stops previous decoding if performed. */
@@ -99,7 +112,7 @@ private:
     
 private:
     qint8             *m_oggInMemory;
-    QString           m_oggFileName; /** Path to ogg file with sounds */
+    QString           m_oggPath; /** Path to dir containing ogg files with sounds */
     OggVorbis_File    m_ogg; /** ogg vorbis handler */
     qint16            *m_pcmBuffer; /** buffer with decompressed data of selected note. */
     SoggFile          m_oggWrap; /** Structure wraped m_oggInMemory used by ogg vorbis. */
@@ -110,8 +123,11 @@ private:
     bool              m_isDecoding; /** TRUE during decoding/resampling process. */
     bool              m_isReady;
     SoundTouch        *m_touch;
-    float             m_pitchOffset;
+    float             m_pitchOffset; /** Offset set from outside (by user) */
+    float							m_innerOffset; /** Offset calculated in setNote when SoundTouch has to generate note. */
     bool              m_oggConnected, m_touchConnected;
+		int								m_firstNote, m_lastNote; /** Numbers of first and last notes in file with scale. */
+		int								m_instrument; /** curent instrument which samples are loaded */
 
 };
 

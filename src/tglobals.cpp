@@ -199,6 +199,7 @@ Tglobals::Tglobals() :
       A->midiEnabled = config->value("midiEnabled", false).toBool();
       A->midiPortName = config->value("midiPortName", "").toString();
       A->midiInstrNr = (unsigned char)config->value("midiInstrumentNr", 0).toInt();
+			A->audioInstrNr = qBound(1, config->value("audioInstrumentNr", 1).toInt(), 3);
       A->INenabled = config->value("inSoundEnabled", true).toBool();
       A->INdevName = config->value("inDeviceName", "").toString();
       A->isVoice = config->value("isVoice", false).toBool();
@@ -320,6 +321,7 @@ void Tglobals::storeSettings() {
         config->setValue("midiEnabled", A->midiEnabled);
         config->setValue("midiPortName", A->midiPortName);
         config->setValue("midiInstrumentNr", (int)A->midiInstrNr);
+				config->setValue("audioInstrumentNr", (int)A->audioInstrNr);
         config->setValue("inSoundEnabled", A->INenabled);
         config->setValue("inDeviceName", A->INdevName);
         config->setValue("isVoice", A->isVoice);
