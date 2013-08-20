@@ -156,7 +156,6 @@ void TfirstRunWizzard::nextSlot() {
               gl->SnameStyleInKeySign = Tnote::e_italiano_Si;
             else
               gl->SnameStyleInKeySign = Tnote::e_nederl_Bis;
-        
         }
         else {
             gl->seventhIs_B = false;
@@ -170,12 +169,15 @@ void TfirstRunWizzard::nextSlot() {
         gl->showEnharmNotes = m_page3->enharmChB->isChecked();
         gl->SkeySignatureEnabled = m_page3->useKeyChB->isChecked();
 				if (gl->instrument == e_bassGuitar) {
-					gl->setTune(Ttune::bassTunes[0]);
-					gl->A->range = TaudioParams::e_low;
-					gl->Sclef = Tclef::e_bass_F_8down;
-					gl->A->midiEnabled = true;
-					gl->A->midiInstrNr = 33;
-				}
+            gl->setTune(Ttune::bassTunes[0]);
+            gl->A->range = TaudioParams::e_low;
+            gl->Sclef = Tclef::e_bass_F_8down;
+            gl->A->audioInstrNr = (int)e_bassGuitar;
+            gl->GfretsNumber = 20;
+				} else if (gl->instrument == e_electricGuitar) {
+            gl->A->audioInstrNr = (int)e_electricGuitar;
+            gl->GfretsNumber = 23;
+        }
         close();
         break;
     }
@@ -205,7 +207,7 @@ TselectInstrument::TselectInstrument(QWidget* parent) :
 		whatLab->setAlignment(Qt::AlignCenter);
 		classicalRadio = new QRadioButton(instrumentToText(e_classicalGuitar), this);
 		electricRadio = new QRadioButton(instrumentToText(e_electricGuitar), this);
-		electricRadio->hide();
+// 		electricRadio->hide();
 		bassRadio = new QRadioButton(instrumentToText(e_bassGuitar), this);
 		otherRadio = new QRadioButton(instrumentToText(e_noInstrument), this);
 		otherRadio->hide();
@@ -238,17 +240,14 @@ TselectInstrument::TselectInstrument(QWidget* parent) :
 
 void TselectInstrument::buttonPressed(int butt) {
 		if (bassRadio->isChecked()) {
-			emit instrumentChanged((int)e_bassGuitar);
-			gl->instrument = e_bassGuitar;
-		}
-		else {
-			emit instrumentChanged((int)e_classicalGuitar);
-			if (classicalRadio->isChecked())
-				gl->instrument = e_classicalGuitar;
-			else if (electricRadio->isChecked())
-				gl->instrument = e_electricGuitar;
-			else
-				gl->instrument = e_noInstrument;
+          emit instrumentChanged((int)e_bassGuitar);
+          gl->instrument = e_bassGuitar;
+		}	else if (classicalRadio->isChecked()) {
+          emit instrumentChanged((int)e_classicalGuitar);
+          gl->instrument = e_classicalGuitar;
+    } else if (electricRadio->isChecked()) {
+          gl->instrument = e_electricGuitar;
+          emit instrumentChanged((int)e_electricGuitar);
 		}
 }
 

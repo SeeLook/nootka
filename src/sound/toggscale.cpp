@@ -339,7 +339,7 @@ void ToggScale::initTouch() {
       float newRate =  44100.0f / (float)m_sampleRate;
       m_touch->setRate(newRate);
     }
-    qDebug() << "SoundTouch sampleRate" << m_sampleRate << "pitch offset" << m_innerOffset + m_pitchOffset;
+//     qDebug() << "SoundTouch sampleRate" << m_sampleRate << "pitch offset" << m_innerOffset + m_pitchOffset;
     if (!m_touchConnected)
         connect(m_thread, SIGNAL(started()), this, SLOT(decodeAndResample()));
     m_touchConnected = true;
