@@ -30,12 +30,10 @@ TrtAudioAbstract::TrtAudioAbstract(TaudioParams* params) :
   sampleRate(44100)
 {
   setUseJACK(params->useJACK);
-  setUseASIO(params->useASIO);
 }
 
 /*static*/
 bool TrtAudioAbstract::m_useJACK = true;
-bool TrtAudioAbstract::m_useASIO = false;
 
 RtAudio* TrtAudioAbstract::getRtAudio() {
   RtAudio *rta;
@@ -45,10 +43,7 @@ RtAudio* TrtAudioAbstract::getRtAudio() {
     else
       rta = new RtAudio(RtAudio::LINUX_ALSA); // force ALSA
 #elif defined(Q_OS_WIN32)
-		if (m_useASIO)
-			rta = new RtAudio(RtAudio::WINDOWS_ASIO);
-		else
-			rta = new RtAudio(RtAudio::WINDOWS_DS);
+		rta = new RtAudio(RtAudio::WINDOWS_DS);
 #else
     rta = new RtAudio();
 #endif
@@ -114,12 +109,12 @@ bool TrtAudioAbstract::openStream(RtAudio::StreamParameters* outParams, RtAudio:
                                   void* userData, RtAudio::StreamOptions* options) {
   try {
     if (rtDevice && !rtDevice->isStreamOpen()) {
-       QString oo = "XX";
-       if (outParams)
-         oo = "out";
-       if (inParams)
-         oo = "in";
-       qDebug() << "openning stream" << oo ;
+//        QString oo = "XX";
+//        if (outParams)
+//          oo = "out";
+//        if (inParams)
+//          oo = "in";
+//        qDebug() << "openning stream" << oo ;
       rtDevice->openStream(outParams, inParams, frm, rate, buffFrames, callBack, userData, options);
     }
   }
@@ -135,7 +130,7 @@ bool TrtAudioAbstract::startStream() {
   try {
     if (rtDevice && !rtDevice->isStreamRunning())
       rtDevice->startStream();
-    qDebug("stream started");
+//     qDebug("stream started");
   }
   catch (RtError& e) {
     qDebug() << "can't start stream";

@@ -44,7 +44,9 @@ public:
 		
     void saveSettings();
 		void restoreDefaults();
-		bool isBass() { return m_isBass; }
+				/** Returns instrument currently selected. */
+		int currentInstrument() { return m_currentInstr; }
+		
 		
 		Tclef currentClef();
 				/** Returns lowest note  in current tune. */
@@ -73,7 +75,7 @@ private:
     TcolorButton    *m_pointColorBut, *m_selColorBut;
 		QGroupBox 			*m_tuneGroup, *m_guitarGroup, *m_accidGroup;
 		QLabel					*m_fretNrLab, *m_stringNrLab, *m_pointerColorLab, *m_selectColorLab;
-		bool						 m_isBass;
+		int							 m_currentInstr;
 
 private slots:
     void tuneSelected(int tuneId);

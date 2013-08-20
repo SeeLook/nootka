@@ -156,7 +156,6 @@ void TfirstRunWizzard::nextSlot() {
               gl->SnameStyleInKeySign = Tnote::e_italiano_Si;
             else
               gl->SnameStyleInKeySign = Tnote::e_nederl_Bis;
-        
         }
         else {
             gl->seventhIs_B = false;
@@ -170,12 +169,15 @@ void TfirstRunWizzard::nextSlot() {
         gl->showEnharmNotes = m_page3->enharmChB->isChecked();
         gl->SkeySignatureEnabled = m_page3->useKeyChB->isChecked();
 				if (gl->instrument == e_bassGuitar) {
-					gl->setTune(Ttune::bassTunes[0]);
-					gl->A->range = TaudioParams::e_low;
-					gl->Sclef = Tclef::e_bass_F_8down;
-					gl->A->midiEnabled = true;
-					gl->A->midiInstrNr = 33;
-				}
+            gl->setTune(Ttune::bassTunes[0]);
+            gl->A->range = TaudioParams::e_low;
+            gl->Sclef = Tclef::e_bass_F_8down;
+            gl->A->audioInstrNr = (int)e_bassGuitar;
+            gl->GfretsNumber = 20;
+				} else if (gl->instrument == e_electricGuitar) {
+            gl->A->audioInstrNr = (int)e_electricGuitar;
+            gl->GfretsNumber = 23;
+        }
         close();
         break;
     }
@@ -187,17 +189,11 @@ void TfirstRunWizzard::whenInstrumentChanged(int instr) {
 				m_notationNote->setHtml(QString("<center>%1<br>").
 				arg(TtipChart::wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F, TkeySignature(0), 5.0)) +
 				tr("To write notes for bass guitat the <b>bass clef</b> is used but played notes sound octave down. The propper clef is <b>bass dropped clef</b> (with \"eight\" digit below) where notes sound exactly as written and this clef is used in Nootka for bass guitar.") +
-					"<br><br>" + TtipChart::wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F_8down, TkeySignature(0), 8.0)	+ 
-				QString("<p style=\"background-color: rgba(255, 0, 0, 80);\">%1</p>").arg(bassForHelpText()));
+					"<br><br>" + TtipChart::wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F_8down, TkeySignature(0), 8.0));
 		else
 				m_notationNote->setHtml("<br><br><center>" + tr("Guitar notation uses treble clef with \"eight\" digit below (even if some editors are forgeting about this digit).<br><br>Try to understand this. <br><br><p> %1 %2<br><span style=\"font-size:20px;\">Both pictures above show the same note: c<sup>1</sup></span><br>(note c in one-line octave)</p>").
 				arg(TtipChart::wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G, TkeySignature(0), 6.0)).
 				arg(TtipChart::wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G_8down, TkeySignature(0), 6.0)) + "</center>");
-}
-
-
-QString TfirstRunWizzard::bassForHelpText() {
-		return "SUPPORT FOR BASS GUITAR IS UNDER CONSTRUCTION<br>Everything works but it has to be polished.<br>You also can help me to finish it:<br> - make a picture of bass (or electric) guitar body but without the strings<br> - prepare bass guitar sound samples.<br><br>NOW SOUND OUTPUT WORKS THROUGH MIDI ONLY.";
 }
 
 
@@ -211,7 +207,7 @@ TselectInstrument::TselectInstrument(QWidget* parent) :
 		whatLab->setAlignment(Qt::AlignCenter);
 		classicalRadio = new QRadioButton(instrumentToText(e_classicalGuitar), this);
 		electricRadio = new QRadioButton(instrumentToText(e_electricGuitar), this);
-		electricRadio->hide();
+// 		electricRadio->hide();
 		bassRadio = new QRadioButton(instrumentToText(e_bassGuitar), this);
 		otherRadio = new QRadioButton(instrumentToText(e_noInstrument), this);
 		otherRadio->hide();
@@ -244,17 +240,14 @@ TselectInstrument::TselectInstrument(QWidget* parent) :
 
 void TselectInstrument::buttonPressed(int butt) {
 		if (bassRadio->isChecked()) {
-			emit instrumentChanged((int)e_bassGuitar);
-			gl->instrument = e_bassGuitar;
-		}
-		else {
-			emit instrumentChanged((int)e_classicalGuitar);
-			if (classicalRadio->isChecked())
-				gl->instrument = e_classicalGuitar;
-			else if (electricRadio->isChecked())
-				gl->instrument = e_electricGuitar;
-			else
-				gl->instrument = e_noInstrument;
+          emit instrumentChanged((int)e_bassGuitar);
+          gl->instrument = e_bassGuitar;
+		}	else if (classicalRadio->isChecked()) {
+          emit instrumentChanged((int)e_classicalGuitar);
+          gl->instrument = e_classicalGuitar;
+    } else if (electricRadio->isChecked()) {
+          gl->instrument = e_electricGuitar;
+          emit instrumentChanged((int)e_electricGuitar);
 		}
 }
 

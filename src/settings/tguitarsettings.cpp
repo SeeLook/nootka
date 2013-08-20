@@ -21,14 +21,12 @@
 #include "ttune.h"
 #include "tglobals.h"
 #include "tsimplescore.h"
-#include <tfirstrunwizzard.h>
 #include <QtGui>
 
 
 
 extern Tglobals *gl;
 
-bool bassWarring = true;
 
 TguitarSettings::TguitarSettings(QWidget *parent) :
         QWidget(parent)
@@ -62,15 +60,15 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 	// Selecting guitar type combo
 		m_instrumentTypeCombo = new QComboBox(this);
 		guitarLay->addWidget(m_instrumentTypeCombo, 0, Qt::AlignCenter);
-		m_instrumentTypeCombo->addItem(tr("disabled"));
+		m_instrumentTypeCombo->addItem(tr("not used"));
 		QModelIndex in = m_instrumentTypeCombo->model()->index(0, 0);
 		QVariant v(0);
 		m_instrumentTypeCombo->model()->setData(in, v, Qt::UserRole - 1);
 		m_instrumentTypeCombo->addItem(instrumentToText(e_classicalGuitar));
 		m_instrumentTypeCombo->addItem(instrumentToText(e_electricGuitar));
-		in = m_instrumentTypeCombo->model()->index(2, 0);
-// 		QVariant v(0);
-		m_instrumentTypeCombo->model()->setData(in, v, Qt::UserRole - 1);
+// 		in = m_instrumentTypeCombo->model()->index(2, 0);
+// // 		QVariant v(0);
+// 		m_instrumentTypeCombo->model()->setData(in, v, Qt::UserRole - 1);
 		m_instrumentTypeCombo->addItem(instrumentToText(e_bassGuitar));
 		guitarLay->addStretch(1);
 	// Righthanded/lefthanded check box
@@ -151,7 +149,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 		instrumentTypeChanged(instrumentIndex);
 		setTune(gl->Gtune());
 		m_fretsNrSpin->setValue(gl->GfretsNumber);
-		m_isBass = false;
+		m_currentInstr = (int)gl->instrument;
 		if (gl->instrument != e_noInstrument) {
 				if (*gl->Gtune() == Ttune::stdTune)
 						m_tuneCombo->setCurrentIndex(0);
@@ -162,7 +160,6 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 								break;
 						}
 					} else if (gl->instrument == e_bassGuitar) {
-							m_isBass = true;
 							if (*gl->Gtune() == Ttune::bassTunes[i]) {
 								m_tuneCombo->setCurrentIndex(i);
 								break;
@@ -313,19 +310,21 @@ void TguitarSettings::stringNrChanged(int strNr) {
 
 void TguitarSettings::instrumentTypeChanged(int index) {
 	m_tuneCombo->clear();
-	m_isBass = false;
-	if ((Einstrument)index == e_classicalGuitar) {
-		m_tuneCombo->addItem(Ttune::stdTune.name);
-    for (int i = 0; i < 4; i++) {
-        m_tuneCombo->addItem(Ttune::tunes[i].name);
-    }
-    m_fretsNrSpin->setValue(19);
-		m_tuneView->setClef(Tclef(Tclef::e_treble_G_8down));
-		setTune(&Ttune::stdTune);
-		m_tuneCombo->setCurrentIndex(0);
-		m_stringNrSpin->setValue(Ttune::tunes[0].stringNr());
+	m_currentInstr = index;
+	if ((Einstrument)index == e_classicalGuitar || (Einstrument)index == e_electricGuitar) {
+			m_tuneCombo->addItem(Ttune::stdTune.name);
+			for (int i = 0; i < 4; i++) {
+					m_tuneCombo->addItem(Ttune::tunes[i].name);
+			}
+			if ((Einstrument)index == e_classicalGuitar)
+					m_fretsNrSpin->setValue(19);
+			else
+					m_fretsNrSpin->setValue(23);
+			m_tuneView->setClef(Tclef(Tclef::e_treble_G_8down));
+			setTune(&Ttune::stdTune);
+			m_tuneCombo->setCurrentIndex(0);
+			m_stringNrSpin->setValue(Ttune::tunes[0].stringNr());
 	} else if ((Einstrument)index == e_bassGuitar) { // bass guitar
-			m_isBass = true;
 			for (int i = 0; i < 4; i++) {
         m_tuneCombo->addItem(Ttune::bassTunes[i].name);
 			}
@@ -334,11 +333,8 @@ void TguitarSettings::instrumentTypeChanged(int index) {
 			setTune(&Ttune::bassTunes[0]);
 			m_tuneCombo->setCurrentIndex(0);
 			m_stringNrSpin->setValue(Ttune::bassTunes[0].stringNr());
-			if (bassWarring)
-				QMessageBox::warning(this, "", TfirstRunWizzard::bassForHelpText());
-			bassWarring = false;
 	} else {
-		guitarDisabled(true);
+			guitarDisabled(true);
 	}
 	if ((Einstrument)index != e_noInstrument) {
 		if (!m_accidGroup->isEnabled())

@@ -45,7 +45,6 @@ public:
 	
 	
   bool useJACK; // TRUE - prefer JACK over ALSA or PulseAudio, FALSE - take PA (if available) or ALSA
-  bool useASIO; // TRUE - prefer ASIO over DirectSound - this is default
 // audio input settings
   bool INenabled; // is audio input enabled
   QString INdevName; // input device name
@@ -63,6 +62,7 @@ public:
   bool midiEnabled; // default false
   QString midiPortName; // default empty to find system default
   unsigned char midiInstrNr; // default 0 - grand piano
+  int audioInstrNr; // coresponds with Einstrument enum numbers, default 1 classical guitar
 };
 
 

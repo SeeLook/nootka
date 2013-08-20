@@ -96,18 +96,13 @@ void TsettingsDialog::saveSettings() {
 				else
 						gl->A->range = TaudioParams::e_middle;
 				/** Infact, even trable clef requires middle scale, so high scale is ignored here*/
+				gl->A->audioInstrNr = m_guitarSett->currentInstrument();
 			}
 	}
   if (m_examSett)
 			m_examSett->saveSettings();
   if (m_sndOutSett) // if audio outsettings was created
 			m_sndOutSett->saveSettings(); // respect user settings
-	else { // adjust them for bass guitar - MIDI
-			if (gl->instrument == e_bassGuitar) {
-					gl->A->midiEnabled = true;
-					gl->A->midiInstrNr = 33;
-			}
-	}
   if (m_sndInSett)
 				m_sndInSett->saveSettings();
 	if (m_7thNoteToDefaults) {
@@ -127,14 +122,6 @@ void TsettingsDialog::saveSettings() {
 #if defined(__UNIX_JACK__)
 	if (m_audioSettingsPage)
 			gl->A->useJACK = m_jackChBox->isChecked();
-#endif
-#if defined(Q_OS_WIN)
-  if (m_audioSettingsPage) {
-    if (m_ASIORadio->isChecked())
-      gl->A->useASIO = true;
-    else
-      gl->A->useASIO = false;
-  }
 #endif
 }
 
@@ -160,9 +147,6 @@ void TsettingsDialog::restoreDefaults() {
 				#if defined(__UNIX_JACK__)
 						m_jackChBox->setChecked(false);
 				#endif
-        #if defined(Q_OS_WIN)
-            m_ASIORadio->setChecked(true);
-        #endif
 		}
 }
 
@@ -245,10 +229,7 @@ void TsettingsDialog::changeSettingsWidget(int index) {
 				if (m_guitarSett) { // update pitches range according to guitar settings state
 					connect(m_guitarSett, SIGNAL(lowestNoteChanged(Tnote)), m_sndInSett, SLOT(whenLowestNoteChanges(Tnote)));
 					m_sndInSett->whenLowestNoteChanges(m_guitarSett->lowestNote());
-					if (m_guitarSett->isBass())
-						m_sndOutSett->whenInstrumentChanged((int)e_bassGuitar);
-					else
-						m_sndOutSett->whenInstrumentChanged((int)e_classicalGuitar);
+					m_sndOutSett->whenInstrumentChanged(m_guitarSett->currentInstrument());
 					connect(m_guitarSett, SIGNAL(instrumentChanged(int)), m_sndOutSett, SLOT(whenInstrumentChanged(int)));
 				}
       }
@@ -274,26 +255,6 @@ void TsettingsDialog::createAudioPage() {
     m_jackChBox->setStatusTip("Uses JACK if it is run or other sound backend if not.<br>EXPERIMENTAL and not tested.<br>Let me know when you will get this working.");
     connect(m_jackChBox, SIGNAL(toggled(bool)), this, SLOT(changeAudioAPI()));
 #endif
-#if defined(Q_OS_WIN)
-		m_DirectSoundRadio = new QRadioButton(tr("use DirectSound", "... but do not translate DirectSound"), this);
-		m_ASIORadio = new QRadioButton(tr("use ASIO"), this);
-		QHBoxLayout *winSndLay = new QHBoxLayout;
-		winSndLay->addStretch();
-		winSndLay->addWidget(m_DirectSoundRadio);
-		winSndLay->addStretch();
-		winSndLay->addWidget(m_ASIORadio);
-		winSndLay->addStretch();
-		QButtonGroup *DSorASIOgr = new QButtonGroup(this);
-		DSorASIOgr->addButton(m_DirectSoundRadio);
-		DSorASIOgr->addButton(m_ASIORadio);
-		audioLay->addLayout(winSndLay);
-		if (gl->A->useASIO)
-			m_ASIORadio->setChecked(true);
-		else
-			m_DirectSoundRadio->setChecked(true);
-		connect(m_DirectSoundRadio, SIGNAL(clicked(bool)), this, SLOT(changeAudioAPI()));
-		connect(m_ASIORadio, SIGNAL(clicked(bool)), this, SLOT(changeAudioAPI()));
-#endif
     m_audioTab->addTab(m_sndInSett, tr("listening"));
     m_audioTab->addTab(m_sndOutSett, tr("playing"));
     m_audioSettingsPage->setLayout(audioLay);
@@ -305,17 +266,9 @@ void TsettingsDialog::changeAudioAPI() {
 #if defined(__UNIX_JACK__)
   TrtAudioAbstract::setUseJACK(m_jackChBox->isChecked());
   TmidiOut::setUseJack(m_jackChBox->isChecked());
-//   m_sndInSett->setDevicesCombo();
-//   m_sndOutSett->setDevicesCombo();
-#endif
-#if defined(Q_OS_WIN32)
-	if (m_ASIORadio->isChecked())
-		TrtAudioAbstract::setUseASIO(true);
-	else
-		TrtAudioAbstract::setUseASIO(false);
-#endif
-	m_sndInSett->setDevicesCombo();
+  m_sndInSett->setDevicesCombo();
   m_sndOutSett->setDevicesCombo();
+#endif
 }
 
 
