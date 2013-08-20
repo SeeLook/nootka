@@ -38,7 +38,6 @@ class TfirstRunWizzard : public QDialog
 public:
     explicit TfirstRunWizzard(QWidget *parent = 0);
     static QString nextText() { return tr("next"); }
-    static QString bassForHelpText();
 
 signals:
 

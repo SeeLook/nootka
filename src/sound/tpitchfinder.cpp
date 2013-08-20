@@ -215,7 +215,7 @@ void TpitchFinder::run() {
 // 										qDebug() << data->noteIndex << data->pitch << curNote->noteLength() << curNote->volume();
 										if (curNote->noteLength() >= m_minDuration) {
                       m_prevNoteIndex = data->noteIndex; 
-											qDebug() << data->noteIndex << data->pitch << curNote->noteLength() << curNote->volume() << m_minDuration;
+// 											qDebug() << data->noteIndex << data->pitch << curNote->noteLength() << curNote->volume() << m_minDuration;
 // 											qDebug() << curNote->avgPitch() << aGl()->loPitch << aGl()->topPitch;
                       emit found(/*data->pitch*/curNote->avgPitch(), data->fundamentalFreq);
 										}

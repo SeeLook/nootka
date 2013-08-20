@@ -18,11 +18,12 @@
 
 
 #include "toggscale.h"
+#include "tinstrument.h"
 #include <QFile>
 #include <QDataStream>
 #include <QDebug>
 #include <QThread>
-// #include <stdlib.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 
@@ -84,7 +85,7 @@ long int ToggScale::tellOggStatic(void* fh) {
 
 ToggScale::ToggScale(QString& path) :
   QObject(),
-  m_oggFileName(path + "sounds/classical-guitar.ogg"),
+  m_oggPath(path + "/sounds/"),
   m_oggInMemory(0),
   m_pcmBuffer(0),
   m_thread(new QThread),
@@ -92,8 +93,9 @@ ToggScale::ToggScale(QString& path) :
   m_prevNote(-1),
   m_doDecode(true), m_isDecoding(false), m_isReady(true),
   m_touch(0),
-  m_pitchOffset(0.0f),
-  m_oggConnected(false), m_touchConnected(false)
+  m_pitchOffset(0.0f), m_innerOffset(0.0),
+  m_oggConnected(false), m_touchConnected(false),
+  m_instrument(-1)
 {
 //   initTouch();
   moveToThread(m_thread);
@@ -136,13 +138,27 @@ qint16 ToggScale::getSample(int offset) {
 void ToggScale::setNote(int noteNr) {
   if (noteNr == m_prevNote)
     return;
+	int baseNote = noteNr;
   m_isReady = false;
+	if (noteNr < m_firstNote || noteNr > m_lastNote) { // prepare SoundTouch
+		if (noteNr < m_firstNote) {
+				baseNote = m_firstNote;
+				m_innerOffset = noteNr - m_firstNote;
+		} else if (noteNr > m_lastNote) {
+				baseNote = m_lastNote;
+				m_innerOffset = noteNr - m_lastNote;
+		}		
+	} else
+			m_innerOffset = 0.0;
+	initTouch(); // TODO; do not create/delete soundtouch for every sound
   int fasterOffset = 1000;
-  if (noteNr + 11 == 0)
-    fasterOffset = 0;
+//   if (noteNr + 11 == 0)
+	if (baseNote - m_firstNote == 0)
+			fasterOffset = 0;
   stopDecoding();
   m_prevNote = noteNr;
-  int ret = ov_pcm_seek(&m_ogg, (noteNr + 11) * 44100 * 2 - fasterOffset);
+//   int ret = ov_pcm_seek(&m_ogg, (noteNr + 11) * 44100 * 2 - fasterOffset);
+	int ret = ov_pcm_seek(&m_ogg, (baseNote - m_firstNote) * 44100 * 2 - fasterOffset);
   m_thread->start();
 }
 
@@ -164,15 +180,36 @@ void ToggScale::setPitchOffset(float pitchOff) {
 
 
 
-bool ToggScale::loadAudioData() {
-  if (m_oggInMemory)
-    return true;
-  QFile oggFile(m_oggFileName);
+bool ToggScale::loadAudioData(int instrument) {
+	QString fileName;
+	if (instrument != m_instrument) {
+		switch ((Einstrument)instrument) {
+			case e_classicalGuitar:
+				fileName = "classical-guitar.ogg"; 
+				m_firstNote = -11; m_lastNote = 41;
+				break;
+			case e_electricGuitar:
+				fileName = "electric-guitar.ogg"; 
+				m_firstNote = 13; m_lastNote = 13;
+				break;
+			case e_bassGuitar:
+				fileName = "bass-guitar.ogg"; 
+				m_firstNote = -24; m_lastNote = 21;
+				break;
+		}
+	} else
+			return true;
+	
+//   if (m_oggInMemory)
+//     return true;
+  QFile oggFile(m_oggPath + fileName);
   if (!oggFile.exists())
       return false;
   
   oggFile.open(QIODevice::ReadOnly);
   QDataStream oggStream(&oggFile);
+	if (m_oggInMemory)
+			delete m_oggInMemory;
   m_oggInMemory = new qint8[oggFile.size()];
   oggStream.readRawData((char*)m_oggInMemory, oggFile.size());
   
@@ -182,6 +219,9 @@ bool ToggScale::loadAudioData() {
   m_oggWrap.fileSize = oggFile.size();
   
   oggFile.close();
+	
+	if (m_pcmBuffer)
+			delete m_pcmBuffer;
   m_pcmBuffer = new qint16[2 * m_sampleRate];
   myCallBacks.read_func = readOggStatic;
   myCallBacks.seek_func = seekOggStatic;
@@ -203,7 +243,7 @@ bool ToggScale::loadAudioData() {
 //       fprintf(stderr,"%s\n",*ptr);
 //       ++ptr;
 //     }  
-//   
+  
   return true;  
 }
 
@@ -289,32 +329,32 @@ void ToggScale::decodeAndResample() {
 //###########################################################################
 
 void ToggScale::initTouch() {
-  if (m_pitchOffset != 0.0 || m_sampleRate != 44100) { // SoundTouch has got a job
+  if (m_innerOffset != 0.0 || m_pitchOffset != 0.0 || m_sampleRate != 44100) { // SoundTouch has got a job
     if (!m_touch)
       m_touch = new soundtouch::SoundTouch();
     m_touch->setChannels(1);
     m_touch->setSampleRate(44100);
-    m_touch->setPitchSemiTones(m_pitchOffset);
+    m_touch->setPitchSemiTones(m_innerOffset + m_pitchOffset);
     if (m_sampleRate != 44100) {
       float newRate =  44100.0f / (float)m_sampleRate;
       m_touch->setRate(newRate);
     }
-    qDebug() << "SoundTouch sampleRate" << m_sampleRate << "pitch offset" << m_pitchOffset;
+//     qDebug() << "SoundTouch sampleRate" << m_sampleRate << "pitch offset" << m_innerOffset + m_pitchOffset;
     if (!m_touchConnected)
         connect(m_thread, SIGNAL(started()), this, SLOT(decodeAndResample()));
     m_touchConnected = true;
     if (m_oggConnected)
-      disconnect(m_thread, SIGNAL(started()), this, SLOT(decodeOgg()));
+				disconnect(m_thread, SIGNAL(started()), this, SLOT(decodeOgg()));
     m_oggConnected = false;
   } else {
-    delete m_touch;
-    m_touch = 0;
-    if (!m_oggConnected)
-      connect(m_thread, SIGNAL(started()), this, SLOT(decodeOgg()));
-    m_oggConnected = true;
-    if (m_touchConnected)
-      disconnect(m_thread, SIGNAL(started()), this, SLOT(decodeAndResample()));
-    m_touchConnected = false;
+			delete m_touch;
+			m_touch = 0;
+			if (!m_oggConnected)
+					connect(m_thread, SIGNAL(started()), this, SLOT(decodeOgg()));
+			m_oggConnected = true;
+			if (m_touchConnected)
+					disconnect(m_thread, SIGNAL(started()), this, SLOT(decodeAndResample()));
+			m_touchConnected = false;
   }
 }
 

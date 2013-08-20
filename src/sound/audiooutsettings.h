@@ -60,9 +60,9 @@ public slots:
 private:
 	void addInstrument(QString name, unsigned char midiNr);
 
-  QGroupBox *audioOutEnableGr, *realAGr, *midiGr;
-  QComboBox *audioOutDevListCombo, *midiPortsCombo, *midiInstrCombo;
-  QRadioButton *midiRadioButt, *audioRadioButt;
+  QGroupBox *m_audioOutEnableGr, *m_realAGr, *m_midiGr;
+  QComboBox *m_audioOutDevListCombo, *m_audioInstrCombo ,*m_midiPortsCombo, *m_midiInstrCombo;
+  QRadioButton *m_midiRadioButt, *m_audioRadioButt;
   TaudioParams *m_params;
   bool m_listGenerated;
 	
