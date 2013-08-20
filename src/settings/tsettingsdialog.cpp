@@ -96,18 +96,13 @@ void TsettingsDialog::saveSettings() {
 				else
 						gl->A->range = TaudioParams::e_middle;
 				/** Infact, even trable clef requires middle scale, so high scale is ignored here*/
+				gl->A->audioInstrNr = m_guitarSett->currentInstrument();
 			}
 	}
   if (m_examSett)
 			m_examSett->saveSettings();
   if (m_sndOutSett) // if audio outsettings was created
 			m_sndOutSett->saveSettings(); // respect user settings
-	else { // adjust them for bass guitar - MIDI
-			if (gl->instrument == e_bassGuitar) {
-					gl->A->midiEnabled = true;
-					gl->A->midiInstrNr = 33;
-			}
-	}
   if (m_sndInSett)
 				m_sndInSett->saveSettings();
 	if (m_7thNoteToDefaults) {
@@ -234,10 +229,7 @@ void TsettingsDialog::changeSettingsWidget(int index) {
 				if (m_guitarSett) { // update pitches range according to guitar settings state
 					connect(m_guitarSett, SIGNAL(lowestNoteChanged(Tnote)), m_sndInSett, SLOT(whenLowestNoteChanges(Tnote)));
 					m_sndInSett->whenLowestNoteChanges(m_guitarSett->lowestNote());
-					if (m_guitarSett->isBass())
-						m_sndOutSett->whenInstrumentChanged((int)e_bassGuitar);
-					else
-						m_sndOutSett->whenInstrumentChanged((int)e_classicalGuitar);
+					m_sndOutSett->whenInstrumentChanged(m_guitarSett->currentInstrument());
 					connect(m_guitarSett, SIGNAL(instrumentChanged(int)), m_sndOutSett, SLOT(whenInstrumentChanged(int)));
 				}
       }

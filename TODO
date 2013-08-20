@@ -4,8 +4,10 @@ urgent:
 - clef menu doesn't disappear after mouse leave under win
 - clef menu position is wrong in some Qt styles
 - add link to wiki about octaves on octave buttons
+- non classical guitars look
+- decreseing strings number works only after resize guitar
 
-
+- check intonation in exams
 - keep exam file in /tmp and restore it when crash or so
 - splash screen
 - add notifications
@@ -21,7 +23,6 @@ TGLOBALS & TTUNE
 
 
 SETTINGS DIALOG
-	
 	- avoid a size biger than screen resolution
 
       

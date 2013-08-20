@@ -121,8 +121,9 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
 #if defined(__UNIX_JACK__)
   setUseJACK(params->useJACK);
 #endif
+	playable = oggScale->loadAudioData(params->audioInstrNr);
   if (deviceName != params->OUTdevName || !rtDevice) {
-    playable = oggScale->loadAudioData();
+//     playable = oggScale->loadAudioData(params->audioInstrNr);
     if (playable && setAudioDevice(params->OUTdevName))
         playable = true;
     else
@@ -130,6 +131,7 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
   }
   oggScale->setPitchOffset(audioParams->a440diff);
 }
+
 
 bool TaudioOUT::setAudioDevice(QString &name) {
   if (rtDevice)
@@ -211,9 +213,10 @@ bool TaudioOUT::play(int noteNr) {
       offTimer->stop();
   
   noteNr = noteNr + int(audioParams->a440diff);
-  if (noteNr < -11 || noteNr > 41)
-      return false;
-  
+	qDebug() << "noteNr" << noteNr;
+//   if (noteNr < -11 || noteNr > 41)
+//       return false;
+//   
   openStream(&streamParams, NULL, RTAUDIO_SINT16, sampleRate * ratioOfRate, &m_bufferFrames, &outCallBack, 0, streamOptions);
   
   doEmit = true;
