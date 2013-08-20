@@ -213,7 +213,7 @@ bool TaudioOUT::play(int noteNr) {
       offTimer->stop();
   
   noteNr = noteNr + int(audioParams->a440diff);
-	qDebug() << "noteNr" << noteNr;
+// 	qDebug() << "noteNr" << noteNr;
 //   if (noteNr < -11 || noteNr > 41)
 //       return false;
 //   
