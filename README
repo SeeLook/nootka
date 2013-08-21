@@ -7,10 +7,10 @@
 ##########################################################
 - Qt libraries (at least 4.7 version)
 - Ogg Vorbis (http://www.xiph.org/downloads/) 
-  both ogg and vorbis. Libraries are on a site in vorbis-tools 
-  and headers are in libogg and libvorbis.
+  both ogg and vorbis. Dll libraries are on this site in vorbis-tools 
+  and headers are in libogg and libvorbis archives.
   Under Linux libvorbis-dev & libogg-dev (or similar)
-- under Linux 
+- under Linux only
   SoundTouch library (http://www.surina.net/soundtouch/)
   (libsoundtouch and libsoundtouch-dev)
 - FFTW libraries (http://www.fftw.org/)
@@ -20,10 +20,11 @@
 ##########################################################
 ###############    Building                  #############
 ##########################################################
-- Unpack tarball
+- Unpack Nootka tarball
 - go into unpacked directory
 - create some dir (f. e. "build")
 - go to build dir
+  ---------------------------------------------------------------------------------------------------------
 - cmake ../ (or ccmake or qtcmake with GUI)
   if You get error about not found libfftw or libvorbis
   put it manually:
@@ -38,22 +39,38 @@
     so You can invoke:
       cmake -DCMAKE_INSTALL_PREFIX=/my/special/dir ../
       or do the same in GUI
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    NOTE for Windows buid:
+    If You put unpacked archives of fftw and ogg-vorbis in the same location where build dir is, just
+    next to it, and you remove the versions numbers from their names, to have:
+    libogg, libvorbis, fftw and vorbis-tools
+    cmake will find all of them automagicaly.
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  ---------------------------------------------------------------------------------------------------------
 - There is an option for building Nootka with checking for new versions
+  ---------------------------------------------------------------------------------------------------------
 - Also under Linux are options to build Nootka with native support for:
    - Jack Audio Connection Kit support (requires libjack-dev)
    - PulseAudio (requires libpulse-dev)
     When those headers/libs are found - options are selected automaticaly
     They can be controled by:
 	  -DENABLE_JACK=OFF -DENABLE_PULSEAUDIO=OFF (OFF or ON)
+	---------------------------------------------------------------------------------------------------------
 - then call
   make 
   or 
   make -j[number of CPU cores], f.e.: make -j4
+  ---------------------------------------------------------------------------------------------------------
+- If you want lunch Nootka without installing - in a place where it is compiled
+	call
+		make noinstall
+		it will copy or link all necessary staff next to builded executable
+  ---------------------------------------------------------------------------------------------------------
 - make install (usually as root)
   alternatively You can invoke 
      make install DESTDIR=/Your/Dir
   and push the instalation wherever You want (similary to -DCMAKE_INSTALL_PREFIX)
-
+  ---------------------------------------------------------------------------------------------------------
 to remove (uninstall)
 - make uninstall (usually as root)
 

@@ -257,7 +257,8 @@ TclefMenu::TclefMenu(QMenu* parent) :
 
 
 Tclef TclefMenu::exec(QPoint pos) {
-		m_menu->exec(pos);
+		m_menu->move(pos); // It works everywhere (Qt style)
+		m_menu->exec(); // in contrary to exec(pos) 
 		return m_curentClef;
 }
 

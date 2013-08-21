@@ -1,16 +1,18 @@
 Plan for the Nootka One
 
 urgent:
-- clef menu doesn't disappear after mouse leave under win
+- clef menu doesn't disappear after mouse leave under Windows
 - clef menu position is wrong in some Qt styles
 - add link to wiki about octaves on octave buttons
-- non classical guitars look
+- non classical guitars look, 0 fret, body
 - decreseing strings number works only after resize guitar
+- not all TscoreNote are locked after settings/clef change
+- make order with jack
 
 - check intonation in exams
 - keep exam file in /tmp and restore it when crash or so
 - splash screen
-- add notifications
+- add sound notifications
 - finish exam tip
 
 - positions and look of frets numbers and key names in charts
