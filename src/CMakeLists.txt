@@ -168,9 +168,9 @@ SET( NOOTKA_SRCS
   charts/ttiphandler.cpp
   )
   
-if(MINGW)
-  LIST(APPEND NOOTKA_SRCS "sound/rt/asio.cpp"  "sound/rt/asiodrivers.cpp"  "sound/rt/asiolist.cpp"  "sound/rt/iasiothiscallresolver.cpp")
-endif(MINGW)
+# if(MINGW)
+#   LIST(APPEND NOOTKA_SRCS "sound/rt/asio.cpp"  "sound/rt/asiodrivers.cpp"  "sound/rt/asiolist.cpp"  "sound/rt/iasiothiscallresolver.cpp")
+# endif(MINGW)
 
 if(APPLE OR MINGW) # SoundTouch
   LIST(APPEND NOOTKA_SRCS "sound/stouch/SoundTouch.cpp" "sound/stouch/TDStretch.cpp" "sound/stouch/RateTransposer.cpp"
