@@ -1,6 +1,13 @@
+0.8.95 beta
+     - Nootka can play natural bass and electric guitar sounds
      - pitch detection improvements - minimal note duration is configurable
-     - compiling under Windows is simpler now, possible launching without install
+     - compiling under Windows is simpler now
+     - possible launching without installation
+    BUGS FIXES
+     - fixed crashes related with DirectSound under Windows
+     - many small bugs were repaired
 
+0.8.89 prebeta (not so official release)
      - added support for bass guitars
      - strings number can be changed, width depends on their pitch
      - added possibility to display notes on grand stave

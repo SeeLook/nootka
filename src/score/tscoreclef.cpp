@@ -25,7 +25,6 @@
 #include <QApplication>
 #include <QPalette>
 #include <QGraphicsView>
-// #include <unistd.h>
 // #include <QDebug>
 
 /*static*/

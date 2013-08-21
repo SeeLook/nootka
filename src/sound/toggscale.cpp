@@ -190,7 +190,7 @@ bool ToggScale::loadAudioData(int instrument) {
 				break;
 			case e_electricGuitar:
 				fileName = "electric-guitar.ogg"; 
-				m_firstNote = 13; m_lastNote = 13;
+				m_firstNote = -11; m_lastNote = 41;
 				break;
 			case e_bassGuitar:
 				fileName = "bass-guitar.ogg"; 
