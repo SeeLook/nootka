@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "Nootka"
-!define PRODUCT_VERSION "0.8.89-prebeta"
+!define PRODUCT_VERSION "0.8.92-prebeta"
 !define PRODUCT_PUBLISHER "Nootka"
 !define PRODUCT_WEB_SITE "http://nootka.sf.net"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\nootka.exe"
@@ -25,6 +25,10 @@ SetCompressor lzma
 !define MUI_LANGDLL_REGISTRY_VALUENAME "NSIS:Language"
 !define MUI_LANGDLL_ALLLANGUAGES
 
+; Image
+!define MUI_HEADERIMAGE
+!define MUI_HEADERIMAGE_BITMAP "$INSTDIR\logo.bmp"
+!define MUI_HEADERIMAGE_RIGHT
 
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
@@ -120,6 +124,7 @@ Section "GrupaGlowna" SEC01
   File "lang\nootka_fr.qm"
   File "lang\qt_cs.qm"
   File "lang\qt_pl.qm"
+  File "lang\qt_ru.qm"
   File "lang\qt_fr.qm"
   SetOutPath "$INSTDIR\picts"
   File "picts\accidSettings.png"
@@ -171,6 +176,8 @@ Section "GrupaGlowna" SEC01
   File "picts\systemsettings.png"
   SetOutPath "$INSTDIR\sounds"
   File "sounds\classical-guitar.ogg"
+  File "sounds\electric-guitar.ogg"
+  File "sounds\bass-guitar.ogg"
 SectionEnd
 
 Section -AdditionalIcons
@@ -212,6 +219,8 @@ Section Uninstall
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
   Delete "$INSTDIR\sounds\classical-guitar.ogg"
+  Delete "$INSTDIR\sounds\electric-guitar.ogg"
+  Delete "$INSTDIR\sounds\bass-guitar.ogg"
   Delete "$INSTDIR\picts\systemsettings.png"
   Delete "$INSTDIR\picts\support.png"
   Delete "$INSTDIR\picts\stopExam.png"
@@ -265,6 +274,7 @@ Section Uninstall
   Delete "$INSTDIR\lang\qt_pl.qm"
   Delete "$INSTDIR\lang\qt_cs.qm"
   Delete "$INSTDIR\lang\qt_fr.qm"
+  Delete "$INSTDIR\lang\qt_ru.qm"
   Delete "$INSTDIR\fonts\nootka.ttf"
   Delete "$INSTDIR\fonts\README"
 ;  Delete "$INSTDIR\SoundTouch.dll"

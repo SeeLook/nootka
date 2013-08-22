@@ -141,6 +141,7 @@ void AudioOutSettings::setDevicesCombo() {
         int id = m_audioOutDevListCombo->findText(m_params->OUTdevName);
         if (id != -1)
             m_audioOutDevListCombo->setCurrentIndex(id);
+				m_audioOutDevListCombo->setDisabled(false);
     } else {
         m_audioOutDevListCombo->addItem(tr("no devices found"));
         m_audioOutDevListCombo->setDisabled(true);
@@ -149,7 +150,8 @@ void AudioOutSettings::setDevicesCombo() {
       if (m_midiPortsCombo->count()) {
         int id = m_midiPortsCombo->findText(m_params->midiPortName);
         if (id != -1)
-          m_midiPortsCombo->setCurrentIndex(id);    
+          m_midiPortsCombo->setCurrentIndex(id);
+				m_midiPortsCombo->setDisabled(false);
       } else {
         m_midiPortsCombo->addItem(tr("no midi ports"));
         m_midiPortsCombo->setDisabled(true);
