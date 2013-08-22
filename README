@@ -43,7 +43,7 @@
     NOTE for Windows buid:
     If You put unpacked archives of fftw and ogg-vorbis in the same location where build dir is, just
     next to it, and you remove the versions numbers from their names, to have:
-    libogg, libvorbis, fftw and vorbis-tools
+    libogg, libvorbis, fftw and vorbis-tools dirs,
     cmake will find all of them automagicaly.
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   ---------------------------------------------------------------------------------------------------------
@@ -61,7 +61,7 @@
   or 
   make -j[number of CPU cores], f.e.: make -j4
   ---------------------------------------------------------------------------------------------------------
-- If you want lunch Nootka without installing - in a place where it is compiled
+- If you want to launch Nootka without installing - in a place where it is compiled
 	call
 		make noinstall
 		it will copy or link all necessary staff next to builded executable

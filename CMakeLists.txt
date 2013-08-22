@@ -105,18 +105,18 @@ ELSE(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
       /usr/local/include
       /opt/local/include
       /sw/include
-      "${CMAKE_CURRENT_SOURCE_DIR}/fftw"
+      ${CMAKE_CURRENT_SOURCE_DIR}/fftw
       ${CMAKE_CURRENT_BINARY_DIR}/fftw
-	  ${CMAKE_CURRENT_BINARY_DIR}/../fftw
+			${CMAKE_CURRENT_BINARY_DIR}/../fftw
   )
   IF(WIN32)
     find_library(FFTW3_LIBRARY
       NAMES
         libfftw3f-3.dll
       PATHS
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        ${CMAKE_CURRENT_BINARY_DIR}
-		${CMAKE_CURRENT_BINARY_DIR}/../fftw
+        ${CMAKE_CURRENT_SOURCE_DIR}/fftw
+        ${CMAKE_CURRENT_BINARY_DIR}/fftw
+				${CMAKE_CURRENT_BINARY_DIR}/../fftw
     )
   ELSE(WIN32)
     find_library(FFTW3_LIBRARY
@@ -170,9 +170,9 @@ ELSE(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
       /usr/local/include
       /opt/local/include
       /sw/include
-      ${CMAKE_CURRENT_SOURCE_DIR}
-      ${CMAKE_CURRENT_BINARY_DIR}
-	  ${CMAKE_CURRENT_BINARY_DIR}/../libvorbis/include
+      ${CMAKE_CURRENT_SOURCE_DIR}/libvorbis/include
+      ${CMAKE_CURRENT_BINARY_DIR}/libvorbis/include
+			${CMAKE_CURRENT_BINARY_DIR}/../libvorbis/include
   )
   find_path(OGG_INCLUDE_DIR
     NAMES
@@ -182,18 +182,18 @@ ELSE(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
       /usr/local/include
       /opt/local/include
       /sw/include
-      ${CMAKE_CURRENT_SOURCE_DIR}
-      ${CMAKE_CURRENT_BINARY_DIR}
-	  ${CMAKE_CURRENT_BINARY_DIR}/../libogg/include
+      ${CMAKE_CURRENT_SOURCE_DIR}/libogg/include
+      ${CMAKE_CURRENT_BINARY_DIR}/libogg/include
+			${CMAKE_CURRENT_BINARY_DIR}/../libogg/include
   )
   IF(WIN32)
     find_library(VORBIS_LIBRARY
       NAMES
         libvorbisfile.dll
       PATHS
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        ${CMAKE_CURRENT_BINARY_DIR}
-		${CMAKE_CURRENT_BINARY_DIR}/../vorbis-tools
+        ${CMAKE_CURRENT_SOURCE_DIR}/vorbis-tools
+        ${CMAKE_CURRENT_BINARY_DIR}/vorbis-tools
+				${CMAKE_CURRENT_BINARY_DIR}/../vorbis-tools
     )
   ELSE(WIN32)
     find_library(VORBIS_LIBRARY
@@ -258,7 +258,7 @@ if (UNIX AND NOT APPLE)
             /opt/local/lib
             /sw/lib
             ${CMAKE_CURRENT_BINARY_DIR}
-          ${CMAKE_CURRENT_SOURCE_DIR}
+						${CMAKE_CURRENT_SOURCE_DIR}
     )
 
     set(SOUNDTOUCH_INCLUDE_DIRS
@@ -362,14 +362,15 @@ INSTALL(FILES ${ICONS_PNG} DESTINATION "${INS_PREF}/picts")
 INSTALL(DIRECTORY fonts DESTINATION "${INS_PREF}")
 FILE(GLOB langs "${CMAKE_CURRENT_SOURCE_DIR}/lang/*.qm")
 if(APPLE OR WIN32)
-  LIST(APPEND langs "${QT_TRANSLATIONS_DIR}/qt_cs.qm" "${QT_TRANSLATIONS_DIR}/qt_fr.qm" "${QT_TRANSLATIONS_DIR}/qt_pl.qm" )
+  LIST(APPEND langs "${QT_TRANSLATIONS_DIR}/qt_cs.qm" "${QT_TRANSLATIONS_DIR}/qt_fr.qm" "${QT_TRANSLATIONS_DIR}/qt_pl.qm" "${QT_TRANSLATIONS_DIR}/qt_ru.qm" )
 endif(APPLE OR WIN32)
 INSTALL(FILES ${langs} DESTINATION "${INS_PREF}/lang")
-FILE(GLOB snds "${CMAKE_CURRENT_SOURCE_DIR}/sounds/classical-guitar.ogg")
+FILE(GLOB snds "${CMAKE_CURRENT_SOURCE_DIR}/sounds/*-guitar.ogg")
 INSTALL(FILES ${snds} DESTINATION "${INS_PREF}/sounds")
 
 if(NOT UNIX) # Windows icons
   INSTALL(FILES picts/nootka-exam.ico picts/nootka.ico picts/nootka-icon.rc picts/nootka-levels.ico picts/pack.ico picts/nootka.rc DESTINATION "${INS_PREF}/picts") #ico for windows
+  INSTALL(FILES picts/logo.bmp DESTINATION "${INS_PREF}") # logo for installer
   INSTALL(FILES packaging/nsis/nootka-1250.nsi packaging/nsis/fileasoc.nsh DESTINATION "${INS_PREF}" )
 endif(NOT UNIX)
 
@@ -387,7 +388,6 @@ if(UNIX AND NOT APPLE)
       execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/make-chlog.sh ${Nootka_VERSION_FULL} ${CMAKE_CURRENT_BINARY_DIR}/doc/changelog ${CMAKE_CURRENT_SOURCE_DIR})
 	" )
   if (DPKG_CMD) # Debian changelog
-#       message(STATUS "Debian changelog OK")
       INSTALL(FILES "${CMAKE_CURRENT_BINARY_DIR}/doc/changelog.Debian.gz" DESTINATION share/doc/nootka)
   endif (DPKG_CMD)
 	INSTALL(FILES copyright DESTINATION share/doc/nootka)

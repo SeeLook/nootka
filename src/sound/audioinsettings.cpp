@@ -340,6 +340,7 @@ void AudioInSettings::setDevicesCombo() {
         int id = inDeviceCombo->findText(m_glParams->INdevName);
         if (id != -1)
             inDeviceCombo->setCurrentIndex(id);
+				inDeviceCombo->setDisabled(false);
     } else {
         inDeviceCombo->addItem(tr("no devices found"));
         inDeviceCombo->setDisabled(true);

@@ -2,12 +2,15 @@ Plan for the Nootka One
 
 urgent:
 - clef menu doesn't disappear after mouse leave under Windows
-- clef menu position is wrong in some Qt styles
-- add link to wiki about octaves on octave buttons
+- position of the hints during exam has to be adjusted
 - non classical guitars look, 0 fret, body
-- decreseing strings number works only after resize guitar
-- not all TscoreNote are locked after settings/clef change
+- decreaseing strings number works only after resize guitar
 - make order with jack
+- TODOs in ToggScale
+- when audio output is disabled then selecting note/fret/name stops audio input - it waits infinity for the end of sound
+
+Addfiles to NSIS:
++ body-bass.png
 
 - check intonation in exams
 - keep exam file in /tmp and restore it when crash or so

@@ -584,8 +584,8 @@ void MainWindow::updsateSize() {
 		    m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
 			}
 			else {
-				bgPix = QPixmap(gl->path + "picts/body-el.png"); // size 
-				guitH = guitar->height() * 3.3;
+				bgPix = QPixmap(gl->path + "picts/body-bass.png"); // size 
+				guitH = guitar->height() * 2.9;
 				ratio = guitH / bgPix.height();
 				m_bgPixmap = bgPix.scaled(qRound(bgPix.width() * ratio), guitH, Qt::KeepAspectRatio);
 // 			if (gl->instrument == e_classicalGuitar) {

@@ -43,7 +43,7 @@ TmainScore::TmainScore(QWidget* parent) :
 			setClef(gl->Sclef);
 // set note colors
 	restoreNotesSettings();
-	if (gl->instrument == e_classicalGuitar)
+	if (gl->instrument == e_classicalGuitar || gl->instrument == e_electricGuitar)
 			setScordature();
 	setEnabledDblAccid(gl->doubleAccidentalsEnabled);
 	setEnableKeySign(gl->SkeySignatureEnabled);
@@ -78,7 +78,7 @@ void TmainScore::acceptSettings() {
 	setEnabledDblAccid(gl->doubleAccidentalsEnabled);
 	setEnableKeySign(gl->SkeySignatureEnabled);
 	setClef(Tclef(gl->Sclef));
-	if (gl->instrument == e_classicalGuitar)
+	if (gl->instrument == e_classicalGuitar || gl->instrument == e_electricGuitar)
 			setScordature();
 	else
 			if (staff()->hasScordature()) {
@@ -88,15 +88,16 @@ void TmainScore::acceptSettings() {
 			}
 	if (!gl->doubleAccidentalsEnabled)
 		clearNote(2);
-	staff()->noteSegment(0)->setPointedColor(gl->SpointerColor);
-  staff()->noteSegment(1)->setColor(gl->enharmNotesColor);
-	staff()->noteSegment(2)->setColor(gl->enharmNotesColor);
+// 	staff()->noteSegment(0)->setPointedColor(gl->SpointerColor);
+//   staff()->noteSegment(1)->setColor(gl->enharmNotesColor);
+// 	staff()->noteSegment(2)->setColor(gl->enharmNotesColor);
 	setEnableEnharmNotes(gl->showEnharmNotes);
 	if (gl->SkeySignatureEnabled) // refreshKeySignNameStyle();
 		if (staff()->scoreKey())
 			staff()->scoreKey()->showKeyName(gl->SshowKeySignName);
 //     setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()-1),
 //                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber+1));
+	restoreNotesSettings();
 }
 
 
