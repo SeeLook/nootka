@@ -108,7 +108,7 @@ private:
     static int    closeOggStatic(void* fh);
     static long   tellOggStatic(void *fh );
     
-    void initTouch(); // sets SoundTouch parameters
+    void adjustSoundTouch(); // sets SoundTouch parameters
     
 private:
     qint8             *m_oggInMemory;

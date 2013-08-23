@@ -92,12 +92,12 @@ ToggScale::ToggScale(QString& path) :
   m_sampleRate(44100),
   m_prevNote(-1),
   m_doDecode(true), m_isDecoding(false), m_isReady(true),
-  m_touch(0),
   m_pitchOffset(0.0f), m_innerOffset(0.0),
   m_oggConnected(false), m_touchConnected(false),
   m_instrument(-1)
 {
-//   initTouch();
+	m_touch = new soundtouch::SoundTouch();
+	m_touch->setChannels(1);
   moveToThread(m_thread);
   connect(m_thread, SIGNAL(started()), this, SLOT(decodeOgg()));
   m_oggConnected = true;
@@ -124,7 +124,6 @@ void ToggScale::deleteData() {
   delete m_pcmBuffer;
   m_pcmBuffer = 0;
   delete m_touch;
-  m_touch = 0;
   m_thread->deleteLater();
 }
 
@@ -150,14 +149,12 @@ void ToggScale::setNote(int noteNr) {
 		}		
 	} else
 			m_innerOffset = 0.0;
-	initTouch(); // TODO; do not create/delete soundtouch for every sound
+	adjustSoundTouch();
   int fasterOffset = 1000;
-//   if (noteNr + 11 == 0)
 	if (baseNote - m_firstNote == 0)
 			fasterOffset = 0;
   stopDecoding();
   m_prevNote = noteNr;
-//   int ret = ov_pcm_seek(&m_ogg, (noteNr + 11) * 44100 * 2 - fasterOffset);
 	int ret = ov_pcm_seek(&m_ogg, (baseNote - m_firstNote) * 44100 * 2 - fasterOffset);
   m_thread->start();
 }
@@ -166,7 +163,7 @@ void ToggScale::setNote(int noteNr) {
 void ToggScale::setSampleRate(unsigned int rate) {
   if (m_sampleRate != rate) {
     m_sampleRate = rate;
-    initTouch();
+    adjustSoundTouch();
   }
 }
 
@@ -174,7 +171,7 @@ void ToggScale::setSampleRate(unsigned int rate) {
 void ToggScale::setPitchOffset(float pitchOff) {
   if (pitchOff != m_pitchOffset) {
     m_pitchOffset = pitchOff;
-    initTouch();
+    adjustSoundTouch();
   }
 }
 
@@ -200,8 +197,6 @@ bool ToggScale::loadAudioData(int instrument) {
 	} else
 			return true;
 	
-//   if (m_oggInMemory)
-//     return true;
   QFile oggFile(m_oggPath + fileName);
   if (!oggFile.exists())
       return false;
@@ -295,7 +290,7 @@ void ToggScale::decodeAndResample() {
   
   float **oggChannels;
   float *left ;
-  float *tmpTouch = new float[8192]; // TODO: class wide range
+  float *tmpTouch = new float[8192];
   
   while (m_doDecode && pos < maxSize) {
     /// 1. Grab audio data from ogg
@@ -328,11 +323,8 @@ void ToggScale::decodeAndResample() {
 //########################## PRIVATE ########################################
 //###########################################################################
 
-void ToggScale::initTouch() {
+void ToggScale::adjustSoundTouch() {
   if (m_innerOffset != 0.0 || m_pitchOffset != 0.0 || m_sampleRate != 44100) { // SoundTouch has got a job
-    if (!m_touch)
-      m_touch = new soundtouch::SoundTouch();
-    m_touch->setChannels(1);
     m_touch->setSampleRate(44100);
     m_touch->setPitchSemiTones(m_innerOffset + m_pitchOffset);
     if (m_sampleRate != 44100) {
@@ -347,8 +339,6 @@ void ToggScale::initTouch() {
 				disconnect(m_thread, SIGNAL(started()), this, SLOT(decodeOgg()));
     m_oggConnected = false;
   } else {
-			delete m_touch;
-			m_touch = 0;
 			if (!m_oggConnected)
 					connect(m_thread, SIGNAL(started()), this, SLOT(decodeOgg()));
 			m_oggConnected = true;

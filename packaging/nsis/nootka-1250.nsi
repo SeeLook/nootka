@@ -27,7 +27,7 @@ SetCompressor lzma
 
 ; Image
 !define MUI_HEADERIMAGE
-!define MUI_HEADERIMAGE_BITMAP "$INSTDIR\logo.bmp"
+!define MUI_HEADERIMAGE_BITMAP "logo.bmp"
 !define MUI_HEADERIMAGE_RIGHT
 
 ; Welcome page
