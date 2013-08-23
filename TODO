@@ -6,8 +6,8 @@ urgent:
 - non classical guitars look, 0 fret, body
 - decreaseing strings number works only after resize guitar
 - make order with jack
-- TODOs in ToggScale
 - when audio output is disabled then selecting note/fret/name stops audio input - it waits infinity for the end of sound
+- images of NSISinstaller
 
 Addfiles to NSIS:
 + body-bass.png
