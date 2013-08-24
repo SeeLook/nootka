@@ -48,7 +48,9 @@ QStringList TaudioIN::getAudioDevicesList() {
     return devList;
 }
 
-int TaudioIN::inCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void* userData) {
+
+int TaudioIN::inCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames,
+												 double streamTime, RtAudioStreamStatus status, void* userData) {
     Q_UNUSED(outBuffer)
     Q_UNUSED(streamTime)
     Q_UNUSED(userData)
@@ -57,16 +59,16 @@ int TaudioIN::inCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFr
     qint16 *in = (qint16*)inBuffer;
     for (int i = 0; i < nBufferFrames; i++) {
         qint16 value = *(in + i);
-        instance()->m_maxP = qMax(instance()->m_maxP, value);
+//         instance()->m_maxP = qMax(instance()->m_maxP, value);
         *(instance()->m_floatBuff + instance()->m_floatsWriten) = float(value) / 32768.0f;
         if (instance()->m_floatsWriten == instance()->m_pitch->aGl()->framesPerChunk-1) {
-//           instance()->m_maxPeak = instance()->m_maxP;
+//           instance()->m_maxPeak = instance()->m_maxP / 32768.0f;
           if (instance()->m_pitch->isBussy())
               qDebug() << "data ignored";
           else
               instance()->m_pitch->searchIn(instance()->m_floatBuff);
           instance()->m_floatsWriten = -1;
-        instance()->m_maxP = 0;
+//         instance()->m_maxP = 0;
       }
       instance()->m_floatsWriten++;
     }
@@ -79,8 +81,6 @@ int TaudioIN::m_thisInstance = -1;
 //------------------------------------------------------------------------------------
 //------------          constructor     ----------------------------------------------
 //------------------------------------------------------------------------------------
-
-
 TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     QObject(parent),
     TrtAudioAbstract(params),
@@ -124,7 +124,6 @@ TaudioIN::~TaudioIN()
 //------------          methods         ----------------------------------------------
 //------------------------------------------------------------------------------------
 
-
 void TaudioIN::setParameters(TaudioParams* params) {
   m_pitch->setIsVoice(params->isVoice);
   m_pitch->setMinimalVolume(params->minimalVol);
@@ -140,8 +139,7 @@ void TaudioIN::setParameters(TaudioParams* params) {
 * In other cases the default device is loaded. */
 bool TaudioIN::setAudioDevice(const QString& devN) {
 //   if (devN == deviceName)
-//     return true;
-  
+//     return true;  
   if (rtDevice)
     delete rtDevice;
 	delete m_floatBuff;
@@ -180,9 +178,9 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
   m_pitch->setSampleRate(sampleRate, audioParams->range);
   m_bufferFrames = m_pitch->aGl()->framesPerChunk;
   if (rtDevice->getCurrentApi() == RtAudio::UNIX_JACK) {
-    if (!streamOptions)
-      streamOptions = new RtAudio::StreamOptions;
-    streamOptions->streamName = "nootkaIN";
+			if (!streamOptions)
+					streamOptions = new RtAudio::StreamOptions;
+			streamOptions->streamName = "nootkaIN";
   }
 //   printSupportedFormats(devInfo);
 //   printSupportedSampleRates(devInfo);
@@ -262,4 +260,11 @@ void TaudioIN::pitchFreqFound(float pitch, float freq) {
 			emit fundamentalFreq(freq);
   }
 }
+
+
+void TaudioIN::volumeSlot(float vol) {
+	m_maxPeak = vol;
+}
+
+
 

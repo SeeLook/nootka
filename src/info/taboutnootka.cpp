@@ -87,9 +87,11 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     QWidget *wi = new QWidget();
     QVBoxLayout *wiLLay = new QVBoxLayout;
   // AUTHORS
-    QString authorStr = "<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>" + authorsTxt() + "</b></p></center><br>Tomasz Bojczuk    <a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a><br><br>";
+    QString authorStr = "<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>" + authorsTxt() + "</b></p></center>"; 
+		authorStr += tr("Programming:") + "<br><b>Tomasz Bojczuk</b>    <a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a><br><br>";
+		authorStr += tr("Electric guitar samples, testing:") + "</b><br><b>Sergei Ivanov (tico-tico)</b><br>";
   // TRANSLATORS
-    QString translStr = "<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>" + tr("Translators") + "</b></p></center><br>";
+    QString translStr = "<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>" + tr("Translators") + "</b></p></center>";
     translStr += "<table valign=\"middle\" align=\"center\">";
   // czech
     translStr += transRow("cs", QString::fromUtf8("český"), "Pavel Fric",
@@ -100,7 +102,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     translStr += transRow("pl", "polski", "Tomasz Bojczuk", 
                           "<a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a>");
     translStr += "</table>";
-    QLabel *authorsLab = new QLabel(authorStr + translStr + "<br><br>" + 
+    QLabel *authorsLab = new QLabel(authorStr + translStr + "<br><br><br>" + 
        tr("However this application could not exist without various open source projects.<br>Especially:") + 
        "<ul><li>" + createLink("Qt", "http://qt-project.org/") + " by Digia</li>" +
        "<li>" + createLink("FFTW", "http://www.fftw.org") + " by M. Frigo & S. G. Johnson</li>" +

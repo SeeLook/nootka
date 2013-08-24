@@ -90,7 +90,7 @@ ToggScale::ToggScale(QString& path) :
   m_pcmBuffer(0),
   m_thread(new QThread),
   m_sampleRate(44100),
-  m_prevNote(-1),
+  m_prevNote(-10000),
   m_doDecode(true), m_isDecoding(false), m_isReady(true),
   m_pitchOffset(0.0f), m_innerOffset(0.0),
   m_oggConnected(false), m_touchConnected(false),

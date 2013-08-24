@@ -178,7 +178,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
       showExamHelp();
     if (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isFret()) {
       if (!m_supp->isGuitarOnlyPossible()) {
-          qDebug("Something stiupid !!!\n Level has question and answer as position on guitar but any question is available.");
+          qDebug("Something stupid !!!\n Level has question and answer as position on guitar but any question is available.");
           mW->clearAfterExam();
           if (m_exam) delete m_exam;
             return;
@@ -219,28 +219,28 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
     if (m_level.questionAs.isFret()) m_level.answersAs[TQAtype::e_asFretPos].randNext();
     if (m_level.questionAs.isSound()) m_level.answersAs[TQAtype::e_asSound].randNext();
     
-    nextQuestAct = new QAction(tr("next question\n(space %1)").arg(TexamHelp::orRightButtTxt()), this);
-    nextQuestAct->setStatusTip(nextQuestAct->text());
+    nextQuestAct = new QAction(tr("Next"), this);
+    nextQuestAct->setStatusTip(tr("next question\n(space %1)").arg(TexamHelp::orRightButtTxt()));
     nextQuestAct->setIcon(QIcon(gl->path+"picts/nextQuest.png"));
     nextQuestAct->setShortcut(QKeySequence(Qt::Key_Space));
     connect(nextQuestAct, SIGNAL(triggered()), this, SLOT(askQuestion()));
     mW->nootBar->addAction(nextQuestAct);
 
-    prevQuestAct = new QAction(tr("repeat prevoius question (backspace)"), this);
-    prevQuestAct->setStatusTip(prevQuestAct->text());
+    prevQuestAct = new QAction(tr("Repeat"), this);
+    prevQuestAct->setStatusTip(tr("repeat previous question (backspace)"));
     prevQuestAct->setIcon(QIcon(gl->path+"picts/prevQuest.png"));
     prevQuestAct->setShortcut(QKeySequence(Qt::Key_Backspace));
     connect(prevQuestAct, SIGNAL(triggered()), this, SLOT(repeatQuestion()));
 
-    checkAct = new QAction(tr("check answer\n(enter %1)").arg(TexamHelp::orRightButtTxt()), this);
-    checkAct->setStatusTip(checkAct->text());
+    checkAct = new QAction(tr("Check"), this);
+    checkAct->setStatusTip(tr("check answer\n(enter %1)").arg(TexamHelp::orRightButtTxt()));
     checkAct->setIcon(QIcon(gl->path+"picts/check.png"));
     checkAct->setShortcut(QKeySequence(Qt::Key_Return));
     connect(checkAct, SIGNAL(triggered()), this, SLOT(checkAnswer()));
 
     if (m_level.questionAs.isSound()) {
-        repeatSndAct = new QAction(tr("play sound again"), this);
-        repeatSndAct->setStatusTip(repeatSndAct->text() + ",<br>" + TexamHelp::pressSpaceKey());
+        repeatSndAct = new QAction(tr("Play"), this);
+        repeatSndAct->setStatusTip(tr("play sound again") + ",<br>" + TexamHelp::pressSpaceKey());
         repeatSndAct->setText(repeatSndAct->text() + ",\n" + TexamHelp::pressSpaceKey().remove("<b>").remove("</b>"));
         repeatSndAct->setShortcut(QKeySequence(Qt::Key_Space));
         repeatSndAct->setIcon(QIcon(gl->path+"picts/repeatSound.png"));
@@ -304,7 +304,7 @@ void TexamExecutor::askQuestion() {
                 if (m_level.onlyCurrKey) {
                     tmpNote = m_level.loKey.inKey(curQ.qa.note);
                     if (tmpNote == Tnote(0, 0, 0))
-                      qDebug() << "No note from questions list in single key. It should never happend!!" << tmpNote.toText();
+                      qDebug() << "No note from questions list in single key. It should never happened!!" << tmpNote.toText();
                 }
             } else { // for multi keys
                 curQ.key = TkeySignature((qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) +
@@ -321,7 +321,7 @@ void TexamExecutor::askQuestion() {
                         patience++;
                         tmpNote = curQ.key.inKey(curQ.qa.note);
                         if (patience >= keyRangeWidth) {
-                            qDebug() << "Oops!! It should never happend. I can not find key signature!!";
+                            qDebug() << "Oops!! It should never happened. I can not find key signature!!";
                             break;
                         }
                     }
@@ -637,7 +637,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
     if (!m_supp->wasFinished() && m_exam->count() >= (m_supp->obligQuestions() + m_exam->penalty()) ) { // maybe enought 
       if (m_exam->blackCount()) {
         m_exam->increasePenaltys(m_exam->blackCount());
-        qDebug() << "penaltys increased. Can't finish this exam yet.";
+        qDebug() << "penalties increased. Can't finish this exam yet.";
       } else {
         m_snifferLocked = true;
         mW->progress->setFinished(true);
@@ -763,14 +763,16 @@ void TexamExecutor::prepareToExam() {
     mW->setWindowTitle(tr("EXAM!!") + " " + m_exam->userName() + " - " + m_level.name);
     mW->setStatusMessage(tr("exam started on level") + ":<br><b>" + m_level.name + "</b>");
 
-    mW->settingsAct->setDisabled(true);
+//     mW->settingsAct->setDisabled(true);
+		mW->settingsAct->setVisible(false);
+		mW->aboutAct->setVisible(false);
     mW->analyseAct->setVisible(false);
     mW->levelCreatorAct->setIcon(QIcon(gl->path+"picts/help.png"));
-    mW->levelCreatorAct->setText(tr("help"));
+    mW->levelCreatorAct->setText(tr("Help"));
     mW->levelCreatorAct->setStatusTip(mW->levelCreatorAct->text());
     mW->startExamAct->setIcon(QIcon(gl->path+"picts/stopExam.png"));
-    mW->startExamAct->setText(tr("stop the exam"));
-    mW->startExamAct->setStatusTip(mW->startExamAct->text());
+    mW->startExamAct->setText(tr("Stop"));
+    mW->startExamAct->setStatusTip(tr("stop the exam"));
     mW->autoRepeatChB->show();
     mW->autoRepeatChB->setChecked(gl->E->autoNextQuest);
     mW->expertAnswChB->show();
@@ -877,7 +879,9 @@ void TexamExecutor::restoreAfterExam() {
     mW->progress->terminate();
 		mW->sound->acceptSettings();
 
-    mW->settingsAct->setDisabled(false);
+//     mW->settingsAct->setDisabled(false);
+		mW->settingsAct->setVisible(true);
+		mW->aboutAct->setVisible(true);
     mW->analyseAct->setVisible(true);
     mW->startExamAct->setDisabled(false);
     mW->noteName->setNameDisabled(false);

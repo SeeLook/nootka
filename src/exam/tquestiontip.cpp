@@ -25,6 +25,7 @@
 #include "tglobals.h"
 #include <texamlevel.h>
 #include <ttipchart.h>
+// #include <QDebug>
 
 extern Tglobals *gl;
 
@@ -73,9 +74,10 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* le
   m_guitarFree = true;
   QString quest;
   double sc = 4.0;
+// 	qDebug() << "scale" << sc << "font size" << qRound(scale * 22.0);
   if (scale) {
     quest = QString("<p style=\"font-size: %1px;\">").arg(qRound(scale * 22.0));
-//     sc = 4.0 * scale;     
+    sc = 4.0 * scale;     
   }
   quest += QString("<b><u>&nbsp;%1.&nbsp;</u></b><br>").arg(questNr);
     QString apendix = "";

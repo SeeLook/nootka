@@ -88,9 +88,6 @@ void TmainScore::acceptSettings() {
 			}
 	if (!gl->doubleAccidentalsEnabled)
 		clearNote(2);
-// 	staff()->noteSegment(0)->setPointedColor(gl->SpointerColor);
-//   staff()->noteSegment(1)->setColor(gl->enharmNotesColor);
-// 	staff()->noteSegment(2)->setColor(gl->enharmNotesColor);
 	setEnableEnharmNotes(gl->showEnharmNotes);
 	if (gl->SkeySignatureEnabled) // refreshKeySignNameStyle();
 		if (staff()->scoreKey())

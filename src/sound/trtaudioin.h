@@ -86,7 +86,7 @@ private slots:
 	
   void pitchFreqFound(float pitch, float freq);
   void pitchInChunkSlot(float pitch);
-  void volumeSlot(float vol) { m_maxPeak = vol; }
+  void volumeSlot(float vol);
   
   
 private:

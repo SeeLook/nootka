@@ -13,5 +13,5 @@ fi
 
 for TS in $(ls *.ts); do
 	echo $TS
-	lupdate -recursive $SRC_DIR -ts $TS
+	lupdate-qt4 -recursive $SRC_DIR -ts $TS
 done
