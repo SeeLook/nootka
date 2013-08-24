@@ -26,9 +26,10 @@ SetCompressor lzma
 !define MUI_LANGDLL_ALLLANGUAGES
 
 ; Image
-!define MUI_HEADERIMAGE
-!define MUI_HEADERIMAGE_BITMAP "logo.bmp"
-!define MUI_HEADERIMAGE_RIGHT
+!define MUI_WELCOMEFINISHPAGE_BITMAP "logo.bmp"
+;!define MUI_HEADERIMAGE
+;!define MUI_HEADERIMAGE_BITMAP "nootka.bmp"
+;!define MUI_HEADERIMAGE_RIGHT
 
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME

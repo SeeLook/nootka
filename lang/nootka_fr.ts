@@ -583,7 +583,7 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="238"/>
         <source>About</source>
-        <translation type="unfinished">À propos</translation>
+        <translation>À propos</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -597,7 +597,7 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="233"/>
         <source>Analyse</source>
-        <translation type="unfinished">Analyse</translation>
+        <translation>Analyse</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="235"/>
@@ -616,12 +616,12 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="254"/>
         <source>Level</source>
-        <translation type="unfinished"></translation>
+        <translation>Niveau</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="258"/>
         <source>Exam</source>
-        <translation type="unfinished">Examen</translation>
+        <translation>Examen</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="259"/>
@@ -2598,22 +2598,26 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <translation>Réponse: </translation>
     </message>
     <message>
-        <location filename="../src/level/tquestionaswdg.h" line="43"/>
-        <source>as note in the score</source>
+        <location filename="../src/level/tquestionaswdg.h" line="44"/>
+        <source>as note on the stave</source>
         <translation>note sur la portée</translation>
     </message>
     <message>
-        <location filename="../src/level/tquestionaswdg.h" line="44"/>
+        <source>as note in the score</source>
+        <translation type="obsolete">note sur la portée</translation>
+    </message>
+    <message>
+        <location filename="../src/level/tquestionaswdg.h" line="45"/>
         <source>as note&apos;s name</source>
         <translation>nom de note</translation>
     </message>
     <message>
-        <location filename="../src/level/tquestionaswdg.h" line="45"/>
+        <location filename="../src/level/tquestionaswdg.h" line="46"/>
         <source>as position on the fingerboard</source>
         <translation>position sur la touche</translation>
     </message>
     <message>
-        <location filename="../src/level/tquestionaswdg.h" line="46"/>
+        <location filename="../src/level/tquestionaswdg.h" line="47"/>
         <source>as played sound</source>
         <translation>son joué</translation>
     </message>
@@ -3283,62 +3287,70 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
 <context>
     <name>questionsSettings</name>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="106"/>
+        <location filename="../src/level/questionssettings.cpp" line="103"/>
         <source>require octave</source>
         <translation>Octave requise</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="107"/>
+        <location filename="../src/level/questionssettings.cpp" line="104"/>
         <source>if checked, selecting of valid octave is required</source>
         <translation>Lorsque cette case est cochée, il est nécessaire de sélectionner une octave valide</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="110"/>
         <source>force useing appropirate accidental</source>
-        <translation>Forcer l&apos;utilisation d&apos;altérations appropriées</translation>
+        <translation type="obsolete">Forcer l&apos;utilisation d&apos;altérations appropriées</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="111"/>
+        <location filename="../src/level/questionssettings.cpp" line="108"/>
         <source>if checked, is possible to select a note&lt;br&gt;with given accidental only.</source>
         <translation>Lorsque cette case est cochée, il est seulement possible &lt;br&gt;de choisir une note avec l&apos;altération appropriée.</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="114"/>
         <source>use different nameing styles</source>
+        <translation type="obsolete">Utiliser des styles de dénomination différents</translation>
+    </message>
+    <message>
+        <location filename="../src/level/questionssettings.cpp" line="107"/>
+        <source>force using appropriate accidental</source>
+        <translation>Forcer l&apos;utilisation d&apos;altérations appropriées</translation>
+    </message>
+    <message>
+        <location filename="../src/level/questionssettings.cpp" line="111"/>
+        <source>use different naming styles</source>
         <translation>Utiliser des styles de dénomination différents</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="115"/>
+        <location filename="../src/level/questionssettings.cpp" line="112"/>
         <source>if checked, note names are switched between letters and solfge.</source>
         <translation>Lorsque cette case est cochée, le style de dénomination passe des lettres au solfège.</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="118"/>
+        <location filename="../src/level/questionssettings.cpp" line="115"/>
         <source>show string number in questions</source>
         <translation>Afficher le numéro de corde dans les questions</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="119"/>
+        <location filename="../src/level/questionssettings.cpp" line="116"/>
         <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, when it is needed and when it has no sense</source>
         <translation>Montre sur quelle corde la réponse doit être donnée. &lt;br&gt;  Attention, ceci peut être nécessaire ou, parfois, ne pas avoir de sens </translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="123"/>
+        <location filename="../src/level/questionssettings.cpp" line="120"/>
         <source>notes in the lowest position only</source>
         <translation>Uniquement les notes dans les positions les plus basses</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="124"/>
+        <location filename="../src/level/questionssettings.cpp" line="121"/>
         <source>if checked, the lowest position in selected frets&apos; range are required,&lt;br&gt;otherwise all possible positions of the note are taken.&lt;br&gt;To use this, all strings have to be available !!</source>
         <translation>Lorsque cette case est cochée, seule la position la plus basse (e.g., corde a vide) pour jouer une note donnée est utilisée dans les questions/réponses. &lt;br&gt;Sinon, toutes les positions possibles peuvent être utilisées.&lt;br&gt; Toutes les cordes doivent être disponibles pour utiliser ce paramètre!!</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="127"/>
+        <location filename="../src/level/questionssettings.cpp" line="124"/>
         <source>notes in current key signature only</source>
         <translation>Uniquement les notes dans la tonalité utilisée actuellement</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="128"/>
+        <location filename="../src/level/questionssettings.cpp" line="125"/>
         <source>Only notes from current key signature are taken.&lt;br&gt;If key signature is disabled accidentals are not used.</source>
         <translation>Seules les notes dans la tonalité actuelle sont prises en compte. &lt;br&gt; Si les tonalités sont désactivées, les altérations ne sont pas utilisées. </translation>
     </message>

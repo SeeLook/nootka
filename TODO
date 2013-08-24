@@ -1,25 +1,24 @@
 Plan for the Nootka One
 
 urgent:
-- clef menu doesn't disappear after mouse leave under Windows
-- There are similar position calculations in Tcanvas - make methods for them
+- Try to change parent of TclefMenu to accid button to make it disappear
+- when audio output is disabled then selecting note/fret/name stops audio input - it waits infinity for the end of sound
+- score with text toolbar it to narrow
 - non classical guitars look, 0 fret, body
 - question mark for less strings number is over the guitar widget
 - decreasing strings number works only after resize guitar
 - make order with jack
-- when audio output is disabled then selecting note/fret/name stops audio input - it waits infinity for the end of sound
 - images of NSIS installer
 - table of level preview requires some margin/space after lines
 - grand staff brace is still not adjusted
 - frequency label has to show current strings number and tune
-- levelcreator texts bugs
-- "as note on the stave"
 - next and repeat icons have different size (arrow) and look not nice
 
 Add files to NSIS:
 + body-bass.png
 
 - check intonation in exams
+- There are similar position calculations in Tcanvas - make methods for them
 - keep exam file in /tmp and restore it when crash or so
 - splash screen
 - add sound notifications

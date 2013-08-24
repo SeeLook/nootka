@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -28,7 +28,7 @@ class QGridLayout;
 class QLabel;
 
 
-/** Widget aumatically inserting into QGridLayout object
+/** Widget automatically inserting into QGridLayout object
  * to select types of answers for question. */
 class TquestionAsWdg : public QObject
 {
@@ -40,7 +40,8 @@ public:
     static QString questionsTxt() { return tr("questions"); } // questions
     static QString answerTxt() { return tr("answer"); } // answer
     static QString answersTxt() { return tr("answers"); } // answers
-    static QString asNoteTxt() { return tr("as note in the score"); } // as note in the score
+//     static QString asNoteTxt() { return tr("as note in the score"); } // as note in the score
+    static QString asNoteTxt() { return tr("as note on the stave"); } // as note on the stave
     static QString asNameTxt() { return tr("as note's name"); } // as note's name
     static QString asFretPosTxt() { return tr("as position on the fingerboard"); } // as position on the fingerboard
     static QString asSoundTxt() { return tr("as played sound"); } // as played sound
@@ -48,7 +49,7 @@ public:
     static QString qaTypeText(TQAtype::Etype type);
         /** Returns a letter in nootka font with symbol represents type. */
     static QString qaTypeSymbol(TQAtype::Etype type);
-        /** Returns html span tag with style font to nootka and given size wraping given text. */
+        /** Returns html span tag with style font to nootka and given size wrapping given text. */
     static QString spanNootka(QString text, int fontSize = 0);
     
 
@@ -69,7 +70,7 @@ public:
     QLabel *questLab;
 
 signals:
-        /** This signal is emited when any QCheckBox changes his state. */
+        /** This signal is emitted when any QCheckBox changes his state. */
     void answerStateChanged();
 
 private slots:

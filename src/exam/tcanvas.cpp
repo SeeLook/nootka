@@ -467,7 +467,7 @@ void Tcanvas::setPosOfTryAgainTip() {
 
 void Tcanvas::setPosOfWhatTip() {
 // in the middle on guitar
-	int maxTipHeight = m_parent->height() - m_parent->noteName->geometry().bottom();
+	int maxTipHeight = m_parent->height() - m_parent->noteName->geometry().bottom() - 5;
   if (m_whatTip->boundingRect().height() != maxTipHeight)
 				m_whatTip->setScale((qreal)maxTipHeight / m_whatTip->boundingRect().height());
   m_whatTip->setPos((m_scene->width() - (m_whatTip->scale() * m_whatTip->boundingRect().width())) / 2,

@@ -244,7 +244,7 @@ void MainWindow::createActions() {
     nootBar->addAction(levelCreatorAct);
     nootBar->addAction(analyseAct);
     nootBar->addAction(aboutAct);
-    nootBar->addSeparator();
+//     nootBar->addSeparator();
     nootBar->addAction(startExamAct);
 
     nootBar->setMovable(false);

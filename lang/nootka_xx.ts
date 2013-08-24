@@ -2274,22 +2274,22 @@ Check please, are its parameters as expected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/tquestionaswdg.h" line="43"/>
-        <source>as note in the score</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/level/tquestionaswdg.h" line="44"/>
-        <source>as note&apos;s name</source>
+        <source>as note on the stave</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.h" line="45"/>
-        <source>as position on the fingerboard</source>
+        <source>as note&apos;s name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.h" line="46"/>
+        <source>as position on the fingerboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/level/tquestionaswdg.h" line="47"/>
         <source>as played sound</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2950,62 +2950,62 @@ Check please, are its parameters as expected.</source>
 <context>
     <name>questionsSettings</name>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="106"/>
+        <location filename="../src/level/questionssettings.cpp" line="103"/>
         <source>require octave</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="107"/>
+        <location filename="../src/level/questionssettings.cpp" line="104"/>
         <source>if checked, selecting of valid octave is required</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="110"/>
-        <source>force useing appropirate accidental</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/level/questionssettings.cpp" line="111"/>
+        <location filename="../src/level/questionssettings.cpp" line="108"/>
         <source>if checked, is possible to select a note&lt;br&gt;with given accidental only.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="114"/>
-        <source>use different nameing styles</source>
+        <location filename="../src/level/questionssettings.cpp" line="107"/>
+        <source>force using appropriate accidental</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="115"/>
+        <location filename="../src/level/questionssettings.cpp" line="111"/>
+        <source>use different naming styles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/level/questionssettings.cpp" line="112"/>
         <source>if checked, note names are switched between letters and solfge.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="118"/>
+        <location filename="../src/level/questionssettings.cpp" line="115"/>
         <source>show string number in questions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="119"/>
+        <location filename="../src/level/questionssettings.cpp" line="116"/>
         <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, when it is needed and when it has no sense</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="123"/>
+        <location filename="../src/level/questionssettings.cpp" line="120"/>
         <source>notes in the lowest position only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="124"/>
+        <location filename="../src/level/questionssettings.cpp" line="121"/>
         <source>if checked, the lowest position in selected frets&apos; range are required,&lt;br&gt;otherwise all possible positions of the note are taken.&lt;br&gt;To use this, all strings have to be available !!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="127"/>
+        <location filename="../src/level/questionssettings.cpp" line="124"/>
         <source>notes in current key signature only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="128"/>
+        <location filename="../src/level/questionssettings.cpp" line="125"/>
         <source>Only notes from current key signature are taken.&lt;br&gt;If key signature is disabled accidentals are not used.</source>
         <translation type="unfinished"></translation>
     </message>
