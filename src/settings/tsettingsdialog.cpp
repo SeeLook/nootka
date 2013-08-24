@@ -60,11 +60,11 @@ TsettingsDialog::TsettingsDialog(QWidget *parent) :
     navList->addItem(tr("Guitar"));
     navList->item(3)->setIcon(QIcon(gl->path+"picts/guitarSettings.png"));
     navList->item(3)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(tr("Exam"));
-    navList->item(4)->setIcon(QIcon(gl->path+"picts/questionsSettings.png"));
-    navList->item(4)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Sound"));
-    navList->item(5)->setIcon(QIcon(gl->path+"picts/soundSettings.png"));
+    navList->item(4)->setIcon(QIcon(gl->path+"picts/soundSettings.png"));
+    navList->item(4)->setTextAlignment(Qt::AlignCenter);
+		navList->addItem(tr("Exam"));
+    navList->item(5)->setIcon(QIcon(gl->path+"picts/questionsSettings.png"));
     navList->item(5)->setTextAlignment(Qt::AlignCenter);
     
     defaultBut->show();
@@ -76,8 +76,9 @@ TsettingsDialog::TsettingsDialog(QWidget *parent) :
 		connect(defaultBut, SIGNAL(pressed()), this, SLOT(restoreDefaults()));
 
 		
-    navList->setCurrentRow(1);
-		changeSettingsWidget(1); // score settings appears first - it is the bigest
+    navList->setCurrentRow(0);
+		changeSettingsWidget(1); // score settings appears first - it is the biggest
+		changeSettingsWidget(0);
 }
 
 
@@ -95,24 +96,24 @@ void TsettingsDialog::saveSettings() {
 						gl->A->range = TaudioParams::e_low;
 				else
 						gl->A->range = TaudioParams::e_middle;
-				/** Infact, even trable clef requires middle scale, so high scale is ignored here*/
+				/** In fact, even treble clef requires middle scale, so high scale is ignored here*/
 				gl->A->audioInstrNr = m_guitarSett->currentInstrument();
 			}
 	}
   if (m_examSett)
 			m_examSett->saveSettings();
-  if (m_sndOutSett) // if audio outsettings was created
+  if (m_sndOutSett) // if audio out settings was created
 			m_sndOutSett->saveSettings(); // respect user settings
   if (m_sndInSett)
 				m_sndInSett->saveSettings();
 	if (m_7thNoteToDefaults) {
 		if ((Tpage_3::note7txt().toLower() == "b") != (gl->seventhIs_B)) {
 			/** NOTE As long as TscoreSettings is created at first and always exist 
-			 * only adjustement of global note names is required. 
+			 * only adjustment of global note names is required. 
 			 * How: When user opens Name settings and changes 7-th note TscoreSettings changes automatically 
 			 * This condition is called in opposite situation: 
 			 * TscoreSettings wants defaults and already has been adjusted. 
-			 * Theoretically - if TscoreSettings would not exist it is more dificult to restore its defaults here. */
+			 * Theoretically - if TscoreSettings would not exist it is more difficult to restore its defaults here. */
 			if (Tpage_3::note7txt().toLower() == "b")
 					gl->seventhIs_B = true;
 			else
@@ -158,7 +159,7 @@ void TsettingsDialog::allDefaultsRequired() {
 
 
 /** Settings pages are created on demand, also 
-     * to avoid generating audio devices list every opening Nootka prefereces
+     * to avoid generating audio devices list every opening Nootka preferences
      * witch is slow for pulseaudio, the list is generated on demand.
      * When user first time opens Sound settings widget.*/
 void TsettingsDialog::changeSettingsWidget(int index) {
@@ -212,7 +213,7 @@ void TsettingsDialog::changeSettingsWidget(int index) {
       currentWidget = m_guitarSett;
       break;
     }
-    case 4: {
+    case 5: {
       if (!m_examSett) {
         m_examSett = new TexamSettings(gl->E, &gl->EquestionColor, &gl->EanswerColor, &gl->EnotBadColor);
         stackLayout->addWidget(m_examSett);
@@ -220,7 +221,7 @@ void TsettingsDialog::changeSettingsWidget(int index) {
       currentWidget = m_examSett;
       break;
     }
-    case 5: {
+    case 4: {
       if (!m_audioSettingsPage) {
         createAudioPage();
         stackLayout->addWidget(m_audioSettingsPage);

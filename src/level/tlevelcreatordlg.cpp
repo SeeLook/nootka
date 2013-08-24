@@ -118,7 +118,7 @@ void TlevelCreatorDlg::saveToFile() {
           newLevel.answersAs[TQAtype::e_asFretPos].isSound() ||
           newLevel.answersAs[TQAtype::e_asSound].isSound()) ) {  
       // adjust frets' range - validator will skip it for non guitar level
-      newLevel.loFret = 0; // Set range to frets number and rest will do function prepearing questions list
+      newLevel.loFret = 0; // Set range to frets number and rest will do function preparing questions list
       newLevel.hiFret = gl->GfretsNumber;
       newLevel.onlyLowPos = true; // otherwise the above invokes doubled/tripled questions in the list
     // set all strings as available
@@ -176,7 +176,7 @@ void TlevelCreatorDlg::loadFromFile() {
 
 QString TlevelCreatorDlg::validateLevel(TexamLevel &l) {
     QString res = "";
-  // Check has a level sence - are there an questions and answers
+  // Check has a level sense - are there an questions and answers
     if (!l.canBeScore() && ! l.canBeName() && !l.canBeGuitar() && !l.canBeSound()) {
         res = tr("There are not any questions nor answers selected.<br>Level has no sense");
         return res;
@@ -198,7 +198,7 @@ QString TlevelCreatorDlg::validateLevel(TexamLevel &l) {
           l.hiNote.getChromaticNrOfNote() < gl->Gtune()->str(loAvailStr + 1).getChromaticNrOfNote() + l.loFret)
           res += tr("<li>Range of frets is beyond scale of this level</li>");
     }
-  // checking are accids needed because of hi and low notes in range
+  // checking are accidentals needed because of hi and low notes in range
     char acc = 0;
     if (l.loNote.acidental) acc = l.loNote.acidental;
     if (l.hiNote.acidental) acc = l.hiNote.acidental;
@@ -206,19 +206,19 @@ QString TlevelCreatorDlg::validateLevel(TexamLevel &l) {
         if ( (acc == 1 && !l.withSharps) || (acc == -1 && !l.withFlats))
             res += tr("<li>In range of notes some accidental is used<br>but not available in this level</li>");
     }
-  // Check is posible of useing nameing style
+  // Check is possible of using naming style
     if (l.requireStyle && !l.canBeName())
-        res += tr("<li>Nameing styles was checked but neither question nor answers as note name are checked.<br>Check some or uncheck nemeing styles.</li>");
-  // Check are questions and answers as note in the score have sence (are different)
+        res += tr("<li>Naming styles was checked but neither question nor answers as note name are checked.<br>Check some or uncheck naming styles.</li>");
+  // Check are questions and answers as note in the score have sense (are different)
     if (l.questionAs.isNote() && l.answersAs[TQAtype::e_asNote].isNote())
       if (!l.manualKey && !l.forceAccids)
-        res += tr("<li>Questions and answers as note in the score will be the same. Manual selecting keys or forceing accidentals has to be selected to avoid that.</li>");
-  // Check is posible of manualKey
+        res += tr("<li>Questions and answers as note in the score will be the same. Manual selecting keys or forcing accidentals has to be selected to avoid that.</li>");
+  // Check is possible of manualKey
     if (l.useKeySign && l.manualKey)
       if (!l.answersAs[TQAtype::e_asNote].isNote() && !l.answersAs[TQAtype::e_asName].isNote() &&
         !l.answersAs[TQAtype::e_asFretPos].isNote() && !l.answersAs[TQAtype::e_asSound].isNote() )
           res += tr("<li>Manual selecting of a key signature was checked but any answer as note in the score was not checked.</li>");
-  // Resume warrings
+  // Resume warnings
     if (res != "") {
         res.prepend("<ul>");
         res += "</ul></center>";
