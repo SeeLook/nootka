@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -35,7 +35,6 @@ questionsSettings::questionsSettings(QWidget *parent) :
     tabLay->addStretch();
     tabLay->addWidget(m_tableWdg);
     tabLay->addStretch();
-//    QGroupBox *qaGr = new QGroupBox(this);
     QGridLayout *qaLay = new QGridLayout(); // Questions & Answers table
     qaLay->setAlignment(Qt::AlignCenter);
     qaLay->setSpacing(10);
@@ -95,8 +94,6 @@ questionsSettings::questionsSettings(QWidget *parent) :
     qSoundNooLab->setFont(nf);
     qaLay->addWidget(qSoundNooLab, 5, 5);
     
-//     qaGr->setLayout(qaLay);
-//     mainLay->addWidget(qaGr);
     m_tableWdg->setLayout(qaLay);
     mainLay->addLayout(tabLay);
     mainLay->addStretch();
@@ -107,11 +104,11 @@ questionsSettings::questionsSettings(QWidget *parent) :
     octaveRequiredChB->setStatusTip(tr("if checked, selecting of valid octave is required"));
     chLay->addWidget(octaveRequiredChB, 0, 0, Qt::AlignLeft);
     
-    forceAccChB = new QCheckBox(tr("force useing appropirate accidental"),this);
+    forceAccChB = new QCheckBox(tr("force using appropriate accidental"),this);
     forceAccChB->setStatusTip(tr("if checked, is possible to select a note<br>with given accidental only."));
     chLay->addWidget(forceAccChB, 1, 0, Qt::AlignLeft);
     
-    styleRequiredChB = new QCheckBox(tr("use different nameing styles"),this);
+    styleRequiredChB = new QCheckBox(tr("use different naming styles"),this);
     styleRequiredChB->setStatusTip(tr("if checked, note names are switched between letters and solfge."));
     chLay->addWidget(styleRequiredChB, 2, 0, Qt::AlignLeft);
     
@@ -199,6 +196,7 @@ void questionsSettings::whenParamsChanged() {
     }
 }
 
+
 void questionsSettings::saveLevel(TexamLevel &level) {
     level.questionAs.setAsNote(asNoteWdg->isChecked());
     level.answersAs[TQAtype::e_asNote] = asNoteWdg->getAnswers();
@@ -216,6 +214,7 @@ void questionsSettings::saveLevel(TexamLevel &level) {
     level.onlyLowPos = lowPosOnlyChBox->isChecked();
     level.onlyCurrKey = currKeySignChBox->isChecked();
 }
+
 
 void questionsSettings::paintEvent(QPaintEvent* ) {
   QPainter painter(this);
@@ -237,6 +236,7 @@ void questionsSettings::paintEvent(QPaintEvent* ) {
   painter.drawLine(horLineRightX , m_tableWdg->geometry().top(), horLineRightX, m_tableWdg->geometry().bottom());
 }
 
+
 void questionsSettings::stringsCheckedSlot(bool checked) {
   if (checked)
     lowPosOnlyChBox->setDisabled(false);
@@ -247,9 +247,9 @@ void questionsSettings::stringsCheckedSlot(bool checked) {
 }
 
 
-/****************************************************************************
- *   TverticalLabel                                                         *
- ****************************************************************************/
+//############################################################################
+ //#####################   TverticalLabel ####################################
+ //###########################################################################
 
 TverticalLabel::TverticalLabel(QString text, QWidget* parent) :
   QWidget(parent),
@@ -259,6 +259,7 @@ TverticalLabel::TverticalLabel(QString text, QWidget* parent) :
     m_rect = metrics.boundingRect(m_text);
     setFixedSize(m_rect.height() * 2.5, m_rect.width() * 1.2);
 }
+
 
 void TverticalLabel::paintEvent(QPaintEvent* ) {
     QPainter painter(this);

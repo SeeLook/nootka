@@ -155,7 +155,6 @@ void TsimpleScore::setClefDisabled(bool isDisabled) {
 }
 
 
-
 void TsimpleScore::setKeySignature(TkeySignature keySign) {
 	if (m_staff->scoreKey())
 		m_staff->scoreKey()->setKeySignature(keySign.value());
@@ -226,7 +225,6 @@ void TsimpleScore::setNoteDisabled(int index, bool isDisabled) {
 }
 
 
-
 void TsimpleScore::setScoreDisabled(bool disabled) {
 	if (m_scoreControl)
 		m_scoreControl->setDisabled(disabled);
@@ -252,7 +250,7 @@ void TsimpleScore::setAmbitus(Tnote lo, Tnote hi) {
 
 /** !!!!All values are hard coded */
 Tnote TsimpleScore::lowestNote() {
-	if (staff()->lower()) // piano staf for sure
+	if (staff()->lower()) // piano staff for sure
 			return Tnote(4, -2);
 	if (staff()->scoreClef()->clef().type() == Tclef::e_treble_G)
 			return Tnote(6, -1);
@@ -270,7 +268,7 @@ Tnote TsimpleScore::lowestNote() {
 
 
 Tnote TsimpleScore::highestNote() {
-	if (staff()->lower()) // piano staf for sure
+	if (staff()->lower()) // piano staff for sure
 		return Tnote(1, 4);
 	if (staff()->scoreClef()->clef().type() == Tclef::e_treble_G)
 		return Tnote(4, 4);
@@ -305,13 +303,12 @@ void TsimpleScore::noteWasClicked(int index) {
 
 
 void TsimpleScore::resizeEvent(QResizeEvent* event) {
-	qreal bespinOff = 0.0; // bespin style quirks - it steals some space 
-// 	qDebug() << style()->objectName();
-	if (style()->objectName() == "bespin") 
-			bespinOff = 1.0;
+	qreal styleOff = 0.0; // some styles quirks - it steals some space
+  if (style()->objectName() == "bespin" || style()->objectName() == "windowsvista" || style()->objectName() == "plastique")
+			styleOff = 1.0;
   qreal factor = (((qreal)height() / 40.0) / m_score->transform().m11()) * m_pianoFactor;
   m_score->scale(factor, factor);
-	m_scene->setSceneRect(0, 0, (m_staff->boundingRect().width() + bespinOff) * m_score->transform().m11(), 
+	m_scene->setSceneRect(0, 0, (m_staff->boundingRect().width() + styleOff) * m_score->transform().m11(), 
 												m_staff->boundingRect().height() * m_score->transform().m11()	);
 	m_score->setMaximumSize(m_scene->sceneRect().width(), m_scene->sceneRect().height());
 //   m_score->setMinimumSize(m_scene->sceneRect().width(), m_scene->sceneRect().height());

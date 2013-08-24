@@ -129,7 +129,7 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="86"/>
         <source>[milliseconds]</source>
-        <translation type="unfinished"></translation>
+        <translation>[milisekund]</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="89"/>
@@ -592,7 +592,7 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="233"/>
         <source>Analyse</source>
-        <translation type="unfinished">Analiza</translation>
+        <translation>Analiza</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="235"/>
@@ -602,17 +602,17 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="238"/>
         <source>About</source>
-        <translation type="unfinished">O</translation>
+        <translation>O</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="254"/>
         <source>Level</source>
-        <translation type="unfinished"></translation>
+        <translation>Poziom</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="258"/>
         <source>Exam</source>
-        <translation type="unfinished">Egzamin</translation>
+        <translation>Egzamin</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="259"/>
@@ -632,7 +632,7 @@
         <location filename="../src/mainwindow.cpp" line="221"/>
         <source>Sett.</source>
         <comment>like settings but it should be short</comment>
-        <translation type="unfinished"></translation>
+        <translation>Opcje</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="239"/>
@@ -2613,22 +2613,26 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation>odpowiedzi</translation>
     </message>
     <message>
-        <location filename="../src/level/tquestionaswdg.h" line="43"/>
-        <source>as note in the score</source>
+        <location filename="../src/level/tquestionaswdg.h" line="44"/>
+        <source>as note on the stave</source>
         <translation>jako nuta</translation>
     </message>
     <message>
-        <location filename="../src/level/tquestionaswdg.h" line="44"/>
+        <source>as note in the score</source>
+        <translation type="obsolete">jako nuta</translation>
+    </message>
+    <message>
+        <location filename="../src/level/tquestionaswdg.h" line="45"/>
         <source>as note&apos;s name</source>
         <translation>jako nazwa nuty</translation>
     </message>
     <message>
-        <location filename="../src/level/tquestionaswdg.h" line="45"/>
+        <location filename="../src/level/tquestionaswdg.h" line="46"/>
         <source>as position on the fingerboard</source>
         <translation>jako pozycja na gryfie</translation>
     </message>
     <message>
-        <location filename="../src/level/tquestionaswdg.h" line="46"/>
+        <location filename="../src/level/tquestionaswdg.h" line="47"/>
         <source>as played sound</source>
         <translation>jako grany dźwięk</translation>
     </message>
@@ -3309,62 +3313,70 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>questionsSettings</name>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="106"/>
+        <location filename="../src/level/questionssettings.cpp" line="103"/>
         <source>require octave</source>
         <translation>wymagana oktawa</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="107"/>
+        <location filename="../src/level/questionssettings.cpp" line="104"/>
         <source>if checked, selecting of valid octave is required</source>
         <translation>Gdy zaznaczone, wymagane jest podanie właściwej oktawy</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="110"/>
         <source>force useing appropirate accidental</source>
-        <translation>wymuś używanie odpowiedniego znaku</translation>
+        <translation type="obsolete">wymuś używanie odpowiedniego znaku</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="111"/>
+        <location filename="../src/level/questionssettings.cpp" line="108"/>
         <source>if checked, is possible to select a note&lt;br&gt;with given accidental only.</source>
         <translation>Gdy zaznaczone, możliwe jest podanie nuty&lt;br&gt;tylko z podanym znakiem.</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="114"/>
         <source>use different nameing styles</source>
+        <translation type="obsolete">używaj różnych nazw nut</translation>
+    </message>
+    <message>
+        <location filename="../src/level/questionssettings.cpp" line="107"/>
+        <source>force using appropriate accidental</source>
+        <translation>wymuś używanie odpowiedniego znaku</translation>
+    </message>
+    <message>
+        <location filename="../src/level/questionssettings.cpp" line="111"/>
+        <source>use different naming styles</source>
         <translation>używaj różnych nazw nut</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="115"/>
+        <location filename="../src/level/questionssettings.cpp" line="112"/>
         <source>if checked, note names are switched between letters and solfge.</source>
         <translation>Gdy zaznaczone, nazwy nut zmieniają się między solmizacją a literami.</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="118"/>
+        <location filename="../src/level/questionssettings.cpp" line="115"/>
         <source>show string number in questions</source>
         <translation>pokazuj numer struny w pytaniu</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="119"/>
+        <location filename="../src/level/questionssettings.cpp" line="116"/>
         <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, when it is needed and when it has no sense</source>
         <translation>Pokazuje, na której strunie ma być odpowiedź.&lt;br&gt;Ostrożnie z tym, kiedy ta opcja jest potzrebna, a kiedy nie ma sensu</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="123"/>
+        <location filename="../src/level/questionssettings.cpp" line="120"/>
         <source>notes in the lowest position only</source>
         <translation>dźwięki tylko w najniższej pozycji</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="124"/>
+        <location filename="../src/level/questionssettings.cpp" line="121"/>
         <source>if checked, the lowest position in selected frets&apos; range are required,&lt;br&gt;otherwise all possible positions of the note are taken.&lt;br&gt;To use this, all strings have to be available !!</source>
         <translation>Gdy zaznaczone, wymagana jest najniższa pozycja dźwięku w wybranym zakresie progów,&lt;br&gt;jeżeli nie - używane są wszystkie możliwe pozycje zadanej nuty.&lt;br&gt;Dla tego wszystkie struny muszą być używane !!</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="127"/>
+        <location filename="../src/level/questionssettings.cpp" line="124"/>
         <source>notes in current key signature only</source>
         <translation>tylko dźwięki z aktualnej tonacji</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="128"/>
+        <location filename="../src/level/questionssettings.cpp" line="125"/>
         <source>Only notes from current key signature are taken.&lt;br&gt;If key signature is disabled accidentals are not used.</source>
         <translation>Używane będą dźwięki tylko z aktualnej tonacji.&lt;br&gt;Jeżeli tonacja nie jest używana, znaki także nie będą wykorzystywane.</translation>
     </message>

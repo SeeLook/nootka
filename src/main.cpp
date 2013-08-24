@@ -40,7 +40,8 @@ int main(int argc, char *argv[])
 				f.remove();
 		}
 		resetConfig = false;
-		a = new QApplication(argc, argv);  
+		a = new QApplication(argc, argv);
+// 		qDebug() << a->style()->objectName();
 		gl = new Tglobals();
 		gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
 		confFile = gl->config->fileName();
