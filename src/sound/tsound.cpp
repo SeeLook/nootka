@@ -58,10 +58,10 @@ Tsound::~Tsound()
 //------------------------------------------------------------------------------------
 
 void Tsound::play(Tnote note) {
-  bool playing;
+  bool playing = false;
   if (player)
-    playing = player->play(note.getChromaticNrOfNote());
-  if (playing) { // true if plaing was started
+			playing = player->play(note.getChromaticNrOfNote());
+  if (playing) { // true if playing was started
     if (sniffer) { // pause sniffer if note was started
       sniffer->wait();
       m_pitchView->stopVolume();
