@@ -1,10 +1,6 @@
 Plan for the Nootka One
 
 urgent:
-- Try to change parent of TclefMenu to accid button to make it disappear
-- when audio output is disabled then selecting note/fret/name stops audio input - it waits infinity for the end of sound
-- score with text toolbar it to narrow
-- non classical guitars look, 0 fret, body
 - question mark for less strings number is over the guitar widget
 - decreasing strings number works only after resize guitar
 - make order with jack
@@ -13,9 +9,12 @@ urgent:
 - grand staff brace is still not adjusted
 - frequency label has to show current strings number and tune
 - next and repeat icons have different size (arrow) and look not nice
+- score with text toolbar it to narrow
 
 Add files to NSIS:
 + body-bass.png
++ fbbg-el.png
++ pickup.png
 
 - check intonation in exams
 - There are similar position calculations in Tcanvas - make methods for them

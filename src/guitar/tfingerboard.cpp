@@ -437,20 +437,31 @@ void TfingerBoard::paint() {
         scale(-1, 1);
     }
   // FINGERBOARD
-    painter.setPen(QPen(Qt::black,0,Qt::NoPen));
-    painter.setBrush(QBrush(Qt::black,Qt::SolidPattern));
+    painter.setPen(QPen(Qt::black, 0, Qt::NoPen));
+		if (gl->instrument == e_classicalGuitar)
+				painter.setBrush(QBrush(Qt::black, Qt::SolidPattern));
+		else {
+				QColor fbEdgeColor = QColor("#AFA072");
+				fbEdgeColor.setAlpha(220);
+				painter.setBrush(QBrush(fbEdgeColor, Qt::SolidPattern));
+		}
     QPolygon a;
-    a.setPoints(5, m_fbRect.x() + 2, m_fbRect.y() - m_strGap/3,
-                m_fbRect.x() + m_fbRect.width() + m_strGap / 3, m_fbRect.y() - m_strGap / 3,
-                m_fbRect.x() + m_fbRect.width() + m_strGap / 3, height() - m_strGap / 3,
+		int fbThick = ((m_strGap * gl->Gtune()->stringNr()) / 6) / 4;
+    a.setPoints(6, m_fbRect.x() - 6, m_fbRect.y(),
+								m_fbRect.x() + 2, m_fbRect.y() - fbThick,
+                m_fbRect.x() + m_fbRect.width() + fbThick, m_fbRect.y() - fbThick,
+                m_fbRect.x() + m_fbRect.width() + fbThick, height() - fbThick,
                 m_fbRect.x() + m_fbRect.width(), height(),
                 m_fbRect.x(), height());
     painter.drawPolygon(a);
-    painter.setBrush(QBrush(QPixmap(gl->path + "picts/fingbg.png")));
+		if (gl->instrument == e_classicalGuitar)
+				painter.setBrush(QBrush(QPixmap(gl->path + "picts/fingbg.png")));
+		else
+				painter.setBrush(QBrush(QPixmap(gl->path + "picts/fingbg-el.png")));
     painter.drawRect(m_fbRect);
   // FRETS
    // zero fret (upper bridge or HUESO)
-// 		if (gl->instrument == e_classicalGuitar) {
+		if (gl->instrument == e_classicalGuitar) {
 				painter.setPen(Qt::NoPen);
 				painter.setBrush(QBrush(QColor("#FFFBF0"),Qt::SolidPattern)); //#FFFBF0 cream color for hueso
 				painter.drawRect(m_fbRect.x() - 8, m_fbRect.y() + 4, 7, m_fbRect.height());
@@ -460,7 +471,15 @@ void TfingerBoard::paint() {
 										m_fbRect.x() + m_strGap / 3 - 8,	m_fbRect.y() - m_strGap / 3);
 				painter.setBrush(QBrush(QColor("#FFEEBC"),Qt::SolidPattern)); // a bit darker for its rant
 				painter.drawPolygon(a);
-// 		}
+		} else {
+				QLinearGradient fretGrad(fbRect().x() - 8, 10.0, fbRect().x() + 6, 10.0);
+        fretGrad.setColorAt(0.0, QColor("#DAE4E4"));
+        fretGrad.setColorAt(0.4, QColor("#7F806E"));
+        fretGrad.setColorAt(0.7, QColor("#3B382B"));
+        fretGrad.setColorAt(0.9, QColor("#000000"));
+        painter.setBrush(fretGrad);
+        painter.drawRoundedRect(fbRect().x() - 8, m_fbRect.y() + 2, 14, m_fbRect.height() - 4, 2, 2);
+		}
  // others frets
     for (int i = 0; i < gl->GfretsNumber; i++) {
         QLinearGradient fretGrad(m_fretsPos[i], 10.0, m_fretsPos[i] + 8, 10.0);
@@ -470,10 +489,16 @@ void TfingerBoard::paint() {
         fretGrad.setColorAt(0.9, QColor("#000000"));
         painter.setBrush(fretGrad);
         painter.drawRoundedRect(m_fretsPos[i], m_fbRect.y() + 2, 9, m_fbRect.height() - 4, 2, 2);
-        if ( i==4 || i==6 || i==8 || i==11 || i==14 || i==16)	{
+        if ( i==4 || i==6 || i==8 || i==14 || i==16)	{
                 //white color for circles marking 5,7,9... frets
             painter.setBrush(QBrush(Qt::white, Qt::SolidPattern));
             painter.drawEllipse(m_fretsPos[i] - 4 - (m_fretsPos[i] - m_fretsPos[i - 1]) / 2,
+                                m_fbRect.y() + m_strGap * (int)(gl->Gtune()->stringNr() / 2) - 2, 8, 8);
+        } else if (i==11)	{
+            painter.setBrush(QBrush(Qt::white, Qt::SolidPattern));
+            painter.drawEllipse(m_fretsPos[i] - 12 - (m_fretsPos[i] - m_fretsPos[i - 1]) / 2,
+                                m_fbRect.y() + m_strGap * (int)(gl->Gtune()->stringNr() / 2) - 2, 8, 8);
+						painter.drawEllipse(m_fretsPos[i] + 4 - (m_fretsPos[i] - m_fretsPos[i - 1]) / 2,
                                 m_fbRect.y() + m_strGap * (int)(gl->Gtune()->stringNr() / 2) - 2, 8, 8);
         }
     }

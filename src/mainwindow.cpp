@@ -175,6 +175,7 @@ MainWindow::MainWindow(QWidget *parent) :
     noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
 		nameLay->addWidget(noteName);
 		nameLay->addStretch(1);
+// 		nameLay->addWidget(pitchView);
     scoreAndNameLay->addLayout(nameLay);
     mainLay->addLayout(scoreAndNameLay);
 //-------------------------------------------------------------------
@@ -589,6 +590,12 @@ void MainWindow::updsateSize() {
 				guitH = guitar->height() * 2.9;
 				ratio = guitH / bgPix.height();
 				m_bgPixmap = bgPix.scaled(qRound(bgPix.width() * ratio), guitH, Qt::KeepAspectRatio);
+				QPixmap rosePix(gl->path + "picts/pickup.png");
+// 				ratio = guitar->height() / rosePix.height();
+// 				ratio = ((qreal)guitar->width() / 2.0) / (qreal)rosePix.width();
+// 				qDebug() << ratio << (guitar->width() - guitar->fbRect().width()) / 2 << rosePix.size();
+				ratio *= 0.55;
+				m_rosettePixmap = rosePix.scaled(rosePix.width() * ratio, rosePix.height() * ratio, Qt::KeepAspectRatio);
 // 			if (gl->instrument == e_classicalGuitar) {
 // 				QPixmap rosePix(gl->path + "picts/rosette.png"); // size 341x281
 // 				m_rosettePixmap = rosePix.scaled(341 * ratio, 281 * ratio, Qt::KeepAspectRatio);
@@ -632,7 +639,8 @@ void MainWindow::paintEvent(QPaintEvent* ) {
 // 												height() - ratio * 250 - (height() - guitar->geometry().bottom()), m_rosettePixmap );
 			} else {
 					qreal ratio = (guitar->height() * 3.3) / 535;
-					painter.drawPixmap(guitar->fbRect().right() - 235 * ratio, height() - m_bgPixmap.height(), m_bgPixmap);
+					painter.drawPixmap(guitar->fbRect().right() - 235 * ratio, height() - m_bgPixmap.height() + 5 * ratio, m_bgPixmap);
+					painter.drawPixmap(guitar->fbRect().right() + 25 * ratio, guitar->y() - 15 * ratio, m_rosettePixmap);
 			}
 		}
 }
