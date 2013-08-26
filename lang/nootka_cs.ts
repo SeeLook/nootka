@@ -569,37 +569,37 @@
         <translation type="obsolete">Nastavení</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="222"/>
+        <location filename="../src/mainwindow.cpp" line="223"/>
         <source>Application preferences</source>
         <translation>Nastavení programu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="233"/>
+        <location filename="../src/mainwindow.cpp" line="234"/>
         <source>Analyse</source>
         <translation>Rozebrat</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="235"/>
+        <location filename="../src/mainwindow.cpp" line="236"/>
         <source>Analyse of an exam results</source>
         <translation>Rozbor výsledků zkoušky</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="238"/>
+        <location filename="../src/mainwindow.cpp" line="239"/>
         <source>About</source>
         <translation>O programu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="254"/>
+        <location filename="../src/mainwindow.cpp" line="255"/>
         <source>Level</source>
         <translation>Úroveň</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="258"/>
+        <location filename="../src/mainwindow.cpp" line="259"/>
         <source>Exam</source>
         <translation>Zkouška</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="259"/>
+        <location filename="../src/mainwindow.cpp" line="260"/>
         <source>Start an exam</source>
         <translation>Spustit zkoušku</translation>
     </message>
@@ -608,18 +608,18 @@
         <translation type="obsolete">O programu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="202"/>
+        <location filename="../src/mainwindow.cpp" line="203"/>
         <source>Problems with sound output</source>
         <translation>Potíže se zvukovým výstupem</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="221"/>
+        <location filename="../src/mainwindow.cpp" line="222"/>
         <source>Sett.</source>
         <comment>like settings but it should be short</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="239"/>
+        <location filename="../src/mainwindow.cpp" line="240"/>
         <source>About Nootka</source>
         <translation>O programu Nootka</translation>
     </message>
@@ -3128,9 +3128,8 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation># - křížky</translation>
     </message>
     <message>
-        <location filename="../src/level/accidsettings.cpp" line="36"/>
         <source>Sharps will be uesd in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
-        <translation>Ve zkušebních otázkách a odpovědích se budou používat křížky.&lt;br&gt;Musí to být zaškrtnuto, když se používají tóniny s křížky.</translation>
+        <translation type="obsolete">Ve zkušebních otázkách a odpovědích se budou používat křížky.&lt;br&gt;Musí to být zaškrtnuto, když se používají tóniny s křížky.</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="38"/>
@@ -3138,9 +3137,8 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>b - béčka</translation>
     </message>
     <message>
-        <location filename="../src/level/accidsettings.cpp" line="39"/>
         <source>Flats will be uesd in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
-        <translation>Ve zkušebních otázkách a odpovědích se budou používat béčka.&lt;br&gt;Musí to být zaškrtnuto, když se používají tóniny s béčky.</translation>
+        <translation type="obsolete">Ve zkušebních otázkách a odpovědích se budou používat béčka.&lt;br&gt;Musí to být zaškrtnuto, když se používají tóniny s béčky.</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="41"/>
@@ -3153,8 +3151,22 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Posuvky používané během zkoušky.</translation>
     </message>
     <message>
-        <location filename="../src/level/accidsettings.cpp" line="52"/>
         <source>use keys singature</source>
+        <translation type="obsolete">Používat předznamenání</translation>
+    </message>
+    <message>
+        <location filename="../src/level/accidsettings.cpp" line="36"/>
+        <source>Sharps will be used in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
+        <translation>Ve zkušebních otázkách a odpovědích se budou používat křížky.&lt;br&gt;Musí to být zaškrtnuto, když se používají tóniny s křížky.</translation>
+    </message>
+    <message>
+        <location filename="../src/level/accidsettings.cpp" line="39"/>
+        <source>Flats will be used in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
+        <translation>Ve zkušebních otázkách a odpovědích se budou používat béčka.&lt;br&gt;Musí to být zaškrtnuto, když se používají tóniny s béčky.</translation>
+    </message>
+    <message>
+        <location filename="../src/level/accidsettings.cpp" line="52"/>
+        <source>use keys signature</source>
         <translation>Používat předznamenání</translation>
     </message>
     <message>
@@ -3179,8 +3191,17 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="69"/>
-        <source>Select a key signature.&lt;br&gt;Apropirate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
+        <source>Select a key signature.&lt;br&gt;Appropriate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
         <translation>Vybrat tóninu.&lt;br&gt;Příslušné posuvky používané během zkoušky&lt;br&gt;budou vybrány automaticky!</translation>
+    </message>
+    <message>
+        <location filename="../src/level/accidsettings.cpp" line="280"/>
+        <source>Elements are disabled because appropriate types of questions or answers are not selected.</source>
+        <translation>Prvky jsou zakázány, protože příslušné typy otázek nebo odpovědí nejsou vybrány.</translation>
+    </message>
+    <message>
+        <source>Select a key signature.&lt;br&gt;Apropirate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
+        <translation type="obsolete">Vybrat tóninu.&lt;br&gt;Příslušné posuvky používané během zkoušky&lt;br&gt;budou vybrány automaticky!</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="80"/>
@@ -3193,10 +3214,8 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Je-li zaškrtnuto, musí tóninu ve zkoušce vybrat uživatel,&lt;br&gt;jinak je ukázána programem.</translation>
     </message>
     <message>
-        <location filename="../src/level/accidsettings.cpp" line="182"/>
-        <location filename="../src/level/accidsettings.cpp" line="195"/>
         <source>Elements are disabled because appropirate types of questions or answers are not selected.</source>
-        <translation>Prvky jsou zakázány, protože příslušné typy otázek nebo odpovědí nejsou vybrány.</translation>
+        <translation type="obsolete">Prvky jsou zakázány, protože příslušné typy otázek nebo odpovědí nejsou vybrány.</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.h" line="39"/>
@@ -3268,7 +3287,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="70"/>
+        <location filename="../src/main.cpp" line="71"/>
         <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.otf manually.&lt;/center&gt;</source>
         <translation>&lt;center&gt;Nelze nahrát písmo.&lt;br&gt;Zkuste nainstalovat nootka.otf ručně.&lt;/center&gt;</translation>
     </message>

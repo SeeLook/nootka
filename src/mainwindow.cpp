@@ -586,15 +586,21 @@ void MainWindow::updsateSize() {
 		    m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
 			}
 			else {
-				bgPix = QPixmap(gl->path + "picts/body-bass.png"); // size 
+				if (gl->instrument == e_bassGuitar)
+						bgPix = QPixmap(gl->path + "picts/body-bass.png"); // size 
+				else
+						bgPix = QPixmap(gl->path + "picts/body-electro.png");
 				guitH = guitar->height() * 2.9;
 				ratio = guitH / bgPix.height();
 				m_bgPixmap = bgPix.scaled(qRound(bgPix.width() * ratio), guitH, Qt::KeepAspectRatio);
 				QPixmap rosePix(gl->path + "picts/pickup.png");
 // 				ratio = guitar->height() / rosePix.height();
-// 				ratio = ((qreal)guitar->width() / 2.0) / (qreal)rosePix.width();
+// 				ratio = ((qreal)guitar->fbRect().height()) / (qreal)rosePix.height();
 // 				qDebug() << ratio << (guitar->width() - guitar->fbRect().width()) / 2 << rosePix.size();
-				ratio *= 0.55;
+				if (gl->instrument == e_bassGuitar)
+						ratio *= 0.5;
+				else
+						ratio *= 0.6;
 				m_rosettePixmap = rosePix.scaled(rosePix.width() * ratio, rosePix.height() * ratio, Qt::KeepAspectRatio);
 // 			if (gl->instrument == e_classicalGuitar) {
 // 				QPixmap rosePix(gl->path + "picts/rosette.png"); // size 341x281
@@ -639,8 +645,8 @@ void MainWindow::paintEvent(QPaintEvent* ) {
 // 												height() - ratio * 250 - (height() - guitar->geometry().bottom()), m_rosettePixmap );
 			} else {
 					qreal ratio = (guitar->height() * 3.3) / 535;
-					painter.drawPixmap(guitar->fbRect().right() - 235 * ratio, height() - m_bgPixmap.height() + 5 * ratio, m_bgPixmap);
-					painter.drawPixmap(guitar->fbRect().right() + 25 * ratio, guitar->y() - 15 * ratio, m_rosettePixmap);
+					painter.drawPixmap(guitar->fbRect().right() - 235 * ratio, height() - m_bgPixmap.height() /*+ 20 * ratio*/, m_bgPixmap);
+					painter.drawPixmap(guitar->fbRect().right() + 20 * ratio, guitar->y() - 15 * ratio, m_rosettePixmap);
 			}
 		}
 }

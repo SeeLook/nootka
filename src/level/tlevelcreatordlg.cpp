@@ -60,6 +60,9 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
     stackLayout->addWidget(questSett);
     stackLayout->addWidget(accSett);
     stackLayout->addWidget(rangeSett);
+		
+		accSett->enableAccids(false);
+		accSett->enableKeys(false);
     
     hint->setFixedHeight(fontMetrics().boundingRect("A").height() * 4);
 

@@ -671,7 +671,7 @@ void TfingerBoard::paintQuestMark() {
     QFont f = QFont("nootka");
     f.setPointSizeF(3 * m_strGap);
     QFontMetricsF fMetr(f);
-    f.setPointSizeF(f.pointSizeF() * ((qreal)(3 * m_strGap) / fMetr.boundingRect("?").height()));
+    f.setPointSizeF(f.pointSizeF() * ((qreal)(fbRect().height() / 2.0f) / fMetr.boundingRect("?").height()));
     m_questMark->setFont(f);
     int off = -1, off2 = 0;
     if (!gl->GisRightHanded) {
@@ -689,11 +689,12 @@ void TfingerBoard::paintQuestMark() {
         else if (m_questPos.str() == gl->Gtune()->stringNr())
           markPoint.setY(m_fbRect.bottom() - m_questMark->boundingRect().height() - 2);
         else
-          markPoint.setY((m_questPos.str() - 2) * m_strGap);
+//           markPoint.setY((m_questPos.str() - 2) * m_strGap);
+					markPoint.setY(m_questPos.str() * m_strGap - m_questMark->boundingRect().height() / 2);
     } else {
-        if (m_questPos.str() < 4)
+        if (m_questPos.str() *m_strGap < fbRect().height() / 2) // below string
             markPoint = QPoint(lastFret + m_fretWidth, m_fbRect.y() + m_questPos.str() * m_strGap - m_strGap / 2);
-        else
+        else //above string
             markPoint = QPoint(lastFret + m_fretWidth, 
                                m_fbRect.y() + (m_questPos.str()) * m_strGap 
                                - m_questMark->boundingRect().height() - m_strGap/2);

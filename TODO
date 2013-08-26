@@ -1,7 +1,8 @@
 Plan for the Nootka One
 
 urgent:
-- question mark for less strings number is over the guitar widget
+- score adds highlight for question twice when repeat
+- during exams wrong finger is green inside??
 - decreasing strings number works only after resize guitar
 - make order with jack
 - images of NSIS installer
@@ -11,11 +12,7 @@ urgent:
 - next and repeat icons have different size (arrow) and look not nice
 - score with text toolbar it to narrow
 
-Add files to NSIS:
-+ body-bass.png
-+ fbbg-el.png
-+ pickup.png
-
+-----------------------------------------------------------
 - check intonation in exams
 - There are similar position calculations in Tcanvas - make methods for them
 - keep exam file in /tmp and restore it when crash or so
