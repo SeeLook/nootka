@@ -570,18 +570,18 @@
         <translation>Afficher / cacher les infobulles</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="202"/>
+        <location filename="../src/mainwindow.cpp" line="203"/>
         <source>Problems with sound output</source>
         <translation>Problème avec la sortie son</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="221"/>
+        <location filename="../src/mainwindow.cpp" line="222"/>
         <source>Sett.</source>
         <comment>like settings but it should be short</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="238"/>
+        <location filename="../src/mainwindow.cpp" line="239"/>
         <source>About</source>
         <translation>À propos</translation>
     </message>
@@ -590,17 +590,17 @@
         <translation type="obsolete">Préférences</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="222"/>
+        <location filename="../src/mainwindow.cpp" line="223"/>
         <source>Application preferences</source>
         <translation>Préférences de Nootka</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="233"/>
+        <location filename="../src/mainwindow.cpp" line="234"/>
         <source>Analyse</source>
         <translation>Analyse</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="235"/>
+        <location filename="../src/mainwindow.cpp" line="236"/>
         <source>Analyse of an exam results</source>
         <translation>Analyser les résultats d&apos;un examen</translation>
     </message>
@@ -609,22 +609,22 @@
         <translation type="obsolete">À propos</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="239"/>
+        <location filename="../src/mainwindow.cpp" line="240"/>
         <source>About Nootka</source>
         <translation>À propos de Nootka</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="254"/>
+        <location filename="../src/mainwindow.cpp" line="255"/>
         <source>Level</source>
         <translation>Niveau</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="258"/>
+        <location filename="../src/mainwindow.cpp" line="259"/>
         <source>Exam</source>
         <translation>Examen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="259"/>
+        <location filename="../src/mainwindow.cpp" line="260"/>
         <source>Start an exam</source>
         <translation>Débuter un examen</translation>
     </message>
@@ -3139,9 +3139,8 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <translation>#  dièses</translation>
     </message>
     <message>
-        <location filename="../src/level/accidsettings.cpp" line="36"/>
         <source>Sharps will be uesd in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
-        <translation>Les dièses seront utilisés dans les questions et les réponses d&apos;examens. &lt;br&gt;  Cocher cette case pour utiliser les tonalités écrite avec des dièses.</translation>
+        <translation type="obsolete">Les dièses seront utilisés dans les questions et les réponses d&apos;examens. &lt;br&gt;  Cocher cette case pour utiliser les tonalités écrite avec des dièses.</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="38"/>
@@ -3149,9 +3148,8 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <translation>b  bémols</translation>
     </message>
     <message>
-        <location filename="../src/level/accidsettings.cpp" line="39"/>
         <source>Flats will be uesd in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
-        <translation>Les bémols seront utilisés dans les questions et les réponses d&apos;examens. &lt;br&gt; Cocher cette case pour utiliser les tonalités écrite avec des bémols.</translation>
+        <translation type="obsolete">Les bémols seront utilisés dans les questions et les réponses d&apos;examens. &lt;br&gt; Cocher cette case pour utiliser les tonalités écrite avec des bémols.</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="41"/>
@@ -3164,8 +3162,22 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <translation>Altérations utilisées dans l&apos;examen.</translation>
     </message>
     <message>
-        <location filename="../src/level/accidsettings.cpp" line="52"/>
         <source>use keys singature</source>
+        <translation type="obsolete">Utiliser les tonalités</translation>
+    </message>
+    <message>
+        <location filename="../src/level/accidsettings.cpp" line="36"/>
+        <source>Sharps will be used in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
+        <translation>Les dièses seront utilisés dans les questions et les réponses d&apos;examens. &lt;br&gt;  Cocher cette case pour utiliser les tonalités écrite avec des dièses.</translation>
+    </message>
+    <message>
+        <location filename="../src/level/accidsettings.cpp" line="39"/>
+        <source>Flats will be used in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
+        <translation>Les bémols seront utilisés dans les questions et les réponses d&apos;examens. &lt;br&gt; Cocher cette case pour utiliser les tonalités écrite avec des bémols.</translation>
+    </message>
+    <message>
+        <location filename="../src/level/accidsettings.cpp" line="52"/>
+        <source>use keys signature</source>
         <translation>Utiliser les tonalités</translation>
     </message>
     <message>
@@ -3190,8 +3202,17 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="69"/>
-        <source>Select a key signature.&lt;br&gt;Apropirate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
+        <source>Select a key signature.&lt;br&gt;Appropriate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
         <translation>Sélectionnez une tonalité. &lt;br&gt; Pour l&apos;examen, les altérations appropriées &lt;br&gt;seront sélectionnées automatiquement !</translation>
+    </message>
+    <message>
+        <location filename="../src/level/accidsettings.cpp" line="280"/>
+        <source>Elements are disabled because appropriate types of questions or answers are not selected.</source>
+        <translation>Éléments désactivés car aucun type de question approprié n&apos;a été sélectionné.</translation>
+    </message>
+    <message>
+        <source>Select a key signature.&lt;br&gt;Apropirate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
+        <translation type="obsolete">Sélectionnez une tonalité. &lt;br&gt; Pour l&apos;examen, les altérations appropriées &lt;br&gt;seront sélectionnées automatiquement !</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="80"/>
@@ -3204,10 +3225,8 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <translation>Lorsque cette case est cochée, l&apos;utilisateur doit choisir une armature de clé, &lt;br&gt;sinon, la tonalité est affichée par l&apos;application.</translation>
     </message>
     <message>
-        <location filename="../src/level/accidsettings.cpp" line="182"/>
-        <location filename="../src/level/accidsettings.cpp" line="195"/>
         <source>Elements are disabled because appropirate types of questions or answers are not selected.</source>
-        <translation>Éléments désactivés car aucun type de question approprié n&apos;a été sélectionné.</translation>
+        <translation type="obsolete">Éléments désactivés car aucun type de question approprié n&apos;a été sélectionné.</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.h" line="39"/>
@@ -3279,7 +3298,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="70"/>
+        <location filename="../src/main.cpp" line="71"/>
         <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.otf manually.&lt;/center&gt;</source>
         <translation>&lt;center&gt;Chargement de la police impossible.&lt;br&gt;Essayez d&apos;installer Nootka.otf manuellement.&lt;/center&gt;</translation>
     </message>

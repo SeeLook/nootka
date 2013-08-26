@@ -212,7 +212,10 @@ void TaudioIN::startListening() {
 }
 
 void TaudioIN::stopListening() {
-  closeStram();
+  if (rtDevice->getCurrentApi() == RtAudio::WINDOWS_DS)
+      stopStream();
+  else
+      closeStram();
 }
 
 // void TaudioIN::wait() {

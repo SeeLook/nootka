@@ -213,10 +213,7 @@ bool TaudioOUT::play(int noteNr) {
       offTimer->stop();
   
   noteNr = noteNr + int(audioParams->a440diff);
-// 	qDebug() << "noteNr" << noteNr;
-//   if (noteNr < -11 || noteNr > 41)
-//       return false;
-//   
+	
   openStream(&streamParams, NULL, RTAUDIO_SINT16, sampleRate * ratioOfRate, &m_bufferFrames, &outCallBack, 0, streamOptions);
   
   doEmit = true;
@@ -245,10 +242,10 @@ void TaudioOUT::stop() {
 
 void TaudioOUT::stopSlot() {
   offTimer->stop();
-  if (rtDevice->getCurrentApi() == RtAudio::LINUX_PULSE)
-    stopStream();
+  if (rtDevice->getCurrentApi() == RtAudio::LINUX_PULSE || rtDevice->getCurrentApi() == RtAudio::WINDOWS_DS) 
+			stopStream();
   else
-    closeStram();
+			closeStram();
   if (doEmit)
     emit noteFinished();
 }

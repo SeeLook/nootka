@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -45,7 +45,7 @@ signals:
     void accidsChanged();
     
 public slots:
-      /** Slots invoked when score becames disable or enable in level*/
+      /** Slots invoked when score becomes disable or enable in level*/
     void enableAccids(bool enable);
     void enableKeys(bool enable);
     
@@ -66,9 +66,11 @@ private slots:
             It emits asNoteChanged() signal. */
     void whenParamsChanged();
         /** It is called when user changes TkeySignComboBox-es
-        * and goal is to check sharps or flats, otherwiese exam level
+        * and goal is to check sharps or flats, otherwise exam level
         * has no sense. */
     void keySignChanged();
+		
+		void updateStatusTip();
 };
 
 #endif // ACCIDSETTINGS_H

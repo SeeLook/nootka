@@ -33,10 +33,10 @@ accidSettings::accidSettings(QWidget* parent) :
     
     QVBoxLayout *accLay = new QVBoxLayout;
     m_sharpsChB = new QCheckBox(tr("# - sharps"),this);
-    m_sharpsChB->setStatusTip(tr("Sharps will be uesd in exam's questions and answers.<br>It has to be checked, if keys with sharps are used."));
+    m_sharpsChB->setStatusTip(tr("Sharps will be used in exam's questions and answers.<br>It has to be checked, if keys with sharps are used."));
     m_sharpsChB->setChecked(true);
     m_flatsChB = new QCheckBox(tr("b - flats"),this);
-    m_flatsChB->setStatusTip(tr("Flats will be uesd in exam's questions and answers.<br>It has to be checked, if keys with flats are used."));
+    m_flatsChB->setStatusTip(tr("Flats will be used in exam's questions and answers.<br>It has to be checked, if keys with flats are used."));
     m_flatsChB->setChecked(true);
     m_doubleAccChB = new QCheckBox(tr("x, bb - double accidentals"),this);
     accLay->addWidget(m_sharpsChB);
@@ -49,7 +49,7 @@ accidSettings::accidSettings(QWidget* parent) :
     mainLay->addWidget(m_accidGr, 1, Qt::AlignCenter);
     
     QHBoxLayout *keyLay = new QHBoxLayout;
-    m_keySignGr = new QGroupBox(tr("use keys singature"),this);
+    m_keySignGr = new QGroupBox(tr("use keys signature"),this);
     m_keySignGr->setCheckable(true);
 
     QVBoxLayout *rangeLay = new QVBoxLayout;
@@ -66,7 +66,7 @@ accidSettings::accidSettings(QWidget* parent) :
     rangeLay->addWidget(m_rangeKeysRadio,0,Qt::AlignCenter);
     QHBoxLayout *comboLay = new QHBoxLayout;
     m_fromKeyCombo = new TkeySignComboBox(this);
-    m_fromKeyCombo->setStatusTip(tr("Select a key signature.<br>Apropirate accidentals used in exam<br>will be automatically selected !"));
+    m_fromKeyCombo->setStatusTip(tr("Select a key signature.<br>Appropriate accidentals used in exam<br>will be automatically selected !"));
     m_fromKeyCombo->setKeySignature(TkeySignature(0));
     m_toKeyCombo = new TkeySignComboBox(this);
     m_toKeyCombo->setStatusTip(m_fromKeyCombo->statusTip());
@@ -179,21 +179,18 @@ void accidSettings::enableAccids(bool enable) {
        setStatusTip("");
     } else {
       m_accidGr->setDisabled(true);
-      setStatusTip("<b>" + tr("Elements are disabled because appropirate types of questions or answers are not selected.") 
-        + "</b>");
+      updateStatusTip();
     }
 }
 
-void accidSettings::enableKeys(bool enable)
-{
+void accidSettings::enableKeys(bool enable) {
     if (enable) { // score is enabled in the level
        m_keySignGr->setDisabled(false);
        if (m_accidGr->isEnabled())
           setStatusTip("");
     } else {
       m_keySignGr->setDisabled(true);
-      setStatusTip("<b>" + tr("Elements are disabled because appropirate types of questions or answers are not selected.") 
-        + "</b>");
+      updateStatusTip();
     }
 }
 
@@ -278,6 +275,10 @@ void accidSettings::whenParamsChanged() {
     }
 }
 
+void accidSettings::updateStatusTip() {
+		setStatusTip("<b>" + tr("Elements are disabled because appropriate types of questions or answers are not selected.") 
+        + "</b>");
+}
 
 
 

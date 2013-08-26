@@ -585,37 +585,37 @@
         <translation type="obsolete">Ustawienia</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="222"/>
+        <location filename="../src/mainwindow.cpp" line="223"/>
         <source>Application preferences</source>
         <translation>Preferencje aplikacji</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="233"/>
+        <location filename="../src/mainwindow.cpp" line="234"/>
         <source>Analyse</source>
         <translation>Analiza</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="235"/>
+        <location filename="../src/mainwindow.cpp" line="236"/>
         <source>Analyse of an exam results</source>
         <translation>Analiza wyników egzaminu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="238"/>
+        <location filename="../src/mainwindow.cpp" line="239"/>
         <source>About</source>
         <translation>O</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="254"/>
+        <location filename="../src/mainwindow.cpp" line="255"/>
         <source>Level</source>
         <translation>Poziom</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="258"/>
+        <location filename="../src/mainwindow.cpp" line="259"/>
         <source>Exam</source>
         <translation>Egzamin</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="259"/>
+        <location filename="../src/mainwindow.cpp" line="260"/>
         <source>Start an exam</source>
         <translation>Rozpocznij egzamin</translation>
     </message>
@@ -624,18 +624,18 @@
         <translation type="obsolete">o programie</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="202"/>
+        <location filename="../src/mainwindow.cpp" line="203"/>
         <source>Problems with sound output</source>
         <translation>Problemy z odtwarzaniem dźwięku</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="221"/>
+        <location filename="../src/mainwindow.cpp" line="222"/>
         <source>Sett.</source>
         <comment>like settings but it should be short</comment>
         <translation>Opcje</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="239"/>
+        <location filename="../src/mainwindow.cpp" line="240"/>
         <source>About Nootka</source>
         <translation>O aplikacji Nootka</translation>
     </message>
@@ -3165,9 +3165,8 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation># - krzyżyki</translation>
     </message>
     <message>
-        <location filename="../src/level/accidsettings.cpp" line="36"/>
         <source>Sharps will be uesd in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
-        <translation>Krzyżyki będa używane w pytaniach i odpowiedziach.&lt;br&gt;Musi być zaznaczone gdy są używane tonacje z krzyżykami.</translation>
+        <translation type="obsolete">Krzyżyki będa używane w pytaniach i odpowiedziach.&lt;br&gt;Musi być zaznaczone gdy są używane tonacje z krzyżykami.</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="38"/>
@@ -3175,9 +3174,8 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation>b - bemole</translation>
     </message>
     <message>
-        <location filename="../src/level/accidsettings.cpp" line="39"/>
         <source>Flats will be uesd in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
-        <translation>Bemole będa używane w pytaniach i odpowiedziach.&lt;br&gt;Musi być zaznaczone gdy są używane tonacje z bemolami.</translation>
+        <translation type="obsolete">Bemole będa używane w pytaniach i odpowiedziach.&lt;br&gt;Musi być zaznaczone gdy są używane tonacje z bemolami.</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="41"/>
@@ -3190,8 +3188,22 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation>Znaki używane podczas egzaminu.</translation>
     </message>
     <message>
-        <location filename="../src/level/accidsettings.cpp" line="52"/>
         <source>use keys singature</source>
+        <translation type="obsolete">używaj tonacji</translation>
+    </message>
+    <message>
+        <location filename="../src/level/accidsettings.cpp" line="36"/>
+        <source>Sharps will be used in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
+        <translation>Krzyżyki będa używane w pytaniach i odpowiedziach.&lt;br&gt;Musi być zaznaczone gdy są używane tonacje z krzyżykami.</translation>
+    </message>
+    <message>
+        <location filename="../src/level/accidsettings.cpp" line="39"/>
+        <source>Flats will be used in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
+        <translation>Bemole będa używane w pytaniach i odpowiedziach.&lt;br&gt;Musi być zaznaczone gdy są używane tonacje z bemolami.</translation>
+    </message>
+    <message>
+        <location filename="../src/level/accidsettings.cpp" line="52"/>
+        <source>use keys signature</source>
         <translation>używaj tonacji</translation>
     </message>
     <message>
@@ -3216,8 +3228,17 @@ Sprawdź czy jego parametry są właściwe..</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="69"/>
-        <source>Select a key signature.&lt;br&gt;Apropirate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
+        <source>Select a key signature.&lt;br&gt;Appropriate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
         <translation>Wybierz tonację.&lt;br&gt;Odpowiednie znaki używane podczas egzaminu&lt;br&gt;zostaną zaznaczone automatycznie!</translation>
+    </message>
+    <message>
+        <location filename="../src/level/accidsettings.cpp" line="280"/>
+        <source>Elements are disabled because appropriate types of questions or answers are not selected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a key signature.&lt;br&gt;Apropirate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
+        <translation type="obsolete">Wybierz tonację.&lt;br&gt;Odpowiednie znaki używane podczas egzaminu&lt;br&gt;zostaną zaznaczone automatycznie!</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="80"/>
@@ -3228,12 +3249,6 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/level/accidsettings.cpp" line="81"/>
         <source>if checked, in exam user have to select a key signature,&lt;br&gt;otherwise it is shown by application.</source>
         <translation>Gdy zaznaczone, podczas egzaminu użytkownik sam musi wprowadzić tonację,&lt;br&gt;gdy nie zaznaczone, wyświetli ją program.</translation>
-    </message>
-    <message>
-        <location filename="../src/level/accidsettings.cpp" line="182"/>
-        <location filename="../src/level/accidsettings.cpp" line="195"/>
-        <source>Elements are disabled because appropirate types of questions or answers are not selected.</source>
-        <translation></translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.h" line="39"/>
@@ -3305,7 +3320,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="70"/>
+        <location filename="../src/main.cpp" line="71"/>
         <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.otf manually.&lt;/center&gt;</source>
         <translation>&lt;center&gt;Nie mogę wczytać czcionki.&lt;br&gt;Spróbuj ręcznie zainstalować nootka.otf.&lt;/center&gt;</translation>
     </message>
