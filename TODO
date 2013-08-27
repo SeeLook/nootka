@@ -1,6 +1,7 @@
 Plan for the Nootka One
 
 urgent:
+-!!! guitar is locked after repeat question without auto-next-question
 - score adds highlight for question twice when repeat
 - during exams wrong finger is green inside??
 - decreasing strings number works only after resize guitar
@@ -10,7 +11,7 @@ urgent:
 - grand staff brace is still not adjusted
 - frequency label has to show current strings number and tune
 - next and repeat icons have different size (arrow) and look not nice
-- score with text toolbar it to narrow
+- try to adjust navList widget width to wider text in it
 
 -----------------------------------------------------------
 - check intonation in exams

@@ -219,7 +219,7 @@ MainWindow::~MainWindow()
 //##########################################################################################
 
 void MainWindow::createActions() {
-    settingsAct = new QAction(tr("Sett.", "like settings but it should be short"), this);
+    settingsAct = new QAction(tr("Sett.", "like settings but it should be short and could be Opt. or Pref. as well - this is a text under toolbar button"), this);
     settingsAct->setStatusTip(tr("Application preferences"));
     settingsAct->setIcon(QIcon(gl->path+"picts/systemsettings.png"));
     connect(settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
@@ -231,12 +231,12 @@ void MainWindow::createActions() {
     connect(startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
     setStartExamActParams(); // set text and icon also for levelCreatorAct
     
-    analyseAct = new QAction(tr("Analyse"), this);
+    analyseAct = new QAction(tr("Analyse", "tool button text! - could be Chart as well"), this);
     analyseAct->setIcon(QIcon(gl->path+"picts/charts.png"));
     analyseAct->setStatusTip(tr("Analyse of an exam results"));
     connect(analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
 
-    aboutAct = new QAction(tr("About"), this);
+    aboutAct = new QAction(tr("About", "tool button text! Please be short"), this);
     aboutAct->setStatusTip(tr("About Nootka"));
     aboutAct->setIcon(QIcon(gl->path+"picts/about.png"));
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(aboutSlot()));
@@ -252,11 +252,11 @@ void MainWindow::createActions() {
 }
 
 void MainWindow::setStartExamActParams() {
-    levelCreatorAct->setText(tr("Level"));
+    levelCreatorAct->setText(tr("Level", "tool button text!"));
     levelCreatorAct->setStatusTip(TlevelCreatorDlg::levelCreatorTxt());
     levelCreatorAct->setIcon(QIcon(gl->path+"picts/levelCreator.png"));
   
-    startExamAct->setText(tr("Exam"));
+    startExamAct->setText(tr("Exam", "tool button text!"));
     startExamAct->setStatusTip(tr("Start an exam"));
     startExamAct->setIcon(QIcon(gl->path+"picts/startExam.png"));
 }

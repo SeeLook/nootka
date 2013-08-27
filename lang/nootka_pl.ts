@@ -124,7 +124,7 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="79"/>
         <source>minimal note duration</source>
-        <translation type="unfinished"></translation>
+        <translation>minimalny czas dźwięku</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="86"/>
@@ -134,7 +134,7 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="89"/>
         <source>Only sounds longer than given time are detected.&lt;br&gt;Longer duration can avoid of capturing some noises or unexpected sounds but decreases a responsiveness</source>
-        <translation type="unfinished"></translation>
+        <translation>Tylko dźwięki dłuższe niż podany czas są wykrywane.&lt;br&gt;Wydłużenie czasu nuty zapobiega przechwytywaniu szumów lub innych niechcianych dźwięków ale obniża reakcję programu.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="109"/>
@@ -581,6 +581,36 @@
         <translation>pokaż lub ukryj podpowiedzi</translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.cpp" line="222"/>
+        <source>Sett.</source>
+        <comment>like settings but it should be short and could be Opt. or Pref. as well - this is a text under toolbar button</comment>
+        <translation>Opcje</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="234"/>
+        <source>Analyse</source>
+        <comment>tool button text! - could be Chart as well</comment>
+        <translation>Analiza</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="239"/>
+        <source>About</source>
+        <comment>tool button text! Please be short</comment>
+        <translation>O</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="255"/>
+        <source>Level</source>
+        <comment>tool button text!</comment>
+        <translation>Poziom</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="259"/>
+        <source>Exam</source>
+        <comment>tool button text!</comment>
+        <translation>Egzamin</translation>
+    </message>
+    <message>
         <source>Settings</source>
         <translation type="obsolete">Ustawienia</translation>
     </message>
@@ -590,9 +620,8 @@
         <translation>Preferencje aplikacji</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="234"/>
         <source>Analyse</source>
-        <translation>Analiza</translation>
+        <translation type="obsolete">Analiza</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="236"/>
@@ -600,19 +629,16 @@
         <translation>Analiza wyników egzaminu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="239"/>
         <source>About</source>
-        <translation>O</translation>
+        <translation type="obsolete">O</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="255"/>
         <source>Level</source>
-        <translation>Poziom</translation>
+        <translation type="obsolete">Poziom</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="259"/>
         <source>Exam</source>
-        <translation>Egzamin</translation>
+        <translation type="obsolete">Egzamin</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="260"/>
@@ -629,10 +655,9 @@
         <translation>Problemy z odtwarzaniem dźwięku</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="222"/>
         <source>Sett.</source>
         <comment>like settings but it should be short</comment>
-        <translation>Opcje</translation>
+        <translation type="obsolete">Opcje</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="240"/>
@@ -908,22 +933,22 @@
 <context>
     <name>Tabout</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="183"/>
+        <location filename="../src/info/taboutnootka.cpp" line="221"/>
         <source>Welcome on the board.&lt;br&gt; Nootka is open source application to help You learning (and teaching also) classical score notation.&lt;br&gt;It is specially dedicated for guitarists but others can find many usable features as well.</source>
         <translation>Witamy na pokładzie.&lt;br&gt; Nootka to aplikacja open source pomagająca w nauce (a także w nauczaniu) klasycznego zapisu nutowego. Jest szczególnie dedykowana gitarzystom ale inni także znajdą w niej coś użytecznego.</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="184"/>
+        <location filename="../src/info/taboutnootka.cpp" line="222"/>
         <source>This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features.&lt;br&gt;Inspite of that You are welcome to try it!!</source>
         <translation>Ta wersja to beta i może zawierać błędy lub działać w niezamierzony sposób, posiada także nieukończone funkcje.&lt;br&gt;Mimo tego, zapraszam do wypróbowania!!</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="185"/>
+        <location filename="../src/info/taboutnootka.cpp" line="223"/>
         <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, sugestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
         <translation>Po więcej szczegółów i po następne wydania zajrzyj na &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;stronę programu&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Błędy, sugestie, tłumaczenia itp., proszę zgłaszać do: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;z poważaniem&lt;br&gt;Autor</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="189"/>
+        <location filename="../src/info/taboutnootka.cpp" line="227"/>
         <source>&lt;br&gt;To support project and also to avoid infection of Your PC&lt;br&gt;&lt;b&gt;PLEASE, use project site to download updates, new releases and to see news.&lt;/b&gt;</source>
         <translation>&lt;br&gt;Żeby wesprzeć projekt, a także uniknąć zarażenia Twojego komputera&lt;br&gt;&lt;b&gt;do pobierania aktualizacji, nowych wersji i czytania o nowościach, proszę używać strony www projektu&lt;/b&gt;</translation>
     </message>
@@ -931,57 +956,72 @@
 <context>
     <name>TaboutNootka</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="43"/>
+        <location filename="../src/info/taboutnootka.cpp" line="51"/>
         <source>About Nootka</source>
         <translation>O aplikacji Nootka</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="64"/>
+        <location filename="../src/info/taboutnootka.cpp" line="72"/>
         <source>About</source>
         <translation>O</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="67"/>
+        <location filename="../src/info/taboutnootka.cpp" line="75"/>
         <source>Help</source>
         <translation>Pomoc</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="76"/>
+        <location filename="../src/info/taboutnootka.cpp" line="84"/>
         <source>Support</source>
         <translation>Wsparcie</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="79"/>
+        <location filename="../src/info/taboutnootka.cpp" line="87"/>
         <source>Changes</source>
         <translation>Zmiany</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="91"/>
-        <source>Programming:</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/info/taboutnootka.cpp" line="100"/>
+        <source>Code</source>
+        <translation>Kod</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="92"/>
-        <source>Electric guitar samples, testing:</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/info/taboutnootka.cpp" line="102"/>
+        <source>Audio</source>
+        <translation>Audio</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="94"/>
+        <location filename="../src/info/taboutnootka.cpp" line="103"/>
+        <source>mastering and/or recording of samples:</source>
+        <translation>mastering i/lub nagrywanie sampli:</translation>
+    </message>
+    <message>
+        <location filename="../src/info/taboutnootka.cpp" line="129"/>
+        <source>Thanks</source>
+        <translation>Podziękowania</translation>
+    </message>
+    <message>
+        <location filename="../src/info/taboutnootka.cpp" line="105"/>
         <source>Translators</source>
         <translation>Tłumacze</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="106"/>
+        <location filename="../src/info/taboutnootka.cpp" line="116"/>
+        <source>Other projects</source>
+        <translation>Inne projekty</translation>
+    </message>
+    <message>
+        <location filename="../src/info/taboutnootka.cpp" line="117"/>
         <source>However this application could not exist without various open source projects.&lt;br&gt;Especially:</source>
         <translation>Jednakże ta aplikacja nie mogła by istnieć bez różnych projektów open source,&lt;br&gt;a w szczególności:</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.h" line="34"/>
+        <location filename="../src/info/taboutnootka.h" line="36"/>
         <source>Authors</source>
         <translation>Autorzy</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="73"/>
+        <location filename="../src/info/taboutnootka.cpp" line="81"/>
         <source>License</source>
         <translation>Licencja</translation>
     </message>
@@ -1273,6 +1313,18 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
 (spacja %1)</translation>
     </message>
     <message>
+        <location filename="../src/exam/texamexecutor.cpp" line="229"/>
+        <source>Repeat</source>
+        <comment>like repeat question - tool button text! Please be short</comment>
+        <translation>Powtórz</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamexecutor.cpp" line="235"/>
+        <source>Check</source>
+        <comment>like check answer - tool button text! Please be short</comment>
+        <translation>Sprawdź</translation>
+    </message>
+    <message>
         <location filename="../src/exam/texamexecutor.cpp" line="236"/>
         <source>check answer
 (enter %1)</source>
@@ -1311,27 +1363,17 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="222"/>
         <source>Next</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="229"/>
-        <source>Repeat</source>
-        <translation type="unfinished"></translation>
+        <comment>like next question - tool button text! Please be short</comment>
+        <translation>Następne</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="230"/>
         <source>repeat previous question (backspace)</source>
-        <translation type="unfinished"></translation>
+        <translation>powtórz poprzednie pytanie (backspace)</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="235"/>
         <source>Check</source>
-        <translation>Sprawdź</translation>
-    </message>
-    <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="242"/>
-        <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Sprawdź</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="771"/>
@@ -1372,6 +1414,27 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <location filename="../src/exam/texamexecutor.cpp" line="165"/>
         <source>An exam requires sound input but&lt;br&gt;it is not available !!!</source>
         <translation>Egzamin wymaga sygnału wejściowego&lt;br&gt;ale nie jest on dostępny !!!</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <comment>tool button text! Please be short</comment>
+        <translation type="obsolete">Następne</translation>
+    </message>
+    <message>
+        <source>Repeat</source>
+        <comment>tool button text! Please be short</comment>
+        <translation type="obsolete">Powtórz</translation>
+    </message>
+    <message>
+        <source>Check</source>
+        <comment>tool button text! Please be short</comment>
+        <translation type="obsolete">Sprawdź</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamexecutor.cpp" line="242"/>
+        <source>Play</source>
+        <comment>tool button text! Please be short</comment>
+        <translation>Graj</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="763"/>
@@ -1948,9 +2011,14 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="obsolete">nie używana</translation>
     </message>
     <message>
+        <source>not used</source>
+        <translation type="obsolete">nie używana</translation>
+    </message>
+    <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="63"/>
         <source>not used</source>
-        <translation type="unfinished"></translation>
+        <comment>like &apos;guitar is not used&apos;</comment>
+        <translation>nie używana</translation>
     </message>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="75"/>
@@ -3150,7 +3218,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>about translator</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="119"/>
+        <location filename="../src/info/taboutnootka.cpp" line="139"/>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; Your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
         <translatorcomment>o przecież wiesz o co chodzi :-)</translatorcomment>
@@ -3232,9 +3300,9 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation>Wybierz tonację.&lt;br&gt;Odpowiednie znaki używane podczas egzaminu&lt;br&gt;zostaną zaznaczone automatycznie!</translation>
     </message>
     <message>
-        <location filename="../src/level/accidsettings.cpp" line="280"/>
+        <location filename="../src/level/accidsettings.cpp" line="279"/>
         <source>Elements are disabled because appropriate types of questions or answers are not selected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Elementy są niedostępne ponieważ nie zostały wybrane odpowiednie typy pytań lub odpowiedzi .</translation>
     </message>
     <message>
         <source>Select a key signature.&lt;br&gt;Apropirate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
