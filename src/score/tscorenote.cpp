@@ -237,11 +237,13 @@ void TscoreNote::hideNote() {
 
 
 void TscoreNote::hideWorkNote() {
+	if (m_workNote->isVisible()) {
     m_workNote->hide();
     m_workAccid->hide();
     hideLines(m_upLines);
     hideLines(m_downLines);
     m_workPosY = 0.0;
+	}
 }
 
 

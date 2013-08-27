@@ -495,7 +495,7 @@ void Tcanvas::setPosOfQuestionTip() {
 			fineScale = (qreal)maxTipHeight / m_questionTip->boundingRect().height();
 			qreal scaleStep = 0.0;
 			while (m_questionTip->boundingRect().height() > maxTipHeight) {
-					qDebug() << "scaleStep" << scaleStep;
+// 					qDebug() << "scaleStep" << scaleStep;
 					delete m_questionTip;
 					m_questionTip = new TquestionTip(m_exam, m_scale * fineScale - scaleStep);			
 					scaleStep += 0.1;

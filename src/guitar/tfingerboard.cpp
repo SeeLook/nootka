@@ -110,6 +110,7 @@ void TfingerBoard::acceptSettings() {
         m_fingers[i]->setBrush(QBrush(gl->GselectedColor, Qt::SolidPattern));
     }
     m_workFinger->setBrush(QBrush(gl->GfingerColor, Qt::SolidPattern));
+		m_workFinger->setPen(QPen(gl->GfingerColor, 2));
 		setTune();
 		paint();
     setFinger(m_selNote);
@@ -298,7 +299,7 @@ void TfingerBoard::markQuestion(QColor blurColor) {
     if (m_questFinger)
       m_questFinger->setPen(QPen(blurColor, 3));
     if (m_questString)
-      m_questString->setPen(QPen(blurColor, 5));
+      m_questString->setPen(QPen(blurColor, m_questString->pen().width()));
 }
 
 
@@ -521,7 +522,8 @@ void TfingerBoard::paint() {
 						m_workStrings[i]->setLine(1, m_fbRect.y() + m_strGap / 2 + i * m_strGap, width() - 1 - m_strGap,
                                   m_fbRect.y() + m_strGap / 2 + i * m_strGap);
 						m_strings[i]->setPen(QPen(gl->GselectedColor, m_strWidth[i], Qt::SolidLine));
-						m_strings[i]->setLine(m_workStrings[i]->line());						
+						m_strings[i]->setLine(m_workStrings[i]->line());
+						m_strings[i]->show();
   // drawing digits of strings in circles
 						painter.setPen(QPen(m_strColors[i], 1, Qt::SolidLine));
 // 						painter.setBrush(QBrush(QColor(100, 100, 100, 200)));
