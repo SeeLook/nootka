@@ -149,7 +149,7 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="154"/>
         <source>Range of note pitches:</source>
-        <translation type="unfinished"></translation>
+        <translation>Plage de notes </translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="157"/>
@@ -174,17 +174,17 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="79"/>
         <source>minimal note duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Durée de note minimale</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="86"/>
         <source>[milliseconds]</source>
-        <translation type="unfinished"></translation>
+        <translation>[millisecondes]</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="89"/>
         <source>Only sounds longer than given time are detected.&lt;br&gt;Longer duration can avoid of capturing some noises or unexpected sounds but decreases a responsiveness</source>
-        <translation type="unfinished"></translation>
+        <translation>Seuls les sons durant plus que le temps indiqué sont détectés. &lt;br&gt; Augmenter ce temps peut permettre d&apos;éviter de capter des bruits mais réduit la réactivité</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="132"/>
@@ -578,31 +578,31 @@
         <location filename="../src/mainwindow.cpp" line="222"/>
         <source>Sett.</source>
         <comment>like settings but it should be short and could be Opt. or Pref. as well - this is a text under toolbar button</comment>
-        <translation type="unfinished"></translation>
+        <translation>Préfs.</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="234"/>
         <source>Analyse</source>
         <comment>tool button text! - could be Chart as well</comment>
-        <translation type="unfinished">Analyse</translation>
+        <translation>Analyse</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="239"/>
         <source>About</source>
         <comment>tool button text! Please be short</comment>
-        <translation type="unfinished">À propos</translation>
+        <translation>À propos</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="255"/>
         <source>Level</source>
         <comment>tool button text!</comment>
-        <translation type="unfinished">Niveau</translation>
+        <translation>Niveau</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="259"/>
         <source>Exam</source>
         <comment>tool button text!</comment>
-        <translation type="unfinished">Examen</translation>
+        <translation>Examen</translation>
     </message>
     <message>
         <source>About</source>
@@ -967,22 +967,22 @@
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="100"/>
         <source>Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Code</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="102"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="103"/>
         <source>mastering and/or recording of samples:</source>
-        <translation type="unfinished"></translation>
+        <translation>Montage / enregistrement d&apos;échantillons:</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="129"/>
         <source>Thanks</source>
-        <translation type="unfinished"></translation>
+        <translation>Merci</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="105"/>
@@ -992,7 +992,7 @@
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="116"/>
         <source>Other projects</source>
-        <translation type="unfinished"></translation>
+        <translation>Autres projets</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="117"/>
@@ -1192,8 +1192,8 @@
     <message>
         <location filename="../src/music/tclef.cpp" line="34"/>
         <source>treble dropped</source>
-        <translatorcomment>not sure how to translate here...  </translatorcomment>
-        <translation type="unfinished"></translation>
+        <translatorcomment>that&apos;s kind of a guess-translation... I &apos;m not sure</translatorcomment>
+        <translation>Aigus abaissés</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="36"/>
@@ -1203,7 +1203,7 @@
     <message>
         <location filename="../src/music/tclef.cpp" line="38"/>
         <source>bass dropped</source>
-        <translation type="unfinished"></translation>
+        <translation>Graves abaissés</translation>
     </message>
     <message>
         <location filename="../src/music/tclef.cpp" line="40"/>
@@ -1290,7 +1290,7 @@
         <location filename="../src/exam/texamexecutor.cpp" line="222"/>
         <source>Next</source>
         <comment>like next question - tool button text! Please be short</comment>
-        <translation type="unfinished"></translation>
+        <translation>Suiv.</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="223"/>
@@ -1352,19 +1352,19 @@
         <location filename="../src/exam/texamexecutor.cpp" line="229"/>
         <source>Repeat</source>
         <comment>like repeat question - tool button text! Please be short</comment>
-        <translation type="unfinished"></translation>
+        <translation>Répét.</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="235"/>
         <source>Check</source>
         <comment>like check answer - tool button text! Please be short</comment>
-        <translation type="unfinished">Vérifier</translation>
+        <translation>Vérif.</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="242"/>
         <source>Play</source>
         <comment>tool button text! Please be short</comment>
-        <translation type="unfinished"></translation>
+        <translation>Jouer</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="771"/>
@@ -1838,8 +1838,7 @@
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="191"/>
         <source>To write notes for bass guitat the &lt;b&gt;bass clef&lt;/b&gt; is used but played notes sound octave down. The propper clef is &lt;b&gt;bass dropped clef&lt;/b&gt; (with &quot;eight&quot; digit below) where notes sound exactly as written and this clef is used in Nootka for bass guitar.</source>
-        <translatorcomment>Not sure here... First English sentence is somewhat unclear. Also, isn&apos;t the &quot;bass clef&quot; the same as the &quot;F clef&quot;? In which case, I might rather use &quot;clé de Fa&quot; (F clef) in French rather than &quot;bass clef&quot; </translatorcomment>
-        <translation type="unfinished">Pour écrire les notes pour la guitare basse, la &lt;b&gt; clé des basses &lt;b&gt; est utilisée mais les notes sont jouées une octave plus bas. La clé appropriée est la &lt;b&gt; clé des basses abaissée &lt;/b&gt; (avec le chiffre &quot;8&quot; noté en dessous) pour laquelle les notes sonnent exactement telles quelles sont écrites. C&apos;est cette clé qui est utilisée dans Nootka. </translation>
+        <translation>Pour écrire les notes pour la guitare basse, la &lt;b&gt; clé de Fa&lt;b&gt; est utilisée mais les notes sont jouées une octave plus bas. La clé appropriée est la &lt;b&gt; clé de Fa abaissée &lt;/b&gt; (avec le chiffre &quot;8&quot; noté en dessous) pour laquelle les notes sonnent exactement telles quelles sont écrites. C&apos;est cette clé qui est utilisée dans Nootka. </translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="194"/>
@@ -1977,7 +1976,7 @@
         <location filename="../src/settings/tguitarsettings.cpp" line="63"/>
         <source>not used</source>
         <comment>like &apos;guitar is not used&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Inutilisée</translation>
     </message>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="75"/>
@@ -2385,8 +2384,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/notename/tnotename.cpp" line="32"/>
         <source>Sub</source>
-        <translatorcomment>not sure here</translatorcomment>
-        <translation type="unfinished">Sous-octave</translation>
+        <translation>Double contr-octave</translation>
     </message>
     <message>
         <location filename="../src/notename/tnotename.cpp" line="33"/>
