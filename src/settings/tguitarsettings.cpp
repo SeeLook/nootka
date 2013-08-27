@@ -60,7 +60,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 	// Selecting guitar type combo
 		m_instrumentTypeCombo = new QComboBox(this);
 		guitarLay->addWidget(m_instrumentTypeCombo, 0, Qt::AlignCenter);
-		m_instrumentTypeCombo->addItem(tr("not used"));
+		m_instrumentTypeCombo->addItem(tr("not used", "like 'guitar is not used'"));
 		QModelIndex in = m_instrumentTypeCombo->model()->index(0, 0);
 		QVariant v(0);
 		m_instrumentTypeCombo->model()->setData(in, v, Qt::UserRole - 1);

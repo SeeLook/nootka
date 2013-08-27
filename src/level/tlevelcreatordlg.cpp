@@ -61,9 +61,6 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
     stackLayout->addWidget(accSett);
     stackLayout->addWidget(rangeSett);
 		
-		accSett->enableAccids(false);
-		accSett->enableKeys(false);
-    
     hint->setFixedHeight(fontMetrics().boundingRect("A").height() * 4);
 
     connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));

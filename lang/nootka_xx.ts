@@ -408,12 +408,25 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="222"/>
         <source>Sett.</source>
-        <comment>like settings but it should be short</comment>
+        <comment>like settings but it should be short and could be Opt. or Pref. as well - this is a text under toolbar button</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="239"/>
-        <source>About</source>
+        <location filename="../src/mainwindow.cpp" line="234"/>
+        <source>Analyse</source>
+        <comment>tool button text! - could be Chart as well</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="255"/>
+        <source>Level</source>
+        <comment>tool button text!</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="259"/>
+        <source>Exam</source>
+        <comment>tool button text!</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -422,28 +435,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="234"/>
-        <source>Analyse</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.cpp" line="236"/>
         <source>Analyse of an exam results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.cpp" line="239"/>
+        <source>About</source>
+        <comment>tool button text! Please be short</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/mainwindow.cpp" line="240"/>
         <source>About Nootka</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="255"/>
-        <source>Level</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="259"/>
-        <source>Exam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -628,22 +632,22 @@
 <context>
     <name>Tabout</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="183"/>
+        <location filename="../src/info/taboutnootka.cpp" line="221"/>
         <source>Welcome on the board.&lt;br&gt; Nootka is open source application to help You learning (and teaching also) classical score notation.&lt;br&gt;It is specially dedicated for guitarists but others can find many usable features as well.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="184"/>
+        <location filename="../src/info/taboutnootka.cpp" line="222"/>
         <source>This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features.&lt;br&gt;Inspite of that You are welcome to try it!!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="185"/>
+        <location filename="../src/info/taboutnootka.cpp" line="223"/>
         <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, sugestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="189"/>
+        <location filename="../src/info/taboutnootka.cpp" line="227"/>
         <source>&lt;br&gt;To support project and also to avoid infection of Your PC&lt;br&gt;&lt;b&gt;PLEASE, use project site to download updates, new releases and to see news.&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -651,57 +655,72 @@
 <context>
     <name>TaboutNootka</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="43"/>
+        <location filename="../src/info/taboutnootka.cpp" line="51"/>
         <source>About Nootka</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="64"/>
+        <location filename="../src/info/taboutnootka.cpp" line="72"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="67"/>
+        <location filename="../src/info/taboutnootka.cpp" line="75"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="73"/>
+        <location filename="../src/info/taboutnootka.cpp" line="81"/>
         <source>License</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="76"/>
+        <location filename="../src/info/taboutnootka.cpp" line="84"/>
         <source>Support</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="79"/>
+        <location filename="../src/info/taboutnootka.cpp" line="87"/>
         <source>Changes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="91"/>
-        <source>Programming:</source>
+        <location filename="../src/info/taboutnootka.cpp" line="100"/>
+        <source>Code</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="92"/>
-        <source>Electric guitar samples, testing:</source>
+        <location filename="../src/info/taboutnootka.cpp" line="102"/>
+        <source>Audio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="94"/>
+        <location filename="../src/info/taboutnootka.cpp" line="103"/>
+        <source>mastering and/or recording of samples:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/info/taboutnootka.cpp" line="129"/>
+        <source>Thanks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/info/taboutnootka.cpp" line="105"/>
         <source>Translators</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="106"/>
+        <location filename="../src/info/taboutnootka.cpp" line="116"/>
+        <source>Other projects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/info/taboutnootka.cpp" line="117"/>
         <source>However this application could not exist without various open source projects.&lt;br&gt;Especially:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.h" line="34"/>
+        <location filename="../src/info/taboutnootka.h" line="36"/>
         <source>Authors</source>
         <translation type="unfinished"></translation>
     </message>
@@ -987,12 +1006,25 @@
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="222"/>
         <source>Next</source>
+        <comment>like next question - tool button text! Please be short</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="223"/>
         <source>next question
 (space %1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamexecutor.cpp" line="229"/>
+        <source>Repeat</source>
+        <comment>like repeat question - tool button text! Please be short</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamexecutor.cpp" line="235"/>
+        <source>Check</source>
+        <comment>like check answer - tool button text! Please be short</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1022,23 +1054,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="229"/>
-        <source>Repeat</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/exam/texamexecutor.cpp" line="230"/>
         <source>repeat previous question (backspace)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="235"/>
-        <source>Check</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/exam/texamexecutor.cpp" line="242"/>
         <source>Play</source>
+        <comment>tool button text! Please be short</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1642,6 +1665,7 @@
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="63"/>
         <source>not used</source>
+        <comment>like &apos;guitar is not used&apos;</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2788,7 +2812,7 @@ Check please, are its parameters as expected.</source>
 <context>
     <name>about translator</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="119"/>
+        <location filename="../src/info/taboutnootka.cpp" line="139"/>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; Your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
         <translation type="unfinished"></translation>
@@ -2857,7 +2881,7 @@ Check please, are its parameters as expected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/accidsettings.cpp" line="280"/>
+        <location filename="../src/level/accidsettings.cpp" line="279"/>
         <source>Elements are disabled because appropriate types of questions or answers are not selected.</source>
         <translation type="unfinished"></translation>
     </message>

@@ -219,27 +219,27 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
     if (m_level.questionAs.isFret()) m_level.answersAs[TQAtype::e_asFretPos].randNext();
     if (m_level.questionAs.isSound()) m_level.answersAs[TQAtype::e_asSound].randNext();
     
-    nextQuestAct = new QAction(tr("Next"), this);
+    nextQuestAct = new QAction(tr("Next", "like next question - tool button text! Please be short"), this);
     nextQuestAct->setStatusTip(tr("next question\n(space %1)").arg(TexamHelp::orRightButtTxt()));
     nextQuestAct->setIcon(QIcon(gl->path+"picts/nextQuest.png"));
     nextQuestAct->setShortcut(QKeySequence(Qt::Key_Space));
     connect(nextQuestAct, SIGNAL(triggered()), this, SLOT(askQuestion()));
     mW->nootBar->addAction(nextQuestAct);
 
-    prevQuestAct = new QAction(tr("Repeat"), this);
+    prevQuestAct = new QAction(tr("Repeat", "like repeat question - tool button text! Please be short"), this);
     prevQuestAct->setStatusTip(tr("repeat previous question (backspace)"));
     prevQuestAct->setIcon(QIcon(gl->path+"picts/prevQuest.png"));
     prevQuestAct->setShortcut(QKeySequence(Qt::Key_Backspace));
     connect(prevQuestAct, SIGNAL(triggered()), this, SLOT(repeatQuestion()));
 
-    checkAct = new QAction(tr("Check"), this);
+    checkAct = new QAction(tr("Check", "like check answer - tool button text! Please be short"), this);
     checkAct->setStatusTip(tr("check answer\n(enter %1)").arg(TexamHelp::orRightButtTxt()));
     checkAct->setIcon(QIcon(gl->path+"picts/check.png"));
     checkAct->setShortcut(QKeySequence(Qt::Key_Return));
     connect(checkAct, SIGNAL(triggered()), this, SLOT(checkAnswer()));
 
     if (m_level.questionAs.isSound()) {
-        repeatSndAct = new QAction(tr("Play"), this);
+        repeatSndAct = new QAction(tr("Play", "tool button text! Please be short"), this);
         repeatSndAct->setStatusTip(tr("play sound again") + ",<br>" + TexamHelp::pressSpaceKey());
         repeatSndAct->setText(repeatSndAct->text() + ",\n" + TexamHelp::pressSpaceKey().remove("<b>").remove("</b>"));
         repeatSndAct->setShortcut(QKeySequence(Qt::Key_Space));

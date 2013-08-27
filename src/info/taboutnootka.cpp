@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -31,10 +31,18 @@ QString createLink(QString desc, QString href) {
   return "<a href=\"" + href + "\">" + desc + "</a>";
 }
 
+/** Returns text header with defined text size and background */
+QString getHeader(QString text) {
+	return "<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>" + text + "</b></p></center>";
+}
+
 QString transRow (QString flag, QString lang, QString name, QString mailAndSite) {
   return QString("<tr valign=\"middle\" align=\"center\"><td> <img src=\"%1\">&nbsp;&nbsp;&nbsp;</td><td> %2 &nbsp;&nbsp;&nbsp;</td><td> <b>%3</b> </td><td>&nbsp;&nbsp;&nbsp; %4 </td></tr>").
       arg(gl->path + "picts/flags-" + flag + ".png").arg(lang).arg(name).arg(mailAndSite);
 }
+
+
+
 
 TaboutNootka::TaboutNootka(QWidget *parent) :
     QDialog(parent)
@@ -43,55 +51,58 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     setWindowTitle(tr("About Nootka"));
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *abLay = new QHBoxLayout;
-    navList = new QListWidget(this);
-    navList->setIconSize(QSize(80,80));
-    navList->setFixedWidth(110);
-    navList->setViewMode(QListView::IconMode);
-		navList->setMovement(QListView::Static);
+    m_navList = new QListWidget(this);
+    m_navList->setIconSize(QSize(80,80));
+    m_navList->setFixedWidth(110);
+    m_navList->setViewMode(QListView::IconMode);
+		m_navList->setMovement(QListView::Static);
 //     navList->setFlow(QListView::TopToBottom);
-    abLay->addWidget(navList);
+    abLay->addWidget(m_navList);
 
-    stackLayout = new QStackedLayout;
-    abLay->addLayout(stackLayout);
+    m_stackLayout = new QStackedLayout;
+    abLay->addLayout(m_stackLayout);
 
     mainLay->addLayout(abLay);
 
-    okBut = new QPushButton("OK", this);
-    mainLay->addWidget(okBut, 1, Qt::AlignCenter);
+    m_okBut = new QPushButton("OK", this);
+    mainLay->addWidget(m_okBut, 1, Qt::AlignCenter);
 
     setLayout(mainLay);
 
-    navList->addItem(tr("About"));
-    navList->item(0)->setIcon(QIcon(gl->path+"picts/nootka.png"));
-    navList->item(0)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(tr("Help"));
-    navList->item(1)->setIcon(QIcon(gl->path+"picts/help.png"));
-    navList->item(1)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(authorsTxt());
-    navList->item(2)->setIcon(QIcon(gl->path+"picts/author.png"));
-    navList->item(2)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(tr("License"));
-    navList->item(3)->setIcon(QIcon(gl->path+"picts/license.png"));
-    navList->item(3)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(tr("Support"));
-    navList->item(4)->setIcon(QIcon(gl->path+"picts/support.png"));
-    navList->item(4)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(tr("Changes"));
-    navList->item(5)->setIcon(QIcon(gl->path+"picts/chlog.png"));
-    navList->item(5)->setTextAlignment(Qt::AlignCenter);
+    m_navList->addItem(tr("About"));
+    m_navList->item(0)->setIcon(QIcon(gl->path+"picts/nootka.png"));
+    m_navList->item(0)->setTextAlignment(Qt::AlignCenter);
+    m_navList->addItem(tr("Help"));
+    m_navList->item(1)->setIcon(QIcon(gl->path+"picts/help.png"));
+    m_navList->item(1)->setTextAlignment(Qt::AlignCenter);
+    m_navList->addItem(authorsTxt());
+    m_navList->item(2)->setIcon(QIcon(gl->path+"picts/author.png"));
+    m_navList->item(2)->setTextAlignment(Qt::AlignCenter);
+    m_navList->addItem(tr("License"));
+    m_navList->item(3)->setIcon(QIcon(gl->path+"picts/license.png"));
+    m_navList->item(3)->setTextAlignment(Qt::AlignCenter);
+    m_navList->addItem(tr("Support"));
+    m_navList->item(4)->setIcon(QIcon(gl->path+"picts/support.png"));
+    m_navList->item(4)->setTextAlignment(Qt::AlignCenter);
+    m_navList->addItem(tr("Changes"));
+    m_navList->item(5)->setIcon(QIcon(gl->path+"picts/chlog.png"));
+    m_navList->item(5)->setTextAlignment(Qt::AlignCenter);
 
-
+		m_timer = new QTimer(this);
+		connect(m_timer, SIGNAL(timeout()), this, SLOT(moveScroll()));
+		
 
     Tabout *m_about = new Tabout();
     Tpage_4 *help = new Tpage_4();
-    QWidget *wi = new QWidget();
+    QWidget *authorsPage = new QWidget();
     QVBoxLayout *wiLLay = new QVBoxLayout;
   // AUTHORS
-    QString authorStr = "<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>" + authorsTxt() + "</b></p></center>"; 
-		authorStr += tr("Programming:") + "<br><b>Tomasz Bojczuk</b>    <a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a><br><br>";
-		authorStr += tr("Electric guitar samples, testing:") + "</b><br><b>Sergei Ivanov (tico-tico)</b><br>";
+		QString authorStr = getHeader(tr("Code"));
+		authorStr += "<b>Tomasz Bojczuk</b>    <a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a><br>";
+		authorStr += getHeader(tr("Audio"));
+		authorStr += tr("mastering and/or recording of samples:") + "<br><b>Sergei Ivanov (tico-tico)</b><br>";
   // TRANSLATORS
-    QString translStr = "<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>" + tr("Translators") + "</b></p></center>";
+    QString translStr = getHeader(tr("Translators"));
     translStr += "<table valign=\"middle\" align=\"center\">";
   // czech
     translStr += transRow("cs", QString::fromUtf8("český"), "Pavel Fric",
@@ -102,19 +113,28 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     translStr += transRow("pl", "polski", "Tomasz Bojczuk", 
                           "<a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a>");
     translStr += "</table>";
-    QLabel *authorsLab = new QLabel(authorStr + translStr + "<br><br><br>" + 
-       tr("However this application could not exist without various open source projects.<br>Especially:") + 
+		QString otherStr = getHeader(tr("Other projects")) +
+				tr("However this application could not exist without various open source projects.<br>Especially:") + 
        "<ul><li>" + createLink("Qt", "http://qt-project.org/") + " by Digia</li>" +
        "<li>" + createLink("FFTW", "http://www.fftw.org") + " by M. Frigo & S. G. Johnson</li>" +
        "<li>" + createLink("ogg vorbis", "http://vorbis.com") + " by XIPH</li>" +
        "<li>" + createLink("RtAudio & RtMidi", "http://www.music.mcgill.ca/~gary/") + " by G. P. Scavone</li>" +
        "<li>" + createLink("Tartini", "http://miracle.otago.ac.nz/tartini/index.html") + " by P. McLeod</li>" +
-       "<li>" + createLink("SoundTouch", "http://www.surina.net/soundtouch/") + " by Olli Parviainen</li>" +
-       "</ul>");
+       "<li>" + createLink("SoundTouch", "http://www.surina.net/soundtouch/") + " by Olli Parviainen</li>";
+#if defined (Q_OS_WIN)
+		otherStr += "<li>" + createLink("NSIS", "http://nsis.sourceforge.net/Main_Page") + "</li>";
+#endif
+    otherStr += "</ul>";
+		
+		QString thankStr = getHeader(tr("Thanks"));
+		thankStr += "Thanks to Project16 @ KVR for the bass samples ";
+    QLabel *authorsLab = new QLabel(authorStr + translStr + otherStr + thankStr);
     authorsLab->setOpenExternalLinks(true);
     wiLLay->addWidget(authorsLab);
     wiLLay->addStretch(1);
-    wi->setLayout(wiLLay);
+    authorsPage->setLayout(wiLLay);
+		m_authorScroll = new QScrollArea();
+		m_authorScroll->setWidget(authorsPage);
 	
 	QString trans = QApplication::translate("about translator", "translator", "Do not translate this, just put in 'translator comment field' Your data: Translator's' Name<br>Tramslator's' e-mail(optional)<br>Translator site(optional)");
 
@@ -161,17 +181,35 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     }
     chfile.close();
 
-    stackLayout->addWidget(m_about);
+    m_stackLayout->addWidget(m_about);
     
-    stackLayout->addWidget(help);    
-    stackLayout->addWidget(wi);
-    stackLayout->addWidget(licenseTxt);
-    stackLayout->addWidget(support);
-    stackLayout->addWidget(chLogTxt);
+    m_stackLayout->addWidget(help);    
+    m_stackLayout->addWidget(m_authorScroll);
+    m_stackLayout->addWidget(licenseTxt);
+    m_stackLayout->addWidget(support);
+    m_stackLayout->addWidget(chLogTxt);
 
-    connect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
-    connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
+    connect(m_okBut, SIGNAL(clicked()), this, SLOT(accept()));
+		connect(m_navList, SIGNAL(currentRowChanged(int)), this, SLOT(changeCurrentPage(int)));
 }
+
+
+void TaboutNootka::changeCurrentPage(int page) {
+		m_stackLayout->setCurrentIndex(page);
+		if (page == 2) {
+				m_timer->start(100);
+		} else
+				m_timer->stop();
+}
+
+
+void TaboutNootka::moveScroll() {
+		m_authorScroll->verticalScrollBar()->setValue(m_authorScroll->verticalScrollBar()->value() + 1);
+// 		if (m_authorScroll->verticalScrollBar()->value() >= m_authorScroll->verticalScrollBar()->maximum())
+// 				m_timer->stop();
+}
+
+
 
 //######################### About ##########################################
 Tabout::Tabout(QWidget *parent) :
