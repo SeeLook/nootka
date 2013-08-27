@@ -1140,7 +1140,7 @@ void TexamExecutor::updatePenalStep() {
           m_penalStep = (m_supp->obligQuestions() + m_exam->penalty() - m_exam->count()) / m_exam->blackCount();
     else
           m_penalStep = 0; // only penaltys questions
-    qDebug() << "m_penalStep" << m_penalStep;
+//     qDebug() << "m_penalStep" << m_penalStep;
 }
 
 

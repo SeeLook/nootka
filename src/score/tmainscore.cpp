@@ -162,7 +162,7 @@ void TmainScore::clearScore() {
 	clearNote(0);
 	clearNote(1);
 	clearNote(2);
-	staff()->noteSegment(1)->removeString(); // so far string number to remove occur only on this view
+	staff()->noteSegment(1)->removeString(); // so far string number to remove occurs only on this view
 	staff()->noteSegment(0)->hideWorkNote();
 	if (staff()->lower()) {
 		staff()->lower()->noteSegment(1)->removeString();
@@ -242,6 +242,11 @@ void TmainScore::setKeyViewBg(QColor C) {
 
 
 void TmainScore::setNoteViewBg(int id, QColor C) {
+		for (int i = 0; i < m_bgRects.size(); i++) { // check for the same rectangles
+			if (staff()->noteSegment(id)->pos() == m_bgRects[i]->pos()) // the same position
+				if (m_bgRects[i]->brush().color() == C) // the same color
+					return; // means exist - ignore 
+		}
 		createBgRect(C, staff()->noteSegment(id)->boundingRect().width(), staff()->noteSegment(id)->pos());
 }
 

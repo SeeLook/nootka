@@ -266,10 +266,6 @@
         <translation>Sons réels</translation>
     </message>
     <message>
-        <source>Natural, high quality sound of classical guitar&lt;br&gt;but limited to scale &lt;b&gt;from C&lt;sub&gt;1&lt;/sub&gt; to e&lt;sup&gt;3&lt;/sup&gt;&lt;/b&gt;</source>
-        <translation type="obsolete">Sons provenant d&apos;une guitare classique, &lt;br&gt;de bonne qualité mais limités &lt;b&gt;au registre do&lt;sub&gt;1&lt;/sub&gt;(C&lt;sub&gt;1&lt;/sub&gt;) et mi&lt;sup&gt;3&lt;/sup&gt;(e&lt;sup&gt;3&lt;/sup&gt;)&lt;/b&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="48"/>
         <source>audio device for output</source>
         <translation>Périphérique audio de sortie</translation>
@@ -278,10 +274,6 @@
         <location filename="../src/sound/audiooutsettings.cpp" line="59"/>
         <source>midi playback</source>
         <translation>Sons MIDI</translation>
-    </message>
-    <message>
-        <source>Artificial, low quality sound (depends on hardware)&lt;br&gt;but there is possibility to select an instrument&lt;br&gt;and whole scale can be played.</source>
-        <translation type="obsolete">Sons artificiels, de basse qualité (en fonction du matériel). &lt;br&gt;Il est cependant possible de choisir l&apos;instrument et de jouer l&apos;ensemble de la gamme. </translation>
     </message>
     <message>
         <location filename="../src/sound/audiooutsettings.cpp" line="66"/>
@@ -378,61 +370,6 @@
     </message>
 </context>
 <context>
-    <name>ExamSettings</name>
-    <message>
-        <source>repeat a question when an answer was incorrect.</source>
-        <translation type="obsolete">Répéter la question en cas de réponse incorrecte.</translation>
-    </message>
-    <message>
-        <source>A question with incorrect answer will be asked once again.</source>
-        <translation type="obsolete">En cas de réponse incorrecte, la question sera répétée une fois.</translation>
-    </message>
-    <message>
-        <source>Shows window with help when new exam begins.</source>
-        <translation type="obsolete">Montrer la fenêtre d&apos;aide en début d&apos;examen.</translation>
-    </message>
-    <message>
-        <source>student&apos;s name:</source>
-        <translation type="obsolete">Nom de l&apos;étudiant:</translation>
-    </message>
-    <message>
-        <source>Default name for every new exam.</source>
-        <translation type="obsolete">Nom par défaut pour tout nouvel examen.</translation>
-    </message>
-    <message>
-        <source>color of questions</source>
-        <translation type="obsolete">Couleur des questions</translation>
-    </message>
-    <message>
-        <source>color of wrong answers</source>
-        <translation type="obsolete">Couleur des mauvaises réponses</translation>
-    </message>
-    <message>
-        <source>color of answers</source>
-        <translation type="obsolete">Couleur des réponses</translation>
-    </message>
-    <message>
-        <source>color of correct answers</source>
-        <translation type="obsolete">Couleur des réponses correctes</translation>
-    </message>
-    <message>
-        <source>color of &apos;not so bad&apos; answers</source>
-        <translation type="obsolete">Couleur des réponses &quot;pas mal&quot;</translation>
-    </message>
-    <message>
-        <source>ask next question automatically</source>
-        <translation type="obsolete">Passer automatiquement à la question suivante</translation>
-    </message>
-    <message>
-        <source>check answers without confirm</source>
-        <translation type="obsolete">Afficher les réponses sans confirmation</translation>
-    </message>
-    <message>
-        <source>show help when exam starts</source>
-        <translation type="obsolete">Afficher l&apos;aide en début d&apos;examen</translation>
-    </message>
-</context>
-<context>
     <name>File association entries</name>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="152"/>
@@ -449,112 +386,6 @@
         <location filename="../src/exam/tstartexamdlg.cpp" line="154"/>
         <source>Nootka exam file</source>
         <translation>Fichier d&apos;examen Nootka</translation>
-    </message>
-</context>
-<context>
-    <name>GlobalSettings</name>
-    <message>
-        <source>show other enharmonics variants of a note</source>
-        <translation type="obsolete">Afficher les variantes enharmoniques des notes</translation>
-    </message>
-    <message>
-        <source>Shows enharmonical variants of a note.&lt;br&gt;F.e.: E note is also Fb (F flat) and Dx (D with double sharp).</source>
-        <translation type="obsolete">Afficher les variantes enharmoniques des notes&lt;br&gt;Exemple: la note MI (E) est également le FA bémol FAb (Fb) ou le RÉ double dièse RÉx (Dx).</translation>
-    </message>
-    <message>
-        <source>color of enharminic notes/names</source>
-        <translation type="obsolete">Couleur des variantes enharmoniques</translation>
-    </message>
-    <message>
-        <source>use double accidentals</source>
-        <translation type="obsolete">Utiliser les altérations doubles</translation>
-    </message>
-    <message>
-        <source>If checked, you can use double sharps and double flats.</source>
-        <translation type="obsolete">Lorsque cette case est cochée, les doubles bémols et doubles dièses sont utilisés.</translation>
-    </message>
-    <message>
-        <source>show hints</source>
-        <translation type="obsolete">Afficher les infobulles</translation>
-    </message>
-    <message>
-        <source>Show descriptions of interface&apos;s elements.</source>
-        <translation type="obsolete">Afficher les descriptions des éléments de l&apos;interface.</translation>
-    </message>
-    <message>
-        <source>Application&apos;s language</source>
-        <translation type="obsolete">Langue de l&apos;application</translation>
-    </message>
-    <message>
-        <source>Select a language.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;It requires restart of application !!&lt;/span&gt;</source>
-        <translation type="obsolete">Choisir une langue.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;Redémarrage nécessaire !!&lt;/span&gt;</translation>
-    </message>
-    <message>
-        <source>default</source>
-        <translation type="obsolete">Par défaut</translation>
-    </message>
-    <message>
-        <source>Check for updates</source>
-        <translation type="obsolete">Vérifier les mises à jour</translation>
-    </message>
-</context>
-<context>
-    <name>GuitarSettings</name>
-    <message>
-        <source>tune of the guitar</source>
-        <translation type="obsolete">Accord de la guitare</translation>
-    </message>
-    <message>
-        <source>Select appropirate tune from the list or prepare your own.</source>
-        <translation type="obsolete">Sélectionnez ou établissez l&apos;accord de votre guitare.</translation>
-    </message>
-    <message>
-        <source>Custom tune</source>
-        <translation type="obsolete">Accord personnalisé</translation>
-    </message>
-    <message>
-        <source>guitar for right-handed</source>
-        <translation type="obsolete">Guitare de droitier</translation>
-    </message>
-    <message>
-        <source>Uncheck this if you are lefthanded&lt;br&gt;and your gitar has changed strings&apos; order</source>
-        <translation type="obsolete">Décochez si vous êtes gaucher&lt;br&gt;et si les cordes de votre guitare sont inversées</translation>
-    </message>
-    <message>
-        <source>number of frets:</source>
-        <translation type="obsolete">Nombre de frettes:</translation>
-    </message>
-    <message>
-        <source>prefered accidentals:</source>
-        <translation type="obsolete">Choix d&apos;altérations:</translation>
-    </message>
-    <message>
-        <source>Choose which accidentals will be shown in the score.</source>
-        <translation type="obsolete">Choisissez quelles altérations seront utilisées sur la portée.</translation>
-    </message>
-    <message>
-        <source># - sharps</source>
-        <translation type="obsolete">#  dièses</translation>
-    </message>
-    <message>
-        <source>b - flats</source>
-        <translation type="obsolete">b  bémols</translation>
-    </message>
-    <message>
-        <source>show all possibilities of a note</source>
-        <translation type="obsolete">Montrer toutes les positions</translation>
-    </message>
-    <message>
-        <source>As you know, the same note can be played in few places on a fingerboard.&lt;br&gt;If checked, all of them are showed.</source>
-        <translation type="obsolete">Une note peut être jouée de différentes manière sur la guitare. &lt;br&gt;Lorsque cette case est cochée, toutes les positions possibles sont affichées.</translation>
-    </message>
-    <message>
-        <source>color of string/fret pointer</source>
-        <translation type="obsolete">Couleur du pointeur de corde / frette</translation>
-    </message>
-    <message>
-        <source>color of selected string/fret</source>
-        <translation type="obsolete">Couleur de la corde / frette sélectionnée</translation>
     </message>
 </context>
 <context>
@@ -605,21 +436,9 @@
         <translation>Examen</translation>
     </message>
     <message>
-        <source>About</source>
-        <translation type="obsolete">À propos</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="obsolete">Préférences</translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.cpp" line="223"/>
         <source>Application preferences</source>
         <translation>Préférences de Nootka</translation>
-    </message>
-    <message>
-        <source>Analyse</source>
-        <translation type="obsolete">Analyse</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="236"/>
@@ -627,37 +446,14 @@
         <translation>Analyser les résultats d&apos;un examen</translation>
     </message>
     <message>
-        <source>about</source>
-        <translation type="obsolete">À propos</translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.cpp" line="240"/>
         <source>About Nootka</source>
         <translation>À propos de Nootka</translation>
     </message>
     <message>
-        <source>Level</source>
-        <translation type="obsolete">Niveau</translation>
-    </message>
-    <message>
-        <source>Exam</source>
-        <translation type="obsolete">Examen</translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.cpp" line="260"/>
         <source>Start an exam</source>
         <translation>Débuter un examen</translation>
-    </message>
-</context>
-<context>
-    <name>NameSettings</name>
-    <message>
-        <source>show octave in the note&apos;s name</source>
-        <translation type="obsolete">Afficher l&apos;octave dans le nom de la note</translation>
-    </message>
-    <message>
-        <source>Shows formated note&apos;s name. For small octave - the name is small letter,&lt;br&gt;for great octave - the name starts with a capital letter,&lt;br&gt;for one-line, digit &lt;sup&gt;1&lt;/sup&gt; is added, and so on.</source>
-        <translation type="obsolete">Affiche le nom de la note au format suivant: &lt;br&gt; Petite octave: nom de la note en minuscules, &lt;br&gt; Grande octave: nom de la note en majuscules, &lt;br&gt; 2e, 3e, 4e et 5e petites octaves: un exposant numérique est associé au nom de la note.</translation>
     </message>
 </context>
 <context>
@@ -718,10 +514,6 @@
         <location filename="../src/level/tlevelselector.cpp" line="115"/>
         <source>Listen a sound and show it in a score.&lt;br&gt;Guitar, note names and key signatures are not used.&lt;br&gt;Scale a - a&lt;sup&gt;2&lt;/sup&gt;</source>
         <translation>Ecouter un son et le montrer sur une portée. &lt;br&gt; La guitare, les noms de notes et les armures ne sont pas utilisées. &lt;br&gt;Gamme LA-LA grande octave (A-A2)</translation>
-    </message>
-    <message>
-        <source>Played sounds are pointed in score.&lt;br&gt;No guitar, no note names, no key signatures.&lt;br&gt;Scale A - a&lt;sup&gt;1&lt;/sup&gt;</source>
-        <translation type="obsolete">Les notes jouées sont affichées sur la portée.&lt;br&gt;Pas de guitare, pas de nom de note, pas de tonalité. &lt;br&gt; Gamme LA (A)--la&lt;sup&gt;1&lt;/sup&gt; (a&lt;sup&gt;1&lt;/sup&gt;) </translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="142"/>
@@ -821,37 +613,6 @@
     </message>
 </context>
 <context>
-    <name>ScoreSettings</name>
-    <message>
-        <source>enable key signature</source>
-        <translation type="obsolete">Activer les tonalités</translation>
-    </message>
-    <message>
-        <source>Nameing extension</source>
-        <translation type="obsolete">Suffixe des notes</translation>
-    </message>
-    <message>
-        <source>in the major keys:</source>
-        <translation type="obsolete">Modes majeurs:</translation>
-    </message>
-    <message>
-        <source>in the minor keys:</source>
-        <translation type="obsolete">Modes mineurs:</translation>
-    </message>
-    <message>
-        <source>color of pointed note</source>
-        <translation type="obsolete">Couleur de la note désignée sur la portée</translation>
-    </message>
-    <message>
-        <source>for example</source>
-        <translation type="obsolete">Par exemple</translation>
-    </message>
-    <message>
-        <source>show names of key signature</source>
-        <translation type="obsolete">Afficher le nom de la tonalité</translation>
-    </message>
-</context>
-<context>
     <name>Select7note</name>
     <message>
         <location filename="../src/info/select7note.cpp" line="28"/>
@@ -867,46 +628,6 @@
         <location filename="../src/info/select7note.cpp" line="37"/>
         <source>7-th note is &lt;b&gt;H&lt;/b&gt; and with flat is &lt;b&gt;Hb&lt;/b&gt; or &lt;b&gt;B&lt;/b&gt;</source>
         <translation>La 7e note est &lt;b&gt;H&lt;/b&gt; et &lt;b&gt;Hb&lt;/b&gt; or &lt;b&gt;si (B)&lt;/b&gt; avec les alérations (notation allemande) </translation>
-    </message>
-</context>
-<context>
-    <name>SettingsDialog</name>
-    <message>
-        <source>application&apos;s settings</source>
-        <translation type="obsolete">Préférences de l&apos;application</translation>
-    </message>
-    <message>
-        <source>Common</source>
-        <translation type="obsolete">Général</translation>
-    </message>
-    <message>
-        <source>Score</source>
-        <translation type="obsolete">Portée</translation>
-    </message>
-    <message>
-        <source>Names</source>
-        <comment>name-calling</comment>
-        <translation type="obsolete">Notation</translation>
-    </message>
-    <message>
-        <source>Guitar</source>
-        <translation type="obsolete">Guitare</translation>
-    </message>
-    <message>
-        <source>Exam</source>
-        <translation type="obsolete">Examen</translation>
-    </message>
-    <message>
-        <source>Sound</source>
-        <translation type="obsolete">Son</translation>
-    </message>
-    <message>
-        <source>listening</source>
-        <translation type="obsolete">Écoute</translation>
-    </message>
-    <message>
-        <source>playing</source>
-        <translation type="obsolete">Jeu</translation>
     </message>
 </context>
 <context>
@@ -1300,10 +1021,6 @@
 (barre d&apos;espace %1)</translation>
     </message>
     <message>
-        <source>repeat prevoius question (backspace)</source>
-        <translation type="obsolete">Répéter la question précédente (Retour arrière)</translation>
-    </message>
-    <message>
         <location filename="../src/exam/texamexecutor.cpp" line="236"/>
         <source>check answer
 (enter %1)</source>
@@ -1331,22 +1048,9 @@
         <translation>Examen débuté au niveau</translation>
     </message>
     <message>
-        <source>help</source>
-        <translation type="obsolete">Aide</translation>
-    </message>
-    <message>
         <location filename="../src/exam/texamexecutor.cpp" line="230"/>
         <source>repeat previous question (backspace)</source>
         <translation>Répéter la question précédente (Retour arrière)</translation>
-    </message>
-    <message>
-        <source>Check</source>
-        <translation type="obsolete">Vérifier</translation>
-    </message>
-    <message>
-        <source>Check</source>
-        <comment>tool button text! Please be short</comment>
-        <translation type="obsolete">Vérifier</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="229"/>
@@ -1813,7 +1517,7 @@
         <translation>Sélectionnez une corde / frette et cliquez pour afficher la note correspondante sur la portée.</translation>
     </message>
     <message>
-        <location filename="../src/guitar/tfingerboard.cpp" line="149"/>
+        <location filename="../src/guitar/tfingerboard.cpp" line="150"/>
         <source>The note is beyond a scale of the guitar</source>
         <translation>La note est hors du registre de la guitare</translation>
     </message>
@@ -1844,10 +1548,6 @@
         <location filename="../src/info/tfirstrunwizzard.cpp" line="194"/>
         <source>Guitar notation uses treble clef with &quot;eight&quot; digit below (even if some editors are forgeting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
         <translation>La notation pour guitare utilise la clé de sol avec le chiffre &quot;8&quot; en-dessous (bien que certains éditeurs oublient ce chiffre).&lt;br&gt;&lt;br&gt;Essayez de comprendre ceci. &lt;br&gt;&lt;br&gt;&lt;p&gt;&quot;%1 &quot;%2&quot;&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Les deux images ci-dessus montrent la même note: do&lt;sup&gt;1&lt;/sup&gt; / c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note do / c de la première petite octave)&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;center&gt;Guitar notation uses treble clef with &quot;eight&quot; digit below (even if some editors are forgeting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; &lt;img src=&quot;%1&quot;&gt; &lt;img src=&quot;%2&quot;&gt;&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note c in one-line octave)&lt;/center&gt;&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;center&gt;La notation pour guitare utilise la clé de sol avec le chiffre &quot;8&quot; en-dessous (bien que certains éditeurs oublient ce chiffre).&lt;br&gt;&lt;br&gt;Essayez de comprendre ceci. &lt;br&gt;&lt;br&gt;&lt;p&gt; &lt;img src=&quot;%1&quot;&gt; &lt;img src=&quot;%2&quot;&gt;&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Les deux images ci-dessus montrent la même note: do&lt;sup&gt;1&lt;/sup&gt; / c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note do / c de la première petite octave)&lt;/center&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="148"/>
@@ -1969,10 +1669,6 @@
         <translation>Guitare:</translation>
     </message>
     <message>
-        <source>disabled</source>
-        <translation type="obsolete">Désactivé</translation>
-    </message>
-    <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="63"/>
         <source>not used</source>
         <comment>like &apos;guitar is not used&apos;</comment>
@@ -2046,13 +1742,6 @@
     </message>
 </context>
 <context>
-    <name>TkeySignatureView</name>
-    <message>
-        <source>Use mouse wheel to change a key signature</source>
-        <translation type="obsolete">Utilisez la molette de la souris pour changer la tonalité</translation>
-    </message>
-</context>
-<context>
     <name>TlevelCreatorDlg</name>
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="44"/>
@@ -2109,18 +1798,6 @@ and not saved !!</source>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="215"/>
         <source>&lt;li&gt;Questions and answers as note in the score will be the same. Manual selecting keys or forcing accidentals has to be selected to avoid that.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Les questions et les réponses en tant que &quot;note sur la portée&quot; seront les mêmes. Afin d&apos;éviter ceci, il faut cocher &quot;Sélection manuelle des armatures&quot; ou &quot;Forcer les altérations&quot;.&lt;/li&gt;</translation>
-    </message>
-    <message>
-        <source>There are not any questions nor answers selected.&lt;br&gt;Level has no sence</source>
-        <translation type="obsolete">Aucune question ni réponse n&apos;est sélectionnée. &lt;br&gt;Ce niveau d&apos;examen n&apos;a pas de sens</translation>
-    </message>
-    <message>
-        <source>&lt;li&gt;Nameing styles was checked but neither question nor answers as note name are checked.&lt;br&gt;Check some or uncheck nemeing styles.&lt;/li&gt;</source>
-        <translation type="obsolete">&lt;li&gt;Le style de dénomintation est coché mais &quot;nom de note&quot; n&apos;a pas été choisi ni pour les questions ni pour les réponses.&lt;br&gt;Veuillez choisir l&apos;un des deux ou décocher le style de dénomination.&lt;/li&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;li&gt;Questions and answers as note in the score will be the same. Manual selecting keys or forceing accidentals has to be selected to avoid that.&lt;/li&gt;</source>
-        <translation type="obsolete">&lt;li&gt;Les questions et les réponses en tant que &quot;note sur la portée&quot; seront les mêmes. Afin d&apos;éviter ceci, il faut cocher &quot;Sélection manuelle des armatures&quot; ou &quot;Forcer les altérations&quot;.&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="220"/>
@@ -2384,7 +2061,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/notename/tnotename.cpp" line="32"/>
         <source>Sub</source>
-        <translation>Double contr-octave</translation>
+        <translation>double</translation>
     </message>
     <message>
         <location filename="../src/notename/tnotename.cpp" line="33"/>
@@ -2451,10 +2128,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <location filename="../src/notename/tnotename.cpp" line="37"/>
         <source>Four-line octave</source>
         <translation>5eme petite octave</translation>
-    </message>
-    <message>
-        <source>The note is beyond&lt;br&gt;scale of the guitar</source>
-        <translation type="obsolete">La note est hors &lt;br&gt;du registre de la guitare</translation>
     </message>
 </context>
 <context>
@@ -2648,10 +2321,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <location filename="../src/level/tquestionaswdg.h" line="44"/>
         <source>as note on the stave</source>
         <translation>note sur la portée</translation>
-    </message>
-    <message>
-        <source>as note in the score</source>
-        <translation type="obsolete">note sur la portée</translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.h" line="45"/>
@@ -2903,13 +2572,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <location filename="../src/settings/tscoresettings.h" line="44"/>
         <source>show names of key signature</source>
         <translation>Afficher le nom de la tonalité</translation>
-    </message>
-</context>
-<context>
-    <name>TscoreWidget</name>
-    <message>
-        <source>Click to sellect a note, use mouse wheel to change accidentals.</source>
-        <translation type="obsolete">Cliquez pour sélectionner une note. Utilisez la molette de la souris pour changer les altérations.</translation>
     </message>
 </context>
 <context>
@@ -3186,17 +2848,9 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <translation>#  dièses</translation>
     </message>
     <message>
-        <source>Sharps will be uesd in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
-        <translation type="obsolete">Les dièses seront utilisés dans les questions et les réponses d&apos;examens. &lt;br&gt;  Cocher cette case pour utiliser les tonalités écrite avec des dièses.</translation>
-    </message>
-    <message>
         <location filename="../src/level/accidsettings.cpp" line="38"/>
         <source>b - flats</source>
         <translation>b  bémols</translation>
-    </message>
-    <message>
-        <source>Flats will be uesd in exam&apos;s questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
-        <translation type="obsolete">Les bémols seront utilisés dans les questions et les réponses d&apos;examens. &lt;br&gt; Cocher cette case pour utiliser les tonalités écrite avec des bémols.</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="41"/>
@@ -3207,10 +2861,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <location filename="../src/level/accidsettings.cpp" line="47"/>
         <source>Accidentals used in exam.</source>
         <translation>Altérations utilisées dans l&apos;examen.</translation>
-    </message>
-    <message>
-        <source>use keys singature</source>
-        <translation type="obsolete">Utiliser les tonalités</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="36"/>
@@ -3258,10 +2908,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <translation>Éléments désactivés car aucun type de question approprié n&apos;a été sélectionné.</translation>
     </message>
     <message>
-        <source>Select a key signature.&lt;br&gt;Apropirate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
-        <translation type="obsolete">Sélectionnez une tonalité. &lt;br&gt; Pour l&apos;examen, les altérations appropriées &lt;br&gt;seront sélectionnées automatiquement !</translation>
-    </message>
-    <message>
         <location filename="../src/level/accidsettings.cpp" line="80"/>
         <source>select a key signature manually</source>
         <translation>Sélectionner manuellement une tonalité</translation>
@@ -3270,10 +2916,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <location filename="../src/level/accidsettings.cpp" line="81"/>
         <source>if checked, in exam user have to select a key signature,&lt;br&gt;otherwise it is shown by application.</source>
         <translation>Lorsque cette case est cochée, l&apos;utilisateur doit choisir une armature de clé, &lt;br&gt;sinon, la tonalité est affichée par l&apos;application.</translation>
-    </message>
-    <message>
-        <source>Elements are disabled because appropirate types of questions or answers are not selected.</source>
-        <translation type="obsolete">Éléments désactivés car aucun type de question approprié n&apos;a été sélectionné.</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.h" line="39"/>
@@ -3363,17 +3005,9 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <translation>Lorsque cette case est cochée, il est nécessaire de sélectionner une octave valide</translation>
     </message>
     <message>
-        <source>force useing appropirate accidental</source>
-        <translation type="obsolete">Forcer l&apos;utilisation d&apos;altérations appropriées</translation>
-    </message>
-    <message>
         <location filename="../src/level/questionssettings.cpp" line="108"/>
         <source>if checked, is possible to select a note&lt;br&gt;with given accidental only.</source>
         <translation>Lorsque cette case est cochée, il est seulement possible &lt;br&gt;de choisir une note avec l&apos;altération appropriée.</translation>
-    </message>
-    <message>
-        <source>use different nameing styles</source>
-        <translation type="obsolete">Utiliser des styles de dénomination différents</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="107"/>

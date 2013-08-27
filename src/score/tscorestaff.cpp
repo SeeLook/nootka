@@ -198,11 +198,13 @@ void TscoreStaff::removeScordatute() {
 void TscoreStaff::setDisabled(bool disabled) {
 	scoreClef()->setReadOnly(disabled);
 	if (scoreKey()) {
-		scoreKey()->setAcceptHoverEvents(!disabled); // stops displaing status tip
+		scoreKey()->setAcceptHoverEvents(!disabled); // stops displaying status tip
 		scoreKey()->setReadOnly(disabled);
 	}
-	for (int i = 0; i < m_scoreNotes.size(); i++)
+	for (int i = 0; i < m_scoreNotes.size(); i++) {
 		m_scoreNotes[i]->setReadOnly(disabled);
+		m_scoreNotes[i]->hideWorkNote();
+	}
 }
 
 
