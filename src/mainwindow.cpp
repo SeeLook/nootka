@@ -106,7 +106,10 @@ MainWindow::MainWindow(QWidget *parent) :
     QHBoxLayout *scoreAndNameLay = new QHBoxLayout;
     QVBoxLayout *scoreLay = new QVBoxLayout;
     nootBar = new QToolBar(tr("main toolbar"), innerWidget);
-		nootBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+		if (gl->hintsEnabled)
+				nootBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+		else
+				nootBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     scoreLay->addWidget(nootBar);
     score = new TmainScore(innerWidget);
     scoreLay->addWidget(score);
@@ -221,6 +224,7 @@ MainWindow::~MainWindow()
 void MainWindow::createActions() {
     settingsAct = new QAction(tr("Sett.", "like settings but it should be short and could be Opt. or Pref. as well - this is a text under toolbar button"), this);
     settingsAct->setStatusTip(tr("Application preferences"));
+		settingsAct->setToolTip(settingsAct->statusTip());
     settingsAct->setIcon(QIcon(gl->path+"picts/systemsettings.png"));
     connect(settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
 
@@ -234,10 +238,12 @@ void MainWindow::createActions() {
     analyseAct = new QAction(tr("Analyse", "tool button text! - could be Chart as well"), this);
     analyseAct->setIcon(QIcon(gl->path+"picts/charts.png"));
     analyseAct->setStatusTip(tr("Analyse of an exam results"));
+		analyseAct->setToolTip(analyseAct->statusTip());
     connect(analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
 
     aboutAct = new QAction(tr("About", "tool button text! Please be short"), this);
     aboutAct->setStatusTip(tr("About Nootka"));
+		aboutAct->setToolTip(aboutAct->statusTip());
     aboutAct->setIcon(QIcon(gl->path+"picts/about.png"));
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(aboutSlot()));
 
@@ -254,10 +260,13 @@ void MainWindow::createActions() {
 void MainWindow::setStartExamActParams() {
     levelCreatorAct->setText(tr("Level", "tool button text!"));
     levelCreatorAct->setStatusTip(TlevelCreatorDlg::levelCreatorTxt());
+		levelCreatorAct->setToolTip(levelCreatorAct->statusTip());
     levelCreatorAct->setIcon(QIcon(gl->path+"picts/levelCreator.png"));
   
     startExamAct->setText(tr("Exam", "tool button text!"));
+		qDebug() << "So what экзамен" << startExamAct->text();
     startExamAct->setStatusTip(tr("Start an exam"));
+		startExamAct->setToolTip(startExamAct->statusTip());
     startExamAct->setIcon(QIcon(gl->path+"picts/startExam.png"));
 }
 
@@ -468,6 +477,7 @@ void MainWindow::noteWasClicked(int index, Tnote note) {
     guitar->setFinger(note);
 }
 
+
 void MainWindow::noteNameWasChanged(Tnote note) {
     sound->play(note);
     score->setNote(0, note);
@@ -477,6 +487,7 @@ void MainWindow::noteNameWasChanged(Tnote note) {
     }
     guitar->setFinger(note);
 }
+
 
 void MainWindow::guitarWasClicked(Tnote note) {
     sound->play(note);
@@ -490,6 +501,7 @@ void MainWindow::guitarWasClicked(Tnote note) {
         noteName->setNoteName(note);
     score->setNote(0, note);
 }
+
 
 void MainWindow::soundWasPlayed(Tnote note) {
   if (gl->showEnharmNotes) {
@@ -512,14 +524,19 @@ void MainWindow::restoreMessage() {
     m_prevMsg = "";
 }
 
+
 void MainWindow::hintsStateChanged(bool enable) {
     gl->hintsEnabled = enable;
     if (!enable) {
 //        m_prevMsg = m_statusText;
         m_prevBg = m_curBG;
         setStatusMessage(m_prevMsg);
+				nootBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    } else {
+				nootBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     }
 }
+
 
 void MainWindow::showSupportDialog() {
     sound->wait();

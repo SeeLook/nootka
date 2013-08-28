@@ -112,7 +112,8 @@ void TfingerBoard::acceptSettings() {
     m_workFinger->setBrush(QBrush(gl->GfingerColor, Qt::SolidPattern));
 		m_workFinger->setPen(QPen(gl->GfingerColor, 2));
 		setTune();
-		paint();
+// 		paint();
+		resizeEvent(0);
     setFinger(m_selNote);
 }
 
@@ -528,14 +529,14 @@ void TfingerBoard::paint() {
 						painter.setPen(QPen(m_strColors[i], 1, Qt::SolidLine));
 // 						painter.setBrush(QBrush(QColor(100, 100, 100, 200)));
 						painter.setBrush(QBrush(QColor(0, 0, 0, 180)));
-						int wd40;
+						int circleX;
 						if (!gl->GisRightHanded) {
 								painter.scale (-1, 1);
 								painter.translate(-width(), 0);
-								wd40 = 1;
+								circleX = 1;
 						} else
-								wd40 = width() - 1 - m_strGap;
-						painter.drawEllipse(wd40, m_fbRect.y() + i * m_strGap, m_strGap - 1, m_strGap - 1);
+								circleX = width() - 1 - m_strGap;
+						painter.drawEllipse(circleX, m_fbRect.y() + i * m_strGap, m_strGap - 1, m_strGap - 1);
 						painter.setPen(QPen(Qt::green,1,Qt::SolidLine));// in green color
 						if (gl->GisRightHanded)
 								painter.drawText(width() - ((int)qreal(m_strGap * 0.75)),

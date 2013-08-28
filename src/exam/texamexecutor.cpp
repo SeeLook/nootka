@@ -221,6 +221,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
     
     nextQuestAct = new QAction(tr("Next", "like next question - tool button text! Please be short"), this);
     nextQuestAct->setStatusTip(tr("next question\n(space %1)").arg(TexamHelp::orRightButtTxt()));
+		nextQuestAct->setToolTip(nextQuestAct->statusTip());
     nextQuestAct->setIcon(QIcon(gl->path+"picts/nextQuest.png"));
     nextQuestAct->setShortcut(QKeySequence(Qt::Key_Space));
     connect(nextQuestAct, SIGNAL(triggered()), this, SLOT(askQuestion()));
@@ -228,12 +229,14 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
 
     prevQuestAct = new QAction(tr("Repeat", "like repeat question - tool button text! Please be short"), this);
     prevQuestAct->setStatusTip(tr("repeat previous question (backspace)"));
+		prevQuestAct->setToolTip(prevQuestAct->statusTip());
     prevQuestAct->setIcon(QIcon(gl->path+"picts/prevQuest.png"));
     prevQuestAct->setShortcut(QKeySequence(Qt::Key_Backspace));
     connect(prevQuestAct, SIGNAL(triggered()), this, SLOT(repeatQuestion()));
 
     checkAct = new QAction(tr("Check", "like check answer - tool button text! Please be short"), this);
     checkAct->setStatusTip(tr("check answer\n(enter %1)").arg(TexamHelp::orRightButtTxt()));
+		checkAct->setToolTip(checkAct->statusTip());
     checkAct->setIcon(QIcon(gl->path+"picts/check.png"));
     checkAct->setShortcut(QKeySequence(Qt::Key_Return));
     connect(checkAct, SIGNAL(triggered()), this, SLOT(checkAnswer()));
@@ -241,6 +244,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
     if (m_level.questionAs.isSound()) {
         repeatSndAct = new QAction(tr("Play", "tool button text! Please be short"), this);
         repeatSndAct->setStatusTip(tr("play sound again") + ",<br>" + TexamHelp::pressSpaceKey());
+				repeatSndAct->setToolTip(repeatSndAct->statusTip().replace("<br>", "\n"));
         repeatSndAct->setText(repeatSndAct->text() + ",\n" + TexamHelp::pressSpaceKey().remove("<b>").remove("</b>"));
         repeatSndAct->setShortcut(QKeySequence(Qt::Key_Space));
         repeatSndAct->setIcon(QIcon(gl->path+"picts/repeatSound.png"));
@@ -770,9 +774,11 @@ void TexamExecutor::prepareToExam() {
     mW->levelCreatorAct->setIcon(QIcon(gl->path+"picts/help.png"));
     mW->levelCreatorAct->setText(tr("Help"));
     mW->levelCreatorAct->setStatusTip(mW->levelCreatorAct->text());
+		mW->levelCreatorAct->setToolTip(mW->levelCreatorAct->statusTip());
     mW->startExamAct->setIcon(QIcon(gl->path+"picts/stopExam.png"));
     mW->startExamAct->setText(tr("Stop"));
     mW->startExamAct->setStatusTip(tr("stop the exam"));
+		mW->startExamAct->setToolTip(mW->startExamAct->statusTip());
     mW->autoRepeatChB->show();
     mW->autoRepeatChB->setChecked(gl->E->autoNextQuest);
     mW->expertAnswChB->show();
