@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006-2011 by Tomasz Bojczuk   *
- *   tomaszbojczuk@gmail.com   *
+ *   Copyright (C) 2006-2013 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 #include "tnote.h"
@@ -20,14 +20,33 @@
 #include <sstream>
 #include <string>
 #include <iostream>
+#include <QApplication>
+#include <QDebug>
+#include <qtextcodec.h>
 
 // int operator ==( const Tnote & N1, const Tnote & N2 )
 // {
 // 	return ( N1.note == N2.note && N1.octave == N2.octave && N1.acidental == N2.acidental);
 // }
 
+QString DoReMi[7] = {"Do", "Re", "Mi", "Fa", "Sol", "La", "Si"};
+bool solfegeTranslated = false;
+
+void translateSolfege() {
+// 	QTextCodec::setCodecForTr(QTextCodec::codecForName("utf8"));
+	DoReMi[0] = QObject::tr("Do");
+	DoReMi[1] = QApplication::translate("Tnote", "Re");
+	DoReMi[2] = QApplication::translate("Tnote", "Mi");
+	DoReMi[3] = QApplication::translate("Tnote", "Fa");
+	DoReMi[4] = QApplication::translate("Tnote", "Sol");
+	DoReMi[5] = QApplication::translate("Tnote", "La");
+	DoReMi[6] = QApplication::translate("Tnote", "Si");
+}
+
+
 std::string IntToString(int num)
 {
+	QApplication::translate("Tnote", "Do").toLocal8Bit();
   std::ostringstream myStream;
   myStream << num << std::flush;
   return(myStream.str());
@@ -270,6 +289,17 @@ TnotesList Tnote::getTheSameNotes( bool enableDbAccids )
 
 std::string Tnote::getName( EnameStyle notation, bool showOctave )
 {
+// 	if (!solfegeTranslated) {
+		translateSolfege();
+// 		solfegeTranslated = true;
+// 		std::cout << "Test" << (std::string)DoReMi[0].toLocal8Bit();
+		qDebug() << "Test" << DoReMi[0].toUtf8().data() << DoReMi[0].length() << DoReMi[1]; ;
+// 			QChar *data = DoReMi[0].data();
+// 			while (!data->isNull()) {
+// 			qDebug() << data->unicode();
+//      ++data;
+// 		}
+// 	}
 	std::string nuta;
     if (note < 1 || note > 7) {
         std::cout << "Oops !! getName() with note=0\n";
@@ -277,7 +307,8 @@ std::string Tnote::getName( EnameStyle notation, bool showOctave )
     }
 	switch (notation) {
       case e_italiano_Si:
-		nuta = Solmization[note-1]+signsAcid[acidental+2];
+				nuta = (std::string)DoReMi[note - 1].toLocal8Bit() + signsAcid[acidental + 2];
+// 		nuta = Solmization[note-1]+signsAcid[acidental+2];
 		break;
       case e_deutsch_His:
 		nuta = Letters[note-1];
