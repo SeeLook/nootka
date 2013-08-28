@@ -21,53 +21,50 @@
 #include <string>
 #include <iostream>
 #include <QApplication>
-#include <QDebug>
-#include <qtextcodec.h>
-
-// int operator ==( const Tnote & N1, const Tnote & N2 )
-// {
-// 	return ( N1.note == N2.note && N1.octave == N2.octave && N1.acidental == N2.acidental);
-// }
-
-QString DoReMi[7] = {"Do", "Re", "Mi", "Fa", "Sol", "La", "Si"};
-bool solfegeTranslated = false;
-
-void translateSolfege() {
-// 	QTextCodec::setCodecForTr(QTextCodec::codecForName("utf8"));
-	DoReMi[0] = QObject::tr("Do");
-	DoReMi[1] = QApplication::translate("Tnote", "Re");
-	DoReMi[2] = QApplication::translate("Tnote", "Mi");
-	DoReMi[3] = QApplication::translate("Tnote", "Fa");
-	DoReMi[4] = QApplication::translate("Tnote", "Sol");
-	DoReMi[5] = QApplication::translate("Tnote", "La");
-	DoReMi[6] = QApplication::translate("Tnote", "Si");
-}
 
 
-std::string IntToString(int num)
-{
+
+
+
+std::string IntToString(int num) {
 	QApplication::translate("Tnote", "Do").toLocal8Bit();
   std::ostringstream myStream;
   myStream << num << std::flush;
   return(myStream.str());
 }
 
-std::string CharToString(char chr)
-{
+
+std::string CharToString(char chr) {
   std::ostringstream myStream;
   myStream << (int) chr << std::flush;
   return(myStream.str());
 }
 
+/*static*/
+QString Tnote::m_solmization[7] = {"Do", "Re", "Mi", "Fa", "Sol", "La", "Si"};
 
-//****************** IMPLEMENTATION *************************************
 
+void Tnote::updateTranslations() {
+	m_solmization[0] = QApplication::translate("Tnote", "Do");
+	m_solmization[1] = QApplication::translate("Tnote", "Re");
+	m_solmization[2] = QApplication::translate("Tnote", "Mi");
+	m_solmization[3] = QApplication::translate("Tnote", "Fa");
+	m_solmization[4] = QApplication::translate("Tnote", "Sol");
+	m_solmization[5] = QApplication::translate("Tnote", "La");
+	m_solmization[6] = QApplication::translate("Tnote", "Si");
+}
+
+
+//#############################################################################################
+//################################ PUBLIC #####################################################
+//#############################################################################################
 Tnote::Tnote ()
 {
 	note = 0;
 	octave = 0;
 	acidental = Tnote::e_Natural;
 }
+
 
 Tnote::Tnote( char m_diatonNote, char m_octave, char m_acidental)
 {
@@ -76,66 +73,32 @@ Tnote::Tnote( char m_diatonNote, char m_octave, char m_acidental)
 	acidental = m_acidental;
 }
 
-/**
- * @todo restore this comments
- * @param chromaticNrOfNote 
- * @return 
- */
+
 Tnote::Tnote (short chromaticNrOfNote)
 {
    switch ((chromaticNrOfNote+143) % 12 +1)	{
-	/** @todo Do somthing with it */
-// 	case 1: note = 1; acidental = e_None; break;
-// 	case 2: note = 1; acidental = e_Sharp; break;
-// 	case 3: note = 2; acidental = e_None; break;
-// 	case 4: note = 2; acidental = e_Sharp; break;
-// 	case 5: note = 3; acidental = e_None; break;
-// 	case 6: note = 4; acidental = e_None; break;
-// 	case 7: note = 4; acidental = e_Sharp; break;
-// 	case 8: note = 5; acidental = e_None; break;
-// 	case 9: note = 5; acidental = e_Sharp; break;
-// 	case 10: note = 6; acidental = e_None; break;
-// 	case 11: note = 6; acidental = e_Sharp; break;
-// 	case 12: note = 7; acidental = e_None; break;
-	case 1: note = 1; acidental = 0; break;
-	case 2: note = 1; acidental = 1; break;
-	case 3: note = 2; acidental = 0; break;
-	case 4: note = 2; acidental = 1; break;
-	case 5: note = 3; acidental = 0; break;
-	case 6: note = 4; acidental = 0; break;
-	case 7: note = 4; acidental = 1; break;
-	case 8: note = 5; acidental = 0; break;
-	case 9: note = 5; acidental = 1; break;
-	case 10: note = 6; acidental = 0; break;
-	case 11: note = 6; acidental = 1; break;
-	case 12: note = 7; acidental = 0; break;
+			case 1: note = 1; acidental = 0; break;
+			case 2: note = 1; acidental = 1; break;
+			case 3: note = 2; acidental = 0; break;
+			case 4: note = 2; acidental = 1; break;
+			case 5: note = 3; acidental = 0; break;
+			case 6: note = 4; acidental = 0; break;
+			case 7: note = 4; acidental = 1; break;
+			case 8: note = 5; acidental = 0; break;
+			case 9: note = 5; acidental = 1; break;
+			case 10: note = 6; acidental = 0; break;
+			case 11: note = 6; acidental = 1; break;
+			case 12: note = 7; acidental = 0; break;
    }	
    octave = ((chromaticNrOfNote+143) / 12 - 12) ;
 }
 
 
 Tnote::~Tnote ()
-{
-}
+{}
 
-std::string Tnote::printNote ( bool showOctave)
-{
-   std::string nuta = Letters[note-1];
-   if ( acidental != e_None ) {
-   		switch (acidental)	{
-   		  case e_Sharp : nuta += "#"; break;
-   		  case e_DoubleSharp : nuta += "x"; break;
-   		  case e_Flat : nuta += "b"; break;
-   		  case e_DoubleFlat : nuta += "bb"; break;
-   		  case e_Natural :  break;
-   		}
-   	}
-   if (showOctave) nuta = nuta +  CharToString (octave);
-   return nuta;
-}
 
-short Tnote::getChromaticNrOfNote( )
-{
+short Tnote::getChromaticNrOfNote() {
 	char a;
 	switch  (Tnote::note)	{
 		case 1: a = 1; break;	// note C
@@ -150,14 +113,12 @@ short Tnote::getChromaticNrOfNote( )
 }
 
 
-
-Tnote Tnote::showAsNatural( )
-{
+Tnote Tnote::showAsNatural() {
 	return Tnote(Tnote(note,octave,acidental).getChromaticNrOfNote());
 }
 
-Tnote Tnote::showWithFlat( )
-{
+
+Tnote Tnote::showWithFlat() {
 	if (acidental != Tnote::e_Flat)	{
 		Tnote outputNote = Tnote::showAsNatural();
 // Tnote::showAsNatural() allways returns notes with sharps or neutral, and never returns H# or E#, but
@@ -177,8 +138,8 @@ Tnote Tnote::showWithFlat( )
 	else	return Tnote(note,octave,acidental);
 }
 
-Tnote Tnote::showWithSharp( )
-{
+
+Tnote Tnote::showWithSharp() {
 	if (acidental != Tnote::e_Sharp)	{
 		Tnote outputNote = Tnote::showAsNatural();
 		if (outputNote.acidental == Tnote::e_Natural)	{
@@ -187,13 +148,13 @@ Tnote Tnote::showWithSharp( )
 			  if (outputNote.note == 1)
 				{outputNote.octave--; outputNote.note = 7; outputNote.acidental = Tnote::e_Sharp;}
 		}
-	return outputNote;
+		return outputNote;
 	}
 	else return Tnote(note,octave,acidental);
 }
 
-Tnote Tnote::showWithDoubleSharp( )
-{
+
+Tnote Tnote::showWithDoubleSharp() {
 	if (acidental != Tnote::e_DoubleSharp)	{
 		Tnote outputNote = Tnote::showAsNatural();
 		if (outputNote.acidental == Tnote::e_Natural)	{
@@ -209,8 +170,8 @@ Tnote Tnote::showWithDoubleSharp( )
 	else return Tnote(note,octave,acidental);
 }
 
-Tnote Tnote::showWithDoubleFlat( )
-{
+
+Tnote Tnote::showWithDoubleFlat() {
 	if (acidental != Tnote::e_DoubleFlat)	{
 		Tnote outputNote = Tnote(note,octave,acidental);
 		if (outputNote.acidental == Tnote::e_Flat && ( (outputNote.note == 3) || (outputNote.note == 7)) )	{
@@ -245,8 +206,8 @@ Tnote Tnote::showWithDoubleFlat( )
 	else return Tnote(note,octave,acidental);
 }
 
-short Tnote::compareNotes( Tnote otherNote, short ignoreOctave )
-{
+
+short Tnote::compareNotes( Tnote otherNote, short ignoreOctave ) {
 	if (!ignoreOctave)
 		if ( (note == otherNote.note) && ( acidental == otherNote.acidental)
 			&& (octave == otherNote.octave) ) return 1;
@@ -258,8 +219,7 @@ short Tnote::compareNotes( Tnote otherNote, short ignoreOctave )
 }
 
 
-TnotesList Tnote::getTheSameNotes( bool enableDbAccids )
-{
+TnotesList Tnote::getTheSameNotes(bool enableDbAccids) {
 	TnotesList notesL;
 	short cnt;//counter of notes. With double accids is 5 (4) without 3 (2)
 	notesL.push_back(Tnote(note,octave,acidental));
@@ -287,19 +247,9 @@ TnotesList Tnote::getTheSameNotes( bool enableDbAccids )
 	return notesL;
 }
 
+
 std::string Tnote::getName( EnameStyle notation, bool showOctave )
 {
-// 	if (!solfegeTranslated) {
-		translateSolfege();
-// 		solfegeTranslated = true;
-// 		std::cout << "Test" << (std::string)DoReMi[0].toLocal8Bit();
-		qDebug() << "Test" << DoReMi[0].toUtf8().data() << DoReMi[0].length() << DoReMi[1]; ;
-// 			QChar *data = DoReMi[0].data();
-// 			while (!data->isNull()) {
-// 			qDebug() << data->unicode();
-//      ++data;
-// 		}
-// 	}
 	std::string nuta;
     if (note < 1 || note > 7) {
         std::cout << "Oops !! getName() with note=0\n";
@@ -307,9 +257,9 @@ std::string Tnote::getName( EnameStyle notation, bool showOctave )
     }
 	switch (notation) {
       case e_italiano_Si:
-				nuta = (std::string)DoReMi[note - 1].toLocal8Bit() + signsAcid[acidental + 2];
-// 		nuta = Solmization[note-1]+signsAcid[acidental+2];
-		break;
+// 				nuta = (std::string)DoReMi[note - 1].toLocal8Bit() + signsAcid[acidental + 2];
+				nuta = (std::string)m_solmization[note - 1].toUtf8() + signsAcid[acidental + 2];
+				break;
       case e_deutsch_His:
 		nuta = Letters[note-1];
 		switch (acidental)	{
@@ -364,6 +314,7 @@ std::string Tnote::getName( EnameStyle notation, bool showOctave )
 	return nuta;
 }
 
+
 std::string Tnote::getName( Tnote eNote, EnameStyle notation, bool showOctave )
 {
 	note = eNote.note;
@@ -371,6 +322,12 @@ std::string Tnote::getName( Tnote eNote, EnameStyle notation, bool showOctave )
 	octave = eNote.octave;
 	return getName(notation, showOctave);
 }
+
+
+QString Tnote::toText(Tnote::EnameStyle notation, bool showOctave) {
+	return QString::fromUtf8(getName(notation, showOctave).data()); 
+}
+
 
 QString Tnote::toRichText(Tnote::EnameStyle notation, bool showOctave) {
   QString result = toText(notation, false);

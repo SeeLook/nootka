@@ -52,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent) :
 		QMainWindow(parent),
     ex(0)
 {
+		Tnote::updateTranslations();
     Ttune::prepareDefinedTunes();
 #if defined(Q_OS_MAC)
     TpushButton::setCheckColor(gl->SpointerColor, palette().base().color());
@@ -264,7 +265,6 @@ void MainWindow::setStartExamActParams() {
     levelCreatorAct->setIcon(QIcon(gl->path+"picts/levelCreator.png"));
   
     startExamAct->setText(tr("Exam", "tool button text!"));
-		qDebug() << "So what экзамен" << startExamAct->text();
     startExamAct->setStatusTip(tr("Start an exam"));
 		startExamAct->setToolTip(startExamAct->statusTip());
     startExamAct->setIcon(QIcon(gl->path+"picts/startExam.png"));
