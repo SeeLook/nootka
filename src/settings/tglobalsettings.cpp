@@ -71,6 +71,7 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
 		m_langList["en"] = "english";
 		m_langList["fr"] = QString::fromUtf8("français");
 		m_langList["pl"] = "polski";
+		m_langList["ru"] = QString::fromUtf8("русский");
 		QMapIterator<QString, QString> i(m_langList);
 		int id = 0;
 		while (i.hasNext()) {

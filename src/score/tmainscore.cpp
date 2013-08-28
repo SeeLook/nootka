@@ -95,6 +95,8 @@ void TmainScore::acceptSettings() {
 //     setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()-1),
 //                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber+1));
 	restoreNotesSettings();
+	if (gl->SkeySignatureEnabled)
+		setKeySignature(keySignature());
 }
 
 

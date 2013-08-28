@@ -427,7 +427,7 @@
         <location filename="../src/mainwindow.cpp" line="266"/>
         <source>Exam</source>
         <comment>tool button text!</comment>
-        <translation type="unfinished">экзамен</translation>
+        <translation>экзамен</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="226"/>
@@ -2043,12 +2043,12 @@ Check please, are its parameters as expected.</source>
     <message>
         <location filename="../src/music/tnote.cpp" line="36"/>
         <source>Re</source>
-        <translation>XX</translation>
+        <translation>Ре</translation>
     </message>
     <message>
         <location filename="../src/music/tnote.cpp" line="37"/>
         <source>Mi</source>
-        <translation type="unfinished"></translation>
+        <translation>Ми</translation>
     </message>
     <message>
         <location filename="../src/music/tnote.cpp" line="38"/>
