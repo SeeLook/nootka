@@ -76,7 +76,7 @@ Tnote::Tnote( char m_diatonNote, char m_octave, char m_acidental)
 
 Tnote::Tnote (short chromaticNrOfNote)
 {
-   switch ((chromaticNrOfNote+143) % 12 +1)	{
+   switch ((chromaticNrOfNote + 143) % 12 + 1)	{
 			case 1: note = 1; acidental = 0; break;
 			case 2: note = 1; acidental = 1; break;
 			case 3: note = 2; acidental = 0; break;
