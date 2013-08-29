@@ -253,7 +253,7 @@ void TsettingsDialog::createAudioPage() {
     m_jackChBox = new QCheckBox(tr("use JACK", "(Jack Audio Connection Kit)") +" (Jack Audio Connection Kit)", m_audioSettingsPage);
     m_jackChBox->setChecked(gl->A->useJACK);
     audioLay->addWidget(m_jackChBox, 0, Qt::AlignCenter);
-    m_jackChBox->setStatusTip("Uses JACK if it is run or other sound backend if not.<br>EXPERIMENTAL and not tested.<br>Let me know when you will get this working.");
+    m_jackChBox->setStatusTip("Uses JACK if it is run or other sound backend if not.<br>EXPERIMENTAL It works with 16bit int audio format and period of 1024.");
     connect(m_jackChBox, SIGNAL(toggled(bool)), this, SLOT(changeAudioAPI()));
 #endif
     m_audioTab->addTab(m_sndInSett, tr("listening"));

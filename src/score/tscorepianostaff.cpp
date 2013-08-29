@@ -47,7 +47,7 @@ TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
 	QGraphicsSimpleTextItem *brace = new QGraphicsSimpleTextItem();
 	registryItem(brace);
 	QFont ff = QFont("nootka");
-  ff.setPointSizeF(25.2);
+  ff.setPointSizeF(25.5);
   QFontMetrics fm(ff);
   ff.setPointSizeF(ff.pointSizeF() * (ff.pointSizeF() / fm.boundingRect(QChar(0xe16c)).height()));
   brace->setFont(ff);

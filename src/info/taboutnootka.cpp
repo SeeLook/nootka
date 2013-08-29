@@ -52,7 +52,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *abLay = new QHBoxLayout;
     m_navList = new QListWidget(this);
-    m_navList->setIconSize(QSize(80,80));
+    m_navList->setIconSize(QSize(80, 80));
     m_navList->setFixedWidth(110);
     m_navList->setViewMode(QListView::IconMode);
 		m_navList->setMovement(QListView::Static);
@@ -95,6 +95,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     Tabout *m_about = new Tabout();
     Tpage_4 *help = new Tpage_4();
     QWidget *authorsPage = new QWidget();
+		authorsPage->setContentsMargins(5, 5, 5, 5);
     QVBoxLayout *wiLLay = new QVBoxLayout;
   // AUTHORS
 		QString authorStr = getHeader(tr("Code"));
@@ -112,6 +113,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
   // polish
     translStr += transRow("pl", "polski", "Tomasz Bojczuk", 
                           "<a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a>");
+		translStr += transRow("ru", QString::fromUtf8("русский"), "Sergei Ivanov (tico-tico)", "");
     translStr += "</table>";
 		QString otherStr = getHeader(tr("Other projects")) +
 				tr("However this application could not exist without various open source projects.<br>Especially:") + 
@@ -127,13 +129,21 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     otherStr += "</ul>";
 		
 		QString thankStr = getHeader(tr("Thanks"));
-		thankStr += "Thanks to Project16 @ KVR for the bass samples ";
+		thankStr += "I would like to say <b>Thank You</b> for all people who helped me with developing Nootka.<br>I will try to mention them in some random order:<br>";
+		thankStr += "<br><b>Aaron Wolf</b> <a href=\"http://blog.wolftune.com/\">http://blog.wolftune.com</a> for many warm words about Nootka in the web and helping clues.<br>";
+		thankStr += "<b>falkTX</b> from <a href=\"http://kxstudio.sourceforge.net/\">http://kxstudio.sourceforge.net</a> for building *.deb and testing and for many clues.<br>";
+		thankStr += "<b>Users</b> of <a href=\"http://www.linuxmusicians.com/\">http://www.linuxmusicians.com</a> forum for testing and comments.<br>";
+		thankStr += "<b>Olli Parviainen</b> <a href=\"http://www.surina.net/soundtouch/\">http://www.surina.net/soundtouch</a> for help with his SoundTouch library.<br>";
+		thankStr += "<b>Project16 @ KVR</b> <a href=\"http://www.kvraudio.com/\">http://www.kvraudio.com</a> for the bass guitar samples<br>";
     QLabel *authorsLab = new QLabel(authorStr + translStr + otherStr + thankStr);
     authorsLab->setOpenExternalLinks(true);
+		authorsLab->setWordWrap(true);
     wiLLay->addWidget(authorsLab);
     wiLLay->addStretch(1);
     authorsPage->setLayout(wiLLay);
 		m_authorScroll = new QScrollArea();
+		m_authorScroll->setAlignment(Qt::AlignCenter);
+		m_authorScroll->setFixedWidth(authorsLab->width());
 		m_authorScroll->setWidget(authorsPage);
 	
 	QString trans = QApplication::translate("about translator", "translator", "Do not translate this, just put in 'translator comment field' Your data: Translator's' Name<br>Tramslator's' e-mail(optional)<br>Translator site(optional)");

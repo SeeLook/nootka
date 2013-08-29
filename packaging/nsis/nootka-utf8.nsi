@@ -71,19 +71,19 @@ LangString NelDesc ${LANG_ENGLISH} "Nootka exam's level"
 LangString NelDesc ${LANG_POLISH} "Poziom egzaminu programu Nootka"
 LangString NelDesc ${LANG_CZECH} "Úroveň zkoušky programu Nootka"
 LangString NelDesc ${LANG_FRENCH} "Fichier de niveau Nootka"
-LangString NelDesc ${LANG_RUSSIAN} "Уровень экзамена Нутка"
+LangString NelDesc ${LANG_RUSSIAN} "Файл Нутки с уровнем"
 
 LangString NootkaAct ${LANG_ENGLISH} "Open with nootka"
 LangString NootkaAct ${LANG_POLISH} "Otwórz w programie Nootka"
 LangString NootkaAct ${LANG_CZECH} "Otevřít v Nootka"
 LangString NootkaAct ${LANG_FRENCH} "Ouvrir avec Nootka"
-LangString NootkaAct ${LANG_RUSSIAN} "Открыть с нутка"
+LangString NootkaAct ${LANG_RUSSIAN} "Открыть"
 
 LangString NooDesc ${LANG_ENGLISH} "Nootka exam file"
 LangString NooDesc ${LANG_POLISH} "Plik egzaminu programu Nootka"
 LangString NooDesc ${LANG_CZECH} "Zkušební soubor programu Nootka"
 LangString NooDesc ${LANG_FRENCH} "Fichier d'examen Nootka"
-LangString NooDesc ${LANG_RUSSIAN} "Нутка файл экзамена"
+LangString NooDesc ${LANG_RUSSIAN} "Файл Нутки с экзаменом"
 
 Section -AssociateMime
 ;FILE ASSOCIATION
