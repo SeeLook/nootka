@@ -2,15 +2,13 @@ Plan for the Nootka One
 
 urgent:
 - thanks list !!!!!
-- make order with jack
 - images of NSIS installer
-- grand staff brace is still not adjusted
 - frequency label has to show current strings number and tune
-- next and repeat icons have different size (arrow) and look not nice
 - try to adjust navList widget width to wider text in it
 
 -----------------------------------------------------------
 - table of level preview requires some margin/space after lines
+- make order with jack
 - add shadows under strings on pickup
 - do not transform pickup image for lefthanded - just change its pos
 - check intonation in exams

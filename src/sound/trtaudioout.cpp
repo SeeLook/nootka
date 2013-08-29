@@ -123,7 +123,6 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
 #endif
 	playable = oggScale->loadAudioData(params->audioInstrNr);
   if (deviceName != params->OUTdevName || !rtDevice) {
-//     playable = oggScale->loadAudioData(params->audioInstrNr);
     if (playable && setAudioDevice(params->OUTdevName))
         playable = true;
     else
@@ -173,6 +172,7 @@ bool TaudioOUT::setAudioDevice(QString &name) {
     if (!streamOptions)
       streamOptions = new RtAudio::StreamOptions;
     streamOptions->streamName = "nootkaOUT";
+		qDebug("JACK");
   }
 //   printSupportedFormats(devInfo);
 //   printSupportedSampleRates(devInfo);
@@ -187,7 +187,6 @@ bool TaudioOUT::setAudioDevice(QString &name) {
     m_bufferFrames = m_bufferFrames * ratioOfRate; // increase buffer to give time for resampling in oggScale
   }
   oggScale->setSampleRate(sampleRate);
-//   oggScale->setPitchOffset(audioParams->a440diff);
   if (!openStream(&streamParams, NULL, RTAUDIO_SINT16, sampleRate * ratioOfRate, &m_bufferFrames, &outCallBack, 0, streamOptions)) {
       playable = false;
       return false;

@@ -8,7 +8,9 @@ cat <<EOF
     <sub-class-of type="application/bin"/>
     <comment>Nootka exam's level</comment>
     <comment xml:lang="cs">Úroveň zkoušky programu Nootka</comment>
+    <comment xml:lang="fr">Fichier de niveau Nootka</comment>
     <comment xml:lang="pl">Poziom egzaminu programu Nootka</comment>
+    <comment xml:lang="ru">Файл Нутки с уровнем</comment>
     <icon name="levelCreator">$1/share/pixmaps/levelCreator.png</icon>
     <glob pattern="*.nel"/>
     <acronym>NEL</acronym>
@@ -20,8 +22,9 @@ cat <<EOF
     <sub-class-of type="application/bin"/>
     <comment>Nootka exam file</comment>
     <comment xml:lang="cs">Zkušební soubor programu Nootka</comment>
-	<comment xml:lang="fr">Fichier d'examen Nootka</comment>
+		<comment xml:lang="fr">Fichier d'examen Nootka</comment>
     <comment xml:lang="pl">Plik egzaminu programu Nootka</comment>
+    <comment xml:lang="ru">Файл Нутки с экзаменом</comment>
     <icon name="nootka-exam">$1/share/pixmaps/nootka-exam.png</icon>
     <glob pattern="*.noo" />
   </mime-type>
