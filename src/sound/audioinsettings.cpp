@@ -27,13 +27,15 @@
 #include "tvolumeslider.h"
 #include "ttipchart.h"
 #include <tkeysignature.h>
+#include <ttune.h>
 
 
-AudioInSettings::AudioInSettings(TaudioParams* params, QString path, QWidget* parent) :
+AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune, QWidget* parent) :
   QWidget(parent),
   m_audioIn(0),
   m_glParams(params),
-  m_listGenerated(false)
+  m_listGenerated(false),
+  m_tune(tune)
 {
   m_tmpParams = new TaudioParams();
   *m_tmpParams = *m_glParams;
@@ -354,13 +356,21 @@ float AudioInSettings::offPitch(float pitch) {
 
 
 void AudioInSettings::getFreqStatusTip() {
-  QString freqTxt = QString("<br><span style=\"font-family: nootka;\">6</span>E = %1 Hz, ").arg(offPitch(40.0f), 0, 'f', 1) +
-            QString("<span style=\"font-family: nootka;\">5</span>A = %1 Hz, ").arg(offPitch(45.0f), 0, 'f', 1) + "<br>" +
-            QString("<span style=\"font-family: nootka;\">4</span>d = %1 Hz, ").arg(offPitch(50.0f), 0, 'f', 1) +
-            QString("<span style=\"font-family: nootka;\">3</span>g = %1 Hz, ").arg(offPitch(55.0f), 0, 'f', 1) + "<br>" +
-            QString("<span style=\"font-family: nootka;\">2</span>h = %1 Hz, ").arg(offPitch(59.0f), 0, 'f', 1) +
-            QString("<span style=\"font-family: nootka;\">1</span>e<sup>1</sup> = %1 Hz").arg(offPitch(64.0f), 0, 'f', 1);
-    freqLab->setStatusTip(tr("Frequency of detected note. You can use it for tune") + freqTxt);
+//   QString freqTxt = QString("<br><span style=\"font-family: nootka;\">6</span>E = %1 Hz, ").arg(offPitch(40.0f), 0, 'f', 1) +
+//             QString("<span style=\"font-family: nootka;\">5</span>A = %1 Hz, ").arg(offPitch(45.0f), 0, 'f', 1) + "<br>" +
+//             QString("<span style=\"font-family: nootka;\">4</span>d = %1 Hz, ").arg(offPitch(50.0f), 0, 'f', 1) +
+//             QString("<span style=\"font-family: nootka;\">3</span>g = %1 Hz, ").arg(offPitch(55.0f), 0, 'f', 1) + "<br>" +
+//             QString("<span style=\"font-family: nootka;\">2</span>h = %1 Hz, ").arg(offPitch(59.0f), 0, 'f', 1) +
+//             QString("<span style=\"font-family: nootka;\">1</span>e<sup>1</sup> = %1 Hz").arg(offPitch(64.0f), 0, 'f', 1);
+		QString freqTxt = "";
+		for (int i = 1; i <= m_tune->stringNr(); i++) {
+			freqTxt += QString("<span style=\"font-family: nootka;\">%1</span>%2 = %3 Hz, ").arg(i).
+			arg(TnoteName::noteToRichText(m_tune->str(i))).
+			arg(offPitch((float)m_tune->str(i).getChromaticNrOfNote() + 47), 0, 'f', 1);
+			if (i % 2 == 0 && i < 6)
+				freqTxt += "<br>";
+		}
+    freqLab->setStatusTip(tr("Frequency of detected note. You can use it for tune") + "<br>" + freqTxt);
     tuneFreqlab->setText(freqTxt);
 }
 
@@ -378,6 +388,12 @@ float AudioInSettings::getDiff(int freq) {
 //------------------------------------------------------------------------------------
 //------------          slots       --------------------------------------------------
 //------------------------------------------------------------------------------------
+
+void AudioInSettings::tuneWasChanged(Ttune* tune) {
+		m_tune = tune;
+		getFreqStatusTip();
+}
+
 
 
 void AudioInSettings::minimalVolChanged(float vol) {

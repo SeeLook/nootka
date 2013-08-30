@@ -32,6 +32,9 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
         QWidget(parent)
 {
     
+		m_customTune = new Ttune();
+		*m_customTune = *(gl->Gtune());
+	
     QVBoxLayout *mainLay = new QVBoxLayout;
     mainLay->setAlignment(Qt::AlignCenter);
 
@@ -139,7 +142,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 		updateAmbitus();
 
     connect(m_tuneCombo, SIGNAL(activated(int)), this, SLOT(tuneSelected(int)));
-    connect(m_tuneView, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(userTune(int,Tnote)));
+    connect(m_tuneView, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(userTune(int, Tnote)));
 		connect(m_tuneView, SIGNAL(pianoStaffSwitched()), this, SLOT(switchedToPianoStaff()));
 		connect(m_tuneView, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
 		connect(m_instrumentTypeCombo, SIGNAL(activated(int)), this, SLOT(instrumentTypeChanged(int)));
@@ -171,6 +174,12 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 						m_tuneCombo->setCurrentIndex(m_tuneCombo->count() - 1);
 		}
 }
+
+
+TguitarSettings::~TguitarSettings() {
+	delete m_customTune;
+}
+
 
 
 void TguitarSettings::saveSettings() {
@@ -216,7 +225,7 @@ Tnote TguitarSettings::lowestNote() {
 // 			return m_tuneView->getNote(lowest);
 // 		else
 			return m_tuneView->lowestNote();
-	/** it should be quite enoght to determine pitch detection range.
+	/** it should be quite enough to determine pitch detection range.
 	 * For other purposes enable the above code. */
 }
 
@@ -235,6 +244,8 @@ void TguitarSettings::setTune(Ttune* tune) {
 					m_tuneView->clearStringNumber(i);
     }
     m_stringNrSpin->setValue(tune->stringNr());
+		m_curentTune = tune;
+		emit tuneChanged(m_curentTune);
 }
 
 
@@ -264,6 +275,10 @@ void TguitarSettings::tuneSelected(int tuneId) {
 
 void TguitarSettings::userTune(int, Tnote) {
     m_tuneCombo->setCurrentIndex(m_tuneCombo->count() - 1);
+		*m_customTune = Ttune(m_tuneCombo->currentText(), m_tuneView->getNote(5), m_tuneView->getNote(4),
+											m_tuneView->getNote(3), m_tuneView->getNote(2), m_tuneView->getNote(1), m_tuneView->getNote(0));
+		m_curentTune = m_customTune;
+		emit tuneChanged(m_customTune);
 }
 
 
@@ -304,7 +319,7 @@ void TguitarSettings::stringNrChanged(int strNr) {
 				}
 			}
 		}
-		m_tuneCombo->setCurrentIndex(m_tuneCombo->count() - 1);
+		userTune(0, Tnote()); // values in params are unused
 }
 
 

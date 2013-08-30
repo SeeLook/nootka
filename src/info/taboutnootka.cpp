@@ -99,7 +99,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     QVBoxLayout *wiLLay = new QVBoxLayout;
   // AUTHORS
 		QString authorStr = getHeader(tr("Code"));
-		authorStr += "<b>Tomasz Bojczuk</b>    <a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a><br>";
+		authorStr += "<b>Tomasz Bojczuk</b>    <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><br>";
 		authorStr += getHeader(tr("Audio"));
 		authorStr += tr("mastering and/or recording of samples:") + "<br><b>Sergei Ivanov (tico-tico)</b><br>";
   // TRANSLATORS
@@ -112,7 +112,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     translStr += transRow("fr", QString::fromUtf8("français"), "Olivier Devineau", "");
   // polish
     translStr += transRow("pl", "polski", "Tomasz Bojczuk", 
-                          "<a href=\"mailto:tomaszbojczuk.gmail.com\">tomaszbojczuk@gmail.com</a>");
+                          "<a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>");
 		translStr += transRow("ru", QString::fromUtf8("русский"), "Sergei Ivanov (tico-tico)", "");
     translStr += "</table>";
 		QString otherStr = getHeader(tr("Other projects")) +

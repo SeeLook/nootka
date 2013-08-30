@@ -31,6 +31,7 @@ class QPushButton;
 class QSpinBox;
 class QGroupBox;
 class QComboBox;
+class Ttune;
 
 
 class AudioInSettings: public QWidget
@@ -39,7 +40,7 @@ class AudioInSettings: public QWidget
   
 public:
   
-  explicit AudioInSettings(TaudioParams *params, QString path, QWidget *parent = 0);
+  explicit AudioInSettings(TaudioParams *params, QString path, Ttune *tune, QWidget *parent = 0);
   virtual ~AudioInSettings();
   
   QString testTxt, stopTxt;
@@ -53,6 +54,7 @@ public:
 public	slots:
 			/** Occurs when tune of a guitar is changed and range of detecting pitches has to be adjusted. */
 	void whenLowestNoteChanges(Tnote loNote);
+	void tuneWasChanged(Ttune *tune);
   
 protected:
   void setTestDisabled(bool disabled);
@@ -81,18 +83,19 @@ private:
   float getDiff(int freq);
 	
   
-  QComboBox 			*inDeviceCombo, *intervalCombo;
-  QGroupBox 			*enableInBox, *modeGr, *midABox;
-  QRadioButton 		*voiceRadio, *instrRadio;
-	QRadioButton		*highRadio, *middleRadio, *lowRadio;
-  QSpinBox 				*freqSpin, *durationSpin;
-  TvolumeSlider 	*volumeSlider;
-  QPushButton 		*testButt;
-  QLabel 					*pitchLab, *freqLab, *tuneFreqlab, *durHeadLab;
-  bool 						m_testDisabled, m_listGenerated;
-  TpitchView 			*pitchView;
-  TaudioIN 				*m_audioIn;
-  TaudioParams 		*m_glParams, *m_tmpParams;
+  QComboBox 					*inDeviceCombo, *intervalCombo;
+  QGroupBox 					*enableInBox, *modeGr, *midABox;
+  QRadioButton 				*voiceRadio, *instrRadio;
+	QRadioButton				*highRadio, *middleRadio, *lowRadio;
+  QSpinBox 						*freqSpin, *durationSpin;
+  TvolumeSlider 			*volumeSlider;
+  QPushButton 				*testButt;
+  QLabel 							*pitchLab, *freqLab, *tuneFreqlab, *durHeadLab;
+  bool 								m_testDisabled, m_listGenerated;
+  TpitchView 					*pitchView;
+  TaudioIN 						*m_audioIn;
+  TaudioParams 				*m_glParams, *m_tmpParams;
+	Ttune								*m_tune;
   
 };
 
