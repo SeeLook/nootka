@@ -210,6 +210,8 @@ void TsettingsDialog::changeSettingsWidget(int index) {
 					connect(m_guitarSett, SIGNAL(clefChanged(Tclef)), m_scoreSett, SLOT(defaultClefChanged(Tclef)));
 			if (m_sndOutSett)
 					connect(m_guitarSett, SIGNAL(instrumentChanged(int)), m_sndOutSett, SLOT(whenInstrumentChanged(int)));
+			if (m_sndInSett)
+					connect(m_guitarSett, SIGNAL(tuneChanged(Ttune*)), m_sndInSett, SLOT(tuneWasChanged(Ttune*)));
       currentWidget = m_guitarSett;
       break;
     }
@@ -231,7 +233,9 @@ void TsettingsDialog::changeSettingsWidget(int index) {
 					connect(m_guitarSett, SIGNAL(lowestNoteChanged(Tnote)), m_sndInSett, SLOT(whenLowestNoteChanges(Tnote)));
 					m_sndInSett->whenLowestNoteChanges(m_guitarSett->lowestNote());
 					m_sndOutSett->whenInstrumentChanged(m_guitarSett->currentInstrument());
+					m_sndInSett->tuneWasChanged(m_guitarSett->currentTune());
 					connect(m_guitarSett, SIGNAL(instrumentChanged(int)), m_sndOutSett, SLOT(whenInstrumentChanged(int)));
+					connect(m_guitarSett, SIGNAL(tuneChanged(Ttune*)), m_sndInSett, SLOT(tuneWasChanged(Ttune*)));
 				}
       }
       currentWidget = m_audioSettingsPage;
@@ -243,7 +247,7 @@ void TsettingsDialog::changeSettingsWidget(int index) {
 
 
 void TsettingsDialog::createAudioPage() {
-    m_sndInSett = new AudioInSettings(gl->A, gl->path);
+    m_sndInSett = new AudioInSettings(gl->A, gl->path, gl->Gtune());
     m_sndOutSett = new AudioOutSettings(gl->A, m_sndInSett); // m_sndInSett is bool - true when exist
     m_audioSettingsPage = new QWidget();
     m_audioTab = new QTabWidget(m_audioSettingsPage);

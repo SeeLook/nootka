@@ -466,10 +466,10 @@ void Tcanvas::setPosOfTryAgainTip() {
 
 
 void Tcanvas::setPosOfWhatTip() {
-// in the middle on guitar
+// in the middle on the guitar
 	int maxTipHeight = m_parent->height() - m_parent->noteName->geometry().bottom() - 5;
-  if (m_whatTip->boundingRect().height() != maxTipHeight)
-				m_whatTip->setScale((qreal)maxTipHeight / m_whatTip->boundingRect().height());
+  if (m_whatTip->boundingRect().height() * m_whatTip->scale() != maxTipHeight)
+				m_whatTip->setScale((qreal)maxTipHeight / (m_whatTip->boundingRect().height() * m_whatTip->scale()));
   m_whatTip->setPos((m_scene->width() - (m_whatTip->scale() * m_whatTip->boundingRect().width())) / 2,
 						m_parent->noteName->geometry().bottom() + (maxTipHeight - m_whatTip->scale() * m_whatTip->boundingRect().height()) / 2);
 }
@@ -491,10 +491,10 @@ void Tcanvas::setPosOfConfirmTip() { // middle of noteName and somewhere above
 void Tcanvas::setPosOfQuestionTip() {
 	int maxTipHeight = m_parent->height() - m_parent->noteName->geometry().bottom();
 	qreal fineScale;
-	if (m_questionTip->boundingRect().height() > maxTipHeight) { // check is scaling needed
+	if (m_questionTip->boundingRect().height() * m_questionTip->scale() > maxTipHeight) { // check is scaling needed
 			fineScale = (qreal)maxTipHeight / m_questionTip->boundingRect().height();
 			qreal scaleStep = 0.0;
-			while (m_questionTip->boundingRect().height() > maxTipHeight) {
+			while (m_questionTip->boundingRect().height() * m_questionTip->scale() > maxTipHeight) {
 // 					qDebug() << "scaleStep" << scaleStep;
 					delete m_questionTip;
 					m_questionTip = new TquestionTip(m_exam, m_scale * fineScale - scaleStep);			
@@ -506,17 +506,17 @@ void Tcanvas::setPosOfQuestionTip() {
       int off = 0;
       if (m_exam->curQ().answerAs == TQAtype::e_asSound)
         off = m_scene->width() / 8;
-      pos = QPoint((m_scene->width() - (m_questionTip->boundingRect().width())) / 2 + off, 
+      pos = QPoint((m_scene->width() - (m_questionTip->boundingRect().width() * m_questionTip->scale())) / 2 + off, 
 						m_parent->noteName->geometry().bottom() + (maxTipHeight - m_questionTip->boundingRect().height()) / 2);
   }
     else
       if (m_questionTip->freeName()) // middle of the noteName
-          pos = QPoint(m_parent->noteName->geometry().x() + (m_parent->noteName->width() - m_questionTip->boundingRect().width()) / 2,
-                       m_parent->noteName->geometry().y() + (m_parent->noteName->height() - /*m_questionTip->scale() **/ m_questionTip->boundingRect().height()) - 5);
+          pos = QPoint(m_parent->noteName->geometry().x() + (m_parent->noteName->width() - m_questionTip->boundingRect().width() * m_questionTip->scale()) / 2,
+                       m_parent->noteName->geometry().y() + (m_parent->noteName->height() - m_questionTip->scale() * m_questionTip->boundingRect().height()) - 5);
       else // on the score at its center
-				pos = QPoint(m_parent->score->geometry().x() + (m_parent->score->width() - m_questionTip->boundingRect().width()) / 2,
-                     m_scene->height() / 10 + (m_scene->height() / 2 - m_questionTip->boundingRect().height()) /2 );
-      
+				pos = QPoint(m_parent->score->geometry().x() + 
+										(m_parent->score->width() - m_questionTip->boundingRect().width() * m_questionTip->scale()) / 2,
+                    m_scene->height() / 10 + (m_scene->height() / 2 - m_questionTip->boundingRect().height() * m_questionTip->scale()) /2 );
   m_questionTip->setPos(pos);
 }
 

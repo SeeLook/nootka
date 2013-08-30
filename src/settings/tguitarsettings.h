@@ -41,11 +41,13 @@ class TguitarSettings : public QWidget
     Q_OBJECT
 public:
     explicit TguitarSettings(QWidget *parent = 0);
+		virtual ~TguitarSettings();
 		
     void saveSettings();
 		void restoreDefaults();
 				/** Returns instrument currently selected. */
 		int currentInstrument() { return m_currentInstr; }
+		Ttune* currentTune() { return m_curentTune; }
 		
 		
 		Tclef currentClef();
@@ -57,6 +59,7 @@ signals:
 		void lowestNoteChanged(Tnote loNote);
 				/** Is emited when user changes m_instrumentTypeCombo. Sending value is cast of Einstrument type to int. */
 		void instrumentChanged(int);
+		void tuneChanged(Ttune*);
 		
 private:
     void setTune (Ttune *tune);
@@ -76,6 +79,8 @@ private:
 		QGroupBox 			*m_tuneGroup, *m_guitarGroup, *m_accidGroup;
 		QLabel					*m_fretNrLab, *m_stringNrLab, *m_pointerColorLab, *m_selectColorLab;
 		int							 m_currentInstr;
+		Ttune						*m_curentTune; // current guitar tune 
+		Ttune 					*m_customTune;
 
 private slots:
     void tuneSelected(int tuneId);
