@@ -201,6 +201,8 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 
     connect(m_okBut, SIGNAL(clicked()), this, SLOT(accept()));
 		connect(m_navList, SIGNAL(currentRowChanged(int)), this, SLOT(changeCurrentPage(int)));
+		
+		QTimer::singleShot(20, this, SLOT(fixSize()));
 }
 
 
@@ -215,9 +217,13 @@ void TaboutNootka::changeCurrentPage(int page) {
 
 void TaboutNootka::moveScroll() {
 		m_authorScroll->verticalScrollBar()->setValue(m_authorScroll->verticalScrollBar()->value() + 1);
-// 		if (m_authorScroll->verticalScrollBar()->value() >= m_authorScroll->verticalScrollBar()->maximum())
-// 				m_timer->stop();
 }
+
+
+void TaboutNootka::fixSize() {
+		setFixedSize(size());
+}
+
 
 
 

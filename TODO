@@ -2,10 +2,14 @@ Plan for the Nootka One
 
 urgent:
 - thanks list !!!!!
+- Translations: Change Sett. on Settings and fix wizzard to wizard
 - images of NSIS installer
 - try to adjust navList widget width to wider text in it
 
 -----------------------------------------------------------
+- keep pressed some octave button
+- key signature names could be wider - take space over clef
+- level preview has to have got empty table to void changing size during filling it
 - table of level preview requires some margin/space after lines
 - make order with jack
 - add shadows under strings on pickup
@@ -13,10 +17,12 @@ urgent:
 - check intonation in exams
 - There are similar position calculations in Tcanvas - make methods for them
 - keep exam file in /tmp and restore it when crash or so
+- crossfading of notes during palyback
+
+
 - splash screen
 - add sound notifications
 - finish exam tip
-- crossfading of notes during palyback
 
 - positions and look of frets numbers and key names in charts
 - add string numbers to pixmap
