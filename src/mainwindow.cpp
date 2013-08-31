@@ -223,7 +223,7 @@ MainWindow::~MainWindow()
 //##########################################################################################
 
 void MainWindow::createActions() {
-    settingsAct = new QAction(tr("Sett.", "like settings but it should be short and could be Opt. or Pref. as well - this is a text under toolbar button"), this);
+    settingsAct = new QAction(tr("Settings"), this);
     settingsAct->setStatusTip(tr("Application preferences"));
 		settingsAct->setToolTip(settingsAct->statusTip());
     settingsAct->setIcon(QIcon(gl->path+"picts/systemsettings.png"));

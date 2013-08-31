@@ -123,7 +123,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
           QGraphicsRectItem *groupBg = new QGraphicsRectItem();
           scene->addItem(groupBg);
           QColor hiCol = palette().highlight().color();
-          hiCol.setAlpha(30);
+          hiCol.setAlpha(60);
           if (i%2) {
             groupBg->setBrush(QBrush(hiCol));
             groupBg->setPen(Qt::NoPen);
@@ -160,12 +160,13 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
   // key signature names over the chart
     if (settings.order == e_byKey) {
       cnt = 1;
+      QColor tc = palette().text().color();
       for (int i = 0; i < goodSize; i++) { 
         QGraphicsTextItem *keyText = new QGraphicsTextItem();
         QFont f;
         f.setPixelSize(16);
         keyText->setFont(f);
-        QString hintText = "<b style=\"color: rgba(200, 200, 200, 200); \">";
+        QString hintText = QString("<b style=\"color: rgba(%1, %2, %3, 150); \">").arg(tc.red()).arg(tc.green()).arg(tc.blue());
         if (goodOffset && (i == goodSize -1))
           hintText += QApplication::translate("TlinearChart", "questions unrelated<br>with chart type") + "</b>";
         else {
@@ -175,8 +176,13 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
         keyText->setHtml(hintText);
         scene->addItem(keyText);
         TgraphicsTextTip::alignCenter(keyText);
+        qreal sc = 1.0;
+        if (sortedLists[i].size() * xAxis->questWidth() < keyText->boundingRect().width()) {
+            sc = (sortedLists[i].size() * xAxis->questWidth()) / keyText->boundingRect().width();
+            keyText->setScale(sc);
+        }
         keyText->setPos(xAxis->mapValue(cnt) + 
-        (sortedLists[i].size() * xAxis->questWidth() - keyText->boundingRect().width()) / 2, 
+        (sortedLists[i].size() * xAxis->questWidth() - keyText->boundingRect().width() * sc) / 2, 
                          yAxis->mapValue(yAxis->maxValue()));        
         keyText->setZValue(3);
         cnt += sortedLists[i].size();

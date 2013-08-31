@@ -1,8 +1,6 @@
 Plan for the Nootka One
 
 urgent:
-- thanks list !!!!!
-- Translations: Change Sett. on Settings and fix wizzard to wizard
 - images of NSIS installer
 - try to adjust navList widget width to wider text in it
 
@@ -10,7 +8,7 @@ urgent:
 - keep pressed some octave button
 - key signature names could be wider - take space over clef
 - level preview has to have got empty table to void changing size during filling it
-- table of level preview requires some margin/space after lines
+- table of level preview requires some margin/space after grid lines
 - make order with jack
 - add shadows under strings on pickup
 - do not transform pickup image for lefthanded - just change its pos

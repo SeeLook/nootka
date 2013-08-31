@@ -41,14 +41,14 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
 #else
     setWindowIcon(QIcon(gl->path + "picts/about.png"));
 #endif	
-    setWindowTitle("Nootka   " + tr("First run wizzard"));
+    setWindowTitle("Nootka   " + tr("First run wizard"));
     QVBoxLayout *lay = new QVBoxLayout;
     m_pagesLay = new QStackedLayout;
     lay->addLayout(m_pagesLay);
 
     QHBoxLayout *buttLay = new QHBoxLayout;
     buttLay->addStretch(1);
-    m_skipButt = new QPushButton(tr("skip wizzard"), this);
+    m_skipButt = new QPushButton(tr("skip wizard"), this);
     buttLay->addWidget(m_skipButt);
     buttLay->addStretch(2);
     m_prevButt = new QPushButton(tr("prev"), this);
@@ -260,6 +260,7 @@ Tpage_3::Tpage_3(QWidget *parent) :
     QVBoxLayout *lay = new QVBoxLayout;
     lay->setAlignment(Qt::AlignCenter);
     QLabel *seventhLab = new QLabel(tr("<center>7-th note can be B or H, depends on country<br>Which one is Yours?<br></center>"), this);
+		seventhLab->setWordWrap(true);
     lay->addWidget(seventhLab, 0, Qt::AlignCenter);
 
     select7 = new Select7note(this);
