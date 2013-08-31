@@ -109,7 +109,7 @@ questionsSettings::questionsSettings(QWidget *parent) :
     chLay->addWidget(forceAccChB, 1, 0, Qt::AlignLeft);
     
     styleRequiredChB = new QCheckBox(tr("use different naming styles"),this);
-    styleRequiredChB->setStatusTip(tr("if checked, note names are switched between letters and solfge."));
+    styleRequiredChB->setStatusTip(tr("if checked, note names are switched between letters and solfege."));
     chLay->addWidget(styleRequiredChB, 2, 0, Qt::AlignLeft);
     
     showStrNrChB = new QCheckBox(tr("show string number in questions"), this);

@@ -371,7 +371,7 @@ INSTALL(FILES ${snds} DESTINATION "${INS_PREF}/sounds")
 if(NOT UNIX) # Windows icons
   INSTALL(FILES picts/nootka-exam.ico picts/nootka.ico picts/nootka-icon.rc picts/nootka-levels.ico picts/pack.ico picts/nootka.rc DESTINATION "${INS_PREF}/picts") #ico for windows
   INSTALL(FILES picts/logo.bmp DESTINATION "${INS_PREF}") # logo for installer
-  INSTALL(FILES packaging/nsis/nootka-1250.nsi packaging/nsis/fileasoc.nsh DESTINATION "${INS_PREF}" )
+  INSTALL(FILES packaging/nsis/nootka-utf8.nsi packaging/nsis/fileasoc.nsh DESTINATION "${INS_PREF}" )
 endif(NOT UNIX)
 
 # files related with Linux (mime, desktop entry, icons)

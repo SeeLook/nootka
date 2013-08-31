@@ -134,7 +134,9 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 		thankStr += "<b>falkTX</b> from <a href=\"http://kxstudio.sourceforge.net/\">http://kxstudio.sourceforge.net</a> for building *.deb and testing and for many clues.<br>";
 		thankStr += "<b>Users</b> of <a href=\"http://www.linuxmusicians.com/\">http://www.linuxmusicians.com</a> forum for testing and comments.<br>";
 		thankStr += "<b>Olli Parviainen</b> <a href=\"http://www.surina.net/soundtouch/\">http://www.surina.net/soundtouch</a> for help with his SoundTouch library.<br>";
+		thankStr += "<b>Translators (Pavel, Olivier, Sergei)</b> for many, maaaany clues and comments.<br>";
 		thankStr += "<b>Project16 @ KVR</b> <a href=\"http://www.kvraudio.com/\">http://www.kvraudio.com</a> for the bass guitar samples<br>";
+		thankStr += "<b>And all others that helped.</b><br>";
     QLabel *authorsLab = new QLabel(authorStr + translStr + otherStr + thankStr);
     authorsLab->setOpenExternalLinks(true);
 		authorsLab->setWordWrap(true);
