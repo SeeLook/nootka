@@ -38,6 +38,8 @@ public:
 protected slots:
 		void moveScroll();
 		void changeCurrentPage(int page);
+			/** It is called after dialog constructor to grab and fix window size (avoid resizing) */
+		void fixSize();
 
 private:
     QListWidget 		*m_navList;

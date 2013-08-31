@@ -255,12 +255,20 @@ void TguitarSettings::updateAmbitus() {
 													 Tnote(m_tuneView->highestNote().getChromaticNrOfNote() - m_fretsNrSpin->value()));
 }
 
+
+void TguitarSettings::grabTuneFromScore(Ttune* tune) {
+		*tune = Ttune(m_tuneCombo->currentText(), m_tuneView->getNote(5), m_tuneView->getNote(4),
+											m_tuneView->getNote(3), m_tuneView->getNote(2), m_tuneView->getNote(1), m_tuneView->getNote(0));
+}
+
+
 //##########################################################################################################
 //########################################## PRIVATE SLOTS #################################################
 //##########################################################################################################
 
 void TguitarSettings::tuneSelected(int tuneId) {
-	if (m_instrumentTypeCombo->currentIndex() == 1) { // classical guitar
+	disconnect(m_stringNrSpin, SIGNAL(valueChanged(int)), this, SLOT(stringNrChanged(int)));
+	if (m_instrumentTypeCombo->currentIndex() == 1 || m_instrumentTypeCombo->currentIndex() == 2) { // classical guitar
     if (tuneId == 0)
         setTune(&Ttune::stdTune);
     else 
@@ -268,15 +276,15 @@ void TguitarSettings::tuneSelected(int tuneId) {
 						setTune(&Ttune::tunes[tuneId - 1]);
 	} else if (m_instrumentTypeCombo->currentIndex() == 3) { // bass guitar
 			if (tuneId != m_tuneCombo->count() - 1) //the last is custom
-				setTune(&Ttune::bassTunes[tuneId ]);
+				setTune(&Ttune::bassTunes[tuneId]);
 	}
+	connect(m_stringNrSpin, SIGNAL(valueChanged(int)), this, SLOT(stringNrChanged(int)));
 }
 
 
 void TguitarSettings::userTune(int, Tnote) {
     m_tuneCombo->setCurrentIndex(m_tuneCombo->count() - 1);
-		*m_customTune = Ttune(m_tuneCombo->currentText(), m_tuneView->getNote(5), m_tuneView->getNote(4),
-											m_tuneView->getNote(3), m_tuneView->getNote(2), m_tuneView->getNote(1), m_tuneView->getNote(0));
+		grabTuneFromScore(m_customTune);
 		m_curentTune = m_customTune;
 		emit tuneChanged(m_customTune);
 }
@@ -377,10 +385,10 @@ void TguitarSettings::guitarDisabled(bool disabled) {
 
 
 void TguitarSettings::updateNotesState() {
-		Ttune tmpTune = Ttune(m_tuneCombo->currentText(), m_tuneView->getNote(5), m_tuneView->getNote(4),
-											m_tuneView->getNote(3), m_tuneView->getNote(2), m_tuneView->getNote(1), m_tuneView->getNote(0));
+		Ttune *tmpTune = new Ttune();
+		grabTuneFromScore(tmpTune);
 		for (int i = 0; i < 6; i++) {
-			if (i >= 6 - tmpTune.stringNr()) {
+			if (i >= 6 - tmpTune->stringNr()) {
 					if (m_tuneView->getNote(i).note == 0) {
 						m_tuneView->setNote(i, m_tuneView->lowestNote());
 						userTune(0, Tnote());
@@ -390,6 +398,7 @@ void TguitarSettings::updateNotesState() {
 					m_tuneView->setNoteDisabled(i, true);
 			}
 		}
+		delete tmpTune;
 }
 
 

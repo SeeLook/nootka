@@ -69,6 +69,8 @@ private:
 		void guitarDisabled(bool disabled);
 				/** It sets notes state (disables or enables it or sets highest or lowest) according to curent tune. */
 		void updateNotesState();
+				/** Takes note by note from m_tuneView and fills given tune. Name is taken from m_tuneCombo */
+		void grabTuneFromScore(Ttune *tune);
 
     TsimpleScore    *m_tuneView;
     QCheckBox       *m_righthandCh, *m_morePosCh;

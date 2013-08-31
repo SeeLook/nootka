@@ -243,9 +243,9 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
 
     if (m_level.questionAs.isSound()) {
         repeatSndAct = new QAction(tr("Play", "tool button text! Please be short"), this);
-        repeatSndAct->setStatusTip(tr("play sound again") + ",<br>" + TexamHelp::pressSpaceKey());
+        repeatSndAct->setStatusTip(tr("play sound again") + "<br>(" + TexamHelp::pressSpaceKey().replace("<b>", " ").replace("</b>", ")"));
 				repeatSndAct->setToolTip(repeatSndAct->statusTip().replace("<br>", "\n"));
-        repeatSndAct->setText(repeatSndAct->text() + ",\n" + TexamHelp::pressSpaceKey().remove("<b>").remove("</b>"));
+//         repeatSndAct->setText(repeatSndAct->text() + ",\n" + TexamHelp::pressSpaceKey().remove("<b>").remove("</b>"));
         repeatSndAct->setShortcut(QKeySequence(Qt::Key_Space));
         repeatSndAct->setIcon(QIcon(gl->path+"picts/repeatSound.png"));
         connect(repeatSndAct, SIGNAL(triggered()), this, SLOT(repeatSound()));

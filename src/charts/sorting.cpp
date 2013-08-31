@@ -21,6 +21,7 @@
 #include "texamlevel.h"
 #include "tquestionaswdg.h"
 #include "tfingerpos.h"
+#include <tnotename.h>
 #include <QApplication>
 #include <QDebug>
 
@@ -105,7 +106,8 @@ QList<TgroupedQAunit> sortByNote(TgroupedQAunit& answList, TexamLevel *level, bo
         }
       }
       if (!noteList.isEmpty()) {
-        noteList.resume(theSame[j].toRichText(), "<b>" + noteList.for_a_note() + " <span style=\"font-size: 20px;\">" + theSame[j].toRichText() + "</span></b>");
+//         noteList.resume(theSame[j].toRichText(), "<b>" + noteList.for_a_note() + " <span style=\"font-size: 20px;\">" + theSame[j].toRichText() + "</span></b>");
+				noteList.resume(TnoteName::noteToRichText(theSame[j]), "<b>" + noteList.for_a_note() + " <span style=\"font-size: 20px;\">" + TnoteName::noteToRichText(theSame[j]) + "</span></b>");
         result << noteList;
       }
     }
