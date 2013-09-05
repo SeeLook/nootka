@@ -38,7 +38,6 @@
 #include "tanalysdialog.h"
 #include <tquestionpoint.h>
 #include "tnotename.h"
-#include <toctavebuttons.h>
 #include "tfingerboard.h"
 #include <QtGui>
 
@@ -605,7 +604,7 @@ void MainWindow::updsateSize() {
 			QPixmap bgPix;
 			qreal guitH;
 			qreal ratio;
-			if (gl->instrument == e_classicalGuitar) {
+			if (gl->instrument == e_classicalGuitar || gl->instrument == e_noInstrument) {
 				bgPix = QPixmap(gl->path + "picts/body.png"); // size 800x535
 				guitH = qRound(((double)guitar->height() / 350.0) * 856.0);
 		    int guitW = centralWidget()->width() / 2;
@@ -659,13 +658,13 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 
 
 void MainWindow::paintEvent(QPaintEvent* ) {
-		if (gl->instrument != e_noInstrument) {
+// 		if (gl->instrument != e_noInstrument) {
 			QPainter painter(this);
 			if (!gl->GisRightHanded) {
 					painter.translate(width(), 0);
 					painter.scale(-1, 1);
 			}
-			if (gl->instrument == e_classicalGuitar) {
+			if (gl->instrument == e_classicalGuitar || gl->instrument == e_noInstrument) {
 				painter.drawPixmap(guitar->posX12fret() + 7, guitar->geometry().bottom()/*height()*/ - m_bgPixmap.height(), m_bgPixmap);
 // 				painter.drawPixmap(width() - qRound(m_rosettePixmap.width() * 0.75), 
 // 												height() - ratio * 250 - (height() - guitar->geometry().bottom()), m_rosettePixmap );
@@ -674,7 +673,7 @@ void MainWindow::paintEvent(QPaintEvent* ) {
 					painter.drawPixmap(guitar->fbRect().right() - 235 * ratio, height() - m_bgPixmap.height() /*+ 20 * ratio*/, m_bgPixmap);
 					painter.drawPixmap(guitar->fbRect().right() + 20 * ratio, guitar->y() - 15 * ratio, m_rosettePixmap);
 			}
-		}
+// 		}
 }
 
 
