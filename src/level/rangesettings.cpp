@@ -140,7 +140,7 @@ void rangeSettings::whenParamsChanged() {
         /** It has two reasons:
          1. when questions list is created there is no conditions to check
             unavailable (unchecked) strings
-         2. in level validation method is hard to determine dependecy unchecked
+         2. in level validation method is hard to determine dependency unchecked
             strings between range of frets and notes. */
 }
 
