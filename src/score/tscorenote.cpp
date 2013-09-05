@@ -225,7 +225,6 @@ void TscoreNote::setNote(int notePos, int accNr) {
 }
 
 
-
 void TscoreNote::hideNote() {
     m_mainNote->hide();
     m_mainAccid->hide();
@@ -305,10 +304,6 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 //#################################################################################################
 
 void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
-  if (m_curentAccid != scoreScene()->currentAccid()) { // update accidental symbol
-      m_curentAccid = scoreScene()->currentAccid();
-      m_workAccid->setText(getAccid(m_curentAccid));
-  }
   if ((event->pos().y() >= m_ambitMax) && (event->pos().y() <= m_ambitMin)) {
       m_workNote->show();
       m_workAccid->show();
@@ -326,6 +321,10 @@ void TscoreNote::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 void TscoreNote::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
   if ((event->pos().y() >= m_ambitMax) && (event->pos().y() <= m_ambitMin)) {
     if (event->pos().y() != m_workPosY) {
+			if (m_curentAccid != scoreScene()->currentAccid()) { // update accidental symbol
+					m_curentAccid = scoreScene()->currentAccid();
+					m_workAccid->setText(getAccid(m_curentAccid));
+			}
       m_workPosY = event->pos().y();
       m_workNote->setPos(3.0, m_workPosY);
 //       m_workAccid->setPos(0.0, m_workPosY - 2.35);

@@ -43,7 +43,7 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
   if (m_withButtons) {
       voiceButt = new QPushButton("g", this);
       voiceButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-      lay->addWidget(voiceButt);
+//       lay->addWidget(voiceButt);
       voiceButt->setStatusTip(tr("Toggles between pitch detection for singing and for playing"));
 // #if defined(Q_OS_MAC)
 //       voiceButt->setFont(QFont("nootka", 35));
@@ -54,25 +54,32 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
     voiceButt = 0;
     pauseButt = 0;
   }
-  QVBoxLayout *viewLay = new QVBoxLayout;
-  
+    
   m_intoView = new TintonationView(TintonationView::e_perfect, this);
-  viewLay->addWidget(m_intoView);
+//   viewLay->addWidget(m_intoView);
   m_intoView->setStatusTip(tr("Intonation - clarity of the sound. Is it in tune."));
   
   m_volMeter = new TvolumeView(this);
-  viewLay->addWidget(m_volMeter);
+//   viewLay->addWidget(m_volMeter);
   m_volMeter->setStatusTip(tr("Shows volume level of input sound and indicates when note was detected"));
-  
-  lay->addLayout(viewLay);
+//   QHBoxLayout *viewLay = new QHBoxLayout;
+// 		viewLay->addWidget(m_volMeter);
+// 		viewLay->addWidget(m_intoView);
+//   lay->addLayout(viewLay);
   
   if (m_withButtons) {
       pauseButt = new QPushButton("n", this);
       pauseButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-      lay->addWidget(pauseButt);
+//       lay->addWidget(pauseButt);
       pauseButt->setStatusTip(tr("Switch on/off the pitch detection"));
       pauseButt->setFont(QFont("nootka", 15));
   }
+  lay->addWidget(m_volMeter);
+	if (m_withButtons) {
+		lay->addWidget(voiceButt);
+		lay->addWidget(pauseButt);
+	}
+	lay->addWidget(m_intoView);
   setLayout(lay);  
   
   m_volTimer = new QTimer(this);
@@ -136,13 +143,13 @@ void TpitchView::resize(int fontSize) {
 //     voiceButt->setFixedHeight(2*fontSize);
 //     pauseButt->setFixedHeight(2*fontSize);
 #else
-    voiceButt->setFont(QFont("nootka", fontSize * 1.7));
-    pauseButt->setFont(QFont("nootka", fontSize * 1.7));
+    voiceButt->setFont(QFont("nootka", fontSize * 1.3));
+    pauseButt->setFont(QFont("nootka", fontSize * 1.3));
 #endif
-    voiceButt->setFixedWidth(2 *fontSize);
-    pauseButt->setFixedWidth(2 *fontSize);
-    voiceButt->setFixedHeight(3 * fontSize);
-    pauseButt->setFixedHeight(3 * fontSize);
+    voiceButt->setFixedWidth(1.5 *fontSize);
+    pauseButt->setFixedWidth(1.5 *fontSize);
+    voiceButt->setFixedHeight(2 * fontSize);
+    pauseButt->setFixedHeight(2 * fontSize);
   }
   m_volMeter->setFixedHeight(qRound((float)fontSize * 1.2));
   m_intoView->setFixedHeight(qRound((float)fontSize * 1.2));

@@ -64,9 +64,9 @@ QString TnoteName::noteToRichText(Tnote note) {
 }
 
 
-//######################################################################
-//#################################### PUBLIC ##########################
-//######################################################################
+//#######################################################################################################
+//#################################### PUBLIC ###########################################################
+//#######################################################################################################
 
 TnoteName::TnoteName(QWidget *parent) :
     QWidget(parent)
@@ -81,89 +81,101 @@ TnoteName::TnoteName(QWidget *parent) :
     QVBoxLayout *mainLay = new QVBoxLayout();
     mainLay->setAlignment(Qt::AlignCenter);
 
-    nameLabel = new QLabel("<b><span style=\"font-size: 24px; color: green;\">" +
+    m_nameLabel = new QLabel("<b><span style=\"font-size: 24px; color: green;\">" +
                            gl->version + "</span></b>",this);
 //     nameLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Expanding);
-    nameLabel->setAlignment(Qt::AlignCenter);
-    nameLabel->setStyleSheet(bgColorTxt + styleTxt);
+    m_nameLabel->setAlignment(Qt::AlignCenter);
+    m_nameLabel->setStyleSheet(bgColorTxt + styleTxt);
     resize();
 
     mainLay->addStretch(1);
-    mainLay->addWidget(nameLabel, 0, Qt::AlignCenter);
+    mainLay->addWidget(m_nameLabel, 0, Qt::AlignCenter);
 // BUTTONS WITH NOTES TOOLBAR
     QHBoxLayout *noteLay = new QHBoxLayout();
     noteLay->addStretch(1);
-    noteGroup =new QButtonGroup(this);
+    m_noteGroup =new QButtonGroup(this);
     for (int i=0; i<7; i++) {
-        noteButtons[i] = new TpushButton("", this);
-        noteLay->addWidget(noteButtons[i]);
-        noteGroup->addButton(noteButtons[i],i);
+        m_noteButtons[i] = new TpushButton("", this);
+        noteLay->addWidget(m_noteButtons[i]);
+        m_noteGroup->addButton(m_noteButtons[i],i);
     }
     noteLay->addStretch(1);
     mainLay->addLayout(noteLay);
-    connect(noteGroup, SIGNAL(buttonClicked(int)), this, SLOT(noteWasChanged(int)));
+    connect(m_noteGroup, SIGNAL(buttonClicked(int)), this, SLOT(noteWasChanged(int)));
+		
+		for (int i = 0; i < 8; i++)
+        m_octaveButtons[i] = new TpushButton(tr(octaves[i]), this);
 // ACCID BUTTONS TOOOLBAR
     QHBoxLayout *accLay = new QHBoxLayout;
-    accLay->addStretch(1);
-    dblFlatButt = new TpushButton("B", this);
+		
+		accLay->addStretch(1);
+		accLay->addWidget(m_octaveButtons[0]);		
+    accLay->addStretch(2);
+    m_dblFlatButt = new TpushButton("B", this);
     #if defined(Q_OS_MAC)
      dblFlatButt->setFont(QFont("nootka", 15, QFont::Normal));
     #else
-     dblFlatButt->setFont(QFont("nootka", 10, QFont::Normal));
+     m_dblFlatButt->setFont(QFont("nootka", 10, QFont::Normal));
     #endif
-    accLay->addWidget(dblFlatButt);
-    connect(dblFlatButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
-    flatButt = new TpushButton("b", this);
+    accLay->addWidget(m_dblFlatButt);
+    connect(m_dblFlatButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
+    m_flatButt = new TpushButton("b", this);
     #if defined(Q_OS_MAC)
      flatButt->setFont(QFont("nootka", 15, QFont::Normal));
     #else
-     flatButt->setFont(QFont("nootka", 10, QFont::Normal));
+     m_flatButt->setFont(QFont("nootka", 10, QFont::Normal));
     #endif
-    accLay->addWidget(flatButt);
-    connect(flatButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
-    sharpButt = new TpushButton("#", this);
+    accLay->addWidget(m_flatButt);
+    connect(m_flatButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
+    m_sharpButt = new TpushButton("#", this);
     #if defined(Q_OS_MAC)
      sharpButt->setFont(QFont("nootka", 15, QFont::Normal));
     #else
-     sharpButt->setFont(QFont("nootka", 10, QFont::Normal));
+     m_sharpButt->setFont(QFont("nootka", 10, QFont::Normal));
     #endif
-    accLay->addWidget(sharpButt);
-    connect(sharpButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
-    dblSharpButt = new TpushButton("x", this);
+    accLay->addWidget(m_sharpButt);
+    connect(m_sharpButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
+    m_dblSharpButt = new TpushButton("x", this);
     #if defined(Q_OS_MAC)
      dblSharpButt->setFont(QFont("nootka", 15, QFont::Normal));
     #else
-     dblSharpButt->setFont(QFont("nootka", 10, QFont::Normal));
+     m_dblSharpButt->setFont(QFont("nootka", 10, QFont::Normal));
     #endif
-    accLay->addWidget(dblSharpButt);
-    connect(dblSharpButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
-    accLay->addStretch(1);
+    accLay->addWidget(m_dblSharpButt);
+    connect(m_dblSharpButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
+    accLay->addStretch(2);
+		accLay->addWidget(m_octaveButtons[7]);
+		accLay->addStretch(1);
     mainLay->addLayout(accLay);
 // OCTAVE BUTTONS TOOLBAR
     QHBoxLayout * octLayRow1 = new QHBoxLayout;
-		QHBoxLayout * octLayRow2 = new QHBoxLayout;
-    octLayRow1->addStretch(3);
-		octLayRow2->addStretch(1);
-    octaveGroup = new QButtonGroup(this);
+// 		QHBoxLayout * octLayRow2 = new QHBoxLayout;
+    octLayRow1->addStretch(1);
+// 		octLayRow2->addStretch(1);
+    m_octaveGroup = new QButtonGroup(this);
     for (int i = 0; i < 8; i++) {
-        octaveButtons[i] = new TpushButton(tr(octaves[i]), this);
-        octaveButtons[i]->setToolTip(tr(octavesFull[i]));
-        octaveButtons[i]->setStatusTip(octaveButtons[i]->toolTip());
-				if (i % 2) { // upper: 1, 3, 5, 7
-					octLayRow1->addWidget(octaveButtons[i]);
-					octLayRow1->addStretch(1);
-				} else { // lower: 0, 2, 4, 6
-					octLayRow2->addWidget(octaveButtons[i]);
-					octLayRow2->addStretch(1);
-				}
-        octaveGroup->addButton(octaveButtons[i], i);
+//         octaveButtons[i] = new TpushButton(tr(octaves[i]), this);
+        m_octaveButtons[i]->setToolTip(tr(octavesFull[i]));
+        m_octaveButtons[i]->setStatusTip(m_octaveButtons[i]->toolTip());
+// 				octaveButtons[i]->setStyleSheet("background-color: palette(window)");
+				if (i > 0 && i < 7)
+					octLayRow1->addWidget(m_octaveButtons[i]);
+// 				if (i % 2) { // upper: 1, 3, 5, 7
+// 					octLayRow1->addWidget(octaveButtons[i]);
+// 					octLayRow1->addStretch(1);
+// 				} else { // lower: 0, 2, 4, 6
+// 					octLayRow2->addWidget(octaveButtons[i]);
+// 					octLayRow2->addStretch(1);
+// 				}
+        m_octaveGroup->addButton(m_octaveButtons[i], i);
     }
     octLayRow1->addStretch(1);
-		octLayRow2->addStretch(3);
+// 		octLayRow2->addStretch(3);
     mainLay->addLayout(octLayRow1);
-		mainLay->addLayout(octLayRow2);
+// 		mainLay->addLayout(octLayRow2);
     m_prevOctButton = -1;
-    connect(octaveGroup, SIGNAL(buttonClicked(int)), this, SLOT(octaveWasChanged(int)));
+		
+    connect(m_octaveGroup, SIGNAL(buttonClicked(int)), this, SLOT(octaveWasChanged(int)));
     
 //     mainLay->addSpacing(5);
     setLayout(mainLay);
@@ -179,7 +191,7 @@ TnoteName::TnoteName(QWidget *parent) :
 
 void TnoteName::setNoteNamesOnButt(Tnote::EnameStyle nameStyle) {
     for (int i = 0; i < 7; i++) {
-        noteButtons[i]->setText(Tnote(i + 1, 0, 0).toText(nameStyle, false));
+        m_noteButtons[i]->setText(Tnote(i + 1, 0, 0).toText(nameStyle, false));
     }
 }
 
@@ -189,21 +201,21 @@ void TnoteName::setStyle(Tnote::EnameStyle style) {
 
 
 void TnoteName::setNoteName(Tnote note) {
-	if (m_notes[0].note) {
-		noteButtons[m_notes[0].note-1]->setChecked(false);
+	if (m_notes[0].note) { // uncheck current note button
+		m_noteButtons[m_notes[0].note - 1]->setChecked(false);
 	}
-	if (m_prevOctButton != -1)
-		octaveButtons[m_prevOctButton]->setChecked(false);
-    if (note.note) {
-        m_notes[0] = note;
-        setButtons(note);
-    } else {
-        m_notes[0] = Tnote(0,0,0);
-        m_notes[1] = Tnote(0,0,0);
-        m_notes[2] = Tnote(0,0,0);
-		m_prevOctButton = -1;
-    }
-    setNameText();
+	if (m_prevOctButton != -1) 
+		m_octaveButtons[m_prevOctButton]->setChecked(false);
+	if (note.note) {
+			m_notes[0] = note;
+			setButtons(note);
+	} else {
+			m_notes[0] = Tnote(0,0,0);
+			m_notes[1] = Tnote(0,0,0);
+			m_notes[2] = Tnote(0,0,0);
+// 	m_prevOctButton = -1;
+	}
+	setNameText();
 }
 
 
@@ -220,35 +232,19 @@ void TnoteName::setNoteName(TnotesList notes) {
     setNoteName(notes[0]);
 }
 
+
 void TnoteName::setEnabledDblAccid(bool isEnabled) {
     if (isEnabled) {
-        dblFlatButt->show();
-        dblSharpButt->show();
+        m_dblFlatButt->show();
+        m_dblSharpButt->show();
     } else {
-        dblFlatButt->hide();
-        dblSharpButt->hide();
+        m_dblFlatButt->hide();
+        m_dblSharpButt->hide();
         m_notes[2] = Tnote(0,0,0);
         setNameText();
     }
 }
 
-
-
-void TnoteName::setButtons(Tnote note) {
-    noteButtons[note.note-1]->setChecked(true);
-
-    uncheckAccidButtons();
-    switch (note.acidental) {
-				case -2 : dblFlatButt->setChecked(true); break;
-				case -1 : flatButt->setChecked(true); break;
-				case 1 : sharpButt->setChecked(true); break;
-				case 2 : dblSharpButt->setChecked(true); break;
-    }
-    if (note.octave >= -3 && note.octave <= 4) {
-        octaveButtons[note.octave + 3]->setChecked(true);
-				m_prevOctButton = note.octave + 3;
-		}
-}
 
 void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
     if (!isEnabled) {
@@ -258,36 +254,28 @@ void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
     }
 }
 
-void TnoteName::resizeEvent(QResizeEvent* ) {
-    nameLabel->setFixedSize(width() * 0.9, parentWidget()->height() / 9 );
-    QFont f(QFont(nameLabel->font().family(), qRound(nameLabel->height() * 0.55), 50));
-    QFontMetrics fMetr(f);
-    qreal fact = (nameLabel->height() * 0.95) / fMetr.boundingRect("A").height();
-    f.setPointSize(f.pointSize() * fact);
-    nameLabel->setFont(f);
-    nameLabel->setText(nameLabel->text());
-}
+
 
 
 void TnoteName::resize(int fontSize) {    
     if (fontSize) {
-        QFont f = QFont(noteButtons[0]->font().family());
+        QFont f = QFont(m_noteButtons[0]->font().family());
         f.setPixelSize(fontSize);
         for (int i = 0; i < 7; i++) {
-            noteButtons[i]->setFont(f);
+            m_noteButtons[i]->setFont(f);
         }
         for (int i = 0; i < 8; i++) {
-            octaveButtons[i]->setFont(f);
+            m_octaveButtons[i]->setFont(f);
         }
-        f = QFont(dblFlatButt->font().family());
+        f = QFont(m_dblFlatButt->font().family());
         f.setPointSize(fontSize);
         QFontMetrics fMetr(f);
         qreal fact = ((qreal)fontSize / (qreal)fMetr.boundingRect("b").height()) * 1.4;
         f.setPointSize(f.pointSize() * fact);
-        dblFlatButt->setFont(f);
-        flatButt->setFont(f);
-        sharpButt->setFont(f);
-        dblSharpButt->setFont(f);
+        m_dblFlatButt->setFont(f);
+        m_flatButt->setFont(f);
+        m_sharpButt->setFont(f);
+        m_dblSharpButt->setFont(f);
     }
 }
 
@@ -296,108 +284,108 @@ void TnoteName::setAmbitus(Tnote lo, Tnote hi) {
     m_ambitMax = hi.getChromaticNrOfNote();
 }
 
+
+//##############################################################################################
+//#################################### EXAM RELATED ############################################
+//##############################################################################################
 void TnoteName::askQuestion(Tnote note, Tnote::EnameStyle questStyle, char strNr) {
     Tnote::EnameStyle tmpStyle = m_style;
     setStyle(questStyle);
     setNoteName(note);
     QString sN = "";
     if (strNr) sN = QString("  %1").arg((int)strNr);
-    nameLabel->setText(nameLabel->text() +
+    m_nameLabel->setText(m_nameLabel->text() +
                        QString(" <span style=\"color: %1; font-family: nootka;\">?%2</span>").arg(gl->EquestionColor.name()).arg(sN));
     QColor questBg = gl->mergeColors(gl->EquestionColor, palette().window().color());
     questBg.setAlpha(220);
-    nameLabel->setStyleSheet(styleTxt + gl->getBGcolorText(questBg));
+    m_nameLabel->setStyleSheet(styleTxt + gl->getBGcolorText(questBg));
     uncheckAllButtons();
     setStyle(tmpStyle);
 }
 
+
 void TnoteName::prepAnswer(Tnote::EnameStyle answStyle, Tnote backNote) {
     QColor answBg = gl->mergeColors(gl->EanswerColor, palette().window().color());
     answBg.setAlpha(220);
-    nameLabel->setStyleSheet(styleTxt + gl->getBGcolorText(answBg));
+    m_nameLabel->setStyleSheet(styleTxt + gl->getBGcolorText(answBg));
     setNoteNamesOnButt(answStyle);
-    if (backNote.acidental) {
-        QString accTxt = QString(" <sub><i><span style=\"color: %1;\">(%2)</span></i></sub>").arg(gl->GfingerColor.name()).arg(QString::fromStdString(signsAcid[backNote.acidental + 2]));
-        nameLabel->setText(nameLabel->text() + accTxt);
-        /** @todo press accid button */
-    }
     setNameDisabled(false);
+		if (backNote.acidental) {
+        QString accTxt = QString(" <sub><i><span style=\"color: %1;\">(%2)</span></i></sub>").arg(gl->GfingerColor.name()).arg(QString::fromStdString(signsAcid[backNote.acidental + 2]));
+        m_nameLabel->setText(m_nameLabel->text() + accTxt);
+        checkAccidButtons(backNote.acidental);
+    }
     m_notes[0] = Tnote(0,0,0); // Reset, otherwise getNoteName() returns it
-    /** @todo prepare octave button*/
 }
+
 
 void TnoteName::markNameLabel(QColor markColor) {
-    nameLabel->setStyleSheet(styleTxt + gl->getBGcolorText(markColor));
+    m_nameLabel->setStyleSheet(styleTxt + gl->getBGcolorText(markColor));
 }
-
 
 
 void TnoteName::setNameDisabled(bool isDisabled) {
-    if (isDisabled) {
+//     if (isDisabled) {
         uncheckAllButtons();
         for (int i = 0; i < 7; i++)
-            noteButtons[i]->setDisabled(true);
+            m_noteButtons[i]->setDisabled(isDisabled);
         for (int i = 0; i < 8; i++)
-            octaveButtons[i]->setDisabled(true);
-        dblFlatButt->setDisabled(true);
-        flatButt->setDisabled(true);
-        sharpButt->setDisabled(true);
-        dblSharpButt->setDisabled(true);
-    } else {
-        for (int i = 0; i < 7; i++)
-            noteButtons[i]->setDisabled(false);
-        for (int i = 0; i < 8; i++)
-            octaveButtons[i]->setDisabled(false);
-        dblFlatButt->setDisabled(false);
-        flatButt->setDisabled(false);
-        sharpButt->setDisabled(false);
-        dblSharpButt->setDisabled(false);
-    }
+            m_octaveButtons[i]->setDisabled(isDisabled);
+        m_dblFlatButt->setDisabled(isDisabled);
+        m_flatButt->setDisabled(isDisabled);
+        m_sharpButt->setDisabled(isDisabled);
+        m_dblSharpButt->setDisabled(isDisabled);
+				if (isDisabled) { // uncheck when disabled
+					for (int i = 0; i < 8; i++) {
+						if (m_octaveButtons[i]->isChecked())
+								m_prevOctButton = i;
+						m_octaveButtons[i]->setChecked(false);
+					}
+				} else { // restore last checked octave vhen becomes enabled
+					if (m_prevOctButton != -1)
+							m_octaveButtons[m_prevOctButton]->setChecked(true);
+					else {// or set it to small octave
+						  m_octaveButtons[3]->setChecked(true);
+							m_prevOctButton = 3;
+					}
+				}
 }
 
-void TnoteName::uncheckAccidButtons() {
-    dblFlatButt->setChecked(false);
-    flatButt->setChecked(false);
-    sharpButt->setChecked(false);
-    dblSharpButt->setChecked(false);
-}
 
 void TnoteName::clearNoteName() {
     setNoteName(Tnote());
-    nameLabel->setStyleSheet(bgColorTxt + styleTxt);
+    m_nameLabel->setStyleSheet(bgColorTxt + styleTxt);
 }
+
 
 void TnoteName::uncheckAllButtons() {
     uncheckAccidButtons();
-    noteGroup->setExclusive(false);
-    octaveGroup->setExclusive(false);
+    m_noteGroup->setExclusive(false);
     for (int i = 0; i < 7; i++)
-        noteButtons[i]->setChecked(false);
-    for (int i = 0; i < 8; i++)
-        octaveButtons[i]->setChecked(false);
-		m_prevOctButton = -1;
-    noteGroup->setExclusive(true);
-    octaveGroup->setExclusive(true);
+        m_noteButtons[i]->setChecked(false);
+//     for (int i = 0; i < 8; i++)
+//         octaveButtons[i]->setChecked(false);
+// 		m_prevOctButton = -1;
+    m_noteGroup->setExclusive(true);
 }
 
 
-//######################################################################
-//#################################### PTIVATE #######################
-//######################################################################
-
+//##############################################################################################
+//#################################### PTIVATE #################################################
+//##############################################################################################
 
 void TnoteName::setNameText() {
     if (m_notes[0].note) {
         QString txt = noteToRichText(m_notes[0]);
         if (m_notes[1].note) {
-            txt = txt + QString("  <span style=\"font-size: %1px; color: %2\">(").arg(nameLabel->font().pointSize()-2).arg(gl->enharmNotesColor.name()) + noteToRichText(m_notes[1]);
+            txt = txt + QString("  <span style=\"font-size: %1px; color: %2\">(").arg(m_nameLabel->font().pointSize()-2).arg(gl->enharmNotesColor.name()) + noteToRichText(m_notes[1]);
             if (m_notes[2].note)
                 txt = txt + "  " + noteToRichText(m_notes[2]);
             txt = txt + ")</span>";
         }
-        nameLabel->setText(txt);
+        m_nameLabel->setText(txt);
     } else 
-				nameLabel->setText("");;
+				m_nameLabel->setText("");;
 }
 
 
@@ -422,59 +410,101 @@ void TnoteName::setNoteName(char noteNr, char octNr, char accNr) {
     }
 }
 
-void TnoteName::noteWasChanged(int noteNr) {
-  if (m_notes[0].note) {
-    if (m_notes[0].note != noteNr+1) //uncheck only if previous was different
-      noteButtons[m_notes[0].note-1]->setChecked(false);
-  } 
-  noteButtons[noteNr]->setChecked(true);
-    setNoteName(noteNr+1, m_notes[0].octave, m_notes[0].acidental);
-  if (octaveGroup->checkedId() == -1 && m_prevOctButton == -1) {
-    octaveButtons[3]->setChecked(true);
-    m_prevOctButton = 3;
-//    octaveGroup->setId(2);
-  }
-  emit noteButtonClicked();
+
+void TnoteName::setButtons(Tnote note) {
+    m_noteButtons[note.note-1]->setChecked(true);
+		checkAccidButtons(note.acidental);
+    if (note.octave >= -3 && note.octave <= 4) {
+			if (m_octaveButtons[note.octave + 3]->isEnabled()) { // check octave button only when is enabled
+					m_octaveButtons[note.octave + 3]->setChecked(true);
+					m_prevOctButton = note.octave + 3;
+			}
+		}
 }
 
+
+void TnoteName::uncheckAccidButtons() {
+    m_dblFlatButt->setChecked(false);
+    m_flatButt->setChecked(false);
+    m_sharpButt->setChecked(false);
+    m_dblSharpButt->setChecked(false);
+}
+
+
+void TnoteName::checkAccidButtons(char accid) {
+		uncheckAccidButtons();
+		switch (accid) {
+				case -1 : m_flatButt->setChecked(true); break;
+				case 1 : m_sharpButt->setChecked(true); break;
+				case -2 : m_dblFlatButt->setChecked(true); break;
+				case 2 : m_dblSharpButt->setChecked(true); break;
+    }
+}
+
+
+char TnoteName::getSelectedAccid() {
+		if (m_flatButt->isChecked())
+			return -1;
+		if (m_sharpButt->isChecked())
+			return 1;
+		if (m_dblFlatButt->isChecked())
+			return -2;
+		if (m_dblSharpButt->isChecked())
+			return 2;
+		return 0; // no accide selected
+}
+
+
+void TnoteName::noteWasChanged(int noteNr) {
+		if (m_notes[0].note) {
+			if (m_notes[0].note != noteNr+1) //uncheck only if previous was different
+				m_noteButtons[m_notes[0].note-1]->setChecked(false);
+		} 
+		m_noteButtons[noteNr]->setChecked(true);
+		if (m_octaveGroup->checkedId() == -1 && m_prevOctButton == -1) {
+			m_octaveButtons[3]->setChecked(true);
+			m_prevOctButton = 3;
+		}
+		setNoteName(noteNr + 1, m_prevOctButton - 3, getSelectedAccid());
+		emit noteButtonClicked();
+}
+
+
 void TnoteName::accidWasChanged() {
-  if (sender() != flatButt)
-    flatButt->setChecked(false);
-  if (sender() != sharpButt)
-    sharpButt->setChecked(false);
-  if (sender() != dblSharpButt)
-    dblSharpButt->setChecked(false);
-  if (sender() != dblFlatButt)
-    dblFlatButt->setChecked(false);
-    char ac;
+  if (sender() != m_flatButt)
+    m_flatButt->setChecked(false);
+  if (sender() != m_sharpButt)
+    m_sharpButt->setChecked(false);
+  if (sender() != m_dblSharpButt)
+    m_dblSharpButt->setChecked(false);
+  if (sender() != m_dblFlatButt)
+    m_dblFlatButt->setChecked(false);
+// 	char ac;
   TpushButton *button = static_cast<TpushButton *>(sender());
   button->setChecked(!button->isChecked());
-    if (sender() == dblFlatButt) {
-        if (dblFlatButt->isChecked()) ac = -2;
-        else ac = 0;
-    } else {
-        if (sender() == flatButt) {
-            if (flatButt->isChecked()) ac = -1;
-            else ac = 0;
-    } else {
-        if (sender() == sharpButt) {
-            if (sharpButt->isChecked()) ac = 1;
-            else ac = 0;
-        } else {
-            if (dblSharpButt->isChecked()) ac = 2;
-            else ac = 0;
-          }
-      }
-    }
-    setNoteName(m_notes[0].note, m_notes[0].octave, ac);
+	setNoteName(m_notes[0].note, m_prevOctButton - 3, getSelectedAccid());
 }
 
 
 void TnoteName::octaveWasChanged(int octNr) { // octNr is button nr in the group
   if (octNr != m_prevOctButton && m_prevOctButton != -1)
-    octaveButtons[m_prevOctButton]->setChecked(false);
+    m_octaveButtons[m_prevOctButton]->setChecked(false);
   m_prevOctButton = octNr;
-  octaveButtons[octNr]->setChecked(true);
-    setNoteName(m_notes[0].note, octNr - 3, m_notes[0].acidental);
+  m_octaveButtons[octNr]->setChecked(true);
+	setNoteName(m_notes[0].note, octNr - 3, getSelectedAccid());
 }
+
+
+void TnoteName::resizeEvent(QResizeEvent* ) {
+    m_nameLabel->setFixedSize(width() * 0.9, parentWidget()->height() / 9 );
+    QFont f(QFont(m_nameLabel->font().family(), qRound(m_nameLabel->height() * 0.55), 50));
+    QFontMetrics fMetr(f);
+    qreal fact = (m_nameLabel->height() * 0.95) / fMetr.boundingRect("A").height();
+    f.setPointSize(f.pointSize() * fact);
+    m_nameLabel->setFont(f);
+    m_nameLabel->setText(m_nameLabel->text());
+}
+
+
+
 
