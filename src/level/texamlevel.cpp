@@ -147,7 +147,9 @@ bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
 		else if (testClef == 1) {
 			Tnote lowest(6, -2, 0);
 			if (lev.canBeGuitar() || lev.loNote.getChromaticNrOfNote() < lowest.getChromaticNrOfNote() )
-				lev.clef = Tclef(Tclef::e_treble_G_8down);  // surely - 1 = e_treble_G was not intended here
+					lev.clef = Tclef(Tclef::e_treble_G_8down);  // surely - 1 = e_treble_G was not intended here
+			else
+					lev.clef = Tclef(Tclef::e_treble_G); 
 		}	else if (testClef == 257) // some previous mess - untill levels won't support multiple clefs
 				lev.clef = Tclef(Tclef::e_treble_G_8down); 
 		else

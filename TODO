@@ -1,5 +1,7 @@
 Plan for the Nootka One
 
+- changing clef in level range has to invoke need to save
+- check storing level path
 - consider to remove accidental symbol from NoteName question - pressed accid button should be sufficient.
 - set better position of answer/repeat tip
 - key signature names could be wider - take space over clef
