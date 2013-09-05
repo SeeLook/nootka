@@ -458,10 +458,13 @@ void TexamExecutor::askQuestion() {
         if (curQ.questionAs == TQAtype::e_asName)
             mW->noteName->prepAnswer(curQ.styleOfAnswer(), curQ.qa_2.note);
         else {
+					Tnote answNote = Tnote(0, 0, 0);
+					if (curQ.questionAs != TQAtype::e_asNote)
+						answNote = curQ.qa.note;
           if (m_level.requireStyle)
               m_prevAnswStyle = m_supp->randomNameStyle(m_prevAnswStyle);
           curQ.setStyle(curQ.styleOfQuestion(), m_prevAnswStyle);
-          mW->noteName->prepAnswer(curQ.styleOfAnswer(), curQ.qa.note);
+          mW->noteName->prepAnswer(curQ.styleOfAnswer(), answNote);
         }
         mW->noteName->setStyle(curQ.styleOfAnswer());
     }
@@ -731,8 +734,10 @@ void TexamExecutor::repeatQuestion() {
       mW->noteName->setNameDisabled(false);
       if (curQ.questionAs == TQAtype::e_asName)
           mW->noteName->prepAnswer(curQ.styleOfAnswer(), curQ.qa_2.note);
-      else
+      else if (curQ.questionAs != TQAtype::e_asNote)
           mW->noteName->prepAnswer(curQ.styleOfAnswer(), curQ.qa.note);
+			else // do not highlight accid button when question is on the score - accid is marked on the score
+					mW->noteName->prepAnswer(curQ.styleOfAnswer(), Tnote(0, 0, 0));
       mW->noteName->setStyle(curQ.styleOfAnswer());
 //         tmpStyle = curQ.styleOfQuestion();
             

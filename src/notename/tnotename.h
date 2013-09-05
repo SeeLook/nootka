@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -22,6 +22,7 @@
 #include <QWidget>
 #include "tnote.h"
 
+class QPushButton;
 class QLabel;
 class TpushButton;
 class QButtonGroup;
@@ -35,8 +36,7 @@ public:
     static const char * const octaves[8];
     static const char * const octavesFull[8];
 
-        /** Sets names on buttons to given style.
-         * Doesn't refresh note name label. */
+        /** Sets names on buttons to given style.  Doesn't refresh note name label. */
     void setNoteNamesOnButt(Tnote::EnameStyle nameStyle);
     void setEnabledDblAccid(bool isEnabled);
     void setEnabledEnharmNotes(bool isEnabled);
@@ -53,8 +53,7 @@ public:
     void clearNoteName();
     void setStyle(Tnote::EnameStyle style); // Sets style. Doesn't refresh name label
     Tnote::EnameStyle style() { return m_style; } // Style used in note name
-//    void setButtonsWithOctaves
-        /** Marks nameLabel with given color. When clearNoteName() is invoked - marks are cleared. */
+        /** Marks m_nameLabel with given color. When clearNoteName() is invoked - marks are cleared. */
     void markNameLabel(QColor markColor);
 
 signals:
@@ -65,25 +64,29 @@ protected:
     void resizeEvent(QResizeEvent *);
 
 private:
-    QLabel *nameLabel;
-    TpushButton *noteButtons[7];
-    TpushButton *octaveButtons[8];
-    TpushButton *dblFlatButt, *flatButt, *sharpButt, *dblSharpButt;
-    QButtonGroup *noteGroup, *octaveGroup;
-      /** Keeps index of previous selected octave Button.
-      * none if -1 */
-    int m_prevOctButton;
-    static Tnote::EnameStyle m_style;
+    QLabel 					*m_nameLabel;
+    TpushButton 		*m_noteButtons[7];
+    TpushButton 		*m_octaveButtons[8];
+    TpushButton 		*m_dblFlatButt, *m_flatButt, *m_sharpButt, *m_dblSharpButt;
+    QButtonGroup 		*m_noteGroup, *m_octaveGroup;
+				/** Keeps index of previous selected octave button, none if -1 */
+    int 						m_prevOctButton;
+    static 					Tnote::EnameStyle m_style;
 
-    TnotesList m_notes;
-    short m_ambitMin, m_ambitMax;
+    TnotesList 			m_notes;
+    short 					m_ambitMin, m_ambitMax;
     
-    
+private:
     void setNoteName(char noteNr, char octNr, char accNr);
     void setNameText();
+				/** Sets note, accid and octave buttons according to given note. */
     void setButtons(Tnote note);
+				/** Presses accidental button or uncheck them all if accid none (0).  */
+		void checkAccidButtons(char accid);
     void uncheckAccidButtons();
     void uncheckAllButtons();
+				/** Returns current state of accid buttons converted to accidental value [-2 to 2] */
+		char getSelectedAccid();
 
 private slots:
     void noteWasChanged(int noteNr);

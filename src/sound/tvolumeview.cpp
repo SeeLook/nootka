@@ -64,7 +64,9 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
       painter.setBrush(QBrush(m_pitchColor));
       noteColor = palette().highlightedText().color();
   } else {
-      painter.setBrush(QBrush(palette().window().color()));
+			QColor bg = palette().window().color();
+			bg.setAlpha(170);
+      painter.setBrush(bg);
       noteColor = tc;
   }
   painter.drawRoundedRect(painter.viewport(), 4, 4);

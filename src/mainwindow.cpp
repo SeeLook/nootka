@@ -38,6 +38,7 @@
 #include "tanalysdialog.h"
 #include <tquestionpoint.h>
 #include "tnotename.h"
+#include <toctavebuttons.h>
 #include "tfingerboard.h"
 #include <QtGui>
 
@@ -81,9 +82,6 @@ MainWindow::MainWindow(QWidget *parent) :
     } else { // show support window once but not with first run wizzard
 				QString newVersion = gl->config->value("version", "").toString();
         if (newVersion != gl->version) {
-// 					if (newVersion == "0.8.9-beta") { // Transitional behaviour for clef deployment
-// 						gl->Sclef = Tclef::e_treble_G_8down;
-// 					}
           QTimer::singleShot(200, this, SLOT(showSupportDialog()));
 				} else { // check for updates
           gl->config->endGroup();
@@ -93,40 +91,29 @@ MainWindow::MainWindow(QWidget *parent) :
               process->start();
           }
         }
-//         gl->config->endGroup();
     }
 		gl->config->endGroup();
 		
     TkeySignature::setNameStyle(gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
 
     sound = new Tsound(this);
-
+//-------------------------------------------------------------------
+// Creating GUI elements
     innerWidget = new QWidget(this);
-    QVBoxLayout *mainLay = new QVBoxLayout;
-
-    QHBoxLayout *scoreAndNameLay = new QHBoxLayout;
-    QVBoxLayout *scoreLay = new QVBoxLayout;
     nootBar = new QToolBar(tr("main toolbar"), innerWidget);
 		if (gl->hintsEnabled)
 				nootBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 		else
 				nootBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
-    scoreLay->addWidget(nootBar);
     score = new TmainScore(innerWidget);
-    scoreLay->addWidget(score);
     pitchView = new TpitchView(sound->sniffer, this);
     sound->setPitchView(pitchView);
-    scoreLay->addWidget(pitchView);
-    scoreAndNameLay->addLayout(scoreLay);
-
-//-------------------------------------------------------------------
-    QVBoxLayout *nameLay = new QVBoxLayout;
  // Hints - label with clues
     QHBoxLayout *statLay = new QHBoxLayout;
     m_statLab = new QLabel(innerWidget);
     m_statLab->setWordWrap(true);
     m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
-		statLay->addWidget(m_statLab);
+		statLay->addWidget(m_statLab, 0, Qt::AlignTop);
 #if defined(Q_OS_WIN32)
     QColor bgLight = palette().window().color().lighter(101);
 #else
@@ -156,35 +143,56 @@ MainWindow::MainWindow(QWidget *parent) :
     chBlay->addStretch(1);
     
     progress = new TprogressWidget(innerWidget);
-//     statLay->addStretch(1);
     statLay->addLayout(chBlay);
-    nameLay->addLayout(statLay);
     
     examResults = new TexamView(innerWidget);
     examResults->setStyleBg(gl->getBGcolorText(gl->EanswerColor), gl->getBGcolorText(gl->EquestionColor),
                             gl->getBGcolorText(gl->EnotBadColor));
 		
 		progress->hide();
-    examResults->hide();
-		nameLay->addWidget(progress);
-		nameLay->addWidget(examResults);
-		
+    examResults->hide();		
 		nootLab = new TnootkaLabel(gl->path + "picts/logo.png", innerWidget);
-		nameLay->addStretch(1);
-		nameLay->addWidget(nootLab);
-		nameLay->addStretch(1);
 		
     noteName = new TnoteName(innerWidget);
     noteName->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
-		nameLay->addWidget(noteName);
-		nameLay->addStretch(1);
-// 		nameLay->addWidget(pitchView);
-    scoreAndNameLay->addLayout(nameLay);
-    mainLay->addLayout(scoreAndNameLay);
-//-------------------------------------------------------------------
+
     guitar = new TfingerBoard(innerWidget);
-    mainLay->addWidget(guitar);
+		
+//-------------------------------------------------------------------		
+// Setting layout
+		QVBoxLayout *scoreLay = new QVBoxLayout;
+			scoreLay->addWidget(nootBar);
+			scoreLay->addWidget(score);
+// 			scoreLay->addWidget(pitchView);
+// 		QHBoxLayout *toolAndHintLay = new QHBoxLayout;
+// 			toolAndHintLay->addWidget(nootBar);
+// 			toolAndHintLay->addLayout(statLay);
+// 		QHBoxLayout *nameAndSoundLay = new QHBoxLayout;
+// 			nameAndSoundLay->addWidget(pitchView);
+// 			nameAndSoundLay->addWidget(noteName);
+// 		QHBoxLayout *nameSoundAndButtLay = new QHBoxLayout;
+// 			nameSoundAndButtLay->addLayout(nameAndSoundLay);
+// 			nameSoundAndButtLay->addWidget(m_octaveButtons);
+			
+		QVBoxLayout *rightPaneLay = new QVBoxLayout;
+			rightPaneLay->addLayout(statLay);
+			rightPaneLay->addStretch(1);
+			rightPaneLay->addWidget(progress);
+			rightPaneLay->addWidget(examResults);
+			rightPaneLay->addWidget(nootLab);
+			rightPaneLay->addStretch(1);
+			rightPaneLay->addWidget(noteName);
+// 			rightPaneLay->addLayout(nameAndSoundLay);
+		QHBoxLayout *scoreAndNameLay = new QHBoxLayout;
+// 			scoreAndNameLay->addWidget(score);
+			scoreAndNameLay->addLayout(scoreLay);
+			scoreAndNameLay->addLayout(rightPaneLay);
+		QVBoxLayout *mainLay = new QVBoxLayout;
+// 			mainLay->addLayout(toolAndHintLay);
+			mainLay->addLayout(scoreAndNameLay);
+			mainLay->addWidget(pitchView);
+			mainLay->addWidget(guitar);
     innerWidget->setLayout(mainLay);
     setCentralWidget(innerWidget);
     
@@ -591,6 +599,7 @@ void MainWindow::updsateSize() {
     progress->resize(m_statFontSize);
     examResults->setFontSize(m_statFontSize);
     noteName->resize(m_statFontSize);
+// 		m_octaveButtons->resize(m_statFontSize);
 		
 		if (gl->instrument != e_noInstrument) {
 			QPixmap bgPix;

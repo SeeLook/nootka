@@ -179,10 +179,15 @@ void TmidiOut::stop() {
   if (offTimer->isActive()) {
     offTimer->stop();
     doEmit = false;
-    if (m_portOpened) {
-        m_midiOut->closePort();
-        m_portOpened = false;
-    }
+//    if (m_portOpened) {
+//      try {
+//        m_midiOut->closePort();
+//      }
+//        catch (RtError &error) {
+//          qDebug() << "can't close MIDI port";
+//      }
+//        m_portOpened = false;
+//    }
     midiNoteOff();
   }
 }
@@ -233,11 +238,19 @@ void TmidiOut::midiNoteOff() {
   m_message[0] = 128; // note Off
   m_message[1] = m_prevMidiNote;
   m_message[2] = 0; // volume
-  m_midiOut->sendMessage(&m_message);
+  try {
+    m_midiOut->sendMessage(&m_message);
+  } catch (RtError &error){
+    qDebug() << "can't send MIDI message to fade sound out";
+  }
   m_prevMidiNote = 0;
   if (doEmit)
     if (m_portOpened) {
+      try {
         m_midiOut->closePort();
+      } catch (RtError &error){
+        qDebug() << "can't close MIDI port";
+      }
         m_portOpened = false;
     }
     emit noteFinished();
