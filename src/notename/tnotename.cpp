@@ -304,18 +304,27 @@ void TnoteName::askQuestion(Tnote note, Tnote::EnameStyle questStyle, char strNr
 }
 
 
-void TnoteName::prepAnswer(Tnote::EnameStyle answStyle, Tnote backNote) {
+void TnoteName::prepAnswer(Tnote::EnameStyle answStyle) {
     QColor answBg = gl->mergeColors(gl->EanswerColor, palette().window().color());
     answBg.setAlpha(220);
     m_nameLabel->setStyleSheet(styleTxt + gl->getBGcolorText(answBg));
     setNoteNamesOnButt(answStyle);
     setNameDisabled(false);
-		if (backNote.acidental) {
-        QString accTxt = QString(" <sub><i><span style=\"color: %1;\">(%2)</span></i></sub>").arg(gl->GfingerColor.name()).arg(QString::fromStdString(signsAcid[backNote.acidental + 2]));
-        m_nameLabel->setText(m_nameLabel->text() + accTxt);
-        checkAccidButtons(backNote.acidental);
-    }
+// 		if (backNote.acidental) {
+//         QString accTxt = QString(" <sub><i><span style=\"color: %1;\">(%2)</span></i></sub>").arg(gl->GfingerColor.name()).arg(QString::fromStdString(signsAcid[backNote.acidental + 2]));
+//         m_nameLabel->setText(m_nameLabel->text() + accTxt);
+//         checkAccidButtons(backNote.acidental);
+//     }
     m_notes[0] = Tnote(0,0,0); // Reset, otherwise getNoteName() returns it
+}
+
+
+void TnoteName::forceAccidental(char accid) {
+		if (accid) {
+			QString accTxt = QString(" <sub><i><span style=\"color: %1;\">(%2)</span></i></sub>").arg(gl->GfingerColor.name()).arg(QString::fromStdString(signsAcid[accid + 2]));
+					m_nameLabel->setText(m_nameLabel->text() + accTxt);
+			checkAccidButtons(accid);
+		}
 }
 
 

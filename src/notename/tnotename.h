@@ -48,13 +48,15 @@ public:
     void setAmbitus(Tnote lo, Tnote hi);
     static QString noteToRichText(Tnote note);
     void askQuestion(Tnote note, Tnote::EnameStyle questStyle, char strNr = 0);
-    void prepAnswer(Tnote::EnameStyle answStyle, Tnote backNote = Tnote(0,0,0));
+    void prepAnswer(Tnote::EnameStyle answStyle);
     void setNameDisabled(bool isDisabled);
     void clearNoteName();
     void setStyle(Tnote::EnameStyle style); // Sets style. Doesn't refresh name label
     Tnote::EnameStyle style() { return m_style; } // Style used in note name
         /** Marks m_nameLabel with given color. When clearNoteName() is invoked - marks are cleared. */
     void markNameLabel(QColor markColor);
+				/** Highlights and check given accid button   */
+		void forceAccidental(char accid);
 
 signals:
     void noteNameWasChanged(Tnote note);

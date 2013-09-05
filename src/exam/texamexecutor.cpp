@@ -455,17 +455,25 @@ void TexamExecutor::askQuestion() {
             *       switch it (letters/solfege)
             * 2. If Note Name is question and answer and are the same - this is only way that it has sense    
            */
-        if (curQ.questionAs == TQAtype::e_asName)
-            mW->noteName->prepAnswer(curQ.styleOfAnswer(), curQ.qa_2.note);
-        else {
-					Tnote answNote = Tnote(0, 0, 0);
-					if (curQ.questionAs != TQAtype::e_asNote)
+				Tnote answNote = Tnote(0, 0, 0);
+        if (curQ.questionAs == TQAtype::e_asName) {
+//             mW->noteName->prepAnswer(curQ.styleOfAnswer());
+						answNote = curQ.qa_2.note;
+				} else {
+// 					if (curQ.questionAs != TQAtype::e_asNote)
 						answNote = curQ.qa.note;
           if (m_level.requireStyle)
               m_prevAnswStyle = m_supp->randomNameStyle(m_prevAnswStyle);
           curQ.setStyle(curQ.styleOfQuestion(), m_prevAnswStyle);
-          mW->noteName->prepAnswer(curQ.styleOfAnswer(), answNote);
+//           mW->noteName->prepAnswer(curQ.styleOfAnswer());
         }
+        mW->noteName->prepAnswer(curQ.styleOfAnswer());
+        if (curQ.questionAs == TQAtype::e_asFretPos || curQ.questionAs == TQAtype::e_asSound) {
+            if (m_level.forceAccids) {
+								mW->noteName->forceAccidental(answNote.acidental);
+						}
+				} else if (curQ.questionAs == TQAtype::e_asName)
+									mW->noteName->forceAccidental(answNote.acidental);
         mW->noteName->setStyle(curQ.styleOfAnswer());
     }
 
@@ -731,14 +739,24 @@ void TexamExecutor::repeatQuestion() {
     } else
       mW->noteName->clearNoteName();
     if (curQ.answerAs == TQAtype::e_asName) {
+			Tnote answNote = Tnote(0, 0, 0);
       mW->noteName->setNameDisabled(false);
       if (curQ.questionAs == TQAtype::e_asName)
-          mW->noteName->prepAnswer(curQ.styleOfAnswer(), curQ.qa_2.note);
-      else if (curQ.questionAs != TQAtype::e_asNote)
-          mW->noteName->prepAnswer(curQ.styleOfAnswer(), curQ.qa.note);
-			else // do not highlight accid button when question is on the score - accid is marked on the score
-					mW->noteName->prepAnswer(curQ.styleOfAnswer(), Tnote(0, 0, 0));
+// 						mW->noteName->prepAnswer(curQ.styleOfAnswer());
+						answNote = curQ.qa_2.note;
+			else if (curQ.questionAs != TQAtype::e_asNote)
+								answNote = curQ.qa.note;
+//           mW->noteName->prepAnswer(curQ.styleOfAnswer(), curQ.qa.note);
+// 			else // do not highlight accid button when question is on the score - accid is marked on the score
+// 					mW->noteName->prepAnswer(curQ.styleOfAnswer(), Tnote(0, 0, 0));
+			mW->noteName->prepAnswer(curQ.styleOfAnswer());
       mW->noteName->setStyle(curQ.styleOfAnswer());
+			if (curQ.questionAs == TQAtype::e_asFretPos || curQ.questionAs == TQAtype::e_asSound) {
+            if (m_level.forceAccids) {
+								mW->noteName->forceAccidental(answNote.acidental);
+						}
+				} else if (curQ.questionAs == TQAtype::e_asName)
+									mW->noteName->forceAccidental(answNote.acidental);
 //         tmpStyle = curQ.styleOfQuestion();
             
     }
