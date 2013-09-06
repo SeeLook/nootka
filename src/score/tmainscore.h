@@ -64,6 +64,8 @@ public:
          * it is used to show was answer correct or not. */
     void markAnswered(QColor blurColor);
     void markQuestion(QColor blurColor);
+				/** Removes score controller from layout and returns a pointer to it.  */
+		TscoreControl* getFreeController();
 		
 signals:
 		void noteChanged(int index, Tnote note);

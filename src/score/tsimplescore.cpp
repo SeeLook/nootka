@@ -30,6 +30,7 @@
 #include <QMouseEvent>
 #include <QApplication>
 #include <QStyle>
+#include <QLayout>
 
 #include <QDebug>
 
@@ -38,7 +39,8 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
 	m_isPianoStaff(false),
 	m_notesNr(notesNumber),
 	m_scoreControl(0),
-	m_pianoFactor(1.0)
+	m_pianoFactor(1.0),
+	layoutHasControl(false)
 {
   QHBoxLayout *lay = new QHBoxLayout;
   m_score = new TscoreView(this);
@@ -62,6 +64,7 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
 	if (controler) {
 			m_scoreControl = new TscoreControl(this);
 			lay->addWidget(m_scoreControl, 0, Qt::AlignRight);
+			layoutHasControl = true;
 	}
   setLayout(lay);
 
@@ -310,14 +313,14 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
   m_score->scale(factor, factor);
 	m_scene->setSceneRect(0, 0, (m_staff->boundingRect().width() + styleOff) * m_score->transform().m11(), 
 												m_staff->boundingRect().height() * m_score->transform().m11()	);
-	m_score->setMaximumSize(m_scene->sceneRect().width(), m_scene->sceneRect().height());
+	m_score->setMaximumSize(m_scene->sceneRect().width(), m_scene->sceneRect().height() / m_pianoFactor );
 //   m_score->setMinimumSize(m_scene->sceneRect().width(), m_scene->sceneRect().height());
   qreal staffOff = 0.0;
   if (isPianoStaff())
     staffOff = m_score->transform().m11() * 5;
 	m_staff->setPos(m_score->mapToScene(staffOff, 0));
 	int xOff = 0;
-		if (m_scoreControl)
+	if (m_scoreControl && layoutHasControl)
 			xOff = m_scoreControl->width() + 10; // 15 is space between m_scoreControl and m_score - looks good
 	setMaximumWidth(m_scene->sceneRect().width() + xOff);
   setMinimumWidth(m_scene->sceneRect().width() + xOff);
