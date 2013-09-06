@@ -137,7 +137,7 @@ void TscoreKeySignature::showKeyName(bool showIt) {
 
 
 QRectF TscoreKeySignature::boundingRect() const{
-  return QRectF(0, 0, 9, m_height);
+  return QRectF(0, 0, KEY_WIDTH, m_height);
 }
 
 
@@ -188,10 +188,10 @@ void TscoreKeySignature::updateKeyName() {
 	if (m_keyNameText) {
 			m_keyNameText->setHtml(TkeySignature::getMajorName(m_keySignature) + "<br>" +
 															TkeySignature::getMinorName(m_keySignature));
-			qreal factor = (boundingRect().width()) / (m_keyNameText->boundingRect().width());
+			qreal factor = (KEY_WIDTH + 5.0) / (m_keyNameText->boundingRect().width());
 			m_keyNameText->setScale(factor);
-			m_keyNameText->setPos((boundingRect().width() - m_keyNameText->boundingRect().width() * m_keyNameText->scale()) / 2,
-						staff()->upperLinePos() - 3 - m_keyNameText->boundingRect().height() * m_keyNameText->scale());
+			m_keyNameText->setPos((boundingRect().width() - m_keyNameText->boundingRect().width() * factor) / 2 - 2.5,
+						staff()->upperLinePos() - 3 - m_keyNameText->boundingRect().height() * factor);
 			}
 }
 

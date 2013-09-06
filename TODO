@@ -5,7 +5,6 @@ Plan for the Nootka One
 - consider to remove accidental symbol from NoteName question - pressed accid button should be sufficient.
 - consider to have octave buttons in one row when there is enough space and in two rows when not only
 - set better position of answer/repeat tip
-- key signature names could be wider - take space over clef
 - level preview has to have got empty table to avoid changing size during filling it
 - table of level preview requires some margin/space after grid lines
 - try to adjust navList widget width to the widest text in it
