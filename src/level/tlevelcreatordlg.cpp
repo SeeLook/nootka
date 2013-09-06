@@ -86,6 +86,7 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
     connect(rangeSett, SIGNAL(allStringsChecked(bool)), questSett, SLOT(stringsCheckedSlot(bool)));
 }
 
+
 void TlevelCreatorDlg::levelWasSelected(TexamLevel level) {
     if (isNotSaved)
         saveLevel();
@@ -95,17 +96,20 @@ void TlevelCreatorDlg::levelWasSelected(TexamLevel level) {
     levelSett->startExamBut->setDisabled(false);
 }
 
+
 void TlevelCreatorDlg::levelNotSaved() {
     navList->item(0)->setIcon(QIcon(gl->path+"picts/notSaved.png"));
     setWindowTitle(levelCreatorTxt() + "  (" + tr("level not saved !!") + ")");
 }
 
+
 void TlevelCreatorDlg::saveLevel() {
     if ( QMessageBox::question(this, "", tr("Exam's level was changed\nand not saved !!"), QMessageBox::Save, QMessageBox::Cancel) == QMessageBox::Save ) {
         saveToFile();
-    }
-    levelSaved();
+    } else 
+				levelSaved();
 }
+
 
 void TlevelCreatorDlg::saveToFile() {
     TexamLevel newLevel;
@@ -161,11 +165,13 @@ void TlevelCreatorDlg::saveToFile() {
     levelSaved();
 }
 
+
 void TlevelCreatorDlg::levelSaved() {
     isNotSaved = false;
     navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
     setWindowTitle(levelCreatorTxt());
 }
+
 
 void TlevelCreatorDlg::loadFromFile() {
     if (isNotSaved)

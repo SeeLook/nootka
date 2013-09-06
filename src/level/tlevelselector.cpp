@@ -250,6 +250,7 @@ void TlevelSelector::levelSelected(int id) {
     emit levelChanged(m_levels[id].level);
 }
 
+
 void TlevelSelector::findLevels() {
     TexamLevel lev = TexamLevel();
   // from predefined list
@@ -276,6 +277,7 @@ void TlevelSelector::findLevels() {
     }
     gl->config->setValue("recentLevels", recentLevels);
 }
+
 
 void TlevelSelector::addLevel(const TexamLevel& lev, QString levelFile, bool check) {
     if (check && levelFile != "") {
@@ -320,13 +322,16 @@ void TlevelSelector::selectLevel(int id) {
         m_levelsListWdg->setCurrentRow(id);
 }
 
+
 void TlevelSelector::selectLevel() {
     m_levelsListWdg->setCurrentRow(m_levelsListWdg->count()-1);
 }
 
+
 void TlevelSelector::loadFromFilePrivate() {
     emit levelToLoad();
 }
+
 
 void TlevelSelector::loadFromFile(QString levelFile) {
     if (levelFile == "")
@@ -341,6 +346,7 @@ void TlevelSelector::loadFromFile(QString levelFile) {
             selectLevel(); // select the last
     }
 }
+
 
 TexamLevel TlevelSelector::getLevelFromFile(QFile &file) {
     TexamLevel level;
@@ -365,6 +371,7 @@ TexamLevel TlevelSelector::getLevelFromFile(QFile &file) {
     return level;
 }
 
+
 TexamLevel TlevelSelector::getSelectedLevel() {
     if (m_levelsListWdg->currentRow() == -1 ) {
         TexamLevel l = TexamLevel();
@@ -373,6 +380,7 @@ TexamLevel TlevelSelector::getSelectedLevel() {
     } else
         return m_levels[m_levelsListWdg->currentRow()].level;
 }
+
 
 void TlevelSelector::updateRecentLevels() {
     QStringList recentLevels;

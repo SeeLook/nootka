@@ -147,6 +147,7 @@ void TmainScore::isExamExecuting(bool isIt) {
 			m_questMark->setBrush(QBrush(c));
 			m_questMark->setText("?");
 			m_questMark->setPos(0, (staff()->boundingRect().height() - m_questMark->boundingRect().height()) / 2 );
+			setScoreDisabled(true);
 			setClefDisabled(true);
     } else {
         connect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));

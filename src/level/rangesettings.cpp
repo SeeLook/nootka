@@ -38,7 +38,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
 
     QVBoxLayout *scoreLay = new QVBoxLayout;
     m_scoreRang = new TsimpleScore(3, this); // third note is dummy
-		m_scoreRang->setNoteDisabled(2, true); // and is disabled and empty
+				m_scoreRang->setNoteDisabled(2, true); // and is disabled and empty
 		m_scoreRang->setClef(Tclef(gl->Sclef));
 //     m_scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()),
 //                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
@@ -47,9 +47,9 @@ rangeSettings::rangeSettings(QWidget *parent) :
     QGroupBox *notesRangGr = new QGroupBox(TlevelPreview::notesRangeTxt(), this);
     scoreLay->addWidget(m_scoreRang);
     notesRangGr->setLayout(scoreLay);
-#if defined(Q_OS_WIN)
+// #if defined(Q_OS_WIN)
     m_scoreRang->setFixedHeight(300);
-#endif
+// #endif
     allLay->addWidget(notesRangGr);
 
     QVBoxLayout *guitLay = new QVBoxLayout;
@@ -71,7 +71,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
     guitLay->addWidget(fretGr);
     guitLay->addStretch(1);
 
-    QGroupBox *stringsGr = new QGroupBox(tr("avaiable strings:"),this);
+    QGroupBox *stringsGr = new QGroupBox(tr("available strings:"),this);
     stringsGr->setStatusTip(tr("uncheck strings if You want to skip them<br>in an exam."));
     QGridLayout *strLay = new QGridLayout;
     for (int i = 0; i < 6; i++) {
@@ -99,9 +99,12 @@ rangeSettings::rangeSettings(QWidget *parent) :
     setLayout(mainLay);
 
     connect (m_scoreRang, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenParamsChanged()));
+		connect (m_scoreRang, SIGNAL(clefChanged(Tclef)), this, SLOT(whenParamsChanged()));
     connect (m_fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
     connect (m_toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
+		connect (m_scoreRang, SIGNAL(pianoStaffSwitched()), this, SLOT(whenPianoStaffChanges()));
 }
+
 
 void rangeSettings::stringSelected() {
     if ( !m_stringBut[0]->isChecked() && !m_stringBut[1]->isChecked()
@@ -111,9 +114,12 @@ void rangeSettings::stringSelected() {
     }
 }
 
+
 void rangeSettings::loadLevel(TexamLevel level) {
     disconnect (m_fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
     disconnect (m_toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
+		disconnect (m_scoreRang, SIGNAL(clefChanged(Tclef)), this, SLOT(whenParamsChanged()));
+		disconnect (m_scoreRang, SIGNAL(clefChanged(Tclef)), this, SLOT(whenParamsChanged()));
 		m_scoreRang->setClef(level.clef);
     m_scoreRang->setNote(0, level.loNote);
     m_scoreRang->setNote(1, level.hiNote);
@@ -122,9 +128,17 @@ void rangeSettings::loadLevel(TexamLevel level) {
     for (int i = 0; i < gl->Gtune()->stringNr(); i++)
         m_stringBut[i]->setChecked(level.usedStrings[i]);
     stringSelected();
+		connect (m_scoreRang, SIGNAL(clefChanged(Tclef)), this, SLOT(whenParamsChanged()));
+		connect (m_scoreRang, SIGNAL(clefChanged(Tclef)), this, SLOT(whenParamsChanged()));
     connect (m_fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
     connect (m_toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
 }
+
+
+void rangeSettings::whenPianoStaffChanges() {
+		m_scoreRang->setNoteDisabled(2, true);
+}
+
 
 void rangeSettings::whenParamsChanged() {
     if (!isNotSaved) {
@@ -143,6 +157,7 @@ void rangeSettings::whenParamsChanged() {
          2. in level validation method is hard to determine dependency unchecked
             strings between range of frets and notes. */
 }
+
 
 void rangeSettings::saveLevel(TexamLevel &level) {
     if (m_scoreRang->getNote(0).getChromaticNrOfNote() <=
