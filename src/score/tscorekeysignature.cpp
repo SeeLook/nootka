@@ -189,6 +189,9 @@ void TscoreKeySignature::updateKeyName() {
 			m_keyNameText->setHtml(TkeySignature::getMajorName(m_keySignature) + "<br>" +
 															TkeySignature::getMinorName(m_keySignature));
 			qreal factor = (KEY_WIDTH + 5.0) / (m_keyNameText->boundingRect().width());
+			if (m_keyNameText->boundingRect().height() * factor > 8.0)
+					factor = (8.0 / m_keyNameText->boundingRect().height());
+			/** 8.0 is about 4 staff line height. */
 			m_keyNameText->setScale(factor);
 			m_keyNameText->setPos((boundingRect().width() - m_keyNameText->boundingRect().width() * factor) / 2 - 2.5,
 						staff()->upperLinePos() - 3 - m_keyNameText->boundingRect().height() * factor);

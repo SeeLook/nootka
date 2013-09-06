@@ -26,6 +26,7 @@
 #include "tglobals.h"
 #include <tgraphicstexttip.h>
 #include <QPen>
+#include <QLayout>
 
 
 extern Tglobals *gl;
@@ -122,6 +123,14 @@ void TmainScore::unLockScore() {
 }
 
 
+TscoreControl* TmainScore::getFreeController() {
+	layout()->removeWidget(scoreController());
+	layoutHasControl = false;
+	return scoreController();
+}
+
+
+
 //####################################################################################################
 //############################## METHODS RELATED TO EXAMS ############################################
 //####################################################################################################
@@ -178,8 +187,8 @@ void TmainScore::clearScore() {
 				m_questKey = 0;
 			}
     }
-	if (scoreControler())
-		scoreControler()->setAccidental(0); // reset buttons with accidentals
+	if (scoreController())
+		scoreController()->setAccidental(0); // reset buttons with accidentals
 	for(int i = 0; i < m_bgRects.size(); i++)
 		delete m_bgRects[i];
 	m_bgRects.clear();
@@ -208,8 +217,8 @@ void TmainScore::expertNoteChanged() {
 
 
 void TmainScore::forceAccidental(Tnote::Eacidentals accid) {
-		if (scoreControler())
-			scoreControler()->setAccidental(accid);
+		if (scoreController())
+			scoreController()->setAccidental(accid);
 }
 
 

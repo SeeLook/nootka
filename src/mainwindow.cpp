@@ -69,7 +69,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowIcon(QIcon(gl->path+"picts/nootka.png"));
 #endif
     
-    setMinimumSize(660, 480);
+    setMinimumSize(720, 480);
 		gl->config->beginGroup("General");
     setGeometry(gl->config->value("geometry", QRect(50, 50, 750, 480)).toRect());
     
@@ -160,37 +160,41 @@ MainWindow::MainWindow(QWidget *parent) :
 		
 //-------------------------------------------------------------------		
 // Setting layout
-		QVBoxLayout *scoreLay = new QVBoxLayout;
-			scoreLay->addWidget(nootBar);
-			scoreLay->addWidget(score);
+// 		QVBoxLayout *scoreLay = new QVBoxLayout;
+// 			scoreLay->addWidget(nootBar);
+// 			scoreLay->addWidget(score);
 // 			scoreLay->addWidget(pitchView);
-// 		QHBoxLayout *toolAndHintLay = new QHBoxLayout;
-// 			toolAndHintLay->addWidget(nootBar);
-// 			toolAndHintLay->addLayout(statLay);
+		QHBoxLayout *toolAndHintLay = new QHBoxLayout;
+			toolAndHintLay->addWidget(nootBar);
+			toolAndHintLay->addLayout(statLay);
 // 		QHBoxLayout *nameAndSoundLay = new QHBoxLayout;
 // 			nameAndSoundLay->addWidget(pitchView);
 // 			nameAndSoundLay->addWidget(noteName);
-// 		QHBoxLayout *nameSoundAndButtLay = new QHBoxLayout;
-// 			nameSoundAndButtLay->addLayout(nameAndSoundLay);
-// 			nameSoundAndButtLay->addWidget(m_octaveButtons);
 			
 		QVBoxLayout *rightPaneLay = new QVBoxLayout;
-			rightPaneLay->addLayout(statLay);
+// 			rightPaneLay->addLayout(statLay);
 			rightPaneLay->addStretch(1);
 			rightPaneLay->addWidget(progress);
 			rightPaneLay->addWidget(examResults);
 			rightPaneLay->addWidget(nootLab);
 			rightPaneLay->addStretch(1);
 			rightPaneLay->addWidget(noteName);
+		QHBoxLayout *rightWholeLay = new QHBoxLayout;
+			rightWholeLay->addWidget((QWidget*)score->getFreeController());
+			rightWholeLay->addLayout(rightPaneLay);
 // 			rightPaneLay->addLayout(nameAndSoundLay);
+		QVBoxLayout *rightLay = new QVBoxLayout;
+			rightLay->addLayout(rightWholeLay);
+			rightLay->addWidget(pitchView);
 		QHBoxLayout *scoreAndNameLay = new QHBoxLayout;
 // 			scoreAndNameLay->addWidget(score);
-			scoreAndNameLay->addLayout(scoreLay);
-			scoreAndNameLay->addLayout(rightPaneLay);
+// 			scoreAndNameLay->addLayout(scoreLay);
+			scoreAndNameLay->addWidget(score);
+			scoreAndNameLay->addLayout(rightLay);
 		QVBoxLayout *mainLay = new QVBoxLayout;
-// 			mainLay->addLayout(toolAndHintLay);
+			mainLay->addLayout(toolAndHintLay);
 			mainLay->addLayout(scoreAndNameLay);
-			mainLay->addWidget(pitchView);
+// 			mainLay->addWidget(pitchView);
 			mainLay->addWidget(guitar);
     innerWidget->setLayout(mainLay);
     setCentralWidget(innerWidget);

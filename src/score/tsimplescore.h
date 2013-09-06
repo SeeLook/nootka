@@ -101,6 +101,7 @@ public slots:
 		void noteWasClicked(int index);
 		
 protected:
+		bool layoutHasControl; // keeps true when TsimpleScore layout has score controller
 		TscoreView* score() { return m_score; }
 		TscoreScene* scene() { return m_scene; }
 				/** Pointer to TscoreStaff should never go to public !!!!
@@ -108,7 +109,7 @@ protected:
 				 * Inner methods of TsimpleScore take care about refreshing 
 				 * connection with newer staff instances and this class emits appropirate signals. */
 		TscoreStaff* staff() { return m_staff; }
-		TscoreControl* scoreControler() { return m_scoreControl; }
+		TscoreControl* scoreController() { return m_scoreControl; }
     
     
 protected slots:
