@@ -40,7 +40,7 @@ public:
 
 signals:
     void rangeChanged();
-				/** Emited when any string is checked or unchecked. 
+				/** Emitted when any string is checked or unchecked. 
 				* Sends true when all string are selected, and false when not all. */
     void allStringsChecked(bool);
 
@@ -52,6 +52,8 @@ private:
 private slots:
     void stringSelected();
     void whenParamsChanged();
+				/** When piano staff changes it enables third note. It keeps it disabled. */
+		void whenPianoStaffChanges();
 
 };
 

@@ -39,8 +39,9 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
   m_withButtons(withButtons),
   m_bgColor(Qt::transparent)
 {
-  QHBoxLayout *lay = new QHBoxLayout();
+  QBoxLayout *lay = new QBoxLayout(QBoxLayout::TopToBottom);
   if (m_withButtons) {
+			lay->setDirection(QBoxLayout::LeftToRight);
       voiceButt = new QPushButton("g", this);
       voiceButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 //       lay->addWidget(voiceButt);
@@ -80,7 +81,7 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
 		lay->addWidget(pauseButt);
 	}
 	lay->addWidget(m_intoView);
-  setLayout(lay);  
+  setLayout(lay);
   
   m_volTimer = new QTimer(this);
   connect(m_volTimer, SIGNAL(timeout()), this, SLOT(updateLevel()));

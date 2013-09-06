@@ -65,23 +65,29 @@ TscorePianoStaff::~TscorePianoStaff() {}
 void TscorePianoStaff::setNote(int index, Tnote& note) {
 	bool inScale = true;
 	Tnote emptyNote = Tnote(0, 0, 0);
-	if ((note.octave * 7 + note.note) > 7) {
-		TscoreStaff::setNote(index, note); // set a note
-		if (noteSegment(index)->notePos() == 0) // and check is it in staff scale
-			inScale = false;
-		else // or reset lower staff
-			lower()->setNote(index, emptyNote);
+	if (note.note) {
+			if ((note.octave * 7 + note.note) > 7) {
+					TscoreStaff::setNote(index, note); // set a note
+					if (noteSegment(index)->notePos() == 0) // and check is it in staff scale
+						inScale = false;
+					else // or reset lower staff
+						lower()->setNote(index, emptyNote);
+			} else {
+					lower()->setNote(index, note);
+					if (lower()->noteSegment(index)->notePos() == 0)
+						inScale = false;
+					else // or reset upper staff
+						TscoreStaff::setNote(index, emptyNote);
+			}
 	} else {
-		lower()->setNote(index, note);
-		if (lower()->noteSegment(index)->notePos() == 0)
-			inScale = false;
-		else // or reset upper staff
-			TscoreStaff::setNote(index, emptyNote);
+		inScale = false;
+		TscoreStaff::setNote(index, emptyNote);
+		lower()->setNote(index, emptyNote);
 	}
 	if (inScale)
 			*(getNote(index)) = note; // store new note when was set
 	else
-			*(getNote(index)) = Tnote(0, 0, 0); // or store empty note
+			*(getNote(index)) = emptyNote; // or store empty note
 }
 
 

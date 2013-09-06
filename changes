@@ -1,6 +1,9 @@
+
+     - buttons with octaves and accidentals are highlighted  during answering
 0.8.95 beta
   Nootka says: I speak Russian and play bass
      - Nootka can play natural bass and electric guitar sounds
+     - Russian translation added
      - pitch detection improvements - minimal note duration is configurable
      - compiling under Windows is simpler now
      - possible launching without installation
