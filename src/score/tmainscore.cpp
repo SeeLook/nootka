@@ -230,16 +230,17 @@ void TmainScore::prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName
 		m_questKey->setHtml(QString("<span style=\"color: %1;\"><span style=\"font-family: nootka;\">?</span><br>").
 					arg(gl->EquestionColor.name()) + expectKeyName + "</span>");
 		TgraphicsTextTip::alignCenter(m_questKey);
-		qreal sc = staff()->scoreKey()->boundingRect().width() / m_questKey->boundingRect().width();
+		qreal sc = (staff()->scoreKey()->boundingRect().width() + 5.0) / m_questKey->boundingRect().width();
 		m_questKey->setScale(sc);
-		m_questKey->setPos(0, staff()->upperLinePos() - 3 - m_questKey->boundingRect().height() * sc);
+		m_questKey->setPos(-6.0, staff()->upperLinePos() - 3 - m_questKey->boundingRect().height() * sc);
 		setKeyViewBg(gl->EanswerColor);
 }
 
 
 void TmainScore::setKeyViewBg(QColor C) {
 	if (staff()->scoreKey()) {
-			createBgRect(C, staff()->scoreKey()->boundingRect().width(), staff()->scoreKey()->pos());
+			createBgRect(C, staff()->scoreKey()->boundingRect().width() + 6.0, 
+									 QPointF(staff()->scoreKey()->pos().x() - 6.0, staff()->scoreKey()->pos().y()));
 	}
 }
 
