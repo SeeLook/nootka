@@ -1,7 +1,6 @@
 Plan for the Nootka One
 
-- piano staff is too small even on full screen:
-	if sound views can be under noteName but use space under score accid buttons??
+- guitar head glyphs to discriminate kind of guitar 
 - consider to remove accidental symbol from NoteName question - pressed accid button should be sufficient.
 - consider to have octave buttons in one row when there is enough space and in two rows when not only
 - set better position of answer/repeat tip
