@@ -589,7 +589,7 @@ bool MainWindow::event(QEvent *event) {
 void MainWindow::updsateSize() {
     setUpdatesEnabled(false);
     m_statFontSize = (centralWidget()->height() / 9) / 4 - 2;
-    nootBar->setIconSize(QSize(height() / 21, height() / 21));
+    nootBar->setIconSize(QSize(height() / 19, height() / 19));
     pitchView->resize(m_statFontSize);
 		m_statLab->setFixedHeight(centralWidget()->height() / 9);
     QFont f = m_statLab->font();

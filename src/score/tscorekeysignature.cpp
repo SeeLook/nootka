@@ -137,7 +137,7 @@ void TscoreKeySignature::showKeyName(bool showIt) {
 
 
 QRectF TscoreKeySignature::boundingRect() const{
-  return QRectF(0, 0, KEY_WIDTH, m_height);
+  return QRectF(0, 0, KEY_WIDTH + 1.0, m_height);
 }
 
 
@@ -191,7 +191,7 @@ void TscoreKeySignature::updateKeyName() {
 			qreal factor = (KEY_WIDTH + 5.0) / (m_keyNameText->boundingRect().width());
 			if (m_keyNameText->boundingRect().height() * factor > 8.0)
 					factor = (8.0 / m_keyNameText->boundingRect().height());
-			/** 8.0 is about 4 staff line height. */
+			/** 8.0 is a measure of height - about 4 staff lines. */
 			m_keyNameText->setScale(factor);
 			m_keyNameText->setPos((boundingRect().width() - m_keyNameText->boundingRect().width() * factor) / 2 - 2.5,
 						staff()->upperLinePos() - 3 - m_keyNameText->boundingRect().height() * factor);

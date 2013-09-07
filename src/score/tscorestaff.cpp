@@ -148,7 +148,7 @@ void TscoreStaff::setEnableKeySign(bool isEnabled) {
 	if (isEnabled != (bool)m_keySignature) {
 		if (isEnabled) {
 			m_keySignature = new TscoreKeySignature(scoreScene(), this);
-			m_keySignature->setPos(6.5, 0);
+			m_keySignature->setPos(7.0, 0.0);
 			m_keySignature->setClef(m_clef->clef());
 			m_keySignature->setZValue(30);
 			connect(m_keySignature, SIGNAL(keySignatureChanged()), this, SLOT(onKeyChanged()));
@@ -304,7 +304,7 @@ void TscoreStaff::onAccidButtonPressed(int accid) {
 void TscoreStaff::updateWidth() {
 	qreal off = 0.0;
 	if (m_keySignature)
-			off = KEY_WIDTH;
+			off = KEY_WIDTH + 1.5;
 	else if (m_enableScord)
 			off = KEY_WIDTH / 2;
 	if (m_scoreNotes.size())
