@@ -171,6 +171,7 @@ void TrtAudioAbstract::determineSampleRate(RtAudio::DeviceInfo& devInfo) {
     unsigned int &sr = devInfo.sampleRates.at(i);
     if ( sr == 44100 || sr == 48000 || sr == 88200 || sr == 96000 || sr == 176400 || sr == 192000) {
       rateFound = true;
+      sampleRate = sr;
       break;
     }
   }
