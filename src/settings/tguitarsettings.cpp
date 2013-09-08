@@ -364,6 +364,7 @@ void TguitarSettings::instrumentTypeChanged(int index) {
 				guitarDisabled(false);
 		m_tuneCombo->addItem(tr("Custom tune"));
 	}
+	m_tuneView->addBGglyph(index);
 	emit instrumentChanged(index);
 }
 

@@ -38,7 +38,6 @@ TlevelPreview::TlevelPreview(QWidget* parent) :
     mainLay->addWidget(headLab);
 		QHBoxLayout *contLay = new QHBoxLayout;
     m_summLab = new QLabel(tr("\n no level selected"), this);
-//     summLab->setFixedWidth(300);
     contLay->addWidget(m_summLab);
 		contLay->addSpacing(10);
 		m_clefLabel = new QLabel(this);
@@ -47,18 +46,41 @@ TlevelPreview::TlevelPreview(QWidget* parent) :
 		mainLay->addLayout(contLay);
     mainLay->addStretch(1);
     setLayout(mainLay);
+		setLevel();
+		m_summLab->setText(tr("\n no level selected") + "<br>" + m_summLab->text());
 }
 
+
 TlevelPreview::~TlevelPreview() {}
+
+
+void TlevelPreview::setLevel() {
+		TexamLevel empty;
+		empty.name = "";
+		empty.loNote = Tnote();
+		empty.hiNote = Tnote();
+		empty.hiFret = 0;
+		empty.questionAs.setAsNote(false);
+		empty.questionAs.setAsName(false);
+		empty.questionAs.setAsFret(false);
+		empty.questionAs.setAsSound(false);
+		empty.useKeySign = false;
+		empty.withDblAcc = false;
+		empty.withFlats = false;
+		empty.withSharps = false;
+		setLevel(empty);
+}
+
 
 void TlevelPreview::setLevel(TexamLevel& tl) {
   QString S;
     S = "<center><b>" + tl.name + "</b>";
-    S += "<table border=\"1\">";
+    S += "<table border=\"1\" cellpadding=\"3\">";
 		S += "<tr><td colspan=\"2\" align=\"center\">" + instrumentToText(tl.instrument) + "</td></tr>";;
     S += "<tr><td>" + notesRangeTxt() + " </td>";
-    S += "<td>" + TnoteName::noteToRichText(tl.loNote) + " - "
-         + TnoteName::noteToRichText(tl.hiNote) + "</td></tr>";
+		if (tl.loNote.note && tl.hiNote.note)
+			S += "<td>" + TnoteName::noteToRichText(tl.loNote) + " - "
+					+ TnoteName::noteToRichText(tl.hiNote) + "</td></tr>";
     if (tl.questionAs.isFret() || tl.answersAs[0].isFret()
         || tl.answersAs[1].isFret() || tl.answersAs[2].isFret()
         || tl.answersAs[3].isFret()) { // level uses guitar
