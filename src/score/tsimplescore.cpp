@@ -214,8 +214,8 @@ void TsimpleScore::setPianoStaff(bool isPiano) {
         m_staff->scoreKey()->showKeyName(true);
 				m_staff->scoreKey()->setKeySignature(key);
 		}
-		m_bgGlyph = 0;
 		if (m_bgGlyph) {
+			m_bgGlyph = 0; // it was deleted with staff
 			addBGglyph(m_prevBGglyph);
 		}
 		connect(m_staff, SIGNAL(pianoStaffSwitched(Tclef)), this, SLOT(switchToPianoStaff(Tclef)));
@@ -311,7 +311,7 @@ void TsimpleScore::addBGglyph(int instr) {
 	bgColor.setAlpha(75);
 	m_bgGlyph->setBrush(bgColor);
 	m_bgGlyph->setParentItem(m_staff);
-	qreal factor = (m_staff->boundingRect().height() / m_bgGlyph->boundingRect().height()) * 1.3;
+	qreal factor = (m_staff->boundingRect().height() / m_bgGlyph->boundingRect().height());
 	m_bgGlyph->setScale(factor);
 	m_bgGlyph->setPos((m_staff->boundingRect().width() - m_bgGlyph->boundingRect().width() * factor) / 2, 
 									(m_staff->boundingRect().height() - m_bgGlyph->boundingRect().height() * factor) / 2);
