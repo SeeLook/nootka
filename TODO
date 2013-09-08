@@ -1,6 +1,7 @@
 Plan for the Nootka One
 
 - check is kind of instrument stored in exam file properly and appears in level preview
+- there is some bug: QList claims... 
 - level validation: when q: score & a: score or Q: name A: name and no different accidentals - switch solfege/letters
 - consider to remove accidental symbol from NoteName question - pressed accid button should be sufficient.
 - consider to have octave buttons in one row when there is enough space and in two rows when not only
