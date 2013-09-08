@@ -22,8 +22,8 @@
 
 #include <QDialog>
 
+class QLabel;
 class QTextEdit;
-
 class QStackedLayout;
 class QRadioButton;
 class QCheckBox;
@@ -76,6 +76,9 @@ signals:
 private slots:
 		void buttonPressed(int butt);
 		
+private:
+		QLabel* prepareLabel(QString txt);
+		
 };
 
 // page 2 is a QLabel with info about notation
@@ -86,7 +89,7 @@ class Tpage_3 : public QWidget
 public:
     explicit Tpage_3(QWidget *parent = 0);
     
-    static QString note7txt() { return tr("b", "Give here a name of 7-th note prefered in Your country. But only 'b' or 'h' not 'si' or something worst..."); } // returns b or h dependa on translation
+    static QString note7txt() { return tr("b", "Give here a name of 7-th note prefered in Your country. But only 'b' or 'h' not 'si' or something worst..."); } // returns b or h depends on translation
 				/** default style grab from translation 'letters' or 'solfege' */
     static QString keyNameStyle() { return tr("letters", "DO NOT TRANSLATE IT DIRECTLY. Put here 'letters' or 'solfege' This is country prefered style of nameing key signatures. 'letters' means C-major/a-minor names ('major' & 'minor' also are translated by You), 'solfege' means Do-major/La-minor names"); }
 

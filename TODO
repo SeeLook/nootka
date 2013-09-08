@@ -1,11 +1,10 @@
 Plan for the Nootka One
 
-- guitar head glyphs to discriminate kind of guitar 
+- check is kind of instrument stored in exam file properly and appears in level preview
+- level validation: when q: score & a: score or Q: name A: name and no different accidentals - switch solfege/letters
 - consider to remove accidental symbol from NoteName question - pressed accid button should be sufficient.
 - consider to have octave buttons in one row when there is enough space and in two rows when not only
 - set better position of answer/repeat tip
-- level preview has to have got empty table to avoid changing size during filling it
-- table of level preview requires some margin/space after grid lines
 - try to adjust navList widget width to the widest text in it
 - make order with jack (thread-ise input, format convertion)
 - add shadows under strings on pickup

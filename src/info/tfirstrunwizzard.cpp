@@ -207,7 +207,6 @@ TselectInstrument::TselectInstrument(QWidget* parent) :
 		whatLab->setAlignment(Qt::AlignCenter);
 		classicalRadio = new QRadioButton(instrumentToText(e_classicalGuitar), this);
 		electricRadio = new QRadioButton(instrumentToText(e_electricGuitar), this);
-// 		electricRadio->hide();
 		bassRadio = new QRadioButton(instrumentToText(e_bassGuitar), this);
 		otherRadio = new QRadioButton(instrumentToText(e_noInstrument), this);
 		otherRadio->hide();
@@ -216,26 +215,43 @@ TselectInstrument::TselectInstrument(QWidget* parent) :
 		instrGr->addButton(electricRadio);
 		instrGr->addButton(bassRadio);
 		instrGr->addButton(otherRadio);
+		QLabel *classLab, *electroLab, *bassLab;
+		classLab = prepareLabel("h");
+		electroLab = prepareLabel("i");
+		bassLab = prepareLabel("j");
 	// Layout
-		QVBoxLayout *lay = new QVBoxLayout;
-		lay->addWidget(whatLab, 0, Qt::AlignCenter);
-		lay->addStretch(1);
-		lay->addWidget(classicalRadio, 0, Qt::AlignCenter);
-		lay->addWidget(electricRadio, 0, Qt::AlignCenter);
-		lay->addWidget(bassRadio, 0, Qt::AlignCenter);
+		QGridLayout *lay = new QGridLayout;
+		lay->addWidget(whatLab, 0, 0, 1, 2, Qt::AlignCenter);
+// 		lay->addStretch(1);
+		lay->addWidget(classicalRadio, 1, 0, Qt::AlignCenter);
+		lay->addWidget(classLab, 1, 1);
+		lay->addWidget(electricRadio, 2, 0, Qt::AlignCenter);
+		lay->addWidget(electroLab, 2, 1);
+		lay->addWidget(bassRadio, 3, 0, Qt::AlignCenter);
+		lay->addWidget(bassLab, 3, 1);
 		lay->addWidget(otherRadio, 0, Qt::AlignCenter);
 		
 		QGroupBox *instrBox = new QGroupBox(this);
 		instrBox->setLayout(lay);
-		QVBoxLayout *mainLay = new QVBoxLayout;
+		QHBoxLayout *mainLay = new QHBoxLayout;
 		mainLay->addStretch(1);
-		mainLay->addWidget(instrBox);
+		mainLay->addWidget(instrBox, 0, Qt::AlignCenter);
 		mainLay->addStretch(1);
 		setLayout(mainLay);
 		
 		classicalRadio->setChecked(true);
 		connect(instrGr, SIGNAL(buttonClicked(int)), this, SLOT(buttonPressed(int)));
 }
+
+
+QLabel* TselectInstrument::prepareLabel(QString txt) {
+		QLabel *label = new QLabel(txt, this);
+		label->setFont(QFont("nootka", 50, QFont::Normal));
+		label->setStyleSheet("color: palette(highlight)");
+		label->setAlignment(Qt::AlignCenter);
+		return label;
+}
+
 
 
 void TselectInstrument::buttonPressed(int butt) {

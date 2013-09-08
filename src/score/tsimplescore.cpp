@@ -40,6 +40,7 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
 	m_notesNr(notesNumber),
 	m_scoreControl(0),
 	m_pianoFactor(1.0),
+	m_bgGlyph(0),
 	layoutHasControl(false)
 {
   QHBoxLayout *lay = new QHBoxLayout;
@@ -188,7 +189,7 @@ void TsimpleScore::setEnabledDblAccid(bool isEnabled) {
 	m_scene->setDoubleAccidsEnabled(isEnabled);
 }
 
-
+int m_prevBGglyph = -1;
 void TsimpleScore::setPianoStaff(bool isPiano) {
 	if (isPiano != isPianoStaff()) {
 		bool keyEnabled = (bool)m_staff->scoreKey();
@@ -212,6 +213,10 @@ void TsimpleScore::setPianoStaff(bool isPiano) {
 				m_staff->setEnableKeySign(true);
         m_staff->scoreKey()->showKeyName(true);
 				m_staff->scoreKey()->setKeySignature(key);
+		}
+		m_bgGlyph = 0;
+		if (m_bgGlyph) {
+			addBGglyph(m_prevBGglyph);
 		}
 		connect(m_staff, SIGNAL(pianoStaffSwitched(Tclef)), this, SLOT(switchToPianoStaff(Tclef)));
 		connect(m_staff, SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
@@ -285,6 +290,33 @@ Tnote TsimpleScore::highestNote() {
 		return Tnote(5, 3);
 	if (staff()->scoreClef()->clef().type() == Tclef::e_tenor_C)
 		return Tnote(3, 3);
+}
+
+
+void TsimpleScore::addBGglyph(int instr) {
+	if (instr < 1 || instr > 3)
+			return;
+	m_prevBGglyph = instr;
+	if (m_bgGlyph)
+		delete m_bgGlyph;
+	QString glyph;
+	switch (instr) {
+			case 1: glyph = "h"; break; // classical guitar
+			case 2: glyph = "i"; break; // electric guitar
+			case 3: glyph = "j"; break; // bass guitar
+	}
+	m_bgGlyph = new QGraphicsSimpleTextItem(glyph);
+	m_bgGlyph->setFont(QFont("nootka", 20, QFont::Normal));
+	QColor bgColor = palette().highlight().color();
+	bgColor.setAlpha(75);
+	m_bgGlyph->setBrush(bgColor);
+	m_bgGlyph->setParentItem(m_staff);
+	qreal factor = (m_staff->boundingRect().height() / m_bgGlyph->boundingRect().height()) * 1.3;
+	m_bgGlyph->setScale(factor);
+	m_bgGlyph->setPos((m_staff->boundingRect().width() - m_bgGlyph->boundingRect().width() * factor) / 2, 
+									(m_staff->boundingRect().height() - m_bgGlyph->boundingRect().height() * factor) / 2);
+	m_bgGlyph->setZValue(1);
+	
 }
 
 

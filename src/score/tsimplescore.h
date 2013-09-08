@@ -25,6 +25,7 @@
 #include "tnote.h"
 #include "tkeysignature.h"
 
+class QGraphicsSimpleTextItem;
 class TscoreView;
 class QGraphicsView;
 class TscoreControl;
@@ -85,6 +86,8 @@ public:
 		
 		Tnote lowestNote(); // Returns lowest possible note on the staff in current clef
 		Tnote highestNote(); // Returns highest possible note on the staff in current clef
+				/** Adds background with glyph identified  kind of instrument. */
+		void addBGglyph(int instr);
 		
 		
 signals:
@@ -125,13 +128,14 @@ protected slots:
 		void onClefChanged(Tclef clef);
   
 private:
-    TscoreScene     *m_scene;
-    TscoreStaff     *m_staff, *m_lowerStaff;
-    TscoreControl   *m_scoreControl;
-    TscoreView		  *m_score;
-		bool 						m_isPianoStaff;
-		int 						m_notesNr;
-		qreal 					m_pianoFactor; // factor of a score size depends on is it piano staff(smaller) or not
+    TscoreScene     						*m_scene;
+    TscoreStaff     						*m_staff, *m_lowerStaff;
+    TscoreControl   						*m_scoreControl;
+    TscoreView		  						*m_score;
+		QGraphicsSimpleTextItem 		*m_bgGlyph;
+		bool 												m_isPianoStaff;
+		int 												m_notesNr;
+		qreal 											m_pianoFactor; // factor of a score size depends on is it piano staff(smaller) or not
   
 };
 

@@ -40,6 +40,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
     m_scoreRang = new TsimpleScore(3, this); // third note is dummy
 				m_scoreRang->setNoteDisabled(2, true); // and is disabled and empty
 		m_scoreRang->setClef(Tclef(gl->Sclef));
+		m_scoreRang->addBGglyph((int)gl->instrument);
 //     m_scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()),
 //                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
     m_scoreRang->setNote(0, Tnote(1, 0));

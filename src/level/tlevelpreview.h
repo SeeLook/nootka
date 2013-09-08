@@ -36,8 +36,9 @@ public:
   static QString notesRangeTxt() { return tr("notes' range:"); }
   static QString fretsRangeTxt() { return tr("frets' range:"); }
 
-  void setLevel(TexamLevel
-  &tl);
+  void setLevel(TexamLevel &tl);
+			/** Overloaded method with empty level to force empty table. */
+	void setLevel();
   
 private:
   QLabel *m_summLab, *m_clefLabel;
