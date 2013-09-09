@@ -311,7 +311,7 @@ void ToggScale::decodeOgg() {
     loops++;
   }
   m_isDecoding = false;
-  qDebug() << "readFromOgg" << pos << "loops" << loops;
+//   qDebug() << "readFromOgg" << pos << "loops" << loops;
   m_thread->quit();
 }
 
@@ -350,7 +350,7 @@ void ToggScale::decodeAndResample() {
       m_isReady = true;
   }
   m_isDecoding = false;
-  qDebug() << "decodeAndResample finished" << pos;
+//   qDebug() << "decodeAndResample finished" << pos;
   m_touch->clear();
   m_thread->quit();
   delete tmpTouch;

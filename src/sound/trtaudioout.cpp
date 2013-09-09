@@ -81,7 +81,6 @@ int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBuffer
 			m_prevSamplesCnt = m_samplesCnt;
 			m_samplesCnt = -1;
 			m_cross = 1.0;
-			qDebug() << "crossfade";
 	}	
   m_samplesCnt++;
 	if (m_cross > 0.0)
@@ -96,8 +95,6 @@ int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBuffer
 						sample =  (qint16)qRound((1.0 - m_cross) * (float)instance->oggScale->getSample(off + i) + 
 											m_cross * (float)instance->oggScale->getSampleOfPrev(prevOff + i));
 						m_cross -= CROSS_STEP;
-						if (m_cross < 0.0)
-							qDebug() << "crossfade finished";
 					} else {
 						sample = instance->oggScale->getSample(off + i);
 					}
@@ -268,7 +265,6 @@ void TaudioOUT::stop() {
 
 
 void TaudioOUT::stopSlot() {
-	qDebug() << "stopped !!!!!!!!!!!!!!!!!";
   offTimer->stop();
   if (rtDevice->getCurrentApi() == RtAudio::LINUX_PULSE || rtDevice->getCurrentApi() == RtAudio::WINDOWS_DS) 
 			stopStream();
