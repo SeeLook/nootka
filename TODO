@@ -1,5 +1,6 @@
 Plan for the Nootka One
 
+- "remember about octave" - add to tip when answer is note name
 - check is kind of instrument stored in exam file properly and appears in level preview
 - there is some bug: QList claims... 
 - level validation: when q: score & a: score or Q: name A: name and no different accidentals - switch solfege/letters
@@ -14,7 +15,6 @@ Plan for the Nootka One
 - There are similar position calculations in Tcanvas - make methods for them
 - note name in HTML has two implementations - unify it
 - keep exam file in /tmp and restore it when crash or so
-- crossfading of notes during palyback
 - finish exam tip
 - managing level and exam files and their paths
 - practicing MODE
