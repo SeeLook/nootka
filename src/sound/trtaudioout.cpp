@@ -31,6 +31,8 @@
   #define SLEEP(msecs) usleep(msecs * 1000)
 #endif
 
+#define CROSS_STEP (0.00022675736961451247f) // 1.0 / 4410 (4410 is numbes of samples in 100 ms)
+
 
 /*static*/
 QStringList TaudioOUT::getAudioDevicesList() {
@@ -58,9 +60,12 @@ QStringList TaudioOUT::getAudioDevicesList() {
 
 
 int TaudioOUT::m_samplesCnt = 0;
+int TaudioOUT::m_prevSamplesCnt = 0;
 unsigned int TaudioOUT::m_bufferFrames = 1024;
 int TaudioOUT::m_maxCBloops = 44100 / m_bufferFrames * 2;
 TaudioOUT* TaudioOUT::instance = 0;
+bool TaudioOUT::m_doCrossFade = false;
+float TaudioOUT::m_cross = 0.0f;
 
 
 int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames, double streamTime, 
@@ -70,15 +75,32 @@ int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBuffer
   Q_UNUSED(userData)
   if ( status )
     qDebug() << "Stream underflow detected!";
+	if (m_doCrossFade) {
+			instance->oggScale->switchToNextNote();
+			m_doCrossFade = false;
+			m_prevSamplesCnt = m_samplesCnt;
+			m_samplesCnt = -1;
+			m_cross = 1.0;
+			qDebug() << "crossfade";
+	}	
   m_samplesCnt++;
-//   if (m_samplesCnt == 0)
-//     qDebug("outCallBack");
+	if (m_cross > 0.0)
+			m_prevSamplesCnt++;
   if (m_samplesCnt < m_maxCBloops - 10) {
       qint16 *out = (qint16*)outBuffer;
       int off = m_samplesCnt * (nBufferFrames / instance->ratioOfRate);
+			int prevOff = m_prevSamplesCnt * (nBufferFrames / instance->ratioOfRate);
       qint16 sample;
       for (int i = 0; i < nBufferFrames / instance->ratioOfRate; i++) {
-          sample = instance->oggScale->getSample(off + i);
+					if (m_cross > 0.0) {
+						sample =  (qint16)qRound((1.0 - m_cross) * (float)instance->oggScale->getSample(off + i) + 
+											m_cross * (float)instance->oggScale->getSampleOfPrev(prevOff + i));
+						m_cross -= CROSS_STEP;
+						if (m_cross < 0.0)
+							qDebug() << "crossfade finished";
+					} else {
+						sample = instance->oggScale->getSample(off + i);
+					}
           for (int r = 0; r < instance->ratioOfRate; r++) {
               *out++ = sample; // left channel
               *out++ = sample; // right channel
@@ -208,15 +230,17 @@ bool TaudioOUT::play(int noteNr) {
   if (!playable)
       return false;
   
-  if (offTimer->isActive())
+	bool doSwitch = false;
+  if (offTimer->isActive()) {
+			m_doCrossFade = true;
       offTimer->stop();
+	} else
+			doSwitch = true;
   
   noteNr = noteNr + int(audioParams->a440diff);
 	
   openStream(&streamParams, NULL, RTAUDIO_SINT16, sampleRate * ratioOfRate, &m_bufferFrames, &outCallBack, 0, streamOptions);
-  
   doEmit = true;
-  m_samplesCnt = -1;
   oggScale->setNote(noteNr);
   int loops = 0;
   while (!oggScale->isReady() && loops < 40) { // 40ms - max latency
@@ -226,6 +250,10 @@ bool TaudioOUT::play(int noteNr) {
 //   if (loops)
 //        qDebug() << "latency:" << loops << "ms";  
   offTimer->start(1600);
+	if (doSwitch) {
+		oggScale->switchToNextNote();
+		m_samplesCnt = -1;
+	}
   return startStream();
 }
 
@@ -240,6 +268,7 @@ void TaudioOUT::stop() {
 
 
 void TaudioOUT::stopSlot() {
+	qDebug() << "stopped !!!!!!!!!!!!!!!!!";
   offTimer->stop();
   if (rtDevice->getCurrentApi() == RtAudio::LINUX_PULSE || rtDevice->getCurrentApi() == RtAudio::WINDOWS_DS) 
 			stopStream();

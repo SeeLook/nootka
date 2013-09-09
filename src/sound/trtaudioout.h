@@ -58,16 +58,18 @@ private slots:
   void stopSlot();
     
 private:
-  void deleteAudio();
+//   void deleteAudio();
   static int outCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime,
                          RtAudioStreamStatus status, void *userData);
 
       /** Number of performed samples. */
-  static int m_samplesCnt;
+  static int m_samplesCnt, m_prevSamplesCnt;
       /** Duration of a sound counted in callBack loops */
   static int m_maxCBloops;
       /** Size of a buffer */
   static unsigned int m_bufferFrames;
+	static bool m_doCrossFade;
+	static float m_cross; /** Current value of crossing factor */
 
 };
 
