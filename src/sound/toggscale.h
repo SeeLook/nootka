@@ -47,8 +47,12 @@ using namespace soundtouch;
 * 
 * To get sample @p setNote has to be caled first. 
 * It starts decoding thread which prepares first portion of data.
-* Data is ready only when @p isReady() returns true.
+* Data is ready only when @p isReady() returns @p true.
 * Preparing process takes around 1-10 ms (depends on CPU)
+* When data is ready switchToNextNote() has to be called!!!
+* There are two buffers with current and previous note data.
+* This way crossfading is possible. 
+* Previous data are under getSampleOfPrev() and current under getSample().
 */
 class ToggScale : public QObject
 {
@@ -81,10 +85,15 @@ public:
          * - starts decoding (resampling). 
          * - stops previous decoding if performed. */
     void setNote(int noteNr);
+				/** Returns sample of current played note at @p offset position. */
     qint16 getSample(int offset);
+				/** Returns sample of previously played note at @p offset position. */
+		qint16 getSampleOfPrev(int offset);
     unsigned int sampleRate() { return m_sampleRate; }
         /** TRUE when appropirate data amount in a buffer is ready. */
     bool isReady() { return m_isReady; }
+				/** Current note becomes previous and previous has already decoded new note data and goes current. */
+    void switchToNextNote();
     
     void setSampleRate(unsigned int rate);
         /** Sets decimal offset of a pitch -0.99 to +0.99 */
@@ -114,7 +123,9 @@ private:
     qint8             *m_oggInMemory;
     QString           m_oggPath; /** Path to dir containing ogg files with sounds */
     OggVorbis_File    m_ogg; /** ogg vorbis handler */
-    qint16            *m_pcmBuffer; /** buffer with decompressed data of selected note. */
+    qint16            *m_currentPCM; /** fake buffer with decompressed data of actually selected note. */
+    qint16            *m_prevPCM; /** fake buffer with decompressed data of previously played note. */
+    qint16						*m_1_buffer, *m_2_buffer; /** real buffers switched for double buffering effect. */
     SoggFile          m_oggWrap; /** Structure wraped m_oggInMemory used by ogg vorbis. */
     QThread           *m_thread;
     unsigned int      m_sampleRate;
@@ -127,7 +138,8 @@ private:
     float							m_innerOffset; /** Offset calculated in setNote when SoundTouch has to generate note. */
     bool              m_oggConnected, m_touchConnected;
 		int								m_firstNote, m_lastNote; /** Numbers of first and last notes in file with scale. */
-		int								m_instrument; /** curent instrument which samples are loaded */
+		int								m_instrument; /** current instrument which samples are loaded */
+		bool 							m_areNotesTheSame; /** Keeps @p true when current and previous notes are the same. */
 
 };
 
