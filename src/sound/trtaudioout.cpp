@@ -31,7 +31,9 @@
   #define SLEEP(msecs) usleep(msecs * 1000)
 #endif
 
-#define CROSS_STEP (0.00022675736961451247f) // 1.0 / 4410 (4410 is numbes of samples in 100 ms)
+/** Value of CROSS_STEP = 0.00023 (100ms) cases reverb effect with sound
+* Shorter cross-fade duration works better. */
+#define CROSS_STEP (0.001f) // cross-fade will take about 23 [ms]
 
 
 /*static*/
@@ -48,7 +50,6 @@ QStringList TaudioOUT::getAudioDevicesList() {
         }
         catch (RtError& e) {
           qDebug() << "error when probing output device" << i;
-//           e.printMessage();
           continue;
         }
         if (devInfo.probed && devInfo.outputChannels > 0)
@@ -75,28 +76,28 @@ int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBuffer
   Q_UNUSED(userData)
   if ( status )
     qDebug() << "Stream underflow detected!";
-	if (m_doCrossFade) {
+	if (m_doCrossFade) { // Cross-fading avoids cracking during transition of notes.
 			instance->oggScale->switchToNextNote();
 			m_doCrossFade = false;
-			m_prevSamplesCnt = m_samplesCnt;
-			m_samplesCnt = -1;
+			m_prevSamplesCnt = m_samplesCnt; // current samples are in previous buffer now
+			m_samplesCnt = -1; // new note starts from begin of a buffer
 			m_cross = 1.0;
 	}	
   m_samplesCnt++;
 	if (m_cross > 0.0)
-			m_prevSamplesCnt++;
+			m_prevSamplesCnt++; // increase position in prev buffer during cross-fading
   if (m_samplesCnt < m_maxCBloops - 10) {
       qint16 *out = (qint16*)outBuffer;
       int off = m_samplesCnt * (nBufferFrames / instance->ratioOfRate);
 			int prevOff = m_prevSamplesCnt * (nBufferFrames / instance->ratioOfRate);
       qint16 sample;
       for (int i = 0; i < nBufferFrames / instance->ratioOfRate; i++) {
-					if (m_cross > 0.0) {
-						sample =  (qint16)qRound((1.0 - m_cross) * (float)instance->oggScale->getSample(off + i) + 
+					if (m_cross > 0.0) { // mix current and previous samples when cross-fading
+							sample =  (qint16)qRound((1.0 - m_cross) * (float)instance->oggScale->getSample(off + i) + 
 											m_cross * (float)instance->oggScale->getSampleOfPrev(prevOff + i));
-						m_cross -= CROSS_STEP;
-					} else {
-						sample = instance->oggScale->getSample(off + i);
+							m_cross -= CROSS_STEP;
+					} else { // or get raw sample
+							sample = instance->oggScale->getSample(off + i);
 					}
           for (int r = 0; r < instance->ratioOfRate; r++) {
               *out++ = sample; // left channel
@@ -227,8 +228,8 @@ bool TaudioOUT::play(int noteNr) {
   if (!playable)
       return false;
   
-	bool doSwitch = false;
-  if (offTimer->isActive()) {
+	bool doSwitch = false; // oggScale has to switch buffers, called from here or from callBack()
+  if (offTimer->isActive()) { // note is played - cross-fading is necessary
 			m_doCrossFade = true;
       offTimer->stop();
 	} else

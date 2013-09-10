@@ -206,6 +206,9 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* le
               }
       break;
     }
+    if (level->requireOctave)
+			if (question.answerAs == TQAtype::e_asName)
+				quest += "<br><nobr>" + tr("Check octave button!") + "</nobr>";
     if (scale)
       quest += "</p>";
     quest = "<table><tr><td valign=\"middle\" style=\"font-family: nootka; color: transparent; font-size: 30px;\">" +

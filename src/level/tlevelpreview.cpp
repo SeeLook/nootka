@@ -148,7 +148,7 @@ void TlevelPreview::setLevel(TexamLevel& tl) {
     if (tl.canBeName() || tl.canBeScore() || tl.canBeSound()) {
       S += "<tr><td colspan=\"2\" align=\"center\">";
       if (tl.requireOctave)
-          S += tr("propper octave is required");
+          S += tr("proper octave is required");
       else
           S += tr("octave has no matter");
       S += "</td></tr>";

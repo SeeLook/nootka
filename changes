@@ -1,5 +1,6 @@
 
      - buttons with octaves and accidentals are highlighted  during answering
+     - crossing of played notes is fluent now - it was cleaned from cracks
     BUGS FIXES
      - fixed random crash when midi output was in use
      - piano stave is properly locked in exams and level creator
