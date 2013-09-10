@@ -1,6 +1,7 @@
 Plan for the Nootka One
 
 - "remember about octave" - add to tip when answer is note name
+- under windows guitar head glyph doesn't appear in guitar settings.
 - check is kind of instrument stored in exam file properly and appears in level preview
 - there is some bug: QList claims... 
 - level validation: when q: score & a: score or Q: name A: name and no different accidentals - switch solfege/letters
