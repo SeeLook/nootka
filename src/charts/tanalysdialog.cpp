@@ -48,7 +48,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
     m_isMaximized(false)
 {
  
-  setWindowTitle(tr("Analyse of an exam results"));
+  setWindowTitle(tr("Analysis of exam results"));
   setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint);
   setGeometry(parent->geometry());
   QVBoxLayout *lay = new QVBoxLayout;
@@ -202,7 +202,7 @@ void TanalysDialog::loadExam(QString& examFile) {
       m_moreButton->setDisabled(true);
       createChart(m_chartSetts);
       TgraphicsTextTip *wrongFileTip = new TgraphicsTextTip("<h3>" +
-					tr("File: %1 \n is not valid exam file !!!").arg(examFile).replace("\n", "<br>") + "</h3>", gl->EquestionColor);
+					tr("File: %1 \n is not valid exam file!").arg(examFile).replace("\n", "<br>") + "</h3>", gl->EquestionColor);
       m_chart->scene->addItem(wrongFileTip);
       wrongFileTip->setPos(100, 180);
     }

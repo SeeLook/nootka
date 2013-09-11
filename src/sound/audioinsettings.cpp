@@ -54,7 +54,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
   devDetLay->addWidget(devLab);
   inDeviceCombo = new QComboBox(this);
   devDetLay->addWidget(inDeviceCombo);
-  inDeviceCombo->setStatusTip(tr("Be sure Your input device (a mike, a webcam, an instrument pluged to line-in) is properly configured by Your operating system."));
+  inDeviceCombo->setStatusTip(tr("Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working."));
   
   devDetLay->addStretch(1);
   
@@ -76,9 +76,9 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
   QLabel *instrLab = new QLabel(tr("for playing") + 
         " <span style=\"font-family: nootka; font-size: 25px;\">g</span>", this);
   modeButtonsLay->addWidget(instrLab, 1, 1, Qt::AlignLeft);
-  instrLab->setStatusTip(tr("This mode is faster and good enought for guitars and other instruments."));
+  instrLab->setStatusTip(tr("This mode is faster and good enough for guitars and other instruments."));
 	modeLay->addLayout(modeButtonsLay);
-	durHeadLab = new QLabel(tr("minimal note duration"), this);
+	durHeadLab = new QLabel(tr("minimum note duration"), this);
 	modeLay->addStretch(1);
 	modeLay->addWidget(durHeadLab, 0, Qt::AlignCenter);
 	durationSpin = new QSpinBox(this);
@@ -88,7 +88,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
 	durationSpin->setSuffix("  "  + tr("[milliseconds]"));
 	durationSpin->setSingleStep(50);
 	durationSpin->setValue(m_glParams->minDuration * 1000); // minimal duration is stored in seconds but displayed in milliseconds
-	durationSpin->setStatusTip(tr("Only sounds longer than given time are detected.<br>Longer duration can avoid of capturing some noises or unexpected sounds but decreases a responsiveness"));
+	durationSpin->setStatusTip(tr("Only sounds longer than the selected time will be pitch-detected.<br>Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness."));
   modeGr->setLayout(modeLay);
   devDetLay->addWidget(modeGr);
   if (m_glParams->isVoice)
@@ -117,7 +117,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
   freqSpin = new QSpinBox(this);
 //   midLay->addWidget(freqSpin);
   midGrLay->addWidget(freqSpin, 0, 1);
-  freqSpin->setStatusTip(tr("A base frequency of <i>middle a</i>.<br>The pitch of detecting notes depends on this value. It also affects played sounds."));
+  freqSpin->setStatusTip(tr("The base frequency of <i>middle a</i>.<br>Detection of the proper pitch of notes is relative to this value. This also affects the pitch of played sounds."));
   freqSpin->setMinimum(400);
   freqSpin->setMaximum(480);
 //   freqSpin->setValue(int(pitch2freq(freq2pitch(440.0) + m_glParams->a440diff)));
@@ -134,7 +134,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
   intervalCombo->addItem(tr("semitone up"));
   intervalCombo->addItem(tr("none"));
   intervalCombo->addItem(tr("semitone down"));
-  intervalCombo->setStatusTip(tr("Shifts the frequency of <i>middle a</i> on semitone."));
+  intervalCombo->setStatusTip(tr("Shifts the frequency of <i>middle a</i> one semitone."));
   if (freqSpin->value() <= 415)
       intervalCombo->setCurrentIndex(2);
     else if (freqSpin->value() >= 465)
@@ -158,9 +158,9 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
 	lowRadio = new QRadioButton(tr("low", "be short, please"), this);
 	lowRadio->setStatusTip(tr("The lowest notes.<br>Suitable for bass guitar, double bass, etc."));
 	middleRadio = new QRadioButton(tr("middle"), this);
-	middleRadio->setStatusTip(tr("Notes above <b>A contra</b>.<br>Suitable for guitar, celo human voice, etc."));
+	middleRadio->setStatusTip(tr("Notes above <b>A contra</b>.<br>Suitable for guitar, cello, human voice, etc."));
 	highRadio = new QRadioButton(tr("high"), this);
-	highRadio->setStatusTip(tr("Notes above <b>small g</b>.<br>Suitable for high pitch instruments like flute, piccolo, etc."));
+	highRadio->setStatusTip(tr("Notes above <b>small g</b>.<br>Suitable for high pitched instruments such as flute, piccolo, etc."));
 	QButtonGroup *rangeGr = new QButtonGroup(this);
 	rangeGr->addButton(lowRadio);
 	rangeGr->addButton(middleRadio);
@@ -187,7 +187,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
   QGroupBox *testGr = new QGroupBox(this);
   QHBoxLayout *testLay = new QHBoxLayout();
   testButt = new QPushButton(testTxt, this);
-  testButt->setStatusTip(tr("Check, are audio input settings appropirate for You,<br>and does pitch detection work?"));
+  testButt->setStatusTip(tr("Check, are your audio input settings appropriate?<br>And how well does pitch detection work for your selected settings?"));
   testLay->addWidget(testButt);
   testLay->addStretch(1);
   pitchView = new TpitchView(m_audioIn, this, false);
@@ -370,7 +370,7 @@ void AudioInSettings::getFreqStatusTip() {
 			if (i % 2 == 0 && i < 6)
 				freqTxt += "<br>";
 		}
-    freqLab->setStatusTip(tr("Frequency of detected note. You can use it for tune") + "<br>" + freqTxt);
+    freqLab->setStatusTip(tr("Frequency of detected note. You can use this for tuning.") + "<br>" + freqTxt);
     tuneFreqlab->setText(freqTxt);
 }
 

@@ -80,7 +80,7 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
     
     // grab 7-th note from translation
     if (Tpage_3::note7txt().toLower() == "b") {
-        gl->seventhIs_B = true; // rest (NnameStyleInNoteName
+        gl->seventhIs_B = true; // rest NnameStyleInNoteName
         if (m_page3->keyNameStyle() == "solfege")
           gl->SnameStyleInKeySign = Tnote::e_italiano_Si;
         else
@@ -188,10 +188,10 @@ void TfirstRunWizzard::whenInstrumentChanged(int instr) {
 		if ((Einstrument)instr == e_bassGuitar)
 				m_notationNote->setHtml(QString("<center>%1<br>").
 				arg(TtipChart::wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F, TkeySignature(0), 5.0)) +
-				tr("To write notes for bass guitat the <b>bass clef</b> is used but played notes sound octave down. The propper clef is <b>bass dropped clef</b> (with \"eight\" digit below) where notes sound exactly as written and this clef is used in Nootka for bass guitar.") +
+				tr("To write notes for bass guitar the <b>bass clef</b> is used but played notes sound octave down. The proper clef is <b>bass dropped clef</b> (with \"eight\" digit below) where notes sound exactly as written and this clef is used in Nootka for bass guitar.") +
 					"<br><br>" + TtipChart::wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F_8down, TkeySignature(0), 8.0));
 		else
-				m_notationNote->setHtml("<br><br><center>" + tr("Guitar notation uses treble clef with \"eight\" digit below (even if some editors are forgeting about this digit).<br><br>Try to understand this. <br><br><p> %1 %2<br><span style=\"font-size:20px;\">Both pictures above show the same note: c<sup>1</sup></span><br>(note c in one-line octave)</p>").
+				m_notationNote->setHtml("<br><br><center>" + tr("Guitar notation uses treble clef with \"eight\" digit below (even if some editors are forgetting about this digit).<br><br>Try to understand this. <br><br><p> %1 %2<br><span style=\"font-size:20px;\">Both pictures above show the same note: c<sup>1</sup></span><br>(note c in one-line octave)</p>").
 				arg(TtipChart::wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G, TkeySignature(0), 6.0)).
 				arg(TtipChart::wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G_8down, TkeySignature(0), 6.0)) + "</center>");
 }
@@ -275,7 +275,7 @@ Tpage_3::Tpage_3(QWidget *parent) :
 {
     QVBoxLayout *lay = new QVBoxLayout;
     lay->setAlignment(Qt::AlignCenter);
-    QLabel *seventhLab = new QLabel(tr("<center>7-th note can be B or H, depends on country<br>Which one is Yours?<br></center>"), this);
+    QLabel *seventhLab = new QLabel(tr("<center>7-th note can be B or H, depends on country<br>Which one is yours?<br></center>"), this);
 		seventhLab->setWordWrap(true);
     lay->addWidget(seventhLab, 0, Qt::AlignCenter);
 
@@ -317,22 +317,22 @@ Tpage_4::Tpage_4(QWidget* parent) :
 //   QLabel *lab = new QLabel(QString("<center><img src=\"%1\"><br><br><br>").arg(gl->path+"picts/pitch.png") +
 //     tr("Nootka can recognize played or sung sound<br>but it requires adjustment and some practise.<br>All needed settings are in <b>Preferences->Sound<b>.")
 //     , this );
-  QString helpTxt = "<br><b>" + tr("A play with Nootka we can divide on three stages:", "Don't try to translate the entries in this context/section too strict, rather use some nice words into Your language to describe it. The statements like '%1' are images(icons) in text");
+  QString helpTxt = "<br><b>" + tr("A play with Nootka we can divide on three stages:", "Don't try to translate the entries in this context/section too strict, rather use some nice words into your language to describe it. The statements like '%1' are images(icons) in text");
   helpTxt += "</b><table><tr><td>&nbsp;</td><td><hr><b>";
   
   helpTxt += tr("I. Discovering") + "</b><br>";
-  helpTxt += tr("Explore the interface of the application and how musical scores work. Just click on elements of the interface see and get to know. Also You can play or sing if You have any mike or web-cam.") + "<br>";
+  helpTxt += tr("Explore the interface of the application and how musical scores work. Just click on elements of the interface see and get to know. Also you can play or sing if you have any mike or web-cam.") + "<br>";
   helpTxt += tr("Press %1 buttons to glimpse this help and %2 button to adjust the application to yourself.").
       arg(" &nbsp; " + pixToHtml(gl->path+"picts/about.png", PIXSIZE) + " <span style=\"font-size: 25px;\"> + </span> " + pixToHtml(gl->path+"picts/help.png", PIXSIZE)  + " &nbsp; ").
       arg(" &nbsp; " + pixToHtml(gl->path+"picts/systemsettings.png", PIXSIZE) + " &nbsp; ");
       
   helpTxt += "<hr><b>" + tr("II. Playing with Nootka") + "</b><br>";
-  helpTxt += tr("Literally and metaphorically. The application will be Your strict and \"old school\" master. Press %1 button, select some level and try to pass an exam by answering on questions. To answer You can play, sing, put a name of a note and so on. Depends on chosen level.<br>When You miss, You got penalties...", "hmmm, 'play' has doble meaning (a fun and performing) in english only, so adjust it as You feel").arg(" &nbsp; " + pixToHtml(gl->path+"picts/startExam.png", PIXSIZE) + " &nbsp; ");
-  helpTxt += "<br>" + tr("Press %1 button to create Your own questions set (a level).").
+  helpTxt += tr("Literally and metaphorically. The application will be your strict and \"old school\" master. Press %1 button, select some level and try to pass an exam by answering on questions. To answer you can play, sing, put a name of a note and so on. Depends on chosen level.<br>When you miss, you got penalties...", "hmmm, 'play' has double meaning (a fun and performing) in English only, so adjust it as you feel").arg(" &nbsp; " + pixToHtml(gl->path+"picts/startExam.png", PIXSIZE) + " &nbsp; ");
+  helpTxt += "<br>" + tr("Press %1 button to create your own questions set (a level).").
     arg(" &nbsp; " + pixToHtml(gl->path+"picts/levelCreator.png", PIXSIZE) + " &nbsp; ");
   
-  helpTxt += "<hr><b>" + tr("III. Analyseing") + "</b><br>";
-  helpTxt += tr("Nootka will tell You about what You've been thinking for so long...<br>Press %1 button to watch and to analyse results of Your exams. Find Your weak points and improve.").
+  helpTxt += "<hr><b>" + tr("III. Analysing") + "</b><br>";
+  helpTxt += tr("Nootka will tell you about the progress you've been making so far...<br>Press %1 button to see and to analyse the results of your exams, find your weak points, and improve.").
     arg(" &nbsp; " + pixToHtml(gl->path+"picts/charts.png", PIXSIZE) + " &nbsp; ");;
   helpTxt += "</td></tr></table>";
   helpTxt += "<hr><b><span style=\"font-size: 25px;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + tr("Have a good fun!") + "</span></b>";

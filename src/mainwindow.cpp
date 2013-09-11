@@ -247,13 +247,13 @@ void MainWindow::createActions() {
     connect(startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
     setStartExamActParams(); // set text and icon also for levelCreatorAct
     
-    analyseAct = new QAction(tr("Analyse", "tool button text! - could be Chart as well"), this);
+    analyseAct = new QAction(tr("Analyse", "could be Chart as well"), this);
     analyseAct->setIcon(QIcon(gl->path+"picts/charts.png"));
-    analyseAct->setStatusTip(tr("Analyse of an exam results"));
+    analyseAct->setStatusTip(tr("Analysis of exam results"));
 		analyseAct->setToolTip(analyseAct->statusTip());
     connect(analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
 
-    aboutAct = new QAction(tr("About", "tool button text! Please be short"), this);
+    aboutAct = new QAction(tr("About"), this);
     aboutAct->setStatusTip(tr("About Nootka"));
 		aboutAct->setToolTip(aboutAct->statusTip());
     aboutAct->setIcon(QIcon(gl->path+"picts/about.png"));

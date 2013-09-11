@@ -68,7 +68,7 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
     navList->setCurrentRow(0);
     cancelBut->setText(tr("Close"));
     okBut->setText(tr("Check"));
-    okBut->setStatusTip(tr("Check, Are Your settings of the level possible to perform."));
+    okBut->setStatusTip(tr("Check, Are your settings of the level possible to perform."));
     disconnect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
     connect(okBut, SIGNAL(clicked()), this, SLOT(checkLevelSlot()));
 
@@ -99,12 +99,12 @@ void TlevelCreatorDlg::levelWasSelected(TexamLevel level) {
 
 void TlevelCreatorDlg::levelNotSaved() {
     navList->item(0)->setIcon(QIcon(gl->path+"picts/notSaved.png"));
-    setWindowTitle(levelCreatorTxt() + "  (" + tr("level not saved !!") + ")");
+    setWindowTitle(levelCreatorTxt() + "  (" + tr("level not saved!") + ")");
 }
 
 
 void TlevelCreatorDlg::saveLevel() {
-    if ( QMessageBox::question(this, "", tr("Exam's level was changed\nand not saved !!"), QMessageBox::Save, QMessageBox::Cancel) == QMessageBox::Save ) {
+    if ( QMessageBox::question(this, "", tr("Exam level was changed\nand not saved!"), QMessageBox::Save, QMessageBox::Cancel) == QMessageBox::Save ) {
         saveToFile();
     } else 
 				levelSaved();
@@ -141,7 +141,7 @@ void TlevelCreatorDlg::saveToFile() {
     newLevel.name = nameList[0];
     newLevel.desc = nameList[1];
   // Saving to file
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save exam's level"),
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save exam level"),
                                                     QDir::toNativeSeparators(gl->E->levelsDir + "/" + newLevel.name + ".nel"),
                                               TlevelSelector::levelFilterTxt() + " (*.nel)", 0 , QFileDialog::DontUseNativeDialog);
     if (fileName == "")

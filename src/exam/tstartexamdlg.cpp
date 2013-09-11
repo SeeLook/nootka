@@ -68,12 +68,12 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
     lLay->addWidget(m_createBut, 1, Qt::AlignCenter);
     levLay->addLayout(lLay);
     m_newExamBut = new QPushButton(tr("start new exam"), this);
-    m_newExamBut->setStatusTip(m_newExamBut->text() + "<br><b>" + tr("Any level was not selected !!") + "</b>");
+    m_newExamBut->setStatusTip(m_newExamBut->text() + "<br><b>" + tr("Any level was not selected!") + "</b>");
     m_newExamBut->setIcon(QIcon(path + "picts/startExam.png"));
     m_newExamBut->setIconSize(QSize(48, 48));
     levLay->addWidget(m_newExamBut);
     levelGr = new QGroupBox(this);
-    levelGr->setStatusTip(tr("Select a level suitable for You<br>or create new one."));
+    levelGr->setStatusTip(tr("Select a level suitable for you<br>or create new one."));
     levelGr->setLayout(levLay);
 
     mainLay->addWidget(levelGr);
@@ -115,7 +115,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
     mainLay->addWidget(m_hintLabel);
     setLayout(mainLay);
     
-    setStatusTip("<b>" + tr("Would You like to start new exam or continue previous one ?<br>To start new one, put your name and select a level.<br>To continue previous, select it from the list or load from file.") + "</b>" );
+    setStatusTip("<b>" + tr("Would you like to start new exam or continue previous one?<br>To start new one, put your name and select a level.<br>To continue previous, select it from the list or load from file.") + "</b>" );
     m_hintLabel->setStatusTip(statusTip());
 
 #if defined(Q_OS_WIN32) // I hate mess in Win registry
@@ -149,10 +149,10 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
     connect(m_examCombo, SIGNAL(activated(int)), this, SLOT(prevExamSelected(int)));
     connect(m_levelsView, SIGNAL(levelChanged(TexamLevel)), this, SLOT(levelWasSelected(TexamLevel)));
     
-    QApplication::translate("File association entries", "Nootka level file", "for file brrrowsers");
-    QApplication::translate("File association entries", "Open with nootka");
+    QApplication::translate("File association entries", "Nootka level file", "for file browsers");
+    QApplication::translate("File association entries", "Open with Nootka");
     QApplication::translate("File association entries", "Nootka exam file");
-    QApplication::translate("Windows installer entries", "Do You realy want to remove Nootka and all its components?");
+    QApplication::translate("Windows installer entries", "Do you really want to remove Nootka and all its components?");
 }
 
 TstartExamDlg::Eactions TstartExamDlg::showDialog(QString &txt, TexamLevel &lev) {
@@ -195,11 +195,11 @@ void TstartExamDlg::startAccepted() {
     if (sender() == m_newExamBut) { // new exam on selsected level
         TexamLevel l = m_levelsView->getSelectedLevel();
         if (l.name == "") { // nothing selected
-            QMessageBox::warning(this, "", tr("Any level was not selected !!"));
+            QMessageBox::warning(this, "", tr("Any level was not selected!"));
             return;
         } else {
             if (m_nameEdit->text() == "") {
-                QMessageBox::warning(this, "", tr("Give any user name !!"));
+                QMessageBox::warning(this, "", tr("Give any user name!"));
                 return;
             }
             m_Acction = e_newLevel;
@@ -211,7 +211,7 @@ void TstartExamDlg::startAccepted() {
             m_Acction = e_continue;
             accept();
         } else
-            QMessageBox::warning(this, "", tr("Any exam wasn't selected !!"));
+            QMessageBox::warning(this, "", tr("Any exam wasn't selected!"));
     }
 }
 

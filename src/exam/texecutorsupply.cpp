@@ -44,7 +44,7 @@ TexecutorSupply::TexecutorSupply(TexamLevel* level, QObject* parent) :
 //##########################################################################################
 
 void TexecutorSupply::examFinished() {
-    QMessageBox::information(0, "", "<br><center>" + tr("CONGRATULATIONS!!!<br>You have passed the exam.<br><br>About prizes speak with parents or another sponsors :-)<br>You can still play with it and improve effectivenes.") + "</center><br>");
+    QMessageBox::information(0, "", "<br><center>" + tr("CONGRATULATIONS!<br>You have passed the exam.<br><br>About prizes speak with parents or another sponsors :-)<br>You can still play with it and improve effectivenes.") + "</center><br>");
     setFinished();
 }
 
