@@ -140,7 +140,7 @@ QList<TexamLevel> getExampleLevels() {
 //----------------------------------------------------------------------------
     l = TexamLevel();
     l.name = QObject::tr("Play scores");
-    l.desc = QObject::tr("Take Your instrument and just play...<br>No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.");
+    l.desc = QObject::tr("Take your instrument and just play...<br>No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.");
     l.questionAs.setAsFret(false); // no guitar
     l.questionAs.setAsName(false); // no names
     l.questionAs.setAsSound(false); // don't play
@@ -168,7 +168,7 @@ QList<TexamLevel> getExampleLevels() {
 //----------------------------------------------------------------------------
     l = TexamLevel();
     l.name = QObject::tr("Sing scores");
-    l.desc = QObject::tr("Just sing a score...<br>No note names, no fretboard, no keys and double accids. Scale doesn't matter because octaves are ignored - You can transpose.");
+    l.desc = QObject::tr("Just sing a score...<br>No note names, no fretboard, no keys and double accids. Scale doesn't matter because octaves are ignored - you can transpose.");
     l.questionAs.setAsFret(false); // no guitar
     l.questionAs.setAsName(false); // no names
     l.questionAs.setAsSound(false); // don't play

@@ -1038,7 +1038,7 @@ QString TexamExecutor::saveExamToFile() {
                          TstartExamDlg::examFilterTxt(), 0 , QFileDialog::DontUseNativeDialog);
     if (fileName == "") {
 		QMessageBox *msg = new QMessageBox(mW);
-		msg->setText(tr("If You don't save to file<br>You lost all results !!"));
+		msg->setText(tr("If you don't save to file<br>you lost all results!"));
 		QAbstractButton *saveButt = msg->addButton(tr("Save"), QMessageBox::ApplyRole);
 		msg->addButton(tr("Discard"), QMessageBox::RejectRole);
 		msg->exec();

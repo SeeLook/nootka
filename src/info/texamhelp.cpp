@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -34,7 +34,7 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt,
 {
 //   setMaximumSize((parent->width()/3)*2, (parent->height()/3)*2);
   resize((parent->width()/3)*2, (parent->height()/3)*2);
-  setWindowTitle(tr("Exam's help"));
+  setWindowTitle(tr("Exam help"));
   
   QVBoxLayout *lay = new QVBoxLayout();
   QTextEdit *ed = new QTextEdit(
@@ -53,15 +53,15 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt,
     tr("To check the answer confirm it:") + "<br>- " + 
     clickSomeButtonTxt(pixToHtml(path + "picts/check.png", PIXICONSIZE)) + "<br>- " +
     pressEnterKey() + "<br>- " + orRightButtTxt() + "<br><br>" +
-    tr("If You made a mistake and You want to repeat the question:") + "<br>- " + 
+    tr("If you made a mistake and you want to repeat the question:") + "<br>- " + 
     clickSomeButtonTxt(pixToHtml(path+"picts/prevQuest.png", PIXICONSIZE)) + "<br>- " + orPressBkSTxt() + "<br>" +
     tr("By selecting 3-rd check box, the answers will be checking immediately without confirmation.") + "<br><br>" +
     toStopExamTxt(pixToHtml(path + "picts/stopExam.png", PIXICONSIZE)) + "<br><br>" + 
-    tr("Exam will be complete when You give answers on all questions.<br>Their number depends on a level of the exam.") + "<br>" +
-    tr("If You made mistake, such a questions will asked two times more and the total number of questions will be increased. Those are penaltys qustions.") + "<br>" +
-    tr("When answer is 'not so bad', You get one penalty more.") +
+    tr("Exam will be complete when you give answers on all questions.<br>Their number depends on a level of the exam.") + "<br>" +
+    tr("If you made mistake, such a questions will asked two times more and the total number of questions will be increased. Those are penalties questions.") + "<br>" +
+    tr("When answer is 'not so bad', you get one penalty more.") +
     "<br><br><span style=\"font-size: 20px;\"><b>" +
-    tr("GOOD LUCK !!!") + "</b></span>" + "<br><hr><table><tr><th colspan=2>" +
+    tr("GOOD LUCK!") + "</b></span>" + "<br><hr><table><tr><th colspan=2>" +
     tr("Experts' corner") + "</th></tr><tr><td rowspan=3>" +
     QString("<img style=\"background-color: transparent;\" src=\"%1\">").arg(path+"picts/expertCorner.png") +
     "</td><td><br>1. " + tr("show or hide the hints") + "</td></tr><tr><td><br>2. " + 

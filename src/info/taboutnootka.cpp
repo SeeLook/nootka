@@ -129,7 +129,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     otherStr += "</ul>";
 		
 		QString thankStr = getHeader(tr("Thanks"));
-		thankStr += "I would like to say <b>Thank You</b> for all people who helped me with developing Nootka.<br>I will try to mention them in some random order:<br>";
+		thankStr += "I would like to say <b>THANK YOU</b> for all people who helped me with developing Nootka.<br>I will try to mention them in some random order:<br>";
 		thankStr += "<br><b>Aaron Wolf</b> <a href=\"http://blog.wolftune.com/\">http://blog.wolftune.com</a> for many warm words about Nootka in the web and helping clues.<br>";
 		thankStr += "<b>falkTX</b> from <a href=\"http://kxstudio.sourceforge.net/\">http://kxstudio.sourceforge.net</a> for building *.deb and testing and for many clues.<br>";
 		thankStr += "<b>Users</b> of <a href=\"http://www.linuxmusicians.com/\">http://www.linuxmusicians.com</a> forum for testing and comments.<br>";
@@ -148,7 +148,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 		m_authorScroll->setFixedWidth(authorsLab->width());
 		m_authorScroll->setWidget(authorsPage);
 	
-	QString trans = QApplication::translate("about translator", "translator", "Do not translate this, just put in 'translator comment field' Your data: Translator's' Name<br>Tramslator's' e-mail(optional)<br>Translator site(optional)");
+	QString trans = QApplication::translate("about translator", "translator", "Do not translate this, just put in 'translator comment field' your data: Translator's' Name<br>Tramslator's' e-mail(optional)<br>Translator site(optional)");
 
 // LICENSE GPL
     QTextEdit *licenseTxt = new QTextEdit();
@@ -236,13 +236,13 @@ Tabout::Tabout(QWidget *parent) :
     QVBoxLayout *lay = new QVBoxLayout;
     TnootkaLabel *nootkaLab = new TnootkaLabel(gl->path + "picts/logo.png", this, palette().highlight().color());
     lay->addWidget(nootkaLab);
-    QString info = tr("Welcome on the board.<br> Nootka is open source application to help You learning (and teaching also) classical score notation.<br>It is specially dedicated for guitarists but others can find many usable features as well.");
-    QString betaInfo = tr("This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features.<br>Inspite of that You are welcome to try it!!");
+    QString info = tr("Welcome on the board.<br> Nootka is open source application to help you learning (and teaching also) classical score notation.<br>It is specially dedicated for guitarists but others can find many usable features as well.");
+    QString betaInfo = tr("This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features.<br>Inspite of that you are welcome to try it!");
     QString moreInfo = tr("See a <a href=\"http://nootka.sourceforge.net\">program site</a> for more details and further releases.</p><p>Any bugs, sugestions, translations and so on, report to: <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><p/><p>with respects<br>Author");
 //    betaInfo = ""; // comment it to show info in beta releases
     m_aboutLab = new QLabel("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>Nootka " + gl->version + "</b></p></center><p><br>" + info + "</p><p>" + betaInfo + "</p><p>" + moreInfo + "</p><br>"
 #if defined(Q_OS_WIN32)
-	  + tr("<br>To support project and also to avoid infection of Your PC<br><b>PLEASE, use project site to download updates, new releases and to see news.</b>")
+	  + tr("<br>To support project and also to avoid infection of your PC<br><b>PLEASE, use project site to download updates, new releases and to see news.</b>")
 #endif
 							, this);
     m_aboutLab->setWordWrap(true);
