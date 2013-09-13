@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,7 +25,7 @@
 #define SPACE_GAP (7)
 
 
-const QString TexamView::halfMistakenTxt() { return tr("'Not So Bad' answers"); } 
+const QString TexamView::halfMistakenTxt() { return tr("'Not bad' answers"); } 
 const QString TexamView::halfMistakenAddTxt() { return tr("(counted as half of a mistake)"); }
 
 QString borderStyleTxt = "border: 1px solid palette(Text); border-radius: 4px;";

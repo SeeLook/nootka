@@ -107,7 +107,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
                   if (m_exam->tune() != *gl->Gtune() ) { //Is tune the same ?
 												Ttune tmpTune = m_exam->tune();
                         gl->setTune(tmpTune);
-                        changesMessage = tr("Tune of the guitar was changed in this exam !!.<br>Now it is:<br><b>%1</b>").
+                        changesMessage = tr("Tuning of the guitar was changed in this exam!<br>Now it is:<br><b>%1</b>").
 												arg(gl->Gtune()->name);
                     }
                   if (m_level.hiFret > gl->GfretsNumber) { //Are enought frets ?
@@ -128,7 +128,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
 
         } else {
             if (err == Texam::e_file_not_valid)
-                QMessageBox::critical(mW, "", tr("File: %1 \n is not valid exam file !!!")
+                QMessageBox::critical(mW, "", tr("File: %1 \n is not valid exam file!")
                                   .arg(resultText));
             mW->clearAfterExam();
             if (m_exam) delete m_exam;
@@ -148,7 +148,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
     if (m_level.questionAs.isSound()) {
         if (!mW->sound->isPlayable()) {
             QMessageBox::warning(mW, "",
-                     tr("An exam requires sound but<br>sound output is not available !!!"));
+                     tr("An exam requires sound but<br>sound output is not available!"));
             mW->clearAfterExam();
             if (m_exam) delete m_exam;
             return;
@@ -162,7 +162,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
     {
       if (!mW->sound->isSniffable()) {
             QMessageBox::warning(mW, "",
-                     tr("An exam requires sound input but<br>it is not available !!!"));
+                     tr("An exam requires sound input but<br>it is not available!"));
             mW->clearAfterExam();
             if (m_exam) delete m_exam;
             return;
@@ -178,7 +178,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
       showExamHelp();
     if (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isFret()) {
       if (!m_supp->isGuitarOnlyPossible()) {
-          qDebug("Something stupid !!!\n Level has question and answer as position on guitar but any question is available.");
+          qDebug("Something stupid!\n Level has question and answer as position on guitar but any question is available.");
           mW->clearAfterExam();
           if (m_exam) delete m_exam;
             return;
@@ -308,7 +308,7 @@ void TexamExecutor::askQuestion() {
                 if (m_level.onlyCurrKey) {
                     tmpNote = m_level.loKey.inKey(curQ.qa.note);
                     if (tmpNote == Tnote(0, 0, 0))
-                      qDebug() << "No note from questions list in single key. It should never happened!!" << tmpNote.toText();
+                      qDebug() << "No note from questions list in single key. It should never happened!" << tmpNote.toText();
                 }
             } else { // for multi keys
                 curQ.key = TkeySignature((qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) +
@@ -325,7 +325,7 @@ void TexamExecutor::askQuestion() {
                         patience++;
                         tmpNote = curQ.key.inKey(curQ.qa.note);
                         if (patience >= keyRangeWidth) {
-                            qDebug() << "Oops!! It should never happened. I can not find key signature!!";
+                            qDebug() << "Oops! It should never happened. I can not find key signature!";
                             break;
                         }
                     }
@@ -560,7 +560,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
       if (curQ.questionAs == TQAtype::e_asFretPos) { 
         if (answPos == curQ.qa.pos) { // check has not user got answer the same as question position
           curQ.setMistake(TQAunit::e_wrongPos);
-          qDebug("Cheater!!!");
+          qDebug("Cheater!");
         } else 
           questPos = curQ.qa_2.pos;
       } else
@@ -787,7 +787,7 @@ void TexamExecutor::repeatQuestion() {
 
 
 void TexamExecutor::prepareToExam() {
-    mW->setWindowTitle(tr("EXAM!!") + " " + m_exam->userName() + " - " + m_level.name);
+    mW->setWindowTitle(tr("EXAM!") + " " + m_exam->userName() + " - " + m_level.name);
     mW->setStatusMessage(tr("exam started on level") + ":<br><b>" + m_level.name + "</b>");
 
 //     mW->settingsAct->setDisabled(true);
@@ -968,7 +968,7 @@ void TexamExecutor::stopExamSlot() {
         QColor c = gl->GfingerColor;
         c.setAlpha(30);
         mW->setMessageBg(c);
-        mW->setStatusMessage(tr("Give an answer first!<br>Then the exam'll be finished"), 2000);
+        mW->setStatusMessage(tr("Give an answer first!<br>Then the exam will end."), 2000);
         return;
     }
     mW->examResults->stopExam();
@@ -998,7 +998,7 @@ void TexamExecutor::stopExamSlot() {
 
     mW->setMessageBg(-1);
     mW->setStatusMessage("");
-    mW->setStatusMessage(tr("so a pity"), 5000);
+    mW->setStatusMessage(tr("Such a pity."), 5000);
 
     m_canvas->clearCanvas();
     clearWidgets();
@@ -1032,7 +1032,7 @@ bool TexamExecutor::closeNootka() {
 
 QString TexamExecutor::saveExamToFile() {
       //     
-    QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam's results as:"),
+    QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam results as:"),
                          QDir::toNativeSeparators(gl->E->examsDir + "/" +
                                                   m_exam->userName() + "-" + m_level.name + ".noo"),
                          TstartExamDlg::examFilterTxt(), 0 , QFileDialog::DontUseNativeDialog);
@@ -1134,7 +1134,7 @@ void TexamExecutor::expertAnswersSlot() {
     if (m_snifferLocked) // ignore slot when some dialog window apears
         return;
 //    if (mW->examResults->questionTime() <= 2) { // answer time less than 0.1 s (not human...)
-//         qDebug("answer time too short !!!");
+//         qDebug("answer time too short!");
 //        return;
 //    }
     /** expertAnswersSlot() is invoked also by TaudioIN/TpitchFinder.

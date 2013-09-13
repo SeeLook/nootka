@@ -44,7 +44,7 @@ TexecutorSupply::TexecutorSupply(TexamLevel* level, QObject* parent) :
 //##########################################################################################
 
 void TexecutorSupply::examFinished() {
-    QMessageBox::information(0, "", "<br><center>" + tr("CONGRATULATIONS!<br>You have passed the exam.<br><br>About prizes speak with parents or another sponsors :-)<br>You can still play with it and improve effectivenes.") + "</center><br>");
+    QMessageBox::information(0, "", "<br><center>" + tr("CONGRATULATIONS!<br>You have passed the exam.<br><br>About prizes speak with parents or other sponsors :-)<br>You can still play with it and improve effectiveness.") + "</center><br>");
     setFinished();
 }
 
@@ -55,10 +55,10 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
 			for (int i = 0; i < gl->Gtune()->stringNr(); i++)
         openStr[i] = gl->Gtune()->str(i + 1).getChromaticNrOfNote();
       
-      /** FIXING MISTAKE RELATED WITH A NEW VALIDATIN WAY DURING SAVING NEW LEVEL 
+      /** FIXING MISTAKE RELATED WITH A NEW VALIDATION WAY DURING SAVING NEW LEVEL 
        * When there is no guitar in a level,
        * add to question list only the lowest position sounds. 
-       * In this way question list contains propper number of questions. */
+       * In this way question list contains proper number of questions. */
     if (!m_level->canBeGuitar() && 
         !( m_level->answersAs[TQAtype::e_asNote].isSound() ||
           m_level->answersAs[TQAtype::e_asName].isSound() ||

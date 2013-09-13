@@ -106,7 +106,7 @@ QString wasAnswerOKtext(TQAunit* answer, QColor textColor, int fontSize) {
     else
         txt = QString("<span style=\"color: %1;\">").arg(textColor.name());
     if (answer->isCorrect()) {
-    txt += QApplication::translate("AnswerText", "Correct!, or 'Good!' or 'Good answer!' would be somewhat more specific than merely 'It was good!' 'It' in this case certainly does refer to a specific thing, which is in this case the answer, but it might be momentarily confused with some other specific thing, such as a shoe or a crocodile, or the wind on one's back. I know that's probably confusing, but the implied subject of 'Correct! is in a certain sense much more specific than a mere 'It'' and is more certain to refer to the answer.");
+    txt += QApplication::translate("AnswerText", "Good answer!", "or 'Good!' or 'Correct!' would be somewhat more specific than merely 'It was good!' (previous version) 'It' in this case certainly does refer to a specific thing, which is in this case the answer, but it might be momentarily confused with some other specific thing, such as a shoe or a crocodile, or the wind on one's back. I know that's probably confusing, but the implied subject of 'Correct! is in a certain sense much more specific than a mere 'It' and is more certain to refer to the answer.");
   } else
       if (answer->wrongNote() || answer->wrongPos())
           txt += QApplication::translate("AnswerText", "Wrong answer!");

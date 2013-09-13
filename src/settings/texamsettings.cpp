@@ -36,10 +36,10 @@ TexamSettings::TexamSettings(TexamParams* params, QColor* qColor, QColor* aColor
     m_autoNextChB = new QCheckBox(autoNextQuestTxt(), this);
     lay->addWidget(m_autoNextChB, 0, Qt::AlignCenter);
     m_autoNextChB->setChecked(m_params->autoNextQuest);
-    m_repeatIncorChB = new QCheckBox(tr("repeat a question when an answer was incorrect."), this);
+    m_repeatIncorChB = new QCheckBox(tr("repeat a question when its answer is incorrect"), this);
     lay->addWidget(m_repeatIncorChB, 0, Qt::AlignCenter);
     m_repeatIncorChB->setChecked(m_params->repeatIncorrect);
-    m_repeatIncorChB->setStatusTip(tr("A question with incorrect answer will be asked once again."));
+    m_repeatIncorChB->setStatusTip(tr("A question with an incorrect answer will be asked once again."));
     m_expertAnswChB = new QCheckBox(expertsAnswerTxt(), this);
     m_expertAnswChB->setChecked(m_params->expertsAnswerEnable);
     lay->addWidget(m_expertAnswChB, 0, Qt::AlignCenter);
@@ -48,7 +48,7 @@ TexamSettings::TexamSettings(TexamParams* params, QColor* qColor, QColor* aColor
     m_showHelpChB = new QCheckBox(showHelpWindowTxt(), this);
     m_showHelpChB->setChecked(m_params->showHelpOnStart);
     lay->addWidget(m_showHelpChB, 0, Qt::AlignCenter);
-    m_showHelpChB->setStatusTip(tr("Shows window with help when new exam begins."));
+    m_showHelpChB->setStatusTip(tr("Shows the help window when new exam begins."));
     lay->addStretch(1);
     
     QHBoxLayout *nameLay = new QHBoxLayout();
@@ -73,7 +73,7 @@ TexamSettings::TexamSettings(TexamParams* params, QColor* qColor, QColor* aColor
     m_answColorBut = new TcolorButton(*(m_aColor), this);
     colLay->addWidget(answLab, 1, 0, Qt::AlignRight);
     colLay->addWidget(m_answColorBut, 1, 1, Qt::AlignLeft);
-    QLabel *notBadLab = new QLabel(tr("color of 'not so bad' answers"), this);
+    QLabel *notBadLab = new QLabel(tr("color of 'not bad' answers"), this);
     m_notBadButt = new TcolorButton(*(m_nbColor), this);
     colLay->addWidget(notBadLab, 2, 0, Qt::AlignRight);
     colLay->addWidget(m_notBadButt, 2, 1, Qt::AlignLeft);

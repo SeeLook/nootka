@@ -51,7 +51,7 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
     m_skipButt = new QPushButton(tr("skip wizard"), this);
     buttLay->addWidget(m_skipButt);
     buttLay->addStretch(2);
-    m_prevButt = new QPushButton(tr("prev"), this);
+    m_prevButt = new QPushButton(tr("previous"), this);
     m_prevButt->setDisabled(true);
     buttLay->addWidget(m_prevButt);
     m_nextButt = new QPushButton(nextText(), this);
@@ -188,10 +188,10 @@ void TfirstRunWizzard::whenInstrumentChanged(int instr) {
 		if ((Einstrument)instr == e_bassGuitar)
 				m_notationNote->setHtml(QString("<center>%1<br>").
 				arg(TtipChart::wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F, TkeySignature(0), 5.0)) +
-				tr("To write notes for bass guitar the <b>bass clef</b> is used but played notes sound octave down. The proper clef is <b>bass dropped clef</b> (with \"eight\" digit below) where notes sound exactly as written and this clef is used in Nootka for bass guitar.") +
+				tr("When writing notation for bass guitar, the <b>bass clef</b> is used but the played notes sound an octave lower. The proper clef is <b>bass dropped clef</b> (with the digit \"eight\" written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.") +
 					"<br><br>" + TtipChart::wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F_8down, TkeySignature(0), 8.0));
 		else
-				m_notationNote->setHtml("<br><br><center>" + tr("Guitar notation uses treble clef with \"eight\" digit below (even if some editors are forgetting about this digit).<br><br>Try to understand this. <br><br><p> %1 %2<br><span style=\"font-size:20px;\">Both pictures above show the same note: c<sup>1</sup></span><br>(note c in one-line octave)</p>").
+				m_notationNote->setHtml("<br><br><center>" + tr("Guitar notation uses the treble clef with the digit \"eight\" written below (even if some editors are forgetting about this digit).<br><br>Try to understand this. <br><br><p> %1 %2<br><span style=\"font-size:20px;\">Both pictures above show the same note: c<sup>1</sup></span><br>(note c in one-line octave)</p>").
 				arg(TtipChart::wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G, TkeySignature(0), 6.0)).
 				arg(TtipChart::wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G_8down, TkeySignature(0), 6.0)) + "</center>");
 }

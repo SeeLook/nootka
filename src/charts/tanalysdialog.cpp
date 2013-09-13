@@ -120,7 +120,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
             arg("<a href=\"charts\"> " + pixToHtml(gl->path + "picts/nootka-exam.png", 38) + " </a>") + "<br>" +
             tr("Use %1 + mouse wheel or %2 buttons to zoom a chart.").
             arg(modKey).arg(pixToHtml(gl->path + "picts/zoom-in.png", 26) + " " + pixToHtml(gl->path + "picts/zoom-out.png", 26)) + "<br>" +
-            tr("Drag a cursor to move the chart.") + "<br>";
+            tr("Click and Drag the cursor to move the chart.") + "<br>";
     TgraphicsTextTip *helpTip = new TgraphicsTextTip(helpTipText, gl->EanswerColor);
       m_chart->scene->addItem(helpTip);
       helpTip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
@@ -152,7 +152,7 @@ void TanalysDialog::setExam(Texam* exam) {
   m_exam = exam;
   m_userLab->setText("<b>" + m_exam->userName() + "</b>");
   m_levelLab->setText("<b>" + m_exam->level()->name + "</b>");
-  m_questNrLab->setText(tr("Questions number") + QString(": <b>%1</b>").arg(exam->count()) );
+  m_questNrLab->setText(tr("Question number") + QString(": <b>%1</b>").arg(exam->count()) );
   m_effectLab->setText(TexamView::effectTxt() + QString(": <b>%1%</b>")
                        .arg(m_exam->effectiveness(), 0, 'f', 1, '0') );
   m_moreButton->setDisabled(false);

@@ -32,7 +32,7 @@ class TaudioParams;
 class TaudioOUT : public TabstractPlayer, public TrtAudioAbstract
 {
   Q_OBJECT
-  
+   
 public:
     TaudioOUT(TaudioParams *_params, QString &path, QObject *parent = 0);
     virtual ~TaudioOUT();
@@ -58,18 +58,20 @@ private slots:
   void stopSlot();
     
 private:
-//   void deleteAudio();
+  void deleteAudio();
   static int outCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime,
                          RtAudioStreamStatus status, void *userData);
 
       /** Number of performed samples. */
-  static int m_samplesCnt, m_prevSamplesCnt;
+  static int m_samplesCnt;
       /** Duration of a sound counted in callBack loops */
   static int m_maxCBloops;
       /** Size of a buffer */
   static unsigned int m_bufferFrames;
+	static qint16 *m_crossBuffer; // buffer with data of part of previous note to fade out
 	static bool m_doCrossFade;
-	static float m_cross; /** Current value of crossing factor */
+	static float m_cross; // current 'strength' of fading effect
+
 
 };
 

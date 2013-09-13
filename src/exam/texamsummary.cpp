@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -41,11 +41,9 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
   //-------  left layout -----------------------
     QVBoxLayout *leftLay = new QVBoxLayout();
     QString font20 = "<b style=\"font-size: 20px\">";
-//     QLabel *studentLab = new QLabel(tr("student:"), this);
-//     leftLay->addWidget(studentLab);
     QLabel *userNameLab = new QLabel(tr("student:") + QString("  %2<u>%1</u></b>").arg(exam->userName()).arg(font20), this);
     leftLay->addWidget(userNameLab, 0, Qt::AlignCenter);
-    QLabel *questNrLab = new QLabel("<center>" + tr("Questions number:") + QString("%2  %1</b>").arg(exam->count()).arg(font20) +
+    QLabel *questNrLab = new QLabel("<center>" + tr("Number of questions:") + QString("%2  %1</b>").arg(exam->count()).arg(font20) +
                       QString("<br>%1: %2%3</b>").arg(TexamView::corrAnswersNrTxt()).arg(font20).
                           arg(exam->count() - exam->mistakes() - exam->halfMistaken()) +
                       QString("<br>%1: %2%3</b>").arg(TexamView::mistakesNrTxt()).arg(font20).arg(exam->mistakes()) +
@@ -128,7 +126,7 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
     if (wOctave)
       effStr += row2(tr("Wrong octaves"), QString("%1 (").arg(wOctave) + QString::number(qRound(wOctave*100.0 /wTotal)) + "%)");
     if (wStyle)
-      effStr += row2(tr("Wrong note name-calling"), QString("%1 (").arg(wStyle)) + 
+      effStr += row2(tr("Wrong note names"), QString("%1 (").arg(wStyle)) + 
           QString::number(qRound(wStyle*100.0 /wTotal)) + "%)";
     if (wPos)
       effStr += row2(tr("Wrong positions on guitar"), QString("%1 (").arg(wPos) + QString::number(qRound(wPos*100.0 / wTotal)) + "%)");

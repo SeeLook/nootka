@@ -87,16 +87,14 @@ ToggScale::ToggScale(QString& path) :
   QObject(),
   m_oggPath(path + "/sounds/"),
   m_oggInMemory(0),
-  m_currentPCM(0), m_prevPCM(0),
-  m_1_buffer(0), m_2_buffer(0),
+  m_pcmBuffer(0),
   m_thread(new QThread),
   m_sampleRate(44100),
   m_prevNote(-10000),
   m_doDecode(true), m_isDecoding(false), m_isReady(true),
   m_pitchOffset(0.0f), m_innerOffset(0.0),
   m_oggConnected(false), m_touchConnected(false),
-  m_instrument(-1),
-  m_areNotesTheSame(false)
+  m_instrument(-1)
 {
 	m_touch = new soundtouch::SoundTouch();
 	m_touch->setChannels(1);
@@ -123,37 +121,22 @@ void ToggScale::deleteData() {
     delete m_oggInMemory;
     m_oggInMemory = 0;
   }
-  delete m_1_buffer;
-  m_1_buffer = 0;
-	delete m_2_buffer;
-	m_2_buffer = 0;
+  delete m_pcmBuffer;
+  m_pcmBuffer = 0;
   delete m_touch;
   m_thread->deleteLater();
 }
 
 
 qint16 ToggScale::getSample(int offset) {
-    return m_currentPCM[offset];
+    return m_pcmBuffer[offset];
 }
 
-
-qint16 ToggScale::getSampleOfPrev(int offset) {
-		return m_prevPCM[offset];
-}
 
 
 void ToggScale::setNote(int noteNr) {
-  if (noteNr == m_prevNote) {
-			m_areNotesTheSame = true;
-			m_prevPCM = m_currentPCM; // getSample() and getSampleOfPrev() will return the same data
-			return;
-	} else { // restore pointer of m_prevPCM to another buffer than m_currentPCM
-			m_areNotesTheSame = false;
-			if (/*m_prevNote != -10000 && */m_currentPCM == m_1_buffer)
-				m_prevPCM = m_2_buffer;
-			else // when first time (-10000) also
-				m_prevPCM = m_1_buffer;
-	}
+  if (noteNr == m_prevNote)
+    return;
 	int baseNote = noteNr;
   m_isReady = false;
 	if (noteNr < m_firstNote || noteNr > m_lastNote) { // prepare SoundTouch
@@ -174,19 +157,6 @@ void ToggScale::setNote(int noteNr) {
   m_prevNote = noteNr;
 	int ret = ov_pcm_seek(&m_ogg, (baseNote - m_firstNote) * 44100 * 2 - fasterOffset);
   m_thread->start();
-}
-
-
-void ToggScale::switchToNextNote() {
-	if (m_areNotesTheSame)
-			return; // everything is ready
-	if (m_currentPCM == m_1_buffer) {
-			m_currentPCM = m_2_buffer;
-			m_prevPCM = m_1_buffer;
-	} else {
-			m_currentPCM = m_1_buffer;
-			m_prevPCM = m_2_buffer;
-	}
 }
 
 
@@ -245,14 +215,9 @@ bool ToggScale::loadAudioData(int instrument) {
   
   oggFile.close();
 	
-	if (m_1_buffer)
-			delete m_1_buffer;
-	if (m_2_buffer)
-		  delete m_2_buffer;
-	m_1_buffer = new qint16[2 * m_sampleRate];
-	m_2_buffer = new qint16[2 * m_sampleRate];
-  m_currentPCM = m_1_buffer;
-	m_prevPCM = m_currentPCM;
+	if (m_pcmBuffer)
+			delete m_pcmBuffer;
+  m_pcmBuffer = new qint16[2 * m_sampleRate];
   myCallBacks.read_func = readOggStatic;
   myCallBacks.seek_func = seekOggStatic;
   myCallBacks.close_func = closeOggStatic;
@@ -302,9 +267,8 @@ void ToggScale::decodeOgg() {
   int maxSize = 44100 * 4 - 4096; // 2 for two seconds of note * 2 for two bytes of sample - silence at the end of note
   int loops = 0;
   long int pos = 0;
-	qint16 *buffer = m_prevPCM;
   while (m_doDecode && loops < 500 && pos < maxSize) {
-    read = ov_read(&m_ogg, (char*)buffer + pos, maxSize - pos, 0, 2, 1, &bitStream);
+    read = ov_read(&m_ogg, (char*)m_pcmBuffer + pos, maxSize - pos, 0, 2, 1, &bitStream);
     pos += read;
     if (pos > 8192) // amount of data needed by single loop of rtAudio outCallBack
       m_isReady = true;
@@ -327,7 +291,6 @@ void ToggScale::decodeAndResample() {
   float **oggChannels;
   float *left ;
   float *tmpTouch = new float[8192];
-	qint16 *buffer = m_prevPCM;
   
   while (m_doDecode && pos < maxSize) {
     /// 1. Grab audio data from ogg
@@ -343,7 +306,7 @@ void ToggScale::decodeAndResample() {
     if (samplesReady > 0) { /// 3. Get resampled/offseted data from SoundTouch
       read = m_touch->receiveSamples((SAMPLETYPE*)tmpTouch, samplesReady);      
       for (int i = 0; i < read; i++) /// 4. Convert samples to 16bit integer
-          *(buffer + pos + i) = qint16(*(tmpTouch + i) * 32768);
+          *(m_pcmBuffer + pos + i) = qint16(*(tmpTouch + i) * 32768);
       pos += read;
     }
     if (pos > 10000) // below this value SoundTouch is not able to prepare data

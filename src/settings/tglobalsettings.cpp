@@ -33,12 +33,12 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
 {
     QVBoxLayout *lay = new QVBoxLayout();
     lay->setAlignment(Qt::AlignCenter);
-    m_otherEnharmChBox = new QCheckBox(tr("show other enharmonics variants of a note"),this);
-    m_otherEnharmChBox->setStatusTip(tr("Shows enharmonical variants of a note.<br>F.e.: E note is also Fb (F flat) and Dx (D with double sharp)."));
+    m_otherEnharmChBox = new QCheckBox(tr("show enharmonic variants of notes"),this);
+    m_otherEnharmChBox->setStatusTip(tr("Shows enharmonic variants of notes.<br>i.e.: the note E is also Fb (F flat) <i>and</i> Dx (D with double sharp)."));
     m_otherEnharmChBox->setChecked(gl->showEnharmNotes);
 		lay->addWidget(m_otherEnharmChBox);
 		QHBoxLayout *colorLay = new QHBoxLayout;
-		QLabel *colorLab = new QLabel(tr("color of enharminic notes/names"), this);
+		QLabel *colorLab = new QLabel(tr("color of enharmonic notes"), this);
 		m_enharmColorBut = new TcolorButton(gl->enharmNotesColor, this);
 		colorLay->addStretch(1);
 		colorLay->addWidget(colorLab);
@@ -54,18 +54,18 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
     lay->addStretch(1);
     m_hintsEnabledChBox = new QCheckBox(tr("show hints"), this);
     m_hintsEnabledChBox->setChecked(gl->hintsEnabled);
-    m_hintsEnabledChBox->setStatusTip(tr("Show descriptions of interface's elements."));
+    m_hintsEnabledChBox->setStatusTip(tr("Show descriptions of the interface's elements."));
     lay->addWidget(m_hintsEnabledChBox);
     lay->addStretch(1);
 		QHBoxLayout *langLay = new QHBoxLayout;
 		langLay->addStretch(1);
-		QLabel *langLab = new QLabel(tr("Application's language"), this);
+		QLabel *langLab = new QLabel(tr("Application language"), this);
 		langLay->addWidget(langLab);
 		langLay->addStretch(1);
 		m_langCombo = new QComboBox(this);
 		langLay->addWidget(m_langCombo);
 		langLay->addStretch(1);
-		m_langCombo->setStatusTip(tr("Select a language.<br><span style=\"color: red;\">It requires restart of application !!</span>"));
+		m_langCombo->setStatusTip(tr("Select a language.<br><span style=\"color: red;\">To take effect, this requires restarting the application!</span>"));
 		m_langList[""] = tr("default");
 		m_langList["cs"] = QString::fromUtf8("český");
 		m_langList["en"] = "english";
@@ -100,7 +100,7 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
 			updateBox->hide();
 		
 		lay->addStretch(1);
-		m_restAllDefaultsBut = new QPushButton(tr("Restore all defaults settings"), this);
+		m_restAllDefaultsBut = new QPushButton(tr("Restore all default settings"), this);
 		m_restAllDefaultsBut->setStatusTip(warringResetConfigTxt());
 		lay->addWidget(m_restAllDefaultsBut, 0 , Qt::AlignCenter);
 		
