@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -37,11 +37,11 @@ class TexamView : public QWidget
 public:
     explicit TexamView(QWidget *parent = 0);
     
-    static const QString averAnsverTimeTxt() { return tr("Average time of an answer"); } // Average time of an answer
+    static const QString averAnsverTimeTxt() { return tr("Average time taken to answer"); } // Average time taken to answer
     static const QString inSecondsTxt() { return tr("[in seconds]"); } // [in seconds]
-    static const QString reactTimeTxt() { return tr("Time of an answer"); } // Time of an answer
+    static const QString reactTimeTxt() { return tr("Time for an answer"); } // Time for an answer
     static const QString mistakesNrTxt() { return tr("Number of mistakes"); } // Number of mistakes
-    static const QString totalTimetxt() { return tr("Total time of an exam"); } // Total time of an exam
+    static const QString totalTimetxt() { return tr("Total time of exam"); } // Total time of exam
     static const QString corrAnswersNrTxt() { return tr("Number of correct answers"); } // Number of correct answers
     static const QString effectTxt() { return tr("Effectiveness"); } // Effectiveness
     static const QString halfMistakenTxt(); // Number of not so bad answers

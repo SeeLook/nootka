@@ -236,13 +236,13 @@ Tabout::Tabout(QWidget *parent) :
     QVBoxLayout *lay = new QVBoxLayout;
     TnootkaLabel *nootkaLab = new TnootkaLabel(gl->path + "picts/logo.png", this, palette().highlight().color());
     lay->addWidget(nootkaLab);
-    QString info = tr("Welcome on the board.<br> Nootka is open source application to help you learning (and teaching also) classical score notation.<br>It is specially dedicated for guitarists but others can find many usable features as well.");
-    QString betaInfo = tr("This is beta version and can contain bugs or behave in unexpected way, also it has unfinished features.<br>Inspite of that you are welcome to try it!");
-    QString moreInfo = tr("See a <a href=\"http://nootka.sourceforge.net\">program site</a> for more details and further releases.</p><p>Any bugs, sugestions, translations and so on, report to: <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><p/><p>with respects<br>Author");
+    QString info = tr("Welcome on board.<br>Nootka is an open source application to help you in learning (and in teaching) classical score notation.<br>It is specially designed for guitarists but others will find many usable features as well.");
+    QString betaInfo = tr("This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.<br>In spite of that, you are welcome to try it!");
+    QString moreInfo = tr("See a <a href=\"http://nootka.sourceforge.net\">program site</a> for more details and further releases.</p><p>Any bugs, suggestions, translations and so on, report to: <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><p/><p>with respects<br>Author");
 //    betaInfo = ""; // comment it to show info in beta releases
     m_aboutLab = new QLabel("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>Nootka " + gl->version + "</b></p></center><p><br>" + info + "</p><p>" + betaInfo + "</p><p>" + moreInfo + "</p><br>"
 #if defined(Q_OS_WIN32)
-	  + tr("<br>To support project and also to avoid infection of your PC<br><b>PLEASE, use project site to download updates, new releases and to see news.</b>")
+	  + tr("<br>To support this project and also to avoid infection of your PC<br><b>PLEASE, use the official project site to download updates, new releases and to see news.</b>")
 #endif
 							, this);
     m_aboutLab->setWordWrap(true);

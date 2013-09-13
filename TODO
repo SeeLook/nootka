@@ -1,6 +1,12 @@
 Plan for the Nootka One
 
+to luster: 
+			student's name: - is it OK
+			Show descriptions of the interface's elements. ??? (no ')
+
 - change background of some labels (strings freq) in audio in settings
+- add example to 7th note widget
+- level preview can be in QTextEdit widget
 - under windows guitar head glyph doesn't appear in guitar settings.
 - check is kind of instrument stored in exam file properly and appears in level preview
 - there is some bug: QList claims... 

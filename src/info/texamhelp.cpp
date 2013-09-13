@@ -44,10 +44,10 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt,
     "<style type=\"text/css\">img { border-style: solid; border-color: palette(text); border-width: 2px; background-color: palette(window); }</style>" +
     toGetQuestTxt() + ":<br>- " + clickSomeButtonTxt(pixToHtml(path + "picts/nextQuest.png", PIXICONSIZE)) + "<br>- " +
     pressSpaceKey() + "<br>- " + orRightButtTxt() + "<br>" + 
-    tr("Select 2-nd check box to get the question automatically.") + 
+    tr("Select 2nd check box to get the question automatically.") + 
     QString("<br><br><span style=\"%1\">").arg(questColorTxt) +
     tr("Questions are marked with this color and \"?\" mark.") + "</span><br>" + 
-    tr("To give an answer, select it on <span style=\"%1\">Nootka's element pointed with that color.</span><br>")
+    tr("To give an answer, select it on <span style=\"%1\">Nootka's element with that color.</span><br>")
       .arg(answColorTxt) +
     QString("<br><br><img src=\"%1\"><br><br>").arg(path+"picts/scr.png") +
     tr("To check the answer confirm it:") + "<br>- " + 
@@ -55,14 +55,14 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt,
     pressEnterKey() + "<br>- " + orRightButtTxt() + "<br><br>" +
     tr("If you made a mistake and you want to repeat the question:") + "<br>- " + 
     clickSomeButtonTxt(pixToHtml(path+"picts/prevQuest.png", PIXICONSIZE)) + "<br>- " + orPressBkSTxt() + "<br>" +
-    tr("By selecting 3-rd check box, the answers will be checking immediately without confirmation.") + "<br><br>" +
+    tr("By selecting the 3rd check box, answers will be checked immediately without confirmation required.") + "<br><br>" +
     toStopExamTxt(pixToHtml(path + "picts/stopExam.png", PIXICONSIZE)) + "<br><br>" + 
-    tr("Exam will be complete when you give answers on all questions.<br>Their number depends on a level of the exam.") + "<br>" +
-    tr("If you made mistake, such a questions will asked two times more and the total number of questions will be increased. Those are penalties questions.") + "<br>" +
-    tr("When answer is 'not so bad', you get one penalty more.") +
+    tr("Exam will be complete when you give answers to all questions.<br>The number of questions depends on the level of the exam.") + "<br>" +
+    tr("If you make a mistake, the question will asked two more times and the total number of questions will be increased. These are penalty questions.") + "<br>" +
+    tr("When answer is 'not bad', you get one penalty more.") +
     "<br><br><span style=\"font-size: 20px;\"><b>" +
     tr("GOOD LUCK!") + "</b></span>" + "<br><hr><table><tr><th colspan=2>" +
-    tr("Experts' corner") + "</th></tr><tr><td rowspan=3>" +
+    tr("Experts corner") + "</th></tr><tr><td rowspan=3>" +
     QString("<img style=\"background-color: transparent;\" src=\"%1\">").arg(path+"picts/expertCorner.png") +
     "</td><td><br>1. " + tr("show or hide the hints") + "</td></tr><tr><td><br>2. " + 
     TexamSettings::autoNextQuestTxt() + "</td></tr><tr><td><br>3. " + 

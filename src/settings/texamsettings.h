@@ -40,7 +40,7 @@ public:
   explicit TexamSettings(TexamParams *params, QColor *qColor, QColor *aColor, QColor *nbColor, QWidget *parent = 0);
 
   static QString autoNextQuestTxt() { return tr("ask next question automatically"); }
-  static QString expertsAnswerTxt() { return tr("check answers without confirm"); }
+  static QString expertsAnswerTxt() { return tr("check answers without requiring confirmation"); }
   static QString showHelpWindowTxt() { return tr("show help when exam starts"); }
 
   void saveSettings();

@@ -25,16 +25,16 @@ Select7note::Select7note(QWidget *parent) :
     QWidget(parent)
 {
     QVBoxLayout *lay = new QVBoxLayout;
-    QGroupBox *bGr = new QGroupBox(tr("7-th note is:"),this);
+    QGroupBox *bGr = new QGroupBox(tr("7th note is:"),this);
     QVBoxLayout *bLay = new QVBoxLayout;
     bLay->setAlignment(Qt::AlignCenter);
     QButtonGroup *bButtGr = new QButtonGroup(this);
     isBRadio = new QRadioButton("B",this);
-    isBRadio->setStatusTip(tr("7-th note is <b>B</b> and with flat is <b>Bb</b> or bes or <b>bs</b>"));
+    isBRadio->setStatusTip(tr("7th note is <b>B</b> and with flat is <b>Bb</b> or bes or <b>bs</b>"));
     bLay->addWidget(isBRadio);
     bButtGr->addButton(isBRadio);
     isHRadio = new QRadioButton("H",this);
-    isHRadio->setStatusTip(tr("7-th note is <b>H</b> and with flat is <b>Hb</b> or <b>B</b>"));
+    isHRadio->setStatusTip(tr("7th note is <b>H</b> and with flat is <b>Hb</b> or <b>B</b>"));
     bLay->addWidget(isHRadio);
     bLay->addStretch(1);
     bButtGr->addButton(isHRadio);
