@@ -67,6 +67,8 @@ TaudioOUT* TaudioOUT::instance = 0;
 qint16* TaudioOUT::m_crossBuffer = 0;
 bool TaudioOUT::m_doCrossFade = false;
 float TaudioOUT::m_cross = 0.0f;
+int m_crossCount = 0; // counts samples of crossing buffer
+bool m_callBackIsBussy = false;
 
 
 int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames, double streamTime, 
@@ -74,11 +76,13 @@ int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBuffer
   Q_UNUSED(inBuffer)
   Q_UNUSED(streamTime)
   Q_UNUSED(userData)
+	m_callBackIsBussy = true;
   if ( status )
-    qDebug() << "Stream underflow detected!";
+			qDebug() << "Stream underflow detected!";
 	if (m_doCrossFade) { // Cross-fading avoids cracking during transition of notes.
 			m_doCrossFade = false;
 			m_cross = 1.0f;
+			m_crossCount = 0;
 	}
   m_samplesCnt++;
   if (m_samplesCnt < m_maxCBloops - 10) {
@@ -86,22 +90,25 @@ int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBuffer
       int off = m_samplesCnt * (nBufferFrames / instance->ratioOfRate);
       qint16 sample;
       for (int i = 0; i < nBufferFrames / instance->ratioOfRate; i++) {
-				if (m_cross > 0.0 && i < 1000) { // mix current and previous samples when cross-fading
+				if (m_cross > 0.0 && m_crossCount < 1000) { // mix current and previous samples when cross-fading
 							sample =  (qint16)qRound((1.0 - m_cross) * (float)instance->oggScale->getSample(off + i) + 
-											m_cross * (float)m_crossBuffer[i]);
+											m_cross * (float)m_crossBuffer[m_crossCount]);
 							m_cross -= CROSS_STEP;
-					} else {
+							m_crossCount++;
+				} else {
 							sample = instance->oggScale->getSample(off + i);
-					}
-          for (int r = 0; r < instance->ratioOfRate; r++) {
-              *out++ = sample; // left channel
-              *out++ = sample; // right channel
-          }
+				}
+				for (int r = 0; r < instance->ratioOfRate; r++) {
+						*out++ = sample; // left channel
+						*out++ = sample; // right channel
+				}
       }
+      m_callBackIsBussy = false;
       return 0;
-  } 
-  else
+  } else {
+			m_callBackIsBussy = false;
       return 1;
+	}			
 }
 /*end static*/
 
@@ -223,6 +230,11 @@ bool TaudioOUT::play(int noteNr) {
   if (!playable)
       return false;
   
+	if (m_callBackIsBussy) {
+		  SLEEP(1);
+			qDebug() << "Oops! Call back method is in progress when a new note wants to be played!";
+	}
+	
   if (offTimer->isActive()) {
       offTimer->stop();
 			int off = (m_samplesCnt + 1) * (m_bufferFrames / ratioOfRate); // next chunk of plaing sound

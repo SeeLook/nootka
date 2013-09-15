@@ -39,9 +39,9 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     mainLay->setAlignment(Qt::AlignCenter);
 
     QHBoxLayout *upLay = new QHBoxLayout;
-    m_tuneGroup = new QGroupBox(tr("tune of the guitar"));
-    m_tuneGroup->setStatusTip(tr("Select appropirate tune from the list or prepare your own.") + "<br>" + 
-				tr("Remember to select appropirate clef in Score settings."));
+    m_tuneGroup = new QGroupBox(tr("tuning of the guitar"));
+    m_tuneGroup->setStatusTip(tr("Select appropriate tuning from the list or prepare your own.") + "<br>" + 
+				tr("Remember to select the appropriate clef in Score settings."));
     QVBoxLayout *tuneLay = new QVBoxLayout;
     tuneLay->setAlignment(Qt::AlignCenter);
     m_tuneCombo = new QComboBox(this);
@@ -69,33 +69,31 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 		m_instrumentTypeCombo->model()->setData(in, v, Qt::UserRole - 1);
 		m_instrumentTypeCombo->addItem(instrumentToText(e_classicalGuitar));
 		m_instrumentTypeCombo->addItem(instrumentToText(e_electricGuitar));
-// 		in = m_instrumentTypeCombo->model()->index(2, 0);
-// // 		QVariant v(0);
-// 		m_instrumentTypeCombo->model()->setData(in, v, Qt::UserRole - 1);
 		m_instrumentTypeCombo->addItem(instrumentToText(e_bassGuitar));
 		guitarLay->addStretch(1);
-	// Righthanded/lefthanded check box
-    m_righthandCh = new QCheckBox(tr("guitar for right-handed"),this);
+	// Right-handed/left-handed check box
+    m_righthandCh = new QCheckBox(tr("guitar strung for\n right-handed players", "Please, add \n only when a translation has got more than 3-4 words."), this);
     m_righthandCh->setChecked(gl->GisRightHanded);
-    m_righthandCh->setStatusTip(tr("Uncheck this if you are lefthanded<br>and your gitar has changed strings' order"));
+    m_righthandCh->setStatusTip(tr("Uncheck this if you are left-handed<br>and your guitar is strung for left-handed playing (changed string order)"));
     guitarLay->addWidget(m_righthandCh);
     guitarLay->addStretch(1);
 	// Number of frets
-    m_fretNrLab = new QLabel(tr("number of frets:"),this);
-    guitarLay->addWidget(m_fretNrLab);
+    m_fretNrLab = new QLabel(tr("number of frets:"), this);
+    guitarLay->addWidget(m_fretNrLab, 1, Qt::AlignCenter);
     m_fretsNrSpin = new QSpinBox(this);
-//     m_fretsNrSpin->setValue(gl->GfretsNumber);
     m_fretsNrSpin->setMaximum(24);
     m_fretsNrSpin->setMinimum(15);
-    guitarLay->addWidget(m_fretsNrSpin);
+		m_fretsNrSpin->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    guitarLay->addWidget(m_fretsNrSpin, 1, Qt::AlignCenter);
     guitarLay->addStretch(1);
 	// Number of strings
 		m_stringNrLab = new QLabel(tr("number of strings:"), this);
-		guitarLay->addWidget(m_stringNrLab);
+		guitarLay->addWidget(m_stringNrLab, 1, Qt::AlignCenter);
 		m_stringNrSpin = new QSpinBox(this);
 		m_stringNrSpin->setMaximum(6);
 		m_stringNrSpin->setMinimum(3);
-		guitarLay->addWidget(m_stringNrSpin);
+		m_stringNrSpin->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+		guitarLay->addWidget(m_stringNrSpin, 1, Qt::AlignCenter);
 		guitarLay->addStretch(1);
     upLay->addSpacing(3);
     m_guitarGroup->setLayout(guitarLay);
@@ -105,7 +103,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 
     QHBoxLayout *downLay = new QHBoxLayout;
     QVBoxLayout *prefLay = new QVBoxLayout;
-    m_accidGroup = new QGroupBox(tr("prefered accidentals:"),this);
+    m_accidGroup = new QGroupBox(tr("preferred accidentals:"),this);
     m_accidGroup->setStatusTip(tr("Choose which accidentals will be shown in the score."));
     m_prefSharpBut = new QRadioButton(tr("# - sharps"),this);
     m_prefFlatBut = new  QRadioButton(tr("b - flats"),this);
@@ -121,7 +119,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     downLay->addWidget(m_accidGroup);
 
     m_morePosCh = new QCheckBox(tr("show all possibilities of a note"),this);
-    m_morePosCh->setStatusTip(tr("As you know, the same note can be played in few places on a fingerboard.<br>If checked, all of them are showed."));
+    m_morePosCh->setStatusTip(tr("As you know, the same note can be played in several places on the fingerboard.<br>If checked, all of them will be shown."));
     downLay->addWidget(m_morePosCh);
     m_morePosCh->setChecked(gl->GshowOtherPos);
 
@@ -169,7 +167,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 							}
 					}
 				}
-				QString S = tr("Custom tune");
+				QString S = tr("Custom tuning");
 				if (gl->Gtune()->name == S)
 						m_tuneCombo->setCurrentIndex(m_tuneCombo->count() - 1);
 		}

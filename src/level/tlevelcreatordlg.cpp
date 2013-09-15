@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -68,7 +68,7 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
     navList->setCurrentRow(0);
     cancelBut->setText(tr("Close"));
     okBut->setText(tr("Check"));
-    okBut->setStatusTip(tr("Check, Are your settings of the level possible to perform."));
+    okBut->setStatusTip(tr("Check, Are your settings for the level possible to perform."));
     disconnect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
     connect(okBut, SIGNAL(clicked()), this, SLOT(checkLevelSlot()));
 
@@ -184,7 +184,7 @@ QString TlevelCreatorDlg::validateLevel(TexamLevel &l) {
     QString res = "";
   // Check has a level sense - are there an questions and answers
     if (!l.canBeScore() && ! l.canBeName() && !l.canBeGuitar() && !l.canBeSound()) {
-        res = tr("There are not any questions nor answers selected.<br>Level has no sense");
+        res = tr("There aren't any questions or answers selected.<br>Level makes no sense.");
         return res;
     }      
   // checking range
@@ -202,7 +202,7 @@ QString TlevelCreatorDlg::validateLevel(TexamLevel &l) {
       loAvailStr = gl->strOrder(cnt);
       if (l.loNote.getChromaticNrOfNote() > gl->Gtune()->str(hiAvailStr + 1).getChromaticNrOfNote() + l.hiFret ||
           l.hiNote.getChromaticNrOfNote() < gl->Gtune()->str(loAvailStr + 1).getChromaticNrOfNote() + l.loFret)
-          res += tr("<li>Range of frets is beyond scale of this level</li>");
+          res += tr("<li>Range of frets is beyond the scale of this level</li>");
     }
   // checking are accidentals needed because of hi and low notes in range
     char acc = 0;
@@ -210,20 +210,20 @@ QString TlevelCreatorDlg::validateLevel(TexamLevel &l) {
     if (l.hiNote.acidental) acc = l.hiNote.acidental;
     if (acc)   {
         if ( (acc == 1 && !l.withSharps) || (acc == -1 && !l.withFlats))
-            res += tr("<li>In range of notes some accidental is used<br>but not available in this level</li>");
+            res += tr("<li>In range of notes some accidentals are used<br>but not available in this level</li>");
     }
   // Check is possible of using naming style
     if (l.requireStyle && !l.canBeName())
-        res += tr("<li>Naming styles was checked but neither question nor answers as note name are checked.<br>Check some or uncheck naming styles.</li>");
+        res += tr("<li>'Use different naming styles' was checked but neither questions nor answers as note name are checked.<br>Check this type of answer/question or uncheck 'Use different naming styles'.</li>");
   // Check are questions and answers as note in the score have sense (are different)
     if (l.questionAs.isNote() && l.answersAs[TQAtype::e_asNote].isNote())
       if (!l.manualKey && !l.forceAccids)
-        res += tr("<li>Questions and answers as note in the score will be the same. Manual selecting keys or forcing accidentals has to be selected to avoid that.</li>");
+        res += tr("<li>Questions and answers as notes in the score will be the same. Manually selecting keys or forcing accidentals has to be selected to avoid that.</li>");
   // Check is possible of manualKey
     if (l.useKeySign && l.manualKey)
       if (!l.answersAs[TQAtype::e_asNote].isNote() && !l.answersAs[TQAtype::e_asName].isNote() &&
         !l.answersAs[TQAtype::e_asFretPos].isNote() && !l.answersAs[TQAtype::e_asSound].isNote() )
-          res += tr("<li>Manual selecting of a key signature was checked but any answer as note in the score was not checked.</li>");
+          res += tr("<li>Manual selecting of a key signature was checked but answer as note in the score was not checked.</li>");
   // Resume warnings
     if (res != "") {
         res.prepend("<ul>");
@@ -262,7 +262,7 @@ void TlevelCreatorDlg::checkLevelSlot() {
 void TlevelCreatorDlg::showValidationMessage(QString message) {
       if (message != "") {
         if (message.contains("</li>")) { // when <li> exist - warring
-          message.prepend(tr("<center><b>It seems the level has got some mistakes:</b>"));
+          message.prepend(tr("<center><b>It seems the level has some mistakes:</b>"));
           QMessageBox::warning(this, "", message); 
         }
         else { // no questions nor answers

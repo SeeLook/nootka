@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk  				                   *
+ *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -25,21 +25,20 @@ TlevelHeaderWdg::TlevelHeaderWdg(QWidget *parent) :
 {
     setWindowFlags(Qt::CustomizeWindowHint | Qt::Dialog);
     QVBoxLayout *mainLay = new QVBoxLayout;
-    QLabel *nameLab = new QLabel(tr("Level's name:"),this);
+    QLabel *nameLab = new QLabel(tr("Level name:"), this);
     mainLay->addWidget(nameLab);
     nameEd = new QLineEdit(this);
     nameEd->setMaxLength(20);
     nameEd->setText(tr("new level"));
     mainLay->addWidget(nameEd);
-    QLabel *descLab = new QLabel(tr("Level's description:"),this);
+    QLabel *descLab = new QLabel(tr("Level description:"), this);
     mainLay->addWidget(descLab);
     descEd = new QTextEdit(this);
-//    descEd->setAcceptRichText(false);
     descEd->setFixedHeight(70);
     descEd->setLineWrapMode(QTextEdit::FixedColumnWidth);
     descEd->setLineWrapColumnOrWidth(35);
     mainLay->addWidget(descEd);
-    okBut = new QPushButton(tr("OK"),this);
+    okBut = new QPushButton(tr("OK"), this);
     mainLay->addWidget(okBut,1,Qt::AlignCenter);
 
     setLayout(mainLay);

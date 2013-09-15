@@ -3,10 +3,20 @@ Plan for the Nootka One
 to luster: 
 			student's name: - is it OK
 			Show descriptions of the interface's elements. ??? (no ')
+			
+			ascending - you are thinking too much (just much)
+			Uncheck this if you are left-handed<br>and your guitar is strung for left-handed playing (changed string order from EADGBE to EBGDAE)
+			- this is a place when tuning and kind of guitar are changed, so could it be just:
+			how to makeit a bit shorter:
+			   guitar strung for right-handed players
+			Uncheck this if you are left-handed<br>and your guitar is strung for left-handed playing (changed string order)
+			Which one is better:
+					note in the score
+					or
+					note on the stave
 
 - change background of some labels (strings freq) in audio in settings
 - add example to 7th note widget
-- level preview can be in QTextEdit widget
 - under windows guitar head glyph doesn't appear in guitar settings.
 - check is kind of instrument stored in exam file properly and appears in level preview
 - there is some bug: QList claims... 

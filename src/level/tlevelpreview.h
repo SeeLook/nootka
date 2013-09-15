@@ -21,6 +21,7 @@
 
 #include <QWidget>
 
+class QTextEdit;
 class TexamLevel;
 class QLabel;
 
@@ -33,15 +34,19 @@ public:
   explicit TlevelPreview(QWidget *parent = 0);
   virtual ~TlevelPreview();
   
-  static QString notesRangeTxt() { return tr("notes' range:"); }
-  static QString fretsRangeTxt() { return tr("frets' range:"); }
+  static QString notesRangeTxt() { return tr("note range:"); }
+  static QString fretsRangeTxt() { return tr("fret range:"); }
 
   void setLevel(TexamLevel &tl);
 			/** Overloaded method with empty level to force empty table. */
 	void setLevel();
+			/** This method sets fixed height of QTextEdit containing table with level preview
+			 * to current document height. It removes vertical scroll*/
+	void adjustToHeight();
   
 private:
-  QLabel *m_summLab, *m_clefLabel;
+  QLabel 			*m_clefLabel;
+	QTextEdit 	*m_summaryEdit;
 
 };
 
