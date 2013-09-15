@@ -120,10 +120,10 @@ QString TkeySignature::accidNumber(bool inHtml) {
     if (m_key > 0) a = "#";
     QString S = QString("%1").arg(int(qAbs(m_key)));
     if (inHtml)
-        S += "<sub><i>";
+        S += "<span style=\"font-family: nootka;\">";
     S += a;
     if (inHtml)
-        S += "</i></sub>";
+        S += "</span>";
     return S;
 }
 

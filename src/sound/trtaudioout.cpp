@@ -136,6 +136,8 @@ TaudioOUT::~TaudioOUT()
   delete rtDevice;
   delete offTimer;
   delete oggScale;
+	if (m_crossBuffer)
+		delete m_crossBuffer;
 }
 
 
@@ -230,7 +232,7 @@ bool TaudioOUT::play(int noteNr) {
   if (!playable)
       return false;
   
-	if (m_callBackIsBussy) {
+	while (m_callBackIsBussy) {
 		  SLEEP(1);
 			qDebug() << "Oops! Call back method is in progress when a new note wants to be played!";
 	}
@@ -241,7 +243,8 @@ bool TaudioOUT::play(int noteNr) {
 			for (int i = 0; i < 1000; i++) // copy data of current sound to perform crrosfading
 				m_crossBuffer[i] = oggScale->getSample(off + i);
 			m_doCrossFade = true;
-	}
+	} else
+			m_doCrossFade = false;
   
   noteNr = noteNr + int(audioParams->a440diff);
 	

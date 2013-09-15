@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -55,28 +55,37 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
     levLay->addLayout(nameLay);
     m_levelsView = new TlevelSelector(this);
     levLay->addWidget(m_levelsView);
-    QHBoxLayout *lLay = new QHBoxLayout;
+//     QHBoxLayout *lLay = new QHBoxLayout;
     QLabel *moreLab = new QLabel(levelSettings::moreLevelLinkTxt(), this);
     moreLab->setOpenExternalLinks(true);
 //    levLay->addWidget(moreLab, 0, Qt::AlignCenter);
-    lLay->addWidget(moreLab, 0, Qt::AlignCenter);
+//     lLay->addWidget(moreLab, 0, Qt::AlignCenter);
+		levLay->addWidget(moreLab, 0, Qt::AlignCenter);
     m_createBut = new QPushButton(tr("Create new level"),this);
     m_createBut->setStatusTip(tr("Dialog window for creating new level<br>will be opened."));
     m_createBut->setIcon(QIcon(path + "picts/levelCreator.png"));
     m_createBut->setIconSize(QSize(48, 48));
 //    levLay->addWidget(createBut, 1, Qt::AlignCenter);
-    lLay->addWidget(m_createBut, 1, Qt::AlignCenter);
-    levLay->addLayout(lLay);
+//     lLay->addWidget(m_createBut, 1, Qt::AlignCenter);
+//     levLay->addLayout(lLay);
     m_newExamBut = new QPushButton(tr("start new exam"), this);
     m_newExamBut->setStatusTip(m_newExamBut->text() + "<br><b>" + tr("Any level was not selected!") + "</b>");
     m_newExamBut->setIcon(QIcon(path + "picts/startExam.png"));
     m_newExamBut->setIconSize(QSize(48, 48));
-    levLay->addWidget(m_newExamBut);
+//     levLay->addWidget(m_newExamBut);
+		QHBoxLayout *buttNewAndLevelLay = new QHBoxLayout;
+		buttNewAndLevelLay->addStretch(1);
+		buttNewAndLevelLay->addWidget(m_newExamBut);
+		buttNewAndLevelLay->addStretch(1);
+		buttNewAndLevelLay->addWidget(m_createBut);
+		buttNewAndLevelLay->addStretch(1);
+		levLay->addLayout(buttNewAndLevelLay);
     levelGr = new QGroupBox(this);
     levelGr->setStatusTip(tr("Select a level suitable for you<br>or create new one."));
     levelGr->setLayout(levLay);
 
     mainLay->addWidget(levelGr);
+		mainLay->addStretch(2);
 
     QVBoxLayout *exLay = new QVBoxLayout;
     m_examCombo = new QComboBox(this);
@@ -86,7 +95,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
     m_contExamButt = new QPushButton(tr("continue exam"), this);
     m_contExamButt->setIcon(QIcon(path + "picts/startExam.png"));
     m_contExamButt->setIconSize(QSize(48, 48));
-    m_contExamButt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_contExamButt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     butLay->addWidget(m_contExamButt);
 //     butLay->addStretch(1);
     m_cancelBut = new QPushButton(this);
