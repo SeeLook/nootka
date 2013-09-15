@@ -270,7 +270,7 @@ void ToggScale::decodeOgg() {
   while (m_doDecode && loops < 500 && pos < maxSize) {
     read = ov_read(&m_ogg, (char*)m_pcmBuffer + pos, maxSize - pos, 0, 2, 1, &bitStream);
     pos += read;
-    if (pos > 8192) // amount of data needed by single loop of rtAudio outCallBack
+    if (pos > 10000) // amount of data needed by single loop of rtAudio outCallBack
       m_isReady = true;
     loops++;
   }

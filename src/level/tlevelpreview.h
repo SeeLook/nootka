@@ -44,8 +44,13 @@ public:
 			 * to current document height. It removes vertical scroll*/
 	void adjustToHeight();
   
+protected:
+			/** Paints guitar head shape under widget. */
+	void paintEvent(QPaintEvent* );
+	
 private:
 	QTextEdit 	*m_summaryEdit;
+	QString 		m_instrText;
 
 };
 

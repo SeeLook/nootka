@@ -25,13 +25,20 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QTextEdit>
+#include <QPainter>
 
 
 extern Tglobals *gl;
 
+/** Returns size of 'A' letter in curent widget font. */
+int heightOfA(QWidget *w) {
+	return w->fontMetrics().boundingRect("A").height();
+}
+
 
 TlevelPreview::TlevelPreview(QWidget* parent) :
-  QWidget(parent)
+  QWidget(parent),
+  m_instrText("")
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
     QLabel *headLab = new QLabel(tr("Level summary:"), this);
@@ -40,6 +47,7 @@ TlevelPreview::TlevelPreview(QWidget* parent) :
 		m_summaryEdit = new QTextEdit(this);
 		m_summaryEdit->setReadOnly(true);
     m_summaryEdit->setFixedWidth(370);
+		m_summaryEdit->setStyleSheet("background-color: transparent;");
 		contLay->addWidget(m_summaryEdit);
 		contLay->addSpacing(10);
 		mainLay->addLayout(contLay);
@@ -67,17 +75,26 @@ void TlevelPreview::setLevel() {
 		empty.withDblAcc = false;
 		empty.withFlats = false;
 		empty.withSharps = false;
+		empty.instrument = e_noInstrument;
 		setLevel(empty);
 }
 
 
 void TlevelPreview::setLevel(TexamLevel& tl) {
+	switch ((int)tl.instrument) {
+			case 1: m_instrText = "h"; break; // classical guitar
+			case 2: m_instrText = "i"; break; // electric guitar
+			case 3: m_instrText = "j"; break; // bass guitar
+			default: m_instrText = ""; break; // none or other
+	}
   QString S;
     S = "<center><b>" + tl.name + "</b>";
     S += "<table border=\"1\" cellpadding=\"3\">";
 		S += "<tr><td colspan=\"2\" align=\"center\">" + instrumentToText(tl.instrument) + "</td>";
     S += "<td rowspan=\"_ROW_SPAN_\"><br>" + tr("Clef") + QString(":<br><br>%1</td></tr>").
-        arg(TtipChart::wrapPixToHtml(Tnote(0, 0, 0), tl.clef.type(), TkeySignature(0), 5.0)).replace("<img", "<img width=\"70px\"");
+        arg(TtipChart::wrapPixToHtml(Tnote(0, 0, 0), tl.clef.type(), 
+																		 TkeySignature(0), (tl.clef.type() == Tclef::e_pianoStaff) ? 3.0 : 5.0)).
+				replace("<img", "<img width=\"70px\"");
     S += "<tr><td>" + notesRangeTxt() + " </td>";
 		if (tl.loNote.note && tl.hiNote.note)
 			S += "<td>" + TnoteName::noteToRichText(tl.loNote) + " - "
@@ -117,7 +134,7 @@ void TlevelPreview::setLevel(TexamLevel& tl) {
       tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asFretPos) + " ";
     if (tl.questionAs.isSound())
       tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asSound);
-    int fontSize = fontMetrics().boundingRect("A").height() * 1.3;
+    int fontSize = heightOfA(this) * 1.3;
     S += TquestionAsWdg::spanNootka(tmp, fontSize);
     S += "</td></tr>";
     tmp   = "";
@@ -161,8 +178,25 @@ void TlevelPreview::setLevel(TexamLevel& tl) {
 
 
 void TlevelPreview::adjustToHeight() {
-	m_summaryEdit->setFixedHeight((m_summaryEdit->document()->toHtml().count("<tr>") + 3) * (fontMetrics().boundingRect("A").height() + 7));
+	m_summaryEdit->setFixedHeight((m_summaryEdit->document()->toHtml().count("<tr>") + 3) * (heightOfA(this) + 7));
 }
+
+
+void TlevelPreview::paintEvent(QPaintEvent* ) {
+	if (m_instrText != "") {
+		QFont nFont = QFont("nootka", 20, QFont::Normal);
+		nFont.setPixelSize(20);
+		QFontMetrics fm = QFontMetrics(nFont);
+		nFont.setPixelSize(nFont.pixelSize() * ((qreal)height() / (qreal)fm.boundingRect(m_instrText).height()));
+		QPainter painter(this);
+		painter.setFont(nFont);
+		QColor bg = palette().highlight().color();
+		bg.setAlpha(70);
+		painter.setPen(QPen(bg));
+		painter.drawText(QRect(0, 15, width(), height()), Qt::AlignCenter, m_instrText);
+	}
+}
+
 
 
 
