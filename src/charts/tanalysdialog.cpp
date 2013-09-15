@@ -455,8 +455,10 @@ void TanalysDialog::includeWrongSlot() {
 void TanalysDialog::moreLevelInfo() {
     QDialog *dialog = new QDialog(this, Qt::CustomizeWindowHint | Qt::Dialog);
     TlevelPreview *levelView = new TlevelPreview(dialog);
-    if (m_exam)
+    if (m_exam) {
         levelView->setLevel(*m_exam->level());
+				levelView->adjustToHeight();
+		}
     QVBoxLayout *lay = new QVBoxLayout;
     lay->addWidget(levelView);
     QPushButton *okButt = new QPushButton(tr("OK"), dialog);

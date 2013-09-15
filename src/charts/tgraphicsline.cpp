@@ -67,13 +67,9 @@ void TgraphicsLine::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
     if (m_text == "") {
       tip = new TgraphicsTextTip("<b>" + QApplication::translate("TgraphicsLine", "progress line").toUpper() + "</b><br>" +
           QString("<span style=\"color: %1; font-size: 20px; font-family: 'Courier New', Courier, monospace;\"><b> \\ </b></span>").arg(averColor.name()) +
-          QApplication::translate("TgraphicsLine", "descending - you go better") + "<br>" + 
+          QApplication::translate("TgraphicsLine", "descending - you are progressing better") + "<br>" + 
           QString("<span style=\"color: %1; font-size: 20px; font-family: 'Courier New', Courier, monospace;\"><b> / </b></span>").arg(averColor.name()) +
-          QApplication::translate("TgraphicsLine", "acending - you thinking much") /*+ "<hr>" + TexamView::averAnsverTimeTxt() + "<br>" +*/
-//           QApplication::translate("TlinearChart", "for answer nr") + QString(" <b>%1</b>: <b>%2 s</b>").arg(i + 1).arg(aTime / 10.0) +"<br>" + 
-//           QApplication::translate("TlinearChart", "for whole exam:") +
-//           QString(" <span style=\"font-size: 20px;\">%1</span></p>").arg(TexamView::formatReactTime(exam->averageReactonTime(), true))
-          , averColor);
+          QApplication::translate("TgraphicsLine", "ascending - you are thinking too much"), averColor);
     } else
       tip = new TgraphicsTextTip(m_text, averColor);
   }

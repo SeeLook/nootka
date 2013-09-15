@@ -223,7 +223,7 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
     m_levelsListWdg->setFixedWidth(200);
     levLay->addWidget(m_levelsListWdg);
     m_loadBut = new QPushButton(tr("Load"), this);
-    m_loadBut->setStatusTip(tr("Load exam's level from file"));
+    m_loadBut->setStatusTip(tr("Load exam level from file"));
     levLay->addStretch(1);
     levLay->addWidget(m_loadBut);
 
@@ -309,7 +309,7 @@ bool TlevelSelector::isSuitable(TexamLevel &l) {
         l.loNote.getChromaticNrOfNote() < gl->loString().getChromaticNrOfNote() ||
 			  l.hiNote.getChromaticNrOfNote() > gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber ) {
         m_levels.last().item->setStatusTip("<span style=\"color: red;\">" +
-                tr("Level is not suitable for current tune and/or frets number") + "</span>");
+                tr("Level is not suitable for current tuning and/or frets number") + "</span>");
         m_levels.last().item->setFlags(Qt::NoItemFlags);
         return false;
     } else
@@ -358,11 +358,11 @@ TexamLevel TlevelSelector::getLevelFromFile(QFile &file) {
          in >> lv;
          if (lv != levelVersion) {
              QMessageBox::critical(this, "",
-                         tr("File: %1 \n is not Nootka level file !!!").arg(file.fileName()));
+                         tr("File: %1 \n is not Nootka level file!").arg(file.fileName()));
              return level;
          }
          if (!getLevelFromStream(in, level))
-             QMessageBox::warning(0, "", tr("Level file\n %1 \n was corrupted and repaired !!\nCheck please, are its parameters as expected.").arg(file.fileName()));
+             QMessageBox::warning(0, "", tr("Level file\n %1 \n was corrupted and repaired!\n Check please, if its parameters are as expected.").arg(file.fileName()));
          file.close();
     } else {
       if (file.fileName() != "") // skip empty file names (ignored by user)

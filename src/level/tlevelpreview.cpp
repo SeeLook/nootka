@@ -19,11 +19,12 @@
 #include "tlevelpreview.h"
 #include "texamlevel.h"
 #include "tquestionaswdg.h"
+#include "tglobals.h"
+#include <ttipchart.h>
 #include <tnotename.h>
 #include <QVBoxLayout>
 #include <QLabel>
-#include "tglobals.h"
-#include <ttipchart.h>
+#include <QTextEdit>
 
 
 extern Tglobals *gl;
@@ -32,13 +33,15 @@ extern Tglobals *gl;
 TlevelPreview::TlevelPreview(QWidget* parent) :
   QWidget(parent)
 {
-		setFixedWidth(370);
+// 		setFixedSize(370, (fontMetrics().boundingRect("A").height() + 8) * 10);
+	setFixedWidth(370);
     QVBoxLayout *mainLay = new QVBoxLayout;
     QLabel *headLab = new QLabel(tr("Level summary:"), this);
     mainLay->addWidget(headLab);
 		QHBoxLayout *contLay = new QHBoxLayout;
-    m_summLab = new QLabel(tr("\n no level selected"), this);
-    contLay->addWidget(m_summLab);
+		m_summaryEdit = new QTextEdit(this);
+		m_summaryEdit->setReadOnly(true);
+		contLay->addWidget(m_summaryEdit);
 		contLay->addSpacing(10);
 		m_clefLabel = new QLabel(this);
 		m_clefLabel->setAlignment(Qt::AlignCenter);
@@ -47,7 +50,7 @@ TlevelPreview::TlevelPreview(QWidget* parent) :
     mainLay->addStretch(1);
     setLayout(mainLay);
 		setLevel();
-		m_summLab->setText(tr("\n no level selected") + "<br>" + m_summLab->text());
+		adjustToHeight();
 }
 
 
@@ -56,7 +59,7 @@ TlevelPreview::~TlevelPreview() {}
 
 void TlevelPreview::setLevel() {
 		TexamLevel empty;
-		empty.name = "";
+		empty.name = tr("no level selected");
 		empty.loNote = Tnote();
 		empty.hiNote = Tnote();
 		empty.hiFret = 0;
@@ -121,8 +124,8 @@ void TlevelPreview::setLevel(TexamLevel& tl) {
     S += "</td></tr>";
     tmp   = "";
     S += "<tr><td>" + TquestionAsWdg::answersTxt() + ": </td><td align=\"center\">"; // ANSWERS
-      /** Checking questions would be skiped because Level creator avoids selecting answer without question.
-       * Unfortunaletly built-in leves are not so perfect.*/
+      /** Checking questions would be skipped because Level creator avoids selecting answer without question.
+       * Unfortunately built-in levels are not so perfect.*/
     if (  (tl.questionAs.isNote() && tl.answersAs[TQAtype::e_asNote].isNote()) ||
           (tl.questionAs.isName() && tl.answersAs[TQAtype::e_asName].isNote()) ||
           (tl.questionAs.isFret() && tl.answersAs[TQAtype::e_asFretPos].isNote()) ||
@@ -150,14 +153,22 @@ void TlevelPreview::setLevel(TexamLevel& tl) {
       if (tl.requireOctave)
           S += tr("proper octave is required");
       else
-          S += tr("octave has no matter");
+          S += tr("octave does no matter");
       S += "</td></tr>";
     }
     S += "</table></center>";
-    m_summLab->setText(S);
+		m_summaryEdit->setHtml(S);
 		m_clefLabel->setText("<center>" + tr("Clef") + 
 				QString(":<br><br><span style=\"font-family: nootka; font-size: 60px;\"> %1</span></center>").
 				arg(TtipChart::wrapPixToHtml(Tnote(0, 0, 0), tl.clef.type(), TkeySignature(0), 5.0)));
 }
+
+
+void TlevelPreview::adjustToHeight() {
+	m_summaryEdit->setFixedHeight((m_summaryEdit->document()->toHtml().count("<tr>") + 3) * (fontMetrics().boundingRect("A").height() + 7));
+}
+
+
+
 
 
