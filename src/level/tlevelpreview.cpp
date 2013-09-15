@@ -33,19 +33,15 @@ extern Tglobals *gl;
 TlevelPreview::TlevelPreview(QWidget* parent) :
   QWidget(parent)
 {
-// 		setFixedSize(370, (fontMetrics().boundingRect("A").height() + 8) * 10);
-	setFixedWidth(370);
     QVBoxLayout *mainLay = new QVBoxLayout;
     QLabel *headLab = new QLabel(tr("Level summary:"), this);
     mainLay->addWidget(headLab);
 		QHBoxLayout *contLay = new QHBoxLayout;
 		m_summaryEdit = new QTextEdit(this);
 		m_summaryEdit->setReadOnly(true);
+    m_summaryEdit->setFixedWidth(370);
 		contLay->addWidget(m_summaryEdit);
 		contLay->addSpacing(10);
-		m_clefLabel = new QLabel(this);
-		m_clefLabel->setAlignment(Qt::AlignCenter);
-		contLay->addWidget(m_clefLabel);
 		mainLay->addLayout(contLay);
     mainLay->addStretch(1);
     setLayout(mainLay);
@@ -79,7 +75,9 @@ void TlevelPreview::setLevel(TexamLevel& tl) {
   QString S;
     S = "<center><b>" + tl.name + "</b>";
     S += "<table border=\"1\" cellpadding=\"3\">";
-		S += "<tr><td colspan=\"2\" align=\"center\">" + instrumentToText(tl.instrument) + "</td></tr>";;
+		S += "<tr><td colspan=\"2\" align=\"center\">" + instrumentToText(tl.instrument) + "</td>";
+    S += "<td rowspan=\"_ROW_SPAN_\"><br>" + tr("Clef") + QString(":<br><br>%1</td></tr>").
+        arg(TtipChart::wrapPixToHtml(Tnote(0, 0, 0), tl.clef.type(), TkeySignature(0), 5.0)).replace("<img", "<img width=\"70px\"");
     S += "<tr><td>" + notesRangeTxt() + " </td>";
 		if (tl.loNote.note && tl.hiNote.note)
 			S += "<td>" + TnoteName::noteToRichText(tl.loNote) + " - "
@@ -104,9 +102,9 @@ void TlevelPreview::setLevel(TexamLevel& tl) {
     if (!tl.withSharps && !tl.withFlats && !tl.withDblAcc)
         S += tr("none");
     else {
-        if (tl.withSharps) S += " <i>#</i>";
-        if (tl.withFlats) S += " <i>b</i>";
-        if (tl.withDblAcc) S += " <i>x bb</i>";
+        if (tl.withSharps) S += " <span style=\"font-family: nootka;\">#</span>";
+        if (tl.withFlats) S += " <span style=\"font-family: nootka;\">b</span>";
+        if (tl.withDblAcc) S += " <span style=\"font-family: nootka;\">xB</span>";
     }
     S += "</td></tr>";
     S += "<tr><td>" + TquestionAsWdg::questionsTxt() + ": </td><td align=\"center\">"; // QUESTIONS
@@ -157,10 +155,8 @@ void TlevelPreview::setLevel(TexamLevel& tl) {
       S += "</td></tr>";
     }
     S += "</table></center>";
+    S.replace("_ROW_SPAN_", QString("%1").arg(S.count("<tr>")));
 		m_summaryEdit->setHtml(S);
-		m_clefLabel->setText("<center>" + tr("Clef") + 
-				QString(":<br><br><span style=\"font-family: nootka; font-size: 60px;\"> %1</span></center>").
-				arg(TtipChart::wrapPixToHtml(Tnote(0, 0, 0), tl.clef.type(), TkeySignature(0), 5.0)));
 }
 
 

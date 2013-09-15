@@ -45,7 +45,6 @@ public:
 	void adjustToHeight();
   
 private:
-  QLabel 			*m_clefLabel;
 	QTextEdit 	*m_summaryEdit;
 
 };
