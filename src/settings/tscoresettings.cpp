@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -48,7 +48,7 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
     m_nameStyleGr = new TnotationRadioGroup(gl->SnameStyleInKeySign,this);
     nameLay->addWidget(m_nameStyleGr);
 
-    m_nameExtGr = new QGroupBox(tr("Nameing extension"));
+    m_nameExtGr = new QGroupBox(tr("Naming extension"));
 
     QVBoxLayout *majLay = new QVBoxLayout();
     m_majExtLab = new QLabel(tr("in the major keys:"), this);
@@ -101,7 +101,7 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
 		QLabel *clefUsageLab = new QLabel(tr("Default clef").replace(" ", "<br>"), this);
 		clefUsageLab->setAlignment(Qt::AlignCenter);
 		clefLay->addWidget(clefUsageLab);
-		clefBox->setStatusTip(tr("Select default clef for the application.") + "<br><b>" + tr("Remember! Not all clefs are suitable for actual tune or instrument type!") + "<b>");
+		clefBox->setStatusTip(tr("Select default clef for the application.") + "<br><b>" + tr("Remember! Not all clefs are suitable for some possible tunings or instrument types!") + "<b>");
 		clefLay->addWidget(m_clefSelector, 0, Qt::AlignCenter);
 		clefBox->setLayout(clefLay);
 		mainLay->addWidget(clefBox);

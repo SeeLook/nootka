@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -58,7 +58,7 @@ TquestionAsWdg::TquestionAsWdg(TQAtype::Etype type, QGridLayout* gridLay, int ro
 {
     QString title = qaTypeText(type);    
     questLab = new QLabel(title, parent);
-    questLab->setStatusTip(tr("Select a type of answers for a question."));
+    questLab->setStatusTip(tr("Select the type of answers for a question."));
     gridLay->addWidget(questLab, row, 0, Qt::AlignRight);
     enableChBox = new QCheckBox(parent);
     enableChBox->setStatusTip(questionTxt() + " - " + title);

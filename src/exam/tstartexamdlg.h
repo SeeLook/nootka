@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -39,21 +39,20 @@ public:
       /** QString @param &nick is student Name  */
     explicit TstartExamDlg(QString &nick, QString &path, TexamParams *examParams, QWidget *parent = 0);
 
-        /** Describes actions commited by user.
+        /** Describes actions committed by user.
         * @param e_none - dialog discarded,
         * @param e_continue - exam to continue,
         * @param e_newLevel - new level selected.
-        * @param e_levelCreator - open Level creator.
-	*/
+        * @param e_levelCreator - open Level creator.	*/
     enum Eactions { e_none, e_continue, e_newLevel, e_levelCreator };
         /** This method calls dialog window,
-        * takes txt reference and puts there eighter user name
+        * takes txt reference and puts there either user name
         * or exam file path, depends on returned @param Eactions,
         * and returns secected level. */
     Eactions showDialog(QString &txt, TexamLevel &lev);
         /** exam file extension and its description */
-    static const QString examFilterTxt() { return tr("Exams' results")  + " (*.noo)" ; }
-    static const QString loadExamFileTxt() { return tr("Load an exam's file"); }
+    static const QString examFilterTxt() { return tr("Exam results")  + " (*.noo)" ; }
+    static const QString loadExamFileTxt() { return tr("Load an exam file"); }
         /** Returns system user name (login name)  */
     static QString systemUserName();
 
@@ -65,15 +64,15 @@ public slots:
 private:
     bool event(QEvent *event);
 
-    QGroupBox *examGr, *levelGr;
-    TlevelSelector *m_levelsView;
-    QLineEdit *m_nameEdit;
-    QPushButton *m_createBut, *m_loadExamBut, *m_cancelBut, *m_newExamBut, *m_contExamButt;
-    QLabel *m_hintLabel;
-    QComboBox *m_examCombo;
-    QStringList m_recentExams;
-    Eactions m_Acction;
-    TexamParams *m_examParams;
+    QGroupBox 					*examGr, *levelGr;
+    TlevelSelector 			*m_levelsView;
+    QLineEdit 					*m_nameEdit;
+    QPushButton 				*m_createBut, *m_loadExamBut, *m_cancelBut, *m_newExamBut, *m_contExamButt;
+    QLabel 							*m_hintLabel;
+    QComboBox 					*m_examCombo;
+    QStringList 				m_recentExams;
+    Eactions 						m_Acction;
+    TexamParams 				*m_examParams;
 
 private slots:
     void levelToLoad();

@@ -50,29 +50,23 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
     if (nick == "")
       m_nameEdit->setText(systemUserName());
     m_nameEdit->setMaxLength(30);
-    m_nameEdit->setStatusTip(tr("Enter your name or nick."));
+    m_nameEdit->setStatusTip(tr("Enter your name or nick-name."));
     nameLay->addWidget(m_nameEdit);
     levLay->addLayout(nameLay);
     m_levelsView = new TlevelSelector(this);
     levLay->addWidget(m_levelsView);
-//     QHBoxLayout *lLay = new QHBoxLayout;
     QLabel *moreLab = new QLabel(levelSettings::moreLevelLinkTxt(), this);
     moreLab->setOpenExternalLinks(true);
-//    levLay->addWidget(moreLab, 0, Qt::AlignCenter);
-//     lLay->addWidget(moreLab, 0, Qt::AlignCenter);
 		levLay->addWidget(moreLab, 0, Qt::AlignCenter);
     m_createBut = new QPushButton(tr("Create new level"),this);
     m_createBut->setStatusTip(tr("Dialog window for creating new level<br>will be opened."));
     m_createBut->setIcon(QIcon(path + "picts/levelCreator.png"));
     m_createBut->setIconSize(QSize(48, 48));
-//    levLay->addWidget(createBut, 1, Qt::AlignCenter);
-//     lLay->addWidget(m_createBut, 1, Qt::AlignCenter);
-//     levLay->addLayout(lLay);
     m_newExamBut = new QPushButton(tr("start new exam"), this);
     m_newExamBut->setStatusTip(m_newExamBut->text() + "<br><b>" + tr("Any level was not selected!") + "</b>");
     m_newExamBut->setIcon(QIcon(path + "picts/startExam.png"));
     m_newExamBut->setIconSize(QSize(48, 48));
-//     levLay->addWidget(m_newExamBut);
+
 		QHBoxLayout *buttNewAndLevelLay = new QHBoxLayout;
 		buttNewAndLevelLay->addStretch(1);
 		buttNewAndLevelLay->addWidget(m_newExamBut);
@@ -97,7 +91,6 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
     m_contExamButt->setIconSize(QSize(48, 48));
     m_contExamButt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     butLay->addWidget(m_contExamButt);
-//     butLay->addStretch(1);
     m_cancelBut = new QPushButton(this);
     m_cancelBut->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
     m_cancelBut->setStatusTip(tr("Discard"));
@@ -124,7 +117,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
     mainLay->addWidget(m_hintLabel);
     setLayout(mainLay);
     
-    setStatusTip("<b>" + tr("Would you like to start new exam or continue previous one?<br>To start new one, put your name and select a level.<br>To continue previous, select it from the list or load from file.") + "</b>" );
+    setStatusTip("<b>" + tr("Would you like to start new exam or continue the previous one?<br>To start new one, put in your name and select a level.<br>To continue the previous exam, select it from the list or load from file.") + "</b>" );
     m_hintLabel->setStatusTip(statusTip());
 
 #if defined(Q_OS_WIN32) // I hate mess in Win registry
@@ -188,9 +181,11 @@ TstartExamDlg::Eactions TstartExamDlg::showDialog(QString &txt, TexamLevel &lev)
 	}
 }
 
+
 void TstartExamDlg::levelToLoad() {
     m_levelsView->loadFromFile();
 }
+
 
 bool TstartExamDlg::event(QEvent *event) {
     if (event->type() == QEvent::StatusTip) {
@@ -200,15 +195,17 @@ bool TstartExamDlg::event(QEvent *event) {
     return QDialog::event(event);
 }
 
+
 void TstartExamDlg::startAccepted() {
+		QString noLevel = tr("No level was selected!");
     if (sender() == m_newExamBut) { // new exam on selsected level
         TexamLevel l = m_levelsView->getSelectedLevel();
         if (l.name == "") { // nothing selected
-            QMessageBox::warning(this, "", tr("Any level was not selected!"));
+            QMessageBox::warning(this, "", noLevel);
             return;
         } else {
             if (m_nameEdit->text() == "") {
-                QMessageBox::warning(this, "", tr("Give any user name!"));
+                QMessageBox::warning(this, "", tr("Give a user name!"));
                 return;
             }
             m_Acction = e_newLevel;
@@ -220,9 +217,10 @@ void TstartExamDlg::startAccepted() {
             m_Acction = e_continue;
             accept();
         } else
-            QMessageBox::warning(this, "", tr("Any exam wasn't selected!"));
+            QMessageBox::warning(this, "", noLevel);
     }
 }
+
 
 void TstartExamDlg::loadExam() {
     QString fileName = QFileDialog::getOpenFileName(this, loadExamFileTxt(),

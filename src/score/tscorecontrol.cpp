@@ -25,16 +25,16 @@
 TscoreControl::TscoreControl(QWidget* parent):
   QWidget(parent)
 {    
-    m_dblSharpBut = new TpushButton("x");
+    m_dblSharpBut = new TpushButton("x", this);
     setButtons(m_dblSharpBut);
 		m_dblSharpBut->setStatusTip(tr("<b>double sharp</b> - raises a note by two semitones (whole tone).<br>On the guitar it is two frets up."));
-    m_sharpBut = new TpushButton("#");
+    m_sharpBut = new TpushButton("#", this);
     setButtons(m_sharpBut);
-		m_sharpBut->setStatusTip(tr("<b>sharp</b> - raises a note by a half tone.<br>On the guitar it is one fret up."));
-    m_flatBut = new TpushButton("b");
+		m_sharpBut->setStatusTip(tr("<b>sharp</b> - raises a note by a half tone (semitone).<br>On the guitar it is one fret up."));
+    m_flatBut = new TpushButton("b", this);
     setButtons(m_flatBut);
-		m_flatBut->setStatusTip(tr("<b>flat</b> - lowers a note by a half tone.<br>On the guitar it is one fret down."));
-    m_dblFlatBut = new TpushButton("B");
+		m_flatBut->setStatusTip(tr("<b>flat</b> - lowers a note by a half tone (semitone).<br>On the guitar it is one fret down."));
+    m_dblFlatBut = new TpushButton("B", this);
     setButtons(m_dblFlatBut);
 		m_dblFlatBut->setStatusTip(tr("<b>double flat</b> - lowers a note by two semitones (whole tone).<br>On the guitar it is two frets down."));
     QVBoxLayout *butLay = new QVBoxLayout;
@@ -76,12 +76,12 @@ void TscoreControl::setAccidental(int accNr) {
 
 void TscoreControl::enableDoubleAccidentals(bool isEnabled) {
 		if (isEnabled) {
-			m_dblFlatBut->setVisible(true);
-			m_dblSharpBut->setVisible(true);
+				m_dblFlatBut->show();
+				m_dblSharpBut->show();
 		} else {
-			m_dblFlatBut->setVisible(false);
+			m_dblFlatBut->hide();
 			m_dblFlatBut->setChecked(false);
-			m_dblSharpBut->setVisible(false);
+			m_dblSharpBut->hide();
 			m_dblSharpBut->setChecked(false);
 		}
 }

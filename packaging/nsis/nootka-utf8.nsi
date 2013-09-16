@@ -67,7 +67,7 @@ InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
 ShowUnInstDetails show
 
-LangString NelDesc ${LANG_ENGLISH} "Nootka exam's level"
+LangString NelDesc ${LANG_ENGLISH} "Nootka exam level"
 LangString NelDesc ${LANG_POLISH} "Poziom egzaminu programu Nootka"
 LangString NelDesc ${LANG_CZECH} "Úroveň zkoušky programu Nootka"
 LangString NelDesc ${LANG_FRENCH} "Fichier de niveau Nootka"
