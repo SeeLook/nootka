@@ -49,7 +49,7 @@ TnoteNameSettings::TnoteNameSettings(QWidget *parent) :
 
     /** @todo example label with all scale*/
 
-    m_octInNameCh = new QCheckBox(tr("show octave in the note's name"),this);
+    m_octInNameCh = new QCheckBox(tr("show octave in name of note"),this);
     mainLay->addWidget(m_octInNameCh);
     m_octInNameCh->setStatusTip(tr("Shows formatted note name. For small octave - the name is small letter,<br>for great octave - the name starts with a capital letter,<br>for one-line, digit <sup>1</sup> is added, and so on." ));
     m_octInNameCh->setChecked(gl->NoctaveInNoteNameFormat);
