@@ -30,8 +30,8 @@ TintonationView::TintonationView(int accuracy, QWidget* parent) :
   TabstractSoundView(parent),
   m_pitchDiff(0.0f)
 {
-  setBackgroundRole(QPalette::Background);
-  setAutoFillBackground(true);
+//   setBackgroundRole(QPalette::Background);
+//   setAutoFillBackground(true);
   setAccuracy(accuracy);
   setMinimumSize(200, 17);
   resizeEvent(0);
@@ -99,13 +99,13 @@ void TintonationView::paintEvent(QPaintEvent* ) {
       leftThickColor = tc; rightThickColor = thickColor;
     }
     int xx = m_noteX - ((i + 1) * (TICK_GAP + TICK_WIDTH));
-    float yy = (float)(m_ticksCount - i) * m_hiTickStep + 1;
+    float yy = (float)i * m_hiTickStep + 1.0f;
 //     int yy = 1;
     painter.setPen(QPen(leftThickColor, TICK_WIDTH, Qt::SolidLine, Qt::RoundCap));
-    painter.drawLine(QLineF(xx, yy, xx, height() - 2));
+    painter.drawLine(QLineF(xx, (height() - yy) / 2, xx, height() - (height() - yy) / 2));
     painter.setPen(QPen(rightThickColor, TICK_WIDTH, Qt::SolidLine, Qt::RoundCap));
     xx = (width() - m_noteX) + ((i + 1) * (TICK_GAP + TICK_WIDTH)) - TICK_WIDTH;
-    painter.drawLine(QLineF(xx, yy, xx, height() - 2));
+    painter.drawLine(QLineF(xx, (height() - yy) / 2, xx, height() - (height() - yy) / 2));
   }
 }
 
