@@ -275,7 +275,7 @@ Tpage_3::Tpage_3(QWidget *parent) :
 {
     QVBoxLayout *lay = new QVBoxLayout;
     lay->setAlignment(Qt::AlignCenter);
-    QLabel *seventhLab = new QLabel("<center>" + tr("7th note can be B or H, depends on country<br>What is the name of 7th note in your country?" + "<br></center>"), this);
+    QLabel *seventhLab = new QLabel("<center>" + tr("7th note can be B or H, depends on country<br>What is the name of 7th note in your country?") + "<br></center>", this);
 		seventhLab->setWordWrap(true);
     lay->addWidget(seventhLab, 0, Qt::AlignCenter);
 
