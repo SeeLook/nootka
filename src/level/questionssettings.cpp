@@ -1,4 +1,4 @@
-/***************************************************************************
+	/***************************************************************************
  *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
@@ -105,7 +105,7 @@ questionsSettings::questionsSettings(QWidget *parent) :
     chLay->addWidget(octaveRequiredChB, 0, 0, Qt::AlignLeft);
     
     forceAccChB = new QCheckBox(tr("force using appropriate accidental"),this);
-    forceAccChB->setStatusTip(tr("if checked, is possible to select a note<br>with given accidental only."));
+    forceAccChB->setStatusTip(tr("if checked, it is possible to select a note<br>with given accidental only."));
     chLay->addWidget(forceAccChB, 1, 0, Qt::AlignLeft);
     
     styleRequiredChB = new QCheckBox(tr("use different naming styles"),this);
@@ -113,12 +113,12 @@ questionsSettings::questionsSettings(QWidget *parent) :
     chLay->addWidget(styleRequiredChB, 2, 0, Qt::AlignLeft);
     
     showStrNrChB = new QCheckBox(tr("show string number in questions"), this);
-    showStrNrChB->setStatusTip(tr("Shows on which string an answer has to be given.<br>Be careful, when it is needed and when it has no sense"));
+    showStrNrChB->setStatusTip(tr("Shows on which string an answer has to be given.<br>Be careful, sometimes it is needed and sometimes it makes no sense."));
     chLay->addWidget(showStrNrChB, 0, 1, Qt::AlignLeft);
     mainLay->addLayout(chLay);
     
     lowPosOnlyChBox = new QCheckBox(tr("notes in the lowest position only"),this);
-    lowPosOnlyChBox->setStatusTip(tr("if checked, the lowest position in selected frets' range are required,<br>otherwise all possible positions of the note are taken.<br>To use this, all strings have to be available !!"));
+    lowPosOnlyChBox->setStatusTip(tr("if checked, the lowest position in selected fret range is required,<br>otherwise all possible positions of the note are acceptable.<br>To use this, all strings have to be available!"));
     chLay->addWidget(lowPosOnlyChBox, 1, 1, Qt::AlignLeft);
     
     currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);

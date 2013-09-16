@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -33,10 +33,10 @@ accidSettings::accidSettings(QWidget* parent) :
     
     QVBoxLayout *accLay = new QVBoxLayout;
     m_sharpsChB = new QCheckBox(tr("# - sharps"),this);
-    m_sharpsChB->setStatusTip(tr("Sharps will be used in exam's questions and answers.<br>It has to be checked, if keys with sharps are used."));
+    m_sharpsChB->setStatusTip(tr("Sharps will be used in questions and answers.<br>It has to be checked, if keys with sharps are used."));
     m_sharpsChB->setChecked(true);
     m_flatsChB = new QCheckBox(tr("b - flats"),this);
-    m_flatsChB->setStatusTip(tr("Flats will be used in exam's questions and answers.<br>It has to be checked, if keys with flats are used."));
+    m_flatsChB->setStatusTip(tr("Flats will be used in questions and answers.<br>It has to be checked, if keys with flats are used."));
     m_flatsChB->setChecked(true);
     m_doubleAccChB = new QCheckBox(tr("x, bb - double accidentals"),this);
     accLay->addWidget(m_sharpsChB);
@@ -49,7 +49,7 @@ accidSettings::accidSettings(QWidget* parent) :
     mainLay->addWidget(m_accidGr, 1, Qt::AlignCenter);
     
     QHBoxLayout *keyLay = new QHBoxLayout;
-    m_keySignGr = new QGroupBox(tr("use keys signature"),this);
+    m_keySignGr = new QGroupBox(tr("use key signatures"),this);
     m_keySignGr->setCheckable(true);
 
     QVBoxLayout *rangeLay = new QVBoxLayout;

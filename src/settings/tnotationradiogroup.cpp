@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                  				   *
+ *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -34,8 +34,8 @@ TnotationRadioGroup::TnotationRadioGroup( Tnote::EnameStyle _notation, QWidget *
         : QGroupBox(parent)
 {
     notation = _notation;
-    setTitle(tr("Nameing style"));
-    setStatusTip(tr("Nameing style of a note. The main difference is 7-th note.<br>Is it B and B flat, or H and B ?"));
+    setTitle(tr("Naming style"));
+    setStatusTip(tr("Naming style of note. The main difference is the 7th note.<br>Is it B and B flat, or H and B?"));
     norskButt = new QRadioButton(strNorsk() + " " + strNorskExampl ,this);
     italianoButt = new QRadioButton(strItal() + " " + strItalExampl, this);
     deutschButt = new QRadioButton(strDeutsch() + " " + strDeutschExampl ,this);

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -87,7 +87,7 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* le
         m_scoreFree = false;
         if (question.answerAs == TQAtype::e_asNote) {
             if (question.qa.note.acidental != question.qa_2.note.acidental)
-                quest += tr("Change enharmonicaly and show in the score");
+                quest += tr("Change enharmonically and show in the score");
             else
                 quest += tr("Given note show in the score");
           if (level->useKeySign && level->manualKey) {
@@ -131,7 +131,7 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* le
             m_nameFree = false;
             noteStr = "<br>" + getNiceNoteName(question.qa.note, question.styleOfQuestion());
             if (question.qa.note.acidental != question.qa_2.note.acidental) {
-                quest += tr("Change enharmonicaly and give name of");
+                quest += tr("Change enharmonically and give name of");
                 quest += noteStr + getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);
             } else
                 quest += tr("Use another style to give name of") + noteStr;

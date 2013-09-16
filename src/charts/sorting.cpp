@@ -205,7 +205,7 @@ QList<TgroupedQAunit> sortByKeySignature(TgroupedQAunit& answList, TexamLevel *l
 QString wereKeys(bool manualKeys, TQAtype::Etype answerType) {
   QString wereK = "";
   if (manualKeys && answerType == TQAtype::e_asNote)
-    wereK = "<br><i>(" + QApplication::translate("TlinearChart", "Key signatures gave by user") + ")</i>";
+    wereK = "<br><i>(" + QApplication::translate("TlinearChart", "Key signatures given by user") + ")</i>";
   return wereK;
 }
 

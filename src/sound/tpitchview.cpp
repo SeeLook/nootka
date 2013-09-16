@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -62,7 +62,7 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
   
   m_volMeter = new TvolumeView(this);
 //   viewLay->addWidget(m_volMeter);
-  m_volMeter->setStatusTip(tr("Shows volume level of input sound and indicates when note was detected"));
+  m_volMeter->setStatusTip(tr("Shows volume level of input sound and indicates when the note was pitch-detected."));
 //   QHBoxLayout *viewLay = new QHBoxLayout;
 // 		viewLay->addWidget(m_volMeter);
 // 		viewLay->addWidget(m_intoView);
@@ -72,7 +72,7 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
       pauseButt = new QPushButton("n", this);
       pauseButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 //       lay->addWidget(pauseButt);
-      pauseButt->setStatusTip(tr("Switch on/off the pitch detection"));
+      pauseButt->setStatusTip(tr("Switch on/off pitch detection"));
       pauseButt->setFont(QFont("nootka", 15));
   }
   lay->addWidget(m_volMeter);

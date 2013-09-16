@@ -148,7 +148,7 @@ void TfingerBoard::setFinger(Tnote note) {
 					if	 (!m_beyondTip) {
 						m_beyondTip = new TgraphicsTextTip(QString("<span style=\"font-size: %1px; color: %2;\"><br><b> ").
 														arg(height() / 7).arg(gl->EquestionColor.name()) +
-														tr("This note is beyond the scale of the guitar") + " </b></span><br>", palette().text().color());
+														tr("This note is beyond the scale of the guitar!") + " </b></span><br>", palette().text().color());
 						m_scene->addItem(m_beyondTip);
 						m_beyondTip->setZValue(150);
 						m_beyondTip->setPos((m_scene->width() - m_beyondTip->boundingRect().width()) / 2,

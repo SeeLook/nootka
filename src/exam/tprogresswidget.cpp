@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -98,10 +98,10 @@ void TprogressWidget::updateLabels(int penaltys) {
   int remained = qMax(0, m_totalNr + penaltys - m_answersNr);
   m_answLab->setText(QString("%1 + %2").arg(m_answersNr).arg(remained));
   m_answLab->setStatusTip(tr("Answered questions") + QString(": %1").arg(m_answersNr) +
-        "<br>" + tr("Remained") + QString(": %1 ").arg(remained)  );
+        "<br>" + tr("Remaining questions") + QString(": %1 ").arg(remained)  );
   m_totalLab->setText(QString(" %1 (%2)").arg(m_totalNr + penaltys).arg(penaltys));
   m_totalLab->setStatusTip(tr("Total questions in this exam") + QString(": %1 ").arg(m_totalNr + penaltys) +
-    "<br>(" + tr("penaltys") + QString(": %1)").arg(penaltys));
+    "<br>(" + tr("penalties") + QString(": %1)").arg(penaltys));
   m_bar->setMinimum(0);
   m_bar->setMaximum(m_totalNr + penaltys);
   if (remained) {
