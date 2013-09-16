@@ -1,33 +1,5 @@
 Plan for the Nootka One
 
-to luster: 
-			student's name: - is it correct?
-			Show descriptions of the interface's elements. ??? (no ')
-			
-			ascending - you are thinking too much (just much)
-			Uncheck this if you are left-handed<br>and your guitar is strung for left-handed playing (changed string order from EADGBE to EBGDAE)
-			- this is a place when tuning and kind of guitar are changed, so could it be just:
-			how to make it a bit shorter:
-			   guitar strung for right-handed players
-			Uncheck this if you are left-handed<br>and your guitar is strung for left-handed playing (changed string order)
-			
-			Nootka will tell you about what you've been thinking for so long...
-			Nootka will tell you about the progress you've been making so far...
-			
-			Remained
-        <translatorcomment>It may be better to say, &quot;Unanswered questions&quot;</translatorcomment>
-        <translation>Remaining questions</translation>
-        
-			Given note show in the score
-        <translation>Given note shown in the score</translation>
-        
-      color of pointed to note
-      maybe: color (of) indicated note
-        
-			Which one is better:
-					note in the score
-					or
-					note on the stave
 
 - change background of some labels (strings freq) in audio in settings
 - add example to 7th note widget
