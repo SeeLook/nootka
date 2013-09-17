@@ -31,8 +31,6 @@ TvolumeView::TvolumeView(QWidget* parent) :
   m_pitchColor(Qt::red),
   m_alpha(0)
 {
-//   setBackgroundRole(QPalette::Background);
-//   setAutoFillBackground(true);
   setMinimumSize(200, 17);
   resizeEvent(0);
 }
@@ -65,7 +63,7 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
       noteColor = palette().highlightedText().color();
   } else {
 			QColor bg = palette().window().color();
-			bg.setAlpha(170);
+			bg.setAlpha(190);
       painter.setBrush(bg);
       noteColor = tc;
   }

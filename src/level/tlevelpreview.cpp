@@ -48,6 +48,10 @@ TlevelPreview::TlevelPreview(QWidget* parent) :
 		m_summaryEdit->setReadOnly(true);
     m_summaryEdit->setFixedWidth(370);
 		m_summaryEdit->setStyleSheet("background-color: transparent;");
+// 		m_summaryEdit->setBackgroundRole(QPalette::NoRole);
+// 		m_summaryEdit->setAutoFillBackground(false);
+// 		m_summaryEdit->setAttribute(Qt::WA_NoBackground);
+// 		m_summaryEdit->setAttribute(Qt::WA_NoSystemBackground);
 		contLay->addWidget(m_summaryEdit);
 		contLay->addSpacing(10);
 		mainLay->addLayout(contLay);
@@ -183,17 +187,20 @@ void TlevelPreview::adjustToHeight() {
 
 
 void TlevelPreview::paintEvent(QPaintEvent* ) {
+	QPainter painter(this);
+	painter.setBrush(palette().base());
+	painter.setPen(Qt::NoPen);
+	painter.drawRect(0, 0, width(), height());
 	if (m_instrText != "") {
-		QFont nFont = QFont("nootka", 20, QFont::Normal);
-		nFont.setPixelSize(20);
-		QFontMetrics fm = QFontMetrics(nFont);
-		nFont.setPixelSize(nFont.pixelSize() * ((qreal)height() / (qreal)fm.boundingRect(m_instrText).height()));
-		QPainter painter(this);
-		painter.setFont(nFont);
-		QColor bg = palette().highlight().color();
-		bg.setAlpha(70);
-		painter.setPen(QPen(bg));
-		painter.drawText(QRect(0, 15, width(), height()), Qt::AlignCenter, m_instrText);
+			QFont nFont = QFont("nootka", 20, QFont::Normal);
+			nFont.setPixelSize(20);
+			QFontMetrics fm = QFontMetrics(nFont);
+			nFont.setPixelSize(nFont.pixelSize() * ((qreal)height() / (qreal)fm.boundingRect(m_instrText).height()));
+			painter.setFont(nFont);
+			QColor bg = palette().highlight().color();
+			bg.setAlpha(70);
+			painter.setPen(QPen(bg));
+			painter.drawText(QRect(0, 15, width(), height()), Qt::AlignCenter, m_instrText);
 	}
 }
 

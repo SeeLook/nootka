@@ -77,35 +77,39 @@ void TintonationView::paintEvent(QPaintEvent* ) {
   painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
   painter.setPen(Qt::NoPen);
 	QColor bg = palette().window().color();
-	bg.setAlpha(170);
+	bg.setAlpha(190);
 	painter.setBrush(bg);
-//   painter.setBrush(QBrush(Qt::white));
+	if (m_pitchDiff == 0.0) {
+			painter.setPen(Qt::NoPen);
+	} else {
+			painter.setPen(QPen(m_tickColors[lastColorThick], 3.0));
+	}
   painter.drawRoundedRect(painter.viewport(), 4, 4);
   if (m_pitchDiff == 0.0)
-    painter.setPen(QPen(tc));
+			painter.setPen(QPen(tc));
   else
-    painter.setPen(QPen(m_tickColors[lastColorThick]));
+			painter.setPen(QPen(m_tickColors[lastColorThick]));
   painter.setFont(nootFont);
   painter.drawText(0, 0, width(), height(), Qt::AlignCenter, "n");
   for (int i = 0; i < m_ticksCount - 1; i++) {
-    QColor thickColor, leftThickColor, rightThickColor;
-    if (i < lastColorThick)
-      thickColor = m_tickColors[i];
-    else
-      thickColor = tc;
-    if (m_pitchDiff < 0) {
-      leftThickColor = thickColor; rightThickColor = tc;
-    } else {
-      leftThickColor = tc; rightThickColor = thickColor;
-    }
-    int xx = m_noteX - ((i + 1) * (TICK_GAP + TICK_WIDTH));
-    float yy = (float)i * m_hiTickStep + 1.0f;
-//     int yy = 1;
-    painter.setPen(QPen(leftThickColor, TICK_WIDTH, Qt::SolidLine, Qt::RoundCap));
-    painter.drawLine(QLineF(xx, (height() - yy) / 2, xx, height() - (height() - yy) / 2));
-    painter.setPen(QPen(rightThickColor, TICK_WIDTH, Qt::SolidLine, Qt::RoundCap));
-    xx = (width() - m_noteX) + ((i + 1) * (TICK_GAP + TICK_WIDTH)) - TICK_WIDTH;
-    painter.drawLine(QLineF(xx, (height() - yy) / 2, xx, height() - (height() - yy) / 2));
+			QColor thickColor, leftThickColor, rightThickColor;
+			if (i < lastColorThick)
+				thickColor = m_tickColors[i];
+			else
+				thickColor = tc;
+			if (m_pitchDiff < 0) {
+					leftThickColor = thickColor; rightThickColor = tc;
+			} else {
+					leftThickColor = tc; rightThickColor = thickColor;
+			}
+			int xx = m_noteX - ((i + 1) * (TICK_GAP + TICK_WIDTH));
+			float yy = (float)i * m_hiTickStep + 1.0f;
+	//     int yy = 1;
+			painter.setPen(QPen(leftThickColor, TICK_WIDTH, Qt::SolidLine, Qt::RoundCap));
+			painter.drawLine(QLineF(xx, (height() - yy) / 2, xx, height() - (height() - yy) / 2));
+			painter.setPen(QPen(rightThickColor, TICK_WIDTH, Qt::SolidLine, Qt::RoundCap));
+			xx = (width() - m_noteX) + ((i + 1) * (TICK_GAP + TICK_WIDTH)) - TICK_WIDTH;
+			painter.drawLine(QLineF(xx, (height() - yy) / 2, xx, height() - (height() - yy) / 2));
   }
 }
 

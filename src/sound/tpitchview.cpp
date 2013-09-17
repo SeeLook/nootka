@@ -75,12 +75,12 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
       pauseButt->setStatusTip(tr("Switch on/off pitch detection"));
       pauseButt->setFont(QFont("nootka", 15));
   }
-  lay->addWidget(m_volMeter);
+  lay->addWidget(m_volMeter, 0, Qt::AlignBottom);
 	if (m_withButtons) {
-		lay->addWidget(voiceButt);
-		lay->addWidget(pauseButt);
+		lay->addWidget(voiceButt, 0, Qt::AlignBottom);
+		lay->addWidget(pauseButt, 0, Qt::AlignBottom);
 	}
-	lay->addWidget(m_intoView);
+	lay->addWidget(m_intoView, 0, Qt::AlignBottom);
   setLayout(lay);
   
   m_volTimer = new QTimer(this);
