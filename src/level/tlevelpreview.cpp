@@ -27,7 +27,6 @@
 #include <QTextEdit>
 #include <QPainter>
 
-
 extern Tglobals *gl;
 
 /** Returns size of 'A' letter in curent widget font. */
@@ -47,11 +46,7 @@ TlevelPreview::TlevelPreview(QWidget* parent) :
 		m_summaryEdit = new QTextEdit(this);
 		m_summaryEdit->setReadOnly(true);
     m_summaryEdit->setFixedWidth(370);
-		m_summaryEdit->setStyleSheet("background-color: transparent;");
-// 		m_summaryEdit->setBackgroundRole(QPalette::NoRole);
-// 		m_summaryEdit->setAutoFillBackground(false);
-// 		m_summaryEdit->setAttribute(Qt::WA_NoBackground);
-// 		m_summaryEdit->setAttribute(Qt::WA_NoSystemBackground);
+    m_summaryEdit->viewport()->setStyleSheet("background-color: transparent;");
 		contLay->addWidget(m_summaryEdit);
 		contLay->addSpacing(10);
 		mainLay->addLayout(contLay);
@@ -190,7 +185,7 @@ void TlevelPreview::paintEvent(QPaintEvent* ) {
 	QPainter painter(this);
 	painter.setBrush(palette().base());
 	painter.setPen(Qt::NoPen);
-	painter.drawRect(0, 0, width(), height());
+	painter.drawRect(m_summaryEdit->geometry());
 	if (m_instrText != "") {
 			QFont nFont = QFont("nootka", 20, QFont::Normal);
 			nFont.setPixelSize(20);
@@ -198,7 +193,7 @@ void TlevelPreview::paintEvent(QPaintEvent* ) {
 			nFont.setPixelSize(nFont.pixelSize() * ((qreal)height() / (qreal)fm.boundingRect(m_instrText).height()));
 			painter.setFont(nFont);
 			QColor bg = palette().highlight().color();
-			bg.setAlpha(70);
+			bg.setAlpha(60);
 			painter.setPen(QPen(bg));
 			painter.drawText(QRect(0, 15, width(), height()), Qt::AlignCenter, m_instrText);
 	}

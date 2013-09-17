@@ -77,7 +77,7 @@ void TintonationView::paintEvent(QPaintEvent* ) {
   painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
   painter.setPen(Qt::NoPen);
 	QColor bg = palette().window().color();
-	bg.setAlpha(190);
+	bg.setAlpha(200);
 	painter.setBrush(bg);
 	if (m_pitchDiff == 0.0) {
 			painter.setPen(Qt::NoPen);

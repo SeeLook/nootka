@@ -63,7 +63,7 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
       noteColor = palette().highlightedText().color();
   } else {
 			QColor bg = palette().window().color();
-			bg.setAlpha(190);
+			bg.setAlpha(200);
       painter.setBrush(bg);
       noteColor = tc;
   }
