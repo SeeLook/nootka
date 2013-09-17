@@ -4,14 +4,11 @@ Plan for the Nootka One
 - change background of some labels (strings freq) in audio in settings
 - add example to 7th note widget
 - under windows guitar head glyph doesn't appear in guitar settings.
-- check is kind of instrument stored in exam file properly and appears in level preview
 - there is some bug: QList claims... 
 - level validation: when q: score & a: score or Q: name A: name and no different accidentals - switch solfege/letters
 - consider to remove accidental symbol from NoteName question - pressed accid button should be sufficient.
 - consider to have octave buttons in one row when there is enough space and in two rows when not only
 - set better position of answer/repeat tip
-- try to adjust navList widget width to the widest text in it
-- make order with jack (thread-ise input, format convertion)
 - add shadows under strings on pickup
 - do not transform pickup image for lefthanded - just change its pos
 - check intonation in exams
@@ -23,11 +20,10 @@ Plan for the Nootka One
 - check Russian Windows installer entries in *.nsi
 - practicing MODE
 
-- splash screen
-- add sound at start
+- add sound during wizard and about dialog
 
 - add string numbers to pixmap
-
+- make order with jack (thread-ise input, format convertion)
 
 TGLOBALS & TTUNE
     - let setTune has reference Ttune& as parameter

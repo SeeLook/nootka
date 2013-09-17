@@ -193,14 +193,14 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
   pitchView = new TpitchView(m_audioIn, this, false);
   pitchView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
   testLay->addWidget(pitchView);
-  pitchView->setPitchColor(palette().highlight().color());
+  pitchView->setPitchColor(Qt::darkGreen);
   pitchView->setMinimalVolume(m_glParams->minimalVol);
   testLay->addStretch(1);
   QVBoxLayout *freqLay = new QVBoxLayout();
   freqLay->setAlignment(Qt::AlignCenter);
 	
-	QColor lbg = palette().base().color();
-	lbg.setAlpha(220);
+// 	QColor lbg = palette().base().color();
+// 	lbg.setAlpha(220);
 	QString styleTxt = "background-color: palette(base); border: 1px solid palette(Text); border-radius: 5px;";
 	
   pitchLab = new QLabel("--", this);
@@ -217,7 +217,8 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
   getFreqStatusTip();
   freqLay->addWidget(freqLab);
   testLay->addLayout(freqLay);
-  testLay->addStretch(1);  
+  testLay->addStretch(1);
+	tuneFreqlab->setStyleSheet(styleTxt);
   
   testGr->setLayout(testLay);
   inLay->addWidget(testGr);
@@ -356,22 +357,20 @@ float AudioInSettings::offPitch(float pitch) {
 
 
 void AudioInSettings::getFreqStatusTip() {
-//   QString freqTxt = QString("<br><span style=\"font-family: nootka;\">6</span>E = %1 Hz, ").arg(offPitch(40.0f), 0, 'f', 1) +
-//             QString("<span style=\"font-family: nootka;\">5</span>A = %1 Hz, ").arg(offPitch(45.0f), 0, 'f', 1) + "<br>" +
-//             QString("<span style=\"font-family: nootka;\">4</span>d = %1 Hz, ").arg(offPitch(50.0f), 0, 'f', 1) +
-//             QString("<span style=\"font-family: nootka;\">3</span>g = %1 Hz, ").arg(offPitch(55.0f), 0, 'f', 1) + "<br>" +
-//             QString("<span style=\"font-family: nootka;\">2</span>h = %1 Hz, ").arg(offPitch(59.0f), 0, 'f', 1) +
-//             QString("<span style=\"font-family: nootka;\">1</span>e<sup>1</sup> = %1 Hz").arg(offPitch(64.0f), 0, 'f', 1);
 		QString freqTxt = "";
 		for (int i = 1; i <= m_tune->stringNr(); i++) {
-			freqTxt += QString("<span style=\"font-family: nootka;\">%1</span>%2 = %3 Hz, ").arg(i).
-			arg(TnoteName::noteToRichText(m_tune->str(i))).
-			arg(offPitch((float)m_tune->str(i).getChromaticNrOfNote() + 47), 0, 'f', 1);
-			if (i % 2 == 0 && i < 6)
-				freqTxt += "<br>";
+				freqTxt += QString("<span style=\"font-family: nootka;\">%1</span>%2 = %3 Hz, ").arg(i).
+				arg(TnoteName::noteToRichText(m_tune->str(i))).
+				arg(offPitch((float)m_tune->str(i).getChromaticNrOfNote() + 47), 0, 'f', 1);
+				if (i % 2 == 0 && i < 6)
+						freqTxt += "<br>"; // two entries per line 
+				else if (i % 3 == 0 && i < 6)
+						freqTxt += "ALT_BR"; // three entries per line
 		}
-    freqLab->setStatusTip(tr("Frequency of detected note. You can use this for tuning.") + "<br>" + freqTxt);
-    tuneFreqlab->setText(freqTxt);
+		QString freq2 = freqTxt;
+    freqLab->setStatusTip(tr("Frequency of detected note. You can use this for tuning.") + "<br>" + 
+													freq2.replace("<br>", "").replace("ALT_BR", "<br>")); // three entries per line in status tip
+    tuneFreqlab->setText(freqTxt.replace("ALT_BR", "")); // two entries per line on the label
 }
 
 

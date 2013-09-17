@@ -110,6 +110,7 @@ bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
     in >> lev.answersAs[0] >> lev.answersAs[1] >> lev.answersAs[2] >> lev.answersAs[3];
     in >> lev.withSharps >> lev.withFlats >> lev.withDblAcc;
     in >> lev.useKeySign >> lev.isSingleKey;
+		qDebug() << "isSingleKey" << (int)lev.isSingleKey;
     ok = getKeyFromStream(in, lev.loKey);
     ok = getKeyFromStream(in, lev.hiKey);
     in >> lev.manualKey >> lev.forceAccids;

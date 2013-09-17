@@ -867,7 +867,7 @@ void TexamExecutor::prepareToExam() {
 		TtipChart::defaultClef = m_level.clef;
   // clearing all views/widgets
     clearWidgets();
-		if (m_level.canBeGuitar())
+		if (m_level.instrument != e_noInstrument)
 				mW->guitar->createRangeBox(m_level.loFret, m_level.hiFret);
     m_soundTimer = new QTimer(this);
     connect(m_soundTimer, SIGNAL(timeout()), this, SLOT(startSniffing()));

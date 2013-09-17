@@ -210,8 +210,10 @@ void TsettingsDialog::changeSettingsWidget(int index) {
 					connect(m_guitarSett, SIGNAL(clefChanged(Tclef)), m_scoreSett, SLOT(defaultClefChanged(Tclef)));
 			if (m_sndOutSett)
 					connect(m_guitarSett, SIGNAL(instrumentChanged(int)), m_sndOutSett, SLOT(whenInstrumentChanged(int)));
-			if (m_sndInSett)
+			if (m_sndInSett) {
 					connect(m_guitarSett, SIGNAL(tuneChanged(Ttune*)), m_sndInSett, SLOT(tuneWasChanged(Ttune*)));
+					connect(m_guitarSett, SIGNAL(lowestNoteChanged(Tnote)), m_sndInSett, SLOT(whenLowestNoteChanges(Tnote)));
+			}
       currentWidget = m_guitarSett;
       break;
     }
