@@ -75,12 +75,16 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
       pauseButt->setStatusTip(tr("Switch on/off pitch detection"));
       pauseButt->setFont(QFont("nootka", 15));
   }
-  lay->addWidget(m_volMeter, 0, Qt::AlignBottom);
 	if (m_withButtons) {
+		lay->addWidget(m_volMeter, 0, Qt::AlignBottom);
 		lay->addWidget(voiceButt, 0, Qt::AlignBottom);
 		lay->addWidget(pauseButt, 0, Qt::AlignBottom);
+		lay->addWidget(m_intoView, 0, Qt::AlignBottom);
+	} else {
+		lay->addWidget(m_intoView, 0, Qt::AlignBottom);
+		lay->addWidget(m_volMeter, 0, Qt::AlignBottom);
 	}
-	lay->addWidget(m_intoView, 0, Qt::AlignBottom);
+	
   setLayout(lay);
   
   m_volTimer = new QTimer(this);
@@ -156,6 +160,7 @@ void TpitchView::resize(int fontSize) {
   m_intoView->setFixedHeight(qRound((float)fontSize * 1.2));
 }
 
+
 void TpitchView::setIsVoice(bool isVoice) {
   if (isVoice) {
       voiceButt->setText("v"); // singer symbol for voice mode
@@ -197,6 +202,7 @@ void TpitchView::updateLevel() {
     m_hideCnt++;
 }
 
+
 void TpitchView::pauseClicked() {
     if (m_isPaused) {
       pauseButt->setText("n"); // note symbol
@@ -216,6 +222,7 @@ void TpitchView::pauseClicked() {
 
 }
 
+
 void TpitchView::voiceClicked() {
       setIsVoice(!m_isVoice); // switch to opposite
 }
@@ -231,6 +238,7 @@ void TpitchView::paintEvent(QPaintEvent* )
     painter.setBrush(QBrush(m_bgColor));
     painter.drawRoundedRect(painter.viewport(), 2, 2 );
 }
+
 
 void TpitchView::stopTimerDelayed() {
    m_volTimer->stop();

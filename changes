@@ -3,7 +3,9 @@
      - buttons with octaves and accidentals are highlighted  during answering
      - crossing of played notes is fluent now - it was cleaned from cracks
      - preview of a level was improved
+     - intonation view displays more accurate differences to clear sound
     BUGS FIXES
+     - Nootka doesn't crash when guitar or singing is out of tune
      - fixed random crash when midi output was in use
      - piano stave is properly locked in exams and level creator
      - audio devices not supported rate of 44100 Hz are properly supported

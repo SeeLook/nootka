@@ -19,7 +19,7 @@
 
 #include "tintonationview.h"
 #include <QPainter>
-// #include <QDebug>
+#include <QDebug>
 #include <math.h>
 
 
@@ -30,8 +30,6 @@ TintonationView::TintonationView(int accuracy, QWidget* parent) :
   TabstractSoundView(parent),
   m_pitchDiff(0.0f)
 {
-//   setBackgroundRole(QPalette::Background);
-//   setAutoFillBackground(true);
   setAccuracy(accuracy);
   setMinimumSize(200, 17);
   resizeEvent(0);
@@ -45,12 +43,16 @@ TintonationView::~TintonationView()
 void TintonationView::setAccuracy(int accuracy) {
   m_accuracy = (Eaccuracy)accuracy;
   switch(m_accuracy) {
+		case e_paranoid:
+      m_accurValue = 0.05; break;
     case e_perfect:
       m_accurValue = 0.1; break;
     case e_normal:
       m_accurValue = 0.2; break;
     case e_sufficient:
       m_accurValue = 0.3; break;
+		case e_dogHowl:
+      m_accurValue = 0.4; break;
   }
   resizeEvent(0);
 }
@@ -60,7 +62,10 @@ void TintonationView::pitchSlot(float pitch) {
   bool doUpdate = false;
   if (m_pitchDiff != 0.0)
       doUpdate = true;
-  m_pitchDiff = pitch - (float)qRound(pitch);
+			/** @p m_pitchDiff is multiplied by 1.2 to increase its scale in small values range
+			 * and throw biggest values (near to quarter-tone) form view. */
+  m_pitchDiff = qBound(-0.49, (pitch - (float)qRound(pitch)) * 1.2, 0.49);
+// 	m_pitchDiff = (pitch - (float)qRound(pitch)) * 1.2;
   if (doUpdate)
       update();
 }
@@ -73,6 +78,11 @@ void TintonationView::pitchSlot(float pitch) {
 
 void TintonationView::paintEvent(QPaintEvent* ) {
   int lastColorThick = (qAbs(m_pitchDiff) / 0.5) * m_ticksCount;
+// 	if (lastColorThick > m_tickColors.size() - 1) {
+// 		qDebug() << "wrong calc. in intonation";
+// 		return;
+// 	}
+	qMin(lastColorThick, m_tickColors.size() - 1); // it avoids QList bug when m_pitchDiff is near 0.5 (quarter-tone)
   QPainter painter(this);
   painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
   painter.setPen(Qt::NoPen);
@@ -116,20 +126,19 @@ void TintonationView::paintEvent(QPaintEvent* ) {
 
 void TintonationView::resizeEvent(QResizeEvent* ) {
   resizeIt(height());
-//   qDebug() << "TintonationView" << height() << nootFont;
   m_noteX = (width() - noteBound.width() * 2) / 2;
-  m_ticksCount = m_noteX / (TICK_WIDTH + TICK_GAP);
+  m_ticksCount = (m_noteX / (TICK_WIDTH + TICK_GAP));
   m_hiTickStep = ((float)height() * 0.66) / m_ticksCount;
   m_tickColors.clear();
   for (int i = 0; i < m_ticksCount; i++) {
-    if (i <= m_ticksCount*m_accurValue) {
+    if (i <= (m_ticksCount * m_accurValue) ) {
       m_tickColors << gradColorAtPoint(0, m_noteX * m_accurValue * 2, startColor, middleColor, (i + 1) * (m_noteX / m_ticksCount));
     }
-    else if (i <= m_ticksCount*0.6) {
+    else if (i <= (m_ticksCount * 0.6) ) {
       m_tickColors << gradColorAtPoint(m_noteX * m_accurValue, m_noteX * 0.7, middleColor, endColor, (i + 1) * (m_noteX / m_ticksCount));
-      } else {
-          m_tickColors << gradColorAtPoint(m_noteX * 0.5, m_noteX, endColor, totalColor, (i + 1) * (m_noteX / m_ticksCount));
-        }
+		} else {
+			m_tickColors << gradColorAtPoint(m_noteX * 0.5, m_noteX, endColor, totalColor, (i + 1) * (m_noteX / m_ticksCount));
+		}
   }
 }
 
