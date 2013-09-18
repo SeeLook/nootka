@@ -29,10 +29,15 @@ class TintonationView : public TabstractSoundView
   Q_OBJECT
   
 public:
+				/** Eaccuracy describes difference between a perfect pitch and detected one.
+				 * As long as well tuned guitar keeps @p e_perfect ar even @ e_paranoid 
+				 * For human voice @p e_normal or @p e_sufficient is acceptable. */
     enum Eaccuracy {
-      e_perfect, 
-      e_normal,
-      e_sufficient
+				e_paranoid = 0, // ± 0.05
+				e_perfect = 1, // ± 0.1
+				e_normal = 2, // ± 0.2
+				e_sufficient = 3, // ± 0.3
+				e_dogHowl = 4 // ± 0.31 - 0.49
     };
   
     explicit TintonationView(int accuracy, QWidget *parent = 0);

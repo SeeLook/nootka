@@ -1,10 +1,7 @@
 Plan for the Nootka One
 
-
-- change background of some labels (strings freq) in audio in settings
 - add example to 7th note widget
 - under windows guitar head glyph doesn't appear in guitar settings.
-- there is some bug: QList claims... 
 - level validation: when q: score & a: score or Q: name A: name and no different accidentals - switch solfege/letters
 - consider to remove accidental symbol from NoteName question - pressed accid button should be sufficient.
 - consider to have octave buttons in one row when there is enough space and in two rows when not only

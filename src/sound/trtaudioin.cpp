@@ -257,9 +257,22 @@ void TaudioIN::pitchInChunkSlot(float pitch) {
 
 void TaudioIN::pitchFreqFound(float pitch, float freq) {
   if (!m_paused) {
-//       qDebug() << QString::fromStdString(Tnote(qRound(pitch - m_params->a440diff)-47).getName());
-			if (pitch >= m_pitch->aGl()->loPitch && pitch <= m_pitch->aGl()->topPitch)
+			if (pitch >= m_pitch->aGl()->loPitch && pitch <= m_pitch->aGl()->topPitch) {
+					float into = qAbs((pitch - audioParams->a440diff) - (float)qRound(pitch - audioParams->a440diff));
+					QString inText;
+					if (into < 0.05)
+						inText = "prof. of solfege";
+					else if (into < 0.1)
+						inText = "perfect";
+					else if (into < 0.2)
+						inText = "normal";
+					else if (into < 0.3)
+						inText = "sufficient";
+					else 
+						inText = "dog howl";
+					qDebug() << inText;
 					emit noteDetected(Tnote(qRound(pitch - audioParams->a440diff) - 47));
+			}
 			emit fundamentalFreq(freq);
   }
 }

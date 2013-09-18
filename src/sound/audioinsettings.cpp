@@ -189,13 +189,13 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
   testButt = new QPushButton(testTxt, this);
   testButt->setStatusTip(tr("Check, are your audio input settings appropriate?<br>And how well does pitch detection work for your selected settings?"));
   testLay->addWidget(testButt);
-  testLay->addStretch(1);
+//   testLay->addStretch(1);
   pitchView = new TpitchView(m_audioIn, this, false);
   pitchView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
   testLay->addWidget(pitchView);
   pitchView->setPitchColor(Qt::darkGreen);
   pitchView->setMinimalVolume(m_glParams->minimalVol);
-  testLay->addStretch(1);
+//   testLay->addStretch(1);
   QVBoxLayout *freqLay = new QVBoxLayout();
   freqLay->setAlignment(Qt::AlignCenter);
 	
@@ -217,7 +217,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
   getFreqStatusTip();
   freqLay->addWidget(freqLab);
   testLay->addLayout(freqLay);
-  testLay->addStretch(1);
+//   testLay->addStretch(1);
 	tuneFreqlab->setStyleSheet(styleTxt);
   
   testGr->setLayout(testLay);
