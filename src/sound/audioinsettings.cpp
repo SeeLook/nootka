@@ -24,6 +24,7 @@
 #include "taudioparams.h"
 #include "tnotename.h"
 #include "trtaudioin.h"
+#include "tintonationview.h"
 #include "tvolumeslider.h"
 #include "ttipchart.h"
 #include <tkeysignature.h>
@@ -52,9 +53,9 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
   
   QLabel *devLab = new QLabel(tr("input device"), this);
   devDetLay->addWidget(devLab);
-  inDeviceCombo = new QComboBox(this);
-  devDetLay->addWidget(inDeviceCombo);
-  inDeviceCombo->setStatusTip(tr("Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working."));
+  m_inDeviceCombo = new QComboBox(this);
+  devDetLay->addWidget(m_inDeviceCombo);
+  m_inDeviceCombo->setStatusTip(tr("Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working."));
   
   devDetLay->addStretch(1);
   
@@ -128,21 +129,21 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
   QLabel *intLab = new QLabel(tr("interval:"), this);
 //   midLay->addWidget(intLab);
   midGrLay->addWidget(intLab, 1, 0);
-  intervalCombo = new QComboBox(this);
+  m_intervalCombo = new QComboBox(this);
 //   midLay->addWidget(intervalCombo);
-  midGrLay->addWidget(intervalCombo, 1, 1);
-  intervalCombo->addItem(tr("semitone up"));
-  intervalCombo->addItem(tr("none"));
-  intervalCombo->addItem(tr("semitone down"));
-  intervalCombo->setStatusTip(tr("Shifts the frequency of <i>middle a</i> one semitone."));
+  midGrLay->addWidget(m_intervalCombo, 1, 1);
+  m_intervalCombo->addItem(tr("semitone up"));
+  m_intervalCombo->addItem(tr("none"));
+  m_intervalCombo->addItem(tr("semitone down"));
+  m_intervalCombo->setStatusTip(tr("Shifts the frequency of <i>middle a</i> one semitone."));
   if (freqSpin->value() <= 415)
-      intervalCombo->setCurrentIndex(2);
+      m_intervalCombo->setCurrentIndex(2);
     else if (freqSpin->value() >= 465)
-      intervalCombo->setCurrentIndex(0);
+      m_intervalCombo->setCurrentIndex(0);
     else
-      intervalCombo->setCurrentIndex(1);
+      m_intervalCombo->setCurrentIndex(1);
   midLay->addLayout(midGrLay);
-  intLab->setStatusTip(intervalCombo->statusTip());
+  intLab->setStatusTip(m_intervalCombo->statusTip());
   
   midABox->setLayout(midLay);
   tunLay->addWidget(midABox);
@@ -177,6 +178,10 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
 	rangeLay->addWidget(highRadio);
 	rangeBox->setLayout(rangeLay);
 	tunLay->addWidget(rangeBox);
+	
+	TintonationCombo *intoCombo = new TintonationCombo(this);
+	m_intonationCombo = intoCombo->accuracyCombo;
+	tunLay->addWidget(intoCombo, 0, Qt::AlignCenter);
 
   upLay->addLayout(tunLay);  
   inLay->addLayout(upLay);
@@ -231,7 +236,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
   enableInBox->setChecked(m_glParams->INenabled);
   
   connect(testButt, SIGNAL(clicked()), this, SLOT(testSlot()));
-  connect(intervalCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(intervalChanged(int)));
+  connect(m_intervalCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(intervalChanged(int)));
   connect(freqSpin, SIGNAL(valueChanged(int)), this, SLOT(baseFreqChanged(int)));
   connect(volumeSlider, SIGNAL(valueChanged(float)), this, SLOT(minimalVolChanged(float)));
 	connect(voiceRadio, SIGNAL(clicked(bool)), this, SLOT(voiceOrInstrumentChanged()));
@@ -260,20 +265,21 @@ void AudioInSettings::setTestDisabled(bool disabled) {
 			freqLab->setDisabled(true);
 			pitchView->setDisabled(true);
 	// enable the rest of widget
-			inDeviceCombo->setDisabled(false);
+			m_inDeviceCombo->setDisabled(false);
 			modeGr->setDisabled(false);
 			midABox->setDisabled(false);
 			volumeSlider->setDisabled(false);
 			lowRadio->setDisabled(false);
 			middleRadio->setDisabled(false);
 			highRadio->setDisabled(false);
+			m_intonationCombo->setDisabled(false);
 			voiceOrInstrumentChanged();
   } else {
 			pitchLab->setDisabled(false);
 			freqLab->setDisabled(false);
 			pitchView->setDisabled(false);
 	// disable the rest of widget
-			inDeviceCombo->setDisabled(true);
+			m_inDeviceCombo->setDisabled(true);
 			midABox->setDisabled(true);
 			modeGr->setDisabled(true);
 			volumeSlider->setDisabled(true);
@@ -281,6 +287,7 @@ void AudioInSettings::setTestDisabled(bool disabled) {
 			middleRadio->setDisabled(true);
 			highRadio->setDisabled(true);
 			durationSpin->setDisabled(true);
+			m_intonationCombo->setDisabled(true);
   }
 }
 
@@ -290,7 +297,7 @@ void AudioInSettings::grabParams(TaudioParams *params) {
       params->a440diff = 0.0;
   else
       params->a440diff = m_tmpParams->a440diff = getDiff(freqSpin->value());
-  params->INdevName = inDeviceCombo->currentText();
+  params->INdevName = m_inDeviceCombo->currentText();
   if (voiceRadio->isChecked())
       params->isVoice = true;
   else
@@ -304,6 +311,7 @@ void AudioInSettings::grabParams(TaudioParams *params) {
 	else
 			params->range = TaudioParams::e_high;
 	params->minDuration = (float)durationSpin->value() / 1000.0f;
+	params->intonation = m_intonationCombo->currentIndex();
 }
 
 
@@ -312,12 +320,13 @@ void AudioInSettings::restoreDefaults() {
 		testSlot();
 	enableInBox->setChecked(true);
 	freqSpin->setValue(440);
-	intervalCombo->setCurrentIndex(1); // none
-	inDeviceCombo->setCurrentIndex(0);
+	m_intervalCombo->setCurrentIndex(1); // none
+	m_inDeviceCombo->setCurrentIndex(0);
 	instrRadio->setChecked(true);
 	volumeSlider->setValue(0.4); // It is multipled by 100
 	middleRadio->setChecked(true);
 	durationSpin->setValue(90);
+	m_intonationCombo->setCurrentIndex(3); // normal
 }
 
 
@@ -337,16 +346,16 @@ void AudioInSettings::generateDevicesList() {
 
 
 void AudioInSettings::setDevicesCombo() {
-  inDeviceCombo->clear();
-  inDeviceCombo->addItems(TaudioIN::getAudioDevicesList());
-  if (inDeviceCombo->count()) {
-        int id = inDeviceCombo->findText(m_glParams->INdevName);
+  m_inDeviceCombo->clear();
+  m_inDeviceCombo->addItems(TaudioIN::getAudioDevicesList());
+  if (m_inDeviceCombo->count()) {
+        int id = m_inDeviceCombo->findText(m_glParams->INdevName);
         if (id != -1)
-            inDeviceCombo->setCurrentIndex(id);
-				inDeviceCombo->setDisabled(false);
+            m_inDeviceCombo->setCurrentIndex(id);
+				m_inDeviceCombo->setDisabled(false);
     } else {
-        inDeviceCombo->addItem(tr("no devices found"));
-        inDeviceCombo->setDisabled(true);
+        m_inDeviceCombo->addItem(tr("no devices found"));
+        m_inDeviceCombo->setDisabled(true);
   }
 }
 
@@ -435,7 +444,7 @@ void AudioInSettings::freqSlot(float freq) {
 
 
 void AudioInSettings::intervalChanged(int index) {
-  if (intervalCombo->hasFocus()) {
+  if (m_intervalCombo->hasFocus()) {
 		switch (index) {
       case 0 : freqSpin->setValue(pitch2freq(70)); break;
       case 1 : freqSpin->setValue(pitch2freq(69)); break;
@@ -450,11 +459,11 @@ void AudioInSettings::intervalChanged(int index) {
 void AudioInSettings::baseFreqChanged(int bFreq) {
   if (freqSpin->hasFocus()) {
     if (freqSpin->value() <= 415)
-      intervalCombo->setCurrentIndex(2);
+      m_intervalCombo->setCurrentIndex(2);
     else if (freqSpin->value() >= 465)
-      intervalCombo->setCurrentIndex(0);
+      m_intervalCombo->setCurrentIndex(0);
     else
-      intervalCombo->setCurrentIndex(1);
+      m_intervalCombo->setCurrentIndex(1);
     m_tmpParams->a440diff = getDiff(freqSpin->value());
     getFreqStatusTip();
   }

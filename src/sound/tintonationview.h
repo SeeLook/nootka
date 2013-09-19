@@ -22,6 +22,7 @@
 
 #include "tabstractsoundview.h"
 
+class QComboBox;
 
 class TintonationView : public TabstractSoundView
 {
@@ -33,11 +34,12 @@ public:
 				 * As long as well tuned guitar keeps @p e_perfect ar even @ e_paranoid 
 				 * For human voice @p e_normal or @p e_sufficient is acceptable. */
     enum Eaccuracy {
-				e_paranoid = 0, // ± 0.05
-				e_perfect = 1, // ± 0.1
-				e_normal = 2, // ± 0.2
-				e_sufficient = 3, // ± 0.3
-				e_dogHowl = 4 // ± 0.31 - 0.49
+				e_noCheck = 0, // ± 0.41 - 0.49
+				e_dogHowl = 1, // ± 0.31 - 0.40
+				e_sufficient = 2, // ± 0.21 - 0.3
+				e_normal = 3, // ± 0.11 - 0.2
+				e_perfect = 4, // ± 0.06 - 0.1
+				e_paranoid = 5 // ± 0.05
     };
   
     explicit TintonationView(int accuracy, QWidget *parent = 0);
@@ -62,6 +64,19 @@ private:
     Eaccuracy       m_accuracy;
     float           m_accurValue;
 
+};
+
+/** This is QLabel with combo box in single line.
+* ComboBox contains accuracy levels for intonation check. */
+class TintonationCombo : public QWidget
+{
+	
+public:
+	explicit TintonationCombo(QWidget* parent);
+	
+	QComboBox *accuracyCombo;
+	
+	
 };
 
 #endif // TINTONATIONVIEW_H

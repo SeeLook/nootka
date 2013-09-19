@@ -207,6 +207,7 @@ Tglobals::Tglobals() :
 			A->minDuration = config->value("minimalDuration", 0.09).toFloat();
       A->a440diff = config->value("a440Offset", 0).toFloat();
 			A->range = (TaudioParams::Erange)config->value("pitchDetectRange", (int)TaudioParams::e_middle).toInt();
+			A->intonation = (quint8)qBound(0, config->value("intonation", 3).toInt(), 5);
     config->endGroup();
 
 }
@@ -329,5 +330,6 @@ void Tglobals::storeSettings() {
 				config->setValue("minimalDuration", A->minDuration);
         config->setValue("a440Offset", A->a440diff);
 				config->setValue("pitchDetectRange", (int)A->range);
+				config->setValue("intonation", A->intonation);
     config->endGroup();
 }

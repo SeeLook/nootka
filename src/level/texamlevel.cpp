@@ -21,6 +21,7 @@
 #include "texamlevel.h"
 #include "tglobals.h"
 #include <ttune.h>
+#include <taudioparams.h>
 #include <QDebug>
 
 extern Tglobals *gl;
@@ -55,7 +56,7 @@ TexamLevel::TexamLevel()
    hiNote = Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber);
    /** variables isNoteLo, isNoteHi and isFretHi are not used - it has no sense.
 		*  Since version 0.8.90 isNoteLo and isNoteHi are merged into Tclef.
-		*  It can store multiple clefs (mayby somewhen it will be used)
+		*  It can store multiple clefs (maybe in unknown future it will be used)
 		*  0 - no clef and up to 15 different clefs	  */
 	 clef = Tclef(gl->Sclef);
 //    isNoteLo = false;   isNoteHi = false;
@@ -72,14 +73,17 @@ TexamLevel::TexamLevel()
 	 }
    onlyLowPos = false;
    onlyCurrKey = false;
+	 intonation = gl->A->intonation;
 }
+
 
 QDataStream &operator << (QDataStream &out, TexamLevel &lev) {
     out << lev.name << lev.desc;
     out << lev.questionAs;
     out << lev.answersAs[0] << lev.answersAs[1] << lev.answersAs[2] << lev.answersAs[3];
     out << lev.withSharps << lev.withFlats << lev.withDblAcc;
-    out << lev.useKeySign << lev.isSingleKey;
+		quint8 sharedByte = (int)lev.isSingleKey + (2 * lev.intonation);
+    out << lev.useKeySign << sharedByte;
     out << lev.loKey << lev.hiKey;
     out << lev.manualKey << lev.forceAccids;
     out <<  lev.requireOctave << lev.requireStyle;
@@ -109,8 +113,11 @@ bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
     in >> lev.questionAs;
     in >> lev.answersAs[0] >> lev.answersAs[1] >> lev.answersAs[2] >> lev.answersAs[3];
     in >> lev.withSharps >> lev.withFlats >> lev.withDblAcc;
-    in >> lev.useKeySign >> lev.isSingleKey;
-		qDebug() << "isSingleKey" << (int)lev.isSingleKey;
+		quint8 sharedByte;
+    in >> lev.useKeySign >> sharedByte;
+		lev.isSingleKey = (bool)(sharedByte % 2);
+		lev.intonation = sharedByte / 2;
+		qDebug() << "isSingleKey" << (int)lev.isSingleKey << "intonation" << lev.intonation;
     ok = getKeyFromStream(in, lev.loKey);
     ok = getKeyFromStream(in, lev.hiKey);
     in >> lev.manualKey >> lev.forceAccids;

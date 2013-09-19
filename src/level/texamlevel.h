@@ -44,6 +44,7 @@ public:
     bool withSharps, withFlats, withDblAcc;
     bool useKeySign;
     bool isSingleKey;
+		quint8 intonation; // This shares byte with isSingleKey in file
     TkeySignature loKey, hiKey; /** range of key signature */
     bool manualKey; /** manually selecting key in answers */
     bool forceAccids;

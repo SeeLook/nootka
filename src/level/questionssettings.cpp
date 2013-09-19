@@ -20,6 +20,7 @@
 #include "questionssettings.h"
 #include "tquestionaswdg.h"
 #include "tkeysigncombobox.h"
+#include <tintonationview.h>
 #include <QtGui>
 
 extern bool isNotSaved;
@@ -55,9 +56,9 @@ questionsSettings::questionsSettings(QWidget *parent) :
     QLabel *asFretLab = new QLabel(TquestionAsWdg::asFretPosTxt().replace(" ", "<br>"), this);
     asFretLab->setAlignment(Qt::AlignCenter);
     qaLay->addWidget(asFretLab, 0, 4, Qt::AlignBottom);
-    asSoundLab = new QLabel(TquestionAsWdg::asSoundTxt().replace(" ", "<br>"), this);
-    asSoundLab->setAlignment(Qt::AlignCenter);
-    qaLay->addWidget(asSoundLab, 0, 5, Qt::AlignBottom);
+    m_asSoundLab = new QLabel(TquestionAsWdg::asSoundTxt().replace(" ", "<br>"), this);
+    m_asSoundLab->setAlignment(Qt::AlignCenter);
+    qaLay->addWidget(m_asSoundLab, 0, 5, Qt::AlignBottom);
   // CheckBoxes with types of answers for every kind of question
     asNoteWdg = new TquestionAsWdg(TQAtype::e_asNote, qaLay, 1, this);
     asNameWdg = new TquestionAsWdg(TQAtype::e_asName, qaLay, 2, this);
@@ -77,9 +78,9 @@ questionsSettings::questionsSettings(QWidget *parent) :
     QLabel *guitarNooLab = new QLabel("g?", this);
     guitarNooLab->setFont(nf);
     qaLay->addWidget(guitarNooLab, 3, 6, Qt::AlignCenter);
-    soundNooLab = new QLabel("n?", this);
-    soundNooLab->setFont(nf);
-    qaLay->addWidget(soundNooLab, 4, 6);
+    m_soundNooLab = new QLabel("n?", this);
+    m_soundNooLab->setFont(nf);
+    qaLay->addWidget(m_soundNooLab, 4, 6);
   // Labels on the bottom side of the table with symbols of types - related to answers  
     QLabel *qScoreNooLab = new QLabel("s!", this);
     qScoreNooLab->setFont(nf);
@@ -90,9 +91,9 @@ questionsSettings::questionsSettings(QWidget *parent) :
     QLabel *qGuitarNooLab = new QLabel("g!", this);
     qGuitarNooLab->setFont(nf);
     qaLay->addWidget(qGuitarNooLab, 5, 4, Qt::AlignCenter);
-    qSoundNooLab = new QLabel("n!", this);
-    qSoundNooLab->setFont(nf);
-    qaLay->addWidget(qSoundNooLab, 5, 5);
+    m_qSoundNooLab = new QLabel("n!", this);
+    m_qSoundNooLab->setFont(nf);
+    qaLay->addWidget(m_qSoundNooLab, 5, 5);
     
     m_tableWdg->setLayout(qaLay);
     mainLay->addLayout(tabLay);
@@ -124,6 +125,10 @@ questionsSettings::questionsSettings(QWidget *parent) :
     currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);
     currKeySignChBox->setStatusTip(tr("Only notes from current key signature are taken.<br>If key signature is disabled accidentals are not used."));
     chLay->addWidget(currKeySignChBox, 2, 1, Qt::AlignLeft);
+		
+		TintonationCombo *intoCombo = new TintonationCombo(this);
+		m_intonationCombo = intoCombo->accuracyCombo; // we need only combo box (label is not necessary)
+		mainLay->addWidget(intoCombo, 0, Qt::AlignCenter);
       
     setLayout(mainLay);
 
@@ -138,7 +143,9 @@ questionsSettings::questionsSettings(QWidget *parent) :
     connect(showStrNrChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
     connect(lowPosOnlyChBox, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
     connect(currKeySignChBox, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+		connect(m_intonationCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(whenParamsChanged()));
 }
+
 
 void questionsSettings::loadLevel(TexamLevel& level) {
     asNoteWdg->setAnswers(level.answersAs[TQAtype::e_asNote]);
@@ -156,6 +163,7 @@ void questionsSettings::loadLevel(TexamLevel& level) {
     showStrNrChB->setChecked(level.showStrNr);
     lowPosOnlyChBox->setChecked(level.onlyLowPos);
     currKeySignChBox->setChecked(level.onlyCurrKey);
+		m_intonationCombo->setCurrentIndex(level.intonation);
 }
 
 
@@ -188,7 +196,11 @@ void questionsSettings::whenParamsChanged() {
     }
     else
           emit accidEnabled(true);
-    
+	// Is sound input enabled to enable intonation
+		if (asNoteWdg->answerAsSound() || asNameWdg->answerAsSound() || asFretPosWdg->answerAsSound() || asSoundWdg->answerAsSound())
+				m_intonationCombo->setDisabled(false);
+		else
+				m_intonationCombo->setDisabled(true);
     
     if (!isNotSaved) {
         isNotSaved = true;
@@ -213,6 +225,7 @@ void questionsSettings::saveLevel(TexamLevel &level) {
     level.showStrNr = showStrNrChB->isChecked();
     level.onlyLowPos = lowPosOnlyChBox->isChecked();
     level.onlyCurrKey = currKeySignChBox->isChecked();
+		level.intonation = m_intonationCombo->currentIndex();
 }
 
 
@@ -226,13 +239,13 @@ void questionsSettings::paintEvent(QPaintEvent* ) {
       (asNoteWdg->enableChBox->geometry().top() - m_questLab->geometry().bottom()) / 2;
   painter.drawLine(m_tableWdg->geometry().left(), vertLineUpY, m_tableWdg->geometry().right(), vertLineUpY);
   int vertLineDownY = m_tableWdg->geometry().y() +  asSoundWdg->enableChBox->geometry().bottom() + 
-      (qSoundNooLab->geometry().top() - asSoundWdg->enableChBox->geometry().bottom()) / 2;
+      (m_qSoundNooLab->geometry().top() - asSoundWdg->enableChBox->geometry().bottom()) / 2;
   painter.drawLine(m_tableWdg->geometry().left(), vertLineDownY, m_tableWdg->geometry().right(), vertLineDownY);
   int horLineLeftX = m_tableWdg->geometry().x() + asNoteWdg->enableChBox->geometry().right() + 
       (asNoteWdg->asNoteChB->geometry().left() - asNoteWdg->enableChBox->geometry().right()) / 2;
   painter.drawLine(horLineLeftX, m_tableWdg->geometry().top(), horLineLeftX, m_tableWdg->geometry().bottom());
-  int horLineRightX = m_tableWdg->geometry().x() + asSoundLab->geometry().right() + 
-      (soundNooLab->geometry().left() - asSoundLab->geometry().right()) / 2;
+  int horLineRightX = m_tableWdg->geometry().x() + m_asSoundLab->geometry().right() + 
+      (m_soundNooLab->geometry().left() - m_asSoundLab->geometry().right()) / 2;
   painter.drawLine(horLineRightX , m_tableWdg->geometry().top(), horLineRightX, m_tableWdg->geometry().bottom());
 }
 

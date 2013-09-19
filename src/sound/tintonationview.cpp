@@ -19,6 +19,9 @@
 
 #include "tintonationview.h"
 #include <QPainter>
+#include <QVBoxLayout>
+#include <QComboBox>
+#include <QLabel>
 #include <QDebug>
 #include <math.h>
 
@@ -141,6 +144,32 @@ void TintonationView::resizeEvent(QResizeEvent* ) {
 		}
   }
 }
+
+
+//===============================================================================================================
+//############################### TintonationCombo ##############################################################
+//===============================================================================================================
+
+TintonationCombo::TintonationCombo(QWidget* parent) : 
+	QWidget(parent)
+{
+	QLabel *lab = new QLabel(tr("intonation"), this);
+	accuracyCombo = new QComboBox(this);
+	accuracyCombo->addItem(tr("do not check"));
+	accuracyCombo->addItem(tr("dog howl"));
+	accuracyCombo->addItem(tr("drunken sailor"));
+	accuracyCombo->addItem(tr("ordinary student"));
+	accuracyCombo->addItem(tr("concerting violinist"));
+	accuracyCombo->addItem(tr("solfege teacher"));
+	
+	QHBoxLayout *lay = new QHBoxLayout;
+	lay->addWidget(lab);
+	lay->addWidget(accuracyCombo);
+	setLayout(lay);
+}
+
+
+
 
 
 
