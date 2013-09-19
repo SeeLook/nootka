@@ -51,6 +51,7 @@ QList<TexamLevel> getExampleLevels() {
     l.requireOctave = false;
     l.requireStyle = false;
     l.showStrNr = false;
+		l.intonation = 0; // do not check
 		//clef default, user/tune defined
 		//instrument default - selected by user
     l.hiNote = Tnote(gl->hiString().getChromaticNrOfNote()); 
@@ -86,6 +87,7 @@ QList<TexamLevel> getExampleLevels() {
     l.loNote = Tnote(1, 0 + octaveOffset, 0);
     l.hiNote = Tnote(1, 1 + octaveOffset, 0);
     l.hiFret = 3; // loFret is 0 by constuctor
+    l.intonation = 0; // do not check
     llist << l;
 //----------------------------------------------------------------------------
     l.name = QObject::tr("All to V fret");
@@ -108,6 +110,7 @@ QList<TexamLevel> getExampleLevels() {
     l.loNote = gl->loString();
     l.hiNote = Tnote(gl->hiString().getChromaticNrOfNote() + 5);
     l.hiFret = 5;// loFret is 0 by constuctor
+    l.intonation = 0; // do not check
     llist << l;
 //----------------------------------------------------------------------------
     l = TexamLevel();
@@ -133,6 +136,7 @@ QList<TexamLevel> getExampleLevels() {
     l.showStrNr = false;
 		l.clef = Tclef(Tclef::e_treble_G);
 		l.instrument = e_noInstrument;
+		l.intonation = 0; // do not check
     l.loNote = Tnote(6, 0);
     l.hiNote = Tnote(6, 2);
     l.hiFret = 19;// loFret is 0 by constuctor
@@ -163,6 +167,7 @@ QList<TexamLevel> getExampleLevels() {
 		//instrument default - selected by user
 //     l.loNote & l.hiNote from constructor
 //     l.hiFret by constuctor
+// 		l.intonation = gl->A->intonation; // user preferences (in constructor)
     l.onlyLowPos = true;
     llist << l;
 //----------------------------------------------------------------------------
@@ -192,6 +197,7 @@ QList<TexamLevel> getExampleLevels() {
     l.loNote = Tnote(5, 0); // G contra
     l.hiNote = Tnote(6, 2); // a one-line
 //     l.hiFret by constuctor
+// 		l.intonation = gl->A->intonation; // user preferences (in constructor)
     l.onlyLowPos = true;
     llist << l;
     return llist;

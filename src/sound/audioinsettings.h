@@ -83,7 +83,7 @@ private:
   float getDiff(int freq);
 	
   
-  QComboBox 					*inDeviceCombo, *intervalCombo;
+  QComboBox 					*m_inDeviceCombo, *m_intervalCombo, *m_intonationCombo;
   QGroupBox 					*enableInBox, *modeGr, *midABox;
   QRadioButton 				*voiceRadio, *instrRadio;
 	QRadioButton				*highRadio, *middleRadio, *lowRadio;

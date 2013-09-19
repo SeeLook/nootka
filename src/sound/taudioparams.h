@@ -48,13 +48,14 @@ public:
 // audio input settings
   bool INenabled; // is audio input enabled
   QString INdevName; // input device name
-  float a440diff; // difference betwen standard a1 440Hz and user prefered base pitch
+  float a440diff; // difference between standard a1 440Hz and user preferred base pitch
   float minimalVol; // only above this value detected note is sending to Nootka
-  float minDuration; // minimal duration of a sound aove which it is detected
+  float minDuration; // minimal duration of a sound above which it is detected
     /** If true - pitch is average of all visible pitches
      * if false - the first detected in sound over noise is taken.  */
   bool isVoice;
 	Erange range; // pitch detection range
+	quint8 intonation; // accuracy of intonation in detected note - corresponds with Eaccuracy
 
 // audio output settings
   bool OUTenabled; // audio output enabled
@@ -62,7 +63,7 @@ public:
   bool midiEnabled; // default false
   QString midiPortName; // default empty to find system default
   unsigned char midiInstrNr; // default 0 - grand piano
-  int audioInstrNr; // coresponds with Einstrument enum numbers, default 1 classical guitar
+  int audioInstrNr; // corresponds with Einstrument enum numbers, default 1 classical guitar
 };
 
 

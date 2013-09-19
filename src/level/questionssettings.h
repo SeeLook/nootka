@@ -23,6 +23,7 @@
 #include <QWidget>
 #include "texamlevel.h"
 
+class QComboBox;
 class QCheckBox;
 class QButtonGroup;
 class QLabel;
@@ -82,10 +83,11 @@ private:
     QWidget *m_tableWdg;
     QLabel *m_questLab; // QLabel with 'QUESTION' text
     TverticalLabel *m_answLab; // TverticalLabel with 'ANSWER' text
-    QLabel *asSoundLab, *soundNooLab, *qSoundNooLab;
+    QLabel *m_asSoundLab, *m_soundNooLab, *m_qSoundNooLab;
     TquestionAsWdg *asNoteWdg, *asNameWdg, *asFretPosWdg, *asSoundWdg;
     QCheckBox *styleRequiredChB, *octaveRequiredChB, *forceAccChB, *showStrNrChB;
     QCheckBox *lowPosOnlyChBox, *currKeySignChBox;
+		QComboBox *m_intonationCombo;
 
 private slots:
       /** Every element calls this when clicked. */
