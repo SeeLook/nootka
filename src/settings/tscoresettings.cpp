@@ -85,7 +85,7 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
     mainLay->addWidget(m_enablKeyNameGr);
 
     QHBoxLayout *colLay = new QHBoxLayout;
-    QLabel *colLab = new QLabel(tr("color of pointed note"), this);
+    QLabel *colLab = new QLabel(tr("note-cursor color"), this);
     m_notePointColorBut = new TcolorButton(gl->SpointerColor, this);
 		colLay->addStretch(1);
     colLay->addWidget(colLab, 0, Qt::AlignRight);

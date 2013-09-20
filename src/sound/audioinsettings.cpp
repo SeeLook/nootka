@@ -182,6 +182,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
 	TintonationCombo *intoCombo = new TintonationCombo(this);
 	m_intonationCombo = intoCombo->accuracyCombo;
 	tunLay->addWidget(intoCombo, 0, Qt::AlignCenter);
+	m_intonationCombo->setCurrentIndex(m_glParams->intonation);
 
   upLay->addLayout(tunLay);  
   inLay->addLayout(upLay);

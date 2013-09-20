@@ -54,7 +54,7 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
     lay->addStretch(1);
     m_hintsEnabledChBox = new QCheckBox(tr("show hints"), this);
     m_hintsEnabledChBox->setChecked(gl->hintsEnabled);
-    m_hintsEnabledChBox->setStatusTip(tr("Show descriptions of the interface's elements."));
+    m_hintsEnabledChBox->setStatusTip(tr("Show description of Nootka's elements."));
     lay->addWidget(m_hintsEnabledChBox);
     lay->addStretch(1);
 		QHBoxLayout *langLay = new QHBoxLayout;

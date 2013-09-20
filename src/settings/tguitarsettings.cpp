@@ -72,7 +72,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 		m_instrumentTypeCombo->addItem(instrumentToText(e_bassGuitar));
 		guitarLay->addStretch(1);
 	// Right-handed/left-handed check box
-    m_righthandCh = new QCheckBox(tr("guitar strung for\n right-handed players", "Please, add \n only when a translation has got more than 3-4 words."), this);
+    m_righthandCh = new QCheckBox(tr("right-handed players", "When translation will be too long try to add '\n' - line break between words."), this);
     m_righthandCh->setChecked(gl->GisRightHanded);
     m_righthandCh->setStatusTip(tr("Uncheck this if you are left-handed<br>and your guitar is strung for left-handed playing (changed string order)"));
     guitarLay->addWidget(m_righthandCh);
