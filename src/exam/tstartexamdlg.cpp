@@ -44,7 +44,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
 
     QVBoxLayout *levLay = new QVBoxLayout;
     QHBoxLayout *nameLay = new QHBoxLayout;
-    QLabel *nameLab = new QLabel(tr("student's name:"), this);
+    QLabel *nameLab = new QLabel(tr("student name:"), this);
     nameLay->addWidget(nameLab);
     m_nameEdit = new QLineEdit(nick, this);
     if (nick == "")
@@ -63,7 +63,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
     m_createBut->setIcon(QIcon(path + "picts/levelCreator.png"));
     m_createBut->setIconSize(QSize(48, 48));
     m_newExamBut = new QPushButton(tr("start new exam"), this);
-    m_newExamBut->setStatusTip(m_newExamBut->text() + "<br><b>" + tr("Any level was not selected!") + "</b>");
+    m_newExamBut->setStatusTip(m_newExamBut->text() + "<br><b>" + tr("No level was selected!") + "</b>");
     m_newExamBut->setIcon(QIcon(path + "picts/startExam.png"));
     m_newExamBut->setIconSize(QSize(48, 48));
 

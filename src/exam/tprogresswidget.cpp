@@ -98,7 +98,7 @@ void TprogressWidget::updateLabels(int penaltys) {
   int remained = qMax(0, m_totalNr + penaltys - m_answersNr);
   m_answLab->setText(QString("%1 + %2").arg(m_answersNr).arg(remained));
   m_answLab->setStatusTip(tr("Answered questions") + QString(": %1").arg(m_answersNr) +
-        "<br>" + tr("Remaining questions") + QString(": %1 ").arg(remained)  );
+        "<br>" + tr("Unanswered questions", "could be also: 'rest of the questions' or 'remaining questions'") + QString(": %1 ").arg(remained)  );
   m_totalLab->setText(QString(" %1 (%2)").arg(m_totalNr + penaltys).arg(penaltys));
   m_totalLab->setStatusTip(tr("Total questions in this exam") + QString(": %1 ").arg(m_totalNr + penaltys) +
     "<br>(" + tr("penalties") + QString(": %1)").arg(penaltys));

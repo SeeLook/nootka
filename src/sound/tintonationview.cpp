@@ -156,11 +156,11 @@ TintonationCombo::TintonationCombo(QWidget* parent) :
 	QLabel *lab = new QLabel(tr("intonation"), this);
 	accuracyCombo = new QComboBox(this);
 	accuracyCombo->addItem(tr("do not check"));
-	accuracyCombo->addItem(tr("dog howl"));
-	accuracyCombo->addItem(tr("drunken sailor"));
-	accuracyCombo->addItem(tr("ordinary student"));
-	accuracyCombo->addItem(tr("concerting violinist"));
-	accuracyCombo->addItem(tr("solfege teacher"));
+	accuracyCombo->addItem(tr("gum pain"));
+	accuracyCombo->addItem(tr("violinist beginner"));
+	accuracyCombo->addItem(tr("old strings"));
+	accuracyCombo->addItem(tr("professional"));
+	accuracyCombo->addItem(tr("perfect"));
 	
 	QHBoxLayout *lay = new QHBoxLayout;
 	lay->addWidget(lab);

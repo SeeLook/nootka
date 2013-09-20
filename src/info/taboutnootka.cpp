@@ -105,12 +105,15 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
   // TRANSLATORS
     QString translStr = getHeader(tr("Translators"));
     translStr += "<table valign=\"middle\" align=\"center\">";
-  // czech
+  // Czech
     translStr += transRow("cs", QString::fromUtf8("český"), "Pavel Fric",
                           "<a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a>");
-  // french
+  // English
+		translStr += transRow("en", "english", "Luster", 
+                          "<a href=\"http://linuxmusicians.com\">http://linuxmusicians.com</a>");
+  // French
     translStr += transRow("fr", QString::fromUtf8("français"), "Olivier Devineau", "");
-  // polish
+  // Polish
     translStr += transRow("pl", "polski", "Tomasz Bojczuk", 
                           "<a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>");
 		translStr += transRow("ru", QString::fromUtf8("русский"), "Sergei Ivanov (tico-tico)", "");
