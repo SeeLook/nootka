@@ -136,6 +136,7 @@ SET( NOOTKA_SRCS
   exam/tprogresswidget.cpp
   exam/tgroupedqaunit.cpp
   exam/tfinishtip.cpp
+  exam/tglobalstore.cpp
 ###### Info
   info/taboutnootka.cpp
   info/tfirstrunwizzard.cpp
