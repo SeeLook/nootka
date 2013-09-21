@@ -31,8 +31,8 @@ public:
     
     QColor gradColorAtPoint(float lineX1, float lineX2, QColor startC, QColor endC, float posC);
     
-    static QColor tc, startColor, middleColor, endColor, totalColor;
-    
+    static QColor startColor, middleColor, endColor, totalColor;
+    QColor tc;
     void setDisabled(bool isDisabled);
     
 protected:

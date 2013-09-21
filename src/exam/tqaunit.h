@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -27,13 +27,11 @@
 #include "tkeysignature.h"
 
 
-    /** This class describes single question and given answer.
-    * @author Tomasz Bojczuk <tomaszbojczuk@gmail.com> */
+/** This class describes single question and given answer.*/
 class TQAunit
 {
 public:
     TQAunit();
-    ~TQAunit();
 
     struct TQAgroup {
         TfingerPos pos;
@@ -41,22 +39,23 @@ public:
     };
 
     enum Emistake { e_correct = 0,
-		    e_wrongAccid = 1, //ocurs during enharmonic conversion
+		    e_wrongAccid = 1, //occurs during enharmonic conversion
 		    e_wrongKey = 2,
 		    e_wrongOctave = 4,
-		    e_wrongStyle = 8, //for further releases when typeing of note name will be implemented
+		    e_wrongStyle = 8, //for further releases when typing of note name will be implemented
 		    e_wrongPos = 16, // when wrong position
-        e_wrongString = 32, // when sound is ok but not on required string
-		    e_wrongNote = 64 // the highest crime  
+        e_wrongString = 32, // when sound is proper but not on required string
+		    e_wrongNote = 64, // the highest crime
+		    e_wrongIntonation = 128 // when detected sound is out of range of intonation accuracy
     };
 
         /** Returns string with time divided by 10. 
-        * Usually time is stored in value multipled by 10. 
+        * Usually time is stored in value multiplied by 10. 
         * @param prec defines digit number after point. */
     static QString timeToText(int time10, int prec = 1) { return QString("%1").arg((qreal)time10 / 10, 0, 'f', prec); }
         /** Gives ready to insert string with time value. */
     QString timeText() { return timeToText(time); }
-        /** Returns time value divaided by 10*/
+        /** Returns time value divided by 10*/
     double getTime() { return (double)time / 10.0; }
     
     void setMistake(Emistake mis);
@@ -71,7 +70,7 @@ public:
       style = ((quint8)questionStyle + 1) * 16 + (quint8)answerStyle;  }
     TkeySignature key;
     quint16 time; // time of answer multiple by 10
-    TQAgroup qa_2; // espected answers when question and answer types are the same
+    TQAgroup qa_2; // expected answers when question and answer types are the same
 
     friend QDataStream &operator<< (QDataStream &out, TQAunit &qaUnit);
 //    friend QDataStream &operator>> (QDataStream &in, TQAunit &qaUnit);
@@ -85,6 +84,7 @@ public:
     bool wrongPos() { return valid & 16; }
     bool wrongString() { return valid & 32; }
     bool wrongNote() {return valid & 64; }
+    bool wrongIntonation() {return valid & 128; }
     
     bool isWrong() { return wrongNote() | wrongPos(); }
     bool isNotSoBad() { if (valid && !wrongNote() && !wrongPos()) return true;

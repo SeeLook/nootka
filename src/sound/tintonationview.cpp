@@ -28,6 +28,7 @@
 
 #define TICK_WIDTH (2)
 #define TICK_GAP (3)
+#define INT_FACTOR (1.2) 
 
 TintonationView::TintonationView(int accuracy, QWidget* parent) :
   TabstractSoundView(parent),
@@ -44,7 +45,7 @@ TintonationView::~TintonationView()
 }
 
 void TintonationView::setAccuracy(int accuracy) {
-  m_accuracy = (Eaccuracy)accuracy;
+  m_accuracy = (Eaccuracy)qBound(0, accuracy, 5);
   switch(m_accuracy) {
 		case e_paranoid:
       m_accurValue = 0.05; break;
@@ -56,7 +57,9 @@ void TintonationView::setAccuracy(int accuracy) {
       m_accurValue = 0.3; break;
 		case e_dogHowl:
       m_accurValue = 0.4; break;
+		default: m_accurValue = 0.5;
   }
+  m_accurValue *= INT_FACTOR;
   resizeEvent(0);
 }
 
@@ -65,9 +68,9 @@ void TintonationView::pitchSlot(float pitch) {
   bool doUpdate = false;
   if (m_pitchDiff != 0.0)
       doUpdate = true;
-			/** @p m_pitchDiff is multiplied by 1.2 to increase its scale in small values range
+			/** @p m_pitchDiff is multiplied by INT_FACTOR (1,2) to increase its scale in small values range
 			 * and throw biggest values (near to quarter-tone) form view. */
-  m_pitchDiff = qBound(-0.49, (pitch - (float)qRound(pitch)) * 1.2, 0.49);
+  m_pitchDiff = qBound(-0.49, (pitch - (float)qRound(pitch)) * INT_FACTOR, 0.49);
 // 	m_pitchDiff = (pitch - (float)qRound(pitch)) * 1.2;
   if (doUpdate)
       update();
@@ -137,10 +140,11 @@ void TintonationView::resizeEvent(QResizeEvent* ) {
     if (i <= (m_ticksCount * m_accurValue) ) {
       m_tickColors << gradColorAtPoint(0, m_noteX * m_accurValue * 2, startColor, middleColor, (i + 1) * (m_noteX / m_ticksCount));
     }
-    else if (i <= (m_ticksCount * 0.6) ) {
-      m_tickColors << gradColorAtPoint(m_noteX * m_accurValue, m_noteX * 0.7, middleColor, endColor, (i + 1) * (m_noteX / m_ticksCount));
+    else if (i <= (m_ticksCount * (m_accurValue + 0.3)) ) {
+      m_tickColors << gradColorAtPoint(m_noteX * m_accurValue, m_noteX * (m_accurValue + 0.4), 
+																			 middleColor, endColor, (i + 1) * (m_noteX / m_ticksCount));
 		} else {
-			m_tickColors << gradColorAtPoint(m_noteX * 0.5, m_noteX, endColor, totalColor, (i + 1) * (m_noteX / m_ticksCount));
+			m_tickColors << gradColorAtPoint(m_noteX * (m_accurValue + 0.3), m_noteX, endColor, totalColor, (i + 1) * (m_noteX / m_ticksCount));
 		}
   }
 }
@@ -153,19 +157,34 @@ void TintonationView::resizeEvent(QResizeEvent* ) {
 TintonationCombo::TintonationCombo(QWidget* parent) : 
 	QWidget(parent)
 {
-	QLabel *lab = new QLabel(tr("intonation"), this);
+	QLabel *lab = new QLabel(tr("intonation accuracy"), this);
 	accuracyCombo = new QComboBox(this);
-	accuracyCombo->addItem(tr("do not check"));
-	accuracyCombo->addItem(tr("gum pain"));
-	accuracyCombo->addItem(tr("violinist beginner"));
-	accuracyCombo->addItem(tr("old strings"));
-	accuracyCombo->addItem(tr("professional"));
-	accuracyCombo->addItem(tr("perfect"));
+	int accurArray[6] = {0, 40, 30, 20, 10, 5};
+	for (int i = 0; i < 6; i++) {
+		QString range = "";
+		if (i > 0)
+			range = QString::fromUtf8(" (± %1 %2)").arg(accurArray[i]).arg(centsText());
+		accuracyCombo->addItem(intonationAccuracyTr((TintonationView::Eaccuracy)i) + range);
+	}
+	setStatusTip(tr(""));
 	
 	QHBoxLayout *lay = new QHBoxLayout;
 	lay->addWidget(lab);
 	lay->addWidget(accuracyCombo);
 	setLayout(lay);
+}
+
+
+QString TintonationCombo::intonationAccuracyTr(TintonationView::Eaccuracy accur) {
+	switch (accur) {
+			case TintonationView::e_noCheck: return tr("do not check");
+			case TintonationView::e_dogHowl: return tr("gum pain");
+			case TintonationView::e_sufficient: return tr("violinist beginner");
+			case TintonationView::e_normal: return tr("old strings");
+			case TintonationView::e_perfect: return tr("well tuned guitar");
+			case TintonationView::e_paranoid: return tr("perfect");		
+			default: return "";
+	}
 }
 
 

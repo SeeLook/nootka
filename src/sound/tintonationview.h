@@ -45,7 +45,15 @@ public:
     explicit TintonationView(int accuracy, QWidget *parent = 0);
     virtual ~TintonationView();
     
+				/** Determines how wide will be range of green color (in tune) on the view.
+				 * @p e_noCheck - widget disables
+				 * @p e_dogHowl  ± 0.31 - 0.40
+				 * @p e_sufficient  ± 0.21 - 0.3
+				 * @p e_normal ± 0.11 - 0.2
+				 * @p e_perfect ± 0.06 - 0.1
+				 * @p e_paranoid ± 0.05  */
     void setAccuracy(int accuracy);
+		Eaccuracy accuracy() { return m_accuracy; }
   
 public slots:
     void pitchSlot(float pitch);
@@ -73,6 +81,10 @@ class TintonationCombo : public QWidget
 	
 public:
 	explicit TintonationCombo(QWidget* parent);
+	
+			/** Returns translations of given accuracy level.  */
+	static QString intonationAccuracyTr(TintonationView::Eaccuracy accur);
+	static QString centsText() { return tr("cents", "unit of measure used for musical intervals"); }
 	
 	QComboBox *accuracyCombo;
 	

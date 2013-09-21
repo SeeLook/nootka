@@ -1,5 +1,10 @@
 Plan for the Nootka One
 
+To Luster
+		'wrong intonation' or 'unclear' or out of tune'
+
+
+- sniffer has setAmbitus to guitar scale range - fix it!!!
 - add example to 7th note widget
 - under windows guitar head glyph doesn't appear in guitar settings.
 - level validation: when q: score & a: score or Q: name A: name and no different accidentals - switch solfege/letters
@@ -20,7 +25,7 @@ Plan for the Nootka One
 - add sound during wizard and about dialog
 
 - add string numbers to pixmap
-- make order with jack (thread-ise input, format convertion)
+- make order with jack (thread-ise input, format conversion)
 
 TGLOBALS & TTUNE
     - let setTune has reference Ttune& as parameter

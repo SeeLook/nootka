@@ -31,6 +31,13 @@
 
 // #include <QDebug>
 
+/** Adds comma and space ', ' to not empty string or returns the same. */
+QString addSpaceToNotEmpty(QString &txt) {
+	if (txt != "")
+			txt += ", ";
+	return txt;
+}
+
 
 QPixmap getNotePixmap(Tnote note, Tclef::Etype clef, TkeySignature key, qreal factor) {
 		TscoreScene *scene = new TscoreScene();
@@ -118,16 +125,20 @@ QString wasAnswerOKtext(TQAunit* answer, QColor textColor, int fontSize) {
                 if (answer->wrongAccid())
                     misMes = QApplication::translate("AnswerText", "wrong accidental");
                 if (answer->wrongKey()) {
-                    if (misMes != "")
-                        misMes += ", ";
+                    addSpaceToNotEmpty(misMes);
                     misMes += QApplication::translate("AnswerText", "wrong key signature");
                 }
                 if (answer->wrongOctave()) {
-                    if (misMes != "")
-                        misMes += ", ";
+                    addSpaceToNotEmpty(misMes);
                     if (misMes.length() > 20)
                         misMes += "<br>";
                     misMes += QApplication::translate("AnswerText", "wrong octave");
+                }
+                if (answer->wrongIntonation()) {
+										addSpaceToNotEmpty(misMes);
+										if (misMes.length() > 20 && !misMes.contains("<br>"))
+                        misMes += "<br>";
+                    misMes += QApplication::translate("AnswerText", "out of tune");
                 }
                 txt += misMes;
             }

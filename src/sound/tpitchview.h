@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,11 +22,7 @@
 
 #include <QWidget>
 #include "tnote.h"
-// #if defined(__LINUX_ALSA__)
-  #include "trtaudioin.h"
-// #else
-//   #include "taudioin.h"
-// #endif  
+#include "trtaudioin.h"
 
 class TvolumeView;
 class TintonationView;
@@ -36,7 +32,8 @@ class QTimer;
   /** This class represents volume meter of audio signal
    * and displays note symbol when TaudioIN detected it.
    * It can has two buttons, but by setting @param withButtons to false
-   * they are not created. */
+   * they are not created. 
+	 * It also has TintonationView widget that shows current sound intonation.*/
 class TpitchView : public QWidget
 {
   Q_OBJECT
@@ -60,6 +57,9 @@ public:
   void setBgColor(QColor col) { m_bgColor = col; }
   void setMinimalVolume(float vol);
   void setDisabled(bool isDisabled);
+			/** Sets an accuracy of intonation. 
+			 * When 0 - 'do not check' m_intoView becames disabled. */
+	void setIntonationAccuracy(int accuracy);
   
 protected slots:
   void noteSlot(Tnote note);
