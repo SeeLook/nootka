@@ -374,12 +374,13 @@ void AudioInSettings::getFreqStatusTip() {
 				arg(offPitch((float)m_tune->str(i).getChromaticNrOfNote() + 47), 0, 'f', 1);
 				if (i % 2 == 0 && i < 6)
 						freqTxt += "<br>"; // two entries per line 
-// 				else if (i % 3 == 0 && i < 6)
-// 						freqTxt += "ALT_BR"; // three entries per line
+				else if (i % 3 == 0 && i < 6)
+						freqTxt += "ALT_BR"; // three entries per line
 		}
-// 		QString freq2 = freqTxt;
-    freqLab->setStatusTip(tr("Frequency of detected note. You can use this for tuning.") + "<br>" + freqTxt);
-    tuneFreqlab->setText(freqTxt);
+    QString freq2 = freqTxt;
+    freqLab->setStatusTip(tr("Frequency of detected note. You can use this for tuning.") + "<br>" +
+          freq2.replace("<br>", "").replace("ALT_BR", "<br>")); // three entries per line in status tip
+    tuneFreqlab->setText(freqTxt.replace("ALT_BR", "")); // two entries per line on the label
 }
 
 
