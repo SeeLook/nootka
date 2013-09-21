@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,13 +23,13 @@ TQAunit::TQAunit()
 {
     qa.pos = TfingerPos();
     qa.note = Tnote(0,0,0);
-    style = 50; // (2+1) * 16 + 2 // 2 is e_italiano_Si casted to int
-    valid = 0; // correct a priori
+    style = 50; // (2+1) * 16 + 2 // 2 is e_italiano_Si cast to int
+    valid = 0; // correct in assume
     qa_2.note = Tnote(0,0,0);
     qa_2.pos = TfingerPos();
 }
 
-TQAunit::~TQAunit() {}
+
 
 void TQAunit::setMistake(Emistake mis) {
     switch (mis) {
@@ -40,10 +40,12 @@ void TQAunit::setMistake(Emistake mis) {
     case e_wrongStyle : valid |= 8; break;
     case e_wrongPos : valid |= 16; break;
     case e_wrongString : valid |= 32; break;
+		case e_wrongIntonation : valid |= 128; break;
     case e_wrongNote : valid = 64; break; // If this kind of mistake is commited
-        //  all above has no sence so '=' instead '|=' is correct
+        //  all above has no sense so '=' instead '|=' is correct
     }
 }
+
 
 QDataStream &operator<< (QDataStream &out, TQAunit &qaUnit) {
     out << qaUnit.qa.note << qaUnit.qa.pos;

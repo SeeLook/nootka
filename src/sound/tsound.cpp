@@ -101,8 +101,9 @@ void Tsound::acceptSettings() {
     if (!sniffer) {
       createSniffer();
       m_pitchView->setAudioInput(sniffer);
-      m_pitchView->setIsVoice(gl->A->isVoice);
-      m_pitchView->setMinimalVolume(gl->A->minimalVol);
+//       m_pitchView->setIsVoice(gl->A->isVoice);
+//       m_pitchView->setMinimalVolume(gl->A->minimalVol);
+// 			m_pitchView->setIntonationAccuracy(gl->A->intonation);
       if (m_pitchView->isPaused()) {
         sniffer->stopListening();
       }
@@ -113,13 +114,17 @@ void Tsound::acceptSettings() {
     else {
       sniffer->setParameters(gl->A);
       sniffer->setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
-      m_pitchView->setIsVoice(gl->A->isVoice);
-      m_pitchView->setMinimalVolume(gl->A->minimalVol);
+//       m_pitchView->setIsVoice(gl->A->isVoice);
+//       m_pitchView->setMinimalVolume(gl->A->minimalVol);
+// 			m_pitchView->setIntonationAccuracy(gl->A->intonation);
       if (!m_pitchView->isPaused()) { // and pause button
         sniffer->startListening();
         m_pitchView->startVolume();
       }
     }
+    m_pitchView->setIsVoice(gl->A->isVoice);
+		m_pitchView->setMinimalVolume(gl->A->minimalVol);
+		m_pitchView->setIntonationAccuracy(gl->A->intonation);
   } else {
     m_pitchView->setDisabled(true);
     if (sniffer)
@@ -133,6 +138,7 @@ void Tsound::setPitchView(TpitchView* pView) {
   m_pitchView->setPitchColor(gl->EanswerColor);
   m_pitchView->setIsVoice(gl->A->isVoice);
   m_pitchView->setMinimalVolume(gl->A->minimalVol);
+	m_pitchView->setIntonationAccuracy(gl->A->intonation);
   if (sniffer)
       m_pitchView->startVolume();
   else

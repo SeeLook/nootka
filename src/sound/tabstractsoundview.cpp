@@ -18,16 +18,9 @@
 
 #include "tabstractsoundview.h"
 #include <math.h>
-// #include <QDebug>
 
-#define MAX_DARK (2)
-
-QColor TabstractSoundView::tc = Qt::black;
-// QColor TabstractSoundView::startColor = Qt::darkGreen;
 QColor TabstractSoundView::startColor = Qt::green;
-// QColor TabstractSoundView::middleColor = Qt::darkYellow;
 QColor TabstractSoundView::middleColor = Qt::yellow;
-// QColor TabstractSoundView::endColor = Qt::darkRed;
 QColor TabstractSoundView::endColor = Qt::red;
 QColor TabstractSoundView::totalColor = QColor(117, 21, 86); // brown
 
@@ -36,20 +29,9 @@ TabstractSoundView::TabstractSoundView(QWidget* parent) :
   QWidget(parent)
 {
   nootFont = QFont("nootka");
-//   qDebug() << palette().window().color();
-  if (palette().window().color().red() <= MAX_DARK && palette().window().color().green() <= MAX_DARK &&
-    palette().window().color().blue() <= MAX_DARK) {
-//         tc = palette().window().color().lighter(150);
-        tc = palette().color(palette().currentColorGroup(), QPalette::Text);
-//         qDebug() << tc;
-        startColor = Qt::green;
-//         middleColor = Qt::yellow;
-//         endColor = Qt::red;
-  }
-  else
-    tc = palette().color(palette().currentColorGroup(), QPalette::Text);
-//         tc = palette().window().color().darker(120);
+	tc = palette().color(palette().currentColorGroup(), QPalette::Text);
 }
+
 
 void TabstractSoundView::setDisabled(bool isDisabled){
   QWidget::setDisabled(isDisabled);
@@ -71,6 +53,7 @@ QColor TabstractSoundView::gradColorAtPoint(float lineX1, float lineX2, QColor s
   int blue = (int)(ratio * endC.blue() + (1 - ratio) * startC.blue()); //in your case, the values are 24 and 244
   return QColor(red, green, blue);
 }
+
 
 void TabstractSoundView::resizeIt(int myHeight) {
   nootFont.setPointSizeF(myHeight);

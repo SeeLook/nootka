@@ -109,7 +109,8 @@ void TpitchView::startVolume() {
     connect(m_audioIN, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
     m_volMeter->setDisabled(false);
     m_volTimer->start(75);
-    connect(m_audioIN, SIGNAL(chunkPitch(float)), m_intoView, SLOT(pitchSlot(float)));
+		if (m_intoView->accuracy() != TintonationView::e_noCheck)
+			connect(m_audioIN, SIGNAL(chunkPitch(float)), m_intoView, SLOT(pitchSlot(float)));
   }
 }
 
@@ -138,6 +139,17 @@ void TpitchView::setDisabled(bool isDisabled) {
   m_intoView->setDisabled(isDisabled);
 }
 
+
+void TpitchView::setIntonationAccuracy(int accuracy) {
+		m_intoView->setAccuracy(accuracy);
+		if (TintonationView::Eaccuracy(accuracy) == TintonationView::e_noCheck) { // intonation check disabled
+				disconnect(m_audioIN, SIGNAL(chunkPitch(float)), m_intoView, SLOT(pitchSlot(float)));
+				m_intoView->setDisabled(true);
+		} else {
+				connect(m_audioIN, SIGNAL(chunkPitch(float)), m_intoView, SLOT(pitchSlot(float)));
+				m_intoView->setDisabled(false);
+		}
+}
 
 
 void TpitchView::resize(int fontSize) {
