@@ -44,6 +44,8 @@ class TexamExecutor : public QObject
 public:
     explicit TexamExecutor(MainWindow *mainW, QString examFile = "", TexamLevel *lev = 0);
 		
+		~TexamExecutor();
+		
     struct TanswerRequire {
         bool octave;
         bool accid;
@@ -69,6 +71,8 @@ protected:
     QAction *nextQuestAct, *prevQuestAct, *checkAct, *repeatSndAct;
     
     bool event(QEvent *event);
+		
+		void deleteExam();
 
 protected slots:
     void askQuestion();

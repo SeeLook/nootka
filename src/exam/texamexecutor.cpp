@@ -64,7 +64,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
   m_goingClosed(false),
   m_penalStep(65535),
   m_snifferLocked(false),
-  m_canvas(0)
+  m_canvas(0),
+  m_supp(0)
 {
     QString resultText;
     TstartExamDlg::Eactions userAct;
@@ -123,7 +124,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
             // ---------- End of checking ----------------------------------
           if (!showExamSummary(true)) {
             mW->clearAfterExam();
-            if (m_exam) delete m_exam;
+            deleteExam();
             return;
           }
           mW->examResults->startExam(m_exam->totalTime(), m_exam->count(), m_exam->averageReactonTime(),
@@ -134,7 +135,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
                 QMessageBox::critical(mW, "", tr("File: %1 \n is not valid exam file!")
                                   .arg(resultText));
             mW->clearAfterExam();
-            if (m_exam) delete m_exam;
+            deleteExam();
             return;
         }
     } else {
@@ -143,7 +144,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
 	}
 	else 	
 	    mW->clearAfterExam(e_failed);
-        if (m_exam) delete m_exam;
+        deleteExam();
         return;
     }
 
@@ -153,7 +154,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
             QMessageBox::warning(mW, "",
                      tr("An exam requires sound but<br>sound output is not available!"));
             mW->clearAfterExam();
-            if (m_exam) delete m_exam;
+            deleteExam();
             return;
         }
     }
@@ -167,7 +168,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
             QMessageBox::warning(mW, "",
                      tr("An exam requires sound input but<br>it is not available!"));
             mW->clearAfterExam();
-            if (m_exam) delete m_exam;
+            deleteExam();
             return;
       }
     }
@@ -183,7 +184,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
       if (!m_supp->isGuitarOnlyPossible()) {
           qDebug("Something stupid!\n Level has question and answer as position on guitar but any question is available.");
           mW->clearAfterExam();
-          if (m_exam) delete m_exam;
+          deleteExam();
             return;
       }
     }
@@ -267,6 +268,16 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
               qDebug() << m_exam->blacList()->operator[](i).qa.note.toText() << 
               m_exam->blacList()->operator[](i).qa_2.note.toText();*/
 }
+
+
+TexamExecutor::~TexamExecutor() {
+		if (m_supp)
+				delete m_supp;
+		delete m_glStore;
+		deleteExam();
+}
+
+
 
 void TexamExecutor::askQuestion() {
     m_lockRightButt = false; // release mouse button events
@@ -839,30 +850,7 @@ void TexamExecutor::prepareToExam() {
             SLOT(autoRepeatStateChanged(bool)));
     connect(mW->expertAnswChB, SIGNAL(clicked(bool)), this, SLOT(expertAnswersStateChanged(bool)));
 
-//     m_glStore.nameStyleInNoteName = mW->noteName->style();
-//     m_glStore.showEnharmNotes = gl->showEnharmNotes;
-//     m_glStore.showKeySignName = gl->SshowKeySignName;
-//     m_glStore.showOtherPos = gl->GshowOtherPos;
-//     m_glStore.useDblAccids = gl->doubleAccidentalsEnabled;
-//     m_glStore.useKeySign = gl->SkeySignatureEnabled;
-//     m_glStore.octaveInName = gl->NoctaveInNoteNameFormat;
-// 		m_glStore.clef = Tclef(gl->Sclef);
-// 		m_glStore.instrument = gl->instrument;
-// 		m_glStore.detectRange = (int)gl->A->range;
 		m_glStore->storeSettings();
-
-//     gl->showEnharmNotes = false;
-//     gl->SshowKeySignName = false;
-//     gl->GshowOtherPos = false;
-//     gl->doubleAccidentalsEnabled = m_level.withDblAcc;
-//     gl->SkeySignatureEnabled = m_level.useKeySign;
-//     gl->NoctaveInNoteNameFormat = true;
-// 		gl->Sclef = m_level.clef.type();
-// 		gl->instrument = m_level.instrument;
-// 		if (m_level.instrument == e_bassGuitar)
-// 				gl->A->range = TaudioParams::e_low;
-// 		else
-// 				gl->A->range = TaudioParams::e_middle;
 		m_glStore->prepareGlobalsToExam(m_level);
 
     mW->score->acceptSettings();
@@ -875,7 +863,6 @@ void TexamExecutor::prepareToExam() {
 			mW->sound->wait();
     mW->sound->prepareToExam(m_level.loNote, m_level.hiNote);
 		TtipChart::defaultClef = m_level.clef;
-  // clearing all views/widgets
     clearWidgets();
 		if (m_level.instrument != e_noInstrument)
 				mW->guitar->createRangeBox(m_level.loFret, m_level.hiFret);
@@ -898,17 +885,6 @@ void TexamExecutor::restoreAfterExam() {
     mW->examResults->clearResults();
     mW->score->isExamExecuting(false);
 
-//     gl->showEnharmNotes = m_glStore.showEnharmNotes;
-//     gl->SshowKeySignName = m_glStore.showKeySignName;
-//     gl->GshowOtherPos = m_glStore.showOtherPos;
-//     gl->doubleAccidentalsEnabled  = m_glStore.useDblAccids;
-//     gl->SkeySignatureEnabled = m_glStore.useKeySign;
-//     gl->setTune(m_glStore.tune);
-//     gl->NoctaveInNoteNameFormat = m_glStore.octaveInName;
-//     gl->GfretsNumber = m_glStore.fretsNumber;
-// 		gl->Sclef = m_glStore.clef.type();
-// 		gl->instrument = m_glStore.instrument;
-// 		gl->A->range = (TaudioParams::Erange)m_glStore.detectRange;
 		m_glStore->restoreSettings();
 		
 		TtipChart::defaultClef = gl->Sclef;
@@ -928,9 +904,7 @@ void TexamExecutor::restoreAfterExam() {
     mW->noteName->setNameDisabled(false);
     mW->guitar->setGuitarDisabled(false);
     mW->autoRepeatChB->hide();
-//     if (gl->E->expertsAnswerEnable) // disconnect check box 
-//       expertAnswersStateChanged(false);
-      
+
     mW->expertAnswChB->hide();
 
     if (m_canvas)
@@ -947,14 +921,10 @@ void TexamExecutor::restoreAfterExam() {
     connect(mW->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
     connect(mW->levelCreatorAct, SIGNAL(triggered()), mW, SLOT(openLevelCreator()));
 //     mW->score->isExamExecuting(false);
-    delete m_supp;
     mW->score->unLockScore();
     mW->guitar->deleteRangeBox();
     mW->sound->restoreAfterExam();
-		delete m_glStore;
     mW->clearAfterExam();
-//     if (m_exam) delete m_exam;
-    
 }
 
 void TexamExecutor::disableWidgets() {
@@ -1119,7 +1089,6 @@ void TexamExecutor::expertAnswersStateChanged(bool enable) {
 
 
 void TexamExecutor::sniffAfterPlaying() {
-//     disconnect(mW->sound->audioPlayer, 0, this, 0);
     disconnect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
     if (m_soundTimer->isActive())
       m_soundTimer->stop();
@@ -1130,7 +1099,6 @@ void TexamExecutor::startSniffing() {
     if (m_soundTimer->isActive())
       m_soundTimer->stop();
     if (mW->sound->isSnifferPaused()) {
-//        qDebug("unPaused");
         mW->sound->unPauseSniffing();
     } else
         mW->sound->go();
@@ -1143,15 +1111,12 @@ void TexamExecutor::expertAnswersSlot() {
 				m_canvas->confirmTip(1500);
       return;
     }
-    if (m_snifferLocked) // ignore slot when some dialog window apears
+    if (m_snifferLocked) // ignore slot when some dialog window appears
         return;
-//    if (mW->examResults->questionTime() <= 2) { // answer time less than 0.1 s (not human...)
-//         qDebug("answer time too short!");
-//        return;
-//    }
+
     /** expertAnswersSlot() is invoked also by TaudioIN/TpitchFinder.
      * Calling checkAnswer() from here invokes stoping and deleting TaudioIN.
-     * It finishs with crash. To avoid this checkAnswer() has to be called
+     * It finishes with crash. To avoid this checkAnswer() has to be called
      * from outside - by timer event. */
 //    if (m_exam->curQ().answerAs == TQAtype::e_asSound)
 //      m_canvas->noteTip(600);
@@ -1206,6 +1171,15 @@ bool TexamExecutor::event(QEvent* event) {
         m_canvas->event(event);
     return QObject::event(event);
 }
+
+
+void TexamExecutor::deleteExam() {
+		if (m_exam) {
+			delete m_exam;
+			m_exam = 0;
+		}
+}
+
 
 
 

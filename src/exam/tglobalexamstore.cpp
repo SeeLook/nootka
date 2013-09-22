@@ -42,6 +42,7 @@ void TglobalExamStore::storeSettings() {
 		clef = Tclef(m_globals->Sclef);
 		instrument = m_globals->instrument;
 		detectRange = (int)m_globals->A->range;
+		intonation = m_globals->A->intonation;
 }
 
 
