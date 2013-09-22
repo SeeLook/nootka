@@ -3,7 +3,7 @@ Plan for the Nootka One
 To Luster
 		'wrong intonation' or 'unclear' or out of tune'
 
-
+- levels are unsaved
 - sniffer has setAmbitus to guitar scale range - fix it!!!
 - add example to 7th note widget
 - under windows guitar head glyph doesn't appear in guitar settings.
@@ -13,7 +13,6 @@ To Luster
 - set better position of answer/repeat tip
 - add shadows under strings on pickup
 - do not transform pickup image for lefthanded - just change its pos
-- check intonation in exams
 - There are similar position calculations in Tcanvas - make methods for them
 - note name in HTML has two implementations - unify it
 - keep exam file in /tmp and restore it when crash or so
@@ -22,7 +21,7 @@ To Luster
 - check Russian Windows installer entries in *.nsi
 - practicing MODE
 
-- add sound during wizard and about dialog
+- add sound during wizard and About dialog
 
 - add string numbers to pixmap
 - make order with jack (thread-ise input, format conversion)

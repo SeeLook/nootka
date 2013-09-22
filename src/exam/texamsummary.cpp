@@ -103,7 +103,7 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
   if (exam->mistakes()) {
 //     effStr = row2(TexamView::mistakesNrTxt(), QString::number(exam->mistakes()));
 //     effStr += row2(TexamView::corrAnswersNrTxt(), QString::number(exam->count()-exam->mistakes()));
-    float wAccid = 0.0, wKey = 0.0, wNote = 0.0, wOctave = 0.0, wStyle = 0.0, wPos = 0.0, wString = 0.0, wTotal;
+    float wAccid = 0.0, wKey = 0.0, wNote = 0.0, wOctave = 0.0, wStyle = 0.0, wPos = 0.0, wString = 0.0, wTotal, wInto = 0.0;
     for(int i=0; i<exam->count(); i++) {
       if (!exam->question(i).isCorrect()) {
           if(exam->question(i).wrongAccid())  wAccid++;
@@ -113,6 +113,7 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
           if(exam->question(i).wrongStyle())  wStyle++;
           if(exam->question(i).wrongPos())    wPos++;
           if(exam->question(i).wrongString()) wString++;
+					if(exam->question(i).wrongIntonation()) wInto++;
       }
     }
     effStr += "<tr><td colspan=\"2\">----- " + tr("Kinds of mistakes") + ": -----</td></tr>";
@@ -132,6 +133,8 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
       effStr += row2(tr("Wrong positions on guitar"), QString("%1 (").arg(wPos) + QString::number(qRound(wPos*100.0 / wTotal)) + "%)");
     if (wString)
       effStr += row2(tr("Wrong strings"), QString("%1 (").arg(wString) + QString::number(qRound(wString*100.0 /wTotal)) + "%)");
+		if (wInto)
+      effStr += row2(tr("Out of tune"), QString("%1 (").arg(wInto) + QString::number(qRound(wInto*100.0 /wTotal)) + "%)");
   }
 	QLabel *resLab = new QLabel("<table>" +
     row2(TexamView::effectTxt(), QString::number(qRound(exam->effectiveness())) + "%") + effStr + "</table>", this);
