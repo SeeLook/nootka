@@ -22,6 +22,7 @@
 #include "tlevelselector.h"
 #include "tsound.h"
 #include <taudioparams.h>
+#include <tintonationview.h>
 #include "mainwindow.h"
 #include "texam.h"
 #include "texamsummary.h"
@@ -36,6 +37,7 @@
 #include "tcanvas.h"
 #include "tprogresswidget.h"
 #include "texamview.h"
+#include "tglobalexamstore.h"
 #include "tmainscore.h"
 #include "tfingerboard.h"
 #include "tnotename.h"
@@ -86,8 +88,9 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
             userAct = TstartExamDlg::e_continue;
         }
     }
-    m_glStore.tune = *gl->Gtune();
-    m_glStore.fretsNumber = gl->GfretsNumber;
+    m_glStore = new TglobalExamStore(gl);
+    m_glStore->tune = *gl->Gtune();
+    m_glStore->fretsNumber = gl->GfretsNumber;
     if (userAct == TstartExamDlg::e_newLevel) {
         m_exam = new Texam(&m_level, resultText); // resultText is userName
         gl->E->studentName = resultText; // store user name
@@ -553,6 +556,11 @@ void TexamExecutor::checkAnswer(bool showResults) {
     }
     if (curQ.answerAs == TQAtype::e_asSound) {
       retN = mW->sound->note();
+			if ((TintonationView::Eaccuracy)m_level.intonation != TintonationView::e_noCheck) {
+					float diff = qAbs(mW->sound->pitch() - (float)qRound(mW->sound->pitch()));
+					if (diff >= TintonationView::getThreshold(m_level.intonation))
+							curQ.setMistake(TQAunit::e_wrongIntonation);
+			}
     }
     if (curQ.answerAs == TQAtype::e_asFretPos) { // Comparing positions
       TfingerPos answPos, questPos;
@@ -831,29 +839,31 @@ void TexamExecutor::prepareToExam() {
             SLOT(autoRepeatStateChanged(bool)));
     connect(mW->expertAnswChB, SIGNAL(clicked(bool)), this, SLOT(expertAnswersStateChanged(bool)));
 
-    m_glStore.nameStyleInNoteName = mW->noteName->style();
-    m_glStore.showEnharmNotes = gl->showEnharmNotes;
-    m_glStore.showKeySignName = gl->SshowKeySignName;
-    m_glStore.showOtherPos = gl->GshowOtherPos;
-    m_glStore.useDblAccids = gl->doubleAccidentalsEnabled;
-    m_glStore.useKeySign = gl->SkeySignatureEnabled;
-    m_glStore.octaveInName = gl->NoctaveInNoteNameFormat;
-		m_glStore.clef = Tclef(gl->Sclef);
-		m_glStore.instrument = gl->instrument;
-		m_glStore.detectRange = (int)gl->A->range;
+//     m_glStore.nameStyleInNoteName = mW->noteName->style();
+//     m_glStore.showEnharmNotes = gl->showEnharmNotes;
+//     m_glStore.showKeySignName = gl->SshowKeySignName;
+//     m_glStore.showOtherPos = gl->GshowOtherPos;
+//     m_glStore.useDblAccids = gl->doubleAccidentalsEnabled;
+//     m_glStore.useKeySign = gl->SkeySignatureEnabled;
+//     m_glStore.octaveInName = gl->NoctaveInNoteNameFormat;
+// 		m_glStore.clef = Tclef(gl->Sclef);
+// 		m_glStore.instrument = gl->instrument;
+// 		m_glStore.detectRange = (int)gl->A->range;
+		m_glStore->storeSettings();
 
-    gl->showEnharmNotes = false;
-    gl->SshowKeySignName = false;
-    gl->GshowOtherPos = false;
-    gl->doubleAccidentalsEnabled = m_level.withDblAcc;
-    gl->SkeySignatureEnabled = m_level.useKeySign;
-    gl->NoctaveInNoteNameFormat = true;
-		gl->Sclef = m_level.clef.type();
-		gl->instrument = m_level.instrument;
-		if (m_level.instrument == e_bassGuitar)
-				gl->A->range = TaudioParams::e_low;
-		else
-				gl->A->range = TaudioParams::e_middle;
+//     gl->showEnharmNotes = false;
+//     gl->SshowKeySignName = false;
+//     gl->GshowOtherPos = false;
+//     gl->doubleAccidentalsEnabled = m_level.withDblAcc;
+//     gl->SkeySignatureEnabled = m_level.useKeySign;
+//     gl->NoctaveInNoteNameFormat = true;
+// 		gl->Sclef = m_level.clef.type();
+// 		gl->instrument = m_level.instrument;
+// 		if (m_level.instrument == e_bassGuitar)
+// 				gl->A->range = TaudioParams::e_low;
+// 		else
+// 				gl->A->range = TaudioParams::e_middle;
+		m_glStore->prepareGlobalsToExam(m_level);
 
     mW->score->acceptSettings();
     mW->noteName->setEnabledEnharmNotes(false);
@@ -888,18 +898,19 @@ void TexamExecutor::restoreAfterExam() {
     mW->examResults->clearResults();
     mW->score->isExamExecuting(false);
 
-    gl->showEnharmNotes = m_glStore.showEnharmNotes;
-    gl->SshowKeySignName = m_glStore.showKeySignName;
-    gl->GshowOtherPos = m_glStore.showOtherPos;
-    gl->doubleAccidentalsEnabled  = m_glStore.useDblAccids;
-    gl->SkeySignatureEnabled = m_glStore.useKeySign;
-    gl->setTune(m_glStore.tune);
-    gl->NoctaveInNoteNameFormat = m_glStore.octaveInName;
-    gl->GfretsNumber = m_glStore.fretsNumber;
-		gl->Sclef = m_glStore.clef.type();
-		gl->instrument = m_glStore.instrument;
-		gl->A->range = (TaudioParams::Erange)m_glStore.detectRange;
-
+//     gl->showEnharmNotes = m_glStore.showEnharmNotes;
+//     gl->SshowKeySignName = m_glStore.showKeySignName;
+//     gl->GshowOtherPos = m_glStore.showOtherPos;
+//     gl->doubleAccidentalsEnabled  = m_glStore.useDblAccids;
+//     gl->SkeySignatureEnabled = m_glStore.useKeySign;
+//     gl->setTune(m_glStore.tune);
+//     gl->NoctaveInNoteNameFormat = m_glStore.octaveInName;
+//     gl->GfretsNumber = m_glStore.fretsNumber;
+// 		gl->Sclef = m_glStore.clef.type();
+// 		gl->instrument = m_glStore.instrument;
+// 		gl->A->range = (TaudioParams::Erange)m_glStore.detectRange;
+		m_glStore->restoreSettings();
+		
 		TtipChart::defaultClef = gl->Sclef;
     mW->score->acceptSettings();
     mW->noteName->setEnabledEnharmNotes(false);
@@ -940,6 +951,7 @@ void TexamExecutor::restoreAfterExam() {
     mW->score->unLockScore();
     mW->guitar->deleteRangeBox();
     mW->sound->restoreAfterExam();
+		delete m_glStore;
     mW->clearAfterExam();
 //     if (m_exam) delete m_exam;
     
@@ -985,7 +997,7 @@ void TexamExecutor::stopExamSlot() {
     if (m_exam->fileName() != "") {
 			m_exam->setTotalTime(mW->examResults->getTotalTime());
 			m_exam->setAverageReactonTime(mW->examResults->getAverageTime());
-      gl->NnameStyleInNoteName = m_glStore.nameStyleInNoteName; // restore to show in user defined style  
+      gl->NnameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show in user defined style  
       if (m_exam->saveToFile() == Texam::e_file_OK) {
           QStringList recentExams = gl->config->value("recentExams").toStringList();
           recentExams.removeAll(m_exam->fileName());

@@ -336,7 +336,7 @@ QList<TgroupedQAunit> sortByQAtype(TgroupedQAunit& answList, TexamLevel* level, 
 
 QList<TgroupedQAunit> sortByMisakes(TgroupedQAunit& answList, TexamLevel* level, bool& hasListUnrelated) {
   QList<TgroupedQAunit> result;
-  TgroupedQAunit mistakesArr[11];
+  TgroupedQAunit mistakesArr[12];
   QStringList mistakesDesc;
   mistakesDesc << QApplication::translate("AnswerText", "correct notes")           // 0
                << QApplication::translate("AnswerText", "wrong notes")             // 1
@@ -349,6 +349,7 @@ QList<TgroupedQAunit> sortByMisakes(TgroupedQAunit& answList, TexamLevel* level,
                << QApplication::translate("AnswerText", "correct positions")       // 8
                << QApplication::translate("AnswerText", "wrong positions")         // 9
                << QApplication::translate("AnswerText", "wrong strings")           // 10
+							 << QApplication::translate("AnswerText", "out of tune")  	         // 11
   ;
   for (int i = 0; i < answList.size(); i++) {
     if (answList[i].qaPtr->isCorrect()) {
@@ -382,9 +383,11 @@ QList<TgroupedQAunit> sortByMisakes(TgroupedQAunit& answList, TexamLevel* level,
             mistakesArr[7].addQAunit(answList[i]);
           if (answList[i].qaPtr->wrongString())
             mistakesArr[10].addQAunit(answList[i]);
+					if (answList[i].qaPtr->wrongIntonation())
+            mistakesArr[11].addQAunit(answList[i]);
        }
   }
-  for (int m = 0; m < 11; m++) {
+  for (int m = 0; m < 12; m++) {
     if (!mistakesArr[m].isEmpty()) {
       mistakesArr[m].resume(mistakesDesc[m].replace(" ", "<br>"), mistakesDesc[m]);
       result << mistakesArr[m];

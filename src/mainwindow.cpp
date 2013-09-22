@@ -320,12 +320,12 @@ void MainWindow::clearAfterExam(TexamExecutor::Estate examState) {
     m_prevBg = -1;
     setMessageBg(-1);
     if (examState == TexamExecutor::e_openCreator) 
-	openLevelCreator();
-    else
-	sound->go();
-  progress->hide();
-  examResults->hide();
-  nootLab->show();
+				openLevelCreator();
+		else
+				sound->go();
+		progress->hide();
+		examResults->hide();
+		nootLab->show();
 }
 
 QPoint MainWindow::relatedPoint() {

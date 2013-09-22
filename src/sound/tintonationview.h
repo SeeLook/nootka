@@ -54,6 +54,9 @@ public:
 				 * @p e_paranoid ± 0.05  */
     void setAccuracy(int accuracy);
 		Eaccuracy accuracy() { return m_accuracy; }
+				/** Returns a threshold for given accuracy. Above that value notes are out-of-tune. */
+		static float getThreshold(Eaccuracy acc);
+		static float getThreshold(int accInteger);
   
 public slots:
     void pitchSlot(float pitch);
@@ -84,7 +87,8 @@ public:
 	
 			/** Returns translations of given accuracy level.  */
 	static QString intonationAccuracyTr(TintonationView::Eaccuracy accur);
-	static QString centsText() { return tr("cents", "unit of measure used for musical intervals"); }
+	static QString centsText() { return tr("cents", 
+		"unit of measure used for musical intervals. This text always is used in context: ' ±	[5, 10, 20, 30] cents ' "); }
 	
 	QComboBox *accuracyCombo;
 	

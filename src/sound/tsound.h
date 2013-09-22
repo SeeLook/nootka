@@ -60,7 +60,9 @@ public:
     /** Starts sniffing again. */
   void go();
     /** Returns recently detected note. */
-  Tnote note() { return m_detNote; }
+  Tnote note() { return m_detectedNote; }
+		/** Returns recently detected pitch of note. */
+  float pitch();
   void pauseSinffing();
   void unPauseSniffing();
   bool isSnifferPaused();
@@ -85,7 +87,7 @@ private:
   void deleteSniffer();
   
   TpitchView 	*m_pitchView;
-  Tnote 			m_detNote; // detected note
+  Tnote 			m_detectedNote; // detected note
   bool 				m_examMode;
 	Tnote				m_prevLoNote, m_prevHiNote; // notes form sniffer ambitus stroed during an exam
   
