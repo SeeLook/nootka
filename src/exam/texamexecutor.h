@@ -26,6 +26,7 @@
 #include <QList>
 #include <QColor>
 
+class TglobalExamStore;
 class Tcanvas;
 class QTimer;
 class TexecutorSupply;
@@ -42,21 +43,6 @@ class TexamExecutor : public QObject
 
 public:
     explicit TexamExecutor(MainWindow *mainW, QString examFile = "", TexamLevel *lev = 0);
-
-    struct TglStore {
-        bool showEnharmNotes;
-        bool showKeySignName;
-        bool showOtherPos;
-        Tnote::EnameStyle nameStyleInNoteName;
-        bool useDblAccids;
-        bool useKeySign;
-        Ttune tune;
-        bool octaveInName;
-        char fretsNumber;
-				Tclef clef;
-				Einstrument instrument;
-				int detectRange;
-    };
 		
     struct TanswerRequire {
         bool octave;
@@ -123,31 +109,31 @@ private:
     TexamLevel m_level;
     QList<TQAunit::TQAgroup> m_questList;
           /** Invokes startSniffing() and stopPlaying() after delay
-           * to avoid feedback betwen played question and listened answer. */
+           * to avoid feedback between played question and listened answer. */
     QTimer *m_soundTimer;
     Tnote::EnameStyle m_prevQuestStyle, m_prevAnswStyle;
-    TglStore m_glStore;
+    TglobalExamStore *m_glStore;
     TanswerRequire m_answRequire;
         /** Indicates when sniffing has to be ignored, 
-         * because some dilaog window exist over exam. */
+         * because some dialog window exist over exam. */
     bool m_snifferLocked;
     bool m_shouldBeTerminated, m_isAnswered, m_incorrectRepeated;
-          /** If it is sets to TRUE locks invokeing event of right mouse button.
-          * It has to be set before singleShot() method caled on askQuestion() 
+          /** If it is sets to TRUE locks invoking event of right mouse button.
+          * It has to be set before singleShot() method called on askQuestion() 
           * to avoid user click button and call askQuestion() again during time of delay.*/
     bool m_lockRightButt;
-          /** It becames true when user wants close Nootka
+          /** It becomes true when user wants close Nootka
           * during an exam.*/
     bool m_goingClosed;
-          /** stores note if question and answeer are Note Name to restore it if question is repeated
-          It is to restorrre buttons state in NoteName widget whitch are uncheced by disableWidget() */
+          /** stores note if question and answer are Note Name to restore it if question is repeated
+          It is to restore buttons state in NoteName widget witch are unchecked by disableWidget() */
     Tnote m_prevNoteIfName;
     Tcanvas *m_canvas;
         /** -1 if no black, otherwise points question in blackList list. */
     int m_blackQuestNr;
         /** Interval of questions, after it penalty question is asked */
     int m_penalStep;
-        /** Counts questions to ask penaltys one. */
+        /** Counts questions to ask penalties one. */
     int m_penalCount;
 
 

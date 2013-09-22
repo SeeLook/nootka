@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -71,6 +71,8 @@ public:
   void setAmbitus(Tnote loNote, Tnote hiNote);
 	Tnote loNote() { return m_loNote; } // Returns lower boundary note of ambitus 
 	Tnote hiNote() { return m_hiNote; } // Returns upper boundary note of ambitus 
+			/** Pitch of last detected note in float precision. */
+	float lastNotePitch() { return m_lastPich; }
 
 signals:
 	void noteDetected(Tnote note);
@@ -94,7 +96,7 @@ private:
   
   static int inCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void *userData);
       /** Keeps pointers for all (two) created instances of TaudioIN
-       * ststic inCallBack uses it to has access. */
+       * static inCallBack uses it to has access. */
   static        QList<TaudioIN*> m_instances;
   static        int m_thisInstance;
   
@@ -109,6 +111,7 @@ private:
   bool          m_paused;
 			/** Boundary notes of the ambitus. */
 	Tnote					m_loNote, m_hiNote;
+	float 				m_lastPich; /** Pitch of last detected note in float precision. */
 	
 };
 

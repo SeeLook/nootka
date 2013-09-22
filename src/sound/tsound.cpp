@@ -171,6 +171,15 @@ void Tsound::restoreAfterConf() {
 }
 
 
+float Tsound::pitch() {
+	if (sniffer)
+		return sniffer->lastNotePitch();
+	else
+		return 0.0f;
+}
+
+
+
 void Tsound::wait() {
 //     qDebug("wait");
   if (sniffer) {
@@ -311,7 +320,7 @@ void Tsound::playingFinishedSlot() {
 }
 
 void Tsound::noteDetectedSlot(Tnote note) {
-  m_detNote = note;
+  m_detectedNote = note;
 //  qDebug() << "Tsound: got note" << note.toText();
   emit detectedNote(note);
 }

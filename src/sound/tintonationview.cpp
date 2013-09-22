@@ -30,6 +30,25 @@
 #define TICK_GAP (3)
 #define INT_FACTOR (1.2) 
 
+/*static*/
+float TintonationView::getThreshold(TintonationView::Eaccuracy acc) {
+		switch(acc) {
+			case e_paranoid: return 0.05;
+			case e_perfect: return 0.1;
+			case e_normal: return 0.2;
+			case e_sufficient: return 0.3;
+			case e_dogHowl: return 0.4;
+			default: return 0.5;
+		}
+}
+
+
+float TintonationView::getThreshold(int accInteger) {
+		return getThreshold((Eaccuracy)accInteger);
+}
+
+
+
 TintonationView::TintonationView(int accuracy, QWidget* parent) :
   TabstractSoundView(parent),
   m_pitchDiff(0.0f)
@@ -46,19 +65,20 @@ TintonationView::~TintonationView()
 
 void TintonationView::setAccuracy(int accuracy) {
   m_accuracy = (Eaccuracy)qBound(0, accuracy, 5);
-  switch(m_accuracy) {
-		case e_paranoid:
-      m_accurValue = 0.05; break;
-    case e_perfect:
-      m_accurValue = 0.1; break;
-    case e_normal:
-      m_accurValue = 0.2; break;
-    case e_sufficient:
-      m_accurValue = 0.3; break;
-		case e_dogHowl:
-      m_accurValue = 0.4; break;
-		default: m_accurValue = 0.5;
-  }
+	m_accurValue = getThreshold(m_accuracy);
+//   switch(m_accuracy) {
+// 		case e_paranoid:
+//       m_accurValue = 0.05; break;
+//     case e_perfect:
+//       m_accurValue = 0.1; break;
+//     case e_normal:
+//       m_accurValue = 0.2; break;
+//     case e_sufficient:
+//       m_accurValue = 0.3; break;
+// 		case e_dogHowl:
+//       m_accurValue = 0.4; break;
+// 		default: m_accurValue = 0.5;
+//   }
   m_accurValue *= INT_FACTOR;
   resizeEvent(0);
 }
@@ -159,11 +179,10 @@ TintonationCombo::TintonationCombo(QWidget* parent) :
 {
 	QLabel *lab = new QLabel(tr("intonation accuracy"), this);
 	accuracyCombo = new QComboBox(this);
-	int accurArray[6] = {0, 40, 30, 20, 10, 5};
 	for (int i = 0; i < 6; i++) {
 		QString range = "";
 		if (i > 0)
-			range = QString::fromUtf8(" (± %1 %2)").arg(accurArray[i]).arg(centsText());
+			range = QString::fromUtf8(" (± %1 %2)").arg((int)(TintonationView::getThreshold(i) * 100)).arg(centsText());
 		accuracyCombo->addItem(intonationAccuracyTr((TintonationView::Eaccuracy)i) + range);
 	}
 	setStatusTip(tr(""));

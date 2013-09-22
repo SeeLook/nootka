@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,9 +16,57 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tglobalstore.h"
+#ifndef TGLOBALSTORE_H
+#define TGLOBALSTORE_H
 
-TglobalStore::TglobalStore(Tglobals* globals)
+
+#include <tnote.h>
+#include <tinstrument.h>
+#include <ttune.h>
+#include <tclef.h>
+
+class TexamLevel;
+
+class Tglobals;
+
+
+/** Simple class which grabs global settings overwriting by exam,
+ * stores them and restores when exam is finished. */
+class TglobalExamStore
 {
 
-}
+public:
+  
+  TglobalExamStore(Tglobals* globals);
+  
+			/** Grabs exam necessary settings from Tglobals except:
+			 * @p tune and @p fretsNumber which have to be set separately. */
+	void storeSettings();
+  void restoreSettings();
+	
+			/** Sets initial values to Tglobals from given level. */
+	void prepareGlobalsToExam(TexamLevel &level);
+  
+	
+	
+	
+  bool 												showEnharmNotes;
+  bool 												showKeySignName;
+  bool 												showOtherPos;
+  Tnote::EnameStyle 					nameStyleInNoteName;
+  bool 												useDblAccids;
+  bool 												useKeySign;
+  Ttune 											tune;
+  bool 												octaveInName;
+  char 												fretsNumber;
+  Tclef 											clef;
+  Einstrument 								instrument;
+  int 												detectRange;
+	quint8											intonation;
+	
+private:
+	Tglobals *m_globals;
+
+};
+
+#endif // TGLOBALSTORE_H

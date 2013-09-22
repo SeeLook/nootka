@@ -90,7 +90,8 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     m_bufferFrames(1024),
     m_maxPeak(0),
     m_maxP(0),
-    m_floatsWriten(0)
+    m_floatsWriten(0),
+    m_lastPich(0.0f)
 {
   m_instances << this;
   m_pitch = new TpitchFinder();
@@ -257,6 +258,7 @@ void TaudioIN::pitchInChunkSlot(float pitch) {
 
 void TaudioIN::pitchFreqFound(float pitch, float freq) {
   if (!m_paused) {
+			m_lastPich = pitch;
 			if (pitch >= m_pitch->aGl()->loPitch && pitch <= m_pitch->aGl()->topPitch) {
 					float into = qAbs((pitch - audioParams->a440diff) - (float)qRound(pitch - audioParams->a440diff));
 					QString inText;
@@ -274,7 +276,8 @@ void TaudioIN::pitchFreqFound(float pitch, float freq) {
 					emit noteDetected(Tnote(qRound(pitch - audioParams->a440diff) - 47));
 			}
 			emit fundamentalFreq(freq);
-  }
+  } else 
+		m_lastPich = 0.0f;
 }
 
 
