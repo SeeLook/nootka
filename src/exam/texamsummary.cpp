@@ -117,7 +117,7 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
       }
     }
     effStr += "<tr><td colspan=\"2\">----- " + tr("Kinds of mistakes") + ": -----</td></tr>";
-    wTotal = wAccid + wKey + wNote + wOctave + wStyle + wPos + wString;
+    wTotal = wAccid + wKey + wNote + wOctave + wStyle + wPos + wString +wInto;
     if (wNote)
       effStr += row2(tr("Wrong notes"), QString("%1 (").arg(wNote) + QString::number(qRound(wNote*100.0 / wTotal)) + "%)");
     if (wAccid)

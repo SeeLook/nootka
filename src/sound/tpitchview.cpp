@@ -39,9 +39,10 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
   m_withButtons(withButtons),
   m_bgColor(Qt::transparent)
 {
-  QBoxLayout *lay = new QBoxLayout(QBoxLayout::TopToBottom);
+	QHBoxLayout *outLay = new QHBoxLayout;
+  m_lay = new QBoxLayout(QBoxLayout::TopToBottom);
   if (m_withButtons) {
-			lay->setDirection(QBoxLayout::LeftToRight);
+			m_lay->setDirection(QBoxLayout::LeftToRight);
       voiceButt = new QPushButton("g", this);
       voiceButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 //       lay->addWidget(voiceButt);
@@ -75,17 +76,20 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
       pauseButt->setStatusTip(tr("Switch on/off pitch detection"));
       pauseButt->setFont(QFont("nootka", 15));
   }
-	if (m_withButtons) {
-		lay->addWidget(m_volMeter, 0, Qt::AlignBottom);
-		lay->addWidget(voiceButt, 0, Qt::AlignBottom);
-		lay->addWidget(pauseButt, 0, Qt::AlignBottom);
-		lay->addWidget(m_intoView, 0, Qt::AlignBottom);
-	} else {
-		lay->addWidget(m_intoView, 0, Qt::AlignBottom);
-		lay->addWidget(m_volMeter, 0, Qt::AlignBottom);
-	}
-	
-  setLayout(lay);
+	if (m_withButtons)
+		outLay->addWidget(voiceButt, 0, Qt::AlignBottom);
+// 		m_lay->addWidget(m_volMeter, 0, Qt::AlignBottom);
+// 		m_lay->addWidget(m_intoView, 0, Qt::AlignBottom);
+		
+// 	} else {
+		m_lay->addWidget(m_intoView, 0, Qt::AlignBottom);
+		m_lay->addWidget(m_volMeter, 0, Qt::AlignBottom);
+		outLay->addLayout(m_lay);
+	if (m_withButtons)
+			outLay->addWidget(pauseButt, 0, Qt::AlignBottom);
+// 	}
+
+  setLayout(outLay);
   
   m_volTimer = new QTimer(this);
   connect(m_volTimer, SIGNAL(timeout()), this, SLOT(updateLevel()));
@@ -153,6 +157,8 @@ void TpitchView::setIntonationAccuracy(int accuracy) {
 
 
 void TpitchView::resize(int fontSize) {
+	if (m_lay->direction() == QBoxLayout::TopToBottom)
+			fontSize = qRound((float)fontSize * 1.4);
   if (m_withButtons) {
 #if defined(Q_OS_MAC)
     voiceButt->setFont(QFont("nootka", (fontSize*2)/*/2*/)); // prev was 3/2 (*1.5)
@@ -165,8 +171,11 @@ void TpitchView::resize(int fontSize) {
 #endif
     voiceButt->setFixedWidth(1.5 *fontSize);
     pauseButt->setFixedWidth(1.5 *fontSize);
-    voiceButt->setFixedHeight(2 * fontSize);
-    pauseButt->setFixedHeight(2 * fontSize);
+		qreal sizeF = 1.0;
+		if (m_lay->direction() == QBoxLayout::TopToBottom)
+			sizeF = 1.5;
+    voiceButt->setFixedHeight(2 * fontSize * sizeF);
+    pauseButt->setFixedHeight(2 * fontSize * sizeF);
   }
   m_volMeter->setFixedHeight(qRound((float)fontSize * 1.2));
   m_intoView->setFixedHeight(qRound((float)fontSize * 1.2));
@@ -186,6 +195,15 @@ void TpitchView::setIsVoice(bool isVoice) {
     if (m_audioIN)
       m_audioIN->setIsVoice(m_isVoice);
 }
+
+
+void TpitchView::setHorizontal(bool isHorizontal) {
+		if (isHorizontal)
+			m_lay->setDirection(QBoxLayout::TopToBottom);
+		else
+			m_lay->setDirection(QBoxLayout::LeftToRight);
+}
+
 
 //------------------------------------------------------------------------------------
 //------------          slots       --------------------------------------------------
@@ -219,10 +237,9 @@ void TpitchView::pauseClicked() {
     if (m_isPaused) {
       pauseButt->setText("n"); // note symbol
       m_isPaused = false;
-      m_volMeter->setDisabled(false);
       m_intoView->setDisabled(false);
       m_audioIN->startListening();
-      m_volTimer->start(75);
+			startVolume();
     } else {
       pauseButt->setText("o"); // stroked note symbol
       m_isPaused = true;

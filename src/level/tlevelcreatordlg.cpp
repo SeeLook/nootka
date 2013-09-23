@@ -215,15 +215,15 @@ QString TlevelCreatorDlg::validateLevel(TexamLevel &l) {
   // Check is possible of using naming style
     if (l.requireStyle && !l.canBeName())
         res += tr("<li>'Use different naming styles' was checked but neither questions nor answers as note name are checked.<br>Check this type of answer/question or uncheck 'Use different naming styles'.</li>");
-  // Check are questions and answers as note in the score have sense (are different)
+  // Check are questions and answers as note on the staff have sense (are different)
     if (l.questionAs.isNote() && l.answersAs[TQAtype::e_asNote].isNote())
       if (!l.manualKey && !l.forceAccids)
-        res += tr("<li>Questions and answers as notes in the score will be the same. Manually selecting keys or forcing accidentals has to be selected to avoid that.</li>");
+        res += tr("<li>Questions and answers as notes on the staff will be the same. Manually selecting keys or forcing accidentals has to be selected to avoid that.</li>");
   // Check is possible of manualKey
     if (l.useKeySign && l.manualKey)
       if (!l.answersAs[TQAtype::e_asNote].isNote() && !l.answersAs[TQAtype::e_asName].isNote() &&
         !l.answersAs[TQAtype::e_asFretPos].isNote() && !l.answersAs[TQAtype::e_asSound].isNote() )
-          res += tr("<li>Manual selecting of a key signature was checked but answer as note in the score was not checked.</li>");
+          res += tr("<li>Manual selecting of a key signature was checked but answer as note on the staff was not checked.</li>");
   // Resume warnings
     if (res != "") {
         res.prepend("<ul>");

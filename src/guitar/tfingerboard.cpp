@@ -47,7 +47,7 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     setStyleSheet(("background: transparent"));
     setScene(m_scene);
     setMouseTracking(true);
-    setStatusTip(tr("Select a string or fret and click to see it in the score."));
+    setStatusTip(tr("Select a string or fret and click to see it on the staff."));
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     QGraphicsBlurEffect *blur[6];

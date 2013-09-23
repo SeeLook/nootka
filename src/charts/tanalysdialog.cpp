@@ -212,7 +212,7 @@ void TanalysDialog::loadExam(QString& examFile) {
 
 void TanalysDialog::createActions() {
     QMenu *openMenu = new QMenu("open exam file", this);
-    QAction *openAct = new QAction(tr("Open an exam to analyse"), this);
+    QAction *openAct = new QAction(tr("Open an exam to analyze"), this);
     openAct->setIcon(QIcon(gl->path + "picts/charts.png"));
     openMenu->addAction(openAct);
     connect(openAct, SIGNAL(triggered()), this, SLOT(loadExamSlot()));
@@ -235,7 +235,7 @@ void TanalysDialog::createActions() {
     QWidgetAction* openToolButtonAction = new QWidgetAction(this);
     openToolButtonAction->setDefaultWidget(m_openButton);
 
-    m_closeAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)), tr("Close analyser"), this);
+    m_closeAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)), tr("Close analyzer window"), this);
     connect(m_closeAct, SIGNAL(triggered()), this, SLOT(close()));
 
     m_zoomInAct = new QAction(QIcon(gl->path+"picts/zoom-in.png"), tr("zoom in"), this);

@@ -24,6 +24,7 @@
 #include "tnote.h"
 #include "trtaudioin.h"
 
+class QBoxLayout;
 class TvolumeView;
 class TintonationView;
 class QPushButton;
@@ -60,6 +61,9 @@ public:
 			/** Sets an accuracy of intonation. 
 			 * When 0 - 'do not check' m_intoView becames disabled. */
 	void setIntonationAccuracy(int accuracy);
+			/** Places view horizontally  (true) or vertically (false) */
+	void setHorizontal(bool isHorizontal = true);
+	bool isHorizontal() { return m_isHorizontal; }
   
 protected slots:
   void noteSlot(Tnote note);
@@ -72,15 +76,17 @@ protected:
   virtual void paintEvent(QPaintEvent* );
   
 private:
-  TvolumeView *m_volMeter;
-  TintonationView *m_intoView;
-  TaudioIN *m_audioIN;
-  QTimer *m_volTimer;
-  QColor m_pitchColor, m_bgColor;
-  bool m_isPaused;
-  bool m_isVoice;
-  bool m_withButtons;
-  int m_hideCnt; // counter of m_volTimer loops.
+  TvolumeView 			*m_volMeter;
+  TintonationView 	*m_intoView;
+  TaudioIN 					*m_audioIN;
+  QTimer 						*m_volTimer;
+  QColor 						m_pitchColor, m_bgColor;
+  bool 							m_isPaused;
+  bool 							m_isVoice;
+  bool 							m_withButtons;
+	bool 							m_isHorizontal;
+	QBoxLayout 				*m_lay;
+  int 							m_hideCnt; // counter of m_volTimer loops.
 };
 
 #endif // TPITCHVIEW_H

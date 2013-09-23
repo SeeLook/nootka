@@ -87,9 +87,9 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* le
         m_scoreFree = false;
         if (question.answerAs == TQAtype::e_asNote) {
             if (question.qa.note.acidental != question.qa_2.note.acidental)
-                quest += tr("Change enharmonically and show in the score");
+                quest += tr("Change enharmonically and show on the staff");
             else
-                quest += tr("Given note show in the score");
+                quest += tr("Given note show on the staff");
           if (level->useKeySign && level->manualKey) {
             apendix = tr("<br><b>in %1 key.</b>", "in key signature").arg(question.key.getName());
           }
@@ -122,7 +122,7 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* le
         noteStr = "<br>" + getNiceNoteName(question.qa.note, question.styleOfQuestion());
         if (question.answerAs == TQAtype::e_asNote) {
           m_nameFree = false;
-          quest += tr("Show in the score") + noteStr;
+          quest += tr("Show on the staff") + noteStr;
           if (level->useKeySign && level->manualKey) {
             quest += tr("<br><b>in %1 key.</b>", "in key signature").arg(question.key.getName());
           }
@@ -153,7 +153,7 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* le
         m_guitarFree = false;
         if (question.answerAs == TQAtype::e_asNote) {
           m_scoreFree = false;
-          quest += tr("Show on the score note played on");
+          quest += tr("Show on the staff note played on");
           if (level->useKeySign && level->manualKey) {
             apendix = tr("<b>in %1 key.</b>", "in key signature").arg(question.key.getName());
           }
@@ -182,7 +182,7 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* le
       case TQAtype::e_asSound:
         if (question.answerAs == TQAtype::e_asNote) {
           m_scoreFree = false;
-          quest += tr("Listened sound show in the score");
+          quest += tr("Listened sound show on the staff");
           if (level->useKeySign && level->manualKey) {
             quest += tr("<br><b>in %1 key.</b>", "in key signature").arg(question.key.getName());
           }
