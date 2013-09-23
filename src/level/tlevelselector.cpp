@@ -115,7 +115,7 @@ QList<TexamLevel> getExampleLevels() {
 //----------------------------------------------------------------------------
     l = TexamLevel();
     l.name = QObject::tr("Ear training");
-    l.desc = QObject::tr("Listen to a sound and show it in score.<br>Guitar, note names and key signatures are not used.<br>Scale a - a<sup>2</sup>.");
+    l.desc = QObject::tr("Listen to a sound and show it on the staff.<br>Guitar, note names and key signatures are not used.<br>Scale a - a<sup>2</sup>.");
     l.questionAs.setAsFret(false); // no guitar
     l.questionAs.setAsName(false); // no names
     l.questionAs.setAsNote(false); // score only as an question

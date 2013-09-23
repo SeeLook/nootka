@@ -40,8 +40,7 @@ public:
     static QString questionsTxt() { return tr("questions"); } // questions
     static QString answerTxt() { return tr("answer"); } // answer
     static QString answersTxt() { return tr("answers"); } // answers
-//     static QString asNoteTxt() { return tr("as note in the score"); } // as note in the score
-    static QString asNoteTxt() { return tr("as note on the stave"); } // as note on the stave
+    static QString asNoteTxt() { return tr("as note on the staff"); } // as note on the staff
     static QString asNameTxt() { return tr("as note name"); } // as note's name
     static QString asFretPosTxt() { return tr("as position on the fingerboard"); } // as position on the fingerboard
     static QString asSoundTxt() { return tr("as played sound"); } // as played sound

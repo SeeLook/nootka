@@ -47,6 +47,8 @@ extern bool resetConfig;
 
 TnootkaLabel *nootLab;
 bool m_isPlayerFree = true;
+QWidget *m_pitchContainer = 0;
+QVBoxLayout *m_rightLay = 0;
 
 MainWindow::MainWindow(QWidget *parent) :
 		QMainWindow(parent),
@@ -186,6 +188,7 @@ MainWindow::MainWindow(QWidget *parent) :
 		QVBoxLayout *rightLay = new QVBoxLayout;
 			rightLay->addLayout(rightWholeLay);
 			rightLay->addWidget(pitchView);
+			m_rightLay = rightLay;
 		QHBoxLayout *scoreAndNameLay = new QHBoxLayout;
 // 			scoreAndNameLay->addWidget(score);
 // 			scoreAndNameLay->addLayout(scoreLay);
@@ -247,7 +250,7 @@ void MainWindow::createActions() {
     connect(startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
     setStartExamActParams(); // set text and icon also for levelCreatorAct
     
-    analyseAct = new QAction(tr("Analyse", "could be Chart as well"), this);
+    analyseAct = new QAction(tr("Analyze", "could be Chart as well"), this);
     analyseAct->setIcon(QIcon(gl->path+"picts/charts.png"));
     analyseAct->setStatusTip(tr("Analysis of exam results"));
 		analyseAct->setToolTip(analyseAct->statusTip());
@@ -590,7 +593,7 @@ void MainWindow::updsateSize() {
     setUpdatesEnabled(false);
     m_statFontSize = (centralWidget()->height() / 9) / 4 - 2;
     nootBar->setIconSize(QSize(height() / 19, height() / 19));
-    pitchView->resize(m_statFontSize);
+//     pitchView->resize(m_statFontSize);
 		m_statLab->setFixedHeight(centralWidget()->height() / 9);
     QFont f = m_statLab->font();
     f.setPointSize(m_statFontSize);
@@ -605,10 +608,19 @@ void MainWindow::updsateSize() {
 // 		m_octaveButtons->resize(m_statFontSize);
 		
 		if (gl->instrument != e_noInstrument) {
+			if (m_pitchContainer) {
+				m_pitchContainer->layout()->removeWidget(pitchView);
+				pitchView->setHorizontal(false);
+// 				delete m_pitchContainer;
+				m_pitchContainer->deleteLater();
+				m_pitchContainer = 0;
+				guitar->show();
+				m_rightLay->addWidget(pitchView);
+			}
 			QPixmap bgPix;
 			qreal guitH;
 			qreal ratio;
-			if (gl->instrument == e_classicalGuitar || gl->instrument == e_noInstrument) {
+			if (gl->instrument == e_classicalGuitar) {
 				bgPix = QPixmap(gl->path + "picts/body.png"); // size 800x535
 				guitH = qRound(((double)guitar->height() / 350.0) * 856.0);
 		    int guitW = centralWidget()->width() / 2;
@@ -635,10 +647,23 @@ void MainWindow::updsateSize() {
 // 				QPixmap rosePix(gl->path + "picts/rosette.png"); // size 341x281
 // 				m_rosettePixmap = rosePix.scaled(341 * ratio, 281 * ratio, Qt::KeepAspectRatio);
 			}
-		} 
-// 		else {
-// 			score->setFixedHeight(height() * 0.6);
-// 		}
+		} else { // no guitar - pitch view instead
+				if (!m_pitchContainer) {
+					guitar->hide();
+					m_pitchContainer = new QWidget(innerWidget);
+					m_rightLay->removeWidget(pitchView);
+					pitchView->setHorizontal(true);
+					QVBoxLayout *pitchLay = new QVBoxLayout;
+					pitchLay->addStretch(1);
+					pitchLay->addWidget(pitchView);
+					pitchLay->addStretch(1);
+					m_pitchContainer->setLayout(pitchLay);
+					innerWidget->layout()->addWidget(m_pitchContainer);
+				}
+		}
+		if (m_pitchContainer)
+			m_pitchContainer->setFixedHeight((centralWidget()->height() - nootBar->height()) * 0.25);
+		pitchView->resize(m_statFontSize);
     
     setUpdatesEnabled(true);
     QTimer::singleShot(2, this, SLOT(update())); 
@@ -662,7 +687,7 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 
 
 void MainWindow::paintEvent(QPaintEvent* ) {
-// 		if (gl->instrument != e_noInstrument) {
+		if (gl->instrument != e_noInstrument) {
 			QPainter painter(this);
 			if (!gl->GisRightHanded) {
 					painter.translate(width(), 0);
@@ -677,7 +702,7 @@ void MainWindow::paintEvent(QPaintEvent* ) {
 					painter.drawPixmap(guitar->fbRect().right() - 235 * ratio, height() - m_bgPixmap.height() /*+ 20 * ratio*/, m_bgPixmap);
 					painter.drawPixmap(guitar->fbRect().right() + 20 * ratio, guitar->y() - 15 * ratio, m_rosettePixmap);
 			}
-// 		}
+		}
 }
 
 

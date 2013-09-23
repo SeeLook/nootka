@@ -64,9 +64,9 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 		m_instrumentTypeCombo = new QComboBox(this);
 		guitarLay->addWidget(m_instrumentTypeCombo, 0, Qt::AlignCenter);
 		m_instrumentTypeCombo->addItem(tr("not used", "like 'guitar is not used'"));
-		QModelIndex in = m_instrumentTypeCombo->model()->index(0, 0);
-		QVariant v(0);
-		m_instrumentTypeCombo->model()->setData(in, v, Qt::UserRole - 1);
+// 		QModelIndex in = m_instrumentTypeCombo->model()->index(0, 0);
+// 		QVariant v(0);
+// 		m_instrumentTypeCombo->model()->setData(in, v, Qt::UserRole - 1);
 		m_instrumentTypeCombo->addItem(instrumentToText(e_classicalGuitar));
 		m_instrumentTypeCombo->addItem(instrumentToText(e_electricGuitar));
 		m_instrumentTypeCombo->addItem(instrumentToText(e_bassGuitar));
@@ -104,7 +104,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     QHBoxLayout *downLay = new QHBoxLayout;
     QVBoxLayout *prefLay = new QVBoxLayout;
     m_accidGroup = new QGroupBox(tr("preferred accidentals:"),this);
-    m_accidGroup->setStatusTip(tr("Choose which accidentals will be shown in the score."));
+    m_accidGroup->setStatusTip(tr("Choose which accidentals will be shown on the staff."));
     m_prefSharpBut = new QRadioButton(tr("# - sharps"),this);
     m_prefFlatBut = new  QRadioButton(tr("b - flats"),this);
     QButtonGroup *prefGr = new QButtonGroup(this);

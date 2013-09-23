@@ -212,19 +212,20 @@ void AudioOutSettings::adjustOutToInstrument(TaudioParams* out, int instr) {
 				case e_bassGuitar:
 						out->midiInstrNr = 33; break;
 			}
-	} else
-		out->audioInstrNr = instr;
+	} 
+	else
+		out->audioInstrNr = qBound(1, instr, 3);
 }
 
 
 
 void AudioOutSettings::whenInstrumentChanged(int instr) {
-	adjustOutToInstrument(m_params, instr);
+// 	adjustOutToInstrument(m_params, instr);
 	if (m_params->midiEnabled)
 		m_midiRadioButt->setChecked(true);
 	else
 		m_audioRadioButt->setChecked(true);
-	m_audioInstrCombo->setCurrentIndex(instr - 1);
+	m_audioInstrCombo->setCurrentIndex(qBound(0, instr - 1, 2));
 	audioOrMidiChanged();
 }
 
