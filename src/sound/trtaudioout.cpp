@@ -152,7 +152,8 @@ void TaudioOUT::setAudioOutParams(TaudioParams* params) {
     else
         playable = false;
   }
-  oggScale->setPitchOffset(audioParams->a440diff);
+  // Shifts only float part of a440diff - integer part is shifted by play() method
+  oggScale->setPitchOffset(audioParams->a440diff - (float)int(audioParams->a440diff));
 }
 
 

@@ -119,8 +119,8 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
 //   midLay->addWidget(freqSpin);
   midGrLay->addWidget(freqSpin, 0, 1);
   freqSpin->setStatusTip(tr("The base frequency of <i>middle a</i>.<br>Detection of the proper pitch of notes is relative to this value. This also affects the pitch of played sounds."));
-  freqSpin->setMinimum(400);
-  freqSpin->setMaximum(480);
+  freqSpin->setMinimum(380);
+  freqSpin->setMaximum(500);
 //   freqSpin->setValue(int(pitch2freq(freq2pitch(440.0) + m_glParams->a440diff)));
   freqSpin->setValue(getFreq(440.0));
   freqSpin->setSuffix(" Hz");
@@ -297,7 +297,7 @@ void AudioInSettings::grabParams(TaudioParams *params) {
   if (freqSpin->value() == 440 )
       params->a440diff = 0.0;
   else
-      params->a440diff = m_tmpParams->a440diff = getDiff(freqSpin->value());
+      params->a440diff = getDiff(freqSpin->value());
   params->INdevName = m_inDeviceCombo->currentText();
   if (voiceRadio->isChecked())
       params->isVoice = true;
