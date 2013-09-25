@@ -45,16 +45,17 @@ class Tnote
 
 public:
 	
-				/** Enum type EnameStyle describes the styles of notation:
-				* @li e_italiano_Si - for classical Do Re Mi ...
-				* @li e_norsk_Hb - for letters with signs f.e. C# Cx or Cb    !! THIS IS DEFAULT !!
-				* @li e_deutsch_His - for letters with names f.e. Cis Cizis or Ces H and B
-				* (as H with flat
-				* @li e_english_Bb like @p e_norsk_Hb but with B and Bb (B flat)
-				* @li e_nederl_Bis like @p e_deutsch_His but with B ens Bes		*/
-	enum EnameStyle {e_norsk_Hb = 0, e_deutsch_His, e_italiano_Si, e_english_Bb, e_nederl_Bis};
+				/** Enumeration type describes the styles of notation */
+	enum EnameStyle {
+		e_norsk_Hb = 0, // for letters with signs f.e. C# Cx or Cb    !! THIS IS DEFAULT !!
+		e_deutsch_His, // for letters with names f.e. Cis Cisis or Ces H and B (H with flat)
+		e_italiano_Si, // for classical Do Re Mi Fa Sol La Si
+		e_english_Bb, // like @p e_norsk_Hb but with B and Bb (B flat)
+		e_nederl_Bis, // like @p e_deutsch_His but with B ens Bes 
+		e_russian_Ci // classical but in Russian: До Ре Ми Фа Соль Ля Си
+	};
 
-				/** Eacidentals enum type describes all signs which can be before note in score.
+				/** Eacidentals enumeration type describes all signs which can be before note in score.
 				* It can be: @li e_None = 3 @li e_Sharp = 1 @li e_DoubleSharp=2
 				* @li e_Flat= -1 @li e_DoubleFlat= -2 @li e_Natural=0	*/
 	enum Eacidentals { e_Natural = 0, e_Sharp=1, e_DoubleSharp=2,
@@ -65,7 +66,7 @@ public:
 	char note;
 				/** Octave number is @p 0 for "small octave",  @p -1 for "Great" @p 1 for "one-line". */
 	char octave;
-				/** @param acidental means raiseing or falling note, so it ca be:
+				/** @param accidental means raising or falling note, so it ca be:
 				* @li 2 for double sharp (x)
 				* @li 1 for sharp (#)
 				* @li 0 for natural
@@ -79,7 +80,7 @@ public:
 				* @li "2" for D1 
 				* @li .......
 				* @li 7 for B (H in Deutsh)
-				* If acidental is not defined, the note is natural.	*/
+				* If accidental is not defined, the note is natural.	*/
 	Tnote (char m_diatonNote, char m_octave, char m_acidental = 0);
 				/** The simple constructor, creates the note instance with 0 note - 
 				* It's no sence in musical notation. It's needed for vectors*/
@@ -90,9 +91,12 @@ public:
 				* @li .......
 				* @li 13 for C2 in next octave
 				* @li -12 for C in little octave etc....
-				* The sharp acidental is default. If You need others, you can use convToFlat. */
+				* The sharp accidental is default. If You need others, you can use convToFlat. */
 	Tnote (short chromaticNrOfNote);
 	~Tnote ();
+	
+			/** Static value determines default name style for a note */
+	static EnameStyle defaultStyle; 
 	
 //--Methods--
 
@@ -103,9 +107,9 @@ public:
 	void convToFlat ();
 
 				/** @return List of pointers to Tnote objects, which are the same (in sound sence),
-				* like note represens by class. (C# = Db, or Cx = D = Ebb)  
+				* like note represents by class. (C# = Db, or Cx = D = Ebb)  
 				* @param enableDbAccids if @p TRUE - checks substitutes with double accids	*/
-	TnotesList getTheSameNotes (bool enableDbAccids );
+	TnotesList getTheSameNotes (bool enableDbAccids);
 
 
 	Tnote showWithDoubleSharp ();
@@ -118,30 +122,29 @@ public:
 			/** This method compares actual note, with otherNote.
 				* @param otherNote 
 				* @param ignoreOctave .If 1 (TRUE) the octave values are ignored,
-				* and method compares only number of note and acidental.
+				* and method compares only number of note and accidental.
 				* @return 1 for TRUE or 0 if notes are different */
 	short compareNotes(Tnote otherNote, short ignoreOctave = 0);
 
 	std::string getName (EnameStyle notation = e_norsk_Hb, bool showOctave = 1);
 	std::string getName (Tnote eNote, EnameStyle notation = e_norsk_Hb, bool showOctave = 1);
 				/** Returns note name converted to QString */
-  QString toText (EnameStyle notation = e_norsk_Hb, bool showOctave = 1);
-				/** Returns note name formated to HTML*/
-  QString toRichText(EnameStyle notation = e_norsk_Hb, bool showOctave = 1);
+  QString toText (EnameStyle notation, bool showOctave = true);
+	QString toText (bool showOctave = true) { return toText(defaultStyle, showOctave); }
+				/** Returns note name formatted to HTML*/
+  QString toRichText(EnameStyle notation, bool showOctave = true);
+				/** Returns note name formatted to HTML in default name style sets by @p defaultStyle. */
+	QString toRichText(bool showOctave = true) { return toRichText(defaultStyle, showOctave); }
 				/**  Returns chromatic number of note */
 	short getChromaticNrOfNote ();
-				/** This static method updates array of m_solmization to translated note names
-				 * As long as Tnote class exist before translations are loaded 
-				 * it is neccesary to call this after translations. */
-	static void updateTranslations();
 
 private:
 	
-	static QString m_solmization[7];
-
+	static std::string m_solmization[7];
+	static std::string m_solmizationRu[7];
 };
     /** This function is substitute of >> operator for @class Tnote.
-    * It checks is Tnote valid, and return @value bool about it. */
+    * It checks is Tnote valid, and return Boolean about it. */
 bool getNoteFromStream(QDataStream &in, Tnote &n);
 
 QDataStream &operator<< (QDataStream &out, const Tnote &n);

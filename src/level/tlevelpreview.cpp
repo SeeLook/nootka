@@ -21,7 +21,6 @@
 #include "tquestionaswdg.h"
 #include "tglobals.h"
 #include <ttipchart.h>
-#include <tnotename.h>
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QTextEdit>
@@ -96,8 +95,7 @@ void TlevelPreview::setLevel(TexamLevel& tl) {
 				replace("<img", "<img width=\"70px\"");
     S += "<tr><td>" + notesRangeTxt() + " </td>";
 		if (tl.loNote.note && tl.hiNote.note)
-			S += "<td>" + TnoteName::noteToRichText(tl.loNote) + " - "
-					+ TnoteName::noteToRichText(tl.hiNote) + "</td></tr>";
+			S += "<td>" + tl.loNote.toRichText() + " - " + tl.hiNote.toRichText() + "</td></tr>";
     if (tl.questionAs.isFret() || tl.answersAs[0].isFret()
         || tl.answersAs[1].isFret() || tl.answersAs[2].isFret()
         || tl.answersAs[3].isFret()) { // level uses guitar

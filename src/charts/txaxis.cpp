@@ -20,11 +20,11 @@
 #include "tqaunit.h"
 #include "texam.h"
 #include "tgroupedqaunit.h"
-#include "tnotename.h"
 #include "texamlevel.h"
 #include "tgraphicstexttip.h"
 #include <QPainter>
 #include <QGraphicsScene>
+#include <QWidget>
 #include <QDebug>
 
 
@@ -65,7 +65,7 @@ void TXaxis::setTicText(QGraphicsTextItem *tic, TQAunit &unit, int questNr) {
     QString txt;
     if (questNr)
         txt = QString("%1.<br>").arg(questNr);
-    txt += QString("<b>%2</b>").arg(TnoteName::noteToRichText(unit.qa.note));
+		txt += QString("<b>%1</b>").arg(unit.qa.note.toRichText());
     if (unit.questionAs == TQAtype::e_asFretPos || unit.answerAs == TQAtype::e_asFretPos || unit.answerAs == TQAtype::e_asSound)
         txt += "<br>" + QString("<span style=\"font-size: 15px; font-family: nootka\">%1</span><span style=\"font-size: 15px;\">%2</span>").
                 arg((int)unit.qa.pos.str()).arg(TfingerPos::romanFret(unit.qa.pos.fret()));

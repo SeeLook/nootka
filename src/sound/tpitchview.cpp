@@ -184,16 +184,16 @@ void TpitchView::resize(int fontSize) {
 
 void TpitchView::setIsVoice(bool isVoice) {
   if (isVoice) {
-      voiceButt->setText("v"); // singer symbol for voice mode
-      m_isVoice = true;
-      m_intoView->setAccuracy(TintonationView::e_sufficient);
+				voiceButt->setText("v"); // singer symbol for voice mode
+				m_isVoice = true;
+	//       m_intoView->setAccuracy(TintonationView::e_sufficient);
     } else {
-      voiceButt->setText("g"); // guitar symbol for instruments mode
-      m_isVoice = false;
-      m_intoView->setAccuracy(TintonationView::e_perfect);
+				voiceButt->setText("g"); // guitar symbol for instruments mode
+				m_isVoice = false;
+	//       m_intoView->setAccuracy(TintonationView::e_perfect);
     }
     if (m_audioIN)
-      m_audioIN->setIsVoice(m_isVoice);
+				m_audioIN->setIsVoice(m_isVoice);
 }
 
 
@@ -201,7 +201,7 @@ void TpitchView::setHorizontal(bool isHorizontal) {
 		if (isHorizontal)
 			m_lay->setDirection(QBoxLayout::TopToBottom);
 		else
-			m_lay->setDirection(QBoxLayout::LeftToRight);
+			m_lay->setDirection(QBoxLayout::RightToLeft);
 }
 
 

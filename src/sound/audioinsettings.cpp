@@ -22,7 +22,6 @@
 #include "tpitchfinder.h"
 #include <QtGui>
 #include "taudioparams.h"
-#include "tnotename.h"
 #include "trtaudioin.h"
 #include "tintonationview.h"
 #include "tvolumeslider.h"
@@ -119,8 +118,8 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
 //   midLay->addWidget(freqSpin);
   midGrLay->addWidget(freqSpin, 0, 1);
   freqSpin->setStatusTip(tr("The base frequency of <i>middle a</i>.<br>Detection of the proper pitch of notes is relative to this value. This also affects the pitch of played sounds."));
-  freqSpin->setMinimum(380);
-  freqSpin->setMaximum(500);
+  freqSpin->setMinimum(200);
+  freqSpin->setMaximum(900);
 //   freqSpin->setValue(int(pitch2freq(freq2pitch(440.0) + m_glParams->a440diff)));
   freqSpin->setValue(getFreq(440.0));
   freqSpin->setSuffix(" Hz");
@@ -370,7 +369,8 @@ void AudioInSettings::getFreqStatusTip() {
 		QString freqTxt = "";
 		for (int i = 1; i <= m_tune->stringNr(); i++) {
 				freqTxt += QString("<span style=\"font-family: nootka;\">%1</span>%2 = %3 Hz, ").arg(i).
-				arg(TnoteName::noteToRichText(m_tune->str(i))).
+// 				arg(TnoteName::noteToRichText(m_tune->str(i))).
+				arg((m_tune->str(i)).toRichText()).
 				arg(offPitch((float)m_tune->str(i).getChromaticNrOfNote() + 47), 0, 'f', 1);
 				if (i % 2 == 0 && i < 6)
 						freqTxt += "<br>"; // two entries per line 
@@ -436,7 +436,8 @@ void AudioInSettings::testSlot() {
 
 
 void AudioInSettings::noteSlot(Tnote note) {
-  pitchLab->setText("<b>" + TnoteName::noteToRichText(note) + "</b>");
+		pitchLab->setText("<b>" + note.toRichText() + "</b>");
+//   pitchLab->setText("<b>" + TnoteName::noteToRichText(note) + "</b>");
 }
 
 
