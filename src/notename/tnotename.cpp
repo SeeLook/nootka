@@ -38,29 +38,30 @@ const char * const TnoteName::octavesFull[8] = { QT_TR_NOOP("Subcontra octave"),
 
 
 QString TnoteName::noteToRichText(Tnote note) {
-    QString nameTxt = note.toText(m_style, false);
-    if (m_style == Tnote::e_italiano_Si ||
-        m_style == Tnote::e_english_Bb ||
-        m_style == Tnote::e_norsk_Hb ) {
-        if (note.acidental) {
-            int a = 1;
-            if (note.acidental == -2) a = 2;
-            nameTxt.insert(nameTxt.size()-a,"<sub><i>");
-        nameTxt.insert(nameTxt.size(),"</i></sub>");
-        }
-    }
-    nameTxt = nameTxt.toLower();
-    if (gl->NoctaveInNoteNameFormat) {
-        if (note.octave < 0) { //first letter capitalize
-         QString l1 = nameTxt.mid(0,1).toUpper();
-         nameTxt.replace(0,1,l1);
-         if (note.octave < -1)
-             nameTxt = nameTxt + QString("<sub>%1</sub>").arg(int(note.octave*(-1)-1));
-        }
-        if (note.octave > 0)
-            nameTxt = nameTxt + QString("<sup>%1</sup>").arg((int)note.octave);
-    }
-    return nameTxt;
+		return note.toRichText(m_style);
+//     QString nameTxt = note.toText(m_style, false);
+//     if (m_style == Tnote::e_italiano_Si ||
+//         m_style == Tnote::e_english_Bb ||
+//         m_style == Tnote::e_norsk_Hb ) {
+//         if (note.acidental) {
+//             int a = 1;
+//             if (note.acidental == -2) a = 2;
+//             nameTxt.insert(nameTxt.size()-a,"<sub><i>");
+//         nameTxt.insert(nameTxt.size(),"</i></sub>");
+//         }
+//     }
+//     nameTxt = nameTxt.toLower();
+//     if (gl->NoctaveInNoteNameFormat) {
+//         if (note.octave < 0) { //first letter capitalize
+//          QString l1 = nameTxt.mid(0,1).toUpper();
+//          nameTxt.replace(0,1,l1);
+//          if (note.octave < -1)
+//              nameTxt = nameTxt + QString("<sub>%1</sub>").arg(int(note.octave*(-1)-1));
+//         }
+//         if (note.octave > 0)
+//             nameTxt = nameTxt + QString("<sup>%1</sup>").arg((int)note.octave);
+//     }
+//     return nameTxt;
 }
 
 
@@ -197,6 +198,7 @@ void TnoteName::setNoteNamesOnButt(Tnote::EnameStyle nameStyle) {
 
 void TnoteName::setStyle(Tnote::EnameStyle style) {
     m_style = style;
+		Tnote::defaultStyle = style;
 }
 
 

@@ -20,14 +20,9 @@
 #include <sstream>
 #include <string>
 #include <iostream>
-#include <QApplication>
-
-
-
-
+#include <unistd.h>
 
 std::string IntToString(int num) {
-	QApplication::translate("Tnote", "Do").toLocal8Bit();
   std::ostringstream myStream;
   myStream << num << std::flush;
   return(myStream.str());
@@ -40,19 +35,26 @@ std::string CharToString(char chr) {
   return(myStream.str());
 }
 
-/*static*/
-QString Tnote::m_solmization[7] = {"Do", "Re", "Mi", "Fa", "Sol", "La", "Si"};
 
-
-void Tnote::updateTranslations() {
-	m_solmization[0] = QApplication::translate("Tnote", "Do");
-	m_solmization[1] = QApplication::translate("Tnote", "Re");
-	m_solmization[2] = QApplication::translate("Tnote", "Mi");
-	m_solmization[3] = QApplication::translate("Tnote", "Fa");
-	m_solmization[4] = QApplication::translate("Tnote", "Sol");
-	m_solmization[5] = QApplication::translate("Tnote", "La");
-	m_solmization[6] = QApplication::translate("Tnote", "Si");
+QString accidInSpan(char accid) {
+	QString accTxt = "";
+	switch (accid) {
+		case -2: accTxt = "B"; break;
+		case -1: accTxt = "b"; break;
+		case 1: accTxt = "#"; break;
+		case 2: accTxt = "x"; break;
+		default: accTxt = "";
+	}
+	return  QString("<span style=\"font-family: nootka;\">%1</span>").arg(accTxt);
 }
+
+/*static*/
+std::string Tnote::m_solmization[7] = {"Do", "Re", "Mi", "Fa", "Sol", "La", "Si"};
+std::string Tnote::m_solmizationRu[7] = {"До", "Ре", "Ми", "Фа", "Соль", "Ля", "Си"};
+// QString Tnote::m_KodalySharps[6] = {"Di", "Ri", "", "Fi", "Si", "Li"};
+// QString Tnote::m_KodalyFlats[7] = {"", "Ra", "Me", "", "Se", "Le", "Te" };
+
+Tnote::EnameStyle Tnote::defaultStyle = Tnote::e_norsk_Hb;
 
 
 //#############################################################################################
@@ -248,70 +250,72 @@ TnotesList Tnote::getTheSameNotes(bool enableDbAccids) {
 }
 
 
-std::string Tnote::getName( EnameStyle notation, bool showOctave )
-{
-	std::string nuta;
+std::string Tnote::getName( EnameStyle notation, bool showOctave ) {
+	std::string noteStr;
     if (note < 1 || note > 7) {
         std::cout << "Oops !! getName() with note=0\n";
         return "none";
     }
 	switch (notation) {
       case e_italiano_Si:
-// 				nuta = (std::string)DoReMi[note - 1].toLocal8Bit() + signsAcid[acidental + 2];
-				nuta = (std::string)m_solmization[note - 1].toUtf8() + signsAcid[acidental + 2];
-				break;
+					noteStr = m_solmization[note - 1] + signsAcid[acidental + 2];
+					break;
+			case e_russian_Ci:
+					noteStr = m_solmizationRu[note - 1] + signsAcid[acidental + 2];
+					break;
       case e_deutsch_His:
-		nuta = Letters[note-1];
-		switch (acidental)	{
-			case e_Natural: break;
-			case e_DoubleSharp: nuta = nuta + "isis"; break;
-			case e_Sharp: nuta = nuta + "is"; break;
-			case e_DoubleFlat: switch (note)	{
-				case 3: nuta = nuta + "ses"; break;
-				case 6: nuta = nuta + "sas"; break;
-				default: nuta = nuta + "eses"; break;
-				}
-				break;
-			case e_Flat: switch (note)	{
-				case 3: nuta = nuta + "s"; break;
-				case 6: nuta = nuta + "s"; break;
-				case 7: nuta = "B"; break;
-				default: nuta = nuta + "es"; break;
+					noteStr = Letters[note - 1];
+					switch (acidental)	{
+						case e_Natural: break;
+						case e_DoubleSharp: noteStr = noteStr + "isis"; break;
+						case e_Sharp: noteStr = noteStr + "is"; break;
+						case e_DoubleFlat: switch (note)	{
+							case 3: noteStr = noteStr + "ses"; break;
+							case 6: noteStr = noteStr + "sas"; break;
+							default: noteStr = noteStr + "eses"; break;
+							}
+							break;
+						case e_Flat: switch (note)	{
+							case 3: noteStr = noteStr + "s"; break;
+							case 6: noteStr = noteStr + "s"; break;
+							case 7: noteStr = "B"; break;
+							default: noteStr = noteStr + "es"; break;
+								}
+								break;
 					}
 					break;
-		}
-	  break;
 	  case e_nederl_Bis:
-		nuta = Letters[note-1];
-		if (note == 7) nuta = "B";
-		switch( acidental ){
-			case e_Natural: break;
-			case e_DoubleSharp: nuta = nuta + "isis"; break;
-			case e_Sharp: nuta = nuta + "is"; break;
-			case e_DoubleFlat:
-			  switch (note)	{
-				case 3: nuta = nuta + "ses"; break;
-				case 6: nuta = nuta + "ses"; break;
-				default: nuta = nuta + "eses"; break;
-			  }
+				noteStr = Letters[note-1];
+				if (note == 7) noteStr = "B";
+				switch( acidental ){
+					case e_Natural: break;
+					case e_DoubleSharp: noteStr = noteStr + "isis"; break;
+					case e_Sharp: noteStr = noteStr + "is"; break;
+					case e_DoubleFlat:
+						switch (note)	{
+						case 3: noteStr = noteStr + "ses"; break;
+						case 6: noteStr = noteStr + "ses"; break;
+						default: noteStr = noteStr + "eses"; break;
+						}
+						break;
+					case e_Flat:
+						switch (note)	{
+						case 3: noteStr = noteStr + "s"; break;
+						case 6: noteStr = noteStr + "s"; break;
+						default: noteStr = noteStr + "es"; break;
+						}
+						break;
+				}
 				break;
-			case e_Flat:
-			  switch (note)	{
-				case 3: nuta = nuta + "s"; break;
-				case 6: nuta = nuta + "s"; break;
-				default: nuta = nuta + "es"; break;
-			  }
-				break;
-		}
-	  break;
 	  default:
-		nuta = Letters[note-1];
-		if ((notation == e_english_Bb) && (note == 7)) nuta = "B";
-		nuta = nuta + signsAcid[acidental+2];
-		break;
+				noteStr = Letters[note - 1];
+				if ((notation == e_english_Bb) && (note == 7)) noteStr = "B";
+						noteStr = noteStr + signsAcid[acidental + 2];
+				break;
    }
-	if (showOctave) nuta = nuta + CharToString(octave);
-	return nuta;
+	if (showOctave) 
+			noteStr = noteStr + CharToString(octave);
+	return noteStr;
 }
 
 
@@ -332,22 +336,28 @@ QString Tnote::toText(Tnote::EnameStyle notation, bool showOctave) {
 QString Tnote::toRichText(Tnote::EnameStyle notation, bool showOctave) {
   QString result = toText(notation, false);
     if (notation == Tnote::e_italiano_Si ||
+			  notation == Tnote::e_russian_Ci ||
         notation == Tnote::e_english_Bb ||
         notation == Tnote::e_norsk_Hb ) {
         if (acidental) {
-            int a = 1;
-            if (acidental == -2) a = 2;
-            result.insert(result.size()-a,"<sub><i>");
-        result.insert(result.size(),"</i></sub>");
+//             int a = 1;
+//             if (acidental == -2) a = 2;
+// 						result.insert(result.size() - a,"<sub><i>");
+// 						result.insert(result.size(),"</i></sub>");
+					result.replace(QString::fromStdString(signsAcid[acidental + 2]), QString("<sub>%1</sub>").arg(accidInSpan(acidental)));
         }
     }
-    result = result.toLower();
+    if (acidental == -2)
+				result.replace("B", "!");
+    result = result.toLower(); // it converts double flat (B) to single flat (b)
+		if (acidental == -2)
+				result.replace("!", "B");
     if (showOctave) {
         if (octave < 0) { //first letter capitalize
-         QString l1 = result.mid(0,1).toUpper();
-         result.replace(0,1,l1);
-         if (octave < -1)
-             result = result + QString("<sub>%1</sub>").arg(int(octave*(-1)-1));
+					QString l1 = result.mid(0, 1).toUpper();
+					result.replace(0, 1, l1);
+					if (octave < -1)
+							result = result + QString("<sub>%1</sub>").arg(int(octave*(-1)-1));
         }
         if (octave > 0)
             result = result + QString("<sup>%1</sup>").arg((int)octave);

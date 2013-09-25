@@ -20,7 +20,6 @@
 #include "tquestiontip.h"
 #include "tqaunit.h"
 #include "texam.h"
-#include <tnotename.h>
 #include "tquestionaswdg.h"
 #include "tglobals.h"
 #include <texamlevel.h>

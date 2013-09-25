@@ -54,7 +54,6 @@ MainWindow::MainWindow(QWidget *parent) :
 		QMainWindow(parent),
     ex(0)
 {
-		Tnote::updateTranslations();
     Ttune::prepareDefinedTunes();
 #if defined(Q_OS_MAC)
     TpushButton::setCheckColor(gl->SpointerColor, palette().base().color());

@@ -1,14 +1,4 @@
-IF(UNIX AND NOT APPLE)
-
-
-    if (ENABLE_QTMULTIMEDIA)
-      set(JACK_LIBRARY_FOUND TRUE)
-      set(PULSEERROR_LIBRARY_FOUND TRUE)
-      set(PULSESIMPLE_LIBRARY_FOUND TRUE)
-
-    else (ENABLE_QTMULTIMEDIA) # RtAudio
-      set(QTMULTIMEDIA_LIBRARY_FOUND TRUE)
-      
+IF(UNIX AND NOT APPLE)    
     ##### JACK - Jack Audio Connection Kit ##############
       find_path(JACK_INCLUDE_DIR
         NAMES
@@ -79,9 +69,5 @@ IF(UNIX AND NOT APPLE)
         option(ENABLE_JACK "Enable support for JACK (Jack Audio Connection Kit)" OFF)
         set(JACK_LIBRARY_FOUND TRUE)
     endif (JACK_INCLUDE_DIR)
-
-    endif (ENABLE_QTMULTIMEDIA)
-
-  else(ENABLE_QTMULTIMEDIA)
     
 ENDIF(UNIX AND NOT APPLE)
