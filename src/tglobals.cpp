@@ -21,6 +21,7 @@
 #include <ttune.h>
 #include "taudioparams.h"
 #include "texamparams.h"
+#include <tnamestylefilter.h>
 #include <QDir>
 #include <QSettings>
 #include <QCoreApplication>
@@ -128,9 +129,12 @@ Tglobals::Tglobals() :
 //note name settings    
     config->beginGroup("noteName");
         NnameStyleInNoteName = Tnote::EnameStyle(config->value("nameStyle", (int)Tnote::e_english_Bb).toInt());
+				NsolfegeStyle = Tnote::EnameStyle(config->value("solfegeStyle", (int)getSolfegeStyle()).toInt());
         NoctaveInNoteNameFormat = config->value("octaveInName", true).toBool();
 	//    NoctaveNameInNoteName = true;
     config->endGroup();
+	// Initialize name filter
+		TnameStyleFilter::setStyleFilter(&seventhIs_B, &NsolfegeStyle);
 
 // guitar settings
     Ttune::prepareDefinedTunes();
@@ -255,6 +259,17 @@ Tnote Tglobals::loString() {
 }
 
 
+Tnote::EnameStyle Tglobals::getSolfegeStyle() {
+		Tnote::EnameStyle solStyle = Tnote::e_italiano_Si;
+		QString ll = lang;
+		if (ll == "")
+			ll = QLocale::system().name();
+		if (ll.contains("ru"))
+			solStyle = Tnote::e_russian_Ci;
+		return solStyle;
+}
+
+
 
 void Tglobals::storeSettings() {
     config->beginGroup("common");
@@ -286,6 +301,7 @@ void Tglobals::storeSettings() {
     config->beginGroup("noteName");
         config->setValue("nameStyle", (int)NnameStyleInNoteName);
         config->setValue("octaveInName", NoctaveInNoteNameFormat);
+				config->setValue("solfegeStyle", NsolfegeStyle);
     config->endGroup();
     
     config->beginGroup("guitar");

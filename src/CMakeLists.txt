@@ -42,7 +42,8 @@ SET( NOOTKA_SRCS
 	guitar/tfingerboard.cpp
 	guitar/tfingerpos.cpp  
 ###### notename
-	notename/tnotename.cpp  
+	notename/tnotename.cpp
+	notename/tnamestylefilter.cpp
 # 	notename/toctavebuttons.cpp
 ###### sound
   sound/tsound.cpp

@@ -46,7 +46,6 @@ public:
     Tnote getNoteName(int index) {return m_notes[index]; }
     void resize(int fontSize = 0);
     void setAmbitus(Tnote lo, Tnote hi);
-    static QString noteToRichText(Tnote note);
     void askQuestion(Tnote note, Tnote::EnameStyle questStyle, char strNr = 0);
     void prepAnswer(Tnote::EnameStyle answStyle);
     void setNameDisabled(bool isDisabled);
