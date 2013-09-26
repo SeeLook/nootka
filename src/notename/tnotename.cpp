@@ -36,35 +36,6 @@ const char * const TnoteName::octavesFull[8] = { QT_TR_NOOP("Subcontra octave"),
                     QT_TR_NOOP("One-line octave"), QT_TR_NOOP("Two-line octave"),
                     QT_TR_NOOP("Three-line octave"), QT_TR_NOOP("Four-line octave") };
 
-
-QString TnoteName::noteToRichText(Tnote note) {
-		return note.toRichText(m_style);
-//     QString nameTxt = note.toText(m_style, false);
-//     if (m_style == Tnote::e_italiano_Si ||
-//         m_style == Tnote::e_english_Bb ||
-//         m_style == Tnote::e_norsk_Hb ) {
-//         if (note.acidental) {
-//             int a = 1;
-//             if (note.acidental == -2) a = 2;
-//             nameTxt.insert(nameTxt.size()-a,"<sub><i>");
-//         nameTxt.insert(nameTxt.size(),"</i></sub>");
-//         }
-//     }
-//     nameTxt = nameTxt.toLower();
-//     if (gl->NoctaveInNoteNameFormat) {
-//         if (note.octave < 0) { //first letter capitalize
-//          QString l1 = nameTxt.mid(0,1).toUpper();
-//          nameTxt.replace(0,1,l1);
-//          if (note.octave < -1)
-//              nameTxt = nameTxt + QString("<sub>%1</sub>").arg(int(note.octave*(-1)-1));
-//         }
-//         if (note.octave > 0)
-//             nameTxt = nameTxt + QString("<sup>%1</sup>").arg((int)note.octave);
-//     }
-//     return nameTxt;
-}
-
-
 //#######################################################################################################
 //#################################### PUBLIC ###########################################################
 //#######################################################################################################
@@ -387,11 +358,12 @@ void TnoteName::uncheckAllButtons() {
 
 void TnoteName::setNameText() {
     if (m_notes[0].note) {
-        QString txt = noteToRichText(m_notes[0]);
+				QString txt = m_notes[0].toRichText();
+//         QString txt = noteToRichText(m_notes[0]);
         if (m_notes[1].note) {
-            txt = txt + QString("  <span style=\"font-size: %1px; color: %2\">(").arg(m_nameLabel->font().pointSize()-2).arg(gl->enharmNotesColor.name()) + noteToRichText(m_notes[1]);
+            txt = txt + QString("  <span style=\"font-size: %1px; color: %2\">(").arg(m_nameLabel->font().pointSize()-2).arg(gl->enharmNotesColor.name()) + m_notes[1].toRichText();
             if (m_notes[2].note)
-                txt = txt + "  " + noteToRichText(m_notes[2]);
+                txt = txt + "  " + m_notes[2].toRichText();
             txt = txt + ")</span>";
         }
         m_nameLabel->setText(txt);

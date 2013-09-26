@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -56,7 +56,7 @@ public:
     QString version;
         /** If @param true, hints of widgets are shown*/
     bool hintsEnabled;
-        /** to show or skip first run wizzard*/
+        /** to show or skip first run wizard*/
     bool isFirstRun;
         /** Application language. If empty - selected from system info*/
     QString lang;
@@ -81,7 +81,7 @@ public:
         /** Convention is:
         * if keyNameSuffix == " " constructor of Tglobals sets its default and
         * constructor of TkeySignatureView sets translateable value "major" and "minor"
-        * otherwise it is overvrites by loading settings
+        * otherwise it is overrides by loading settings
         * if keyNameSuffix == "" user prefers without suffix.
         * If keyNameSuffix has some text -  is translated by user himself */
     QString SmajKeyNameSufix;
@@ -92,7 +92,7 @@ public:
 //============= common with score widget and note name ==========================================
     bool doubleAccidentalsEnabled; //default true
     bool showEnharmNotes; // default true
-        /** On the begining it is -1 and then it is set in TscoreWidget constructor
+        /** On the beginning it is -1 and then it is set in TscoreWidget constructor
         * as inversion of highlight color from palette() and put to TnoteName,
         * otherwise is taken from saved settings. */
     QColor enharmNotesColor;
@@ -103,14 +103,17 @@ public:
 //======== note name settings ===================================================================
     Tnote::EnameStyle NnameStyleInNoteName;
     bool NoctaveInNoteNameFormat; //default true
+    Tnote::EnameStyle NsolfegeStyle; // e_italiano_Si is default
+				/** Guessing solfege name style from current locale setting. F.e.: ru is e_russian_Ci */
+    Tnote::EnameStyle getSolfegeStyle();
 //    bool NoctaveNameInNoteName; //default true
 
 //============ guitar settings =============================================================
-				/** Type of instrument - calssical guitar default */
+				/** Type of instrument - classical guitar default */
 		Einstrument instrument;
     unsigned char GfretsNumber; //default 19
     bool GisRightHanded; //default true
-        /** Shows other posibilities of note (sound) on the fretboard */
+        /** Shows other possibilities of note (sound) on the fretboard */
     bool GshowOtherPos; //default true
     QColor GfingerColor; // rules the same like in enharmNotesColor
     QColor GselectedColor;

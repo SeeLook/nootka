@@ -16,6 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 #include "tnote.h"
+#include <tnamestylefilter.h>
 
 #include <sstream>
 #include <string>
@@ -256,7 +257,7 @@ std::string Tnote::getName( EnameStyle notation, bool showOctave ) {
         std::cout << "Oops !! getName() with note=0\n";
         return "none";
     }
-	switch (notation) {
+	switch (TnameStyleFilter::get(notation)) {
       case e_italiano_Si:
 					noteStr = m_solmization[note - 1] + signsAcid[acidental + 2];
 					break;
@@ -339,19 +340,14 @@ QString Tnote::toRichText(Tnote::EnameStyle notation, bool showOctave) {
 			  notation == Tnote::e_russian_Ci ||
         notation == Tnote::e_english_Bb ||
         notation == Tnote::e_norsk_Hb ) {
-        if (acidental) {
-//             int a = 1;
-//             if (acidental == -2) a = 2;
-// 						result.insert(result.size() - a,"<sub><i>");
-// 						result.insert(result.size(),"</i></sub>");
+        if (acidental)
 					result.replace(QString::fromStdString(signsAcid[acidental + 2]), QString("<sub>%1</sub>").arg(accidInSpan(acidental)));
-        }
     }
     if (acidental == -2)
-				result.replace("B", "!");
+				result.replace("B", "!"); // store capital B otherwise toLower() make it lower
     result = result.toLower(); // it converts double flat (B) to single flat (b)
-		if (acidental == -2)
-				result.replace("!", "B");
+		if (acidental == -2) 
+				result.replace("!", "B"); // bring back capital B
     if (showOctave) {
         if (octave < 0) { //first letter capitalize
 					QString l1 = result.mid(0, 1).toUpper();
@@ -366,15 +362,15 @@ QString Tnote::toRichText(Tnote::EnameStyle notation, bool showOctave) {
 }
 
 
-bool Tnote::operator ==( const Tnote N2 )
-{
+bool Tnote::operator ==( const Tnote N2 ) {
         return ( note == N2.note && octave == N2.octave && acidental == N2.acidental);
 }
 
-bool Tnote::operator !=( const Tnote N2 )
-{
+
+bool Tnote::operator !=( const Tnote N2 ) {
     return ( note != N2.note || octave != N2.octave || acidental != N2.acidental);
 }
+
 
 bool getNoteFromStream(QDataStream &in, Tnote &n) {
     bool ok = true;
@@ -388,10 +384,12 @@ bool getNoteFromStream(QDataStream &in, Tnote &n) {
     return ok;
 }
 
+
 QDataStream &operator << (QDataStream &out, const Tnote &n) {
     out << (qint8)n.note << (qint8)n.octave << (qint8)n.acidental;
     return out;
 }
+
 
 QDataStream &operator>> (QDataStream &in, Tnote &n) {
     qint8 nn, oo, aa;
