@@ -22,6 +22,7 @@
 
 #include <QDialog>
 
+class TscalePreviewLabel;
 class QLabel;
 class QTextEdit;
 class QStackedLayout;
@@ -95,6 +96,10 @@ public:
 
     Select7note *select7;
     QCheckBox *dblAccChB, *enharmChB, *useKeyChB;
+		TscalePreviewLabel *scaleLab;
+		
+protected slots:
+		void seventhNoteChanged(bool is7_B);
 
 };
 

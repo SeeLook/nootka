@@ -27,6 +27,7 @@
 #include <ttune.h>
 #include <tsimplescore.h>
 #include <taudioparams.h>
+#include <tscalepreviewlabel.h>
 #include <QtGui>
 #include <complex>
 
@@ -275,9 +276,12 @@ Tpage_3::Tpage_3(QWidget *parent) :
 {
     QVBoxLayout *lay = new QVBoxLayout;
     lay->setAlignment(Qt::AlignCenter);
-    QLabel *seventhLab = new QLabel("<center>" + tr("7th note can be B or H, depends on country<br>What is the name of 7th note in your country?") + "<br></center>", this);
+    QLabel *seventhLab = new QLabel("<center>" + 
+				tr("7th note can be B or H, depends on country<br>What is the name of 7th note in your country?") + 
+				"</center>", this);
 		seventhLab->setWordWrap(true);
-    lay->addWidget(seventhLab, 0, Qt::AlignCenter);
+		seventhLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+    lay->addWidget(seventhLab);
 
     select7 = new Select7note(this);
     lay->addWidget(select7);
@@ -285,18 +289,20 @@ Tpage_3::Tpage_3(QWidget *parent) :
       select7->set7th_B(true);
     else
       select7->set7th_B(false);
-
+		scaleLab = new TscalePreviewLabel(select7->is7th_B()? Tnote::e_english_Bb : Tnote::e_norsk_Hb, false, this);
+		lay->addWidget(scaleLab);
     lay->addStretch(1);
+		connect(select7, SIGNAL(seventhIsBchanged(bool)), this, SLOT(seventhNoteChanged(bool)));
 
     dblAccChB = new QCheckBox(tr("I know about double sharps (x) and double flats (bb)"), this);
     lay->addWidget(dblAccChB, 0, Qt::AlignCenter);
     dblAccChB->setChecked(gl->doubleAccidentalsEnabled);
-    lay->addStretch(1);
+//     lay->addStretch(1);
 
     enharmChB = new QCheckBox(tr("I know that e# is the same as f"), this);
     lay->addWidget(enharmChB, 0, Qt::AlignCenter);
     enharmChB->setChecked(gl->showEnharmNotes);
-    lay->addStretch(1);
+//     lay->addStretch(1);
 
     useKeyChB = new QCheckBox(tr("I know about key signatures"), this);
     lay->addWidget(useKeyChB, 0, Qt::AlignCenter);
@@ -305,6 +311,11 @@ Tpage_3::Tpage_3(QWidget *parent) :
 
     setLayout(lay);
 }
+
+void Tpage_3::seventhNoteChanged(bool is7_B) {
+		scaleLab->changeStyle(is7_B? Tnote::e_english_Bb : Tnote::e_norsk_Hb);
+}
+
 
 //###############################################  Tpage_4  ###############################################
 

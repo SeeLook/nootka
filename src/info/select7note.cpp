@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk  				                   *
+ *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -26,12 +26,14 @@ Select7note::Select7note(QWidget *parent) :
 {
     QVBoxLayout *lay = new QVBoxLayout;
     QGroupBox *bGr = new QGroupBox(tr("7th note is:"),this);
-    QVBoxLayout *bLay = new QVBoxLayout;
+    QHBoxLayout *bLay = new QHBoxLayout;
     bLay->setAlignment(Qt::AlignCenter);
     QButtonGroup *bButtGr = new QButtonGroup(this);
     isBRadio = new QRadioButton("B",this);
-    isBRadio->setStatusTip(tr("7th note is <b>B</b> and with flat is <b>Bb</b> or bes or <b>bs</b>"));
+    isBRadio->setStatusTip(tr("7th note is <b>B</b> and with flat is <b>Bb</b> or <b>bes</b> or <b>bs</b>"));
+		bLay->addStretch(1);
     bLay->addWidget(isBRadio);
+		bLay->addSpacing(15);
     bButtGr->addButton(isBRadio);
     isHRadio = new QRadioButton("H",this);
     isHRadio->setStatusTip(tr("7th note is <b>H</b> and with flat is <b>Hb</b> or <b>B</b>"));

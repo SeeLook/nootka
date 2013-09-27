@@ -25,6 +25,7 @@
 #include "tnotationradiogroup.h"
 #include <tnotepixmap.h>
 #include <tfirstrunwizzard.h>
+#include <tnamestylefilter.h>
 #include <QtGui>
 
 extern Tglobals *gl;
@@ -45,7 +46,7 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
     m_enablKeyNameGr->setChecked(gl->SshowKeySignName);
     m_enablKeyNameGr->setDisabled(!gl->SkeySignatureEnabled);
 
-    m_nameStyleGr = new TnotationRadioGroup(gl->SnameStyleInKeySign,this);
+    m_nameStyleGr = new TnotationRadioGroup(gl->SnameStyleInKeySign, false, this);
     nameLay->addWidget(m_nameStyleGr);
 
     m_nameExtGr = new QGroupBox(tr("Naming extension"));
@@ -165,23 +166,28 @@ void TscoreSettings::setDefaultClef(Tclef clef) {
 
 
 void TscoreSettings::nameStyleWasChanged(Tnote::EnameStyle nameStyle) {
+		// Tnote::toRichText() method returns only names in user preferred according to settings
+	// To cheat it and force note name in any given style we are resetting pointer of is7th_B 
+	// then Tnote skips filtering of a style during name generation.
+		bool* tmpPtr = TnameStyleFilter::is7th_B();
+		TnameStyleFilter::setStyleFilter(0, TnameStyleFilter::solfegeStyle());
     m_workStyle = nameStyle;
     m_majExampl->setText(getMajorExample(m_workStyle));
     m_minExampl->setText(getMinorExample(m_workStyle));
+		TnameStyleFilter::setStyleFilter(tmpPtr, TnameStyleFilter::solfegeStyle()); // restore is7th_B settings
 }
 
-/** @todo make order with keys - whatever it means :-) */
+
 void TscoreSettings::saveSettings() {
     gl->SkeySignatureEnabled = m_enablKeySignCh->isChecked();
     if (gl->SkeySignatureEnabled) { //changed only if key signature is enabled
-		if (m_majEdit->text() == "") m_majEdit->setText(" "); // cause "" means default sufix for language
+		if (m_majEdit->text() == "") m_majEdit->setText(" "); // because "" means default suffix for language
         gl->SmajKeyNameSufix = m_majEdit->text();
 		if (m_minEdit->text() == "") m_minEdit->setText(" ");
         gl->SminKeyNameSufix = m_minEdit->text();
         gl->SnameStyleInKeySign = m_nameStyleGr->getNameStyle();
         gl->SshowKeySignName = m_enablKeyNameGr->isChecked();
-        TkeySignature::setNameStyle(
-                gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
+        TkeySignature::setNameStyle(gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
     }
     gl->SpointerColor = m_notePointColorBut->getColor();
     gl->SpointerColor.setAlpha(200);
@@ -198,7 +204,7 @@ void TscoreSettings::restoreDefaults() {
 		 * IT HAS TO TAKE A CARE 
 		 * that seventh note is also restored to default (from translation). */
 		if (Tpage_3::keyNameStyle() == "solfege")
-				m_nameStyleGr->setNameStyle(Tnote::e_italiano_Si);
+				m_nameStyleGr->setNameStyle(gl->getSolfegeStyle());
 		else
 			if (Tpage_3::note7txt().toLower() == "b")
 					m_nameStyleGr->setNameStyle(Tnote::e_nederl_Bis);
@@ -206,6 +212,7 @@ void TscoreSettings::restoreDefaults() {
 					m_nameStyleGr->setNameStyle(Tnote::e_deutsch_His);
 		m_notePointColorBut->setColor(gl->invertColor(palette().highlight().color()));
 		m_clefSelector->selectClef(Tclef(Tclef::e_treble_G_8down));
+		nameStyleWasChanged(m_nameStyleGr->getNameStyle());
 }
 
 
