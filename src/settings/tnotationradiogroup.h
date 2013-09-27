@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk  				                   *
+ *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -23,10 +23,6 @@
 #include "tnote.h"
 #include <QGroupBox>
 
-/**
-@author Tomasz Bojczuk
-*/
-
 class QRadioButton;
 class QButtonGroup;
 
@@ -34,7 +30,10 @@ class TnotationRadioGroup: public QGroupBox
 {
         Q_OBJECT
 public:
-    explicit TnotationRadioGroup(Tnote::EnameStyle _notation, QWidget *parent = 0);
+				/** When lettersAndSolfege is true widget is divided on two columns and buttons are in separate QButtonGroup
+				 * for letter and for solfege (Note name settings). 
+				 * When false there is single column and single QButtonGroup (Key signature name settings). */
+    explicit TnotationRadioGroup(Tnote::EnameStyle _notation, bool lettersAndSolfege = true, QWidget *parent = 0);
 
 
     Tnote::EnameStyle notation;
@@ -44,14 +43,18 @@ public:
     static QString strDeutsch() { return tr("German"); }
     static QString strEnglish() { return tr("English"); }
     static QString strNeder() { return tr("Dutch"); }
+    static QString strRus() { return tr("Russian"); }
 
     static QString strNorskExampl;
     static QString strItalExampl;
     static QString strDeutschExampl;
     static QString strEnglishExampl;
     static QString strNederExampl;
+		static QString strRusExampl;
 
     Tnote::EnameStyle getNameStyle();
+		Tnote::EnameStyle getLetterStyle();
+		Tnote::EnameStyle getSolfegeStyle();
 		void setNameStyle(Tnote::EnameStyle style);
 
 signals:
@@ -60,14 +63,17 @@ signals:
 public slots:
     void noteNameStyleWasClicked();
     void seventhNoteWasChanged(bool isB);
+		void styleButtonClicked();
 
 private:
-    QRadioButton *norskButt;
-    QRadioButton *deutschButt;
-    QRadioButton *italianoButt;
-    QRadioButton *englishButt;
-    QRadioButton *nederlButt;
-    QButtonGroup *buttonGroup;
+    QRadioButton *m_norskButt;
+    QRadioButton *m_deutschButt;
+    QRadioButton *m_italianoButt;
+    QRadioButton *m_englishButt;
+    QRadioButton *m_nederlButt;
+		QRadioButton *m_rusButt;
+		QRadioButton *m_letterRadio, *m_solfegeRadio;
+    QButtonGroup *m_letterButtGroup, *m_solfegeButtGroup;
 
 };
 

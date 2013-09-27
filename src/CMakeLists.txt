@@ -109,6 +109,7 @@ SET( NOOTKA_SRCS
   settings/tupdateprocess.cpp
   settings/tvolumeslider.cpp
   settings/tselectclef.cpp
+  settings/tscalepreviewlabel.cpp
 ###### Level
   level/tlevelcreatordlg.cpp
   level/texamlevel.cpp

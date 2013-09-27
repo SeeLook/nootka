@@ -46,6 +46,11 @@ public:
 		static void setStyleFilter(bool *is7th_B, Tnote::EnameStyle *solfegeStyle);
 				/** Perform filtering */
 		static Tnote::EnameStyle get(Tnote::EnameStyle style);
+		
+				/** Usually it is pointer to global is7th_B.  */
+		static bool* is7th_B() { return m_is7th_B; }
+				/** Usually it is pointer to global solfegeStyle.  */
+		static Tnote::EnameStyle* solfegeStyle() { return m_solfegeStyle; }
 
 		
 private:
