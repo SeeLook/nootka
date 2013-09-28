@@ -26,6 +26,7 @@
 #include "rangesettings.h"
 #include <texamparams.h>
 #include <ttune.h>
+#include <troundedlabel.h>
 #include <QtGui>
 
 extern Tglobals *gl;

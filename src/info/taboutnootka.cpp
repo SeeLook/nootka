@@ -21,6 +21,7 @@
 #include "tsupportnootka.h"
 #include "tnootkalabel.h"
 #include "tfirstrunwizzard.h"
+#include "troundedlabel.h"
 #include "tglobals.h"
 #include <QtGui>
 
@@ -243,11 +244,12 @@ Tabout::Tabout(QWidget *parent) :
     QString betaInfo = tr("This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.<br>In spite of that, you are welcome to try it!");
     QString moreInfo = tr("See a <a href=\"http://nootka.sourceforge.net\">program site</a> for more details and further releases.</p><p>Any bugs, suggestions, translations and so on, report to: <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><p/><p>with respects<br>Author");
 //    betaInfo = ""; // comment it to show info in beta releases
-    m_aboutLab = new QLabel("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>Nootka " + gl->version + "</b></p></center><p><br>" + info + "</p><p>" + betaInfo + "</p><p>" + moreInfo + "</p><br>"
+    m_aboutLab = new TroundedLabel("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>Nootka " + gl->version + "</b></p></center><p><br>" + info + "</p><p>" + betaInfo + "</p><p>" + moreInfo + "</p><br>"
 #if defined(Q_OS_WIN32)
 	  + tr("<br>To support this project and also to avoid infection of your PC<br><b>PLEASE, use the official project site to download updates, new releases and to see news.</b>")
 #endif
 							, this);
+		m_aboutLab->setContentsMargins(10, 10, 10, 10);
     m_aboutLab->setWordWrap(true);
     m_aboutLab->setOpenExternalLinks(true);
     lay->addWidget(m_aboutLab);
