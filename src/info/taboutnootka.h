@@ -52,7 +52,7 @@ private:
 };
 
 //######################### About ##########################################
-class QLabel;
+class TroundedLabel;
 class Tabout : public QWidget
 {
     Q_OBJECT
@@ -61,7 +61,7 @@ public:
 
 
 private:
-    QLabel *m_aboutLab;
+    TroundedLabel *m_aboutLab;
 };
 
 #endif // TABOUTNOOTKA_H

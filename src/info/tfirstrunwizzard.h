@@ -22,6 +22,7 @@
 
 #include <QDialog>
 
+class TroundedLabel;
 class TscalePreviewLabel;
 class QLabel;
 class QTextEdit;
@@ -78,7 +79,7 @@ private slots:
 		void buttonPressed(int butt);
 		
 private:
-		QLabel* prepareLabel(QString txt);
+		TroundedLabel* prepareLabel(QString txt);
 		
 };
 

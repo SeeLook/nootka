@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                  				   *
- *   tomaszbojczuk@gmail.com   						                                 *
+ *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,48 +12,29 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#ifndef TROUNDEDLABEL_H
+#define TROUNDEDLABEL_H
 
-#ifndef TSETTINGSDIALOGBASE_H
-#define TSETTINGSDIALOGBASE_H
-
-#include <QDialog>
+#include <QLabel>
 
 
-class TroundedLabel;
-class QListWidget;
-class QStackedLayout;
-
-/** This is base class for settings dialogues.
-  * It contains navigation list to switch widgets (pages) on
-  * QStackedLayout widget, and
-  * @class TroundedLabel @param hint that shows status tips captured by
-  * re-implementing @param event function.
-  * It has hidden "default" button - @p defaultBut
-*/
-
-class TsettingsDialogBase : public QDialog
+/** This is subclass of QLabel with defined background and rounded rectangle shape. */
+class TroundedLabel : public QLabel
 {
-    Q_OBJECT
+
 public:
-    explicit TsettingsDialogBase(QWidget *parent = 0);
-
-signals:
-
-public slots:
-
-protected:
-    bool event(QEvent *event);
-
-    QListWidget  					   	*navList;
-    QStackedLayout  					*stackLayout;
-    QPushButton     					*cancelBut, *okBut, *defaultBut;
-    TroundedLabel          		*hint;
+	explicit TroundedLabel(QWidget* parent = 0);
+	explicit TroundedLabel(QString txt, QWidget* parent = 0);
+	
+	QString backgroundText();
+	
+	void setStyleSheet(const QString &styleSheet);
 
 
 };
 
-#endif // TSETTINGSDIALOGBASE_H
+#endif // TROUNDEDLABEL_H

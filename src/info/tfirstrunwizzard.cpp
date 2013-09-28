@@ -22,6 +22,7 @@
 #include "tglobals.h"
 #include "select7note.h"
 #include "tpixmaker.h"
+#include "troundedlabel.h"
 #include "ttipchart.h"
 #include "tkeysignature.h"
 #include <ttune.h>
@@ -115,7 +116,7 @@ void TfirstRunWizzard::prevSlot() {
         m_pagesLay->setCurrentIndex(1);
         break;
 		case 3 : {
-				if (m_selectInstr->otherRadio->isChecked()) // skip guita notation theory
+				if (m_selectInstr->otherRadio->isChecked()) // skip guitar notation theory
 						m_pagesLay->setCurrentIndex(1); // when other instrument is selected
 				else
 						m_pagesLay->setCurrentIndex(2);
@@ -136,7 +137,7 @@ void TfirstRunWizzard::nextSlot() {
         m_pagesLay->setCurrentIndex(1);
         break;
     case 1 : {
-				if (m_selectInstr->otherRadio->isChecked()) // skip guita notation theory
+				if (m_selectInstr->otherRadio->isChecked()) // skip guitar notation theory
 						m_pagesLay->setCurrentIndex(3); // when other instrument is selected
 				else
 						m_pagesLay->setCurrentIndex(2);
@@ -191,7 +192,7 @@ void TfirstRunWizzard::whenInstrumentChanged(int instr) {
 				arg(TtipChart::wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F, TkeySignature(0), 5.0)) +
 				tr("When writing notation for bass guitar, the <b>bass clef</b> is used but the played notes sound an octave lower. The proper clef is <b>bass dropped clef</b> (with the digit \"eight\" written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.") +
 					"<br><br>" + TtipChart::wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F_8down, TkeySignature(0), 8.0));
-		else
+		else if ((Einstrument)instr == e_classicalGuitar || (Einstrument)instr == e_electricGuitar)
 				m_notationNote->setHtml("<br><br><center>" + tr("Guitar notation uses the treble clef with the digit \"eight\" written below (even if some editors are forgetting about this digit).<br><br>Try to understand this. <br><br><p> %1 %2<br><span style=\"font-size:20px;\">Both pictures above show the same note: c<sup>1</sup></span><br>(note c in one-line octave)</p>").
 				arg(TtipChart::wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G, TkeySignature(0), 6.0)).
 				arg(TtipChart::wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G_8down, TkeySignature(0), 6.0)) + "</center>");
@@ -210,27 +211,28 @@ TselectInstrument::TselectInstrument(QWidget* parent) :
 		electricRadio = new QRadioButton(instrumentToText(e_electricGuitar), this);
 		bassRadio = new QRadioButton(instrumentToText(e_bassGuitar), this);
 		otherRadio = new QRadioButton(instrumentToText(e_noInstrument), this);
-		otherRadio->hide();
 		QButtonGroup *instrGr = new QButtonGroup(this);
 		instrGr->addButton(classicalRadio);
 		instrGr->addButton(electricRadio);
 		instrGr->addButton(bassRadio);
 		instrGr->addButton(otherRadio);
-		QLabel *classLab, *electroLab, *bassLab;
+		TroundedLabel *classLab, *electroLab, *bassLab, *otherLab;
 		classLab = prepareLabel("h");
 		electroLab = prepareLabel("i");
 		bassLab = prepareLabel("j");
+		otherLab = prepareLabel("v");
 	// Layout
 		QGridLayout *lay = new QGridLayout;
 		lay->addWidget(whatLab, 0, 0, 1, 2, Qt::AlignCenter);
 // 		lay->addStretch(1);
 		lay->addWidget(classicalRadio, 1, 0, Qt::AlignCenter);
-		lay->addWidget(classLab, 1, 1);
+		lay->addWidget(classLab, 1, 1, Qt::AlignCenter);
 		lay->addWidget(electricRadio, 2, 0, Qt::AlignCenter);
-		lay->addWidget(electroLab, 2, 1);
+		lay->addWidget(electroLab, 2, 1, Qt::AlignCenter);
 		lay->addWidget(bassRadio, 3, 0, Qt::AlignCenter);
-		lay->addWidget(bassLab, 3, 1);
-		lay->addWidget(otherRadio, 0, Qt::AlignCenter);
+		lay->addWidget(bassLab, 3, 1, Qt::AlignCenter);
+		lay->addWidget(otherRadio, 4, 0, Qt::AlignCenter);
+		lay->addWidget(otherLab, 4, 1, Qt::AlignCenter);
 		
 		QGroupBox *instrBox = new QGroupBox(this);
 		instrBox->setLayout(lay);
@@ -245,8 +247,8 @@ TselectInstrument::TselectInstrument(QWidget* parent) :
 }
 
 
-QLabel* TselectInstrument::prepareLabel(QString txt) {
-		QLabel *label = new QLabel(txt, this);
+TroundedLabel* TselectInstrument::prepareLabel(QString txt) {
+		TroundedLabel *label = new TroundedLabel(txt, this);
 		label->setFont(QFont("nootka", 50, QFont::Normal));
 		label->setStyleSheet("color: palette(highlight)");
 		label->setAlignment(Qt::AlignCenter);
@@ -257,15 +259,15 @@ QLabel* TselectInstrument::prepareLabel(QString txt) {
 
 void TselectInstrument::buttonPressed(int butt) {
 		if (bassRadio->isChecked()) {
-          emit instrumentChanged((int)e_bassGuitar);
           gl->instrument = e_bassGuitar;
 		}	else if (classicalRadio->isChecked()) {
-          emit instrumentChanged((int)e_classicalGuitar);
           gl->instrument = e_classicalGuitar;
     } else if (electricRadio->isChecked()) {
           gl->instrument = e_electricGuitar;
-          emit instrumentChanged((int)e_electricGuitar);
+		} else if (otherRadio->isChecked()) {
+          gl->instrument = e_noInstrument;
 		}
+		emit instrumentChanged((int)gl->instrument);
 }
 
 
@@ -276,7 +278,7 @@ Tpage_3::Tpage_3(QWidget *parent) :
 {
     QVBoxLayout *lay = new QVBoxLayout;
     lay->setAlignment(Qt::AlignCenter);
-    QLabel *seventhLab = new QLabel("<center>" + 
+    TroundedLabel *seventhLab = new TroundedLabel("<center>" + 
 				tr("7th note can be B or H, depends on country<br>What is the name of 7th note in your country?") + 
 				"</center>", this);
 		seventhLab->setWordWrap(true);

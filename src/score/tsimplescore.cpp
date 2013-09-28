@@ -26,6 +26,7 @@
 #include "tscoreclef.h"
 #include "tscorepianostaff.h"
 #include "tscoreview.h"
+#include "tinstrument.h"
 #include <QHBoxLayout>
 #include <QMouseEvent>
 #include <QApplication>
@@ -299,13 +300,7 @@ void TsimpleScore::addBGglyph(int instr) {
 	m_prevBGglyph = instr;
 	if (m_bgGlyph)
 		delete m_bgGlyph;
-	QString glyph;
-	switch (instr) {
-			case 1: glyph = "h"; break; // classical guitar
-			case 2: glyph = "i"; break; // electric guitar
-			case 3: glyph = "j"; break; // bass guitar
-	}
-	m_bgGlyph = new QGraphicsSimpleTextItem(glyph);
+	m_bgGlyph = new QGraphicsSimpleTextItem(instrumentToGlyph(Einstrument(instr)));
 	m_bgGlyph->setFont(QFont("nootka", 20, QFont::Normal));
 	QColor bgColor = palette().highlight().color();
 	bgColor.setAlpha(75);

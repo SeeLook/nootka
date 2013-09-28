@@ -148,6 +148,7 @@ SET( NOOTKA_SRCS
   info/tsupportnootka.cpp
   info/tnootkalabel.cpp
   info/tpixmaker.cpp  
+  info/troundedlabel.cpp
 ###### Charts
   charts/tanalysdialog.cpp
   charts/tchart.cpp

@@ -18,6 +18,7 @@
 
 
 #include "tsettingsdialogbase.h"
+#include <troundedlabel.h>
 #include <QtGui>
 
 TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
@@ -37,16 +38,10 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     stackLayout = new QStackedLayout;
     
     aLay->addLayout(stackLayout);
-    hint = new QLabel(this);
+    hint = new TroundedLabel(this);
     aLay->addWidget(hint);
     hint->setFixedHeight(70);
     hint->setWordWrap(true);
-#if defined(Q_OS_WIN32)
-    QColor bg = palette().window().color().lighter(101);
-#else
-    QColor bg = palette().window().color().lighter(105);
-#endif
-    hint->setStyleSheet(QString("border-radius: 10px; background-color: %1;").arg(bg.name()));
     contLay->addLayout(aLay);
 
     mainLay->addLayout(contLay);
