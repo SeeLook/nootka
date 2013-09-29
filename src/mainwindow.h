@@ -24,6 +24,7 @@
 #include <texamexecutor.h>
 #include <QMainWindow>
 
+class TroundedLabel;
 class TmainScore;
 class QLabel;
 class TfingerBoard;
@@ -103,7 +104,7 @@ protected slots:
 
 private:
 
-    QLabel *m_statLab;
+    TroundedLabel *m_statLab;
     QString m_statusText, m_prevMsg;
         /** Keeps true when statusMesage is locked by temporary message
         * and stops any status messages in this time.*/

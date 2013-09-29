@@ -19,6 +19,7 @@
 
 
 #include "tsupportnootka.h"
+#include "troundedlabel.h"
 #include <QtGui>
 
 TsupportNootka::TsupportNootka(QWidget *parent) :
@@ -26,11 +27,14 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
 {
     QVBoxLayout *lay = new QVBoxLayout;
     QScrollArea *scrollArea = new QScrollArea();
-    QLabel *headLab = new QLabel("<b style=\"font-size: 20px\">" + QObject::tr("You also can help with making Nootka better.") +
+    TroundedLabel *headLab = new TroundedLabel("<b style=\"font-size: 20px\">" +
+			QObject::tr("You also can help with making Nootka better.") +
       "</b><br>" + QObject::tr("It requires little bit English, so if you can read a text below there will be something you may get involved."), this);
     headLab->setWordWrap(true);
     headLab->setAlignment(Qt::AlignCenter);
-    headLab->setStyleSheet("border-radius: 5px 5px; background-color: palette(base); color: palette(highlightedText)");
+		headLab->setBackroundColor(palette().base().color());
+    headLab->setStyleSheet("color: palette(highlightedText)");
+		headLab->setContentsMargins(5, 5, 5, 5);
     lay->addWidget(headLab);
     QLabel *lab = new QLabel(this);
     QString supp;
@@ -60,14 +64,13 @@ TsupportStandalone::TsupportStandalone(QString& path, QWidget* parent) :
 {
     setWindowTitle("Support Nootka");
     QVBoxLayout *lay = new QVBoxLayout();
-//     QLabel *headLab = new QLabel(QString("<img src=\"%1\">").arg(path + "picts/logo.png"), this);
-//     lay->addWidget(headLab, 1, Qt::AlignCenter);
     TsupportNootka *suppWdg = new TsupportNootka(this);
     lay->addWidget(suppWdg);
-    QLabel *neverLab = new QLabel(QObject::tr("Don't worry. This window appears only once per Nootka release.<br>You can find it always in 'About Nootka' dialog"), this);
+    TroundedLabel *neverLab = new TroundedLabel(QObject::tr("Don't worry. This window appears only once per Nootka release.<br>You can find it always in 'About Nootka' dialog"), this);
     neverLab->setAlignment(Qt::AlignCenter);
-    neverLab->setStyleSheet("border-radius: 5px 5px; background-color: palette(base); color: palette(highlightedText)");
-//     neverLab->setWordWrap(true);
+		neverLab->setBackroundColor(palette().base().color());
+    neverLab->setStyleSheet("color: palette(highlightedText)");
+		neverLab->setContentsMargins(5, 5, 5, 5);
     lay->addWidget(neverLab, 1, Qt::AlignCenter);
     QPushButton *butt = new QPushButton(QIcon(path + "picts/nootka.png"), "  Thanks", this);
     butt->setIconSize(QSize(48, 48));

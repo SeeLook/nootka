@@ -25,6 +25,7 @@
 #include "tfirstrunwizzard.h"
 #include "tsupportnootka.h"
 #include "tnootkalabel.h"
+#include <troundedlabel.h>
 #include "texamsettings.h"
 #include <tupdateprocess.h>
 #include "tsound.h"
@@ -110,16 +111,10 @@ MainWindow::MainWindow(QWidget *parent) :
     sound->setPitchView(pitchView);
  // Hints - label with clues
     QHBoxLayout *statLay = new QHBoxLayout;
-    m_statLab = new QLabel(innerWidget);
+    m_statLab = new TroundedLabel(innerWidget);
     m_statLab->setWordWrap(true);
     m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
 		statLay->addWidget(m_statLab, 0, Qt::AlignTop);
-#if defined(Q_OS_WIN32)
-    QColor bgLight = palette().window().color().lighter(101);
-#else
-    QColor bgLight = palette().window().color().lighter(105);
-#endif
-    m_statLab->setStyleSheet(gl->getBGcolorText(bgLight) + "border-radius: 10px;");
  // Expert corner
     QVBoxLayout *chBlay = new QVBoxLayout;
     m_hintsChB = new QCheckBox(innerWidget);
@@ -295,22 +290,15 @@ void MainWindow::setStatusMessage(QString msg, int time) {
     m_prevMsg = m_statusText;
     m_statLab->setText("<center>" + msg + "</center>");
     m_lockStat = true;
-//    m_prevBg = m_curBG;
     QTimer::singleShot(time, this, SLOT(restoreMessage()));
 }
 
 void MainWindow::setMessageBg(QColor bg) {
     if (bg == -1) {
-      #if defined(Q_OS_WIN32)
-        QColor bgLight = palette().window().color().lighter(101);
-      #else
-        QColor bgLight = palette().window().color().lighter(105);
-      #endif
-        m_statLab->setStyleSheet(gl->getBGcolorText(bgLight) + "border-radius: 10px;");
+				m_statLab->setDefaultBackground();
     }
     else
-        m_statLab->setStyleSheet(gl->getBGcolorText(bg) + "border-radius: 10px;");
-//    m_prevBg = m_curBG;
+        m_statLab->setBackroundColor(bg);
     m_curBG = bg;
 }
 
