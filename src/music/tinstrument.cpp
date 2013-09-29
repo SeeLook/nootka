@@ -37,7 +37,7 @@ QString instrumentToText(Einstrument instr) {
 QString instrumentToGlyph(Einstrument instr) {
 	QString glyph;
 	switch (instr) {
-		case e_noInstrument: glyph = "v"; // singer symbol
+			case e_noInstrument: glyph = "v"; break;// singer symbol
 			case e_classicalGuitar: glyph = "h"; break; // classical guitar
 			case e_electricGuitar: glyph = "i"; break; // electric guitar
 			case e_bassGuitar: glyph = "j"; break; // bass guitar

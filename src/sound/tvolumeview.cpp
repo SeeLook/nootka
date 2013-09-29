@@ -19,6 +19,8 @@
 
 #include "tvolumeview.h"
 #include <QPainter>
+#include <QMouseEvent>
+#include <qtooltip.h>
 #include <QDebug>
 
 #define TICK_WIDTH (2)
@@ -29,7 +31,8 @@ TvolumeView::TvolumeView(QWidget* parent) :
   TabstractSoundView(parent),
   m_volume(0.0f), m_prevVol(0.0f),
   m_pitchColor(Qt::red),
-  m_alpha(0)
+  m_alpha(0),
+  m_drawKnob(false)
 {
   setMinimumSize(200, 17);
   resizeEvent(0);
@@ -83,6 +86,20 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
     painter.drawLine(QLineF((i + 1) * (TICK_GAP + TICK_WIDTH) - TICK_WIDTH, (height() - ticH) / 2,
                             (i + 1) * (TICK_GAP + TICK_WIDTH) - TICK_WIDTH, height() - (height() - ticH) / 2));
   }
+  if (m_drawKnob) {
+		painter.setPen(Qt::NoPen);
+		QColor knobBrush = palette().text().color();
+		knobBrush.setAlpha(150);
+		painter.setBrush(knobBrush);
+		float xPos = (float)(width() - m_noteWidth) * m_minVolume; 
+		painter.drawRoundedRect(QRectF(xPos - height() / 3, 1, height() / 2, height() - 2), height() / 6, height() / 6);
+		painter.setBrush(palette().base());
+		painter.drawRoundedRect(QRectF(xPos - height() / 4 + 2, height() / 3 + 4, height() / 4, height() - height() / 4), 
+														height() / 6, height() / 6);
+		painter.setBrush(startColor);
+		painter.drawRoundedRect(QRectF(xPos - height() / 4, height() / 4, height() / 3, height() - height() / 4), 
+														height() / 6, height() / 6);
+  }
 }
 
 
@@ -108,6 +125,28 @@ void TvolumeView::resizeEvent(QResizeEvent* ) {
           m_tickColors << gradColorAtPoint((width() - m_noteWidth) * 0.8, (width() - m_noteWidth),
                                        endColor, totalColor, (i + 1) * ((width() - m_noteWidth) / m_ticksCount));
   }
+}
+
+
+void TvolumeView::mouseMoveEvent(QMouseEvent* event)
+{
+	float minV = (float)event->pos().x() / (float)(width() - m_noteWidth);
+	if (minV >= 0.1 && minV < 0.81) {
+		m_minVolume = minV;
+		setToolTip(QString("%1 %").arg((int)(m_minVolume * 100)));
+		QToolTip::showText( mapToGlobal(QPoint( event->pos().x(), height())), toolTip());
+	}
+}
+
+
+void TvolumeView::leaveEvent(QEvent* ) {
+		m_drawKnob = false;
+		update();
+}
+
+
+void TvolumeView::enterEvent(QEvent* ) {
+		m_drawKnob = true;
 }
 
 

@@ -111,6 +111,7 @@ TpitchView::~TpitchView()
 void TpitchView::startVolume() {
   if (m_audioIN) {
     connect(m_audioIN, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
+		connect(m_volMeter, SIGNAL(minimalVolume(float)), this, SLOT(minimalVolumeChanged(float)));
     m_volMeter->setDisabled(false);
     m_volTimer->start(75);
 		if (m_intoView->accuracy() != TintonationView::e_noCheck)
@@ -255,6 +256,12 @@ void TpitchView::pauseClicked() {
 void TpitchView::voiceClicked() {
       setIsVoice(!m_isVoice); // switch to opposite
 }
+
+
+void TpitchView::minimalVolumeChanged(float minVol) {
+		m_audioIN->setMinimalVolume(minVol);
+}
+
 
 //------------------------------------------------------------------------------------
 //------------          events      --------------------------------------------------

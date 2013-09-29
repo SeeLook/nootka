@@ -26,6 +26,8 @@
 class TvolumeView : public TabstractSoundView
 {
 
+Q_OBJECT
+
 public:
     explicit TvolumeView(QWidget *parent = 0);
     virtual ~TvolumeView();
@@ -36,10 +38,15 @@ public:
     void setPitchColor (QColor col) { m_pitchColor = col; }
     void setMinimalVolume(float vol) { m_minVolume = vol; update(); }
   
+signals:
+		void minimalVolume(float);
   
 protected:
     virtual void paintEvent(QPaintEvent* );
     virtual void resizeEvent(QResizeEvent*);
+		virtual void mouseMoveEvent(QMouseEvent* event);
+		virtual void enterEvent(QEvent* );
+		virtual void leaveEvent(QEvent* );
     
 private:
     float           m_volume, m_prevVol;
@@ -50,6 +57,7 @@ private:
     int             m_noteWidth;
     float           m_hiTickStep;
     float           m_minVolume; // tick poits minimal vol for pitch detection
+    bool 						m_drawKnob;
 
 };
 

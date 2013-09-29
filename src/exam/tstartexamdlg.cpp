@@ -63,17 +63,23 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
     m_createBut->setStatusTip(tr("Dialog window for creating new level<br>will be opened."));
     m_createBut->setIcon(QIcon(path + "picts/levelCreator.png"));
     m_createBut->setIconSize(QSize(48, 48));
-    m_newExamBut = new QPushButton(tr("start new exam"), this);
+    m_newExamBut = new QPushButton(tr("Pass new exam"), this);
     m_newExamBut->setStatusTip(m_newExamBut->text() + "<br><b>" + tr("No level was selected!") + "</b>");
     m_newExamBut->setIcon(QIcon(path + "picts/startExam.png"));
     m_newExamBut->setIconSize(QSize(48, 48));
+		m_practiceBut = new QPushButton(tr("Start exercises"), this);
+    m_practiceBut->setStatusTip(tr("Start practicing on selected level.") + "<br><b>" + tr("No level was selected!") + "</b>");
+    m_practiceBut->setIcon(QIcon(path + "picts/practice.png"));
+    m_practiceBut->setIconSize(QSize(48, 48));
 
 		QHBoxLayout *buttNewAndLevelLay = new QHBoxLayout;
-		buttNewAndLevelLay->addStretch(1);
-		buttNewAndLevelLay->addWidget(m_newExamBut);
-		buttNewAndLevelLay->addStretch(1);
-		buttNewAndLevelLay->addWidget(m_createBut);
-		buttNewAndLevelLay->addStretch(1);
+			buttNewAndLevelLay->addStretch(1);
+			buttNewAndLevelLay->addWidget(m_practiceBut);
+			buttNewAndLevelLay->addStretch(1);
+			buttNewAndLevelLay->addWidget(m_newExamBut);
+			buttNewAndLevelLay->addStretch(1);
+			buttNewAndLevelLay->addWidget(m_createBut);
+			buttNewAndLevelLay->addStretch(1);
 		levLay->addLayout(buttNewAndLevelLay);
     levelGr = new QGroupBox(this);
     levelGr->setStatusTip(tr("Select a level suitable for you<br>or create new one."));
@@ -246,5 +252,17 @@ void TstartExamDlg::prevExamSelected(int index) {
 }
 
 void TstartExamDlg::levelWasSelected(TexamLevel level) {
-    m_newExamBut->setStatusTip(tr("start new exam") + "<br><b>"+ level.name + "</b>");
+    m_newExamBut->setStatusTip(tr("Pass new exam on level:") + "<br><b>"+ level.name + "</b>");
+		m_practiceBut->setStatusTip(tr("Practice on level:") + "<br><b>"+ level.name + "</b>");
 }
+
+
+void TstartExamDlg::practiceSelected() {
+		m_Acction = e_practice;
+		accept();
+}
+
+
+
+
+

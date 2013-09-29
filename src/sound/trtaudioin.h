@@ -66,6 +66,8 @@ public:
      * with QtMultimedia that function remains  */
   void go() { startListening(); }
 
+			/** Sets minimal volume needed that note will be detected. Overrides global setting.  */
+  void setMinimalVolume(float minVol);
   void setIsVoice(bool isV);
     /** Sets range of notes which are detected. */
   void setAmbitus(Tnote loNote, Tnote hiNote);

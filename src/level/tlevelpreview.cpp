@@ -79,12 +79,7 @@ void TlevelPreview::setLevel() {
 
 
 void TlevelPreview::setLevel(TexamLevel& tl) {
-	switch ((int)tl.instrument) {
-			case 1: m_instrText = "h"; break; // classical guitar
-			case 2: m_instrText = "i"; break; // electric guitar
-			case 3: m_instrText = "j"; break; // bass guitar
-			default: m_instrText = ""; break; // none or other
-	}
+	m_instrText = instrumentToGlyph(tl.instrument);
   QString S;
     S = "<center><b>" + tl.name + "</b>";
     S += "<table border=\"1\" cellpadding=\"3\">";

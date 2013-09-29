@@ -42,9 +42,10 @@ public:
         /** Describes actions committed by user.
         * @param e_none - dialog discarded,
         * @param e_continue - exam to continue,
-        * @param e_newLevel - new level selected.
+        * @param e_newLevel - exam mode on new level selected.
+				* @param e_practice - start in practice mode.
         * @param e_levelCreator - open Level creator.	*/
-    enum Eactions { e_none, e_continue, e_newLevel, e_levelCreator };
+    enum Eactions { e_none, e_continue, e_newLevel, e_levelCreator, e_practice };
         /** This method calls dialog window,
         * takes txt reference and puts there either user name
         * or exam file path, depends on returned @param Eactions,
@@ -68,6 +69,7 @@ private:
     TlevelSelector 			*m_levelsView;
     QLineEdit 					*m_nameEdit;
     QPushButton 				*m_createBut, *m_loadExamBut, *m_cancelBut, *m_newExamBut, *m_contExamButt;
+		QPushButton					*m_practiceBut;
     TroundedLabel				*m_hintLabel;
     QComboBox 					*m_examCombo;
     QStringList 				m_recentExams;
@@ -83,6 +85,8 @@ private slots:
     Eactions createLevel();
     void prevExamSelected(int index);
     void levelWasSelected(TexamLevel level);
+				/** occurs when user clicks exercises Button */
+		void practiceSelected();
 };
 
 #endif // TSTARTEXAMDLG_H
