@@ -22,29 +22,51 @@
 TroundedLabel::TroundedLabel(QWidget* parent) : 
 	QLabel(parent)
 {
-	QLabel::setStyleSheet(backgroundText());
+	initBgColor();
 }
 
 
 TroundedLabel::TroundedLabel(QString txt, QWidget* parent) :
 	QLabel(txt, parent)
 {
-	QLabel::setStyleSheet(backgroundText());
+	initBgColor();
 }
 
 
 void TroundedLabel::setStyleSheet(const QString& styleSheet) {
 		QLabel::setStyleSheet(backgroundText() + styleSheet);
+		m_styleText = styleSheet;
 }
 
 
+void TroundedLabel::setBackroundColor(const QColor &bgColor) {
+		m_bgColor = bgColor;
+		QLabel::setStyleSheet(backgroundText() + m_styleText);
+}
+
+
+void TroundedLabel::setDefaultBackground() {
+		QString tmpStyle = m_styleText;
+		initBgColor();
+		setStyleSheet(tmpStyle);
+}
+
+
+
 QString TroundedLabel::backgroundText() {
+    return QString("background-color: rgba(%1, %2, %3, %4); border-radius: 10px; ")
+				.arg(m_bgColor.red()).arg(m_bgColor.green()).arg(m_bgColor.blue()).arg(m_bgColor.alpha());
+}
+
+//######################################### PRIVATE ######################################################
+void TroundedLabel::initBgColor() {
 #if defined(Q_OS_WIN32)
-    QColor bgLight = palette().window().color().lighter(101);
+    m_bgColor = parentWidget()->palette().window().color().lighter(101);
 #else
-    QColor bgLight = palette().window().color().lighter(105);
+    m_bgColor = parentWidget()->palette().window().color().lighter(105);
 #endif
-    return QString("background-color: %1; border-radius: 10px; ").arg(bgLight.name());
+		QLabel::setStyleSheet(backgroundText());
+		m_styleText = "";
 }
 
 

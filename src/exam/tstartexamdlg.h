@@ -23,13 +23,13 @@
 #include <QDialog>
 #include "texamlevel.h"
 
+class TroundedLabel;
 
 class TexamParams;
 class TlevelSelector;
 class QRadioButton;
 class QGroupBox;
 class QLineEdit;
-class QLabel;
 class QComboBox;
 
 class TstartExamDlg : public QDialog
@@ -68,7 +68,7 @@ private:
     TlevelSelector 			*m_levelsView;
     QLineEdit 					*m_nameEdit;
     QPushButton 				*m_createBut, *m_loadExamBut, *m_cancelBut, *m_newExamBut, *m_contExamButt;
-    QLabel 							*m_hintLabel;
+    TroundedLabel				*m_hintLabel;
     QComboBox 					*m_examCombo;
     QStringList 				m_recentExams;
     Eactions 						m_Acction;

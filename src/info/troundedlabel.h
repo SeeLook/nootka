@@ -22,7 +22,9 @@
 #include <QLabel>
 
 
-/** This is subclass of QLabel with defined background and rounded rectangle shape. */
+/** This is subclass of QLabel with defined background and rounded rectangle shape. 
+ * By default a background color is a variation of window color
+ * but it can be set by calling setBackroundColor() */
 class TroundedLabel : public QLabel
 {
 
@@ -32,7 +34,18 @@ public:
 	
 	QString backgroundText();
 	
+	void setBackroundColor(const QColor& bgColor);
+	QColor backgroundColor() { return m_bgColor; }
+	void setDefaultBackground();
+	
 	void setStyleSheet(const QString &styleSheet);
+	
+private:
+	QColor 			m_bgColor;
+	QString 		m_styleText;
+	
+			/** Called by constructors  */
+	void initBgColor();
 
 
 };

@@ -21,6 +21,7 @@
 #include "texamparams.h"
 #include "tlevelselector.h"
 #include "levelsettings.h"
+#include <troundedlabel.h>
 #include <QtGui>
 #include <stdlib.h> // for getenv()
 
@@ -104,15 +105,9 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
 
     mainLay->addWidget(examGr);
 
-    m_hintLabel = new QLabel(this);
+    m_hintLabel = new TroundedLabel(this);
     m_hintLabel->setFixedHeight(70);
     m_hintLabel->setWordWrap(true);
-#if defined(Q_OS_WIN32)
-    QColor bgLight = palette().window().color().lighter(101);
-#else
-    QColor bgLight = palette().window().color().lighter(105);
-#endif
-    m_hintLabel->setStyleSheet(QString("background-color: %1; border-radius: 10px;").arg(bgLight.name()));
 
     mainLay->addWidget(m_hintLabel);
     setLayout(mainLay);
@@ -130,7 +125,6 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
         QFileInfo fi(m_recentExams[i]);
         if (fi.exists()) {
             m_examCombo->insertItem(0, m_recentExams[i]);
-//            examCombo->insertItem(0, fi.fileName());
         }
         else
             m_recentExams.removeAt(i);
