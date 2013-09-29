@@ -267,13 +267,13 @@ void MainWindow::createActions() {
 }
 
 void MainWindow::setStartExamActParams() {
-    levelCreatorAct->setText(tr("Level", "tool button text!"));
+    levelCreatorAct->setText(tr("Level"));
     levelCreatorAct->setStatusTip(TlevelCreatorDlg::levelCreatorTxt());
 		levelCreatorAct->setToolTip(levelCreatorAct->statusTip());
     levelCreatorAct->setIcon(QIcon(gl->path+"picts/levelCreator.png"));
   
-    startExamAct->setText(tr("Exam", "tool button text!"));
-    startExamAct->setStatusTip(tr("Start an exam"));
+    startExamAct->setText(tr("Start!"));
+    startExamAct->setStatusTip(tr("Start exercises or an exam"));
 		startExamAct->setToolTip(startExamAct->statusTip());
     startExamAct->setIcon(QIcon(gl->path+"picts/startExam.png"));
 }

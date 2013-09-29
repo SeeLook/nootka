@@ -195,7 +195,8 @@ SET( NOOTKA_MOC_SRCS
   sound/tpitchview.h
   sound/tabstractplayer.h
   sound/trtaudioout.h
-  sound/trtaudioin.h  
+  sound/trtaudioin.h
+  sound/tvolumeview.h
 ###### Score
   score/tpushbutton.h
   score/tsimplescore.h

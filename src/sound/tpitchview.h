@@ -71,6 +71,7 @@ protected slots:
   void voiceClicked();
   void pauseClicked();
   void stopTimerDelayed(); // to call stop() on m_volTimer after note detected animation
+	void minimalVolumeChanged(float minVol);
   
 protected:
   virtual void paintEvent(QPaintEvent* );

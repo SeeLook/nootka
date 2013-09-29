@@ -256,7 +256,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
     }
 
     if (m_questList.size() == 0) {
-        QMessageBox::critical(mW, "", tr("Level <b>%1<b><br>has no sense till there are no any possible questions to ask.<br>It can be unadjusted to current tune.<br>Repair it in Level Creator and try again.").arg(m_level.name));
+        QMessageBox::critical(mW, "", tr("Level <b>%1<b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
         restoreAfterExam();
         return;
     }

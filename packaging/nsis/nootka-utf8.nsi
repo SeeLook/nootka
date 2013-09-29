@@ -180,6 +180,7 @@ Section "GrupaGlowna" SEC01
   File "picts\scr.png"
   File "picts\soundSettings.png"
   File "picts\startExam.png"
+  File "picts\practice.png"
   File "picts\stopExam.png"
   File "picts\support.png"
   File "picts\pickup.png"
@@ -218,7 +219,7 @@ SectionEnd
    LangString UninstallMess ${LANG_POLISH} "Czy rzeczywiście chcesz usunąć Nootkę i jej składniki?"
    LangString UninstallMess ${LANG_CZECH} "Opravdu chcete odstranit Nootku a vsechny její soueásti?"
    LangString UninstallMess ${LANG_FRENCH} "Voulez-vous vraiment supprimer Nootka et tous ses composants?"
-   LangString UninstallMess ${LANG_RUSSIAN} "Вы действительно хотите удалить $(^Name) и все его компоненты?"
+   LangString UninstallMess ${LANG_RUSSIAN} "Вы действительно хотите удалить Нутку и все её компоненты?"
 
 Function un.onInit
 !insertmacro MUI_UNGETLANGUAGE
@@ -236,6 +237,7 @@ Section Uninstall
   Delete "$INSTDIR\picts\support.png"
   Delete "$INSTDIR\picts\stopExam.png"
   Delete "$INSTDIR\picts\startExam.png"
+  Delete "$INSTDIR\picts\practice.png"
   Delete "$INSTDIR\picts\soundSettings.png"
   Delete "$INSTDIR\picts\scr.png"
   Delete "$INSTDIR\picts\scoreSettings.png"

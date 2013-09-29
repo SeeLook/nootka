@@ -54,7 +54,7 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
     QGroupBox *timeGr = new QGroupBox(tr("times:"), this);
     QLabel *timeLab = new QLabel("<table>" +
     row2(TexamView::totalTimetxt(), TexamView::formatedTotalTime(exam->totalTime()*1000)) +
-    row2(tr("Time of work"), TexamView::formatedTotalTime(exam->workTime()*1000)) +
+    row2(tr("Time taken to answer"), TexamView::formatedTotalTime(exam->workTime()*1000)) +
     row2(TexamView::averAnsverTimeTxt(), QString("%1 s").
         arg((qreal)exam->averageReactonTime()/10.0, 0, 'f', 1, '0')) +
     "</table>", this);

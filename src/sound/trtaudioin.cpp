@@ -127,7 +127,7 @@ TaudioIN::~TaudioIN()
 
 void TaudioIN::setParameters(TaudioParams* params) {
   m_pitch->setIsVoice(params->isVoice);
-  m_pitch->setMinimalVolume(params->minimalVol);
+	setMinimalVolume(params->minimalVol);
 	m_pitch->setMinimalDuration(params->minDuration);
 #if defined(__UNIX_JACK__)
   setUseJACK(params->useJACK);
@@ -226,6 +226,14 @@ void TaudioIN::stopListening() {
 // void TaudioIN::go() {
 //   startStream();
 // }
+
+
+void TaudioIN::setMinimalVolume(float minVol) {
+		m_pitch->setMinimalVolume(minVol);
+		audioParams->minimalVol = minVol;
+}
+
+
 
 void TaudioIN::setIsVoice(bool isV) {
   m_pitch->setIsVoice(isV);
