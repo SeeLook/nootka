@@ -135,6 +135,7 @@ void TvolumeView::mouseMoveEvent(QMouseEvent* event)
 		m_minVolume = minV;
 		setToolTip(QString("%1 %").arg((int)(m_minVolume * 100)));
 		QToolTip::showText( mapToGlobal(QPoint( event->pos().x(), height())), toolTip());
+    emit minimalVolume(m_minVolume);
 	}
 }
 

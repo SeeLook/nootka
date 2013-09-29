@@ -108,9 +108,14 @@ TpitchView::~TpitchView()
 //------------          methods     --------------------------------------------------
 //------------------------------------------------------------------------------------
 
+void TpitchView::setAudioInput(TaudioIN* audioIn) {
+  m_audioIN = audioIn;
+  connect(m_audioIN, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
+}
+
+
 void TpitchView::startVolume() {
   if (m_audioIN) {
-    connect(m_audioIN, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
 		connect(m_volMeter, SIGNAL(minimalVolume(float)), this, SLOT(minimalVolumeChanged(float)));
     m_volMeter->setDisabled(false);
     m_volTimer->start(75);
