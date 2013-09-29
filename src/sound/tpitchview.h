@@ -42,7 +42,7 @@ public:
   explicit TpitchView(TaudioIN *audioIn,  QWidget *parent = 0, bool withButtons = true);
   virtual ~TpitchView();
   
-  void setAudioInput(TaudioIN *audioIn) { m_audioIN = audioIn; }
+  void setAudioInput(TaudioIN *audioIn);
       /** Starts grabbing of peak level*/
   void startVolume();
   void stopVolume();
