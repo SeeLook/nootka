@@ -139,6 +139,7 @@ SET( NOOTKA_SRCS
   exam/tgroupedqaunit.cpp
   exam/tfinishtip.cpp
   exam/tglobalexamstore.cpp
+  exam/texercises.cpp
 ###### Info
   info/taboutnootka.cpp
   info/tfirstrunwizzard.cpp

@@ -224,7 +224,7 @@ Tnote TexecutorSupply::forceEnharmAccid(Tnote n) {
 
 Tnote::EnameStyle TexecutorSupply::randomNameStyle(int style) {
     if (style != -1)
-        if ((Tnote::EnameStyle)style == Tnote::e_italiano_Si)
+        if ((Tnote::EnameStyle)style == Tnote::e_italiano_Si || (Tnote::EnameStyle)style == Tnote::e_russian_Ci)
             m_isSolfege = true;
         else
             m_isSolfege = false;

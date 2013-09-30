@@ -88,7 +88,7 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
   }
   if (m_drawKnob) {
 		painter.setPen(Qt::NoPen);
-		QColor knobBrush = palette().text().color();
+		QColor knobBrush = palette().highlight().color();
 		knobBrush.setAlpha(150);
 		painter.setBrush(knobBrush);
 		float xPos = (float)(width() - m_noteWidth) * m_minVolume; 
@@ -96,7 +96,7 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
 		painter.setBrush(palette().base());
 		painter.drawRoundedRect(QRectF(xPos - height() / 4 + 2, height() / 3 + 4, height() / 4, height() - height() / 4), 
 														height() / 6, height() / 6);
-		painter.setBrush(startColor);
+		painter.setBrush(palette().text());
 		painter.drawRoundedRect(QRectF(xPos - height() / 4, height() / 4, height() / 3, height() - height() / 4), 
 														height() / 6, height() / 6);
   }

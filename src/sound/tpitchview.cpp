@@ -274,10 +274,12 @@ void TpitchView::minimalVolumeChanged(float minVol) {
 
 void TpitchView::paintEvent(QPaintEvent* )
 {
-    QPainter painter(this);
-    painter.setPen(Qt::NoPen);
-    painter.setBrush(QBrush(m_bgColor));
-    painter.drawRoundedRect(painter.viewport(), 2, 2 );
+	if (m_bgColor != Qt::transparent) {
+			QPainter painter(this);
+			painter.setPen(Qt::NoPen);
+			painter.setBrush(QBrush(m_bgColor));
+			painter.drawRoundedRect(painter.viewport(), 2, 2 );
+	}
 }
 
 
