@@ -58,12 +58,9 @@ public:
     static QString systemUserName();
 
 
-signals:
-
-public slots:
-
 private:
     bool event(QEvent *event);
+		bool isAnyLevelSelected();
 
     QGroupBox 					*examGr, *levelGr;
     TlevelSelector 			*m_levelsView;

@@ -24,6 +24,8 @@
 #include <texamexecutor.h>
 #include <QMainWindow>
 
+class QVBoxLayout;
+class TnootkaLabel;
 class TroundedLabel;
 class TmainScore;
 class QLabel;
@@ -83,6 +85,7 @@ protected:
     Tsound *sound;
     TexamView *examResults;
     TexamExecutor *ex;
+		TnootkaLabel *nootLabel; // displays Nootka logo
     QCheckBox *autoRepeatChB, *expertAnswChB;
     TpitchView *pitchView;
     TprogressWidget *progress;
@@ -104,18 +107,22 @@ protected slots:
 
 private:
 
-    TroundedLabel *m_statLab;
-    QString m_statusText, m_prevMsg;
+    TroundedLabel 				*m_statLab;
+    QString 							m_statusText, m_prevMsg;
         /** Keeps true when statusMesage is locked by temporary message
         * and stops any status messages in this time.*/
-    bool m_lockStat;
-    QColor m_prevBg, m_curBG;
-    QPixmap m_bgPixmap, m_rosettePixmap;
-    int m_statFontSize;
-    QCheckBox *m_hintsChB;
+    bool 									m_lockStat;
+    QColor 								m_prevBg, m_curBG;
+    QPixmap 							m_bgPixmap, m_rosettePixmap;
+    int 									m_statFontSize;
+    QCheckBox 						*m_hintsChB;
          /** Keeps true when Dialog windows is opened, to avoid opening another file. */
-    bool m_levelCreatorExist;
-    TexamLevel m_level;
+    bool 									m_levelCreatorExist;
+    TexamLevel 						m_level;
+		bool 									m_isPlayerFree;
+		QWidget 							*m_pitchContainer;
+		QVBoxLayout 					*m_rightLay;
+
 
     void createActions();
         /** it sets icon and status text in startExamAct. */

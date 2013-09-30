@@ -26,6 +26,7 @@
 #include <QList>
 #include <QColor>
 
+class Texercises;
 class TglobalExamStore;
 class Tcanvas;
 class QTimer;
@@ -97,6 +98,7 @@ protected slots:
     void markAnswer(TQAunit &curQ);
 
 private:
+		void createActions();
     void prepareToExam();
     void restoreAfterExam();
         /** Disables score, noteName and guitar*/
@@ -139,6 +141,7 @@ private:
     int m_penalStep;
         /** Counts questions to ask penalties one. */
     int m_penalCount;
+		Texercises	*m_practice;
 
 
 };

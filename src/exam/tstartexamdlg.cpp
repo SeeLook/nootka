@@ -40,7 +40,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
     m_Acction(e_none),
     m_examParams(examParams)
 {
-    setWindowTitle(tr("Start en exam"));
+    setWindowTitle(tr("Start exercises or an exam"));
     QVBoxLayout *mainLay = new QVBoxLayout;
 
     QVBoxLayout *levLay = new QVBoxLayout;
@@ -149,6 +149,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
     connect(m_newExamBut, SIGNAL(clicked()), this, SLOT(startAccepted()));
     connect(m_contExamButt, SIGNAL(clicked()), this, SLOT(startAccepted()));
     connect(m_examCombo, SIGNAL(activated(int)), this, SLOT(prevExamSelected(int)));
+		connect(m_practiceBut, SIGNAL(clicked()), this, SLOT(practiceSelected()));
     connect(m_levelsView, SIGNAL(levelChanged(TexamLevel)), this, SLOT(levelWasSelected(TexamLevel)));
     
     QApplication::translate("File association entries", "Nootka level file", "for file browsers");
@@ -160,18 +161,17 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
 TstartExamDlg::Eactions TstartExamDlg::showDialog(QString &txt, TexamLevel &lev) {
     exec();
     if (result() == QDialog::Accepted) {
-        if (m_Acction == e_newLevel) {
+        if (m_Acction == e_newLevel || m_Acction == e_practice) {
             txt = m_nameEdit->text();
             lev = m_levelsView->getSelectedLevel();
-            return e_newLevel;
+            return m_Acction;
         }
         else {
             if (m_examCombo->currentIndex() != -1) {
-//                txt = recentExams[examCombo->currentIndex()];
                 txt = m_examCombo->currentText();
                 return e_continue;
             } else
-              return e_none;
+								return e_none;
         }
     } else {
 		if (m_Acction == e_levelCreator)
@@ -196,14 +196,21 @@ bool TstartExamDlg::event(QEvent *event) {
 }
 
 
+bool TstartExamDlg::isAnyLevelSelected() {
+	TexamLevel l = m_levelsView->getSelectedLevel();
+	if (l.name == "") { // nothing selected
+			QMessageBox::warning(this, "", tr("No level was selected!"));
+			return false;
+	}
+	return true;
+}
+
+
 void TstartExamDlg::startAccepted() {
-		QString noLevel = tr("No level was selected!");
-    if (sender() == m_newExamBut) { // new exam on selsected level
-        TexamLevel l = m_levelsView->getSelectedLevel();
-        if (l.name == "") { // nothing selected
-            QMessageBox::warning(this, "", noLevel);
+    if (sender() == m_newExamBut) { // new exam on selected level
+        if (!isAnyLevelSelected())
             return;
-        } else {
+        else {
             if (m_nameEdit->text() == "") {
                 QMessageBox::warning(this, "", tr("Give a user name!"));
                 return;
@@ -212,12 +219,11 @@ void TstartExamDlg::startAccepted() {
             accept();
         }
     } else { // exam to continue
-//         if (m_examCombo->currentText() != "")    {
         if (m_examCombo->currentIndex() < m_examCombo->count() - 1)    {
             m_Acction = e_continue;
             accept();
-        } else
-            QMessageBox::warning(this, "", noLevel);
+        } //else
+//             noLevelMessage();
     }
 }
 
@@ -258,8 +264,10 @@ void TstartExamDlg::levelWasSelected(TexamLevel level) {
 
 
 void TstartExamDlg::practiceSelected() {
-		m_Acction = e_practice;
-		accept();
+		if (isAnyLevelSelected()) {
+				m_Acction = e_practice;
+				accept();
+		}
 }
 
 

@@ -46,14 +46,13 @@
 extern Tglobals *gl;
 extern bool resetConfig;
 
-TnootkaLabel *nootLab;
-bool m_isPlayerFree = true;
-QWidget *m_pitchContainer = 0;
-QVBoxLayout *m_rightLay = 0;
 
 MainWindow::MainWindow(QWidget *parent) :
 		QMainWindow(parent),
-    ex(0)
+    ex(0),
+    m_isPlayerFree(true),
+    m_pitchContainer(0),
+    m_rightLay(0)
 {
     Ttune::prepareDefinedTunes();
 #if defined(Q_OS_MAC)
@@ -146,7 +145,7 @@ MainWindow::MainWindow(QWidget *parent) :
 		
 		progress->hide();
     examResults->hide();		
-		nootLab = new TnootkaLabel(gl->path + "picts/logo.png", innerWidget);
+		nootLabel = new TnootkaLabel(gl->path + "picts/logo.png", innerWidget);
 		
     noteName = new TnoteName(innerWidget);
     noteName->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -172,7 +171,7 @@ MainWindow::MainWindow(QWidget *parent) :
 			rightPaneLay->addStretch(1);
 			rightPaneLay->addWidget(progress);
 			rightPaneLay->addWidget(examResults);
-			rightPaneLay->addWidget(nootLab);
+			rightPaneLay->addWidget(nootLabel);
 			rightPaneLay->addStretch(1);
 			rightPaneLay->addWidget(noteName);
 		QHBoxLayout *rightWholeLay = new QHBoxLayout;
@@ -315,7 +314,7 @@ void MainWindow::clearAfterExam(TexamExecutor::Estate examState) {
 				sound->go();
 		progress->hide();
 		examResults->hide();
-		nootLab->show();
+		nootLabel->show();
 }
 
 QPoint MainWindow::relatedPoint() {
@@ -424,7 +423,7 @@ void MainWindow::openLevelCreator(QString levelFile) {
     delete levelCreator;
     m_levelCreatorExist = false;
     if (shallExamStart) {
-        nootLab->hide();
+        nootLabel->hide();
         progress->show();
         examResults->show();
         ex = new TexamExecutor(this, "", &m_level); // start exam
@@ -435,9 +434,7 @@ void MainWindow::openLevelCreator(QString levelFile) {
 
 void MainWindow::startExamSlot() {
     sound->stopPlaying();
-    nootLab->hide();
-    progress->show();
-    examResults->show();
+		nootLabel->hide();
     ex = new TexamExecutor(this);
 }
 
