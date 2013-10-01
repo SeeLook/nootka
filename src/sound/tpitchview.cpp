@@ -111,7 +111,8 @@ TpitchView::~TpitchView()
 
 void TpitchView::setAudioInput(TaudioIN* audioIn) {
   m_audioIN = audioIn;
-  connect(m_audioIN, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
+  if (m_audioIN)
+      connect(m_audioIN, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
 }
 
 
@@ -152,6 +153,7 @@ void TpitchView::setDisabled(bool isDisabled) {
 
 
 void TpitchView::setIntonationAccuracy(int accuracy) {
+  if (m_audioIN) {
 		m_intoView->setAccuracy(accuracy);
 		if (TintonationView::Eaccuracy(accuracy) == TintonationView::e_noCheck) { // intonation check disabled
 				disconnect(m_audioIN, SIGNAL(chunkPitch(float)), m_intoView, SLOT(pitchSlot(float)));
@@ -160,6 +162,7 @@ void TpitchView::setIntonationAccuracy(int accuracy) {
 				connect(m_audioIN, SIGNAL(chunkPitch(float)), m_intoView, SLOT(pitchSlot(float)));
 				m_intoView->setDisabled(false);
 		}
+  }
 }
 
 
