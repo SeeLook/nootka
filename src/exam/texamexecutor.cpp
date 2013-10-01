@@ -638,9 +638,11 @@ void TexamExecutor::checkAnswer(bool showResults) {
     mW->noteName->setStyle(gl->NnameStyleInNoteName);
     mW->noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
 
+    int waitTime = WAIT_TIME;
 		if (m_practice) {
 			m_practice->checkAnswer();
 			if (!curQ.isCorrect()) {
+        waitTime = 1500; // user has to have time to see his mistake and correct answer
 				if (curQ.answerAs == TQAtype::e_asNote) {
 					Tnote goodNote = curQ.qa.note;
 					if (curQ.questionAs == TQAtype::e_asNote)
@@ -672,12 +674,12 @@ void TexamExecutor::checkAnswer(bool showResults) {
           stopExamSlot();
       else {
       if (curQ.isCorrect()) {
-          QTimer::singleShot(WAIT_TIME, this, SLOT(askQuestion()));
+          QTimer::singleShot(waitTime, this, SLOT(askQuestion()));
       } else {
           if (!m_practice && gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
-              QTimer::singleShot(WAIT_TIME, this, SLOT(repeatQuestion()));
+              QTimer::singleShot(waitTime, this, SLOT(repeatQuestion()));
           else
-              QTimer::singleShot(WAIT_TIME, this, SLOT(askQuestion()));
+              QTimer::singleShot(waitTime, this, SLOT(askQuestion()));
         }
       }
     }
