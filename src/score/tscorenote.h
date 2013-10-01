@@ -51,6 +51,8 @@ public:
     void moveNote(int pos);
 				/** Sets noteHead at given position and given accidental accidental. */
 		void setNote(int notePos, int accNr);
+				/** Returns bounding rectangle of selected note.  */
+		QGraphicsEllipseItem* mainNote() { return m_mainNote; }
     
 				/** Min and Max values of Y coefficient on the staff */
     void setAmbitus(int min, int max){ m_ambitMin = qMax(min, 1); m_ambitMax = qMin(max, (int)m_height - 1); }
@@ -63,7 +65,7 @@ public:
 //     int noteNumber() { return m_noteNr; } // note number depends on octave.
         /** Returns QString with accidental symbol*/
     static QString getAccid(int accNr);
-				/** nootka font with well scaled accidental glypt. */
+				/** nootka font with well scaled accidental glyph. */
     static QFont getAccidFont();
 		static qreal accidYoffset() { return m_accidYoffset; }
 		static qreal accidScale() { return m_accidScale; }
