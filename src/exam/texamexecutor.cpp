@@ -640,6 +640,14 @@ void TexamExecutor::checkAnswer(bool showResults) {
 
 		if (m_practice) {
 			m_practice->checkAnswer();
+			if (!curQ.isCorrect()) {
+				if (curQ.answerAs == TQAtype::e_asNote) {
+					Tnote goodNote = curQ.qa.note;
+					if (curQ.questionAs == TQAtype::e_asNote)
+						goodNote = curQ.qa_2.note;
+					mW->score->correctNote(goodNote);
+				}
+			}
 		} else {
 				if (!m_supp->wasFinished() && m_exam->count() >= (m_supp->obligQuestions() + m_exam->penalty()) ) { // maybe enough
 					if (m_exam->blackCount()) {

@@ -25,6 +25,7 @@
 #include "ttune.h"
 #include "tglobals.h"
 #include <tgraphicstexttip.h>
+#include <tgraphicsstrikeitem.h>
 #include <QPen>
 #include <QLayout>
 
@@ -35,7 +36,8 @@ extern Tglobals *gl;
 TmainScore::TmainScore(QWidget* parent) :
 	TsimpleScore(3, parent),
 	m_questMark(0),
-	m_questKey(0)
+	m_questKey(0),
+	m_strikeOut(0)
 {
 // set prefered clef
 	if (gl->Sclef == Tclef::e_pianoStaff)
@@ -263,6 +265,21 @@ void TmainScore::setNoteViewBg(int id, QColor C) {
 		createBgRect(C, staff()->noteSegment(id)->boundingRect().width(), staff()->noteSegment(id)->pos());
 }
 
+
+void TmainScore::correctNote(Tnote& goodNote) {
+		m_strikeOut = new TgraphicsStrikeItem(staff()->noteSegment(0)->mainNote());
+		QPen pp(QColor(gl->EquestionColor.name()), 0.5);
+		m_strikeOut->setPen(pp);
+		connect(m_strikeOut, SIGNAL(blinkingFinished()), this, SLOT(strikeBlinkingFinished()));
+		m_strikeOut->startBlinking();
+}
+
+
+void TmainScore::correctKeySignature(TkeySignature newKey)
+{
+
+}
+
 //####################################################################################################
 //########################################## PUBLIC SLOTS ############################################
 //####################################################################################################
@@ -294,10 +311,16 @@ void TmainScore::whenNoteWasChanged(int index, Tnote note) {
 //####################################################################################################
 
 void TmainScore::onPianoSwitch() {
-	restoreNotesSettings();
+		restoreNotesSettings();
 // 	if (gl->instrument == e_classicalGuitar || gl->instrument == e_electricGuitar)
 		if (*gl->Gtune() != Ttune::stdTune)
 			setScordature();
+}
+
+
+void TmainScore::strikeBlinkingFinished() {
+	m_strikeOut->deleteLater();
+	m_strikeOut = 0;
 }
 
 

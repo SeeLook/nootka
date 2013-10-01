@@ -138,6 +138,7 @@ SET( NOOTKA_SRCS
   exam/tprogresswidget.cpp
   exam/tgroupedqaunit.cpp
   exam/tfinishtip.cpp
+  exam/tgraphicsstrikeitem.cpp
   exam/tglobalexamstore.cpp
   exam/texercises.cpp
 ###### Info
@@ -250,6 +251,7 @@ SET( NOOTKA_MOC_SRCS
   exam/tquestiontip.h
   exam/tanimedtextitem.h
   exam/tfinishtip.h
+  exam/tgraphicsstrikeitem.h
 ###### Info
   info/taboutnootka.h
   info/tfirstrunwizzard.h

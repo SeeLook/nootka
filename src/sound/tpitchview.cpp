@@ -63,7 +63,8 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
   
   m_volMeter = new TvolumeView(this);
 //   viewLay->addWidget(m_volMeter);
-  m_volMeter->setStatusTip(tr("Shows volume level of input sound and indicates when the note was pitch-detected."));
+  m_volMeter->setStatusTip(tr("Shows volume level of input sound and indicates when the note was pitch-detected.") + "<br>" +
+				tr("Drag a knob to adjust minimal input volume."));
 //   QHBoxLayout *viewLay = new QHBoxLayout;
 // 		viewLay->addWidget(m_volMeter);
 // 		viewLay->addWidget(m_intoView);

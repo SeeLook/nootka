@@ -21,6 +21,7 @@
 
 #include "tsimplescore.h"
 
+class TgraphicsStrikeItem;
 class QGraphicsRectItem;
 class QGraphicsTextItem;
 class QGraphicsSimpleTextItem;
@@ -66,6 +67,10 @@ public:
     void markQuestion(QColor blurColor);
 				/** Removes score controller from layout and returns a pointer to it.  */
 		TscoreControl* getFreeController();
+				/** Performs animation that transforming current selected note to given @p goodNote */
+		void correctNote(Tnote &goodNote);
+				/** Performs rewinding of current key to @p newKey */
+		void correctKeySignature(TkeySignature newKey);
 		
 signals:
 		void noteChanged(int index, Tnote note);
@@ -81,18 +86,20 @@ protected slots:
 				/** Refresh some things after switch 
 				 * scordature, notes state and color. */
 		void onPianoSwitch();
+		void strikeBlinkingFinished();
 		
 private:
-				/** Sets notes colors and readOnlyness according to globals. */
+				/** Sets notes colors according to globals. */
 		void restoreNotesSettings();
 				/** Creates QGraphicsRectItem with answer color, places it under the staff and adds to m_bgRects list.
 				 * clearScore() removes it. */
 		void createBgRect(QColor c, qreal width, QPointF pos);
 
 private:
-		QGraphicsSimpleTextItem *m_questMark;
-		QGraphicsTextItem *m_questKey;
-		QList<QGraphicsRectItem*> m_bgRects; // list of rects with hightlights
+		QGraphicsSimpleTextItem 		*m_questMark;
+		QGraphicsTextItem 					*m_questKey;
+		QList<QGraphicsRectItem*> 	 m_bgRects; // list of rects with hightlights
+		TgraphicsStrikeItem 				*m_strikeOut;
 };
 
 #endif // TMAINSCORE_H
