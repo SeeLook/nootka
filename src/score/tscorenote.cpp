@@ -21,11 +21,16 @@
 #include "tscorescene.h"
 #include "tscorestaff.h"
 #include "tdropshadoweffect.h"
+#include <tanimeditem.h>
 #include <QGraphicsEffect>
 #include <QGraphicsSceneHoverEvent>
 #include <QPainter>
 #include <QApplication>
 #include <QPalette>
+#include <qgraphicsitemanimation.h>
+#include <QTimer>
+#include <qtimeline.h>
+
 // #include <QDebug>
 
 
@@ -60,7 +65,8 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_stringText(0), m_stringNr(0),
 //   m_noteNr(100),
   m_ottava(0),
-  m_bgColor(-1)
+  m_bgColor(-1),
+  m_animation(0)
 {
   setStaff(staff);
 	setParentItem(staff);
@@ -93,7 +99,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 //   scoreScene()->addBlur(m_workNote, 3.0);
   
   m_mainNote = createNoteHead();
-  
+	
   m_mainAccid = new QGraphicsSimpleTextItem();
   registryItem(m_mainAccid);
   
@@ -179,9 +185,17 @@ void TscoreNote::moveNote(int pos) {
 				hideNote();
 				return;
     }
-    m_mainPosY = pos;
-    m_mainNote->setPos(3.0, pos);
-//     m_mainAccid->setPos(0.0, pos - 2.35);
+		if (!m_mainNote->isVisible()) {
+        m_mainNote->show();
+        m_mainAccid->show();
+    }
+		if (m_animation) { // initialize animation
+				m_animation->startMoving(QPointF(3.0, m_mainPosY), QPointF(3.0, pos));
+// 				return;
+		} else { // just move a note
+			m_mainNote->setPos(3.0, pos);
+		}
+		m_mainPosY = pos;
     m_mainAccid->setPos(0.0, pos - m_accidYoffset);
     int noteNr = (56 + staff()->notePosRelatedToClef(pos)) % 7;
     if (staff()->accidInKeyArray[noteNr]) {
@@ -196,10 +210,10 @@ void TscoreNote::moveNote(int pos) {
     } else
         m_mainAccid->setText(getAccid(m_accidental));
     
-    if (!m_mainNote->isVisible()) {
-        m_mainNote->show();
-        m_mainAccid->show();
-    }
+//     if (!m_mainNote->isVisible()) {
+//         m_mainNote->show();
+//         m_mainAccid->show();
+//     }
     setStringPos();
     for (int i = 0; i < m_mainUpLines.size(); i++) {
       if (pos < m_mainUpLines[i]->line().y1())
@@ -285,6 +299,19 @@ void TscoreNote::setReadOnly(bool ro) {
 		setAcceptHoverEvents(!ro);
 		m_readOnly = ro;
 }
+
+
+void TscoreNote::enableAnimation(bool enable, int duration) {
+	if (enable) {
+			if (!m_animation)
+					m_animation = new TanimedItem(m_mainNote, this);
+			m_animation->setDuration(duration);
+	} else {
+			delete m_animation;
+			m_animation = 0;
+	}
+}
+
 
 
 QRectF TscoreNote::boundingRect() const{

@@ -642,7 +642,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 		if (m_practice) {
 			m_practice->checkAnswer();
 			if (!curQ.isCorrect()) {
-        waitTime = 1500; // user has to have time to see his mistake and correct answer
+        waitTime = 2200; // user has to have time to see his mistake and correct answer
 				if (curQ.answerAs == TQAtype::e_asNote) {
 					Tnote goodNote = curQ.qa.note;
 					if (curQ.questionAs == TQAtype::e_asNote)

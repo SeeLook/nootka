@@ -92,14 +92,14 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
 // 		knobBrush.setAlpha(150);
 		painter.setBrush(knobBrush);
 		float xPos = (float)(width() - m_noteWidth) * m_minVolume; 
-		painter.drawEllipse(QRectF(xPos - height() / 2, 0, height(), height() - 2));
+		painter.drawEllipse(QRectF(xPos - height() / 2 + 2, 2, height(), height() - 2)); // shade
 		painter.setBrush(knobBrush.lighter());
-		painter.drawEllipse(QRectF(xPos - height() / 2 + 2, 2, height(), height() - 2));
+		painter.drawEllipse(QRectF(xPos - height() / 2, 0, height(), height() - 2));
 // 		painter.setBrush(palette().base());
 // 		painter.drawRoundedRect(QRectF(xPos - height() / 4 + 2, height() / 3 + 4, height() / 4, height() - height() / 4), 
 // 														height() / 6, height() / 6);
 		painter.setBrush(palette().text());
-		painter.drawEllipse(QRectF(xPos - height() / 5, height() / 5, height() * 0.6, height() * 0.6));
+		painter.drawEllipse(QRectF(xPos - height() / 4, height() / 5, height() * 0.6, height() * 0.6));
   }
 }
 
