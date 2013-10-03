@@ -24,6 +24,8 @@
 #include <QWidget>
 #include <QGraphicsView>
 
+class TanimedItem;
+class TgraphicsStrikeItem;
 class TgraphicsTextTip;
 
 class TfingerBoard : public QGraphicsView
@@ -65,6 +67,7 @@ public:
     void markAnswer(QColor blurColor);
         /** Highlights m_questString or m_questFinger after answering. */
     void markQuestion(QColor blurColor);
+		void correctPosition(TfingerPos &pos, const QColor color);
 
 signals:
     void guitarClicked(Tnote note);
@@ -122,6 +125,9 @@ private:
     bool m_isDisabled;
     int m_hilightedStrNr;
     bool m_isCursorOverGuitar;
+		TfingerPos m_goodPos;
+		TgraphicsStrikeItem *m_strikeOut;
+		TanimedItem *m_animation;
 
 private:
     void paintFinger(QGraphicsEllipseItem *f, char strNr, char fretNr);
@@ -129,6 +135,10 @@ private:
     void resizeRangeBox();
     void paintFingerAtPoint(QPoint p);
 		void deleteBeyondTip();
+		
+private slots:
+		void strikeBlinkingFinished();
+		void finishCorrection();
 
 
 };

@@ -71,7 +71,7 @@ void TgraphicsStrikeItem::startBlinking() {
 
 void TgraphicsStrikeItem::strikeBlinking() {
 		m_blinkPhase++;
-		if (m_blinkPhase < 9) {
+		if (m_blinkPhase < 6) {
 			if (m_blinkPhase % 2) { // phase 1 & 3
 				m_line1->hide();
 				m_line2->hide();
