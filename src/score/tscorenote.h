@@ -21,6 +21,7 @@
 
 #include "tscoreitem.h"
 
+class TanimedItem;
 class TscoreControl;
 class TscoreScene;
 
@@ -81,6 +82,7 @@ public:
 		bool isReadOnly() { return m_readOnly; }
 		
 		void setWorkAccid(int accNr);
+		void enableAnimation(bool enable, int duration = 150);
     
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     virtual QRectF boundingRect() const;
@@ -103,6 +105,7 @@ private:
 		QGraphicsSimpleTextItem 			*m_stringText;
     QList<QGraphicsLineItem*>     m_upLines, m_mainUpLines, m_mainDownLines, m_downLines;
     QColor                        m_workColor, m_mainColor;
+		TanimedItem										*m_animation;
     
     int                           m_workPosY, m_mainPosY;
     int                           m_curentAccid, m_accidental;
@@ -127,7 +130,7 @@ private:
 		void setStringPos();
 // 		void checkOctavation();
 		
-    
+		    
 };
 
 #endif // TSCORENOTE_H

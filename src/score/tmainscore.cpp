@@ -28,6 +28,7 @@
 #include <tgraphicsstrikeitem.h>
 #include <QPen>
 #include <QLayout>
+#include <QTimer>
 
 
 extern Tglobals *gl;
@@ -226,11 +227,15 @@ void TmainScore::forceAccidental(Tnote::Eacidentals accid) {
 
 void TmainScore::markAnswered(QColor blurColor) {
 		staff()->noteSegment(0)->markNote(blurColor);
+		if (staff()->lower())
+				staff()->lower()->noteSegment(0)->markNote(blurColor);
 }
 
 
 void TmainScore::markQuestion(QColor blurColor) {
 		staff()->noteSegment(1)->markNote(blurColor);
+		if (staff()->lower())
+				staff()->lower()->noteSegment(1)->markNote(blurColor);
 }
 
 
@@ -267,6 +272,7 @@ void TmainScore::setNoteViewBg(int id, QColor C) {
 
 
 void TmainScore::correctNote(Tnote& goodNote) {
+		m_goodNote = goodNote;
 		m_strikeOut = new TgraphicsStrikeItem(staff()->noteSegment(0)->mainNote());
 		QPen pp(QColor(gl->EquestionColor.name()), 0.5);
 		m_strikeOut->setPen(pp);
@@ -321,6 +327,24 @@ void TmainScore::onPianoSwitch() {
 void TmainScore::strikeBlinkingFinished() {
 	m_strikeOut->deleteLater();
 	m_strikeOut = 0;
+	staff()->noteSegment(0)->enableAnimation(true, 300);
+	staff()->noteSegment(0)->markNote(-1);
+	if (staff()->lower()) {
+			staff()->lower()->noteSegment(0)->markNote(-1);
+			staff()->lower()->noteSegment(0)->enableAnimation(true, 300);
+	}
+	setNote(0, m_goodNote);
+	QTimer::singleShot(320, this, SLOT(finishCorrection()));	
+}
+
+
+void TmainScore::finishCorrection() {
+	staff()->noteSegment(0)->enableAnimation(false);
+	staff()->noteSegment(0)->markNote(QColor(gl->EanswerColor.name()));
+	if (staff()->lower()) {
+			staff()->noteSegment(0)->enableAnimation(false);
+			staff()->lower()->noteSegment(0)->markNote(QColor(gl->EanswerColor.name()));
+	}
 }
 
 
@@ -340,13 +364,16 @@ void TmainScore::restoreNotesSettings() {
 		staff()->noteSegment(1)->setColor(gl->enharmNotesColor);
 		staff()->noteSegment(2)->setReadOnly(true);
 		staff()->noteSegment(2)->setColor(gl->enharmNotesColor);
+// 		staff()->noteSegment(0)->enableAnimation(true);
 		if (staff()->lower()) {
 				staff()->lower()->noteSegment(0)->setPointedColor(gl->SpointerColor);
 				staff()->lower()->noteSegment(1)->setReadOnly(true);
 				staff()->lower()->noteSegment(1)->setColor(gl->enharmNotesColor);
 				staff()->lower()->noteSegment(2)->setReadOnly(true);
 				staff()->lower()->noteSegment(2)->setColor(gl->enharmNotesColor);
+// 				staff()->lower()->noteSegment(0)->enableAnimation(true);
 		}
+		
 }
 
 

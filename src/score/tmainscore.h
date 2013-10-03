@@ -87,6 +87,7 @@ protected slots:
 				 * scordature, notes state and color. */
 		void onPianoSwitch();
 		void strikeBlinkingFinished();
+		void finishCorrection();
 		
 private:
 				/** Sets notes colors according to globals. */
@@ -100,6 +101,7 @@ private:
 		QGraphicsTextItem 					*m_questKey;
 		QList<QGraphicsRectItem*> 	 m_bgRects; // list of rects with hightlights
 		TgraphicsStrikeItem 				*m_strikeOut;
+		Tnote												 m_goodNote;
 };
 
 #endif // TMAINSCORE_H
