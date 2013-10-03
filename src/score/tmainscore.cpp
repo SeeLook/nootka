@@ -271,10 +271,10 @@ void TmainScore::setNoteViewBg(int id, QColor C) {
 }
 
 
-void TmainScore::correctNote(Tnote& goodNote) {
+void TmainScore::correctNote(Tnote& goodNote, const QColor &color) {
 		m_goodNote = goodNote;
 		m_strikeOut = new TgraphicsStrikeItem(staff()->noteSegment(0)->mainNote());
-		QPen pp(QColor(gl->EquestionColor.name()), 0.5);
+		QPen pp(QColor(color.name()), 0.5);
 		m_strikeOut->setPen(pp);
 		connect(m_strikeOut, SIGNAL(blinkingFinished()), this, SLOT(strikeBlinkingFinished()));
 		m_strikeOut->startBlinking();

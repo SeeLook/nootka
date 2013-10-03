@@ -17,9 +17,11 @@
  ***************************************************************************/
 
 #include "tfingerboard.h"
+#include "tanimeditem.h"
 #include "tglobals.h"
 #include "ttune.h"
 #include <tgraphicstexttip.h>
+#include <tgraphicsstrikeitem.h>
 #include <QtGui>
 #include <QDebug>
 
@@ -323,7 +325,6 @@ void TfingerBoard::createRangeBox(char loFret, char hiFret) {
 }
 
 
-
 void TfingerBoard::prepareAnswer() {
     setAttribute(Qt::WA_TransparentForMouseEvents, false); // unlock guitar for mouse
     if (m_rangeBox1)
@@ -354,6 +355,24 @@ void TfingerBoard::setHighlitedString(char realStrNr) {
   m_highString->setPen(QPen(QColor(gl->EanswerColor.name()), m_strWidth[realStrNr - 1] + 2));
   m_highString->setLine(m_strings[realStrNr-1]->line());
 }
+
+
+void TfingerBoard::correctPosition(TfingerPos& pos, const QColor color) {
+		m_goodPos = pos;
+		if (m_curFret != 99) {
+    if (m_curFret) {
+			m_strikeOut = new TgraphicsStrikeItem(m_fingers[gl->strOrder(m_curStr)]);			
+    } else if (m_curStr != 7) {
+				m_strikeOut = new TgraphicsStrikeItem(m_strings[gl->strOrder(m_curStr)]);
+		} else
+				return;
+    QPen pp(QColor(color.name()), m_strWidth[5]);
+		m_strikeOut->setPen(pp);
+		connect(m_strikeOut, SIGNAL(blinkingFinished()), this, SLOT(strikeBlinkingFinished()));
+		m_strikeOut->startBlinking();
+  }
+}
+
 
 //################################################################################################
 //################################################ PROTECTED #####################################
@@ -636,14 +655,14 @@ void TfingerBoard::mousePressEvent(QMouseEvent *event) {
 	if (!m_isDisabled && event->button() == Qt::LeftButton) {
 		if (m_curFret != 99 && m_curStr != 7) {
 			m_selNote = posToNote(m_curStr,m_curFret);
-			m_fingerPos = TfingerPos(m_curStr+1, m_curFret);
+			m_fingerPos = TfingerPos(m_curStr + 1, m_curFret);
 			if (gl->GpreferFlats)
 				if (m_selNote.note != 3 && m_selNote.note != 7) // eliminate Fb from E and Cb from B
 					m_selNote = m_selNote.showWithFlat();
 			if (gl->GshowOtherPos)
 				setFinger(m_selNote);
 			else
-				setFinger(TfingerPos(m_curStr+1, m_curFret));
+				setFinger(TfingerPos(m_curStr + 1, m_curFret));
 			emit guitarClicked(m_selNote);
 		} else {
 			m_selNote = Tnote(0,0,0);
@@ -780,5 +799,34 @@ void TfingerBoard::deleteBeyondTip() {
 		delete m_beyondTip;
 		m_beyondTip = 0;
 }
+
+
+void TfingerBoard::strikeBlinkingFinished() {
+		m_strikeOut->deleteLater();
+		m_strikeOut = 0;
+		markAnswer(Qt::transparent);
+		QGraphicsItem *item;
+		if (m_curFret) {
+			item = (QGraphicsItem*)m_fingers[gl->strOrder(m_curStr)];			
+    } else if (m_curStr != 7) {
+				item = (QGraphicsItem*)m_strings[gl->strOrder(m_curStr)];
+		} else 
+				return;
+		m_animation = new TanimedItem(m_fingers[gl->strOrder(m_curStr)], this);
+		m_animation->setDuration(300);
+		connect(m_animation, SIGNAL(finished()), this, SLOT(finishCorrection()));
+		m_animation->startMoving(item->pos(), QPointF(m_fretsPos[m_goodPos.fret() - 1] - qRound(m_fretWidth / 1.5),
+              m_fbRect.y() + m_strGap * (m_goodPos.str() - 1) + m_strGap / 5));
+}
+
+
+void TfingerBoard::finishCorrection() {
+		m_animation->deleteLater();
+		m_animation = 0;
+		setFinger(m_goodPos);
+		markAnswer(QColor(gl->EanswerColor.name()));
+}
+
+
 
 

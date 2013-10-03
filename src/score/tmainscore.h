@@ -68,7 +68,7 @@ public:
 				/** Removes score controller from layout and returns a pointer to it.  */
 		TscoreControl* getFreeController();
 				/** Performs animation that transforming current selected note to given @p goodNote */
-		void correctNote(Tnote &goodNote);
+		void correctNote(Tnote& goodNote, const QColor& color);
 				/** Performs rewinding of current key to @p newKey */
 		void correctKeySignature(TkeySignature newKey);
 		
