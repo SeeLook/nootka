@@ -58,6 +58,9 @@ public:
 		void forceAccidental(char accid);
 		void correctName(Tnote &goodName, const QColor &color);
 		
+				/** Returns given color mixed with palette base and 220 of alpha. */
+		QColor prepareBgColor(const QColor &halfColor);
+		
 
 signals:
     void noteNameWasChanged(Tnote note);

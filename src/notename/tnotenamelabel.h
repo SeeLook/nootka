@@ -22,6 +22,8 @@
 
 #include <QLabel>
 
+QString getBgColorText(const QColor &C);
+
 /** */
 class TnoteNameLabel : public QLabel
 {
@@ -32,17 +34,30 @@ public:
 	
 			/** Starts painting cross over label given @p count times with @p period duration of each. */
 	void blinkCross(const QColor &color, int count = 2, int period = 150);
+			/** Fades out background to transparency, sets new text and fades in with new color.*/
+	void crossFadeText(const QString &newText, const QColor &newBgColor, int duration = 150);
 	
+	void setStyleSheet(const QString &style);
+	void setBackgroundColor(const QColor &color);
+	
+	static QString borderStyleText();
+	
+signals:
+	void blinkingFinished();
+	void crossFadeingFinished();
 	
 protected:
 	virtual void paintEvent(QPaintEvent* event);
 	
 protected slots:
-	void crossBlinkingSlot();
+	void strikeBlinkingSlot();
+	void crossFadeSlot();
 	
 private:
 	int 			m_period, m_count, m_currentBlink;
-	QColor 		m_color;
+	int 			m_fadeDuration, m_fadePhase, m_alphaStepOut, m_alphaStepIn;
+	QColor 		m_color, m_bgColor, m_newBgColor;
+	QString   m_newText, m_bgColorText, m_styleText;
 	
 };
 

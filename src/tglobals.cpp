@@ -22,6 +22,7 @@
 #include "taudioparams.h"
 #include "texamparams.h"
 #include <tnamestylefilter.h>
+#include <tnotenamelabel.h>
 #include <QDir>
 #include <QSettings>
 #include <QCoreApplication>
@@ -47,12 +48,7 @@ QString Tglobals::getInstPath(QString appInstPath) {
 }
 
 QString Tglobals::getBGcolorText(QColor C) {
-  if ( C != -1)
-    return QString(
-      "background-color: rgba(%1, %2, %3, %4); ")
-            .arg(C.red()).arg(C.green()).arg(C.blue()).arg(C.alpha());
-  else
-    return QString("background-color: transparent; ");
+  return getBgColorText(C);
 }
 
 QColor Tglobals::invertColor(QColor C) {
