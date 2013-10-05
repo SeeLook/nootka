@@ -21,6 +21,7 @@
 
 #include <QObject>
 #include <QGraphicsItem>
+#include <QEasingCurve>
 
 #define CLIP_TIME (30) // every move per 30 ms
 
@@ -41,6 +42,8 @@ public:
 	void startMoving(const QPointF& start, const QPointF& stop);
 	bool isMoving() { return !(bool)m_currStep; }
 	
+	void setEasingCurveType(QEasingCurve::Type type) { m_easingCurve.setType(type); }
+	
 signals:
 	void finished();
 	
@@ -52,6 +55,8 @@ private:
 	QPointF										 m_startPos, m_endPos;
 	QGraphicsItem							*m_item;
 	int												 m_step, m_currStep, m_duration;
+	QGraphicsLineItem 				*m_line;
+	QEasingCurve							 m_easingCurve;
   
 
 };

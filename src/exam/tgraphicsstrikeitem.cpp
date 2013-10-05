@@ -24,65 +24,86 @@
 TgraphicsStrikeItem::TgraphicsStrikeItem(QGraphicsItem* parent) :
 	QGraphicsObject(parent)
 {
-// 		m_rectF = parent->boundingRect().adjusted(-2.0, -2.0, 4.0, 4.0); // 4 pixels bigger
 		m_rectF = parent->boundingRect();
-		m_line1 = new QGraphicsLineItem();
-			m_line1->setLine(-1.0, -1.0, m_rectF.width() + 1.0, m_rectF.height() + 1.0); // line \ (top to bottom)
-			m_line1->setParentItem(this);
-		m_line2 = new QGraphicsLineItem();
-			m_line2->setLine(-1.0, m_rectF.height() + 1.0, m_rectF.width() + 1.0, -1.0); // line / (bottom to top)
-			m_line2->setParentItem(this);
-// 		setPos(parent->pos().x() - 2.0, parent->pos().y() - 2.0);
-// 			setPos(parent->pos());
+		QGraphicsLineItem *fakeLine = new QGraphicsLineItem();
+		if (parent->type() == fakeLine->type()) { // strike of line like -/-/-/-/-/-/-/-/
+			QGraphicsLineItem *parentLine = qgraphicsitem_cast<QGraphicsLineItem*>(parent);
+			int lineSize = parentLine->pen().width() * 7;
+			int linesCnt = m_rectF.width() / lineSize + 1;
+			for (int i = 1; i < linesCnt; i += 3) { // only horizontal lines without angle are supported
+					qreal offset = parentLine->pen().width() * 3.0;
+					qreal xx;
+					for (int j = 0; j <2; j++) {
+							QGraphicsLineItem *line = new QGraphicsLineItem();
+							xx = parentLine->line().p1().x() + i * lineSize;
+							if (j % 2)
+								line->setLine(xx, parentLine->line().p1().y() - offset, xx + 2 * offset, parentLine->line().p1().y() + offset); // line
+							else
+								line->setLine(xx + 2 * offset, parentLine->line().p1().y() - offset, xx, parentLine->line().p1().y() + offset); // line /
+							line->setParentItem(this);
+							m_lines << line;
+					}
+			}
+		} else { // strike of other shape like X
+				qreal offset = m_rectF.height() / 3.0;
+				for (int i = 0; i < 2; i++) {
+					QGraphicsLineItem *line = new QGraphicsLineItem();
+					if (i == 0)
+						line->setLine(-offset, -offset, m_rectF.width() + offset, m_rectF.height() + offset); // line \ (top to bottom)
+					else
+						line->setLine(-offset, m_rectF.height() + offset, m_rectF.width() + offset, -offset); // line / (bottom to top)
+					line->setParentItem(this);
+					m_lines << line;
+				}
+		}
+		delete fakeLine;
 }
 
 
 void TgraphicsStrikeItem::setPen(const QPen& pen) {
-		m_line1->setPen(pen);
-		m_line2->setPen(pen);
+	for (int i = 0; i < m_lines.size(); i++)
+		m_lines[i]->setPen(pen);
 }
 
 
 void TgraphicsStrikeItem::setColor(const QColor& penColor) {
-		qreal pw = m_line1->pen().widthF();
-		m_line1->setPen(QPen(penColor, pw));
-		m_line2->setPen(QPen(penColor, pw));
+		qreal pw = m_lines[0]->pen().widthF();
+		for (int i = 0; i < m_lines.size(); i++)
+				m_lines[i]->setPen(QPen(penColor, pw));
 }
 
 
 int TgraphicsStrikeItem::alpha() {
-		return m_line1->pen().color().alpha();
+		return m_lines[0]->pen().color().alpha();
 }
 
 
 void TgraphicsStrikeItem::setAlpha(int alp) {
-		QColor cc = m_line1->pen().color();
+		QColor cc = m_lines[0]->pen().color();
 		cc.setAlpha(alp);
 		setColor(cc);
 }
 
 
 void TgraphicsStrikeItem::startBlinking() {
-// 		if (m_blinkPhase == 0)
-				m_blinkPhase = 0;
-				QTimer::singleShot(100, this, SLOT(strikeBlinking()));
+		m_blinkPhase = 0;
+		QTimer::singleShot(150, this, SLOT(strikeBlinking()));
 }
 
 
 void TgraphicsStrikeItem::strikeBlinking() {
 		m_blinkPhase++;
-		if (m_blinkPhase < 6) {
+		if (m_blinkPhase < 5) {
 			if (m_blinkPhase % 2) { // phase 1 & 3
-				m_line1->hide();
-				m_line2->hide();
+					for (int i = 0; i < m_lines.size(); i++)
+						m_lines[i]->hide();
 			} else { // phase 2 & 4
-				m_line1->show();
-				m_line2->show();
+					for (int i = 0; i < m_lines.size(); i++)
+						m_lines[i]->show();
 			}
-			QTimer::singleShot(100, this, SLOT(strikeBlinking()));
+			QTimer::singleShot(150, this, SLOT(strikeBlinking()));
 		} else {
 			emit blinkingFinished();
-// 			m_blinkPhase = 0;
 		}
 }
 

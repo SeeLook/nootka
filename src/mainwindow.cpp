@@ -318,7 +318,7 @@ void MainWindow::clearAfterExam(TexamExecutor::Estate examState) {
 }
 
 QPoint MainWindow::relatedPoint() {
-    return examResults->geometry().bottomLeft();
+    return QPoint(noteName->geometry().x(), m_statLab->geometry().bottom());
 }
 
 //##########################################################################################

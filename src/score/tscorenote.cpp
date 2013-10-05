@@ -306,6 +306,7 @@ void TscoreNote::enableAnimation(bool enable, int duration) {
 			if (!m_animation)
 					m_animation = new TanimedItem(m_mainNote, this);
 			m_animation->setDuration(duration);
+			m_animation->setEasingCurveType(QEasingCurve::InExpo);
 	} else {
 			delete m_animation;
 			m_animation = 0;
