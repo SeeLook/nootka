@@ -702,33 +702,33 @@ void TexamExecutor::checkAnswer(bool showResults) {
 
 
 void TexamExecutor::markAnswer(TQAunit& curQ) {
-  QColor markColor;
+  QString markColor;
   if (curQ.isCorrect())
-    markColor = gl->EanswerColor;
+    markColor = gl->EanswerColor.lighter().name();
   else if (curQ.isNotSoBad())
-    markColor = gl->EnotBadColor;
+    markColor = gl->EnotBadColor.lighter().name();
   else
-    markColor = gl->EquestionColor.lighter();
+    markColor = gl->EquestionColor.lighter().name();
   switch (curQ.answerAs) {
     case TQAtype::e_asNote:
-      mW->score->markAnswered(QColor(markColor.name()));
+      mW->score->markAnswered(QColor(markColor));
       break;
     case TQAtype::e_asFretPos:
-      mW->guitar->markAnswer(QColor(markColor.name()));
+      mW->guitar->markAnswer(QColor(markColor));
       break;
     case TQAtype::e_asName:
-      mW->noteName->markNameLabel(markColor.name());      
+      mW->noteName->markNameLabel(markColor);      
       break;
   }
   switch (curQ.questionAs) {
     case TQAtype::e_asNote:
-      mW->score->markQuestion(QColor(markColor.name()));
+      mW->score->markQuestion(QColor(markColor));
       break;
     case TQAtype::e_asFretPos:
-      mW->guitar->markQuestion(QColor(markColor.name()));
+      mW->guitar->markQuestion(QColor(markColor));
       break;
     case TQAtype::e_asName:
-      mW->noteName->markNameLabel(markColor.name());      
+      mW->noteName->markNameLabel(markColor);      
       break;
   }
   
@@ -807,10 +807,10 @@ void TexamExecutor::repeatQuestion() {
 void TexamExecutor::prepareToExam() {
 		if (m_practice) {
 			mW->setWindowTitle(tr("Exercises with Nootka"));
-			mW->setStatusMessage(tr("You are exercising on level:") + ":<br><b>" + m_level.name + "</b>");
+			mW->setStatusMessage(tr("You are exercising on level") + ":<br><b>" + m_level.name + "</b>");
 		} else {
 			mW->setWindowTitle(tr("EXAM!") + " " + m_exam->userName() + " - " + m_level.name);
-			mW->setStatusMessage(tr("exam started on level") + ":<br><b>" + m_level.name + "</b>");
+			mW->setStatusMessage(tr("Exam started on level") + ":<br><b>" + m_level.name + "</b>");
 		}
 		mW->settingsAct->setVisible(false);
 		mW->aboutAct->setVisible(false);
