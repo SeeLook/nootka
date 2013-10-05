@@ -18,6 +18,7 @@
 
 
 #include "tnotename.h"
+#include "tnotenamelabel.h"
 #include "tglobals.h"
 #include "tpushbutton.h"
 #include <QtGui>
@@ -53,9 +54,8 @@ TnoteName::TnoteName(QWidget *parent) :
     QVBoxLayout *mainLay = new QVBoxLayout();
     mainLay->setAlignment(Qt::AlignCenter);
 
-    m_nameLabel = new QLabel("<b><span style=\"font-size: 24px; color: green;\">" +
+    m_nameLabel = new TnoteNameLabel("<b><span style=\"font-size: 24px; color: green;\">" +
                            gl->version + "</span></b>",this);
-//     nameLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Expanding);
     m_nameLabel->setAlignment(Qt::AlignCenter);
     m_nameLabel->setStyleSheet(bgColorTxt + styleTxt);
     resize();
@@ -352,8 +352,16 @@ void TnoteName::uncheckAllButtons() {
 }
 
 
+void TnoteName::correctName(Tnote& goodName, const QColor& color) {
+		m_goodNote = goodName;
+		m_blinkingPhase = 0;
+		m_nameLabel->blinkCross(QColor(color.name()));
+}
+
+
+
 //##############################################################################################
-//#################################### PTIVATE #################################################
+//#################################### PRIVATE #################################################
 //##############################################################################################
 
 void TnoteName::setNameText() {
@@ -438,6 +446,20 @@ char TnoteName::getSelectedAccid() {
 }
 
 
+
+void TnoteName::resizeEvent(QResizeEvent* ) {
+    m_nameLabel->setFixedSize(width() * 0.9, parentWidget()->height() / 9 );
+    QFont f(QFont(m_nameLabel->font().family(), qRound(m_nameLabel->height() * 0.55), 50));
+    QFontMetrics fMetr(f);
+    qreal fact = (m_nameLabel->height() * 0.95) / fMetr.boundingRect("A").height();
+    f.setPointSize(f.pointSize() * fact);
+    m_nameLabel->setFont(f);
+    m_nameLabel->setText(m_nameLabel->text());
+}
+
+//##############################################################################################
+//#################################### PRIVATE SLOTS ###########################################
+//##############################################################################################
 void TnoteName::noteWasChanged(int noteNr) {
 		if (m_notes[0].note) {
 			if (m_notes[0].note != noteNr+1) //uncheck only if previous was different
@@ -478,16 +500,9 @@ void TnoteName::octaveWasChanged(int octNr) { // octNr is button nr in the group
 }
 
 
-void TnoteName::resizeEvent(QResizeEvent* ) {
-    m_nameLabel->setFixedSize(width() * 0.9, parentWidget()->height() / 9 );
-    QFont f(QFont(m_nameLabel->font().family(), qRound(m_nameLabel->height() * 0.55), 50));
-    QFontMetrics fMetr(f);
-    qreal fact = (m_nameLabel->height() * 0.95) / fMetr.boundingRect("A").height();
-    f.setPointSize(f.pointSize() * fact);
-    m_nameLabel->setFont(f);
-    m_nameLabel->setText(m_nameLabel->text());
+void TnoteName::correctFadeAnimation()
+{
+
 }
-
-
 
 

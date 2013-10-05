@@ -26,7 +26,6 @@
 #include "tstatisticstip.h"
 #include "texamview.h"
 #include "texam.h"
-#include "tnotename.h"
 #include "texamlevel.h"
 #include <QApplication>
 #include <QDebug>

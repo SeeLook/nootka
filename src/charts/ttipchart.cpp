@@ -21,7 +21,6 @@
 #include "texamview.h"
 #include "tquestionaswdg.h"
 #include "tquestionpoint.h"
-#include "tnotename.h"
 #include "tnotepixmap.h"
 #include <QApplication>
 #include <QBuffer>

@@ -22,8 +22,8 @@
 #include <QWidget>
 #include "tnote.h"
 
+class TnoteNameLabel;
 class QPushButton;
-class QLabel;
 class TpushButton;
 class QButtonGroup;
 
@@ -56,6 +56,8 @@ public:
     void markNameLabel(QColor markColor);
 				/** Highlights and check given accid button   */
 		void forceAccidental(char accid);
+		void correctName(Tnote &goodName, const QColor &color);
+		
 
 signals:
     void noteNameWasChanged(Tnote note);
@@ -65,7 +67,7 @@ protected:
     void resizeEvent(QResizeEvent *);
 
 private:
-    QLabel 					*m_nameLabel;
+    TnoteNameLabel	*m_nameLabel;
     TpushButton 		*m_noteButtons[7];
     TpushButton 		*m_octaveButtons[8];
     TpushButton 		*m_dblFlatButt, *m_flatButt, *m_sharpButt, *m_dblSharpButt;
@@ -76,6 +78,8 @@ private:
 
     TnotesList 			m_notes;
     short 					m_ambitMin, m_ambitMax;
+		Tnote 					m_goodNote;
+		int 						m_blinkingPhase;
     
 private:
     void setNoteName(char noteNr, char octNr, char accNr);
@@ -88,12 +92,13 @@ private:
     void uncheckAllButtons();
 				/** Returns current state of accid buttons converted to accidental value [-2 to 2] */
 		char getSelectedAccid();
+		
 
 private slots:
     void noteWasChanged(int noteNr);
     void accidWasChanged();
     void octaveWasChanged(int octNr);
-
+		void correctFadeAnimation();
 
 };
 
