@@ -288,14 +288,14 @@ void TfingerBoard::askQuestion(TfingerPos pos) {
 
 
 void TfingerBoard::markAnswer(QColor blurColor) {
-  if (m_curFret != 99) {
-    if (m_curFret) {
+  if (m_fingerPos.fret() != 39) {
+    if (m_fingerPos.fret()) {
 			m_fingers[m_fingerPos.str() - 1]->setPen(QPen(blurColor, 3));
 //       m_fingers[gl->strOrder(m_curStr)]->setPen(QPen(blurColor, 3));
 //       m_fingers[gl->strOrder(m_curStr)]->setGraphicsEffect(new QGraphicsBlurEffect());
     }
     else
-      if (m_curStr != 7) {
+      if (m_fingerPos.str() != 7) {
 				m_strings[m_fingerPos.str() - 1]->setPen(QPen(blurColor, 5));
 //         m_strings[gl->strOrder(m_curStr)]->setPen(QPen(blurColor, 5));
 //         m_strings[gl->strOrder(m_curStr)]->setGraphicsEffect(new QGraphicsBlurEffect());
@@ -372,7 +372,7 @@ void TfingerBoard::correctPosition(TfingerPos& pos, const QColor color) {
 				m_strikeOut = new TgraphicsStrikeItem(m_strings[gl->strOrder(m_fingerPos.str() - 1)]);
 		} else
 				return;
-    QPen pp(QColor(color.name()), m_strWidth[m_fingerPos.str() - 1]);
+    QPen pp(QColor(color.name()), m_strWidth[3]);
 		m_strikeOut->setPen(pp);
 		connect(m_strikeOut, SIGNAL(blinkingFinished()), this, SLOT(strikeBlinkingFinished()));
 		m_strikeOut->startBlinking();

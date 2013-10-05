@@ -45,7 +45,7 @@ SET( NOOTKA_SRCS
 ###### notename
 	notename/tnotename.cpp
 	notename/tnamestylefilter.cpp
-# 	notename/toctavebuttons.cpp
+	notename/tnotenamelabel.cpp
 ###### sound
   sound/tsound.cpp
   sound/tmidiout.cpp
@@ -217,7 +217,7 @@ SET( NOOTKA_MOC_SRCS
 	guitar/tanimeditem.h
 ###### notename
 	notename/tnotename.h
-# 	notename/toctavebuttons.h
+	notename/tnotenamelabel.h
 ###### Settings
   settings/tsettingsdialog.h
   settings/tsettingsdialogbase.h

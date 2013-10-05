@@ -638,7 +638,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
     mW->noteName->setStyle(gl->NnameStyleInNoteName);
     mW->noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
 
-    int waitTime = WAIT_TIME;
+    int waitTime = 200; //WAIT_TIME;
 		if (m_practice) {
 			m_practice->checkAnswer();
 			if (!curQ.isCorrect()) {
@@ -647,7 +647,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 					markColor = gl->EnotBadColor;
 				else
 					markColor = gl->EquestionColor;
-        waitTime = 2200; // user has to have time to see his mistake and correct answer
+        waitTime = 2500; // user has to have time to see his mistake and correct answer
 				if (curQ.answerAs == TQAtype::e_asNote) {
 					Tnote goodNote = curQ.qa.note;
 					if (curQ.questionAs == TQAtype::e_asNote)
@@ -658,6 +658,11 @@ void TexamExecutor::checkAnswer(bool showResults) {
 					if (curQ.questionAs == TQAtype::e_asFretPos)
 						goodPos = curQ.qa_2.pos;
 					mW->guitar->correctPosition(goodPos, markColor);
+				} else if (curQ.answerAs == TQAtype::e_asName) {
+					Tnote goodNote = curQ.qa.note;
+					if (curQ.questionAs == TQAtype::e_asName)
+						goodNote = curQ.qa_2.note;
+					mW->noteName->correctName(goodNote, markColor);
 				}
 			}
 		} else {

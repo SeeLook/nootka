@@ -18,6 +18,7 @@
 
 #include "tgraphicsstrikeitem.h"
 #include <QPen>
+#include <QGraphicsScene>
 #include <QTimer>
 
 
@@ -28,9 +29,9 @@ TgraphicsStrikeItem::TgraphicsStrikeItem(QGraphicsItem* parent) :
 		QGraphicsLineItem *fakeLine = new QGraphicsLineItem();
 		if (parent->type() == fakeLine->type()) { // strike of line like -/-/-/-/-/-/-/-/
 			QGraphicsLineItem *parentLine = qgraphicsitem_cast<QGraphicsLineItem*>(parent);
-			int lineSize = parentLine->pen().width() * 7;
+			int lineSize = /*parentLine->scene()->sceneRect().height() / 20;*/ parentLine->pen().width() * 7;
 			int linesCnt = m_rectF.width() / lineSize + 1;
-			for (int i = 1; i < linesCnt; i += 3) { // only horizontal lines without angle are supported
+			for (int i = 2; i < linesCnt - 2; i += 3) { // only horizontal lines without angle are supported
 					qreal offset = parentLine->pen().width() * 3.0;
 					qreal xx;
 					for (int j = 0; j <2; j++) {
