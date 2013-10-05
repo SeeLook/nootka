@@ -702,13 +702,13 @@ void TexamExecutor::checkAnswer(bool showResults) {
 
 
 void TexamExecutor::markAnswer(TQAunit& curQ) {
-  QString markColor;
+  QColor markColor;
   if (curQ.isCorrect())
-    markColor = gl->EanswerColor.lighter().name();
+    markColor = gl->EanswerColor/*.lighter().name()*/;
   else if (curQ.isNotSoBad())
-    markColor = gl->EnotBadColor.lighter().name();
+    markColor = gl->EnotBadColor/*.lighter().name()*/;
   else
-    markColor = gl->EquestionColor.lighter().name();
+    markColor = gl->EquestionColor/*.lighter().name()*/;
   switch (curQ.answerAs) {
     case TQAtype::e_asNote:
       mW->score->markAnswered(QColor(markColor));

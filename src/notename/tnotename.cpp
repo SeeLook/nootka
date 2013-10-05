@@ -25,7 +25,6 @@
 
 
 extern Tglobals *gl;
-QString styleTxt, bgColorTxt;
 
 
 /**static*/
@@ -44,10 +43,6 @@ const char * const TnoteName::octavesFull[8] = { QT_TR_NOOP("Subcontra octave"),
 TnoteName::TnoteName(QWidget *parent) :
     QWidget(parent)
 {
-    styleTxt = "border: 1px solid palette(Text); border-radius: 10px;";
-    QColor lbg = palette().base().color();
-    lbg.setAlpha(220);
-    bgColorTxt = gl->getBGcolorText(lbg);
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
 
 // NAME LABEL
@@ -57,7 +52,7 @@ TnoteName::TnoteName(QWidget *parent) :
     m_nameLabel = new TnoteNameLabel("<b><span style=\"font-size: 24px; color: green;\">" +
                            gl->version + "</span></b>",this);
     m_nameLabel->setAlignment(Qt::AlignCenter);
-    m_nameLabel->setStyleSheet(bgColorTxt + styleTxt);
+		connect(m_nameLabel, SIGNAL(blinkingFinished()), this, SLOT(correctFadeAnimation()));
     resize();
 
     mainLay->addStretch(1);
@@ -129,7 +124,6 @@ TnoteName::TnoteName(QWidget *parent) :
 //         octaveButtons[i] = new TpushButton(tr(octaves[i]), this);
         m_octaveButtons[i]->setToolTip(tr(octavesFull[i]));
         m_octaveButtons[i]->setStatusTip(m_octaveButtons[i]->toolTip());
-// 				octaveButtons[i]->setStyleSheet("background-color: palette(window)");
 				if (i > 0 && i < 7)
 					octLayRow1->addWidget(m_octaveButtons[i]);
 // 				if (i % 2) { // upper: 1, 3, 5, 7
@@ -228,8 +222,6 @@ void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
 }
 
 
-
-
 void TnoteName::resize(int fontSize) {    
     if (fontSize) {
         QFont f = QFont(m_noteButtons[0]->font().family());
@@ -261,6 +253,13 @@ void TnoteName::setAmbitus(Tnote lo, Tnote hi) {
 //##############################################################################################
 //#################################### EXAM RELATED ############################################
 //##############################################################################################
+QColor TnoteName::prepareBgColor(const QColor& halfColor) {
+		QColor mixedColor = gl->mergeColors(halfColor, palette().window().color());
+    mixedColor.setAlpha(220);
+		return mixedColor;
+}
+
+
 void TnoteName::askQuestion(Tnote note, Tnote::EnameStyle questStyle, char strNr) {
     Tnote::EnameStyle tmpStyle = m_style;
     setStyle(questStyle);
@@ -269,18 +268,14 @@ void TnoteName::askQuestion(Tnote note, Tnote::EnameStyle questStyle, char strNr
     if (strNr) sN = QString("  %1").arg((int)strNr);
     m_nameLabel->setText(m_nameLabel->text() +
                        QString(" <span style=\"color: %1; font-family: nootka;\">?%2</span>").arg(gl->EquestionColor.name()).arg(sN));
-    QColor questBg = gl->mergeColors(gl->EquestionColor, palette().window().color());
-    questBg.setAlpha(220);
-    m_nameLabel->setStyleSheet(styleTxt + gl->getBGcolorText(questBg));
+		m_nameLabel->setBackgroundColor(prepareBgColor(gl->EquestionColor));
     uncheckAllButtons();
     setStyle(tmpStyle);
 }
 
 
 void TnoteName::prepAnswer(Tnote::EnameStyle answStyle) {
-    QColor answBg = gl->mergeColors(gl->EanswerColor, palette().window().color());
-    answBg.setAlpha(220);
-    m_nameLabel->setStyleSheet(styleTxt + gl->getBGcolorText(answBg));
+		m_nameLabel->setBackgroundColor(prepareBgColor(gl->EanswerColor));
     setNoteNamesOnButt(answStyle);
     setNameDisabled(false);
 // 		if (backNote.acidental) {
@@ -302,7 +297,8 @@ void TnoteName::forceAccidental(char accid) {
 
 
 void TnoteName::markNameLabel(QColor markColor) {
-    m_nameLabel->setStyleSheet(styleTxt + gl->getBGcolorText(markColor));
+		m_nameLabel->setBackgroundColor(prepareBgColor(markColor));
+		m_nameLabel->setText(QString("<span style=\"color: %1; \">").arg(markColor.name()) + m_nameLabel->text() + "</span>");
 }
 
 
@@ -336,19 +332,7 @@ void TnoteName::setNameDisabled(bool isDisabled) {
 
 void TnoteName::clearNoteName() {
     setNoteName(Tnote());
-    m_nameLabel->setStyleSheet(bgColorTxt + styleTxt);
-}
-
-
-void TnoteName::uncheckAllButtons() {
-    uncheckAccidButtons();
-    m_noteGroup->setExclusive(false);
-    for (int i = 0; i < 7; i++)
-        m_noteButtons[i]->setChecked(false);
-//     for (int i = 0; i < 8; i++)
-//         octaveButtons[i]->setChecked(false);
-// 		m_prevOctButton = -1;
-    m_noteGroup->setExclusive(true);
+		m_nameLabel->setBackgroundColor(prepareBgColor(palette().base().color()));
 }
 
 
@@ -367,7 +351,6 @@ void TnoteName::correctName(Tnote& goodName, const QColor& color) {
 void TnoteName::setNameText() {
     if (m_notes[0].note) {
 				QString txt = m_notes[0].toRichText();
-//         QString txt = noteToRichText(m_notes[0]);
         if (m_notes[1].note) {
             txt = txt + QString("  <span style=\"font-size: %1px; color: %2\">(").arg(m_nameLabel->font().pointSize()-2).arg(gl->enharmNotesColor.name()) + m_notes[1].toRichText();
             if (m_notes[2].note)
@@ -380,7 +363,6 @@ void TnoteName::setNameText() {
 }
 
 
-// private setNoteName method
 void TnoteName::setNoteName(char noteNr, char octNr, char accNr) {
     m_notes[0] = Tnote(noteNr, octNr, accNr);
     if (noteNr) {
@@ -411,6 +393,18 @@ void TnoteName::setButtons(Tnote note) {
 					m_prevOctButton = note.octave + 3;
 			}
 		}
+}
+
+
+void TnoteName::uncheckAllButtons() {
+    uncheckAccidButtons();
+    m_noteGroup->setExclusive(false);
+    for (int i = 0; i < 7; i++)
+        m_noteButtons[i]->setChecked(false);
+//     for (int i = 0; i < 8; i++)
+//         octaveButtons[i]->setChecked(false);
+// 		m_prevOctButton = -1;
+    m_noteGroup->setExclusive(true);
 }
 
 
@@ -500,9 +494,9 @@ void TnoteName::octaveWasChanged(int octNr) { // octNr is button nr in the group
 }
 
 
-void TnoteName::correctFadeAnimation()
-{
-
+void TnoteName::correctFadeAnimation() {
+	m_nameLabel->crossFadeText(QString("<span style=\"color: %1; \">%2</span>").arg(gl->EanswerColor.name()).
+			arg(m_goodNote.toRichText(m_style)), gl->EanswerColor, 300);
 }
 
 
