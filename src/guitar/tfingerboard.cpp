@@ -30,7 +30,8 @@ extern Tglobals *gl;
 
 TfingerBoard::TfingerBoard(QWidget *parent) :
     QGraphicsView(parent),
-    m_isCursorOverGuitar(false)
+    m_isCursorOverGuitar(false),
+    m_movingItem(0)
 {
     if (gl->GfingerColor == -1) {
         gl->GfingerColor = gl->invertColor(palette().highlight().color());
@@ -97,6 +98,7 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     m_highString = 0;
     m_isDisabled = false;
 		m_beyondTip = 0;
+		m_fingerPos.setPos(1, 30);
 		
 		setTune();
 		
@@ -127,7 +129,7 @@ void TfingerBoard::setFinger(Tnote note) {
 				bool foundPos = false;
         for(int i = 0; i < gl->Gtune()->stringNr(); i++) { // looking for pos to show
             int diff = noteNr - gl->Gtune()->str(gl->strOrder(i) + 1).getChromaticNrOfNote();
-            if ( doShow && diff >= 0 && diff <= gl->GfretsNumber) { // found
+            if (doShow && diff >= 0 && diff <= gl->GfretsNumber) { // found
 								foundPos = true;
 								deleteBeyondTip();
                 if (diff == 0) { // open string
@@ -136,6 +138,7 @@ void TfingerBoard::setFinger(Tnote note) {
                 } else { // some fret
                     m_strings[gl->strOrder(i)]->hide();
                     paintFinger(m_fingers[gl->strOrder(i)], gl->strOrder(i), diff);
+										m_fingerPos.setPos(gl->strOrder(i) + i, diff);
                     m_fingers[gl->strOrder(i)]->show();
                 }
                 if (!gl->GshowOtherPos) {
@@ -146,8 +149,9 @@ void TfingerBoard::setFinger(Tnote note) {
                 m_strings[gl->strOrder(i)]->hide();
             }
         }
-				if (!foundPos /*noteNr < m_loNote || noteNr > m_hiNote*/) { // note beyond guitar scale
-					if	 (!m_beyondTip) {
+        if (foundPos)
+					deleteBeyondTip();
+				else if (!m_beyondTip) {
 						m_beyondTip = new TgraphicsTextTip(QString("<span style=\"font-size: %1px; color: %2;\"><br><b> ").
 														arg(height() / 7).arg(gl->EquestionColor.name()) +
 														tr("This note is beyond the scale of the guitar!") + " </b></span><br>", palette().text().color());
@@ -156,7 +160,6 @@ void TfingerBoard::setFinger(Tnote note) {
 						m_beyondTip->setPos((m_scene->width() - m_beyondTip->boundingRect().width()) / 2,
 												(m_scene->height() - m_beyondTip->boundingRect().height()) / 2);
 				}
-			}
     } else { // hide highlighted fingers/string if no note
         for (int i = 0; i < gl->Gtune()->stringNr(); i++) {
             m_fingers[i]->hide();
@@ -184,6 +187,7 @@ void TfingerBoard::setFinger(TfingerPos pos) {
             }
         }
     }
+    m_fingerPos = pos;
 }
 
 
@@ -286,13 +290,15 @@ void TfingerBoard::askQuestion(TfingerPos pos) {
 void TfingerBoard::markAnswer(QColor blurColor) {
   if (m_curFret != 99) {
     if (m_curFret) {
-      m_fingers[gl->strOrder(m_curStr)]->setPen(QPen(blurColor, 3));
-      m_fingers[gl->strOrder(m_curStr)]->setGraphicsEffect(new QGraphicsBlurEffect());
+			m_fingers[m_fingerPos.str() - 1]->setPen(QPen(blurColor, 3));
+//       m_fingers[gl->strOrder(m_curStr)]->setPen(QPen(blurColor, 3));
+//       m_fingers[gl->strOrder(m_curStr)]->setGraphicsEffect(new QGraphicsBlurEffect());
     }
     else
       if (m_curStr != 7) {
-        m_strings[gl->strOrder(m_curStr)]->setPen(QPen(blurColor, 5));
-        m_strings[gl->strOrder(m_curStr)]->setGraphicsEffect(new QGraphicsBlurEffect());
+				m_strings[m_fingerPos.str() - 1]->setPen(QPen(blurColor, 5));
+//         m_strings[gl->strOrder(m_curStr)]->setPen(QPen(blurColor, 5));
+//         m_strings[gl->strOrder(m_curStr)]->setGraphicsEffect(new QGraphicsBlurEffect());
       }
   }
 }
@@ -358,19 +364,20 @@ void TfingerBoard::setHighlitedString(char realStrNr) {
 
 
 void TfingerBoard::correctPosition(TfingerPos& pos, const QColor color) {
-		m_goodPos = pos;
-		if (m_curFret != 99) {
-    if (m_curFret) {
-			m_strikeOut = new TgraphicsStrikeItem(m_fingers[gl->strOrder(m_curStr)]);			
-    } else if (m_curStr != 7) {
-				m_strikeOut = new TgraphicsStrikeItem(m_strings[gl->strOrder(m_curStr)]);
+	m_goodPos = pos;
+	if (m_fingerPos.fret() != 39) {
+    if (m_fingerPos.fret()) {
+				m_strikeOut = new TgraphicsStrikeItem(m_fingers[gl->strOrder(m_fingerPos.str() - 1)]);
+    } else if (m_fingerPos.str() != 7) {
+				m_strikeOut = new TgraphicsStrikeItem(m_strings[gl->strOrder(m_fingerPos.str() - 1)]);
 		} else
 				return;
-    QPen pp(QColor(color.name()), m_strWidth[5]);
+    QPen pp(QColor(color.name()), m_strWidth[m_fingerPos.str() - 1]);
 		m_strikeOut->setPen(pp);
 		connect(m_strikeOut, SIGNAL(blinkingFinished()), this, SLOT(strikeBlinkingFinished()));
 		m_strikeOut->startBlinking();
   }
+
 }
 
 
@@ -529,58 +536,55 @@ void TfingerBoard::paint() {
     painter.setFont(strFont);
     painter.setBrush(QBrush(Qt::NoBrush));
     for (int i = 0; i < 6; i++) {
-//     drawing main strings
-        QLinearGradient strGrad(1.0, m_fbRect.y() + m_strGap / 2 + i * m_strGap - m_strWidth[i] / 2,
-                         1.0, m_fbRect.y() + m_strGap / 2 + i * m_strGap + m_strWidth[i] / 2);
-        strGrad.setColorAt(0.0, m_strColors[i]);
-        strGrad.setColorAt(0.5, m_strColors[i].darker());
-        painter.setPen(QPen(QBrush(strGrad), m_strWidth[i], Qt::SolidLine));
-        painter.drawLine(1, m_fbRect.y() + m_strGap / 2 + i * m_strGap,
-                         width() - 1 - m_strGap, m_fbRect.y() + m_strGap / 2 + i * m_strGap);
-				if (i < gl->Gtune()->stringNr()) {
-						m_workStrings[i]->setPen(QPen(gl->GfingerColor, m_strWidth[i] + 2, Qt::SolidLine));
-						m_workStrings[i]->setLine(1, m_fbRect.y() + m_strGap / 2 + i * m_strGap, width() - 1 - m_strGap,
-                                  m_fbRect.y() + m_strGap / 2 + i * m_strGap);
-						m_strings[i]->setPen(QPen(gl->GselectedColor, m_strWidth[i], Qt::SolidLine));
-						m_strings[i]->setLine(m_workStrings[i]->line());
-						m_strings[i]->show();
-  // drawing digits of strings in circles
-						painter.setPen(QPen(m_strColors[i], 1, Qt::SolidLine));
-// 						painter.setBrush(QBrush(QColor(100, 100, 100, 200)));
-						painter.setBrush(QBrush(QColor(0, 0, 0, 180)));
-						int circleX;
-						if (!gl->GisRightHanded) {
+//  drawing main strings
+			qreal lineYpos = m_fbRect.y() + m_strGap / 2 + i * m_strGap;
+			QLinearGradient strGrad(1.0, lineYpos - m_strWidth[i] / 2, 1.0, lineYpos + m_strWidth[i] / 2);
+			strGrad.setColorAt(0.0, m_strColors[i]);
+			strGrad.setColorAt(0.5, m_strColors[i].darker());
+			painter.setPen(QPen(QBrush(strGrad), m_strWidth[i], Qt::SolidLine));
+			painter.drawLine(1, lineYpos, width() - 1 - m_strGap, lineYpos);
+			if (i < gl->Gtune()->stringNr()) {
+					m_workStrings[i]->setPen(QPen(gl->GfingerColor, m_strWidth[i] + 2, Qt::SolidLine));
+					m_workStrings[i]->setLine(1, lineYpos, width() - 1 - m_strGap, lineYpos);
+					m_strings[i]->setPen(QPen(gl->GselectedColor, m_strWidth[i], Qt::SolidLine));
+					m_strings[i]->setLine(m_workStrings[i]->line());
+					m_strings[i]->show();
+// drawing digits of strings in circles
+					painter.setPen(QPen(m_strColors[i], 1, Qt::SolidLine));
+					painter.setBrush(QBrush(QColor(0, 0, 0, 180)));
+					int circleX;
+					if (!gl->GisRightHanded) {
+							painter.scale (-1, 1);
+							painter.translate(-width(), 0);
+							circleX = 1;
+					} else
+							circleX = width() - 1 - m_strGap;
+					painter.drawEllipse(circleX, m_fbRect.y() + i * m_strGap, m_strGap - 1, m_strGap - 1);
+					painter.setPen(QPen(Qt::green,1,Qt::SolidLine));// in green color
+					if (gl->GisRightHanded)
+							painter.drawText(width() - ((int)qreal(m_strGap * 0.75)),
+															m_fbRect.y() + (int)qreal(m_strGap * (0.75 + i)), QString::number(i + 1));
+						else {
+								painter.drawText((int)qreal(m_strGap * 0.28),
+																m_fbRect.y()+(int)qreal(m_strGap * (0.75 + i)), QString::number(i + 1));
+								painter.translate(width(), 0);
 								painter.scale (-1, 1);
-								painter.translate(-width(), 0);
-								circleX = 1;
-						} else
-								circleX = width() - 1 - m_strGap;
-						painter.drawEllipse(circleX, m_fbRect.y() + i * m_strGap, m_strGap - 1, m_strGap - 1);
-						painter.setPen(QPen(Qt::green,1,Qt::SolidLine));// in green color
-						if (gl->GisRightHanded)
-								painter.drawText(width() - ((int)qreal(m_strGap * 0.75)),
-																m_fbRect.y() + (int)qreal(m_strGap * (0.75 + i)), QString::number(i + 1));
-							else {
-									painter.drawText((int)qreal(m_strGap * 0.28),
-																	m_fbRect.y()+(int)qreal(m_strGap * (0.75 + i)), QString::number(i + 1));
-									painter.translate(width(), 0);
-									painter.scale (-1, 1);
-							}
-			// shadow of the strings
-							painter.setPen(QPen(QColor(0, 0, 0, 150), m_strWidth[i], Qt::SolidLine)); // on the fingerboard
+						}
+		// shadow of the strings
+						painter.setPen(QPen(QColor(0, 0, 0, 150), m_strWidth[i], Qt::SolidLine)); // on the fingerboard
 // 							int yy = m_fbRect.y() + m_strGap / 2 + (i - 1) * m_strGap - 3 - m_strWidth[i];
-							int yy = m_fbRect.y() + m_strGap / 2 + i * m_strGap + m_strWidth[i] * 1.3;
-							painter.drawLine(m_fbRect.x() + 3, yy, m_fbRect.x() + m_fbRect.width() - 1, yy);
-							painter.setPen(QPen(Qt::black, 1, Qt::SolidLine)); //on upper bridge
-							painter.drawLine(m_fbRect.x() - 8, m_fbRect.y() + m_strGap / 2 + i * m_strGap - 2,
-															m_fbRect.x(), m_fbRect.y() + m_strGap / 2 + i * m_strGap - 2);
-							painter.drawLine(m_fbRect.x() - 8, m_fbRect.y() + m_strGap / 2 + i * m_strGap + m_strWidth[i] - 1,
-															m_fbRect.x() - 1, m_fbRect.y() + m_strGap / 2 + i * m_strGap + m_strWidth[i] - 1);
+						int yy = lineYpos + m_strWidth[i] * 1.3;
+						painter.drawLine(m_fbRect.x() + 3, yy, m_fbRect.x() + m_fbRect.width() - 1, yy);
+						painter.setPen(QPen(Qt::black, 1, Qt::SolidLine)); //on upper bridge
+						painter.drawLine(m_fbRect.x() - 8, lineYpos - 2,
+														m_fbRect.x(), lineYpos - 2);
+						painter.drawLine(m_fbRect.x() - 8, lineYpos + m_strWidth[i] - 1,
+														m_fbRect.x() - 1, lineYpos + m_strWidth[i] - 1);
 
-				} else { // hide rest lines (strings)
-						m_workStrings[i]->hide();
-						m_strings[i]->hide();
-				}
+			} else { // hide rest lines (strings)
+					m_workStrings[i]->hide();
+					m_strings[i]->hide();
+			}
 		}
     m_workFinger->setRect(0, 0, m_fretWidth / 1.6, qRound(0.7 * m_strGap));
     for (int i = 0; i < 6; i++) {
@@ -676,8 +680,8 @@ void TfingerBoard::mousePressEvent(QMouseEvent *event) {
 //################################################################################################
 
 void TfingerBoard::paintFinger(QGraphicsEllipseItem *f, char strNr, char fretNr) {
-    f->setPos(m_fretsPos[fretNr-1] - qRound(m_fretWidth/1.5),
-              m_fbRect.y() + m_strGap*strNr + m_strGap/5);
+    f->setPos(m_fretsPos[fretNr-1] - qRound(m_fretWidth / 1.5),
+              m_fbRect.y() + m_strGap * strNr + m_strGap / 5);
 }
 
 void TfingerBoard::paintQuestMark() {
@@ -762,10 +766,10 @@ void TfingerBoard::resizeRangeBox() {
 
 void TfingerBoard::paintFingerAtPoint(QPoint p) {
     int strNr = 7, fretNr = 99;
-    if ( (p.y() >= m_fbRect.y()) && (p.y() <= (height()-m_fbRect.y()-4)) ) {
+    if ( (p.y() >= m_fbRect.y()) && (p.y() <= (height() - m_fbRect.y() - 4)) ) {
         int tx, ty = p.y();
         tx = mapToScene(p.x(), p.y()).x();
-        strNr = (ty-m_fbRect.y())/m_strGap;
+        strNr = (ty - m_fbRect.y()) / m_strGap;
         if (tx < m_fbRect.x() || tx > lastFret /*or some mouse button*/ )
             fretNr = 0;
         else {
@@ -800,31 +804,66 @@ void TfingerBoard::deleteBeyondTip() {
 		m_beyondTip = 0;
 }
 
-
+//################################################################################################
+//################### CORRECTING ANSWERS  ANIMATIONS    #########################################
+//################################################################################################
 void TfingerBoard::strikeBlinkingFinished() {
 		m_strikeOut->deleteLater();
 		m_strikeOut = 0;
 		markAnswer(Qt::transparent);
-		QGraphicsItem *item;
-		if (m_curFret) {
-			item = (QGraphicsItem*)m_fingers[gl->strOrder(m_curStr)];			
-    } else if (m_curStr != 7) {
-				item = (QGraphicsItem*)m_strings[gl->strOrder(m_curStr)];
+		bool isLine = false;
+		if (m_fingerPos.fret() || m_goodPos.fret()) { // move ellipse
+				QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem();
+				ellipse->setRect(m_fingers[m_fingerPos.str() - 1]->boundingRect());
+				ellipse->setPen(Qt::NoPen);
+				ellipse->setBrush(gl->GselectedColor);
+				ellipse->setPos(m_fingers[m_fingerPos.str() - 1]->pos());
+				m_scene->addItem(ellipse);
+				m_movingItem = (QGraphicsItem*)ellipse;	
+				m_fingers[m_fingerPos.str() - 1]->hide();
+    } else if (m_fingerPos.str() != 7) { // moving line only when both are open strings
+				QGraphicsLineItem *line = new QGraphicsLineItem();
+				line->setLine(m_strings[m_fingerPos.str() - 1]->line());
+				line->setPen(QPen(gl->GselectedColor, m_strWidth[m_fingerPos.str() - 1]));
+				m_scene->addItem(line);
+				m_movingItem = (QGraphicsItem*)line;
+				m_strings[m_fingerPos.str() - 1]->hide();
+				isLine = true;
 		} else 
 				return;
-		m_animation = new TanimedItem(m_fingers[gl->strOrder(m_curStr)], this);
+		m_animation = new TanimedItem(m_movingItem, this);
 		m_animation->setDuration(300);
+		m_animation->setEasingCurveType(QEasingCurve::OutExpo);
+		QPointF startPos, endPos;
+		if (isLine) {
+				startPos = m_strings[m_fingerPos.str() - 1]->line().p1();
+				endPos = m_strings[m_goodPos.str() - 1]->line().p1();;
+		} else {
+				if (m_fingerPos.fret()) // start position the same as ellipse
+					startPos = m_movingItem->pos();
+				else // start position over guitar hole
+					startPos = QPointF(m_fbRect.width() + m_strGap * 3, m_strings[m_fingerPos.str() - 1]->line().p1().y());
+				if (m_goodPos.fret()) // end position over fretboard
+					endPos = QPointF(m_fretsPos[m_goodPos.fret() - 1] - qRound(m_fretWidth / 1.5),
+									m_fbRect.y() + m_strGap * (m_goodPos.str() - 1) + m_strGap / 5);
+				else // end position over guitar hole
+					endPos = QPointF(m_fbRect.width() + m_strGap * 3, m_strings[m_goodPos.str() - 1]->line().p1().y());
+		}
+		
 		connect(m_animation, SIGNAL(finished()), this, SLOT(finishCorrection()));
-		m_animation->startMoving(item->pos(), QPointF(m_fretsPos[m_goodPos.fret() - 1] - qRound(m_fretWidth / 1.5),
-              m_fbRect.y() + m_strGap * (m_goodPos.str() - 1) + m_strGap / 5));
+		m_animation->startMoving(startPos, endPos);
 }
 
 
 void TfingerBoard::finishCorrection() {
 		m_animation->deleteLater();
 		m_animation = 0;
+		if (m_movingItem) {
+			delete m_movingItem;
+			m_movingItem = 0;
+		}
 		setFinger(m_goodPos);
-		markAnswer(QColor(gl->EanswerColor.name()));
+		markAnswer(QColor(gl->EanswerColor.lighter().name()));
 }
 
 

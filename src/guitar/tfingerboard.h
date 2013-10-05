@@ -128,6 +128,7 @@ private:
 		TfingerPos m_goodPos;
 		TgraphicsStrikeItem *m_strikeOut;
 		TanimedItem *m_animation;
+		QGraphicsItem *m_movingItem; // string line during animation
 
 private:
     void paintFinger(QGraphicsEllipseItem *f, char strNr, char fretNr);

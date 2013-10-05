@@ -273,7 +273,10 @@ void TmainScore::setNoteViewBg(int id, QColor C) {
 
 void TmainScore::correctNote(Tnote& goodNote, const QColor &color) {
 		m_goodNote = goodNote;
-		m_strikeOut = new TgraphicsStrikeItem(staff()->noteSegment(0)->mainNote());
+		if (staff()->noteSegment(0)->mainNote()->isVisible())
+				m_strikeOut = new TgraphicsStrikeItem(staff()->noteSegment(0)->mainNote());
+		else
+				m_strikeOut = new TgraphicsStrikeItem(staff()->noteSegment(0));
 		QPen pp(QColor(color.name()), 0.5);
 		m_strikeOut->setPen(pp);
 		connect(m_strikeOut, SIGNAL(blinkingFinished()), this, SLOT(strikeBlinkingFinished()));

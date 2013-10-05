@@ -24,7 +24,8 @@
 class QPen;
 
 /** This is QGraphicsObject element looks like striking cross over the given rectangle. 
- * Lines of striking are a bit longer than given rectangle size. */
+ * Lines of striking are a bit longer than given rectangle size.
+ * It recognizes a shape of item and strike can be 'X' or '--/---/---/---/---/---' */
 class TgraphicsStrikeItem : public QGraphicsObject
 {
 		Q_OBJECT
@@ -54,9 +55,9 @@ protected slots:
 		void strikeBlinking();
 
 private:
-    QGraphicsLineItem 	*m_line1, *m_line2;
-		QRectF							 m_rectF;
-		int									 m_blinkPhase; // identifies phases of strike blinking animation
+    QList<QGraphicsLineItem*>		 		m_lines;
+		QRectF							 					 	m_rectF;
+		int									 					 	m_blinkPhase; // identifies phases of strike blinking animation
 
 };
 

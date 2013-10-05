@@ -461,7 +461,7 @@ void Tcanvas::setPosOfResultTip() {
 void Tcanvas::setPosOfTryAgainTip() {
   m_tryAgainTip->setPos(m_parent->relatedPoint().x() + (((m_scene->width() - m_parent->relatedPoint().x()) -
                                                        m_scale * m_tryAgainTip->boundingRect().width())) / 2,
-                      m_parent->relatedPoint().y() - m_scale * m_tryAgainTip->boundingRect().height());
+                      m_parent->relatedPoint().y() + m_scale * m_tryAgainTip->boundingRect().height());
 }
 
 
