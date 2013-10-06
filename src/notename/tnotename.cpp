@@ -495,8 +495,7 @@ void TnoteName::octaveWasChanged(int octNr) { // octNr is button nr in the group
 
 
 void TnoteName::correctFadeAnimation() {
-	m_nameLabel->crossFadeText(QString("<span style=\"color: %1; \">%2</span>").arg(gl->EanswerColor.name()).
-			arg(m_goodNote.toRichText(m_style)), gl->EanswerColor, 300);
+	m_nameLabel->crossFadeText(m_goodNote.toRichText(m_style), prepareBgColor(gl->EanswerColor), 300);
 }
 
 

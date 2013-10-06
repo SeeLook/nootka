@@ -16,49 +16,38 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TANIMEDITEM_H
-#define TANIMEDITEM_H
+#ifndef TBLINKINGITEM_H
+#define TBLINKINGITEM_H
 
-#include <QObject>
-#include <QGraphicsItem>
-#include <QEasingCurve>
-
-#define CLIP_TIME (30) // every move per 30 ms
-
-class QTimer;
+#include <QGraphicsObject>
 
 
-/** This class implements moving animation of QGraphicsItem. 
- * Default duration is 150 ms and item is moving every 30 ms. */
-class TanimedItem : public QObject
+/** T*/
+class TblinkingItem : public QObject
 {
-    Q_OBJECT
-
+		Q_OBJECT
+    
 public:
-	explicit TanimedItem(QGraphicsItem* item, QObject* parent = 0);
 	
-	void setDuration(int duration) { m_duration = duration; m_step = m_duration / CLIP_TIME; }
-	
-	void startMoving(const QPointF& start, const QPointF& stop);
-	bool isMoving() { return !(bool)m_currStep; }
-	
-	void setEasingCurveType(QEasingCurve::Type type) { m_easingCurve.setType(type); }
-	
+		explicit TblinkingItem(QGraphicsItem *item, QObject* parent = 0);
+		
+		
 signals:
-	void finished();
-	
+		void blinkingFinished();
+		
+public slots:
+				/** Starts blinking animation. */
+		void startBlinking(int count);
+		
+		
 protected slots:
-	void movingSlot();
-	
+		void blinkingSlot();
+
 private:
-	QTimer										*m_timer;
-	QPointF										 m_startPos, m_endPos;
-	QGraphicsItem							*m_item;
-	int												 m_step, m_currStep, m_duration;
-	QGraphicsLineItem 				*m_line;
-	QEasingCurve							 m_easingCurve;
-  
+		QGraphicsItem 	*m_item;
+		int	m_maxCount, m_blinkPhase; // identifies phases of strike blinking animation
+		
 
 };
 
-#endif // TANIMEDITEM_H
+#endif // TBLINKINGITEM_H

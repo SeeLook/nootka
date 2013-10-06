@@ -25,7 +25,8 @@
 #include "ttune.h"
 #include "tglobals.h"
 #include <tgraphicstexttip.h>
-#include <tgraphicsstrikeitem.h>
+#include <animations/tgraphicsstrikeitem.h>
+#include <animations/tblinkingitem.h>
 #include <QPen>
 #include <QLayout>
 #include <QTimer>
@@ -226,16 +227,16 @@ void TmainScore::forceAccidental(Tnote::Eacidentals accid) {
 
 
 void TmainScore::markAnswered(QColor blurColor) {
-		staff()->noteSegment(0)->markNote(blurColor);
+		staff()->noteSegment(0)->markNote(QColor(blurColor.lighter().name()));
 		if (staff()->lower())
-				staff()->lower()->noteSegment(0)->markNote(blurColor);
+				staff()->lower()->noteSegment(0)->markNote(QColor(blurColor.lighter().name()));
 }
 
 
 void TmainScore::markQuestion(QColor blurColor) {
-		staff()->noteSegment(1)->markNote(blurColor);
+		staff()->noteSegment(1)->markNote(QColor(blurColor.name()));
 		if (staff()->lower())
-				staff()->lower()->noteSegment(1)->markNote(blurColor);
+				staff()->lower()->noteSegment(1)->markNote(QColor(blurColor.name()));
 }
 
 
@@ -271,7 +272,7 @@ void TmainScore::setNoteViewBg(int id, QColor C) {
 }
 
 
-void TmainScore::correctNote(Tnote& goodNote, const QColor &color) {
+void TmainScore::correctNote(Tnote& goodNote, const QColor& color) {
 		m_goodNote = goodNote;
 		if (staff()->noteSegment(0)->mainNote()->isVisible())
 				m_strikeOut = new TgraphicsStrikeItem(staff()->noteSegment(0)->mainNote());
@@ -282,6 +283,20 @@ void TmainScore::correctNote(Tnote& goodNote, const QColor &color) {
 		connect(m_strikeOut, SIGNAL(blinkingFinished()), this, SLOT(strikeBlinkingFinished()));
 		m_strikeOut->startBlinking();
 }
+
+TblinkingItem *m_bliking = 0;
+void TmainScore::correctAccidental(Tnote& goodNote) {
+		m_goodNote = goodNote;
+// 		m_strikeOut = new TgraphicsStrikeItem(staff()->noteSegment(0)->mainNote());
+		m_bliking = new TblinkingItem(staff()->noteSegment(0)->mainAccid());
+		QPen pp(QColor(gl->EnotBadColor.name()), 0.5);
+// 		m_strikeOut->setPen(pp);
+		staff()->noteSegment(0)->mainAccid()->setBrush(QBrush(pp.color()));
+		m_bliking->startBlinking(3);
+		connect(m_bliking, SIGNAL(blinkingFinished()), this, SLOT(strikeBlinkingFinished()));
+// 		m_strikeOut->startBlinking();
+}
+
 
 
 void TmainScore::correctKeySignature(TkeySignature newKey)
@@ -328,8 +343,14 @@ void TmainScore::onPianoSwitch() {
 
 
 void TmainScore::strikeBlinkingFinished() {
-	m_strikeOut->deleteLater();
-	m_strikeOut = 0;
+	if (m_strikeOut) {
+		m_strikeOut->deleteLater();
+		m_strikeOut = 0;
+	}
+	if (m_bliking) {
+		delete m_bliking;
+		m_bliking = 0;
+	}
 	staff()->noteSegment(0)->enableAnimation(true, 300);
 	staff()->noteSegment(0)->markNote(-1);
 	if (staff()->lower()) {
@@ -343,10 +364,13 @@ void TmainScore::strikeBlinkingFinished() {
 
 void TmainScore::finishCorrection() {
 	staff()->noteSegment(0)->enableAnimation(false);
+// 	staff()->noteSegment(0)->mainAccid()->setBrush(QBrush(palette().text()));
 	staff()->noteSegment(0)->markNote(QColor(gl->EanswerColor.name()));
 	if (staff()->lower()) {
-			staff()->noteSegment(0)->enableAnimation(false);
+			staff()->lower()->noteSegment(0)->enableAnimation(false);
+// 			staff()->lower()->noteSegment(0)->mainAccid()->setBrush(QBrush(palette().text()));
 			staff()->lower()->noteSegment(0)->markNote(QColor(gl->EanswerColor.name()));
+
 	}
 }
 

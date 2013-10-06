@@ -17,11 +17,11 @@
  ***************************************************************************/
 
 #include "tfingerboard.h"
-#include "tanimeditem.h"
+#include "animations/tanimeditem.h"
 #include "tglobals.h"
 #include "ttune.h"
 #include <tgraphicstexttip.h>
-#include <tgraphicsstrikeitem.h>
+#include <animations/tgraphicsstrikeitem.h>
 #include <QtGui>
 #include <QDebug>
 
@@ -274,7 +274,7 @@ void TfingerBoard::askQuestion(TfingerPos pos) {
             m_questFinger->setRect(0, 0, m_fretWidth / 1.6, qRound(0.7 * m_strGap));
             paintFinger(m_questFinger, pos.str() - 1, pos.fret());
         }
-    } else { // open strring
+    } else { // open string
         if (!m_questString) {
             m_questString = new QGraphicsLineItem();
             m_questString->setPen(QPen(qC, m_strings[pos.str() - 1]->pen().width() + 2, Qt::SolidLine));
@@ -358,7 +358,8 @@ void TfingerBoard::setHighlitedString(char realStrNr) {
   }
   m_hilightedStrNr = realStrNr;
   m_highString->setZValue(40);
-  m_highString->setPen(QPen(QColor(gl->EanswerColor.name()), m_strWidth[realStrNr - 1] + 2));
+  m_highString->setPen(QPen(QColor(gl->EanswerColor.name()), m_strWidth[realStrNr - 1] + 2, Qt::SolidLine));
+	m_highString->setGraphicsEffect(new QGraphicsBlurEffect());
   m_highString->setLine(m_strings[realStrNr-1]->line());
 }
 

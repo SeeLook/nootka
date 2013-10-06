@@ -53,10 +53,10 @@ void TanimedItem::startMoving(const QPointF &start, const QPointF &stop) {
 void TanimedItem::movingSlot() {
 	m_currStep++;
 	if (m_currStep <= m_step) {
-			qreal xx, yy;
-			xx = m_startPos.x() + ((m_endPos.x() - m_startPos.x()) / (qreal)m_step) * m_currStep;
-			yy = m_startPos.y() + ((m_endPos.y() - m_startPos.y()) / (qreal)m_step) * 
-							m_currStep * m_easingCurve.valueForProgress((qreal)m_currStep / (qreal)m_step);
+			qreal xx, yy, easingcurve;
+			easingcurve = m_easingCurve.valueForProgress((qreal)m_currStep / (qreal)m_step);
+			xx = m_startPos.x() + ((m_endPos.x() - m_startPos.x()) / (qreal)m_step) * m_currStep * easingcurve;
+			yy = m_startPos.y() + ((m_endPos.y() - m_startPos.y()) / (qreal)m_step) * m_currStep * easingcurve;
 			if (m_line) {
 				qreal /*xStep,*/ yStep; // line moves only on y axis
 // 				xStep = (m_endPos.x() - m_startPos.x()) / (qreal)m_step;

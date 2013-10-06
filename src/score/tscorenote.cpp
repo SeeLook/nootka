@@ -21,7 +21,8 @@
 #include "tscorescene.h"
 #include "tscorestaff.h"
 #include "tdropshadoweffect.h"
-#include <tanimeditem.h>
+#include <animations/tanimeditem.h>
+#include <animations/tcrossfadetextanim.h>
 #include <QGraphicsEffect>
 #include <QGraphicsSceneHoverEvent>
 #include <QPainter>
@@ -45,10 +46,6 @@ QString TscoreNote::getAccid(int accNr) {
 QFont TscoreNote::getAccidFont() {
   QFont font(QFont("nootka"));
   font.setPixelSize(5);
-//   QFontMetrics fMetr(font);
-//   qreal fact = font.pointSizeF() / fMetr.boundingRect(QChar(0xe11a)).height();
-//   font.setPointSizeF(font.pointSizeF() * fact);
-//   qDebug() << font;
   return font;
 }
 
@@ -66,7 +63,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 //   m_noteNr(100),
   m_ottava(0),
   m_bgColor(-1),
-  m_animation(0)
+  m_noteAnim(0)
 {
   setStaff(staff);
 	setParentItem(staff);
@@ -101,14 +98,15 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_mainNote = createNoteHead();
 	
   m_mainAccid = new QGraphicsSimpleTextItem();
-  registryItem(m_mainAccid);
+	m_mainAccid->setParentItem(m_mainNote);
+	
   
 //   QGraphicsBlurEffect *accidBlur = new QGraphicsBlurEffect;
 //   accidBlur->setBlurRadius(blur->blurRadius());
   m_workAccid = new QGraphicsSimpleTextItem();
   m_workAccid->setBrush(QBrush(m_workColor));
 //   m_workAccid->setGraphicsEffect(accidBlur);
-  registryItem(m_workAccid);
+	m_workAccid->setParentItem(m_workNote);
   m_workAccid->hide();
   
   QFont font(getAccidFont());
@@ -120,10 +118,9 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_workAccid->setScale(m_accidScale);
   m_mainAccid->setScale(m_accidScale);
 	m_accidYoffset = m_workAccid->boundingRect().height() * m_accidScale * 0.34;
+	m_workAccid->setPos(-3.0, -m_accidYoffset);
+	m_mainAccid->setPos(-3.0, -m_accidYoffset);
 	m_workAccid->setText(" ");
-//   m_workAccid->setText(QChar(0xe11a));
-//   m_workAccid->setScale(20.0 / m_workAccid->boundingRect().height());
-//   m_mainAccid->setScale(m_workAccid->scale());
   
   setColor(m_mainColor);
   setPointedColor(m_workColor);
@@ -189,31 +186,33 @@ void TscoreNote::moveNote(int pos) {
         m_mainNote->show();
         m_mainAccid->show();
     }
-		if (m_animation) { // initialize animation
-				m_animation->startMoving(QPointF(3.0, m_mainPosY), QPointF(3.0, pos));
-// 				return;
+		if (m_noteAnim) { // initialize animation
+				m_noteAnim->startMoving(QPointF(3.0, m_mainPosY), QPointF(3.0, pos));
 		} else { // just move a note
 			m_mainNote->setPos(3.0, pos);
 		}
 		m_mainPosY = pos;
-    m_mainAccid->setPos(0.0, pos - m_accidYoffset);
     int noteNr = (56 + staff()->notePosRelatedToClef(pos)) % 7;
-    if (staff()->accidInKeyArray[noteNr]) {
-      if ( m_accidental == 0 ) 
-        m_mainAccid->setText(getAccid(3)); // TODO animation of neutral
+		QString newAccid = getAccid(m_accidental);
+// 		bool accidAnim = false;
+		if (staff()->accidInKeyArray[noteNr]) {
+      if (m_accidental == 0) {
+        newAccid = getAccid(3); // neutral
+// 				accidAnim = true;
+			}
       else {
-        if (staff()->accidInKeyArray[noteNr] == m_accidental)
-          m_mainAccid->setText(getAccid(0)); // TODO animation
-        else
-          m_mainAccid->setText(getAccid(m_accidental));
+        if (staff()->accidInKeyArray[noteNr] == m_accidental) {
+          newAccid = " "; // hide accidental
+// 					accidAnim = true;
+				}
       }
-    } else
-        m_mainAccid->setText(getAccid(m_accidental));
-    
-//     if (!m_mainNote->isVisible()) {
-//         m_mainNote->show();
-//         m_mainAccid->show();
-//     }
+    }
+    if (m_noteAnim) {
+				m_accidAnim->startCrossFading(newAccid);
+    } else {
+				m_mainAccid->setText(newAccid);
+    }
+
     setStringPos();
     for (int i = 0; i < m_mainUpLines.size(); i++) {
       if (pos < m_mainUpLines[i]->line().y1())
@@ -303,13 +302,20 @@ void TscoreNote::setReadOnly(bool ro) {
 
 void TscoreNote::enableAnimation(bool enable, int duration) {
 	if (enable) {
-			if (!m_animation)
-					m_animation = new TanimedItem(m_mainNote, this);
-			m_animation->setDuration(duration);
-			m_animation->setEasingCurveType(QEasingCurve::InExpo);
+			if (!m_noteAnim) {
+					m_noteAnim = new TanimedItem(m_mainNote, this);
+					m_accidAnim = new TcrossFadeTextAnim(m_mainAccid, this);
+			}
+			m_noteAnim->setDuration(duration);
+			m_noteAnim->setEasingCurveType(QEasingCurve::InExpo);
+			m_accidAnim->setDuration(duration);
 	} else {
-			delete m_animation;
-			m_animation = 0;
+			if (m_noteAnim) {
+				delete m_noteAnim;
+				m_noteAnim = 0;
+				delete m_accidAnim;
+				m_accidAnim = 0;
+			}
 	}
 }
 
@@ -355,8 +361,7 @@ void TscoreNote::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 			}
       m_workPosY = event->pos().y();
       m_workNote->setPos(3.0, m_workPosY);
-//       m_workAccid->setPos(0.0, m_workPosY - 2.35);
-      m_workAccid->setPos(0.0, m_workPosY - m_accidYoffset);
+//       m_workAccid->setPos(0.0, m_workPosY - m_accidYoffset);
       if (!m_workNote->isVisible()) {
         m_workNote->show();
         m_workAccid->show();
