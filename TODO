@@ -5,9 +5,11 @@ To Luster
 
 -practice
  TexamHelp - universal texts for exam and exercising
+ piano staff has problems with correcting answers
+ when auto next question is unset answers are not marked
 
-- whatNextTip is not scaled!
-- check does 'string order' work for Tfingerboard
+- canvas tips are not scaled!
+- !!!check does 'string order' work for Tfingerboard!!!
 - fake key name and ? can be too big when key name is short
 - levels are unsaved after loading
 - new exam and level version is necessary, 
