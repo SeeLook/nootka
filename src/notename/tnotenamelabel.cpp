@@ -55,6 +55,7 @@ void TnoteNameLabel::setBackgroundColor(const QColor& color) {
 	m_bgColor = color;
 	m_bgColorText = getBgColorText(color);
 	QLabel::setStyleSheet(borderStyleText() + m_bgColorText + m_styleText);
+	repaint();
 }
 
 
@@ -74,7 +75,7 @@ void TnoteNameLabel::crossFadeText(const QString& newText, const QColor& newBgCo
 		m_fadeDuration = duration;
 		m_fadePhase = 0;
 		m_alphaStepOut = m_bgColor.alpha() / (m_fadeDuration / 60); // 2 x 30ms - half of duration
-		m_alphaStepOut = m_newBgColor.alpha() / (m_fadeDuration / 60); // 2 x 30ms - half of duration
+		m_alphaStepIn = m_newBgColor.alpha() / (m_fadeDuration / 60); // 2 x 30ms - half of duration
 		crossFadeSlot();
 }
 
@@ -88,9 +89,9 @@ void TnoteNameLabel::paintEvent(QPaintEvent* event) {
 		QPainter painter(this);
 		painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 		painter.setPen(QPen(m_color, painter.viewport().height() / 10, Qt::SolidLine, Qt::RoundCap));
-		int gap = painter.viewport().width() / 20;
+		int gap = painter.viewport().width() * 0.4;
 		painter.drawLine(gap, 4, painter.viewport().width() - gap, painter.viewport().height() - 4);
-		painter.drawLine(gap, painter.viewport().height() - 4, painter.viewport().width() - gap / 2, 4);
+		painter.drawLine(gap, painter.viewport().height() - 4, painter.viewport().width() - gap, 4);
 	}
 }
 
@@ -103,14 +104,14 @@ void TnoteNameLabel::strikeBlinkingSlot() {
 		m_currentBlink = 0;
 		emit blinkingFinished();
 	}
-	update();
+	repaint();
 }
 
 
 void TnoteNameLabel::crossFadeSlot() {
-	m_fadePhase += m_fadeDuration / 30; // 30 ms
-	if (m_fadePhase <= m_fadeDuration) {
-		if (m_fadePhase < m_fadeDuration / 2) { // fade out
+	m_fadePhase++;
+	if (m_fadePhase <= (m_fadeDuration / 30)) {
+		if (m_fadePhase < (m_fadeDuration / 60)) { // fade out
 			QColor newC = m_bgColor;
 			newC.setAlpha(m_bgColor.alpha() - m_alphaStepOut);
 			setBackgroundColor(newC);
@@ -120,7 +121,7 @@ void TnoteNameLabel::crossFadeSlot() {
 				m_alphaStepOut = 0;
 			}
 			QColor newC = m_newBgColor;
-			newC.setAlpha((m_fadePhase - (m_fadePhase / 2)) * m_alphaStepIn);
+			newC.setAlpha((m_fadePhase - (m_fadeDuration / 60)) * m_alphaStepIn);
 			setBackgroundColor(newC);
 		}
 		QTimer::singleShot(30, this, SLOT(crossFadeSlot()));

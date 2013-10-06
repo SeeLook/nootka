@@ -21,6 +21,7 @@
 
 #include "tscoreitem.h"
 
+class TcrossFadeTextAnim;
 class TanimedItem;
 class TscoreControl;
 class TscoreScene;
@@ -54,6 +55,7 @@ public:
 		void setNote(int notePos, int accNr);
 				/** Returns bounding rectangle of selected note.  */
 		QGraphicsEllipseItem* mainNote() { return m_mainNote; }
+		QGraphicsSimpleTextItem *mainAccid() { return m_mainAccid; }
     
 				/** Min and Max values of Y coefficient on the staff */
     void setAmbitus(int min, int max){ m_ambitMin = qMax(min, 1); m_ambitMax = qMin(max, (int)m_height - 1); }
@@ -105,7 +107,8 @@ private:
 		QGraphicsSimpleTextItem 			*m_stringText;
     QList<QGraphicsLineItem*>     m_upLines, m_mainUpLines, m_mainDownLines, m_downLines;
     QColor                        m_workColor, m_mainColor;
-		TanimedItem										*m_animation;
+		TanimedItem										*m_noteAnim;
+		TcrossFadeTextAnim 						*m_accidAnim;
     
     int                           m_workPosY, m_mainPosY;
     int                           m_curentAccid, m_accidental;

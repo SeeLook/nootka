@@ -71,6 +71,7 @@ public:
 		void correctNote(Tnote& goodNote, const QColor& color);
 				/** Performs rewinding of current key to @p newKey */
 		void correctKeySignature(TkeySignature newKey);
+		void correctAccidental(Tnote& goodNote);
 		
 signals:
 		void noteChanged(int index, Tnote note);

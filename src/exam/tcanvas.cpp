@@ -21,7 +21,7 @@
 #include "tqaunit.h"
 #include "texam.h"
 #include "tquestiontip.h"
-#include "tanimedtextitem.h"
+#include "animations/tanimedtextitem.h"
 #include "tfinishtip.h"
 #include "tgraphicstexttip.h"
 #include "mainwindow.h"

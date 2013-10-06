@@ -649,10 +649,13 @@ void TexamExecutor::checkAnswer(bool showResults) {
 					markColor = gl->EquestionColor;
         waitTime = 2500; // user has to have time to see his mistake and correct answer
 				if (curQ.answerAs == TQAtype::e_asNote) {
-					Tnote goodNote = curQ.qa.note;
-					if (curQ.questionAs == TQAtype::e_asNote)
-						goodNote = curQ.qa_2.note;
-					mW->score->correctNote(goodNote, markColor);
+						Tnote goodNote = curQ.qa.note;
+						if (curQ.questionAs == TQAtype::e_asNote)
+							goodNote = curQ.qa_2.note;
+						if (curQ.wrongNote() || curQ.wrongOctave())
+							mW->score->correctNote(goodNote, markColor);
+						else if (curQ.wrongAccid())
+							mW->score->correctAccidental(goodNote);
 				} else if (curQ.answerAs == TQAtype::e_asFretPos) {
 					TfingerPos goodPos = curQ.qa.pos;
 					if (curQ.questionAs == TQAtype::e_asFretPos)

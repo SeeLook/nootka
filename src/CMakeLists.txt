@@ -41,7 +41,6 @@ SET( NOOTKA_SRCS
 ###### guitar
 	guitar/tfingerboard.cpp
 	guitar/tfingerpos.cpp
-	guitar/tanimeditem.cpp
 ###### notename
 	notename/tnotename.cpp
 	notename/tnamestylefilter.cpp
@@ -135,11 +134,9 @@ SET( NOOTKA_SRCS
   exam/texecutorsupply.cpp
   exam/tquestiontip.cpp
   exam/tcanvas.cpp
-  exam/tanimedtextitem.cpp
   exam/tprogresswidget.cpp
   exam/tgroupedqaunit.cpp
   exam/tfinishtip.cpp
-  exam/tgraphicsstrikeitem.cpp
   exam/tglobalexamstore.cpp
   exam/texercises.cpp
 ###### Info
@@ -173,6 +170,12 @@ SET( NOOTKA_SRCS
   charts/tdropshadoweffect.cpp
   charts/tstatisticstip.cpp
   charts/ttiphandler.cpp
+###### Animations
+	animations/tgraphicsstrikeitem.cpp
+	animations/tanimedtextitem.cpp
+	animations/tcrossfadetextanim.cpp
+	animations/tanimeditem.cpp
+	animations/tblinkingitem.cpp
   )
   
 # if(MINGW)
@@ -214,7 +217,6 @@ SET( NOOTKA_MOC_SRCS
   score/tscorecontrol.h
 ###### guitar
 	guitar/tfingerboard.h	
-	guitar/tanimeditem.h
 ###### notename
 	notename/tnotename.h
 	notename/tnotenamelabel.h
@@ -251,9 +253,7 @@ SET( NOOTKA_MOC_SRCS
   exam/tcanvas.h
   exam/tprogresswidget.h
   exam/tquestiontip.h
-  exam/tanimedtextitem.h
   exam/tfinishtip.h
-  exam/tgraphicsstrikeitem.h
 ###### Info
   info/taboutnootka.h
   info/tfirstrunwizzard.h
@@ -266,6 +266,12 @@ SET( NOOTKA_MOC_SRCS
   charts/tchart.h
   charts/tmainchart.h
   charts/ttiphandler.h
+###### Animations
+	animations/tgraphicsstrikeitem.h
+	animations/tanimedtextitem.h
+	animations/tanimeditem.h
+	animations/tcrossfadetextanim.h
+	animations/tblinkingitem.h
 )
   
 
