@@ -21,6 +21,7 @@
 
 #include "tsimplescore.h"
 
+class TblinkingItem;
 class TgraphicsStrikeItem;
 class QGraphicsRectItem;
 class QGraphicsTextItem;
@@ -28,8 +29,8 @@ class QGraphicsSimpleTextItem;
 
 /** 
  * This is a main score of Nootka.
- * In "normal" mode it menages enharmonics, double accidentals and so on
- * In exam mode it responses for locking/unlocking, backrounds, question marks.
+ * In "normal" mode it menages enharmonic, double accidentals and so on
+ * In exam mode it responses for locking/unlocking, backgrounds, question marks.
  */
 class TmainScore : public TsimpleScore
 {
@@ -51,7 +52,7 @@ public:
         * and invokes askQuestion in TkeySignatureView */
     void prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName);
         /** Connects or disconnects reactions for clicking a note
-        * and showing enharmonics notes depends on is exam executing (disconnect)
+        * and showing enharmonic notes depends on is exam executing (disconnect)
         * or not (connect).*/
     void isExamExecuting(bool isIt);
         /** Internally it calls setScoreDisabled(false) to unlock
@@ -75,7 +76,7 @@ public:
 		
 signals:
 		void noteChanged(int index, Tnote note);
-        /** This signal is emited during an exam when expert answers are used. */
+        /** This signal is emitted during an exam when expert answers are used. */
     void noteClicked();
 		
 public slots:
@@ -84,10 +85,10 @@ public slots:
 
 		
 protected slots:
-				/** Refresh some things after switch 
-				 * scordature, notes state and color. */
+				/** Refresh some things after switch scordature, notes state and color. */
 		void onPianoSwitch();
 		void strikeBlinkingFinished();
+		void keyStrikingFinished();
 		void finishCorrection();
 		
 private:
@@ -102,7 +103,9 @@ private:
 		QGraphicsTextItem 					*m_questKey;
 		QList<QGraphicsRectItem*> 	 m_bgRects; // list of rects with hightlights
 		TgraphicsStrikeItem 				*m_strikeOut;
+		TblinkingItem 							*m_bliking;
 		Tnote												 m_goodNote;
+		TkeySignature								 m_goodKey;
 };
 
 #endif // TMAINSCORE_H

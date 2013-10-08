@@ -39,7 +39,8 @@ TmainScore::TmainScore(QWidget* parent) :
 	TsimpleScore(3, parent),
 	m_questMark(0),
 	m_questKey(0),
-	m_strikeOut(0)
+	m_strikeOut(0),
+	m_bliking(0)
 {
 // set prefered clef
 	if (gl->Sclef == Tclef::e_pianoStaff)
@@ -247,9 +248,10 @@ void TmainScore::prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName
 		m_questKey->setHtml(QString("<span style=\"color: %1;\"><span style=\"font-family: nootka;\">?</span><br>").
 					arg(gl->EquestionColor.name()) + expectKeyName + "</span>");
 		TgraphicsTextTip::alignCenter(m_questKey);
-		qreal sc = (staff()->scoreKey()->boundingRect().width() + 5.0) / m_questKey->boundingRect().width();
-		m_questKey->setScale(sc);
-		m_questKey->setPos(-6.0, staff()->upperLinePos() - 3 - m_questKey->boundingRect().height() * sc);
+		TscoreKeySignature::setKeyNameScale(m_questKey);
+// 		m_questKey->setPos(-6.0, staff()->upperLinePos() - 3 - m_questKey->boundingRect().height() * m_questKey->scale());
+		m_questKey->setPos((staff()->scoreKey()->boundingRect().width() - m_questKey->boundingRect().width() * m_questKey->scale()) / 2 - 2.5,
+						staff()->upperLinePos() - 3 - m_questKey->boundingRect().height() * m_questKey->scale());
 		setKeyViewBg(gl->EanswerColor);
 }
 
@@ -284,24 +286,29 @@ void TmainScore::correctNote(Tnote& goodNote, const QColor& color) {
 		m_strikeOut->startBlinking();
 }
 
-TblinkingItem *m_bliking = 0;
+
 void TmainScore::correctAccidental(Tnote& goodNote) {
 		m_goodNote = goodNote;
-// 		m_strikeOut = new TgraphicsStrikeItem(staff()->noteSegment(0)->mainNote());
 		m_bliking = new TblinkingItem(staff()->noteSegment(0)->mainAccid());
 		QPen pp(QColor(gl->EnotBadColor.name()), 0.5);
-// 		m_strikeOut->setPen(pp);
 		staff()->noteSegment(0)->mainAccid()->setBrush(QBrush(pp.color()));
 		m_bliking->startBlinking(3);
 		connect(m_bliking, SIGNAL(blinkingFinished()), this, SLOT(strikeBlinkingFinished()));
-// 		m_strikeOut->startBlinking();
 }
 
 
-
-void TmainScore::correctKeySignature(TkeySignature newKey)
-{
-
+// QGraphicsItemGroup *m_keyAccidsGr = 0; // group of key accidentals to blinking
+TgraphicsStrikeItem *m_keyStrikeOut = 0;
+void TmainScore::correctKeySignature(TkeySignature newKey) {
+		if (staff()->scoreKey())
+				m_keyStrikeOut = new TgraphicsStrikeItem(staff()->scoreKey());
+		else
+				return;
+		m_goodKey = newKey;
+		QPen pp(QColor(gl->EnotBadColor), 1.0);
+		m_keyStrikeOut->setPen(pp);
+		connect(m_keyStrikeOut, SIGNAL(blinkingFinished()), this, SLOT(keyStrikingFinished()));
+		m_keyStrikeOut->startBlinking();
 }
 
 //####################################################################################################
@@ -359,6 +366,18 @@ void TmainScore::strikeBlinkingFinished() {
 	}
 	setNote(0, m_goodNote);
 	QTimer::singleShot(320, this, SLOT(finishCorrection()));	
+}
+
+
+void TmainScore::keyStrikingFinished() {
+	setKeySignature(m_goodKey);
+	if (m_questKey) {
+		m_questKey->setHtml(m_questKey->toHtml().replace("?", "!").replace(gl->EquestionColor.name(), gl->EanswerColor.name()));
+	}
+	if (m_keyStrikeOut) {
+		delete m_keyStrikeOut;
+		m_keyStrikeOut = 0;
+	}
 }
 
 

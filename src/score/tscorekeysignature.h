@@ -53,6 +53,9 @@ public:
 		
 				/** It sets background of the note segment. When sets to -1 means transparent - no background. */
 		void setBackgroundColor(QColor bg) { m_bgColor = bg; update(); }
+		
+				/** Static method that calculates scale factor of key signature name appropriate for available space above clef. */
+		static void setKeyNameScale(QGraphicsTextItem *keyNameItem);
   
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     virtual QRectF boundingRect() const;
