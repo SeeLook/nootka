@@ -188,15 +188,19 @@ void TscoreKeySignature::updateKeyName() {
 	if (m_keyNameText) {
 			m_keyNameText->setHtml(TkeySignature::getMajorName(m_keySignature) + "<br>" +
 															TkeySignature::getMinorName(m_keySignature));
-			qreal factor = (KEY_WIDTH + 5.0) / (m_keyNameText->boundingRect().width());
-			if (m_keyNameText->boundingRect().height() * factor > 8.0)
-					factor = (8.0 / m_keyNameText->boundingRect().height());
-			/** 8.0 is a measure of height - about 4 staff lines. */
-			m_keyNameText->setScale(factor);
-			m_keyNameText->setPos((boundingRect().width() - m_keyNameText->boundingRect().width() * factor) / 2 - 2.5,
-						staff()->upperLinePos() - 3 - m_keyNameText->boundingRect().height() * factor);
+			setKeyNameScale(m_keyNameText);
+			m_keyNameText->setPos((boundingRect().width() - m_keyNameText->boundingRect().width() * m_keyNameText->scale()) / 2 - 2.5,
+						staff()->upperLinePos() - 3 - m_keyNameText->boundingRect().height() * m_keyNameText->scale());
 			}
 }
 
+
+/*static*/
+void TscoreKeySignature::setKeyNameScale(QGraphicsTextItem* keyNameItem) {
+		qreal factor = (KEY_WIDTH + 5.0) / (keyNameItem->boundingRect().width());
+		if (keyNameItem->boundingRect().height() * factor > 8.0) // 8.0 is a measure of height - about 4 staff lines.
+				factor = (8.0 / keyNameItem->boundingRect().height());
+		keyNameItem->setScale(factor);
+}
 
 

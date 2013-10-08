@@ -608,6 +608,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
         int mesgTime = 0;
       if (gl->E->autoNextQuest)
           mesgTime = 2000; // show temporary message
+      if (m_practice)
+					mesgTime = 2500;
       m_canvas->resultTip(&curQ, mesgTime);
       if (gl->hintsEnabled && !gl->E->autoNextQuest) {
 				if (m_practice)
@@ -652,10 +654,12 @@ void TexamExecutor::checkAnswer(bool showResults) {
 						Tnote goodNote = curQ.qa.note;
 						if (curQ.questionAs == TQAtype::e_asNote)
 							goodNote = curQ.qa_2.note;
-						if (curQ.wrongNote() || curQ.wrongOctave())
-							mW->score->correctNote(goodNote, markColor);
-						else if (curQ.wrongAccid())
-							mW->score->correctAccidental(goodNote);
+						if (curQ.wrongAccid()) // it corrects wrong octave as well
+								mW->score->correctAccidental(goodNote);
+						else if (curQ.wrongNote() || curQ.wrongOctave())
+								mW->score->correctNote(goodNote, markColor);
+						if (curQ.wrongKey())
+								mW->score->correctKeySignature(curQ.key);
 				} else if (curQ.answerAs == TQAtype::e_asFretPos) {
 					TfingerPos goodPos = curQ.qa.pos;
 					if (curQ.questionAs == TQAtype::e_asFretPos)
