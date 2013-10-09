@@ -94,30 +94,30 @@ void TnoteNameLabel::showQuestionMark(const QColor& color) {
 	m_questMark->setBrush(color);
 	m_questMark->setScale(height() / m_questMark->boundingRect().height());
 	m_questMark->setPos(m_textItem->boundingRect().width() * m_textItem->scale() + 10.0, 
-											(height() - m_questMark->boundingRect().height() * m_questMark->scale()) / 2 + 2.0);
+											(height() - m_questMark->boundingRect().height() * m_questMark->scale()) / 2 + height() / 10.0);
 }
 
 
 void TnoteNameLabel::showStringNumber(int strNr, const QColor &color) {
 	if (m_stringNumber)
 		return;
-	m_stringNumber = new QGraphicsSimpleTextItem(QString(strNr), m_textItem, scene());
+	m_stringNumber = new QGraphicsSimpleTextItem(QString("%1").arg(strNr), m_textItem, scene());
 	m_stringNumber->setFont(QFont("nootka"));
 	m_stringNumber->setBrush(color);
-	m_stringNumber->setScale((height() / 2) / m_stringNumber->boundingRect().height());
+	m_stringNumber->setScale(((height()) / m_stringNumber->boundingRect().height()) * 0.9) ;
 	qreal off = 10.0;
 	if (m_questMark)
 		off = m_questMark->boundingRect().width() * m_questMark->scale() + 3.0;
 	m_stringNumber->setPos((m_textItem->boundingRect().width() + off) * m_textItem->scale() + 10.0, 
-											(height() / 2 - m_stringNumber->boundingRect().height() * m_stringNumber->scale()) / 2);
+											(height() - m_stringNumber->boundingRect().height() * m_stringNumber->scale()) / 2 + height() / 10.0);
 }
 
 
 void TnoteNameLabel::markText(const QColor& color) {
 	QGraphicsDropShadowEffect *blur = new QGraphicsDropShadowEffect;
 	blur->setColor(color);
-	blur->setOffset(0.0, 0.0);
-	blur->setBlurRadius(2.0);
+	blur->setOffset(0.5, 0.5);
+	blur->setBlurRadius(7.0);
 	m_textItem->setGraphicsEffect(blur);
 }
 
