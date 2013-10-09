@@ -49,9 +49,10 @@ TnoteName::TnoteName(QWidget *parent) :
     QVBoxLayout *mainLay = new QVBoxLayout();
     mainLay->setAlignment(Qt::AlignCenter);
 
-    m_nameLabel = new TnoteNameLabel("<b><span style=\"font-size: 24px; color: green;\">" +
-                           gl->version + "</span></b>",this);
-    m_nameLabel->setAlignment(Qt::AlignCenter);
+		m_nameLabel = new TnoteNameLabel("<b><span style=\"color: green;\">" +
+                           gl->version + "</span></b>", this);
+//     m_nameLabel = new TnoteNameLabel("<b><span style=\"font-size: 24px; color: green;\">" +
+//                            gl->version + "</span></b>",this);
 		connect(m_nameLabel, SIGNAL(blinkingFinished()), this, SLOT(correctFadeAnimation()));
     resize();
 
@@ -264,10 +265,13 @@ void TnoteName::askQuestion(Tnote note, Tnote::EnameStyle questStyle, char strNr
     Tnote::EnameStyle tmpStyle = m_style;
     setStyle(questStyle);
     setNoteName(note);
-    QString sN = "";
-    if (strNr) sN = QString("  %1").arg((int)strNr);
-    m_nameLabel->setText(m_nameLabel->text() +
-                       QString(" <span style=\"color: %1; font-family: nootka;\">?%2</span>").arg(gl->EquestionColor.name()).arg(sN));
+//     QString sN = "";
+//     if (strNr) 
+// 			sN = QString("  %1").arg((int)strNr);
+//     m_nameLabel->setText(m_nameLabel->text() +
+//                        QString(" <span style=\"color: %1; font-family: nootka;\">?%2</span>").arg(gl->EquestionColor.name()).arg(sN));
+		m_nameLabel->showQuestionMark(QColor(gl->EquestionColor.name()));
+		m_nameLabel->showStringNumber(strNr, QColor(gl->EquestionColor.name()));
 		m_nameLabel->setBackgroundColor(prepareBgColor(gl->EquestionColor));
     uncheckAllButtons();
     setStyle(tmpStyle);
@@ -288,17 +292,18 @@ void TnoteName::prepAnswer(Tnote::EnameStyle answStyle) {
 
 
 void TnoteName::forceAccidental(char accid) {
-		if (accid) {
-			QString accTxt = QString(" <sub><i><span style=\"color: %1;\">(%2)</span></i></sub>").arg(gl->GfingerColor.name()).arg(QString::fromStdString(signsAcid[accid + 2]));
-					m_nameLabel->setText(m_nameLabel->text() + accTxt);
-			checkAccidButtons(accid);
-		}
+// 		if (accid) {
+// 			QString accTxt = QString(" <sub><i><span style=\"color: %1;\">(%2)</span></i></sub>").arg(gl->GfingerColor.name()).arg(QString::fromStdString(signsAcid[accid + 2]));
+// 					m_nameLabel->setText(m_nameLabel->text() + accTxt);
+// 			checkAccidButtons(accid);
+// 		}
 }
 
 
 void TnoteName::markNameLabel(QColor markColor) {
 		m_nameLabel->setBackgroundColor(prepareBgColor(markColor));
-		m_nameLabel->setText(QString("<span style=\"color: %1; \">").arg(markColor.name()) + m_nameLabel->text() + "</span>");
+// 		m_nameLabel->setText(QString("<span style=\"color: %1; \">").arg(markColor.name()) + m_nameLabel->text() + "</span>");
+		m_nameLabel->markText(QColor(markColor.name()));
 }
 
 
@@ -352,7 +357,7 @@ void TnoteName::setNameText() {
     if (m_notes[0].note) {
 				QString txt = m_notes[0].toRichText();
         if (m_notes[1].note) {
-            txt = txt + QString("  <span style=\"font-size: %1px; color: %2\">(").arg(m_nameLabel->font().pointSize()-2).arg(gl->enharmNotesColor.name()) + m_notes[1].toRichText();
+            txt = txt + QString("  <span style=\"font-size: %1px; color: %2\">(").arg(m_nameLabel->font().pointSize() - 2).arg(gl->enharmNotesColor.name()) + m_notes[1].toRichText();
             if (m_notes[2].note)
                 txt = txt + "  " + m_notes[2].toRichText();
             txt = txt + ")</span>";

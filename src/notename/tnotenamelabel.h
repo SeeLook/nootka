@@ -20,20 +20,39 @@
 #define TNOTENAMELABEL_H
 
 
-#include <QLabel>
+#include <QGraphicsView>
+#include <QGraphicsTextItem>
 
+
+			/**  Returns style sheet text: 
+			*	background-color: rgba(red, green, blue, alpha);
+			* of given color @p C  */
 QString getBgColorText(const QColor &C);
 
+
+//*****************************************************************************************************************
+class TgraphicsStrikeItem;
 /** */
-class TnoteNameLabel : public QLabel
+class TnoteNameLabel : public QGraphicsView
 {
 	Q_OBJECT
 public:
 	
 	explicit TnoteNameLabel(const QString& text, QWidget* parent = 0);
 	
+			/** Sets a label text. HTML format appreciated. Text is aligned to center. */
+	void setText(const QString &text);
+	QString text() const { return m_textItem->toHtml(); }
+	
+	void setFont(const QFont &font) { m_textItem->setFont(font); }
+	QFont font() const { return m_textItem->font(); }
+	
+	void showQuestionMark(const QColor &color);
+	void showStringNumber(int strNr, const QColor& color);
+	void markText(const QColor &color);
+	
 			/** Starts painting cross over label given @p count times with @p period duration of each. */
-	void blinkCross(const QColor &color, int count = 2, int period = 150);
+	void blinkCross(const QColor& color);
 			/** Fades out background to transparency, sets new text and fades in with new color.*/
 	void crossFadeText(const QString &newText, const QColor &newBgColor, int duration = 150);
 	
@@ -47,17 +66,22 @@ signals:
 	void crossFadeingFinished();
 	
 protected:
-	virtual void paintEvent(QPaintEvent* event);
+	virtual void resizeEvent(QResizeEvent* event);
+	
+			/** Places main text item on the center of a widget. */
+	void center();
 	
 protected slots:
 	void strikeBlinkingSlot();
 	void crossFadeSlot();
 	
 private:
-	int 			m_period, m_count, m_currentBlink;
-	int 			m_fadeDuration, m_fadePhase, m_alphaStepOut, m_alphaStepIn;
-	QColor 		m_color, m_bgColor, m_newBgColor;
-	QString   m_newText, m_bgColorText, m_styleText;
+	int 											m_fadeDuration, m_fadePhase, m_alphaStepOut, m_alphaStepIn;
+	QColor 										m_bgColor, m_newBgColor;
+	QString   								m_newText, m_bgColorText, m_styleText;
+	QGraphicsTextItem					*m_textItem;
+	TgraphicsStrikeItem				*m_strikeOut;
+	QGraphicsSimpleTextItem		*m_questMark, *m_stringNumber;
 	
 };
 

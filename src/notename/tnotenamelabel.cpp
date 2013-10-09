@@ -17,7 +17,10 @@
  ***************************************************************************/
 
 #include "tnotenamelabel.h"
-#include <QPainter>
+#include <animations/tgraphicsstrikeitem.h>
+#include <tgraphicstexttip.h>
+#include <QGraphicsTextItem>
+#include <QGraphicsEffect>
 #include <QTimer>
 
 
@@ -34,19 +37,94 @@ QString TnoteNameLabel::borderStyleText() {
 	return "border: 1px solid palette(Text); border-radius: 10px;";
 }
 
-
+//################################################################################################
+//#################################   PUBLIC     #################################################
+//################################################################################################
 TnoteNameLabel::TnoteNameLabel(const QString& text, QWidget* parent) :
-	QLabel(text, parent),
-	m_currentBlink(0)
+	QGraphicsView(parent),
+	m_strikeOut(0),
+	m_questMark(0),
+	m_stringNumber(0)
 {
+	setMouseTracking(false);
+  setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
+	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  setFrameShape(QFrame::NoFrame);
+	
+	QGraphicsScene *scene = new QGraphicsScene(this);
+	setScene(scene);
+	m_textItem = new QGraphicsTextItem(0, scene);
+	scene->setSceneRect(geometry());
+	setText(text);
+	
+	
 	m_bgColor = palette().base().color();
 	m_bgColor.setAlpha(220);
 	setBackgroundColor(m_bgColor);
 }
 
 
+void TnoteNameLabel::setText(const QString& text) {
+	if (m_questMark) {
+		delete m_questMark;
+		m_questMark = 0;
+	}
+	if (m_stringNumber) {
+		delete m_stringNumber;
+		m_stringNumber = 0;
+	}
+	m_textItem->setGraphicsEffect(0);
+	m_textItem->setHtml(text);
+	center();
+}
+
+
+void TnoteNameLabel::center() {
+	m_textItem->setPos((scene()->width() - m_textItem->boundingRect().width() * m_textItem->scale()) / 2,
+				(scene()->height() - m_textItem->boundingRect().height() * m_textItem->scale()) / 2	);
+}
+
+
+void TnoteNameLabel::showQuestionMark(const QColor& color) {
+	if (m_questMark)
+		return;
+	m_questMark = new QGraphicsSimpleTextItem("?", m_textItem, scene());
+	m_questMark->setFont(QFont("nootka"));
+	m_questMark->setBrush(color);
+	m_questMark->setScale(height() / m_questMark->boundingRect().height());
+	m_questMark->setPos(m_textItem->boundingRect().width() * m_textItem->scale() + 10.0, 
+											(height() - m_questMark->boundingRect().height() * m_questMark->scale()) / 2 + 2.0);
+}
+
+
+void TnoteNameLabel::showStringNumber(int strNr, const QColor &color) {
+	if (m_stringNumber)
+		return;
+	m_stringNumber = new QGraphicsSimpleTextItem(QString(strNr), m_textItem, scene());
+	m_stringNumber->setFont(QFont("nootka"));
+	m_stringNumber->setBrush(color);
+	m_stringNumber->setScale((height() / 2) / m_stringNumber->boundingRect().height());
+	qreal off = 10.0;
+	if (m_questMark)
+		off = m_questMark->boundingRect().width() * m_questMark->scale() + 3.0;
+	m_stringNumber->setPos((m_textItem->boundingRect().width() + off) * m_textItem->scale() + 10.0, 
+											(height() / 2 - m_stringNumber->boundingRect().height() * m_stringNumber->scale()) / 2);
+}
+
+
+void TnoteNameLabel::markText(const QColor& color) {
+	QGraphicsDropShadowEffect *blur = new QGraphicsDropShadowEffect;
+	blur->setColor(color);
+	blur->setOffset(0.0, 0.0);
+	blur->setBlurRadius(2.0);
+	m_textItem->setGraphicsEffect(blur);
+}
+
+
+
 void TnoteNameLabel::setStyleSheet(const QString& style) {
-	QLabel::setStyleSheet(borderStyleText() + m_bgColorText + style);
+	QGraphicsView::setStyleSheet(borderStyleText() + m_bgColorText + style);
 	m_styleText = style;
 }
 
@@ -54,18 +132,16 @@ void TnoteNameLabel::setStyleSheet(const QString& style) {
 void TnoteNameLabel::setBackgroundColor(const QColor& color) {
 	m_bgColor = color;
 	m_bgColorText = getBgColorText(color);
-	QLabel::setStyleSheet(borderStyleText() + m_bgColorText + m_styleText);
+	QGraphicsView::setStyleSheet(borderStyleText() + m_bgColorText + m_styleText);
 	repaint();
 }
 
 
-
-void TnoteNameLabel::blinkCross(const QColor& color, int count, int period) {
-	m_color = color;
-	m_count = count * 2;
-	m_period = period;
-	m_currentBlink = 0;
-	strikeBlinkingSlot();
+void TnoteNameLabel::blinkCross(const QColor& color) {
+	m_strikeOut = new TgraphicsStrikeItem(m_textItem);
+	m_strikeOut->setPen(QPen(color, height() / 30));
+	connect(m_strikeOut, SIGNAL(blinkingFinished()), this, SLOT(strikeBlinkingSlot()));
+	m_strikeOut->startBlinking();
 }
 
 
@@ -83,28 +159,25 @@ void TnoteNameLabel::crossFadeText(const QString& newText, const QColor& newBgCo
 //################################################################################################
 //################################# PROTECTED    #################################################
 //################################################################################################
-void TnoteNameLabel::paintEvent(QPaintEvent* event) {
-	QLabel::paintEvent(event);
-	if (m_currentBlink % 2) {
-		QPainter painter(this);
-		painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
-		painter.setPen(QPen(m_color, painter.viewport().height() / 10, Qt::SolidLine, Qt::RoundCap));
-		int gap = painter.viewport().width() * 0.4;
-		painter.drawLine(gap, 4, painter.viewport().width() - gap, painter.viewport().height() - 4);
-		painter.drawLine(gap, painter.viewport().height() - 4, painter.viewport().width() - gap, 4);
-	}
+void TnoteNameLabel::resizeEvent(QResizeEvent* event) {
+	scene()->setSceneRect(geometry());
+// 	m_textItem->setScale((height() * 0.95) / (m_textItem->boundingRect().height() * m_textItem->scale()));
+	QFontMetricsF fm(m_textItem->font());
+	m_textItem->setScale((height() * 0.85) / (fm.boundingRect("A").height()));
+	if (m_questMark)
+		m_questMark->setScale(height() / m_questMark->boundingRect().height());
+	center();
 }
 
 
+
 void TnoteNameLabel::strikeBlinkingSlot() {
-	m_currentBlink++;
-	if (m_currentBlink <= m_count) {
-		QTimer::singleShot(m_period, this, SLOT(strikeBlinkingSlot()));
-	} else {
-		m_currentBlink = 0;
-		emit blinkingFinished();
+	if (m_strikeOut) {
+		m_strikeOut->deleteLater();
+		m_strikeOut = 0;
 	}
-	repaint();
+	emit blinkingFinished();
+	
 }
 
 
@@ -130,6 +203,7 @@ void TnoteNameLabel::crossFadeSlot() {
 		emit crossFadeingFinished();
 	}
 }
+
 
 
 
