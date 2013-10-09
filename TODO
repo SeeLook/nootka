@@ -3,11 +3,11 @@ Plan for the Nootka One
 -practice
  TexamHelp - universal texts for exam and exercising
  piano staff has problems with correcting answers
- when auto next question is unset 
-			answers are not marked 
-			stop button is locked
+ distinguish when key is wrong and do not mark note in this case  
+			
+			 
  
-
+- re-sizing cases changing an instrument (do it at start and restore without necessity of re-sizing)
 - canvas tips are not scaled!
 - !!!check does 'string order' work for Tfingerboard!!!
 - fake key name and ? can be too big when key name is short

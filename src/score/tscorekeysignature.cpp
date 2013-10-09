@@ -24,7 +24,16 @@
 #include <QGraphicsView>
 #include <QGraphicsSceneHoverEvent>
 #include <QApplication>
-#include <QDebug>
+
+
+/*static*/
+void TscoreKeySignature::setKeyNameScale(QGraphicsTextItem* keyNameItem) {
+		qreal factor = (KEY_WIDTH + 5.0) / (keyNameItem->boundingRect().width());
+		if (keyNameItem->boundingRect().height() * factor > 8.0) // 8.0 is a measure of height - about 4 staff lines.
+				factor = (8.0 / keyNameItem->boundingRect().height());
+		keyNameItem->setScale(factor);
+}
+
 
 char TscoreKeySignature::m_posOfAccid[7] = {
     0, // Fes & Fis (F#)
@@ -195,12 +204,5 @@ void TscoreKeySignature::updateKeyName() {
 }
 
 
-/*static*/
-void TscoreKeySignature::setKeyNameScale(QGraphicsTextItem* keyNameItem) {
-		qreal factor = (KEY_WIDTH + 5.0) / (keyNameItem->boundingRect().width());
-		if (keyNameItem->boundingRect().height() * factor > 8.0) // 8.0 is a measure of height - about 4 staff lines.
-				factor = (8.0 / keyNameItem->boundingRect().height());
-		keyNameItem->setScale(factor);
-}
 
 

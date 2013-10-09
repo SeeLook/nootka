@@ -258,7 +258,8 @@ void TexamExecutor::askQuestion() {
     m_lockRightButt = false; // release mouse button events
     clearWidgets();
     if (!gl->E->autoNextQuest) {
-        mW->startExamAct->setDisabled(true);
+			if (!m_practice)
+					mW->startExamAct->setDisabled(true);
         m_canvas->clearCanvas();
     }
     m_isAnswered = false;
@@ -506,7 +507,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
     mW->nootBar->removeAction(checkAct);
     if (curQ.questionAs == TQAtype::e_asSound)
         mW->nootBar->removeAction(repeatSndAct);
-    if (!gl->E->autoNextQuest)
+    if (!gl->E->autoNextQuest || m_practice)
         mW->startExamAct->setDisabled(false);
     m_isAnswered = true;
     disconnect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
@@ -606,10 +607,12 @@ void TexamExecutor::checkAnswer(bool showResults) {
     disableWidgets();
     if (showResults) {
         int mesgTime = 0;
-      if (gl->E->autoNextQuest)
-          mesgTime = 2000; // show temporary message
-      if (m_practice)
+      if (gl->E->autoNextQuest) {
+				if (m_practice) // show temporary message
 					mesgTime = 2500;
+				else
+          mesgTime = 2000;
+			}
       m_canvas->resultTip(&curQ, mesgTime);
       if (gl->hintsEnabled && !gl->E->autoNextQuest) {
 				if (m_practice)
@@ -688,10 +691,10 @@ void TexamExecutor::checkAnswer(bool showResults) {
 					}
 				}
 		}
-    
+    markAnswer(curQ);
     if (showResults && gl->E->autoNextQuest) {
       m_lockRightButt = true; // to avoid nervous users click mouse during WAIT_TIME
-      markAnswer(curQ);
+//       markAnswer(curQ);
       if (m_shouldBeTerminated)
           stopExamSlot();
       else {
@@ -997,7 +1000,8 @@ void TexamExecutor::createActions() {
 
 void TexamExecutor::stopExamSlot() {
 	if (m_practice) {
-		QMessageBox::information(mW, "", "exercise summary");
+			if (showExamSummary(true))
+				return;
 	} else {
     if (!m_isAnswered) {
         m_shouldBeTerminated = true;

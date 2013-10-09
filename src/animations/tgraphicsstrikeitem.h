@@ -34,6 +34,7 @@ class TgraphicsStrikeItem : public QGraphicsObject
 public:
 	
 		TgraphicsStrikeItem(QGraphicsItem *parent);
+		TgraphicsStrikeItem(const QRectF &rect, QGraphicsItem *parent);
 		
 				/** Defines a pen of striking lines. */
 		void setColor(const QColor &color);
@@ -55,9 +56,13 @@ protected slots:
 		void strikeBlinking();
 
 private:
+		void prepareLines(QGraphicsItem *parent);
+		
+private:
     QList<QGraphicsLineItem*>		 		m_lines;
 		QRectF							 					 	m_rectF;
 		int									 					 	m_blinkPhase; // identifies phases of strike blinking animation
+
 
 };
 

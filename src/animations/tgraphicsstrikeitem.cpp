@@ -21,11 +21,24 @@
 #include <QGraphicsScene>
 #include <QTimer>
 
+TgraphicsStrikeItem::TgraphicsStrikeItem(const QRectF& rect, QGraphicsItem* parent) :
+	QGraphicsObject(parent),
+	m_rectF(rect)
+{
+	prepareLines(parent);
+}
+
+
 
 TgraphicsStrikeItem::TgraphicsStrikeItem(QGraphicsItem* parent) :
-	QGraphicsObject(parent)
+	QGraphicsObject(parent),
+	m_rectF(parent->boundingRect())
 {
-		m_rectF = parent->boundingRect();
+	prepareLines(parent);
+}
+
+
+void TgraphicsStrikeItem::prepareLines(QGraphicsItem* parent) {
 		QGraphicsLineItem *fakeLine = new QGraphicsLineItem();
 		if (parent->type() == fakeLine->type()) { // strike of line like -/-/-/-/-/-/-/-/
 			QGraphicsLineItem *parentLine = qgraphicsitem_cast<QGraphicsLineItem*>(parent);

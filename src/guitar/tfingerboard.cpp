@@ -296,13 +296,14 @@ void TfingerBoard::askQuestion(TfingerPos pos) {
 void TfingerBoard::markAnswer(QColor blurColor) {
   if (m_fingerPos.fret() != 39) {
     if (m_fingerPos.fret()) {
-			m_fingers[m_fingerPos.str() - 1]->setPen(QPen(blurColor, 3));
+			m_fingers[m_fingerPos.str() - 1]->setPen(QPen(QColor(blurColor.name()), 3));
 //       m_fingers[gl->strOrder(m_curStr)]->setPen(QPen(blurColor, 3));
-//       m_fingers[gl->strOrder(m_curStr)]->setGraphicsEffect(new QGraphicsBlurEffect());
+      m_fingers[gl->strOrder(m_curStr)]->setGraphicsEffect(new QGraphicsBlurEffect());
     }
     else
       if (m_fingerPos.str() != 7) {
-				m_strings[m_fingerPos.str() - 1]->setPen(QPen(blurColor, 5));
+				m_strings[m_fingerPos.str() - 1]->setPen(QPen(QColor(blurColor.name()), 5));
+// 				QGraphicsLineItem *strHighLight = new QGraphicsLineItem;
 //         m_strings[gl->strOrder(m_curStr)]->setPen(QPen(blurColor, 5));
 //         m_strings[gl->strOrder(m_curStr)]->setGraphicsEffect(new QGraphicsBlurEffect());
       }
