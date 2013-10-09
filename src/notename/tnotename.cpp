@@ -271,7 +271,8 @@ void TnoteName::askQuestion(Tnote note, Tnote::EnameStyle questStyle, char strNr
 //     m_nameLabel->setText(m_nameLabel->text() +
 //                        QString(" <span style=\"color: %1; font-family: nootka;\">?%2</span>").arg(gl->EquestionColor.name()).arg(sN));
 		m_nameLabel->showQuestionMark(QColor(gl->EquestionColor.name()));
-		m_nameLabel->showStringNumber(strNr, QColor(gl->EquestionColor.name()));
+    if (strNr)
+      m_nameLabel->showStringNumber(strNr, QColor(gl->EquestionColor.name()));
 		m_nameLabel->setBackgroundColor(prepareBgColor(gl->EquestionColor));
     uncheckAllButtons();
     setStyle(tmpStyle);
@@ -292,11 +293,11 @@ void TnoteName::prepAnswer(Tnote::EnameStyle answStyle) {
 
 
 void TnoteName::forceAccidental(char accid) {
-// 		if (accid) {
+		if (accid) {
 // 			QString accTxt = QString(" <sub><i><span style=\"color: %1;\">(%2)</span></i></sub>").arg(gl->GfingerColor.name()).arg(QString::fromStdString(signsAcid[accid + 2]));
 // 					m_nameLabel->setText(m_nameLabel->text() + accTxt);
-// 			checkAccidButtons(accid);
-// 		}
+			checkAccidButtons(accid);
+		}
 }
 
 
@@ -500,7 +501,7 @@ void TnoteName::octaveWasChanged(int octNr) { // octNr is button nr in the group
 
 
 void TnoteName::correctFadeAnimation() {
-	m_nameLabel->crossFadeText(m_goodNote.toRichText(m_style), prepareBgColor(gl->EanswerColor), 300);
+// 	m_nameLabel->crossFadeText(m_goodNote.toRichText(m_style), prepareBgColor(gl->EanswerColor), 300);
 }
 
 
