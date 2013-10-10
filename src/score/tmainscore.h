@@ -22,7 +22,7 @@
 #include "tsimplescore.h"
 
 class TblinkingItem;
-class TgraphicsStrikeItem;
+class TstrikedOutItem;
 class QGraphicsRectItem;
 class QGraphicsTextItem;
 class QGraphicsSimpleTextItem;
@@ -102,7 +102,7 @@ private:
 		QGraphicsSimpleTextItem 		*m_questMark;
 		QGraphicsTextItem 					*m_questKey;
 		QList<QGraphicsRectItem*> 	 m_bgRects; // list of rects with hightlights
-		TgraphicsStrikeItem 				*m_strikeOut;
+		TstrikedOutItem 				*m_strikeOut;
 		TblinkingItem 							*m_bliking;
 		Tnote												 m_goodNote;
 		TkeySignature								 m_goodKey;

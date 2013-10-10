@@ -1,5 +1,12 @@
 Plan for the Nootka One
 
+
+Tglobals (TexamParams)
+	
+	int waitAfterCorrection (time duration in ms)
+
+
+
 -practice
  TexamHelp - universal texts for exam and exercising
  piano staff has problems with correcting answers

@@ -21,7 +21,7 @@
 #include "tglobals.h"
 #include "ttune.h"
 #include <tgraphicstexttip.h>
-#include <animations/tgraphicsstrikeitem.h>
+#include <animations/tstrikedoutitem.h>
 #include <QtGui>
 #include <QDebug>
 
@@ -367,7 +367,7 @@ void TfingerBoard::setHighlitedString(char realStrNr) {
   m_highString->setZValue(40);
   m_highString->setPen(QPen(QColor(gl->EanswerColor.name()), m_strWidth[realStrNr - 1] + 2, Qt::SolidLine));
 	m_highString->setGraphicsEffect(new QGraphicsBlurEffect());
-  m_highString->setLine(m_strings[realStrNr-1]->line());
+  m_highString->setLine(m_strings[realStrNr - 1]->line());
 }
 
 
@@ -375,14 +375,14 @@ void TfingerBoard::correctPosition(TfingerPos& pos, const QColor color) {
 	m_goodPos = pos;
 	if (m_fingerPos.fret() != 39) {
     if (m_fingerPos.fret()) {
-				m_strikeOut = new TgraphicsStrikeItem(m_fingers[gl->strOrder(m_fingerPos.str() - 1)]);
+				m_strikeOut = new TstrikedOutItem(m_fingers[gl->strOrder(m_fingerPos.str() - 1)]);
     } else if (m_fingerPos.str() != 7) {
-				m_strikeOut = new TgraphicsStrikeItem(m_strings[gl->strOrder(m_fingerPos.str() - 1)]);
+				m_strikeOut = new TstrikedOutItem(m_strings[gl->strOrder(m_fingerPos.str() - 1)]);
 		} else
 				return;
     QPen pp(QColor(color.name()), m_strWidth[3]);
 		m_strikeOut->setPen(pp);
-		connect(m_strikeOut, SIGNAL(blinkingFinished()), this, SLOT(strikeBlinkingFinished()));
+		connect(m_strikeOut, SIGNAL(strikedFInished()), this, SLOT(strikeBlinkingFinished()));
 		m_strikeOut->startBlinking();
   }
 

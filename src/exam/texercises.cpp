@@ -19,7 +19,7 @@
 #include "texercises.h"
 #include "texam.h"
 
-#include <QDebug>
+// #include <QDebug>
 
 Texercises::Texercises(Texam* exam) :
 	m_exam(exam)
@@ -29,7 +29,7 @@ Texercises::Texercises(Texam* exam) :
 
 void Texercises::checkAnswer() {
 	if (!m_exam->curQ().isCorrect()) {
-		qDebug() << "Show correct answer here";
+		
 	}
 
 }

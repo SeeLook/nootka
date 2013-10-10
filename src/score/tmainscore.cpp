@@ -25,7 +25,7 @@
 #include "ttune.h"
 #include "tglobals.h"
 #include <tgraphicstexttip.h>
-#include <animations/tgraphicsstrikeitem.h>
+#include <animations/tstrikedoutitem.h>
 #include <animations/tblinkingitem.h>
 #include <QPen>
 #include <QLayout>
@@ -277,16 +277,16 @@ void TmainScore::setNoteViewBg(int id, QColor C) {
 void TmainScore::correctNote(Tnote& goodNote, const QColor& color) {
 		m_goodNote = goodNote;
 		if (staff()->noteSegment(0)->mainNote()->isVisible())
-				m_strikeOut = new TgraphicsStrikeItem(staff()->noteSegment(0)->mainNote());
+				m_strikeOut = new TstrikedOutItem(staff()->noteSegment(0)->mainNote());
 		else {
-				m_strikeOut = new TgraphicsStrikeItem(QRectF(0.0, 0.0, 
+				m_strikeOut = new TstrikedOutItem(QRectF(0.0, 0.0, 
 																staff()->noteSegment(0)->boundingRect().width() - 3.0, 8.0), staff()->noteSegment(0));
 				m_strikeOut->setPos((staff()->noteSegment(0)->boundingRect().width() - m_strikeOut->boundingRect().width()) / 2, 
 														(staff()->noteSegment(0)->boundingRect().height() - m_strikeOut->boundingRect().height()) / 2);
 		}
 		QPen pp(QColor(color.name()), 0.5);
 		m_strikeOut->setPen(pp);
-		connect(m_strikeOut, SIGNAL(blinkingFinished()), this, SLOT(strikeBlinkingFinished()));
+		connect(m_strikeOut, SIGNAL(strikedFInished()), this, SLOT(strikeBlinkingFinished()));
 		m_strikeOut->startBlinking();
 }
 
@@ -302,10 +302,10 @@ void TmainScore::correctAccidental(Tnote& goodNote) {
 
 
 // QGraphicsItemGroup *m_keyAccidsGr = 0; // group of key accidentals to blinking
-TgraphicsStrikeItem *m_keyStrikeOut = 0;
+TstrikedOutItem *m_keyStrikeOut = 0;
 void TmainScore::correctKeySignature(TkeySignature newKey) {
 		if (staff()->scoreKey()) {
-				m_keyStrikeOut = new TgraphicsStrikeItem(QRectF(0.0, 0.0, 
+				m_keyStrikeOut = new TstrikedOutItem(QRectF(0.0, 0.0, 
 																staff()->scoreKey()->boundingRect().width() - 3.0, 8.0), staff()->scoreKey());
 				m_keyStrikeOut->setPos((staff()->scoreKey()->boundingRect().width() - m_keyStrikeOut->boundingRect().width()) / 2, 
 														(staff()->scoreKey()->boundingRect().height() - m_keyStrikeOut->boundingRect().height()) / 2);

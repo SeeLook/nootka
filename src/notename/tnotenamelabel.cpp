@@ -17,7 +17,8 @@
  ***************************************************************************/
 
 #include "tnotenamelabel.h"
-#include <animations/tgraphicsstrikeitem.h>
+#include <animations/tstrikedoutitem.h>
+#include <animations/tblinkingitem.h>
 #include <tgraphicstexttip.h>
 #include <QGraphicsTextItem>
 #include <QGraphicsEffect>
@@ -42,7 +43,7 @@ QString TnoteNameLabel::borderStyleText() {
 //################################################################################################
 TnoteNameLabel::TnoteNameLabel(const QString& text, QWidget* parent) :
 	QGraphicsView(parent),
-	m_strikeOut(0),
+	m_strikeOut(0), m_blinking(0),
 	m_questMark(0),
 	m_stringNumber(0)
 {
@@ -82,18 +83,18 @@ void TnoteNameLabel::setText(const QString& text) {
 
 void TnoteNameLabel::center() {
 	m_textItem->setPos((scene()->width() - m_textItem->boundingRect().width() * m_textItem->scale()) / 2,
-				(scene()->height() - m_textItem->boundingRect().height() * m_textItem->scale()) / 2	);
+				(scene()->height() - m_textItem->boundingRect().height() * m_textItem->scale()) / 2	+ height() / 10.0);
 }
 
 
 void TnoteNameLabel::showQuestionMark(const QColor& color) {
 	if (m_questMark)
 		return;
-	m_questMark = new QGraphicsSimpleTextItem("?", m_textItem, scene());
+	m_questMark = new QGraphicsSimpleTextItem("?", 0, scene());
 	m_questMark->setFont(QFont("nootka"));
 	m_questMark->setBrush(color);
 	m_questMark->setScale(height() / m_questMark->boundingRect().height());
-	m_questMark->setPos(m_textItem->boundingRect().width() * m_textItem->scale() + 10.0, 
+	m_questMark->setPos(m_textItem->pos().x() + m_textItem->boundingRect().width() * m_textItem->scale() + 10.0, 
 											(height() - m_questMark->boundingRect().height() * m_questMark->scale()) / 2 + height() / 10.0);
 }
 
@@ -101,14 +102,14 @@ void TnoteNameLabel::showQuestionMark(const QColor& color) {
 void TnoteNameLabel::showStringNumber(int strNr, const QColor &color) {
 	if (m_stringNumber)
 		return;
-	m_stringNumber = new QGraphicsSimpleTextItem(QString("%1").arg(strNr), m_textItem, scene());
+	m_stringNumber = new QGraphicsSimpleTextItem(QString("%1").arg(strNr), 0, scene());
 	m_stringNumber->setFont(QFont("nootka"));
 	m_stringNumber->setBrush(color);
 	m_stringNumber->setScale(((height()) / m_stringNumber->boundingRect().height()) * 0.9) ;
 	qreal off = 10.0;
 	if (m_questMark)
-		off = m_questMark->boundingRect().width() * m_questMark->scale() + 3.0;
-	m_stringNumber->setPos((m_textItem->boundingRect().width() + off) * m_textItem->scale() + 10.0, 
+		off = m_questMark->boundingRect().width() * m_questMark->scale() + 10.0;
+	m_stringNumber->setPos((m_textItem->pos().x() + m_textItem->boundingRect().width() + off) * m_textItem->scale() + 10.0, 
 											(height() - m_stringNumber->boundingRect().height() * m_stringNumber->scale()) / 2 + height() / 10.0);
 }
 
@@ -136,12 +137,24 @@ void TnoteNameLabel::setBackgroundColor(const QColor& color) {
 	repaint();
 }
 
+//################################################################################################
+//#################################   ANIMATIONS    ##############################################
+//################################################################################################
 
 void TnoteNameLabel::blinkCross(const QColor& color) {
-	m_strikeOut = new TgraphicsStrikeItem(m_textItem);
+	m_strikeOut = new TstrikedOutItem(m_textItem);
 	m_strikeOut->setPen(QPen(color, height() / 30));
-	connect(m_strikeOut, SIGNAL(blinkingFinished()), this, SLOT(strikeBlinkingSlot()));
+	connect(m_strikeOut, SIGNAL(strikedFInished()), this, SLOT(strikeBlinkingSlot()));
 	m_strikeOut->startBlinking();
+}
+
+
+void TnoteNameLabel::blinkingText(int count, int period) {
+	if (m_blinking)
+		return;
+	m_blinking = new TblinkingItem(m_textItem, this);
+	connect(m_blinking, SIGNAL(blinkingFinished()), this, SLOT(blinkingSlot()));
+	m_blinking->startBlinking(count);
 }
 
 
@@ -159,17 +172,31 @@ void TnoteNameLabel::crossFadeText(const QString& newText, const QColor& newBgCo
 //################################################################################################
 //################################# PROTECTED    #################################################
 //################################################################################################
+
 void TnoteNameLabel::resizeEvent(QResizeEvent* event) {
 	scene()->setSceneRect(geometry());
 // 	m_textItem->setScale((height() * 0.95) / (m_textItem->boundingRect().height() * m_textItem->scale()));
 	QFontMetricsF fm(m_textItem->font());
-	m_textItem->setScale((height() * 0.85) / (fm.boundingRect("A").height()));
-	if (m_questMark)
+	m_textItem->setScale((height() * 0.9) / (fm.boundingRect("A").height()));
+	if (m_questMark) {
 		m_questMark->setScale(height() / m_questMark->boundingRect().height());
+		m_questMark->setPos(m_textItem->pos().x() + m_textItem->boundingRect().width() * m_textItem->scale() + 10.0, 
+											(height() - m_questMark->boundingRect().height() * m_questMark->scale()) / 2 + height() / 10.0);
+	}
+	if (m_stringNumber) {
+		m_stringNumber->setScale(((height()) / m_stringNumber->boundingRect().height()) * 0.9) ;
+		qreal off = 10.0;
+		if (m_questMark)
+			off = m_questMark->boundingRect().width() * m_questMark->scale() + 10.0;
+			m_stringNumber->setPos((m_textItem->pos().x() + m_textItem->boundingRect().width() + off) * m_textItem->scale() + 10.0, 
+												(height() - m_stringNumber->boundingRect().height() * m_stringNumber->scale()) / 2 + height() / 10.0);
+	}
 	center();
 }
 
-
+//################################################################################################
+//################################# PROTECTED SLOTS   ############################################
+//################################################################################################
 
 void TnoteNameLabel::strikeBlinkingSlot() {
 	if (m_strikeOut) {
@@ -205,6 +232,12 @@ void TnoteNameLabel::crossFadeSlot() {
 }
 
 
+void TnoteNameLabel::blinkingSlot() {
+	if (m_blinking) {
+		m_blinking->deleteLater();
+		m_blinking = 0;
+	}
+}
 
 
 

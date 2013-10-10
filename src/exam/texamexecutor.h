@@ -35,7 +35,7 @@ class Texam;
 class MainWindow;
 class QAction;
 
-    /** This class manages of an exam executing */
+    /** This class manages exam executing and practicing. */
 class TexamExecutor : public QObject
 {
     friend class MainWindow;
@@ -78,11 +78,12 @@ protected:
 protected slots:
     void askQuestion();
         /** If it is called by pressing "check answer" it obviously shows results
-        * but if app is closeing it only checks answer and save it without showing. */
+        * but if app is closing it only checks answer and save it without displaying results. */
     void checkAnswer(bool showResults = true);
     void stopExamSlot();
     void repeatQuestion();
     void repeatSound();
+		void correctAnswer();
     void autoRepeatStateChanged(bool enable);
         /** Shows exam summary. If returns false - user don't want to continue an exam */
     bool showExamSummary(bool cont);

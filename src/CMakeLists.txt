@@ -171,7 +171,7 @@ SET( NOOTKA_SRCS
   charts/tstatisticstip.cpp
   charts/ttiphandler.cpp
 ###### Animations
-	animations/tgraphicsstrikeitem.cpp
+	animations/tstrikedoutitem.cpp
 	animations/tanimedtextitem.cpp
 	animations/tcrossfadetextanim.cpp
 	animations/tanimeditem.cpp
@@ -267,7 +267,7 @@ SET( NOOTKA_MOC_SRCS
   charts/tmainchart.h
   charts/ttiphandler.h
 ###### Animations
-	animations/tgraphicsstrikeitem.h
+	animations/tstrikedoutitem.h
 	animations/tanimedtextitem.h
 	animations/tanimeditem.h
 	animations/tcrossfadetextanim.h

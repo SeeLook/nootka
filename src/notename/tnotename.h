@@ -56,7 +56,8 @@ public:
     void markNameLabel(QColor markColor);
 				/** Highlights and check given accid button   */
 		void forceAccidental(char accid);
-		void correctName(Tnote &goodName, const QColor &color);
+				/** @p isWrong  determines kind of animation performed after invoking this method. */
+		void correctName(Tnote &goodName, const QColor &color, bool isWrong = true);
 		
 				/** Returns given color mixed with palette base and 220 of alpha. */
 		QColor prepareBgColor(const QColor &halfColor);

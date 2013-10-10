@@ -42,15 +42,18 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
 	QHBoxLayout *outLay = new QHBoxLayout;
   m_lay = new QBoxLayout(QBoxLayout::TopToBottom);
   if (m_withButtons) {
-			m_lay->setDirection(QBoxLayout::LeftToRight);
       voiceButt = new QPushButton("g", this);
       voiceButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-//       lay->addWidget(voiceButt);
       voiceButt->setStatusTip(tr("Toggles between pitch detection for singing and for playing"));
+			
+			pauseButt = new QPushButton("n", this);
+      pauseButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+      pauseButt->setStatusTip(tr("Switch on/off pitch detection"));
 // #if defined(Q_OS_MAC)
 //       voiceButt->setFont(QFont("nootka", 35));
 // #else
       voiceButt->setFont(QFont("nootka", 15));
+			pauseButt->setFont(QFont("nootka", 15));
 // #endif
   } else {
     voiceButt = 0;
@@ -58,38 +61,19 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
   }
     
   m_intoView = new TintonationView(TintonationView::e_perfect, this);
-//   viewLay->addWidget(m_intoView);
   m_intoView->setStatusTip(tr("Intonation - clarity of the sound. Is it in tune."));
   
   m_volMeter = new TvolumeView(this);
-//   viewLay->addWidget(m_volMeter);
   m_volMeter->setStatusTip(tr("Shows volume level of input sound and indicates when the note was pitch-detected.") + "<br>" +
 				tr("Drag a knob to adjust minimal input volume."));
-//   QHBoxLayout *viewLay = new QHBoxLayout;
-// 		viewLay->addWidget(m_volMeter);
-// 		viewLay->addWidget(m_intoView);
-//   lay->addLayout(viewLay);
   
-  if (m_withButtons) {
-      pauseButt = new QPushButton("n", this);
-      pauseButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-//       lay->addWidget(pauseButt);
-      pauseButt->setStatusTip(tr("Switch on/off pitch detection"));
-      pauseButt->setFont(QFont("nootka", 15));
-  }
 	if (m_withButtons)
-		outLay->addWidget(voiceButt, 0, Qt::AlignBottom);
-// 		m_lay->addWidget(m_volMeter, 0, Qt::AlignBottom);
-// 		m_lay->addWidget(m_intoView, 0, Qt::AlignBottom);
-		
-// 	} else {
-		m_lay->addWidget(m_intoView, 0, Qt::AlignBottom);
-		m_lay->addWidget(m_volMeter, 0, Qt::AlignBottom);
-		outLay->addLayout(m_lay);
+			outLay->addWidget(voiceButt, 0, Qt::AlignBottom);
+	m_lay->addWidget(m_intoView, 0, Qt::AlignBottom);
+	m_lay->addWidget(m_volMeter, 0, Qt::AlignBottom);
+	outLay->addLayout(m_lay);
 	if (m_withButtons)
-			outLay->addWidget(pauseButt, 0, Qt::AlignBottom);
-// 	}
-
+				outLay->addWidget(pauseButt, 0, Qt::AlignBottom);
   setLayout(outLay);
   
   m_volTimer = new QTimer(this);
@@ -167,7 +151,7 @@ void TpitchView::setIntonationAccuracy(int accuracy) {
 
 
 void TpitchView::resize(int fontSize) {
-	if (m_lay->direction() == QBoxLayout::TopToBottom)
+// 	if (m_lay->direction() == QBoxLayout::TopToBottom)
 			fontSize = qRound((float)fontSize * 1.4);
   if (m_withButtons) {
 #if defined(Q_OS_MAC)
@@ -181,14 +165,11 @@ void TpitchView::resize(int fontSize) {
 #endif
     voiceButt->setFixedWidth(1.5 *fontSize);
     pauseButt->setFixedWidth(1.5 *fontSize);
-		qreal sizeF = 1.0;
-		if (m_lay->direction() == QBoxLayout::TopToBottom)
-			sizeF = 1.5;
-    voiceButt->setFixedHeight(2 * fontSize * sizeF);
-    pauseButt->setFixedHeight(2 * fontSize * sizeF);
+    voiceButt->setFixedHeight(2.2 * fontSize);
+    pauseButt->setFixedHeight(2.2 * fontSize);
   }
-  m_volMeter->setFixedHeight(qRound((float)fontSize * 1.2));
-  m_intoView->setFixedHeight(qRound((float)fontSize * 1.2));
+  m_volMeter->setFixedHeight(qRound((float)fontSize * 0.9));
+  m_intoView->setFixedHeight(qRound((float)fontSize * 0.9));
 }
 
 
@@ -208,10 +189,10 @@ void TpitchView::setIsVoice(bool isVoice) {
 
 
 void TpitchView::setHorizontal(bool isHorizontal) {
-		if (isHorizontal)
-			m_lay->setDirection(QBoxLayout::TopToBottom);
-		else
-			m_lay->setDirection(QBoxLayout::RightToLeft);
+// 		if (isHorizontal)
+// 			m_lay->setDirection(QBoxLayout::TopToBottom);
+// 		else
+// 			m_lay->setDirection(QBoxLayout::RightToLeft);
 }
 
 
