@@ -167,13 +167,14 @@ MainWindow::MainWindow(QWidget *parent) :
 			scoreLay->addWidget(score);
 			scoreLay->addWidget(pitchView);
 		QVBoxLayout *rightPaneLay = new QVBoxLayout;
-			rightPaneLay->addStretch(2);
+			rightPaneLay->addStretch(1);
 			rightPaneLay->addWidget(progress);
 			rightPaneLay->addWidget(examResults);
 			rightPaneLay->addWidget(nootLabel);
+      rightPaneLay->addStretch(1);
 // 			rightPaneLay->addStretch(1);
 			rightPaneLay->addWidget(noteName);
-			rightPaneLay->addStretch(1);
+// 			rightPaneLay->addStretch(1);
 // 		QHBoxLayout *rightWholeLay = new QHBoxLayout;
 // 			rightWholeLay->addWidget((QWidget*)score->getFreeController());
 // 			rightWholeLay->addLayout(rightPaneLay);

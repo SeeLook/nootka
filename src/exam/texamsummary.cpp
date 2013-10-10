@@ -23,6 +23,7 @@
 #include "texamview.h"
 #include "tqaunit.h"
 #include "tlevelpreview.h"
+#include <troundedlabel.h>
 
 
   /** returns 2 columns row of table */
@@ -43,7 +44,7 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
     QString font20 = "<b style=\"font-size: 20px\">";
     QLabel *userNameLab = new QLabel(tr("student:") + QString("  %2<u>%1</u></b>").arg(exam->userName()).arg(font20), this);
     leftLay->addWidget(userNameLab, 0, Qt::AlignCenter);
-    QLabel *questNrLab = new QLabel("<center>" + tr("Number of questions:") + QString("%2  %1</b>").arg(exam->count()).arg(font20) +
+    TroundedLabel *questNrLab = new TroundedLabel("<center>" + tr("Number of questions:") + QString("%2  %1</b>").arg(exam->count()).arg(font20) +
                       QString("<br>%1: %2%3</b>").arg(TexamView::corrAnswersNrTxt()).arg(font20).
                           arg(exam->count() - exam->mistakes() - exam->halfMistaken()) +
                       QString("<br>%1: %2%3</b>").arg(TexamView::mistakesNrTxt()).arg(font20).arg(exam->mistakes()) +
@@ -52,12 +53,13 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
     leftLay->addWidget(questNrLab);
     QVBoxLayout *timeLay = new QVBoxLayout();
     QGroupBox *timeGr = new QGroupBox(tr("times:"), this);
-    QLabel *timeLab = new QLabel("<table>" +
+    TroundedLabel *timeLab = new TroundedLabel("<table>" +
     row2(TexamView::totalTimetxt(), TexamView::formatedTotalTime(exam->totalTime()*1000)) +
     row2(tr("Time taken to answer"), TexamView::formatedTotalTime(exam->workTime()*1000)) +
     row2(TexamView::averAnsverTimeTxt(), QString("%1 s").
         arg((qreal)exam->averageReactonTime()/10.0, 0, 'f', 1, '0')) +
     "</table>", this);
+    timeLab->setContentsMargins(5, 5, 5, 5);
     timeLay->addWidget(timeLab);
   
     timeGr->setLayout(timeLay);
@@ -136,8 +138,9 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
 		if (wInto)
       effStr += row2(tr("Out of tune"), QString("%1 (").arg(wInto) + QString::number(qRound(wInto*100.0 /wTotal)) + "%)");
   }
-	QLabel *resLab = new QLabel("<table>" +
+	TroundedLabel *resLab = new TroundedLabel("<table>" +
     row2(TexamView::effectTxt(), QString::number(qRound(exam->effectiveness())) + "%") + effStr + "</table>", this);
+  resLab->setContentsMargins(5, 5, 5, 5);
 	resLay->addWidget(resLab);
 	
 	resGr->setLayout(resLay);

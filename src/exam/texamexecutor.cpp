@@ -1017,7 +1017,15 @@ void TexamExecutor::createActions() {
 
 void TexamExecutor::stopExamSlot() {
 	if (m_practice) {
-			if (showExamSummary(true))
+    bool continuePractice = true;
+    if (m_exam->count() > 2) {
+// TODO check is answer done, if not remove it from list to show results without it
+//       TQAunit lastQuestion = m_exam->curQ();
+//       m_exam->answList()->removeLast();
+      continuePractice = showExamSummary(true);
+//       m_exam->addQuestion(lastQuestion);
+    }
+    if (continuePractice)
 				return;
 	} else {
     if (!m_isAnswered) {
