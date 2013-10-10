@@ -315,7 +315,7 @@ void TmainScore::correctKeySignature(TkeySignature newKey) {
 		m_goodKey = newKey;
 		QPen pp(QColor(gl->EnotBadColor.name()), 1.0);
 		m_keyStrikeOut->setPen(pp);
-		connect(m_keyStrikeOut, SIGNAL(blinkingFinished()), this, SLOT(keyStrikingFinished()));
+		connect(m_keyStrikeOut, SIGNAL(strikedFInished()), this, SLOT(keyStrikingFinished()));
 		m_keyStrikeOut->startBlinking();
 }
 

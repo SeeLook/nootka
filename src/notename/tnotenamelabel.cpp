@@ -47,6 +47,7 @@ TnoteNameLabel::TnoteNameLabel(const QString& text, QWidget* parent) :
 	m_questMark(0),
 	m_stringNumber(0)
 {
+  setAttribute(Qt::WA_TransparentForMouseEvents, true);
 	setMouseTracking(false);
   setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

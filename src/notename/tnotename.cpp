@@ -320,12 +320,14 @@ void TnoteName::setNameDisabled(bool isDisabled) {
         m_sharpButt->setDisabled(isDisabled);
         m_dblSharpButt->setDisabled(isDisabled);
 				if (isDisabled) { // uncheck when disabled
+          setAttribute(Qt::WA_TransparentForMouseEvents, true);
 					for (int i = 0; i < 8; i++) {
 						if (m_octaveButtons[i]->isChecked())
 								m_prevOctButton = i;
 						m_octaveButtons[i]->setChecked(false);
 					}
 				} else { // restore last checked octave vhen becomes enabled
+          setAttribute(Qt::WA_TransparentForMouseEvents, false);
 					if (m_prevOctButton != -1)
 							m_octaveButtons[m_prevOctButton]->setChecked(true);
 					else {// or set it to small octave
