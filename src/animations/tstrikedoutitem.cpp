@@ -16,29 +16,32 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tgraphicsstrikeitem.h"
+#include "tstrikedoutitem.h"
+#include "tblinkingitem.h"
 #include <QPen>
 #include <QGraphicsScene>
 #include <QTimer>
 
-TgraphicsStrikeItem::TgraphicsStrikeItem(const QRectF& rect, QGraphicsItem* parent) :
+TstrikedOutItem::TstrikedOutItem(const QRectF& rect, QGraphicsItem* parent) :
 	QGraphicsObject(parent),
-	m_rectF(rect)
+	m_rectF(rect),
+	m_blinking(0)
 {
 	prepareLines(parent);
 }
 
 
 
-TgraphicsStrikeItem::TgraphicsStrikeItem(QGraphicsItem* parent) :
+TstrikedOutItem::TstrikedOutItem(QGraphicsItem* parent) :
 	QGraphicsObject(parent),
-	m_rectF(parent->boundingRect())
+	m_rectF(parent->boundingRect()),
+	m_blinking(0)
 {
 	prepareLines(parent);
 }
 
 
-void TgraphicsStrikeItem::prepareLines(QGraphicsItem* parent) {
+void TstrikedOutItem::prepareLines(QGraphicsItem* parent) {
 		QGraphicsLineItem *fakeLine = new QGraphicsLineItem();
 		if (parent->type() == fakeLine->type()) { // strike of line like -/-/-/-/-/-/-/-/
 			QGraphicsLineItem *parentLine = qgraphicsitem_cast<QGraphicsLineItem*>(parent);
@@ -74,51 +77,46 @@ void TgraphicsStrikeItem::prepareLines(QGraphicsItem* parent) {
 }
 
 
-void TgraphicsStrikeItem::setPen(const QPen& pen) {
+void TstrikedOutItem::setPen(const QPen& pen) {
 	for (int i = 0; i < m_lines.size(); i++)
 		m_lines[i]->setPen(pen);
 }
 
 
-void TgraphicsStrikeItem::setColor(const QColor& penColor) {
+void TstrikedOutItem::setColor(const QColor& penColor) {
 		qreal pw = m_lines[0]->pen().widthF();
 		for (int i = 0; i < m_lines.size(); i++)
 				m_lines[i]->setPen(QPen(penColor, pw));
 }
 
 
-int TgraphicsStrikeItem::alpha() {
+int TstrikedOutItem::alpha() {
 		return m_lines[0]->pen().color().alpha();
 }
 
 
-void TgraphicsStrikeItem::setAlpha(int alp) {
+void TstrikedOutItem::setAlpha(int alp) {
 		QColor cc = m_lines[0]->pen().color();
 		cc.setAlpha(alp);
 		setColor(cc);
 }
 
 
-void TgraphicsStrikeItem::startBlinking() {
-		m_blinkPhase = 0;
-		QTimer::singleShot(150, this, SLOT(strikeBlinking()));
+void TstrikedOutItem::startBlinking(int count) {
+		if (m_blinking)
+			return;
+		m_blinking = new TblinkingItem(this);
+		connect(m_blinking, SIGNAL(blinkingFinished()), this, SLOT(blinkingSlot()));
+		m_blinking->startBlinking(count);
 }
 
 
-void TgraphicsStrikeItem::strikeBlinking() {
-		m_blinkPhase++;
-		if (m_blinkPhase < 5) {
-			if (m_blinkPhase % 2) { // phase 1 & 3
-					for (int i = 0; i < m_lines.size(); i++)
-						m_lines[i]->hide();
-			} else { // phase 2 & 4
-					for (int i = 0; i < m_lines.size(); i++)
-						m_lines[i]->show();
-			}
-			QTimer::singleShot(150, this, SLOT(strikeBlinking()));
-		} else {
-			emit blinkingFinished();
+void TstrikedOutItem::blinkingSlot() {
+		if (m_blinking) {
+			m_blinking->deleteLater();
+			m_blinking = 0;
 		}
+		emit strikedFInished();
 }
 
 

@@ -86,7 +86,7 @@ protected:
     TexamView *examResults;
     TexamExecutor *ex;
 		TnootkaLabel *nootLabel; // displays Nootka logo
-    QCheckBox *autoRepeatChB, *expertAnswChB;
+    QCheckBox *autoRepeatChB, *expertAnswChB, *correctChB;
     TpitchView *pitchView;
     TprogressWidget *progress;
 

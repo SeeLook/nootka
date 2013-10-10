@@ -23,6 +23,7 @@
 #include <QGraphicsView>
 #include <QGraphicsTextItem>
 
+class TblinkingItem;
 
 			/**  Returns style sheet text: 
 			*	background-color: rgba(red, green, blue, alpha);
@@ -31,7 +32,7 @@ QString getBgColorText(const QColor &C);
 
 
 //*****************************************************************************************************************
-class TgraphicsStrikeItem;
+class TstrikedOutItem;
 /** */
 class TnoteNameLabel : public QGraphicsView
 {
@@ -51,10 +52,14 @@ public:
 	void showStringNumber(int strNr, const QColor& color);
 	void markText(const QColor &color);
 	
+	// Animations
 			/** Starts painting cross over label given @p count times with @p period duration of each. */
 	void blinkCross(const QColor& color);
 			/** Fades out background to transparency, sets new text and fades in with new color.*/
 	void crossFadeText(const QString &newText, const QColor &newBgColor, int duration = 150);
+			/** Blinks the text given number of times with period [milliseconds]. 
+			 * Emits blinkingFinished() signal after. */
+	void blinkingText(int count, int period = 150);
 	
 	void setStyleSheet(const QString &style);
 	void setBackgroundColor(const QColor &color);
@@ -72,15 +77,18 @@ protected:
 	void center();
 	
 protected slots:
+			/** Methods called after animations. */
 	void strikeBlinkingSlot();
 	void crossFadeSlot();
+	void blinkingSlot();
 	
 private:
 	int 											m_fadeDuration, m_fadePhase, m_alphaStepOut, m_alphaStepIn;
 	QColor 										m_bgColor, m_newBgColor;
 	QString   								m_newText, m_bgColorText, m_styleText;
 	QGraphicsTextItem					*m_textItem;
-	TgraphicsStrikeItem				*m_strikeOut;
+	TstrikedOutItem				*m_strikeOut;
+	TblinkingItem							*m_blinking;
 	QGraphicsSimpleTextItem		*m_questMark, *m_stringNumber;
 	
 };

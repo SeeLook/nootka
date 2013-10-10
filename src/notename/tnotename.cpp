@@ -49,7 +49,7 @@ TnoteName::TnoteName(QWidget *parent) :
     QVBoxLayout *mainLay = new QVBoxLayout();
     mainLay->setAlignment(Qt::AlignCenter);
 
-		m_nameLabel = new TnoteNameLabel("<b><span style=\"color: green;\">" +
+		m_nameLabel = new TnoteNameLabel("<b><span style=\"color: palette(window);\">" +
                            gl->version + "</span></b>", this);
 //     m_nameLabel = new TnoteNameLabel("<b><span style=\"font-size: 24px; color: green;\">" +
 //                            gl->version + "</span></b>",this);
@@ -342,10 +342,13 @@ void TnoteName::clearNoteName() {
 }
 
 
-void TnoteName::correctName(Tnote& goodName, const QColor& color) {
+void TnoteName::correctName(Tnote& goodName, const QColor& color, bool isWrong) {
 		m_goodNote = goodName;
 		m_blinkingPhase = 0;
-		m_nameLabel->blinkCross(QColor(color.name()));
+		if (isWrong)
+			m_nameLabel->blinkCross(QColor(color.name()));
+		else
+			m_nameLabel->blinkingText(2);
 }
 
 
@@ -448,7 +451,7 @@ char TnoteName::getSelectedAccid() {
 
 
 void TnoteName::resizeEvent(QResizeEvent* ) {
-    m_nameLabel->setFixedSize(width() * 0.9, parentWidget()->height() / 9 );
+    m_nameLabel->setFixedSize(width() * 0.95, parentWidget()->height() / 9 );
     QFont f(QFont(m_nameLabel->font().family(), qRound(m_nameLabel->height() * 0.55), 50));
     QFontMetrics fMetr(f);
     qreal fact = (m_nameLabel->height() * 0.95) / fMetr.boundingRect("A").height();

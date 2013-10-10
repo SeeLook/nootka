@@ -23,6 +23,7 @@
 #include "tsound.h"
 #include <taudioparams.h>
 #include <tintonationview.h>
+#include <tpitchview.h>
 #include "mainwindow.h"
 #include "texam.h"
 #include "texamsummary.h"
@@ -645,36 +646,9 @@ void TexamExecutor::checkAnswer(bool showResults) {
 
     int waitTime = 200; //WAIT_TIME;
 		if (m_practice) {
+			waitTime = 2500; // user has to have time to see his mistake and correct answer
 			m_practice->checkAnswer();
-			if (!curQ.isCorrect()) {
-				QColor markColor;
-				if (curQ.isNotSoBad())
-					markColor = gl->EnotBadColor;
-				else
-					markColor = gl->EquestionColor;
-        waitTime = 2500; // user has to have time to see his mistake and correct answer
-				if (curQ.answerAs == TQAtype::e_asNote) {
-						Tnote goodNote = curQ.qa.note;
-						if (curQ.questionAs == TQAtype::e_asNote)
-							goodNote = curQ.qa_2.note;
-						if (curQ.wrongAccid()) // it corrects wrong octave as well
-								mW->score->correctAccidental(goodNote);
-						else if (curQ.wrongNote() || curQ.wrongOctave())
-								mW->score->correctNote(goodNote, markColor);
-						if (curQ.wrongKey())
-								mW->score->correctKeySignature(curQ.key);
-				} else if (curQ.answerAs == TQAtype::e_asFretPos) {
-					TfingerPos goodPos = curQ.qa.pos;
-					if (curQ.questionAs == TQAtype::e_asFretPos)
-						goodPos = curQ.qa_2.pos;
-					mW->guitar->correctPosition(goodPos, markColor);
-				} else if (curQ.answerAs == TQAtype::e_asName) {
-					Tnote goodNote = curQ.qa.note;
-					if (curQ.questionAs == TQAtype::e_asName)
-						goodNote = curQ.qa_2.note;
-					mW->noteName->correctName(goodNote, markColor);
-				}
-			}
+			correctAnswer();
 		} else {
 				if (!m_supp->wasFinished() && m_exam->count() >= (m_supp->obligQuestions() + m_exam->penalty()) ) { // maybe enough
 					if (m_exam->blackCount()) {
@@ -709,6 +683,40 @@ void TexamExecutor::checkAnswer(bool showResults) {
       }
     }
 }
+
+
+void TexamExecutor::correctAnswer() {
+	TQAunit curQ = m_exam->curQ();
+	if (!curQ.isCorrect()) { // correcting wrong answer
+			QColor markColor;
+			if (curQ.isNotSoBad())
+				markColor = gl->EnotBadColor;
+			else
+				markColor = gl->EquestionColor;
+			if (curQ.answerAs == TQAtype::e_asNote) {
+					Tnote goodNote = curQ.qa.note;
+					if (curQ.questionAs == TQAtype::e_asNote)
+						goodNote = curQ.qa_2.note;
+					if (curQ.wrongAccid()) // it corrects wrong octave as well
+							mW->score->correctAccidental(goodNote);
+					else if (curQ.wrongNote() || curQ.wrongOctave())
+							mW->score->correctNote(goodNote, markColor);
+					if (curQ.wrongKey())
+							mW->score->correctKeySignature(curQ.key);
+			} else if (curQ.answerAs == TQAtype::e_asFretPos) {
+				TfingerPos goodPos = curQ.qa.pos;
+				if (curQ.questionAs == TQAtype::e_asFretPos)
+					goodPos = curQ.qa_2.pos;
+				mW->guitar->correctPosition(goodPos, markColor);
+			} else if (curQ.answerAs == TQAtype::e_asName) {
+				Tnote goodNote = curQ.qa.note;
+				if (curQ.questionAs == TQAtype::e_asName)
+					goodNote = curQ.qa_2.note;
+				mW->noteName->correctName(goodNote, markColor, curQ.isWrong());
+			}
+	}
+}
+
 
 
 void TexamExecutor::markAnswer(TQAunit& curQ) {
@@ -840,9 +848,15 @@ void TexamExecutor::prepareToExam() {
     mW->autoRepeatChB->setChecked(gl->E->autoNextQuest);
     mW->expertAnswChB->show();
     mW->expertAnswChB->setChecked(gl->E->expertsAnswerEnable);
-		if (!m_practice)
+		if (m_practice) {
+				mW->correctChB->show();
+				mW->correctChB->setChecked(gl->E->showCorrected);
+		}	else
 				mW->progress->activate(m_exam->count(), m_supp->obligQuestions(), m_exam->penalty(), m_exam->isFinished());
-
+		if (m_level.instrument != e_noInstrument && 
+			(!m_level.answersAs[TQAtype::e_asNote].isSound() && !m_level.answersAs[TQAtype::e_asName].isSound() &&
+				!m_level.answersAs[TQAtype::e_asFretPos].isSound() && !m_level.answersAs[TQAtype::e_asSound].isSound()))
+					mW->pitchView->hide();
     disableWidgets();
 // connect all events to check an answer or display tip how to check
     connect(mW->score, SIGNAL(noteClicked()), this, SLOT(expertAnswersSlot()));
@@ -906,6 +920,8 @@ void TexamExecutor::restoreAfterExam() {
     mW->score->isExamExecuting(false);
 
 		m_glStore->restoreSettings();
+		if (m_practice)
+			gl->E->showCorrected = mW->correctChB->isChecked();
 		
 		TtipChart::defaultClef = gl->Sclef;
     mW->score->acceptSettings();
@@ -924,8 +940,9 @@ void TexamExecutor::restoreAfterExam() {
     mW->noteName->setNameDisabled(false);
     mW->guitar->setGuitarDisabled(false);
     mW->autoRepeatChB->hide();
-
     mW->expertAnswChB->hide();
+		mW->correctChB->hide();
+		mW->pitchView->show();
 
     if (m_canvas)
         m_canvas->deleteLater();

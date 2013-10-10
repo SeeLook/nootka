@@ -115,29 +115,28 @@ MainWindow::MainWindow(QWidget *parent) :
     m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
 		statLay->addWidget(m_statLab, 0, Qt::AlignTop);
  // Expert corner
-    QVBoxLayout *chBlay = new QVBoxLayout;
     m_hintsChB = new QCheckBox(innerWidget);
-    chBlay->addWidget(m_hintsChB);
-    m_hintsChB->setChecked(gl->hintsEnabled);
-    m_hintsChB->setStatusTip(tr("show or hide the hints"));
-    m_hintsChB->setToolTip(m_hintsChB->statusTip());
-    m_hintsChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    autoRepeatChB = new QCheckBox(innerWidget);
-    autoRepeatChB->hide();
-    chBlay->addWidget(autoRepeatChB);
-    autoRepeatChB->setStatusTip(TexamSettings::autoNextQuestTxt());
-    autoRepeatChB->setToolTip(TexamSettings::autoNextQuestTxt());
-    autoRepeatChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    expertAnswChB = new QCheckBox(innerWidget);
-    expertAnswChB->hide();
-    chBlay->addWidget(expertAnswChB);
-    expertAnswChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    expertAnswChB->setStatusTip(TexamSettings::expertsAnswerTxt());
-    expertAnswChB->setToolTip(TexamSettings::expertsAnswerTxt());
-    chBlay->addStretch(1);
+			m_hintsChB->setChecked(gl->hintsEnabled);
+			m_hintsChB->setStatusTip(tr("show or hide the hints"));
+			m_hintsChB->setToolTip(m_hintsChB->statusTip());
+			m_hintsChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+		autoRepeatChB = new QCheckBox(innerWidget);
+			autoRepeatChB->hide();
+			autoRepeatChB->setStatusTip(TexamSettings::autoNextQuestTxt());
+			autoRepeatChB->setToolTip(TexamSettings::autoNextQuestTxt());
+			autoRepeatChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+		expertAnswChB = new QCheckBox(innerWidget);
+			expertAnswChB->hide();
+			expertAnswChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+			expertAnswChB->setStatusTip(TexamSettings::expertsAnswerTxt());
+			expertAnswChB->setToolTip(TexamSettings::expertsAnswerTxt());
+		correctChB = new QCheckBox(innerWidget);
+			correctChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+			correctChB->setStatusTip(tr("show corrected answer if mistaken"));
+			correctChB->setToolTip(correctChB->statusTip());
+			correctChB->hide();
     
     progress = new TprogressWidget(innerWidget);
-    statLay->addLayout(chBlay);
     
     examResults = new TexamView(innerWidget);
     examResults->setStyleBg(gl->getBGcolorText(gl->EanswerColor), gl->getBGcolorText(gl->EquestionColor),
@@ -155,42 +154,40 @@ MainWindow::MainWindow(QWidget *parent) :
 		
 //-------------------------------------------------------------------		
 // Setting layout
-// 		QVBoxLayout *scoreLay = new QVBoxLayout;
-// 			scoreLay->addWidget(nootBar);
-// 			scoreLay->addWidget(score);
-// 			scoreLay->addWidget(pitchView);
+		QGridLayout *chBlay = new QGridLayout;
+			chBlay->addWidget(m_hintsChB, 0, 0);
+			chBlay->addWidget(autoRepeatChB, 1, 0);
+			chBlay->addWidget(expertAnswChB, 0, 1);
+			chBlay->addWidget(correctChB, 1, 1);
+			statLay->addLayout(chBlay);
 		QHBoxLayout *toolAndHintLay = new QHBoxLayout;
 			toolAndHintLay->addWidget(nootBar);
-			toolAndHintLay->addLayout(statLay);
-// 		QHBoxLayout *nameAndSoundLay = new QHBoxLayout;
-// 			nameAndSoundLay->addWidget(pitchView);
-// 			nameAndSoundLay->addWidget(noteName);
-			
+			toolAndHintLay->addLayout(statLay);			
+		QVBoxLayout *scoreLay = new QVBoxLayout;
+			scoreLay->addWidget(score);
+			scoreLay->addWidget(pitchView);
 		QVBoxLayout *rightPaneLay = new QVBoxLayout;
-// 			rightPaneLay->addLayout(statLay);
-			rightPaneLay->addStretch(1);
+			rightPaneLay->addStretch(2);
 			rightPaneLay->addWidget(progress);
 			rightPaneLay->addWidget(examResults);
 			rightPaneLay->addWidget(nootLabel);
-			rightPaneLay->addStretch(1);
+// 			rightPaneLay->addStretch(1);
 			rightPaneLay->addWidget(noteName);
-		QHBoxLayout *rightWholeLay = new QHBoxLayout;
-			rightWholeLay->addWidget((QWidget*)score->getFreeController());
-			rightWholeLay->addLayout(rightPaneLay);
+			rightPaneLay->addStretch(1);
+// 		QHBoxLayout *rightWholeLay = new QHBoxLayout;
+// 			rightWholeLay->addWidget((QWidget*)score->getFreeController());
+// 			rightWholeLay->addLayout(rightPaneLay);
 // 			rightPaneLay->addLayout(nameAndSoundLay);
-		QVBoxLayout *rightLay = new QVBoxLayout;
-			rightLay->addLayout(rightWholeLay);
-			rightLay->addWidget(pitchView);
-			m_rightLay = rightLay;
+// 		QVBoxLayout *rightLay = new QVBoxLayout;
+// 			rightLay->addLayout(rightWholeLay);
+// 			rightLay->addWidget(pitchView);
+			m_rightLay = rightPaneLay;
 		QHBoxLayout *scoreAndNameLay = new QHBoxLayout;
-// 			scoreAndNameLay->addWidget(score);
-// 			scoreAndNameLay->addLayout(scoreLay);
-			scoreAndNameLay->addWidget(score);
-			scoreAndNameLay->addLayout(rightLay);
+			scoreAndNameLay->addLayout(scoreLay);
+			scoreAndNameLay->addLayout(rightPaneLay);
 		QVBoxLayout *mainLay = new QVBoxLayout;
 			mainLay->addLayout(toolAndHintLay);
 			mainLay->addLayout(scoreAndNameLay);
-// 			mainLay->addWidget(pitchView);
 			mainLay->addWidget(guitar);
     innerWidget->setLayout(mainLay);
     setCentralWidget(innerWidget);
@@ -212,8 +209,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     if (gl->A->OUTenabled && !sound->isPlayable())
         QMessageBox::warning(this, "", tr("Problems with sound output"));
-    
-//     QTimer::singleShot(100, this, SLOT(analyseSlot()));
     
 }
 
@@ -259,7 +254,6 @@ void MainWindow::createActions() {
     nootBar->addAction(levelCreatorAct);
     nootBar->addAction(analyseAct);
     nootBar->addAction(aboutAct);
-//     nootBar->addSeparator();
     nootBar->addAction(startExamAct);
 
     nootBar->setMovable(false);
@@ -575,10 +569,10 @@ bool MainWindow::event(QEvent *event) {
 
 void MainWindow::updsateSize() {
     setUpdatesEnabled(false);
-    m_statFontSize = (centralWidget()->height() / 9) / 4 - 2;
-    nootBar->setIconSize(QSize(height() / 19, height() / 19));
+    m_statFontSize = (centralWidget()->height() / 10) / 4 - 2;
+    nootBar->setIconSize(QSize(height() / 22, height() / 22));
 //     pitchView->resize(m_statFontSize);
-		m_statLab->setFixedHeight(centralWidget()->height() / 9);
+		m_statLab->setFixedHeight(centralWidget()->height() / 10);
     QFont f = m_statLab->font();
     f.setPointSize(m_statFontSize);
     QFontMetrics fMetr(f);

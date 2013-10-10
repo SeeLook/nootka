@@ -72,7 +72,7 @@ Tglobals::Tglobals() :
 	m_tune(0)
 {
 
-    version = "0.8.95-beta";
+    version = "0.8.98-alpha";
 //    path ; Is declared in main()
 
     qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
@@ -186,6 +186,8 @@ Tglobals::Tglobals() :
         E->studentName = config->value("studentName", "").toString();
         E->examsDir = config->value("examsDir", QDir::homePath()).toString();
         E->levelsDir = config->value("levelsDir", QDir::homePath()).toString();
+				E->closeWithoutConfirm = config->value("closeWithoutConfirm", false).toBool();
+				E->showCorrected = config->value("showCorrected", true).toBool();
     config->endGroup();
 
 // Sound settings
@@ -323,6 +325,7 @@ void Tglobals::storeSettings() {
         config->setValue("studentName", E->studentName);
         config->setValue("examsDir", E->examsDir);
         config->setValue("levelsDir", E->levelsDir);
+				config->setValue("closeWithoutConfirm", E->closeWithoutConfirm);
     config->endGroup();
 
     config->beginGroup("sound");

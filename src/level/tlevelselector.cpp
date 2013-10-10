@@ -20,7 +20,6 @@
 #include "tlevelselector.h"
 #include "tquestionaswdg.h"
 #include "tlevelpreview.h"
-#include "tnotename.h"
 #include "tglobals.h"
 #include <texamparams.h>
 #include <ttune.h>

@@ -25,7 +25,7 @@
 #include <QGraphicsView>
 
 class TanimedItem;
-class TgraphicsStrikeItem;
+class TstrikedOutItem;
 class TgraphicsTextTip;
 
 class TfingerBoard : public QGraphicsView
@@ -126,7 +126,7 @@ private:
     int m_hilightedStrNr;
     bool m_isCursorOverGuitar;
 		TfingerPos m_goodPos;
-		TgraphicsStrikeItem *m_strikeOut;
+		TstrikedOutItem *m_strikeOut;
 		TanimedItem *m_animation;
 		QGraphicsItem *m_movingItem; // string line during animation
 

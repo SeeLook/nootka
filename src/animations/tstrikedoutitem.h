@@ -21,20 +21,21 @@
 
 #include <QGraphicsObject>
 
+class TblinkingItem;
 class QPen;
 
 /** This is QGraphicsObject element looks like striking cross over the given rectangle. 
  * Lines of striking are a bit longer than given rectangle size.
  * It recognizes a shape of item and strike can be 'X' or '--/---/---/---/---/---' */
-class TgraphicsStrikeItem : public QGraphicsObject
+class TstrikedOutItem : public QGraphicsObject
 {
 		Q_OBJECT
     Q_PROPERTY(int alpha READ alpha WRITE setAlpha)
     Q_PROPERTY(QPointF pos READ pos WRITE setPos)
 public:
 	
-		TgraphicsStrikeItem(QGraphicsItem *parent);
-		TgraphicsStrikeItem(const QRectF &rect, QGraphicsItem *parent);
+		TstrikedOutItem(QGraphicsItem *parent);
+		TstrikedOutItem(const QRectF &rect, QGraphicsItem *parent);
 		
 				/** Defines a pen of striking lines. */
 		void setColor(const QColor &color);
@@ -44,16 +45,16 @@ public:
 		void setAlpha(int alp);
 		
 				/** Starts blinking animation. */
-		void startBlinking();
+		void startBlinking(int count = 2);
 		
 		virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {};
 		virtual QRectF boundingRect() const { return m_rectF; }
 		
 signals:
-		void blinkingFinished();
+		void strikedFInished();
 		
 protected slots:
-		void strikeBlinking();
+		void blinkingSlot();
 
 private:
 		void prepareLines(QGraphicsItem *parent);
@@ -61,7 +62,7 @@ private:
 private:
     QList<QGraphicsLineItem*>		 		m_lines;
 		QRectF							 					 	m_rectF;
-		int									 					 	m_blinkPhase; // identifies phases of strike blinking animation
+		TblinkingItem										*m_blinking;
 
 
 };

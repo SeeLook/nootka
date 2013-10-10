@@ -41,7 +41,10 @@ public:
   QString studentName; /** @def empty */
   QString examsDir; /** Path to dir with recent opened exam file. @def system_home_path */
   QString levelsDir; /** Path to dir with recent opened level file. @def system_home_path */
+  bool closeWithoutConfirm; /** Do not ask anything when Nootka is closing. */
   
+// PRACTICE/EXERCISING
+  bool showCorrected; /** When answer was wrong, corrected one will be shown */
   //   bool repeatUntilcorrect; /** or until correct answer will be given. */
 };
 
