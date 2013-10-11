@@ -52,7 +52,6 @@ TnoteName::TnoteName(QWidget *parent) :
 		m_nameLabel = new TnoteNameLabel("<b><span style=\"color: palette(window);\">" +
                            gl->version + "</span></b>", this);
 		connect(m_nameLabel, SIGNAL(blinkingFinished()), this, SLOT(correctAnimationFinished()));
-		connect(m_nameLabel, SIGNAL(crossFadeingFinished()), this, SLOT(correctAnimationFinished()));
     resize();
 
     mainLay->addStretch(1);
@@ -433,7 +432,7 @@ void TnoteName::resizeEvent(QResizeEvent* ) {
 		for (int i = 0; i < 8; i++) // total width of buttons
         allButtWidth += m_octaveButtons[i]->width();
 		allButtWidth += (m_octaveButtons[3]->geometry().left() - m_octaveButtons[2]->geometry().right()) * 8; // plus space between
-		if (allButtWidth < width()) { // all octave buttons in single row
+		if (allButtWidth < width() - 10) { // all octave buttons in single row (-10 is Qt styles quirk)
 			if (m_octaveLay->count() < 9) { // only once, when not inserted yet
 				m_accLay->removeWidget(m_octaveButtons[0]);
 				m_accLay->removeWidget(m_octaveButtons[7]);

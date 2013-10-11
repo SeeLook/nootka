@@ -46,6 +46,7 @@
 extern Tglobals *gl;
 extern bool resetConfig;
 
+QVBoxLayout *m_scoreLay;
 
 MainWindow::MainWindow(QWidget *parent) :
 		QMainWindow(parent),
@@ -163,9 +164,9 @@ MainWindow::MainWindow(QWidget *parent) :
 		QHBoxLayout *toolAndHintLay = new QHBoxLayout;
 			toolAndHintLay->addWidget(nootBar);
 			toolAndHintLay->addLayout(statLay);			
-		QVBoxLayout *scoreLay = new QVBoxLayout;
-			scoreLay->addWidget(score);
-			scoreLay->addWidget(pitchView);
+		m_scoreLay = new QVBoxLayout;
+			m_scoreLay->addWidget(score);
+			m_scoreLay->addWidget(pitchView);
 		QVBoxLayout *rightPaneLay = new QVBoxLayout;
 			rightPaneLay->addStretch(1);
 			rightPaneLay->addWidget(progress);
@@ -174,7 +175,7 @@ MainWindow::MainWindow(QWidget *parent) :
       rightPaneLay->addStretch(1);
 // 			rightPaneLay->addStretch(1);
 			rightPaneLay->addWidget(noteName);
-// 			rightPaneLay->addStretch(1);
+			rightPaneLay->addStretch(1);
 // 		QHBoxLayout *rightWholeLay = new QHBoxLayout;
 // 			rightWholeLay->addWidget((QWidget*)score->getFreeController());
 // 			rightWholeLay->addLayout(rightPaneLay);
@@ -184,7 +185,7 @@ MainWindow::MainWindow(QWidget *parent) :
 // 			rightLay->addWidget(pitchView);
 			m_rightLay = rightPaneLay;
 		QHBoxLayout *scoreAndNameLay = new QHBoxLayout;
-			scoreAndNameLay->addLayout(scoreLay);
+			scoreAndNameLay->addLayout(m_scoreLay);
 			scoreAndNameLay->addLayout(rightPaneLay);
 		QVBoxLayout *mainLay = new QVBoxLayout;
 			mainLay->addLayout(toolAndHintLay);
@@ -569,83 +570,95 @@ bool MainWindow::event(QEvent *event) {
 
 
 void MainWindow::updsateSize() {
-    setUpdatesEnabled(false);
-    m_statFontSize = (centralWidget()->height() / 10) / 4 - 2;
-    nootBar->setIconSize(QSize(height() / 22, height() / 22));
-//     pitchView->resize(m_statFontSize);
-		m_statLab->setFixedHeight(centralWidget()->height() / 10);
-    QFont f = m_statLab->font();
-    f.setPointSize(m_statFontSize);
-    QFontMetrics fMetr(f);
-    qreal fact = (qreal)(m_statFontSize * 1.5) / (qreal)fMetr.boundingRect("A").height();
-    f.setPointSize(f.pointSize() * fact);
-    m_statLab->setFont(f);
-    guitar->setFixedHeight((centralWidget()->height() - nootBar->height()) * 0.25);
-    progress->resize(m_statFontSize);
-    examResults->setFontSize(m_statFontSize);
-    noteName->resize(m_statFontSize);
-// 		m_octaveButtons->resize(m_statFontSize);
-		
-		if (gl->instrument != e_noInstrument) {
-			if (m_pitchContainer) {
-				m_pitchContainer->layout()->removeWidget(pitchView);
-				pitchView->setHorizontal(false);
-// 				delete m_pitchContainer;
-				m_pitchContainer->deleteLater();
-				m_pitchContainer = 0;
-				guitar->show();
+	setUpdatesEnabled(false);
+	m_statFontSize = (centralWidget()->height() / 10) / 4 - 2;
+	nootBar->setIconSize(QSize(height() / 22, height() / 22));
+	pitchView->resize(m_statFontSize);
+	m_statLab->setFixedHeight(centralWidget()->height() / 10);
+	QFont f = m_statLab->font();
+	f.setPointSize(m_statFontSize);
+	QFontMetrics fMetr(f);
+	qreal fact = (qreal)(m_statFontSize * 1.5) / (qreal)fMetr.boundingRect("A").height();
+	f.setPointSize(f.pointSize() * fact);
+	m_statLab->setFont(f);
+	guitar->setFixedHeight((centralWidget()->height() - nootBar->height()) * 0.25);
+	progress->resize(m_statFontSize);
+	examResults->setFontSize(m_statFontSize);
+	noteName->resize(m_statFontSize);
+	
+	if (gl->instrument != e_noInstrument) {
+		if (m_pitchContainer) {
+			m_pitchContainer->layout()->removeWidget(pitchView);
+			m_pitchContainer->deleteLater();
+			m_pitchContainer = 0;
+			guitar->show();
+			m_rightLay->addWidget(pitchView);
+		}
+		int allWidgetsHeight = m_statLab->height() + progress->height() + examResults->height() + 
+				noteName->height() + guitar->height() + pitchView->height();
+// 			allWidgetsHeight +=  + 4 * (progress->geometry().bottom() + examResults->geometry().top()); // plus some space
+// 			qDebug() << "all" << allWidgetsHeight << "widget" << height() << "progress" << progress->height() 
+// 					<<  "examResults" << examResults->height();
+		if (allWidgetsHeight < height()) { // move pitchView under noteName
+			if (m_scoreLay->count() > 1) { // if it is under score
+				m_scoreLay->removeWidget(pitchView);
 				m_rightLay->addWidget(pitchView);
 			}
-			QPixmap bgPix;
-			qreal guitH;
-			qreal ratio;
-			if (gl->instrument == e_classicalGuitar) {
-				bgPix = QPixmap(gl->path + "picts/body.png"); // size 800x535
-				guitH = qRound(((double)guitar->height() / 350.0) * 856.0);
-		    int guitW = centralWidget()->width() / 2;
-		    m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
+		} else { // move pitchView under score
+			if (m_scoreLay->count() < 2) { // if it is under noteName
+				m_rightLay->removeWidget(pitchView);
+				m_scoreLay->addWidget(pitchView);					
 			}
-			else {
-				if (gl->instrument == e_bassGuitar)
-						bgPix = QPixmap(gl->path + "picts/body-bass.png"); // size 
-				else
-						bgPix = QPixmap(gl->path + "picts/body-electro.png");
-				guitH = guitar->height() * 2.9;
-				ratio = guitH / bgPix.height();
-				m_bgPixmap = bgPix.scaled(qRound(bgPix.width() * ratio), guitH, Qt::KeepAspectRatio);
-				QPixmap rosePix(gl->path + "picts/pickup.png");
+		}
+		QPixmap bgPix;
+		qreal guitH;
+		qreal ratio;
+		if (gl->instrument == e_classicalGuitar) {
+			bgPix = QPixmap(gl->path + "picts/body.png"); // size 800x535
+			guitH = qRound(((double)guitar->height() / 350.0) * 856.0);
+			int guitW = centralWidget()->width() / 2;
+			m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
+		}
+		else {
+			if (gl->instrument == e_bassGuitar)
+					bgPix = QPixmap(gl->path + "picts/body-bass.png"); // size 
+			else
+					bgPix = QPixmap(gl->path + "picts/body-electro.png");
+			guitH = guitar->height() * 2.9;
+			ratio = guitH / bgPix.height();
+			m_bgPixmap = bgPix.scaled(qRound(bgPix.width() * ratio), guitH, Qt::KeepAspectRatio);
+			QPixmap rosePix(gl->path + "picts/pickup.png");
 // 				ratio = guitar->height() / rosePix.height();
 // 				ratio = ((qreal)guitar->fbRect().height()) / (qreal)rosePix.height();
 // 				qDebug() << ratio << (guitar->width() - guitar->fbRect().width()) / 2 << rosePix.size();
-				if (gl->instrument == e_bassGuitar)
-						ratio *= 0.5;
-				else
-						ratio *= 0.6;
-				m_rosettePixmap = rosePix.scaled(rosePix.width() * ratio, rosePix.height() * ratio, Qt::KeepAspectRatio);
+			if (gl->instrument == e_bassGuitar)
+					ratio *= 0.5;
+			else
+					ratio *= 0.6;
+			m_rosettePixmap = rosePix.scaled(rosePix.width() * ratio, rosePix.height() * ratio, Qt::KeepAspectRatio);
 // 			if (gl->instrument == e_classicalGuitar) {
 // 				QPixmap rosePix(gl->path + "picts/rosette.png"); // size 341x281
 // 				m_rosettePixmap = rosePix.scaled(341 * ratio, 281 * ratio, Qt::KeepAspectRatio);
-			}
-		} else { // no guitar - pitch view instead
-				if (!m_pitchContainer) {
-					guitar->hide();
-					m_pitchContainer = new QWidget(innerWidget);
-					m_rightLay->removeWidget(pitchView);
-					pitchView->setHorizontal(true);
-					QVBoxLayout *pitchLay = new QVBoxLayout;
-					pitchLay->addStretch(1);
-					pitchLay->addWidget(pitchView);
-					pitchLay->addStretch(1);
-					m_pitchContainer->setLayout(pitchLay);
-					innerWidget->layout()->addWidget(m_pitchContainer);
-				}
 		}
-		if (m_pitchContainer)
-			m_pitchContainer->setFixedHeight((centralWidget()->height() - nootBar->height()) * 0.25);
-		pitchView->resize(m_statFontSize);
-    
-    setUpdatesEnabled(true);
-    QTimer::singleShot(2, this, SLOT(update())); 
+	} else { // no guitar - pitch view instead
+			if (!m_pitchContainer) {
+				guitar->hide();
+				m_pitchContainer = new QWidget(innerWidget);
+				m_rightLay->removeWidget(pitchView);
+				QVBoxLayout *pitchLay = new QVBoxLayout;
+				pitchLay->addStretch(1);
+				pitchLay->addWidget(pitchView);
+				pitchLay->addStretch(1);
+				m_pitchContainer->setLayout(pitchLay);
+				innerWidget->layout()->addWidget(m_pitchContainer);
+			}
+	}
+	if (m_pitchContainer)
+		m_pitchContainer->setFixedHeight((centralWidget()->height() - nootBar->height()) * 0.25);
+// 		pitchView->resize(m_statFontSize);
+	
+	setUpdatesEnabled(true);
+	QTimer::singleShot(2, this, SLOT(update())); 
 }
 
 

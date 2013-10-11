@@ -42,7 +42,7 @@ QString TquestionTip::getTextHowAccid(Tnote::Eacidentals accid) {
 
 
 QString TquestionTip::onStringTxt(quint8 strNr) {
-    return tr("on <span style=\"font-family: nootka;\">%1</span> string.").arg(strNr);
+    return "<b>" + tr("on %1 string.").arg(QString("</b><span style=\"font-family: nootka;\">%1</span><b>").arg(strNr)) + "</b>";
 }
 
 //##########################################################################################
@@ -103,7 +103,7 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* le
               m_guitarFree = false;
               quest += tr("Show on the guitar");
               if (level->showStrNr)
-                apendix = "<br><b> " + onStringTxt(question.qa.pos.str()) + "</b>";
+                apendix = "<br> " + onStringTxt(question.qa.pos.str());
             } else
               if (question.answerAs == TQAtype::e_asSound) {
                 quest += tr("Play or sing");
@@ -140,7 +140,7 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* le
               m_guitarFree = false;
               quest += tr("Show on the guitar") + noteStr;
               if (level->showStrNr)
-                quest += "<br><b> " + onStringTxt(question.qa.pos.str()) + "</b>";
+                quest += "<br> " + onStringTxt(question.qa.pos.str());
             } else
               if (question.answerAs == TQAtype::e_asSound) {
                 quest += "<br>" + tr("Play or sing") + noteStr;
@@ -163,7 +163,7 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* le
           } else
             if (question.answerAs == TQAtype::e_asFretPos) {
               quest += tr("Show sound from position:", "... and string + fret numbers folowing");
-              apendix = "<br><b> " + onStringTxt(question.qa_2.pos.str()) + "</b>";
+              apendix = "<br> " + onStringTxt(question.qa_2.pos.str());
             } else
               if (question.answerAs == TQAtype::e_asSound) {
                   quest += tr("Play or sing");
@@ -198,7 +198,7 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* le
               m_guitarFree = false;
               quest += tr("Listened sound show on the guitar");
               if (level->showStrNr)
-              quest += "<br><b> " + onStringTxt(question.qa.pos.str()) + "</b>";
+              quest += "<br> " + onStringTxt(question.qa.pos.str());
             } else
               if (question.answerAs == TQAtype::e_asSound) {
                 quest += tr("Play or sing listened sound");          
