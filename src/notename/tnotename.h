@@ -22,6 +22,7 @@
 #include <QWidget>
 #include "tnote.h"
 
+class QHBoxLayout;
 class TnoteNameLabel;
 class QPushButton;
 class TpushButton;
@@ -74,6 +75,7 @@ private:
     TnoteNameLabel	*m_nameLabel;
     TpushButton 		*m_noteButtons[7];
     TpushButton 		*m_octaveButtons[8];
+		QHBoxLayout 		*m_accLay, *m_octaveLay;
     TpushButton 		*m_dblFlatButt, *m_flatButt, *m_sharpButt, *m_dblSharpButt;
     QButtonGroup 		*m_noteGroup, *m_octaveGroup;
 				/** Keeps index of previous selected octave button, none if -1 */
@@ -102,7 +104,8 @@ private slots:
     void noteWasChanged(int noteNr);
     void accidWasChanged();
     void octaveWasChanged(int octNr);
-		void correctFadeAnimation();
+		void correctAnimationFinished();
+		void invokeBlinkingAgain();
 
 };
 

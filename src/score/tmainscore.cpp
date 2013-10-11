@@ -40,9 +40,9 @@ TmainScore::TmainScore(QWidget* parent) :
 	m_questMark(0),
 	m_questKey(0),
 	m_strikeOut(0),
-	m_bliking(0)
+	m_bliking(0), m_keyBlinking(0)
 {
-// set prefered clef
+// set preferred clef
 	if (gl->Sclef == Tclef::e_pianoStaff)
 			TsimpleScore::setPianoStaff(true);
 	else
@@ -293,30 +293,27 @@ void TmainScore::correctNote(Tnote& goodNote, const QColor& color) {
 
 void TmainScore::correctAccidental(Tnote& goodNote) {
 		m_goodNote = goodNote;
-		m_bliking = new TblinkingItem(staff()->noteSegment(0)->mainAccid());
 		QPen pp(QColor(gl->EnotBadColor.name()), 0.5);
+		if (getNote(0).acidental != m_goodNote.acidental)
+			m_bliking = new TblinkingItem(staff()->noteSegment(0)->mainAccid());
+		else {
+			m_bliking = new TblinkingItem(staff()->noteSegment(0));
+			staff()->noteSegment(0)->mainNote()->setBrush(QBrush(pp.color()));
+		}
 		staff()->noteSegment(0)->mainAccid()->setBrush(QBrush(pp.color()));
 		m_bliking->startBlinking(3);
 		connect(m_bliking, SIGNAL(blinkingFinished()), this, SLOT(strikeBlinkingFinished()));
 }
 
 
-// QGraphicsItemGroup *m_keyAccidsGr = 0; // group of key accidentals to blinking
-TstrikedOutItem *m_keyStrikeOut = 0;
 void TmainScore::correctKeySignature(TkeySignature newKey) {
-		if (staff()->scoreKey()) {
-				m_keyStrikeOut = new TstrikedOutItem(QRectF(0.0, 0.0, 
-																staff()->scoreKey()->boundingRect().width() - 3.0, 8.0), staff()->scoreKey());
-				m_keyStrikeOut->setPos((staff()->scoreKey()->boundingRect().width() - m_keyStrikeOut->boundingRect().width()) / 2, 
-														(staff()->scoreKey()->boundingRect().height() - m_keyStrikeOut->boundingRect().height()) / 2);
-		}
+		if (staff()->scoreKey())
+				m_keyBlinking = new TblinkingItem(staff()->scoreKey());
 		else
 				return;
 		m_goodKey = newKey;
-		QPen pp(QColor(gl->EnotBadColor.name()), 1.0);
-		m_keyStrikeOut->setPen(pp);
-		connect(m_keyStrikeOut, SIGNAL(strikedFInished()), this, SLOT(keyStrikingFinished()));
-		m_keyStrikeOut->startBlinking();
+		connect(m_keyBlinking, SIGNAL(blinkingFinished()), this, SLOT(keyBlinkingFinished()));
+		m_keyBlinking->startBlinking(2);
 }
 
 //####################################################################################################
@@ -377,14 +374,17 @@ void TmainScore::strikeBlinkingFinished() {
 }
 
 
-void TmainScore::keyStrikingFinished() {
-	setKeySignature(m_goodKey);
-	if (m_questKey) {
-		m_questKey->setHtml(m_questKey->toHtml().replace("?", "!").replace(gl->EquestionColor.name(), gl->EanswerColor.name()));
-	}
-	if (m_keyStrikeOut) {
-		delete m_keyStrikeOut;
-		m_keyStrikeOut = 0;
+void TmainScore::keyBlinkingFinished() {
+	if (m_goodKey.value() != keySignature().value()) { // finished 1st time
+			setKeySignature(m_goodKey); // set proper key
+			if (m_questKey) // desired key name make green and replace ? for !
+				m_questKey->setHtml(m_questKey->toHtml().replace("?", "!").replace(gl->EquestionColor.name(), gl->EanswerColor.name()));
+			m_keyBlinking->startBlinking(3); // and blink again
+	} else { // finished 2nd time
+			if (m_keyBlinking) {
+				delete m_keyBlinking;
+				m_keyBlinking = 0;
+			}
 	}
 }
 

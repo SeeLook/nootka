@@ -37,7 +37,7 @@ signals:
 		
 public slots:
 				/** Starts blinking animation. */
-		void startBlinking(int count);
+		void startBlinking(int count = 2);
 		
 		
 protected slots:

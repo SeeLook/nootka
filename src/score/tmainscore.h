@@ -88,7 +88,7 @@ protected slots:
 				/** Refresh some things after switch scordature, notes state and color. */
 		void onPianoSwitch();
 		void strikeBlinkingFinished();
-		void keyStrikingFinished();
+		void keyBlinkingFinished();
 		void finishCorrection();
 		
 private:
@@ -102,8 +102,8 @@ private:
 		QGraphicsSimpleTextItem 		*m_questMark;
 		QGraphicsTextItem 					*m_questKey;
 		QList<QGraphicsRectItem*> 	 m_bgRects; // list of rects with hightlights
-		TstrikedOutItem 				*m_strikeOut;
-		TblinkingItem 							*m_bliking;
+		TstrikedOutItem 						*m_strikeOut;
+		TblinkingItem 							*m_bliking, *m_keyBlinking;
 		Tnote												 m_goodNote;
 		TkeySignature								 m_goodKey;
 };

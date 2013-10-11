@@ -2,9 +2,10 @@
      - exam can check intonation of a sound and its accuracy is configurable
      - English language in Nootka was corrected and improved
      - buttons with octaves and accidentals are highlighted  during answering
+     - GUI layout enhancements
      - crossing of played notes is fluent now - it was cleaned from cracks
      - preview of a level was improved
-     - intonation view displays more accurate differences to clear sound
+     - intonation view displays differences more accurate
     BUGS FIXES
      - Nootka doesn't crash when guitar or singing is out of tune
      - fixed random crash when midi output was in use
