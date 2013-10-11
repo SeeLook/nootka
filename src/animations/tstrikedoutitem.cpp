@@ -20,7 +20,6 @@
 #include "tblinkingitem.h"
 #include <QPen>
 #include <QGraphicsScene>
-#include <QTimer>
 
 TstrikedOutItem::TstrikedOutItem(const QRectF& rect, QGraphicsItem* parent) :
 	QGraphicsObject(parent),

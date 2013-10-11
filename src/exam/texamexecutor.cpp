@@ -697,9 +697,9 @@ void TexamExecutor::correctAnswer() {
 					Tnote goodNote = curQ.qa.note;
 					if (curQ.questionAs == TQAtype::e_asNote)
 						goodNote = curQ.qa_2.note;
-					if (curQ.wrongAccid()) // it corrects wrong octave as well
+					if (curQ.wrongAccid() || curQ.wrongOctave()) // it corrects wrong octave as well
 							mW->score->correctAccidental(goodNote);
-					else if (curQ.wrongNote() || curQ.wrongOctave())
+					else if (curQ.wrongNote())
 							mW->score->correctNote(goodNote, markColor);
 					if (curQ.wrongKey())
 							mW->score->correctKeySignature(curQ.key);
@@ -853,9 +853,11 @@ void TexamExecutor::prepareToExam() {
 				mW->correctChB->setChecked(gl->E->showCorrected);
 		}	else
 				mW->progress->activate(m_exam->count(), m_supp->obligQuestions(), m_exam->penalty(), m_exam->isFinished());
-		if (m_level.instrument != e_noInstrument && 
-			(!m_level.answersAs[TQAtype::e_asNote].isSound() && !m_level.answersAs[TQAtype::e_asName].isSound() &&
-				!m_level.answersAs[TQAtype::e_asFretPos].isSound() && !m_level.answersAs[TQAtype::e_asSound].isSound()))
+		if (gl->instrument != e_noInstrument && 
+			((/*m_level.questionAs.isNote() && */!m_level.answersAs[TQAtype::e_asNote].isSound()) &&
+			(/*m_level.questionAs.isName() && */!m_level.answersAs[TQAtype::e_asName].isSound()) &&
+			(/*m_level.questionAs.isFret() && */!m_level.answersAs[TQAtype::e_asFretPos].isSound()) &&
+			(/*m_level.questionAs.isSound() && */!m_level.answersAs[TQAtype::e_asSound].isSound())))
 					mW->pitchView->hide();
     disableWidgets();
 // connect all events to check an answer or display tip how to check
@@ -1017,7 +1019,7 @@ void TexamExecutor::createActions() {
 
 void TexamExecutor::stopExamSlot() {
 	if (m_practice) {
-    bool continuePractice = true;
+    bool continuePractice = false;
     if (m_exam->count() > 2) {
 // TODO check is answer done, if not remove it from list to show results without it
 //       TQAunit lastQuestion = m_exam->curQ();

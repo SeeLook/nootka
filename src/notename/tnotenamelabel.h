@@ -52,15 +52,6 @@ public:
 	void showStringNumber(int strNr, const QColor& color);
 	void markText(const QColor &color);
 	
-	// Animations
-			/** Starts painting cross over label given @p count times with @p period duration of each. */
-	void blinkCross(const QColor& color);
-			/** Fades out background to transparency, sets new text and fades in with new color.*/
-	void crossFadeText(const QString &newText, const QColor &newBgColor, int duration = 150);
-			/** Blinks the text given number of times with period [milliseconds]. 
-			 * Emits blinkingFinished() signal after. */
-	void blinkingText(int count, int period = 150);
-	
 	void setStyleSheet(const QString &style);
 	void setBackgroundColor(const QColor &color);
 	
@@ -69,6 +60,16 @@ public:
 signals:
 	void blinkingFinished();
 	void crossFadeingFinished();
+	
+public slots:
+	// Animations
+			/** Starts painting cross over label given @p count times with @p period duration of each. */
+	void blinkCross(const QColor& color);
+			/** Fades out background to transparency, sets new text and fades in with new color.*/
+	void crossFadeText(const QString &newText, const QColor &newBgColor, int duration = 150);
+			/** Blinks the text given number of times with period [milliseconds]. 
+			 * Emits blinkingFinished() signal after. */
+	void blinkingText(int count, int period = 150);
 	
 protected:
 	virtual void resizeEvent(QResizeEvent* event);
@@ -87,7 +88,7 @@ private:
 	QColor 										m_bgColor, m_newBgColor;
 	QString   								m_newText, m_bgColorText, m_styleText;
 	QGraphicsTextItem					*m_textItem;
-	TstrikedOutItem				*m_strikeOut;
+	TstrikedOutItem						*m_strikeOut;
 	TblinkingItem							*m_blinking;
 	QGraphicsSimpleTextItem		*m_questMark, *m_stringNumber;
 	

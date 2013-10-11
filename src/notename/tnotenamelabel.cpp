@@ -84,7 +84,7 @@ void TnoteNameLabel::setText(const QString& text) {
 
 void TnoteNameLabel::center() {
 	m_textItem->setPos((scene()->width() - m_textItem->boundingRect().width() * m_textItem->scale()) / 2,
-				(scene()->height() - m_textItem->boundingRect().height() * m_textItem->scale()) / 2	+ height() / 10.0);
+				(scene()->height() - m_textItem->boundingRect().height() * m_textItem->scale()) / 2	+ height() / 15.0);
 }
 
 
@@ -107,11 +107,11 @@ void TnoteNameLabel::showStringNumber(int strNr, const QColor &color) {
 	m_stringNumber->setFont(QFont("nootka"));
 	m_stringNumber->setBrush(color);
 	m_stringNumber->setScale(((height()) / m_stringNumber->boundingRect().height()) * 0.9) ;
-	qreal off = 10.0;
+	qreal xOff = m_textItem->pos().x() + m_textItem->boundingRect().width() * m_textItem->scale();
 	if (m_questMark)
-		off = m_questMark->boundingRect().width() * m_questMark->scale() + 10.0;
-	m_stringNumber->setPos((m_textItem->pos().x() + m_textItem->boundingRect().width() + off) * m_textItem->scale() + 10.0, 
-											(height() - m_stringNumber->boundingRect().height() * m_stringNumber->scale()) / 2 + height() / 10.0);
+		xOff = m_questMark->pos().x() + m_questMark->boundingRect().width() * m_questMark->scale();
+	m_stringNumber->setPos(xOff + 10.00, 
+												 (height() - m_stringNumber->boundingRect().height() * m_stringNumber->scale()) / 2 + height() / 10.0);
 }
 
 
@@ -238,6 +238,7 @@ void TnoteNameLabel::blinkingSlot() {
 		m_blinking->deleteLater();
 		m_blinking = 0;
 	}
+	emit blinkingFinished();
 }
 
 
