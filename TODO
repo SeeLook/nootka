@@ -10,10 +10,9 @@ Tglobals (TexamParams)
 -practice
  TexamHelp - universal texts for exam and exercising
  piano staff has problems with correcting answers
- distinguish when key is wrong and do not mark note in this case  
+ with wrong note correct key as well
 			
 			 
- 
 - re-sizing cases changing an instrument (do it at start and restore without necessity of re-sizing)
 - canvas tips are not scaled!
 - !!!check does 'string order' work for Tfingerboard!!!
