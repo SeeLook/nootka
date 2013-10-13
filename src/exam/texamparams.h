@@ -45,6 +45,8 @@ public:
   
 // PRACTICE/EXERCISING
   bool showCorrected; /** When answer was wrong, corrected one will be shown */
+  int correctViewDuration; /** Time of displaying correct answer */
+  bool suggestExam; /** Check is exercising going well and suggest to start an exam on that level. */
   //   bool repeatUntilcorrect; /** or until correct answer will be given. */
 };
 

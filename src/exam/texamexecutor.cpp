@@ -77,9 +77,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
     if (lev) {
         m_level = *lev;
         if (gl->E->studentName == "") {
-	    resultText = TstartExamDlg::systemUserName();
-        }
-        else
+						resultText = TstartExamDlg::systemUserName();
+        } else
             resultText = gl->E->studentName;
         userAct = TstartExamDlg::e_newLevel;
     } else {
@@ -141,7 +140,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
             return;
         }
     } else if (userAct == TstartExamDlg::e_practice) {
-				m_exam = new Texam(&m_level, "");
+				m_exam = new Texam(&m_level, resultText);
 				m_practice = new Texercises(m_exam);
     } else {
 				if (userAct == TstartExamDlg::e_levelCreator) {
@@ -261,8 +260,10 @@ void TexamExecutor::askQuestion() {
     if (!gl->E->autoNextQuest) {
 			if (!m_practice)
 					mW->startExamAct->setDisabled(true);
-        m_canvas->clearCanvas();
+			m_canvas->clearCanvas();
     }
+    if (m_practice)
+			mW->nootBar->removeAction(correctAct);
     m_isAnswered = false;
     m_incorrectRepeated = false;
     m_answRequire.octave = m_level.requireOctave;
@@ -644,11 +645,19 @@ void TexamExecutor::checkAnswer(bool showResults) {
     mW->noteName->setStyle(gl->NnameStyleInNoteName);
     mW->noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
 
+		markAnswer(curQ);
     int waitTime = 200; //WAIT_TIME;
 		if (m_practice) {
 			waitTime = 2500; // user has to have time to see his mistake and correct answer
 			m_practice->checkAnswer();
-			correctAnswer();
+			if (!curQ.isCorrect()) { // correcting wrong answer
+					if (mW->correctChB->isChecked())
+						correctAnswer();
+					else {
+						mW->nootBar->addAction(correctAct);
+						return; // wait for user
+					}
+			}
 		} else {
 				if (!m_supp->wasFinished() && m_exam->count() >= (m_supp->obligQuestions() + m_exam->penalty()) ) { // maybe enough
 					if (m_exam->blackCount()) {
@@ -665,10 +674,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
 					}
 				}
 		}
-    markAnswer(curQ);
     if (showResults && gl->E->autoNextQuest) {
       m_lockRightButt = true; // to avoid nervous users click mouse during WAIT_TIME
-//       markAnswer(curQ);
       if (m_shouldBeTerminated)
           stopExamSlot();
       else {
@@ -686,34 +693,39 @@ void TexamExecutor::checkAnswer(bool showResults) {
 
 
 void TexamExecutor::correctAnswer() {
+	if (!mW->correctChB->isChecked())
+			mW->nootBar->removeAction(correctAct);
 	TQAunit curQ = m_exam->curQ();
-	if (!curQ.isCorrect()) { // correcting wrong answer
-			QColor markColor;
-			if (curQ.isNotSoBad())
-				markColor = gl->EnotBadColor;
-			else
-				markColor = gl->EquestionColor;
-			if (curQ.answerAs == TQAtype::e_asNote) {
-					Tnote goodNote = curQ.qa.note;
-					if (curQ.questionAs == TQAtype::e_asNote)
-						goodNote = curQ.qa_2.note;
-					if (curQ.wrongAccid() || curQ.wrongOctave()) // it corrects wrong octave as well
-							mW->score->correctAccidental(goodNote);
-					else if (curQ.wrongNote())
-							mW->score->correctNote(goodNote, markColor);
-					if (curQ.wrongKey())
-							mW->score->correctKeySignature(curQ.key);
-			} else if (curQ.answerAs == TQAtype::e_asFretPos) {
-				TfingerPos goodPos = curQ.qa.pos;
-				if (curQ.questionAs == TQAtype::e_asFretPos)
+	QColor markColor;
+	if (curQ.isNotSoBad())
+			markColor = gl->EnotBadColor;
+	else
+			markColor = gl->EquestionColor;
+	if (curQ.answerAs == TQAtype::e_asNote) {
+			Tnote goodNote = curQ.qa.note;
+			if (curQ.questionAs == TQAtype::e_asNote)
+				goodNote = curQ.qa_2.note;
+			if (curQ.wrongAccid() || curQ.wrongOctave()) // it corrects wrong octave as well
+					mW->score->correctAccidental(goodNote);
+			else if (curQ.wrongNote())
+					mW->score->correctNote(goodNote, markColor);
+			if (curQ.wrongKey())
+					mW->score->correctKeySignature(curQ.key);
+	} else if (curQ.answerAs == TQAtype::e_asFretPos) {
+			TfingerPos goodPos = curQ.qa.pos;
+			if (curQ.questionAs == TQAtype::e_asFretPos)
 					goodPos = curQ.qa_2.pos;
-				mW->guitar->correctPosition(goodPos, markColor);
-			} else if (curQ.answerAs == TQAtype::e_asName) {
-				Tnote goodNote = curQ.qa.note;
-				if (curQ.questionAs == TQAtype::e_asName)
+			mW->guitar->correctPosition(goodPos, markColor);
+	} else if (curQ.answerAs == TQAtype::e_asName) {
+			Tnote goodNote = curQ.qa.note;
+			if (curQ.questionAs == TQAtype::e_asName)
 					goodNote = curQ.qa_2.note;
-				mW->noteName->correctName(goodNote, markColor, curQ.isWrong());
-			}
+			mW->noteName->correctName(goodNote, markColor, curQ.isWrong());
+	}
+	m_lockRightButt = true; // to avoid nervous users click mouse during correctViewDuration
+	if (!mW->correctChB->isChecked() && gl->E->autoNextQuest) {
+			// !mW->correctChB->isChecked() means that correctAnswer() is called by clicking correctAct
+			QTimer::singleShot(gl->E->correctViewDuration, this, SLOT(askQuestion()));
 	}
 }
 
@@ -908,7 +920,6 @@ void TexamExecutor::prepareToExam() {
     m_snifferLocked = false;
     m_canvas = new Tcanvas(mW);
     m_canvas->show();
-    m_canvas->setQApossibilities(m_supp->qaPossibilitys());
     connect(m_canvas, SIGNAL(buttonClicked(QString)), this, SLOT(tipButtonSlot(QString)));
     if(gl->hintsEnabled)
         m_canvas->startTip();
@@ -1013,6 +1024,14 @@ void TexamExecutor::createActions() {
         repeatSndAct->setShortcut(QKeySequence(Qt::Key_Space));
         repeatSndAct->setIcon(QIcon(gl->path+"picts/repeatSound.png"));
         connect(repeatSndAct, SIGNAL(triggered()), this, SLOT(repeatSound()));
+    }
+    if (m_practice) {
+			correctAct = new QAction(tr("Correct", "like a correct answer with mistake"), this);
+			correctAct->setStatusTip(tr("correct answer\n(enter)"));
+			correctAct->setToolTip(correctAct->statusTip());
+			correctAct->setIcon(QIcon(gl->path+"picts/correct.png"));
+			correctAct->setShortcut(QKeySequence(Qt::Key_Return));
+			connect(correctAct, SIGNAL(triggered()), this, SLOT(correctAnswer()));
     }
 }
 
@@ -1156,6 +1175,7 @@ bool TexamExecutor::showExamSummary(bool cont) {
     return true;
 }
 
+
 void TexamExecutor::showExamHelp() {
   m_snifferLocked = true;
   qApp->removeEventFilter(m_supp);
@@ -1216,6 +1236,7 @@ void TexamExecutor::expertAnswersSlot() {
     }
     QTimer::singleShot(10, this, SLOT(checkAnswer()));
 }
+
 
 void TexamExecutor::rightButtonSlot() {
   if (m_lockRightButt)

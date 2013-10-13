@@ -45,10 +45,10 @@ TexamSettings::TexamSettings(TexamParams* params, QColor* qColor, QColor* aColor
     lay->addWidget(m_expertAnswChB, 0, Qt::AlignCenter);
     lay->addStretch(1);
     
-    m_showHelpChB = new QCheckBox(showHelpWindowTxt(), this);
-    m_showHelpChB->setChecked(m_params->showHelpOnStart);
-    lay->addWidget(m_showHelpChB, 0, Qt::AlignCenter);
-    m_showHelpChB->setStatusTip(tr("Shows the help window when new exam begins."));
+//     m_showHelpChB = new QCheckBox(showHelpWindowTxt(), this);
+//     m_showHelpChB->setChecked(m_params->showHelpOnStart);
+//     lay->addWidget(m_showHelpChB, 0, Qt::AlignCenter);
+//     m_showHelpChB->setStatusTip(tr("Shows the help window when new exam begins."));
     lay->addStretch(1);
     
     QHBoxLayout *nameLay = new QHBoxLayout();

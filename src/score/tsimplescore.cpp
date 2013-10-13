@@ -348,7 +348,7 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 	m_staff->setPos(m_score->mapToScene(staffOff, 0));
 	int xOff = 0;
 	if (m_scoreControl && layoutHasControl)
-			xOff = m_scoreControl->width() + 10; // 15 is space between m_scoreControl and m_score - looks good
+			xOff = m_scoreControl->width() + 10; // 10 is space between m_scoreControl and m_score - looks good
 	setMaximumWidth(m_scene->sceneRect().width() + xOff);
   setMinimumWidth(m_scene->sceneRect().width() + xOff);
 }

@@ -46,7 +46,6 @@
 extern Tglobals *gl;
 extern bool resetConfig;
 
-QVBoxLayout *m_scoreLay;
 
 MainWindow::MainWindow(QWidget *parent) :
 		QMainWindow(parent),
@@ -116,11 +115,6 @@ MainWindow::MainWindow(QWidget *parent) :
     m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
 		statLay->addWidget(m_statLab, 0, Qt::AlignTop);
  // Expert corner
-    m_hintsChB = new QCheckBox(innerWidget);
-			m_hintsChB->setChecked(gl->hintsEnabled);
-			m_hintsChB->setStatusTip(tr("show or hide the hints"));
-			m_hintsChB->setToolTip(m_hintsChB->statusTip());
-			m_hintsChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 		autoRepeatChB = new QCheckBox(innerWidget);
 			autoRepeatChB->hide();
 			autoRepeatChB->setStatusTip(TexamSettings::autoNextQuestTxt());
@@ -133,7 +127,7 @@ MainWindow::MainWindow(QWidget *parent) :
 			expertAnswChB->setToolTip(TexamSettings::expertsAnswerTxt());
 		correctChB = new QCheckBox(innerWidget);
 			correctChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-			correctChB->setStatusTip(tr("show corrected answer if mistaken"));
+			correctChB->setStatusTip(TexamSettings::correctMistakesTxt());
 			correctChB->setToolTip(correctChB->statusTip());
 			correctChB->hide();
     
@@ -155,11 +149,11 @@ MainWindow::MainWindow(QWidget *parent) :
 		
 //-------------------------------------------------------------------		
 // Setting layout
-		QGridLayout *chBlay = new QGridLayout;
-			chBlay->addWidget(m_hintsChB, 0, 0);
-			chBlay->addWidget(autoRepeatChB, 1, 0);
-			chBlay->addWidget(expertAnswChB, 0, 1);
-			chBlay->addWidget(correctChB, 1, 1);
+		QVBoxLayout *chBlay = new QVBoxLayout;
+			chBlay->addWidget(correctChB);
+			chBlay->addWidget(autoRepeatChB);
+			chBlay->addWidget(expertAnswChB);
+			chBlay->addStretch(1);
 			statLay->addLayout(chBlay);
 		QHBoxLayout *toolAndHintLay = new QHBoxLayout;
 			toolAndHintLay->addWidget(nootBar);
@@ -173,17 +167,9 @@ MainWindow::MainWindow(QWidget *parent) :
 			rightPaneLay->addWidget(examResults);
 			rightPaneLay->addWidget(nootLabel);
       rightPaneLay->addStretch(1);
-// 			rightPaneLay->addStretch(1);
 			rightPaneLay->addWidget(noteName);
 			rightPaneLay->addStretch(1);
-// 		QHBoxLayout *rightWholeLay = new QHBoxLayout;
-// 			rightWholeLay->addWidget((QWidget*)score->getFreeController());
-// 			rightWholeLay->addLayout(rightPaneLay);
-// 			rightPaneLay->addLayout(nameAndSoundLay);
-// 		QVBoxLayout *rightLay = new QVBoxLayout;
-// 			rightLay->addLayout(rightWholeLay);
-// 			rightLay->addWidget(pitchView);
-			m_rightLay = rightPaneLay;
+		m_rightLay = rightPaneLay;
 		QHBoxLayout *scoreAndNameLay = new QHBoxLayout;
 			scoreAndNameLay->addLayout(m_scoreLay);
 			scoreAndNameLay->addLayout(rightPaneLay);
@@ -193,7 +179,6 @@ MainWindow::MainWindow(QWidget *parent) :
 			mainLay->addWidget(guitar);
     innerWidget->setLayout(mainLay);
     setCentralWidget(innerWidget);
-    
 //-------------------------------------------------------------------
     m_statusText = "";
     m_prevBg = -1;
@@ -206,7 +191,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
     connect(noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
     connect(guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
-    connect(m_hintsChB, SIGNAL(clicked(bool)), this, SLOT(hintsStateChanged(bool)));
     connect(sound, SIGNAL(detectedNote(Tnote)), this, SLOT(soundWasPlayed(Tnote)));
 
     if (gl->A->OUTenabled && !sound->isPlayable())
@@ -314,7 +298,7 @@ void MainWindow::clearAfterExam(TexamExecutor::Estate examState) {
 }
 
 QPoint MainWindow::relatedPoint() {
-    return QPoint(noteName->geometry().x(), m_statLab->geometry().bottom());
+    return QPoint(noteName->geometry().x(), m_statLab->geometry().bottom() + 5);
 }
 
 //##########################################################################################
@@ -344,62 +328,66 @@ void MainWindow::openFile(QString runArg) {
 
 
 void MainWindow::createSettingsDialog() {
-    TsettingsDialog *settings = new TsettingsDialog(this);
-    sound->prepareToConf();
-//     qDebug("prepared");
-    if (settings->exec() == QDialog::Accepted) {
-        delete settings;
-        m_isPlayerFree = false;
-        sound->acceptSettings();
-        score->acceptSettings();
-				if (gl->instrument == e_noInstrument) // Tsound sets ambitus to guitar range
-					if (sound->isSniffable()) // but if no guitar - adjust it to score - clef range
-						sound->sniffer->setAmbitus(score->lowestNote(), score->highestNote());
-        noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
-        noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
-        noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
-        noteName->setStyle(gl->NnameStyleInNoteName);
-          // set new colors in exam view
-        examResults->setStyleBg(gl->getBGcolorText(gl->EanswerColor), gl->getBGcolorText(gl->EquestionColor), 
-                                gl->getBGcolorText(gl->EnotBadColor));
-        noteName->setAmbitus(gl->loString(),
-                               Tnote(gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber));
-        updsateSize();
-				if (score->getNote(0).note != 0) {
-					TnotesList nList;
-					nList = score->getNote(0).getTheSameNotes(gl->doubleAccidentalsEnabled);
-					if (nList[0].getChromaticNrOfNote() >= gl->loString().getChromaticNrOfNote() && 
-						nList[0].getChromaticNrOfNote() <= gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber ) {
-							if (gl->showEnharmNotes) { // refresh note name and score
-									noteName->setNoteName(nList);
-									if (nList.size() > 1)
-											score->setNote(1, nList[1]);
-									else {
-											score->clearNote(1);
-											score->clearNote(2);
-									}
-									if (nList.size() > 2)
-											score->setNote(2, nList[2]);
-									else
-											score->clearNote(2);
-							} else
-									noteName->setNoteName(nList[0]);
-					}
+	TsettingsDialog *settings = new TsettingsDialog(this);
+	sound->prepareToConf();
+	if (settings->exec() == QDialog::Accepted) {
+			delete settings;
+			m_isPlayerFree = false;
+			sound->acceptSettings();
+			score->acceptSettings();
+			if (gl->instrument == e_noInstrument) // Tsound sets ambitus to guitar range
+				if (sound->isSniffable()) // but if no guitar - adjust it to score - clef range
+					sound->sniffer->setAmbitus(score->lowestNote(), score->highestNote());
+			noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
+			noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
+			noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
+			noteName->setStyle(gl->NnameStyleInNoteName);
+				// set new colors in exam view
+			examResults->setStyleBg(gl->getBGcolorText(gl->EanswerColor), gl->getBGcolorText(gl->EquestionColor), 
+															gl->getBGcolorText(gl->EnotBadColor));
+			noteName->setAmbitus(gl->loString(),
+															Tnote(gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber));
+			updsateSize();
+			if (score->getNote(0).note != 0) {
+				TnotesList nList;
+				nList = score->getNote(0).getTheSameNotes(gl->doubleAccidentalsEnabled);
+				if (nList[0].getChromaticNrOfNote() >= gl->loString().getChromaticNrOfNote() && 
+					nList[0].getChromaticNrOfNote() <= gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber ) {
+						if (gl->showEnharmNotes) { // refresh note name and score
+								noteName->setNoteName(nList);
+								if (nList.size() > 1)
+										score->setNote(1, nList[1]);
+								else {
+										score->clearNote(1);
+										score->clearNote(2);
+								}
+								if (nList.size() > 2)
+										score->setNote(2, nList[2]);
+								else
+										score->clearNote(2);
+						} else
+								noteName->setNoteName(nList[0]);
 				}
-        if (gl->instrument != e_noInstrument) {
+			}
+			if (gl->instrument != e_noInstrument) {
 // 						guitar->show();
-						guitar->acceptSettings(); //refresh guitar
-				} /*else*/
+					guitar->acceptSettings(); //refresh guitar
+			} /*else*/
 // 						guitar->hide();
-        m_hintsChB->setChecked(gl->hintsEnabled);
-        m_isPlayerFree = true;
-    } else {
-      delete settings;
-      sound->restoreAfterConf();
-    }
-    if (resetConfig)
+			if (gl->hintsEnabled) {
+				nootBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+			} else {
+				m_prevBg = m_curBG;
+				setStatusMessage(m_prevMsg);
+				nootBar->setToolButtonStyle(Qt::ToolButtonIconOnly);				
+			}
+			m_isPlayerFree = true;
+	} else { // settings not accepted
+			delete settings;
+			sound->restoreAfterConf();
+	}
+	if (resetConfig)
 			close();
-// 			qApp->quit();
 }
 
 
@@ -519,19 +507,6 @@ void MainWindow::restoreMessage() {
 }
 
 
-void MainWindow::hintsStateChanged(bool enable) {
-    gl->hintsEnabled = enable;
-    if (!enable) {
-//        m_prevMsg = m_statusText;
-        m_prevBg = m_curBG;
-        setStatusMessage(m_prevMsg);
-				nootBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
-    } else {
-				nootBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    }
-}
-
-
 void MainWindow::showSupportDialog() {
     sound->wait();
     sound->stopPlaying();
@@ -595,7 +570,7 @@ void MainWindow::updsateSize() {
 			m_rightLay->addWidget(pitchView);
 		}
 		int allWidgetsHeight = m_statLab->height() + progress->height() + examResults->height() + 
-				noteName->height() + guitar->height() + pitchView->height();
+				noteName->height() + guitar->height() + pitchView->height() + 20;
 // 			allWidgetsHeight +=  + 4 * (progress->geometry().bottom() + examResults->geometry().top()); // plus some space
 // 			qDebug() << "all" << allWidgetsHeight << "widget" << height() << "progress" << progress->height() 
 // 					<<  "examResults" << examResults->height();
@@ -655,10 +630,9 @@ void MainWindow::updsateSize() {
 	}
 	if (m_pitchContainer)
 		m_pitchContainer->setFixedHeight((centralWidget()->height() - nootBar->height()) * 0.25);
-// 		pitchView->resize(m_statFontSize);
 	
 	setUpdatesEnabled(true);
-	QTimer::singleShot(2, this, SLOT(update())); 
+	QTimer::singleShot(2, this, SLOT(update()));
 }
 
 

@@ -293,6 +293,7 @@ void TnoteName::setNameDisabled(bool isDisabled) {
 								m_prevOctButton = i;
 						m_octaveButtons[i]->setChecked(false);
 					}
+// 					m_nameLabel->setBackgroundColor(prepareBgColor(palette().window().color()));
 				} else { // restore last checked octave vhen becomes enabled
           setAttribute(Qt::WA_TransparentForMouseEvents, false);
 					if (m_prevOctButton != -1)
@@ -301,6 +302,7 @@ void TnoteName::setNameDisabled(bool isDisabled) {
 						  m_octaveButtons[3]->setChecked(true);
 							m_prevOctButton = 3;
 					}
+// 					m_nameLabel->setBackgroundColor(prepareBgColor(palette().base().color()));
 				}
 }
 
