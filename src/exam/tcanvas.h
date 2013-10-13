@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -61,28 +61,25 @@ public:
     void finishTip(); // paper like exam report when finished
     
     void clearCanvas();
-        /** Returns point size of 'A' letter multipled by 2. */
+        /** Returns point size of 'A' letter multiplied by 2. */
     int bigFont();
-        /** Returns default font with point size scaled to 'A' letter multipled by given factor. */
+        /** Returns default font with point size scaled to 'A' letter multiplied by given factor. */
     QFont tipFont(qreal factor = 1);
     QString startTipText();
-        /** Paints animated exclamation mark over answering widged. */
+        /** Paints animated exclamation mark over answering widget. */
     void markAnswer(TQAtype::Etype qType, TQAtype::Etype aType);
         /** Paints rect around given type of widget to mark where is answer. */
     const QRect& getRect(TQAtype::Etype kindOf);
-        /** Sets number of combination of question/answer types.
-         * It is used to determine are animations needed. */
-    void setQApossibilities(int qaPos) { m_qaPossib = qaPos; }
     
 public slots:
-    void clearResultTip(); // cleanes tip with results
+    void clearResultTip(); // clears tip with results
     void clearTryAgainTip();
     void linkActivatedSlot(QString link);
     void clearConfirmTip();
     void showConfirmTip();
   
 signals:
-      /** This signal is emited when user click image button on the some tip.*/
+				/** This signal is emitted when user click image button on the some tip.*/
     void buttonClicked(QString name);
       
     
@@ -90,24 +87,32 @@ protected:
     bool event(QEvent *event);
     
 protected slots:
-    void sizeChanged(QSize newSize);
+				/** Calls sizeChanged with delay to allow MainWindow deploy its new geometry. */
+		void sizeChangedDelayed(QSize newSize);
+    void sizeChanged();
     
     
 private:
-    MainWindow *m_parent;
-    QGraphicsScene *m_scene;
-    double m_scale;
-    TgraphicsTextTip *m_resultTip, *m_whatTip, *m_startTip, *m_tryAgainTip, *m_confirmTip;
-    TquestionTip *m_questionTip;
-    TfinishTip *m_finishTip;
-    Texam *m_exam;
-    TanimedTextItem *m_flyAnswer, *m_flyNote;
-    QParallelAnimationGroup *m_animation;
-    int m_qaPossib;
-    QTimer *m_timerToConfirm;
+    MainWindow 										*m_parent;
+    QGraphicsScene 								*m_scene;
+    double 												m_scale;
+    TgraphicsTextTip 							*m_resultTip, *m_whatTip, *m_startTip, *m_tryAgainTip, *m_confirmTip;
+    TquestionTip 									*m_questionTip;
+    TfinishTip 										*m_finishTip;
+    Texam 												*m_exam;
+    TanimedTextItem 							*m_flyAnswer, *m_flyNote;
+    QParallelAnimationGroup 			*m_animation;
+    QTimer 												*m_timerToConfirm;
+		int 													m_maxTipWidth;
+		bool 													m_guitarFree, m_nameFree, m_scoreFree;
+		QSize 												m_newSize;
     
     
 private:
+			/** Calculates maximal tip height depends on free MainWindow widget. */
+		int getMaxTipHeight();
+				/** Universal method to place given tip above free MainWindow widget.  */
+		void setPosOfTip(TgraphicsTextTip *tip);
     void setPosOfResultTip();
     void setPosOfWhatTip();
     void setPosOfStartTip();

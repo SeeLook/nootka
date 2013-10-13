@@ -47,6 +47,7 @@
 
 extern Tglobals *gl;
 
+
 Tcanvas::Tcanvas(MainWindow* parent) :
   QGraphicsView(parent->centralWidget()),
   m_parent(parent),
@@ -56,7 +57,6 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   m_scale(1),
   m_flyAnswer(0), m_animation(0),
   m_flyNote(0),
-  m_qaPossib(1),
   m_scene(0),
   m_timerToConfirm(new QTimer(this))
 {
@@ -70,33 +70,9 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   setRenderHint(QPainter::TextAntialiasing, true);
   m_scene = new QGraphicsScene(this);
   setScene(m_scene);
-  sizeChanged(parent->centralWidget()->size());
-//   m_timerToConfirm->setSingleShot(true);
-//   m_animation = new QParallelAnimationGroup(this);
-//   m_flyAnswer = new TanimedTextItem();
-//   m_flyAnswer->setFont(QFont("nootka", width() / 18));
-//   m_flyAnswer->setBrush(QColor(gl->EanswerColor.name()));
-//   scene()->addItem(m_flyAnswer);
-//   m_flyAnswer->setZValue(100);
-//   m_flyAnswer->hide();
-//   QPropertyAnimation *movPos = new QPropertyAnimation(m_flyAnswer, "pos");
-//     movPos->setDuration(600);
-// //     movPos->setEasingCurve(QEasingCurve::InOutExpo);
-//     QPropertyAnimation *movScale = new QPropertyAnimation(m_flyAnswer, "scale");
-//     movScale->setDuration(600);
-//     movScale->setStartValue(4.0);
-//     movScale->setEndValue(0.3);
-// //     movScale->setEasingCurve(QEasingCurve::InCirc);
-//     QPropertyAnimation *movAlpha = new QPropertyAnimation(m_flyAnswer, "alpha");
-//     movAlpha->setDuration(600);
-//     movAlpha->setStartValue(255);
-//     movAlpha->setEndValue(0);
-//     movAlpha->setEasingCurve(QEasingCurve::InExpo);
-//     m_animation->addAnimation(movPos);
-//     m_animation->addAnimation(movScale);
-//     m_animation->addAnimation(movAlpha);
-//   
-  connect(parent, SIGNAL(sizeChanged(QSize)), this, SLOT(sizeChanged(QSize)));
+	m_newSize = parent->centralWidget()->size();
+  sizeChanged();
+  connect(parent, SIGNAL(sizeChanged(QSize)), this, SLOT(sizeChangedDelayed(QSize)));
   connect(m_timerToConfirm, SIGNAL(timeout()), this, SLOT(showConfirmTip()));
 }
 
@@ -179,7 +155,6 @@ void Tcanvas::finishTip() {
   setPosOfFinishTip();
   m_finishTip->rotate(-7);
 }
-
 
 
 void Tcanvas::whatNextTip(bool isCorrect, bool onRight) {
@@ -271,10 +246,12 @@ void Tcanvas::questionTip(Texam* exam) {
   if (m_questionTip)
     delete m_questionTip;
   m_questionTip = new TquestionTip(exam, m_scale);
+	m_questionTip->setTextWidth(m_maxTipWidth);
   m_scene->addItem(m_questionTip);
+	m_guitarFree = m_questionTip->freeGuitar();
+	m_nameFree = m_questionTip->freeName();
+	m_scoreFree = m_questionTip->freeScore();
   setPosOfQuestionTip();
-//   if (m_qaPossib > 1)
-//       markAnswer(exam->curQ().questionAs, exam->curQ().answerAs);
 }
 
 
@@ -334,33 +311,9 @@ void Tcanvas::clearConfirmTip() {
 }
 
 
-
 void Tcanvas::markAnswer(TQAtype::Etype qType, TQAtype::Etype aType) {
-//     m_flyAnswer->setText(TquestionAsWdg::qaTypeSymbol(qType));
-//     if (qType == TQAtype::e_asFretPos) {
-//       if (gl->GisRightHanded)
-//         m_flyAnswer->setRotation(-90);
-//       else 
-//         m_flyAnswer->setRotation(90);
-//     } else
-//       m_flyAnswer->setRotation(0);
-//     m_flyAnswer->show();
-//     QPoint qCenter, anCenter;
-//     int adj = - m_flyAnswer->boundingRect().height();
-//     if (qType == TQAtype::e_asFretPos)
-//       qCenter = QPoint(width() / 2, height() * 0.85);
-//     else {
-//       qCenter = getRect(qType).center();
-//       adj = m_flyAnswer->boundingRect().height() * 2;
-//     }
-//     anCenter = getRect(aType).center();
-//     QPropertyAnimation* anim = static_cast<QPropertyAnimation*>(m_animation->animationAt(0));
-//     anim->setStartValue(QPoint(qCenter.x() - (m_flyAnswer->boundingRect().width() * 2),
-//                                 qCenter.y() - adj));
-//     anim->setEndValue(QPoint(anCenter.x() - (m_flyAnswer->boundingRect().width() * 0.15),
-//                                 anCenter.y() - (m_flyAnswer->boundingRect().height() * 0.15)));
-//     m_animation->start();
 }
+  
   
 const QRect& Tcanvas::getRect(TQAtype::Etype kindOf) {
   switch (kindOf) {
@@ -380,15 +333,23 @@ const QRect& Tcanvas::getRect(TQAtype::Etype kindOf) {
 //#################################### PROTECTED #######################
 //######################################################################
 
-void Tcanvas::sizeChanged(QSize newSize) {
-  setGeometry(geometry().x(), geometry().y(), newSize.width(), newSize.height());
+
+void Tcanvas::sizeChangedDelayed(QSize newSize) {
+	m_newSize = newSize;
+	QTimer::singleShot(2, this, SLOT(sizeChanged()));
+}
+
+
+void Tcanvas::sizeChanged() {
+  setGeometry(geometry().x(), geometry().y(), m_newSize.width(), m_newSize.height());
   int hi;
   if (m_scene->height())
     hi = m_scene->height();
   else
     hi = 580;
   m_scene->setSceneRect(geometry());
-  m_scale =m_scale * ((double)newSize.height() / hi);
+  m_scale =m_scale * ((double)m_newSize.height() / hi);
+	m_maxTipWidth = width() / 3;
   if (m_resultTip) {
       m_resultTip->setScale(m_scale);;
       setPosOfResultTip();
@@ -411,10 +372,6 @@ void Tcanvas::sizeChanged(QSize newSize) {
     m_scene->addItem(m_questionTip);
     setPosOfQuestionTip();
   }
-//   if (m_flyAnswer) {
-//     m_flyAnswer->hide();
-//     m_flyAnswer->setFont(QFont("nootka", width() / 18));
-//   }
   if (m_flyNote)
     m_flyNote->hide();
   if (m_confirmTip) {
@@ -447,31 +404,61 @@ bool Tcanvas::event(QEvent* event) {
 }
 
 
-//######################################################################
-//#################################### PRIVATE #########################
-//######################################################################
+//##################################################################################################
+//#################################### PRIVATE #####################################################
+//##################################################################################################
+
+int Tcanvas::getMaxTipHeight() {
+	if (m_guitarFree) {
+		if (m_parent->pitchView->isVisible())
+				return m_parent->guitar->height();
+		else
+				return m_parent->guitar->height() + (m_parent->guitar->geometry().y() - m_parent->noteName->geometry().bottom()) / 2;
+	} else if (m_nameFree)
+			return m_parent->noteName->height();
+	else
+			return m_parent->score->height() / 2;
+}
+
+
+void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
+	QRect geoRect;
+	if (m_guitarFree) { // middle of the guitar
+			geoRect = m_parent->guitar->geometry();
+			if (!m_parent->pitchView->isVisible()) // tip can be bigger
+				geoRect = QRect(m_parent->noteName->geometry().x() - 20, 
+							m_parent->guitar->geometry().y() - (m_parent->guitar->geometry().top() - m_parent->noteName->geometry().bottom()) / 2,
+							m_parent->guitar->width() - m_parent->noteName->width() + 20,
+							m_parent->guitar->height() + (m_parent->guitar->geometry().top() - m_parent->noteName->geometry().bottom()) / 2);
+  } else if (m_nameFree)  // middle of the noteName
+			geoRect = m_parent->noteName->geometry();
+	else {// on the score at its center
+			geoRect = m_parent->score->geometry();
+	}
+	tip->setPos(geoRect.x() + (geoRect.width() - tip->boundingRect().width() * tip->scale()) / 2,
+		geoRect.y() + (geoRect.height() - tip->boundingRect().height() * tip->scale()) / 2 );
+}
+
 
 void Tcanvas::setPosOfResultTip() {
   m_resultTip->setPos(m_parent->relatedPoint().x() + (((m_scene->width() - m_parent->relatedPoint().x()) -
                                                        m_scale * m_resultTip->boundingRect().width())) / 2,
-                      m_parent->relatedPoint().y() - 5);
+                      m_parent->relatedPoint().y());
 }
 
 
 void Tcanvas::setPosOfTryAgainTip() {
   m_tryAgainTip->setPos(m_parent->relatedPoint().x() + (((m_scene->width() - m_parent->relatedPoint().x()) -
-                                                       m_scale * m_tryAgainTip->boundingRect().width())) / 2,
-                      m_parent->relatedPoint().y() + m_scale * m_tryAgainTip->boundingRect().height());
+											m_scale * m_tryAgainTip->boundingRect().width())) / 2,
+                      m_parent->noteName->geometry().top() - m_scale * m_tryAgainTip->boundingRect().height());
 }
 
 
 void Tcanvas::setPosOfWhatTip() {
-// in the middle on the guitar
-	int maxTipHeight = m_parent->height() - m_parent->noteName->geometry().bottom() - 5;
+	int maxTipHeight = getMaxTipHeight();
   if (m_whatTip->boundingRect().height() * m_whatTip->scale() != maxTipHeight)
 				m_whatTip->setScale((qreal)maxTipHeight / (m_whatTip->boundingRect().height() * m_whatTip->scale()));
-  m_whatTip->setPos((m_scene->width() - (m_whatTip->scale() * m_whatTip->boundingRect().width())) / 2,
-						m_parent->noteName->geometry().bottom() + (maxTipHeight - m_whatTip->scale() * m_whatTip->boundingRect().height()) / 2);
+	setPosOfTip(m_whatTip);
 }
 
 
@@ -484,41 +471,24 @@ void Tcanvas::setPosOfStartTip() {
 
 void Tcanvas::setPosOfConfirmTip() { // middle of noteName and somewhere above
     m_confirmTip->setPos(m_parent->noteName->geometry().x() + (m_parent->noteName->width() - m_confirmTip->boundingRect().width()) / 2,
-												 m_scene->height() / 7);  
+												 m_parent->relatedPoint().y());  
 }
 
 
 void Tcanvas::setPosOfQuestionTip() {
-	int maxTipHeight = m_parent->height() - m_parent->noteName->geometry().bottom();
+	int maxTipHeight = getMaxTipHeight();
 	qreal fineScale;
 	if (m_questionTip->boundingRect().height() * m_questionTip->scale() > maxTipHeight) { // check is scaling needed
 			fineScale = (qreal)maxTipHeight / m_questionTip->boundingRect().height();
 			qreal scaleStep = 0.0;
 			while (m_questionTip->boundingRect().height() * m_questionTip->scale() > maxTipHeight) {
-// 					qDebug() << "scaleStep" << scaleStep;
 					delete m_questionTip;
 					m_questionTip = new TquestionTip(m_exam, m_scale * fineScale - scaleStep);
 					m_scene->addItem(m_questionTip);
 					scaleStep += 0.1;
 			}
 	}
-  QPoint pos;
-  if (m_questionTip->freeGuitar()) { // middle of the guitar
-      int off = 0;
-      if (m_exam->curQ().answerAs == TQAtype::e_asSound)
-        off = m_scene->width() / 8;
-      pos = QPoint((m_scene->width() - (m_questionTip->boundingRect().width() * m_questionTip->scale())) / 2 + off, 
-						m_parent->noteName->geometry().bottom() + (maxTipHeight - m_questionTip->boundingRect().height()) / 2);
-  }
-    else
-      if (m_questionTip->freeName()) // middle of the noteName
-          pos = QPoint(m_parent->noteName->geometry().x() + (m_parent->noteName->width() - m_questionTip->boundingRect().width() * m_questionTip->scale()) / 2,
-                       m_parent->noteName->geometry().y() + (m_parent->noteName->height() - m_questionTip->scale() * m_questionTip->boundingRect().height()) - 5);
-      else // on the score at its center
-				pos = QPoint(m_parent->score->geometry().x() + 
-										(m_parent->score->width() - m_questionTip->boundingRect().width() * m_questionTip->scale()) / 2,
-                    m_scene->height() / 10 + (m_scene->height() / 2 - m_questionTip->boundingRect().height() * m_questionTip->scale()) /2 );
-  m_questionTip->setPos(pos);
+	setPosOfTip(m_questionTip);
 }
 
 

@@ -39,9 +39,13 @@ public:
        */
   explicit TexamSettings(TexamParams *params, QColor *qColor, QColor *aColor, QColor *nbColor, QWidget *parent = 0);
 
+			/** ask next question automatically */
   static QString autoNextQuestTxt() { return tr("ask next question automatically"); }
+			/** check answers without requiring confirmation */
   static QString expertsAnswerTxt() { return tr("check answers without requiring confirmation"); }
-  static QString showHelpWindowTxt() { return tr("show help when exam starts"); }
+			/** show help when exercising or exam starts */
+  static QString showHelpWindowTxt() { return tr("show help when exercising or exam starts"); } 
+  static QString correctMistakesTxt() { return tr("correct mistakes"); } // correct mistakes
 
   void saveSettings();
 	void restoreDefaults();
@@ -51,6 +55,7 @@ public slots:
   
 private:
     QCheckBox 			*m_autoNextChB, *m_repeatIncorChB, *m_expertAnswChB, *m_showHelpChB;
+		QCheckBox				*m_correctChB, *m_suggestExamChB;
     TcolorButton 		*m_questColorBut, *m_answColorBut, *m_notBadButt;
     QLineEdit 			*m_nameEdit;
     TexamParams 		*m_params;

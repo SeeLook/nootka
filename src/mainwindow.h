@@ -102,7 +102,6 @@ protected:
         
 protected slots:
     void restoreMessage();
-    void hintsStateChanged(bool enable);
     void showSupportDialog();
 
 private:
@@ -115,13 +114,12 @@ private:
     QColor 								m_prevBg, m_curBG;
     QPixmap 							m_bgPixmap, m_rosettePixmap;
     int 									m_statFontSize;
-    QCheckBox 						*m_hintsChB;
          /** Keeps true when Dialog windows is opened, to avoid opening another file. */
     bool 									m_levelCreatorExist;
     TexamLevel 						m_level;
 		bool 									m_isPlayerFree;
 		QWidget 							*m_pitchContainer;
-		QVBoxLayout 					*m_rightLay;
+		QVBoxLayout 					*m_rightLay, *m_scoreLay;
 
 
     void createActions();

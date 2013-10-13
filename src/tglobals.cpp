@@ -188,6 +188,8 @@ Tglobals::Tglobals() :
         E->levelsDir = config->value("levelsDir", QDir::homePath()).toString();
 				E->closeWithoutConfirm = config->value("closeWithoutConfirm", false).toBool();
 				E->showCorrected = config->value("showCorrected", true).toBool();
+				E->correctViewDuration = config->value("durationOfCorrect", 1500).toInt();
+				E->suggestExam = config->value("suggestExam", true).toBool();
     config->endGroup();
 
 // Sound settings
@@ -326,6 +328,8 @@ void Tglobals::storeSettings() {
         config->setValue("examsDir", E->examsDir);
         config->setValue("levelsDir", E->levelsDir);
 				config->setValue("closeWithoutConfirm", E->closeWithoutConfirm);
+				config->setValue("durationOfCorrect", E->correctViewDuration);
+				config->setValue("suggestExam", E->suggestExam);
     config->endGroup();
 
     config->beginGroup("sound");

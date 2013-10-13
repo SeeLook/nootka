@@ -63,7 +63,7 @@ TsettingsDialog::TsettingsDialog(QWidget *parent) :
     navList->addItem(tr("Sound"));
     navList->item(4)->setIcon(QIcon(gl->path+"picts/soundSettings.png"));
     navList->item(4)->setTextAlignment(Qt::AlignCenter);
-		navList->addItem(tr("Exam"));
+		navList->addItem(tr("Exercises") + "\n& " + tr("Exam"));
     navList->item(5)->setIcon(QIcon(gl->path+"picts/questionsSettings.png"));
     navList->item(5)->setTextAlignment(Qt::AlignCenter);
     

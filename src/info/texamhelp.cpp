@@ -64,7 +64,7 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt,
     tr("GOOD LUCK!") + "</b></span>" + "<br><hr><table><tr><th colspan=2>" +
     tr("Experts corner") + "</th></tr><tr><td rowspan=3>" +
     QString("<img style=\"background-color: transparent;\" src=\"%1\">").arg(path+"picts/expertCorner.png") +
-    "</td><td><br>1. " + tr("show or hide the hints") + "</td></tr><tr><td><br>2. " + 
+    "</td><td><br>1. " + TexamSettings::correctMistakesTxt() + "</td></tr><tr><td><br>2. " + 
     TexamSettings::autoNextQuestTxt() + "</td></tr><tr><td><br>3. " + 
     TexamSettings::expertsAnswerTxt() + "</td></tr></table>", this);
   ed->setReadOnly(true);
