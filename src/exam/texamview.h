@@ -44,7 +44,7 @@ public:
     static const QString totalTimetxt() { return tr("Total time of exam"); } // Total time of exam
     static const QString corrAnswersNrTxt() { return tr("Number of correct answers"); } // Number of correct answers
     static const QString effectTxt() { return tr("Effectiveness"); } // Effectiveness
-    static const QString halfMistakenTxt(); // Number of not so bad answers
+    static const QString halfMistakenTxt(); // Number of not bad answers
     static const QString halfMistakenAddTxt(); // (counted as half of a mistake)
     
       /** Returns time given in milisec. in format h:mm:ss */
@@ -52,7 +52,7 @@ public:
             .arg(t/3600000)
             .arg((t%3600000)/60000, 2, 'f', 0, '0')
             .arg((t%60000)/1000, 2, 'f', 0, '0'); }
-      /** returns nice formated time (1:05:15.3). Time is in seconds multipled by 10.
+      /** returns nice formated time (1:05:15.3). Time is in seconds multiplied by 10.
         * When withUnit is true adds s (seconds) unit*/
     static QString formatReactTime(quint16 timeX10, bool withUnit = false);
 
@@ -63,6 +63,10 @@ public:
     quint16 questionTime();
     void setAnswer(TQAunit *answer = 0);
     void setFontSize(int s);
+				/** Stops counting time of answer */
+		void pause();
+				/** Continues counting time of answer */
+		void go();
 
     void stopExam() { m_timer->stop(); }
         /** This method returns rounded average time. It is only for exam preview.*/
@@ -73,7 +77,7 @@ public:
     int effectiveness() { return qRound(m_effect); }
     void clearResults();
         /** Sets background of mistakes/correct answers number Qlabel.
-         * Backgroun color is directly inserted to setStyleSheet so 
+         * Background color is directly inserted to setStyleSheet so 
          * it has to be given in format: 
          * background-color: rgba(red, green, blue, alpha) */
     void setStyleBg(QString okBg, QString wrongBg, QString notBadBg = "");
@@ -83,15 +87,17 @@ protected:
     void resizeEvent(QResizeEvent *);
     
 private:
-    bool m_showReact;
+    bool 			m_showReact;
 
-    QLabel *m_reactTimeLab, *m_averTimeLab, *m_totalTimeLab;
-    QLabel *m_mistLab, *m_corrLab, *m_effLab, *m_halfLab;
-    QTime m_reactTime;
-    int m_questNr, m_mistakes, m_totElapsedTime, m_halfMistakes;
-    qreal m_averTime, m_effect;
-    QTimer *m_timer;
-    QTime m_totalTime;
+    QLabel 		*m_reactTimeLab, *m_averTimeLab, *m_totalTimeLab;
+    QLabel 		*m_mistLab, *m_corrLab, *m_effLab, *m_halfLab;
+		QTime 		m_reactTime;
+    int 			m_questNr, m_mistakes, m_totElapsedTime, m_halfMistakes;
+    qreal 		m_averTime, m_effect;
+    QTimer 		*m_timer;
+    QTime 		m_totalTime;
+		int 			m_okCount;
+		int 			m_pausedAt; // when m_averTime was paused
 
 private slots:
     void countTime();

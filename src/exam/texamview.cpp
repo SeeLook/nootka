@@ -29,9 +29,7 @@ const QString TexamView::halfMistakenTxt() { return tr("'Not bad' answers"); }
 const QString TexamView::halfMistakenAddTxt() { return tr("(counted as half of a mistake)"); }
 
 QString borderStyleTxt = "border: 1px solid palette(Text); border-radius: 4px;";
-int m_okCount = 0;
 
-//QGroupBox *okGr;
 
 TexamView::TexamView(QWidget *parent) :
     QWidget(parent)
@@ -91,8 +89,6 @@ TexamView::TexamView(QWidget *parent) :
     m_totalTimeLab->setAlignment(Qt::AlignCenter);
 
     m_timer = new QTimer(this);
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(countTime()));
-
 }
 
 void TexamView::setStyleBg(QString okBg, QString wrongBg, QString notBadBg) {
@@ -112,17 +108,32 @@ quint16 TexamView::questionTime() {
      return qRound(m_reactTime.elapsed() / 100);
 }
 
+
 quint16 TexamView::questionStop() {
     m_showReact = false;
     quint16 t = qRound(m_reactTime.elapsed() / 100);
     m_reactTimeLab->setText(" " + formatReactTime(t) + " ");
-//     m_averTime = (m_averTime * (m_questNr-1) + t) / m_questNr; // OBSOLETE
-//    m_averTimeLab->setText(QString("%1").arg((qreal)qRound(m_averTime)/10));
-//     m_averTimeLab->setText(" " + formatReactTime(qRound(m_averTime)) + " ");
     return t;
 }
 
+
+void TexamView::pause() {
+		m_pausedAt = m_reactTime.elapsed();
+}
+
+
+void TexamView::go() {
+		m_reactTime.start();
+		m_reactTime = m_reactTime.addMSecs(-m_pausedAt);		
+}
+
+
+
 void TexamView::startExam(int passTimeInSec, int questNumber, int averTime, int mistakes, int halfMist) {
+		if (isVisible())
+				connect(m_timer, SIGNAL(timeout()), this, SLOT(countTime()));
+		else
+				disconnect(m_timer, SIGNAL(timeout()), this, SLOT(countTime()));
     m_questNr = questNumber;
     m_totElapsedTime = passTimeInSec;
     m_totalTime = QTime(0, 0);
@@ -139,6 +150,7 @@ void TexamView::startExam(int passTimeInSec, int questNumber, int averTime, int 
     m_averTimeLab->setText(" " + formatReactTime(qRound(m_averTime)) + " ");
 }
 
+
 void TexamView::setAnswer(TQAunit* answer) {
     if (answer) {
       if (!answer->isCorrect()) {
@@ -148,27 +160,25 @@ void TexamView::setAnswer(TQAunit* answer) {
           m_halfMistakes++;
       }
       if (!answer->isWrong()) {
-      m_okCount++;
-      m_averTime = (m_averTime * (m_okCount -1) + answer->time) / m_okCount;
-    }
+					m_okCount++;
+					m_averTime = (m_averTime * (m_okCount -1) + answer->time) / m_okCount;
+			}
     }
     m_mistLab->setText(QString("%1").arg(m_mistakes));
     if (m_halfMistakes) {
-      m_halfLab->show();
-      m_halfLab->setText(QString("%1").arg(m_halfMistakes));
+				m_halfLab->show();
+				m_halfLab->setText(QString("%1").arg(m_halfMistakes));
     }
     m_corrLab->setText(QString("%1").arg(m_questNr - m_mistakes - m_halfMistakes));
-    // without halfMistakes - obsolete
-//     m_effect = (((qreal)m_questNr - (qreal)m_mistakes) / (qreal)m_questNr) * 100;
     m_effect = Texam::effectiveness(m_questNr, m_mistakes, m_halfMistakes);
-   m_effLab->setText(QString("<b>%1 %</b>").arg(qRound(m_effect)));
-   m_averTimeLab->setText(" " + formatReactTime(qRound(m_averTime)) + " ");
+		m_effLab->setText(QString("<b>%1 %</b>").arg(qRound(m_effect)));
+		m_averTimeLab->setText(" " + formatReactTime(qRound(m_averTime)) + " ");
 }
+
 
 void TexamView::resizeEvent(QResizeEvent* ) {
   
 }
-
 
 
 void TexamView::setFontSize(int s) {
@@ -191,8 +201,9 @@ void TexamView::setFontSize(int s) {
 void TexamView::countTime() {
     if (m_showReact)
         m_reactTimeLab->setText(QString(" %1 ").arg(formatReactTime(m_reactTime.elapsed() / 100)));
-    m_totalTimeLab->setText(" " + formatedTotalTime(m_totElapsedTime*1000 + m_totalTime.elapsed()) + " ");
+    m_totalTimeLab->setText(" " + formatedTotalTime(m_totElapsedTime * 1000 + m_totalTime.elapsed()) + " ");
 }
+
 
 QString TexamView::formatReactTime(quint16 timeX10, bool withUnit) {
     QString hh = "", mm = "", ss = "";
@@ -217,6 +228,7 @@ QString TexamView::formatReactTime(quint16 timeX10, bool withUnit) {
         unitS = " s";
     return res + ss + QString(".%1").arg(timeX10 % 10) + unitS;
 }
+
 
 void TexamView::clearResults() {
     m_corrLab->setText("0");

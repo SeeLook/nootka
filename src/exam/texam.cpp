@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -33,6 +33,7 @@ extern Tglobals *gl;
 /*static*/
 const qint32 Texam::examVersion = 0x95121702;
 const qint32 Texam::examVersion2 = 0x95121704;
+const qint32 Texam::examVersion3 = 0x95121706;
 
 const quint16 Texam::maxAnswerTime = 65500;
 
@@ -204,6 +205,7 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
 	return e_file_OK;
 }
 
+
 void Texam::setAnswer(TQAunit& answer) {
     answer.time = qMin(maxAnswerTime, answer.time); // when user think too much
     m_answList.last() = answer;
@@ -231,10 +233,14 @@ void Texam::setAnswer(TQAunit& answer) {
 }
 
 
+void Texam::removeLastQuestion() {
+	m_workTime -= curQ().time;
+	m_answList.removeLast();
+}
+
+
 
 //############################### PROTECTED ########################################
-
-
 
 void Texam::updateBlackCount() {
   m_blackCount = 0;
