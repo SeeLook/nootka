@@ -140,6 +140,7 @@ SET( NOOTKA_SRCS
   exam/tglobalexamstore.cpp
   exam/texercises.cpp
 ###### Info
+  info/thelpdialogbase.cpp
   info/taboutnootka.cpp
   info/tfirstrunwizzard.cpp
   info/select7note.cpp
