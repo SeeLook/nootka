@@ -81,6 +81,7 @@ protected slots:
         * but if app is closing it only checks answer and save it without displaying results. */
     void checkAnswer(bool showResults = true);
     void stopExamSlot();
+		void stopExerciseSlot();
     void repeatQuestion();
     void repeatSound();
 		void correctAnswer();
@@ -105,6 +106,8 @@ private:
         /** Disables score, noteName and guitar*/
     void disableWidgets();
     void clearWidgets();
+				/** Clears canvas and invokes restoreAfterExam() */
+		void closeExecutor();
         
 private:
     QString saveExamToFile();
@@ -117,7 +120,7 @@ private:
     QList<TQAunit::TQAgroup> m_questList;
           /** Invokes startSniffing() and stopPlaying() after delay
            * to avoid feedback between played question and listened answer. */
-    QTimer *m_soundTimer;
+    QTimer *m_soundTimer, *m_askingTimer;
     Tnote::EnameStyle m_prevQuestStyle, m_prevAnswStyle;
     TglobalExamStore *m_glStore;
     TanswerRequire m_answRequire;
@@ -142,7 +145,7 @@ private:
     int m_penalStep;
         /** Counts questions to ask penalties one. */
     int m_penalCount;
-		Texercises	*m_practice;
+		Texercises	*m_exercise;
 
 
 };

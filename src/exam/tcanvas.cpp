@@ -484,6 +484,7 @@ void Tcanvas::setPosOfQuestionTip() {
 			while (m_questionTip->boundingRect().height() * m_questionTip->scale() > maxTipHeight) {
 					delete m_questionTip;
 					m_questionTip = new TquestionTip(m_exam, m_scale * fineScale - scaleStep);
+					m_questionTip->setTextWidth(m_maxTipWidth);
 					m_scene->addItem(m_questionTip);
 					scaleStep += 0.1;
 			}
