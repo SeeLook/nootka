@@ -94,11 +94,13 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
     m_glStore = new TglobalExamStore(gl);
     m_glStore->tune = *gl->Gtune();
     m_glStore->fretsNumber = gl->GfretsNumber;
-    if (userAct == TstartExamDlg::e_newLevel) {
+    if (userAct == TstartExamDlg::e_newLevel || userAct == TstartExamDlg::e_practice) {
         m_exam = new Texam(&m_level, resultText); // resultText is userName
         gl->E->studentName = resultText; // store user name
         m_exam->setTune(*gl->Gtune());
         mW->examResults->startExam();
+				if (userAct == TstartExamDlg::e_practice)
+						m_exercise = new Texercises(m_exam);
     } else if (userAct == TstartExamDlg::e_continue) {
         m_exam = new Texam(&m_level, "");
         Texam::EerrorType err = m_exam->loadFromFile(resultText);
@@ -139,12 +141,12 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
             deleteExam();
             return;
         }
-    } else if (userAct == TstartExamDlg::e_practice) {
+    } /*else if (userAct == TstartExamDlg::e_practice) {
 				m_exam = new Texam(&m_level, resultText);
 				m_exercise = new Texercises(m_exam);
 				m_exam->setTune(*gl->Gtune());
         mW->examResults->startExam();
-    } else {
+    }*/ else {
 				if (userAct == TstartExamDlg::e_levelCreator) {
 					mW->clearAfterExam(e_openCreator);
 				}	else 	
@@ -199,10 +201,10 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
     m_incorrectRepeated = false;
     m_isAnswered = true;
     m_blackQuestNr = -1;
-		if (m_exercise) {
+		if (m_exercise) { // Do not count penalties in exercising mode
 				m_exam->setFinished(); // to avoid adding penalties in exercising
 				m_supp->setFinished();
-		} else { // Do not count penalties in exercising mode
+		} else {
 				m_penalCount = 0;
 				if (m_exam->isFinished()) {
 					m_supp->setFinished();
@@ -240,6 +242,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
         restoreAfterExam();
         return;
     }
+    qDebug() << "executor created";
     /*
        for (int i = 0; i < m_exam->blacList()->size(); i++)
           if (m_exam->blacList()->operator[](i).questionAs == m_exam->blacList()->operator[](i).answerAs)
@@ -255,6 +258,7 @@ TexamExecutor::~TexamExecutor() {
 				delete m_supp;
 		delete m_glStore;
 		deleteExam();
+		qDebug() << "executor deleted";
 }
 
 
@@ -1049,7 +1053,7 @@ void TexamExecutor::stopExerciseSlot() {
 		bool askAfter = m_askingTimer->isActive();
 		m_askingTimer->stop(); // stop questioning, if any
 		bool continuePractice = false;
-    if (m_exam->count() > 2) {
+    if (m_exam->count()) {
 			TQAunit lastQuestion = m_exam->curQ();
 			if (!m_isAnswered) {
 					mW->examResults->pause();
@@ -1197,9 +1201,13 @@ void TexamExecutor::autoRepeatStateChanged(bool enable) {
 
 bool TexamExecutor::showExamSummary(bool cont) {
   TexamSummary *ES = new TexamSummary(m_exam, gl->path, cont, mW);
+	if (m_exercise)
+			ES->setWindowTitle(tr("Progress of exercises"));
   TexamSummary::Eactions respond = ES->exec();
   if (respond == TexamSummary::e_analyse) {
      TanalysDialog *AD = new TanalysDialog(m_exam, mW);
+		 if (m_exercise)
+			 AD->setWindowTitle(tr("Analysis of exercises"));
      AD->exec();
      delete AD;
   }
@@ -1214,7 +1222,8 @@ bool TexamExecutor::showExamSummary(bool cont) {
 void TexamExecutor::showExamHelp() {
   m_snifferLocked = true;
   qApp->removeEventFilter(m_supp);
-  TexamHelp *hlp = new TexamHelp(gl->getBGcolorText(gl->EquestionColor), gl->getBGcolorText(gl->EanswerColor), gl->path, gl->E->showHelpOnStart, mW);
+  TexamHelp *hlp = new TexamHelp(gl->getBGcolorText(gl->EquestionColor), gl->getBGcolorText(gl->EanswerColor), 
+																 &gl->E->showHelpOnStart, mW);
   hlp->exec();
   delete hlp;
   qApp->installEventFilter(m_supp);
@@ -1224,7 +1233,7 @@ void TexamExecutor::showExamHelp() {
 
 void TexamExecutor::expertAnswersStateChanged(bool enable) {
   if (enable) {
-      if (!gl->E->askAboutExpert || showExpertAnswersHelpDlg(gl->E->askAboutExpert, mW))
+      if (!gl->E->askAboutExpert || showExpertAnswersHelpDlg(mW, &gl->E->askAboutExpert, true))
       {}
       else
           mW->expertAnswChB->setChecked(false); // ignore it, user resigned

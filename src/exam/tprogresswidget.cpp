@@ -112,6 +112,7 @@ void TprogressWidget::updateLabels(int penaltys) {
     if (m_isFinished) 
       m_bar->setStatusTip(examFinishedTxt());
   }
+//   qDebug() << "remained" << remained << "total" << m_totalNr << "penalties" << penaltys;
 }
 
 

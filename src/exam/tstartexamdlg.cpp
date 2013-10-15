@@ -22,6 +22,7 @@
 #include "tlevelselector.h"
 #include "levelsettings.h"
 #include <troundedlabel.h>
+#include <tstartexerciseorexamhelp.h>
 #include <QtGui>
 #include <stdlib.h> // for getenv()
 
@@ -93,17 +94,23 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
     exLay->addWidget(m_examCombo);
     
     QHBoxLayout *butLay = new QHBoxLayout;
+		m_helpButt = new QPushButton(this);
+			m_helpButt->setIcon(QIcon(path + "picts/help.png"));
+			m_helpButt->setStatusTip(tr("Help"));
+			m_helpButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+			m_helpButt->setIconSize(QSize(48, 48));
+			butLay->addWidget(m_helpButt);
     m_contExamButt = new QPushButton(tr("continue exam"), this);
-    m_contExamButt->setIcon(QIcon(path + "picts/startExam.png"));
-    m_contExamButt->setIconSize(QSize(48, 48));
-    m_contExamButt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
-    butLay->addWidget(m_contExamButt);
+			m_contExamButt->setIcon(QIcon(path + "picts/startExam.png"));
+			m_contExamButt->setIconSize(QSize(48, 48));
+			m_contExamButt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+			butLay->addWidget(m_contExamButt);
     m_cancelBut = new QPushButton(this);
-    m_cancelBut->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
-    m_cancelBut->setStatusTip(tr("Discard"));
-    m_cancelBut->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    m_cancelBut->setIconSize(QSize(48, 48));
-    butLay->addWidget(m_cancelBut);
+			m_cancelBut->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
+			m_cancelBut->setStatusTip(tr("Discard"));
+			m_cancelBut->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+			m_cancelBut->setIconSize(QSize(48, 48));
+			butLay->addWidget(m_cancelBut);
     exLay->addLayout(butLay);
     examGr = new QGroupBox(this);
     examGr->setStatusTip(tr("Select previous exam, or get it from a file."));
@@ -118,7 +125,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
     mainLay->addWidget(m_hintLabel);
     setLayout(mainLay);
     
-    setStatusTip("<b>" + tr("Would you like to start new exam or continue the previous one?<br>To start new one, put in your name and select a level.<br>To continue the previous exam, select it from the list or load from file.") + "</b>" );
+    setStatusTip("<b>" + tr("Put in your name and select a level to start exercising or to pass new exam. To continue the previous exam, select it from the list or load from file.") + "</b>" );
     m_hintLabel->setStatusTip(statusTip());
 
 #if defined(Q_OS_WIN32) // I hate mess in Win registry
@@ -151,6 +158,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
     connect(m_examCombo, SIGNAL(activated(int)), this, SLOT(prevExamSelected(int)));
 		connect(m_practiceBut, SIGNAL(clicked()), this, SLOT(practiceSelected()));
     connect(m_levelsView, SIGNAL(levelChanged(TexamLevel)), this, SLOT(levelWasSelected(TexamLevel)));
+		connect(m_helpButt,  SIGNAL(clicked()), this, SLOT(helpSelected()));
     
     QApplication::translate("File association entries", "Nootka level file", "for file browsers");
     QApplication::translate("File association entries", "Open with Nootka");
@@ -268,6 +276,17 @@ void TstartExamDlg::practiceSelected() {
 				m_Acction = e_practice;
 				accept();
 		}
+}
+
+
+void TstartExamDlg::helpSelected() {
+		TstartExerciseOrExamHelp *help = new TstartExerciseOrExamHelp(this);
+		help->setFixedWidth(width());
+		bool someBool = true;
+		help->showCheckBox(&someBool);
+		help->showButtons(true, true);
+		help->exec();
+		delete help;
 }
 
 

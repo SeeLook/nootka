@@ -17,38 +17,92 @@
  ***************************************************************************/
 
 #include "thelpdialogbase.h"
-#include <QTextEdit>
+#include <tglobals.h>
 #include <QApplication>
 #include <QLayout>
+#include <QPushButton>
+#include <QStyle>
+
+extern Tglobals *gl;
 
 
+QString ThelpDialogBase::m_path = "";
 
 ThelpDialogBase::ThelpDialogBase(QWidget* parent, Qt::WindowFlags f) :
   QDialog(parent, f),
-  m_doNotShowChB(0),
-  m_cancelButton(0)
+  m_checkBox(0),
+  m_cancelButton(0), m_OkButton(0),
+  m_stateOfChB(0)
 {
+	m_path = gl->path;
+	setWindowIcon(QIcon(path() + "picts/help.png"));
   m_helpText = new QTextEdit(this);
   m_helpText->setReadOnly(true);
   m_helpText->setAlignment(Qt::AlignCenter);
   
   m_lay = new QVBoxLayout;
   m_lay->addWidget(m_helpText);
-  m_buttonsLay = new QVBoxLayout;
+  m_buttonsLay = new QHBoxLayout;
+	m_buttonsLay->addStretch(1);
+	m_buttonsLay->addStretch(1);
+	m_lay->addLayout(m_buttonsLay);
   setLayout(m_lay);
+	showButtons(true, false); // OK button by default
 }
 
 
-void ThelpDialogBase::showCheckBox(const QString& label) {
-  if (!m_doNotShowChB) {
-    m_doNotShowChB = new QCheckBox(label, this);
-    m_lay->insertWidget(1, m_doNotShowChB); // insert after m_helpText
+ThelpDialogBase::~ThelpDialogBase()
+{
+	if (m_stateOfChB && m_checkBox)
+		*m_stateOfChB = m_checkBox->isChecked();
+}
+
+
+void ThelpDialogBase::showCheckBox(const QString& label, bool* state) {
+  if (!m_checkBox) {
+    m_checkBox = new QCheckBox(label, this);
+    m_lay->insertWidget(1, m_checkBox, 0 , Qt::AlignCenter); // insert after m_helpText
   }
+  m_stateOfChB = state;
+  m_checkBox->setChecked(*state);
 }
 
 
 void ThelpDialogBase::showButtons(bool withOk, bool withCancel) {
-  
+  if (withOk) {
+		if (!m_OkButton) {
+			m_OkButton = new QPushButton(tr("OK"), this);
+			m_OkButton->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogOkButton)));
+			if (m_cancelButton) {
+				m_buttonsLay->insertStretch(3, 1);
+			}
+			m_buttonsLay->insertWidget(1, m_OkButton, 1);
+			connect(m_OkButton, SIGNAL(clicked()), this, SLOT(accept()));
+		}
+  } else {
+		if (m_OkButton) {
+			delete m_OkButton;
+			m_OkButton = 0;
+		}
+  }
+  if (withCancel) {
+		if (!m_cancelButton) {
+			m_cancelButton = new QPushButton(tr("Discard"), this);
+			m_cancelButton->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
+			int pos = 1; // position to insert the button
+			if (m_OkButton) {
+				m_buttonsLay->insertStretch(2, 1);
+				pos = 3;
+			}
+			m_buttonsLay->insertWidget(pos, m_cancelButton, 1);
+			connect(m_cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
+		}
+  } else {
+		if (m_cancelButton) {
+			delete m_cancelButton;
+			m_cancelButton = 0;
+		}
+  }
 }
 
 

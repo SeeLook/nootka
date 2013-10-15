@@ -347,7 +347,7 @@ endif(WIN32)
 
 
 if(APPLE)
-  INSTALL( CODE"
+  INSTALL( CODE "
       execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/mac/install.sh ${CMAKE_BINARY_DIR} ${QT_BINARY_DIR} ${FFTW3_LIBRARIES} ${VORBIS_LIBRARIES} )
   " )
 	INSTALL(FILES "${CMAKE_SOURCE_DIR}/picts/nootka.icns" DESTINATION "${INS_PREF}") # icns for mac
@@ -379,11 +379,11 @@ if(UNIX AND NOT APPLE)
     INSTALL(FILES mime/nootka.desktop DESTINATION share/applications)
     INSTALL(FILES picts/nootka.svg DESTINATION "${INS_PREF}/picts")
     INSTALL(FILES picts/nootka.svg picts/levelCreator.png picts/nootka-exam.png DESTINATION share/pixmaps)
-    INSTALL( CODE"
+    INSTALL( CODE "
       execute_process(COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/mime )
       execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/mime/install-mime.sh ${CMAKE_INSTALL_PREFIX} ${CMAKE_CURRENT_BINARY_DIR}/mime ${CMAKE_CURRENT_SOURCE_DIR}/mime)" )
     INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/mime/nootka.xml DESTINATION share/mime/packages)
-	INSTALL( CODE"
+	INSTALL( CODE "
       execute_process(COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/doc )
       execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/make-chlog.sh ${Nootka_VERSION_FULL} ${CMAKE_CURRENT_BINARY_DIR}/doc/changelog ${CMAKE_CURRENT_SOURCE_DIR})
 	" )

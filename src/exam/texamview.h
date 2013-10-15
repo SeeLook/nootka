@@ -41,7 +41,7 @@ public:
     static const QString inSecondsTxt() { return tr("[in seconds]"); } // [in seconds]
     static const QString reactTimeTxt() { return tr("Time for an answer"); } // Time for an answer
     static const QString mistakesNrTxt() { return tr("Number of mistakes"); } // Number of mistakes
-    static const QString totalTimetxt() { return tr("Total time of exam"); } // Total time of exam
+    static const QString totalTimetxt() { return tr("Total time"); } // Total time
     static const QString corrAnswersNrTxt() { return tr("Number of correct answers"); } // Number of correct answers
     static const QString effectTxt() { return tr("Effectiveness"); } // Effectiveness
     static const QString halfMistakenTxt(); // Number of not bad answers

@@ -21,11 +21,12 @@
 
 #include <QDialog>
 #include <QCheckBox>
+#include <QTextEdit>
 
 class QVBoxLayout;
 class QHBoxLayout;
 class QPushButton;
-class QTextEdit;
+
 
 /** This is base template class for help dialogues. 
  * It contains QTextEdit field to fill with help text
@@ -36,28 +37,45 @@ class QTextEdit;
 class ThelpDialogBase : public QDialog
 {
 
+	Q_OBJECT
+	
 public:
   explicit ThelpDialogBase(QWidget* parent = 0, Qt::WindowFlags f = 0);
-  virtual ~ThelpDialogBase() {};
+  virtual ~ThelpDialogBase();
   
       /** Pointer to QTextEdit. */
   QTextEdit* helpText() { return m_helpText; }
   
-      /** Displays check box at the bottom of the window. */
-  void showCheckBox(const QString &label);
+      /** Displays check box at the bottom of the window with given description. 
+			 * @p state reference will keep this check state. */
+  void showCheckBox(const QString& label, bool* state);
+	
+			/** Overridden method with universal text 'always show this help window' */
+	void showCheckBox(bool* state) { showCheckBox(showHelpWindowTxt(), state); }
+	
       /** Control buttons. OK button is shown by default so when @p withOk = false is destroyed.
        * Buttons are responsible for returning dialog codes:
        * 'OK' button - accepted, 'Cancel' button - rejected  */
   void showButtons(bool withOk, bool withCancel);
     
-  bool isDoNotShowChecked() { m_doNotShowChB ? m_doNotShowChB->isChecked() : false; }
+  bool isDoNotShowChecked() { m_checkBox ? m_checkBox->isChecked() : false; }
+  
+			/** Path to Nootka resources */
+  static QString& path() { return m_path; }
+  
+			/** Universal button text with context:
+			 * 'always show this help window' */
+  static QString showHelpWindowTxt() { return tr("always show this help window"); }
+			
   
 private:
   QTextEdit       *m_helpText;
-  QCheckBox       *m_doNotShowChB;
+  QCheckBox       *m_checkBox;
   QPushButton     *m_OkButton, *m_cancelButton;
   QVBoxLayout     *m_lay;
   QHBoxLayout     *m_buttonsLay;
+	bool						*m_stateOfChB;
+	static QString	m_path;
 
 };
 

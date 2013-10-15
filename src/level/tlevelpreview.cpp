@@ -183,12 +183,13 @@ void TlevelPreview::paintEvent(QPaintEvent* ) {
 			QFont nFont = QFont("nootka", 20, QFont::Normal);
 			nFont.setPixelSize(20);
 			QFontMetrics fm = QFontMetrics(nFont);
-			nFont.setPixelSize(nFont.pixelSize() * ((qreal)height() / (qreal)fm.boundingRect(m_instrText).height()));
+			nFont.setPixelSize(nFont.pixelSize() * ((qreal)m_summaryEdit->height() / (qreal)fm.boundingRect(m_instrText).height()));
 			painter.setFont(nFont);
 			QColor bg = palette().highlight().color();
 			bg.setAlpha(60);
 			painter.setPen(QPen(bg));
-			painter.drawText(QRect(0, 15, width(), height()), Qt::AlignCenter, m_instrText);
+			painter.drawText(QRect(m_summaryEdit->geometry().x(), 15, m_summaryEdit->width(), m_summaryEdit->height()),
+											 Qt::AlignCenter, m_instrText);
 	}
 }
 

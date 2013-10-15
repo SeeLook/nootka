@@ -43,8 +43,6 @@ public:
   static QString autoNextQuestTxt() { return tr("ask next question automatically"); }
 			/** check answers without requiring confirmation */
   static QString expertsAnswerTxt() { return tr("check answers without requiring confirmation"); }
-			/** show help when exercising or exam starts */
-  static QString showHelpWindowTxt() { return tr("show help when exercising or exam starts"); } 
   static QString correctMistakesTxt() { return tr("correct mistakes"); } // correct mistakes
 
   void saveSettings();

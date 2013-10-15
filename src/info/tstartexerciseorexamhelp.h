@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,28 +16,18 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TEXPERTANSWERHELP_H
-#define TEXPERTANSWERHELP_H
+#ifndef TSTARTEXERCISEOREXAMHELP_H
+#define TSTARTEXERCISEOREXAMHELP_H
 
+#include <thelpdialogbase.h>
 
-#include "thelpdialogbase.h"
-
-
-/** This function creates showExpertAnswersHelpDlg, 
- * and return user decision.
- * @p askAboutExpert is pointer to global parameter 
- * and @p showAskCheckBox determines does show QCheckBox expressing askAboutExpert state. */
-bool showExpertAnswersHelpDlg(QWidget* parent, bool *askAboutExpert, bool showAskCheckBox);
-
-/** It shows simple exam help. The parameters are QStrings with colors */
-class TexpertAnswerHelp : public ThelpDialogBase
+class TstartExerciseOrExamHelp : public ThelpDialogBase
 {
-  Q_OBJECT
-  
+
 public:
-  explicit TexpertAnswerHelp(QWidget* parent, bool* askAboutExpert, bool showAskCheckBox);
-  
-  
+	explicit TstartExerciseOrExamHelp(QWidget* parent = 0, Qt::WindowFlags f = 0);
+	
+	
 };
 
-#endif // TEXPERTANSWERHELP_H
+#endif // TSTARTEXERCISEOREXAMHELP_H
