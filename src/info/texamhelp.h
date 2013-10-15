@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,7 +19,8 @@
 #ifndef TEXAMHELP_H
 #define TEXAMHELP_H
 
-#include <QDialog>
+
+#include "thelpdialogbase.h"
 
 class QCheckBox;
 class QLabel;
@@ -28,13 +29,12 @@ class QLabel;
  * in HTML format: 
  * background-color: rgba() 
  * @param path is global path to images*/
-class TexamHelp : public QDialog
+class TexamHelp : public ThelpDialogBase
 {
   Q_OBJECT
   
 public:
-  TexamHelp(QString questColorTxt, QString answColorTxt, 
-            QString &path, bool &showHelp, QWidget *parent = 0);
+  TexamHelp(QString questColorTxt, QString answColorTxt, bool* showHelp, QWidget* parent = 0);
   
   static QString orRightButtTxt() { return tr("or right mouse button"); } // or right mouse button
   static QString clickSomeButtonTxt(QString imgHtmlTag) 
@@ -47,12 +47,7 @@ public:
       { return tr("To stop the exam click %1 button.").arg(imgHtmlTag); }
       // To stop the exam click button
   
-protected slots:
-  void closeHelp();
   
-private:
-  bool &m_showHelp;
-  QCheckBox *showHelpChB;
 };
 
 #endif // TEXAMHELP_H

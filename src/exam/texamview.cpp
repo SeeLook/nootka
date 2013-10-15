@@ -89,6 +89,7 @@ TexamView::TexamView(QWidget *parent) :
     m_totalTimeLab->setAlignment(Qt::AlignCenter);
 
     m_timer = new QTimer(this);
+		connect(m_timer, SIGNAL(timeout()), this, SLOT(countTime()));
 }
 
 void TexamView::setStyleBg(QString okBg, QString wrongBg, QString notBadBg) {
@@ -130,10 +131,6 @@ void TexamView::go() {
 
 
 void TexamView::startExam(int passTimeInSec, int questNumber, int averTime, int mistakes, int halfMist) {
-		if (isVisible())
-				connect(m_timer, SIGNAL(timeout()), this, SLOT(countTime()));
-		else
-				disconnect(m_timer, SIGNAL(timeout()), this, SLOT(countTime()));
     m_questNr = questNumber;
     m_totElapsedTime = passTimeInSec;
     m_totalTime = QTime(0, 0);
@@ -202,6 +199,8 @@ void TexamView::countTime() {
     if (m_showReact)
         m_reactTimeLab->setText(QString(" %1 ").arg(formatReactTime(m_reactTime.elapsed() / 100)));
     m_totalTimeLab->setText(" " + formatedTotalTime(m_totElapsedTime * 1000 + m_totalTime.elapsed()) + " ");
+		if (!isVisible()) // no time labels when hidden (exercising)
+			m_timer->stop();
 }
 
 

@@ -188,7 +188,7 @@ Tglobals::Tglobals() :
         E->levelsDir = config->value("levelsDir", QDir::homePath()).toString();
 				E->closeWithoutConfirm = config->value("closeWithoutConfirm", false).toBool();
 				E->showCorrected = config->value("showCorrected", true).toBool();
-				E->correctViewDuration = config->value("durationOfCorrect", 1500).toInt();
+				E->correctViewDuration = config->value("durationOfCorrect", 2000).toInt();
 				E->suggestExam = config->value("suggestExam", true).toBool();
     config->endGroup();
 

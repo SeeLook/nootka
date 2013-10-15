@@ -150,6 +150,7 @@ SET( NOOTKA_SRCS
   info/tnootkalabel.cpp
   info/tpixmaker.cpp  
   info/troundedlabel.cpp
+  info/tstartexerciseorexamhelp.cpp
 ###### Charts
   charts/tanalysdialog.cpp
   charts/tchart.cpp
@@ -262,6 +263,7 @@ SET( NOOTKA_MOC_SRCS
   info/texamhelp.h
   info/texpertanswerhelp.h
   info/tsupportnootka.h
+  info/thelpdialogbase.h
 ###### Charts
   charts/tanalysdialog.h
   charts/tchart.h
@@ -359,7 +361,7 @@ else(UNIX AND NOT APPLE)
     install(TARGETS nootka DESTINATION .)
   else(WIN32) 			# MacOs
     install(TARGETS nootka BUNDLE DESTINATION ${CMAKE_INSTALL_PREFIX})
-    install( CODE"
+    install( CODE "
     execute_process(COMMAND echo copying info.plist )
     execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/packaging/mac/grabInfo.sh ${Nootka_VERSION_FULL} ${CMAKE_SOURCE_DIR} ${CMAKE_INSTALL_PREFIX} )"
     )

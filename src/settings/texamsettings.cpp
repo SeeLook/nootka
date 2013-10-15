@@ -45,11 +45,6 @@ TexamSettings::TexamSettings(TexamParams* params, QColor* qColor, QColor* aColor
     lay->addWidget(m_expertAnswChB, 0, Qt::AlignCenter);
     lay->addStretch(1);
     
-//     m_showHelpChB = new QCheckBox(showHelpWindowTxt(), this);
-//     m_showHelpChB->setChecked(m_params->showHelpOnStart);
-//     lay->addWidget(m_showHelpChB, 0, Qt::AlignCenter);
-//     m_showHelpChB->setStatusTip(tr("Shows the help window when new exam begins."));
-    lay->addStretch(1);
     
     QHBoxLayout *nameLay = new QHBoxLayout();
     QLabel *nameLab = new QLabel(tr("student's name:"), this);
@@ -91,7 +86,6 @@ void TexamSettings::saveSettings() {
     m_params->autoNextQuest = m_autoNextChB->isChecked();
     m_params->repeatIncorrect = m_repeatIncorChB->isChecked();
     m_params->expertsAnswerEnable = m_expertAnswChB->isChecked();
-    m_params->showHelpOnStart = m_showHelpChB->isChecked();
     m_params->studentName = m_nameEdit->text();
         
     *m_qColor = m_questColorBut->getColor();
@@ -107,7 +101,6 @@ void TexamSettings::restoreDefaults() {
 		m_autoNextChB->setChecked(true);
 		m_repeatIncorChB->setChecked(true);
 		m_expertAnswChB->setChecked(false);
-		m_showHelpChB->setChecked(true);
 		m_nameEdit->setText("");
 		m_questColorBut->setColor(QColor("red"));
 		m_answColorBut->setColor(QColor("green"));
@@ -118,7 +111,7 @@ void TexamSettings::restoreDefaults() {
 
 void TexamSettings::expertAnswersChanged(bool enabled) {
   if (enabled) {
-      if (!showExpertAnswersHelpDlg(m_params->askAboutExpert, this, false))
+      if (!showExpertAnswersHelpDlg(this, &m_params->askAboutExpert, true))
         m_expertAnswChB->setChecked(false);
   }
 }

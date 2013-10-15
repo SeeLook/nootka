@@ -65,7 +65,8 @@ private:
     QGroupBox 					*examGr, *levelGr;
     TlevelSelector 			*m_levelsView;
     QLineEdit 					*m_nameEdit;
-    QPushButton 				*m_createBut, *m_loadExamBut, *m_cancelBut, *m_newExamBut, *m_contExamButt;
+    QPushButton 				*m_createBut, *m_loadExamBut, *m_newExamBut;
+		QPushButton					*m_helpButt, *m_contExamButt, *m_cancelBut;
 		QPushButton					*m_practiceBut;
     TroundedLabel				*m_hintLabel;
     QComboBox 					*m_examCombo;
@@ -84,6 +85,7 @@ private slots:
     void levelWasSelected(TexamLevel level);
 				/** occurs when user clicks exercises Button */
 		void practiceSelected();
+		void helpSelected();
 };
 
 #endif // TSTARTEXAMDLG_H

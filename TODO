@@ -1,31 +1,23 @@
 Plan for the Nootka One
 
 
-Tglobals (TexamParams)
-	
-	int waitAfterCorrection (time duration in ms)
-
-
 
 -practice
  TexamHelp - universal texts for exam and exercising
  piano staff has problems with correcting answers
  with wrong note correct key as well
 			
-- clef is locked after exam/exercise
+- clef is locked after exam/exercises
 - sometimes exam doesn't ask mistaken questions again
-- something wrong with times
 - re-sizing cases changing an instrument (do it at start and restore without necessity of re-sizing)
-- canvas tips are not scaled!
 - !!!check does 'string order' work for Tfingerboard!!!
-- fake key name and ? can be too big when key name is short
 - levels are unsaved after loading
 - new exam and level version is necessary, 
 		add version recognition to avoid old releases opening newest versions
 - sniffer has setAmbitus to guitar scale range - fix it!!!
 - under windows guitar head glyph doesn't appear in guitar settings.
 - level validation: when q: score & a: score or Q: name A: name and no different accidentals - switch solfege/letters
-- set better position of answer/repeat tip
+- in level creator disable 'show string number' when guitar is unavailable 
 - add shadows under strings on pickup
 - do not transform pickup image for lefthanded - just change its pos
 - keep exam file in /tmp and restore it when crash or so

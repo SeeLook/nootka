@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,28 +16,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TEXPERTANSWERHELP_H
-#define TEXPERTANSWERHELP_H
+#include "tstartexerciseorexamhelp.h"
 
 
-#include "thelpdialogbase.h"
-
-
-/** This function creates showExpertAnswersHelpDlg, 
- * and return user decision.
- * @p askAboutExpert is pointer to global parameter 
- * and @p showAskCheckBox determines does show QCheckBox expressing askAboutExpert state. */
-bool showExpertAnswersHelpDlg(QWidget* parent, bool *askAboutExpert, bool showAskCheckBox);
-
-/** It shows simple exam help. The parameters are QStrings with colors */
-class TexpertAnswerHelp : public ThelpDialogBase
+TstartExerciseOrExamHelp::TstartExerciseOrExamHelp(QWidget* parent, Qt::WindowFlags f) :
+	ThelpDialogBase(parent, f)
 {
-  Q_OBJECT
-  
-public:
-  explicit TexpertAnswerHelp(QWidget* parent, bool* askAboutExpert, bool showAskCheckBox);
-  
-  
-};
+	helpText()->setHtml("<center><h2>" + QString("<img src=\"%1\" />").arg(path() + "picts/practice.png") +
+		tr("To exercise or to pass an exam?") + QString("<img src=\"%1\" /></h2>").arg(path() + "picts/startExam.png") + 
+		tr("Nootka can help you to develop your skills on two ways: through exercising and through passing exams.") +
+		"</center>"
+	);
+}
 
-#endif // TEXPERTANSWERHELP_H

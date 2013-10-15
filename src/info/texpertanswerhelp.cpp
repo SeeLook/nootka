@@ -24,57 +24,28 @@
 #include <QTextEdit>
 #include <QCheckBox>
 
-TexpertAnswerHelp::TexpertAnswerHelp(bool& showHelp, QWidget* parent, bool showChBox) :
-    QDialog(parent),
-    m_show(showHelp),
-    showInfoChB(0)
+TexpertAnswerHelp::TexpertAnswerHelp(QWidget* parent, bool* askAboutExpert, bool showAskCheckBox) :
+    ThelpDialogBase(parent, 0)
 {
-    if (parent)
-//        setFixedSize(qMin((parent->width()/3)*2, 800), qMin((parent->height()/2), 600));
-        setFixedSize(600, 380);
+	if (parent)
+			setFixedSize(600, 380);
   setWindowTitle(tr("Experts mode"));
+	helpText()->document()->setTextWidth(590);
   
-  QVBoxLayout *lay = new QVBoxLayout();
-  QTextEdit *ed = new QTextEdit(tr("You are about to enter expert mode.<br> In this mode you don't need to confirm every answer,<br><b>but remember the following:") + "</b><ul><li>" + 
-    tr("Selecting a note on the score or a position on the fingerboard invokes automatic checking of your answer, so select a key signature first, if required.") + "</li><li>" +
-    tr("When an answer is the name of a note <b>first select a proper accidental and an octave</b> and then click a note button - this automatically invokes checking.") + "</li><li>" +
-    tr("When you have to play a note as an answer - the first detected sound will be taken, so be sure that your input device captures exactly what you want.") + "<br><br>"
-    , this);
-  ed->setReadOnly(true);
-//  ed->setFixedSize((parent->width()/3)*2, (parent->height()/2));
-  ed->setAlignment(Qt::AlignCenter);
-  lay->addWidget(ed);
+  helpText()->setHtml("<center>" + tr("You are about to enter expert mode.<br> In this mode you don't need to confirm every answer,<br><b>but remember the following:") + "</b><ul><li>" + 
+    tr("Selecting a note on the score or a position on the fingerboard invokes automatic checking of your answer, so select a key signature first, if required.") + "<br></li><li>" +
+    tr("When an answer is the name of a note <b>first select a proper accidental and an octave</b> and then click a note button - this automatically invokes checking.") + "<br></li><li>" +
+    tr("When you have to play a note as an answer - the first detected sound will be taken, so be sure that your input device captures exactly what you want.") + "<br><br></center>");
   
-  if (showChBox) {
-      showInfoChB = new QCheckBox(tr("Always remind me about this"), this);
-      lay->addWidget(showInfoChB, 0, Qt::AlignCenter);
-      showInfoChB->setChecked(m_show); 
-  }
-  QHBoxLayout *buttLay = new QHBoxLayout();
-  buttLay->addStretch(1);
-  QPushButton *appBut = new QPushButton(tr("Apply"),  this);
-  buttLay->addWidget(appBut, 0, Qt::AlignCenter);
-  buttLay->addStretch(1);
-  QPushButton *discBut= new QPushButton(tr("Discard"),  this);
-  buttLay->addWidget(discBut,  0, Qt::AlignCenter);
-  buttLay->addStretch(1);
-  lay->addLayout(buttLay);
-  
-  setLayout(lay);
-  
-  connect(appBut, SIGNAL(clicked()), this, SLOT(accept()));
-  connect(discBut, SIGNAL(clicked()), this, SLOT(reject()));
-  connect(this, SIGNAL(finished(int)), this, SLOT(closeIt()));
+		if (showAskCheckBox)
+				showCheckBox(tr("Always remind me about this"), askAboutExpert);
+		
+		showButtons(true, true);
 }
 
-void TexpertAnswerHelp::closeIt() {
-  if (showInfoChB)
-      m_show = showInfoChB->isChecked();
-  close();
-}
 
-bool showExpertAnswersHelpDlg(bool& showHelp, QWidget* parent, bool showChBox) {
-  TexpertAnswerHelp *exHlp = new TexpertAnswerHelp(showHelp, parent, showChBox);
+bool showExpertAnswersHelpDlg(QWidget* parent, bool* askAboutExpert, bool showAskCheckBox) {
+  TexpertAnswerHelp *exHlp = new TexpertAnswerHelp(parent, askAboutExpert, showAskCheckBox);
   bool res = false;
   exHlp->exec();
   if (exHlp->result() == QDialog::Accepted)
