@@ -22,8 +22,7 @@
 TstartExerciseOrExamHelp::TstartExerciseOrExamHelp(QWidget* parent, Qt::WindowFlags f) :
 	ThelpDialogBase(parent, f)
 {
-	helpText()->setHtml("<center><h2>" + QString("<img src=\"%1\" />").arg(path() + "picts/practice.png") +
-		tr("To exercise or to pass an exam?") + QString("<img src=\"%1\" /></h2>").arg(path() + "picts/startExam.png") + 
+	helpText()->setHtml("<center><h2>" + pix("practice", 64) + " " + tr("To exercise or to pass an exam?") + " " + pix("startExam", 64) + "</h2>" +
 		tr("Nootka can help you to develop your skills on two ways: through exercising and through passing exams.") +
 		"</center>"
 	);
