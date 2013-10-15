@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "thelpdialogbase.h"
+#include "tpixmaker.h"
 #include <tglobals.h>
 #include <QApplication>
 #include <QLayout>
@@ -36,6 +37,7 @@ ThelpDialogBase::ThelpDialogBase(QWidget* parent, Qt::WindowFlags f) :
 {
 	m_path = gl->path;
 	setWindowIcon(QIcon(path() + "picts/help.png"));
+  setWindowTitle(tr("Nootka help"));
   m_helpText = new QTextEdit(this);
   m_helpText->setReadOnly(true);
   m_helpText->setAlignment(Qt::AlignCenter);
@@ -65,6 +67,11 @@ void ThelpDialogBase::showCheckBox(const QString& label, bool* state) {
   }
   m_stateOfChB = state;
   m_checkBox->setChecked(*state);
+}
+
+
+QString ThelpDialogBase::pix(const QString& imageName, int height) {
+  return pixToHtml(path() + "picts/" + imageName + ".png", height);
 }
 
 

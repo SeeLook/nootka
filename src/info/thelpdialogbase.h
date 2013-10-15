@@ -60,6 +60,9 @@ public:
     
   bool isDoNotShowChecked() { m_checkBox ? m_checkBox->isChecked() : false; }
   
+      /** Shortcut to global pixToHtml function. @p imageName is only filename without extension and path */
+  QString pix(const QString &imageName, int height = 32);
+  
 			/** Path to Nootka resources */
   static QString& path() { return m_path; }
   
