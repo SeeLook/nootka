@@ -150,7 +150,6 @@ SET( NOOTKA_SRCS
   info/tnootkalabel.cpp
   info/tpixmaker.cpp  
   info/troundedlabel.cpp
-  info/tstartexerciseorexamhelp.cpp
 ###### Charts
   charts/tanalysdialog.cpp
   charts/tchart.cpp
