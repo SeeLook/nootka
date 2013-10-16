@@ -33,21 +33,24 @@ public:
 //   QColor answerColor;
 
 
-  bool autoNextQuest; /** Next quetion in en exam is given automatically after correct answer @def false */
+  bool autoNextQuest; /** Next question in en exam is given automatically after correct answer @def false */
   bool repeatIncorrect; /** If EautoNextQuest is true incorrect questions are asked again once @def true */
   bool expertsAnswerEnable; /** Enable checking without confirm @def false */
-  bool askAboutExpert; /** shows confirm dialog when expertsAnswerEnable is going to be changed @def true */
-  bool showHelpOnStart; /** shows dialog with help on start en exam @def true */
   QString studentName; /** @def empty */
   QString examsDir; /** Path to dir with recent opened exam file. @def system_home_path */
   QString levelsDir; /** Path to dir with recent opened level file. @def system_home_path */
-  bool closeWithoutConfirm; /** Do not ask anything when Nootka is closing. */
+  bool closeWithoutConfirm; /** Do not ask anything when Nootka is closing. @def false */
   
 // PRACTICE/EXERCISING
   bool showCorrected; /** When answer was wrong, corrected one will be shown */
   int correctViewDuration; /** Time of displaying correct answer */
   bool suggestExam; /** Check is exercising going well and suggest to start an exam on that level. */
   //   bool repeatUntilcorrect; /** or until correct answer will be given. */
+  
+// Displaying dialogues check box state
+	bool askAboutExpert; /** shows confirm dialog when expertsAnswerEnable is going to be changed @def true */
+  bool showHelpOnStart; /** shows dialog with help on start en exam or exercise @def true */
+  bool showVeryBeginHelp; /** When start exam or exercise dialog appears @def true */
 };
 
 

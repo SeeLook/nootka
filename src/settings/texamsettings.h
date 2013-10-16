@@ -22,6 +22,8 @@
 
 #include <QWidget>
 
+class TroundedLabel;
+class QSlider;
 class TexamParams;
 class QLineEdit;
 class QCheckBox;
@@ -50,10 +52,18 @@ public:
 
 public slots:
   void expertAnswersChanged(bool enabled);
+	void timePreviewChanged(int val);
   
 private:
-    QCheckBox 			*m_autoNextChB, *m_repeatIncorChB, *m_expertAnswChB, *m_showHelpChB;
+	// exercises
 		QCheckBox				*m_correctChB, *m_suggestExamChB;
+		QSlider					*m_viewTimeSlider; // preview time duration slider
+		TroundedLabel		*m_timeLabel;
+	// exams
+    QCheckBox 			*m_repeatIncorChB, *m_closeConfirmChB;
+		
+	// common
+		QCheckBox				*m_autoNextChB, *m_expertAnswChB;
     TcolorButton 		*m_questColorBut, *m_answColorBut, *m_notBadButt;
     QLineEdit 			*m_nameEdit;
     TexamParams 		*m_params;

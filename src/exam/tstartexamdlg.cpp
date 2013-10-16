@@ -22,7 +22,7 @@
 #include "tlevelselector.h"
 #include "levelsettings.h"
 #include <troundedlabel.h>
-#include <tstartexerciseorexamhelp.h>
+#include <thelpdialogbase.h>
 #include <QtGui>
 #include <stdlib.h> // for getenv()
 
@@ -164,6 +164,9 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
     QApplication::translate("File association entries", "Open with Nootka");
     QApplication::translate("File association entries", "Nootka exam file");
     QApplication::translate("Windows installer entries", "Do you really want to remove Nootka and all its components?");
+		
+		if (m_examParams->showVeryBeginHelp)
+				QTimer::singleShot(10, this, SLOT(helpSelected()));
 }
 
 TstartExamDlg::Eactions TstartExamDlg::showDialog(QString &txt, TexamLevel &lev) {
@@ -280,11 +283,16 @@ void TstartExamDlg::practiceSelected() {
 
 
 void TstartExamDlg::helpSelected() {
-		TstartExerciseOrExamHelp *help = new TstartExerciseOrExamHelp(this);
-		help->setFixedWidth(width());
-		bool someBool = true;
-		help->showCheckBox(&someBool);
-		help->showButtons(true, true);
+		ThelpDialogBase *help = new ThelpDialogBase(this);
+		help->setFixedSize(width(), height() * 0.8);
+		QString ht = "<center><h2>" + help->pix("practice", 64) + " " + tr("To exercise or to pass an exam?") + " " + help->pix("startExam", 64) + "</h2>" +
+		tr("Learning with Nootka works through questioning and answering but there are two different ways how it happens: <b>exercising</b> and <b>passing exams</b>") +
+		"</center><div><p>" + help->pix("practice") + "&nbsp;&nbsp;&nbsp;" + 
+		tr("During exercising the program will be your understanding and friendly teacher. When answering a question you make mistake, Nootka patiently show you a correct answer. The application silently will be watch your progress and suggest you to pass an exam when you will go well.") + "</p><p>" + help->pix("startExam") + "&nbsp;&nbsp;&nbsp;" +
+		tr("During exams Nootka will be your strict master. You will see fast elapsing time and when you make mistake you get additional, penalties questions but any clues. If you be lucky to pass an exam you got a certificate.") +
+		"</p></div>";
+		help->helpText()->setHtml(ht);
+		help->showCheckBox(&m_examParams->showVeryBeginHelp);
 		help->exec();
 		delete help;
 }

@@ -181,8 +181,6 @@ Tglobals::Tglobals() :
         E->autoNextQuest = config->value("autoNextQuest", true).toBool();
         E->repeatIncorrect = config->value("repeatIncorrect", true).toBool();
         E->expertsAnswerEnable = config->value("expertsAnswerEnable", false).toBool();
-        E->askAboutExpert = config->value("askAboutExpert", true).toBool();
-        E->showHelpOnStart = config->value("showHelpOnStart", true).toBool();
         E->studentName = config->value("studentName", "").toString();
         E->examsDir = config->value("examsDir", QDir::homePath()).toString();
         E->levelsDir = config->value("levelsDir", QDir::homePath()).toString();
@@ -190,6 +188,9 @@ Tglobals::Tglobals() :
 				E->showCorrected = config->value("showCorrected", true).toBool();
 				E->correctViewDuration = config->value("durationOfCorrect", 2000).toInt();
 				E->suggestExam = config->value("suggestExam", true).toBool();
+				E->showHelpOnStart = config->value("showHelpOnStart", true).toBool();
+				E->askAboutExpert = config->value("askAboutExpert", true).toBool();
+				E->showVeryBeginHelp = config->value("showVeryBeginHelp", true).toBool();
     config->endGroup();
 
 // Sound settings
@@ -322,14 +323,15 @@ void Tglobals::storeSettings() {
         config->setValue("autoNextQuest", E->autoNextQuest);
         config->setValue("repeatIncorrect", E->repeatIncorrect);
         config->setValue("expertsAnswerEnable", E->expertsAnswerEnable);
-        config->setValue("askAboutExpert", E->askAboutExpert);
-        config->setValue("showHelpOnStart", E->showHelpOnStart);
         config->setValue("studentName", E->studentName);
         config->setValue("examsDir", E->examsDir);
         config->setValue("levelsDir", E->levelsDir);
 				config->setValue("closeWithoutConfirm", E->closeWithoutConfirm);
 				config->setValue("durationOfCorrect", E->correctViewDuration);
 				config->setValue("suggestExam", E->suggestExam);
+				config->setValue("askAboutExpert", E->askAboutExpert);
+        config->setValue("showHelpOnStart", E->showHelpOnStart);
+				config->setValue("showVeryBeginHelp", E->showVeryBeginHelp);
     config->endGroup();
 
     config->beginGroup("sound");
