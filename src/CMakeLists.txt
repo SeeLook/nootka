@@ -255,6 +255,7 @@ SET( NOOTKA_MOC_SRCS
   exam/tprogresswidget.h
   exam/tquestiontip.h
   exam/tfinishtip.h
+  exam/texercises.h
 ###### Info
   info/taboutnootka.h
   info/tfirstrunwizzard.h

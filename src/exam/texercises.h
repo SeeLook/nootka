@@ -19,6 +19,9 @@
 #ifndef TEXERCISES_H
 #define TEXERCISES_H
 
+#include <QDialog>
+
+class QRadioButton;
 class Texam;
 
 /** Class for managing exercising (exam like mode) */
@@ -30,9 +33,42 @@ public:
 		
 		void checkAnswer();
 		
+				/** Sets checking of exercising progress enabled when @p obligate value is bigger than 0.
+				 * Given value should be obligQuestions() calculated by @class TexecutorSupply  */
+		void setSuggestionEnabled(int obligateNr);
+		
+				/** Returns user decision when he got message about starting an exam.
+				 * It affects global setting for further suggestions. */
+		bool suggestInFuture() { return m_chekInFuture; }
+		
 private:
 		Texam				*m_exam;
+		bool 				m_chekInFuture, m_checkNow;
+		int 				m_max, m_currentGood;
 
 };
 
+
+
+class TsuggestExam : public QDialog
+{
+	Q_OBJECT
+public:
+		explicit TsuggestExam();
+		
+		enum Esuggest {
+			e_readyToExam, e_forAmoment, e_notThisTime, e_neverEver
+		};
+		
+				/** Call this dialog and returns user decision */
+		Esuggest suggest();
+		
+		
+private:
+		QRadioButton	*m_redyExamRadio, *m_notNowRadio, *m_notThisExRadio, *m_neverAskRadio;
+		Esuggest			m_userResponse;
+		
+};
+
 #endif // TEXERCISES_H
+
