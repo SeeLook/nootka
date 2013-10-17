@@ -286,10 +286,10 @@ void TstartExamDlg::helpSelected() {
 		ThelpDialogBase *help = new ThelpDialogBase(this);
 		help->setFixedSize(width(), height() * 0.8);
 		QString ht = "<center><h2>" + help->pix("practice", 64) + " " + tr("To exercise or to pass an exam?") + " " + help->pix("startExam", 64) + "</h2>" +
-		tr("Learning with Nootka works through questioning and answering but there are two different ways how it happens: <b>exercising</b> and <b>passing exams</b>") +
-		"</center><div><p>" + help->pix("practice") + "&nbsp;&nbsp;&nbsp;" + 
-		tr("During exercising the program will be your understanding and friendly teacher. When answering a question you make mistake, Nootka patiently show you a correct answer. The application silently will be watch your progress and suggest you to pass an exam when you will go well.") + "</p><p>" + help->pix("startExam") + "&nbsp;&nbsp;&nbsp;" +
-		tr("During exams Nootka will be your strict master. You will see fast elapsing time and when you make mistake you get additional, penalties questions but any clues. If you be lucky to pass an exam you got a certificate.") +
+		tr("Learning with Nootka works through questioning and answering but there are two different ways how it happens:<br><b>exercising</b> and <b>passing exams</b>") +
+		"</center><div style=\"padding: 10px; text-align: justify;\"><p>" + help->pix("practice") + "&nbsp;&nbsp;&nbsp;" + 
+		tr("During exercising the program will be your understanding and friendly teacher. When answering a question you make mistake, Nootka patiently show you a correct answer. The application will be watch your progress silently and suggest you to pass an exam when you will go well. You will can see the details of exercising progress in every time during practice.") + "</p><p>" + help->pix("startExam") + "&nbsp;&nbsp;&nbsp;" +
+		tr("During exams Nootka will be your strict master. You will see fast elapsing time and when you make mistake you get additional, penalties questions but any clues. You can stop exam in any time and its results can be stored in file to further continue. If you be lucky to pass an exam you got a certificate.") +
 		"</p></div>";
 		help->helpText()->setHtml(ht);
 		help->showCheckBox(&m_examParams->showVeryBeginHelp);

@@ -204,6 +204,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
 		if (m_exercise) { // Do not count penalties in exercising mode
 				m_exam->setFinished(); // to avoid adding penalties in exercising
 				m_supp->setFinished();
+				if (gl->E->suggestExam)
+					m_exercise->setSuggestionEnabled(m_supp->obligQuestions());
 		} else {
 				m_penalCount = 0;
 				if (m_exam->isFinished()) {
@@ -946,8 +948,10 @@ void TexamExecutor::restoreAfterExam() {
     mW->score->isExamExecuting(false);
 
 		m_glStore->restoreSettings();
-		if (m_exercise)
+		if (m_exercise) {
 			gl->E->showCorrected = mW->correctChB->isChecked();
+			gl->E->suggestExam = m_exercise->suggestInFuture();
+		}
 		
 		TtipChart::defaultClef = gl->Sclef;
     mW->score->acceptSettings();

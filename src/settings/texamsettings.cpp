@@ -33,20 +33,23 @@ TexamSettings::TexamSettings(TexamParams* params, QColor* qColor, QColor* aColor
     m_nbColor(nbColor)
 {
 		m_correctChB = new QCheckBox(tr("correct wrong answers"), this);
-			m_correctChB->setStatusTip(tr("When you will make mistake, the program will show you how a correct answer should be."));
-		QLabel *timeLab = new QLabel(tr("duration preview of corrected answer"), this);
+			m_correctChB->setStatusTip(tr("When you will make mistake, the program will show you automatically how a correct answer should be."));
+			m_correctChB->setChecked(m_params->showCorrected);
+		QLabel *timeLab = new QLabel(tr("preview time of corrected answer"), this);
 		m_viewTimeSlider = new QSlider(Qt::Horizontal, this);
-			m_viewTimeSlider->setMinimum(2000);
+			m_viewTimeSlider->setStatusTip(tr("How long time a correct answer will be displayed when next question is asked automatically."));
+			m_viewTimeSlider->setMinimum(0);
 			m_viewTimeSlider->setMaximum(6000);
 			m_viewTimeSlider->setValue(m_params->correctViewDuration);
 			m_viewTimeSlider->setSingleStep(500);
 			m_viewTimeSlider->setPageStep(1000);
-			m_viewTimeSlider->setTickPosition(QSlider::TicksBothSides);
+			m_viewTimeSlider->setTickPosition(QSlider::TicksBelow);
 			m_viewTimeSlider->setTickInterval(500);
 		m_timeLabel = new TroundedLabel(this);
 			timePreviewChanged(m_params->correctViewDuration);
 		m_suggestExamChB = new QCheckBox(tr("suggest an exam"), this);
 			m_suggestExamChB->setStatusTip(tr("Watch exercising progress and when exercising is going well, suggest to start an exam on exercise level."));
+			m_suggestExamChB->setChecked(m_params->suggestExam);
 
     
     m_repeatIncorChB = new QCheckBox(tr("repeat a question when its answer is incorrect"), this);
@@ -54,6 +57,7 @@ TexamSettings::TexamSettings(TexamParams* params, QColor* qColor, QColor* aColor
 			m_repeatIncorChB->setStatusTip(tr("A question with an incorrect answer will be asked once again."));
 		m_closeConfirmChB = new QCheckBox(tr("close without confirm"), this);
 			m_closeConfirmChB->setStatusTip(tr("If checked, an application will not ask to answer pending question just mark it as wrong, save an exam to file and close without any confirmation needed."));
+			m_closeConfirmChB->setChecked(m_params->closeWithoutConfirm);
     
 		m_autoNextChB = new QCheckBox(autoNextQuestTxt(), this);
 			m_autoNextChB->setChecked(m_params->autoNextQuest);
@@ -73,6 +77,30 @@ TexamSettings::TexamSettings(TexamParams* params, QColor* qColor, QColor* aColor
 
 		
 		QVBoxLayout *mainLay = new QVBoxLayout;
+		QGroupBox *commonGr = new QGroupBox(this);
+		QVBoxLayout *commonLay = new QVBoxLayout;
+		QHBoxLayout *nameLay = new QHBoxLayout();
+			nameLay->addStretch();
+			nameLay->addWidget(nameLab);
+			nameLay->addStretch();
+			nameLay->addWidget(m_nameEdit);
+			nameLay->addStretch();
+		commonLay->addLayout(nameLay);
+			commonLay->addWidget(m_autoNextChB, 0, Qt::AlignCenter);
+			commonLay->addWidget(m_expertAnswChB, 0, Qt::AlignCenter);
+			commonLay->addStretch();
+			commonLay->addStretch();
+		QGridLayout *colorsLay = new QGridLayout;
+			colorsLay->addWidget(questLab, 0, 0, Qt::AlignCenter);
+			colorsLay->addWidget(m_questColorBut, 0, 1, Qt::AlignCenter);
+			colorsLay->addWidget(answLab, 1, 0, Qt::AlignCenter);
+			colorsLay->addWidget(m_answColorBut, 1, 1, Qt::AlignCenter);
+			colorsLay->addWidget(notBadLab, 2, 0, Qt::AlignCenter);
+			colorsLay->addWidget(m_notBadButt, 2, 1, Qt::AlignCenter);
+    commonLay->addLayout(colorsLay);
+		commonGr->setLayout(commonLay);
+		mainLay->addWidget(commonGr);
+    mainLay->addStretch();
 		QGroupBox *exerciseGr = new QGroupBox(tr("exercises"), this);
 		QVBoxLayout *exerciseLay = new QVBoxLayout;
 		QHBoxLayout *timeLay = new QHBoxLayout;
@@ -92,31 +120,10 @@ TexamSettings::TexamSettings(TexamParams* params, QColor* qColor, QColor* aColor
 		examGr->setLayout(examLay);
 		mainLay->addWidget(examGr);
 		mainLay->addStretch();
-		
-		mainLay->addWidget(m_autoNextChB, 0, Qt::AlignCenter);
-		mainLay->addWidget(m_expertAnswChB, 0, Qt::AlignCenter);
-		mainLay->addStretch();
-		QHBoxLayout *nameLay = new QHBoxLayout();
-			nameLay->addStretch();
-			nameLay->addWidget(nameLab);
-			nameLay->addStretch();
-			nameLay->addWidget(m_nameEdit);
-			nameLay->addStretch();
-		mainLay->addLayout(nameLay);
-			mainLay->addStretch();
-		QGridLayout *colorsLay = new QGridLayout;
-			colorsLay->addWidget(questLab, 0, 0, Qt::AlignCenter);
-			colorsLay->addWidget(m_questColorBut, 0, 1, Qt::AlignCenter);
-			colorsLay->addWidget(answLab, 1, 0, Qt::AlignCenter);
-			colorsLay->addWidget(m_answColorBut, 1, 1, Qt::AlignCenter);
-			colorsLay->addWidget(notBadLab, 2, 0, Qt::AlignCenter);
-			colorsLay->addWidget(m_notBadButt, 2, 1, Qt::AlignCenter);
-    mainLay->addLayout(colorsLay);
-    mainLay->addStretch();
     setLayout(mainLay);
     
     connect(m_expertAnswChB, SIGNAL(clicked(bool)), this, SLOT(expertAnswersChanged(bool)));
-		connect(m_viewTimeSlider, SIGNAL(sliderMoved(int)), this, SLOT(timePreviewChanged(int)));
+		connect(m_viewTimeSlider, SIGNAL(valueChanged(int)), this, SLOT(timePreviewChanged(int)));
 }
 
 
@@ -164,6 +171,10 @@ void TexamSettings::expertAnswersChanged(bool enabled) {
 
 
 void TexamSettings::timePreviewChanged(int val) {
+		if (val < 2000) {
+			m_viewTimeSlider->setValue(2000);
+			val = 2000;
+		}
 		m_timeLabel->setText(QString("%1 ms").arg(val));
 }
 
