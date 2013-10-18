@@ -345,7 +345,7 @@ Tpage_4::Tpage_4(QWidget* parent) :
     arg(" &nbsp; " + pixToHtml(gl->path+"picts/levelCreator.png", PIXSIZE) + " &nbsp; ");
   
   helpTxt += "<hr><b>" + tr("III. Analyzing") + "</b><br>";
-  helpTxt += tr("Nootka will tell you about what You've been thinking for so long...<br>Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.").
+  helpTxt += tr("Nootka will tell you about what you've been thinking for so long...<br>and about the progress you've been making so far....<br>Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.").
     arg(" &nbsp; " + pixToHtml(gl->path+"picts/charts.png", PIXSIZE) + " &nbsp; ");;
   helpTxt += "</td></tr></table>";
   helpTxt += "<hr><b><span style=\"font-size: 25px;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + tr("Have fun!") + "</span></b>";
