@@ -37,202 +37,215 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
   m_listGenerated(false),
   m_tune(tune)
 {
+	QString styleTxt = "background-color: palette(base); border: 1px solid palette(Text); border-radius: 5px;";
+	
   m_tmpParams = new TaudioParams();
   *m_tmpParams = *m_glParams;
+	
+	QToolBox *m_toolBox = new QToolBox(this);
+	QWidget *m_1_device, *m_2_params, *m_3_middleA, *m_4_test;
   
-  QVBoxLayout *lay = new QVBoxLayout();
+//################### 1. 	Input device & pitch detection #################################
+	m_1_device = new QWidget();
+	m_toolBox->addItem(m_1_device, tr("1. Input device and pitch detection"));  
   
-  enableInBox = new QGroupBox(tr("enable pitch detection"), this);
-  enableInBox->setCheckable(true);
+  QLabel *devLab = new QLabel(tr("input device"), m_1_device);
+  m_inDeviceCombo = new QComboBox(m_1_device);
+		m_inDeviceCombo->setStatusTip(tr("Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working."));
   
-  QVBoxLayout *inLay = new QVBoxLayout();
-  
-  QHBoxLayout *upLay = new QHBoxLayout();  
-  QVBoxLayout *devDetLay = new QVBoxLayout(); // device & detection method layout
-  
-  QLabel *devLab = new QLabel(tr("input device"), this);
-  devDetLay->addWidget(devLab);
-  m_inDeviceCombo = new QComboBox(this);
-  devDetLay->addWidget(m_inDeviceCombo);
-  m_inDeviceCombo->setStatusTip(tr("Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working."));
-  
-  devDetLay->addStretch(1);
-  
-  modeGr = new QGroupBox(tr("pitch detection mode"), this);
-  QGridLayout *modeButtonsLay = new QGridLayout();
-	QVBoxLayout *modeLay = new QVBoxLayout;
-  QButtonGroup *butGr = new QButtonGroup(this);
-  butGr->setExclusive(true);
-  voiceRadio = new QRadioButton(this);
-  modeButtonsLay->addWidget(voiceRadio, 0, 0, Qt::AlignRight);
-  butGr->addButton(voiceRadio);
+  voiceRadio = new QRadioButton(m_1_device);
   QLabel *voiceLab = new QLabel(tr("for singing") + 
-    " <span style=\"font-family: nootka; font-size: 25px;\">v</span>", this);
-  modeButtonsLay->addWidget(voiceLab, 0, 1, Qt::AlignLeft);
-  voiceLab->setStatusTip(tr("This mode is more accurate but slower. It is recommended for singing and for instruments with \"wobbly\" intonation."));
-	instrRadio = new QRadioButton(this);
-  modeButtonsLay->addWidget(instrRadio, 1, 0, Qt::AlignRight);
+    " <span style=\"font-family: nootka; font-size: 25px;\">v</span>", m_1_device);
+		voiceLab->setStatusTip(tr("This mode is more accurate but slower. It is recommended for singing and for instruments with \"wobbly\" intonation."));
+	instrRadio = new QRadioButton(m_1_device);
+  QButtonGroup *butGr = new QButtonGroup(m_1_device);
+	butGr->addButton(voiceRadio);
   butGr->addButton(instrRadio);
   QLabel *instrLab = new QLabel(tr("for playing") + 
-        " <span style=\"font-family: nootka; font-size: 25px;\">g</span>", this);
-  modeButtonsLay->addWidget(instrLab, 1, 1, Qt::AlignLeft);
+        " <span style=\"font-family: nootka; font-size: 25px;\">g</span>", m_1_device);
   instrLab->setStatusTip(tr("This mode is faster and good enough for guitars and other instruments."));
-	modeLay->addLayout(modeButtonsLay);
-	durHeadLab = new QLabel(tr("minimum note duration"), this);
-	modeLay->addStretch(1);
-	modeLay->addWidget(durHeadLab, 0, Qt::AlignCenter);
-	durationSpin = new QSpinBox(this);
-	modeLay->addWidget(durationSpin, 0, Qt::AlignCenter);
-	durationSpin->setMinimum(10);
-	durationSpin->setMaximum(1000);
-	durationSpin->setSuffix("  "  + tr("[milliseconds]"));
-	durationSpin->setSingleStep(50);
-	durationSpin->setValue(m_glParams->minDuration * 1000); // minimal duration is stored in seconds but displayed in milliseconds
-	durationSpin->setStatusTip(tr("Only sounds longer than the selected time will be pitch-detected.<br>Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness."));
-  modeGr->setLayout(modeLay);
-  devDetLay->addWidget(modeGr);
+	
+	durHeadLab = new QLabel(tr("minimum note duration"), m_1_device);
+	durationSpin = new QSpinBox(m_1_device);
+		durationSpin->setMinimum(10);
+		durationSpin->setMaximum(1000);
+		durationSpin->setSuffix("  "  + tr("[milliseconds]"));
+		durationSpin->setSingleStep(50);
+		durationSpin->setValue(m_glParams->minDuration * 1000); // minimal duration is stored in seconds but displayed in milliseconds
+		durationSpin->setStatusTip(tr("Only sounds longer than the selected time will be pitch-detected.<br>Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness."));
   if (m_glParams->isVoice)
 			voiceRadio->setChecked(true);
 	else
 			instrRadio->setChecked(true);
-  tuneFreqlab = new QLabel(this);
-//   tuneFreqlab->setWordWrap(true);
-  tuneFreqlab->setAlignment(Qt::AlignCenter);
-// 	tuneFreqlab->hide();
-  devDetLay->addWidget(tuneFreqlab);
-  devDetLay->addStretch(1);
-  
-  upLay->addLayout(devDetLay);
-  QVBoxLayout *tunLay = new QVBoxLayout(); //middle A & threshold layout
-  
-  midABox = new QGroupBox(this);
-//   midABox->setStatusTip(tr("Base frequency of note a<sup>1</sup>"));
-  QVBoxLayout *midLay = new QVBoxLayout();
-  QLabel *headLab = new QLabel("<table><tr><td valign=\"middle\">" + tr("middle A") + QString("&nbsp;&nbsp;&nbsp;%1</td></tr></table>").arg(TtipChart::wrapPixToHtml(Tnote(6, 1, 0), Tclef::e_treble_G, TkeySignature(0), 4.0)), this);
-  midLay->addWidget(headLab, 0, Qt::AlignCenter);
-  QGridLayout *midGrLay = new QGridLayout;
-  QLabel *frLab = new QLabel(tr("frequency:"), this);
-//   midLay->addWidget(frLab);
-  midGrLay->addWidget(frLab, 0, 0);
-  freqSpin = new QSpinBox(this);
-//   midLay->addWidget(freqSpin);
-  midGrLay->addWidget(freqSpin, 0, 1);
-  freqSpin->setStatusTip(tr("The base frequency of <i>middle a</i>.<br>Detection of the proper pitch of notes is relative to this value. This also affects the pitch of played sounds."));
-  freqSpin->setMinimum(200);
-  freqSpin->setMaximum(900);
-//   freqSpin->setValue(int(pitch2freq(freq2pitch(440.0) + m_glParams->a440diff)));
-  freqSpin->setValue(getFreq(440.0));
-  freqSpin->setSuffix(" Hz");
-  frLab->setStatusTip(freqSpin->statusTip());
-  
-  QLabel *intLab = new QLabel(tr("interval:"), this);
-//   midLay->addWidget(intLab);
-  midGrLay->addWidget(intLab, 1, 0);
-  m_intervalCombo = new QComboBox(this);
-//   midLay->addWidget(intervalCombo);
-  midGrLay->addWidget(m_intervalCombo, 1, 1);
-  m_intervalCombo->addItem(tr("semitone up"));
-  m_intervalCombo->addItem(tr("none"));
-  m_intervalCombo->addItem(tr("semitone down"));
-  m_intervalCombo->setStatusTip(tr("Shifts the frequency of <i>middle a</i> one semitone."));
-  if (freqSpin->value() <= 415)
-      m_intervalCombo->setCurrentIndex(2);
-    else if (freqSpin->value() >= 465)
-      m_intervalCombo->setCurrentIndex(0);
-    else
-      m_intervalCombo->setCurrentIndex(1);
-  midLay->addLayout(midGrLay);
-  intLab->setStatusTip(m_intervalCombo->statusTip());
-  
-  midABox->setLayout(midLay);
-  tunLay->addWidget(midABox);
-  tunLay->addStretch();
-  
-  volumeSlider = new TvolumeSlider(this);
-  tunLay->addWidget(volumeSlider);
-  volumeSlider->setValue(m_glParams->minimalVol);
-  tunLay->addStretch();
+	// 1. Layout
+	QVBoxLayout *deviceLay = new QVBoxLayout();
+		deviceLay->addWidget(devLab);
+		deviceLay->addWidget(m_inDeviceCombo);
+		deviceLay->addStretch(1);
+	QGridLayout *modeButtonsLay = new QGridLayout();
+		modeButtonsLay->addWidget(voiceRadio, 0, 0, Qt::AlignRight);
+		modeButtonsLay->addWidget(voiceLab, 0, 1, Qt::AlignLeft);
+		modeButtonsLay->addWidget(instrRadio, 1, 0, Qt::AlignRight);
+		modeButtonsLay->addWidget(instrLab, 1, 1, Qt::AlignLeft);
+	QVBoxLayout *modeLay = new QVBoxLayout;
+		modeLay->addLayout(modeButtonsLay);
+		modeLay->addStretch(1);
+		QHBoxLayout *durLay = new QHBoxLayout;
+			durLay->addStretch(2);
+			durLay->addWidget(durHeadLab);
+			durLay->addStretch(1);
+			durLay->addWidget(durationSpin);
+			durLay->addStretch(2);
+		modeLay->addLayout(durLay);
+	modeGr = new QGroupBox(tr("pitch detection mode"), m_1_device);
+		modeGr->setLayout(modeLay);
+	deviceLay->addWidget(modeGr);
+  deviceLay->addStretch(1);
+  m_1_device->setLayout(deviceLay);
 	
-	QGroupBox *rangeBox = new QGroupBox(tr("Range of note pitches:"), this);
-	QHBoxLayout *rangeLay = new QHBoxLayout;
-	lowRadio = new QRadioButton(tr("low", "be short, please"), this);
-	lowRadio->setStatusTip(tr("The lowest notes.<br>Suitable for bass guitar, double bass, etc."));
-	middleRadio = new QRadioButton(tr("middle"), this);
-	middleRadio->setStatusTip(tr("Notes above <b>A contra</b>.<br>Suitable for guitar, cello, human voice, etc."));
-	highRadio = new QRadioButton(tr("high"), this);
-	highRadio->setStatusTip(tr("Notes above <b>small g</b>.<br>Suitable for high pitched instruments such as flute, piccolo, etc."));
-	QButtonGroup *rangeGr = new QButtonGroup(this);
-	rangeGr->addButton(lowRadio);
-	rangeGr->addButton(middleRadio);
-	rangeGr->addButton(highRadio);
+//################### 2. Pitch detection parameters #################################
+	m_2_params = new QWidget();
+	m_toolBox->addItem(m_2_params, tr("2. Pitch detection parameters"));
+	
+	QLabel *volLabel = new QLabel(tr("minimum volume"), m_2_params);
+	volumeSlider = new TvolumeSlider(m_2_params);
+		volumeSlider->setValue(m_glParams->minimalVol);
+		volumeSlider->setStatusTip(tr("Minimal volume of a sound to be pitch-detected"));
+	
+	lowRadio = new QRadioButton(tr("low"), m_2_params);
+		lowRadio->setStatusTip(tr("The lowest notes.<br>Suitable for bass guitar, double bass, etc."));
+	middleRadio = new QRadioButton(tr("middle"), m_2_params);
+		middleRadio->setStatusTip(tr("Notes above <b>A contra</b>.<br>Suitable for guitar, cello, human voice, etc."));
+	highRadio = new QRadioButton(tr("high"), m_2_params);
+		highRadio->setStatusTip(tr("Notes above <b>small g</b>.<br>Suitable for high pitched instruments such as flute, piccolo, etc."));
+	QButtonGroup *rangeGr = new QButtonGroup(m_2_params);
+		rangeGr->addButton(lowRadio);
+		rangeGr->addButton(middleRadio);
+		rangeGr->addButton(highRadio);
 	if (m_glParams->range == TaudioParams::e_low)
 		lowRadio->setChecked(true);
 	else if (m_glParams->range == TaudioParams::e_middle)
 		middleRadio->setChecked(true);
 	else
 		highRadio->setChecked(true);
-		
-	rangeLay->addWidget(lowRadio);
-	rangeLay->addWidget(middleRadio);
-	rangeLay->addWidget(highRadio);
-	rangeBox->setLayout(rangeLay);
-	tunLay->addWidget(rangeBox);
 	
-	TintonationCombo *intoCombo = new TintonationCombo(this);
-	m_intonationCombo = intoCombo->accuracyCombo;
-	tunLay->addWidget(intoCombo, 0, Qt::AlignCenter);
-	m_intonationCombo->setCurrentIndex(m_glParams->intonation);
-
-  upLay->addLayout(tunLay);  
-  inLay->addLayout(upLay);
+	TintonationCombo *intoCombo = new TintonationCombo(m_2_params);
+		m_intonationCombo = intoCombo->accuracyCombo;
+		m_intonationCombo->setCurrentIndex(m_glParams->intonation);
+	// 2. Layout
+	QVBoxLayout *paramsLay = new QVBoxLayout;
+	QHBoxLayout *volLay = new QHBoxLayout;
+		volLay->addWidget(volLabel);
+		volLay->addWidget(volumeSlider);
+	paramsLay->addLayout(volLay);
+	QHBoxLayout *rangeLay = new QHBoxLayout;
+		rangeLay->addWidget(lowRadio);
+		rangeLay->addWidget(middleRadio);
+		rangeLay->addWidget(highRadio);
+	QGroupBox *rangeBox = new QGroupBox(tr("Range of note pitches:"), m_2_params);
+		rangeBox->setLayout(rangeLay);
+	paramsLay->addWidget(rangeBox);
+	paramsLay->addWidget(intoCombo, 1, Qt::AlignCenter);
+	m_2_params->setLayout(paramsLay);
+		
+//################### 3. Middle a & transposition #################################
+	m_3_middleA= new QWidget();
+	m_toolBox->addItem(m_3_middleA, tr("3. 'Middle a' and transposition"));
+  
+  QLabel *headLab = new QLabel("<table><tr><td valign=\"middle\">" + tr("middle A") + QString("&nbsp;&nbsp;&nbsp;%1</td></tr></table>").arg(TtipChart::wrapPixToHtml(Tnote(6, 1, 0), Tclef::e_treble_G, TkeySignature(0), 4.0)), m_3_middleA);
+  QLabel *frLab = new QLabel(tr("frequency:"), m_3_middleA);
+  
+  freqSpin = new QSpinBox(m_3_middleA);
+		freqSpin->setStatusTip(tr("The base frequency of <i>middle a</i>.<br>Detection of the proper pitch of notes is relative to this value. This also affects the pitch of played sounds."));
+		freqSpin->setMinimum(200);
+		freqSpin->setMaximum(900);
+		freqSpin->setValue(getFreq(440.0));
+		freqSpin->setSuffix(" Hz");
+  frLab->setStatusTip(freqSpin->statusTip());
+  
+  QLabel *intervalLab = new QLabel(tr("interval:"), m_3_middleA);  
+  m_intervalCombo = new QComboBox(m_3_middleA);
+		m_intervalCombo->addItem(tr("semitone up"));
+		m_intervalCombo->addItem(tr("none"));
+		m_intervalCombo->addItem(tr("semitone down"));
+		m_intervalCombo->setStatusTip(tr("Shifts the frequency of <i>middle a</i> one semitone."));
+  if (freqSpin->value() <= 415)
+      m_intervalCombo->setCurrentIndex(2);
+    else if (freqSpin->value() >= 465)
+      m_intervalCombo->setCurrentIndex(0);
+    else
+      m_intervalCombo->setCurrentIndex(1);
+  intervalLab->setStatusTip(m_intervalCombo->statusTip());
+  
+	tuneFreqlab = new QLabel(m_3_middleA);
+		tuneFreqlab->setAlignment(Qt::AlignCenter);
+		tuneFreqlab->setStyleSheet(styleTxt);
+		QFont ff = tuneFreqlab->font();
+		ff.setPixelSize(fontMetrics().boundingRect("A").height() * 1.5);
+		tuneFreqlab->setFont(ff);
+  
+  // 3. Layout
+	QGridLayout *midGrLay = new QGridLayout;
+		midGrLay->addWidget(frLab, 0, 0);
+		midGrLay->addWidget(freqSpin, 0, 1);
+		midGrLay->addWidget(intervalLab, 1, 0);
+		midGrLay->addWidget(m_intervalCombo, 1, 1);
+	QHBoxLayout *aLay = new QHBoxLayout;
+		aLay->addWidget(headLab, 0, Qt::AlignCenter);
+		aLay->addLayout(midGrLay);
+	QVBoxLayout *middleAlay = new QVBoxLayout();
+		middleAlay->addLayout(aLay);
+		middleAlay->addWidget(tuneFreqlab);
+	m_3_middleA->setLayout(middleAlay);
+	
+//################### 4. Test the settings #################################
+	m_4_test= new QWidget();
+	m_toolBox->addItem(m_4_test, tr("4. Test the settings"));  
   
   testTxt = tr("Test");
   stopTxt = tr("Stop");
   
-  QGroupBox *testGr = new QGroupBox(this);
-  QHBoxLayout *testLay = new QHBoxLayout();
-  testButt = new QPushButton(testTxt, this);
-  testButt->setStatusTip(tr("Check, are your audio input settings appropriate?<br>And how well does pitch detection work for your selected settings?"));
-  testLay->addWidget(testButt);
-//   testLay->addStretch(1);
-  pitchView = new TpitchView(m_audioIn, this, false);
-  pitchView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-  testLay->addWidget(pitchView);
-  pitchView->setPitchColor(Qt::darkGreen);
-  pitchView->setMinimalVolume(m_glParams->minimalVol);
-//   testLay->addStretch(1);
-  QVBoxLayout *freqLay = new QVBoxLayout();
-  freqLay->setAlignment(Qt::AlignCenter);
-	
-// 	QColor lbg = palette().base().color();
-// 	lbg.setAlpha(220);
-	QString styleTxt = "background-color: palette(base); border: 1px solid palette(Text); border-radius: 5px;";
+  testButt = new QPushButton(testTxt, m_4_test);
+		testButt->setStatusTip(tr("Check, are your audio input settings appropriate?<br>And how well does pitch detection work for your selected settings?"));
+  pitchView = new TpitchView(m_audioIn, m_4_test, false);
+		pitchView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+		pitchView->setPitchColor(Qt::darkGreen);
+		pitchView->setMinimalVolume(m_glParams->minimalVol);
 	
   pitchLab = new QLabel("--", this);
-  pitchLab->setFixedWidth(70);
-	pitchLab->setStyleSheet(styleTxt);
-  pitchLab->setStatusTip(tr("Detected pitch"));
-  pitchLab->setAlignment(Qt::AlignCenter);
-  freqLay->addWidget(pitchLab);
+		pitchLab->setFixedWidth(70);
+		pitchLab->setStyleSheet(styleTxt);
+		pitchLab->setStatusTip(tr("Detected pitch"));
+		pitchLab->setAlignment(Qt::AlignCenter);
   
   freqLab = new QLabel("--", this);
-  freqLab->setFixedWidth(70);
-	freqLab->setStyleSheet(styleTxt);
-  freqLab->setAlignment(Qt::AlignCenter);
+		freqLab->setFixedWidth(70);
+		freqLab->setStyleSheet(styleTxt);
+		freqLab->setAlignment(Qt::AlignCenter);
   getFreqStatusTip();
-  freqLay->addWidget(freqLab);
-  testLay->addLayout(freqLay);
-//   testLay->addStretch(1);
-	tuneFreqlab->setStyleSheet(styleTxt);
   
-  testGr->setLayout(testLay);
-  inLay->addWidget(testGr);
+	// 4. Layout
+	QHBoxLayout *testLay = new QHBoxLayout();
+		testLay->addWidget(testButt);
+		testLay->addWidget(pitchView);
+	QVBoxLayout *freqLay = new QVBoxLayout();
+		freqLay->setAlignment(Qt::AlignCenter);
+		freqLay->addWidget(pitchLab);
+		freqLay->addWidget(freqLab);
+		testLay->addLayout(freqLay);
+	m_4_test->setLayout(testLay);
   
-  enableInBox->setLayout(inLay);  
+  // Whole layout
+	QVBoxLayout *inLay = new QVBoxLayout();
+		inLay->addWidget(m_toolBox);
+	enableInBox = new QGroupBox(tr("enable pitch detection"), this);
+  enableInBox->setLayout(inLay);
+	QVBoxLayout *lay = new QVBoxLayout();
   lay->addWidget(enableInBox);
   setLayout(lay);
   
   setTestDisabled(true);
+	enableInBox->setCheckable(true);
   enableInBox->setChecked(m_glParams->INenabled);
   
   connect(testButt, SIGNAL(clicked()), this, SLOT(testSlot()));
@@ -267,7 +280,7 @@ void AudioInSettings::setTestDisabled(bool disabled) {
 	// enable the rest of widget
 			m_inDeviceCombo->setDisabled(false);
 			modeGr->setDisabled(false);
-			midABox->setDisabled(false);
+// 			midABox->setDisabled(false);
 			volumeSlider->setDisabled(false);
 			lowRadio->setDisabled(false);
 			middleRadio->setDisabled(false);
@@ -280,7 +293,7 @@ void AudioInSettings::setTestDisabled(bool disabled) {
 			pitchView->setDisabled(false);
 	// disable the rest of widget
 			m_inDeviceCombo->setDisabled(true);
-			midABox->setDisabled(true);
+// 			midABox->setDisabled(true);
 			modeGr->setDisabled(true);
 			volumeSlider->setDisabled(true);
 			lowRadio->setDisabled(true);
