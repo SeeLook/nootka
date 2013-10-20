@@ -17,8 +17,8 @@
    inkscape:version="0.48.4 r9939"
    sodipodi:docname="practice.svg"
    inkscape:export-filename="/home/tom/DEVELOP/QT4/nootka/picts/practice.png"
-   inkscape:export-xdpi="8.5184832"
-   inkscape:export-ydpi="8.5184832">
+   inkscape:export-xdpi="5.0191689"
+   inkscape:export-ydpi="5.0191689">
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -34,7 +34,7 @@
      showgrid="false"
      inkscape:zoom="0.236"
      inkscape:cx="1053.4034"
-     inkscape:cy="43.148265"
+     inkscape:cy="212.63979"
      inkscape:window-x="-2"
      inkscape:window-y="-3"
      inkscape:window-maximized="1"
@@ -155,7 +155,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
