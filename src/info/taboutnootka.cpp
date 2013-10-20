@@ -21,7 +21,7 @@
 #include "tsupportnootka.h"
 #include "tnootkalabel.h"
 #include "tfirstrunwizzard.h"
-#include "troundedlabel.h"
+#include "widgets/troundedlabel.h"
 #include "tglobals.h"
 #include <QtGui>
 

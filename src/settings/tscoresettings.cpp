@@ -20,7 +20,7 @@
 #include "tscoresettings.h"
 #include "tglobals.h"
 #include "tkeysignature.h"
-#include "tcolorbutton.h"
+#include "widgets/tcolorbutton.h"
 #include "tselectclef.h"
 #include "tnotationradiogroup.h"
 #include <tnotepixmap.h>

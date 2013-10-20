@@ -45,6 +45,10 @@ SET( NOOTKA_SRCS
 	notename/tnotename.cpp
 	notename/tnamestylefilter.cpp
 	notename/tnotenamelabel.cpp
+###### widgets
+	widgets/tpixmapradio.cpp
+	widgets/troundedlabel.cpp
+	widgets/tcolorbutton.cpp
 ###### sound
   sound/tsound.cpp
   sound/tmidiout.cpp
@@ -105,7 +109,6 @@ SET( NOOTKA_SRCS
   settings/tscoresettings.cpp
   settings/texamsettings.cpp
   settings/tguitarsettings.cpp
-  settings/tcolorbutton.cpp
   settings/tupdateprocess.cpp
   settings/tvolumeslider.cpp
   settings/tselectclef.cpp
@@ -149,7 +152,6 @@ SET( NOOTKA_SRCS
   info/tsupportnootka.cpp
   info/tnootkalabel.cpp
   info/tpixmaker.cpp  
-  info/troundedlabel.cpp
 ###### Charts
   charts/tanalysdialog.cpp
   charts/tchart.cpp
@@ -221,6 +223,9 @@ SET( NOOTKA_MOC_SRCS
 ###### notename
 	notename/tnotename.h
 	notename/tnotenamelabel.h
+###### widgets
+	widgets/tpixmapradio.h
+	widgets/tcolorbutton.h
 ###### Settings
   settings/tsettingsdialog.h
   settings/tsettingsdialogbase.h
@@ -230,7 +235,6 @@ SET( NOOTKA_MOC_SRCS
   settings/tguitarsettings.h
   settings/tscoresettings.h
   settings/texamsettings.h
-  settings/tcolorbutton.h
   settings/tupdateprocess.h
   settings/tvolumeslider.h
   settings/tselectclef.h

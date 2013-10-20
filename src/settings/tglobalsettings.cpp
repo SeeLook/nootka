@@ -19,7 +19,7 @@
 
 #include "tglobalsettings.h"
 #include "tglobals.h"
-#include "tcolorbutton.h"
+#include "widgets/tcolorbutton.h"
 #include "tupdateprocess.h"
 
 #include <QtGui>

@@ -19,7 +19,7 @@
 
 
 #include "tsupportnootka.h"
-#include "troundedlabel.h"
+#include "widgets/troundedlabel.h"
 #include <QtGui>
 
 TsupportNootka::TsupportNootka(QWidget *parent) :
@@ -40,7 +40,7 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
     QString supp;
     supp += "<ul>";
 //    supp += "<li><b><u>This version has completely new audio layer. It should be tested well. Try it please on different audio devices and with JACK. Also the pitch detection was improved. Do some exams where you will play scores.</u></b></li><br>";
-//    supp += "<li><b>English in Nootka is clumsy. If eglish is your native, please take a look <a href=\"http://nootka.googlecode.com/hg/lang/nootka_xx.ts\">on this file</a>, where are all texts and verify it. See next paragraph if you have questions or write me.</a></b></li><br>";
+//    supp += "<li><b>English in Nootka is clumsy. If English is your native, please take a look <a href=\"http://nootka.googlecode.com/hg/lang/nootka_xx.ts\">on this file</a>, where are all texts and verify it. See next paragraph if you have questions or write me.</a></b></li><br>";
     supp += "<li><b>Translate Nootka</b><br>It does not require any programming skills. Just read <a href=\"http://nootka.googlecode.com/hg/lang/how-to-translate.txt\">the instructions</a>,<br>translate and send your work.<br></li>";
 //     supp += "<li><b>Test Nootka intensively</b><br>When you will produce a big exam file, let's say 200 or more questions, it doesn't matter how many mistakes you did, send me the file please. It will help to improve analyse of exams.<br></li>";
     supp += "<li><b>Maintain Nootka package</b><br>Windows, MacOs and various Linux distributions 32 or 64 bits.<br>Life is too short...<br>If you know how to compile Nootka from sources you could keep Nootka version for your platform.<br></li>";

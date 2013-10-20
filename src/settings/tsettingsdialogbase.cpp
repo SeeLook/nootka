@@ -18,7 +18,7 @@
 
 
 #include "tsettingsdialogbase.h"
-#include <troundedlabel.h>
+#include <widgets/troundedlabel.h>
 #include <QtGui>
 
 TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
