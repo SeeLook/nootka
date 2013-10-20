@@ -18,7 +18,7 @@
 
 #include "texercises.h"
 #include "texam.h"
-#include <troundedlabel.h>
+#include <widgets/troundedlabel.h>
 #include <QRadioButton>
 #include <QButtonGroup>
 #include <QPushButton>

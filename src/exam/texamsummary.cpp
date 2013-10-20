@@ -23,7 +23,7 @@
 #include "texamview.h"
 #include "tqaunit.h"
 #include "tlevelpreview.h"
-#include <troundedlabel.h>
+#include <widgets/troundedlabel.h>
 
 
   /** returns 2 columns row of table */

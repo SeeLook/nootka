@@ -18,10 +18,10 @@
 
 
 #include "texamsettings.h"
-#include "tcolorbutton.h"
+#include "widgets/tcolorbutton.h"
 #include "texamparams.h"
 #include "texpertanswerhelp.h"
-#include <troundedlabel.h>
+#include "widgets/troundedlabel.h"
 #include <QtGui>
 
 

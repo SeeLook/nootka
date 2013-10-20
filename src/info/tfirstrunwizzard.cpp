@@ -22,7 +22,7 @@
 #include "tglobals.h"
 #include "select7note.h"
 #include "tpixmaker.h"
-#include "troundedlabel.h"
+#include "widgets/troundedlabel.h"
 #include "ttipchart.h"
 #include "tkeysignature.h"
 #include <ttune.h>

@@ -17,7 +17,7 @@
  ***************************************************************************/
 
 #include "tguitarsettings.h"
-#include "tcolorbutton.h"
+#include "widgets/tcolorbutton.h"
 #include "ttune.h"
 #include "tglobals.h"
 #include "tsimplescore.h"

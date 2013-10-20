@@ -25,7 +25,7 @@
 #include "tfirstrunwizzard.h"
 #include "tsupportnootka.h"
 #include "tnootkalabel.h"
-#include <troundedlabel.h>
+#include <widgets/troundedlabel.h>
 #include "texamsettings.h"
 #include <tupdateprocess.h>
 #include "tsound.h"

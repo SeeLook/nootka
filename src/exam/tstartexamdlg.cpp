@@ -21,8 +21,10 @@
 #include "texamparams.h"
 #include "tlevelselector.h"
 #include "levelsettings.h"
-#include <troundedlabel.h>
+#include <widgets/troundedlabel.h>
 #include <thelpdialogbase.h>
+#include <tpixmaker.h>
+#include <widgets/tpixmapradio.h>
 #include <QtGui>
 #include <stdlib.h> // for getenv()
 
@@ -42,7 +44,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
     m_examParams(examParams)
 {
     setWindowTitle(tr("Start exercises or an exam"));
-    QVBoxLayout *mainLay = new QVBoxLayout;
+    QVBoxLayout *rightLay = new QVBoxLayout;
 
     QVBoxLayout *levLay = new QVBoxLayout;
     QHBoxLayout *nameLay = new QHBoxLayout;
@@ -86,8 +88,8 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
     levelGr->setStatusTip(tr("Select a level suitable for you<br>or create new one."));
     levelGr->setLayout(levLay);
 
-    mainLay->addWidget(levelGr);
-		mainLay->addStretch(2);
+    rightLay->addWidget(levelGr);
+		rightLay->addStretch(2);
 
     QVBoxLayout *exLay = new QVBoxLayout;
     m_examCombo = new QComboBox(this);
@@ -99,7 +101,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
 			m_helpButt->setStatusTip(tr("Help"));
 			m_helpButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 			m_helpButt->setIconSize(QSize(48, 48));
-			butLay->addWidget(m_helpButt);
+// 			butLay->addWidget(m_helpButt);
     m_contExamButt = new QPushButton(tr("continue exam"), this);
 			m_contExamButt->setIcon(QIcon(path + "picts/startExam.png"));
 			m_contExamButt->setIconSize(QSize(48, 48));
@@ -116,13 +118,34 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
     examGr->setStatusTip(tr("Select previous exam, or get it from a file."));
     examGr->setLayout(exLay);
 
-    mainLay->addWidget(examGr);
+    rightLay->addWidget(examGr);
 
     m_hintLabel = new TroundedLabel(this);
     m_hintLabel->setFixedHeight(70);
     m_hintLabel->setWordWrap(true);
 
-    mainLay->addWidget(m_hintLabel);
+    rightLay->addWidget(m_hintLabel);
+		
+		TpixmapRadio* m_exerciseRadio = new TpixmapRadio(pixToHtml(path + "picts/practice.png", 64), tr("Exercises"), this);
+		m_exerciseRadio->setDirection(QBoxLayout::TopToBottom);
+		TpixmapRadio* m_examRadio = new TpixmapRadio(pixToHtml(path + "picts/exam.png", 64), tr("Exams"), this);
+		m_examRadio->setDirection(QBoxLayout::TopToBottom);
+		QButtonGroup* modeGr = new QButtonGroup(this);
+			modeGr->addButton(m_exerciseRadio->radio());
+			modeGr->addButton(m_examRadio->radio());
+		
+		QVBoxLayout* leftLay = new QVBoxLayout;
+			leftLay->addStretch(2);
+			leftLay->addWidget(m_exerciseRadio);
+			leftLay->addStretch(1);
+			leftLay->addWidget(m_examRadio);
+			leftLay->addStretch(2);
+			leftLay->addWidget(m_helpButt);
+			
+		QHBoxLayout *mainLay = new QHBoxLayout;
+			mainLay->addLayout(leftLay);
+			mainLay->addLayout(rightLay);		
+		
     setLayout(mainLay);
     
     setStatusTip("<b>" + tr("Put in your name and select a level to start exercising or to pass new exam. To continue the previous exam, select it from the list or load from file.") + "</b>" );
@@ -147,7 +170,10 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
         sett.setValue("recentExams", m_recentExams);
         m_examCombo->setCurrentIndex(0);
     }
-
+		
+		m_exerciseRadio->radio()->setChecked(true); // recent mode
+		m_examRadio->radio()->setChecked(false);
+		
     m_contExamButt->setStatusTip(m_contExamButt->text() + "<br><b>" + m_examCombo->currentText() + "</b>");
     
     connect(m_levelsView, SIGNAL(levelToLoad()), this, SLOT(levelToLoad()));
