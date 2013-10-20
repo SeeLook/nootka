@@ -68,7 +68,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
     m_createBut->setIconSize(QSize(48, 48));
     m_newExamBut = new QPushButton(tr("Pass new exam"), this);
     m_newExamBut->setStatusTip(m_newExamBut->text() + "<br><b>" + tr("No level was selected!") + "</b>");
-    m_newExamBut->setIcon(QIcon(path + "picts/startExam.png"));
+    m_newExamBut->setIcon(QIcon(path + "picts/exam.png"));
     m_newExamBut->setIconSize(QSize(48, 48));
 		m_practiceBut = new QPushButton(tr("Start exercises"), this);
     m_practiceBut->setStatusTip(tr("Start practicing on selected level.") + "<br><b>" + tr("No level was selected!") + "</b>");
@@ -103,7 +103,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
 			m_helpButt->setIconSize(QSize(48, 48));
 // 			butLay->addWidget(m_helpButt);
     m_contExamButt = new QPushButton(tr("continue exam"), this);
-			m_contExamButt->setIcon(QIcon(path + "picts/startExam.png"));
+			m_contExamButt->setIcon(QIcon(path + "picts/exam.png"));
 			m_contExamButt->setIconSize(QSize(48, 48));
 			m_contExamButt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 			butLay->addWidget(m_contExamButt);
@@ -311,10 +311,10 @@ void TstartExamDlg::practiceSelected() {
 void TstartExamDlg::helpSelected() {
 		ThelpDialogBase *help = new ThelpDialogBase(this);
 		help->setFixedSize(width(), height() * 0.8);
-		QString ht = "<center><h2>" + help->pix("practice", 64) + " " + tr("To exercise or to pass an exam?") + " " + help->pix("startExam", 64) + "</h2>" +
+		QString ht = "<center><h2>" + help->pix("practice", 64) + " " + tr("To exercise or to pass an exam?") + " " + help->pix("exam", 64) + "</h2>" +
 		tr("Learning with Nootka works through questioning and answering but there are two different ways how it happens:<br><b>exercising</b> and <b>passing exams</b>") +
 		"</center><div style=\"padding: 10px; text-align: justify;\"><p>" + help->pix("practice") + "&nbsp;&nbsp;&nbsp;" + 
-		tr("During exercising the program will be your understanding and friendly teacher. When answering a question you make mistake, Nootka patiently show you a correct answer. The application will be watch your progress silently and suggest you to pass an exam when you will go well. You will can see the details of exercising progress in every time during practice.") + "</p><p>" + help->pix("startExam") + "&nbsp;&nbsp;&nbsp;" +
+		tr("During exercising the program will be your understanding and friendly teacher. When answering a question you make mistake, Nootka patiently show you a correct answer. The application will be watch your progress silently and suggest you to pass an exam when you will go well. You will can see the details of exercising progress in every time during practice.") + "</p><p>" + help->pix("exam") + "&nbsp;&nbsp;&nbsp;" +
 		tr("During exams Nootka will be your strict master. You will see fast elapsing time and when you make mistake you get additional, penalties questions but any clues. You can stop exam in any time and its results can be stored in file to further continue. If you be lucky to pass an exam you got a certificate.") +
 		"</p></div>";
 		help->helpText()->setHtml(ht);
