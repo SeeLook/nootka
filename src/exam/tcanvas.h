@@ -53,7 +53,10 @@ public:
     void addTip(TgraphicsTextTip *tip); // add any TgraphicsTextTip object
     void resultTip(TQAunit *answer, int time = 0); // show was question correct text, hides after given time
     void startTip(); // Text with help on an exam start
-    void whatNextTip(bool isCorrect, bool onRight = true); // Text with what to click after an answer
+			/** Text with what to click after an answer.
+			 * @p isCorrect - was the question correct
+			 * @p toCorrection - text how to see corrected answer will be shown. */
+    void whatNextTip(bool isCorrect, bool toCorrection = false);
     void questionTip(Texam *exam); // Text with question context
     void noteTip(int time); // note symbol when sound was detected
     void tryAgainTip(int time); // "Try again" text"
