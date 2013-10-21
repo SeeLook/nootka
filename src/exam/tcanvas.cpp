@@ -157,23 +157,30 @@ void Tcanvas::finishTip() {
 }
 
 
-void Tcanvas::whatNextTip(bool isCorrect, bool onRight) {
+void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
   if (m_questionTip) {
     delete m_questionTip;
     m_questionTip = 0;
   }
+  if (m_whatTip)
+		delete m_whatTip;
   QString whatNextText = startTipText();
   if (!isCorrect)
       whatNextText += "<br>" + tr("To correct an answer") + " " + 
       TexamHelp::clickSomeButtonTxt("<a href=\"prevQuest\">" + pixToHtml(gl->path + "picts/prevQuest.png", PIXICONSIZE) + "</a>") +
-      " " + TexamHelp::orPressBkSTxt();
+      " " + TexamHelp::orPressBackSpace();
+	if (toCorrection)
+		whatNextText += "<br>" + tr("To see corrected answer") + " " + 
+			TexamHelp::clickSomeButtonTxt("<a href=\"correct\">" + pixToHtml(gl->path + "picts/correct.png", PIXICONSIZE) + "</a>") +
+			TexamHelp::orPressEnterKey();
   whatNextText += "<br>" + TexamHelp::toStopExamTxt("<a href=\"stopExam\">" + pixToHtml(gl->path + "picts/stopExam.png", PIXICONSIZE) + "</a>");
   
   m_whatTip = new TgraphicsTextTip(whatNextText, palette().highlight().color());
+	m_whatTip->setTextWidth(qMin(m_maxTipWidth, m_parent->score->width()));
   m_scene->addItem(m_whatTip);
   m_whatTip->setFont(tipFont(0.35));
   m_whatTip->setScale(m_scale);
-  m_parent->guitar->setAttribute(Qt::WA_TransparentForMouseEvents, true); // to acctivate click on tip
+  m_parent->guitar->setAttribute(Qt::WA_TransparentForMouseEvents, true); // to activate click on tip
   m_whatTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
   connect(m_whatTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
   setPosOfWhatTip();

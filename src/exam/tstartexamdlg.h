@@ -24,7 +24,6 @@
 #include "texamlevel.h"
 
 class TroundedLabel;
-
 class TexamParams;
 class TlevelSelector;
 class QRadioButton;
@@ -41,11 +40,13 @@ public:
 
         /** Describes actions committed by user.
         * @param e_none - dialog discarded,
-        * @param e_continue - exam to continue,
-        * @param e_newLevel - exam mode on new level selected.
-				* @param e_practice - start in practice mode.
-        * @param e_levelCreator - open Level creator.	*/
-    enum Eactions { e_none, e_continue, e_newLevel, e_levelCreator, e_practice };
+        * @param e_contExam - exam to continue,
+        * @param e_newExam - exam mode on new level selected.
+				* @param e_newExercise - start exercise mode.
+        * @param e_levelCreator - open Level creator.	
+				* @param e_contExercise - continue previous exercise.	*/
+    enum Eactions { e_none, e_contExam, e_newExam, e_levelCreator, e_newExercise, e_contExercise };
+		
         /** This method calls dialog window,
         * takes txt reference and puts there either user name
         * or exam file path, depends on returned @param Eactions,
@@ -54,27 +55,33 @@ public:
         /** exam file extension and its description */
     static const QString examFilterTxt() { return tr("Exam results")  + " (*.noo)" ; }
     static const QString loadExamFileTxt() { return tr("Load an exam file"); }
-        /** Returns system user name (login name)  */
+    
+        /** Returns system user name (log-in name)  */
     static QString systemUserName();
 
 
 private:
     bool event(QEvent *event);
 		bool isAnyLevelSelected();
+				/** All buttons on widget have 48x48 icons. */
+		void setIconSize(QPushButton *button);
+		QPushButton* prepareButtons(const QString& icon);
 
     QGroupBox 					*examGr, *levelGr;
     TlevelSelector 			*m_levelsView;
     QLineEdit 					*m_nameEdit;
-    QPushButton 				*m_createBut, *m_loadExamBut, *m_newExamBut;
-		QPushButton					*m_helpButt, *m_contExamButt, *m_cancelBut;
-		QPushButton					*m_practiceBut;
+    QPushButton 				*m_createLevelButt, *m_loadExamBut, *m_newButt;
+		QPushButton					*m_helpButt, *m_continueButt, *m_cancelBut;
+		QPushButton					*m_exerciseButt, *m_examButt;
     TroundedLabel				*m_hintLabel;
     QComboBox 					*m_examCombo;
     QStringList 				m_recentExams;
     Eactions 						m_Acction;
     TexamParams 				*m_examParams;
+		QString							m_path, m_settings;
 
 private slots:
+		void exerciseOrExamSlot();
     void levelToLoad();
         /** occurs when user clicks Accept button*/
     void startAccepted();
@@ -83,8 +90,6 @@ private slots:
     Eactions createLevel();
     void prevExamSelected(int index);
     void levelWasSelected(TexamLevel level);
-				/** occurs when user clicks exercises Button */
-		void practiceSelected();
 		void helpSelected();
 };
 

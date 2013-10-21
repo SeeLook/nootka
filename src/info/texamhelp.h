@@ -42,7 +42,8 @@ public:
   static QString toGetQuestTxt() { return tr("To get question"); } // To get question
   static QString pressSpaceKey() { return tr("press <b>space</b> key"); } // press <b>space</b> key
   static QString pressEnterKey() { return tr("press <b>Enter</b> key"); } // press <b>Enter</b> key
-  static QString orPressBkSTxt() { return tr("or <b>Backspace</b> key"); } // or <b>Backspace</b> key
+  static QString orPressEnterKey() { return tr("or press <b>Enter</b> key"); } // or  press <b>Enter</b> key
+  static QString orPressBackSpace() { return tr("or <b>Backspace</b> key"); } // or <b>Backspace</b> key
   static QString toStopExamTxt(QString imgHtmlTag) 
       { return tr("To stop the exam click %1 button.").arg(imgHtmlTag); }
       // To stop the exam click button
