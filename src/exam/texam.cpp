@@ -202,6 +202,7 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
            QObject::tr("Cannot save exam file:\n%1").arg(QString::fromLocal8Bit(qPrintable(file.errorString()))));
 		return e_cant_open;
 	}
+	qDebug() << "Exam saved to:" << m_fileName;
 	return e_file_OK;
 }
 
