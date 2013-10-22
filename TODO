@@ -14,14 +14,12 @@ Plan for the Nootka One
 - new exam and level version is necessary, 
 		add version recognition to avoid old releases opening newest versions
 - sniffer has setAmbitus to guitar scale range - fix it!!!
-- under windows guitar head glyph doesn't appear in guitar settings.
 - level validation: when q: score & a: score or Q: name A: name and no different accidentals - switch solfege/letters
 - in level creator disable 'show string number' when guitar is unavailable 
 - add shadows under strings on pickup
 - do not transform pickup image for lefthanded - just change its pos
 - keep exam file in /tmp and restore it when crash or so
 - finish exam tip
-- managing level and exam files and their paths
 - practicing MODE
 
 - add sound during wizard and About dialog

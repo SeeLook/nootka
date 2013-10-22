@@ -238,6 +238,7 @@ void TsimpleScore::setScoreDisabled(bool disabled) {
 	if (m_scoreControl)
 		m_scoreControl->setDisabled(disabled);
 	m_staff->setDisabled(disabled);
+  setAttribute(Qt::WA_TransparentForMouseEvents, disabled);
 }
 
 

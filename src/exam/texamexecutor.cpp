@@ -771,8 +771,9 @@ void TexamExecutor::correctAnswer() {
 	if (!mW->correctChB->isChecked() && gl->E->autoNextQuest) {
 			// !mW->correctChB->isChecked() means that correctAnswer() was called by clicking correctAct
 			m_askingTimer->start(gl->E->correctViewDuration);
-	} else 
-			m_canvas->whatNextTip(true);
+  }
+  if (!gl->E->autoNextQuest)
+			m_canvas->whatNextTip(true); // TODO but with delay
 }
 
 

@@ -91,6 +91,9 @@ private slots:
 		void onClefChanged(Tclef clef);
 		void stringNrChanged(int strNr);
 		void instrumentTypeChanged(int index);
+#if defined(Q_OS_WIN)
+    void delayedBgGlyph();
+#endif
 };
 
 #endif // TGUITARSETTINGS_H
