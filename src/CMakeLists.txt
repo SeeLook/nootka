@@ -46,7 +46,7 @@ SET( NOOTKA_SRCS
 	notename/tnamestylefilter.cpp
 	notename/tnotenamelabel.cpp
 ###### widgets
-	widgets/tpixmapradio.cpp
+#	widgets/tpixmapradio.cpp
 	widgets/troundedlabel.cpp
 	widgets/tcolorbutton.cpp
 ###### sound
@@ -224,7 +224,7 @@ SET( NOOTKA_MOC_SRCS
 	notename/tnotename.h
 	notename/tnotenamelabel.h
 ###### widgets
-	widgets/tpixmapradio.h
+#	widgets/tpixmapradio.h
 	widgets/tcolorbutton.h
 ###### Settings
   settings/tsettingsdialog.h

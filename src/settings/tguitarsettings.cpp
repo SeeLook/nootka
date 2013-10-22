@@ -145,12 +145,11 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 		connect(m_tuneView, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
 		connect(m_instrumentTypeCombo, SIGNAL(activated(int)), this, SLOT(instrumentTypeChanged(int)));
 		connect(m_stringNrSpin, SIGNAL(valueChanged(int)), this, SLOT(stringNrChanged(int)));
-		int instrumentIndex = (int)gl->instrument;
-		m_instrumentTypeCombo->setCurrentIndex(instrumentIndex);
-		instrumentTypeChanged(instrumentIndex);
+    m_currentInstr = (int)gl->instrument;
+    m_instrumentTypeCombo->setCurrentIndex(m_currentInstr);
+    instrumentTypeChanged(m_currentInstr);
 		setTune(gl->Gtune());
 		m_fretsNrSpin->setValue(gl->GfretsNumber);
-		m_currentInstr = (int)gl->instrument;
 		if (gl->instrument != e_noInstrument) {
 				if (*gl->Gtune() == Ttune::stdTune)
 						m_tuneCombo->setCurrentIndex(0);
@@ -171,6 +170,10 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 				if (gl->Gtune()->name == S)
 						m_tuneCombo->setCurrentIndex(m_tuneCombo->count() - 1);
 		}
+#if defined(Q_OS_WIN)
+    QTimer::singleShot(5, this, SLOT(delayedBgGlyph()));
+#endif
+
 }
 
 
@@ -362,7 +365,7 @@ void TguitarSettings::instrumentTypeChanged(int index) {
 				guitarDisabled(false);
 		m_tuneCombo->addItem(tr("Custom tune"));
 	}
-	m_tuneView->addBGglyph(index);
+  m_tuneView->addBGglyph(index);
 	emit instrumentChanged(index);
 }
 
@@ -400,5 +403,9 @@ void TguitarSettings::updateNotesState() {
 		delete tmpTune;
 }
 
-
+#if defined(Q_OS_WIN)
+void TguitarSettings::delayedBgGlyph() {
+  m_tuneView->addBGglyph(m_currentInstr);
+}
+#endif
 
