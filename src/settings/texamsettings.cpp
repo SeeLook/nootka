@@ -32,7 +32,8 @@ TexamSettings::TexamSettings(TexamParams* params, QColor* qColor, QColor* aColor
     m_aColor(aColor),
     m_nbColor(nbColor)
 {
-		m_correctChB = new QCheckBox(tr("correct wrong answers"), this);
+// 		QLabel *expertLab = new QLabel(QString("<img src=\"%1\">").arg());
+		m_correctChB = new QCheckBox(tr("correct wrong answers (exercises only)"), this);
 			m_correctChB->setStatusTip(tr("When you will make mistake, the program will show you automatically how a correct answer should be."));
 			m_correctChB->setChecked(m_params->showCorrected);
 		QLabel *timeLab = new QLabel(tr("preview time of corrected answer"), this);
@@ -56,7 +57,7 @@ TexamSettings::TexamSettings(TexamParams* params, QColor* qColor, QColor* aColor
 			m_repeatIncorChB->setChecked(m_params->repeatIncorrect);
 			m_repeatIncorChB->setStatusTip(tr("A question with an incorrect answer will be asked once again."));
 		m_closeConfirmChB = new QCheckBox(tr("close without confirm"), this);
-			m_closeConfirmChB->setStatusTip(tr("If checked, an application will not ask to answer pending question just mark it as wrong, save an exam to file and close without any confirmation needed."));
+			m_closeConfirmChB->setStatusTip(tr("If checked, an application will not ask to answer pending question just mark it as wrong, save an exam to file (in directory: %1) and close itself without any confirmation needed.").arg("<b>" + m_params->examsDir + "</b>"));
 			m_closeConfirmChB->setChecked(m_params->closeWithoutConfirm);
     
 		m_autoNextChB = new QCheckBox(autoNextQuestTxt(), this);
@@ -86,6 +87,7 @@ TexamSettings::TexamSettings(TexamParams* params, QColor* qColor, QColor* aColor
 			nameLay->addWidget(m_nameEdit);
 			nameLay->addStretch();
 		commonLay->addLayout(nameLay);
+			commonLay->addWidget(m_correctChB, 0, Qt::AlignCenter);
 			commonLay->addWidget(m_autoNextChB, 0, Qt::AlignCenter);
 			commonLay->addWidget(m_expertAnswChB, 0, Qt::AlignCenter);
 			commonLay->addStretch();
@@ -107,7 +109,6 @@ TexamSettings::TexamSettings(TexamParams* params, QColor* qColor, QColor* aColor
 			timeLay->addWidget(timeLab);
 			timeLay->addWidget(m_viewTimeSlider);
 			timeLay->addWidget(m_timeLabel);
-			exerciseLay->addWidget(m_correctChB, 0, Qt::AlignCenter);
 			exerciseLay->addLayout(timeLay);
 			exerciseLay->addWidget(m_suggestExamChB, 0, Qt::AlignCenter);
 		exerciseGr->setLayout(exerciseLay);
