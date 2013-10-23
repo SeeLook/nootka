@@ -31,11 +31,14 @@ TexamLevel::TexamLevel()
   // level paramrters
    name = QObject::tr("master of masters");
    desc = QObject::tr("All possible options are turned on");
-   questionAs = TQAtype(true, true, true, true);
-   answersAs[0] = TQAtype(true, true, true, true);
-   answersAs[1] = TQAtype(true, true, true, true);
+	 bool hasGuitar = true;
+	 if (gl->instrument == e_noInstrument)
+		 hasGuitar = false;
+   questionAs = TQAtype(true, true, hasGuitar, true);
+   answersAs[0] = TQAtype(true, true, hasGuitar, true);
+   answersAs[1] = TQAtype(true, true, hasGuitar, true);
    answersAs[2] = TQAtype(true, true, false, false);
-   answersAs[3] = TQAtype(true, true, true, true);
+   answersAs[3] = TQAtype(true, true, hasGuitar, true);
   // QUESTIONS - as note
    withSharps = true;
    withFlats = true;

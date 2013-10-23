@@ -189,7 +189,7 @@ QString TlevelCreatorDlg::validateLevel(TexamLevel &l) {
         return res;
     }      
   // checking range
-  // determine the highest note of frets' range on available strings
+  // determine the highest note of fret range on available strings
     if (l.canBeGuitar()) { // only when guitar is enabled otherwise frets range was adjusted automatically
       int hiAvailStr, loAvailStr, cnt=-1;
       do {
@@ -209,7 +209,7 @@ QString TlevelCreatorDlg::validateLevel(TexamLevel &l) {
     char acc = 0;
     if (l.loNote.acidental) acc = l.loNote.acidental;
     if (l.hiNote.acidental) acc = l.hiNote.acidental;
-    if (acc)   {
+    if (acc) {
         if ( (acc == 1 && !l.withSharps) || (acc == -1 && !l.withFlats))
             res += tr("<li>In range of notes some accidentals are used<br>but not available in this level</li>");
     }

@@ -37,9 +37,10 @@ QList<TexamLevel> getExampleLevels() {
     l.name = QObject::tr("open strings");
     l.desc = QObject::tr("The simplest. No key signatures, no double accidentals and no sound.<br>Automatically adjusted to current tune.");
     l.questionAs.setAsSound(false);
-    l.answersAs[0] = TQAtype(false, true, true, false);
-    l.answersAs[1] = TQAtype(true, false, true, false);
-    l.answersAs[3] = TQAtype(false, false, false, false);
+    l.answersAs[0] = TQAtype(false, true, true, false); // q: score -- a: name, guitar
+    l.answersAs[1] = TQAtype(true, false, true, false); // q: name -- a: score, guitar
+		l.answersAs[2] = TQAtype(true, true, false, false); // q: guitar -- a: score, name
+    l.answersAs[3] = TQAtype(false, false, false, false);  
     l.withSharps = false;
     l.withFlats = false;
     l.withDblAcc = false;
@@ -63,7 +64,9 @@ QList<TexamLevel> getExampleLevels() {
             l.withSharps = true;
         if (gl->Gtune()->str(i).acidental == -1)
             l.withFlats = true;
-        }
+		}
+		if (l.instrument == e_noInstrument) // force instrument when not defined
+			l.instrument = e_classicalGuitar;
     llist << l;
 //----------------------------------------------------------------------------
     l.name = QObject::tr("C-major scale");
@@ -87,6 +90,8 @@ QList<TexamLevel> getExampleLevels() {
     l.hiNote = Tnote(1, 1 + octaveOffset, 0);
     l.hiFret = 3; // loFret is 0 by constuctor
     l.intonation = 0; // do not check
+    if (l.instrument == e_noInstrument) // force instrument when not defined
+			l.instrument = e_classicalGuitar;
     llist << l;
 //----------------------------------------------------------------------------
     l.name = QObject::tr("All to V fret");
@@ -110,6 +115,8 @@ QList<TexamLevel> getExampleLevels() {
     l.hiNote = Tnote(gl->hiString().getChromaticNrOfNote() + 5);
     l.hiFret = 5;// loFret is 0 by constuctor
     l.intonation = 0; // do not check
+    if (l.instrument == e_noInstrument) // force instrument when not defined
+			l.instrument = e_classicalGuitar;
     llist << l;
 //----------------------------------------------------------------------------
     l = TexamLevel();
@@ -168,6 +175,8 @@ QList<TexamLevel> getExampleLevels() {
 //     l.hiFret by constuctor
 // 		l.intonation = gl->A->intonation; // user preferences (in constructor)
     l.onlyLowPos = true;
+		if (l.instrument == e_noInstrument) // force instrument when not defined
+			l.instrument = e_classicalGuitar;
     llist << l;
 //----------------------------------------------------------------------------
     l = TexamLevel();
@@ -308,17 +317,22 @@ bool TlevelSelector::isSuitable(TexamLevel &l) {
  if (l.questionAs.isFret() || // check only for levels using guitar
   (l.questionAs.isNote() && l.answersAs[TQAtype::e_asNote].isFret()) ||
   (l.questionAs.isName() && l.answersAs[TQAtype::e_asName].isFret()) ||
-  (l.questionAs.isSound() && l.answersAs[TQAtype::e_asSound].isFret())
- )
+  (l.questionAs.isSound() && l.answersAs[TQAtype::e_asSound].isFret()) ) {
+		QString warringText = "";
     if (l.hiFret > gl->GfretsNumber ||
         l.loNote.getChromaticNrOfNote() < gl->loString().getChromaticNrOfNote() ||
-			  l.hiNote.getChromaticNrOfNote() > gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber ) {
-        m_levels.last().item->setStatusTip("<span style=\"color: red;\">" +
-                tr("Level is not suitable for current tuning and/or frets number") + "</span>");
+			  l.hiNote.getChromaticNrOfNote() > gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber )
+			
+							warringText = tr("Level is not suitable for current tuning and/or frets number");
+    else if (gl->instrument == e_noInstrument && l.instrument != e_noInstrument)
+							warringText = tr("Level is not suitable for current instrument type");
+		if (warringText != "") {
+				m_levels.last().item->setStatusTip("<span style=\"color: red;\">" + warringText + "</span>");
         m_levels.last().item->setFlags(Qt::NoItemFlags);
         return false;
-    } else
-        return true;
+		}
+	}
+		return true;	
 }
 
 
