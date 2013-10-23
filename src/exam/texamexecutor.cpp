@@ -654,19 +654,11 @@ void TexamExecutor::checkAnswer(bool showResults) {
     disableWidgets();
     if (showResults) {
         int mesgTime = 0;
-      if (gl->E->autoNextQuest) {
-// 				if (m_exercise) // show temporary message
+      if (gl->E->autoNextQuest)
 					mesgTime = 2500;
-// 				else
-//           mesgTime = 2000;
-			}
       m_canvas->resultTip(&curQ, mesgTime);
-      if (gl->hintsEnabled && !gl->E->autoNextQuest) {
-				if (m_exercise)
-						m_canvas->whatNextTip(true, !curQ.isCorrect());
-				else
+			if (!m_exercise && gl->hintsEnabled && !gl->E->autoNextQuest)
 						m_canvas->whatNextTip(curQ.isCorrect());
-      }
       if (!gl->E->autoNextQuest) {
           if (!curQ.isCorrect() && !m_exercise)
               mW->nootBar->addAction(prevQuestAct);
@@ -699,6 +691,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 					if (mW->correctChB->isChecked())
 						correctAnswer();
 					else {
+						m_canvas->whatNextTip(true, true);
 						mW->nootBar->addAction(correctAct);
 						return; // wait for user
 					}
@@ -773,7 +766,7 @@ void TexamExecutor::correctAnswer() {
 			m_askingTimer->start(gl->E->correctViewDuration);
   }
   if (!gl->E->autoNextQuest)
-			m_canvas->whatNextTip(true); // TODO but with delay
+			QTimer::singleShot(gl->E->correctViewDuration, this, SLOT(delayerTip()));
 }
 
 
@@ -890,11 +883,11 @@ void TexamExecutor::prepareToExam() {
 		mW->settingsAct->setVisible(false);
 		mW->aboutAct->setVisible(false);
     mW->analyseAct->setVisible(false);
-    mW->levelCreatorAct->setIcon(QIcon(gl->path+"picts/help.png"));
+    mW->levelCreatorAct->setIcon(QIcon(gl->path + "picts/help.png"));
     mW->levelCreatorAct->setText(tr("Help"));
     mW->levelCreatorAct->setStatusTip(mW->levelCreatorAct->text());
 		mW->levelCreatorAct->setToolTip(mW->levelCreatorAct->statusTip());
-    mW->startExamAct->setIcon(QIcon(gl->path+"picts/stopExam.png"));
+    mW->startExamAct->setIcon(QIcon(gl->path + "picts/stopExam.png"));
     mW->startExamAct->setText(tr("Stop"));
 		if (m_exercise)
 				mW->startExamAct->setStatusTip(tr("finish exercising"));
@@ -926,7 +919,6 @@ void TexamExecutor::prepareToExam() {
     qApp->installEventFilter(m_supp);
     connect(m_supp, SIGNAL(rightButtonClicked()), this, SLOT(rightButtonSlot()));
 
-//     mW->score->isExamExecuting(true);
     disconnect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
     disconnect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     disconnect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
@@ -942,8 +934,10 @@ void TexamExecutor::prepareToExam() {
             SLOT(autoRepeatStateChanged(bool)));
     connect(mW->expertAnswChB, SIGNAL(clicked(bool)), this, SLOT(expertAnswersStateChanged(bool)));
 
+		qDebug() << instrumentToText(gl->instrument);
 		m_glStore->storeSettings();
 		m_glStore->prepareGlobalsToExam(m_level);
+		qDebug() << instrumentToText(gl->instrument);
 
     mW->score->acceptSettings();
     mW->noteName->setEnabledEnharmNotes(false);
@@ -955,6 +949,7 @@ void TexamExecutor::prepareToExam() {
 			mW->sound->wait();
     mW->sound->prepareToExam(m_level.loNote, m_level.hiNote);
 		TtipChart::defaultClef = m_level.clef;
+		mW->updsateSize();
     clearWidgets();
 		if (m_level.instrument != e_noInstrument)
 				mW->guitar->createRangeBox(m_level.loFret, m_level.hiFret);
@@ -997,7 +992,6 @@ void TexamExecutor::restoreAfterExam() {
     mW->progress->terminate();
 		mW->sound->acceptSettings();
 
-//     mW->settingsAct->setDisabled(false);
 		mW->settingsAct->setVisible(true);
 		mW->aboutAct->setVisible(true);
     mW->analyseAct->setVisible(true);
@@ -1022,12 +1016,12 @@ void TexamExecutor::restoreAfterExam() {
             SLOT(autoRepeatStateChanged(bool)));
     connect(mW->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
     connect(mW->levelCreatorAct, SIGNAL(triggered()), mW, SLOT(openLevelCreator()));
-//     mW->score->isExamExecuting(false);
     mW->score->unLockScore();
     mW->guitar->deleteRangeBox();
     mW->sound->restoreAfterExam();
     mW->clearAfterExam();
 }
+
 
 void TexamExecutor::disableWidgets() {
     mW->noteName->setNameDisabled(true);
@@ -1397,6 +1391,10 @@ void TexamExecutor::deleteExam() {
 		}
 }
 
+
+void TexamExecutor::delayerTip() {
+	m_canvas->whatNextTip(true); 
+}
 
 
 

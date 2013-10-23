@@ -98,6 +98,8 @@ protected slots:
     void rightButtonSlot();
     void tipButtonSlot(QString name);
     void markAnswer(TQAunit &curQ);
+				/** This is QTimer slot invoking m_canvas->whatNextTip(true) method. */
+		void delayerTip();
 
 private:
 		void createActions();
@@ -132,8 +134,7 @@ private:
           * It has to be set before singleShot() method called on askQuestion() 
           * to avoid user click button and call askQuestion() again during time of delay.*/
     bool m_lockRightButt;
-          /** It becomes true when user wants close Nootka
-          * during an exam.*/
+          /** It becomes true when user wants close Nootka during an exam or exercise.*/
     bool m_goingClosed;
           /** stores note if question and answer are Note Name to restore it if question is repeated
           It is to restore buttons state in NoteName widget witch are unchecked by disableWidget() */

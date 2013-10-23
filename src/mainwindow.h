@@ -93,6 +93,8 @@ protected:
     QToolBar *nootBar;
     QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct, *analyseAct;
     void clearAfterExam(TexamExecutor::Estate examState = TexamExecutor::e_finished);
+		/** Updates position and sizes of the widgets. */
+    void updsateSize();
 
     void resizeEvent(QResizeEvent *event);
     bool event(QEvent *event);
@@ -125,8 +127,6 @@ private:
     void createActions();
         /** it sets icon and status text in startExamAct. */
     void setStartExamActParams();
-        /** Updates position and sizes of the widgets. */
-    void updsateSize();
 
 };
 
