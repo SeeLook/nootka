@@ -19,20 +19,20 @@
 #ifndef TSCLAEPREVIEWLABEL_H
 #define TSCLAEPREVIEWLABEL_H
 
-#include <QLabel>
 #include <tnote.h>
+#include <widgets/troundedlabel.h>
 
 
 /** This is a QLabel subclass that displays note names of C-major scale in given style.
  * If withAccids is set to true additional line with some notes with accidentals is displayed. */
-class TscalePreviewLabel : public QLabel
+class TscalePreviewLabel : public TroundedLabel
 {
 
 public:
 		explicit TscalePreviewLabel(Tnote::EnameStyle style, bool withAccids = true, QWidget* parent = 0);
 		
 		void changeStyle(Tnote::EnameStyle style);
-				/** Enables/disables line with accidentals. changeStyle() hat to be called after to refresh. */
+				/** Enables/disables line with accidentals. changeStyle() has to be called after to refresh. */
 		void enableAccidsLabel(bool enable) { m_withAccids = enable; }
 		
 private:
