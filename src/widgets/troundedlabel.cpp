@@ -22,6 +22,7 @@
 TroundedLabel::TroundedLabel(QWidget* parent) : 
 	QLabel(parent)
 {
+	setContentsMargins(5, 5, 5 , 5);
 	initBgColor();
 }
 
@@ -29,6 +30,7 @@ TroundedLabel::TroundedLabel(QWidget* parent) :
 TroundedLabel::TroundedLabel(QString txt, QWidget* parent) :
 	QLabel(txt, parent)
 {
+	setContentsMargins(5, 5, 5 , 5);
 	initBgColor();
 }
 
@@ -60,11 +62,19 @@ QString TroundedLabel::backgroundText() {
 
 //######################################### PRIVATE ######################################################
 void TroundedLabel::initBgColor() {
+		if (parentWidget()) {
 #if defined(Q_OS_WIN32)
-    m_bgColor = parentWidget()->palette().window().color().lighter(101);
+				m_bgColor = parentWidget()->palette().window().color().lighter(101);
 #else
-    m_bgColor = parentWidget()->palette().window().color().lighter(105);
+				m_bgColor = parentWidget()->palette().window().color().lighter(105);
 #endif
+		} else {
+#if defined(Q_OS_WIN32)
+				m_bgColor = palette().window().color().lighter(101);
+#else
+				m_bgColor = palette().window().color().lighter(105);
+#endif
+		}
 		QLabel::setStyleSheet(backgroundText());
 		m_styleText = "";
 }

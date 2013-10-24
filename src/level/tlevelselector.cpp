@@ -72,9 +72,16 @@ QList<TexamLevel> getExampleLevels() {
     l.name = QObject::tr("C-major scale");
     l.desc = QObject::tr("In first position. No accidentals, no sound.<br>Octave required.");
     l.questionAs.setAsSound(false);
-    l.answersAs[0] = TQAtype(false, true, true, false);
-    l.answersAs[1] = TQAtype(true, false, true, false);
-    l.answersAs[3] = TQAtype(false, false, false,false);
+		bool isGuitar = true;
+		if (gl->instrument == e_noInstrument) {
+			isGuitar = false;
+			l.desc = QObject::tr("Give note name in C-major scale or show note on the staff knowing its name.");
+		}
+		l.questionAs.setAsFret(isGuitar);
+    l.answersAs[0] = TQAtype(false, true, isGuitar, false);
+    l.answersAs[1] = TQAtype(true, false, isGuitar, false);
+		l.answersAs[2] = TQAtype(isGuitar, isGuitar, false, false);
+    l.answersAs[3] = TQAtype(false, false, false, false);
     l.withSharps = false;
     l.withFlats = false;
     l.withDblAcc = false;
@@ -90,8 +97,6 @@ QList<TexamLevel> getExampleLevels() {
     l.hiNote = Tnote(1, 1 + octaveOffset, 0);
     l.hiFret = 3; // loFret is 0 by constuctor
     l.intonation = 0; // do not check
-    if (l.instrument == e_noInstrument) // force instrument when not defined
-			l.instrument = e_classicalGuitar;
     llist << l;
 //----------------------------------------------------------------------------
     l.name = QObject::tr("All to V fret");

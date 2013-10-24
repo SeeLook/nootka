@@ -94,7 +94,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 		
 
     Tabout *m_about = new Tabout();
-    Tpage_4 *help = new Tpage_4();
+    TmainHelp *help = new TmainHelp();
     QWidget *authorsPage = new QWidget();
 		authorsPage->setContentsMargins(5, 5, 5, 5);
     QVBoxLayout *wiLLay = new QVBoxLayout;

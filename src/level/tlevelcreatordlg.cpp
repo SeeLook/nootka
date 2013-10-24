@@ -213,6 +213,16 @@ QString TlevelCreatorDlg::validateLevel(TexamLevel &l) {
         if ( (acc == 1 && !l.withSharps) || (acc == -1 && !l.withFlats))
             res += tr("<li>In range of notes some accidentals are used<br>but not available in this level</li>");
     }
+  // Force accidentals enabled but any accidental was selected
+    if (l.forceAccids && (!l.withFlats && !l.withSharps && !l.withDblAcc))
+			res += tr("<li>Force appropriate accidental is enabled but any accidental was selected.</li>");
+	// When no accidentals and no style and question and answers are note name
+    if ((l.questionAs.isName() && l.answersAs[TQAtype::e_asName].isName())) {
+			if ((l.withFlats && l.withSharps) || l.withDblAcc || l.requireStyle) {
+				// do nothing - level is valid
+			} else 
+				res += tr("<li>Questions and answers as note names will be the same. To avoid that level has to use flats and sharps and/or double accidentals and/or to use different name styles.</li>");
+		}
   // Check is possible of using naming style
     if (l.requireStyle && !l.canBeName())
         res += tr("<li>'Use different naming styles' was checked but neither questions nor answers as note name are checked.<br>Check this type of answer/question or uncheck 'Use different naming styles'.</li>");
@@ -257,17 +267,19 @@ void TlevelCreatorDlg::checkLevelSlot() {
     if (validMessage != "")
       showValidationMessage(validMessage);
     else
-      QMessageBox::information(this, "", tr("Level seems to be correct"));
+      QMessageBox::information(this, tr("Level validation"), tr("Level seems to be correct"));
 }
+
 
 void TlevelCreatorDlg::showValidationMessage(QString message) {
       if (message != "") {
+				QString title = tr("Level validation");
         if (message.contains("</li>")) { // when <li> exist - warring
           message.prepend(tr("<center><b>It seems the level has some mistakes:</b>"));
-          QMessageBox::warning(this, "", message); 
+          QMessageBox::warning(this, title, message); 
         }
         else { // no questions nor answers
-          QMessageBox::critical(this, "", message); 
+          QMessageBox::critical(this, title, message); 
         }
     }
 }

@@ -21,7 +21,7 @@
 
 
 TscalePreviewLabel::TscalePreviewLabel(Tnote::EnameStyle style, bool withAccids, QWidget* parent) :
-	QLabel(parent),
+	TroundedLabel(parent),
 	m_withAccids(withAccids)
 {
 	setAlignment(Qt::AlignCenter);

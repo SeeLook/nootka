@@ -30,7 +30,7 @@ class QStackedLayout;
 class QRadioButton;
 class QCheckBox;
 class Tpage_3;
-class Tpage_4;
+class TmainHelp;
 class Select7note;
 class TselectInstrument;
 
@@ -49,7 +49,7 @@ private:
     QPushButton		 		*m_skipButt, *m_nextButt, *m_prevButt;
     QStackedLayout 		*m_pagesLay;
     Tpage_3 					*m_page3;
-    Tpage_4 					*m_page4;
+    TmainHelp 					*m_page4;
 		QTextEdit 				*m_notationNote;
 		TselectInstrument *m_selectInstr;
 
@@ -104,11 +104,12 @@ protected slots:
 
 };
 
-class Tpage_4 : public QWidget
+class TmainHelp : public QWidget
 {
     Q_OBJECT
 public:
-  explicit Tpage_4(QWidget *parent = 0);
+  explicit TmainHelp(QWidget *parent = 0);
+	static QString exerciseAndExamText();
   
   
 };

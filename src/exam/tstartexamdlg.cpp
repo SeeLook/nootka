@@ -24,6 +24,7 @@
 #include <widgets/troundedlabel.h>
 #include <thelpdialogbase.h>
 #include <tpixmaker.h>
+#include <tfirstrunwizzard.h>
 #include <QtGui>
 #include <stdlib.h> // for getenv()
 
@@ -343,14 +344,14 @@ void TstartExamDlg::exerciseOrExamSlot() {
 void TstartExamDlg::helpSelected() {
 		ThelpDialogBase *help = new ThelpDialogBase(this);
 		help->setFixedSize(width(), height() * 0.8);
-		QString ht = "<center><table><tr><td style=\"padding: 20px; text-align: center;\"><h4>" + statusTipText + "</h4></td></tr></table>" +
-		"<h2>" + help->pix("practice", 64) + " " + tr("To exercise or to pass an exam?") + " " + 
+		QString ht = "<center><h2>" + help->pix("practice", 64) + " " + tr("To exercise or to pass an exam?") + " " + 
 		help->pix("nootka-exam", 64) + "</h2>" +
-		tr("Learning with Nootka works through questioning and answering but there are two different ways how it happens:<br><b>exercising</b> and <b>passing exams</b>") +
-		"</center><table><tr><td style=\"padding: 10px; text-align: justify;\">" + help->pix("practice") + "&nbsp;&nbsp;&nbsp;" + 
-		tr("During exercising the program will be your understanding and friendly teacher. When answering a question you make mistake, Nootka patiently show you a correct answer. The application will be watch your progress silently and suggest you to pass an exam when you will go well. You will can see the details of exercising progress in every time during practice.") + 
-		"</td></tr><tr><td style=\"padding: 10px; text-align: justify;\">" + help->pix("nootka-exam") + "&nbsp;&nbsp;&nbsp;" +
-		tr("During exams Nootka will be your strict master. You will see fast elapsing time and when you make mistake you get additional, penalties questions but any clues. You can stop exam in any time and its results can be stored in file to further continue. If you be lucky to pass an exam you got a certificate.") +
+		TmainHelp::exerciseAndExamText() +
+// 		tr("Learning with Nootka works through questioning and answering but there are two different ways how it happens:<br><b>exercising</b> and <b>passing exams</b>") +
+// 		"</center><table><tr><td style=\"padding: 10px; text-align: justify;\">" + help->pix("practice") + "&nbsp;&nbsp;&nbsp;" + 
+// 		tr("During exercising the program will be your understanding and friendly teacher. When answering a question you make mistake, Nootka patiently show you a correct answer. The application will be watch your progress silently and suggest you to pass an exam when you will go well. You will can see the details of exercising progress in every time during practice.") + 
+// 		"</td></tr><tr><td style=\"padding: 10px; text-align: justify;\">" + help->pix("nootka-exam") + "&nbsp;&nbsp;&nbsp;" +
+// 		tr("During exams Nootka will be your strict master. You will see fast elapsing time and when you make mistake you get additional, penalties questions but any clues. You can stop exam in any time and its results can be stored in file to further continue. If you be lucky to pass an exam you got a certificate.") +
 		"</p></div>";
 		help->helpText()->setHtml(ht);
 		help->showCheckBox(&m_examParams->showVeryBeginHelp);
