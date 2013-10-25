@@ -85,6 +85,7 @@ void TnoteNameLabel::setText(const QString& text) {
 void TnoteNameLabel::center() {
 	m_textItem->setPos((scene()->width() - m_textItem->boundingRect().width() * m_textItem->scale()) / 2,
 				(scene()->height() - m_textItem->boundingRect().height() * m_textItem->scale()) / 2	+ height() / 15.0);
+    update();
 }
 
 

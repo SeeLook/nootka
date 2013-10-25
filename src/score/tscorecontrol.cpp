@@ -46,6 +46,11 @@ TscoreControl::TscoreControl(QWidget* parent):
     butLay->addWidget(m_dblFlatBut);
     butLay->addStretch(1);
     setLayout(butLay);
+    m_dblFlatBut->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    m_flatBut->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    m_sharpBut->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    m_dblSharpBut->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
 		
 		connect(m_dblFlatBut, SIGNAL(clicked()), this, SLOT(onAcidButtonPressed()));
 		connect(m_flatBut, SIGNAL(clicked()), this, SLOT(onAcidButtonPressed()));
@@ -130,17 +135,10 @@ void TscoreControl::onAcidButtonPressed() {
 
 void TscoreControl::setButtons(TpushButton* button) {
     button->setFixedSize(40, 45);
-// #if defined(Q_OS_MAC)
-//     button->setFont(QFont("nootka", 25, QFont::Normal));
-// #else
-		QFont nf("nootka");
-		nf.setPointSizeF(25.0);
-//     button->setFont(QFont("nootka", 20, QFont::Normal));
-		QFontMetrics fm(nf);
-		nf.setPointSizeF(qRound(nf.pointSizeF() * (nf.pointSizeF() / fm.boundingRect("x").height())));
-		button->setFont(nf);
-// #endif
-
-
+    QFont nf("nootka");
+    nf.setPointSizeF(25.0);
+    QFontMetrics fm(nf);
+    nf.setPointSizeF(qRound(nf.pointSizeF() * (nf.pointSizeF() / fm.boundingRect("x").height())));
+    button->setFont(nf);
 }
 

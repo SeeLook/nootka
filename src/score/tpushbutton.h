@@ -36,7 +36,6 @@ public:
 		 * It has influence on all buttons in the application.	 */
 	static void setCheckColor(QColor background = Qt::black, QColor text = Qt::white);
 	
-private slots:
 	
 private:
 	bool m_Ichecked;

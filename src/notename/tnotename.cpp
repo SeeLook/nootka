@@ -82,19 +82,19 @@ TnoteName::TnoteName(QWidget *parent) :
 		QFont nf("nootka", 10, QFont::Normal);
 #endif
     m_dblFlatButt = new TpushButton("B", this);
-			m_dblFlatButt->setFont(nf);
+            m_dblFlatButt->setFont(nf);
 			m_accLay->addWidget(m_dblFlatButt);
 			connect(m_dblFlatButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     m_flatButt = new TpushButton("b", this);
-			m_flatButt->setFont(nf);
+            m_flatButt->setFont(nf);
 			m_accLay->addWidget(m_flatButt);
 			connect(m_flatButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     m_sharpButt = new TpushButton("#", this);
-			m_sharpButt->setFont(nf);
+            m_sharpButt->setFont(nf);
 			m_accLay->addWidget(m_sharpButt);
 			connect(m_sharpButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     m_dblSharpButt = new TpushButton("x", this);
-			m_dblSharpButt->setFont(nf);
+            m_dblSharpButt->setFont(nf);
 			m_accLay->addWidget(m_dblSharpButt);
 			connect(m_dblSharpButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     m_accLay->addStretch(2);
@@ -212,9 +212,13 @@ void TnoteName::resize(int fontSize) {
         qreal fact = ((qreal)fontSize / (qreal)fMetr.boundingRect("b").height()) * 1.4;
         f.setPointSize(f.pointSize() * fact);
         m_dblFlatButt->setFont(f);
+        m_dblFlatButt->setAttribute(Qt::WA_LayoutUsesWidgetRect);
         m_flatButt->setFont(f);
+        m_flatButt->setAttribute(Qt::WA_LayoutUsesWidgetRect);
         m_sharpButt->setFont(f);
+        m_sharpButt->setAttribute(Qt::WA_LayoutUsesWidgetRect);
         m_dblSharpButt->setFont(f);
+        m_dblSharpButt->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     }
 }
 
