@@ -49,7 +49,7 @@ private:
     QPushButton		 		*m_skipButt, *m_nextButt, *m_prevButt;
     QStackedLayout 		*m_pagesLay;
     Tpage_3 					*m_page3;
-    TmainHelp 					*m_page4;
+    TmainHelp 				*m_page4;
 		QTextEdit 				*m_notationNote;
 		TselectInstrument *m_selectInstr;
 
@@ -104,14 +104,5 @@ protected slots:
 
 };
 
-class TmainHelp : public QWidget
-{
-    Q_OBJECT
-public:
-  explicit TmainHelp(QWidget *parent = 0);
-	static QString exerciseAndExamText();
-  
-  
-};
 
 #endif // TFIRSTRUNWIZZARD_H

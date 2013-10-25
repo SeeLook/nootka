@@ -50,7 +50,7 @@ public:
         /** This method calls dialog window,
         * takes txt reference and puts there either user name
         * or exam file path, depends on returned @param Eactions,
-        * and returns secected level. */
+        * and returns selected level. */
     Eactions showDialog(QString &txt, TexamLevel &lev);
         /** exam file extension and its description */
     static const QString examFilterTxt() { return tr("Exam results")  + " (*.noo)" ; }
@@ -65,14 +65,16 @@ private:
 		bool isAnyLevelSelected();
 				/** All buttons on widget have 48x48 icons. */
 		void setIconSize(QPushButton *button);
-		QPushButton* prepareButtons(const QString& icon);
+				/** Updates status tip text of new exercise/exam buttons when user selected a level. */
+		void updateButtonStatusText(const QString &levelName);
 
     QGroupBox 					*examGr, *levelGr;
     TlevelSelector 			*m_levelsView;
     QLineEdit 					*m_nameEdit;
-    QPushButton 				*m_createLevelButt, *m_loadExamBut, *m_newButt;
-		QPushButton					*m_helpButt, *m_continueButt, *m_cancelBut;
-		QPushButton					*m_exerciseButt, *m_examButt;
+    QPushButton 				*m_createLevelButt, *m_loadExamBut;
+		QPushButton					*m_newExerciseButt, *m_contExerciseButt;
+		QPushButton					*m_newExamButt, *m_contExamButt;
+		QPushButton					*m_helpButt, *m_cancelBut;
     TroundedLabel				*m_hintLabel;
     QComboBox 					*m_examCombo;
     QStringList 				m_recentExams;
@@ -81,7 +83,6 @@ private:
 		QString							m_path, m_settings;
 
 private slots:
-		void exerciseOrExamSlot();
     void levelToLoad();
         /** occurs when user clicks Accept button*/
     void startAccepted();

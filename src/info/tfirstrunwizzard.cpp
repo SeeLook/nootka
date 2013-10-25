@@ -22,6 +22,7 @@
 #include "tglobals.h"
 #include "select7note.h"
 #include "tpixmaker.h"
+#include "tmainhelp.h"
 #include "widgets/troundedlabel.h"
 #include "ttipchart.h"
 #include "tkeysignature.h"
@@ -72,7 +73,7 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
     m_notationNote->setWordWrapMode(QTextOption::WordWrap);
 
     m_page3 = new Tpage_3();
-    m_page4 = new TmainHelp();
+    m_page4 = new TmainHelp(gl->path);
 
     m_pagesLay->addWidget(aboutNoot);
 		m_pagesLay->addWidget(m_selectInstr);
@@ -316,52 +317,5 @@ Tpage_3::Tpage_3(QWidget *parent) :
 
 void Tpage_3::seventhNoteChanged(bool is7_B) {
 		scaleLab->changeStyle(is7_B? Tnote::e_english_Bb : Tnote::e_norsk_Hb);
-}
-
-
-//###############################################  TmainHelp  ###############################################
-
-#define PIXSIZE (28)
-
-QString TmainHelp::exerciseAndExamText() {
-	QString helpTxt;
-	helpTxt = tr("You will learn by answering questions. To answer, you can play, sing, put in the name of a note, and so on. Much depends on the chosen level. Press %1 button to create your own questions set (a level).").
-			arg(" &nbsp; " + pixToHtml(gl->path+"picts/levelCreator.png", PIXSIZE) + " &nbsp; ");
-  helpTxt += "<br>" + tr("Select a level and warm up yourself exercising. Then try to pass an exam.");
-	helpTxt += "<br>" + tr("During exercising %1 the program will be your understanding and friendly teacher - it will show you corrected answers if you miss.").arg(" &nbsp; " + pixToHtml(gl->path+"picts/practice.png", 32) + " &nbsp; ");
-  helpTxt += "<br>" + tr("During exams %1 Nootka will be your strict and &quot;old school&quot; master. Any mistake will be penalized with additional questions...<br>When you pass an exam you got a certificate!").arg(" &nbsp; " + pixToHtml(gl->path+"picts/nootka-exam.png", 32) + " &nbsp; ");
-	return helpTxt;
-}
-
-
-
-TmainHelp::TmainHelp(QWidget* parent) :
-    QWidget(parent)
-{ 
-  QVBoxLayout *lay = new QVBoxLayout;
-  QString helpTxt = "<br><b>" + tr("Using Nootka may be divided into three stages:", "Don't try to translate the entries in this context/section too strict, rather use some nice words into your language to describe it. The statements like '%1' are images(icons) in text");
-  helpTxt += "</b><table><tr><td>&nbsp;</td><td><hr><b>";
-  
-  helpTxt += tr("I. Discovering") + "</b><br>";
-  helpTxt += tr("Exploring the interface of Nootka and how musical scores work. Just click on elements of the interface to see and get to know Nootka. Also, you can play or sing if you have a mic or web-cam.") + "<br>";
-  helpTxt += tr("Press %1 buttons to see help and %2 button to adjust Nootka to your preference.").
-      arg(" &nbsp; " + pixToHtml(gl->path+"picts/about.png", PIXSIZE) + " <span style=\"font-size: 25px;\"> + </span> " + pixToHtml(gl->path+"picts/help.png", PIXSIZE)  + " &nbsp; ").
-      arg(" &nbsp; " + pixToHtml(gl->path+"picts/systemsettings.png", PIXSIZE) + " &nbsp; ");
-      
-  helpTxt += "<hr><b>" + tr("II. Exercises and exams") + "</b><br>";
-	helpTxt += exerciseAndExamText();
-  
-	
-  helpTxt += "<hr><b>" + tr("III. Analyzing") + "</b><br>";
-  helpTxt += tr("Nootka will tell you about what you've been thinking for so long... and about the progress you've been making so far....<br>Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.").
-    arg(" &nbsp; " + pixToHtml(gl->path+"picts/charts.png", PIXSIZE) + " &nbsp; ");;
-  helpTxt += "</td></tr></table>";
-  helpTxt += "<hr><b><span style=\"font-size: 25px;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + tr("Have fun!") + "</span></b>";
-  QTextEdit *helpEdit = new QTextEdit(this);
-  helpEdit->setHtml(helpTxt);
-	helpEdit->setReadOnly(true);
-// 	qDebug() << helpEdit->toHtml();
-  lay->addWidget(helpEdit);
-  setLayout(lay);
 }
 
