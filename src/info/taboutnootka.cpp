@@ -20,7 +20,7 @@
 #include "taboutnootka.h"
 #include "tsupportnootka.h"
 #include "tnootkalabel.h"
-#include "tfirstrunwizzard.h"
+#include "tmainhelp.h"
 #include "widgets/troundedlabel.h"
 #include "tglobals.h"
 #include <QtGui>
@@ -94,7 +94,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 		
 
     Tabout *m_about = new Tabout();
-    TmainHelp *help = new TmainHelp();
+    TmainHelp *help = new TmainHelp(gl->path);
     QWidget *authorsPage = new QWidget();
 		authorsPage->setContentsMargins(5, 5, 5, 5);
     QVBoxLayout *wiLLay = new QVBoxLayout;

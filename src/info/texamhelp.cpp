@@ -59,16 +59,16 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt, bool* showHelp
 		tr("If you made a mistake during an exercise, Nootka can show you correct answer. To see it:") + 
 		"<br>- " + clickSomeButtonTxt(pix("correct", PIXICONSIZE)) + "<br>- " + orPressEnterKey() + "<br>" +
 		tr("Select 1st check box to see corrected answer for every mistake.") + "<br><br>" +
-		tr("You can every time click button %1 to pause or stop exercising and to see your results.<br>Remember that result data are erased after finish.<br>When your exercising will go well Nootka will suggest you to start an exam.").arg(pix("stopExam", PIXICONSIZE)) +
+		tr("You can every time click button %1 to pause or stop exercising and to see your results.<br>Only recent exercise is stored for further continuation.<br>When your exercising will go well Nootka will suggest you to start an exam.").arg(pix("stopExam", PIXICONSIZE)) +
 		"</td></tr></table><br><br>" +
 		
 		"<hr><table><tr><td  valign=\"middle\" align=\"center\">" + pix("nootka-exam", BIGPIXSIZE) + "<br>" + tr("Exams") +
 		"</td><td align=\"center\">" +
 		tr("If you made a mistake during an exam and you want to repeat the question:") + "<br>- " + 
-    clickSomeButtonTxt(pix("prevQuest", PIXICONSIZE)) + "<br>- " + orPressBackSpace() + "<br>" +
+    clickSomeButtonTxt(pix("prevQuest", PIXICONSIZE)) + "<br>- " + orPressBackSpace() + "<br><br>" +
+		toStopExamTxt(pix("stopExam", PIXICONSIZE)) + "<br>" + 
 		tr("Then you will be able to analyze its results and save exam to file for further continue.") + "<br>" +
-		toStopExamTxt(pix("stopExam", PIXICONSIZE)) + "<br><br>" + 
-    tr("Exam will be complete when you give answers to all questions.<br>The number of questions depends on the level of the exam.") + "<br>" +
+    tr("Exam will be completed when you give answers to all questions.<br>The number of questions depends on the level of the exam.") + "<br>" +
     tr("If you make a mistake, the question will asked two more times and the total number of questions will be increased. These are penalty questions.") + "<br>" +
     tr("When answer is 'not bad', you get one penalty more.") +
 		"</td></tr></table></center><center>" +
