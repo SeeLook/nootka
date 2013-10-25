@@ -49,12 +49,8 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
 			pauseButt = new QPushButton("n", this);
       pauseButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
       pauseButt->setStatusTip(tr("Switch on/off pitch detection"));
-// #if defined(Q_OS_MAC)
-//       voiceButt->setFont(QFont("nootka", 35));
-// #else
       voiceButt->setFont(QFont("nootka", 15));
-			pauseButt->setFont(QFont("nootka", 15));
-// #endif
+      pauseButt->setFont(QFont("nootka", 15));
   } else {
     voiceButt = 0;
     pauseButt = 0;
@@ -167,6 +163,8 @@ void TpitchView::resize(int fontSize) {
     pauseButt->setFixedWidth(1.5 *fontSize);
     voiceButt->setFixedHeight(2.2 * fontSize);
     pauseButt->setFixedHeight(2.2 * fontSize);
+//    pauseButt->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+//    voiceButt->setAttribute(Qt::WA_LayoutUsesWidgetRect);
   }
   m_volMeter->setFixedHeight(qRound((float)fontSize * 0.9));
   m_intoView->setFixedHeight(qRound((float)fontSize * 0.9));
