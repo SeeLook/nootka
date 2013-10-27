@@ -19,24 +19,43 @@
 
 #ifndef TFINISHTIP_H
 #define TFINISHTIP_H
-#include <tgraphicstexttip.h>
+#include <QGraphicsObject>
 
+class TgraphicsTextTip;
 class Texam;
 
 QString finishExamText(Texam *exam);
 
 
 /** QGraphicsTextTip with exam summary like piece of paper. */
-class TnootkaCertificate : public TgraphicsTextTip
+class TnootkaCertificate : public QGraphicsObject
 {
     Q_OBJECT
     
 public:
-    TnootkaCertificate(Texam *exam);
+    TnootkaCertificate(Texam *exam, QGraphicsObject *parent = 0);
+		
+		virtual QRectF boundingRect() const;
+		virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) {};
     
+		
+protected:
+			/** Can be used to show hints as well. */
+		virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event = 0);
+		virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event = 0);
+		virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
+		
+		void hideHints();
+		void removeHints();
+		void createHints();
+	
+protected slots:
+		void saveSlot();
     
 private:
-    Texam *m_exam;
+    Texam 									*m_exam;
+		TgraphicsTextTip 				*m_cert, *m_saveHint;
+		QGraphicsPixmapItem 		*m_saveIcon, *m_closeIcon;
     
 };
 

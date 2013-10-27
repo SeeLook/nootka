@@ -137,7 +137,6 @@ QString Tcanvas::startTipText() {
 
 
 void Tcanvas::startTip() {
-//  finishTip();
    m_startTip = new TgraphicsTextTip(QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75)) + startTipText() + ".<br>" +
      TexamHelp::toStopExamTxt("<a href=\"stopExam\"> " + pixToHtml(gl->path + "picts/stopExam.png", PIXICONSIZE) + "</a>") + "</p>", palette().highlight().color());
    m_scene->addItem(m_startTip);
@@ -149,11 +148,11 @@ void Tcanvas::startTip() {
 
 
 void Tcanvas::finishTip() {
+	setAttribute(Qt::WA_TransparentForMouseEvents, false);
   m_finishTip = new TnootkaCertificate(m_exam);
   m_scene->addItem(m_finishTip);
-  m_finishTip->setScale(m_scale);
   setPosOfFinishTip();
-  m_finishTip->rotate(-7);
+//   m_finishTip->rotate(-7);
 }
 
 
@@ -259,6 +258,7 @@ void Tcanvas::questionTip(Texam* exam) {
 	m_nameFree = m_questionTip->freeName();
 	m_scoreFree = m_questionTip->freeScore();
   setPosOfQuestionTip();
+		
 // 	finishTip();
 }
 
@@ -507,8 +507,9 @@ void Tcanvas::setPosOfQuestionTip() {
 
 void Tcanvas::setPosOfFinishTip() {
 	// in the middle of a window
-  m_finishTip->setPos((m_scene->width() - m_scale * m_finishTip->boundingRect().width()) / 2,
-                      (m_scene->height() - m_scale * m_finishTip->boundingRect().height()) / 2);
+	m_finishTip->setScale((height() * 0.9) / m_finishTip->boundingRect().height());
+  m_finishTip->setPos((m_scene->width() - m_finishTip->scale() * m_finishTip->boundingRect().width()) / 2,
+                      (m_scene->height() - m_finishTip->scale() * m_finishTip->boundingRect().height()) / 2);
 }
 
 
