@@ -1,7 +1,8 @@
-
+0.9.0 rc1
+     - transposing is possible in a range ±12 semitones (octave)
      - exam can check intonation of a sound and its accuracy is configurable
      - English language in Nootka was corrected and improved
-     - buttons with octaves and accidentals are highlighted  during answering
+     - buttons with octaves and accidentals are highlighted during answering
      - GUI layout enhancements
      - crossing of played notes is fluent now - it was cleaned from cracks
      - preview of a level was improved

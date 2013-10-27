@@ -139,7 +139,7 @@ SET( NOOTKA_SRCS
   exam/tcanvas.cpp
   exam/tprogresswidget.cpp
   exam/tgroupedqaunit.cpp
-  exam/tfinishtip.cpp
+  exam/tnootkacertificate.cpp
   exam/tglobalexamstore.cpp
   exam/texercises.cpp
 ###### Info
@@ -259,7 +259,7 @@ SET( NOOTKA_MOC_SRCS
   exam/tcanvas.h
   exam/tprogresswidget.h
   exam/tquestiontip.h
-  exam/tfinishtip.h
+  exam/tnootkacertificate.h
   exam/texercises.h
 ###### Info
   info/taboutnootka.h

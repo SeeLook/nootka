@@ -28,6 +28,7 @@
 #include "ttipchart.h"
 #include <tkeysignature.h>
 #include <ttune.h>
+#include <widgets/troundedlabel.h>
 
 
 AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune, QWidget* parent) :
@@ -43,7 +44,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
   *m_tmpParams = *m_glParams;
 	
 	QToolBox *m_toolBox = new QToolBox(this);
-	QWidget *m_1_device, *m_2_params, *m_3_middleA, *m_4_test;
+	QWidget *m_1_device, *m_2_params, *m_3_middleA; // m_4_test is declared in header
   
 //################### 1. 	Input device & pitch detection #################################
 	m_1_device = new QWidget();
@@ -54,15 +55,14 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
 		m_inDeviceCombo->setStatusTip(tr("Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working."));
   
   voiceRadio = new QRadioButton(m_1_device);
-  QLabel *voiceLab = new QLabel(tr("for singing") + 
-    " <span style=\"font-family: nootka; font-size: 25px;\">v</span>", m_1_device);
+  QLabel *voiceLab = new QLabel("<span style=\"font-family: nootka; font-size: 25px;\">v</span> " + tr("for singing"), m_1_device);
 		voiceLab->setStatusTip(tr("This mode is more accurate but slower. It is recommended for singing and for instruments with \"wobbly\" intonation."));
 	instrRadio = new QRadioButton(m_1_device);
   QButtonGroup *butGr = new QButtonGroup(m_1_device);
 	butGr->addButton(voiceRadio);
   butGr->addButton(instrRadio);
   QLabel *instrLab = new QLabel(tr("for playing") + 
-        " <span style=\"font-family: nootka; font-size: 25px;\">g</span>", m_1_device);
+        " <span style=\"font-family: nootka; font-size: 28px;\">g</span>", m_1_device);
   instrLab->setStatusTip(tr("This mode is faster and good enough for guitars and other instruments."));
 	
 	durHeadLab = new QLabel(tr("minimum note duration"), m_1_device);
@@ -71,7 +71,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
 		durationSpin->setMaximum(1000);
 		durationSpin->setSuffix("  "  + tr("[milliseconds]"));
 		durationSpin->setSingleStep(50);
-		durationSpin->setValue(m_glParams->minDuration * 1000); // minimal duration is stored in seconds but displayed in milliseconds
+		durationSpin->setValue(m_glParams->minDuration * 1000); // minimum duration is stored in seconds but displayed in milliseconds
 		durationSpin->setStatusTip(tr("Only sounds longer than the selected time will be pitch-detected.<br>Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness."));
   if (m_glParams->isVoice)
 			voiceRadio->setChecked(true);
@@ -82,19 +82,20 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
 		deviceLay->addWidget(devLab);
 		deviceLay->addWidget(m_inDeviceCombo);
 		deviceLay->addStretch(1);
-	QGridLayout *modeButtonsLay = new QGridLayout();
-		modeButtonsLay->addWidget(voiceRadio, 0, 0, Qt::AlignRight);
-		modeButtonsLay->addWidget(voiceLab, 0, 1, Qt::AlignLeft);
-		modeButtonsLay->addWidget(instrRadio, 1, 0, Qt::AlignRight);
-		modeButtonsLay->addWidget(instrLab, 1, 1, Qt::AlignLeft);
+	QHBoxLayout *modeButtonsLay = new QHBoxLayout;
+		modeButtonsLay->addStretch(2);
+		modeButtonsLay->addWidget(instrLab);
+		modeButtonsLay->addWidget(instrRadio);
+		modeButtonsLay->addStretch(1);
+		modeButtonsLay->addWidget(voiceRadio);
+		modeButtonsLay->addWidget(voiceLab);
+		modeButtonsLay->addStretch(2);
 	QVBoxLayout *modeLay = new QVBoxLayout;
 		modeLay->addLayout(modeButtonsLay);
 		modeLay->addStretch(1);
 		QHBoxLayout *durLay = new QHBoxLayout;
-			durLay->addStretch(2);
 			durLay->addWidget(durHeadLab);
-			durLay->addStretch(1);
-			durLay->addWidget(durationSpin);
+			durLay->addWidget(durationSpin, 0, Qt::AlignLeft);
 			durLay->addStretch(2);
 		modeLay->addLayout(durLay);
 	modeGr = new QGroupBox(tr("pitch detection mode"), m_1_device);
@@ -110,7 +111,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
 	QLabel *volLabel = new QLabel(tr("minimum volume"), m_2_params);
 	volumeSlider = new TvolumeSlider(m_2_params);
 		volumeSlider->setValue(m_glParams->minimalVol);
-		volumeSlider->setStatusTip(tr("Minimal volume of a sound to be pitch-detected"));
+		volumeSlider->setStatusTip(tr("Minimum volume of a sound to be pitch-detected"));
 	
 	lowRadio = new QRadioButton(tr("low"), m_2_params);
 		lowRadio->setStatusTip(tr("The lowest notes.<br>Suitable for bass guitar, double bass, etc."));
@@ -159,43 +160,50 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
 		freqSpin->setStatusTip(tr("The base frequency of <i>middle a</i>.<br>Detection of the proper pitch of notes is relative to this value. This also affects the pitch of played sounds."));
 		freqSpin->setMinimum(200);
 		freqSpin->setMaximum(900);
-		freqSpin->setValue(getFreq(440.0));
 		freqSpin->setSuffix(" Hz");
   frLab->setStatusTip(freqSpin->statusTip());
   
-  QLabel *intervalLab = new QLabel(tr("interval:"), m_3_middleA);  
-  m_intervalCombo = new QComboBox(m_3_middleA);
-		m_intervalCombo->addItem(tr("semitone up"));
-		m_intervalCombo->addItem(tr("none"));
-		m_intervalCombo->addItem(tr("semitone down"));
-		m_intervalCombo->setStatusTip(tr("Shifts the frequency of <i>middle a</i> one semitone."));
-  if (freqSpin->value() <= 415)
-      m_intervalCombo->setCurrentIndex(2);
-    else if (freqSpin->value() >= 465)
-      m_intervalCombo->setCurrentIndex(0);
-    else
-      m_intervalCombo->setCurrentIndex(1);
-  intervalLab->setStatusTip(m_intervalCombo->statusTip());
+  QLabel *intervalLab = new QLabel(tr("interval:"), m_3_middleA);
+  m_intervalSpin = new QSpinBox(m_3_middleA);
+		m_intervalSpin->setRange(0, 12);
+		m_intervalSpin->setSpecialValueText(tr("none"));
+		m_intervalSpin->setMinimumWidth(fontMetrics().boundingRect("w").width() * 15); // width of ten letters 'w' 
+		m_intervalSpin->setStatusTip(tr("Shifts the frequency of <i>middle a</i>. It can be used as a transposition."));
+	m_upSemiToneRadio = new QRadioButton(tr("up"), m_3_middleA);
+		m_upSemiToneRadio->setIcon(QIcon(style()->standardIcon(QStyle::SP_ArrowUp)));
+	m_downsSemitoneRadio = new QRadioButton(tr("down"), m_3_middleA);
+		m_downsSemitoneRadio->setIcon(QIcon(style()->standardIcon(QStyle::SP_ArrowDown)));
+  intervalLab->setStatusTip(m_intervalSpin->statusTip());
+	QButtonGroup *upDownGroup = new QButtonGroup(m_3_middleA);
+		upDownGroup->addButton(m_upSemiToneRadio);
+		upDownGroup->addButton(m_downsSemitoneRadio);
+	m_upSemiToneRadio->setChecked(true);
   
-	tuneFreqlab = new QLabel(m_3_middleA);
+	tuneFreqlab = new TroundedLabel(m_3_middleA);
 		tuneFreqlab->setAlignment(Qt::AlignCenter);
-		tuneFreqlab->setStyleSheet(styleTxt);
 		QFont ff = tuneFreqlab->font();
-		ff.setPixelSize(fontMetrics().boundingRect("A").height() * 1.5);
+		ff.setPixelSize(fontMetrics().boundingRect("A").height() * 1.2);
 		tuneFreqlab->setFont(ff);
+		tuneFreqlab->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   
   // 3. Layout
 	QGridLayout *midGrLay = new QGridLayout;
 		midGrLay->addWidget(frLab, 0, 0);
 		midGrLay->addWidget(freqSpin, 0, 1);
 		midGrLay->addWidget(intervalLab, 1, 0);
-		midGrLay->addWidget(m_intervalCombo, 1, 1);
+		QVBoxLayout *upDownLay = new QVBoxLayout;
+			upDownLay->addWidget(m_upSemiToneRadio);
+			upDownLay->addWidget(m_downsSemitoneRadio);
+		QHBoxLayout *intervalLay = new QHBoxLayout;
+			intervalLay->addWidget(m_intervalSpin);
+			intervalLay->addLayout(upDownLay);
+		midGrLay->addLayout(intervalLay, 1, 1);
 	QHBoxLayout *aLay = new QHBoxLayout;
 		aLay->addWidget(headLab, 0, Qt::AlignCenter);
 		aLay->addLayout(midGrLay);
 	QVBoxLayout *middleAlay = new QVBoxLayout();
 		middleAlay->addLayout(aLay);
-		middleAlay->addWidget(tuneFreqlab);
+		middleAlay->addWidget(tuneFreqlab, 0, Qt::AlignCenter);
 	m_3_middleA->setLayout(middleAlay);
 	
 //################### 4. Test the settings #################################
@@ -247,9 +255,13 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
   setTestDisabled(true);
 	enableInBox->setCheckable(true);
   enableInBox->setChecked(m_glParams->INenabled);
+	freqSpin->setValue(getFreq(440.0));
+	intervalFromFreq(freqSpin->value());
   
   connect(testButt, SIGNAL(clicked()), this, SLOT(testSlot()));
-  connect(m_intervalCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(intervalChanged(int)));
+  connect(m_intervalSpin, SIGNAL(valueChanged(int)), this, SLOT(intervalChanged()));
+	connect(m_upSemiToneRadio, SIGNAL(clicked(bool)), this, SLOT(upDownIntervalSlot()));
+	connect(m_downsSemitoneRadio, SIGNAL(clicked(bool)), this, SLOT(upDownIntervalSlot()));
   connect(freqSpin, SIGNAL(valueChanged(int)), this, SLOT(baseFreqChanged(int)));
   connect(volumeSlider, SIGNAL(valueChanged(float)), this, SLOT(minimalVolChanged(float)));
 	connect(voiceRadio, SIGNAL(clicked(bool)), this, SLOT(voiceOrInstrumentChanged()));
@@ -280,7 +292,9 @@ void AudioInSettings::setTestDisabled(bool disabled) {
 	// enable the rest of widget
 			m_inDeviceCombo->setDisabled(false);
 			modeGr->setDisabled(false);
-// 			midABox->setDisabled(false);
+			m_intervalSpin->setDisabled(false);
+			m_upSemiToneRadio->setDisabled(false);
+			m_downsSemitoneRadio->setDisabled(false);
 			volumeSlider->setDisabled(false);
 			lowRadio->setDisabled(false);
 			middleRadio->setDisabled(false);
@@ -293,7 +307,9 @@ void AudioInSettings::setTestDisabled(bool disabled) {
 			pitchView->setDisabled(false);
 	// disable the rest of widget
 			m_inDeviceCombo->setDisabled(true);
-// 			midABox->setDisabled(true);
+			m_intervalSpin->setDisabled(true);
+			m_upSemiToneRadio->setDisabled(true);
+			m_downsSemitoneRadio->setDisabled(true);
 			modeGr->setDisabled(true);
 			volumeSlider->setDisabled(true);
 			lowRadio->setDisabled(true);
@@ -333,7 +349,7 @@ void AudioInSettings::restoreDefaults() {
 		testSlot();
 	enableInBox->setChecked(true);
 	freqSpin->setValue(440);
-	m_intervalCombo->setCurrentIndex(1); // none
+	m_intervalSpin->setValue(0);
 	m_inDeviceCombo->setCurrentIndex(0);
 	instrRadio->setChecked(true);
 	volumeSlider->setValue(0.4); // It is multipled by 100
@@ -450,7 +466,6 @@ void AudioInSettings::testSlot() {
 
 void AudioInSettings::noteSlot(Tnote note) {
 		pitchLab->setText("<b>" + note.toRichText() + "</b>");
-//   pitchLab->setText("<b>" + TnoteName::noteToRichText(note) + "</b>");
 }
 
 
@@ -459,31 +474,58 @@ void AudioInSettings::freqSlot(float freq) {
 }
 
 
-void AudioInSettings::intervalChanged(int index) {
-  if (m_intervalCombo->hasFocus()) {
-		switch (index) {
-      case 0 : freqSpin->setValue(pitch2freq(70)); break;
-      case 1 : freqSpin->setValue(pitch2freq(69)); break;
-      case 2 : freqSpin->setValue(pitch2freq(68)); break;
-		}
-    m_tmpParams->a440diff = getDiff(freqSpin->value());
+void AudioInSettings::upDownIntervalSlot() {
+	int upDown = 1;
+		if (m_downsSemitoneRadio->isChecked())
+				upDown = -1;
+		setTransposeInterval(m_intervalSpin->value() * upDown);
+		freqFromInterval(m_intervalSpin->value() * upDown);
+		m_tmpParams->a440diff = getDiff(freqSpin->value());
 		getFreqStatusTip();
-  }
+}
+
+
+void AudioInSettings::intervalChanged() {
+	if (m_intervalSpin->hasFocus()) {
+		upDownIntervalSlot();
+	}
 }
 
 
 void AudioInSettings::baseFreqChanged(int bFreq) {
-  if (freqSpin->hasFocus()) {
-    if (freqSpin->value() <= 415)
-      m_intervalCombo->setCurrentIndex(2);
-    else if (freqSpin->value() >= 465)
-      m_intervalCombo->setCurrentIndex(0);
-    else
-      m_intervalCombo->setCurrentIndex(1);
+	if (freqSpin->hasFocus()) {
     m_tmpParams->a440diff = getDiff(freqSpin->value());
+		intervalFromFreq(freqSpin->value());
     getFreqStatusTip();
-  }
+	}
 }
+
+
+void AudioInSettings::setTransposeInterval(int interval) {
+	int n = qAbs(interval);
+	QString suff = "";
+	if (n)
+		suff = tr("%n semitone(s)", "", n).replace(QString("%1").arg(n), "");
+	m_intervalSpin->setSuffix(suff);
+	if (interval < 0)
+			m_downsSemitoneRadio->setChecked(true);
+	else
+			m_upSemiToneRadio->setChecked(true);
+}
+
+
+void AudioInSettings::intervalFromFreq(int bFreq) {
+	int interval = qRound(freq2pitch((double)bFreq)  - 69.0);
+	m_intervalSpin->setValue(qAbs(interval));
+	setTransposeInterval(interval);
+}
+
+
+void AudioInSettings::freqFromInterval(int interval) {
+	freqSpin->setValue(pitch2freq(69 + interval));
+}
+
+
 
 /** This is not so pretty (piano staff invokes low range) */
 void AudioInSettings::whenLowestNoteChanges(Tnote loNote) {

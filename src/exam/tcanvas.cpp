@@ -22,7 +22,7 @@
 #include "texam.h"
 #include "tquestiontip.h"
 #include "animations/tanimedtextitem.h"
-#include "tfinishtip.h"
+#include "tnootkacertificate.h"
 #include "tgraphicstexttip.h"
 #include "mainwindow.h"
 #include "tnotepixmap.h"
@@ -149,7 +149,7 @@ void Tcanvas::startTip() {
 
 
 void Tcanvas::finishTip() {
-  m_finishTip = new TfinishTip(m_exam);
+  m_finishTip = new TnootkaCertificate(m_exam);
   m_scene->addItem(m_finishTip);
   m_finishTip->setScale(m_scale);
   setPosOfFinishTip();
@@ -259,6 +259,7 @@ void Tcanvas::questionTip(Texam* exam) {
 	m_nameFree = m_questionTip->freeName();
 	m_scoreFree = m_questionTip->freeScore();
   setPosOfQuestionTip();
+// 	finishTip();
 }
 
 
@@ -441,6 +442,8 @@ void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
 			geoRect = m_parent->noteName->geometry();
 	else {// on the score at its center
 			geoRect = m_parent->score->geometry();
+			if (tip->boundingRect().width() * tip->scale() > m_parent->score->width())
+				tip->setScale(((qreal)m_parent->score->width() / (tip->boundingRect().width())));
 	}
 	tip->setPos(geoRect.x() + (geoRect.width() - tip->boundingRect().width() * tip->scale()) / 2,
 		geoRect.y() + (geoRect.height() - tip->boundingRect().height() * tip->scale()) / 2 );
@@ -465,6 +468,8 @@ void Tcanvas::setPosOfWhatTip() {
 	int maxTipHeight = getMaxTipHeight();
   if (m_whatTip->boundingRect().height() * m_whatTip->scale() != maxTipHeight)
 				m_whatTip->setScale((qreal)maxTipHeight / (m_whatTip->boundingRect().height() * m_whatTip->scale()));
+// 	if (m_whatTip->boundingRect().width() * m_whatTip->scale() > m_maxTipWidth)
+// 			m_whatTip->setScale(m_whatTip->scale() * ((qreal)m_maxTipWidth / (m_whatTip->boundingRect().width() * m_whatTip->scale())));
 	setPosOfTip(m_whatTip);
 }
 

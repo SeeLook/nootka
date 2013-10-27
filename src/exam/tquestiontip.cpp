@@ -210,11 +210,6 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* le
 				quest += "<br><nobr>" + tr("Check octave button!") + "</nobr>";
     if (scale)
       quest += "</p>";
-//     quest = "<table><tr><td valign=\"middle\" style=\"font-family: nootka; color: transparent; font-size: 30px;\">" +
-//             TquestionAsWdg::qaTypeSymbol(question.questionAs) + "</td><td valign=\"middle\" align=\"center\">" + quest + "</td>" +
-//             "<td valign=\"middle\" style=\"font-family: nootka; color: transparent; font-size: 30px;\">" +
-//             TquestionAsWdg::qaTypeSymbol(question.answerAs) +
-//             "</td></tr></table>";
     return quest;
   
 }

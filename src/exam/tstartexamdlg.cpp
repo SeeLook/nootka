@@ -25,6 +25,7 @@
 #include <thelpdialogbase.h>
 #include <tpixmaker.h>
 #include <tmainhelp.h>
+#include <texamhelp.h>
 #include <QtGui>
 #include <stdlib.h> // for getenv()
 
@@ -321,8 +322,10 @@ void TstartExamDlg::helpSelected() {
 		QString ht = "<center><h2>" + help->pix("practice", 64) + " " + tr("To exercise or to pass an exam?") + " " + 
 		help->pix("nootka-exam", 64) + "</h2>" +
 		TmainHelp::youWillLearnText() + "<br><br>" +
-		"</center><table><tr><td style=\"padding: 10px; text-align: justify;\">" + TmainHelp::duringExercisingText(m_path) + 
-		"</td></tr><tr><td style=\"padding: 10px; text-align: justify;\">" + TmainHelp::duringExamsText(m_path) + "</td></tr></table>";
+		"</center><table><tr><td style=\"padding: 10px;\" align=\"center\">" + 
+		TmainHelp::duringExercisingText(m_path) + "<br>" + TexamHelp::exerciseFeaturesText() +
+		"</td></tr><tr><td style=\"padding: 10px;\" align=\"center\">" + 
+		TmainHelp::duringExamsText(m_path) + "<br>" + TexamHelp::examFeaturesText() + "</td></tr></table>";
 		
 		help->helpText()->setHtml(ht);
 		help->showCheckBox(&m_examParams->showVeryBeginHelp);

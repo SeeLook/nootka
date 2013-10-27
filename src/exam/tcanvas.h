@@ -23,7 +23,7 @@
 #include <QGraphicsView>
 #include "tqatype.h"
 
-class TfinishTip;
+class TnootkaCertificate;
 class QTimer;
 class TtipScene;
 class TexamExecutor;
@@ -101,7 +101,7 @@ private:
     double 												m_scale;
     TgraphicsTextTip 							*m_resultTip, *m_whatTip, *m_startTip, *m_tryAgainTip, *m_confirmTip;
     TquestionTip 									*m_questionTip;
-    TfinishTip 										*m_finishTip;
+    TnootkaCertificate 										*m_finishTip;
     Texam 												*m_exam;
     TanimedTextItem 							*m_flyAnswer, *m_flyNote;
     QParallelAnimationGroup 			*m_animation;

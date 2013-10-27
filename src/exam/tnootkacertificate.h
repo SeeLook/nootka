@@ -27,13 +27,13 @@ QString finishExamText(Texam *exam);
 
 
 /** QGraphicsTextTip with exam summary like piece of paper. */
-class TfinishTip : public TgraphicsTextTip
+class TnootkaCertificate : public TgraphicsTextTip
 {
     Q_OBJECT
     
 public:
-    TfinishTip(Texam *exam);
-    virtual ~TfinishTip() {}
+    TnootkaCertificate(Texam *exam);
+    
     
 private:
     Texam *m_exam;

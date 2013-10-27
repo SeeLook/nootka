@@ -212,13 +212,15 @@ void TnoteName::resize(int fontSize) {
         qreal fact = ((qreal)fontSize / (qreal)fMetr.boundingRect("b").height()) * 1.4;
         f.setPointSize(f.pointSize() * fact);
         m_dblFlatButt->setFont(f);
-        m_dblFlatButt->setAttribute(Qt::WA_LayoutUsesWidgetRect);
         m_flatButt->setFont(f);
-        m_flatButt->setAttribute(Qt::WA_LayoutUsesWidgetRect);
         m_sharpButt->setFont(f);
-        m_sharpButt->setAttribute(Qt::WA_LayoutUsesWidgetRect);
         m_dblSharpButt->setFont(f);
+#if defined (Q_OS_MAC)
+				m_dblFlatButt->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+				m_flatButt->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+				m_sharpButt->setAttribute(Qt::WA_LayoutUsesWidgetRect);
         m_dblSharpButt->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+#endif
     }
 }
 
