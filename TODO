@@ -4,6 +4,7 @@ Plan for the Nootka One
 ISSUES
 -practice
 		piano staff has problems with correcting answers
+		exercise is added to recent exams list
 		
 - clef is locked after exam/exercises
 - sometimes exam doesn't ask mistaken questions again
@@ -12,6 +13,7 @@ ISSUES
 
 			
 TODOES
+- check existence of exercise file with native separators 
 - start exam from exercise
 - suggestion algorithm has to be done
 - animations have to be more organic and with common view
