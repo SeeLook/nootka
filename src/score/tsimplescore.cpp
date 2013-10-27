@@ -296,7 +296,7 @@ Tnote TsimpleScore::highestNote() {
 
 
 void TsimpleScore::addBGglyph(int instr) {
-	if (instr < 1 || instr > 3)
+	if (instr < 0 || instr > 3)
 			return;
 	m_prevBGglyph = instr;
 	if (m_bgGlyph)

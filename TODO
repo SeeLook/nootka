@@ -5,15 +5,19 @@ ISSUES
 -practice
 		piano staff has problems with correcting answers
 		
- - clef is locked after exam/exercises
+- clef is locked after exam/exercises
 - sometimes exam doesn't ask mistaken questions again
 - levels are unsaved after loading
+- tip position over guitar when no guitar
+
 			
 TODOES
+- start exam from exercise
 - suggestion algorithm has to be done
 - animations have to be more organic and with common view
+- lock q/a as guitar for non guitar
+- force a maximum score width especially for 4:3 ratios
 - audio-in settings TODO 
-with wrong note correct key as well
 - !!!check does 'string order' work for Tfingerboard!!!
 - new exam and level version is necessary, 
 		add version recognition to avoid old releases opening newest versions
@@ -22,12 +26,13 @@ with wrong note correct key as well
 - add shadows under strings on pickup
 - do not transform pickup image for lefthanded - just change its pos
 - keep exam file in /tmp and restore it when crash or so
-- finish exam tip
+- finish exam tip and saving it (image) to file
 
-- add sound during wizard and About dialog
-
-- add string numbers to pixmap
 - make order with jack (thread-ise input, format conversion)
+
+- add sound during wizard and About dialog (???)
+
+- add string numbers to generated pixmap
 
       
 

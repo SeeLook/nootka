@@ -17,23 +17,32 @@
  ***************************************************************************/
 
 #include "texamhelp.h"
-#include "tpixmaker.h"
 #include "texamsettings.h"
-#include <QPushButton>
-#include <QVBoxLayout>
-#include <QTextEdit>
-#include <QCheckBox>
-#include <QDebug>
+// #include <QDebug>
 
 
 #define PIXICONSIZE (32)
 #define BIGPIXSIZE (64)
 
+
+
+QString TexamHelp::exerciseFeaturesText() {
+	return tr("Only recent exercise is stored for further continuation.<br>When your exercising will go well Nootka will suggest you to start an exam.");
+}
+
+
+QString TexamHelp::examFeaturesText() {
+	return tr("Exams can be saved to files and continued later. Moreover, exam files can be opened to analyze.") + "<br>" +
+    tr("Exam will be completed when you give answers to all questions.<br>The number of questions depends on the level of the exam.") + "<br>" +
+    tr("If you make a mistake, the question will asked two more times and the total number of questions will be increased. These are penalty questions.") + "<br>" +
+    tr("When answer is 'not bad', you get one penalty more.");
+}
+
+
 TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt, bool* showHelp, QWidget* parent) :
     ThelpDialogBase(parent, 0)
 {
   resize((parent->width() / 3) * 2, (parent->height() / 3) * 2);
-//   setWindowTitle(tr("Exam help"));
   helpText()->setHtml(
     QString("<center><h2>%1 &nbsp;&nbsp;").arg(pix("help", BIGPIXSIZE)) +
     tr("How does an exercise or an exam work?") +
@@ -59,19 +68,15 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt, bool* showHelp
 		tr("If you made a mistake during an exercise, Nootka can show you correct answer. To see it:") + 
 		"<br>- " + clickSomeButtonTxt(pix("correct", PIXICONSIZE)) + "<br>- " + orPressEnterKey() + "<br>" +
 		tr("Select 1st check box to see corrected answer for every mistake.") + "<br><br>" +
-		tr("You can every time click button %1 to pause or stop exercising and to see your results.<br>Only recent exercise is stored for further continuation.<br>When your exercising will go well Nootka will suggest you to start an exam.").arg(pix("stopExam", PIXICONSIZE)) +
-		"</td></tr></table><br><br>" +
+		tr("You can every time click button %1 to pause or stop exercising and to see your results.").arg(pix("stopExam", PIXICONSIZE)) +
+		"<br>" + exerciseFeaturesText() +	"</td></tr></table><br><br>" +
 		
 		"<hr><table><tr><td  valign=\"middle\" align=\"center\">" + pix("nootka-exam", BIGPIXSIZE) + "<br>" + tr("Exams") +
 		"</td><td align=\"center\">" +
 		tr("If you made a mistake during an exam and you want to repeat the question:") + "<br>- " + 
     clickSomeButtonTxt(pix("prevQuest", PIXICONSIZE)) + "<br>- " + orPressBackSpace() + "<br><br>" +
 		toStopExamTxt(pix("stopExam", PIXICONSIZE)) + "<br>" + 
-		tr("Then you will be able to analyze its results and save exam to file for further continue.") + "<br>" +
-    tr("Exam will be completed when you give answers to all questions.<br>The number of questions depends on the level of the exam.") + "<br>" +
-    tr("If you make a mistake, the question will asked two more times and the total number of questions will be increased. These are penalty questions.") + "<br>" +
-    tr("When answer is 'not bad', you get one penalty more.") +
-		"</td></tr></table></center><center>" +
+		examFeaturesText() + "</td></tr></table></center><center>" +
     "<hr><br><br><span style=\"font-size: 20px;\"><b>" +
     tr("GOOD LUCK!") + "</b></span>" + "<br><hr><table><tr><th colspan=2>" +
     tr("Experts corner") + "</th></tr><tr><td rowspan=3>" +
@@ -82,7 +87,7 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt, bool* showHelp
     TexamSettings::expertsAnswerTxt() + "</td></tr></table></center>");
   
   helpText()->resize((parent->width() / 3) * 2, (parent->height() / 5) * 3);
-  qDebug() << helpText()->toHtml();
+//   qDebug() << helpText()->toHtml();
 	showCheckBox(showHelp);
 }
 

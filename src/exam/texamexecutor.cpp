@@ -657,7 +657,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
       if (gl->E->autoNextQuest)
 					mesgTime = 2500;
       m_canvas->resultTip(&curQ, mesgTime);
-			if (!m_exercise && gl->hintsEnabled && !gl->E->autoNextQuest)
+			if ((!m_exercise || (m_exercise && curQ.isCorrect())) && gl->hintsEnabled && !gl->E->autoNextQuest)
 						m_canvas->whatNextTip(curQ.isCorrect());
       if (!gl->E->autoNextQuest) {
           if (!curQ.isCorrect() && !m_exercise)
@@ -693,6 +693,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 					else {
 						m_canvas->whatNextTip(true, true);
 						mW->nootBar->addAction(correctAct);
+						m_lockRightButt = false;
 						return; // wait for user
 					}
 			}
@@ -745,8 +746,11 @@ void TexamExecutor::correctAnswer() {
 				goodNote = curQ.qa_2.note;
 			if (curQ.wrongAccid() || curQ.wrongOctave()) // it corrects wrong octave as well
 					mW->score->correctAccidental(goodNote);
-			else if (curQ.wrongNote())
+			else if (curQ.wrongNote()) {
+					if (m_level.manualKey && curQ.key.value() != mW->score->keySignature().value())
+						mW->score->correctKeySignature(curQ.key);
 					mW->score->correctNote(goodNote, markColor);
+			}
 			if (curQ.wrongKey())
 					mW->score->correctKeySignature(curQ.key);
 	} else if (curQ.answerAs == TQAtype::e_asFretPos) {
@@ -934,10 +938,8 @@ void TexamExecutor::prepareToExam() {
             SLOT(autoRepeatStateChanged(bool)));
     connect(mW->expertAnswChB, SIGNAL(clicked(bool)), this, SLOT(expertAnswersStateChanged(bool)));
 
-		qDebug() << instrumentToText(gl->instrument);
 		m_glStore->storeSettings();
 		m_glStore->prepareGlobalsToExam(m_level);
-		qDebug() << instrumentToText(gl->instrument);
 
     mW->score->acceptSettings();
     mW->noteName->setEnabledEnharmNotes(false);
@@ -1044,7 +1046,7 @@ void TexamExecutor::createActions() {
 		nextQuestAct = new QAction(tr("Next", "like a next question"), this);
     nextQuestAct->setStatusTip(tr("next question\n(space %1)").arg(TexamHelp::orRightButtTxt()));
 		nextQuestAct->setToolTip(nextQuestAct->statusTip());
-    nextQuestAct->setIcon(QIcon(gl->path+"picts/nextQuest.png"));
+    nextQuestAct->setIcon(QIcon(gl->path + "picts/nextQuest.png"));
     nextQuestAct->setShortcut(QKeySequence(Qt::Key_Space));
     connect(nextQuestAct, SIGNAL(triggered()), this, SLOT(askQuestion()));
     mW->nootBar->addAction(nextQuestAct);
@@ -1052,14 +1054,14 @@ void TexamExecutor::createActions() {
     prevQuestAct = new QAction(tr("Repeat", "like a repeat question"), this);
     prevQuestAct->setStatusTip(tr("repeat previous question (backspace)"));
 		prevQuestAct->setToolTip(prevQuestAct->statusTip());
-    prevQuestAct->setIcon(QIcon(gl->path+"picts/prevQuest.png"));
+    prevQuestAct->setIcon(QIcon(gl->path + "picts/prevQuest.png"));
     prevQuestAct->setShortcut(QKeySequence(Qt::Key_Backspace));
     connect(prevQuestAct, SIGNAL(triggered()), this, SLOT(repeatQuestion()));
 
     checkAct = new QAction(tr("Check", "like a check answer"), this);
     checkAct->setStatusTip(tr("check answer\n(enter %1)").arg(TexamHelp::orRightButtTxt()));
 		checkAct->setToolTip(checkAct->statusTip());
-    checkAct->setIcon(QIcon(gl->path+"picts/check.png"));
+    checkAct->setIcon(QIcon(gl->path + "picts/check.png"));
     checkAct->setShortcut(QKeySequence(Qt::Key_Return));
     connect(checkAct, SIGNAL(triggered()), this, SLOT(checkAnswer()));
 
@@ -1068,16 +1070,21 @@ void TexamExecutor::createActions() {
         repeatSndAct->setStatusTip(tr("play sound again") + "<br>(" + TexamHelp::pressSpaceKey().replace("<b>", " ").replace("</b>", ")"));
 				repeatSndAct->setToolTip(repeatSndAct->statusTip().replace("<br>", "\n"));
         repeatSndAct->setShortcut(QKeySequence(Qt::Key_Space));
-        repeatSndAct->setIcon(QIcon(gl->path+"picts/repeatSound.png"));
+        repeatSndAct->setIcon(QIcon(gl->path + "picts/repeatSound.png"));
         connect(repeatSndAct, SIGNAL(triggered()), this, SLOT(repeatSound()));
     }
     if (m_exercise) {
 			correctAct = new QAction(tr("Correct", "like a correct answer with mistake"), this);
 			correctAct->setStatusTip(tr("correct answer\n(enter)"));
 			correctAct->setToolTip(correctAct->statusTip());
-			correctAct->setIcon(QIcon(gl->path+"picts/correct.png"));
+			correctAct->setIcon(QIcon(gl->path + "picts/correct.png"));
 			correctAct->setShortcut(QKeySequence(Qt::Key_Return));
 			connect(correctAct, SIGNAL(triggered()), this, SLOT(correctAnswer()));
+			QAction *startExamAct = new QAction(tr("Exam"), this);
+			startExamAct->setStatusTip(tr("Finish exercise and pass an exam on this level."));
+			startExamAct->setToolTip(startExamAct->statusTip());
+			startExamAct->setIcon(QIcon(gl->path + "picts/nootka-exam.png"));
+			mW->nootBar->insertAction(nextQuestAct, startExamAct);
     }
 }
 
@@ -1393,6 +1400,7 @@ void TexamExecutor::deleteExam() {
 
 
 void TexamExecutor::delayerTip() {
+	m_lockRightButt = false;
 	m_canvas->whatNextTip(true); 
 }
 

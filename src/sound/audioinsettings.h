@@ -21,6 +21,7 @@
 #include <QWidget>
 #include "tnote.h"
 
+class TroundedLabel;
 class TvolumeSlider;
 class QRadioButton;
 class TaudioParams;
@@ -50,6 +51,12 @@ public:
   void generateDevicesList();
       /** Grabs (refresh) devices list from AudioIn and fill audioOutDevListCombo */
   void setDevicesCombo();
+			/** Calculates interval from given frequency and sets interval Spin Box. */
+	void intervalFromFreq(int bFreq);
+			/** Calculates frequency from given interval [-12 to 12 semitones] and sets frequency Spin Box */
+	void freqFromInterval(int interval);
+			/** Changes value of interval and adjust its suffix. Also Adjust up/down radio buttons */
+	void setTransposeInterval(int interval);
 	
 public	slots:
 			/** Occurs when tune of a guitar is changed and range of detecting pitches has to be adjusted. */
@@ -65,10 +72,11 @@ protected slots:
   void testSlot();
   void noteSlot(Tnote note);
   void freqSlot(float freq);
-  void intervalChanged(int index);
+  void intervalChanged();
   void baseFreqChanged(int bFreq);
   void minimalVolChanged(float vol);
 	void voiceOrInstrumentChanged();
+	void upDownIntervalSlot();
   
 private:
     /** Calculates frequencies of strings related to a440diff 
@@ -83,19 +91,22 @@ private:
   float getDiff(int freq);
 	
   
-  QComboBox 					*m_inDeviceCombo, *m_intervalCombo, *m_intonationCombo;
+  QComboBox 					*m_inDeviceCombo, *m_intonationCombo;
   QGroupBox 					*enableInBox, *modeGr, *midABox;
   QRadioButton 				*voiceRadio, *instrRadio;
 	QRadioButton				*highRadio, *middleRadio, *lowRadio;
-  QSpinBox 						*freqSpin, *durationSpin;
+	QRadioButton				*m_upSemiToneRadio, *m_downsSemitoneRadio; 
+  QSpinBox 						*freqSpin, *durationSpin, *m_intervalSpin;
   TvolumeSlider 			*volumeSlider;
   QPushButton 				*testButt;
-  QLabel 							*pitchLab, *freqLab, *tuneFreqlab, *durHeadLab;
+  QLabel 							*pitchLab, *freqLab, *durHeadLab;
+	TroundedLabel				*tuneFreqlab;
   bool 								m_testDisabled, m_listGenerated;
   TpitchView 					*pitchView;
   TaudioIN 						*m_audioIn;
   TaudioParams 				*m_glParams, *m_tmpParams;
 	Ttune								*m_tune;
+	QWidget							*m_4_test;
   
 };
 
