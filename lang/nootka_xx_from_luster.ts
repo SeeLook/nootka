@@ -89,6 +89,7 @@
         <location filename="../src/charts/sorting.cpp" line="350"/>
         <location filename="../src/charts/tnotepixmap.cpp" line="141"/>
         <source>out of tune</source>
+        <translatorcomment>As long as &apos;wrong intonation&apos; is clumsy maybe &apos;unclear&apos; is more accurate here? </translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1948,7 +1949,13 @@
     </message>
     <message>
         <location filename="../src/sound/tintonationview.cpp" line="200"/>
-        <source>gum pain</source>
+        <source>gums pain</source>
+        <comment>We used to say that gums or teeth are paining when music is out of tune but it isn&apos;t official term.</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/sound/tintonationview.cpp" line="203"/>
+        <source>well tuned instrument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1959,11 +1966,6 @@
     <message>
         <location filename="../src/sound/tintonationview.cpp" line="202"/>
         <source>old strings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/sound/tintonationview.cpp" line="203"/>
-        <source>well tuned guitar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
