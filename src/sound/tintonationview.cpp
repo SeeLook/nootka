@@ -197,10 +197,10 @@ TintonationCombo::TintonationCombo(QWidget* parent) :
 QString TintonationCombo::intonationAccuracyTr(TintonationView::Eaccuracy accur) {
 	switch (accur) {
 			case TintonationView::e_noCheck: return tr("do not check");
-			case TintonationView::e_dogHowl: return tr("gum pain");
+			case TintonationView::e_dogHowl: return tr("gums pain", "We used to say that gums or teeth are paining when music is out of tune but it isn't official term.");
 			case TintonationView::e_sufficient: return tr("violinist beginner");
 			case TintonationView::e_normal: return tr("old strings");
-			case TintonationView::e_perfect: return tr("well tuned guitar");
+			case TintonationView::e_perfect: return tr("well tuned instrument");
 			case TintonationView::e_paranoid: return tr("perfect");		
 			default: return "";
 	}

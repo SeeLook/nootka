@@ -329,6 +329,7 @@ void TstartExamDlg::helpSelected() {
 		
 		help->helpText()->setHtml(ht);
 		help->showCheckBox(&m_examParams->showVeryBeginHelp);
+		qDebug() << help->helpText()->toHtml();
 		help->exec();
 		delete help;
 }

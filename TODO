@@ -13,8 +13,12 @@ ISSUES
 
 			
 TODOES
-- check existence of exercise file with native separators 
+- analyze of exercise in recent files menu of Analyzer
+- check existence of exercise file with native separators
+- update screen image in exam help
+- force 'Plasique' style under MacOs or find a way on buttons
 - start exam from exercise
+- selecting clef for non guitar in wizard
 - suggestion algorithm has to be done
 - animations have to be more organic and with common view
 - lock q/a as guitar for non guitar
