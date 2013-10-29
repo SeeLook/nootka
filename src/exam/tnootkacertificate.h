@@ -21,6 +21,7 @@
 #define TFINISHTIP_H
 #include <QGraphicsObject>
 
+class QGraphicsProxyWidget;
 class QGraphicsView;
 class TgraphicsTextTip;
 class Texam;
@@ -58,7 +59,7 @@ protected slots:
 private:
     Texam 									*m_exam;
 		TgraphicsTextTip 				*m_saveHint, *m_closeHint, *m_nextHint;
-		QGraphicsTextItem				*m_cert;
+		QGraphicsProxyWidget		*m_cert;
 		QGraphicsRectItem				*m_bgRect;
     QString 								 m_path;
 		QGraphicsView						*m_view; // QGraphicsView containing those items
