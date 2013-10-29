@@ -683,6 +683,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
     mW->noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
 
 		markAnswer(curQ);
+		m_canvas->finishTip();
     int waitTime = WAIT_TIME;
 		if (m_exercise) {
 			waitTime = gl->E->correctViewDuration; // user has to have time to see his mistake and correct answer
@@ -1080,11 +1081,11 @@ void TexamExecutor::createActions() {
 			correctAct->setIcon(QIcon(gl->path + "picts/correct.png"));
 			correctAct->setShortcut(QKeySequence(Qt::Key_Return));
 			connect(correctAct, SIGNAL(triggered()), this, SLOT(correctAnswer()));
-			QAction *startExamAct = new QAction(tr("Exam"), this);
-			startExamAct->setStatusTip(tr("Finish exercise and pass an exam on this level."));
-			startExamAct->setToolTip(startExamAct->statusTip());
-			startExamAct->setIcon(QIcon(gl->path + "picts/nootka-exam.png"));
-			mW->nootBar->insertAction(nextQuestAct, startExamAct);
+// 			QAction *startExamAct = new QAction(tr("Exam"), this);
+// 			startExamAct->setStatusTip(tr("Finish exercise and pass an exam on this level."));
+// 			startExamAct->setToolTip(startExamAct->statusTip());
+// 			startExamAct->setIcon(QIcon(gl->path + "picts/nootka-exam.png"));
+// 			mW->nootBar->insertAction(nextQuestAct, startExamAct);
     }
 }
 
@@ -1127,7 +1128,6 @@ void TexamExecutor::stopExerciseSlot() {
 		gl->E->prevExerciseLevel = m_level.name;
 		closeExecutor();
 }
-
 
 
 void TexamExecutor::stopExamSlot() {

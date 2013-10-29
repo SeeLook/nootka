@@ -22,25 +22,30 @@
 #include "texamview.h"
 #include <texamlevel.h>
 #include <tgraphicstexttip.h>
+#include <tpixmaker.h>
+#include <texamhelp.h>
 #include <QDate>
+#include <QBuffer>
 #include <QApplication>
 #include <QStyle>
 #include <QFileDialog>
 #include <QGraphicsScene>
 #include <QPrinter>
 #include <QPainter>
+#include <QGraphicsView>
+#include <QGraphicsEffect>
 
-#include <QDebug>
+// #include <QDebug>
 
 
 QString spanPx = "<span style=\"font-size: 20px;\">";
 
 QString finishExamText(Texam* exam) {
-		QString txt = "<div><p style=\"text-align: right;\">" +
+		QString txt = "<table><tr><td aligh=\"right\" style=\"text-align: right;\">" +
 		QString("date: %1").arg(QDate::currentDate().toString("d MMMM yyyy")) + "</p>" +
-    "<h4 style=\"text-align: right; margin-right:30px;\">" + "Nootka<br>Akademy Of Music" + "</h4>" +
+    "<h4 style=\"text-align: right; margin-right:30px;\">" + "Nootka<br>Akademy Of Music" + "</h4></td></tr><table>" +
     QString("Student %1 ").arg(spanPx + "<b>" + exam->userName().toUpper() + "</span></b><br>") +
-    "Has been awarded the" + "<h1 style=\"text-align: center;\">" + 
+    "Has been awarded the" + "<p><h1 style=\"text-align: center;\">" + 
 		"Certificate Of Exam Completion" + "</h1>" +
     "Passing the exam on the level" + spanPx + " <b>" + exam->level()->name + "</span></b>,<br>" +
     "having answered the required" + spanPx + QString("<b> %1 </span></b>").arg(exam->count()) + "answers<br>" +
@@ -54,53 +59,93 @@ QString finishExamText(Texam* exam) {
     "professor Processor &amp; Mrs RAM his assistant" + "<br>" +
     "<i>secretary</i>: Mr Disk" + "<br><br><br><br>" + "................<br>" + "stamp" +
 //     <img src="http://nootka.googlecode.com/hg/unused-picts/stamp.png">
-    "</p></div>";
+    "</p>";
     return txt;
 }
 
-
-TnootkaCertificate::TnootkaCertificate(Texam* exam, QGraphicsObject* parent) :
-	QGraphicsObject(parent),
+TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, const QString& path, Texam* exam) : 
+	QGraphicsObject(),
+	m_view(view),
   m_exam(exam),
+  m_path(path),
   m_saveHint(0)
 {
-	 	m_cert = new TgraphicsTextTip(finishExamText(exam), QColor("#FFFF00"));
-		m_cert->setParentItem(this);
-		m_cert->setTextWidth(boundingRect().width());
+		m_view->setAttribute(Qt::WA_TransparentForMouseEvents, false); // unlock mouse
+		m_view->scene()->addItem(this);
+		setZValue(100);
+	 	m_cert = new QGraphicsTextItem();
+			m_cert->setParentItem(this);
+			m_cert->setHtml(finishExamText(m_exam));
+			m_cert->setScale((m_view->height() * 0.9) / boundingRect().height());
+			setPos((m_view->width() - m_cert->scale() * boundingRect().width()) / 2,
+                      (m_view->height() - m_cert->scale() * boundingRect().height()) / 2);
+		
+		m_bgRect = new QGraphicsRectItem(m_view->sceneRect());
+			m_bgRect->setPen(Qt::NoPen);
+		QColor bg = m_view->palette().text().color();
+			bg.setAlpha(170);
+			m_bgRect->setBrush(QBrush(bg));
+			m_view->scene()->addItem(m_bgRect);
+			m_bgRect->setZValue(0);
+		QGraphicsBlurEffect *bgBlur = new QGraphicsBlurEffect();
+			m_bgRect->setGraphicsEffect(bgBlur);
+// 		m_cert->setTextWidth(boundingRect().width());
 // 		qDebug() << m_cert->toHtml();
 		setAcceptHoverEvents(true);
 		createHints();
-		hideHints();
+}
+
+
+TnootkaCertificate::~TnootkaCertificate() {
+	m_view->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+	removeHints();
+	delete m_bgRect;
 }
 
 
 void TnootkaCertificate::createHints() {
 	if (!m_saveHint) {
 		QIcon ic = QApplication::style()->standardIcon(QStyle::SP_DialogSaveButton);
-    m_saveIcon = new QGraphicsPixmapItem(QPixmap(ic.pixmap(32, 32)), this);
-			m_saveIcon->setPos(10, 5);
-			m_saveIcon->setFlag(QGraphicsItem::ItemIsFocusable);
-		ic = QApplication::style()->standardIcon(QStyle::SP_DialogCloseButton);
-		m_closeIcon = new QGraphicsPixmapItem(QPixmap(ic.pixmap(32, 32)), this);
-			m_closeIcon->setPos(15 + m_saveIcon->boundingRect().width(), 5);
-			m_closeIcon->setFlag(QGraphicsItem::ItemIsFocusable);
-			m_saveHint = new TgraphicsTextTip("<big>" + tr("Save this certificate to file in remembrance.") + "</big>",
+		QByteArray byteArray;
+		QBuffer buffer(&byteArray);
+    QPixmap scaledPix = ic.pixmap(32, 32);
+    scaledPix.save(&buffer, "PNG");
+		m_saveHint = new TgraphicsTextTip(QString("<a href=\"saveCert\"><img src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/>" + "<br><big>" + tr("Save this certificate to file in remembrance.") + "</a></big>",
 																				QApplication::palette().highlight().color());
-			m_saveHint->setParentItem(this);
-			m_saveHint->setPos((boundingRect().width() - m_saveHint->boundingRect().width()) / 2, 
-					boundingRect().height() - m_saveHint->boundingRect().height() - 5	);
+			m_saveHint->setTextWidth((m_view->width() -10 - boundingRect().width() * m_cert->scale()) / 2);
+			m_view->scene()->addItem(m_saveHint);
+			m_saveHint->setPos(1, m_view->height() / 5);
+			m_saveHint->setTextInteractionFlags(Qt::TextBrowserInteraction);
+			connect(m_saveHint, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
+			
+		m_nextHint= new TgraphicsTextTip("<big><a href=\"nextQuest\">" + TexamHelp::toGetQuestTxt() + ":<br>" + 
+    TexamHelp::clickSomeButtonTxt(pixToHtml(m_path + "picts/nextQuest.png", 32)) + ",<br>" + TexamHelp::pressSpaceKey() + " " + TexamHelp::orRightButtTxt() + "</a></big>", m_view->palette().highlight().color());
+			m_view->scene()->addItem(m_nextHint);
+			m_nextHint->setPos(1, m_view->height() / 2);
+			m_nextHint->setScale(((m_view->width() - 10 - boundingRect().width() * m_cert->scale()) / 2) / m_nextHint->boundingRect().width());
+			m_nextHint->setTextInteractionFlags(Qt::TextBrowserInteraction);
+			connect(m_nextHint, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
+		
+		ic = QIcon(m_path + "picts/stopExam.png");
+		m_closeHint = new TgraphicsTextTip("<big><a href=\"stopExam\">" + 
+					TexamHelp::toStopExamTxt(pixToHtml(m_path + "picts/stopExam.png", 32) + "</a></big>"), Qt::red);
+			m_view->scene()->addItem(m_closeHint);
+			m_closeHint->setScale(((m_view->width() - 10 - boundingRect().width() * m_cert->scale()) / 2) / m_closeHint->boundingRect().width());
+			m_closeHint->setPos(5 + pos().x() + boundingRect().width() * m_cert->scale(), m_view->height() / 5);
+			m_closeHint->setTextInteractionFlags(Qt::TextBrowserInteraction);
+			connect(m_closeHint, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
 	}
 }
 
 
 void TnootkaCertificate::removeHints() {
-		if (m_closeIcon) {
-			delete m_closeIcon;
+		if (m_closeHint) {
+			delete m_closeHint;
 			delete m_saveHint;
-			delete m_saveIcon;
-			m_closeIcon = 0;
+			delete m_nextHint;
+			m_closeHint = 0;
 			m_saveHint = 0;
-			m_saveIcon = 0;
+			m_nextHint = 0;
 		}
 }
 
@@ -110,28 +155,11 @@ QRectF TnootkaCertificate::boundingRect() const {
 }
 
 
-void TnootkaCertificate::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
-	if (m_saveIcon) {
-		m_saveIcon->show();
-		m_closeIcon->show();
-		m_saveHint->show();
-	}
+void TnootkaCertificate::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+	painter->setPen(m_view->palette().text().color());
+	painter->setBrush(QBrush(QColor("#FFFF00")));
+	painter->drawRoundedRect(boundingRect().adjusted(0, 0, 10, 10), 10, 10);
 }
-
-
-void TnootkaCertificate::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
-		hideHints();
-}
-
-
-void TnootkaCertificate::hideHints() {
-	if (m_saveIcon) {
-		m_saveIcon->hide();
-		m_closeIcon->hide();
-		m_saveHint->hide();
-	}
-}
-
 
 
 void TnootkaCertificate::saveSlot() {
@@ -153,14 +181,11 @@ void TnootkaCertificate::saveSlot() {
 }
 
 
-void TnootkaCertificate::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-	if (m_saveIcon->hasFocus()) {
-			removeHints();
-			saveSlot();
-			createHints();
-		}
-	if (m_closeIcon->hasFocus())
-		deleteLater();
+void TnootkaCertificate::linkActivatedSlot(QString link) {
+	if (link == "saveCert")
+		saveSlot();
+	else 
+		emit userAction(link);
 }
 
 

@@ -148,11 +148,15 @@ void Tcanvas::startTip() {
 
 
 void Tcanvas::finishTip() {
-	setAttribute(Qt::WA_TransparentForMouseEvents, false);
-  m_finishTip = new TnootkaCertificate(m_exam);
-  m_scene->addItem(m_finishTip);
-  setPosOfFinishTip();
-//   m_finishTip->rotate(-7);
+	if (m_questionTip) {
+    delete m_questionTip;
+    m_questionTip = 0;
+  }		
+	if (!m_finishTip) {
+			m_finishTip = new TnootkaCertificate(this, gl->path, m_exam);
+			connect(m_finishTip, SIGNAL(userAction(QString)), this, SLOT(linkActivatedSlot(QString)));
+		//   m_finishTip->rotate(-7);
+	}
 }
 
 
@@ -258,8 +262,6 @@ void Tcanvas::questionTip(Texam* exam) {
 	m_nameFree = m_questionTip->freeName();
 	m_scoreFree = m_questionTip->freeScore();
   setPosOfQuestionTip();
-		
-// 	finishTip();
 }
 
 
@@ -316,6 +318,14 @@ void Tcanvas::clearConfirmTip() {
       delete m_confirmTip;
       m_confirmTip = 0;
     }
+}
+
+
+void Tcanvas::clearFinishTip() {
+	if (m_finishTip) {
+		m_finishTip->deleteLater();
+		m_finishTip = 0;
+	}
 }
 
 
@@ -387,14 +397,16 @@ void Tcanvas::sizeChanged() {
     setPosOfConfirmTip();
   }
   if (m_finishTip) {
-    m_finishTip->setScale(m_scale);
-    setPosOfFinishTip();
+    clearFinishTip();
+		finishTip();		
   }
 }
 
 
 void Tcanvas::linkActivatedSlot(QString link) {
     emit buttonClicked(link);
+		if (m_finishTip)
+			clearFinishTip();
 }
 
 
@@ -504,12 +516,5 @@ void Tcanvas::setPosOfQuestionTip() {
 	setPosOfTip(m_questionTip);
 }
 
-
-void Tcanvas::setPosOfFinishTip() {
-	// in the middle of a window
-	m_finishTip->setScale((height() * 0.9) / m_finishTip->boundingRect().height());
-  m_finishTip->setPos((m_scene->width() - m_finishTip->scale() * m_finishTip->boundingRect().width()) / 2,
-                      (m_scene->height() - m_finishTip->scale() * m_finishTip->boundingRect().height()) / 2);
-}
 
 
