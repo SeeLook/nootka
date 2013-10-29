@@ -34,32 +34,34 @@
 #include <QPainter>
 #include <QGraphicsView>
 #include <QGraphicsEffect>
+#include <QGraphicsProxyWidget>
 
-// #include <QDebug>
+#include <QDebug>
 
 
 QString spanPx = "<span style=\"font-size: 20px;\">";
 
 QString finishExamText(Texam* exam) {
-		QString txt = "<table><tr><td aligh=\"right\" style=\"text-align: right;\">" +
-		QString("date: %1").arg(QDate::currentDate().toString("d MMMM yyyy")) + "</p>" +
-    "<h4 style=\"text-align: right; margin-right:30px;\">" + "Nootka<br>Akademy Of Music" + "</h4></td></tr><table>" +
+		QString txt = "<p align=\"right\" style=\"margin-right: 10px;\">" +
+		QString("date: %1").arg(QDate::currentDate().toString("d MMMM yyyy")) + ""
+    "<h3>" + "Nootka<br>Akademy Of Music" + "</h3></p>" +
     QString("Student %1 ").arg(spanPx + "<b>" + exam->userName().toUpper() + "</span></b><br>") +
-    "Has been awarded the" + "<p><h1 style=\"text-align: center;\">" + 
-		"Certificate Of Exam Completion" + "</h1>" +
+    "Has been awarded the" + "<h1 align=\"center\">" + 
+		"Certificate Of Exam Completion" + "</h1><p style=\"margin-left: 10px;\">" +
     "Passing the exam on the level" + spanPx + " <b>" + exam->level()->name + "</span></b>,<br>" +
     "having answered the required" + spanPx + QString("<b> %1 </span></b>").arg(exam->count()) + "answers<br>" +
     "in time" + spanPx + " <b>" + TexamView::formatedTotalTime(exam->workTime() * 1000) + "</b></span><br>" +
     "and achieving the score" + ": " + spanPx +"<b>" + 
-		QString("<b>%1%</b>").arg(exam->effectiveness(), 0, 'f', 1, '0')+ "</span></b><br><br>" +
+		QString("<b>%1%</b>").arg(exam->effectiveness(), 0, 'f', 1, '0')+ "</span></b><br></p>" +
     "As a witness to this accomplishment,<br>we hereby award this certificate on " + "<b>" +
 		QDate::currentDate().toString("d MMMM yyyy") +	"</b><br><br>" +
-    "<p style=\"text-align: right;\">" + "examining board:" + "<br>" +
+    "<p align=\"right\" style=\"margin-right: 10px;\">" + "examining board:" + "<br>" +
     "<i>president</i>: Nootka itself" + "<br>" +
     "professor Processor &amp; Mrs RAM his assistant" + "<br>" +
-    "<i>secretary</i>: Mr Disk" + "<br><br><br><br>" + "................<br>" + "stamp" +
+    "<i>secretary</i>: Mr Disk" + "</p><p align=\"center\"><br><br><br><br>" + "................<br>" +
+		"stamp" + "</p>";
 //     <img src="http://nootka.googlecode.com/hg/unused-picts/stamp.png">
-    "</p>";
+		;
     return txt;
 }
 
@@ -73,10 +75,18 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, const QString& path,
 		m_view->setAttribute(Qt::WA_TransparentForMouseEvents, false); // unlock mouse
 		m_view->scene()->addItem(this);
 		setZValue(100);
-	 	m_cert = new QGraphicsTextItem();
+	 	m_cert = new QGraphicsProxyWidget(this);
 			m_cert->setParentItem(this);
-			m_cert->setHtml(finishExamText(m_exam));
-			m_cert->setScale((m_view->height() * 0.9) / boundingRect().height());
+			QTextEdit *te = new QTextEdit();
+			te->setLineWrapMode(QTextEdit::NoWrap);
+			te->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+			te->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+			te->setFrameShape(QFrame::NoFrame);
+			te->setHtml(finishExamText(m_exam));
+// 			te->setLineWrapMode(QTextEdit::NoWrap);
+			te->setFixedSize(QSize(m_view->width() * 0.5, m_view->height() * 0.9));
+			m_cert->setWidget(te);
+// 			m_cert->setScale((m_view->height() * 0.9) / boundingRect().height());
 			setPos((m_view->width() - m_cert->scale() * boundingRect().width()) / 2,
                       (m_view->height() - m_cert->scale() * boundingRect().height()) / 2);
 		
@@ -88,9 +98,10 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, const QString& path,
 			m_view->scene()->addItem(m_bgRect);
 			m_bgRect->setZValue(0);
 		QGraphicsBlurEffect *bgBlur = new QGraphicsBlurEffect();
+			bgBlur->setBlurRadius(20.0);
 			m_bgRect->setGraphicsEffect(bgBlur);
 // 		m_cert->setTextWidth(boundingRect().width());
-// 		qDebug() << m_cert->toHtml();
+// 		qDebug() << te->toHtml();
 		setAcceptHoverEvents(true);
 		createHints();
 }
@@ -156,9 +167,9 @@ QRectF TnootkaCertificate::boundingRect() const {
 
 
 void TnootkaCertificate::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-	painter->setPen(m_view->palette().text().color());
-	painter->setBrush(QBrush(QColor("#FFFF00")));
-	painter->drawRoundedRect(boundingRect().adjusted(0, 0, 10, 10), 10, 10);
+// 	painter->setPen(m_view->palette().text().color());
+// 	painter->setBrush(QBrush(QColor("#FFFF00")));
+// 	painter->drawRoundedRect(boundingRect().adjusted(0, 0, 10, 10), 10, 10);
 }
 
 
