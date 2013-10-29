@@ -159,7 +159,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
     }
 		
 		updateButtonStatusText("");
-		m_settings = QFileInfo(sett.fileName()).absolutePath() + "/exercise.noo";
+		m_settings = QDir::toNativeSeparators(QFileInfo(sett.fileName()).absolutePath() + "/exercise.noo");
 		if (QFileInfo(m_settings).exists()) {
 				m_contExerciseButt->setStatusTip(m_contExerciseButt->text() + "<br>" +
 															tr("on level:") + " <b>" + m_examParams->prevExerciseLevel + "</b>");
@@ -310,7 +310,6 @@ void TstartExamDlg::updateButtonStatusText(const QString& levelName) {
 }
 
 
-
 void TstartExamDlg::levelWasSelected(TexamLevel level) {
 	updateButtonStatusText(level.name);		
 }
@@ -329,7 +328,7 @@ void TstartExamDlg::helpSelected() {
 		
 		help->helpText()->setHtml(ht);
 		help->showCheckBox(&m_examParams->showVeryBeginHelp);
-		qDebug() << help->helpText()->toHtml();
+// 		qDebug() << help->helpText()->toHtml();
 		help->exec();
 		delete help;
 }

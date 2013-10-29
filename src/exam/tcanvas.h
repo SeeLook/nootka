@@ -80,6 +80,7 @@ public slots:
     void linkActivatedSlot(QString link);
     void clearConfirmTip();
     void showConfirmTip();
+		void clearFinishTip();
   
 signals:
 				/** This signal is emitted when user click image button on the some tip.*/
