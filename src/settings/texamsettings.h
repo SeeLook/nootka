@@ -45,7 +45,7 @@ public:
   static QString autoNextQuestTxt() { return tr("ask next question automatically"); }
 			/** check answers without requiring confirmation */
   static QString expertsAnswerTxt() { return tr("check answers without requiring confirmation"); }
-  static QString correctMistakesTxt() { return tr("correct mistakes"); } // correct mistakes
+  static QString correctMistakesTxt() { return tr("correct mistakes (exercises only)"); } // correct mistakes (exercises only)
 
   void saveSettings();
 	void restoreDefaults();

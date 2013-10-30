@@ -21,6 +21,8 @@
 
 #include <QDialog>
 
+class QVBoxLayout;
+class QPushButton;
 class Texam;
 
 
@@ -30,19 +32,29 @@ class TexamSummary : public QDialog
   Q_OBJECT
 public:
   TexamSummary(Texam *exam, QString &path, bool cont = false, QWidget *parent = 0);
-  virtual ~TexamSummary();
   
-  enum Eactions { e_continue, e_analyse, e_discard };
+  
+  enum Eactions { e_continue, e_discard, e_startExam };
   Eactions exec();
+	
+			/** By default it was created for exams. This method adjust the dialog for exercise context:
+			* - changes window title, 
+			* - continue button icon
+			* - adds button to start exam on current exercise level */
+	void setForExercise();
   
 protected slots:
   void closeSlot();
   void analyseSlot();
   void continueSlot();
+	void startExamSlot();
   
 private:
-  Texam *m_exam;
-  Eactions m_state;
+  Texam 						*m_exam;
+  Eactions 					 m_state;
+	QPushButton 			*m_closeButt, *m_okButt, *m_examButton;
+	QVBoxLayout			  *m_leftLay;
+	QString						 m_path;
 };
 
 #endif // TEXAMSUMMARY_H

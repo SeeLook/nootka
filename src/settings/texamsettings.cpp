@@ -33,7 +33,7 @@ TexamSettings::TexamSettings(TexamParams* params, QColor* qColor, QColor* aColor
     m_nbColor(nbColor)
 {
 // 		QLabel *expertLab = new QLabel(QString("<img src=\"%1\">").arg());
-		m_correctChB = new QCheckBox(tr("correct wrong answers (exercises only)"), this);
+		m_correctChB = new QCheckBox(correctMistakesTxt(), this);
 			m_correctChB->setStatusTip(tr("When you will make mistake, the program will show you automatically how a correct answer should be."));
 			m_correctChB->setChecked(m_params->showCorrected);
 		QLabel *timeLab = new QLabel(tr("preview time of corrected answer"), this);

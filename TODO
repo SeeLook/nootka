@@ -4,7 +4,6 @@ Plan for the Nootka One
 ISSUES
 -practice
 		piano staff has problems with correcting answers
-		exercise is added to recent exams list
 		
 - clef is locked after exam/exercises
 - sometimes exam doesn't ask mistaken questions again
@@ -14,8 +13,8 @@ ISSUES
 			
 TODOES
 - analyze of exercise in recent files menu of Analyzer
-- check existence of exercise file with native separators
-- update screen image in exam help
+- check is saving and checking existence of exercise.noo works under win
+- update screen-shoot image in exam help
 - force 'Plasique' style under MacOs or find a way on buttons
 - start exam from exercise
 - selecting clef for non guitar in wizard
