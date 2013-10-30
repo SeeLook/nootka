@@ -127,7 +127,7 @@ MainWindow::MainWindow(QWidget *parent) :
 			expertAnswChB->setToolTip(TexamSettings::expertsAnswerTxt());
 		correctChB = new QCheckBox(innerWidget);
 			correctChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-			correctChB->setStatusTip(TexamSettings::correctMistakesTxt());
+			correctChB->setStatusTip(tr("show correct answer for every mistake"));
 			correctChB->setToolTip(correctChB->statusTip());
 			correctChB->hide();
     

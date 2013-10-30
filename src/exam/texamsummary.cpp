@@ -24,6 +24,7 @@
 #include "tqaunit.h"
 #include "tlevelpreview.h"
 #include <widgets/troundedlabel.h>
+#include <tanalysdialog.h>
 
 
   /** returns 2 columns row of table */
@@ -35,22 +36,24 @@ QString row2(QString S1, QString S2) {
 TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *parent) :
   QDialog(parent),
   m_exam(exam),
-  m_state(e_discard)
+  m_state(e_discard),
+  m_path(path),
+  m_closeButt(0), m_examButton(0)
 {
     setWindowTitle(tr("Exam results"));
     QHBoxLayout *lay = new QHBoxLayout();
   //-------  left layout -----------------------
-    QVBoxLayout *leftLay = new QVBoxLayout();
+    m_leftLay = new QVBoxLayout();
     QString font20 = "<b style=\"font-size: 20px\">";
     QLabel *userNameLab = new QLabel(tr("student:") + QString("  %2<u>%1</u></b>").arg(exam->userName()).arg(font20), this);
-    leftLay->addWidget(userNameLab, 0, Qt::AlignCenter);
+    m_leftLay->addWidget(userNameLab, 0, Qt::AlignCenter);
     TroundedLabel *questNrLab = new TroundedLabel("<center>" + tr("Number of questions:") + QString("%2  %1</b>").arg(exam->count()).arg(font20) +
                       QString("<br>%1: %2%3</b>").arg(TexamView::corrAnswersNrTxt()).arg(font20).
                           arg(exam->count() - exam->mistakes() - exam->halfMistaken()) +
                       QString("<br>%1: %2%3</b>").arg(TexamView::mistakesNrTxt()).arg(font20).arg(exam->mistakes()) +
                       QString("<br>%1: %2%3</b>").arg(TexamView::halfMistakenTxt()).arg(font20).arg(exam->halfMistaken())
         ,this);
-    leftLay->addWidget(questNrLab);
+    m_leftLay->addWidget(questNrLab);
     QVBoxLayout *timeLay = new QVBoxLayout();
     QGroupBox *timeGr = new QGroupBox(tr("times:"), this);
     TroundedLabel *timeLab = new TroundedLabel("<table>" +
@@ -63,42 +66,43 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
     timeLay->addWidget(timeLab);
   
     timeGr->setLayout(timeLay);
-    leftLay->addWidget(timeGr);
+    m_leftLay->addWidget(timeGr);
 	
     QHBoxLayout *buttLay =new QHBoxLayout;
 
-    QPushButton *closeButt;
+    m_closeButt;
     QPushButton *analyseButt = new QPushButton(tr("Analyse"), this);
     analyseButt->setIcon(QIcon(path + "picts/charts.png"));
     analyseButt->setIconSize(QSize(48, 48));
-    QPushButton *okButt = new QPushButton(tr("Close"), this);
+    m_okButt = new QPushButton(tr("Close"), this);
     if (cont) {
-        okButt->setText(tr("Continue"));
-        okButt->setIcon(QIcon(path + "picts/startExam.png"));
-        closeButt = new QPushButton(tr("Discard"), this);
-        closeButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
-        closeButt->setIconSize(QSize(48, 48));
-        connect(closeButt, SIGNAL(clicked()), this, SLOT(closeSlot()));
+        m_okButt->setText(tr("Continue"));
+        m_okButt->setIcon(QIcon(path + "picts/nootka-exam.png"));
+        m_closeButt = new QPushButton(tr("Discard"), this);
+        m_closeButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
+        m_closeButt->setIconSize(QSize(48, 48));
+        connect(m_closeButt, SIGNAL(clicked()), this, SLOT(closeSlot()));
     } else
-        okButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
-    okButt->setIconSize(QSize(48, 48));
+        m_okButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
+    m_okButt->setIconSize(QSize(48, 48));
 
 
-    buttLay->addWidget(okButt);
+    buttLay->addWidget(m_okButt);
     buttLay->addWidget(analyseButt);
 
-    leftLay->addStretch(1);
-    leftLay->addLayout(buttLay);
+    m_leftLay->addStretch(1);
+    m_leftLay->addLayout(buttLay);
     if (cont)
-      leftLay->addWidget(closeButt);
+      m_leftLay->addWidget(m_closeButt);
 
-	lay->addLayout(leftLay);
+	lay->addLayout(m_leftLay);
   
 //-------  right layout -----------------------	
 	QVBoxLayout *rightLay = new QVBoxLayout();
 	TlevelPreview *levelWdg = new TlevelPreview(this);
 	rightLay->addWidget(levelWdg);
 	levelWdg->setLevel(*(exam->level()));
+	levelWdg->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
 	QVBoxLayout *resLay = new QVBoxLayout();
 	QGroupBox *resGr = new QGroupBox(tr("Results:"), this);
   QString effStr = "";
@@ -150,23 +154,42 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
   setLayout(lay);
   
   connect(analyseButt, SIGNAL(clicked()), this, SLOT(analyseSlot()));
-  connect(okButt, SIGNAL(clicked()), this, SLOT(continueSlot()));
+  connect(m_okButt, SIGNAL(clicked()), this, SLOT(continueSlot()));
 }
 
-TexamSummary::~TexamSummary() {}
 
 TexamSummary::Eactions TexamSummary::exec() {
   QDialog::exec();
   return m_state;
 }
 
+
+void TexamSummary::setForExercise() {
+	setWindowTitle(tr("Progress of exercises"));
+	m_examButton = new QPushButton(tr("Pass an exam"), this);
+		m_examButton->setToolTip(tr("Finish exercise and pass an exam on this level."));
+		m_examButton->setIcon(QIcon(m_path + "picts/nootka-exam.png"));
+		m_examButton->setIconSize(QSize(48, 48));
+	connect(m_examButton, SIGNAL(clicked()), this, SLOT(startExamSlot()));
+	if (m_closeButt) {
+		m_okButt->setIcon(QIcon(m_path + "picts/practice.png"));
+		m_closeButt->setText(tr("Finish this exercise"));
+		m_leftLay->insertWidget(m_leftLay->count() - 1, m_examButton);
+	} else
+		m_leftLay->addWidget(m_examButton);
+}
+
+
 //#################################################################
 //               SLOTS
 //#################################################################
 
 void TexamSummary::analyseSlot() {
-  m_state = e_analyse;
-  close();
+	TanalysDialog *AD = new TanalysDialog(m_exam, parentWidget());
+	if (m_examButton)
+			AD->setWindowTitle(tr("Analysis of exercise"));
+	AD->exec();
+	delete AD;
 }
 
 void TexamSummary::closeSlot() {
@@ -178,6 +201,13 @@ void TexamSummary::continueSlot() {
   m_state = e_continue;
   close();
 }
+
+
+void TexamSummary::startExamSlot() {
+	m_state = e_startExam;
+	close();
+}
+
 
 
 

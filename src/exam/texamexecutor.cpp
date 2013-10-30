@@ -32,7 +32,6 @@
 #include "texpertanswerhelp.h"
 #include "texamparams.h"
 #include "texecutorsupply.h"
-#include "tanalysdialog.h"
 #include "tgraphicstexttip.h"
 #include <ttipchart.h>
 #include "tcanvas.h"
@@ -683,7 +682,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
     mW->noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
 
 		markAnswer(curQ);
-		m_canvas->finishTip();
+// 		m_canvas->finishTip();
     int waitTime = WAIT_TIME;
 		if (m_exercise) {
 			waitTime = gl->E->correctViewDuration; // user has to have time to see his mistake and correct answer
@@ -1081,11 +1080,6 @@ void TexamExecutor::createActions() {
 			correctAct->setIcon(QIcon(gl->path + "picts/correct.png"));
 			correctAct->setShortcut(QKeySequence(Qt::Key_Return));
 			connect(correctAct, SIGNAL(triggered()), this, SLOT(correctAnswer()));
-// 			QAction *startExamAct = new QAction(tr("Exam"), this);
-// 			startExamAct->setStatusTip(tr("Finish exercise and pass an exam on this level."));
-// 			startExamAct->setToolTip(startExamAct->statusTip());
-// 			startExamAct->setIcon(QIcon(gl->path + "picts/nootka-exam.png"));
-// 			mW->nootBar->insertAction(nextQuestAct, startExamAct);
     }
 }
 
@@ -1263,15 +1257,8 @@ void TexamExecutor::autoRepeatStateChanged(bool enable) {
 bool TexamExecutor::showExamSummary(bool cont) {
   TexamSummary *ES = new TexamSummary(m_exam, gl->path, cont, mW);
 	if (m_exercise)
-			ES->setWindowTitle(tr("Progress of exercises"));
+			ES->setForExercise();
   TexamSummary::Eactions respond = ES->exec();
-  if (respond == TexamSummary::e_analyse) {
-     TanalysDialog *AD = new TanalysDialog(m_exam, mW);
-		 if (m_exercise)
-			 AD->setWindowTitle(tr("Analysis of exercises"));
-     AD->exec();
-     delete AD;
-  }
   delete ES;
   if (respond == TexamSummary::e_discard)
     return false;
@@ -1370,8 +1357,12 @@ void TexamExecutor::updatePenalStep() {
 void TexamExecutor::tipButtonSlot(QString name) {
     if (name == "nextQuest")
         askQuestion();
-    else if (name == "stopExam")
+    else if (name == "stopExam") {
+			if (m_exercise)
+				stopExerciseSlot();
+			else
         stopExamSlot();
+		}
     else if (name == "prevQuest")
         repeatQuestion();
     else if (name == "checkAnswer")
