@@ -67,6 +67,7 @@ private:
 		void setIconSize(QPushButton *button);
 				/** Updates status tip text of new exercise/exam buttons when user selected a level. */
 		void updateButtonStatusText(const QString &levelName);
+		
 
     QGroupBox 					*examGr, *levelGr;
     TlevelSelector 			*m_levelsView;
@@ -80,7 +81,7 @@ private:
     QStringList 				m_recentExams;
     Eactions 						m_Acction;
     TexamParams 				*m_examParams;
-		QString							m_path, m_settings;
+		QString							m_path;
 
 private slots:
     void levelToLoad();

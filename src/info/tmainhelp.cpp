@@ -34,7 +34,7 @@ QString TmainHelp::exerciseAndExamText(const QString& path) {
 			arg(" &nbsp; " + pixToHtml(path + "picts/levelCreator.png", PIXSIZE) + " &nbsp; ");
   helpTxt += "<br>" + QApplication::translate("TmainHelp", "Select a level and warm up yourself exercising. Then try to pass an exam.");
 	helpTxt += "<br>" + duringExamsText(path);
-  helpTxt += "<br>" + duringExamsText(path);
+  helpTxt += "<br>" + duringExercisingText(path);
 	return helpTxt;
 }
 

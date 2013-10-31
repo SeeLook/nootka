@@ -41,9 +41,12 @@ public:
 				 * It affects global setting for further suggestions. */
 		bool suggestInFuture() { return m_chekInFuture; }
 		
+				/** Returns true when user decided to start exam after suggestion.  */
+		bool readyToExam() { return m_readyToExam; }
+		
 private:
 		Texam				*m_exam;
-		bool 				m_chekInFuture, m_checkNow;
+		bool 				m_chekInFuture, m_checkNow, m_readyToExam;
 		int 				m_max, m_currentGood;
 
 };

@@ -86,8 +86,9 @@ protected slots:
     void repeatSound();
 		void correctAnswer();
     void autoRepeatStateChanged(bool enable);
-        /** Shows exam summary. If returns false - user don't want to continue an exam */
-    bool showExamSummary(bool cont);
+        /** Shows exam summary. If returns false - user don't want to continue an exam
+				 * @p startExam is a reference to know does user want to start exam on exercise level. */
+    bool showExamSummary(bool cont, bool *startExam = 0);
     void showExamHelp();
     void expertAnswersSlot();
     void expertAnswersStateChanged(bool enable);
@@ -100,6 +101,8 @@ protected slots:
     void markAnswer(TQAunit &curQ);
 				/** This is QTimer slot invoking m_canvas->whatNextTip(true) method. */
 		void delayerTip();
+				/** Stops exercising and starts exam. */
+		void exerciseToExam();
 
 private:
 		void createActions();
@@ -114,6 +117,10 @@ private:
 private:
     QString saveExamToFile();
     void updatePenalStep();
+				/** Sets texts depend on exercise or exam:
+				 * - main window title
+				 * - startExamAct status tip */
+		void setTitleAndTexts();
     
     TexecutorSupply *m_supp; 
     Texam *m_exam;

@@ -30,7 +30,8 @@
 
 Texercises::Texercises(Texam* exam) :
 	m_exam(exam),
-	m_checkNow(false)
+	m_checkNow(false),
+	m_readyToExam(false)
 {
 }
 
@@ -60,6 +61,7 @@ void Texercises::checkAnswer() {
 		if (suggExam->result() == QDialog::Accepted) {
 			switch(what) {
 				case TsuggestExam::e_readyToExam:
+					m_readyToExam = true;
 					break;
 				case TsuggestExam::e_forAmoment:
 					m_currentGood = 0; // or m_currentGood -= 10

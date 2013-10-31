@@ -100,7 +100,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
         mW->examResults->startExam();
 				if (userAct == TstartExamDlg::e_newExercise) {
 						m_exercise = new Texercises(m_exam);
-						m_exam->setFileName(QFileInfo(gl->config->fileName()).absolutePath() + "/exercise.noo");
+						m_exam->setFileName(QDir::toNativeSeparators(QFileInfo(gl->config->fileName()).absolutePath() + "/exercise.noo"));
 				}
     } else if (userAct == TstartExamDlg::e_contExam) {
         m_exam = new Texam(&m_level, "");
@@ -109,23 +109,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
           if (err == Texam::e_file_corrupted)
             QMessageBox::warning(mW, "", 
               tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
-					//We check are guitar's params suitable for an exam --------------
-						QString changesMessage = "";
-						if (m_level.instrument != e_noInstrument) {
-							if (m_exam->tune() != *gl->Gtune() ) { //Is tune the same?
-										Ttune tmpTune = m_exam->tune();
-										gl->setTune(tmpTune);
-										changesMessage = tr("Tuning of the guitar was changed in this exam!<br>Now it is:<br><b>%1</b>").
-										arg(gl->Gtune()->name);
-								}
-							if (m_level.hiFret > gl->GfretsNumber) { //Are enough frets?
-										changesMessage += tr("<br><br>This exam requires more frets,<br>so frets number in the guitar will be changed.");
-										gl->GfretsNumber =  m_level.hiFret;
-								}
-						}
-							if (changesMessage != "")
-										QMessageBox::warning(mW, "", changesMessage);
-            // ---------- End of checking ----------------------------------
+				//We check are guitar's params suitable for an exam 
+						TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
           if (!showExamSummary(true)) {
             mW->clearAfterExam();
             deleteExam();
@@ -143,46 +128,18 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
             return;
         }
     } else if (userAct == TstartExamDlg::e_contExercise) {
-				m_exam = new Texam(&m_level, "");
-				bool newExercise = false;
-				QString exerciseFile = QFileInfo(gl->config->fileName()).absolutePath() + "/exercise.noo";
+				m_exam = new Texam(&m_level, ""); // We are sure: exercise file is OK - it was checked in TstartExamDlg before
+				QString exerciseFile = QDir::toNativeSeparators(QFileInfo(gl->config->fileName()).absolutePath() + "/exercise.noo");
         Texam::EerrorType err = m_exam->loadFromFile(exerciseFile);
-        if (err == Texam::e_file_OK || err == Texam::e_file_corrupted) {
-          if (err == Texam::e_file_corrupted)
-            newExercise = true;
-					//We check are guitar's params suitable for an exercise --------------
-					if (m_level.instrument != e_noInstrument) {
-						if (m_exam->tune() != *gl->Gtune() ) { //Is tune the same?
-							newExercise = true;
-							qDebug() << "New exercise because of different tune in existing one...";
-						}
-						if (m_level.hiFret > gl->GfretsNumber) { //Are enough frets?
-							newExercise = true;
-							qDebug() << "New exercise because of different fret number in existing one...";
-						}
-					}
-            // ---------- End of checking ----------------------------------
-        } else {
-						newExercise = true;
-						qDebug() << "New exercise because existing file was corrupted...";
-				}
-			if (newExercise) {
-				QString user = m_exam->userName();
-				delete m_exam;
-				m_exam = new Texam(&m_level, user);
-				m_exam->setFileName(exerciseFile);
-        m_exam->setTune(*gl->Gtune());
-        mW->examResults->startExam();
-			} else {
+				TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
 				mW->examResults->startExam(m_exam->totalTime(), m_exam->count(), m_exam->averageReactonTime(),
                           m_exam->mistakes(), m_exam->halfMistaken());
-			}
-			m_exercise = new Texercises(m_exam);
+				m_exercise = new Texercises(m_exam);
     } else {
 				if (userAct == TstartExamDlg::e_levelCreator) {
-					mW->clearAfterExam(e_openCreator);
+						mW->clearAfterExam(e_openCreator);
 				}	else 	
-					mW->clearAfterExam(e_failed);
+						mW->clearAfterExam(e_failed);
         deleteExam();
         return;
     }
@@ -200,8 +157,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
     if ((m_level.questionAs.isNote() && m_level.answersAs[TQAtype::e_asNote].isSound()) ||
      (m_level.questionAs.isName() && m_level.answersAs[TQAtype::e_asName].isSound()) ||
      (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isSound()) ||
-     (m_level.questionAs.isSound() && m_level.answersAs[TQAtype::e_asSound].isSound())
-    )
+     (m_level.questionAs.isSound() && m_level.answersAs[TQAtype::e_asSound].isSound()) )
     {
       if (!mW->sound->isSniffable()) {
             QMessageBox::warning(mW, "",
@@ -687,6 +643,10 @@ void TexamExecutor::checkAnswer(bool showResults) {
 		if (m_exercise) {
 			waitTime = gl->E->correctViewDuration; // user has to have time to see his mistake and correct answer
 			m_exercise->checkAnswer();
+			if (m_exercise->readyToExam()) {
+				exerciseToExam();
+				return;
+			}
 			if (!curQ.isCorrect()) { // correcting wrong answer
 					if (mW->correctChB->isChecked())
 						correctAnswer();
@@ -877,13 +837,7 @@ void TexamExecutor::repeatQuestion() {
 
 
 void TexamExecutor::prepareToExam() {
-		if (m_exercise) {
-			mW->setWindowTitle(tr("Exercises with Nootka"));
-			mW->setStatusMessage(tr("You are exercising on level") + ":<br><b>" + m_level.name + "</b>");
-		} else {
-			mW->setWindowTitle(tr("EXAM!") + " " + m_exam->userName() + " - " + m_level.name);
-			mW->setStatusMessage(tr("Exam started on level") + ":<br><b>" + m_level.name + "</b>");
-		}
+		setTitleAndTexts();
 		mW->settingsAct->setVisible(false);
 		mW->aboutAct->setVisible(false);
     mW->analyseAct->setVisible(false);
@@ -893,10 +847,6 @@ void TexamExecutor::prepareToExam() {
 		mW->levelCreatorAct->setToolTip(mW->levelCreatorAct->statusTip());
     mW->startExamAct->setIcon(QIcon(gl->path + "picts/stopExam.png"));
     mW->startExamAct->setText(tr("Stop"));
-		if (m_exercise)
-				mW->startExamAct->setStatusTip(tr("finish exercising"));
-		else 
-				mW->startExamAct->setStatusTip(tr("stop the exam"));
 		mW->startExamAct->setToolTip(mW->startExamAct->statusTip());
     mW->autoRepeatChB->show();
     mW->autoRepeatChB->setChecked(gl->E->autoNextQuest);
@@ -1084,6 +1034,32 @@ void TexamExecutor::createActions() {
 }
 
 
+void TexamExecutor::exerciseToExam() {
+	m_isAnswered = true;
+	qApp->installEventFilter(m_supp);
+	QString userName = m_exam->userName();
+	delete m_exam;
+	m_exam = new Texam(&m_level, userName);
+	m_penalCount = 0;				
+	updatePenalStep();
+	delete m_exercise;
+	m_exercise = 0;
+	setTitleAndTexts();
+	mW->correctChB->hide();
+	mW->examResults->startExam();
+	mW->progress->activate(m_exam->count(), m_supp->obligQuestions(), m_exam->penalty(), m_exam->isFinished());
+	disconnect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExerciseSlot()));
+	connect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
+	mW->progress->show();
+	mW->examResults->show();
+	clearWidgets();
+	m_canvas->clearCanvas();
+	if(gl->hintsEnabled)
+        m_canvas->startTip();
+}
+
+
+
 void TexamExecutor::stopExerciseSlot() {
 		bool askAfter = m_askingTimer->isActive();
 		m_askingTimer->stop(); // stop questioning, if any
@@ -1104,9 +1080,14 @@ void TexamExecutor::stopExerciseSlot() {
 			Tnote::EnameStyle tmpStyle = gl->NnameStyleInNoteName;
       gl->NnameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show charts in user defined style  
       
+      bool startExam = false;
       if (!m_goingClosed)
-					continuePractice = showExamSummary(true);			
+					continuePractice = showExamSummary(true, &startExam);
 			gl->NnameStyleInNoteName = tmpStyle;
+			if (startExam) {
+					exerciseToExam();
+					return;
+			}
 			if (!m_isAnswered && continuePractice) {
 					m_exam->addQuestion(lastQuestion); // add previously deleted
 					mW->examResults->go();
@@ -1118,8 +1099,9 @@ void TexamExecutor::stopExerciseSlot() {
 			qApp->installEventFilter(m_supp);
 			return;
 		}
-		m_exam->saveToFile();
-		gl->E->prevExerciseLevel = m_level.name;
+		if (m_exam->count())
+				m_exam->saveToFile();
+		gl->E->prevExerciseLevel = m_level.name; // TODO easy to remove - see in TstartExamDlg
 		closeExecutor();
 }
 
@@ -1144,7 +1126,7 @@ void TexamExecutor::stopExamSlot() {
 				if (gl->E->closeWithoutConfirm) {
 					QString fName = QDir::toNativeSeparators(gl->E->examsDir + "/" + m_exam->userName() + "-" + m_level.name);
 					if (QFileInfo(fName  + ".noo").exists())
-						fName += "-" + QDateTime::currentDateTime().toString();
+						fName += "-" + QDateTime::currentDateTime().toString("dd MMM hh:mm:ss");
 					m_exam->setFileName(fName + ".noo");
 					qDebug() << tr("Exam file was saved to:") << m_exam->fileName();
 				} else {
@@ -1254,11 +1236,17 @@ void TexamExecutor::autoRepeatStateChanged(bool enable) {
 }
 
 
-bool TexamExecutor::showExamSummary(bool cont) {
+bool TexamExecutor::showExamSummary(bool cont, bool* startExam) {
   TexamSummary *ES = new TexamSummary(m_exam, gl->path, cont, mW);
 	if (m_exercise)
 			ES->setForExercise();
   TexamSummary::Eactions respond = ES->exec();
+	if (startExam) {
+		if (respond == TexamSummary::e_startExam)
+			*startExam = true;
+		else
+			*startExam = false;
+	}
   delete ES;
   if (respond == TexamSummary::e_discard)
     return false;
@@ -1394,6 +1382,22 @@ void TexamExecutor::delayerTip() {
 	m_lockRightButt = false;
 	m_canvas->whatNextTip(true); 
 }
+
+
+
+void TexamExecutor::setTitleAndTexts() {
+	if (m_exercise) {
+			mW->setWindowTitle(tr("Exercises with Nootka"));
+			mW->setStatusMessage(tr("You are exercising on level") + ":<br><b>" + m_level.name + "</b>");
+			mW->startExamAct->setStatusTip(tr("finish exercising"));
+		} else {
+			mW->setWindowTitle(tr("EXAM!") + " " + m_exam->userName() + " - " + m_level.name);
+			mW->setStatusMessage(tr("Exam started on level") + ":<br><b>" + m_level.name + "</b>");
+			mW->startExamAct->setStatusTip(tr("stop the exam"));
+	}
+}
+
+
 
 
 
