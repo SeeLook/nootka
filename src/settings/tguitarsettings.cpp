@@ -302,6 +302,7 @@ void TguitarSettings::onClefChanged(Tclef clef) {
 void TguitarSettings::switchedToPianoStaff() {
 		updateAmbitus();
 		updateNotesState();
+		m_tuneView->setNoteDisabled(6, true);
 		emit clefChanged(currentClef());
 		emit lowestNoteChanged(m_tuneView->lowestNote());
 }
@@ -359,6 +360,10 @@ void TguitarSettings::instrumentTypeChanged(int index) {
 			m_stringNrSpin->setValue(Ttune::bassTunes[0].stringNr());
 	} else {
 			guitarDisabled(true);
+			for (int i = 0; i < 6; i++) {
+				m_tuneView->clearNote(i);
+				m_tuneView->clearStringNumber(i);
+			}
 	}
 	if ((Einstrument)index != e_noInstrument) {
 		if (!m_accidGroup->isEnabled())
@@ -390,7 +395,8 @@ void TguitarSettings::updateNotesState() {
 		Ttune *tmpTune = new Ttune();
 		grabTuneFromScore(tmpTune);
 		for (int i = 0; i < 6; i++) {
-			if (i >= 6 - tmpTune->stringNr()) {
+// 			if (i >= 6 - tmpTune->stringNr()) {
+			if (i >= 6 - m_stringNrSpin->value()) {
 					if (m_tuneView->getNote(i).note == 0) {
 						m_tuneView->setNote(i, m_tuneView->lowestNote());
 						userTune(0, Tnote());

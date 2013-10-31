@@ -575,7 +575,7 @@
     <message>
         <location filename="../src/music/ttune.cpp" line="46"/>
         <source>5-str. bass: B E A D G</source>
-        <translation>Bass 5-str.: H E A D G</translation>
+        <translation>Bas 5-str.: H E A D G</translation>
     </message>
     <message>
         <location filename="../src/music/ttune.cpp" line="48"/>
