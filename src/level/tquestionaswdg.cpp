@@ -32,6 +32,7 @@ QString TquestionAsWdg::qaTypeText(TQAtype::Etype type) {
     return txt;
 }
 
+
 QString TquestionAsWdg::qaTypeSymbol(TQAtype::Etype type) {
     QString symbol;
     switch (type) {
@@ -43,14 +44,13 @@ QString TquestionAsWdg::qaTypeSymbol(TQAtype::Etype type) {
     return symbol;
 }
 
+
 QString TquestionAsWdg::spanNootka(QString text, int fontSize) {
     QString fs = "";
     if (fontSize) 
       fs = QString("font-size: %1px;").arg(fontSize);
     return QString("<span style=\"font-family: nootka; %1\">").arg (fs) + text + "</span>";
 }
-
-
 
 
 TquestionAsWdg::TquestionAsWdg(TQAtype::Etype type, QGridLayout* gridLay, int row, QWidget* parent) :
@@ -106,22 +106,25 @@ TquestionAsWdg::TquestionAsWdg(TQAtype::Etype type, QGridLayout* gridLay, int ro
     connect(enableChBox, SIGNAL(clicked()), this, SLOT(buttonClicked()));
 }
 
+
 void TquestionAsWdg::buttonClicked() {
-    if (!asNoteChB->isChecked() && !asNameChB->isChecked() &&
-      !asFretPosChB->isChecked() && !asSoundChB->isChecked())
-            setChecked(false);
+    if (!asNoteChB->isChecked() && !asNameChB->isChecked() && !asFretPosChB->isChecked() && !asSoundChB->isChecked())
+				setChecked(false);
     else
-            setChecked(true);
+				setChecked(true);
     emit answerStateChanged();
 }
-
 
 
 void TquestionAsWdg::groupChecked() {
     if (isChecked()) { 
         asNoteChB->setChecked(true);
         asNameChB->setChecked(true);
-        asFretPosChB->setChecked(true);
+				// For this moment only guitar check boxes can be invisible, no need to unchecking others
+				if (asFretPosChB->isVisible())
+						asFretPosChB->setChecked(true);
+				else
+						asFretPosChB->setChecked(false);
         asSoundChB->setChecked(true);
     } else {
         asNoteChB->setChecked(false);
@@ -138,6 +141,7 @@ void TquestionAsWdg::setAnswers(TQAtype types) {
     asSoundChB->setChecked(types.isSound());
 }
 
+
 TQAtype TquestionAsWdg::getAnswers() {
     TQAtype t;
     t.setAsNote(asNoteChB->isChecked());
@@ -146,6 +150,7 @@ TQAtype TquestionAsWdg::getAnswers() {
     t.setAsSound(asSoundChB->isChecked());
     return t;
 }
+
 
 void TquestionAsWdg::setTitle(QString title) {
   questLab->setText(title);

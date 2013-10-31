@@ -64,6 +64,9 @@ public:
     void loadLevel(TexamLevel &level);
     void saveLevel(TexamLevel &level);
 
+				/** Hides options related to guitar  */
+		void hideGuitarRelated();
+		
 signals:
       /** If any GUI element changes this signal is emited. */
     void questSettChanged();
@@ -80,14 +83,15 @@ protected:
     void paintEvent(QPaintEvent*);
 
 private:
-    QWidget *m_tableWdg;
-    QLabel *m_questLab; // QLabel with 'QUESTION' text
-    TverticalLabel *m_answLab; // TverticalLabel with 'ANSWER' text
-    QLabel *m_asSoundLab, *m_soundNooLab, *m_qSoundNooLab;
-    TquestionAsWdg *asNoteWdg, *asNameWdg, *asFretPosWdg, *asSoundWdg;
-    QCheckBox *styleRequiredChB, *octaveRequiredChB, *forceAccChB, *showStrNrChB;
-    QCheckBox *lowPosOnlyChBox, *currKeySignChBox;
-		QComboBox *m_intonationCombo;
+    QWidget 							*m_tableWdg;
+    QLabel 								*m_questLab; // QLabel with 'QUESTION' text
+    TverticalLabel 				*m_answLab; // TverticalLabel with 'ANSWER' text
+    QLabel 								*m_asSoundLab, *m_asFretLab, *m_soundNooLab, *m_qSoundNooLab;
+		QLabel								*m_guitarNooLab, *m_qGuitarNooLab;
+    TquestionAsWdg 				*asNoteWdg, *asNameWdg, *asFretPosWdg, *asSoundWdg;
+    QCheckBox 						*styleRequiredChB, *octaveRequiredChB, *forceAccChB, *showStrNrChB;
+    QCheckBox 						*lowPosOnlyChBox, *currKeySignChBox;
+		QComboBox 						*m_intonationCombo;
 
 private slots:
       /** Every element calls this when clicked. */

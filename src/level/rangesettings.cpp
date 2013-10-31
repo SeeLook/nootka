@@ -98,6 +98,11 @@ rangeSettings::rangeSettings(QWidget *parent) :
     mainLay->addStretch(1);
 
     setLayout(mainLay);
+		
+		if (gl->instrument == e_noInstrument) {
+			fretGr->hide();
+			stringsGr->hide();
+		}
 
     connect (m_scoreRang, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenParamsChanged()));
 		connect (m_scoreRang, SIGNAL(clefChanged(Tclef)), this, SLOT(whenParamsChanged()));

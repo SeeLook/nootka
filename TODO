@@ -11,13 +11,11 @@ ISSUES
 
 			
 TODOES
-- analyze of exercise in recent files menu of Analyzer
 - check is saving and checking existence of exercise.noo works under win
 - update screen-shoot image in exam help
 - force 'Plasique' style under MacOs or find a way on buttons
 - selecting clef for non guitar in wizard
 - suggestion algorithm has to be done
-- decrease obligatory questions number
 - animations have to be more organic and with common view
 - lock q/a as guitar for non guitar
 - force a maximum score width especially for 4:3 ratios

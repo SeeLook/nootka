@@ -187,7 +187,7 @@ void TexamSummary::setForExercise() {
 void TexamSummary::analyseSlot() {
 	TanalysDialog *AD = new TanalysDialog(m_exam, parentWidget());
 	if (m_examButton)
-			AD->setWindowTitle(tr("Analysis of exercise"));
+			AD->setWindowTitle(AD->analyseExerciseWinTitle());
 	AD->exec();
 	delete AD;
 }

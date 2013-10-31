@@ -184,11 +184,18 @@ TguitarSettings::~TguitarSettings() {
 
 
 void TguitarSettings::saveSettings() {
+		gl->instrument = (Einstrument)m_instrumentTypeCombo->currentIndex();
     gl->GisRightHanded = m_righthandCh->isChecked();
     gl->GfretsNumber = m_fretsNrSpin->value();
-		Ttune tmpTune = Ttune(m_tuneCombo->currentText(), m_tuneView->getNote(5), m_tuneView->getNote(4),
+		Ttune *tmpTune;
+		if (gl->instrument != e_noInstrument)
+			tmpTune = new Ttune(m_tuneCombo->currentText(), m_tuneView->getNote(5), m_tuneView->getNote(4),
 											m_tuneView->getNote(3), m_tuneView->getNote(2), m_tuneView->getNote(1), m_tuneView->getNote(0));
-    gl->setTune(tmpTune);
+		else // instrument scale bounded to clef possibility TODO remove when guitar won't be created at all
+			tmpTune = new Ttune("scale", Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0),
+									m_tuneView->lowestNote(),Tnote(m_tuneView->highestNote().getChromaticNrOfNote() - m_fretsNrSpin->value()));
+    gl->setTune(*tmpTune);
+		delete tmpTune;
     gl->GshowOtherPos = m_morePosCh->isChecked();
     if (m_prefFlatBut->isChecked()) 
 				gl->GpreferFlats = true;
@@ -197,7 +204,6 @@ void TguitarSettings::saveSettings() {
     gl->GfingerColor = m_pointColorBut->getColor();
     gl->GfingerColor.setAlpha(200);
     gl->GselectedColor = m_selColorBut->getColor();
-		gl->instrument = (Einstrument)m_instrumentTypeCombo->currentIndex();
 }
 
 

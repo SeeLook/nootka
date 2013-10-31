@@ -62,6 +62,9 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
     stackLayout->addWidget(accSett);
     stackLayout->addWidget(rangeSett);
 		
+		if (gl->instrument == e_noInstrument)
+			questSett->hideGuitarRelated();
+		
     hint->setFixedHeight(fontMetrics().boundingRect("A").height() * 4);
 
     connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
@@ -122,8 +125,8 @@ void TlevelCreatorDlg::saveToFile() {
           newLevel.answersAs[TQAtype::e_asName].isSound() ||
           newLevel.answersAs[TQAtype::e_asFretPos].isSound() ||
           newLevel.answersAs[TQAtype::e_asSound].isSound()) ) {  
-      // adjust frets' range - validator will skip it for non guitar level
-      newLevel.loFret = 0; // Set range to frets number and rest will do function preparing questions list
+      // adjust fret range - validation will skip it for non guitar level
+      newLevel.loFret = 0; // Set range to fret number and rest will be done by function preparing question list
       newLevel.hiFret = gl->GfretsNumber;
       newLevel.onlyLowPos = true; // otherwise the above invokes doubled/tripled questions in the list
     // set all strings as available
