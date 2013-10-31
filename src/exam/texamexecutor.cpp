@@ -969,6 +969,8 @@ void TexamExecutor::restoreAfterExam() {
     connect(mW->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
     connect(mW->levelCreatorAct, SIGNAL(triggered()), mW, SLOT(openLevelCreator()));
     mW->score->unLockScore();
+		// unfortunately, unLockScore locks clef again
+		mW->score->setClefDisabled(false);
     mW->guitar->deleteRangeBox();
     mW->sound->restoreAfterExam();
     mW->clearAfterExam();
@@ -1123,8 +1125,11 @@ void TexamExecutor::stopExamSlot() {
     qApp->removeEventFilter(m_supp);
 		if (m_exam->count()) {
 			if (m_exam->fileName() != "") {
-				if(!QFile::isWritable(m_exam->fileName()))
+// 				QFile ef(m_exam->fileName());
+				if(!QFileInfo(m_exam->fileName()).isWritable()) {
+					qDebug() << "Can't write to file. Another name is needed";
 					m_exam->setFileName("");
+				}
 			}
 			if (m_exam->fileName() == "") {
 				if (gl->E->closeWithoutConfirm) {
@@ -1132,7 +1137,6 @@ void TexamExecutor::stopExamSlot() {
 					if (QFileInfo(fName  + ".noo").exists())
 						fName += "-" + QDateTime::currentDateTime().toString("dd MMM hh:mm:ss");
 					m_exam->setFileName(fName + ".noo");
-					qDebug() << tr("Exam file was saved to:") << m_exam->fileName();
 				} else {
 					m_exam->setFileName(saveExamToFile());
 					if (m_exam->fileName() != "")
