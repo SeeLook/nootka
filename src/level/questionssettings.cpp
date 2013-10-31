@@ -53,9 +53,9 @@ questionsSettings::questionsSettings(QWidget *parent) :
     QLabel *asNameLab = new QLabel(TquestionAsWdg::asNameTxt().replace(" ", "<br>"), this);
     asNameLab->setAlignment(Qt::AlignCenter);
     qaLay->addWidget(asNameLab, 0, 3, Qt::AlignBottom);
-    QLabel *asFretLab = new QLabel(TquestionAsWdg::asFretPosTxt().replace(" ", "<br>"), this);
-    asFretLab->setAlignment(Qt::AlignCenter);
-    qaLay->addWidget(asFretLab, 0, 4, Qt::AlignBottom);
+    m_asFretLab = new QLabel(TquestionAsWdg::asFretPosTxt().replace(" ", "<br>"), this);
+    m_asFretLab->setAlignment(Qt::AlignCenter);
+    qaLay->addWidget(m_asFretLab, 0, 4, Qt::AlignBottom);
     m_asSoundLab = new QLabel(TquestionAsWdg::asSoundTxt().replace(" ", "<br>"), this);
     m_asSoundLab->setAlignment(Qt::AlignCenter);
     qaLay->addWidget(m_asSoundLab, 0, 5, Qt::AlignBottom);
@@ -75,9 +75,9 @@ questionsSettings::questionsSettings(QWidget *parent) :
     QLabel *nameNooLab = new QLabel("c?", this);
     nameNooLab->setFont(nf);
     qaLay->addWidget(nameNooLab, 2, 6, Qt::AlignCenter);
-    QLabel *guitarNooLab = new QLabel("g?", this);
-    guitarNooLab->setFont(nf);
-    qaLay->addWidget(guitarNooLab, 3, 6, Qt::AlignCenter);
+    m_guitarNooLab = new QLabel("g?", this);
+    m_guitarNooLab->setFont(nf);
+    qaLay->addWidget(m_guitarNooLab, 3, 6, Qt::AlignCenter);
     m_soundNooLab = new QLabel("n?", this);
     m_soundNooLab->setFont(nf);
     qaLay->addWidget(m_soundNooLab, 4, 6);
@@ -88,9 +88,9 @@ questionsSettings::questionsSettings(QWidget *parent) :
     QLabel *qNmeNooLab = new QLabel("c!", this);
     qNmeNooLab->setFont(nf);
     qaLay->addWidget(qNmeNooLab, 5, 3, Qt::AlignCenter);
-    QLabel *qGuitarNooLab = new QLabel("g!", this);
-    qGuitarNooLab->setFont(nf);
-    qaLay->addWidget(qGuitarNooLab, 5, 4, Qt::AlignCenter);
+    m_qGuitarNooLab = new QLabel("g!", this);
+    m_qGuitarNooLab->setFont(nf);
+    qaLay->addWidget(m_qGuitarNooLab, 5, 4, Qt::AlignCenter);
     m_qSoundNooLab = new QLabel("n!", this);
     m_qSoundNooLab->setFont(nf);
     qaLay->addWidget(m_qSoundNooLab, 5, 5);
@@ -206,6 +206,22 @@ void questionsSettings::whenParamsChanged() {
         isNotSaved = true;
         emit questSettChanged();
     }
+}
+
+
+void questionsSettings::hideGuitarRelated() {
+		asFretPosWdg->enableChBox->hide();
+		asFretPosWdg->asNoteChB->hide();
+		asFretPosWdg->asNameChB->hide();
+		asFretPosWdg->asFretPosChB->hide();
+		asFretPosWdg->asSoundChB->hide();
+		asFretPosWdg->questLab->hide();
+		asNoteWdg->asFretPosChB->hide();
+		asNameWdg->asFretPosChB->hide();
+		asSoundWdg->asFretPosChB->hide();
+		m_asFretLab->hide();
+		m_qGuitarNooLab->hide();
+		m_guitarNooLab->hide();
 }
 
 

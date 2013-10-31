@@ -47,8 +47,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
     m_wasExamCreated(false),
     m_isMaximized(false)
 {
- 
-  setWindowTitle(tr("Analysis of exam results"));
+  setWindowTitle(analyseExamWinTitle());
   setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint);
   setGeometry(parent->geometry());
   QVBoxLayout *lay = new QVBoxLayout;
@@ -213,10 +212,18 @@ void TanalysDialog::loadExam(QString& examFile) {
 void TanalysDialog::createActions() {
     QMenu *openMenu = new QMenu("open exam file", this);
     QAction *openAct = new QAction(tr("Open an exam to analyze"), this);
-    openAct->setIcon(QIcon(gl->path + "picts/charts.png"));
+			openAct->setIcon(QIcon(gl->path + "picts/charts.png"));
     openMenu->addAction(openAct);
-    connect(openAct, SIGNAL(triggered()), this, SLOT(loadExamSlot()));
+			connect(openAct, SIGNAL(triggered()), this, SLOT(loadExamSlot()));
     openMenu->addSeparator();
+		QString exerciseFile = QDir::toNativeSeparators(QFileInfo(gl->config->fileName()).absolutePath() + "/exercise.noo");
+		if (QFileInfo(exerciseFile).exists()) {
+			QAction *exerciseAct = new QAction(tr("Recent exercise on level") + " " + gl->E->prevExerciseLevel, this);
+			exerciseAct->setIcon(QIcon(gl->path + "picts/practice.png"));
+			connect(exerciseAct, SIGNAL(triggered()), this, SLOT(openRecentExercise()));
+			openMenu->addAction(exerciseAct);
+			openMenu->addSeparator();
+		}
     openMenu->addAction(tr("recent opened exams:"));
     QStringList recentExams = gl->config->value("recentExams").toStringList();
     for (int i = 0; i < recentExams.size(); i++) {
@@ -343,8 +350,17 @@ void TanalysDialog::loadExamSlot() {
   if (fileName != "") {
       gl->E->examsDir = QFileInfo(fileName).absoluteDir().absolutePath();
       loadExam(fileName);
+			setWindowTitle(analyseExamWinTitle());
   }
 }
+
+
+void TanalysDialog::openRecentExercise() {
+	setWindowTitle(analyseExerciseWinTitle());
+	QString exerciseFile = QDir::toNativeSeparators(QFileInfo(gl->config->fileName()).absolutePath() + "/exercise.noo");
+	loadExam(exerciseFile);
+}
+
 
 
 void TanalysDialog::openRecentExam() {
@@ -352,6 +368,7 @@ void TanalysDialog::openRecentExam() {
         if (action) {
             QString file = action->text();
             loadExam(file);
+						setWindowTitle(analyseExamWinTitle());
         }
 }
 

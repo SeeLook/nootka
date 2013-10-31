@@ -43,6 +43,10 @@ public:
   
   void loadExam(QString &examFile); // loads exam from given file name
   void setExam(Texam *exam);  // loads exam from variable
+	
+	
+	static QString analyseExamWinTitle() { return tr("Analysis of exam results"); }
+	static QString analyseExerciseWinTitle() { return tr("Analysis of exercise"); }
     
 protected:
   void resizeEvent(QResizeEvent *);
@@ -56,6 +60,7 @@ protected slots:
   void includeWrongSlot();
   void analyseChanged(int index);
   void openRecentExam();
+	void openRecentExercise();
   void moreLevelInfo();
   void maximizeWindow();
   void chartTypeChanged();

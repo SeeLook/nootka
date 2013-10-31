@@ -33,14 +33,14 @@ levelSettings::levelSettings(QString &imgPath, QWidget *parent) :
     mainLay->addStretch(1);
 
     QHBoxLayout *butLay = new QHBoxLayout;
-    saveBut = new QPushButton(QIcon(imgPath+"picts/notSaved.png"), tr("Save"),this);
+    saveBut = new QPushButton(QIcon(imgPath + "picts/notSaved.png"), tr("Save"),this);
     saveBut->setIconSize(QSize(48, 48));
-    saveBut->setStatusTip(tr("Save level's settings to file"));
+    saveBut->setStatusTip(tr("Save level settings to file"));
     butLay->addWidget(saveBut);
     // Start an exam button
-    startExamBut = new QPushButton(QIcon(imgPath+"picts/startExam.png"), tr("Start an exam"), this);
+    startExamBut = new QPushButton(QIcon(imgPath + "picts/startExam.png"), tr("Start!"), this);
     startExamBut->setIconSize(QSize(48, 48));
-    startExamBut->setStatusTip(tr("Start an exam on selected level"));
+    startExamBut->setStatusTip(tr("Start an exam or an exercise on selected level"));
     startExamBut->setDisabled(true);
     butLay->addWidget(startExamBut);
 

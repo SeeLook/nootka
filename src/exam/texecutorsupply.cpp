@@ -103,11 +103,11 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
                 Tnote n = Tnote(gl->Gtune()->str(gl->strOrder(s) + 1).getChromaticNrOfNote() + f);
             if (n.getChromaticNrOfNote() >= m_level->loNote.getChromaticNrOfNote() &&
                 n.getChromaticNrOfNote() <= m_level->hiNote.getChromaticNrOfNote()) {
-                bool hope = true; // we stil have hope that note is for an exam
+                bool hope = true; // we still have hope that note is for an exam
                 if (m_level->onlyLowPos) {
                     if (s > 0) {
                        // we have to check when note is on the lowest positions
-                       // is it realy lowest pos
+                       // is it really lowest pos
                        // when strOrder[s] is 0 - it is the highest sting
                         char diff = openStr[gl->strOrder(s-1)] - openStr[gl->strOrder(s)];
                        if( (f-diff) >= m_level->loFret && (f-diff) <= m_level->hiFret) {
@@ -145,10 +145,10 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
         }
     }
 
-//    for (int i = 0; i < list.size(); i++)
-//        qDebug() << i << (int)list[i].pos.str() << "f"
-//                << (int)list[i].pos.fret() << " note: "
-//                << QString::fromStdString(list[i].note.getName());
+   for (int i = 0; i < list.size(); i++)
+       qDebug() << i << (int)list[i].pos.str() << "f"
+               << (int)list[i].pos.fret() << " note: "
+               << QString::fromStdString(list[i].note.getName());
 
   // generate m_fretFretList if needed
     m_fretFretList.clear();
@@ -161,19 +161,15 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
             m_fretFretList << (quint16)i;
       }
       qDebug() << "question list for only guitar created\nnumber:" << m_fretFretList.size() <<
-          " amoung:" << list.size();
+          " among:" << list.size();
     }
     
     qsrand(QDateTime::currentDateTime().toTime_t());
     
-    
-    m_obligQuestNr = qMax(list.size() * 5, 20);
-//     qDebug() << "question number:" << list.size();
+    m_obligQuestNr = qMax(list.size() * 3, 20);
     if (m_level->useKeySign && !m_level->isSingleKey)
         m_obligQuestNr = qMax(m_obligQuestNr, (m_level->hiKey.value() - m_level->loKey.value() + 1) * 5);
-//     qDebug() << "possible x 5" << qaPossibilitys() * 5;
-    m_obligQuestNr = qMax(qaPossibilitys() * 5, m_obligQuestNr);
-
+    m_obligQuestNr = qMax(qaPossibilitys() * 3, m_obligQuestNr);
 }
 
 
@@ -225,6 +221,7 @@ Tnote TexecutorSupply::determineAccid(Tnote n) {
     return nA;
 }
 
+
 Tnote TexecutorSupply::forceEnharmAccid(Tnote n) {
     Tnote nX;
     char acc = m_prevAccid;
@@ -249,6 +246,7 @@ Tnote TexecutorSupply::forceEnharmAccid(Tnote n) {
         return nX;
     else return n;
 }
+
 
 Tnote::EnameStyle TexecutorSupply::randomNameStyle(int style) {
     if (style != -1)
