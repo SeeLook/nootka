@@ -19,6 +19,7 @@
 
 #include "tstartexamdlg.h"
 #include "texamparams.h"
+#include "texam.h"
 #include "tlevelselector.h"
 #include "levelsettings.h"
 #include <widgets/troundedlabel.h>
@@ -159,14 +160,26 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
     }
 		
 		updateButtonStatusText("");
-		m_settings = QDir::toNativeSeparators(QFileInfo(sett.fileName()).absolutePath() + "/exercise.noo");
-		if (QFileInfo(m_settings).exists()) {
+		QString exerciseFile = QDir::toNativeSeparators(QFileInfo(sett.fileName()).absolutePath() + "/exercise.noo");
+		bool continuePosiible = false;
+		if (QFileInfo(exerciseFile).exists()) {
+				TexamLevel l;
+				Texam exam(&l, "");
+        Texam::EerrorType err = exam.loadFromFile(exerciseFile);
+        if (err == Texam::e_file_OK || err == Texam::e_file_corrupted) {
+						continuePosiible = true; // TODO prevExerciseLevel makes no sense - level name is taken from real file
+						m_examParams->prevExerciseLevel = exam.level()->name;
+				} else {
+					qDebug() << "exercise file was corrupted... and deleted...";
+					QFile::remove(exerciseFile);
+				}
+		}
+		if (continuePosiible)
 				m_contExerciseButt->setStatusTip(m_contExerciseButt->text() + "<br>" +
 															tr("on level:") + " <b>" + m_examParams->prevExerciseLevel + "</b>");
-		} else
+		else
 				m_contExerciseButt->setDisabled(true);
-		m_contExamButt->setStatusTip(m_contExamButt->text() + "<br>" +
-                                                tr("on level:") + " <b>" + m_examCombo->currentText() + "</b>");
+		m_contExamButt->setStatusTip(m_contExamButt->text() + "<br>" + " <b>" + m_examCombo->currentText() + "</b>");
 		
     connect(m_levelsView, SIGNAL(levelToLoad()), this, SLOT(levelToLoad()));
     connect(m_cancelBut, SIGNAL(clicked()), this, SLOT(reject()));

@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "texecutorsupply.h"
+#include "texam.h"
 #include "tglobals.h"
 #include "texamlevel.h"
 #include <ttune.h>
@@ -26,6 +27,33 @@
 #include <QDebug>
 
 extern Tglobals *gl;
+
+/*static*/
+void TexecutorSupply::checkGuitarParamsChanged(QWidget* parent, Texam* exam) {
+	QString changesMessage = "";
+	if (exam->level()->instrument != e_noInstrument) {
+			if (exam->level()->instrument != gl->instrument)
+					changesMessage = tr("Guitar type was changed!");
+			if (exam->tune() != *gl->Gtune() ) { //Is tune the same?
+				if (changesMessage != "")
+							changesMessage += "<br><br>";
+					Ttune tmpTune = exam->tune();
+					gl->setTune(tmpTune);
+					changesMessage = tr("Tuning of the guitar was changed to:") + "<br><b> " + gl->Gtune()->name + ".</b>";
+			}
+			if (exam->level()->hiFret > gl->GfretsNumber) { //Are enough frets?
+				if (changesMessage != "")
+							changesMessage += "<br><br>";
+						changesMessage += tr("Guitar fret number was changed.");
+						gl->GfretsNumber = exam->level()->hiFret;
+			}
+	}
+	if (changesMessage != "")
+			QMessageBox::warning(parent, "Nootka", changesMessage);
+}
+
+
+
 
 TexecutorSupply::TexecutorSupply(TexamLevel* level, QObject* parent) :
   QObject(parent),

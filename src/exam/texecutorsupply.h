@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,10 +23,12 @@
 #include <QObject>
 #include "tqaunit.h"
 
+class Texam;
+class QWidget;
 class TexamLevel;
 
 /** A purpose of this class is to make the exam executor smaller.
- * Also it has eventFilter() reimplementation to manage right mouse button,
+ * Also it has eventFilter() re-implementation to manage right mouse button,
  * witch can not be simply captured by contextMenuEvent from disabled widgets. */
 class TexecutorSupply : public QObject
 {
@@ -38,25 +40,36 @@ public:
   Tnote determineAccid(Tnote n);
         /** */
   Tnote forceEnharmAccid(Tnote n);
+	
     /** Switches given style to opposite (letters or solfege).
-     * If none specified, gives oppositte to previous returned. */
+     * If none specified, gives opposite to previous returned. */
   Tnote::EnameStyle randomNameStyle(int style = -1);
+	
     /** Returns list with possible positions of a note on given position.
      * Given fingerPos (position) is not included.
      * If strCheck is true it is excluding strings unvailable in a level. */
   void getTheSamePos(TfingerPos &fingerPos, QList<TfingerPos> &posList, bool strCheck = true);
+	
     /** Returns randomized number in questions list proper for question and answer on the guitar. */
   quint16 getQAnrForGuitarOnly() { return m_fretFretList[qrand() % m_fretFretList.size()]; }
+  
     /** Returns true when qustions and answers as guitar are possible. */
   bool isGuitarOnlyPossible() { return !m_fretFretList.isEmpty(); }
-    /** Useing level settings calculates number of mandatory questions in exam.
+  
+    /** Using level settings calculates number of mandatory questions in exam.
      * It is stored in m_totalQuestNr. */
   int obligQuestions() { return m_obligQuestNr; }
   int qaPossibilitys() { return m_qaPossib; }
+  
       /** Displays message when exam can be finished. */
   void examFinished();
   void setFinished() { m_wasFinished = true;}
   bool wasFinished() { return m_wasFinished; }
+		
+			/** Check. are current guitar fret number and tuning different than exercise or exam level.
+			 * Adjust globals (tune and fret number have to be stored before) and
+			 * Displays message about changes, if any. */
+  static void checkGuitarParamsChanged(QWidget *parent, Texam *exam);
   
   
 signals:
@@ -70,25 +83,32 @@ protected:
   
 private:
   TexamLevel *m_level;
+	
       /** Total number of questions to answer in exam (without penaltys) */
   int m_obligQuestNr;
   int m_qaPossib;
+	
       /** Previous accidental used. */
   Tnote::Eacidentals m_prevAccid;
+	
       /** intervals between asking about double accidentals.
         * By default every forth question is with double adccid.*/
   int m_dblAccidsCntr;
-      /** It counts occurency of e, f, b and c notes
-       * to avoid asking about eis fes his and ces to oftent 
-       * witch occurs in scores rerely. */
+	
+      /** It counts occurrence of e, f, b and c notes
+       * to avoid asking about eis fes his and ces to often 
+       * witch occurs in scores rarely. */
   int m_eisCesCntr;
-        /** to switch nameing style between "do re mi" and "c d e"
+	
+        /** to switch naming style between "do re mi" and "c d e"
         * when question and answer are note name.*/
   bool m_isSolfege;
+	
       /** List of numbers of questions in the questions list that can be 
        * either question as position or answer. 
-       * The list is initialised in createQuestionsList() method if level has that settings. */
+       * The list is initialized in createQuestionsList() method if level has that settings. */
   QList<quint16> m_fretFretList;
+	
       /** True when message about finished exam was shown. */
   bool m_wasFinished;
       
