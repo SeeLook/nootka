@@ -16,7 +16,6 @@ TODOES
 - check is saving and checking existence of exercise.noo works under win
 - update screen-shoot image in exam help
 - force 'Plasique' style under MacOs or find a way on buttons
-- start exam from exercise
 - selecting clef for non guitar in wizard
 - suggestion algorithm has to be done
 - decrease obligatory questions number
@@ -31,7 +30,7 @@ TODOES
 - in level creator disable 'show string number' when guitar is unavailable 
 - add shadows under strings on pickup
 - do not transform pickup image for lefthanded - just change its pos
-- keep exam file in /tmp and restore it when crash or so
+
 - finish exam tip and saving it (image) to file
 
 - make order with jack (thread-ise input, format conversion)
@@ -49,8 +48,9 @@ TSTARTEXAMDLG
 
 
 TEXAMEXECUTOR
-	- check is possible to given exam file
 	- enable/disable sniffing durning exams (specially when no input is required)
   - think about hide octave in note name format when octaves are not required in answers. 
      Also for questions in "hint" - don't show octave when only name is required   
     
+Somewhere in time
+- keep exam file in /tmp and restore it when crash or so

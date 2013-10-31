@@ -1122,6 +1122,10 @@ void TexamExecutor::stopExamSlot() {
     mW->sound->wait();
     qApp->removeEventFilter(m_supp);
 		if (m_exam->count()) {
+			if (m_exam->fileName() != "") {
+				if(!QFile::isWritable(m_exam->fileName()))
+					m_exam->setFileName("");
+			}
 			if (m_exam->fileName() == "") {
 				if (gl->E->closeWithoutConfirm) {
 					QString fName = QDir::toNativeSeparators(gl->E->examsDir + "/" + m_exam->userName() + "-" + m_level.name);
