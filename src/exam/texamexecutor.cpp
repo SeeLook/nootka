@@ -232,7 +232,6 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
         restoreAfterExam();
         return;
     }
-    qDebug() << "executor created";
     /*
        for (int i = 0; i < m_exam->blacList()->size(); i++)
           if (m_exam->blacList()->operator[](i).questionAs == m_exam->blacList()->operator[](i).answerAs)
@@ -248,7 +247,6 @@ TexamExecutor::~TexamExecutor() {
 				delete m_supp;
 		delete m_glStore;
 		deleteExam();
-		qDebug() << "executor deleted";
 }
 
 
