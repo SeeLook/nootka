@@ -99,11 +99,10 @@ void TsimpleScore::setNote(int index, Tnote note) {
 
 void TsimpleScore::clearNote(int index) {
 	m_staff->noteSegment(index)->markNote(-1);
-//   m_staff->noteSegment(index)->hideNote();
-  setNote(index, Tnote(0, 0, 0));
 	if (m_staff->lower()) {
 		m_staff->lower()->noteSegment(index)->markNote(-1);
 	}
+	setNote(index, Tnote(0, 0, 0));
 }
 
 

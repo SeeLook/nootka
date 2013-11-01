@@ -180,6 +180,7 @@ SET( NOOTKA_SRCS
 	animations/tcrossfadetextanim.cpp
 	animations/tanimeditem.cpp
 	animations/tblinkingitem.cpp
+	animations/tthrownitem.cpp
   )
   
 # if(MINGW)
@@ -280,6 +281,7 @@ SET( NOOTKA_MOC_SRCS
 	animations/tanimeditem.h
 	animations/tcrossfadetextanim.h
 	animations/tblinkingitem.h
+	animations/tthrownitem.h
 )
   
 

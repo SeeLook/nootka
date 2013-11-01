@@ -322,9 +322,9 @@ void TnoteName::clearNoteName() {
 void TnoteName::correctName(Tnote& goodName, const QColor& color, bool isWrong) {
 		m_goodNote = goodName;
 		m_blinkingPhase = 0;
-		if (isWrong)
+		if (isWrong) {
 			m_nameLabel->blinkCross(QColor(color.name()));
-		else
+		} else
 			m_nameLabel->blinkingText(2);
 }
 
@@ -508,10 +508,10 @@ void TnoteName::correctAnimationFinished() {
 
 
 void TnoteName::invokeBlinkingAgain() {
+	disconnect(m_nameLabel, SIGNAL(throwingFinished()), this, SLOT(correctAnimationFinished()));
 	if (m_notes[0] != m_goodNote) {
-		setNoteName(m_goodNote);
 		markNameLabel(QColor(gl->EanswerColor.name()));
-		m_nameLabel->blinkingText(3);
+		m_nameLabel->thrownText(m_goodNote.toRichText(), 150, 150);
 	}
 }
 

@@ -146,10 +146,10 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
 		}
 	}	
 	
-   for (int i = 0; i < list.size(); i++)
-       qDebug() << i << (int)list[i].pos.str() << "f"
-               << (int)list[i].pos.fret() << " note: "
-               << QString::fromStdString(list[i].note.getName());
+//    for (int i = 0; i < list.size(); i++)
+//        qDebug() << i << (int)list[i].pos.str() << "f"
+//                << (int)list[i].pos.fret() << " note: "
+//                << QString::fromStdString(list[i].note.getName());
 
   // generate m_fretFretList if needed
     m_fretFretList.clear();

@@ -23,6 +23,7 @@
 #include <QGraphicsView>
 #include <QGraphicsTextItem>
 
+class TanimedItem;
 class TblinkingItem;
 
 			/**  Returns style sheet text: 
@@ -60,6 +61,7 @@ public:
 signals:
 	void blinkingFinished();
 	void crossFadeingFinished();
+	void throwingFinished();
 	
 public slots:
 	// Animations
@@ -70,6 +72,10 @@ public slots:
 			/** Blinks the text given number of times with period [milliseconds]. 
 			 * Emits blinkingFinished() signal after. */
 	void blinkingText(int count, int period = 150);
+	
+			/** Throws away text item from scene during @p p1time [ms] and brings @p newText back. 
+			 * Emits throwingFinished() after all. */
+	void thrownText(const QString &newText, int p1time = 150, int p2Time = 150);
 	
 protected:
 	virtual void resizeEvent(QResizeEvent* event);
@@ -82,14 +88,17 @@ protected slots:
 	void strikeBlinkingSlot();
 	void crossFadeSlot();
 	void blinkingSlot();
+	void throwingSlot();
+	
 	
 private:
-	int 											m_fadeDuration, m_fadePhase, m_alphaStepOut, m_alphaStepIn;
+	int 											m_fadeDuration, m_fadePhase, m_alphaStepOut, m_alphaStepIn, m_p2Time;
 	QColor 										m_bgColor, m_newBgColor;
 	QString   								m_newText, m_bgColorText, m_styleText;
 	QGraphicsTextItem					*m_textItem;
 	TstrikedOutItem						*m_strikeOut;
 	TblinkingItem							*m_blinking;
+	TanimedItem								*m_throwAnim;
 	QGraphicsSimpleTextItem		*m_questMark, *m_stringNumber;
 	
 };

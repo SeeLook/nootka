@@ -53,8 +53,9 @@ public:
     void moveNote(int pos);
 				/** Sets noteHead at given position and given accidental accidental. */
 		void setNote(int notePos, int accNr);
-				/** Returns bounding rectangle of selected note.  */
+				/** Returns pointer to main note QGraphicsEllipseItem.  */
 		QGraphicsEllipseItem* mainNote() { return m_mainNote; }
+				/** Returns pointer to main accidental QGraphicsSimpleTextItem.  */
 		QGraphicsSimpleTextItem *mainAccid() { return m_mainAccid; }
     
 				/** Min and Max values of Y coefficient on the staff */
@@ -85,6 +86,7 @@ public:
 		
 		void setWorkAccid(int accNr);
 		void enableAnimation(bool enable, int duration = 150);
+		bool animationsEnabled() { return (bool)m_noteAnim; }
     
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     virtual QRectF boundingRect() const;

@@ -19,6 +19,7 @@
 #include "tnotenamelabel.h"
 #include <animations/tstrikedoutitem.h>
 #include <animations/tblinkingitem.h>
+#include <animations/tanimeditem.h>
 #include <tgraphicstexttip.h>
 #include <QGraphicsTextItem>
 #include <QGraphicsEffect>
@@ -45,7 +46,8 @@ TnoteNameLabel::TnoteNameLabel(const QString& text, QWidget* parent) :
 	QGraphicsView(parent),
 	m_strikeOut(0), m_blinking(0),
 	m_questMark(0),
-	m_stringNumber(0)
+	m_stringNumber(0),
+	m_p2Time(0)
 {
   setAttribute(Qt::WA_TransparentForMouseEvents, true);
 	setMouseTracking(false);
@@ -83,9 +85,11 @@ void TnoteNameLabel::setText(const QString& text) {
 
 
 void TnoteNameLabel::center() {
-	m_textItem->setPos((scene()->width() - m_textItem->boundingRect().width() * m_textItem->scale()) / 2,
-				(scene()->height() - m_textItem->boundingRect().height() * m_textItem->scale()) / 2	+ height() / 15.0);
-    update();
+	m_textItem->setPos((width() - m_textItem->boundingRect().width() * m_textItem->scale()) / 2,
+				(scene()->height() - m_textItem->boundingRect().height() * m_textItem->scale()) / 2	+ height() / 17.0);
+#if defined(Q_OS_MAC)
+    scene()->update();
+#endif
 }
 
 
@@ -159,6 +163,29 @@ void TnoteNameLabel::blinkingText(int count, int period) {
 	m_blinking->startBlinking(count);
 }
 
+/** When p1time is 0 it starts throwingSlot() immediately - brings new text
+* when p2Time is 0 it only throws text item away */
+void TnoteNameLabel::thrownText(const QString& newText, int p1time, int p2Time) {
+	if (p1time == 0 && p2Time == 0)
+		return; // it could make something bad
+	if (m_questMark) {
+		delete m_questMark;
+		m_questMark = 0;
+	}
+	m_newText = newText;
+	m_p2Time = p2Time;
+	m_throwAnim = 0;
+	if (p1time > 0) {
+		m_throwAnim = new TanimedItem(m_textItem, this);
+		m_throwAnim->setDuration(p1time);
+		m_throwAnim->setEasingCurveType(QEasingCurve::OutExpo);
+		connect(m_throwAnim, SIGNAL(finished()), this, SLOT(throwingSlot()));
+		m_throwAnim->startMoving(m_textItem->pos(), QPointF(width() + 5, m_textItem->pos().y()));
+	} else
+		throwingSlot();
+	scene()->update();
+}
+
 
 void TnoteNameLabel::crossFadeText(const QString& newText, const QColor& newBgColor, int duration) {
 		m_newText = newText;
@@ -206,7 +233,6 @@ void TnoteNameLabel::strikeBlinkingSlot() {
 		m_strikeOut = 0;
 	}
 	emit blinkingFinished();
-	
 }
 
 
@@ -240,6 +266,26 @@ void TnoteNameLabel::blinkingSlot() {
 		m_blinking = 0;
 	}
 	emit blinkingFinished();
+}
+
+
+void TnoteNameLabel::throwingSlot() {
+	if (m_throwAnim)
+			m_throwAnim->deleteLater();
+	if (m_p2Time) { // after first phase (thrown away)
+		m_textItem->setHtml(m_newText);
+		m_throwAnim = new TanimedItem(m_textItem, this);
+		m_throwAnim->setDuration(m_p2Time);
+		m_p2Time = 0;
+		m_throwAnim->setEasingCurveType(QEasingCurve::OutExpo);
+		connect(m_throwAnim, SIGNAL(finished()), this, SLOT(throwingSlot()));
+		m_throwAnim->startMoving(QPointF(m_textItem->boundingRect().width() * (-m_textItem->scale()), m_textItem->pos().y()),
+				QPointF((width() - m_textItem->boundingRect().width() * m_textItem->scale()) / 2, m_textItem->pos().y()));
+	} else { // after second phase (brought back)
+		m_throwAnim = 0;
+		center();
+		emit throwingFinished();
+	}
 }
 
 

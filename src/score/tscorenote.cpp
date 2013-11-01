@@ -187,7 +187,7 @@ void TscoreNote::moveNote(int pos) {
         m_mainAccid->show();
     }
 		if (m_noteAnim) { // initialize animation
-				m_noteAnim->startMoving(QPointF(3.0, m_mainPosY), QPointF(3.0, pos));
+				m_noteAnim->startMoving(m_mainNote->pos(), QPointF(3.0, pos));
 		} else { // just move a note
 			m_mainNote->setPos(3.0, pos);
 		}
@@ -226,9 +226,6 @@ void TscoreNote::moveNote(int pos) {
       else 
         m_mainDownLines[i]->hide();
     }
-// #if defined(Q_OS_MAC) // others Os-es has no problem with this. Mac lives trash.
-//     scoreScene()->update();
-// #endif
 }
 
 
