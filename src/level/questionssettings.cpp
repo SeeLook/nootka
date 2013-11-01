@@ -219,6 +219,8 @@ void questionsSettings::hideGuitarRelated() {
 		asNoteWdg->asFretPosChB->hide();
 		asNameWdg->asFretPosChB->hide();
 		asSoundWdg->asFretPosChB->hide();
+		showStrNrChB->hide();
+		lowPosOnlyChBox->hide();
 		m_asFretLab->hide();
 		m_qGuitarNooLab->hide();
 		m_guitarNooLab->hide();

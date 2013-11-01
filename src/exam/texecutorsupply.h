@@ -80,37 +80,46 @@ protected:
       /** Calculates how many question/answer combinations are posible fffor different types
        * enabled in a level. */
   void calcQAPossibleCount();
+			
+	
+private:
+			/** Checks is given note in level key signature (if single key) 
+			 * or in some key in key signature range */
+	bool isNoteInKey(Tnote &n);
+	
+			/** Appends given note and fret position to question list. */
+	void addToList(QList<TQAunit::TQAgroup> &list, Tnote &n, TfingerPos &f);
   
 private:
-  TexamLevel *m_level;
+  TexamLevel 							*m_level;
 	
       /** Total number of questions to answer in exam (without penaltys) */
-  int m_obligQuestNr;
-  int m_qaPossib;
+  int 										m_obligQuestNr;
+  int 										m_qaPossib;
 	
       /** Previous accidental used. */
-  Tnote::Eacidentals m_prevAccid;
+	Tnote::Eacidentals 			m_prevAccid;
 	
       /** intervals between asking about double accidentals.
         * By default every forth question is with double adccid.*/
-  int m_dblAccidsCntr;
+  int 										m_dblAccidsCntr;
 	
       /** It counts occurrence of e, f, b and c notes
        * to avoid asking about eis fes his and ces to often 
        * witch occurs in scores rarely. */
-  int m_eisCesCntr;
+  int 										m_eisCesCntr;
 	
         /** to switch naming style between "do re mi" and "c d e"
         * when question and answer are note name.*/
-  bool m_isSolfege;
+  bool 										m_isSolfege;
 	
       /** List of numbers of questions in the questions list that can be 
        * either question as position or answer. 
        * The list is initialized in createQuestionsList() method if level has that settings. */
-  QList<quint16> m_fretFretList;
+  QList<quint16> 					m_fretFretList;
 	
       /** True when message about finished exam was shown. */
-  bool m_wasFinished;
+  bool 										m_wasFinished;
       
 };
 

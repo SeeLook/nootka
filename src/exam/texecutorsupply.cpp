@@ -78,73 +78,74 @@ void TexecutorSupply::examFinished() {
 
 
 void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
-    char openStr[6];
+	char openStr[6];
 //       for (int i = 0; i < 6; i++)
-			for (int i = 0; i < gl->Gtune()->stringNr(); i++)
-        openStr[i] = gl->Gtune()->str(i + 1).getChromaticNrOfNote();
-      
-      /** FIXING MISTAKE RELATED WITH A NEW VALIDATION WAY DURING SAVING NEW LEVEL 
-       * When there is no guitar in a level,
-       * add to question list only the lowest position sounds. 
-       * In this way question list contains proper number of questions. */
-    if (!m_level->canBeGuitar() && 
-        !( m_level->answersAs[TQAtype::e_asNote].isSound() ||
-          m_level->answersAs[TQAtype::e_asName].isSound() ||
-          m_level->answersAs[TQAtype::e_asFretPos].isSound() ||
-          m_level->answersAs[TQAtype::e_asSound].isSound()) ) {  // adjust frets' range
-      m_level->onlyLowPos = true;
-    }
+		for (int i = 0; i < gl->Gtune()->stringNr(); i++)
+			openStr[i] = gl->Gtune()->str(i + 1).getChromaticNrOfNote();
+		
+		/** FIXING MISTAKE RELATED WITH A NEW VALIDATION WAY DURING SAVING NEW LEVEL 
+			* When there is no guitar in a level,
+			* add to question list only the lowest position sounds. 
+			* In this way question list contains proper number of questions. */
+	if (!m_level->canBeGuitar() && 
+			!( m_level->answersAs[TQAtype::e_asNote].isSound() ||
+				m_level->answersAs[TQAtype::e_asName].isSound() ||
+				m_level->answersAs[TQAtype::e_asFretPos].isSound() ||
+				m_level->answersAs[TQAtype::e_asSound].isSound()) ) {  // adjust frets' range
+		m_level->onlyLowPos = true;
+	}
 
-// searching all frets in range, string by string
-//     for(int s = 0; s < 6; s++) {
+	if (m_level->canBeGuitar()) {
+// 		qDebug() << "Question list created fret by fret";
 		for(int s = 0; s < gl->Gtune()->stringNr(); s++) {
-        if (m_level->usedStrings[gl->strOrder(s)])// check string by strOrder
-            for (int f = m_level->loFret; f <= m_level->hiFret; f++) {
-                Tnote n = Tnote(gl->Gtune()->str(gl->strOrder(s) + 1).getChromaticNrOfNote() + f);
-            if (n.getChromaticNrOfNote() >= m_level->loNote.getChromaticNrOfNote() &&
-                n.getChromaticNrOfNote() <= m_level->hiNote.getChromaticNrOfNote()) {
-                bool hope = true; // we still have hope that note is for an exam
-                if (m_level->onlyLowPos) {
-                    if (s > 0) {
-                       // we have to check when note is on the lowest positions
-                       // is it really lowest pos
-                       // when strOrder[s] is 0 - it is the highest sting
-                        char diff = openStr[gl->strOrder(s-1)] - openStr[gl->strOrder(s)];
-                       if( (f-diff) >= m_level->loFret && (f-diff) <= m_level->hiFret) {
-                           hope = false; //There is the same note on highest string
-                       }
-                       else {
-                           hope = true;
-                       }
-                    }
-                }
-                if (hope && m_level->useKeySign && m_level->onlyCurrKey) {
-                  hope = false;
-                  if (m_level->isSingleKey) {
-                    if(m_level->loKey.inKey(n).note != 0)
-                        hope = true;
-                    } else {
-                        for (int k = m_level->loKey.value(); k <= m_level->hiKey.value(); k++) {
-                          if (TkeySignature::inKey(TkeySignature(k), n).note != 0) {
-                            hope = true;
-                            break;
-                          }
-                        }
-                    }
-                }
-                if (hope) {
-                    if (n.acidental && (!m_level->withFlats && !m_level->withSharps))
-                        continue;
-                    else {
-                        TQAunit::TQAgroup g;
-                        g.note = n; g.pos = TfingerPos(gl->strOrder(s)+1, f);
-                        list << g;
-                    }
-                }
-            }
-        }
-    }
-
+				if (m_level->usedStrings[gl->strOrder(s)])// check string by strOrder
+						for (int f = m_level->loFret; f <= m_level->hiFret; f++) {
+								Tnote n = Tnote(gl->Gtune()->str(gl->strOrder(s) + 1).getChromaticNrOfNote() + f);
+							if (n.getChromaticNrOfNote() >= m_level->loNote.getChromaticNrOfNote() &&
+										n.getChromaticNrOfNote() <= m_level->hiNote.getChromaticNrOfNote()) {
+								bool hope = true; // we still have hope that note is proper for the level
+								if (m_level->onlyLowPos) {
+									if (s > 0) {
+											// we have to check when note is on the lowest positions.
+											// Is it really lowest position when strOrder[s] is 0 - it is the highest sting
+											char diff = openStr[gl->strOrder(s-1)] - openStr[gl->strOrder(s)];
+											if( (f-diff) >= m_level->loFret && (f-diff) <= m_level->hiFret)
+													hope = false; //There is the same note on highest string
+											else
+													hope = true;
+									}
+								}
+								if (hope && m_level->useKeySign && m_level->onlyCurrKey)
+									hope = isNoteInKey(n);
+								if (hope) {
+										if (n.acidental && (!m_level->withFlats && !m_level->withSharps))
+												continue;
+										else {
+											TfingerPos ff = TfingerPos(gl->strOrder(s) + 1, f);
+											addToList(list, n, ff);
+										}
+								}
+						}
+				}
+		}
+	} else {
+// 		qDebug() << "Question list created note by note";
+		for (int nNr = m_level->loNote.getChromaticNrOfNote(); nNr <= m_level->hiNote.getChromaticNrOfNote(); nNr++) {
+			Tnote n = Tnote(nNr);
+			bool hope = true; // we still have hope that note is proper for the level
+			if (hope && m_level->useKeySign && m_level->onlyCurrKey)
+					hope = isNoteInKey(n);
+			if (hope) {
+				if (n.acidental && (!m_level->withFlats && !m_level->withSharps))
+						continue;
+				else {
+						TfingerPos ff = TfingerPos();
+						addToList(list, n, ff);
+				}
+		}
+		}
+	}	
+	
    for (int i = 0; i < list.size(); i++)
        qDebug() << i << (int)list[i].pos.str() << "f"
                << (int)list[i].pos.fret() << " note: "
@@ -166,10 +167,32 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
     
     qsrand(QDateTime::currentDateTime().toTime_t());
     
-    m_obligQuestNr = qMax(list.size() * 3, 20);
+    m_obligQuestNr = qMax(list.size() * 4, 20);
     if (m_level->useKeySign && !m_level->isSingleKey)
         m_obligQuestNr = qMax(m_obligQuestNr, (m_level->hiKey.value() - m_level->loKey.value() + 1) * 5);
-    m_obligQuestNr = qMax(qaPossibilitys() * 3, m_obligQuestNr);
+    m_obligQuestNr = qMax(qaPossibilitys() * 4, m_obligQuestNr);
+}
+
+
+bool TexecutorSupply::isNoteInKey(Tnote& n) {
+	if (m_level->isSingleKey) {
+		if(m_level->loKey.inKey(n).note != 0)
+				return true;
+		} else {
+				for (int k = m_level->loKey.value(); k <= m_level->hiKey.value(); k++) {
+					if (TkeySignature::inKey(TkeySignature(k), n).note != 0)
+						return true;
+				}
+		}
+	return false;
+}
+
+
+void TexecutorSupply::addToList(QList< TQAunit::TQAgroup >& list, Tnote& n, TfingerPos& f) {
+		TQAunit::TQAgroup g;
+		g.note = n; 
+		g.pos = f;
+		list << g;
 }
 
 
