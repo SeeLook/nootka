@@ -278,11 +278,16 @@ void TmainScore::correctNote(Tnote& goodNote, const QColor& color) {
 		m_goodNote = goodNote;
 		if (staff()->noteSegment(0)->mainNote()->isVisible())
 				m_strikeOut = new TstrikedOutItem(staff()->noteSegment(0)->mainNote());
+		else if (staff()->lower() && staff()->lower()->noteSegment(0)->mainNote()->isVisible())
+				m_strikeOut = new TstrikedOutItem(staff()->lower()->noteSegment(0)->mainNote());
 		else {
-				m_strikeOut = new TstrikedOutItem(QRectF(0.0, 0.0, 
+			qreal mult = 2.0;
+			if (staff()->lower())
+				mult= 1.0;
+			m_strikeOut = new TstrikedOutItem(QRectF(0.0, 0.0, 
 																staff()->noteSegment(0)->boundingRect().width() - 3.0, 8.0), staff()->noteSegment(0));
-				m_strikeOut->setPos((staff()->noteSegment(0)->boundingRect().width() - m_strikeOut->boundingRect().width()) / 2, 
-														(staff()->noteSegment(0)->boundingRect().height() - m_strikeOut->boundingRect().height()) / 2);
+			m_strikeOut->setPos((staff()->noteSegment(0)->boundingRect().width() - m_strikeOut->boundingRect().width()) / 2, 
+														(staff()->noteSegment(0)->boundingRect().height() - m_strikeOut->boundingRect().height()) / mult);
 		}
 		QPen pp(QColor(color.name()), 0.5);
 		m_strikeOut->setPen(pp);

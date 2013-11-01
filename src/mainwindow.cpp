@@ -569,12 +569,10 @@ void MainWindow::updsateSize() {
 			guitar->show();
 			m_rightLay->addWidget(pitchView);
 		}
-		int allWidgetsHeight = m_statLab->height() + progress->height() + examResults->height() + 
-				noteName->height() + guitar->height() + pitchView->height() + 20;
-// 			allWidgetsHeight +=  + 4 * (progress->geometry().bottom() + examResults->geometry().top()); // plus some space
-// 			qDebug() << "all" << allWidgetsHeight << "widget" << height() << "progress" << progress->height() 
-// 					<<  "examResults" << examResults->height();
-		if (allWidgetsHeight < height()) { // move pitchView under noteName
+// 		int allWidgetsHeight = m_statLab->height() + progress->height() + examResults->height() + 
+// 				noteName->height() + guitar->height() + pitchView->height() + 20;
+// 		if (allWidgetsHeight < height()) { // move pitchView under noteName
+		if (score->width() < width() / 2) { // remove pitchView from under score
 			if (m_scoreLay->count() > 1) { // if it is under score
 				m_scoreLay->removeWidget(pitchView);
 				m_rightLay->addWidget(pitchView);

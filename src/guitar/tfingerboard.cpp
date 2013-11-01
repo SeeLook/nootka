@@ -346,6 +346,7 @@ void TfingerBoard::prepareAnswer() {
         m_rangeBox2->show();
 }
 
+
 void TfingerBoard::deleteRangeBox() {
     if (m_rangeBox1) {
         delete m_rangeBox1;
