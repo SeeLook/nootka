@@ -2,7 +2,7 @@ Plan for the Nootka One
 
 
 ISSUES
--practice
+- exercises
 		'not bad' color sometime remains on piano staff
 		
 - sometimes exam doesn't ask mistaken questions again
@@ -11,9 +11,12 @@ ISSUES
 
 			
 TODOES
+. missing correcting of wrong/unclear pitch
 - update screen-shoot image in exam help
 - force 'Plasique' style under MacOs or find a way on buttons
 - selecting clef for non guitar in wizard
+- add repeat answer to exercises
+- show note name during correction
 - suggestion algorithm has to be done
 - animations have to be more organic and with common view
 - force a maximum score width especially for 4:3 ratios
