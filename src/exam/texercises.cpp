@@ -36,11 +36,12 @@ Texercises::Texercises(Texam* exam) :
 }
 
 
-void Texercises::setSuggestionEnabled(int obligateNr) {
-	if (obligateNr > 0) {
-			m_max = qMax(obligateNr / 5, 10); // not less than 10
+void Texercises::setSuggestionEnabled(int qaPosibilities) {
+	if (qaPosibilities > 0) {
+			m_max = qMax(qaPosibilities, 10); // not less than 10
 			m_checkNow = true;
 			m_currentGood = 0;
+			m_prevMistake = 0;
 	} else {
 			m_checkNow = false;
 	}
@@ -52,9 +53,15 @@ void Texercises::checkAnswer() {
 		return;
 	if (m_exam->curQ().isCorrect()) {
 		m_currentGood++;
+		m_prevMistake = 0;
 	} else {
-		m_currentGood = 0;
+		if (m_currentGood > m_max / 2 && m_prevMistake > m_max / 2) // when there were enough good answers
+			m_currentGood = m_max / 2; // forgive single mistake
+		else
+			m_currentGood = 0;
+		m_prevMistake = 0; // but reset mistake counter, so after next one whole cycle will be required
 	}
+	
 	if (m_currentGood == m_max) {
 		TsuggestExam *suggExam = new TsuggestExam();
 		TsuggestExam::Esuggest what = suggExam->suggest();
