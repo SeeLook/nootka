@@ -206,8 +206,8 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* le
       break;
     }
     if (level->requireOctave)
-			if (question.answerAs == TQAtype::e_asName)
-				quest += "<br><nobr>" + tr("Check octave button!") + "</nobr>";
+// 			if (question.answerAs == TQAtype::e_asName)
+// 				quest += "<br><nobr>" + tr("Check octave button!") + "</nobr>";
     if (scale)
       quest += "</p>";
     return quest;

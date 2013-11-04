@@ -34,8 +34,8 @@ public:
 		void checkAnswer();
 		
 				/** Sets checking of exercising progress enabled when @p obligate value is bigger than 0.
-				 * Given value should be obligQuestions() calculated by @class TexecutorSupply  */
-		void setSuggestionEnabled(int obligateNr);
+				 * Given value should be qaPossibilities() calculated by @class TexecutorSupply  */
+		void setSuggestionEnabled(int qaPosibilities);
 		
 				/** Returns user decision when he got message about starting an exam.
 				 * It affects global setting for further suggestions. */
@@ -47,7 +47,7 @@ public:
 private:
 		Texam				*m_exam;
 		bool 				m_chekInFuture, m_checkNow, m_readyToExam;
-		int 				m_max, m_currentGood;
+		int 				m_max, m_currentGood, m_prevMistake;
 
 };
 

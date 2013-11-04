@@ -170,7 +170,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
     m_obligQuestNr = qMax(list.size() * 4, 20);
     if (m_level->useKeySign && !m_level->isSingleKey)
         m_obligQuestNr = qMax(m_obligQuestNr, (m_level->hiKey.value() - m_level->loKey.value() + 1) * 5);
-    m_obligQuestNr = qMax(qaPossibilitys() * 4, m_obligQuestNr);
+    m_obligQuestNr = qMax(qaPossibilities() * 4, m_obligQuestNr);
 }
 
 

@@ -59,7 +59,7 @@ public:
     /** Using level settings calculates number of mandatory questions in exam.
      * It is stored in m_totalQuestNr. */
   int obligQuestions() { return m_obligQuestNr; }
-  int qaPossibilitys() { return m_qaPossib; }
+  int qaPossibilities() { return m_qaPossib; }
   
       /** Displays message when exam can be finished. */
   void examFinished();

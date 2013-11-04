@@ -120,7 +120,7 @@ bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
     in >> lev.useKeySign >> sharedByte;
 		lev.isSingleKey = (bool)(sharedByte % 2);
 		lev.intonation = sharedByte / 2;
-		qDebug() << "isSingleKey" << (int)lev.isSingleKey << "intonation" << lev.intonation;
+// 		qDebug() << "isSingleKey" << (int)lev.isSingleKey << "intonation" << lev.intonation;
     ok = getKeyFromStream(in, lev.loKey);
     ok = getKeyFromStream(in, lev.hiKey);
     in >> lev.manualKey >> lev.forceAccids;

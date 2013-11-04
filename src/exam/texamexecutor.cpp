@@ -193,7 +193,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *le
 				m_exam->setFinished(); // to avoid adding penalties in exercising
 				m_supp->setFinished();
 				if (gl->E->suggestExam)
-					m_exercise->setSuggestionEnabled(m_supp->obligQuestions());
+					m_exercise->setSuggestionEnabled(m_supp->qaPossibilities());
 		} else {
 				m_penalCount = 0;
 				if (m_exam->isFinished()) {
@@ -1037,6 +1037,7 @@ void TexamExecutor::createActions() {
 void TexamExecutor::exerciseToExam() {
 	m_isAnswered = true;
 	qApp->installEventFilter(m_supp);
+	m_exam->saveToFile();
 	QString userName = m_exam->userName();
 	delete m_exam;
 	m_exam = new Texam(&m_level, userName);
@@ -1123,7 +1124,6 @@ void TexamExecutor::stopExamSlot() {
     qApp->removeEventFilter(m_supp);
 		if (m_exam->count()) {
 			if (m_exam->fileName() != "") {
-// 				QFile ef(m_exam->fileName());
 				if(!QFileInfo(m_exam->fileName()).isWritable()) {
 					qDebug() << "Can't write to file. Another name is needed";
 					m_exam->setFileName("");
