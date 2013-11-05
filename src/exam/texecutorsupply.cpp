@@ -95,7 +95,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
 		m_level->onlyLowPos = true;
 	}
 
-	if (m_level->canBeGuitar()) {
+	if (m_level->instrument != e_noInstrument || m_level->showStrNr || m_level->canBeGuitar()) {
 // 		qDebug() << "Question list created fret by fret";
 		for(int s = 0; s < gl->Gtune()->stringNr(); s++) {
 				if (m_level->usedStrings[gl->strOrder(s)])// check string by strOrder

@@ -77,6 +77,7 @@ protected:
 
 protected slots:
     void askQuestion();
+		
         /** If it is called by pressing "check answer" it obviously shows results
         * but if app is closing it only checks answer and save it without displaying results. */
     void checkAnswer(bool showResults = true);
@@ -86,23 +87,31 @@ protected slots:
     void repeatSound();
 		void correctAnswer();
     void autoRepeatStateChanged(bool enable);
+		
         /** Shows exam summary. If returns false - user don't want to continue an exam
 				 * @p startExam is a reference to know does user want to start exam on exercise level. */
     bool showExamSummary(bool cont, bool *startExam = 0);
     void showExamHelp();
     void expertAnswersSlot();
     void expertAnswersStateChanged(bool enable);
+		
         /** Invokes Tsound::go() */
     void startSniffing();
+		
         /** Starts sniffing when asked note is finished */
     void sniffAfterPlaying();
     void rightButtonSlot();
     void tipButtonSlot(QString name);
     void markAnswer(TQAunit &curQ);
+		
 				/** This is QTimer slot invoking m_canvas->whatNextTip(true) method. */
 		void delayerTip();
+		
 				/** Stops exercising and starts exam. */
 		void exerciseToExam();
+		
+				/** Common method called by exercises and exams to disable sniffing, lock right button, etc. */
+		void stopSound();
 
 private:
 		void createActions();
@@ -124,33 +133,42 @@ private:
     
     TexecutorSupply *m_supp; 
     Texam *m_exam;
+		
           /** main instance of TexamLevel, others are pointers or references to it */
     TexamLevel m_level;
     QList<TQAunit::TQAgroup> m_questList;
+		
           /** Invokes startSniffing() and stopPlaying() after delay
            * to avoid feedback between played question and listened answer. */
     QTimer *m_soundTimer, *m_askingTimer;
     Tnote::EnameStyle m_prevQuestStyle, m_prevAnswStyle;
     TglobalExamStore *m_glStore;
     TanswerRequire m_answRequire;
+		
         /** Indicates when sniffing has to be ignored, 
          * because some dialog window exist over exam. */
     bool m_snifferLocked;
     bool m_shouldBeTerminated, m_isAnswered, m_incorrectRepeated;
+		
           /** If it is sets to TRUE locks invoking event of right mouse button.
           * It has to be set before singleShot() method called on askQuestion() 
           * to avoid user click button and call askQuestion() again during time of delay.*/
     bool m_lockRightButt;
+		
           /** It becomes true when user wants close Nootka during an exam or exercise.*/
     bool m_goingClosed;
+		
           /** stores note if question and answer are Note Name to restore it if question is repeated
           It is to restore buttons state in NoteName widget witch are unchecked by disableWidget() */
     Tnote m_prevNoteIfName;
     Tcanvas *m_canvas;
+		
         /** -1 if no black, otherwise points question in blackList list. */
     int m_blackQuestNr;
+		
         /** Interval of questions, after it penalty question is asked */
     int m_penalStep;
+		
         /** Counts questions to ask penalties one. */
     int m_penalCount;
 		Texercises	*m_exercise;

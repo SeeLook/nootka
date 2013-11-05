@@ -128,7 +128,8 @@ void TpitchView::setMinimalVolume(float vol) {
 void TpitchView::setDisabled(bool isDisabled) {
   QWidget::setDisabled(isDisabled);
   m_volMeter->setDisabled(isDisabled);
-  m_intoView->setDisabled(isDisabled);
+	if (m_intoView->accuracy() != TintonationView::e_noCheck)
+			m_intoView->setDisabled(isDisabled);
 }
 
 
@@ -192,6 +193,13 @@ void TpitchView::setHorizontal(bool isHorizontal) {
 // 		else
 // 			m_lay->setDirection(QBoxLayout::RightToLeft);
 }
+
+
+void TpitchView::markAnswer(const QColor& col) {
+	setBgColor(col);
+	update();
+}
+
 
 
 //------------------------------------------------------------------------------------

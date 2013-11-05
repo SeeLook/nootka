@@ -750,6 +750,9 @@ void TexamExecutor::markAnswer(TQAunit& curQ) {
     case TQAtype::e_asName:
       mW->noteName->markNameLabel(markColor);      
       break;
+		case TQAtype::e_asSound:
+			mW->pitchView->markAnswer(QColor(markColor.name()));
+			break;
   }
   switch (curQ.questionAs) {
     case TQAtype::e_asNote:
@@ -761,6 +764,9 @@ void TexamExecutor::markAnswer(TQAunit& curQ) {
     case TQAtype::e_asName:
       mW->noteName->markNameLabel(markColor);      
       break;
+// 		case TQAtype::e_asSound:
+// 			mW->pitchView->markAnswer(QColor(markColor.name()));
+// 			break;
   }
 }
 
@@ -877,9 +883,10 @@ void TexamExecutor::prepareToExam() {
     disconnect(mW->sound, SIGNAL(detectedNote(Tnote)), mW, SLOT(soundWasPlayed(Tnote)));
     disconnect(mW->levelCreatorAct, SIGNAL(triggered()), mW, SLOT(openLevelCreator()));
     disconnect(mW->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
-		if (m_exercise)
+		if (m_exercise) {
 			connect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExerciseSlot()));
-		else
+			connect(m_exercise, SIGNAL(messageDisplayed()), this, SLOT(stopSound()));
+		} else
 			connect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
     connect(mW->levelCreatorAct, SIGNAL(triggered()), this, SLOT(showExamHelp()));
     connect(mW->autoRepeatChB, SIGNAL(clicked(bool)), this,
@@ -1065,11 +1072,7 @@ void TexamExecutor::stopExerciseSlot() {
 		bool askAfter = m_askingTimer->isActive();
 		m_askingTimer->stop(); // stop questioning, if any
 		bool continuePractice = false;
-		if (m_soundTimer->isActive())
-        m_soundTimer->stop();
-    mW->sound->stopPlaying();
-    mW->sound->wait();
-    qApp->removeEventFilter(m_supp);
+		stopSound();
     if (m_exam->count()) {
 			TQAunit lastQuestion = m_exam->curQ();
 			if (!m_isAnswered) {
@@ -1117,11 +1120,7 @@ void TexamExecutor::stopExamSlot() {
         return;
     }
     mW->examResults->stopExam();
-    if (m_soundTimer->isActive())
-        m_soundTimer->stop();
-    mW->sound->stopPlaying();
-    mW->sound->wait();
-    qApp->removeEventFilter(m_supp);
+    stopSound();
 		if (m_exam->count()) {
 			if (m_exam->fileName() != "") {
 				if(!QFileInfo(m_exam->fileName()).isWritable()) {
@@ -1167,6 +1166,15 @@ void TexamExecutor::closeExecutor() {
 	m_canvas->clearCanvas();
 	clearWidgets();
 	restoreAfterExam();
+}
+
+
+void TexamExecutor::stopSound() {
+	if (m_soundTimer->isActive())
+			m_soundTimer->stop();
+	mW->sound->stopPlaying();
+	mW->sound->wait();
+	qApp->removeEventFilter(m_supp);
 }
 
 

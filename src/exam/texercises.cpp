@@ -28,7 +28,8 @@
 
 // #include <QDebug>
 
-Texercises::Texercises(Texam* exam) :
+Texercises::Texercises(Texam* exam, QObject* parent) :
+	QObject(parent),
 	m_exam(exam),
 	m_checkNow(false),
 	m_readyToExam(false)
@@ -64,6 +65,7 @@ void Texercises::checkAnswer() {
 	
 	if (m_currentGood == m_max) {
 		TsuggestExam *suggExam = new TsuggestExam();
+		emit messageDisplayed();
 		TsuggestExam::Esuggest what = suggExam->suggest();
 		if (suggExam->result() == QDialog::Accepted) {
 			switch(what) {
@@ -94,7 +96,9 @@ TsuggestExam::TsuggestExam() :
 	QDialog()
 {
 		setWindowTitle(tr("Start an exam"));
-		TroundedLabel *mainLab = new TroundedLabel(tr("You are very good in this exercise!<br>Would you like to pass an exam on the same level and got a certificate?"), this);
+		TroundedLabel *mainLab = new TroundedLabel("<h3>" + 
+		tr("You are very good in this exercise!<br>Would you like to pass an exam on the same level and got a certificate?") +
+		"</h3>", this);
 		mainLab->setAlignment(Qt::AlignCenter);
 		m_redyExamRadio = new QRadioButton(tr("Sure! Lets start an exam!"), this);
 		m_notNowRadio = new QRadioButton(tr("Not now, ask me for a moment."), this);
