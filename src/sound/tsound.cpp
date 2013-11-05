@@ -199,7 +199,7 @@ void Tsound::go() {
 
 
 void Tsound::prepareAnswer() {
-  m_pitchView->setBgColor(QColor(gl->EanswerColor.name()));
+  m_pitchView->setBgColor(QColor(gl->EanswerColor));
   m_pitchView->setDisabled(false);
 }
 

@@ -115,11 +115,11 @@ void TintonationView::paintEvent(QPaintEvent* ) {
 	QColor bg = palette().window().color();
 	bg.setAlpha(200);
 	painter.setBrush(bg);
-	if (m_pitchDiff == 0.0) {
-			painter.setPen(Qt::NoPen);
-	} else {
-			painter.setPen(QPen(m_tickColors[lastColorThick], 3.0));
-	}
+// 	if (m_pitchDiff == 0.0) {
+// 			painter.setPen(Qt::NoPen);
+// 	} else {
+// 			painter.setPen(QPen(m_tickColors[lastColorThick], 3.0));
+// 	}
   painter.drawRoundedRect(painter.viewport(), 4, 4);
   if (m_pitchDiff == 0.0)
 			painter.setPen(QPen(tc));

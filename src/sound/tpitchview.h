@@ -47,20 +47,26 @@ public:
   void startVolume();
   void stopVolume();
   void setPitchColor(QColor col);
+	
       /** Button to toggle between voice/instrument mode in TaudioIN */
   QPushButton *voiceButt;
+	
       /** Button to pause or activate pitch detection */
   QPushButton *pauseButt;
   bool isPaused() { return m_isPaused; }
   bool isVoice() { return m_isVoice; }
   void setIsVoice(bool isVoice);
   void resize(int fontSize);
-  void setBgColor(QColor col) { m_bgColor = col; }
+  void setBgColor(const QColor &col) { m_bgColor = col; }
   void setMinimalVolume(float vol);
   void setDisabled(bool isDisabled);
+	
+	void markAnswer(const QColor &col);
+	
 			/** Sets an accuracy of intonation. 
 			 * When 0 - 'do not check' m_intoView becames disabled. */
 	void setIntonationAccuracy(int accuracy);
+	
 			/** Places view horizontally  (true) or vertically (false) */
 	void setHorizontal(bool isHorizontal = true);
 	bool isHorizontal() { return m_isHorizontal; }
