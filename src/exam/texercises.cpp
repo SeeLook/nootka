@@ -26,7 +26,7 @@
 #include <QVBoxLayout>
 #include <QGroupBox>
 
-// #include <QDebug>
+#include <QDebug>
 
 Texercises::Texercises(Texam* exam, QObject* parent) :
 	QObject(parent),
@@ -63,7 +63,7 @@ void Texercises::checkAnswer() {
 		m_prevMistake = 0; // but reset mistake counter, so after next one whole cycle will be required
 	}
 	
-	if (m_currentGood == m_max) {
+	if (m_currentGood >= m_max) {
 		TsuggestExam *suggExam = new TsuggestExam();
 		emit messageDisplayed();
 		TsuggestExam::Esuggest what = suggExam->suggest();
@@ -85,6 +85,7 @@ void Texercises::checkAnswer() {
 		} else
 				m_currentGood -= 10;
 		delete suggExam;
+		emit messageClosed(m_readyToExam);
 	}
 }
 

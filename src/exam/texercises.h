@@ -49,6 +49,8 @@ public:
 		
 signals:
 		void messageDisplayed();
+				/** Signal emitted after message with information about desire to start an exam.  */
+		void messageClosed(bool);
 		
 private:
 		Texam				*m_exam;

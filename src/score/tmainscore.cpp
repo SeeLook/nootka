@@ -236,9 +236,9 @@ void TmainScore::markAnswered(QColor blurColor) {
 
 
 void TmainScore::markQuestion(QColor blurColor) {
-		staff()->noteSegment(1)->markNote(QColor(blurColor.name()));
+		staff()->noteSegment(1)->markNote(QColor(blurColor.lighter().name()));
 		if (staff()->lower())
-				staff()->lower()->noteSegment(1)->markNote(QColor(blurColor.name()));
+				staff()->lower()->noteSegment(1)->markNote(QColor(blurColor.lighter().name()));
 }
 
 
@@ -300,13 +300,24 @@ void TmainScore::correctNote(Tnote& goodNote, const QColor& color) {
 void TmainScore::correctAccidental(Tnote& goodNote) {
 		m_goodNote = goodNote;
 		QPen pp(QColor(gl->EnotBadColor.name()), 0.5);
-		if (getNote(0).acidental != m_goodNote.acidental)
-			m_bliking = new TblinkingItem(staff()->noteSegment(0)->mainAccid());
-		else {
-			m_bliking = new TblinkingItem(staff()->noteSegment(0));
-			staff()->noteSegment(0)->mainNote()->setBrush(QBrush(pp.color()));
+		if (getNote(0).acidental != m_goodNote.acidental) {
+			if (staff()->lower())
+				m_bliking = new TblinkingItem(staff()->lower()->noteSegment(0)->mainAccid());
+			else
+				m_bliking = new TblinkingItem(staff()->noteSegment(0)->mainAccid());
+		} else {
+			if (staff()->lower()) {
+					m_bliking = new TblinkingItem(staff()->lower()->noteSegment(0));
+					staff()->lower()->noteSegment(0)->mainNote()->setBrush(QBrush(pp.color()));
+			} else {
+					m_bliking = new TblinkingItem(staff()->noteSegment(0));
+					staff()->noteSegment(0)->mainNote()->setBrush(QBrush(pp.color()));
+			}
 		}
-		staff()->noteSegment(0)->mainAccid()->setBrush(QBrush(pp.color()));
+		if (staff()->lower())
+				staff()->lower()->noteSegment(0)->mainAccid()->setBrush(QBrush(pp.color()));
+		else
+				staff()->noteSegment(0)->mainAccid()->setBrush(QBrush(pp.color()));
 		m_bliking->startBlinking(3);
 		connect(m_bliking, SIGNAL(blinkingFinished()), this, SLOT(strikeBlinkingFinished()));
 }
@@ -354,7 +365,6 @@ void TmainScore::whenNoteWasChanged(int index, Tnote note) {
 
 void TmainScore::onPianoSwitch() {
 		restoreNotesSettings();
-// 	if (gl->instrument == e_classicalGuitar || gl->instrument == e_electricGuitar)
 		if (*gl->Gtune() != Ttune::stdTune)
 			setScordature();
 }
@@ -369,9 +379,11 @@ void TmainScore::strikeBlinkingFinished() {
 		delete m_bliking;
 		m_bliking = 0;
 	}
+	staff()->noteSegment(0)->setColor(palette().text().color());
 	staff()->noteSegment(0)->enableAnimation(true, 300);
 	staff()->noteSegment(0)->markNote(-1);
 	if (staff()->lower()) {
+			staff()->lower()->noteSegment(0)->setColor(palette().text().color());
 			staff()->lower()->noteSegment(0)->markNote(-1);
 			staff()->lower()->noteSegment(0)->enableAnimation(true, 300);
 	}
@@ -397,11 +409,9 @@ void TmainScore::keyBlinkingFinished() {
 
 void TmainScore::finishCorrection() {
 	staff()->noteSegment(0)->enableAnimation(false);
-// 	staff()->noteSegment(0)->mainAccid()->setBrush(QBrush(palette().text()));
 	staff()->noteSegment(0)->markNote(QColor(gl->EanswerColor.name()));
 	if (staff()->lower()) {
 			staff()->lower()->noteSegment(0)->enableAnimation(false);
-// 			staff()->lower()->noteSegment(0)->mainAccid()->setBrush(QBrush(palette().text()));
 			staff()->lower()->noteSegment(0)->markNote(QColor(gl->EanswerColor.name()));
 
 	}

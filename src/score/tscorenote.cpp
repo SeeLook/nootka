@@ -356,9 +356,8 @@ void TscoreNote::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 					m_curentAccid = scoreScene()->currentAccid();
 					m_workAccid->setText(getAccid(m_curentAccid));
 			}
-      m_workPosY = event->pos().y();
+      m_workPosY = event->pos().y() - 0.6;
       m_workNote->setPos(3.0, m_workPosY);
-//       m_workAccid->setPos(0.0, m_workPosY - m_accidYoffset);
       if (!m_workNote->isVisible()) {
         m_workNote->show();
         m_workAccid->show();
