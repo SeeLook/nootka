@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 2.7.2, 2013-07-13T19:35:20. -->
+<!-- Written by Qt Creator 2.6.0, 2013-11-06T21:29:37. -->
 <qtcreator>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -13,13 +13,13 @@
    <value type="bool" key="EditorConfiguration.AutoSpacesForTabs">false</value>
    <value type="bool" key="EditorConfiguration.CamelCaseNavigation">true</value>
    <valuemap type="QVariantMap" key="EditorConfiguration.CodeStyle.0">
-    <value type="QByteArray" key="language">Cpp</value>
+    <value type="QString" key="language">Cpp</value>
     <valuemap type="QVariantMap" key="value">
      <value type="QString" key="CurrentPreferences">CppGlobal</value>
     </valuemap>
    </valuemap>
    <valuemap type="QVariantMap" key="EditorConfiguration.CodeStyle.1">
-    <value type="QByteArray" key="language">QmlJS</value>
+    <value type="QString" key="language">QmlJS</value>
     <valuemap type="QVariantMap" key="value">
      <value type="QString" key="CurrentPreferences">QmlJSGlobal</value>
     </valuemap>
@@ -53,19 +53,17 @@
   <valuemap type="QVariantMap">
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop</value>
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Desktop</value>
-   <value type="QByteArray" key="ProjectExplorer.ProjectConfiguration.Id">{07fe3709-a813-493b-bf66-7f0c219fee2b}</value>
+   <value type="QByteArray" key="ProjectExplorer.ProjectConfiguration.Id">{c2dc3cc3-ff10-4ef7-aa63-a47f9931e374}</value>
    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.0">
-    <value type="QString" key="CMakeProjectManager.CMakeBuildConfiguration.BuildDirectory">/home/tom/DEVELOP/QT4/nootka-build</value>
+    <value type="QString" key="CMakeProjectManager.CMakeBuildConfiguration.BuildDirectory">D:/home/tomek/DEVELOP/build</value>
     <value type="bool" key="CMakeProjectManager.CMakeBuildConfiguration.UseNinja">false</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="QString" key="CMakeProjectManager.MakeStep.AdditionalArguments"></value>
-      <valuelist type="QVariantList" key="CMakeProjectManager.MakeStep.BuildTargets">
-       <value type="QString">all</value>
-      </valuelist>
+      <valuelist type="QVariantList" key="CMakeProjectManager.MakeStep.BuildTargets"/>
       <value type="bool" key="CMakeProjectManager.MakeStep.Clean">false</value>
       <value type="bool" key="CMakeProjectManager.MakeStep.UseNinja">false</value>
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -115,7 +113,6 @@
     <value type="QByteArray" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.DefaultDeployConfiguration</value>
    </valuemap>
    <value type="int" key="ProjectExplorer.Target.DeployConfigurationCount">1</value>
-   <valuemap type="QVariantMap" key="ProjectExplorer.Target.PluginSettings"/>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.0">
     <value type="bool" key="Analyzer.Project.UseGlobal">true</value>
     <valuelist type="QVariantList" key="Analyzer.Valgrind.AddedSuppressionFiles"/>
@@ -219,7 +216,7 @@
  </data>
  <data>
   <variable>ProjectExplorer.Project.Updater.EnvironmentId</variable>
-  <value type="QString">{83312113-a3b8-4256-86e3-402b7bda04b0}</value>
+  <value type="QString">{6933c749-924d-4fdb-a848-8852ea884e84}</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.Updater.FileVersion</variable>
