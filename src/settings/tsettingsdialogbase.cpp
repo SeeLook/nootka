@@ -64,7 +64,11 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
 
     connect(cancelBut, SIGNAL(clicked()), this, SLOT(reject()));
     connect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
+//     connect(stackLayout, SIGNAL(currentChanged(int)), this, SLOT(fitSize()));
+    
+    QTimer::singleShot(10, this, SLOT(fitSize()));
 }
+
 
 bool TsettingsDialogBase::event(QEvent *event) {
     if (event->type() == QEvent::StatusTip) {
@@ -73,3 +77,14 @@ bool TsettingsDialogBase::event(QEvent *event) {
     }
     return QDialog::event(event);
 }
+
+
+void TsettingsDialogBase::fitSize() {
+  qDebug() << "fitSize" << height() << qApp->desktop()->availableGeometry().height();
+}
+
+
+
+
+
+

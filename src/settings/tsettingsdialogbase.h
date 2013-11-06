@@ -41,9 +41,6 @@ class TsettingsDialogBase : public QDialog
 public:
     explicit TsettingsDialogBase(QWidget *parent = 0);
 
-signals:
-
-public slots:
 
 protected:
     bool event(QEvent *event);
@@ -53,6 +50,11 @@ protected:
     QPushButton     					*cancelBut, *okBut, *defaultBut;
     TroundedLabel          		*hint;
 
+protected slots:
+        /** Checks available screen space and fits this dialog if necessary.
+         * Removes frame of the window, hides @p hint 
+         * and transforms all status tip texts into tool tips. */
+    void fitSize();
 
 };
 
