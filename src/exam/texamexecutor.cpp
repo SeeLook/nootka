@@ -639,12 +639,9 @@ void TexamExecutor::checkAnswer(bool showResults) {
 // 		m_canvas->finishTip();
     int waitTime = WAIT_TIME;
 		if (m_exercise) {
-			waitTime = gl->E->correctViewDuration; // user has to have time to see his mistake and correct answer
+			if (curQ.answerAs != TQAtype::e_asSound) // there is no correction after played answer 
+					waitTime = gl->E->correctViewDuration; // user has to have time to see his mistake and correct answer
 			m_exercise->checkAnswer();
-			if (m_exercise->readyToExam()) {
-				exerciseToExam();
-				return;
-			}
 			if (!curQ.isCorrect()) { // correcting wrong answer
 					if (mW->correctChB->isChecked())
 						correctAnswer();
@@ -672,14 +669,15 @@ void TexamExecutor::checkAnswer(bool showResults) {
 				}
 		}
     if (showResults && gl->E->autoNextQuest) {
-      m_lockRightButt = true; // to avoid nervous users click mouse during WAIT_TIME
+      m_lockRightButt = true; // to avoid nervous users click mouse during wait time
       if (m_shouldBeTerminated)
           stopExamSlot();
       else {
       if (curQ.isCorrect()) {
           m_askingTimer->start(WAIT_TIME);
       } else {
-          if (!m_exercise && gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
+          if ((!m_exercise || (m_exercise && curQ.answerAs == TQAtype::e_asSound)) 
+						&& gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
               QTimer::singleShot(WAIT_TIME, this, SLOT(repeatQuestion()));
           else
               m_askingTimer->start(waitTime);
@@ -886,6 +884,7 @@ void TexamExecutor::prepareToExam() {
 		if (m_exercise) {
 			connect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExerciseSlot()));
 			connect(m_exercise, SIGNAL(messageDisplayed()), this, SLOT(stopSound()));
+			connect(m_exercise, SIGNAL(messageClosed(bool)), this, SLOT(suggestDialogClosed(bool)));
 		} else
 			connect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
     connect(mW->levelCreatorAct, SIGNAL(triggered()), this, SLOT(showExamHelp()));
@@ -1100,6 +1099,9 @@ void TexamExecutor::stopExerciseSlot() {
     if (continuePractice) {
 			if (askAfter) // ask next question if questioning was stopped
 				askQuestion();
+			else // restore sniffing if necessary
+				if (m_exam->curQ().answerAs == TQAtype::e_asSound)
+					startSniffing();
 			qApp->installEventFilter(m_supp);
 			return;
 		}
@@ -1177,6 +1179,16 @@ void TexamExecutor::stopSound() {
 	qApp->removeEventFilter(m_supp);
 }
 
+
+void TexamExecutor::suggestDialogClosed(bool startExam) {
+	if (startExam) {
+			exerciseToExam();
+	} else {
+		qApp->installEventFilter(m_supp);
+		if (m_exam->curQ().answerAs == TQAtype::e_asSound)
+					startSniffing();
+	}
+}
 
 
 bool TexamExecutor::closeNootka() {
@@ -1298,6 +1310,7 @@ void TexamExecutor::sniffAfterPlaying() {
       m_soundTimer->stop();
     m_soundTimer->start(100);
 }
+
 
 void TexamExecutor::startSniffing() {
     if (m_soundTimer->isActive())

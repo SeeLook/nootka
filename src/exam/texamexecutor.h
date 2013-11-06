@@ -112,6 +112,10 @@ protected slots:
 		
 				/** Common method called by exercises and exams to disable sniffing, lock right button, etc. */
 		void stopSound();
+		
+				/** Performs routines after dialog window closed as such as 
+				 * right mouse button unlocking. If and exam is going to start it calls @p exerciseToExam() */
+		void suggestDialogClosed(bool startExam);
 
 private:
 		void createActions();
