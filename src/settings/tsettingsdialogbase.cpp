@@ -21,6 +21,8 @@
 #include <widgets/troundedlabel.h>
 #include <QtGui>
 
+QScrollArea *scrollArea;
+
 TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
         QDialog(parent, Qt::CustomizeWindowHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint)
 {
@@ -37,7 +39,15 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     QVBoxLayout *aLay = new QVBoxLayout;
     stackLayout = new QStackedLayout;
     
-    aLay->addLayout(stackLayout);
+    QWidget *widget = new QWidget();
+    scrollArea = new QScrollArea(this);
+    
+    widget->setLayout(stackLayout);
+    scrollArea->setWidget(widget);
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    aLay->addWidget(scrollArea);
     hint = new TroundedLabel(this);
     aLay->addWidget(hint);
     hint->setFixedHeight(70);
@@ -80,7 +90,11 @@ bool TsettingsDialogBase::event(QEvent *event) {
 
 
 void TsettingsDialogBase::fitSize() {
-  qDebug() << "fitSize" << height() << qApp->desktop()->availableGeometry().height();
+  if (height() > qApp->desktop()->availableGeometry().height()) {
+      scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+//       scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+      setMaximumHeight(qApp->desktop()->availableGeometry().height());
+  }
 }
 
 
