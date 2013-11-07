@@ -218,7 +218,7 @@ void TsettingsDialog::changeSettingsWidget(int index) {
     }
     case 5: {
       if (!m_examSett) {
-        m_examSett = new TexamSettings(gl->E, &gl->EquestionColor, &gl->EanswerColor, &gl->EnotBadColor);
+        m_examSett = new TexamSettings();
         stackLayout->addWidget(m_examSett);
       }
       currentWidget = m_examSett;

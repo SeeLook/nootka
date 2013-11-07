@@ -22,10 +22,13 @@
 #include <QtGui>
 
 QScrollArea *scrollArea;
+QWidget *widget;
+QVBoxLayout *aLay;
 
 TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
         QDialog(parent, Qt::CustomizeWindowHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint)
 {
+		setMaximumSize(qApp->desktop()->availableGeometry().size());
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *contLay = new QHBoxLayout;
     navList = new QListWidget(this);
@@ -36,18 +39,19 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
 
     contLay->addWidget(navList);
 
-    QVBoxLayout *aLay = new QVBoxLayout;
+    aLay = new QVBoxLayout;
     stackLayout = new QStackedLayout;
     
-    QWidget *widget = new QWidget();
+    widget = new QWidget(this);
     scrollArea = new QScrollArea(this);
+		scrollArea->hide();
     
     widget->setLayout(stackLayout);
-    scrollArea->setWidget(widget);
+//     scrollArea->setWidget(widget);
     scrollArea->setWidgetResizable(true);
-    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    aLay->addWidget(scrollArea);
+    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    aLay->addWidget(widget);
     hint = new TroundedLabel(this);
     aLay->addWidget(hint);
     hint->setFixedHeight(70);
@@ -90,8 +94,14 @@ bool TsettingsDialogBase::event(QEvent *event) {
 
 
 void TsettingsDialogBase::fitSize() {
+// 	qDebug() << scrollArea->viewport()->width() << widget->width();
+// 	if (scrollArea->viewport()->width() < widget->width()) {
+// 			setFixedWidth(width() + (widget->width() - scrollArea->viewport()->width()));
+// 	}
   if (height() > qApp->desktop()->availableGeometry().height()) {
-      scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+			aLay->removeWidget(widget);
+      scrollArea->setWidget(widget);
+			aLay->insertWidget(0, scrollArea);
 //       scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
       setMaximumHeight(qApp->desktop()->availableGeometry().height());
   }
