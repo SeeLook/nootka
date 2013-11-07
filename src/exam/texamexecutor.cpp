@@ -668,7 +668,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 					}
 				}
 		}
-    if (showResults && gl->E->autoNextQuest) {
+    if (showResults && (gl->E->autoNextQuest || (m_exercise && curQ.answerAs == TQAtype::e_asSound))) {
       m_lockRightButt = true; // to avoid nervous users click mouse during wait time
       if (m_shouldBeTerminated)
           stopExamSlot();
@@ -733,11 +733,11 @@ void TexamExecutor::correctAnswer() {
 void TexamExecutor::markAnswer(TQAunit& curQ) {
   QColor markColor;
   if (curQ.isCorrect())
-    markColor = gl->EanswerColor/*.lighter().name()*/;
+    markColor = gl->EanswerColor;
   else if (curQ.isNotSoBad())
-    markColor = gl->EnotBadColor/*.lighter().name()*/;
+    markColor = gl->EnotBadColor;
   else
-    markColor = gl->EquestionColor/*.lighter().name()*/;
+    markColor = gl->EquestionColor;
   switch (curQ.answerAs) {
     case TQAtype::e_asNote:
       mW->score->markAnswered(QColor(markColor));

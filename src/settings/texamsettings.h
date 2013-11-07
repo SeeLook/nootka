@@ -39,7 +39,7 @@ public:
        * QColor @param aColor - is pointer to gl->EanswerColor
        * QColor @param nbColor - is pointer to gl->EnotBadColor
        */
-  explicit TexamSettings(TexamParams *params, QColor *qColor, QColor *aColor, QColor *nbColor, QWidget *parent = 0);
+  explicit TexamSettings(QWidget* parent = 0);
 
 			/** ask next question automatically */
   static QString autoNextQuestTxt() { return tr("ask next question automatically"); }

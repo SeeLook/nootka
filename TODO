@@ -12,12 +12,9 @@ ISSUES
 
 			
 TODOES
-. missing correcting of wrong/unclear pitch
 - update screen-shoot image in exam help
 - force 'Plasique' style under MacOs or find a way on buttons
 - selecting clef for non guitar in wizard
-- add repeat answer to exercises
-- show note name during correction
 - force a maximum score width especially for 4:3 ratios
 - audio-in settings TODO 
 - !!!check does 'string order' work for Tfingerboard!!!
@@ -33,11 +30,13 @@ TODOES
 
 - make order with jack (thread-ise input, format conversion)
 
-- add sound during wizard and About dialog (???)
 
-- add string numbers to generated pixmap
-
-      
+TO CONSIDERATION
+  . missing correcting of wrong/unclear pitch
+  - show note name during correction
+  - add repeat answer to exercises
+  - add sound during wizard and About dialog (???)
+  - add string numbers to generated pixmap
 
 TSTARTEXAMDLG
   - TexamLevel has to be pointer or reference
@@ -50,5 +49,6 @@ TEXAMEXECUTOR
   - think about hide octave in note name format when octaves are not required in answers. 
      Also for questions in "hint" - don't show octave when only name is required   
     
+================================================================================================================
 Somewhere in time
 - keep exam file in /tmp and restore it when crash or so

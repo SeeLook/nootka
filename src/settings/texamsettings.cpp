@@ -22,17 +22,20 @@
 #include "texamparams.h"
 #include "texpertanswerhelp.h"
 #include "widgets/troundedlabel.h"
+#include "tglobals.h"
 #include <QtGui>
 
+extern Tglobals *gl;
 
-TexamSettings::TexamSettings(TexamParams* params, QColor* qColor, QColor* aColor, QColor* nbColor, QWidget* parent) :
+
+TexamSettings::TexamSettings(QWidget* parent) :
     QWidget(parent),
-    m_params(params),
-    m_qColor(qColor),
-    m_aColor(aColor),
-    m_nbColor(nbColor)
+    m_params(gl->E),
+    m_qColor(&gl->EquestionColor),
+    m_aColor(&gl->EanswerColor),
+    m_nbColor(&gl->EnotBadColor)
 {
-// 		QLabel *expertLab = new QLabel(QString("<img src=\"%1\">").arg());
+		QLabel *expertLab = new QLabel(QString("<img src=\"%1\">").arg(gl->path + "picts/expertCorner.png"));
 		m_correctChB = new QCheckBox(correctMistakesTxt(), this);
 			m_correctChB->setStatusTip(tr("When you will make mistake, the program will show you automatically how a correct answer should be."));
 			m_correctChB->setChecked(m_params->showCorrected);
@@ -53,7 +56,7 @@ TexamSettings::TexamSettings(TexamParams* params, QColor* qColor, QColor* aColor
 			m_suggestExamChB->setChecked(m_params->suggestExam);
 
     
-    m_repeatIncorChB = new QCheckBox(tr("repeat a question when its answer is incorrect"), this);
+    m_repeatIncorChB = new QCheckBox(tr("repeat a question"), this);
 			m_repeatIncorChB->setChecked(m_params->repeatIncorrect);
 			m_repeatIncorChB->setStatusTip(tr("A question with an incorrect answer will be asked once again."));
 		m_closeConfirmChB = new QCheckBox(tr("close without confirm"), this);
@@ -69,12 +72,15 @@ TexamSettings::TexamSettings(TexamParams* params, QColor* qColor, QColor* aColor
 			m_nameEdit->setMaxLength(30);
 			m_nameEdit->setStatusTip(tr("Default name for every new exam or exercise."));
 
-    QLabel *questLab = new QLabel(tr("color of questions") + " / " + tr("color of wrong answers"), this);
+    QLabel *questLab = new QLabel(tr("questions"), this);
     m_questColorBut = new TcolorButton(*(m_qColor), this);
-    QLabel *answLab = new QLabel(tr("color of answers") + " / " + tr("color of correct answers"), this);
+		m_questColorBut->setStatusTip(tr("color of questions") + " + " + tr("color of wrong answers"));
+    QLabel *answLab = new QLabel(tr("answers"), this);
     m_answColorBut = new TcolorButton(*(m_aColor), this);
-    QLabel *notBadLab = new QLabel(tr("color of 'not bad' answers"), this);
+		m_answColorBut->setStatusTip(tr("color of answers"));
+    QLabel *notBadLab = new QLabel(tr("'not bad'"), this);
     m_notBadButt = new TcolorButton(*(m_nbColor), this);
+		m_notBadButt->setStatusTip(tr("color of 'not bad' answers"));
 
 		
 		QVBoxLayout *mainLay = new QVBoxLayout;
@@ -87,19 +93,32 @@ TexamSettings::TexamSettings(TexamParams* params, QColor* qColor, QColor* aColor
 			nameLay->addWidget(m_nameEdit);
 			nameLay->addStretch();
 		commonLay->addLayout(nameLay);
-			commonLay->addWidget(m_correctChB, 0, Qt::AlignCenter);
-			commonLay->addWidget(m_autoNextChB, 0, Qt::AlignCenter);
-			commonLay->addWidget(m_expertAnswChB, 0, Qt::AlignCenter);
+		QVBoxLayout *expertChBoxesLay = new QVBoxLayout;
+			expertChBoxesLay->addWidget(m_correctChB, 0, Qt::AlignLeft);
+			expertChBoxesLay->addWidget(m_autoNextChB, 0, Qt::AlignLeft);
+			expertChBoxesLay->addWidget(m_expertAnswChB, 0, Qt::AlignLeft);
+		QHBoxLayout *expertLay = new QHBoxLayout;
+			expertLay->addStretch();
+			expertLay->addWidget(expertLab);
+			expertLay->addStretch();
+			expertLay->addLayout(expertChBoxesLay);
+			expertLay->addStretch();
+		commonLay->addLayout(expertLay);
 			commonLay->addStretch();
-			commonLay->addStretch();
-		QGridLayout *colorsLay = new QGridLayout;
-			colorsLay->addWidget(questLab, 0, 0, Qt::AlignCenter);
-			colorsLay->addWidget(m_questColorBut, 0, 1, Qt::AlignCenter);
-			colorsLay->addWidget(answLab, 1, 0, Qt::AlignCenter);
-			colorsLay->addWidget(m_answColorBut, 1, 1, Qt::AlignCenter);
-			colorsLay->addWidget(notBadLab, 2, 0, Qt::AlignCenter);
-			colorsLay->addWidget(m_notBadButt, 2, 1, Qt::AlignCenter);
-    commonLay->addLayout(colorsLay);
+		QGroupBox *colorsGr = new QGroupBox(tr("colors"), this);
+		QHBoxLayout *colorsLay = new QHBoxLayout;
+			colorsLay->addWidget(questLab);
+			colorsLay->addWidget(m_questColorBut);
+			colorsLay->addSpacing(10);
+			colorsLay->addStretch();
+			colorsLay->addWidget(answLab);
+			colorsLay->addWidget(m_answColorBut);
+			colorsLay->addSpacing(10);
+			colorsLay->addStretch();
+			colorsLay->addWidget(notBadLab);
+			colorsLay->addWidget(m_notBadButt);
+		colorsGr->setLayout(colorsLay);
+    commonLay->addWidget(colorsGr);
 		commonGr->setLayout(commonLay);
 		mainLay->addWidget(commonGr);
     mainLay->addStretch();
@@ -115,9 +134,12 @@ TexamSettings::TexamSettings(TexamParams* params, QColor* qColor, QColor* aColor
 		mainLay->addWidget(exerciseGr);
 		mainLay->addStretch();
 		QGroupBox *examGr = new QGroupBox(tr("exams"), this);
-		QVBoxLayout *examLay = new QVBoxLayout;
+		QHBoxLayout *examLay = new QHBoxLayout;
+			examLay->addStretch();
 			examLay->addWidget(m_repeatIncorChB);
+			examLay->addStretch();
 			examLay->addWidget(m_closeConfirmChB);
+			examLay->addStretch();
 		examGr->setLayout(examLay);
 		mainLay->addWidget(examGr);
 		mainLay->addStretch();
