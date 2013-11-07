@@ -94,16 +94,12 @@ bool TsettingsDialogBase::event(QEvent *event) {
 
 
 void TsettingsDialogBase::fitSize() {
-// 	qDebug() << scrollArea->viewport()->width() << widget->width();
-// 	if (scrollArea->viewport()->width() < widget->width()) {
-// 			setFixedWidth(width() + (widget->width() - scrollArea->viewport()->width()));
-// 	}
   if (height() > qApp->desktop()->availableGeometry().height()) {
 			aLay->removeWidget(widget);
       scrollArea->setWidget(widget);
 			aLay->insertWidget(0, scrollArea);
-//       scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-      setMaximumHeight(qApp->desktop()->availableGeometry().height());
+      scrollArea->show();
+      setGeometry(0, 0, qApp->desktop()->availableGeometry().width(), qApp->desktop()->availableGeometry().height() - 20);
   }
 }
 
