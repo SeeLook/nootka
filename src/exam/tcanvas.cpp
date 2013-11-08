@@ -22,6 +22,7 @@
 #include "texam.h"
 #include "tquestiontip.h"
 #include "animations/tanimedtextitem.h"
+#include <animations/tanimeditem.h>
 #include "tnootkacertificate.h"
 #include "tgraphicstexttip.h"
 #include "mainwindow.h"
@@ -36,8 +37,8 @@
 #include "tmainscore.h"
 #include <QDebug>
 #include <QTimer>
-#include <QPropertyAnimation>
-#include <QParallelAnimationGroup>
+// #include <QPropertyAnimation>
+// #include <QParallelAnimationGroup>
 #include <QEvent>
 #include <QMouseEvent>
 
@@ -55,8 +56,9 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   m_questionTip(0), m_tryAgainTip(0), m_confirmTip(0),
   m_finishTip(0),
   m_scale(1),
-  m_flyAnswer(0), m_animation(0),
-  m_flyNote(0),
+//   m_flyAnswer(0), m_animation(0),
+//   m_flyNote(0),
+  m_correctAnim(0), m_flyEllipse(0),
   m_scene(0),
   m_timerToConfirm(new QTimer(this))
 {
@@ -191,7 +193,7 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 
 
 void Tcanvas::noteTip(int time) {
-  if (m_flyNote)
+/*  if (m_flyNote)
       m_flyNote->deleteLater();
   QParallelAnimationGroup *animation = new QParallelAnimationGroup(this);
   m_flyNote = new TanimedTextItem();
@@ -217,7 +219,7 @@ void Tcanvas::noteTip(int time) {
     animation->addAnimation(movPos);
     animation->addAnimation(movScale);
 //     animation->addAnimation(movAlpha);
-    animation->start(QAbstractAnimation::DeleteWhenStopped);
+    animation->start(QAbstractAnimation::DeleteWhenStopped); */
 }
 
 
@@ -268,6 +270,32 @@ void Tcanvas::questionTip(Texam* exam) {
 void Tcanvas::addTip(TgraphicsTextTip* tip) {
   m_scene->addItem(tip);  
 }
+
+
+void Tcanvas::correctFromScore(int prevTime, TfingerPos &goodPos) {
+	if (m_correctAnim)
+		return;
+	m_flyEllipse = new QGraphicsEllipseItem;
+	m_flyEllipse->setRect(m_parent->score->noteRect(1)); // 1 - answer note segment	
+	m_flyEllipse->setPen(Qt::NoPen);
+	m_flyEllipse->setBrush(QBrush(QColor(gl->EquestionColor.name())));
+	m_scene->addItem(m_flyEllipse);
+	m_flyEllipse->setPos(mapToScene(m_parent->score->notePos(1)));
+	m_correctAnim = new TanimedItem(m_flyEllipse, this);
+	m_correctAnim->setDuration(600);
+// 	m_correctAnim->setEasingCurveType(QEasingCurve::OutExpo);	
+	connect(m_correctAnim, SIGNAL(finished()), this, SLOT(correctAnimFinished()));
+	m_correctAnim->startMoving(m_flyEllipse->pos(), 
+					mapToScene(m_parent->guitar->mapToParent(m_parent->guitar->mapFromScene(m_parent->guitar->fretToPos(goodPos)))));
+	QTimer::singleShot(prevTime, this, SLOT(clearCorrection()));
+}
+
+
+void Tcanvas::correctFromName()
+{
+
+}
+
 
 
 //######################################################################
@@ -327,6 +355,19 @@ void Tcanvas::clearFinishTip() {
 		m_finishTip = 0;
 	}
 }
+
+
+void Tcanvas::clearCorrection() {
+	if (m_correctAnim) {
+		m_correctAnim->deleteLater();
+		m_correctAnim = 0;
+	}
+	if (m_flyEllipse) {
+		delete m_flyEllipse;
+		m_flyEllipse = 0;
+	}
+}
+
 
 
 void Tcanvas::markAnswer(TQAtype::Etype qType, TQAtype::Etype aType) {
@@ -390,8 +431,8 @@ void Tcanvas::sizeChanged() {
     m_scene->addItem(m_questionTip);
     setPosOfQuestionTip();
   }
-  if (m_flyNote)
-    m_flyNote->hide();
+//   if (m_flyNote)
+//     m_flyNote->hide();
   if (m_confirmTip) {
     m_confirmTip->setScale(m_scale);
     setPosOfConfirmTip();
@@ -408,6 +449,13 @@ void Tcanvas::linkActivatedSlot(QString link) {
 		if (m_finishTip)
 			clearFinishTip();
 }
+
+
+void Tcanvas::correctAnimFinished() {
+	m_flyEllipse->setBrush(QBrush(QColor(gl->EanswerColor.name())));
+	m_flyEllipse->setRect(m_parent->guitar->fingerRect());
+}
+
 
 
 bool Tcanvas::event(QEvent* event) {

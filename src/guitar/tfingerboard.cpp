@@ -386,7 +386,16 @@ void TfingerBoard::correctPosition(TfingerPos& pos, const QColor color) {
 		connect(m_strikeOut, SIGNAL(strikedFInished()), this, SLOT(strikeBlinkingFinished()));
 		m_strikeOut->startBlinking();
   }
+}
 
+
+QPointF TfingerBoard::fretToPos(TfingerPos& pos) {
+	return QPointF(m_fretsPos[pos.fret() - 1] - qRound(m_fretWidth / 1.5), m_fbRect.y() + m_strGap * (pos.str() - 1) + m_strGap / 5);
+}
+
+
+QRectF TfingerBoard::fingerRect() const {
+	return m_workFinger->rect();
 }
 
 
@@ -430,19 +439,6 @@ void TfingerBoard::setTune() {
 	}
 	m_loNote = gl->loString().getChromaticNrOfNote();
 	m_hiNote = gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber;
-// 		m_strColors[0] = QColor(255, 255, 255, 175);
-// 		m_strColors[1] = QColor(255, 255, 255, 175);
-// 		m_strColors[2] = QColor(255, 255, 255, 125);
-// 		m_strColors[3] = QColor("#C29432");
-// 		m_strColors[4] = QColor("#C29432");
-// 		m_strColors[5] = QColor("#C29432");
-// 		m_widthFromPitch[0] = 1;
-//     m_widthFromPitch[1] = 2;
-//     m_widthFromPitch[2] = 2.5;
-//     m_widthFromPitch[3] = 2;
-//     m_widthFromPitch[4] = 2.5;
-//     m_widthFromPitch[5] = 3;
-
 }
 
 
@@ -689,9 +685,12 @@ void TfingerBoard::mousePressEvent(QMouseEvent *event) {
 //################################################################################################
 
 void TfingerBoard::paintFinger(QGraphicsEllipseItem *f, char strNr, char fretNr) {
-    f->setPos(m_fretsPos[fretNr-1] - qRound(m_fretWidth / 1.5),
-              m_fbRect.y() + m_strGap * strNr + m_strGap / 5);
+//     f->setPos(m_fretsPos[fretNr-1] - qRound(m_fretWidth / 1.5),
+//               m_fbRect.y() + m_strGap * strNr + m_strGap / 5);
+		TfingerPos pp(strNr + 1, fretNr);
+		f->setPos(fretToPos(pp));
 }
+
 
 void TfingerBoard::paintQuestMark() {
     if (!m_questMark) {

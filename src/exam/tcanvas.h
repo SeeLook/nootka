@@ -22,13 +22,16 @@
 
 #include <QGraphicsView>
 #include "tqatype.h"
+#include <tfingerpos.h>
 
+
+class TanimedItem;
 class TnootkaCertificate;
 class QTimer;
 class TtipScene;
 class TexamExecutor;
-class QParallelAnimationGroup;
-class TanimedTextItem;
+// class QParallelAnimationGroup;
+// class TanimedTextItem;
 class QTimer;
 class Texam;
 class TquestionTip;
@@ -37,8 +40,10 @@ class TQAunit;
 class TgraphicsTextTip;
 
 
-/** This is view/scene widget laying over centralWidget() 
-* to show notifications during an exam.  */
+/** 
+ * This is view/scene widget laying over centralWidget() 
+ * to show notifications during an exam.  
+ */
 class Tcanvas : public QGraphicsView
 {
 
@@ -53,6 +58,7 @@ public:
     void addTip(TgraphicsTextTip *tip); // add any TgraphicsTextTip object
     void resultTip(TQAunit *answer, int time = 0); // show was question correct text, hides after given time
     void startTip(); // Text with help on an exam start
+		
 			/** Text with what to click after an answer.
 			 * @p isCorrect - was the question correct
 			 * @p toCorrection - text how to see corrected answer will be shown. */
@@ -62,16 +68,25 @@ public:
     void tryAgainTip(int time); // "Try again" text"
     void confirmTip(int time = 0); // tip about confirm an answer appears after given time
     void finishTip(); // paper like exam report when finished
-    
+		
+				/** Flaying note-head animation starting from score to guitar */
+		void correctFromScore(int prevTime, TfingerPos& goodPos);
+		
+				/** Flaying note-head animation starting from note name to guitar */
+		void correctFromName();
     void clearCanvas();
+		
         /** Returns point size of 'A' letter multiplied by 2. */
     int bigFont();
+		
         /** Returns default font with point size scaled to 'A' letter multiplied by given factor. */
     QFont tipFont(qreal factor = 1);
     QString startTipText();
+		
         /** Paints animated exclamation mark over answering widget. */
     void markAnswer(TQAtype::Etype qType, TQAtype::Etype aType);
-        /** Paints rect around given type of widget to mark where is answer. */
+		
+        /** Paints rectangle around given type of widget to mark where is answer. */
     const QRect& getRect(TQAtype::Etype kindOf);
     
 public slots:
@@ -81,6 +96,7 @@ public slots:
     void clearConfirmTip();
     void showConfirmTip();
 		void clearFinishTip();
+		void clearCorrection();
   
 signals:
 				/** This signal is emitted when user click image button on the some tip.*/
@@ -94,22 +110,27 @@ protected slots:
 				/** Calls sizeChanged with delay to allow MainWindow deploy its new geometry. */
 		void sizeChangedDelayed(QSize newSize);
     void sizeChanged();
+		void correctAnimFinished();
     
     
 private:
     MainWindow 										*m_parent;
     QGraphicsScene 								*m_scene;
-    double 												m_scale;
+    double 												 m_scale;
     TgraphicsTextTip 							*m_resultTip, *m_whatTip, *m_startTip, *m_tryAgainTip, *m_confirmTip;
     TquestionTip 									*m_questionTip;
-    TnootkaCertificate 										*m_finishTip;
+    TnootkaCertificate 						*m_finishTip;
     Texam 												*m_exam;
-    TanimedTextItem 							*m_flyAnswer, *m_flyNote;
-    QParallelAnimationGroup 			*m_animation;
+//     TanimedTextItem 							*m_flyAnswer, *m_flyNote;
+//     QParallelAnimationGroup 			*m_animation;
+		TanimedItem										*m_correctAnim;
     QTimer 												*m_timerToConfirm;
-		int 													m_maxTipWidth;
-		bool 													m_guitarFree, m_nameFree, m_scoreFree;
-		QSize 												m_newSize;
+		int 													 m_maxTipWidth;
+		bool 													 m_guitarFree, m_nameFree, m_scoreFree;
+		QSize 												 m_newSize;
+		QGraphicsEllipseItem					*m_flyEllipse;
+		TfingerPos										 m_goodPos;
+		QColor												 m_correctColor;
     
     
 private:
