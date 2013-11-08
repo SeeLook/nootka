@@ -637,7 +637,8 @@ void MainWindow::updsateSize() {
 
 void MainWindow::resizeEvent(QResizeEvent * event) {
     updsateSize();
-    emit sizeChanged(event->size());    
+		qDebug() << innerWidget->size();
+    emit sizeChanged(innerWidget->size());
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {

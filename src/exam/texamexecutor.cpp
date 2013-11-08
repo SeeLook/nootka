@@ -639,8 +639,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
 // 		m_canvas->finishTip();
     int waitTime = WAIT_TIME;
 		if (m_exercise) {
-			if (curQ.answerAs != TQAtype::e_asSound) // there is no correction after played answer 
-					waitTime = gl->E->correctViewDuration; // user has to have time to see his mistake and correct answer
+// 			if (curQ.answerAs != TQAtype::e_asSound) // there is no correction after played answer 
+			waitTime = gl->E->correctViewDuration; // user has to have time to see his mistake and correct answer
 			m_exercise->checkAnswer();
 			if (!curQ.isCorrect()) { // correcting wrong answer
 					if (mW->correctChB->isChecked())
@@ -668,7 +668,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 					}
 				}
 		}
-    if (showResults && (gl->E->autoNextQuest || (m_exercise && curQ.answerAs == TQAtype::e_asSound))) {
+    if (showResults && (gl->E->autoNextQuest /*|| (m_exercise && curQ.answerAs == TQAtype::e_asSound)*/)) {
       m_lockRightButt = true; // to avoid nervous users click mouse during wait time
       if (m_shouldBeTerminated)
           stopExamSlot();
@@ -676,7 +676,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
       if (curQ.isCorrect()) {
           m_askingTimer->start(WAIT_TIME);
       } else {
-          if ((!m_exercise || (m_exercise && curQ.answerAs == TQAtype::e_asSound)) 
+          if ((!m_exercise /*|| (m_exercise && curQ.answerAs == TQAtype::e_asSound)*/) 
 						&& gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
               QTimer::singleShot(WAIT_TIME, this, SLOT(repeatQuestion()));
           else
@@ -719,6 +719,9 @@ void TexamExecutor::correctAnswer() {
 			if (curQ.questionAs == TQAtype::e_asName)
 					goodNote = curQ.qa_2.note;
 			mW->noteName->correctName(goodNote, markColor, curQ.isWrong());
+	} else { // answer as played sound
+			if (curQ.questionAs == TQAtype::e_asNote)
+				m_canvas->correctFromScore(gl->E->correctViewDuration, curQ.qa.pos);
 	}
 	m_lockRightButt = true; // to avoid nervous users click mouse during correctViewDuration
 	if (!mW->correctChB->isChecked() && gl->E->autoNextQuest) {

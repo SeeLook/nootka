@@ -46,15 +46,19 @@ public:
     void askQuestion(Tnote note, char realStr = 0);
     void askQuestion(Tnote note, TkeySignature key, char realStr = 0);
     void clearScore();
+		
 				/** Sets scordature to value kept in Tglobal. */
     void setScordature();
+		
 				/** It sets TkeySignatureView background to question color, sets fake key signature
         * and invokes askQuestion in TkeySignatureView */
     void prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName);
+		
         /** Connects or disconnects reactions for clicking a note
         * and showing enharmonic notes depends on is exam executing (disconnect)
         * or not (connect).*/
     void isExamExecuting(bool isIt);
+		
         /** Internally it calls setScoreDisabled(false) to unlock
         * and locks unused noteViews (1 & 2) again. */
     void unLockScore();
@@ -62,20 +66,30 @@ public:
     void setNoteViewBg(int id, QColor C);
         /** Sets given accidental*/
     void forceAccidental(Tnote::Eacidentals accid);
+		
         /** Marks note with border and blur.
          * it is used to show was answer correct or not. */
     void markAnswered(QColor blurColor);
     void markQuestion(QColor blurColor);
+		
 				/** Removes score controller from layout and returns a pointer to it.  */
 		TscoreControl* getFreeController();
+		
 				/** Performs animation that transforming current selected note to given @p goodNote */
 		void correctNote(Tnote& goodNote, const QColor& color);
 				/** Performs rewinding of current key to @p newKey */
 		void correctKeySignature(TkeySignature newKey);
 		void correctAccidental(Tnote& goodNote);
 		
+				/** Returns note head rectangle if visible or empty QRectF.  */
+		QRectF noteRect(int noteNr);
+			
+				/** Position of a note in graphics view coordinates. */
+		QPoint notePos(int noteNr);
+		
 signals:
 		void noteChanged(int index, Tnote note);
+		
         /** This signal is emitted during an exam when expert answers are used. */
     void noteClicked();
 		
@@ -94,6 +108,7 @@ protected slots:
 private:
 				/** Sets notes colors according to globals. */
 		void restoreNotesSettings();
+		
 				/** Creates QGraphicsRectItem with answer color, places it under the staff and adds to m_bgRects list.
 				 * clearScore() removes it. */
 		void createBgRect(QColor c, qreal width, QPointF pos);
@@ -101,7 +116,7 @@ private:
 private:
 		QGraphicsSimpleTextItem 		*m_questMark;
 		QGraphicsTextItem 					*m_questKey;
-		QList<QGraphicsRectItem*> 	 m_bgRects; // list of rects with hightlights
+		QList<QGraphicsRectItem*> 	 m_bgRects; // list of rects with highlights
 		TstrikedOutItem 						*m_strikeOut;
 		TblinkingItem 							*m_bliking, *m_keyBlinking;
 		Tnote												 m_goodNote;

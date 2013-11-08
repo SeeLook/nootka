@@ -18,7 +18,7 @@
 
 #include "tanimeditem.h"
 #include <QTimer>
-#include <QDebug>
+// #include <QDebug>
 
 
 TanimedItem::TanimedItem(QGraphicsItem* item, QObject* parent) :

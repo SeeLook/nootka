@@ -47,27 +47,39 @@ public:
 
     void askQuestion(TfingerPos pos);
     void clearFingerBoard();
-        /** Creates rectriangle (or two) indicates range of frets in exam.*/
+		
+        /** Creates rectangle (or two) indicates range of frets in exam.*/
     void createRangeBox(char loFret, char hiFret);
     void prepareAnswer();
     void deleteRangeBox();
     void setGuitarDisabled(bool disabled);
+		
         /** Highlights given string */
     void setHighlitedString(char realStrNr);
     void clearHighLight();
+		
         /** Returns x coordinate of 12th fret where guitar body starts. */
     int posX12fret();
-				/** Guitar fingerboard rectriangle */
+		
+				/** Guitar fingerboard rectangle */
 		QRect fbRect() { return m_fbRect; }
+		
         /** Returns width of a string. */
     qreal stringWidth(int strNr) { return m_strWidth[qBound(1, strNr + 1, 6)]; }
+    
         /** Returns @param true when cursor is over the widget. */
     bool isCursorOverGuitar() { return m_isCursorOverGuitar; }
+    
         /** Marks selected string or fret. Marking is cleaned when clearFingerBoard() is invoked. */
     void markAnswer(QColor blurColor);
+		
         /** Highlights m_questString or m_questFinger after answering. */
     void markQuestion(QColor blurColor);
 		void correctPosition(TfingerPos &pos, const QColor color);
+		
+				/** Returns scene coordinates of given guitar position */
+		QPointF fretToPos(TfingerPos &pos);
+		QRectF fingerRect() const;
 
 signals:
     void guitarClicked(Tnote note);
@@ -81,54 +93,42 @@ protected:
     
     void paint();
     Tnote posToNote(int str, int fret);
+		
 				/** Determines string width by its note pitch. Sets loNote & hiNote */
 		void setTune();
 
 private:
-        /** Represents top left positions and size of a fingerboard */
-    QRect m_fbRect;
-        /** Distance between strings */
-    short m_strGap;
-        /** Average width of fret */
-    short m_fretWidth;
-        /** Position of the last fret (in whole widget coordinates) */
-    short lastFret;
-        /** Actual position of cursor over the guitar in strings/frets coordinates */
-    short m_curStr, m_curFret;
-				/** Chromatic numbers of lowest note in tune and highest. */
-		short m_loNote, m_hiNote;
-        /** It keeps position of selected fingerprint.*/
-    TfingerPos m_fingerPos;
-        /** @param fretsPos  stores X positions of frets in global widget coordinates */
-    short m_fretsPos[24];
-        /** Array of width each string. Width depends on fretboard height. */
-    qreal m_strWidth[6];
-				/** Base values from which m_strWidth is calculated determined from tune. */
-		qreal m_widthFromPitch[6];
-		QColor m_strColors[6];
+    QRect 			m_fbRect; /** Represents top left positions and size of a fingerboard */
+    short 			m_strGap; /** Distance between strings */
+    short 			m_fretWidth; /** Average width of fret */
+    short 			lastFret; /** Position of the last fret (in whole widget coordinates) */
+    short 			m_curStr, m_curFret; /** Actual position of cursor over the guitar in strings/frets coordinates */
+		short 			m_loNote, m_hiNote; /** Chromatic numbers of lowest note in tune and highest. */
+    TfingerPos 	m_fingerPos; /** It keeps position of selected fingerprint.*/
+    short 			m_fretsPos[24]; /** @param fretsPos stores X positions of frets in global widget coordinates */
+    qreal 			m_strWidth[6]; /** Array of width each string. Width depends on fretboard height. */
+		qreal 			m_widthFromPitch[6]; /** Base values from which m_strWidth is calculated determined from tune. */
+		QColor 			m_strColors[6];
 
-    QGraphicsScene *m_scene;
-    QGraphicsEllipseItem *m_workFinger, *m_fingers[6], *m_questFinger;
-    int m_strNr, m_fretNr;
-    QGraphicsLineItem *m_workStrings[6], *m_strings[6], *m_questString, *m_highString;
-    QGraphicsSimpleTextItem *m_questMark;
-				/** Tip about a note is imposible to show with current tune. */
-		TgraphicsTextTip *m_beyondTip;
-        /** Keeps selected note*/
-    Tnote m_selNote;
+    QGraphicsScene 						*m_scene;
+    QGraphicsEllipseItem 			*m_workFinger, *m_fingers[6], *m_questFinger;
+    int 											 m_strNr, m_fretNr;
+    QGraphicsLineItem 				*m_workStrings[6], *m_strings[6], *m_questString, *m_highString;
+    QGraphicsSimpleTextItem 	*m_questMark;
+		TgraphicsTextTip 					*m_beyondTip; /** Tip about a note is impossible to show with current tune. */
+    Tnote 										 m_selNote; /** Keeps selected note*/
         /** Position from a question - is needed to calculate size of questioned finger
         * or string if naughty user changes window size. */
-    TfingerPos m_questPos;
-        /** Frets range in an exam*/
-    char m_loFret, m_hiFret;
-    QGraphicsRectItem *m_rangeBox1, *m_rangeBox2;
-    bool m_isDisabled;
-    int m_hilightedStrNr;
-    bool m_isCursorOverGuitar;
-		TfingerPos m_goodPos;
-		TstrikedOutItem *m_strikeOut;
-		TanimedItem *m_animation;
-		QGraphicsItem *m_movingItem; // string line during animation
+    TfingerPos 								 m_questPos;
+    char 											 m_loFret, m_hiFret; /** Frets range in an exam*/
+    QGraphicsRectItem 				*m_rangeBox1, *m_rangeBox2;
+    bool 											 m_isDisabled;
+    int 											 m_hilightedStrNr;
+    bool 											 m_isCursorOverGuitar;
+		TfingerPos 								 m_goodPos;
+		TstrikedOutItem 					*m_strikeOut;
+		TanimedItem 							*m_animation;
+		QGraphicsItem 						*m_movingItem; /** string line during animation */
 
 private:
     void paintFinger(QGraphicsEllipseItem *f, char strNr, char fretNr);

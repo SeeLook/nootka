@@ -22,6 +22,8 @@
 #include "tscorekeysignature.h"
 #include "tscorecontrol.h"
 #include "tscoreclef.h"
+#include "tscorescene.h"
+#include "tscoreview.h"
 #include "ttune.h"
 #include "tglobals.h"
 #include <tgraphicstexttip.h>
@@ -30,6 +32,7 @@
 #include <QPen>
 #include <QLayout>
 #include <QTimer>
+#include <QDebug>
 
 
 extern Tglobals *gl;
@@ -136,6 +139,24 @@ TscoreControl* TmainScore::getFreeController() {
 }
 
 
+QRectF TmainScore::noteRect(int noteNr) {
+		return QRectF(0, 0, staff()->noteSegment(noteNr)->mainNote()->rect().width() * score()->transform().m11(), 
+			staff()->noteSegment(noteNr)->mainNote()->rect().height() * score()->transform().m11());
+}
+
+
+QPoint TmainScore::notePos(int noteNr) {
+	QPointF nPos;
+	if (staff()->lower() && staff()->lower()->noteSegment(noteNr)->mainNote()->isVisible())
+		nPos = staff()->lower()->noteSegment(noteNr)->mainNote()->mapToScene(staff()->lower()->noteSegment(noteNr)->mainNote()->pos());
+	else if (staff()->noteSegment(noteNr)->mainNote()->isVisible())
+		nPos = staff()->noteSegment(noteNr)->mainNote()->mapToScene(staff()->noteSegment(noteNr)->mainNote()->pos());
+	QPoint vPos = score()->mapFromScene(staff()->pos().x() + staff()->noteSegment(noteNr)->pos().x() + staff()->noteSegment(noteNr)->mainNote()->pos().x(), staff()->noteSegment(noteNr)->mainNote()->pos().y());
+// 	QPoint vPos = score()->mapFromScene(nPos);
+// 	qDebug() << staff()->noteSegment(noteNr)->mainNote()->pos() << "scene" << nPos << "view" << vPos << score()->transform().m11() << score()->geometry() << score()->sceneRect();
+// 	return QPoint(vPos.x() + geometry().x(), vPos.y() + geometry().y());
+	return mapToParent(score()->mapToParent(vPos));
+}
 
 //####################################################################################################
 //############################## METHODS RELATED TO EXAMS ############################################
