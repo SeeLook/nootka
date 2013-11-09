@@ -21,8 +21,8 @@
 #include "tqaunit.h"
 #include "texam.h"
 #include "tquestiontip.h"
-#include "animations/tanimedtextitem.h"
-#include <animations/tanimeditem.h>
+// #include "animations/tanimedtextitem.h"
+#include <animations/tcombinedanim.h>
 #include "tnootkacertificate.h"
 #include "tgraphicstexttip.h"
 #include "mainwindow.h"
@@ -281,12 +281,16 @@ void Tcanvas::correctFromScore(int prevTime, TfingerPos &goodPos) {
 	m_flyEllipse->setBrush(QBrush(QColor(gl->EquestionColor.name())));
 	m_scene->addItem(m_flyEllipse);
 	m_flyEllipse->setPos(mapToScene(m_parent->score->notePos(1)));
-	m_correctAnim = new TanimedItem(m_flyEllipse, this);
+	m_correctAnim = new TcombinedAnim(m_flyEllipse, this);
 	m_correctAnim->setDuration(600);
 // 	m_correctAnim->setEasingCurveType(QEasingCurve::OutExpo);	
 	connect(m_correctAnim, SIGNAL(finished()), this, SLOT(correctAnimFinished()));
-	m_correctAnim->startMoving(m_flyEllipse->pos(), 
+	m_correctAnim->setMoving(m_flyEllipse->pos(), 
 					mapToScene(m_parent->guitar->mapToParent(m_parent->guitar->mapFromScene(m_parent->guitar->fretToPos(goodPos)))));
+	m_correctAnim->moving()->setEasingCurveType(QEasingCurve::InOutBack);
+	m_correctAnim->setScaling(1.0, 2.0);
+	m_correctAnim->scaling()->setEasingCurveType(QEasingCurve::OutQuint);
+	m_correctAnim->startAnimations();
 	QTimer::singleShot(prevTime, this, SLOT(clearCorrection()));
 }
 

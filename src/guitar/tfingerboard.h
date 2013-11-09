@@ -24,7 +24,7 @@
 #include <QWidget>
 #include <QGraphicsView>
 
-class TanimedItem;
+class TmovedAnim;
 class TstrikedOutItem;
 class TgraphicsTextTip;
 
@@ -127,7 +127,7 @@ private:
     bool 											 m_isCursorOverGuitar;
 		TfingerPos 								 m_goodPos;
 		TstrikedOutItem 					*m_strikeOut;
-		TanimedItem 							*m_animation;
+		TmovedAnim 							*m_animation;
 		QGraphicsItem 						*m_movingItem; /** string line during animation */
 
 private:

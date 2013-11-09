@@ -105,7 +105,7 @@ void TstrikedOutItem::startBlinking(int count) {
 		if (m_blinking)
 			return;
 		m_blinking = new TblinkingItem(this);
-		connect(m_blinking, SIGNAL(blinkingFinished()), this, SLOT(blinkingSlot()));
+		connect(m_blinking, SIGNAL(finished()), this, SLOT(blinkingSlot()));
 		m_blinking->startBlinking(count);
 }
 

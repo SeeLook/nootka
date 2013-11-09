@@ -19,7 +19,7 @@
 #include "tnotenamelabel.h"
 #include <animations/tstrikedoutitem.h>
 #include <animations/tblinkingitem.h>
-#include <animations/tanimeditem.h>
+#include <animations/tmovedanim.h>
 #include <tgraphicstexttip.h>
 #include <QGraphicsTextItem>
 #include <QGraphicsEffect>
@@ -176,7 +176,7 @@ void TnoteNameLabel::thrownText(const QString& newText, int p1time, int p2Time) 
 	m_p2Time = p2Time;
 	m_throwAnim = 0;
 	if (p1time > 0) {
-		m_throwAnim = new TanimedItem(m_textItem, this);
+		m_throwAnim = new TmovedAnim(m_textItem, this);
 		m_throwAnim->setDuration(p1time);
 		m_throwAnim->setEasingCurveType(QEasingCurve::OutExpo);
 		connect(m_throwAnim, SIGNAL(finished()), this, SLOT(throwingSlot()));
@@ -274,7 +274,7 @@ void TnoteNameLabel::throwingSlot() {
 			m_throwAnim->deleteLater();
 	if (m_p2Time) { // after first phase (thrown away)
 		m_textItem->setHtml(m_newText);
-		m_throwAnim = new TanimedItem(m_textItem, this);
+		m_throwAnim = new TmovedAnim(m_textItem, this);
 		m_throwAnim->setDuration(m_p2Time);
 		m_p2Time = 0;
 		m_throwAnim->setEasingCurveType(QEasingCurve::OutExpo);

@@ -17,7 +17,7 @@
  ***************************************************************************/
 
 #include "tfingerboard.h"
-#include "animations/tanimeditem.h"
+#include "animations/tmovedanim.h"
 #include "tglobals.h"
 #include "ttune.h"
 #include <tgraphicstexttip.h>
@@ -839,7 +839,7 @@ void TfingerBoard::strikeBlinkingFinished() {
 				isLine = true;
 		} else 
 				return;
-		m_animation = new TanimedItem(m_movingItem, this);
+		m_animation = new TmovedAnim(m_movingItem, this);
 		m_animation->setDuration(300);
 		m_animation->setEasingCurveType(QEasingCurve::OutExpo);
 		QPointF startPos, endPos;

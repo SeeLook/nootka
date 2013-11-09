@@ -340,7 +340,7 @@ void TmainScore::correctAccidental(Tnote& goodNote) {
 		else
 				staff()->noteSegment(0)->mainAccid()->setBrush(QBrush(pp.color()));
 		m_bliking->startBlinking(3);
-		connect(m_bliking, SIGNAL(blinkingFinished()), this, SLOT(strikeBlinkingFinished()));
+		connect(m_bliking, SIGNAL(finished()), this, SLOT(strikeBlinkingFinished()));
 }
 
 
@@ -350,7 +350,7 @@ void TmainScore::correctKeySignature(TkeySignature newKey) {
 		else
 				return;
 		m_goodKey = newKey;
-		connect(m_keyBlinking, SIGNAL(blinkingFinished()), this, SLOT(keyBlinkingFinished()));
+		connect(m_keyBlinking, SIGNAL(finished()), this, SLOT(keyBlinkingFinished()));
 		m_keyBlinking->startBlinking(2);
 }
 
