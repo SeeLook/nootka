@@ -24,8 +24,7 @@
 #include "tqatype.h"
 #include <tfingerpos.h>
 
-
-class TanimedItem;
+class TcombinedAnim;
 class TnootkaCertificate;
 class QTimer;
 class TtipScene;
@@ -123,7 +122,7 @@ private:
     Texam 												*m_exam;
 //     TanimedTextItem 							*m_flyAnswer, *m_flyNote;
 //     QParallelAnimationGroup 			*m_animation;
-		TanimedItem										*m_correctAnim;
+		TcombinedAnim									*m_correctAnim;
     QTimer 												*m_timerToConfirm;
 		int 													 m_maxTipWidth;
 		bool 													 m_guitarFree, m_nameFree, m_scoreFree;

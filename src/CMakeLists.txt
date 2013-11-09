@@ -175,12 +175,15 @@ SET( NOOTKA_SRCS
   charts/tstatisticstip.cpp
   charts/ttiphandler.cpp
 ###### Animations
+  animations/tabstractanim.cpp
 	animations/tstrikedoutitem.cpp
 	animations/tanimedtextitem.cpp
 	animations/tcrossfadetextanim.cpp
-	animations/tanimeditem.cpp
+	animations/tmovedanim.cpp
 	animations/tblinkingitem.cpp
 	animations/tthrownitem.cpp
+	animations/tscaledanim.cpp
+	animations/tcombinedanim.cpp
   )
   
 # if(MINGW)
@@ -276,12 +279,15 @@ SET( NOOTKA_MOC_SRCS
   charts/tmainchart.h
   charts/ttiphandler.h
 ###### Animations
+  animations/tabstractanim.h
 	animations/tstrikedoutitem.h
 	animations/tanimedtextitem.h
-	animations/tanimeditem.h
+	animations/tmovedanim.h
 	animations/tcrossfadetextanim.h
 	animations/tblinkingitem.h
 	animations/tthrownitem.h
+	animations/tscaledanim.h
+	animations/tcombinedanim.h
 )
   
 

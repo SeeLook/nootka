@@ -16,37 +16,31 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tblinkingitem.h"
+#ifndef TSCALEDANIM_H
+#define TSCALEDANIM_H
+
+#include "tabstractanim.h"
 
 
-TblinkingItem::TblinkingItem(QGraphicsItem* item, QObject* parent ):
-	TabstractAnim(item, parent)
+class TscaledAnim : public TabstractAnim
 {
+  Q_OBJECT  
+	
+public:
+	explicit TscaledAnim(QGraphicsItem *item, QObject* parent = 0);
+	
+			/** Starts performing scaling. Start scale is current item scale. 
+			 * If @p midScale is set (0.0 or greater) this value will be achieved 
+			 * in the middle of animation time */
+	void startScaling(qreal endScale, qreal midScale = -1.0);
+	
+protected:
+	virtual void animationRoutine();
 
-}
+private:
+	qreal				m_beginScale, m_midScale, m_endScale, m_scaleToGo;
+	int 				m_currentStep, m_stepCount;
+	
+};
 
-
-void TblinkingItem::startBlinking(int count) {
-	installTimer();
-	m_maxCount = count * 2;
-	m_blinkPhase = 0;
-	timer()->start(150);
-	animationRoutine();
-}
-
-
-void TblinkingItem::animationRoutine() {
-		m_blinkPhase++;
-		if (m_blinkPhase <= m_maxCount) {
-			if (m_blinkPhase % 2) { // phase 1, 3, ...
-					item()->hide();
-			} else { // phase 2, 4, ...
-					item()->show();
-			}
-		} else {
-				timer()->stop();
-				emit finished();
-		}
-}
-
-
+#endif // TSCALEDANIM_H

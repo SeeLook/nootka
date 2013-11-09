@@ -21,8 +21,8 @@
 #include "tscorescene.h"
 #include "tscorestaff.h"
 #include "tdropshadoweffect.h"
-#include <animations/tanimeditem.h>
 #include <animations/tcrossfadetextanim.h>
+#include <animations/tcombinedanim.h>
 #include <QGraphicsEffect>
 #include <QGraphicsSceneHoverEvent>
 #include <QPainter>
@@ -187,7 +187,8 @@ void TscoreNote::moveNote(int pos) {
         m_mainAccid->show();
     }
 		if (m_noteAnim) { // initialize animation
-				m_noteAnim->startMoving(m_mainNote->pos(), QPointF(3.0, pos));
+				m_noteAnim->setMoving(m_mainNote->pos(), QPointF(3.0, pos));
+				m_noteAnim->startAnimations();
 		} else { // just move a note
 			m_mainNote->setPos(3.0, pos);
 		}
@@ -300,11 +301,14 @@ void TscoreNote::setReadOnly(bool ro) {
 void TscoreNote::enableAnimation(bool enable, int duration) {
 	if (enable) {
 			if (!m_noteAnim) {
-					m_noteAnim = new TanimedItem(m_mainNote, this);
+					m_noteAnim = new TcombinedAnim(m_mainNote, this);
+					m_noteAnim->setDuration(duration);
+					m_noteAnim->setMoving(mainNote()->pos(), mainNote()->pos());
+					m_noteAnim->moving()->setEasingCurveType(QEasingCurve::InExpo);
+					m_noteAnim->setScaling(1.0, 1.5);
+					m_noteAnim->scaling()->setEasingCurveType(QEasingCurve::OutQuint);
 					m_accidAnim = new TcrossFadeTextAnim(m_mainAccid, this);
 			}
-			m_noteAnim->setDuration(duration);
-			m_noteAnim->setEasingCurveType(QEasingCurve::InExpo);
 			m_accidAnim->setDuration(duration);
 	} else {
 			if (m_noteAnim) {

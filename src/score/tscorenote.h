@@ -21,8 +21,8 @@
 
 #include "tscoreitem.h"
 
+class TcombinedAnim;
 class TcrossFadeTextAnim;
-class TanimedItem;
 class TscoreControl;
 class TscoreScene;
 
@@ -109,7 +109,7 @@ private:
 		QGraphicsSimpleTextItem 			*m_stringText;
     QList<QGraphicsLineItem*>     m_upLines, m_mainUpLines, m_mainDownLines, m_downLines;
     QColor                        m_workColor, m_mainColor;
-		TanimedItem										*m_noteAnim;
+		TcombinedAnim									*m_noteAnim;
 		TcrossFadeTextAnim 						*m_accidAnim;
     
     int                           m_workPosY, m_mainPosY;

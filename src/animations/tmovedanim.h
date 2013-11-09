@@ -16,37 +16,41 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tblinkingitem.h"
+#ifndef TANIMEDITEM_H
+#define TANIMEDITEM_H
+
+#include "tabstractanim.h"
 
 
-TblinkingItem::TblinkingItem(QGraphicsItem* item, QObject* parent ):
-	TabstractAnim(item, parent)
+
+
+/** This class implements moving animation of QGraphicsItem. 
+ * Default duration is 150 ms and item is moving every 30 ms. */
+class TmovedAnim : public TabstractAnim
 {
+    Q_OBJECT
 
-}
+public:
+	explicit TmovedAnim(QGraphicsItem* item, QObject* parent = 0);
+	
+	bool isMoving() { return !(bool)m_currStep; }
+	
+	
+public slots:
+	void startMoving(const QPointF& start, const QPointF& stop);
+	
+signals:
+	void finished();
+	
+protected slots:
+	void animationRoutine();
+	
+private:
+	QPointF										 m_startPos, m_endPos;
+	int												 m_step, m_currStep;
+	QGraphicsLineItem 				*m_line;
+  
 
+};
 
-void TblinkingItem::startBlinking(int count) {
-	installTimer();
-	m_maxCount = count * 2;
-	m_blinkPhase = 0;
-	timer()->start(150);
-	animationRoutine();
-}
-
-
-void TblinkingItem::animationRoutine() {
-		m_blinkPhase++;
-		if (m_blinkPhase <= m_maxCount) {
-			if (m_blinkPhase % 2) { // phase 1, 3, ...
-					item()->hide();
-			} else { // phase 2, 4, ...
-					item()->show();
-			}
-		} else {
-				timer()->stop();
-				emit finished();
-		}
-}
-
-
+#endif // TANIMEDITEM_H

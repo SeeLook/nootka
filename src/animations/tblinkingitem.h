@@ -19,11 +19,15 @@
 #ifndef TBLINKINGITEM_H
 #define TBLINKINGITEM_H
 
-#include <QGraphicsObject>
+
+#include "tabstractanim.h"
 
 
-/** T*/
-class TblinkingItem : public QObject
+
+/** 
+ * This class performs blinking of QGraphicsItem.
+ */
+class TblinkingItem : public TabstractAnim
 {
 		Q_OBJECT
     
@@ -31,20 +35,17 @@ public:
 	
 		explicit TblinkingItem(QGraphicsItem *item, QObject* parent = 0);
 		
-		
-signals:
-		void blinkingFinished();
-		
+				
 public slots:
 				/** Starts blinking animation. */
 		void startBlinking(int count = 2);
 		
 		
 protected slots:
-		void blinkingSlot();
+		virtual void animationRoutine();
+		
 
 private:
-		QGraphicsItem 	*m_item;
 		int	m_maxCount, m_blinkPhase; // identifies phases of strike blinking animation
 		
 

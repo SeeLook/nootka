@@ -23,7 +23,7 @@
 #include <QGraphicsView>
 #include <QGraphicsTextItem>
 
-class TanimedItem;
+class TmovedAnim;
 class TblinkingItem;
 
 			/**  Returns style sheet text: 
@@ -98,7 +98,7 @@ private:
 	QGraphicsTextItem					*m_textItem;
 	TstrikedOutItem						*m_strikeOut;
 	TblinkingItem							*m_blinking;
-	TanimedItem								*m_throwAnim;
+	TmovedAnim								*m_throwAnim;
 	QGraphicsSimpleTextItem		*m_questMark, *m_stringNumber;
 	
 };

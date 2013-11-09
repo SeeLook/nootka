@@ -16,37 +16,42 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tblinkingitem.h"
+#include "tabstractanim.h"
+#include <QTimer>
 
-
-TblinkingItem::TblinkingItem(QGraphicsItem* item, QObject* parent ):
-	TabstractAnim(item, parent)
+TabstractAnim::TabstractAnim(QGraphicsItem* it, QObject* parent) :
+	QObject(parent),
+	m_timer(0),
+	m_item(it)
 {
-
+		m_easingCurve = new QEasingCurve();
 }
 
 
-void TblinkingItem::startBlinking(int count) {
-	installTimer();
-	m_maxCount = count * 2;
-	m_blinkPhase = 0;
-	timer()->start(150);
-	animationRoutine();
+TabstractAnim::~TabstractAnim()
+{
+		delete m_easingCurve;
 }
 
 
-void TblinkingItem::animationRoutine() {
-		m_blinkPhase++;
-		if (m_blinkPhase <= m_maxCount) {
-			if (m_blinkPhase % 2) { // phase 1, 3, ...
-					item()->hide();
-			} else { // phase 2, 4, ...
-					item()->show();
-			}
-		} else {
-				timer()->stop();
-				emit finished();
-		}
+void TabstractAnim::installTimer() {
+	if (!m_timer) {
+			m_timer = new QTimer(this);
+			connect(m_timer, SIGNAL(timeout()), this, SLOT(animationRoutine()));
+	}
 }
+
+
+void TabstractAnim::setTimer(QTimer* tim) {
+	if (m_timer)
+		delete m_timer;
+	m_timer = tim;
+	if (m_timer)
+		connect(m_timer, SIGNAL(timeout()), this, SLOT(animationRoutine()));
+}
+
+
+
+
 
 

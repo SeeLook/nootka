@@ -16,51 +16,50 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TANIMEDITEM_H
-#define TANIMEDITEM_H
-
-#include <QObject>
-#include <QGraphicsItem>
-#include <QEasingCurve>
-
-#define CLIP_TIME (30) // every move per 30 ms
-
-class QTimer;
+#include "tscaledanim.h"
 
 
-/** This class implements moving animation of QGraphicsItem. 
- * Default duration is 150 ms and item is moving every 30 ms. */
-class TanimedItem : public QObject
+TscaledAnim::TscaledAnim(QGraphicsItem* item, QObject* parent) :
+	TabstractAnim(item, parent)
 {
-    Q_OBJECT
+		installTimer();
+}
 
-public:
-	explicit TanimedItem(QGraphicsItem* item, QObject* parent = 0);
-	
-	void setDuration(int duration) { m_duration = duration; m_step = m_duration / CLIP_TIME; }
-	
-	bool isMoving() { return !(bool)m_currStep; }
-	
-	void setEasingCurveType(QEasingCurve::Type type) { m_easingCurve.setType(type); }
-	
-public slots:
-	void startMoving(const QPointF& start, const QPointF& stop);
-	
-signals:
-	void finished();
-	
-protected slots:
-	void movingSlot();
-	
-private:
-	QTimer										*m_timer;
-	QPointF										 m_startPos, m_endPos;
-	QGraphicsItem							*m_item;
-	int												 m_step, m_currStep, m_duration;
-	QGraphicsLineItem 				*m_line;
-	QEasingCurve							 m_easingCurve;
-  
 
-};
+void TscaledAnim::startScaling(qreal endScale, qreal midScale) {
+		m_beginScale = item()->scale();
+		m_endScale = endScale;
+		m_midScale = midScale;
+		m_stepCount = duration() / CLIP_TIME;
+		m_currentStep = -1;
+		if (m_midScale >= 0.0) {
+			m_stepCount = m_stepCount / 2;
+			m_scaleToGo = m_midScale;
+		} else
+			m_scaleToGo = m_endScale;
+		
+		timer()->start(CLIP_TIME);
+		animationRoutine();
+}
 
-#endif // TANIMEDITEM_H
+
+void TscaledAnim::animationRoutine() {
+		m_currentStep++;
+		if (m_currentStep <= m_stepCount) {
+				item()->setScale(m_beginScale + easyValue((qreal)m_currentStep / (qreal)m_stepCount) * (m_scaleToGo - m_beginScale));
+		} else if (m_midScale >= 0.0) { // second part of an animation - scale goes from mid val to end val
+				m_scaleToGo = m_endScale;
+				m_stepCount = duration() / CLIP_TIME - (duration() / CLIP_TIME) / 2;
+				m_currentStep = -1;
+				m_beginScale = item()->scale();
+				m_midScale = -1.0; // reset it to stop performing second part second time
+				animationRoutine(); // perform it immediately...
+		} else {
+				timer()->stop();
+				emit finished();
+		}
+}
+
+
+
+
