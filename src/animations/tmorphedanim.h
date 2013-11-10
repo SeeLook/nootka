@@ -16,30 +16,36 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tblinkingitem.h"
+#ifndef TMORPHEDANIM_H
+#define TMORPHEDANIM_H
 
+#include "tabstractanim.h"
 
-TblinkingItem::TblinkingItem(QGraphicsItem* item, QObject* parent ):
-	TabstractAnim(item, parent)
+/**
+ * It imitates transforming ellipse into line and opposite.
+ * Ellipse is stretched to imitate line. 
+ * Position of ellipse remains untouched. 
+ */
+class TmorphedAnim : public TabstractAnim
 {
-}
+    Q_OBJECT
 
+public:
+	explicit TmorphedAnim(QGraphicsEllipseItem* ellipse = 0, QObject* parent = 0);
 
-void TblinkingItem::startBlinking(int count) {
-	initAnim(0, count *2, 150);
-}
+			/** Starts animation. When @p toLine is false It transforms line to ellipse 
+			 * otherwise ellipse to line */
+	void startMorphing(const QLineF& line, qreal width, bool toLine = true);
+	
+protected slots:
+	void animationRoutine();
+	
+private:
+	QLineF											m_line;
+	QGraphicsEllipseItem				*m_ellipse;	
+	bool 												m_toLine;
+	QPointF											m_startPos;
+	qreal												m_width;
+};
 
-
-void TblinkingItem::animationRoutine() {
-		nextStep();
-		if (currentStep() <= stepsNumber()) {
-			if (currentStep() % 2) { // phase 1, 3, ...
-					item()->hide();
-			} else { // phase 2, 4, ...
-					item()->show();
-			}
-		} else 
-				stopAnim();
-}
-
-
+#endif // TMORPHEDANIM_H

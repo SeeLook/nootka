@@ -16,34 +16,61 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TBLINKINGITEM_H
-#define TBLINKINGITEM_H
-
+#ifndef TCOMBINEDANIM_H
+#define TCOMBINEDANIM_H
 
 #include "tabstractanim.h"
+#include "tmovedanim.h"
+#include "tscaledanim.h"
+#include "tcoloredanim.h"
+#include "tmorphedanim.h"
 
 
-
-/** 
- * This class performs blinking of QGraphicsItem.
- */
-class TblinkingItem : public TabstractAnim
+/**
+ * Class that performs combined animations.
+ * 
+ * WARRING! duration has to be set before any animation type is initialized.
+ */ 
+class TcombinedAnim : public TabstractAnim
 {
-		Q_OBJECT
-    
-public:
-	
-		explicit TblinkingItem(QGraphicsItem *item, QObject* parent = 0);
-		
-				
-public slots:
-				/** Starts blinking animation. */
-		void startBlinking(int count = 2);
-		
-		
-protected slots:
-		virtual void animationRoutine();		
+    Q_OBJECT
 
+public:
+	explicit TcombinedAnim(QGraphicsItem* item = 0, QObject* parent = 0);
+	
+	void startAnimations();
+	
+	void setMoving(const QPointF& start, const QPointF& stop);
+	TmovedAnim* moving() { return m_moving; }
+	
+	void setScaling(qreal scaleEnd, qreal scaleMid = -1.0);
+	TscaledAnim* scaling() { return m_scaling; }
+	
+	void setColoring(const QColor &endColor);
+	TcoloredAnim* coloring() { return m_coloring; }
+	
+	void setMorphing(const QLineF &line, qreal width, bool toLine = true);
+	TmorphedAnim* morphing() { return m_morphing; }
+	
+protected slots:
+	void finishSlot();
+	
+private:
+			/** Common routines for all kinds of animations */
+	void prepareAnim(TabstractAnim *anim);
+
+private:
+	TmovedAnim				*m_moving;
+	QPointF						 m_startMov, m_stopMov;
+	TscaledAnim				*m_scaling;
+	qreal							 m_scaleEnd, m_scaleMid;
+	TcoloredAnim			*m_coloring;
+	QColor						 m_endColor;
+	TmorphedAnim			*m_morphing;
+	QLineF						 m_line;
+	qreal							 m_lineWidth;
+	bool							 m_toLine;
+	
 };
 
-#endif // TBLINKINGITEM_H
+#endif // TCOMBINEDANIM_H

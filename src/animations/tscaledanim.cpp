@@ -22,7 +22,6 @@
 TscaledAnim::TscaledAnim(QGraphicsItem* item, QObject* parent) :
 	TabstractAnim(item, parent)
 {
-		installTimer();
 }
 
 
@@ -30,34 +29,29 @@ void TscaledAnim::startScaling(qreal endScale, qreal midScale) {
 		m_beginScale = item()->scale();
 		m_endScale = endScale;
 		m_midScale = midScale;
-		m_stepCount = duration() / CLIP_TIME;
-		m_currentStep = -1;
+		int stepNr = duration() / CLIP_TIME;
 		if (m_midScale >= 0.0) {
-			m_stepCount = m_stepCount / 2;
+			stepNr = stepNr / 2;
 			m_scaleToGo = m_midScale;
 		} else
 			m_scaleToGo = m_endScale;
-		
-		timer()->start(CLIP_TIME);
-		animationRoutine();
+		initAnim(-1, stepNr);
 }
 
 
 void TscaledAnim::animationRoutine() {
-		m_currentStep++;
-		if (m_currentStep <= m_stepCount) {
-				item()->setScale(m_beginScale + easyValue((qreal)m_currentStep / (qreal)m_stepCount) * (m_scaleToGo - m_beginScale));
+		nextStep();
+		if (currentStep() <= stepsNumber()) {
+				item()->setScale(m_beginScale + easyValue((qreal)currentStep() / (qreal)stepsNumber()) * (m_scaleToGo - m_beginScale));
 		} else if (m_midScale >= 0.0) { // second part of an animation - scale goes from mid val to end val
 				m_scaleToGo = m_endScale;
-				m_stepCount = duration() / CLIP_TIME - (duration() / CLIP_TIME) / 2;
-				m_currentStep = -1;
+				setStepNumber(duration() / CLIP_TIME - (duration() / CLIP_TIME) / 2);
+				resetStepCounter();
 				m_beginScale = item()->scale();
 				m_midScale = -1.0; // reset it to stop performing second part second time
 				animationRoutine(); // perform it immediately...
-		} else {
-				timer()->stop();
-				emit finished();
-		}
+		} else 
+				stopAnim();
 }
 
 

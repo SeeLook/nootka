@@ -16,30 +16,41 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tblinkingitem.h"
+#include "tmorphedanim.h"
 
-
-TblinkingItem::TblinkingItem(QGraphicsItem* item, QObject* parent ):
-	TabstractAnim(item, parent)
+TmorphedAnim::TmorphedAnim(QGraphicsEllipseItem* ellipse, QObject* parent) :
+	TabstractAnim(ellipse, parent),
+	m_ellipse(ellipse)
 {
 }
 
 
-void TblinkingItem::startBlinking(int count) {
-	initAnim(0, count *2, 150);
+void TmorphedAnim::startMorphing(const QLineF& line, qreal width, bool toLine) {
+	m_line = line;
+	m_toLine = toLine;
+	m_width = width;
+	m_startPos = m_ellipse->pos();
+	initAnim();
 }
 
 
-void TblinkingItem::animationRoutine() {
-		nextStep();
-		if (currentStep() <= stepsNumber()) {
-			if (currentStep() % 2) { // phase 1, 3, ...
-					item()->hide();
-			} else { // phase 2, 4, ...
-					item()->show();
-			}
-		} else 
-				stopAnim();
+void TmorphedAnim::animationRoutine() {
+	nextStep();
+	if (currentStep() <= stepsNumber()) {
+		qreal ww, hh, easy;
+		easy = easyValue((qreal)currentStep() / (qreal)stepsNumber());
+		int mm = currentStep();
+// 		if (!m_toLine)
+// 			mm = qAbs(currentStep() - stepsNumber());
+		ww = m_ellipse->rect().width() + ((m_line.length() - m_ellipse->rect().width()) / (qreal)stepsNumber()) * mm * easy;
+		hh = m_ellipse->rect().height() + ((m_width - m_ellipse->rect().height()) / (qreal)stepsNumber()) * mm * easy;
+		m_ellipse->setRect(0, 0, ww, hh);
+	} else
+			stopAnim();
 }
+
+
+
+
 
 

@@ -96,7 +96,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
 	}
 
 	if (m_level->instrument != e_noInstrument || m_level->showStrNr || m_level->canBeGuitar()) {
-// 		qDebug() << "Question list created fret by fret";
+		qDebug() << "Question list created fret by fret";
 		for(int s = 0; s < gl->Gtune()->stringNr(); s++) {
 				if (m_level->usedStrings[gl->strOrder(s)])// check string by strOrder
 						for (int f = m_level->loFret; f <= m_level->hiFret; f++) {
@@ -129,7 +129,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
 				}
 		}
 	} else {
-// 		qDebug() << "Question list created note by note";
+		qDebug() << "Question list created note by note";
 		for (int nNr = m_level->loNote.getChromaticNrOfNote(); nNr <= m_level->hiNote.getChromaticNrOfNote(); nNr++) {
 			Tnote n = Tnote(nNr);
 			bool hope = true; // we still have hope that note is proper for the level

@@ -65,6 +65,32 @@ protected:
 	QTimer* timer() { return m_timer; }
 	
 	QGraphicsItem* item() { return m_item; }
+	
+			/** Preforms common routines for starting animation:
+			 * - initializes the timer
+			 * - resets the step counter
+			 * - starts timer with CLIP_TIME step */
+	void initAnim(int currStep = -1, int stepNr = -1, int timerStep = (30), bool install = true);
+			/** Stops the timer and emits @p finished() signal */
+	void stopAnim();
+	
+			/** Number of current animation step. */
+	int currentStep() { return m_currentStep; }
+	
+			/** Sets current step to -1 or to given @p val */
+	void resetStepCounter(int val = -1) { m_currentStep = val; }
+	
+			/** Increases current step counter +1 or given @p val */
+	void nextStep(int val = 1) { m_currentStep += val; }
+	
+			/** Sets steps number to default value which is duration divided by CLIP_TIME */
+	void setStepNumber() { m_stepCount = duration() / CLIP_TIME; }
+	
+			/** Overloaded value forcing steps number to @p val */
+	void setStepNumber(int val) { m_stepCount = val; }
+		
+			/** Maximal number of animation steps. Usually a duration divided by CLIP_TIME */
+	int stepsNumber() { return m_stepCount; }
 		
 protected slots:
 			/** This is virtual method (slot) which is invoked by timeOut() signal of timer.
@@ -77,6 +103,7 @@ private:
     QTimer 							*m_timer;
 		QGraphicsItem				*m_item;
 		int 								 m_duration;
+		int  								 m_stepCount, m_currentStep;
 };
 
 #endif // TABSTRACTANIM_H

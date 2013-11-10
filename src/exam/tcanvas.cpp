@@ -275,6 +275,7 @@ void Tcanvas::addTip(TgraphicsTextTip* tip) {
 void Tcanvas::correctFromScore(int prevTime, TfingerPos &goodPos) {
 	if (m_correctAnim)
 		return;
+	m_goodPos = goodPos;
 	m_flyEllipse = new QGraphicsEllipseItem;
 	m_flyEllipse->setRect(m_parent->score->noteRect(1)); // 1 - answer note segment	
 	m_flyEllipse->setPen(Qt::NoPen);
@@ -288,8 +289,18 @@ void Tcanvas::correctFromScore(int prevTime, TfingerPos &goodPos) {
 	m_correctAnim->setMoving(m_flyEllipse->pos(), 
 					mapToScene(m_parent->guitar->mapToParent(m_parent->guitar->mapFromScene(m_parent->guitar->fretToPos(goodPos)))));
 	m_correctAnim->moving()->setEasingCurveType(QEasingCurve::InOutBack);
-	m_correctAnim->setScaling(1.0, 2.0);
-	m_correctAnim->scaling()->setEasingCurveType(QEasingCurve::OutQuint);
+	if (goodPos.fret() != 0) {
+			m_correctAnim->setScaling(m_parent->guitar->fingerRect().width() / m_parent->score->noteRect(1).width(), 2.0);
+			m_correctAnim->scaling()->setEasingCurveType(QEasingCurve::OutQuint);
+	}
+	m_correctAnim->setColoring(QColor(gl->EanswerColor.name()));
+	if (goodPos.fret() == 0) {
+		QPointF p1(mapToScene(m_parent->guitar->mapToParent(
+							m_parent->guitar->mapFromScene(m_parent->guitar->stringLine(goodPos.str()).p1()))));
+		QPointF p2(mapToScene(m_parent->guitar->mapToParent(
+							m_parent->guitar->mapFromScene(m_parent->guitar->stringLine(goodPos.str()).p2()))));
+		m_correctAnim->setMorphing(QLineF(p1, p2), m_parent->guitar->stringWidth(goodPos.str() - 1));
+	}
 	m_correctAnim->startAnimations();
 	QTimer::singleShot(prevTime, this, SLOT(clearCorrection()));
 }
@@ -456,8 +467,12 @@ void Tcanvas::linkActivatedSlot(QString link) {
 
 
 void Tcanvas::correctAnimFinished() {
-	m_flyEllipse->setBrush(QBrush(QColor(gl->EanswerColor.name())));
-	m_flyEllipse->setRect(m_parent->guitar->fingerRect());
+// 	clearCorrection();
+	m_flyEllipse->hide();
+	m_parent->guitar->setFinger(m_goodPos);
+	m_parent->guitar->markAnswer(QColor(gl->EanswerColor.name()));
+// 	m_flyEllipse->setBrush(QBrush(QColor(gl->EanswerColor.name())));
+// 	m_flyEllipse->setRect(m_parent->guitar->fingerRect());
 }
 
 
