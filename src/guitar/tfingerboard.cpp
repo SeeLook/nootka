@@ -17,11 +17,11 @@
  ***************************************************************************/
 
 #include "tfingerboard.h"
-#include "animations/tmovedanim.h"
 #include "tglobals.h"
 #include "ttune.h"
 #include <tgraphicstexttip.h>
 #include <animations/tstrikedoutitem.h>
+#include <animations/tcombinedanim.h>
 #include <QtGui>
 #include <QDebug>
 
@@ -81,7 +81,6 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     QGraphicsBlurEffect *workBlur = new QGraphicsBlurEffect();
     workBlur->setBlurRadius(3);
     m_workFinger->setPen(QPen(gl->GfingerColor, 2));
-//     m_workFinger->setPen(QPen(QBrush(Qt::transparent), 5));
     m_workFinger->setBrush(QBrush(gl->GfingerColor, Qt::SolidPattern));
     m_workFinger->setGraphicsEffect(workBlur);
     m_scene->addItem(m_workFinger);
@@ -227,6 +226,7 @@ void TfingerBoard::clearFingerBoard() {
     if (m_rangeBox2)
         m_rangeBox2->hide();
     setFinger(Tnote(0,0,0));
+		m_fingerPos.setPos(6, 39);
     clearHighLight();
 		deleteBeyondTip();
 }
@@ -294,7 +294,7 @@ void TfingerBoard::askQuestion(TfingerPos pos) {
 
 
 void TfingerBoard::markAnswer(QColor blurColor) {
-  if (m_fingerPos.fret() != 39) {
+  if (m_fingerPos.fret() != 39 && m_fingerPos.str() != 7) {
     if (m_fingerPos.fret()) {
 			m_fingers[m_fingerPos.str() - 1]->setPen(QPen(QColor(blurColor.name()), 3));
 //       m_fingers[gl->strOrder(m_curStr)]->setPen(QPen(blurColor, 3));
@@ -315,7 +315,7 @@ void TfingerBoard::markQuestion(QColor blurColor) {
     if (m_questFinger)
       m_questFinger->setPen(QPen(blurColor, 3));
     if (m_questString)
-      m_questString->setPen(QPen(blurColor, m_questString->pen().width()));
+      m_questString->setPen(QPen(QColor(blurColor.name()), m_questString->pen().width()));
 }
 
 
@@ -374,18 +374,27 @@ void TfingerBoard::setHighlitedString(char realStrNr) {
 
 void TfingerBoard::correctPosition(TfingerPos& pos, const QColor color) {
 	m_goodPos = pos;
-	if (m_fingerPos.fret() != 39) {
+	if (m_fingerPos.fret() != 39 && m_fingerPos.str() != 7) {
     if (m_fingerPos.fret()) {
 				m_strikeOut = new TstrikedOutItem(m_fingers[gl->strOrder(m_fingerPos.str() - 1)]);
-    } else if (m_fingerPos.str() != 7) {
+    } else {
 				m_strikeOut = new TstrikedOutItem(m_strings[gl->strOrder(m_fingerPos.str() - 1)]);
-		} else
-				return;
-    QPen pp(QColor(color.name()), m_strWidth[3]);
-		m_strikeOut->setPen(pp);
-		connect(m_strikeOut, SIGNAL(strikedFInished()), this, SLOT(strikeBlinkingFinished()));
-		m_strikeOut->startBlinking();
-  }
+		} 
+	} else {
+			QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem();
+			ellipse->setPen(Qt::NoPen);
+			ellipse->setBrush(gl->GselectedColor);
+			TfingerPos ff(3, 12);
+			ellipse->setPos(fretToPos(ff) + QPointF(0, m_strGap / 2));
+			m_scene->addItem(ellipse);
+			ellipse->setRect(fingerRect());
+			m_movingItem = (QGraphicsItem*)ellipse;
+			m_strikeOut = new TstrikedOutItem(ellipse);
+	}
+	QPen pp(QColor(color.name()), m_strWidth[3]);
+	m_strikeOut->setPen(pp);
+	connect(m_strikeOut, SIGNAL(strikedFInished()), this, SLOT(strikeBlinkingFinished()));
+	m_strikeOut->startBlinking();
 }
 
 
@@ -819,15 +828,35 @@ void TfingerBoard::strikeBlinkingFinished() {
 		m_strikeOut->deleteLater();
 		m_strikeOut = 0;
 		markAnswer(Qt::transparent);
-		bool isLine = false;
+		bool isLine = false, toLine;
+		qreal strWidth = 0.0;
+		QLineF lineAnim;
 		if (m_fingerPos.fret() || m_goodPos.fret()) { // move ellipse
-				QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem();
-				ellipse->setRect(m_fingers[m_fingerPos.str() - 1]->boundingRect());
-				ellipse->setPen(Qt::NoPen);
-				ellipse->setBrush(gl->GselectedColor);
-				ellipse->setPos(m_fingers[m_fingerPos.str() - 1]->pos());
-				m_scene->addItem(ellipse);
-				m_movingItem = (QGraphicsItem*)ellipse;	
+				QGraphicsEllipseItem *ellipse;
+				if (m_movingItem)
+						ellipse = qgraphicsitem_cast<QGraphicsEllipseItem*>(m_movingItem);
+				else {
+						ellipse = new QGraphicsEllipseItem();
+						ellipse->setPen(Qt::NoPen);
+						ellipse->setBrush(gl->GselectedColor);
+						ellipse->setPos(m_fingers[m_fingerPos.str() - 1]->pos());
+						m_scene->addItem(ellipse);
+						ellipse->setRect(fingerRect());
+				}
+				if (m_fingerPos.fret() && m_goodPos.fret() == 0) { // ellipse to line
+						lineAnim = stringLine(m_goodPos.str());
+						toLine = true;
+						strWidth = stringWidth(m_goodPos.str());
+				} else if (m_goodPos.fret() && m_fingerPos.fret() == 0) { // line to ellipse
+						lineAnim.setPoints(fretToPos(m_goodPos), 
+															 QPointF(fretToPos(m_goodPos).x() + fingerRect().width(), fretToPos(m_goodPos).y()));
+						ellipse->setRect(0, /*stringWidth(m_goodPos.str()) + 2.*/0, stringLine(1).length(),
+														 stringWidth(m_goodPos.str()) + 2.0);
+						ellipse->setPos(stringLine(m_fingerPos.str()).p1());
+						toLine = false;
+						strWidth = fingerRect().height();
+				}
+				m_movingItem = (QGraphicsItem*)ellipse;
 				m_fingers[m_fingerPos.str() - 1]->hide();
     } else if (m_fingerPos.str() != 7) { // moving line only when both are open strings
 				QGraphicsLineItem *line = new QGraphicsLineItem();
@@ -839,27 +868,31 @@ void TfingerBoard::strikeBlinkingFinished() {
 				isLine = true;
 		} else 
 				return;
-		m_animation = new TmovedAnim(m_movingItem, this);
+		m_animation = new TcombinedAnim(m_movingItem, this);
 		m_animation->setDuration(300);
-		m_animation->setEasingCurveType(QEasingCurve::OutExpo);
 		QPointF startPos, endPos;
 		if (isLine) {
 				startPos = m_strings[m_fingerPos.str() - 1]->line().p1();
 				endPos = m_strings[m_goodPos.str() - 1]->line().p1();;
 		} else {
-				if (m_fingerPos.fret()) // start position the same as ellipse
 					startPos = m_movingItem->pos();
-				else // start position over guitar hole
-					startPos = QPointF(m_fbRect.width() + m_strGap * 3, m_strings[m_fingerPos.str() - 1]->line().p1().y());
-				if (m_goodPos.fret()) // end position over fretboard
-					endPos = QPointF(m_fretsPos[m_goodPos.fret() - 1] - qRound(m_fretWidth / 1.5),
-									m_fbRect.y() + m_strGap * (m_goodPos.str() - 1) + m_strGap / 5);
-				else // end position over guitar hole
-					endPos = QPointF(m_fbRect.width() + m_strGap * 3, m_strings[m_goodPos.str() - 1]->line().p1().y());
+					if (strWidth != 0.0 && toLine)
+						endPos = stringLine(m_goodPos.str()).p1();
+					else
+						endPos = fretToPos(m_goodPos);
 		}
-		
-		connect(m_animation, SIGNAL(finished()), this, SLOT(finishCorrection()));
-		m_animation->startMoving(startPos, endPos);
+// 		connect(m_animation, SIGNAL(finished()), this, SLOT(finishCorrection()));
+		m_animation->setMoving(startPos, endPos);
+		m_animation->moving()->setEasingCurveType(QEasingCurve::OutExpo);
+		if (strWidth != 0.0) {
+			m_animation->setMorphing(lineAnim, strWidth, toLine);
+			m_animation->morphing()->setEasingCurveType(QEasingCurve::InQuint);
+		} else if (!isLine) {
+				m_animation->setScaling(1.0, 2.0);
+				m_animation->scaling()->setEasingCurveType(QEasingCurve::OutExpo);
+		}
+		m_animation->startAnimations();
+		QTimer::singleShot(m_animation->duration() + 100, this, SLOT(finishCorrection()));
 }
 
 

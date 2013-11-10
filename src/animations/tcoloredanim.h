@@ -16,30 +16,36 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tblinkingitem.h"
+#ifndef TCOLOREDANIM_H
+#define TCOLOREDANIM_H
 
+#include "tabstractanim.h"
 
-TblinkingItem::TblinkingItem(QGraphicsItem* item, QObject* parent ):
-	TabstractAnim(item, parent)
+/** 
+ * This class performs transforming of colors.
+ * Alpha channel is supported as well.
+ * WARRING! For QGraphicsTextItem items, start color is taken from defaultTextColor() of QGraphicsTextItem,
+ * so declare it first
+ */
+class TcoloredAnim : public TabstractAnim
 {
-}
+    Q_OBJECT
+    \
+public:
+	
+	explicit TcoloredAnim(QGraphicsItem* item = 0, QObject* parent = 0);
 
+	void startColoring(const QColor &endColor);
+	
+protected slots:
+	void animationRoutine();
+    
+private:
+    QColor 											 m_startColor, m_endColor;
+		QGraphicsLineItem						*m_line;
+		QGraphicsTextItem						*m_richText;
+		QGraphicsSimpleTextItem			*m_text;
+		QGraphicsEllipseItem				*m_ellipse;
+};
 
-void TblinkingItem::startBlinking(int count) {
-	initAnim(0, count *2, 150);
-}
-
-
-void TblinkingItem::animationRoutine() {
-		nextStep();
-		if (currentStep() <= stepsNumber()) {
-			if (currentStep() % 2) { // phase 1, 3, ...
-					item()->hide();
-			} else { // phase 2, 4, ...
-					item()->show();
-			}
-		} else 
-				stopAnim();
-}
-
-
+#endif // TCOLOREDANIM_H

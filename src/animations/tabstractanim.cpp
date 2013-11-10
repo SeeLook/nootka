@@ -42,6 +42,26 @@ void TabstractAnim::installTimer() {
 }
 
 
+void TabstractAnim::initAnim(int currStep, int stepNr, int timerStep, bool install) {
+	if (install)
+			installTimer();
+	if (stepNr < 0)
+			m_stepCount = duration() / CLIP_TIME;
+	else
+			m_stepCount = stepNr;
+	m_currentStep = currStep;	
+	timer()->start(timerStep);
+	animationRoutine();
+}
+
+
+void TabstractAnim::stopAnim() {
+	timer()->stop();
+	emit finished();
+}
+
+
+
 void TabstractAnim::setTimer(QTimer* tim) {
 	if (m_timer)
 		delete m_timer;

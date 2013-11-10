@@ -183,6 +183,8 @@ SET( NOOTKA_SRCS
 	animations/tblinkingitem.cpp
 	animations/tthrownitem.cpp
 	animations/tscaledanim.cpp
+	animations/tcoloredanim.cpp
+	animations/tmorphedanim.cpp
 	animations/tcombinedanim.cpp
   )
   
@@ -287,6 +289,8 @@ SET( NOOTKA_MOC_SRCS
 	animations/tblinkingitem.h
 	animations/tthrownitem.h
 	animations/tscaledanim.h
+	animations/tcoloredanim.h
+	animations/tmorphedanim.h
 	animations/tcombinedanim.h
 )
   

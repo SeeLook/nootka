@@ -39,7 +39,6 @@ protected:
 
 private:
 	qreal				m_beginScale, m_midScale, m_endScale, m_scaleToGo;
-	int 				m_currentStep, m_stepCount;
 	
 };
 

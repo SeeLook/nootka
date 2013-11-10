@@ -23,8 +23,10 @@
 #include "tfingerpos.h"
 #include <QWidget>
 #include <QGraphicsView>
+#include <QGraphicsLineItem>
 
-class TmovedAnim;
+
+class TcombinedAnim;
 class TstrikedOutItem;
 class TgraphicsTextTip;
 
@@ -64,8 +66,11 @@ public:
 				/** Guitar fingerboard rectangle */
 		QRect fbRect() { return m_fbRect; }
 		
-        /** Returns width of a string. */
-    qreal stringWidth(int strNr) { return m_strWidth[qBound(1, strNr + 1, 6)]; }
+        /** Returns width of a string */
+    qreal stringWidth(int realStr) { return m_strWidth[qBound(1, realStr, 6)]; }
+    
+				/** Returns QLineF represents given string [1 - 6] */
+    QLineF stringLine(int realStr) { return m_strings[qBound(0, realStr - 1, 5)]->line(); }
     
         /** Returns @param true when cursor is over the widget. */
     bool isCursorOverGuitar() { return m_isCursorOverGuitar; }
@@ -127,7 +132,7 @@ private:
     bool 											 m_isCursorOverGuitar;
 		TfingerPos 								 m_goodPos;
 		TstrikedOutItem 					*m_strikeOut;
-		TmovedAnim 							*m_animation;
+		TcombinedAnim							*m_animation;
 		QGraphicsItem 						*m_movingItem; /** string line during animation */
 
 private:
