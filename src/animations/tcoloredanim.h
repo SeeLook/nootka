@@ -24,8 +24,8 @@
 /** 
  * This class performs transforming of colors.
  * Alpha channel is supported as well.
- * WARRING! For QGraphicsTextItem items, start color is taken from defaultTextColor() of QGraphicsTextItem,
- * so declare it first
+ * WARRING! For QGraphicsTextItem items, start color is taken from 
+ * QGraphicsTextItem::defaultTextColor(), so declare it first
  */
 class TcoloredAnim : public TabstractAnim
 {
@@ -35,13 +35,19 @@ public:
 	
 	explicit TcoloredAnim(QGraphicsItem* item = 0, QObject* parent = 0);
 
-	void startColoring(const QColor &endColor);
+	void startColoring(const QColor &endColor, const QColor &midColor = -1);
+	
 	
 protected slots:
 	void animationRoutine();
+	
+private:
+			/** Grabs color of given item by examining its type. */
+	QColor getColorFromItem();
+	
     
 private:
-    QColor 											 m_startColor, m_endColor;
+    QColor 											 m_startColor, m_endColor, m_midColor, m_colorToGo;
 		QGraphicsLineItem						*m_line;
 		QGraphicsTextItem						*m_richText;
 		QGraphicsSimpleTextItem			*m_text;

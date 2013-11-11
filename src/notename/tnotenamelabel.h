@@ -32,9 +32,16 @@ class TblinkingItem;
 QString getBgColorText(const QColor &C);
 
 
-//*****************************************************************************************************************
+
 class TstrikedOutItem;
-/** */
+
+
+/** 
+ * This is QGraphicsView displaing note names. 
+ * It pretends to behave like ordinary QLabel with setText() and text() methods 
+ * but it manages Nootka related things like string numbers and question mark.
+ * Also it performs transitional animations between texts.
+ */
 class TnoteNameLabel : public QGraphicsView
 {
 	Q_OBJECT
@@ -56,19 +63,24 @@ public:
 	void setStyleSheet(const QString &style);
 	void setBackgroundColor(const QColor &color);
 	
+			/** Shape rectangle of label text */
+	QRectF textRect() { return QRectF(0, 0, 
+						m_textItem->boundingRect().width() * m_textItem->scale(), m_textItem->boundingRect().height() * m_textItem->scale()); }
+	
+			/** Returns widget coordinates of text position */
+	QPoint textPos();
+	
 	static QString borderStyleText();
 	
 signals:
 	void blinkingFinished();
-	void crossFadeingFinished();
 	void throwingFinished();
 	
 public slots:
 	// Animations
 			/** Starts painting cross over label given @p count times with @p period duration of each. */
 	void blinkCross(const QColor& color);
-			/** Fades out background to transparency, sets new text and fades in with new color.*/
-	void crossFadeText(const QString &newText, const QColor &newBgColor, int duration = 150);
+	
 			/** Blinks the text given number of times with period [milliseconds]. 
 			 * Emits blinkingFinished() signal after. */
 	void blinkingText(int count, int period = 150);
@@ -86,14 +98,13 @@ protected:
 protected slots:
 			/** Methods called after animations. */
 	void strikeBlinkingSlot();
-	void crossFadeSlot();
 	void blinkingSlot();
 	void throwingSlot();
 	
 	
 private:
-	int 											m_fadeDuration, m_fadePhase, m_alphaStepOut, m_alphaStepIn, m_p2Time;
-	QColor 										m_bgColor, m_newBgColor;
+	int 											m_alphaStepOut, m_alphaStepIn, m_p2Time;
+	QColor 										m_bgColor;
 	QString   								m_newText, m_bgColorText, m_styleText;
 	QGraphicsTextItem					*m_textItem;
 	TstrikedOutItem						*m_strikeOut;

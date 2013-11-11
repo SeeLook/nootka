@@ -372,7 +372,7 @@ void TexamExecutor::askQuestion() {
               }
         }
         // Show question on TnoteName widget
-        if (curQ.answerAs == TQAtype::e_asFretPos && m_level.showStrNr)
+        if ((curQ.answerAs == TQAtype::e_asFretPos || curQ.answerAs == TQAtype::e_asSound) && m_level.showStrNr)
             mW->noteName->askQuestion(curQ.qa.note, curQ.styleOfQuestion(), curQ.qa.pos.str());
         else
             mW->noteName->askQuestion(curQ.qa.note, curQ.styleOfQuestion());
@@ -722,6 +722,8 @@ void TexamExecutor::correctAnswer() {
 	} else { // answer as played sound
 			if (curQ.questionAs == TQAtype::e_asNote)
 				m_canvas->correctFromScore(gl->E->correctViewDuration, curQ.qa.pos);
+			else if (curQ.questionAs == TQAtype::e_asName)
+				m_canvas->correctFromName(gl->E->correctViewDuration, curQ.qa.pos);
 	}
 	m_lockRightButt = true; // to avoid nervous users click mouse during correctViewDuration
 	if (!mW->correctChB->isChecked() && gl->E->autoNextQuest) {

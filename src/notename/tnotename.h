@@ -22,6 +22,7 @@
 #include <QWidget>
 #include "tnote.h"
 
+class QGraphicsTextItem;
 class QHBoxLayout;
 class TnoteNameLabel;
 class QPushButton;
@@ -53,15 +54,23 @@ public:
     void clearNoteName();
     void setStyle(Tnote::EnameStyle style); // Sets style. Doesn't refresh name label
     Tnote::EnameStyle style() { return m_style; } // Style used in note name
+    
         /** Marks m_nameLabel with given color. When clearNoteName() is invoked - marks are cleared. */
     void markNameLabel(QColor markColor);
+		
 				/** Highlights and check given accid button   */
 		void forceAccidental(char accid);
+		
 				/** @p isWrong  determines kind of animation performed after invoking this method. */
 		void correctName(Tnote &goodName, const QColor &color, bool isWrong = true);
 		
 				/** Returns given color mixed with palette base and 220 of alpha. */
 		QColor prepareBgColor(const QColor &halfColor);
+		
+				/** Rectangle of note name text item */
+		QRectF textRect();
+				/** Position of name text in main window coordinates. */
+		QPoint textPos();
 		
 
 signals:
@@ -78,8 +87,7 @@ private:
 		QHBoxLayout 		*m_accLay, *m_octaveLay;
     TpushButton 		*m_dblFlatButt, *m_flatButt, *m_sharpButt, *m_dblSharpButt;
     QButtonGroup 		*m_noteGroup, *m_octaveGroup;
-				/** Keeps index of previous selected octave button, none if -1 */
-    int 						m_prevOctButton;
+    int 						m_prevOctButton; /** Keeps index of previous selected octave button, none if -1 */
     static 					Tnote::EnameStyle m_style;
 
     TnotesList 			m_notes;
@@ -90,12 +98,15 @@ private:
 private:
     void setNoteName(char noteNr, char octNr, char accNr);
     void setNameText();
+		
 				/** Sets note, accid and octave buttons according to given note. */
     void setButtons(Tnote note);
+		
 				/** Presses accidental button or uncheck them all if accid none (0).  */
 		void checkAccidButtons(char accid);
     void uncheckAccidButtons();
     void uncheckAllButtons();
+		
 				/** Returns current state of accid buttons converted to accidental value [-2 to 2] */
 		char getSelectedAccid();
 		
