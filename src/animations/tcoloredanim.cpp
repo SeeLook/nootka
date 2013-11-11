@@ -19,6 +19,7 @@
 #include "tcoloredanim.h"
 #include <qt4/QtGui/QPen>
 
+
 TcoloredAnim::TcoloredAnim(QGraphicsItem* item, QObject* parent) :
 	TabstractAnim(item, parent),
 	m_line(0), m_richText(0), m_ellipse(0), m_text(0)
@@ -27,19 +28,14 @@ TcoloredAnim::TcoloredAnim(QGraphicsItem* item, QObject* parent) :
 	QGraphicsTextItem *tmpRichText = new QGraphicsTextItem;
 	QGraphicsEllipseItem *tmpEll = new QGraphicsEllipseItem;
 	QGraphicsSimpleTextItem *tmpText = new QGraphicsSimpleTextItem;
-	if (item->type() == tmpline->type()) {
+	if (item->type() == tmpline->type())
 			m_line = qgraphicsitem_cast<QGraphicsLineItem*>(item);
-			m_startColor = m_line->pen().color();
-	} else if (item->type() == tmpRichText->type()) {
+	else if (item->type() == tmpRichText->type())
 			m_richText = qgraphicsitem_cast<QGraphicsTextItem*>(item);
-			m_startColor = m_richText->defaultTextColor();
-	} else if (item->type() == tmpEll->type()) {
+	else if (item->type() == tmpEll->type())
 			m_ellipse = qgraphicsitem_cast<QGraphicsEllipseItem*>(item);
-			m_startColor = m_ellipse->brush().color();
-	} else if (item->type() == tmpText->type()) {
+	else if (item->type() == tmpText->type())
 			m_text = qgraphicsitem_cast<QGraphicsSimpleTextItem*>(item);
-			m_startColor = m_text->brush().color();
-	}
 	delete tmpline;
 	delete tmpRichText;
 	delete tmpEll;
@@ -47,11 +43,18 @@ TcoloredAnim::TcoloredAnim(QGraphicsItem* item, QObject* parent) :
 }
 
 
-void TcoloredAnim::startColoring(const QColor& endColor) {
+void TcoloredAnim::startColoring(const QColor& endColor, const QColor& midColor) {
 	m_endColor = endColor;
-	initAnim();
+	m_midColor = midColor;
+	m_startColor = getColorFromItem();
+	int stepNr = duration() / CLIP_TIME;
+	if (m_midColor != -1) {
+			stepNr = stepNr / 2;
+			m_colorToGo = m_midColor;
+	} else
+			m_colorToGo = m_endColor;
+	initAnim(-1, stepNr);
 }
-
 
 
 void TcoloredAnim::animationRoutine() {
@@ -71,9 +74,31 @@ void TcoloredAnim::animationRoutine() {
 				m_ellipse->setBrush(QBrush(newC));
 			else if (m_text)
 				m_text->setBrush(QBrush(newC));
+		} else if (m_midColor != -1) { // second part of an animation - color goes from mid val to end val
+				m_colorToGo = m_endColor;
+				setStepNumber(duration() / CLIP_TIME - (duration() / CLIP_TIME) / 2);
+				resetStepCounter();
+				m_startColor = getColorFromItem();
+				m_midColor = -1; // reset it to stop performing second part second time
+				animationRoutine();
 		} else
 				stopAnim();
 }
+
+
+QColor TcoloredAnim::getColorFromItem() {
+	if (m_line)
+			return m_line->pen().color();
+	else if (m_richText)
+			return m_richText->defaultTextColor();
+	else if (m_ellipse)
+			return m_ellipse->brush().color();
+	else if (m_text)
+			return m_text->brush().color();
+	
+	return QColor();
+}
+
 
 
 

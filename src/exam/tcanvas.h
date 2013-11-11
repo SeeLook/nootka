@@ -29,8 +29,6 @@ class TnootkaCertificate;
 class QTimer;
 class TtipScene;
 class TexamExecutor;
-// class QParallelAnimationGroup;
-// class TanimedTextItem;
 class QTimer;
 class Texam;
 class TquestionTip;
@@ -72,7 +70,8 @@ public:
 		void correctFromScore(int prevTime, TfingerPos& goodPos);
 		
 				/** Flaying note-head animation starting from note name to guitar */
-		void correctFromName();
+		void correctFromName(int prevTime, TfingerPos& goodPos);
+		
     void clearCanvas();
 		
         /** Returns point size of 'A' letter multiplied by 2. */
@@ -98,6 +97,7 @@ public slots:
 		void clearCorrection();
   
 signals:
+	
 				/** This signal is emitted when user click image button on the some tip.*/
     void buttonClicked(QString name);
       
@@ -106,6 +106,7 @@ protected:
     bool event(QEvent *event);
     
 protected slots:
+	
 				/** Calls sizeChanged with delay to allow MainWindow deploy its new geometry. */
 		void sizeChangedDelayed(QSize newSize);
     void sizeChanged();
@@ -120,8 +121,6 @@ private:
     TquestionTip 									*m_questionTip;
     TnootkaCertificate 						*m_finishTip;
     Texam 												*m_exam;
-//     TanimedTextItem 							*m_flyAnswer, *m_flyNote;
-//     QParallelAnimationGroup 			*m_animation;
 		TcombinedAnim									*m_correctAnim;
     QTimer 												*m_timerToConfirm;
 		int 													 m_maxTipWidth;
@@ -133,10 +132,8 @@ private:
     
     
 private:
-			/** Calculates maximal tip height depends on free MainWindow widget. */
-		int getMaxTipHeight();
-				/** Universal method to place given tip above free MainWindow widget.  */
-		void setPosOfTip(TgraphicsTextTip *tip);
+		int getMaxTipHeight(); /** Calculates maximal tip height depends on free MainWindow widget. */
+		void setPosOfTip(TgraphicsTextTip *tip); /** Universal method to place given tip above free MainWindow widget.  */
     void setPosOfResultTip();
     void setPosOfWhatTip();
     void setPosOfStartTip();
@@ -144,6 +141,7 @@ private:
     void setPosOfTryAgainTip();
     void setPosOfConfirmTip();
     void setPosOfFinishTip();
+		void correctCommon(TfingerPos &goodPos, const QRectF &ellRect, const QPointF &ellPos); /** Common routines during correcting animation */
  
 };
 

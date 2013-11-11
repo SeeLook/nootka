@@ -187,14 +187,8 @@ void TnoteNameLabel::thrownText(const QString& newText, int p1time, int p2Time) 
 }
 
 
-void TnoteNameLabel::crossFadeText(const QString& newText, const QColor& newBgColor, int duration) {
-		m_newText = newText;
-		m_newBgColor = newBgColor;
-		m_fadeDuration = duration;
-		m_fadePhase = 0;
-		m_alphaStepOut = m_bgColor.alpha() / (m_fadeDuration / 60); // 2 x 30ms - half of duration
-		m_alphaStepIn = m_newBgColor.alpha() / (m_fadeDuration / 60); // 2 x 30ms - half of duration
-		crossFadeSlot();
+QPoint TnoteNameLabel::textPos() {
+	return mapFromScene(m_textItem->pos());
 }
 
 
@@ -233,30 +227,6 @@ void TnoteNameLabel::strikeBlinkingSlot() {
 		m_strikeOut = 0;
 	}
 	emit blinkingFinished();
-}
-
-
-void TnoteNameLabel::crossFadeSlot() {
-	m_fadePhase++;
-	if (m_fadePhase <= (m_fadeDuration / 30)) {
-		if (m_fadePhase < (m_fadeDuration / 60)) { // fade out
-			QColor newC = m_bgColor;
-			newC.setAlpha(m_bgColor.alpha() - m_alphaStepOut);
-			setBackgroundColor(newC);
-		} else { // fade in
-			if (m_alphaStepOut) { // m_alphaStepOut also indicates moment of switching fade out/in
-				setText(m_newText); // new text
-				m_alphaStepOut = 0;
-			}
-			QColor newC = m_newBgColor;
-			newC.setAlpha((m_fadePhase - (m_fadeDuration / 60)) * m_alphaStepIn);
-			setBackgroundColor(newC);
-		}
-		QTimer::singleShot(30, this, SLOT(crossFadeSlot()));
-	} else {
-		setBackgroundColor(m_newBgColor);
-		emit crossFadeingFinished();
-	}
 }
 
 

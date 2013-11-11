@@ -49,8 +49,9 @@ void TcombinedAnim::setScaling(qreal scaleEnd, qreal scaleMid) {
 }
 
 
-void TcombinedAnim::setColoring(const QColor& endColor) {
+void TcombinedAnim::setColoring(const QColor& endColor, const QColor& midColor) {
 		m_endColor = endColor;
+		m_midColor = midColor;
 		if (!m_coloring) {
 			m_coloring = new TcoloredAnim(item(), this);
 			prepareAnim(m_coloring);
@@ -78,7 +79,7 @@ void TcombinedAnim::startAnimations() {
 		m_scaling->startScaling(m_scaleEnd, m_scaleMid);
 	}
 	if (m_coloring)
-		m_coloring->startColoring(m_endColor);
+		m_coloring->startColoring(m_endColor, m_midColor);
 	if (m_morphing)
 		m_morphing->startMorphing(m_line, m_lineWidth, m_toLine);
 }

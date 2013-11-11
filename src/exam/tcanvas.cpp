@@ -21,7 +21,6 @@
 #include "tqaunit.h"
 #include "texam.h"
 #include "tquestiontip.h"
-// #include "animations/tanimedtextitem.h"
 #include <animations/tcombinedanim.h>
 #include "tnootkacertificate.h"
 #include "tgraphicstexttip.h"
@@ -37,8 +36,6 @@
 #include "tmainscore.h"
 #include <QDebug>
 #include <QTimer>
-// #include <QPropertyAnimation>
-// #include <QParallelAnimationGroup>
 #include <QEvent>
 #include <QMouseEvent>
 
@@ -56,8 +53,6 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   m_questionTip(0), m_tryAgainTip(0), m_confirmTip(0),
   m_finishTip(0),
   m_scale(1),
-//   m_flyAnswer(0), m_animation(0),
-//   m_flyNote(0),
   m_correctAnim(0), m_flyEllipse(0),
   m_scene(0),
   m_timerToConfirm(new QTimer(this))
@@ -193,33 +188,7 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 
 
 void Tcanvas::noteTip(int time) {
-/*  if (m_flyNote)
-      m_flyNote->deleteLater();
-  QParallelAnimationGroup *animation = new QParallelAnimationGroup(this);
-  m_flyNote = new TanimedTextItem();
-  m_flyNote->setText("N");
-  m_flyNote->setFont(QFont("nootka", width() / 18));
-  m_flyNote->setBrush(palette().highlight().color());
-  scene()->addItem(m_flyNote);
-  QPropertyAnimation *movPos = new QPropertyAnimation(m_flyNote, "pos");
-    movPos->setDuration(time);
-    movPos->setStartValue(QPoint(width() + 10, qrand() % height()));
-    movPos->setEndValue(getRect(TQAtype::e_asSound).center());
-    movPos->setEasingCurve(QEasingCurve::OutCirc);
-    QPropertyAnimation *movScale = new QPropertyAnimation(m_flyNote, "scale");
-    movScale->setDuration(time);
-    movScale->setStartValue(5.0);
-    movScale->setEndValue(0.01);
-    movScale->setEasingCurve(QEasingCurve::InCirc);
-//     QPropertyAnimation *movAlpha = new QPropertyAnimation(m_flyAnswer, "alpha");
-//     movAlpha->setDuration(time);
-//     movAlpha->setStartValue(255);
-//     movAlpha->setEndValue(0);
-//     movAlpha->setEasingCurve(QEasingCurve::InExpo);
-    animation->addAnimation(movPos);
-    animation->addAnimation(movScale);
-//     animation->addAnimation(movAlpha);
-    animation->start(QAbstractAnimation::DeleteWhenStopped); */
+
 }
 
 
@@ -275,40 +244,49 @@ void Tcanvas::addTip(TgraphicsTextTip* tip) {
 void Tcanvas::correctFromScore(int prevTime, TfingerPos &goodPos) {
 	if (m_correctAnim)
 		return;
-	m_goodPos = goodPos;
-	m_flyEllipse = new QGraphicsEllipseItem;
-	m_flyEllipse->setRect(m_parent->score->noteRect(1)); // 1 - answer note segment	
-	m_flyEllipse->setPen(Qt::NoPen);
-	m_flyEllipse->setBrush(QBrush(QColor(gl->EquestionColor.name())));
-	m_scene->addItem(m_flyEllipse);
-	m_flyEllipse->setPos(mapToScene(m_parent->score->notePos(1)));
-	m_correctAnim = new TcombinedAnim(m_flyEllipse, this);
-	m_correctAnim->setDuration(600);
-// 	m_correctAnim->setEasingCurveType(QEasingCurve::OutExpo);	
-	connect(m_correctAnim, SIGNAL(finished()), this, SLOT(correctAnimFinished()));
-	m_correctAnim->setMoving(m_flyEllipse->pos(), 
-					mapToScene(m_parent->guitar->mapToParent(m_parent->guitar->mapFromScene(m_parent->guitar->fretToPos(goodPos)))));
-	m_correctAnim->moving()->setEasingCurveType(QEasingCurve::InOutBack);
+	correctCommon(goodPos, m_parent->score->noteRect(1), mapToScene(m_parent->score->notePos(1))); // 1 - answer note segment	
+// 	m_flyEllipse = new QGraphicsEllipseItem;
+// 	m_flyEllipse->setRect(m_parent->score->noteRect(1)); // 1 - answer note segment	
+// 	m_flyEllipse->setPen(Qt::NoPen);
+// 	m_flyEllipse->setBrush(QBrush(QColor(gl->EquestionColor.name())));
+// 	m_scene->addItem(m_flyEllipse);
+// 	m_flyEllipse->setPos(mapToScene(m_parent->score->notePos(1)));
+// 	m_correctAnim = new TcombinedAnim(m_flyEllipse, this);
+// 	m_correctAnim->setDuration(600);
+// 	connect(m_correctAnim, SIGNAL(finished()), this, SLOT(correctAnimFinished()));
+// 	m_correctAnim->setMoving(m_flyEllipse->pos(), 
+// 					mapToScene(m_parent->guitar->mapToParent(m_parent->guitar->mapFromScene(m_parent->guitar->fretToPos(goodPos)))));
+// 	m_correctAnim->moving()->setEasingCurveType(QEasingCurve::InOutBack);
 	if (goodPos.fret() != 0) {
 			m_correctAnim->setScaling(m_parent->guitar->fingerRect().width() / m_parent->score->noteRect(1).width(), 2.0);
 			m_correctAnim->scaling()->setEasingCurveType(QEasingCurve::OutQuint);
 	}
-	m_correctAnim->setColoring(QColor(gl->EanswerColor.name()));
-	if (goodPos.fret() == 0) {
-		QPointF p1(mapToScene(m_parent->guitar->mapToParent(
-							m_parent->guitar->mapFromScene(m_parent->guitar->stringLine(goodPos.str()).p1()))));
-		QPointF p2(mapToScene(m_parent->guitar->mapToParent(
-							m_parent->guitar->mapFromScene(m_parent->guitar->stringLine(goodPos.str()).p2()))));
-		m_correctAnim->setMorphing(QLineF(p1, p2), m_parent->guitar->stringWidth(goodPos.str() - 1));
-	}
+// 	m_correctAnim->setColoring(QColor(gl->EanswerColor.name()));
+// 	if (goodPos.fret() == 0) {
+// 		QPointF p1(mapToScene(m_parent->guitar->mapToParent(
+// 							m_parent->guitar->mapFromScene(m_parent->guitar->stringLine(goodPos.str()).p1()))));
+// 		QPointF p2(mapToScene(m_parent->guitar->mapToParent(
+// 							m_parent->guitar->mapFromScene(m_parent->guitar->stringLine(goodPos.str()).p2()))));
+// 		m_correctAnim->setMorphing(QLineF(p1, p2), m_parent->guitar->stringWidth(goodPos.str() - 1));
+// 	}
 	m_correctAnim->startAnimations();
 	QTimer::singleShot(prevTime, this, SLOT(clearCorrection()));
 }
 
 
-void Tcanvas::correctFromName()
-{
-
+void Tcanvas::correctFromName(int prevTime, TfingerPos& goodPos) {
+	if (m_correctAnim)
+		return;
+	correctCommon(goodPos, m_parent->noteName->textRect().adjusted(0, 0, m_parent->noteName->textRect().width(), 0),
+								mapToScene(m_parent->noteName->textPos()));
+	if (goodPos.fret() != 0) {
+			m_correctAnim->setScaling(m_parent->guitar->fingerRect().width() / m_parent->noteName->textRect().width(), 2.0);
+			m_correctAnim->scaling()->setEasingCurveType(QEasingCurve::OutQuint);
+	}
+	m_flyEllipse->setBrush(QColor(gl->EquestionColor));
+	m_correctAnim->setColoring(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()));
+	m_correctAnim->startAnimations();
+	QTimer::singleShot(prevTime, this, SLOT(clearCorrection()));
 }
 
 
@@ -446,8 +424,6 @@ void Tcanvas::sizeChanged() {
     m_scene->addItem(m_questionTip);
     setPosOfQuestionTip();
   }
-//   if (m_flyNote)
-//     m_flyNote->hide();
   if (m_confirmTip) {
     m_confirmTip->setScale(m_scale);
     setPosOfConfirmTip();
@@ -471,8 +447,6 @@ void Tcanvas::correctAnimFinished() {
 	m_flyEllipse->hide();
 	m_parent->guitar->setFinger(m_goodPos);
 	m_parent->guitar->markAnswer(QColor(gl->EanswerColor.name()));
-// 	m_flyEllipse->setBrush(QBrush(QColor(gl->EanswerColor.name())));
-// 	m_flyEllipse->setRect(m_parent->guitar->fingerRect());
 }
 
 
@@ -582,6 +556,36 @@ void Tcanvas::setPosOfQuestionTip() {
 	}
 	setPosOfTip(m_questionTip);
 }
+
+
+void Tcanvas::correctCommon(TfingerPos& goodPos, const QRectF& ellRect, const QPointF& ellPos) {
+	m_goodPos = goodPos;
+	m_flyEllipse = new QGraphicsEllipseItem;
+	m_flyEllipse->setRect(ellRect);
+	m_flyEllipse->setPen(Qt::NoPen);
+	m_flyEllipse->setBrush(QBrush(QColor(gl->EquestionColor.name())));
+	m_scene->addItem(m_flyEllipse);
+	m_flyEllipse->setPos(ellPos);
+	m_correctAnim = new TcombinedAnim(m_flyEllipse, this);
+	m_correctAnim->setDuration(600);
+	connect(m_correctAnim, SIGNAL(finished()), this, SLOT(correctAnimFinished()));
+	m_correctAnim->setMoving(m_flyEllipse->pos(), 
+					mapToScene(m_parent->guitar->mapToParent(m_parent->guitar->mapFromScene(m_parent->guitar->fretToPos(goodPos)))));
+	m_correctAnim->moving()->setEasingCurveType(QEasingCurve::InOutBack);
+	m_correctAnim->setColoring(QColor(gl->EanswerColor.name()));
+	if (goodPos.fret() == 0) {
+		QPointF p1(mapToScene(m_parent->guitar->mapToParent(
+							m_parent->guitar->mapFromScene(m_parent->guitar->stringLine(goodPos.str()).p1()))));
+		QPointF p2(mapToScene(m_parent->guitar->mapToParent(
+							m_parent->guitar->mapFromScene(m_parent->guitar->stringLine(goodPos.str()).p2()))));
+		m_correctAnim->setMorphing(QLineF(p1, p2), m_parent->guitar->stringWidth(goodPos.str() - 1));
+	}
+}
+
+
+
+
+
 
 
 

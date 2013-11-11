@@ -129,11 +129,22 @@ TnoteName::TnoteName(QWidget *parent) :
 
 }
 
-void TnoteName::setNoteNamesOnButt(Tnote::EnameStyle nameStyle) {
-    for (int i = 0; i < 7; i++) {
-        m_noteButtons[i]->setText(Tnote(i + 1, 0, 0).toText(nameStyle, false));
-    }
+
+QRectF TnoteName::textRect() {
+	return m_nameLabel->textRect();
 }
+
+
+QPoint TnoteName::textPos() {
+	return mapToParent(m_nameLabel->mapToParent(m_nameLabel->textPos()));
+}
+
+
+void TnoteName::setNoteNamesOnButt(Tnote::EnameStyle nameStyle) {
+    for (int i = 0; i < 7; i++)
+        m_noteButtons[i]->setText(Tnote(i + 1, 0, 0).toText(nameStyle, false));
+}
+
 
 void TnoteName::setStyle(Tnote::EnameStyle style) {
     m_style = style;

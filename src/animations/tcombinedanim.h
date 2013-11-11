@@ -46,7 +46,7 @@ public:
 	void setScaling(qreal scaleEnd, qreal scaleMid = -1.0);
 	TscaledAnim* scaling() { return m_scaling; }
 	
-	void setColoring(const QColor &endColor);
+	void setColoring(const QColor &endColor, const QColor &midColor = -1);
 	TcoloredAnim* coloring() { return m_coloring; }
 	
 	void setMorphing(const QLineF &line, qreal width, bool toLine = true);
@@ -65,7 +65,7 @@ private:
 	TscaledAnim				*m_scaling;
 	qreal							 m_scaleEnd, m_scaleMid;
 	TcoloredAnim			*m_coloring;
-	QColor						 m_endColor;
+	QColor						 m_endColor, m_midColor;
 	TmorphedAnim			*m_morphing;
 	QLineF						 m_line;
 	qreal							 m_lineWidth;
