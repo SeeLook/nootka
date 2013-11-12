@@ -67,10 +67,9 @@ public:
 				/** Returns given color mixed with palette base and 220 of alpha. */
 		QColor prepareBgColor(const QColor &halfColor);
 		
-				/** Rectangle of note name text item */
-		QRectF textRect();
-				/** Position of name text in main window coordinates. */
-		QPoint textPos();
+		QRectF textRect(); /** Rectangle of note name text item */
+		QPoint textPos(); /** Position of name text in main window coordinates. */
+		QRect labelRect(); /** Name label position and size in TnoteName coordinates. */
 		
 
 signals:

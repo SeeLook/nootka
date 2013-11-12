@@ -66,11 +66,11 @@ public:
     void confirmTip(int time = 0); // tip about confirm an answer appears after given time
     void finishTip(); // paper like exam report when finished
 		
-				/** Flaying note-head animation starting from score to guitar */
-		void correctFromScore(int prevTime, TfingerPos& goodPos);
 		
-				/** Flaying note-head animation starting from note name to guitar */
-		void correctFromName(int prevTime, TfingerPos& goodPos);
+				/** Manages an animation of correcting answer as played sound.
+				 * Correct position on the guitar is displayed 
+				 * and start point on the animation depends on question type.  */
+		void correctToGuitar(TQAtype::Etype& question, int prevTime, TfingerPos& goodPos);
 		
     void clearCanvas();
 		
@@ -141,7 +141,6 @@ private:
     void setPosOfTryAgainTip();
     void setPosOfConfirmTip();
     void setPosOfFinishTip();
-		void correctCommon(TfingerPos &goodPos, const QRectF &ellRect, const QPointF &ellPos); /** Common routines during correcting animation */
  
 };
 

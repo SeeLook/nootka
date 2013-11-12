@@ -483,7 +483,7 @@ void TexamExecutor::askQuestion() {
               connect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
               // sniffing after finished sound
           } else
-              QTimer::singleShot( WAIT_TIME, this, SLOT(startSniffing()));
+              QTimer::singleShot(WAIT_TIME, this, SLOT(startSniffing()));
               // Give a student some time to prepare for next question in expert mode
               // It avoids capture previous played sound as current answer
     }
@@ -720,10 +720,19 @@ void TexamExecutor::correctAnswer() {
 					goodNote = curQ.qa_2.note;
 			mW->noteName->correctName(goodNote, markColor, curQ.isWrong());
 	} else { // answer as played sound
-			if (curQ.questionAs == TQAtype::e_asNote)
-				m_canvas->correctFromScore(gl->E->correctViewDuration, curQ.qa.pos);
-			else if (curQ.questionAs == TQAtype::e_asName)
-				m_canvas->correctFromName(gl->E->correctViewDuration, curQ.qa.pos);
+			if (m_level.instrument != e_noInstrument && (curQ.isWrong() || curQ.wrongOctave())) {
+					// Animation to guitar when is guitar and answer was wrong or octave was wrong
+					if (curQ.questionAs == TQAtype::e_asFretPos)
+						mW->guitar->correctPosition(curQ.qa.pos, markColor);
+					else
+						m_canvas->correctToGuitar(curQ.questionAs, gl->E->correctViewDuration, curQ.qa.pos);
+			} else { // no guitar or out of tune
+					if (curQ.wrongIntonation()) { /* pitchView anim */ }
+					else {
+						repeatSound();
+					}
+			}
+				
 	}
 	m_lockRightButt = true; // to avoid nervous users click mouse during correctViewDuration
 	if (!mW->correctChB->isChecked() && gl->E->autoNextQuest) {
