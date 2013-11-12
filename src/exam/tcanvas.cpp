@@ -464,34 +464,35 @@ bool Tcanvas::event(QEvent* event) {
 //##################################################################################################
 
 int Tcanvas::getMaxTipHeight() {
-	if (m_guitarFree) {
+	if (m_nameFree)
+			return m_parent->noteName->height() * 1.1;
+	else if (m_scoreFree)
+			return m_parent->score->height() / 2;
+	else {
 		if (m_parent->pitchView->isVisible())
 				return m_parent->guitar->height();
 		else
 				return m_parent->guitar->height() + (m_parent->guitar->geometry().y() - m_parent->noteName->geometry().bottom()) / 2;
-	} else if (m_nameFree)
-			return m_parent->noteName->height();
-	else
-			return m_parent->score->height() / 2;
+	}
 }
 
 
 void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
 	QRect geoRect;
-	if (m_guitarFree) { // middle of the guitar
+	if (m_nameFree)  // middle of the noteName
+			geoRect = m_parent->noteName->geometry();
+	else if (m_scoreFree) {// on the score at its center
+			geoRect = m_parent->score->geometry();
+			if (tip->boundingRect().width() * tip->scale() > m_parent->score->width())
+				tip->setScale(((qreal)m_parent->score->width() / (tip->boundingRect().width())));
+	} else { // middle of the guitar
 			geoRect = m_parent->guitar->geometry();
 			if (!m_parent->pitchView->isVisible()) // tip can be bigger
 				geoRect = QRect(m_parent->noteName->geometry().x() - 20, 
 							m_parent->guitar->geometry().y() - (m_parent->guitar->geometry().top() - m_parent->noteName->geometry().bottom()) / 2,
 							m_parent->guitar->width() - m_parent->noteName->width() + 20,
 							m_parent->guitar->height() + (m_parent->guitar->geometry().top() - m_parent->noteName->geometry().bottom()) / 2);
-  } else if (m_nameFree)  // middle of the noteName
-			geoRect = m_parent->noteName->geometry();
-	else {// on the score at its center
-			geoRect = m_parent->score->geometry();
-			if (tip->boundingRect().width() * tip->scale() > m_parent->score->width())
-				tip->setScale(((qreal)m_parent->score->width() / (tip->boundingRect().width())));
-	}
+		}
 	tip->setPos(geoRect.x() + (geoRect.width() - tip->boundingRect().width() * tip->scale()) / 2,
 		geoRect.y() + (geoRect.height() - tip->boundingRect().height() * tip->scale()) / 2 );
 }
@@ -515,8 +516,6 @@ void Tcanvas::setPosOfWhatTip() {
 	int maxTipHeight = getMaxTipHeight();
   if (m_whatTip->boundingRect().height() * m_whatTip->scale() != maxTipHeight)
 				m_whatTip->setScale((qreal)maxTipHeight / (m_whatTip->boundingRect().height() * m_whatTip->scale()));
-// 	if (m_whatTip->boundingRect().width() * m_whatTip->scale() > m_maxTipWidth)
-// 			m_whatTip->setScale(m_whatTip->scale() * ((qreal)m_maxTipWidth / (m_whatTip->boundingRect().width() * m_whatTip->scale())));
 	setPosOfTip(m_whatTip);
 }
 
