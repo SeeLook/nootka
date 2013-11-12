@@ -217,6 +217,7 @@ void TaudioIN::stopListening() {
       stopStream();
   else
       closeStram();
+	m_paused = false;
 }
 
 // void TaudioIN::wait() {

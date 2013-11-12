@@ -140,6 +140,11 @@ QPoint TnoteName::textPos() {
 }
 
 
+QRect TnoteName::labelRect() {
+	return QRect(m_nameLabel->mapToParent(m_nameLabel->geometry().topLeft()), m_nameLabel->size());
+}
+
+
 void TnoteName::setNoteNamesOnButt(Tnote::EnameStyle nameStyle) {
     for (int i = 0; i < 7; i++)
         m_noteButtons[i]->setText(Tnote(i + 1, 0, 0).toText(nameStyle, false));
