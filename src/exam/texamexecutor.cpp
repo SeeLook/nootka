@@ -727,7 +727,9 @@ void TexamExecutor::correctAnswer() {
 					else
 						m_canvas->correctToGuitar(curQ.questionAs, gl->E->correctViewDuration, curQ.qa.pos);
 			} else { // no guitar or out of tune
-					if (curQ.wrongIntonation()) { /* pitchView anim */ }
+					if (curQ.wrongIntonation()) {
+						mW->pitchView->outOfTuneAnim(mW->sound->pitch() - (float)qRound(mW->sound->pitch()), 1200);						
+					}
 					else {
 						repeatSound();
 					}

@@ -8,7 +8,6 @@ ISSUES
 - levels are unsaved after loading
 - tip position over guitar when no guitar
 - note pixmap doesn't displays lower staff when note is on upper (however it makes sense)
-- sniffing is stopped after pause press during exam
 
 			
 TODOES

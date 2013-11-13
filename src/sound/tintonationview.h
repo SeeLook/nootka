@@ -22,6 +22,7 @@
 
 #include "tabstractsoundview.h"
 
+class QTimer;
 class QComboBox;
 
 class TintonationView : public TabstractSoundView
@@ -54,9 +55,16 @@ public:
 				 * @p e_paranoid ± 0.05  */
     void setAccuracy(int accuracy);
 		Eaccuracy accuracy() { return m_accuracy; }
+		
+				/** Starts animation displaying correction of unclear sound.  */
+		void outOfTuneAnim(float outTune, int duration);
+		
 				/** Returns a threshold for given accuracy. Above that value notes are out-of-tune. */
 		static float getThreshold(Eaccuracy acc);
 		static float getThreshold(int accInteger);
+		
+signals:
+		void animationFinished();
   
 public slots:
     void pitchSlot(float pitch);
@@ -64,6 +72,9 @@ public slots:
 protected:
     virtual void paintEvent(QPaintEvent* );
     virtual void resizeEvent(QResizeEvent*);
+		
+protected slots:
+		void animationSlot();
     
 private:
     QList<QColor>   m_tickColors;
@@ -73,7 +84,8 @@ private:
     float           m_hiTickStep;
     
     Eaccuracy       m_accuracy;
-    float           m_accurValue;
+    float           m_accurValue, m_currAccurInAnim, m_animStep, m_outOfTune;
+		QTimer				 *m_timer;
 
 };
 

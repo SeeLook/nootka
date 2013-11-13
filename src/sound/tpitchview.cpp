@@ -108,8 +108,6 @@ void TpitchView::startVolume() {
 
 
 void TpitchView::stopVolume() {
-// 	m_volTimer->stop();
-// 	m_volMeter->setVolume(0.0);
    QTimer::singleShot(600, this, SLOT(stopTimerDelayed()));
 }
 
@@ -134,8 +132,8 @@ void TpitchView::setDisabled(bool isDisabled) {
 
 
 void TpitchView::setIntonationAccuracy(int accuracy) {
-  if (m_audioIN) {
-		m_intoView->setAccuracy(accuracy);
+	m_intoView->setAccuracy(accuracy);
+	if (m_audioIN) {
 		if (TintonationView::Eaccuracy(accuracy) == TintonationView::e_noCheck) { // intonation check disabled
 				disconnect(m_audioIN, SIGNAL(chunkPitch(float)), m_intoView, SLOT(pitchSlot(float)));
 				m_intoView->setDisabled(true);
@@ -148,14 +146,11 @@ void TpitchView::setIntonationAccuracy(int accuracy) {
 
 
 void TpitchView::resize(int fontSize) {
-// 	if (m_lay->direction() == QBoxLayout::TopToBottom)
-			fontSize = qRound((float)fontSize * 1.4);
+	fontSize = qRound((float)fontSize * 1.4);
   if (m_withButtons) {
 #if defined(Q_OS_MAC)
     voiceButt->setFont(QFont("nootka", (fontSize*2)/*/2*/)); // prev was 3/2 (*1.5)
     pauseButt->setFont(QFont("nootka", (fontSize*2)/*/2*/));
-//     voiceButt->setFixedHeight(2*fontSize);
-//     pauseButt->setFixedHeight(2*fontSize);
 #else
     voiceButt->setFont(QFont("nootka", fontSize * 1.3));
     pauseButt->setFont(QFont("nootka", fontSize * 1.3));
@@ -164,8 +159,6 @@ void TpitchView::resize(int fontSize) {
     pauseButt->setFixedWidth(1.5 *fontSize);
     voiceButt->setFixedHeight(2.2 * fontSize);
     pauseButt->setFixedHeight(2.2 * fontSize);
-//    pauseButt->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-//    voiceButt->setAttribute(Qt::WA_LayoutUsesWidgetRect);
   }
   m_volMeter->setFixedHeight(qRound((float)fontSize * 0.9));
   m_intoView->setFixedHeight(qRound((float)fontSize * 0.9));
@@ -187,18 +180,19 @@ void TpitchView::setIsVoice(bool isVoice) {
 }
 
 
-void TpitchView::setHorizontal(bool isHorizontal) {
-// 		if (isHorizontal)
-// 			m_lay->setDirection(QBoxLayout::TopToBottom);
-// 		else
-// 			m_lay->setDirection(QBoxLayout::RightToLeft);
-}
-
 
 void TpitchView::markAnswer(const QColor& col) {
 	setBgColor(col);
 	update();
 }
+
+
+void TpitchView::outOfTuneAnim(float outTune, int duration) {
+	if (m_intoView->accuracy() != TintonationView::e_noCheck)
+		disconnect(m_audioIN, SIGNAL(chunkPitch(float)), m_intoView, SLOT(pitchSlot(float)));
+	m_intoView->outOfTuneAnim(outTune, duration);
+}
+
 
 
 
@@ -256,6 +250,12 @@ void TpitchView::voiceClicked() {
 
 void TpitchView::minimalVolumeChanged(float minVol) {
 		m_audioIN->setMinimalVolume(minVol);
+}
+
+
+void TpitchView::animationFinishedSlot() {
+	if (m_intoView->accuracy() != TintonationView::e_noCheck)
+		connect(m_audioIN, SIGNAL(chunkPitch(float)), m_intoView, SLOT(pitchSlot(float)));			
 }
 
 

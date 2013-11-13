@@ -67,9 +67,9 @@ public:
 			 * When 0 - 'do not check' m_intoView becames disabled. */
 	void setIntonationAccuracy(int accuracy);
 	
-			/** Places view horizontally  (true) or vertically (false) */
-	void setHorizontal(bool isHorizontal = true);
-	bool isHorizontal() { return m_isHorizontal; }
+			/** Starts animation displaying correction of unclear sound.  */
+	void outOfTuneAnim(float outTune, int duration = 300);
+	
   
 protected slots:
   void noteSlot(Tnote note);
@@ -78,6 +78,7 @@ protected slots:
   void pauseClicked();
   void stopTimerDelayed(); // to call stop() on m_volTimer after note detected animation
 	void minimalVolumeChanged(float minVol);
+	void animationFinishedSlot();
   
 protected:
   virtual void paintEvent(QPaintEvent* );
@@ -91,7 +92,6 @@ private:
   bool 							m_isPaused;
   bool 							m_isVoice;
   bool 							m_withButtons;
-	bool 							m_isHorizontal;
 	QBoxLayout 				*m_lay;
   int 							m_hideCnt; // counter of m_volTimer loops.
 };
