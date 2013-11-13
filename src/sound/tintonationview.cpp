@@ -23,6 +23,7 @@
 #include <QComboBox>
 #include <QLabel>
 #include <QDebug>
+#include <QTimer>
 #include <math.h>
 
 
@@ -51,7 +52,8 @@ float TintonationView::getThreshold(int accInteger) {
 
 TintonationView::TintonationView(int accuracy, QWidget* parent) :
   TabstractSoundView(parent),
-  m_pitchDiff(0.0f)
+  m_pitchDiff(0.0f),
+  m_timer(0)
 {
   setAccuracy(accuracy);
   setMinimumSize(200, 17);
@@ -66,19 +68,6 @@ TintonationView::~TintonationView()
 void TintonationView::setAccuracy(int accuracy) {
   m_accuracy = (Eaccuracy)qBound(0, accuracy, 5);
 	m_accurValue = getThreshold(m_accuracy);
-//   switch(m_accuracy) {
-// 		case e_paranoid:
-//       m_accurValue = 0.05; break;
-//     case e_perfect:
-//       m_accurValue = 0.1; break;
-//     case e_normal:
-//       m_accurValue = 0.2; break;
-//     case e_sufficient:
-//       m_accurValue = 0.3; break;
-// 		case e_dogHowl:
-//       m_accurValue = 0.4; break;
-// 		default: m_accurValue = 0.5;
-//   }
   m_accurValue *= INT_FACTOR;
   resizeEvent(0);
 }
@@ -95,6 +84,21 @@ void TintonationView::pitchSlot(float pitch) {
   if (doUpdate)
       update();
 }
+
+
+void TintonationView::outOfTuneAnim(float outTune, int duration) {
+	if (!m_timer) {
+		m_timer = new QTimer(this);
+		connect(m_timer, SIGNAL(timeout()), this, SLOT(animationSlot()));
+	}
+	m_animStep = 0.0; // blinking first
+	m_outOfTune = outTune;
+	pitchSlot(outTune);
+	m_timer->setInterval((duration / 2) / 4);
+	m_timer->start();
+	qDebug() << "outOfTuneAnim" << m_outOfTune << m_timer->interval();
+}
+
 
 
 //################################################################################
@@ -167,6 +171,33 @@ void TintonationView::resizeEvent(QResizeEvent* ) {
 			m_tickColors << gradColorAtPoint(m_noteX * (m_accurValue + 0.3), m_noteX, endColor, totalColor, (i + 1) * (m_noteX / m_ticksCount));
 		}
   }
+}
+
+
+void TintonationView::animationSlot() {
+	if (m_animStep == 0.0 || m_animStep == 1.0 || m_animStep == 2.0 || m_animStep == 3.0) { // blinking
+		if (m_animStep == 0.0 || m_animStep == 2.0) // 1 and 3 clips
+				pitchSlot(0.01); // green
+		else // 2 and 4 clips
+				pitchSlot(m_outOfTune); // unclear
+		m_animStep += 1.0;
+		qDebug() << "blinking phase" << m_animStep;
+		if (m_animStep > 3.0) { // determine step of bar animation
+			m_animStep = m_outOfTune / ((m_timer->interval() * 4) / 30);
+			m_timer->start((m_timer->interval() * 4) / 30);
+			qDebug() << "blinking finished" << m_animStep;
+		}
+	} else { // decreasing intonation bar animation
+		qDebug() << m_outOfTune << m_animStep;
+		if ((m_animStep / qAbs(m_animStep)) == (m_outOfTune / qAbs(m_outOfTune))) {
+			m_outOfTune = m_outOfTune - m_animStep;
+			qDebug() << "out of tune" << m_outOfTune;
+			pitchSlot(m_outOfTune);
+		} else {
+			m_timer->stop();
+			emit animationFinished();
+		}
+	}
 }
 
 
