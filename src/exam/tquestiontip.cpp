@@ -120,7 +120,7 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* le
         m_nameFree = false;
         noteStr = "<br>" + getNiceNoteName(question.qa.note, question.styleOfQuestion());
         if (question.answerAs == TQAtype::e_asNote) {
-          m_nameFree = false;
+          m_scoreFree = false;
           quest += tr("Show on the staff") + noteStr;
           if (level->useKeySign && level->manualKey) {
             quest += tr("<br><b>in %1 key.</b>", "in key signature").arg(question.key.getName());

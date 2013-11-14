@@ -180,6 +180,7 @@ void TscoreNote::setWorkAccid(int accNr) {
 void TscoreNote::moveNote(int pos) {
     if (pos > m_ambitMin || pos < m_ambitMax) {
 				hideNote();
+				m_mainAccid->setText(" ");
 				return;
     }
 		if (!m_mainNote->isVisible()) {
