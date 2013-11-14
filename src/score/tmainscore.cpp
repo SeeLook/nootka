@@ -152,9 +152,6 @@ QPoint TmainScore::notePos(int noteNr) {
 	else if (staff()->noteSegment(noteNr)->mainNote()->isVisible())
 		nPos = staff()->noteSegment(noteNr)->mainNote()->mapToScene(staff()->noteSegment(noteNr)->mainNote()->pos());
 	QPoint vPos = score()->mapFromScene(staff()->pos().x() + staff()->noteSegment(noteNr)->pos().x() + staff()->noteSegment(noteNr)->mainNote()->pos().x(), staff()->noteSegment(noteNr)->mainNote()->pos().y());
-// 	QPoint vPos = score()->mapFromScene(nPos);
-// 	qDebug() << staff()->noteSegment(noteNr)->mainNote()->pos() << "scene" << nPos << "view" << vPos << score()->transform().m11() << score()->geometry() << score()->sceneRect();
-// 	return QPoint(vPos.x() + geometry().x(), vPos.y() + geometry().y());
 	return mapToParent(score()->mapToParent(vPos));
 }
 
@@ -271,7 +268,6 @@ void TmainScore::prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName
 					arg(gl->EquestionColor.name()) + expectKeyName + "</span>");
 		TgraphicsTextTip::alignCenter(m_questKey);
 		TscoreKeySignature::setKeyNameScale(m_questKey);
-// 		m_questKey->setPos(-6.0, staff()->upperLinePos() - 3 - m_questKey->boundingRect().height() * m_questKey->scale());
 		m_questKey->setPos((staff()->scoreKey()->boundingRect().width() - m_questKey->boundingRect().width() * m_questKey->scale()) / 2 - 2.5,
 						staff()->upperLinePos() - 3 - m_questKey->boundingRect().height() * m_questKey->scale());
 		setKeyViewBg(gl->EanswerColor);

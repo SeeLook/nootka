@@ -267,6 +267,9 @@ void TexamExecutor::askQuestion() {
     m_answRequire.octave = m_level.requireOctave;
     m_answRequire.accid = m_level.forceAccids;
     m_answRequire.key = false;
+		
+		mW->noteName->setStyle(gl->NnameStyleInNoteName);
+    mW->noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
 
     TQAunit curQ = TQAunit(); // current question
     
@@ -632,8 +635,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
 						updatePenalStep();
 		}
 
-    mW->noteName->setStyle(gl->NnameStyleInNoteName);
-    mW->noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
+//     mW->noteName->setStyle(gl->NnameStyleInNoteName);
+//     mW->noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
 
 		markAnswer(curQ);
 // 		m_canvas->finishTip();
