@@ -190,6 +190,7 @@ void TpitchView::markAnswer(const QColor& col) {
 void TpitchView::outOfTuneAnim(float outTune, int duration) {
 	if (m_intoView->accuracy() != TintonationView::e_noCheck)
 		disconnect(m_audioIN, SIGNAL(chunkPitch(float)), m_intoView, SLOT(pitchSlot(float)));
+	setBgColor(palette().window().color());
 	m_intoView->outOfTuneAnim(outTune, duration);
 }
 
@@ -204,6 +205,15 @@ void TpitchView::outOfTuneAnim(float outTune, int duration) {
 void TpitchView::noteSlot(Tnote note) {
   Q_UNUSED(note)
   m_hideCnt = 0;
+// 	if (m_intoView->accuracy() != TintonationView::e_noCheck) {
+// 		float diff = m_audioIN->lastNotePitch() - (float)qRound(m_audioIN->lastNotePitch());
+// 		if (qAbs(diff) >= m_intoView->getThreshold(m_intoView->accuracy())) {
+// 			if (diff > 0)
+// 				qDebug() << "to high";
+// 			else
+// 				qDebug() << "to low";
+// 		}
+// 	}
 }
 
 void TpitchView::updateLevel() {

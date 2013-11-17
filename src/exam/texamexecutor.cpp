@@ -723,19 +723,19 @@ void TexamExecutor::correctAnswer() {
 					goodNote = curQ.qa_2.note;
 			mW->noteName->correctName(goodNote, markColor, curQ.isWrong());
 	} else { // answer as played sound
+			if (curQ.wrongIntonation()) {
+					float outTune = mW->sound->pitch() - (float)qRound(mW->sound->pitch());
+					mW->pitchView->outOfTuneAnim(outTune, 1200);
+					m_canvas->outOfTuneTip(outTune); // we are sure that it is beyond the accuracy threshold
+			}
 			if (m_level.instrument != e_noInstrument && (curQ.isWrong() || curQ.wrongOctave())) {
-					// Animation to guitar when is guitar and answer was wrong or octave was wrong
+					// Animation towards guitar when instrument is guitar and answer was wrong or octave was wrong
 					if (curQ.questionAs == TQAtype::e_asFretPos)
 						mW->guitar->correctPosition(curQ.qa.pos, markColor);
 					else
 						m_canvas->correctToGuitar(curQ.questionAs, gl->E->correctViewDuration, curQ.qa.pos);
 			} else { // no guitar or out of tune
-					if (curQ.wrongIntonation()) {
-						mW->pitchView->outOfTuneAnim(mW->sound->pitch() - (float)qRound(mW->sound->pitch()), 1200);						
-					}
-					else {
 						repeatSound();
-					}
 			}
 				
 	}

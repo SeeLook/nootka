@@ -36,15 +36,19 @@ public:
     TscoreKeySignature(TscoreScene *scene, TscoreStaff *staff, char keySign = 0);
     ~TscoreKeySignature();
     
-        /** This metods get and set the key signature, and are called
+        /** This methods get and set the key signature, and are called
         * only from their parent @class TscoreWidgetSimple as continuation
         * his public methods */
     void setKeySignature(char keySign);
     char keySignature() { return m_keySignature; }
     void setClef(Tclef clef);
+		
         /** Returns y coefficient of given note (0 - 7, 0 is c, 1 is d...).
          * It depends on Tclef value*/
     char getPosOfAccid(int noteNr, bool flatKey = false);
+		
+				/** Returns position point of accidental text in staff coordinates. @p noteNr is [0-7] range */
+		QPointF accidTextPos(int noteNr);
 		
 		void showKeyName(bool showIt);
 		

@@ -139,9 +139,10 @@ void Tsound::setPitchView(TpitchView* pView) {
   m_pitchView->setIsVoice(gl->A->isVoice);
   m_pitchView->setMinimalVolume(gl->A->minimalVol);
 	m_pitchView->setIntonationAccuracy(gl->A->intonation);
-  if (sniffer)
+  if (sniffer) {
+			m_pitchView->setAudioInput(sniffer);
       m_pitchView->startVolume();
-  else
+	} else
     m_pitchView->setDisabled(true);
 }
 

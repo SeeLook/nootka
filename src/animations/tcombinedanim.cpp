@@ -72,30 +72,24 @@ void TcombinedAnim::setMorphing(const QLineF& line, qreal width, bool toLine) {
 
 
 void TcombinedAnim::startAnimations() {
-	if (m_moving) {
+	if (m_moving)
 		m_moving->startMoving(m_startMov, m_stopMov);
-	}
-	if (m_scaling) {
+	if (m_scaling)
 		m_scaling->startScaling(m_scaleEnd, m_scaleMid);
-	}
 	if (m_coloring)
 		m_coloring->startColoring(m_endColor, m_midColor);
 	if (m_morphing)
 		m_morphing->startMorphing(m_line, m_lineWidth, m_toLine);
+	m_doEmit = true;
 }
 
 
 /** We are sending only single signal about animation finish. */
 void TcombinedAnim::finishSlot() {
-	if (m_moving)
-		disconnect(m_moving, SIGNAL(finished()), this, SLOT(finishSlot()));
-	if (m_scaling)
-		disconnect(m_scaling, SIGNAL(finished()), this, SLOT(finishSlot()));
-	if (m_coloring)
-		disconnect(m_coloring, SIGNAL(finished()), this, SLOT(finishSlot()));
-	if (m_morphing)
-		disconnect(m_morphing, SIGNAL(finished()), this, SLOT(finishSlot()));
-	emit finished();
+	if (m_doEmit) { // to avoid emitting finished() signal more than once
+		emit finished();
+		m_doEmit = false;
+	}
 }
 
 

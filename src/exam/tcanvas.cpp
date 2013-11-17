@@ -51,9 +51,10 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   m_parent(parent),
   m_resultTip(0), m_startTip(0), m_whatTip(0),
   m_questionTip(0), m_tryAgainTip(0), m_confirmTip(0),
-  m_finishTip(0),
+  m_certifyTip(0),
   m_scale(1),
   m_correctAnim(0), m_flyEllipse(0),
+  m_outTuneTip(0),
   m_scene(0),
   m_timerToConfirm(new QTimer(this))
 {
@@ -109,7 +110,7 @@ void Tcanvas::resultTip(TQAunit* answer, int time) {
   m_scene->addItem(m_resultTip);
   m_resultTip->setZValue(100);
   m_resultTip->setScale(m_scale);
-  setPosOfResultTip();
+  setResultPos();
   if (time)
     QTimer::singleShot(time, this, SLOT(clearResultTip()));
 }
@@ -121,7 +122,7 @@ void Tcanvas::tryAgainTip(int time) {
   m_scene->addItem(m_tryAgainTip);
   m_tryAgainTip->setZValue(100);
   m_tryAgainTip->setScale(m_scale);
-  setPosOfTryAgainTip();
+  setTryAgainPos();
   QTimer::singleShot(time, this, SLOT(clearTryAgainTip()));
 }
 
@@ -140,18 +141,18 @@ void Tcanvas::startTip() {
    m_startTip->setScale(m_scale);
    m_startTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
    connect(m_startTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
-   setPosOfStartTip();
+   setStartTipPos();
 }
 
 
-void Tcanvas::finishTip() {
+void Tcanvas::certificateTip() {
 	if (m_questionTip) {
     delete m_questionTip;
     m_questionTip = 0;
   }		
-	if (!m_finishTip) {
-			m_finishTip = new TnootkaCertificate(this, gl->path, m_exam);
-			connect(m_finishTip, SIGNAL(userAction(QString)), this, SLOT(linkActivatedSlot(QString)));
+	if (!m_certifyTip) {
+			m_certifyTip = new TnootkaCertificate(this, gl->path, m_exam);
+			connect(m_certifyTip, SIGNAL(userAction(QString)), this, SLOT(linkActivatedSlot(QString)));
 		//   m_finishTip->rotate(-7);
 	}
 }
@@ -183,7 +184,7 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
   m_parent->guitar->setAttribute(Qt::WA_TransparentForMouseEvents, true); // to activate click on tip
   m_whatTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
   connect(m_whatTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
-  setPosOfWhatTip();
+  setWhatNextPos();
 }
 
 
@@ -209,7 +210,7 @@ void Tcanvas::showConfirmTip() {
 		m_scene->addItem(m_confirmTip);
 		m_confirmTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
 		connect(m_confirmTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
-		setPosOfConfirmTip();
+		setConfirmPos();
 	}
 }
 
@@ -224,6 +225,10 @@ void Tcanvas::questionTip(Texam* exam) {
     delete m_whatTip;
     m_whatTip = 0;
   }
+  if (m_outTuneTip) {
+		delete m_outTuneTip;
+		m_outTuneTip = 0;
+  }
   if (m_questionTip)
     delete m_questionTip;
   m_questionTip = new TquestionTip(exam, m_scale);
@@ -232,13 +237,35 @@ void Tcanvas::questionTip(Texam* exam) {
 	m_guitarFree = m_questionTip->freeGuitar();
 	m_nameFree = m_questionTip->freeName();
 	m_scoreFree = m_questionTip->freeScore();
-  setPosOfQuestionTip();
+  setQuestionPos();
 }
 
 
 void Tcanvas::addTip(TgraphicsTextTip* tip) {
   m_scene->addItem(tip);  
 }
+
+
+void Tcanvas::outOfTuneTip(float pitchDiff) {
+	if (m_outTuneTip)
+		return;
+	QString tuneText;
+	bool tooLow = true;
+	if (pitchDiff < 0)
+		tuneText = tr("too low");
+	else {
+		tuneText = tr("too high");
+		tooLow = false;
+	}
+	m_outTuneTip = new TgraphicsTextTip(QString("<span style=\"color: %1; font-size: %2px;\">")
+      .arg(gl->EnotBadColor.name()).arg(bigFont()) + tuneText + "</span>");
+  m_scene->addItem(m_outTuneTip);
+  m_outTuneTip->setZValue(100);
+  m_outTuneTip->setScale(m_scale);
+	m_outTuneTip->setData(0, QVariant::fromValue<bool>(tooLow));
+  setOutTunePos();
+}
+
 
 
 void Tcanvas::correctToGuitar(TQAtype::Etype &question, int prevTime, TfingerPos& goodPos) {
@@ -306,9 +333,13 @@ void Tcanvas::clearCanvas() {
     delete m_questionTip;
     m_questionTip = 0;
   }
-  if (m_finishTip) {
-    delete m_finishTip;
-    m_finishTip = 0;
+  if (m_certifyTip) {
+    delete m_certifyTip;
+    m_certifyTip = 0;
+  }
+  if (m_outTuneTip) {
+		delete m_outTuneTip;
+		m_outTuneTip = 0;
   }
 }
 
@@ -336,10 +367,10 @@ void Tcanvas::clearConfirmTip() {
 }
 
 
-void Tcanvas::clearFinishTip() {
-	if (m_finishTip) {
-		m_finishTip->deleteLater();
-		m_finishTip = 0;
+void Tcanvas::clearCertificate() {
+	if (m_certifyTip) {
+		m_certifyTip->deleteLater();
+		m_certifyTip = 0;
 	}
 }
 
@@ -398,41 +429,45 @@ void Tcanvas::sizeChanged() {
 	m_maxTipWidth = width() / 3;
   if (m_resultTip) {
       m_resultTip->setScale(m_scale);;
-      setPosOfResultTip();
+      setResultPos();
   }
   if (m_tryAgainTip) {
     m_tryAgainTip->setScale(m_scale);
-    setPosOfTryAgainTip();
+    setTryAgainPos();
   }
   if (m_whatTip) {
       m_whatTip->setScale(m_scale);
-      setPosOfWhatTip();
+      setWhatNextPos();
   }
   if (m_startTip) {
     m_startTip->setScale(m_scale);
-    setPosOfStartTip();
+    setStartTipPos();
   }
   if (m_questionTip) {
     delete m_questionTip;
     m_questionTip = new TquestionTip(m_exam, m_scale);
     m_scene->addItem(m_questionTip);
-    setPosOfQuestionTip();
+    setQuestionPos();
   }
   if (m_confirmTip) {
     m_confirmTip->setScale(m_scale);
-    setPosOfConfirmTip();
+    setConfirmPos();
   }
-  if (m_finishTip) {
-    clearFinishTip();
-		finishTip();		
+  if (m_certifyTip) {
+    clearCertificate();
+		certificateTip();		
   }
+  if (m_outTuneTip) {
+		m_outTuneTip->setScale(m_scale);
+		setOutTunePos();
+  }		
 }
 
 
 void Tcanvas::linkActivatedSlot(QString link) {
     emit buttonClicked(link);
-		if (m_finishTip)
-			clearFinishTip();
+		if (m_certifyTip)
+			clearCertificate();
 }
 
 
@@ -498,21 +533,21 @@ void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
 }
 
 
-void Tcanvas::setPosOfResultTip() {
+void Tcanvas::setResultPos() {
   m_resultTip->setPos(m_parent->relatedPoint().x() + (((m_scene->width() - m_parent->relatedPoint().x()) -
                                                        m_scale * m_resultTip->boundingRect().width())) / 2,
                       m_parent->relatedPoint().y());
 }
 
 
-void Tcanvas::setPosOfTryAgainTip() {
+void Tcanvas::setTryAgainPos() {
   m_tryAgainTip->setPos(m_parent->relatedPoint().x() + (((m_scene->width() - m_parent->relatedPoint().x()) -
 											m_scale * m_tryAgainTip->boundingRect().width())) / 2,
                       m_parent->noteName->geometry().top() - m_scale * m_tryAgainTip->boundingRect().height());
 }
 
 
-void Tcanvas::setPosOfWhatTip() {
+void Tcanvas::setWhatNextPos() {
 	int maxTipHeight = getMaxTipHeight();
   if (m_whatTip->boundingRect().height() * m_whatTip->scale() != maxTipHeight)
 				m_whatTip->setScale((qreal)maxTipHeight / (m_whatTip->boundingRect().height() * m_whatTip->scale()));
@@ -520,20 +555,20 @@ void Tcanvas::setPosOfWhatTip() {
 }
 
 
-void Tcanvas::setPosOfStartTip() {
+void Tcanvas::setStartTipPos() {
 // in the middle of a window
   m_startTip->setPos((m_scene->width() - m_scale * (m_startTip->boundingRect().width())) / 2,
                   (m_scene->height() - m_scale * (m_startTip->boundingRect().height())) / 2 );  
 }
 
 
-void Tcanvas::setPosOfConfirmTip() { // middle of noteName and somewhere above
+void Tcanvas::setConfirmPos() { // middle of noteName and somewhere above
     m_confirmTip->setPos(m_parent->noteName->geometry().x() + (m_parent->noteName->width() - m_confirmTip->boundingRect().width()) / 2,
 												 m_parent->relatedPoint().y());  
 }
 
 
-void Tcanvas::setPosOfQuestionTip() {
+void Tcanvas::setQuestionPos() {
 	int maxTipHeight = getMaxTipHeight();
 	qreal fineScale;
 	if (m_questionTip->boundingRect().height() * m_questionTip->scale() > maxTipHeight) { // check is scaling needed
@@ -551,6 +586,16 @@ void Tcanvas::setPosOfQuestionTip() {
 }
 
 
+void Tcanvas::setOutTunePos() {
+	int startX = m_parent->pitchView->geometry().x();
+	if (m_outTuneTip->boundingRect().width() * m_outTuneTip->scale() > m_parent->pitchView->geometry().width() / 2)
+			m_outTuneTip->setScale((m_outTuneTip->boundingRect().width() * m_outTuneTip->scale()) / 
+							(m_parent->pitchView->geometry().width() / 2));
+	if (!m_outTuneTip->data(0).toBool())
+		startX += m_parent->pitchView->geometry().width() / 2;
+	m_outTuneTip->setPos(startX + (m_parent->pitchView->geometry().width() / 2 - m_outTuneTip->boundingRect().width()) / 2, 
+		m_parent->pitchView->y() - m_outTuneTip->boundingRect().height() * m_outTuneTip->scale());
+}
 
 
 

@@ -37,38 +37,48 @@ public:
     
 				/** Index of this note instance. */
 		int index() { return m_index; }
+		
         /** Hides main note */
     void hideNote();
+		
         /** Hides pointing (work) note */
     void hideWorkNote();
+		
         /** Sets color of main note. */
     void setColor(QColor color);
+		
         /** Sets color of pointing (work) note. */
     void setPointedColor(QColor color);
+		
 				/** It sets background of the note segment. When sets to -1 means transparent - no background. */
 		void setBackgroundColor(QColor bg) { m_bgColor = bg; update(); }
     
         /** Adds blur effect to main note. If blurColor is -1 deletes the effect. */
     void markNote(QColor blurColor);    
-    void moveNote(int pos);
-				/** Sets noteHead at given position and given accidental accidental. */
+    void moveNote(int posY);
+		
+				/** Sets note-head at given position and given accidental accidental. */
 		void setNote(int notePos, int accNr);
+		
 				/** Returns pointer to main note QGraphicsEllipseItem.  */
 		QGraphicsEllipseItem* mainNote() { return m_mainNote; }
+		
 				/** Returns pointer to main accidental QGraphicsSimpleTextItem.  */
 		QGraphicsSimpleTextItem *mainAccid() { return m_mainAccid; }
     
 				/** Min and Max values of Y coefficient on the staff */
     void setAmbitus(int min, int max){ m_ambitMin = qMax(min, 1); m_ambitMax = qMin(max, (int)m_height - 1); }
 
-        /** This return value of @li -2 is bb @li 1 is #
-         * @li etc... */ 
+        /** This return value of -2 is bb,  1 is #,  etc... */ 
     int accidental() {return m_accidental;}
     int ottava() { return m_ottava; } // NOTE: for this moment it is unused and set to 0
     int notePos() { return m_mainPosY; }
+    
 //     int noteNumber() { return m_noteNr; } // note number depends on octave.
+
         /** Returns QString with accidental symbol*/
     static QString getAccid(int accNr);
+		
 				/** nootka font with well scaled accidental glyph. */
     static QFont getAccidFont();
 		static qreal accidYoffset() { return m_accidYoffset; }
@@ -76,7 +86,7 @@ public:
 		
 		
 				/** It paints string number symbol.
-        * Automaticaly determines above or below staff. */
+        * Automatically determines above or below staff. */
     void setString(int realNr);
     void removeString(); /** Removes string number */
 		int stringNumber() { return m_stringNr; } /* Displayed string number or 0 if not. */
@@ -94,6 +104,12 @@ public:
 signals:
     void noteWasClicked(int);
 		void accidWasChanged(int);
+		
+		void toKeyAnim(QString, QPointF, int notePos); /** Emitted when accidental has been in key already */
+		void fromKeyAnim(QString, QPointF, int notePos); /** Emitted when neutral is necessary */
+		
+public slots:
+		void keyAnimFinished();
 
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
@@ -114,11 +130,10 @@ private:
     
     int                           m_workPosY, m_mainPosY;
     int                           m_curentAccid, m_accidental;
-    int                           m_index; // note index in externl list
+    int                           m_index; // note index in external list
 //     int 													m_noteNr; // note number depends on octave
     int 													m_ottava; // values from -2 (two octaves down), to 2 (two octaves up)
-                  /** Represents range (ambitus) of notes on score */
-    int                           m_ambitMin, m_ambitMax;
+    int                           m_ambitMin, m_ambitMax; /** Represents range (ambitus) of notes on score */
 		int 													m_stringNr;
     qreal                         m_height;
 		bool													m_readOnly;
@@ -127,12 +142,11 @@ private:
     static qreal									m_accidScale;
     
 private:
-        /** Prepares noteHead (elipse) */
+        /** Prepares note-head (ellipse) */
     QGraphicsEllipseItem* createNoteHead();
     QGraphicsLineItem*    createNoteLine(int yPos);
     void hideLines(QList<QGraphicsLineItem*> &linesList);
-				/** Determines and set string numer position (above or below the staff) depends on note pos */
-		void setStringPos();
+		void setStringPos(); /** Determines and set string number position (above or below the staff) depends on note position */
 // 		void checkOctavation();
 		
 		    

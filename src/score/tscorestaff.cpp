@@ -24,10 +24,11 @@
 #include "tscorecontrol.h"
 #include "tscorescordature.h"
 #include "tnote.h"
+#include <animations/tcombinedanim.h>
 #include <QApplication>
 #include <QPalette>
 
-// #include <QDebug>
+#include <QDebug>
 
 
 TnoteOffset::TnoteOffset(int noteOff, int octaveOff) :
@@ -46,7 +47,8 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
   m_scordature(0),
   m_extraWidth(0.0),
 	m_enableScord(false),
-	m_lower(0)
+	m_lower(0),
+	m_accidAnim(0), m_flyAccid(0)
 {
 	setZValue(10);
   if (m_kindOfStaff == e_normal) {
@@ -152,6 +154,25 @@ void TscoreStaff::setEnableKeySign(bool isEnabled) {
 			m_keySignature->setClef(m_clef->clef());
 			m_keySignature->setZValue(30);
 			connect(m_keySignature, SIGNAL(keySignatureChanged()), this, SLOT(onKeyChanged()));
+			m_flyAccid = new QGraphicsSimpleTextItem;
+			registryItem(m_flyAccid);
+			m_flyAccid->setFont(TscoreNote::getAccidFont());
+			m_flyAccid->setScale(TscoreNote::accidScale());
+			m_flyAccid->hide();
+			if (m_scoreNotes.size())				
+					m_flyAccid->setBrush(m_scoreNotes[0]->mainNote()->brush());
+			m_accidAnim = new TcombinedAnim(m_flyAccid, this);
+			connect(m_accidAnim, SIGNAL(finished()), this, SLOT(accidAnimFinished()));
+			m_accidAnim->setDuration(300);
+			m_accidAnim->setScaling(m_flyAccid->scale(), m_flyAccid->scale() * 3.0);
+// 			m_accidAnim->scaling()->setEasingCurveType(QEasingCurve::OutQuint);
+			m_accidAnim->setMoving(QPointF(), QPointF()); // initialize moving
+			m_accidAnim->moving()->setEasingCurveType(QEasingCurve::OutBack);
+			for (int i = 0; i < m_scoreNotes.size(); i++) {
+				connect(m_scoreNotes[i], SIGNAL(fromKeyAnim(QString,QPointF,int)), this, SLOT(fromKeyAnimSlot(QString,QPointF,int)));
+				connect(m_scoreNotes[i], SIGNAL(toKeyAnim(QString,QPointF,int)), this, SLOT(toKeyAnimSlot(QString,QPointF,int)));
+				connect(m_accidAnim, SIGNAL(finished()), m_scoreNotes[i], SLOT(keyAnimFinished()));
+			}
 			if (m_scoreControl && !m_scoreControl->isEnabled()) {
 					/** This is in case when score/staff is disabled and key signature is added.
 					 * TscoreControl::isEnabled() determines availableness state. */
@@ -161,6 +182,10 @@ void TscoreStaff::setEnableKeySign(bool isEnabled) {
 		} else {
 					delete m_keySignature;
 					m_keySignature = 0;
+					m_accidAnim->deleteLater();
+					m_accidAnim = 0;
+					delete m_flyAccid;
+					m_flyAccid = 0;
 		}
 		updateWidth();
 	}
@@ -213,6 +238,22 @@ QRectF TscoreStaff::boundingRect() const {
   return QRectF(0, 0, m_width, m_height);
 }
 
+int TscoreStaff::accidNrInKey(int noteNr, char key) {
+	int accidNr;
+	switch ((56 + notePosRelatedToClef(noteNr, m_offset)) % 7 + 1) {
+		case 1: accidNr = 1; break;
+		case 2: accidNr = 3; break;
+		case 3: accidNr = 5; break;
+		case 4: accidNr = 0; break;
+		case 5: accidNr = 2; break;
+		case 6: accidNr = 4; break;
+		case 7: accidNr = 6; break;
+	}
+	if (key < 0)
+		accidNr = 6 - accidNr;
+	return accidNr;
+}
+
 
 //##########################################################################################################
 //########################################## PROTECTED   ###################################################
@@ -232,6 +273,9 @@ void TscoreStaff::addLowerStaff() {
 	}
 }
 
+//##########################################################################################################
+//####################################### PROTECTED SLOTS  #################################################
+//##########################################################################################################
 
 void TscoreStaff::onClefChanged( ) {
 	int globalNr;
@@ -295,6 +339,29 @@ void TscoreStaff::onAccidButtonPressed(int accid) {
 	scoreScene()->setCurrentAccid(accid);
 	/** It is enough to do this as long as every TscoreNote handles mouseHoverEvent
 	 * which checks value set above and changes accidental symbol if necessary. */
+}
+
+
+void TscoreStaff::fromKeyAnimSlot(QString accidText, QPointF accidPos, int notePos) {
+	m_flyAccid->setText(accidText);
+	m_accidAnim->setMoving(mapFromScene(m_keySignature->accidTextPos(accidNrInKey(notePos, scoreKey()->keySignature()))),
+												 mapFromScene(accidPos));
+	m_accidAnim->startAnimations();
+	m_flyAccid->show();
+}
+
+
+void TscoreStaff::toKeyAnimSlot(QString accidText, QPointF accidPos, int notePos) {
+	m_flyAccid->setText(accidText);
+	m_accidAnim->setMoving(mapFromScene(accidPos),
+												 mapFromScene(m_keySignature->accidTextPos(accidNrInKey(notePos, scoreKey()->keySignature()))));
+	m_accidAnim->startAnimations();
+	m_flyAccid->show();
+}
+
+
+void TscoreStaff::accidAnimFinished() {
+	m_flyAccid->hide();
 }
 
 //##########################################################################################################

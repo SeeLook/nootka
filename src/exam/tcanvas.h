@@ -64,8 +64,10 @@ public:
     void noteTip(int time); // note symbol when sound was detected
     void tryAgainTip(int time); // "Try again" text"
     void confirmTip(int time = 0); // tip about confirm an answer appears after given time
-    void finishTip(); // paper like exam report when finished
+    void certificateTip(); // paper like exam report when finished
 		
+				/** 'to low' or 'to high' text above pitch view @p pitchDiff is float part of pitch */
+		void outOfTuneTip(float pitchDiff);		
 		
 				/** Manages an animation of correcting answer as played sound.
 				 * Correct position on the guitar is displayed 
@@ -93,7 +95,7 @@ public slots:
     void linkActivatedSlot(QString link);
     void clearConfirmTip();
     void showConfirmTip();
-		void clearFinishTip();
+		void clearCertificate();
 		void clearCorrection();
   
 signals:
@@ -117,9 +119,9 @@ private:
     MainWindow 										*m_parent;
     QGraphicsScene 								*m_scene;
     double 												 m_scale;
-    TgraphicsTextTip 							*m_resultTip, *m_whatTip, *m_startTip, *m_tryAgainTip, *m_confirmTip;
+    TgraphicsTextTip 							*m_resultTip, *m_whatTip, *m_startTip, *m_tryAgainTip, *m_confirmTip, *m_outTuneTip;
     TquestionTip 									*m_questionTip;
-    TnootkaCertificate 						*m_finishTip;
+    TnootkaCertificate 						*m_certifyTip;
     Texam 												*m_exam;
 		TcombinedAnim									*m_correctAnim;
     QTimer 												*m_timerToConfirm;
@@ -134,13 +136,13 @@ private:
 private:
 		int getMaxTipHeight(); /** Calculates maximal tip height depends on free MainWindow widget. */
 		void setPosOfTip(TgraphicsTextTip *tip); /** Universal method to place given tip above free MainWindow widget.  */
-    void setPosOfResultTip();
-    void setPosOfWhatTip();
-    void setPosOfStartTip();
-    void setPosOfQuestionTip();
-    void setPosOfTryAgainTip();
-    void setPosOfConfirmTip();
-    void setPosOfFinishTip();
+    void setResultPos();
+    void setWhatNextPos();
+    void setStartTipPos();
+    void setQuestionPos();
+    void setTryAgainPos();
+    void setConfirmPos();
+		void setOutTunePos();
  
 };
 

@@ -23,6 +23,7 @@
 #include "tscoreitem.h"
 #include "tclef.h"
 
+class TcombinedAnim;
 class Tnote;
 class Ttune;
 class TscoreControl;
@@ -47,7 +48,7 @@ public:
 };
 
 /** 
- * @class TscoreStaff manages score items onthe staff.
+ * @class TscoreStaff manages score items on the staff.
  * It has got:
  * - clef - @p TscoreClef - accessing by @p scoreClef()
  * - key signature - @p TscoreKeySignature - scoreKey()
@@ -73,8 +74,11 @@ public:
 				/** Returns pointer to TscoreNote element in the score. 
 				 * When it is piano staff - upper notes are returned. */
 		TscoreNote* noteSegment(int nr) { return m_scoreNotes[nr]; }
+		
 		TscoreKeySignature* scoreKey() { return m_keySignature; }
+		
 		TscoreClef* scoreClef() { return m_clef; }
+		
 				/** Returns pointer to lower staff if it is piano staff or 0.
 				 * Every time You want to invoke this 
 				 * CHECK IS IT EXIST - different than 0. */
@@ -85,7 +89,8 @@ public:
 		virtual void setNote(int index, Tnote &note);
 		virtual void setNoteDisabled(int index, bool isDisabled);
 		
-		virtual void setEnableKeySign(bool isEnabled);   
+		virtual void setEnableKeySign(bool isEnabled);
+		
         /** This array keeps values (-1, 0 or 1) for accidentals in key sign.
          * It is common for TscoreKeySignature and all TscoreNote. 
          * TscoreKeySignature::setAccidInKeyPointer and TscoreNote::setAccidInKeyPointer
@@ -103,19 +108,28 @@ public:
     qreal upperLinePos() const { return m_upperLinePos; }
     qreal height() const { return m_height; } // staff height
     qreal width() const { return m_width; } // staff width
+    
         /** Kind of staff (normal or upper (right hand) or lower(left hand)) */
     Ekind kindOfStaff() { return m_kindOfStaff; }
+    
 				/** Returns number of a note. upperLinePos() is note nr 0 but it depends on octave (clef).  */
     int notePosRelatedToClef(int pos, TnoteOffset off) {
       return off.octave * 7 - (pos + 1 - (int)upperLinePos() - off.note);  }
+      
     int notePosRelatedToClef(int pos) {
       return notePosRelatedToClef(pos, m_offset); }
+      
         /** Returns offset of a y coeff. of a note related to current cleff. */
     int noteOffset() { return m_offset.note; }
+    
 				/** octave offset related to middle (one-line) octave. */
     int octaveOffset() { return m_offset.octave; }
+			
+				/** Returns number of accidental in key signature, fe.: F# - 0, C# - 1 or Bb - 0, Eb - 1 */
+    int accidNrInKey(int noteNr, char key);
     
     virtual void setScoreControler(TscoreControl *scoreControl);
+		
 				/** Stops/starts capturing any mouse events. */
 		virtual void setDisabled(bool disabled);
 		
@@ -134,9 +148,10 @@ public slots:
 		
 protected:
 				/** It doesn't add scordature like setScordature() method, 
-				 * just make place (resizes staff width if necessary) for scordature. 
+				 * just make place (re-sizes staff width if necessary) for scordature. 
 				 * setScordature calls it itself. */
 		void setEnableScordtature(bool enable);
+		
 				/** This method adds additional staff under itself end becomes piano staff. */
 		void addLowerStaff();
 		
@@ -146,6 +161,9 @@ protected slots:
 		void noteChangedAccid(int accid); // TscoreNote wheel event - changes accidental
 		void onAccidButtonPressed(int accid); // TscoreControl accid button pressed
 		void onPianoStaffChanged(Tclef clef) { emit pianoStaffSwitched(clef); } // clef demands piano staff
+		void toKeyAnimSlot(QString accidText, QPointF accidPos, int notePos);
+		void fromKeyAnimSlot(QString accidText, QPointF accidPos, int notePos);
+		void accidAnimFinished();
     
 private:
 				/** Calculates current width of a staff depends on is key sign. enabled. */
@@ -167,6 +185,8 @@ private:
 		bool										m_enableScord;
 				/** Grand (left hand) staff. It exist in piano staff only. In normal staff it is 0. */
 		TscoreStaff 						*m_lower;
+		TcombinedAnim						*m_accidAnim;
+		QGraphicsSimpleTextItem *m_flyAccid;
 		
 };
 
