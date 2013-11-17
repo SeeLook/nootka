@@ -94,9 +94,8 @@ void TintonationView::outOfTuneAnim(float outTune, int duration) {
 	m_animStep = 0.0; // blinking first
 	m_outOfTune = outTune;
 	pitchSlot(outTune);
-	m_timer->setInterval((duration / 2) / 4);
-	m_timer->start();
-	qDebug() << "outOfTuneAnim" << m_outOfTune << m_timer->interval();
+// 	m_timer->setInterval((duration / 2) / 4);
+	m_timer->start(150);
 }
 
 
@@ -175,29 +174,25 @@ void TintonationView::resizeEvent(QResizeEvent* ) {
 
 
 void TintonationView::animationSlot() {
-	if (m_animStep == 0.0 || m_animStep == 1.0 || m_animStep == 2.0 || m_animStep == 3.0) { // blinking
-		if (m_animStep == 0.0 || m_animStep == 2.0) // 1 and 3 clips
+	if (m_animStep < 8.0) { // blinking
+		if (m_animStep == 0.0 || m_animStep == 2.0 || m_animStep == 4.0 || m_animStep == 6.0) // 1 and 3 clips
 				pitchSlot(0.01); // green
 		else // 2 and 4 clips
 				pitchSlot(m_outOfTune); // unclear
 		m_animStep += 1.0;
-		qDebug() << "blinking phase" << m_animStep;
-		if (m_animStep > 3.0) { // determine step of bar animation
-			m_animStep = m_outOfTune / ((m_timer->interval() * 4) / 30);
-			m_timer->start((m_timer->interval() * 4) / 30);
-			qDebug() << "blinking finished" << m_animStep;
-		}
-	} else { // decreasing intonation bar animation
-		qDebug() << m_outOfTune << m_animStep;
+// 		if (m_animStep > 3.0) { // determine step of bar animation
+// 			m_animStep = m_outOfTune / ((m_timer->interval() * 4) / 30);
+// 			m_timer->start((m_timer->interval() * 4) / 30);
+// 		}
+	} /*else { // decreasing intonation bar animation
 		if ((m_animStep / qAbs(m_animStep)) == (m_outOfTune / qAbs(m_outOfTune))) {
 			m_outOfTune = m_outOfTune - m_animStep;
-			qDebug() << "out of tune" << m_outOfTune;
 			pitchSlot(m_outOfTune);
-		} else {
+		}*/ else {
 			m_timer->stop();
 			emit animationFinished();
 		}
-	}
+// 	}
 }
 
 

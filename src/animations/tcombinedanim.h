@@ -69,7 +69,7 @@ private:
 	TmorphedAnim			*m_morphing;
 	QLineF						 m_line;
 	qreal							 m_lineWidth;
-	bool							 m_toLine;
+	bool							 m_toLine, m_doEmit;
 	
 };
 

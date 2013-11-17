@@ -94,7 +94,7 @@ void TscoreKeySignature::setKeySignature(char keySign) {
             m_accidentals[i - 1]->setText(TscoreNote::getAccid(sign));
             m_accidentals[i - 1]->setPos( (i - 1) * 1.3, getPosOfAccid(i - 1, isFlat) - TscoreNote::accidYoffset() - 1);
             staff()->accidInKeyArray[(startVal + sign * (i * 4)) % 7] = sign;
-            m_accidentals[i-1]->show();
+            m_accidentals[i - 1]->show();
         }
         else { // hide
             m_accidentals[i - 1]->hide();
@@ -120,6 +120,14 @@ char TscoreKeySignature::getPosOfAccid(int noteNr, bool flatKey) {
         yPos += 7;
   }
   return yPos;
+}
+
+
+QPointF TscoreKeySignature::accidTextPos(int noteNr) {
+	if (noteNr >= 0 && noteNr < 7)
+			return mapToScene(m_accidentals[noteNr]->pos());
+	else 
+			return QPointF();
 }
 
 

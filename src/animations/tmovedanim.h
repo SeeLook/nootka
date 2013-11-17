@@ -39,8 +39,6 @@ public:
 public slots:
 	void startMoving(const QPointF& start, const QPointF& stop);
 	
-signals:
-	void finished();
 	
 protected slots:
 	void animationRoutine();

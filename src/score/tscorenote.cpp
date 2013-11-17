@@ -32,7 +32,7 @@
 #include <QTimer>
 #include <qtimeline.h>
 
-// #include <QDebug>
+#include <QDebug>
 
 
 /*static*/
@@ -177,8 +177,8 @@ void TscoreNote::setWorkAccid(int accNr) {
 }
 
 
-void TscoreNote::moveNote(int pos) {
-    if (pos > m_ambitMin || pos < m_ambitMax) {
+void TscoreNote::moveNote(int posY) {
+    if (posY > m_ambitMin || posY < m_ambitMax) {
 				hideNote();
 				m_mainAccid->setText(" ");
 				return;
@@ -188,24 +188,31 @@ void TscoreNote::moveNote(int pos) {
         m_mainAccid->show();
     }
 		if (m_noteAnim) { // initialize animation
-				m_noteAnim->setMoving(m_mainNote->pos(), QPointF(3.0, pos));
+				m_noteAnim->setMoving(m_mainNote->pos(), QPointF(3.0, posY));
 				m_noteAnim->startAnimations();
 		} else { // just move a note
-			m_mainNote->setPos(3.0, pos);
+			m_mainNote->setPos(3.0, posY);
 		}
-		m_mainPosY = pos;
-    int noteNr = (56 + staff()->notePosRelatedToClef(pos)) % 7;
+		m_mainPosY = posY;
+    int noteNr = (56 + staff()->notePosRelatedToClef(posY)) % 7;
 		QString newAccid = getAccid(m_accidental);
-// 		bool accidAnim = false;
+		bool accidAnim = false;
 		if (staff()->accidInKeyArray[noteNr]) {
       if (m_accidental == 0) {
         newAccid = getAccid(3); // neutral
-// 				accidAnim = true;
+				accidAnim = true;
+				m_mainAccid->hide();
+				if (!m_readOnly && !m_noteAnim)
+					emit fromKeyAnim(newAccid, m_mainAccid->scenePos(), m_mainPosY);
+// 					emit fromKeyAnim(newAccid, QPointF(this->pos().x() -0.5, m_mainPosY - accidYoffset()), m_mainPosY);
 			}
       else {
         if (staff()->accidInKeyArray[noteNr] == m_accidental) {
+					if (!m_readOnly && !m_noteAnim)
+						emit toKeyAnim(newAccid, m_mainAccid->scenePos(), m_mainPosY);
+// 						emit toKeyAnim(newAccid, QPointF(this->pos().x() -0.5, m_mainPosY - accidYoffset()), m_mainPosY);
           newAccid = " "; // hide accidental
-// 					accidAnim = true;
+					accidAnim = true;
 				}
       }
     }
@@ -217,13 +224,13 @@ void TscoreNote::moveNote(int pos) {
 
     setStringPos();
     for (int i = 0; i < m_mainUpLines.size(); i++) {
-      if (pos < m_mainUpLines[i]->line().y1())
+      if (posY < m_mainUpLines[i]->line().y1())
         m_mainUpLines[i]->show();
       else 
         m_mainUpLines[i]->hide();
     }
     for (int i = 0; i < m_mainDownLines.size(); i++) {
-      if (pos > m_mainDownLines[i]->line().y1() - 2)
+      if (posY > m_mainDownLines[i]->line().y1() - 2)
         m_mainDownLines[i]->show();
       else 
         m_mainDownLines[i]->hide();
@@ -335,6 +342,12 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 }
 
 
+void TscoreNote::keyAnimFinished() {
+	if (!m_readOnly)
+			m_mainAccid->show();
+}
+
+
 //#################################################################################################
 //########################################## PROTECTED   ##########################################
 //#################################################################################################
@@ -414,12 +427,13 @@ void TscoreNote::wheelEvent(QGraphicsSceneWheelEvent* event) {
 }
 
 //##########################################################################################################
-//########################################## PRIVATE     ###################################################
+//####################################         PRIVATE     #################################################
 //##########################################################################################################
 
 QGraphicsEllipseItem* TscoreNote::createNoteHead() {
   QGraphicsEllipseItem *noteHead = new QGraphicsEllipseItem();
-  registryItem(noteHead);
+//   registryItem(noteHead);
+	noteHead->setParentItem(this);
   noteHead->setRect(0, 0, 3.5, 2);
   noteHead->hide();
   return noteHead;
