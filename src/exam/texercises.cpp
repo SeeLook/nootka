@@ -26,13 +26,14 @@
 #include <QVBoxLayout>
 #include <QGroupBox>
 
-#include <QDebug>
+// #include <QDebug>
 
 Texercises::Texercises(Texam* exam, QObject* parent) :
 	QObject(parent),
 	m_exam(exam),
 	m_checkNow(false),
-	m_readyToExam(false)
+	m_readyToExam(false),
+	m_checkInFuture(false)
 {
 }
 
@@ -41,6 +42,7 @@ void Texercises::setSuggestionEnabled(int qaPosibilities) {
 	if (qaPosibilities > 0) {
 			m_max = qMax(qaPosibilities, 10); // not less than 10
 			m_checkNow = true;
+			m_checkInFuture = true; // global setting is true when it comes here
 			m_currentGood = 0;
 			m_prevMistake = 0;
 	} else {
@@ -52,6 +54,7 @@ void Texercises::setSuggestionEnabled(int qaPosibilities) {
 void Texercises::checkAnswer() {
 	if (!m_checkNow)
 		return;
+	
 	if (m_exam->curQ().isCorrect()) {
 		m_currentGood++;
 		m_prevMistake = 0;
@@ -60,7 +63,7 @@ void Texercises::checkAnswer() {
 			m_currentGood = m_max / 2; // forgive single mistake
 		else
 			m_currentGood = 0;
-		m_prevMistake = 0; // but reset mistake counter, so after next one whole cycle will be required
+		m_prevMistake = 0; // but reset mistake counter, so after next wrong answer whole cycle will be required
 	}
 	
 	if (m_currentGood >= m_max) {
@@ -73,17 +76,18 @@ void Texercises::checkAnswer() {
 					m_readyToExam = true;
 					break;
 				case TsuggestExam::e_forAmoment:
-					m_currentGood = 0; // or m_currentGood -= 10
+					m_currentGood -= m_max;
 					break;
 				case TsuggestExam::e_notThisTime:
 					m_checkNow = false;
 					break;
 				case TsuggestExam::e_neverEver:
-					m_chekInFuture = false;
+					m_checkInFuture = false;
+					m_checkNow = false;
 					break;
 			}
 		} else
-				m_currentGood -= 10;
+				m_currentGood -= m_max;
 		delete suggExam;
 		emit messageClosed(m_readyToExam);
 	}
