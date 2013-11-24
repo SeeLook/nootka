@@ -24,7 +24,9 @@
 class QRadioButton;
 class Texam;
 
-/** Class for managing exercising (exam like mode) 
+
+/** 
+ * Class for managing exercising (exam like mode) 
  * It gets answers state through checkAnswer(), checks is it necessary to suggest an exam
  * and emits messageDisplayed signal during message. */
 class Texercises : public QObject
@@ -42,7 +44,7 @@ public:
 		
 				/** Returns user decision when he got message about starting an exam.
 				 * It affects global setting for further suggestions. */
-		bool suggestInFuture() { return m_chekInFuture; }
+		bool suggestInFuture() { return m_checkInFuture; }
 		
 				/** Returns true when user decided to start exam after suggestion.  */
 		bool readyToExam() { return m_readyToExam; }
@@ -53,9 +55,11 @@ signals:
 		void messageClosed(bool);
 		
 private:
-		Texam				*m_exam;
-		bool 				m_chekInFuture, m_checkNow, m_readyToExam;
-		int 				m_max, m_currentGood, m_prevMistake;
+		Texam			 *m_exam;
+		bool 				m_checkInFuture, m_checkNow, m_readyToExam;
+		int 				m_max; /** Number of questions in a cycle */
+		int					m_currentGood; /** Number of good answers since last mistake */;
+		int					m_prevMistake;
 
 };
 
