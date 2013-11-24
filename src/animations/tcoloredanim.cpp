@@ -17,7 +17,7 @@
  ***************************************************************************/
 
 #include "tcoloredanim.h"
-#include <qt4/QtGui/QPen>
+#include <QPen>
 
 
 TcoloredAnim::TcoloredAnim(QGraphicsItem* item, QObject* parent) :

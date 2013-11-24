@@ -43,10 +43,12 @@ public:
   qreal maxValue() { return m_maxVal; }
   double mapValue(double val) { return length() - TabstractAxis::mapValue(val); }
   
-  virtual QRectF boundingRect();
+  virtual QRectF boundingRect() const;
+	
+	virtual QPainterPath shape() const;
   
   void setUnit(Eunit unit); // sets an unit
-  Eunit unit();
+  Eunit unit() {return m_unit; }
   
   void getYforGrid(QList<double> &yList); // Puts list of Y to yList coordinates to paint grid lines
   

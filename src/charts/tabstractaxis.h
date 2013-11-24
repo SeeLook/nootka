@@ -23,6 +23,10 @@
 #include <QGraphicsItem>
 #include <QFont>
 
+
+/**
+ * Base class for X and Y axis
+ */ 
 class TabstractAxis : public QGraphicsItem
 {
 public:
@@ -30,15 +34,14 @@ public:
     virtual ~TabstractAxis() {}
 
     void setLength(qreal len);
-        /** Returns a length of a axis*/
-    qreal length() { return m_length; }
+    qreal length() const { return m_length; } /** Returns a length of a axis*/
 
     QFont font() { return m_font; }
 
     void setFont(QFont f);
 
-    QRectF rectBoundText(QString txt);
-        /** Returns value maped to axis scale. */
+    QRectF rectBoundText(QString txt) const;
+        /** Returns value mapped to axis scale. */
     virtual double mapValue(double val) { return axisScale * val; }
         /** Paints arrow at the end of axis. */
     static void drawArrow(QPainter *painter, QPointF endPoint, bool isHorizontal = true);
