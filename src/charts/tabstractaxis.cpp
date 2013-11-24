@@ -62,7 +62,7 @@ void TabstractAxis::setFont(QFont f) {
 }
 
 
-QRectF TabstractAxis::rectBoundText(QString txt) {
+QRectF TabstractAxis::rectBoundText(QString txt) const{
     const int padd = 2;
     QFontMetrics metrics = m_font;
     QRectF rect = metrics.boundingRect(txt);

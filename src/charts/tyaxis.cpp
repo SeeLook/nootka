@@ -21,7 +21,8 @@
 #include <QPainter>
 #include <QWidget>
 #include <QApplication>
-#include <QDebug>
+#include <QGraphicsScene>
+// #include <QDebug>
 
 
 TYaxis::TYaxis() :
@@ -32,6 +33,7 @@ TYaxis::TYaxis() :
     m_textPosOffset = (rectBoundText("X").height() / 4);
     setUnit(e_timeInSec);
 }
+
 
 void TYaxis::setMaxValue(qreal val) {
     m_maxVal = val;
@@ -48,10 +50,10 @@ void TYaxis::setMaxValue(qreal val) {
         m_multi2 = 10;
     }
     axisScale = ((length() - (2 * arrowSize)) / (m_top*m_multi));
-    // check is enought place for half ticks
+    // check is enough place for half ticks
     if ( ((mapValue((m_loop-1)*m_multi*m_multi2) - mapValue(m_loop*m_multi*m_multi2))) > m_textPosOffset*4)
         m_halfTick = true;
-//     qDebug() << m_top << axisScale << m_top*axisScale << length() - (2 * arrowSize) << length() << m_loop << mapValue(m_top) << m_multi << m_multi2;
+
 }
 
 
@@ -67,9 +69,14 @@ void TYaxis::setUnit(TYaxis::Eunit unit) {
 }
 
 
+QPainterPath TYaxis::shape() const {
+	QPainterPath path;
+	path.addRect(boundingRect().adjusted(0, 0, 0, scene()->height()));
+	return path;
+}
 
-void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
-{
+
+void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
     Q_UNUSED(option)
 
     qreal half = axisWidth / 2;
@@ -103,14 +110,15 @@ void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
     painter->drawText(QRectF(-length(), -3 * m_textPosOffset, length(), m_textPosOffset * 3), Qt::AlignCenter, m_unitDesc);
 }
 
-QRectF TYaxis::boundingRect()
-{
+
+QRectF TYaxis::boundingRect() const{
     QRectF rect(4 * m_textPosOffset , 0, axisWidth + rectBoundText(QString::number(m_maxVal)).width() + 3 * m_textPosOffset, length());
 //     rect.translate(1, -length());
     return rect;
 }
 
- void TYaxis::getYforGrid(QList< double >& yList) {
+
+void TYaxis::getYforGrid(QList< double >& yList) {
   yList.clear();
   double step = 1.0;
   if (qAbs(mapValue(2*m_multi*m_multi2) - mapValue(m_multi*m_multi2)) > 30)
