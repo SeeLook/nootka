@@ -28,7 +28,7 @@
 #include "sorting.h"
 #include "texamlevel.h"
 #include "tquestionaswdg.h"
-#include <QDebug>
+// #include <QDebug>
 #include <QScrollBar>
 
 
@@ -142,7 +142,7 @@ void TmainChart::sceneMoved() {
 #if defined(Q_OS_MAC)
     // Unfortunately some QT styles and
     // Mac has problem with update and this solves it.
-    // It cases blinking but it is accteptable
+    // It cases blinking but it is acceptable
      QTimer::singleShot(1, this, SLOT(updateSceneAfterMove()));
 #else
     scene->update();

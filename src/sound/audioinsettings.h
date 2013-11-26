@@ -21,6 +21,7 @@
 #include <QWidget>
 #include "tnote.h"
 
+class QToolBox;
 class TroundedLabel;
 class TvolumeSlider;
 class QRadioButton;
@@ -99,15 +100,15 @@ private:
   QSpinBox 						*freqSpin, *durationSpin, *m_intervalSpin;
   TvolumeSlider 			*volumeSlider;
   QPushButton 				*testButt;
-  QLabel 							*pitchLab, *freqLab, *durHeadLab;
-	TroundedLabel				*tuneFreqlab;
+  QLabel 							*durHeadLab;
+	TroundedLabel				*pitchLab, *freqLab, *tuneFreqlab;
   bool 								m_testDisabled, m_listGenerated;
   TpitchView 					*pitchView;
   TaudioIN 						*m_audioIn;
   TaudioParams 				*m_glParams, *m_tmpParams;
 	Ttune								*m_tune;
 	QWidget							*m_4_test;
-  
+  QToolBox 						*m_toolBox;
 };
 
 #endif // AUDIOINSETTINGS_H

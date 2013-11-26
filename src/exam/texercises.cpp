@@ -67,6 +67,7 @@ void Texercises::checkAnswer() {
 	}
 	
 	if (m_currentGood >= m_max) {
+		/** Show suggestion dialog when amount of proper answers is sufficient. */
 		TsuggestExam *suggExam = new TsuggestExam();
 		emit messageDisplayed();
 		TsuggestExam::Esuggest what = suggExam->suggest();
@@ -76,7 +77,7 @@ void Texercises::checkAnswer() {
 					m_readyToExam = true;
 					break;
 				case TsuggestExam::e_forAmoment:
-					m_currentGood -= m_max;
+					m_currentGood = 0;
 					break;
 				case TsuggestExam::e_notThisTime:
 					m_checkNow = false;
@@ -87,7 +88,7 @@ void Texercises::checkAnswer() {
 					break;
 			}
 		} else
-				m_currentGood -= m_max;
+				m_currentGood = 0;
 		delete suggExam;
 		emit messageClosed(m_readyToExam);
 	}

@@ -58,7 +58,9 @@ Tchart::Tchart(QWidget* parent) :
 
 }
 
+
 Tchart::~Tchart() {}
+
 
 void Tchart::zoom(bool in) {
     double coef = 1.125;
@@ -84,12 +86,11 @@ bool Tchart::event(QEvent* event)
       return true;
     }
   }
-  if (event->type() == QEvent::Leave) // To give a last posibility to remove undeleted tip
+  if (event->type() == QEvent::Leave) // To give a last possibility to remove un-deleted tip
       if (TtipHandler::deleteTip())
         scene->update(); 
   return QGraphicsView::event(event);
 }
-
 
 
 void Tchart::resizeEvent(QResizeEvent* event ) {
