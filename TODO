@@ -2,7 +2,6 @@ Plan for the Nootka One
 
 
 ISSUES
-- exercises
 		
 - sometimes exam doesn't ask mistaken questions again
 - levels are unsaved after loading
@@ -15,7 +14,6 @@ TODOES
 - force 'Plasique' style under MacOs or find a way on buttons
 - selecting clef for non guitar in wizard
 - force a maximum score width especially for 4:3 ratios
-- audio-in settings TODO 
 - !!!check does 'string order' work for Tfingerboard!!!
 - new exam and level version is necessary, 
 		add version recognition to avoid old releases opening newest versions
@@ -31,9 +29,7 @@ TODOES
 
 
 TO CONSIDERATION
-  . missing correcting of wrong/unclear pitch
   - show note name during correction
-  - add repeat answer to exercises
   - add sound during wizard and About dialog (???)
   - add string numbers to generated pixmap
 

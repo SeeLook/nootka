@@ -103,7 +103,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
         goodOffset = -1; // do not perform a last loop 
       int cnt = 1;
   // paint lines with average time of all the same notes/frets
-     for (int i = 0; i < goodSize + goodOffset; i++) { // skip wrong answers if separeted
+     for (int i = 0; i < goodSize + goodOffset; i++) { // skip wrong answers if separated
         if (sortedLists[i].size() > 1) {
         TgraphicsLine *averTimeLine = new TgraphicsLine(&sortedLists[i]);
 

@@ -22,7 +22,7 @@
 TroundedLabel::TroundedLabel(QWidget* parent) : 
 	QLabel(parent)
 {
-	setContentsMargins(5, 5, 5 , 5);
+	setContentsMargins(5, 5, 5, 5);
 	initBgColor();
 }
 

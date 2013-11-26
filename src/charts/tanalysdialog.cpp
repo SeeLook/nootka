@@ -123,8 +123,6 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
     TgraphicsTextTip *helpTip = new TgraphicsTextTip(helpTipText, gl->EanswerColor);
       m_chart->scene->addItem(helpTip);
       helpTip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
-//       helpTip->setPos((m_chart->width() - helpTip->boundingRect().width()) / 2, 
-//                       (m_chart->height() - helpTip->boundingRect().height()) / 2 );
       helpTip->setPos(100, 80);
       helpTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
       connect(helpTip, SIGNAL(linkActivated(QString)), this, SLOT(linkOnTipClicked()));
@@ -422,8 +420,10 @@ void TanalysDialog::analyseChanged(int index) {
 
 
 void TanalysDialog::testSlot() {
-  QString testFile = gl->path + "/../../test.noo";
-  loadExam(testFile);
+// 	qDebug() << "Analyzer changed size" << m_chart->mapToScene(0, 0) << m_chart->viewport()->geometry();
+// 	m_chart->scene->update();
+//   QString testFile = gl->path + "/../../test.noo";
+//   loadExam(testFile);
 }
 
 
@@ -438,11 +438,14 @@ void TanalysDialog::zoomOutSlot() {
 
 
 void TanalysDialog::maximizeWindow() {
+// 	QPointF pp = m_chart->mapToScene(0, 0);
+// 	qDebug() << "Analyzer is going to change size" <<  m_chart->mapToScene(0, 0) << m_chart->viewport()->geometry();
   if (m_isMaximized)
     showNormal();
   else
     showMaximized();
   m_isMaximized = !m_isMaximized;
+// 	QTimer::singleShot(5, this, SLOT(testSlot()));
 }
 
 
@@ -526,8 +529,8 @@ void TanalysDialog::chartTypeChanged() {
 
 
 //##########  EVENTS #####################
-void TanalysDialog::resizeEvent(QResizeEvent* )
-{
+
+void TanalysDialog::resizeEvent(QResizeEvent* ) {
     m_toolBar->setIconSize(QSize(height()/21, height()/21));
     m_openButton->setIconSize(m_toolBar->iconSize());
     m_settButt->setIconSize(m_toolBar->iconSize());     

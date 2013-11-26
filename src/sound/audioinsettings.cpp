@@ -43,7 +43,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
   m_tmpParams = new TaudioParams();
   *m_tmpParams = *m_glParams;
 	
-	QToolBox *m_toolBox = new QToolBox(this);
+	m_toolBox = new QToolBox(this);
 	QWidget *m_1_device, *m_2_params, *m_3_middleA; // m_4_test is declared in header
   
 //################### 1. 	Input device & pitch detection #################################
@@ -215,32 +215,43 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
   
   testButt = new QPushButton(testTxt, m_4_test);
 		testButt->setStatusTip(tr("Check, are your audio input settings appropriate?<br>And how well does pitch detection work for your selected settings?"));
+		testButt->setIconSize(QSize(48, 48));
   pitchView = new TpitchView(m_audioIn, m_4_test, false);
 		pitchView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 		pitchView->setPitchColor(Qt::darkGreen);
 		pitchView->setMinimalVolume(m_glParams->minimalVol);
 	
-  pitchLab = new QLabel("--", this);
-		pitchLab->setFixedWidth(70);
-		pitchLab->setStyleSheet(styleTxt);
+	QFont labFont = font();
+	labFont.setPixelSize(fontMetrics().boundingRect("A").height() * 2);
+  pitchLab = new TroundedLabel("--", this);
+		pitchLab->setFont(labFont);
+		pitchLab->setFixedWidth(fontMetrics().boundingRect("w").width() * 10);
+// 		pitchLab->setStyleSheet(styleTxt);
 		pitchLab->setStatusTip(tr("Detected pitch"));
 		pitchLab->setAlignment(Qt::AlignCenter);
   
-  freqLab = new QLabel("--", this);
-		freqLab->setFixedWidth(70);
-		freqLab->setStyleSheet(styleTxt);
+  freqLab = new TroundedLabel("--", this);
+		freqLab->setFixedWidth(pitchLab->width() * 2);
+		freqLab->setFont(labFont);
+// 		freqLab->setStyleSheet(styleTxt);
 		freqLab->setAlignment(Qt::AlignCenter);
   getFreqStatusTip();
   
 	// 4. Layout
-	QHBoxLayout *testLay = new QHBoxLayout();
-		testLay->addWidget(testButt);
+	QHBoxLayout *labelsLay = new QHBoxLayout;
+		labelsLay->addStretch();
+		labelsLay->addWidget(testButt);
+		labelsLay->addStretch();
+		labelsLay->addWidget(pitchLab);
+		labelsLay->addStretch();
+		labelsLay->addWidget(freqLab);
+		labelsLay->addStretch();
+	QVBoxLayout *testLay = new QVBoxLayout;
+		testLay->addStretch();
+		testLay->addLayout(labelsLay);
+		testLay->addStretch();
 		testLay->addWidget(pitchView);
-	QVBoxLayout *freqLay = new QVBoxLayout();
-		freqLay->setAlignment(Qt::AlignCenter);
-		freqLay->addWidget(pitchLab);
-		freqLay->addWidget(freqLab);
-		testLay->addLayout(freqLay);
+		testLay->addStretch();
 	m_4_test->setLayout(testLay);
   
   // Whole layout
@@ -259,6 +270,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
 	intervalFromFreq(freqSpin->value());
   
   connect(testButt, SIGNAL(clicked()), this, SLOT(testSlot()));
+	connect(m_toolBox, SIGNAL(currentChanged(int)), this, SLOT(testSlot()));
   connect(m_intervalSpin, SIGNAL(valueChanged(int)), this, SLOT(intervalChanged()));
 	connect(m_upSemiToneRadio, SIGNAL(clicked(bool)), this, SLOT(upDownIntervalSlot()));
 	connect(m_downsSemitoneRadio, SIGNAL(clicked(bool)), this, SLOT(upDownIntervalSlot()));
@@ -440,25 +452,34 @@ void AudioInSettings::minimalVolChanged(float vol) {
 
 
 void AudioInSettings::testSlot() {
-  setTestDisabled(!m_testDisabled);
+	if (sender() == m_toolBox) {
+		if (m_toolBox->currentIndex() == 3) // 4. test settings page
+			setTestDisabled(false);
+		else
+			setTestDisabled(true);
+	} else 
+			setTestDisabled(!m_testDisabled);
   if (!m_testDisabled) { // start a test
     grabParams(m_tmpParams);
-    if (!m_audioIn)
-      m_audioIn = new TaudioIN(m_tmpParams, this);
-    else 
-      m_audioIn->setParameters(m_tmpParams);
+    if (!m_audioIn) { // create new audio-in device
+				m_audioIn = new TaudioIN(m_tmpParams, this);
+				pitchView->setAudioInput(m_audioIn);
+				connect(m_audioIn, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
+				connect(m_audioIn, SIGNAL(fundamentalFreq(float)), this, SLOT(freqSlot(float)));
+		} else // set parameters to existing device
+				m_audioIn->setParameters(m_tmpParams);
     testButt->setText(stopTxt);
-    pitchView->setAudioInput(m_audioIn);
+		testButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaPause)));
     m_audioIn->startListening();
     pitchView->startVolume();
 		pitchView->setIntonationAccuracy(m_tmpParams->intonation);
-    connect(m_audioIn, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
-    connect(m_audioIn, SIGNAL(fundamentalFreq(float)), this, SLOT(freqSlot(float)));
-  } 
-  else { // stop a test
-    pitchView->stopVolume();
-    m_audioIn->stopListening();
+  } else { // stop a test
+		if (m_audioIn) {
+			pitchView->stopVolume();
+			m_audioIn->stopListening();
+		}
     testButt->setText(testTxt);
+		testButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaPlay)));
     setTestDisabled(true);
   }
 }
