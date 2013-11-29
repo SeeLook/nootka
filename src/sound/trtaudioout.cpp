@@ -166,7 +166,7 @@ bool TaudioOUT::setAudioDevice(QString &name) {
   if (devCount) {
     RtAudio::DeviceInfo devInfo;
     for(int i = 0; i < devCount; i++) { // Is there device on the list ??
-        if (getDeviceInfo(devInfo , i)) {        
+        if (getDeviceInfo(devInfo, i)) {        
           if (devInfo.probed) {
             if (QString::fromStdString(devInfo.name) == name) { // Here it is !!
               devId = i;
@@ -175,13 +175,19 @@ bool TaudioOUT::setAudioDevice(QString &name) {
           }
         }
     }
+    if (!streamOptions)
+      streamOptions = new RtAudio::StreamOptions;
     if (devId == -1) { // no device on the list - load default
-        devId = rtDevice->getDefaultOutputDevice();
-        if (rtDevice->getDeviceInfo(devId).outputChannels <= 0) {
-          qDebug("wrong default output device");
-          playable = false;
-          return false;
-        }
+				devId = rtDevice->getDefaultOutputDevice();
+				if (rtDevice->getCurrentApi() == RtAudio::LINUX_ALSA)
+						streamOptions->flags = RTAUDIO_ALSA_USE_DEFAULT;
+				else {
+						if (rtDevice->getDeviceInfo(devId).outputChannels <= 0) {
+							qDebug("wrong default output device");
+							playable = false;
+							return false;
+						}
+				}
     }
   }
   RtAudio::DeviceInfo devInfo;
@@ -194,10 +200,10 @@ bool TaudioOUT::setAudioDevice(QString &name) {
   streamParams.nChannels = 2;
   streamParams.firstChannel = 0;
   if (rtDevice->getCurrentApi() == RtAudio::UNIX_JACK) {
-    if (!streamOptions)
-      streamOptions = new RtAudio::StreamOptions;
+//     if (!streamOptions)
+//       streamOptions = new RtAudio::StreamOptions;
     streamOptions->streamName = "nootkaOUT";
-		qDebug("JACK");
+// 		qDebug("JACK used");
   }
 //   printSupportedFormats(devInfo);
 //   printSupportedSampleRates(devInfo);
@@ -220,7 +226,7 @@ bool TaudioOUT::setAudioDevice(QString &name) {
       m_maxCBloops = (88200 * ratioOfRate) / m_bufferFrames;
       deviceName = QString::fromLocal8Bit(rtDevice->getDeviceInfo(devId).name.data());
       qDebug() << "OUT:" << deviceName << "samplerate:" << sampleRate * ratioOfRate 
-            << "buffer:" << m_bufferFrames;
+            << "buffer size/nr:" << m_bufferFrames << "/" << streamOptions->numberOfBuffers;
       if (rtDevice->getCurrentApi() != RtAudio::LINUX_PULSE || rtDevice->getCurrentApi() != RtAudio::UNIX_JACK)
           closeStram(); // otherwise devices are blocked (not appears in settings dialog)
       return true;
