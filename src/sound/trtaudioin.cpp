@@ -24,6 +24,8 @@
 
 // QThread *m_thread = 0;
 
+bool formatFloat = false;
+
 /*static */
 QStringList TaudioIN::getAudioDevicesList() {
     QStringList devList;
@@ -57,11 +59,17 @@ int TaudioIN::inCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFr
     if ( status )
         qDebug() << "Stream over detected!";
     qint16 *in = (qint16*)inBuffer;
+		float* inF = (float*)inBuffer;
+		qint16 value;
     for (int i = 0; i < nBufferFrames; i++) {
-        qint16 value = *(in + i);
-//         instance()->m_maxP = qMax(instance()->m_maxP, value);
-        *(instance()->m_floatBuff + instance()->m_floatsWriten) = float(value) / 32768.0f;
-        if (instance()->m_floatsWriten == instance()->m_pitch->aGl()->framesPerChunk-1) {
+				if (formatFloat)
+					*(instance()->m_floatBuff + instance()->m_floatsWriten) = *(inF + i);
+				else {
+					value = *(in + i);
+	//         instance()->m_maxP = qMax(instance()->m_maxP, value);
+					*(instance()->m_floatBuff + instance()->m_floatsWriten) = float(value) / 32768.0f;
+				}
+        if (instance()->m_floatsWriten == instance()->m_pitch->aGl()->framesPerChunk - 1) {
 //           instance()->m_maxPeak = instance()->m_maxP / 32768.0f;
           if (instance()->m_pitch->isBussy())
               qDebug() << "data ignored";
@@ -160,13 +168,19 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
           }
         }
     }
+    if (!streamOptions)
+					streamOptions = new RtAudio::StreamOptions;
     if (devId == -1) { // no device on the list - load default
         devId = rtDevice->getDefaultInputDevice();
-        if (rtDevice->getDeviceInfo(devId).inputChannels <= 0) {
-          // check has default input got channels
-          qDebug("wrong default input device");
-          return false;
-        }
+				if (rtDevice->getCurrentApi() == RtAudio::LINUX_ALSA)
+						streamOptions->flags = RTAUDIO_ALSA_USE_DEFAULT;
+				else {
+						if (rtDevice->getDeviceInfo(devId).inputChannels <= 0) {
+							// check has default input got channels
+							qDebug("wrong default input device");
+							return false;
+						}
+				}
     }
   } else 
     return false;
@@ -179,17 +193,28 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
   m_pitch->setSampleRate(sampleRate, audioParams->range);
   m_bufferFrames = m_pitch->aGl()->framesPerChunk;
   if (rtDevice->getCurrentApi() == RtAudio::UNIX_JACK) {
-			if (!streamOptions)
-					streamOptions = new RtAudio::StreamOptions;
+// 			if (!streamOptions)
+// 					streamOptions = new RtAudio::StreamOptions;
 			streamOptions->streamName = "nootkaIN";
   }
 //   printSupportedFormats(devInfo);
 //   printSupportedSampleRates(devInfo);
-  if (!openStream(NULL ,&streamParams, RTAUDIO_SINT16, sampleRate, &m_bufferFrames, &inCallBack, 0, streamOptions))
+	RtAudioFormat dataFormat = RTAUDIO_SINT16;
+	if (!(devInfo.nativeFormats & 0x2))
+		if (devInfo.nativeFormats & 0x10) {
+			qDebug() << "Device supports only float-32 data format";
+			formatFloat = true;
+			dataFormat = RTAUDIO_FLOAT32;
+		}	else {
+			qDebug() << "Device doesn't supports either int-16 nor float-32 data format";
+			return false;
+		}
+  if (!openStream(NULL ,&streamParams, dataFormat, sampleRate, &m_bufferFrames, &inCallBack, 0, streamOptions))
     return false;
   if (rtDevice->isStreamOpen()) {
       deviceName = QString::fromLocal8Bit(rtDevice->getDeviceInfo(devId).name.data());
-      qDebug() << "IN:" << deviceName << "samplerate:" << sampleRate << "buffer:" << m_bufferFrames;
+      qDebug() << "IN:" << deviceName << "samplerate:" << sampleRate << 
+					"buffer size/nr:" << m_bufferFrames << "/" << streamOptions->numberOfBuffers;
       return true;
   } else
       return false;
@@ -269,19 +294,19 @@ void TaudioIN::pitchFreqFound(float pitch, float freq) {
   if (!m_paused) {
 			m_lastPich = pitch;
 			if (pitch >= m_pitch->aGl()->loPitch && pitch <= m_pitch->aGl()->topPitch) {
-					float into = qAbs((pitch - audioParams->a440diff) - (float)qRound(pitch - audioParams->a440diff));
-					QString inText;
-					if (into < 0.05)
-						inText = "prof. of solfege";
-					else if (into < 0.1)
-						inText = "perfect";
-					else if (into < 0.2)
-						inText = "normal";
-					else if (into < 0.3)
-						inText = "sufficient";
-					else 
-						inText = "dog howl";
-					qDebug() << inText;
+// 					float into = qAbs((pitch - audioParams->a440diff) - (float)qRound(pitch - audioParams->a440diff));
+// 					QString inText;
+// 					if (into < 0.05)
+// 						inText = "prof. of solfege";
+// 					else if (into < 0.1)
+// 						inText = "perfect";
+// 					else if (into < 0.2)
+// 						inText = "normal";
+// 					else if (into < 0.3)
+// 						inText = "sufficient";
+// 					else 
+// 						inText = "dog howl";
+// 					qDebug() << inText;
 					emit noteDetected(Tnote(qRound(pitch - audioParams->a440diff) - 47));
 			}
 			emit fundamentalFreq(freq);

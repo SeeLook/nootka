@@ -79,7 +79,7 @@ void TrtAudioAbstract::printSupportedFormats(RtAudio::DeviceInfo& devInfo) {
   if (devInfo.nativeFormats & 0x10)
     fmt += " RTAUDIO_FLOAT32";
   if (devInfo.nativeFormats & 0x20)
-    fmt += " RTAUDIO_FLOAT32";
+    fmt += " RTAUDIO_FLOAT64";
   qDebug() << "supported sample formats:" << fmt;
 }
 
