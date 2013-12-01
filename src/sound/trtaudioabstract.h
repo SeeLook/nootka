@@ -27,21 +27,20 @@
 class TaudioParams;
 
 
-/** Abstract class for RtAudio input/outpus classes.
+/** Abstract class for RtAudio input/outputs classes.
 * It doesn't provide destructor, so inherit classes have to
-* delete rtDevice, streamOptions and audioParams themself. */
+* delete rtDevice, streamOptions and audioParams them-self. */
 class TrtAudioAbstract
 {
 
 public:
     TrtAudioAbstract(TaudioParams *params);
     QString devName() { return deviceName; }
-        /** Creates RtAudio instance. 
-         * When withJACK is FALSE it skips JACK API even it is running. */
+    
+        /** Creates RtAudio instance. */
     static RtAudio* getRtAudio();
-    static void setUseJACK(bool jack) { m_useJACK = jack; }
-    static bool useJack() { return m_useJACK; }
-        /** Prints in console suported audio formats. */
+    
+        /** Prints in console supported audio formats. */
     static void printSupportedFormats(RtAudio::DeviceInfo &devInfo);
     static void printSupportedSampleRates(RtAudio::DeviceInfo &devInfo);
     
@@ -52,11 +51,24 @@ protected:
     TaudioParams *audioParams;
     QString deviceName;
     quint32 sampleRate;
-        /** Examines available samplerates to check more appropirate. 
+		
+		void setToFloat32() { m_isFloat = true; }
+		void setToInt16() { m_isFloat = false; }
+		bool isFloat() { return m_isFloat; } /** True when device is opened in RTAUDIO_FLOAT32 mode */
+		
+				/** Grabs supported formats list and sets m_isFloat according to this. 
+				 * Returns data format preferred or RTAUDIO_SINT8 if none Nootka capable was found. */
+		RtAudioFormat determineDataFormat(RtAudio::DeviceInfo &devInf);
+		
+				/** Checks is buffer size supported by Nootka.
+				 * Returns false when it is less than 256 - which cases crashes. 
+				 * Prints warnings on std out. */
+		bool checkBufferSize(unsigned int bufferFrames);
+		
+        /** Examines available sample rates to check more appropriate. 
          * 44100 48000 88200 ... 192000. If not the latest from the list is taken. 
          * @param sampleRate is setting. */
     void determineSampleRate(RtAudio::DeviceInfo &devInfo);
-    
     
     bool openStream(RtAudio::StreamParameters *outParams,  RtAudio::StreamParameters *inParams, 
                     RtAudioFormat frm, unsigned int rate, unsigned int *buffFrames,
@@ -68,8 +80,7 @@ protected:
     bool getDeviceInfo(RtAudio::DeviceInfo &devInfo, int id);
     
 private:
-    static bool m_useJACK;
-		static bool m_useASIO;
+		bool m_isFloat; /** True when device is opened in RTAUDIO_FLOAT32 mode */
         
 };
 

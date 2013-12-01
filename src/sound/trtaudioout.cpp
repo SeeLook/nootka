@@ -142,9 +142,6 @@ TaudioOUT::~TaudioOUT()
 
 
 void TaudioOUT::setAudioOutParams(TaudioParams* params) {
-#if defined(__UNIX_JACK__)
-  setUseJACK(params->useJACK);
-#endif
 	playable = oggScale->loadAudioData(params->audioInstrNr);
   if (deviceName != params->OUTdevName || !rtDevice) {
     if (playable && setAudioDevice(params->OUTdevName))
@@ -175,8 +172,6 @@ bool TaudioOUT::setAudioDevice(QString &name) {
           }
         }
     }
-    if (!streamOptions)
-      streamOptions = new RtAudio::StreamOptions;
     if (devId == -1) { // no device on the list - load default
 				devId = rtDevice->getDefaultOutputDevice();
 				if (rtDevice->getCurrentApi() == RtAudio::LINUX_ALSA)
@@ -199,16 +194,11 @@ bool TaudioOUT::setAudioDevice(QString &name) {
   streamParams.deviceId = devId;
   streamParams.nChannels = 2;
   streamParams.firstChannel = 0;
-  if (rtDevice->getCurrentApi() == RtAudio::UNIX_JACK) {
-//     if (!streamOptions)
-//       streamOptions = new RtAudio::StreamOptions;
-    streamOptions->streamName = "nootkaOUT";
-// 		qDebug("JACK used");
-  }
-//   printSupportedFormats(devInfo);
-//   printSupportedSampleRates(devInfo);
-//   sampleRate = devInfo.sampleRates.at(devInfo.sampleRates.size() - 1);
-//   sampleRate = 192000;  
+	RtAudioFormat dataFormat = determineDataFormat(devInfo);
+	if (dataFormat == RTAUDIO_SINT8) {
+			playable = false;
+			return false;
+	}
   ratioOfRate = sampleRate / 44100;
   if (ratioOfRate > 1) { // from here sample rate is sampleRate * ratioOfRate
     if (sampleRate == 88200 || sampleRate == 176400)
@@ -218,20 +208,22 @@ bool TaudioOUT::setAudioDevice(QString &name) {
     m_bufferFrames = m_bufferFrames * ratioOfRate; // increase buffer to give time for resampling in oggScale
   }
   oggScale->setSampleRate(sampleRate);
-  if (!openStream(&streamParams, NULL, RTAUDIO_SINT16, sampleRate * ratioOfRate, &m_bufferFrames, &outCallBack, 0, streamOptions)) {
+  if (!openStream(&streamParams, NULL, dataFormat, sampleRate * ratioOfRate, &m_bufferFrames, &outCallBack, 0, streamOptions)) {
       playable = false;
       return false;
   }
-  if (rtDevice->isStreamOpen()) {
+  if (rtDevice->isStreamOpen() && checkBufferSize(m_bufferFrames)) {
       m_maxCBloops = (88200 * ratioOfRate) / m_bufferFrames;
       deviceName = QString::fromLocal8Bit(rtDevice->getDeviceInfo(devId).name.data());
       qDebug() << "OUT:" << deviceName << "samplerate:" << sampleRate * ratioOfRate 
             << "buffer size/nr:" << m_bufferFrames << "/" << streamOptions->numberOfBuffers;
-      if (rtDevice->getCurrentApi() != RtAudio::LINUX_PULSE || rtDevice->getCurrentApi() != RtAudio::UNIX_JACK)
+      if (rtDevice->getCurrentApi() != RtAudio::LINUX_PULSE)
           closeStram(); // otherwise devices are blocked (not appears in settings dialog)
       return true;
-  } else
+  } else {
+			playable = false;
 			return false;
+	}
 }
 
 

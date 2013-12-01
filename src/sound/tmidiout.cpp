@@ -28,18 +28,10 @@ QStringList TmidiOut::getMidiPortsList()
 {
   RtMidiOut *midiOut = 0;
   try {
-#if defined(__UNIX_JACK__)
-    if (m_useJACK)
-        midiOut = new RtMidiOut(RtMidi::UNIX_JACK);
-    else
-        midiOut = new RtMidiOut();
-#else
     midiOut = new RtMidiOut();
-#endif
   }
   catch ( RtError &error ) {
     qDebug() << "no midi devices available";
-//       error.printMessage();
   }
   QStringList portList;
   if (midiOut && midiOut->getPortCount())
@@ -48,8 +40,6 @@ QStringList TmidiOut::getMidiPortsList()
   delete midiOut;
   return portList;  
 }
-
-bool TmidiOut::m_useJACK = false;
 
 
 TmidiOut::TmidiOut(TaudioParams* params, QObject* parent) :
@@ -76,22 +66,13 @@ TmidiOut::~TmidiOut()
 
 void TmidiOut::setMidiParams() {
   deleteMidi();
-  m_useJACK = m_params->useJACK;
   offTimer->disconnect();
   playable = true;
   try {
-#if defined(__UNIX_JACK__)
-    if (m_params->useJACK)
-        m_midiOut = new RtMidiOut(RtMidi::UNIX_JACK, "Nootka_MIDI_out");
-    else
-        m_midiOut = new RtMidiOut(RtMidi::UNSPECIFIED, "Nootka_MIDI_out");
-#else
     m_midiOut = new RtMidiOut(RtMidi::UNSPECIFIED, "Nootka_MIDI_out");
-#endif
   }
   catch ( RtError &error ) {
-//     error.printMessage();
-    qDebug() << "can't initialise MIDI";
+    qDebug() << "can't initialize MIDI";
     playable = false;
     return;
   }
@@ -179,15 +160,6 @@ void TmidiOut::stop() {
   if (offTimer->isActive()) {
     offTimer->stop();
     doEmit = false;
-//    if (m_portOpened) {
-//      try {
-//        m_midiOut->closePort();
-//      }
-//        catch (RtError &error) {
-//          qDebug() << "can't close MIDI port";
-//      }
-//        m_portOpened = false;
-//    }
     midiNoteOff();
   }
 }
@@ -200,14 +172,12 @@ void TmidiOut::openMidiPort() {
           m_midiOut->openPort(m_portNr, "Nootka_MIDI_out");
       }
       catch (RtError &error){
-//           error.printMessage();
           qDebug() << "can't open MIDI port";
           playable = false;
           return;
       }
       m_portOpened = true;
       m_params->midiPortName = QString::fromStdString(m_midiOut->getPortName(m_portNr));
-//       qDebug() << "midi device:" << m_params->midiPortName << "instr:" << (int)m_params->midiInstrNr;
       // midi program (instrument) change
       m_message.clear();
       m_message.push_back(192);

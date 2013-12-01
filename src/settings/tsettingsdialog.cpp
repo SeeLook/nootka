@@ -42,7 +42,6 @@ TsettingsDialog::TsettingsDialog(QWidget *parent) :
         m_nameSett(0), m_guitarSett(0),
         m_examSett(0), m_sndOutSett(0),
         m_sndInSett(0), m_audioSettingsPage(0),
-        m_jackChBox(0),
         m_7thNoteToDefaults(false)
 {
     setWindowTitle("Nootka - " + tr("application's settings"));
@@ -119,10 +118,6 @@ void TsettingsDialog::saveSettings() {
 					gl->seventhIs_B = false;
 		}
 	}
-#if defined(__UNIX_JACK__)
-	if (m_audioSettingsPage)
-			gl->A->useJACK = m_jackChBox->isChecked();
-#endif
 }
 
 
@@ -144,9 +139,6 @@ void TsettingsDialog::restoreDefaults() {
 				m_sndInSett->restoreDefaults();
 			else if (m_audioTab->currentWidget() == m_sndOutSett)
 				m_sndOutSett->restoreDefaults();
-				#if defined(__UNIX_JACK__)
-						m_jackChBox->setChecked(false);
-				#endif
 		}
 }
 
@@ -254,28 +246,12 @@ void TsettingsDialog::createAudioPage() {
     m_audioTab = new QTabWidget(m_audioSettingsPage);
     QVBoxLayout *audioLay = new QVBoxLayout;
     audioLay->addWidget(m_audioTab);
-#if defined(__UNIX_JACK__)
-    m_jackChBox = new QCheckBox(tr("use JACK", "(Jack Audio Connection Kit)") +" (Jack Audio Connection Kit)", m_audioSettingsPage);
-    m_jackChBox->setChecked(gl->A->useJACK);
-    audioLay->addWidget(m_jackChBox, 0, Qt::AlignCenter);
-    m_jackChBox->setStatusTip("Uses JACK if it is run or other sound backend if not.<br>EXPERIMENTAL It works with 16bit int audio format and period of 1024.");
-    connect(m_jackChBox, SIGNAL(toggled(bool)), this, SLOT(changeAudioAPI()));
-#endif
     m_audioTab->addTab(m_sndInSett, tr("listening"));
     m_audioTab->addTab(m_sndOutSett, tr("playing"));
     m_audioSettingsPage->setLayout(audioLay);
 }
 
 
-
-void TsettingsDialog::changeAudioAPI() {
-#if defined(__UNIX_JACK__)
-  TrtAudioAbstract::setUseJACK(m_jackChBox->isChecked());
-  TmidiOut::setUseJack(m_jackChBox->isChecked());
-  m_sndInSett->setDevicesCombo();
-  m_sndOutSett->setDevicesCombo();
-#endif
-}
 
 
 

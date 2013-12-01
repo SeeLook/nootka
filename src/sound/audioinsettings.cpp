@@ -353,9 +353,6 @@ void AudioInSettings::grabParams(TaudioParams *params) {
 			params->range = TaudioParams::e_high;
 	params->minDuration = (float)durationSpin->value() / 1000.0f;
 	params->intonation = m_intonationCombo->currentIndex();
-#if defined(__UNIX_JACK__) // user action for JACK switch is stored through TrtAudioAbstract::useJack() 
-	params->useJACK = TrtAudioAbstract::useJack(); 
-#endif
 }
 
 

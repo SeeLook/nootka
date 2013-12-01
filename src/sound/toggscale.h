@@ -60,8 +60,8 @@ public:
     virtual ~ToggScale();
     
         /** Loads ogg file with scale of given instrument to RAM.
-				 * If everything is ok returns true.
-				 * Also it is setting loand hi notes of a scale.
+				 * If everything is OK, returns true.
+				 * Also it is setting low and hi notes of a scale.
 				 * Notes beyond scale are generated with SoundTouch. */
     bool loadAudioData(int instrument);
         /** Unloads audio data from buffer. */
@@ -78,15 +78,17 @@ public:
         /** Prepares m_pcmBuffer:
 				 * - determines is pitch offset necessary
          * - seek ogg 
-         * - starts decoding (resampling). 
+         * - starts decoding (re-sampling). 
          * - stops previous decoding if performed. */
     void setNote(int noteNr);
     qint16 getSample(int offset);
     unsigned int sampleRate() { return m_sampleRate; }
+    
         /** TRUE when appropirate data amount in a buffer is ready. */
     bool isReady() { return m_isReady; }
     
     void setSampleRate(unsigned int rate);
+		
         /** Sets decimal offset of a pitch -0.99 to +0.99 */
     void setPitchOffset(float pitchOff);
     
@@ -95,7 +97,7 @@ protected slots:
         /** Preforms decoding. Usually is invoked by m_thread.start() 
          * called from setNote() method. */
     void decodeOgg();
-        /** Decoding and resampling or/and pitch shifting */
+        /** Decoding and re-sampling or/and pitch shifting */
     void decodeAndResample();
         /** Checks is decoding performed and stops it
          * by setting m_doDecode=false and waiting for stop. */
@@ -115,7 +117,7 @@ private:
     QString           m_oggPath; /** Path to dir containing ogg files with sounds */
     OggVorbis_File    m_ogg; /** ogg vorbis handler */
     qint16            *m_pcmBuffer; /** buffer with decompressed data of selected note. */
-    SoggFile          m_oggWrap; /** Structure wraped m_oggInMemory used by ogg vorbis. */
+    SoggFile          m_oggWrap; /** Structure wrapped m_oggInMemory used by ogg vorbis. */
     QThread           *m_thread;
     unsigned int      m_sampleRate;
     int               m_prevNote;
@@ -127,7 +129,7 @@ private:
     float							m_innerOffset; /** Offset calculated in setNote when SoundTouch has to generate note. */
     bool              m_oggConnected, m_touchConnected;
 		int								m_firstNote, m_lastNote; /** Numbers of first and last notes in file with scale. */
-		int								m_instrument; /** curent instrument which samples are loaded */
+		int								m_instrument; /** current instrument which samples are loaded */
 
 };
 

@@ -114,8 +114,7 @@ void ToggScale::deleteData() {
   stopDecoding();
   if (m_thread->isRunning()) {
     m_thread->terminate();
-    m_thread->quit();
-    
+    m_thread->quit();  
   }
   if (m_oggInMemory) {
     delete m_oggInMemory;
@@ -303,7 +302,7 @@ void ToggScale::decodeAndResample() {
         }
     }    
     samplesReady = m_touch->numSamples();
-    if (samplesReady > 0) { /// 3. Get resampled/offseted data from SoundTouch
+    if (samplesReady > 0) { /// 3. Get resampled/offsetted data from SoundTouch
       read = m_touch->receiveSamples((SAMPLETYPE*)tmpTouch, samplesReady);      
       for (int i = 0; i < read; i++) /// 4. Convert samples to 16bit integer
           *(m_pcmBuffer + pos + i) = qint16(*(tmpTouch + i) * 32768);

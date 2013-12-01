@@ -53,10 +53,10 @@ TexamLevel::TexamLevel()
    requireOctave = true;
    requireStyle = true;
  // ANSWERS - as position on fingerboard
-   showStrNr = true;
-  // RANGE
+   showStrNr = hasGuitar;
+  // RANGE - for non guitar Tglobals will returns scale determined by clef
    loNote = gl->loString();
-   hiNote = Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber);
+   hiNote = Tnote(gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber);
    /** variables isNoteLo, isNoteHi and isFretHi are not used - it has no sense.
 		*  Since version 0.8.90 isNoteLo and isNoteHi are merged into Tclef.
 		*  It can store multiple clefs (maybe in unknown future it will be used)

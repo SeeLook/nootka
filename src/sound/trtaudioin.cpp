@@ -17,14 +17,10 @@
  ***************************************************************************/
 
 #include "trtaudioin.h"
-#include <QDebug>
 #include "tpitchfinder.h"
 #include "taudioparams.h"
-// #include <QThread>
+#include <QDebug>
 
-// QThread *m_thread = 0;
-
-bool formatFloat = false;
 
 /*static */
 QStringList TaudioIN::getAudioDevicesList() {
@@ -40,7 +36,6 @@ QStringList TaudioIN::getAudioDevicesList() {
         }
         catch (RtError& e) {
           qDebug() << "error when probing input device" << i;
-//           e.printMessage();
           continue;
         }
         if (devInfo.probed && devInfo.inputChannels > 0)
@@ -56,27 +51,21 @@ int TaudioIN::inCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFr
     Q_UNUSED(outBuffer)
     Q_UNUSED(streamTime)
     Q_UNUSED(userData)
-    if ( status )
+    if (status)
         qDebug() << "Stream over detected!";
     qint16 *in = (qint16*)inBuffer;
 		float* inF = (float*)inBuffer;
 		qint16 value;
     for (int i = 0; i < nBufferFrames; i++) {
-				if (formatFloat)
+				if (instance()->isFloat())
 					*(instance()->m_floatBuff + instance()->m_floatsWriten) = *(inF + i);
 				else {
 					value = *(in + i);
-	//         instance()->m_maxP = qMax(instance()->m_maxP, value);
 					*(instance()->m_floatBuff + instance()->m_floatsWriten) = float(value) / 32768.0f;
 				}
         if (instance()->m_floatsWriten == instance()->m_pitch->aGl()->framesPerChunk - 1) {
-//           instance()->m_maxPeak = instance()->m_maxP / 32768.0f;
-          if (instance()->m_pitch->isBussy())
-              qDebug() << "data ignored";
-          else
-              instance()->m_pitch->searchIn(instance()->m_floatBuff);
-          instance()->m_floatsWriten = -1;
-//         instance()->m_maxP = 0;
+						instance()->m_pitch->searchIn(instance()->m_floatBuff);
+						instance()->m_floatsWriten = -1;
       }
       instance()->m_floatsWriten++;
     }
@@ -104,8 +93,6 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
   m_instances << this;
   m_pitch = new TpitchFinder();
   m_thisInstance = m_instances.size() - 1;
-// 	m_thread = new QThread();
-//   m_pitch->moveToThread(m_thread);
   setParameters(params);
   
   connect(m_pitch, SIGNAL(found(float,float)), this, SLOT(pitchFreqFound(float,float)));
@@ -116,7 +103,6 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
 TaudioIN::~TaudioIN()
 {
   disconnect(m_pitch, SIGNAL(found(float,float)), this, SLOT(pitchFreqFound(float,float)));
-// 	m_thread->terminate();
 	closeStram();
   delete rtDevice;
   delete streamOptions;
@@ -125,8 +111,6 @@ TaudioIN::~TaudioIN()
     delete (m_floatBuff);
   m_instances.removeLast();
   m_thisInstance = m_instances.size() - 1;
-  
-//  delete m_thread;
 }
 
 //------------------------------------------------------------------------------------
@@ -137,9 +121,6 @@ void TaudioIN::setParameters(TaudioParams* params) {
   m_pitch->setIsVoice(params->isVoice);
 	setMinimalVolume(params->minimalVol);
 	m_pitch->setMinimalDuration(params->minDuration);
-#if defined(__UNIX_JACK__)
-  setUseJACK(params->useJACK);
-#endif
   setAudioDevice(params->INdevName);
   audioParams = params;
 }
@@ -147,8 +128,6 @@ void TaudioIN::setParameters(TaudioParams* params) {
 /** Device name is saved to globals and to config file only after changed the Nootka preferences.
 * In other cases the default device is loaded. */
 bool TaudioIN::setAudioDevice(const QString& devN) {
-//   if (devN == deviceName)
-//     return true;  
   if (rtDevice)
     delete rtDevice;
 	delete m_floatBuff;
@@ -168,8 +147,6 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
           }
         }
     }
-    if (!streamOptions)
-					streamOptions = new RtAudio::StreamOptions;
     if (devId == -1) { // no device on the list - load default
         devId = rtDevice->getDefaultInputDevice();
 				if (rtDevice->getCurrentApi() == RtAudio::LINUX_ALSA)
@@ -192,30 +169,17 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
   determineSampleRate(devInfo);
   m_pitch->setSampleRate(sampleRate, audioParams->range);
   m_bufferFrames = m_pitch->aGl()->framesPerChunk;
-  if (rtDevice->getCurrentApi() == RtAudio::UNIX_JACK) {
-// 			if (!streamOptions)
-// 					streamOptions = new RtAudio::StreamOptions;
-			streamOptions->streamName = "nootkaIN";
-  }
-//   printSupportedFormats(devInfo);
-//   printSupportedSampleRates(devInfo);
-	RtAudioFormat dataFormat = RTAUDIO_SINT16;
-	if (!(devInfo.nativeFormats & 0x2))
-		if (devInfo.nativeFormats & 0x10) {
-			qDebug() << "Device supports only float-32 data format";
-			formatFloat = true;
-			dataFormat = RTAUDIO_FLOAT32;
-		}	else {
-			qDebug() << "Device doesn't supports either int-16 nor float-32 data format";
+	RtAudioFormat dataFormat = determineDataFormat(devInfo);
+	if (dataFormat == RTAUDIO_SINT8)
 			return false;
-		}
   if (!openStream(NULL ,&streamParams, dataFormat, sampleRate, &m_bufferFrames, &inCallBack, 0, streamOptions))
     return false;
   if (rtDevice->isStreamOpen()) {
       deviceName = QString::fromLocal8Bit(rtDevice->getDeviceInfo(devId).name.data());
-      qDebug() << "IN:" << deviceName << "samplerate:" << sampleRate << 
-					"buffer size/nr:" << m_bufferFrames << "/" << streamOptions->numberOfBuffers;
-      return true;
+			if (checkBufferSize(m_bufferFrames))
+				qDebug() << "IN:" << deviceName << "samplerate:" << sampleRate << "buffer size" << m_bufferFrames;
+			else
+				return false;
   } else
       return false;
 }
@@ -266,22 +230,21 @@ void TaudioIN::setIsVoice(bool isV) {
 }
 
 
-
 /** Range of notes is increased one note down and up.
  * This 46 and 48 are its sign. 
- * Normaly 47 is offset of midi note to Nootka Tnote. */
+ * Normally 47 is offset of midi note to Nootka Tnote. */
 void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
   m_pitch->setAmbitus(loNote.getChromaticNrOfNote() + 46, hiNote.getChromaticNrOfNote() + 48);
 	m_loNote = loNote;
 	m_hiNote = hiNote;
 }
 
-
 //------------------------------------------------------------------------------------
 //------------          slots       --------------------------------------------------
 //------------------------------------------------------------------------------------
 
 void TaudioIN::pitchInChunkSlot(float pitch) {
+// 	qDebug() << "pitchInChunkSlot" << pitch;
   if (pitch == 0.0)
     emit chunkPitch(0.0); 
   else
@@ -307,11 +270,13 @@ void TaudioIN::pitchFreqFound(float pitch, float freq) {
 // 					else 
 // 						inText = "dog howl";
 // 					qDebug() << inText;
+// 					Tnote nnn = Tnote(qRound(pitch - audioParams->a440diff) - 47);
+// 					qDebug() << "pitchFreqFound:" << nnn.toText();
 					emit noteDetected(Tnote(qRound(pitch - audioParams->a440diff) - 47));
 			}
 			emit fundamentalFreq(freq);
   } else 
-		m_lastPich = 0.0f;
+			m_lastPich = 0.0f;
 }
 
 
