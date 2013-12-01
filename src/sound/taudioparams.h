@@ -44,8 +44,6 @@ public:
   };
 	
 	
-  bool useJACK; // TRUE - prefer JACK over ALSA or PulseAudio, FALSE - take PA (if available) or ALSA
-// audio input settings
   bool INenabled; // is audio input enabled
   QString INdevName; // input device name
   float a440diff; // difference between standard a1 440Hz and user preferred base pitch

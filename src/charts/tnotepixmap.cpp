@@ -73,10 +73,11 @@ QPixmap getNotePixmap(Tnote note, Tclef::Etype clef, TkeySignature key, qreal fa
 					}
 				} else { // piano staff
 					if (clef == Tclef::e_pianoStaff && staff->lower()) {
-						topPix = staff->upperLinePos() - 4;
-						if (staff->lower()->noteSegment(0)->notePos() < staff->lower()->upperLinePos() + 13)
+// 						topPix = staff->upperLinePos() - 4;
+						topPix = staff->lower()->pos().y();
+						if (staff->lower()->noteSegment(0)->notePos() < staff->lower()->upperLinePos() + 13) {
 								bottomPix = staff->lower()->pos().y() + staff->lower()->upperLinePos() + 14; // note in lower staff
-						else // note below lower staff
+						} else // note below lower staff
 								bottomPix = staff->lower()->pos().y() + staff->lower()->noteSegment(0)->notePos() + 3;
 					}
 				}
@@ -86,7 +87,7 @@ QPixmap getNotePixmap(Tnote note, Tclef::Etype clef, TkeySignature key, qreal fa
 						bottomPix = staff->lower()->pos().y() + staff->lower()->upperLinePos() + 12;
 				} else {
 						topPix = staff->upperLinePos() - 3;
-						bottomPix = staff->upperLinePos() + 12;
+						bottomPix = staff->upperLinePos() + 13;
 				}
 		}
 		if (clef == Tclef::e_pianoStaff)

@@ -54,13 +54,10 @@ private:
     AudioInSettings   	*m_sndInSett;
 		QTabWidget 					*m_audioTab;
     QWidget             *m_audioSettingsPage;
-    QCheckBox         	*m_jackChBox;
 		bool								 m_7thNoteToDefaults;
     
 private slots:
     void changeSettingsWidget(int index);
-				/** Refresh list of audio devices on QComboBox-es of m_audioSettingsPage */
-    void changeAudioAPI();
 		void allDefaultsRequired();
     
 private:

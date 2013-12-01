@@ -671,17 +671,12 @@ void MainWindow::paintEvent(QPaintEvent* ) {
 }
 
 
-
 bool MainWindow::eventFilter(QObject* obj, QEvent* event) {
-    if (event->type() == QEvent::FileOpen)
-        {
-            QFileOpenEvent* fileEvent = static_cast<QFileOpenEvent*>(event);
-            openFile(fileEvent->file());
-            return true;
-        }
-        else
-        {
-            // standard event processing
-            return QObject::eventFilter(obj, event);
-        }
+    if (event->type() == QEvent::FileOpen) {
+				QFileOpenEvent* fileEvent = static_cast<QFileOpenEvent*>(event);
+				openFile(fileEvent->file());
+				return true;
+		} else { // standard event processing
+				return QObject::eventFilter(obj, event);
+		}
 }

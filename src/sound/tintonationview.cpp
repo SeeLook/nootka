@@ -82,7 +82,7 @@ void TintonationView::pitchSlot(float pitch) {
   m_pitchDiff = qBound(-0.49, (pitch - (float)qRound(pitch)) * INT_FACTOR, 0.49);
 // 	m_pitchDiff = (pitch - (float)qRound(pitch)) * 1.2;
   if (doUpdate)
-      update();
+      repaint();
 }
 
 

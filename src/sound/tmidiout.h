@@ -41,7 +41,6 @@ public:
     virtual ~TmidiOut();
     
     static QStringList getMidiPortsList();
-    static void setUseJack(bool jack) { m_useJACK = jack; }
     
     bool play(int noteNr);
     
@@ -49,10 +48,12 @@ public:
         * @param portName, if empty system prefered is set (Timidity under Linux) 
         * @param instrNr for instrument number in midi nomenclature. */
     void setMidiParams();
+		
         /** Deletes midi device if exists. 
         * Midi device usually blocks audio devices, 
         * so when it exists getAudioDevicesList() doesn't work */
     void deleteMidi();
+		
         /** Immediately stops playing. Emits nothing */
     void stop();
     
@@ -65,7 +66,6 @@ private:
     std::vector<unsigned char>    m_message;
     unsigned int                  m_portNr;
     bool                          m_portOpened;
-    static bool                   m_useJACK;
     
 private:
     void openMidiPort();

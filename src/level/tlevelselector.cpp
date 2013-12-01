@@ -95,7 +95,7 @@ QList<TexamLevel> getExampleLevels() {
     l.showStrNr = false;
     l.loNote = Tnote(1, 0 + octaveOffset, 0);
     l.hiNote = Tnote(1, 1 + octaveOffset, 0);
-    l.hiFret = 3; // loFret is 0 by constuctor
+    l.hiFret = 3; // loFret is 0 by constructor
     l.intonation = 0; // do not check
     llist << l;
 //----------------------------------------------------------------------------
@@ -118,7 +118,7 @@ QList<TexamLevel> getExampleLevels() {
     l.showStrNr = true;
     l.loNote = gl->loString();
     l.hiNote = Tnote(gl->hiString().getChromaticNrOfNote() + 5);
-    l.hiFret = 5;// loFret is 0 by constuctor
+    l.hiFret = 5;// loFret is 0 by constructor
     l.intonation = 0; // do not check
     if (l.instrument == e_noInstrument) // force instrument when not defined
 			l.instrument = e_classicalGuitar;
@@ -146,11 +146,11 @@ QList<TexamLevel> getExampleLevels() {
     l.requireStyle = false;
     l.showStrNr = false;
 		l.clef = Tclef(Tclef::e_treble_G);
-		l.instrument = e_noInstrument;
+		l.instrument = gl->instrument; // show corrected answers on the guitar
 		l.intonation = 0; // do not check
     l.loNote = Tnote(6, 0);
     l.hiNote = Tnote(6, 2);
-    l.hiFret = 19;// loFret is 0 by constuctor
+    l.hiFret = 19;// loFret is 0 by constructor
     llist << l;
 //----------------------------------------------------------------------------
     l = TexamLevel();
@@ -177,7 +177,7 @@ QList<TexamLevel> getExampleLevels() {
 		//clef default, user/tune defined
 		//instrument default - selected by user
 //     l.loNote & l.hiNote from constructor
-//     l.hiFret by constuctor
+//     l.hiFret by constructor
 // 		l.intonation = gl->A->intonation; // user preferences (in constructor)
     l.onlyLowPos = true;
 		if (l.instrument == e_noInstrument) // force instrument when not defined
@@ -200,7 +200,7 @@ QList<TexamLevel> getExampleLevels() {
     l.useKeySign = false;
     l.manualKey = false;
 		l.clef = Tclef(Tclef::e_treble_G);
-		l.instrument = e_noInstrument;
+		l.instrument = gl->instrument;
     l.loKey = 0;
     l.hiKey = 0;
     l.forceAccids = false;
@@ -209,7 +209,7 @@ QList<TexamLevel> getExampleLevels() {
     l.showStrNr = false;
     l.loNote = Tnote(5, 0); // G contra
     l.hiNote = Tnote(6, 2); // a one-line
-//     l.hiFret by constuctor
+//     l.hiFret by constructor
 // 		l.intonation = gl->A->intonation; // user preferences (in constructor)
     l.onlyLowPos = true;
     llist << l;
@@ -328,7 +328,7 @@ bool TlevelSelector::isSuitable(TexamLevel &l) {
         l.loNote.getChromaticNrOfNote() < gl->loString().getChromaticNrOfNote() ||
 			  l.hiNote.getChromaticNrOfNote() > gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber )
 			
-							warringText = tr("Level is not suitable for current tuning and/or frets number");
+							warringText = tr("Level is not suitable for current tuning and/or fret number");
     else if (gl->instrument == e_noInstrument && l.instrument != e_noInstrument)
 							warringText = tr("Level is not suitable for current instrument type");
 		if (warringText != "") {

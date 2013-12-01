@@ -27,28 +27,22 @@ TrtAudioAbstract::TrtAudioAbstract(TaudioParams* params) :
   rtDevice(0),
   audioParams(params),
   streamOptions(0),
-  sampleRate(44100)
+  sampleRate(44100),
+  m_isFloat(false)
 {
-  setUseJACK(params->useJACK);
+	streamOptions = new RtAudio::StreamOptions;
 }
 
 /*static*/
-bool TrtAudioAbstract::m_useJACK = true;
 
 RtAudio* TrtAudioAbstract::getRtAudio() {
   RtAudio *rta;
-#if defined(Q_OS_LINUX)
-    if (m_useJACK)
-      rta = new RtAudio(); // check is JACK posible and allow it
-    else
-      rta = new RtAudio(RtAudio::LINUX_ALSA); // force ALSA
-#elif defined(Q_OS_WIN32)
+#if defined(Q_OS_WIN32)
 		rta = new RtAudio(RtAudio::WINDOWS_DS);
 #else
     rta = new RtAudio();
 #endif
 #if defined(__LINUX_PULSE__)
-    if (!m_useJACK /*&& rta->getCurrentApi() != RtAudio::UNIX_JACK*/) { // PulseAudio only when user don't want JACK'
       QFileInfo pulseBin("/usr/bin/pulseaudio");
       if (pulseBin.exists()) { // we check is PA possible to run - without check it can hang over.
       RtAudio *rtPulse = new RtAudio(RtAudio::LINUX_PULSE);
@@ -59,7 +53,6 @@ RtAudio* TrtAudioAbstract::getRtAudio() {
           }
         }
       }
-    }
 #endif
     rta->showWarnings(false);
     return rta;
@@ -83,6 +76,7 @@ void TrtAudioAbstract::printSupportedFormats(RtAudio::DeviceInfo& devInfo) {
   qDebug() << "supported sample formats:" << fmt;
 }
 
+
 void TrtAudioAbstract::printSupportedSampleRates(RtAudio::DeviceInfo& devInfo) {
   QString sRates;
   for (int i = 0; i < devInfo.sampleRates.size(); i++)
@@ -96,12 +90,35 @@ bool TrtAudioAbstract::getDeviceInfo(RtAudio::DeviceInfo& devInfo, int id) {
           devInfo = rtDevice->getDeviceInfo(id);
   }
   catch (RtError& e) {
-    qDebug() << "error when probeing input device" << id;
+    qDebug() << "error when probing input device" << id;
     return false;
   }
   return true;
 }
 
+
+RtAudioFormat TrtAudioAbstract::determineDataFormat(RtAudio::DeviceInfo& devInf) {
+	RtAudioFormat dataFormat = RTAUDIO_SINT16;
+	if (!(devInf.nativeFormats & 0x2))
+		if (devInf.nativeFormats & 0x10) {
+			qDebug() << "Device" << QString::fromLocal8Bit(devInf.name.data()) << "supports only float-32 data format";
+			setToFloat32();
+			dataFormat = RTAUDIO_FLOAT32;
+		}	else {
+			qDebug() << "Device" << QString::fromLocal8Bit(devInf.name.data()) << "doesn't supports either int-16 nor float-32 data format";
+			dataFormat = RTAUDIO_SINT8;
+		}
+	return dataFormat;
+}
+
+
+bool TrtAudioAbstract::checkBufferSize(unsigned int bufferFrames) {
+	if (bufferFrames < 256) {
+			qDebug() << "Nootka doesn't support buffer/period lass than 256.";
+			return false;
+	} else
+			return true;
+}
 
 
 bool TrtAudioAbstract::openStream(RtAudio::StreamParameters* outParams, RtAudio::StreamParameters* inParams,
