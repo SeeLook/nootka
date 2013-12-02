@@ -91,10 +91,6 @@ TpitchFinder::~TpitchFinder()
 
 
 void TpitchFinder::setIsVoice(bool voice) {
-//   if (m_isBussy) {
-//       qDebug("finder is bussy");
-//       return;
-//   }    
   m_isVoice = voice;
   if (voice)
     m_aGl->analysisType = e_MPM_MODIFIED_CEPSTRUM;
