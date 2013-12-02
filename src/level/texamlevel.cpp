@@ -99,7 +99,7 @@ QDataStream &operator << (QDataStream &out, TexamLevel &lev) {
 		quint8 instr;
 		if (lev.instrument != e_noInstrument)
 			instr = (quint8)lev.instrument;
-		else // // because '0' is reserved for backword compability
+		else // // because '0' is reserved for backward compatibility
 			instr = 255;
 		out << instr;
     out << lev.usedStrings[0] << lev.usedStrings[1] << lev.usedStrings[2]
@@ -109,7 +109,6 @@ QDataStream &operator << (QDataStream &out, TexamLevel &lev) {
 }
 
 
-//QDataStream &operator >>(QDataStream &in, TexamLevel &lev) {
 bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
     bool ok = true;
     in >> lev.name >> lev.desc;
@@ -120,7 +119,6 @@ bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
     in >> lev.useKeySign >> sharedByte;
 		lev.isSingleKey = (bool)(sharedByte % 2);
 		lev.intonation = sharedByte / 2;
-// 		qDebug() << "isSingleKey" << (int)lev.isSingleKey << "intonation" << lev.intonation;
     ok = getKeyFromStream(in, lev.loKey);
     ok = getKeyFromStream(in, lev.hiKey);
     in >> lev.manualKey >> lev.forceAccids;
@@ -128,7 +126,6 @@ bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
 // RANGE
     ok = getNoteFromStream(in, lev.loNote);
     ok = getNoteFromStream(in, lev.hiNote);
-//     in >> lev.isNoteLo >> lev.isNoteHi; 
 	/** Merged to quint16 since version 0.8.90 */
 		quint16 testClef;
 		in >> testClef;
@@ -144,7 +141,6 @@ bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
     }
     lev.loFret = char(lo);
     lev.hiFret = char(hi);
-//     in >> lev.isFretHi;
 	/** Previously is was bool type */
 		quint8 instr;
 		in >> instr;
@@ -153,7 +149,7 @@ bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
             >> lev.usedStrings[3] >> lev.usedStrings[4] >>  lev.usedStrings[5];
     in >> lev.onlyLowPos >> lev.onlyCurrKey >> lev.showStrNr;
 	// determining/fixing a clef
-		if (testClef == 0) // For backword compability - 'no clef' never occurs
+		if (testClef == 0) // For backward compatibility - 'no clef' never occurs
 				lev.clef = Tclef(Tclef::e_treble_G_8down); // and versions before 0.8.90 kept here 0
 		else if (testClef == 1) {
 			Tnote lowest(6, -2, 0);
@@ -161,11 +157,10 @@ bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
 					lev.clef = Tclef(Tclef::e_treble_G_8down);  // surely - 1 = e_treble_G was not intended here
 			else
 					lev.clef = Tclef(Tclef::e_treble_G); 
-		}	else if (testClef == 257) // some previous mess - untill levels won't support multiple clefs
+		}	else if (testClef == 257) // some previous mess - until levels won't support multiple clefs
 				lev.clef = Tclef(Tclef::e_treble_G_8down); 
 		else
 				lev.clef = Tclef((Tclef::Etype)testClef);
-// 		qDebug() << "detected clef is " << testClef << lev.clef.name();
 	// determining/fixing an instrument in a level
 		if (instr == 0 ||instr == 1) { // Those values occur in versions before 0.8.90 where an instrument doesn't exist
 			if (lev.canBeGuitar() || lev.canBeSound()) // try to detect
@@ -180,18 +175,18 @@ bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
 			qDebug() << "TexamLevel::instrument has some stupid value. FIXED";
 			lev.instrument = e_classicalGuitar;
 		}
-// 		qDebug() << "detected instrument is " << instr << instrumentToText(lev.instrument);
     return ok;
 }
 
+//###################### HELPERS ################################################################
+/** Checking is any question enabled first and then checking appropriate answer type.
+     * Despite of level creator disables all questions with empty answers (set to false)
+     * better check this again to avoid further problems. */
 bool TexamLevel::canBeScore() {
   if (questionAs.isNote() || 
     (questionAs.isName() && answersAs[TQAtype::e_asName].isNote()) || 
     (questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isNote()) ||
     (questionAs.isSound() && answersAs[TQAtype::e_asSound].isNote())  )
-    /** Checking is any question enabled first and then checking appropirate answer type.
-     * Despite of level creator disables all questions with empty answers (set to false)
-     * beter check this again to avoid further problems. */
       return true;
   else
       return false;

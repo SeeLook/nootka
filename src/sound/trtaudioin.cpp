@@ -177,7 +177,7 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
   if (rtDevice->isStreamOpen()) {
       deviceName = QString::fromLocal8Bit(rtDevice->getDeviceInfo(devId).name.data());
 			if (checkBufferSize(m_bufferFrames))
-				qDebug() << "IN:" << deviceName << "samplerate:" << sampleRate << "buffer size" << m_bufferFrames;
+				qDebug() << "IN:" << deviceName << "samplerate:" << sampleRate << ", buffer size:" << m_bufferFrames;
 			else
 				return false;
   } else

@@ -99,22 +99,25 @@ bool TrtAudioAbstract::getDeviceInfo(RtAudio::DeviceInfo& devInfo, int id) {
 
 RtAudioFormat TrtAudioAbstract::determineDataFormat(RtAudio::DeviceInfo& devInf) {
 	RtAudioFormat dataFormat = RTAUDIO_SINT16;
-	if (!(devInf.nativeFormats & 0x2))
-		if (devInf.nativeFormats & 0x10) {
-			qDebug() << "Device" << QString::fromLocal8Bit(devInf.name.data()) << "supports only float-32 data format";
-			setToFloat32();
-			dataFormat = RTAUDIO_FLOAT32;
-		}	else {
-			qDebug() << "Device" << QString::fromLocal8Bit(devInf.name.data()) << "doesn't supports either int-16 nor float-32 data format";
-			dataFormat = RTAUDIO_SINT8;
-		}
+	if (!(devInf.nativeFormats & 0x2)) {
+		dataFormat = RTAUDIO_SINT8;
+		qDebug() << "Device" << QString::fromLocal8Bit(devInf.name.data()) << " doesn't support int-16 data format";
+	}
+// 		if (devInf.nativeFormats & 0x10) {
+// 			qDebug() << "Device" << QString::fromLocal8Bit(devInf.name.data()) << "supports only float-32 data format";
+// 			setToFloat32();
+// 			dataFormat = RTAUDIO_FLOAT32;
+// 		}	else {
+// 			qDebug() << "Device" << QString::fromLocal8Bit(devInf.name.data()) << "doesn't supports either int-16 nor float-32 data format";
+// 			dataFormat = RTAUDIO_SINT8;
+// 		}
 	return dataFormat;
 }
 
 
 bool TrtAudioAbstract::checkBufferSize(unsigned int bufferFrames) {
 	if (bufferFrames < 256) {
-			qDebug() << "Nootka doesn't support buffer/period lass than 256.";
+			qDebug() << "Nootka doesn't support buffer/period lass than 256!";
 			return false;
 	} else
 			return true;
@@ -126,13 +129,7 @@ bool TrtAudioAbstract::openStream(RtAudio::StreamParameters* outParams, RtAudio:
                                   void* userData, RtAudio::StreamOptions* options) {
   try {
     if (rtDevice && !rtDevice->isStreamOpen()) {
-//         QString oo = "XX";
-//         if (outParams)
-//           oo = "out";
-//         if (inParams)
-//           oo = "in";
-//         qDebug() << "openning stream" << oo ;
-      rtDevice->openStream(outParams, inParams, frm, rate, buffFrames, callBack, userData, options);
+				rtDevice->openStream(outParams, inParams, frm, rate, buffFrames, callBack, userData, options);
     }
   }
   catch (RtError& e) {

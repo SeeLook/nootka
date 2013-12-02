@@ -56,7 +56,9 @@ QPixmap getNotePixmap(Tnote note, Tclef::Etype clef, TkeySignature key, qreal fa
 				staff->setEnableKeySign(true);
 				staff->scoreKey()->setKeySignature(key.value());
 		}
-	// determine pixmap height by note position to avoid empty spaces above or below a staff
+	// determine image height by note position to avoid empty spaces above or below a staff
+	/** It never shows whole piano staff - just single staff where is some note.
+	 * When no note, both staves are displayed. */
 		int topPix = 0, bottomPix = staff->boundingRect().height(), leftPix = 0;
 		if (notesCount) {
 				staff->setNote(0, note);
@@ -73,7 +75,6 @@ QPixmap getNotePixmap(Tnote note, Tclef::Etype clef, TkeySignature key, qreal fa
 					}
 				} else { // piano staff
 					if (clef == Tclef::e_pianoStaff && staff->lower()) {
-// 						topPix = staff->upperLinePos() - 4;
 						topPix = staff->lower()->pos().y();
 						if (staff->lower()->noteSegment(0)->notePos() < staff->lower()->upperLinePos() + 13) {
 								bottomPix = staff->lower()->pos().y() + staff->lower()->upperLinePos() + 14; // note in lower staff

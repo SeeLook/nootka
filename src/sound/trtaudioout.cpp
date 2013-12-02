@@ -215,8 +215,7 @@ bool TaudioOUT::setAudioDevice(QString &name) {
   if (rtDevice->isStreamOpen() && checkBufferSize(m_bufferFrames)) {
       m_maxCBloops = (88200 * ratioOfRate) / m_bufferFrames;
       deviceName = QString::fromLocal8Bit(rtDevice->getDeviceInfo(devId).name.data());
-      qDebug() << "OUT:" << deviceName << "samplerate:" << sampleRate * ratioOfRate 
-            << "buffer size/nr:" << m_bufferFrames << "/" << streamOptions->numberOfBuffers;
+      qDebug() << "OUT:" << deviceName << "samplerate:" << sampleRate * ratioOfRate << ", buffer size:" << m_bufferFrames;
       if (rtDevice->getCurrentApi() != RtAudio::LINUX_PULSE)
           closeStram(); // otherwise devices are blocked (not appears in settings dialog)
       return true;
