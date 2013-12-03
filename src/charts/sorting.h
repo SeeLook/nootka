@@ -25,11 +25,11 @@
 
 class Tnote;
 class TQAunit;
-class TexamLevel;
+class Tlevel;
 
 
 
-  QList<Tnote> getTheSame(short noteNr, TexamLevel *level = 0);
+  QList<Tnote> getTheSame(short noteNr, Tlevel *level = 0);
       /** Calculates average reaction time of a given list.
        * If skipWrong = true, wrong answers are not taken to average. */
   double calcAverTime(TgroupedQAunit &answers, bool skipWrong = false);
@@ -50,20 +50,20 @@ class TexamLevel;
   void divideGoodAndBad(QList< TQAunit >* list, TgroupedQAunit& goodList, TgroupedQAunit& badList);
       /** Returns the lists of list of the same notes. 
        * The last list is a list of ignored answers - no notes eighter in answer nor questions.*/
-  QList<TgroupedQAunit> sortByNote(TgroupedQAunit& answList, TexamLevel* level, bool& hasListUnrelated);
+  QList<TgroupedQAunit> sortByNote(TgroupedQAunit& answList, Tlevel* level, bool& hasListUnrelated);
   
-  QList<TgroupedQAunit> sortByFret(TgroupedQAunit& answList, TexamLevel* level, bool& hasListUnrelated);
+  QList<TgroupedQAunit> sortByFret(TgroupedQAunit& answList, Tlevel* level, bool& hasListUnrelated);
   
-  QList<TgroupedQAunit> sortByKeySignature(TgroupedQAunit& answList, TexamLevel* level, bool& hasListUnrelated);
+  QList<TgroupedQAunit> sortByKeySignature(TgroupedQAunit& answList, Tlevel* level, bool& hasListUnrelated);
   
       /** kindOfAccidList is created during sorrting by accidental.
        * Each element coresponds with elemnt of sortByAccidental List
        * and keeps appropirate accidental.
        * For unrelated its value is 3*/
-  QList<TgroupedQAunit> sortByAccidental(TgroupedQAunit& answList, TexamLevel* level,
+  QList<TgroupedQAunit> sortByAccidental(TgroupedQAunit& answList, Tlevel* level,
                                          bool& hasListUnrelated, QList<char> &kindOfAccidList);
-  QList<TgroupedQAunit> sortByQAtype(TgroupedQAunit& answList, TexamLevel* level, bool& hasListUnrelated);
-  QList<TgroupedQAunit> sortByMisakes(TgroupedQAunit& answList, TexamLevel* level, bool& hasListUnrelated);
+  QList<TgroupedQAunit> sortByQAtype(TgroupedQAunit& answList, Tlevel* level, bool& hasListUnrelated);
+  QList<TgroupedQAunit> sortByMisakes(TgroupedQAunit& answList, Tlevel* level, bool& hasListUnrelated);
       /** converts given value to nootka string. */
   QString accidToNotka(char acc, int fontSize = 20);
       /** Returns '?' or '!' depends on answer type. */

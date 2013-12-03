@@ -18,17 +18,56 @@
 
 
 
-#include "texamlevel.h"
+#include "tlevel.h"
 #include "tglobals.h"
 #include <ttune.h>
 #include <taudioparams.h>
 #include <QDebug>
+#include <QMessageBox>
 
 extern Tglobals *gl;
 
-TexamLevel::TexamLevel()
+
+/*static*/
+/** Versions history:
+ * 1. 0x95121701 
+ * 
+ * 2. 0x95121703 (02.12.2013)
+ * 		- support for instrument types and guessing an instrument from previous version
+ * 		- instrument enum is casting directly to quint8: e_noInstrument is 0 
+ */
+
+const qint32 Tlevel::levelVersion = 0x95121701;
+const qint32 Tlevel::currentVersion = 0x95121703;
+
+int Tlevel::levelVersionNr(qint32 ver) {
+	if ((ver - levelVersion) % 2)
+			return -1; // invalid when rest of division is 1
+	return ((ver - levelVersion) / 2) + 1 ;
+}
+
+
+bool Tlevel::isLevelVersion(quint32 ver) {
+	if (levelVersionNr(ver) <= levelVersionNr(currentVersion))
+		return true;
+	else
+		return false;
+}
+
+
+bool Tlevel::couldBeLevel(qint32 ver) {
+	int givenVersion = levelVersionNr(ver);
+	if (givenVersion >= 1 && givenVersion <= 127)
+		return true;
+	else
+		return false;
+}
+
+/*end static*/
+
+Tlevel::Tlevel()
 {
-  // level paramrters
+  // level parameters
    name = QObject::tr("master of masters");
    desc = QObject::tr("All possible options are turned on");
 	 bool hasGuitar = true;
@@ -80,7 +119,7 @@ TexamLevel::TexamLevel()
 }
 
 
-QDataStream &operator << (QDataStream &out, TexamLevel &lev) {
+QDataStream &operator << (QDataStream &out, Tlevel &lev) {
     out << lev.name << lev.desc;
     out << lev.questionAs;
     out << lev.answersAs[0] << lev.answersAs[1] << lev.answersAs[2] << lev.answersAs[3];
@@ -89,7 +128,7 @@ QDataStream &operator << (QDataStream &out, TexamLevel &lev) {
     out << lev.useKeySign << sharedByte;
     out << lev.loKey << lev.hiKey;
     out << lev.manualKey << lev.forceAccids;
-    out <<  lev.requireOctave << lev.requireStyle;
+    out << lev.requireOctave << lev.requireStyle;
 // RANGE
     out << lev.loNote << lev.hiNote;
 //     out << lev.isNoteLo << lev.isNoteHi;
@@ -97,10 +136,10 @@ QDataStream &operator << (QDataStream &out, TexamLevel &lev) {
     out << (qint8)lev.loFret << (qint8)lev.hiFret;
 //     out << lev.isFretHi;
 		quint8 instr;
-		if (lev.instrument != e_noInstrument)
+// 		if (lev.instrument != e_noInstrument)
 			instr = (quint8)lev.instrument;
-		else // // because '0' is reserved for backward compatibility
-			instr = 255;
+// 		else // // because '0' is reserved for backward compatibility
+// 			instr = 255;
 		out << instr;
     out << lev.usedStrings[0] << lev.usedStrings[1] << lev.usedStrings[2]
             << lev.usedStrings[3] << lev.usedStrings[4] <<  lev.usedStrings[5];
@@ -109,7 +148,7 @@ QDataStream &operator << (QDataStream &out, TexamLevel &lev) {
 }
 
 
-bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
+bool getLevelFromStream(QDataStream& in, Tlevel& lev, qint32 ver) {
     bool ok = true;
     in >> lev.name >> lev.desc;
     in >> lev.questionAs;
@@ -144,45 +183,66 @@ bool getLevelFromStream(QDataStream &in, TexamLevel &lev) {
 	/** Previously is was bool type */
 		quint8 instr;
 		in >> instr;
-		
     in >> lev.usedStrings[0] >> lev.usedStrings[1] >> lev.usedStrings[2]
             >> lev.usedStrings[3] >> lev.usedStrings[4] >>  lev.usedStrings[5];
     in >> lev.onlyLowPos >> lev.onlyCurrKey >> lev.showStrNr;
-	// determining/fixing a clef
-		if (testClef == 0) // For backward compatibility - 'no clef' never occurs
-				lev.clef = Tclef(Tclef::e_treble_G_8down); // and versions before 0.8.90 kept here 0
-		else if (testClef == 1) {
-			Tnote lowest(6, -2, 0);
-			if (lev.canBeGuitar() || lev.loNote.getChromaticNrOfNote() < lowest.getChromaticNrOfNote() )
-					lev.clef = Tclef(Tclef::e_treble_G_8down);  // surely - 1 = e_treble_G was not intended here
-			else
-					lev.clef = Tclef(Tclef::e_treble_G); 
-		}	else if (testClef == 257) // some previous mess - until levels won't support multiple clefs
-				lev.clef = Tclef(Tclef::e_treble_G_8down); 
-		else
+		if (ver == lev.levelVersion) { // first version of level file structure
+				lev.clef = lev.fixClef(testClef); // determining/fixing a clef from first version
+				lev.instrument = lev.fixInstrument(instr); // determining/fixing an instrument type
+		} else {
 				lev.clef = Tclef((Tclef::Etype)testClef);
-	// determining/fixing an instrument in a level
-		if (instr == 0 ||instr == 1) { // Those values occur in versions before 0.8.90 where an instrument doesn't exist
-			if (lev.canBeGuitar() || lev.canBeSound()) // try to detect
-					lev.instrument = e_classicalGuitar;
-			else
-					lev.instrument = e_noInstrument;
-		} else if (instr < 4) // simple cast to detect an instrument
-			lev.instrument = (Einstrument)instr;
-		else if (instr == 255) // because '0' is reserved for backword compability
-			lev.instrument = e_noInstrument;
-		else {
-			qDebug() << "TexamLevel::instrument has some stupid value. FIXED";
-			lev.instrument = e_classicalGuitar;
+				lev.instrument = (Einstrument)instr;
 		}
     return ok;
 }
+
+
+Tclef Tlevel::fixClef(quint16 cl) {
+		if (cl == 0) // For backward compatibility - 'no clef' never occurs
+				return Tclef(Tclef::e_treble_G_8down); // and versions before 0.8.90 kept here 0
+		if (cl == 1) {
+			Tnote lowest(6, -2, 0);
+			if (canBeGuitar() || loNote.getChromaticNrOfNote() < lowest.getChromaticNrOfNote() )
+					return Tclef(Tclef::e_treble_G_8down);  // surely: 1 = e_treble_G was not intended here
+			else
+					return Tclef(Tclef::e_treble_G); 
+		}	
+		if (cl == 257) // some previous mess - when levels didn't' support multiple clefs
+				return Tclef(Tclef::e_treble_G_8down); 
+		
+		return Tclef((Tclef::Etype)cl);
+}
+
+
+Einstrument Tlevel::fixInstrument(quint8 instr) {
+		if (instr == 0 || instr == 1) { // Those values occur in versions before 0.8.90 where an instrument doesn't exist
+			if (canBeGuitar()) { // try to detect
+				if (gl->instrument != e_noInstrument)
+						return gl->instrument;
+				else
+						return e_classicalGuitar;
+			} else if (canBeSound())
+						return gl->instrument;
+					else
+						return e_noInstrument;
+		} else if (instr < 4) // simple cast to detect an instrument
+			return (Einstrument)instr;
+		else if (instr == 255) // because '0' is reserved for backward compatibility
+			return e_noInstrument;
+		else {
+			qDebug() << "Tlevel::instrument has some stupid value. FIXED";
+			return gl->instrument;
+		}
+}
+
+
+
 
 //###################### HELPERS ################################################################
 /** Checking is any question enabled first and then checking appropriate answer type.
      * Despite of level creator disables all questions with empty answers (set to false)
      * better check this again to avoid further problems. */
-bool TexamLevel::canBeScore() {
+bool Tlevel::canBeScore() {
   if (questionAs.isNote() || 
     (questionAs.isName() && answersAs[TQAtype::e_asName].isNote()) || 
     (questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isNote()) ||
@@ -192,7 +252,7 @@ bool TexamLevel::canBeScore() {
       return false;
 }
 
-bool TexamLevel::canBeName() {
+bool Tlevel::canBeName() {
   if (questionAs.isName() || 
     (questionAs.isNote() && answersAs[TQAtype::e_asNote].isName()) || 
     (questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isName()) ||
@@ -202,7 +262,7 @@ bool TexamLevel::canBeName() {
       return false;
 }
 
-bool TexamLevel::canBeGuitar() {
+bool Tlevel::canBeGuitar() {
   if (questionAs.isFret() || 
     (questionAs.isName() && answersAs[TQAtype::e_asName].isFret()) || 
     (questionAs.isNote() && answersAs[TQAtype::e_asNote].isFret()) ||
@@ -212,7 +272,7 @@ bool TexamLevel::canBeGuitar() {
       return false;
 }
 
-bool TexamLevel::canBeSound() {
+bool Tlevel::canBeSound() {
   if (questionAs.isSound() || 
     (questionAs.isName() && answersAs[TQAtype::e_asName].isSound()) || 
     (questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isSound()) ||
@@ -221,4 +281,13 @@ bool TexamLevel::canBeSound() {
   else
       return false;
 }
+
+
+void newerNootkaMessage(const QString &fileName, QWidget* parent) {
+	QMessageBox::warning(parent, "Update Nootka!", QString("File: <b>%1</b><br>was created in newer Nootka version that you have.<br>To open it, visit program site to obtain the newest version.").arg(fileName));
+}
+
+
+
+
 

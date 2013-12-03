@@ -19,7 +19,7 @@
 #include "texecutorsupply.h"
 #include "texam.h"
 #include "tglobals.h"
-#include "texamlevel.h"
+#include "tlevel.h"
 #include <ttune.h>
 #include <QMouseEvent>
 #include <QMessageBox>
@@ -55,7 +55,7 @@ void TexecutorSupply::checkGuitarParamsChanged(QWidget* parent, Texam* exam) {
 
 
 
-TexecutorSupply::TexecutorSupply(TexamLevel* level, QObject* parent) :
+TexecutorSupply::TexecutorSupply(Tlevel* level, QObject* parent) :
   QObject(parent),
   m_level(level),
   m_prevAccid(Tnote::e_Natural),

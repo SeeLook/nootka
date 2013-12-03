@@ -20,7 +20,7 @@
 #include <QtGui>
 #include "tanalysdialog.h"
 #include "texam.h"
-#include "texamlevel.h"
+#include "tlevel.h"
 #include "tlevelpreview.h"
 #include "tstartexamdlg.h"
 #include "texamview.h"
@@ -42,7 +42,7 @@ extern Tglobals *gl;
 TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
     QDialog(parent),
     m_exam(0),
-    m_level(new TexamLevel()),
+    m_level(new Tlevel()),
     m_chart(0),
     m_wasExamCreated(false),
     m_isMaximized(false)

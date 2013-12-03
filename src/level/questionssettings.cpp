@@ -147,7 +147,7 @@ questionsSettings::questionsSettings(QWidget *parent) :
 }
 
 
-void questionsSettings::loadLevel(TexamLevel& level) {
+void questionsSettings::loadLevel(Tlevel& level) {
     asNoteWdg->setAnswers(level.answersAs[TQAtype::e_asNote]);
     asNoteWdg->setChecked(level.questionAs.isNote()); // when it is false it cleans all checkBoxes to false
     asNameWdg->setAnswers(level.answersAs[TQAtype::e_asName]);
@@ -227,7 +227,7 @@ void questionsSettings::hideGuitarRelated() {
 }
 
 
-void questionsSettings::saveLevel(TexamLevel &level) {
+void questionsSettings::saveLevel(Tlevel &level) {
     level.questionAs.setAsNote(asNoteWdg->isChecked());
     level.answersAs[TQAtype::e_asNote] = asNoteWdg->getAnswers();
     level.questionAs.setAsName(asNameWdg->isChecked());

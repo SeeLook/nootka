@@ -23,7 +23,7 @@
 #include "tnote.h"
 
 class Texam;
-class TexamLevel;
+class Tlevel;
 class TQAunit;
 
 
@@ -46,7 +46,7 @@ public:
     
 protected:    
         /** Returns html-formated question text. */
-    QString getQuestion(TQAunit &question, int questNr, TexamLevel *level, double scale = 0);
+    QString getQuestion(TQAunit &question, int questNr, Tlevel *level, double scale = 0);
     QString getNiceNoteName(Tnote note, Tnote::EnameStyle style);
         
     

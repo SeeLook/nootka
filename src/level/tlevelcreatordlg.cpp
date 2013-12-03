@@ -76,8 +76,8 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
     disconnect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
     connect(okBut, SIGNAL(clicked()), this, SLOT(checkLevelSlot()));
 
-    connect(levelSett->levelSelector, SIGNAL(levelChanged(TexamLevel)),
-            this, SLOT(levelWasSelected(TexamLevel))); // to load level to widgets
+    connect(levelSett->levelSelector, SIGNAL(levelChanged(Tlevel)),
+            this, SLOT(levelWasSelected(Tlevel))); // to load level to widgets
     connect(rangeSett, SIGNAL(rangeChanged()), this, SLOT(levelNotSaved()));
     connect(questSett, SIGNAL(questSettChanged()), this, SLOT(levelNotSaved()));
     connect(accSett, SIGNAL(accidsChanged()), this, SLOT(levelNotSaved()));
@@ -91,7 +91,7 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
 }
 
 
-void TlevelCreatorDlg::levelWasSelected(TexamLevel level) {
+void TlevelCreatorDlg::levelWasSelected(Tlevel level) {
     if (isNotSaved)
         saveLevel();
     questSett->loadLevel(level);
@@ -116,7 +116,7 @@ void TlevelCreatorDlg::saveLevel() {
 
 
 void TlevelCreatorDlg::saveToFile() {
-    TexamLevel newLevel;
+    Tlevel newLevel;
     questSett->saveLevel(newLevel);
     accSett->saveLevel(newLevel);
     rangeSett->saveLevel(newLevel);
@@ -184,7 +184,7 @@ void TlevelCreatorDlg::loadFromFile() {
 }
 
 
-QString TlevelCreatorDlg::validateLevel(TexamLevel &l) {
+QString TlevelCreatorDlg::validateLevel(Tlevel &l) {
     QString res = "";
   // Check has a level sense - are there an questions and answers
     if (!l.canBeScore() && ! l.canBeName() && !l.canBeGuitar() && !l.canBeSound()) {
@@ -257,12 +257,12 @@ void TlevelCreatorDlg::startExam() {
 }
 
 
-TexamLevel TlevelCreatorDlg::selectedLevel() {
+Tlevel TlevelCreatorDlg::selectedLevel() {
     return levelSett->levelSelector->getSelectedLevel();
 }
 
 void TlevelCreatorDlg::checkLevelSlot() {
-    TexamLevel tmpLevel;
+    Tlevel tmpLevel;
     questSett->saveLevel(tmpLevel);
     accSett->saveLevel(tmpLevel);
     rangeSett->saveLevel(tmpLevel);

@@ -163,7 +163,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
 		QString exerciseFile = QDir::toNativeSeparators(QFileInfo(sett.fileName()).absolutePath() + "/exercise.noo");
 		bool continuePosiible = false;
 		if (QFileInfo(exerciseFile).exists()) {
-				TexamLevel l;
+				Tlevel l;
 				Texam exam(&l, "");
         Texam::EerrorType err = exam.loadFromFile(exerciseFile);
         if (err == Texam::e_file_OK || err == Texam::e_file_corrupted) {
@@ -189,7 +189,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
 		connect(m_newExerciseButt, SIGNAL(clicked()), this, SLOT(startAccepted()));
 		connect(m_contExerciseButt, SIGNAL(clicked()), this, SLOT(startAccepted()));
     connect(m_examCombo, SIGNAL(activated(int)), this, SLOT(prevExamSelected(int)));
-    connect(m_levelsView, SIGNAL(levelChanged(TexamLevel)), this, SLOT(levelWasSelected(TexamLevel)));
+    connect(m_levelsView, SIGNAL(levelChanged(Tlevel)), this, SLOT(levelWasSelected(Tlevel)));
 		connect(m_helpButt,  SIGNAL(clicked()), this, SLOT(helpSelected()));
 		
     
@@ -203,7 +203,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
 }
 
 
-TstartExamDlg::Eactions TstartExamDlg::showDialog(QString &txt, TexamLevel &lev) {
+TstartExamDlg::Eactions TstartExamDlg::showDialog(QString &txt, Tlevel &lev) {
     exec();
     if (result() == QDialog::Accepted) {
         if (m_Acction == e_newExam || m_Acction == e_newExercise) {
@@ -244,7 +244,7 @@ bool TstartExamDlg::event(QEvent *event) {
 
 
 bool TstartExamDlg::isAnyLevelSelected() {
-	TexamLevel l = m_levelsView->getSelectedLevel();
+	Tlevel l = m_levelsView->getSelectedLevel();
 	if (l.name == "") { // nothing selected
 			QMessageBox::warning(this, "Nootka", tr("No level was selected!"));
 			return false;
@@ -323,7 +323,7 @@ void TstartExamDlg::updateButtonStatusText(const QString& levelName) {
 }
 
 
-void TstartExamDlg::levelWasSelected(TexamLevel level) {
+void TstartExamDlg::levelWasSelected(Tlevel level) {
 	updateButtonStatusText(level.name);		
 }
 

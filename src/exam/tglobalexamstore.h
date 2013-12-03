@@ -25,7 +25,7 @@
 #include <ttune.h>
 #include <tclef.h>
 
-class TexamLevel;
+class Tlevel;
 
 class Tglobals;
 
@@ -45,7 +45,7 @@ public:
   void restoreSettings();
 	
 			/** Sets initial values to Tglobals from given level. */
-	void prepareGlobalsToExam(TexamLevel &level);
+	void prepareGlobalsToExam(Tlevel &level);
   
 	
 	

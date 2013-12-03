@@ -20,7 +20,7 @@
 #define MAINWINDOW_H
 
 #include "tnote.h"
-#include "texamlevel.h"
+#include "tlevel.h"
 #include <texamexecutor.h>
 #include <QMainWindow>
 
@@ -118,7 +118,7 @@ private:
     int 									m_statFontSize;
          /** Keeps true when Dialog windows is opened, to avoid opening another file. */
     bool 									m_levelCreatorExist;
-    TexamLevel 						m_level;
+    Tlevel 						m_level;
 		bool 									m_isPlayerFree;
 		QWidget 							*m_pitchContainer;
 		QVBoxLayout 					*m_rightLay, *m_scoreLay;

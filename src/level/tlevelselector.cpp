@@ -27,9 +27,9 @@
 
 extern Tglobals *gl;
 
-QList<TexamLevel> getExampleLevels() {
-    QList<TexamLevel> llist;
-    TexamLevel l = TexamLevel();
+QList<Tlevel> getExampleLevels() {
+    QList<Tlevel> llist;
+    Tlevel l = Tlevel();
 		int octaveOffset = 0; // depends on guitar type and for bass drops range octave down
 		if (gl->instrument == e_bassGuitar)
 			octaveOffset = -1;
@@ -124,7 +124,7 @@ QList<TexamLevel> getExampleLevels() {
 			l.instrument = e_classicalGuitar;
     llist << l;
 //----------------------------------------------------------------------------
-    l = TexamLevel();
+    l = Tlevel();
     l.name = QObject::tr("Ear training");
     l.desc = QObject::tr("Listen to a sound and show it on the staff.<br>Guitar, note names and key signatures are not used.<br>Scale a - a<sup>2</sup>.");
     l.questionAs.setAsFret(false); // no guitar
@@ -153,7 +153,7 @@ QList<TexamLevel> getExampleLevels() {
     l.hiFret = 19;// loFret is 0 by constructor
     llist << l;
 //----------------------------------------------------------------------------
-    l = TexamLevel();
+    l = Tlevel();
     l.name = QObject::tr("Play scores");
     l.desc = QObject::tr("Take your instrument and just play...<br>No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.");
     l.questionAs.setAsFret(false); // no guitar
@@ -184,7 +184,7 @@ QList<TexamLevel> getExampleLevels() {
 			l.instrument = e_classicalGuitar;
     llist << l;
 //----------------------------------------------------------------------------
-    l = TexamLevel();
+    l = Tlevel();
     l.name = QObject::tr("Sing scores");
     l.desc = QObject::tr("Just sing a score...<br>No note names, no fretboard, no keys and double accids. Scale doesn't matter because octaves are ignored - you can transpose.");
     l.questionAs.setAsFret(false); // no guitar
@@ -217,9 +217,6 @@ QList<TexamLevel> getExampleLevels() {
 }
 
 /*static*/
-const qint32 TlevelSelector::levelVersion = 0x95121701;
-
-
 void TlevelSelector::fileIOerrorMsg(QFile &f, QWidget *parent) {
 	if (f.fileName() != "") {
 	  QMessageBox::critical(parent, "", tr("Cannot open file\n %1 \n for reading").arg(f.fileName()));
@@ -271,9 +268,9 @@ void TlevelSelector::levelSelected(int id) {
 
 
 void TlevelSelector::findLevels() {
-    TexamLevel lev = TexamLevel();
+    Tlevel lev = Tlevel();
   // from predefined list
-    QList<TexamLevel> llist = getExampleLevels();
+    QList<Tlevel> llist = getExampleLevels();
     for (int i = 0; i < llist.size(); i++) {
         addLevel(llist[i]);
         isSuitable(llist[i]);
@@ -285,7 +282,7 @@ void TlevelSelector::findLevels() {
     for (int i = recentLevels.size()-1; i >= 0; i--) {
         QFile file(recentLevels[i]);
         if (file.exists()) {
-            TexamLevel level = getLevelFromFile(file);
+            Tlevel level = getLevelFromFile(file);
             if (level.name != "") {
                 addLevel(level, file.fileName());
                 isSuitable(level);
@@ -298,7 +295,7 @@ void TlevelSelector::findLevels() {
 }
 
 
-void TlevelSelector::addLevel(const TexamLevel& lev, QString levelFile, bool check) {
+void TlevelSelector::addLevel(const Tlevel& lev, QString levelFile, bool check) {
     if (check && levelFile != "") {
       int pos = -1;
       for (int i = 0; i < m_levels.size(); i++)
@@ -318,7 +315,8 @@ void TlevelSelector::addLevel(const TexamLevel& lev, QString levelFile, bool che
     m_levels << l;
 }
 
-bool TlevelSelector::isSuitable(TexamLevel &l) {
+
+bool TlevelSelector::isSuitable(Tlevel &l) {
  if (l.questionAs.isFret() || // check only for levels using guitar
   (l.questionAs.isNote() && l.answersAs[TQAtype::e_asNote].isFret()) ||
   (l.questionAs.isName() && l.answersAs[TQAtype::e_asName].isFret()) ||
@@ -362,7 +360,7 @@ void TlevelSelector::loadFromFile(QString levelFile) {
         levelFile = QFileDialog::getOpenFileName(this, tr("Load exam's level"),
                                         gl->E->levelsDir, levelFilterTxt() + " (*.nel)", 0 , QFileDialog::DontUseNativeDialog);
     QFile file(levelFile);
-    TexamLevel level = getLevelFromFile(file);
+    Tlevel level = getLevelFromFile(file);
     if (level.name != "") {
         gl->E->levelsDir = QFileInfo(levelFile).absoluteDir().absolutePath();
         addLevel(level, levelFile, true);
@@ -372,20 +370,24 @@ void TlevelSelector::loadFromFile(QString levelFile) {
 }
 
 
-TexamLevel TlevelSelector::getLevelFromFile(QFile &file) {
-    TexamLevel level;
+Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
+    Tlevel level;
     level.name = "";
     if (file.open(QIODevice::ReadOnly)) {
          QDataStream in(&file);
          in.setVersion(QDataStream::Qt_4_7);
-         quint32 lv; //level template version
+         quint32 lv; // level version identifier
          in >> lv;
-         if (lv != levelVersion) {
-             QMessageBox::critical(this, "",
-                         tr("File: %1 \n is not Nootka level file!").arg(file.fileName()));
-             return level;
-         }
-         if (!getLevelFromStream(in, level))
+				 if (Tlevel::couldBeLevel(lv)) {
+					 if (!Tlevel::isLevelVersion(lv)) {
+						 newerNootkaMessage(file.fileName(), this);
+						 return level;
+					 }
+				 } else {
+						QMessageBox::critical(this, "", tr("File: %1 \n is not Nootka level file!").arg(file.fileName()));
+						return level;
+				 }
+         if (!getLevelFromStream(in, level, lv))
              QMessageBox::warning(0, "", tr("Level file\n %1 \n was corrupted and repaired!\n Check please, if its parameters are as expected.").arg(file.fileName()));
          file.close();
     } else {
@@ -396,9 +398,9 @@ TexamLevel TlevelSelector::getLevelFromFile(QFile &file) {
 }
 
 
-TexamLevel TlevelSelector::getSelectedLevel() {
+Tlevel TlevelSelector::getSelectedLevel() {
     if (m_levelsListWdg->currentRow() == -1 ) {
-        TexamLevel l = TexamLevel();
+        Tlevel l = Tlevel();
         l.name = ""; l.desc = "";
         return l;
     } else

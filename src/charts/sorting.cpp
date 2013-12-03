@@ -18,7 +18,7 @@
 
 #include "sorting.h"
 #include "tqaunit.h"
-#include "texamlevel.h"
+#include "tlevel.h"
 #include "tquestionaswdg.h"
 #include "tfingerpos.h"
 #include <QApplication>
@@ -41,7 +41,7 @@ double calcAverTime(TgroupedQAunit& answers, bool skipWrong) {
 }
 
 
-QList<Tnote> getTheSame(short int noteNr, TexamLevel* level) {
+QList<Tnote> getTheSame(short int noteNr, Tlevel* level) {
   Tnote workNote(noteNr); // natural or sharp by default
   QList<Tnote> nList;
   nList << workNote;
@@ -92,7 +92,7 @@ void divideGoodAndBad(QList<TQAunit> *list, TgroupedQAunit& goodList, TgroupedQA
 }
 
 
-QList<TgroupedQAunit> sortByNote(TgroupedQAunit& answList, TexamLevel *level, bool &hasListUnrelated) {
+QList<TgroupedQAunit> sortByNote(TgroupedQAunit& answList, Tlevel *level, bool &hasListUnrelated) {
   QList<TgroupedQAunit> result;
   for (short i = level->loNote.getChromaticNrOfNote(); i <= level->hiNote.getChromaticNrOfNote(); i++) {
     QList<Tnote> theSame = getTheSame(i, level);
@@ -126,7 +126,7 @@ QList<TgroupedQAunit> sortByNote(TgroupedQAunit& answList, TexamLevel *level, bo
 }
 
 
-QList<TgroupedQAunit> sortByFret(TgroupedQAunit& answList, TexamLevel *level, bool& hasListUnrelated) {
+QList<TgroupedQAunit> sortByFret(TgroupedQAunit& answList, Tlevel *level, bool& hasListUnrelated) {
   QList<TgroupedQAunit> result;
   TgroupedQAunit unrelatedList;
   for (int f = level->loFret; f <= level->hiFret; f++) {
@@ -156,7 +156,7 @@ QList<TgroupedQAunit> sortByFret(TgroupedQAunit& answList, TexamLevel *level, bo
 }
 
 
-QList<TgroupedQAunit> sortByKeySignature(TgroupedQAunit& answList, TexamLevel *level, bool &hasListUnrelated) {
+QList<TgroupedQAunit> sortByKeySignature(TgroupedQAunit& answList, Tlevel *level, bool &hasListUnrelated) {
   QList<TgroupedQAunit> result;
   TgroupedQAunit unrelatedList;
   for (int k = level->loKey.value(); k <= level->hiKey.value(); k++) {
@@ -208,7 +208,7 @@ QString wereKeys(bool manualKeys, TQAtype::Etype answerType) {
 }
 
 
-QList<TgroupedQAunit> sortByAccidental(TgroupedQAunit& answList, TexamLevel* level,
+QList<TgroupedQAunit> sortByAccidental(TgroupedQAunit& answList, Tlevel* level,
                                          bool& hasListUnrelated, QList< char >& kindOfAccidList) {
   QList<TgroupedQAunit> result;
   TgroupedQAunit accidsArray[6]; // 0 - bb, 1 - b, 2 - none, 3 - #, 4 - x, 5 - unrelated
@@ -244,7 +244,7 @@ QList<TgroupedQAunit> sortByAccidental(TgroupedQAunit& answList, TexamLevel* lev
   return result;
 }
 
-QList<TgroupedQAunit> sortByQAtype(TgroupedQAunit& answList, TexamLevel* level, bool& hasListUnrelated) {
+QList<TgroupedQAunit> sortByQAtype(TgroupedQAunit& answList, Tlevel* level, bool& hasListUnrelated) {
   QList<TgroupedQAunit> result;
   TgroupedQAunit qaTypesArr[4][4]; 
   for (int i = 0; i < answList.size(); i++) {
@@ -332,7 +332,7 @@ QList<TgroupedQAunit> sortByQAtype(TgroupedQAunit& answList, TexamLevel* level, 
 }
 
 
-QList<TgroupedQAunit> sortByMisakes(TgroupedQAunit& answList, TexamLevel* level, bool& hasListUnrelated) {
+QList<TgroupedQAunit> sortByMisakes(TgroupedQAunit& answList, Tlevel* level, bool& hasListUnrelated) {
   QList<TgroupedQAunit> result;
   TgroupedQAunit mistakesArr[12];
   QStringList mistakesDesc;

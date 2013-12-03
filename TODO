@@ -6,9 +6,11 @@ ISSUES
 - sometimes exam doesn't ask mistaken questions again
 - levels are unsaved after loading
 - tip position over guitar when no guitar
+- try to close out stream for pulse - it sucks or get rid of pulse
 
 			
 TODOES
+- check 'tune' of non guitar - does it correspond with instrument/clef scale and levels works proper
 - update screen-shoot image in exam help
 - force 'Plasique' style under MacOs or find a way on buttons
 - selecting clef for non guitar in wizard
@@ -39,7 +41,7 @@ TSTARTEXAMDLG
 
 
 TEXAMEXECUTOR
-	- enable/disable sniffing durning exams (specially when no input is required)
+	- enable/disable sniffing during exams (specially when no input is required)
   - think about hide octave in note name format when octaves are not required in answers. 
      Also for questions in "hint" - don't show octave when only name is required   
     

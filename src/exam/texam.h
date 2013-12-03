@@ -23,7 +23,7 @@
 #include "tqaunit.h"
 #include "ttune.h"
 
-class TexamLevel;
+class Tlevel;
 
 
 /** This class describes instance of an exam.  */
@@ -32,12 +32,34 @@ class Texam
 
 public:
       /** An exam constructor.
-       * @param TexamLevel has to be pointer to existing exam level       
+       * @param Tlevel has to be pointer to existing exam level       
        */
-    explicit Texam(TexamLevel *l, QString userName);
+    explicit Texam(Tlevel *l, QString userName);
     virtual ~Texam();
+		
+			/** Magic numbers in exam file to identify it.*/
+		static const qint32 examVersion;
+		static const qint32 examVersion2;
+		static const qint32 currentVersion;
+		
+		static bool isExamVersion(qint32 ver); /** Returns true when given value match to exam versions. */
+		
+				/** Returns number of exam version like 1, 2 or so or -1 when given version is not valid. */
+		static int examVersionNr(qint32 ver);
+		
+				/** Returns true when given value 'could be' or 'it is' some version of exam file.
+				 * This way exams created with newer Nootka version can be detected. */
+		static bool couldBeExam(qint32 ver);
+		
+				/** Generates exam version identifier number from given simple version number (1, 2 etc.)
+				 * It doesn't verify does given number make sense! */
+		static qint32 getVersionId(quint8 verNr) { return examVersion + (verNr - 1) * 2; }
+		
+				/** Returns level version number used in given exam version
+				 * It doesn't check is given exam version valid!. */
+		static qint32 examVersionToLevel(qint32 examVer);
 
-      /** Possible errors during opening and saving exam file.*/
+				/** Possible errors during opening and saving exam file.*/
     enum EerrorType { e_file_OK = 0,
                     e_file_not_valid, // occurs when examVersion is different
                     e_file_corrupted, // when data in file is corrupted
@@ -46,8 +68,8 @@ public:
 										e_newerVersion // when file version is newer than this Nootka version can support
           };
 
-  TexamLevel* level() { return m_level; }
-  void setLevel(TexamLevel *l) { m_level = l; }
+  Tlevel* level() { return m_level; }
+  void setLevel(Tlevel *l) { m_level = l; }
   Ttune tune() { return m_tune; }
   void setTune(Ttune tune) { m_tune = tune; }
 
@@ -56,19 +78,24 @@ public:
 
 			/** Adds @param TQAunit object at the end of the questions list. */
   void addQuestion(TQAunit &question) { m_answList << question; }
+  
 			/** Overwrites the last element on the questions list. */
-  void setAnswer(TQAunit &answer); 
+  void setAnswer(TQAunit &answer);
+	
 			/** Removes last question from the list and sets times according to it*/
 	void removeLastQuestion();
   TQAunit curQ() { return m_answList.last(); }
   QList<TQAunit>* answList() { return &m_answList; }
+  
 			/** Returns number of questions/answers in en exam. */
   int count() { return m_answList.size(); }
+  
 			/** Returns number of committed mistakes in en exam. */
   quint16 mistakes() { return m_mistNr; }
   quint16 halfMistaken() { return m_halfMistNr; }
   quint16 averageReactonTime() { return m_averReactTime; }
   void setAverageReactonTime(quint16 avTime) { m_averReactTime = avTime; }
+  
 			/** Total time spent for answering without breaks between questions */
   quint16 workTime() { return qRound((qreal)m_workTime / 10.0); }
   QString userName() { return m_userName; }
@@ -80,27 +107,28 @@ public:
   int penalty() { return m_penaltysNr; } // Number of penalties during whole exam
   int blackCount() { return m_blackCount; } // Remained questions in black list
   bool isFinished() { return m_isFinished; }
+  
 			/** Sets exam as finished and there is no way back. */
   void setFinished() { m_isFinished = true; }
   void increasePenaltys(int penaltyNr) { m_penaltysNr += penaltyNr; }
+  
       /** Effectiveness of an exam.  */
   qreal effectiveness() { return effectiveness(count(), m_mistNr, m_halfMistNr); }
 
   EerrorType loadFromFile(QString &fileName);
   EerrorType saveToFile(QString fileName = "");
 
-			/** Magic numbers in exam file to identify it.*/
-  static const qint32 examVersion;
-  static const qint32 examVersion2;
-	static const qint32 examVersion3; // 2013.10.14
 			/** Maximal time of an answer = 65500. Values over are equal to it.
 			* 65501 & 65502 are for counting probes in blackList */
   static const quint16 maxAnswerTime;
+	
 			/** Compares given questions are they the same. */
   static bool areQuestTheSame(TQAunit &q1, TQAunit &q2);
+	
 			/** Static method  calculates effectiveness from given values
 			* (((qreal)questNumber - (qreal)(mistakes + (notBad / 2))) / (qreal)questNumber) * 100 */
   static qreal effectiveness(int questNumber, int mistakes, int notBad);
+	
 			/** Returns a reference to question/answer unit nr @param index.
 			* Be Aware !!! index has to be less than m_answList.size() */
   TQAunit &question(unsigned int index) { return m_answList[index]; }
@@ -108,13 +136,14 @@ public:
 protected:
     /** Iterates through m_blackList to calculate number */
   void updateBlackCount();
+	
     /** Grabs answers with mistakes and creates black list */
   void convertToVersion2();
   
 
 private:
 	QString 									m_fileName, m_userName;
-	TexamLevel 								*m_level;
+	Tlevel 								*m_level;
 	QList<TQAunit> 						m_answList;
   QList<TQAunit> 						m_blackList;
 	Ttune 										m_tune;

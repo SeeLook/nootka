@@ -22,7 +22,7 @@
 #include <QWidget>
 
 class QTextEdit;
-class TexamLevel;
+class Tlevel;
 class QLabel;
 
 class TlevelPreview : public QWidget
@@ -37,7 +37,7 @@ public:
   static QString notesRangeTxt() { return tr("note range:"); }
   static QString fretsRangeTxt() { return tr("fret range:"); }
 
-  void setLevel(TexamLevel &tl);
+  void setLevel(Tlevel &tl);
 			/** Overloaded method with empty level to force empty table. */
 	void setLevel();
 			/** This method sets fixed height of QTextEdit containing table with level preview

@@ -18,7 +18,7 @@
 
 
 #include "texam.h"
-#include "texamlevel.h"
+#include "tlevel.h"
 #include "tlevelselector.h"
 #include "tglobals.h"
 #include <QFile>
@@ -31,17 +31,59 @@
 extern Tglobals *gl;
 
 /*static*/
+/** Versions history:
+ * 1. 0x95121702; 
+ * 
+ * 2. 0x95121704; (2012.07)
+ * 		- exam stores penalties in the list
+ *
+ * 3. 0x95121706 (2013.12.02)
+ * 		- new level version
+ */
+
 const qint32 Texam::examVersion = 0x95121702;
 const qint32 Texam::examVersion2 = 0x95121704;
-const qint32 Texam::examVersion3 = 0x95121706;
+const qint32 Texam::currentVersion = 0x95121706;
 
 const quint16 Texam::maxAnswerTime = 65500;
+
+int Texam::examVersionNr(qint32 ver) {
+	if ((ver - examVersion) % 2)
+			return -1; // invalid when rest of division is 1
+	return ((ver - examVersion) / 2) + 1 ;
+}
+
+
+bool Texam::couldBeExam(qint32 ver) {
+	int givenVersion = examVersionNr(ver);
+	if (givenVersion >= 1 && givenVersion <= 127)
+		return true;
+	else
+		return false;
+}
+
+
+bool Texam::isExamVersion(qint32 ver) {
+	if (examVersionNr(ver) <= examVersionNr(currentVersion))
+		return true;
+	else
+		return false;
+}
+
+
+qint32 Texam::examVersionToLevel(qint32 examVer) {
+	if (examVersionNr(examVer) <= 2)
+		return Tlevel::getVersionId(1); // level version 1 for exam versions 1 and 2
+	else
+		return Tlevel::getVersionId(2); // level version 2 for exam versions 3 and so
+}
+
 
 bool Texam::areQuestTheSame(TQAunit& q1, TQAunit& q2) {
   if (q1.questionAs == q2.questionAs && // the same questions
       q1.answerAs == q2.answerAs && // the same answers
-      q1.qa.note == q2.qa.note && // ths same notes
-      q1.qa.pos == q2.qa.pos // ths same pos
+      q1.qa.note == q2.qa.note && // the same notes
+      q1.qa.pos == q2.qa.pos // the same frets
     )
         return true;
   else
@@ -54,7 +96,7 @@ qreal Texam::effectiveness(int questNumber, int mistakes, int notBad) {
 /*end of static*/
 
 
-Texam::Texam(TexamLevel* l, QString userName):
+Texam::Texam(Tlevel* l, QString userName):
   m_level(l),
   m_userName(userName),
   m_fileName(""),
@@ -91,17 +133,23 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
       QDataStream in(&file);
       in.setVersion(QDataStream::Qt_4_7);
       in >> ev;
-      if (ev != examVersion && ev != examVersion2)
-          return e_file_not_valid;
+//       if (ev != examVersion && ev != examVersion2)
+			if (couldBeExam(ev)) {
+				if (!isExamVersion(ev))
+						return e_newerVersion;
+			}	else
+					return e_file_not_valid;
 
       in >> m_userName;
-      getLevelFromStream(in, *(m_level));
+//       getLevelFromStream(in, *(m_level));
+			getLevelFromStream(in, *(m_level), examVersionToLevel(ev));
       in >> m_tune;
       in >> m_totalTime;
       in >> questNr >> m_averReactTime >> m_mistNr;
-      if (ev == examVersion2) {
+//       if (ev == examVersion2) {
+			if (examVersionNr(ev) >= 2) {
         in >> m_halfMistNr >> m_penaltysNr >> m_isFinished;
-      } else {
+      } else { // exam version 1
         m_halfMistNr = 0;
         m_penaltysNr = 0;
         m_isFinished = false;
@@ -119,10 +167,10 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
                 && qaUnit.styleOfQuestion() < 0) {
                   qaUnit.setStyle(gl->NnameStyleInNoteName, qaUnit.styleOfAnswer());
                   fixedNr++;
-              } /** In old versions style was set to 0 so now it gives styleOfQuestion = -1
-                * Also in transistional Nootka versios it was left unchanged.
-                * Unfixed it involes stiupid namse in charts.
-                * We are fixing it by insert user prefered style of nameing */
+              } /** In old versions, style was set to 0 so now it gives styleOfQuestion = -1
+                * Also in transition Nootka versions it was left unchanged.
+                * Unfixed it invokes stupid names in charts.
+                * We are fixing it by insert user preferred style of naming */
           if (qaUnit.time <= maxAnswerTime || ev == examVersion) { // add to m_answList
               m_answList << qaUnit;
               m_workTime += qaUnit.time;
@@ -141,12 +189,13 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
       if (questNr != m_answList.size()) {
         isExamFileOk = false;        
       }
-      if (ev == examVersion2 && (tmpMist != m_mistNr || tmpHalf != m_halfMistNr)) {
+//       if (ev == examVersion2 && (tmpMist != m_mistNr || tmpHalf != m_halfMistNr)) {
+			if (examVersionNr(ev) >= 2 && (tmpMist != m_mistNr || tmpHalf != m_halfMistNr)) {
         m_mistNr = tmpMist; //we try to fix exam file to give proper number of mistakes
         m_halfMistNr = tmpHalf;
         isExamFileOk = false;
       } else {
-        m_mistNr = tmpMist; // transistion to examVersion2
+        m_mistNr = tmpMist; // transition to exam version 2
       }
       if (ev == examVersion) {
           convertToVersion2();
@@ -181,7 +230,7 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
 	if (file.open(QIODevice::WriteOnly)) {
 		QDataStream out(&file);
 		out.setVersion(QDataStream::Qt_4_7);
-		out << examVersion2;
+		out << currentVersion;
 		out << m_userName << *m_level << m_tune;
 		out << m_totalTime; // elapsed exam time (quint32)
 			// data for file preview
@@ -189,7 +238,7 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
 		out << m_averReactTime; // average time of answer (quint16)
 			// that's all
 		out << m_mistNr; // number of mistakes (quint16)
-      /** Those were added in examVersion2 */
+      /** Those were added in version 2 */
 		out << m_halfMistNr << m_penaltysNr << m_isFinished;
 		for (int i = 0; i < m_answList.size(); i++)
 				out << m_answList[i]; // and obviously answers
@@ -219,8 +268,7 @@ void Texam::setAnswer(TQAunit& answer) {
             m_penaltysNr++;
         }
         m_halfMistNr++;
-      }
-      else {
+      } else {
         if (!isFinished()) {
             m_blackList.last().time = 65502;
             m_penaltysNr += 2;

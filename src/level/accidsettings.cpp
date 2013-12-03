@@ -19,7 +19,7 @@
 
 #include "accidsettings.h"
 #include "tkeysigncombobox.h"
-#include "texamlevel.h"
+#include "tlevel.h"
 #include "QtGui"
 
 extern bool isNotSaved;
@@ -113,7 +113,7 @@ accidSettings::accidSettings(QWidget* parent) :
 //#################### PUBLIC METHODS ######################
 
 
-void accidSettings::loadLevel ( TexamLevel& level ) {
+void accidSettings::loadLevel ( Tlevel& level ) {
     disconnect(m_rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));
     
     m_sharpsChB->setChecked(level.withSharps);
@@ -132,7 +132,7 @@ void accidSettings::loadLevel ( TexamLevel& level ) {
     connect(m_rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));
 }
 
-void accidSettings::saveLevel ( TexamLevel& level ) {
+void accidSettings::saveLevel ( Tlevel& level ) {
   if (m_accidGr->isEnabled()) {
     level.withSharps = m_sharpsChB->isChecked();
     level.withFlats = m_flatsChB->isChecked();

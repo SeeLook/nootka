@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,7 +20,7 @@
 #ifndef TLEVELSELECTOR_H
 #define TLEVELSELECTOR_H
 
-#include "texamlevel.h"
+#include "tlevel.h"
 #include <QWidget>
 
 class QListWidgetItem;
@@ -34,7 +34,7 @@ class QFile;
 
 //#######################################################################
         /** Returns list of predefined levels. */
-    QList<TexamLevel> getExampleLevels();
+    QList<Tlevel> getExampleLevels();
 //#######################################################################
 
 class TlevelSelector : public QWidget
@@ -43,51 +43,56 @@ class TlevelSelector : public QWidget
 public:
     explicit TlevelSelector(QWidget *parent = 0);
     virtual ~TlevelSelector();
+		
         /** It's looking for levels:
-        * 1. in TexamLevel constructor
-        * 2. In default install dir
+        * 1. in Tlevel constructor
+        * 2. In default install directory
         * 3. In latest used files */
     void findLevels();
-        /** Magic number in level file to identify it.*/
-    static const qint32 levelVersion;
+		
     static QString levelFilterTxt() { return tr("Levels"); }
+    
         /** Shows message box with error if file cannot be opened.*/
     static void fileIOerrorMsg(QFile &f, QWidget *parent = 0);
 
     struct SlevelContener {
-        TexamLevel level;
+        Tlevel level;
         QString file; // file name of a level
-        QListWidgetItem *item; // coresponding entry in QListWidget (m_levelsListWdg)
+        QListWidgetItem *item; // corresponding entry in QListWidget (m_levelsListWdg)
     };    
         /** Adds level @param lev to list. 
-         * Also coresponding file name.
+         * Also corresponding file name.
          * when @param check is true it checks list for duplicates*/
-    void addLevel(const TexamLevel &lev, QString levelFile = "", bool check = false);
+    void addLevel(const Tlevel &lev, QString levelFile = "", bool check = false);
+		
         /** Selects @param id level on the list,
         * and shows its summary.*/
     void selectLevel(int id);
+		
         /** Selects the latest level*/
     void selectLevel();
-        /** Returns current level*/
-    TexamLevel getSelectedLevel();
+    Tlevel getSelectedLevel(); /** Returns current level*/
+		
         /** Updates config file with new levels list.
         * Returns true when given level file was added to config. */
     void updateRecentLevels();
-        /** Checks is given level is in range of current tune and frets number.
+		
+        /** Checks is given level in range of current tune and frets number.
         * If not, it disables the latest entry in the list - BE SURE to call this
-        * only after addLevel() method whtch puts the last level on the list.*/
-    bool isSuitable(TexamLevel &l);
+        * only after addLevel() method which puts the last level on the list.*/
+    bool isSuitable(Tlevel &l);
 
 
 public slots:
     void levelSelected(int id);
+		
         /** This is public method to be called externally,
         * because @class TlevelSelector doesn't call it itself
         * after "Load" button pressed, just emits @param levelToLoad() signal. */
     void loadFromFile(QString levelFile = "");
 
 signals:
-    void levelChanged(TexamLevel level);
+    void levelChanged(Tlevel level);
     void levelToLoad();
 
 private:
@@ -97,7 +102,7 @@ private:
     QPushButton *m_loadBut;
     
     
-    TexamLevel getLevelFromFile(QFile &file);
+    Tlevel getLevelFromFile(QFile &file);
 
 private slots:
     void loadFromFilePrivate();

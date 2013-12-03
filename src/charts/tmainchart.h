@@ -22,7 +22,7 @@
 #include "tchart.h"
 #include "tgroupedqaunit.h"
 
-class TexamLevel;
+class Tlevel;
 class Tnote;
 class Texam;
 

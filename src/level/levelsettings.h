@@ -22,7 +22,7 @@
 
 #include <QWidget>
 #include "tlevelselector.h"
-#include "texamlevel.h"
+#include "tlevel.h"
 
     /** This widget contain general level settings and belongs to
     @class examsettings dialog.*/
