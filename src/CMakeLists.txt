@@ -10,13 +10,6 @@ if(UNIX AND NOT APPLE)
   else(ALSA_LIBRARY)
     message(STATUS "support for ALSA\t\t FALSE")
   endif(ALSA_LIBRARY)
-  if(ENABLE_JACK AND JACK_INCLUDE_DIR)
-    add_definitions(-D__UNIX_JACK__)
-    include_directories(${JACK_INCLUDE_DIR})
-    message(STATUS "support for JACK\t\t TRUE")
-  else(ENABLE_JACK AND JACK_INCLUDE_DIR)
-    message(STATUS "support for JACK\t\t FALSE")
-  endif(ENABLE_JACK AND JACK_INCLUDE_DIR)
   if(ENABLE_PULSEAUDIO AND PULSE_INCLUDE_DIR)
     add_definitions(-D__LINUX_PULSE__)
     include_directories(${PULSE_INCLUDE_DIR})
@@ -333,7 +326,6 @@ if(UNIX AND NOT APPLE) #Linux
         ${QT_QTGUI_LIBRARY}
         ${FFTW3_LIBRARIES}
         ${ALSA_LIBRARY} ${PTHREAD_LIBRARY}
-        ${JACK_LIBRARY}
         ${PULSESIMPLE_LIBRARY} ${PULSEERROR_LIBRARY}
         ${VORBIS_LIBRARIES}
         ${SOUNDTOUCH_LIBRARY}

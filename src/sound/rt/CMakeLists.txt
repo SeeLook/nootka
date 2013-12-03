@@ -1,27 +1,4 @@
 IF(UNIX AND NOT APPLE)    
-    ##### JACK - Jack Audio Connection Kit ##############
-      find_path(JACK_INCLUDE_DIR
-        NAMES
-          jack.h
-        PATHS
-          /usr/include
-          /usr/include/jack
-          /usr/local/include
-          /opt/local/include
-          /sw/include
-          
-      )
-      if (JACK_INCLUDE_DIR)
-          find_library(JACK_LIBRARY
-              NAMES
-              jack
-              PATHS
-              /usr/lib
-              /usr/lib/x86_64-linux-gnu
-              /usr/local/lib
-              /opt/local/lib
-          )
-      endif (JACK_INCLUDE_DIR)
     ##### PulseAudio ###########################################
       find_path(PULSE_INCLUDE_DIR
         NAMES
@@ -62,12 +39,5 @@ IF(UNIX AND NOT APPLE)
         set(PULSEERROR_LIBRARY_FOUND TRUE)
         set(PULSESIMPLE_LIBRARY_FOUND TRUE)
     endif (PULSE_INCLUDE_DIR)
-
-    if (JACK_INCLUDE_DIR)
-        option(ENABLE_JACK "Enable support for JACK (Jack Audio Connection Kit)" ON)
-    else (JACK_INCLUDE_DIR)    
-        option(ENABLE_JACK "Enable support for JACK (Jack Audio Connection Kit)" OFF)
-        set(JACK_LIBRARY_FOUND TRUE)
-    endif (JACK_INCLUDE_DIR)
     
 ENDIF(UNIX AND NOT APPLE)
