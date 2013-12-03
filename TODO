@@ -16,14 +16,11 @@ TODOES
 - selecting clef for non guitar in wizard
 - force a maximum score width especially for 4:3 ratios
 - !!!check does 'string order' work for Tfingerboard!!!
-- new exam and level version is necessary, 
-		add version recognition to avoid old releases opening newest versions
+- new exam and level version is necessary,
 - sniffer has setAmbitus to guitar scale range - fix it!!!
 - remove unused classes: widgets/animations
 - add shadows under strings on pickup
 - do not transform pickup image for lefthanded - just change its pos
-
-- remove JACK definitions from cmake files
 
 - finish exam tip and saving it (image) to file
 
