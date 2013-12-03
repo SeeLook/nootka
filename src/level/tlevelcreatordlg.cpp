@@ -157,7 +157,7 @@ void TlevelCreatorDlg::saveToFile() {
     if (file.open(QIODevice::WriteOnly)) {
         QDataStream out(&file);
         out.setVersion(QDataStream::Qt_4_7);
-        out << TlevelSelector::levelVersion << newLevel;
+        out << Tlevel::currentVersion << newLevel;
     }
     else {
         QMessageBox::critical(this, "", tr("Cannot open file for writing"));
