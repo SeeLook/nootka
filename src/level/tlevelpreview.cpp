@@ -17,7 +17,7 @@
  ***************************************************************************/
 
 #include "tlevelpreview.h"
-#include "texamlevel.h"
+#include "tlevel.h"
 #include "tquestionaswdg.h"
 #include "tglobals.h"
 #include <ttipchart.h>
@@ -60,7 +60,7 @@ TlevelPreview::~TlevelPreview() {}
 
 
 void TlevelPreview::setLevel() {
-		TexamLevel empty;
+		Tlevel empty;
 		empty.name = tr("no level selected");
 		empty.loNote = Tnote();
 		empty.hiNote = Tnote();
@@ -78,7 +78,7 @@ void TlevelPreview::setLevel() {
 }
 
 
-void TlevelPreview::setLevel(TexamLevel& tl) {
+void TlevelPreview::setLevel(Tlevel& tl) {
 	m_instrText = instrumentToGlyph(tl.instrument);
   QString S;
     S = "<center><b>" + tl.name + "</b>";

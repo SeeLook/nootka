@@ -21,7 +21,7 @@
 #define QUESTIONSSETTINGS_H
 
 #include <QWidget>
-#include "texamlevel.h"
+#include "tlevel.h"
 
 class QComboBox;
 class QCheckBox;
@@ -61,8 +61,8 @@ class questionsSettings : public QWidget
 public:
     explicit questionsSettings(QWidget *parent = 0);
 
-    void loadLevel(TexamLevel &level);
-    void saveLevel(TexamLevel &level);
+    void loadLevel(Tlevel &level);
+    void saveLevel(Tlevel &level);
 
 				/** Hides options related to guitar  */
 		void hideGuitarRelated();

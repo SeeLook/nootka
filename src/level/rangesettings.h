@@ -21,7 +21,7 @@
 #define RANGESETTINGS_H
 
 #include <QWidget>
-#include "texamlevel.h"
+#include "tlevel.h"
 
 class TsimpleScore;
 class QSpinBox;
@@ -33,8 +33,8 @@ class rangeSettings : public QWidget
 public:
     explicit rangeSettings(QWidget *parent = 0);
 
-    void loadLevel(TexamLevel level);
-    void saveLevel(TexamLevel &level);
+    void loadLevel(Tlevel level);
+    void saveLevel(Tlevel &level);
 		
 		TsimpleScore* scoreRange() { return m_scoreRang; }
 

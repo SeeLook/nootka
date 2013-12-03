@@ -20,7 +20,7 @@
 #include "tnootkacertificate.h"
 #include "texam.h"
 #include "texamview.h"
-#include <texamlevel.h>
+#include <tlevel.h>
 #include <tgraphicstexttip.h>
 #include <tpixmaker.h>
 #include <texamhelp.h>

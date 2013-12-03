@@ -319,10 +319,19 @@ void MainWindow::openFile(QString runArg) {
         }
         runArg = QDir(file.fileName()).absolutePath();
         file.close();
-        if (hdr == Texam::examVersion || hdr == Texam::examVersion2)
-            ex = new TexamExecutor(this, runArg);
-        else if (hdr == TlevelSelector::levelVersion)
-            openLevelCreator(runArg);
+				if (Texam::couldBeExam(hdr)) {
+					if (Texam::isExamVersion(hdr))
+							ex = new TexamExecutor(this, runArg);
+					else
+							newerNootkaMessage(runArg, this);
+				} else {
+					if (Tlevel::couldBeLevel(hdr)) {
+						if (Tlevel::isLevelVersion(hdr))
+								openLevelCreator(runArg);
+						else
+								newerNootkaMessage(runArg, this);
+					}
+				}
     }
 }
 

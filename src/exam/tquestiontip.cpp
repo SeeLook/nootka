@@ -22,7 +22,7 @@
 #include "texam.h"
 #include "tquestionaswdg.h"
 #include "tglobals.h"
-#include <texamlevel.h>
+#include <tlevel.h>
 #include <ttipchart.h>
 // #include <QDebug>
 
@@ -67,7 +67,7 @@ QString TquestionTip::getNiceNoteName(Tnote note, Tnote::EnameStyle style) {
             note.toRichText(style) + " </span></b>";
 }
 
-QString TquestionTip::getQuestion(TQAunit& question, int questNr, TexamLevel* level, double scale) {
+QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level, double scale) {
   m_scoreFree = true;
   m_nameFree = true;
   m_guitarFree = true;

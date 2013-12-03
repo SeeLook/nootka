@@ -28,14 +28,33 @@
 #include <QString>
 #include <QDataStream>
 
-    /** This class describes exam's level.*/
-class TexamLevel
+class QWidget;
+/** 
+* This class describes exam level.
+*/
+class Tlevel
 {
 public:
         /** default constructor creates a "complex" level*/
-    TexamLevel();
+    Tlevel();
+		
+	// Managing level versions
+		static const qint32 levelVersion; /** First version, also with early using of intonation and instruments */
+		static const qint32 currentVersion; /** Current level version identifier */
+		static bool isLevelVersion(quint32 ver); /** Returns true when given value match to level versions. */
+		
+				/** Generates level version identifier number from given simple version number (1, 2 etc.)
+				 * It doesn't verify does given number make sense! */
+		static qint32 getVersionId(quint8 verNr) { return levelVersion + (verNr - 1) * 2; }
+		
+				/** Returns number of level version like 1, 2 or so */
+		static int levelVersionNr(qint32 ver);
+		
+				/** Returns true when given value 'could be' or 'it is' some version of exam level.
+				 * This way level created with newer Nootka version can be detected. */
+		static bool couldBeLevel(qint32 ver);
 
-  // level paramrters
+  // level parameters
     QString name;
     QString desc; /** description */
     TQAtype questionAs;
@@ -55,12 +74,10 @@ public:
     bool showStrNr; /** Shows a string number in questions*/
   // RANGE
     Tnote loNote, hiNote;
-//     bool isNoteLo, isNoteHi; 
-		// since 0.8.90 version those values are changed to Tclef
+//     bool isNoteLo, isNoteHi ---- since 0.8.90 version those values are changed to Tclef
 		Tclef clef;
     char loFret, hiFret;
-//     bool isFretHi;
-		// since 0.8.90 version this value is changed to Einstrument
+//     bool isFretHi ----  since 0.8.90 version this value is changed to Einstrument
 		Einstrument instrument;
     bool usedStrings[6];
     bool onlyLowPos;
@@ -71,11 +88,21 @@ public:
     bool canBeName(); // True if answer or question is note name
     bool canBeGuitar(); // True if answer or question is position on a guitar
     bool canBeSound(); // True if answer or question is played or sang sound
+		
+				/** Returns detected clef from level versions before 0.8.90 */
+		Tclef fixClef(quint16 cl);
+		
+				/** Fixes instrument value taken from file (stream) created before level Version 2 */
+		Einstrument fixInstrument(quint8 instr);
 
 };
 
-QDataStream &operator<< (QDataStream &out, TexamLevel &lev);
-//QDataStream &operator>> (QDataStream &in, TexamLevel &lev);
-bool getLevelFromStream(QDataStream &in, TexamLevel &lev);
+QDataStream &operator<< (QDataStream &out, Tlevel &lev);
+
+		/** Reads level data from given stream to @p lev. Respects @p ver - version */
+bool getLevelFromStream(QDataStream& in, Tlevel& lev, qint32 ver);
+
+		/** Displays dialog message about existence of newer Nootka version than current. */
+void newerNootkaMessage(const QString& fileName, QWidget* parent = 0);
 
 #endif // TEXAMLEVEL_H

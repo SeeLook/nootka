@@ -22,7 +22,7 @@
 
 #include "tqaunit.h"
 #include "ttune.h"
-#include "texamlevel.h"
+#include "tlevel.h"
 #include <QList>
 #include <QColor>
 
@@ -43,7 +43,7 @@ class TexamExecutor : public QObject
     Q_OBJECT
 
 public:
-    explicit TexamExecutor(MainWindow *mainW, QString examFile = "", TexamLevel *lev = 0);
+    explicit TexamExecutor(MainWindow *mainW, QString examFile = "", Tlevel *lev = 0);
 		
 		~TexamExecutor();
 		
@@ -138,8 +138,8 @@ private:
     TexecutorSupply *m_supp; 
     Texam *m_exam;
 		
-          /** main instance of TexamLevel, others are pointers or references to it */
-    TexamLevel m_level;
+          /** main instance of Tlevel, others are pointers or references to it */
+    Tlevel m_level;
     QList<TQAunit::TQAgroup> m_questList;
 		
           /** Invokes startSniffing() and stopPlaying() after delay

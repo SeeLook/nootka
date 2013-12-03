@@ -22,7 +22,7 @@
 #include "tabstractaxis.h"
 
 class TgroupedQAunit;
-class TexamLevel;
+class Tlevel;
 class TQAunit;
 
 /** This is X axis of charts. It represents qustions.
@@ -32,11 +32,11 @@ class TXaxis : public TabstractAxis
 {
 
 public:
-  TXaxis(QList<TQAunit> *answers = 0, TexamLevel *level = 0);
+  TXaxis(QList<TQAunit> *answers = 0, Tlevel *level = 0);
   virtual ~TXaxis();
   
-  void setAnswersList(QList<TQAunit> *answers = 0, TexamLevel *level = 0);
-  void setAnswersLists(QList<TgroupedQAunit> &listOfLists, TexamLevel *level = 0);
+  void setAnswersList(QList<TQAunit> *answers = 0, Tlevel *level = 0);
+  void setAnswersLists(QList<TgroupedQAunit> &listOfLists, Tlevel *level = 0);
   void setAnswersForBarChart(QList<TgroupedQAunit> &listOfLists);
   int questWidth() { return m_qWidth; } // pixel width of question on the axisz
   
@@ -48,7 +48,7 @@ protected:
 private:
   const int m_qWidth; // pixel width of question on the axis
   QList<TQAunit> *m_answers;
-  TexamLevel *m_level;
+  Tlevel *m_level;
   QList<QGraphicsTextItem*> m_ticTips;
 };
 

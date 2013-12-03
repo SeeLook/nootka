@@ -20,7 +20,7 @@
 #include "tqaunit.h"
 #include "texam.h"
 #include "tgroupedqaunit.h"
-#include "texamlevel.h"
+#include "tlevel.h"
 #include "tgraphicstexttip.h"
 #include <QPainter>
 #include <QGraphicsScene>
@@ -29,7 +29,7 @@
 
 
 
-TXaxis::TXaxis(QList< TQAunit >* answers, TexamLevel* level) :
+TXaxis::TXaxis(QList< TQAunit >* answers, Tlevel* level) :
   m_qWidth(70)
 {
   if (answers && level)
@@ -46,7 +46,7 @@ TXaxis::~TXaxis()
 {}
 
 
-void TXaxis::setAnswersList(QList<TQAunit> *answers, TexamLevel* level) {
+void TXaxis::setAnswersList(QList<TQAunit> *answers, Tlevel* level) {
   m_answers = answers;
   m_level = level;
   setLength(m_qWidth * (m_answers->size() + 1));
@@ -80,7 +80,7 @@ void TXaxis::setTicText(QGraphicsTextItem *tic, TQAunit &unit, int questNr) {
       
 }
 
-void TXaxis::setAnswersLists(QList<TgroupedQAunit>& listOfLists, TexamLevel* level) {
+void TXaxis::setAnswersLists(QList<TgroupedQAunit>& listOfLists, Tlevel* level) {
   int ln = 0, cnt = 0;
   m_level = level;
   for (int i = 0; i < listOfLists.size(); i++) {

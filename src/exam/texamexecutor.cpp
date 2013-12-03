@@ -58,7 +58,7 @@ void debugStyle(TQAunit &qa) {
 extern Tglobals *gl;
 
 
-TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, TexamLevel *lev) :
+TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
   m_exam(0),
   mW(mainW),
   m_lockRightButt(false),

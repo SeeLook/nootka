@@ -25,7 +25,7 @@
 
 class Texam;
 class QWidget;
-class TexamLevel;
+class Tlevel;
 
 /** A purpose of this class is to make the exam executor smaller.
  * Also it has eventFilter() re-implementation to manage right mouse button,
@@ -34,7 +34,7 @@ class TexecutorSupply : public QObject
 {
   Q_OBJECT
 public:
-  TexecutorSupply(TexamLevel *level, QObject *parent = 0);
+  TexecutorSupply(Tlevel *level, QObject *parent = 0);
   
   void createQuestionsList(QList<TQAunit::TQAgroup> &list);
   Tnote determineAccid(Tnote n);
@@ -91,7 +91,7 @@ private:
 	void addToList(QList<TQAunit::TQAgroup> &list, Tnote &n, TfingerPos &f);
   
 private:
-  TexamLevel 							*m_level;
+  Tlevel 							*m_level;
 	
       /** Total number of questions to answer in exam (without penaltys) */
   int 										m_obligQuestNr;

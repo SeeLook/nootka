@@ -19,7 +19,7 @@
 #include "tglobalexamstore.h"
 #include "tglobals.h"
 #include <taudioparams.h>
-#include <texamlevel.h>
+#include <tlevel.h>
 
 
 
@@ -62,7 +62,7 @@ void TglobalExamStore::restoreSettings() {
 }
 
 
-void TglobalExamStore::prepareGlobalsToExam(TexamLevel& level) {
+void TglobalExamStore::prepareGlobalsToExam(Tlevel& level) {
 		m_globals->showEnharmNotes = false;
     m_globals->SshowKeySignName = false;
     m_globals->GshowOtherPos = false;

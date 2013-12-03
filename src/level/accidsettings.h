@@ -22,7 +22,7 @@
 
 #include <QWidget>
 
-class TexamLevel;
+class Tlevel;
 class TkeySignComboBox;
 class QCheckBox;
 class QButtonGroup;
@@ -38,8 +38,8 @@ public:
     
     static QString accidsText() { return tr("accidentals"); } // returns accidentals text 
     
-    void loadLevel(TexamLevel &level);
-    void saveLevel(TexamLevel &level);
+    void loadLevel(Tlevel &level);
+    void saveLevel(Tlevel &level);
     
 signals:
     void accidsChanged();

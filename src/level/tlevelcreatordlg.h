@@ -21,7 +21,7 @@
 #define EXAMSETTINGSDLG_H
 
 #include "tsettingsdialogbase.h"
-#include "texamlevel.h"
+#include "tlevel.h"
 
 class accidSettings;
 class levelSettings;
@@ -40,7 +40,7 @@ public:
         /** It can be called externally to load level file. */
     void loadLevelFile(QString levelFile);
         /** Returns user selected level or level with empty name if not selected. */
-    TexamLevel selectedLevel();
+    Tlevel selectedLevel();
 
 private:
     levelSettings *levelSett;
@@ -51,7 +51,7 @@ private:
     void saveLevel();
         /** Returns formated string with problms in given &l level
         * or empty QString if all is right.*/
-    QString validateLevel(TexamLevel &l);
+    QString validateLevel(Tlevel &l);
         /** Displays QMessageBox with given text wrapped with:
          * 'It seems the level has got some mistakes:' */
     void showValidationMessage(QString message);
@@ -59,7 +59,7 @@ private:
 private slots:
         /** This slot is called when user is chooseing exam's level.
             It loads level's parameters to questSett and rangeSett.    */
-    void levelWasSelected(TexamLevel level);
+    void levelWasSelected(Tlevel level);
         /** Is called when user changes level or want to close dialog window
             without saveing changed level*/
     void levelNotSaved();

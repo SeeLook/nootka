@@ -115,7 +115,7 @@ SET( NOOTKA_SRCS
   settings/tscalepreviewlabel.cpp
 ###### Level
   level/tlevelcreatordlg.cpp
-  level/texamlevel.cpp
+  level/tlevel.cpp
   level/levelsettings.cpp
   level/questionssettings.cpp
   level/accidsettings.cpp

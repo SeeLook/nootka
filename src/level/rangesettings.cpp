@@ -121,7 +121,7 @@ void rangeSettings::stringSelected() {
 }
 
 
-void rangeSettings::loadLevel(TexamLevel level) {
+void rangeSettings::loadLevel(Tlevel level) {
     disconnect (m_fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
     disconnect (m_toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
 		disconnect (m_scoreRang, SIGNAL(clefChanged(Tclef)), this, SLOT(whenParamsChanged()));
@@ -165,7 +165,7 @@ void rangeSettings::whenParamsChanged() {
 }
 
 
-void rangeSettings::saveLevel(TexamLevel &level) {
+void rangeSettings::saveLevel(Tlevel &level) {
     if (m_scoreRang->getNote(0).getChromaticNrOfNote() <=
         m_scoreRang->getNote(0).getChromaticNrOfNote()) {
             level.loNote = m_scoreRang->getNote(0);

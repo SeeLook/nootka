@@ -21,7 +21,7 @@
 #define TSTARTEXAMDLG_H
 
 #include <QDialog>
-#include "texamlevel.h"
+#include "tlevel.h"
 
 class TroundedLabel;
 class TexamParams;
@@ -51,7 +51,7 @@ public:
         * takes txt reference and puts there either user name
         * or exam file path, depends on returned @param Eactions,
         * and returns selected level. */
-    Eactions showDialog(QString &txt, TexamLevel &lev);
+    Eactions showDialog(QString &txt, Tlevel &lev);
         /** exam file extension and its description */
     static const QString examFilterTxt() { return tr("Exam results")  + " (*.noo)" ; }
     static const QString loadExamFileTxt() { return tr("Load an exam file"); }
@@ -91,7 +91,7 @@ private slots:
         /** occurs when user clicks create Level Button */
     Eactions createLevel();
     void prevExamSelected(int index);
-    void levelWasSelected(TexamLevel level);
+    void levelWasSelected(Tlevel level);
 		void helpSelected();
 };
 
