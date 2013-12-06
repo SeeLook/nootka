@@ -27,7 +27,7 @@
 
 
 QString TexamHelp::exerciseFeaturesText() {
-	return tr("Only recent exercise is stored for further continuation.<br>When your exercising will go well Nootka will suggest you to start an exam.");
+	return tr("When your exercising will go well Nootka will suggest you to start an exam.");
 }
 
 
