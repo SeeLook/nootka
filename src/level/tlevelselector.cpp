@@ -382,6 +382,9 @@ Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
 					 if (!Tlevel::isLevelVersion(lv)) {
 						 newerNootkaMessage(file.fileName(), this);
 						 return level;
+						 // There is a risk that user will have many levels in the list
+						 // and will run older Nootka version than levels were created.
+						 // Many dialog will appears.... 
 					 }
 				 } else {
 						QMessageBox::critical(this, "", tr("File: %1 \n is not Nootka level file!").arg(file.fileName()));

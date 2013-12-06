@@ -27,6 +27,8 @@
 
 extern Tglobals *gl;
 
+QString tuningGuitarText, scaleOfInstrText;
+
 
 TguitarSettings::TguitarSettings(QWidget *parent) :
         QWidget(parent)
@@ -34,12 +36,15 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     
 		m_customTune = new Ttune();
 		*m_customTune = *(gl->Gtune());
+		
+		tuningGuitarText = tr("tuning of the guitar");
+		scaleOfInstrText = tr("scale of an instrument");
 	
     QVBoxLayout *mainLay = new QVBoxLayout;
     mainLay->setAlignment(Qt::AlignCenter);
 
     QHBoxLayout *upLay = new QHBoxLayout;
-    m_tuneGroup = new QGroupBox(tr("tuning of the guitar"));
+    m_tuneGroup = new QGroupBox(tuningGuitarText, this);
     m_tuneGroup->setStatusTip(tr("Select appropriate tuning from the list or prepare your own.") + "<br>" + 
 				tr("Remember to select the appropriate clef in Score settings."));
     QVBoxLayout *tuneLay = new QVBoxLayout;
@@ -63,10 +68,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 	// Selecting guitar type combo
 		m_instrumentTypeCombo = new QComboBox(this);
 		guitarLay->addWidget(m_instrumentTypeCombo, 0, Qt::AlignCenter);
-		m_instrumentTypeCombo->addItem(tr("not used", "like 'guitar is not used'"));
-// 		QModelIndex in = m_instrumentTypeCombo->model()->index(0, 0);
-// 		QVariant v(0);
-// 		m_instrumentTypeCombo->model()->setData(in, v, Qt::UserRole - 1);
+		m_instrumentTypeCombo->addItem(instrumentToText(e_noInstrument));
 		m_instrumentTypeCombo->addItem(instrumentToText(e_classicalGuitar));
 		m_instrumentTypeCombo->addItem(instrumentToText(e_electricGuitar));
 		m_instrumentTypeCombo->addItem(instrumentToText(e_bassGuitar));
@@ -120,10 +122,10 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 
     m_morePosCh = new QCheckBox(tr("show all possibilities of a note"),this);
     m_morePosCh->setStatusTip(tr("As you know, the same note can be played in several places on the fingerboard.<br>If checked, all of them will be shown."));
-    downLay->addWidget(m_morePosCh);
+//     downLay->addWidget(m_morePosCh);
     m_morePosCh->setChecked(gl->GshowOtherPos);
 
-    mainLay->addLayout(downLay);
+//     mainLay->addLayout(downLay);
     QGridLayout *colorLay = new QGridLayout;
     m_pointerColorLab = new QLabel(tr("color of string/fret pointer"), this);
     m_pointColorBut = new TcolorButton(gl->GfingerColor, this);
@@ -133,7 +135,12 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     m_selColorBut = new TcolorButton(gl->GselectedColor, this);
     colorLay->addWidget(m_selectColorLab, 1, 0, Qt::AlignRight);
     colorLay->addWidget(m_selColorBut, 1, 1, Qt::AlignLeft);
-    mainLay->addLayout(colorLay);
+		QVBoxLayout *rightDownLay = new QVBoxLayout;
+			rightDownLay->addWidget(m_morePosCh);
+			rightDownLay->addLayout(colorLay);
+		downLay->addLayout(rightDownLay);
+		mainLay->addLayout(downLay);
+//     mainLay->addLayout(colorLay);
 
     setLayout(mainLay);
 		
@@ -257,9 +264,11 @@ void TguitarSettings::setTune(Ttune* tune) {
 
 
 void TguitarSettings::updateAmbitus() {
+	Tnote highest = Tnote(m_tuneView->highestNote().getChromaticNrOfNote() - m_fretsNrSpin->value());
+	if (m_instrumentTypeCombo->currentIndex() == 0) // other instrument has no frets
+		highest = m_tuneView->highestNote();
 	for (int i = 0; i < 6; i++)
-		m_tuneView->setAmbitus(i, m_tuneView->lowestNote(), 
-													 Tnote(m_tuneView->highestNote().getChromaticNrOfNote() - m_fretsNrSpin->value()));
+		m_tuneView->setAmbitus(i, m_tuneView->lowestNote(), highest);
 }
 
 
@@ -366,10 +375,15 @@ void TguitarSettings::instrumentTypeChanged(int index) {
 			m_stringNrSpin->setValue(Ttune::bassTunes[0].stringNr());
 	} else {
 			guitarDisabled(true);
+			m_stringNrSpin->setValue(2); // fake two strings
 			for (int i = 0; i < 6; i++) {
+				if (i < 4)
+					m_tuneView->setNoteDisabled(i, true);
 				m_tuneView->clearNote(i);
 				m_tuneView->clearStringNumber(i);
 			}
+			m_tuneView->setNote(4, m_tuneView->lowestNote());
+			m_tuneView->setNote(5, m_tuneView->highestNote());
 	}
 	if ((Einstrument)index != e_noInstrument) {
 		if (!m_accidGroup->isEnabled())
@@ -382,7 +396,13 @@ void TguitarSettings::instrumentTypeChanged(int index) {
 
 
 void TguitarSettings::guitarDisabled(bool disabled) {
-		m_tuneGroup->setDisabled(disabled);
+// 		m_tuneGroup->setDisabled(disabled);
+		if (disabled) {
+			m_tuneGroup->setTitle(scaleOfInstrText);
+		} else {
+			m_tuneGroup->setTitle(tuningGuitarText);
+		}
+		m_tuneCombo->setDisabled(disabled);
 		m_fretsNrSpin->setDisabled(disabled);
 		m_fretNrLab->setDisabled(disabled);
 		m_stringNrSpin->setDisabled(disabled);

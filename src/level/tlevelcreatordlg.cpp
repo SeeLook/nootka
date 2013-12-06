@@ -124,8 +124,8 @@ void TlevelCreatorDlg::saveToFile() {
       !( newLevel.answersAs[TQAtype::e_asNote].isSound() ||
           newLevel.answersAs[TQAtype::e_asName].isSound() ||
           newLevel.answersAs[TQAtype::e_asFretPos].isSound() ||
-          newLevel.answersAs[TQAtype::e_asSound].isSound()) ) {  
-      // adjust fret range - validation will skip it for non guitar level
+          newLevel.answersAs[TQAtype::e_asSound].isSound()) ) { // no guitar and no played sound  
+      // adjust fret range - validation will skip it for non guitar levels
       newLevel.loFret = 0; // Set range to fret number and rest will be done by function preparing question list
       newLevel.hiFret = gl->GfretsNumber;
       newLevel.onlyLowPos = true; // otherwise the above invokes doubled/tripled questions in the list
@@ -193,13 +193,15 @@ QString TlevelCreatorDlg::validateLevel(Tlevel &l) {
     }      
   // checking range
   // determine the highest note of fret range on available strings
-    if (l.canBeGuitar()) { // only when guitar is enabled otherwise frets range was adjusted automatically
-      int hiAvailStr, loAvailStr, cnt=-1;
+    if (l.canBeGuitar() || l.answersAs[TQAtype::e_asNote].isSound() || l.answersAs[TQAtype::e_asName].isSound() ||
+          l.answersAs[TQAtype::e_asFretPos].isSound() || l.answersAs[TQAtype::e_asSound].isSound()) { 
+			// only when guitar is enabled otherwise frets range was adjusted automatically
+      int hiAvailStr, loAvailStr, cnt = -1;
       do {
           cnt ++;
-      } while (!l.usedStrings[gl->strOrder(cnt)] && cnt < 6);
+      } while (!l.usedStrings[gl->strOrder(cnt)] && cnt < gl->Gtune()->stringNr());
       hiAvailStr = gl->strOrder(cnt);
-      cnt = 6;
+      cnt = gl->Gtune()->stringNr();
       do {
           cnt--;
       } while (!l.usedStrings[gl->strOrder(cnt)] && cnt >= 0);

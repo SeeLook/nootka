@@ -23,6 +23,7 @@
 #include <QDialog>
 #include "tlevel.h"
 
+class QMenu;
 class TroundedLabel;
 class TexamParams;
 class TlevelSelector;
@@ -42,10 +43,9 @@ public:
         * @param e_none - dialog discarded,
         * @param e_contExam - exam to continue,
         * @param e_newExam - exam mode on new level selected.
-				* @param e_newExercise - start exercise mode.
-        * @param e_levelCreator - open Level creator.	
-				* @param e_contExercise - continue previous exercise.	*/
-    enum Eactions { e_none, e_contExam, e_newExam, e_levelCreator, e_newExercise, e_contExercise };
+				* @param e_runExercise - start exercise mode.
+        * @param e_levelCreator - open Level creator.	*/
+    enum Eactions { e_none, e_contExam, e_newExam, e_levelCreator, e_runExercise };
 		
         /** This method calls dialog window,
         * takes txt reference and puts there either user name
@@ -54,7 +54,7 @@ public:
     Eactions showDialog(QString &txt, Tlevel &lev);
         /** exam file extension and its description */
     static const QString examFilterTxt() { return tr("Exam results")  + " (*.noo)" ; }
-    static const QString loadExamFileTxt() { return tr("Load an exam file"); }
+    static const QString loadExamFileTxt() { return tr("Load an exam file"); } /** Load an exam file */
     
         /** Returns system user name (log-in name)  */
     static QString systemUserName();
@@ -73,26 +73,29 @@ private:
     TlevelSelector 			*m_levelsView;
     QLineEdit 					*m_nameEdit;
     QPushButton 				*m_createLevelButt, *m_loadExamBut;
-		QPushButton					*m_newExerciseButt, *m_contExerciseButt;
-		QPushButton					*m_newExamButt, *m_contExamButt;
+		QPushButton					*m_exerciseButt;
+		QPushButton					*m_newExamButt, *m_contExamButt, *m_lastExamButt;
 		QPushButton					*m_helpButt, *m_cancelBut;
     TroundedLabel				*m_hintLabel;
-    QComboBox 					*m_examCombo;
     QStringList 				m_recentExams;
     Eactions 						m_Acction;
     TexamParams 				*m_examParams;
 		QString							m_path;
+		QMenu 							*m_examMenu;
+		QString							m_selectedExamFile;
+		Tlevel							m_prevExerciseLevel; /** Level grabbed from exercise.noo file */
 
 private slots:
     void levelToLoad();
-        /** occurs when user clicks Accept button*/
-    void startAccepted();
-    void loadExam();
-        /** occurs when user clicks create Level Button */
-    Eactions createLevel();
-    void prevExamSelected(int index);
+    void startAccepted(); /** occurs when user clicks Accept button*/
+    void examFromFileDialog();
+    Eactions createLevel(); /** occurs when user clicks create Level Button */
+		void continuePrevExam(); /** when some action with exam file path was clicked. */
+		void continueTheLast(); /** Continue last exam button click slot */
+		void examToContSelected(QString eFile);
     void levelWasSelected(Tlevel level);
 		void helpSelected();
 };
 
 #endif // TSTARTEXAMDLG_H
+

@@ -216,7 +216,7 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
           result = e_cant_open;
      }
   updateBlackCount();
-  qDebug() << "black questions:" << blackCount() << "Mistakes:" << m_mistNr << "Not so bad:" << m_halfMistNr;
+//   qDebug() << "black questions:" << blackCount() << "Mistakes:" << m_mistNr << "Not so bad:" << m_halfMistNr;
   return result;
 }
 
@@ -304,7 +304,7 @@ void Texam::convertToVersion2() {
   bool hasStyle = false;
   Tnote::EnameStyle randStyles[3];
   if (m_level->canBeName()) {
-    // ver. 1 didn't put proper Tnote::EnameStyle to file - we fixing it
+    // version 1 didn't put proper Tnote::EnameStyle to file - we fixing it
     hasStyle = true;
     qDebug("Fixing styles of note names in file");
     qsrand(QDateTime::currentDateTime().toTime_t());
@@ -321,9 +321,9 @@ void Texam::convertToVersion2() {
   }
   
   for (int i = 0; i < m_answList.size(); i++) {
-    if (m_answList[i].time > maxAnswerTime) // fix too long times in ver1 if any
+    if (m_answList[i].time > maxAnswerTime) // fix too long times from version 1 if any
         m_answList[i].time = maxAnswerTime;
-  // ver. 1 didn't put proper Tnote::EnameStyle to file - we fixing it
+  // version 1 didn't put proper Tnote::EnameStyle to file - we fixing it
     if (hasStyle) {
       if (m_level->requireStyle) {
         if (m_answList[i].questionAs == TQAtype::e_asName && m_answList[i].answerAs == TQAtype::e_asName) {
@@ -341,12 +341,12 @@ void Texam::convertToVersion2() {
             if (m_answList[i].questionAs == TQAtype::e_asName) {
               m_answList[i].setStyle(gl->NnameStyleInNoteName, randStyles[qrand() % 3]);
             }
-      } else // fixed style - we changeing to user prefered
+      } else // fixed style - we changing to user preferred
           m_answList[i].setStyle(gl->NnameStyleInNoteName, gl->NnameStyleInNoteName);
     }
       
     if (!m_answList[i].isCorrect()) {
-      quint16 penCnt = 0; // counts of penaltys
+      quint16 penCnt = 0; // counts of penalties
       if (m_answList[i].isWrong()) {
         if (i < (m_answList.size() -1) && areQuestTheSame(m_answList[i], m_answList[i+1])) {
           // there was next question repeated
@@ -354,7 +354,7 @@ void Texam::convertToVersion2() {
             penCnt = 65501; // so add one penalty
           else // when again wrong
             penCnt = 65502; // add two
-          // The next loop will add next two penaltys !!
+          // The next loop will add next two penalties !!
         } else // question was not repeated
             penCnt = 65502;
       } else { // not so bad
