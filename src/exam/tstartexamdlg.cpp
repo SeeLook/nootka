@@ -335,6 +335,7 @@ void TstartExamDlg::updateButtonStatusText(const QString& levelName) {
 
 
 void TstartExamDlg::levelWasSelected(Tlevel level) {
+	m_prevExerciseLevel.name = ""; // Reset the name - now level is taken from selection 
 	updateButtonStatusText(level.name);		
 }
 

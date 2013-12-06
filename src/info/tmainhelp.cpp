@@ -33,8 +33,8 @@ QString TmainHelp::exerciseAndExamText(const QString& path) {
 	helpTxt += QApplication::translate("TmainHelp", "Much depends on the chosen level. Press %1 button to create your own questions set (a level).").
 			arg(" &nbsp; " + pixToHtml(path + "picts/levelCreator.png", PIXSIZE) + " &nbsp; ");
   helpTxt += "<br>" + QApplication::translate("TmainHelp", "Select a level and warm up yourself exercising. Then try to pass an exam.");
+	helpTxt += "<br>" + duringExercisingText(path);
 	helpTxt += "<br>" + duringExamsText(path);
-  helpTxt += "<br>" + duringExercisingText(path);
 	return helpTxt;
 }
 
