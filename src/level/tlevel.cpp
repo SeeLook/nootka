@@ -193,6 +193,7 @@ bool getLevelFromStream(QDataStream& in, Tlevel& lev, qint32 ver) {
 				lev.clef = Tclef((Tclef::Etype)testClef);
 				lev.instrument = (Einstrument)instr;
 		}
+// 		qDebug() << lev.name << "clef (" << lev.clef.name() << ") for:" << instrumentToText(lev.instrument); 
     return ok;
 }
 
@@ -215,7 +216,10 @@ Tclef Tlevel::fixClef(quint16 cl) {
 
 
 Einstrument Tlevel::fixInstrument(quint8 instr) {
-		if (instr == 0 || instr == 1) { // Those values occur in versions before 0.8.90 where an instrument doesn't exist
+		if (instr == 0 || instr == 1 || instr == 255) {
+			// Values 0 and 1 occur in versions before 0.8.90 where an instrument doesn't exist
+			// Value 255 comes from transition version 0.8.90 - 0.8.95 and means no instrument,
+			// however it is invalid because it ignores guitarists and doesn't show corrections on the guitar
 			if (canBeGuitar()) { // try to detect
 				if (gl->instrument != e_noInstrument)
 						return gl->instrument;
@@ -227,8 +231,8 @@ Einstrument Tlevel::fixInstrument(quint8 instr) {
 						return e_noInstrument;
 		} else if (instr < 4) // simple cast to detect an instrument
 			return (Einstrument)instr;
-		else if (instr == 255) // because '0' is reserved for backward compatibility
-			return e_noInstrument;
+// 		else if (instr == 255) // because '0' is reserved for backward compatibility
+// 			return e_noInstrument;
 		else {
 			qDebug() << "Tlevel::instrument has some stupid value. FIXED";
 			return gl->instrument;

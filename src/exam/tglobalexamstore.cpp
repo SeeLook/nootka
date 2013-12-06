@@ -72,7 +72,7 @@ void TglobalExamStore::prepareGlobalsToExam(Tlevel& level) {
 		m_globals->Sclef = level.clef.type();
 		if (level.instrument != e_noInstrument)// instrument in exam has a matter
 				m_globals->instrument = level.instrument;
-		// leave user preferred instrument when level doesn't require it
+		// or leave user preferred instrument when level doesn't require it
 		if (level.instrument == e_bassGuitar)
 				m_globals->A->range = TaudioParams::e_low;
 		else

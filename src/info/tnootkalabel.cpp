@@ -26,7 +26,7 @@ TnootkaLabel::TnootkaLabel(QString pixmapPath, QWidget* parent, QColor bgColor) 
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFrameShape(QFrame::NoFrame);
-    setStyleSheet(("background: transparent"));
+    setStyleSheet(("background: transparent; border-radius: 10px;"));
     setRenderHint(QPainter::TextAntialiasing, true);
 
     m_scene = new QGraphicsScene(this);

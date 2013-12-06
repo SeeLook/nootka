@@ -93,12 +93,12 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
     m_glStore = new TglobalExamStore(gl);
     m_glStore->tune = *gl->Gtune();
     m_glStore->fretsNumber = gl->GfretsNumber;
-    if (userAct == TstartExamDlg::e_newExam || userAct == TstartExamDlg::e_newExercise) {
+    if (userAct == TstartExamDlg::e_newExam || userAct == TstartExamDlg::e_runExercise) {
         m_exam = new Texam(&m_level, resultText); // resultText is userName
         gl->E->studentName = resultText; // store user name
         m_exam->setTune(*gl->Gtune());
         mW->examResults->startExam();
-				if (userAct == TstartExamDlg::e_newExercise) {
+				if (userAct == TstartExamDlg::e_runExercise) {
 						m_exercise = new Texercises(m_exam);
 						m_exam->setFileName(QDir::toNativeSeparators(QFileInfo(gl->config->fileName()).absolutePath() + "/exercise.noo"));
 				}
@@ -127,14 +127,6 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
             deleteExam();
             return;
         }
-    } else if (userAct == TstartExamDlg::e_contExercise) {
-				m_exam = new Texam(&m_level, ""); // We are sure: exercise file is OK - it was checked in TstartExamDlg before
-				QString exerciseFile = QDir::toNativeSeparators(QFileInfo(gl->config->fileName()).absolutePath() + "/exercise.noo");
-        Texam::EerrorType err = m_exam->loadFromFile(exerciseFile);
-				TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
-				mW->examResults->startExam(m_exam->totalTime(), m_exam->count(), m_exam->averageReactonTime(),
-                          m_exam->mistakes(), m_exam->halfMistaken());
-				m_exercise = new Texercises(m_exam);
     } else {
 				if (userAct == TstartExamDlg::e_levelCreator) {
 						mW->clearAfterExam(e_openCreator);
@@ -728,7 +720,7 @@ void TexamExecutor::correctAnswer() {
 					mW->pitchView->outOfTuneAnim(outTune, 1200);
 					m_canvas->outOfTuneTip(outTune); // we are sure that it is beyond the accuracy threshold
 			}
-			if (m_level.instrument != e_noInstrument && (curQ.isWrong() || curQ.wrongOctave())) {
+			if (gl->instrument != e_noInstrument && (curQ.isWrong() || curQ.wrongOctave())) {
 					// Animation towards guitar when instrument is guitar and answer was wrong or octave was wrong
 					if (curQ.questionAs == TQAtype::e_asFretPos)
 						mW->guitar->correctPosition(curQ.qa.pos, markColor);
@@ -840,8 +832,8 @@ void TexamExecutor::repeatQuestion() {
 
     m_exam->addQuestion(curQ);
     m_blackQuestNr = m_exam->blacList()->count() - 1;
-        // Previus answer was wroong or not so bad and it was added at the end of blacList
-        // When an answer will be correct the list will be decresed
+        // Previous answer was wrong or not so bad and it was added at the end of blacList
+        // When an answer will be correct the list will be decreased
 
     if (!gl->E->autoNextQuest)
         mW->startExamAct->setDisabled(true);
@@ -856,7 +848,17 @@ void TexamExecutor::repeatQuestion() {
     mW->examResults->questionStart();
 }
 
-
+/**
+ * Instrument selection in exams/exercises:
+ * - Build-in levels force instruments type,
+ * - instrument type in saved levels is copied from user preferences when level has guitar or sound 
+ * - or it is set to none when level uses only name and note on the staff
+ * - during loading levels from older files above rules are used
+ * - exam/exercise respects level instrument when it is kind of guitar
+ * - but when level has no instrument it left user preferred instrument
+ * 
+ *   Corrected answers appears on guitar when it is visible, so question list has to be created fret by fret 
+ */
 void TexamExecutor::prepareToExam() {
 		setTitleAndTexts();
 		mW->settingsAct->setVisible(false);

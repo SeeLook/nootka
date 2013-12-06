@@ -258,14 +258,13 @@ void Tcanvas::outOfTuneTip(float pitchDiff) {
 		tooLow = false;
 	}
 	m_outTuneTip = new TgraphicsTextTip(QString("<span style=\"color: %1; font-size: %2px;\">")
-      .arg(gl->EnotBadColor.name()).arg(bigFont()) + tuneText + "</span>");
+      .arg(gl->EanswerColor.name()).arg(bigFont()) + tuneText + "</span>");
   m_scene->addItem(m_outTuneTip);
   m_outTuneTip->setZValue(100);
   m_outTuneTip->setScale(m_scale);
 	m_outTuneTip->setData(0, QVariant::fromValue<bool>(tooLow));
   setOutTunePos();
 }
-
 
 
 void Tcanvas::correctToGuitar(TQAtype::Etype &question, int prevTime, TfingerPos& goodPos) {
