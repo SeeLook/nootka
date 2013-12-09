@@ -73,7 +73,8 @@ public:
   // ANSWERS - as position on fingerboard
     bool showStrNr; /** Shows a string number in questions*/
   // RANGE
-    Tnote loNote, hiNote;
+    Tnote loNote; /** Lowest level note */ 
+    Tnote hiNote; /** Highest level note */
 //     bool isNoteLo, isNoteHi ---- since 0.8.90 version those values are changed to Tclef
 		Tclef clef;
     char loFret, hiFret;
@@ -88,12 +89,28 @@ public:
     bool canBeName(); // True if answer or question is note name
     bool canBeGuitar(); // True if answer or question is position on a guitar
     bool canBeSound(); // True if answer or question is played or sang sound
+		bool answerIsNote(); // True if answer is note on a score in any question type
+		bool answerIsName(); // True if answer is note name in any question type
+		bool answerIsGuitar(); // True if answer is position on the guitar in any question type
+		bool answerIsSound(); // True if answer is played sound in any question type
+		
+				/** True when level note range is in given number range represented scale of instrument. */
+		bool inScaleOf(char loNoteNr, char hiNoteNr);
+		
+				/** Overloaded method with scale in Tnote objects */
+		bool inScaleOf(Tnote &loN, Tnote &hiN) { return inScaleOf(loN.getChromaticNrOfNote(), hiN.getChromaticNrOfNote()); }
+		bool inScaleOf(); /** Overloaded method where instrument scale is taken from Tglobals  */
 		
 				/** Returns detected clef from level versions before 0.8.90 */
 		Tclef fixClef(quint16 cl);
 		
 				/** Fixes instrument value taken from file (stream) created before level Version 2 */
 		Einstrument fixInstrument(quint8 instr);
+		
+				/** Checks what kind of instrument should be used by level.
+				 * In contrary to fixInstrument() method it doesn't check Tglobals state of instrument
+				 * just takes given parameter. */
+		Einstrument detectInstrument(Einstrument currInstr);
 
 };
 

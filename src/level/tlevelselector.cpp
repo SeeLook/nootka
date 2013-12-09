@@ -317,23 +317,22 @@ void TlevelSelector::addLevel(const Tlevel& lev, QString levelFile, bool check) 
 
 
 bool TlevelSelector::isSuitable(Tlevel &l) {
- if (l.questionAs.isFret() || // check only for levels using guitar
-  (l.questionAs.isNote() && l.answersAs[TQAtype::e_asNote].isFret()) ||
-  (l.questionAs.isName() && l.answersAs[TQAtype::e_asName].isFret()) ||
-  (l.questionAs.isSound() && l.answersAs[TQAtype::e_asSound].isFret()) ) {
-		QString warringText = "";
+	QString warringText = "";
+	if (l.questionAs.isFret() || l.answerIsGuitar() ) {
     if (l.hiFret > gl->GfretsNumber ||
         l.loNote.getChromaticNrOfNote() < gl->loString().getChromaticNrOfNote() ||
 			  l.hiNote.getChromaticNrOfNote() > gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber )
-			
 							warringText = tr("Level is not suitable for current tuning and/or fret number");
     else if (gl->instrument == e_noInstrument && l.instrument != e_noInstrument)
 							warringText = tr("Level is not suitable for current instrument type");
-		if (warringText != "") {
-				m_levels.last().item->setStatusTip("<span style=\"color: red;\">" + warringText + "</span>");
-        m_levels.last().item->setFlags(Qt::NoItemFlags);
-        return false;
-		}
+	} /*else
+			if ((l.answerIsSound() || l.answerIsGuitar())&& 
+				!l.inScaleOf(gl->loString().getChromaticNrOfNote(), gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber))
+						warringText = tr("Range of notes in the level is beyond the scale of your instrument");*/
+	if (warringText != "") {
+			m_levels.last().item->setStatusTip("<span style=\"color: red;\">" + warringText + "</span>");
+			m_levels.last().item->setFlags(Qt::NoItemFlags);
+			return false;
 	}
 		return true;	
 }

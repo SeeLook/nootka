@@ -108,7 +108,8 @@ void TlevelCreatorDlg::levelNotSaved() {
 
 
 void TlevelCreatorDlg::saveLevel() {
-    if ( QMessageBox::question(this, "", tr("Exam level was changed\nand not saved!"), QMessageBox::Save, QMessageBox::Cancel) == QMessageBox::Save ) {
+    if ( QMessageBox::question(this, tr("level not saved!"), tr("Level was changed and not saved!"),
+			QMessageBox::Save, QMessageBox::Cancel) == QMessageBox::Save ) {
         saveToFile();
     } else 
 				levelSaved();
@@ -120,11 +121,7 @@ void TlevelCreatorDlg::saveToFile() {
     questSett->saveLevel(newLevel);
     accSett->saveLevel(newLevel);
     rangeSett->saveLevel(newLevel);
-    if (!newLevel.canBeGuitar() && 
-      !( newLevel.answersAs[TQAtype::e_asNote].isSound() ||
-          newLevel.answersAs[TQAtype::e_asName].isSound() ||
-          newLevel.answersAs[TQAtype::e_asFretPos].isSound() ||
-          newLevel.answersAs[TQAtype::e_asSound].isSound()) ) { // no guitar and no played sound  
+    if (!newLevel.canBeGuitar() && !newLevel.answerIsSound() ) { // no guitar and no played sound  
       // adjust fret range - validation will skip it for non guitar levels
       newLevel.loFret = 0; // Set range to fret number and rest will be done by function preparing question list
       newLevel.hiFret = gl->GfretsNumber;
@@ -138,8 +135,8 @@ void TlevelCreatorDlg::saveToFile() {
         showValidationMessage(isLevelValid);
         return;
     }
-//     if (!newLevel.canBeGuitar()) // instrument is taken from user preferences
-// 				newLevel.instrument = e_noInstrument; // but if it is unused let's set to none
+    // set instrument to none when it is not important for the level
+		newLevel.instrument = newLevel.detectInstrument(gl->instrument);
     TlevelHeaderWdg *saveDlg = new TlevelHeaderWdg(this);
     QStringList nameList = saveDlg->getLevelName();
     newLevel.name = nameList[0];
@@ -193,8 +190,7 @@ QString TlevelCreatorDlg::validateLevel(Tlevel &l) {
     }      
   // checking range
   // determine the highest note of fret range on available strings
-    if (l.canBeGuitar() || l.answersAs[TQAtype::e_asNote].isSound() || l.answersAs[TQAtype::e_asName].isSound() ||
-          l.answersAs[TQAtype::e_asFretPos].isSound() || l.answersAs[TQAtype::e_asSound].isSound()) { 
+    if (l.canBeGuitar() || (l.instrument != e_noInstrument && l.answerIsSound())) {
 			// only when guitar is enabled otherwise frets range was adjusted automatically
       int hiAvailStr, loAvailStr, cnt = -1;
       do {
@@ -210,6 +206,11 @@ QString TlevelCreatorDlg::validateLevel(Tlevel &l) {
           l.hiNote.getChromaticNrOfNote() < gl->Gtune()->str(loAvailStr + 1).getChromaticNrOfNote() + l.loFret)
           res += tr("<li>Range of frets is beyond the scale of this level</li>");
     }
+	// Check is level range fit to instrument scale
+		if (l.canBeGuitar() || l.answerIsSound()) {
+			if (!l.inScaleOf(gl->loString().getChromaticNrOfNote(), gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber))
+				res += tr("<li>Range of notes in the level is beyond the scale of your instrument</li>");
+		}
   // checking are accidentals needed because of hi and low notes in range
     char acc = 0;
     if (l.loNote.acidental) acc = l.loNote.acidental;

@@ -1,4 +1,6 @@
 0.9.5 rc1
+  Nootka says: I'm afraid of exams
+     - added exercise mode, without penalties and elapsing time
      - transposing is possible in a range ±12 semitones (octave)
      - exam can check intonation of a sound and its accuracy is configurable
      - English language in Nootka was corrected and improved
@@ -8,6 +10,7 @@
      - crossing of played notes is fluent now - it was cleaned from cracks
      - preview of a level was improved
      - intonation view displays differences more accurate
+     - added animations of accidentals corresponding with key signature
     BUGS FIXES
      - Nootka doesn't crash when guitar or singing is out of tune
      - fixed random crash when midi output was in use
