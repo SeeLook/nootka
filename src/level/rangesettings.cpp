@@ -27,6 +27,8 @@
 extern Tglobals *gl;
 extern bool isNotSaved;
 
+bool levelIsLoadingInRange = false;
+
 rangeSettings::rangeSettings(QWidget *parent) :
     QWidget(parent)
 {
@@ -122,10 +124,7 @@ void rangeSettings::stringSelected() {
 
 
 void rangeSettings::loadLevel(Tlevel level) {
-    disconnect (m_fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
-    disconnect (m_toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
-		disconnect (m_scoreRang, SIGNAL(clefChanged(Tclef)), this, SLOT(whenParamsChanged()));
-		disconnect (m_scoreRang, SIGNAL(clefChanged(Tclef)), this, SLOT(whenParamsChanged()));
+	levelIsLoadingInRange = true;
 		m_scoreRang->setClef(level.clef);
     m_scoreRang->setNote(0, level.loNote);
     m_scoreRang->setNote(1, level.hiNote);
@@ -134,10 +133,7 @@ void rangeSettings::loadLevel(Tlevel level) {
     for (int i = 0; i < gl->Gtune()->stringNr(); i++)
         m_stringBut[i]->setChecked(level.usedStrings[i]);
     stringSelected();
-		connect (m_scoreRang, SIGNAL(clefChanged(Tclef)), this, SLOT(whenParamsChanged()));
-		connect (m_scoreRang, SIGNAL(clefChanged(Tclef)), this, SLOT(whenParamsChanged()));
-    connect (m_fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
-    connect (m_toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
+	levelIsLoadingInRange = false;
 }
 
 
@@ -147,6 +143,9 @@ void rangeSettings::whenPianoStaffChanges() {
 
 
 void rangeSettings::whenParamsChanged() {
+		if (levelIsLoadingInRange)
+				return;
+		
     if (!isNotSaved) {
         isNotSaved = true;
         emit rangeChanged();

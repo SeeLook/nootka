@@ -178,7 +178,7 @@ void TscoreNote::setWorkAccid(int accNr) {
 
 
 void TscoreNote::moveNote(int posY) {
-    if (posY > m_ambitMin || posY < m_ambitMax) {
+    if (posY == 0 || posY > m_ambitMin || posY < m_ambitMax) {
 				hideNote();
 				m_mainAccid->setText(" ");
 				return;

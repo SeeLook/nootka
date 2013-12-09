@@ -24,6 +24,8 @@
 
 extern bool isNotSaved;
 
+bool levelIsLoadingInAccids = false;
+
 accidSettings::accidSettings(QWidget* parent) :
   QWidget(parent)
 {
@@ -114,6 +116,7 @@ accidSettings::accidSettings(QWidget* parent) :
 
 
 void accidSettings::loadLevel ( Tlevel& level ) {
+	levelIsLoadingInAccids = true;
     disconnect(m_rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));
     
     m_sharpsChB->setChecked(level.withSharps);
@@ -130,6 +133,7 @@ void accidSettings::loadLevel ( Tlevel& level ) {
     keyRangeChanged();
 
     connect(m_rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));
+	levelIsLoadingInAccids = false;
 }
 
 void accidSettings::saveLevel ( Tlevel& level ) {
@@ -269,6 +273,9 @@ void accidSettings::keySignChanged() {
 }
 
 void accidSettings::whenParamsChanged() {
+		if (levelIsLoadingInAccids)
+			 return;
+		
     if (!isNotSaved) {
         isNotSaved = true;
         emit accidsChanged();

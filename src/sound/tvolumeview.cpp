@@ -129,13 +129,12 @@ void TvolumeView::resizeEvent(QResizeEvent* ) {
 }
 
 
-void TvolumeView::mouseMoveEvent(QMouseEvent* event)
-{
+void TvolumeView::mouseMoveEvent(QMouseEvent* event) {
 	float minV = (float)event->pos().x() / (float)(width() - m_noteWidth);
 	if (minV >= 0.1 && minV < 0.81) {
 		m_minVolume = minV;
 		setToolTip(QString("%1 %").arg((int)(m_minVolume * 100)));
-		QToolTip::showText( mapToGlobal(QPoint( event->pos().x(), height())), toolTip());
+		QToolTip::showText(mapToGlobal(QPoint( event->pos().x(), height())), toolTip());
     emit minimalVolume(m_minVolume);
 	}
 }

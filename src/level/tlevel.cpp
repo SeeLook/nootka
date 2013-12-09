@@ -193,6 +193,7 @@ bool getLevelFromStream(QDataStream& in, Tlevel& lev, qint32 ver) {
 				lev.clef = Tclef((Tclef::Etype)testClef);
 				lev.instrument = (Einstrument)instr;
 		}
+		qDebug() << lev.name << "ver:" << lev.levelVersionNr(ver) << "instrument:" << instr << "saved as" << instrumentToText(lev.instrument);
 // 		qDebug() << lev.name << "clef (" << lev.clef.name() << ") for:" << instrumentToText(lev.instrument); 
     return ok;
 }
@@ -221,13 +222,19 @@ Einstrument Tlevel::fixInstrument(quint8 instr) {
 			// Value 255 comes from transition version 0.8.90 - 0.8.95 and means no instrument,
 			// however it is invalid because it ignores guitarists and doesn't show corrections on the guitar
 			if (canBeGuitar()) { // try to detect
-				if (gl->instrument != e_noInstrument)
-						return gl->instrument;
-				else
-						return e_classicalGuitar;
-			} else if (canBeSound())
+				if (gl->instrument != e_noInstrument) {
+					if (instr == 255)
 						return gl->instrument;
 					else
+						return e_classicalGuitar;
+				} else
+						return e_classicalGuitar;
+			} else if (answerIsSound()) {
+					if (instr == 255)
+						return gl->instrument;
+					else
+						return e_classicalGuitar;
+			} else
 						return e_noInstrument;
 		} else if (instr < 4) // simple cast to detect an instrument
 			return (Einstrument)instr;
@@ -240,6 +247,17 @@ Einstrument Tlevel::fixInstrument(quint8 instr) {
 }
 
 
+Einstrument Tlevel::detectInstrument(Einstrument currInstr) {
+	if (canBeGuitar()) {
+			if (currInstr != e_noInstrument)
+					return currInstr;
+			else
+					return e_classicalGuitar;
+	} else if (answerIsSound())
+				return currInstr;
+			else
+				return e_noInstrument;
+}
 
 
 //###################### HELPERS ################################################################
@@ -284,6 +302,60 @@ bool Tlevel::canBeSound() {
       return true;
   else
       return false;
+}
+
+bool Tlevel::answerIsNote() {
+	if ((questionAs.isNote() && answersAs[TQAtype::e_asNote].isNote()) || 
+			(questionAs.isName() && answersAs[TQAtype::e_asName].isNote()) ||
+			(questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isNote()) ||
+			(questionAs.isSound() && answersAs[TQAtype::e_asSound].isNote()) )
+				return true;
+	else
+				return false;
+}
+
+bool Tlevel::answerIsName() {
+	if ((questionAs.isNote() && answersAs[TQAtype::e_asNote].isName()) || 
+			(questionAs.isName() && answersAs[TQAtype::e_asName].isName()) ||
+			(questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isName()) ||
+			(questionAs.isSound() && answersAs[TQAtype::e_asSound].isName()) )
+				return true;
+	else
+				return false;
+}
+
+bool Tlevel::answerIsGuitar() {
+	if ((questionAs.isNote() && answersAs[TQAtype::e_asNote].isFret()) || 
+			(questionAs.isName() && answersAs[TQAtype::e_asName].isFret()) ||
+			(questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isFret()) ||
+			(questionAs.isSound() && answersAs[TQAtype::e_asSound].isFret()) )
+				return true;
+	else
+				return false;
+}
+
+bool Tlevel::answerIsSound() {
+	if ((questionAs.isNote() && answersAs[TQAtype::e_asNote].isSound()) || 
+			(questionAs.isName() && answersAs[TQAtype::e_asName].isSound()) ||
+			(questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isSound()) ||
+			(questionAs.isSound() && answersAs[TQAtype::e_asSound].isSound()) )
+				return true;
+	else
+				return false;
+}
+
+
+bool Tlevel::inScaleOf(char loNoteNr, char hiNoteNr) {
+	if (loNote.getChromaticNrOfNote() >= loNoteNr && loNote.getChromaticNrOfNote() <= hiNoteNr
+		&& hiNote.getChromaticNrOfNote() >= loNoteNr && hiNote.getChromaticNrOfNote() <= hiNoteNr)
+				return true;
+	else
+				return false;
+}
+
+
+bool Tlevel::inScaleOf() {
+	inScaleOf(gl->loString().getChromaticNrOfNote(), gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber);
 }
 
 

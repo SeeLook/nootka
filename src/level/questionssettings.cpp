@@ -25,6 +25,8 @@
 
 extern bool isNotSaved;
 
+bool levelIsLoading = false;
+
 questionsSettings::questionsSettings(QWidget *parent) :
     QWidget(parent)
 {
@@ -148,6 +150,7 @@ questionsSettings::questionsSettings(QWidget *parent) :
 
 
 void questionsSettings::loadLevel(Tlevel& level) {
+	levelIsLoading = true;
     asNoteWdg->setAnswers(level.answersAs[TQAtype::e_asNote]);
     asNoteWdg->setChecked(level.questionAs.isNote()); // when it is false it cleans all checkBoxes to false
     asNameWdg->setAnswers(level.answersAs[TQAtype::e_asName]);
@@ -164,10 +167,14 @@ void questionsSettings::loadLevel(Tlevel& level) {
     lowPosOnlyChBox->setChecked(level.onlyLowPos);
     currKeySignChBox->setChecked(level.onlyCurrKey);
 		m_intonationCombo->setCurrentIndex(level.intonation);
+	levelIsLoading = false;
 }
 
 
 void questionsSettings::whenParamsChanged() {
+	if (levelIsLoading)
+		return;
+	
 //     if (asNameWdg->answerAsName() && asNameWdg->isChecked()) {
 //         styleRequiredChB->setChecked(true);
 //         styleRequiredChB->setDisabled(true);
@@ -201,7 +208,6 @@ void questionsSettings::whenParamsChanged() {
 				m_intonationCombo->setDisabled(false);
 		else
 				m_intonationCombo->setDisabled(true);
-    
     if (!isNotSaved) {
         isNotSaved = true;
         emit questSettChanged();

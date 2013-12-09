@@ -189,7 +189,6 @@ TguitarSettings::~TguitarSettings() {
 }
 
 
-
 void TguitarSettings::saveSettings() {
 		gl->instrument = (Einstrument)m_instrumentTypeCombo->currentIndex();
     gl->GisRightHanded = m_righthandCh->isChecked();
@@ -198,9 +197,19 @@ void TguitarSettings::saveSettings() {
 		if (gl->instrument != e_noInstrument)
 			tmpTune = new Ttune(m_tuneCombo->currentText(), m_tuneView->getNote(5), m_tuneView->getNote(4),
 											m_tuneView->getNote(3), m_tuneView->getNote(2), m_tuneView->getNote(1), m_tuneView->getNote(0));
-		else // instrument scale bounded to clef possibility TODO remove when guitar won't be created at all
-			tmpTune = new Ttune("scale", Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0),
-									m_tuneView->lowestNote(),Tnote(m_tuneView->highestNote().getChromaticNrOfNote() - m_fretsNrSpin->value()));
+		else { // instrument scale taken from note segments 4 & 5
+			Tnote hiN, loN; // fix notes order
+			if (m_tuneView->getNote(4).getChromaticNrOfNote() > m_tuneView->getNote(5).getChromaticNrOfNote()) {
+				hiN = m_tuneView->getNote(4);
+				loN = m_tuneView->getNote(5);
+			} else {
+				hiN = m_tuneView->getNote(5);
+				loN = m_tuneView->getNote(4);
+			}
+			tmpTune = new Ttune("scale", 
+													Tnote(hiN.getChromaticNrOfNote() - m_fretsNrSpin->value()), loN,
+													Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0)	);
+		}
     gl->setTune(*tmpTune);
 		delete tmpTune;
     gl->GshowOtherPos = m_morePosCh->isChecked();
