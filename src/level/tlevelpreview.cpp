@@ -62,6 +62,7 @@ TlevelPreview::~TlevelPreview() {}
 void TlevelPreview::setLevel() {
 		Tlevel empty;
 		empty.name = tr("no level selected");
+		empty.desc = "";
 		empty.loNote = Tnote();
 		empty.hiNote = Tnote();
 		empty.hiFret = 0;
@@ -131,27 +132,13 @@ void TlevelPreview::setLevel(Tlevel& tl) {
     S += "</td></tr>";
     tmp   = "";
     S += "<tr><td>" + TquestionAsWdg::answersTxt() + ": </td><td align=\"center\">"; // ANSWERS
-      /** Checking questions would be skipped because Level creator avoids selecting answer without question.
-       * Unfortunately built-in levels are not so perfect.*/
-    if (  (tl.questionAs.isNote() && tl.answersAs[TQAtype::e_asNote].isNote()) ||
-          (tl.questionAs.isName() && tl.answersAs[TQAtype::e_asName].isNote()) ||
-          (tl.questionAs.isFret() && tl.answersAs[TQAtype::e_asFretPos].isNote()) ||
-          (tl.questionAs.isSound() && tl.answersAs[TQAtype::e_asSound].isNote()) )
+    if (tl.answerIsNote())
             tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asNote) + " ";
-    if (  (tl.questionAs.isNote() && tl.answersAs[TQAtype::e_asNote].isName()) ||
-          (tl.questionAs.isName() && tl.answersAs[TQAtype::e_asName].isName()) ||
-          (tl.questionAs.isFret() && tl.answersAs[TQAtype::e_asFretPos].isName()) ||
-          (tl.questionAs.isSound() && tl.answersAs[TQAtype::e_asSound].isName()) )
+    if (tl.answerIsName())
             tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asName) + " ";
-    if (  (tl.questionAs.isNote() && tl.answersAs[TQAtype::e_asNote].isFret()) ||
-          (tl.questionAs.isName() && tl.answersAs[TQAtype::e_asName].isFret()) ||
-          (tl.questionAs.isFret() && tl.answersAs[TQAtype::e_asFretPos].isFret()) ||
-          (tl.questionAs.isSound() && tl.answersAs[TQAtype::e_asSound].isFret()) )
+    if (tl.answerIsGuitar())
             tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asFretPos) + " ";
-    if (  (tl.questionAs.isNote() && tl.answersAs[TQAtype::e_asNote].isSound()) ||
-          (tl.questionAs.isName() &&  tl.answersAs[TQAtype::e_asName].isSound()) ||
-          (tl.questionAs.isFret() && tl.answersAs[TQAtype::e_asFretPos].isSound()) ||
-          (tl.questionAs.isSound() && tl.answersAs[TQAtype::e_asSound].isSound()) )
+    if (tl.answerIsSound())
             tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asSound);
     S += TquestionAsWdg::spanNootka(tmp, fontSize);
     S += "</td></tr>";
@@ -165,6 +152,7 @@ void TlevelPreview::setLevel(Tlevel& tl) {
     }
     S += "</table></center>";
     S.replace("_ROW_SPAN_", QString("%1").arg(S.count("<tr>")));
+		S += "<br><br>" + tl.desc;
 		m_summaryEdit->setHtml(S);
 }
 

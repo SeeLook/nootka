@@ -273,10 +273,11 @@ void TlevelSelector::findLevels() {
     QList<Tlevel> llist = getExampleLevels();
     for (int i = 0; i < llist.size(); i++) {
         addLevel(llist[i]);
-        isSuitable(llist[i]);
+        m_levels.last().suitable = isSuitable(llist[i]);
     }
   // from constructor (Master of Masters)
     addLevel(lev);
+		m_levels.last().suitable = true;
   // from setting file - recent load/saved levels
     QStringList recentLevels = gl->config->value("recentLevels").toStringList();
     for (int i = recentLevels.size()-1; i >= 0; i--) {
@@ -285,7 +286,7 @@ void TlevelSelector::findLevels() {
             Tlevel level = getLevelFromFile(file);
             if (level.name != "") {
                 addLevel(level, file.fileName());
-                isSuitable(level);
+                m_levels.last().suitable = isSuitable(level);
             } else
                 recentLevels.removeAt(i);
         } else
@@ -325,16 +326,33 @@ bool TlevelSelector::isSuitable(Tlevel &l) {
 							warringText = tr("Level is not suitable for current tuning and/or fret number");
     else if (gl->instrument == e_noInstrument && l.instrument != e_noInstrument)
 							warringText = tr("Level is not suitable for current instrument type");
-	} /*else
+	} else
 			if ((l.answerIsSound() || l.answerIsGuitar())&& 
 				!l.inScaleOf(gl->loString().getChromaticNrOfNote(), gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber))
-						warringText = tr("Range of notes in the level is beyond the scale of your instrument");*/
+						warringText = tr("Range of notes in the level is beyond the scale of your instrument");
 	if (warringText != "") {
 			m_levels.last().item->setStatusTip("<span style=\"color: red;\">" + warringText + "</span>");
-			m_levels.last().item->setFlags(Qt::NoItemFlags);
+			m_levels.last().item->setForeground(QBrush(Qt::red));
 			return false;
 	}
-		return true;	
+	return true;
+}
+
+
+void TlevelSelector::disableNotSuitable() {
+	for (int i = 0; i < m_levels.size(); i++)
+		if (!m_levels[i].suitable) {
+			m_levels[i].item->setFlags(Qt::NoItemFlags);
+			m_levels[i].item->setForeground(QBrush(palette().color(QPalette::Disabled, QPalette::Text)));
+		}
+}
+
+
+bool TlevelSelector::isSuitable() {
+	if (idOfSelected() > -1 )
+			return m_levels[idOfSelected()].suitable;
+	else
+			return false;
 }
 
 

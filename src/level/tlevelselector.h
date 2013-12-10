@@ -22,9 +22,9 @@
 
 #include "tlevel.h"
 #include <QWidget>
+#include <QListWidget>
 
-class QListWidgetItem;
-class QListWidget;
+
 class TlevelPreview;
 class QListWidget;
 class QPushButton;
@@ -50,15 +50,16 @@ public:
         * 3. In latest used files */
     void findLevels();
 		
-    static QString levelFilterTxt() { return tr("Levels"); }
+    static QString levelFilterTxt() { return tr("Levels"); } /** Levels */
     
         /** Shows message box with error if file cannot be opened.*/
     static void fileIOerrorMsg(QFile &f, QWidget *parent = 0);
 
     struct SlevelContener {
-        Tlevel level;
-        QString file; // file name of a level
-        QListWidgetItem *item; // corresponding entry in QListWidget (m_levelsListWdg)
+        Tlevel 						level;
+        QString 					file; // file name of a level
+        QListWidgetItem  *item; // corresponding entry in QListWidget (m_levelsListWdg)
+        bool 							suitable; // true when level is possible to perform by current instrument
     };    
         /** Adds level @param lev to list. 
          * Also corresponding file name.
@@ -69,9 +70,9 @@ public:
         * and shows its summary.*/
     void selectLevel(int id);
 		
-        /** Selects the latest level*/
-    void selectLevel();
-    Tlevel getSelectedLevel(); /** Returns current level*/
+    void selectLevel(); /** Selects the latest level*/
+    Tlevel getSelectedLevel(); /** Returns current selected level*/
+		int idOfSelected() { return m_levelsListWdg->currentRow(); }
 		
         /** Updates config file with new levels list.
         * Returns true when given level file was added to config. */
@@ -81,7 +82,10 @@ public:
         * If not, it disables the latest entry in the list - BE SURE to call this
         * only after addLevel() method which puts the last level on the list.*/
     bool isSuitable(Tlevel &l);
-
+		bool isSuitable();  /** Checks current selected level */
+		bool isSuitable(int id) { return m_levels[id].suitable; }
+		
+		void disableNotSuitable(); /** Disables all levels which not allow instrument settings. */
 
 public slots:
     void levelSelected(int id);

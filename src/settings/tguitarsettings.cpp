@@ -195,8 +195,9 @@ void TguitarSettings::saveSettings() {
     gl->GfretsNumber = m_fretsNrSpin->value();
 		Ttune *tmpTune;
 		if (gl->instrument != e_noInstrument)
-			tmpTune = new Ttune(m_tuneCombo->currentText(), m_tuneView->getNote(5), m_tuneView->getNote(4),
-											m_tuneView->getNote(3), m_tuneView->getNote(2), m_tuneView->getNote(1), m_tuneView->getNote(0));
+			grabTuneFromScore(tmpTune);
+// 			tmpTune = new Ttune(m_tuneCombo->currentText(), m_tuneView->getNote(5), m_tuneView->getNote(4),
+// 											m_tuneView->getNote(3), m_tuneView->getNote(2), m_tuneView->getNote(1), m_tuneView->getNote(0));
 		else { // instrument scale taken from note segments 4 & 5
 			Tnote hiN, loN; // fix notes order
 			if (m_tuneView->getNote(4).getChromaticNrOfNote() > m_tuneView->getNote(5).getChromaticNrOfNote()) {
@@ -261,7 +262,7 @@ void TguitarSettings::setTune(Ttune* tune) {
     for (int i = 0; i < 6; i++) {
 				m_tuneView->setNote(i, tune->str(6 - i));
 				m_tuneView->setNoteDisabled(i, !(bool)tune->str(6 - i).note);
-				if (tune->str(6 - i).note)
+				if (m_instrumentTypeCombo->currentIndex() != 0 && tune->str(6 - i).note)
 					m_tuneView->setStringNumber(i, 6 - i);
 				else
 					m_tuneView->clearStringNumber(i);
@@ -282,6 +283,11 @@ void TguitarSettings::updateAmbitus() {
 
 
 void TguitarSettings::grabTuneFromScore(Ttune* tune) {
+		QString tuneName;
+		if (m_instrumentTypeCombo->currentIndex())
+			tuneName = m_tuneCombo->currentText();
+		else
+			tuneName = "scale";
 		*tune = Ttune(m_tuneCombo->currentText(), m_tuneView->getNote(5), m_tuneView->getNote(4),
 											m_tuneView->getNote(3), m_tuneView->getNote(2), m_tuneView->getNote(1), m_tuneView->getNote(0));
 }
@@ -430,19 +436,31 @@ void TguitarSettings::updateNotesState() {
 		Ttune *tmpTune = new Ttune();
 		grabTuneFromScore(tmpTune);
 		for (int i = 0; i < 6; i++) {
-// 			if (i >= 6 - tmpTune->stringNr()) {
-			if (i >= 6 - m_stringNrSpin->value()) {
+			if (i >= 6 - tmpTune->stringNr()) {
+// 			if (i >= 6 - m_stringNrSpin->value()) {
 					if (m_tuneView->getNote(i).note == 0) {
 						m_tuneView->setNote(i, m_tuneView->lowestNote());
 						userTune(0, Tnote());
 					}
-					m_tuneView->setStringNumber(i, 6 - i);
+					if (m_instrumentTypeCombo->currentIndex())
+						m_tuneView->setStringNumber(i, 6 - i);
+					else
+						m_tuneView->clearStringNumber(i);
 			} else {
 					m_tuneView->setNoteDisabled(i, true);
 			}
 		}
 		delete tmpTune;
 }
+
+
+Tnote TguitarSettings::fixEmptyNote(int noteSegm) {
+	Tnote nn = m_tuneView->getNote(noteSegm);
+	if (nn.note == 0)
+		nn = Tnote(m_tuneView->lowestNote().getChromaticNrOfNote() + noteSegm);
+	return nn;
+}
+
 
 #if defined(Q_OS_WIN)
 void TguitarSettings::delayedBgGlyph() {

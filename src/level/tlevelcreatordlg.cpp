@@ -97,7 +97,10 @@ void TlevelCreatorDlg::levelWasSelected(Tlevel level) {
     questSett->loadLevel(level);
     accSett->loadLevel(level);
     rangeSett->loadLevel(level);
-    levelSett->startExamBut->setDisabled(false);
+		if (levelSett->levelSelector->isSuitable())
+				levelSett->startExamBut->setDisabled(false);
+		else
+				levelSett->startExamBut->setDisabled(true);
 }
 
 

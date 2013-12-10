@@ -61,6 +61,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
 			nameLay->addWidget(m_nameEdit);
     levLay->addLayout(nameLay);
     m_levelsView = new TlevelSelector(this);
+		m_levelsView->disableNotSuitable();
     levLay->addWidget(m_levelsView);
     QLabel *moreLab = new QLabel(levelSettings::moreLevelLinkTxt(), this);
 			moreLab->setOpenExternalLinks(true);
