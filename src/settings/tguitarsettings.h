@@ -45,32 +45,45 @@ public:
 		
     void saveSettings();
 		void restoreDefaults();
+		
 				/** Returns instrument currently selected. */
 		int currentInstrument() { return m_currentInstr; }
 		Ttune* currentTune() { return m_curentTune; }
 		
 		
 		Tclef currentClef();
+		
 				/** Returns lowest note  in current tune. */
 		Tnote lowestNote();
 
 signals:
 		void clefChanged(Tclef);
 		void lowestNoteChanged(Tnote loNote);
-				/** Is emited when user changes m_instrumentTypeCombo. Sending value is cast of Einstrument type to int. */
+		
+				/** Is emitted when user changes m_instrumentTypeCombo. Sending value is cast of Einstrument type to int. */
 		void instrumentChanged(int);
 		void tuneChanged(Ttune*);
 		
 private:
     void setTune (Ttune *tune);
-				/** Sets highest and lowest notes in a segment when selected tune is not appropirate to a clef. */
+		
+				/** Sets highest and lowest notes in a segment when selected tune is not appropriate to a clef. */
 		void updateAmbitus();
+		
 				/** Disables or enables all widgets on the page. */
 		void guitarDisabled(bool disabled);
-				/** It sets notes state (disables or enables it or sets highest or lowest) according to curent tune. */
+		
+				/** It sets notes state (disables or enables it or sets highest or lowest) according to current tune. */
 		void updateNotesState();
+		
 				/** Takes note by note from m_tuneView and fills given tune. Name is taken from m_tuneCombo */
 		void grabTuneFromScore(Ttune *tune);
+		
+				/** Takes note from given segment number 
+				 * and returns lowest score note + @p noteSegm when it is not set.
+				 * It is used to put proper note values to tuning. */
+		Tnote fixEmptyNote(int noteSegm);
+		
 
     TsimpleScore    *m_tuneView;
     QCheckBox       *m_righthandCh, *m_morePosCh;

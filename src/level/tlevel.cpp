@@ -304,6 +304,8 @@ bool Tlevel::canBeSound() {
       return false;
 }
 
+/** Checking questions would be skipped because Level creator avoids selecting answer without question.
+* Unfortunately built-in levels are not so perfect.*/
 bool Tlevel::answerIsNote() {
 	if ((questionAs.isNote() && answersAs[TQAtype::e_asNote].isNote()) || 
 			(questionAs.isName() && answersAs[TQAtype::e_asName].isNote()) ||
