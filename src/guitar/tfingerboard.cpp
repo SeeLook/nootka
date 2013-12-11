@@ -399,7 +399,10 @@ void TfingerBoard::correctPosition(TfingerPos& pos, const QColor color) {
 
 
 QPointF TfingerBoard::fretToPos(TfingerPos& pos) {
-	return QPointF(m_fretsPos[pos.fret() - 1] - qRound(m_fretWidth / 1.5), m_fbRect.y() + m_strGap * (pos.str() - 1) + m_strGap / 5);
+  qreal xPos = fbRect().x();
+  if (pos.fret())
+    xPos = m_fretsPos[pos.fret() - 1] - qRound(m_fretWidth / 1.5);
+	return QPointF(xPos, m_fbRect.y() + m_strGap * (pos.str() - 1) + m_strGap / 5);
 }
 
 
