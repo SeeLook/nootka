@@ -52,6 +52,9 @@ public:
 		
     static QString levelFilterTxt() { return tr("Levels"); } /** Levels */
     
+				/** Range of notes in the level is beyond the scale of your instrument */
+    static QString rangeBeyondScaleTxt() { return tr("Range of notes in the level is beyond the scale of your instrument"); }
+    
         /** Shows message box with error if file cannot be opened.*/
     static void fileIOerrorMsg(QFile &f, QWidget *parent = 0);
 
@@ -78,14 +81,17 @@ public:
         * Returns true when given level file was added to config. */
     void updateRecentLevels();
 		
-        /** Checks is given level in range of current tune and frets number.
+				/** Static method to check a level with current global instrument settings */
+		static QString checkLevel(Tlevel &l);
+		
+				/** Checks is given level in range of current tune and frets number.
         * If not, it disables the latest entry in the list - BE SURE to call this
         * only after addLevel() method which puts the last level on the list.*/
     bool isSuitable(Tlevel &l);
 		bool isSuitable();  /** Checks current selected level */
 		bool isSuitable(int id) { return m_levels[id].suitable; }
 		
-		void disableNotSuitable(); /** Disables all levels which not allow instrument settings. */
+		void disableNotSuitable(); /** Disables all levels which not match to instrument settings. */
 
 public slots:
     void levelSelected(int id);

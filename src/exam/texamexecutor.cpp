@@ -100,7 +100,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
         mW->examResults->startExam();
 				if (userAct == TstartExamDlg::e_runExercise) {
 						m_exercise = new Texercises(m_exam);
-						m_exam->setFileName(QDir::toNativeSeparators(QFileInfo(gl->config->fileName()).absolutePath() + "/exercise.noo"));
+						m_exam->setFileName(QDir::toNativeSeparators(QFileInfo(gl->config->fileName()).absolutePath() + "/exercise.noo"));	
 				}
     } else if (userAct == TstartExamDlg::e_contExam) {
         m_exam = new Texam(&m_level, "");
@@ -146,11 +146,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
             return;
         }
     }
-    if ((m_level.questionAs.isNote() && m_level.answersAs[TQAtype::e_asNote].isSound()) ||
-     (m_level.questionAs.isName() && m_level.answersAs[TQAtype::e_asName].isSound()) ||
-     (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isSound()) ||
-     (m_level.questionAs.isSound() && m_level.answersAs[TQAtype::e_asSound].isSound()) )
-    {
+    if (m_level.answerIsSound()) {
       if (!mW->sound->isSniffable()) {
             QMessageBox::warning(mW, "",
                      tr("An exercises or exam require sound input but<br>it is not available!"));
@@ -164,6 +160,13 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 
     m_supp = new TexecutorSupply(&m_level, this);
     m_supp->createQuestionsList(m_questList);
+		if (m_questList.isEmpty()) {
+        QMessageBox::critical(mW, "", tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
+				delete m_supp;
+				mW->clearAfterExam();
+				deleteExam();
+        return;
+    }
     prepareToExam();
     if (m_exam->fileName() == "" && gl->E->showHelpOnStart)
 				showExamHelp();
@@ -219,11 +222,11 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
     
 		createActions();
 		
-    if (m_questList.size() == 0) {
-        QMessageBox::critical(mW, "", tr("Level <b>%1<b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
-        restoreAfterExam();
-        return;
-    }
+//     if (m_questList.size() == 0) {
+//         QMessageBox::critical(mW, "", tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
+//         restoreAfterExam();
+//         return;
+//     }
     /*
        for (int i = 0; i < m_exam->blacList()->size(); i++)
           if (m_exam->blacList()->operator[](i).questionAs == m_exam->blacList()->operator[](i).answerAs)
@@ -720,14 +723,14 @@ void TexamExecutor::correctAnswer() {
 					mW->pitchView->outOfTuneAnim(outTune, 1200);
 					m_canvas->outOfTuneTip(outTune); // we are sure that it is beyond the accuracy threshold
 			}
-			if (gl->instrument != e_noInstrument && (curQ.isWrong() || curQ.wrongOctave())) {
-					// Animation towards guitar when instrument is guitar and answer was wrong or octave was wrong
+			if (m_supp->isCorrectedPlayable())
+					repeatSound();
+			else { 
+				// Animation towards guitar when instrument is guitar and answer was wrong or octave was wrong
 					if (curQ.questionAs == TQAtype::e_asFretPos)
 						mW->guitar->correctPosition(curQ.qa.pos, markColor);
 					else
 						m_canvas->correctToGuitar(curQ.questionAs, gl->E->correctViewDuration, curQ.qa.pos);
-			} else { // no guitar or out of tune
-						repeatSound();
 			}
 				
 	}

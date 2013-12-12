@@ -401,7 +401,7 @@ void TfingerBoard::correctPosition(TfingerPos& pos, const QColor color) {
 QPointF TfingerBoard::fretToPos(TfingerPos& pos) {
   qreal xPos = fbRect().x();
   if (pos.fret())
-    xPos = m_fretsPos[pos.fret() - 1] - qRound(m_fretWidth / 1.5);
+			xPos = m_fretsPos[pos.fret() - 1] - qRound(m_fretWidth / 1.5);
 	return QPointF(xPos, m_fbRect.y() + m_strGap * (pos.str() - 1) + m_strGap / 5);
 }
 
@@ -672,6 +672,7 @@ void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
     paintFingerAtPoint(event->pos());
 }
 
+
 void TfingerBoard::mousePressEvent(QMouseEvent *event) {
 	if (!m_isDisabled && event->button() == Qt::LeftButton) {
 		if (m_curFret != 99 && m_curStr != 7) {
@@ -697,8 +698,6 @@ void TfingerBoard::mousePressEvent(QMouseEvent *event) {
 //################################################################################################
 
 void TfingerBoard::paintFinger(QGraphicsEllipseItem *f, char strNr, char fretNr) {
-//     f->setPos(m_fretsPos[fretNr-1] - qRound(m_fretWidth / 1.5),
-//               m_fbRect.y() + m_strGap * strNr + m_strGap / 5);
 		TfingerPos pp(strNr + 1, fretNr);
 		f->setPos(fretToPos(pp));
 }

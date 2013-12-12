@@ -65,6 +65,7 @@ TexecutorSupply::TexecutorSupply(Tlevel* level, QObject* parent) :
   m_wasFinished(false)
 {
   calcQAPossibleCount();
+	checkPlayCorrected();
 }
 
 //##########################################################################################
@@ -95,7 +96,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
 		m_level->onlyLowPos = true;
 	}
 
-	if (m_level->instrument != e_noInstrument || m_level->showStrNr || m_level->canBeGuitar()) {
+	if (!m_playCorrections || m_level->instrument != e_noInstrument || m_level->showStrNr || m_level->canBeGuitar()) {
 		qDebug() << "Question list created fret by fret";
 		for(int s = 0; s < gl->Gtune()->stringNr(); s++) {
 				if (m_level->usedStrings[gl->strOrder(s)])// check string by strOrder
@@ -354,6 +355,19 @@ void TexecutorSupply::calcQAPossibleCount() {
       m_qaPossib++;
   }
 }
+
+
+void TexecutorSupply::checkPlayCorrected() {
+	m_playCorrections = true;
+	if (m_level->instrument == e_noInstrument) {
+		if (m_level->answerIsSound())
+			if (gl->instrument != e_noInstrument)
+				if (m_level->inScaleOf(gl->loString().getChromaticNrOfNote(), gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber))
+					m_playCorrections = false;
+	} else
+			m_playCorrections = false;
+}
+
 
 
 //##########################################################################################
