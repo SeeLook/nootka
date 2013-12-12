@@ -27,9 +27,12 @@ class Texam;
 class QWidget;
 class Tlevel;
 
-/** A purpose of this class is to make the exam executor smaller.
+
+/** 
+ * A purpose of this class is to make the exam executor smaller.
  * Also it has eventFilter() re-implementation to manage right mouse button,
- * witch can not be simply captured by contextMenuEvent from disabled widgets. */
+ * witch can not be simply captured by contextMenuEvent from disabled widgets. 
+ */
 class TexecutorSupply : public QObject
 {
   Q_OBJECT
@@ -38,26 +41,26 @@ public:
   
   void createQuestionsList(QList<TQAunit::TQAgroup> &list);
   Tnote determineAccid(Tnote n);
-        /** */
+ 
   Tnote forceEnharmAccid(Tnote n);
 	
-    /** Switches given style to opposite (letters or solfege).
-     * If none specified, gives opposite to previous returned. */
+			/** Switches given style to opposite (letters or solfege).
+			* If none specified, gives opposite to previous returned. */
   Tnote::EnameStyle randomNameStyle(int style = -1);
 	
-    /** Returns list with possible positions of a note on given position.
-     * Given fingerPos (position) is not included.
-     * If strCheck is true it is excluding strings unvailable in a level. */
+			/** Returns list with possible positions of a note on given position.
+			* Given fingerPos (position) is not included.
+			* If strCheck is true it is excluding strings unavailable in a level. */
   void getTheSamePos(TfingerPos &fingerPos, QList<TfingerPos> &posList, bool strCheck = true);
 	
-    /** Returns randomized number in questions list proper for question and answer on the guitar. */
+			/** Returns randomized number in questions list proper for question and answer on the guitar. */
   quint16 getQAnrForGuitarOnly() { return m_fretFretList[qrand() % m_fretFretList.size()]; }
   
-    /** Returns true when qustions and answers as guitar are possible. */
+			/** Returns true when questions and answers as guitar are possible. */
   bool isGuitarOnlyPossible() { return !m_fretFretList.isEmpty(); }
   
-    /** Using level settings calculates number of mandatory questions in exam.
-     * It is stored in m_totalQuestNr. */
+			/** Using level settings calculates number of mandatory questions in exam.
+			* It is stored in m_totalQuestNr. */
   int obligQuestions() { return m_obligQuestNr; }
   int qaPossibilities() { return m_qaPossib; }
   
@@ -65,6 +68,10 @@ public:
   void examFinished();
   void setFinished() { m_wasFinished = true;}
   bool wasFinished() { return m_wasFinished; }
+			
+			/** Returns @p True when level and user instrument preferences determine corrected answer to be played.
+			 * When corrections are possible on guitar it returns @p False */
+  bool isCorrectedPlayable() { return m_playCorrections; }
 		
 			/** Check. are current guitar fret number and tuning different than exercise or exam level.
 			 * Adjust globals (tune and fret number have to be stored before) and
@@ -76,10 +83,14 @@ signals:
   void rightButtonClicked();
   
 protected:
+	
   virtual bool eventFilter(QObject* obj, QEvent* event);
-      /** Calculates how many question/answer combinations are posible fffor different types
-       * enabled in a level. */
+	
+      /** Calculates how many question/answer combinations are possible for different types enabled in a level. */
   void calcQAPossibleCount();
+		
+			/** Determines should be corrections played or shown on the guitar */
+	void checkPlayCorrected();
 			
 	
 private:
@@ -91,19 +102,15 @@ private:
 	void addToList(QList<TQAunit::TQAgroup> &list, Tnote &n, TfingerPos &f);
   
 private:
-  Tlevel 							*m_level;
-	
-      /** Total number of questions to answer in exam (without penaltys) */
-  int 										m_obligQuestNr;
+  Tlevel 									*m_level;
+  int 										m_obligQuestNr; /** Total number of questions to answer in exam (without penalties) */
   int 										m_qaPossib;
-	
-      /** Previous accidental used. */
-	Tnote::Eacidentals 			m_prevAccid;
+	Tnote::Eacidentals 			m_prevAccid; /** Previous accidental used. */
 	
       /** intervals between asking about double accidentals.
-        * By default every forth question is with double adccid.*/
+        * By default every forth question is with double accidentals.*/
   int 										m_dblAccidsCntr;
-	
+		
       /** It counts occurrence of e, f, b and c notes
        * to avoid asking about eis fes his and ces to often 
        * witch occurs in scores rarely. */
@@ -117,9 +124,9 @@ private:
        * either question as position or answer. 
        * The list is initialized in createQuestionsList() method if level has that settings. */
   QList<quint16> 					m_fretFretList;
+  bool 										m_wasFinished; /** True when message about finished exam was shown. */
+  bool										m_playCorrections; /** Corrected answers will be played (True) or shown on the guitar (False) */
 	
-      /** True when message about finished exam was shown. */
-  bool 										m_wasFinished;
       
 };
 

@@ -177,6 +177,8 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
 						QFile::remove(exerciseFile);
 				}
 		}
+		if (TlevelSelector::checkLevel(m_prevExerciseLevel) != "")
+				m_prevExerciseLevel.name = ""; // Returned string means that the level doesn't match to current settings
 		if (m_prevExerciseLevel.name != "")
 			 m_exerciseButt->setStatusTip(tr("Start exercise on level:") + "<br><b>" + m_prevExerciseLevel.name + "</b>");
 		

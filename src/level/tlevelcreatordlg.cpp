@@ -212,7 +212,7 @@ QString TlevelCreatorDlg::validateLevel(Tlevel &l) {
 	// Check is level range fit to instrument scale
 		if (l.canBeGuitar() || l.answerIsSound()) {
 			if (!l.inScaleOf(gl->loString().getChromaticNrOfNote(), gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber))
-				res += tr("<li>Range of notes in the level is beyond the scale of your instrument</li>");
+				res += "<li>" + TlevelSelector::rangeBeyondScaleTxt() + "</li>";
 		}
   // checking are accidentals needed because of hi and low notes in range
     char acc = 0;

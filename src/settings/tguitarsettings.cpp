@@ -193,7 +193,7 @@ void TguitarSettings::saveSettings() {
 		gl->instrument = (Einstrument)m_instrumentTypeCombo->currentIndex();
     gl->GisRightHanded = m_righthandCh->isChecked();
     gl->GfretsNumber = m_fretsNrSpin->value();
-		Ttune *tmpTune;
+		Ttune *tmpTune = new Ttune();
 		if (gl->instrument != e_noInstrument)
 			grabTuneFromScore(tmpTune);
 // 			tmpTune = new Ttune(m_tuneCombo->currentText(), m_tuneView->getNote(5), m_tuneView->getNote(4),
@@ -207,7 +207,7 @@ void TguitarSettings::saveSettings() {
 				hiN = m_tuneView->getNote(5);
 				loN = m_tuneView->getNote(4);
 			}
-			tmpTune = new Ttune("scale", 
+			*tmpTune = Ttune("scale", 
 													Tnote(hiN.getChromaticNrOfNote() - m_fretsNrSpin->value()), loN,
 													Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0)	);
 		}
@@ -391,6 +391,7 @@ void TguitarSettings::instrumentTypeChanged(int index) {
 	} else {
 			guitarDisabled(true);
 			m_stringNrSpin->setValue(2); // fake two strings
+			m_tuneView->setClef(Tclef(Tclef::e_treble_G));
 			for (int i = 0; i < 6; i++) {
 				if (i < 4)
 					m_tuneView->setNoteDisabled(i, true);
@@ -407,11 +408,11 @@ void TguitarSettings::instrumentTypeChanged(int index) {
 	}
   m_tuneView->addBGglyph(index);
 	emit instrumentChanged(index);
+	emit clefChanged(m_tuneView->clef());
 }
 
 
 void TguitarSettings::guitarDisabled(bool disabled) {
-// 		m_tuneGroup->setDisabled(disabled);
 		if (disabled) {
 			m_tuneGroup->setTitle(scaleOfInstrText);
 		} else {
