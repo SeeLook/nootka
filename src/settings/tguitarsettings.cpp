@@ -176,6 +176,10 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 				QString S = tr("Custom tuning");
 				if (gl->Gtune()->name == S)
 						m_tuneCombo->setCurrentIndex(m_tuneCombo->count() - 1);
+		} else { // Apply instrument scale
+			m_tuneView->setClef(Tclef(gl->Sclef));
+			m_tuneView->setNote(4, Tnote(gl->Gtune()->str(1).getChromaticNrOfNote() + gl->GfretsNumber));
+			m_tuneView->setNote(5, gl->Gtune()->str(2));
 		}
 #if defined(Q_OS_WIN)
     QTimer::singleShot(5, this, SLOT(delayedBgGlyph()));
@@ -200,12 +204,12 @@ void TguitarSettings::saveSettings() {
 // 											m_tuneView->getNote(3), m_tuneView->getNote(2), m_tuneView->getNote(1), m_tuneView->getNote(0));
 		else { // instrument scale taken from note segments 4 & 5
 			Tnote hiN, loN; // fix notes order
-			if (m_tuneView->getNote(4).getChromaticNrOfNote() > m_tuneView->getNote(5).getChromaticNrOfNote()) {
-				hiN = m_tuneView->getNote(4);
-				loN = m_tuneView->getNote(5);
-			} else {
+			if (m_tuneView->getNote(5).getChromaticNrOfNote() < m_tuneView->getNote(4).getChromaticNrOfNote()) {
 				hiN = m_tuneView->getNote(5);
 				loN = m_tuneView->getNote(4);
+			} else {
+				hiN = m_tuneView->getNote(4);
+				loN = m_tuneView->getNote(5);
 			}
 			*tmpTune = Ttune("scale", 
 													Tnote(hiN.getChromaticNrOfNote() - m_fretsNrSpin->value()), loN,

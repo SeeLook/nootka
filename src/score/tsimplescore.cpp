@@ -254,7 +254,7 @@ void TsimpleScore::setAmbitus(int index, Tnote lo, Tnote hi) {
 
 void TsimpleScore::setAmbitus(Tnote lo, Tnote hi) {
 		for (int i = 0; i < m_notesNr; i++)
-			setAmbitus(lo, hi);
+			setAmbitus(i, lo, hi);
 }
 
 /** !!!!All values are hard coded */
@@ -378,6 +378,7 @@ void TsimpleScore::switchToPianoStaff(Tclef clef) {
 void TsimpleScore::statusTipChanged(QString status) {
 	QStatusTipEvent *tipEvent = new QStatusTipEvent(status);
 	qApp->postEvent(parent(), tipEvent);
+	emit statusTip(status);
 }
 
 

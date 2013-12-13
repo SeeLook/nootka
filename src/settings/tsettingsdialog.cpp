@@ -56,7 +56,7 @@ TsettingsDialog::TsettingsDialog(QWidget *parent) :
     navList->addItem(tr("Names","name-calling"));
     navList->item(2)->setIcon(QIcon(gl->path+"picts/nameSettings.png"));
     navList->item(2)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(tr("Guitar"));
+    navList->addItem(tr("Instrument"));
     navList->item(3)->setIcon(QIcon(gl->path+"picts/guitarSettings.png"));
     navList->item(3)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Sound"));

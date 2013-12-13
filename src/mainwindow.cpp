@@ -557,7 +557,7 @@ void MainWindow::updsateSize() {
 	setUpdatesEnabled(false);
 	m_statFontSize = (centralWidget()->height() / 10) / 4 - 2;
 	nootBar->setIconSize(QSize(height() / 22, height() / 22));
-	pitchView->resize(m_statFontSize);
+// 	pitchView->resize(m_statFontSize);
 	m_statLab->setFixedHeight(centralWidget()->height() / 10);
 	QFont f = m_statLab->font();
 	f.setPointSize(m_statFontSize);
@@ -571,6 +571,7 @@ void MainWindow::updsateSize() {
 	noteName->resize(m_statFontSize);
 	
 	if (gl->instrument != e_noInstrument) {
+		pitchView->resize(m_statFontSize);
 		if (m_pitchContainer) {
 			m_pitchContainer->layout()->removeWidget(pitchView);
 			m_pitchContainer->deleteLater();
@@ -581,7 +582,7 @@ void MainWindow::updsateSize() {
 // 		int allWidgetsHeight = m_statLab->height() + progress->height() + examResults->height() + 
 // 				noteName->height() + guitar->height() + pitchView->height() + 20;
 // 		if (allWidgetsHeight < height()) { // move pitchView under noteName
-		if (score->width() < width() / 2) { // remove pitchView from under score
+		if (score->width() < innerWidget->width() / 2) { // remove pitchView from under score
 			if (m_scoreLay->count() > 1) { // if it is under score
 				m_scoreLay->removeWidget(pitchView);
 				m_rightLay->addWidget(pitchView);
@@ -623,9 +624,11 @@ void MainWindow::updsateSize() {
 // 				m_rosettePixmap = rosePix.scaled(341 * ratio, 281 * ratio, Qt::KeepAspectRatio);
 		}
 	} else { // no guitar - pitch view instead
+			pitchView->resize(m_statFontSize * 1.7);
 			if (!m_pitchContainer) {
 				guitar->hide();
 				m_pitchContainer = new QWidget(innerWidget);
+				m_pitchContainer->setStyleSheet(gl->getBGcolorText(palette().window().color()) + "border-radius: 10px;");
 				m_rightLay->removeWidget(pitchView);
 				QVBoxLayout *pitchLay = new QVBoxLayout;
 				pitchLay->addStretch(1);
@@ -646,7 +649,7 @@ void MainWindow::updsateSize() {
 
 void MainWindow::resizeEvent(QResizeEvent * event) {
     updsateSize();
-		qDebug() << innerWidget->size();
+// 		qDebug() << innerWidget->size();
     emit sizeChanged(innerWidget->size());
 }
 

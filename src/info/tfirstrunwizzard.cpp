@@ -68,16 +68,15 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
 	// One and half page
 		m_selectInstr = new TselectInstrument(this);
 	// Second Page
-    m_notationNote = new QTextEdit(this);
+    m_notationWidget = new Tpage_2(this);
 		whenInstrumentChanged(1);
-    m_notationNote->setWordWrapMode(QTextOption::WordWrap);
 
     m_page3 = new Tpage_3();
     m_page4 = new TmainHelp(gl->path);
 
     m_pagesLay->addWidget(aboutNoot);
 		m_pagesLay->addWidget(m_selectInstr);
-    m_pagesLay->addWidget(m_notationNote);
+    m_pagesLay->addWidget(m_notationWidget);
     m_pagesLay->addWidget(m_page3);
     m_pagesLay->addWidget(m_page4);
     
@@ -116,13 +115,9 @@ void TfirstRunWizzard::prevSlot() {
     case 2 :
         m_pagesLay->setCurrentIndex(1);
         break;
-		case 3 : {
-				if (m_selectInstr->otherRadio->isChecked()) // skip guitar notation theory
-						m_pagesLay->setCurrentIndex(1); // when other instrument is selected
-				else
-						m_pagesLay->setCurrentIndex(2);
+		case 3 :
+				m_pagesLay->setCurrentIndex(2);
         break;
-		}
     case 4 :
         m_nextButt->setText(nextText());
         m_pagesLay->setCurrentIndex(3);
@@ -137,13 +132,9 @@ void TfirstRunWizzard::nextSlot() {
         m_prevButt->setDisabled(false);
         m_pagesLay->setCurrentIndex(1);
         break;
-    case 1 : {
-				if (m_selectInstr->otherRadio->isChecked()) // skip guitar notation theory
-						m_pagesLay->setCurrentIndex(3); // when other instrument is selected
-				else
-						m_pagesLay->setCurrentIndex(2);
+    case 1 :
+				m_pagesLay->setCurrentIndex(2);
         break;
-		}
 		case 2 :
         m_pagesLay->setCurrentIndex(3);
         break;
@@ -180,6 +171,19 @@ void TfirstRunWizzard::nextSlot() {
 				} else if (gl->instrument == e_electricGuitar) {
             gl->A->audioInstrNr = (int)e_electricGuitar;
             gl->GfretsNumber = 23;
+        } else if (gl->instrument == e_noInstrument) {
+						gl->Sclef = m_notationWidget->score()->clef().type();
+						Tnote hiN, loN; // fix notes order
+						if (m_notationWidget->score()->getNote(1).getChromaticNrOfNote() <
+										m_notationWidget->score()->getNote(0).getChromaticNrOfNote()) {
+								hiN = m_notationWidget->score()->getNote(1);
+								loN = m_notationWidget->score()->getNote(0);
+						} else {
+								hiN = m_notationWidget->score()->getNote(0);
+								loN = m_notationWidget->score()->getNote(1);
+						}
+						Ttune instrScale("scale", Tnote(hiN.getChromaticNrOfNote() - gl->GfretsNumber), loN);
+						gl->setTune(instrScale);
         }
         close();
         break;
@@ -188,13 +192,14 @@ void TfirstRunWizzard::nextSlot() {
 
 // To write notes of bass guitar this application uses <b>bass dropped clef</b> (bass clef with \"eight\" digit below) but common practice is to skip this digit and write it in ordinary bass clef. Remember, bass guitar sounds octave lower than notes written in 'normal' bass clef.
 void TfirstRunWizzard::whenInstrumentChanged(int instr) {
-		if ((Einstrument)instr == e_bassGuitar)
-				m_notationNote->setHtml(QString("<center>%1<br>").
+	m_notationWidget->setNoteForInstrument(instr);
+	if ((Einstrument)instr == e_bassGuitar)
+				m_notationWidget->notationNote()->setHtml(QString("<center>%1<br>").
 				arg(TtipChart::wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F, TkeySignature(0), 5.0)) +
 				tr("When writing notation for bass guitar, the <b>bass clef</b> is used but the played notes sound an octave lower. The proper clef is <b>bass dropped clef</b> (with the digit \"eight\" written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.") +
 					"<br><br>" + TtipChart::wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F_8down, TkeySignature(0), 8.0));
-		else if ((Einstrument)instr == e_classicalGuitar || (Einstrument)instr == e_electricGuitar)
-				m_notationNote->setHtml("<br><br><center>" + tr("Guitar notation uses the treble clef with the digit \"eight\" written below (even if some editors are forgetting about this digit).<br><br>Try to understand this. <br><br><p> %1 %2<br><span style=\"font-size:20px;\">Both pictures above show the same note: c<sup>1</sup></span><br>(note c in one-line octave)</p>").
+	else if ((Einstrument)instr == e_classicalGuitar || (Einstrument)instr == e_electricGuitar)
+				m_notationWidget->notationNote()->setHtml("<br><br><center>" + tr("Guitar notation uses the treble clef with the digit \"eight\" written below (even if some editors are forgetting about this digit).<br><br>Try to understand this. <br><br><p> %1 %2<br><span style=\"font-size:20px;\">Both pictures above show the same note: c<sup>1</sup></span><br>(note c in one-line octave)</p>").
 				arg(TtipChart::wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G, TkeySignature(0), 6.0)).
 				arg(TtipChart::wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G_8down, TkeySignature(0), 6.0)) + "</center>");
 }
@@ -269,6 +274,69 @@ void TselectInstrument::buttonPressed(int butt) {
           gl->instrument = e_noInstrument;
 		}
 		emit instrumentChanged((int)gl->instrument);
+}
+
+//###############################################  Tpage_2   ###############################################
+
+Tpage_2::Tpage_2(QWidget* parent) :
+	QWidget(parent),
+	m_notationNote(0),
+	m_score(0)
+{
+	m_lay = new QVBoxLayout;
+	setLayout(m_lay);
+}
+
+
+void Tpage_2::setNoteForInstrument(int instr) {
+	if ((Einstrument)instr == e_noInstrument) {
+		if (!m_score) {
+			if (m_notationNote) {
+				delete m_notationNote;
+				m_notationNote = 0;
+			}
+			m_scoreHint = new TroundedLabel(this);
+			m_lay->addWidget(m_scoreHint);
+			m_scoreHint->setFixedHeight(fontMetrics().boundingRect("A").height() * 4);
+			m_scoreHint->setWordWrap(true);
+			m_scoreHint->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+			m_score = new TsimpleScore(2, this);
+			m_lay->addWidget(m_score, 0, Qt::AlignCenter);
+			m_score->addBGglyph((int)e_noInstrument);
+			m_score->setClef(Tclef(Tclef::e_treble_G));
+			clefChanged();
+			scoreHint("");
+			connect(m_score, SIGNAL(statusTip(QString)), this, SLOT(scoreHint(QString)));
+			connect(m_score, SIGNAL(clefChanged(Tclef)), this, SLOT(clefChanged()));
+			connect(m_score, SIGNAL(pianoStaffSwitched()), this, SLOT(clefChanged()));
+		}
+	} else {
+		if (!m_notationNote) {
+			if (m_score) {
+				delete m_score;
+				m_score = 0;
+				delete m_scoreHint;
+			}
+			m_notationNote = new QTextEdit(this);
+			layout()->addWidget(m_notationNote);
+			m_notationNote->setWordWrapMode(QTextOption::WordWrap);
+			m_notationNote->setReadOnly(true);
+		}
+	}
+}
+
+
+void Tpage_2::scoreHint(QString hint) {
+	if (hint == "") 
+		m_scoreHint->setText("<center>" + tr("Select a clef and scale of notes appropriate for your instrument."));
+	else
+		m_scoreHint->setText("<center>" + hint);
+}
+
+
+void Tpage_2::clefChanged() {
+		m_score->setNote(0, m_score->lowestNote());
+		m_score->setNote(1, m_score->highestNote());
 }
 
 

@@ -4,7 +4,6 @@ Plan for the Nootka One
 ISSUES
 		
 - sometimes exam doesn't ask mistaken questions again
-- tip position over guitar when no guitar
 - try to close out stream for pulse - it sucks or get rid of pulse
 
 			
@@ -12,7 +11,6 @@ TODOES
 - check 'tune' of non guitar - does it correspond with instrument/clef scale and levels works proper
 - update screen-shoot image in exam help
 - force 'Plasique' style under MacOs or find a way on buttons
-- selecting clef for non guitar in wizard
 - force a maximum score width especially for 4:3 ratios
 - !!!check does 'string order' work for Tfingerboard!!!
 - sniffer has setAmbitus to guitar scale range - fix it!!!
@@ -29,14 +27,10 @@ TO CONSIDERATION
   - add sound during wizard and About dialog (???)
   - add string numbers to generated pixmap
 
-TSTARTEXAMDLG
-  - TexamLevel has to be pointer or reference
-  - also other instances of TexamLevel
 
 
 
 TEXAMEXECUTOR
-	- enable/disable sniffing during exams (specially when no input is required)
   - think about hide octave in note name format when octaves are not required in answers. 
      Also for questions in "hint" - don't show octave when only name is required   
     
