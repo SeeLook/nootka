@@ -22,6 +22,8 @@
 
 #include <QDialog>
 
+class QVBoxLayout;
+class TsimpleScore;
 class TroundedLabel;
 class TscalePreviewLabel;
 class QLabel;
@@ -29,6 +31,7 @@ class QTextEdit;
 class QStackedLayout;
 class QRadioButton;
 class QCheckBox;
+class Tpage_2;
 class Tpage_3;
 class TmainHelp;
 class Select7note;
@@ -50,7 +53,7 @@ private:
     QStackedLayout 		*m_pagesLay;
     Tpage_3 					*m_page3;
     TmainHelp 				*m_page4;
-		QTextEdit 				*m_notationNote;
+		Tpage_2 					*m_notationWidget;
 		TselectInstrument *m_selectInstr;
 
 private slots:
@@ -83,7 +86,34 @@ private:
 		
 };
 
-// page 2 is a QLabel with info about notation
+/** page 2 is a QTextEdit with info about notation 
+ * or score widget to select clef and instrument scale. */
+class Tpage_2 : public QWidget
+{
+	Q_OBJECT
+	
+public:
+	explicit Tpage_2(QWidget* parent = 0);
+	
+	QTextEdit* notationNote() { return m_notationNote; }
+	TsimpleScore *score() { return m_score; }
+	
+			/** Changes contents of the widget. 
+			 * For guitars it is QTextEdit available through notationNote()
+			 * and for non guitar it is score and label with description. */
+	void setNoteForInstrument(int instr);
+	
+protected slots:
+	void scoreHint(QString hint);
+	void clefChanged(); /** To keep proper notes in scale */
+	
+private:
+	QTextEdit			*m_notationNote;
+	TsimpleScore  *m_score;
+	TroundedLabel *m_scoreHint;
+	QVBoxLayout		*m_lay;
+};
+
 
 class Tpage_3 : public QWidget
 {
