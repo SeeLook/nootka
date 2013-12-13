@@ -196,23 +196,22 @@ void TscoreNote::moveNote(int posY) {
 		m_mainPosY = posY;
     int noteNr = (56 + staff()->notePosRelatedToClef(posY)) % 7;
 		QString newAccid = getAccid(m_accidental);
-		bool accidAnim = false;
+// 		bool accidAnim = false;
 		if (staff()->accidInKeyArray[noteNr]) {
+// 			qDebug() << "accid in key" << (int)staff()->accidInKeyArray[noteNr] << "accid" << m_accidental;
       if (m_accidental == 0) {
         newAccid = getAccid(3); // neutral
-				accidAnim = true;
+// 				accidAnim = true;
 				m_mainAccid->hide();
 				if (!m_readOnly && !m_noteAnim)
 					emit fromKeyAnim(newAccid, m_mainAccid->scenePos(), m_mainPosY);
-// 					emit fromKeyAnim(newAccid, QPointF(this->pos().x() -0.5, m_mainPosY - accidYoffset()), m_mainPosY);
 			}
       else {
         if (staff()->accidInKeyArray[noteNr] == m_accidental) {
 					if (!m_readOnly && !m_noteAnim)
 						emit toKeyAnim(newAccid, m_mainAccid->scenePos(), m_mainPosY);
-// 						emit toKeyAnim(newAccid, QPointF(this->pos().x() -0.5, m_mainPosY - accidYoffset()), m_mainPosY);
           newAccid = " "; // hide accidental
-					accidAnim = true;
+// 					accidAnim = true;
 				}
       }
     }
@@ -220,6 +219,7 @@ void TscoreNote::moveNote(int posY) {
 				m_accidAnim->startCrossFading(newAccid, m_mainColor);
     } else {
 				m_mainAccid->setText(newAccid);
+				m_mainAccid->show();
     }
 
     setStringPos();
@@ -251,6 +251,7 @@ void TscoreNote::hideNote() {
     hideLines(m_mainDownLines);
     m_mainPosY = 0;
     m_accidental = 0;
+		m_mainNote->setPos(3.0, 0);
 }
 
 
