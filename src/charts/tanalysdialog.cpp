@@ -216,7 +216,10 @@ void TanalysDialog::createActions() {
     openMenu->addSeparator();
 		QString exerciseFile = QDir::toNativeSeparators(QFileInfo(gl->config->fileName()).absolutePath() + "/exercise.noo");
 		if (QFileInfo(exerciseFile).exists()) {
-			QAction *exerciseAct = new QAction(tr("Recent exercise on level") + " " + gl->E->prevExerciseLevel, this);
+			Tlevel lev;
+			Texam ex(&lev, "");
+			ex.loadFromFile(exerciseFile);
+			QAction *exerciseAct = new QAction(tr("Recent exercise on level") + ": " + lev.name, this);
 			exerciseAct->setIcon(QIcon(gl->path + "picts/practice.png"));
 			connect(exerciseAct, SIGNAL(triggered()), this, SLOT(openRecentExercise()));
 			openMenu->addAction(exerciseAct);

@@ -26,7 +26,11 @@ class TcrossFadeTextAnim;
 class TscoreControl;
 class TscoreScene;
 
-
+/*!
+ * This class represents single note n a score. 
+ * It is a rectangle area over the staff with handling mouse move event to display working note cursor.
+ * It also grabs wheel event to manipulate accidentals
+ */
 class TscoreNote : public TscoreItem
 {
   Q_OBJECT
@@ -94,9 +98,17 @@ public:
 		void setReadOnly(bool ro);
 		bool isReadOnly() { return m_readOnly; }
 		
+				/** Changes accidental of a working note cursor. */
 		void setWorkAccid(int accNr);
-		void enableAnimation(bool enable, int duration = 150);
-		bool animationsEnabled() { return (bool)m_noteAnim; }
+		
+				/** Enables moving note animation during its position (pitch) change.
+				 * In fact, when accidental is visible it is animated as well. */
+		void enableNoteAnim(bool enable, int duration = 150);
+		bool isNoteAnimEnabled() { return (bool)m_noteAnim; }
+		
+				/** When note accidental has already existed in a key signature animation is performed.  */
+		void enableAccidToKeyAnim(bool enable) { m_accidToKeyAnim = enable; }
+		bool accidToKeyAnim() { return m_accidToKeyAnim; }
     
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     virtual QRectF boundingRect() const;
@@ -127,17 +139,19 @@ private:
     QColor                        m_workColor, m_mainColor;
 		TcombinedAnim									*m_noteAnim;
 		TcrossFadeTextAnim 						*m_accidAnim;
+    bool													m_accidToKeyAnim;
     
     int                           m_workPosY, m_mainPosY;
     int                           m_curentAccid, m_accidental;
     int                           m_index; // note index in external list
 //     int 													m_noteNr; // note number depends on octave
-    int 													m_ottava; // values from -2 (two octaves down), to 2 (two octaves up)
+    int 													m_ottava; /** values from -2 (two octaves down), to 2 (two octaves up) */
     int                           m_ambitMin, m_ambitMax; /** Represents range (ambitus) of notes on score */
 		int 													m_stringNr;
     qreal                         m_height;
 		bool													m_readOnly;
 		QColor                        m_bgColor;
+		
 		static qreal 									m_accidYoffset; // difference to note y position.
     static qreal									m_accidScale;
     
