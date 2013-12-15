@@ -45,8 +45,6 @@ public:
   bool showCorrected; /** When answer was wrong, corrected one will be shown */
   int correctViewDuration; /** Time of displaying correct answer */
   bool suggestExam; /** Check is exercising going well and suggest to start an exam on that level. */
-  QString prevExerciseLevel; /** Keeps name of previous exercise level. */
-  //   bool repeatUntilcorrect; /** or until correct answer will be given. */
   
 // Displaying dialogues check box state
 	bool askAboutExpert; /** shows confirm dialog when expertsAnswerEnable is going to be changed @def true */

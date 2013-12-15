@@ -63,7 +63,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 //   m_noteNr(100),
   m_ottava(0),
   m_bgColor(-1),
-  m_noteAnim(0)
+  m_noteAnim(0), m_accidToKeyAnim(false)
 {
   setStaff(staff);
 	setParentItem(staff);
@@ -196,22 +196,19 @@ void TscoreNote::moveNote(int posY) {
 		m_mainPosY = posY;
     int noteNr = (56 + staff()->notePosRelatedToClef(posY)) % 7;
 		QString newAccid = getAccid(m_accidental);
-// 		bool accidAnim = false;
 		if (staff()->accidInKeyArray[noteNr]) {
-// 			qDebug() << "accid in key" << (int)staff()->accidInKeyArray[noteNr] << "accid" << m_accidental;
       if (m_accidental == 0) {
-        newAccid = getAccid(3); // neutral
-// 				accidAnim = true;
-				m_mainAccid->hide();
-				if (!m_readOnly && !m_noteAnim)
-					emit fromKeyAnim(newAccid, m_mainAccid->scenePos(), m_mainPosY);
-			}
-      else {
-        if (staff()->accidInKeyArray[noteNr] == m_accidental) {
-					if (!m_readOnly && !m_noteAnim)
-						emit toKeyAnim(newAccid, m_mainAccid->scenePos(), m_mainPosY);
+					newAccid = getAccid(3); // neutral
+					m_mainAccid->hide();
+// 				if (!m_readOnly && !m_noteAnim)
+					if (m_accidToKeyAnim)
+							emit fromKeyAnim(newAccid, m_mainAccid->scenePos(), m_mainPosY);
+			} else {
+					if (staff()->accidInKeyArray[noteNr] == m_accidental) {
+// 					if (!m_readOnly && !m_noteAnim)
+					if (m_accidToKeyAnim)
+								emit toKeyAnim(newAccid, m_mainAccid->scenePos(), m_mainPosY);
           newAccid = " "; // hide accidental
-// 					accidAnim = true;
 				}
       }
     }
@@ -307,7 +304,7 @@ void TscoreNote::setReadOnly(bool ro) {
 }
 
 
-void TscoreNote::enableAnimation(bool enable, int duration) {
+void TscoreNote::enableNoteAnim(bool enable, int duration) {
 	if (enable) {
 			if (!m_noteAnim) {
 					m_noteAnim = new TcombinedAnim(m_mainNote, this);

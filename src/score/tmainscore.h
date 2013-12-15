@@ -59,18 +59,18 @@ public:
         * or not (connect).*/
     void isExamExecuting(bool isIt);
 		
-        /** Internally it calls setScoreDisabled(false) to unlock
-        * and locks unused noteViews (1 & 2) again. */
+        /** Internally it calls setScoreDisabled(false) to unlock and locks unused noteViews (1 & 2) again. */
     void unLockScore();
     void setKeyViewBg(QColor C);
     void setNoteViewBg(int id, QColor C);
-        /** Sets given accidental*/
-    void forceAccidental(Tnote::Eacidentals accid);
+    void forceAccidental(Tnote::Eacidentals accid); /** Sets given accidental */
 		
-        /** Marks note with border and blur.
-         * it is used to show was answer correct or not. */
+        /** Marks note with border and blur. It is used to show was answer correct or not. */
     void markAnswered(QColor blurColor);
     void markQuestion(QColor blurColor);
+		
+		void enableAccidToKeyAnim(bool enable);
+		bool isAccidToKeyAnimEnabled();
 		
 				/** Removes score controller from layout and returns a pointer to it.  */
 		TscoreControl* getFreeController();

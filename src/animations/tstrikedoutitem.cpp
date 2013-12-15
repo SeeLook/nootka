@@ -26,6 +26,7 @@ TstrikedOutItem::TstrikedOutItem(const QRectF& rect, QGraphicsItem* parent) :
 	m_rectF(rect),
 	m_blinking(0)
 {
+	setFlag(QGraphicsItem::ItemHasNoContents, true);
 	prepareLines(parent);
 }
 
@@ -57,6 +58,7 @@ void TstrikedOutItem::prepareLines(QGraphicsItem* parent) {
 							else
 								line->setLine(xx + 2 * offset, parentLine->line().p1().y() - offset, xx, parentLine->line().p1().y() + offset); // line /
 							line->setParentItem(this);
+							line->setGraphicsEffect(0);
 							m_lines << line;
 					}
 			}
@@ -69,6 +71,7 @@ void TstrikedOutItem::prepareLines(QGraphicsItem* parent) {
 					else
 						line->setLine(-offset, m_rectF.height() + offset, m_rectF.width() + offset, -offset); // line / (bottom to top)
 					line->setParentItem(this);
+					line->setGraphicsEffect(0);
 					m_lines << line;
 				}
 		}

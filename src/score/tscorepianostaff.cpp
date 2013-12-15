@@ -67,7 +67,7 @@ void TscorePianoStaff::setNote(int index, Tnote& note) {
 	Tnote emptyNote = Tnote(0, 0, 0);
 	if (note.note) {
 			if ((note.octave * 7 + note.note) > 7) {
-					if (noteSegment(index)->animationsEnabled() && lower()->noteSegment(index)->notePos())
+					if (noteSegment(index)->isNoteAnimEnabled() && lower()->noteSegment(index)->notePos())
 							noteSegment(index)->mainNote()->setPos(3.0, height() + lower()->noteSegment(index)->mainNote()->pos().y());
 					TscoreStaff::setNote(index, note); // set a note
 					if (noteSegment(index)->notePos() == 0) // and check is it in staff scale
@@ -75,7 +75,7 @@ void TscorePianoStaff::setNote(int index, Tnote& note) {
 					else // or reset lower staff
 						lower()->setNote(index, emptyNote);
 			} else {
-					if (noteSegment(index)->animationsEnabled() && noteSegment(index)->notePos())
+					if (noteSegment(index)->isNoteAnimEnabled() && noteSegment(index)->notePos())
 							lower()->noteSegment(index)->mainNote()->setPos(3.0, -height() + noteSegment(index)->mainNote()->pos().y());
 					lower()->setNote(index, note);
 					if (lower()->noteSegment(index)->notePos() == 0)

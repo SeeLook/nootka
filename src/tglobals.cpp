@@ -186,9 +186,8 @@ Tglobals::Tglobals() :
         E->levelsDir = config->value("levelsDir", QDir::homePath()).toString();
 				E->closeWithoutConfirm = config->value("closeWithoutConfirm", false).toBool();
 				E->showCorrected = config->value("showCorrected", true).toBool();
-				E->correctViewDuration = config->value("durationOfCorrect", 2000).toInt();
+				E->correctViewDuration = config->value("durationOfCorrect", 2500).toInt();
 				E->suggestExam = config->value("suggestExam", true).toBool();
-				E->prevExerciseLevel = config->value("prevExerciseLevel", "").toString();
 				E->showHelpOnStart = config->value("showHelpOnStart", true).toBool();
 				E->askAboutExpert = config->value("askAboutExpert", true).toBool();
 				E->showVeryBeginHelp = config->value("showVeryBeginHelp", true).toBool();
@@ -327,7 +326,6 @@ void Tglobals::storeSettings() {
 				config->setValue("closeWithoutConfirm", E->closeWithoutConfirm);
 				config->setValue("durationOfCorrect", E->correctViewDuration);
 				config->setValue("suggestExam", E->suggestExam);
-				config->setValue("prevExerciseLevel", E->prevExerciseLevel);
 				config->setValue("askAboutExpert", E->askAboutExpert);
         config->setValue("showHelpOnStart", E->showHelpOnStart);
 				config->setValue("showVeryBeginHelp", E->showVeryBeginHelp);

@@ -85,7 +85,6 @@ void TmainScore::setEnableEnharmNotes(bool isEnabled) {
 
 void TmainScore::acceptSettings() {
 	setEnabledDblAccid(gl->doubleAccidentalsEnabled);
-// 	setEnableKeySign(gl->SkeySignatureEnabled);
 	setClef(Tclef(gl->Sclef));
 	setEnableKeySign(gl->SkeySignatureEnabled);
 	if (gl->instrument == e_classicalGuitar || gl->instrument == e_electricGuitar)
@@ -105,10 +104,11 @@ void TmainScore::acceptSettings() {
 //     setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()-1),
 //                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber+1));
 	restoreNotesSettings();
+	enableAccidToKeyAnim(false); // prevent accidental animation to empty note
 	if (gl->SkeySignatureEnabled)
 		setKeySignature(keySignature());
+	enableAccidToKeyAnim(true);
 }
-
 
 
 void TmainScore::setScordature() {
@@ -155,6 +155,19 @@ QPoint TmainScore::notePos(int noteNr) {
 	return mapToParent(score()->mapToParent(vPos));
 }
 
+
+void TmainScore::enableAccidToKeyAnim(bool enable) {
+	staff()->noteSegment(0)->enableAccidToKeyAnim(enable);
+	if (staff()->lower())
+		staff()->lower()->noteSegment(0)->enableAccidToKeyAnim(enable);
+}
+
+
+bool TmainScore::isAccidToKeyAnimEnabled() {
+	return staff()->noteSegment(0)->accidToKeyAnim();
+}
+
+
 //####################################################################################################
 //############################## METHODS RELATED TO EXAMS ############################################
 //####################################################################################################
@@ -195,6 +208,8 @@ void TmainScore::isExamExecuting(bool isIt) {
 
 
 void TmainScore::clearScore() {
+	bool enableAnim = isAccidToKeyAnimEnabled();
+	enableAccidToKeyAnim(false); // prevent animations to empty score
 	clearNote(0);
 	clearNote(1);
 	clearNote(2);
@@ -218,6 +233,7 @@ void TmainScore::clearScore() {
 	m_bgRects.clear();
 	m_questMark->hide();
 	setBGcolor(palette().base().color());
+	enableAccidToKeyAnim(enableAnim);
 }
 
 
@@ -397,21 +413,27 @@ void TmainScore::strikeBlinkingFinished() {
 		m_bliking = 0;
 	}
 	staff()->noteSegment(0)->setColor(palette().text().color());
-	staff()->noteSegment(0)->enableAnimation(true, 300);
+	staff()->noteSegment(0)->enableNoteAnim(true, 300);
 	staff()->noteSegment(0)->markNote(-1);
 	if (staff()->lower()) {
 			staff()->lower()->noteSegment(0)->setColor(palette().text().color());
 			staff()->lower()->noteSegment(0)->markNote(-1);
-			staff()->lower()->noteSegment(0)->enableAnimation(true, 300);
+			staff()->lower()->noteSegment(0)->enableNoteAnim(true, 300);
 	}
+	bool animEnabled = isAccidToKeyAnimEnabled();
+	enableAccidToKeyAnim(false); // prevent animations - it looks ugly with correction animations
 	setNote(0, m_goodNote);
+	enableAccidToKeyAnim(animEnabled);
 	QTimer::singleShot(320, this, SLOT(finishCorrection()));	
 }
 
 
 void TmainScore::keyBlinkingFinished() {
 	if (m_goodKey.value() != keySignature().value()) { // finished 1st time
+			bool animEnabled = isAccidToKeyAnimEnabled();
+			enableAccidToKeyAnim(false); // prevent animations - it looks ugly with correction animations
 			setKeySignature(m_goodKey); // set proper key
+			enableAccidToKeyAnim(animEnabled);
 			if (m_questKey) // desired key name make green and replace ? for !
 				m_questKey->setHtml(m_questKey->toHtml().replace("?", "!").replace(gl->EquestionColor.name(), gl->EanswerColor.name()));
 			m_keyBlinking->startBlinking(3); // and blink again
@@ -425,10 +447,10 @@ void TmainScore::keyBlinkingFinished() {
 
 
 void TmainScore::finishCorrection() {
-	staff()->noteSegment(0)->enableAnimation(false);
+	staff()->noteSegment(0)->enableNoteAnim(false);
 	staff()->noteSegment(0)->markNote(QColor(gl->EanswerColor.name()));
 	if (staff()->lower()) {
-			staff()->lower()->noteSegment(0)->enableAnimation(false);
+			staff()->lower()->noteSegment(0)->enableNoteAnim(false);
 			staff()->lower()->noteSegment(0)->markNote(QColor(gl->EanswerColor.name()));
 
 	}
@@ -451,14 +473,14 @@ void TmainScore::restoreNotesSettings() {
 		staff()->noteSegment(1)->setColor(gl->enharmNotesColor);
 		staff()->noteSegment(2)->setReadOnly(true);
 		staff()->noteSegment(2)->setColor(gl->enharmNotesColor);
-// 		staff()->noteSegment(0)->enableAnimation(true);
+		staff()->noteSegment(0)->enableAccidToKeyAnim(true);
 		if (staff()->lower()) {
 				staff()->lower()->noteSegment(0)->setPointedColor(gl->SpointerColor);
 				staff()->lower()->noteSegment(1)->setReadOnly(true);
 				staff()->lower()->noteSegment(1)->setColor(gl->enharmNotesColor);
 				staff()->lower()->noteSegment(2)->setReadOnly(true);
 				staff()->lower()->noteSegment(2)->setColor(gl->enharmNotesColor);
-// 				staff()->lower()->noteSegment(0)->enableAnimation(true);
+				staff()->lower()->noteSegment(0)->enableAccidToKeyAnim(true);
 		}
 		
 }

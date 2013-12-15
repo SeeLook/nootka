@@ -666,7 +666,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 					}
 				}
 		}
-    if (showResults && (gl->E->autoNextQuest /*|| (m_exercise && curQ.answerAs == TQAtype::e_asSound)*/)) {
+    if (showResults && gl->E->autoNextQuest) {
       m_lockRightButt = true; // to avoid nervous users click mouse during wait time
       if (m_shouldBeTerminated)
           stopExamSlot();
@@ -674,8 +674,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
       if (curQ.isCorrect()) {
           m_askingTimer->start(WAIT_TIME);
       } else {
-          if ((!m_exercise /*|| (m_exercise && curQ.answerAs == TQAtype::e_asSound)*/) 
-						&& gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
+          if (!m_exercise && gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
               QTimer::singleShot(WAIT_TIME, this, SLOT(repeatQuestion()));
           else
               m_askingTimer->start(waitTime);
@@ -881,14 +880,12 @@ void TexamExecutor::prepareToExam() {
 		if (m_exercise) {
 				mW->correctChB->show();
 				mW->correctChB->setChecked(gl->E->showCorrected);
-		}	else
+		}	else {
 				mW->progress->activate(m_exam->count(), m_supp->obligQuestions(), m_exam->penalty(), m_exam->isFinished());
-		if (gl->instrument != e_noInstrument && 
-			((/*m_level.questionAs.isNote() && */!m_level.answersAs[TQAtype::e_asNote].isSound()) &&
-			(/*m_level.questionAs.isName() && */!m_level.answersAs[TQAtype::e_asName].isSound()) &&
-			(/*m_level.questionAs.isFret() && */!m_level.answersAs[TQAtype::e_asFretPos].isSound()) &&
-			(/*m_level.questionAs.isSound() && */!m_level.answersAs[TQAtype::e_asSound].isSound())))
-					mW->pitchView->hide();
+				mW->examResults->displayTime();
+		}
+		if (gl->instrument != e_noInstrument && !m_level.answerIsSound())
+					mW->pitchView->hide(); // hide pitchView when it is no necessary
     disableWidgets();
 // connect all events to check an answer or display tip how to check
     connect(mW->score, SIGNAL(noteClicked()), this, SLOT(expertAnswersSlot()));
@@ -925,6 +922,7 @@ void TexamExecutor::prepareToExam() {
     mW->guitar->acceptSettings();
     mW->score->isExamExecuting(true);
 		mW->sound->acceptSettings();
+		mW->score->enableAccidToKeyAnim(!gl->E->expertsAnswerEnable); // no key animation for experts (no time for it)
 		if (mW->sound->isSniffable())
 			mW->sound->wait();
     mW->sound->prepareToExam(m_level.loNote, m_level.hiNote);
@@ -965,6 +963,7 @@ void TexamExecutor::restoreAfterExam() {
 		
 		TtipChart::defaultClef = gl->Sclef;
     mW->score->acceptSettings();
+		mW->score->enableAccidToKeyAnim(true);
     mW->noteName->setEnabledEnharmNotes(false);
     mW->noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
     mW->guitar->acceptSettings();
@@ -1079,6 +1078,7 @@ void TexamExecutor::exerciseToExam() {
 	mW->correctChB->hide();
 	mW->examResults->startExam();
 	mW->progress->activate(m_exam->count(), m_supp->obligQuestions(), m_exam->penalty(), m_exam->isFinished());
+	mW->examResults->displayTime();
 	disconnect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExerciseSlot()));
 	connect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
 	mW->progress->show();
@@ -1131,7 +1131,6 @@ void TexamExecutor::stopExerciseSlot() {
 		}
 		if (m_exam->count())
 				m_exam->saveToFile();
-		gl->E->prevExerciseLevel = m_level.name; // TODO easy to remove - see in TstartExamDlg
 		closeExecutor();
 }
 
@@ -1325,6 +1324,7 @@ void TexamExecutor::expertAnswersStateChanged(bool enable) {
           mW->expertAnswChB->setChecked(false); // ignore it, user resigned
   }
   gl->E->expertsAnswerEnable = mW->expertAnswChB->isChecked();
+	mW->score->enableAccidToKeyAnim(!gl->E->expertsAnswerEnable); // no accid to key animation when experts enabled
 }
 
 
@@ -1359,13 +1359,9 @@ void TexamExecutor::expertAnswersSlot() {
      * Calling checkAnswer() from here invokes stoping and deleting TaudioIN.
      * It finishes with crash. To avoid this checkAnswer() has to be called
      * from outside - by timer event. */
-//    if (m_exam->curQ().answerAs == TQAtype::e_asSound)
-//      m_canvas->noteTip(600);
-    if (m_exam->curQ().answerAs == TQAtype::e_asSound) {
-//        qDebug("paused");
+    if (m_exam->curQ().answerAs == TQAtype::e_asSound)
         mW->sound->pauseSinffing();
-    }
-    QTimer::singleShot(10, this, SLOT(checkAnswer()));
+    QTimer::singleShot(1, this, SLOT(checkAnswer()));
 }
 
 

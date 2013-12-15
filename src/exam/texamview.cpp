@@ -141,7 +141,6 @@ void TexamView::startExam(int passTimeInSec, int questNumber, int averTime, int 
     m_showReact = false;
     m_totalTime.start();
     m_totalTime.restart();
-    m_timer->start(100);
     countTime();
     setAnswer();
     m_averTimeLab->setText(" " + formatReactTime(qRound(m_averTime)) + " ");
@@ -199,8 +198,6 @@ void TexamView::countTime() {
     if (m_showReact)
         m_reactTimeLab->setText(QString(" %1 ").arg(formatReactTime(m_reactTime.elapsed() / 100)));
     m_totalTimeLab->setText(" " + formatedTotalTime(m_totElapsedTime * 1000 + m_totalTime.elapsed()) + " ");
-		if (!isVisible()) // no time labels when hidden (exercising)
-			m_timer->stop();
 }
 
 

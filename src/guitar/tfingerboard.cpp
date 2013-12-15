@@ -384,12 +384,14 @@ void TfingerBoard::correctPosition(TfingerPos& pos, const QColor color) {
 			QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem();
 			ellipse->setPen(Qt::NoPen);
 			ellipse->setBrush(gl->GselectedColor);
-			TfingerPos ff(3, 12);
-			ellipse->setPos(fretToPos(ff) + QPointF(0, m_strGap / 2));
+// 			TfingerPos ff(3, 12);
+// 			ellipse->setPos(fretToPos(ff) + QPointF(0, m_strGap / 2));
+			ellipse->setPos(width() - ellipse->boundingRect().width(), 1.0); // right top corner
 			m_scene->addItem(ellipse);
 			ellipse->setRect(fingerRect());
 			m_movingItem = (QGraphicsItem*)ellipse;
-			m_strikeOut = new TstrikedOutItem(ellipse);
+// 			m_strikeOut = new TstrikedOutItem(ellipse);
+			m_strikeOut = new TstrikedOutItem(m_rangeBox1);
 	}
 	QPen pp(QColor(color.name()), m_strWidth[3]);
 	m_strikeOut->setPen(pp);
@@ -827,6 +829,7 @@ void TfingerBoard::deleteBeyondTip() {
 //################### CORRECTING ANSWERS  ANIMATIONS    #########################################
 //################################################################################################
 void TfingerBoard::strikeBlinkingFinished() {
+		m_strikeOut->hide();
 		m_strikeOut->deleteLater();
 		m_strikeOut = 0;
 		markAnswer(Qt::transparent);
