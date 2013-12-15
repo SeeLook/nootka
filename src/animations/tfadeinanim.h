@@ -16,63 +16,29 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tabstractanim.h"
-#include <QTimer>
+#ifndef TFADEINANIM_H
+#define TFADEINANIM_H
 
-TabstractAnim::TabstractAnim(QGraphicsItem* it, QObject* parent) :
-	QObject(parent),
-	m_timer(0),
-	m_item(it),
-	m_duration(150)
+#include <animations/tabstractanim.h>
+
+
+/**
+ * This class perform fade-in animation on given item.
+ * Remember to hide item before!!
+ */
+class TfadeInAnim : public TabstractAnim
 {
-		m_easingCurve = new QEasingCurve();
-}
+  Q_OBJECT
+  
+public:
+  
+  explicit TfadeInAnim(QGraphicsItem* item = 0, QObject* parent = 0);
+  
+  void startFadeIn();
+  
+protected:
+  virtual void animationRoutine();
 
+};
 
-TabstractAnim::~TabstractAnim()
-{
-		delete m_easingCurve;
-}
-
-
-void TabstractAnim::installTimer() {
-	if (!m_timer) {
-			m_timer = new QTimer(this);
-			connect(m_timer, SIGNAL(timeout()), this, SLOT(animationRoutine()));
-	}
-}
-
-
-void TabstractAnim::initAnim(int currStep, int stepNr, int timerStep, bool install) {
-	if (install)
-			installTimer();
-	if (stepNr < 0)
-			m_stepCount = duration() / CLIP_TIME;
-	else
-			m_stepCount = stepNr;
-	m_currentStep = currStep;	
-	timer()->start(timerStep);
-	animationRoutine();
-}
-
-
-void TabstractAnim::stopAnim() {
-	timer()->stop();
-	emit finished();
-}
-
-
-
-void TabstractAnim::setTimer(QTimer* tim) {
-	if (m_timer)
-		delete m_timer;
-	m_timer = tim;
-	if (m_timer)
-		connect(m_timer, SIGNAL(timeout()), this, SLOT(animationRoutine()));
-}
-
-
-
-
-
-
+#endif // TFADEINANIM_H

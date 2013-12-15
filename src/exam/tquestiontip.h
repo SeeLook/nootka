@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,11 +22,14 @@
 #include "tgraphicstexttip.h"
 #include "tnote.h"
 
+class TfadeInAnim;
 class Texam;
 class Tlevel;
 class TQAunit;
 
-
+/**
+ * This is graphics tip (rectangle) representing a question context
+ */
 class TquestionTip : public TgraphicsTextTip
 {
    Q_OBJECT
@@ -37,12 +40,11 @@ public:
     ~TquestionTip();
     
     static QString getTextHowAccid(Tnote::Eacidentals accid);
-        /** Returns translated text on (strNr) string in Nootka font. */
-    static QString onStringTxt(quint8 strNr);
+    static QString onStringTxt(quint8 strNr); /** Returns translated text on (strNr) string in Nootka font. */
     
-    bool freeScore() { return m_scoreFree; } // true when question is not on score
-    bool freeName() { return m_nameFree; } // true when question is not on note name
-    bool freeGuitar() { return m_guitarFree; } // true when question is not on guitar
+    bool freeScore() { return m_scoreFree; } /** true when question is not on score */
+    bool freeName() { return m_nameFree; } /** true when question is not on note name */
+    bool freeGuitar() { return m_guitarFree; } /** true when question is not on guitar */
     
 protected:    
         /** Returns html-formated question text. */
@@ -51,8 +53,10 @@ protected:
         
     
 private:
-    bool m_scoreFree, m_nameFree, m_guitarFree; // Indicate where has to be tip
-    Tnote::Eacidentals m_forcedAccid; // When different than Tnote::e_Natural text is shown
+                /** Indicate where has to be tip */
+    bool                    m_scoreFree, m_nameFree, m_guitarFree; 
+    Tnote::Eacidentals      m_forcedAccid; // When different than Tnote::e_Natural text is shown
+    TfadeInAnim             *m_fadeInAnim;
 };
 
 

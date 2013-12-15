@@ -24,6 +24,7 @@
 #include "tglobals.h"
 #include <tlevel.h>
 #include <ttipchart.h>
+#include <animations/tfadeinanim.h>
 // #include <QDebug>
 
 extern Tglobals *gl;
@@ -53,6 +54,10 @@ TquestionTip::TquestionTip(Texam* exam, double scale) :
   TgraphicsTextTip(getQuestion(exam->question(exam->count()-1), exam->count(), exam->level(), scale))
 {
   setBgColor(gl->EquestionColor);
+  hide();
+  m_fadeInAnim = new TfadeInAnim(this);
+  m_fadeInAnim->setEasingCurveType(QEasingCurve::InExpo);
+  m_fadeInAnim->startFadeIn();
 }
 
 TquestionTip::~TquestionTip() {}

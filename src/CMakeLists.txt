@@ -179,6 +179,7 @@ SET( NOOTKA_SRCS
 	animations/tcoloredanim.cpp
 	animations/tmorphedanim.cpp
 	animations/tcombinedanim.cpp
+	animations/tfadeinanim.cpp
   )
   
 # if(MINGW)
@@ -285,6 +286,7 @@ SET( NOOTKA_MOC_SRCS
 	animations/tcoloredanim.h
 	animations/tmorphedanim.h
 	animations/tcombinedanim.h
+	animations/tfadeinanim.h
 )
   
 

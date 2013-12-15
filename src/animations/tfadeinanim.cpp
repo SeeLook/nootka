@@ -16,63 +16,28 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tabstractanim.h"
-#include <QTimer>
+#include "tfadeinanim.h"
 
-TabstractAnim::TabstractAnim(QGraphicsItem* it, QObject* parent) :
-	QObject(parent),
-	m_timer(0),
-	m_item(it),
-	m_duration(150)
+
+TfadeInAnim::TfadeInAnim(QGraphicsItem* item, QObject* parent) :
+  TabstractAnim(item, parent)
 {
-		m_easingCurve = new QEasingCurve();
+  
 }
 
 
-TabstractAnim::~TabstractAnim()
-{
-		delete m_easingCurve;
-}
-
-
-void TabstractAnim::installTimer() {
-	if (!m_timer) {
-			m_timer = new QTimer(this);
-			connect(m_timer, SIGNAL(timeout()), this, SLOT(animationRoutine()));
-	}
-}
-
-
-void TabstractAnim::initAnim(int currStep, int stepNr, int timerStep, bool install) {
-	if (install)
-			installTimer();
-	if (stepNr < 0)
-			m_stepCount = duration() / CLIP_TIME;
-	else
-			m_stepCount = stepNr;
-	m_currentStep = currStep;	
-	timer()->start(timerStep);
-	animationRoutine();
-}
-
-
-void TabstractAnim::stopAnim() {
-	timer()->stop();
-	emit finished();
+void TfadeInAnim::startFadeIn() {
+  item()->setOpacity(0.0);
+  item()->show();
+  initAnim();
 }
 
 
 
-void TabstractAnim::setTimer(QTimer* tim) {
-	if (m_timer)
-		delete m_timer;
-	m_timer = tim;
-	if (m_timer)
-		connect(m_timer, SIGNAL(timeout()), this, SLOT(animationRoutine()));
+void TfadeInAnim::animationRoutine() {
+  nextStep();
+  if (currentStep() <= stepsNumber()) {
+      item()->setOpacity(0.0 + easyValue((qreal)currentStep() / (qreal)stepsNumber()));
+  } else
+      stopAnim();
 }
-
-
-
-
-
-
