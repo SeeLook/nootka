@@ -60,7 +60,10 @@ TquestionTip::TquestionTip(Texam* exam, double scale) :
   m_fadeInAnim->startFadeIn();
 }
 
-TquestionTip::~TquestionTip() {}
+TquestionTip::~TquestionTip() 
+{
+		delete m_fadeInAnim;
+}
 
 
 //##########################################################################################

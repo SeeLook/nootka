@@ -43,14 +43,12 @@ public:
     ~TsimpleScore();
 
 		void setNote(int index, Tnote note);
-        /** It returns @p note with hope that index points existed Tnote element. */
-    Tnote getNote(int index);
-        /** It hides pionted note and sets note to Tnote(0,0,0)*/
-    void clearNote(int index);
-				/** Adds string number @p realNr to note @p index.  */
-		void setStringNumber(int index, int realNr);
+    Tnote getNote(int index); /** It returns @p note with hope that index points existed Tnote element. */
+    void clearNote(int index); /** It hides pointed note and sets note to Tnote(0,0,0)*/
+		void setStringNumber(int index, int realNr); /** Adds string number @p realNr to note @p index.  */
 		void clearStringNumber(int index); /** Removes string number from note @p index. */
 		void setNoteDisabled(int index, bool isDisabled); /** Disables/enables a note. */
+		bool isNoteDisabled(int index);
 		
 		void setClef(Tclef clef);
 		Tclef clef();
@@ -75,17 +73,19 @@ public:
 		
 				/** Sets background color. Alpha value will be overriden. */
     void setBGcolor(QColor bgColor);
+		
 				/** It disables accids buttons and locks editing,
 					* but doesn't make score gray like standard setDisabled() method. */
     void setScoreDisabled(bool disabled);
 		
 				/** Sets the lowest and the highest note in all note segments on the score .*/
     void setAmbitus(Tnote lo, Tnote hi);
+		
         /** Sets the lowest and the highest note for @p index of note segment .*/
     void setAmbitus(int index, Tnote lo, Tnote hi);
 		
-		Tnote lowestNote(); // Returns lowest possible note on the staff in current clef
-		Tnote highestNote(); // Returns highest possible note on the staff in current clef
+		Tnote lowestNote(); /** Returns lowest possible note on the staff in current clef */
+		Tnote highestNote(); /** Returns highest possible note on the staff in current clef */
 				/** Adds background with glyph identified  kind of instrument. */
 		void addBGglyph(int instr);
 		
@@ -96,6 +96,7 @@ signals:
 				 * with status tip to display. */
     void statusTip(QString);
 		void noteWasChanged(int index, Tnote note);
+		
 				/** TsimpleScore takes care about changing staves but also emits this signal when changes are done.*/
 		void pianoStaffSwitched();
 		void clefChanged(Tclef);
@@ -107,6 +108,7 @@ protected:
 		bool layoutHasControl; // keeps true when TsimpleScore layout has score controller
 		TscoreView* score() { return m_score; }
 		TscoreScene* scene() { return m_scene; }
+		
 				/** Pointer to TscoreStaff should never go to public !!!!
 				 * TscoreStaff instance is changeable by pianoStaffSwitched() and any connection with its signals will be lost.
 				 * Inner methods of TsimpleScore take care about refreshing 
@@ -118,11 +120,13 @@ protected:
 protected slots:
 				/** It grabs TscoreItems statusTips and generates QStatusTipEvent fof parent widget. */
     void statusTipChanged(QString status);
+		
 				/** Except response for scaling TscoreView widget to according to new height,
 				 * this method takes care about new width of the score. 
 				 * It is necessary to call it after staff width changed f.e by:
 				 * setPianoStaff(), setEnableKeySign() and setScordature()				 */
     void resizeEvent(QResizeEvent* event);
+		
 				/** This is response for user demand to change to or from piano staff. */
 		void switchToPianoStaff(Tclef clef);
 		void onClefChanged(Tclef clef);

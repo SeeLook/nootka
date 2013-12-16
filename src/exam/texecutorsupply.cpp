@@ -31,7 +31,7 @@ extern Tglobals *gl;
 /*static*/
 void TexecutorSupply::checkGuitarParamsChanged(QWidget* parent, Texam* exam) {
 	QString changesMessage = "";
-	if (exam->level()->instrument != e_noInstrument) {
+// 	if (exam->level()->instrument != e_noInstrument) {
 			if (exam->level()->instrument != gl->instrument)
 					changesMessage = tr("Guitar type was changed!");
 			if (exam->tune() != *gl->Gtune() ) { //Is tune the same?
@@ -47,7 +47,7 @@ void TexecutorSupply::checkGuitarParamsChanged(QWidget* parent, Texam* exam) {
 						changesMessage += tr("Guitar fret number was changed.");
 						gl->GfretsNumber = exam->level()->hiFret;
 			}
-	}
+// 	}
 	if (changesMessage != "")
 			QMessageBox::warning(parent, "Nootka", changesMessage);
 }
@@ -97,7 +97,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
 	}
 
 	if (!m_playCorrections || m_level->instrument != e_noInstrument || m_level->showStrNr || m_level->canBeGuitar()) {
-		qDebug() << "Question list created fret by fret";
+		qDebug() << "Question list created fret by fret. Tune:" << gl->Gtune()->name << gl->Gtune()->stringNr();
 		for(int s = 0; s < gl->Gtune()->stringNr(); s++) {
 				if (m_level->usedStrings[gl->strOrder(s)])// check string by strOrder
 						for (int f = m_level->loFret; f <= m_level->hiFret; f++) {

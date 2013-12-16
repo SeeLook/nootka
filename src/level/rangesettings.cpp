@@ -110,7 +110,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
 		connect (m_scoreRang, SIGNAL(clefChanged(Tclef)), this, SLOT(whenParamsChanged()));
     connect (m_fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
     connect (m_toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
-		connect (m_scoreRang, SIGNAL(pianoStaffSwitched()), this, SLOT(whenPianoStaffChanges()));
+// 		connect (m_scoreRang, SIGNAL(pianoStaffSwitched()), this, SLOT(whenPianoStaffChanges()));
 }
 
 
@@ -138,7 +138,7 @@ void rangeSettings::loadLevel(Tlevel level) {
 
 
 void rangeSettings::whenPianoStaffChanges() {
-		m_scoreRang->setNoteDisabled(2, true);
+// 		m_scoreRang->setNoteDisabled(2, true);
 }
 
 

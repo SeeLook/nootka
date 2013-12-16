@@ -194,6 +194,9 @@ void TsimpleScore::setPianoStaff(bool isPiano) {
 	if (isPiano != isPianoStaff()) {
 		bool keyEnabled = (bool)m_staff->scoreKey();
 		char key = 0;
+		bool disNotes[m_notesNr];
+		for (int i = 0; i < m_notesNr; i++)
+			disNotes[i] = isNoteDisabled(i);
 		if (keyEnabled)
 			key = m_staff->scoreKey()->keySignature();
 		if (isPiano) {
@@ -218,6 +221,8 @@ void TsimpleScore::setPianoStaff(bool isPiano) {
 			m_bgGlyph = 0; // it was deleted with staff
 			addBGglyph(m_prevBGglyph);
 		}
+		for (int i = 0; i < m_notesNr; i++)
+			setNoteDisabled(i, disNotes[i]);
 		connect(m_staff, SIGNAL(pianoStaffSwitched(Tclef)), this, SLOT(switchToPianoStaff(Tclef)));
 		connect(m_staff, SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
 		connect(m_staff, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
@@ -230,6 +235,11 @@ void TsimpleScore::setNoteDisabled(int index, bool isDisabled) {
 	m_staff->noteSegment(index)->setReadOnly(isDisabled);
 	if (m_staff->lower())
 			m_staff->lower()->noteSegment(index)->setReadOnly(isDisabled);
+}
+
+
+bool TsimpleScore::isNoteDisabled(int index) {
+	return m_staff->noteSegment(index)->isReadOnly();
 }
 
 
