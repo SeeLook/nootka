@@ -61,17 +61,17 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 #endif
    
     m_tuneGroup->setLayout(tuneLay);
-    upLay->addWidget(m_tuneGroup);
+//     upLay->addWidget(m_tuneGroup);
 
     QVBoxLayout *guitarLay = new QVBoxLayout;
-    m_guitarGroup = new QGroupBox(tr("Guitar:"), this);
-	// Selecting guitar type combo
+    m_guitarGroup = new QGroupBox(tr("Instrument") + ":", this);
+	// Selecting instrument type combo
 		m_instrumentTypeCombo = new QComboBox(this);
+			m_instrumentTypeCombo->addItem(instrumentToText(e_noInstrument));
+			m_instrumentTypeCombo->addItem(instrumentToText(e_classicalGuitar));
+			m_instrumentTypeCombo->addItem(instrumentToText(e_electricGuitar));
+			m_instrumentTypeCombo->addItem(instrumentToText(e_bassGuitar));
 		guitarLay->addWidget(m_instrumentTypeCombo, 0, Qt::AlignCenter);
-		m_instrumentTypeCombo->addItem(instrumentToText(e_noInstrument));
-		m_instrumentTypeCombo->addItem(instrumentToText(e_classicalGuitar));
-		m_instrumentTypeCombo->addItem(instrumentToText(e_electricGuitar));
-		m_instrumentTypeCombo->addItem(instrumentToText(e_bassGuitar));
 		guitarLay->addStretch(1);
 	// Right-handed/left-handed check box
     m_righthandCh = new QCheckBox(tr("right-handed players", "When translation will be too long try to add '\n' - line break between words."), this);
@@ -97,14 +97,16 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 		m_stringNrSpin->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 		guitarLay->addWidget(m_stringNrSpin, 1, Qt::AlignCenter);
 		guitarLay->addStretch(1);
-    upLay->addSpacing(3);
+//     upLay->addSpacing(3);
     m_guitarGroup->setLayout(guitarLay);
     upLay->addWidget(m_guitarGroup);
+		upLay->addSpacing(3);
+		upLay->addWidget(m_tuneGroup);
 
     mainLay->addLayout(upLay);
 
     QHBoxLayout *downLay = new QHBoxLayout;
-    QVBoxLayout *prefLay = new QVBoxLayout;
+    QHBoxLayout *prefLay = new QHBoxLayout;
     m_accidGroup = new QGroupBox(tr("preferred accidentals:"),this);
     m_accidGroup->setStatusTip(tr("Choose which accidentals will be shown on the staff."));
     m_prefSharpBut = new QRadioButton(tr("# - sharps"),this);
@@ -113,6 +115,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     prefGr->addButton(m_prefSharpBut);
     prefGr->addButton(m_prefFlatBut);
     prefLay->addWidget(m_prefSharpBut);
+		prefLay->addStretch();
     prefLay->addWidget(m_prefFlatBut);
     m_accidGroup->setLayout(prefLay);
     if (gl->GpreferFlats) m_prefFlatBut->setChecked(true);
@@ -199,7 +202,7 @@ void TguitarSettings::saveSettings() {
     gl->GfretsNumber = m_fretsNrSpin->value();
 		Ttune *tmpTune = new Ttune();
 		if (gl->instrument != e_noInstrument)
-			grabTuneFromScore(tmpTune);
+				grabTuneFromScore(tmpTune);
 // 			tmpTune = new Ttune(m_tuneCombo->currentText(), m_tuneView->getNote(5), m_tuneView->getNote(4),
 // 											m_tuneView->getNote(3), m_tuneView->getNote(2), m_tuneView->getNote(1), m_tuneView->getNote(0));
 		else { // instrument scale taken from note segments 4 & 5
@@ -287,13 +290,20 @@ void TguitarSettings::updateAmbitus() {
 
 
 void TguitarSettings::grabTuneFromScore(Ttune* tune) {
+		Tnote nn[6];
+		int stringNr = 0;
+		for (int i = 0; i < 6; i++) {
+			nn[i] = fixEmptyNote(i);
+			if (nn[i].note !=0)
+					stringNr++;
+		}
 		QString tuneName;
-		if (m_instrumentTypeCombo->currentIndex())
-			tuneName = m_tuneCombo->currentText();
-		else
-			tuneName = "scale";
-		*tune = Ttune(m_tuneCombo->currentText(), m_tuneView->getNote(5), m_tuneView->getNote(4),
-											m_tuneView->getNote(3), m_tuneView->getNote(2), m_tuneView->getNote(1), m_tuneView->getNote(0));
+		if (stringNr > 2)
+				tuneName = m_tuneCombo->currentText();
+		else {
+				tuneName = "scale";
+		}
+		*tune = Ttune(tuneName, nn[5], nn[4], nn[3], nn[2], nn[1], nn[0]);
 }
 
 
@@ -336,7 +346,7 @@ void TguitarSettings::onClefChanged(Tclef clef) {
 void TguitarSettings::switchedToPianoStaff() {
 		updateAmbitus();
 		updateNotesState();
-		m_tuneView->setNoteDisabled(6, true);
+// 		m_tuneView->setNoteDisabled(6, true);
 		emit clefChanged(currentClef());
 		emit lowestNoteChanged(m_tuneView->lowestNote());
 }
@@ -461,8 +471,10 @@ void TguitarSettings::updateNotesState() {
 
 Tnote TguitarSettings::fixEmptyNote(int noteSegm) {
 	Tnote nn = m_tuneView->getNote(noteSegm);
-	if (nn.note == 0)
-		nn = Tnote(m_tuneView->lowestNote().getChromaticNrOfNote() + noteSegm);
+	if (m_tuneView->isNoteDisabled(noteSegm))
+			nn = Tnote(); // empty because disabled
+	else if (nn.note == 0) // empty because stupid
+			nn = Tnote(m_tuneView->lowestNote().getChromaticNrOfNote() + noteSegm);
 	return nn;
 }
 

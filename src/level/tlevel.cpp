@@ -193,8 +193,8 @@ bool getLevelFromStream(QDataStream& in, Tlevel& lev, qint32 ver) {
 				lev.clef = Tclef((Tclef::Etype)testClef);
 				lev.instrument = (Einstrument)instr;
 		}
-		qDebug() << lev.name << "ver:" << lev.levelVersionNr(ver) << "instrument:" << instr << "saved as" << instrumentToText(lev.instrument);
-// 		qDebug() << lev.name << "clef (" << lev.clef.name() << ") for:" << instrumentToText(lev.instrument); 
+		qDebug() << lev.name << "ver:" << lev.levelVersionNr(ver) << "instrument:" << 
+						instr << "saved as" << instrumentToText(lev.instrument);
     return ok;
 }
 
@@ -248,14 +248,14 @@ Einstrument Tlevel::fixInstrument(quint8 instr) {
 
 
 Einstrument Tlevel::detectInstrument(Einstrument currInstr) {
-	if (canBeGuitar()) {
+	if (canBeGuitar()) { // it has to be some kind of guitar
 			if (currInstr != e_noInstrument)
 					return currInstr;
-			else
+			else // if current instrument isn't guitar force classical 
 					return e_classicalGuitar;
-	} else if (answerIsSound())
+	} else if (answerIsSound()) // prefer current instrument for it
 				return currInstr;
-			else
+			else // instrument type really has no matter
 				return e_noInstrument;
 }
 

@@ -94,8 +94,7 @@ QFont Tcanvas::tipFont(qreal factor) {
 
 void Tcanvas::resultTip(TQAunit* answer, int time) {
   clearConfirmTip();
-  if (m_resultTip)
-    delete m_resultTip;
+  clearResultTip();
   clearTryAgainTip();
   QColor answColor;
   if (answer->isCorrect())
@@ -109,8 +108,11 @@ void Tcanvas::resultTip(TQAunit* answer, int time) {
   m_resultTip = new TgraphicsTextTip(wasAnswerOKtext(answer, answColor, bigFont()));
   m_scene->addItem(m_resultTip);
   m_resultTip->setZValue(100);
+// 	TscaledAnim *scaleTipAnim = new TscaledAnim(m_resultTip);
+// 	m_resultTip->setScale(m_scale / 10.0);
   m_resultTip->setScale(m_scale);
   setResultPos();
+// 	scaleTipAnim->startScaling(m_scale);
   if (time)
     QTimer::singleShot(time, this, SLOT(clearResultTip()));
 }

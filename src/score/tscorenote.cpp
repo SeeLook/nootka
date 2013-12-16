@@ -200,16 +200,14 @@ void TscoreNote::moveNote(int posY) {
       if (m_accidental == 0) {
 					newAccid = getAccid(3); // neutral
 					m_mainAccid->hide();
-// 				if (!m_readOnly && !m_noteAnim)
 					if (m_accidToKeyAnim)
 							emit fromKeyAnim(newAccid, m_mainAccid->scenePos(), m_mainPosY);
 			} else {
 					if (staff()->accidInKeyArray[noteNr] == m_accidental) {
-// 					if (!m_readOnly && !m_noteAnim)
-					if (m_accidToKeyAnim)
+						if (m_accidToKeyAnim)
 								emit toKeyAnim(newAccid, m_mainAccid->scenePos(), m_mainPosY);
-          newAccid = " "; // hide accidental
-				}
+						newAccid = " "; // hide accidental
+					}
       }
     }
     if (m_noteAnim) {
