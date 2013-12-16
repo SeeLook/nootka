@@ -32,7 +32,7 @@ extern Tglobals *gl;
 void TexecutorSupply::checkGuitarParamsChanged(QWidget* parent, Texam* exam) {
 	QString changesMessage = "";
 // 	if (exam->level()->instrument != e_noInstrument) {
-			if (exam->level()->instrument != gl->instrument)
+			if (exam->level()->instrument != e_noInstrument && exam->level()->instrument != gl->instrument)
 					changesMessage = tr("Guitar type was changed!");
 			if (exam->tune() != *gl->Gtune() ) { //Is tune the same?
 				if (changesMessage != "")
