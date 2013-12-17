@@ -42,6 +42,7 @@ SET( NOOTKA_SRCS
 #	widgets/tpixmapradio.cpp
 	widgets/troundedlabel.cpp
 	widgets/tcolorbutton.cpp
+	widgets/tselectinstrument.cpp
 ###### sound
   sound/tsound.cpp
   sound/tmidiout.cpp
@@ -227,6 +228,7 @@ SET( NOOTKA_MOC_SRCS
 ###### widgets
 #	widgets/tpixmapradio.h
 	widgets/tcolorbutton.h
+	widgets/tselectinstrument.h
 ###### Settings
   settings/tsettingsdialog.h
   settings/tsettingsdialogbase.h
