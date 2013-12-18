@@ -65,7 +65,7 @@ void TselectInstrument::setButtonLayout(TselectInstrument::Elayout l) {
 	switch (l) {
 		case e_buttonAndTextV:
 			for (int i = 0; i < BUTTON_COUNT; i++) {
-				m_gridLay->addWidget(m_buttons[i], i, 0, Qt::al);
+				m_gridLay->addWidget(m_buttons[i], i, 0);
 				m_labels[i]->setText(instrumentToText(Einstrument(i)));
 				m_labels[i]->show();
 				m_gridLay->addWidget(m_labels[i], i, 1);
