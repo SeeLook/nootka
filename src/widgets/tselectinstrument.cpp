@@ -18,36 +18,47 @@
 
 
 #include "tselectinstrument.h"
-#include <QPushButton>
 #include <QButtonGroup>
 #include <QLabel>
 #include <QLayout>
 #include <tinstrument.h>
+#include <tpushbutton.h>
 
 
-TselectInstrument::TselectInstrument(TselectInstrument::Elayout buttonLayout, QWidget* parent) :
+TselectInstrument::TselectInstrument(QWidget* parent, TselectInstrument::Elayout buttonLayout) :
 	QWidget(parent),
 	m_gridLay(0),
-	m_glypshSize(50)
+	m_header(0)
 {
-	QButtonGroup *buttonGr = new QButtonGroup(this);
+	m_mainLay = new QVBoxLayout;
+	m_mainLay->setAlignment(Qt::AlignCenter);
+	setLayout(m_mainLay);
 	for (int i = 0; i < BUTTON_COUNT; i++) {
-		int glyphS = m_glypshSize;
-		if (i == 0)
-				glyphS = m_glypshSize - 5; // 'singer' glyph is a bit bigger than it should
-		m_buttons[i] = new QPushButton(instrumentToGlyph(Einstrument(i)), this);
+		m_buttons[i] = new TpushButton(instrumentToGlyph(Einstrument(i)), this);
 		m_buttons[i]->setStatusTip(instrumentToText(Einstrument(i)));
-		m_buttons[i]->setFont(QFont("nootka", glyphS, QFont::Normal));
-		m_buttons[i]->setCheckable(true);
-		connect(m_buttons[i], SIGNAL(toggled()), this, SLOT(buttonPressed()));
-		buttonGr->addButton(m_buttons[i]);
+		m_buttons[i]->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+		connect(m_buttons[i], SIGNAL(pressed()), this, SLOT(buttonPressed()));
 		m_labels[i] = new QLabel(this);
 	}
-	setLay(buttonLayout);	
+	setGlyphSize(50);
+	setButtonLayout(buttonLayout);	
 }
 
 
-void TselectInstrument::setLay(TselectInstrument::Elayout l) {
+void TselectInstrument::setInstrument(int instr) {
+	if (instr >= 0 && instr <= BUTTON_COUNT)
+		m_buttons[instr]->click();
+// 	for (int i = 0; i < BUTTON_COUNT; i++) {
+// 		if (i == instr) {
+// 			m_buttons[instr]->setChecked(true);
+// 			m_instr = instr;
+// 		} else
+// 			m_buttons[i]->setChecked(false);
+// 	}
+}
+
+
+void TselectInstrument::setButtonLayout(TselectInstrument::Elayout l) {
 	if (m_gridLay) {
 		for (int i = 0; i < BUTTON_COUNT; i++) {
 			m_gridLay->removeWidget(m_buttons[i]);
@@ -55,7 +66,8 @@ void TselectInstrument::setLay(TselectInstrument::Elayout l) {
 		}
 		delete m_gridLay;
 	}
-	m_gridLay = new QGridLayout(this);
+	m_gridLay = new QGridLayout;
+	m_mainLay->addLayout(m_gridLay, 0);
 	switch (l) {
 		case e_buttonAndTextV:
 			for (int i = 0; i < BUTTON_COUNT; i++) {
@@ -83,13 +95,44 @@ void TselectInstrument::setLay(TselectInstrument::Elayout l) {
 }
 
 
+void TselectInstrument::setGlyphSize(int siz) {
+	m_glypshSize = siz;
+	int glyphS = m_glypshSize;
+	for (int i = 0; i < BUTTON_COUNT; i++) {
+		if (i == 0)
+				glyphS = m_glypshSize - 10; // 'singer' glyph is a bit bigger than it should
+		m_buttons[i]->setFont(QFont("nootka", glyphS, QFont::Normal));
+	}
+}
+
+
+void TselectInstrument::setHeadLabel(QString text) {
+	if (text != "") {
+		if (!m_header) {
+			m_header = new QLabel(text, this);
+			m_mainLay->insertWidget(0, m_header);
+		} else
+			m_header->setText(text);			
+	} else {
+		if (m_header) {
+			delete m_header;
+			m_header = 0;
+		}
+	}
+}
+
+
+
 void TselectInstrument::buttonPressed() {
 	int instr = 0;
-	for (int i = 0; i < BUTTON_COUNT; i++)
-		if (m_buttons[i]->isChecked()) {
+	for (int i = 0; i < BUTTON_COUNT; i++) {
+		if (sender() == m_buttons[i]) {
+				m_buttons[i]->setChecked(true);
 				instr = i;
-				break;
-		}
+		} else
+				m_buttons[i]->setChecked(false);
+	}
+	m_instr = instr;
 	emit instrumentChanged(instr);
 }
 

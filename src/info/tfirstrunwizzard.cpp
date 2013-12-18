@@ -24,6 +24,7 @@
 #include "tpixmaker.h"
 #include "tmainhelp.h"
 #include "widgets/troundedlabel.h"
+#include "widgets/tselectinstrument.h"
 #include "ttipchart.h"
 #include "tkeysignature.h"
 #include <ttune.h>
@@ -37,7 +38,7 @@ extern Tglobals *gl;
 
 
 TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
-    QDialog(parent)
+    QDialog(parent, Qt::CustomizeWindowHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint)
 {
 #if defined(Q_OS_LINUX)
     setWindowIcon(QIcon(gl->path + "picts/nootka.svg"));
@@ -67,6 +68,8 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
     Tabout *aboutNoot = new Tabout();
 	// One and half page
 		m_selectInstr = new TselectInstrument(this);
+		m_selectInstr->setHeadLabel("<b><span style=\"font-size: 20px;\">" + tr("What instrument do you play?")  + "</span></b>");
+		m_selectInstr->setInstrument(int(e_classicalGuitar));
 	// Second Page
     m_notationWidget = new Tpage_2(this);
 		whenInstrumentChanged(1);
@@ -192,6 +195,7 @@ void TfirstRunWizzard::nextSlot() {
 
 // To write notes of bass guitar this application uses <b>bass dropped clef</b> (bass clef with \"eight\" digit below) but common practice is to skip this digit and write it in ordinary bass clef. Remember, bass guitar sounds octave lower than notes written in 'normal' bass clef.
 void TfirstRunWizzard::whenInstrumentChanged(int instr) {
+	gl->instrument = Einstrument(instr);
 	m_notationWidget->setNoteForInstrument(instr);
 	if ((Einstrument)instr == e_bassGuitar)
 				m_notationWidget->notationNote()->setHtml(QString("<center>%1<br>").
@@ -202,78 +206,6 @@ void TfirstRunWizzard::whenInstrumentChanged(int instr) {
 				m_notationWidget->notationNote()->setHtml("<br><br><center>" + tr("Guitar notation uses the treble clef with the digit \"eight\" written below (even if some editors are forgetting about this digit).<br><br>Try to understand this. <br><br><p> %1 %2<br><span style=\"font-size:20px;\">Both pictures above show the same note: c<sup>1</sup></span><br>(note c in one-line octave)</p>").
 				arg(TtipChart::wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G, TkeySignature(0), 6.0)).
 				arg(TtipChart::wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G_8down, TkeySignature(0), 6.0)) + "</center>");
-}
-
-
-//###############################################  TselectInstrument   ######################################
-TselectInstrument::TselectInstrument(QWidget* parent) :
-	QWidget(parent)
-{
-		
-		QLabel *whatLab = 
-						new QLabel("<b><span style=\"font-size: 20px;\">" + tr("What instrument do you play?")  + "</span></b>", this);
-		whatLab->setAlignment(Qt::AlignCenter);
-		classicalRadio = new QRadioButton(instrumentToText(e_classicalGuitar), this);
-		electricRadio = new QRadioButton(instrumentToText(e_electricGuitar), this);
-		bassRadio = new QRadioButton(instrumentToText(e_bassGuitar), this);
-		otherRadio = new QRadioButton(instrumentToText(e_noInstrument), this);
-		QButtonGroup *instrGr = new QButtonGroup(this);
-		instrGr->addButton(classicalRadio);
-		instrGr->addButton(electricRadio);
-		instrGr->addButton(bassRadio);
-		instrGr->addButton(otherRadio);
-		TroundedLabel *classLab, *electroLab, *bassLab, *otherLab;
-		classLab = prepareLabel("h");
-		electroLab = prepareLabel("i");
-		bassLab = prepareLabel("j");
-		otherLab = prepareLabel("v");
-	// Layout
-		QGridLayout *lay = new QGridLayout;
-		lay->addWidget(whatLab, 0, 0, 1, 2, Qt::AlignCenter);
-// 		lay->addStretch(1);
-		lay->addWidget(classicalRadio, 1, 0, Qt::AlignCenter);
-		lay->addWidget(classLab, 1, 1, Qt::AlignCenter);
-		lay->addWidget(electricRadio, 2, 0, Qt::AlignCenter);
-		lay->addWidget(electroLab, 2, 1, Qt::AlignCenter);
-		lay->addWidget(bassRadio, 3, 0, Qt::AlignCenter);
-		lay->addWidget(bassLab, 3, 1, Qt::AlignCenter);
-		lay->addWidget(otherRadio, 4, 0, Qt::AlignCenter);
-		lay->addWidget(otherLab, 4, 1, Qt::AlignCenter);
-		
-		QGroupBox *instrBox = new QGroupBox(this);
-		instrBox->setLayout(lay);
-		QHBoxLayout *mainLay = new QHBoxLayout;
-		mainLay->addStretch(1);
-		mainLay->addWidget(instrBox, 0, Qt::AlignCenter);
-		mainLay->addStretch(1);
-		setLayout(mainLay);
-		
-		classicalRadio->setChecked(true);
-		connect(instrGr, SIGNAL(buttonClicked(int)), this, SLOT(buttonPressed(int)));
-}
-
-
-TroundedLabel* TselectInstrument::prepareLabel(QString txt) {
-		TroundedLabel *label = new TroundedLabel(txt, this);
-		label->setFont(QFont("nootka", 50, QFont::Normal));
-		label->setStyleSheet("color: palette(highlight)");
-		label->setAlignment(Qt::AlignCenter);
-		return label;
-}
-
-
-
-void TselectInstrument::buttonPressed(int butt) {
-		if (bassRadio->isChecked()) {
-          gl->instrument = e_bassGuitar;
-		}	else if (classicalRadio->isChecked()) {
-          gl->instrument = e_classicalGuitar;
-    } else if (electricRadio->isChecked()) {
-          gl->instrument = e_electricGuitar;
-		} else if (otherRadio->isChecked()) {
-          gl->instrument = e_noInstrument;
-		}
-		emit instrumentChanged((int)gl->instrument);
 }
 
 //###############################################  Tpage_2   ###############################################

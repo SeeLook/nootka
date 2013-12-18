@@ -22,23 +22,25 @@
 
 #include <QWidget>
 
-class QGridLayout;
+class TpushButton;
 class QLabel;
-class QPushButton;
-class QRadioButton;
+class QVBoxLayout;
+class QGridLayout;
+
 
 #define BUTTON_COUNT (4)
 
+/**
+ * This is a widget to selecting among instruments available in Nootka
+ * It has three kinds of layout (@see setButtonLayout() method)
+ * Glyph size of instrument can be manipulated with @p setGlyphSize()
+ * The widget can contain a header label manipulated with @p setHeadLabel()
+ */
 class TselectInstrument : public QWidget
 {
     Q_OBJECT
 
 public:
-			/** Constructor takes kind of layout as a parameter. */
-	explicit TselectInstrument(Elayout buttonLayout = e_buttonAndTextV, QWidget* parent = 0);
-	
-			/** Returns currently selected instrument */
-	int instrument() { return m_instr; }
 	
 			/** The enumerator defining layout of selecting buttons:
 			 * ------ e_textAndButtonV - vertical layout with description on the right
@@ -53,16 +55,29 @@ public:
 			 * ------ e_buttonsOnlyGrid - 2x2 grid with buttons only and texts in status tips
 			 *    |  g  |     |  e  |    
 			 *    |  b  |     |  n  |
-			 * --------------------------------------------------
-			 */
+			 * -------------------------------------------------- */
 	enum Elayout {
 		e_buttonAndTextV = 0,
 		e_textUnderButtonH,
 		e_buttonsOnlyGrid
 	};
 	
-	void setLay(Elayout l);
+	
+			/** Constructor takes kind of layout as a parameter. */
+	explicit TselectInstrument(QWidget* parent = 0, Elayout buttonLayout = e_buttonAndTextV);
+	
+			/** Returns currently selected instrument */
+	int instrument() { return m_instr; }
+	void setInstrument(int instr);
+	
+	void setButtonLayout(Elayout l);
+	Elayout buttonLayout() { return m_buttonLay; }
+	
 	void setGlyphSize(int siz); /** Sets the size of instrument glyph on the button. */
+	int glyphSize() { return m_glypshSize; }
+	
+			/** Adds a header label with given text above buttons. If text is "" - removes the label */
+	void setHeadLabel(QString text);
 	
 	
 	signals:
@@ -73,11 +88,13 @@ private slots:
 
 
 private:
-	Elayout					m_currentLay;
+	Elayout					m_buttonLay;
 	int							m_instr, m_glypshSize;
-	QPushButton 		*m_buttons[BUTTON_COUNT];
+	TpushButton 		*m_buttons[BUTTON_COUNT];
 	QLabel					*m_labels[BUTTON_COUNT];
 	QGridLayout			*m_gridLay;
+	QVBoxLayout			*m_mainLay;
+	QLabel					*m_header;
 	
 };
 
