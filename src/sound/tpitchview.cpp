@@ -157,8 +157,8 @@ void TpitchView::resize(int fontSize) {
 #endif
     voiceButt->setFixedWidth(1.5 *fontSize);
     pauseButt->setFixedWidth(1.5 *fontSize);
-    voiceButt->setFixedHeight(2.2 * fontSize);
-    pauseButt->setFixedHeight(2.2 * fontSize);
+//     voiceButt->setFixedHeight(2.2 * fontSize);
+//     pauseButt->setFixedHeight(2.2 * fontSize);
   }
   m_volMeter->setFixedHeight(qRound((float)fontSize * 0.9));
   m_intoView->setFixedHeight(qRound((float)fontSize * 0.9));

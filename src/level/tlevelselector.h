@@ -116,6 +116,7 @@ private:
 
 private slots:
     void loadFromFilePrivate();
+		void fixInstrumentSlot();
 
 };
 

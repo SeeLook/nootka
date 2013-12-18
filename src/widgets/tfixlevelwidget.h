@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,50 +16,24 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TLEVELPREVIEW_H
-#define TLEVELPREVIEW_H
+#ifndef TFIXLEVELWIDGET_H
+#define TFIXLEVELWIDGET_H
 
-#include <QWidget>
-#include <QUrl>
+#include <QDialog>
 
-class QTextBrowser;
-class Tlevel;
+class TselectInstrument;
 
-class TlevelPreview : public QWidget
+
+class TfixLevelWidget : public QDialog
 {
+    Q_OBJECT
 
-  Q_OBJECT
-  
 public:
-  explicit TlevelPreview(QWidget *parent = 0);
-  virtual ~TlevelPreview();
-  
-  static QString notesRangeTxt() { return tr("note range:"); }
-  static QString fretsRangeTxt() { return tr("fret range:"); }
+	explicit TfixLevelWidget(QWidget* parent = 0);
 
-  void setLevel(Tlevel &tl);
-	void setLevel(); /** Overloaded method with empty level to force empty table. */
-	
-			/** This method sets fixed height of QTextEdit containing table with level preview
-			 * to current document height. It removes vertical scroll*/
-	void adjustToHeight();
-	
-signals:
-			/** This signal is emitted when level had wrong instrument and user wants to fix it. */
-	void instrumentLevelToFix();
-  
-protected:
-			/** Paints guitar head shape under widget. */
-	void paintEvent(QPaintEvent* );
-	
-protected slots:
-	void linkToFixLevel(QUrl url);
-	
-	
 private:
-	QTextBrowser 	*m_summaryEdit;
-	QString 			m_instrText;
-
+	TselectInstrument 		*m_selInstr;
+	
 };
 
-#endif // TLEVELPREVIEW_H
+#endif // TFIXLEVELWIDGET_H

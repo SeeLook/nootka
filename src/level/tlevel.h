@@ -83,6 +83,10 @@ public:
     bool usedStrings[6];
     bool onlyLowPos;
     bool onlyCurrKey;
+		
+				/** Indicates when instrument read from file needs user action to be properly obtained.
+				 * It occurs when read value is 255 for level version 1 */
+		bool hasInstrToFix;
     
   // some helpers
     bool canBeScore(); // True if answer or question is note on a score

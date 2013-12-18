@@ -23,6 +23,7 @@
 #include "tglobals.h"
 #include <texamparams.h>
 #include <ttune.h>
+#include <widgets/tfixlevelwidget.h>
 #include <QtGui>
 
 extern Tglobals *gl;
@@ -243,6 +244,9 @@ QString TlevelSelector::checkLevel(Tlevel& l) {
 /*end static*/
 
 
+//##########################################################################################################
+//########################################## CONSTRUCTOR ###################################################
+//##########################################################################################################
 TlevelSelector::TlevelSelector(QWidget *parent) :
     QWidget(parent)
 {
@@ -271,12 +275,17 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
 
     connect(m_levelsListWdg, SIGNAL(currentRowChanged(int)), this, SLOT(levelSelected(int)));
     connect(m_loadBut, SIGNAL(clicked()), this, SLOT(loadFromFilePrivate()));
+		connect(m_levelPreview, SIGNAL(instrumentLevelToFix()), this, SLOT(fixInstrumentSlot()));
 }
 
 TlevelSelector::~TlevelSelector() {
     updateRecentLevels();
 }
 
+
+//##########################################################################################################
+//########################################## PUBLIC #######################################################
+//##########################################################################################################
 
 void TlevelSelector::levelSelected(int id) {
     m_levelPreview->setLevel(m_levels[id].level);
@@ -373,11 +382,6 @@ void TlevelSelector::selectLevel() {
 }
 
 
-void TlevelSelector::loadFromFilePrivate() {
-    emit levelToLoad();
-}
-
-
 void TlevelSelector::loadFromFile(QString levelFile) {
     if (levelFile == "")
         levelFile = QFileDialog::getOpenFileName(this, tr("Load exam's level"),
@@ -390,6 +394,36 @@ void TlevelSelector::loadFromFile(QString levelFile) {
         if (isSuitable(level))
             selectLevel(); // select the last
     }
+}
+
+
+Tlevel TlevelSelector::getSelectedLevel() {
+    if (m_levelsListWdg->currentRow() == -1 ) {
+        Tlevel l = Tlevel();
+        l.name = ""; l.desc = "";
+        return l;
+    } else
+        return m_levels[m_levelsListWdg->currentRow()].level;
+}
+
+
+void TlevelSelector::updateRecentLevels() {
+    QStringList recentLevels;
+    for (int i = m_levels.size() - 1; i > 1; i--) {
+      if (m_levels[i].file != "")
+        recentLevels << m_levels[i].file;
+    }
+    gl->config->setValue("recentLevels", recentLevels);    
+}
+
+
+//##########################################################################################################
+//########################################## PRIVATE #######################################################
+//##########################################################################################################
+
+
+void TlevelSelector::loadFromFilePrivate() {
+    emit levelToLoad();
 }
 
 
@@ -424,22 +458,15 @@ Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
 }
 
 
-Tlevel TlevelSelector::getSelectedLevel() {
-    if (m_levelsListWdg->currentRow() == -1 ) {
-        Tlevel l = Tlevel();
-        l.name = ""; l.desc = "";
-        return l;
-    } else
-        return m_levels[m_levelsListWdg->currentRow()].level;
+void TlevelSelector::fixInstrumentSlot() {
+	qDebug() << m_levels[m_levelsListWdg->currentRow()].file;
+	TfixLevelWidget *fix = new TfixLevelWidget(this);
+	fix->exec();
+	delete fix;
 }
 
 
-void TlevelSelector::updateRecentLevels() {
-    QStringList recentLevels;
-    for (int i = m_levels.size() - 1; i > 1; i--) {
-      if (m_levels[i].file != "")
-        recentLevels << m_levels[i].file;
-    }
-    gl->config->setValue("recentLevels", recentLevels);    
-}
+
+
+
 

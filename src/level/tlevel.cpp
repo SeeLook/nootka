@@ -65,7 +65,8 @@ bool Tlevel::couldBeLevel(qint32 ver) {
 
 /*end static*/
 
-Tlevel::Tlevel()
+Tlevel::Tlevel() :
+	hasInstrToFix(false)
 {
   // level parameters
    name = QObject::tr("master of masters");
@@ -217,29 +218,22 @@ Tclef Tlevel::fixClef(quint16 cl) {
 
 
 Einstrument Tlevel::fixInstrument(quint8 instr) {
-		if (instr == 0 || instr == 1 || instr == 255) {
+	// Value 255 comes from transition version 0.8.90 - 0.8.95 and means no instrument,
+	// however it is invalid because it ignores guitarists and doesn't play exams/exercises on proper instrument
+		if (instr == 255) {
+			if (canBeGuitar() || canBeSound()) {
+					hasInstrToFix = true;
+					return gl->instrument;
+			} else // instrument has no matter
+					return e_noInstrument;
+		} else if (instr == 0 || instr == 1) {
 			// Values 0 and 1 occur in versions before 0.8.90 where an instrument doesn't exist
-			// Value 255 comes from transition version 0.8.90 - 0.8.95 and means no instrument,
-			// however it is invalid because it ignores guitarists and doesn't show corrections on the guitar
-			if (canBeGuitar()) { // try to detect
-				if (gl->instrument != e_noInstrument) {
-					if (instr == 255)
-						return gl->instrument;
-					else
-						return e_classicalGuitar;
-				} else
-						return e_classicalGuitar;
-			} else if (answerIsSound()) {
-					if (instr == 255)
-						return gl->instrument;
-					else
-						return e_classicalGuitar;
-			} else
-						return e_noInstrument;
+			if (canBeGuitar() || canBeSound())
+					return e_classicalGuitar;
+			else 
+					return e_noInstrument;
 		} else if (instr < 4) // simple cast to detect an instrument
-			return (Einstrument)instr;
-// 		else if (instr == 255) // because '0' is reserved for backward compatibility
-// 			return e_noInstrument;
+					return (Einstrument)instr;
 		else {
 			qDebug() << "Tlevel::instrument has some stupid value. FIXED";
 			return gl->instrument;
@@ -253,9 +247,9 @@ Einstrument Tlevel::detectInstrument(Einstrument currInstr) {
 					return currInstr;
 			else // if current instrument isn't guitar force classical 
 					return e_classicalGuitar;
-	} else if (answerIsSound()) // prefer current instrument for it
+	} else if (canBeSound()) // prefer current instrument for it
 				return currInstr;
-			else // instrument type really has no matter
+	else // no guitar & no sound - instrument type really has no matter
 				return e_noInstrument;
 }
 
