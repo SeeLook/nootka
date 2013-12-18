@@ -39,6 +39,7 @@ TselectInstrument::TselectInstrument(QWidget* parent, TselectInstrument::Elayout
 		m_buttons[i]->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 		connect(m_buttons[i], SIGNAL(pressed()), this, SLOT(buttonPressed()));
 		m_labels[i] = new QLabel(this);
+		m_labels[i]->setAlignment(Qt::AlignCenter);
 	}
 	setGlyphSize(50);
 	setButtonLayout(buttonLayout);	
@@ -47,14 +48,7 @@ TselectInstrument::TselectInstrument(QWidget* parent, TselectInstrument::Elayout
 
 void TselectInstrument::setInstrument(int instr) {
 	if (instr >= 0 && instr <= BUTTON_COUNT)
-		m_buttons[instr]->click();
-// 	for (int i = 0; i < BUTTON_COUNT; i++) {
-// 		if (i == instr) {
-// 			m_buttons[instr]->setChecked(true);
-// 			m_instr = instr;
-// 		} else
-// 			m_buttons[i]->setChecked(false);
-// 	}
+			m_buttons[instr]->click();
 }
 
 
@@ -71,7 +65,7 @@ void TselectInstrument::setButtonLayout(TselectInstrument::Elayout l) {
 	switch (l) {
 		case e_buttonAndTextV:
 			for (int i = 0; i < BUTTON_COUNT; i++) {
-				m_gridLay->addWidget(m_buttons[i], i, 0);
+				m_gridLay->addWidget(m_buttons[i], i, 0, Qt::al);
 				m_labels[i]->setText(instrumentToText(Einstrument(i)));
 				m_labels[i]->show();
 				m_gridLay->addWidget(m_labels[i], i, 1);
@@ -79,10 +73,10 @@ void TselectInstrument::setButtonLayout(TselectInstrument::Elayout l) {
 			break;
 		case e_textUnderButtonH:
 			for (int i = 0; i < BUTTON_COUNT; i++) {
-				m_gridLay->addWidget(m_buttons[i], 0, i);
+				m_gridLay->addWidget(m_buttons[i], 0, i, Qt::AlignCenter);
 				m_labels[i]->setText(instrumentToText(Einstrument(i)).replace(" ", "<br>"));
 				m_labels[i]->show();
-				m_gridLay->addWidget(m_labels[i], 1, i);
+				m_gridLay->addWidget(m_labels[i], 1, i, Qt::AlignCenter);
 			}
 			break;
 		case e_buttonsOnlyGrid:
@@ -120,7 +114,6 @@ void TselectInstrument::setHeadLabel(QString text) {
 		}
 	}
 }
-
 
 
 void TselectInstrument::buttonPressed() {

@@ -23,8 +23,9 @@
 #include <ttipchart.h>
 #include <QVBoxLayout>
 #include <QLabel>
-#include <QTextEdit>
+#include <QTextBrowser>
 #include <QPainter>
+#include <QDebug>
 
 extern Tglobals *gl;
 
@@ -38,14 +39,16 @@ TlevelPreview::TlevelPreview(QWidget* parent) :
   QWidget(parent),
   m_instrText("")
 {
+		setMouseTracking(true);
     QVBoxLayout *mainLay = new QVBoxLayout;
     QLabel *headLab = new QLabel(tr("Level summary:"), this);
     mainLay->addWidget(headLab);
 		QHBoxLayout *contLay = new QHBoxLayout;
-		m_summaryEdit = new QTextEdit(this);
+		m_summaryEdit = new QTextBrowser(this);
 		m_summaryEdit->setReadOnly(true);
     m_summaryEdit->setFixedWidth(370);
     m_summaryEdit->viewport()->setStyleSheet("background-color: transparent;");
+		m_summaryEdit->setOpenLinks(false);
 		contLay->addWidget(m_summaryEdit);
 		contLay->addSpacing(10);
 		mainLay->addLayout(contLay);
@@ -53,6 +56,7 @@ TlevelPreview::TlevelPreview(QWidget* parent) :
     setLayout(mainLay);
 		setLevel();
 		adjustToHeight();
+		connect(m_summaryEdit, SIGNAL(anchorClicked(QUrl)), this, SLOT(linkToFixLevel(QUrl)));
 }
 
 
@@ -80,11 +84,20 @@ void TlevelPreview::setLevel() {
 
 
 void TlevelPreview::setLevel(Tlevel& tl) {
-	m_instrText = instrumentToGlyph(tl.instrument);
+	QString instrName = "";
+	if (tl.hasInstrToFix) {
+		m_instrText = "";
+		instrName = "<a href=\"fixInstrument\">" + tr("fix an instrument") + "</a>";
+		m_summaryEdit->setTextInteractionFlags(Qt::TextBrowserInteraction);
+	} else {
+		m_instrText = instrumentToGlyph(tl.instrument);
+		instrName = instrumentToText(tl.instrument);
+		m_summaryEdit->setTextInteractionFlags(Qt::NoTextInteraction);
+	}
   QString S;
     S = "<center><b>" + tl.name + "</b>";
     S += "<table border=\"1\" cellpadding=\"3\">";
-		S += "<tr><td colspan=\"2\" align=\"center\">" + instrumentToText(tl.instrument) + "</td>";
+		S += "<tr><td colspan=\"2\" align=\"center\">" + instrName + "</td>";
     S += "<td rowspan=\"_ROW_SPAN_\"><br>" + tr("Clef") + QString(":<br><br>%1</td></tr>").
         arg(TtipChart::wrapPixToHtml(Tnote(0, 0, 0), tl.clef.type(), 
 																		 TkeySignature(0), (tl.clef.type() == Tclef::e_pianoStaff) ? 3.0 : 5.0)).
@@ -181,6 +194,11 @@ void TlevelPreview::paintEvent(QPaintEvent* ) {
 	}
 }
 
+
+void TlevelPreview::linkToFixLevel(QUrl url) {
+	if (url.toString() == "fixInstrument")
+		emit instrumentLevelToFix();
+}
 
 
 

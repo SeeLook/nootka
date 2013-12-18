@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,50 +16,20 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TLEVELPREVIEW_H
-#define TLEVELPREVIEW_H
 
-#include <QWidget>
-#include <QUrl>
+#include "tfixlevelwidget.h"
+#include "tselectinstrument.h"
+#include <QLayout>
+#include <QLabel>
 
-class QTextBrowser;
-class Tlevel;
+TfixLevelWidget::TfixLevelWidget(QWidget* parent) :
+	QDialog(parent)
+{ 
+	m_selInstr = new TselectInstrument(this, TselectInstrument::e_textUnderButtonH);
+	m_selInstr->setHeadLabel(tr("Due to bug in Nootka version 0.8.95 kinds of instrument were stored wrongly.<br>Please, select an instrument for what this level/exam file was created."));
+	QVBoxLayout *lay = new QVBoxLayout;
+	lay->addWidget(m_selInstr);
+	setLayout(lay);
+}
 
-class TlevelPreview : public QWidget
-{
 
-  Q_OBJECT
-  
-public:
-  explicit TlevelPreview(QWidget *parent = 0);
-  virtual ~TlevelPreview();
-  
-  static QString notesRangeTxt() { return tr("note range:"); }
-  static QString fretsRangeTxt() { return tr("fret range:"); }
-
-  void setLevel(Tlevel &tl);
-	void setLevel(); /** Overloaded method with empty level to force empty table. */
-	
-			/** This method sets fixed height of QTextEdit containing table with level preview
-			 * to current document height. It removes vertical scroll*/
-	void adjustToHeight();
-	
-signals:
-			/** This signal is emitted when level had wrong instrument and user wants to fix it. */
-	void instrumentLevelToFix();
-  
-protected:
-			/** Paints guitar head shape under widget. */
-	void paintEvent(QPaintEvent* );
-	
-protected slots:
-	void linkToFixLevel(QUrl url);
-	
-	
-private:
-	QTextBrowser 	*m_summaryEdit;
-	QString 			m_instrText;
-
-};
-
-#endif // TLEVELPREVIEW_H
