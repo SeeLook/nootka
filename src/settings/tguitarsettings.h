@@ -23,6 +23,7 @@
 #include "tnote.h"
 #include "tclef.h"
 
+class TselectInstrument;
 class QLabel;
 class QGroupBox;
 class Ttune;
@@ -85,17 +86,18 @@ private:
 		Tnote fixEmptyNote(int noteSegm);
 		
 
-    TsimpleScore    *m_tuneView;
-    QCheckBox       *m_righthandCh, *m_morePosCh;
-    QRadioButton    *m_prefFlatBut, *m_prefSharpBut;
-    QSpinBox        *m_fretsNrSpin, *m_stringNrSpin;
-    QComboBox       *m_tuneCombo, *m_instrumentTypeCombo;
-    TcolorButton    *m_pointColorBut, *m_selColorBut;
-		QGroupBox 			*m_tuneGroup, *m_guitarGroup, *m_accidGroup;
-		QLabel					*m_fretNrLab, *m_stringNrLab, *m_pointerColorLab, *m_selectColorLab;
-		int							 m_currentInstr;
-		Ttune						*m_curentTune; // current guitar tune 
-		Ttune 					*m_customTune;
+    TsimpleScore    			*m_tuneView;
+    QCheckBox       			*m_righthandCh, *m_morePosCh;
+    QRadioButton    			*m_prefFlatBut, *m_prefSharpBut;
+    QSpinBox        			*m_fretsNrSpin, *m_stringNrSpin;
+    QComboBox       			*m_tuneCombo;
+		TselectInstrument			*m_selectInstr;
+    TcolorButton    			*m_pointColorBut, *m_selColorBut;
+		QGroupBox 						*m_tuneGroup, *m_guitarGroup, *m_accidGroup;
+		QLabel								*m_fretNrLab, *m_stringNrLab, *m_pointerColorLab, *m_selectColorLab;
+		int							 			m_currentInstr;
+		Ttune									*m_curentTune; // current guitar tune 
+		Ttune 								*m_customTune;
 
 private slots:
     void tuneSelected(int tuneId);

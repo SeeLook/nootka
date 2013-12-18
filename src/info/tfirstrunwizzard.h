@@ -65,26 +65,7 @@ private slots:
 };
 
 // page 1 is about dialog
-// This is page nr 1.5
-class TselectInstrument : public QWidget
-{
-		Q_OBJECT
-		
-public:
-		explicit TselectInstrument(QWidget* parent = 0);
-		
-		QRadioButton *classicalRadio, *electricRadio, *bassRadio, *otherRadio;
-		
-signals:
-		void instrumentChanged(int);
-		
-private slots:
-		void buttonPressed(int butt);
-		
-private:
-		TroundedLabel* prepareLabel(QString txt);
-		
-};
+// page nr 1.5 is to select an instrument
 
 /** page 2 is a QTextEdit with info about notation 
  * or score widget to select clef and instrument scale. */

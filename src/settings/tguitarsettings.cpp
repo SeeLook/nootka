@@ -18,6 +18,7 @@
 
 #include "tguitarsettings.h"
 #include "widgets/tcolorbutton.h"
+#include <widgets/tselectinstrument.h>
 #include "ttune.h"
 #include "tglobals.h"
 #include "tsimplescore.h"
@@ -66,12 +67,9 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     QVBoxLayout *guitarLay = new QVBoxLayout;
     m_guitarGroup = new QGroupBox(tr("Instrument") + ":", this);
 	// Selecting instrument type combo
-		m_instrumentTypeCombo = new QComboBox(this);
-			m_instrumentTypeCombo->addItem(instrumentToText(e_noInstrument));
-			m_instrumentTypeCombo->addItem(instrumentToText(e_classicalGuitar));
-			m_instrumentTypeCombo->addItem(instrumentToText(e_electricGuitar));
-			m_instrumentTypeCombo->addItem(instrumentToText(e_bassGuitar));
-		guitarLay->addWidget(m_instrumentTypeCombo, 0, Qt::AlignCenter);
+		m_selectInstr = new TselectInstrument(this, TselectInstrument::e_buttonsOnlyGrid);
+		m_selectInstr->setGlyphSize(40);
+		guitarLay->addWidget(m_selectInstr, 0, Qt::AlignCenter);
 		guitarLay->addStretch(1);
 	// Right-handed/left-handed check box
     m_righthandCh = new QCheckBox(tr("right-handed players", "When translation will be too long try to add '\n' - line break between words."), this);
@@ -141,6 +139,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 		QVBoxLayout *rightDownLay = new QVBoxLayout;
 			rightDownLay->addWidget(m_morePosCh);
 			rightDownLay->addLayout(colorLay);
+		downLay->addStretch(1);
 		downLay->addLayout(rightDownLay);
 		mainLay->addLayout(downLay);
 //     mainLay->addLayout(colorLay);
@@ -153,10 +152,10 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     connect(m_tuneView, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(userTune(int, Tnote)));
 		connect(m_tuneView, SIGNAL(pianoStaffSwitched()), this, SLOT(switchedToPianoStaff()));
 		connect(m_tuneView, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
-		connect(m_instrumentTypeCombo, SIGNAL(activated(int)), this, SLOT(instrumentTypeChanged(int)));
+		connect(m_selectInstr, SIGNAL(instrumentChanged(int)), this, SLOT(instrumentTypeChanged(int)));
 		connect(m_stringNrSpin, SIGNAL(valueChanged(int)), this, SLOT(stringNrChanged(int)));
     m_currentInstr = (int)gl->instrument;
-    m_instrumentTypeCombo->setCurrentIndex(m_currentInstr);
+    m_selectInstr->setInstrument(m_currentInstr);
     instrumentTypeChanged(m_currentInstr);
 		setTune(gl->Gtune());
 		m_fretsNrSpin->setValue(gl->GfretsNumber);
@@ -197,7 +196,7 @@ TguitarSettings::~TguitarSettings() {
 
 
 void TguitarSettings::saveSettings() {
-		gl->instrument = (Einstrument)m_instrumentTypeCombo->currentIndex();
+		gl->instrument = (Einstrument)m_selectInstr->instrument();
     gl->GisRightHanded = m_righthandCh->isChecked();
     gl->GfretsNumber = m_fretsNrSpin->value();
 		Ttune *tmpTune = new Ttune();
@@ -269,7 +268,7 @@ void TguitarSettings::setTune(Ttune* tune) {
     for (int i = 0; i < 6; i++) {
 				m_tuneView->setNote(i, tune->str(6 - i));
 				m_tuneView->setNoteDisabled(i, !(bool)tune->str(6 - i).note);
-				if (m_instrumentTypeCombo->currentIndex() != 0 && tune->str(6 - i).note)
+				if (m_selectInstr->instrument() != 0 && tune->str(6 - i).note)
 					m_tuneView->setStringNumber(i, 6 - i);
 				else
 					m_tuneView->clearStringNumber(i);
@@ -282,7 +281,7 @@ void TguitarSettings::setTune(Ttune* tune) {
 
 void TguitarSettings::updateAmbitus() {
 	Tnote highest = Tnote(m_tuneView->highestNote().getChromaticNrOfNote() - m_fretsNrSpin->value());
-	if (m_instrumentTypeCombo->currentIndex() == 0) // other instrument has no frets
+	if (m_selectInstr->instrument() == 0) // other instrument has no frets
 		highest = m_tuneView->highestNote();
 	for (int i = 0; i < 6; i++)
 		m_tuneView->setAmbitus(i, m_tuneView->lowestNote(), highest);
@@ -313,13 +312,13 @@ void TguitarSettings::grabTuneFromScore(Ttune* tune) {
 
 void TguitarSettings::tuneSelected(int tuneId) {
 	disconnect(m_stringNrSpin, SIGNAL(valueChanged(int)), this, SLOT(stringNrChanged(int)));
-	if (m_instrumentTypeCombo->currentIndex() == 1 || m_instrumentTypeCombo->currentIndex() == 2) { // classical guitar
+	if (m_selectInstr->instrument() == 1 || m_selectInstr->instrument() == 2) { // classical guitar
     if (tuneId == 0)
         setTune(&Ttune::stdTune);
     else 
 			if (tuneId != m_tuneCombo->count() - 1) //the last is custom
 						setTune(&Ttune::tunes[tuneId - 1]);
-	} else if (m_instrumentTypeCombo->currentIndex() == 3) { // bass guitar
+	} else if (m_selectInstr->instrument() == 3) { // bass guitar
 			if (tuneId != m_tuneCombo->count() - 1) //the last is custom
 				setTune(&Ttune::bassTunes[tuneId]);
 	}
@@ -457,7 +456,7 @@ void TguitarSettings::updateNotesState() {
 						m_tuneView->setNote(i, m_tuneView->lowestNote());
 						userTune(0, Tnote());
 					}
-					if (m_instrumentTypeCombo->currentIndex())
+					if (m_selectInstr->instrument())
 						m_tuneView->setStringNumber(i, 6 - i);
 					else
 						m_tuneView->clearStringNumber(i);
