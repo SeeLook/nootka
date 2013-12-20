@@ -23,7 +23,7 @@
 #include "tglobals.h"
 #include <texamparams.h>
 #include <ttune.h>
-#include <widgets/tfixlevelwidget.h>
+#include <widgets/tfixleveldialog.h>
 #include <QtGui>
 
 extern Tglobals *gl;
@@ -267,6 +267,7 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
     mainLay->addLayout(levLay);
 
     m_levelPreview = new TlevelPreview(this);
+		m_levelPreview->setFixInstrEnabled(true);
     mainLay->addWidget(m_levelPreview);
 
     setLayout(mainLay);
@@ -459,10 +460,12 @@ Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
 
 
 void TlevelSelector::fixInstrumentSlot() {
-	qDebug() << m_levels[m_levelsListWdg->currentRow()].file;
-	TfixLevelWidget *fix = new TfixLevelWidget(this);
-	fix->exec();
-	delete fix;
+	if (fixLevelInstrument(m_levels[m_levelsListWdg->currentRow()].level, m_levels[m_levelsListWdg->currentRow()].file, 
+						gl->instrumentToFix, this))
+			if (!Tlevel::saveToFile(m_levels[m_levelsListWdg->currentRow()].level, m_levels[m_levelsListWdg->currentRow()].file))
+						qDebug() << "Failed when writing fixed level to:" << m_levels[m_levelsListWdg->currentRow()].file;
+			else
+				m_levelPreview->setLevel(m_levels[m_levelsListWdg->currentRow()].level);
 }
 
 

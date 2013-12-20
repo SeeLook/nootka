@@ -23,6 +23,7 @@
 #include <ttune.h>
 #include <taudioparams.h>
 #include <QDebug>
+#include <QFile>
 #include <QMessageBox>
 
 extern Tglobals *gl;
@@ -197,6 +198,19 @@ bool getLevelFromStream(QDataStream& in, Tlevel& lev, qint32 ver) {
 		qDebug() << lev.name << "ver:" << lev.levelVersionNr(ver) << "instrument:" << 
 						instr << "saved as" << instrumentToText(lev.instrument);
     return ok;
+}
+
+
+bool Tlevel::saveToFile(Tlevel& level, const QString& levelFile) {
+		QFile file(levelFile);
+    if (file.open(QIODevice::WriteOnly)) {
+        QDataStream out(&file);
+        out.setVersion(QDataStream::Qt_4_7);
+        out << currentVersion << level;
+				return true;
+    }
+    else
+        return false;
 }
 
 

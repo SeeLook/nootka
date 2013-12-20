@@ -104,6 +104,7 @@ void TselectInstrument::setHeadLabel(QString text) {
 	if (text != "") {
 		if (!m_header) {
 			m_header = new QLabel(text, this);
+			m_header->setAlignment(Qt::AlignCenter);
 			m_mainLay->insertWidget(0, m_header);
 		} else
 			m_header->setText(text);			

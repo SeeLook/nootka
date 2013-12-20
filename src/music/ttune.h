@@ -22,38 +22,43 @@
 #include <QString>
 #include <QMetaType>
 
-/** It stores six notes in Tnote objects, which can be set
- * in constructor, or get by overloaded [] operator.
- * @short This class describes a tune of the guitar
- * @author Tomasz Bojczuk <tomaszbojczuk@gmail.com> */
-class Ttune{
+
+/** 
+ * It stores six notes of Tnote objects, which can be set
+ * in constructor and get by overloaded [] operator.
+*/
+class Ttune
+{
 	
 public:
         /** @p tuneName is the name, @p S(1-6) are notes.
 				* Empty notes (Tnote(0,0,0)) can control strings number 
 				* when empty - it is moved to the end of a array and stringNr() is less. 
 				* This way only a number of string [from 1 to 6] is supported. */
-    Ttune(const QString tuneName = "", Tnote S1 = Tnote(0,0,0) , Tnote S2 = Tnote(0,0,0),
-                    Tnote S3 = Tnote(0,0,0), Tnote S4 = Tnote(0,0,0),
-                    Tnote S5 = Tnote(0,0,0), Tnote S6 = Tnote(0,0,0));
+    Ttune(const QString& tuneName = "", const Tnote& S1 = Tnote(0,0,0) , const Tnote& S2 = Tnote(0,0,0),
+                    const Tnote& S3 = Tnote(0,0,0), const Tnote& S4 = Tnote(0,0,0),
+                    const Tnote& S5 = Tnote(0,0,0), const Tnote& S6 = Tnote(0,0,0));
 				
-				/** It is a name of the tune*/
-    QString name;
-				/** Number of strings for current tune/guitar */
-		quint8 stringNr() { return m_strNumber; }
+    QString name; /** It is a name of the tune*/
+		quint8 stringNr() { return m_strNumber; } /** Number of strings for current tune/guitar */
+		
+				/** When tune has less than 3 strings and "scale" as a name it represents a scale of an instrument 
+				 * and it is not guitar. */
+		bool isGuitar() { return m_isGuitar; }
+		
 				/** Substitute of [] operator - returns note of given string. */
 		Tnote  str(quint8 stringNr) { return stringsArray[stringNr - 1]; }
 
     static Ttune stdTune; // standard tune template
     static Ttune tunes[4]; // templates for guitar tunes
 		static Ttune bassTunes[4]; // templates for bass guitar tunes
-        /** Makes transaltions in defined tunes. */
-    static void prepareDefinedTunes();
+        
+    static void prepareDefinedTunes(); /** Makes translations in defined tunes. */
 		
     friend QDataStream &operator<< (QDataStream &out, const Ttune &t);
     friend QDataStream &operator>> (QDataStream &in, Ttune &t);
 		
-        /** Overloaded operator [] allows to use statment
+        /** Overloaded operator [] allows to use statement
         * @li Ttune @p your_variable[number_of_a_string]
         * @p stringNr is real string number (1 to 6) */
     Tnote &operator[] (quint8 stringNr) { return stringsArray[stringNr - 1]; }
@@ -69,14 +74,16 @@ public:
 protected:
         /** Array of Tnote-s that represent six strings */
 		Tnote stringsArray[6];
+		
 				/** This method is called by constructor and operator.
-				 * It calculates number of strings by selectings string with defined notes
-				 * and moving epmty ones to the end of stringsArray. 
+				 * It calculates number of strings by selecting string with defined notes
+				 * and moving empty ones to the end of stringsArray. 
 				 * THIS IS ONLY WAY TO MANAGE STRINGS NUMBER. */
 		void determineStringsNumber();
 		
 private:
-		quint8 m_strNumber;
+		quint8 	m_strNumber;
+		bool		m_isGuitar;
 
 };
 

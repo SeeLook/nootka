@@ -75,6 +75,7 @@ void TroundedLabel::initBgColor() {
 				m_bgColor = palette().window().color().lighter(105);
 #endif
 		}
+		m_bgColor.setAlpha(150);
 		QLabel::setStyleSheet(backgroundText());
 		m_styleText = "";
 }

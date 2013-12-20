@@ -25,6 +25,13 @@
 class QTextBrowser;
 class Tlevel;
 
+/**
+ * This class represents a preview of a given level in form of a table.
+ * It displays level instrument symbol under the table as well.
+ * It also detects broken instrument type in levels 
+ * and when m_enableFixing is set to true (false by default) 
+ * it allows to emit instrumentLevelToFix() signal when user wants to fix a level.
+ */
 class TlevelPreview : public QWidget
 {
 
@@ -40,9 +47,13 @@ public:
   void setLevel(Tlevel &tl);
 	void setLevel(); /** Overloaded method with empty level to force empty table. */
 	
-			/** This method sets fixed height of QTextEdit containing table with level preview
+			/** This method sets fixed height of QTextBrowser containing table with level preview
 			 * to current document height. It removes vertical scroll*/
 	void adjustToHeight();
+	
+			/** Controls when preview table shows instrument type to fix (enabled).
+			 * When @p true - instrumentLevelToFix() signal is emitted when user clicks a link. */
+	void setFixInstrEnabled(bool enabled);
 	
 signals:
 			/** This signal is emitted when level had wrong instrument and user wants to fix it. */
@@ -58,7 +69,8 @@ protected slots:
 	
 private:
 	QTextBrowser 	*m_summaryEdit;
-	QString 			m_instrText;
+	QString 			 m_instrText;
+	bool					 m_enableFixing;
 
 };
 
