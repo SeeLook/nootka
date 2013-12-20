@@ -42,6 +42,7 @@
 #include "tmainscore.h"
 #include "tfingerboard.h"
 #include "tnotename.h"
+#include <widgets/tfixleveldialog.h>
 #include <QtGui>
 #include <QDebug>
 
@@ -95,6 +96,11 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
     m_glStore->fretsNumber = gl->GfretsNumber;
     if (userAct == TstartExamDlg::e_newExam || userAct == TstartExamDlg::e_runExercise) {
         m_exam = new Texam(&m_level, resultText); // resultText is userName
+				if (!fixLevelInstrument(m_level, "", gl->instrumentToFix, mainW)) {
+							mW->clearAfterExam();
+							deleteExam();
+							return;
+          }
         gl->E->studentName = resultText; // store user name
         m_exam->setTune(*gl->Gtune());
         mW->examResults->startExam();
@@ -110,11 +116,11 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
             QMessageBox::warning(mW, "", 
               tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
 				//We check are guitar's params suitable for an exam 
-						TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
-          if (!showExamSummary(true)) {
-            mW->clearAfterExam();
-            deleteExam();
-            return;
+					TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
+          if (!fixLevelInstrument(m_level, m_exam->fileName(), gl->instrumentToFix, mainW) || !showExamSummary(true)) {
+							mW->clearAfterExam();
+							deleteExam();
+							return;
           }
           mW->examResults->startExam(m_exam->totalTime(), m_exam->count(), m_exam->averageReactonTime(),
                           m_exam->mistakes(), m_exam->halfMistaken());

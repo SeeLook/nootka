@@ -50,10 +50,11 @@ void Ttune::prepareDefinedTunes() {
 }
 
 //##################################################################################################
-
-Ttune::Ttune(const QString tuneName, Tnote S1, Tnote S2, Tnote S3, Tnote S4, Tnote S5, Tnote S6 ) :
+Ttune::Ttune(const QString& tuneName, const Tnote& S1, const Tnote& S2, const Tnote& S3,
+						 const Tnote& S4, const Tnote& S5, const Tnote& S6) :
 	name(tuneName),
-	m_strNumber(0)
+	m_strNumber(0),
+	m_isGuitar(true)
 {
 		stringsArray[0] = S1;
 		stringsArray[1] = S2;
@@ -81,7 +82,10 @@ void Ttune::determineStringsNumber() {
 		for (int i = 0; i < 6; i++) // copy all to main stringsArray
 			stringsArray[i] = tmpStrings[i];
 		m_strNumber = strCnt; // define number of strings
-// 		qDebug() << "determineStringsNumber:" << m_strNumber;
+		if (m_strNumber < 3)
+			m_isGuitar = false;
+		else
+			m_isGuitar = true;
 }
 
 

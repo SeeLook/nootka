@@ -54,16 +54,15 @@ public:
 
     QString path;
     QString version;
-        /** If @param true, hints of widgets are shown*/
-    bool hintsEnabled;
-        /** to show or skip first run wizard*/
-    bool isFirstRun;
-        /** Application language. If empty - selected from system info*/
-    QString lang;
-        /** Pointer to QSettings instance of Nootka */
-    QSettings *config;
-        /** to show GUI animations. */
-    bool useAnimations;
+    bool hintsEnabled; /** If @param true, hints of widgets are shown */
+    bool isFirstRun; /** to show or skip first run wizard*/
+    QString lang; /** Application language. If empty - selected from system info*/
+    QSettings *config; /** Pointer to QSettings instance of Nootka */
+    bool useAnimations; /** to show GUI animations. */
+    
+				/** Due to bug in version 0.8.95 it keeps value of user declared instrument to fix incorrect levels
+				 * or -1 to display a dialog for user to declare it.  */
+    int instrumentToFix;
 
         /** Let's have a convention:
         * globals settings for @class TnoteName will started from 'N' letter
@@ -78,6 +77,7 @@ public:
     bool SkeySignatureEnabled;
     bool SshowKeySignName; // default true
     Tnote::EnameStyle SnameStyleInKeySign;
+		
         /** Convention is:
         * if keyNameSuffix == " " constructor of Tglobals sets its default and
         * constructor of TkeySignatureView sets translateable value "major" and "minor"
@@ -87,51 +87,51 @@ public:
     QString SmajKeyNameSufix;
     QString SminKeyNameSufix;
     QColor SpointerColor;
-		Tclef::Etype Sclef; // prefered clef - treble by default
+		Tclef::Etype Sclef; // preferred clef - treble by default
 
 //============= common with score widget and note name ==========================================
     bool doubleAccidentalsEnabled; //default true
     bool showEnharmNotes; // default true
+    
         /** On the beginning it is -1 and then it is set in TscoreWidget constructor
         * as inversion of highlight color from palette() and put to TnoteName,
         * otherwise is taken from saved settings. */
     QColor enharmNotesColor;
-        /** To determine notes' names */
-    bool seventhIs_B; //default true
+    bool seventhIs_B; /** To determine note names - default true */
 
 
 //======== note name settings ===================================================================
     Tnote::EnameStyle NnameStyleInNoteName;
     bool NoctaveInNoteNameFormat; //default true
     Tnote::EnameStyle NsolfegeStyle; // e_italiano_Si is default
+    
 				/** Guessing solfege name style from current locale setting. F.e.: ru is e_russian_Ci */
     Tnote::EnameStyle getSolfegeStyle();
-//    bool NoctaveNameInNoteName; //default true
 
 //============ guitar settings =============================================================
-				/** Type of instrument - classical guitar default */
-		Einstrument instrument;
-    unsigned char GfretsNumber; //default 19
-    bool GisRightHanded; //default true
-        /** Shows other possibilities of note (sound) on the fretboard */
-    bool GshowOtherPos; //default true
-    QColor GfingerColor; // rules the same like in enharmNotesColor
+		Einstrument instrument; /** Type of instrument - classical guitar default */
+    unsigned char GfretsNumber; /** default 19 */
+    bool GisRightHanded; /** default true */
+    bool GshowOtherPos; /** Shows other possibilities of note (sound) on the fretboard (default true) */
+    QColor GfingerColor; /** rules the same like in enharmNotesColor */
     QColor GselectedColor;
-//--- A Few variables and methods about tune -----
 		
-				/** Acctual tune of the guitar also with information about strings number
+				/** Actual tune of the guitar also with information about strings number
 				 * available by Ttune::stringsNr() */
     Ttune *Gtune() { return m_tune; }
     void setTune(Ttune &t);
+		
         /** It returns real string number (0 - 5) when @param strNr
         * is sorted number from highest (0) to lowest (5) */
     char strOrder(char strNr) { return m_order[strNr]; }
-        /** Returns the highest (usually first - 0) string. */
-    Tnote hiString();
-				/** Returns the lowest (usually last) string */
-    Tnote loString();
-//---------------------------------
-        /** It says witch accidentals are prafered while user clicks guitar
+    Tnote hiString(); /** Returns the highest (usually first - 0) string. */
+    Tnote loString(); /** Returns the lowest (usually last) string */
+		
+				/** The highest available note in current tune with current fret number */
+		Tnote hiNote() { return Tnote(hiString().getChromaticNrOfNote() + GfretsNumber); }
+		Tnote loNote() { return loString(); } // the same as loString()
+
+        /** It says witch accidentals are preferred while user clicks guitar
         * and note is calculated. Default are sharps*/
     bool GpreferFlats; // default false
 
@@ -144,11 +144,8 @@ public:
     TaudioParams *A;  /** Audio parameters */
     
 private:
-  //--- for tune part ----------------
-      /** current guitar tune */
-    Ttune *m_tune;
-        /** Strings' order is determined in @param setTune() method */
-    char m_order[6];
+    Ttune *m_tune; /** current guitar tune */
+    char m_order[6]; /** Strings' order is determined in @param setTune() method */
 
 };
 #endif // TGLOBALS_H

@@ -153,16 +153,20 @@ void TlevelCreatorDlg::saveToFile() {
     if (fileName.right(4) != ".nel")
       fileName += ".nel";
     gl->E->levelsDir = QFileInfo(fileName).absoluteDir().absolutePath();
-    QFile file(fileName);
-    if (file.open(QIODevice::WriteOnly)) {
-        QDataStream out(&file);
-        out.setVersion(QDataStream::Qt_4_7);
-        out << Tlevel::currentVersion << newLevel;
-    }
-    else {
-        QMessageBox::critical(this, "", tr("Cannot open file for writing"));
-        return;
-    }
+		if (!Tlevel::saveToFile(newLevel, fileName)) {
+				QMessageBox::critical(this, " ", tr("Cannot open file for writing"));
+				return;
+		}
+//     QFile file(fileName);
+//     if (file.open(QIODevice::WriteOnly)) {
+//         QDataStream out(&file);
+//         out.setVersion(QDataStream::Qt_4_7);
+//         out << Tlevel::currentVersion << newLevel;
+//     }
+//     else {
+//         QMessageBox::critical(this, " ", tr("Cannot open file for writing"));
+//         return;
+//     }
     isNotSaved = false;
     levelSett->levelSelector->addLevel(newLevel, fileName, true);
     levelSett->levelSelector->selectLevel(); // select the last

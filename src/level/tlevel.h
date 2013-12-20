@@ -53,6 +53,9 @@ public:
 				/** Returns true when given value 'could be' or 'it is' some version of exam level.
 				 * This way level created with newer Nootka version can be detected. */
 		static bool couldBeLevel(qint32 ver);
+		
+				/** Saves level to given file and returns true for success or opposite. */
+		static bool saveToFile(Tlevel &level, const QString& levelFile);
 
   // level parameters
     QString name;

@@ -29,7 +29,7 @@
 
 extern Tglobals *gl;
 
-/** Returns size of 'A' letter in curent widget font. */
+/** Returns size of 'A' letter in current widget font. */
 int heightOfA(QWidget *w) {
 	return w->fontMetrics().boundingRect("A").height();
 }
@@ -37,7 +37,8 @@ int heightOfA(QWidget *w) {
 
 TlevelPreview::TlevelPreview(QWidget* parent) :
   QWidget(parent),
-  m_instrText("")
+  m_instrText(""),
+  m_enableFixing(false)
 {
 		setMouseTracking(true);
     QVBoxLayout *mainLay = new QVBoxLayout;
@@ -56,7 +57,6 @@ TlevelPreview::TlevelPreview(QWidget* parent) :
     setLayout(mainLay);
 		setLevel();
 		adjustToHeight();
-		connect(m_summaryEdit, SIGNAL(anchorClicked(QUrl)), this, SLOT(linkToFixLevel(QUrl)));
 }
 
 
@@ -86,9 +86,11 @@ void TlevelPreview::setLevel() {
 void TlevelPreview::setLevel(Tlevel& tl) {
 	QString instrName = "";
 	if (tl.hasInstrToFix) {
-		m_instrText = "";
-		instrName = "<a href=\"fixInstrument\">" + tr("fix an instrument") + "</a>";
-		m_summaryEdit->setTextInteractionFlags(Qt::TextBrowserInteraction);
+		m_instrText = ""; // don't display background instrument symbol
+		if (m_enableFixing) {
+				instrName = "<a href=\"fixInstrument\">" + tr("fix an instrument") + "</a>";
+				m_summaryEdit->setTextInteractionFlags(Qt::TextBrowserInteraction);
+		}
 	} else {
 		m_instrText = instrumentToGlyph(tl.instrument);
 		instrName = instrumentToText(tl.instrument);
@@ -172,6 +174,17 @@ void TlevelPreview::setLevel(Tlevel& tl) {
 
 void TlevelPreview::adjustToHeight() {
 	m_summaryEdit->setFixedHeight((m_summaryEdit->document()->toHtml().count("<tr>") + 3) * (heightOfA(this) + 7));
+}
+
+//##########################################################################################################
+//########################################## PROTECTED #####################################################
+//##########################################################################################################
+
+void TlevelPreview::setFixInstrEnabled(bool enabled) {
+	m_enableFixing = enabled;
+	if (enabled) {
+		connect(m_summaryEdit, SIGNAL(anchorClicked(QUrl)), this, SLOT(linkToFixLevel(QUrl)));
+	}
 }
 
 

@@ -93,6 +93,7 @@ Tglobals::Tglobals() :
         isFirstRun = config->value("isFirstRun", true).toBool();
         useAnimations = config->value("useAnimations", true).toBool();
         lang = config->value("language", "").toString();
+				instrumentToFix = config->value("instrumentToFix", -1).toInt();
     config->endGroup();
 
 //score widget settings
@@ -279,6 +280,7 @@ void Tglobals::storeSettings() {
         config->setValue("enharmonicNotesColor", enharmNotesColor);
         config->setValue("is7thNote_B", seventhIs_B);
         config->setValue("language", lang);
+				config->setValue("instrumentToFix", instrumentToFix);
     config->endGroup();
 
     config->beginGroup("score");
