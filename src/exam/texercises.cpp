@@ -57,7 +57,7 @@ void Texercises::checkAnswer() {
 	
 	if (m_exam->curQ().isCorrect()) {
 		m_currentGood++;
-		m_prevMistake = 0;
+		m_prevMistake++;
 	} else {
 		if (m_currentGood > m_max / 2 && m_prevMistake > m_max / 2) // when there were enough good answers
 			m_currentGood = m_max / 2; // forgive single mistake

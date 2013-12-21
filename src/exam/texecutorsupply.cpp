@@ -88,13 +88,8 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
 			* When there is no guitar in a level,
 			* add to question list only the lowest position sounds. 
 			* In this way question list contains proper number of questions. */
-	if (!m_level->canBeGuitar() && 
-			!( m_level->answersAs[TQAtype::e_asNote].isSound() ||
-				m_level->answersAs[TQAtype::e_asName].isSound() ||
-				m_level->answersAs[TQAtype::e_asFretPos].isSound() ||
-				m_level->answersAs[TQAtype::e_asSound].isSound()) ) {  // adjust frets' range
+	if (!m_level->canBeGuitar() && !m_level->answerIsSound())  // adjust frets' range
 		m_level->onlyLowPos = true;
-	}
 
 	if (!m_playCorrections || m_level->instrument != e_noInstrument || m_level->showStrNr || m_level->canBeGuitar()) {
 		qDebug() << "Question list created fret by fret. Tune:" << gl->Gtune()->name << gl->Gtune()->stringNr();

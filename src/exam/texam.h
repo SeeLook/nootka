@@ -71,7 +71,7 @@ public:
   Tlevel* level() { return m_level; }
   void setLevel(Tlevel *l) { m_level = l; }
   Ttune tune() { return m_tune; }
-  void setTune(Ttune tune) { m_tune = tune; }
+  void setTune(Ttune &tune) { m_tune = tune; }
 
   quint32 totalTime() { return m_totalTime; }
   void setTotalTime(quint32 total) { m_totalTime = total; }

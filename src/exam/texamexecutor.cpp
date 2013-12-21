@@ -1076,6 +1076,7 @@ void TexamExecutor::exerciseToExam() {
 	QString userName = m_exam->userName();
 	delete m_exam;
 	m_exam = new Texam(&m_level, userName);
+  m_exam->setTune(*gl->Gtune());
 	m_penalCount = 0;				
 	updatePenalStep();
 	delete m_exercise;
