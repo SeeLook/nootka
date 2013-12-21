@@ -230,7 +230,7 @@ QString TlevelSelector::checkLevel(Tlevel& l) {
 	if (l.questionAs.isFret() || l.answerIsGuitar() ) {
     if (l.hiFret > gl->GfretsNumber ||
         l.loNote.getChromaticNrOfNote() < gl->loString().getChromaticNrOfNote() ||
-			  l.hiNote.getChromaticNrOfNote() > gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber )
+			  l.hiNote.getChromaticNrOfNote() > gl->hiString().getChromaticNrOfNote() + l.hiFret)
 							warringText = tr("Level is not suitable for current tuning and/or fret number");
     else if (gl->instrument == e_noInstrument && l.instrument != e_noInstrument)
 							warringText = tr("Level is not suitable for current instrument type");
