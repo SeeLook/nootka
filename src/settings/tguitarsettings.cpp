@@ -146,7 +146,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 
     setLayout(mainLay);
 		
-		updateAmbitus();
+// 		updateAmbitus();
 
     connect(m_tuneCombo, SIGNAL(activated(int)), this, SLOT(tuneSelected(int)));
     connect(m_tuneView, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(userTune(int, Tnote)));
@@ -183,6 +183,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 			m_tuneView->setNote(4, Tnote(gl->Gtune()->str(1).getChromaticNrOfNote() + gl->GfretsNumber));
 			m_tuneView->setNote(5, gl->Gtune()->str(2));
 		}
+		updateAmbitus();
 #if defined(Q_OS_WIN)
     QTimer::singleShot(5, this, SLOT(delayedBgGlyph()));
 #endif
@@ -313,14 +314,17 @@ void TguitarSettings::grabTuneFromScore(Ttune* tune) {
 void TguitarSettings::tuneSelected(int tuneId) {
 	disconnect(m_stringNrSpin, SIGNAL(valueChanged(int)), this, SLOT(stringNrChanged(int)));
 	if (m_selectInstr->instrument() == 1 || m_selectInstr->instrument() == 2) { // classical guitar
+		if (tuneId < m_tuneCombo->count() - 1) // set default clef for defined tunes
+				m_tuneView->setClef(Tclef(Tclef::e_treble_G_8down));
     if (tuneId == 0)
         setTune(&Ttune::stdTune);
-    else 
-			if (tuneId != m_tuneCombo->count() - 1) //the last is custom
-						setTune(&Ttune::tunes[tuneId - 1]);
+    else if (tuneId != m_tuneCombo->count() - 1) //the last is custom
+				setTune(&Ttune::tunes[tuneId - 1]);
 	} else if (m_selectInstr->instrument() == 3) { // bass guitar
-			if (tuneId != m_tuneCombo->count() - 1) //the last is custom
+			if (tuneId != m_tuneCombo->count() - 1) { //the last is custom
+				m_tuneView->setClef(Tclef(Tclef::e_bass_F_8down));
 				setTune(&Ttune::bassTunes[tuneId]);
+			}
 	}
 	connect(m_stringNrSpin, SIGNAL(valueChanged(int)), this, SLOT(stringNrChanged(int)));
 }
@@ -413,6 +417,8 @@ void TguitarSettings::instrumentTypeChanged(int index) {
 			}
 			m_tuneView->setNote(4, m_tuneView->lowestNote());
 			m_tuneView->setNote(5, m_tuneView->highestNote());
+			grabTuneFromScore(m_curentTune);
+			emit tuneChanged(currentTune());
 	}
 	if ((Einstrument)index != e_noInstrument) {
 		if (!m_accidGroup->isEnabled())
@@ -420,6 +426,7 @@ void TguitarSettings::instrumentTypeChanged(int index) {
 		m_tuneCombo->addItem(tr("Custom tune"));
 	}
   m_tuneView->addBGglyph(index);
+	updateAmbitus();
 	emit instrumentChanged(index);
 	emit clefChanged(m_tuneView->clef());
 }

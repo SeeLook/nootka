@@ -71,14 +71,13 @@ public:
 		QGraphicsSimpleTextItem *mainAccid() { return m_mainAccid; }
     
 				/** Min and Max values of Y coefficient on the staff */
-    void setAmbitus(int min, int max){ m_ambitMin = qMax(min, 1); m_ambitMax = qMin(max, (int)m_height - 1); }
+    void setAmbitus(int lo, int hi);
 
         /** This return value of -2 is bb,  1 is #,  etc... */ 
     int accidental() {return m_accidental;}
     int ottava() { return m_ottava; } // NOTE: for this moment it is unused and set to 0
     int notePos() { return m_mainPosY; }
     
-//     int noteNumber() { return m_noteNr; } // note number depends on octave.
 
         /** Returns QString with accidental symbol*/
     static QString getAccid(int accNr);

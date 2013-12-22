@@ -43,8 +43,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
 				m_scoreRang->setNoteDisabled(2, true); // and is disabled and empty
 		m_scoreRang->setClef(Tclef(gl->Sclef));
 		m_scoreRang->addBGglyph((int)gl->instrument);
-//     m_scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()),
-//                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
+    m_scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()), Tnote(gl->hiNote().getChromaticNrOfNote()));
     m_scoreRang->setNote(0, Tnote(1, 0));
     m_scoreRang->setNote(1, Tnote(1, 1));
     QGroupBox *notesRangGr = new QGroupBox(TlevelPreview::notesRangeTxt(), this);
@@ -108,9 +107,9 @@ rangeSettings::rangeSettings(QWidget *parent) :
 
     connect (m_scoreRang, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenParamsChanged()));
 		connect (m_scoreRang, SIGNAL(clefChanged(Tclef)), this, SLOT(whenParamsChanged()));
+		connect (m_scoreRang, SIGNAL(pianoStaffSwitched()), this, SLOT(whenParamsChanged()));
     connect (m_fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
     connect (m_toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
-// 		connect (m_scoreRang, SIGNAL(pianoStaffSwitched()), this, SLOT(whenPianoStaffChanges()));
 }
 
 
@@ -146,6 +145,7 @@ void rangeSettings::whenParamsChanged() {
 		if (levelIsLoadingInRange)
 				return;
 		
+		m_scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()), Tnote(gl->hiNote().getChromaticNrOfNote()));
     if (!isNotSaved) {
         isNotSaved = true;
         emit rangeChanged();
