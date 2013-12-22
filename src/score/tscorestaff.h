@@ -127,6 +127,9 @@ public:
 			
 				/** Returns number of accidental in key signature, fe.: F# - 0, C# - 1 or Bb - 0, Eb - 1 */
     int accidNrInKey(int noteNr, char key);
+		
+				/** Return Y position of given note */
+		int noteToPos(Tnote& note); 
     
     virtual void setScoreControler(TscoreControl *scoreControl);
 		

@@ -178,9 +178,11 @@ void TscoreNote::setWorkAccid(int accNr) {
 
 
 void TscoreNote::moveNote(int posY) {
-    if (posY == 0 || posY > m_ambitMin || posY < m_ambitMax) {
+		if (posY == 0 || !(posY >= m_ambitMax - 1 && posY <= m_ambitMin)) {
+//     if (posY == 0 || posY > m_ambitMin || posY < m_ambitMax) {
 				hideNote();
 				m_mainAccid->setText(" ");
+				m_accidental = 0;
 				return;
     }
 		if (!m_mainNote->isVisible()) {
@@ -324,6 +326,11 @@ void TscoreNote::enableNoteAnim(bool enable, int duration) {
 	}
 }
 
+
+void TscoreNote::setAmbitus(int lo, int hi) { 
+	m_ambitMin = qBound(1, lo, (int)m_height - 1); 
+	m_ambitMax = qBound(1, hi, (int)m_height - 1);
+}
 
 
 QRectF TscoreNote::boundingRect() const{

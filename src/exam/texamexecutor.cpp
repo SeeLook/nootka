@@ -108,6 +108,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 						m_exercise = new Texercises(m_exam);
 						m_exam->setFileName(QDir::toNativeSeparators(QFileInfo(gl->config->fileName()).absolutePath() + "/exercise.noo"));	
 				}
+			//We check are guitar's params suitable for an exam 
+				TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
     } else if (userAct == TstartExamDlg::e_contExam) {
         m_exam = new Texam(&m_level, "");
         Texam::EerrorType err = m_exam->loadFromFile(resultText);

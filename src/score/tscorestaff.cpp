@@ -120,6 +120,11 @@ void TscoreStaff::setScoreControler(TscoreControl* scoreControl) {
 	}
 }
 
+
+int TscoreStaff::noteToPos(Tnote& note)	{ 
+	return m_offset.octave * 7 + m_offset.note + upperLinePos() - 1 - (note.octave * 7 + (note.note - 1)); 
+}
+
 		/** Calculation of note position works As folow:
 		 * 1) expr: m_offset.octave * 7 + m_offset.note + upperLinePos() - 1 returns y position of note C in offset octave
 		 * 2) (note.octave * 7 + (note.note - 1)) is number of note to be set.
@@ -128,8 +133,7 @@ void TscoreStaff::setScoreControler(TscoreControl* scoreControl) {
 void TscoreStaff::setNote(int index, Tnote& note) {
 	if (index >= 0 && index < m_scoreNotes.size()) {
 		if (note.note)
-				m_scoreNotes[index]->setNote(m_offset.octave * 7 + m_offset.note + upperLinePos() - 1 - (note.octave * 7 + (note.note - 1)),
-																 (int)note.acidental);
+				m_scoreNotes[index]->setNote(noteToPos(note), (int)note.acidental);
 		else
 				m_scoreNotes[index]->setNote(0, 0);
 		if (m_scoreNotes[index]->notePos()) // store note in the list
@@ -233,10 +237,10 @@ void TscoreStaff::setDisabled(bool disabled) {
 }
 
 
-
 QRectF TscoreStaff::boundingRect() const {
   return QRectF(0, 0, m_width, m_height);
 }
+
 
 int TscoreStaff::accidNrInKey(int noteNr, char key) {
 	int accidNr;

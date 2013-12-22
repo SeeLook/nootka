@@ -195,8 +195,8 @@ bool getLevelFromStream(QDataStream& in, Tlevel& lev, qint32 ver) {
 				lev.clef = Tclef((Tclef::Etype)testClef);
 				lev.instrument = (Einstrument)instr;
 		}
-		qDebug() << lev.name << "ver:" << lev.levelVersionNr(ver) << "instrument:" << 
-						instr << "saved as" << instrumentToText(lev.instrument);
+// 		qDebug() << lev.name << "ver:" << lev.levelVersionNr(ver) << "instrument:" << 
+// 						instr << "saved as" << instrumentToText(lev.instrument);
     return ok;
 }
 

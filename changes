@@ -1,6 +1,7 @@
 0.9.5 rc1
   Nootka says: I'm afraid of exams
      - added exercise mode, without penalties and elapsing time
+     - extended support for instruments different than guitar 
      - transposing is possible in a range ±12 semitones (octave)
      - exam can check intonation of a sound and its accuracy is configurable
      - English language in Nootka was corrected and improved

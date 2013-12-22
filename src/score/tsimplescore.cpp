@@ -252,13 +252,12 @@ void TsimpleScore::setScoreDisabled(bool disabled) {
 
 
 void TsimpleScore::setAmbitus(int index, Tnote lo, Tnote hi) {
-		if (index >= 0 && index < m_notesNr) {
-			int min = staff()->octaveOffset() * 7 + staff()->noteOffset() + staff()->upperLinePos() - 1 - 
-						(lo.octave * 7 + (lo.note - 1) + (int)lo.acidental);
-			int max = staff()->octaveOffset() * 7 + staff()->noteOffset() + staff()->upperLinePos() - 1 - 
-						(hi.octave * 7 + (lo.note - 1) + (int)hi.acidental);
-			staff()->noteSegment(index)->setAmbitus(min, max);
-		}			
+	if (index >= 0 && index < m_notesNr)
+		if (staff()->lower()) {
+				staff()->noteSegment(index)->setAmbitus(staff()->height() - 2, staff()->noteToPos(hi) + 1);
+				staff()->lower()->noteSegment(index)->setAmbitus(staff()->lower()->noteToPos(lo) + 1, 2);
+		} else
+				staff()->noteSegment(index)->setAmbitus(staff()->noteToPos(lo) + 1, staff()->noteToPos(hi) + 1);
 }
 
 
