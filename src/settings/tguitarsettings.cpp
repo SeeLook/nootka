@@ -37,6 +37,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     
 		m_customTune = new Ttune();
 		*m_customTune = *(gl->Gtune());
+    m_curentTune = gl->Gtune();
 		
 		tuningGuitarText = tr("tuning of the guitar");
 		scaleOfInstrText = tr("scale of an instrument");
