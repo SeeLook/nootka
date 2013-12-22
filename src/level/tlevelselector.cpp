@@ -146,7 +146,7 @@ QList<Tlevel> getExampleLevels() {
     l.requireStyle = false;
     l.showStrNr = false;
 		l.clef = Tclef(Tclef::e_treble_G);
-		l.instrument = gl->instrument;
+		l.instrument = e_noInstrument;
 		l.intonation = 0; // do not check
     l.loNote = Tnote(6, 0); // a
     l.hiNote = Tnote(6, 2); // a2
@@ -181,7 +181,7 @@ QList<Tlevel> getExampleLevels() {
 // 		l.intonation = gl->A->intonation; // user preferences (in constructor)
     l.onlyLowPos = true;
 		if (gl->instrument == e_noInstrument) // force instrument when not defined
-			l.instrument = e_classicalGuitar;
+			l.instrument = gl->instrument;
     llist << l;
 //----------------------------------------------------------------------------
     l = Tlevel();
@@ -227,17 +227,17 @@ void TlevelSelector::fileIOerrorMsg(QFile &f, QWidget *parent) {
 
 QString TlevelSelector::checkLevel(Tlevel& l) {
 	QString warringText = "";
-	if (l.questionAs.isFret() || l.answerIsGuitar() ) {
+	if (l.canBeGuitar()) {
     if (l.hiFret > gl->GfretsNumber ||
         l.loNote.getChromaticNrOfNote() < gl->loString().getChromaticNrOfNote() ||
-			  l.hiNote.getChromaticNrOfNote() > gl->hiString().getChromaticNrOfNote() + l.hiFret)
+			  l.hiNote.getChromaticNrOfNote() > gl->hiNote().getChromaticNrOfNote())
 							warringText = tr("Level is not suitable for current tuning and/or fret number");
-    else if (gl->instrument == e_noInstrument && l.instrument != e_noInstrument)
-							warringText = tr("Level is not suitable for current instrument type");
-	} else
-			if ((l.answerIsSound() || l.answerIsGuitar()) &&
-				!l.inScaleOf(gl->loString().getChromaticNrOfNote(), gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber))
-						warringText = rangeBeyondScaleTxt();
+//     else if (gl->instrument == e_noInstrument && l.instrument != e_noInstrument)
+// 							warringText = tr("Level is not suitable for current instrument type");
+// 	} else if ((l.answerIsSound() || l.answerIsGuitar()) &&
+// 				!l.inScaleOf(gl->loString().getChromaticNrOfNote(), gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber))
+// 						warringText = rangeBeyondScaleTxt();
+  }
 	return warringText;
 }
 
