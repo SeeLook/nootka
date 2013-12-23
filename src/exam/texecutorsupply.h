@@ -23,6 +23,7 @@
 #include <QObject>
 #include "tqaunit.h"
 
+class MainWindow;
 class Texam;
 class QWidget;
 class Tlevel;
@@ -66,7 +67,7 @@ public:
   
       /** Displays message when exam can be finished. */
   void examFinished();
-  void setFinished() { m_wasFinished = true;}
+  void setFinished(bool wasFinished = true) { m_wasFinished = wasFinished;}
   bool wasFinished() { return m_wasFinished; }
 			
 			/** Returns @p True when level and user instrument preferences determine corrected answer to be played.
@@ -76,7 +77,8 @@ public:
 			/** Check. are current guitar fret number and tuning different than exercise or exam level.
 			 * Adjust globals (tune and fret number have to be stored before) and
 			 * Displays message about changes, if any. */
-  static void checkGuitarParamsChanged(QWidget *parent, Texam *exam);
+  static void checkGuitarParamsChanged(MainWindow* parent, Texam* exam);
+	static bool paramsChangedMessage() { return m_paramsMessage; }
   
   
 signals:
@@ -124,9 +126,10 @@ private:
        * either question as position or answer. 
        * The list is initialized in createQuestionsList() method if level has that settings. */
   QList<quint16> 					m_fretFretList;
+	
   bool 										m_wasFinished; /** True when message about finished exam was shown. */
   bool										m_playCorrections; /** Corrected answers will be played (True) or shown on the guitar (False) */
-	
+	static bool							m_paramsMessage; /** True when message was displayed */
       
 };
 

@@ -188,7 +188,74 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
     }
     
 //     qDebug() << "questions number:" << m_questList.size();
-    m_shouldBeTerminated = false;
+		initializeExecuting();
+//     m_shouldBeTerminated = false;
+//     m_incorrectRepeated = false;
+//     m_isAnswered = true;
+//     m_blackQuestNr = -1;
+// 		if (m_exercise) { // Do not count penalties in exercising mode
+// 				m_exam->setFinished(); // to avoid adding penalties in exercising
+// 				m_supp->setFinished();
+// 				if (gl->E->suggestExam)
+// 					m_exercise->setSuggestionEnabled(m_supp->qaPossibilities());
+// 		} else {
+// 				m_penalCount = 0;
+// 				if (m_exam->isFinished()) {
+// 					m_supp->setFinished();
+// 					qDebug() << "Exam was finished";
+// 				} else {
+// 						int remained = (m_supp->obligQuestions() + m_exam->penalty()) - m_exam->count();
+// 						remained = qMax(0, remained);
+// 						if (remained < m_exam->blackCount()) {
+// 							m_exam->increasePenaltys(m_exam->blackCount() - remained);
+// 							qDebug() << "penalties number adjusted:" << m_exam->blackCount() - remained;
+// 							mW->progress->activate(m_exam->count(), m_supp->obligQuestions(), m_exam->penalty(), m_exam->isFinished());
+// 						}
+// 						if (remained == 0 && m_exam->blackCount() == 0) {
+// 							mW->progress->setFinished(true);
+// 							m_supp->setFinished();
+// 							m_exam->setFinished();
+// 							qDebug() << "Finished exam was detected";
+// 						}
+// 						updatePenalStep();
+// 				}
+// 		}
+//     m_prevQuestStyle = m_supp->randomNameStyle(gl->NnameStyleInNoteName);
+//     m_prevAnswStyle = m_supp->randomNameStyle(m_prevQuestStyle);
+//     
+//     m_level.questionAs.randNext(); // Randomize question and answer type
+//     if (m_level.questionAs.isNote()) m_level.answersAs[TQAtype::e_asNote].randNext();
+//     if (m_level.questionAs.isName()) m_level.answersAs[TQAtype::e_asName].randNext();
+//     if (m_level.questionAs.isFret()) m_level.answersAs[TQAtype::e_asFretPos].randNext();
+//     if (m_level.questionAs.isSound()) m_level.answersAs[TQAtype::e_asSound].randNext();
+    
+		createActions();
+		
+//     if (m_questList.size() == 0) {
+//         QMessageBox::critical(mW, "", tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
+//         restoreAfterExam();
+//         return;
+//     }
+    /*
+       for (int i = 0; i < m_exam->blacList()->size(); i++)
+          if (m_exam->blacList()->operator[](i).questionAs == m_exam->blacList()->operator[](i).answerAs)
+            if (m_exam->blacList()->operator[](i).questionAs != TQAtype::e_asFretPos &&
+              m_exam->blacList()->operator[](i).questionAs != TQAtype::e_asSound )
+              qDebug() << m_exam->blacList()->operator[](i).qa.note.toText() << 
+              m_exam->blacList()->operator[](i).qa_2.note.toText();*/
+}
+
+
+TexamExecutor::~TexamExecutor() {
+		if (m_supp)
+				delete m_supp;
+		delete m_glStore;
+		deleteExam();
+}
+
+
+void TexamExecutor::initializeExecuting() {
+		m_shouldBeTerminated = false;
     m_incorrectRepeated = false;
     m_isAnswered = true;
     m_blackQuestNr = -1;
@@ -227,29 +294,6 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
     if (m_level.questionAs.isName()) m_level.answersAs[TQAtype::e_asName].randNext();
     if (m_level.questionAs.isFret()) m_level.answersAs[TQAtype::e_asFretPos].randNext();
     if (m_level.questionAs.isSound()) m_level.answersAs[TQAtype::e_asSound].randNext();
-    
-		createActions();
-		
-//     if (m_questList.size() == 0) {
-//         QMessageBox::critical(mW, "", tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
-//         restoreAfterExam();
-//         return;
-//     }
-    /*
-       for (int i = 0; i < m_exam->blacList()->size(); i++)
-          if (m_exam->blacList()->operator[](i).questionAs == m_exam->blacList()->operator[](i).answerAs)
-            if (m_exam->blacList()->operator[](i).questionAs != TQAtype::e_asFretPos &&
-              m_exam->blacList()->operator[](i).questionAs != TQAtype::e_asSound )
-              qDebug() << m_exam->blacList()->operator[](i).qa.note.toText() << 
-              m_exam->blacList()->operator[](i).qa_2.note.toText();*/
-}
-
-
-TexamExecutor::~TexamExecutor() {
-		if (m_supp)
-				delete m_supp;
-		delete m_glStore;
-		deleteExam();
 }
 
 
@@ -871,6 +915,10 @@ void TexamExecutor::repeatQuestion() {
  */
 void TexamExecutor::prepareToExam() {
 		setTitleAndTexts();
+		int levelMessageDelay = 1;
+		if (TexecutorSupply::paramsChangedMessage())
+				levelMessageDelay = 7000;
+		QTimer::singleShot(7000, this, SLOT(levelStatusMessage()));
 		mW->settingsAct->setVisible(false);
 		mW->aboutAct->setVisible(false);
     mW->analyseAct->setVisible(false);
@@ -1079,11 +1127,14 @@ void TexamExecutor::exerciseToExam() {
 	delete m_exam;
 	m_exam = new Texam(&m_level, userName);
   m_exam->setTune(*gl->Gtune());
-	m_penalCount = 0;				
+	m_penalCount = 0;
 	updatePenalStep();
 	delete m_exercise;
 	m_exercise = 0;
 	setTitleAndTexts();
+	levelStatusMessage();
+	m_supp->setFinished(false); // exercise had it set to true
+	initializeExecuting();
 	mW->correctChB->hide();
 	mW->examResults->startExam();
 	mW->progress->activate(m_exam->count(), m_supp->obligQuestions(), m_exam->penalty(), m_exam->isFinished());
@@ -1095,9 +1146,8 @@ void TexamExecutor::exerciseToExam() {
 	clearWidgets();
 	m_canvas->clearCanvas();
 	if(gl->hintsEnabled)
-        m_canvas->startTip();
+			m_canvas->startTip();
 }
-
 
 
 void TexamExecutor::stopExerciseSlot() {
@@ -1440,17 +1490,23 @@ void TexamExecutor::delayerTip() {
 }
 
 
-
 void TexamExecutor::setTitleAndTexts() {
 	if (m_exercise) {
 			mW->setWindowTitle(tr("Exercises with Nootka"));
-			mW->setStatusMessage(tr("You are exercising on level") + ":<br><b>" + m_level.name + "</b>");
 			mW->startExamAct->setStatusTip(tr("finish exercising"));
 		} else {
 			mW->setWindowTitle(tr("EXAM!") + " " + m_exam->userName() + " - " + m_level.name);
-			mW->setStatusMessage(tr("Exam started on level") + ":<br><b>" + m_level.name + "</b>");
 			mW->startExamAct->setStatusTip(tr("stop the exam"));
 	}
+}
+
+
+void TexamExecutor::levelStatusMessage() {
+	mW->setMessageBg(-1); // reset background
+	if (m_exercise)
+			mW->setStatusMessage(tr("You are exercising on level") + ":<br><b>" + m_level.name + "</b>");
+	else
+			mW->setStatusMessage(tr("Exam started on level") + ":<br><b>" + m_level.name + "</b>");
 }
 
 
