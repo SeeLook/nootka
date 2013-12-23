@@ -116,6 +116,9 @@ protected slots:
 				/** Performs routines after dialog window closed as such as 
 				 * right mouse button unlocking. If and exam is going to start it calls @p exerciseToExam() */
 		void suggestDialogClosed(bool startExam);
+		
+				/** Displays message on MainWindow status label about level of started exercise/exam */
+		void levelStatusMessage();
 
 private:
 		void createActions();
@@ -126,56 +129,61 @@ private:
     void clearWidgets();
 				/** Clears canvas and invokes restoreAfterExam() */
 		void closeExecutor();
-        
-private:
+		
+				/** Performs some initial routines on exam/exercise variables */
+		void initializeExecuting();
+	
     QString saveExamToFile();
     void updatePenalStep();
+		
 				/** Sets texts depend on exercise or exam:
 				 * - main window title
 				 * - startExamAct status tip */
 		void setTitleAndTexts();
+        
+private:
     
-    TexecutorSupply *m_supp; 
-    Texam *m_exam;
+    TexecutorSupply 					*m_supp; 
+    Texam 										*m_exam;
 		
           /** main instance of Tlevel, others are pointers or references to it */
-    Tlevel m_level;
-    QList<TQAunit::TQAgroup> m_questList;
+    Tlevel 										m_level;
+    QList<TQAunit::TQAgroup> 	m_questList;
 		
           /** Invokes startSniffing() and stopPlaying() after delay
            * to avoid feedback between played question and listened answer. */
-    QTimer *m_soundTimer, *m_askingTimer;
-    Tnote::EnameStyle m_prevQuestStyle, m_prevAnswStyle;
-    TglobalExamStore *m_glStore;
-    TanswerRequire m_answRequire;
+    QTimer 										*m_soundTimer, *m_askingTimer;
+    Tnote::EnameStyle 				m_prevQuestStyle, m_prevAnswStyle;
+    TglobalExamStore 					*m_glStore;
+    TanswerRequire 						m_answRequire;
 		
         /** Indicates when sniffing has to be ignored, 
          * because some dialog window exist over exam. */
-    bool m_snifferLocked;
-    bool m_shouldBeTerminated, m_isAnswered, m_incorrectRepeated;
+    bool 											m_snifferLocked;
+    bool 											m_shouldBeTerminated, m_isAnswered, m_incorrectRepeated;
 		
           /** If it is sets to TRUE locks invoking event of right mouse button.
           * It has to be set before singleShot() method called on askQuestion() 
           * to avoid user click button and call askQuestion() again during time of delay.*/
-    bool m_lockRightButt;
+    bool 											m_lockRightButt;
 		
           /** It becomes true when user wants close Nootka during an exam or exercise.*/
-    bool m_goingClosed;
+    bool 											m_goingClosed;
 		
           /** stores note if question and answer are Note Name to restore it if question is repeated
           It is to restore buttons state in NoteName widget witch are unchecked by disableWidget() */
-    Tnote m_prevNoteIfName;
-    Tcanvas *m_canvas;
+    Tnote 										m_prevNoteIfName;
+    Tcanvas 									*m_canvas;
 		
         /** -1 if no black, otherwise points question in blackList list. */
-    int m_blackQuestNr;
+    int 											m_blackQuestNr;
 		
         /** Interval of questions, after it penalty question is asked */
-    int m_penalStep;
+    int 											m_penalStep;
 		
         /** Counts questions to ask penalties one. */
-    int m_penalCount;
-		Texercises	*m_exercise;
+    int 											m_penalCount;
+		Texercises								*m_exercise;
 
 
 };

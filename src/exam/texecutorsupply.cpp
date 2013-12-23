@@ -21,6 +21,7 @@
 #include "tglobals.h"
 #include "tlevel.h"
 #include <ttune.h>
+#include <mainwindow.h>
 #include <QMouseEvent>
 #include <QMessageBox>
 #include <QDateTime>
@@ -29,27 +30,36 @@
 extern Tglobals *gl;
 
 /*static*/
-void TexecutorSupply::checkGuitarParamsChanged(QWidget* parent, Texam* exam) {
+
+bool TexecutorSupply::m_paramsMessage = false;
+
+void TexecutorSupply::checkGuitarParamsChanged(MainWindow* parent, Texam* exam) {
 	QString changesMessage = "";
 // 	if (exam->level()->instrument != e_noInstrument) {
-			if (exam->level()->instrument != e_noInstrument && exam->level()->instrument != gl->instrument)
-					changesMessage = tr("Guitar type was changed!");
-			if (exam->tune() != *gl->Gtune() ) { //Is tune the same?
+			if (gl->instrument == e_noInstrument && exam->level()->instrument != gl->instrument)
+					changesMessage = tr("Instrument type was changed!");
+			if (exam->tune().stringNr() > 2 && exam->tune() != *gl->Gtune() ) { //Is tune the same?
 				if (changesMessage != "")
-							changesMessage += "<br><br>";
+							changesMessage += "<br>";
 					Ttune tmpTune = exam->tune();
 					gl->setTune(tmpTune);
-					changesMessage = tr("Tuning of the guitar was changed to:") + "<br><b> " + gl->Gtune()->name + ".</b>";
+					changesMessage = tr("Tuning of the guitar was changed to:") + " <b> " + gl->Gtune()->name + "!</b>";
 			}
 			if (exam->level()->hiFret > gl->GfretsNumber) { //Are enough frets?
 				if (changesMessage != "")
-							changesMessage += "<br><br>";
-						changesMessage += tr("Guitar fret number was changed.");
+							changesMessage += "<br>";
+						changesMessage += tr("Guitar fret number was changed!");
 						gl->GfretsNumber = exam->level()->hiFret;
 			}
 // 	}
-	if (changesMessage != "")
-			QMessageBox::warning(parent, "Nootka", changesMessage);
+	if (changesMessage != "") {
+			QColor c = Qt::red;
+			c.setAlpha(50);
+			parent->setMessageBg(c);
+			parent->setStatusMessage(changesMessage);
+			m_paramsMessage = true;
+	} else
+			m_paramsMessage = false;
 }
 
 
