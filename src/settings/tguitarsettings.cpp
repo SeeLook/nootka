@@ -209,17 +209,18 @@ void TguitarSettings::saveSettings() {
 		else { // instrument scale taken from note segments 4 & 5
 			Tnote hiN, loN; // fix notes order
 			if (m_tuneView->getNote(5).getChromaticNrOfNote() < m_tuneView->getNote(4).getChromaticNrOfNote()) {
-				hiN = m_tuneView->getNote(5);
-				loN = m_tuneView->getNote(4);
-			} else {
 				hiN = m_tuneView->getNote(4);
 				loN = m_tuneView->getNote(5);
+			} else {
+				hiN = m_tuneView->getNote(5);
+				loN = m_tuneView->getNote(4);
 			}
 			*tmpTune = Ttune("scale", 
 													Tnote(hiN.getChromaticNrOfNote() - m_fretsNrSpin->value()), loN,
 													Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0)	);
 		}
     gl->setTune(*tmpTune);
+		qDebug() << gl->Gtune()->name << gl->Gtune()->str(1).toText() << gl->Gtune()->str(2).toText();
 		delete tmpTune;
     gl->GshowOtherPos = m_morePosCh->isChecked();
     if (m_prefFlatBut->isChecked()) 
@@ -303,6 +304,7 @@ void TguitarSettings::grabTuneFromScore(Ttune* tune) {
 				tuneName = m_tuneCombo->currentText();
 		else {
 				tuneName = "scale";
+				nn[5] = Tnote(nn[5].getChromaticNrOfNote() - m_fretsNrSpin->value());
 		}
 		*tune = Ttune(tuneName, nn[5], nn[4], nn[3], nn[2], nn[1], nn[0]);
 }
@@ -350,7 +352,6 @@ void TguitarSettings::onClefChanged(Tclef clef) {
 void TguitarSettings::switchedToPianoStaff() {
 		updateAmbitus();
 		updateNotesState();
-// 		m_tuneView->setNoteDisabled(6, true);
 		emit clefChanged(currentClef());
 		emit lowestNoteChanged(m_tuneView->lowestNote());
 }
@@ -382,6 +383,9 @@ void TguitarSettings::stringNrChanged(int strNr) {
 
 
 void TguitarSettings::instrumentTypeChanged(int index) {
+	if (m_currentInstr == index)
+		return;
+	
 	m_tuneCombo->clear();
 	m_currentInstr = index;
 	if ((Einstrument)index == e_classicalGuitar || (Einstrument)index == e_electricGuitar) {
@@ -410,12 +414,14 @@ void TguitarSettings::instrumentTypeChanged(int index) {
 			guitarDisabled(true);
 			m_stringNrSpin->setValue(2); // fake two strings
 			m_tuneView->setClef(Tclef(Tclef::e_treble_G));
+			m_fretsNrSpin->setValue(19); // no need but keep it default
 			for (int i = 0; i < 6; i++) {
 				if (i < 4)
 					m_tuneView->setNoteDisabled(i, true);
 				m_tuneView->clearNote(i);
 				m_tuneView->clearStringNumber(i);
 			}
+			updateAmbitus();
 			m_tuneView->setNote(4, m_tuneView->lowestNote());
 			m_tuneView->setNote(5, m_tuneView->highestNote());
 			grabTuneFromScore(m_curentTune);
@@ -427,7 +433,6 @@ void TguitarSettings::instrumentTypeChanged(int index) {
 		m_tuneCombo->addItem(tr("Custom tune"));
 	}
   m_tuneView->addBGglyph(index);
-	updateAmbitus();
 	emit instrumentChanged(index);
 	emit clefChanged(m_tuneView->clef());
 }
@@ -469,7 +474,7 @@ void TguitarSettings::updateNotesState() {
 					else
 						m_tuneView->clearStringNumber(i);
 			} else {
-					m_tuneView->setNoteDisabled(i, true);
+// 					m_tuneView->setNoteDisabled(i, true);
 			}
 		}
 		delete tmpTune;

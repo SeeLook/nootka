@@ -180,8 +180,8 @@ QList<Tlevel> getExampleLevels() {
 //     l.hiFret by constructor
 // 		l.intonation = gl->A->intonation; // user preferences (in constructor)
     l.onlyLowPos = true;
-		if (gl->instrument == e_noInstrument) // force instrument when not defined
-			l.instrument = gl->instrument;
+// 		if (gl->instrument == e_noInstrument) // force instrument when not defined
+// 			l.instrument = gl->instrument;
     llist << l;
 //----------------------------------------------------------------------------
     l = Tlevel();
@@ -211,6 +211,7 @@ QList<Tlevel> getExampleLevels() {
     l.hiNote = Tnote(6, 2); // a one-line
 //     l.hiFret by constructor
 // 		l.intonation = gl->A->intonation; // user preferences (in constructor)
+		l.instrument = e_noInstrument;
     l.onlyLowPos = true;
     llist << l;
     return llist;
@@ -228,7 +229,7 @@ void TlevelSelector::fileIOerrorMsg(QFile &f, QWidget *parent) {
 QString TlevelSelector::checkLevel(Tlevel& l) {
 	QString warringText = "";
 	if (l.canBeGuitar()) {
-    if (l.hiFret > gl->GfretsNumber ||
+    if (l.hiFret > gl->GfretsNumber || gl->Gtune()->stringNr() < 3 ||
         l.loNote.getChromaticNrOfNote() < gl->loString().getChromaticNrOfNote() ||
 			  l.hiNote.getChromaticNrOfNote() > gl->hiNote().getChromaticNrOfNote())
 							warringText = tr("Level is not suitable for current tuning and/or fret number");
