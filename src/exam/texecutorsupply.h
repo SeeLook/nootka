@@ -72,13 +72,19 @@ public:
 			
 			/** Returns @p True when level and user instrument preferences determine corrected answer to be played.
 			 * When corrections are possible on guitar it returns @p False */
-  bool isCorrectedPlayable() { return m_playCorrections; }
+  static bool isCorrectedPlayable() { return m_playCorrections; }
 		
 			/** Check. are current guitar fret number and tuning different than exercise or exam level.
 			 * Adjust globals (tune and fret number have to be stored before) and
 			 * Displays message about changes, if any. */
   static void checkGuitarParamsChanged(MainWindow* parent, Texam* exam);
+		
+			/** It is true when checkGuitarParamsChanged() obtained message to display.
+			 * It is used to inform MainWindow that status label is busy by the message. */
 	static bool paramsChangedMessage() { return m_paramsMessage; }
+	
+	int loFret() { return m_loFret; }
+	int hiFret() { return m_hiFret; }
   
   
 signals:
@@ -92,7 +98,7 @@ protected:
   void calcQAPossibleCount();
 		
 			/** Determines should be corrections played or shown on the guitar */
-	void checkPlayCorrected();
+	static void checkPlayCorrected(Tlevel* level);
 			
 	
 private:
@@ -128,8 +134,14 @@ private:
   QList<quint16> 					m_fretFretList;
 	
   bool 										m_wasFinished; /** True when message about finished exam was shown. */
-  bool										m_playCorrections; /** Corrected answers will be played (True) or shown on the guitar (False) */
+  static bool							m_playCorrections; /** Corrected answers will be played (True) or shown on the guitar (False) */
 	static bool							m_paramsMessage; /** True when message was displayed */
+			
+			/** Temporary stored fret range of a level. 
+			 * Values may be differ than originally in level when level no needs guitar
+			 * but to show fret range they are adjusted. 
+			 * LEVEL VALUES REMAINED UNTOUCHED */
+	int 										m_loFret, m_hiFret;
       
 };
 

@@ -228,7 +228,7 @@ void TlevelSelector::fileIOerrorMsg(QFile &f, QWidget *parent) {
 
 QString TlevelSelector::checkLevel(Tlevel& l) {
 	QString warringText = "";
-	if (l.canBeGuitar()) {
+	if (l.canBeGuitar() || (l.instrument != e_noInstrument && l.canBeSound())) {
     if (l.hiFret > gl->GfretsNumber || gl->Gtune()->stringNr() < 3 ||
         l.loNote.getChromaticNrOfNote() < gl->loString().getChromaticNrOfNote() ||
 			  l.hiNote.getChromaticNrOfNote() > gl->hiNote().getChromaticNrOfNote())

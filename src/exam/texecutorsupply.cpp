@@ -32,26 +32,42 @@ extern Tglobals *gl;
 /*static*/
 
 bool TexecutorSupply::m_paramsMessage = false;
+bool TexecutorSupply::m_playCorrections = true;
+
+void TexecutorSupply::checkPlayCorrected(Tlevel* level) {
+	m_playCorrections = true;
+	if (level->instrument == e_noInstrument) {
+		if (level->answerIsSound())
+			if (gl->instrument != e_noInstrument)
+				if (level->inScaleOf(gl->loString().getChromaticNrOfNote(), gl->hiNote().getChromaticNrOfNote()))
+					m_playCorrections = false;
+	} else
+			m_playCorrections = false;
+}
+
 
 void TexecutorSupply::checkGuitarParamsChanged(MainWindow* parent, Texam* exam) {
+	checkPlayCorrected(exam->level());
 	QString changesMessage = "";
-// 	if (exam->level()->instrument != e_noInstrument) {
-			if (gl->instrument == e_noInstrument && exam->level()->instrument != gl->instrument)
+	if (exam->level()->instrument != e_noInstrument) { // when instrument is guitar it has a matter
+			if (exam->level()->instrument != gl->instrument)
 					changesMessage = tr("Instrument type was changed!");
-			if (exam->tune().stringNr() > 2 && exam->tune() != *gl->Gtune() ) { //Is tune the same?
-				if (changesMessage != "")
-							changesMessage += "<br>";
-					Ttune tmpTune = exam->tune();
-					gl->setTune(tmpTune);
-					changesMessage = tr("Tuning of the guitar was changed to:") + " <b> " + gl->Gtune()->name + "!</b>";
-			}
-			if (exam->level()->hiFret > gl->GfretsNumber) { //Are enough frets?
-				if (changesMessage != "")
-							changesMessage += "<br>";
-						changesMessage += tr("Guitar fret number was changed!");
-						gl->GfretsNumber = exam->level()->hiFret;
-			}
-// 	}
+			gl->instrument = exam->level()->instrument;
+	} // otherwise it reminds unchanged
+	if ((exam->level()->canBeGuitar() || exam->level()->canBeSound()) && !m_playCorrections &&
+		exam->tune() != *gl->Gtune() ) { // Is tune the same?
+			if (changesMessage != "")
+						changesMessage += "<br>";
+			Ttune tmpTune = exam->tune();
+			gl->setTune(tmpTune);
+			changesMessage = tr("Tuning of the guitar was changed to:") + " <b> " + gl->Gtune()->name + "!</b>";
+	}
+	if (exam->level()->canBeGuitar() && exam->level()->hiFret > gl->GfretsNumber) { // Are enough frets?
+			if (changesMessage != "")
+					changesMessage += "<br>";
+			changesMessage += tr("Guitar fret number was changed!");
+			gl->GfretsNumber = exam->level()->hiFret;
+	}
 	if (changesMessage != "") {
 			QColor c = Qt::red;
 			c.setAlpha(50);
@@ -63,8 +79,6 @@ void TexecutorSupply::checkGuitarParamsChanged(MainWindow* parent, Texam* exam) 
 }
 
 
-
-
 TexecutorSupply::TexecutorSupply(Tlevel* level, QObject* parent) :
   QObject(parent),
   m_level(level),
@@ -74,8 +88,10 @@ TexecutorSupply::TexecutorSupply(Tlevel* level, QObject* parent) :
   m_eisCesCntr(0),
   m_wasFinished(false)
 {
+	m_loFret = m_level->loFret;
+	m_hiFret = m_level->hiFret;
   calcQAPossibleCount();
-	checkPlayCorrected();
+	checkPlayCorrected(level);
 }
 
 //##########################################################################################
@@ -91,21 +107,29 @@ void TexecutorSupply::examFinished() {
 void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
 	char openStr[6];
 //       for (int i = 0; i < 6; i++)
-		for (int i = 0; i < gl->Gtune()->stringNr(); i++)
+	for (int i = 0; i < gl->Gtune()->stringNr(); i++)
 			openStr[i] = gl->Gtune()->str(i + 1).getChromaticNrOfNote();
 		
 		/** FIXING MISTAKE RELATED WITH A NEW VALIDATION WAY DURING SAVING NEW LEVEL 
 			* When there is no guitar in a level,
 			* add to question list only the lowest position sounds. 
 			* In this way question list contains proper number of questions. */
-	if (!m_level->canBeGuitar() && !m_level->answerIsSound())  // adjust frets' range
+	if (!m_level->canBeGuitar() && !m_level->answerIsSound())  // adjust fret range
 		m_level->onlyLowPos = true;
 
 	if (!m_playCorrections || m_level->instrument != e_noInstrument || m_level->showStrNr || m_level->canBeGuitar()) {
 		qDebug() << "Question list created fret by fret. Tune:" << gl->Gtune()->name << gl->Gtune()->stringNr();
+		if (m_level->instrument == e_noInstrument && gl->instrument != e_noInstrument) {
+			if (Tnote(gl->hiString().getChromaticNrOfNote() + m_hiFret).getChromaticNrOfNote() < m_level->hiNote.getChromaticNrOfNote())
+					m_hiFret = m_level->hiNote.getChromaticNrOfNote() - gl->hiString().getChromaticNrOfNote();
+			if (Tnote(gl->loString().getChromaticNrOfNote() + m_loFret).getChromaticNrOfNote() > m_level->loNote.getChromaticNrOfNote())
+				m_loFret = gl->loString().getChromaticNrOfNote() - m_level->loNote.getChromaticNrOfNote();
+		}
+		if (m_level->loFret != m_loFret || m_level->hiFret != m_hiFret)
+				qDebug() << "Fret range of a level adjusted to current instrument [" << m_loFret << m_hiFret << "]";
 		for(int s = 0; s < gl->Gtune()->stringNr(); s++) {
 				if (m_level->usedStrings[gl->strOrder(s)])// check string by strOrder
-						for (int f = m_level->loFret; f <= m_level->hiFret; f++) {
+						for (int f = m_loFret; f <= m_hiFret; f++) {
 								Tnote n = Tnote(gl->Gtune()->str(gl->strOrder(s) + 1).getChromaticNrOfNote() + f);
 							if (n.getChromaticNrOfNote() >= m_level->loNote.getChromaticNrOfNote() &&
 										n.getChromaticNrOfNote() <= m_level->hiNote.getChromaticNrOfNote()) {
@@ -115,7 +139,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
 											// we have to check when note is on the lowest positions.
 											// Is it really lowest position when strOrder[s] is 0 - it is the highest sting
 											char diff = openStr[gl->strOrder(s-1)] - openStr[gl->strOrder(s)];
-											if( (f-diff) >= m_level->loFret && (f-diff) <= m_level->hiFret)
+											if( (f - diff) >= m_loFret && (f - diff) <= m_hiFret)
 													hope = false; //There is the same note on highest string
 											else
 													hope = true;
@@ -360,19 +384,6 @@ void TexecutorSupply::calcQAPossibleCount() {
       m_qaPossib++;
   }
 }
-
-
-void TexecutorSupply::checkPlayCorrected() {
-	m_playCorrections = true;
-	if (m_level->instrument == e_noInstrument) {
-		if (m_level->answerIsSound())
-			if (gl->instrument != e_noInstrument)
-				if (m_level->inScaleOf(gl->loString().getChromaticNrOfNote(), gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber))
-					m_playCorrections = false;
-	} else
-			m_playCorrections = false;
-}
-
 
 
 //##########################################################################################

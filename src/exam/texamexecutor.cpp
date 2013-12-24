@@ -94,6 +94,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
     m_glStore = new TglobalExamStore(gl);
     m_glStore->tune = *gl->Gtune();
     m_glStore->fretsNumber = gl->GfretsNumber;
+		m_glStore->instrument = gl->instrument;
     if (userAct == TstartExamDlg::e_newExam || userAct == TstartExamDlg::e_runExercise) {
         m_exam = new Texam(&m_level, resultText); // resultText is userName
 				if (!fixLevelInstrument(m_level, "", gl->instrumentToFix, mainW)) {
@@ -188,54 +189,9 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
     }
     
 //     qDebug() << "questions number:" << m_questList.size();
-		initializeExecuting();
-//     m_shouldBeTerminated = false;
-//     m_incorrectRepeated = false;
-//     m_isAnswered = true;
-//     m_blackQuestNr = -1;
-// 		if (m_exercise) { // Do not count penalties in exercising mode
-// 				m_exam->setFinished(); // to avoid adding penalties in exercising
-// 				m_supp->setFinished();
-// 				if (gl->E->suggestExam)
-// 					m_exercise->setSuggestionEnabled(m_supp->qaPossibilities());
-// 		} else {
-// 				m_penalCount = 0;
-// 				if (m_exam->isFinished()) {
-// 					m_supp->setFinished();
-// 					qDebug() << "Exam was finished";
-// 				} else {
-// 						int remained = (m_supp->obligQuestions() + m_exam->penalty()) - m_exam->count();
-// 						remained = qMax(0, remained);
-// 						if (remained < m_exam->blackCount()) {
-// 							m_exam->increasePenaltys(m_exam->blackCount() - remained);
-// 							qDebug() << "penalties number adjusted:" << m_exam->blackCount() - remained;
-// 							mW->progress->activate(m_exam->count(), m_supp->obligQuestions(), m_exam->penalty(), m_exam->isFinished());
-// 						}
-// 						if (remained == 0 && m_exam->blackCount() == 0) {
-// 							mW->progress->setFinished(true);
-// 							m_supp->setFinished();
-// 							m_exam->setFinished();
-// 							qDebug() << "Finished exam was detected";
-// 						}
-// 						updatePenalStep();
-// 				}
-// 		}
-//     m_prevQuestStyle = m_supp->randomNameStyle(gl->NnameStyleInNoteName);
-//     m_prevAnswStyle = m_supp->randomNameStyle(m_prevQuestStyle);
-//     
-//     m_level.questionAs.randNext(); // Randomize question and answer type
-//     if (m_level.questionAs.isNote()) m_level.answersAs[TQAtype::e_asNote].randNext();
-//     if (m_level.questionAs.isName()) m_level.answersAs[TQAtype::e_asName].randNext();
-//     if (m_level.questionAs.isFret()) m_level.answersAs[TQAtype::e_asFretPos].randNext();
-//     if (m_level.questionAs.isSound()) m_level.answersAs[TQAtype::e_asSound].randNext();
-    
+		initializeExecuting();    
 		createActions();
 		
-//     if (m_questList.size() == 0) {
-//         QMessageBox::critical(mW, "", tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
-//         restoreAfterExam();
-//         return;
-//     }
     /*
        for (int i = 0; i < m_exam->blacList()->size(); i++)
           if (m_exam->blacList()->operator[](i).questionAs == m_exam->blacList()->operator[](i).answerAs)
@@ -918,7 +874,7 @@ void TexamExecutor::prepareToExam() {
 		int levelMessageDelay = 1;
 		if (TexecutorSupply::paramsChangedMessage())
 				levelMessageDelay = 7000;
-		QTimer::singleShot(7000, this, SLOT(levelStatusMessage()));
+		QTimer::singleShot(levelMessageDelay, this, SLOT(levelStatusMessage()));
 		mW->settingsAct->setVisible(false);
 		mW->aboutAct->setVisible(false);
     mW->analyseAct->setVisible(false);
@@ -985,8 +941,8 @@ void TexamExecutor::prepareToExam() {
 		TtipChart::defaultClef = m_level.clef;
 		mW->updsateSize();
     clearWidgets();
-		if (m_level.instrument != e_noInstrument)
-				mW->guitar->createRangeBox(m_level.loFret, m_level.hiFret);
+		if (gl->instrument != e_noInstrument && !m_supp->isCorrectedPlayable())
+				mW->guitar->createRangeBox(m_supp->loFret(), m_supp->hiFret());
     m_soundTimer = new QTimer(this);
     connect(m_soundTimer, SIGNAL(timeout()), this, SLOT(startSniffing()));
 		m_askingTimer = new QTimer(this);

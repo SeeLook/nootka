@@ -3,6 +3,7 @@ Plan for the Nootka One
 
 ISSUES
 - try to close out stream for pulse - it sucks or get rid of pulse
+- do pixmap of voice/guitar glyph - TpushButtons don't display nootka text properly
 
 			
 TODOES
