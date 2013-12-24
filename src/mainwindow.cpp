@@ -295,6 +295,7 @@ void MainWindow::clearAfterExam(TexamExecutor::Estate examState) {
 		progress->hide();
 		examResults->hide();
 		nootLabel->show();
+		updsateSize();
 }
 
 QPoint MainWindow::relatedPoint() {

@@ -63,6 +63,7 @@ public:
   Einstrument 								instrument;
   int 												detectRange;
 	quint8											intonation;
+	int													playbackInstr;
 	
 private:
 	Tglobals *m_globals;

@@ -19,6 +19,7 @@
 #include "tglobalexamstore.h"
 #include "tglobals.h"
 #include <taudioparams.h>
+#include <audiooutsettings.h>
 #include <tlevel.h>
 
 
@@ -40,9 +41,13 @@ void TglobalExamStore::storeSettings() {
     useKeySign = m_globals->SkeySignatureEnabled;
     octaveInName = m_globals->NoctaveInNoteNameFormat;
 		clef = Tclef(m_globals->Sclef);
-		instrument = m_globals->instrument;
+// 		instrument = m_globals->instrument;
 		detectRange = (int)m_globals->A->range;
 		intonation = m_globals->A->intonation;
+		if (m_globals->A->midiEnabled)
+			playbackInstr = m_globals->A->midiInstrNr;
+		else
+			playbackInstr = m_globals->A->audioInstrNr;
 }
 
 
@@ -59,6 +64,10 @@ void TglobalExamStore::restoreSettings() {
 		m_globals->instrument = instrument;
 		m_globals->A->range = (TaudioParams::Erange)detectRange;
 		m_globals->A->intonation = intonation;
+		if (m_globals->A->midiEnabled)
+			m_globals->A->midiInstrNr = playbackInstr;
+		else
+			m_globals->A->audioInstrNr = playbackInstr;
 }
 
 
@@ -70,15 +79,23 @@ void TglobalExamStore::prepareGlobalsToExam(Tlevel& level) {
     m_globals->SkeySignatureEnabled = level.useKeySign;
     m_globals->NoctaveInNoteNameFormat = true;
 		m_globals->Sclef = level.clef.type();
-		if (level.instrument != e_noInstrument)// instrument in exam has a matter
-				m_globals->instrument = level.instrument;
-		// or leave user preferred instrument when level doesn't require it
-		if (level.instrument == e_bassGuitar)
-				m_globals->A->range = TaudioParams::e_low;
-		else
-				m_globals->A->range = TaudioParams::e_middle;
+		if (level.answerIsSound()) {
+				if (level.loNote.getChromaticNrOfNote() > Tnote(6, 0, 0).getChromaticNrOfNote())
+						m_globals->A->range = TaudioParams::e_high;
+				else if (level.loNote.getChromaticNrOfNote() > Tnote(5, -2, 0).getChromaticNrOfNote())
+						m_globals->A->range = TaudioParams::e_middle;
+				else
+						m_globals->A->range = TaudioParams::e_low;
+		}
 		m_globals->A->intonation = level.intonation;
+		if (m_globals->instrument != e_noInstrument)
+				AudioOutSettings::adjustOutToInstrument(m_globals->A, (int)m_globals->instrument);
 }
+
+
+
+
+
 
 
 

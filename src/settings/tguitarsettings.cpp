@@ -220,7 +220,6 @@ void TguitarSettings::saveSettings() {
 													Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0)	);
 		}
     gl->setTune(*tmpTune);
-		qDebug() << gl->Gtune()->name << gl->Gtune()->str(1).toText() << gl->Gtune()->str(2).toText();
 		delete tmpTune;
     gl->GshowOtherPos = m_morePosCh->isChecked();
     if (m_prefFlatBut->isChecked()) 

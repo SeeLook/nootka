@@ -125,6 +125,7 @@ void rangeSettings::stringSelected() {
 void rangeSettings::loadLevel(Tlevel level) {
 	levelIsLoadingInRange = true;
 		m_scoreRang->setClef(level.clef);
+		m_scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()), Tnote(gl->hiNote().getChromaticNrOfNote()));
     m_scoreRang->setNote(0, level.loNote);
     m_scoreRang->setNote(1, level.hiNote);
     m_fromSpinB->setValue(level.loFret);
@@ -165,26 +166,29 @@ void rangeSettings::whenParamsChanged() {
 
 
 void rangeSettings::saveLevel(Tlevel &level) {
-    if (m_scoreRang->getNote(0).getChromaticNrOfNote() <=
-        m_scoreRang->getNote(0).getChromaticNrOfNote()) {
-            level.loNote = m_scoreRang->getNote(0);
-            level.hiNote = m_scoreRang->getNote(1);
-        }
-    else {
+	// Fixing empty notes
+		if (m_scoreRang->getNote(0).note == 0)
+				m_scoreRang->setNote(0, 
+										Tnote(qMax(gl->loString().getChromaticNrOfNote(), m_scoreRang->lowestNote().getChromaticNrOfNote())));
+		if (m_scoreRang->getNote(1).note == 0)
+				m_scoreRang->setNote(1, 
+										Tnote(qMin(gl->hiNote().getChromaticNrOfNote(), m_scoreRang->highestNote().getChromaticNrOfNote())));
+				
+    if (m_scoreRang->getNote(0).getChromaticNrOfNote() <= m_scoreRang->getNote(0).getChromaticNrOfNote()) {
+				level.loNote = m_scoreRang->getNote(0);
+				level.hiNote = m_scoreRang->getNote(1);
+		} else {
         level.loNote = m_scoreRang->getNote(1);
         level.hiNote = m_scoreRang->getNote(0);
     }
     if (m_fromSpinB->value() <= m_toSpinB->value()) {
         level.loFret = m_fromSpinB->value();
         level.hiFret = m_toSpinB->value();
-    }
-    else {
+    } else {
         level.loFret = m_toSpinB->value();
         level.hiFret = m_fromSpinB->value();
     }
-
     for (int i = 0; i < gl->Gtune()->stringNr(); i++)
         level.usedStrings[i] = m_stringBut[i]->isChecked();
 		level.clef = m_scoreRang->clef();
-
 }
