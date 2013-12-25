@@ -88,7 +88,8 @@ void TglobalExamStore::prepareGlobalsToExam(Tlevel& level) {
 						m_globals->A->range = TaudioParams::e_low;
 		}
 		m_globals->A->intonation = level.intonation;
-		if (m_globals->instrument != e_noInstrument)
+		// change output instrument type when necessary (exam instrument differs from user)
+		if (m_globals->instrument != e_noInstrument && m_globals->instrument != instrument)
 				AudioOutSettings::adjustOutToInstrument(m_globals->A, (int)m_globals->instrument);
 }
 
