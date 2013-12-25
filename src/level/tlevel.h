@@ -29,16 +29,19 @@
 #include <QDataStream>
 
 class QWidget;
+		/** Displays dialog message about existence of newer Nootka version than current. */
+void newerNootkaMessage(const QString& fileName, QWidget* parent = 0);
+
 /** 
 * This class describes exam level.
 */
 class Tlevel
 {
 public:
-        /** default constructor creates a "complex" level*/
+        /** default constructor creates a "complex" level (master of masters) */
     Tlevel();
 		
-	// Managing level versions
+	//------------------------- Managing level versions ------------------------------------------------------
 		static const qint32 levelVersion; /** First version, also with early using of intonation and instruments */
 		static const qint32 currentVersion; /** Current level version identifier */
 		static bool isLevelVersion(quint32 ver); /** Returns true when given value match to level versions. */
@@ -57,8 +60,8 @@ public:
 				/** Saves level to given file and returns true for success or opposite. */
 		static bool saveToFile(Tlevel &level, const QString& levelFile);
 
-  // level parameters
-    QString name;
+  //--------------------------- level parameters ------------------------------------------------------------
+    QString name; /** Level name */
     QString desc; /** description */
     TQAtype questionAs;
     TQAtype answersAs[4];
@@ -86,6 +89,7 @@ public:
     bool usedStrings[6];
     bool onlyLowPos;
     bool onlyCurrKey;
+	//------------------------------------------------------------------------------------------------------------
 		
 				/** Indicates when instrument read from file needs user action to be properly obtained.
 				 * It occurs when read value is 255 for level version 1 */
@@ -102,11 +106,21 @@ public:
 		bool answerIsSound(); // True if answer is played sound in any question type
 		
 				/** True when level note range is in given number range represented scale of instrument. */
-		bool inScaleOf(char loNoteNr, char hiNoteNr);
+		bool inScaleOf(int loNoteNr, int hiNoteNr);
 		
 				/** Overloaded method with scale in Tnote objects */
 		bool inScaleOf(Tnote &loN, Tnote &hiN) { return inScaleOf(loN.getChromaticNrOfNote(), hiN.getChromaticNrOfNote()); }
 		bool inScaleOf(); /** Overloaded method where instrument scale is taken from Tglobals  */
+		
+				/** Examines level scale, note by note to find lowest and highest frets used.
+				 * Obtained range is returned through references.
+				 * Returns true when both frets are in instrument capabilities,
+				 * or false if not - then references remind untouched.
+				 * This method doesn't change any level value. */
+		bool adjustFretsToScale(char& loF, char& hiF);
+		
+		
+	//------------------------- to fix a level ---------------------------------------------------
 		
 				/** Returns detected clef from level versions before 0.8.90 */
 		Tclef fixClef(quint16 cl);
@@ -126,7 +140,5 @@ QDataStream &operator<< (QDataStream &out, Tlevel &lev);
 		/** Reads level data from given stream to @p lev. Respects @p ver - version */
 bool getLevelFromStream(QDataStream& in, Tlevel& lev, qint32 ver);
 
-		/** Displays dialog message about existence of newer Nootka version than current. */
-void newerNootkaMessage(const QString& fileName, QWidget* parent = 0);
 
 #endif // TEXAMLEVEL_H
