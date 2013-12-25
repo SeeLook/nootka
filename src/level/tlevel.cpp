@@ -29,7 +29,7 @@
 extern Tglobals *gl;
 
 
-/*static*/
+/*static-------------------------------------------------------------------------------------------*/
 /** Versions history:
  * 1. 0x95121701 
  * 
@@ -64,8 +64,13 @@ bool Tlevel::couldBeLevel(qint32 ver) {
 		return false;
 }
 
-/*end static*/
+/*end static--------------------------------------------------------------------------------------*/
 
+void newerNootkaMessage(const QString &fileName, QWidget* parent) {
+	QMessageBox::warning(parent, "Update Nootka!", QString("File: <b>%1</b><br>was created in newer Nootka version that you have.<br>To open it, visit program site to obtain the newest version.").arg(fileName));
+}
+
+//-----------------------------------------------------------------------------------------------------
 Tlevel::Tlevel() :
 	hasInstrToFix(false)
 {
@@ -355,23 +360,50 @@ bool Tlevel::answerIsSound() {
 }
 
 
-bool Tlevel::inScaleOf(char loNoteNr, char hiNoteNr) {
-	if (loNote.getChromaticNrOfNote() >= loNoteNr && loNote.getChromaticNrOfNote() <= hiNoteNr
-		&& hiNote.getChromaticNrOfNote() >= loNoteNr && hiNote.getChromaticNrOfNote() <= hiNoteNr)
-				return true;
+bool Tlevel::inScaleOf(int loNoteNr, int hiNoteNr) {
+	int loNr = loNote.getChromaticNrOfNote();
+	int hiNr = hiNote.getChromaticNrOfNote();
+	if (loNr >= loNoteNr && loNr <= hiNoteNr && hiNr >= loNoteNr && hiNr <= hiNoteNr)
+		return true;
 	else
-				return false;
+		return false;
 }
 
 
 bool Tlevel::inScaleOf() {
-	inScaleOf(gl->loString().getChromaticNrOfNote(), gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber);
+	return inScaleOf(gl->loString().getChromaticNrOfNote(), gl->hiNote().getChromaticNrOfNote());
 }
 
 
-void newerNootkaMessage(const QString &fileName, QWidget* parent) {
-	QMessageBox::warning(parent, "Update Nootka!", QString("File: <b>%1</b><br>was created in newer Nootka version that you have.<br>To open it, visit program site to obtain the newest version.").arg(fileName));
+bool Tlevel::adjustFretsToScale(char& loF, char& hiF) {
+	if (!inScaleOf()) // when note range is not in an instrument scale
+		return false; // get rid - makes no sense to further check
+	
+	int lowest = gl->GfretsNumber, highest = 0;
+	for (int no = loNote.getChromaticNrOfNote(); no <= hiNote.getChromaticNrOfNote(); no++) {
+		if (!withFlats && !withSharps)
+			if (Tnote(no).acidental) // skip note with accidental when not available in the level
+					continue;
+		int tmpLow = gl->GfretsNumber;
+		for(int st = 0 ; st < gl->Gtune()->stringNr(); st++) {
+			if (!usedStrings[st]) 
+					continue;
+			int diff = no - gl->Gtune()->str(gl->strOrder(st) + 1).getChromaticNrOfNote();
+			if (diff >= 0 && diff <= gl->GfretsNumber) { // found
+					lowest = qMin<int>(lowest, diff);
+					tmpLow = qMin<int>(tmpLow, diff);
+			}
+		}
+		highest = qMax<int>(highest, tmpLow);
+	}
+	loF = (char)lowest;
+	hiF = (char)highest;
+	return true;
 }
+
+
+
+
 
 
 

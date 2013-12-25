@@ -109,17 +109,17 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 						m_exercise = new Texercises(m_exam);
 						m_exam->setFileName(QDir::toNativeSeparators(QFileInfo(gl->config->fileName()).absolutePath() + "/exercise.noo"));	
 				}
-			//We check are guitar's params suitable for an exam 
-				TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
+// 			//We check are guitar's params suitable for an exam 
+// 				TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
     } else if (userAct == TstartExamDlg::e_contExam) {
         m_exam = new Texam(&m_level, "");
         Texam::EerrorType err = m_exam->loadFromFile(resultText);
         if (err == Texam::e_file_OK || err == Texam::e_file_corrupted) {
           if (err == Texam::e_file_corrupted)
-            QMessageBox::warning(mW, "", 
+            QMessageBox::warning(mW, " ", 
               tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
-				//We check are guitar's params suitable for an exam 
-					TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
+// 				//We check are guitar's params suitable for an exam 
+// 					TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
           if (!fixLevelInstrument(m_level, m_exam->fileName(), gl->instrumentToFix, mainW) || !showExamSummary(true)) {
 							mW->clearAfterExam();
 							deleteExam();
@@ -130,7 +130,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 
         } else {
             if (err == Texam::e_file_not_valid)
-                QMessageBox::critical(mW, "", tr("File: %1 \n is not valid exam file!")
+                QMessageBox::critical(mW, " ", tr("File: %1 \n is not valid exam file!")
                                   .arg(resultText));
             mW->clearAfterExam();
             deleteExam();
@@ -145,6 +145,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
         return;
     }
 
+    //We check are guitar's params suitable for an exam 
+		TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
     //We are checking is sound needed in exam and is it available
     if (m_level.questionAs.isSound()) {
         if (!mW->sound->isPlayable()) {
@@ -157,7 +159,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
     }
     if (m_level.answerIsSound()) {
       if (!mW->sound->isSniffable()) {
-            QMessageBox::warning(mW, "",
+            QMessageBox::warning(mW, " ",
                      tr("An exercises or exam require sound input but<br>it is not available!"));
             mW->clearAfterExam();
             deleteExam();
@@ -170,14 +172,14 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
     m_supp = new TexecutorSupply(&m_level, this);
     m_supp->createQuestionsList(m_questList);
 		if (m_questList.isEmpty()) {
-        QMessageBox::critical(mW, "", tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
+        QMessageBox::critical(mW, " ", tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
 				delete m_supp;
 				mW->clearAfterExam();
 				deleteExam();
         return;
     }
     prepareToExam();
-    if (m_exam->fileName() == "" && gl->E->showHelpOnStart)
+    if (m_exam->fileName().isEmpty() && gl->E->showHelpOnStart)
 				showExamHelp();
     if (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isFret()) {
       if (!m_supp->isGuitarOnlyPossible()) {
@@ -933,11 +935,13 @@ void TexamExecutor::prepareToExam() {
     mW->noteName->setEnabledDblAccid(m_level.withDblAcc);
     mW->guitar->acceptSettings();
     mW->score->isExamExecuting(true);
-		mW->sound->acceptSettings();
 		mW->score->enableAccidToKeyAnim(!gl->E->expertsAnswerEnable); // no key animation for experts (no time for it)
-		if (mW->sound->isSniffable())
-			mW->sound->wait();
-    mW->sound->prepareToExam(m_level.loNote, m_level.hiNote);
+		if (m_level.canBeSound()) {
+				mW->sound->acceptSettings();
+			if (mW->sound->isSniffable())
+					mW->sound->wait();
+			mW->sound->prepareToExam(m_level.loNote, m_level.hiNote);
+		}
 		TtipChart::defaultClef = m_level.clef;
 		mW->updsateSize();
     clearWidgets();

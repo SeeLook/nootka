@@ -201,6 +201,8 @@ QString TlevelCreatorDlg::validateLevel(Tlevel &l) {
       loAvailStr = gl->strOrder(cnt);
       if (l.loNote.getChromaticNrOfNote() > gl->Gtune()->str(hiAvailStr + 1).getChromaticNrOfNote() + l.hiFret ||
           l.hiNote.getChromaticNrOfNote() < gl->Gtune()->str(loAvailStr + 1).getChromaticNrOfNote() + l.loFret)
+// 			if (l.loNote.getChromaticNrOfNote() > gl->Gtune()->str(loAvailStr + 1).getChromaticNrOfNote() + l.loFret ||
+//           l.hiNote.getChromaticNrOfNote() < gl->Gtune()->str(hiAvailStr + 1).getChromaticNrOfNote() + l.hiFret)
           res += tr("<li>Range of frets is beyond the scale of this level</li>");
     }
 	// Check is level range fit to instrument scale

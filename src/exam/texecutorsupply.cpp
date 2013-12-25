@@ -60,7 +60,7 @@ void TexecutorSupply::checkGuitarParamsChanged(MainWindow* parent, Texam* exam) 
 						changesMessage += "<br>";
 			Ttune tmpTune = exam->tune();
 			gl->setTune(tmpTune);
-			changesMessage = tr("Tuning of the guitar was changed to:") + " <b> " + gl->Gtune()->name + "!</b>";
+			changesMessage += tr("Tuning of the guitar was changed to:") + " <b> " + gl->Gtune()->name + "!</b>";
 	}
 	if (exam->level()->canBeGuitar() && exam->level()->hiFret > gl->GfretsNumber) { // Are enough frets?
 			if (changesMessage != "")
@@ -120,10 +120,15 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
 	if (!m_playCorrections || m_level->instrument != e_noInstrument || m_level->showStrNr || m_level->canBeGuitar()) {
 		qDebug() << "Question list created fret by fret. Tune:" << gl->Gtune()->name << gl->Gtune()->stringNr();
 		if (m_level->instrument == e_noInstrument && gl->instrument != e_noInstrument) {
-			if (Tnote(gl->hiString().getChromaticNrOfNote() + m_hiFret).getChromaticNrOfNote() < m_level->hiNote.getChromaticNrOfNote())
-					m_hiFret = m_level->hiNote.getChromaticNrOfNote() - gl->hiString().getChromaticNrOfNote();
-			if (Tnote(gl->loString().getChromaticNrOfNote() + m_loFret).getChromaticNrOfNote() > m_level->loNote.getChromaticNrOfNote())
-				m_loFret = gl->loString().getChromaticNrOfNote() - m_level->loNote.getChromaticNrOfNote();
+// 			if (Tnote(gl->hiString().getChromaticNrOfNote() + m_hiFret).getChromaticNrOfNote() < m_level->hiNote.getChromaticNrOfNote())
+// 					m_hiFret = m_level->hiNote.getChromaticNrOfNote() - gl->hiString().getChromaticNrOfNote();
+// 			if (Tnote(gl->loString().getChromaticNrOfNote() + m_loFret).getChromaticNrOfNote() > m_level->loNote.getChromaticNrOfNote())
+// 				m_loFret = gl->loString().getChromaticNrOfNote() - m_level->loNote.getChromaticNrOfNote();
+			char hi = m_hiFret, lo = m_loFret;
+			if (!m_level->adjustFretsToScale(lo, hi))
+					qDebug() << "Cant adjust fret range. Corrections will be played!";
+			m_loFret = lo; 
+			m_hiFret = hi;
 		}
 		if (m_level->loFret != m_loFret || m_level->hiFret != m_hiFret)
 				qDebug() << "Fret range of a level adjusted to current instrument [" << m_loFret << m_hiFret << "]";

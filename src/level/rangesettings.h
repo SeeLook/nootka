@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,11 +21,12 @@
 #define RANGESETTINGS_H
 
 #include <QWidget>
-#include "tlevel.h"
 
+class QPushButton;
 class TsimpleScore;
 class QSpinBox;
 class QCheckBox;
+class Tlevel;
 
 class rangeSettings : public QWidget
 {
@@ -33,27 +34,30 @@ class rangeSettings : public QWidget
 public:
     explicit rangeSettings(QWidget *parent = 0);
 
-    void loadLevel(Tlevel level);
-    void saveLevel(Tlevel &level);
+    void loadLevel(Tlevel& level);
+    void saveLevel(Tlevel& level);
 		
 		TsimpleScore* scoreRange() { return m_scoreRang; }
 
 signals:
     void rangeChanged();
+		
 				/** Emitted when any string is checked or unchecked. 
 				* Sends true when all string are selected, and false when not all. */
     void allStringsChecked(bool);
 
 private:
-    TsimpleScore *m_scoreRang;
-    QSpinBox *m_fromSpinB, *m_toSpinB;
-    QCheckBox *m_stringBut[6];
+    TsimpleScore 		*m_scoreRang;
+    QSpinBox 				*m_fromSpinB, *m_toSpinB;
+    QCheckBox 			*m_stringBut[6];
+		QPushButton			*m_fretAdjustButt, *m_noteAdjustButt;
+		bool 						m_levelIsLoading;
 
 private slots:
     void stringSelected();
     void whenParamsChanged();
-				/** When piano staff changes it enables third note. It keeps it disabled. */
-		void whenPianoStaffChanges();
+		void adjustFrets();
+		void adjustNotes();
 
 };
 

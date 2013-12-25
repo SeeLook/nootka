@@ -130,7 +130,7 @@ void TfingerBoard::setFinger(Tnote note) {
             int diff = noteNr - gl->Gtune()->str(gl->strOrder(i) + 1).getChromaticNrOfNote();
             if (doShow && diff >= 0 && diff <= gl->GfretsNumber) { // found
 								foundPos = true;
-								deleteBeyondTip();
+// 								deleteBeyondTip();
                 if (diff == 0) { // open string
                     m_fingers[gl->strOrder(i)]->hide();
                     m_strings[gl->strOrder(i)]->show();

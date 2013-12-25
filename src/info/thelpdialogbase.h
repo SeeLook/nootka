@@ -58,7 +58,7 @@ public:
        * 'OK' button - accepted, 'Cancel' button - rejected  */
   void showButtons(bool withOk, bool withCancel);
     
-  bool isDoNotShowChecked() { m_checkBox ? m_checkBox->isChecked() : false; }
+  bool isDoNotShowChecked() { if (m_checkBox) return m_checkBox->isChecked(); else return false; }
   
       /** Shortcut to global pixToHtml function. @p imageName is only filename without extension and path */
   QString pix(const QString &imageName, int height = 32);

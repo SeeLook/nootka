@@ -21,16 +21,17 @@
 #include "tglobals.h"
 #include "tlevelpreview.h"
 #include "tsimplescore.h"
+#include "tlevel.h"
 #include <ttune.h>
 #include <QtGui>
 
 extern Tglobals *gl;
 extern bool isNotSaved;
 
-bool levelIsLoadingInRange = false;
 
 rangeSettings::rangeSettings(QWidget *parent) :
-    QWidget(parent)
+    QWidget(parent),
+    m_levelIsLoading(false)
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
     mainLay->addStretch(1);
@@ -40,14 +41,17 @@ rangeSettings::rangeSettings(QWidget *parent) :
 
     QVBoxLayout *scoreLay = new QVBoxLayout;
     m_scoreRang = new TsimpleScore(3, this); // third note is dummy
-				m_scoreRang->setNoteDisabled(2, true); // and is disabled and empty
-		m_scoreRang->setClef(Tclef(gl->Sclef));
-		m_scoreRang->addBGglyph((int)gl->instrument);
-    m_scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()), Tnote(gl->hiNote().getChromaticNrOfNote()));
-    m_scoreRang->setNote(0, Tnote(1, 0));
-    m_scoreRang->setNote(1, Tnote(1, 1));
+			m_scoreRang->setNoteDisabled(2, true); // and is disabled and empty
+			m_scoreRang->setClef(Tclef(gl->Sclef));
+			m_scoreRang->addBGglyph((int)gl->instrument);
+			m_scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()), Tnote(gl->hiNote().getChromaticNrOfNote()));
+			m_scoreRang->setNote(0, Tnote(1, 0));
+			m_scoreRang->setNote(1, Tnote(1, 1));
+		m_fretAdjustButt = new QPushButton(tr("adjust fret range"), this);
+			m_fretAdjustButt->setStatusTip(tr("Adjust fret range in a level to currently selected note range"));
     QGroupBox *notesRangGr = new QGroupBox(TlevelPreview::notesRangeTxt(), this);
     scoreLay->addWidget(m_scoreRang);
+		scoreLay->addWidget(m_fretAdjustButt, 1, Qt::AlignCenter);
     notesRangGr->setLayout(scoreLay);
 // #if defined(Q_OS_WIN)
     m_scoreRang->setFixedHeight(300);
@@ -69,8 +73,11 @@ rangeSettings::rangeSettings(QWidget *parent) :
     fretLay->addStretch(1);
     fretLay->addWidget(toLab);
     fretLay->addWidget(m_toSpinB);
+		m_noteAdjustButt = new QPushButton(tr("adjust note range"), this);
+		m_noteAdjustButt->setStatusTip(tr("Adjust note range in a level to currently selected fret range"));
     fretGr->setLayout(fretLay);
     guitLay->addWidget(fretGr);
+		guitLay->addWidget(m_noteAdjustButt, 1, Qt::AlignCenter);
     guitLay->addStretch(1);
 
     QGroupBox *stringsGr = new QGroupBox(tr("available strings:"),this);
@@ -103,13 +110,17 @@ rangeSettings::rangeSettings(QWidget *parent) :
 		if (gl->instrument == e_noInstrument) {
 			fretGr->hide();
 			stringsGr->hide();
+			m_fretAdjustButt->hide();
+			m_noteAdjustButt->hide();
 		}
 
-    connect (m_scoreRang, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenParamsChanged()));
-		connect (m_scoreRang, SIGNAL(clefChanged(Tclef)), this, SLOT(whenParamsChanged()));
-		connect (m_scoreRang, SIGNAL(pianoStaffSwitched()), this, SLOT(whenParamsChanged()));
-    connect (m_fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
-    connect (m_toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
+    connect(m_scoreRang, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenParamsChanged()));
+		connect(m_scoreRang, SIGNAL(clefChanged(Tclef)), this, SLOT(whenParamsChanged()));
+		connect(m_scoreRang, SIGNAL(pianoStaffSwitched()), this, SLOT(whenParamsChanged()));
+    connect(m_fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
+    connect(m_toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
+		connect(m_fretAdjustButt, SIGNAL(clicked()), this, SLOT(adjustFrets()));
+		connect(m_noteAdjustButt, SIGNAL(clicked()), this, SLOT(adjustNotes()));
 }
 
 
@@ -122,8 +133,8 @@ void rangeSettings::stringSelected() {
 }
 
 
-void rangeSettings::loadLevel(Tlevel level) {
-	levelIsLoadingInRange = true;
+void rangeSettings::loadLevel(Tlevel& level) {
+	m_levelIsLoading = true;
 		m_scoreRang->setClef(level.clef);
 		m_scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()), Tnote(gl->hiNote().getChromaticNrOfNote()));
     m_scoreRang->setNote(0, level.loNote);
@@ -133,17 +144,12 @@ void rangeSettings::loadLevel(Tlevel level) {
     for (int i = 0; i < gl->Gtune()->stringNr(); i++)
         m_stringBut[i]->setChecked(level.usedStrings[i]);
     stringSelected();
-	levelIsLoadingInRange = false;
-}
-
-
-void rangeSettings::whenPianoStaffChanges() {
-// 		m_scoreRang->setNoteDisabled(2, true);
+	m_levelIsLoading = false;
 }
 
 
 void rangeSettings::whenParamsChanged() {
-		if (levelIsLoadingInRange)
+		if (m_levelIsLoading)
 				return;
 		
 		m_scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()), Tnote(gl->hiNote().getChromaticNrOfNote()));
@@ -174,7 +180,7 @@ void rangeSettings::saveLevel(Tlevel &level) {
 				m_scoreRang->setNote(1, 
 										Tnote(qMin(gl->hiNote().getChromaticNrOfNote(), m_scoreRang->highestNote().getChromaticNrOfNote())));
 				
-    if (m_scoreRang->getNote(0).getChromaticNrOfNote() <= m_scoreRang->getNote(0).getChromaticNrOfNote()) {
+    if (m_scoreRang->getNote(0).getChromaticNrOfNote() <= m_scoreRang->getNote(1).getChromaticNrOfNote()) {
 				level.loNote = m_scoreRang->getNote(0);
 				level.hiNote = m_scoreRang->getNote(1);
 		} else {
@@ -192,3 +198,37 @@ void rangeSettings::saveLevel(Tlevel &level) {
         level.usedStrings[i] = m_stringBut[i]->isChecked();
 		level.clef = m_scoreRang->clef();
 }
+
+
+void rangeSettings::adjustFrets() {
+	char loF, hiF;
+	Tlevel lev;
+	saveLevel(lev);
+	if (!lev.loNote.acidental && !lev.hiNote.acidental) {
+			lev.withFlats = false; // TODO: grab it from accidental settings
+			lev.withSharps = false;
+	}
+	if (lev.adjustFretsToScale(loF, hiF)) {
+			m_fromSpinB->setValue(loF);
+			m_toSpinB->setValue(hiF);
+			emit rangeChanged();
+	} else {
+			qDebug() << "Can't adjust fret range!";
+	}
+}
+
+
+void rangeSettings::adjustNotes() {
+	m_scoreRang->setNote(0, Tnote(gl->loString().getChromaticNrOfNote() + m_fromSpinB->value()));
+	m_scoreRang->setNote(1, Tnote(gl->hiString().getChromaticNrOfNote() + m_toSpinB->value()));
+	emit rangeChanged();
+}
+
+
+
+
+
+
+
+
+
