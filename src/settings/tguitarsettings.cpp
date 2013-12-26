@@ -96,7 +96,6 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 		m_stringNrSpin->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 		guitarLay->addWidget(m_stringNrSpin, 1, Qt::AlignCenter);
 		guitarLay->addStretch(1);
-//     upLay->addSpacing(3);
     m_guitarGroup->setLayout(guitarLay);
     upLay->addWidget(m_guitarGroup);
 		upLay->addSpacing(3);
@@ -114,7 +113,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     prefGr->addButton(m_prefSharpBut);
     prefGr->addButton(m_prefFlatBut);
     prefLay->addWidget(m_prefSharpBut);
-		prefLay->addStretch();
+		prefLay->addSpacing(10);
     prefLay->addWidget(m_prefFlatBut);
     m_accidGroup->setLayout(prefLay);
     if (gl->GpreferFlats) m_prefFlatBut->setChecked(true);
@@ -124,10 +123,8 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 
     m_morePosCh = new QCheckBox(tr("show all possibilities of a note"),this);
     m_morePosCh->setStatusTip(tr("As you know, the same note can be played in several places on the fingerboard.<br>If checked, all of them will be shown."));
-//     downLay->addWidget(m_morePosCh);
     m_morePosCh->setChecked(gl->GshowOtherPos);
 
-//     mainLay->addLayout(downLay);
     QGridLayout *colorLay = new QGridLayout;
     m_pointerColorLab = new QLabel(tr("color of string/fret pointer"), this);
     m_pointColorBut = new TcolorButton(gl->GfingerColor, this);
@@ -143,11 +140,8 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 		downLay->addStretch(1);
 		downLay->addLayout(rightDownLay);
 		mainLay->addLayout(downLay);
-//     mainLay->addLayout(colorLay);
 
     setLayout(mainLay);
-		
-// 		updateAmbitus();
 
     connect(m_tuneCombo, SIGNAL(activated(int)), this, SLOT(tuneSelected(int)));
     connect(m_tuneView, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(userTune(int, Tnote)));
@@ -155,9 +149,9 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 		connect(m_tuneView, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
 		connect(m_selectInstr, SIGNAL(instrumentChanged(int)), this, SLOT(instrumentTypeChanged(int)));
 		connect(m_stringNrSpin, SIGNAL(valueChanged(int)), this, SLOT(stringNrChanged(int)));
-    m_currentInstr = (int)gl->instrument;
-    m_selectInstr->setInstrument(m_currentInstr);
-    instrumentTypeChanged(m_currentInstr);
+		
+    m_selectInstr->setInstrument((int)gl->instrument);
+    instrumentTypeChanged((int)gl->instrument);
 		setTune(gl->Gtune());
 		m_fretsNrSpin->setValue(gl->GfretsNumber);
 		if (gl->instrument != e_noInstrument) {
@@ -181,8 +175,8 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 						m_tuneCombo->setCurrentIndex(m_tuneCombo->count() - 1);
 		} else { // Apply instrument scale
 			m_tuneView->setClef(Tclef(gl->Sclef));
-			m_tuneView->setNote(4, Tnote(gl->Gtune()->str(1).getChromaticNrOfNote() + gl->GfretsNumber));
-			m_tuneView->setNote(5, gl->Gtune()->str(2));
+			m_tuneView->setNote(4, gl->loNote());
+			m_tuneView->setNote(5, gl->hiNote());
 		}
 		updateAmbitus();
 #if defined(Q_OS_WIN)
