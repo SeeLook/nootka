@@ -34,6 +34,7 @@
 #include "tpitchview.h"
 #include "tquestionaswdg.h"
 #include "tmainscore.h"
+#include <widgets/tanimedchbox.h>
 #include <QDebug>
 #include <QTimer>
 #include <QEvent>
@@ -168,14 +169,17 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
   if (m_whatTip)
 		delete m_whatTip;
   QString whatNextText = startTipText();
+  m_parent->autoRepeatChB->startAnimation(3);
   if (!isCorrect)
       whatNextText += "<br>" + tr("To correct an answer") + " " + 
       TexamHelp::clickSomeButtonTxt("<a href=\"prevQuest\">" + pixToHtml(gl->path + "picts/prevQuest.png", PIXICONSIZE) + "</a>") +
       " " + TexamHelp::orPressBackSpace();
-	if (toCorrection)
+	if (toCorrection) {
 		whatNextText += "<br>" + tr("To see corrected answer") + " " + 
 			TexamHelp::clickSomeButtonTxt("<a href=\"correct\">" + pixToHtml(gl->path + "picts/correct.png", PIXICONSIZE) + "</a>") +
 			TexamHelp::orPressEnterKey();
+      m_parent->correctChB->startAnimation(3);
+  }
   whatNextText += "<br>" + TexamHelp::toStopExamTxt("<a href=\"stopExam\">" + pixToHtml(gl->path + "picts/stopExam.png", PIXICONSIZE) + "</a>");
   
   m_whatTip = new TgraphicsTextTip(whatNextText, palette().highlight().color());
@@ -203,6 +207,7 @@ void Tcanvas::confirmTip(int time) {
 void Tcanvas::showConfirmTip() {
   m_timerToConfirm->stop();
 	if (!m_confirmTip) {
+    m_parent->expertAnswChB->startAnimation(3);
 		m_confirmTip = new TgraphicsTextTip(tr("To check the answer confirm it:") + "<br>- " + 
 			TexamHelp::clickSomeButtonTxt("<a href=\"checkAnswer\">" + pixToHtml(gl->path + "picts/check.png", PIXICONSIZE) + "</a>") +
 			"<br>- " + TexamHelp::pressEnterKey() + "<br>- " + TexamHelp::orRightButtTxt() + "<br>" +

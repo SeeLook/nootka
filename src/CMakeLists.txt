@@ -43,6 +43,7 @@ SET( NOOTKA_SRCS
 	widgets/tcolorbutton.cpp
 	widgets/tselectinstrument.cpp
 	widgets/tfixleveldialog.cpp
+	widgets/tanimedchbox.cpp
 ###### sound
   sound/tsound.cpp
   sound/tmidiout.cpp
@@ -229,6 +230,7 @@ SET( NOOTKA_MOC_SRCS
 	widgets/tcolorbutton.h
 	widgets/tselectinstrument.h
 	widgets/tfixleveldialog.h
+	widgets/tanimedchbox.h
 ###### Settings
   settings/tsettingsdialog.h
   settings/tsettingsdialogbase.h

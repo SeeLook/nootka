@@ -43,6 +43,7 @@
 #include "tfingerboard.h"
 #include "tnotename.h"
 #include <widgets/tfixleveldialog.h>
+#include <widgets/tanimedchbox.h>
 #include <QtGui>
 #include <QDebug>
 
