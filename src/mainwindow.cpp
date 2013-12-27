@@ -25,7 +25,8 @@
 #include "tfirstrunwizzard.h"
 #include "tsupportnootka.h"
 #include "tnootkalabel.h"
-#include <widgets/troundedlabel.h>
+#include "widgets/troundedlabel.h"
+#include "widgets/tanimedchbox.h"
 #include "texamsettings.h"
 #include <tupdateprocess.h>
 #include "tsound.h"
@@ -37,7 +38,7 @@
 #include "taudioparams.h"
 #include "tpitchview.h"
 #include "tanalysdialog.h"
-#include <tquestionpoint.h>
+#include "tquestionpoint.h"
 #include "tnotename.h"
 #include "tfingerboard.h"
 #include <QtGui>
@@ -115,17 +116,17 @@ MainWindow::MainWindow(QWidget *parent) :
     m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
 		statLay->addWidget(m_statLab, 0, Qt::AlignTop);
  // Expert corner
-		autoRepeatChB = new QCheckBox(innerWidget);
+		autoRepeatChB = new TanimedChBox(innerWidget);
 			autoRepeatChB->hide();
 			autoRepeatChB->setStatusTip(TexamSettings::autoNextQuestTxt());
 			autoRepeatChB->setToolTip(TexamSettings::autoNextQuestTxt());
 			autoRepeatChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-		expertAnswChB = new QCheckBox(innerWidget);
+		expertAnswChB = new TanimedChBox(innerWidget);
 			expertAnswChB->hide();
 			expertAnswChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 			expertAnswChB->setStatusTip(TexamSettings::expertsAnswerTxt());
 			expertAnswChB->setToolTip(TexamSettings::expertsAnswerTxt());
-		correctChB = new QCheckBox(innerWidget);
+		correctChB = new TanimedChBox(innerWidget);
 			correctChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 			correctChB->setStatusTip(tr("show correct answer for every mistake"));
 			correctChB->setToolTip(correctChB->statusTip());

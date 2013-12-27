@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,6 +24,8 @@
 #include <texamexecutor.h>
 #include <QMainWindow>
 
+
+class TanimedChBox;
 class QVBoxLayout;
 class TnootkaLabel;
 class TroundedLabel;
@@ -35,7 +37,6 @@ class TexamView;
 class TprogressWidget;
 class TpitchView;
 class Tsound;
-class QCheckBox;
 
 
 class MainWindow : public QMainWindow
@@ -52,12 +53,14 @@ public:
     void setStatusMessage(QString msg, int time);
     void setStatusMessage(QString msg);
     void setMessageBg (QColor bg);
+    
         /**  Returns font size used in status message label in pixels.
         * Its size depends on whole window size and is used for fonts' sizes
         * of others widgets. */
     int getFontSize() {return m_statFontSize; }
     QString statusMessage() { return m_statusText; }
     QWidget *innerWidget;
+    
         /** Returns point of bottomLeft examResults.*/
     QPoint relatedPoint();
 
@@ -86,15 +89,15 @@ protected:
     TexamView *examResults;
     TexamExecutor *ex;
 		TnootkaLabel *nootLabel; // displays Nootka logo
-    QCheckBox *autoRepeatChB, *expertAnswChB, *correctChB;
+    TanimedChBox *autoRepeatChB, *expertAnswChB, *correctChB;
     TpitchView *pitchView;
     TprogressWidget *progress;
 
     QToolBar *nootBar;
     QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct, *analyseAct;
     void clearAfterExam(TexamExecutor::Estate examState = TexamExecutor::e_finished);
-		/** Updates position and sizes of the widgets. */
-    void updsateSize();
+		
+    void updsateSize(); /** Updates position and sizes of the widgets. */
 
     void resizeEvent(QResizeEvent *event);
     bool event(QEvent *event);
@@ -116,17 +119,15 @@ private:
     QColor 								m_prevBg, m_curBG;
     QPixmap 							m_bgPixmap, m_rosettePixmap;
     int 									m_statFontSize;
-         /** Keeps true when Dialog windows is opened, to avoid opening another file. */
-    bool 									m_levelCreatorExist;
-    Tlevel 						m_level;
+    bool 									m_levelCreatorExist; /** Keeps true when Dialog windows is opened, to avoid opening another file. */
+    Tlevel 						    m_level;
 		bool 									m_isPlayerFree;
 		QWidget 							*m_pitchContainer;
 		QVBoxLayout 					*m_rightLay, *m_scoreLay;
 
 
     void createActions();
-        /** it sets icon and status text in startExamAct. */
-    void setStartExamActParams();
+    void setStartExamActParams(); /** it sets icon and status text in startExamAct. */
 
 };
 
