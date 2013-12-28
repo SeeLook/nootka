@@ -42,6 +42,9 @@ public:
 		virtual QRectF boundingRect() const;
 		virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
     
+    qreal width() { return m_width; } /** width of a certificate rectangle */
+    qreal height() { return m_height; } /** height of a certificate rectangle */
+    
 signals:
 				/** Emits what user wants to do:
 				 * - @p nextQuest to continue exam and get next question 
@@ -57,11 +60,18 @@ protected slots:
 		void linkActivatedSlot(QString link);
     
 private:
+        /** Creates QGraphicsTextItem instance with given html text. */
+    QGraphicsTextItem* createCertItem(const QString& htmlText);
+    
+private:
     Texam 									*m_exam;
 		TgraphicsTextTip 				*m_saveHint, *m_closeHint, *m_nextHint;
-		QGraphicsProxyWidget		*m_cert;
+		QGraphicsRectItem   		*m_cert;
 		QGraphicsRectItem				*m_bgRect;
     QString 								 m_path;
+    QGraphicsTextItem       *m_academyI, *m_dateI, *m_studentI, *m_certHeadI, *m_resultsI, *m_witnesI, *m_boardI, *m_stampI;
+    QGraphicsPixmapItem     *m_stampPixmap;
+    qreal                    m_width, m_height;
 		QGraphicsView						*m_view; // QGraphicsView containing those items
 };
 
