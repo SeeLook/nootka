@@ -26,7 +26,7 @@ class QGraphicsView;
 class TgraphicsTextTip;
 class Texam;
 
-QString finishExamText(Texam *exam);
+QString finishExamText(Texam* exam, QString path);
 
 
 /** QGraphicsTextTip with exam summary like piece of paper. */

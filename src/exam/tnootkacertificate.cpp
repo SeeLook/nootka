@@ -41,11 +41,11 @@
 
 QString spanPx = "<span style=\"font-size: 20px;\">";
 
-QString finishExamText(Texam* exam) {
+QString finishExamText(Texam* exam, QString path) {
 		QString txt = "<p align=\"right\" style=\"margin-right: 10px;\">" +
 		QString("date: %1").arg(QDate::currentDate().toString("d MMMM yyyy")) + ""
-    "<h3>" + "Nootka<br>Akademy Of Music" + "</h3></p>" +
-    QString("Student %1 ").arg(spanPx + "<b>" + exam->userName().toUpper() + "</span></b><br>") +
+    "<h3>" + "Nootka Akademy Of Music" + "</h3></p>" +
+    QString("Student %1 ").arg(spanPx + "<b>" + exam->userName().toUpper() + "</span></b> ") +
     "Has been awarded the" + "<h1 align=\"center\">" + 
 		"Certificate Of Exam Completion" + "</h1><p style=\"margin-left: 10px;\">" +
     "Passing the exam on the level" + spanPx + " <b>" + exam->level()->name + "</span></b>,<br>" +
@@ -58,10 +58,10 @@ QString finishExamText(Texam* exam) {
     "<p align=\"right\" style=\"margin-right: 10px;\">" + "examining board:" + "<br>" +
     "<i>president</i>: Nootka itself" + "<br>" +
     "professor Processor &amp; Mrs RAM his assistant" + "<br>" +
-    "<i>secretary</i>: Mr Disk" + "</p><p align=\"center\"><br><br><br><br>" + "................<br>" +
+    "<i>secretary</i>: Mr Disk" + "</p><p align=\"center\">" + 
+    QString("<img src=\"%1\" /><br>").arg(path + "picts/stamp.png") +
+    "................<br>" +
 		"stamp" + "</p>";
-//     <img src="http://nootka.googlecode.com/hg/unused-picts/stamp.png">
-		;
     return txt;
 }
 
@@ -78,11 +78,12 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, const QString& path,
 	 	m_cert = new QGraphicsProxyWidget(this);
 			m_cert->setParentItem(this);
 			QTextEdit *te = new QTextEdit();
+      te->setStyleSheet(QString("background-image: url(%1);").arg(path + "picts/noise.png"));
 			te->setLineWrapMode(QTextEdit::NoWrap);
 			te->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 			te->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 			te->setFrameShape(QFrame::NoFrame);
-			te->setHtml(finishExamText(m_exam));
+			te->setHtml(finishExamText(m_exam, m_path));
 // 			te->setLineWrapMode(QTextEdit::NoWrap);
 			te->setFixedSize(QSize(m_view->width() * 0.5, m_view->height() * 0.9));
 			m_cert->setWidget(te);

@@ -670,7 +670,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
 							m_snifferLocked = true;
 							mW->progress->setFinished(true);
 							qApp->removeEventFilter(m_supp); // stop grabbing right button and calling checkAnswer()
-							m_supp->examFinished();
+// 							m_supp->examFinished();
+              m_canvas->certificateTip();
 							qApp->installEventFilter(m_supp); // restore grabbing right mouse button
 							m_exam->setFinished();
 							m_snifferLocked = false;
