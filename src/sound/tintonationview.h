@@ -93,6 +93,7 @@ private:
 * ComboBox contains accuracy levels for intonation check. */
 class TintonationCombo : public QWidget
 {
+	Q_OBJECT
 	
 public:
 	explicit TintonationCombo(QWidget* parent);

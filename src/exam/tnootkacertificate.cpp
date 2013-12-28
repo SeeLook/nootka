@@ -83,34 +83,35 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, const QString& path,
       m_cert->setParentItem(this);
   //-MARGIN--Nootka Akademy--------------------------28 December 2013
   //-MARGIN-----------------------------------------------date
-    m_academyI = createCertItem(tr("<h3>Nootka Akademy Of Music</h3>"));
-    m_dateI = createCertItem(QString("%1<br><i>date<i>").arg(QDate::currentDate().toString("d MMMM yyyy")));
+    m_academyI = createCertItem(tr("<h3>Nootka Akademy Of Music</h3>")/* + QString("<img src=\"%1\">").arg(m_path + "picts/nootka.png")*/);
+    m_dateI = createCertItem(tr("%1<br><i>date<i>").arg(QDate::currentDate().toString("d MMMM yyyy")));
     TgraphicsTextTip::alignCenter(m_dateI);
-    m_height = qMax(m_academyI->boundingRect().height(), m_dateI->boundingRect().height()) + SPACER;
     m_width = 2 * MARGIN + m_academyI->boundingRect().width() + 2 * m_dateI->boundingRect().width();
-    m_academyI->setPos(MARGIN, 0.0);
-    m_dateI->setPos(MARGIN + m_academyI->boundingRect().width() + m_dateI->boundingRect().width(), 0.0);
+    m_academyI->setPos(MARGIN, SPACER);
+    m_dateI->setPos(MARGIN + m_academyI->boundingRect().width() + m_dateI->boundingRect().width(), SPACER);
+    m_height = qMax(m_academyI->boundingRect().height(), m_dateI->boundingRect().height()) + 2 * SPACER;
   //-MARGIN-MARGIN- Student HELMUT has been awarded the
     m_studentI = createCertItem(tr("Student <big><b>%1</b></big> has been awarded the").arg(exam->userName().toUpper()));
     m_studentI->setPos(2 * MARGIN, height());
     m_height += m_studentI->boundingRect().height() + SPACER;
   // -----Certificate Of Exam Completion-------- (middle)
     m_certHeadI = createCertItem(tr("<h1>Certificate Of Exam Completion</h1>"));
+//     m_certHeadI->setGraphicsEffect(new QGraphicsDropShadowEffect);
     m_certHeadI->setPos((width() - m_certHeadI->boundingRect().width()) / 2, height());
     m_height += m_certHeadI->boundingRect().height() + SPACER;
   //-MARGIN-MARGIN-Exam results-----------------
   //-MARGIN-MARGIN-Exam results-----------------
   //-MARGIN-MARGIN-Exam results-----------------
-    m_resultsI = createCertItem(tr("Passing the exam on the level <big><b>%1</b></big>,<br>having answered the required <big><b>%2</b></big> answers<br>in time <big><b>%3</b></big><br>and achieving the score <big><b>%4</b></big>", "Where %1 - level name, %2 - number of questions, %3 - time of work, %4 - effectiveness (score)").arg(exam->level()->name).arg(exam->count()).arg(TexamView::formatedTotalTime(exam->workTime() * 1000)).arg(exam->effectiveness(), 0, 'f', 1, '0'));
+    m_resultsI = createCertItem(tr("Passing the exam on the level <big><b>%1</b></big>,<br>having answered the required %2<br>in time <big><b>%3</b></big><br>and achieving the score <big><b>%4 %</b></big>", "Where %1 - level name, %2 - formated (singular/plural) number of questions, %3 - time of work, %4 - effectiveness (score)").arg(exam->level()->name).arg(tr("<big><b>%n</b></big> question", "", exam->count())).arg(TexamView::formatedTotalTime(exam->workTime() * 1000)).arg(exam->effectiveness(), 0, 'f', 1, '0'));
     m_resultsI->setPos(2 * MARGIN, height());
     m_height += m_resultsI->boundingRect().height() + SPACER * 2;
   //-MARGIN--As a witness to this accomplishment
-    m_witnesI = createCertItem(tr("As a witness to this accomplishment,<br>we hereby award this certificate on <b>%1</b>")
+    m_witnesI = createCertItem(tr("As a witness to this accomplishment,<br>we hereby award this certificate on <b>%1</b>.")
         .arg(QDate::currentDate().toString("d MMMM yyyy")));
     m_witnesI->setPos(MARGIN, height());
     m_height += m_witnesI->boundingRect().height() + SPACER;
     //----------------------------------------------- examining board -MARGIN-
-    m_boardI = createCertItem(tr("<small><i>examining board:</i><br><i>president:</i> Nootka itself<br>professor Processor &amp;<br>Mrs RAM his assistant<br><i>secretary:</i> Mr Disk</small>"));
+    m_boardI = createCertItem(tr("<small><i>examining board:</i><br><i>president:</i><b> Nootka itself</b><br><b>professor Processor</b> &amp;<br><b>Mrs RAM</b> his assistant<br><i>secretary:</i><b> Mr Disk</b></small>"));
     TgraphicsTextTip::alignCenter(m_boardI);
     m_boardI->setPos(width() - MARGIN - m_boardI->boundingRect().width(), height());
     m_height += m_boardI->boundingRect().height() + SPACER;
@@ -118,7 +119,7 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, const QString& path,
     m_stampPixmap = new QGraphicsPixmapItem(QPixmap(m_path + "picts/stamp.png"));
     m_stampPixmap->setParentItem(m_cert);
     m_stampPixmap->setPos((width() - m_stampPixmap->boundingRect().width()) / 2, 
-                          m_boardI->pos().y() + m_boardI->boundingRect().height() - 2 * SPACER);
+                          m_boardI->pos().y() + m_boardI->boundingRect().height() - 4 * SPACER);
     
     m_stampI = createCertItem(".......................<br>" + tr("<i>stamp</i>"));
     TgraphicsTextTip::alignCenter(m_stampI);
@@ -128,29 +129,13 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, const QString& path,
     
     
     
-    if (height() > m_view->sceneRect().height() * 0.9) {
-      m_cert->setScale((m_view->sceneRect().height() * 0.9) / height());
+    if (height() > m_view->sceneRect().height() * 0.96) {
+      m_cert->setScale((m_view->sceneRect().height() * 0.96) / height());
       qDebug() << "Certificate scaled of" << m_cert->scale();
     }
     
     setPos((m_view->width() - m_cert->scale() * width()) / 2, (m_view->height() - m_cert->scale() * height()) / 2);
     
-// 	 	m_cert = new QGraphicsProxyWidget(this);
-// 			m_cert->setParentItem(this);
-// 			QTextEdit *te = new QTextEdit();
-//       te->setStyleSheet(QString("background-image: url(%1);").arg(path + "picts/noise.png"));
-// 			te->setLineWrapMode(QTextEdit::NoWrap);
-// 			te->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-// 			te->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-// 			te->setFrameShape(QFrame::NoFrame);
-// 			te->setHtml(finishExamText(m_exam, m_path));
-// // 			te->setLineWrapMode(QTextEdit::NoWrap);
-// 			te->setFixedSize(QSize(m_view->width() * 0.5, m_view->height() * 0.9));
-// 			m_cert->setWidget(te);
-// // 			m_cert->setScale((m_view->height() * 0.9) / boundingRect().height());
-// 			setPos((m_view->width() - m_cert->scale() * boundingRect().width()) / 2,
-//                       (m_view->height() - m_cert->scale() * boundingRect().height()) / 2);
-// 		
 		m_bgRect = new QGraphicsRectItem(m_view->sceneRect());
     m_bgRect->setPen(Qt::NoPen);
 		QColor bg = m_view->palette().text().color();
@@ -184,7 +169,7 @@ void TnootkaCertificate::createHints() {
     scaledPix.save(&buffer, "PNG");
 		m_saveHint = new TgraphicsTextTip(QString("<a href=\"saveCert\"><img src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/>" + "<br><big>" + tr("Save this certificate to file in remembrance.") + "</a></big>",
 																				QApplication::palette().highlight().color());
-			m_saveHint->setTextWidth((m_view->width() -10 - boundingRect().width() * m_cert->scale()) / 2);
+			m_saveHint->setTextWidth((m_view->width() -10 - boundingRect().width()) / 2);
 			m_view->scene()->addItem(m_saveHint);
 			m_saveHint->setPos(1, m_view->height() / 5);
 			m_saveHint->setTextInteractionFlags(Qt::TextBrowserInteraction);
@@ -194,7 +179,7 @@ void TnootkaCertificate::createHints() {
     TexamHelp::clickSomeButtonTxt(pixToHtml(m_path + "picts/nextQuest.png", 32)) + ",<br>" + TexamHelp::pressSpaceKey() + " " + TexamHelp::orRightButtTxt() + "</a></big>", m_view->palette().highlight().color());
 			m_view->scene()->addItem(m_nextHint);
 			m_nextHint->setPos(1, m_view->height() / 2);
-			m_nextHint->setScale(((m_view->width() - 10 - boundingRect().width() * m_cert->scale()) / 2) / m_nextHint->boundingRect().width());
+			m_nextHint->setScale(((m_view->width() - 10 - boundingRect().width()) / 2) / m_nextHint->boundingRect().width());
 			m_nextHint->setTextInteractionFlags(Qt::TextBrowserInteraction);
 			connect(m_nextHint, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
 		
@@ -202,8 +187,8 @@ void TnootkaCertificate::createHints() {
 		m_closeHint = new TgraphicsTextTip("<big><a href=\"stopExam\">" + 
 					TexamHelp::toStopExamTxt(pixToHtml(m_path + "picts/stopExam.png", 32) + "</a></big>"), Qt::red);
 			m_view->scene()->addItem(m_closeHint);
-			m_closeHint->setScale(((m_view->width() - 10 - boundingRect().width() * m_cert->scale()) / 2) / m_closeHint->boundingRect().width());
-			m_closeHint->setPos(5 + pos().x() + boundingRect().width() * m_cert->scale(), m_view->height() / 5);
+			m_closeHint->setScale(((m_view->width() - 10 - boundingRect().width()) / 2) / m_closeHint->boundingRect().width());
+			m_closeHint->setPos(5 + pos().x() + boundingRect().width(), m_view->height() / 5);
 			m_closeHint->setTextInteractionFlags(Qt::TextBrowserInteraction);
 			connect(m_closeHint, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
 	}
@@ -249,13 +234,13 @@ void TnootkaCertificate::saveSlot() {
 		return;
 	QPrinter printer;
 	printer.setOutputFormat(QPrinter::PdfFormat);
-	printer.setPaperSize(boundingRect().size() * scale(), QPrinter::Point);
+	printer.setPaperSize(boundingRect().size() / m_cert->scale(), QPrinter::Point);
 	printer.setFullPage(true);
 	printer.setOutputFileName(fileName);
 	QPainter painter;
 	painter.begin(&printer);
 	painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
-	scene()->render(&painter, printer.paperRect(QPrinter::Point), QRectF(pos(), boundingRect().size() * scale()));
+	scene()->render(&painter, printer.paperRect(QPrinter::Point), QRectF(pos(), boundingRect().size() / m_cert->scale()));
 	painter.end();
 }
 
