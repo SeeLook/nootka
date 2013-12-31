@@ -245,7 +245,7 @@ void Tcanvas::questionTip(Texam* exam) {
 	m_nameFree = m_questionTip->freeName();
 	m_scoreFree = m_questionTip->freeScore();
   setQuestionPos();
-  certificateTip();
+//   certificateTip();
 }
 
 

@@ -20,13 +20,13 @@
         <location filename="../src/charts/tnotepixmap.cpp" line="119"/>
         <source>Good answer!</source>
         <comment>or &apos;Good!&apos; or &apos;Correct!&apos; would be somewhat more specific than merely &apos;It was good!&apos; (previous version) &apos;It&apos; in this case certainly does refer to a specific thing, which is in this case the answer, but it might be momentarily confused with some other specific thing, such as a shoe or a crocodile, or the wind on one&apos;s back. I know that&apos;s probably confusing, but the implied subject of &apos;Correct! is in a certain sense much more specific than a mere &apos;It&apos; and is more certain to refer to the answer.</comment>
-        <translation type="unfinished"></translation>
+        <translation>To było dobre!</translation>
     </message>
     <message>
         <location filename="../src/charts/tnotepixmap.cpp" line="124"/>
         <source>Not bad, but:</source>
         <comment>&apos;Not so bad, but:&apos; is perfectly clear, but a little less common in US English. To be a bit shorter, it might just as well be, &apos;Not bad, but:&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Nieźle, ale:</translation>
     </message>
     <message>
         <location filename="../src/charts/tnotepixmap.cpp" line="127"/>
@@ -97,7 +97,7 @@
         <location filename="../src/charts/sorting.cpp" line="350"/>
         <location filename="../src/charts/tnotepixmap.cpp" line="144"/>
         <source>out of tune</source>
-        <translation type="unfinished"></translation>
+        <translation>nieczysto</translation>
     </message>
 </context>
 <context>
@@ -3001,7 +3001,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/exam/tnootkacertificate.cpp" line="87"/>
         <source>%1&lt;br&gt;&lt;i&gt;date&lt;i&gt;</source>
-        <translation>%1&lt;br&gt;&lt;i&gt;data&lt;i&gt;</translation>
+        <translation>dnia, %1</translation>
     </message>
     <message>
         <location filename="../src/exam/tnootkacertificate.cpp" line="94"/>
@@ -3058,7 +3058,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/exam/tnootkacertificate.cpp" line="114"/>
         <source>&lt;small&gt;&lt;i&gt;examining board:&lt;/i&gt;&lt;br&gt;&lt;i&gt;president:&lt;/i&gt;&lt;b&gt; Nootka itself&lt;/b&gt;&lt;br&gt;&lt;b&gt;professor Processor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Mrs RAM&lt;/b&gt; his assistant&lt;br&gt;&lt;i&gt;secretary:&lt;/i&gt;&lt;b&gt; Mr Disk&lt;/b&gt;&lt;/small&gt;</source>
-        <translation>&lt;small&gt;&lt;i&gt;komisja:&lt;/i&gt;&lt;br&gt;&lt;i&gt;&lt;/i&gt;&lt;b&gt; Nootka we własnej osobie,&lt;/b&gt;&lt;br&gt;&lt;b&gt;profesor Procesor&lt;/b&gt; &lt;br&gt;i &lt;b&gt;Pani RAM&lt;/b&gt; jego asysten,&lt;br&gt;&lt;i&gt;sekretarz:&lt;/i&gt;&lt;b&gt; Pan Disk&lt;/b&gt;&lt;/small&gt;</translation>
+        <translation>&lt;small&gt;&lt;i&gt;komisja:&lt;/i&gt;&lt;br&gt;&lt;i&gt;&lt;/i&gt;&lt;b&gt; Nootka we własnej osobie,&lt;/b&gt;&lt;br&gt;&lt;b&gt;profesor Procesor&lt;/b&gt; &lt;br&gt;i &lt;b&gt;Pani RAM&lt;/b&gt; jego asysten,&lt;br&gt;&lt;i&gt;sekretarz:&lt;/i&gt;&lt;b&gt; Pan Dysk&lt;/b&gt;&lt;/small&gt;</translation>
     </message>
     <message>
         <location filename="../src/exam/tnootkacertificate.cpp" line="124"/>
