@@ -2994,33 +2994,28 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>TnootkaCertificate</name>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="86"/>
         <source>&lt;h3&gt;Nootka Akademy Of Music&lt;/h3&gt;</source>
-        <translation>&lt;h3&gt;Akademia Muzyczna Nootki&lt;/h3&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Akademia Muzyczna Nootki&lt;/h3&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="87"/>
         <source>%1&lt;br&gt;&lt;i&gt;date&lt;i&gt;</source>
-        <translation>dnia, %1</translation>
+        <translation type="obsolete">dnia, %1</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="94"/>
         <source>Student &lt;big&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/big&gt; has been awarded the</source>
-        <translation>Student &lt;big&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/big&gt; otrzymuje</translation>
+        <translation type="obsolete">Student &lt;big&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/big&gt; otrzymuje</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="98"/>
         <source>&lt;h1&gt;Certificate Of Exam Completion&lt;/h1&gt;</source>
-        <translation>&lt;h1&gt;Świadectwo złożenia egzaminu&lt;/h1&gt;</translation>
+        <translation type="obsolete">&lt;h1&gt;Świadectwo złożenia egzaminu&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="105"/>
         <source>Passing the exam on the level &lt;big&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;having answered the required %2&lt;br&gt;in time &lt;big&gt;&lt;b&gt;%3&lt;/b&gt;&lt;/big&gt;&lt;br&gt;and achieving the score &lt;big&gt;&lt;b&gt;%4 %&lt;/b&gt;&lt;/big&gt;</source>
         <comment>Where %1 - level name, %2 - formated (singular/plural) number of questions, %3 - time of work, %4 - effectiveness (score)</comment>
-        <translation>Zdając egzam na poziomie &lt;big&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;opdpowiadając na wymagane %2&lt;br&gt;w czasie &lt;big&gt;&lt;b&gt;%3&lt;/b&gt;&lt;/big&gt;&lt;br&gt;i uzyskując wynik &lt;big&gt;&lt;b&gt;%4 %&lt;/b&gt;&lt;/big&gt;</translation>
+        <translation type="obsolete">Poziom egzaminu: &lt;big&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;wymagjący odpowiedzi na %2.&lt;br&gt;Czas trwania &lt;big&gt;&lt;b&gt;%3&lt;/b&gt;&lt;/big&gt;&lt;br&gt;Uzyskany wynik: &lt;big&gt;&lt;b&gt;%4 %&lt;/b&gt;&lt;/big&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/exam/tnootkacertificate.cpp" line="105"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="247"/>
         <source>&lt;big&gt;&lt;b&gt;%n&lt;/b&gt;&lt;/big&gt; question</source>
         <translation>
             <numerusform>&lt;big&gt;&lt;b&gt;%n&lt;/b&gt;&lt;/big&gt; pytanie</numerusform>
@@ -3047,31 +3042,86 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation type="obsolete">Zdając egzam na poziomie &lt;big&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;opdpowiadając na wymagane &lt;big&gt;&lt;b&gt;%2&lt;/b&gt;&lt;/big&gt; pytań&lt;br&gt;w czasie &lt;big&gt;&lt;b&gt;%3&lt;/b&gt;&lt;/big&gt;&lt;br&gt;i uzyskując wynik &lt;big&gt;&lt;b&gt;%4&lt;/b&gt;&lt;/big&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="109"/>
         <source>As a witness to this accomplishment,&lt;br&gt;we hereby award this certificate on &lt;b&gt;%1&lt;/b&gt;.</source>
-        <translation>Niniejszym, &lt;b&gt;%1&lt;/b&gt;, wydaje sie świadectwo&lt;br&gt;jako dowód wymienionych osiągnięć.</translation>
+        <translation type="obsolete">Niniejszym, &lt;b&gt;%1&lt;/b&gt;, wydaje sie świadectwo&lt;br&gt;jako dowód wymienionych osiągnięć.</translation>
     </message>
     <message>
         <source>As a witness to this accomplishment,&lt;br&gt;we hereby award this certificate on &lt;b&gt;%1&lt;/b&gt;</source>
         <translation type="obsolete">Niniejszym, &lt;b&gt;%1&lt;/b&gt;, wydaje sie świadectwo&lt;br&gt;jako dowód wymienionych osiągnięć.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="114"/>
         <source>&lt;small&gt;&lt;i&gt;examining board:&lt;/i&gt;&lt;br&gt;&lt;i&gt;president:&lt;/i&gt;&lt;b&gt; Nootka itself&lt;/b&gt;&lt;br&gt;&lt;b&gt;professor Processor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Mrs RAM&lt;/b&gt; his assistant&lt;br&gt;&lt;i&gt;secretary:&lt;/i&gt;&lt;b&gt; Mr Disk&lt;/b&gt;&lt;/small&gt;</source>
+        <translation type="obsolete">&lt;small&gt;&lt;i&gt;komisja:&lt;/i&gt;&lt;br&gt;&lt;i&gt;&lt;/i&gt;&lt;b&gt; Nootka we własnej osobie,&lt;/b&gt;&lt;br&gt;&lt;b&gt;profesor Procesor&lt;/b&gt; &lt;br&gt;i &lt;b&gt;Pani RAM&lt;/b&gt; jego asysten,&lt;br&gt;&lt;i&gt;sekretarz:&lt;/i&gt;&lt;b&gt; Pan Dysk&lt;/b&gt;&lt;/small&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;i&gt;stamp&lt;/i&gt;</source>
+        <translation type="obsolete">&lt;i&gt;pieczęć&lt;/i&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="61"/>
+        <source>&lt;h3&gt;Nootka Akademy Of Music&lt;/h3&gt;</source>
+        <comment>top-left corner</comment>
+        <translation>&lt;h3&gt;Akademia Muzyczna Nootki&lt;/h3&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="62"/>
+        <source>[DATE]&lt;br&gt;&lt;i&gt;date&lt;i&gt;</source>
+        <comment>top-right corner</comment>
+        <translation>dnia, [DATE]</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="69"/>
+        <source>Student &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; has been awarded the</source>
+        <comment>2nd line, single indent</comment>
+        <translation>Student &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; otrzymuje</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="73"/>
+        <source>&lt;h1&gt;Certificate Of Exam Completion&lt;/h1&gt;</source>
+        <comment>Main header - centered</comment>
+        <translation>&lt;h1&gt;Świadectwo złożenia egzaminu&lt;/h1&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="80"/>
+        <source>Passing the exam on the level &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;having answered the required [NR_QUESTIONS]&lt;br&gt;in time &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;and achieving the score &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</source>
+        <comment>Exam results - double indented, [NR_QUESTIONS] is fe.: 23 questions but only number is available by [JUSTNR]</comment>
+        <translation>Poziom egzaminu: &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;Liczba pytań: &lt;big&gt;&lt;b&gt;[JUSTNR]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;Czas trwania &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;Uzyskany wynik: &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="84"/>
+        <source>As a witness to this accomplishment,&lt;br&gt;we hereby award this certificate on &lt;b&gt;[DATE]&lt;/b&gt;.</source>
+        <comment>Under results - single indent</comment>
+        <translation>Niniejszym, wydaje sie świadectwo&lt;br&gt;jako dowód wymienionych osiągnięć dnia [DATE].</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="88"/>
+        <source>&lt;small&gt;&lt;i&gt;examining board:&lt;/i&gt;&lt;br&gt;&lt;i&gt;president:&lt;/i&gt;&lt;b&gt; Nootka itself&lt;/b&gt;&lt;br&gt;&lt;b&gt;professor Processor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Mrs RAM&lt;/b&gt; his assistant&lt;br&gt;&lt;i&gt;secretary:&lt;/i&gt;&lt;b&gt; Mr Disk&lt;/b&gt;&lt;/small&gt;</source>
+        <comment>Right aligned and centered</comment>
         <translation>&lt;small&gt;&lt;i&gt;komisja:&lt;/i&gt;&lt;br&gt;&lt;i&gt;&lt;/i&gt;&lt;b&gt; Nootka we własnej osobie,&lt;/b&gt;&lt;br&gt;&lt;b&gt;profesor Procesor&lt;/b&gt; &lt;br&gt;i &lt;b&gt;Pani RAM&lt;/b&gt; jego asysten,&lt;br&gt;&lt;i&gt;sekretarz:&lt;/i&gt;&lt;b&gt; Pan Dysk&lt;/b&gt;&lt;/small&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="124"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="98"/>
         <source>&lt;i&gt;stamp&lt;/i&gt;</source>
+        <comment>bottom, centered</comment>
         <translation>&lt;i&gt;pieczęć&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="170"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="150"/>
         <source>Save this certificate to file in remembrance.</source>
         <translation>Zapisz świadectwo do pliku na pamiątkę.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="230"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="150"/>
+        <source>CONGRATULATIONS!&lt;br&gt;You have just passed the exam!</source>
+        <translation>GRATULACJE!&lt;br&gt;Właśnie zdałeś/zdałaś egzamin!</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="157"/>
+        <source>You can still play with it and improve effectiveness.</source>
+        <translation>Wciąż możesz kontynuować i poprawić efektywność.</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="213"/>
         <source>Save certificate</source>
         <translation>Zapisz świadectwo</translation>
     </message>

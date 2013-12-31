@@ -56,11 +56,14 @@ protected:
 	
 protected slots:
 		void saveSlot();
-		void linkActivatedSlot(QString link);
+    void hintClicked();
     
 private:
         /** Creates QGraphicsTextItem instance with given html text. */
     QGraphicsTextItem* createCertItem(const QString& htmlText);
+    
+        /** Replaces [___] tags with appropriate text values */
+    QString fillCert(QString entry);
     
 private:
     Texam 									*m_exam;
