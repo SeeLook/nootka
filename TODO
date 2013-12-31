@@ -16,6 +16,7 @@ TODOES
 - remove unused classes: widgets/animations
 - add shadows under strings on pickup
 - do not transform pickup image for lefthanded - just change its pos
+- add option of plaing sound during capture
 
 - finish exam tip and saving it (image) to file
 
@@ -36,3 +37,4 @@ TEXAMEXECUTOR
 ================================================================================================================
 Somewhere in time
 - keep exam file in /tmp and restore it when crash or so
+- convert level file to text format (for sure) and exam file as well (consider)

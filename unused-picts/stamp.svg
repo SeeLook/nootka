@@ -41,18 +41,6 @@
   <defs
      id="defs4">
     <linearGradient
-       inkscape:collect="always"
-       id="linearGradient3879">
-      <stop
-         style="stop-color:#ffffff;stop-opacity:1;"
-         offset="0"
-         id="stop3881" />
-      <stop
-         style="stop-color:#ffffff;stop-opacity:0;"
-         offset="1"
-         id="stop3883" />
-    </linearGradient>
-    <linearGradient
        x1="382.33768"
        y1="489.13965"
        x2="490.53049"
@@ -3184,15 +3172,6 @@
          in="result6"
          mode="darken" />
     </filter>
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3879"
-       id="linearGradient3885"
-       x1="47.365471"
-       y1="301.06741"
-       x2="89.303116"
-       y2="348.17786"
-       gradientUnits="userSpaceOnUse" />
   </defs>
   <metadata
      id="metadata7">
@@ -3240,7 +3219,7 @@
        sodipodi:cy="348.43362"
        sodipodi:cx="85"
        id="path3781"
-       style="fill:url(#linearGradient3885);stroke:#000000;stroke-width:0.60968690999999997;stroke-opacity:1;fill-opacity:1"
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.60968690999999997;stroke-opacity:1;fill-opacity:0"
        sodipodi:type="arc"
        inkscape:export-filename="/home/tom/DEVELOP/QT4/nootka/picts/stamp.png"
        inkscape:export-xdpi="84.051598"
