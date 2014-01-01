@@ -1109,32 +1109,32 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>Spróbuj jeszcze raz!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="174"/>
+        <location filename="../src/exam/tcanvas.cpp" line="173"/>
         <source>To correct an answer</source>
         <translation>Żeby poprawić odpowiedź</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="178"/>
+        <location filename="../src/exam/tcanvas.cpp" line="177"/>
         <source>To see corrected answer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="211"/>
+        <location filename="../src/exam/tcanvas.cpp" line="210"/>
         <source>To check the answer confirm it:</source>
         <translation>Aby sprawdzić odpowiedź, potwierdź ją:</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="214"/>
+        <location filename="../src/exam/tcanvas.cpp" line="213"/>
         <source>Check in exam help %1 how to do it automatically</source>
         <translation>Sprawdź w pomocy %1 jak zrobić to automatycznie</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="263"/>
+        <location filename="../src/exam/tcanvas.cpp" line="262"/>
         <source>too low</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="265"/>
+        <location filename="../src/exam/tcanvas.cpp" line="264"/>
         <source>too high</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1234,7 +1234,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="obsolete">Egzamin wymaga dźwięku&lt;br&gt;ale nie jest on włączony !!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1044"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1048"/>
         <source>next question
 (space %1)</source>
         <translation>następne pytanie
@@ -1251,19 +1251,19 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="obsolete">Sprawdź</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1059"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1063"/>
         <source>check answer
 (enter %1)</source>
         <translation>sprawdź odpowiedź
 (enter %1)</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1066"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1070"/>
         <source>Play</source>
         <translation type="unfinished">Graj</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1067"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1071"/>
         <source>play sound again</source>
         <translation>ponownie zagraj dźwięk</translation>
     </message>
@@ -1272,12 +1272,12 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="obsolete">Poziom &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nie ma sensu, bo nie ma w nim żadnego pytania, które można zadać.&lt;br&gt;Możliwe, że nie jest dopasowany do bieżącego stroju gitary.&lt;br&gt;Napraw to w Kreatorze Poziomów i spróbuj ponownie.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1278"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1282"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1279"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1283"/>
         <source>Discard</source>
         <translation>Porzuć</translation>
     </message>
@@ -1291,12 +1291,12 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="obsolete">Następne</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1052"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1056"/>
         <source>repeat previous question (backspace)</source>
         <translation>powtórz poprzednie pytanie (backspace)</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="886"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="890"/>
         <source>Help</source>
         <translation>Pomoc</translation>
     </message>
@@ -1322,82 +1322,82 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="890"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="894"/>
         <source>Stop</source>
         <translation>Stop</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1043"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1047"/>
         <source>Next</source>
         <comment>like a next question</comment>
         <translation type="unfinished">Następne</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1051"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1055"/>
         <source>Repeat</source>
         <comment>like a repeat question</comment>
         <translation type="unfinished">Powtórz</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1058"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1062"/>
         <source>Check</source>
         <comment>like a check answer</comment>
         <translation type="unfinished">Sprawdź</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1074"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1078"/>
         <source>Correct</source>
         <comment>like a correct answer with mistake</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1075"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1079"/>
         <source>correct answer
 (enter)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1165"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1169"/>
         <source>Give an answer first!&lt;br&gt;Then the exam will end.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1210"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1214"/>
         <source>Such a pity.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1271"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1275"/>
         <source>Save exam results as:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1277"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1281"/>
         <source>If you don&apos;t save to file&lt;br&gt;you lost all results!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1457"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1463"/>
         <source>Exercises with Nootka</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1458"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1464"/>
         <source>finish exercising</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1460"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1466"/>
         <source>EXAM!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1469"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1475"/>
         <source>You are exercising on level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1471"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1477"/>
         <source>Exam started on level</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1406,17 +1406,17 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="obsolete">Najpierw odpowiedz!&lt;br&gt;Potem egzamin zostanie zakończony</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1248"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1252"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
         <translation>Psssst... Trwa egzamin.&lt;br&gt;&lt;br&gt;&lt;b&gt;Kontynuuj&lt;/b&gt; go &lt;br&gt;lub&lt;br&gt;&lt;b&gt;Zakończ&lt;/b&gt; żeby sprawdzić, zapisać i wyjść&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1249"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1253"/>
         <source>Continue</source>
         <translation>Kontynuuj</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1250"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1254"/>
         <source>Terminate</source>
         <translation>Zakończ</translation>
     </message>
@@ -1438,7 +1438,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="obsolete">EGZAMIN!!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1461"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1467"/>
         <source>stop the exam</source>
         <translation>zatrzymaj egzamin</translation>
     </message>
@@ -2023,11 +2023,6 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texecutorsupply.cpp" line="68"/>
         <source>Guitar fret number was changed!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/exam/texecutorsupply.cpp" line="102"/>
-        <source>CONGRATULATIONS!&lt;br&gt;You have passed the exam.&lt;br&gt;&lt;br&gt;About prizes speak with parents or other sponsors :-)&lt;br&gt;You can still play with it and improve effectiveness.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3015,9 +3010,8 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation type="obsolete">Poziom egzaminu: &lt;big&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;wymagjący odpowiedzi na %2.&lt;br&gt;Czas trwania &lt;big&gt;&lt;b&gt;%3&lt;/b&gt;&lt;/big&gt;&lt;br&gt;Uzyskany wynik: &lt;big&gt;&lt;b&gt;%4 %&lt;/b&gt;&lt;/big&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/exam/tnootkacertificate.cpp" line="247"/>
         <source>&lt;big&gt;&lt;b&gt;%n&lt;/b&gt;&lt;/big&gt; question</source>
-        <translation>
+        <translation type="obsolete">
             <numerusform>&lt;big&gt;&lt;b&gt;%n&lt;/b&gt;&lt;/big&gt; pytanie</numerusform>
             <numerusform>&lt;big&gt;&lt;b&gt;%n&lt;/b&gt;&lt;/big&gt; pytania</numerusform>
             <numerusform>&lt;big&gt;&lt;b&gt;%n&lt;/b&gt;&lt;/big&gt; pytań</numerusform>
@@ -3058,10 +3052,9 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation type="obsolete">&lt;i&gt;pieczęć&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="61"/>
         <source>&lt;h3&gt;Nootka Akademy Of Music&lt;/h3&gt;</source>
         <comment>top-left corner</comment>
-        <translation>&lt;h3&gt;Akademia Muzyczna Nootki&lt;/h3&gt;</translation>
+        <translation type="obsolete">&lt;h3&gt;Akademia Muzyczna Nootki&lt;/h3&gt;</translation>
     </message>
     <message>
         <location filename="../src/exam/tnootkacertificate.cpp" line="62"/>
@@ -3076,52 +3069,63 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation>Student &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; otrzymuje</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="73"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="76"/>
         <source>&lt;h1&gt;Certificate Of Exam Completion&lt;/h1&gt;</source>
         <comment>Main header - centered</comment>
         <translation>&lt;h1&gt;Świadectwo złożenia egzaminu&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="80"/>
         <source>Passing the exam on the level &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;having answered the required [NR_QUESTIONS]&lt;br&gt;in time &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;and achieving the score &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</source>
         <comment>Exam results - double indented, [NR_QUESTIONS] is fe.: 23 questions but only number is available by [JUSTNR]</comment>
-        <translation>Poziom egzaminu: &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;Liczba pytań: &lt;big&gt;&lt;b&gt;[JUSTNR]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;Czas trwania &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;Uzyskany wynik: &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</translation>
+        <translation type="obsolete">Poziom egzaminu: &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;Liczba pytań: &lt;big&gt;&lt;b&gt;[JUSTNR]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;Czas trwania &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;Uzyskany wynik: &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="84"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="61"/>
+        <source>&lt;h3&gt;Nootka Academy Of Music&lt;/h3&gt;</source>
+        <comment>top-left corner</comment>
+        <translation>&lt;h3&gt;Akademia Muzyczna Nootki&lt;/h3&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="83"/>
+        <source>Passing the exam on the level &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;having answered the required [QUESTNR] questions&lt;br&gt;in time &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;and achieving the score &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</source>
+        <comment>Exam results - double indented, left aligned</comment>
+        <translation>Poziom egzaminu: &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;Liczba pytań: &lt;big&gt;&lt;b&gt;[QUESTNR]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;Czas trwania &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;Uzyskany wynik: &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="87"/>
         <source>As a witness to this accomplishment,&lt;br&gt;we hereby award this certificate on &lt;b&gt;[DATE]&lt;/b&gt;.</source>
         <comment>Under results - single indent</comment>
         <translation>Niniejszym, wydaje sie świadectwo&lt;br&gt;jako dowód wymienionych osiągnięć dnia [DATE].</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="88"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="91"/>
         <source>&lt;small&gt;&lt;i&gt;examining board:&lt;/i&gt;&lt;br&gt;&lt;i&gt;president:&lt;/i&gt;&lt;b&gt; Nootka itself&lt;/b&gt;&lt;br&gt;&lt;b&gt;professor Processor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Mrs RAM&lt;/b&gt; his assistant&lt;br&gt;&lt;i&gt;secretary:&lt;/i&gt;&lt;b&gt; Mr Disk&lt;/b&gt;&lt;/small&gt;</source>
         <comment>Right aligned and centered</comment>
         <translation>&lt;small&gt;&lt;i&gt;komisja:&lt;/i&gt;&lt;br&gt;&lt;i&gt;&lt;/i&gt;&lt;b&gt; Nootka we własnej osobie,&lt;/b&gt;&lt;br&gt;&lt;b&gt;profesor Procesor&lt;/b&gt; &lt;br&gt;i &lt;b&gt;Pani RAM&lt;/b&gt; jego asysten,&lt;br&gt;&lt;i&gt;sekretarz:&lt;/i&gt;&lt;b&gt; Pan Dysk&lt;/b&gt;&lt;/small&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="98"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="101"/>
         <source>&lt;i&gt;stamp&lt;/i&gt;</source>
         <comment>bottom, centered</comment>
         <translation>&lt;i&gt;pieczęć&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="150"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="151"/>
         <source>Save this certificate to file in remembrance.</source>
         <translation>Zapisz świadectwo do pliku na pamiątkę.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="150"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="151"/>
         <source>CONGRATULATIONS!&lt;br&gt;You have just passed the exam!</source>
         <translation>GRATULACJE!&lt;br&gt;Właśnie zdałeś/zdałaś egzamin!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="157"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="158"/>
         <source>You can still play with it and improve effectiveness.</source>
         <translation>Wciąż możesz kontynuować i poprawić efektywność.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="213"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="214"/>
         <source>Save certificate</source>
         <translation>Zapisz świadectwo</translation>
     </message>

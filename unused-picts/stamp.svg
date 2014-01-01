@@ -3202,7 +3202,7 @@
          id="textPath3767"
          xlink:href="#path2996"><tspan
    id="tspan2987"
-   style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:MaszynaAEG;-inkscape-font-specification:MaszynaAEG">NOOTKA Akademy Of Music</tspan></textPath></text>
+   style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:MaszynaAEG;-inkscape-font-specification:MaszynaAEG">NOOTKA Academy Of Music</tspan></textPath></text>
     <path
        inkscape:connector-curvature="0"
        id="path2996"
@@ -3219,7 +3219,7 @@
        sodipodi:cy="348.43362"
        sodipodi:cx="85"
        id="path3781"
-       style="fill:#ffffff;stroke:#000000;stroke-width:0.60968690999999997;stroke-opacity:1;fill-opacity:0"
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.60955128;stroke-opacity:1;fill-opacity:0;stroke-miterlimit:4;stroke-dasharray:14.62923062,0.60955128;stroke-dashoffset:0"
        sodipodi:type="arc"
        inkscape:export-filename="/home/tom/DEVELOP/QT4/nootka/picts/stamp.png"
        inkscape:export-xdpi="84.051598"

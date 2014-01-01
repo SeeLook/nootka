@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -65,8 +65,6 @@ public:
   int obligQuestions() { return m_obligQuestNr; }
   int qaPossibilities() { return m_qaPossib; }
   
-      /** Displays message when exam can be finished. */
-  void examFinished();
   void setFinished(bool wasFinished = true) { m_wasFinished = wasFinished;}
   bool wasFinished() { return m_wasFinished; }
 			
