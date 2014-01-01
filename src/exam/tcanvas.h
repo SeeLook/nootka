@@ -102,6 +102,7 @@ signals:
 	
 				/** This signal is emitted when user click image button on the some tip.*/
     void buttonClicked(QString name);
+    void certificateMagicKeys(); // When translator wants to see a certificate preview
       
     
 protected:

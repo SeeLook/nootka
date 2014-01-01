@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -119,6 +119,11 @@ protected slots:
 		
 				/** Displays message on MainWindow status label about level of started exercise/exam */
 		void levelStatusMessage();
+    
+    void displayCertificate(); /** Locks the executor and displays certificate. */
+    
+        /** It sets m_snifferLocked to false (unlocks) and restores capturing right mouse button (installEventFilter) */
+    void unlockAnswerCapturing();
 
 private:
 		void createActions();

@@ -156,7 +156,6 @@ void Tcanvas::certificateTip() {
 	if (!m_certifyTip) {
 			m_certifyTip = new TnootkaCertificate(this, gl->path, m_exam);
 			connect(m_certifyTip, SIGNAL(userAction(QString)), this, SLOT(linkActivatedSlot(QString)));
-		//   m_finishTip->rotate(-7);
 	}
 }
 
@@ -492,9 +491,13 @@ bool Tcanvas::event(QEvent* event) {
     event->setAccepted(false);
     QMouseEvent *me = static_cast<QMouseEvent *>(event);
     me->setAccepted(false);
-    if (event->type() == QEvent::MouseButtonPress)
+    if (event->type() == QEvent::MouseButtonPress) {
         QGraphicsView::mousePressEvent(me);
-    else
+        if (me->button() == Qt::MiddleButton && me->modifiers().testFlag(Qt::ShiftModifier) &&  me->modifiers().testFlag(Qt::AltModifier)) {
+            if (m_exam)
+              emit certificateMagicKeys();
+        }
+    } else
         QGraphicsView::mouseReleaseEvent(me);
   }     
   return QGraphicsView::event(event);

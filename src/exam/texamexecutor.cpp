@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -224,6 +224,7 @@ void TexamExecutor::initializeExecuting() {
 				if (gl->E->suggestExam)
 					m_exercise->setSuggestionEnabled(m_supp->qaPossibilities());
 		} else {
+        connect(m_canvas, SIGNAL(certificateMagicKeys()), this, SLOT(displayCertificate()));
 				m_penalCount = 0;
 				if (m_exam->isFinished()) {
 					m_supp->setFinished();
@@ -667,14 +668,10 @@ void TexamExecutor::checkAnswer(bool showResults) {
 							m_exam->increasePenaltys(m_exam->blackCount());
 							qDebug() << "penalties increased. Can't finish this exam yet.";
 					} else {
-							m_snifferLocked = true;
-							mW->progress->setFinished(true);
-							qApp->removeEventFilter(m_supp); // stop grabbing right button and calling checkAnswer()
-// 							m_supp->examFinished();
-              m_canvas->certificateTip();
-							qApp->installEventFilter(m_supp); // restore grabbing right mouse button
-							m_exam->setFinished();
-							m_snifferLocked = false;
+              mW->progress->setFinished(true);
+              m_exam->setFinished();
+							displayCertificate();
+							m_supp->setFinished();
 					}
 				}
 		}
@@ -862,6 +859,13 @@ void TexamExecutor::repeatQuestion() {
     mW->examResults->questionStart();
 }
 
+
+void TexamExecutor::displayCertificate() {
+  m_snifferLocked = true;
+  qApp->removeEventFilter(m_supp); // stop grabbing right button and calling checkAnswer()
+  m_canvas->certificateTip();
+}
+
 /**
  * Instrument selection in exams/exercises:
  * - Build-in levels force instruments type,
@@ -869,9 +873,10 @@ void TexamExecutor::repeatQuestion() {
  * - or it is set to none when level uses only name and note on the staff
  * - during loading levels from older files above rules are used
  * - exam/exercise respects level instrument when it is kind of guitar
- * - but when level has no instrument it left user preferred instrument
+ * - but when level has no instrument it lefts user preferred instrument
  * 
- *   Corrected answers appears on guitar when it is visible, so question list has to be created fret by fret 
+ *   Corrected answers appears on guitar when it is visible, and level scale matches to guitar scale
+ *   so question list has to be created fret by fret 
  */
 void TexamExecutor::prepareToExam() {
 		setTitleAndTexts();
@@ -1427,7 +1432,9 @@ void TexamExecutor::tipButtonSlot(QString name) {
         showExamHelp();
 		else if (name == "correct")
         correctAnswer();
-}
+    else if (name == "certClosing")
+        unlockAnswerCapturing();
+} 
 
 
 bool TexamExecutor::event(QEvent* event) {
@@ -1469,6 +1476,12 @@ void TexamExecutor::levelStatusMessage() {
 			mW->setStatusMessage(tr("You are exercising on level") + ":<br><b>" + m_level.name + "</b>");
 	else
 			mW->setStatusMessage(tr("Exam started on level") + ":<br><b>" + m_level.name + "</b>");
+}
+
+
+void TexamExecutor::unlockAnswerCapturing() {
+  qApp->installEventFilter(m_supp); // restore grabbing right mouse button
+  m_snifferLocked = false;
 }
 
 

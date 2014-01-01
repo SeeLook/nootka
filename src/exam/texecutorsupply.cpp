@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -97,11 +97,6 @@ TexecutorSupply::TexecutorSupply(Tlevel* level, QObject* parent) :
 //##########################################################################################
 //#######################     METHODS       ################################################
 //##########################################################################################
-
-void TexecutorSupply::examFinished() {
-    QMessageBox::information(0, "", "<br><center>" + tr("CONGRATULATIONS!<br>You have passed the exam.<br><br>About prizes speak with parents or other sponsors :-)<br>You can still play with it and improve effectiveness.") + "</center><br>");
-    setFinished();
-}
 
 
 void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
