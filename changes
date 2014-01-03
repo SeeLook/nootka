@@ -3,6 +3,7 @@
      - added exercise mode, without penalties and elapsing time
      - extended support for instruments different than guitar 
      - transposing is possible in a range ±12 semitones (octave)
+     - at the end of an exam a certificate is given
      - exam can check intonation of a sound and its accuracy is configurable
      - English language in Nootka was corrected and improved
      - buttons with octaves and accidentals are highlighted during answering
@@ -17,6 +18,7 @@
      - fixed random crash when midi output was in use
      - piano stave is properly locked in exams and level creator
      - audio devices not supported rate of 44100 Hz work properly
+     - fixed switching instrument type when an exam is continued
 
 0.8.95 beta
   Nootka says: I speak Russian and play bass

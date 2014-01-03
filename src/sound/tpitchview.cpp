@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -43,11 +43,11 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
   m_lay = new QBoxLayout(QBoxLayout::TopToBottom);
   if (m_withButtons) {
       voiceButt = new QPushButton("g", this);
-      voiceButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+      voiceButt->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
       voiceButt->setStatusTip(tr("Toggles between pitch detection for singing and for playing"));
 			
 			pauseButt = new QPushButton("n", this);
-      pauseButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+      pauseButt->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
       pauseButt->setStatusTip(tr("Switch on/off pitch detection"));
       voiceButt->setFont(QFont("nootka", 15));
       pauseButt->setFont(QFont("nootka", 15));
@@ -155,10 +155,10 @@ void TpitchView::resize(int fontSize) {
     voiceButt->setFont(QFont("nootka", fontSize * 1.3));
     pauseButt->setFont(QFont("nootka", fontSize * 1.3));
 #endif
-    voiceButt->setFixedWidth(1.5 *fontSize);
-    pauseButt->setFixedWidth(1.5 *fontSize);
-//     voiceButt->setFixedHeight(2.2 * fontSize);
-//     pauseButt->setFixedHeight(2.2 * fontSize);
+    voiceButt->setFixedWidth(1.5 * fontSize);
+    pauseButt->setFixedWidth(1.5 * fontSize);
+    voiceButt->setFixedHeight(2.2 * fontSize);
+    pauseButt->setFixedHeight(2.2 * fontSize);
   }
   m_volMeter->setFixedHeight(qRound((float)fontSize * 0.9));
   m_intoView->setFixedHeight(qRound((float)fontSize * 0.9));
