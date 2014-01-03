@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -536,7 +536,7 @@ void TfingerBoard::paint() {
         fretGrad.setColorAt(0.9, QColor("#000000"));
         painter.setBrush(fretGrad);
         painter.drawRoundedRect(m_fretsPos[i], m_fbRect.y() + 2, 9, m_fbRect.height() - 4, 2, 2);
-        if ( i==4 || i==6 || i==8 || i==14 || i==16)	{
+        if ( (gl->instrument == e_bassGuitar && i == 2) || i==4 || i==6 || i==8 || i==14 || i==16)	{
                 //white color for circles marking 5,7,9... frets
             painter.setBrush(QBrush(Qt::white, Qt::SolidPattern));
             painter.drawEllipse(m_fretsPos[i] - 4 - (m_fretsPos[i] - m_fretsPos[i - 1]) / 2,
