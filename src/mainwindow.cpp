@@ -242,7 +242,7 @@ void MainWindow::createActions() {
     nootBar->addAction(analyseAct);
     nootBar->addAction(aboutAct);
     nootBar->addAction(startExamAct);
-
+    
     nootBar->setMovable(false);
 }
 
@@ -559,6 +559,7 @@ void MainWindow::updsateSize() {
 	setUpdatesEnabled(false);
 	m_statFontSize = (centralWidget()->height() / 10) / 4 - 2;
 	nootBar->setIconSize(QSize(height() / 22, height() / 22));
+  nootBar->setFixedWidth(centralWidget()->width() * 0.4); // It avoids flickering of status label when tool bar content is changing
 // 	pitchView->resize(m_statFontSize);
 	m_statLab->setFixedHeight(centralWidget()->height() / 10);
 	QFont f = m_statLab->font();

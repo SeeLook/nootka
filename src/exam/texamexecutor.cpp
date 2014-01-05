@@ -676,7 +676,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 				}
 		}
     if (showResults && gl->E->autoNextQuest) {
-      m_lockRightButt = true; // to avoid nervous users click mouse during wait time
+      m_lockRightButt = true; // to avoid nervous users clicking mouse during wait time
       if (m_shouldBeTerminated)
           stopExamSlot();
       else {
