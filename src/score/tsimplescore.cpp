@@ -46,7 +46,7 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
 {
   QHBoxLayout *lay = new QHBoxLayout;
   m_score = new TscoreView(this);
-  lay->addWidget(m_score, 0, Qt::AlignLeft);
+  lay->addWidget(m_score, 0, Qt::AlignLeft | Qt::AlignVCenter);
    
   m_score->setMouseTracking(true);
   m_score->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
@@ -340,12 +340,19 @@ void TsimpleScore::noteWasClicked(int index) {
 //########################################## PROTECTED   ###################################################
 //##########################################################################################################
 
-
+// qreal m_withFactor = 0.5;
 void TsimpleScore::resizeEvent(QResizeEvent* event) {
 	qreal styleOff = 0.0; // some styles quirks - it steals some space
   if (style()->objectName() == "bespin" || style()->objectName() == "windowsvista" || style()->objectName() == "plastique")
 			styleOff = 1.0;
+//   qreal staffWitoHi = m_staff->boundingRect().width() / m_staff->boundingRect().height();
   qreal factor = (((qreal)height() / 40.0) / m_score->transform().m11()) * m_pianoFactor;
+//   qDebug() << (m_staff->boundingRect().width() + styleOff) * m_score->transform().m11() << parentWidget()->width();
+//   bool wasBigger = false;
+//   if ((m_staff->boundingRect().width() + styleOff) * m_score->transform().m11() > parentWidget()->width() * m_withFactor) {
+//       factor = factor * ((parentWidget()->width() * m_withFactor) / ((m_staff->boundingRect().width() + styleOff) * m_score->transform().m11()));
+//       wasBigger = true;
+//   }
   m_score->scale(factor, factor);
 	m_scene->setSceneRect(0, 0, (m_staff->boundingRect().width() + styleOff) * m_score->transform().m11(), 
 												m_staff->boundingRect().height() * m_score->transform().m11()	);
@@ -360,6 +367,10 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 			xOff = m_scoreControl->width() + 10; // 10 is space between m_scoreControl and m_score - looks good
 	setMaximumWidth(m_scene->sceneRect().width() + xOff);
   setMinimumWidth(m_scene->sceneRect().width() + xOff);
+//   if (wasBigger) {
+//     setMaximumHeight(m_scene->sceneRect().height());
+//     setMinimumHeight(m_scene->sceneRect().height());
+//   }
 }
 
 
