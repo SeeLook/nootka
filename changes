@@ -3,7 +3,7 @@
      - added exercise mode, without penalties and elapsing time
      - extended support for instruments different than guitar 
      - transposing is possible in a range ±12 semitones (octave)
-     - at the end of an exam a certificate is given
+     - Nootka gives 'Certificate of Exam Completion' when you pass
      - exam can check intonation of a sound and its accuracy is configurable
      - English language in Nootka was corrected and improved
      - buttons with octaves and accidentals are highlighted during answering
@@ -13,6 +13,7 @@
      - preview of a level was improved
      - intonation view displays differences more accurate
      - added animations of accidentals corresponding with key signature
+     - abbadoned support for JACK
     BUGS FIXES
      - Nootka doesn't crash when guitar or singing is out of tune
      - fixed random crash when midi output was in use

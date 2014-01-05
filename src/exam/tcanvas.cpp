@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -26,12 +26,14 @@
 #include "tgraphicstexttip.h"
 #include "mainwindow.h"
 #include "tnotepixmap.h"
+#include <ttipchart.h>
 #include "tglobals.h"
 #include "texamhelp.h"
 #include "tpixmaker.h"
 #include "tnotename.h"
 #include "tfingerboard.h"
 #include "tpitchview.h"
+#include <tsound.h>
 #include "tquestionaswdg.h"
 #include "tmainscore.h"
 #include <widgets/tanimedchbox.h>
@@ -109,11 +111,18 @@ void Tcanvas::resultTip(TQAunit* answer, int time) {
   m_resultTip = new TgraphicsTextTip(wasAnswerOKtext(answer, answColor, bigFont()));
   m_scene->addItem(m_resultTip);
   m_resultTip->setZValue(100);
-// 	TscaledAnim *scaleTipAnim = new TscaledAnim(m_resultTip);
-// 	m_resultTip->setScale(m_scale / 10.0);
   m_resultTip->setScale(m_scale);
   setResultPos();
-// 	scaleTipAnim->startScaling(m_scale);
+  // In exercise mode display detected note when it was incorrect
+  if (m_parent->correctChB->isVisible() && answer->answerAs == TQAtype::e_asSound && !answer->isCorrect()) {
+      int tt = 5000;
+      if (time) // will be deleted with tip or after 5 s when tip remains
+        tt = time;
+      m_parent->setStatusMessage("<table valign=\"middle\" align=\"center\"><tr><td> " + TtipChart::wrapPixToHtml
+            (m_parent->sound->note(), m_exam->level()->clef.type(), TkeySignature(0), m_parent->centralWidget()->height() / 260.0) + 
+            QString("<span style=\"color: %1;\"><big>").arg(answColor.name()) + 
+            tr("%1 was detected", "note name").arg(m_parent->sound->note().toRichText()) + "</big></span></td></tr></table>", tt);
+  }
   if (time)
     QTimer::singleShot(time, this, SLOT(clearResultTip()));
 }
@@ -168,7 +177,8 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
   if (m_whatTip)
 		delete m_whatTip;
   QString whatNextText = startTipText();
-  m_parent->autoRepeatChB->startAnimation(3);
+  if (!m_parent->autoRepeatChB->isChecked())
+      m_parent->autoRepeatChB->startAnimation(3);
   if (!isCorrect)
       whatNextText += "<br>" + tr("To correct an answer") + " " + 
       TexamHelp::clickSomeButtonTxt("<a href=\"prevQuest\">" + pixToHtml(gl->path + "picts/prevQuest.png", PIXICONSIZE) + "</a>") +
@@ -177,7 +187,8 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 		whatNextText += "<br>" + tr("To see corrected answer") + " " + 
 			TexamHelp::clickSomeButtonTxt("<a href=\"correct\">" + pixToHtml(gl->path + "picts/correct.png", PIXICONSIZE) + "</a>") +
 			TexamHelp::orPressEnterKey();
-      m_parent->correctChB->startAnimation(3);
+      if (!m_parent->correctChB->isChecked())
+          m_parent->correctChB->startAnimation(3);
   }
   whatNextText += "<br>" + TexamHelp::toStopExamTxt("<a href=\"stopExam\">" + pixToHtml(gl->path + "picts/stopExam.png", PIXICONSIZE) + "</a>");
   

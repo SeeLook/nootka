@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -313,6 +313,9 @@ void Tglobals::storeSettings() {
         config->setValue("selectedColor", GselectedColor);
         config->setValue("tune", qVariantFromValue(*Gtune()));
         config->setValue("flatsPrefered", GpreferFlats);
+        QList<QVariant> tmpFrets;
+        tmpFrets << 5 << 7 << 9 << 12 << 15 << 17;
+        config->setValue("dotsOnFrets", tmpFrets);
     config->endGroup();
 
     config->beginGroup("exam");
