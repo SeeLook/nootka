@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -102,11 +102,13 @@ MainWindow::MainWindow(QWidget *parent) :
 // Creating GUI elements
     innerWidget = new QWidget(this);
     nootBar = new QToolBar(tr("main toolbar"), innerWidget);
+		nootBar->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
 		if (gl->hintsEnabled)
 				nootBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 		else
 				nootBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     score = new TmainScore(innerWidget);
+		score->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     pitchView = new TpitchView(sound->sniffer, this);
     sound->setPitchView(pitchView);
  // Hints - label with clues
@@ -143,7 +145,7 @@ MainWindow::MainWindow(QWidget *parent) :
 		nootLabel = new TnootkaLabel(gl->path + "picts/logo.png", innerWidget);
 		
     noteName = new TnoteName(innerWidget);
-    noteName->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+    noteName->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
 
     guitar = new TfingerBoard(innerWidget);
@@ -157,7 +159,7 @@ MainWindow::MainWindow(QWidget *parent) :
 			chBlay->addStretch(1);
 			statLay->addLayout(chBlay);
 		QHBoxLayout *toolAndHintLay = new QHBoxLayout;
-			toolAndHintLay->addWidget(nootBar);
+			toolAndHintLay->addWidget(nootBar, 0, Qt::AlignTop);
 			toolAndHintLay->addLayout(statLay);			
 		m_scoreLay = new QVBoxLayout;
 			m_scoreLay->addWidget(score);
@@ -296,7 +298,7 @@ void MainWindow::clearAfterExam(TexamExecutor::Estate examState) {
 		progress->hide();
 		examResults->hide();
 		nootLabel->show();
-		updsateSize();
+		updateSize(innerWidget->size());
 }
 
 QPoint MainWindow::relatedPoint() {
@@ -358,7 +360,7 @@ void MainWindow::createSettingsDialog() {
 															gl->getBGcolorText(gl->EnotBadColor));
 			noteName->setAmbitus(gl->loString(),
 															Tnote(gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber));
-			updsateSize();
+			updateSize(innerWidget->size());
 			if (score->getNote(0).note != 0) {
 				TnotesList nList;
 				nList = score->getNote(0).getTheSameNotes(gl->doubleAccidentalsEnabled);
@@ -530,6 +532,28 @@ void MainWindow::showSupportDialog() {
     sound->go();
 }
 
+
+void MainWindow::resizeAgain() {
+	if (gl->instrument != e_noInstrument) {
+		if (score->width() < innerWidget->width() / 2) { // remove pitchView from under score
+			if (m_scoreLay->count() > 1) { // if it is under score
+				m_scoreLay->removeWidget(pitchView);
+				m_rightLay->addWidget(pitchView);
+			}
+		} else { // move pitchView under score
+			if (m_scoreLay->count() < 2) { // if it is under noteName
+				m_rightLay->removeWidget(pitchView);
+				m_scoreLay->insertWidget(1, pitchView);			
+			}
+		}
+	}
+	if (score->width() > (innerWidget->width() - noteName->width()))
+		score->setMaximumHeight(score->height() * ((qreal)(innerWidget->width() - noteName->width()) / (qreal)score->width()));
+	else
+		score->setMaximumHeight(16777215);
+}
+
+
 //##########################################################################################
 //#######################     EVENTS       ################################################
 //##########################################################################################
@@ -554,21 +578,20 @@ bool MainWindow::event(QEvent *event) {
 }
 
 
-
-void MainWindow::updsateSize() {
+void MainWindow::updateSize(QSize newS) {
 	setUpdatesEnabled(false);
-	m_statFontSize = (centralWidget()->height() / 10) / 4 - 2;
-	nootBar->setIconSize(QSize(height() / 22, height() / 22));
-  nootBar->setFixedWidth(centralWidget()->width() * 0.4); // It avoids flickering of status label when tool bar content is changing
+	m_statFontSize = (newS.height() / 10) / 4 - 2;
+	nootBar->setIconSize(QSize(newS.height() / 22, height() / 22));
+  nootBar->setFixedWidth(newS.width() * 0.4); // It avoids flickering of status label when tool bar content is changing
 // 	pitchView->resize(m_statFontSize);
-	m_statLab->setFixedHeight(centralWidget()->height() / 10);
+	m_statLab->setFixedHeight(newS.height() / 10);
 	QFont f = m_statLab->font();
 	f.setPointSize(m_statFontSize);
 	QFontMetrics fMetr(f);
 	qreal fact = (qreal)(m_statFontSize * 1.5) / (qreal)fMetr.boundingRect("A").height();
 	f.setPointSize(f.pointSize() * fact);
 	m_statLab->setFont(f);
-	guitar->setFixedHeight((centralWidget()->height() - nootBar->height()) * 0.25);
+	guitar->setFixedHeight((newS.height() - nootBar->height()) * 0.25);
 	progress->resize(m_statFontSize);
 	examResults->setFontSize(m_statFontSize);
 	noteName->resize(m_statFontSize);
@@ -585,17 +608,17 @@ void MainWindow::updsateSize() {
 // 		int allWidgetsHeight = m_statLab->height() + progress->height() + examResults->height() + 
 // 				noteName->height() + guitar->height() + pitchView->height() + 20;
 // 		if (allWidgetsHeight < height()) { // move pitchView under noteName
-		if (score->width() < innerWidget->width() / 2) { // remove pitchView from under score
-			if (m_scoreLay->count() > 1) { // if it is under score
-				m_scoreLay->removeWidget(pitchView);
-				m_rightLay->addWidget(pitchView);
-			}
-		} else { // move pitchView under score
-			if (m_scoreLay->count() < 2) { // if it is under noteName
-				m_rightLay->removeWidget(pitchView);
-				m_scoreLay->addWidget(pitchView);					
-			}
-		}
+// 		if (score->width() < newS.width() / 2) { // remove pitchView from under score
+// 			if (m_scoreLay->count() > 1) { // if it is under score
+// 				m_scoreLay->removeWidget(pitchView);
+// 				m_rightLay->addWidget(pitchView);
+// 			}
+// 		} else { // move pitchView under score
+// 			if (m_scoreLay->count() < 2) { // if it is under noteName
+// 				m_rightLay->removeWidget(pitchView);
+// 				m_scoreLay->insertWidget(1, pitchView);			
+// 			}
+// 		}
 		QPixmap bgPix;
 		qreal guitH;
 		qreal ratio;
@@ -643,19 +666,25 @@ void MainWindow::updsateSize() {
 			}
 	}
 	if (m_pitchContainer)
-		m_pitchContainer->setFixedHeight((centralWidget()->height() - nootBar->height()) * 0.25);
+		m_pitchContainer->setFixedHeight((height() - nootBar->height()) * 0.25);
 	
 	setUpdatesEnabled(true);
 	QTimer::singleShot(2, this, SLOT(update()));
 }
 
 
-
 void MainWindow::resizeEvent(QResizeEvent * event) {
-    updsateSize();
-// 		qDebug() << innerWidget->size();
+		if (event->size().height() > event->size().width() * 0.73)
+				resize(event->size().width(), event->size().width() * 0.74);
+		else if (event->size().width() > event->size().height() * 1.89)
+				resize(event->size().height() * 1.9, event->size().height());
+    updateSize(innerWidget->size());
     emit sizeChanged(innerWidget->size());
+		QTimer::singleShot(10, this, SLOT(resizeAgain()));
 }
+
+
+
 
 void MainWindow::closeEvent(QCloseEvent *event) {
     if (!settingsAct->isEnabled() && ex) {

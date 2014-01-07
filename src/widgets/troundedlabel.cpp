@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -75,7 +75,7 @@ void TroundedLabel::initBgColor() {
 				m_bgColor = palette().window().color().lighter(105);
 #endif
 		}
-		m_bgColor.setAlpha(150);
+		m_bgColor.setAlpha(175);
 		QLabel::setStyleSheet(backgroundText());
 		m_styleText = "";
 }

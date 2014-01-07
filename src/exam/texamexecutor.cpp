@@ -950,7 +950,7 @@ void TexamExecutor::prepareToExam() {
 			mW->sound->prepareToExam(m_level.loNote, m_level.hiNote);
 		}
 		TtipChart::defaultClef = m_level.clef;
-		mW->updsateSize();
+		mW->updateSize(mW->centralWidget()->size());
     clearWidgets();
 		if (gl->instrument != e_noInstrument && !m_supp->isCorrectedPlayable())
 				mW->guitar->createRangeBox(m_supp->loFret(), m_supp->hiFret());

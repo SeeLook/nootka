@@ -55,6 +55,7 @@ Tcanvas::Tcanvas(MainWindow* parent) :
   m_resultTip(0), m_startTip(0), m_whatTip(0),
   m_questionTip(0), m_tryAgainTip(0), m_confirmTip(0),
   m_certifyTip(0),
+  m_exam(0),
   m_scale(1),
   m_correctAnim(0), m_flyEllipse(0),
   m_outTuneTip(0),

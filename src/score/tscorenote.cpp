@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -179,7 +179,6 @@ void TscoreNote::setWorkAccid(int accNr) {
 
 void TscoreNote::moveNote(int posY) {
 		if (posY == 0 || !(posY >= m_ambitMax - 1 && posY <= m_ambitMin)) {
-//     if (posY == 0 || posY > m_ambitMin || posY < m_ambitMax) {
 				hideNote();
 				m_mainAccid->setText(" ");
 				m_accidental = 0;
