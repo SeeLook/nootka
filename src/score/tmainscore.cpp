@@ -168,6 +168,12 @@ bool TmainScore::isAccidToKeyAnimEnabled() {
 }
 
 
+int TmainScore::widthToHeight(int hi) {
+	return qRound((qreal)hi / staff()->boundingRect().height()) * staff()->boundingRect().width() + 
+			scoreController()->width() + 10;
+}
+
+
 //####################################################################################################
 //############################## METHODS RELATED TO EXAMS ############################################
 //####################################################################################################

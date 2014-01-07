@@ -87,6 +87,8 @@ public:
 				/** Position of a note in graphics view coordinates. */
 		QPoint notePos(int noteNr);
 		
+		int widthToHeight(int hi); /** Returns width of score when its height is @p hi. */
+		
 signals:
 		void noteChanged(int index, Tnote note);
 		

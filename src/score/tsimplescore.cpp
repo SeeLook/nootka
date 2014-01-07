@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -46,13 +46,16 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
 {
   QHBoxLayout *lay = new QHBoxLayout;
   m_score = new TscoreView(this);
-  lay->addWidget(m_score, 0, Qt::AlignLeft | Qt::AlignVCenter);
+  lay->addWidget(m_score, 0, Qt::AlignLeft);
    
   m_score->setMouseTracking(true);
   m_score->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 	m_score->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   m_score->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   m_score->setFrameShape(QFrame::NoFrame);
+// 	QSizePolicy policy(sizePolicy());
+// 	policy.setHeightForWidth(true);
+// 	m_score->setSizePolicy(policy);	
   
   m_scene = new TscoreScene(m_score);
   connect(m_scene, SIGNAL(statusTip(QString)), this, SLOT(statusTipChanged(QString)));
@@ -226,6 +229,7 @@ void TsimpleScore::setPianoStaff(bool isPiano) {
 		connect(m_staff, SIGNAL(pianoStaffSwitched(Tclef)), this, SLOT(switchToPianoStaff(Tclef)));
 		connect(m_staff, SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
 		connect(m_staff, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
+// 		updateGeometry();
 		resizeEvent(0);
 	}
 }
@@ -323,6 +327,31 @@ void TsimpleScore::addBGglyph(int instr) {
 	
 }
 
+/*
+int TsimpleScore::heightForWidth(int w) const {
+	int xOff = 0;
+	if (m_scoreControl && layoutHasControl)
+			xOff = m_scoreControl->width() + 10;
+	if (w < xOff)
+			return -1;
+	qreal styleOff = 0.0; // some styles quirks - it steals some space
+  if (style()->objectName() == "bespin" || style()->objectName() == "windowsvista" || style()->objectName() == "plastique")
+			styleOff = 1.0;
+	qDebug() << "preferred H:" << ((w - xOff) / (m_staff->boundingRect().width() + styleOff)) * m_staff->boundingRect().height() <<
+			"for W:" << w;
+	return ((w - xOff) / (m_staff->boundingRect().width() + styleOff)) * m_staff->boundingRect().height();
+}
+
+
+QSize TsimpleScore::sizeHint() const {
+// 	int xOff = 0;
+// 	if (m_scoreControl && layoutHasControl)
+// 			xOff = m_scoreControl->width() + 10; // 10 is space between m_scoreControl and m_score - looks good
+// 	return QSize(m_scene->sceneRect().width() + xOff, heightForWidth(m_scene->sceneRect().width() + xOff));
+//   return QSize(m_scene->sceneRect().width() + xOff, m_scene->sceneRect().height());
+	return QSize(-1, -1);
+}
+*/
 
 //##########################################################################################################
 //########################################## PUBLIC SLOTS ##################################################
@@ -334,29 +363,22 @@ void TsimpleScore::noteWasClicked(int index) {
 }
 
 
-
-
 //##########################################################################################################
 //########################################## PROTECTED   ###################################################
 //##########################################################################################################
 
-// qreal m_withFactor = 0.5;
 void TsimpleScore::resizeEvent(QResizeEvent* event) {
+	int hh = height();
+	if (event)
+		hh = event->size().height();
 	qreal styleOff = 0.0; // some styles quirks - it steals some space
   if (style()->objectName() == "bespin" || style()->objectName() == "windowsvista" || style()->objectName() == "plastique")
 			styleOff = 1.0;
-//   qreal staffWitoHi = m_staff->boundingRect().width() / m_staff->boundingRect().height();
-  qreal factor = (((qreal)height() / 40.0) / m_score->transform().m11()) * m_pianoFactor;
-//   qDebug() << (m_staff->boundingRect().width() + styleOff) * m_score->transform().m11() << parentWidget()->width();
-//   bool wasBigger = false;
-//   if ((m_staff->boundingRect().width() + styleOff) * m_score->transform().m11() > parentWidget()->width() * m_withFactor) {
-//       factor = factor * ((parentWidget()->width() * m_withFactor) / ((m_staff->boundingRect().width() + styleOff) * m_score->transform().m11()));
-//       wasBigger = true;
-//   }
+  qreal factor = (((qreal)hh / 40.0) / m_score->transform().m11()) * m_pianoFactor;
   m_score->scale(factor, factor);
 	m_scene->setSceneRect(0, 0, (m_staff->boundingRect().width() + styleOff) * m_score->transform().m11(), 
 												m_staff->boundingRect().height() * m_score->transform().m11()	);
-	m_score->setMaximumSize(m_scene->sceneRect().width(), m_scene->sceneRect().height() / m_pianoFactor );
+	m_score->setMaximumSize(m_scene->sceneRect().width(), m_scene->sceneRect().height() / m_pianoFactor);
 //   m_score->setMinimumSize(m_scene->sceneRect().width(), m_scene->sceneRect().height());
   qreal staffOff = 0.0;
   if (isPianoStaff())
@@ -365,12 +387,8 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 	int xOff = 0;
 	if (m_scoreControl && layoutHasControl)
 			xOff = m_scoreControl->width() + 10; // 10 is space between m_scoreControl and m_score - looks good
-	setMaximumWidth(m_scene->sceneRect().width() + xOff);
-  setMinimumWidth(m_scene->sceneRect().width() + xOff);
-//   if (wasBigger) {
-//     setMaximumHeight(m_scene->sceneRect().height());
-//     setMinimumHeight(m_scene->sceneRect().height());
-//   }
+	setFixedWidth(m_scene->sceneRect().width() + xOff);
+//   setMinimumWidth(m_scene->sceneRect().width() + xOff);
 }
 
 

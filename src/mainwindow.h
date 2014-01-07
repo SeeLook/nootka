@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -97,7 +97,7 @@ protected:
     QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct, *analyseAct;
     void clearAfterExam(TexamExecutor::Estate examState = TexamExecutor::e_finished);
 		
-    void updsateSize(); /** Updates position and sizes of the widgets. */
+    void updateSize(QSize newS); /** Updates position and sizes of the widgets. */
 
     void resizeEvent(QResizeEvent *event);
     bool event(QEvent *event);
@@ -108,11 +108,13 @@ protected:
 protected slots:
     void restoreMessage();
     void showSupportDialog();
+		void resizeAgain();
 
 private:
 
     TroundedLabel 				*m_statLab;
     QString 							m_statusText, m_prevMsg;
+		
         /** Keeps true when statusMesage is locked by temporary message
         * and stops any status messages in this time.*/
     bool 									m_lockStat;

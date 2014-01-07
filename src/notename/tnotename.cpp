@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -212,7 +212,7 @@ void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
 }
 
 
-void TnoteName::resize(int fontSize) {    
+void TnoteName::resize(int fontSize) {
     if (fontSize) {
         QFont f = QFont(m_noteButtons[0]->font().family());
         f.setPixelSize(fontSize);
@@ -239,6 +239,7 @@ void TnoteName::resize(int fontSize) {
 #endif
     }
 }
+
 
 void TnoteName::setAmbitus(Tnote lo, Tnote hi) {
     m_ambitMin = lo.getChromaticNrOfNote();
@@ -456,6 +457,7 @@ void TnoteName::resizeEvent(QResizeEvent* ) {
 		for (int i = 0; i < 8; i++) // total width of buttons
         allButtWidth += m_octaveButtons[i]->width();
 		allButtWidth += (m_octaveButtons[3]->geometry().left() - m_octaveButtons[2]->geometry().right()) * 8; // plus space between
+// 		setMinimumWidth(allButtWidth - m_octaveButtons[0]->width() - m_octaveButtons[7]->width());
 		if (allButtWidth < width() - 10) { // all octave buttons in single row (-10 is Qt styles quirk)
 			if (m_octaveLay->count() < 9) { // only once, when not inserted yet
 				m_accLay->removeWidget(m_octaveButtons[0]);

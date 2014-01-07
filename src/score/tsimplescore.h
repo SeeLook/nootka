@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -86,13 +86,14 @@ public:
 		
 		Tnote lowestNote(); /** Returns lowest possible note on the staff in current clef */
 		Tnote highestNote(); /** Returns highest possible note on the staff in current clef */
-				/** Adds background with glyph identified  kind of instrument. */
-		void addBGglyph(int instr);
+		void addBGglyph(int instr); /** Adds background with glyph identified  kind of instrument. */
 		
+// 		virtual QSize sizeHint() const;
+// 		virtual int heightForWidth(int w) const;
 		
 signals:
 				/** As long as QGraphicsScene items haven't got status tips TscoreItems has its own mechanism of tips.
-				 * This signal is emited when any TscoreScene element gots hoverEnterEvent 
+				 * This signal is emitted when any TscoreScene element gots hoverEnterEvent 
 				 * with status tip to display. */
     void statusTip(QString);
 		void noteWasChanged(int index, Tnote note);
