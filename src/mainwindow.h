@@ -108,7 +108,11 @@ protected:
 protected slots:
     void restoreMessage();
     void showSupportDialog();
-		void resizeAgain();
+		
+				/** Checks is score not too width and places pitchView under when it is.
+				 * Or opposite - moves pitchView.
+				 * Also avoid collision score and note name. */
+		void fixPitchViewPos();
 
 private:
 

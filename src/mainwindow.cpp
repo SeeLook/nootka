@@ -533,7 +533,7 @@ void MainWindow::showSupportDialog() {
 }
 
 
-void MainWindow::resizeAgain() {
+void MainWindow::fixPitchViewPos() {
 	if (gl->instrument != e_noInstrument) {
 		if (score->width() < innerWidget->width() / 2) { // remove pitchView from under score
 			if (m_scoreLay->count() > 1) // if it is under score
@@ -685,7 +685,7 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
 	}
 	updateSize(innerWidget->size());
 	emit sizeChanged(innerWidget->size());
-	QTimer::singleShot(10, this, SLOT(resizeAgain()));
+	QTimer::singleShot(10, this, SLOT(fixPitchViewPos()));
 }
 
 

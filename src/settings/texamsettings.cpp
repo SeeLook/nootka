@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -39,23 +39,25 @@ TexamSettings::TexamSettings(QWidget* parent) :
 		m_correctChB = new QCheckBox(correctMistakesTxt(), this);
 			m_correctChB->setStatusTip(tr("When you will make mistake, the program will show you automatically how a correct answer should be."));
 			m_correctChB->setChecked(m_params->showCorrected);
-		QLabel *timeLab = new QLabel(tr("preview time of corrected answer"), this);
+		QLabel *timeLab = new QLabel(tr("preview time"), this);
 		m_viewTimeSlider = new QSlider(Qt::Horizontal, this);
-			m_viewTimeSlider->setStatusTip(tr("How long time a correct answer will be displayed when next question is asked automatically."));
+			m_viewTimeSlider->setStatusTip(tr("A time of waiting after answer when next question is asked automatically."));
 			m_viewTimeSlider->setMinimum(0);
 			m_viewTimeSlider->setMaximum(6000);
-			m_viewTimeSlider->setValue(m_params->correctViewDuration);
+			m_viewTimeSlider->setValue(m_params->previewDuration);
 			m_viewTimeSlider->setSingleStep(500);
 			m_viewTimeSlider->setPageStep(1000);
 			m_viewTimeSlider->setTickPosition(QSlider::TicksBelow);
 			m_viewTimeSlider->setTickInterval(500);
 		m_timeLabel = new TroundedLabel(this);
-			timePreviewChanged(m_params->correctViewDuration);
+			timePreviewChanged(m_params->previewDuration);
 		m_suggestExamChB = new QCheckBox(tr("suggest an exam"), this);
 			m_suggestExamChB->setStatusTip(tr("Watch exercising progress and when exercising is going well, suggest to start an exam on exercise level."));
 			m_suggestExamChB->setChecked(m_params->suggestExam);
-
-    
+		m_showDetectedChB = new QCheckBox(tr("show wrong played"), this);
+			m_showDetectedChB->setStatusTip(tr("When answer was played (or sung) and it was wrong also the detected wrong note is shown."));
+			m_showDetectedChB->setChecked(m_params->showWrongPlayed);
+			
     m_repeatIncorChB = new QCheckBox(tr("repeat a question"), this);
 			m_repeatIncorChB->setChecked(m_params->repeatIncorrect);
 			m_repeatIncorChB->setStatusTip(tr("A question with an incorrect answer will be asked once again."));
@@ -81,7 +83,27 @@ TexamSettings::TexamSettings(QWidget* parent) :
     QLabel *notBadLab = new QLabel(tr("'not bad'"), this);
     m_notBadButt = new TcolorButton(*(m_nbColor), this);
 		m_notBadButt->setStatusTip(tr("color of 'not bad' answers"));
-
+		QLabel *afterLab = new QLabel(tr("after mistake:"), this);
+		m_contRadio = new QRadioButton(tr("continue"), this);
+		m_waitRadio = new QRadioButton(tr("wait"), this);
+		m_stopRadio = new QRadioButton(tr("stop"), this);
+		QButtonGroup *afterButGr = new QButtonGroup(this);
+		afterButGr->addButton(m_contRadio);
+		afterButGr->addButton(m_waitRadio);
+		afterButGr->addButton(m_stopRadio);
+		afterLab->setStatusTip(tr("When next questions are asked without confirm (automatically) and you commit a mistake, program can continue asking immediately or wait defined period of time or stop, to give you possibility to analyze what was wrong."));
+		m_contRadio->setStatusTip(afterLab->statusTip());
+		m_waitRadio->setStatusTip(afterLab->statusTip());
+		m_stopRadio->setStatusTip(afterLab->statusTip());
+		if (m_params->afterMistake == TexamParams::e_continue)
+				m_contRadio->setChecked(true);
+		else if (m_params->afterMistake == TexamParams::e_wait)
+				m_waitRadio->setChecked(true);
+		else
+				m_stopRadio->setChecked(true);
+		m_showNameChB = new QCheckBox(tr("extra note names"), this);
+			m_showNameChB->setStatusTip(tr("To improve association of note in the score or position on the guitar to note name, Nootka will displays names even if any question or answer are not related to it."));
+			m_showNameChB->setChecked(m_params->showNameOfAnswered);
 		
 		QVBoxLayout *mainLay = new QVBoxLayout;
 		QGroupBox *commonGr = new QGroupBox(this);
@@ -104,7 +126,24 @@ TexamSettings::TexamSettings(QWidget* parent) :
 			expertLay->addLayout(expertChBoxesLay);
 			expertLay->addStretch();
 		commonLay->addLayout(expertLay);
+		QHBoxLayout *afterLay = new QHBoxLayout;
+			afterLay->addStretch(0);
+			afterLay->addWidget(afterLab);
+			afterLay->addStretch(0);
+			afterLay->addWidget(m_contRadio);
+			afterLay->addStretch(0);
+			afterLay->addWidget(m_waitRadio);
+			afterLay->addStretch(0);
+			afterLay->addWidget(m_stopRadio);
+			afterLay->addStretch(0);
+		commonLay->addLayout(afterLay);
 			commonLay->addStretch();
+		QHBoxLayout *timeLay = new QHBoxLayout;
+			timeLay->addWidget(timeLab);
+			timeLay->addWidget(m_viewTimeSlider);
+			timeLay->addWidget(m_timeLabel);
+		commonLay->addLayout(timeLay);
+		commonLay->addWidget(m_showNameChB, 0, Qt::AlignCenter);
 		QGroupBox *colorsGr = new QGroupBox(tr("colors"), this);
 		QHBoxLayout *colorsLay = new QHBoxLayout;
 			colorsLay->addWidget(questLab);
@@ -123,13 +162,12 @@ TexamSettings::TexamSettings(QWidget* parent) :
 		mainLay->addWidget(commonGr);
     mainLay->addStretch();
 		QGroupBox *exerciseGr = new QGroupBox(tr("exercises"), this);
-		QVBoxLayout *exerciseLay = new QVBoxLayout;
-		QHBoxLayout *timeLay = new QHBoxLayout;
-			timeLay->addWidget(timeLab);
-			timeLay->addWidget(m_viewTimeSlider);
-			timeLay->addWidget(m_timeLabel);
-			exerciseLay->addLayout(timeLay);
-			exerciseLay->addWidget(m_suggestExamChB, 0, Qt::AlignCenter);
+		QHBoxLayout *exerciseLay = new QHBoxLayout;
+			exerciseLay->addStretch();
+			exerciseLay->addWidget(m_showDetectedChB);
+			exerciseLay->addStretch();
+			exerciseLay->addWidget(m_suggestExamChB);
+			exerciseLay->addStretch();
 		exerciseGr->setLayout(exerciseLay);
 		mainLay->addWidget(exerciseGr);
 		mainLay->addStretch();
@@ -156,7 +194,7 @@ void TexamSettings::saveSettings() {
     m_params->expertsAnswerEnable = m_expertAnswChB->isChecked();
     m_params->studentName = m_nameEdit->text();
 		m_params->closeWithoutConfirm = m_closeConfirmChB->isChecked();
-		m_params->correctViewDuration = m_viewTimeSlider->value();
+		m_params->previewDuration = m_viewTimeSlider->value();
 		m_params->showCorrected = m_correctChB->isChecked();
 		m_params->suggestExam = m_suggestExamChB->isChecked();
         
@@ -181,8 +219,10 @@ void TexamSettings::restoreDefaults() {
 		m_questColorBut->setColor(QColor("red"));
 		m_answColorBut->setColor(QColor("green"));
 		m_notBadButt->setColor(QColor("#FF8000"));
+		m_contRadio->setChecked(true);
+		m_showNameChB->setChecked(false);
+		m_showDetectedChB->setChecked(false);
 }
-
 
 
 void TexamSettings::expertAnswersChanged(bool enabled) {
