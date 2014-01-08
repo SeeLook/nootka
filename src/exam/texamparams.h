@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -27,24 +27,35 @@
   /** class describes en exam parameters changeable by user. */
 class TexamParams 
 {
-public:
 // They are very global and Tglobals has them directly
 //   QColor questionColor;
 //   QColor answerColor;
 
+public:
+
+			/** Actions after user mistake when next question is asked automatically. */
+	enum EafterMistake {
+		e_continue = 0, /** next question is asked immediately */
+		e_wait = 1, /** next question is asked after delay defined in @p previewDuration */
+		e_stop = 2 /** questioning is stopped, to get next one user has to click */
+	};
 
   bool autoNextQuest; /** Next question in en exam is given automatically after correct answer @def false */
   bool repeatIncorrect; /** If EautoNextQuest is true incorrect questions are asked again once @def true */
+  EafterMistake afterMistake; /** Actions after user mistake when next question is set to ask automatically. @def e_continue */
   bool expertsAnswerEnable; /** Enable checking without confirm @def false */
   QString studentName; /** @def empty */
   QString examsDir; /** Path to dir with recent opened exam file. @def system_home_path */
   QString levelsDir; /** Path to dir with recent opened level file. @def system_home_path */
   bool closeWithoutConfirm; /** Do not ask anything when Nootka is closing. @def false */
+  bool showNameOfAnswered; /** Displays note name of answered (if possible). @def false */
   
 // PRACTICE/EXERCISING
   bool showCorrected; /** When answer was wrong, corrected one will be shown */
-  int correctViewDuration; /** Time of displaying correct answer */
-  bool suggestExam; /** Check is exercising going well and suggest to start an exam on that level. */
+  bool suggestExam; /** Check is exercising going well and suggest to start an exam on that level. @def true */
+  bool showWrongPlayed; /** Displays what pitch Nootka detected when played answer was wrong. @def false  */
+  
+  int previewDuration; /** Time of displaying correct answers and delay after mistakes. @def 3000ms */
   
 // Displaying dialogues check box state
 	bool askAboutExpert; /** shows confirm dialog when expertsAnswerEnable is going to be changed @def true */

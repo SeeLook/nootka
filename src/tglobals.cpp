@@ -187,8 +187,11 @@ Tglobals::Tglobals() :
         E->levelsDir = config->value("levelsDir", QDir::homePath()).toString();
 				E->closeWithoutConfirm = config->value("closeWithoutConfirm", false).toBool();
 				E->showCorrected = config->value("showCorrected", true).toBool();
-				E->correctViewDuration = config->value("durationOfCorrect", 2500).toInt();
+				E->previewDuration = config->value("previewDuration", 3000).toInt();
 				E->suggestExam = config->value("suggestExam", true).toBool();
+				E->afterMistake = (TexamParams::EafterMistake)config->value("afterMistake", (int)TexamParams::e_continue).toInt();
+				E->showNameOfAnswered = config->value("showNameOfAnswered", false).toBool();
+				E->showWrongPlayed = config->value("showWrongPlayed", false).toBool();
 				E->showHelpOnStart = config->value("showHelpOnStart", true).toBool();
 				E->askAboutExpert = config->value("askAboutExpert", true).toBool();
 				E->showVeryBeginHelp = config->value("showVeryBeginHelp", true).toBool();
@@ -313,9 +316,9 @@ void Tglobals::storeSettings() {
         config->setValue("selectedColor", GselectedColor);
         config->setValue("tune", qVariantFromValue(*Gtune()));
         config->setValue("flatsPrefered", GpreferFlats);
-        QList<QVariant> tmpFrets;
-        tmpFrets << 5 << 7 << 9 << 12 << 15 << 17;
-        config->setValue("dotsOnFrets", tmpFrets);
+//         QList<QVariant> tmpFrets;
+//         tmpFrets << 5 << 7 << 9 << 12 << 15 << 17;
+//         config->setValue("dotsOnFrets", tmpFrets);
     config->endGroup();
 
     config->beginGroup("exam");
@@ -329,8 +332,11 @@ void Tglobals::storeSettings() {
         config->setValue("examsDir", E->examsDir);
         config->setValue("levelsDir", E->levelsDir);
 				config->setValue("closeWithoutConfirm", E->closeWithoutConfirm);
-				config->setValue("durationOfCorrect", E->correctViewDuration);
+				config->setValue("previewDuration", E->previewDuration);
 				config->setValue("suggestExam", E->suggestExam);
+				config->setValue("afterMistake", (int)E->afterMistake);
+				config->setValue("showNameOfAnswered", E->showNameOfAnswered);
+				config->setValue("showWrongPlayed", E->showWrongPlayed);
 				config->setValue("askAboutExpert", E->askAboutExpert);
         config->setValue("showHelpOnStart", E->showHelpOnStart);
 				config->setValue("showVeryBeginHelp", E->showVeryBeginHelp);

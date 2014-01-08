@@ -650,7 +650,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
     int waitTime = WAIT_TIME;
 		if (m_exercise) {
 // 			if (curQ.answerAs != TQAtype::e_asSound) // there is no correction after played answer 
-			waitTime = gl->E->correctViewDuration; // user has to have time to see his mistake and correct answer
+			waitTime = gl->E->previewDuration; // user has to have time to see his mistake and correct answer
 			m_exercise->checkAnswer();
 			if (!curQ.isCorrect()) { // correcting wrong answer
 					if (mW->correctChB->isChecked())
@@ -738,17 +738,17 @@ void TexamExecutor::correctAnswer() {
 					if (curQ.questionAs == TQAtype::e_asFretPos)
 						mW->guitar->correctPosition(curQ.qa.pos, markColor);
 					else
-						m_canvas->correctToGuitar(curQ.questionAs, gl->E->correctViewDuration, curQ.qa.pos);
+						m_canvas->correctToGuitar(curQ.questionAs, gl->E->previewDuration, curQ.qa.pos);
 			}
 				
 	}
 	m_lockRightButt = true; // to avoid nervous users click mouse during correctViewDuration
 	if (!mW->correctChB->isChecked() && gl->E->autoNextQuest) {
 			// !mW->correctChB->isChecked() means that correctAnswer() was called by clicking correctAct
-			m_askingTimer->start(gl->E->correctViewDuration);
+			m_askingTimer->start(gl->E->previewDuration);
   }
   if (!gl->E->autoNextQuest)
-			QTimer::singleShot(gl->E->correctViewDuration, this, SLOT(delayerTip()));
+			QTimer::singleShot(gl->E->previewDuration, this, SLOT(delayerTip()));
 }
 
 
