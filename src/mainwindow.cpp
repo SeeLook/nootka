@@ -536,9 +536,11 @@ void MainWindow::showSupportDialog() {
 void MainWindow::resizeAgain() {
 	if (gl->instrument != e_noInstrument) {
 		if (score->width() < innerWidget->width() / 2) { // remove pitchView from under score
-			if (m_scoreLay->count() > 1) { // if it is under score
-				m_scoreLay->removeWidget(pitchView);
-				m_rightLay->addWidget(pitchView);
+			if (m_scoreLay->count() > 1) // if it is under score
+				// and there is enough horizontal space for new width
+				if (score->widthToHeight(score->height() + pitchView->height() + m_scoreLay->spacing()) < innerWidget->width() / 2) {
+						m_scoreLay->removeWidget(pitchView);
+						m_rightLay->addWidget(pitchView);
 			}
 		} else { // move pitchView under score
 			if (m_scoreLay->count() < 2) { // if it is under noteName
@@ -674,13 +676,16 @@ void MainWindow::updateSize(QSize newS) {
 
 
 void MainWindow::resizeEvent(QResizeEvent * event) {
-		if (event->size().height() > event->size().width() * 0.73)
-				resize(event->size().width(), event->size().width() * 0.74);
-		else if (event->size().width() > event->size().height() * 1.89)
+	if (!windowState().testFlag(Qt::WindowMaximized)) {
+		// Lets hope user has no any abnormal desktop size and skip checking ratio for maximized 
+		if (event->size().height() > event->size().width() * 0.8)
+				resize(event->size().width(), event->size().width() * 0.75);
+		else if (event->size().width() > event->size().height() * 1.95)
 				resize(event->size().height() * 1.9, event->size().height());
-    updateSize(innerWidget->size());
-    emit sizeChanged(innerWidget->size());
-		QTimer::singleShot(10, this, SLOT(resizeAgain()));
+	}
+	updateSize(innerWidget->size());
+	emit sizeChanged(innerWidget->size());
+	QTimer::singleShot(10, this, SLOT(resizeAgain()));
 }
 
 
