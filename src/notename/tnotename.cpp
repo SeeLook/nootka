@@ -43,14 +43,17 @@ const char * const TnoteName::octavesFull[8] = { QT_TR_NOOP("Subcontra octave"),
 TnoteName::TnoteName(QWidget *parent) :
     QWidget(parent)
 {
-    setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
+    setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
 
 // NAME LABEL
     QVBoxLayout *mainLay = new QVBoxLayout();
     mainLay->setAlignment(Qt::AlignCenter);
 
-		m_nameLabel = new TnoteNameLabel("<b><span style=\"color: palette(window);\">" +
-                           gl->version + "</span></b>", this);
+		m_nameLabel = new TnoteNameLabel("", this);
+		QFont ff = font();
+		ff.setPointSize(12);
+		m_nameLabel->setFont(ff); // otherwise label font becomes bold
+		m_nameLabel->setText("<b><span style=\"color: palette(window);\">" + gl->version + "</span></b>");
 		connect(m_nameLabel, SIGNAL(blinkingFinished()), this, SLOT(correctAnimationFinished()));
     resize();
 
@@ -261,11 +264,6 @@ void TnoteName::askQuestion(Tnote note, Tnote::EnameStyle questStyle, char strNr
     Tnote::EnameStyle tmpStyle = m_style;
     setStyle(questStyle);
     setNoteName(note);
-//     QString sN = "";
-//     if (strNr) 
-// 			sN = QString("  %1").arg((int)strNr);
-//     m_nameLabel->setText(m_nameLabel->text() +
-//                        QString(" <span style=\"color: %1; font-family: nootka;\">?%2</span>").arg(gl->EquestionColor.name()).arg(sN));
 		m_nameLabel->showQuestionMark(QColor(gl->EquestionColor.name()));
     if (strNr)
       m_nameLabel->showStringNumber(strNr, QColor(gl->EquestionColor.name()));
@@ -285,16 +283,12 @@ void TnoteName::prepAnswer(Tnote::EnameStyle answStyle) {
 
 void TnoteName::forceAccidental(char accid) {
 		if (accid) {
-// 			QString accTxt = QString(" <sub><i><span style=\"color: %1;\">(%2)</span></i></sub>").arg(gl->GfingerColor.name()).arg(QString::fromStdString(signsAcid[accid + 2]));
-// 					m_nameLabel->setText(m_nameLabel->text() + accTxt);
 			checkAccidButtons(accid);
 		}
 }
 
 
 void TnoteName::markNameLabel(QColor markColor) {
-// 		m_nameLabel->setBackgroundColor(prepareBgColor(markColor));
-// 		m_nameLabel->setText(QString("<span style=\"color: %1; \">").arg(markColor.name()) + m_nameLabel->text() + "</span>");
 		m_nameLabel->markText(QColor(markColor.name()));
 }
 
@@ -353,7 +347,7 @@ void TnoteName::correctName(Tnote& goodName, const QColor& color, bool isWrong) 
 
 void TnoteName::setNameText() {
     if (m_notes[0].note) {
-				QString txt = m_notes[0].toRichText();
+				QString txt = "<b>" + m_notes[0].toRichText() + "</b>";
         if (m_notes[1].note) {
             txt = txt + QString("  <span style=\"font-size: %1px; color: %2\">(").arg(m_nameLabel->font().pointSize() - 2).arg(gl->enharmNotesColor.name()) + m_notes[1].toRichText();
             if (m_notes[2].note)
@@ -446,18 +440,11 @@ char TnoteName::getSelectedAccid() {
 
 void TnoteName::resizeEvent(QResizeEvent* ) {
     m_nameLabel->setFixedSize(width() * 0.95, parentWidget()->height() / 9 );
-    QFont f(QFont(m_nameLabel->font().family(), qRound(m_nameLabel->height() * 0.55), 50));
-    QFontMetrics fMetr(f);
-    qreal fact = (m_nameLabel->height() * 0.95) / fMetr.boundingRect("A").height();
-    f.setPointSize(f.pointSize() * fact);
-    m_nameLabel->setFont(f);
-    m_nameLabel->setText(m_nameLabel->text());
 	// determine to show all octave buttons in single row or put the first and the last in accidentals row
 		int allButtWidth = 0;
 		for (int i = 0; i < 8; i++) // total width of buttons
         allButtWidth += m_octaveButtons[i]->width();
-		allButtWidth += (m_octaveButtons[3]->geometry().left() - m_octaveButtons[2]->geometry().right()) * 8; // plus space between
-// 		setMinimumWidth(allButtWidth - m_octaveButtons[0]->width() - m_octaveButtons[7]->width());
+		allButtWidth += (m_octaveButtons[3]->geometry().left() - m_octaveButtons[2]->geometry().right()) * 10; // plus space between
 		if (allButtWidth < width() - 10) { // all octave buttons in single row (-10 is Qt styles quirk)
 			if (m_octaveLay->count() < 9) { // only once, when not inserted yet
 				m_accLay->removeWidget(m_octaveButtons[0]);
