@@ -31,7 +31,8 @@ extern Tglobals *gl;
 TfingerBoard::TfingerBoard(QWidget *parent) :
     QGraphicsView(parent),
     m_isCursorOverGuitar(false),
-    m_movingItem(0)
+    m_movingItem(0),
+    m_noteName(0)
 {
     if (gl->GfingerColor == -1) {
         gl->GfingerColor = gl->invertColor(palette().highlight().color());
@@ -190,6 +191,7 @@ void TfingerBoard::setFinger(TfingerPos pos) {
                 m_fingers[i]->hide();
                 m_strings[i]->show();
             }
+            m_selNote = posToNote(pos.str() - 1, pos.fret());
         }
     }
     m_fingerPos = pos;
@@ -229,6 +231,8 @@ void TfingerBoard::clearFingerBoard() {
 		m_fingerPos.setPos(6, 39);
     clearHighLight();
 		deleteBeyondTip();
+		deleteNoteName();
+		m_nameInCorrection = false;
 }
 
 
@@ -297,7 +301,7 @@ void TfingerBoard::markAnswer(QColor blurColor) {
   if (m_fingerPos.fret() != 39 && m_fingerPos.str() != 7) {
     if (m_fingerPos.fret()) {
 			m_fingers[m_fingerPos.str() - 1]->setPen(QPen(QColor(blurColor.name()), 3));
-//       m_fingers[gl->strOrder(m_curStr)]->setPen(QPen(blurColor, 3));
+// 			m_fingers[m_curStr]->setGraphicsEffect(new QGraphicsBlurEffect());
       m_fingers[gl->strOrder(m_curStr)]->setGraphicsEffect(new QGraphicsBlurEffect());
     }
     else
@@ -316,6 +320,64 @@ void TfingerBoard::markQuestion(QColor blurColor) {
       m_questFinger->setPen(QPen(blurColor, 3));
     if (m_questString)
       m_questString->setPen(QPen(QColor(blurColor.name()), m_questString->pen().width()));
+}
+
+
+void TfingerBoard::showName(Tnote& note) {
+	m_nameInCorrection = false;
+	QGraphicsEllipseItem *qFinger = 0;
+	QGraphicsLineItem *qString = 0;
+	QColor qColor;
+	if (m_questFinger || m_questString) {
+			m_noteName = new TgraphicsTextTip(note.toRichText());
+			if (m_questFinger)
+				qFinger = m_questFinger;
+			else
+				qString = m_questString;
+			qColor = gl->EquestionColor;
+	} else {
+			if (m_fingerPos.fret() != 39 && m_fingerPos.str() != 7 && m_selNote.note) {
+					m_noteName = new TgraphicsTextTip(m_selNote.toRichText());
+					if (m_fingerPos.fret())
+						qFinger = m_fingers[m_fingerPos.str() - 1];
+					else
+						if (m_fingerPos.str() != 7)
+							qString = m_strings[m_fingerPos.str() - 1];
+					qColor = gl->EanswerColor;
+			} else 
+					return;
+	}
+	m_noteName->setZValue(200);
+	m_noteName->setScale((m_strGap * 3.5) / m_noteName->boundingRect().height());
+	m_noteName->setDefaultTextColor(QColor(qColor.name()));
+	scene()->addItem(m_noteName);
+	QPointF tPos;
+	qreal yPos;
+	if (qFinger) {
+		tPos.setX((qFinger->x()/* - m_noteName->boundingRect().width() * m_noteName->scale()*/) /*/ 2*/);
+		yPos = qFinger->pos().y();
+	} else if (qString) {
+			tPos.setX(fbRect().topRight().x() + ((width() - fbRect().topRight().x()) - m_noteName->boundingRect().width()) / 2);
+			yPos = qString->line().p1().y();
+	}
+	if (yPos > height() / 2.0) {
+				tPos.setY(yPos);
+				if (qFinger)
+					yPos += qFinger->boundingRect().width();
+				else
+					yPos += qString->pen().widthF();
+	} else
+				tPos.setY(yPos - m_noteName->boundingRect().height() * m_noteName->scale());
+	m_noteName->setPos(tPos);
+	m_nameInCorrection = true;
+}
+
+
+void TfingerBoard::deleteNoteName() {
+	if (m_noteName) {
+		delete m_noteName;
+		m_noteName = 0;
+	}
 }
 
 
@@ -678,7 +740,7 @@ void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
 void TfingerBoard::mousePressEvent(QMouseEvent *event) {
 	if (!m_isDisabled && event->button() == Qt::LeftButton) {
 		if (m_curFret != 99 && m_curStr != 7) {
-			m_selNote = posToNote(m_curStr,m_curFret);
+			m_selNote = posToNote(m_curStr, m_curFret);
 			m_fingerPos = TfingerPos(m_curStr + 1, m_curFret);
 			if (gl->GpreferFlats)
 				if (m_selNote.note != 3 && m_selNote.note != 7) // eliminate Fb from E and Cb from B
@@ -833,6 +895,7 @@ void TfingerBoard::strikeBlinkingFinished() {
 		m_strikeOut->deleteLater();
 		m_strikeOut = 0;
 		markAnswer(Qt::transparent);
+		deleteNoteName();
 		bool isLine = false, toLine;
 		qreal strWidth = 0.0;
 		QLineF lineAnim;
@@ -910,6 +973,8 @@ void TfingerBoard::finishCorrection() {
 		}
 		setFinger(m_goodPos);
 		markAnswer(QColor(gl->EanswerColor.lighter().name()));
+		if (m_nameInCorrection)
+				showName(m_selNote);
 }
 
 

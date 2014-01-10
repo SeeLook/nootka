@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -50,6 +50,7 @@ TmainScore::TmainScore(QWidget* parent) :
 			TsimpleScore::setPianoStaff(true);
 	else
 			setClef(gl->Sclef);
+	m_noteName << 0 << 0;
 // set note colors
 	restoreNotesSettings();
 	if (gl->instrument == e_classicalGuitar || gl->instrument == e_electricGuitar)
@@ -174,6 +175,34 @@ int TmainScore::widthToHeight(int hi) {
 }
 
 
+void TmainScore::showNames(bool forAll) {
+	int max = 1;
+	if (forAll)
+			max= 2;
+	m_showNameInCorrection = false;
+	for (int i = 0; i < max; i++) {
+		if (getNote(i).note) {
+			m_noteName[i] = new TgraphicsTextTip(getNote(i).toRichText());
+			m_noteName[i]->setZValue(30);
+			TscoreStaff *st = staff();
+			if (staff()->lower() && staff()->lower()->noteSegment(i)->notePos()) 
+					st = staff()->lower();
+			m_noteName[i]->setDefaultTextColor(QColor(st->noteSegment(i)->mainNote()->pen().color().name()));
+			m_noteName[i]->setParentItem(st->noteSegment(i));
+			m_noteName[i]->setScale((score()->transform().m11()) / m_noteName[i]->boundingRect().height());
+			m_noteName[i]->setPos((st->noteSegment(i)->boundingRect().width() - 
+					m_noteName[i]->boundingRect().width() * m_noteName[i]->scale()) / 2,
+					st->noteSegment(i)->notePos() > st->height() / 2 ? 
+								st->noteSegment(i)->notePos() - m_noteName[i]->boundingRect().height() * m_noteName[i]->scale() :
+								st->noteSegment(i)->notePos() + st->noteSegment(i)->mainNote()->boundingRect().height());
+		}
+	}
+	if (m_noteName[0])
+			m_showNameInCorrection = true;
+}
+
+
+
 //####################################################################################################
 //############################## METHODS RELATED TO EXAMS ############################################
 //####################################################################################################
@@ -219,6 +248,9 @@ void TmainScore::clearScore() {
 	clearNote(0);
 	clearNote(1);
 	clearNote(2);
+	for (int i = 0; i < 2; i++)
+			deleteNoteName(i);
+	m_showNameInCorrection = false;
 	staff()->noteSegment(1)->removeString(); // so far string number to remove occurs only on this view
 	staff()->noteSegment(0)->hideWorkNote();
 	if (staff()->lower()) {
@@ -418,6 +450,7 @@ void TmainScore::strikeBlinkingFinished() {
 		delete m_bliking;
 		m_bliking = 0;
 	}
+	deleteNoteName(0);
 	staff()->noteSegment(0)->setColor(palette().text().color());
 	staff()->noteSegment(0)->enableNoteAnim(true, 300);
 	staff()->noteSegment(0)->markNote(-1);
@@ -458,8 +491,9 @@ void TmainScore::finishCorrection() {
 	if (staff()->lower()) {
 			staff()->lower()->noteSegment(0)->enableNoteAnim(false);
 			staff()->lower()->noteSegment(0)->markNote(QColor(gl->EanswerColor.name()));
-
 	}
+	if (m_showNameInCorrection)
+			showNames();
 }
 
 
@@ -501,6 +535,16 @@ void TmainScore::createBgRect(QColor c, qreal width, QPointF pos) {
 		bgRect->setPen(QPen(Qt::NoPen));
 		bgRect->setBrush(c);
 		m_bgRects << bgRect;
+}
+
+
+void TmainScore::deleteNoteName(int id) {
+	if (id < 0 || id > 1) // so far only two instances exist
+		return;
+	if (m_noteName.at(id)) { 
+		delete m_noteName.at(id);
+		m_noteName[id] = 0; 
+	}
 }
 
 

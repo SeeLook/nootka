@@ -23,6 +23,7 @@
 #include "tquestiontip.h"
 #include <animations/tcombinedanim.h>
 #include "tnootkacertificate.h"
+#include "texamparams.h"
 #include "tgraphicstexttip.h"
 #include "mainwindow.h"
 #include "tnotepixmap.h"
@@ -115,17 +116,18 @@ void Tcanvas::resultTip(TQAunit* answer, int time) {
   m_resultTip->setScale(m_scale);
   setResultPos();
   // In exercise mode display detected note when it was incorrect
-  if (m_parent->correctChB->isVisible() && answer->answerAs == TQAtype::e_asSound && !answer->isCorrect()) {
-      int tt = 5000;
-      if (time) // will be deleted with tip or after 5 s when tip remains
-        tt = time;
-      m_parent->setStatusMessage("<table valign=\"middle\" align=\"center\"><tr><td> " + TtipChart::wrapPixToHtml
-            (m_parent->sound->note(), m_exam->level()->clef.type(), TkeySignature(0), m_parent->centralWidget()->height() / 260.0) + 
-            QString("<span style=\"color: %1;\"><big>").arg(answColor.name()) + 
-            tr("%1 was detected", "note name").arg(m_parent->sound->note().toRichText()) + "</big></span></td></tr></table>", tt);
+  if (m_parent->correctChB->isVisible() && gl->E->showWrongPlayed && 
+			answer->answerAs == TQAtype::e_asSound && !answer->isCorrect()) {
+					int tt = 5000;
+					if (time) // will be deleted with tip or after 5 s when tip remains
+						tt = time;
+					m_parent->setStatusMessage("<table valign=\"middle\" align=\"center\"><tr><td> " + TtipChart::wrapPixToHtml
+							(m_parent->sound->note(), m_exam->level()->clef.type(), TkeySignature(0), m_parent->centralWidget()->height() / 260.0) + 
+							QString("<span style=\"color: %1;\"><big>").arg(answColor.name()) + 
+							tr("%1 was detected", "note name").arg(m_parent->sound->note().toRichText()) + "</big></span></td></tr></table>", tt);
   }
   if (time)
-    QTimer::singleShot(time, this, SLOT(clearResultTip()));
+			QTimer::singleShot(time, this, SLOT(clearResultTip()));
 }
 
 
