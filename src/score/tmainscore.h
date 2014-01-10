@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,6 +21,7 @@
 
 #include "tsimplescore.h"
 
+class TgraphicsTextTip;
 class TblinkingItem;
 class TstrikedOutItem;
 class QGraphicsRectItem;
@@ -77,9 +78,15 @@ public:
 		
 				/** Performs animation that transforming current selected note to given @p goodNote */
 		void correctNote(Tnote& goodNote, const QColor& color);
+		
 				/** Performs rewinding of current key to @p newKey */
 		void correctKeySignature(TkeySignature newKey);
 		void correctAccidental(Tnote& goodNote);
+		
+				/** Displays note name of note (first) or all if @p forAll is true 
+				 * next to its note-head in a score. */
+		void showNames(bool forAll = false);
+		void deleteNoteName(int id); /** Deletes given instance of note name if it exist */
 		
 				/** Returns note head rectangle if visible or empty QRectF.  */
 		QRectF noteRect(int noteNr);
@@ -108,8 +115,7 @@ protected slots:
 		void finishCorrection();
 		
 private:
-				/** Sets notes colors according to globals. */
-		void restoreNotesSettings();
+		void restoreNotesSettings(); /** Sets notes colors according to globals. */
 		
 				/** Creates QGraphicsRectItem with answer color, places it under the staff and adds to m_bgRects list.
 				 * clearScore() removes it. */
@@ -118,11 +124,13 @@ private:
 private:
 		QGraphicsSimpleTextItem 		*m_questMark;
 		QGraphicsTextItem 					*m_questKey;
-		QList<QGraphicsRectItem*> 	 m_bgRects; // list of rects with highlights
+		QList<TgraphicsTextTip*>		 m_noteName; // for now only two notes are used
+		QList<QGraphicsRectItem*> 	 m_bgRects; // list of rectangles with highlights
 		TstrikedOutItem 						*m_strikeOut;
 		TblinkingItem 							*m_bliking, *m_keyBlinking;
 		Tnote												 m_goodNote;
 		TkeySignature								 m_goodKey;
+		bool 												 m_showNameInCorrection;
 };
 
 #endif // TMAINSCORE_H

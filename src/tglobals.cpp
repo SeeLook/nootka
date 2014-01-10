@@ -179,7 +179,7 @@ Tglobals::Tglobals() :
                 EnotBadColor = QColor("#FF8000");
                EnotBadColor.setAlpha(40);
            }
-        E->autoNextQuest = config->value("autoNextQuest", true).toBool();
+        E->autoNextQuest = config->value("autoNextQuest", false).toBool();
         E->repeatIncorrect = config->value("repeatIncorrect", true).toBool();
         E->expertsAnswerEnable = config->value("expertsAnswerEnable", false).toBool();
         E->studentName = config->value("studentName", "").toString();

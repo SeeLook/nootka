@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -44,8 +44,7 @@ public:
         * It returns true if something is shown.*/
     void setFinger(Tnote note);
     void setFinger(TfingerPos pos);
-        /** Returns selected finger position */
-    TfingerPos getfingerPos() { return m_fingerPos; }
+    TfingerPos getfingerPos() { return m_fingerPos; } /** Returns selected finger position */
 
     void askQuestion(TfingerPos pos);
     void clearFingerBoard();
@@ -56,15 +55,12 @@ public:
     void deleteRangeBox();
     void setGuitarDisabled(bool disabled);
 		
-        /** Highlights given string */
-    void setHighlitedString(char realStrNr);
+    void setHighlitedString(char realStrNr); /** Highlights given string */
     void clearHighLight();
 		
-        /** Returns x coordinate of 12th fret where guitar body starts. */
-    int posX12fret();
+    int posX12fret(); /** Returns x coordinate of 12th fret where guitar body starts. */
 		
-				/** Guitar fingerboard rectangle */
-		QRect fbRect() { return m_fbRect; }
+		QRect fbRect() { return m_fbRect; } /** Guitar fingerboard rectangle */
 		
         /** Returns width of a string */
     qreal stringWidth(int realStr) { return m_strWidth[qBound(1, realStr, 6)]; }
@@ -81,6 +77,9 @@ public:
         /** Highlights m_questString or m_questFinger after answering. */
     void markQuestion(QColor blurColor);
 		void correctPosition(TfingerPos &pos, const QColor color);
+		
+		void showName(Tnote& note); /** Displays name of note at current position */
+		void deleteNoteName();
 		
 				/** Returns scene coordinates of given guitar position */
 		QPointF fretToPos(TfingerPos &pos);
@@ -121,7 +120,10 @@ private:
     QGraphicsLineItem 				*m_workStrings[6], *m_strings[6], *m_questString, *m_highString;
     QGraphicsSimpleTextItem 	*m_questMark;
 		TgraphicsTextTip 					*m_beyondTip; /** Tip about a note is impossible to show with current tune. */
-    Tnote 										 m_selNote; /** Keeps selected note*/
+		TgraphicsTextTip 					*m_noteName; /** Note name text. */
+		bool											 m_nameInCorrection;
+    Tnote 										 m_selNote; /** Keeps selected note */
+    
         /** Position from a question - is needed to calculate size of questioned finger
         * or string if naughty user changes window size. */
     TfingerPos 								 m_questPos;

@@ -616,9 +616,14 @@ void TexamExecutor::checkAnswer(bool showResults) {
 
     disableWidgets();
     if (showResults) {
-        int mesgTime = 0;
-      if (gl->E->autoNextQuest)
-					mesgTime = 2500;
+			int mesgTime = 0;
+      if (gl->E->autoNextQuest) { // determine time of displaying
+				if (curQ.isCorrect() || gl->E->afterMistake == TexamParams::e_continue)
+					mesgTime = 2500; // hard-coded 
+				else if (gl->E->afterMistake == TexamParams::e_wait)
+							mesgTime = gl->E->previewDuration; // user defined wait time
+				// or 0 - previously declared when user want to stop questioning after mistake
+			}
       m_canvas->resultTip(&curQ, mesgTime);
 			if ((!m_exercise || (m_exercise && curQ.isCorrect())) && gl->hintsEnabled && !gl->E->autoNextQuest)
 						m_canvas->whatNextTip(curQ.isCorrect());
@@ -646,10 +651,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
 //     mW->noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
 
 		markAnswer(curQ);
-// 		m_canvas->finishTip();
     int waitTime = WAIT_TIME;
 		if (m_exercise) {
-// 			if (curQ.answerAs != TQAtype::e_asSound) // there is no correction after played answer 
 			waitTime = gl->E->previewDuration; // user has to have time to see his mistake and correct answer
 			m_exercise->checkAnswer();
 			if (!curQ.isCorrect()) { // correcting wrong answer
@@ -683,8 +686,12 @@ void TexamExecutor::checkAnswer(bool showResults) {
       if (curQ.isCorrect()) {
           m_askingTimer->start(WAIT_TIME);
       } else {
+					if (gl->E->afterMistake == TexamParams::e_wait)
+							waitTime = gl->E->previewDuration;
+					else if (gl->E->afterMistake == TexamParams::e_stop)
+							m_canvas->whatNextTip(curQ.isCorrect());
           if (!m_exercise && gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
-              QTimer::singleShot(WAIT_TIME, this, SLOT(repeatQuestion()));
+              QTimer::singleShot(waitTime, this, SLOT(repeatQuestion()));
           else
               m_askingTimer->start(waitTime);
         }
@@ -784,9 +791,19 @@ void TexamExecutor::markAnswer(TQAunit& curQ) {
     case TQAtype::e_asName:
       mW->noteName->markNameLabel(markColor);      
       break;
-// 		case TQAtype::e_asSound:
-// 			mW->pitchView->markAnswer(QColor(markColor.name()));
-// 			break;
+  }
+  if (gl->E->showNameOfAnswered) {
+		if (curQ.questionAs != TQAtype::e_asName && curQ.answerAs != TQAtype::e_asName) {
+			if (curQ.answerAs == TQAtype::e_asNote || (curQ.answerAs == TQAtype::e_asSound && curQ.questionAs == TQAtype::e_asNote))
+				mW->score->showNames(true);
+			else if (curQ.answerAs == TQAtype::e_asFretPos || 
+							(curQ.answerAs == TQAtype::e_asSound && curQ.questionAs == TQAtype::e_asFretPos))
+				mW->guitar->showName(curQ.qa.note);
+// 			else if (curQ.questionAs == TQAtype::e_asSound) {
+// 				if (curQ.answerAs == TQAtype::e_asNote)
+// 				mW->score->showNames(true);
+// 			}
+		}
   }
 }
 
@@ -796,6 +813,11 @@ void TexamExecutor::repeatQuestion() {
     m_lockRightButt = false;
     m_incorrectRepeated = true;
     m_isAnswered = false;
+		if (gl->E->showNameOfAnswered) {
+			for (int i = 0; i < 2; i++)
+			 mW->score->deleteNoteName(i);
+			mW->guitar->deleteNoteName();
+		}
 		TQAunit curQ = m_exam->curQ();
 
     if (!gl->E->autoNextQuest) {
@@ -816,13 +838,9 @@ void TexamExecutor::repeatQuestion() {
 			Tnote answNote = Tnote(0, 0, 0);
       mW->noteName->setNameDisabled(false);
       if (curQ.questionAs == TQAtype::e_asName)
-// 						mW->noteName->prepAnswer(curQ.styleOfAnswer());
 						answNote = curQ.qa_2.note;
 			else if (curQ.questionAs != TQAtype::e_asNote)
-								answNote = curQ.qa.note;
-//           mW->noteName->prepAnswer(curQ.styleOfAnswer(), curQ.qa.note);
-// 			else // do not highlight accid button when question is on the score - accid is marked on the score
-// 					mW->noteName->prepAnswer(curQ.styleOfAnswer(), Tnote(0, 0, 0));
+							answNote = curQ.qa.note;
 			mW->noteName->prepAnswer(curQ.styleOfAnswer());
       mW->noteName->setStyle(curQ.styleOfAnswer());
 			if (curQ.questionAs == TQAtype::e_asFretPos || curQ.questionAs == TQAtype::e_asSound) {
@@ -831,8 +849,6 @@ void TexamExecutor::repeatQuestion() {
 						}
 				} else if (curQ.questionAs == TQAtype::e_asName)
 									mW->noteName->forceAccidental(answNote.acidental);
-//         tmpStyle = curQ.styleOfQuestion();
-            
     }
     if (curQ.answerAs == TQAtype::e_asFretPos)
         mW->guitar->setGuitarDisabled(false);

@@ -101,6 +101,7 @@ TexamSettings::TexamSettings(QWidget* parent) :
 				m_waitRadio->setChecked(true);
 		else
 				m_stopRadio->setChecked(true);
+		autoQuestionSlot(m_params->autoNextQuest);
 		m_showNameChB = new QCheckBox(tr("extra note names"), this);
 			m_showNameChB->setStatusTip(tr("To improve association of note in the score or position on the guitar to note name, Nootka will displays names even if any question or answer are not related to it."));
 			m_showNameChB->setChecked(m_params->showNameOfAnswered);
@@ -185,6 +186,7 @@ TexamSettings::TexamSettings(QWidget* parent) :
     
     connect(m_expertAnswChB, SIGNAL(clicked(bool)), this, SLOT(expertAnswersChanged(bool)));
 		connect(m_viewTimeSlider, SIGNAL(valueChanged(int)), this, SLOT(timePreviewChanged(int)));
+		connect(m_autoNextChB, SIGNAL(clicked(bool)), this, SLOT(autoQuestionSlot(bool)));
 }
 
 
@@ -197,6 +199,14 @@ void TexamSettings::saveSettings() {
 		m_params->previewDuration = m_viewTimeSlider->value();
 		m_params->showCorrected = m_correctChB->isChecked();
 		m_params->suggestExam = m_suggestExamChB->isChecked();
+		m_params->showNameOfAnswered = m_showNameChB->isChecked();
+		m_params->showWrongPlayed = m_showDetectedChB->isChecked();
+		if (m_contRadio->isChecked())
+			m_params->afterMistake = TexamParams::e_continue;
+		else if (m_waitRadio->isChecked())
+			m_params->afterMistake = TexamParams::e_wait;
+		else
+			m_params->afterMistake = TexamParams::e_stop;
         
     *m_qColor = m_questColorBut->getColor();
     m_qColor->setAlpha(40);
@@ -208,12 +218,12 @@ void TexamSettings::saveSettings() {
 
 
 void TexamSettings::restoreDefaults() {
-		m_autoNextChB->setChecked(true);
+		m_autoNextChB->setChecked(false);
 		m_repeatIncorChB->setChecked(true);
 		m_expertAnswChB->setChecked(false);
 		m_nameEdit->setText("");
 		m_closeConfirmChB->setChecked(false);
-		m_viewTimeSlider->setValue(2000);
+		m_viewTimeSlider->setValue(3000);
 		m_correctChB->setChecked(true);
 		m_suggestExamChB->setChecked(true);
 		m_questColorBut->setColor(QColor("red"));
@@ -240,6 +250,17 @@ void TexamSettings::timePreviewChanged(int val) {
 		}
 		m_timeLabel->setText(QString("%1 ms").arg(val));
 }
+
+//##########################################################################################
+//#######################     PROTECTED       ##############################################
+//##########################################################################################
+
+void TexamSettings::autoQuestionSlot(bool state) {
+	m_contRadio->setDisabled(!state);
+	m_waitRadio->setDisabled(!state);
+	m_stopRadio->setDisabled(!state);
+}
+
 
 
 

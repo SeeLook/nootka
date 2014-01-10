@@ -50,6 +50,9 @@ public:
 public slots:
   void expertAnswersChanged(bool enabled);
 	void timePreviewChanged(int val);
+	
+protected slots:
+	void autoQuestionSlot(bool state);
   
 private:
 	// exercises

@@ -590,7 +590,7 @@ void MainWindow::updateSize(QSize newS) {
 	QFont f = m_statLab->font();
 	f.setPointSize(m_statFontSize);
 	QFontMetrics fMetr(f);
-	qreal fact = (qreal)(m_statFontSize * 1.5) / (qreal)fMetr.boundingRect("A").height();
+	qreal fact = (qreal)(m_statFontSize * 1.3) / (qreal)fMetr.boundingRect("A").height();
 	f.setPointSize(f.pointSize() * fact);
 	m_statLab->setFont(f);
 	guitar->setFixedHeight((newS.height() - nootBar->height()) * 0.25);
