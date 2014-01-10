@@ -329,6 +329,7 @@ void TfingerBoard::showName(Tnote& note) {
 	QGraphicsLineItem *qString = 0;
 	QColor qColor;
 	if (m_questFinger || m_questString) {
+    
 			m_noteName = new TgraphicsTextTip(note.toRichText());
 			if (m_questFinger)
 				qFinger = m_questFinger;
@@ -348,27 +349,28 @@ void TfingerBoard::showName(Tnote& note) {
 					return;
 	}
 	m_noteName->setZValue(200);
-	m_noteName->setScale((m_strGap * 3.5) / m_noteName->boundingRect().height());
-	m_noteName->setDefaultTextColor(QColor(qColor.name()));
+	m_noteName->setScale((fbRect().height() / 2.0) / m_noteName->boundingRect().height());
+	m_noteName->setDefaultTextColor(QColor(qColor.lighter().name()));
 	scene()->addItem(m_noteName);
 	QPointF tPos;
 	qreal yPos;
 	if (qFinger) {
-		tPos.setX((qFinger->x()/* - m_noteName->boundingRect().width() * m_noteName->scale()*/) /*/ 2*/);
+		tPos.setX(qFinger->pos().x() + (qFinger->boundingRect().width() - m_noteName->boundingRect().width() * m_noteName->scale()) /  2);
 		yPos = qFinger->pos().y();
 	} else if (qString) {
 			tPos.setX(fbRect().topRight().x() + ((width() - fbRect().topRight().x()) - m_noteName->boundingRect().width()) / 2);
 			yPos = qString->line().p1().y();
 	}
-	if (yPos > height() / 2.0) {
-				tPos.setY(yPos);
+	if (yPos < height() / 2.0) {
 				if (qFinger)
-					yPos += qFinger->boundingRect().width();
+					yPos += qFinger->boundingRect().height();
 				else
 					yPos += qString->pen().widthF();
+        tPos.setY(yPos);
 	} else
 				tPos.setY(yPos - m_noteName->boundingRect().height() * m_noteName->scale());
 	m_noteName->setPos(tPos);
+  qDebug() << m_noteName->pos();
 	m_nameInCorrection = true;
 }
 
