@@ -78,7 +78,10 @@ public:
     void markQuestion(QColor blurColor);
 		void correctPosition(TfingerPos &pos, const QColor color);
 		
-		void showName(Tnote& note); /** Displays name of note at current position */
+				/** Displays name of note at current position
+				* When note is empty the method tries to grab note (position) from that what was selected. */
+		void showName(Tnote& note, const QColor& textColor);
+		void showName(const QColor& textColor) { Tnote empty(0, 0, 0); showName(empty, textColor); }
 		void deleteNoteName();
 		
 				/** Returns scene coordinates of given guitar position */
