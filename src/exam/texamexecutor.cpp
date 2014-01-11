@@ -688,8 +688,10 @@ void TexamExecutor::checkAnswer(bool showResults) {
       } else {
 					if (gl->E->afterMistake == TexamParams::e_wait)
 							waitTime = gl->E->previewDuration;
-					else if (gl->E->afterMistake == TexamParams::e_stop)
+					else if (gl->E->afterMistake == TexamParams::e_stop) {
 							m_canvas->whatNextTip(curQ.isCorrect());
+							return;
+					}
           if (!m_exercise && gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
               QTimer::singleShot(waitTime, this, SLOT(repeatQuestion()));
           else
@@ -792,17 +794,14 @@ void TexamExecutor::markAnswer(TQAunit& curQ) {
       mW->noteName->markNameLabel(markColor);      
       break;
   }
-  if (gl->E->showNameOfAnswered) {
+  if (m_exercise && gl->E->showNameOfAnswered) {
 		if (curQ.questionAs != TQAtype::e_asName && curQ.answerAs != TQAtype::e_asName) {
 			if (curQ.answerAs == TQAtype::e_asNote || (curQ.answerAs == TQAtype::e_asSound && curQ.questionAs == TQAtype::e_asNote))
 				mW->score->showNames(true);
-			else if (curQ.answerAs == TQAtype::e_asFretPos || 
-							(curQ.answerAs == TQAtype::e_asSound && curQ.questionAs == TQAtype::e_asFretPos))
-				mW->guitar->showName(curQ.qa.note);
-// 			else if (curQ.questionAs == TQAtype::e_asSound) {
-// 				if (curQ.answerAs == TQAtype::e_asNote)
-// 				mW->score->showNames(true);
-// 			}
+			else if (curQ.answerAs == TQAtype::e_asFretPos) // for q/a fret-fret this will be the first case
+				mW->guitar->showName(markColor); // Take it from user answer
+			else if (curQ.answerAs == TQAtype::e_asSound && curQ.questionAs == TQAtype::e_asFretPos)
+					mW->guitar->showName(curQ.qa.note, markColor);
 		}
   }
 }
@@ -815,7 +814,7 @@ void TexamExecutor::repeatQuestion() {
     m_isAnswered = false;
 		if (gl->E->showNameOfAnswered) {
 			for (int i = 0; i < 2; i++)
-			 mW->score->deleteNoteName(i);
+				mW->score->deleteNoteName(i);
 			mW->guitar->deleteNoteName();
 		}
 		TQAunit curQ = m_exam->curQ();

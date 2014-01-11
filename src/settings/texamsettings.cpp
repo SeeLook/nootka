@@ -102,7 +102,7 @@ TexamSettings::TexamSettings(QWidget* parent) :
 		else
 				m_stopRadio->setChecked(true);
 		autoQuestionSlot(m_params->autoNextQuest);
-		m_showNameChB = new QCheckBox(tr("extra note names"), this);
+		m_showNameChB = new QCheckBox(tr("extra names"), this);
 			m_showNameChB->setStatusTip(tr("To improve association of note in the score or position on the guitar to note name, Nootka will displays names even if any question or answer are not related to it."));
 			m_showNameChB->setChecked(m_params->showNameOfAnswered);
 		
@@ -144,7 +144,7 @@ TexamSettings::TexamSettings(QWidget* parent) :
 			timeLay->addWidget(m_viewTimeSlider);
 			timeLay->addWidget(m_timeLabel);
 		commonLay->addLayout(timeLay);
-		commonLay->addWidget(m_showNameChB, 0, Qt::AlignCenter);
+// 		commonLay->addWidget(m_showNameChB, 0, Qt::AlignCenter);
 		QGroupBox *colorsGr = new QGroupBox(tr("colors"), this);
 		QHBoxLayout *colorsLay = new QHBoxLayout;
 			colorsLay->addWidget(questLab);
@@ -165,9 +165,11 @@ TexamSettings::TexamSettings(QWidget* parent) :
 		QGroupBox *exerciseGr = new QGroupBox(tr("exercises"), this);
 		QHBoxLayout *exerciseLay = new QHBoxLayout;
 			exerciseLay->addStretch();
+			exerciseLay->addWidget(m_suggestExamChB);
+			exerciseLay->addStretch();
 			exerciseLay->addWidget(m_showDetectedChB);
 			exerciseLay->addStretch();
-			exerciseLay->addWidget(m_suggestExamChB);
+			exerciseLay->addWidget(m_showNameChB);
 			exerciseLay->addStretch();
 		exerciseGr->setLayout(exerciseLay);
 		mainLay->addWidget(exerciseGr);
