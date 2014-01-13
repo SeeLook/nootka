@@ -6,6 +6,8 @@ ISSUES
 - do pixmap of voice/guitar glyph - TpushButtons don't display nootka text properly
 - don't display elapsing time during certificate
 - note names over score can collide with strings
+- correction anim of canvas sometimes remains garbage
+- make order with Qt::WA_TransparentForMouseEvents in canvas
 
 			
 TODOES
@@ -19,14 +21,10 @@ TODOES
 - remove unused classes: widgets/animations
 - add shadows under strings on pickup
 - do not transform pickup image for lefthanded - just change its pos
-- add option of plaing sound during capture
-
-- finish exam tip and saving it (image) to file
 
 
 
 TO CONSIDERATION
-  - show note name during correction
   - add sound during wizard and About dialog (???)
   - add string numbers to generated pixmap
 
@@ -40,4 +38,6 @@ TEXAMEXECUTOR
 ================================================================================================================
 Somewhere in time
 - keep exam file in /tmp and restore it when crash or so
+- add option of playing sound during capture
+- convert pointers requiring to be 0 to QPointer type
 - convert level file to text format (for sure) and exam file as well (consider)

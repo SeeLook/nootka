@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,6 +21,7 @@
 #define TCANVAS_H
 
 #include <QGraphicsView>
+#include <QPointer>
 #include "tqatype.h"
 #include <tfingerpos.h>
 
@@ -61,7 +62,6 @@ public:
 			 * @p toCorrection - text how to see corrected answer will be shown. */
     void whatNextTip(bool isCorrect, bool toCorrection = false);
     void questionTip(Texam *exam); // Text with question context
-    void noteTip(int time); // note symbol when sound was detected
     void tryAgainTip(int time); // "Try again" text"
     void confirmTip(int time = 0); // tip about confirm an answer appears after given time
     void certificateTip(); // paper like exam report when finished
@@ -97,6 +97,7 @@ public slots:
     void showConfirmTip();
 		void clearCertificate();
 		void clearCorrection();
+		void clearWhatNextTip();
   
 signals:
 	
@@ -120,11 +121,11 @@ private:
     MainWindow 										*m_parent;
     QGraphicsScene 								*m_scene;
     double 												 m_scale;
-    TgraphicsTextTip 							*m_resultTip, *m_whatTip, *m_startTip, *m_tryAgainTip, *m_confirmTip, *m_outTuneTip;
-    TquestionTip 									*m_questionTip;
-    TnootkaCertificate 						*m_certifyTip;
+    QPointer<TgraphicsTextTip>		 m_resultTip, m_whatTip, m_startTip, m_tryAgainTip, m_confirmTip, m_outTuneTip;
+    QPointer<TquestionTip>				 m_questionTip;
+    QPointer<TnootkaCertificate>	 m_certifyTip;
     Texam 												*m_exam;
-		TcombinedAnim									*m_correctAnim;
+		QPointer<TcombinedAnim>				 m_correctAnim;
     QTimer 												*m_timerToConfirm;
 		int 													 m_maxTipWidth;
 		bool 													 m_guitarFree, m_nameFree, m_scoreFree;
