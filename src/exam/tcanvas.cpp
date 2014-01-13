@@ -287,7 +287,7 @@ void Tcanvas::outOfTuneTip(float pitchDiff) {
   setOutTunePos();
 }
 
-
+/** @p prevTime param is to call clearing method after this time. */
 void Tcanvas::correctToGuitar(TQAtype::Etype &question, int prevTime, TfingerPos& goodPos) {
 	if (m_correctAnim)
 		return;
@@ -485,6 +485,10 @@ void Tcanvas::sizeChanged() {
 
 
 void Tcanvas::linkActivatedSlot(QString link) {
+		if (link == "correct") {
+			delete m_whatTip;
+			m_whatTip = 0;
+		}
     emit buttonClicked(link);
 		if (m_certifyTip)
 			clearCertificate();

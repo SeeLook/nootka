@@ -80,7 +80,7 @@ MainWindow::MainWindow(QWidget *parent) :
         firstWizz->exec();
         delete firstWizz;
         gl->isFirstRun = false;
-    } else { // show support window once but not with first run wizzard
+    } else { // show support window once but not with first run wizard
 				QString newVersion = gl->config->value("version", "").toString();
         if (newVersion != gl->version) {
           QTimer::singleShot(200, this, SLOT(showSupportDialog()));
@@ -116,6 +116,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_statLab = new TroundedLabel(innerWidget);
     m_statLab->setWordWrap(true);
     m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
+		m_statLab->setContentsMargins(1, 1, 1, 1); // overwrite 5 px margins of TroundedLabel
 		statLay->addWidget(m_statLab, 0, Qt::AlignTop);
  // Expert corner
 		autoRepeatChB = new TanimedChBox(innerWidget);
@@ -570,7 +571,7 @@ bool MainWindow::event(QEvent *event) {
         } else {
             m_prevBg = m_curBG;
             setMessageBg(-1);
-            m_statLab->setText("<center>"+se->tip()+"</center>");
+            m_statLab->setText("<center>" + se->tip() + "</center>");
         }
     } else
       if (ex && (event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseButtonRelease)) {
@@ -584,13 +585,13 @@ void MainWindow::updateSize(QSize newS) {
 	setUpdatesEnabled(false);
 	m_statFontSize = (newS.height() / 10) / 4 - 2;
 	nootBar->setIconSize(QSize(newS.height() / 22, height() / 22));
-  nootBar->setFixedWidth(newS.width() * 0.4); // It avoids flickering of status label when tool bar content is changing
+//   nootBar->setFixedWidth(newS.width() * 0.4); // It avoids flickering of status label when tool bar content is changing
 // 	pitchView->resize(m_statFontSize);
 	m_statLab->setFixedHeight(newS.height() / 10);
 	QFont f = m_statLab->font();
 	f.setPointSize(m_statFontSize);
 	QFontMetrics fMetr(f);
-	qreal fact = (qreal)(m_statFontSize * 1.3) / (qreal)fMetr.boundingRect("A").height();
+	qreal fact = (qreal)(m_statFontSize * 1.5) / (qreal)fMetr.boundingRect("A").height();
 	f.setPointSize(f.pointSize() * fact);
 	m_statLab->setFont(f);
 	guitar->setFixedHeight((newS.height() - nootBar->height()) * 0.25);
@@ -607,20 +608,6 @@ void MainWindow::updateSize(QSize newS) {
 			guitar->show();
 			m_rightLay->addWidget(pitchView);
 		}
-// 		int allWidgetsHeight = m_statLab->height() + progress->height() + examResults->height() + 
-// 				noteName->height() + guitar->height() + pitchView->height() + 20;
-// 		if (allWidgetsHeight < height()) { // move pitchView under noteName
-// 		if (score->width() < newS.width() / 2) { // remove pitchView from under score
-// 			if (m_scoreLay->count() > 1) { // if it is under score
-// 				m_scoreLay->removeWidget(pitchView);
-// 				m_rightLay->addWidget(pitchView);
-// 			}
-// 		} else { // move pitchView under score
-// 			if (m_scoreLay->count() < 2) { // if it is under noteName
-// 				m_rightLay->removeWidget(pitchView);
-// 				m_scoreLay->insertWidget(1, pitchView);			
-// 			}
-// 		}
 		QPixmap bgPix;
 		qreal guitH;
 		qreal ratio;

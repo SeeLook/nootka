@@ -621,7 +621,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 				if (curQ.isCorrect() || gl->E->afterMistake == TexamParams::e_continue)
 					mesgTime = 2500; // hard-coded 
 				else if (gl->E->afterMistake == TexamParams::e_wait)
-							mesgTime = gl->E->previewDuration; // user defined wait time
+							mesgTime = gl->E->mistakePreview; // user defined wait time
 				// or 0 - previously declared when user want to stop questioning after mistake
 			}
       m_canvas->resultTip(&curQ, mesgTime);
@@ -651,9 +651,9 @@ void TexamExecutor::checkAnswer(bool showResults) {
 //     mW->noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
 
 		markAnswer(curQ);
-    int waitTime = WAIT_TIME;
+    int waitTime = gl->E->questionDelay;
 		if (m_exercise) {
-			waitTime = gl->E->previewDuration; // user has to have time to see his mistake and correct answer
+			waitTime = gl->E->correctPreview; // user has to have time to see his mistake and correct answer
 			m_exercise->checkAnswer();
 			if (!curQ.isCorrect()) { // correcting wrong answer
 					if (mW->correctChB->isChecked())
@@ -684,18 +684,19 @@ void TexamExecutor::checkAnswer(bool showResults) {
           stopExamSlot();
       else {
       if (curQ.isCorrect()) {
-          m_askingTimer->start(WAIT_TIME);
+          m_askingTimer->start(gl->E->questionDelay);
       } else {
-					if (gl->E->afterMistake == TexamParams::e_wait)
-							waitTime = gl->E->previewDuration;
-					else if (gl->E->afterMistake == TexamParams::e_stop) {
-							m_canvas->whatNextTip(curQ.isCorrect());
+					if (gl->E->afterMistake == TexamParams::e_stop) {
+							QTimer::singleShot(m_exercise ? gl->E->correctPreview: gl->E->mistakePreview, this, SLOT(delayerTip()));
 							return;
 					}
           if (!m_exercise && gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
               QTimer::singleShot(waitTime, this, SLOT(repeatQuestion()));
-          else
+          else {
+							if (gl->E->afterMistake == TexamParams::e_wait && !m_exercise)
+									waitTime = gl->E->mistakePreview; // for exercises time was set above
               m_askingTimer->start(waitTime);
+					}
         }
       }
     }
@@ -747,17 +748,17 @@ void TexamExecutor::correctAnswer() {
 					if (curQ.questionAs == TQAtype::e_asFretPos)
 						mW->guitar->correctPosition(curQ.qa.pos, markColor);
 					else
-						m_canvas->correctToGuitar(curQ.questionAs, gl->E->previewDuration, curQ.qa.pos);
+						m_canvas->correctToGuitar(curQ.questionAs, gl->E->mistakePreview, curQ.qa.pos);
 			}
 				
 	}
 	m_lockRightButt = true; // to avoid nervous users click mouse during correctViewDuration
 	if (!mW->correctChB->isChecked() && gl->E->autoNextQuest) {
 			// !mW->correctChB->isChecked() means that correctAnswer() was called by clicking correctAct
-			m_askingTimer->start(gl->E->previewDuration);
+			m_askingTimer->start(gl->E->correctPreview);
   }
   if (!gl->E->autoNextQuest)
-			QTimer::singleShot(gl->E->previewDuration, this, SLOT(delayerTip()));
+			QTimer::singleShot(gl->E->correctPreview, this, SLOT(delayerTip()));
 }
 
 
@@ -802,6 +803,13 @@ void TexamExecutor::markAnswer(TQAunit& curQ) {
 				mW->guitar->showName(markColor); // Take it from user answer
 			else if (curQ.answerAs == TQAtype::e_asSound && curQ.questionAs == TQAtype::e_asFretPos)
 					mW->guitar->showName(curQ.qa.note, markColor);
+		} else { // cases when name was an question
+			if (curQ.questionAs == TQAtype::e_asName) {
+				if (curQ.answerAs == TQAtype::e_asNote)
+					mW->score->showNames();
+				else if (curQ.answerAs == TQAtype::e_asFretPos)
+					mW->guitar->showName(markColor);
+			}
 		}
   }
 }
@@ -1407,12 +1415,14 @@ void TexamExecutor::expertAnswersSlot() {
 
 
 void TexamExecutor::rightButtonSlot() {
-  if (m_lockRightButt)
+  if (m_lockRightButt) {
+			qDebug() << "Right button locked";
       return;
-    if (m_isAnswered)
-        askQuestion();
-    else
-        checkAnswer();
+	}
+	if (m_isAnswered)
+			askQuestion();
+	else
+			checkAnswer();
 }
 
 

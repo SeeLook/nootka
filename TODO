@@ -5,10 +5,12 @@ ISSUES
 - try to close out stream for pulse - it sucks or get rid of pulse
 - do pixmap of voice/guitar glyph - TpushButtons don't display nootka text properly
 - don't display elapsing time during certificate
+- note names over score can collide with strings
 
 			
 TODOES
 - check 'tune' of non guitar - does it correspond with instrument/clef scale and levels works proper
+- add 'default' as audio device to detect sys-def one during every start
 - update screen-shoot image in exam help
 - force 'Plasique' style under MacOs or find a way on buttons
 - force a maximum score width especially for 4:3 ratios

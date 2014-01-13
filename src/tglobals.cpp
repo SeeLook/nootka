@@ -187,7 +187,9 @@ Tglobals::Tglobals() :
         E->levelsDir = config->value("levelsDir", QDir::homePath()).toString();
 				E->closeWithoutConfirm = config->value("closeWithoutConfirm", false).toBool();
 				E->showCorrected = config->value("showCorrected", true).toBool();
-				E->previewDuration = config->value("previewDuration", 3000).toInt();
+				E->mistakePreview = config->value("mistakePreview", 3000).toInt();
+				E->correctPreview = config->value("correctPreview", 3000).toInt();
+				E->questionDelay = config->value("questionDelay", 150).toInt();
 				E->suggestExam = config->value("suggestExam", true).toBool();
 				E->afterMistake = (TexamParams::EafterMistake)config->value("afterMistake", (int)TexamParams::e_continue).toInt();
 				E->showNameOfAnswered = config->value("showNameOfAnswered", false).toBool();
@@ -332,7 +334,9 @@ void Tglobals::storeSettings() {
         config->setValue("examsDir", E->examsDir);
         config->setValue("levelsDir", E->levelsDir);
 				config->setValue("closeWithoutConfirm", E->closeWithoutConfirm);
-				config->setValue("previewDuration", E->previewDuration);
+				config->setValue("mistakePreview", E->mistakePreview);
+				config->setValue("correctPreview", E->correctPreview);
+				config->setValue("questionDelay", E->questionDelay);
 				config->setValue("suggestExam", E->suggestExam);
 				config->setValue("afterMistake", (int)E->afterMistake);
 				config->setValue("showNameOfAnswered", E->showNameOfAnswered);

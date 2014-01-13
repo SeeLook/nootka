@@ -55,7 +55,9 @@ public:
   bool suggestExam; /** Check is exercising going well and suggest to start an exam on that level. @def true */
   bool showWrongPlayed; /** Displays what pitch Nootka detected when played answer was wrong. @def false  */
   
-  int previewDuration; /** Time of displaying correct answers and delay after mistakes. @def 3000ms */
+  int mistakePreview; /** How long mistakes are exposed to ask auto next question. @def 3000ms */
+  int questionDelay; /** Wait time before every next question. */
+  int correctPreview; /** Preview of answer correction.  */
   
 // Displaying dialogues check box state
 	bool askAboutExpert; /** shows confirm dialog when expertsAnswerEnable is going to be changed @def true */
