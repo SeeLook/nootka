@@ -22,6 +22,7 @@
 
 #include <QWidget>
 
+class QSpinBox;
 class QRadioButton;
 class TroundedLabel;
 class QSlider;
@@ -49,7 +50,6 @@ public:
 
 public slots:
   void expertAnswersChanged(bool enabled);
-	void timePreviewChanged(int val);
 	
 protected slots:
 	void autoQuestionSlot(bool state);
@@ -57,13 +57,12 @@ protected slots:
 private:
 	// exercises
 		QCheckBox				*m_correctChB, *m_suggestExamChB, *m_showDetectedChB;
-		
+		QSpinBox				*m_correctPreviewSpin;
 	// exams
     QCheckBox 			*m_repeatIncorChB, *m_closeConfirmChB;
 		
 	// common
-		QSlider					*m_viewTimeSlider; // preview time duration slider
-		TroundedLabel		*m_timeLabel;
+		QSpinBox				*m_mistakePreviewSpin, *m_questionDelaySpin; 
 		QCheckBox				*m_autoNextChB, *m_expertAnswChB, *m_showNameChB;
     TcolorButton 		*m_questColorBut, *m_answColorBut, *m_notBadButt;
 		QRadioButton		*m_contRadio, *m_waitRadio, *m_stopRadio;

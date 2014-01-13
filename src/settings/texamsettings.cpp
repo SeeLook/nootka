@@ -39,20 +39,29 @@ TexamSettings::TexamSettings(QWidget* parent) :
 		m_correctChB = new QCheckBox(correctMistakesTxt(), this);
 			m_correctChB->setStatusTip(tr("When you will make mistake, the program will show you automatically how a correct answer should be."));
 			m_correctChB->setChecked(m_params->showCorrected);
-		QLabel *timeLab = new QLabel(tr("preview time"), this);
-		m_viewTimeSlider = new QSlider(Qt::Horizontal, this);
-			m_viewTimeSlider->setStatusTip(tr("A time of waiting after answer when next question is asked automatically."));
-			m_viewTimeSlider->setMinimum(0);
-			m_viewTimeSlider->setMaximum(6000);
-			m_viewTimeSlider->setValue(m_params->previewDuration);
-			m_viewTimeSlider->setSingleStep(500);
-			m_viewTimeSlider->setPageStep(1000);
-			m_viewTimeSlider->setTickPosition(QSlider::TicksBelow);
-			m_viewTimeSlider->setTickInterval(500);
-		m_timeLabel = new TroundedLabel(this);
-			timePreviewChanged(m_params->previewDuration);
+		m_correctPreviewSpin = new QSpinBox(this);
+			m_correctPreviewSpin->setStatusTip(tr("Preview time of corrected answer when next question is asked automatically."));
+			m_correctPreviewSpin->setMinimum(50);
+			m_correctPreviewSpin->setMaximum(6000);
+			m_correctPreviewSpin->setValue(m_params->correctPreview);
+			m_correctPreviewSpin->setSingleStep(500);
+			m_correctPreviewSpin->setSuffix(" ms");
+		m_questionDelaySpin = new QSpinBox(this);
+			m_questionDelaySpin->setStatusTip(tr("Delay before every next question when it is asked automatically."));
+			m_questionDelaySpin->setMaximum(1000);
+			m_questionDelaySpin->setMinimum(50);
+			m_questionDelaySpin->setSingleStep(50);
+			m_questionDelaySpin->setValue(m_params->questionDelay);
+			m_questionDelaySpin->setSuffix(" ms");
+		m_mistakePreviewSpin = new QSpinBox(this);
+			m_mistakePreviewSpin->setStatusTip(tr("A time of displaying incorrect answers."));
+			m_mistakePreviewSpin->setMinimum(50);
+			m_mistakePreviewSpin->setMaximum(6000);
+			m_mistakePreviewSpin->setValue(m_params->mistakePreview);
+			m_mistakePreviewSpin->setSingleStep(500);
+			m_mistakePreviewSpin->setSuffix(" ms");
 		m_suggestExamChB = new QCheckBox(tr("suggest an exam"), this);
-			m_suggestExamChB->setStatusTip(tr("Watch exercising progress and when exercising is going well, suggest to start an exam on exercise level."));
+			m_suggestExamChB->setStatusTip(tr("Watch exercising progress and when it is going well, suggest to start an exam on the exercise level."));
 			m_suggestExamChB->setChecked(m_params->suggestExam);
 		m_showDetectedChB = new QCheckBox(tr("show wrong played"), this);
 			m_showDetectedChB->setStatusTip(tr("When answer was played (or sung) and it was wrong also the detected wrong note is shown."));
@@ -91,7 +100,7 @@ TexamSettings::TexamSettings(QWidget* parent) :
 		afterButGr->addButton(m_contRadio);
 		afterButGr->addButton(m_waitRadio);
 		afterButGr->addButton(m_stopRadio);
-		afterLab->setStatusTip(tr("When next questions are asked without confirm (automatically) and you commit a mistake, program can continue asking immediately or wait defined period of time or stop, to give you possibility to analyze what was wrong."));
+		afterLab->setStatusTip(tr("When <b>'ask next question automatically'</b> is checked and you commit a mistake, the program can: <b>continue asking immediately</b>, <b>wait defined period of time</b> or <b>stop questioning</b>, to give you possibility to analyze what was wrong."));
 		m_contRadio->setStatusTip(afterLab->statusTip());
 		m_waitRadio->setStatusTip(afterLab->statusTip());
 		m_stopRadio->setStatusTip(afterLab->statusTip());
@@ -103,7 +112,7 @@ TexamSettings::TexamSettings(QWidget* parent) :
 				m_stopRadio->setChecked(true);
 		autoQuestionSlot(m_params->autoNextQuest);
 		m_showNameChB = new QCheckBox(tr("extra names"), this);
-			m_showNameChB->setStatusTip(tr("To improve association of note in the score or position on the guitar to note name, Nootka will displays names even if any question or answer are not related to it."));
+			m_showNameChB->setStatusTip(tr("To improve association of note in the score or position on the guitar to note name, Nootka will display names even if neither question nor answer is related to it."));
 			m_showNameChB->setChecked(m_params->showNameOfAnswered);
 		
 		QVBoxLayout *mainLay = new QVBoxLayout;
@@ -117,8 +126,18 @@ TexamSettings::TexamSettings(QWidget* parent) :
 			nameLay->addStretch();
 		commonLay->addLayout(nameLay);
 		QVBoxLayout *expertChBoxesLay = new QVBoxLayout;
-			expertChBoxesLay->addWidget(m_correctChB, 0, Qt::AlignLeft);
-			expertChBoxesLay->addWidget(m_autoNextChB, 0, Qt::AlignLeft);
+			QHBoxLayout *corrLay = new QHBoxLayout;
+				corrLay->addWidget(m_correctChB);
+				corrLay->addSpacing(15);
+				corrLay->addWidget(m_correctPreviewSpin);
+				corrLay->addStretch();
+			expertChBoxesLay->addLayout(corrLay);
+			QHBoxLayout *autoLay = new QHBoxLayout;
+				autoLay->addWidget(m_autoNextChB);
+				autoLay->addSpacing(15);
+				autoLay->addWidget(m_questionDelaySpin);
+				autoLay->addStretch();
+			expertChBoxesLay->addLayout(autoLay);
 			expertChBoxesLay->addWidget(m_expertAnswChB, 0, Qt::AlignLeft);
 		QHBoxLayout *expertLay = new QHBoxLayout;
 			expertLay->addStretch();
@@ -134,16 +153,12 @@ TexamSettings::TexamSettings(QWidget* parent) :
 			afterLay->addWidget(m_contRadio);
 			afterLay->addStretch(0);
 			afterLay->addWidget(m_waitRadio);
+			afterLay->addWidget(m_mistakePreviewSpin);
 			afterLay->addStretch(0);
 			afterLay->addWidget(m_stopRadio);
 			afterLay->addStretch(0);
 		commonLay->addLayout(afterLay);
 			commonLay->addStretch();
-		QHBoxLayout *timeLay = new QHBoxLayout;
-			timeLay->addWidget(timeLab);
-			timeLay->addWidget(m_viewTimeSlider);
-			timeLay->addWidget(m_timeLabel);
-		commonLay->addLayout(timeLay);
 // 		commonLay->addWidget(m_showNameChB, 0, Qt::AlignCenter);
 		QGroupBox *colorsGr = new QGroupBox(tr("colors"), this);
 		QHBoxLayout *colorsLay = new QHBoxLayout;
@@ -187,7 +202,6 @@ TexamSettings::TexamSettings(QWidget* parent) :
     setLayout(mainLay);
     
     connect(m_expertAnswChB, SIGNAL(clicked(bool)), this, SLOT(expertAnswersChanged(bool)));
-		connect(m_viewTimeSlider, SIGNAL(valueChanged(int)), this, SLOT(timePreviewChanged(int)));
 		connect(m_autoNextChB, SIGNAL(clicked(bool)), this, SLOT(autoQuestionSlot(bool)));
 }
 
@@ -198,7 +212,9 @@ void TexamSettings::saveSettings() {
     m_params->expertsAnswerEnable = m_expertAnswChB->isChecked();
     m_params->studentName = m_nameEdit->text();
 		m_params->closeWithoutConfirm = m_closeConfirmChB->isChecked();
-		m_params->previewDuration = m_viewTimeSlider->value();
+		m_params->mistakePreview = m_mistakePreviewSpin->value();
+		m_params->correctPreview = m_correctPreviewSpin->value();
+		m_params->questionDelay = m_questionDelaySpin->value();
 		m_params->showCorrected = m_correctChB->isChecked();
 		m_params->suggestExam = m_suggestExamChB->isChecked();
 		m_params->showNameOfAnswered = m_showNameChB->isChecked();
@@ -225,7 +241,9 @@ void TexamSettings::restoreDefaults() {
 		m_expertAnswChB->setChecked(false);
 		m_nameEdit->setText("");
 		m_closeConfirmChB->setChecked(false);
-		m_viewTimeSlider->setValue(3000);
+		m_mistakePreviewSpin->setValue(3000);
+		m_correctPreviewSpin->setValue(3000);
+		m_questionDelaySpin->setValue(150);
 		m_correctChB->setChecked(true);
 		m_suggestExamChB->setChecked(true);
 		m_questColorBut->setColor(QColor("red"));
@@ -245,14 +263,6 @@ void TexamSettings::expertAnswersChanged(bool enabled) {
 }
 
 
-void TexamSettings::timePreviewChanged(int val) {
-		if (val < 2000) {
-			m_viewTimeSlider->setValue(2000);
-			val = 2000;
-		}
-		m_timeLabel->setText(QString("%1 ms").arg(val));
-}
-
 //##########################################################################################
 //#######################     PROTECTED       ##############################################
 //##########################################################################################
@@ -261,6 +271,7 @@ void TexamSettings::autoQuestionSlot(bool state) {
 	m_contRadio->setDisabled(!state);
 	m_waitRadio->setDisabled(!state);
 	m_stopRadio->setDisabled(!state);
+	m_mistakePreviewSpin->setDisabled(!state);
 }
 
 

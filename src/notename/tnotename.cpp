@@ -516,7 +516,7 @@ void TnoteName::invokeBlinkingAgain() {
 	disconnect(m_nameLabel, SIGNAL(throwingFinished()), this, SLOT(correctAnimationFinished()));
 	if (m_notes[0] != m_goodNote) {
 		markNameLabel(QColor(gl->EanswerColor.name()));
-		m_nameLabel->thrownText(m_goodNote.toRichText(), 150, 150);
+		m_nameLabel->thrownText("<b>" + m_goodNote.toRichText() + "</b>", 150, 150);
 	}
 }
 
