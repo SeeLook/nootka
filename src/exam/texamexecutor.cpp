@@ -706,6 +706,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 void TexamExecutor::correctAnswer() {
 	if (!mW->correctChB->isChecked())
 			mW->nootBar->removeAction(correctAct);
+	m_canvas->clearWhatNextTip();
 	TQAunit curQ = m_exam->curQ();
 	QColor markColor;
 	if (curQ.isNotSoBad())
@@ -757,8 +758,8 @@ void TexamExecutor::correctAnswer() {
 			// !mW->correctChB->isChecked() means that correctAnswer() was called by clicking correctAct
 			m_askingTimer->start(gl->E->correctPreview);
   }
-  if (!gl->E->autoNextQuest)
-			QTimer::singleShot(gl->E->correctPreview, this, SLOT(delayerTip()));
+  if (!gl->E->autoNextQuest) // 2000 ms - fastest preview time - longer than animation duration
+			QTimer::singleShot(2000, this, SLOT(delayerTip()));
 }
 
 

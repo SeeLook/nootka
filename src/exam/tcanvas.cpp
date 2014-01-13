@@ -53,13 +53,10 @@ extern Tglobals *gl;
 Tcanvas::Tcanvas(MainWindow* parent) :
   QGraphicsView(parent->centralWidget()),
   m_parent(parent),
-  m_resultTip(0), m_startTip(0), m_whatTip(0),
-  m_questionTip(0), m_tryAgainTip(0), m_confirmTip(0),
   m_certifyTip(0),
   m_exam(0),
   m_scale(1),
-  m_correctAnim(0), m_flyEllipse(0),
-  m_outTuneTip(0),
+  m_flyEllipse(0),
   m_scene(0),
   m_timerToConfirm(new QTimer(this))
 {
@@ -161,10 +158,7 @@ void Tcanvas::startTip() {
 
 
 void Tcanvas::certificateTip() {
-	if (m_questionTip) {
-    delete m_questionTip;
-    m_questionTip = 0;
-  }		
+	delete m_questionTip;
 	if (!m_certifyTip) {
 			m_certifyTip = new TnootkaCertificate(this, gl->path, m_exam);
 			connect(m_certifyTip, SIGNAL(userAction(QString)), this, SLOT(linkActivatedSlot(QString)));
@@ -173,12 +167,8 @@ void Tcanvas::certificateTip() {
 
 
 void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
-  if (m_questionTip) {
-    delete m_questionTip;
-    m_questionTip = 0;
-  }
-  if (m_whatTip)
-		delete m_whatTip;
+	delete m_questionTip;
+	delete m_whatTip;
   QString whatNextText = startTipText();
   if (!m_parent->autoRepeatChB->isChecked())
       m_parent->autoRepeatChB->startAnimation(3);
@@ -207,11 +197,6 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 }
 
 
-void Tcanvas::noteTip(int time) {
-
-}
-
-
 void Tcanvas::confirmTip(int time) {
   m_timerToConfirm->start(time + 1); // add 1 to show it immediately when time = 0
 }
@@ -237,20 +222,10 @@ void Tcanvas::showConfirmTip() {
 
 void Tcanvas::questionTip(Texam* exam) {
   m_exam = exam;
-  if (m_startTip) {
-    delete m_startTip;
-    m_startTip = 0;
-  }
-  if (m_whatTip) {
-    delete m_whatTip;
-    m_whatTip = 0;
-  }
-  if (m_outTuneTip) {
-		delete m_outTuneTip;
-		m_outTuneTip = 0;
-  }
-  if (m_questionTip)
-    delete m_questionTip;
+	delete m_startTip;  
+  delete m_whatTip;
+	delete m_outTuneTip;
+	delete m_questionTip;
   m_questionTip = new TquestionTip(exam, m_scale);
 	m_questionTip->setTextWidth(m_maxTipWidth);
   m_scene->addItem(m_questionTip);
@@ -330,12 +305,9 @@ void Tcanvas::correctToGuitar(TQAtype::Etype &question, int prevTime, TfingerPos
 	QTimer::singleShot(prevTime, this, SLOT(clearCorrection()));
 }
 
-
-
 //######################################################################
 //##################################### PUBLIC METHODS #################
 //######################################################################
-
 
 void Tcanvas::clearCanvas() {
   clearConfirmTip();
@@ -343,47 +315,23 @@ void Tcanvas::clearCanvas() {
   if (m_whatTip) {
     m_parent->guitar->setAttribute(Qt::WA_TransparentForMouseEvents, false); // unlock guitar for mouse
     delete m_whatTip;
-    m_whatTip = 0;
   }
-  if (m_startTip) {
-    delete m_startTip;
-    m_startTip = 0;
-  }
-  if (m_questionTip) {
-    delete m_questionTip;
-    m_questionTip = 0;
-  }
-  if (m_certifyTip) {
-    delete m_certifyTip;
-    m_certifyTip = 0;
-  }
-  if (m_outTuneTip) {
-		delete m_outTuneTip;
-		m_outTuneTip = 0;
-  }
+	delete m_startTip;
+	delete m_questionTip;
+	delete m_certifyTip;
+  delete m_outTuneTip;
 }
 
 
-void Tcanvas::clearResultTip() {
-    if (m_resultTip) {
-      delete m_resultTip;
-      m_resultTip = 0;
-    }
-}
+void Tcanvas::clearResultTip() { delete m_resultTip; }
 
-void Tcanvas::clearTryAgainTip() {
-    if (m_tryAgainTip){
-      delete m_tryAgainTip;
-      m_tryAgainTip = 0;
-    }
-}
+
+void Tcanvas::clearTryAgainTip() { delete m_tryAgainTip; }
+
 
 void Tcanvas::clearConfirmTip() {
     m_timerToConfirm->stop();
-    if (m_confirmTip){
-      delete m_confirmTip;
-      m_confirmTip = 0;
-    }
+		delete m_confirmTip;
 }
 
 
@@ -406,6 +354,8 @@ void Tcanvas::clearCorrection() {
 	}
 }
 
+
+void Tcanvas::clearWhatNextTip() { delete m_whatTip; }
 
 
 void Tcanvas::markAnswer(TQAtype::Etype qType, TQAtype::Etype aType) {
@@ -485,10 +435,6 @@ void Tcanvas::sizeChanged() {
 
 
 void Tcanvas::linkActivatedSlot(QString link) {
-		if (link == "correct") {
-			delete m_whatTip;
-			m_whatTip = 0;
-		}
     emit buttonClicked(link);
 		if (m_certifyTip)
 			clearCertificate();

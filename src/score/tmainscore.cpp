@@ -187,7 +187,7 @@ void TmainScore::showNames(bool forAll) {
 			TscoreStaff *st = staff();
 			if (staff()->lower() && staff()->lower()->noteSegment(i)->notePos()) 
 					st = staff()->lower();
-			m_noteName[i]->setDefaultTextColor(QColor(st->noteSegment(i)->mainNote()->pen().color().darker().name()));
+			m_noteName[i]->setDefaultTextColor(QColor(st->noteSegment(i)->mainNote()->pen().color().name()));
 			m_noteName[i]->setParentItem(st->noteSegment(i));
 			m_noteName[i]->setScale((score()->transform().m11()) / m_noteName[i]->boundingRect().height());
 			m_noteName[i]->setPos((st->noteSegment(i)->boundingRect().width() - 
