@@ -192,9 +192,9 @@ void TmainScore::showNames(bool forAll) {
 			m_noteName[i]->setScale((score()->transform().m11()) / m_noteName[i]->boundingRect().height());
 			m_noteName[i]->setPos((st->noteSegment(i)->boundingRect().width() - 
 					m_noteName[i]->boundingRect().width() * m_noteName[i]->scale()) / 2,
-					st->noteSegment(i)->notePos() > st->height() / 2 ? 
-								st->noteSegment(i)->notePos() - m_noteName[i]->boundingRect().height() * m_noteName[i]->scale() :
-								st->noteSegment(i)->notePos() + st->noteSegment(i)->mainNote()->boundingRect().height());
+					st->noteSegment(i)->notePos() > st->upperLinePos() ? 
+								st->noteSegment(i)->notePos() - m_noteName[i]->boundingRect().height() * m_noteName[i]->scale() : // above note
+								st->noteSegment(i)->notePos() + st->noteSegment(i)->mainNote()->boundingRect().height()); // below note
 		}
 	}
 	if (m_noteName[0])

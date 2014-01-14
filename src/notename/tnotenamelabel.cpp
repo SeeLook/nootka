@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -86,7 +86,7 @@ void TnoteNameLabel::setText(const QString& text) {
 
 void TnoteNameLabel::center() {
 	m_textItem->setPos((width() - m_textItem->boundingRect().width() * m_textItem->scale()) / 2,
-				(scene()->height() - m_textItem->boundingRect().height() * m_textItem->scale()) / 2	+ height() / 17.0);
+				(scene()->height() - m_textItem->boundingRect().height() * m_textItem->scale()) / 2	+ height() / 8.0);
 #if defined(Q_OS_MAC)
     scene()->update();
 #endif

@@ -262,6 +262,7 @@ void Tcanvas::outOfTuneTip(float pitchDiff) {
   setOutTunePos();
 }
 
+
 /** @p prevTime param is to call clearing method after this time. */
 void Tcanvas::correctToGuitar(TQAtype::Etype &question, int prevTime, TfingerPos& goodPos) {
 	if (m_correctAnim)
@@ -446,6 +447,7 @@ void Tcanvas::correctAnimFinished() {
 	m_flyEllipse->hide();
 	m_parent->guitar->setFinger(m_goodPos);
 	m_parent->guitar->markAnswer(QColor(gl->EanswerColor.name()));
+	m_parent->update();
 }
 
 

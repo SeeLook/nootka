@@ -659,10 +659,12 @@ void TexamExecutor::checkAnswer(bool showResults) {
 					if (mW->correctChB->isChecked())
 						correctAnswer();
 					else {
-						m_canvas->whatNextTip(true, true);
 						mW->nootBar->addAction(correctAct);
-						m_lockRightButt = false;
-						return; // wait for user
+						if (!gl->E->autoNextQuest) {
+								m_canvas->whatNextTip(true, true);
+								m_lockRightButt = false;
+								return; // wait for user
+						}
 					}
 			}
 		} else {
@@ -693,7 +695,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
           if (!m_exercise && gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
               QTimer::singleShot(waitTime, this, SLOT(repeatQuestion()));
           else {
-							if (gl->E->afterMistake == TexamParams::e_wait && !m_exercise)
+							if (gl->E->afterMistake == TexamParams::e_wait && (!m_exercise || (m_exercise && !mW->correctChB->isChecked())))
 									waitTime = gl->E->mistakePreview; // for exercises time was set above
               m_askingTimer->start(waitTime);
 					}
@@ -702,10 +704,20 @@ void TexamExecutor::checkAnswer(bool showResults) {
     }
 }
 
-
+/**
+ * %%%%%%%%%% Time flow in Nootka %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ * @p correctPreview @p mistakePreview and @p questionDelay  are user configurable vars determining corresponding times
+ * Correction animation takes 1500 ms - rest of time is for user
+ * 'result tip (good, not bad, wrong)' takes 2500 ms
+ * 'Try again tip is displayed for 3000 ms'
+ * 'how to confirm an answer tip' is displayed after 1500 ms
+ * Detected note if wrong appears for result tip time or 5000 ms when no auto next question
+ */
 void TexamExecutor::correctAnswer() {
 	if (!mW->correctChB->isChecked())
 			mW->nootBar->removeAction(correctAct);
+	if (m_askingTimer->isActive())
+			m_askingTimer->stop();
 	m_canvas->clearWhatNextTip();
 	TQAunit curQ = m_exam->curQ();
 	QColor markColor;
