@@ -5,7 +5,6 @@ ISSUES
 - try to close out stream for pulse - it sucks or get rid of pulse
 - do pixmap of voice/guitar glyph - TpushButtons don't display nootka text properly
 - don't display elapsing time during certificate
-- note names over score can collide with strings
 - make order with Qt::WA_TransparentForMouseEvents in canvas
 
 			
@@ -14,7 +13,6 @@ TODOES
 - add 'default' as audio device to detect sys-def one during every start
 - update screen-shoot image in exam help
 - force 'Plasique' style under MacOs or find a way on buttons
-- force a maximum score width especially for 4:3 ratios
 - !!!check does 'string order' work for Tfingerboard!!!
 - sniffer has setAmbitus to guitar scale range - fix it!!!
 - remove unused classes: widgets/animations

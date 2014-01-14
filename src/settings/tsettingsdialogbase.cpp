@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                  				   *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                  				   *
  *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,9 +21,6 @@
 #include <widgets/troundedlabel.h>
 #include <QtGui>
 
-QScrollArea *scrollArea;
-QWidget *widget;
-QVBoxLayout *aLay;
 
 TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
         QDialog(parent, Qt::CustomizeWindowHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint)
@@ -39,24 +36,23 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
 
     contLay->addWidget(navList);
 
-    aLay = new QVBoxLayout;
+    m_aLay = new QVBoxLayout;
     stackLayout = new QStackedLayout;
     
-    widget = new QWidget(this);
-    scrollArea = new QScrollArea(this);
-		scrollArea->hide();
+    m_widget = new QWidget(this);
+    m_scrollArea = new QScrollArea(this);
+		m_scrollArea->hide();
     
-    widget->setLayout(stackLayout);
-//     scrollArea->setWidget(widget);
-    scrollArea->setWidgetResizable(true);
-    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    aLay->addWidget(widget);
+    m_widget->setLayout(stackLayout);
+    m_scrollArea->setWidgetResizable(true);
+    m_scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    m_scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    m_aLay->addWidget(m_widget);
     hint = new TroundedLabel(this);
-    aLay->addWidget(hint);
+    m_aLay->addWidget(hint);
     hint->setFixedHeight(70);
     hint->setWordWrap(true);
-    contLay->addLayout(aLay);
+    contLay->addLayout(m_aLay);
 
     mainLay->addLayout(contLay);
 
@@ -78,7 +74,6 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
 
     connect(cancelBut, SIGNAL(clicked()), this, SLOT(reject()));
     connect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
-//     connect(stackLayout, SIGNAL(currentChanged(int)), this, SLOT(fitSize()));
     
     QTimer::singleShot(10, this, SLOT(fitSize()));
 }
@@ -94,14 +89,29 @@ bool TsettingsDialogBase::event(QEvent *event) {
 
 
 void TsettingsDialogBase::fitSize() {
-  if (height() > qApp->desktop()->availableGeometry().height()) {
-			aLay->removeWidget(widget);
-      scrollArea->setWidget(widget);
-			aLay->insertWidget(0, scrollArea);
-      scrollArea->show();
-      setGeometry(0, 0, qApp->desktop()->availableGeometry().width(), qApp->desktop()->availableGeometry().height() - 20);
+  if (qApp->desktop()->availableGeometry().height() <= 600) {
+			hint->hide();
+			m_aLay->removeWidget(m_widget);
+      m_scrollArea->setWidget(m_widget);
+			m_aLay->insertWidget(0, m_scrollArea);
+      m_scrollArea->show();
+			showMaximized();
+			convertStatusTips();
+			connect(stackLayout, SIGNAL(currentChanged(int)), this, SLOT(convertStatusTips()));
   }
 }
+
+
+void TsettingsDialogBase::convertStatusTips() {
+	QList<QWidget*> allWidgets = findChildren<QWidget*>();
+	foreach(QWidget *w, allWidgets) {
+		if (w->statusTip() != "") {
+			w->setToolTip(w->statusTip());
+			w->setStatusTip("");
+		}
+	}
+}
+
 
 
 
