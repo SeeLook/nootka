@@ -6,7 +6,6 @@ ISSUES
 - do pixmap of voice/guitar glyph - TpushButtons don't display nootka text properly
 - don't display elapsing time during certificate
 - note names over score can collide with strings
-- correction anim of canvas sometimes remains garbage
 - make order with Qt::WA_TransparentForMouseEvents in canvas
 
 			
