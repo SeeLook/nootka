@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                  				   *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                  				   *
  *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,6 +22,8 @@
 
 #include <QDialog>
 
+class QVBoxLayout;
+class QScrollArea;
 
 class TroundedLabel;
 class QListWidget;
@@ -55,6 +57,13 @@ protected slots:
          * Removes frame of the window, hides @p hint 
          * and transforms all status tip texts into tool tips. */
     void fitSize();
+		
+		void convertStatusTips();
+		
+private:
+		QScrollArea 							*m_scrollArea;
+		QWidget 									*m_widget;
+		QVBoxLayout 							*m_aLay;
 
 };
 
