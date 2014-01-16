@@ -20,6 +20,7 @@
 #define TMAINSCORE_H
 
 #include "tsimplescore.h"
+#include <QPointer>
 
 class TgraphicsTextTip;
 class TblinkingItem;
@@ -127,7 +128,8 @@ private:
 		QList<TgraphicsTextTip*>		 m_noteName; // for now only two notes are used
 		QList<QGraphicsRectItem*> 	 m_bgRects; // list of rectangles with highlights
 		TstrikedOutItem 						*m_strikeOut;
-		TblinkingItem 							*m_bliking, *m_keyBlinking;
+		TblinkingItem 							*m_keyBlinking;
+    QPointer<TblinkingItem>      m_bliking;
 		Tnote												 m_goodNote;
 		TkeySignature								 m_goodKey;
 		bool 												 m_showNameInCorrection;
