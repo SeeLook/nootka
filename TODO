@@ -2,14 +2,18 @@ Plan for the Nootka One
 
 
 ISSUES
+- showNote() on guitar has to know name style in question
+- when level doesn't force accidental and correction fixing octave or out of tune - names don't respect user accidental
 - try to close out stream for pulse - it sucks or get rid of pulse
 - do pixmap of voice/guitar glyph - TpushButtons don't display nootka text properly
 - don't display elapsing time during certificate
+- stop capturing during certificate
 - make order with Qt::WA_TransparentForMouseEvents in canvas
 
 			
 TODOES
 - check 'tune' of non guitar - does it correspond with instrument/clef scale and levels works proper
+- test exams/exercises with hints disabled
 - add 'default' as audio device to detect sys-def one during every start
 - update screen-shoot image in exam help
 - force 'Plasique' style under MacOs or find a way on buttons
@@ -37,4 +41,5 @@ Somewhere in time
 - keep exam file in /tmp and restore it when crash or so
 - add option of playing sound during capture
 - convert pointers requiring to be 0 to QPointer type
+- add setFlag(ItemHasNoContents) to QGraphicsItem sub-classes don't has a paint() - used as containers only
 - convert level file to text format (for sure) and exam file as well (consider)

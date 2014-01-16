@@ -48,6 +48,7 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, const QString& path,
   m_path(path),
   m_saveHint(0)
 {
+		setFlag(ItemHasNoContents);
 		m_view->setAttribute(Qt::WA_TransparentForMouseEvents, false); // unlock mouse
 		m_view->scene()->addItem(this);
 		setZValue(100);
@@ -106,8 +107,26 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, const QString& path,
     
     QPixmap bgPix = QPixmap(m_path + "picts/certBg.png").scaled(m_width, m_height);
     QGraphicsPixmapItem *paper = new QGraphicsPixmapItem(bgPix);
-    paper->setParentItem(m_cert);
-    paper->setZValue(0);
+			paper->setParentItem(m_cert);
+			paper->setZValue(0);
+		QGraphicsSimpleTextItem *waterMark = new QGraphicsSimpleTextItem;
+		QString bgSymbol;
+		if (m_exam->level()->instrument != e_noInstrument)
+				bgSymbol = instrumentToGlyph(m_exam->level()->instrument);
+		else
+				bgSymbol = "n";
+		QFont nf = QFont("nootka", 20, QFont::Normal);
+		QFontMetricsF fm = QFontMetricsF(nf);
+		nf.setPointSize(nf.pointSize() * (boundingRect().height() / fm.boundingRect(bgSymbol).height()));
+		waterMark->setFont(nf);
+		QColor penTrans = QColor("#E1E1E1");
+		penTrans.setAlpha(80);
+		waterMark->setBrush(QBrush(penTrans));
+		waterMark->setParentItem(m_cert);
+		waterMark->setZValue(0);
+		waterMark->setText(bgSymbol);
+		waterMark->setGraphicsEffect(new QGraphicsBlurEffect);
+		waterMark->setPos((m_width - waterMark->boundingRect().width()) / 2, (m_height - waterMark->boundingRect().height()) / 2 );
     
     TcombinedAnim *flyingStamp = new TcombinedAnim(m_stampPixmap, this);
       flyingStamp->setDuration(750);
@@ -131,6 +150,7 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, const QString& path,
 		createHints();
     
     connect(scene(), SIGNAL(selectionChanged()), this, SLOT(hintClicked()));
+		connect(flyingStamp, SIGNAL(finished()), scene(), SLOT(update()));
     
 }
 
@@ -192,19 +212,6 @@ QRectF TnootkaCertificate::boundingRect() const {
 
 
 void TnootkaCertificate::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-  QString bgSymbol;
-  if (m_exam->level()->instrument != e_noInstrument)
-      bgSymbol = instrumentToGlyph(m_exam->level()->instrument);
-  else
-      bgSymbol = "n";
-  QFont nf = QFont("nootka", 20, QFont::Normal);
-  QFontMetricsF fm = QFontMetricsF(nf);
-  nf.setPointSize(nf.pointSize() * (boundingRect().height() / fm.boundingRect(bgSymbol).height()));
-  painter->setFont(nf);
-  QColor penTrans = QColor("#E1E1E1");
-  penTrans.setAlpha(100);
-  painter->setPen(QPen(penTrans));
-  painter->drawText(boundingRect(), Qt::AlignCenter, bgSymbol);
 }
 
 

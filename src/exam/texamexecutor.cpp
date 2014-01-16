@@ -620,14 +620,13 @@ void TexamExecutor::checkAnswer(bool showResults) {
       if (gl->E->autoNextQuest) { // determine time of displaying
 				if (curQ.isCorrect() || gl->E->afterMistake == TexamParams::e_continue)
 					mesgTime = 2500; // hard-coded 
-				else if (gl->E->afterMistake == TexamParams::e_wait)
+				else /*if (gl->E->afterMistake == TexamParams::e_wait)*/
 							mesgTime = gl->E->mistakePreview; // user defined wait time
-				// or 0 - previously declared when user want to stop questioning after mistake
 			}
       m_canvas->resultTip(&curQ, mesgTime);
 			if ((!m_exercise || (m_exercise && curQ.isCorrect())) && gl->hintsEnabled && !gl->E->autoNextQuest)
 						m_canvas->whatNextTip(curQ.isCorrect());
-      if (!gl->E->autoNextQuest) {
+      if (!gl->E->autoNextQuest || (gl->E->autoNextQuest && gl->E->afterMistake == TexamParams::e_stop)) {
           if (!curQ.isCorrect() && !m_exercise)
               mW->nootBar->addAction(prevQuestAct);
           mW->nootBar->addAction(nextQuestAct);
@@ -653,7 +652,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
 		markAnswer(curQ);
     int waitTime = gl->E->questionDelay;
 		if (m_exercise) {
-			waitTime = gl->E->correctPreview; // user has to have time to see his mistake and correct answer
+			if (gl->E->afterMistake != TexamParams::e_continue)
+				waitTime = gl->E->correctPreview; // user has to have time to see his mistake and correct answer
 			m_exercise->checkAnswer();
 			if (!curQ.isCorrect()) { // correcting wrong answer
 					if (mW->correctChB->isChecked())
@@ -688,8 +688,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
       if (curQ.isCorrect()) {
           m_askingTimer->start(gl->E->questionDelay);
       } else {
-					if (gl->E->afterMistake == TexamParams::e_stop) {
-							QTimer::singleShot(m_exercise ? gl->E->correctPreview: gl->E->mistakePreview, this, SLOT(delayerTip()));
+					if (!m_exercise && gl->E->afterMistake == TexamParams::e_stop) {
+							QTimer::singleShot(1000, this, SLOT(delayerTip()));
 							return;
 					}
           if (!m_exercise && gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
@@ -697,7 +697,10 @@ void TexamExecutor::checkAnswer(bool showResults) {
           else {
 							if (gl->E->afterMistake == TexamParams::e_wait && (!m_exercise || (m_exercise && !mW->correctChB->isChecked())))
 									waitTime = gl->E->mistakePreview; // for exercises time was set above
-              m_askingTimer->start(waitTime);
+							if (gl->E->afterMistake != TexamParams::e_stop)
+									m_askingTimer->start(waitTime);
+							else if (!mW->correctChB->isChecked() && gl->hintsEnabled) // exercise and 'stop' after mistake
+									m_canvas->whatNextTip(true, true);
 					}
         }
       }
@@ -707,10 +710,11 @@ void TexamExecutor::checkAnswer(bool showResults) {
 /**
  * %%%%%%%%%% Time flow in Nootka %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  * @p correctPreview @p mistakePreview and @p questionDelay  are user configurable vars determining corresponding times
- * Correction animation takes 1500 ms - rest of time is for user
+ * Correction animation takes 1500 ms - rest time of @p correctPreview is for user
  * 'result tip (good, not bad, wrong)' takes 2500 ms
  * 'Try again tip is displayed for 3000 ms'
  * 'how to confirm an answer tip' is displayed after 1500 ms
+ * When exam/exercise stops after mistake - 'what next tip' appears after 1000 ms
  * Detected note if wrong appears for result tip time or 5000 ms when no auto next question
  */
 void TexamExecutor::correctAnswer() {
@@ -766,12 +770,12 @@ void TexamExecutor::correctAnswer() {
 				
 	}
 	m_lockRightButt = true; // to avoid nervous users click mouse during correctViewDuration
-	if (!mW->correctChB->isChecked() && gl->E->autoNextQuest) {
+	if (!mW->correctChB->isChecked() && gl->E->autoNextQuest && gl->E->afterMistake != TexamParams::e_stop) {
 			// !mW->correctChB->isChecked() means that correctAnswer() was called by clicking correctAct
 			m_askingTimer->start(gl->E->correctPreview);
   }
-  if (!gl->E->autoNextQuest) // 2000 ms - fastest preview time - longer than animation duration
-			QTimer::singleShot(2000, this, SLOT(delayerTip()));
+  if (!gl->E->autoNextQuest || (gl->E->autoNextQuest && gl->E->afterMistake == TexamParams::e_stop)) 
+			QTimer::singleShot(2000, this, SLOT(delayerTip())); // 2000 ms - fastest preview time - longer than animation duration
 }
 
 
@@ -898,6 +902,8 @@ void TexamExecutor::repeatQuestion() {
 
 void TexamExecutor::displayCertificate() {
   m_snifferLocked = true;
+	mW->sound->wait();
+	mW->examResults->pause();
   qApp->removeEventFilter(m_supp); // stop grabbing right button and calling checkAnswer()
   m_canvas->certificateTip();
 }
@@ -1428,10 +1434,8 @@ void TexamExecutor::expertAnswersSlot() {
 
 
 void TexamExecutor::rightButtonSlot() {
-  if (m_lockRightButt) {
-			qDebug() << "Right button locked";
+  if (m_lockRightButt)
       return;
-	}
 	if (m_isAnswered)
 			askQuestion();
 	else
@@ -1493,7 +1497,12 @@ void TexamExecutor::deleteExam() {
 
 void TexamExecutor::delayerTip() {
 	m_lockRightButt = false;
-	m_canvas->whatNextTip(true); 
+	if (!gl->hintsEnabled)
+		return;
+	m_canvas->whatNextTip(!(!m_exercise && gl->E->repeatIncorrect && !m_incorrectRepeated));
+	/** When exam mode and mistake occurred it will be true,
+	 * so whatNextTip(false) is invoked - whatNextTip displays repeat question hint
+	 * otherwise (exercise and/or correct answer) @p whatNextTip(true) goes. */
 }
 
 
@@ -1518,6 +1527,9 @@ void TexamExecutor::levelStatusMessage() {
 
 
 void TexamExecutor::unlockAnswerCapturing() {
+	if (m_exam->curQ().answerAs == TQAtype::e_asSound)
+		mW->sound->go();
+	mW->examResults->go();
   qApp->installEventFilter(m_supp); // restore grabbing right mouse button
   m_snifferLocked = false;
 }
