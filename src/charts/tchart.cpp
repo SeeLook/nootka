@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,7 +24,6 @@
 #include "tyaxis.h"
 #include "tabstractaxis.h"
 #include "ttiphandler.h"
-#include <QDebug>
 
 
 
@@ -94,6 +93,12 @@ bool Tchart::event(QEvent* event)
 
 
 void Tchart::resizeEvent(QResizeEvent* event ) {
-//   double coef = (double)event->oldSize().height() / (double)event->size().height();
-//   scale(coef, coef);
+	if (event->oldSize().height() > 0) {
+			double coef = ((double)event->size().height() / (double)event->oldSize().height());
+			scale(coef, coef);
+	}
 }
+
+
+
+

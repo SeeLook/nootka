@@ -535,6 +535,17 @@ void MainWindow::showSupportDialog() {
 
 
 void MainWindow::fixPitchViewPos() {
+  if (!windowState().testFlag(Qt::WindowMaximized)) {
+    // Lets hope user has no any abnormal desktop size and skip checking ratio for maximized
+    if (innerWidget->height() > innerWidget->width() * 0.8) {
+        resize(innerWidget->width(), innerWidget->width() * 0.75);
+        return;
+    } else if (innerWidget->width() > innerWidget->height() * 1.95) {
+        resize(innerWidget->height() * 1.9, innerWidget->height());
+        return;
+    }
+  }
+  // when return occurred it will back here again from resizeEvent
 	if (gl->instrument != e_noInstrument) {
 		if (score->width() < innerWidget->width() / 2) { // remove pitchView from under score
 			if (m_scoreLay->count() > 1) // if it is under score
@@ -553,7 +564,7 @@ void MainWindow::fixPitchViewPos() {
 	if (score->width() > (innerWidget->width() - noteName->width()))
 		score->setMaximumHeight(score->height() * ((qreal)(innerWidget->width() - noteName->width()) / (qreal)score->width()));
 	else
-		score->setMaximumHeight(16777215);
+    score->setMaximumHeight(16777215);
 }
 
 
@@ -663,16 +674,9 @@ void MainWindow::updateSize(QSize newS) {
 
 
 void MainWindow::resizeEvent(QResizeEvent * event) {
-	if (!windowState().testFlag(Qt::WindowMaximized)) {
-		// Lets hope user has no any abnormal desktop size and skip checking ratio for maximized 
-		if (event->size().height() > event->size().width() * 0.8)
-				resize(event->size().width(), event->size().width() * 0.75);
-		else if (event->size().width() > event->size().height() * 1.95)
-				resize(event->size().height() * 1.9, event->size().height());
-	}
 	updateSize(innerWidget->size());
 	emit sizeChanged(innerWidget->size());
-	QTimer::singleShot(10, this, SLOT(fixPitchViewPos()));
+  QTimer::singleShot(3, this, SLOT(fixPitchViewPos()));
 }
 
 
