@@ -446,10 +446,7 @@ void TmainScore::strikeBlinkingFinished() {
 		m_strikeOut->deleteLater();
 		m_strikeOut = 0;
 	}
-	if (m_bliking) {
-		delete m_bliking;
-		m_bliking = 0;
-	}
+  delete m_bliking;
 	deleteNoteName(0);
 	staff()->noteSegment(0)->setColor(palette().text().color());
 	staff()->noteSegment(0)->enableNoteAnim(true, 300);
