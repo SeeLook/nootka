@@ -299,7 +299,7 @@ void TexamExecutor::askQuestion() {
       curQ.qa  = m_questList[m_supp->getQAnrForGuitarOnly()];      
     }
 
-    if (m_blackQuestNr == -1 && curQ.questionAs == TQAtype::e_asNote || curQ.answerAs == TQAtype::e_asNote) {
+    if (m_blackQuestNr == -1 && (curQ.questionAs == TQAtype::e_asNote || curQ.answerAs == TQAtype::e_asNote)) {
         if (m_level.useKeySign) {
             Tnote tmpNote = curQ.qa.note;
             if (m_level.isSingleKey) { //for single key
@@ -309,12 +309,12 @@ void TexamExecutor::askQuestion() {
                     if (tmpNote == Tnote(0, 0, 0))
                       qDebug() << "No note from questions list in single key. It should never happened!" << tmpNote.toText();
                 }
-            } else { // for multi keys
+            } else { // for many key signatures
                 curQ.key = TkeySignature((qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) +
                                          m_level.loKey.value());
                 if (m_level.onlyCurrKey) { // if note is in current key only
                     int keyRangeWidth = m_level.hiKey.value() - m_level.loKey.value();
-                    int patience = 0; // we are lookimg for suitable key
+                    int patience = 0; // we are looking for suitable key
                     char keyOff = curQ.key.value() - m_level.loKey.value();
                     tmpNote = curQ.key.inKey(curQ.qa.note);
                     while(tmpNote.note == 0 && patience < keyRangeWidth) {
@@ -615,18 +615,21 @@ void TexamExecutor::checkAnswer(bool showResults) {
     }
 
     disableWidgets();
+		bool autoNext = gl->E->autoNextQuest;
+		if (gl->E->afterMistake == TexamParams::e_stop && !curQ.isCorrect())
+				autoNext = false; // when mistake and e_stop - the same like autoNext = false;
     if (showResults) {
 			int mesgTime = 0;
-      if (gl->E->autoNextQuest) { // determine time of displaying
+      if (autoNext) { // determine time of displaying
 				if (curQ.isCorrect() || gl->E->afterMistake == TexamParams::e_continue)
-					mesgTime = 2500; // hard-coded 
-				else /*if (gl->E->afterMistake == TexamParams::e_wait)*/
-							mesgTime = gl->E->mistakePreview; // user defined wait time
+						mesgTime = 2500; // hard-coded 
+				else
+						mesgTime = gl->E->mistakePreview; // user defined wait time
 			}
       m_canvas->resultTip(&curQ, mesgTime);
-			if ((!m_exercise || (m_exercise && curQ.isCorrect())) && gl->hintsEnabled && !gl->E->autoNextQuest)
+			if ((!m_exercise || (m_exercise && curQ.isCorrect())) && gl->hintsEnabled && !autoNext)
 						m_canvas->whatNextTip(curQ.isCorrect());
-      if (!gl->E->autoNextQuest || (gl->E->autoNextQuest && gl->E->afterMistake == TexamParams::e_stop)) {
+      if (!autoNext) {
           if (!curQ.isCorrect() && !m_exercise)
               mW->nootBar->addAction(prevQuestAct);
           mW->nootBar->addAction(nextQuestAct);
@@ -652,7 +655,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 		markAnswer(curQ);
     int waitTime = gl->E->questionDelay;
 		if (m_exercise) {
-			if (gl->E->afterMistake != TexamParams::e_continue)
+			if (gl->E->afterMistake != TexamParams::e_continue || mW->correctChB->isChecked())
 				waitTime = gl->E->correctPreview; // user has to have time to see his mistake and correct answer
 			m_exercise->checkAnswer();
 			if (!curQ.isCorrect()) { // correcting wrong answer
@@ -660,7 +663,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 						correctAnswer();
 					else {
 						mW->nootBar->addAction(correctAct);
-						if (!gl->E->autoNextQuest) {
+						if (!autoNext) {
 								m_canvas->whatNextTip(true, true);
 								m_lockRightButt = false;
 								return; // wait for user
@@ -680,27 +683,20 @@ void TexamExecutor::checkAnswer(bool showResults) {
 					}
 				}
 		}
-    if (showResults && gl->E->autoNextQuest) {
+    if (showResults && autoNext) {
       m_lockRightButt = true; // to avoid nervous users clicking mouse during wait time
       if (m_shouldBeTerminated)
           stopExamSlot();
       else {
-      if (curQ.isCorrect()) {
+				if (curQ.isCorrect()) {
           m_askingTimer->start(gl->E->questionDelay);
       } else {
-					if (!m_exercise && gl->E->afterMistake == TexamParams::e_stop) {
-							QTimer::singleShot(1000, this, SLOT(delayerTip()));
-							return;
-					}
           if (!m_exercise && gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
               QTimer::singleShot(waitTime, this, SLOT(repeatQuestion()));
           else {
 							if (gl->E->afterMistake == TexamParams::e_wait && (!m_exercise || (m_exercise && !mW->correctChB->isChecked())))
 									waitTime = gl->E->mistakePreview; // for exercises time was set above
-							if (gl->E->afterMistake != TexamParams::e_stop)
-									m_askingTimer->start(waitTime);
-							else if (!mW->correctChB->isChecked() && gl->hintsEnabled) // exercise and 'stop' after mistake
-									m_canvas->whatNextTip(true, true);
+							m_askingTimer->start(waitTime);
 					}
         }
       }
@@ -774,7 +770,7 @@ void TexamExecutor::correctAnswer() {
 			// !mW->correctChB->isChecked() means that correctAnswer() was called by clicking correctAct
 			m_askingTimer->start(gl->E->correctPreview);
   }
-  if (!gl->E->autoNextQuest || (gl->E->autoNextQuest && gl->E->afterMistake == TexamParams::e_stop)) 
+  if (!gl->E->autoNextQuest || gl->E->afterMistake == TexamParams::e_stop) 
 			QTimer::singleShot(2000, this, SLOT(delayerTip())); // 2000 ms - fastest preview time - longer than animation duration
 }
 
@@ -811,6 +807,8 @@ void TexamExecutor::markAnswer(TQAunit& curQ) {
     case TQAtype::e_asName:
       mW->noteName->markNameLabel(markColor);      
       break;
+		case TQAtype::e_asSound:
+			break;
   }
   if (m_exercise && gl->E->showNameOfAnswered) {
 		if (curQ.questionAs != TQAtype::e_asName && curQ.answerAs != TQAtype::e_asName) {
@@ -1453,7 +1451,6 @@ void TexamExecutor::updatePenalStep() {
           m_penalStep = (m_supp->obligQuestions() + m_exam->penalty() - m_exam->count()) / m_exam->blackCount();
     else
           m_penalStep = 0; // only penaltys questions
-//     qDebug() << "m_penalStep" << m_penalStep;
 }
 
 

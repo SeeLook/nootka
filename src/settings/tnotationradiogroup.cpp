@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                  				   *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                  				   *
  *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -146,7 +146,7 @@ void TnotationRadioGroup::setNameStyle(Tnote::EnameStyle style) {
 						m_rusButt->setChecked(true); break;
     }
     if (m_solfegeButtGroup) {
-				if (style == Tnote::e_italiano_Si || style == Tnote::e_italiano_Si)
+				if (style == Tnote::e_italiano_Si || style == Tnote::Tnote::e_russian_Ci)
 					m_solfegeRadio->setChecked(true);
 				else
 					m_letterRadio->setChecked(true);

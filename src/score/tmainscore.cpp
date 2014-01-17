@@ -474,10 +474,7 @@ void TmainScore::keyBlinkingFinished() {
 				m_questKey->setHtml(m_questKey->toHtml().replace("?", "!").replace(gl->EquestionColor.name(), gl->EanswerColor.name()));
 			m_keyBlinking->startBlinking(3); // and blink again
 	} else { // finished 2nd time
-			if (m_keyBlinking) {
-				delete m_keyBlinking;
-				m_keyBlinking = 0;
-			}
+			delete m_keyBlinking;
 	}
 }
 

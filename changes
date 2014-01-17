@@ -1,6 +1,7 @@
 0.9.5 rc1
   Nootka says: I'm afraid of exams
      - added exercise mode, without penalties and elapsing time
+     - more options for exercises (clues, additional note names, etc.)
      - extended support for instruments different than guitar 
      - transposing is possible in a range ±12 semitones (octave)
      - Nootka gives 'Certificate of Exam Completion' when you pass
@@ -13,7 +14,7 @@
      - preview of a level was improved
      - intonation view displays differences more accurate
      - added animations of accidentals corresponding with key signature
-     - abbadoned support for JACK
+     - tons of smaller fixes/improvements
     BUGS FIXES
      - Nootka doesn't crash when guitar or singing is out of tune
      - fixed random crash when midi output was in use
