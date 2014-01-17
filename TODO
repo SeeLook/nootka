@@ -6,8 +6,6 @@ ISSUES
 - when level doesn't force accidental and correction fixing octave or out of tune - names don't respect user accidental
 - try to close out stream for pulse - it sucks or get rid of pulse
 - do pixmap of voice/guitar glyph - TpushButtons don't display nootka text properly
-- don't display elapsing time during certificate
-- stop capturing during certificate
 - make order with Qt::WA_TransparentForMouseEvents in canvas
 
 			
