@@ -346,7 +346,9 @@ void TfingerBoard::showName(Tnote& note, const QColor& textColor) {
 	if (!qFinger && !qString)
 			return;
 	m_noteName->setZValue(200);
-	m_noteName->setScale((fbRect().height() / 2.0) / m_noteName->boundingRect().height());
+	m_noteName->setScale((fbRect().height() / 2.2) / m_noteName->boundingRect().height());
+// 	m_noteName->setDropShadow(m_noteName, QColor(textColor.lighter().name()));
+// 	m_noteName->setDefaultTextColor(gl->GselectedColor);
 	m_noteName->setDefaultTextColor(QColor(textColor.lighter().name()));
 	scene()->addItem(m_noteName);
 	QPointF tPos;

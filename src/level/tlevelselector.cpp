@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -251,26 +251,36 @@ QString TlevelSelector::checkLevel(Tlevel& l) {
 TlevelSelector::TlevelSelector(QWidget *parent) :
     QWidget(parent)
 {
-    QHBoxLayout *mainLay = new QHBoxLayout;
-
-    QVBoxLayout *levLay = new QVBoxLayout;
     QLabel *levLab = new QLabel(levelFilterTxt() + ":",this);
-    levLay->addWidget(levLab);
     m_levelsListWdg = new QListWidget(this);
-    m_levelsListWdg->setMouseTracking(true);
-    m_levelsListWdg->setFixedWidth(200);
-    levLay->addWidget(m_levelsListWdg);
+			m_levelsListWdg->setMouseTracking(true);
+			m_levelsListWdg->setFixedWidth(200);
+
     m_loadBut = new QPushButton(tr("Load"), this);
-    m_loadBut->setStatusTip(tr("Load exam level from file"));
-    levLay->addStretch(1);
-    levLay->addWidget(m_loadBut);
-
-    mainLay->addLayout(levLay);
-
+			m_loadBut->setStatusTip(tr("Load level from file"));
+			m_loadBut->setIcon(QIcon(gl->path + "picts/levelCreator.png"));
+			m_loadBut->setIconSize(QSize(22, 22));
+		m_removeButt = new QPushButton(tr("Remove"), this);
+			m_removeButt->setStatusTip(TremoveLevel::removeTxt());
+			m_removeButt->setIcon(style()->standardIcon(QStyle::SP_TrashIcon));
+			m_removeButt->setIconSize(QSize(22, 22));
+			m_removeButt->setDisabled(true);
+    
     m_levelPreview = new TlevelPreview(this);
 		m_levelPreview->setFixInstrEnabled(true);
-    mainLay->addWidget(m_levelPreview);
 
+		QHBoxLayout *mainLay = new QHBoxLayout;
+    QVBoxLayout *levLay = new QVBoxLayout;
+			levLay->addWidget(levLab);
+			levLay->addWidget(m_levelsListWdg);
+			levLay->addStretch();
+			QHBoxLayout *buttLay = new QHBoxLayout;
+				buttLay->addWidget(m_loadBut);
+
+				buttLay->addWidget(m_removeButt);
+			levLay->addLayout(buttLay);
+    mainLay->addLayout(levLay);
+			mainLay->addWidget(m_levelPreview);
     setLayout(mainLay);
 
     findLevels();
@@ -278,6 +288,7 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
     connect(m_levelsListWdg, SIGNAL(currentRowChanged(int)), this, SLOT(levelSelected(int)));
     connect(m_loadBut, SIGNAL(clicked()), this, SLOT(loadFromFilePrivate()));
 		connect(m_levelPreview, SIGNAL(instrumentLevelToFix()), this, SLOT(fixInstrumentSlot()));
+		connect(m_removeButt, SIGNAL(clicked()), this, SLOT(removeLevelSlot()));
 }
 
 TlevelSelector::~TlevelSelector() {
@@ -291,6 +302,10 @@ TlevelSelector::~TlevelSelector() {
 
 void TlevelSelector::levelSelected(int id) {
     m_levelPreview->setLevel(m_levels[id].level);
+		if (m_levels[id].file == "")
+				m_removeButt->setDisabled(true);
+		else
+				m_removeButt->setDisabled(false);
     emit levelChanged(m_levels[id].level);
 }
 
@@ -462,11 +477,68 @@ Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
 
 void TlevelSelector::fixInstrumentSlot() {
 	if (fixLevelInstrument(m_levels[m_levelsListWdg->currentRow()].level, m_levels[m_levelsListWdg->currentRow()].file, 
-						gl->instrumentToFix, this))
-			if (!Tlevel::saveToFile(m_levels[m_levelsListWdg->currentRow()].level, m_levels[m_levelsListWdg->currentRow()].file))
+						gl->instrumentToFix, this)) {
+			if (!Tlevel::saveToFile(m_levels[m_levelsListWdg->currentRow()].level, m_levels[m_levelsListWdg->currentRow()].file)) {
 						qDebug() << "Failed when writing fixed level to:" << m_levels[m_levelsListWdg->currentRow()].file;
-			else
+			} else {
 				m_levelPreview->setLevel(m_levels[m_levelsListWdg->currentRow()].level);
+			}
+	}
+}
+
+
+void TlevelSelector::removeLevelSlot() { 
+		QPointer<TremoveLevel> removeDialog = new TremoveLevel(m_levels[idOfSelected()].level.name,
+			m_levels[idOfSelected()].file, this);
+		if (removeDialog->exec() == QDialog::Accepted) {
+			QListWidgetItem *toTrash = m_levelsListWdg->takeItem(idOfSelected());
+			delete toTrash;
+			m_levels.removeAt(idOfSelected());
+			updateRecentLevels();
+// 			m_removeButt->setDisabled(true);
+		}
+}
+
+
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%% TremoveLevel %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+TremoveLevel::TremoveLevel(const QString& levelName, const QString& fileName, QWidget* parent) : 
+	QDialog(parent, Qt::CustomizeWindowHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint),
+	m_levelFile(fileName)
+{
+		setWindowTitle(removeTxt().replace("<b>", "").replace("</b>", ""));
+		QLabel *removeLab = new QLabel(removeTxt(levelName), this);
+		m_deleteChB = new QCheckBox(tr("Also delete level file:"), this);
+		QLabel *fNameLab = new QLabel("<b>" + fileName + "</b>", this);
+		
+		QDialogButtonBox *stdButtons = new QDialogButtonBox(this);
+		QPushButton *removeButton = stdButtons->addButton(tr("Remove"), QDialogButtonBox::AcceptRole);
+			removeButton->setIcon(style()->standardIcon(QStyle::SP_TrashIcon));
+		QPushButton *cancelButton =	stdButtons->addButton(QDialogButtonBox::Cancel);
+			cancelButton->setIcon(style()->standardIcon(QStyle::SP_DialogCancelButton));
+			
+		QVBoxLayout *lay = new QVBoxLayout;
+			lay->addWidget(removeLab, 0, Qt::AlignCenter);
+			lay->addSpacing(20);
+			lay->addWidget(m_deleteChB, 0, Qt::AlignCenter);
+			lay->addWidget(fNameLab, 0, Qt::AlignCenter);
+			lay->addSpacing(20);
+			lay->addWidget(stdButtons, 0, Qt::AlignCenter);
+		setLayout(lay);
+			
+		connect(this, SIGNAL(accepted()), this, SLOT(acceptedSlot()));
+		connect(stdButtons, SIGNAL(accepted()), this, SLOT(accept()));
+		connect(stdButtons, SIGNAL(rejected()), this, SLOT(reject()));
+}
+
+
+void TremoveLevel::acceptedSlot() {
+		if (m_deleteChB->isChecked()) {
+			QFile levF(m_levelFile);
+			if (!levF.remove())
+				qDebug() << "Can't remove level file" << m_levelFile ;
+		}
 }
 
 

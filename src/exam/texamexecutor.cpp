@@ -246,8 +246,13 @@ void TexamExecutor::initializeExecuting() {
 						updatePenalStep();
 				}
 		}
-    m_prevQuestStyle = m_supp->randomNameStyle(gl->NnameStyleInNoteName);
-    m_prevAnswStyle = m_supp->randomNameStyle(m_prevQuestStyle);
+		if (m_level.requireStyle) {
+				m_prevQuestStyle = m_supp->randomNameStyle(gl->NnameStyleInNoteName);
+				m_prevAnswStyle = m_supp->randomNameStyle(m_prevQuestStyle);
+		} else {
+				m_prevQuestStyle = gl->NnameStyleInNoteName;
+				m_prevAnswStyle = gl->NnameStyleInNoteName;
+		}
     
     m_level.questionAs.randNext(); // Randomize question and answer type
     if (m_level.questionAs.isNote()) m_level.answersAs[TQAtype::e_asNote].randNext();
@@ -694,7 +699,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
           if (!m_exercise && gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
               QTimer::singleShot(waitTime, this, SLOT(repeatQuestion()));
           else {
-							if (gl->E->afterMistake == TexamParams::e_wait && (!m_exercise || (m_exercise && !mW->correctChB->isChecked())))
+							if (gl->E->afterMistake == TexamParams::e_wait && (!m_exercise || !mW->correctChB->isChecked()))
 									waitTime = gl->E->mistakePreview; // for exercises time was set above
 							m_askingTimer->start(waitTime);
 					}

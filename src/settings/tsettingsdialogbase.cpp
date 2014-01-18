@@ -25,7 +25,7 @@
 TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
         QDialog(parent, Qt::CustomizeWindowHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint)
 {
-		setMaximumSize(qApp->desktop()->availableGeometry().size());
+// 		setMaximumSize(qApp->desktop()->availableGeometry().size());
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *contLay = new QHBoxLayout;
     navList = new QListWidget(this);
@@ -90,12 +90,13 @@ bool TsettingsDialogBase::event(QEvent *event) {
 
 void TsettingsDialogBase::fitSize() {
   if (qApp->desktop()->availableGeometry().height() <= 600) {
+			showMaximized();
 			hint->hide();
 			m_aLay->removeWidget(m_widget);
       m_scrollArea->setWidget(m_widget);
 			m_aLay->insertWidget(0, m_scrollArea);
       m_scrollArea->show();
-			showMaximized();
+// 			showMaximized();
 			convertStatusTips();
 			connect(stackLayout, SIGNAL(currentChanged(int)), this, SLOT(convertStatusTips()));
   }

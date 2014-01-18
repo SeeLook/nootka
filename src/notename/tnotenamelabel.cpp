@@ -59,6 +59,9 @@ TnoteNameLabel::TnoteNameLabel(const QString& text, QWidget* parent) :
 	QGraphicsScene *scene = new QGraphicsScene(this);
 	setScene(scene);
 	m_textItem = new QGraphicsTextItem(0, scene);
+	QFont f = font();
+	f.setStyleHint(QFont::SansSerif);
+	m_textItem->setFont(f);
 	scene->setSceneRect(geometry());
 	setText(text);
 	
@@ -86,7 +89,7 @@ void TnoteNameLabel::setText(const QString& text) {
 
 void TnoteNameLabel::center() {
 	m_textItem->setPos((width() - m_textItem->boundingRect().width() * m_textItem->scale()) / 2,
-				(scene()->height() - m_textItem->boundingRect().height() * m_textItem->scale()) / 2	+ height() / 8.0);
+				(scene()->height() - m_textItem->boundingRect().height() * m_textItem->scale()) / 2	+ height() / 16.0);
 #if defined(Q_OS_MAC)
     scene()->update();
 #endif

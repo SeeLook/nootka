@@ -7,6 +7,8 @@ ISSUES
 - try to close out stream for pulse - it sucks or get rid of pulse
 - do pixmap of voice/guitar glyph - TpushButtons don't display nootka text properly
 - make order with Qt::WA_TransparentForMouseEvents in canvas
+- e_continue & correction doesn't respect correction time
+- windows installer doesn't want to downgrade version
 
 			
 TODOES
@@ -18,6 +20,7 @@ TODOES
 - !!!check does 'string order' work for Tfingerboard!!!
 - sniffer has setAmbitus to guitar scale range - fix it!!!
 - remove unused classes: widgets/animations
+- make of use QDialogButtonBox
 - add shadows under strings on pickup
 - do not transform pickup image for lefthanded - just change its pos
 
