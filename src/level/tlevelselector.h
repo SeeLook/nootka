@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,7 +23,9 @@
 #include "tlevel.h"
 #include <QWidget>
 #include <QListWidget>
+#include <QDialog>
 
+class QCheckBox;
 
 class TlevelPreview;
 class QListWidget;
@@ -63,7 +65,8 @@ public:
         QString 					file; // file name of a level
         QListWidgetItem  *item; // corresponding entry in QListWidget (m_levelsListWdg)
         bool 							suitable; // true when level is possible to perform by current instrument
-    };    
+    };
+		
         /** Adds level @param lev to list. 
          * Also corresponding file name.
          * when @param check is true it checks list for duplicates*/
@@ -109,7 +112,7 @@ private:
     QListWidget *m_levelsListWdg;
     QList <SlevelContener> m_levels;
     TlevelPreview *m_levelPreview;
-    QPushButton *m_loadBut;
+    QPushButton *m_loadBut, *m_removeButt;
     
     
     Tlevel getLevelFromFile(QFile &file);
@@ -117,8 +120,35 @@ private:
 private slots:
     void loadFromFilePrivate();
 		void fixInstrumentSlot();
+		void removeLevelSlot();
 
 };
 
 
+class TremoveLevel : public QDialog
+{
+	Q_OBJECT
+	
+public:
+	explicit TremoveLevel(const QString& levelName, const QString& fileName, QWidget* parent = 0);
+	
+			/** Remove level %1 from the list (%1 is optional) */
+	static QString removeTxt(const QString& levelName = "") { 
+			return tr("Remove level %1 from the list").arg("<b>" + levelName + "</b>");	}
+			
+protected slots:
+	void acceptedSlot();
+	
+private:
+	QCheckBox					*m_deleteChB;
+	QString						 m_levelFile;
+	
+};
+
+
 #endif // TLEVELSELECTOR_H
+
+
+
+
+

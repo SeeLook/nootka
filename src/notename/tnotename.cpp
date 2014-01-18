@@ -52,8 +52,12 @@ TnoteName::TnoteName(QWidget *parent) :
 		m_nameLabel = new TnoteNameLabel("", this);
 		QFont ff = font();
 		ff.setPointSize(12);
-		m_nameLabel->setFont(ff); // otherwise label font becomes bold
-		m_nameLabel->setText("<b><span style=\"color: palette(window);\">" + gl->version + "</span></b>");
+// 		m_nameLabel->setFont(ff); // otherwise label font becomes bold
+// 		m_nameLabel->setText("<b><span style=\"color: palette(text);\">" + gl->version + "</span></b>");
+		QColor C = palette().text().color();
+		C.setAlpha(30);
+		m_nameLabel->setText(QString("<b><span style=\"color: rgba(%1, %2, %3, %4);\">").
+		arg(C.red()).arg(C.green()).arg(C.blue()).arg(C.alpha()) + gl->version + "</span></b>");
 		connect(m_nameLabel, SIGNAL(blinkingFinished()), this, SLOT(correctAnimationFinished()));
     resize();
 
@@ -347,7 +351,7 @@ void TnoteName::correctName(Tnote& goodName, const QColor& color, bool isWrong) 
 
 void TnoteName::setNameText() {
     if (m_notes[0].note) {
-				QString txt = "<b>" + m_notes[0].toRichText() + "</b>";
+				QString txt = m_notes[0].toRichText();
         if (m_notes[1].note) {
             txt = txt + QString("  <span style=\"font-size: %1px; color: %2\">(").arg(m_nameLabel->font().pointSize() - 2).arg(gl->enharmNotesColor.name()) + m_notes[1].toRichText();
             if (m_notes[2].note)
@@ -356,7 +360,7 @@ void TnoteName::setNameText() {
         }
         m_nameLabel->setText(txt);
     } else 
-				m_nameLabel->setText("");;
+				m_nameLabel->setText("");
 }
 
 
@@ -516,7 +520,7 @@ void TnoteName::invokeBlinkingAgain() {
 	disconnect(m_nameLabel, SIGNAL(throwingFinished()), this, SLOT(correctAnimationFinished()));
 	if (m_notes[0] != m_goodNote) {
 		markNameLabel(QColor(gl->EanswerColor.name()));
-		m_nameLabel->thrownText("<b>" + m_goodNote.toRichText() + "</b>", 150, 150);
+		m_nameLabel->thrownText(m_goodNote.toRichText(), 150, 150);
 	}
 }
 
