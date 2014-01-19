@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -73,6 +73,7 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
     cancelBut->setText(tr("Close"));
     okBut->setText(tr("Check"));
     okBut->setStatusTip(tr("Check, Are your settings for the level possible to perform."));
+		defaultBut->hide();
     disconnect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
     connect(okBut, SIGNAL(clicked()), this, SLOT(checkLevelSlot()));
 

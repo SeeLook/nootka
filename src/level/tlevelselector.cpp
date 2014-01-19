@@ -491,11 +491,10 @@ void TlevelSelector::removeLevelSlot() {
 		QPointer<TremoveLevel> removeDialog = new TremoveLevel(m_levels[idOfSelected()].level.name,
 			m_levels[idOfSelected()].file, this);
 		if (removeDialog->exec() == QDialog::Accepted) {
+			m_levels.removeAt(idOfSelected());
 			QListWidgetItem *toTrash = m_levelsListWdg->takeItem(idOfSelected());
 			delete toTrash;
-			m_levels.removeAt(idOfSelected());
 			updateRecentLevels();
-// 			m_removeButt->setDisabled(true);
 		}
 }
 
