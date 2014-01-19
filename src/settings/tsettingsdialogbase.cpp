@@ -25,7 +25,6 @@
 TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
         QDialog(parent, Qt::CustomizeWindowHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint)
 {
-// 		setMaximumSize(qApp->desktop()->availableGeometry().size());
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *contLay = new QHBoxLayout;
     navList = new QListWidget(this);
@@ -56,26 +55,21 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
 
     mainLay->addLayout(contLay);
 
-    QHBoxLayout *butLay = new QHBoxLayout();
-    defaultBut = new QPushButton(QIcon(style()->standardIcon(QStyle::SP_BrowserReload)), tr("Default"), this);
-    okBut = new QPushButton(QIcon(style()->standardIcon(QStyle::SP_DialogApplyButton)), tr("Accept"), this);
-    butLay->addStretch(1);
-    butLay->addWidget(defaultBut);
-    butLay->addStretch(3);
-    defaultBut->hide();
-    butLay->addWidget(okBut);
-    butLay->addStretch(1);
-    cancelBut = new QPushButton(QIcon(style()->standardIcon(QStyle::SP_DialogDiscardButton)), tr("Discard"), this);
-    butLay->addWidget(cancelBut);
-//     butLay->addStretch(1);
-    mainLay->addLayout(butLay);
-
+		QDialogButtonBox *buttonBox = new QDialogButtonBox(Qt::Horizontal, this);
+		defaultBut = buttonBox->addButton(QDialogButtonBox::RestoreDefaults);
+			defaultBut->setIcon(style()->standardIcon(QStyle::SP_BrowserReload));
+			defaultBut->hide();
+		okBut = buttonBox->addButton(QDialogButtonBox::Ok);
+			okBut->setIcon(style()->standardIcon(QStyle::SP_DialogApplyButton));
+		cancelBut = buttonBox->addButton(QDialogButtonBox::Cancel);
+			cancelBut->setIcon(style()->standardIcon(QStyle::SP_DialogDiscardButton));
+		mainLay->addWidget(buttonBox);
     setLayout(mainLay);
 
     connect(cancelBut, SIGNAL(clicked()), this, SLOT(reject()));
     connect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
     
-    QTimer::singleShot(10, this, SLOT(fitSize()));
+    fitSize();
 }
 
 
@@ -91,14 +85,13 @@ bool TsettingsDialogBase::event(QEvent *event) {
 void TsettingsDialogBase::fitSize() {
   if (qApp->desktop()->availableGeometry().height() <= 600) {
 			showMaximized();
-			hint->hide();
+      hint->hide();
 			m_aLay->removeWidget(m_widget);
       m_scrollArea->setWidget(m_widget);
 			m_aLay->insertWidget(0, m_scrollArea);
       m_scrollArea->show();
-// 			showMaximized();
-			convertStatusTips();
-			connect(stackLayout, SIGNAL(currentChanged(int)), this, SLOT(convertStatusTips()));
+      convertStatusTips();
+      connect(stackLayout, SIGNAL(currentChanged(int)), this, SLOT(convertStatusTips()));
   }
 }
 
