@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -293,6 +293,7 @@ void TstartExamDlg::startAccepted() {
 TstartExamDlg::Eactions TstartExamDlg::createLevel() {
     m_Acction = e_levelCreator;
     close();
+    return e_levelCreator;
 }
 
 
