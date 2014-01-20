@@ -50,10 +50,6 @@ TnoteName::TnoteName(QWidget *parent) :
     mainLay->setAlignment(Qt::AlignCenter);
 
 		m_nameLabel = new TnoteNameLabel("", this);
-		QFont ff = font();
-		ff.setPointSize(12);
-// 		m_nameLabel->setFont(ff); // otherwise label font becomes bold
-// 		m_nameLabel->setText("<b><span style=\"color: palette(text);\">" + gl->version + "</span></b>");
 		QColor C = palette().text().color();
 		C.setAlpha(30);
 		m_nameLabel->setText(QString("<b><span style=\"color: rgba(%1, %2, %3, %4);\">").
@@ -113,8 +109,8 @@ TnoteName::TnoteName(QWidget *parent) :
     m_octaveLay->addStretch(1);
     m_octaveGroup = new QButtonGroup(this);
     for (int i = 0; i < 8; i++) {
-        m_octaveButtons[i]->setToolTip(tr(octavesFull[i]));
-        m_octaveButtons[i]->setStatusTip(m_octaveButtons[i]->toolTip());
+//         m_octaveButtons[i]->setToolTip(tr(octavesFull[i]));
+        m_octaveButtons[i]->setStatusTip(tr(octavesFull[i]));
 				if (i > 0 && i < 7)
 						m_octaveLay->addWidget(m_octaveButtons[i]);
         m_octaveGroup->addButton(m_octaveButtons[i], i);
@@ -130,8 +126,7 @@ TnoteName::TnoteName(QWidget *parent) :
     setStyle(gl->NnameStyleInNoteName);
     setNoteNamesOnButt(style());
     for (int i = 0; i < 3; i++) m_notes.push_back(Tnote());
-    setAmbitus(gl->loString(),
-               Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
+    setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
     resize();
 
 }

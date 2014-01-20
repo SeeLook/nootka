@@ -22,9 +22,9 @@
 
 #include <QDialog>
 
+class QDialogButtonBox;
 class QVBoxLayout;
 class QScrollArea;
-
 class TroundedLabel;
 class QListWidget;
 class QStackedLayout;
@@ -51,6 +51,7 @@ protected:
     QStackedLayout  					*stackLayout;
     QPushButton     					*cancelBut, *okBut, *defaultBut;
     TroundedLabel          		*hint;
+		QDialogButtonBox					*buttonBox; /** Bottom layout with buttons */
 
 protected slots:
         /** Checks available screen space and fits this dialog if necessary.

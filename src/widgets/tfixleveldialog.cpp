@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -73,9 +73,11 @@ TfixLevelDialog::TfixLevelDialog(Tlevel &level, const QString& fileName, bool& a
 	TroundedLabel *autoLab = new TroundedLabel(tr("When you are sure that <b>all your Nootka files</b> were created exactly for selected instrument<br>you can check this box and<br><b>all incorrect files will be fixing automatically.</b>"), this);
 	autoLab->setAlignment(Qt::AlignCenter);
 	autoLab->setWordWrap(true);
-	QPushButton *okButt = new QPushButton(QIcon(style()->standardIcon(QStyle::SP_DialogOkButton)), tr("OK"), this);
-	QPushButton *cancleButt = new QPushButton(QIcon(style()->standardIcon(QStyle::SP_DialogCancelButton)), tr("Cancel"), this);
-	
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(Qt::Horizontal, this);
+	QPushButton *okBut = buttonBox->addButton(QDialogButtonBox::Ok);
+		okBut->setIcon(style()->standardIcon(QStyle::SP_DialogApplyButton));
+	QPushButton *cancelBut = buttonBox->addButton(QDialogButtonBox::Cancel);
+		cancelBut->setIcon(style()->standardIcon(QStyle::SP_DialogDiscardButton));
 	QVBoxLayout *lay = new QVBoxLayout;
 		lay->addWidget(m_selInstr);
 		lay->addStretch();
@@ -86,16 +88,11 @@ TfixLevelDialog::TfixLevelDialog(Tlevel &level, const QString& fileName, bool& a
 			fixAutoGr->setLayout(fixAutoLay);
 		lay->addWidget(fixAutoGr);	
 		lay->addStretch();
-		QHBoxLayout *buttLay = new QHBoxLayout;
-			buttLay->addStretch();
-			buttLay->addWidget(okButt);
-			buttLay->addStretch();
-			buttLay->addWidget(cancleButt);
-			buttLay->addStretch();
-		lay->addLayout(buttLay);
+		lay->addWidget(buttonBox);
 	setLayout(lay);
-	connect(okButt, SIGNAL(clicked()), this, SLOT(okSlot()));
-	connect(cancleButt, SIGNAL(clicked()), this, SLOT(reject()));
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(okSlot()));
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));	
 }
 
 

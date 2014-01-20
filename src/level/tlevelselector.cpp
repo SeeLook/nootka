@@ -301,12 +301,15 @@ TlevelSelector::~TlevelSelector() {
 //##########################################################################################################
 
 void TlevelSelector::levelSelected(int id) {
+	if (id >= 0 && id < m_levelsListWdg->count()) {
     m_levelPreview->setLevel(m_levels[id].level);
 		if (m_levels[id].file == "")
 				m_removeButt->setDisabled(true);
 		else
 				m_removeButt->setDisabled(false);
     emit levelChanged(m_levels[id].level);
+	} else // clear level preview if none
+			m_levelPreview->setLevel();
 }
 
 
@@ -491,8 +494,10 @@ void TlevelSelector::removeLevelSlot() {
 		QPointer<TremoveLevel> removeDialog = new TremoveLevel(m_levels[idOfSelected()].level.name,
 			m_levels[idOfSelected()].file, this);
 		if (removeDialog->exec() == QDialog::Accepted) {
-			m_levels.removeAt(idOfSelected());
-			QListWidgetItem *toTrash = m_levelsListWdg->takeItem(idOfSelected());
+			int selId = idOfSelected();
+			m_levelsListWdg->setCurrentRow(-1);
+			m_levels.removeAt(selId);
+			QListWidgetItem *toTrash = m_levelsListWdg->takeItem(selId);
 			delete toTrash;
 			updateRecentLevels();
 		}

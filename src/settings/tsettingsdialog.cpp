@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -66,10 +66,16 @@ TsettingsDialog::TsettingsDialog(QWidget *parent) :
     navList->item(5)->setIcon(QIcon(gl->path+"picts/questionsSettings.png"));
     navList->item(5)->setTextAlignment(Qt::AlignCenter);
     
-    defaultBut->show();
+		defaultBut = buttonBox->addButton(QDialogButtonBox::RestoreDefaults);
+			defaultBut->setIcon(style()->standardIcon(QStyle::SP_BrowserReload));
+		okBut = buttonBox->addButton(QDialogButtonBox::Apply);
+			okBut->setIcon(style()->standardIcon(QStyle::SP_DialogApplyButton));
+		cancelBut = buttonBox->addButton(QDialogButtonBox::Cancel);
+			cancelBut->setIcon(style()->standardIcon(QStyle::SP_DialogDiscardButton));
     defaultBut->setStatusTip(tr("Restore default settings for above parameters."));
     
-
+		connect(cancelBut, SIGNAL(clicked()), this, SLOT(reject()));
+    connect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
     connect(navList, SIGNAL(currentRowChanged(int)), this, SLOT(changeSettingsWidget(int)));
     connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
 		connect(defaultBut, SIGNAL(pressed()), this, SLOT(restoreDefaults()));
