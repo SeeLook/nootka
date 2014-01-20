@@ -55,19 +55,9 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
 
     mainLay->addLayout(contLay);
 
-		QDialogButtonBox *buttonBox = new QDialogButtonBox(Qt::Horizontal, this);
-		defaultBut = buttonBox->addButton(QDialogButtonBox::RestoreDefaults);
-			defaultBut->setIcon(style()->standardIcon(QStyle::SP_BrowserReload));
-			defaultBut->hide();
-		okBut = buttonBox->addButton(QDialogButtonBox::Ok);
-			okBut->setIcon(style()->standardIcon(QStyle::SP_DialogApplyButton));
-		cancelBut = buttonBox->addButton(QDialogButtonBox::Cancel);
-			cancelBut->setIcon(style()->standardIcon(QStyle::SP_DialogDiscardButton));
+		buttonBox = new QDialogButtonBox(Qt::Horizontal, this);
 		mainLay->addWidget(buttonBox);
     setLayout(mainLay);
-
-    connect(cancelBut, SIGNAL(clicked()), this, SLOT(reject()));
-    connect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
     
     fitSize();
 }
