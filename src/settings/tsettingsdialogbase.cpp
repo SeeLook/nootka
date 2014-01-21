@@ -74,7 +74,12 @@ bool TsettingsDialogBase::event(QEvent *event) {
 
 void TsettingsDialogBase::fitSize() {
   if (qApp->desktop()->availableGeometry().height() <= 600) {
-			showMaximized();
+#if defined (Q_OS_WIN)
+      setWindowFlags(windowFlags() | Qt::WindowMaximizeButtonHint);
+      setMinimumSize(qApp->desktop()->availableGeometry().width() - 100,
+                     qApp->desktop()->availableGeometry().height() - 70);
+#endif
+      showMaximized();
       hint->hide();
 			m_aLay->removeWidget(m_widget);
       m_scrollArea->setWidget(m_widget);

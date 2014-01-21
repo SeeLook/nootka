@@ -1101,7 +1101,7 @@ void TexamExecutor::clearWidgets() {
 void TexamExecutor::createActions() {
 		nextQuestAct = new QAction(tr("Next", "like a next question"), this);
     nextQuestAct->setStatusTip(tr("next question\n(space %1)").arg(TexamHelp::orRightButtTxt()));
-		nextQuestAct->setToolTip(nextQuestAct->statusTip());
+//		nextQuestAct->setToolTip(nextQuestAct->statusTip());
     nextQuestAct->setIcon(QIcon(gl->path + "picts/nextQuest.png"));
     nextQuestAct->setShortcut(QKeySequence(Qt::Key_Space));
     connect(nextQuestAct, SIGNAL(triggered()), this, SLOT(askQuestion()));
@@ -1109,14 +1109,14 @@ void TexamExecutor::createActions() {
 
     prevQuestAct = new QAction(tr("Repeat", "like a repeat question"), this);
     prevQuestAct->setStatusTip(tr("repeat previous question (backspace)"));
-		prevQuestAct->setToolTip(prevQuestAct->statusTip());
+//		prevQuestAct->setToolTip(prevQuestAct->statusTip());
     prevQuestAct->setIcon(QIcon(gl->path + "picts/prevQuest.png"));
     prevQuestAct->setShortcut(QKeySequence(Qt::Key_Backspace));
     connect(prevQuestAct, SIGNAL(triggered()), this, SLOT(repeatQuestion()));
 
     checkAct = new QAction(tr("Check", "like a check answer"), this);
     checkAct->setStatusTip(tr("check answer\n(enter %1)").arg(TexamHelp::orRightButtTxt()));
-		checkAct->setToolTip(checkAct->statusTip());
+//		checkAct->setToolTip(checkAct->statusTip());
     checkAct->setIcon(QIcon(gl->path + "picts/check.png"));
     checkAct->setShortcut(QKeySequence(Qt::Key_Return));
     connect(checkAct, SIGNAL(triggered()), this, SLOT(checkAnswer()));
@@ -1124,7 +1124,7 @@ void TexamExecutor::createActions() {
     if (m_level.questionAs.isSound()) {
         repeatSndAct = new QAction(tr("Play"), this);
         repeatSndAct->setStatusTip(tr("play sound again") + "<br>(" + TexamHelp::pressSpaceKey().replace("<b>", " ").replace("</b>", ")"));
-				repeatSndAct->setToolTip(repeatSndAct->statusTip().replace("<br>", "\n"));
+//				repeatSndAct->setToolTip(repeatSndAct->statusTip().replace("<br>", "\n"));
         repeatSndAct->setShortcut(QKeySequence(Qt::Key_Space));
         repeatSndAct->setIcon(QIcon(gl->path + "picts/repeatSound.png"));
         connect(repeatSndAct, SIGNAL(triggered()), this, SLOT(repeatSound()));
@@ -1132,7 +1132,7 @@ void TexamExecutor::createActions() {
     if (m_exercise) {
 			correctAct = new QAction(tr("Correct", "like a correct answer with mistake"), this);
 			correctAct->setStatusTip(tr("correct answer\n(enter)"));
-			correctAct->setToolTip(correctAct->statusTip());
+//			correctAct->setToolTip(correctAct->statusTip());
 			correctAct->setIcon(QIcon(gl->path + "picts/correct.png"));
 			correctAct->setShortcut(QKeySequence(Qt::Key_Return));
 			connect(correctAct, SIGNAL(triggered()), this, SLOT(correctAnswer()));
