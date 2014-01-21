@@ -8,10 +8,10 @@
      - exam can check intonation of a sound and its accuracy is configurable
      - English language in Nootka was corrected and improved
      - buttons with octaves and accidentals are highlighted during answering
-     - input device settings dialog is more clear and neat
+     - audio input device settings dialog is more clear and neat
      - GUI layout enhancements
      - crossing of played notes is fluent now - it was cleaned from cracks
-     - preview of a level was improved
+     - preview of a level was improved and levels can be deleted as well
      - intonation view displays differences more accurate
      - added animations of accidentals corresponding with key signature
      - tons of smaller fixes/improvements
@@ -21,6 +21,7 @@
      - piano stave is properly locked in exams and level creator
      - audio devices not supported rate of 44100 Hz work properly
      - fixed switching instrument type when an exam is continued
+     - fixed losing default audio device in Linux ALSA
 
 0.8.95 beta
   Nootka says: I speak Russian and play bass
