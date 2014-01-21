@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -55,6 +55,8 @@ QStringList TaudioOUT::getAudioDevicesList() {
         if (devInfo.probed && devInfo.outputChannels > 0)
           devList << QString::fromLocal8Bit(devInfo.name.data());
     }
+    if (rta->getCurrentApi() == RtAudio::LINUX_ALSA && !devList.isEmpty())
+				devList.prepend("ALSA default");
     delete rta;
     return devList;
 }
@@ -160,12 +162,13 @@ bool TaudioOUT::setAudioDevice(QString &name) {
   rtDevice = getRtAudio();
   int devId = -1;
   int devCount = rtDevice->getDeviceCount();
+	bool isAlsaDefault = false;
   if (devCount) {
     RtAudio::DeviceInfo devInfo;
     for(int i = 0; i < devCount; i++) { // Is there device on the list ??
         if (getDeviceInfo(devInfo, i)) {        
           if (devInfo.probed) {
-            if (QString::fromStdString(devInfo.name) == name) { // Here it is !!
+            if (QString::fromLocal8Bit(devInfo.name.data()) == name) { // Here it is !!
               devId = i;
               break;
             }
@@ -174,9 +177,10 @@ bool TaudioOUT::setAudioDevice(QString &name) {
     }
     if (devId == -1) { // no device on the list - load default
 				devId = rtDevice->getDefaultOutputDevice();
-				if (rtDevice->getCurrentApi() == RtAudio::LINUX_ALSA)
+				if (rtDevice->getCurrentApi() == RtAudio::LINUX_ALSA) {
 						streamOptions->flags = RTAUDIO_ALSA_USE_DEFAULT;
-				else {
+						isAlsaDefault = true;
+				} else {
 						if (rtDevice->getDeviceInfo(devId).outputChannels <= 0) {
 							qDebug("wrong default output device");
 							playable = false;
@@ -214,7 +218,10 @@ bool TaudioOUT::setAudioDevice(QString &name) {
   }
   if (rtDevice->isStreamOpen() && checkBufferSize(m_bufferFrames)) {
       m_maxCBloops = (88200 * ratioOfRate) / m_bufferFrames;
-      deviceName = QString::fromLocal8Bit(rtDevice->getDeviceInfo(devId).name.data());
+			if (isAlsaDefault)
+					deviceName = "ALSA default";
+			else
+					deviceName = QString::fromLocal8Bit(rtDevice->getDeviceInfo(streamParams.deviceId).name.data());
       qDebug() << "OUT:" << deviceName << "samplerate:" << sampleRate * ratioOfRate << ", buffer size:" << m_bufferFrames;
       if (rtDevice->getCurrentApi() != RtAudio::LINUX_PULSE)
           closeStram(); // otherwise devices are blocked (not appears in settings dialog)

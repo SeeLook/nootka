@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -41,6 +41,8 @@ QStringList TaudioIN::getAudioDevicesList() {
         if (devInfo.probed && devInfo.inputChannels > 0)
           devList << QString::fromLocal8Bit(devInfo.name.data());
     }
+    if (rta->getCurrentApi() == RtAudio::LINUX_ALSA && !devList.isEmpty())
+				devList.prepend("ALSA default");
     delete rta;
     return devList;
 }
@@ -135,6 +137,7 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
   rtDevice = getRtAudio();
   int devId = -1;
   int devCount = rtDevice->getDeviceCount();
+	bool isAlsaDefault = false;
   if (devCount) {
     RtAudio::DeviceInfo devInfo;
     for(int i = 0; i < devCount; i++) { // Is there device on the list ??
@@ -149,9 +152,10 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
     }
     if (devId == -1) { // no device on the list - load default
         devId = rtDevice->getDefaultInputDevice();
-				if (rtDevice->getCurrentApi() == RtAudio::LINUX_ALSA)
+				if (rtDevice->getCurrentApi() == RtAudio::LINUX_ALSA) {
 						streamOptions->flags = RTAUDIO_ALSA_USE_DEFAULT;
-				else {
+						isAlsaDefault = true;
+				} else {
 						if (rtDevice->getDeviceInfo(devId).inputChannels <= 0) {
 							// check has default input got channels
 							qDebug("wrong default input device");
@@ -175,12 +179,15 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
   if (!openStream(NULL ,&streamParams, dataFormat, sampleRate, &m_bufferFrames, &inCallBack, 0, streamOptions))
     return false;
   if (rtDevice->isStreamOpen()) {
-      deviceName = QString::fromLocal8Bit(rtDevice->getDeviceInfo(devId).name.data());
+			if (isAlsaDefault)
+					deviceName = "ALSA default";
+			else
+					deviceName = QString::fromLocal8Bit(rtDevice->getDeviceInfo(devId).name.data());
 			if (checkBufferSize(m_bufferFrames)) {
-				qDebug() << "IN:" << deviceName << "samplerate:" << sampleRate << ", buffer size:" << m_bufferFrames;
-        return true;
+					qDebug() << "IN:" << deviceName << "samplerate:" << sampleRate << ", buffer size:" << m_bufferFrames;
+					return true;
       } else
-				return false;
+					return false;
   } else
       return false;
 }

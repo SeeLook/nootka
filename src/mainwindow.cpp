@@ -122,17 +122,14 @@ MainWindow::MainWindow(QWidget *parent) :
 		autoRepeatChB = new TanimedChBox(innerWidget);
 			autoRepeatChB->hide();
 			autoRepeatChB->setStatusTip(TexamSettings::autoNextQuestTxt());
-// 			autoRepeatChB->setToolTip(TexamSettings::autoNextQuestTxt());
 			autoRepeatChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 		expertAnswChB = new TanimedChBox(innerWidget);
 			expertAnswChB->hide();
 			expertAnswChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 			expertAnswChB->setStatusTip(TexamSettings::expertsAnswerTxt());
-// 			expertAnswChB->setToolTip(TexamSettings::expertsAnswerTxt());
 		correctChB = new TanimedChBox(innerWidget);
 			correctChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 			correctChB->setStatusTip(tr("show correct answer for every mistake"));
-// 			correctChB->setToolTip(correctChB->statusTip());
 			correctChB->hide();
     
     progress = new TprogressWidget(innerWidget);

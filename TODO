@@ -2,11 +2,11 @@ Plan for the Nootka One
 
 
 ISSUES
-- names reminded on a score after close exercise
 - try to close out stream for pulse - it sucks or get rid of pulse
 - do pixmap of voice/guitar glyph - TpushButtons don't display nootka text properly
 - make order with Qt::WA_TransparentForMouseEvents in canvas
 - charts hang with updating (probably related to re-sizing, scaling)
+- stop guitar work when it is invisible
 
 			
 TODOES
@@ -14,8 +14,7 @@ TODOES
 - level validation rule: q as fret to a as fret has to have fret range bigger than 5
 - check 'tune' of non guitar - does it correspond with instrument/clef scale and levels works proper
 - left-handed guitar correction anim to guitar (morphing) has wrong line points
-- add 'default' as audio device to detect sys-def one during every start
-- try to remove re-sizing on status label in exams/exercises
+- try to remove re-sizing a status label in exams/exercises
 - update screen-shoot image in exam help
 - force 'Plasique' style under MacOs or find a way on buttons
 - !!!check does 'string order' work for Tfingerboard!!!
@@ -43,5 +42,6 @@ Somewhere in time
 - keep exam file in /tmp and restore it when crash or so
 - add option of playing sound during capture
 - convert pointers requiring to be 0 to QPointer type
+- better and equal algorithm of questioning
 - add setFlag(ItemHasNoContents) to QGraphicsItem sub-classes don't has a paint() - used as containers only
 - convert level file to text format (for sure) and exam file as well (consider)
