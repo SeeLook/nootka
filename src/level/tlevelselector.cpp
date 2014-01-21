@@ -359,6 +359,7 @@ void TlevelSelector::addLevel(const Tlevel& lev, QString levelFile, bool check) 
     l.file = levelFile;
     l.item = m_levelsListWdg->item(m_levelsListWdg->count() - 1);
     l.item->setStatusTip(lev.desc);
+		l.suitable = true;
     m_levels << l;
 }
 

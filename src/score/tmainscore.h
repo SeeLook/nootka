@@ -84,9 +84,8 @@ public:
 		void correctKeySignature(TkeySignature newKey);
 		void correctAccidental(Tnote& goodNote);
 		
-				/** Displays note name of note (first) or all if @p forAll is true 
-				 * next to its note-head in a score. */
-		void showNames(bool forAll = false);
+				/** Displays note name of first note or the second if given next to its note-head in a score. */
+		void showNames(Tnote::EnameStyle st, bool forAll = false);
 		void deleteNoteName(int id); /** Deletes given instance of note name if it exist */
 		
 				/** Returns note head rectangle if visible or empty QRectF.  */
@@ -132,6 +131,7 @@ private:
 		Tnote												 m_goodNote;
 		TkeySignature								 m_goodKey;
 		bool 												 m_showNameInCorrection;
+		Tnote::EnameStyle						 m_corrStyle;
 };
 
 #endif // TMAINSCORE_H

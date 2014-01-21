@@ -189,7 +189,7 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 	m_whatTip->setTextWidth(qMin(m_maxTipWidth, m_parent->score->width()));
   m_scene->addItem(m_whatTip);
   m_whatTip->setFont(tipFont(0.35));
-  m_whatTip->setScale(m_scale);
+  m_whatTip->setScale(m_scale * 0.9);
   m_parent->guitar->setAttribute(Qt::WA_TransparentForMouseEvents, true); // to activate click on tip
   m_whatTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
   connect(m_whatTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
@@ -300,6 +300,12 @@ void Tcanvas::correctToGuitar(TQAtype::Etype &question, int prevTime, TfingerPos
 							m_parent->guitar->mapFromScene(m_parent->guitar->stringLine(goodPos.str()).p1()))));
 		QPointF p2(mapToScene(m_parent->guitar->mapToParent(
 							m_parent->guitar->mapFromScene(m_parent->guitar->stringLine(goodPos.str()).p2()))));
+		if (!gl->GisRightHanded) {
+			QPointF tmpP = p1;
+			p1 = p2;
+			p2 = tmpP;
+		}
+		qDebug() << p1 << p2;
 		m_correctAnim->setMorphing(QLineF(p1, p2), m_parent->guitar->stringWidth(goodPos.str() - 1));
 	}
 	m_correctAnim->startAnimations();

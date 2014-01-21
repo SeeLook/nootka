@@ -32,7 +32,8 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     QGraphicsView(parent),
     m_isCursorOverGuitar(false),
     m_movingItem(0),
-    m_noteName(0)
+    m_noteName(0),
+    m_corrStyle(Tnote::defaultStyle)
 {
     if (gl->GfingerColor == -1) {
         gl->GfingerColor = gl->invertColor(palette().highlight().color());
@@ -323,19 +324,20 @@ void TfingerBoard::markQuestion(QColor blurColor) {
 }
 
 
-void TfingerBoard::showName(Tnote& note, const QColor& textColor) {
+void TfingerBoard::showName(Tnote::EnameStyle st, Tnote& note, const QColor& textColor) {
 	m_nameInCorrection = false;
+	m_corrStyle = st;
 	QGraphicsEllipseItem *qFinger = 0;
 	QGraphicsLineItem *qString = 0;
 	if (note.note && (m_questFinger || m_questString)) { // Question was on the guitar
-			m_noteName = new TgraphicsTextTip(note.toRichText());
+			m_noteName = new TgraphicsTextTip(note.toRichText(st));
 			if (m_questFinger)
 				qFinger = m_questFinger;
 			else
 				qString = m_questString;
 	} else { // try to take note from an answer
 			if (m_fingerPos.fret() != 39 && m_fingerPos.str() != 7 && m_selNote.note) {
-					m_noteName = new TgraphicsTextTip(m_selNote.toRichText());
+					m_noteName = new TgraphicsTextTip(m_selNote.toRichText(st));
 					if (m_fingerPos.fret())
 						qFinger = m_fingers[m_fingerPos.str() - 1];
 					else
@@ -347,14 +349,17 @@ void TfingerBoard::showName(Tnote& note, const QColor& textColor) {
 			return;
 	m_noteName->setZValue(200);
 	m_noteName->setScale((fbRect().height() / 2.2) / m_noteName->boundingRect().height());
-// 	m_noteName->setDropShadow(m_noteName, QColor(textColor.lighter().name()));
-// 	m_noteName->setDefaultTextColor(gl->GselectedColor);
 	m_noteName->setDefaultTextColor(QColor(textColor.lighter().name()));
 	scene()->addItem(m_noteName);
+	if (!gl->GisRightHanded) {
+		QTransform trans;
+		trans.scale(-1.0, 1.0);
+		m_noteName->setTransform(trans, true);
+	}
 	QPointF tPos;
-	qreal yPos;
+	qreal yPos, nameScale = m_noteName->transform().m11() * m_noteName->scale();
 	if (qFinger) {
-		tPos.setX(qFinger->pos().x() + (qFinger->boundingRect().width() - m_noteName->boundingRect().width() * m_noteName->scale()) /  2);
+		tPos.setX(qFinger->pos().x() + (qFinger->boundingRect().width() - m_noteName->boundingRect().width() * nameScale) /  2);
 		yPos = qFinger->pos().y();
 	} else if (qString) {
 			m_noteName->setScale(m_noteName->scale() * 1.5);
@@ -975,7 +980,7 @@ void TfingerBoard::finishCorrection() {
 		setFinger(m_goodPos);
 		markAnswer(QColor(gl->EanswerColor.lighter().name()));
 		if (m_nameInCorrection)
-				showName(gl->EanswerColor);
+				showName(m_corrStyle, gl->EanswerColor);
 }
 
 
