@@ -122,17 +122,17 @@ MainWindow::MainWindow(QWidget *parent) :
 		autoRepeatChB = new TanimedChBox(innerWidget);
 			autoRepeatChB->hide();
 			autoRepeatChB->setStatusTip(TexamSettings::autoNextQuestTxt());
-			autoRepeatChB->setToolTip(TexamSettings::autoNextQuestTxt());
+// 			autoRepeatChB->setToolTip(TexamSettings::autoNextQuestTxt());
 			autoRepeatChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 		expertAnswChB = new TanimedChBox(innerWidget);
 			expertAnswChB->hide();
 			expertAnswChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 			expertAnswChB->setStatusTip(TexamSettings::expertsAnswerTxt());
-			expertAnswChB->setToolTip(TexamSettings::expertsAnswerTxt());
+// 			expertAnswChB->setToolTip(TexamSettings::expertsAnswerTxt());
 		correctChB = new TanimedChBox(innerWidget);
 			correctChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 			correctChB->setStatusTip(tr("show correct answer for every mistake"));
-			correctChB->setToolTip(correctChB->statusTip());
+// 			correctChB->setToolTip(correctChB->statusTip());
 			correctChB->hide();
     
     progress = new TprogressWidget(innerWidget);
@@ -217,7 +217,7 @@ MainWindow::~MainWindow()
 void MainWindow::createActions() {
     settingsAct = new QAction(tr("Settings"), this);
     settingsAct->setStatusTip(tr("Application preferences"));
-		settingsAct->setToolTip(settingsAct->statusTip());
+//		settingsAct->setToolTip(settingsAct->statusTip());
     settingsAct->setIcon(QIcon(gl->path+"picts/systemsettings.png"));
     connect(settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
 
@@ -231,12 +231,12 @@ void MainWindow::createActions() {
     analyseAct = new QAction(tr("Analyze", "could be Chart as well"), this);
     analyseAct->setIcon(QIcon(gl->path+"picts/charts.png"));
     analyseAct->setStatusTip(tr("Analysis of exam results"));
-		analyseAct->setToolTip(analyseAct->statusTip());
+//		analyseAct->setToolTip(analyseAct->statusTip());
     connect(analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
 
     aboutAct = new QAction(tr("About"), this);
     aboutAct->setStatusTip(tr("About Nootka"));
-		aboutAct->setToolTip(aboutAct->statusTip());
+//		aboutAct->setToolTip(aboutAct->statusTip());
     aboutAct->setIcon(QIcon(gl->path+"picts/about.png"));
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(aboutSlot()));
 
@@ -252,12 +252,12 @@ void MainWindow::createActions() {
 void MainWindow::setStartExamActParams() {
     levelCreatorAct->setText(tr("Level"));
     levelCreatorAct->setStatusTip(TlevelCreatorDlg::levelCreatorTxt());
-		levelCreatorAct->setToolTip(levelCreatorAct->statusTip());
+//		levelCreatorAct->setToolTip(levelCreatorAct->statusTip());
     levelCreatorAct->setIcon(QIcon(gl->path+"picts/levelCreator.png"));
   
     startExamAct->setText(tr("Start!"));
     startExamAct->setStatusTip(tr("Start exercises or an exam"));
-		startExamAct->setToolTip(startExamAct->statusTip());
+//		startExamAct->setToolTip(startExamAct->statusTip());
     startExamAct->setIcon(QIcon(gl->path+"picts/startExam.png"));
 }
 
