@@ -43,7 +43,8 @@ TmainScore::TmainScore(QWidget* parent) :
 	m_questMark(0),
 	m_questKey(0),
 	m_strikeOut(0),
-	m_bliking(0), m_keyBlinking(0)
+	m_bliking(0), m_keyBlinking(0),
+	m_corrStyle(Tnote::defaultStyle)
 {
 // set preferred clef
 	if (gl->Sclef == Tclef::e_pianoStaff)
@@ -175,14 +176,15 @@ int TmainScore::widthToHeight(int hi) {
 }
 
 
-void TmainScore::showNames(bool forAll) {
+void TmainScore::showNames(Tnote::EnameStyle st, bool forAll) {
 	int max = 1;
 	if (forAll)
 			max= 2;
 	m_showNameInCorrection = false;
+	m_corrStyle = st;
 	for (int i = 0; i < max; i++) {
 		if (getNote(i).note) {
-			m_noteName[i] = new TgraphicsTextTip(getNote(i).toRichText());
+			m_noteName[i] = new TgraphicsTextTip(getNote(i).toRichText(st));
 			m_noteName[i]->setZValue(30);
 			TscoreStaff *st = staff();
 			if (staff()->lower() && staff()->lower()->noteSegment(i)->notePos()) 
@@ -239,6 +241,8 @@ void TmainScore::isExamExecuting(bool isIt) {
         delete m_questKey;
         m_questKey = 0;
 				setClefDisabled(false);
+				for (int i = 0; i < 2; i++)
+					deleteNoteName(i);
     }
 }
 
@@ -488,7 +492,7 @@ void TmainScore::finishCorrection() {
 			staff()->lower()->noteSegment(0)->markNote(QColor(gl->EanswerColor.name()));
 	}
 	if (m_showNameInCorrection)
-			showNames();
+			showNames(m_corrStyle);
 }
 
 

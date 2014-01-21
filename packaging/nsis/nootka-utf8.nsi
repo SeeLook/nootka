@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "Nootka"
-!define PRODUCT_VERSION "0.9.2-alpha"
+!define PRODUCT_VERSION "0.9.4-alpha"
 !define PRODUCT_PUBLISHER "Nootka"
 !define PRODUCT_WEB_SITE "http://nootka.sf.net"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\nootka.exe"
@@ -100,7 +100,8 @@ FunctionEnd
 
 Section "GrupaGlowna" SEC01
   SetOutPath "$INSTDIR"
-  SetOverwrite ifnewer
+  ;SetOverwrite ifnewer
+  SetOverwrite try
   File "nootka.exe"
   File "nootka-updater.exe"
   CreateDirectory "$SMPROGRAMS\Nootka"
@@ -120,7 +121,7 @@ Section "GrupaGlowna" SEC01
   File "gpl"
   File "changes"
   SetOutPath "$INSTDIR\fonts"
-  SetOverwrite try
+;  SetOverwrite try
   File "fonts\README"
   File "fonts\nootka.ttf"
   SetOutPath "$INSTDIR\lang"

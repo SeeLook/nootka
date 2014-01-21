@@ -80,8 +80,8 @@ public:
 		
 				/** Displays name of note at current position
 				* When note is empty the method tries to grab note (position) from that what was selected. */
-		void showName(Tnote& note, const QColor& textColor);
-		void showName(const QColor& textColor) { Tnote empty(0, 0, 0); showName(empty, textColor); }
+		void showName(Tnote::EnameStyle st, Tnote& note, const QColor& textColor);
+		void showName(Tnote::EnameStyle st, const QColor& textColor) { Tnote empty(0, 0, 0); showName(st, empty, textColor); }
 		void deleteNoteName();
 		
 				/** Returns scene coordinates of given guitar position */
@@ -124,6 +124,7 @@ private:
     QGraphicsSimpleTextItem 	*m_questMark;
 		TgraphicsTextTip 					*m_beyondTip; /** Tip about a note is impossible to show with current tune. */
 		TgraphicsTextTip 					*m_noteName; /** Note name text. */
+		Tnote::EnameStyle					 m_corrStyle; /** Name style of corrected note */
 		bool											 m_nameInCorrection;
     Tnote 										 m_selNote; /** Keeps selected note */
     

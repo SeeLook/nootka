@@ -380,7 +380,8 @@ void TexamExecutor::askQuestion() {
           } else // note name only in question
               if (m_level.requireStyle) { // switch previous used style
                 curQ.setStyle(m_supp->randomNameStyle(m_prevQuestStyle), gl->NnameStyleInNoteName);
-                m_prevQuestStyle = m_supp->randomNameStyle(curQ.styleOfQuestion());
+								m_prevQuestStyle = curQ.styleOfQuestion();
+//                 m_prevQuestStyle = m_supp->randomNameStyle(curQ.styleOfQuestion());
               } else {
                   curQ.setStyle(gl->NnameStyleInNoteName, curQ.styleOfAnswer());
                   m_prevQuestStyle = gl->NnameStyleInNoteName;
@@ -752,6 +753,15 @@ void TexamExecutor::correctAnswer() {
 			Tnote goodNote = curQ.qa.note;
 			if (curQ.questionAs == TQAtype::e_asName)
 					goodNote = curQ.qa_2.note;
+			if (!m_answRequire.accid && curQ.isNotSoBad()) { // respect accidental selected by user 
+				switch (mW->noteName->getNoteName().acidental) {
+					case -2 : goodNote = goodNote.showWithDoubleFlat(); break;
+					case -1 : goodNote = goodNote.showWithFlat(); break;
+					case  0 : goodNote = goodNote.showAsNatural(); break;
+					case  1 : goodNote = goodNote.showWithSharp(); break;
+					case  2 : goodNote = goodNote.showWithDoubleSharp(); break;
+				}
+			}
 			mW->noteName->correctName(goodNote, markColor, curQ.isWrong());
 	} else { // answer as played sound
 			if (curQ.wrongIntonation()) {
@@ -771,8 +781,7 @@ void TexamExecutor::correctAnswer() {
 				
 	}
 	m_lockRightButt = true; // to avoid nervous users click mouse during correctViewDuration
-	if (!mW->correctChB->isChecked() && gl->E->autoNextQuest && gl->E->afterMistake != TexamParams::e_stop) {
-			// !mW->correctChB->isChecked() means that correctAnswer() was called by clicking correctAct
+	if (gl->E->autoNextQuest && gl->E->afterMistake != TexamParams::e_stop) {
 			m_askingTimer->start(gl->E->correctPreview);
   }
   if (!gl->E->autoNextQuest || gl->E->afterMistake == TexamParams::e_stop) 
@@ -818,17 +827,17 @@ void TexamExecutor::markAnswer(TQAunit& curQ) {
   if (m_exercise && gl->E->showNameOfAnswered) {
 		if (curQ.questionAs != TQAtype::e_asName && curQ.answerAs != TQAtype::e_asName) {
 			if (curQ.answerAs == TQAtype::e_asNote || (curQ.answerAs == TQAtype::e_asSound && curQ.questionAs == TQAtype::e_asNote))
-				mW->score->showNames(true);
+				mW->score->showNames(gl->NnameStyleInNoteName, true);
 			else if (curQ.answerAs == TQAtype::e_asFretPos) // for q/a fret-fret this will be the first case
-				mW->guitar->showName(markColor); // Take it from user answer
+				mW->guitar->showName(gl->NnameStyleInNoteName, markColor); // Take it from user answer
 			else if (curQ.answerAs == TQAtype::e_asSound && curQ.questionAs == TQAtype::e_asFretPos)
-					mW->guitar->showName(curQ.qa.note, markColor);
+					mW->guitar->showName(gl->NnameStyleInNoteName, curQ.qa.note, markColor);
 		} else { // cases when name was an question
 			if (curQ.questionAs == TQAtype::e_asName) {
 				if (curQ.answerAs == TQAtype::e_asNote)
-					mW->score->showNames();
+					mW->score->showNames(curQ.styleOfQuestion());
 				else if (curQ.answerAs == TQAtype::e_asFretPos)
-					mW->guitar->showName(markColor);
+					mW->guitar->showName(curQ.styleOfQuestion(), markColor);
 			}
 		}
   }
