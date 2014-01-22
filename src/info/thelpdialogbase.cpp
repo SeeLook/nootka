@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,9 +20,7 @@
 #include "tpixmaker.h"
 #include <tglobals.h>
 #include <QApplication>
-#include <QLayout>
-#include <QPushButton>
-#include <QStyle>
+#include <QtGui>
 
 extern Tglobals *gl;
 
@@ -32,24 +30,26 @@ QString ThelpDialogBase::m_path = "";
 ThelpDialogBase::ThelpDialogBase(QWidget* parent, Qt::WindowFlags f) :
   QDialog(parent, f),
   m_checkBox(0),
-  m_cancelButton(0), m_OkButton(0),
   m_stateOfChB(0)
 {
 	m_path = gl->path;
 	setWindowIcon(QIcon(path() + "picts/help.png"));
   setWindowTitle(tr("Nootka help"));
   m_helpText = new QTextEdit(this);
-  m_helpText->setReadOnly(true);
-  m_helpText->setAlignment(Qt::AlignCenter);
+		m_helpText->setReadOnly(true);
+		m_helpText->setAlignment(Qt::AlignCenter);
+	m_buttonBox = new QDialogButtonBox(Qt::Horizontal, this);
+		m_buttonBox->setCenterButtons(true);
   
   m_lay = new QVBoxLayout;
   m_lay->addWidget(m_helpText);
-  m_buttonsLay = new QHBoxLayout;
-	m_buttonsLay->addStretch(1);
-	m_buttonsLay->addStretch(1);
-	m_lay->addLayout(m_buttonsLay);
+	m_lay->addWidget(m_buttonBox);
+	
   setLayout(m_lay);
 	showButtons(true, false); // OK button by default
+	
+	connect(buttonBox(), SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox(), SIGNAL(rejected()), this, SLOT(reject()));
 }
 
 
@@ -78,37 +78,21 @@ QString ThelpDialogBase::pix(const QString& imageName, int height) {
 void ThelpDialogBase::showButtons(bool withOk, bool withCancel) {
   if (withOk) {
 		if (!m_OkButton) {
-			m_OkButton = new QPushButton(tr("OK"), this);
+			m_OkButton = buttonBox()->addButton(QDialogButtonBox::Ok);
 			m_OkButton->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogOkButton)));
-			if (m_cancelButton) {
-				m_buttonsLay->insertStretch(3, 1);
-			}
-			m_buttonsLay->insertWidget(1, m_OkButton, 1);
-			connect(m_OkButton, SIGNAL(clicked()), this, SLOT(accept()));
 		}
   } else {
-		if (m_OkButton) {
+			buttonBox()->removeButton(m_OkButton);
 			delete m_OkButton;
-			m_OkButton = 0;
-		}
   }
   if (withCancel) {
 		if (!m_cancelButton) {
-			m_cancelButton = new QPushButton(tr("Discard"), this);
-			m_cancelButton->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
-			int pos = 1; // position to insert the button
-			if (m_OkButton) {
-				m_buttonsLay->insertStretch(2, 1);
-				pos = 3;
-			}
-			m_buttonsLay->insertWidget(pos, m_cancelButton, 1);
-			connect(m_cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
+			m_cancelButton = buttonBox()->addButton(QDialogButtonBox::Cancel);
+			m_cancelButton->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCancelButton)));
 		}
   } else {
-		if (m_cancelButton) {
+			buttonBox()->removeButton(m_cancelButton);
 			delete m_cancelButton;
-			m_cancelButton = 0;
-		}
   }
 }
 

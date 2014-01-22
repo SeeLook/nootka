@@ -68,14 +68,13 @@ TsettingsDialog::TsettingsDialog(QWidget *parent) :
     
 		defaultBut = buttonBox->addButton(QDialogButtonBox::RestoreDefaults);
 			defaultBut->setIcon(style()->standardIcon(QStyle::SP_BrowserReload));
+			defaultBut->setStatusTip(tr("Restore default settings for above parameters."));
 		okBut = buttonBox->addButton(QDialogButtonBox::Apply);
 			okBut->setIcon(style()->standardIcon(QStyle::SP_DialogApplyButton));
 		cancelBut = buttonBox->addButton(QDialogButtonBox::Cancel);
-			cancelBut->setIcon(style()->standardIcon(QStyle::SP_DialogDiscardButton));
-    defaultBut->setStatusTip(tr("Restore default settings for above parameters."));
+			cancelBut->setIcon(style()->standardIcon(QStyle::SP_DialogCancelButton));
     
-		connect(cancelBut, SIGNAL(clicked()), this, SLOT(reject()));
-    connect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
+		connect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
     connect(navList, SIGNAL(currentRowChanged(int)), this, SLOT(changeSettingsWidget(int)));
     connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
 		connect(defaultBut, SIGNAL(pressed()), this, SLOT(restoreDefaults()));

@@ -2989,74 +2989,6 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>TnootkaCertificate</name>
     <message>
-        <source>&lt;h3&gt;Nootka Akademy Of Music&lt;/h3&gt;</source>
-        <translation type="obsolete">&lt;h3&gt;Akademia Muzyczna Nootki&lt;/h3&gt;</translation>
-    </message>
-    <message>
-        <source>%1&lt;br&gt;&lt;i&gt;date&lt;i&gt;</source>
-        <translation type="obsolete">dnia, %1</translation>
-    </message>
-    <message>
-        <source>Student &lt;big&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/big&gt; has been awarded the</source>
-        <translation type="obsolete">Student &lt;big&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/big&gt; otrzymuje</translation>
-    </message>
-    <message>
-        <source>&lt;h1&gt;Certificate Of Exam Completion&lt;/h1&gt;</source>
-        <translation type="obsolete">&lt;h1&gt;Świadectwo złożenia egzaminu&lt;/h1&gt;</translation>
-    </message>
-    <message>
-        <source>Passing the exam on the level &lt;big&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;having answered the required %2&lt;br&gt;in time &lt;big&gt;&lt;b&gt;%3&lt;/b&gt;&lt;/big&gt;&lt;br&gt;and achieving the score &lt;big&gt;&lt;b&gt;%4 %&lt;/b&gt;&lt;/big&gt;</source>
-        <comment>Where %1 - level name, %2 - formated (singular/plural) number of questions, %3 - time of work, %4 - effectiveness (score)</comment>
-        <translation type="obsolete">Poziom egzaminu: &lt;big&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;wymagjący odpowiedzi na %2.&lt;br&gt;Czas trwania &lt;big&gt;&lt;b&gt;%3&lt;/b&gt;&lt;/big&gt;&lt;br&gt;Uzyskany wynik: &lt;big&gt;&lt;b&gt;%4 %&lt;/b&gt;&lt;/big&gt;</translation>
-    </message>
-    <message numerus="yes">
-        <source>&lt;big&gt;&lt;b&gt;%n&lt;/b&gt;&lt;/big&gt; question</source>
-        <translation type="obsolete">
-            <numerusform>&lt;big&gt;&lt;b&gt;%n&lt;/b&gt;&lt;/big&gt; pytanie</numerusform>
-            <numerusform>&lt;big&gt;&lt;b&gt;%n&lt;/b&gt;&lt;/big&gt; pytania</numerusform>
-            <numerusform>&lt;big&gt;&lt;b&gt;%n&lt;/b&gt;&lt;/big&gt; pytań</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Passing the exam on the level &lt;big&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;having answered the required &lt;big&gt;&lt;b&gt;%2&lt;/b&gt;&lt;/big&gt; %5&lt;br&gt;in time &lt;big&gt;&lt;b&gt;%3&lt;/b&gt;&lt;/big&gt;&lt;br&gt;and achieving the score &lt;big&gt;&lt;b&gt;%4&lt;/b&gt;&lt;/big&gt;</source>
-        <comment>Where %1 - level name, %2 - number of questions, %3 - time of work, %4 - effectiveness (score), %5 - is &apos;question&apos; in plural form</comment>
-        <translation type="obsolete">Zdając egzam na poziomie &lt;big&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;opdpowiadając na wymagane &lt;big&gt;&lt;b&gt;%2&lt;/b&gt;&lt;/big&gt; %5&lt;br&gt;w czasie &lt;big&gt;&lt;b&gt;%3&lt;/b&gt;&lt;/big&gt;&lt;br&gt;i uzyskując wynik &lt;big&gt;&lt;b&gt;%4&lt;/b&gt;&lt;/big&gt;</translation>
-    </message>
-    <message numerus="yes">
-        <source>question</source>
-        <translation type="obsolete">
-            <numerusform>pytanie</numerusform>
-            <numerusform>pytania</numerusform>
-            <numerusform>pytań</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Passing the exam on the level &lt;big&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;having answered the required &lt;big&gt;&lt;b&gt;%2&lt;/b&gt;&lt;/big&gt; questions&lt;br&gt;in time &lt;big&gt;&lt;b&gt;%3&lt;/b&gt;&lt;/big&gt;&lt;br&gt;and achieving the score &lt;big&gt;&lt;b&gt;%4&lt;/b&gt;&lt;/big&gt;</source>
-        <comment>Where %1 - level name, %2 - number of questions, %3 - time of work, %4 - effectiveness (score)</comment>
-        <translation type="obsolete">Zdając egzam na poziomie &lt;big&gt;&lt;b&gt;%1&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;opdpowiadając na wymagane &lt;big&gt;&lt;b&gt;%2&lt;/b&gt;&lt;/big&gt; pytań&lt;br&gt;w czasie &lt;big&gt;&lt;b&gt;%3&lt;/b&gt;&lt;/big&gt;&lt;br&gt;i uzyskując wynik &lt;big&gt;&lt;b&gt;%4&lt;/b&gt;&lt;/big&gt;</translation>
-    </message>
-    <message>
-        <source>As a witness to this accomplishment,&lt;br&gt;we hereby award this certificate on &lt;b&gt;%1&lt;/b&gt;.</source>
-        <translation type="obsolete">Niniejszym, &lt;b&gt;%1&lt;/b&gt;, wydaje sie świadectwo&lt;br&gt;jako dowód wymienionych osiągnięć.</translation>
-    </message>
-    <message>
-        <source>As a witness to this accomplishment,&lt;br&gt;we hereby award this certificate on &lt;b&gt;%1&lt;/b&gt;</source>
-        <translation type="obsolete">Niniejszym, &lt;b&gt;%1&lt;/b&gt;, wydaje sie świadectwo&lt;br&gt;jako dowód wymienionych osiągnięć.</translation>
-    </message>
-    <message>
-        <source>&lt;small&gt;&lt;i&gt;examining board:&lt;/i&gt;&lt;br&gt;&lt;i&gt;president:&lt;/i&gt;&lt;b&gt; Nootka itself&lt;/b&gt;&lt;br&gt;&lt;b&gt;professor Processor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Mrs RAM&lt;/b&gt; his assistant&lt;br&gt;&lt;i&gt;secretary:&lt;/i&gt;&lt;b&gt; Mr Disk&lt;/b&gt;&lt;/small&gt;</source>
-        <translation type="obsolete">&lt;small&gt;&lt;i&gt;komisja:&lt;/i&gt;&lt;br&gt;&lt;i&gt;&lt;/i&gt;&lt;b&gt; Nootka we własnej osobie,&lt;/b&gt;&lt;br&gt;&lt;b&gt;profesor Procesor&lt;/b&gt; &lt;br&gt;i &lt;b&gt;Pani RAM&lt;/b&gt; jego asysten,&lt;br&gt;&lt;i&gt;sekretarz:&lt;/i&gt;&lt;b&gt; Pan Dysk&lt;/b&gt;&lt;/small&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;i&gt;stamp&lt;/i&gt;</source>
-        <translation type="obsolete">&lt;i&gt;pieczęć&lt;/i&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Nootka Akademy Of Music&lt;/h3&gt;</source>
-        <comment>top-left corner</comment>
-        <translation type="obsolete">&lt;h3&gt;Akademia Muzyczna Nootki&lt;/h3&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/exam/tnootkacertificate.cpp" line="62"/>
         <source>[DATE]&lt;br&gt;&lt;i&gt;date&lt;i&gt;</source>
         <comment>top-right corner</comment>
@@ -3073,11 +3005,6 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <source>&lt;h1&gt;Certificate Of Exam Completion&lt;/h1&gt;</source>
         <comment>Main header - centered</comment>
         <translation>&lt;h1&gt;Świadectwo złożenia egzaminu&lt;/h1&gt;</translation>
-    </message>
-    <message>
-        <source>Passing the exam on the level &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;having answered the required [NR_QUESTIONS]&lt;br&gt;in time &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;and achieving the score &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</source>
-        <comment>Exam results - double indented, [NR_QUESTIONS] is fe.: 23 questions but only number is available by [JUSTNR]</comment>
-        <translation type="obsolete">Poziom egzaminu: &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;Liczba pytań: &lt;big&gt;&lt;b&gt;[JUSTNR]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;Czas trwania &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;Uzyskany wynik: &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</translation>
     </message>
     <message>
         <location filename="../src/exam/tnootkacertificate.cpp" line="61"/>

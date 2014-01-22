@@ -59,7 +59,8 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, const QString& path,
   //-MARGIN--Nootka Academy--------------------------28 December 2013
   //-MARGIN-----------------------------------------------date
     m_academyI = createCertItem(fillCert(tr("<h3>Nootka Academy Of Music</h3>", "top-left corner")));
-    m_dateI = createCertItem(fillCert(tr("[DATE]<br><i>date<i>", "top-right corner")));
+    m_dateI = createCertItem(fillCert(tr("[DATE]<br><i>date<i>", 
+				"All those entries assembly a certificate. You can adjust translation to your imagination of it look by manipulating where to put an entry, using some 'HTML tags: http://qt-project.org/doc/qt-4.8/richtext-html-subset.html' and using exam data tags like: [DATE], [STUDENT], [LEVELNAME], [TOTALTIME], [SCORE] and [QUESTNR]. Single entry can't be adjusted (center, left, right) like in pure HTML - this is why it is divided. TO OBTAIN CERT PREVIEW IN ANY TIME OF AN EXAM JUST PRESS: [Shift+Alt+middle-mouse-button] (and don't tell this secret anybody). Feel free to translate it directly as well. This entry is displayed at top-right corner of a cert")));
     TgraphicsTextTip::alignCenter(m_dateI);
     m_width = 2 * MARGIN + m_academyI->boundingRect().width() + 2 * m_dateI->boundingRect().width();
     m_academyI->setPos(MARGIN, SPACER);

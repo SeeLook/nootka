@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,7 +22,9 @@
 #include <QDialog>
 #include <QCheckBox>
 #include <QTextEdit>
+#include <QPointer>
 
+class QDialogButtonBox;
 class QVBoxLayout;
 class QHBoxLayout;
 class QPushButton;
@@ -69,16 +71,19 @@ public:
 			/** Universal button text with context:
 			 * 'always show this help window' */
   static QString showHelpWindowTxt() { return tr("always show this help window"); }
+  
+protected:
+  QDialogButtonBox* buttonBox() { return m_buttonBox; }
 			
   
 private:
-  QTextEdit       *m_helpText;
-  QCheckBox       *m_checkBox;
-  QPushButton     *m_OkButton, *m_cancelButton;
-  QVBoxLayout     *m_lay;
-  QHBoxLayout     *m_buttonsLay;
-	bool						*m_stateOfChB;
-	static QString	m_path;
+  QTextEdit       				*m_helpText;
+  QCheckBox       				*m_checkBox;
+  QPointer<QPushButton>    m_OkButton, m_cancelButton;
+	QDialogButtonBox				*m_buttonBox;
+  QVBoxLayout     				*m_lay;
+	bool										*m_stateOfChB;
+	static QString	 			 	 m_path;
 
 };
 
