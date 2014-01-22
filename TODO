@@ -15,6 +15,7 @@ TODOES
 - check 'tune' of non guitar - does it correspond with instrument/clef scale and levels works proper
 - left-handed guitar correction anim to guitar (morphing) has wrong line points
 - try to remove re-sizing a status label in exams/exercises
+- name label shows not centered texts in exams
 - update screen-shoot image in exam help
 - force 'Plasique' style under MacOs or find a way on buttons
 - !!!check does 'string order' work for Tfingerboard!!!

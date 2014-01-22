@@ -58,6 +58,8 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
 		buttonBox = new QDialogButtonBox(Qt::Horizontal, this);
 		mainLay->addWidget(buttonBox);
     setLayout(mainLay);
+		
+		connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     
     fitSize();
 }
