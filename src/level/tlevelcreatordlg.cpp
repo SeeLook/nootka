@@ -237,10 +237,22 @@ QString TlevelCreatorDlg::validateLevel(Tlevel &l) {
       if (!l.manualKey && !l.forceAccids)
         res += tr("<li>Questions and answers as notes on the staff will be the same. Manually selecting keys or forcing accidentals has to be selected to avoid that.</li>");
   // Check is possible of manualKey
-    if (l.useKeySign && l.manualKey)
+    if (l.useKeySign && l.manualKey) {
       if (!l.answersAs[TQAtype::e_asNote].isNote() && !l.answersAs[TQAtype::e_asName].isNote() &&
         !l.answersAs[TQAtype::e_asFretPos].isNote() && !l.answersAs[TQAtype::e_asSound].isNote() )
           res += tr("<li>Manual selecting of a key signature was checked but answer as note on the staff was not checked.</li>");
+		}
+	// 'Fret to fret' has to have suitable fret range to be possible
+		if (l.questionAs.isFret() && l.answersAs[TQAtype::e_asFretPos].isFret()) {
+			int minRange = 0; // first determine a minimal range for current tune
+			int startStr = gl->Gtune()->str(gl->strOrder(0) + 1).getChromaticNrOfNote();
+			for (int i = 1; i < gl->Gtune()->stringNr(); i++) {
+				minRange = qMax(minRange, startStr - gl->Gtune()->str(gl->strOrder(i) + 1).getChromaticNrOfNote());
+				startStr = gl->Gtune()->str(gl->strOrder(i) + 1).getChromaticNrOfNote();
+			}
+			if (l.hiFret - l.loFret < minRange)
+				res += tr("<li>Fret range is not enough to find any note in different positions. At least <b>%1</b> frets range is required.</li>").arg(minRange);
+		}
   // Resume warnings
     if (res != "") {
         res.prepend("<ul>");

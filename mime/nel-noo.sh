@@ -6,7 +6,7 @@ cat <<EOF
   <mime-type type="application/x-nootka-nel">
     <sub-class-of type="application/data"/>
     <sub-class-of type="application/bin"/>
-    <comment>Nootka exam's level</comment>
+    <comment>Nootka exam level</comment>
     <comment xml:lang="cs">Úroveň zkoušky programu Nootka</comment>
     <comment xml:lang="fr">Fichier de niveau Nootka</comment>
     <comment xml:lang="pl">Poziom egzaminu programu Nootka</comment>
