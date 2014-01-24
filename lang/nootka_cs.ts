@@ -4419,7 +4419,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/level/questionssettings.cpp" line="111"/>
         <source>if checked, it is possible to select a note&lt;br&gt;with given accidental only.</source>
-        <translation type="unfinished"></translation>
+        <translation>Je-li zaškrtnuto, je možné vybrat notu&lt;br&gt;jen s danou posuvkou.</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="114"/>
@@ -4439,12 +4439,12 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/level/questionssettings.cpp" line="119"/>
         <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, sometimes it is needed and sometimes it makes no sense.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukazuje, na které struně má být dána odpověď.&lt;br&gt;U tohoto buďte opatrní, kdy je to potřeba a kdy to nedává smysl.</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="124"/>
         <source>if checked, the lowest position in selected fret range is required,&lt;br&gt;otherwise all possible positions of the note are acceptable.&lt;br&gt;To use this, all strings have to be available!</source>
-        <translation type="unfinished"></translation>
+        <translation>Je-li zaškrtnuto, jsou v rozsahu vybraných pražců vyžadovány nejnižší polohy, &lt;br&gt;jinak jsou používány všechny možné polohy noty.&lt;br&gt;Aby se to dalo použít, je třeba, aby byly dostupné všechny noty!</translation>
     </message>
     <message>
         <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, when it is needed and when it has no sense</source>
@@ -4505,12 +4505,12 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/level/rangesettings.cpp" line="83"/>
         <source>available strings:</source>
-        <translation type="unfinished"></translation>
+        <translation>Používané struny:</translation>
     </message>
     <message>
         <location filename="../src/level/rangesettings.cpp" line="84"/>
         <source>Uncheck strings if you want to skip them&lt;br&gt;in an exam.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odznačte struny, pokud je &lt;br&gt;při zkoušce chcete přeskočit.</translation>
     </message>
     <message>
         <source>avaiable strings:</source>

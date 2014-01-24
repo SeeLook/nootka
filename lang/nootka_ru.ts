@@ -4451,7 +4451,7 @@ Check please, are its parameters as expected.</source>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="111"/>
         <source>if checked, it is possible to select a note&lt;br&gt;with given accidental only.</source>
-        <translation type="unfinished"></translation>
+        <translation>возможно выбрать ноту только с данным знаком альтерации.</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="114"/>
@@ -4537,12 +4537,12 @@ Check please, are its parameters as expected.</source>
     <message>
         <location filename="../src/level/rangesettings.cpp" line="83"/>
         <source>available strings:</source>
-        <translation type="unfinished"></translation>
+        <translation>доступные сруны:</translation>
     </message>
     <message>
         <location filename="../src/level/rangesettings.cpp" line="84"/>
         <source>Uncheck strings if you want to skip them&lt;br&gt;in an exam.</source>
-        <translation type="unfinished"></translation>
+        <translation>Отметьте только те струны, которые хотите использовать в экзамене.</translation>
     </message>
     <message>
         <source>avaiable strings:</source>

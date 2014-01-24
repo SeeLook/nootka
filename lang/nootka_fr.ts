@@ -4421,7 +4421,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/level/questionssettings.cpp" line="111"/>
         <source>if checked, it is possible to select a note&lt;br&gt;with given accidental only.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lorsque cette case est cochée, il est seulement possible &lt;br&gt;de choisir une note avec l&apos;altération appropriée.</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="114"/>
@@ -4441,12 +4441,12 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/level/questionssettings.cpp" line="119"/>
         <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, sometimes it is needed and sometimes it makes no sense.</source>
-        <translation type="unfinished"></translation>
+        <translation>Montre sur quelle corde la réponse doit être donnée. &lt;br&gt;Attention, ceci peut être nécessaire ou, parfois, ne pas avoir de sens.</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="124"/>
         <source>if checked, the lowest position in selected fret range is required,&lt;br&gt;otherwise all possible positions of the note are acceptable.&lt;br&gt;To use this, all strings have to be available!</source>
-        <translation type="unfinished"></translation>
+        <translation>Lorsque cette case est cochée, seule la position la plus basse (e.g., corde a vide) pour jouer une note donnée est utilisée dans les questions/réponses. &lt;br&gt;Sinon, toutes les positions possibles peuvent être utilisées.&lt;br&gt; Toutes les cordes doivent être disponibles pour utiliser ce paramètre!</translation>
     </message>
     <message>
         <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, when it is needed and when it has no sense</source>
@@ -4507,12 +4507,12 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/level/rangesettings.cpp" line="83"/>
         <source>available strings:</source>
-        <translation type="unfinished"></translation>
+        <translation>Cordes disponibles:</translation>
     </message>
     <message>
         <location filename="../src/level/rangesettings.cpp" line="84"/>
         <source>Uncheck strings if you want to skip them&lt;br&gt;in an exam.</source>
-        <translation type="unfinished"></translation>
+        <translation>Décochez les cordes que vous souhaitez ignorer &lt;br&gt; dans un examen.</translation>
     </message>
     <message>
         <source>avaiable strings:</source>
