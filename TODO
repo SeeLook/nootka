@@ -1,17 +1,19 @@
 Plan for the Nootka One
 
-
 ISSUES
 - try to close out stream for pulse - it sucks or get rid of pulse
 - do pixmap of voice/guitar glyph - TpushButtons don't display nootka text properly
-- make order with Qt::WA_TransparentForMouseEvents in canvas
 - charts hang with updating (probably related to re-sizing, scaling)
 - stop guitar work when it is invisible
+- chunkPitch is emitted too often - it could be adjusted to eye possibility
+- add string numbers to generated pixmap and do string number in text color
 
+Russian tr
+- no abbreviations in tab names (settings) just line breaks (\n)
 			
 TODOES
 - setAmbitus in TnoteName seems to has no use
-- level validation rule: q as fret to a as fret has to have fret range bigger than 5
+- stop audio-in test when audio settings tab is switched off
 - check 'tune' of non guitar - does it correspond with instrument/clef scale and levels works proper
 - left-handed guitar correction anim to guitar (morphing) has wrong line points
 - try to remove re-sizing a status label in exams/exercises
@@ -20,6 +22,7 @@ TODOES
 - force 'Plasique' style under MacOs or find a way on buttons
 - !!!check does 'string order' work for Tfingerboard!!!
 - sniffer has setAmbitus to guitar scale range - fix it!!!
+- make order with Qt::WA_TransparentForMouseEvents in canvas
 - remove unused classes: widgets/animations
 - add shadows under strings on pickup
 - do not transform pickup image for lefthanded - just change its pos
@@ -29,7 +32,6 @@ TODOES
 
 TO CONSIDERATION
   - add sound during wizard and About dialog (???)
-  - add string numbers to generated pixmap
 
 
 

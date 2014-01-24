@@ -540,45 +540,45 @@ void TexamExecutor::checkAnswer(bool showResults) {
             exN = curQ.qa_2.note;
         retN = mW->score->getNote(0);
     }
-
     if (curQ.answerAs == TQAtype::e_asName) {
         if (curQ.questionAs == TQAtype::e_asName)
             exN = curQ.qa_2.note;
         m_prevNoteIfName = mW->noteName->getNoteName(); // store note to restore it if will be repeated
         retN = mW->noteName->getNoteName();
     }
+    Tnote userNote = retN;
     if (curQ.answerAs == TQAtype::e_asSound) {
-      retN = mW->sound->note();
-			if ((TintonationView::Eaccuracy)m_level.intonation != TintonationView::e_noCheck) {
-					float diff = qAbs(mW->sound->pitch() - (float)qRound(mW->sound->pitch()));
-					if (diff >= TintonationView::getThreshold(m_level.intonation))
-							curQ.setMistake(TQAunit::e_wrongIntonation);
-			}
+				retN = mW->sound->note();
+				if ((TintonationView::Eaccuracy)m_level.intonation != TintonationView::e_noCheck) {
+						float diff = qAbs(mW->sound->pitch() - (float)qRound(mW->sound->pitch()));
+						if (diff >= TintonationView::getThreshold(m_level.intonation))
+								curQ.setMistake(TQAunit::e_wrongIntonation);
+				}
     }
     if (curQ.answerAs == TQAtype::e_asFretPos) { // Comparing positions
-      TfingerPos answPos, questPos;
-      answPos = mW->guitar->getfingerPos();
-      if (curQ.questionAs == TQAtype::e_asFretPos) { 
-        if (answPos == curQ.qa.pos) { // check has not user got answer the same as question position
-          curQ.setMistake(TQAunit::e_wrongPos);
-          qDebug("Cheater!");
-        } else 
-          questPos = curQ.qa_2.pos;
-      } else
-        questPos = curQ.qa.pos;
-      if (questPos != answPos && curQ.isCorrect()) { // if no cheater give him a chance
-        QList <TfingerPos> tmpPosList; // Maybe hi gave correct note but on incorrect string only
-        m_supp->getTheSamePos(answPos, tmpPosList); // get other positions
-        for (int i = 0; i < tmpPosList.size(); i++) {
-              if (tmpPosList[i] == questPos) { // and compare it with expected
-                curQ.setMistake(TQAunit::e_wrongString);
-                break;
-              }
-          }
-          if (!curQ.wrongString()) { 
-            curQ.setMistake(TQAunit::e_wrongPos);
-          }
-      }
+				TfingerPos answPos, questPos;
+				answPos = mW->guitar->getfingerPos();
+				if (curQ.questionAs == TQAtype::e_asFretPos) { 
+					if (answPos == curQ.qa.pos) { // check has not user got answer the same as question position
+						curQ.setMistake(TQAunit::e_wrongPos);
+						qDebug("Cheater!");
+					} else 
+						questPos = curQ.qa_2.pos;
+				} else
+					questPos = curQ.qa.pos;
+				if (questPos != answPos && curQ.isCorrect()) { // if no cheater give him a chance
+					QList <TfingerPos> tmpPosList; // Maybe hi gave correct note but on incorrect string only
+					m_supp->getTheSamePos(answPos, tmpPosList); // get other positions
+					for (int i = 0; i < tmpPosList.size(); i++) {
+								if (tmpPosList[i] == questPos) { // and compare it with expected
+									curQ.setMistake(TQAunit::e_wrongString);
+									break;
+								}
+						}
+						if (!curQ.wrongString()) { 
+							curQ.setMistake(TQAunit::e_wrongPos);
+						}
+				}
     } else { // we check are the notes the same
 //        qDebug() << QString::fromStdString(retN.getName()) << QString::fromStdString(exN.getName());
       if (retN.note) {
@@ -619,7 +619,13 @@ void TexamExecutor::checkAnswer(bool showResults) {
       } else
           curQ.setMistake(TQAunit::e_wrongNote);
     }
-
+		if (!m_answRequire.accid && curQ.isCorrect() && (curQ.answerAs == TQAtype::e_asNote || curQ.answerAs == TQAtype::e_asName)) {
+			// Save user given note when it is correct and accidental was not forced to respect kind of accidental
+				if (curQ.questionAs == curQ.answerAs)
+					curQ.qa_2.note = userNote;
+				else
+					curQ.qa.note = userNote;
+		}
     disableWidgets();
 		bool autoNext = gl->E->autoNextQuest;
 		if (gl->E->afterMistake == TexamParams::e_stop && !curQ.isCorrect())

@@ -253,6 +253,8 @@ void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
 
 void TaudioIN::pitchInChunkSlot(float pitch) {
 // 	qDebug() << "pitchInChunkSlot" << pitch;
+	if (m_paused)
+			return;
   if (pitch == 0.0)
     emit chunkPitch(0.0); 
   else

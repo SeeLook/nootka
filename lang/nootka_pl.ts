@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="pl_PL">
+<TS version="2.0" language="pl_PL">
 <context>
     <name>AnswerText</name>
     <message>
@@ -197,7 +197,7 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="119"/>
         <source>Notes above &lt;b&gt;A contra&lt;/b&gt;.&lt;br&gt;Suitable for guitar, cello, human voice, etc.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dźwięki powyżej &lt;b&gt;A kontra&lt;/b&gt;.&lt;br&gt;Odpowiedni dla gitary, wiolonczeli, ludzkiego głosu, itp.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="120"/>
@@ -230,22 +230,22 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="55"/>
         <source>Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.</source>
-        <translation type="unfinished"></translation>
+        <translation>Upewnij się, że twoje urządzenie wejściowe (mikrofon, kamera internetowa, instrument podłączony do wejścia liniowego) jest właściwie skonfigurowane i działa.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="66"/>
         <source>This mode is faster and good enough for guitars and other instruments.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ten tryb jest szybszy i wystarczająco dobry dla gitar i innych instrumentów.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="68"/>
         <source>minimum note duration</source>
-        <translation type="unfinished"></translation>
+        <translation>minimalny czas dźwięku</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="75"/>
         <source>Only sounds longer than the selected time will be pitch-detected.&lt;br&gt;Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tylko dźwięki dłuższe niż podany czas są wykrywane.&lt;br&gt;Wydłużenie czasu nuty zapobiega przechwytywaniu szumów lub innych niechcianych dźwięków ale obniża reakcję programu.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="109"/>
@@ -265,7 +265,7 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="116"/>
         <source>low</source>
-        <translation type="unfinished">niski</translation>
+        <translation>niski</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="117"/>
@@ -275,7 +275,7 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="121"/>
         <source>Notes above &lt;b&gt;small g&lt;/b&gt;.&lt;br&gt;Suitable for high pitched instruments such as flute, piccolo, etc.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dźwięki powyżej &lt;b&gt;g małego&lt;/b&gt;.&lt;br&gt;Odpowiedni dla wysoko brzmiących instrumentów: flet, picolo, itp.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="154"/>
@@ -285,22 +285,22 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="160"/>
         <source>The base frequency of &lt;i&gt;middle a&lt;/i&gt;.&lt;br&gt;Detection of the proper pitch of notes is relative to this value. This also affects the pitch of played sounds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Podstawowa częstotliwość &lt;i&gt;środkowego a&lt;/i&gt;.&lt;br&gt;Od tej wartości zależy wysokość rozpoznawanych dźwięków. Wpływa ona także na odtwarzane dźwięki.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="171"/>
         <source>Shifts the frequency of &lt;i&gt;middle a&lt;/i&gt;. It can be used as a transposition.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zmienia częstotliwość &lt;i&gt;środkowego a&lt;/i&gt; o pół tonu. Może być wykorzystane do transpozycji.</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="172"/>
         <source>up</source>
-        <translation type="unfinished"></translation>
+        <translation>w górę</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="174"/>
         <source>down</source>
-        <translation type="unfinished"></translation>
+        <translation>w dół</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="211"/>
@@ -310,13 +310,15 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="432"/>
         <source>Frequency of detected note. You can use this for tuning.</source>
-        <translation type="unfinished"></translation>
+        <translation>Częstotliwość wykrytego dźwięku. Można jej użyć do strojenia</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/sound/audioinsettings.cpp" line="539"/>
         <source>%n semitone(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n półton</numerusform>
+            <numerusform>%n półtony</numerusform>
+            <numerusform>%n półtonów</numerusform>
         </translation>
     </message>
     <message>
@@ -340,7 +342,7 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="217"/>
         <source>Check, are your audio input settings appropriate?&lt;br&gt;And how well does pitch detection work for your selected settings?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprawdź, czy twoje ustawienia wejścia audio są właściwe,&lt;br&gt;oraz czy rozpozawanie wysokości dźwięku działa wystarczajco dobrze?</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="230"/>
@@ -480,12 +482,12 @@
         <location filename="../src/exam/tstartexamdlg.cpp" line="201"/>
         <source>Nootka level file</source>
         <comment>for file browsers</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="202"/>
         <source>Open with Nootka</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="203"/>
@@ -538,7 +540,7 @@
         <translation type="obsolete">Rozpocznij egzamin</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="131"/>
+        <location filename="../src/mainwindow.cpp" line="132"/>
         <source>show correct answer for every mistake</source>
         <translation type="unfinished"></translation>
     </message>
@@ -551,17 +553,17 @@
         <location filename="../src/mainwindow.cpp" line="228"/>
         <source>Analyze</source>
         <comment>could be Chart as well</comment>
-        <translation type="unfinished"></translation>
+        <translation>Analiza</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="230"/>
         <source>Analysis of exam results</source>
-        <translation type="unfinished"></translation>
+        <translation>Analiza wyników egzaminu</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="234"/>
         <source>About</source>
-        <translation type="unfinished">O</translation>
+        <translation>O...</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="235"/>
@@ -571,12 +573,12 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="250"/>
         <source>Level</source>
-        <translation type="unfinished">Poziom</translation>
+        <translation>Poziom</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="255"/>
         <source>Start!</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="256"/>
@@ -649,12 +651,12 @@
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="129"/>
         <source>Listen to a sound and show it on the staff.&lt;br&gt;Guitar, note names and key signatures are not used.&lt;br&gt;Scale a - a&lt;sup&gt;2&lt;/sup&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Posłuchaj dźwięku i pokaż go w nutach.&lt;br&gt;Gitara, nazwy nut i tonacje nie są używane.&lt;br&gt;Skala: a&lt;sup&gt;2&lt;/sup&gt;</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="158"/>
         <source>Take your instrument and just play...&lt;br&gt;No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.</source>
-        <translation type="unfinished"></translation>
+        <translation>Weź swój instrument i po prostu graj...&lt;br&gt;Bez nazw nut, bez gryfu. Tonacje do 4 zanków. Podwójne krzyżyki i bemole. Skala całej gitary bez dźwięków w pozycjach.</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="188"/>
@@ -664,7 +666,7 @@
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="189"/>
         <source>Just sing a score...&lt;br&gt;No note names, no fretboard, no keys and double accids. Scale doesn&apos;t matter because octaves are ignored - you can transpose.</source>
-        <translation type="unfinished"></translation>
+        <translation>Po prostu śpiewaj...&lt;br&gt;Bez nazw nut, bez gryfu, tonacji i podwójnych znaków, Skala nie ma znaczenia ponieważ oktawa śpiewanego dźwięku jest ignorowana - można transponować.</translation>
     </message>
     <message>
         <source>Just sing a score...&lt;br&gt;No note names, no fretboard, no keys and double accids. Scale doesn&apos;t matter because octaves are ignored - You can transpose.</source>
@@ -751,12 +753,12 @@
     <message>
         <location filename="../src/info/tsupportnootka.cpp" line="31"/>
         <source>You also can help with making Nootka better.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ty także możesz pomóc w ulepszaniu programu Nootka.</translation>
     </message>
     <message>
         <location filename="../src/info/tsupportnootka.cpp" line="32"/>
         <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wymaga to nieco angielskiego, więc jeżeli możesz przeczytać poniższy tekst będzie tam coś w co mógłbyś się zaangażować.</translation>
     </message>
     <message>
         <location filename="../src/info/tsupportnootka.cpp" line="66"/>
@@ -787,17 +789,17 @@
     <message>
         <location filename="../src/info/select7note.cpp" line="28"/>
         <source>7th note is:</source>
-        <translation type="unfinished"></translation>
+        <translation>7 nuta to:</translation>
     </message>
     <message>
         <location filename="../src/info/select7note.cpp" line="33"/>
         <source>7th note is &lt;b&gt;B&lt;/b&gt; and with flat is &lt;b&gt;Bb&lt;/b&gt; or &lt;b&gt;bes&lt;/b&gt; or &lt;b&gt;bs&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>7 nuta to &lt;b&gt;B&lt;/b&gt; a z bemolem to &lt;b&gt;Bb&lt;/b&gt;, bes lub &lt;b&gt;bs&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/select7note.cpp" line="39"/>
         <source>7th note is &lt;b&gt;H&lt;/b&gt; and with flat is &lt;b&gt;Hb&lt;/b&gt; or &lt;b&gt;B&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>7 nuta to &lt;b&gt;H&lt;/b&gt; a z bemolem to &lt;b&gt;Hb&lt;/b&gt; lub &lt;b&gt;B&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -821,22 +823,22 @@
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="243"/>
         <source>Welcome on board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.&lt;br&gt;It is specially designed for guitarists but others will find many usable features as well.</source>
-        <translation type="unfinished"></translation>
+        <translation>Witamy na pokładzie.&lt;br&gt; Nootka to aplikacja open source pomagająca w nauce (a także w nauczaniu) klasycznego zapisu nutowego.&lt;br&gt;Jest szczególnie dedykowana gitarzystom ale inni także znajdą w niej dużo użytecznych funkcji.</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="244"/>
         <source>This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.&lt;br&gt;In spite of that, you are welcome to try it!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ta wersja to beta i może zawierać błędy lub działać w niezamierzony sposób, posiada także nieukończone funkcje.&lt;br&gt;Mimo tego, zapraszam do wypróbowania!</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="245"/>
         <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Po więcej szczegółów i po następne wydania zajrzyj na &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;stronę programu&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Błędy, sugestie, tłumaczenia itp., proszę zgłaszać do: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;z poważaniem&lt;br&gt;Autor</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="249"/>
         <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;br&gt;Żeby wesprzeć projekt, a także uniknąć zarażenia Twojego komputera&lt;br&gt;&lt;b&gt;do pobierania aktualizacji, nowych wersji i czytania o nowościach, proszę używać strony www projektu&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -988,23 +990,24 @@
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="122"/>
         <source>Click and Drag the cursor to move the chart.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kliknij i przeciągnij kursor żeby przesunąć wykres.</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="152"/>
         <source>Question number</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba pytań</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="202"/>
         <source>File: %1 
  is not valid exam file!</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik: %1 
+nie jest poprawnym plikiem egzaminu!</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="212"/>
         <source>Open an exam to analyze</source>
-        <translation type="unfinished"></translation>
+        <translation>Otwórz egzamin do analizy</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="222"/>
@@ -1027,7 +1030,7 @@
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="246"/>
         <source>Close analyzer window</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamknij   okno analizy</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="269"/>
@@ -1093,7 +1096,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/charts/tanalysdialog.h" line="48"/>
         <source>Analysis of exam results</source>
-        <translation type="unfinished"></translation>
+        <translation>Analiza wyników egzaminu</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.h" line="49"/>
@@ -1105,38 +1108,44 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <name>Tcanvas</name>
     <message>
         <location filename="../src/exam/tcanvas.cpp" line="124"/>
+        <source>%1 was detected</source>
+        <comment>note name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tcanvas.cpp" line="133"/>
         <source>Try again!</source>
         <translation>Spróbuj jeszcze raz!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="173"/>
+        <location filename="../src/exam/tcanvas.cpp" line="176"/>
         <source>To correct an answer</source>
         <translation>Żeby poprawić odpowiedź</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="177"/>
+        <location filename="../src/exam/tcanvas.cpp" line="180"/>
         <source>To see corrected answer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="210"/>
+        <location filename="../src/exam/tcanvas.cpp" line="209"/>
         <source>To check the answer confirm it:</source>
         <translation>Aby sprawdzić odpowiedź, potwierdź ją:</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="213"/>
+        <location filename="../src/exam/tcanvas.cpp" line="212"/>
         <source>Check in exam help %1 how to do it automatically</source>
         <translation>Sprawdź w pomocy %1 jak zrobić to automatycznie</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="262"/>
+        <location filename="../src/exam/tcanvas.cpp" line="251"/>
         <source>too low</source>
-        <translation type="unfinished"></translation>
+        <translation>za nisko</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="264"/>
+        <location filename="../src/exam/tcanvas.cpp" line="253"/>
         <source>too high</source>
-        <translation type="unfinished"></translation>
+        <translation>za wysoko</translation>
     </message>
 </context>
 <context>
@@ -1234,7 +1243,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="obsolete">Egzamin wymaga dźwięku&lt;br&gt;ale nie jest on włączony !!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1048"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1109"/>
         <source>next question
 (space %1)</source>
         <translation>następne pytanie
@@ -1251,19 +1260,19 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="obsolete">Sprawdź</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1063"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1124"/>
         <source>check answer
 (enter %1)</source>
         <translation>sprawdź odpowiedź
 (enter %1)</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1070"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1131"/>
         <source>Play</source>
-        <translation type="unfinished">Graj</translation>
+        <translation>Graj</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1071"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1132"/>
         <source>play sound again</source>
         <translation>ponownie zagraj dźwięk</translation>
     </message>
@@ -1272,12 +1281,12 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="obsolete">Poziom &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nie ma sensu, bo nie ma w nim żadnego pytania, które można zadać.&lt;br&gt;Możliwe, że nie jest dopasowany do bieżącego stroju gitary.&lt;br&gt;Napraw to w Kreatorze Poziomów i spróbuj ponownie.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1282"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1343"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1283"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1344"/>
         <source>Discard</source>
         <translation>Porzuć</translation>
     </message>
@@ -1291,12 +1300,12 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="obsolete">Następne</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1056"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1117"/>
         <source>repeat previous question (backspace)</source>
         <translation>powtórz poprzednie pytanie (backspace)</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="890"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="951"/>
         <source>Help</source>
         <translation>Pomoc</translation>
     </message>
@@ -1304,12 +1313,13 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <location filename="../src/exam/texamexecutor.cpp" line="134"/>
         <source>File: %1 
  is not valid exam file!</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik: %1 
+nie jest poprawnym plikiem egzaminu!</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="155"/>
         <source>Exercise or exam require sound but&lt;br&gt;sound output is not available!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ćwiczenie lub egzamin wymaga dźwięku&lt;br&gt;ale nie jest on włączony!</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="164"/>
@@ -1319,104 +1329,104 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="176"/>
         <source>Level &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;makes no sense because there are no questions to ask.&lt;br&gt;It can be re-adjusted.&lt;br&gt;Repair it in Level Creator and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Poziom &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nie ma sensu, bo nie ma w nim żadnego pytania, które można zadać.&lt;br&gt;Możliwe, że nie jest dopasowany do bieżącego stroju gitary.&lt;br&gt;Napraw to w Kreatorze Poziomów i spróbuj ponownie.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="894"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="955"/>
         <source>Stop</source>
         <translation>Stop</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1047"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1108"/>
         <source>Next</source>
         <comment>like a next question</comment>
-        <translation type="unfinished">Następne</translation>
+        <translation>Następne</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1055"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1116"/>
         <source>Repeat</source>
         <comment>like a repeat question</comment>
-        <translation type="unfinished">Powtórz</translation>
+        <translation>Powtórz</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1062"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1123"/>
         <source>Check</source>
         <comment>like a check answer</comment>
-        <translation type="unfinished">Sprawdź</translation>
+        <translation>Sprawdź</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1078"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1139"/>
         <source>Correct</source>
         <comment>like a correct answer with mistake</comment>
-        <translation type="unfinished"></translation>
+        <translation>Popraw</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1079"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1140"/>
         <source>correct answer
 (enter)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1169"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1230"/>
         <source>Give an answer first!&lt;br&gt;Then the exam will end.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1214"/>
-        <source>Such a pity.</source>
-        <translation type="unfinished"></translation>
+        <translation>Najpierw odpowiedz!&lt;br&gt;Potem egzamin zostanie zakończony.</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="1275"/>
+        <source>Such a pity.</source>
+        <translation>Jaka szkoda</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamexecutor.cpp" line="1336"/>
         <source>Save exam results as:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz wyniki egzaminu jako:</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1281"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1342"/>
         <source>If you don&apos;t save to file&lt;br&gt;you lost all results!</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeżeli nie zapiszesz do pliku&lt;br&gt;stracisz dotychczasowe wyniki!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1463"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1528"/>
         <source>Exercises with Nootka</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1464"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1529"/>
         <source>finish exercising</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1466"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1531"/>
         <source>EXAM!</source>
-        <translation type="unfinished"></translation>
+        <translation>EGZAMIN!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1475"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1540"/>
         <source>You are exercising on level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1477"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1542"/>
         <source>Exam started on level</source>
-        <translation type="unfinished"></translation>
+        <translation>Egzamin uruchomiony na poziomie</translation>
     </message>
     <message>
         <source>Give an answer first!&lt;br&gt;Then the exam&apos;ll be finished</source>
         <translation type="obsolete">Najpierw odpowiedz!&lt;br&gt;Potem egzamin zostanie zakończony</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1252"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1313"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
         <translation>Psssst... Trwa egzamin.&lt;br&gt;&lt;br&gt;&lt;b&gt;Kontynuuj&lt;/b&gt; go &lt;br&gt;lub&lt;br&gt;&lt;b&gt;Zakończ&lt;/b&gt; żeby sprawdzić, zapisać i wyjść&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1253"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1314"/>
         <source>Continue</source>
         <translation>Kontynuuj</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1254"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1315"/>
         <source>Terminate</source>
         <translation>Zakończ</translation>
     </message>
@@ -1438,7 +1448,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="obsolete">EGZAMIN!!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1467"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1532"/>
         <source>stop the exam</source>
         <translation>zatrzymaj egzamin</translation>
     </message>
@@ -1474,17 +1484,17 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="36"/>
         <source>Exam will be completed when you give answers to all questions.&lt;br&gt;The number of questions depends on the level of the exam.</source>
-        <translation type="unfinished"></translation>
+        <translation>Egzamin zostanie zdany kiedy odpowiesz na wszystkie pytania.&lt;br&gt;Ich liczba zależy od poziomu.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="37"/>
         <source>If you make a mistake, the question will asked two more times and the total number of questions will be increased. These are penalty questions.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeżeli popełnisz błąd, takie pytanie będzie zadane jeszcze dwa razy a całkowita liczba pytań w egzaminie zwiększona. To są właśnie karne pytania.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="38"/>
         <source>When answer is &apos;not bad&apos;, you get one penalty more.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kiedy odpowiedź jest &quot;niezła&quot;, otrzymasz jedno karne pytanie.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="48"/>
@@ -1499,7 +1509,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="54"/>
         <source>Select 2nd check box to get the question automatically.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaznacz 2-gie pole wyboru żeby pytania były zadawane automatycznie.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="57"/>
@@ -1509,17 +1519,18 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="58"/>
         <source>To give an answer, select it on &lt;span style=&quot;%1&quot;&gt;Nootka&apos;s element with that color.&lt;/span&gt;&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Wskaż odpowiedź na &lt;span style=&quot;%1&quot;&gt;elemencie okna Nootki zaznzczonym tym kolorem.&lt;/span&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="64"/>
         <source>By selecting the 3rd check box, answers will be checked immediately without confirmation required.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaznzczając 3-cie pole wyboru, odpowiedzi będą sprawdzane od razu, bez potwierdzenia.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="66"/>
         <source>Exercises</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Ćwiczenia</translatorcomment>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="68"/>
@@ -1539,7 +1550,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="74"/>
         <source>Exams</source>
-        <translation type="unfinished"></translation>
+        <translation>Egzaminy</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="76"/>
@@ -1549,12 +1560,12 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="81"/>
         <source>GOOD LUCK!</source>
-        <translation type="unfinished"></translation>
+        <translation>POWODZENIA!</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="82"/>
         <source>Experts corner</source>
-        <translation type="unfinished"></translation>
+        <translation>Kącik eksperta</translation>
     </message>
     <message>
         <source>To give an answer, select it on &lt;span style=&quot;%1&quot;&gt;Nootka&apos;s element pointed with that color.&lt;/span&gt;&lt;br&gt;</source>
@@ -1582,7 +1593,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/info/texamhelp.h" line="45"/>
         <source>or press &lt;b&gt;Enter&lt;/b&gt; key</source>
-        <translation type="unfinished"></translation>
+        <translation>lub naciśnij &lt;b&gt;Enter&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.h" line="46"/>
@@ -1674,104 +1685,154 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings/texamsettings.cpp" line="42"/>
-        <source>preview time of corrected answer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/settings/texamsettings.cpp" line="44"/>
-        <source>How long time a correct answer will be displayed when next question is asked automatically.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/settings/texamsettings.cpp" line="54"/>
+        <location filename="../src/settings/texamsettings.cpp" line="63"/>
         <source>suggest an exam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings/texamsettings.cpp" line="55"/>
-        <source>Watch exercising progress and when exercising is going well, suggest to start an exam on exercise level.</source>
+        <location filename="../src/settings/texamsettings.cpp" line="43"/>
+        <source>Preview time of corrected answer when next question is asked automatically.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings/texamsettings.cpp" line="59"/>
-        <source>repeat a question</source>
+        <location filename="../src/settings/texamsettings.cpp" line="50"/>
+        <source>Delay before every next question when it is asked automatically.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings/texamsettings.cpp" line="61"/>
-        <source>A question with an incorrect answer will be asked once again.</source>
+        <location filename="../src/settings/texamsettings.cpp" line="57"/>
+        <source>A time of displaying incorrect answers.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings/texamsettings.cpp" line="62"/>
-        <source>close without confirm</source>
+        <location filename="../src/settings/texamsettings.cpp" line="64"/>
+        <source>Watch exercising progress and when it is going well, suggest to start an exam on the exercise level.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings/texamsettings.cpp" line="63"/>
-        <source>If checked, an application will not ask to answer pending question just mark it as wrong, save an exam to file (in directory: %1) and close itself without any confirmation needed.</source>
+        <location filename="../src/settings/texamsettings.cpp" line="66"/>
+        <source>show wrong played</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings/texamsettings.cpp" line="67"/>
+        <source>When answer was played (or sung) and it was wrong also the detected wrong note is shown.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/settings/texamsettings.cpp" line="70"/>
-        <source>Student Name:</source>
-        <translation type="unfinished"></translation>
+        <source>repeat a question</source>
+        <translation>powtórz pytanie</translation>
+    </message>
+    <message>
+        <location filename="../src/settings/texamsettings.cpp" line="72"/>
+        <source>A question with an incorrect answer will be asked once again.</source>
+        <translation>Pytanie, na które odpowiedziano niepoprawnie, zostanie zadane jeszcze raz.</translation>
     </message>
     <message>
         <location filename="../src/settings/texamsettings.cpp" line="73"/>
+        <source>close without confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings/texamsettings.cpp" line="74"/>
+        <source>If checked, an application will not ask to answer pending question just mark it as wrong, save an exam to file (in directory: %1) and close itself without any confirmation needed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings/texamsettings.cpp" line="81"/>
+        <source>Student Name:</source>
+        <translation>Imię ucznia:</translation>
+    </message>
+    <message>
+        <location filename="../src/settings/texamsettings.cpp" line="84"/>
         <source>Default name for every new exam or exercise.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings/texamsettings.cpp" line="75"/>
+        <location filename="../src/settings/texamsettings.cpp" line="86"/>
         <source>questions</source>
-        <translation type="unfinished">pytania</translation>
+        <translation>pytania</translation>
     </message>
     <message>
-        <location filename="../src/settings/texamsettings.cpp" line="77"/>
+        <location filename="../src/settings/texamsettings.cpp" line="88"/>
         <source>color of questions</source>
         <translation>kolor  pytań</translation>
     </message>
     <message>
-        <location filename="../src/settings/texamsettings.cpp" line="77"/>
+        <location filename="../src/settings/texamsettings.cpp" line="88"/>
         <source>color of wrong answers</source>
         <translation>kolor niepoprawnych odpowiedzi</translation>
     </message>
     <message>
-        <location filename="../src/settings/texamsettings.cpp" line="78"/>
+        <location filename="../src/settings/texamsettings.cpp" line="89"/>
         <source>answers</source>
-        <translation type="unfinished">odpowiedzi</translation>
+        <translation>odpowiedzi</translation>
     </message>
     <message>
-        <location filename="../src/settings/texamsettings.cpp" line="80"/>
+        <location filename="../src/settings/texamsettings.cpp" line="91"/>
         <source>color of answers</source>
         <translation>kolor odpowiedzi</translation>
     </message>
     <message>
-        <location filename="../src/settings/texamsettings.cpp" line="81"/>
+        <location filename="../src/settings/texamsettings.cpp" line="92"/>
         <source>&apos;not bad&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;nieżle&apos;</translation>
     </message>
     <message>
-        <location filename="../src/settings/texamsettings.cpp" line="83"/>
+        <location filename="../src/settings/texamsettings.cpp" line="94"/>
         <source>color of &apos;not bad&apos; answers</source>
+        <translation>kolor &quot;niezłych&quot; odpowiedzi</translation>
+    </message>
+    <message>
+        <location filename="../src/settings/texamsettings.cpp" line="95"/>
+        <source>after mistake:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings/texamsettings.cpp" line="108"/>
+        <location filename="../src/settings/texamsettings.cpp" line="96"/>
+        <source>continue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings/texamsettings.cpp" line="97"/>
+        <source>wait</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings/texamsettings.cpp" line="98"/>
+        <source>stop</source>
+        <translation>stop</translation>
+    </message>
+    <message>
+        <location filename="../src/settings/texamsettings.cpp" line="103"/>
+        <source>When &lt;b&gt;&apos;ask next question automatically&apos;&lt;/b&gt; is checked and you commit a mistake, the program can: &lt;b&gt;continue asking immediately&lt;/b&gt;, &lt;b&gt;wait defined period of time&lt;/b&gt; or &lt;b&gt;stop questioning&lt;/b&gt;, to give you possibility to analyze what was wrong.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings/texamsettings.cpp" line="114"/>
+        <source>extra names</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings/texamsettings.cpp" line="115"/>
+        <source>To improve association of note in the score or position on the guitar to note name, Nootka will display names even if neither question nor answer is related to it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings/texamsettings.cpp" line="163"/>
         <source>colors</source>
-        <translation type="unfinished"></translation>
+        <translation>kolory</translation>
     </message>
     <message>
-        <location filename="../src/settings/texamsettings.cpp" line="125"/>
+        <location filename="../src/settings/texamsettings.cpp" line="180"/>
         <source>exercises</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ćwiczenia</translation>
     </message>
     <message>
-        <location filename="../src/settings/texamsettings.cpp" line="136"/>
+        <location filename="../src/settings/texamsettings.cpp" line="192"/>
         <source>exams</source>
-        <translation type="unfinished"></translation>
+        <translation>egzaminy</translation>
     </message>
     <message>
         <source>color of correct answers</source>
@@ -1782,17 +1843,17 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="obsolete">kolor &quot;niezłych&quot; odpowiedzi</translation>
     </message>
     <message>
-        <location filename="../src/settings/texamsettings.h" line="45"/>
+        <location filename="../src/settings/texamsettings.h" line="42"/>
         <source>ask next question automatically</source>
         <translation>automatycznie zadaj następne pytanie </translation>
     </message>
     <message>
-        <location filename="../src/settings/texamsettings.h" line="47"/>
+        <location filename="../src/settings/texamsettings.h" line="45"/>
         <source>check answers without requiring confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation>sprawdzaj pytania bez potwierdzenia</translation>
     </message>
     <message>
-        <location filename="../src/settings/texamsettings.h" line="48"/>
+        <location filename="../src/settings/texamsettings.h" line="46"/>
         <source>correct mistakes (exercises only)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1833,12 +1894,12 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="50"/>
         <source>Number of questions:</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba pytań:</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="61"/>
         <source>Time taken to answer</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas odpowiedzi</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="74"/>
@@ -1893,27 +1954,28 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="136"/>
         <source>Wrong note names</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieprawidłowe nazwy nut</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="143"/>
         <source>Out of tune</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieczysto</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="168"/>
         <source>Progress of exercises</source>
-        <translation type="unfinished"></translation>
+        <translation>Postęp egzaminu</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="169"/>
         <source>Pass an exam</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Złóż egzamin</translatorcomment>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="170"/>
         <source>Finish exercise and pass an exam on this level.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zakończ ćwiczenie i zdawaj egzamin na tym poziomie.</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="176"/>
@@ -1962,17 +2024,17 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamview.h" line="40"/>
         <source>Average time taken to answer</source>
-        <translation type="unfinished"></translation>
+        <translation>Średni czas odpowiedzi</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.h" line="42"/>
         <source>Time for an answer</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas odpowiedzi</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.h" line="44"/>
         <source>Total time</source>
-        <translation type="unfinished"></translation>
+        <translation>Całkowity czas</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.h" line="45"/>
@@ -1991,7 +2053,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/exam/texamview.cpp" line="28"/>
         <source>&apos;Not bad&apos; answers</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;niezłe&quot; odpowiedzi</translation>
     </message>
     <message>
         <location filename="../src/exam/texamview.cpp" line="29"/>
@@ -2051,27 +2113,27 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="32"/>
         <source>Experts mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Tryb eksperta</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="35"/>
         <source>You are about to enter expert mode.&lt;br&gt; In this mode you don&apos;t need to confirm every answer,&lt;br&gt;&lt;b&gt;but remember the following:</source>
-        <translation type="unfinished"></translation>
+        <translation>Jesteś blisko wejścia w tryb odpowiedzi eksperta.&lt;br&gt; Nie musisz w nim potwierdzać każdej odpowiedzi,&lt;br&gt;&lt;b&gt;ale pamietaj o niżej wymienionych zasadach:&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="36"/>
         <source>Selecting a note on the score or a position on the fingerboard invokes automatic checking of your answer, so select a key signature first, if required.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybranie nuty na pięciolini lub pozycji na podstrunnicy skutkuje sprawdzeniem Twojej odpowiedzi, Zaznacz najpierw tonację gdy jest to wymagane.</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="37"/>
         <source>When an answer is the name of a note &lt;b&gt;first select a proper accidental and an octave&lt;/b&gt; and then click a note button - this automatically invokes checking.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gdy odpowiedź jest nazwą dźwięku &lt;b&gt;najpierw zaznacz&lt;/b&gt; właściwy znak i oktawę i dopiero wtedy kliknij przycisk z nazwą dźwięku - to wywołuje sprawdzanie.</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="38"/>
         <source>When you have to play a note as an answer - the first detected sound will be taken, so be sure that your input device captures exactly what you want.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kiedy jako odpowiedź masz zagrać dźwięk -- ten pierwszy rozpoznany jest brany jako odpowiedź. Upewnij się, że Twoje urządzenie wejściowe odbiera dokładnie to co chcesz.</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="41"/>
@@ -2098,14 +2160,14 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="obsolete">Dźwięk jest poza skalą gitary</translation>
     </message>
     <message>
-        <location filename="../src/guitar/tfingerboard.cpp" line="53"/>
+        <location filename="../src/guitar/tfingerboard.cpp" line="55"/>
         <source>Select a string or fret and click to see it on the staff.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz strunę lub próg i kliknij żeby zobaczyć w nutach.</translation>
     </message>
     <message>
-        <location filename="../src/guitar/tfingerboard.cpp" line="156"/>
+        <location filename="../src/guitar/tfingerboard.cpp" line="158"/>
         <source>This note is beyond the scale of the guitar!</source>
-        <translation type="unfinished"></translation>
+        <translation>Dźwięk jest poza skalą gitary</translation>
     </message>
 </context>
 <context>
@@ -2123,22 +2185,22 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="58"/>
         <source>previous</source>
-        <translation type="unfinished"></translation>
+        <translation>poprzedni</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="71"/>
         <source>What instrument do you play?</source>
-        <translation type="unfinished">Na jakim instrumencie grasz?</translation>
+        <translation>Na jakim instrumencie grasz?</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="203"/>
         <source>When writing notation for bass guitar, the &lt;b&gt;bass clef&lt;/b&gt; is used but the played notes sound an octave lower. The proper clef is &lt;b&gt;bass dropped clef&lt;/b&gt; (with the digit &quot;eight&quot; written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.</source>
-        <translation type="unfinished"></translation>
+        <translation>Do zapisu nut dla gitary basowej używany jest &lt;b&gt;klucz basowy&lt;/b&gt; ale grane dźwięki brzmią wtedy oktawę niżej. Właściwy klucz to &lt;b&gt;basowy obniżony&lt;/b&gt; (z cyfrą &quot;osiem&quot; poniżej), w którym dźwięki dokładnie brzmią tak jak są zapisane i ten klucz używany jest dla gitary basowej w programie Nootka.</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="206"/>
         <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapis gitarowy używa klucza wiolinowego z cyfrą &quot;osiem&quot; poniżej (nawet jeżeli niektórzy wydawcy o tej cyfrze zapominają).&lt;br&gt;&lt;br&gt;Spróbuj to zrozumieć. &lt;br&gt;&lt;br&gt;&lt;p&gt;%1 %2 &lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Obydwa obrazki powyżej pokazują tą samą nutę: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(dźwięk c w oktawie razkreślnej&lt;/p&gt;</translation>
     </message>
     <message>
         <source>prev</source>
@@ -2168,7 +2230,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/widgets/tfixleveldialog.cpp" line="64"/>
         <source>fix an instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>napraw rodzaj instrumentu</translation>
     </message>
     <message>
         <location filename="../src/widgets/tfixleveldialog.cpp" line="69"/>
@@ -2186,14 +2248,8 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/tfixleveldialog.cpp" line="76"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/tfixleveldialog.cpp" line="77"/>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">OK</translation>
     </message>
 </context>
 <context>
@@ -2213,17 +2269,17 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/settings/tglobalsettings.cpp" line="36"/>
         <source>show enharmonic variants of notes</source>
-        <translation type="unfinished"></translation>
+        <translation>pokaż inne enharmoniczne warianty nuty</translation>
     </message>
     <message>
         <location filename="../src/settings/tglobalsettings.cpp" line="37"/>
         <source>Shows enharmonic variants of notes.&lt;br&gt;i.e.: the note E is also Fb (F flat) &lt;i&gt;and&lt;/i&gt; Dx (D with double sharp).</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokazuje enharmoniczne warianty dźwięku.&lt;br&gt;Np.: Nuta E to także Fb (F z bemolem) i Dx (D z podwójnym krzyżykiem).</translation>
     </message>
     <message>
         <location filename="../src/settings/tglobalsettings.cpp" line="41"/>
         <source>color of enharmonic notes</source>
-        <translation type="unfinished"></translation>
+        <translation>kolor enharmonicznych dźwięków</translation>
     </message>
     <message>
         <location filename="../src/settings/tglobalsettings.cpp" line="50"/>
@@ -2243,22 +2299,22 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/settings/tglobalsettings.cpp" line="57"/>
         <source>Show description of Nootka&apos;s elements.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż opisy elementów interfejsu.</translation>
     </message>
     <message>
         <location filename="../src/settings/tglobalsettings.cpp" line="62"/>
         <source>Application language</source>
-        <translation type="unfinished"></translation>
+        <translation>Język programu</translation>
     </message>
     <message>
         <location filename="../src/settings/tglobalsettings.cpp" line="68"/>
         <source>Select a language.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;To take effect, this requires restarting the application!&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz język.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;Wymagane jest ponowne uruchomienie programu!&lt;/span&gt;</translation>
     </message>
     <message>
         <location filename="../src/settings/tglobalsettings.cpp" line="103"/>
         <source>Restore all default settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Przywróć wszystkie ustawienia domyślne</translation>
     </message>
     <message>
         <source>Show descriptions of interface&apos;s elements.</source>
@@ -2293,7 +2349,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/settings/tglobalsettings.h" line="40"/>
         <source>All settings will be reset to their default values!&lt;br&gt;Nootka will start up with the first-run wizard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystkie ustawienia programu zostaną usunięte!&lt;br&gt;Nootka rozpocznie pracę od kreatora pierwszego uruchomienia.</translation>
     </message>
 </context>
 <context>
@@ -2306,12 +2362,12 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/charts/tgraphicsline.cpp" line="70"/>
         <source>descending - you are progressing better</source>
-        <translation type="unfinished"></translation>
+        <translation>opadająca - jesteś lepszy</translation>
     </message>
     <message>
         <location filename="../src/charts/tgraphicsline.cpp" line="72"/>
         <source>ascending - you are thinking too much</source>
-        <translation type="unfinished"></translation>
+        <translation>wznosząca - dużo myślisz</translation>
     </message>
     <message>
         <source>descending - you go better</source>
@@ -2374,7 +2430,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="42"/>
         <source>tuning of the guitar</source>
-        <translation type="unfinished"></translation>
+        <translation>strój gitary</translation>
     </message>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="43"/>
@@ -2384,39 +2440,39 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="50"/>
         <source>Select appropriate tuning from the list or prepare your own.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz odpowiedni strój z listy lub przygotuj własny.</translation>
     </message>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="51"/>
         <source>Remember to select the appropriate clef in Score settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pamiętaj żeby wybrać odpowiedni klucz w ustawieniach zapisu nutowego.</translation>
     </message>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="69"/>
         <source>Instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Instrument</translation>
     </message>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="76"/>
         <source>right-handed players</source>
         <comment>When translation will be too long try to add &apos;
 &apos; - line break between words.</comment>
-        <translation type="unfinished"></translation>
+        <translation>gitara dla praworęcznych</translation>
     </message>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="78"/>
         <source>Uncheck this if you are left-handed&lt;br&gt;and your guitar is strung for left-handed playing (changed string order)</source>
-        <translation type="unfinished"></translation>
+        <translation>Odznacz, jeżeli jesteś leworęczny(a),&lt;br&gt;a twoja gitara ma zmienioną kolejność strun.</translation>
     </message>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="108"/>
         <source>preferred accidentals:</source>
-        <translation type="unfinished"></translation>
+        <translation>preferowane znaki:</translation>
     </message>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="109"/>
         <source>Choose which accidentals will be shown on the staff.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz, które znaki pojawią się przy nutach.</translation>
     </message>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="110"/>
@@ -2436,7 +2492,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="125"/>
         <source>As you know, the same note can be played in several places on the fingerboard.&lt;br&gt;If checked, all of them will be shown.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jak wiesz, ta sama nuta może być zagrana w kilku miejscach.na gryfie.&lt;br&gt;Gdy zaznaczone, pokazywane są wszystkie z nich.</translation>
     </message>
     <message>
         <source>As you know, the same note can be played in few places on a fingerboard.&lt;br&gt;If checked, all of them are showed.</source>
@@ -2455,7 +2511,7 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="173"/>
         <source>Custom tuning</source>
-        <translation type="unfinished"></translation>
+        <translation>Własny strój</translation>
     </message>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="426"/>
@@ -2466,24 +2522,22 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
 <context>
     <name>ThelpDialogBase</name>
     <message>
-        <location filename="../src/info/thelpdialogbase.cpp" line="40"/>
+        <location filename="../src/info/thelpdialogbase.cpp" line="37"/>
         <source>Nootka help</source>
-        <translation type="unfinished"></translation>
+        <translation>Pomoc Nootki</translation>
     </message>
     <message>
-        <location filename="../src/info/thelpdialogbase.cpp" line="81"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation type="obsolete">OK</translation>
     </message>
     <message>
-        <location filename="../src/info/thelpdialogbase.cpp" line="97"/>
         <source>Discard</source>
-        <translation type="unfinished">Porzuć</translation>
+        <translation type="obsolete">Porzuć</translation>
     </message>
     <message>
-        <location filename="../src/info/thelpdialogbase.h" line="71"/>
+        <location filename="../src/info/thelpdialogbase.h" line="73"/>
         <source>always show this help window</source>
-        <translation type="unfinished"></translation>
+        <translation>zawsze pokazuj to okno pomocy</translation>
     </message>
 </context>
 <context>
@@ -2491,44 +2545,44 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
     <message>
         <location filename="../src/sound/tintonationview.cpp" line="206"/>
         <source>intonation accuracy</source>
-        <translation type="unfinished"></translation>
+        <translation>dokładność intonacji</translation>
     </message>
     <message>
         <location filename="../src/sound/tintonationview.cpp" line="225"/>
         <source>do not check</source>
-        <translation type="unfinished"></translation>
+        <translation>nie sprawdzaj</translation>
     </message>
     <message>
         <location filename="../src/sound/tintonationview.cpp" line="226"/>
         <source>gums pain</source>
         <comment>We used to say that gums or teeth are paining when music is out of tune but it isn&apos;t official term.</comment>
-        <translation type="unfinished"></translation>
+        <translation>ból dziąseł</translation>
     </message>
     <message>
         <location filename="../src/sound/tintonationview.cpp" line="227"/>
         <source>violinist beginner</source>
-        <translation type="unfinished"></translation>
+        <translation>początkujący skrzypek</translation>
     </message>
     <message>
         <location filename="../src/sound/tintonationview.cpp" line="228"/>
         <source>old strings</source>
-        <translation type="unfinished"></translation>
+        <translation>stare struny</translation>
     </message>
     <message>
         <location filename="../src/sound/tintonationview.cpp" line="229"/>
         <source>well tuned instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>dobrze nastrojony instrument</translation>
     </message>
     <message>
         <location filename="../src/sound/tintonationview.cpp" line="230"/>
         <source>perfect</source>
-        <translation type="unfinished"></translation>
+        <translation>perfekcyjny</translation>
     </message>
     <message>
         <location filename="../src/sound/tintonationview.h" line="103"/>
         <source>cents</source>
         <comment>unit of measure used for musical intervals. This text always is used in context: &apos; Â±	[5, 10, 20, 30] cents &apos; </comment>
-        <translation type="unfinished"></translation>
+        <translation>centów</translation>
     </message>
 </context>
 <context>
@@ -2549,86 +2603,91 @@ nie jest poprawnym plikiem egzaminu !!!</translation>
         <translation>Zakres</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelcreatordlg.cpp" line="73"/>
         <source>Close</source>
-        <translation>Zamknij</translation>
+        <translation type="obsolete">Zamknij</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelcreatordlg.cpp" line="74"/>
+        <location filename="../src/level/tlevelcreatordlg.cpp" line="73"/>
         <source>Check</source>
         <translation>Sprawdź</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="75"/>
         <source>Check, Are your settings for the level possible to perform.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprawdź czy ustawenia poziomu są możliwe do wykonania.</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelcreatordlg.cpp" line="109"/>
-        <location filename="../src/level/tlevelcreatordlg.cpp" line="114"/>
+        <location filename="../src/level/tlevelcreatordlg.cpp" line="110"/>
+        <location filename="../src/level/tlevelcreatordlg.cpp" line="115"/>
         <source>level not saved!</source>
-        <translation type="unfinished"></translation>
+        <translation>poziom nie zapisany!</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelcreatordlg.cpp" line="114"/>
+        <location filename="../src/level/tlevelcreatordlg.cpp" line="115"/>
         <source>Level was changed and not saved!</source>
-        <translation type="unfinished"></translation>
+        <translation>Poziom egzaminu został zmieniony
+ale nie zapisany!</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelcreatordlg.cpp" line="148"/>
+        <location filename="../src/level/tlevelcreatordlg.cpp" line="149"/>
         <source>Save exam level</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz poziom egzaminu</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelcreatordlg.cpp" line="185"/>
+        <location filename="../src/level/tlevelcreatordlg.cpp" line="186"/>
         <source>There aren&apos;t any questions or answers selected.&lt;br&gt;Level makes no sense.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie zaznaczono żadnych pytań ani odpowiedzi.&lt;br&gt;Poziom nie ma sensu.</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelcreatordlg.cpp" line="206"/>
+        <location filename="../src/level/tlevelcreatordlg.cpp" line="207"/>
         <source>&lt;li&gt;Range of frets is beyond the scale of this level&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Zakres progów jest poza skalą tego poziomu&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelcreatordlg.cpp" line="219"/>
+        <location filename="../src/level/tlevelcreatordlg.cpp" line="220"/>
         <source>&lt;li&gt;In range of notes some accidentals are used&lt;br&gt;but not available in this level&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;W zakresie dźwięków użyte zostały znaki&lt;br&gt;lecz nie zostały one zaznaczone dla tego poziomu&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelcreatordlg.cpp" line="223"/>
+        <location filename="../src/level/tlevelcreatordlg.cpp" line="224"/>
         <source>&lt;li&gt;Force appropriate accidental is enabled but any accidental was selected.&lt;/li&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelcreatordlg.cpp" line="229"/>
+        <location filename="../src/level/tlevelcreatordlg.cpp" line="230"/>
         <source>&lt;li&gt;Questions and answers as note names will be the same. To avoid that level has to use flats and sharps and/or double accidentals and/or to use different name styles.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Odpowiedź jako nuta na pięciolini będzie taka sama jak pytanie. Żeby tego uniknąć poziom musi używać krzyżiki i bemole oraz/lub podwójne znaki, a także różne style nazw nut.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelcreatordlg.cpp" line="233"/>
+        <location filename="../src/level/tlevelcreatordlg.cpp" line="234"/>
         <source>&lt;li&gt;&apos;Use different naming styles&apos; was checked but neither questions nor answers as note name are checked.&lt;br&gt;Check this type of answer/question or uncheck &apos;Use different naming styles&apos;.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;&quot;Używaj różnych nazw nut&quot; jest zaznaczone ale ani pytanie ani odpowiedź jako nazwa nuty nie została wybrana.&lt;br&gt;Zaznacz ten rodzaj pytania/odpowiedzi lub wyłącz &quot;różne nazw nut&quot;.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelcreatordlg.cpp" line="237"/>
+        <location filename="../src/level/tlevelcreatordlg.cpp" line="238"/>
         <source>&lt;li&gt;Questions and answers as notes on the staff will be the same. Manually selecting keys or forcing accidentals has to be selected to avoid that.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Odpowiedź jako nuta na pięciolini będzie taka sama jak pytanie. Żeby tego uniknąć &quot;ręczny wybór tonacji&quot; lub &quot;wymusś odpowiedni znak&quot; muszą być zaznaczone.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelcreatordlg.cpp" line="242"/>
+        <location filename="../src/level/tlevelcreatordlg.cpp" line="243"/>
         <source>&lt;li&gt;Manual selecting of a key signature was checked but answer as note on the staff was not checked.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Został zaznzczony ręczny wybór tonacji ale żadna odpowiedź jako nuta na pięciolini nie została wybrana.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelcreatordlg.cpp" line="275"/>
-        <location filename="../src/level/tlevelcreatordlg.cpp" line="281"/>
+        <location filename="../src/level/tlevelcreatordlg.cpp" line="254"/>
+        <source>&lt;li&gt;Fret range is not enough to find any note in different positions. At least &lt;b&gt;%1&lt;/b&gt; frets range is required.&lt;/li&gt;</source>
+        <translation>&lt;li&gt;Zakres progów jest niewystarczający żeby znaleźć jakąś nutę w różnych pozycjach. Konieczny jest zakres co najmniej &lt;b&gt;%1&lt;/b&gt; progów.&lt;/li&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/level/tlevelcreatordlg.cpp" line="288"/>
+        <location filename="../src/level/tlevelcreatordlg.cpp" line="294"/>
         <source>Level validation</source>
-        <translation type="unfinished"></translation>
+        <translation>Poprawność poziomu</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelcreatordlg.cpp" line="283"/>
+        <location filename="../src/level/tlevelcreatordlg.cpp" line="296"/>
         <source>&lt;center&gt;&lt;b&gt;It seems the level has some mistakes:&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;center&gt;&lt;b&gt;Wygląda na to, że ten poziom ma jakieś błędy:&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Check, Are Your settings of the level possible to perform.</source>
@@ -2645,7 +2704,7 @@ and not saved !!</source>
 ale nie zapisany !!</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelcreatordlg.cpp" line="157"/>
+        <location filename="../src/level/tlevelcreatordlg.cpp" line="158"/>
         <source>Cannot open file for writing</source>
         <translation>Nie mogę otworzyć pliku żeby zapisać</translation>
     </message>
@@ -2662,7 +2721,7 @@ ale nie zapisany !!</translation>
         <translation type="obsolete">&lt;li&gt;Został zaznzczony ręczny wybór tonacji ale żadna odpowiedź jako nuta na pięciolini nie została wybrana.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelcreatordlg.cpp" line="275"/>
+        <location filename="../src/level/tlevelcreatordlg.cpp" line="288"/>
         <source>Level seems to be correct</source>
         <translation>Poziom wygląda na poprawny</translation>
     </message>
@@ -2701,7 +2760,7 @@ ale nie zapisany !!</translation>
     <message>
         <location filename="../src/level/tlevelheaderwdg.cpp" line="28"/>
         <source>Level name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa poziomu:</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelheaderwdg.cpp" line="32"/>
@@ -2711,7 +2770,7 @@ ale nie zapisany !!</translation>
     <message>
         <location filename="../src/level/tlevelheaderwdg.cpp" line="34"/>
         <source>Level description:</source>
-        <translation type="unfinished"></translation>
+        <translation>Opis poziomu:</translation>
     </message>
     <message>
         <source>Level&apos;s description:</source>
@@ -2739,12 +2798,12 @@ ale nie zapisany !!</translation>
     <message>
         <location filename="../src/level/tlevelpreview.cpp" line="68"/>
         <source>no level selected</source>
-        <translation type="unfinished"></translation>
+        <translation>nie wybrano poziomu</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelpreview.cpp" line="91"/>
         <source>fix an instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>napraw typ instrumentu</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelpreview.cpp" line="117"/>
@@ -2764,12 +2823,12 @@ ale nie zapisany !!</translation>
     <message>
         <location filename="../src/level/tlevelpreview.cpp" line="163"/>
         <source>proper octave is required</source>
-        <translation type="unfinished"></translation>
+        <translation>wymagana właściwa oktawa</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelpreview.cpp" line="165"/>
         <source>octave does no matter</source>
-        <translation type="unfinished"></translation>
+        <translation>oktawa nieistotna</translation>
     </message>
     <message>
         <source>propper octave is required</source>
@@ -2795,12 +2854,12 @@ ale nie zapisany !!</translation>
     <message>
         <location filename="../src/level/tlevelpreview.h" line="44"/>
         <source>note range:</source>
-        <translation type="unfinished"></translation>
+        <translation>zakres dźwięków:</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelpreview.h" line="45"/>
         <source>fret range:</source>
-        <translation type="unfinished"></translation>
+        <translation>zakres progów:</translation>
     </message>
 </context>
 <context>
@@ -2822,31 +2881,40 @@ ale nie zapisany !!</translation>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="235"/>
         <source>Level is not suitable for current tuning and/or fret number</source>
-        <translation type="unfinished"></translation>
+        <translation>Poziom nie jest odpowiedni dla aktualnego stroju i/lub liczby progów</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="263"/>
+        <location filename="../src/level/tlevelselector.cpp" line="259"/>
         <source>Load</source>
         <translation>Wczytaj</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="264"/>
-        <source>Load exam level from file</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/level/tlevelselector.cpp" line="260"/>
+        <source>Load level from file</source>
+        <translation>Wczytaj poziom egzaminu z pliku</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="449"/>
+        <location filename="../src/level/tlevelselector.cpp" line="263"/>
+        <source>Remove</source>
+        <translation>Usuń</translation>
+    </message>
+    <message>
+        <location filename="../src/level/tlevelselector.cpp" line="468"/>
         <source>File: %1 
  is not Nootka level file!</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik: %1 
+ nie jest plikiem poziomu programu Nootka!</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="453"/>
+        <location filename="../src/level/tlevelselector.cpp" line="472"/>
         <source>Level file
  %1 
  was corrupted and repaired!
  Check please, if its parameters are as expected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik poziomu
+ %1 
+ był zepsuty i został naprawiony!
+Sprawdź czy jego parametry są właściwe..</translation>
     </message>
     <message>
         <source>Load exam&apos;s level from file</source>
@@ -2857,7 +2925,7 @@ ale nie zapisany !!</translation>
         <translation type="obsolete">Poziom nie jest odpowiedni dla aktualnego stroju i/lub liczby progów</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.cpp" line="389"/>
+        <location filename="../src/level/tlevelselector.cpp" line="408"/>
         <source>Load exam&apos;s level</source>
         <translation>Wczytaj poziom egzaminu</translation>
     </message>
@@ -2878,14 +2946,14 @@ Check please, are its parameters as expected.</source>
 Sprawdź czy jego parametry są właściwe..</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.h" line="53"/>
+        <location filename="../src/level/tlevelselector.h" line="55"/>
         <source>Levels</source>
         <translation>Poziomy</translation>
     </message>
     <message>
-        <location filename="../src/level/tlevelselector.h" line="56"/>
+        <location filename="../src/level/tlevelselector.h" line="58"/>
         <source>Range of notes in the level is beyond the scale of your instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Zakres progów jest poza skalą twojego instrumentu&lt;/li&gt;</translation>
     </message>
 </context>
 <context>
@@ -2897,7 +2965,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/charts/sorting.cpp" line="206"/>
         <source>Key signatures given by user</source>
-        <translation type="unfinished"></translation>
+        <translation>Tonacja podana przez użytkownika</translation>
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="234"/>
@@ -2948,60 +3016,59 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/info/tmainhelp.cpp" line="64"/>
         <source>Using Nootka may be divided into three stages:</source>
         <comment>Don&apos;t try to translate the entries in this context/section too strict, rather use some nice words into your language to describe it. The statements like &apos;%1&apos; are images(icons) inside the text</comment>
-        <translation type="unfinished"></translation>
+        <translation>Korzystanie z programu Nootka możemy podzielić na trzy etapy:</translation>
     </message>
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="67"/>
         <source>I. Discovering</source>
-        <translation type="unfinished">I. Odkrywanie</translation>
+        <translation>I. Odkrywanie</translation>
     </message>
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="68"/>
         <source>Exploring the interface of Nootka and how musical scores work. Just click on elements of the interface to see and get to know Nootka. Also, you can play or sing if you have a mic or web-cam.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zarówno interfejsu programu jak i działania zapisu nutowego. Po prostu klikaj w elementy okna programu i ucz się. Jeżeli masz jakiś mikrofon lub kamerę internetową.również możesz grać lub śpiewać.</translation>
     </message>
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="69"/>
         <source>Press %1 buttons to see help and %2 button to adjust Nootka to your preference.</source>
-        <translation type="unfinished"></translation>
+        <translation>Naciśnij przyciski %1 żeby zerknąć na ten teks pomocy. Użyj przycisku %2 żeby dopasować program do swoich preferencji.</translation>
     </message>
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="73"/>
         <source>II. Exercises and exams</source>
-        <translation type="unfinished"></translation>
+        <translation>II. Ćwiczenia i egzaminy.</translation>
     </message>
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="77"/>
         <source>III. Analyzing</source>
-        <translation type="unfinished"></translation>
+        <translation>III. Analizowanie</translation>
     </message>
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="78"/>
         <source>Nootka will tell you about what you&apos;ve been thinking for so long... and about the progress you&apos;ve been making so far....&lt;br&gt;Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nootka powie Ci o czym tak długo myślisz... i o poczynionych dotychczas postępach...&lt;br&gt;Naciśnij przycisk %1 żeby obejrzeć i przeanalizować wyniki swoich egzaminów. Znajdź swoje słabe punkty i popraw je.</translation>
     </message>
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="81"/>
         <source>Have fun!</source>
-        <translation type="unfinished"></translation>
+        <translation>Baw się dobrze!</translation>
     </message>
 </context>
 <context>
     <name>TnootkaCertificate</name>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="62"/>
         <source>[DATE]&lt;br&gt;&lt;i&gt;date&lt;i&gt;</source>
         <comment>top-right corner</comment>
-        <translation>dnia, [DATE]</translation>
+        <translation type="obsolete">dnia, [DATE]</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="69"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="70"/>
         <source>Student &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; has been awarded the</source>
         <comment>2nd line, single indent</comment>
         <translation>Student &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; otrzymuje</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="76"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="77"/>
         <source>&lt;h1&gt;Certificate Of Exam Completion&lt;/h1&gt;</source>
         <comment>Main header - centered</comment>
         <translation>&lt;h1&gt;Świadectwo złożenia egzaminu&lt;/h1&gt;</translation>
@@ -3013,46 +3080,52 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation>&lt;h3&gt;Akademia Muzyczna Nootki&lt;/h3&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="83"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="62"/>
+        <source>[DATE]&lt;br&gt;&lt;i&gt;date&lt;i&gt;</source>
+        <comment>All those entries assembly a certificate. You can adjust translation to your imagination of it look by manipulating where to put an entry, using some &apos;HTML tags: http://qt-project.org/doc/qt-4.8/richtext-html-subset.html&apos; and using exam data tags like: [DATE], [STUDENT], [LEVELNAME], [TOTALTIME], [SCORE] and [QUESTNR]. Single entry can&apos;t be adjusted (center, left, right) like in pure HTML - this is why it is divided. TO OBTAIN CERT PREVIEW IN ANY TIME OF AN EXAM JUST PRESS: [Shift+Alt+middle-mouse-button] (and don&apos;t tell this secret anybody). Feel free to translate it directly as well. This entry is displayed at top-right corner of a cert</comment>
+        <translation>dnia, [DATE]</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="84"/>
         <source>Passing the exam on the level &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;having answered the required [QUESTNR] questions&lt;br&gt;in time &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;and achieving the score &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</source>
         <comment>Exam results - double indented, left aligned</comment>
         <translation>Poziom egzaminu: &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;Liczba pytań: &lt;big&gt;&lt;b&gt;[QUESTNR]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;Czas trwania &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;Uzyskany wynik: &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="87"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="88"/>
         <source>As a witness to this accomplishment,&lt;br&gt;we hereby award this certificate on &lt;b&gt;[DATE]&lt;/b&gt;.</source>
         <comment>Under results - single indent</comment>
         <translation>Niniejszym, wydaje sie świadectwo&lt;br&gt;jako dowód wymienionych osiągnięć dnia [DATE].</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="91"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="92"/>
         <source>&lt;small&gt;&lt;i&gt;examining board:&lt;/i&gt;&lt;br&gt;&lt;i&gt;president:&lt;/i&gt;&lt;b&gt; Nootka itself&lt;/b&gt;&lt;br&gt;&lt;b&gt;professor Processor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Mrs RAM&lt;/b&gt; his assistant&lt;br&gt;&lt;i&gt;secretary:&lt;/i&gt;&lt;b&gt; Mr Disk&lt;/b&gt;&lt;/small&gt;</source>
         <comment>Right aligned and centered</comment>
         <translation>&lt;small&gt;&lt;i&gt;komisja:&lt;/i&gt;&lt;br&gt;&lt;i&gt;&lt;/i&gt;&lt;b&gt; Nootka we własnej osobie,&lt;/b&gt;&lt;br&gt;&lt;b&gt;profesor Procesor&lt;/b&gt; &lt;br&gt;i &lt;b&gt;Pani RAM&lt;/b&gt; jego asysten,&lt;br&gt;&lt;i&gt;sekretarz:&lt;/i&gt;&lt;b&gt; Pan Dysk&lt;/b&gt;&lt;/small&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="101"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="104"/>
         <source>&lt;i&gt;stamp&lt;/i&gt;</source>
         <comment>bottom, centered</comment>
         <translation>&lt;i&gt;pieczęć&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="151"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="173"/>
         <source>Save this certificate to file in remembrance.</source>
         <translation>Zapisz świadectwo do pliku na pamiątkę.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="151"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="173"/>
         <source>CONGRATULATIONS!&lt;br&gt;You have just passed the exam!</source>
         <translation>GRATULACJE!&lt;br&gt;Właśnie zdałeś/zdałaś egzamin!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="158"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="180"/>
         <source>You can still play with it and improve effectiveness.</source>
         <translation>Wciąż możesz kontynuować i poprawić efektywność.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="214"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="220"/>
         <source>Save certificate</source>
         <translation>Zapisz świadectwo</translation>
     </message>
@@ -3100,22 +3173,22 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/settings/tnotationradiogroup.cpp" line="37"/>
         <source>Naming style</source>
-        <translation type="unfinished"></translation>
+        <translation>Styl nazw</translation>
     </message>
     <message>
         <location filename="../src/settings/tnotationradiogroup.cpp" line="38"/>
         <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sposób nazywania nut. Podstawowa różnica to 7-my dźwięk.&lt;br&gt;Czy jest to  B i Bb, czy też H i B ?</translation>
     </message>
     <message>
         <location filename="../src/settings/tnotationradiogroup.cpp" line="46"/>
         <source>letter names</source>
-        <translation type="unfinished"></translation>
+        <translation>nazwy literowe</translation>
     </message>
     <message>
         <location filename="../src/settings/tnotationradiogroup.cpp" line="47"/>
         <source>solfege names</source>
-        <translation type="unfinished"></translation>
+        <translation>solmizacja</translation>
     </message>
 </context>
 <context>
@@ -3214,12 +3287,12 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/settings/tnotenamesettings.cpp" line="49"/>
         <source>show octave in name of note</source>
-        <translation type="unfinished"></translation>
+        <translation>pokaż oktawę w nazwie nuty</translation>
     </message>
     <message>
         <location filename="../src/settings/tnotenamesettings.cpp" line="51"/>
         <source>Shows formatted note name. For small octave - the name is small letter,&lt;br&gt;for great octave - the name starts with a capital letter,&lt;br&gt;for one-line, digit &lt;sup&gt;1&lt;/sup&gt; is added, and so on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokazuje sformatowaną nazwę nuty. Dla oktawy małej - nazwa to mała litera,&lt;br&gt;dla oktawy wielkiej - nazwa zaczyna się od wielkiej litery.&lt;br&gt;dla razkreślnej - dodana jest cyfra&lt;sup&gt;1&lt;/sup&gt;, itd.</translation>
     </message>
 </context>
 <context>
@@ -3249,7 +3322,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="283"/>
         <source>7th note can be B or H, depends on country&lt;br&gt;What is the name of 7th note in your country?</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;center&gt;7-ma nuta może nazywać się H lub B, w zależności od kraju. &lt;br&gt;Która nazwa jest odpowiednia dla Ciebie?&lt;br&gt;&lt;/center&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="300"/>
@@ -3270,13 +3343,13 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/info/tfirstrunwizzard.h" line="105"/>
         <source>b</source>
         <comment>Give here a name of 7-th note preferred in your country. But only &apos;b&apos; or &apos;h&apos; not &apos;si&apos; or something worst...</comment>
-        <translation type="unfinished">h</translation>
+        <translation>h</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.h" line="107"/>
         <source>letters</source>
         <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country prefered style of nameing key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by you), &apos;solfege&apos; means Do-major/La-minor names</comment>
-        <translation type="unfinished">letters</translation>
+        <translation>letters</translation>
     </message>
 </context>
 <context>
@@ -3334,7 +3407,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/sound/tpitchview.cpp" line="51"/>
         <source>Switch on/off pitch detection</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz/wyłącz rozpoznawanie dźwięku</translation>
     </message>
     <message>
         <location filename="../src/sound/tpitchview.cpp" line="60"/>
@@ -3344,12 +3417,12 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/sound/tpitchview.cpp" line="63"/>
         <source>Shows volume level of input sound and indicates when the note was pitch-detected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokazuje gośność dźwięku wejściowego i sygnalizuje kiedy nuta jest rozpoznana</translation>
     </message>
     <message>
         <location filename="../src/sound/tpitchview.cpp" line="64"/>
         <source>Drag a knob to adjust minimum input volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>Przesuń gałkę żeby dostroić minimalną głośność.</translation>
     </message>
     <message>
         <source>Shows volume level of input sound and indicates when note was detected</source>
@@ -3371,12 +3444,12 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/exam/tprogresswidget.cpp" line="101"/>
         <source>Unanswered questions</source>
         <comment>could be also: &apos;rest of the questions&apos; or &apos;remaining questions&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Pozostałe pytania</translation>
     </message>
     <message>
         <location filename="../src/exam/tprogresswidget.cpp" line="104"/>
         <source>penalties</source>
-        <translation type="unfinished"></translation>
+        <translation>karne</translation>
     </message>
     <message>
         <source>Remained</source>
@@ -3431,12 +3504,12 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/level/tquestionaswdg.h" line="43"/>
         <source>as note on the staff</source>
-        <translation type="unfinished"></translation>
+        <translation>jako nuta na pięciolinii</translation>
     </message>
     <message>
         <location filename="../src/level/tquestionaswdg.h" line="44"/>
         <source>as note name</source>
-        <translation type="unfinished"></translation>
+        <translation>jako nazwa nuty</translation>
     </message>
     <message>
         <source>as note on the stave</source>
@@ -3459,7 +3532,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/level/tquestionaswdg.cpp" line="61"/>
         <source>Select the type of answers for a question.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaznacz rodzaje odpowiedzi dla pytania.</translation>
     </message>
 </context>
 <context>
@@ -3489,17 +3562,17 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="46"/>
         <source>on %1 string.</source>
-        <translation type="unfinished"></translation>
+        <translation>na %1 strunie.</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="97"/>
         <source>Change enharmonically and show on the staff</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamień enharmonicznie i pokaż w nutach</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="99"/>
         <source>Given note show on the staff</source>
-        <translation type="unfinished"></translation>
+        <translation>Podaną nutę pokaż na pięciolini</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="101"/>
@@ -3531,22 +3604,22 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="132"/>
         <source>Show on the staff</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż na pięciolinii</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="141"/>
         <source>Change enharmonically and give name of</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamień enharmonicznie i podaj nazwę</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="163"/>
         <source>Show on the staff note played on</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż w nutach dźwięk grany na</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="192"/>
         <source>Listened sound show on the staff</source>
-        <translation type="unfinished"></translation>
+        <translation>Usłyszany dźwięk pokaż w nutach</translation>
     </message>
     <message>
         <source>Show in the score</source>
@@ -3612,7 +3685,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/settings/tselectclef.cpp" line="148"/>
         <source> Bottom clef on the grand staff but also used for cello, trombone, etc.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klucz na dolnej pięciolini zapisu fortepianowego ale również dla wiolonczeli, puzonu, itp.</translation>
     </message>
     <message>
         <source> Bottom clef in the grand stave but also used for celo, trombone, etc.</source>
@@ -3627,6 +3700,24 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/settings/tselectclef.cpp" line="154"/>
         <source>Sometimes is called clef for viola and mostly used for it.</source>
         <translation>Nazywany również kluczem altówkowym i najczęściej używany dla tego instrumentu.</translation>
+    </message>
+</context>
+<context>
+    <name>TremoveLevel</name>
+    <message>
+        <location filename="../src/level/tlevelselector.cpp" line="517"/>
+        <source>Also delete level file:</source>
+        <translation>Usuń także plik poziomu:</translation>
+    </message>
+    <message>
+        <location filename="../src/level/tlevelselector.cpp" line="521"/>
+        <source>Remove</source>
+        <translation>Usuń</translation>
+    </message>
+    <message>
+        <location filename="../src/level/tlevelselector.h" line="137"/>
+        <source>Remove level %1 from the list</source>
+        <translation>Usuń poziom %1 z listy</translation>
     </message>
 </context>
 <context>
@@ -3647,12 +3738,12 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/score/tscorecontrol.cpp" line="33"/>
         <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;krzyżyk&lt;/b&gt; - podwyższa nutę o pół tonu.&lt;br&gt;Na gitarze to jest jeden próg dalej.</translation>
     </message>
     <message>
         <location filename="../src/score/tscorecontrol.cpp" line="36"/>
         <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;bemol&lt;/b&gt; - obniża nutę o pół tonu.&lt;br&gt;Na gitarze jest to jeden próg mniej.</translation>
     </message>
     <message>
         <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone.&lt;br&gt;On the guitar it is one fret up.</source>
@@ -3698,7 +3789,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/settings/tscoresettings.cpp" line="52"/>
         <source>Naming extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Dopełnienie nazwy</translation>
     </message>
     <message>
         <location filename="../src/settings/tscoresettings.cpp" line="55"/>
@@ -3713,12 +3804,12 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/settings/tscoresettings.cpp" line="89"/>
         <source>note-cursor color</source>
-        <translation type="unfinished"></translation>
+        <translation>kolor wskazującej nuty</translation>
     </message>
     <message>
         <location filename="../src/settings/tscoresettings.cpp" line="105"/>
         <source>Remember! Not all clefs are suitable for some possible tunings or instrument types!</source>
-        <translation type="unfinished"></translation>
+        <translation>Pamiętaj! Nie wszystkie klucze są odpowiednie dla aktualnego stroju lub typu instrumentu!</translation>
     </message>
     <message>
         <source>color of pointed note</source>
@@ -3796,15 +3887,15 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/settings/tsettingsdialog.cpp" line="59"/>
         <source>Instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Instrument</translation>
     </message>
     <message>
         <location filename="../src/settings/tsettingsdialog.cpp" line="65"/>
         <source>Exercises</source>
-        <translation type="unfinished"></translation>
+        <translation>Ćwiczenia</translation>
     </message>
     <message>
-        <location filename="../src/settings/tsettingsdialog.cpp" line="70"/>
+        <location filename="../src/settings/tsettingsdialog.cpp" line="71"/>
         <source>Restore default settings for above parameters.</source>
         <translation>Przywróć domyśle ustawienia dla parametrów powyżej.</translation>
     </message>
@@ -3814,12 +3905,12 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation type="obsolete">używaj JACK-a</translation>
     </message>
     <message>
-        <location filename="../src/settings/tsettingsdialog.cpp" line="249"/>
+        <location filename="../src/settings/tsettingsdialog.cpp" line="254"/>
         <source>listening</source>
         <translation>słuchanie</translation>
     </message>
     <message>
-        <location filename="../src/settings/tsettingsdialog.cpp" line="250"/>
+        <location filename="../src/settings/tsettingsdialog.cpp" line="255"/>
         <source>playing</source>
         <translation>odtwarzanie</translation>
     </message>
@@ -3827,19 +3918,16 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>TsettingsDialogBase</name>
     <message>
-        <location filename="../src/settings/tsettingsdialogbase.cpp" line="64"/>
         <source>Default</source>
-        <translation>Domyślne</translation>
+        <translation type="obsolete">Domyślne</translation>
     </message>
     <message>
-        <location filename="../src/settings/tsettingsdialogbase.cpp" line="65"/>
         <source>Accept</source>
-        <translation>Akceptuj</translation>
+        <translation type="obsolete">Akceptuj</translation>
     </message>
     <message>
-        <location filename="../src/settings/tsettingsdialogbase.cpp" line="72"/>
         <source>Discard</source>
-        <translation>Porzuć</translation>
+        <translation type="obsolete">Porzuć</translation>
     </message>
 </context>
 <context>
@@ -3868,17 +3956,17 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="54"/>
         <source>student name:</source>
-        <translation type="unfinished">imię ucznia:</translation>
+        <translation>imię ucznia:</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="60"/>
         <source>Enter your name or nick-name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wpisz swoje imię lub przezwisko.</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="70"/>
         <source>Select a level suitable for you&lt;br&gt;or create new one.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz poziom odpowiedni dla siebie&lt;br&gt;lub utwórz nowy.</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="77"/>
@@ -3888,22 +3976,22 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="81"/>
         <source>exercises</source>
-        <translation type="unfinished"></translation>
+        <translation>ćwiczenia</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="86"/>
         <source>pass new exam</source>
-        <translation type="unfinished"></translation>
+        <translation>zdaj nowy egzamin</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="92"/>
         <source>Click and select an exam to continue</source>
-        <translation type="unfinished"></translation>
+        <translation>Kliknij i wybierz jaki egzamin ma być kontynuowany</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="100"/>
         <source>Help</source>
-        <translation type="unfinished">Pomoc</translation>
+        <translation>Pomoc</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="140"/>
@@ -3913,11 +4001,11 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="153"/>
         <source>recent opened exams:</source>
-        <translation type="unfinished">ostatnio otwierane egzaminy:</translation>
+        <translation>ostatnio otwierane egzaminy:</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="183"/>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="336"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="337"/>
         <source>Start exercise on level:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3928,23 +4016,23 @@ Sprawdź czy jego parametry są właściwe..</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="258"/>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="329"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="330"/>
         <source>No level was selected!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie wybrano żadnego poziomu!</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="270"/>
         <location filename="../src/exam/tstartexamdlg.cpp" line="279"/>
         <source>Give a user name!</source>
-        <translation type="unfinished"></translation>
+        <translation>Podaj jakąś nazwę użytkownika!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="335"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="336"/>
         <source>Pass new exam on level:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="349"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="350"/>
         <source>To exercise or to pass an exam?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3998,12 +4086,12 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/exam/tstartexamdlg.h" line="56"/>
         <source>Exam results</source>
-        <translation type="unfinished">Wyniki egzaminu</translation>
+        <translation>Wyniki egzaminu</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.h" line="57"/>
         <source>Load an exam file</source>
-        <translation type="unfinished"></translation>
+        <translation>Wczytaj plik egazminu</translation>
     </message>
 </context>
 <context>
@@ -4019,7 +4107,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/exam/texercises.cpp" line="104"/>
         <source>Start an exam</source>
-        <translation type="unfinished">Rozpocznij egzamin</translation>
+        <translation>Rozpocznij egzamin</translation>
     </message>
     <message>
         <location filename="../src/exam/texercises.cpp" line="106"/>
@@ -4049,7 +4137,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/exam/texercises.cpp" line="121"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -4130,7 +4218,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="204"/>
         <source>Do you really want to remove Nootka and all its components?</source>
-        <translation type="unfinished"></translation>
+        <translation>Czy rzeczwiście chcesz usunąć Nootkę i jej składniki?</translation>
     </message>
 </context>
 <context>
@@ -4139,7 +4227,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/info/taboutnootka.cpp" line="155"/>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -4152,7 +4240,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="38"/>
         <source>Sharps will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Krzyżyki będa używane w pytaniach i odpowiedziach.&lt;br&gt;Musi być zaznaczone gdy są używane tonacje z krzyżykami.</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="40"/>
@@ -4162,7 +4250,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="41"/>
         <source>Flats will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bemole będa używane w pytaniach i odpowiedziach.&lt;br&gt;Musi być zaznaczone gdy są używane tonacje z bemolami.</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="43"/>
@@ -4224,7 +4312,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="54"/>
         <source>use key signatures</source>
-        <translation type="unfinished"></translation>
+        <translation>używaj tonacji</translation>
     </message>
     <message>
         <location filename="../src/level/accidsettings.cpp" line="83"/>
