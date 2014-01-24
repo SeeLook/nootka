@@ -4426,7 +4426,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="111"/>
         <source>if checked, it is possible to select a note&lt;br&gt;with given accidental only.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gdy zaznaczone, odpowiedź będzie wymagała podania nuty&lt;br&gt;z góry określonym znakiem.</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="114"/>
@@ -4446,12 +4446,12 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="119"/>
         <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, sometimes it is needed and sometimes it makes no sense.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokazuje, na której strunie ma być odpowiedź.&lt;br&gt;Ostrożnie z tym, kiedy ta opcja jest potzrebna, a kiedy nie ma sensu.</translation>
     </message>
     <message>
         <location filename="../src/level/questionssettings.cpp" line="124"/>
         <source>if checked, the lowest position in selected fret range is required,&lt;br&gt;otherwise all possible positions of the note are acceptable.&lt;br&gt;To use this, all strings have to be available!</source>
-        <translation type="unfinished"></translation>
+        <translation>Gdy zaznaczone, wymagana jest najniższa pozycja dźwięku w wybranym zakresie progów,&lt;br&gt;jeżeli nie - używane są wszystkie możliwe pozycje zadanej nuty.&lt;br&gt;Dla tej opcji wszystkie struny muszą być dostępne!</translation>
     </message>
     <message>
         <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, when it is needed and when it has no sense</source>
@@ -4482,7 +4482,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/level/rangesettings.cpp" line="50"/>
         <source>adjust fret range</source>
-        <translation type="unfinished"></translation>
+        <translation>dopasuj zakres progów</translation>
     </message>
     <message>
         <location filename="../src/level/rangesettings.cpp" line="51"/>
@@ -4502,7 +4502,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/level/rangesettings.cpp" line="76"/>
         <source>adjust note range</source>
-        <translation type="unfinished"></translation>
+        <translation>dopasuj zakres nut</translation>
     </message>
     <message>
         <location filename="../src/level/rangesettings.cpp" line="77"/>
@@ -4512,12 +4512,12 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/level/rangesettings.cpp" line="83"/>
         <source>available strings:</source>
-        <translation type="unfinished"></translation>
+        <translation>używane struny:</translation>
     </message>
     <message>
         <location filename="../src/level/rangesettings.cpp" line="84"/>
         <source>Uncheck strings if you want to skip them&lt;br&gt;in an exam.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odznacz struny jeżeli chcesz pominąć je podczas egzaminu.</translation>
     </message>
     <message>
         <source>avaiable strings:</source>
