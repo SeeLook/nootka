@@ -52,8 +52,8 @@ TnoteName::TnoteName(QWidget *parent) :
 		m_nameLabel = new TnoteNameLabel("", this);
 		QColor C = palette().text().color();
 		C.setAlpha(30);
-		m_nameLabel->setText(QString("<b><span style=\"color: rgba(%1, %2, %3, %4);\">").
-		arg(C.red()).arg(C.green()).arg(C.blue()).arg(C.alpha()) + gl->version + "</span></b>");
+    C = prepareBgColor(C);
+    m_nameLabel->setText(QString("<b><span style=\"color: %1;\">").arg(C.name()) + gl->version + "</span></b>");
 		connect(m_nameLabel, SIGNAL(blinkingFinished()), this, SLOT(correctAnimationFinished()));
     resize();
 
