@@ -329,6 +329,7 @@ void Tglobals::storeSettings() {
         config->setValue("notBadColor", EnotBadColor);
         config->setValue("autoNextQuest", E->autoNextQuest);
         config->setValue("repeatIncorrect", E->repeatIncorrect);
+				config->setValue("showCorrected", E->showCorrected);
         config->setValue("expertsAnswerEnable", E->expertsAnswerEnable);
         config->setValue("studentName", E->studentName);
         config->setValue("examsDir", E->examsDir);
