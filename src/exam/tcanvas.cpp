@@ -114,7 +114,7 @@ void Tcanvas::resultTip(TQAunit* answer, int time) {
   setResultPos();
   // In exercise mode display detected note when it was incorrect
   if (m_parent->correctChB->isVisible() && gl->E->showWrongPlayed && 
-			answer->answerAs == TQAtype::e_asSound && !answer->isCorrect()) {
+			answer->answerAs == TQAtype::e_asSound && !answer->isCorrect() && m_parent->sound->note().note) {
 					int tt = 5000;
 					if (time) // will be deleted with tip or after 5 s when tip remains
 						tt = time;
@@ -186,7 +186,8 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
   whatNextText += "<br>" + TexamHelp::toStopExamTxt("<a href=\"stopExam\">" + pixToHtml(gl->path + "picts/stopExam.png", PIXICONSIZE) + "</a>");
   
   m_whatTip = new TgraphicsTextTip(whatNextText, palette().highlight().color());
-	m_whatTip->setTextWidth(qMin(m_maxTipWidth, m_parent->score->width()));
+	if (m_guitarFree || m_nameFree) // tip is wide there, otherwise text is word-wrapped and is narrowest but higher
+			m_whatTip->setTextWidth(qMin(m_maxTipWidth, m_parent->score->width()));
   m_scene->addItem(m_whatTip);
   m_whatTip->setFont(tipFont(0.35));
   m_whatTip->setScale(m_scale * 0.9);
@@ -482,14 +483,14 @@ bool Tcanvas::event(QEvent* event) {
 
 int Tcanvas::getMaxTipHeight() {
 	if (m_nameFree)
-			return m_parent->noteName->height() * 1.1;
+			return m_parent->noteName->height();
 	else if (m_scoreFree)
-			return m_parent->score->height() / 2;
+			return m_parent->score->height() * 0.45;
 	else {
-		if (m_parent->pitchView->isVisible())
+// 		if (m_parent->pitchView->isVisible())
 				return m_parent->guitar->height();
-		else
-				return m_parent->guitar->height() + (m_parent->guitar->geometry().y() - m_parent->noteName->geometry().bottom()) / 2;
+// 		else
+// 				return m_parent->guitar->height() + (m_parent->guitar->geometry().top() - m_parent->noteName->geometry().bottom()) / 2;
 	}
 }
 
@@ -497,7 +498,8 @@ int Tcanvas::getMaxTipHeight() {
 void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
 	QRect geoRect;
 	if (m_nameFree)  // middle of the noteName
-			geoRect = m_parent->noteName->geometry();
+			geoRect = m_parent->noteName->geometry().adjusted(m_parent->noteName->geometry().width() / 3.0, 0,
+																												m_parent->noteName->geometry().width() / -3.0, 0);
 	else if (m_scoreFree) {// on the score at its center
 			geoRect = m_parent->score->geometry();
 			if (tip->boundingRect().width() * tip->scale() > m_parent->score->width())
@@ -505,9 +507,9 @@ void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
 	} else { // middle of the guitar
 			geoRect = m_parent->guitar->geometry();
 			if (!m_parent->pitchView->isVisible()) // tip can be bigger
-				geoRect = QRect(m_parent->noteName->geometry().x() - 20, 
+				geoRect = QRect(m_parent->noteName->geometry().left() + 20,
 							m_parent->guitar->geometry().y() - (m_parent->guitar->geometry().top() - m_parent->noteName->geometry().bottom()) / 2,
-							m_parent->guitar->width() - m_parent->noteName->width() + 20,
+							m_parent->guitar->width() - m_parent->noteName->width() - 20,
 							m_parent->guitar->height() + (m_parent->guitar->geometry().top() - m_parent->noteName->geometry().bottom()) / 2);
 		}
 	tip->setPos(geoRect.x() + (geoRect.width() - tip->boundingRect().width() * tip->scale()) / 2,
@@ -551,7 +553,7 @@ void Tcanvas::setConfirmPos() { // middle of noteName and somewhere above
 
 
 void Tcanvas::setQuestionPos() {
-	int maxTipHeight = getMaxTipHeight();
+	int maxTipHeight = getMaxTipHeight() * 1.1;
 	qreal fineScale;
 	if (m_questionTip->boundingRect().height() * m_questionTip->scale() > maxTipHeight) { // check is scaling needed
 			fineScale = (qreal)maxTipHeight / m_questionTip->boundingRect().height();
