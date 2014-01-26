@@ -1,5 +1,5 @@
 	/***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,10 +25,10 @@
 
 extern bool isNotSaved;
 
-bool levelIsLoading = false;
 
 questionsSettings::questionsSettings(QWidget *parent) :
-    QWidget(parent)
+    QWidget(parent),
+    m_levelIsLoading(false)
 {
     QVBoxLayout *mainLay = new QVBoxLayout;    
     mainLay->addStretch();
@@ -42,30 +42,34 @@ questionsSettings::questionsSettings(QWidget *parent) :
     qaLay->setAlignment(Qt::AlignCenter);
     qaLay->setSpacing(10);
   // Labels describing answers types
-    m_questLab = new QLabel("<b>" + TquestionAsWdg::questionTxt().toUpper() + "</b>", this);
-    qaLay->addWidget(m_questLab, 0, 0, Qt::AlignBottom | Qt::AlignRight);
-    m_answLab = new TverticalLabel(TquestionAsWdg::answerTxt().toUpper() + "  ", this);
-    QFont f = font();
+		QFont f = font();
     f.setBold(true);
+		QLabel *newQuestLab = new QLabel(TquestionAsWdg::answerTxt().toUpper(), this);
+		newQuestLab->setFont(f);
+		qaLay->addWidget(newQuestLab, 0, 2, 0, 4, Qt::AlignHCenter | Qt::AlignTop);
+    m_questLab = new QLabel(TquestionAsWdg::questionTxt().toUpper(), this);
+		m_questLab->setFont(f);
+    qaLay->addWidget(m_questLab, 1, 0, Qt::AlignBottom | Qt::AlignHCenter);
+    m_answLab = new QLabel("  ", this);
     m_answLab->setFont(f);
-    qaLay->addWidget(m_answLab, 0, 1, Qt::AlignBottom);
-    QLabel *asNoteLab = new QLabel(TquestionAsWdg::asNoteTxt().replace(" ", "<br>"), this);
+    qaLay->addWidget(m_answLab, 1, 1, Qt::AlignBottom);
+    QLabel *asNoteLab = new QLabel(" <br>" + TquestionAsWdg::asNoteTxt().replace(" ", "<br>"), this);
     asNoteLab->setAlignment(Qt::AlignCenter);
-    qaLay->addWidget(asNoteLab, 0, 2, Qt::AlignBottom);
-    QLabel *asNameLab = new QLabel(TquestionAsWdg::asNameTxt().replace(" ", "<br>"), this);
+    qaLay->addWidget(asNoteLab, 1, 2, Qt::AlignBottom);
+    QLabel *asNameLab = new QLabel(" <br>" + TquestionAsWdg::asNameTxt().replace(" ", "<br>"), this);
     asNameLab->setAlignment(Qt::AlignCenter);
-    qaLay->addWidget(asNameLab, 0, 3, Qt::AlignBottom);
-    m_asFretLab = new QLabel(TquestionAsWdg::asFretPosTxt().replace(" ", "<br>"), this);
+    qaLay->addWidget(asNameLab, 1, 3, Qt::AlignBottom);
+    m_asFretLab = new QLabel(" <br>" + TquestionAsWdg::asFretPosTxt().replace(" ", "<br>"), this);
     m_asFretLab->setAlignment(Qt::AlignCenter);
-    qaLay->addWidget(m_asFretLab, 0, 4, Qt::AlignBottom);
-    m_asSoundLab = new QLabel(TquestionAsWdg::asSoundTxt().replace(" ", "<br>"), this);
+    qaLay->addWidget(m_asFretLab, 1, 4, Qt::AlignBottom);
+    m_asSoundLab = new QLabel(" <br>" + TquestionAsWdg::asSoundTxt().replace(" ", "<br>"), this);
     m_asSoundLab->setAlignment(Qt::AlignCenter);
-    qaLay->addWidget(m_asSoundLab, 0, 5, Qt::AlignBottom);
+    qaLay->addWidget(m_asSoundLab, 1, 5, Qt::AlignBottom);
   // CheckBoxes with types of answers for every kind of question
-    asNoteWdg = new TquestionAsWdg(TQAtype::e_asNote, qaLay, 1, this);
-    asNameWdg = new TquestionAsWdg(TQAtype::e_asName, qaLay, 2, this);
-    asFretPosWdg = new TquestionAsWdg(TQAtype::e_asFretPos, qaLay, 3, this);
-    asSoundWdg = new TquestionAsWdg(TQAtype::e_asSound, qaLay, 4, this);
+    asNoteWdg = new TquestionAsWdg(TQAtype::e_asNote, qaLay, 2, this);
+    asNameWdg = new TquestionAsWdg(TQAtype::e_asName, qaLay, 3, this);
+    asFretPosWdg = new TquestionAsWdg(TQAtype::e_asFretPos, qaLay, 4, this);
+    asSoundWdg = new TquestionAsWdg(TQAtype::e_asSound, qaLay, 5, this);
   // Labels on the right side of the table with symbols of types - related to questions
     QLabel *scoreNooLab = new QLabel("s?", this);
     QFont nf("nootka", fontMetrics().boundingRect("A").height());
@@ -73,29 +77,29 @@ questionsSettings::questionsSettings(QWidget *parent) :
     nf.setPointSize(fontMetrics().boundingRect("A").height() * 2);
 #endif
     scoreNooLab->setFont(nf);
-    qaLay->addWidget(scoreNooLab, 1, 6, Qt::AlignCenter);
+    qaLay->addWidget(scoreNooLab, 2, 6, Qt::AlignCenter);
     QLabel *nameNooLab = new QLabel("c?", this);
     nameNooLab->setFont(nf);
-    qaLay->addWidget(nameNooLab, 2, 6, Qt::AlignCenter);
+    qaLay->addWidget(nameNooLab, 3, 6, Qt::AlignCenter);
     m_guitarNooLab = new QLabel("g?", this);
     m_guitarNooLab->setFont(nf);
-    qaLay->addWidget(m_guitarNooLab, 3, 6, Qt::AlignCenter);
+    qaLay->addWidget(m_guitarNooLab, 4, 6, Qt::AlignCenter);
     m_soundNooLab = new QLabel("n?", this);
     m_soundNooLab->setFont(nf);
-    qaLay->addWidget(m_soundNooLab, 4, 6);
+    qaLay->addWidget(m_soundNooLab, 5, 6);
   // Labels on the bottom side of the table with symbols of types - related to answers  
     QLabel *qScoreNooLab = new QLabel("s!", this);
     qScoreNooLab->setFont(nf);
-    qaLay->addWidget(qScoreNooLab, 5, 2, Qt::AlignCenter);
+    qaLay->addWidget(qScoreNooLab, 6, 2, Qt::AlignCenter);
     QLabel *qNmeNooLab = new QLabel("c!", this);
     qNmeNooLab->setFont(nf);
-    qaLay->addWidget(qNmeNooLab, 5, 3, Qt::AlignCenter);
+    qaLay->addWidget(qNmeNooLab, 6, 3, Qt::AlignCenter);
     m_qGuitarNooLab = new QLabel("g!", this);
     m_qGuitarNooLab->setFont(nf);
-    qaLay->addWidget(m_qGuitarNooLab, 5, 4, Qt::AlignCenter);
+    qaLay->addWidget(m_qGuitarNooLab, 6, 4, Qt::AlignCenter);
     m_qSoundNooLab = new QLabel("n!", this);
     m_qSoundNooLab->setFont(nf);
-    qaLay->addWidget(m_qSoundNooLab, 5, 5);
+    qaLay->addWidget(m_qSoundNooLab, 6, 5);
     
     m_tableWdg->setLayout(qaLay);
     mainLay->addLayout(tabLay);
@@ -150,7 +154,7 @@ questionsSettings::questionsSettings(QWidget *parent) :
 
 
 void questionsSettings::loadLevel(Tlevel& level) {
-	levelIsLoading = true;
+	m_levelIsLoading = true;
     asNoteWdg->setAnswers(level.answersAs[TQAtype::e_asNote]);
     asNoteWdg->setChecked(level.questionAs.isNote()); // when it is false it cleans all checkBoxes to false
     asNameWdg->setAnswers(level.answersAs[TQAtype::e_asName]);
@@ -167,19 +171,14 @@ void questionsSettings::loadLevel(Tlevel& level) {
     lowPosOnlyChBox->setChecked(level.onlyLowPos);
     currKeySignChBox->setChecked(level.onlyCurrKey);
 		m_intonationCombo->setCurrentIndex(level.intonation);
-	levelIsLoading = false;
+	m_levelIsLoading = false;
 }
 
 
 void questionsSettings::whenParamsChanged() {
-	if (levelIsLoading)
+	if (m_levelIsLoading)
 		return;
 	
-//     if (asNameWdg->answerAsName() && asNameWdg->isChecked()) {
-//         styleRequiredChB->setChecked(true);
-//         styleRequiredChB->setDisabled(true);
-//     } else 
-//         styleRequiredChB->setDisabled(false);
   // disable showStrNrChB & lowPosOnlyChBox  if question and answer are on guitar
     if (asFretPosWdg->isChecked() && asFretPosWdg->answerAsPos()) {
       showStrNrChB->setChecked(true);
@@ -265,8 +264,7 @@ void questionsSettings::paintEvent(QPaintEvent* ) {
   int vertLineDownY = m_tableWdg->geometry().y() +  asSoundWdg->enableChBox->geometry().bottom() + 
       (m_qSoundNooLab->geometry().top() - asSoundWdg->enableChBox->geometry().bottom()) / 2;
   painter.drawLine(m_tableWdg->geometry().left(), vertLineDownY, m_tableWdg->geometry().right(), vertLineDownY);
-  int horLineLeftX = m_tableWdg->geometry().x() + asNoteWdg->enableChBox->geometry().right() + 
-      (asNoteWdg->asNoteChB->geometry().left() - asNoteWdg->enableChBox->geometry().right()) / 2;
+  int horLineLeftX = m_tableWdg->geometry().x() + asNoteWdg->enableChBox->geometry().right() + 10;
   painter.drawLine(horLineLeftX, m_tableWdg->geometry().top(), horLineLeftX, m_tableWdg->geometry().bottom());
   int horLineRightX = m_tableWdg->geometry().x() + m_asSoundLab->geometry().right() + 
       (m_soundNooLab->geometry().left() - m_asSoundLab->geometry().right()) / 2;
@@ -283,29 +281,6 @@ void questionsSettings::stringsCheckedSlot(bool checked) {
   }
 }
 
-
-//############################################################################
- //#####################   TverticalLabel ####################################
- //###########################################################################
-
-TverticalLabel::TverticalLabel(QString text, QWidget* parent) :
-  QWidget(parent),
-  m_text(text)
-{
-    QFontMetrics metrics = fontMetrics();
-    m_rect = metrics.boundingRect(m_text);
-    setFixedSize(m_rect.height() * 2.5, m_rect.width() * 1.2);
-}
-
-
-void TverticalLabel::paintEvent(QPaintEvent* ) {
-    QPainter painter(this);
-    painter.save();
-    painter.translate(width() / 2, height() / 2);
-    painter.rotate(270); // angle
-    painter.drawText( height() / (-2), 0 , m_text);
-    painter.restore();
-}
 
 
 

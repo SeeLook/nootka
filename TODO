@@ -9,7 +9,7 @@ ISSUES
 - note name on a score still is there but seldom
 
 Russian tr
-- no abbreviations in tab names (settings) just line breaks (\n)
+- no abbreviations in tab "names" (settings) and tab accidentals (Level Creator) just line breaks (\n)
 			
 TODOES
 - setAmbitus in TnoteName seems to has no use
@@ -26,7 +26,6 @@ TODOES
 - remove unused classes: widgets/animations
 - add shadows under strings on pickup
 - do not transform pickup image for lefthanded - just change its pos
-- change directions of questions/answers labels in a table in Level Creator
 
 
 
