@@ -234,7 +234,6 @@ void Tcanvas::questionTip(Texam* exam) {
 	m_nameFree = m_questionTip->freeName();
 	m_scoreFree = m_questionTip->freeScore();
   setQuestionPos();
-//   certificateTip();
 }
 
 
@@ -506,7 +505,7 @@ void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
 				tip->setScale(((qreal)m_parent->score->width() / (tip->boundingRect().width())));
 	} else { // middle of the guitar
 			geoRect = m_parent->guitar->geometry();
-			if (!m_parent->pitchView->isVisible()) // tip can be bigger
+			if (!m_parent->pitchView->isVisible() || !m_parent->guitar->isVisible()) // tip can be bigger
 				geoRect = QRect(m_parent->noteName->geometry().left() + 20,
 							m_parent->guitar->geometry().y() - (m_parent->guitar->geometry().top() - m_parent->noteName->geometry().bottom()) / 2,
 							m_parent->guitar->width() - m_parent->noteName->width() - 20,

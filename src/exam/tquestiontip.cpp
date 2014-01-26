@@ -142,7 +142,6 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
                 quest += noteStr + getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);
             } else
                 quest += tr("Use another style to give name of") + noteStr;
-//             quest += noteStr + getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);
           } else
             if (question.answerAs == TQAtype::e_asFretPos) {
               m_guitarFree = false;

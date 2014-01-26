@@ -26,6 +26,7 @@
 #include <QGroupBox>
 #include <QPushButton>
 #include <QPainter>
+#include <QApplication>
 #include <QDebug>
 
 
@@ -43,7 +44,7 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
   m_lay = new QBoxLayout(QBoxLayout::TopToBottom);
   if (m_withButtons) {
       voiceButt = new QPushButton("g", this);
-      voiceButt->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+      voiceButt->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
       voiceButt->setStatusTip(tr("Toggles between pitch detection for singing and for playing"));
 			
 			pauseButt = new QPushButton("n", this);
@@ -57,11 +58,13 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
   }
     
   m_intoView = new TintonationView(TintonationView::e_perfect, this);
-  m_intoView->setStatusTip(tr("Intonation - clarity of the sound. Is it in tune."));
+		m_intoView->setStatusTip(tr("Intonation - clarity of the sound. Is it in tune."));
+		m_intoView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   
   m_volMeter = new TvolumeView(this);
-  m_volMeter->setStatusTip(tr("Shows volume level of input sound and indicates when the note was pitch-detected.") + "<br>" +
+		m_volMeter->setStatusTip(tr("Shows volume level of input sound and indicates when the note was pitch-detected.") + "<br>" +
 				tr("Drag a knob to adjust minimum input volume."));
+		m_volMeter->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   
 	if (m_withButtons)
 			outLay->addWidget(voiceButt, 0, Qt::AlignBottom);
@@ -169,11 +172,9 @@ void TpitchView::setIsVoice(bool isVoice) {
   if (isVoice) {
 				voiceButt->setText("v"); // singer symbol for voice mode
 				m_isVoice = true;
-	//       m_intoView->setAccuracy(TintonationView::e_sufficient);
     } else {
 				voiceButt->setText("g"); // guitar symbol for instruments mode
 				m_isVoice = false;
-	//       m_intoView->setAccuracy(TintonationView::e_perfect);
     }
     if (m_audioIN)
 				m_audioIN->setIsVoice(m_isVoice);
