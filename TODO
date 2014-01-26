@@ -2,11 +2,11 @@ Plan for the Nootka One
 
 ISSUES
 - try to close out stream for pulse - it sucks or get rid of pulse
-- do pixmap of voice/guitar glyph - TpushButtons don't display nootka text properly
 - charts hang with updating (probably related to re-sizing, scaling)
 - stop guitar work when it is invisible
 - chunkPitch is emitted too often - it could be adjusted to eye possibility
 - add string numbers to generated pixmap and do string number in text color
+- note name on a score still is there but seldom
 
 Russian tr
 - no abbreviations in tab names (settings) just line breaks (\n)

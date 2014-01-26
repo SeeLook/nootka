@@ -651,8 +651,9 @@ void MainWindow::updateSize(QSize newS) {
 			if (!m_pitchContainer) {
 				guitar->hide();
 				m_pitchContainer = new QWidget(innerWidget);
-				m_pitchContainer->setStyleSheet(gl->getBGcolorText(palette().window().color()) + "border-radius: 10px;" + 
-            QString("background-image: url(%1);").arg(gl->path + "picts/scoresettbg.png"));
+				m_pitchContainer->setObjectName("m_pitchContainer");
+				m_pitchContainer->setStyleSheet("QWidget#m_pitchContainer {" + gl->getBGcolorText(palette().window().color()) + 
+					"border-radius: 10px;" + QString("background-image: url(%1);}").arg(gl->path + "picts/scoresettbg.png"));
 				m_rightLay->removeWidget(pitchView);
 				QVBoxLayout *pitchLay = new QVBoxLayout;
 				pitchLay->addStretch(1);
