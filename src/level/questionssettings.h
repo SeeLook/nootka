@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -32,28 +32,6 @@ class TquestionAsWdg;
 class QRadioButton;
 class QGroupBox;
 
-/**
- * This class paints 90deg. roteted text as a Label 
- * It supports clean text only, not HTML
-*/
-class TverticalLabel : public QWidget
-{ 
-public:
-    explicit TverticalLabel(QString text, QWidget* parent = 0);
-    QString text() { return m_text; }
-    
-protected:
-    void paintEvent(QPaintEvent* );
-    
-private:
-  QRect m_rect;
-  QString m_text;
-};
-        
-
-/****************************************************************************
- **                         - questionsSettings -                          **
- ***************************************************************************/
 
 class questionsSettings : public QWidget
 {
@@ -68,34 +46,30 @@ public:
 		void hideGuitarRelated();
 		
 signals:
-      /** If any GUI element changes this signal is emited. */
-    void questSettChanged();
-      /** emited when note in score are diablled. */
-    void scoreEnabled(bool);
-      /** emited when note in score and names are all disabled or all enabled.  */
-    void accidEnabled(bool);
+    void questSettChanged(); /** If any GUI element changes this signal is emitted. */
+    void scoreEnabled(bool); /** emitted when note in score are disabled. */
+    void accidEnabled(bool); /** emitted when note in score and names are all disabled or all enabled.  */
     
 public slots:
     void stringsCheckedSlot(bool checked);
     
 protected:
-      /** Paints lines of a table*/
-    void paintEvent(QPaintEvent*);
+    void paintEvent(QPaintEvent*); /** Paints lines of a table*/
 
 private:
     QWidget 							*m_tableWdg;
     QLabel 								*m_questLab; // QLabel with 'QUESTION' text
-    TverticalLabel 				*m_answLab; // TverticalLabel with 'ANSWER' text
+    QLabel				 				*m_answLab; // fake QLabel to keep space
     QLabel 								*m_asSoundLab, *m_asFretLab, *m_soundNooLab, *m_qSoundNooLab;
 		QLabel								*m_guitarNooLab, *m_qGuitarNooLab;
     TquestionAsWdg 				*asNoteWdg, *asNameWdg, *asFretPosWdg, *asSoundWdg;
     QCheckBox 						*styleRequiredChB, *octaveRequiredChB, *forceAccChB, *showStrNrChB;
     QCheckBox 						*lowPosOnlyChBox, *currKeySignChBox;
 		QComboBox 						*m_intonationCombo;
+		bool 									 m_levelIsLoading;
 
 private slots:
-      /** Every element calls this when clicked. */
-    void whenParamsChanged();
+    void whenParamsChanged(); /** Every element calls this when clicked. */
 
 };
 
