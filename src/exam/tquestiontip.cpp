@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -46,6 +46,15 @@ QString TquestionTip::onStringTxt(quint8 strNr) {
     return "<b>" + tr("on %1 string.").arg(QString("</b><span style=\"font-family: nootka;\">%1</span><b>").arg(strNr)) + "</b>";
 }
 
+
+QString TquestionTip::playOrSing(int instr) {
+	if (Einstrument(instr) == e_noInstrument)
+		return tr("Play or sing");
+	else
+		return tr("Play");
+}
+
+
 //##########################################################################################
 //#################################### CONSTRUCTOR #########################################
 //##########################################################################################
@@ -81,7 +90,6 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
   m_guitarFree = true;
   QString quest;
   double sc = 4.0;
-// 	qDebug() << "scale" << sc << "font size" << qRound(scale * 22.0);
   if (scale) {
     quest = QString("<p style=\"font-size: %1px;\">").arg(qRound(scale * 22.0));
     sc = 4.0 * scale;     
@@ -90,18 +98,16 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
     QString apendix = "";
     QString noteStr;
     switch (question.questionAs) {
-      case TQAtype::e_asNote:
+      case TQAtype::e_asNote: {
         m_scoreFree = false;
         if (question.answerAs == TQAtype::e_asNote) {
             if (question.qa.note.acidental != question.qa_2.note.acidental)
                 quest += tr("Change enharmonically and show on the staff");
             else
                 quest += tr("Given note show on the staff");
-          if (level->useKeySign && level->manualKey) {
+          if (level->useKeySign && level->manualKey)
             apendix = tr("<br><b>in %1 key.</b>", "in key signature").arg(question.key.getName());
-          }
-//           if (level->forceAccids)
-            quest += getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);
+					quest += getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);
         } else
           if (question.answerAs == TQAtype::e_asName) {
             m_nameFree = false;
@@ -110,19 +116,25 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
             if (question.answerAs == TQAtype::e_asFretPos) {
               m_guitarFree = false;
               quest += tr("Show on the guitar");
-              if (level->showStrNr)
-                apendix = "<br> " + onStringTxt(question.qa.pos.str());
             } else
               if (question.answerAs == TQAtype::e_asSound) {
-                quest += tr("Play or sing");
+                quest += playOrSing(int(level->instrument));
               }
+        int strNr = 0;
+        if (question.answerAs == TQAtype::e_asFretPos || question.answerAs == TQAtype::e_asSound) {
+					if (level->instrument != e_noInstrument && level->showStrNr && !level->onlyLowPos) {
+						strNr = question.qa.pos.str(); // it makes sense only for qa not qa2
+						apendix = "<br> " + onStringTxt(question.qa.pos.str());
+					}
+        }
         if (level->useKeySign && level->manualKey && question.answerAs == TQAtype::e_asNote) // hide key signature
-            quest += "<br>" + TtipChart::wrapPixToHtml(question.qa.note, true, TkeySignature(0), sc);
+            quest += "<br>" + TtipChart::wrapPixToHtml(question.qa.note, true, TkeySignature(0), sc, strNr);
         else
-            quest += "<br>" + TtipChart::wrapPixToHtml(question.qa.note, true, question.key, sc);
+            quest += "<br>" + TtipChart::wrapPixToHtml(question.qa.note, true, question.key, sc, strNr);
         if (apendix != "")
           quest += apendix;
       break;
+			}
       
       case TQAtype::e_asName:
         m_nameFree = false;
@@ -146,12 +158,14 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
             if (question.answerAs == TQAtype::e_asFretPos) {
               m_guitarFree = false;
               quest += tr("Show on the guitar") + noteStr;
-              if (level->showStrNr)
-                quest += "<br> " + onStringTxt(question.qa.pos.str());
             } else
               if (question.answerAs == TQAtype::e_asSound) {
-                quest += "<br>" + tr("Play or sing") + noteStr;
+                quest += playOrSing(int(level->instrument)) + noteStr;
               }
+          if (question.answerAs == TQAtype::e_asFretPos || question.answerAs == TQAtype::e_asSound) {
+						if (level->instrument != e_noInstrument && level->showStrNr && !level->onlyLowPos)
+								quest += "<br> " + onStringTxt(question.qa.pos.str());
+					}
       break;
       
       case TQAtype::e_asFretPos:
@@ -173,7 +187,7 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
               apendix = "<br> " + onStringTxt(question.qa_2.pos.str());
             } else
               if (question.answerAs == TQAtype::e_asSound) {
-                  quest += tr("Play or sing");
+                  quest += playOrSing(int(level->instrument));
               }
         quest += QString("<br><span style=\"font-size: 30px; %1\">&nbsp;").arg(gl->getBGcolorText(gl->EquestionColor)) +
                     question.qa.pos.toHtml() + " </span>";
@@ -182,7 +196,6 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
         if (question.answerAs == TQAtype::e_asNote || question.answerAs == TQAtype::e_asName)
           if (level->forceAccids)
             quest += "<br" + getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
-        
       break;
       
       case TQAtype::e_asSound:
@@ -212,9 +225,8 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
               }
       break;
     }
-    if (level->requireOctave)
-    if (scale)
-      quest += "</p>";
+			if (scale)
+				quest += "</p>";
     return quest;
   
 }

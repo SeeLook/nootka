@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,7 +24,6 @@
 #include "tnotepixmap.h"
 #include <QApplication>
 #include <QBuffer>
-// #include <QDebug>
 
 
 /* static */
@@ -34,13 +33,13 @@ QString TtipChart::insertQMark() {
     return QString("<span style=\"color: red; font-family: nootka; font-size: 45px;\">?</span>");
 }
 
-QString TtipChart::wrapPixToHtml(Tnote note, bool defClef, TkeySignature key, qreal factor) {
-  return wrapPixToHtml(note, defaultClef.type(), key, factor);
+QString TtipChart::wrapPixToHtml(const Tnote& note, bool defClef, TkeySignature key, qreal factor, int strNr) {
+  return wrapPixToHtml(note, defaultClef.type(), key, factor, strNr);
 }
 
 
-QString TtipChart::wrapPixToHtml(Tnote note, Tclef::Etype clef, TkeySignature key, qreal factor) {
-    QPixmap pixmap = getNotePixmap(note, clef, key, factor);
+QString TtipChart::wrapPixToHtml(const Tnote& note, Tclef::Etype clef, TkeySignature key, qreal factor, int strNr) {
+    QPixmap pixmap = getNotePixmap(note, clef, key, factor, strNr);
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
     pixmap.save(&buffer, "PNG");

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -41,6 +41,11 @@ public:
     
     static QString getTextHowAccid(Tnote::Eacidentals accid);
     static QString onStringTxt(quint8 strNr); /** Returns translated text on (strNr) string in Nootka font. */
+		
+				/** Depend on @p instrument it returns text:
+				 * 'Play or sing' (other instrument)
+				 * 'Play' (guitars) */
+		static QString playOrSing(int instr);
     
     bool freeScore() { return m_scoreFree; } /** true when question is not on score */
     bool freeName() { return m_nameFree; } /** true when question is not on note name */
@@ -53,7 +58,7 @@ protected:
         
     
 private:
-                /** Indicate where has to be tip */
+                /** Indicate where has to be a tip */
     bool                    m_scoreFree, m_nameFree, m_guitarFree; 
     Tnote::Eacidentals      m_forcedAccid; // When different than Tnote::e_Natural text is shown
     TfadeInAnim             *m_fadeInAnim;

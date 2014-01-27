@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.                                                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -99,11 +99,12 @@ QRectF TquestionPoint::boundingRect() const {
 }
   
 void TquestionPoint::hoverEnterEvent(QGraphicsSceneHoverEvent* event ) {
-    if (tip)
+    if (tip) {
         if (tip == initObject())
           return;
         else
           deleteTip();
+		}
     tip = new TtipChart(this);
     handleTip(event->scenePos());
 }
