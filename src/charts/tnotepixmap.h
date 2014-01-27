@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -28,14 +28,13 @@
 class TQAunit;
 
 
-			/**  Returns QPixmap with given note. 
-			* @param factor determines its size	*/
+			/**  Returns QPixmap with given note. @p factor determines its size	*/
 QPixmap getNotePixmap(Tnote note, Tclef::Etype clef = Tclef::e_treble_G, 
-                      TkeySignature key = TkeySignature(0), qreal factor = 4.0);
+                      TkeySignature key = TkeySignature(0), qreal factor = 4.0, int strNr = 0);
 
 
-/** Returns HTML formated text with answer details. 
- * If @param fontSize remains default - default fontSize is taken. */
+		/** Returns HTML formatted text with answer details. 
+		* If @p fontSize remains default - default fontSize is taken. */
 QString wasAnswerOKtext(TQAunit *answer, QColor textColor, int fontSize = -1);
 
 

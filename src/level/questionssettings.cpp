@@ -264,7 +264,7 @@ void questionsSettings::paintEvent(QPaintEvent* ) {
   int vertLineDownY = m_tableWdg->geometry().y() +  asSoundWdg->enableChBox->geometry().bottom() + 
       (m_qSoundNooLab->geometry().top() - asSoundWdg->enableChBox->geometry().bottom()) / 2;
   painter.drawLine(m_tableWdg->geometry().left(), vertLineDownY, m_tableWdg->geometry().right(), vertLineDownY);
-  int horLineLeftX = m_tableWdg->geometry().x() + asNoteWdg->enableChBox->geometry().right() + 10;
+  int horLineLeftX = m_tableWdg->geometry().x() + asNoteWdg->enableChBox->geometry().right() + 6;
   painter.drawLine(horLineLeftX, m_tableWdg->geometry().top(), horLineLeftX, m_tableWdg->geometry().bottom());
   int horLineRightX = m_tableWdg->geometry().x() + m_asSoundLab->geometry().right() + 
       (m_soundNooLab->geometry().left() - m_asSoundLab->geometry().right()) / 2;

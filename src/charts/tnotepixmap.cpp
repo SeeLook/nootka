@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,7 +29,6 @@
 #include <QPainter>
 #include <QPalette>
 
-// #include <QDebug>
 
 /** Adds comma and space ', ' to not empty string or returns the same. */
 QString addSpaceToNotEmpty(QString &txt) {
@@ -39,7 +38,7 @@ QString addSpaceToNotEmpty(QString &txt) {
 }
 
 
-QPixmap getNotePixmap(Tnote note, Tclef::Etype clef, TkeySignature key, qreal factor) {
+QPixmap getNotePixmap(Tnote note, Tclef::Etype clef, TkeySignature key, qreal factor, int strNr) {
 		TscoreScene *scene = new TscoreScene();
 		int notesCount = 1;
 		if (note.note == 0) // no note in preview
@@ -55,6 +54,7 @@ QPixmap getNotePixmap(Tnote note, Tclef::Etype clef, TkeySignature key, qreal fa
 		if (key.value()) {
 				staff->setEnableKeySign(true);
 				staff->scoreKey()->setKeySignature(key.value());
+				staff->scoreKey()->showKeyName(false);
 		}
 		staff->setNoteDisabled(0, true);
 	// determine image height by note position to avoid empty spaces above or below a staff
@@ -62,6 +62,7 @@ QPixmap getNotePixmap(Tnote note, Tclef::Etype clef, TkeySignature key, qreal fa
 	 * When no note, both staves are displayed. */
 		int topPix = 0, bottomPix = staff->boundingRect().height(), leftPix = 0;
 		if (notesCount) {
+				TscoreStaff *workStaff;
 				staff->setNote(0, note);
 				if (staff->noteSegment(0)->notePos()) {
 					if (staff->noteSegment(0)->notePos() < staff->upperLinePos() - 3) { // note above a staff
@@ -74,6 +75,7 @@ QPixmap getNotePixmap(Tnote note, Tclef::Etype clef, TkeySignature key, qreal fa
 						topPix = staff->upperLinePos() - 4;
 						bottomPix = staff->noteSegment(0)->notePos() + 3;
 					}
+					workStaff = staff;
 				} else { // piano staff
 					if (clef == Tclef::e_pianoStaff && staff->lower()) {
 						topPix = staff->lower()->pos().y();
@@ -82,6 +84,16 @@ QPixmap getNotePixmap(Tnote note, Tclef::Etype clef, TkeySignature key, qreal fa
 						} else // note below lower staff
 								bottomPix = staff->lower()->pos().y() + staff->lower()->noteSegment(0)->notePos() + 3;
 					}
+					workStaff = staff->lower();
+				}
+				if (strNr) {
+						QGraphicsSimpleTextItem *strItem = new QGraphicsSimpleTextItem(QString("%1").arg(strNr));
+						strItem->setFont(QFont("nootka", 5, QFont::Normal));
+						strItem->setParentItem(workStaff->noteSegment(0));
+						if (workStaff->noteSegment(0)->notePos() > workStaff->upperLinePos() + 7.0)
+							strItem->setPos(6.5, workStaff->noteSegment(0)->notePos() - 3.0);
+						else
+							strItem->setPos(6.5, workStaff->noteSegment(0)->notePos() - 1.0);
 				}
 		} else { // no notes - clef only
 				if (clef == Tclef::e_pianoStaff && staff->lower()) {
