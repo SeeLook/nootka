@@ -1,4 +1,4 @@
-	/***************************************************************************
+/***************************************************************************
  *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
@@ -179,16 +179,23 @@ void questionsSettings::whenParamsChanged() {
 	if (m_levelIsLoading)
 		return;
 	
-  // disable showStrNrChB & lowPosOnlyChBox  if question and answer are on guitar
-    if (asFretPosWdg->isChecked() && asFretPosWdg->answerAsPos()) {
-      showStrNrChB->setChecked(true);
-      showStrNrChB->setDisabled(true);
-      lowPosOnlyChBox->setChecked(false);
-      lowPosOnlyChBox->setDisabled(true);
-    } else {
-        showStrNrChB->setDisabled(false);
-        lowPosOnlyChBox->setDisabled(false);
-    }      
+	// Disable 'show string' and 'lowest position only' when no answers as guitar and/or sound
+		if (lowPosOnlyChBox->isVisible()) {
+			bool lowDisabled = false;
+			if (!asNoteWdg->answerAsPos() && !asNameWdg->answerAsPos() && 
+								!asFretPosWdg->answerAsPos() && !asSoundWdg->answerAsPos() &&
+								!asNoteWdg->answerAsSound() && !asNameWdg->answerAsSound() && 
+								!asFretPosWdg->answerAsSound() && !asSoundWdg->answerAsSound())
+					lowDisabled = true;		
+  // Disable showStrNrChB & lowPosOnlyChBox  if question and answer are on guitar
+			if (asFretPosWdg->isChecked() && asFretPosWdg->answerAsPos()) {
+				showStrNrChB->setChecked(true);
+				lowPosOnlyChBox->setChecked(false);
+				lowDisabled = true;
+			}
+			lowPosOnlyChBox->setDisabled(lowDisabled);
+			showStrNrChB->setDisabled(lowDisabled);
+		}
   // Is score enabled in a level
     if (!asNoteWdg->isChecked() && !asNameWdg->answerAsNote() && !asFretPosWdg->answerAsNote() && !asSoundWdg->answerAsNote())
         emit scoreEnabled(false);
