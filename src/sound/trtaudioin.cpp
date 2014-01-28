@@ -210,7 +210,7 @@ void TaudioIN::startListening() {
 }
 
 void TaudioIN::stopListening() {
-  if (rtDevice->getCurrentApi() == RtAudio::WINDOWS_DS)
+  if (rtDevice->getCurrentApi() == RtAudio::WINDOWS_DS || rtDevice->getCurrentApi() == RtAudio::LINUX_PULSE)
       stopStream();
   else
       closeStram();

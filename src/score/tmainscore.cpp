@@ -198,6 +198,7 @@ void TmainScore::showNames(Tnote::EnameStyle st, bool forAll) {
 					st->noteSegment(i)->notePos() > st->upperLinePos() ? 
 								st->noteSegment(i)->notePos() - m_noteName[i]->boundingRect().height() * m_noteName[i]->scale() : // above note
 								st->noteSegment(i)->notePos() + st->noteSegment(i)->mainNote()->boundingRect().height()); // below note
+			st->noteSegment(i)->removeString(); // String number is not needed here and could collide with name
 		}
 	}
 	if (m_noteName[0])

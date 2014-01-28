@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -102,7 +102,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 		QString authorStr = getHeader(tr("Code"));
 		authorStr += "<b>Tomasz Bojczuk</b>    <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><br>";
 		authorStr += getHeader(tr("Audio"));
-		authorStr += tr("mastering and/or recording of samples:") + "<br><b>Sergei Ivanov (tico-tico)</b><br>";
+		authorStr += tr("editing and/or recording of samples:") + "<br><b>Sergei Ivanov (tico-tico)</b><br>";
   // TRANSLATORS
     QString translStr = getHeader(tr("Translators"));
     translStr += "<table valign=\"middle\" align=\"center\">";
@@ -138,6 +138,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 		thankStr += "<b>falkTX</b> from <a href=\"http://kxstudio.sourceforge.net/\">http://kxstudio.sourceforge.net</a> for building *.deb and testing and for many clues.<br>";
 		thankStr += "<b>Users</b> of <a href=\"http://www.linuxmusicians.com/\">http://www.linuxmusicians.com</a> forum for testing and comments.<br>";
 		thankStr += "<b>Olli Parviainen</b> <a href=\"http://www.surina.net/soundtouch/\">http://www.surina.net/soundtouch</a> for help with his SoundTouch library.<br>";
+		thankStr += "<b>Sergei Ivanov</b> for testing Nootka intensively, bug hunting and many valuable notices.<br>";
 		thankStr += "<b>Translators (Pavel, Olivier, Sergei)</b> for many, maaaany clues and comments.<br>";
 		thankStr += "<b>Project16 @ KVR</b> <a href=\"http://www.kvraudio.com/\">http://www.kvraudio.com</a> for the bass guitar samples<br>";
 		thankStr += "<b>And all others that helped.</b><br>";

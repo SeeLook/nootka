@@ -201,6 +201,7 @@ void TsettingsDialog::changeSettingsWidget(int index) {
       if (!m_guitarSett) {
         m_guitarSett = new TguitarSettings();
         stackLayout->addWidget(m_guitarSett);
+				resize(sizeHint());
       }
       if (m_scoreSett)
 					connect(m_guitarSett, SIGNAL(clefChanged(Tclef)), m_scoreSett, SLOT(defaultClefChanged(Tclef)));
