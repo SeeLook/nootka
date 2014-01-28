@@ -7,10 +7,9 @@ ISSUES
 - chunkPitch is emitted too often - it could be adjusted to eye possibility
 - note name on a score still is there but seldom
 - correction anim from highlighted string reminds black line
-- levels are locked due to instrument type but fret or tune reason is described 
+- levels are locked due to instrument type but fret or tune reason is described
+- 'instrument' settings tab can be cut off
 
-Russian tr
-- no abbreviations in tab "names" (settings) and tab accidentals (Level Creator) just line breaks (\n)
 			
 TODOES
 - lock 'show string' and 'low pos only' when no answers as guitar and/or sound
@@ -20,7 +19,6 @@ TODOES
 - left-handed guitar correction anim to guitar (morphing) has wrong line points
 - try to remove re-sizing a status label in exams/exercises
 - name label shows not centered texts in exams
-- update screen-shoot image in exam help
 - use string numbers on pixmap in charts
 - force 'Plasique' style under MacOs or find a way on buttons
 - !!!check does 'string order' work for Tfingerboard!!!

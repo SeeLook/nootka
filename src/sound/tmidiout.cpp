@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013=2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -214,15 +214,15 @@ void TmidiOut::midiNoteOff() {
     qDebug() << "can't send MIDI message to fade sound out";
   }
   m_prevMidiNote = 0;
+// 	if (m_portOpened) {
+//       try {
+//         m_midiOut->closePort();
+//       } catch (RtError &error){
+//         qDebug() << "can't close MIDI port";
+//       }
+//         m_portOpened = false;
+//     }
   if (doEmit)
-    if (m_portOpened) {
-      try {
-        m_midiOut->closePort();
-      } catch (RtError &error){
-        qDebug() << "can't close MIDI port";
-      }
-        m_portOpened = false;
-    }
     emit noteFinished();
 }
 
