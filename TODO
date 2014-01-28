@@ -10,7 +10,6 @@ ISSUES
 
 			
 TODOES
-- lock 'show string' and 'low pos only' when no answers as guitar and/or sound
 - setAmbitus in TnoteName seems to has no use
 - stop audio-in test when audio settings tab is switched off
 - check 'tune' of non guitar - does it correspond with instrument/clef scale and levels works proper
