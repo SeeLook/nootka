@@ -23,6 +23,7 @@
 #include <QDataStream>
 #include <QDebug>
 #include <QThread>
+#include <QFileInfo>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -82,6 +83,7 @@ long int ToggScale::tellOggStatic(void* fh) {
 //########################## PUBLIC #########################################
 //###########################################################################
 
+int minDataAmount = 10000;
 
 ToggScale::ToggScale(QString& path) :
   QObject(),
@@ -98,6 +100,11 @@ ToggScale::ToggScale(QString& path) :
 {
 	m_touch = new soundtouch::SoundTouch();
 	m_touch->setChannels(1);
+#if defined (Q_OS_UNIX) // increase minimal audio data must to be processed when system works with PulseAudio
+	QFileInfo pulseBin("/usr/bin/pulseaudio");
+	if (pulseBin.exists()) // it is necessary both for Nootka with native PA and PA in ALSA bridge mode
+		minDataAmount = 15000;
+#endif
   moveToThread(m_thread);
   connect(m_thread, SIGNAL(started()), this, SLOT(decodeOgg()));
   m_oggConnected = true;
@@ -192,9 +199,11 @@ bool ToggScale::loadAudioData(int instrument) {
 				fileName = "bass-guitar.ogg"; 
 				m_firstNote = -24; m_lastNote = 21;
 				break;
+			default:
+				return false;
 		}
 	} else
-			return true;
+			return false;
 	
   QFile oggFile(m_oggPath + fileName);
   if (!oggFile.exists())
@@ -258,7 +267,6 @@ void ToggScale::stopDecoding() {
 }
 
 
-
 void ToggScale::decodeOgg() {
   int bitStream;
   m_isDecoding = true;
@@ -269,7 +277,7 @@ void ToggScale::decodeOgg() {
   while (m_doDecode && loops < 500 && pos < maxSize) {
     read = ov_read(&m_ogg, (char*)m_pcmBuffer + pos, maxSize - pos, 0, 2, 1, &bitStream);
     pos += read;
-    if (pos > 10000) // amount of data needed by single loop of rtAudio outCallBack
+    if (pos > minDataAmount) // amount of data needed by single loop of rtAudio outCallBack
       m_isReady = true;
     loops++;
   }
@@ -308,7 +316,7 @@ void ToggScale::decodeAndResample() {
           *(m_pcmBuffer + pos + i) = qint16(*(tmpTouch + i) * 32768);
       pos += read;
     }
-    if (pos > 10000) // below this value SoundTouch is not able to prepare data
+    if (pos > minDataAmount) // below this value SoundTouch is not able to prepare data
       m_isReady = true;
   }
   m_isDecoding = false;
