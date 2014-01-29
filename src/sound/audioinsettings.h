@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -48,14 +48,17 @@ public:
   QString testTxt, stopTxt;
   void saveSettings();
 	void restoreDefaults();
-    /** Generates devices list for inDeviceCombo QComboBox.*/
-  void generateDevicesList();
+  void generateDevicesList(); /** Generates devices list for inDeviceCombo QComboBox.*/
+	
       /** Grabs (refresh) devices list from AudioIn and fill audioOutDevListCombo */
   void setDevicesCombo();
+	
 			/** Calculates interval from given frequency and sets interval Spin Box. */
 	void intervalFromFreq(int bFreq);
+	
 			/** Calculates frequency from given interval [-12 to 12 semitones] and sets frequency Spin Box */
 	void freqFromInterval(int interval);
+	
 			/** Changes value of interval and adjust its suffix. Also Adjust up/down radio buttons */
 	void setTransposeInterval(int interval);
 	
@@ -63,9 +66,11 @@ public	slots:
 			/** Occurs when tune of a guitar is changed and range of detecting pitches has to be adjusted. */
 	void whenLowestNoteChanges(Tnote loNote);
 	void tuneWasChanged(Ttune *tune);
+	void stopSoundTest(); /** Public method (slot) to stop sound test */
   
 protected:
   void setTestDisabled(bool disabled);
+	
     /** Writes state of widgets to TaudioParams object. */
   void grabParams(TaudioParams *params);
   
@@ -83,11 +88,13 @@ private:
     /** Calculates frequencies of strings related to a440diff 
      * and sets status tip.*/
   void getFreqStatusTip();
+	
       /** returns frequency of @param freq shifted by a440diff 
        * rounded to int */
   int getFreq(double freq);
   
   float offPitch(float pitch);
+	
       /** returns difference of @param freq related to 440 Hz in semitones */
   float getDiff(int freq);
 	
