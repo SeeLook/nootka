@@ -10,7 +10,6 @@ ISSUES
 
 			
 TODOES
-- stop audio-in test when audio settings tab is switched off
 - check 'tune' of non guitar - does it correspond with instrument/clef scale and levels works proper
 - left-handed guitar correction anim to guitar (morphing) has wrong line points
 - try to remove re-sizing a status label in exams/exercises

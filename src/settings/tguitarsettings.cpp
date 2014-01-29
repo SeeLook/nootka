@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -55,12 +55,13 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     tuneLay->addWidget(m_tuneCombo);
     m_tuneView = new TsimpleScore(7, this);
     tuneLay->addWidget(m_tuneView);
+		tuneLay->addStretch();
 // 		m_tuneView->setClefDisabled(true);
     m_tuneView->setClef(gl->Sclef); 
     m_tuneView->setNoteDisabled(6, true); // 7-th is dummy to get more space
-#if defined(Q_OS_WIN)
-    m_tuneView->setFixedHeight(200);
-#endif
+// #if defined(Q_OS_WIN)
+    m_tuneView->setFixedHeight(250);
+// #endif
    
     m_tuneGroup->setLayout(tuneLay);
 //     upLay->addWidget(m_tuneGroup);

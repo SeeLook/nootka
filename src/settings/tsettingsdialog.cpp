@@ -160,6 +160,8 @@ void TsettingsDialog::allDefaultsRequired() {
      * When user first time opens Sound settings widget.*/
 void TsettingsDialog::changeSettingsWidget(int index) {
   QWidget* currentWidget = 0;
+	if (m_audioSettingsPage)
+		m_sndInSett->stopSoundTest();
   switch (index) {
     case 0: {
       if (!m_globalSett) {
@@ -201,7 +203,6 @@ void TsettingsDialog::changeSettingsWidget(int index) {
       if (!m_guitarSett) {
         m_guitarSett = new TguitarSettings();
         stackLayout->addWidget(m_guitarSett);
-				resize(sizeHint());
       }
       if (m_scoreSett)
 					connect(m_guitarSett, SIGNAL(clefChanged(Tclef)), m_scoreSett, SLOT(defaultClefChanged(Tclef)));
@@ -255,6 +256,7 @@ void TsettingsDialog::createAudioPage() {
     m_audioTab->addTab(m_sndInSett, tr("listening"));
     m_audioTab->addTab(m_sndOutSett, tr("playing"));
     m_audioSettingsPage->setLayout(audioLay);
+		connect(m_audioTab, SIGNAL(currentChanged(int)), m_sndInSett, SLOT(stopSoundTest()));
 }
 
 

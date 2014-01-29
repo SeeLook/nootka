@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -461,14 +461,24 @@ void AudioInSettings::minimalVolChanged(float vol) {
 }
 
 
+void AudioInSettings::stopSoundTest() {
+	if (m_audioIn)
+		testSlot();
+}
+
+
 void AudioInSettings::testSlot() {
 	if (sender() == m_toolBox) {
 		if (m_toolBox->currentIndex() == 3) // 4. test settings page
 			setTestDisabled(false);
 		else
 			setTestDisabled(true);
-	} else 
+	} else {
+		if (m_toolBox->isVisible())
 			setTestDisabled(!m_testDisabled);
+		else
+			setTestDisabled(true);
+	}
   if (!m_testDisabled) { // start a test
     grabParams(m_tmpParams);
     if (!m_audioIn) { // create new audio-in device
@@ -557,7 +567,6 @@ void AudioInSettings::freqFromInterval(int interval) {
 }
 
 
-
 /** This is not so pretty (piano staff invokes low range) */
 void AudioInSettings::whenLowestNoteChanges(Tnote loNote) {
 	char noteNr = loNote.getChromaticNrOfNote();
@@ -576,6 +585,9 @@ void AudioInSettings::voiceOrInstrumentChanged() {
 	else
 			durationSpin->setDisabled(true);
 }
+
+
+
 
 
 
