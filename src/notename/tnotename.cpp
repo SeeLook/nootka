@@ -243,6 +243,7 @@ void TnoteName::resize(int fontSize) {
 }
 
 
+/** Variables declared here have been used nowhere so far.  */
 void TnoteName::setAmbitus(Tnote lo, Tnote hi) {
     m_ambitMin = lo.getChromaticNrOfNote();
     m_ambitMax = hi.getChromaticNrOfNote();
