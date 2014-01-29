@@ -10,7 +10,6 @@ ISSUES
 
 			
 TODOES
-- setAmbitus in TnoteName seems to has no use
 - stop audio-in test when audio settings tab is switched off
 - check 'tune' of non guitar - does it correspond with instrument/clef scale and levels works proper
 - left-handed guitar correction anim to guitar (morphing) has wrong line points
@@ -19,7 +18,6 @@ TODOES
 - use string numbers on pixmap in charts
 - force 'Plasique' style under MacOs or find a way on buttons
 - !!!check does 'string order' work for Tfingerboard!!!
-- sniffer has setAmbitus to guitar scale range - fix it!!!
 - make order with Qt::WA_TransparentForMouseEvents in canvas
 - remove unused classes: widgets/animations
 - add shadows under strings on pickup

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -101,9 +101,6 @@ void Tsound::acceptSettings() {
     if (!sniffer) {
       createSniffer();
       m_pitchView->setAudioInput(sniffer);
-//       m_pitchView->setIsVoice(gl->A->isVoice);
-//       m_pitchView->setMinimalVolume(gl->A->minimalVol);
-// 			m_pitchView->setIntonationAccuracy(gl->A->intonation);
       if (m_pitchView->isPaused()) {
         sniffer->stopListening();
       }
@@ -113,10 +110,7 @@ void Tsound::acceptSettings() {
     }
     else {
       sniffer->setParameters(gl->A);
-      sniffer->setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
-//       m_pitchView->setIsVoice(gl->A->isVoice);
-//       m_pitchView->setMinimalVolume(gl->A->minimalVol);
-// 			m_pitchView->setIntonationAccuracy(gl->A->intonation);
+//       sniffer->setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
       if (!m_pitchView->isPaused()) { // and pause button
         sniffer->startListening();
         m_pitchView->startVolume();
@@ -284,7 +278,8 @@ void Tsound::createPlayer() {
 
 void Tsound::createSniffer() {
   sniffer = new TaudioIN(gl->A);
-  sniffer->setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
+//   sniffer->setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
+	sniffer->setAmbitus(Tnote(-31), Tnote(82)); // fixed ambitus bounded Tartini capacities
   sniffer->startListening();
   connect(sniffer, SIGNAL(noteDetected(Tnote)), this, SLOT(noteDetectedSlot(Tnote)));
 }
