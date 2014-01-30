@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -38,8 +38,8 @@ class TaudioIN : public QObject, public TrtAudioAbstract
 public:
     explicit TaudioIN(TaudioParams *params, QObject *parent = 0);
     ~TaudioIN();
-        /** Returns list of audio input devices 
-        * filtered by template audio format */
+		
+        /** Returns list of audio input devices filtered by template audio format */
 	static QStringList getAudioDevicesList();
 	
 // 	bool isAvailable() {return (m_IOaudioDevice ? true : false) ; }
@@ -47,34 +47,38 @@ public:
 	bool setAudioDevice(const QString &devN);
 	void startListening();
 	void stopListening();
+	
       /** Stops emiting signals about pitch detection,
        * but detection is still performed. 
        * It helps to sniff whole sound/note from begin to its end. */
   void pause() { m_paused = true; }
+  
       /** Starts emiting @param noteDetected and @param fundamentalFreq signals again. */
   void unPause() { m_paused = false; }
   bool isPaused() { return m_paused; }
 	float maxPeak() { return m_maxPeak; }
+	
 	  /** Sets device parameters stores in struct SaudioInParams. 
 	   * SaudioInParams::deviceName is ignored. It have to be set separately
 	   * by setAudioDevice() method. 	   */
 	void setParameters(TaudioParams *params);	
-    /** Do the same as @param startListening() but for backword compatibility 
+	
+    /** Do the same as @param startListening() but for backward compatibility 
      * with QtMultimedia that function remains  */
   void wait() { stopListening(); }
-    /** Do the same as @param stopListening() but for backword compatibility 
+  
+    /** Do the same as @param stopListening() but for backward compatibility 
      * with QtMultimedia that function remains  */
   void go() { startListening(); }
 
 			/** Sets minimal volume needed that note will be detected. Overrides global setting.  */
   void setMinimalVolume(float minVol);
   void setIsVoice(bool isV);
-    /** Sets range of notes which are detected. */
-  void setAmbitus(Tnote loNote, Tnote hiNote);
+  void setAmbitus(Tnote loNote, Tnote hiNote);   /** Sets range of notes which are detected. */
 	Tnote loNote() { return m_loNote; } // Returns lower boundary note of ambitus 
 	Tnote hiNote() { return m_hiNote; } // Returns upper boundary note of ambitus 
-			/** Pitch of last detected note in float precision. */
-	float lastNotePitch() { return m_lastPich; }
+	float lastNotePitch() { return m_lastPich; } /** Pitch of last detected note in float precision. */
+	float lastChunkPitch() { return m_LastChunkPitch; }
 
 signals:
 	void noteDetected(Tnote note);
@@ -114,6 +118,7 @@ private:
 			/** Boundary notes of the ambitus. */
 	Tnote					m_loNote, m_hiNote;
 	float 				m_lastPich; /** Pitch of last detected note in float precision. */
+	float					m_LastChunkPitch; /** Pitch from recent processed chunk or 0.0 if silence */
 	
 };
 

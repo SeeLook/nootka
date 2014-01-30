@@ -100,12 +100,14 @@ void TpitchView::setAudioInput(TaudioIN* audioIn) {
 
 
 void TpitchView::startVolume() {
+	m_prevVolume = -1.0;
+	m_prevPitch = -1.0;
   if (m_audioIN) {
 		connect(m_volMeter, SIGNAL(minimalVolume(float)), this, SLOT(minimalVolumeChanged(float)));
     m_volMeter->setDisabled(false);
     m_volTimer->start(75);
-		if (m_intoView->accuracy() != TintonationView::e_noCheck)
-			connect(m_audioIN, SIGNAL(chunkPitch(float)), m_intoView, SLOT(pitchSlot(float)));
+// 		if (m_intoView->accuracy() != TintonationView::e_noCheck)
+// 			connect(m_audioIN, SIGNAL(chunkPitch(float)), m_intoView, SLOT(pitchSlot(float)));
   }
 }
 
@@ -141,7 +143,7 @@ void TpitchView::setIntonationAccuracy(int accuracy) {
 				disconnect(m_audioIN, SIGNAL(chunkPitch(float)), m_intoView, SLOT(pitchSlot(float)));
 				m_intoView->setDisabled(true);
 		} else {
-				connect(m_audioIN, SIGNAL(chunkPitch(float)), m_intoView, SLOT(pitchSlot(float)));
+// 				connect(m_audioIN, SIGNAL(chunkPitch(float)), m_intoView, SLOT(pitchSlot(float)));
 				m_intoView->setDisabled(false);
 		}
   }
@@ -230,8 +232,13 @@ void TpitchView::updateLevel() {
       case 6 : a = 75;  break;
       case 7 : a = 40;  break;
     }
-    m_volMeter->setVolume(m_audioIN->maxPeak(), a);
-    m_hideCnt++;
+  m_hideCnt++;
+//   if (m_prevVolume != m_audioIN->maxPeak())
+			m_volMeter->setVolume(m_audioIN->maxPeak(), a);
+	if (m_intoView->accuracy() != TintonationView::e_noCheck && m_prevPitch != m_audioIN->lastChunkPitch())
+			m_intoView->pitchSlot(m_audioIN->lastChunkPitch());
+	m_prevVolume = m_audioIN->maxPeak();
+	m_prevPitch = m_audioIN->lastChunkPitch();
 }
 
 

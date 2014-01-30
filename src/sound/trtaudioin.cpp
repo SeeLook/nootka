@@ -252,20 +252,19 @@ void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
 //------------------------------------------------------------------------------------
 
 void TaudioIN::pitchInChunkSlot(float pitch) {
-// 	qDebug() << "pitchInChunkSlot" << pitch;
 	if (m_paused)
 			return;
   if (pitch == 0.0)
-    emit chunkPitch(0.0); 
+			m_LastChunkPitch = 0.0;
   else
-    emit chunkPitch(pitch - audioParams->a440diff); 
+			m_LastChunkPitch = pitch - audioParams->a440diff;
+	emit chunkPitch(m_LastChunkPitch);
 }
-
 
 
 void TaudioIN::pitchFreqFound(float pitch, float freq) {
   if (!m_paused) {
-			m_lastPich = pitch;
+			m_lastPich = pitch - audioParams->a440diff;
 			if (pitch >= m_pitch->aGl()->loPitch && pitch <= m_pitch->aGl()->topPitch) {
 // 					float into = qAbs((pitch - audioParams->a440diff) - (float)qRound(pitch - audioParams->a440diff));
 // 					QString inText;

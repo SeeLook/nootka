@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -43,16 +43,12 @@ public:
   virtual ~TpitchView();
   
   void setAudioInput(TaudioIN *audioIn);
-      /** Starts grabbing of peak level*/
-  void startVolume();
+  void startVolume(); /** Starts grabbing of peak level*/
   void stopVolume();
   void setPitchColor(QColor col);
 	
-      /** Button to toggle between voice/instrument mode in TaudioIN */
-  QPushButton *voiceButt;
-	
-      /** Button to pause or activate pitch detection */
-  QPushButton *pauseButt;
+  QPushButton *voiceButt; /** Button to toggle between voice/instrument mode in TaudioIN */
+  QPushButton *pauseButt; /** Button to pause or activate pitch detection */
   bool isPaused() { return m_isPaused; }
   bool isVoice() { return m_isVoice; }
   void setIsVoice(bool isVoice);
@@ -94,6 +90,7 @@ private:
   bool 							m_withButtons;
 	QBoxLayout 				*m_lay;
   int 							m_hideCnt; // counter of m_volTimer loops.
+  float 						m_prevVolume, m_prevPitch;
 };
 
 #endif // TPITCHVIEW_H

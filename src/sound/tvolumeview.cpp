@@ -46,6 +46,7 @@ void TvolumeView::setVolume(float vol, int alpha) {
   if (m_volume == 0.0) // skip first 0.0 volume to avoid flickering
     m_volume = m_prevVol;
   m_alpha = alpha;
+// 	if (m_prevVol != m_volume || m_alpha != alpha || m_drawKnob)
   repaint();
   m_prevVol = vol;
 }
