@@ -381,10 +381,8 @@ void MainWindow::createSettingsDialog() {
 				}
 			}
 			if (gl->instrument != e_noInstrument) {
-// 						guitar->show();
 					guitar->acceptSettings(); //refresh guitar
-			} /*else*/
-// 						guitar->hide();
+			}
 			if (gl->hintsEnabled) {
 				nootBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 			} else {
@@ -454,7 +452,6 @@ void MainWindow::analyseSlot() {
 }
 
 
-
 void MainWindow::noteWasClicked(int index, Tnote note) {
     Q_UNUSED(index)
     if (m_isPlayerFree)
@@ -467,7 +464,8 @@ void MainWindow::noteWasClicked(int index, Tnote note) {
         noteName->setNoteName(noteList);
     } else
         noteName->setNoteName(note);
-    guitar->setFinger(note);
+		if (guitar->isVisible())
+				guitar->setFinger(note);
 }
 
 
@@ -478,7 +476,8 @@ void MainWindow::noteNameWasChanged(Tnote note) {
         score->setNote(1, noteName->getNoteName(1));
         score->setNote(2, noteName->getNoteName(2));
     }
-    guitar->setFinger(note);
+    if (guitar->isVisible())
+				guitar->setFinger(note);
 }
 
 
@@ -506,7 +505,8 @@ void MainWindow::soundWasPlayed(Tnote note) {
   } else
       noteName->setNoteName(note);
   score->setNote(0, note);
-  guitar->setFinger(note);
+	if (guitar->isVisible())
+			guitar->setFinger(note);
 }
 
 

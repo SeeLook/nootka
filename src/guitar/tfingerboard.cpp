@@ -900,7 +900,7 @@ void TfingerBoard::strikeBlinkingFinished() {
 		m_strikeOut->hide();
 		m_strikeOut->deleteLater();
 		m_strikeOut = 0;
-		markAnswer(Qt::transparent);
+// 		markAnswer(Qt::transparent);
 		deleteNoteName();
 		bool isLine = false, toLine;
 		qreal strWidth = 0.0;

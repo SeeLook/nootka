@@ -1,11 +1,8 @@
 Plan for the Nootka One
 
 ISSUES
-- charts hang with updating (probably related to re-sizing, scaling)
-- stop guitar work when it is invisible
 - chunkPitch is emitted too often - it could be adjusted to eye possibility
 - note name on a score still is there but seldom
-- correction anim from highlighted string reminds black line
 - levels are locked due to instrument type but fret or tune reason is described
 
 			
