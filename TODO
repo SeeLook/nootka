@@ -4,6 +4,7 @@ ISSUES
 - chunkPitch is emitted too often - it could be adjusted to eye possibility
 - note name on a score still is there but seldom
 - levels are locked due to instrument type but fret or tune reason is described
+- double check is extended pitch range works good (don't grab to much unexpected sounds)
 
 			
 TODOES
@@ -34,6 +35,7 @@ TEXAMEXECUTOR
 ================================================================================================================
 Somewhere in time
 - keep exam file in /tmp and restore it when crash or so
+- merge out&in sounds into single call-back method (class)
 - add option of playing sound during capture
 - convert pointers requiring to be 0 to QPointer type
 - better and equal algorithm of questioning

@@ -110,7 +110,7 @@ void Tsound::acceptSettings() {
     }
     else {
       sniffer->setParameters(gl->A);
-//       sniffer->setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
+      sniffer->setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
       if (!m_pitchView->isPaused()) { // and pause button
         sniffer->startListening();
         m_pitchView->startVolume();
@@ -278,8 +278,8 @@ void Tsound::createPlayer() {
 
 void Tsound::createSniffer() {
   sniffer = new TaudioIN(gl->A);
-//   sniffer->setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
-	sniffer->setAmbitus(Tnote(-31), Tnote(82)); // fixed ambitus bounded Tartini capacities
+  sniffer->setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
+// 	sniffer->setAmbitus(Tnote(-31), Tnote(82)); // fixed ambitus bounded Tartini capacities
   sniffer->startListening();
   connect(sniffer, SIGNAL(noteDetected(Tnote)), this, SLOT(noteDetectedSlot(Tnote)));
 }
