@@ -21,7 +21,7 @@
 #include <QPainter>
 #include <QMouseEvent>
 #include <qtooltip.h>
-#include <QDebug>
+// #include <QDebug>
 
 #define TICK_WIDTH (2)
 #define TICK_GAP (3)
