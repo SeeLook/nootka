@@ -3,7 +3,6 @@ Plan for the Nootka One
 ISSUES
 - note name on a score still is there but seldom
 - levels are locked due to instrument type but fret or tune reason is described
-- double check is extended pitch range works good (don't grab to much unexpected sounds)
 
 			
 TODOES
@@ -40,3 +39,7 @@ Somewhere in time
 - better and equal algorithm of questioning
 - add setFlag(ItemHasNoContents) to QGraphicsItem sub-classes don't has a paint() - used as containers only
 - convert level file to text format (for sure) and exam file as well (consider)
+
+Tnote
+			- overload + and - operators to raise/drop a note
+			- consider to change TnotesList type to QList<Tnote>
