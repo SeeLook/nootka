@@ -106,8 +106,6 @@ void TpitchView::startVolume() {
 		connect(m_volMeter, SIGNAL(minimalVolume(float)), this, SLOT(minimalVolumeChanged(float)));
     m_volMeter->setDisabled(false);
     m_volTimer->start(75);
-// 		if (m_intoView->accuracy() != TintonationView::e_noCheck)
-// 			connect(m_audioIN, SIGNAL(chunkPitch(float)), m_intoView, SLOT(pitchSlot(float)));
   }
 }
 
@@ -140,10 +138,8 @@ void TpitchView::setIntonationAccuracy(int accuracy) {
 	m_intoView->setAccuracy(accuracy);
 	if (m_audioIN) {
 		if (TintonationView::Eaccuracy(accuracy) == TintonationView::e_noCheck) { // intonation check disabled
-				disconnect(m_audioIN, SIGNAL(chunkPitch(float)), m_intoView, SLOT(pitchSlot(float)));
 				m_intoView->setDisabled(true);
 		} else {
-// 				connect(m_audioIN, SIGNAL(chunkPitch(float)), m_intoView, SLOT(pitchSlot(float)));
 				m_intoView->setDisabled(false);
 		}
   }
@@ -191,8 +187,6 @@ void TpitchView::markAnswer(const QColor& col) {
 
 
 void TpitchView::outOfTuneAnim(float outTune, int duration) {
-	if (m_intoView->accuracy() != TintonationView::e_noCheck)
-		disconnect(m_audioIN, SIGNAL(chunkPitch(float)), m_intoView, SLOT(pitchSlot(float)));
 	setBgColor(palette().window().color());
 	m_intoView->outOfTuneAnim(outTune, duration);
 }
@@ -272,8 +266,7 @@ void TpitchView::minimalVolumeChanged(float minVol) {
 
 
 void TpitchView::animationFinishedSlot() {
-	if (m_intoView->accuracy() != TintonationView::e_noCheck)
-		connect(m_audioIN, SIGNAL(chunkPitch(float)), m_intoView, SLOT(pitchSlot(float)));			
+	
 }
 
 
@@ -295,7 +288,6 @@ void TpitchView::paintEvent(QPaintEvent* )
 void TpitchView::stopTimerDelayed() {
    m_volTimer->stop();
    m_volMeter->setVolume(0.0);
-   disconnect(m_audioIN, SIGNAL(chunkPitch(float)), m_intoView, SLOT(pitchSlot(float)));
    m_intoView->pitchSlot(0.0);
 }
 

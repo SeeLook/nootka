@@ -29,7 +29,6 @@
 
 #define TICK_WIDTH (2)
 #define TICK_GAP (3)
-#define INT_FACTOR (1.2) 
 
 /*static*/
 float TintonationView::getThreshold(TintonationView::Eaccuracy acc) {
@@ -73,14 +72,17 @@ void TintonationView::setAccuracy(int accuracy) {
 }
 
 
+/** @p m_pitchDiff is multiplied by INT_FACTOR (1,2) to increase its scale in small values range
+* and throw biggest values (near to quarter-tone) form view. 
+* m_pitchDiff = (pitch - (float)qRound(pitch)) * 1.2; // this was normal calculation */
 void TintonationView::pitchSlot(float pitch) {
+	if (m_timer && m_timer->isActive())
+		return; // ignore outside calls
+	float pitchDiff = getPitchDiff(pitch);
   bool doUpdate = false;
-  if (m_pitchDiff != 0.0)
+  if (m_pitchDiff != 0.0 || m_pitchDiff != pitchDiff)
       doUpdate = true;
-			/** @p m_pitchDiff is multiplied by INT_FACTOR (1,2) to increase its scale in small values range
-			 * and throw biggest values (near to quarter-tone) form view. */
-  m_pitchDiff = qBound(-0.49, (pitch - (float)qRound(pitch)) * INT_FACTOR, 0.49);
-// 	m_pitchDiff = (pitch - (float)qRound(pitch)) * 1.2;
+  m_pitchDiff = pitchDiff;
   if (doUpdate)
       repaint();
 }
@@ -94,7 +96,6 @@ void TintonationView::outOfTuneAnim(float outTune, int duration) {
 	m_animStep = 0.0; // blinking first
 	m_outOfTune = outTune;
 	pitchSlot(outTune);
-// 	m_timer->setInterval((duration / 2) / 4);
 	m_timer->start(150);
 }
 
@@ -175,24 +176,18 @@ void TintonationView::resizeEvent(QResizeEvent* ) {
 
 void TintonationView::animationSlot() {
 	if (m_animStep < 8.0) { // blinking
-		if (m_animStep == 0.0 || m_animStep == 2.0 || m_animStep == 4.0 || m_animStep == 6.0) // 1 and 3 clips
-				pitchSlot(0.01); // green
-		else // 2 and 4 clips
-				pitchSlot(m_outOfTune); // unclear
+		if (m_animStep == 0.0 || m_animStep == 2.0 || m_animStep == 4.0 || m_animStep == 6.0) { // 1 and 3 clips
+			m_pitchDiff = 0.01; // green
+			repaint(); // pitchSlot is ignored when m_timer is active
+		} else {// 2 and 4 clips
+				m_pitchDiff = getPitchDiff(m_outOfTune);
+				repaint();
+		}
 		m_animStep += 1.0;
-// 		if (m_animStep > 3.0) { // determine step of bar animation
-// 			m_animStep = m_outOfTune / ((m_timer->interval() * 4) / 30);
-// 			m_timer->start((m_timer->interval() * 4) / 30);
-// 		}
-	} /*else { // decreasing intonation bar animation
-		if ((m_animStep / qAbs(m_animStep)) == (m_outOfTune / qAbs(m_outOfTune))) {
-			m_outOfTune = m_outOfTune - m_animStep;
-			pitchSlot(m_outOfTune);
-		}*/ else {
+	} else {
 			m_timer->stop();
 			emit animationFinished();
 		}
-// 	}
 }
 
 

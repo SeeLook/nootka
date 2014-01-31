@@ -1,7 +1,6 @@
 Plan for the Nootka One
 
 ISSUES
-- chunkPitch is emitted too often - it could be adjusted to eye possibility
 - note name on a score still is there but seldom
 - levels are locked due to instrument type but fret or tune reason is described
 - double check is extended pitch range works good (don't grab to much unexpected sounds)

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,6 +21,9 @@
 #define TINTONATIONVIEW_H
 
 #include "tabstractsoundview.h"
+
+
+#define INT_FACTOR (1.2)
 
 class QTimer;
 class QComboBox;
@@ -62,6 +65,10 @@ public:
 				/** Returns a threshold for given accuracy. Above that value notes are out-of-tune. */
 		static float getThreshold(Eaccuracy acc);
 		static float getThreshold(int accInteger);
+		
+				/** Returns difference of unclear pitch (float point part)
+				 * multiplied by some size factor. */
+		static float getPitchDiff(float pitch) { return qBound(-0.49, (pitch - (float)qRound(pitch)) * INT_FACTOR, 0.49); }
 		
 signals:
 		void animationFinished();
