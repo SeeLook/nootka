@@ -147,7 +147,7 @@ Tglobals::Tglobals() :
         if (config->contains("selectedColor"))
             GselectedColor = config->value("selectedColor").value<QColor>();
         else
-            GselectedColor = -1;
+            GselectedColor = QColor(51, 153, 255); // nice blue as default
         QVariant tun = config->value("tune");
         if (tun.isValid()) {
 						Ttune tmpTune = tun.value<Ttune>();
