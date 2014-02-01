@@ -25,7 +25,6 @@ TO CONSIDERATION
 
 
 
-
 TEXAMEXECUTOR
   - think about hide octave in note name format when octaves are not required in answers. 
      Also for questions in "hint" - don't show octave when only name is required   
@@ -39,6 +38,7 @@ Somewhere in time
 - better and equal algorithm of questioning
 - add setFlag(ItemHasNoContents) to QGraphicsItem sub-classes don't has a paint() - used as containers only
 - convert level file to text format (for sure) and exam file as well (consider)
+- preview of questions in Level Creator (list, on the guitar, in the score)
 
 Tnote
 			- overload + and - operators to raise/drop a note
