@@ -117,7 +117,7 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="51"/>
         <source>1. Input device and pitch detection</source>
-        <translation>Входное звуковое устройство и определение высоты звука</translation>
+        <translation>1. Входное звуковое устройство и определение высоты звука</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="55"/>
@@ -152,7 +152,7 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="109"/>
         <source>2. Pitch detection parameters</source>
-        <translation>Параметры определения высоты звука</translation>
+        <translation>2. Параметры определения высоты звука</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="111"/>
@@ -182,7 +182,7 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="154"/>
         <source>3. &apos;Middle a&apos; and transposition</source>
-        <translation>Среднее ля и транспозиция</translation>
+        <translation>3. Среднее ля и транспозиция</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="156"/>
@@ -271,7 +271,7 @@
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="211"/>
         <source>4. Test the settings</source>
-        <translation>Проверка настроек</translation>
+        <translation>4. Проверка настроек</translation>
     </message>
     <message>
         <location filename="../src/sound/audioinsettings.cpp" line="213"/>
@@ -1195,7 +1195,7 @@
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="1540"/>
         <source>You are exercising on level</source>
-        <translation>Вы занимаетесь на уровне:</translation>
+        <translation>Вы занимаетесь на уровне</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="1542"/>
@@ -2099,7 +2099,8 @@
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="48"/>
         <source>Accidentals</source>
-        <translation>Зн. альтерации</translation>
+        <translation>Знаки
+альтерации</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelcreatordlg.cpp" line="51"/>
@@ -3103,7 +3104,8 @@
         <location filename="../src/settings/tsettingsdialog.cpp" line="56"/>
         <source>Names</source>
         <comment>name-calling</comment>
-        <translation>Наим. нот</translation>
+        <translation>Наименование
+нот</translation>
     </message>
     <message>
         <location filename="../src/settings/tsettingsdialog.cpp" line="65"/>

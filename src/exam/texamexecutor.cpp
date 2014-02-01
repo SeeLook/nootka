@@ -1243,7 +1243,7 @@ void TexamExecutor::stopExamSlot() {
 				if (gl->E->closeWithoutConfirm) {
 					QString fName = QDir::toNativeSeparators(gl->E->examsDir + "/" + m_exam->userName() + "-" + m_level.name);
 					if (QFileInfo(fName  + ".noo").exists())
-						fName += "-" + QDateTime::currentDateTime().toString("dd MMM hh:mm:ss");
+						fName += "-" + QDateTime::currentDateTime().toString("(dd-MMM-hhmmss)");
 					m_exam->setFileName(fName + ".noo");
 				} else {
 					m_exam->setFileName(saveExamToFile());
