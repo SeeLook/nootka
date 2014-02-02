@@ -179,7 +179,7 @@ int TmainScore::widthToHeight(int hi) {
 void TmainScore::showNames(Tnote::EnameStyle st, bool forAll) {
 	int max = 1;
 	if (forAll)
-			max= 2;
+			max = 2;
 	m_showNameInCorrection = false;
 	m_corrStyle = st;
 	for (int i = 0; i < max; i++) {

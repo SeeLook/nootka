@@ -48,10 +48,10 @@ public:
 	void startListening();
 	void stopListening();
 	
-      /** Stops emiting signals about pitch detection,
-       * but detection is still performed. 
+      /** Stops emitting signals about pitch detection, but detection is still performed.
+			 * It also resets last chunk pitch to ignore detection
        * It helps to sniff whole sound/note from begin to its end. */
-  void pause() { m_paused = true; }
+  void pause() { m_paused = true; m_LastChunkPitch = 0.0; }
   
       /** Starts emiting @param noteDetected and @param fundamentalFreq signals again. */
   void unPause() { m_paused = false; }
