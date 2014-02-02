@@ -190,7 +190,7 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 			m_whatTip->setTextWidth(qMin(m_maxTipWidth, m_parent->score->width()));
   m_scene->addItem(m_whatTip);
   m_whatTip->setFont(tipFont(0.35));
-  m_whatTip->setScale(m_scale * 0.9);
+//   m_whatTip->setScale(m_scale * 0.9);
   m_parent->guitar->setAttribute(Qt::WA_TransparentForMouseEvents, true); // to activate click on tip
   m_whatTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
   connect(m_whatTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
@@ -402,7 +402,7 @@ void Tcanvas::sizeChanged() {
   else
     hi = 580;
   m_scene->setSceneRect(geometry());
-  m_scale =m_scale * ((double)m_newSize.height() / hi);
+  m_scale = m_scale * ((double)m_newSize.height() / hi);
 	m_maxTipWidth = width() / 3;
   if (m_resultTip) {
       m_resultTip->setScale(m_scale);;
@@ -497,8 +497,8 @@ int Tcanvas::getMaxTipHeight() {
 void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
 	QRect geoRect;
 	if (m_nameFree)  // middle of the noteName
-			geoRect = m_parent->noteName->geometry().adjusted(m_parent->noteName->geometry().width() / 3.0, 0,
-																												m_parent->noteName->geometry().width() / -3.0, 0);
+			geoRect = m_parent->noteName->geometry()/*.adjusted(m_parent->noteName->geometry().width() / 3.0, 0,
+																												m_parent->noteName->geometry().width() / -3.0, 0)*/;
 	else if (m_scoreFree) {// on the score at its center
 			geoRect = m_parent->score->geometry();
 			if (tip->boundingRect().width() * tip->scale() > m_parent->score->width())
