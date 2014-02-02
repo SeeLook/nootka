@@ -523,6 +523,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
     mW->nootBar->removeAction(checkAct);
     if (curQ.questionAs == TQAtype::e_asSound)
         mW->nootBar->removeAction(repeatSndAct);
+		if (curQ.answerAs == TQAtype::e_asSound)
+				mW->sound->pauseSinffing();
     if (!gl->E->autoNextQuest || m_exercise)
         mW->startExamAct->setDisabled(false);
     m_isAnswered = true;
@@ -1091,8 +1093,6 @@ void TexamExecutor::disableWidgets() {
     mW->noteName->setNameDisabled(true);
     mW->score->setScoreDisabled(true);
     mW->guitar->setGuitarDisabled(true);
-//    if (!mW->sound->isSnifferPaused()) // stop sniffing only when is not paused
-//        mW->sound->wait();
 }
 
 

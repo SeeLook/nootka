@@ -186,11 +186,10 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
   whatNextText += "<br>" + TexamHelp::toStopExamTxt("<a href=\"stopExam\">" + pixToHtml(gl->path + "picts/stopExam.png", PIXICONSIZE) + "</a>");
   
   m_whatTip = new TgraphicsTextTip(whatNextText, palette().highlight().color());
-	if (m_guitarFree || m_nameFree) // tip is wide there, otherwise text is word-wrapped and is narrowest but higher
-			m_whatTip->setTextWidth(qMin(m_maxTipWidth, m_parent->score->width()));
+	if (m_guitarFree) // tip is wide there, otherwise text is word-wrapped and is narrowest but higher
+			m_whatTip->setTextWidth(m_maxTipWidth);
   m_scene->addItem(m_whatTip);
-  m_whatTip->setFont(tipFont(0.35));
-//   m_whatTip->setScale(m_scale * 0.9);
+//   m_whatTip->setFont(tipFont(0.35));
   m_parent->guitar->setAttribute(Qt::WA_TransparentForMouseEvents, true); // to activate click on tip
   m_whatTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
   connect(m_whatTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
@@ -496,10 +495,13 @@ int Tcanvas::getMaxTipHeight() {
 
 void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
 	QRect geoRect;
-	if (m_nameFree)  // middle of the noteName
-			geoRect = m_parent->noteName->geometry()/*.adjusted(m_parent->noteName->geometry().width() / 3.0, 0,
-																												m_parent->noteName->geometry().width() / -3.0, 0)*/;
-	else if (m_scoreFree) {// on the score at its center
+	if (m_nameFree) { // middle of the noteName
+			geoRect = m_parent->noteName->geometry();
+			if (tip == m_whatTip) {
+				if (tip->boundingRect().width() * tip->scale() != m_parent->noteName->geometry().width() - 20)
+					tip->setScale((m_parent->noteName->geometry().width() - 20) / (tip->boundingRect().width() * tip->scale()));
+			}
+	} else if (m_scoreFree) {// on the score at its center
 			geoRect = m_parent->score->geometry();
 			if (tip->boundingRect().width() * tip->scale() > m_parent->score->width())
 				tip->setScale(((qreal)m_parent->score->width() / (tip->boundingRect().width())));
@@ -532,7 +534,7 @@ void Tcanvas::setTryAgainPos() {
 
 void Tcanvas::setWhatNextPos() {
 	int maxTipHeight = getMaxTipHeight();
-  if (m_whatTip->boundingRect().height() * m_whatTip->scale() != maxTipHeight)
+  if (!m_nameFree && m_whatTip->boundingRect().height() * m_whatTip->scale() != maxTipHeight)
 				m_whatTip->setScale((qreal)maxTipHeight / (m_whatTip->boundingRect().height() * m_whatTip->scale()));
 	setPosOfTip(m_whatTip);
 }
