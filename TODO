@@ -7,6 +7,7 @@ TODOES
 - try to remove re-sizing a status label in exams/exercises
 - name label shows not centered texts in exams
 - use string numbers on pixmap in charts
+- charts texts are too light
 - force 'Plasique' style under MacOs or find a way on buttons
 - !!!check does 'string order' work for Tfingerboard!!!
 - make order with Qt::WA_TransparentForMouseEvents in canvas
