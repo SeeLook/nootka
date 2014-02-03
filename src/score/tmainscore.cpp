@@ -231,7 +231,9 @@ void TmainScore::isExamExecuting(bool isIt) {
 			}
 			m_questMark->setBrush(QBrush(c));
 			m_questMark->setText("?");
-			m_questMark->setPos(0, (staff()->boundingRect().height() - m_questMark->boundingRect().height()) / 2 );
+			m_questMark->setScale(m_questMark->boundingRect().width() / staff()->noteSegment(0)->boundingRect().width() / 1.5);
+			m_questMark->setPos(0, 
+													(staff()->boundingRect().height() - m_questMark->boundingRect().height() * m_questMark->scale()) / 2 );
 			setScoreDisabled(true);
 			setClefDisabled(true);
     } else {

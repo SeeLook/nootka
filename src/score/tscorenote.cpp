@@ -276,13 +276,13 @@ void TscoreNote::markNote(QColor blurColor) {
 void TscoreNote::setString(int realNr) {
 	if (!m_stringText) {
         m_stringText = new QGraphicsSimpleTextItem();
-//         m_stringText->setFont(m_mainAccid->font());
 				m_stringText->setFont(QFont("nootka", 5, QFont::Normal));
         m_stringText->setBrush(QBrush(m_mainColor));
         m_stringText->setParentItem(this);
         m_stringText->setZValue(-1);
     }
     m_stringText->setText(QString("%1").arg(realNr));
+		m_stringText->setScale(5.0 / m_stringText->boundingRect().width());
 		m_stringNr = realNr;
     setStringPos();
 }
@@ -459,10 +459,11 @@ void TscoreNote::hideLines(QList< QGraphicsLineItem* >& linesList) {
 
 void TscoreNote::setStringPos() {
 		if (m_stringText) {
-        int yy = staff()->upperLinePos() + 9; // below the staff
-        if (m_mainPosY > staff()->upperLinePos() + 4) 
-						yy = staff()->upperLinePos() - 7; // above the staff 
-        m_stringText->setPos(2 , yy);
+        qreal yy = staff()->upperLinePos() + 9.0; // below the staff
+        if (m_mainPosY > staff()->upperLinePos() + 4.0) 
+						yy = staff()->upperLinePos() - 7.0; // above the staff 
+        m_stringText->setPos(6.5 - m_stringText->boundingRect().width() * m_stringText->scale(), yy);
+				// 6.5 is right position of note head
     }
 }
 
