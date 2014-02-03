@@ -3,6 +3,7 @@ Plan for the Nootka One
 TODOES
 - levels are locked due to instrument type but fret or tune reason is described (requires translation update)
 - check 'tune' of non guitar - does it correspond with instrument/clef scale and levels works proper
+- note number in name as question is not centered vertically
 - left-handed guitar correction anim to guitar (morphing) has wrong line points
 - try to remove re-sizing a status label in exams/exercises
 - name label shows not centered texts in exams
