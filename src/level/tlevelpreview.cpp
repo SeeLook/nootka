@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -100,7 +100,7 @@ void TlevelPreview::setLevel(Tlevel& tl) {
     S = "<center><b>" + tl.name + "</b>";
     S += "<table border=\"1\" cellpadding=\"3\">";
 		S += "<tr><td colspan=\"2\" align=\"center\">" + instrName + "</td>";
-    S += "<td rowspan=\"_ROW_SPAN_\"><br>" + tr("Clef") + QString(":<br><br>%1</td></tr>").
+    S += "<td rowspan=\"_ROW_SPAN_\"><br>&nbsp;&nbsp;" + tr("Clef") + QString(":&nbsp;&nbsp;<br><br>%1</td></tr>").
         arg(TtipChart::wrapPixToHtml(Tnote(0, 0, 0), tl.clef.type(), 
 																		 TkeySignature(0), (tl.clef.type() == Tclef::e_pianoStaff) ? 3.0 : 5.0)).
 				replace("<img", "<img width=\"70px\"");
