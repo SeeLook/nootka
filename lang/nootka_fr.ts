@@ -8,7 +8,7 @@
         <translation type="obsolete">Bonne réponse!</translation>
     </message>
     <message>
-        <location filename="../src/charts/tnotepixmap.cpp" line="122"/>
+        <location filename="../src/charts/tnotepixmap.cpp" line="134"/>
         <source>Wrong answer!</source>
         <translation>Mauvaise réponse!</translation>
     </message>
@@ -17,34 +17,34 @@
         <translation type="obsolete">Pas mal, mais:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tnotepixmap.cpp" line="119"/>
+        <location filename="../src/charts/tnotepixmap.cpp" line="131"/>
         <source>Good answer!</source>
         <comment>or &apos;Good!&apos; or &apos;Correct!&apos; would be somewhat more specific than merely &apos;It was good!&apos; (previous version) &apos;It&apos; in this case certainly does refer to a specific thing, which is in this case the answer, but it might be momentarily confused with some other specific thing, such as a shoe or a crocodile, or the wind on one&apos;s back. I know that&apos;s probably confusing, but the implied subject of &apos;Correct! is in a certain sense much more specific than a mere &apos;It&apos; and is more certain to refer to the answer.</comment>
         <translation>Bonne réponse!</translation>
     </message>
     <message>
-        <location filename="../src/charts/tnotepixmap.cpp" line="124"/>
+        <location filename="../src/charts/tnotepixmap.cpp" line="136"/>
         <source>Not bad, but:</source>
         <comment>&apos;Not so bad, but:&apos; is perfectly clear, but a little less common in US English. To be a bit shorter, it might just as well be, &apos;Not bad, but:&apos;</comment>
         <translation>Pas mal, mais:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tnotepixmap.cpp" line="127"/>
+        <location filename="../src/charts/tnotepixmap.cpp" line="139"/>
         <source>wrong string</source>
         <translation>Mauvaise corde</translation>
     </message>
     <message>
-        <location filename="../src/charts/tnotepixmap.cpp" line="129"/>
+        <location filename="../src/charts/tnotepixmap.cpp" line="141"/>
         <source>wrong accidental</source>
         <translation>Mauvaise altération</translation>
     </message>
     <message>
-        <location filename="../src/charts/tnotepixmap.cpp" line="132"/>
+        <location filename="../src/charts/tnotepixmap.cpp" line="144"/>
         <source>wrong key signature</source>
         <translation>Mauvaise armature</translation>
     </message>
     <message>
-        <location filename="../src/charts/tnotepixmap.cpp" line="138"/>
+        <location filename="../src/charts/tnotepixmap.cpp" line="150"/>
         <source>wrong octave</source>
         <translation>Mauvaise octave</translation>
     </message>
@@ -95,7 +95,7 @@
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="350"/>
-        <location filename="../src/charts/tnotepixmap.cpp" line="144"/>
+        <location filename="../src/charts/tnotepixmap.cpp" line="156"/>
         <source>out of tune</source>
         <translation>non accordé</translation>
     </message>
@@ -221,7 +221,7 @@
         <translation>Fréquence de la note détectée. Vous pouvez l&apos;utiliser pour accorder votre instrument </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/sound/audioinsettings.cpp" line="539"/>
+        <location filename="../src/sound/audioinsettings.cpp" line="549"/>
         <source>%n semitone(s)</source>
         <translation>
             <numerusform>%n demi-ton</numerusform>
@@ -830,22 +830,22 @@
         <translation type="obsolete">&lt;br&gt;Afin de soutenir le projet et d&apos;éviter l&apos;infection de votre PC&lt;br&gt;&lt;b&gt;S&apos;il vous plait, utilisez le site du projet pour télécharges les mises à jour ou les nouvelles versions, et pour vous tenir informés des nouvelles.&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="243"/>
+        <location filename="../src/info/taboutnootka.cpp" line="244"/>
         <source>Welcome on board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.&lt;br&gt;It is specially designed for guitarists but others will find many usable features as well.</source>
         <translation>Bienvenue à bord !&lt;br&gt; Nootka est une application libre vous permettant d&apos;apprendre (et aussi d&apos;enseigner) la notation de la musique sur partitions. &lt;br&gt;Cette application est tout particulièrement destinée aux guitaristes mais elle peut également être utile à d&apos;autres instrumentistes.</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="244"/>
+        <location filename="../src/info/taboutnootka.cpp" line="245"/>
         <source>This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.&lt;br&gt;In spite of that, you are welcome to try it!</source>
         <translation>Ceci est une version beta qui peut présenter des bugs ou se comporter de manière inattendue. Le développement de certaines fonctionnalités n&apos;est pas terminé. Vous pouvez malgré tout l&apos;essayer si vous le souhaitez!!</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="245"/>
+        <location filename="../src/info/taboutnootka.cpp" line="246"/>
         <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
         <translation>Voir le site &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;&lt;/a&gt; pour plus de détails et pour les version futures.&lt;/p&gt;&lt;p&gt;Veuillez nous faire part de vos bugs, suggestions, traductions etc.  à: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;Cordialement&lt;br&gt;Auteur</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="249"/>
+        <location filename="../src/info/taboutnootka.cpp" line="250"/>
         <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
         <translation>&lt;br&gt;Afin de soutenir le projet et d&apos;éviter l&apos;infection de votre PC&lt;br&gt;&lt;b&gt;S&apos;il vous plait, utilisez le site du projet pour télécharges les mises à jour ou les nouvelles versions, et pour vous tenir informés des nouvelles.&lt;/b&gt;</translation>
     </message>
@@ -893,9 +893,8 @@
         <translation>Audio</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="105"/>
         <source>mastering and/or recording of samples:</source>
-        <translation>Montage / enregistrement d&apos;échantillons:</translation>
+        <translation type="obsolete">Montage / enregistrement d&apos;échantillons:</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="135"/>
@@ -906,6 +905,11 @@
         <location filename="../src/info/taboutnootka.cpp" line="107"/>
         <source>Translators</source>
         <translation>Traducteurs</translation>
+    </message>
+    <message>
+        <location filename="../src/info/taboutnootka.cpp" line="105"/>
+        <source>editing and/or recording of samples:</source>
+        <translation>Montage / enregistrement d&apos;échantillons:</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="122"/>
@@ -1147,12 +1151,12 @@
         <translation>Voir l&apos;aide de l&apos;examen %1 pour le faire automatiquement</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="251"/>
+        <location filename="../src/exam/tcanvas.cpp" line="250"/>
         <source>too low</source>
         <translation>trop grave</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="253"/>
+        <location filename="../src/exam/tcanvas.cpp" line="252"/>
         <source>too high</source>
         <translation>trop aigu</translation>
     </message>
@@ -1358,12 +1362,12 @@
         <translation type="obsolete">Jouer</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="951"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="953"/>
         <source>Help</source>
         <translation>Aide</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="955"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="957"/>
         <source>Stop</source>
         <translation>Stop</translation>
     </message>
@@ -2415,12 +2419,12 @@
         <translation type="obsolete">Décochez si vous êtes gaucher&lt;br&gt;et si les cordes de votre guitare sont inversées</translation>
     </message>
     <message>
-        <location filename="../src/settings/tguitarsettings.cpp" line="82"/>
+        <location filename="../src/settings/tguitarsettings.cpp" line="83"/>
         <source>number of frets:</source>
         <translation>Nombre de frettes:</translation>
     </message>
     <message>
-        <location filename="../src/settings/tguitarsettings.cpp" line="91"/>
+        <location filename="../src/settings/tguitarsettings.cpp" line="92"/>
         <source>number of strings:</source>
         <translation>Nombre de cordes:</translation>
     </message>
@@ -2453,49 +2457,49 @@
         <translation>N&apos;oubliez pas de sélectionner la clé appropriée dans les réglages de portée.</translation>
     </message>
     <message>
-        <location filename="../src/settings/tguitarsettings.cpp" line="69"/>
+        <location filename="../src/settings/tguitarsettings.cpp" line="70"/>
         <source>Instrument</source>
         <translation>Instrument</translation>
     </message>
     <message>
-        <location filename="../src/settings/tguitarsettings.cpp" line="76"/>
+        <location filename="../src/settings/tguitarsettings.cpp" line="77"/>
         <source>right-handed players</source>
         <comment>When translation will be too long try to add &apos;
 &apos; - line break between words.</comment>
         <translation>Guitare de droitier</translation>
     </message>
     <message>
-        <location filename="../src/settings/tguitarsettings.cpp" line="78"/>
+        <location filename="../src/settings/tguitarsettings.cpp" line="79"/>
         <source>Uncheck this if you are left-handed&lt;br&gt;and your guitar is strung for left-handed playing (changed string order)</source>
         <translation>Décochez si vous êtes gaucher&lt;br&gt;et si les cordes de votre guitare sont inversées</translation>
     </message>
     <message>
-        <location filename="../src/settings/tguitarsettings.cpp" line="108"/>
+        <location filename="../src/settings/tguitarsettings.cpp" line="109"/>
         <source>preferred accidentals:</source>
         <translation>Choix d&apos;altérations:</translation>
     </message>
     <message>
-        <location filename="../src/settings/tguitarsettings.cpp" line="109"/>
+        <location filename="../src/settings/tguitarsettings.cpp" line="110"/>
         <source>Choose which accidentals will be shown on the staff.</source>
         <translation>Choisissez quelles altérations seront utilisées sur la portée.</translation>
     </message>
     <message>
-        <location filename="../src/settings/tguitarsettings.cpp" line="110"/>
+        <location filename="../src/settings/tguitarsettings.cpp" line="111"/>
         <source># - sharps</source>
         <translation>#  dièses</translation>
     </message>
     <message>
-        <location filename="../src/settings/tguitarsettings.cpp" line="111"/>
+        <location filename="../src/settings/tguitarsettings.cpp" line="112"/>
         <source>b - flats</source>
         <translation>b  bémols</translation>
     </message>
     <message>
-        <location filename="../src/settings/tguitarsettings.cpp" line="124"/>
+        <location filename="../src/settings/tguitarsettings.cpp" line="125"/>
         <source>show all possibilities of a note</source>
         <translation>Montrer toutes les positions</translation>
     </message>
     <message>
-        <location filename="../src/settings/tguitarsettings.cpp" line="125"/>
+        <location filename="../src/settings/tguitarsettings.cpp" line="126"/>
         <source>As you know, the same note can be played in several places on the fingerboard.&lt;br&gt;If checked, all of them will be shown.</source>
         <translation>Une note peut être jouée de différentes manière sur la guitare. &lt;br&gt;Lorsque cette case est cochée, toutes les positions possibles sont affichées.</translation>
     </message>
@@ -2504,22 +2508,22 @@
         <translation type="obsolete">Une note peut être jouée de différentes manière sur la guitare. &lt;br&gt;Lorsque cette case est cochée, toutes les positions possibles sont affichées.</translation>
     </message>
     <message>
-        <location filename="../src/settings/tguitarsettings.cpp" line="129"/>
+        <location filename="../src/settings/tguitarsettings.cpp" line="130"/>
         <source>color of string/fret pointer</source>
         <translation>Couleur du pointeur de corde / frette</translation>
     </message>
     <message>
-        <location filename="../src/settings/tguitarsettings.cpp" line="133"/>
+        <location filename="../src/settings/tguitarsettings.cpp" line="134"/>
         <source>color of selected string/fret</source>
         <translation>Couleur de la corde / frette sélectionnée</translation>
     </message>
     <message>
-        <location filename="../src/settings/tguitarsettings.cpp" line="173"/>
+        <location filename="../src/settings/tguitarsettings.cpp" line="174"/>
         <source>Custom tuning</source>
         <translation>Accord personnalisé</translation>
     </message>
     <message>
-        <location filename="../src/settings/tguitarsettings.cpp" line="426"/>
+        <location filename="../src/settings/tguitarsettings.cpp" line="427"/>
         <source>Custom tune</source>
         <translation>Accord personnalisé</translation>
     </message>
@@ -2540,44 +2544,44 @@
 <context>
     <name>TintonationCombo</name>
     <message>
-        <location filename="../src/sound/tintonationview.cpp" line="206"/>
+        <location filename="../src/sound/tintonationview.cpp" line="201"/>
         <source>intonation accuracy</source>
         <translation>précision de l&apos;intonation</translation>
     </message>
     <message>
-        <location filename="../src/sound/tintonationview.cpp" line="225"/>
+        <location filename="../src/sound/tintonationview.cpp" line="220"/>
         <source>do not check</source>
         <translation>ne pas vérifier</translation>
     </message>
     <message>
-        <location filename="../src/sound/tintonationview.cpp" line="226"/>
+        <location filename="../src/sound/tintonationview.cpp" line="221"/>
         <source>gums pain</source>
         <comment>We used to say that gums or teeth are paining when music is out of tune but it isn&apos;t official term.</comment>
         <translatorcomment>I do not know any direct equivalement to &quot;gums pain&quot; in French so I translated by &quot;It breaks our ears&quot; </translatorcomment>
         <translation>ça casse les oreilles!</translation>
     </message>
     <message>
-        <location filename="../src/sound/tintonationview.cpp" line="227"/>
+        <location filename="../src/sound/tintonationview.cpp" line="222"/>
         <source>violinist beginner</source>
         <translation>violoniste débutant</translation>
     </message>
     <message>
-        <location filename="../src/sound/tintonationview.cpp" line="228"/>
+        <location filename="../src/sound/tintonationview.cpp" line="223"/>
         <source>old strings</source>
         <translation>vieilles cordes</translation>
     </message>
     <message>
-        <location filename="../src/sound/tintonationview.cpp" line="229"/>
+        <location filename="../src/sound/tintonationview.cpp" line="224"/>
         <source>well tuned instrument</source>
         <translation>instrument bien accordé</translation>
     </message>
     <message>
-        <location filename="../src/sound/tintonationview.cpp" line="230"/>
+        <location filename="../src/sound/tintonationview.cpp" line="225"/>
         <source>perfect</source>
         <translation>parfait</translation>
     </message>
     <message>
-        <location filename="../src/sound/tintonationview.h" line="103"/>
+        <location filename="../src/sound/tintonationview.h" line="110"/>
         <source>cents</source>
         <comment>unit of measure used for musical intervals. This text always is used in context: &apos; Â±	[5, 10, 20, 30] cents &apos; </comment>
         <translation>cents</translation>
@@ -3400,27 +3404,27 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
 <context>
     <name>TpitchView</name>
     <message>
-        <location filename="../src/sound/tpitchview.cpp" line="47"/>
+        <location filename="../src/sound/tpitchview.cpp" line="48"/>
         <source>Toggles between pitch detection for singing and for playing</source>
         <translation>Détections des notes chantées / jouées</translation>
     </message>
     <message>
-        <location filename="../src/sound/tpitchview.cpp" line="51"/>
+        <location filename="../src/sound/tpitchview.cpp" line="52"/>
         <source>Switch on/off pitch detection</source>
         <translation>Activer / désactiver la détection des notes</translation>
     </message>
     <message>
-        <location filename="../src/sound/tpitchview.cpp" line="60"/>
+        <location filename="../src/sound/tpitchview.cpp" line="61"/>
         <source>Intonation - clarity of the sound. Is it in tune.</source>
         <translation>Intonation - clarté du son. Est-il juste?</translation>
     </message>
     <message>
-        <location filename="../src/sound/tpitchview.cpp" line="63"/>
+        <location filename="../src/sound/tpitchview.cpp" line="65"/>
         <source>Shows volume level of input sound and indicates when the note was pitch-detected.</source>
         <translation>Montre le volume de l&apos;entrée audio et indique lorsqu&apos;une note a été détectée.</translation>
     </message>
     <message>
-        <location filename="../src/sound/tpitchview.cpp" line="64"/>
+        <location filename="../src/sound/tpitchview.cpp" line="66"/>
         <source>Drag a knob to adjust minimum input volume.</source>
         <translation>Déplacer le curseur pour ajuster le volume d&apos;entrée minimum.</translation>
     </message>
@@ -3565,59 +3569,62 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <translation>Sur la corde %1.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tquestiontip.cpp" line="97"/>
+        <location filename="../src/exam/tquestiontip.cpp" line="54"/>
+        <source>Play</source>
+        <translation>Jouer</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tquestiontip.cpp" line="105"/>
         <source>Change enharmonically and show on the staff</source>
         <translation>Changer de manière enharmonique et afficher sur la portée</translation>
     </message>
     <message>
-        <location filename="../src/exam/tquestiontip.cpp" line="99"/>
+        <location filename="../src/exam/tquestiontip.cpp" line="107"/>
         <source>Given note show on the staff</source>
         <translation>Indiquez la note sur la portée</translation>
     </message>
     <message>
-        <location filename="../src/exam/tquestiontip.cpp" line="101"/>
-        <location filename="../src/exam/tquestiontip.cpp" line="134"/>
-        <location filename="../src/exam/tquestiontip.cpp" line="194"/>
+        <location filename="../src/exam/tquestiontip.cpp" line="109"/>
+        <location filename="../src/exam/tquestiontip.cpp" line="146"/>
+        <location filename="../src/exam/tquestiontip.cpp" line="206"/>
         <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
         <translation>&lt;br&gt;&lt;b&gt;En tonalité %1.&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tquestiontip.cpp" line="108"/>
-        <location filename="../src/exam/tquestiontip.cpp" line="170"/>
+        <location filename="../src/exam/tquestiontip.cpp" line="114"/>
+        <location filename="../src/exam/tquestiontip.cpp" line="183"/>
         <source>Give name of</source>
         <translation>Donnez le nom de</translation>
     </message>
     <message>
-        <location filename="../src/exam/tquestiontip.cpp" line="112"/>
-        <location filename="../src/exam/tquestiontip.cpp" line="149"/>
+        <location filename="../src/exam/tquestiontip.cpp" line="118"/>
+        <location filename="../src/exam/tquestiontip.cpp" line="160"/>
         <source>Show on the guitar</source>
         <translation>Afficher sur la guitare</translation>
     </message>
     <message>
-        <location filename="../src/exam/tquestiontip.cpp" line="117"/>
-        <location filename="../src/exam/tquestiontip.cpp" line="154"/>
-        <location filename="../src/exam/tquestiontip.cpp" line="177"/>
+        <location filename="../src/exam/tquestiontip.cpp" line="52"/>
         <source>Play or sing</source>
         <translation>Jouer ou chanter</translation>
     </message>
     <message>
-        <location filename="../src/exam/tquestiontip.cpp" line="132"/>
+        <location filename="../src/exam/tquestiontip.cpp" line="144"/>
         <source>Show on the staff</source>
         <translation>Afficher sur la portée</translation>
     </message>
     <message>
-        <location filename="../src/exam/tquestiontip.cpp" line="141"/>
+        <location filename="../src/exam/tquestiontip.cpp" line="153"/>
         <source>Change enharmonically and give name of</source>
         <translation>Changer de manière enharmonique et donner le nom de</translation>
     </message>
     <message>
-        <location filename="../src/exam/tquestiontip.cpp" line="163"/>
+        <location filename="../src/exam/tquestiontip.cpp" line="176"/>
         <source>Show on the staff note played on</source>
         <translation>Indiquez sur la portée la note jouée sur</translation>
     </message>
     <message>
-        <location filename="../src/exam/tquestiontip.cpp" line="192"/>
+        <location filename="../src/exam/tquestiontip.cpp" line="204"/>
         <source>Listened sound show on the staff</source>
         <translation>Le son joué est affiché sur la portée</translation>
     </message>
@@ -3630,7 +3637,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <translation type="obsolete">Changer de manière enharmonique et donner le nom de</translation>
     </message>
     <message>
-        <location filename="../src/exam/tquestiontip.cpp" line="144"/>
+        <location filename="../src/exam/tquestiontip.cpp" line="156"/>
         <source>Use another style to give name of</source>
         <translation>Utiliser un autre style pour donner le nom de</translation>
     </message>
@@ -3639,13 +3646,13 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <translation type="obsolete">Indiquez sur la portée la note jouée sur</translation>
     </message>
     <message>
-        <location filename="../src/exam/tquestiontip.cpp" line="165"/>
+        <location filename="../src/exam/tquestiontip.cpp" line="178"/>
         <source>&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
         <translation>&lt;b&gt;En tonalité %1.&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tquestiontip.cpp" line="173"/>
+        <location filename="../src/exam/tquestiontip.cpp" line="186"/>
         <source>Show sound from position:</source>
         <comment>... and string + fret numbers folowing</comment>
         <translation>Indiquez la note jouée sur:</translation>
@@ -3655,17 +3662,17 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <translation type="obsolete">Le son joué est affiché sur la portée</translation>
     </message>
     <message>
-        <location filename="../src/exam/tquestiontip.cpp" line="201"/>
+        <location filename="../src/exam/tquestiontip.cpp" line="213"/>
         <source>Give name of listened sound</source>
         <translation>Donnez le nom du son joué</translation>
     </message>
     <message>
-        <location filename="../src/exam/tquestiontip.cpp" line="207"/>
+        <location filename="../src/exam/tquestiontip.cpp" line="219"/>
         <source>Listened sound show on the guitar</source>
         <translation>Le son joué est affiché sur la guitare</translation>
     </message>
     <message>
-        <location filename="../src/exam/tquestiontip.cpp" line="212"/>
+        <location filename="../src/exam/tquestiontip.cpp" line="224"/>
         <source>Play or sing listened sound</source>
         <translation>Chantez ou jouez le son joué</translation>
     </message>
@@ -3906,12 +3913,12 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <translation type="obsolete">Utiliser JACK</translation>
     </message>
     <message>
-        <location filename="../src/settings/tsettingsdialog.cpp" line="254"/>
+        <location filename="../src/settings/tsettingsdialog.cpp" line="256"/>
         <source>listening</source>
         <translation>Écoute</translation>
     </message>
     <message>
-        <location filename="../src/settings/tsettingsdialog.cpp" line="255"/>
+        <location filename="../src/settings/tsettingsdialog.cpp" line="257"/>
         <source>playing</source>
         <translation>Jeu</translation>
     </message>
@@ -4226,7 +4233,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
 <context>
     <name>about translator</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="155"/>
+        <location filename="../src/info/taboutnootka.cpp" line="156"/>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
         <translation></translation>
@@ -4407,12 +4414,12 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
 <context>
     <name>questionsSettings</name>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="106"/>
+        <location filename="../src/level/questionssettings.cpp" line="110"/>
         <source>require octave</source>
         <translation>Octave requise</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="107"/>
+        <location filename="../src/level/questionssettings.cpp" line="111"/>
         <source>if checked, selecting of valid octave is required</source>
         <translation>Lorsque cette case est cochée, il est nécessaire de sélectionner une octave valide</translation>
     </message>
@@ -4421,37 +4428,37 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <translation type="obsolete">Lorsque cette case est cochée, il est seulement possible &lt;br&gt;de choisir une note avec l&apos;altération appropriée.</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="110"/>
+        <location filename="../src/level/questionssettings.cpp" line="114"/>
         <source>force using appropriate accidental</source>
         <translation>Forcer l&apos;utilisation d&apos;altérations appropriées</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="111"/>
+        <location filename="../src/level/questionssettings.cpp" line="115"/>
         <source>if checked, it is possible to select a note&lt;br&gt;with given accidental only.</source>
         <translation>Lorsque cette case est cochée, il est seulement possible &lt;br&gt;de choisir une note avec l&apos;altération appropriée.</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="114"/>
+        <location filename="../src/level/questionssettings.cpp" line="118"/>
         <source>use different naming styles</source>
         <translation>Utiliser des styles de dénomination différents</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="115"/>
+        <location filename="../src/level/questionssettings.cpp" line="119"/>
         <source>if checked, note names are switched between letters and solfege.</source>
         <translation>Lorsque cette case est cochée, le style de dénomination passe des lettres au solfège.</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="118"/>
+        <location filename="../src/level/questionssettings.cpp" line="122"/>
         <source>show string number in questions</source>
         <translation>Afficher le numéro de corde dans les questions</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="119"/>
+        <location filename="../src/level/questionssettings.cpp" line="123"/>
         <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, sometimes it is needed and sometimes it makes no sense.</source>
         <translation>Montre sur quelle corde la réponse doit être donnée. &lt;br&gt;Attention, ceci peut être nécessaire ou, parfois, ne pas avoir de sens.</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="124"/>
+        <location filename="../src/level/questionssettings.cpp" line="128"/>
         <source>if checked, the lowest position in selected fret range is required,&lt;br&gt;otherwise all possible positions of the note are acceptable.&lt;br&gt;To use this, all strings have to be available!</source>
         <translation>Lorsque cette case est cochée, seule la position la plus basse (e.g., corde a vide) pour jouer une note donnée est utilisée dans les questions/réponses. &lt;br&gt;Sinon, toutes les positions possibles peuvent être utilisées.&lt;br&gt; Toutes les cordes doivent être disponibles pour utiliser ce paramètre!</translation>
     </message>
@@ -4460,7 +4467,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <translation type="obsolete">Montre sur quelle corde la réponse doit être donnée. &lt;br&gt;  Attention, ceci peut être nécessaire ou, parfois, ne pas avoir de sens </translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="123"/>
+        <location filename="../src/level/questionssettings.cpp" line="127"/>
         <source>notes in the lowest position only</source>
         <translation>Uniquement les notes dans les positions les plus basses</translation>
     </message>
@@ -4469,12 +4476,12 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <translation type="obsolete">Lorsque cette case est cochée, seule la position la plus basse (e.g., corde a vide) pour jouer une note donnée est utilisée dans les questions/réponses. &lt;br&gt;Sinon, toutes les positions possibles peuvent être utilisées.&lt;br&gt; Toutes les cordes doivent être disponibles pour utiliser ce paramètre!!</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="127"/>
+        <location filename="../src/level/questionssettings.cpp" line="131"/>
         <source>notes in current key signature only</source>
         <translation>Uniquement les notes dans la tonalité utilisée actuellement</translation>
     </message>
     <message>
-        <location filename="../src/level/questionssettings.cpp" line="128"/>
+        <location filename="../src/level/questionssettings.cpp" line="132"/>
         <source>Only notes from current key signature are taken.&lt;br&gt;If key signature is disabled accidentals are not used.</source>
         <translation>Seules les notes dans la tonalité actuelle sont prises en compte. &lt;br&gt; Si les tonalités sont désactivées, les altérations ne sont pas utilisées. </translation>
     </message>
