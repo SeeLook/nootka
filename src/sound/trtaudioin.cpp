@@ -138,6 +138,7 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
   int devId = -1;
   int devCount = rtDevice->getDeviceCount();
 	bool isAlsaDefault = false;
+  streamOptions->flags = !RTAUDIO_ALSA_USE_DEFAULT; // reset options flags
   if (devCount) {
     RtAudio::DeviceInfo devInfo;
     for(int i = 0; i < devCount; i++) { // Is there device on the list ??
@@ -156,7 +157,6 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
 						streamOptions->flags = RTAUDIO_ALSA_USE_DEFAULT;
 						isAlsaDefault = true;
 				} else {
-						streamOptions->flags = !RTAUDIO_ALSA_USE_DEFAULT;
 						if (rtDevice->getDeviceInfo(devId).inputChannels <= 0) {
 							// check has default input got channels
 							qDebug("wrong default input device");
