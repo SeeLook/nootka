@@ -120,17 +120,15 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
               if (question.answerAs == TQAtype::e_asSound) {
                 quest += playOrSing(int(level->instrument));
               }
-        int strNr = 0;
         if (question.answerAs == TQAtype::e_asFretPos || question.answerAs == TQAtype::e_asSound) {
 					if (level->instrument != e_noInstrument && level->showStrNr && !level->onlyLowPos) {
-						strNr = question.qa.pos.str(); // it makes sense only for qa not qa2
 						apendix = "<br> " + onStringTxt(question.qa.pos.str());
 					}
         }
         if (level->useKeySign && level->manualKey && question.answerAs == TQAtype::e_asNote) // hide key signature
-            quest += "<br>" + TtipChart::wrapPixToHtml(question.qa.note, true, TkeySignature(0), sc, strNr);
+            quest += "<br>" + TtipChart::wrapPixToHtml(question.qa.note, true, TkeySignature(0), sc);
         else
-            quest += "<br>" + TtipChart::wrapPixToHtml(question.qa.note, true, question.key, sc, strNr);
+            quest += "<br>" + TtipChart::wrapPixToHtml(question.qa.note, true, question.key, sc);
         if (apendix != "")
           quest += apendix;
       break;

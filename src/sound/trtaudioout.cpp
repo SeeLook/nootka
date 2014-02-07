@@ -223,7 +223,7 @@ bool TaudioOUT::setAudioDevice(QString &name) {
 			else
 					deviceName = QString::fromLocal8Bit(rtDevice->getDeviceInfo(streamParams.deviceId).name.data());
       qDebug() << "OUT:" << deviceName << "samplerate:" << sampleRate * ratioOfRate << ", buffer size:" << m_bufferFrames;
-      if (rtDevice->getCurrentApi() != RtAudio::LINUX_PULSE)
+      if (rtDevice->getCurrentApi() != RtAudio::LINUX_PULSE) // for PULSE it only way to give user control of volume
           closeStram(); // otherwise devices are blocked (not appears in settings dialog)
       return true;
   } else {

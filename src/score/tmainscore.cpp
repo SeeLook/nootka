@@ -192,9 +192,9 @@ void TmainScore::showNames(Tnote::EnameStyle st, bool forAll) {
 			m_noteName[i]->setDropShadow(m_noteName[i], QColor(st->noteSegment(i)->mainNote()->pen().color().name()));
 			m_noteName[i]->setDefaultTextColor(palette().text().color());
 			m_noteName[i]->setParentItem(st->noteSegment(i));
-			m_noteName[i]->setScale((score()->transform().m11()) / m_noteName[i]->boundingRect().height());
-			m_noteName[i]->setPos((st->noteSegment(i)->boundingRect().width() - 
-					m_noteName[i]->boundingRect().width() * m_noteName[i]->scale()) / 2,
+// 			m_noteName[i]->setScale((score()->transform().m11()) / m_noteName[i]->boundingRect().height());
+			m_noteName[i]->setScale(8.0 / m_noteName[i]->boundingRect().height());
+			m_noteName[i]->setPos((7.0 - m_noteName[i]->boundingRect().width() * m_noteName[i]->scale()) / 2,
 					st->noteSegment(i)->notePos() > st->upperLinePos() ? 
 								st->noteSegment(i)->notePos() - m_noteName[i]->boundingRect().height() * m_noteName[i]->scale() : // above note
 								st->noteSegment(i)->notePos() + st->noteSegment(i)->mainNote()->boundingRect().height()); // below note
@@ -231,7 +231,7 @@ void TmainScore::isExamExecuting(bool isIt) {
 			}
 			m_questMark->setBrush(QBrush(c));
 			m_questMark->setText("?");
-			m_questMark->setScale(m_questMark->boundingRect().width() / staff()->noteSegment(0)->boundingRect().width() / 1.5);
+			m_questMark->setScale(12.0 / m_questMark->boundingRect().width()); // 7.0 is not scaled segment width (12.0 is a bit bigger)
 			m_questMark->setPos(0, 
 													(staff()->boundingRect().height() - m_questMark->boundingRect().height() * m_questMark->scale()) / 2 );
 			setScoreDisabled(true);
