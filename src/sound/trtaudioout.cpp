@@ -163,6 +163,7 @@ bool TaudioOUT::setAudioDevice(QString &name) {
   int devId = -1;
   int devCount = rtDevice->getDeviceCount();
 	bool isAlsaDefault = false;
+  streamOptions->flags = !RTAUDIO_ALSA_USE_DEFAULT; // reset options flags
   if (devCount) {
     RtAudio::DeviceInfo devInfo;
     for(int i = 0; i < devCount; i++) { // Is there device on the list ??
