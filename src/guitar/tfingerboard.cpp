@@ -178,24 +178,23 @@ void TfingerBoard::setFinger(Tnote note) {
 
 
 void TfingerBoard::setFinger(TfingerPos pos) {
-    for(int i = 0; i < gl->Gtune()->stringNr(); i++) {
-        if (i != pos.str() - 1) { //hide
-            m_fingers[i]->hide();
-            m_strings[i]->hide();
-        }
-        else { //show
-            if (pos.fret()) { // some fret
-                paintFinger(m_fingers[i], i, pos.fret());
-                m_fingers[i]->show();
-            }
-            else { // open string
-                m_fingers[i]->hide();
-                m_strings[i]->show();
-            }
-            m_selNote = posToNote(pos.str() - 1, pos.fret());
-        }
-    }
-    m_fingerPos = pos;
+	for(int i = 0; i < gl->Gtune()->stringNr(); i++) {
+		if (i != pos.str() - 1) { //hide
+				m_fingers[i]->hide();
+				m_strings[i]->hide();
+		} else { //show
+				if (pos.fret()) { // some fret
+						paintFinger(m_fingers[i], i, pos.fret());
+						m_fingers[i]->show();
+						m_strings[i]->hide();
+				} else { // open string
+						m_fingers[i]->hide();
+						m_strings[i]->show();
+				}
+				m_selNote = posToNote(pos.str() - 1, pos.fret());
+		}
+	}
+	m_fingerPos = pos;
 }
 
 

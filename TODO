@@ -8,7 +8,6 @@ TODOES
 - left-handed guitar correction anim to guitar (morphing) has wrong line points
 - try to remove re-sizing a status label in exams/exercises
 - name label shows not centered texts in exams
-- remove string number close to note head in question tip
 - use string numbers on pixmap in charts
 - charts texts are too light
 - force 'Plasique' style under MacOs or find a way on buttons

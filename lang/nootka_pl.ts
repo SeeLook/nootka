@@ -1641,8 +1641,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="169"/>
         <source>Pass an exam</source>
-        <translatorcomment>Złóż egzamin</translatorcomment>
-        <translation></translation>
+        <translation>Złóż egzamin</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="170"/>
