@@ -181,6 +181,7 @@ bool TaudioOUT::setAudioDevice(QString &name) {
 						streamOptions->flags = RTAUDIO_ALSA_USE_DEFAULT;
 						isAlsaDefault = true;
 				} else {
+						streamOptions->flags = !RTAUDIO_ALSA_USE_DEFAULT;
 						if (rtDevice->getDeviceInfo(devId).outputChannels <= 0) {
 							qDebug("wrong default output device");
 							playable = false;

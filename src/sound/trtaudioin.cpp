@@ -156,6 +156,7 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
 						streamOptions->flags = RTAUDIO_ALSA_USE_DEFAULT;
 						isAlsaDefault = true;
 				} else {
+						streamOptions->flags = !RTAUDIO_ALSA_USE_DEFAULT;
 						if (rtDevice->getDeviceInfo(devId).inputChannels <= 0) {
 							// check has default input got channels
 							qDebug("wrong default input device");
@@ -171,7 +172,7 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
   RtAudio::DeviceInfo devInfo;
   getDeviceInfo(devInfo, devId);
   determineSampleRate(devInfo);
-  m_pitch->setSampleRate(sampleRate, audioParams->range);
+  m_pitch->setSampleRate(sampleRate, audioParams->range); // framesPerChunk is determined here
   m_bufferFrames = m_pitch->aGl()->framesPerChunk;
 	RtAudioFormat dataFormat = determineDataFormat(devInfo);
 	if (dataFormat == RTAUDIO_SINT8)

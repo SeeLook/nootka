@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -90,7 +90,7 @@ bool TrtAudioAbstract::getDeviceInfo(RtAudio::DeviceInfo& devInfo, int id) {
           devInfo = rtDevice->getDeviceInfo(id);
   }
   catch (RtError& e) {
-    qDebug() << "error when probing input device" << id;
+    qDebug() << "error when probing audio device" << id;
     return false;
   }
   return true;
