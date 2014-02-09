@@ -424,7 +424,7 @@ void TguitarSettings::instrumentTypeChanged(int index) {
 	if ((Einstrument)index != e_noInstrument) {
 		if (!m_accidGroup->isEnabled())
 				guitarDisabled(false);
-		m_tuneCombo->addItem(tr("Custom tune"));
+		m_tuneCombo->addItem(tr("Custom tuning"));
 	}
   m_tuneView->addBGglyph(index);
 	emit instrumentChanged(index);
