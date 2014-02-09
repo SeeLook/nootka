@@ -88,7 +88,7 @@ void TnoteNameLabel::setText(const QString& text) {
 
 
 void TnoteNameLabel::center() {
-	m_textItem->setPos((width() - m_textItem->boundingRect().width() * m_textItem->scale()) / 2,
+	m_textItem->setPos(mapToScene(0, 0).x() + (width() - m_textItem->boundingRect().width() * m_textItem->scale()) / 2,
 				(scene()->height() - m_textItem->boundingRect().height() * m_textItem->scale()) / 2	+ height() / 16.0);
 #if defined(Q_OS_MAC)
     scene()->update();
@@ -119,7 +119,9 @@ void TnoteNameLabel::showStringNumber(int strNr, const QColor &color) {
 	if (m_questMark)
 		xOff = m_questMark->pos().x() + m_questMark->boundingRect().width() * m_questMark->scale();
 	m_stringNumber->setPos(xOff + 10.00, 
-												 (height() - m_stringNumber->boundingRect().height() * m_stringNumber->scale()) / 2 + height() / 10.0);
+												 (mapToScene(0, 0).y() + 
+												 (m_stringNumber->boundingRect().height() * m_stringNumber->scale()) / 10.0 + // nice offset
+												 (height() - m_stringNumber->boundingRect().height() * m_stringNumber->scale()) / 2));
 }
 
 

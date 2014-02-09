@@ -1,3 +1,10 @@
+0.9.6 rc2
+    BUGS FIXES
+     - fixed high CPU usage with PulseAudio
+     - fingerboard properly hides highlighted string
+     - font scaling fixes and placement of texts (note name)
+     - translations fixes
+
 0.9.5 rc1
   Nootka says: I'm afraid of exams
      - added exercise mode, without penalties and elapsing time
