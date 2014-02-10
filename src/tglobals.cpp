@@ -72,7 +72,7 @@ Tglobals::Tglobals() :
 	m_tune(0)
 {
 
-    version = "0.9.5-rc1";
+    version = "0.9.6-rc2";
 //    path ; Is declared in main()
 
     qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
