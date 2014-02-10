@@ -88,8 +88,18 @@ void TnoteNameLabel::setText(const QString& text) {
 
 
 void TnoteNameLabel::center() {
-	m_textItem->setPos(mapToScene(0, 0).x() + (width() - m_textItem->boundingRect().width() * m_textItem->scale()) / 2,
-				(scene()->height() - m_textItem->boundingRect().height() * m_textItem->scale()) / 2	+ height() / 16.0);
+	QPointF zero = mapToScene(0, 0);
+	qreal allW = m_textItem->boundingRect().width() * m_textItem->scale();
+	if (m_questMark)
+		allW += m_questMark->boundingRect().width() * m_questMark->scale();
+	if (m_stringNumber)
+		allW += 10.0 + m_stringNumber->boundingRect().width() * m_stringNumber->scale();
+	m_textItem->setPos(zero.x() + (width() - allW) / 2.0,
+				zero.y() + (height() - m_textItem->boundingRect().height() * m_textItem->scale()) / 2.0	/*+ height() / 16.0*/);
+	if (m_questMark)
+		setQuestionMarkPos();
+	if (m_stringNumber)
+		setStringNumberPos();
 #if defined(Q_OS_MAC)
     scene()->update();
 #endif
@@ -102,9 +112,8 @@ void TnoteNameLabel::showQuestionMark(const QColor& color) {
 	m_questMark = new QGraphicsSimpleTextItem("?", 0, scene());
 	m_questMark->setFont(QFont("nootka"));
 	m_questMark->setBrush(color);
-	m_questMark->setScale(height() / m_questMark->boundingRect().height());
-	m_questMark->setPos(m_textItem->pos().x() + m_textItem->boundingRect().width() * m_textItem->scale() + 10.0, 
-											(height() - m_questMark->boundingRect().height() * m_questMark->scale()) / 2 + height() / 10.0);
+	scaleQuestionMark();
+	center();
 }
 
 
@@ -114,14 +123,8 @@ void TnoteNameLabel::showStringNumber(int strNr, const QColor &color) {
 	m_stringNumber = new QGraphicsSimpleTextItem(QString("%1").arg(strNr), 0, scene());
 	m_stringNumber->setFont(QFont("nootka"));
 	m_stringNumber->setBrush(color);
-	m_stringNumber->setScale(((height()) / m_stringNumber->boundingRect().height()) * 0.9) ;
-	qreal xOff = m_textItem->pos().x() + m_textItem->boundingRect().width() * m_textItem->scale();
-	if (m_questMark)
-		xOff = m_questMark->pos().x() + m_questMark->boundingRect().width() * m_questMark->scale();
-	m_stringNumber->setPos(xOff + 10.00, 
-												 (mapToScene(0, 0).y() + 
-												 (m_stringNumber->boundingRect().height() * m_stringNumber->scale()) / 10.0 + // nice offset
-												 (height() - m_stringNumber->boundingRect().height() * m_stringNumber->scale()) / 2));
+	scaleStringNumber();
+	center();
 }
 
 
@@ -203,24 +206,30 @@ QPoint TnoteNameLabel::textPos() {
 
 void TnoteNameLabel::resizeEvent(QResizeEvent* event) {
 	scene()->setSceneRect(geometry());
-// 	m_textItem->setScale((height() * 0.95) / (m_textItem->boundingRect().height() * m_textItem->scale()));
 	QFontMetricsF fm(m_textItem->font());
 	m_textItem->setScale((height() * 0.9) / (fm.boundingRect("A").height()));
-	if (m_questMark) {
-		m_questMark->setScale(height() / m_questMark->boundingRect().height());
-		m_questMark->setPos(m_textItem->pos().x() + m_textItem->boundingRect().width() * m_textItem->scale() + 10.0, 
-											(height() - m_questMark->boundingRect().height() * m_questMark->scale()) / 2 + height() / 10.0);
-	}
-	if (m_stringNumber) {
-		m_stringNumber->setScale(((height()) / m_stringNumber->boundingRect().height()) * 0.9) ;
-		qreal off = 10.0;
-		if (m_questMark)
-			off = m_questMark->boundingRect().width() * m_questMark->scale() + 10.0;
-			m_stringNumber->setPos((m_textItem->pos().x() + m_textItem->boundingRect().width() + off) * m_textItem->scale() + 10.0, 
-												(height() - m_stringNumber->boundingRect().height() * m_stringNumber->scale()) / 2 + height() / 10.0);
-	}
+	scaleQuestionMark();
+	scaleStringNumber();
 	center();
 }
+
+void TnoteNameLabel::setQuestionMarkPos() {
+	m_questMark->setPos(m_textItem->pos().x() + m_textItem->boundingRect().width() * m_textItem->scale(), 
+											(height() - m_questMark->boundingRect().height() * m_questMark->scale()) / 2.0 + height() / 10.0);
+}
+
+void TnoteNameLabel::setStringNumberPos() {
+	qreal xOff = m_textItem->pos().x() + m_textItem->boundingRect().width() * m_textItem->scale();
+	if (m_questMark) {
+		xOff = m_questMark->pos().x() + m_questMark->boundingRect().width() * m_questMark->scale();
+	}
+	m_stringNumber->setPos(xOff + 10.00, 
+												 (mapToScene(0, 0).y() + 
+												 (m_stringNumber->boundingRect().height() * m_stringNumber->scale()) / 10.0 + // nice offset
+												 (height() - m_stringNumber->boundingRect().height() * m_stringNumber->scale()) / 2.0));
+}
+
+
 
 //################################################################################################
 //################################# PROTECTED SLOTS   ############################################

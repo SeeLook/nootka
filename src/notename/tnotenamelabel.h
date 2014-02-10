@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -101,6 +101,16 @@ protected slots:
 	void blinkingSlot();
 	void throwingSlot();
 	
+private:
+	void setStringNumberPos();
+	void setQuestionMarkPos(); /** Determines position and scale of a question mark */
+	void scaleQuestionMark() { 
+		if (m_questMark) m_questMark->setScale(height() / m_questMark->boundingRect().height()); 
+	}
+	
+	void scaleStringNumber() {
+		if (m_stringNumber) m_stringNumber->setScale(((height()) / m_stringNumber->boundingRect().height()) * 0.9);
+	}
 	
 private:
 	int 											m_alphaStepOut, m_alphaStepIn, m_p2Time;
