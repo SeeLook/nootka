@@ -191,6 +191,10 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
           if (!tmpSameList.isEmpty())
             m_fretFretList << (quint16)i;
       }
+//       for (int i = 0; i < m_fretFretList.size(); i++)
+//        qDebug() << m_fretFretList.at(i) << (int)list[m_fretFretList.at(i)].pos.str() << "f"
+//                << (int)list[m_fretFretList.at(i)].pos.fret() << " note: "
+//                << QString::fromStdString(list[m_fretFretList.at(i)].note.getName());
       qDebug() << "question list for only guitar created\nnumber:" << m_fretFretList.size() <<
           " among:" << list.size();
     }
@@ -302,11 +306,12 @@ Tnote TexecutorSupply::forceEnharmAccid(Tnote n) {
 
 
 Tnote::EnameStyle TexecutorSupply::randomNameStyle(int style) {
-    if (style != -1)
+    if (style != -1) {
         if ((Tnote::EnameStyle)style == Tnote::e_italiano_Si || (Tnote::EnameStyle)style == Tnote::e_russian_Ci)
             m_isSolfege = true;
         else
             m_isSolfege = false;
+		}
     if (m_isSolfege) {
         m_isSolfege = false;
         if (qrand() % 2) { // full name like cis, gisis
@@ -327,15 +332,29 @@ Tnote::EnameStyle TexecutorSupply::randomNameStyle(int style) {
 }
 
 
-void TexecutorSupply::getTheSamePos(TfingerPos& fingerPos, QList< TfingerPos >& posList, bool strCheck) {
-  int chStr = gl->Gtune()->str(gl->strOrder(fingerPos.str()-1) + 1).getChromaticNrOfNote();
+void TexecutorSupply::getTheSamePos(TfingerPos& fingerPos, QList<TfingerPos>& posList, bool strCheck) {
+  int chStr = gl->Gtune()->str(gl->strOrder(fingerPos.str() - 1) + 1).getChromaticNrOfNote();
   for (int i = 0; i < gl->Gtune()->stringNr(); i++)
-    if (i != gl->strOrder(fingerPos.str()-1)) { 
+    if (i != gl->strOrder(fingerPos.str() - 1)) { 
       if (strCheck && !m_level->usedStrings[i])
           continue; // skip unavailable strings when strCheck is true
       int fret = chStr + fingerPos.fret() - gl->Gtune()->str(gl->strOrder(i) + 1).getChromaticNrOfNote();
       if (fret >= m_level->loFret && fret <= m_level->hiFret) {
         posList << TfingerPos(gl->strOrder(i) + 1, fret);
+      }
+    }
+}
+
+
+void TexecutorSupply::getTheSamePosNoOrder(TfingerPos& fingerPos, QList<TfingerPos>& posList, bool strCheck) {
+	int chStr = gl->Gtune()->str(fingerPos.str()).getChromaticNrOfNote();
+  for (int i = 0; i < gl->Gtune()->stringNr(); i++)
+    if (i != fingerPos.str() - 1) {
+      if (strCheck && !m_level->usedStrings[i])
+          continue; // skip unavailable strings when strCheck is true
+      int fret = chStr + fingerPos.fret() - gl->Gtune()->str(i + 1).getChromaticNrOfNote();
+      if (fret >= m_level->loFret && fret <= m_level->hiFret) {
+        posList << TfingerPos(i + 1, fret);
       }
     }
 }

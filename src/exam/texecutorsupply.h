@@ -54,6 +54,9 @@ public:
 			* If strCheck is true it is excluding strings unavailable in a level. */
   void getTheSamePos(TfingerPos &fingerPos, QList<TfingerPos> &posList, bool strCheck = true);
 	
+			
+	void getTheSamePosNoOrder(TfingerPos &fingerPos, QList<TfingerPos> &posList, bool strCheck = true);
+	
 			/** Returns randomized number in questions list proper for question and answer on the guitar. */
   quint16 getQAnrForGuitarOnly() { return m_fretFretList[qrand() % m_fretFretList.size()]; }
   
