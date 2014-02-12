@@ -480,13 +480,15 @@ void TexamExecutor::askQuestion() {
         m_answRequire.accid = false;  // Ignored in checking, positions are comparing
         if (curQ.questionAs == TQAtype::e_asFretPos) {
           QList<TfingerPos> posList;
-          m_supp->getTheSamePos(curQ.qa.pos, posList);
+          m_supp->getTheSamePosNoOrder(curQ.qa.pos, posList);
           if (posList.isEmpty())
             qDebug() << "Blind question";
           else {
             if (m_blackQuestNr == -1)
                 curQ.qa_2.pos = posList[qrand() % posList.size()];
             mW->guitar->setHighlitedString(curQ.qa_2.pos.str());
+						qDebug() << "question" << curQ.qa.pos.str() << curQ.qa.pos.fret() << curQ.qa.note.toText() <<
+									"answer" << curQ.qa_2.pos.str() << curQ.qa_2.pos.fret();
           }
         } else 
           if (m_level.showStrNr)
@@ -570,7 +572,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 					questPos = curQ.qa.pos;
 				if (questPos != answPos && curQ.isCorrect()) { // if no cheater give him a chance
 					QList <TfingerPos> tmpPosList; // Maybe hi gave correct note but on incorrect string only
-					m_supp->getTheSamePos(answPos, tmpPosList); // get other positions
+					m_supp->getTheSamePosNoOrder(answPos, tmpPosList); // get other positions
 					for (int i = 0; i < tmpPosList.size(); i++) {
 								if (tmpPosList[i] == questPos) { // and compare it with expected
 									curQ.setMistake(TQAunit::e_wrongString);
