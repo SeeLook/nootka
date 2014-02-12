@@ -99,7 +99,10 @@ TtipChart::TtipChart(TquestionPoint *point) :
               + "</span>";
           break;
         case TQAtype::e_asFretPos:
-           aS = point->question()->qa.pos.toHtml();
+           if (point->question()->questionAs == TQAtype::e_asFretPos)
+              aS = point->question()->qa_2.pos.toHtml();
+           else
+              aS = point->question()->qa.pos.toHtml();
           break;
         case TQAtype::e_asSound:
           if (point->question()->questionAs == TQAtype::e_asNote)
