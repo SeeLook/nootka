@@ -51,10 +51,11 @@ public:
 	
 			/** Returns list with possible positions of a note on given position.
 			* Given fingerPos (position) is not included.
-			* If strCheck is true it is excluding strings unavailable in a level. */
-  void getTheSamePos(TfingerPos &fingerPos, QList<TfingerPos> &posList, bool strCheck = true);
+			* If strCheck is true it is excluding strings unavailable in a level.
+			* @p order determines whether string order is respected. */
+  void getTheSamePos(TfingerPos &fingerPos, QList<TfingerPos> &posList, bool strCheck = true, bool order = true);
 	
-			
+			/** The same as getTheSamePos() but string order is ignored */
 	void getTheSamePosNoOrder(TfingerPos &fingerPos, QList<TfingerPos> &posList, bool strCheck = true);
 	
 			/** Returns randomized number in questions list proper for question and answer on the guitar. */
@@ -109,6 +110,10 @@ private:
 	
 			/** Appends given note and fret position to question list. */
 	void addToList(QList<TQAunit::TQAgroup> &list, Tnote &n, TfingerPos &f);
+	
+			/** Returns number of string - itself (realNr - 1) when strings order is not respected
+			 * or pitch-ordered taken from gl->strOrder() */
+	quint8 strNr(quint8 str0to6, bool ordered = true);
   
 private:
   Tlevel 									*m_level;

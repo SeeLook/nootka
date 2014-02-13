@@ -332,31 +332,30 @@ Tnote::EnameStyle TexecutorSupply::randomNameStyle(int style) {
 }
 
 
-void TexecutorSupply::getTheSamePos(TfingerPos& fingerPos, QList<TfingerPos>& posList, bool strCheck) {
-  int chStr = gl->Gtune()->str(gl->strOrder(fingerPos.str() - 1) + 1).getChromaticNrOfNote();
+quint8 TexecutorSupply::strNr(quint8 str0to6, bool ordered) {
+	if (ordered)
+		return gl->strOrder((char)str0to6);
+	else
+		return str0to6;
+}
+
+
+void TexecutorSupply::getTheSamePos(TfingerPos& fingerPos, QList<TfingerPos>& posList, bool strCheck, bool order) {
+  int chStr = gl->Gtune()->str(strNr(fingerPos.str() - 1, order) + 1).getChromaticNrOfNote();
   for (int i = 0; i < gl->Gtune()->stringNr(); i++)
-    if (i != gl->strOrder(fingerPos.str() - 1)) { 
+    if (i != strNr(fingerPos.str() - 1, order)) { 
       if (strCheck && !m_level->usedStrings[i])
           continue; // skip unavailable strings when strCheck is true
-      int fret = chStr + fingerPos.fret() - gl->Gtune()->str(gl->strOrder(i) + 1).getChromaticNrOfNote();
+      int fret = chStr + fingerPos.fret() - gl->Gtune()->str(strNr(i, order) + 1).getChromaticNrOfNote();
       if (fret >= m_level->loFret && fret <= m_level->hiFret) {
-        posList << TfingerPos(gl->strOrder(i) + 1, fret);
+        posList << TfingerPos(strNr(i, order) + 1, fret);
       }
     }
 }
 
 
 void TexecutorSupply::getTheSamePosNoOrder(TfingerPos& fingerPos, QList<TfingerPos>& posList, bool strCheck) {
-	int chStr = gl->Gtune()->str(fingerPos.str()).getChromaticNrOfNote();
-  for (int i = 0; i < gl->Gtune()->stringNr(); i++)
-    if (i != fingerPos.str() - 1) {
-      if (strCheck && !m_level->usedStrings[i])
-          continue; // skip unavailable strings when strCheck is true
-      int fret = chStr + fingerPos.fret() - gl->Gtune()->str(i + 1).getChromaticNrOfNote();
-      if (fret >= m_level->loFret && fret <= m_level->hiFret) {
-        posList << TfingerPos(i + 1, fret);
-      }
-    }
+	getTheSamePos(fingerPos, posList, strCheck, false);
 }
 
 
