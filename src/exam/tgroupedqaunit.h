@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,6 +23,7 @@
 #include <QList>
 #include <QString>
 #include <QApplication>
+#include <QDebug>
 
 class TQAunit;
 
@@ -34,7 +35,8 @@ struct TqaPtr {
 
 
 
-/** This class sescribes question/asnwer unit (TQAunit) grouped by some features.
+/** 
+ * This class describes question/answer unit (TQAunit) grouped by some features.
  */
 class TgroupedQAunit
 {
@@ -45,12 +47,12 @@ public:
   ~TgroupedQAunit();
   
   QList<TqaPtr> list;
-    /** Short description, usualy for X axis tips. */
-  QString description() { return m_desc; }
+  QString description() { return m_desc; } /** Short description, usually for X axis tips. */
   void setDescription(QString &desc) { m_desc = desc; }
   QString fullDescription() { return m_fullDesc; }
   void addQAunit(TQAunit *qaUnit, unsigned int questNr); // appends TQAunit to the list
   void addQAunit(TqaPtr& qaPtr) { list << qaPtr; }
+  
       /** Determines are wrong answers included to average
        * Default true - not included */
   static bool skipWrong() { return m_skipWrong; }
@@ -61,7 +63,8 @@ public:
                         return 0;
   } // Returns pointer to first element in the list or 0 when empty
   bool isEmpty() { return list.isEmpty(); }
-  int size() { return list.size() ;}
+  int size() { return list.size(); }
+  
       /** Calculates mistakes and average time after appending all questions to the list.
        * Sets description. It doesn't add mistakes to average. 
        * If group contains only mistakes average time is calculated from mistakes time. 
@@ -76,17 +79,23 @@ public:
   TqaPtr& operator[] (unsigned int index) { 
     if (index < list.size())
       return list[index];
-//     else return 0;
+    else { 
+			qDebug() << "TgroupedQAunit operator[] would return pointer out of list scope! Last possible returned!";
+			return list[list.size() - 1];
+		}
   }
       /** Text: 
        *for a note: */
   static QString for_a_note()  { return QApplication::translate("chartStats", "for a note:", "average reaction time for..."); }
+  
       /** Text: 
       *for a fret: */
   static QString for_a_fret()  { return QApplication::translate("chartStats", "for a fret:", "average reaction time for..."); }
+  
       /** Text: 
       *for a key: */
   static QString for_a_key()  { return QApplication::translate("chartStats", "for a key:", "average reaction time for..."); }
+  
       /** Text: 
       *for an accidental: */
   static QString for_an_accid()  { return QApplication::translate("chartStats", "for an accidental:", "average reaction time for..."); }
@@ -94,10 +103,10 @@ public:
   
   
 private:
-  QString m_desc, m_fullDesc;
-  quint16 m_mistakes, m_halfMist;
-  qreal m_averTime, m_effectiveness;
-  static bool m_skipWrong;
+  QString 				m_desc, m_fullDesc;
+  quint16 				m_mistakes, m_halfMist;
+  qreal 					m_averTime, m_effectiveness;
+  static bool 		m_skipWrong;
     
 };
 

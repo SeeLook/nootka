@@ -49,9 +49,6 @@ public:
     void askQuestion(Tnote note, TkeySignature key, char realStr = 0);
     void clearScore();
 		
-				/** Sets scordature to value kept in Tglobal. */
-    void setScordature();
-		
 				/** It sets TkeySignatureView background to question color, sets fake key signature
         * and invokes askQuestion in TkeySignatureView */
     void prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName);
@@ -105,7 +102,10 @@ signals:
 public slots:
     void whenNoteWasChanged(int index, Tnote note);
     void expertNoteChanged();
+    void setScordature(); /** Sets scordature to value kept in Tglobal. */
 
+protected:
+	virtual void resizeEvent(QResizeEvent* event);
 		
 protected slots:
 				/** Refresh some things after switch scordature, notes state and color. */

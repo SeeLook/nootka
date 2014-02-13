@@ -59,6 +59,8 @@ void debugStyle(TQAunit &qa) {
 
 extern Tglobals *gl;
 
+int m_blindCounter = 0; // counts occurrences of questions without possible answer 
+
 
 TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
   m_exam(0),
@@ -475,24 +477,36 @@ void TexamExecutor::askQuestion() {
     }
 
     if (curQ.answerAs == TQAtype::e_asFretPos) {
-        mW->guitar->setGuitarDisabled(false);
-        mW->guitar->prepareAnswer();
+//         mW->guitar->setGuitarDisabled(false);
+//         mW->guitar->prepareAnswer();
         m_answRequire.accid = false;  // Ignored in checking, positions are comparing
         if (curQ.questionAs == TQAtype::e_asFretPos) {
           QList<TfingerPos> posList;
           m_supp->getTheSamePosNoOrder(curQ.qa.pos, posList);
-          if (posList.isEmpty())
+          if (posList.isEmpty()) {
             qDebug() << "Blind question";
-          else {
-            if (m_blackQuestNr == -1)
-                curQ.qa_2.pos = posList[qrand() % posList.size()];
-            mW->guitar->setHighlitedString(curQ.qa_2.pos.str());
-						qDebug() << "question" << curQ.qa.pos.str() << curQ.qa.pos.fret() << curQ.qa.note.toText() <<
-									"answer" << curQ.qa_2.pos.str() << curQ.qa_2.pos.fret();
+						m_blindCounter++;
+						if (m_blindCounter > 20) {
+							QMessageBox::critical(mW, "Level error!", QString("Nootka's attempted to create proper question-answer pair 20 times<br>Send this message and a level file to developers and we will try to fix it in further release"));
+							mW->clearAfterExam();
+							deleteExam();
+							return;
+						} else {
+							QTimer::singleShot(10, this, SLOT(askQuestion()));
+							return; // refresh this function scope by calling it outside
+						}
+					} else {
+							if (m_blackQuestNr == -1)
+									curQ.qa_2.pos = posList[qrand() % posList.size()];
+							mW->guitar->setHighlitedString(curQ.qa_2.pos.str());
           }
+          qDebug() << "question" << curQ.qa.pos.str() << curQ.qa.pos.fret() << curQ.qa.note.toText() <<
+									"answer" << curQ.qa_2.pos.str() << curQ.qa_2.pos.fret();
         } else 
           if (m_level.showStrNr)
             mW->guitar->setHighlitedString(curQ.qa.pos.str());
+				mW->guitar->setGuitarDisabled(false);
+        mW->guitar->prepareAnswer();
     }
     
     if (curQ.answerAs == TQAtype::e_asSound) {
@@ -515,7 +529,7 @@ void TexamExecutor::askQuestion() {
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
     m_canvas->questionTip(m_exam);
-    
+    m_blindCounter = 0; // question successfully asked - reset the counter
 }
 
 

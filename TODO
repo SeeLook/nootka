@@ -6,13 +6,15 @@ TODOES
 - check 'tune' of non guitar - does it correspond with instrument/clef scale and levels works proper
 - left-handed guitar correction anim to guitar (morphing) has wrong line points
 - try to remove re-sizing a status label in exams/exercises
-- scordature is displayed small after launch - after setting it is OK
 - hide text "Wrong answer" when correction appears
 - use string numbers on pixmap in charts
 - charts texts are too light
 - force 'Plasique' style under MacOs or find a way on buttons
+
 - !!!check does 'string order' work for Tfingerboard!!!
+
 - make order with Qt::WA_TransparentForMouseEvents in canvas
+- paint work note under cursor: mapFromGlobal(cursor().pos() - when cursor is over score it appears only after move
 - remove unused classes: widgets/animations
 - add shadows under strings on pickup
 - do not transform pickup image for lefthanded - just change its pos

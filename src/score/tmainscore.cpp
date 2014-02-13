@@ -54,8 +54,7 @@ TmainScore::TmainScore(QWidget* parent) :
 	m_noteName << 0 << 0;
 // set note colors
 	restoreNotesSettings();
-	if (gl->instrument == e_classicalGuitar || gl->instrument == e_electricGuitar)
-			setScordature();
+	setScordature();
 	setEnabledDblAccid(gl->doubleAccidentalsEnabled);
 	setEnableKeySign(gl->SkeySignatureEnabled);
 	
@@ -497,6 +496,13 @@ void TmainScore::finishCorrection() {
 	if (m_showNameInCorrection)
 			showNames(m_corrStyle);
 }
+
+
+void TmainScore::resizeEvent(QResizeEvent* event) {
+	TsimpleScore::resizeEvent(event);
+	QTimer::singleShot(500, this, SLOT(setScordature()));
+}
+
 
 
 //####################################################################################################

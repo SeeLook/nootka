@@ -102,6 +102,7 @@ void TmainChart::sort() {
           case e_byMistake:
             sortedLists = sortByMisakes(convList, currExam->level(), hasListUnrelated);
             break;
+					default: break;
         }
         goodSize = sortedLists.size();
     }
