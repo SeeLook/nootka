@@ -124,6 +124,9 @@ protected slots:
     
         /** It sets m_snifferLocked to false (unlocks) and restores capturing right mouse button (installEventFilter) */
     void unlockAnswerCapturing();
+		
+				/** Routines for questions with the same answers 'blind' */
+		void blindQuestion();
 
 private:
 		void createActions();
@@ -189,6 +192,7 @@ private:
         /** Counts questions to ask penalties one. */
     int 											m_penalCount;
 		Texercises								*m_exercise;
+		int 											m_blindCounter; // counts occurrences of questions without possible answer 
 
 
 };
