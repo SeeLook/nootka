@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -44,16 +44,15 @@ public:
   static QString pressEnterKey() { return tr("press <b>Enter</b> key"); } // press <b>Enter</b> key
   static QString orPressEnterKey() { return tr("or press <b>Enter</b> key"); } // or  press <b>Enter</b> key
   static QString orPressBackSpace() { return tr("or <b>Backspace</b> key"); } // or <b>Backspace</b> key
-			/** To stop the exam click button */
-  static QString toStopExamTxt(QString imgHtmlTag) 
-      { return tr("To stop the exam click %1 button.").arg(imgHtmlTag); }
+  static QString toStopExamTxt(QString imgHtmlTag)
+      { return tr("To stop - click %1 button.").arg(imgHtmlTag); } /** To stop - click button */
+      
 			/** Describing exercise mode:
 			 * Only recent exercise is stored for further continuation.
 			 * When your exercising will go well Nootka will suggest you to start an exam. */
   static QString exerciseFeaturesText();
-			/** Describing exam mode:
-			 * 
-			 */
+  
+			/** Describing exam mode */
   static QString examFeaturesText();
       
   
