@@ -200,11 +200,15 @@ bool TaudioOUT::setAudioDevice(QString &name) {
   streamParams.deviceId = devId;
   streamParams.nChannels = 2;
   streamParams.firstChannel = 0;
-	RtAudioFormat dataFormat = determineDataFormat(devInfo);
-	if (dataFormat == RTAUDIO_SINT8) {
-			playable = false;
-			return false;
-	}
+#if defined (Q_OS_MAC)
+  RtAudioFormat dataFormat = RTAUDIO_SINT16;
+#else
+  RtAudioFormat dataFormat = determineDataFormat(devInfo);
+  if (dataFormat == RTAUDIO_SINT8) {
+      playable = false;
+      return false;
+  }
+#endif
   ratioOfRate = sampleRate / 44100;
   if (ratioOfRate > 1) { // from here sample rate is sampleRate * ratioOfRate
     if (sampleRate == 88200 || sampleRate == 176400)
@@ -266,7 +270,7 @@ bool TaudioOUT::play(int noteNr) {
       loops++;
   }
 //   if (loops)
-//        qDebug() << "latency:" << loops << "ms";  
+//        qDebug() << "latency:" << loops << "ms";
   offTimer->start(1600);
   return startStream();
 }

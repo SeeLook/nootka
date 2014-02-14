@@ -32,6 +32,9 @@ int main(int argc, char *argv[])
 	bool firstTime = true;
 	QString confFile;
 	resetConfig = false;
+#if defined (Q_OS_MAC)
+    QApplication::setStyle(new QPlastiqueStyle);
+#endif
 	
 	do {		
 		if (a) delete a;
