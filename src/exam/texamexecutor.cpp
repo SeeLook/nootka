@@ -59,8 +59,6 @@ void debugStyle(TQAunit &qa) {
 
 extern Tglobals *gl;
 
-int m_blindCounter = 0; // counts occurrences of questions without possible answer 
-
 
 TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
   m_exam(0),
@@ -71,7 +69,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
   m_snifferLocked(false),
   m_canvas(0),
   m_supp(0),
-  m_exercise(0)
+  m_exercise(0),
+  m_blindCounter(0)
 {
     QString resultText;
     TstartExamDlg::Eactions userAct;
@@ -269,6 +268,12 @@ void TexamExecutor::askQuestion() {
 		m_askingTimer->stop();
     m_lockRightButt = false; // release mouse button events
     clearWidgets();
+		if (m_blindCounter > 20) {
+				QMessageBox::critical(mW, "Level error!", QString("Nootka's attempted to create proper question-answer pair 20 times<br>Send this message and a level file to developers and we will try to fix it in further release"));
+				mW->clearAfterExam();
+				deleteExam();
+				return;
+		}
     if (!gl->E->autoNextQuest) {
 			if (!m_exercise)
 					mW->startExamAct->setDisabled(true);
@@ -431,10 +436,10 @@ void TexamExecutor::askQuestion() {
         if (curQ.questionAs == TQAtype::e_asNote) {// note has to be another than question
             if (m_blackQuestNr == -1)
                 curQ.qa_2.note = m_supp->forceEnharmAccid(curQ.qa.note); // curQ.qa_2.note is expected note
-            if (curQ.qa_2.note == curQ.qa.note) {
-                qDebug() << "Blind question";
-                //                    askQuestion();
-            }
+            if (!m_level.manualKey && curQ.qa_2.note == curQ.qa.note) {
+								blindQuestion();
+								return; // refresh this function scope by calling it outside
+						}
             mW->score->forceAccidental((Tnote::Eacidentals)curQ.qa_2.note.acidental);
             m_answRequire.accid = true;
             m_answRequire.octave = true;
@@ -484,24 +489,13 @@ void TexamExecutor::askQuestion() {
           QList<TfingerPos> posList;
           m_supp->getTheSamePosNoOrder(curQ.qa.pos, posList);
           if (posList.isEmpty()) {
-            qDebug() << "Blind question";
-						m_blindCounter++;
-						if (m_blindCounter > 20) {
-							QMessageBox::critical(mW, "Level error!", QString("Nootka's attempted to create proper question-answer pair 20 times<br>Send this message and a level file to developers and we will try to fix it in further release"));
-							mW->clearAfterExam();
-							deleteExam();
-							return;
-						} else {
-							QTimer::singleShot(10, this, SLOT(askQuestion()));
+							blindQuestion();
 							return; // refresh this function scope by calling it outside
-						}
 					} else {
 							if (m_blackQuestNr == -1)
 									curQ.qa_2.pos = posList[qrand() % posList.size()];
 							mW->guitar->setHighlitedString(curQ.qa_2.pos.str());
           }
-          qDebug() << "question" << curQ.qa.pos.str() << curQ.qa.pos.fret() << curQ.qa.note.toText() <<
-									"answer" << curQ.qa_2.pos.str() << curQ.qa_2.pos.fret();
         } else 
           if (m_level.showStrNr)
             mW->guitar->setHighlitedString(curQ.qa.pos.str());
@@ -1567,6 +1561,12 @@ void TexamExecutor::unlockAnswerCapturing() {
   m_snifferLocked = false;
 }
 
+
+void TexamExecutor::blindQuestion() {
+	qDebug() << "Blind question - asking again";
+	m_blindCounter++;
+	QTimer::singleShot(10, this, SLOT(askQuestion()));
+}
 
 
 
