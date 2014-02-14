@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -108,11 +108,12 @@ QRectF Tbar::boundingRect() const {
 
 void Tbar::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
   m_isUnderMouse = true;
-  if (tip)
+  if (tip) {
     if (tip == initObject())
         return;
     else
       deleteTip();
+  }
   tip = new TstatisticsTip(m_qaGroup, m_tipType);
   handleTip(event->scenePos());
 }
