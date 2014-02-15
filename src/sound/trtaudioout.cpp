@@ -200,15 +200,15 @@ bool TaudioOUT::setAudioDevice(QString &name) {
   streamParams.deviceId = devId;
   streamParams.nChannels = 2;
   streamParams.firstChannel = 0;
-#if defined (Q_OS_MAC)
+// #if defined (Q_OS_MAC)
   RtAudioFormat dataFormat = RTAUDIO_SINT16;
-#else
-  RtAudioFormat dataFormat = determineDataFormat(devInfo);
-  if (dataFormat == RTAUDIO_SINT8) {
-      playable = false;
-      return false;
-  }
-#endif
+// #else
+//   RtAudioFormat dataFormat = determineDataFormat(devInfo);
+//   if (dataFormat == RTAUDIO_SINT8) {
+//       playable = false;
+//       return false;
+//   }
+// #endif
   ratioOfRate = sampleRate / 44100;
   if (ratioOfRate > 1) { // from here sample rate is sampleRate * ratioOfRate
     if (sampleRate == 88200 || sampleRate == 176400)
@@ -218,7 +218,7 @@ bool TaudioOUT::setAudioDevice(QString &name) {
     m_bufferFrames = m_bufferFrames * ratioOfRate; // increase buffer to give time for resampling in oggScale
   }
   oggScale->setSampleRate(sampleRate);
-  if (!openStream(&streamParams, NULL, dataFormat, sampleRate * ratioOfRate, &m_bufferFrames, &outCallBack, 0, streamOptions)) {
+  if (!openStream(&streamParams, NULL, dataFormat, sampleRate* ratioOfRate, &m_bufferFrames, &outCallBack, 0, streamOptions)) {
       playable = false;
       return false;
   }

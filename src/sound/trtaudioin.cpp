@@ -174,13 +174,13 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
   determineSampleRate(devInfo);
   m_pitch->setSampleRate(sampleRate, audioParams->range); // framesPerChunk is determined here
   m_bufferFrames = m_pitch->aGl()->framesPerChunk;
-#if defined (Q_OS_MAC)
+// #if defined (Q_OS_MAC)
   RtAudioFormat dataFormat = RTAUDIO_SINT16;
-#else
-	RtAudioFormat dataFormat = determineDataFormat(devInfo);
-	if (dataFormat == RTAUDIO_SINT8)
-			return false;
-#endif
+// #else
+// 	RtAudioFormat dataFormat = determineDataFormat(devInfo);
+// 	if (dataFormat == RTAUDIO_SINT8)
+// 			return false;
+// #endif
   if (!openStream(NULL ,&streamParams, dataFormat, sampleRate, &m_bufferFrames, &inCallBack, 0, streamOptions))
     return false;
   if (rtDevice->isStreamOpen()) {

@@ -9,7 +9,9 @@ TODOES
 - hide text "Wrong answer" when correction appears
 - use string numbers on pixmap in charts
 - charts texts are too light
-- force 'Plasique' style under MacOs or find a way on buttons
+- piano staff brace height is still random
+- Windows default (beginning) size is not corresponding with Vista style (too small)
+- improve nootka label color on main window
 
 - !!!check does 'string order' work for Tfingerboard!!!
 
@@ -34,6 +36,7 @@ TEXAMEXECUTOR
 ================================================================================================================
 Somewhere in time
 - keep exam file in /tmp and restore it when crash or so
+- improve cooperation a staff with piano staff - merge them somehow
 - merge out&in sounds into single call-back method (class)
 - add option of playing sound during capture
 - convert pointers requiring to be 0 to QPointer type
@@ -41,6 +44,7 @@ Somewhere in time
 - add setFlag(ItemHasNoContents) to QGraphicsItem sub-classes don't has a paint() - used as containers only
 - convert level file to text format (for sure) and exam file as well (consider)
 - preview of questions in Level Creator (list, on the guitar, in the score)
+- revert to native style under MacOs when Qt5 
 
 Tnote
 			- overload + and - operators to raise/drop a note
