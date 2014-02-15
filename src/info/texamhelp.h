@@ -25,10 +25,12 @@
 class QCheckBox;
 class QLabel;
 
-/** It shows simple exam help. The parameters are QStrings with colors 
+/** 
+ * It shows simple exam help. The parameters are QStrings with colors 
  * in HTML format: 
  * background-color: rgba() 
- * @param path is global path to images*/
+ * @param path is global path to images
+ */
 class TexamHelp : public ThelpDialogBase
 {
   Q_OBJECT
@@ -45,7 +47,7 @@ public:
   static QString orPressEnterKey() { return tr("or press <b>Enter</b> key"); } // or  press <b>Enter</b> key
   static QString orPressBackSpace() { return tr("or <b>Backspace</b> key"); } // or <b>Backspace</b> key
   static QString toStopExamTxt(QString imgHtmlTag)
-      { return tr("To stop - click %1 button.").arg(imgHtmlTag); } /** To stop - click button */
+      { return tr("Click %1 button to stop.").arg(imgHtmlTag); } /** Click %1 button to stop. */
       
 			/** Describing exercise mode:
 			 * Only recent exercise is stored for further continuation.
