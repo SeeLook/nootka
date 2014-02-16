@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -229,8 +229,10 @@ Tclef Tlevel::fixClef(quint16 cl) {
 			else
 					return Tclef(Tclef::e_treble_G); 
 		}	
-		if (cl == 257) // some previous mess - when levels didn't' support multiple clefs
-				return Tclef(Tclef::e_treble_G_8down); 
+		if (cl != 2 || cl != 4 || cl != 8 || cl != 16 || cl != 32 || cl != 64 || cl != 128) {
+        qDebug() << "Fixed clef type. Previous value was:" << cl;
+				return Tclef(Tclef::e_treble_G_8down); // some previous mess - when levels didn't' support clefs
+    }
 		
 		return Tclef((Tclef::Etype)cl);
 }

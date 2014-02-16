@@ -62,8 +62,8 @@ TtipChart::TtipChart(TquestionPoint *point) :
   QString txt;
   if (point->nr())
     txt = QString("<span style=\"font-size: 20px\"><b>%1.</b></span><br>").arg(point->nr());
-  txt += TquestionAsWdg::questionTxt() + " " + TquestionAsWdg::qaTypeText(point->question()->questionAs) + "<br>" +
-          TquestionAsWdg::answerTxt() + " " + TquestionAsWdg::qaTypeText(point->question()->answerAs) + "<br>";
+  txt += TquestionAsWdg::questionTxt() + ": <b>" + TquestionAsWdg::qaTypeText(point->question()->questionAs) + "</b><br>" +
+          TquestionAsWdg::answerTxt() + ": <b>" + TquestionAsWdg::qaTypeText(point->question()->answerAs) + "</b><br>";
   QString qS = "", aS = "";
   switch (point->question()->questionAs) {
     case TQAtype::e_asNote :
