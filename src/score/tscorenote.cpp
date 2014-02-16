@@ -251,6 +251,13 @@ void TscoreNote::hideNote() {
 }
 
 
+void TscoreNote::moveWorkNote(const QPointF& newPos) {
+	QGraphicsSceneHoverEvent moveEvent(QEvent::GraphicsSceneHoverMove);
+	moveEvent.setPos(newPos);
+	hoverMoveEvent(&moveEvent);
+}
+
+
 void TscoreNote::hideWorkNote() {
 	if (m_workNote->isVisible()) {
     m_workNote->hide();
@@ -355,6 +362,7 @@ void TscoreNote::keyAnimFinished() {
 //#################################################################################################
 
 void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
+// 	qDebug() << "hoverEnterEvent";
   if ((event->pos().y() >= m_ambitMax) && (event->pos().y() <= m_ambitMin)) {
       m_workNote->show();
       m_workAccid->show();
@@ -364,12 +372,14 @@ void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 
 
 void TscoreNote::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
+// 	qDebug() << "hoverLeaveEvent";
   hideWorkNote();
   TscoreItem::hoverLeaveEvent(event);
 }
 
 
 void TscoreNote::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
+// 	qDebug() << "hoverMoveEvent" << event->pos();
   if ((event->pos().y() >= m_ambitMax) && (event->pos().y() <= m_ambitMin)) {
     if (event->pos().y() != m_workPosY) {
 			if (m_curentAccid != scoreScene()->currentAccid()) { // update accidental symbol

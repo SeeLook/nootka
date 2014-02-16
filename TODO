@@ -2,7 +2,6 @@ Plan for the Nootka One
 
 			
 TODOES
-- levels are locked due to instrument type but fret or tune reason is described (requires translation update)
 - check 'tune' of non guitar - does it correspond with instrument/clef scale and levels works proper
 - left-handed guitar correction anim to guitar (morphing) has wrong line points
 - try to remove re-sizing a status label in exams/exercises
@@ -10,12 +9,12 @@ TODOES
 - use string numbers on pixmap in charts
 - piano staff brace height is still random
 - Windows default (beginning) size is not corresponding with Vista style (too small)
-- store user selected chart type during exam switching
+- combine tip shadow color with merge() method 
+- black theme has no background under 'note beyond guitar scale'
 
 - !!!check does 'string order' work for Tfingerboard!!!
 
 - make order with Qt::WA_TransparentForMouseEvents in canvas
-- paint work note under cursor: mapFromGlobal(cursor().pos() - when cursor is over score it appears only after move
 - remove unused classes: widgets/animations
 - add shadows under strings on pickup
 - do not transform pickup image for lefthanded - just change its pos
@@ -44,6 +43,7 @@ Somewhere in time
 - convert level file to text format (for sure) and exam file as well (consider)
 - preview of questions in Level Creator (list, on the guitar, in the score)
 - revert to native style under MacOs when Qt5 
+- comparing exams (charts)
 
 Tnote
 			- overload + and - operators to raise/drop a note

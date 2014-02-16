@@ -60,6 +60,7 @@ public:
         /** Adds blur effect to main note. If blurColor is -1 deletes the effect. */
     void markNote(QColor blurColor);    
     void moveNote(int posY);
+		void moveWorkNote(const QPointF& newPos);
 		
 				/** Sets note-head at given position and given accidental accidental. */
 		void setNote(int notePos, int accNr);
