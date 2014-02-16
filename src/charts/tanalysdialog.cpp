@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -533,10 +533,14 @@ void TanalysDialog::chartTypeChanged() {
 
 //##########  EVENTS #####################
 
-void TanalysDialog::resizeEvent(QResizeEvent* ) {
+void TanalysDialog::resizeEvent(QResizeEvent* event) {
     m_toolBar->setIconSize(QSize(height()/21, height()/21));
     m_openButton->setIconSize(m_toolBar->iconSize());
-    m_settButt->setIconSize(m_toolBar->iconSize());     
+    m_settButt->setIconSize(m_toolBar->iconSize());
+		if (m_chart && event->oldSize().height() > 0) {
+				double coef = ((double)event->size().height() / (double)event->oldSize().height());
+				m_chart->scale(coef, coef);
+		}
 }
 
 

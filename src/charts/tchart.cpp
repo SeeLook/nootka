@@ -18,13 +18,12 @@
 
 
 #include "tchart.h"
-#include <QGraphicsEllipseItem>
-#include <QMouseEvent>
 #include "txaxis.h"
 #include "tyaxis.h"
 #include "tabstractaxis.h"
 #include "ttiphandler.h"
-
+#include <QGraphicsEllipseItem>
+#include <QMouseEvent>
 
 
 Tchart::Tchart(QWidget* parent) :
@@ -90,15 +89,6 @@ bool Tchart::event(QEvent* event)
         scene->update(); 
   return QGraphicsView::event(event);
 }
-
-
-void Tchart::resizeEvent(QResizeEvent* event ) {
-	if (event->oldSize().height() > 0) {
-			double coef = ((double)event->size().height() / (double)event->oldSize().height());
-			scale(coef, coef);
-	}
-}
-
 
 
 

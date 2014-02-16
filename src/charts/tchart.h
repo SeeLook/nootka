@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -73,8 +73,6 @@ public:
     QGraphicsScene *scene;
     
 protected:
-      /** Keeps a chart scaled when user changes its size. */
-    void resizeEvent(QResizeEvent *event);
     bool event(QEvent *event);
     
     TXaxis *xAxis;
