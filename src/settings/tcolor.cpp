@@ -19,7 +19,46 @@
 #include "tcolor.h"
 
 
-class TcolorData : public QSharedData
+Tcolor::Tcolor() : QColor() 
+{}
+
+Tcolor::Tcolor(Qt::GlobalColor color) : QColor(color) 
+{}
+
+Tcolor::Tcolor(int r, int g, int b, int a) : QColor(r, g, b, a) 
+{}
+
+Tcolor::Tcolor(QRgb rgb) : QColor(rgb) 
+{}
+
+Tcolor::Tcolor(QColor::Spec spec) : QColor(spec) 
+{}
+
+Tcolor::Tcolor(const QString& name) : QColor(name) 
+{}
+
+Tcolor::Tcolor(const char* name) : QColor(name) 
+{}
+
+Tcolor::Tcolor(const QColor& color) : QColor(color) 
+{}
+
+Tcolor::Tcolor(const QString& name, int a) : QColor(name) 
+{ 
+	setAlpha(a); 
+}
+
+
+Tcolor::Tcolor(const QColor& color, int a) : QColor(color) 
 {
-public:
-};
+	setAlpha(a);
+}
+
+
+void Tcolor::merge(const QColor& otherColor) {
+	qreal al = iV(alpha()) + iV(otherColor.alpha() * (1 - iV(alpha())));
+	setRgba(qRgba(((iV(red()) * iV(alpha()) + iV(otherColor.red()) * iV(otherColor.alpha()) * (1 - iV(alpha()))) / al) * 255,
+								((iV(green()) * iV(alpha()) + iV(otherColor.green()) * iV(otherColor.alpha()) * (1 - iV(alpha()))) / al) * 255,
+								((iV(blue()) * iV(alpha()) + iV(otherColor.blue()) * iV(otherColor.alpha()) * (1 - iV(alpha()))) / al) * 255,
+								qMin(255, (int)(255 * al))));
+}

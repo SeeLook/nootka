@@ -22,6 +22,7 @@
 #include <tgraphicstexttip.h>
 #include <animations/tstrikedoutitem.h>
 #include <animations/tcombinedanim.h>
+#include <tcolor.h>
 #include <QtGui>
 #include <QDebug>
 
@@ -36,7 +37,7 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     m_corrStyle(Tnote::defaultStyle)
 {
     if (gl->GfingerColor == -1) {
-        gl->GfingerColor = gl->invertColor(palette().highlight().color());
+        gl->GfingerColor = Tcolor::invert(palette().highlight().color());
         gl->GfingerColor.setAlpha(200);
     }
     if (gl->GselectedColor == -1) {

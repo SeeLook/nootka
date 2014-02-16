@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -27,6 +27,7 @@
 #include "texamview.h"
 #include "texam.h"
 #include "tlevel.h"
+#include <tcolor.h>
 #include <QApplication>
 #include <QDebug>
 
@@ -135,23 +136,23 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
     if (settings.order == e_byFret) {
       cnt = 1;
       for (int i = 0; i < goodSize; i++) { 
-        QGraphicsTextItem *fretText = new QGraphicsTextItem();
-        QFont f;
-        f.setPixelSize(30);
-        fretText->setFont(f);
-        QString hintText = "<b style=\"color: rgba(200, 200, 200, 200); \">";
+        QGraphicsTextItem *fretText = getTextItem(30);
+        QString hintText = "<b>";
         if (goodOffset && (i == goodSize -1))
           hintText += QApplication::translate("TlinearChart", "questions unrelated<br>with chart type");
         else
-          hintText += QString("%1</b>").arg(TfingerPos::romanFret(sortedLists[i].first()->qa.pos.fret()));
-        hintText += "</b>";          
+          hintText += QString("%1").arg(TfingerPos::romanFret(sortedLists[i].first()->qa.pos.fret()));
+        hintText += "</b>";
         fretText->setHtml(hintText);
-        scene->addItem(fretText);
-        TgraphicsTextTip::alignCenter(fretText);
+				TgraphicsTextTip::alignCenter(fretText);
+				qreal sc = 1.0;
+        if (sortedLists[i].size() * xAxis->questWidth() < fretText->boundingRect().width()) {
+            sc = (sortedLists[i].size() * xAxis->questWidth()) / fretText->boundingRect().width();
+            fretText->setScale(sc);
+        }
         fretText->setPos(xAxis->mapValue(cnt) + 
-        (sortedLists[i].size() * xAxis->questWidth() - fretText->boundingRect().width()) / 2, 
+        (sortedLists[i].size() * xAxis->questWidth() - fretText->boundingRect().width() * sc) / 2,
                          yAxis->mapValue(yAxis->maxValue()));        
-        fretText->setZValue(3);
         
         cnt += sortedLists[i].size();
       }      
@@ -161,20 +162,17 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
       cnt = 1;
       QColor tc = palette().text().color();
       for (int i = 0; i < goodSize; i++) { 
-        QGraphicsTextItem *keyText = new QGraphicsTextItem();
-        QFont f;
-        f.setPixelSize(16);
-        keyText->setFont(f);
-        QString hintText = QString("<b style=\"color: rgba(%1, %2, %3, 150); \">").arg(tc.red()).arg(tc.green()).arg(tc.blue());
+        QGraphicsTextItem *keyText = getTextItem(16);
+        QString hintText = "<b>";
         if (goodOffset && (i == goodSize -1))
-          hintText += QApplication::translate("TlinearChart", "questions unrelated<br>with chart type") + "</b>";
+          hintText += QApplication::translate("TlinearChart", "questions unrelated<br>with chart type");
         else {
             hintText += QString("%1").arg(sortedLists[i].first()->key.getName());
             hintText += "<br>" + getWasInAnswOrQuest(TQAtype::e_asNote, sortedLists[i].operator[](0).qaPtr);
         }
+        hintText += "</b>";
         keyText->setHtml(hintText);
-        scene->addItem(keyText);
-        TgraphicsTextTip::alignCenter(keyText);
+				TgraphicsTextTip::alignCenter(keyText);
         qreal sc = 1.0;
         if (sortedLists[i].size() * xAxis->questWidth() < keyText->boundingRect().width()) {
             sc = (sortedLists[i].size() * xAxis->questWidth()) / keyText->boundingRect().width();
@@ -183,7 +181,6 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
         keyText->setPos(xAxis->mapValue(cnt) + 
         (sortedLists[i].size() * xAxis->questWidth() - keyText->boundingRect().width() * sc) / 2, 
                          yAxis->mapValue(yAxis->maxValue()));        
-        keyText->setZValue(3);
         cnt += sortedLists[i].size();
       }
     }
@@ -191,11 +188,8 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
     if (settings.order == e_byAccid) {
       cnt = 1;
       for (int i = 0; i < goodSize; i++) { 
-        QGraphicsTextItem *accidentalText = new QGraphicsTextItem();
-        QFont f;
-        f.setPixelSize(30);
-        accidentalText->setFont(f);
-        QString hintText = "<span style=\"color: rgba(200, 200, 200, 200); \">";
+        QGraphicsTextItem *accidentalText = getTextItem(30);
+        QString hintText;
         if (goodOffset && (i == goodSize -1))
           hintText += QApplication::translate("TlinearChart", "questions unrelated<br>with chart type") + "</span>";
         else 
@@ -203,26 +197,35 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
             hintText += QString("%1").arg(accidToNotka(kindOfAccids[i], 40));
           else
             hintText += QApplication::translate("TlinearChart", "without accidentals");
-        hintText += "</span>";
         accidentalText->setHtml(hintText);
-        scene->addItem(accidentalText);
-        TgraphicsTextTip::alignCenter(accidentalText);
+				TgraphicsTextTip::alignCenter(accidentalText);
         accidentalText->setPos(xAxis->mapValue(cnt) + 
         (sortedLists[i].size() * xAxis->questWidth() - accidentalText->boundingRect().width()) / 2, 
                          yAxis->mapValue(yAxis->maxValue()));        
-        accidentalText->setZValue(3);
         cnt += sortedLists[i].size();
       }      
     }
   
-  
   }
 
-  
-  
 }
 
-TlinearChart::~TlinearChart() {}
+
+QGraphicsTextItem* TlinearChart::getTextItem(int fontSize) {
+	QGraphicsTextItem *item = new QGraphicsTextItem();
+	QFont f;
+	f.setPixelSize(fontSize);
+	item->setFont(f);
+	QColor C(palette().text().color());
+	C.setAlpha(50);
+	Tcolor::merge(C, palette().base().color());
+	item->setDefaultTextColor(C);
+	scene->addItem(item);
+	item->setZValue(3);
+	return item;
+}
+
+
 
 
 

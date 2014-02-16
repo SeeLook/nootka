@@ -1403,7 +1403,7 @@ bool TexamExecutor::showExamSummary(bool cont, bool* startExam) {
 void TexamExecutor::showExamHelp() {
   m_snifferLocked = true;
   qApp->removeEventFilter(m_supp);
-  TexamHelp *hlp = new TexamHelp(gl->getBGcolorText(gl->EquestionColor), gl->getBGcolorText(gl->EanswerColor), 
+  TexamHelp *hlp = new TexamHelp(Tcolor::bgTag(gl->EquestionColor), Tcolor::bgTag(gl->EanswerColor), 
 																 &gl->E->showHelpOnStart, mW);
   hlp->exec();
   delete hlp;

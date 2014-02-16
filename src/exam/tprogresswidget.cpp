@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,6 +20,7 @@
 #include "tprogresswidget.h"
 #include <QtGui>
 #include "tglobals.h"
+#include <tcolor.h>
 
 extern Tglobals *gl;
 
@@ -31,13 +32,13 @@ TprogressWidget::TprogressWidget(QWidget* parent) :
 {
   QHBoxLayout *lay = new QHBoxLayout;
   m_answLab = new QLabel(zeroLabTxt(), this);
-  m_answLab->setStyleSheet("border: 1px solid palette(Text); border-radius: 4px;" + gl->getBGcolorText(gl->EnotBadColor));
+  m_answLab->setStyleSheet("border: 1px solid palette(Text); border-radius: 4px;" + Tcolor::bgTag(gl->EnotBadColor));
   lay->addWidget(m_answLab);
   m_bar = new QProgressBar(this);
   m_bar->setValue(0);
   lay->addWidget(m_bar);
   m_totalLab = new QLabel(zeroLabTxt(), this);
-  m_totalLab->setStyleSheet("border: 1px solid palette(Text); border-radius: 4px;" + gl->getBGcolorText(gl->EanswerColor));
+  m_totalLab->setStyleSheet("border: 1px solid palette(Text); border-radius: 4px;" + Tcolor::bgTag(gl->EanswerColor));
   lay->addWidget(m_totalLab);
   
   setLayout(lay);

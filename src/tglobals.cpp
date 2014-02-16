@@ -47,24 +47,6 @@ QString Tglobals::getInstPath(QString appInstPath) {
         return p;
 }
 
-QString Tglobals::getBGcolorText(QColor C) {
-  return getBgColorText(C);
-}
-
-QColor Tglobals::invertColor(QColor C) {
-    if (C != -1)
-        C.setRgb(qRgb(255-C.red(), 255-C.green(), 255-C.blue()));
-    return C;
-}
-
-QColor Tglobals::mergeColors(QColor C1, QColor C2) {
-    qreal al = iV(C1.alpha()) + iV(C2.alpha() * (1 - iV(C1.alpha())));
-    return QColor(((iV(C1.red()) * iV(C1.alpha()) + iV(C2.red()) * iV(C2.alpha()) * (1 - iV(C1.alpha()))) / al) * 255,
-                  ((iV(C1.green()) * iV(C1.alpha()) + iV(C2.green()) * iV(C2.alpha()) * (1 - iV(C1.alpha()))) / al) * 255,
-                  ((iV(C1.blue()) * iV(C1.alpha()) + iV(C2.blue()) * iV(C2.alpha()) * (1 - iV(C1.alpha()))) / al) * 255,
-                  qMin(255, (int)(255 * al)));
-}
-
 /*end static*/
 
 
@@ -143,7 +125,7 @@ Tglobals::Tglobals() :
         if (config->contains("fingerColor"))
             GfingerColor = config->value("fingerColor").value<QColor>();
         else
-            GfingerColor = -1;
+            GfingerColor = QColor(255, 0, 127, 200); // nice pink
         if (config->contains("selectedColor"))
             GselectedColor = config->value("selectedColor").value<QColor>();
         else

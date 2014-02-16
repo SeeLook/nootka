@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,6 +23,7 @@
 #include "widgets/tcolorbutton.h"
 #include "tselectclef.h"
 #include "tnotationradiogroup.h"
+#include "tcolor.h"
 #include <tnotepixmap.h>
 #include <tfirstrunwizzard.h>
 #include <tnamestylefilter.h>
@@ -210,7 +211,7 @@ void TscoreSettings::restoreDefaults() {
 					m_nameStyleGr->setNameStyle(Tnote::e_nederl_Bis);
 			else
 					m_nameStyleGr->setNameStyle(Tnote::e_deutsch_His);
-		m_notePointColorBut->setColor(gl->invertColor(palette().highlight().color()));
+		m_notePointColorBut->setColor(Tcolor::invert(palette().highlight().color()));
 		m_clefSelector->selectClef(Tclef(Tclef::e_treble_G_8down));
 		nameStyleWasChanged(m_nameStyleGr->getNameStyle());
 }

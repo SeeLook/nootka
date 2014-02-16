@@ -21,17 +21,10 @@
 #include <animations/tblinkingitem.h>
 #include <animations/tmovedanim.h>
 #include <tgraphicstexttip.h>
+#include <tcolor.h>
 #include <QGraphicsTextItem>
 #include <QGraphicsEffect>
 #include <QTimer>
-
-
-QString getBgColorText(const QColor& C) {
-	if ( C != -1)
-    return QString("background-color: rgba(%1, %2, %3, %4); ").arg(C.red()).arg(C.green()).arg(C.blue()).arg(C.alpha());
-  else
-    return QString("background-color: transparent; ");
-}
 
 
 /*static*/
@@ -146,7 +139,7 @@ void TnoteNameLabel::setStyleSheet(const QString& style) {
 
 void TnoteNameLabel::setBackgroundColor(const QColor& color) {
 	m_bgColor = color;
-	m_bgColorText = getBgColorText(color);
+	m_bgColorText = Tcolor::bgTag(color);
 	QGraphicsView::setStyleSheet(borderStyleText() + m_bgColorText + m_styleText);
 	repaint();
 }

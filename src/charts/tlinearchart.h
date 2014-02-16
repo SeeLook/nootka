@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,13 +22,16 @@
 
 #include <tmainchart.h>
 
+class QGraphicsTextItem;
 
 class TlinearChart : public TmainChart
 {
 
 public:
     TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* parent = 0);
-    virtual ~TlinearChart();
+		
+private:
+		QGraphicsTextItem* getTextItem(int fontSize);
 };
 
 #endif // TLINEARCHART_H
