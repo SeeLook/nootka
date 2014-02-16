@@ -229,7 +229,7 @@ Tclef Tlevel::fixClef(quint16 cl) {
 			else
 					return Tclef(Tclef::e_treble_G); 
 		}	
-		if (cl != 2 || cl != 4 || cl != 8 || cl != 16 || cl != 32 || cl != 64 || cl != 128) {
+		if (cl != 2 && cl != 4 && cl != 8 && cl != 16 && cl != 32 && cl != 64 && cl != 128) {
         qDebug() << "Fixed clef type. Previous value was:" << cl;
 				return Tclef(Tclef::e_treble_G_8down); // some previous mess - when levels didn't' support clefs
     }

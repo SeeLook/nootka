@@ -228,16 +228,13 @@ void TlevelSelector::fileIOerrorMsg(QFile &f, QWidget *parent) {
 
 QString TlevelSelector::checkLevel(Tlevel& l) {
 	QString warringText = "";
-	if (l.canBeGuitar() || (l.instrument != e_noInstrument && l.canBeSound())) {
+	if (gl->instrument == e_noInstrument && l.instrument != e_noInstrument)
+					warringText = tr("Level is not suitable for current instrument type");
+	else if (l.canBeGuitar() || (l.instrument != e_noInstrument && l.canBeSound())) {
     if (l.hiFret > gl->GfretsNumber || gl->Gtune()->stringNr() < 3 ||
         l.loNote.getChromaticNrOfNote() < gl->loString().getChromaticNrOfNote() ||
 			  l.hiNote.getChromaticNrOfNote() > gl->hiNote().getChromaticNrOfNote())
-							warringText = tr("Level is not suitable for current tuning and/or fret number");
-//     else if (gl->instrument == e_noInstrument && l.instrument != e_noInstrument)
-// 							warringText = tr("Level is not suitable for current instrument type");
-// 	} else if ((l.answerIsSound() || l.answerIsGuitar()) &&
-// 				!l.inScaleOf(gl->loString().getChromaticNrOfNote(), gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber))
-// 						warringText = rangeBeyondScaleTxt();
+					warringText = tr("Level is not suitable for current tuning and/or fret number");
   }
 	return warringText;
 }

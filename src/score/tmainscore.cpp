@@ -32,6 +32,8 @@
 #include <tcolor.h>
 #include <QPen>
 #include <QLayout>
+#include <QApplication>
+#include <QGraphicsSceneHoverEvent>
 #include <QTimer>
 #include <QDebug>
 
@@ -131,6 +133,15 @@ void TmainScore::unLockScore() {
 			setNoteViewBg(0, gl->EanswerColor);
     }
   setClefDisabled(true);
+	QPointF nPos = staff()->noteSegment(0)->mapFromScene(score()->mapToScene(score()->mapFromParent(mapFromGlobal(cursor().pos()))));
+	if (nPos.x() > 0.0 && nPos.x() < 7.0) {
+		staff()->noteSegment(0)->moveWorkNote(nPos);
+		if (staff()->lower()) {
+			nPos = staff()->lower()->
+							noteSegment(0)->mapFromScene(score()->mapToScene(score()->mapFromParent(mapFromGlobal(cursor().pos()))));
+			staff()->lower()->noteSegment(0)->moveWorkNote(nPos);
+		}
+	}
 }
 
 

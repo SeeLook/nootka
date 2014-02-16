@@ -55,7 +55,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   m_chartSetts.inclWrongAnsw = false;
   m_chartSetts.separateWrong = true;
   m_chartSetts.order = Tchart::e_byNumber;
-  m_chartSetts.type = Tchart::e_linear; // TODO: remember previous type selected by user
+  m_chartSetts.type = Tchart::e_linear;
 
   lay = new QVBoxLayout;
   
