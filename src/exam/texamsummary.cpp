@@ -70,7 +70,6 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
 	
     QHBoxLayout *buttLay =new QHBoxLayout;
 
-    m_closeButt;
     QPushButton *analyseButt = new QPushButton(tr("Analyse"), this);
     analyseButt->setIcon(QIcon(path + "picts/charts.png"));
     analyseButt->setIconSize(QSize(48, 48));

@@ -10,7 +10,7 @@ TODOES
 - use string numbers on pixmap in charts
 - piano staff brace height is still random
 - Windows default (beginning) size is not corresponding with Vista style (too small)
-- charts hangs when type is changed/scrolled
+- store user selected chart type during exam switching
 
 - !!!check does 'string order' work for Tfingerboard!!!
 

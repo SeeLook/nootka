@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -49,7 +49,7 @@ public:
 	static QString analyseExerciseWinTitle() { return tr("Analysis of exercise"); }
     
 protected:
-  void resizeEvent(QResizeEvent *);
+  void resizeEvent(QResizeEvent* event);
     
 protected slots:
   void testSlot();
