@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -41,14 +41,6 @@ public:
 
         /** This method return application install path - path from whwre Nootka was started. */
     static QString getInstPath(QString appInstPath);
-
-        /** Returns string with given color in HTML/CSS style.
-        * It is needed in setStyleSheet method for Qwidget style*/
-    static QString getBGcolorText(QColor C);
-
-    static QColor invertColor(QColor C);
-    static qreal iV(int ch) { return ch / 255.0; } // inverts value (0 - 255) to 0.0 - 1.0
-    static QColor mergeColors(QColor C1, QColor C2);
 
     void storeSettings();
 

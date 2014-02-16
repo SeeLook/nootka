@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,6 +22,7 @@
 #include "texamview.h"
 #include "tqaunit.h"
 #include "tglobals.h"
+#include <tcolor.h>
 #include <QApplication>
 
 
@@ -30,7 +31,7 @@ extern Tglobals *gl;
 
 QString trStyle(QColor c) {
     c.setAlpha(30);
-    return QString("style=\"%1\"").arg(Tglobals::getBGcolorText(c));
+    return QString("style=\"%1\"").arg(Tcolor::bgTag(c));
 }
 
 /*static*/

@@ -25,14 +25,6 @@
 
 class TmovedAnim;
 class TblinkingItem;
-
-			/**  Returns style sheet text: 
-			*	background-color: rgba(red, green, blue, alpha);
-			* of given color @p C  */
-QString getBgColorText(const QColor &C);
-
-
-
 class TstrikedOutItem;
 
 

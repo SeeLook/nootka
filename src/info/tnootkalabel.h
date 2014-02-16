@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,8 +22,11 @@
 #include <QWidget>
 #include <QGraphicsView>
 
-class QGraphicsColorizeEffect;
 
+/** 
+ * This is QGraphicsView with given image (and its size)
+ * colored with given color (palette().window().color() by default)
+ */
 class TnootkaLabel : public QGraphicsView
 {
 

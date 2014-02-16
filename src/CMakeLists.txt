@@ -108,7 +108,7 @@ SET( NOOTKA_SRCS
   settings/tvolumeslider.cpp
   settings/tselectclef.cpp
   settings/tscalepreviewlabel.cpp
-  settings/tcolor.cpp
+  settings/tcolor.h
 ###### Level
   level/tlevelcreatordlg.cpp
   level/tlevel.cpp

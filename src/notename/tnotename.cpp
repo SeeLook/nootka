@@ -254,7 +254,7 @@ void TnoteName::setAmbitus(Tnote lo, Tnote hi) {
 //#################################### EXAM RELATED ############################################
 //##############################################################################################
 QColor TnoteName::prepareBgColor(const QColor& halfColor) {
-		QColor mixedColor = gl->mergeColors(halfColor, palette().window().color());
+		QColor mixedColor = Tcolor::merge(halfColor, palette().window().color());
     mixedColor.setAlpha(220);
 		return mixedColor;
 }

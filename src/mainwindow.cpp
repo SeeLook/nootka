@@ -29,6 +29,7 @@
 #include "widgets/tanimedchbox.h"
 #include "texamsettings.h"
 #include <tupdateprocess.h>
+#include <tcolor.h>
 #include "tsound.h"
 #include "tpushbutton.h"
 #include "tmainscore.h"
@@ -135,12 +136,15 @@ MainWindow::MainWindow(QWidget *parent) :
     progress = new TprogressWidget(innerWidget);
     
     examResults = new TexamView(innerWidget);
-    examResults->setStyleBg(gl->getBGcolorText(gl->EanswerColor), gl->getBGcolorText(gl->EquestionColor),
-                            gl->getBGcolorText(gl->EnotBadColor));
+    examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor),
+                            Tcolor::bgTag(gl->EnotBadColor));
 		
 		progress->hide();
-    examResults->hide();		
-		nootLabel = new TnootkaLabel(gl->path + "picts/logo.png", innerWidget);
+    examResults->hide();
+		QColor C(palette().text().color());
+		C.setAlpha(15);
+		C = Tcolor::merge(C, palette().window().color());
+		nootLabel = new TnootkaLabel(gl->path + "picts/logo.png", innerWidget, C);
 		
     noteName = new TnoteName(innerWidget);
     noteName->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
@@ -354,8 +358,8 @@ void MainWindow::createSettingsDialog() {
 			noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
 			noteName->setStyle(gl->NnameStyleInNoteName);
 				// set new colors in exam view
-			examResults->setStyleBg(gl->getBGcolorText(gl->EanswerColor), gl->getBGcolorText(gl->EquestionColor), 
-															gl->getBGcolorText(gl->EnotBadColor));
+			examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor),
+															Tcolor::bgTag(gl->EnotBadColor));
 			noteName->setAmbitus(gl->loString(),
 															Tnote(gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber));
 			updateSize(innerWidget->size());
@@ -652,7 +656,7 @@ void MainWindow::updateSize(QSize newS) {
 				guitar->hide();
 				m_pitchContainer = new QWidget(innerWidget);
 				m_pitchContainer->setObjectName("m_pitchContainer");
-				m_pitchContainer->setStyleSheet("QWidget#m_pitchContainer {" + gl->getBGcolorText(palette().window().color()) + 
+				m_pitchContainer->setStyleSheet("QWidget#m_pitchContainer {" + Tcolor::bgTag(palette().window().color()) + 
 					"border-radius: 10px;" + QString("background-image: url(%1);}").arg(gl->path + "picts/scoresettbg.png"));
 				m_rightLay->removeWidget(pitchView);
 				QVBoxLayout *pitchLay = new QVBoxLayout;

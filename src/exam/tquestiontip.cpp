@@ -25,6 +25,7 @@
 #include <tlevel.h>
 #include <ttipchart.h>
 #include <animations/tfadeinanim.h>
+#include <tcolor.h>
 // #include <QDebug>
 
 extern Tglobals *gl;
@@ -80,7 +81,7 @@ TquestionTip::~TquestionTip()
 //##########################################################################################
 
 QString TquestionTip::getNiceNoteName(Tnote note, Tnote::EnameStyle style) {
-    return QString("<b><span style=\"%1\">&nbsp;").arg(gl->getBGcolorText(gl->EquestionColor)) +
+    return QString("<b><span style=\"%1\">&nbsp;").arg(Tcolor::bgTag(gl->EquestionColor)) +
             note.toRichText(style) + " </span></b>";
 }
 
@@ -187,7 +188,7 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
               if (question.answerAs == TQAtype::e_asSound) {
                   quest += playOrSing(int(level->instrument));
               }
-        quest += QString("<br><span style=\"font-size: 30px; %1\">&nbsp;").arg(gl->getBGcolorText(gl->EquestionColor)) +
+        quest += QString("<br><span style=\"font-size: 30px; %1\">&nbsp;").arg(Tcolor::bgTag(gl->EquestionColor)) +
                     question.qa.pos.toHtml() + " </span>";
         if (apendix != "")
           quest += "<br>" + apendix;

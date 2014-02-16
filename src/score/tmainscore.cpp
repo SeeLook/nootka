@@ -29,6 +29,7 @@
 #include <tgraphicstexttip.h>
 #include <animations/tstrikedoutitem.h>
 #include <animations/tblinkingitem.h>
+#include <tcolor.h>
 #include <QPen>
 #include <QLayout>
 #include <QTimer>
@@ -126,7 +127,7 @@ void TmainScore::unLockScore() {
 	setNoteDisabled(1, true);
 	setNoteDisabled(2, true);
     if (m_questMark) { // question mark exists only when exam is performing
-      setBGcolor(gl->mergeColors(gl->EanswerColor, palette().window().color()));
+      setBGcolor(Tcolor::merge(gl->EanswerColor, palette().window().color()));
 			setNoteViewBg(0, gl->EanswerColor);
     }
   setClefDisabled(true);
@@ -284,7 +285,7 @@ void TmainScore::clearScore() {
 
 void TmainScore::askQuestion(Tnote note, char realStr) {
 		setNote(1, note);
-    setBGcolor(gl->mergeColors(gl->EquestionColor, palette().window().color()));
+    setBGcolor(Tcolor::merge(gl->EquestionColor, palette().window().color()));
     m_questMark->show();
     if (realStr) 
 			setStringNumber(1, realStr);
@@ -513,7 +514,7 @@ void TmainScore::restoreNotesSettings() {
 		if (gl->enharmNotesColor == -1)
 					gl->enharmNotesColor = palette().highlight().color();
 		if (gl->SpointerColor == -1) {
-					gl->SpointerColor = gl->invertColor(palette().highlight().color());
+					gl->SpointerColor = Tcolor::invert(palette().highlight().color());
 					gl->SpointerColor.setAlpha(200);
 		}
 		staff()->noteSegment(0)->setPointedColor(gl->SpointerColor);

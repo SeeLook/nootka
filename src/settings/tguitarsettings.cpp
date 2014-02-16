@@ -232,8 +232,8 @@ void TguitarSettings::restoreDefaults() {
 		m_righthandCh->setChecked(true);
 		m_prefSharpBut->setChecked(true);
 		m_morePosCh->setChecked(false);
-		m_pointColorBut->setColor(gl->invertColor(palette().highlight().color()));
-		m_selColorBut->setColor(palette().highlight().color());
+		m_pointColorBut->setColor(QColor(255, 0, 127, 200));
+		m_selColorBut->setColor(QColor(51, 153, 255));
 }
 
 

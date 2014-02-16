@@ -27,6 +27,7 @@
 #include "tscorepianostaff.h"
 #include "tscoreview.h"
 #include "tinstrument.h"
+#include <tcolor.h>
 #include <QHBoxLayout>
 #include <QMouseEvent>
 #include <QApplication>
@@ -256,12 +257,13 @@ void TsimpleScore::setScoreDisabled(bool disabled) {
 
 
 void TsimpleScore::setAmbitus(int index, Tnote lo, Tnote hi) {
-	if (index >= 0 && index < m_notesNr)
+	if (index >= 0 && index < m_notesNr) {
 		if (staff()->lower()) {
 				staff()->noteSegment(index)->setAmbitus(staff()->height() - 2, staff()->noteToPos(hi) + 1);
 				staff()->lower()->noteSegment(index)->setAmbitus(staff()->lower()->noteToPos(lo) + 1, 2);
 		} else
 				staff()->noteSegment(index)->setAmbitus(staff()->noteToPos(lo) + 1, staff()->noteToPos(hi) + 1);
+	}
 }
 
 
@@ -286,6 +288,8 @@ Tnote TsimpleScore::lowestNote() {
 			return Tnote(7, -2);
 	if (staff()->scoreClef()->clef().type() == Tclef::e_tenor_C)
 			return Tnote(5, -2);
+	qDebug() << "lowestNote() riches end of method without result";
+	return Tnote(6, -2); // It should never happened
 }
 
 
@@ -304,6 +308,8 @@ Tnote TsimpleScore::highestNote() {
 		return Tnote(5, 3);
 	if (staff()->scoreClef()->clef().type() == Tclef::e_tenor_C)
 		return Tnote(3, 3);
+	qDebug() << "highestNote() riches end of method without result";
+	return Tnote(4, 4);
 }
 
 
@@ -421,8 +427,8 @@ void TsimpleScore::statusTipChanged(QString status) {
 
 
 void TsimpleScore::setBGcolor(QColor bgColor) {
-	m_score->setStyleSheet(QString("border: 1px solid palette(Text); border-radius: 10px; background-color: rgba(%1, %2, %3, 220)")
-		.arg(bgColor.red()).arg(bgColor.green()).arg(bgColor.blue()) );
+	bgColor.setAlpha(220);
+	m_score->setStyleSheet(QString("border: 1px solid palette(Text); border-radius: 10px; %1").arg(Tcolor::bgTag(bgColor)));
 }
 
 
