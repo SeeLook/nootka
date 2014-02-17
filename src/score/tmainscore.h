@@ -116,6 +116,7 @@ protected slots:
 		
 private:
 		void restoreNotesSettings(); /** Sets notes colors according to globals. */
+		void performScordatureSet(); /** Common method to set scordature */
 		
 				/** Creates QGraphicsRectItem with answer color, places it under the staff and adds to m_bgRects list.
 				 * clearScore() removes it. */

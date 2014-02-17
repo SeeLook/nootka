@@ -32,8 +32,6 @@
 #include <tcolor.h>
 #include <QPen>
 #include <QLayout>
-#include <QApplication>
-#include <QGraphicsSceneHoverEvent>
 #include <QTimer>
 #include <QDebug>
 
@@ -117,8 +115,7 @@ void TmainScore::acceptSettings() {
 
 void TmainScore::setScordature() {
 	if (gl->instrument == e_classicalGuitar || gl->instrument == e_electricGuitar) {
-			Ttune tmpTune(*gl->Gtune());
-			staff()->setScordature(tmpTune);
+			performScordatureSet();
 			resizeEvent(0);
 	}
 }
@@ -512,7 +509,15 @@ void TmainScore::finishCorrection() {
 
 void TmainScore::resizeEvent(QResizeEvent* event) {
 	TsimpleScore::resizeEvent(event);
-	QTimer::singleShot(500, this, SLOT(setScordature()));
+	performScordatureSet(); // To keep scordature size up to date with score size
+}
+
+
+void TmainScore::performScordatureSet() {
+	if (gl->instrument == e_classicalGuitar || gl->instrument == e_electricGuitar) {
+			Ttune tmpTune(*gl->Gtune());
+			staff()->setScordature(tmpTune);
+	}
 }
 
 
