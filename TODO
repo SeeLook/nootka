@@ -11,9 +11,6 @@ TODOES
 - Windows default (beginning) size is not corresponding with Vista style (too small)
 - combine tip shadow color with merge() method 
 - black theme has no background under 'note beyond guitar scale'
-
-- !!!check does 'string order' work for Tfingerboard!!!
-
 - make order with Qt::WA_TransparentForMouseEvents in canvas
 - remove unused classes: widgets/animations
 - add shadows under strings on pickup
