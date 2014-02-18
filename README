@@ -62,7 +62,7 @@
   ---------------------------------------------------------------------------------------------------------
 - If you want to launch Nootka without installing - in a place where it is compiled
 	call
-		make noinstall
+		make runinplace
 		it will copy or link all necessary staff next to builded executable
   ---------------------------------------------------------------------------------------------------------
 - make install (usually as root)

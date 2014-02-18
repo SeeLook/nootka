@@ -150,17 +150,18 @@ if(UNIX AND NOT APPLE)
 ENDIF(UNIX AND NOT APPLE)
 
 ###########################################################################
-#	installing target (make noinstall) - copy or link necessary files to run nootka without install
+#	installing target (make runinplace) - copy or link necessary files to run nootka without install
 ###########################################################################
 message(STATUS "
 	To enable lunching nootka without installing, call:
-	make noinstall
+	make runinplace
+	Binary nootka is in src folder, so launch it invoking: ./src/nootka
 	")
 
 if(WIN32)
 	GET_FILENAME_COMPONENT(VORBIS_DIR ${VORBIS_LIBRARIES} PATH)
 	GET_FILENAME_COMPONENT(MAKE_DIR ${CMAKE_MAKE_PROGRAM} PATH)
-	add_custom_target(noinstall
+	add_custom_target(runinplace
 		COMMAND echo " "
 		COMMAND echo Copying libraries...
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/QtCore4.dll ${CMAKE_BINARY_DIR}/src/.
