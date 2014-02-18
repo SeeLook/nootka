@@ -349,7 +349,7 @@ void TnoteName::setNameText() {
     if (m_notes[0].note) {
 				QString txt = m_notes[0].toRichText();
         if (m_notes[1].note) {
-            txt = txt + QString("  <span style=\"font-size: %1px; color: %2\">(").arg(m_nameLabel->font().pointSize() - 2).arg(gl->enharmNotesColor.name()) + m_notes[1].toRichText();
+            txt = txt + QString("  <span style=\"font-size: small; color: %1\">(").arg(gl->enharmNotesColor.name()) + m_notes[1].toRichText();
             if (m_notes[2].note)
                 txt = txt + "  " + m_notes[2].toRichText();
             txt = txt + ")</span>";
