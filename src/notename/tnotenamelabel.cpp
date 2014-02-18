@@ -52,9 +52,6 @@ TnoteNameLabel::TnoteNameLabel(const QString& text, QWidget* parent) :
 	QGraphicsScene *scene = new QGraphicsScene(this);
 	setScene(scene);
 	m_textItem = new QGraphicsTextItem(0, scene);
-	QFont f = font();
-	f.setStyleHint(QFont::SansSerif);
-	m_textItem->setFont(f);
 	scene->setSceneRect(geometry());
 	setText(text);
 	
