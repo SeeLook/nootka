@@ -2,7 +2,7 @@
 #			COMMON SETTINGS  ##########################################################
 ##########################################################################################
 
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Application to help with learning classical score notation.")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Application to help with learning classical score notation")
 set(CPACK_PACKAGE_VENDOR "Nootka")
 set(CPACK_PACKAGE_DESCRIPTION_FILE "${PROJECT_SOURCE_DIR}/packaging/nootka-desc")
 set(CPACK_RESOURCE_FILE_LICENSE    "${PROJECT_SOURCE_DIR}/gpl")

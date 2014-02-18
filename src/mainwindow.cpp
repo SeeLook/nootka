@@ -99,6 +99,9 @@ MainWindow::MainWindow(QWidget *parent) :
     TkeySignature::setNameStyle(gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
 
     sound = new Tsound(this);
+		
+		
+// 		qDebug() << style()->objectName();
 //-------------------------------------------------------------------
 // Creating GUI elements
     innerWidget = new QWidget(this);
