@@ -377,9 +377,9 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 	int hh = height();
 	if (event)
 		hh = event->size().height();
-	qreal styleOff = 0.0; // some styles quirks - it steals some space
-  if (style()->objectName() == "bespin" || style()->objectName() == "windowsvista" || style()->objectName() == "plastique")
-			styleOff = 1.0;
+	qreal styleOff = 1.0; // some styles quirks - it steals some space
+  if (style()->objectName() == "oxygen" || style()->objectName() == "oxygen transparent" || style()->objectName() == "qtcurve")
+			styleOff = 0.0;
   qreal factor = (((qreal)hh / 40.0) / m_score->transform().m11()) * m_pianoFactor;
   m_score->scale(factor, factor);
 	m_scene->setSceneRect(0, 0, (m_staff->boundingRect().width() + styleOff) * m_score->transform().m11(), 

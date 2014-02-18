@@ -1,3 +1,7 @@
+0.9.7 rc3
+    BUGS FIXES
+     - fixed acting with non pitch-ordered stringing guitars
+
 0.9.6 rc2
     BUGS FIXES
      - fixed high CPU usage with PulseAudio

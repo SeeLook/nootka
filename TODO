@@ -2,6 +2,10 @@ Plan for the Nootka One
 
 			
 TODOES
+- no guitar: question tip wrong pos (over score)
+- scaling could be better
+- when pitch detection button is paused - disabling view is unexpected
+
 - check 'tune' of non guitar - does it correspond with instrument/clef scale and levels works proper
 - left-handed guitar correction anim to guitar (morphing) has wrong line points
 - try to remove re-sizing a status label in exams/exercises
@@ -15,7 +19,6 @@ TODOES
 - remove unused classes: widgets/animations
 - add shadows under strings on pickup
 - do not transform pickup image for lefthanded - just change its pos
-
 
 
 TO CONSIDERATION
