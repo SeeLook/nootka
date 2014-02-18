@@ -273,12 +273,14 @@ void MainWindow::setStatusMessage(QString msg) {
     m_statusText = msg;
 }
 
+
 void MainWindow::setStatusMessage(QString msg, int time) {
     m_prevMsg = m_statusText;
     m_statLab->setText("<center>" + msg + "</center>");
     m_lockStat = true;
     QTimer::singleShot(time, this, SLOT(restoreMessage()));
 }
+
 
 void MainWindow::setMessageBg(QColor bg) {
     if (bg == -1) {
@@ -288,6 +290,7 @@ void MainWindow::setMessageBg(QColor bg) {
         m_statLab->setBackroundColor(bg);
     m_curBG = bg;
 }
+
 
 void MainWindow::clearAfterExam(TexamExecutor::Estate examState) {
     setStartExamActParams();
@@ -305,6 +308,7 @@ void MainWindow::clearAfterExam(TexamExecutor::Estate examState) {
 		nootLabel->show();
 		updateSize(innerWidget->size());
 }
+
 
 QPoint MainWindow::relatedPoint() {
     return QPoint(noteName->geometry().x(), m_statLab->geometry().bottom() + 5);
@@ -353,9 +357,9 @@ void MainWindow::createSettingsDialog() {
 			m_isPlayerFree = false;
 			sound->acceptSettings();
 			score->acceptSettings();
-			if (gl->instrument == e_noInstrument) // Tsound sets ambitus to guitar range
-				if (sound->isSniffable()) // but if no guitar - adjust it to score - clef range
-					sound->sniffer->setAmbitus(score->lowestNote(), score->highestNote());
+// 			if (gl->instrument == e_noInstrument) // Tsound sets ambitus to guitar range
+// 				if (sound->isSniffable()) // but if no guitar - adjust it to score - clef range
+// 					sound->sniffer->setAmbitus(score->lowestNote(), score->highestNote());
 			noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
 			noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
 			noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
