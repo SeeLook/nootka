@@ -347,7 +347,7 @@ void TnoteName::correctName(Tnote& goodName, const QColor& color, bool isWrong) 
 
 void TnoteName::setNameText() {
     if (m_notes[0].note) {
-				QString txt = m_notes[0].toRichText();
+				QString txt = "<big>" + m_notes[0].toRichText() + "</big>";
         if (m_notes[1].note) {
             txt = txt + QString("  <span style=\"font-size: small; color: %1\">(").arg(gl->enharmNotesColor.name()) + m_notes[1].toRichText();
             if (m_notes[2].note)
