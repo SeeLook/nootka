@@ -34,7 +34,7 @@ QList<Tlevel> getExampleLevels() {
 		int octaveOffset = 0; // depends on guitar type and for bass drops range octave down
 		if (gl->instrument == e_bassGuitar)
 			octaveOffset = -1;
-		else if (gl->instrument == e_bassGuitar)
+		else if (gl->instrument == e_noInstrument)
 			octaveOffset = 1;
 //----------------------------------------------------------------------------
     l.name = QObject::tr("open strings");

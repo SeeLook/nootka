@@ -2,17 +2,18 @@ Plan for the Nootka One
 
 			
 TODOES
-- no guitar: question tip wrong pos (over score)
+- no guitar: question tip wrong pos (over score) - check it under Gnome
 - scaling could be better
-- when pitch detection button is paused - disabling view is unexpected
 
+- test pitch detection and its ambitus after setting approved for non guitar
 - check 'tune' of non guitar - does it correspond with instrument/clef scale and levels works proper
+
 - left-handed guitar correction anim to guitar (morphing) has wrong line points
 - try to remove re-sizing a status label in exams/exercises
 - hide text "Wrong answer" when correction appears
 - use string numbers on pixmap in charts
 - piano staff brace height is still random
-- Windows default (beginning) size is not corresponding with Vista style (too small)
+- Windows default (beginning) size is not corresponding with Vista style (too small) - also for Gnome
 - combine tip shadow color with merge() method 
 - black theme has no background under 'note beyond guitar scale'
 - make order with Qt::WA_TransparentForMouseEvents in canvas

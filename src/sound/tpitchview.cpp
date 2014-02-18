@@ -137,8 +137,8 @@ void TpitchView::setDisabled(bool isDisabled) {
 void TpitchView::setIntonationAccuracy(int accuracy) {
 	m_intoView->setAccuracy(accuracy);
 	if (m_audioIN) {
-		if (TintonationView::Eaccuracy(accuracy) == TintonationView::e_noCheck) { // intonation check disabled
-				m_intoView->setDisabled(true);
+		if (TintonationView::Eaccuracy(accuracy) == TintonationView::e_noCheck || isPaused()) {
+				m_intoView->setDisabled(true); // intonation check disabled
 		} else {
 				m_intoView->setDisabled(false);
 		}
@@ -240,7 +240,8 @@ void TpitchView::pauseClicked() {
     if (m_isPaused) {
       pauseButt->setText("n"); // note symbol
       m_isPaused = false;
-      m_intoView->setDisabled(false);
+			if (m_intoView->accuracy() != TintonationView::e_noCheck)
+					m_intoView->setDisabled(false); // else is already disabled
       m_audioIN->startListening();
 			startVolume();
     } else {
