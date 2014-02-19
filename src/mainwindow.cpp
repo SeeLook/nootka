@@ -543,6 +543,7 @@ void MainWindow::showSupportDialog() {
 
 
 void MainWindow::fixPitchViewPos() {
+	guitar->acceptSettings();
   if (!windowState().testFlag(Qt::WindowMaximized)) {
     // Lets hope user has no any abnormal desktop size and skip checking ratio for maximized
     if (innerWidget->height() > innerWidget->width() * 0.8) {
@@ -604,8 +605,6 @@ void MainWindow::updateSize(QSize newS) {
 	setUpdatesEnabled(false);
 	m_statFontSize = (newS.height() / 10) / 4 - 2;
 	nootBar->setIconSize(QSize(newS.height() / 22, height() / 22));
-//   nootBar->setFixedWidth(newS.width() * 0.4); // It avoids flickering of status label when tool bar content is changing
-// 	pitchView->resize(m_statFontSize);
 	m_statLab->setFixedHeight(newS.height() / 10);
 	QFont f = m_statLab->font();
 	f.setPointSize(m_statFontSize);
@@ -631,12 +630,12 @@ void MainWindow::updateSize(QSize newS) {
 		qreal guitH;
 		qreal ratio;
 		if (gl->instrument == e_classicalGuitar) {
+			guitar->setPickUpRect(QRect());
 			bgPix = QPixmap(gl->path + "picts/body.png"); // size 800x535
 			guitH = qRound(((double)guitar->height() / 350.0) * 856.0);
 			int guitW = centralWidget()->width() / 2;
 			m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
-		}
-		else {
+		} else {
 			if (gl->instrument == e_bassGuitar)
 					bgPix = QPixmap(gl->path + "picts/body-bass.png"); // size 
 			else
@@ -645,18 +644,15 @@ void MainWindow::updateSize(QSize newS) {
 			ratio = guitH / bgPix.height();
 			m_bgPixmap = bgPix.scaled(qRound(bgPix.width() * ratio), guitH, Qt::KeepAspectRatio);
 			QPixmap rosePix(gl->path + "picts/pickup.png");
-// 				ratio = guitar->height() / rosePix.height();
-// 				ratio = ((qreal)guitar->fbRect().height()) / (qreal)rosePix.height();
-// 				qDebug() << ratio << (guitar->width() - guitar->fbRect().width()) / 2 << rosePix.size();
 			if (gl->instrument == e_bassGuitar)
 					ratio *= 0.5;
 			else
 					ratio *= 0.6;
 			m_rosettePixmap = rosePix.scaled(rosePix.width() * ratio, rosePix.height() * ratio, Qt::KeepAspectRatio);
-// 			if (gl->instrument == e_classicalGuitar) {
+		}
+		// 			if (gl->instrument == e_classicalGuitar) {
 // 				QPixmap rosePix(gl->path + "picts/rosette.png"); // size 341x281
 // 				m_rosettePixmap = rosePix.scaled(341 * ratio, 281 * ratio, Qt::KeepAspectRatio);
-		}
 	} else { // no guitar - pitch view instead
 			pitchView->resize(m_statFontSize * 1.7);
 			if (!m_pitchContainer) {
@@ -715,13 +711,15 @@ void MainWindow::paintEvent(QPaintEvent* ) {
 			} else {
 					qreal ratio = (guitar->height() * 3.3) / 535;
 					painter.drawPixmap(guitar->fbRect().right() - 235 * ratio, height() - m_bgPixmap.height() /*+ 20 * ratio*/, m_bgPixmap);
-          if (gl->GisRightHanded) {
-              painter.drawPixmap(guitar->fbRect().right() + 20 * ratio, guitar->y() - 15 * ratio, m_rosettePixmap);
-          } else {
-            painter.resetTransform();
-            painter.drawPixmap(guitar->geometry().width() - (guitar->fbRect().right() + 20 * ratio) - m_rosettePixmap.width(),
-                               guitar->y() - 15 * ratio, m_rosettePixmap);
-          }
+					int xPic, yPic = guitar->y() - 15 * ratio;
+				if (gl->GisRightHanded)
+						xPic = guitar->fbRect().right() + 20 * ratio;
+				else
+						xPic = guitar->geometry().width() - (guitar->fbRect().right() + 20 * ratio) - m_rosettePixmap.width();
+				guitar->setPickUpRect(QRect(QPoint(xPic, yPic), m_rosettePixmap.size()));
+          if (!gl->GisRightHanded)
+							painter.resetTransform();
+          painter.drawPixmap(guitar->pickRect()->x(), guitar->pickRect()->y(), m_rosettePixmap);
       }
 		}
 }
