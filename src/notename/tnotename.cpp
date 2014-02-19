@@ -53,7 +53,7 @@ TnoteName::TnoteName(QWidget *parent) :
 		QColor C = palette().text().color();
 		C.setAlpha(30);
     C = prepareBgColor(C);
-    m_nameLabel->setText(QString("<b><span style=\"color: %1;\">").arg(C.name()) + gl->version + "</span></b>");
+    m_nameLabel->setText(QString("<b><big><span style=\"color: %1;\">").arg(C.name()) + gl->version + "</span></big></b>");
 		connect(m_nameLabel, SIGNAL(blinkingFinished()), this, SLOT(correctAnimationFinished()));
     resize();
 
@@ -349,10 +349,10 @@ void TnoteName::setNameText() {
     if (m_notes[0].note) {
 				QString txt = "<big>" + m_notes[0].toRichText() + "</big>";
         if (m_notes[1].note) {
-            txt = txt + QString("  <span style=\"font-size: small; color: %1\">(").arg(gl->enharmNotesColor.name()) + m_notes[1].toRichText();
+            txt = txt + QString("  <small style=\"color: %1\">(").arg(gl->enharmNotesColor.name()) + m_notes[1].toRichText();
             if (m_notes[2].note)
                 txt = txt + "  " + m_notes[2].toRichText();
-            txt = txt + ")</span>";
+            txt = txt + ")</small>";
         }
         m_nameLabel->setText(txt);
     } else 

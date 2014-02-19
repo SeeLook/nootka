@@ -90,7 +90,7 @@ void TnoteNameLabel::center() {
 		setQuestionMarkPos();
 	if (m_stringNumber)
 		setStringNumberPos();
-#if defined(Q_OS_MAC)
+#if defined(Q_OS_MAC) // In fact it is necessary only for Mac style which is locked now
     scene()->update();
 #endif
 }
@@ -197,7 +197,13 @@ QPoint TnoteNameLabel::textPos() {
 void TnoteNameLabel::resizeEvent(QResizeEvent* event) {
 	scene()->setSceneRect(geometry());
 	QFontMetricsF fm(m_textItem->font());
-	m_textItem->setScale((height() * 0.9) / (fm.boundingRect("A").height()));
+	m_textItem->hide();
+	QString tmpHtml = m_textItem->toHtml();
+	m_textItem->setHtml("g<sub>1</sub><sup>1</sup>");
+	m_textItem->setScale(1.0);
+	m_textItem->setScale((height() * 1.1) / m_textItem->boundingRect().height());
+	m_textItem->setHtml(tmpHtml);
+	m_textItem->show();
 	scaleQuestionMark();
 	scaleStringNumber();
 	center();

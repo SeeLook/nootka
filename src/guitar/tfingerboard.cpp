@@ -78,6 +78,8 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
         blur[i]->setBlurRadius(3);
         m_workStrings[i]->setGraphicsEffect(blur[i]);
     }
+    
+    m_pickRect = new QRect(); // empty rectangle
 
     m_workFinger = new QGraphicsEllipseItem();
     m_workFinger->hide();
@@ -105,6 +107,13 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
 		setTune();
 		
 }
+
+
+TfingerBoard::~TfingerBoard()
+{
+	delete m_pickRect;
+}
+
 
 //################################################################################################
 //################################################   PUBLIC    ###################################
@@ -660,13 +669,25 @@ void TfingerBoard::paint() {
 		// shadow of the strings
 						painter.setPen(QPen(QColor(0, 0, 0, 150), m_strWidth[i], Qt::SolidLine)); // on the fingerboard
 // 							int yy = m_fbRect.y() + m_strGap / 2 + (i - 1) * m_strGap - 3 - m_strWidth[i];
-						int yy = lineYpos + m_strWidth[i] * 1.3;
+						int yy = lineYpos + m_strGap * 0.2;
 						painter.drawLine(m_fbRect.x() + 3, yy, m_fbRect.x() + m_fbRect.width() - 1, yy);
 						painter.setPen(QPen(Qt::black, 1, Qt::SolidLine)); //on upper bridge
 						painter.drawLine(m_fbRect.x() - 8, lineYpos - 2,
 														m_fbRect.x(), lineYpos - 2);
 						painter.drawLine(m_fbRect.x() - 8, lineYpos + m_strWidth[i] - 1,
 														m_fbRect.x() - 1, lineYpos + m_strWidth[i] - 1);
+						if (m_pickRect->width()) { // on the pickup if exist (bass or electric guitar)
+							if (!gl->GisRightHanded)
+								painter.resetTransform();
+							painter.setPen(QPen(QColor(8, 8, 8, 70), m_strWidth[i], Qt::SolidLine)); // on the fingerboard
+							yy += m_strGap * 0.1;
+							painter.drawLine(m_fbRect.x() + m_fbRect.width() + fbThick, yy + m_strGap * 0.1, m_pickRect->x(), yy + m_strGap * 0.1);
+							int subW = qRound((qreal)m_pickRect->width() * 0.15);
+							painter.drawLine(m_pickRect->x(), yy + m_strGap * 0.1, m_pickRect->x() + subW - m_strWidth[i], yy);
+							painter.drawLine(m_pickRect->x() + subW, yy, m_pickRect->x() + m_pickRect->width() - subW, yy);
+							painter.drawLine(m_pickRect->x() + m_pickRect->width() - subW, yy,
+															 m_pickRect->x() + m_pickRect->width(), yy + m_strGap * 0.1);
+						}							
 
 			} else { // hide rest lines (strings)
 					m_workStrings[i]->hide();
