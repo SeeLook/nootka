@@ -153,7 +153,7 @@ ENDIF(UNIX AND NOT APPLE)
 #	installing target (make runinplace) - copy or link necessary files to run nootka without install
 ###########################################################################
 message(STATUS "
-	To enable lunching nootka without installing, call:
+	To enable launching nootka without installing, call:
 	make runinplace
 	Binary nootka is in src folder, so launch it invoking: ./src/nootka
 	")
