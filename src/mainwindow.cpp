@@ -58,9 +58,12 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     Ttune::prepareDefinedTunes();
 #if defined(Q_OS_MAC)
+		QColor shadowC(palette().text().color());
+		shadowC.setAlpha(50);
+		shadowC = Tcolor::merge(shadowC, palette().base().color());
     TpushButton::setCheckColor(gl->SpointerColor, palette().base().color());
     TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()), 
-                              QColor(gl->EnotBadColor.name()), QColor(100, 100, 100, 180), palette().window().color());
+                              QColor(gl->EnotBadColor.name()), shadowC, palette().window().color());
 #else
     TpushButton::setCheckColor(palette().highlight().color(), palette().highlightedText().color() );
     TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()),

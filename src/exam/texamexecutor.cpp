@@ -804,6 +804,8 @@ void TexamExecutor::correctAnswer() {
   }
   if (!gl->E->autoNextQuest || gl->E->afterMistake == TexamParams::e_stop) 
 			QTimer::singleShot(2000, this, SLOT(delayerTip())); // 2000 ms - fastest preview time - longer than animation duration
+	if (!gl->E->autoNextQuest || !gl->E->showCorrected || gl->E->afterMistake == TexamParams::e_stop)
+			QTimer::singleShot(2000, m_canvas, SLOT(clearResultTip())); // exam will stop so clear result tip after correction
 }
 
 
