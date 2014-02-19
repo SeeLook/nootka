@@ -715,8 +715,14 @@ void MainWindow::paintEvent(QPaintEvent* ) {
 			} else {
 					qreal ratio = (guitar->height() * 3.3) / 535;
 					painter.drawPixmap(guitar->fbRect().right() - 235 * ratio, height() - m_bgPixmap.height() /*+ 20 * ratio*/, m_bgPixmap);
-					painter.drawPixmap(guitar->fbRect().right() + 20 * ratio, guitar->y() - 15 * ratio, m_rosettePixmap);
-			}
+          if (gl->GisRightHanded) {
+              painter.drawPixmap(guitar->fbRect().right() + 20 * ratio, guitar->y() - 15 * ratio, m_rosettePixmap);
+          } else {
+            painter.resetTransform();
+            painter.drawPixmap(guitar->geometry().width() - (guitar->fbRect().right() + 20 * ratio) - m_rosettePixmap.width(),
+                               guitar->y() - 15 * ratio, m_rosettePixmap);
+          }
+      }
 		}
 }
 
