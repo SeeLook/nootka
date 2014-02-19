@@ -165,7 +165,8 @@ void TfingerBoard::setFinger(Tnote note) {
 				else if (!m_beyondTip) {
 						m_beyondTip = new TgraphicsTextTip(QString("<span style=\"font-size: %1px; color: %2;\"><br><b> ").
 														arg(height() / 7).arg(gl->EquestionColor.name()) +
-														tr("This note is beyond the scale of the guitar!") + " </b></span><br>", palette().text().color());
+														tr("This note is beyond the scale of the guitar!") + " </b></span><br>", 
+																							 QColor(palette().text().color().darker().name()));
 						if (!gl->GisRightHanded) {
 							QTransform trans;
 							trans.translate(width() / 2, 0);
@@ -678,8 +679,8 @@ void TfingerBoard::paint() {
 														m_fbRect.x() - 1, lineYpos + m_strWidth[i] - 1);
 						if (m_pickRect->width()) { // on the pickup if exist (bass or electric guitar)
 							if (!gl->GisRightHanded)
-								painter.resetTransform();
-							painter.setPen(QPen(QColor(8, 8, 8, 70), m_strWidth[i], Qt::SolidLine)); // on the fingerboard
+									painter.resetTransform();
+							painter.setPen(QPen(QColor(8, 8, 8, 50), m_strWidth[i], Qt::SolidLine)); // on the fingerboard
 							yy += m_strGap * 0.1;
 							painter.drawLine(m_fbRect.x() + m_fbRect.width() + fbThick, yy + m_strGap * 0.1, m_pickRect->x(), yy + m_strGap * 0.1);
 							int subW = qRound((qreal)m_pickRect->width() * 0.15);
