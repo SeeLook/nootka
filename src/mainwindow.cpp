@@ -621,11 +621,10 @@ void MainWindow::updateSize(QSize newS) {
 		qreal pickCoef = ((newGuitH * 2.9) / 614.0) * 0.6;
 		m_rosettePixmap = rosePix.scaled(rosePix.width() * pickCoef, rosePix.height() * pickCoef, Qt::KeepAspectRatio);
 		pickCoef = (newGuitH * 3.3) / 535;
-		int xPic, yPic = (newS.height() - newGuitH) - 15 * pickCoef;
-		if (gl->GisRightHanded)
-				xPic = newS.width() - m_rosettePixmap.width() - 30 * pickCoef;
-		else
-				xPic = 25 * pickCoef;
+		int xPic = (newS.width()) * 0.8571428571 + 20 * pickCoef;;
+    int yPic = (newS.height() - newGuitH) - 30 * pickCoef;
+		if (!gl->GisRightHanded)
+				xPic = newS.width() - xPic - m_rosettePixmap.width(); // reversed
 		guitar->setPickUpRect(QRect(QPoint(xPic, yPic), m_rosettePixmap.size()));
 	}
 	guitar->setFixedHeight((newS.height() - nootBar->height()) * 0.25);
