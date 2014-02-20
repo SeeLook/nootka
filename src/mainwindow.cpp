@@ -615,6 +615,19 @@ void MainWindow::updateSize(QSize newS) {
 	qreal fact = (qreal)(m_statFontSize * 1.5) / (qreal)fMetr.boundingRect("A").height();
 	f.setPointSize(f.pointSize() * fact);
 	m_statLab->setFont(f);
+	int newGuitH = (newS.height() - nootBar->height()) * 0.25;
+	if (gl->instrument == e_electricGuitar || gl->instrument == e_bassGuitar) {
+		QPixmap rosePix(gl->path + "picts/pickup.png");
+		qreal pickCoef = ((newGuitH * 2.9) / 614.0) * 0.6;
+		m_rosettePixmap = rosePix.scaled(rosePix.width() * pickCoef, rosePix.height() * pickCoef, Qt::KeepAspectRatio);
+		pickCoef = (newGuitH * 3.3) / 535;
+		int xPic, yPic = (newS.height() - newGuitH) - 15 * pickCoef;
+		if (gl->GisRightHanded)
+				xPic = newS.width() - m_rosettePixmap.width() - 30 * pickCoef;
+		else
+				xPic = 25 * pickCoef;
+		guitar->setPickUpRect(QRect(QPoint(xPic, yPic), m_rosettePixmap.size()));
+	}
 	guitar->setFixedHeight((newS.height() - nootBar->height()) * 0.25);
 	progress->resize(m_statFontSize);
 	examResults->setFontSize(m_statFontSize);
@@ -646,12 +659,6 @@ void MainWindow::updateSize(QSize newS) {
 			guitH = guitar->height() * 2.9;
 			ratio = guitH / bgPix.height();
 			m_bgPixmap = bgPix.scaled(qRound(bgPix.width() * ratio), guitH, Qt::KeepAspectRatio);
-			QPixmap rosePix(gl->path + "picts/pickup.png");
-			if (gl->instrument == e_bassGuitar)
-					ratio *= 0.5;
-			else
-					ratio *= 0.6;
-			m_rosettePixmap = rosePix.scaled(rosePix.width() * ratio, rosePix.height() * ratio, Qt::KeepAspectRatio);
 		}
 		// 			if (gl->instrument == e_classicalGuitar) {
 // 				QPixmap rosePix(gl->path + "picts/rosette.png"); // size 341x281
@@ -714,12 +721,6 @@ void MainWindow::paintEvent(QPaintEvent* ) {
 			} else {
 					qreal ratio = (guitar->height() * 3.3) / 535;
 					painter.drawPixmap(guitar->fbRect().right() - 235 * ratio, height() - m_bgPixmap.height() /*+ 20 * ratio*/, m_bgPixmap);
-					int xPic, yPic = guitar->y() - 15 * ratio;
-				if (gl->GisRightHanded)
-						xPic = guitar->fbRect().right() + 20 * ratio;
-				else
-						xPic = guitar->geometry().width() - (guitar->fbRect().right() + 20 * ratio) - m_rosettePixmap.width();
-				guitar->setPickUpRect(QRect(QPoint(xPic, yPic), m_rosettePixmap.size()));
           if (!gl->GisRightHanded)
 							painter.resetTransform();
           painter.drawPixmap(guitar->pickRect()->x(), guitar->pickRect()->y(), m_rosettePixmap);
