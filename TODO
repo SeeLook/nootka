@@ -16,6 +16,8 @@ TODOES
 - make order with Qt::WA_TransparentForMouseEvents in canvas
 - remove unused classes: widgets/animations
 
+- add english entries used in desktop file and win installer to *.ts
+
 
 TO CONSIDERATION
   - add sound during wizard and About dialog (???)

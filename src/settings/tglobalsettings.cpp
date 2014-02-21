@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -68,6 +68,7 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
 		m_langCombo->setStatusTip(tr("Select a language.<br><span style=\"color: red;\">To take effect, this requires restarting the application!</span>"));
 		m_langList[""] = tr("default");
 		m_langList["cs"] = QString::fromUtf8("český");
+    m_langList["de"] = "deutsch";
 		m_langList["en"] = "english";
 		m_langList["fr"] = QString::fromUtf8("français");
 		m_langList["pl"] = "polski";
