@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -46,6 +46,15 @@ void TstaffLineChart::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
   }
 
 }
+
+		/** It avoids disappearing the line when no place for whole over a scene.
+		 * FIXME: it doesn't work now. */
+QPainterPath TstaffLineChart::shape() const {
+	QPainterPath path;
+	path.addRect(boundingRect().adjusted(0, -20.0, 0, 40.0));
+	return path;
+}
+
 
 QRectF TstaffLineChart::boundingRect() const {
     QRectF rect(0, -2 * DISTANCE, m_vector.x(), m_vector.y() + DISTANCE * 4);
