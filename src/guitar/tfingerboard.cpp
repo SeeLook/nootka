@@ -571,7 +571,7 @@ void TfingerBoard::paint() {
 				painter.setBrush(QBrush(fbEdgeColor, Qt::SolidPattern));
 		}
     QPolygon a;
-		int fbThick = ((m_strGap * gl->Gtune()->stringNr()) / 6) / 4;
+		int fbThick = ((m_strGap * gl->Gtune()->stringNr()) / 6) / 4; // thickness of fretboard
     a.setPoints(6, m_fbRect.x() - 6, m_fbRect.y(),
 								m_fbRect.x() + 2, m_fbRect.y() - fbThick,
                 m_fbRect.x() + m_fbRect.width() + fbThick, m_fbRect.y() - fbThick,
@@ -677,19 +677,21 @@ void TfingerBoard::paint() {
 														m_fbRect.x(), lineYpos - 2);
 						painter.drawLine(m_fbRect.x() - 8, lineYpos + m_strWidth[i] - 1,
 														m_fbRect.x() - 1, lineYpos + m_strWidth[i] - 1);
-						if (m_pickRect->width()) { // on the pickup if exist (bass or electric guitar)
+						if (m_pickRect->width()) { // shadow on the pickup if exist (bass or electric guitar)
 							int pickX = m_pickRect->x();
 							if (!gl->GisRightHanded)
 									pickX = width() - (m_pickRect->x() + m_pickRect->width());
-							painter.setPen(QPen(QColor(8, 8, 8, 50), m_strWidth[i], Qt::SolidLine));
+							painter.setPen(QPen(QColor(28, 28, 28, 30), m_strWidth[i], Qt::SolidLine));
 							yy += m_strGap * 0.1;
-							painter.drawLine(m_fbRect.x() + m_fbRect.width() + fbThick, yy + m_strGap * 0.15,
-															 pickX, yy + m_strGap * 0.15); // from fretboard to pickup
 							int subW = qRound((qreal)m_pickRect->width() * 0.15);
-							painter.drawLine(pickX + 1, yy + m_strGap * 0.15, pickX + subW, yy); // diagonal
-							painter.drawLine(pickX + subW + 1, yy, pickX + m_pickRect->width() - subW, yy); // over pickup
-							painter.drawLine(pickX + m_pickRect->width() - subW + 1, yy,
-															 pickX + m_pickRect->width(), yy + m_strGap * 0.15); // diagonal
+							QPoint ps[5] = {
+										QPoint(m_fbRect.x() + m_fbRect.width() + fbThick, yy + m_strGap * 0.12),
+										QPoint(pickX, yy + m_strGap * 0.12),
+										QPoint(pickX + subW, yy),
+										QPoint(pickX + m_pickRect->width() - subW, yy),
+										QPoint(pickX + m_pickRect->width() - subW * 0.3, yy + m_strGap * 0.15)
+							};
+							painter.drawPolyline(ps, 5);
 						}							
 
 			} else { // hide rest lines (strings)

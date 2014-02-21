@@ -174,7 +174,7 @@ Tglobals::Tglobals() :
 				E->questionDelay = config->value("questionDelay", 150).toInt();
 				E->suggestExam = config->value("suggestExam", true).toBool();
 				E->afterMistake = (TexamParams::EafterMistake)config->value("afterMistake", (int)TexamParams::e_continue).toInt();
-				E->showNameOfAnswered = config->value("showNameOfAnswered", false).toBool();
+				E->showNameOfAnswered = config->value("showNameOfAnswered", true).toBool();
 				E->showWrongPlayed = config->value("showWrongPlayed", false).toBool();
 				E->showHelpOnStart = config->value("showHelpOnStart", true).toBool();
 				E->askAboutExpert = config->value("askAboutExpert", true).toBool();
