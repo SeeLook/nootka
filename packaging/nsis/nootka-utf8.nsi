@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "Nootka"
-!define PRODUCT_VERSION "0.9.6-rc2"
+!define PRODUCT_VERSION "0.9.7-rc3"
 !define PRODUCT_PUBLISHER "Nootka"
 !define PRODUCT_WEB_SITE "http://nootka.sf.net"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\nootka.exe"
@@ -48,8 +48,9 @@ SetCompressor lzma
 
 ; Language files
 !insertmacro MUI_LANGUAGE "English"
-!insertmacro MUI_LANGUAGE "French"
 !insertmacro MUI_LANGUAGE "Czech"
+!insertmacro MUI_LANGUAGE "German"
+!insertmacro MUI_LANGUAGE "French"
 !insertmacro MUI_LANGUAGE "Polish"
 !insertmacro MUI_LANGUAGE "Russian"
 
@@ -68,21 +69,24 @@ ShowInstDetails show
 ShowUnInstDetails show
 
 LangString NelDesc ${LANG_ENGLISH} "Nootka exam level"
-LangString NelDesc ${LANG_POLISH} "Poziom egzaminu programu Nootka"
 LangString NelDesc ${LANG_CZECH} "Úroveň zkoušky programu Nootka"
+LangString NelDesc ${LANG_GERMAN} "Nootka-Level Datei"
 LangString NelDesc ${LANG_FRENCH} "Fichier de niveau Nootka"
+LangString NelDesc ${LANG_POLISH} "Poziom egzaminu programu Nootka"
 LangString NelDesc ${LANG_RUSSIAN} "Файл Нутки с уровнем"
 
 LangString NootkaAct ${LANG_ENGLISH} "Open with nootka"
-LangString NootkaAct ${LANG_POLISH} "Otwórz w programie Nootka"
 LangString NootkaAct ${LANG_CZECH} "Otevřít v Nootka"
+LangString NootkaAct ${LANG_GERMAN} "Mit Nootka öffnen"
 LangString NootkaAct ${LANG_FRENCH} "Ouvrir avec Nootka"
+LangString NootkaAct ${LANG_POLISH} "Otwórz w programie Nootka"
 LangString NootkaAct ${LANG_RUSSIAN} "Открыть"
 
 LangString NooDesc ${LANG_ENGLISH} "Nootka exam file"
-LangString NooDesc ${LANG_POLISH} "Plik egzaminu programu Nootka"
 LangString NooDesc ${LANG_CZECH} "Zkušební soubor programu Nootka"
+LangString NooDesc ${LANG_CZECH} "Nootka-Prüfungs Datei"
 LangString NooDesc ${LANG_FRENCH} "Fichier d'examen Nootka"
+LangString NooDesc ${LANG_POLISH} "Plik egzaminu programu Nootka"
 LangString NooDesc ${LANG_RUSSIAN} "Файл Нутки с экзаменом"
 
 Section -AssociateMime
@@ -141,6 +145,7 @@ Section "GrupaGlowna" SEC01
   File "picts\body-bass.png"
   File "picts\body-electro.png"
   File "picts\flags-cs.png"
+  File "picts\flags-de.png"
   File "picts\flags-en.png"
   File "picts\flags-fr.png"
   File "picts\flags-pl.png"
@@ -217,13 +222,14 @@ SectionEnd
 
 ;Function un.onUninstSuccess
 ;  HideWindow
-;  MessageBox MB_ICONINFORMATION|MB_OK "Program $(^Name) zostaÂł pomyÂślnie usuniĂŞty."
+;  MessageBox MB_ICONINFORMATION|MB_OK "Program $(^Name) został pomyślnie usunięty."
 ;FunctionEnd
 
-   LangString UninstallMess ${LANG_ENGLISH} "Do You realy want to remove $(^Name) and all its components?"
-   LangString UninstallMess ${LANG_POLISH} "Czy rzeczywiście chcesz usunąć Nootkę i jej składniki?"
+   LangString UninstallMess ${LANG_ENGLISH} "Do You really want to remove $(^Name) and all its components?"
+   LangString UninstallMess ${LANG_GERMAN} ""
    LangString UninstallMess ${LANG_CZECH} "Opravdu chcete odstranit Nootku a vsechny její soueásti?"
    LangString UninstallMess ${LANG_FRENCH} "Voulez-vous vraiment supprimer Nootka et tous ses composants?"
+   LangString UninstallMess ${LANG_POLISH} "Czy rzeczywiście chcesz usunąć Nootkę i jej składniki?"
    LangString UninstallMess ${LANG_RUSSIAN} "Вы действительно хотите удалить Нутку и все её компоненты?"
 
 Function un.onInit
@@ -280,6 +286,7 @@ Section Uninstall
   Delete "$INSTDIR\picts\zoom-in.png"
   Delete "$INSTDIR\picts\zoom-out.png"
   Delete "$INSTDIR\picts\flags-cs.png"
+  Delete "$INSTDIR\picts\flags-de.png"
   Delete "$INSTDIR\picts\flags-en.png"
   Delete "$INSTDIR\picts\flags-fr.png"
   Delete "$INSTDIR\picts\flags-pl.png"

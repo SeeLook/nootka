@@ -109,6 +109,8 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
   // Czech
     translStr += transRow("cs", QString::fromUtf8("český"), "Pavel Fric",
                           "<a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a>");
+  // German
+    translStr += transRow("de", "deutsch", "JCW", "");
   // English
 		translStr += transRow("en", "english", "Luster", 
                           "<a href=\"http://linuxmusicians.com\">http://linuxmusicians.com</a>");
