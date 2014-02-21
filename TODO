@@ -4,7 +4,6 @@ Plan for the Nootka One
 TODOES
 - no guitar: question tip wrong pos (over score) - check it under Gnome
 - scaling could be better
-- tip over note name is too big now
 - test pitch detection and its ambitus after setting approved for non guitar
 - check 'tune' of non guitar - does it correspond with instrument/clef scale and levels works proper
 
@@ -19,11 +18,6 @@ TODOES
 - add english entries used in desktop file and win installer to *.ts
 
 
-TO CONSIDERATION
-  - add sound during wizard and About dialog (???)
-  - make use of QWizard for above
-
-
 
 TEXAMEXECUTOR
   - think about hide octave in note name format when octaves are not required in answers. 
@@ -35,6 +29,7 @@ Somewhere in time
 - improve cooperation a staff with piano staff - merge them somehow
 - merge out&in sounds into single call-back method (class)
 - add option of playing sound during capture
+- add option for configuring fret marks (dots)
 - convert pointers requiring to be 0 to QPointer type
 - better and equal algorithm of questioning
 - add setFlag(ItemHasNoContents) to QGraphicsItem sub-classes don't has a paint() - used as containers only
@@ -42,6 +37,8 @@ Somewhere in time
 - preview of questions in Level Creator (list, on the guitar, in the score)
 - revert to native style under MacOs when Qt5 
 - comparing exams (charts)
+- add sound during wizard and About dialog (???)
+- make use of QWizard for above
 
 Tnote
 			- overload + and - operators to raise/drop a note

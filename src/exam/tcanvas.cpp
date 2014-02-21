@@ -500,6 +500,8 @@ void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
 			if (tip == m_whatTip) {
 				if (tip->boundingRect().width() * tip->scale() != m_parent->noteName->geometry().width() - 20)
 					tip->setScale((m_parent->noteName->geometry().width() - 20) / (tip->boundingRect().width() * tip->scale()));
+				if (tip->boundingRect().height() * tip->scale() > m_parent->noteName->height())
+					tip->setScale((qreal)(m_parent->noteName->height()) / (tip->boundingRect().height()));
 			}
 	} else if (m_scoreFree) {// on the score at its center
 			geoRect = m_parent->score->geometry();
@@ -535,7 +537,7 @@ void Tcanvas::setTryAgainPos() {
 void Tcanvas::setWhatNextPos() {
 	int maxTipHeight = getMaxTipHeight();
   if (!m_nameFree && m_whatTip->boundingRect().height() * m_whatTip->scale() != maxTipHeight)
-				m_whatTip->setScale((qreal)maxTipHeight / (m_whatTip->boundingRect().height() * m_whatTip->scale()));
+			m_whatTip->setScale((qreal)maxTipHeight / (m_whatTip->boundingRect().height() * m_whatTip->scale()));
 	setPosOfTip(m_whatTip);
 }
 

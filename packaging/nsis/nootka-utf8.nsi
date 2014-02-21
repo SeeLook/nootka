@@ -226,7 +226,7 @@ SectionEnd
 ;FunctionEnd
 
    LangString UninstallMess ${LANG_ENGLISH} "Do You really want to remove $(^Name) and all its components?"
-   LangString UninstallMess ${LANG_GERMAN} ""
+   LangString UninstallMess ${LANG_GERMAN} "Möchtest du wirklich Nootka und all seine Komponenten entfernen?"
    LangString UninstallMess ${LANG_CZECH} "Opravdu chcete odstranit Nootku a vsechny její soueásti?"
    LangString UninstallMess ${LANG_FRENCH} "Voulez-vous vraiment supprimer Nootka et tous ses composants?"
    LangString UninstallMess ${LANG_POLISH} "Czy rzeczywiście chcesz usunąć Nootkę i jej składniki?"

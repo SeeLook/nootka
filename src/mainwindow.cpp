@@ -546,7 +546,6 @@ void MainWindow::showSupportDialog() {
 
 
 void MainWindow::fixPitchViewPos() {
-	guitar->acceptSettings();
   if (!windowState().testFlag(Qt::WindowMaximized)) {
     // Lets hope user has no any abnormal desktop size and skip checking ratio for maximized
     if (innerWidget->height() > innerWidget->width() * 0.8) {

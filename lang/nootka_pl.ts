@@ -680,22 +680,22 @@
 <context>
     <name>Tabout</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="244"/>
+        <location filename="../src/info/taboutnootka.cpp" line="246"/>
         <source>Welcome on board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.&lt;br&gt;It is specially designed for guitarists but others will find many usable features as well.</source>
         <translation>Witamy na pokładzie.&lt;br&gt; Nootka to aplikacja open source pomagająca w nauce (a także w nauczaniu) klasycznego zapisu nutowego.&lt;br&gt;Jest szczególnie dedykowana gitarzystom ale inni także znajdą w niej dużo użytecznych funkcji.</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="245"/>
+        <location filename="../src/info/taboutnootka.cpp" line="247"/>
         <source>This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.&lt;br&gt;In spite of that, you are welcome to try it!</source>
         <translation>Ta wersja to beta i może zawierać błędy lub działać w niezamierzony sposób, posiada także nieukończone funkcje.&lt;br&gt;Mimo tego, zapraszam do wypróbowania!</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="246"/>
+        <location filename="../src/info/taboutnootka.cpp" line="248"/>
         <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
         <translation>Po więcej szczegółów i po następne wydania zajrzyj na &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;stronę programu&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Błędy, sugestie, tłumaczenia itp., proszę zgłaszać do: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;z poważaniem&lt;br&gt;Autor</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="250"/>
+        <location filename="../src/info/taboutnootka.cpp" line="252"/>
         <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
         <translation>&lt;br&gt;Żeby wesprzeć projekt, a także uniknąć zarażenia Twojego komputera&lt;br&gt;&lt;b&gt;do pobierania aktualizacji, nowych wersji i czytania o nowościach, proszę używać strony www projektu&lt;/b&gt;</translation>
     </message>
@@ -738,7 +738,7 @@
         <translation>Audio</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="135"/>
+        <location filename="../src/info/taboutnootka.cpp" line="137"/>
         <source>Thanks</source>
         <translation>Podziękowania</translation>
     </message>
@@ -753,12 +753,12 @@
         <translation>edycja i/lub nagrywanie sampli:</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="122"/>
+        <location filename="../src/info/taboutnootka.cpp" line="124"/>
         <source>Other projects</source>
         <translation>Inne projekty</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="123"/>
+        <location filename="../src/info/taboutnootka.cpp" line="125"/>
         <source>However this application could not exist without various open source projects.&lt;br&gt;Especially:</source>
         <translation>Jednakże ta aplikacja nie mogła by istnieć bez różnych projektów open source,&lt;br&gt;a w szczególności:</translation>
     </message>
@@ -1358,10 +1358,6 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation>Naciśnij przycisk %1 żeby zatrzynać.</translation>
     </message>
     <message>
-        <source>To stop the exam click %1 button.</source>
-        <translation type="obsolete">Aby zatrzymać egzamin kliknij przycisk %1 .</translation>
-    </message>
-    <message>
         <location filename="../src/info/texamhelp.cpp" line="61"/>
         <source>To check the answer confirm it:</source>
         <translation>Aby sprawdzić odpowiedź, potwierdź ją:</translation>
@@ -1899,7 +1895,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation>Wybierz język.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;Wymagane jest ponowne uruchomienie programu!&lt;/span&gt;</translation>
     </message>
     <message>
-        <location filename="../src/settings/tglobalsettings.cpp" line="103"/>
+        <location filename="../src/settings/tglobalsettings.cpp" line="104"/>
         <source>Restore all default settings</source>
         <translation>Przywróć wszystkie ustawienia domyślne</translation>
     </message>
@@ -1909,7 +1905,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation>domyślny</translation>
     </message>
     <message>
-        <location filename="../src/settings/tglobalsettings.cpp" line="90"/>
+        <location filename="../src/settings/tglobalsettings.cpp" line="91"/>
         <source>Check for updates</source>
         <translation>Sprawdź uaktualnienia</translation>
     </message>
@@ -2031,10 +2027,6 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <location filename="../src/settings/tguitarsettings.cpp" line="427"/>
         <source>Custom tuning</source>
         <translation>Własny strój</translation>
-    </message>
-    <message>
-        <source>Custom tune</source>
-        <translation type="obsolete">Własny strój</translation>
     </message>
 </context>
 <context>
@@ -3391,7 +3383,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>about translator</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="156"/>
+        <location filename="../src/info/taboutnootka.cpp" line="158"/>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
         <translation></translation>
@@ -3543,10 +3535,6 @@ Sprawdź czy jego parametry są właściwe..</translation>
 </context>
 <context>
     <name>main</name>
-    <message>
-        <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.otf manually.&lt;/center&gt;</source>
-        <translation type="obsolete">&lt;center&gt;Nie mogę wczytać czcionki.&lt;br&gt;Spróbuj ręcznie zainstalować nootka.otf.&lt;/center&gt;</translation>
-    </message>
     <message>
         <location filename="../src/main.cpp" line="74"/>
         <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.ttf manually.&lt;/center&gt;</source>

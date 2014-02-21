@@ -1,7 +1,11 @@
 0.9.7 rc3
+  Nootka says: I speak German
      - added German translation
     BUGS FIXES
-     - fixed acting with non pitch-ordered stringing guitars
+     - fixed acting with non pitch-ordered strung/tuned guitars
+     - fixed/improved electric/bass guitar look
+     - improved rpm validation results
+     - fixed detecting clef type from older versions of Nootka files
 
 0.9.6 rc2
     BUGS FIXES
