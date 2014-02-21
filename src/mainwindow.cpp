@@ -557,23 +557,41 @@ void MainWindow::fixPitchViewPos() {
     }
   }
   // when return occurred it will back here again from resizeEvent
+  int maxPossH = innerWidget->height() - m_statLab->height() - guitar->height(); // max possible height of score
+  int foreWidth = score->widthToHeight(maxPossH);
 	if (gl->instrument != e_noInstrument) {
-		if (score->width() < innerWidget->width() / 2) { // remove pitchView from under score
-			if (m_scoreLay->count() > 1) // if it is under score
-				// and there is enough horizontal space for new width
-				if (score->widthToHeight(score->height() + pitchView->height() + m_scoreLay->spacing()) < innerWidget->width() / 2) {
-						m_scoreLay->removeWidget(pitchView);
-						m_rightLay->addWidget(pitchView);
-			}
-		} else { // move pitchView under score
-			if (m_scoreLay->count() < 2) { // if it is under noteName
-				m_rightLay->removeWidget(pitchView);
-				m_scoreLay->insertWidget(1, pitchView);			
-			}
-		}
+    qDebug() << noteName->smallSpace();
+    if (noteName->smallSpace() || foreWidth > innerWidget->width() / 2) {
+      if (m_scoreLay->count() < 2) { // if it is under noteName
+        m_rightLay->removeWidget(pitchView);
+        m_scoreLay->insertWidget(1, pitchView);
+        foreWidth = score->widthToHeight(maxPossH - pitchView->height());
+      }
+    } else {
+      if (m_scoreLay->count() > 1) // if it is under score and there is enough horizontal space for new width
+          if (score->widthToHeight(score->height() + pitchView->height() + m_scoreLay->spacing()) < innerWidget->width() / 2) {
+           m_scoreLay->removeWidget(pitchView);
+           m_rightLay->addWidget(pitchView);
+      }
+    }
+// 		if (score->width() < innerWidget->width() / 2) { // remove pitchView from under score
+// 			if (m_scoreLay->count() > 1) // if it is under score
+// 				// and there is enough horizontal space for new width
+// 				if (score->widthToHeight(score->height() + pitchView->height() + m_scoreLay->spacing()) < innerWidget->width() / 2) {
+// 						m_scoreLay->removeWidget(pitchView);
+// 						m_rightLay->addWidget(pitchView);
+// 			}
+// 		} else { // move pitchView under score
+// 			if (m_scoreLay->count() < 2) { // if it is under noteName
+// 				m_rightLay->removeWidget(pitchView);
+// 				m_scoreLay->insertWidget(1, pitchView);			
+// 			}
+// 		}
 	}
-	if (score->width() > (innerWidget->width() - noteName->width()))
-		score->setMaximumHeight(score->height() * ((qreal)(innerWidget->width() - noteName->width()) / (qreal)score->width()));
+	if (foreWidth > innerWidget->width() / 2)
+    score->setMaximumHeight(maxPossH - pitchView->height());
+// 	if (score->width() > (innerWidget->width() - noteName->width()))
+// 		score->setMaximumHeight(score->height() * ((qreal)(innerWidget->width() - noteName->width()) / (qreal)score->width()));
 	else
     score->setMaximumHeight(16777215);
 }

@@ -250,6 +250,14 @@ void TnoteName::setAmbitus(Tnote lo, Tnote hi) {
 }
 
 
+bool TnoteName::smallSpace() {
+  if (m_noteButtons[0]->geometry().y() <= m_nameLabel->geometry().bottom())
+      return true;
+  else
+      return false;
+}
+
+
 //##############################################################################################
 //#################################### EXAM RELATED ############################################
 //##############################################################################################
@@ -460,6 +468,8 @@ void TnoteName::resizeEvent(QResizeEvent* ) {
 				m_accLay->insertWidget(m_accLay->count(), m_octaveButtons[7]);
 			}
 		}
+// 		if (m_noteButtons[0]->geometry().y() <= m_nameLabel->geometry().bottom())
+//       qDebug() << "colision";
 }
 
 //##############################################################################################
