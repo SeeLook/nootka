@@ -72,6 +72,9 @@ public:
 		QRectF textRect(); /** Rectangle of note name text item */
 		QPoint textPos(); /** Position of name text in main window coordinates. */
 		QRect labelRect(); /** Name label position and size in TnoteName coordinates. */
+    
+        /** Returns true when there is less vertical space for all widgets. */
+    bool smallSpace();
 		
 
 signals:
