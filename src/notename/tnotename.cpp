@@ -41,7 +41,8 @@ const char * const TnoteName::octavesFull[8] = { QT_TR_NOOP("Subcontra octave"),
 //#######################################################################################################
 										
 TnoteName::TnoteName(QWidget *parent) :
-    QWidget(parent)
+    QWidget(parent),
+    m_heightToSmallEmitted(false)
 {
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
 
@@ -250,11 +251,11 @@ void TnoteName::setAmbitus(Tnote lo, Tnote hi) {
 }
 
 
-bool TnoteName::smallSpace() {
+int TnoteName::smallSpace() {
   if (m_noteButtons[0]->geometry().y() <= m_nameLabel->geometry().bottom())
-      return true;
+      return m_nameLabel->geometry().bottom() - m_noteButtons[0]->geometry().y() + 1;
   else
-      return false;
+      return 0;
 }
 
 
@@ -468,8 +469,13 @@ void TnoteName::resizeEvent(QResizeEvent* ) {
 				m_accLay->insertWidget(m_accLay->count(), m_octaveButtons[7]);
 			}
 		}
-// 		if (m_noteButtons[0]->geometry().y() <= m_nameLabel->geometry().bottom())
-//       qDebug() << "colision";
+		if (m_noteButtons[0]->geometry().y() <= m_nameLabel->geometry().bottom()) {
+			if (!m_heightToSmallEmitted) {
+				QTimer::singleShot(10, this, SLOT(emitSmallHeight()));
+				m_heightToSmallEmitted = true;
+			}
+		} else
+				m_heightToSmallEmitted = false;
 }
 
 //##############################################################################################
@@ -530,6 +536,10 @@ void TnoteName::invokeBlinkingAgain() {
 	}
 }
 
+
+void TnoteName::emitSmallHeight() {
+		emit heightTooSmall();
+}
 
 
 

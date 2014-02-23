@@ -98,6 +98,10 @@ protected:
     void clearAfterExam(TexamExecutor::Estate examState = TexamExecutor::e_finished);
 		
     void updateSize(QSize newS); /** Updates position and sizes of the widgets. */
+		
+				/* Invokes TnoteName::resize(). Also does the same for TexamView (examResults) and TprogressWidget.
+				 * Font size is calculated from m_statFontSize + m_extraFontOffset */
+		void setWidgetsFont();
 
     void resizeEvent(QResizeEvent *event);
     bool event(QEvent *event);
@@ -113,6 +117,11 @@ protected slots:
 				 * Or opposite - moves pitchView.
 				 * Also avoid collision score and note name. */
 		void fixPitchViewPos();
+		
+				/** In first attempt it tries to increase window size if there is screen space in spare.
+				 * If not, Invokes TnoteName::resize() with smallest font size to decrease it.
+				 * Also does the same for TexamView (examResults) and TprogressWidget */
+		void fixNoteNameSize();
 
 private:
 
@@ -124,7 +133,7 @@ private:
     bool 									m_lockStat;
     QColor 								m_prevBg, m_curBG;
     QPixmap 							m_bgPixmap, m_rosettePixmap;
-    int 									m_statFontSize;
+    int 									m_statFontSize, m_extraFontOffset;
     bool 									m_levelCreatorExist; /** Keeps true when Dialog windows is opened, to avoid opening another file. */
     Tlevel 						    m_level;
 		bool 									m_isPlayerFree;
