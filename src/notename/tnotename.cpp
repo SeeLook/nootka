@@ -253,7 +253,8 @@ void TnoteName::setAmbitus(Tnote lo, Tnote hi) {
 
 int TnoteName::smallSpace() {
   if (m_noteButtons[0]->geometry().y() <= m_nameLabel->geometry().bottom())
-      return m_nameLabel->geometry().bottom() - m_noteButtons[0]->geometry().y() + 1;
+      return (m_nameLabel->geometry().bottom() - m_noteButtons[0]->geometry().y()) + 
+							(m_flatButt->geometry().y() - m_noteButtons[0]->geometry().bottom()); // plus space between
   else
       return 0;
 }
