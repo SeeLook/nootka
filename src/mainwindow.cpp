@@ -54,7 +54,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ex(0),
     m_isPlayerFree(true),
     m_pitchContainer(0),
-    m_rightLay(0)
+    m_rightLay(0),
+    m_extraFontOffset(0)
 {
     Ttune::prepareDefinedTunes();
 #if defined(Q_OS_MAC)
@@ -201,6 +202,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
     connect(noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
+		connect(noteName, SIGNAL(heightTooSmall()), this, SLOT(fixNoteNameSize()));
     connect(guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
     connect(sound, SIGNAL(detectedNote(Tnote)), this, SLOT(soundWasPlayed(Tnote)));
 
@@ -545,6 +547,25 @@ void MainWindow::showSupportDialog() {
 }
 
 
+void MainWindow::setWidgetsFont() {
+	progress->resize(m_statFontSize + m_extraFontOffset);
+	examResults->setFontSize(m_statFontSize + m_extraFontOffset);
+	noteName->resize(m_statFontSize + m_extraFontOffset);
+}
+
+
+void MainWindow::fixNoteNameSize() {
+	if (qApp->desktop()->availableGeometry().height() <= 600) {
+		// We have to decrease font size in noteName and set it maximized
+		m_extraFontOffset--;
+		setWidgetsFont();
+		showMaximized();
+	} else { // or increase window size
+		resize(width(), height() + noteName->smallSpace() + 2);
+	}
+}
+
+
 void MainWindow::fixPitchViewPos() {
   if (!windowState().testFlag(Qt::WindowMaximized)) {
     // Lets hope user has no any abnormal desktop size and skip checking ratio for maximized
@@ -560,12 +581,10 @@ void MainWindow::fixPitchViewPos() {
   int maxPossH = innerWidget->height() - m_statLab->height() - guitar->height(); // max possible height of score
   int foreWidth = score->widthToHeight(maxPossH);
 	if (gl->instrument != e_noInstrument) {
-    qDebug() << noteName->smallSpace();
-    if (noteName->smallSpace() || foreWidth > innerWidget->width() / 2) {
+    if (foreWidth > innerWidget->width() / 2) {
       if (m_scoreLay->count() < 2) { // if it is under noteName
         m_rightLay->removeWidget(pitchView);
         m_scoreLay->insertWidget(1, pitchView);
-        foreWidth = score->widthToHeight(maxPossH - pitchView->height());
       }
     } else {
       if (m_scoreLay->count() > 1) // if it is under score and there is enough horizontal space for new width
@@ -574,26 +593,13 @@ void MainWindow::fixPitchViewPos() {
            m_rightLay->addWidget(pitchView);
       }
     }
-// 		if (score->width() < innerWidget->width() / 2) { // remove pitchView from under score
-// 			if (m_scoreLay->count() > 1) // if it is under score
-// 				// and there is enough horizontal space for new width
-// 				if (score->widthToHeight(score->height() + pitchView->height() + m_scoreLay->spacing()) < innerWidget->width() / 2) {
-// 						m_scoreLay->removeWidget(pitchView);
-// 						m_rightLay->addWidget(pitchView);
-// 			}
-// 		} else { // move pitchView under score
-// 			if (m_scoreLay->count() < 2) { // if it is under noteName
-// 				m_rightLay->removeWidget(pitchView);
-// 				m_scoreLay->insertWidget(1, pitchView);			
-// 			}
-// 		}
 	}
+	if (m_scoreLay->count() > 1) //update possible height when pitchView went under score
+			foreWidth = score->widthToHeight(maxPossH - pitchView->height());
 	if (foreWidth > innerWidget->width() / 2)
-    score->setMaximumHeight(maxPossH - pitchView->height());
-// 	if (score->width() > (innerWidget->width() - noteName->width()))
-// 		score->setMaximumHeight(score->height() * ((qreal)(innerWidget->width() - noteName->width()) / (qreal)score->width()));
+			score->setMaximumHeight(maxPossH - pitchView->height());
 	else
-    score->setMaximumHeight(16777215);
+			score->setMaximumHeight(16777215);
 }
 
 
@@ -645,9 +651,10 @@ void MainWindow::updateSize(QSize newS) {
 		guitar->setPickUpRect(QRect(QPoint(xPic, yPic), m_rosettePixmap.size()));
 	}
 	guitar->setFixedHeight((newS.height() - nootBar->height()) * 0.25);
-	progress->resize(m_statFontSize);
-	examResults->setFontSize(m_statFontSize);
-	noteName->resize(m_statFontSize);
+	setWidgetsFont();
+// 	progress->resize(m_statFontSize);
+// 	examResults->setFontSize(m_statFontSize);
+// 	noteName->resize(m_statFontSize);
 	
 	if (gl->instrument != e_noInstrument) {
 		pitchView->resize(m_statFontSize);
@@ -700,6 +707,7 @@ void MainWindow::updateSize(QSize newS) {
 		m_pitchContainer->setFixedHeight((height() - nootBar->height()) * 0.25);
 	
 	setUpdatesEnabled(true);
+	fixPitchViewPos();
 	QTimer::singleShot(2, this, SLOT(update()));
 }
 

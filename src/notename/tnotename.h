@@ -73,13 +73,15 @@ public:
 		QPoint textPos(); /** Position of name text in main window coordinates. */
 		QRect labelRect(); /** Name label position and size in TnoteName coordinates. */
     
-        /** Returns true when there is less vertical space for all widgets. */
-    bool smallSpace();
+        /** Returns missing space in pixels when there is less vertical space for all widgets
+				 * or 0 if enough space. */
+    int smallSpace();
 		
 
 signals:
     void noteNameWasChanged(Tnote note);
     void noteButtonClicked();
+		void heightTooSmall(); /** Emitted when note buttons go over name label */
 
 protected:
     void resizeEvent(QResizeEvent *);
@@ -98,6 +100,7 @@ private:
     short 					m_ambitMin, m_ambitMax;
 		Tnote 					m_goodNote;
 		int 						m_blinkingPhase;
+		bool						m_heightToSmallEmitted; /** True when emitted and goes false when height becomes sufficient. */
     
 private:
     void setNoteName(char noteNr, char octNr, char accNr);
@@ -121,6 +124,7 @@ private slots:
     void octaveWasChanged(int octNr);
 		void correctAnimationFinished();
 		void invokeBlinkingAgain();
+		void emitSmallHeight();
 
 };
 

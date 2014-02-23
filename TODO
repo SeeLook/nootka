@@ -3,7 +3,6 @@ Plan for the Nootka One
 			
 TODOES
 - no guitar: question tip wrong pos (over score) - check it under Gnome
-- scaling could be better
 - test pitch detection and its ambitus after setting approved for non guitar
 - check 'tune' of non guitar - does it correspond with instrument/clef scale and levels works proper
 
@@ -11,7 +10,6 @@ TODOES
 - try to remove re-sizing a status label in exams/exercises
 - use string numbers on pixmap in charts
 - piano staff brace height is still random
-- Windows default (beginning) size is not corresponding with Vista style (too small) - also for Gnome
 - make order with Qt::WA_TransparentForMouseEvents in canvas
 - remove unused classes: widgets/animations
 

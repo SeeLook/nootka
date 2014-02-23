@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -293,7 +293,7 @@ Tpage_3::Tpage_3(QWidget *parent) :
     else
       select7->set7th_B(false);
 		scaleLab = new TscalePreviewLabel(select7->is7th_B()? Tnote::e_english_Bb : Tnote::e_norsk_Hb, false, this);
-		lay->addWidget(scaleLab);
+		lay->addWidget(scaleLab, 0, Qt::AlignCenter);
     lay->addStretch(1);
 		connect(select7, SIGNAL(seventhIsBchanged(bool)), this, SLOT(seventhNoteChanged(bool)));
 
