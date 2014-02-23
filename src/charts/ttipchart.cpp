@@ -66,13 +66,20 @@ TtipChart::TtipChart(TquestionPoint *point) :
           TquestionAsWdg::answerTxt() + ": <b>" + TquestionAsWdg::qaTypeText(point->question()->answerAs) + "</b><br>";
   QString qS = "", aS = "";
   switch (point->question()->questionAs) {
-    case TQAtype::e_asNote :
-      qS = wrapPixToHtml(point->question()->qa.note, true, point->question()->key);
+    case TQAtype::e_asNote : {
+			int qStrNr = 0;
+			if (point->question()->answerAs == TQAtype::e_asFretPos) {
+				qStrNr = point->question()->qa.pos.str();
+				if (qStrNr < 1 || qStrNr > 6)
+					qStrNr = 0; // to avoid any stupidity
+			}
+      qS = wrapPixToHtml(point->question()->qa.note, true, point->question()->key, 4.0, qStrNr);
       if (point->question()->answerAs == TQAtype::e_asNote) {
           qS = wrapPixToHtml(point->question()->qa.note, true, TkeySignature(0)); // no key in question
           aS = wrapPixToHtml(point->question()->qa_2.note, true, point->question()->key);
       }
       break;
+		}
     case TQAtype::e_asName:
       qS = "<span style=\"font-size: 25px;\">" + point->question()->qa.note.toRichText(point->question()->styleOfQuestion())
             + "</span>";
