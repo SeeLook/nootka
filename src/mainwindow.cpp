@@ -567,16 +567,16 @@ void MainWindow::fixNoteNameSize() {
 
 
 void MainWindow::fixPitchViewPos() {
-  if (!windowState().testFlag(Qt::WindowMaximized)) {
-    // Lets hope user has no any abnormal desktop size and skip checking ratio for maximized
-    if (innerWidget->height() > innerWidget->width() * 0.8) {
-        resize(innerWidget->width(), innerWidget->width() * 0.75);
-        return;
-    } else if (innerWidget->width() > innerWidget->height() * 1.95) {
-        resize(innerWidget->height() * 1.9, innerWidget->height());
-        return;
-    }
-  }
+//   if (!windowState().testFlag(Qt::WindowMaximized)) {
+//     // Lets hope user has no any abnormal desktop size and skip checking ratio for maximized
+//     if (innerWidget->height() > innerWidget->width() * 0.8) {
+//         resize(innerWidget->width(), innerWidget->width() * 0.75);
+//         return;
+//     } else if (innerWidget->width() > innerWidget->height() * 1.95) {
+//         resize(innerWidget->height() * 1.9, innerWidget->height());
+//         return;
+//     }
+//   }
   // when return occurred it will back here again from resizeEvent
   int maxPossH = innerWidget->height() - m_statLab->height() - guitar->height(); // max possible height of score
   int foreWidth = score->widthToHeight(maxPossH);
@@ -596,9 +596,11 @@ void MainWindow::fixPitchViewPos() {
 	}
 	if (m_scoreLay->count() > 1) //update possible height when pitchView went under score
 			foreWidth = score->widthToHeight(maxPossH - pitchView->height());
-	if (foreWidth > innerWidget->width() / 2)
-			score->setMaximumHeight(maxPossH - pitchView->height());
-	else
+	if (foreWidth > innerWidget->width() / 2) {
+			qreal hScale = (innerWidget->width() / 2.0) / (qreal)foreWidth;
+			score->setMaximumHeight((maxPossH - pitchView->height()) * hScale);
+			qDebug() << "scaled" << hScale;
+	} else
 			score->setMaximumHeight(16777215);
 }
 
@@ -652,9 +654,6 @@ void MainWindow::updateSize(QSize newS) {
 	}
 	guitar->setFixedHeight((newS.height() - nootBar->height()) * 0.25);
 	setWidgetsFont();
-// 	progress->resize(m_statFontSize);
-// 	examResults->setFontSize(m_statFontSize);
-// 	noteName->resize(m_statFontSize);
 	
 	if (gl->instrument != e_noInstrument) {
 		pitchView->resize(m_statFontSize);
@@ -717,8 +716,6 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
 	emit sizeChanged(innerWidget->size());
   QTimer::singleShot(3, this, SLOT(fixPitchViewPos()));
 }
-
-
 
 
 void MainWindow::closeEvent(QCloseEvent *event) {
