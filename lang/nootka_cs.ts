@@ -437,63 +437,63 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="226"/>
+        <location filename="../src/mainwindow.cpp" line="228"/>
         <source>Application preferences</source>
         <translation>Nastavení programu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="225"/>
+        <location filename="../src/mainwindow.cpp" line="227"/>
         <source>Settings</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="139"/>
+        <location filename="../src/mainwindow.cpp" line="140"/>
         <source>show correct answer for every mistake</source>
         <translation>Ukázat správnou odpověď u každého omylu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="208"/>
+        <location filename="../src/mainwindow.cpp" line="210"/>
         <source>Problems with sound output</source>
         <translation>Potíže se zvukovým výstupem</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="238"/>
+        <location filename="../src/mainwindow.cpp" line="240"/>
         <source>Analyze</source>
         <comment>could be Chart as well</comment>
         <translation>Rozbor</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="240"/>
+        <location filename="../src/mainwindow.cpp" line="242"/>
         <source>Analysis of exam results</source>
         <translation>Rozbor výsledků zkoušky</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="244"/>
+        <location filename="../src/mainwindow.cpp" line="246"/>
         <source>About</source>
         <translation>O programu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="245"/>
+        <location filename="../src/mainwindow.cpp" line="247"/>
         <source>About Nootka</source>
         <translation>O programu Nootka</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="260"/>
+        <location filename="../src/mainwindow.cpp" line="262"/>
         <source>Level</source>
         <translation>Úroveň</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="265"/>
+        <location filename="../src/mainwindow.cpp" line="267"/>
         <source>Start!</source>
         <translation>Spustit!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="266"/>
+        <location filename="../src/mainwindow.cpp" line="268"/>
         <source>Start exercises or an exam</source>
         <translation>Začít cvičení nebo zkoušku</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="111"/>
+        <location filename="../src/mainwindow.cpp" line="112"/>
         <source>main toolbar</source>
         <translation>Hlavní nástrojový pruh</translation>
     </message>
@@ -1371,10 +1371,6 @@ není platným souborem zkoušky!</translation>
         <source>Click %1 button to stop.</source>
         <translation>Klepněte na tlačítko %1 pro zastavení.</translation>
     </message>
-    <message>
-        <source>To stop the exam click %1 button.</source>
-        <translation type="obsolete">Pro zastavení zkoušky klepněte na tlačítko %1 .</translation>
-    </message>
 </context>
 <context>
     <name>TexamSettings</name>
@@ -2031,10 +2027,6 @@ není platným souborem zkoušky!</translation>
         <source>Custom tuning</source>
         <translation>Vlastní zvuk</translation>
     </message>
-    <message>
-        <source>Custom tune</source>
-        <translation type="obsolete">Vlastní zvuk</translation>
-    </message>
 </context>
 <context>
     <name>ThelpDialogBase</name>
@@ -2379,14 +2371,14 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Pro noty bez posuvek</translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="142"/>
-        <location filename="../src/charts/tlinearchart.cpp" line="168"/>
-        <location filename="../src/charts/tlinearchart.cpp" line="194"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="143"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="169"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="195"/>
         <source>questions unrelated&lt;br&gt;with chart type</source>
         <translation>Otázky nesouvisející&lt;br&gt;s typem grafu</translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="199"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="200"/>
         <source>without accidentals</source>
         <translation>Bez posuvek</translation>
     </message>
@@ -3542,10 +3534,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 </context>
 <context>
     <name>main</name>
-    <message>
-        <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.otf manually.&lt;/center&gt;</source>
-        <translation type="obsolete">&lt;center&gt;Nelze nahrát písmo.&lt;br&gt;Zkuste nainstalovat nootka.otf ručně.&lt;/center&gt;</translation>
-    </message>
     <message>
         <location filename="../src/main.cpp" line="74"/>
         <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.ttf manually.&lt;/center&gt;</source>
