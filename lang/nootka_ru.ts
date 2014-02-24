@@ -625,7 +625,7 @@
     <message>
         <location filename="../src/music/ttune.cpp" line="44"/>
         <source>Bass in fifths: C G D A</source>
-        <translation>Bass in fifths: C G D A</translation>
+        <translation>Бас по квинтам: C G D A</translation>
     </message>
     <message>
         <location filename="../src/music/ttune.cpp" line="46"/>
@@ -645,12 +645,12 @@
     <message>
         <location filename="../src/info/tsupportnootka.cpp" line="32"/>
         <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
-        <translation>Требуется совсем немного - лишь начальное знание английского языка.&lt;br&gt;Если Вы можете прочитать текст внизу - значит найдется что-то, чем Вы можете помочь проекту.</translation>
+        <translation>Требуется совсем немного - лишь начальное знание английского языка.&lt;br&gt;Если вы можете прочитать текст внизу, значит наверняка чем-нибудь будете полезны.</translation>
     </message>
     <message>
         <location filename="../src/info/tsupportnootka.cpp" line="66"/>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
-        <translation>Не беспокойтесь. Вы больше не увидите это окно.&lt;br&gt;Дополнительную информацию можно получить в меню О программе.</translation>
+        <translation>Не беспокойтесь: это окно появляется только раз, после выхода каждой новой версии программы.&lt;br&gt;Повторно эту информацию можно просмотреть в диалоге «О программе».</translation>
     </message>
     <message>
         <location filename="../src/charts/tyaxis.cpp" line="63"/>
@@ -687,7 +687,7 @@
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="247"/>
         <source>This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.&lt;br&gt;In spite of that, you are welcome to try it!</source>
-        <translation>Это бета-версия программы и может содержать ошибки и не до конца реализованные функции.&lt;br&gt;Несмотря на это, попробуйте её!</translation>
+        <translation>Это бета-версия программы. В ней могут быть ошибки и не до конца реализованные функции.&lt;br&gt;Несмотря на это, попробуйте её!</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="248"/>
@@ -697,7 +697,7 @@
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="252"/>
         <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
-        <translation>&lt;br&gt;Чтобы поддержать проект и чтобы избежать возможного инфицирования вашего ПК&lt;br&gt;&lt;b&gt;ПОЖАЛУЙСТА используйте официальный сайт для загрузки обновлений, новых релизов и ознакомления с новостями проекта .&lt;/b&gt;</translation>
+        <translation>&lt;br&gt;Чтобы поддержать проект и избежать заражения вашего компьютера вирусами&lt;br&gt;&lt;b&gt;ПОЖАЛУЙСТА используйте официальный сайт для загрузки обновлений, новых релизов и ознакомления с новостями проекта.&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -755,7 +755,7 @@
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="105"/>
         <source>editing and/or recording of samples:</source>
-        <translation>обработка и/или запись сэмплов:</translation>
+        <translation>Oбработка и/или запись сэмплов:</translation>
     </message>
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="124"/>
@@ -1170,7 +1170,7 @@
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="1354"/>
         <source>If you don&apos;t save to file&lt;br&gt;you lost all results!</source>
-        <translation>Если вы не сохраните экзамен в файл&lt;br&gt;то Вы потеряете все результаты!</translation>
+        <translation>Если вы не сохраните экзамен в файл&lt;br&gt;все результаты будут потеряны!</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="1540"/>
@@ -1233,17 +1233,17 @@
     <message>
         <location filename="../src/info/texamhelp.cpp" line="30"/>
         <source>When your exercising will go well Nootka will suggest you to start an exam.</source>
-        <translation>Когда упражнение выполняется без ошибок, Нутка предложит начать экзамен.</translation>
+        <translation>Если упражнения выполняются без ошибок, Нутка будет предлагать начать экзамен.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="35"/>
         <source>Exams can be saved to files and continued later. Moreover, exam files can be opened to analyze.</source>
-        <translation>Экзамен может быть сохранён в файл и продолжен позже. Кроме того, файл экзамена может быть открыт для анализа.</translation>
+        <translation>Экзамен может быть сохранён в файл, чтобы возобновить его сдачу позднее. Кроме того, файл экзамена может быть открыт для анализа.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="36"/>
         <source>Exam will be completed when you give answers to all questions.&lt;br&gt;The number of questions depends on the level of the exam.</source>
-        <translation>Экзамен завершится, когда Вы ответите на все вопросы.&lt;br&gt;Их количество зависит от уровня.</translation>
+        <translation>Экзамен завершится, когда Вы ответите на все вопросы.&lt;br&gt;Количество вопросов зависит от сложности экзамена.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="37"/>
@@ -1405,7 +1405,7 @@
     <message>
         <location filename="../src/settings/texamsettings.cpp" line="64"/>
         <source>Watch exercising progress and when it is going well, suggest to start an exam on the exercise level.</source>
-        <translation>Когда упражнение выполняется без ошибок, Нутка предложит начать экзамен на уровне. </translation>
+        <translation>Когда упражнение выполняется без ошибок, Нутка предложит начать экзамен по этому уровню.</translation>
     </message>
     <message>
         <location filename="../src/settings/texamsettings.cpp" line="66"/>
@@ -1515,7 +1515,7 @@
     <message>
         <location filename="../src/settings/texamsettings.cpp" line="115"/>
         <source>To improve association of note in the score or position on the guitar to note name, Nootka will display names even if neither question nor answer is related to it.</source>
-        <translation>Для улучшения ассоциации между нотой на нотоносце или позиции на грифе и названием нот, Нутка будет показывать их названия, даже если вопрос или ответ с ними не связан.</translation>
+        <translation>Чтобы вам было проще ассоциировать ноту на нотоносце или позицию на грифе с названием ноты, Нутка будет показывать  названия, даже если вопрос или ответ с ними не связан.</translation>
     </message>
     <message>
         <location filename="../src/settings/texamsettings.cpp" line="163"/>
@@ -1747,12 +1747,12 @@
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="35"/>
         <source>You are about to enter expert mode.&lt;br&gt; In this mode you don&apos;t need to confirm every answer,&lt;br&gt;&lt;b&gt;but remember the following:</source>
-        <translation>Вы собираетесь переключиться в режим эксперта.&lt;br&gt; В этом режиме Вам не нужно подтверждать каждый ответ,&lt;br&gt;&lt;b&gt;но запомните следующее:&lt;/b&gt;</translation>
+        <translation>Вы собираетесь переключиться в режим эксперта.&lt;br&gt;В этом режиме Вам не нужно подтверждать каждый ответ,&lt;br&gt;&lt;b&gt;но запомните следующее:&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="36"/>
         <source>Selecting a note on the score or a position on the fingerboard invokes automatic checking of your answer, so select a key signature first, if required.</source>
-        <translation>Выбор ноты на нотоносце или позиции на грифе гитары приводит к проверке ответа, поэтому сначала выберите тональность, если требуется</translation>
+        <translation>Выбор ноты на нотоносце или позиции на грифе гитары приводит к проверке ответа, поэтому сначала при необходимости выберите тональность.</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="37"/>
@@ -1762,7 +1762,7 @@
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="38"/>
         <source>When you have to play a note as an answer - the first detected sound will be taken, so be sure that your input device captures exactly what you want.</source>
-        <translation>Когда для ответа требуется сыграть ноту - в рассмотрение берется первая &quot;услышанная&quot; нота. Убедитесь, что ваше аудиоустройство работает, как Вам нужно.</translation>
+        <translation>Когда для ответа требуется сыграть ноту, засчитывается первый услышанный звук. Убедитесь, что ваша звуковая карта пишет то, что нужно.</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="41"/>
@@ -1808,7 +1808,7 @@
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="203"/>
         <source>When writing notation for bass guitar, the &lt;b&gt;bass clef&lt;/b&gt; is used but the played notes sound an octave lower. The proper clef is &lt;b&gt;bass dropped clef&lt;/b&gt; (with the digit &quot;eight&quot; written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.</source>
-        <translation>Для записи нот бас-гитары используют &lt;b&gt;басовый ключ&lt;/b&gt;, но ноты играются октавой ниже. Если использовать &lt;b&gt;басовый ключ с понижением на октаву&lt;/b&gt; (с цифрой 8 под ключом), то ноты будут звучать именно так, как они записаны. Такой ключ используется в Нутке для бас-гитары.</translation>
+        <translation>Для записи нот бас-гитары используется &lt;b&gt;басовый ключ&lt;/b&gt;, но ноты играются октавой ниже. Если использовать &lt;b&gt;басовый ключ с понижением на октаву&lt;/b&gt; (с цифрой 8 под ключом), то ноты будут звучать именно так, как они записаны. Такой ключ используется в Нутке для бас-гитары.</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="206"/>
@@ -1960,7 +1960,7 @@
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="50"/>
         <source>Select appropriate tuning from the list or prepare your own.</source>
-        <translation>Выберите строй гитары из списка или создате свой собственный.</translation>
+        <translation>Выберите строй гитары из списка или создайте собственный.</translation>
     </message>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="51"/>
@@ -1992,7 +1992,7 @@
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="110"/>
         <source>Choose which accidentals will be shown on the staff.</source>
-        <translation>Выберите, какие знаки альтерации отображать.</translation>
+        <translation>Выберите, какие знаки альтерации показывать.</translation>
     </message>
     <message>
         <location filename="../src/settings/tguitarsettings.cpp" line="111"/>
@@ -2040,7 +2040,7 @@
     <message>
         <location filename="../src/info/thelpdialogbase.cpp" line="37"/>
         <source>Nootka help</source>
-        <translation>Помощь по Нутке</translation>
+        <translation>Справка по Нутке</translation>
     </message>
     <message>
         <location filename="../src/info/thelpdialogbase.h" line="73"/>
@@ -2418,7 +2418,7 @@
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="53"/>
         <source>During exams %1 Nootka will be your strict and &amp;quot;old school&amp;quot; master. Any mistake will be penalized with additional questions...&lt;br&gt;When you pass an exam you got a certificate!</source>
-        <translation>Во время экзаменов %1 Нутка будет строгим и бескомпромиссным преподавателем. Любая ошибка приведет к наказанию в виде дополнительных вопросов...&lt;br&gt;Если вы успешно завершите экзамен, то получите сертификат!</translation>
+        <translation>Во время экзаменов %1 Нутка будет строгим и бескомпромиссным преподавателем. Любая ошибка приведет к штрафу в виде дополнительных вопросов...&lt;br&gt;При успешном завершении экзамена вы получите сертификат!</translation>
     </message>
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="64"/>
@@ -2439,12 +2439,12 @@
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="69"/>
         <source>Press %1 buttons to see help and %2 button to adjust Nootka to your preference.</source>
-        <translation>Используйте кнопки %1 для получения помощи и %2 для настройки приложения.</translation>
+        <translation>Используйте кнопки %1 для получения помощи, а %2 для настройки приложения.</translation>
     </message>
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="73"/>
         <source>II. Exercises and exams</source>
-        <translation>II Упражнения и экзамены</translation>
+        <translation>II. Упражнения и экзамены</translation>
     </message>
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="77"/>
@@ -2454,7 +2454,7 @@
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="78"/>
         <source>Nootka will tell you about what you&apos;ve been thinking for so long... and about the progress you&apos;ve been making so far....&lt;br&gt;Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.</source>
-        <translation>Нутка покажет Вам результаты Вашей работы и чего вы достигли на текущий момент. &lt;br&gt;Нажмите %1 чтобы увидеть и проанализировать результаты экзаменов, найти свои слабые места и улучшить результаты.</translation>
+        <translation>Нутка покажет Вам, чего вы успели достичь. &lt;br&gt;Нажмите %1 чтобы увидеть и проанализировать результаты экзаменов, найти свои слабые места и улучшить результаты.</translation>
     </message>
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="81"/>
@@ -2468,7 +2468,7 @@
         <location filename="../src/exam/tnootkacertificate.cpp" line="61"/>
         <source>&lt;h3&gt;Nootka Academy Of Music&lt;/h3&gt;</source>
         <comment>top-left corner</comment>
-        <translation>&lt;h3&gt;Академия Музыки Нутки&lt;/h3&gt;</translation>
+        <translation>&lt;h3&gt;Музыкальная академия Нутки&lt;/h3&gt;</translation>
     </message>
     <message>
         <location filename="../src/exam/tnootkacertificate.cpp" line="62"/>
@@ -2505,13 +2505,13 @@
         <location filename="../src/exam/tnootkacertificate.cpp" line="92"/>
         <source>&lt;small&gt;&lt;i&gt;examining board:&lt;/i&gt;&lt;br&gt;&lt;i&gt;president:&lt;/i&gt;&lt;b&gt; Nootka itself&lt;/b&gt;&lt;br&gt;&lt;b&gt;professor Processor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Mrs RAM&lt;/b&gt; his assistant&lt;br&gt;&lt;i&gt;secretary:&lt;/i&gt;&lt;b&gt; Mr Disk&lt;/b&gt;&lt;/small&gt;</source>
         <comment>Right aligned and centered</comment>
-        <translation>&lt;small&gt;&lt;i&gt;Экзаменационная комиссия:&lt;/i&gt;&lt;br&gt;&lt;i&gt;презитент&lt;/i&gt;&lt;b&gt; Нутка&lt;/b&gt;,&lt;br&gt;&lt;i&gt;профессор&lt;/i&gt; &lt;b&gt;г-н Процессор&lt;/b&gt; и&lt;br&gt; его &lt;i&gt;ассистент&lt;/i&gt;&lt;b&gt; г-жа Память&lt;/b&gt;.&lt;br&gt;&lt;i&gt;Секретарь комиссии&lt;/i&gt;&lt;b&gt; г-н Диск&lt;/b&gt;&lt;/small&gt;</translation>
+        <translation>&lt;small&gt;&lt;i&gt;Экзаменационная комиссия:&lt;/i&gt;&lt;br&gt;&lt;i&gt;презитент&lt;/i&gt;&lt;b&gt; Нутка&lt;/b&gt;,&lt;br&gt;&lt;i&gt;профессор&lt;/i&gt; &lt;b&gt;г-н Процессор&lt;/b&gt; и&lt;br&gt; его &lt;i&gt;ассистент&lt;/i&gt;&lt;b&gt; г-жа ОЗУ&lt;/b&gt;.&lt;br&gt;&lt;i&gt;Секретарь комиссии&lt;/i&gt;&lt;b&gt; г-н Диск&lt;/b&gt;&lt;/small&gt;</translation>
     </message>
     <message>
         <location filename="../src/exam/tnootkacertificate.cpp" line="104"/>
         <source>&lt;i&gt;stamp&lt;/i&gt;</source>
         <comment>bottom, centered</comment>
-        <translation>&lt;i&gt;МП&lt;/i&gt;</translation>
+        <translation>&lt;i&gt;М.П.&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="../src/exam/tnootkacertificate.cpp" line="173"/>
@@ -2688,7 +2688,7 @@
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="263"/>
         <source>Select a clef and scale of notes appropriate for your instrument.</source>
-        <translation>Выберите ключ и диапазон Вашего инструмента.</translation>
+        <translation>Выберите ключ и нотный диапазон вашего инструмента.</translation>
     </message>
 </context>
 <context>
@@ -2696,7 +2696,7 @@
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="283"/>
         <source>7th note can be B or H, depends on country&lt;br&gt;What is the name of 7th note in your country?</source>
-        <translation>&lt;center&gt;7-я нота может быть B или H, в зависимости страны (для России обычно не актуально, и нота всегда обозначается как си)&lt;br&gt;Что вы предпочитаете?&lt;br&gt;&lt;/center&gt;</translation>
+        <translation>&lt;center&gt;7-я нота может быть B или H, в зависимости от страны (для России обычно не актуально, и нота всегда обозначается как Cи)&lt;br&gt;Что вы предпочитаете?&lt;br&gt;&lt;/center&gt;</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="300"/>
@@ -3375,7 +3375,7 @@
     <message>
         <location filename="../src/updater/tupdatesummary.cpp" line="47"/>
         <source>No changes found.&lt;br&gt;This version is up to date.</source>
-        <translation>Ваша версия самая новая. Обновление не требуется.</translation>
+        <translation>Установлена самая новая версия, обновление не требуется.</translation>
     </message>
     <message>
         <location filename="../src/updater/tupdatesummary.cpp" line="54"/>

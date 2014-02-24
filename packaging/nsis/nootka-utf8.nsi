@@ -232,7 +232,7 @@ SectionEnd
    LangString UninstallMess ${LANG_CZECH} "Opravdu chcete odstranit Nootku a vsechny její soueásti?"
    LangString UninstallMess ${LANG_FRENCH} "Voulez-vous vraiment supprimer Nootka et tous ses composants?"
    LangString UninstallMess ${LANG_POLISH} "Czy rzeczywiście chcesz usunąć Nootkę i jej składniki?"
-   LangString UninstallMess ${LANG_RUSSIAN} "Вы действительно хотите удалить Нутку и все её компоненты?"
+   LangString UninstallMess ${LANG_RUSSIAN} "Вы действительно хотите удалить Нутку и все компоненты программы?"
 
 Function un.onInit
 !insertmacro MUI_UNGETLANGUAGE

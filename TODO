@@ -7,11 +7,11 @@ TODOES
 - check 'tune' of non guitar - does it correspond with instrument/clef scale and levels works proper
 
 - display scordature in analyze window
-- add description to chart-parts: sorted by question type
 
 - left-handed guitar correction anim to guitar (morphing) has wrong line points
 - try to remove re-sizing a status label in exams/exercises
 - piano staff brace height is still random
+
 - make order with Qt::WA_TransparentForMouseEvents in canvas
 - remove unused classes: widgets/animations
 

@@ -27,6 +27,7 @@
 #include "texamview.h"
 #include "texam.h"
 #include "tlevel.h"
+#include <tquestionaswdg.h>
 #include <tcolor.h>
 #include <QApplication>
 #include <QDebug>
@@ -205,7 +206,28 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
         cnt += sortedLists[i].size();
       }      
     }
-  
+  // question/answer type over the chart
+		if (settings.order == e_byQuestAndAnsw) {
+			cnt = 1;
+			for (int i = 0; i < goodSize; i++) { 
+        QGraphicsTextItem *qaText = getTextItem(30);
+        QString hintText = TquestionAsWdg::questionTxt() + ": " + 
+									TquestionAsWdg::qaTypeText(sortedLists[i].first()->questionAs) + "<br>" +
+									TquestionAsWdg::answerTxt() + ": " + 
+									TquestionAsWdg::qaTypeText(sortedLists[i].first()->answerAs) + "<br>";
+        qaText->setHtml(hintText);
+				TgraphicsTextTip::alignCenter(qaText);
+				qreal sc = 1.0;
+        if (sortedLists[i].size() * xAxis->questWidth() < qaText->boundingRect().width()) {
+            sc = (sortedLists[i].size() * xAxis->questWidth()) / qaText->boundingRect().width();
+            qaText->setScale(sc);
+        }
+        qaText->setPos(xAxis->mapValue(cnt) + 
+        (sortedLists[i].size() * xAxis->questWidth() - qaText->boundingRect().width() * sc) / 2, 
+                         yAxis->mapValue(yAxis->maxValue()));        
+        cnt += sortedLists[i].size();
+      }
+		}  
   }
 
 }
