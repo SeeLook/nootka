@@ -599,7 +599,6 @@ void MainWindow::fixPitchViewPos() {
 	if (foreWidth > innerWidget->width() / 2) {
 			qreal hScale = (innerWidget->width() / 2.0) / (qreal)foreWidth;
 			score->setMaximumHeight((maxPossH - pitchView->height()) * hScale);
-			qDebug() << "scaled" << hScale;
 	} else
 			score->setMaximumHeight(16777215);
 }

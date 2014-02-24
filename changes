@@ -4,6 +4,7 @@
     BUGS FIXES
      - fixed acting with non pitch-ordered strung/tuned guitars
      - fixed/improved electric/bass guitar look
+     - fixed layout in different window sizes
      - improved rpm validation results
      - fixed detecting clef type from older versions of Nootka files
 
