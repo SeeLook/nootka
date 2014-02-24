@@ -38,7 +38,7 @@ QColor averColor = QColor(0, 192, 192);
 TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* parent) :
     TmainChart(exam, settings, parent)
 {
-// Determine maximal rection time to prepare Y axis
+// Determine maximal reaction time to prepare Y axis
   quint16 maxTime = 0;
   for(int i = 0; i < exam->count(); i++)
       maxTime = qMax(maxTime, exam->question(i).time);
@@ -219,6 +219,11 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
 				TgraphicsTextTip::alignCenter(qaText);
 				qreal sc = 1.0;
         if (sortedLists[i].size() * xAxis->questWidth() < qaText->boundingRect().width()) {
+						hintText.replace(": ", ":<br>");
+						delete qaText;
+						qaText = getTextItem(30);
+						qaText->setHtml(hintText);
+						TgraphicsTextTip::alignCenter(qaText);
             sc = (sortedLists[i].size() * xAxis->questWidth()) / qaText->boundingRect().width();
             qaText->setScale(sc);
         }
@@ -239,7 +244,7 @@ QGraphicsTextItem* TlinearChart::getTextItem(int fontSize) {
 	f.setPixelSize(fontSize);
 	item->setFont(f);
 	QColor C(palette().text().color());
-	C.setAlpha(50);
+	C.setAlpha(75);
 	Tcolor::merge(C, palette().base().color());
 	item->setDefaultTextColor(C);
 	scene->addItem(item);
