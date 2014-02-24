@@ -697,7 +697,7 @@
     <message>
         <location filename="../src/info/taboutnootka.cpp" line="252"/>
         <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
-        <translation>&lt;br&gt;Żeby wesprzeć projekt, a także uniknąć zarażenia Twojego komputera&lt;br&gt;&lt;b&gt;do pobierania aktualizacji, nowych wersji i czytania o nowościach, proszę używać strony www projektu&lt;/b&gt;</translation>
+        <translation>&lt;br&gt;Żeby wesprzeć projekt, a także uniknąć zarażenia twojego komputera&lt;br&gt;&lt;b&gt;do pobierania aktualizacji, nowych wersji i czytania o nowościach, proszę używać strony www projektu&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -1234,7 +1234,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="30"/>
         <source>When your exercising will go well Nootka will suggest you to start an exam.</source>
-        <translation>Kiedy ćwiczenie będzie Ci dobrze szło, Nootka będzie sugerować zdawanie egzaminu.</translation>
+        <translation>Kiedy ćwiczenie będzie ci dobrze szło, Nootka będzie sugerować zdawanie egzaminu.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="35"/>
@@ -1264,7 +1264,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="51"/>
         <source> Briefly: Nootka give you a question and you give an answer...</source>
-        <translation> Pokrótce: Nootka zadaje pytanie a Ty odpowiadasz...</translation>
+        <translation> Pokrótce: Nootka zadaje pytanie a ty odpowiadasz...</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="54"/>
@@ -1295,7 +1295,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="68"/>
         <source>If you made a mistake during an exercise, Nootka can show you correct answer. To see it:</source>
-        <translation>Jeżeli popełnisz błąd podczas ćwiczenia, Nootka może pokazać Ci prawidłową odpowiedź. Żeby ją zobaczyć:</translation>
+        <translation>Jeżeli popełnisz błąd podczas ćwiczenia, Nootka może pokazać ci prawidłową odpowiedź. Żeby ją zobaczyć:</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="70"/>
@@ -1403,7 +1403,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/settings/texamsettings.cpp" line="64"/>
         <source>Watch exercising progress and when it is going well, suggest to start an exam on the exercise level.</source>
-        <translation>Program będzie obsewował postępy ćwiczenia i kiedy będzie Ci dobrze szło, zaproponuje zdawanie egzaminu na aktualnym poziomie.</translation>
+        <translation>Program będzie obsewował postępy ćwiczenia i kiedy będzie ci dobrze szło, zaproponuje zdawanie egzaminu na aktualnym poziomie.</translation>
     </message>
     <message>
         <location filename="../src/settings/texamsettings.cpp" line="66"/>
@@ -1750,7 +1750,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="36"/>
         <source>Selecting a note on the score or a position on the fingerboard invokes automatic checking of your answer, so select a key signature first, if required.</source>
-        <translation>Wybranie nuty na pięciolini lub pozycji na podstrunnicy skutkuje sprawdzeniem Twojej odpowiedzi, Zaznacz najpierw tonację gdy jest to wymagane.</translation>
+        <translation>Wybranie nuty na pięciolini lub pozycji na podstrunnicy skutkuje sprawdzeniem twojej odpowiedzi, Zaznacz najpierw tonację gdy jest to wymagane.</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="37"/>
@@ -1760,7 +1760,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="38"/>
         <source>When you have to play a note as an answer - the first detected sound will be taken, so be sure that your input device captures exactly what you want.</source>
-        <translation>Kiedy jako odpowiedź masz zagrać dźwięk -- ten pierwszy rozpoznany jest brany jako odpowiedź. Upewnij się, że Twoje urządzenie wejściowe odbiera dokładnie to co chcesz.</translation>
+        <translation>Kiedy jako odpowiedź masz zagrać dźwięk -- ten pierwszy rozpoznany jest brany jako odpowiedź. Upewnij się, że twoje urządzenie wejściowe odbiera dokładnie to co chcesz.</translation>
     </message>
     <message>
         <location filename="../src/info/texpertanswerhelp.cpp" line="41"/>
@@ -2404,7 +2404,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="48"/>
         <source>During exercising %1 the program will be your understanding and friendly teacher - it will show you corrected answers if you miss.</source>
-        <translation>Podczas ćwiczeń %1 program będzie twoim wyrozumiałym i przyjaźnie nastawionym nauczycielem -pokaże Ci poprawne odpowiedzi jeżeli się pomylisz.</translation>
+        <translation>Podczas ćwiczeń %1 program będzie twoim wyrozumiałym i przyjaźnie nastawionym nauczycielem -pokaże ci poprawne odpowiedzi jeżeli się pomylisz.</translation>
     </message>
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="53"/>
@@ -2445,7 +2445,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="78"/>
         <source>Nootka will tell you about what you&apos;ve been thinking for so long... and about the progress you&apos;ve been making so far....&lt;br&gt;Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.</source>
-        <translation>Nootka powie Ci o czym tak długo myślisz... i o poczynionych dotychczas postępach...&lt;br&gt;Naciśnij przycisk %1 żeby obejrzeć i przeanalizować wyniki swoich egzaminów. Znajdź swoje słabe punkty i popraw je.</translation>
+        <translation>Nootka powie ci o czym tak długo myślisz... i o poczynionych dotychczas postępach...&lt;br&gt;Naciśnij przycisk %1 żeby obejrzeć i przeanalizować wyniki swoich egzaminów. Znajdź swoje słabe punkty i popraw je.</translation>
     </message>
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="81"/>
@@ -2686,7 +2686,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="283"/>
         <source>7th note can be B or H, depends on country&lt;br&gt;What is the name of 7th note in your country?</source>
-        <translation>7-ma nuta może nazywać się H lub B, w zależności od kraju. &lt;br&gt;Która nazwa jest odpowiednia dla Ciebie?</translation>
+        <translation>7-ma nuta może nazywać się H lub B, w zależności od kraju. &lt;br&gt;Która nazwa jest odpowiednia dla ciebie?</translation>
     </message>
     <message>
         <location filename="../src/info/tfirstrunwizzard.cpp" line="300"/>
