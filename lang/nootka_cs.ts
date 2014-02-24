@@ -1369,7 +1369,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/info/texamhelp.h" line="50"/>
         <source>Click %1 button to stop.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klepněte na tlačítko %1 pro zastavení.</translation>
     </message>
     <message>
         <source>To stop the exam click %1 button.</source>
@@ -2310,7 +2310,7 @@ ale nebyla uložena!</translation>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="234"/>
         <source>Level is not suitable for current instrument type</source>
-        <translation type="unfinished"></translation>
+        <translation>Úroveň není vhodná pro nynější typ nástroje.</translation>
     </message>
     <message>
         <location filename="../src/level/tlevelselector.cpp" line="239"/>

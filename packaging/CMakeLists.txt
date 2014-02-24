@@ -193,7 +193,7 @@ ELSE(WIN32)
 	else (APPLE)
 		set(LINK_PATH "${CMAKE_BINARY_DIR}")
 	endif (APPLE)
-	add_custom_target(noinstall
+	add_custom_target(runinplace
 # 		COMMAND echo ""
 # 		COMMAND echo "Linking source files necessary to run Nootka"
 		COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/make-noinstall.sh ${CMAKE_SOURCE_DIR} ${LINK_PATH}
